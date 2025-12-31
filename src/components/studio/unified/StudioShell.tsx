@@ -18,6 +18,8 @@ import { MobileAudioWarning } from '@/components/studio/MobileAudioWarning';
 import { useStudioAudioEngine, AudioTrack } from '@/hooks/studio/useStudioAudioEngine';
 import { useMobileAudioFallback } from '@/hooks/studio/useMobileAudioFallback';
 import { useStudioOptimizations } from '@/hooks/studio/useStudioOptimizations';
+import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from '@/hooks/studio/useStudioAudio';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { LazyAddVocalsDrawer } from '@/components/lazy';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -79,6 +81,7 @@ interface TrackEffectsState {
 export const StudioShell = memo(function StudioShell({ className }: StudioShellProps) {
   const navigate = useNavigate();
   const isMobile = useMediaQuery('(max-width: 768px)');
+  const { pauseTrack: pauseGlobalPlayer } = usePlayerStore();
   
   const {
     project,
@@ -218,16 +221,30 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
     seek(time);
   }, [audioEngine, seek]);
 
-  // Handle play/pause
+  // Handle play/pause with global audio coordination
   const handlePlayPause = useCallback(() => {
     if (isPlaying) {
       audioEngine.pause();
       pause();
     } else {
+      // Pause global player and other studio sources before playing
+      pauseGlobalPlayer();
+      pauseAllStudioAudio('studio-shell');
       audioEngine.play();
       play();
     }
-  }, [isPlaying, play, pause, audioEngine]);
+  }, [isPlaying, play, pause, audioEngine, pauseGlobalPlayer]);
+
+  // Register studio audio for global coordination
+  useEffect(() => {
+    registerStudioAudio('studio-shell', () => {
+      audioEngine.pause();
+      pause();
+    });
+    return () => {
+      unregisterStudioAudio('studio-shell');
+    };
+  }, [audioEngine, pause]);
 
   // Update track volumes in engine when they change
   useEffect(() => {
@@ -300,12 +317,56 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
             }
           }
           break;
+        // Mute selected track
+        case 'KeyM':
+          if (project?.tracks[0]) {
+            toggleTrackMute(project.tracks[0].id);
+          }
+          break;
+        // Solo selected track
+        case 'KeyS':
+          if (!e.ctrlKey && !e.metaKey && project?.tracks[0]) {
+            toggleTrackSolo(project.tracks[0].id);
+          }
+          break;
+        // Version switching: 1 for A, 2 for B
+        case 'Digit1':
+          if (project?.tracks[0]?.versions?.length) {
+            const trackId = project.tracks[0].id;
+            const versionA = project.tracks[0].versions[0];
+            if (versionA) {
+              setTrackActiveVersion(trackId, versionA.label);
+            }
+          }
+          break;
+        case 'Digit2':
+          if (project?.tracks[0]?.versions?.length && project.tracks[0].versions.length > 1) {
+            const trackId = project.tracks[0].id;
+            const versionB = project.tracks[0].versions[1];
+            if (versionB) {
+              setTrackActiveVersion(trackId, versionB.label);
+            }
+          }
+          break;
+        // Seek shortcuts
+        case 'ArrowLeft':
+          e.preventDefault();
+          handleSeek(Math.max(0, currentTime - 5));
+          break;
+        case 'ArrowRight':
+          e.preventDefault();
+          handleSeek(Math.min(duration, currentTime + 5));
+          break;
+        case 'Home':
+          e.preventDefault();
+          handleSeek(0);
+          break;
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handlePlayPause, undo, redo]);
+  }, [handlePlayPause, undo, redo, project, toggleTrackMute, toggleTrackSolo, setTrackActiveVersion, handleSeek, currentTime, duration]);
 
   // Track pending track IDs to detect when they become ready
   const pendingTrackIds = useMemo(() => {
