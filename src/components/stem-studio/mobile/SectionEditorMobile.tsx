@@ -16,6 +16,7 @@ import {
   SectionValidation,
   SectionActions,
 } from '../section-editor';
+import { SectionReplacementProgress } from '@/components/generation/SectionReplacementProgress';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
@@ -76,12 +77,13 @@ export function SectionEditorMobile({
     addPreset,
     executeReplacement,
     reset,
+    progress: sectionProgress,
   } = useSectionReplacement({
     trackId,
     trackTags,
     duration,
     detectedSections,
-    onSuccess: () => onOpenChange(false),
+    onSuccess: () => {}, // Don't close on success, let progress UI handle it
   });
 
   const handleClose = () => {
@@ -298,15 +300,32 @@ export function SectionEditorMobile({
             </div>
           </ScrollArea>
 
-          {/* Fixed Bottom Actions */}
+          {/* Progress or Actions */}
           {hasSunoData && (
             <div className="flex-shrink-0 border-t border-border/50 bg-background/95 backdrop-blur-sm p-4 safe-area-bottom">
-              <SectionActions
-                onReplace={executeReplacement}
-                onCancel={handleClose}
-                isValid={canReplace}
-                isSubmitting={isSubmitting}
-              />
+              {sectionProgress.status !== 'idle' ? (
+                <SectionReplacementProgress
+                  status={sectionProgress.status}
+                  progress={sectionProgress.progress}
+                  message={sectionProgress.message}
+                  error={sectionProgress.error}
+                  variants={sectionProgress.variants}
+                  section={sectionProgress.section}
+                  onSelectVariant={sectionProgress.selectVariant}
+                  onRetry={executeReplacement}
+                  onDismiss={() => {
+                    sectionProgress.reset();
+                    onOpenChange(false);
+                  }}
+                />
+              ) : (
+                <SectionActions
+                  onReplace={executeReplacement}
+                  onCancel={handleClose}
+                  isValid={canReplace}
+                  isSubmitting={isSubmitting}
+                />
+              )}
             </div>
           )}
         </motion.div>
