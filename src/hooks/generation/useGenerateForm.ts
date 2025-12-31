@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
@@ -19,6 +19,7 @@ import {
 } from '@/constants/generationConstants';
 import { showGenerationError } from '@/lib/errorHandling';
 import { useAnalyticsTracking } from '@/hooks/useAnalyticsTracking';
+import { generationAnalytics, startTimer } from '@/lib/telemetry';
 // GenerationProvider type removed - only Suno is used
 
 export interface GenerateFormState {
@@ -561,6 +562,16 @@ export function useGenerateForm({
     });
 
     setLoading(true);
+    
+    // Start generation timer for analytics
+    const stopTimer = startTimer('generation:request');
+    
+    // Track generation start with telemetry
+    generationAnalytics.trackStart(
+      mode, 
+      hasVocals, 
+      !!(audioFile || activeReference?.audioUrl)
+    );
 
     const toastId = toast.loading('Отправка запроса...', {
       description: 'Подключаемся к серверу генерации',
@@ -740,18 +751,28 @@ export function useGenerateForm({
         }
       });
       invalidateCredits(); // Refresh user credits
+      // Track generation complete with telemetry
+      const durationMs = stopTimer();
+      generationAnalytics.trackComplete(mode, durationMs, generationCost);
+      
     } catch (error) {
       toast.dismiss(toastId);
       showGenerationError(error);
       clearAudioReference(); // Cleanup on error
+      
+      // Track generation error with telemetry
+      const errorCode = error instanceof Error ? error.message : 'unknown';
+      generationAnalytics.trackError(mode, errorCode);
+      logger.error('Generation failed', error, { mode, hasVocals, model: finalModel });
     } finally {
       setLoading(false);
     }
   }, [
     mode, description, title, lyrics, style, hasVocals, model,
     negativeTags, vocalGender, styleWeight, weirdnessConstraint, audioWeight,
-    audioFile, selectedArtistId, selectedProjectId, initialProjectId, planTrackId,
-    artists, navigate, onOpenChange, resetForm,
+    audioFile, audioDuration, selectedArtistId, selectedProjectId, initialProjectId, planTrackId,
+    artists, navigate, onOpenChange, resetForm, activeReference, clearAudioReference,
+    trackGeneration, generationCost, userBalance, canGenerate, invalidateCredits, loading,
   ]);
 
   // Handle track selection
