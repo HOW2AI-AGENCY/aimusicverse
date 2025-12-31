@@ -63,7 +63,7 @@ export const MobileStudioTabs = memo(function MobileStudioTabs({
             key={tab.id}
             onClick={() => onTabChange(tab.id)}
             className={cn(
-              "flex flex-col items-center gap-0.5 px-3 py-2 rounded-lg transition-all",
+              "relative flex flex-col items-center gap-0.5 px-3 py-2 rounded-lg transition-all",
               "min-w-[56px] min-h-[48px]", // Touch target
               isActive
                 ? "text-primary bg-primary/10"
@@ -87,7 +87,7 @@ export const MobileStudioTabs = memo(function MobileStudioTabs({
             {isActive && (
               <motion.div
                 layoutId="mobile-tab-indicator"
-                className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-primary rounded-full"
+                className="absolute bottom-1 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-primary rounded-full"
                 initial={false}
                 transition={{ type: 'spring', stiffness: 500, damping: 30 }}
               />
