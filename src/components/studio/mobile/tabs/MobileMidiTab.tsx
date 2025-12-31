@@ -8,7 +8,7 @@
  */
 
 import { useState } from 'react';
-import { Sparkles, Music, Download, FileText, Loader2 } from 'lucide-react';
+import { Sparkles, Music, Download, FileText, Loader2, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -23,6 +23,8 @@ import { useStudioData } from '@/hooks/useStudioData';
 import { useStemTranscription, StemTranscription } from '@/hooks/useStemTranscription';
 import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
+import { toast } from 'sonner';
+import { supabase } from '@/integrations/supabase/client';
 
 interface MobileMidiTabProps {
   trackId?: string;
@@ -42,10 +44,45 @@ export default function MobileMidiTab({ trackId, mode }: MobileMidiTabProps) {
   const { stems, sortedStems } = useStudioData(trackId || '');
   const [selectedStemId, setSelectedStemId] = useState<string | null>(null);
   const [selectedModel, setSelectedModel] = useState('guitar');
+  const [isTranscribing, setIsTranscribing] = useState(false);
 
-  const { transcriptions } = useStemTranscription(selectedStemId || '');
+  const { transcriptions, refetch } = useStemTranscription(selectedStemId || '');
 
   const selectedStem = stems?.find(s => s.id === selectedStemId);
+
+  const handleTranscribe = async () => {
+    if (!selectedStem || !trackId) return;
+    
+    setIsTranscribing(true);
+    
+    try {
+      const { data, error } = await supabase.functions.invoke('klangio-transcribe', {
+        body: {
+          audioUrl: selectedStem.audio_url,
+          stemId: selectedStem.id,
+          trackId,
+          model: selectedModel,
+          outputs: ['midi', 'pdf'],
+        },
+      });
+      
+      if (error) throw error;
+      
+      toast.success('Транскрипция запущена', {
+        description: 'Процесс займёт 1-3 минуты',
+      });
+      
+      // Refetch after a delay to get the result
+      setTimeout(() => refetch(), 60000);
+    } catch (error) {
+      console.error('Transcription error:', error);
+      toast.error('Ошибка транскрипции', {
+        description: error instanceof Error ? error.message : 'Попробуйте позже',
+      });
+    } finally {
+      setIsTranscribing(false);
+    }
+  };
 
   if (mode === 'track' && !stems) {
     return (
@@ -59,6 +96,7 @@ export default function MobileMidiTab({ trackId, mode }: MobileMidiTabProps) {
     return (
       <div className="p-4">
         <Alert>
+          <AlertCircle className="h-4 w-4" />
           <AlertDescription className="text-xs">
             Сначала разделите трек на стемы, чтобы создать MIDI транскрипцию.
           </AlertDescription>
@@ -148,12 +186,20 @@ export default function MobileMidiTab({ trackId, mode }: MobileMidiTabProps) {
         <Button
           size="lg"
           className="w-full gap-2"
-          onClick={() => {
-            // TODO: Trigger MIDI transcription
-          }}
+          onClick={handleTranscribe}
+          disabled={isTranscribing}
         >
-          <Sparkles className="w-4 h-4" />
-          Создать MIDI
+          {isTranscribing ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin" />
+              Транскрибирую...
+            </>
+          ) : (
+            <>
+              <Sparkles className="w-4 h-4" />
+              Создать MIDI
+            </>
+          )}
         </Button>
       )}
 
@@ -177,23 +223,32 @@ export default function MobileMidiTab({ trackId, mode }: MobileMidiTabProps) {
                 <p className="text-sm font-medium capitalize">
                   {trans.model}
                 </p>
-                <Badge variant="secondary" className="text-[10px] mt-1">
-                  MIDI
-                </Badge>
+                <div className="flex gap-1 mt-1">
+                  {trans.midi_url && (
+                    <Badge variant="secondary" className="text-[10px]">
+                      MIDI
+                    </Badge>
+                  )}
+                  {trans.pdf_url && (
+                    <Badge variant="secondary" className="text-[10px]">
+                      PDF
+                    </Badge>
+                  )}
+                </div>
               </div>
 
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => {
-                  if (trans.midi_url) {
-                    window.open(trans.midi_url, '_blank');
-                  }
-                }}
-                className="h-9 w-9 shrink-0"
-              >
-                <Download className="w-4 h-4" />
-              </Button>
+              <div className="flex gap-1">
+                {trans.midi_url && (
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => window.open(trans.midi_url!, '_blank')}
+                    className="h-9 w-9 shrink-0"
+                  >
+                    <Download className="w-4 h-4" />
+                  </Button>
+                )}
+              </div>
             </motion.div>
           ))}
         </div>
