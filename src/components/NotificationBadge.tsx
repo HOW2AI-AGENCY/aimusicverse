@@ -33,7 +33,7 @@ export const NotificationBadge = () => {
           )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-96 p-0" align="end">
+      <PopoverContent className="w-[calc(100vw-2rem)] sm:w-96 p-0" align="end">
         <NotificationList onNotificationClick={handleNotificationClick} />
       </PopoverContent>
     </Popover>
