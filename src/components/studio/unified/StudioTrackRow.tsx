@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from '@/lib/motion';
 import {
   Volume2, VolumeX, MoreHorizontal, Download,
   Mic2, Guitar, Drum, Music, Piano, Waves, Sliders,
-  Trash2, Sparkles, GripVertical,
+  Trash2, Sparkles, GripVertical, Scissors, ArrowRight,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -103,7 +103,7 @@ interface StudioTrackRowProps {
   onSeek: (time: number) => void;
   onRemove: () => void;
   onVersionChange?: (versionLabel: string) => void;
-  onAction?: (action: 'download' | 'effects' | 'reference' | 'add_vocals') => void;
+  onAction?: (action: 'download' | 'effects' | 'reference' | 'add_vocals' | 'extend' | 'replace_section') => void;
 }
 
 export const StudioTrackRow = memo(function StudioTrackRow({
@@ -251,6 +251,14 @@ export const StudioTrackRow = memo(function StudioTrackRow({
                         Добавить вокал
                       </DropdownMenuItem>
                     )}
+                    <DropdownMenuItem onClick={() => onAction('extend')}>
+                      <ArrowRight className="w-4 h-4 mr-2 text-green-400" />
+                      Расширить трек
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => onAction('replace_section')}>
+                      <Scissors className="w-4 h-4 mr-2 text-amber-400" />
+                      Заменить секцию
+                    </DropdownMenuItem>
                     <DropdownMenuItem onClick={() => onAction('reference')}>
                       <Sparkles className="w-4 h-4 mr-2 text-primary" />
                       Как референс
