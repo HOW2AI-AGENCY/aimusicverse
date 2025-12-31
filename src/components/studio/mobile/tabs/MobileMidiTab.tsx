@@ -20,7 +20,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useStudioData } from '@/hooks/useStudioData';
-import { useStemTranscription } from '@/hooks/useStemTranscription';
+import { useStemTranscription, StemTranscription } from '@/hooks/useStemTranscription';
 import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 
@@ -43,7 +43,7 @@ export default function MobileMidiTab({ trackId, mode }: MobileMidiTabProps) {
   const [selectedStemId, setSelectedStemId] = useState<string | null>(null);
   const [selectedModel, setSelectedModel] = useState('guitar');
 
-  const { data: transcriptions } = useStemTranscription(selectedStemId || '');
+  const { transcriptions } = useStemTranscription(selectedStemId || '');
 
   const selectedStem = stems?.find(s => s.id === selectedStemId);
 
@@ -161,7 +161,7 @@ export default function MobileMidiTab({ trackId, mode }: MobileMidiTabProps) {
       {transcriptions && transcriptions.length > 0 && (
         <div className="pt-4 border-t border-border/30 space-y-2">
           <h4 className="text-sm font-medium">Доступные транскрипции</h4>
-          {transcriptions.map((trans, index) => (
+          {transcriptions.map((trans: StemTranscription, index: number) => (
             <motion.div
               key={trans.id}
               initial={{ opacity: 0, y: 10 }}
@@ -175,10 +175,10 @@ export default function MobileMidiTab({ trackId, mode }: MobileMidiTabProps) {
 
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium capitalize">
-                  {trans.model_type}
+                  {trans.model}
                 </p>
                 <Badge variant="secondary" className="text-[10px] mt-1">
-                  {trans.format || 'MIDI'}
+                  MIDI
                 </Badge>
               </div>
 

@@ -117,9 +117,9 @@ export default function MobileSectionsTab({
           {detectedSections.map((section, index) => {
             const isSelected = selectedSectionIndex === index;
             const isActive =
-              currentTime >= section.start && currentTime <= section.end;
+              currentTime >= section.startTime && currentTime <= section.endTime;
             const isReplaced = replacedSections?.some(
-              r => r.start === section.start && r.end === section.end
+              r => r.start === section.startTime && r.end === section.endTime
             );
 
             return (
@@ -130,7 +130,7 @@ export default function MobileSectionsTab({
                 transition={{ delay: index * 0.05 }}
                 onClick={() => {
                   selectSection(section, index);
-                  onSeek(section.start);
+                  onSeek(section.startTime);
                 }}
                 className={cn(
                   "w-full p-3 rounded-lg border transition-all text-left",
@@ -171,7 +171,7 @@ export default function MobileSectionsTab({
                       )}
                     </div>
                     <p className="text-xs text-muted-foreground">
-                      {formatTime(section.start)} - {formatTime(section.end)}
+                      {formatTime(section.startTime)} - {formatTime(section.endTime)}
                     </p>
                   </div>
 
@@ -180,7 +180,7 @@ export default function MobileSectionsTab({
                     size="icon"
                     onClick={(e) => {
                       e.stopPropagation();
-                      onSeek(section.start);
+                      onSeek(section.startTime);
                     }}
                     className="h-8 w-8 shrink-0"
                   >
