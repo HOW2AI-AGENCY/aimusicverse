@@ -13,8 +13,59 @@ interface LogData {
   [key: string]: unknown;
 }
 
+// Buffer for batch inserts
+const logBuffer: Array<{
+  telegram_user_id: number;
+  chat_id: number;
+  action_type: string;
+  action_data: string | null;
+  menu_key: string | null;
+  message_id: number | null;
+  response_time_ms: number | null;
+}> = [];
+
+let flushTimeout: ReturnType<typeof setTimeout> | null = null;
+const FLUSH_INTERVAL = 5000; // 5 seconds
+const MAX_BUFFER_SIZE = 50;
+
 /**
- * Log a bot action to database
+ * Flush log buffer to database
+ */
+async function flushLogBuffer(): Promise<void> {
+  if (logBuffer.length === 0) return;
+  
+  const entries = [...logBuffer];
+  logBuffer.length = 0;
+  
+  try {
+    const supabase = getSupabaseClient();
+    
+    const { error } = await supabase
+      .from('telegram_bot_logs')
+      .insert(entries);
+    
+    if (error) {
+      logger.warn('Failed to flush bot logs', { error, count: entries.length });
+    }
+  } catch (err) {
+    logger.warn('Error flushing bot logs', { error: String(err) });
+  }
+}
+
+/**
+ * Schedule a flush of the log buffer
+ */
+function scheduleFlush(): void {
+  if (flushTimeout) return;
+  
+  flushTimeout = setTimeout(() => {
+    flushTimeout = null;
+    flushLogBuffer();
+  }, FLUSH_INTERVAL);
+}
+
+/**
+ * Log a bot action to database (buffered)
  */
 export async function logBotAction(
   telegramUserId: number,
@@ -23,8 +74,6 @@ export async function logBotAction(
   data?: LogData
 ): Promise<void> {
   try {
-    const supabase = getSupabaseClient();
-    
     const logEntry = {
       telegram_user_id: telegramUserId,
       chat_id: chatId,
@@ -35,17 +84,28 @@ export async function logBotAction(
       response_time_ms: data?.response_time_ms || null
     };
     
-    const { error } = await supabase
-      .from('telegram_bot_logs')
-      .insert(logEntry);
+    logBuffer.push(logEntry);
     
-    if (error) {
-      // Don't throw, just log - we don't want logging to break the bot
-      logger.warn('Failed to log bot action', { error, actionType });
+    // Flush immediately if buffer is full
+    if (logBuffer.length >= MAX_BUFFER_SIZE) {
+      await flushLogBuffer();
+    } else {
+      scheduleFlush();
     }
   } catch (err) {
     logger.warn('Error in logBotAction', { error: String(err) });
   }
+}
+
+/**
+ * Force flush all pending logs (call on function shutdown)
+ */
+export async function forceFlushLogs(): Promise<void> {
+  if (flushTimeout) {
+    clearTimeout(flushTimeout);
+    flushTimeout = null;
+  }
+  await flushLogBuffer();
 }
 
 /**

@@ -320,8 +320,11 @@ export const playerAnalytics = {
     trackFeature('player:play', 'start', { trackId, source });
   },
   
-  trackComplete: (trackId: string, listenDurationSec: number) => {
-    trackFeature('player:play', 'complete', { trackId, listenDurationSec });
+  trackComplete: (trackId: string, listenDurationSec: number, totalDuration?: number) => {
+    const completionRate = totalDuration && totalDuration > 0 
+      ? Math.round((listenDurationSec / totalDuration) * 100) 
+      : undefined;
+    trackFeature('player:play', 'complete', { trackId, listenDurationSec, completionRate });
     recordMetric('player:listen_duration', listenDurationSec, 's', { trackId });
   },
   
