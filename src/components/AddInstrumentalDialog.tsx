@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,6 +13,9 @@ import { logger } from '@/lib/logger';
 import { GenerationAdvancedSettings, GenerationSettings } from '@/components/common/GenerationAdvancedSettings';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useNavigate } from 'react-router-dom';
+import { useAddInstrumentalProgress } from '@/hooks/generation/useAddInstrumentalProgress';
+import { GenerationProgressBar } from '@/components/generation/GenerationProgressBar';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 
 interface AddInstrumentalDialogProps {
   open: boolean;
@@ -22,10 +25,12 @@ interface AddInstrumentalDialogProps {
 
 export const AddInstrumentalDialog = ({ open, onOpenChange, track }: AddInstrumentalDialogProps) => {
   const navigate = useNavigate();
+  const playTrack = usePlayerStore(s => s.playTrack);
+  const instrumentalProgress = useAddInstrumentalProgress();
+  
   const [style, setStyle] = useState(track.style || 'full band arrangement, professional backing track');
   const [title, setTitle] = useState('');
   const [negativeTags, setNegativeTags] = useState('acapella, vocals only, karaoke, low quality');
-  const [loading, setLoading] = useState(false);
   const [openInStudio, setOpenInStudio] = useState(true);
   
   // Advanced settings
@@ -36,6 +41,15 @@ export const AddInstrumentalDialog = ({ open, onOpenChange, track }: AddInstrume
     model: 'V4_5PLUS',
     vocalGender: '',
   });
+
+  // Reset progress when dialog opens
+  useEffect(() => {
+    if (open) {
+      instrumentalProgress.reset();
+    }
+  }, [open]);
+
+  const loading = instrumentalProgress.status === 'submitting';
 
   const handleSubmit = async () => {
     if (!track.audio_url) {
@@ -48,7 +62,7 @@ export const AddInstrumentalDialog = ({ open, onOpenChange, track }: AddInstrume
       return;
     }
 
-    setLoading(true);
+    instrumentalProgress.setSubmitting();
     try {
       const effectiveTitle = title.trim() || `${track.title || 'Трек'} с инструменталом`;
       
@@ -75,23 +89,50 @@ export const AddInstrumentalDialog = ({ open, onOpenChange, track }: AddInstrume
 
       if (error) throw error;
 
-      if (openInStudio) {
-        toast.success('Генерация началась! 🎸', {
-          description: 'После завершения откроется студия для сведения треков',
-        });
+      // Start tracking the task
+      if (data?.taskId) {
+        instrumentalProgress.startTracking(data.taskId, data.trackId || track.id, data.studioProjectId);
       } else {
-        toast.success('Добавление инструментала началось! 🎸', {
-          description: 'Новый трек появится в библиотеке через 1-3 минуты',
-        });
+        if (openInStudio) {
+          toast.success('Генерация началась! 🎸', {
+            description: 'После завершения откроется студия для сведения треков',
+          });
+        } else {
+          toast.success('Добавление инструментала началось! 🎸', {
+            description: 'Новый трек появится в библиотеке через 1-3 минуты',
+          });
+        }
+        onOpenChange(false);
       }
-
-      onOpenChange(false);
     } catch (error) {
       logger.error('Add instrumental error', { error });
       const errorMessage = error instanceof Error ? error.message : 'Ошибка добавления инструментала';
-      toast.error(errorMessage);
-    } finally {
-      setLoading(false);
+      instrumentalProgress.setError(errorMessage);
+    }
+  };
+
+  const handlePlayTrack = () => {
+    if (instrumentalProgress.completedTrack) {
+      playTrack({
+        id: instrumentalProgress.completedTrack.id,
+        title: instrumentalProgress.completedTrack.title,
+        audio_url: instrumentalProgress.completedTrack.audio_url,
+        cover_url: instrumentalProgress.completedTrack.cover_url || undefined,
+      } as Track);
+    }
+  };
+
+  const handleOpenTrack = () => {
+    if (instrumentalProgress.completedTrack) {
+      navigate(`/track/${instrumentalProgress.completedTrack.id}`);
+      onOpenChange(false);
+    }
+  };
+
+  const handleOpenStudio = () => {
+    if (instrumentalProgress.studioProjectId) {
+      navigate(`/studio/${instrumentalProgress.studioProjectId}`);
+      onOpenChange(false);
     }
   };
 
@@ -106,6 +147,25 @@ export const AddInstrumentalDialog = ({ open, onOpenChange, track }: AddInstrume
         </DialogHeader>
 
         <div className="space-y-4">
+          {/* Progress indicator */}
+          {instrumentalProgress.status !== 'idle' && (
+            <GenerationProgressBar
+              status={instrumentalProgress.status}
+              progress={instrumentalProgress.progress}
+              message={instrumentalProgress.message}
+              error={instrumentalProgress.error}
+              completedTrack={instrumentalProgress.completedTrack}
+              onPlayTrack={handlePlayTrack}
+              onOpenTrack={handleOpenTrack}
+              onOpenStudio={instrumentalProgress.studioProjectId ? handleOpenStudio : undefined}
+              onRetry={handleSubmit}
+              onDismiss={() => {
+                instrumentalProgress.reset();
+                if (instrumentalProgress.isCompleted) onOpenChange(false);
+              }}
+            />
+          )}
+
           {/* Info block */}
           <div className="p-3 bg-muted rounded-lg">
             <p className="text-sm">
@@ -192,11 +252,14 @@ export const AddInstrumentalDialog = ({ open, onOpenChange, track }: AddInstrume
             <Button variant="outline" onClick={() => onOpenChange(false)}>
               Отмена
             </Button>
-            <Button onClick={handleSubmit} disabled={loading || !track.audio_url || !style.trim()}>
-              {loading ? (
+            <Button 
+              onClick={handleSubmit} 
+              disabled={loading || instrumentalProgress.isActive || !track.audio_url || !style.trim()}
+            >
+              {loading || instrumentalProgress.isActive ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Обработка...
+                  {instrumentalProgress.message || 'Обработка...'}
                 </>
               ) : (
                 'Добавить инструментал'
