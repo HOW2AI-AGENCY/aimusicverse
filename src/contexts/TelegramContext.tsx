@@ -194,15 +194,19 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
         }
       }
 
-      // Установка цветов header и background
+      // Установка цветов header и background (requires 6.1+)
       try {
-        if (tg.setHeaderColor) {
-          tg.setHeaderColor('secondary_bg_color');
+        if (tg.isVersionAtLeast?.('6.1')) {
+          if (tg.setHeaderColor) {
+            tg.setHeaderColor('secondary_bg_color');
+          }
+          if (tg.setBackgroundColor) {
+            tg.setBackgroundColor('bg_color');
+          }
+          bootLog('Colors set');
+        } else {
+          bootLog('Colors skipped - version < 6.1');
         }
-        if (tg.setBackgroundColor) {
-          tg.setBackgroundColor('bg_color');
-        }
-        bootLog('Colors set');
       } catch (e) {
         bootLog(`Colors error: ${e}`);
       }
@@ -477,28 +481,28 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const showBackButton = (onClick: () => void) => {
-    if (webApp) {
+    if (webApp && webApp.isVersionAtLeast?.('6.1')) {
       webApp.BackButton.show();
       webApp.BackButton.onClick(onClick);
     }
   };
 
   const hideBackButton = () => {
-    if (webApp) {
+    if (webApp && webApp.isVersionAtLeast?.('6.1')) {
       webApp.BackButton.hide();
       webApp.BackButton.offClick(() => {});
     }
   };
 
   const showSettingsButton = (onClick: () => void) => {
-    if (webApp && (webApp as any).SettingsButton) {
+    if (webApp && webApp.isVersionAtLeast?.('6.10') && (webApp as any).SettingsButton) {
       (webApp as any).SettingsButton.show();
       (webApp as any).SettingsButton.onClick(onClick);
     }
   };
 
   const hideSettingsButton = () => {
-    if (webApp && (webApp as any).SettingsButton) {
+    if (webApp && webApp.isVersionAtLeast?.('6.10') && (webApp as any).SettingsButton) {
       (webApp as any).SettingsButton.hide();
       (webApp as any).SettingsButton.offClick(() => {});
     }
