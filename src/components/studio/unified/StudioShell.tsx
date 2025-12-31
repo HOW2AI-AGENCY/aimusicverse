@@ -3,7 +3,7 @@
  * Main layout wrapper for the unified studio with full audio integration
  */
 
-import { memo, useState, useCallback, useEffect, useMemo } from 'react';
+import { memo, useState, useCallback, useEffect, useMemo, Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { useUnifiedStudioStore, ViewMode, TrackType, TRACK_COLORS, StudioTrack } from '@/stores/useUnifiedStudioStore';
@@ -18,6 +18,7 @@ import { MobileAudioWarning } from '@/components/studio/MobileAudioWarning';
 import { useStudioAudioEngine, AudioTrack } from '@/hooks/studio/useStudioAudioEngine';
 import { useMobileAudioFallback } from '@/hooks/studio/useMobileAudioFallback';
 import { useStudioOptimizations } from '@/hooks/studio/useStudioOptimizations';
+import { LazyAddVocalsDrawer } from '@/components/lazy';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -53,6 +54,7 @@ import {
   Pause,
   SkipBack,
   SkipForward,
+  Mic2,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
@@ -63,6 +65,7 @@ import { logger } from '@/lib/logger';
 import type { StemEffects, EQSettings, CompressorSettings, ReverbSettings } from '@/hooks/studio/types';
 import { defaultStemEffects } from '@/hooks/studio/stemEffectsConfig';
 import type { TrackStem } from '@/hooks/useTrackStems';
+import type { Track } from '@/types/track';
 
 interface StudioShellProps {
   className?: string;
@@ -113,6 +116,10 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
   const [showEffectsDrawer, setShowEffectsDrawer] = useState(false);
   const [selectedEffectsTrack, setSelectedEffectsTrack] = useState<StudioTrack | null>(null);
   const [trackEffects, setTrackEffects] = useState<TrackEffectsState>({});
+  
+  // Add Vocals state
+  const [showAddVocalsDrawer, setShowAddVocalsDrawer] = useState(false);
+  const [selectedVocalsTrack, setSelectedVocalsTrack] = useState<StudioTrack | null>(null);
 
   // Convert store tracks to AudioTrack format for engine
   const audioTracks = useMemo((): AudioTrack[] => {
@@ -699,6 +706,9 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
                       setShowEffectsDrawer(true);
                     } else if (action === 'reference') {
                       toast.info('Функция референса в разработке');
+                    } else if (action === 'add_vocals') {
+                      setSelectedVocalsTrack(track);
+                      setShowAddVocalsDrawer(true);
                     }
                   }}
                 />
@@ -808,6 +818,32 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
           }));
         }}
       />
+
+      {/* Add Vocals Drawer */}
+      {selectedVocalsTrack && (
+        <Suspense fallback={<div className="fixed inset-0 z-50 flex items-center justify-center bg-background/50"><Loader2 className="h-8 w-8 animate-spin" /></div>}>
+          <LazyAddVocalsDrawer
+            open={showAddVocalsDrawer}
+            onOpenChange={setShowAddVocalsDrawer}
+            track={{
+              id: selectedVocalsTrack.id,
+              title: selectedVocalsTrack.name,
+              audio_url: selectedVocalsTrack.audioUrl || selectedVocalsTrack.clips[0]?.audioUrl || '',
+              cover_url: null,
+              style: null,
+              type: selectedVocalsTrack.type === 'instrumental' ? 'instrumental' : 'complete',
+              project_id: project.id,
+              is_liked: false,
+              likes_count: 0,
+            } as unknown as Track}
+            onSuccess={(newTrackId) => {
+              setShowAddVocalsDrawer(false);
+              setSelectedVocalsTrack(null);
+              toast.success('Вокал добавлен!', { description: 'Новый трек создан' });
+            }}
+          />
+        </Suspense>
+      )}
     </div>
   );
 });

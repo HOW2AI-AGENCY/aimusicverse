@@ -103,7 +103,7 @@ interface StudioTrackRowProps {
   onSeek: (time: number) => void;
   onRemove: () => void;
   onVersionChange?: (versionLabel: string) => void;
-  onAction?: (action: 'download' | 'effects' | 'reference') => void;
+  onAction?: (action: 'download' | 'effects' | 'reference' | 'add_vocals') => void;
 }
 
 export const StudioTrackRow = memo(function StudioTrackRow({
@@ -244,6 +244,13 @@ export const StudioTrackRow = memo(function StudioTrackRow({
               <DropdownMenuContent align="end" className="w-44">
                 {onAction && (
                   <>
+                    {/* Add Vocals for instrumental tracks */}
+                    {track.type === 'instrumental' && (
+                      <DropdownMenuItem onClick={() => onAction('add_vocals')}>
+                        <Mic2 className="w-4 h-4 mr-2 text-blue-400" />
+                        Добавить вокал
+                      </DropdownMenuItem>
+                    )}
                     <DropdownMenuItem onClick={() => onAction('reference')}>
                       <Sparkles className="w-4 h-4 mr-2 text-primary" />
                       Как референс

@@ -89,7 +89,7 @@ export function useTelegramIntegration(): UseTelegramIntegrationReturn {
     const shortcuts = {
       generate: { name: 'Создать трек', path: '/generate' },
       library: { name: 'Библиотека', path: '/library' },
-      studio: { name: 'Студия', path: '/studio' },
+      studio: { name: 'Студия', path: '/studio-v2' },
     };
 
     const shortcut = shortcuts[type];
