@@ -49,7 +49,7 @@ export async function handleApp(chatId: number) {
       {
         text: 'Студия',
         emoji: '🎛️',
-        action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/studio` }
+        action: { type: 'webapp', url: `${BOT_CONFIG.miniAppUrl}/studio-v2` }
       },
       {
         text: 'Проекты',

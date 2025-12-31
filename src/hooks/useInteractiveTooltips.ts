@@ -68,7 +68,7 @@ export const TOOLTIP_DEFINITIONS: TooltipDefinition[] = [
     title: 'Разделите на дорожки',
     description: 'Откройте Stem Studio чтобы разделить трек на вокал, ударные, бас и инструменты.',
     position: 'top',
-    route: '/studio',
+    route: '/studio-v2',
     priority: 1,
     showOnce: true
   },
