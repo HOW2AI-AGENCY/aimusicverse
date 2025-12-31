@@ -25,7 +25,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { UnifiedWaveformTimeline } from '@/components/stem-studio/UnifiedWaveformTimeline';
 import { useTracks } from '@/hooks/useTracks';
-import { useTrackLike } from '@/hooks/useTrackLike';
+import { useLikeTrack } from '@/hooks/engagement/useLikeTrack';
 import { formatTime } from '@/lib/player-utils';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
@@ -53,7 +53,7 @@ export default function MobilePlayerTab({
 }: MobilePlayerTabProps) {
   const { tracks } = useTracks();
   const track = tracks?.find(t => t.id === trackId);
-  const { isLiked, toggleLike } = useTrackLike(trackId);
+  const { isLiked, toggleLike } = useLikeTrack(trackId || '');
 
   const [volume, setVolume] = useState(0.85);
   const [muted, setMuted] = useState(false);
@@ -83,7 +83,7 @@ export default function MobilePlayerTab({
         // Fallback to Web Share API
         if (navigator.share) {
           navigator.share({
-            title: track.title,
+            title: track.title ?? undefined,
             text: shareText,
             url: shareUrl,
           }).catch(() => {
@@ -123,7 +123,7 @@ export default function MobilePlayerTab({
         >
           <div className="relative mx-auto max-w-xs aspect-square rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10">
             <img
-              src={track.cover_url}
+              src={track.cover_url ?? undefined}
               alt={track.title || 'Track cover'}
               className="w-full h-full object-cover"
             />
@@ -164,6 +164,9 @@ export default function MobilePlayerTab({
               duration={duration}
               currentTime={currentTime}
               isPlaying={isPlaying}
+              selectedSectionIndex={null}
+              customRange={null}
+              onSectionClick={() => {}}
               onSeek={onSeek}
               height={70}
               showSectionLabels={false}
@@ -276,7 +279,7 @@ export default function MobilePlayerTab({
             <Button
               variant="ghost"
               size="icon"
-              onClick={toggleLike}
+              onClick={() => toggleLike()}
               className={cn(
                 "h-12 w-12 rounded-full",
                 isLiked && "text-red-500"
