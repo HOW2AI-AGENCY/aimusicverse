@@ -4856,6 +4856,18 @@ export type Database = {
           unique_users: number
         }[]
       }
+      get_error_trends: {
+        Args: { _time_period?: unknown }
+        Returns: {
+          critical_errors: number
+          errors_by_day: Json
+          errors_by_severity: Json
+          errors_by_type: Json
+          top_error_fingerprints: Json
+          total_errors: number
+          unique_fingerprints: number
+        }[]
+      }
       get_experience_for_level: { Args: { _level: number }; Returns: number }
       get_featured_tracks: {
         Args: { limit_count?: number; offset_count?: number }
@@ -5096,6 +5108,19 @@ export type Database = {
           success_rate: number
           successful_events: number
           total_events: number
+        }[]
+      }
+      get_telemetry_stats: {
+        Args: { _time_period?: unknown }
+        Returns: {
+          avg_session_duration_sec: number
+          error_summary: Json
+          events_by_type: Json
+          platform_distribution: Json
+          top_events: Json
+          total_events: number
+          unique_sessions: number
+          unique_users: number
         }[]
       }
       get_track_analytics_summary: {

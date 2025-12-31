@@ -337,6 +337,19 @@ export const playerAnalytics = {
   },
 };
 
+/**
+ * Navigation analytics
+ */
+export const navigationAnalytics = {
+  trackPageView: (path: string, referrer?: string) => {
+    recordMetric('navigation:page_view', 1, 'count', { path, referrer: referrer || '' });
+  },
+  
+  trackNavigation: (from: string, to: string, method: string = 'router') => {
+    recordMetric('navigation:navigate', 1, 'count', { from, to, method });
+  },
+};
+
 // Auto-initialize
 if (typeof window !== 'undefined') {
   initTelemetry();
