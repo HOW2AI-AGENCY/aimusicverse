@@ -54,6 +54,7 @@ import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
 import { logger } from '@/lib/logger';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useStudioAnalytics } from '@/hooks/useStudioAnalytics';
 
 interface StemStudioContentProps {
   trackId: string;
@@ -74,6 +75,18 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
   const track = tracks?.find(t => t.id === trackId);
   const { showTutorial, setShowTutorial, startTutorial } = useStemStudioTutorial();
   const { setPrimaryVersionAsync, isSettingPrimary } = useVersionSwitcher();
+
+  // Studio analytics
+  const {
+    trackStemLoaded,
+    trackPlay,
+    trackPause,
+    trackSeek,
+    trackVolumeChange,
+    trackMuteToggle,
+    trackSoloToggle,
+    trackExport,
+  } = useStudioAnalytics({ trackId });
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -113,6 +126,7 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
 
   const audioRefs = useRef<Record<string, HTMLAudioElement>>({});
   const animationFrameRef = useRef<number | undefined>(undefined);
+  const stemLoadStartTimes = useRef<Record<string, number>>({});
 
   // Audio effects engine
   const stemIds = stems?.map(s => s.id) || [];
@@ -360,6 +374,7 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
         cancelAnimationFrame(animationFrameRef.current);
       }
       setIsPlaying(false);
+      trackPause(); // Analytics
     } else {
       // Ensure all audios are at the same position before playing
       audios.forEach(audio => {
@@ -379,6 +394,7 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
         await Promise.all(playPromises);
         setIsPlaying(true);
         animationFrameRef.current = requestAnimationFrame(updateTime);
+        trackPlay(); // Analytics
       } catch (error) {
         logger.error('Error playing audio', error);
         toast.error('Ошибка воспроизведения');
