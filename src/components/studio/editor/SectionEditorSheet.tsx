@@ -26,6 +26,7 @@ import { DetectedSection } from '@/hooks/useSectionDetection';
 import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
 import { WaveformRangeSelector } from './WaveformRangeSelector';
 import { SynchronizedSectionLyrics } from './SynchronizedSectionLyrics';
+import { SectionReplacementProgress } from '@/components/generation/SectionReplacementProgress';
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -95,15 +96,22 @@ export function SectionEditorSheet({
     addPreset,
     executeReplacement,
     reset,
+    progress: sectionProgress,
   } = useSectionReplacement({
     trackId,
     trackTags,
     duration,
     detectedSections,
     onSuccess: () => {
-      handleClose();
+      // Don't close immediately - let user select variant
     },
   });
+
+  // Close when variant is selected or dismissed
+  const handleProgressDismiss = useCallback(() => {
+    sectionProgress.reset();
+    handleClose();
+  }, [sectionProgress, handleClose]);
 
   // Preview audio controls with time tracking
   useEffect(() => {
@@ -189,6 +197,21 @@ export function SectionEditorSheet({
           {formatTime(startTime)} — {formatTime(endTime)}
         </Badge>
       </div>
+
+      {/* Progress indicator for active generation */}
+      {sectionProgress.status !== 'idle' && (
+        <SectionReplacementProgress
+          status={sectionProgress.status}
+          progress={sectionProgress.progress}
+          message={sectionProgress.message}
+          error={sectionProgress.error}
+          variants={sectionProgress.variants}
+          section={sectionProgress.section}
+          onSelectVariant={sectionProgress.selectVariant}
+          onRetry={executeReplacement}
+          onDismiss={handleProgressDismiss}
+        />
+      )}
 
       {/* Preview player */}
       {audioUrl && (

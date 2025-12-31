@@ -1,11 +1,12 @@
 /**
  * Unified hook for section replacement logic
- * Manages selection, validation, and mutation state
+ * Manages selection, validation, and mutation state with progress tracking
  */
 
 import { useState, useCallback, useEffect } from 'react';
 import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
 import { useReplaceSectionMutation } from '@/hooks/useReplaceSectionMutation';
+import { useReplaceSectionProgress } from '@/hooks/generation/useReplaceSectionProgress';
 import { DetectedSection } from '@/hooks/useSectionDetection';
 
 interface UseSectionReplacementOptions {
@@ -37,6 +38,7 @@ export function useSectionReplacement({
   } = useSectionEditorStore();
 
   const replaceMutation = useReplaceSectionMutation();
+  const sectionProgress = useReplaceSectionProgress();
 
   // Derived state
   const startTime = customRange?.start ?? selectedSection?.startTime ?? 0;
@@ -93,7 +95,7 @@ export function useSectionReplacement({
     setLocalPrompt(prev => prev ? `${prev}, ${preset}` : preset);
   }, []);
 
-  // Execute replacement
+  // Execute replacement with progress tracking
   const executeReplacement = useCallback(async () => {
     if (!isValidDuration) return;
 
@@ -103,23 +105,30 @@ export function useSectionReplacement({
       finalPrompt = localLyrics + (localPrompt ? `\n\n${localPrompt}` : '');
     }
 
-    const result = await replaceMutation.mutateAsync({
-      trackId,
-      prompt: finalPrompt || undefined,
-      tags: localTags || undefined,
-      infillStartS: Math.round(startTime * 10) / 10,
-      infillEndS: Math.round(endTime * 10) / 10,
-    });
+    sectionProgress.setSubmitting();
 
-    if (result?.taskId) {
-      setActiveTask(result.taskId);
+    try {
+      const result = await replaceMutation.mutateAsync({
+        trackId,
+        prompt: finalPrompt || undefined,
+        tags: localTags || undefined,
+        infillStartS: Math.round(startTime * 10) / 10,
+        infillEndS: Math.round(endTime * 10) / 10,
+      });
+
+      if (result?.taskId) {
+        setActiveTask(result.taskId);
+        sectionProgress.startTracking(result.taskId, trackId, { start: startTime, end: endTime });
+      }
+
+      onSuccess?.();
+    } catch (error) {
+      sectionProgress.setError(error instanceof Error ? error.message : 'Ошибка замены секции');
     }
-
-    onSuccess?.();
   }, [
     isValidDuration, localPrompt, localLyrics, localTags,
     startTime, endTime, trackId, selectedSection, replaceMutation,
-    setActiveTask, onSuccess
+    setActiveTask, onSuccess, sectionProgress
   ]);
 
   // Reset state
@@ -127,7 +136,8 @@ export function useSectionReplacement({
     setLocalPrompt('');
     setLocalLyrics('');
     clearSelection();
-  }, [clearSelection]);
+    sectionProgress.reset();
+  }, [clearSelection, sectionProgress]);
 
   return {
     // Selection state
@@ -141,7 +151,10 @@ export function useSectionReplacement({
     
     // Validation
     isValidDuration,
-    isSubmitting: replaceMutation.isPending,
+    isSubmitting: replaceMutation.isPending || sectionProgress.isActive,
+    
+    // Progress tracking
+    progress: sectionProgress,
     
     // Form state
     prompt: localPrompt,
