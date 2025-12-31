@@ -3,21 +3,45 @@
  * 
  * Ensures only one audio source plays at a time by providing
  * a pauseAll function that stops main player, compare audios, and section previews.
+ * 
+ * Architecture:
+ * - Global registry of audio sources (Map for O(1) operations)
+ * - Each source registers a pause callback
+ * - pauseAllStudioAudio stops all except the specified source
+ * - Integration with global player via usePlayerStore
  */
 
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useEffect } from 'react';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 
 interface AudioSource {
   id: string;
   pause: () => void;
+  isPlaying?: () => boolean;
 }
 
 // Global registry of active audio sources in studio
 const studioAudioSources = new Map<string, AudioSource>();
 
-export function registerStudioAudio(id: string, pauseFn: () => void) {
-  studioAudioSources.set(id, { id, pause: pauseFn });
+// Event emitter for audio state changes
+type AudioEventCallback = (sourceId: string, isPlaying: boolean) => void;
+const audioEventListeners = new Set<AudioEventCallback>();
+
+export function onAudioStateChange(callback: AudioEventCallback) {
+  audioEventListeners.add(callback);
+  return () => audioEventListeners.delete(callback);
+}
+
+function emitAudioStateChange(sourceId: string, isPlaying: boolean) {
+  audioEventListeners.forEach(cb => cb(sourceId, isPlaying));
+}
+
+export function registerStudioAudio(
+  id: string, 
+  pauseFn: () => void,
+  isPlayingFn?: () => boolean
+) {
+  studioAudioSources.set(id, { id, pause: pauseFn, isPlaying: isPlayingFn });
 }
 
 export function unregisterStudioAudio(id: string) {
@@ -30,19 +54,56 @@ export function pauseAllStudioAudio(exceptId?: string) {
       source.pause();
     }
   });
+  if (exceptId) {
+    emitAudioStateChange(exceptId, true);
+  }
+}
+
+export function getActiveAudioSource(): string | null {
+  for (const [id, source] of studioAudioSources) {
+    if (source.isPlaying?.()) {
+      return id;
+    }
+  }
+  return null;
 }
 
 export function useStudioAudio(sourceId: string) {
   const { pauseTrack } = usePlayerStore();
   const localAudioRef = useRef<HTMLAudioElement | null>(null);
+  const isPlayingRef = useRef(false);
 
-  // Register this audio source
+  // Auto-cleanup on unmount
+  useEffect(() => {
+    return () => {
+      unregisterStudioAudio(sourceId);
+    };
+  }, [sourceId]);
+
+  // Register this audio source with playing state tracker
   const registerAudio = useCallback((audioElement: HTMLAudioElement | null) => {
     localAudioRef.current = audioElement;
     if (audioElement) {
-      registerStudioAudio(sourceId, () => {
-        audioElement.pause();
-      });
+      registerStudioAudio(
+        sourceId, 
+        () => {
+          audioElement.pause();
+          isPlayingRef.current = false;
+        },
+        () => isPlayingRef.current
+      );
+
+      // Track play/pause events
+      const handlePlay = () => { isPlayingRef.current = true; };
+      const handlePause = () => { isPlayingRef.current = false; };
+      
+      audioElement.addEventListener('play', handlePlay);
+      audioElement.addEventListener('pause', handlePause);
+      
+      return () => {
+        audioElement.removeEventListener('play', handlePlay);
+        audioElement.removeEventListener('pause', handlePause);
+      };
     }
   }, [sourceId]);
 
@@ -50,6 +111,7 @@ export function useStudioAudio(sourceId: string) {
   const unregisterAudio = useCallback(() => {
     unregisterStudioAudio(sourceId);
     localAudioRef.current = null;
+    isPlayingRef.current = false;
   }, [sourceId]);
 
   // Pause all audio sources including global player
@@ -67,12 +129,18 @@ export function useStudioAudio(sourceId: string) {
     
     try {
       await audioElement.play();
+      isPlayingRef.current = true;
+      emitAudioStateChange(sourceId, true);
       return true;
     } catch (error) {
       console.error('Playback failed:', error);
+      isPlayingRef.current = false;
       return false;
     }
-  }, [pauseAllAudio]);
+  }, [pauseAllAudio, sourceId]);
+
+  // Check if this source is currently playing
+  const isPlaying = useCallback(() => isPlayingRef.current, []);
 
   return {
     registerAudio,
@@ -80,5 +148,6 @@ export function useStudioAudio(sourceId: string) {
     pauseAllAudio,
     playWithCoordination,
     localAudioRef,
+    isPlaying,
   };
 }
