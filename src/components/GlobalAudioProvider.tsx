@@ -17,6 +17,7 @@ import { useOptimizedAudioPlayer } from '@/hooks/audio/useOptimizedAudioPlayer';
 import { usePlaybackPosition } from '@/hooks/audio/usePlaybackPosition';
 import { logger } from '@/lib/logger';
 import { toast } from 'sonner';
+import { playerAnalytics, recordError } from '@/lib/telemetry';
 
 // Audio error messages by error code
 const AUDIO_ERROR_MESSAGES: Record<number, { ru: string; action?: string }> = {
@@ -312,6 +313,7 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
         playPromiseRef.current = audio.play();
         await playPromiseRef.current;
         logger.info('Playback started successfully', { trackId: activeTrack?.id });
+        playerAnalytics.trackPlay(activeTrack?.id || '', 'global_provider');
       } catch (error: unknown) {
         const err = error as { name?: string };
         if (err.name === 'AbortError' || isCleanedUp) {
@@ -394,6 +396,7 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
 
     const handleEnded = () => {
       logger.debug('Track ended', { trackId: activeTrack?.id });
+      playerAnalytics.trackComplete(activeTrack?.id || '', audio.currentTime, audio.duration);
       if (repeat === 'one') {
         // Ensure audio is still available and valid before repeating
         if (audio.src && audio.duration > 0) {
@@ -440,6 +443,13 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
         trackId: activeTrack?.id,
         title: activeTrack?.title,
         source: audio.src?.substring(0, 100),
+        retryCount,
+      });
+      
+      // Record error in telemetry
+      playerAnalytics.trackError(activeTrack?.id || '', `audio_error_${errorCode}`);
+      recordError(`audio:${errorCode}`, audio.error?.message || 'Unknown audio error', {
+        trackId: activeTrack?.id,
         retryCount,
       });
       
