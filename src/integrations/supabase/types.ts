@@ -4797,6 +4797,7 @@ export type Database = {
         Args: { profile_row: Database["public"]["Tables"]["profiles"]["Row"] }
         Returns: number
       }
+      can_create_project: { Args: { _user_id: string }; Returns: Json }
       check_telegram_rate_limit: {
         Args: {
           p_action_type?: string

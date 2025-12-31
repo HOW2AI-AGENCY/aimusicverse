@@ -419,12 +419,40 @@ async function createProject(state: ProjectWizardState): Promise<void> {
     // Get user_id from profile
     const { data: profile, error: profileError } = await supabase
       .from('profiles')
-      .select('user_id')
+      .select('user_id, subscription_tier')
       .eq('telegram_id', state.userId)
       .single();
 
     if (profileError || !profile) {
       await sendMessage(state.chatId, '❌ Профиль не найден. Используйте /start для регистрации.');
+      wizardStates.delete(state.userId);
+      return;
+    }
+
+    // Check project limit for free users
+    const { data: limitCheck, error: limitError } = await supabase
+      .rpc('can_create_project', { _user_id: profile.user_id });
+
+    if (limitError) {
+      logger.error('Failed to check project limit', limitError);
+    }
+
+    const canCreate = (limitCheck as Record<string, unknown>)?.allowed !== false;
+    const limitReason = (limitCheck as Record<string, unknown>)?.reason as string | undefined;
+
+    if (!canCreate) {
+      const upgradeText = `⚠️ *Достигнут лимит проектов*\n\n` +
+        `${escapeMarkdownV2(limitReason || 'Бесплатные пользователи могут создать до 3 проектов.')}\n\n` +
+        `💎 Оформите подписку для безлимитного доступа\\!`;
+      
+      const keyboard = {
+        inline_keyboard: [
+          [{ text: '💎 Оформить подписку', callback_data: 'nav_subscription' }],
+          [{ text: '📁 Мои проекты', callback_data: 'nav_projects' }],
+        ],
+      };
+      
+      await editMessageText(state.chatId, state.messageId!, upgradeText, keyboard);
       wizardStates.delete(state.userId);
       return;
     }
