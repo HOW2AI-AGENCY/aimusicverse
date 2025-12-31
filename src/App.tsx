@@ -12,6 +12,7 @@ import { NotificationProvider } from "@/contexts/NotificationContext";
 import { AnnouncementProvider } from "@/contexts/AnnouncementContext";
 import { GuestModeProvider } from "@/contexts/GuestModeContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { LegacyStudioRedirect } from "@/components/studio/LegacyStudioRedirect";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { ErrorBoundaryWrapper } from "@/components/ErrorBoundaryWrapper";
 import { MainLayout } from "@/components/MainLayout";
@@ -164,10 +165,9 @@ const App = () => (
                 </Route>
 
                 {/* Routes without BottomNavigation */}
+                {/* Redirect legacy studio to unified version */}
                 <Route path="/studio/:trackId" element={
-                  <ProtectedRoute>
-                    <StemStudio />
-                  </ProtectedRoute>
+                  <LegacyStudioRedirect />
                 } />
 
                 {/* Studio V2 - isolated new studio implementation */}
