@@ -3,6 +3,7 @@ import App from "./App.tsx";
 import "./index.css";
 import { logger } from "./lib/logger";
 import { initSentry, captureError } from "./lib/sentry";
+import { initTelemetry } from "./lib/telemetry";
 
 // === CRITICAL: Early error logging for black screen debugging ===
 const BOOT_LOG: string[] = [];
@@ -32,9 +33,10 @@ bootLog(`Telegram WebApp available: ${!!window.Telegram?.WebApp}`);
 // Initialize error tracking
 try {
   initSentry();
-  bootLog('Sentry initialized');
+  initTelemetry();
+  bootLog('Sentry and Telemetry initialized');
 } catch (e) {
-  bootLog(`Sentry init failed: ${e}`);
+  bootLog(`Init failed: ${e}`);
 }
 
 // Global error handlers to prevent app crashes

@@ -59,6 +59,45 @@ export type Database = {
         }
         Relationships: []
       }
+      analytics_aggregates: {
+        Row: {
+          created_at: string
+          dimension: string | null
+          dimension_value: string | null
+          id: string
+          metric_name: string
+          metric_value: number
+          period_end: string
+          period_start: string
+          sample_count: number | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          dimension?: string | null
+          dimension_value?: string | null
+          id?: string
+          metric_name: string
+          metric_value: number
+          period_end: string
+          period_start: string
+          sample_count?: number | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          dimension?: string | null
+          dimension_value?: string | null
+          id?: string
+          metric_name?: string
+          metric_value?: number
+          period_end?: string
+          period_start?: string
+          sample_count?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       api_usage_logs: {
         Row: {
           created_at: string | null
@@ -670,6 +709,57 @@ export type Database = {
           updated_at?: string | null
           updated_by?: string | null
           value?: Json
+        }
+        Relationships: []
+      }
+      error_logs: {
+        Row: {
+          app_version: string | null
+          component: string | null
+          context: Json | null
+          created_at: string
+          error_fingerprint: string | null
+          error_message: string
+          error_stack: string | null
+          error_type: string
+          id: string
+          platform: string | null
+          session_id: string | null
+          severity: string | null
+          url: string | null
+          user_id: string | null
+        }
+        Insert: {
+          app_version?: string | null
+          component?: string | null
+          context?: Json | null
+          created_at?: string
+          error_fingerprint?: string | null
+          error_message: string
+          error_stack?: string | null
+          error_type: string
+          id?: string
+          platform?: string | null
+          session_id?: string | null
+          severity?: string | null
+          url?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          app_version?: string | null
+          component?: string | null
+          context?: Json | null
+          created_at?: string
+          error_fingerprint?: string | null
+          error_message?: string
+          error_stack?: string | null
+          error_type?: string
+          id?: string
+          platform?: string | null
+          session_id?: string | null
+          severity?: string | null
+          url?: string | null
+          user_id?: string | null
         }
         Relationships: []
       }
@@ -3488,6 +3578,48 @@ export type Database = {
           updated_at?: string | null
           user_id?: string
           wizard_type?: string
+        }
+        Relationships: []
+      }
+      telemetry_events: {
+        Row: {
+          app_version: string | null
+          created_at: string
+          duration_ms: number | null
+          event_data: Json | null
+          event_name: string
+          event_type: string
+          id: string
+          platform: string | null
+          session_id: string | null
+          timestamp: string
+          user_id: string | null
+        }
+        Insert: {
+          app_version?: string | null
+          created_at?: string
+          duration_ms?: number | null
+          event_data?: Json | null
+          event_name: string
+          event_type: string
+          id?: string
+          platform?: string | null
+          session_id?: string | null
+          timestamp?: string
+          user_id?: string | null
+        }
+        Update: {
+          app_version?: string | null
+          created_at?: string
+          duration_ms?: number | null
+          event_data?: Json | null
+          event_name?: string
+          event_type?: string
+          id?: string
+          platform?: string | null
+          session_id?: string | null
+          timestamp?: string
+          user_id?: string | null
         }
         Relationships: []
       }

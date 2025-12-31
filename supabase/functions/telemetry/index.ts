@@ -89,17 +89,52 @@ serve(async (req) => {
       recorded_at: timestamp,
     };
 
-    // Insert into telemetry_sessions table (if it exists)
-    // For now, just log it - can be enabled when table is created
+    // Insert into telemetry_events table
+    const telemetryEvents = metrics.map((m) => ({
+      session_id: sessionId,
+      event_type: m.name.split(':')[0] || 'metric',
+      event_name: m.name,
+      event_data: { value: m.value, unit: m.unit, ...m.tags },
+      duration_ms: m.unit === 'ms' ? Math.round(m.value) : null,
+      timestamp: new Date(m.timestamp).toISOString(),
+      platform: m.tags?.platform || 'web',
+    }));
+
+    if (telemetryEvents.length > 0) {
+      const { error: insertError } = await supabase
+        .from('telemetry_events')
+        .insert(telemetryEvents);
+      
+      if (insertError) {
+        console.warn('Failed to insert telemetry events:', insertError.message);
+      }
+    }
+
+    // Insert errors into error_logs table
+    const errorLogs = Object.entries(errors).map(([code, data]) => ({
+      session_id: sessionId,
+      error_type: code.split(':')[0] || 'unknown',
+      error_message: data.message,
+      error_fingerprint: code,
+      severity: data.count >= 5 ? 'critical' : data.count >= 3 ? 'error' : 'warning',
+      context: { count: data.count },
+    }));
+
+    if (errorLogs.length > 0) {
+      const { error: errorInsertError } = await supabase
+        .from('error_logs')
+        .insert(errorLogs);
+      
+      if (errorInsertError) {
+        console.warn('Failed to insert error logs:', errorInsertError.message);
+      }
+    }
+
     console.log("Telemetry received:", JSON.stringify({
       sessionId,
       sessionDurationSec: sessionDuration,
       metricsCount: metrics.length,
       errorsCount: Object.keys(errors).length,
-      topMetrics: Object.entries(aggregatedMetrics)
-        .sort((a, b) => b[1].count - a[1].count)
-        .slice(0, 5)
-        .map(([name, stats]) => ({ name, count: stats.count, avg: stats.sum / stats.count })),
     }));
 
     // Track high-severity errors
