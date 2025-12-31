@@ -1,9 +1,10 @@
 /**
  * Studio Shell
  * Main layout wrapper for the unified studio with full audio integration
+ * Supports both desktop and mobile layouts
  */
 
-import { memo, useState, useCallback, useEffect, useMemo, Suspense } from 'react';
+import { memo, useState, useCallback, useEffect, useMemo, Suspense, lazy } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { useUnifiedStudioStore, ViewMode, TrackType, TRACK_COLORS, StudioTrack } from '@/stores/useUnifiedStudioStore';
@@ -15,6 +16,7 @@ import { StudioMixerPanel } from './StudioMixerPanel';
 import { ExportMixDialog } from './ExportMixDialog';
 import { StemEffectsDrawer } from './StemEffectsDrawer';
 import { MobileAudioWarning } from '@/components/studio/MobileAudioWarning';
+import { MobileStudioLayout } from './MobileStudioLayout';
 import { useStudioAudioEngine, AudioTrack } from '@/hooks/studio/useStudioAudioEngine';
 import { useMobileAudioFallback } from '@/hooks/studio/useMobileAudioFallback';
 import { useStudioOptimizations } from '@/hooks/studio/useStudioOptimizations';
@@ -502,6 +504,181 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
   const telegramSafeAreaTop = 'calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px)))';
   const telegramSafeAreaBottom = 'calc(max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)))';
 
+  // Handle track actions from mobile UI
+  const handleMobileTrackAction = useCallback((trackId: string, action: string) => {
+    const track = project.tracks.find(t => t.id === trackId);
+    if (!track) return;
+
+    if (action === 'download' && track.audioUrl) {
+      window.open(track.audioUrl, '_blank');
+    } else if (action === 'effects') {
+      setSelectedEffectsTrack(track);
+      setShowEffectsDrawer(true);
+    } else if (action === 'reference') {
+      toast.info('Функция референса в разработке');
+    } else if (action === 'add_vocals') {
+      setSelectedVocalsTrack(track);
+      setShowAddVocalsDrawer(true);
+    } else if (action === 'extend') {
+      setSelectedExtendTrack(track);
+      setShowExtendDialog(true);
+    } else if (action === 'replace_section') {
+      setSelectedSectionTrack(track);
+      setShowSectionEditor(true);
+    }
+  }, [project?.tracks]);
+
+  // Mobile layout - full tab-based interface
+  if (isMobile) {
+    return (
+      <div 
+        className={cn('flex flex-col h-screen bg-background', className)}
+        style={{ paddingTop: telegramSafeAreaTop }}
+      >
+        <MobileStudioLayout
+          currentTime={currentTime}
+          duration={duration}
+          isPlaying={isPlaying}
+          onSeek={handleSeek}
+          onPlayPause={handlePlayPause}
+          onTrackAction={handleMobileTrackAction}
+          onAddTrack={() => setShowAddTrackDialog(true)}
+          onSave={handleSave}
+          onExport={handleExport}
+        />
+
+        {/* Dialogs stay shared */}
+        <AddTrackDialog
+          open={showAddTrackDialog}
+          onOpenChange={setShowAddTrackDialog}
+          onAdd={handleAddTrack}
+        />
+        <ExportMixDialog
+          open={showExportDialog}
+          onOpenChange={setShowExportDialog}
+          tracks={audioTracks.map(t => ({
+            url: t.audioUrl || '',
+            volume: t.volume,
+            muted: t.muted
+          }))}
+          masterVolume={project.masterVolume}
+          trackTitle={project.name}
+        />
+        <StemEffectsDrawer
+          open={showEffectsDrawer}
+          onOpenChange={setShowEffectsDrawer}
+          stem={selectedEffectsTrack ? {
+            id: selectedEffectsTrack.id,
+            stem_type: selectedEffectsTrack.type,
+            audio_url: selectedEffectsTrack.audioUrl || '',
+            track_id: project.id,
+            separation_mode: null,
+            version_id: null,
+            created_at: new Date().toISOString(),
+          } : null}
+          effects={selectedEffectsTrack ? (trackEffects[selectedEffectsTrack.id] || defaultStemEffects) : defaultStemEffects}
+          onUpdateEQ={(settings) => {
+            if (!selectedEffectsTrack) return;
+            setTrackEffects(prev => ({
+              ...prev,
+              [selectedEffectsTrack.id]: {
+                ...(prev[selectedEffectsTrack.id] || defaultStemEffects),
+                eq: { ...(prev[selectedEffectsTrack.id]?.eq || defaultStemEffects.eq), ...settings }
+              }
+            }));
+          }}
+          onUpdateCompressor={(settings) => {
+            if (!selectedEffectsTrack) return;
+            setTrackEffects(prev => ({
+              ...prev,
+              [selectedEffectsTrack.id]: {
+                ...(prev[selectedEffectsTrack.id] || defaultStemEffects),
+                compressor: { ...(prev[selectedEffectsTrack.id]?.compressor || defaultStemEffects.compressor), ...settings }
+              }
+            }));
+          }}
+          onUpdateReverb={(settings) => {
+            if (!selectedEffectsTrack) return;
+            setTrackEffects(prev => ({
+              ...prev,
+              [selectedEffectsTrack.id]: {
+                ...(prev[selectedEffectsTrack.id] || defaultStemEffects),
+                reverb: { ...(prev[selectedEffectsTrack.id]?.reverb || defaultStemEffects.reverb), ...settings }
+              }
+            }));
+          }}
+          onReset={() => {
+            if (!selectedEffectsTrack) return;
+            setTrackEffects(prev => ({
+              ...prev,
+              [selectedEffectsTrack.id]: defaultStemEffects
+            }));
+          }}
+        />
+        {selectedVocalsTrack && (
+          <Suspense fallback={<div className="fixed inset-0 z-50 flex items-center justify-center bg-background/50"><Loader2 className="h-8 w-8 animate-spin" /></div>}>
+            <LazyAddVocalsDrawer
+              open={showAddVocalsDrawer}
+              onOpenChange={setShowAddVocalsDrawer}
+              track={{
+                id: selectedVocalsTrack.id,
+                title: selectedVocalsTrack.name,
+                audio_url: selectedVocalsTrack.audioUrl || selectedVocalsTrack.clips[0]?.audioUrl || '',
+                cover_url: null,
+                style: null,
+                type: selectedVocalsTrack.type === 'instrumental' ? 'instrumental' : 'complete',
+                project_id: project.id,
+                is_liked: false,
+                likes_count: 0,
+              } as unknown as Track}
+              onSuccess={(newTrackId) => {
+                setShowAddVocalsDrawer(false);
+                setSelectedVocalsTrack(null);
+                toast.success('Вокал добавлен!', { description: 'Новый трек создан' });
+              }}
+            />
+          </Suspense>
+        )}
+        {selectedExtendTrack && (
+          <ExtendTrackDialog
+            open={showExtendDialog}
+            onOpenChange={(open) => {
+              setShowExtendDialog(open);
+              if (!open) setSelectedExtendTrack(null);
+            }}
+            track={{
+              id: selectedExtendTrack.id,
+              title: selectedExtendTrack.name,
+              audio_url: selectedExtendTrack.audioUrl || selectedExtendTrack.clips[0]?.audioUrl || '',
+              cover_url: null,
+              style: null,
+              duration_seconds: selectedExtendTrack.clips[0]?.duration || selectedExtendTrack.versions?.[0]?.duration || 60,
+              project_id: project.id,
+              suno_id: null,
+              is_liked: false,
+              likes_count: 0,
+            } as unknown as Track}
+          />
+        )}
+        {selectedSectionTrack && (
+          <SectionEditorSheet
+            open={showSectionEditor}
+            onClose={() => {
+              setShowSectionEditor(false);
+              setSelectedSectionTrack(null);
+            }}
+            trackId={selectedSectionTrack.id}
+            trackTitle={selectedSectionTrack.name}
+            audioUrl={selectedSectionTrack.audioUrl || selectedSectionTrack.clips[0]?.audioUrl}
+            duration={selectedSectionTrack.clips[0]?.duration || selectedSectionTrack.versions?.[0]?.duration || 60}
+            detectedSections={[]}
+          />
+        )}
+      </div>
+    );
+  }
+
+  // Desktop layout
   return (
     <div 
       className={cn('flex flex-col h-screen bg-background overflow-x-hidden', className)}
