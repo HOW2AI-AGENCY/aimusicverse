@@ -33,7 +33,7 @@ const Auth = lazy(() => import("./pages/Auth"));
 const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 const PublicProfilePage = lazy(() => import("./pages/PublicProfilePage"));
 const Settings = lazy(() => import("./pages/Settings"));
-const Tasks = lazy(() => import("./pages/Tasks"));
+// Tasks page removed - dead code cleanup
 const Generate = lazy(() => import("./pages/Generate"));
 const Library = lazy(() => import("./pages/Library"));
 const Projects = lazy(() => import("./pages/Projects"));
@@ -125,7 +125,6 @@ const App = () => (
                   <Route path="/profile" element={<ProfilePage />} />
                   <Route path="/profile/:userId" element={<PublicProfilePage />} />
                   <Route path="/settings" element={<Settings />} />
-                  <Route path="/tasks" element={<Tasks />} />
                   <Route path="/generate" element={<Generate />} />
                   <Route path="/library" element={<Library />} />
                   <Route path="/projects" element={<Projects />} />
