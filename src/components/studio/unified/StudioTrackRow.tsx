@@ -187,7 +187,7 @@ export const StudioTrackRow = memo(function StudioTrackRow({
               size="sm"
               onClick={() => handleToggle('mute')}
               className={cn(
-                "h-7 w-7 p-0 rounded-lg font-mono text-[10px] font-bold transition-all",
+                "h-9 w-9 md:h-7 md:w-7 p-0 rounded-lg font-mono text-xs md:text-[10px] font-bold transition-all touch-manipulation",
                 track.muted 
                   ? "bg-destructive text-destructive-foreground" 
                   : "text-muted-foreground hover:text-foreground hover:bg-muted"
@@ -202,7 +202,7 @@ export const StudioTrackRow = memo(function StudioTrackRow({
               size="sm"
               onClick={() => handleToggle('solo')}
               className={cn(
-                "h-7 w-7 p-0 rounded-lg font-mono text-[10px] font-bold transition-all",
+                "h-9 w-9 md:h-7 md:w-7 p-0 rounded-lg font-mono text-xs md:text-[10px] font-bold transition-all touch-manipulation",
                 track.solo 
                   ? "bg-primary text-primary-foreground" 
                   : "text-muted-foreground hover:text-foreground hover:bg-muted"
@@ -227,7 +227,7 @@ export const StudioTrackRow = memo(function StudioTrackRow({
               size="sm"
               onClick={() => setShowVolume(!showVolume)}
               className={cn(
-                "h-7 px-2 rounded-lg text-[10px] font-mono",
+                "h-9 md:h-7 px-2 rounded-lg text-xs md:text-[10px] font-mono touch-manipulation",
                 showVolume ? "bg-muted" : ""
               )}
             >
@@ -237,7 +237,7 @@ export const StudioTrackRow = memo(function StudioTrackRow({
             {/* Menu */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="h-7 w-7 p-0 rounded-lg">
+                <Button variant="ghost" size="sm" className="h-9 w-9 md:h-7 md:w-7 p-0 rounded-lg touch-manipulation">
                   <MoreHorizontal className="w-4 h-4" />
                 </Button>
               </DropdownMenuTrigger>
