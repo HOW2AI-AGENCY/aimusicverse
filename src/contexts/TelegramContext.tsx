@@ -847,7 +847,7 @@ export const DeepLinkHandler = () => {
       
       // Studio deep links
       [/^studio_ref_(.+)$/, (m) => `/content-hub?tab=cloud&ref=${m![1]}`, 'studio_ref'],
-      [/^studio_(.+)$/, (m) => `/studio/${m![1]}`, 'studio'],
+      [/^studio_(.+)$/, (m) => `/studio-v2/track/${m![1]}`, 'studio'],
       
       // Track views
       [/^lyrics_(.+)$/, (m) => `/library?track=${m![1]}&view=lyrics`, 'lyrics'],
