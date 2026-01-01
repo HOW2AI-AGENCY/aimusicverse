@@ -39,6 +39,7 @@ import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import { StemNotesPreview } from '@/components/studio/StemNotesPreview';
 import { StemTranscription } from '@/hooks/useStemTranscription';
 import { preloadRouteComponents } from '@/components/lazy';
+import { useSimulatedStemLevels } from '@/hooks/audio/useSimulatedStemLevels';
 
 interface StemState {
   muted: boolean;
@@ -661,13 +662,21 @@ export function IntegratedStemTracks({
   const soloedCount = Object.values(stemStates).filter(s => s.solo).length;
   const mutedCount = Object.values(stemStates).filter(s => s.muted).length;
 
-  // Convert stems to hardware mixer format
+  // Get simulated audio levels for hardware mixer
+  const simulatedLevels = useSimulatedStemLevels(
+    stemStates,
+    masterVolume,
+    masterMuted,
+    isPlaying
+  );
+
+  // Convert stems to hardware mixer format with real-time levels
   const hardwareStems = useMemo(() => stems.map(stem => ({
     id: stem.id,
     name: stem.stem_type.charAt(0).toUpperCase() + stem.stem_type.slice(1),
     type: stem.stem_type,
-    level: 0, // TODO: Add actual audio level metering
-  })), [stems]);
+    level: simulatedLevels.stems[stem.id] ?? 0,
+  })), [stems, simulatedLevels.stems]);
 
   return (
     <motion.div
@@ -804,6 +813,8 @@ export function IntegratedStemTracks({
                   stemStates={stemStates}
                   masterVolume={masterVolume}
                   masterMuted={masterMuted}
+                  masterLeftLevel={simulatedLevels.master.left}
+                  masterRightLevel={simulatedLevels.master.right}
                   onStemVolumeChange={(stemId, volume) => onStemVolumeChange(stemId, volume)}
                   onStemMuteToggle={(stemId) => onStemToggle(stemId, 'mute')}
                   onStemSoloToggle={(stemId) => onStemToggle(stemId, 'solo')}
