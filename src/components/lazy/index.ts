@@ -44,7 +44,7 @@ export const LazyVersionTree = lazy(() =>
 );
 
 export const LazyMobileStudioLayout = lazy(() => 
-  import('@/components/studio/mobile/MobileStudioLayout').then(m => ({ default: m.MobileStudioLayout }))
+  import('@/components/studio/unified/MobileStudioLayout').then(m => ({ default: m.MobileStudioLayout }))
 );
 
 // ============================================
