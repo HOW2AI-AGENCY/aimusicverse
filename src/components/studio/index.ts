@@ -42,6 +42,19 @@ export { SectionVariantOverlay } from './unified/SectionVariantOverlay';
 export { StudioVersionSelector } from './unified/StudioVersionSelector';
 export { StudioPendingTrackRow } from './unified/StudioPendingTrackRow';
 
+// Mobile studio components
+export { MobileStudioLayout } from './unified/MobileStudioLayout';
+export { MobileStudioTabs } from './unified/MobileStudioTabs';
+export type { MobileStudioTab } from './unified/MobileStudioTabs';
+export { MobilePlayerContent } from './unified/MobilePlayerContent';
+export { MobileTracksContent } from './unified/MobileTracksContent';
+export { MobileSectionsContent } from './unified/MobileSectionsContent';
+export { MobileMixerContent } from './unified/MobileMixerContent';
+export { MobileActionsContent } from './unified/MobileActionsContent';
+
+// Unified layout
+export { UnifiedStudioLayout } from './layout/UnifiedStudioLayout';
+
 // Loading and transcription indicators
 export { StemsLoadingProgress } from './StemsLoadingProgress';
 export { TranscriptionInProgress, TranscriptionPlaceholder } from './TranscriptionInProgress';
