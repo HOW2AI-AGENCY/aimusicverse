@@ -22,7 +22,7 @@ import { useStudioOptimizations } from '@/hooks/studio/useStudioOptimizations';
 import { useAutoSave } from '@/hooks/studio/useAutoSave';
 import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from '@/hooks/studio/useStudioAudio';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { LazyAddVocalsDrawer } from '@/components/lazy';
+import { LazyAddVocalsDrawer, LazyGenerateSheet } from '@/components/lazy';
 import { ExtendTrackDialog } from '@/components/ExtendTrackDialog';
 import { SectionEditorSheet } from '@/components/studio/editor/SectionEditorSheet';
 import { AutoSaveIndicator } from './AutoSaveIndicator';
@@ -140,6 +140,9 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
   // Section Editor state
   const [showSectionEditor, setShowSectionEditor] = useState(false);
   const [selectedSectionTrack, setSelectedSectionTrack] = useState<StudioTrack | null>(null);
+  
+  // Generate Sheet state
+  const [showGenerateSheet, setShowGenerateSheet] = useState(false);
 
   // Convert store tracks to AudioTrack format for engine
   const audioTracks = useMemo((): AudioTrack[] => {
@@ -1148,6 +1151,14 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
           detectedSections={[]}
         />
       )}
+
+      {/* Generate Sheet for creating new tracks */}
+      <Suspense fallback={null}>
+        <LazyGenerateSheet
+          open={showGenerateSheet}
+          onOpenChange={setShowGenerateSheet}
+        />
+      </Suspense>
     </div>
   );
 });

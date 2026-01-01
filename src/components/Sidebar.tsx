@@ -20,7 +20,8 @@ import {
   Guitar,
   PanelLeftClose,
   PanelLeft,
-  Shield
+  Shield,
+  Layers,
 } from 'lucide-react';
 import { useUserRole } from '@/hooks/useUserRole';
 import { cn } from '@/lib/utils';
@@ -58,6 +59,13 @@ const adminNavItems = [
  */
 const musicNavItems = [
   { path: '/playlists', label: 'Плейлисты', icon: ListMusic, showCount: true },
+  {
+    path: '/studio-v2',
+    label: 'DAW Studio',
+    icon: Layers,
+    badge: 'NEW',
+    description: 'Мультитрек редактор'
+  },
   {
     path: '/guitar-studio',
     label: 'Guitar Studio',

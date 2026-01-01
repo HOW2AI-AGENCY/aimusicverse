@@ -88,7 +88,7 @@ export const TrackCard = memo(({
   const handleOpenStudio = (e: React.MouseEvent) => {
     e.stopPropagation();
     triggerHapticFeedback('medium');
-    navigate(`/studio/${track.id}`);
+    navigate(`/studio-v2/track/${track.id}`);
   };
 
   // Use prop counts if provided (from Library with useTrackCounts hook)

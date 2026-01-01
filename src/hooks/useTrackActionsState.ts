@@ -203,11 +203,11 @@ export function useTrackActionsState({
 
       // Studio actions
       case 'open_studio':
-        navigate(`/studio/${track.id}`);
+        navigate(`/studio-v2/track/${track.id}`);
         onClose?.();
         break;
       case 'replace_section':
-        navigate(`/studio/${track.id}?mode=replace`);
+        navigate(`/studio-v2/track/${track.id}?mode=replace`);
         onClose?.();
         break;
       case 'stems_simple':

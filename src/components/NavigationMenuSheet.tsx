@@ -23,7 +23,8 @@ import {
   Volume2,
   VolumeX,
   Disc3,
-  PenLine
+  PenLine,
+  Layers
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
@@ -59,8 +60,9 @@ const menuSections: { title: string; items: MenuItem[] }[] = [
   {
     title: 'Инструменты',
     items: [
+      { icon: Layers, label: 'DAW Studio', path: '/studio-v2', description: 'Мультитрек редактор', badge: 'NEW', badgeVariant: 'new' },
       { icon: Disc3, label: 'Music Lab', path: '/music-lab', description: 'DJ, ударные, аккорды, гитара' },
-      { icon: PenLine, label: 'Lyrics Studio', path: '/lyrics-studio', description: 'Профессиональная работа с текстами', badge: 'NEW', badgeVariant: 'new' },
+      { icon: PenLine, label: 'Lyrics Studio', path: '/lyrics-studio', description: 'Профессиональная работа с текстами' },
       { icon: FileText, label: 'Шаблоны текстов', path: '/templates' },
       { icon: Users, label: 'AI-артисты', path: '/artists' },
     ]
