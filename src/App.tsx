@@ -18,7 +18,7 @@ import { ErrorBoundaryWrapper } from "@/components/ErrorBoundaryWrapper";
 import { MainLayout } from "@/components/MainLayout";
 import { GlobalAudioProvider } from "@/components/GlobalAudioProvider";
 import { LoadingScreen } from "@/components/UnifiedSplashScreen";
-import { InitializationGuard } from "@/components/InitializationGuard";
+// InitializationGuard removed - handled by UnifiedSplashScreen
 import { ProfileSetupGuard } from "@/components/profile/ProfileSetupGuard";
 import { NavigationProvider } from "@/components/NavigationProvider";
 
@@ -96,7 +96,6 @@ const App = () => (
         <ThemeProvider>
           <TelegramProvider>
             <AuthProvider>
-              <InitializationGuard>
                 <GuestModeProvider>
                 <GlobalAudioProvider>
                   <NotificationProvider>
@@ -207,7 +206,6 @@ const App = () => (
                 </NotificationProvider>
                 </GlobalAudioProvider>
                 </GuestModeProvider>
-              </InitializationGuard>
             </AuthProvider>
           </TelegramProvider>
         </ThemeProvider>
