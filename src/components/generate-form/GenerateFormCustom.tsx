@@ -1,5 +1,5 @@
 import { motion } from '@/lib/motion';
-import { TitleSection, StyleSection, VocalsToggle, LyricsSection } from './sections';
+import { TitleSection, StyleSection, VocalsToggle, LyricsSection, PrivacyToggle } from './sections';
 import { AdvancedSettings } from './AdvancedSettings';
 
 interface GenerateFormCustomProps {
@@ -14,6 +14,10 @@ interface GenerateFormCustomProps {
   onBoostStyle: () => void;
   boostLoading: boolean;
   onOpenLyricsAssistant: () => void;
+  // Privacy
+  isPublic: boolean;
+  onIsPublicChange: (value: boolean) => void;
+  canMakePrivate?: boolean;
   // Advanced settings
   advancedOpen: boolean;
   onAdvancedOpenChange: (open: boolean) => void;
@@ -48,6 +52,9 @@ export function GenerateFormCustom({
   onBoostStyle,
   boostLoading,
   onOpenLyricsAssistant,
+  isPublic = true,
+  onIsPublicChange,
+  canMakePrivate = false,
   advancedOpen,
   onAdvancedOpenChange,
   negativeTags,
@@ -100,6 +107,14 @@ export function GenerateFormCustom({
           style={style}
           genre={genre}
           mood={mood}
+        />
+      )}
+
+      {onIsPublicChange && (
+        <PrivacyToggle
+          isPublic={isPublic}
+          onIsPublicChange={onIsPublicChange}
+          canMakePrivate={canMakePrivate}
         />
       )}
 

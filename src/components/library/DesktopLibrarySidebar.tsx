@@ -217,6 +217,9 @@ export function DesktopLibrarySidebar({
                   onBoostStyle={form.handleBoostStyle}
                   boostLoading={form.boostLoading}
                   onOpenLyricsAssistant={() => setLyricsAssistantOpen(true)}
+                  isPublic={form.isPublic}
+                  onIsPublicChange={form.setIsPublic}
+                  canMakePrivate={form.canMakePrivate}
                   advancedOpen={advancedOpen}
                   onAdvancedOpenChange={setAdvancedOpen}
                   negativeTags={form.negativeTags}
