@@ -75,9 +75,7 @@ export const LazyOnboardingSlider = lazy(() =>
   import('@/components/OnboardingSlider').then(m => ({ default: m.OnboardingSlider }))
 );
 
-export const LazyTrackAnalytics = lazy(() => 
-  import('@/components/TrackAnalytics').then(m => ({ default: m.TrackAnalytics }))
-);
+// TrackAnalytics removed - unused component
 
 export const LazyGamificationOnboarding = lazy(() => 
   import('@/components/gamification/GamificationOnboarding').then(m => ({ default: m.GamificationOnboarding }))
