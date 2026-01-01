@@ -3476,6 +3476,66 @@ export type Database = {
         }
         Relationships: []
       }
+      telegram_notification_queue: {
+        Row: {
+          chat_id: number
+          created_at: string | null
+          dedupe_key: string | null
+          error_message: string | null
+          id: string
+          last_attempt_at: string | null
+          max_retries: number | null
+          next_retry_at: string | null
+          notification_type: string
+          payload: Json
+          priority: string | null
+          priority_score: number | null
+          retry_count: number | null
+          scheduled_at: string | null
+          sent_at: string | null
+          status: string | null
+          user_id: string | null
+        }
+        Insert: {
+          chat_id: number
+          created_at?: string | null
+          dedupe_key?: string | null
+          error_message?: string | null
+          id?: string
+          last_attempt_at?: string | null
+          max_retries?: number | null
+          next_retry_at?: string | null
+          notification_type: string
+          payload?: Json
+          priority?: string | null
+          priority_score?: number | null
+          retry_count?: number | null
+          scheduled_at?: string | null
+          sent_at?: string | null
+          status?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          chat_id?: number
+          created_at?: string | null
+          dedupe_key?: string | null
+          error_message?: string | null
+          id?: string
+          last_attempt_at?: string | null
+          max_retries?: number | null
+          next_retry_at?: string | null
+          notification_type?: string
+          payload?: Json
+          priority?: string | null
+          priority_score?: number | null
+          retry_count?: number | null
+          scheduled_at?: string | null
+          sent_at?: string | null
+          status?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       telegram_rate_limits: {
         Row: {
           action_type: string
@@ -4823,6 +4883,7 @@ export type Database = {
           tracks_failed: number
         }[]
       }
+      cleanup_telegram_queue: { Args: never; Returns: number }
       cleanup_telegram_rate_limits: { Args: never; Returns: number }
       compute_track_genre: {
         Args: { _style: string; _tags: string }
@@ -5013,6 +5074,34 @@ export type Database = {
         SetofOptions: {
           from: "*"
           to: "telegram_failed_notifications"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
+      get_pending_telegram_notifications: {
+        Args: { _limit?: number }
+        Returns: {
+          chat_id: number
+          created_at: string | null
+          dedupe_key: string | null
+          error_message: string | null
+          id: string
+          last_attempt_at: string | null
+          max_retries: number | null
+          next_retry_at: string | null
+          notification_type: string
+          payload: Json
+          priority: string | null
+          priority_score: number | null
+          retry_count: number | null
+          scheduled_at: string | null
+          sent_at: string | null
+          status: string | null
+          user_id: string | null
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "telegram_notification_queue"
           isOneToOne: false
           isSetofReturn: true
         }
