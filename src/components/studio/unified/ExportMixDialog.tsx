@@ -10,8 +10,9 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Progress } from '@/components/ui/progress';
+import { Switch } from '@/components/ui/switch';
 import { Download, X, FileAudio, Loader2 } from 'lucide-react';
-import { useMixExport, ExportFormat, ExportQuality } from '@/hooks/studio/useMixExport';
+import { useMixExport, ExportFormat, ExportQuality, Mp3Bitrate } from '@/hooks/studio/useMixExport';
 import { cn } from '@/lib/utils';
 
 interface ExportMixDialogProps {
@@ -35,6 +36,9 @@ export function ExportMixDialog({
 }: ExportMixDialogProps) {
   const [format, setFormat] = useState<ExportFormat>('wav');
   const [quality, setQuality] = useState<ExportQuality>('high');
+  const [mp3Bitrate, setMp3Bitrate] = useState<Mp3Bitrate>(320);
+  const [normalize, setNormalize] = useState(true);
+  const [limiter, setLimiter] = useState(true);
   
   const { isExporting, exportProgress, exportMix, cancelExport, downloadBlob } = useMixExport();
 
@@ -43,11 +47,18 @@ export function ExportMixDialog({
       format,
       quality,
       tracks,
-      masterVolume
+      masterVolume,
+      mp3Bitrate,
+      mastering: {
+        normalize,
+        limiter,
+        limiterThreshold: -1,
+        dither: format === 'wav',
+      }
     });
 
     if (blob) {
-      const extension = format === 'mp3' ? 'wav' : format; // MP3 falls back to WAV
+      const extension = format;
       const filename = `${trackTitle.replace(/[^a-zA-Z0-9а-яА-Я]/g, '_')}_${Date.now()}.${extension}`;
       downloadBlob(blob, filename);
       onOpenChange(false);
@@ -62,7 +73,13 @@ export function ExportMixDialog({
 
   const formatOptions = [
     { value: 'wav', label: 'WAV', description: 'Без сжатия, большой размер', disabled: false },
-    { value: 'mp3', label: 'MP3', description: 'Сжатый, меньший размер', disabled: true }
+    { value: 'mp3', label: 'MP3', description: 'Сжатый, меньший размер', disabled: false }
+  ] as const;
+
+  const bitrateOptions = [
+    { value: 320, label: '320 kbps', description: 'Максимальное качество' },
+    { value: 192, label: '192 kbps', description: 'Хорошее качество' },
+    { value: 128, label: '128 kbps', description: 'Компактный размер' }
   ] as const;
 
   const activeTracksCount = tracks.filter(t => !t.muted && t.url).length;
@@ -97,7 +114,7 @@ export function ExportMixDialog({
             </Button>
           </div>
         ) : (
-          <div className="space-y-6 py-4">
+          <div className="space-y-5 py-4">
             {/* Format Selection */}
             <div className="space-y-3">
               <Label>Формат</Label>
@@ -134,9 +151,45 @@ export function ExportMixDialog({
               </RadioGroup>
             </div>
 
+            {/* MP3 Bitrate (only when MP3 selected) */}
+            {format === 'mp3' && (
+              <div className="space-y-3">
+                <Label>Битрейт MP3</Label>
+                <RadioGroup
+                  value={String(mp3Bitrate)}
+                  onValueChange={(v) => setMp3Bitrate(Number(v) as Mp3Bitrate)}
+                  className="space-y-2"
+                >
+                  {bitrateOptions.map((option) => (
+                    <Label
+                      key={option.value}
+                      htmlFor={`bitrate-${option.value}`}
+                      className={cn(
+                        "flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-colors",
+                        mp3Bitrate === option.value
+                          ? "border-primary bg-primary/5"
+                          : "border-border hover:border-primary/50"
+                      )}
+                    >
+                      <div className="flex items-center gap-2">
+                        <RadioGroupItem
+                          value={String(option.value)}
+                          id={`bitrate-${option.value}`}
+                        />
+                        <span className="font-medium">{option.label}</span>
+                      </div>
+                      <span className="text-xs text-muted-foreground">
+                        {option.description}
+                      </span>
+                    </Label>
+                  ))}
+                </RadioGroup>
+              </div>
+            )}
+
             {/* Quality Selection */}
             <div className="space-y-3">
-              <Label>Качество</Label>
+              <Label>Качество сэмплирования</Label>
               <RadioGroup
                 value={quality}
                 onValueChange={(v) => setQuality(v as ExportQuality)}
@@ -168,6 +221,27 @@ export function ExportMixDialog({
               </RadioGroup>
             </div>
 
+            {/* Mastering Options */}
+            <div className="space-y-3">
+              <Label>Мастеринг</Label>
+              <div className="space-y-3 rounded-lg border border-border p-3">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <span className="text-sm font-medium">Нормализация</span>
+                    <p className="text-xs text-muted-foreground">Выровнять громкость до -1 dB</p>
+                  </div>
+                  <Switch checked={normalize} onCheckedChange={setNormalize} />
+                </div>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <span className="text-sm font-medium">Лимитер</span>
+                    <p className="text-xs text-muted-foreground">Предотвратить клиппинг</p>
+                  </div>
+                  <Switch checked={limiter} onCheckedChange={setLimiter} />
+                </div>
+              </div>
+            </div>
+
             {/* Export Button */}
             <Button
               onClick={handleExport}
@@ -180,7 +254,7 @@ export function ExportMixDialog({
               ) : (
                 <Download className="h-4 w-4 mr-2" />
               )}
-              Экспортировать
+              Экспортировать {format.toUpperCase()}
             </Button>
 
             {activeTracksCount === 0 && (
