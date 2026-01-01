@@ -27,7 +27,6 @@ import { LazyAddVocalsDrawer } from '@/components/lazy';
 import { ExtendTrackDialog } from '@/components/ExtendTrackDialog';
 import { SectionEditorSheet } from '@/components/studio/editor/SectionEditorSheet';
 import { AutoSaveIndicator } from './AutoSaveIndicator';
-import { SectionEditorSheet } from '@/components/studio/editor/SectionEditorSheet';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
