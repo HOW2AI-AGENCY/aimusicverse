@@ -11,7 +11,8 @@
  */
 
 import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
-import { X, Download, Share2, ListMusic, SkipBack, SkipForward, Play, Pause, Repeat, Shuffle, BarChart3 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { X, Download, Share2, ListMusic, SkipBack, SkipForward, Play, Pause, Repeat, Shuffle, BarChart3, Layers } from 'lucide-react';
 import { LikeButton } from '@/components/ui/like-button';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
@@ -46,6 +47,7 @@ interface AlignedWord {
 }
 
 export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlayerProps) {
+  const navigate = useNavigate();
   const [queueOpen, setQueueOpen] = useState(false);
   const [userScrolling, setUserScrolling] = useState(false);
   const [showVisualizer, setShowVisualizer] = useState(true);
@@ -54,6 +56,13 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const lastScrollTopRef = useRef<number>(0);
   const isProgrammaticScrollRef = useRef(false);
+
+  // Open in DAW Studio handler
+  const handleOpenInStudio = useCallback(() => {
+    hapticImpact('medium');
+    onClose();
+    navigate(`/studio-v2/track/${track.id}`);
+  }, [navigate, track.id, onClose]);
   
   const { toggleLike, downloadTrack } = useTracks();
   const { currentTime, duration, seek } = useAudioTime();
@@ -846,6 +855,18 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
                 disabled={!track.audio_url}
               >
                 <Download className="h-5 w-5" />
+              </Button>
+            </motion.div>
+
+            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleOpenInStudio}
+                className="h-11 w-11 touch-manipulation rounded-full hover:bg-white/10"
+                title="Открыть в DAW Studio"
+              >
+                <Layers className="h-5 w-5" />
               </Button>
             </motion.div>
 

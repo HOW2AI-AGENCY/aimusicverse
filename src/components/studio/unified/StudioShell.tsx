@@ -63,6 +63,7 @@ import {
   SkipBack,
   SkipForward,
   Mic2,
+  Sparkles,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
@@ -810,6 +811,16 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
               <Save className="h-4 w-4" />
             )}
             <span className="hidden sm:inline">Сохранить</span>
+          </Button>
+
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-8 gap-1"
+            onClick={() => setShowGenerateSheet(true)}
+          >
+            <Sparkles className="h-4 w-4" />
+            <span className="hidden sm:inline">Создать</span>
           </Button>
 
           <Button

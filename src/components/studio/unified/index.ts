@@ -13,6 +13,9 @@ export { EnhancedVersionTimeline } from './EnhancedVersionTimeline';
 export { StemMidiDrawer } from './StemMidiDrawer';
 export { StemEffectsDrawer } from './StemEffectsDrawer';
 export { AddTrackDrawer } from './AddTrackDrawer';
+export { StudioShell } from './StudioShell';
+export { SortableTrackList } from './SortableTrackList';
+export { AutoSaveIndicator } from './AutoSaveIndicator';
 
 // Mobile Studio Components
 export { MobileStudioTabs } from './MobileStudioTabs';
