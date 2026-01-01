@@ -9,8 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { useUnifiedStudioStore, ViewMode, TrackType, TRACK_COLORS, StudioTrack } from '@/stores/useUnifiedStudioStore';
 import { StudioTransport } from './StudioTransport';
-import { StudioTrackRow } from './StudioTrackRow';
-import { StudioPendingTrackRow } from './StudioPendingTrackRow';
+import { SortableTrackList } from './SortableTrackList';
 import { StudioWaveformTimeline } from './StudioWaveformTimeline';
 import { StudioMixerPanel } from './StudioMixerPanel';
 import { ExportMixDialog } from './ExportMixDialog';
@@ -119,6 +118,7 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
     setTrackVolume,
     removeTrack,
     setMasterVolume,
+    reorderTracks,
   } = useUnifiedStudioStore();
 
   const [showAddTrackDialog, setShowAddTrackDialog] = useState(false);
@@ -195,6 +195,17 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
   } = useMobileAudioFallback({
     stems: tracksAsStems,
     enabled: isMobile,
+  });
+
+  // Auto-save hook
+  const autoSave = useAutoSave({
+    enabled: !!project,
+    debounceMs: 30000, // 30 seconds
+    onSaveComplete: (success) => {
+      if (success) {
+        logger.info('Auto-save completed');
+      }
+    },
   });
 
   // Studio optimizations (caching, offline support, debounced controls)
@@ -705,11 +716,11 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
               <Badge variant="outline" className="text-[10px] px-1 py-0">
                 {project.tracks.length} дорожек
               </Badge>
-              {hasUnsavedChanges ? (
-                <CloudOff className="h-3 w-3 text-muted-foreground" />
-              ) : (
-                <Cloud className="h-3 w-3 text-green-500" />
-              )}
+              <AutoSaveIndicator
+                status={autoSave.status}
+                lastSavedAt={autoSave.lastSavedAt}
+                timeSinceLastSave={autoSave.timeSinceLastSave}
+              />
             </div>
           </div>
         </div>
@@ -935,56 +946,20 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
 
       <ScrollArea className="flex-1">
         <div className="p-3 space-y-2">
-          <AnimatePresence>
-            {project.tracks.map((track) => (
-              track.status === 'pending' ? (
-                <StudioPendingTrackRow
-                  key={track.id}
-                  track={{
-                    id: track.id,
-                    name: track.name,
-                    type: track.type,
-                    taskId: track.taskId,
-                    status: 'pending',
-                  }}
-                  onCancel={() => removeTrack(track.id)}
-                />
-              ) : (
-                <StudioTrackRow
-                  key={track.id}
-                  track={track}
-                  isPlaying={isPlaying}
-                  currentTime={currentTime}
-                  duration={duration}
-                  onToggleMute={() => toggleTrackMute(track.id)}
-                  onToggleSolo={() => toggleTrackSolo(track.id)}
-                  onVolumeChange={(v) => setTrackVolume(track.id, v)}
-                  onSeek={handleSeek}
-                  onRemove={() => removeTrack(track.id)}
-                  onVersionChange={track.versions ? (label: string) => setTrackActiveVersion(track.id, label) : undefined}
-                  onAction={(action) => {
-                    if (action === 'download' && track.audioUrl) {
-                      window.open(track.audioUrl, '_blank');
-                    } else if (action === 'effects') {
-                      setSelectedEffectsTrack(track);
-                      setShowEffectsDrawer(true);
-                    } else if (action === 'reference') {
-                      toast.info('Функция референса в разработке');
-                    } else if (action === 'add_vocals') {
-                      setSelectedVocalsTrack(track);
-                      setShowAddVocalsDrawer(true);
-                    } else if (action === 'extend') {
-                      setSelectedExtendTrack(track);
-                      setShowExtendDialog(true);
-                    } else if (action === 'replace_section') {
-                      setSelectedSectionTrack(track);
-                      setShowSectionEditor(true);
-                    }
-                  }}
-                />
-              )
-            ))}
-          </AnimatePresence>
+          <SortableTrackList
+            tracks={project.tracks}
+            isPlaying={isPlaying}
+            currentTime={currentTime}
+            duration={duration}
+            onReorder={reorderTracks}
+            onToggleMute={toggleTrackMute}
+            onToggleSolo={toggleTrackSolo}
+            onVolumeChange={setTrackVolume}
+            onSeek={handleSeek}
+            onRemove={removeTrack}
+            onVersionChange={setTrackActiveVersion}
+            onAction={handleMobileTrackAction}
+          />
 
           {project.tracks.length === 0 && (
             <div className="flex flex-col items-center justify-center py-12 text-center">
