@@ -77,16 +77,43 @@ export function useSectionReplacement({
     setLocalLyrics(section.lyrics);
   }, [detectedSections, maxDuration, setCustomRange]);
 
-  // Update time range
+  // Update time range with improved lyrics extraction
   const updateRange = useCallback((start: number, end: number) => {
     setCustomRange(start, end);
     
-    // Find matching section
+    // Find matching section with improved tolerance based on section length
+    const rangeDuration = end - start;
+    const tolerance = Math.min(1.0, rangeDuration * 0.15); // 15% tolerance, max 1 second
+    
     const matchingSection = detectedSections.find(
-      s => Math.abs(s.startTime - start) < 0.5 && Math.abs(s.endTime - end) < 0.5
+      s => Math.abs(s.startTime - start) < tolerance && Math.abs(s.endTime - end) < tolerance
     );
+    
     if (matchingSection) {
       setLocalLyrics(matchingSection.lyrics);
+    } else {
+      // Try to find overlapping sections and combine their lyrics
+      const overlappingSections = detectedSections.filter(s => {
+        const overlapStart = Math.max(s.startTime, start);
+        const overlapEnd = Math.min(s.endTime, end);
+        const overlapDuration = overlapEnd - overlapStart;
+        const sectionDuration = s.endTime - s.startTime;
+        // At least 50% overlap with the section
+        return overlapDuration > 0 && overlapDuration >= sectionDuration * 0.5;
+      });
+      
+      if (overlappingSections.length > 0) {
+        // Combine lyrics from overlapping sections
+        const combinedLyrics = overlappingSections
+          .sort((a, b) => a.startTime - b.startTime)
+          .map(s => s.lyrics.trim())
+          .filter(l => l.length > 0)
+          .join('\n\n');
+        
+        if (combinedLyrics) {
+          setLocalLyrics(combinedLyrics);
+        }
+      }
     }
   }, [detectedSections, setCustomRange]);
 
