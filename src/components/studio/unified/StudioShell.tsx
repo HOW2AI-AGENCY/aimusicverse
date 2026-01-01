@@ -52,6 +52,7 @@ import {
   Sliders,
   Plus,
   Loader2,
+  Upload,
   Cloud,
   CloudOff,
   Volume2,
@@ -68,6 +69,7 @@ import { formatTime } from '@/lib/formatters';
 import { Slider } from '@/components/ui/slider';
 import { supabase } from '@/integrations/supabase/client';
 import { logger } from '@/lib/logger';
+import { ImportAudioDialog } from './ImportAudioDialog';
 import type { StemEffects, EQSettings, CompressorSettings, ReverbSettings } from '@/hooks/studio/types';
 import { defaultStemEffects } from '@/hooks/studio/stemEffectsConfig';
 import type { TrackStem } from '@/hooks/useTrackStems';
@@ -118,6 +120,7 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
   } = useUnifiedStudioStore();
 
   const [showAddTrackDialog, setShowAddTrackDialog] = useState(false);
+  const [showImportDialog, setShowImportDialog] = useState(false);
   const [showMixerSheet, setShowMixerSheet] = useState(false);
   const [showExportDialog, setShowExportDialog] = useState(false);
   const [showEffectsDrawer, setShowEffectsDrawer] = useState(false);
@@ -905,6 +908,17 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
           )}
         </div>
 
+        {/* Import Audio */}
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setShowImportDialog(true)}
+          className="h-7 w-7 md:h-8 md:w-8 shrink-0"
+          title="Импорт аудио"
+        >
+          <Upload className="h-3.5 w-3.5 md:h-4 md:w-4" />
+        </Button>
+
         {/* Add Track - icon only on mobile */}
         <Button
           variant="outline"
@@ -1005,6 +1019,26 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
         open={showAddTrackDialog}
         onOpenChange={setShowAddTrackDialog}
         onAdd={handleAddTrack}
+      />
+
+      {/* Import Audio Dialog */}
+      <ImportAudioDialog
+        open={showImportDialog}
+        onOpenChange={setShowImportDialog}
+        projectId={project.id}
+        onImport={(audioUrl, name, type, duration) => {
+          addTrack({
+            name,
+            type,
+            audioUrl,
+            volume: 0.85,
+            pan: 0,
+            muted: false,
+            solo: false,
+            color: TRACK_COLORS[type] || TRACK_COLORS.other,
+          });
+          toast.success(`Дорожка "${name}" добавлена`);
+        }}
       />
 
       {/* Export Mix Dialog */}
