@@ -56,7 +56,6 @@ export { MobileActionsContent } from './unified/MobileActionsContent';
 export { UnifiedStudioLayout } from './layout/UnifiedStudioLayout';
 
 // Loading and transcription indicators
-export { StemsLoadingProgress } from './StemsLoadingProgress';
 export { TranscriptionInProgress, TranscriptionPlaceholder } from './TranscriptionInProgress';
 export { StemNotesPreview, StemNotesPreviewSkeleton } from './StemNotesPreview';
 
