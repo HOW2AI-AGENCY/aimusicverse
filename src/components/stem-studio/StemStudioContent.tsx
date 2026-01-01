@@ -34,9 +34,7 @@ import { ReplacementHistoryPanel } from '@/components/stem-studio/ReplacementHis
 import { SectionTimelineVisualization } from '@/components/stem-studio/SectionTimelineVisualization';
 import { SectionEditorPanel } from '@/components/stem-studio/SectionEditorPanel';
 import { SectionEditorMobile } from '@/components/stem-studio/mobile/SectionEditorMobile';
-import { MobileSectionTimelineCompact } from '@/components/stem-studio/MobileSectionTimelineCompact';
-import { MobileStudioHeader } from '@/components/stem-studio/MobileStudioHeader';
-import { MobileMasterVolume } from '@/components/stem-studio/MobileMasterVolume';
+// Removed: MobileSectionTimelineCompact, MobileStudioHeader, MobileMasterVolume - using inline components
 import { SectionQuickActions } from '@/components/stem-studio/SectionQuickActions';
 import { StudioQuickActions } from '@/components/stem-studio/StudioQuickActions';
 import { StudioContextTips } from '@/components/stem-studio/StudioContextTips';
@@ -598,16 +596,59 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
 
       {/* Mobile Header */}
       {isMobile ? (
-        <MobileStudioHeader
-          title={track.title || 'Без названия'}
-          onBack={() => navigate('/library')}
-          canReplace={!!canReplaceSection}
-          effectsEnabled={effectsEnabled}
-          onEnableEffects={handleEnableEffects}
-          onStartReplace={() => setEditMode('selecting')}
-          onHelp={startTutorial}
-          editMode={editMode}
-        />
+        <header 
+          className="border-b border-border/30 bg-card/50 backdrop-blur shrink-0"
+          style={{ 
+            paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.5rem), calc(env(safe-area-inset-top, 0px) + 0.5rem))' 
+          }}
+        >
+          <div className="flex items-center gap-2 px-3 py-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => navigate('/library')}
+              className="h-8 w-8 rounded-full flex-shrink-0"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </Button>
+            <div className="flex-1 min-w-0">
+              <span className="text-[9px] font-medium text-muted-foreground uppercase tracking-wider block">
+                Студия стемов
+              </span>
+              <h1 className="text-sm font-semibold truncate">{track.title || 'Без названия'}</h1>
+            </div>
+            <div className="flex items-center gap-1">
+              {canReplaceSection && editMode === 'none' && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setEditMode('selecting')}
+                  className="h-8 w-8 rounded-full"
+                >
+                  <Scissors className="w-4 h-4" />
+                </Button>
+              )}
+              {!effectsEnabled && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleEnableEffects}
+                  className="h-8 w-8 rounded-full"
+                >
+                  <Sliders className="w-4 h-4" />
+                </Button>
+              )}
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={startTutorial}
+                className="h-8 w-8 rounded-full"
+              >
+                <HelpCircle className="w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+        </header>
       ) : (
         /* Desktop Header */
         <header className="flex items-center justify-between px-4 sm:px-6 py-3 border-b border-border/50 bg-card/50 backdrop-blur">
@@ -809,18 +850,33 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
         </div>
       )}
 
-      {/* Section Timeline Visualization - Mobile */}
+      {/* Section Timeline Visualization - Mobile (inline) */}
       {isMobile && canReplaceSection && detectedSections.length > 0 && (
         <div className="px-4 py-2 border-b border-border/30 bg-card/30">
-          <MobileSectionTimelineCompact
-            sections={detectedSections}
-            duration={duration}
-            currentTime={currentTime}
-            selectedIndex={selectedSectionIndex}
-            replacedRanges={replacedRanges}
-            onSectionClick={handleSectionSelect}
-            onSeek={(time) => handleSeek([time])}
-          />
+          <div className="flex gap-1 overflow-x-auto pb-1">
+            {detectedSections.map((section, idx) => {
+              const isSelected = selectedSectionIndex === idx;
+              const isReplaced = replacedRanges.some(
+                r => r.start <= section.startTime && r.end >= section.endTime
+              );
+              return (
+                <button
+                  key={idx}
+                  onClick={() => handleSectionSelect(section, idx)}
+                  className={cn(
+                    "px-2 py-1 text-xs rounded-md border whitespace-nowrap transition-colors",
+                    isSelected 
+                      ? "bg-primary text-primary-foreground border-primary" 
+                      : isReplaced 
+                        ? "bg-accent/50 border-accent" 
+                        : "bg-muted/50 border-border/50 hover:bg-muted"
+                  )}
+                >
+                  {section.label || `${formatTime(section.startTime)}`}
+                </button>
+              );
+            })}
+          </div>
         </div>
       )}
 
@@ -896,12 +952,30 @@ export const StemStudioContent = ({ trackId }: StemStudioContentProps) => {
 
       {/* Master Volume */}
       {isMobile ? (
-        <MobileMasterVolume
-          volume={masterVolume}
-          muted={masterMuted}
-          onVolumeChange={setMasterVolume}
-          onMuteToggle={() => setMasterMuted(!masterMuted)}
-        />
+        <div className="px-4 py-2 border-b border-border/30 bg-gradient-to-r from-primary/5 to-transparent">
+          <div className="flex items-center gap-3">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setMasterMuted(!masterMuted)}
+              className={cn("h-8 w-8 rounded-full", masterMuted && "text-destructive")}
+            >
+              {masterMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+            </Button>
+            <Slider
+              value={[masterVolume]}
+              min={0}
+              max={1}
+              step={0.01}
+              onValueChange={(v) => setMasterVolume(v[0])}
+              className="flex-1"
+              disabled={masterMuted}
+            />
+            <span className="text-xs text-muted-foreground w-8 text-right">
+              {Math.round(masterVolume * 100)}%
+            </span>
+          </div>
+        </div>
       ) : (
         <div className="px-4 sm:px-6 py-3 border-b border-border/30 bg-gradient-to-r from-primary/5 to-transparent">
           <div className="flex items-center gap-4">
