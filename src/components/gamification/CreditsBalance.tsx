@@ -1,8 +1,6 @@
 import { motion } from '@/lib/motion';
 import { useUserCredits } from '@/hooks/useGamification';
-import { useSunoCredits } from '@/hooks/useSunoCredits';
-import { Coins, TrendingUp, Flame, Sparkles, Star, Server } from 'lucide-react';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Coins, TrendingUp, Flame, Sparkles, Star } from 'lucide-react';
 
 interface CreditsBalanceProps {
   compact?: boolean;
@@ -11,7 +9,6 @@ interface CreditsBalanceProps {
 
 export function CreditsBalance({ compact = false, showStats = true }: CreditsBalanceProps) {
   const { data: credits, isLoading } = useUserCredits();
-  const { data: sunoCredits, isLoading: sunoLoading } = useSunoCredits();
 
   if (isLoading) {
     return <div className={`${compact ? 'h-8 w-20' : 'h-20'} bg-muted animate-pulse rounded-md`} />;
@@ -19,42 +16,21 @@ export function CreditsBalance({ compact = false, showStats = true }: CreditsBal
 
   if (compact) {
     return (
-      <div className="flex items-center gap-2">
-        <motion.div 
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          className="flex items-center gap-2 bg-yellow-500/10 px-3 py-1.5 rounded-full border border-yellow-500/20"
+      <motion.div 
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        className="flex items-center gap-2 bg-yellow-500/10 px-3 py-1.5 rounded-full border border-yellow-500/20"
+      >
+        <motion.div
+          animate={{ rotate: [0, 10, -10, 0] }}
+          transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
         >
-          <motion.div
-            animate={{ rotate: [0, 10, -10, 0] }}
-            transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
-          >
-            <Coins className="w-4 h-4 text-yellow-500" />
-          </motion.div>
-          <span className="font-bold text-yellow-600 dark:text-yellow-400">
-            {credits?.balance || 0}
-          </span>
+          <Coins className="w-4 h-4 text-yellow-500" />
         </motion.div>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                className="flex items-center gap-1.5 bg-blue-500/10 px-2.5 py-1.5 rounded-full border border-blue-500/20"
-              >
-                <Server className="w-3.5 h-3.5 text-blue-500" />
-                <span className="text-xs font-semibold text-blue-500">
-                  {sunoLoading ? '...' : (sunoCredits?.credits_left ?? '?')}
-                </span>
-              </motion.div>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Общий баланс API</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      </div>
+        <span className="font-bold text-yellow-600 dark:text-yellow-400">
+          {credits?.balance || 0}
+        </span>
+      </motion.div>
     );
   }
 
@@ -69,49 +45,24 @@ export function CreditsBalance({ compact = false, showStats = true }: CreditsBal
         <Star className="w-16 h-16 text-yellow-500" />
       </div>
 
-      <div className="relative flex items-center justify-between mb-3">
-        <div className="flex items-center gap-3">
-          <motion.div 
-            whileHover={{ scale: 1.1, rotate: 15 }}
-            className="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center shadow-lg"
+      <div className="relative flex items-center gap-3 mb-3">
+        <motion.div 
+          whileHover={{ scale: 1.1, rotate: 15 }}
+          className="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center shadow-lg"
+        >
+          <Coins className="w-6 h-6 text-white" />
+        </motion.div>
+        <div>
+          <p className="text-sm text-muted-foreground">Ваш баланс</p>
+          <motion.p 
+            key={credits?.balance}
+            initial={{ scale: 1.2 }}
+            animate={{ scale: 1 }}
+            className="text-3xl font-bold bg-gradient-to-r from-yellow-500 to-orange-500 bg-clip-text text-transparent"
           >
-            <Coins className="w-6 h-6 text-white" />
-          </motion.div>
-          <div>
-            <p className="text-sm text-muted-foreground">Ваш баланс</p>
-            <motion.p 
-              key={credits?.balance}
-              initial={{ scale: 1.2 }}
-              animate={{ scale: 1 }}
-              className="text-3xl font-bold bg-gradient-to-r from-yellow-500 to-orange-500 bg-clip-text text-transparent"
-            >
-              {credits?.balance || 0}
-            </motion.p>
-          </div>
+            {credits?.balance || 0}
+          </motion.p>
         </div>
-        
-        {/* API Balance */}
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div className="flex flex-col items-center gap-1 p-2 rounded-lg bg-blue-500/10 border border-blue-500/20 cursor-help">
-                <Server className="w-5 h-5 text-blue-500" />
-                <span className="text-lg font-bold text-blue-500">
-                  {sunoLoading ? '...' : (sunoCredits?.credits_left ?? '?')}
-                </span>
-                <span className="text-[10px] text-blue-500/70">API</span>
-              </div>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Общий баланс генераций</p>
-              {sunoCredits && (
-                <p className="text-xs text-muted-foreground">
-                  {sunoCredits.monthly_usage} / {sunoCredits.monthly_limit} за период
-                </p>
-              )}
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
       </div>
 
       {showStats && (
