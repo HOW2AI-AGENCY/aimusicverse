@@ -17,7 +17,7 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { ErrorBoundaryWrapper } from "@/components/ErrorBoundaryWrapper";
 import { MainLayout } from "@/components/MainLayout";
 import { GlobalAudioProvider } from "@/components/GlobalAudioProvider";
-import { LoadingScreen } from "@/components/ui/loading-screen";
+import { LoadingScreen } from "@/components/UnifiedSplashScreen";
 import { InitializationGuard } from "@/components/InitializationGuard";
 import { ProfileSetupGuard } from "@/components/profile/ProfileSetupGuard";
 import { NavigationProvider } from "@/components/NavigationProvider";
