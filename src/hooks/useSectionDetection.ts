@@ -179,14 +179,19 @@ function detectSectionsFromGaps(words: AlignedWord[], duration: number): Detecte
   if (!words.length) return [];
 
   const sections: DetectedSection[] = [];
-  const GAP_THRESHOLD = 2.0; // 2 second silence = new section
-  const MIN_SECTION_DURATION = 10; // Minimum 10 seconds per section
+  
+  // Adaptive thresholds based on track duration
+  const isShortTrack = duration < 120;
+  const GAP_THRESHOLD = isShortTrack ? 1.2 : 1.5; // Reduced from 2.0 for better detection
+  const MIN_SECTION_DURATION = isShortTrack ? 6 : 8; // Reduced from 10
+  const MAX_SECTION_DURATION = 45; // Force split if section is too long
   
   let currentWords: AlignedWord[] = [];
   let sectionStart = words[0].startS;
   
-  // Track type counters
-  const typeCounters = { verse: 0, chorus: 0 };
+  // Track type counters and history for pattern detection
+  const typeCounters = { verse: 0, chorus: 0, bridge: 0 };
+  const sectionHistory: DetectedSection['type'][] = [];
 
   for (let i = 0; i < words.length; i++) {
     const word = words[i];
@@ -196,22 +201,40 @@ function detectSectionsFromGaps(words: AlignedWord[], duration: number): Detecte
     const gap = nextWord ? (nextWord.startS - word.endS) : GAP_THRESHOLD + 1;
     const currentDuration = word.endS - sectionStart;
     const isLast = !nextWord;
+    
+    // Check for newline markers which often indicate section boundaries
+    const hasNewlineMarker = word.word.includes('\n') || word.word.includes('\\n');
+    const significantGap = gap >= GAP_THRESHOLD;
+    const sectionTooLong = currentDuration >= MAX_SECTION_DURATION;
 
-    // Break section on significant gap or end
-    if ((gap >= GAP_THRESHOLD && currentDuration >= MIN_SECTION_DURATION) || isLast) {
+    // Break section on significant gap, newline marker, section too long, or end
+    const shouldBreak = (
+      ((significantGap || hasNewlineMarker) && currentDuration >= MIN_SECTION_DURATION) ||
+      sectionTooLong ||
+      isLast
+    );
+
+    if (shouldBreak) {
       if (currentWords.length > 0) {
-        const lyrics = currentWords.map(w => w.word.replace(/\n/g, ' ')).join(' ').trim();
+        const lyrics = currentWords.map(w => w.word.replace(/[\n\\n]/g, ' ')).join(' ').trim();
         
-        if (lyrics) {
-          // Determine section type based on position and characteristics
+        if (lyrics && lyrics.length > 5) {
           const sectionIndex = sections.length;
-          const type = inferSectionTypeFromContext(sectionIndex, sectionStart, duration, lyrics);
+          const type = inferSectionTypeFromContext(
+            sectionIndex, 
+            sectionStart, 
+            duration, 
+            lyrics,
+            sectionHistory
+          );
           
           if (type === 'verse') typeCounters.verse++;
-          if (type === 'chorus') typeCounters.chorus++;
+          else if (type === 'chorus') typeCounters.chorus++;
+          else if (type === 'bridge') typeCounters.bridge++;
           
           const counter = type === 'verse' ? typeCounters.verse : 
-                         type === 'chorus' ? typeCounters.chorus : 1;
+                         type === 'chorus' ? typeCounters.chorus : 
+                         type === 'bridge' ? typeCounters.bridge : 1;
 
           sections.push({
             type,
@@ -221,6 +244,8 @@ function detectSectionsFromGaps(words: AlignedWord[], duration: number): Detecte
             lyrics,
             words: [...currentWords],
           });
+          
+          sectionHistory.push(type);
         }
       }
 
@@ -232,7 +257,7 @@ function detectSectionsFromGaps(words: AlignedWord[], duration: number): Detecte
   }
 
   // If we got too few sections, subdivide
-  if (sections.length < 3 && duration > 60) {
+  if (sections.length < 2 && duration > 45) {
     return createMusicalSections(duration);
   }
 
@@ -240,42 +265,73 @@ function detectSectionsFromGaps(words: AlignedWord[], duration: number): Detecte
 }
 
 /**
- * Infer section type based on position and content
+ * Infer section type based on position, content, and history
  */
 function inferSectionTypeFromContext(
   sectionIndex: number,
   startTime: number,
   totalDuration: number,
-  lyrics: string
+  lyrics: string,
+  history: DetectedSection['type'][] = []
 ): DetectedSection['type'] {
   const position = startTime / totalDuration;
   const lowerLyrics = lyrics.toLowerCase();
   
-  // Intro: first 10% of track, short
-  if (sectionIndex === 0 && position < 0.1) {
+  // Intro: first 8% of track
+  if (sectionIndex === 0 && position < 0.08) {
     return 'intro';
   }
   
-  // Outro: last 10% of track
-  if (position > 0.9) {
+  // Outro: last 8% of track
+  if (position > 0.92) {
     return 'outro';
   }
   
-  // Check for chorus indicators
-  const chorusPatterns = ['oh', 'yeah', 'hey', 'woah', 'la la', 'na na', 'оо', 'эй', 'да'];
+  // Check for chorus indicators - expanded patterns
+  const chorusPatterns = [
+    'oh', 'yeah', 'hey', 'woah', 'la la', 'na na', 
+    'оо', 'эй', 'да', 'ла ла', 'на на', 'о-о', 'а-а',
+    'baby', 'love', 'tonight', 'детка', 'любовь'
+  ];
   const hasChorusPattern = chorusPatterns.some(p => lowerLyrics.includes(p));
   
   // Check repetition (choruses tend to repeat)
-  const words = lowerLyrics.split(/\s+/);
-  const uniqueRatio = words.length > 3 ? new Set(words).size / words.length : 1;
-  const hasHighRepetition = uniqueRatio < 0.5;
+  const words = lowerLyrics.split(/\s+/).filter(w => w.length > 2);
+  const uniqueRatio = words.length > 4 ? new Set(words).size / words.length : 1;
+  const hasHighRepetition = uniqueRatio < 0.6;
   
-  if (hasChorusPattern || hasHighRepetition) {
+  // Check if lyrics seem similar to previous chorus (repeated chorus)
+  const isLikelyChorus = hasChorusPattern || hasHighRepetition;
+  
+  // Bridge detection - typically appears after 2nd chorus, position 60-80%
+  if (position > 0.55 && position < 0.8 && history.filter(h => h === 'chorus').length >= 2) {
+    // Check if this is different from typical verse/chorus pattern
+    if (!isLikelyChorus && history[history.length - 1] === 'chorus') {
+      return 'bridge';
+    }
+  }
+  
+  if (isLikelyChorus) {
     return 'chorus';
   }
   
-  // Alternate verse/chorus pattern
-  return sectionIndex % 2 === 0 ? 'verse' : 'chorus';
+  // Pre-chorus detection - short section before chorus
+  const lyricsLength = lyrics.length;
+  if (lyricsLength < 100 && position > 0.15 && position < 0.35) {
+    const nextPosition = (history.length + 1) * (totalDuration / 8) / totalDuration;
+    if (nextPosition > position && nextPosition - position < 0.15) {
+      return 'pre-chorus';
+    }
+  }
+  
+  // Default to verse, but try to alternate based on history
+  if (history.length > 0) {
+    const lastType = history[history.length - 1];
+    if (lastType === 'verse') return 'chorus';
+    if (lastType === 'chorus') return 'verse';
+  }
+  
+  return 'verse';
 }
 
 /**

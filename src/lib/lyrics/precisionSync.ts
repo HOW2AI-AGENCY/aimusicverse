@@ -11,31 +11,35 @@
 
 import { AlignedWord } from '@/hooks/lyrics/useLyricsSynchronization';
 
-// Enhanced sync constants with adaptive values
+// Enhanced sync constants with adaptive values - tuned for better feel
 export const PRECISION_SYNC = {
-  // Base look-ahead (will be adapted dynamically)
-  BASE_WORD_LOOK_AHEAD_MS: 40,
-  BASE_LINE_LOOK_AHEAD_MS: 80,
+  // Base look-ahead (will be adapted dynamically) - increased for better anticipation
+  BASE_WORD_LOOK_AHEAD_MS: 60,  // Increased from 40
+  BASE_LINE_LOOK_AHEAD_MS: 100, // Increased from 80
   
   // Maximum look-ahead adjustment
-  MAX_LOOK_AHEAD_BOOST_MS: 60,
+  MAX_LOOK_AHEAD_BOOST_MS: 80,  // Increased from 60
   
-  // End tolerances - slightly longer to avoid "flickering"
-  WORD_END_TOLERANCE_MS: 100,
-  LINE_END_TOLERANCE_MS: 180,
+  // End tolerances - extended to prevent flickering
+  WORD_END_TOLERANCE_MS: 150,   // Increased from 100
+  LINE_END_TOLERANCE_MS: 250,   // Increased from 180
   
-  // Timing thresholds
-  MIN_WORD_DURATION_MS: 50,
-  GAP_THRESHOLD_MS: 300,       // Pause detection
-  PHRASE_GAP_MS: 500,          // New phrase starts
+  // Timing thresholds - refined for Russian/English lyrics
+  MIN_WORD_DURATION_MS: 40,     // Reduced from 50
+  GAP_THRESHOLD_MS: 250,        // Reduced from 300 for tighter phrases
+  PHRASE_GAP_MS: 400,           // Reduced from 500 for better phrase detection
   
-  // Smoothing
-  JITTER_THRESHOLD_MS: 10,     // Ignore time jumps < 10ms
-  VELOCITY_SMOOTHING: 0.85,    // Exponential smoothing factor
+  // Smoothing - improved for less jitter
+  JITTER_THRESHOLD_MS: 15,      // Increased from 10
+  VELOCITY_SMOOTHING: 0.88,     // Increased from 0.85 for smoother transitions
   
   // Frame timing
-  TARGET_FRAME_MS: 16.67,      // 60fps target
-  MAX_FRAME_MS: 33.33,         // Minimum 30fps
+  TARGET_FRAME_MS: 16.67,       // 60fps target
+  MAX_FRAME_MS: 33.33,          // Minimum 30fps
+  
+  // Additional precision settings
+  WORD_TRANSITION_BUFFER_MS: 25, // Buffer between word highlights
+  PHRASE_START_BOOST_MS: 30,     // Extra look-ahead for phrase starts
 } as const;
 
 /**
@@ -210,21 +214,39 @@ export function groupIntoEnhancedLines(words: EnhancedWord[]): EnhancedLine[] {
 export function calculateWordLookAhead(word: EnhancedWord): number {
   let lookAhead = PRECISION_SYNC.BASE_WORD_LOOK_AHEAD_MS;
   
-  // Phrase start boost
+  // Phrase start boost - words at phrase start need earlier highlight
   if (word.isPhraseStart) {
-    lookAhead += 20;
+    lookAhead += PRECISION_SYNC.PHRASE_START_BOOST_MS;
   }
   
-  // Short word boost
+  // Short word boost - short words need earlier highlight to be visible
   if (word.isShort) {
+    lookAhead += 25; // Increased from 15
+  }
+  
+  // Very short words (< 80ms) need even more boost
+  if (word.durationMs < 80) {
     lookAhead += 15;
   }
   
   // Position in line boost (earlier words get more look-ahead)
-  lookAhead += (1 - word.positionInLine) * 15;
+  lookAhead += (1 - word.positionInLine) * 20; // Increased from 15
+  
+  // Gap compensation - if there's a big gap before, reduce look-ahead
+  if (word.gapBeforeMs > PRECISION_SYNC.GAP_THRESHOLD_MS) {
+    lookAhead -= 10;
+  }
+  
+  // Velocity compensation - faster speech needs more look-ahead
+  if (word.velocity > 3) {
+    lookAhead += (word.velocity - 3) * 8;
+  }
   
   // Cap at maximum
-  return Math.min(lookAhead, PRECISION_SYNC.BASE_WORD_LOOK_AHEAD_MS + PRECISION_SYNC.MAX_LOOK_AHEAD_BOOST_MS);
+  return Math.min(
+    Math.max(lookAhead, PRECISION_SYNC.BASE_WORD_LOOK_AHEAD_MS / 2), 
+    PRECISION_SYNC.BASE_WORD_LOOK_AHEAD_MS + PRECISION_SYNC.MAX_LOOK_AHEAD_BOOST_MS
+  );
 }
 
 /**
@@ -235,12 +257,23 @@ export function calculateLineLookAhead(line: EnhancedLine): number {
   
   // Phrase start boost
   if (line.isPhraseStart) {
-    lookAhead += 30;
+    lookAhead += 40; // Increased from 30
   }
   
   // Short line boost (fewer words = need earlier prep)
   if (line.wordCount <= 3) {
+    lookAhead += 30; // Increased from 20
+  }
+  
+  // Very short lines (1-2 words) need more boost
+  if (line.wordCount <= 2) {
     lookAhead += 20;
+  }
+  
+  // Fast lines (high average velocity) need more look-ahead
+  const avgWordDuration = line.averageWordDurationMs;
+  if (avgWordDuration < 200) {
+    lookAhead += 25;
   }
   
   return Math.min(lookAhead, PRECISION_SYNC.BASE_LINE_LOOK_AHEAD_MS + PRECISION_SYNC.MAX_LOOK_AHEAD_BOOST_MS);

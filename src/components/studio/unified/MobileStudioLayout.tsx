@@ -126,8 +126,14 @@ export const MobileStudioLayout = memo(function MobileStudioLayout({
     }
   };
 
+  // Telegram safe area top
+  const safeAreaTop = 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px)), env(safe-area-inset-top, 0px))';
+
   return (
-    <div className={cn("flex flex-col h-full", className)}>
+    <div 
+      className={cn("flex flex-col h-full bg-background", className)}
+      style={{ paddingTop: `calc(${safeAreaTop} + 0.5rem)` }}
+    >
       {/* Tab Content Area */}
       <div className="flex-1 overflow-hidden">
         <AnimatePresence mode="wait">
