@@ -29,7 +29,7 @@ function ProfileSetupGuardWrapper({ children }: { children: React.ReactNode }) {
 // Lazy load pages
 const Index = lazy(() => import("./pages/Index"));
 const Auth = lazy(() => import("./pages/Auth"));
-const StemStudio = lazy(() => import("./pages/StemStudio"));
+// StemStudio removed - now using unified studio-v2
 const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 const PublicProfilePage = lazy(() => import("./pages/PublicProfilePage"));
 const Settings = lazy(() => import("./pages/Settings"));
