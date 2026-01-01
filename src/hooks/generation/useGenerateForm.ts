@@ -100,6 +100,7 @@ export function useGenerateForm({
   const [audioFile, setAudioFile] = useState<File | null>(null);
   const [audioDuration, setAudioDuration] = useState<number | null>(null);
   const [planTrackId, setPlanTrackId] = useState<string | undefined>();
+  const [isPublic, setIsPublic] = useState(true); // Track visibility - default public
 
   // Reset form
   const resetForm = useCallback(() => {
@@ -119,6 +120,7 @@ export function useGenerateForm({
     setAudioDuration(null);
     clearDraft();
     setPlanTrackId(undefined);
+    setIsPublic(true);
   }, [initialProjectId, clearDraft]);
 
   // Apply plan track context when available
@@ -691,6 +693,7 @@ export function useGenerateForm({
               projectId: selectedProjectId || initialProjectId,
               planTrackId: planTrackId,
               parentTrackId: parentTrackId,
+              isPublic, // Track visibility
             },
           });
           data = result.data;
@@ -866,6 +869,9 @@ export function useGenerateForm({
     audioFile,
     setAudioFile: handleSetAudioFile,
     planTrackId,
+    isPublic,
+    setIsPublic,
+    canMakePrivate: isAdmin || (userBalance ?? 0) >= 0, // For now, allow private for admins; later: check subscription
     
     // Actions
     handleGenerate,
