@@ -31,154 +31,74 @@ export function useMusicXML({
   autoResize = true,
   initialZoom = 1.0,
 }: UseMusicXMLOptions): UseMusicXMLReturn {
-  const osmdRef = useRef<OSMD | null>(null);
-  const isLoadedRef = useRef(false); // Track if load() has completed
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const [zoom, setZoomState] = useState(initialZoom);
+  const osmdRef = useRef<OSMD | null>(null);
 
-  // Initialize OSMD instance
+  const render = useCallback(async () => {
+    if (!osmdRef.current) return;
+    try {
+      osmdRef.current.render();
+    } catch (err) {
+      log.error('Render error', err);
+    }
+  }, []);
+
+  const setZoom = useCallback((newZoom: number) => {
+    setZoomState(newZoom);
+    if (osmdRef.current) {
+      osmdRef.current.Zoom = newZoom;
+      osmdRef.current.render();
+    }
+  }, []);
+
   useEffect(() => {
     if (!containerRef.current || !url) return;
 
     const container = containerRef.current;
-    let isCancelled = false;
-    
+    let osmd: OSMD | null = null;
+
     const initOSMD = async () => {
       setIsLoading(true);
       setError(null);
-      isLoadedRef.current = false;
 
       try {
-        // Clear previous instance
-        if (osmdRef.current) {
-          osmdRef.current.clear();
-          osmdRef.current = null;
-        }
-        container.innerHTML = '';
-
-        // Create new OSMD instance
-        const osmd = new OSMD(container, {
+        osmd = new OSMD(container, {
           autoResize,
           backend: 'svg',
           drawTitle: true,
           drawSubtitle: true,
           drawComposer: true,
-          drawCredits: true,
-          drawPartNames: true,
-          drawMeasureNumbers: true,
-          drawTimeSignatures: true,
-          drawingParameters: 'default',
         });
 
-        osmd.setLogLevel('warn');
-
-        // Fetch MusicXML content from URL first
-        log.info('Fetching MusicXML', { url });
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error(`Failed to fetch MusicXML: ${response.status} ${response.statusText}`);
-        }
-        let xmlContent = await response.text();
-        
-        // Ensure XML declaration is present (some files may be missing it)
-        if (!xmlContent.trim().startsWith('<?xml')) {
-          xmlContent = '<?xml version="1.0" encoding="UTF-8"?>\n' + xmlContent;
-        }
-        
-        // Check if cancelled during fetch
-        if (isCancelled) {
-          osmd.clear();
-          return;
-        }
-
-        // Load MusicXML content - MUST complete before render()
-        log.info('Loading MusicXML content', { contentLength: xmlContent.length });
-        await osmd.load(xmlContent);
-
-        // Check if cancelled during async operation
-        if (isCancelled) {
-          osmd.clear();
-          return;
-        }
-
-        // Only set ref AFTER load() completes successfully
+        osmd.Zoom = zoom;
+        await osmd.load(url);
+        osmd.render();
         osmdRef.current = osmd;
-        isLoadedRef.current = true;
-
-        // Set zoom and render
-        osmd.zoom = zoom;
-        await osmd.render();
-
-        log.info('MusicXML rendered successfully');
+        log.info('MusicXML loaded successfully', { url });
       } catch (err) {
-        if (isCancelled) return;
         const error = err instanceof Error ? err : new Error('Failed to load MusicXML');
-        log.error('Failed to load MusicXML', error);
         setError(error);
+        log.error('Failed to load MusicXML', err);
       } finally {
-        if (!isCancelled) {
-          setIsLoading(false);
-        }
+        setIsLoading(false);
       }
     };
 
     initOSMD();
 
     return () => {
-      isCancelled = true;
-      isLoadedRef.current = false;
-      if (osmdRef.current) {
-        osmdRef.current.clear();
-        osmdRef.current = null;
+      if (osmd) {
+        try {
+          container.innerHTML = '';
+        } catch {
+          // Ignore cleanup errors
+        }
       }
+      osmdRef.current = null;
     };
-  }, [url, containerRef, autoResize]);
-
-  // Handle zoom changes - only if loaded
-  const setZoom = useCallback((newZoom: number) => {
-    const clampedZoom = Math.max(0.3, Math.min(3.0, newZoom));
-    setZoomState(clampedZoom);
-
-    // Double-check both ref and loaded flag for safety
-    if (osmdRef.current && isLoadedRef.current) {
-      try {
-        osmdRef.current.zoom = clampedZoom;
-        osmdRef.current.render();
-      } catch (err) {
-        log.warn('Failed to set zoom - OSMD may not be ready', { error: err });
-      }
-    }
-  }, []);
-
-  // Manual render trigger - only if loaded
-  const render = useCallback(async () => {
-    // Strict check: only render if OSMD exists AND load() completed
-    if (!osmdRef.current || !isLoadedRef.current) {
-      log.debug('Skipping render - OSMD not ready');
-      return;
-    }
-    
-    try {
-      await osmdRef.current.render();
-    } catch (err) {
-      log.warn('Failed to render - OSMD may not be ready', { error: err });
-    }
-  }, []);
-
-  // Handle window resize - only if loaded
-  useEffect(() => {
-    if (!autoResize) return;
-
-    const handleResize = () => {
-      if (osmdRef.current && isLoadedRef.current) {
-        osmdRef.current.render();
-      }
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, [autoResize]);
+  }, [url, containerRef, autoResize, zoom]);
 
   return {
     isLoading,
