@@ -47,31 +47,30 @@ export function useMidiFileParser() {
     try {
       log.info('Fetching MIDI file', { midiUrl });
 
-      // Dynamically import @tonejs/midi to prevent vendor-audio chunk issues
-      const midiModule: MidiType = await import('@tonejs/midi');
-      const MidiClass = (midiModule as any).Midi ?? midiModule.Midi;
-
+      // Dynamic import to prevent bundling issues
+      const { Midi } = await import('@tonejs/midi') as MidiType;
+      
       const response = await fetch(midiUrl);
       if (!response.ok) {
         throw new Error(`Failed to fetch MIDI: ${response.status}`);
       }
 
       const arrayBuffer = await response.arrayBuffer();
-      const midi = new MidiClass(arrayBuffer);
+      const midi = new Midi(arrayBuffer);
 
       const notes: ParsedMidiNote[] = [];
       const trackNames: string[] = [];
 
-      midi.tracks.forEach((track: any, trackIndex: number) => {
-        if (track.name) trackNames.push(track.name);
-
-        track.notes.forEach((note: any) => {
+      midi.tracks.forEach((track, trackIndex) => {
+        trackNames.push(track.name || `Track ${trackIndex + 1}`);
+        
+        track.notes.forEach((note) => {
           notes.push({
             pitch: note.midi,
             startTime: note.time,
             endTime: note.time + note.duration,
             duration: note.duration,
-            velocity: Math.round(note.velocity * 127),
+            velocity: note.velocity,
             noteName: midiToNoteName(note.midi),
             track: trackIndex,
           });
@@ -81,34 +80,37 @@ export function useMidiFileParser() {
       // Sort notes by start time
       notes.sort((a, b) => a.startTime - b.startTime);
 
-      const duration = midi.duration;
-      const bpm = midi.header.tempos?.[0]?.bpm ?? 120;
-      const timeSig = midi.header.timeSignatures?.[0];
-      const timeSignature = timeSig 
-        ? { numerator: timeSig.timeSignature[0], denominator: timeSig.timeSignature[1] }
+      // Get tempo
+      const bpm = midi.header.tempos[0]?.bpm || 120;
+
+      // Get time signature
+      const timeSignature = midi.header.timeSignatures[0]
+        ? {
+            numerator: midi.header.timeSignatures[0].timeSignature[0],
+            denominator: midi.header.timeSignatures[0].timeSignature[1],
+          }
         : null;
 
       const result: ParsedMidi = {
         notes,
-        duration,
+        duration: midi.duration,
         bpm,
         timeSignature,
         trackNames,
       };
 
+      setParsedMidi(result);
       log.info('MIDI parsed successfully', { 
-        noteCount: notes.length, 
-        duration, 
-        bpm,
-        tracks: trackNames.length 
+        notesCount: notes.length, 
+        duration: midi.duration,
+        bpm 
       });
 
-      setParsedMidi(result);
       return result;
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Unknown error';
-      log.error('Failed to parse MIDI', { error: message });
-      setError(message);
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+      setError(errorMessage);
+      log.error('Failed to parse MIDI', { error: errorMessage });
       return null;
     } finally {
       setIsLoading(false);
@@ -121,10 +123,10 @@ export function useMidiFileParser() {
   }, []);
 
   return {
-    parseMidiFromUrl,
-    parsedMidi,
     isLoading,
     error,
+    parsedMidi,
+    parseMidiFromUrl,
     reset,
   };
 }
