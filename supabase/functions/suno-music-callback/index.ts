@@ -19,6 +19,19 @@ const getStreamUrl = (clip: any) => clip.source_stream_audio_url || clip.stream_
 const getImageUrl = (clip: any) => clip.source_image_url || clip.image_url;
 
 /**
+ * Sanitize track title - remove Suno section tags like [Verse], [Chorus], (Upbeat), etc.
+ */
+const sanitizeTrackTitle = (rawTitle: string, fallback = 'Трек'): string => {
+  if (!rawTitle) return fallback;
+  const cleaned = rawTitle
+    .replace(/\[.*?\]/g, '')  // Remove [Verse], [Chorus], [Intro], etc.
+    .replace(/\(.*?\)/g, '')  // Remove (Upbeat), (Soft), etc.
+    .replace(/\s+/g, ' ')     // Normalize whitespace
+    .trim();
+  return cleaned || fallback;
+};
+
+/**
  * Log action to content_audit_log for deposition/copyright proof
  */
 async function logAuditAction(
@@ -399,11 +412,12 @@ serve(async (req) => {
         logger.debug('First clip data', { id: firstClip.id, title: firstClip.title, hasStream: !!streamUrl, hasImage: !!imageUrl });
 
         if (streamUrl) {
+          const cleanedTitle = sanitizeTrackTitle(firstClip.title || task.tracks?.title);
           await supabase.from('tracks').update({
             status: 'streaming_ready',
             streaming_url: streamUrl,
             cover_url: imageUrl || null,
-            title: firstClip.title || task.tracks?.title,
+            title: cleanedTitle,
           }).eq('id', trackId);
 
           const { data: existingVersion } = await supabase
@@ -515,7 +529,9 @@ serve(async (req) => {
           // Continue processing - will use Suno's URL as fallback
         }
 
-        trackTitle = clip.title || task.prompt?.split('\n')[0]?.substring(0, 100) || 'Трек';
+        // Use sanitized title
+        const rawTitle = clip.title || task.prompt?.split('\n')[0]?.substring(0, 100) || 'Трек';
+        trackTitle = sanitizeTrackTitle(rawTitle);
         const finalAudioUrl = localAudioUrl || audioUrl;
 
         const { data: existingVersion } = await supabase
