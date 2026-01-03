@@ -16,6 +16,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useAuth } from '@/hooks/useAuth';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { logger } from '@/lib/logger';
+import { validatePromptForGeneration, showGenerationError } from '@/lib/errorHandling';
 import { cn } from '@/lib/utils';
 import { formatDuration } from '@/lib/player-utils';
 import { useTelegramMainButton } from '@/hooks/telegram';
@@ -193,6 +194,15 @@ export const AudioCoverDialog = ({
       return;
     }
 
+    // Pre-validate for blocked artist names
+    const validation = validatePromptForGeneration(lyrics, style);
+    if (!validation.valid) {
+      toast.error(validation.error, {
+        description: validation.suggestion,
+      });
+      return;
+    }
+
     setLoading(true);
     try {
       // Convert file to base64
@@ -240,17 +250,7 @@ export const AudioCoverDialog = ({
       onOpenChange(false);
     } catch (error) {
       logger.error('Cover submit error', { error });
-      const errorMessage = error instanceof Error ? error.message : '';
-      
-      if (errorMessage.includes('INSUFFICIENT_CREDITS')) {
-        toast.error('Недостаточно кредитов');
-      } else if (errorMessage.includes('DURATION_LIMIT')) {
-        toast.error('Аудио слишком длинное для выбранной модели');
-      } else {
-        toast.error('Ошибка создания кавера', {
-          description: errorMessage || 'Попробуйте позже',
-        });
-      }
+      showGenerationError(error);
     } finally {
       setLoading(false);
     }
