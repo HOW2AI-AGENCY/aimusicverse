@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ChevronDown, Maximize2, ListMusic, Heart, Sparkles, Music2 } from 'lucide-react';
@@ -8,6 +8,7 @@ import { ProgressBar } from './ProgressBar';
 import { QueueSheet } from './QueueSheet';
 import { VersionSwitcher } from './VersionSwitcher';
 import { useTracks } from '@/hooks/useTracks';
+import { useGestures } from '@/hooks/useGestures';
 import type { Track } from '@/types/track';
 import { TooltipWrapper } from '@/components/tooltips';
 import { cn } from '@/lib/utils';
@@ -28,7 +29,8 @@ export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerPro
   const { toggleLike } = useTracks();
   const [queueOpen, setQueueOpen] = useState(false);
   const [isLiking, setIsLiking] = useState(false);
-  const { isPlaying, queue, preservedTime, clearPreservedTime, volume } = usePlayerStore();
+  const { isPlaying, queue, preservedTime, clearPreservedTime, volume, nextTrack, previousTrack } = usePlayerStore();
+  const lastTapRef = useRef<number>(0);
 
   const { currentTime, duration, buffered, seek } = useAudioTime();
   
@@ -87,12 +89,38 @@ export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerPro
     setTimeout(() => setIsLiking(false), 300);
   };
 
-  const handleDragEnd = (_event: PointerEvent | MouseEvent | TouchEvent, info: PanInfo) => {
+  const handleDragEnd = useCallback((_event: PointerEvent | MouseEvent | TouchEvent, info: PanInfo) => {
     if (info.offset.y > 50) {
       hapticImpact('light');
       onClose();
     }
-  };
+  }, [onClose]);
+
+  // Double tap on cover to maximize
+  const handleCoverDoubleTap = useCallback(() => {
+    const now = Date.now();
+    if (now - lastTapRef.current < 300) {
+      hapticImpact('medium');
+      onMaximize();
+      lastTapRef.current = 0;
+    } else {
+      lastTapRef.current = now;
+    }
+  }, [onMaximize]);
+
+  // Swipe gestures for track navigation
+  const { gestureHandlers } = useGestures({
+    onSwipeLeft: queue.length > 0 ? () => {
+      hapticImpact('light');
+      nextTrack();
+    } : undefined,
+    onSwipeRight: () => {
+      hapticImpact('light');
+      previousTrack();
+    },
+    onDoubleTap: handleCoverDoubleTap,
+    swipeThreshold: 60,
+  });
 
   return (
     <>
@@ -127,7 +155,10 @@ export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerPro
           />
         )}
 
-        <GlassCard className="p-4 sm:p-6 shadow-2xl rounded-2xl max-w-2xl mx-auto border-primary/20 relative overflow-hidden">
+        <GlassCard 
+          className="p-4 sm:p-6 shadow-2xl rounded-2xl max-w-2xl mx-auto border-primary/20 relative overflow-hidden"
+          {...gestureHandlers}
+        >
           {/* Animated particles */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             {[...Array(5)].map((_, i) => (
@@ -228,15 +259,12 @@ export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerPro
             </div>
           </div>
 
-          {/* Cover Art with enhanced glow effect */}
+          {/* Cover Art with enhanced glow effect - double tap to maximize */}
           <div className="flex justify-center mb-6">
             <motion.button
-              onClick={() => {
-                hapticImpact('medium');
-                onMaximize();
-              }}
+              onClick={handleCoverDoubleTap}
               className="relative group cursor-pointer"
-              aria-label="Expand to fullscreen"
+              aria-label="Double tap to expand to fullscreen"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -302,6 +330,16 @@ export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerPro
                   </motion.div>
                 )}
               </AnimatePresence>
+              
+              {/* Double tap hint */}
+              <motion.div
+                className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-black/50 backdrop-blur-sm px-2 py-0.5 rounded-full"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.7 }}
+                transition={{ delay: 2 }}
+              >
+                <span className="text-[9px] text-white/80">2x tap → fullscreen</span>
+              </motion.div>
             </motion.button>
           </div>
 
@@ -382,6 +420,18 @@ export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerPro
 
             <div className="w-11" />
           </div>
+          
+          {/* Swipe hints */}
+          <motion.div 
+            className="flex justify-center gap-4 text-[10px] text-muted-foreground/40"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 2 }}
+          >
+            <span>← prev</span>
+            <span>↓ close</span>
+            <span>next →</span>
+          </motion.div>
         </GlassCard>
       </motion.div>
 

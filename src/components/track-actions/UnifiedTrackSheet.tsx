@@ -12,7 +12,13 @@ import { QueueActionsSheet } from './sections/QueueActions';
 import { TrackDialogsPortal } from './TrackDialogsPortal';
 import { VersionsSection } from './sections/VersionsSection';
 import { QuickStemsButton } from './sections/QuickStemsButton';
+import { QuickActionsSection } from './sections/QuickActionsSection';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
+import { Button } from '@/components/ui/button';
+import { ChevronDown, MoreHorizontal } from 'lucide-react';
+import { useState } from 'react';
+import { motion, AnimatePresence } from '@/lib/motion';
 
 interface UnifiedTrackSheetProps {
   track: Track | null;
@@ -35,6 +41,8 @@ export function UnifiedTrackSheet({
   trackList,
   trackIndex 
 }: UnifiedTrackSheetProps) {
+  const [moreActionsOpen, setMoreActionsOpen] = useState(false);
+  
   // Telegram BackButton integration
   useTelegramBackButton({
     visible: open,
@@ -77,14 +85,23 @@ export function UnifiedTrackSheet({
             )}
           </SheetHeader>
           
-          <div className="mt-6 space-y-1">
+          {/* Quick Actions - horizontal scroll bar */}
+          <QuickActionsSection 
+            track={track} 
+            onClose={() => onOpenChange(false)}
+            onDownload={onDownload}
+          />
+
+          <Separator className="my-2" />
+          
+          <div className="space-y-1">
             {/* Quick Stems CTA - prominent button for new tracks */}
             <QuickStemsButton
               track={track}
               state={actionState}
               onAction={executeAction}
               isProcessing={isProcessing}
-              className="mb-4"
+              className="mb-3"
             />
 
             {/* Versions Section - if multiple versions exist */}
@@ -95,18 +112,7 @@ export function UnifiedTrackSheet({
               </>
             )}
 
-            {/* Info Actions */}
-            <InfoActions
-              track={track}
-              state={actionState}
-              onAction={executeAction}
-              variant="sheet"
-              isProcessing={isProcessing}
-            />
-
-            <Separator className="my-2" />
-
-            {/* Queue Actions */}
+            {/* Queue Actions - important for playback */}
             <QueueActionsSheet 
               track={track} 
               onAction={() => onOpenChange(false)}
@@ -115,24 +121,8 @@ export function UnifiedTrackSheet({
             />
 
             <Separator className="my-2" />
-            <DownloadActions
-              track={track}
-              state={actionState}
-              onAction={executeAction}
-              variant="sheet"
-              isProcessing={isProcessing}
-            />
 
-            {/* Share Actions */}
-            <ShareActions
-              track={track}
-              state={actionState}
-              onAction={executeAction}
-              variant="sheet"
-              isProcessing={isProcessing}
-            />
-
-            {/* Studio Actions */}
+            {/* Studio Actions - frequently used */}
             <StudioActions
               track={track}
               state={actionState}
@@ -141,7 +131,7 @@ export function UnifiedTrackSheet({
               isProcessing={isProcessing}
             />
 
-            {/* Create Actions */}
+            {/* Create Actions - frequently used */}
             <CreateActions
               track={track}
               state={actionState}
@@ -150,15 +140,76 @@ export function UnifiedTrackSheet({
               isProcessing={isProcessing}
             />
 
-            <Separator className="my-2" />
+            {/* More Actions - collapsible section for less common actions */}
+            <Collapsible open={moreActionsOpen} onOpenChange={setMoreActionsOpen}>
+              <CollapsibleTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className="w-full justify-between gap-3 h-12 mt-2"
+                >
+                  <div className="flex items-center gap-3">
+                    <MoreHorizontal className="w-5 h-5" />
+                    <span>Ещё действия</span>
+                  </div>
+                  <motion.div
+                    animate={{ rotate: moreActionsOpen ? 180 : 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <ChevronDown className="w-4 h-4" />
+                  </motion.div>
+                </Button>
+              </CollapsibleTrigger>
+              <AnimatePresence>
+                {moreActionsOpen && (
+                  <CollapsibleContent forceMount>
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="overflow-hidden pl-2 space-y-1 pt-1"
+                    >
+                      {/* Info Actions */}
+                      <InfoActions
+                        track={track}
+                        state={actionState}
+                        onAction={executeAction}
+                        variant="sheet"
+                        isProcessing={isProcessing}
+                      />
 
-            {/* Delete Actions */}
-            <DeleteActions
-              track={track}
-              state={actionState}
-              onAction={executeAction}
-              variant="sheet"
-            />
+                      {/* Download Actions */}
+                      <DownloadActions
+                        track={track}
+                        state={actionState}
+                        onAction={executeAction}
+                        variant="sheet"
+                        isProcessing={isProcessing}
+                      />
+
+                      {/* Share Actions */}
+                      <ShareActions
+                        track={track}
+                        state={actionState}
+                        onAction={executeAction}
+                        variant="sheet"
+                        isProcessing={isProcessing}
+                      />
+
+                      <Separator className="my-2" />
+
+                      {/* Delete Actions */}
+                      <DeleteActions
+                        track={track}
+                        state={actionState}
+                        onAction={executeAction}
+                        variant="sheet"
+                      />
+                    </motion.div>
+                  </CollapsibleContent>
+                )}
+              </AnimatePresence>
+            </Collapsible>
           </div>
         </SheetContent>
       </Sheet>
