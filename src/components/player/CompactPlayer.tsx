@@ -45,7 +45,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: 100, opacity: 0 }}
       transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-      className="fixed bottom-[calc(4rem+env(safe-area-inset-bottom,0px)+0.25rem)] left-0 right-0 z-40 px-2 sm:px-4"
+      className="fixed bottom-[calc(4.5rem+env(safe-area-inset-bottom,0px))] left-0 right-0 z-40 px-3 sm:px-4"
     >
       <motion.button
         onClick={handleExpand}
