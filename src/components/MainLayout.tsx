@@ -47,6 +47,13 @@ export const MainLayout = () => {
   // Memoize pathname to prevent unnecessary re-renders
   const pathname = useMemo(() => location.pathname, [location.pathname]);
   
+  // Pages that have their own bottom navigation/tabs - don't show global BottomNavigation
+  const hasOwnBottomNav = useMemo(() => {
+    return pathname.startsWith('/studio') || 
+           pathname.startsWith('/stem-studio') ||
+           pathname.startsWith('/project/') && pathname.includes('/studio');
+  }, [pathname]);
+  
   // Show Telegram Settings Button on all pages except /settings
   const showSettingsButton = pathname !== '/settings';
   useTelegramSettingsButton({ visible: showSettingsButton });
@@ -150,7 +157,7 @@ export const MainLayout = () => {
         </div>
         <ResizablePlayer />
       </main>
-      {!isDesktop && <BottomNavigation />}
+      {!isDesktop && !hasOwnBottomNav && <BottomNavigation />}
     </div>
     </div>
     </SmartAlertProvider>
