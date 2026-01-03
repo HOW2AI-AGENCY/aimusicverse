@@ -104,10 +104,16 @@ export function NotesViewerDialog({
     return [];
   }, [parsedMidi, transcription]);
 
-  // Notes for MusicXML visualization
+  // Notes for MusicXML visualization - convert to NoteInput format
   const xmlNotes = useMemo(() => {
     if (parsedXml?.notes) {
-      return parsedXml.notes;
+      return parsedXml.notes.map(n => ({
+        pitch: n.midiPitch ?? 60,
+        startTime: n.startTime,
+        duration: n.duration,
+        noteName: `${n.pitch}${n.octave}`,
+        velocity: 100,
+      }));
     }
     return [];
   }, [parsedXml]);

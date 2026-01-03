@@ -48,8 +48,8 @@ const trendItems: TrendItem[] = [
 ];
 
 function getTrendBadge(trend: number, isLowerBetter: boolean) {
-  const isImproving = isLowerBetter ? trend > 0 : trend < 0;
   const absTrend = Math.abs(trend);
+  const isImproving = trend > 0; // calculateTrend now returns positive for improvement
   
   if (absTrend < 1) {
     return (
@@ -170,7 +170,7 @@ export function MetricsTrend({ metrics, isLoading }: MetricsTrendProps) {
               <p className="text-2xl font-bold text-green-500">
                 {trendItems.filter(item => {
                   const trend = calculateTrend(metrics, item.key, item.isLowerBetter);
-                  return item.isLowerBetter ? trend > 1 : trend < -1;
+                  return trend > 1;
                 }).length}
               </p>
               <p className="text-xs text-muted-foreground">Improving</p>
@@ -188,7 +188,7 @@ export function MetricsTrend({ metrics, isLoading }: MetricsTrendProps) {
               <p className="text-2xl font-bold text-red-500">
                 {trendItems.filter(item => {
                   const trend = calculateTrend(metrics, item.key, item.isLowerBetter);
-                  return item.isLowerBetter ? trend < -1 : trend > 1;
+                  return trend < -1;
                 }).length}
               </p>
               <p className="text-xs text-muted-foreground">Declining</p>

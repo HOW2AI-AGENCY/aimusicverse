@@ -196,6 +196,18 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
     return parsedMidi?.notes ?? [];
   }, [providedNotes, parsedMidi]);
   
+  // Convert MusicXML notes to NoteInput format for visualization components
+  const xmlNotesConverted = useMemo((): NoteInput[] => {
+    if (!parsedXml?.notes?.length) return [];
+    return parsedXml.notes.map(n => ({
+      pitch: n.midiPitch ?? 60,
+      startTime: n.startTime,
+      duration: n.duration,
+      noteName: `${n.pitch}${n.octave}`,
+      velocity: 100,
+    }));
+  }, [parsedXml]);
+  
   const duration = providedDuration ?? parsedMidi?.duration ?? 60;
   const effectiveBpm = bpm ?? parsedMidi?.bpm ?? 120;
   
@@ -451,10 +463,10 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
                   <p className="text-sm text-muted-foreground text-center">Не удалось загрузить MusicXML</p>
                   <p className="text-xs text-muted-foreground/80 text-center">{musicXmlError}</p>
                 </div>
-              ) : (parsedXml?.notes?.length ?? 0) > 0 ? (
+              ) : xmlNotesConverted.length > 0 ? (
                 <StaffNotation
-                  notes={parsedXml!.notes}
-                  duration={parsedXml!.duration}
+                  notes={xmlNotesConverted}
+                  duration={parsedXml?.duration ?? duration}
                   bpm={parsedXml?.bpm ?? effectiveBpm}
                   timeSignature={parsedXml?.timeSignature ?? parsedTimeSignature}
                   keySignature={parsedXml?.keySignature ?? keySignature}

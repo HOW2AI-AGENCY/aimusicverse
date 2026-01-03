@@ -60,28 +60,28 @@ export function useAlertStats() {
       const yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000);
       const lastWeek = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
 
-      const { data: alerts24h } = await supabase
+      const { count: alerts24hCount } = await supabase
         .from('health_alerts')
         .select('id', { count: 'exact', head: true })
         .gte('created_at', yesterday.toISOString())
         .eq('is_test', false);
 
-      const { data: alertsWeek } = await supabase
+      const { count: alertsWeekCount } = await supabase
         .from('health_alerts')
         .select('id', { count: 'exact', head: true })
         .gte('created_at', lastWeek.toISOString())
         .eq('is_test', false);
 
-      const { count: unresolved } = await supabase
+      const { count: unresolvedCount } = await supabase
         .from('health_alerts')
         .select('id', { count: 'exact', head: true })
         .is('resolved_at', null)
         .eq('is_test', false);
 
       return {
-        alerts24h: alerts24h || 0,
-        alertsWeek: alertsWeek || 0,
-        unresolved: unresolved || 0,
+        alerts24h: alerts24hCount ?? 0,
+        alertsWeek: alertsWeekCount ?? 0,
+        unresolved: unresolvedCount ?? 0,
       };
     },
   });

@@ -43,6 +43,7 @@ export const PERFORMANCE_TARGETS = {
   tti: 3500,
   tbt: 400,
   bundleSize: 950,
+  bundleSizeGzip: 300, // Added missing target
   lighthousePerformance: 75,
   lighthouseAccessibility: 90,
   lighthouseBestPractices: 90,
@@ -64,18 +65,19 @@ export function getMetricStatus(value: number | null, target: number, isLowerBet
   }
 }
 
+// Returns a number (percentage) for trend calculation
 export function calculateTrend(
   metrics: PerformanceMetric[],
   key: keyof PerformanceMetric,
   isLowerBetter = true
-): { percentage: number; isPositive: boolean } {
-  if (metrics.length < 2) return { percentage: 0, isPositive: true };
+): number {
+  if (metrics.length < 2) return 0;
   const latest = metrics[0]?.[key] as number | null;
   const oldest = metrics[metrics.length - 1]?.[key] as number | null;
-  if (latest === null || oldest === null || oldest === 0) return { percentage: 0, isPositive: true };
+  if (latest === null || oldest === null || oldest === 0) return 0;
   const change = ((latest - oldest) / oldest) * 100;
-  const isPositive = isLowerBetter ? change < 0 : change > 0;
-  return { percentage: Math.abs(change), isPositive };
+  // Return positive for improvement, negative for decline
+  return isLowerBetter ? -change : change;
 }
 
 export function collectWebVitals(): Partial<PerformanceMetric> {
@@ -145,30 +147,24 @@ export function useAddPerformanceMetric() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['performance-metrics'] });
       queryClient.invalidateQueries({ queryKey: ['latest-performance-metric'] });
-      toast.success('Метрика записана');
+      toast.success('Metric recorded');
     },
     onError: (error) => {
-      toast.error('Ошибка записи метрики');
-      console.error('Performance metric error:', error);
+      toast.error(`Failed to record metric: ${error.message}`);
     },
   });
 }
 
-export function usePerformanceTrend(days = 7) {
-  return useQuery({
-    queryKey: ['performance-trend', days],
-    queryFn: async () => {
-      const startDate = new Date();
-      startDate.setDate(startDate.getDate() - days);
+export function usePerformanceTrend(key: keyof PerformanceMetric, limit = 30) {
+  const { data: metrics } = usePerformanceMetrics(limit);
+  
+  if (!metrics || metrics.length < 2) {
+    return { trend: 0, isPositive: true };
+  }
 
-      const { data, error } = await supabase
-        .from('performance_metrics')
-        .select('recorded_at, lcp_ms, fid_ms, cls, fcp_ms, lighthouse_performance')
-        .gte('recorded_at', startDate.toISOString())
-        .order('recorded_at', { ascending: true });
-
-      if (error) throw error;
-      return data || [];
-    },
-  });
+  const trend = calculateTrend(metrics, key);
+  return { 
+    trend, 
+    isPositive: trend > 0 
+  };
 }
