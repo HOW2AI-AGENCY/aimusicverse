@@ -99,13 +99,19 @@ export const LyricsSection = memo(function LyricsSection({
             onAIGenerate={onOpenLyricsAssistant}
           />
         ) : (
-          <Textarea
-            placeholder="Введите текст или используйте AI..."
-            value={lyrics}
-            onChange={(e) => onLyricsChange(e.target.value)}
-            rows={8}
-            className="text-sm min-h-[180px] max-h-[300px] overflow-y-auto whitespace-pre-wrap"
-          />
+          <div className="relative">
+            <Textarea
+              placeholder="Введите текст или используйте AI..."
+              value={lyrics}
+              onChange={(e) => onLyricsChange(e.target.value)}
+              rows={8}
+              className="text-sm min-h-[180px] max-h-[300px] overflow-y-auto whitespace-pre-wrap pb-6"
+            />
+            {/* Character count indicator */}
+            <div className="absolute bottom-2 right-2 text-[10px] text-muted-foreground bg-background/80 px-1.5 py-0.5 rounded">
+              {lyrics.length} / 3000
+            </div>
+          </div>
         )}
       </div>
 
