@@ -17,6 +17,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useAuth } from '@/hooks/useAuth';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { logger } from '@/lib/logger';
+import { validatePromptForGeneration, showGenerationError } from '@/lib/errorHandling';
 import { formatDuration } from '@/lib/player-utils';
 
 interface AudioExtendDialogProps {
@@ -167,6 +168,23 @@ export const AudioExtendDialog = ({
       return;
     }
 
+    // Pre-validate for blocked artist names
+    const validation = validatePromptForGeneration(lyrics, style);
+    if (!validation.valid) {
+      toast.error(validation.error, {
+        description: validation.suggestion,
+      });
+      return;
+    }
+
+    // Validate lyrics for extend mode (non-instrumental)
+    if (!instrumental && !lyrics.trim()) {
+      toast.error('Добавьте текст для продолжения', {
+        description: 'Укажите текст или выберите инструментальный режим',
+      });
+      return;
+    }
+
     setLoading(true);
     try {
       const reader = new FileReader();
@@ -212,15 +230,7 @@ export const AudioExtendDialog = ({
       onOpenChange(false);
     } catch (error) {
       logger.error('Extend submit error', { error });
-      const msg = error instanceof Error ? error.message : '';
-      
-      if (msg.includes('INSUFFICIENT_CREDITS')) {
-        toast.error('Недостаточно кредитов');
-      } else if (msg.includes('DURATION_LIMIT')) {
-        toast.error('Аудио слишком длинное');
-      } else {
-        toast.error('Ошибка', { description: msg || 'Попробуйте позже' });
-      }
+      showGenerationError(error);
     } finally {
       setLoading(false);
     }

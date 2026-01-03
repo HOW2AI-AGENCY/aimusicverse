@@ -8,6 +8,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Track } from '@/types/track';
 import { logger } from '@/lib/logger';
+import { validatePromptForGeneration, showGenerationError } from '@/lib/errorHandling';
 import { InlineLyricsEditor } from '@/components/common/InlineLyricsEditor';
 import { GenerationAdvancedSettings, GenerationSettings } from '@/components/common/GenerationAdvancedSettings';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -47,6 +48,15 @@ export const AddVocalsDialog = ({ open, onOpenChange, track }: AddVocalsDialogPr
 
     if (!lyrics.trim()) {
       toast.error('Добавьте текст песни');
+      return;
+    }
+
+    // Pre-validate for blocked artist names
+    const validation = validatePromptForGeneration(lyrics, style);
+    if (!validation.valid) {
+      toast.error(validation.error, {
+        description: validation.suggestion,
+      });
       return;
     }
 
@@ -103,9 +113,8 @@ export const AddVocalsDialog = ({ open, onOpenChange, track }: AddVocalsDialogPr
       }
     } catch (error) {
       logger.error('Add vocals error', { error });
-      const errorMessage = error instanceof Error ? error.message : 'Ошибка добавления вокала';
-      toast.error(errorMessage);
-      progress.setError(errorMessage);
+      showGenerationError(error);
+      progress.setError(error instanceof Error ? error.message : 'Ошибка добавления вокала');
     } finally {
       setLoading(false);
     }
