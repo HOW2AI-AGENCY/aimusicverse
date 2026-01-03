@@ -22,6 +22,7 @@ import { GenerateFormReferences } from './generate-form/GenerateFormReferences';
 import { GenerateFormSimple } from './generate-form/GenerateFormSimple';
 import { GenerateFormCustom } from './generate-form/GenerateFormCustom';
 import { GenerationLoadingState } from './generate-form/GenerationLoadingState';
+import { CollapsibleFormHeader } from './generate-form/CollapsibleFormHeader';
 
 // Dialogs
 import { AudioActionDialog } from './generate-form/AudioActionDialog';
@@ -72,6 +73,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   const [projectTrackStep, setProjectTrackStep] = useState<'project' | 'track'>('project');
   const [advancedOpen, setAdvancedOpen] = useState(false);
   const [closeConfirmOpen, setCloseConfirmOpen] = useState(false);
+  const [headerCollapsed, setHeaderCollapsed] = useState(false);
 
   // Form hook
   const form = useGenerateForm({
@@ -211,44 +213,49 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         onOpenChange(true);
       }
     }}>
-      <SheetContent side="bottom" className="h-[95vh] flex flex-col frost-sheet p-0">
-        {/* Header with centered logo and safe area for Telegram native buttons */}
+      <SheetContent side="bottom" className="h-[90vh] flex flex-col frost-sheet p-0">
+        {/* Collapsible Header with safe area for Telegram native buttons */}
         <div 
-          className="px-3 pb-2 border-b bg-background/95 backdrop-blur-xl"
+          className="px-3 border-b bg-background/95 backdrop-blur-xl"
           style={{ 
             paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.5rem), calc(env(safe-area-inset-top, 0px) + 0.5rem))' 
           }}
         >
-          {/* Centered Logo */}
-          <div className="flex justify-center mb-2">
-            <div className="flex flex-col items-center">
-              <img 
-                src={logo} 
-                alt="MusicVerse AI" 
-                className="h-10 w-10 rounded-xl shadow-md"
-              />
-              <span className="text-xs font-bold text-gradient mt-1">MusicVerse AI</span>
-            </div>
-          </div>
-          
-          {/* Form header row */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-primary" />
-              <h2 className="text-sm font-semibold">Создать трек</h2>
-            </div>
-            <GenerateFormHeaderCompact
-            userBalance={form.userBalance}
-            generationCost={form.generationCost}
-            canGenerate={form.canGenerate}
-            apiCredits={form.apiCredits}
+          <CollapsibleFormHeader
+            isCollapsed={headerCollapsed}
+            onToggle={() => setHeaderCollapsed(!headerCollapsed)}
+            balance={form.userBalance}
+            cost={form.generationCost}
             mode={form.mode}
-            onModeChange={form.setMode}
-            model={form.model}
-            onModelChange={form.setModel}
-              isAdmin={form.isAdmin}
-            />
-          </div>
+          />
+          
+          {/* Form header row - shown when expanded */}
+          <AnimatePresence>
+            {!headerCollapsed && (
+              <motion.div 
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="flex items-center justify-between pb-2 overflow-hidden"
+              >
+                <div className="flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-primary" />
+                  <h2 className="text-sm font-semibold">Создать трек</h2>
+                </div>
+                <GenerateFormHeaderCompact
+                  userBalance={form.userBalance}
+                  generationCost={form.generationCost}
+                  canGenerate={form.canGenerate}
+                  apiCredits={form.apiCredits}
+                  mode={form.mode}
+                  onModeChange={form.setMode}
+                  model={form.model}
+                  onModelChange={form.setModel}
+                  isAdmin={form.isAdmin}
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         {/* Loading Overlay */}

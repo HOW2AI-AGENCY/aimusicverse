@@ -18,6 +18,7 @@ import { useSyncStaleTasks, useActiveGenerations } from "@/hooks/generation";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTrackCounts } from "@/hooks/useTrackCounts";
 import { LibraryFilterChips } from "@/components/library/LibraryFilterChips";
+import { CompactFilterBar } from "@/components/library/CompactFilterBar";
 import { VirtualizedTrackList } from "@/components/library/VirtualizedTrackList";
 import { EmptyLibraryState } from "@/components/library/EmptyLibraryState";
 import { logger } from "@/lib/logger";
@@ -356,42 +357,55 @@ export default function Library() {
           }
         />
 
-        {/* Search and Filters */}
+        {/* Compact Search and Filters - Mobile Optimized */}
         <div className="sticky top-[calc(var(--tg-content-safe-area-inset-top,0px)+8rem)] z-20 bg-background/95 backdrop-blur-sm border-b border-border/30 -mx-4 px-4 py-2">
-          <div className="flex flex-col sm:flex-row gap-1.5">
-            <div className="relative flex-1 group">
-              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground w-3.5 h-3.5 group-focus-within:text-primary" />
-              <Input
-                placeholder="Поиск..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-8 h-8 text-xs rounded-md border-border/50 bg-card/50 focus:bg-card"
+          {isMobile ? (
+            <CompactFilterBar
+              searchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
+              activeFilter={typeFilter}
+              onFilterChange={setTypeFilter}
+              sortBy={sortBy}
+              onSortChange={setSortBy}
+              counts={filterCounts}
+            />
+          ) : (
+            <div className="flex flex-col gap-2">
+              <div className="flex gap-2">
+                <div className="relative flex-1 group">
+                  <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground w-3.5 h-3.5 group-focus-within:text-primary" />
+                  <Input
+                    placeholder="Поиск..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-8 h-8 text-xs rounded-md border-border/50 bg-card/50 focus:bg-card"
+                  />
+                </div>
+                <Select value={sortBy} onValueChange={(v: "recent" | "popular" | "liked") => setSortBy(v)}>
+                  <SelectTrigger className="w-32 h-8 text-[11px] rounded-md border-border/50 bg-card/50">
+                    <SlidersHorizontal className="w-3 h-3 mr-1 text-muted-foreground" />
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-md">
+                    <SelectItem value="recent" className="text-xs">Недавние</SelectItem>
+                    <SelectItem value="popular" className="text-xs">Популярные</SelectItem>
+                    <SelectItem value="liked" className="text-xs">Любимые</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <LibraryFilterChips 
+                activeFilter={typeFilter} 
+                onFilterChange={setTypeFilter}
+                counts={filterCounts}
               />
             </div>
-            <Select value={sortBy} onValueChange={(v: "recent" | "popular" | "liked") => setSortBy(v)}>
-              <SelectTrigger className="w-full sm:w-32 h-8 text-[11px] rounded-md border-border/50 bg-card/50">
-                <SlidersHorizontal className="w-3 h-3 mr-1 text-muted-foreground" />
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent className="rounded-md">
-                <SelectItem value="recent" className="text-xs">Недавние</SelectItem>
-                <SelectItem value="popular" className="text-xs">Популярные</SelectItem>
-                <SelectItem value="liked" className="text-xs">Любимые</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+          )}
         </div>
 
         {/* Content */}
         <div className="py-2 sm:py-3">
-          {/* Filter Chips - Mobile optimized */}
-          <div className="mb-2">
-            <LibraryFilterChips 
-              activeFilter={typeFilter} 
-              onFilterChange={setTypeFilter}
-              counts={filterCounts}
-            />
-          </div>
+          {/* Filter Chips - Only show on desktop since mobile uses CompactFilterBar */}
+          {!isMobile && <div className="mb-2" />}
 
           {/* Active Generations Section */}
           {hasActiveGenerations && (
