@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { FullscreenPlayer } from './FullscreenPlayer';
 import { ExpandedPlayer } from './player/ExpandedPlayer';
+import { CompactPlayer } from './player/CompactPlayer';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { useMasterVersion } from '@/hooks/useTrackVersions';
 import { getGlobalAudioRef } from '@/hooks/audio/useAudioTime';
@@ -49,6 +50,11 @@ export const ResizablePlayer = () => {
     return () => clearTimeout(timer);
   }, [playerMode, activeTrack, volume]);
 
+  const handleExpand = useCallback(() => {
+    preserveCurrentTime();
+    setPlayerMode('expanded');
+  }, [preserveCurrentTime, setPlayerMode]);
+
   const handleMaximize = useCallback(() => {
     preserveCurrentTime();
     setPlayerMode('fullscreen');
@@ -63,10 +69,19 @@ export const ResizablePlayer = () => {
     return null;
   }
 
-  // Compact and expanded modes now both use ExpandedPlayer (CompactPlayer removed)
   return (
     <AnimatePresence mode="wait">
-      {(playerMode === 'compact' || playerMode === 'expanded') && (
+      {/* Compact mode - minimal bottom bar */}
+      {playerMode === 'compact' && (
+        <CompactPlayer
+          key="compact"
+          track={activeTrack}
+          onExpand={handleExpand}
+        />
+      )}
+      
+      {/* Expanded mode - medium overlay card */}
+      {playerMode === 'expanded' && (
         <ExpandedPlayer
           key="expanded"
           track={activeTrack}
@@ -74,6 +89,8 @@ export const ResizablePlayer = () => {
           onMaximize={handleMaximize}
         />
       )}
+      
+      {/* Fullscreen mode */}
       {playerMode === 'fullscreen' && (
         <FullscreenPlayer
           key="fullscreen"
