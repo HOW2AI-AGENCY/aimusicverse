@@ -5,7 +5,9 @@ import { cn } from '@/lib/utils';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { useAuth } from '@/hooks/useAuth';
+import { useActiveGenerations } from '@/hooks/generation/useActiveGenerations';
 import { MoreMenuSheet } from './navigation/MoreMenuSheet';
+import { Badge } from '@/components/ui/badge';
 
 // Lazy load heavy sheet component
 const GenerateSheet = lazy(() => import('./GenerateSheet').then(m => ({ default: m.GenerateSheet })));
@@ -27,6 +29,8 @@ export const BottomNavigation = memo(function BottomNavigation() {
   const { user } = useAuth();
   const [generateOpen, setGenerateOpen] = useState(false);
   const [moreMenuOpen, setMoreMenuOpen] = useState(false);
+  const { data: activeGenerations = [] } = useActiveGenerations();
+  const activeGenCount = activeGenerations.length;
 
   const handleNavigate = (path: string) => {
     hapticFeedback('light');
@@ -67,7 +71,10 @@ export const BottomNavigation = memo(function BottomNavigation() {
                 <motion.button
                   key={item.path}
                   onClick={handleGenerateClick}
-                  className="relative flex items-center justify-center w-11 h-11 -my-1 rounded-full bg-gradient-to-br from-primary to-generate shadow-md shadow-primary/25 fab touch-scale-md touch-manipulation group"
+                  className={cn(
+                    "relative flex items-center justify-center w-11 h-11 -my-1 rounded-full bg-gradient-to-br from-primary to-generate shadow-md shadow-primary/25 fab touch-scale-md touch-manipulation group",
+                    activeGenCount > 0 && "ring-2 ring-primary/50 ring-offset-2 ring-offset-background"
+                  )}
                   whileTap={{ scale: 0.92 }}
                   whileHover={{ scale: 1.05 }}
                   aria-label={item.label}
@@ -76,7 +83,44 @@ export const BottomNavigation = memo(function BottomNavigation() {
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 0.1 + index * 0.05 }}
                 >
+                  {/* Pulsing ring when generations are active */}
+                  <AnimatePresence>
+                    {activeGenCount > 0 && (
+                      <motion.div
+                        className="absolute inset-0 rounded-full bg-primary/30"
+                        initial={{ scale: 1, opacity: 0.5 }}
+                        animate={{ 
+                          scale: [1, 1.4, 1.4],
+                          opacity: [0.5, 0, 0]
+                        }}
+                        transition={{
+                          duration: 1.5,
+                          repeat: Infinity,
+                          ease: 'easeOut'
+                        }}
+                      />
+                    )}
+                  </AnimatePresence>
+
                   <Plus className="w-4.5 h-4.5 text-primary-foreground relative z-10" />
+                  
+                  {/* Active generations badge */}
+                  <AnimatePresence>
+                    {activeGenCount > 0 && (
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        exit={{ scale: 0 }}
+                        className="absolute -top-1 -right-1 z-20"
+                      >
+                        <Badge 
+                          className="h-5 min-w-5 px-1 text-[10px] bg-destructive text-destructive-foreground border-2 border-background shadow-sm"
+                        >
+                          {activeGenCount > 9 ? '9+' : activeGenCount}
+                        </Badge>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </motion.button>
               );
             }

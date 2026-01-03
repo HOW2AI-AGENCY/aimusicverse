@@ -1,24 +1,24 @@
 /**
  * MoreMenuSheet - Expandable menu for additional navigation items
- * Phase 1: Mobile navigation optimization
+ * Phase 1: Mobile navigation optimization with search, quick actions, collapsible sections
  */
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   User, Settings, Music2, Guitar, FileText, 
   Users, BookOpen, Gift, BarChart3, Sparkles,
-  Palette, Shield, Grid3X3, MessageSquare, Flag
+  Shield, Grid3X3, MessageSquare, Flag
 } from 'lucide-react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/hooks/useAuth';
 import { useUserRole } from '@/hooks/useUserRole';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { motion } from '@/lib/motion';
-import { cn } from '@/lib/utils';
+import { QuickActionsBar } from './QuickActionsBar';
+import { CollapsibleMenuSection } from './CollapsibleMenuSection';
+import { MenuSearch } from './MenuSearch';
 
 interface MoreMenuSheetProps {
   open: boolean;
@@ -31,52 +31,52 @@ interface MenuItem {
   label: string;
   badge?: string;
   description?: string;
+  section?: string;
 }
 
 interface MenuSection {
+  id: string;
   title: string;
   icon: React.ComponentType<{ className?: string }>;
   items: MenuItem[];
+  defaultExpanded?: boolean;
 }
 
 const menuSections: MenuSection[] = [
   {
+    id: 'studios',
     title: 'Студии',
     icon: Sparkles,
+    defaultExpanded: true,
     items: [
-      { path: '/music-lab', icon: Music2, label: 'Music Lab', description: 'Все инструменты' },
-      { path: '/creative-tools/guitar', icon: Guitar, label: 'Guitar Studio', description: 'Запись гитары' },
-      { path: '/creative-tools/lyrics', icon: FileText, label: 'Lyrics Studio', description: 'Текст песен' },
+      { path: '/music-lab', icon: Music2, label: 'Music Lab', description: 'Все инструменты', section: 'Студии' },
+      { path: '/creative-tools/guitar', icon: Guitar, label: 'Guitar Studio', description: 'Запись гитары', section: 'Студии' },
+      { path: '/creative-tools/lyrics', icon: FileText, label: 'Lyrics Studio', description: 'Текст песен', section: 'Студии' },
     ],
   },
   {
+    id: 'community',
     title: 'Сообщество',
     icon: Users,
+    defaultExpanded: false,
     items: [
-      { path: '/blog', icon: BookOpen, label: 'Блог', description: 'Новости и статьи' },
-      { path: '/artists', icon: Users, label: 'Авторы', description: 'ИИ-персоны' },
-    ],
-  },
-  {
-    title: 'Аккаунт',
-    icon: User,
-    items: [
-      { path: '__profile__', icon: User, label: 'Мой профиль', description: 'Ваша страница' },
-      { path: '/rewards', icon: Gift, label: 'Награды', badge: 'Бонус', description: 'Ежедневные бонусы' },
-      { path: '/settings', icon: Settings, label: 'Настройки', description: 'Параметры' },
+      { path: '/blog', icon: BookOpen, label: 'Блог', description: 'Новости и статьи', section: 'Сообщество' },
+      { path: '/artists', icon: Users, label: 'Авторы', description: 'ИИ-персоны', section: 'Сообщество' },
     ],
   },
 ];
 
 // Admin section - separate from profile, shown prominently to admins
 const adminSection: MenuSection = {
+  id: 'admin',
   title: 'Администрирование',
   icon: Shield,
+  defaultExpanded: false,
   items: [
-    { path: '/admin', icon: Shield, label: 'Админ панель', badge: 'Admin', description: 'Управление' },
-    { path: '/admin/moderation', icon: Flag, label: 'Модерация', description: 'Контент' },
-    { path: '/admin/analytics', icon: BarChart3, label: 'Аналитика', description: 'Статистика' },
-    { path: '/admin/feedback', icon: MessageSquare, label: 'Обратная связь', description: 'Отзывы' },
+    { path: '/admin', icon: Shield, label: 'Админ панель', badge: 'Admin', description: 'Управление', section: 'Администрирование' },
+    { path: '/admin/moderation', icon: Flag, label: 'Модерация', description: 'Контент', section: 'Администрирование' },
+    { path: '/admin/analytics', icon: BarChart3, label: 'Аналитика', description: 'Статистика', section: 'Администрирование' },
+    { path: '/admin/feedback', icon: MessageSquare, label: 'Обратная связь', description: 'Отзывы', section: 'Администрирование' },
   ],
 };
 
@@ -84,12 +84,16 @@ export function MoreMenuSheet({ open, onOpenChange }: MoreMenuSheetProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAuth();
-  const { isAdmin, isLoading: rolesLoading } = useUserRole();
+  const { isAdmin } = useUserRole();
   const { hapticFeedback } = useTelegram();
   
   // Build sections list with admin section if user is admin
-  // Also add admin section if still loading to prevent flash
   const allSections = isAdmin ? [...menuSections, adminSection] : menuSections;
+
+  // Flatten all items for search
+  const allItems = useMemo(() => {
+    return allSections.flatMap(section => section.items);
+  }, [allSections]);
 
   const handleNavigate = (path: string) => {
     hapticFeedback?.('light');
@@ -124,68 +128,42 @@ export function MoreMenuSheet({ open, onOpenChange }: MoreMenuSheetProps) {
         </SheetHeader>
 
         <div className="space-y-4 pt-2">
+          {/* Search */}
+          <MenuSearch 
+            items={allItems} 
+            onNavigate={handleNavigate}
+            isActive={isActive}
+          />
+
+          {/* Quick Actions Bar */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <QuickActionsBar onClose={() => onOpenChange(false)} />
+          </motion.div>
+
+          <Separator />
+
+          {/* Collapsible Sections */}
           {allSections.map((section, sectionIndex) => (
             <motion.div
-              key={section.title}
+              key={section.id}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: sectionIndex * 0.05 }}
             >
-              {/* Section Header */}
-              <div className="flex items-center gap-2 mb-2 px-1">
-                <section.icon className="w-4 h-4 text-muted-foreground" />
-                <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                  {section.title}
-                </span>
-              </div>
-
-              {/* Section Items */}
-              <div className="grid gap-1">
-                {section.items.map((item, itemIndex) => (
-                  <motion.div
-                    key={item.path}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: sectionIndex * 0.05 + itemIndex * 0.03 }}
-                  >
-                    <Button
-                      variant={isActive(item.path) ? 'secondary' : 'ghost'}
-                      className={cn(
-                        "w-full justify-start h-auto py-3 px-3 gap-3",
-                        isActive(item.path) && "bg-primary/10 text-primary border border-primary/20"
-                      )}
-                      onClick={() => handleNavigate(item.path)}
-                    >
-                      <div className={cn(
-                        "p-2 rounded-lg",
-                        isActive(item.path) 
-                          ? "bg-primary/20" 
-                          : "bg-muted"
-                      )}>
-                        <item.icon className="w-4 h-4" />
-                      </div>
-                      <div className="flex-1 text-left">
-                        <div className="flex items-center gap-2">
-                          <span className="font-medium">{item.label}</span>
-                          {item.badge && (
-                            <Badge variant="secondary" className="text-[10px] px-1.5 py-0 h-4 bg-primary/20 text-primary border-0">
-                              {item.badge}
-                            </Badge>
-                          )}
-                        </div>
-                        {item.description && (
-                          <span className="text-xs text-muted-foreground">
-                            {item.description}
-                          </span>
-                        )}
-                      </div>
-                    </Button>
-                  </motion.div>
-                ))}
-              </div>
+              <CollapsibleMenuSection
+                title={section.title}
+                icon={section.icon}
+                items={section.items}
+                isActive={isActive}
+                onNavigate={handleNavigate}
+                defaultExpanded={section.defaultExpanded}
+              />
 
               {sectionIndex < allSections.length - 1 && (
-                <Separator className="mt-4" />
+                <Separator className="mt-3" />
               )}
             </motion.div>
           ))}

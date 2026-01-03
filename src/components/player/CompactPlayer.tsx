@@ -1,12 +1,13 @@
 /**
  * CompactPlayer - Minimal bottom bar player for quick access
- * Shows track info, play/pause, and expand button
+ * Enhanced with swipe gestures and next track button
  */
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
-import { Play, Pause, ChevronUp, Music2 } from 'lucide-react';
+import { Play, Pause, ChevronUp, Music2, SkipForward } from 'lucide-react';
 import { useAudioTime } from '@/hooks/audio/useAudioTime';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { useGestures } from '@/hooks/useGestures';
 import type { Track } from '@/types/track';
 import { cn } from '@/lib/utils';
 import { motion } from '@/lib/motion';
@@ -18,13 +19,14 @@ interface CompactPlayerProps {
 }
 
 export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: CompactPlayerProps) {
-  const { isPlaying, playTrack, pauseTrack } = usePlayerStore();
+  const { isPlaying, playTrack, pauseTrack, nextTrack, queue } = usePlayerStore();
   const { currentTime, duration } = useAudioTime();
   
   // Calculate progress percentage
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
+  const hasNextTrack = queue.length > 0;
 
-  const handlePlayPause = (e: React.MouseEvent) => {
+  const handlePlayPause = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
     hapticImpact('light');
     if (isPlaying) {
@@ -32,12 +34,25 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
     } else {
       playTrack();
     }
-  };
+  }, [isPlaying, playTrack, pauseTrack]);
 
-  const handleExpand = () => {
+  const handleNextTrack = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    hapticImpact('light');
+    nextTrack();
+  }, [nextTrack]);
+
+  const handleExpand = useCallback(() => {
     hapticImpact('light');
     onExpand();
-  };
+  }, [onExpand]);
+
+  // Swipe gesture handlers
+  const { gestureHandlers } = useGestures({
+    onSwipeUp: handleExpand,
+    onSwipeLeft: hasNextTrack ? nextTrack : undefined,
+    swipeThreshold: 40,
+  });
 
   return (
     <motion.div
@@ -46,14 +61,15 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
       exit={{ y: 100, opacity: 0 }}
       transition={{ type: 'spring', stiffness: 300, damping: 30 }}
       className="fixed bottom-[calc(4.5rem+env(safe-area-inset-bottom,0px))] left-0 right-0 z-40 px-3 sm:px-4"
+      {...gestureHandlers}
     >
-      <motion.button
+      <motion.div
         onClick={handleExpand}
         className={cn(
           "w-full max-w-2xl mx-auto",
           "bg-card/95 backdrop-blur-xl border border-border/50 rounded-2xl",
           "shadow-lg shadow-black/10",
-          "flex items-center gap-3 p-3 pr-4",
+          "flex items-center gap-3 p-3 pr-2",
           "touch-manipulation cursor-pointer",
           "hover:bg-card/100 transition-colors"
         )}
@@ -117,24 +133,50 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
           </p>
         </div>
 
-        {/* Play/Pause button */}
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={handlePlayPause}
-          className="h-10 w-10 rounded-full bg-primary/10 hover:bg-primary/20 flex-shrink-0"
-          aria-label={isPlaying ? 'Pause' : 'Play'}
-        >
-          {isPlaying ? (
-            <Pause className="h-4 w-4" fill="currentColor" />
-          ) : (
-            <Play className="h-4 w-4 ml-0.5" fill="currentColor" />
-          )}
-        </Button>
+        {/* Controls */}
+        <div className="flex items-center gap-1 flex-shrink-0">
+          {/* Play/Pause button */}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={handlePlayPause}
+            className="h-10 w-10 rounded-full bg-primary/10 hover:bg-primary/20"
+            aria-label={isPlaying ? 'Pause' : 'Play'}
+          >
+            {isPlaying ? (
+              <Pause className="h-4 w-4" fill="currentColor" />
+            ) : (
+              <Play className="h-4 w-4 ml-0.5" fill="currentColor" />
+            )}
+          </Button>
 
-        {/* Expand indicator */}
-        <ChevronUp className="w-4 h-4 text-muted-foreground flex-shrink-0" />
-      </motion.button>
+          {/* Next track button - only show if queue has tracks */}
+          {hasNextTrack && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleNextTrack}
+              className="h-9 w-9 rounded-full hover:bg-muted/50"
+              aria-label="Next track"
+            >
+              <SkipForward className="h-4 w-4" />
+            </Button>
+          )}
+
+          {/* Expand indicator */}
+          <ChevronUp className="w-4 h-4 text-muted-foreground flex-shrink-0 ml-1" />
+        </div>
+      </motion.div>
+      
+      {/* Swipe hint - subtle indicator */}
+      <motion.div 
+        className="flex justify-center mt-1"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.5 }}
+        transition={{ delay: 1 }}
+      >
+        <span className="text-[10px] text-muted-foreground/50">↑ свайп вверх</span>
+      </motion.div>
     </motion.div>
   );
 });
