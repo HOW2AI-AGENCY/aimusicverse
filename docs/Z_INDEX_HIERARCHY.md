@@ -10,12 +10,12 @@ This document defines the z-index hierarchy used across the MusicVerse AI applic
 |-------|---------|-----------------|----------|
 | **Base Content** | z-10 | Regular page content, cards, lists | Track cards, content grids |
 | **Sidebar/Background** | z-40 | Background UI elements | Sidebar, persistent navigation |
-| **Navigation** | z-50 | Bottom navigation bar | `BottomNavigation` (island-nav), Base `Sheet` components |
-| **Contextual Hints** | z-[70] | Smart hints, tooltips | `ContextualHint` component |
-| **Dialogs/Sheets** | z-[80] | Modal dialogs, bottom sheets | Dialog overlays, Sheet modals |
+| **Navigation** | z-50 | Bottom navigation bar | `BottomNavigation` (island-nav) |
+| **Contextual Hints** | z-[70] | Smart hints, tooltips | `ContextualHint`, `TooltipContent`, `InteractiveTooltip` |
+| **Dialogs/Sheets** | z-[80] | Modal dialogs, bottom sheets | `Dialog`, `Sheet`, `AlertDialog` overlays and content |
 | **Fullscreen Overlays** | z-[90] | Major fullscreen experiences | `MobileFullscreenPlayer`, `SectionEditorMobile` |
-| **System Notifications** | z-[100] | Critical system messages | `GlobalGenerationIndicator`, `EnhancedGenerationIndicator`, `Toast`, `OnboardingOverlay`, `UnifiedAnnouncement`, Gamification overlays |
-| **Dropdown Menus** | z-[9999]+ | Temporary floating menus | `DropdownMenuSubContent` |
+| **System Notifications** | z-[100] | Critical system messages | `Sonner` toasts, `GamificationOnboarding`, `OnboardingOverlay`, `TelegramOnboarding`, `UnifiedAnnouncement` |
+| **Dropdown/Popover Menus** | z-[9999] | Temporary floating menus | `DropdownMenuContent`, `ContextMenuContent`, `SelectContent`, `PopoverContent` |
 
 ### Implementation Details
 
