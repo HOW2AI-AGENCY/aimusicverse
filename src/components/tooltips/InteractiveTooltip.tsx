@@ -145,11 +145,11 @@ export function InteractiveTooltip({
           exit={{ opacity: 0, scale: 0.9 }}
           style={{
             position: 'fixed',
-            top: tooltipPosition.top,
-            left: tooltipPosition.left,
-            zIndex: 9999,
+            top: Math.max(16, tooltipPosition.top),
+            left: Math.max(8, Math.min(tooltipPosition.left, window.innerWidth - 264)),
+            zIndex: 70, // z-[70] per Z_INDEX_HIERARCHY.md for tooltips
           }}
-          className="w-64 p-3 rounded-xl bg-primary text-primary-foreground shadow-xl"
+          className="w-64 max-w-[calc(100vw-1rem)] p-3 rounded-xl bg-primary text-primary-foreground shadow-xl"
         >
           {/* Arrow */}
           <div 
