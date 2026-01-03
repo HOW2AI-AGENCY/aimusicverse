@@ -106,6 +106,16 @@ const ERROR_CODE_MESSAGES: Record<string, { title: string; description: string; 
     description: 'Добавьте текст для продолжения трека или используйте инструментальный режим.',
     canRetry: false,
   },
+  EXISTING_WORK_MATCHED: {
+    title: 'Защищённый контент',
+    description: 'Загруженное аудио соответствует существующему произведению. Используйте другой файл.',
+    canRetry: false,
+  },
+  COVER_PROTECTED_CONTENT: {
+    title: 'Аудио защищено авторским правом',
+    description: 'Этот файл содержит защищённую музыку. Попробуйте загрузить оригинальную запись.',
+    canRetry: false,
+  },
 };
 
 /**
@@ -150,10 +160,12 @@ export function showGenerationError(error: unknown): void {
     { match: (msg) => msg.includes('rate limit') || msg.includes('too many'), code: 'RATE_LIMIT' },
     { match: (msg) => msg.includes('audio generation failed'), code: 'AUDIO_GENERATION_FAILED' },
     { match: (msg) => msg.includes('internal error') || msg.includes('please try again later'), code: 'INTERNAL_ERROR' },
-    { match: (msg) => msg.includes("can't fetch") || msg.includes('cannot fetch') || msg.includes('uploaded audio'), code: 'AUDIO_FETCH_FAILED' },
+    { match: (msg) => msg.includes("can't fetch") || msg.includes('cannot fetch'), code: 'AUDIO_FETCH_FAILED' },
     { match: (msg) => msg.includes("can't parse") || msg.includes('source is corrupted'), code: 'AUDIO_PARSE_FAILED' },
-    { match: (msg) => msg.includes('extending lyrics empty') || msg.includes('lyrics malformed'), code: 'EXTEND_LYRICS_EMPTY' },
+    { match: (msg) => msg.includes('extending lyrics empty') || msg.includes('lyrics malformed') || msg.includes('too short, or malformed'), code: 'EXTEND_LYRICS_EMPTY' },
     { match: (msg) => msg.includes('artist name') || msg.includes("don't reference specific artists"), code: 'ARTIST_NAME_NOT_ALLOWED' },
+    { match: (msg) => msg.includes('matches existing work') || msg.includes('existing work of art'), code: 'EXISTING_WORK_MATCHED' },
+    { match: (msg) => msg.includes('uploaded audio') && msg.includes('protected'), code: 'COVER_PROTECTED_CONTENT' },
   ];
 
   for (const pattern of patterns) {
@@ -277,6 +289,59 @@ export function getRecoveryAction(error: unknown): {
         strategy: RecoveryStrategy.NONE,
       };
   }
+}
+
+/**
+ * Common artist names that Suno API blocks
+ * This is a subset - the API may block more
+ */
+const BLOCKED_ARTIST_PATTERNS = [
+  // English artists
+  /\b(taylor swift|ed sheeran|drake|beyonce|eminem|kanye|ariana grande|billie eilish|rihanna|justin bieber|lady gaga|katy perry|bruno mars|post malone|dua lipa|the weeknd|adele|coldplay|maroon 5|imagine dragons|bts|blackpink|twice|red velvet)\b/i,
+  // Russian artists  
+  /\b(моргенштерн|morgenshtern|тимати|timati|баста|basta|oxxxymiron|оксимирон|егор крид|егоркрид|egor creed|хаски|husky|скриптонит|scriptonite|фейс|pharaoh|фараон|miyagi|мияги|джизус|jah khalib|джах халиб|matrang|макс корж|max korzh|noize mc|нойз мс)\b/i,
+];
+
+/**
+ * Check if prompt contains blocked artist names
+ * Returns the matched artist name or null
+ */
+export function checkForBlockedArtists(text: string): string | null {
+  if (!text) return null;
+  
+  const lowerText = text.toLowerCase();
+  
+  for (const pattern of BLOCKED_ARTIST_PATTERNS) {
+    const match = lowerText.match(pattern);
+    if (match) {
+      return match[0];
+    }
+  }
+  
+  return null;
+}
+
+/**
+ * Validate prompt before generation
+ * Returns error message or null if valid
+ */
+export function validatePromptForGeneration(prompt: string, style?: string): {
+  valid: boolean;
+  error?: string;
+  suggestion?: string;
+} {
+  const textToCheck = `${prompt} ${style || ''}`;
+  
+  const blockedArtist = checkForBlockedArtists(textToCheck);
+  if (blockedArtist) {
+    return {
+      valid: false,
+      error: `Нельзя использовать имя "${blockedArtist}"`,
+      suggestion: 'Опишите желаемый стиль без упоминания конкретных артистов',
+    };
+  }
+  
+  return { valid: true };
 }
 
 /**

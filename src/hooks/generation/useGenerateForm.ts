@@ -17,7 +17,7 @@ import {
   DEFAULT_WEIRDNESS,
   DEFAULT_AUDIO_WEIGHT 
 } from '@/constants/generationConstants';
-import { showGenerationError } from '@/lib/errorHandling';
+import { showGenerationError, validatePromptForGeneration } from '@/lib/errorHandling';
 import { useAnalyticsTracking } from '@/hooks/useAnalyticsTracking';
 import { generationAnalytics, startTimer } from '@/lib/telemetry';
 // GenerationProvider type removed - only Suno is used
@@ -538,6 +538,16 @@ export function useGenerateForm({
 
     if (mode === 'custom' && hasVocals && !lyrics) {
       toast.error('Добавьте лирику или отключите вокал');
+      return;
+    }
+
+    // Pre-validate prompt for blocked artist names
+    const textToValidate = mode === 'simple' ? description : lyrics;
+    const promptValidation = validatePromptForGeneration(textToValidate, style);
+    if (!promptValidation.valid) {
+      toast.error(promptValidation.error, {
+        description: promptValidation.suggestion,
+      });
       return;
     }
 
