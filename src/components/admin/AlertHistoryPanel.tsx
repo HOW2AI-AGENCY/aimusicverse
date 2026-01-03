@@ -151,14 +151,14 @@ export function AlertHistoryPanel() {
                               )}
                             </div>
                             
-                            {alert.unhealthy_services?.length > 0 && (
+                            {(alert.unhealthy_services?.length ?? 0) > 0 && (
                               <div className="text-sm text-red-500">
-                                ❌ {alert.unhealthy_services.join(', ')}
+                                ❌ {alert.unhealthy_services?.join(', ')}
                               </div>
                             )}
-                            {alert.degraded_services?.length > 0 && (
+                            {(alert.degraded_services?.length ?? 0) > 0 && (
                               <div className="text-sm text-yellow-500">
-                                ⚠️ {alert.degraded_services.join(', ')}
+                                ⚠️ {alert.degraded_services?.join(', ')}
                               </div>
                             )}
                             
