@@ -113,10 +113,18 @@ export function useUnifiedStudio(options: UseUnifiedStudioOptions): UnifiedStudi
     
     // Sort tracks: vocals first, then by type priority
     const typeOrder: Record<string, number> = {
+      // Vocals always first (priority 0-1)
       vocal: 0,
       vocals: 0,
+      voice: 0,
+      lead_vocal: 0,
+      main_vocal: 0,
       backing_vocals: 1,
+      backing_vocal: 1,
+      harmonies: 1,
+      // Instrumental next
       instrumental: 2,
+      // Then by instrument
       drums: 3,
       bass: 4,
       guitar: 5,
@@ -134,8 +142,25 @@ export function useUnifiedStudio(options: UseUnifiedStudioOptions): UnifiedStudi
     };
     
     return [...rawTracks].sort((a, b) => {
-      const orderA = typeOrder[a.type] ?? 99;
-      const orderB = typeOrder[b.type] ?? 99;
+      // Check both type and stemType (some tracks may use stemType)
+      const typeA = (a as any).stemType || a.type || 'other';
+      const typeB = (b as any).stemType || b.type || 'other';
+      
+      // Normalize to lowercase
+      const normalizedA = typeA.toLowerCase();
+      const normalizedB = typeB.toLowerCase();
+      
+      // Check if either contains 'vocal' anywhere in the name
+      const isVocalA = normalizedA.includes('vocal') || normalizedA === 'voice';
+      const isVocalB = normalizedB.includes('vocal') || normalizedB === 'voice';
+      
+      // Vocals always come first
+      if (isVocalA && !isVocalB) return -1;
+      if (!isVocalA && isVocalB) return 1;
+      
+      // Then sort by type order
+      const orderA = typeOrder[normalizedA] ?? 99;
+      const orderB = typeOrder[normalizedB] ?? 99;
       return orderA - orderB;
     });
   }, [project?.tracks]);
