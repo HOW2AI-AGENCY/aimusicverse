@@ -18,6 +18,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { useAudioTime } from '@/hooks/audio/useAudioTime';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { useGlobalAudioPlayer } from '@/hooks/audio/useGlobalAudioPlayer';
+import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 import { Track } from '@/types/track';
 import { LazyImage } from '@/components/ui/lazy-image';
 import { cn } from '@/lib/utils';
@@ -58,6 +59,12 @@ export function DesktopFullscreenPlayer({
   const [selectedVersionId, setSelectedVersionId] = useState<string | null>(
     versions.find(v => v.is_primary)?.id || versions[0]?.id || null
   );
+  
+  // Telegram BackButton integration - closes fullscreen player
+  useTelegramBackButton({
+    onClick: onClose,
+    visible: true,
+  });
   
   const { currentTime, duration, buffered, seek } = useAudioTime();
   const { isPlaying, volume, preservedTime, clearPreservedTime } = usePlayerStore();
@@ -219,7 +226,13 @@ export function DesktopFullscreenPlayer({
         isMaximized ? 'p-0' : 'p-4 md:p-8'
       )}
     >
-      <div className="h-full flex flex-col max-w-7xl mx-auto pb-safe">
+      <div 
+        className="h-full flex flex-col max-w-7xl mx-auto"
+        style={{
+          paddingTop: 'calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px)))',
+          paddingBottom: 'calc(max(var(--tg-safe-area-inset-bottom, 0px) + 1rem, env(safe-area-inset-bottom, 0px) + 1rem))'
+        }}
+      >
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex-1">

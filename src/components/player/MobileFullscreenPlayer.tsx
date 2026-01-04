@@ -12,24 +12,23 @@
 
 import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { X, Download, Share2, ListMusic, SkipBack, SkipForward, Play, Pause, Repeat, Shuffle, BarChart3, Layers } from 'lucide-react';
-import { LikeButton } from '@/components/ui/like-button';
-import { toast } from 'sonner';
+import { X, ListMusic, BarChart3 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { WaveformProgressBar } from './WaveformProgressBar';
 import { Track } from '@/types/track';
-import { useTracks } from '@/hooks/useTracks';
 import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
 import { useAudioTime } from '@/hooks/audio/useAudioTime';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { useGlobalAudioPlayer } from '@/hooks/audio/useGlobalAudioPlayer';
 import { useAudioVisualizer } from '@/hooks/audio/useAudioVisualizer';
-import { useLyricsSynchronization, SYNC_CONSTANTS, groupWordsIntoLines } from '@/hooks/lyrics/useLyricsSynchronization';
+import { useLyricsSynchronization } from '@/hooks/lyrics/useLyricsSynchronization';
+import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 import { SynchronizedWord } from '@/components/lyrics/SynchronizedWord';
 import { QueueSheet } from './QueueSheet';
 import { VersionSwitcher } from './VersionSwitcher';
+import { UnifiedPlayerControls } from './UnifiedPlayerControls';
+import { PlayerActionsBar } from './PlayerActionsBar';
 import { cn } from '@/lib/utils';
-import { formatTime } from '@/lib/player-utils';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { hapticImpact } from '@/lib/haptic';
 import { logger } from '@/lib/logger';
@@ -57,14 +56,11 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
   const lastScrollTopRef = useRef<number>(0);
   const isProgrammaticScrollRef = useRef(false);
 
-  // Open in DAW Studio handler
-  const handleOpenInStudio = useCallback(() => {
-    hapticImpact('medium');
-    onClose();
-    navigate(`/studio-v2/track/${track.id}`);
-  }, [navigate, track.id, onClose]);
-  
-  const { toggleLike, downloadTrack } = useTracks();
+  // Telegram BackButton integration - closes fullscreen player
+  useTelegramBackButton({
+    onClick: onClose,
+    visible: true,
+  });
   const { currentTime, duration, seek } = useAudioTime();
   const { isPlaying, playTrack, pauseTrack, nextTrack, previousTrack, repeat, shuffle, toggleRepeat, toggleShuffle, volume, preservedTime, clearPreservedTime } = usePlayerStore();
   const { audioElement } = useGlobalAudioPlayer();
@@ -321,7 +317,7 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
   }, [lyricsLines]);
 
   // Use unified synchronization hook for precise timing
-  // Only enable when playing AND we have lyrics to reduce CPU usage
+  // Enable when we have lyrics (sync works even when paused for highlighting)
   const {
     activeLineIndex,
     activeWordIndex,
@@ -331,7 +327,7 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
     constants,
   } = useLyricsSynchronization({
     words: flattenedWords,
-    enabled: !!lyricsLines?.length && isPlaying,
+    enabled: !!lyricsLines?.length,
   });
 
   // Handle user scroll detection
@@ -526,10 +522,13 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
       </div>
 
       {/* Content */}
-      <div className="relative flex-1 flex flex-col safe-area-inset min-h-0 overflow-hidden">
-        {/* Header with glass effect */}
+      <div className="relative flex-1 flex flex-col min-h-0 overflow-hidden">
+        {/* Header with glass effect - Telegram safe area */}
         <motion.header 
-          className="flex items-center justify-between p-4 pt-safe"
+          className="flex items-center justify-between p-4"
+          style={{
+            paddingTop: 'calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px) + 0.75rem, env(safe-area-inset-top, 0px) + 0.75rem))'
+          }}
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.1, duration: 0.3 }}
@@ -754,9 +753,12 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
           )}
         </AnimatePresence>
 
-        {/* Controls Section with enhanced glass effect */}
+        {/* Controls Section with enhanced glass effect - Telegram safe area */}
         <motion.div 
-          className="bg-background/50 backdrop-blur-xl border-t border-white/10 p-4 pb-safe space-y-4"
+          className="bg-background/50 backdrop-blur-xl border-t border-white/10 p-4 space-y-4"
+          style={{
+            paddingBottom: 'calc(max(var(--tg-safe-area-inset-bottom, 0px) + 1rem, env(safe-area-inset-bottom, 0px) + 1rem))'
+          }}
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.3 }}
@@ -774,196 +776,23 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
             className="px-2"
           />
 
-          {/* Main Controls with animations */}
-          <div className="flex items-center justify-center gap-6">
-            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => {
-                  hapticImpact('light');
-                  toggleShuffle();
-                }}
-                className={cn(
-                  'h-11 w-11 touch-manipulation rounded-full transition-all',
-                  shuffle && 'text-primary bg-primary/10'
-                )}
-              >
-                <Shuffle className="h-5 w-5" />
-              </Button>
-            </motion.div>
+          {/* Main Controls - UnifiedPlayerControls */}
+          <UnifiedPlayerControls 
+            variant="fullscreen" 
+            size="lg"
+            showVolume={false}
+            showShuffleRepeat={true}
+            showSeekButtons={true}
+            seekSeconds={10}
+          />
 
-            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => {
-                  hapticImpact('light');
-                  previousTrack();
-                }}
-                className="h-12 w-12 touch-manipulation rounded-full hover:bg-white/10"
-              >
-                <SkipBack className="h-6 w-6" />
-              </Button>
-            </motion.div>
-
-            {/* Main play button with glow */}
-            <motion.div 
-              className="relative"
-              whileHover={{ scale: 1.05 }} 
-              whileTap={{ scale: 0.95 }}
-            >
-              {/* Glow ring */}
-              <motion.div
-                className="absolute inset-0 rounded-full bg-primary/30 blur-xl"
-                animate={isPlaying ? { 
-                  scale: [1, 1.3, 1],
-                  opacity: [0.5, 0.2, 0.5]
-                } : { scale: 1, opacity: 0.3 }}
-                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-              />
-              <Button
-                size="icon"
-                onClick={handlePlayPause}
-                className="relative h-16 w-16 rounded-full touch-manipulation bg-primary shadow-lg shadow-primary/30 hover:bg-primary/90"
-              >
-                <AnimatePresence mode="wait">
-                  {isPlaying ? (
-                    <motion.div
-                      key="pause"
-                      initial={{ scale: 0, rotate: -90 }}
-                      animate={{ scale: 1, rotate: 0 }}
-                      exit={{ scale: 0, rotate: 90 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <Pause className="h-8 w-8" />
-                    </motion.div>
-                  ) : (
-                    <motion.div
-                      key="play"
-                      initial={{ scale: 0, rotate: 90 }}
-                      animate={{ scale: 1, rotate: 0 }}
-                      exit={{ scale: 0, rotate: -90 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <Play className="h-8 w-8 ml-1" />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </Button>
-            </motion.div>
-
-            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => {
-                  hapticImpact('light');
-                  nextTrack();
-                }}
-                className="h-12 w-12 touch-manipulation rounded-full hover:bg-white/10"
-              >
-                <SkipForward className="h-6 w-6" />
-              </Button>
-            </motion.div>
-
-            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => {
-                  hapticImpact('light');
-                  toggleRepeat();
-                }}
-                className={cn(
-                  'h-11 w-11 touch-manipulation rounded-full relative transition-all',
-                  repeat !== 'off' && 'text-primary bg-primary/10'
-                )}
-              >
-                <Repeat className="h-5 w-5" />
-                {repeat === 'one' && (
-                  <span className="absolute text-[10px] font-bold">1</span>
-                )}
-              </Button>
-            </motion.div>
-          </div>
-
-          {/* Secondary Actions with hover effects */}
-          <div className="flex items-center justify-center gap-4">
-            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-              <LikeButton
-                trackId={track.id}
-                likesCount={track.likes_count || 0}
-                showCount={true}
-                size="lg"
-                className="h-11 w-11"
-              />
-            </motion.div>
-
-            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => {
-                  hapticImpact('light');
-                  if (track.audio_url) {
-                    downloadTrack({ trackId: track.id, audioUrl: track.audio_url, coverUrl: track.cover_url || undefined });
-                  }
-                }}
-                className="h-11 w-11 touch-manipulation rounded-full hover:bg-white/10"
-                disabled={!track.audio_url}
-              >
-                <Download className="h-5 w-5" />
-              </Button>
-            </motion.div>
-
-            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={handleOpenInStudio}
-                className="h-11 w-11 touch-manipulation rounded-full hover:bg-white/10"
-                title="Открыть в DAW Studio"
-              >
-                <Layers className="h-5 w-5" />
-              </Button>
-            </motion.div>
-
-            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={async () => {
-                  hapticImpact('light');
-                  const shareData = {
-                    title: track.title || 'Track',
-                    text: `🎵 ${track.title || 'Track'} - ${track.style || 'AI Music'}`,
-                    url: window.location.href,
-                  };
-                  
-                  if (navigator.share && navigator.canShare?.(shareData)) {
-                    try {
-                      await navigator.share(shareData);
-                    } catch (error) {
-                      if ((error as Error).name !== 'AbortError') {
-                        logger.error('Share failed', { error });
-                      }
-                    }
-                  } else {
-                    try {
-                      await navigator.clipboard.writeText(window.location.href);
-                      toast.success('Ссылка скопирована');
-                    } catch {
-                      toast.error('Не удалось скопировать ссылку');
-                    }
-                  }
-                }}
-                className="h-11 w-11 touch-manipulation rounded-full hover:bg-white/10"
-              >
-                <Share2 className="h-5 w-5" />
-              </Button>
-            </motion.div>
-          </div>
+          {/* Secondary Actions - PlayerActionsBar */}
+          <PlayerActionsBar 
+            track={track} 
+            variant="horizontal"
+            size="md"
+            showStudioButton={true}
+          />
         </motion.div>
       </div>
 
