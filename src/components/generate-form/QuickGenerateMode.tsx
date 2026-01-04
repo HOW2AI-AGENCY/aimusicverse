@@ -54,16 +54,16 @@ export const QuickGenerateMode = memo(function QuickGenerateMode({
       animate={{ opacity: 1, y: 0 }}
       className={cn("space-y-4", className)}
     >
-      {/* Quick Presets */}
+      {/* Quick Presets - Horizontal Scroll */}
       <div>
         <Label className="text-xs font-medium mb-2 block">Быстрый выбор</Label>
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex gap-1.5 overflow-x-auto pb-1 -mx-1 px-1 scrollbar-none">
           {QUICK_PRESETS.map((preset) => (
             <Button
               key={preset.label}
               variant={description.includes(preset.value) ? "default" : "outline"}
               size="sm"
-              className="h-7 text-xs rounded-full"
+              className="h-7 text-xs rounded-full flex-shrink-0 whitespace-nowrap"
               onClick={() => onDescriptionChange(preset.value)}
             >
               {preset.label}
@@ -72,13 +72,16 @@ export const QuickGenerateMode = memo(function QuickGenerateMode({
         </div>
       </div>
 
-      {/* Description */}
+      {/* Description - Dynamic header based on vocals toggle */}
       <div className="relative">
         <Label className="text-xs font-medium mb-1.5 block">
-          Опишите музыку
+          {hasVocals ? '🎤 Опишите песню с вокалом' : '🎹 Опишите инструментал'}
         </Label>
         <Textarea
-          placeholder="Например: энергичный поп с синтезаторами и танцевальным битом"
+          placeholder={hasVocals 
+            ? "Например: энергичный поп с запоминающимся припевом и женским вокалом" 
+            : "Например: атмосферный эмбиент с синтезаторами и глубоким басом"
+          }
           value={description}
           onChange={(e) => onDescriptionChange(e.target.value)}
           rows={3}
@@ -103,22 +106,43 @@ export const QuickGenerateMode = memo(function QuickGenerateMode({
         </div>
       </div>
 
-      {/* Vocals Toggle - Compact */}
-      <div className="flex items-center justify-between bg-muted/50 rounded-lg p-3">
-        <div className="flex items-center gap-2">
-          {hasVocals ? (
-            <Mic className="w-4 h-4 text-primary" />
-          ) : (
-            <Volume2 className="w-4 h-4 text-muted-foreground" />
-          )}
-          <span className="text-sm font-medium">
-            {hasVocals ? 'С вокалом' : 'Инструментал'}
-          </span>
+      {/* Vocals Toggle - Redesigned as segmented control */}
+      <div className="space-y-1.5">
+        <Label className="text-xs font-medium">Тип трека</Label>
+        <div className="flex p-1 bg-muted/50 rounded-xl">
+          <button
+            type="button"
+            onClick={() => onHasVocalsChange(true)}
+            className={cn(
+              "flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg text-sm font-medium transition-all duration-200",
+              hasVocals 
+                ? "bg-primary text-primary-foreground shadow-sm" 
+                : "text-muted-foreground hover:text-foreground hover:bg-muted"
+            )}
+          >
+            <Mic className="w-4 h-4" />
+            <span>Вокал</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => onHasVocalsChange(false)}
+            className={cn(
+              "flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg text-sm font-medium transition-all duration-200",
+              !hasVocals 
+                ? "bg-primary text-primary-foreground shadow-sm" 
+                : "text-muted-foreground hover:text-foreground hover:bg-muted"
+            )}
+          >
+            <Volume2 className="w-4 h-4" />
+            <span>Инструментал</span>
+          </button>
         </div>
-        <Switch
-          checked={hasVocals}
-          onCheckedChange={onHasVocalsChange}
-        />
+        <p className="text-[10px] text-muted-foreground text-center">
+          {hasVocals 
+            ? 'AI сгенерирует вокал по тексту песни' 
+            : 'Чистая музыка без голоса'
+          }
+        </p>
       </div>
 
       {/* Expand to Full */}
