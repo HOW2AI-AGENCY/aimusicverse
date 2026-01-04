@@ -7,6 +7,26 @@
 
 ## [Unreleased]
 
+### Добавлено - 2026-01-04 (Session 9 - UI Improvements)
+- **Compact Generation Form Header**: Более компактный хедер формы генерации
+  - Удалён логотип для экономии места
+  - Уменьшены размеры: `min-h-[44px]` → `min-h-[36px]`
+  - Убраны избыточные отступы
+- **Mobile-friendly Hints**: Подсказки работают на touch-устройствах
+  - Заменены `Tooltip` на `Popover` в `SectionLabel.tsx`
+  - Подсказки открываются по клику на `?` иконку
+- **Conditional Toolbar Buttons**: Кнопки Copy/Delete скрыты когда поле пустое
+  - `FormFieldToolbar.tsx` — условный рендеринг вместо disabled
+- **Compact Lyrics Visual Editor**: Упрощённый редактор лирики
+  - Новый компонент `LyricsVisualEditorCompact.tsx`
+  - Timeline из badges секций
+  - Quick structure templates (Поп, Рок, Баллада)
+  - Без drag-drop для простоты
+- **Advanced Options Visibility**: Более заметная кнопка продвинутых настроек
+  - Dashed border стиль
+  - Удалён дублирующий Model Selector
+- **ADR-012**: Документация решения по компактному UI
+
 ### Добавлено - 2026-01-04 (Sprint 029)
 - **Telegram CloudStorage Integration**: Сохранение настроек в облаке Telegram
   - `cloudStorage` API wrapper с localStorage fallback
@@ -41,6 +61,10 @@
   - track_versions constraint: добавлены типы vocal_add, instrumental_add, cover
   - suno-music-callback: исправлена логика version_type
   - suno-check-status: изменен 'original' → 'initial'
+- **UI Fixes (Session 9)**: Исправления формы генерации
+  - Tooltips не работают на мобильных → Popover
+  - Copy/Delete всегда видны → условное отображение
+  - Громоздкий хедер → компактный дизайн
 
 ### Изменено - 2026-01-04
 - **Documentation Cleanup**: Упорядочена структура репозитория
@@ -48,6 +72,12 @@
   - Обновлены PROJECT_STATUS.md, SPRINT_STATUS.md, README.md
   - Сокращено количество файлов в root: 42 → 30 (29% reduction)
   - Обновлен ARCHIVE.md с новой структурой
+- **Updated Documentation**: Обновлена документация
+  - UI_GENERATION_FORM_AUDIT_2025-12-13.md — статус реализации
+  - KNOWN_ISSUES.md — новые исправления
+  - GENERATION_SYSTEM.md — UI/UX секция
+  - KNOWLEDGE_BASE.md — Session 9
+  - SPRINT-030-UNIFIED-STUDIO-MOBILE.md — прогресс 55%
 
 ---
 
