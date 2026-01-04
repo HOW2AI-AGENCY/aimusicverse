@@ -34,8 +34,8 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Sprint-030_Unified_Studio-blue?style=flat-square" alt="Current Sprint" />
-  <img src="https://img.shields.io/badge/Progress-84%25-success?style=flat-square" alt="Progress" />
+  <img src="https://img.shields.io/badge/Sprint-029_Mobile_Optimization-blue?style=flat-square" alt="Current Sprint" />
+  <img src="https://img.shields.io/badge/Progress-88%25-success?style=flat-square" alt="Progress" />
   <img src="https://img.shields.io/badge/Health_Score-98%2F100-brightgreen?style=flat-square" alt="Health" />
   <img src="https://img.shields.io/badge/Components-888-orange?style=flat-square" alt="Components" />
 </p>
@@ -83,13 +83,13 @@
 
 > 💡 **Полная карта документации:** [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md)
 > 
-> 🎯 **Текущий статус:** Sprint 030 (Unified Studio Mobile) - 🚧 In Progress  
+> 🎯 **Текущий статус:** Sprint 029 (Mobile Telegram Optimization) - 🟢 In Progress (85%)  
 > 📊 **Статус спринтов:** [SPRINT_STATUS.md](SPRINT_STATUS.md) | **Статус проекта:** [PROJECT_STATUS.md](PROJECT_STATUS.md)
 >
 > 🗺️ **Планы развития:**
 > - [IMPLEMENTATION_ROADMAP_2026.md](IMPLEMENTATION_ROADMAP_2026.md) - Roadmap Q1-Q2 2026
-> - [SPRINTS/SPRINT-029-TELEGRAM-MOBILE-OPTIMIZATION.md](SPRINTS/SPRINT-029-TELEGRAM-MOBILE-OPTIMIZATION.md) - Telegram Mobile Optimization
-> - [SPRINTS/SPRINT-030-UNIFIED-STUDIO-MOBILE.md](SPRINTS/SPRINT-030-UNIFIED-STUDIO-MOBILE.md) - Unified Studio Mobile
+> - [SPRINTS/SPRINT-029-TELEGRAM-MOBILE-OPTIMIZATION.md](SPRINTS/SPRINT-029-TELEGRAM-MOBILE-OPTIMIZATION.md) - Mobile Optimization (Current)
+> - [SPRINTS/SPRINT-030-UNIFIED-STUDIO-MOBILE.md](SPRINTS/SPRINT-030-UNIFIED-STUDIO-MOBILE.md) - Unified Studio Mobile (Next)
 >
 > 📚 **Ключевая документация:**
 > - [PROJECT_STATUS.md](PROJECT_STATUS.md) - Единый источник правды о статусе проекта
@@ -810,6 +810,6 @@ src/components/
 
 **Сделано с ❤️ командой MusicVerse AI**
 
-*Last Updated: 2026-01-04*
+*Last Updated: 2026-01-04 (Sprint 029 in progress)*
 
 </div>

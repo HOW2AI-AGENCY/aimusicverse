@@ -7,6 +7,50 @@
 
 ## [Unreleased]
 
+### Добавлено - 2026-01-04 (Sprint 029)
+- **Telegram CloudStorage Integration**: Сохранение настроек в облаке Telegram
+  - `cloudStorage` API wrapper с localStorage fallback
+  - `useCloudStorage` React hook с tab synchronization
+  - Type-safe generic interface для любых данных
+  - Graceful degradation при недоступности CloudStorage
+- **Haptic Feedback System**: Тактильная обратная связь для Telegram Mini App
+  - `hapticImpact()` — 5 стилей (light, medium, heavy, rigid, soft)
+  - `hapticNotification()` — 3 типа (error, success, warning)
+  - `hapticSelectionChanged()` — для смены выбора
+  - Интеграция в Button component (optional `haptic` prop)
+  - Haptic в BottomNavigation при смене табов
+- **Pull-to-Refresh**: Обновление контента жестом
+  - `PullToRefreshWrapper` reusable component
+  - Интеграция на Library странице
+  - Интеграция на Index (homepage)
+  - Touch-optimized для мобильных устройств
+- **Deep Link Player**: Прямые ссылки на воспроизведение
+  - `MobilePlayerPage` standalone component
+  - Поддержка префиксов: `play_`, `player_`, `listen_`
+  - Auto-playback при загрузке через deep link
+  - React Query integration для загрузки данных
+  - Telegram safe area awareness
+- **Mobile Features**: Улучшения для мобильных устройств
+  - Mobile karaoke features
+  - Audio prefetching optimization
+  - Touch targets увеличены до 56px в навигации
+  - useKeyboardAware hook для адаптивных форм
+
+### Исправлено - 2026-01-04
+- **Database Fixes**: Исправления схемы и миграций
+  - track_versions constraint: добавлены типы vocal_add, instrumental_add, cover
+  - suno-music-callback: исправлена логика version_type
+  - suno-check-status: изменен 'original' → 'initial'
+
+### Изменено - 2026-01-04
+- **Documentation Cleanup**: Упорядочена структура репозитория
+  - 12 файлов перемещены в архив docs/archive/2026-01-04-cleanup/
+  - Обновлены PROJECT_STATUS.md, SPRINT_STATUS.md, README.md
+  - Сокращено количество файлов в root: 42 → 30 (29% reduction)
+  - Обновлен ARCHIVE.md с новой структурой
+
+---
+
 ### Добавлено - 2025-12-26
 - **AI Lyrics Agent Tools**: 10+ новых инструментов для работы с текстами
   - `continue` — продолжение текста в выбранном стиле (natural, dramatic, contrast, climax)
