@@ -18,7 +18,7 @@ import { useKeyboardAware } from '@/hooks/useKeyboardAware';
 import { Skeleton } from '@/components/ui/skeleton';
 
 // Form components - lazy loaded for bundle optimization
-import { GenerateFormHeaderCompact } from './generate-form/GenerateFormHeaderCompact';
+// GenerateFormHeaderCompact removed - using CollapsibleFormHeader only
 import { GenerateFormActions } from './generate-form/GenerateFormActions';
 import { GenerateFormReferences } from './generate-form/GenerateFormReferences';
 import { GenerationLoadingState } from './generate-form/GenerationLoadingState';
@@ -90,7 +90,6 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   const [projectTrackStep, setProjectTrackStep] = useState<'project' | 'track'>('project');
   const [advancedOpen, setAdvancedOpen] = useState(false);
   const [closeConfirmOpen, setCloseConfirmOpen] = useState(false);
-  const [headerCollapsed, setHeaderCollapsed] = useState(false);
 
   // Form hook
   const form = useGenerateForm({
@@ -231,7 +230,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
       }
     }}>
       <SheetContent side="bottom" className="h-[95dvh] sm:h-[85vh] sm:max-h-[800px] flex flex-col frost-sheet p-0 w-full max-w-full min-w-0 overflow-x-hidden">
-        {/* Collapsible Header with safe area for Telegram native buttons */}
+        {/* Compact Header with safe area for Telegram */}
         <div 
           className="px-3 border-b bg-background/95 backdrop-blur-xl"
           style={{ 
@@ -239,43 +238,14 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           }}
         >
           <CollapsibleFormHeader
-            isCollapsed={headerCollapsed}
-            onToggle={() => setHeaderCollapsed(!headerCollapsed)}
             balance={form.userBalance}
             cost={form.generationCost}
             mode={form.mode}
             onModeChange={form.setMode}
             onOpenHistory={() => setHistoryOpen(true)}
+            model={form.model}
+            onModelChange={form.setModel}
           />
-          
-          {/* Form header row - shown when expanded */}
-          <AnimatePresence>
-            {!headerCollapsed && (
-              <motion.div 
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                className="flex items-center justify-between pb-2 overflow-hidden"
-              >
-                <div className="flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5 text-primary" />
-                  <h2 className="text-sm font-semibold">Создать трек</h2>
-                </div>
-                <GenerateFormHeaderCompact
-                  userBalance={form.userBalance}
-                  generationCost={form.generationCost}
-                  canGenerate={form.canGenerate}
-                  apiCredits={form.apiCredits}
-                  mode={form.mode}
-                  onModeChange={form.setMode}
-                  model={form.model}
-                  onModelChange={form.setModel}
-                  isAdmin={form.isAdmin}
-                  onOpenHistory={() => setHistoryOpen(true)}
-                />
-              </motion.div>
-            )}
-          </AnimatePresence>
         </div>
 
         {/* Loading Overlay */}
