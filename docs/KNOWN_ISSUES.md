@@ -138,12 +138,43 @@
 | Waveform Color | High | ✅ Fixed | 023 |
 | Waveform Cache | High | ✅ Fixed | 023 |
 | MIDI Transcription | High | ✅ Fixed | 023 |
+| track_versions constraint | Critical | ✅ Fixed | 029 |
+| Add Vocals/Instrumental | Critical | ✅ Fixed | 029 |
+| Player Deep Links | High | ✅ Fixed | 029 |
 | Bundle Size | Medium | 🔄 In Progress | 022 |
 | Audio Context | Medium | ✅ Fixed | 021 |
 | Realtime Leak | Medium | ✅ Fixed | 020 |
 | iOS Autoplay | Low | ⚠️ Workaround | - |
 | TG Desktop API | Low | ⚠️ Workaround | - |
 | Long Names | Low | 📋 Backlog | - |
+
+## Новые исправления (2026-01-04)
+
+### 11. track_versions Constraint Violation
+**Статус**: ✅ Исправлено (Sprint 029)
+
+**Симптомы**: "new row violates row-level security policy" при добавлении вокала/инструментала.
+
+**Причина**: CHECK constraint не включал типы `vocal_add`, `instrumental_add`, `cover`.
+
+**Решение**:
+- Расширен constraint в миграции `20260104054551_*.sql`
+- Обновлена логика `getVersionType()` в `suno-music-callback`
+- Исправлен `suno-check-status` ('original' → 'initial')
+
+---
+
+### 12. Player Deep Links Missing
+**Статус**: ✅ Исправлено (Sprint 029)
+
+**Симптомы**: Нет возможности открыть полноэкранный плеер через deep link.
+
+**Решение**:
+- Добавлены паттерны `play_`, `player_`, `listen_` в TelegramContext
+- Создана standalone страница `/player/:trackId` (MobilePlayerPage)
+- Автовоспроизведение при переходе по deep link
+
+---
 
 ## Как сообщить о проблеме
 

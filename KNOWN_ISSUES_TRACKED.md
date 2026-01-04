@@ -1,6 +1,6 @@
 # Known Issues Tracker
 
-Last updated: 2025-12-21
+Last updated: 2026-01-04
 
 ## Status Overview
 
@@ -111,6 +111,22 @@ Last updated: 2025-12-21
   - ADR-005: State Machine Architecture
   - ADR-006: Type-Safe Audio Context
 
+## ✅ Recently Resolved (2026-01-04)
+
+### P0 - Critical (Fixed)
+
+~~**IMP099** - track_versions constraint violations~~ ✅ RESOLVED
+- Extended constraint to include: `vocal_add`, `instrumental_add`, `cover`, `original`, etc.
+- Migration: `20260104_extend_version_type_check.sql`
+
+~~**IMP100** - suno-music-callback wrong version_type~~ ✅ RESOLVED
+- Added `getVersionType()` function to determine type from `generation_mode`
+- Updated in `supabase/functions/suno-music-callback/index.ts`
+
+~~**IMP101** - suno-check-status used 'original' instead of 'initial'~~ ✅ RESOLVED
+- Changed `version_type: 'original'` to `version_type: 'initial'`
+- Updated in `supabase/functions/suno-check-status/index.ts`
+
 ## 🔄 Remaining Issues
 
 ### P3 - Medium Priority  
@@ -123,7 +139,7 @@ Last updated: 2025-12-21
 
 ## Summary
 
-✅ **All P1, P2, and P4 issues are fully resolved.**
+✅ **All P0, P1, P2, and P4 issues are fully resolved.**
 ✅ **5 of 6 P3 issues resolved.**
 
 The codebase is in excellent health with:
@@ -137,6 +153,9 @@ The codebase is in excellent health with:
 - Buffer pooling for audio performance
 - Web Worker support for waveform generation
 - Comprehensive ADR documentation
+- **NEW:** Telegram CloudStorage integration
+- **NEW:** Deep links for fullscreen player
+- **NEW:** Extended track_versions types for all generation modes
 
 The only remaining item is organizational directory restructuring, which can be addressed incrementally as the codebase grows.
 
