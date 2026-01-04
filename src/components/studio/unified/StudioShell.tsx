@@ -786,12 +786,10 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
     )}>
       {/* Left: Back + Title */}
       <div className="flex items-center gap-2 min-w-0">
-        {/* Show UI back button only when not using native Telegram BackButton */}
-        {shouldShowUIButton && (
-          <Button variant="ghost" size="icon" onClick={handleBack} className="shrink-0 h-8 w-8">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        )}
+        {/* Always show UI back button - Telegram native button will overlay it when active */}
+        <Button variant="ghost" size="icon" onClick={handleBack} className="shrink-0 h-8 w-8">
+          <ArrowLeft className="h-4 w-4" />
+        </Button>
         <div className="flex flex-col min-w-0">
           <h1 className="text-sm font-semibold truncate">{project.name}</h1>
           <div className="flex items-center gap-1">

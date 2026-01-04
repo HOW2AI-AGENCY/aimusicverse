@@ -8,7 +8,7 @@
  * - Low-latency seek
  */
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { logger } from '@/lib/logger';
 import { createAudioContext, ensureAudioContextRunning } from '@/lib/audio/audioContextHelper';
 
@@ -172,13 +172,28 @@ export function useStudioAudioEngine({
     });
   }, [initAudioContext, onTrackLoaded]);
 
+  // Create a stable state signature for mute/solo/volume changes
+  const trackStatesSignature = useMemo(() => 
+    tracks.map(t => `${t.id}:${t.muted}:${t.solo}:${t.volume}`).join('|'),
+    [tracks]
+  );
+
   // Update track gains based on mute/solo state
   const updateTrackGains = useCallback(() => {
     const hasSolo = tracks.some(t => t.solo && t.audioUrl);
     
+    logger.debug('updateTrackGains called', { 
+      hasSolo, 
+      trackCount: tracks.length,
+      states: tracks.map(t => ({ id: t.id, muted: t.muted, solo: t.solo, volume: t.volume }))
+    });
+    
     for (const track of tracks) {
       const node = trackNodesRef.current.get(track.id);
-      if (!node) continue;
+      if (!node) {
+        logger.debug('No audio node for track', { trackId: track.id });
+        continue;
+      }
       
       let effectiveVolume = track.volume;
       
@@ -190,6 +205,7 @@ export function useStudioAudioEngine({
       
       const ctx = audioContextRef.current;
       if (ctx) {
+        logger.debug('Setting track gain', { trackId: track.id, effectiveVolume });
         node.gainNode.gain.setTargetAtTime(effectiveVolume, ctx.currentTime, 0.01);
       }
     }
@@ -232,10 +248,10 @@ export function useStudioAudioEngine({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tracks.map(t => t.id + t.audioUrl).join(',')]); // Re-run when track URLs change
 
-  // Update gains when mute/solo/volume changes
+  // Update gains when mute/solo/volume changes - use signature for reactivity
   useEffect(() => {
     updateTrackGains();
-  }, [updateTrackGains]);
+  }, [trackStatesSignature, updateTrackGains]);
 
   // Update master volume
   useEffect(() => {
