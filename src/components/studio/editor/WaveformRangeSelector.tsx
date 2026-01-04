@@ -311,47 +311,47 @@ export function WaveformRangeSelector({
               className="absolute inset-0 w-full h-full"
             />
             
-            {/* Start handle */}
+            {/* Start handle - larger touch target for mobile */}
             <motion.div
               className={cn(
-                "absolute top-0 bottom-0 w-4 cursor-ew-resize z-10",
-                "flex items-center justify-center",
+                "absolute top-0 bottom-0 w-8 cursor-ew-resize z-10",
+                "flex items-center justify-center touch-none",
                 isDragging === 'start' && "z-20"
               )}
-              style={{ left: `calc(${startPercent}% - 8px)` }}
+              style={{ left: `calc(${startPercent}% - 16px)` }}
               onMouseDown={(e) => handleMouseDown(e, 'start')}
               onTouchStart={(e) => handleTouchStart(e, 'start')}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <div className={cn(
-                "w-1.5 h-12 rounded-full bg-primary shadow-lg transition-all",
-                "flex items-center justify-center",
-                isDragging === 'start' && "w-2 bg-primary"
+                "w-2 h-14 rounded-full bg-primary shadow-lg shadow-primary/30 transition-all",
+                "flex items-center justify-center border-2 border-primary-foreground/30",
+                isDragging === 'start' && "w-2.5 bg-primary scale-110"
               )}>
-                <GripVertical className="w-3 h-3 text-primary-foreground" />
+                <GripVertical className="w-4 h-4 text-primary-foreground drop-shadow-md" />
               </div>
             </motion.div>
             
-            {/* End handle */}
+            {/* End handle - larger touch target for mobile */}
             <motion.div
               className={cn(
-                "absolute top-0 bottom-0 w-4 cursor-ew-resize z-10",
-                "flex items-center justify-center",
+                "absolute top-0 bottom-0 w-8 cursor-ew-resize z-10",
+                "flex items-center justify-center touch-none",
                 isDragging === 'end' && "z-20"
               )}
-              style={{ left: `calc(${endPercent}% - 8px)` }}
+              style={{ left: `calc(${endPercent}% - 16px)` }}
               onMouseDown={(e) => handleMouseDown(e, 'end')}
               onTouchStart={(e) => handleTouchStart(e, 'end')}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <div className={cn(
-                "w-1.5 h-12 rounded-full bg-primary shadow-lg transition-all",
-                "flex items-center justify-center",
-                isDragging === 'end' && "w-2 bg-primary"
+                "w-2 h-14 rounded-full bg-primary shadow-lg shadow-primary/30 transition-all",
+                "flex items-center justify-center border-2 border-primary-foreground/30",
+                isDragging === 'end' && "w-2.5 bg-primary scale-110"
               )}>
-                <GripVertical className="w-3 h-3 text-primary-foreground" />
+                <GripVertical className="w-4 h-4 text-primary-foreground drop-shadow-md" />
               </div>
             </motion.div>
           </>

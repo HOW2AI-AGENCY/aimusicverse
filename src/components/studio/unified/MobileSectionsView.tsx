@@ -33,7 +33,7 @@ interface MobileSectionsViewProps {
   onPlayPause: () => void;
 }
 
-// Section type colors
+// Section type colors - improved contrast for dark mode
 const SECTION_COLORS: Record<DetectedSection['type'], string> = {
   'verse': 'bg-blue-500',
   'chorus': 'bg-purple-500',
@@ -42,18 +42,18 @@ const SECTION_COLORS: Record<DetectedSection['type'], string> = {
   'outro': 'bg-rose-500',
   'pre-chorus': 'bg-cyan-500',
   'hook': 'bg-pink-500',
-  'unknown': 'bg-slate-500',
+  'unknown': 'bg-neutral-400', // Improved from slate-500 for better visibility
 };
 
 const SECTION_BG: Record<DetectedSection['type'], string> = {
-  'verse': 'bg-blue-500/10 hover:bg-blue-500/20',
-  'chorus': 'bg-purple-500/10 hover:bg-purple-500/20',
-  'bridge': 'bg-amber-500/10 hover:bg-amber-500/20',
-  'intro': 'bg-green-500/10 hover:bg-green-500/20',
-  'outro': 'bg-rose-500/10 hover:bg-rose-500/20',
-  'pre-chorus': 'bg-cyan-500/10 hover:bg-cyan-500/20',
-  'hook': 'bg-pink-500/10 hover:bg-pink-500/20',
-  'unknown': 'bg-slate-500/15 hover:bg-slate-500/25',
+  'verse': 'bg-blue-500/15 hover:bg-blue-500/25',
+  'chorus': 'bg-purple-500/15 hover:bg-purple-500/25',
+  'bridge': 'bg-amber-500/15 hover:bg-amber-500/25',
+  'intro': 'bg-green-500/15 hover:bg-green-500/25',
+  'outro': 'bg-rose-500/15 hover:bg-rose-500/25',
+  'pre-chorus': 'bg-cyan-500/15 hover:bg-cyan-500/25',
+  'hook': 'bg-pink-500/15 hover:bg-pink-500/25',
+  'unknown': 'bg-neutral-500/25 hover:bg-neutral-500/35', // Improved contrast for transitions
 };
 
 export const MobileSectionsView = memo(function MobileSectionsView({
@@ -203,21 +203,21 @@ export const MobileSectionsView = memo(function MobileSectionsView({
                       )}
                     </div>
 
-                    {/* Actions */}
-                    <div className="flex items-center gap-1 shrink-0">
+                    {/* Actions - larger for mobile */}
+                    <div className="flex items-center gap-2 shrink-0">
                       <Button
-                        variant="ghost"
+                        variant="outline"
                         size="icon"
-                        className="h-8 w-8"
+                        className="h-10 w-10 rounded-full border-2 border-primary/30 bg-primary/10"
                         onClick={(e) => playSection(section, e)}
                       >
                         {isActive && isPlaying ? (
-                          <Pause className="w-4 h-4" />
+                          <Pause className="w-5 h-5 text-primary" />
                         ) : (
-                          <Play className="w-4 h-4" />
+                          <Play className="w-5 h-5 text-primary ml-0.5" />
                         )}
                       </Button>
-                      <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                      <ChevronRight className="w-5 h-5 text-muted-foreground" />
                     </div>
                   </div>
                 </motion.button>
