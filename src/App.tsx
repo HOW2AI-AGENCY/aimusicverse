@@ -33,17 +33,14 @@ function ProfileSetupGuardWrapper({ children }: { children: React.ReactNode }) {
 // Lazy load pages
 const Index = lazy(() => import("./pages/Index"));
 const Auth = lazy(() => import("./pages/Auth"));
-// StemStudio removed - now using unified studio-v2
 const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 const PublicProfilePage = lazy(() => import("./pages/PublicProfilePage"));
 const Settings = lazy(() => import("./pages/Settings"));
-// Tasks page removed - dead code cleanup
 const Generate = lazy(() => import("./pages/Generate"));
 const Library = lazy(() => import("./pages/Library"));
 const Projects = lazy(() => import("./pages/Projects"));
 const ProjectDetail = lazy(() => import("./pages/ProjectDetail"));
 const Artists = lazy(() => import("./pages/Artists"));
-// Actors removed - unified with Artists page
 const Playlists = lazy(() => import("./pages/Playlists"));
 const Blog = lazy(() => import("./pages/Blog"));
 const Community = lazy(() => import("./pages/Community"));
@@ -66,6 +63,9 @@ const LyricsStudio = lazy(() => import("./pages/LyricsStudio"));
 const ReferenceAudioDetail = lazy(() => import("./pages/ReferenceAudioDetail"));
 const HardwareStudioDemo = lazy(() => import("./pages/HardwareStudioDemo"));
 const MobilePlayerPage = lazy(() => import("./pages/MobilePlayerPage"));
+
+// Unified Studio Hub
+const StudioHub = lazy(() => import("./pages/Studio"));
 
 // Studio V2 pages (isolated from existing studio)
 const StudioHubPage = lazy(() => import("./pages/studio-v2/StudioHubPage"));
@@ -127,7 +127,7 @@ const App = () => (
                   </ProtectedRoute>
                 }>
                   <Route path="/" element={<Index />} />
-                  <Route path="/studio" element={<Navigate to="/" replace />} />
+                  <Route path="/studio" element={<StudioHub />} />
                   <Route path="/profile" element={<ProfilePage />} />
                   <Route path="/profile/:userId" element={<PublicProfilePage />} />
                   <Route path="/settings" element={<Settings />} />
