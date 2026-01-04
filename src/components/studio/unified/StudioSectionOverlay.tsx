@@ -35,7 +35,7 @@ const SECTION_COLORS: Record<DetectedSection['type'], { bg: string; border: stri
   'outro': { bg: 'bg-rose-500/20', border: 'border-rose-500/50', text: 'text-rose-400' },
   'pre-chorus': { bg: 'bg-cyan-500/20', border: 'border-cyan-500/50', text: 'text-cyan-400' },
   'hook': { bg: 'bg-pink-500/20', border: 'border-pink-500/50', text: 'text-pink-400' },
-  'unknown': { bg: 'bg-muted/30', border: 'border-border', text: 'text-muted-foreground' },
+  'unknown': { bg: 'bg-slate-500/25', border: 'border-slate-500/50', text: 'text-slate-300' },
 };
 
 export const StudioSectionOverlay = memo(function StudioSectionOverlay({
