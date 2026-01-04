@@ -26,16 +26,20 @@ interface StudioSectionOverlayProps {
   className?: string;
 }
 
-// Section type colors - using semantic tokens where possible
+// Gap merge threshold - gaps smaller than this will be merged with adjacent sections
+const GAP_MERGE_THRESHOLD_S = 0.5; // 500ms
+
+// Section type colors - improved contrast for dark theme
 const SECTION_COLORS: Record<DetectedSection['type'], { bg: string; border: string; text: string }> = {
-  'verse': { bg: 'bg-blue-500/20', border: 'border-blue-500/50', text: 'text-blue-400' },
-  'chorus': { bg: 'bg-purple-500/25', border: 'border-purple-500/60', text: 'text-purple-400' },
-  'bridge': { bg: 'bg-amber-500/20', border: 'border-amber-500/50', text: 'text-amber-400' },
-  'intro': { bg: 'bg-green-500/20', border: 'border-green-500/50', text: 'text-green-400' },
-  'outro': { bg: 'bg-rose-500/20', border: 'border-rose-500/50', text: 'text-rose-400' },
-  'pre-chorus': { bg: 'bg-cyan-500/20', border: 'border-cyan-500/50', text: 'text-cyan-400' },
-  'hook': { bg: 'bg-pink-500/20', border: 'border-pink-500/50', text: 'text-pink-400' },
-  'unknown': { bg: 'bg-slate-500/25', border: 'border-slate-500/50', text: 'text-slate-300' },
+  'verse': { bg: 'bg-blue-500/25', border: 'border-blue-500/60', text: 'text-blue-400' },
+  'chorus': { bg: 'bg-purple-500/30', border: 'border-purple-500/70', text: 'text-purple-300' },
+  'bridge': { bg: 'bg-amber-500/25', border: 'border-amber-500/60', text: 'text-amber-400' },
+  'intro': { bg: 'bg-green-500/25', border: 'border-green-500/60', text: 'text-green-400' },
+  'outro': { bg: 'bg-rose-500/25', border: 'border-rose-500/60', text: 'text-rose-400' },
+  'pre-chorus': { bg: 'bg-cyan-500/25', border: 'border-cyan-500/60', text: 'text-cyan-400' },
+  'hook': { bg: 'bg-pink-500/25', border: 'border-pink-500/60', text: 'text-pink-400' },
+  // Unknown/transition - improved contrast for dark theme
+  'unknown': { bg: 'bg-neutral-400/35', border: 'border-neutral-400/60', text: 'text-neutral-200' },
 };
 
 export const StudioSectionOverlay = memo(function StudioSectionOverlay({
@@ -62,7 +66,14 @@ export const StudioSectionOverlay = memo(function StudioSectionOverlay({
     return sections.findIndex(s => currentTime >= s.startTime && currentTime < s.endTime);
   }, [sections, currentTime]);
 
-  // Fill gaps between sections to ensure full timeline coverage - NO GAPS ALLOWED
+  /**
+   * Normalize and merge sections to prevent fragmentation
+   * 
+   * Strategy:
+   * 1. Small gaps (< GAP_MERGE_THRESHOLD_S) - extend previous section
+   * 2. Merge adjacent sections of the same type
+   * 3. Only create "Переход" for significant gaps
+   */
   const normalizedSections = useMemo(() => {
     if (duration <= 0) return [];
     
@@ -81,8 +92,8 @@ export const StudioSectionOverlay = memo(function StudioSectionOverlay({
     const result: DetectedSection[] = [];
     let currentEnd = 0;
     
-    // Ensure first section starts from 0
-    if (sections[0].startTime > 0) {
+    // If there's a significant gap at the start, add intro
+    if (sections[0].startTime > GAP_MERGE_THRESHOLD_S) {
       result.push({
         type: 'intro' as const,
         label: 'Интро',
@@ -92,13 +103,25 @@ export const StudioSectionOverlay = memo(function StudioSectionOverlay({
         words: [],
       });
       currentEnd = sections[0].startTime;
+    } else if (sections[0].startTime > 0) {
+      // Small gap at start - just adjust first section to start from 0
+      currentEnd = 0;
     }
     
     for (let i = 0; i < sections.length; i++) {
       const current = sections[i];
+      const gapSize = current.startTime - currentEnd;
       
-      // Fill ANY gap before current section - no threshold, fill all gaps
-      if (current.startTime > currentEnd) {
+      // Small gap: extend previous section instead of creating transition
+      if (gapSize > 0 && gapSize < GAP_MERGE_THRESHOLD_S && result.length > 0) {
+        result[result.length - 1] = {
+          ...result[result.length - 1],
+          endTime: current.startTime,
+        };
+        currentEnd = current.startTime;
+      }
+      // Medium/large gap: create transition section only if gap is significant
+      else if (gapSize >= GAP_MERGE_THRESHOLD_S) {
         result.push({
           type: 'unknown' as const,
           label: 'Переход',
@@ -110,16 +133,33 @@ export const StudioSectionOverlay = memo(function StudioSectionOverlay({
         currentEnd = current.startTime;
       }
       
-      // Add current section, ensuring it starts where previous ended
-      const adjustedSection = {
-        ...current,
-        startTime: Math.max(current.startTime, currentEnd),
-      };
-      result.push(adjustedSection);
-      currentEnd = adjustedSection.endTime;
+      // Check if we can merge with previous section of same type
+      const lastSection = result[result.length - 1];
+      if (
+        lastSection && 
+        lastSection.type === current.type && 
+        current.startTime - lastSection.endTime < GAP_MERGE_THRESHOLD_S
+      ) {
+        // Merge: extend previous section
+        result[result.length - 1] = {
+          ...lastSection,
+          endTime: current.endTime,
+          lyrics: lastSection.lyrics + (current.lyrics ? '\n' + current.lyrics : ''),
+          words: [...(lastSection.words || []), ...(current.words || [])],
+        };
+      } else {
+        // Add as new section
+        const adjustedSection = {
+          ...current,
+          startTime: Math.max(current.startTime, currentEnd),
+        };
+        result.push(adjustedSection);
+      }
+      
+      currentEnd = result[result.length - 1].endTime;
     }
     
-    // ALWAYS extend last section to full duration - no gap at the end
+    // Extend last section to full duration
     if (result.length > 0 && currentEnd < duration) {
       result[result.length - 1] = {
         ...result[result.length - 1],

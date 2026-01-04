@@ -1,30 +1,121 @@
 /**
- * Studio Audio Engine
+ * Studio Audio Engine - Unified Multi-track Playback with Effects Integration
  * 
- * Multi-track audio playback using Web Audio API with:
- * - Synchronized playback across all tracks
- * - Per-track volume, mute, solo
- * - Master volume control
- * - Low-latency seek
+ * ═══════════════════════════════════════════════════════════════════════════════
+ * ARCHITECTURE OVERVIEW
+ * ═══════════════════════════════════════════════════════════════════════════════
+ * 
+ * Audio Routing Chain (per track):
+ * ┌─────────────────────────────────────────────────────────────────────────────┐
+ * │                                                                             │
+ * │   HTMLAudioElement                                                          │
+ * │        ↓                                                                    │
+ * │   MediaElementSourceNode                                                    │
+ * │        ↓                                                                    │
+ * │   [Effects Chain] ← Optional: EQ → Compressor → Delay → Filter → Reverb    │
+ * │        ↓                                                                    │
+ * │   GainNode (per-track volume control, 0-1)                                  │
+ * │        ↓                                                                    │
+ * │   StereoPannerNode (pan L/R, -1 to +1)                                      │
+ * │        ↓                                                                    │
+ * │   [AnalyserNode] ← For VU meters visualization                             │
+ * │        ↓                                                                    │
+ * │   ────────────────────────────────────────────────────────────────────      │
+ * │        ↓                                                                    │
+ * │   MasterGainNode (master volume)                                            │
+ * │        ↓                                                                    │
+ * │   AudioContext.destination (speakers)                                       │
+ * │                                                                             │
+ * └─────────────────────────────────────────────────────────────────────────────┘
+ * 
+ * ═══════════════════════════════════════════════════════════════════════════════
+ * FEATURES IMPLEMENTED
+ * ═══════════════════════════════════════════════════════════════════════════════
+ * 
+ * ✓ Multi-track synchronized playback
+ * ✓ Per-track volume with smooth ramping
+ * ✓ Mute/Solo with automatic gain calculation
+ * ✓ Per-track pan control (StereoPannerNode)
+ * ✓ Master volume control
+ * ✓ Effects chain insertion point
+ * ✓ AnalyserNode per track for VU meters
+ * ✓ Low-latency seek across all tracks
+ * 
+ * ═══════════════════════════════════════════════════════════════════════════════
+ * FUTURE TASKS / TODOs
+ * ═══════════════════════════════════════════════════════════════════════════════
+ * 
+ * TODO: [STUDIO-050] Loop Region
+ *   - setLoopRegion(start: number, end: number | null)
+ *   - Auto-seek to start when reaching end
+ *   - Visual feedback in timeline UI
+ *   - Quantize to beat grid if BPM available
+ * 
+ * TODO: [STUDIO-051] Offline Rendering / Export
+ *   - OfflineAudioContext for mix export
+ *   - Apply all effects during render
+ *   - Progress callback for long exports
+ *   - Support WAV, MP3, FLAC output
+ * 
+ * TODO: [STUDIO-052] Latency Compensation
+ *   - Track plugin latency per effects chain
+ *   - Delay dry signal to match wet signal
+ *   - Important for time-based effects (delay, reverb)
+ * 
+ * TODO: [STUDIO-053] MIDI Clock Sync
+ *   - Sync to external MIDI clock
+ *   - Quantize loop region to beats
+ *   - Tempo-sync delay times (1/4, 1/8, etc.)
+ * 
+ * TODO: [STUDIO-054] Recording / Overdub
+ *   - MediaRecorder API integration
+ *   - Record from microphone while playing
+ *   - Punch-in/punch-out recording
+ * 
+ * TODO: [STUDIO-055] Automation
+ *   - Volume/pan automation lanes
+ *   - Effect parameter automation
+ *   - Envelope followers
+ * 
+ * ═══════════════════════════════════════════════════════════════════════════════
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { logger } from '@/lib/logger';
-import { getOrCreateStudioContext, ensureAudioContextRunning, getStudioContext } from '@/lib/audio/audioContextHelper';
+import { getOrCreateStudioContext, ensureAudioContextRunning } from '@/lib/audio/audioContextHelper';
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// TYPES
+// ═══════════════════════════════════════════════════════════════════════════════
 
 export interface AudioTrack {
   id: string;
   audioUrl?: string;
-  volume: number;
+  volume: number;    // 0-1
   muted: boolean;
   solo: boolean;
+  pan?: number;      // -1 (L) to +1 (R), default 0 (center)
 }
 
+/**
+ * Internal track node with all Web Audio API connections
+ */
 interface TrackNode {
   id: string;
   audio: HTMLAudioElement;
   source: MediaElementAudioSourceNode | null;
-  gainNode: GainNode;
+  
+  // Audio routing nodes
+  gainNode: GainNode;              // Volume control
+  panNode: StereoPannerNode;       // Stereo panning
+  analyserNode: AnalyserNode;      // VU meter visualization
+  
+  // Effects chain integration
+  effectsInput: GainNode | null;   // Entry point for effects chain
+  effectsOutput: GainNode | null;  // Exit point from effects chain
+  effectsBypass: boolean;          // If true, skip effects chain
+  
+  // State
   isLoaded: boolean;
   duration: number;
 }
@@ -39,21 +130,42 @@ interface UseStudioAudioEngineOptions {
   onAllTracksLoaded?: () => void;
 }
 
-interface UseStudioAudioEngineReturn {
+export interface UseStudioAudioEngineReturn {
+  // Playback state
   isPlaying: boolean;
   currentTime: number;
   duration: number;
   isLoading: boolean;
   isReady: boolean;
   loadedTracks: Set<string>;
+  
+  // Playback controls
   play: () => Promise<void>;
   pause: () => void;
   stop: () => void;
   seek: (time: number) => void;
+  
+  // Track controls
   setTrackVolume: (trackId: string, volume: number) => void;
+  setTrackPan: (trackId: string, pan: number) => void;
   setMasterVolume: (volume: number) => void;
+  
+  // Effects integration
+  insertEffectsChain: (trackId: string, input: GainNode, output: GainNode) => void;
+  removeEffectsChain: (trackId: string) => void;
+  bypassEffects: (trackId: string, bypass: boolean) => void;
+  
+  // Analysis (VU meters)
+  getAnalyserNode: (trackId: string) => AnalyserNode | null;
+  getAudioContext: () => AudioContext | null;
+  
+  // Utility
   getTrackDuration: (trackId: string) => number;
 }
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// HOOK IMPLEMENTATION
+// ═══════════════════════════════════════════════════════════════════════════════
 
 export function useStudioAudioEngine({
   tracks,
@@ -76,29 +188,30 @@ export function useStudioAudioEngine({
   const animationFrameRef = useRef<number | null>(null);
   const isMountedRef = useRef(true);
 
-  // Initialize AudioContext and master gain using singleton
+  // ─────────────────────────────────────────────────────────────────────────────
+  // AUDIO CONTEXT INITIALIZATION
+  // Uses singleton pattern to prevent multiple contexts
+  // ─────────────────────────────────────────────────────────────────────────────
   const initAudioContext = useCallback(async () => {
-    // Check if we already have a valid context
     if (audioContextRef.current && audioContextRef.current.state !== 'closed') {
       await ensureAudioContextRunning(audioContextRef.current);
       return audioContextRef.current;
     }
 
     try {
-      // Use singleton to prevent multiple contexts
       const ctx = getOrCreateStudioContext();
       await ensureAudioContextRunning(ctx);
       
       audioContextRef.current = ctx;
       
-      // Only create master gain if not already created for this context
+      // Create master gain if needed
       if (!masterGainRef.current || masterGainRef.current.context !== ctx) {
         masterGainRef.current = ctx.createGain();
         masterGainRef.current.gain.value = masterVolume;
         masterGainRef.current.connect(ctx.destination);
       }
       
-      logger.debug('Studio AudioContext initialized (singleton)');
+      logger.debug('Studio AudioContext initialized');
       return ctx;
     } catch (err) {
       logger.error('Failed to initialize AudioContext', err);
@@ -106,25 +219,31 @@ export function useStudioAudioEngine({
     }
   }, [masterVolume]);
 
-  // Create or update track node
+  // ─────────────────────────────────────────────────────────────────────────────
+  // TRACK NODE SETUP
+  // Creates audio element, gain node, pan node, and analyser for each track
+  // ─────────────────────────────────────────────────────────────────────────────
   const setupTrackNode = useCallback(async (track: AudioTrack): Promise<TrackNode | null> => {
     if (!track.audioUrl) return null;
 
     const existing = trackNodesRef.current.get(track.id);
     
-    // If same URL, just update gain
+    // If same URL, just update volume/pan
     if (existing && existing.audio.src === track.audioUrl) {
       const effectiveVolume = track.muted ? 0 : track.volume;
       existing.gainNode.gain.setValueAtTime(effectiveVolume, audioContextRef.current?.currentTime || 0);
+      existing.panNode.pan.setValueAtTime(track.pan || 0, audioContextRef.current?.currentTime || 0);
       return existing;
     }
 
-    // Clean up existing
+    // Clean up existing node
     if (existing) {
       existing.audio.pause();
       existing.audio.src = '';
       existing.source?.disconnect();
       existing.gainNode.disconnect();
+      existing.panNode.disconnect();
+      existing.analyserNode.disconnect();
     }
 
     const ctx = await initAudioContext();
@@ -132,26 +251,46 @@ export function useStudioAudioEngine({
     
     // Verify master gain belongs to our context
     if (masterGainRef.current.context !== ctx) {
-      logger.warn('Master gain context mismatch, recreating');
       masterGainRef.current = ctx.createGain();
       masterGainRef.current.gain.value = masterVolume;
       masterGainRef.current.connect(ctx.destination);
     }
 
+    // Create audio element
     const audio = new Audio();
     audio.crossOrigin = 'anonymous';
     audio.preload = 'auto';
     
+    // Create audio nodes
+    // Routing: source → [effects] → gain → pan → analyser → master
     const gainNode = ctx.createGain();
+    const panNode = ctx.createStereoPanner();
+    const analyserNode = ctx.createAnalyser();
+    
+    // Configure analyser for VU meters
+    analyserNode.fftSize = 256;
+    analyserNode.smoothingTimeConstant = 0.8;
+    
+    // Set initial values
     const effectiveVolume = track.muted ? 0 : track.volume;
     gainNode.gain.value = effectiveVolume;
-    gainNode.connect(masterGainRef.current);
+    panNode.pan.value = track.pan || 0;
+    
+    // Connect: gain → pan → analyser → master
+    gainNode.connect(panNode);
+    panNode.connect(analyserNode);
+    analyserNode.connect(masterGainRef.current);
 
     const trackNode: TrackNode = {
       id: track.id,
       audio,
       source: null,
       gainNode,
+      panNode,
+      analyserNode,
+      effectsInput: null,
+      effectsOutput: null,
+      effectsBypass: false,
       isLoaded: false,
       duration: 0,
     };
@@ -163,11 +302,11 @@ export function useStudioAudioEngine({
         trackNode.duration = audio.duration;
         trackNode.isLoaded = true;
         
-        // Create source node only once metadata is loaded
-        // Verify we still have the same context
+        // Create media source and connect to gain
         if (audioContextRef.current === ctx) {
           try {
             trackNode.source = ctx.createMediaElementSource(audio);
+            // Source connects directly to gain (effects chain inserted later if needed)
             trackNode.source.connect(gainNode);
           } catch (err) {
             logger.warn('Failed to create media source', { trackId: track.id, err });
@@ -193,31 +332,25 @@ export function useStudioAudioEngine({
     });
   }, [initAudioContext, onTrackLoaded, masterVolume]);
 
-  // Create a stable state signature for mute/solo/volume changes
+  // ─────────────────────────────────────────────────────────────────────────────
+  // MUTE/SOLO GAIN CALCULATION
+  // Solo has priority: if any track has solo, only solo tracks are audible
+  // ─────────────────────────────────────────────────────────────────────────────
   const trackStatesSignature = useMemo(() => 
-    tracks.map(t => `${t.id}:${t.muted}:${t.solo}:${t.volume}`).join('|'),
+    tracks.map(t => `${t.id}:${t.muted}:${t.solo}:${t.volume}:${t.pan ?? 0}`).join('|'),
     [tracks]
   );
 
-  // Update track gains based on mute/solo state
   const updateTrackGains = useCallback(() => {
     const hasSolo = tracks.some(t => t.solo && t.audioUrl);
     
-    logger.debug('updateTrackGains called', { 
-      hasSolo, 
-      trackCount: tracks.length,
-      states: tracks.map(t => ({ id: t.id, muted: t.muted, solo: t.solo, volume: t.volume }))
-    });
-    
     for (const track of tracks) {
       const node = trackNodesRef.current.get(track.id);
-      if (!node) {
-        logger.debug('No audio node for track', { trackId: track.id });
-        continue;
-      }
+      if (!node) continue;
       
       let effectiveVolume = track.volume;
       
+      // Mute takes priority, then solo logic
       if (track.muted) {
         effectiveVolume = 0;
       } else if (hasSolo && !track.solo) {
@@ -226,13 +359,87 @@ export function useStudioAudioEngine({
       
       const ctx = audioContextRef.current;
       if (ctx) {
-        logger.debug('Setting track gain', { trackId: track.id, effectiveVolume });
+        // Smooth volume transition to avoid clicks
         node.gainNode.gain.setTargetAtTime(effectiveVolume, ctx.currentTime, 0.01);
+        node.panNode.pan.setTargetAtTime(track.pan || 0, ctx.currentTime, 0.01);
       }
     }
   }, [tracks]);
 
-  // Setup all tracks
+  // ─────────────────────────────────────────────────────────────────────────────
+  // EFFECTS CHAIN INTEGRATION
+  // Insert/remove effects chain between source and gain node
+  // ─────────────────────────────────────────────────────────────────────────────
+  const insertEffectsChain = useCallback((
+    trackId: string, 
+    effectsInput: GainNode, 
+    effectsOutput: GainNode
+  ) => {
+    const node = trackNodesRef.current.get(trackId);
+    if (!node || !node.source) {
+      logger.warn('Cannot insert effects: track not ready', { trackId });
+      return;
+    }
+
+    // Disconnect source from gain
+    node.source.disconnect();
+    
+    // Route: source → effectsInput → [effects processing] → effectsOutput → gain
+    node.source.connect(effectsInput);
+    effectsOutput.connect(node.gainNode);
+    
+    node.effectsInput = effectsInput;
+    node.effectsOutput = effectsOutput;
+    node.effectsBypass = false;
+    
+    logger.debug('Effects chain inserted', { trackId });
+  }, []);
+
+  const removeEffectsChain = useCallback((trackId: string) => {
+    const node = trackNodesRef.current.get(trackId);
+    if (!node || !node.source) return;
+
+    // Disconnect effects
+    node.source.disconnect();
+    if (node.effectsOutput) {
+      node.effectsOutput.disconnect();
+    }
+    
+    // Route directly: source → gain
+    node.source.connect(node.gainNode);
+    
+    node.effectsInput = null;
+    node.effectsOutput = null;
+    
+    logger.debug('Effects chain removed', { trackId });
+  }, []);
+
+  const bypassEffects = useCallback((trackId: string, bypass: boolean) => {
+    const node = trackNodesRef.current.get(trackId);
+    if (!node) return;
+    
+    node.effectsBypass = bypass;
+    
+    if (!node.source) return;
+    
+    if (bypass && node.effectsInput && node.effectsOutput) {
+      // Bypass: route source directly to gain
+      node.source.disconnect();
+      node.effectsOutput.disconnect();
+      node.source.connect(node.gainNode);
+    } else if (!bypass && node.effectsInput && node.effectsOutput) {
+      // Enable effects: restore chain
+      node.source.disconnect();
+      node.source.connect(node.effectsInput);
+      node.effectsOutput.connect(node.gainNode);
+    }
+    
+    logger.debug('Effects bypass toggled', { trackId, bypass });
+  }, []);
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // SETUP ALL TRACKS
+  // ─────────────────────────────────────────────────────────────────────────────
   useEffect(() => {
     if (tracks.length === 0) {
       setIsLoading(false);
@@ -248,7 +455,7 @@ export function useStudioAudioEngine({
       
       if (!isMountedRef.current) return;
       
-      // Calculate max duration
+      // Calculate max duration from all tracks
       let maxDuration = 0;
       trackNodesRef.current.forEach(node => {
         if (node.duration > maxDuration) {
@@ -267,9 +474,9 @@ export function useStudioAudioEngine({
 
     setupTracks();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tracks.map(t => t.id + t.audioUrl).join(',')]); // Re-run when track URLs change
+  }, [tracks.map(t => t.id + t.audioUrl).join(',')]);
 
-  // Update gains when mute/solo/volume changes - use signature for reactivity
+  // Update gains when mute/solo/volume/pan changes
   useEffect(() => {
     updateTrackGains();
   }, [trackStatesSignature, updateTrackGains]);
@@ -285,7 +492,10 @@ export function useStudioAudioEngine({
     }
   }, [masterVolume]);
 
-  // Time update loop
+  // ─────────────────────────────────────────────────────────────────────────────
+  // TIME UPDATE LOOP
+  // Uses requestAnimationFrame for smooth 60fps updates
+  // ─────────────────────────────────────────────────────────────────────────────
   useEffect(() => {
     if (!isPlaying) {
       if (animationFrameRef.current) {
@@ -323,7 +533,9 @@ export function useStudioAudioEngine({
     };
   }, [isPlaying, duration, onTimeUpdate, onEnded]);
 
-  // Cleanup on unmount
+  // ─────────────────────────────────────────────────────────────────────────────
+  // CLEANUP
+  // ─────────────────────────────────────────────────────────────────────────────
   useEffect(() => {
     isMountedRef.current = true;
     
@@ -336,6 +548,8 @@ export function useStudioAudioEngine({
         node.audio.src = '';
         node.source?.disconnect();
         node.gainNode.disconnect();
+        node.panNode.disconnect();
+        node.analyserNode.disconnect();
       });
       trackNodesRef.current.clear();
       
@@ -345,7 +559,9 @@ export function useStudioAudioEngine({
     };
   }, []);
 
-  // Play all tracks
+  // ─────────────────────────────────────────────────────────────────────────────
+  // PLAYBACK CONTROLS
+  // ─────────────────────────────────────────────────────────────────────────────
   const play = useCallback(async () => {
     const ctx = await initAudioContext();
     if (!ctx) return;
@@ -370,7 +586,6 @@ export function useStudioAudioEngine({
     logger.debug('Studio playback started', { trackCount: trackNodesRef.current.size });
   }, [initAudioContext]);
 
-  // Pause all tracks
   const pause = useCallback(() => {
     trackNodesRef.current.forEach(node => {
       node.audio.pause();
@@ -379,7 +594,6 @@ export function useStudioAudioEngine({
     logger.debug('Studio playback paused');
   }, []);
 
-  // Stop and reset
   const stop = useCallback(() => {
     trackNodesRef.current.forEach(node => {
       node.audio.pause();
@@ -391,7 +605,6 @@ export function useStudioAudioEngine({
     logger.debug('Studio playback stopped');
   }, [onTimeUpdate]);
 
-  // Seek all tracks
   const seek = useCallback((time: number) => {
     const clampedTime = Math.max(0, Math.min(time, duration));
     
@@ -405,7 +618,9 @@ export function useStudioAudioEngine({
     onTimeUpdate?.(clampedTime);
   }, [duration, onTimeUpdate]);
 
-  // Set individual track volume
+  // ─────────────────────────────────────────────────────────────────────────────
+  // TRACK CONTROLS
+  // ─────────────────────────────────────────────────────────────────────────────
   const setTrackVolume = useCallback((trackId: string, volume: number) => {
     const node = trackNodesRef.current.get(trackId);
     if (node && audioContextRef.current) {
@@ -415,34 +630,71 @@ export function useStudioAudioEngine({
     }
   }, [tracks]);
 
-  // Set master volume
+  const setTrackPan = useCallback((trackId: string, pan: number) => {
+    const node = trackNodesRef.current.get(trackId);
+    if (node && audioContextRef.current) {
+      // Clamp pan to -1...+1 range
+      const clampedPan = Math.max(-1, Math.min(1, pan));
+      node.panNode.pan.setTargetAtTime(clampedPan, audioContextRef.current.currentTime, 0.01);
+    }
+  }, []);
+
   const setMasterVolumeInternal = useCallback((volume: number) => {
     if (masterGainRef.current && audioContextRef.current) {
       masterGainRef.current.gain.setTargetAtTime(volume, audioContextRef.current.currentTime, 0.01);
     }
   }, []);
 
-  // Get track duration
+  // ─────────────────────────────────────────────────────────────────────────────
+  // ANALYSIS / VU METERS
+  // ─────────────────────────────────────────────────────────────────────────────
+  const getAnalyserNode = useCallback((trackId: string): AnalyserNode | null => {
+    return trackNodesRef.current.get(trackId)?.analyserNode || null;
+  }, []);
+
+  const getAudioContext = useCallback((): AudioContext | null => {
+    return audioContextRef.current;
+  }, []);
+
   const getTrackDuration = useCallback((trackId: string): number => {
     return trackNodesRef.current.get(trackId)?.duration || 0;
   }, []);
 
-  // isReady = at least one track loaded and not in loading state
+  // ─────────────────────────────────────────────────────────────────────────────
+  // RETURN VALUE
+  // ─────────────────────────────────────────────────────────────────────────────
   const isReady = loadedTracks.size > 0 && !isLoading;
 
   return {
+    // Playback state
     isPlaying,
     currentTime,
     duration,
     isLoading,
     isReady,
     loadedTracks,
+    
+    // Playback controls
     play,
     pause,
     stop,
     seek,
+    
+    // Track controls
     setTrackVolume,
+    setTrackPan,
     setMasterVolume: setMasterVolumeInternal,
+    
+    // Effects integration
+    insertEffectsChain,
+    removeEffectsChain,
+    bypassEffects,
+    
+    // Analysis
+    getAnalyserNode,
+    getAudioContext,
+    
+    // Utility
     getTrackDuration,
   };
 }
