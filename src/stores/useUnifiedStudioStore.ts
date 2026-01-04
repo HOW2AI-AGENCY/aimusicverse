@@ -36,9 +36,15 @@ export interface StudioClip {
 }
 
 export interface StudioTrackVersion {
+  id?: string; // ID from track_versions table (optional)
   label: string;
   audioUrl: string;
   duration?: number;
+  metadata?: {
+    suno_id?: string;
+    version_type?: string;
+    created_at?: string;
+  };
 }
 
 export type TrackStatus = 'ready' | 'pending' | 'processing' | 'failed';

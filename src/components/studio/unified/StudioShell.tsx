@@ -87,6 +87,8 @@ import { StudioDownloadPanel } from './StudioDownloadPanel';
 import { StudioTranscriptionPanel } from './StudioTranscriptionPanel';
 import { StudioArrangementDialog } from './StudioArrangementDialog';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
+import { useProjectTrackSync } from '@/hooks/studio/useProjectTrackSync';
+import { useStudioOperationLock } from '@/hooks/studio/useStudioOperationLock';
 
 interface StudioShellProps {
   className?: string;
@@ -321,12 +323,14 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
     }));
   }, [replacedSectionsData]);
 
-  // Check if stems exist (used to disable extend/replace)
-  const hasStems = useMemo(() => {
-    if (!project?.tracks) return false;
-    const stemTypes = ['vocal', 'instrumental', 'drums', 'bass', 'other'];
-    return project.tracks.some(t => stemTypes.includes(t.type) && t.status === 'ready');
-  }, [project?.tracks]);
+  // Operation lock hook - prevents conflicting operations
+  const operationLock = useStudioOperationLock(project);
+
+  // Project track sync - realtime version updates
+  useProjectTrackSync(project?.id || null, sourceTrackId);
+
+  // Check if stems exist (used to disable extend/replace) - use operationLock
+  const hasStems = operationLock.hasStems;
 
   // Filter tracks to avoid duplicating main track when stems exist
   const displayTracks = useMemo(() => {
@@ -792,6 +796,13 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
         setShowArrangementDialog(true);
       } else {
         toast.error('Вокальный трек не найден');
+      }
+    } else if (action === 'reference') {
+      // Navigate to create page with audio as reference for cover
+      if (track.audioUrl) {
+        navigate(`/create?mode=cover&audioUrl=${encodeURIComponent(track.audioUrl)}`);
+      } else {
+        toast.error('Нет аудио для референса');
       }
     }
   }, [project?.tracks]);
