@@ -1,6 +1,6 @@
 # Sprint Progress Tracker
 
-**Последнее обновление**: 2025-12-26
+**Последнее обновление**: 2026-01-04
 
 ## 📊 Общий статус
 
@@ -9,8 +9,9 @@
 | Sprint 011: Social Features | ✅ ЗАВЕРШЕН | 100% | Dec 2025 |
 | Sprint 025: Optimization | ✅ ЗАВЕРШЕН | 100% | Completed Dec 11 |
 | Sprint 026: UX Unification | ✅ ЗАВЕРШЕН | 100% | Completed Dec 12 |
-| Sprint 027: AI Lyrics Agent | 🟢 В РАБОТЕ | 80% | Dec 26, 2025 |
-| Sprint 028: Mobile Polish | 📋 ПЛАНИРУЕТСЯ | 0% | Jan 27 - Feb 9, 2026 |
+| Sprint 027: AI Lyrics Agent | ✅ ЗАВЕРШЕН | 100% | Dec 26, 2025 |
+| Sprint 028: UI/UX Optimization | ✅ ЗАВЕРШЕН | 100% | Dec 22, 2025 |
+| Sprint 029: Mobile Optimization | 🟢 В РАБОТЕ | 50% | Jan 4-18, 2026 |
 
 ---
 
