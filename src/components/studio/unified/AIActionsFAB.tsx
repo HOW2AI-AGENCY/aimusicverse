@@ -7,26 +7,30 @@
  * - Create cover
  * - Add vocals
  * - Separate stems
+ * - Save as new version (when stems block operations)
  * 
- * Designed for mobile-first experience with touch-friendly targets.
+ * Supports operation locking - disabled buttons show reasons via tooltips.
  * 
  * @see ADR-011 for architecture decisions
  */
 
-import { memo, useState, useCallback } from 'react';
+import { memo, useState, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { Button } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
+import { StudioOperation } from '@/hooks/studio/useStudioOperationLock';
 import {
   Sparkles,
-  Plus,
   X,
   ArrowRight,
   Music2,
   Mic2,
   Layers,
   Wand2,
+  Save,
+  Lock,
 } from 'lucide-react';
 
 interface AIActionsFABProps {
@@ -35,16 +39,26 @@ interface AIActionsFABProps {
   onCover?: () => void;
   onAddVocals?: () => void;
   onSeparateStems?: () => void;
+  onSaveAsVersion?: () => void;
+  
+  /** Operations that are currently disabled */
+  disabledOperations?: StudioOperation[];
+  /** Function to get reason why operation is disabled */
+  getDisabledReason?: (op: StudioOperation) => string | null;
+  /** Whether user can save as new version to bypass blocks */
+  canSaveAsNewVersion?: boolean;
+  
   disabled?: boolean;
   className?: string;
 }
 
 interface ActionItem {
-  id: string;
+  id: StudioOperation;
   label: string;
   icon: React.ReactNode;
   onClick?: () => void;
   color: string;
+  disabledColor: string;
 }
 
 export const AIActionsFAB = memo(function AIActionsFAB({
@@ -53,49 +67,79 @@ export const AIActionsFAB = memo(function AIActionsFAB({
   onCover,
   onAddVocals,
   onSeparateStems,
+  onSaveAsVersion,
+  disabledOperations = [],
+  getDisabledReason,
+  canSaveAsNewVersion = false,
   disabled = false,
   className,
 }: AIActionsFABProps) {
   const [isOpen, setIsOpen] = useState(false);
   const haptic = useHapticFeedback();
 
-  const actions: ActionItem[] = [
-    {
-      id: 'generate',
-      label: 'Создать',
-      icon: <Music2 className="w-5 h-5" />,
-      onClick: onGenerate,
-      color: 'bg-primary text-primary-foreground',
-    },
-    {
-      id: 'extend',
-      label: 'Расширить',
-      icon: <ArrowRight className="w-5 h-5" />,
-      onClick: onExtend,
-      color: 'bg-blue-500 text-white',
-    },
-    {
-      id: 'cover',
-      label: 'Кавер',
-      icon: <Wand2 className="w-5 h-5" />,
-      onClick: onCover,
-      color: 'bg-violet-500 text-white',
-    },
-    {
-      id: 'vocals',
-      label: 'Вокал',
-      icon: <Mic2 className="w-5 h-5" />,
-      onClick: onAddVocals,
-      color: 'bg-pink-500 text-white',
-    },
-    {
-      id: 'stems',
-      label: 'Стемы',
-      icon: <Layers className="w-5 h-5" />,
-      onClick: onSeparateStems,
-      color: 'bg-emerald-500 text-white',
-    },
-  ].filter(action => action.onClick);
+  const isOperationDisabled = useCallback((op: StudioOperation): boolean => {
+    return disabled || disabledOperations.includes(op);
+  }, [disabled, disabledOperations]);
+
+  const actions: ActionItem[] = useMemo(() => {
+    const baseActions: ActionItem[] = [
+      {
+        id: 'generate',
+        label: 'Создать',
+        icon: <Music2 className="w-5 h-5" />,
+        onClick: onGenerate,
+        color: 'bg-primary text-primary-foreground',
+        disabledColor: 'bg-muted text-muted-foreground',
+      },
+      {
+        id: 'extend',
+        label: 'Расширить',
+        icon: <ArrowRight className="w-5 h-5" />,
+        onClick: onExtend,
+        color: 'bg-blue-500 text-white',
+        disabledColor: 'bg-muted text-muted-foreground',
+      },
+      {
+        id: 'cover',
+        label: 'Кавер',
+        icon: <Wand2 className="w-5 h-5" />,
+        onClick: onCover,
+        color: 'bg-violet-500 text-white',
+        disabledColor: 'bg-muted text-muted-foreground',
+      },
+      {
+        id: 'add_vocals',
+        label: 'Вокал',
+        icon: <Mic2 className="w-5 h-5" />,
+        onClick: onAddVocals,
+        color: 'bg-pink-500 text-white',
+        disabledColor: 'bg-muted text-muted-foreground',
+      },
+      {
+        id: 'separate_stems',
+        label: 'Стемы',
+        icon: <Layers className="w-5 h-5" />,
+        onClick: onSeparateStems,
+        color: 'bg-emerald-500 text-white',
+        disabledColor: 'bg-muted text-muted-foreground',
+      },
+    ];
+
+    // Add "Save as Version" button when stems block operations
+    if (canSaveAsNewVersion && onSaveAsVersion) {
+      baseActions.push({
+        id: 'save_as_version',
+        label: 'Новая версия',
+        icon: <Save className="w-5 h-5" />,
+        onClick: onSaveAsVersion,
+        color: 'bg-amber-500 text-white',
+        disabledColor: 'bg-muted text-muted-foreground',
+      });
+    }
+
+    // Filter out actions without callbacks
+    return baseActions.filter(action => action.onClick);
+  }, [onGenerate, onExtend, onCover, onAddVocals, onSeparateStems, onSaveAsVersion, canSaveAsNewVersion]);
 
   const toggleOpen = useCallback(() => {
     haptic.tap();
@@ -103,15 +147,107 @@ export const AIActionsFAB = memo(function AIActionsFAB({
   }, [haptic]);
 
   const handleAction = useCallback((action: ActionItem) => {
+    const isDisabled = isOperationDisabled(action.id);
+    
+    if (isDisabled) {
+      haptic.error();
+      return;
+    }
+    
     haptic.select();
     setIsOpen(false);
     action.onClick?.();
-  }, [haptic]);
+  }, [haptic, isOperationDisabled]);
 
   const handleBackdropClick = useCallback(() => {
     haptic.tap();
     setIsOpen(false);
   }, [haptic]);
+
+  const renderActionButton = useCallback((action: ActionItem, index: number) => {
+    const isDisabled = isOperationDisabled(action.id);
+    const disabledReason = isDisabled && getDisabledReason ? getDisabledReason(action.id) : null;
+
+    const button = (
+      <motion.div
+        key={action.id}
+        initial={{ opacity: 0, scale: 0.3, y: 20 }}
+        animate={{ 
+          opacity: 1, 
+          scale: 1, 
+          y: 0,
+          transition: { 
+            delay: index * 0.05,
+            type: 'spring',
+            stiffness: 400,
+            damping: 20
+          }
+        }}
+        exit={{ 
+          opacity: 0, 
+          scale: 0.3, 
+          y: 20,
+          transition: { 
+            delay: (actions.length - index - 1) * 0.03,
+            duration: 0.15
+          }
+        }}
+        className="flex items-center gap-2"
+      >
+        {/* Label */}
+        <motion.span
+          initial={{ opacity: 0, x: 10 }}
+          animate={{ opacity: 1, x: 0, transition: { delay: index * 0.05 + 0.1 } }}
+          exit={{ opacity: 0, x: 10 }}
+          className={cn(
+            "px-3 py-1.5 rounded-full text-sm font-medium shadow-lg flex items-center gap-1.5",
+            isDisabled 
+              ? "bg-muted text-muted-foreground" 
+              : "bg-card text-card-foreground"
+          )}
+        >
+          {isDisabled && <Lock className="w-3 h-3" />}
+          {action.label}
+        </motion.span>
+        
+        {/* Button */}
+        <Button
+          size="icon"
+          className={cn(
+            "h-12 w-12 rounded-full shadow-lg transition-all",
+            isDisabled 
+              ? cn(action.disabledColor, "opacity-50 cursor-not-allowed") 
+              : action.color
+          )}
+          onClick={() => handleAction(action)}
+          disabled={disabled}
+        >
+          {action.icon}
+        </Button>
+      </motion.div>
+    );
+
+    // Wrap with tooltip if disabled
+    if (isDisabled && disabledReason) {
+      return (
+        <TooltipProvider key={action.id}>
+          <Tooltip delayDuration={100}>
+            <TooltipTrigger asChild>
+              {button}
+            </TooltipTrigger>
+            <TooltipContent 
+              side="left" 
+              className="max-w-[200px] text-center"
+            >
+              {disabledReason}
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      );
+    }
+
+    return button;
+  }, [actions.length, disabled, getDisabledReason, handleAction, isOperationDisabled]);
 
   return (
     <>
@@ -136,56 +272,7 @@ export const AIActionsFAB = memo(function AIActionsFAB({
       )}>
         {/* Action buttons */}
         <AnimatePresence>
-          {isOpen && actions.map((action, index) => (
-            <motion.div
-              key={action.id}
-              initial={{ opacity: 0, scale: 0.3, y: 20 }}
-              animate={{ 
-                opacity: 1, 
-                scale: 1, 
-                y: 0,
-                transition: { 
-                  delay: index * 0.05,
-                  type: 'spring',
-                  stiffness: 400,
-                  damping: 20
-                }
-              }}
-              exit={{ 
-                opacity: 0, 
-                scale: 0.3, 
-                y: 20,
-                transition: { 
-                  delay: (actions.length - index - 1) * 0.03,
-                  duration: 0.15
-                }
-              }}
-              className="flex items-center gap-2"
-            >
-              {/* Label */}
-              <motion.span
-                initial={{ opacity: 0, x: 10 }}
-                animate={{ opacity: 1, x: 0, transition: { delay: index * 0.05 + 0.1 } }}
-                exit={{ opacity: 0, x: 10 }}
-                className="px-3 py-1.5 rounded-full bg-card text-card-foreground text-sm font-medium shadow-lg"
-              >
-                {action.label}
-              </motion.span>
-              
-              {/* Button */}
-              <Button
-                size="icon"
-                className={cn(
-                  "h-12 w-12 rounded-full shadow-lg",
-                  action.color
-                )}
-                onClick={() => handleAction(action)}
-                disabled={disabled}
-              >
-                {action.icon}
-              </Button>
-            </motion.div>
-          ))}
+          {isOpen && actions.map((action, index) => renderActionButton(action, index))}
         </AnimatePresence>
 
         {/* Main FAB */}

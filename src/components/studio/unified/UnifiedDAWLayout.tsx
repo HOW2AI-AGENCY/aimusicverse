@@ -68,6 +68,16 @@ interface UnifiedDAWLayoutProps {
   onAddTrack?: () => void;
   onExport?: () => void;
   onSave?: () => void;
+  // AI Actions
+  onGenerate?: () => void;
+  onExtend?: () => void;
+  onCover?: () => void;
+  onAddVocals?: () => void;
+  onSeparateStems?: () => void;
+  onSaveAsVersion?: () => void;
+  // Operation lock state
+  hasStems?: boolean;
+  hasPendingTracks?: boolean;
   className?: string;
 }
 
@@ -90,11 +100,50 @@ export const UnifiedDAWLayout = memo(function UnifiedDAWLayout({
   onAddTrack,
   onExport,
   onSave,
+  // AI Actions
+  onGenerate,
+  onExtend,
+  onCover,
+  onAddVocals,
+  onSeparateStems,
+  onSaveAsVersion,
+  // Operation lock state
+  hasStems = false,
+  hasPendingTracks = false,
   className,
 }: UnifiedDAWLayoutProps) {
   const { patterns } = useHaptic();
   const [mixerOpen, setMixerOpen] = useState(false);
   const [masterMuted, setMasterMuted] = useState(false);
+
+  // Compute disabled operations based on state
+  const disabledOperations = useMemo(() => {
+    const disabled: string[] = [];
+    if (hasStems) {
+      disabled.push('extend', 'replace_section', 'separate_stems');
+    }
+    if (hasPendingTracks) {
+      disabled.push('generate', 'extend', 'replace_section', 'add_instrumental', 
+        'add_vocals', 'cover', 'replace_instrumental', 'separate_stems');
+    }
+    return disabled;
+  }, [hasStems, hasPendingTracks]);
+
+  const getDisabledReason = useCallback((op: string): string | null => {
+    if (hasPendingTracks && ['generate', 'extend', 'replace_section', 'add_instrumental', 
+      'add_vocals', 'cover', 'replace_instrumental', 'separate_stems'].includes(op)) {
+      return 'Дождитесь завершения текущей генерации.';
+    }
+    if (hasStems) {
+      if (op === 'extend' || op === 'replace_section') {
+        return 'Стемы блокируют изменение структуры. Создайте новую версию.';
+      }
+      if (op === 'separate_stems') {
+        return 'Стемы уже разделены.';
+      }
+    }
+    return null;
+  }, [hasStems, hasPendingTracks]);
 
   // Track states for DAWTrackLane
   const trackStates = useMemo(() => {
@@ -224,6 +273,8 @@ export const UnifiedDAWLayout = memo(function UnifiedDAWLayout({
                 stem_type: track.stemType || 'other',
                 audio_url: track.audioUrl,
                 status: 'completed' as const,
+                separation_mode: null,
+                version_id: null,
                 created_at: new Date().toISOString(),
                 updated_at: new Date().toISOString(),
               };
@@ -323,14 +374,32 @@ export const UnifiedDAWLayout = memo(function UnifiedDAWLayout({
       </div>
 
       {/* Floating AI Actions Button */}
-      {project.tracks.length > 0 && project.tracks[0]?.id && (
+      {project.tracks.length > 0 && (
         <AIActionsFAB
-          trackId={project.tracks[0].id}
-          onAction={(action: string) => {
+          onGenerate={onGenerate || (() => {
             patterns.select();
-            // Handle AI actions
-            console.log('AI Action:', action);
-          }}
+            console.log('AI Action: Generate');
+          })}
+          onExtend={onExtend || (() => {
+            patterns.select();
+            console.log('AI Action: Extend', project.tracks[0]?.id);
+          })}
+          onCover={onCover || (() => {
+            patterns.select();
+            console.log('AI Action: Cover');
+          })}
+          onAddVocals={onAddVocals || (() => {
+            patterns.select();
+            console.log('AI Action: Add Vocals');
+          })}
+          onSeparateStems={onSeparateStems || (() => {
+            patterns.select();
+            console.log('AI Action: Separate Stems');
+          })}
+          onSaveAsVersion={onSaveAsVersion}
+          disabledOperations={disabledOperations as any}
+          getDisabledReason={getDisabledReason as any}
+          canSaveAsNewVersion={hasStems && !!onSaveAsVersion}
           className="fixed bottom-24 right-4 z-40"
         />
       )}
