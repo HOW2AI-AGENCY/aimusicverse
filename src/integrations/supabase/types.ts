@@ -4318,7 +4318,9 @@ export type Database = {
           artist_avatar_url: string | null
           artist_id: string | null
           artist_name: string | null
+          audio_quality: string | null
           audio_url: string | null
+          audio_url_hd: string | null
           computed_genre: string | null
           computed_mood: string | null
           cover_url: string | null
@@ -4365,6 +4367,7 @@ export type Database = {
           title: string | null
           trending_score: number | null
           updated_at: string | null
+          upscale_status: string | null
           user_id: string
           video_url: string | null
           vocal_gender: string | null
@@ -4377,7 +4380,9 @@ export type Database = {
           artist_avatar_url?: string | null
           artist_id?: string | null
           artist_name?: string | null
+          audio_quality?: string | null
           audio_url?: string | null
+          audio_url_hd?: string | null
           computed_genre?: string | null
           computed_mood?: string | null
           cover_url?: string | null
@@ -4424,6 +4429,7 @@ export type Database = {
           title?: string | null
           trending_score?: number | null
           updated_at?: string | null
+          upscale_status?: string | null
           user_id: string
           video_url?: string | null
           vocal_gender?: string | null
@@ -4436,7 +4442,9 @@ export type Database = {
           artist_avatar_url?: string | null
           artist_id?: string | null
           artist_name?: string | null
+          audio_quality?: string | null
           audio_url?: string | null
+          audio_url_hd?: string | null
           computed_genre?: string | null
           computed_mood?: string | null
           cover_url?: string | null
@@ -4483,6 +4491,7 @@ export type Database = {
           title?: string | null
           trending_score?: number | null
           updated_at?: string | null
+          upscale_status?: string | null
           user_id?: string
           video_url?: string | null
           vocal_gender?: string | null

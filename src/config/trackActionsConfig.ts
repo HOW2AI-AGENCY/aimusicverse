@@ -2,7 +2,8 @@ import {
   Download, Share2, Send, Folder, ListMusic, 
   Scissors, Wand2, ImagePlus, Music2, Video, Layers,
   Plus, Music, Globe, Lock, Info, Trash2,
-  Link, FileAudio, FileMusic, Archive, Disc, RefreshCw, Pencil, User, Mic2
+  Link, FileAudio, FileMusic, Archive, Disc, RefreshCw, Pencil, User, Mic2,
+  Sparkles
 } from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
 
@@ -15,6 +16,8 @@ export type ActionId =
   | 'generate_video' | 'send_telegram' | 'copy_link' | 'add_to_playlist' | 'add_to_project'
   // Studio
   | 'open_studio' | 'replace_section' | 'stems_simple' | 'stems_detailed' | 'transcribe_midi' | 'transcribe_notes'
+  // Quality
+  | 'upscale_hd'
   // Create
   | 'generate_cover' | 'cover' | 'extend' | 'remix' | 'create_artist_persona' | 'add_vocals' | 'add_instrumental'
   // Delete
@@ -25,6 +28,7 @@ export type ActionCategory =
   | 'download' 
   | 'share' 
   | 'studio' 
+  | 'quality'
   | 'create'
   | 'delete';
 
@@ -191,6 +195,17 @@ export const TRACK_ACTIONS: Record<ActionId, TrackAction> = {
     requiresAudio: true,
   },
 
+  // Quality Actions (Priority 37-40)
+  upscale_hd: {
+    id: 'upscale_hd',
+    label: 'HD Audio (48kHz)',
+    icon: Sparkles,
+    category: 'quality',
+    priority: 37,
+    requiresAudio: true,
+    requiresCompleted: true,
+  },
+
   // Create Actions (Priority 41-50)
   generate_cover: {
     id: 'generate_cover',
@@ -278,6 +293,7 @@ export const CATEGORY_LABELS: Record<ActionCategory, string> = {
   download: 'Скачать',
   share: 'Поделиться',
   studio: 'Открыть в студии',
+  quality: 'Качество',
   create: 'Создать',
   delete: 'Удалить',
 };
