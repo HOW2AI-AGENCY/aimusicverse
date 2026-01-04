@@ -15,6 +15,7 @@ import { StudioActions } from './sections/StudioActions';
 import { CreateActions } from './sections/CreateActions';
 import { DeleteActions } from './sections/DeleteActions';
 import { QueueActionsMenu } from './sections/QueueActions';
+import { QualityActions } from './sections/QualityActions';
 import { TrackDialogsPortal } from './TrackDialogsPortal';
 
 interface UnifiedTrackMenuProps {
@@ -100,6 +101,15 @@ export function UnifiedTrackMenu({
 
           {/* Studio Actions */}
           <StudioActions
+            track={track}
+            state={actionState}
+            onAction={executeAction}
+            variant="dropdown"
+            isProcessing={isProcessing}
+          />
+
+          {/* Quality Actions */}
+          <QualityActions
             track={track}
             state={actionState}
             onAction={executeAction}

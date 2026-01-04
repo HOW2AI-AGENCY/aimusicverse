@@ -4,6 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { useVideoGenerationStatus } from '@/hooks/useVideoGenerationStatus';
 import { useTrackActions } from '@/hooks/useTrackActions';
+import { useAudioUpscale } from '@/hooks/useAudioUpscale';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
 import { triggerHapticFeedback } from '@/lib/mobile-utils';
@@ -72,6 +73,7 @@ export function useTrackActionsState({
     handleGenerateVideo,
     handleSendToTelegram,
   } = useTrackActions();
+  const { upscale: upscaleAudio, isLoading: isUpscaling } = useAudioUpscale();
   const { addToQueue, queue } = usePlayerStore();
 
   // Fetch counts and stems
@@ -256,6 +258,14 @@ export function useTrackActionsState({
         openDialog('addInstrumental');
         break;
 
+      // Quality actions
+      case 'upscale_hd':
+        if (track.audio_url) {
+          await upscaleAudio({ audioUrl: track.audio_url, trackId: track.id });
+        }
+        onClose?.();
+        break;
+
       // Delete actions
       case 'delete_version':
         openDialog('deleteVersionSelect');
@@ -280,6 +290,7 @@ export function useTrackActionsState({
     handleRemix,
     handleTogglePublic,
     handleShare,
+    upscaleAudio,
   ]);
 
   const handleConfirmDelete = useCallback(() => {
