@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from '@/lib/motion';
 import {
   Volume2, VolumeX, MoreHorizontal, Download,
   Mic2, Guitar, Drum, Music, Piano, Waves, Sliders,
-  Trash2, Sparkles, GripVertical, Scissors, ArrowRight,
+  Trash2, Sparkles, GripVertical, Scissors, ArrowRight, FileMusic,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -97,13 +97,14 @@ interface StudioTrackRowProps {
   isPlaying: boolean;
   currentTime: number;
   duration: number;
+  hasSoloTracks?: boolean;
   onToggleMute: () => void;
   onToggleSolo: () => void;
   onVolumeChange: (volume: number) => void;
   onSeek: (time: number) => void;
   onRemove: () => void;
   onVersionChange?: (versionLabel: string) => void;
-  onAction?: (action: 'download' | 'effects' | 'reference' | 'add_vocals' | 'extend' | 'replace_section') => void;
+  onAction?: (action: 'download' | 'effects' | 'reference' | 'add_vocals' | 'extend' | 'replace_section' | 'transcribe') => void;
 }
 
 export const StudioTrackRow = memo(function StudioTrackRow({
@@ -111,6 +112,7 @@ export const StudioTrackRow = memo(function StudioTrackRow({
   isPlaying,
   currentTime,
   duration,
+  hasSoloTracks = false,
   onToggleMute,
   onToggleSolo,
   onVolumeChange,
@@ -129,6 +131,9 @@ export const StudioTrackRow = memo(function StudioTrackRow({
   // Get audio URL from track or first clip
   const audioUrl = track.audioUrl || track.clips[0]?.audioUrl;
 
+  // Calculate effective mute: muted if explicitly muted OR if another track is solo and this isn't
+  const effectiveMuted = track.muted || (hasSoloTracks && !track.solo);
+
   const handleToggle = useCallback((type: 'mute' | 'solo') => {
     haptic.select();
     if (type === 'mute') {
@@ -145,7 +150,7 @@ export const StudioTrackRow = memo(function StudioTrackRow({
       exit={{ opacity: 0, x: -10 }}
       className={cn(
         "relative group",
-        track.muted && "opacity-40"
+        effectiveMuted && "opacity-50"
       )}
     >
       <div className={cn(
@@ -267,6 +272,13 @@ export const StudioTrackRow = memo(function StudioTrackRow({
                       <Sliders className="w-4 h-4 mr-2" />
                       Эффекты
                     </DropdownMenuItem>
+                    {/* MIDI transcription for all tracks with audio */}
+                    {audioUrl && (
+                      <DropdownMenuItem onClick={() => onAction('transcribe')}>
+                        <FileMusic className="w-4 h-4 mr-2 text-cyan-400" />
+                        MIDI / Ноты
+                      </DropdownMenuItem>
+                    )}
                     <DropdownMenuSeparator />
                     {audioUrl && (
                       <DropdownMenuItem onClick={() => onAction('download')}>

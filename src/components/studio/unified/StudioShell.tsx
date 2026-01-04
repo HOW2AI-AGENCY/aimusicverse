@@ -84,6 +84,7 @@ import { useReplacedSections } from '@/hooks/useReplacedSections';
 import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
 import { StudioDownloadPanel } from './StudioDownloadPanel';
 import { StudioTranscriptionPanel } from './StudioTranscriptionPanel';
+import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 
 interface StudioShellProps {
   className?: string;
@@ -411,6 +412,13 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
     }
   }, [hasUnsavedChanges, navigate]);
 
+  // Telegram back button integration
+  const { shouldShowUIButton } = useTelegramBackButton({
+    visible: !!project,
+    onClick: handleBack,
+    fallbackPath: '/studio-v2',
+  });
+
   // Handle add track
   const handleAddTrack = useCallback((type: TrackType, name: string) => {
     addTrack({
@@ -723,6 +731,11 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
   const telegramSafeAreaTop = 'calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px)))';
   const telegramSafeAreaBottom = 'calc(max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)))';
 
+  // Check if any track has solo enabled (for effective mute calculation)
+  const hasSoloTracks = useMemo(() => {
+    return project?.tracks?.some(t => t.solo) ?? false;
+  }, [project?.tracks]);
+
   // Handle track actions from mobile UI
   const handleMobileTrackAction = useCallback((trackId: string, action: string) => {
     const track = project.tracks.find(t => t.id === trackId);
@@ -764,9 +777,12 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
     )}>
       {/* Left: Back + Title */}
       <div className="flex items-center gap-2 min-w-0">
-        <Button variant="ghost" size="icon" onClick={handleBack} className="shrink-0 h-8 w-8">
-          <ArrowLeft className="h-4 w-4" />
-        </Button>
+        {/* Show UI back button only when not using native Telegram BackButton */}
+        {shouldShowUIButton && (
+          <Button variant="ghost" size="icon" onClick={handleBack} className="shrink-0 h-8 w-8">
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+        )}
         <div className="flex flex-col min-w-0">
           <h1 className="text-sm font-semibold truncate">{project.name}</h1>
           <div className="flex items-center gap-1">
@@ -1046,6 +1062,7 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
             isPlaying={isPlaying}
             currentTime={currentTime}
             duration={duration}
+            hasSoloTracks={hasSoloTracks}
             onReorder={reorderTracks}
             onToggleMute={toggleTrackMute}
             onToggleSolo={toggleTrackSolo}

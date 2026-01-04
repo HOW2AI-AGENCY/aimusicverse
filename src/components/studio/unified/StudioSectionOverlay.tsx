@@ -5,6 +5,7 @@
  */
 
 import { memo, useMemo, useCallback } from 'react';
+import type { AlignedWord } from '@/hooks/useTimestampedLyrics';
 import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import type { DetectedSection } from '@/hooks/useSectionDetection';
@@ -61,62 +62,121 @@ export const StudioSectionOverlay = memo(function StudioSectionOverlay({
     return sections.findIndex(s => currentTime >= s.startTime && currentTime < s.endTime);
   }, [sections, currentTime]);
 
-  if (!sections.length || duration <= 0) return null;
+  // Fill gaps between sections to ensure full timeline coverage
+  const normalizedSections = useMemo(() => {
+    if (!sections.length || duration <= 0) return [];
+    
+    const result: DetectedSection[] = [];
+    
+    // Ensure first section starts from 0
+    if (sections[0].startTime > 0.5) {
+      result.push({
+        type: 'intro' as const,
+        label: 'Интро',
+        startTime: 0,
+        endTime: sections[0].startTime,
+        lyrics: '',
+        words: [],
+      });
+    }
+    
+    for (let i = 0; i < sections.length; i++) {
+      const current = sections[i];
+      const prev = result[result.length - 1];
+      
+      // Fill gap before current section if needed
+      if (prev && current.startTime > prev.endTime + 0.5) {
+        result.push({
+          type: 'unknown' as const,
+          label: 'Переход',
+          startTime: prev.endTime,
+          endTime: current.startTime,
+          lyrics: '',
+          words: [],
+        });
+      }
+      
+      // Adjust current section to connect with previous
+      result.push({
+        ...current,
+        startTime: prev ? Math.max(current.startTime, prev.endTime) : current.startTime,
+      });
+    }
+    
+    // Extend last section to full duration
+    if (result.length > 0 && result[result.length - 1].endTime < duration - 0.5) {
+      result[result.length - 1] = {
+        ...result[result.length - 1],
+        endTime: duration,
+      };
+    }
+    
+    return result;
+  }, [sections, duration]);
+
+  if (!normalizedSections.length || duration <= 0) return null;
 
   return (
     <div className={cn("absolute inset-0 pointer-events-none z-10", className)}>
-      {sections.map((section, index) => {
+      {normalizedSections.map((section, index) => {
         const left = (section.startTime / duration) * 100;
         const width = ((section.endTime - section.startTime) / duration) * 100;
         const colors = SECTION_COLORS[section.type];
-        const isSelected = selectedIndex === index;
-        const isActive = activeIndex === index;
+        // Map back to original index for selection
+        const originalIndex = sections.findIndex(s => 
+          s.startTime === section.startTime && s.type === section.type
+        );
+        const isSelected = selectedIndex === originalIndex && originalIndex !== -1;
+        const isActive = currentTime >= section.startTime && currentTime < section.endTime;
         const isReplaced = isSectionReplaced(section);
 
         return (
           <motion.button
             key={`${section.type}-${section.startTime}-${index}`}
             className={cn(
-              "absolute top-5 bottom-0 flex flex-col items-start justify-start p-1",
-              "border-l-2 border-r transition-all duration-200 cursor-pointer pointer-events-auto",
+              "absolute top-0 bottom-0 flex flex-col items-start justify-start pt-1 px-0.5",
+              "border-l border-r-0 transition-all duration-200 cursor-pointer pointer-events-auto",
               "hover:brightness-110",
               colors.bg,
-              colors.border,
+              "border-white/20",
               isSelected && "ring-2 ring-primary ring-inset brightness-125",
               isActive && !isSelected && "brightness-110"
             )}
             style={{ 
               left: `${left}%`, 
               width: `${width}%`,
-              minWidth: '2rem',
+              minWidth: '1rem',
             }}
             onClick={(e) => {
               e.stopPropagation();
-              onSectionClick(section, index);
+              // Only trigger for original sections, not gap fillers
+              if (originalIndex !== -1) {
+                onSectionClick(section, originalIndex);
+              }
             }}
             initial={false}
             animate={{
-              opacity: isActive ? 1 : 0.85,
+              opacity: isActive ? 1 : 0.75,
             }}
             whileHover={{ opacity: 1 }}
             whileTap={{ scale: 0.995 }}
           >
             {/* Section label */}
             <div className={cn(
-              "flex items-center gap-1 px-1 py-0.5 rounded text-[9px] font-medium truncate max-w-full",
-              "bg-background/60 backdrop-blur-sm",
+              "flex items-center gap-0.5 px-1 py-0.5 rounded text-[8px] font-medium truncate max-w-full",
+              "bg-background/70 backdrop-blur-sm",
               colors.text
             )}>
               <span className="truncate">{section.label}</span>
               {isReplaced && (
-                <Check className="w-3 h-3 text-green-500 shrink-0" />
+                <Check className="w-2.5 h-2.5 text-green-500 shrink-0" />
               )}
             </div>
 
             {/* Active pulse indicator */}
             {isActive && (
               <motion.div
-                className="absolute left-0 top-5 bottom-0 w-0.5 bg-primary"
+                className="absolute left-0 top-0 bottom-0 w-0.5 bg-primary"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: [0.5, 1, 0.5] }}
                 transition={{ repeat: Infinity, duration: 1.5 }}
