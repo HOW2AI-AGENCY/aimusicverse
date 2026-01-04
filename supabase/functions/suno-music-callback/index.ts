@@ -558,10 +558,25 @@ serve(async (req) => {
           await supabase.from('track_versions').update(versionData).eq('id', existingVersion.id);
           logger.success('Version updated', { versionLabel });
         } else {
+          // Determine version_type based on generation_mode
+          const generationMode = task.generation_mode || task.tracks?.generation_mode;
+          const getVersionType = (mode: string | null): string => {
+            switch (mode) {
+              case 'add_vocals': return 'vocal_add';
+              case 'add_instrumental': return 'instrumental_add';
+              case 'extend': return 'extension';
+              case 'cover': return 'cover';
+              case 'remix': return 'remix';
+              case 'replace_section': return 'replace_section';
+              case 'inpaint': return 'inpaint';
+              default: return 'initial';
+            }
+          };
+
           const { data: newVersion } = await supabase.from('track_versions').insert({
             track_id: trackId,
             ...versionData,
-            version_type: 'initial',
+            version_type: getVersionType(generationMode),
             version_label: versionLabel,
             clip_index: i,
             is_primary: i === 0,

@@ -61,6 +61,7 @@ const AlbumView = lazy(() => import("./pages/AlbumView"));
 const LyricsStudio = lazy(() => import("./pages/LyricsStudio"));
 const ReferenceAudioDetail = lazy(() => import("./pages/ReferenceAudioDetail"));
 const HardwareStudioDemo = lazy(() => import("./pages/HardwareStudioDemo"));
+const MobilePlayerPage = lazy(() => import("./pages/MobilePlayerPage"));
 
 // Studio V2 pages (isolated from existing studio)
 const StudioHubPage = lazy(() => import("./pages/studio-v2/StudioHubPage"));
@@ -187,6 +188,13 @@ const App = () => (
                 <Route path="/studio-v2/track/:trackId" element={
                   <ProtectedRoute>
                     <UnifiedStudioPage />
+                  </ProtectedRoute>
+                } />
+
+                {/* Mobile fullscreen player - deep link route */}
+                <Route path="/player/:trackId" element={
+                  <ProtectedRoute>
+                    <MobilePlayerPage />
                   </ProtectedRoute>
                 } />
 

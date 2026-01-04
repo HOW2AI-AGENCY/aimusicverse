@@ -326,7 +326,7 @@ serve(async (req) => {
             audio_url: firstClip.audioUrl,
             cover_url: firstClip.imageUrl,
             duration_seconds: firstClip.duration,
-            version_type: 'original',
+            version_type: 'initial',
             is_primary: true,
           });
 
