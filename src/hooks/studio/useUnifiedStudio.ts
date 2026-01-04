@@ -107,8 +107,38 @@ export function useUnifiedStudio(options: UseUnifiedStudioOptions): UnifiedStudi
   const canUndo = typeof canUndoFn === 'function' ? canUndoFn() : !!canUndoFn;
   const canRedo = typeof canRedoFn === 'function' ? canRedoFn() : !!canRedoFn;
 
-  // Derived state
-  const tracks = useMemo(() => project?.tracks ?? [], [project?.tracks]);
+  // Derived state with stem sorting (vocals always first)
+  const tracks = useMemo(() => {
+    const rawTracks = project?.tracks ?? [];
+    
+    // Sort tracks: vocals first, then by type priority
+    const typeOrder: Record<string, number> = {
+      vocal: 0,
+      vocals: 0,
+      backing_vocals: 1,
+      instrumental: 2,
+      drums: 3,
+      bass: 4,
+      guitar: 5,
+      piano: 6,
+      keyboard: 7,
+      synth: 8,
+      strings: 9,
+      brass: 10,
+      woodwinds: 11,
+      percussion: 12,
+      fx: 13,
+      atmosphere: 14,
+      other: 15,
+      main: -1, // Main track always first if present
+    };
+    
+    return [...rawTracks].sort((a, b) => {
+      const orderA = typeOrder[a.type] ?? 99;
+      const orderB = typeOrder[b.type] ?? 99;
+      return orderA - orderB;
+    });
+  }, [project?.tracks]);
   
   const duration = useMemo(() => {
     if (project?.durationSeconds) return project.durationSeconds;

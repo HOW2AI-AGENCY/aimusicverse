@@ -154,22 +154,25 @@ export const OptimizedStemWaveform = memo(({
     // Clear
     ctx.clearRect(0, 0, width, canvasHeight);
     
-    // Calculate bar positions
+  // Calculate bar positions - no centering padding, start from edge
     const totalBarWidth = BAR_WIDTH + BAR_GAP;
     const barsCount = Math.min(peaks.length, Math.floor(width / totalBarWidth));
-    const startX = (width - barsCount * totalBarWidth) / 2;
-    const progressX = startX + progress * barsCount * totalBarWidth;
+    // Start from 0 so progress indicator aligns with container edge
+    const startX = 0;
+    const progressX = progress * width;
     
-    // Draw bars
+    // Draw bars - spread evenly across full width
     for (let i = 0; i < barsCount; i++) {
       const peakIndex = Math.floor(i * peaks.length / barsCount);
       const peakValue = peaks[peakIndex];
       const barHeight = Math.max(2, peakValue * (canvasHeight - 4));
-      const x = startX + i * totalBarWidth;
+      // Distribute bars evenly across full width
+      const x = (i / barsCount) * width;
       const y = (canvasHeight - barHeight) / 2;
       
-      // Choose color based on progress
-      const isPast = x < progressX;
+      // Choose color based on progress position
+      const barProgress = i / barsCount;
+      const isPast = barProgress < progress;
       ctx.fillStyle = isMuted 
         ? 'rgba(107, 114, 128, 0.2)' 
         : isPast ? colors.progress : colors.wave;
