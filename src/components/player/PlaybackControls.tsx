@@ -52,7 +52,7 @@ export function PlaybackControls({ size = 'medium', className }: PlaybackControl
    * Ensures consistent sizing across different player layouts
    */
   const buttonSizeClasses = {
-    compact: 'h-8 w-8',    // Small player bar
+    compact: 'h-11 w-11',  // 44px - meets touch target requirement
     medium: 'h-11 w-11',   // Expanded player
     large: 'h-14 w-14'     // Fullscreen player
   };

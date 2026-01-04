@@ -54,8 +54,8 @@ export const StudioVersionSelector = memo(function StudioVersionSelector({
             disabled={disabled}
             whileTap={{ scale: 0.95 }}
             className={cn(
-              "relative flex items-center justify-center rounded-md font-mono font-bold transition-all",
-              compact ? "h-5 w-5 text-[10px]" : "h-7 min-w-[28px] px-1.5 text-xs",
+              "relative flex items-center justify-center rounded-md font-mono font-bold transition-all touch-manipulation",
+              compact ? "h-8 w-8 min-w-[32px] text-xs" : "h-11 min-w-[44px] px-2 text-sm",
               isActive
                 ? "bg-primary text-primary-foreground shadow-sm"
                 : "bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground",

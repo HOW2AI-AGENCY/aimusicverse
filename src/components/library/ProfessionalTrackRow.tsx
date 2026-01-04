@@ -102,12 +102,12 @@ const VersionPills = memo(function VersionPills({
               onSwitch?.(i);
             }}
             className={cn(
-              "w-5 h-5 rounded-full text-[10px] font-bold transition-all",
+              "w-7 h-7 min-w-[28px] min-h-[28px] rounded-full text-xs font-bold transition-all touch-manipulation",
               isActive 
                 ? "bg-primary text-primary-foreground shadow-sm" 
                 : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
             )}
-            whileTap={{ scale: 0.9 }}
+            whileTap={{ scale: 0.95 }}
           >
             {label}
           </motion.button>
@@ -326,25 +326,27 @@ export const ProfessionalTrackRow = memo(function ProfessionalTrackRow({
           size="icon"
           variant={isPlaying ? "default" : "ghost"}
           className={cn(
-            "w-9 h-9 rounded-full transition-all",
+            "w-11 h-11 min-w-[44px] min-h-[44px] rounded-full transition-all touch-manipulation",
             isPlaying && "bg-primary text-primary-foreground shadow-lg shadow-primary/25"
           )}
           onClick={handlePlay}
+          aria-label={isPlaying ? "Пауза" : "Воспроизвести"}
         >
           {isPlaying ? (
-            <Pause className="w-4 h-4" />
+            <Pause className="w-5 h-5" />
           ) : (
-            <Play className="w-4 h-4 ml-0.5" />
+            <Play className="w-5 h-5 ml-0.5" />
           )}
         </Button>
         
         <Button
           size="icon"
           variant="ghost"
-          className="w-9 h-9 rounded-full"
+          className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full touch-manipulation"
           onClick={handleMenu}
+          aria-label="Меню"
         >
-          <MoreHorizontal className="w-4 h-4" />
+          <MoreHorizontal className="w-5 h-5" />
         </Button>
       </div>
     </motion.div>

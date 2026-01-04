@@ -7,13 +7,9 @@ import { handleChosenInlineResult } from './handlers/inline-chosen.ts';
 import { flushMetrics, checkAlerts } from './utils/metrics.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import { createLogger } from '../_shared/logger.ts';
+import { corsHeaders } from '../_shared/cors.ts';
 
 const logger = createLogger('telegram-bot');
-
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
 
 /**
  * Handle internal API actions (from admin panel, etc.)

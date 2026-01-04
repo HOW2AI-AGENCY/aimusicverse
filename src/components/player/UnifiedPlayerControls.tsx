@@ -30,14 +30,14 @@ interface UnifiedPlayerControlsProps {
 
 const sizeConfig = {
   sm: { 
-    main: 'h-10 w-10', 
-    secondary: 'h-8 w-8', 
-    icon: 'h-4 w-4',
+    main: 'h-11 w-11',      // 44px - meets touch target requirement
+    secondary: 'h-11 w-11', // 44px - meets touch target requirement
+    icon: 'h-5 w-5',
     mainIcon: 'h-5 w-5'
   },
   md: { 
     main: 'h-12 w-12', 
-    secondary: 'h-10 w-10', 
+    secondary: 'h-11 w-11', // 44px - meets touch target requirement
     icon: 'h-5 w-5',
     mainIcon: 'h-6 w-6'
   },
