@@ -99,6 +99,7 @@ interface StudioTrackRowProps {
   duration: number;
   hasSoloTracks?: boolean;
   isSourceTrack?: boolean; // True if this is the main source track (can extend/replace)
+  stemsExist?: boolean; // If stems exist, disable extend/replace
   onToggleMute: () => void;
   onToggleSolo: () => void;
   onVolumeChange: (volume: number) => void;
@@ -115,6 +116,7 @@ export const StudioTrackRow = memo(function StudioTrackRow({
   duration,
   hasSoloTracks = false,
   isSourceTrack = false,
+  stemsExist = false,
   onToggleMute,
   onToggleSolo,
   onVolumeChange,
@@ -258,8 +260,8 @@ export const StudioTrackRow = memo(function StudioTrackRow({
                         Добавить вокал
                       </DropdownMenuItem>
                     )}
-                    {/* Extend and Replace Section - ONLY for source track */}
-                    {isSourceTrack && (
+                    {/* Extend and Replace Section - ONLY for source track, disabled when stems exist */}
+                    {isSourceTrack && !stemsExist && (
                       <>
                         <DropdownMenuItem onClick={() => onAction('extend')}>
                           <ArrowRight className="w-4 h-4 mr-2 text-green-400" />
@@ -270,6 +272,13 @@ export const StudioTrackRow = memo(function StudioTrackRow({
                           Заменить секцию
                         </DropdownMenuItem>
                       </>
+                    )}
+                    {/* Show disabled state when stems exist */}
+                    {isSourceTrack && stemsExist && (
+                      <DropdownMenuItem disabled className="opacity-50 cursor-not-allowed">
+                        <Scissors className="w-4 h-4 mr-2 text-muted-foreground" />
+                        <span className="text-xs">Стемы блокируют изменения</span>
+                      </DropdownMenuItem>
                     )}
                     <DropdownMenuItem onClick={() => onAction('reference')}>
                       <Sparkles className="w-4 h-4 mr-2 text-primary" />
@@ -340,19 +349,35 @@ export const StudioTrackRow = memo(function StudioTrackRow({
           )}
         </AnimatePresence>
 
-        {/* Waveform */}
-        <div className="h-16 px-1 pb-1">
+        {/* Waveform with progress overlay */}
+        <div className="h-16 px-1 pb-1 relative">
           {audioUrl ? (
-            <OptimizedStemWaveform
-              audioUrl={audioUrl}
-              currentTime={currentTime}
-              duration={duration}
-              isPlaying={isPlaying}
-              isMuted={track.muted}
-              color={track.type}
-              height={64}
-              onSeek={onSeek}
-            />
+            <>
+              <OptimizedStemWaveform
+                audioUrl={audioUrl}
+                currentTime={currentTime}
+                duration={duration}
+                isPlaying={isPlaying}
+                isMuted={track.muted}
+                color={track.type}
+                height={64}
+                onSeek={onSeek}
+              />
+              {/* Progress overlay */}
+              {duration > 0 && (
+                <>
+                  <div 
+                    className="absolute top-0 bottom-1 left-1 bg-primary/5 pointer-events-none rounded-l transition-all"
+                    style={{ width: `${Math.min(100, (currentTime / duration) * 100)}%` }}
+                  />
+                  {/* Playhead line */}
+                  <div 
+                    className="absolute top-0 bottom-1 w-0.5 bg-primary/60 pointer-events-none rounded-full shadow-sm shadow-primary/30"
+                    style={{ left: `calc(${Math.min(100, (currentTime / duration) * 100)}% + 0.25rem)` }}
+                  />
+                </>
+              )}
+            </>
           ) : (
             <div className="h-full flex items-center justify-center text-xs text-muted-foreground bg-muted/20 rounded">
               Нет аудио

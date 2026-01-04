@@ -34,6 +34,7 @@ interface SortableTrackListProps {
   duration: number;
   hasSoloTracks?: boolean;
   sourceTrackId?: string; // The ID of the source track for extend/replace operations
+  stemsExist?: boolean; // If stems exist, disable extend/replace
   onReorder: (fromIndex: number, toIndex: number) => void;
   onToggleMute: (trackId: string) => void;
   onToggleSolo: (trackId: string) => void;
@@ -51,6 +52,7 @@ interface SortableTrackItemProps {
   duration: number;
   hasSoloTracks?: boolean;
   isSourceTrack?: boolean;
+  stemsExist?: boolean;
   onToggleMute: () => void;
   onToggleSolo: () => void;
   onVolumeChange: (volume: number) => void;
@@ -122,6 +124,7 @@ const SortableTrackItem = memo(function SortableTrackItem({
         duration={props.duration}
         hasSoloTracks={props.hasSoloTracks}
         isSourceTrack={props.isSourceTrack}
+        stemsExist={props.stemsExist}
         onToggleMute={props.onToggleMute}
         onToggleSolo={props.onToggleSolo}
         onVolumeChange={props.onVolumeChange}
@@ -141,6 +144,7 @@ export const SortableTrackList = memo(function SortableTrackList({
   duration,
   hasSoloTracks = false,
   sourceTrackId,
+  stemsExist = false,
   onReorder,
   onToggleMute,
   onToggleSolo,
@@ -201,6 +205,7 @@ export const SortableTrackList = memo(function SortableTrackList({
                 duration={duration}
                 hasSoloTracks={hasSoloTracks}
                 isSourceTrack={isSourceTrack}
+                stemsExist={stemsExist}
                 onToggleMute={() => onToggleMute(track.id)}
                 onToggleSolo={() => onToggleSolo(track.id)}
                 onVolumeChange={(v) => onVolumeChange(track.id, v)}

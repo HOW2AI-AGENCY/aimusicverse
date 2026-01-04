@@ -52,34 +52,125 @@ const SECTION_TAG_COLORS: Record<SectionTagType, string> = {
   'unknown': 'bg-muted/30 text-muted-foreground border-border',
 };
 
+// Normalize tag to standard type
+function normalizeTag(tag: string): string {
+  const lower = tag.toLowerCase();
+  if (lower === 'куплет') return 'verse';
+  if (lower === 'припев') return 'chorus';
+  if (lower === 'бридж') return 'bridge';
+  if (lower === 'интро') return 'intro';
+  if (lower === 'аутро') return 'outro';
+  if (lower.includes('пре') || lower.includes('pre')) return 'pre-chorus';
+  if (lower === 'хук') return 'hook';
+  if (lower === 'инструментал') return 'instrumental';
+  return lower;
+}
+
+// Extract section tag type from text - handles both exact match and prefix match
+function extractSectionTag(text: string): string | null {
+  const trimmed = text.trim();
+  
+  // Pattern for section tags (captures the tag name)
+  const tagPattern = /[\[\(](verse|chorus|bridge|intro|outro|pre-?chorus|hook|куплет|припев|бридж|интро|аутро|пре-?припев|хук|instrumental|инструментал)(?:\s*\d+)?[\]\)]/i;
+  
+  // 1. Exact match - whole text is just a tag
+  const exactMatch = trimmed.match(new RegExp(`^${tagPattern.source}$`, 'i'));
+  if (exactMatch) {
+    return normalizeTag(exactMatch[1]);
+  }
+  
+  // 2. Prefix match - tag at the beginning (possibly with text after)
+  const prefixMatch = trimmed.match(new RegExp(`^${tagPattern.source}`, 'i'));
+  if (prefixMatch) {
+    return normalizeTag(prefixMatch[1]);
+  }
+  
+  return null;
+}
+
+// Extract tag and remainder from text
+function extractSectionTagWithRemainder(text: string): { tag: string; type: string; remainder: string } | null {
+  const trimmed = text.trim();
+  const tagPattern = /^([\[\(](?:verse|chorus|bridge|intro|outro|pre-?chorus|hook|куплет|припев|бридж|интро|аутро|пре-?припев|хук|instrumental|инструментал)(?:\s*\d+)?[\]\)])\s*/i;
+  
+  const match = trimmed.match(tagPattern);
+  if (match) {
+    const tagText = match[1].replace(/[\[\]\(\)]/g, '').trim();
+    return {
+      tag: match[1],
+      type: normalizeTag(tagText),
+      remainder: trimmed.slice(match[0].length).trim(),
+    };
+  }
+  return null;
+}
+
+// Clean lyrics text from tags
+function cleanLyricsText(text: string): string {
+  return text
+    .replace(/[\[\(](verse|chorus|bridge|intro|outro|pre-?chorus|hook|куплет|припев|бридж|интро|аутро|пре-?припев|хук|instrumental|инструментал)(?:\s*\d+)?[\]\)]/gi, '')
+    .trim();
+}
+
 // Group words into lines based on newlines or time gaps
 function groupWordsIntoLines(words: AlignedWord[]): LyricLine[] {
   const lines: LyricLine[] = [];
   let currentLineWords: AlignedWord[] = [];
   let currentSectionTag: string | undefined;
 
+  const finishLine = () => {
+    if (currentLineWords.length === 0) return;
+    
+    const lineText = currentLineWords
+      .map(w => w.word.replace(/\n/g, '').trim())
+      .filter(Boolean)
+      .join(' ')
+      .trim();
+    
+    if (lineText) {
+      lines.push({
+        words: [...currentLineWords],
+        startTime: currentLineWords[0].startS,
+        endTime: currentLineWords[currentLineWords.length - 1].endS,
+        text: lineText,
+        sectionTag: currentSectionTag,
+      });
+    }
+    currentLineWords = [];
+  };
+
   for (let i = 0; i < words.length; i++) {
     const word = words[i];
+    const wordText = word.word.trim();
     
-    // Check if this word is a section tag
-    const tagMatch = extractSectionTag(word.word);
-    if (tagMatch) {
-      // Finish current line if any
-      if (currentLineWords.length > 0) {
-        const lineText = currentLineWords.map(w => w.word.replace('\n', '')).join(' ').trim();
-        if (lineText) {
-          lines.push({
-            words: [...currentLineWords],
-            startTime: currentLineWords[0].startS,
-            endTime: currentLineWords[currentLineWords.length - 1].endS,
-            text: lineText,
-            sectionTag: currentSectionTag,
-          });
-        }
-        currentLineWords = [];
-      }
+    // Check for tag with possible remainder text
+    const tagResult = extractSectionTagWithRemainder(wordText);
+    if (tagResult) {
+      // Finish current line
+      finishLine();
       
       // Add section tag as its own line
+      lines.push({
+        words: [{ ...word, word: tagResult.tag }],
+        startTime: word.startS,
+        endTime: word.endS,
+        text: '',
+        sectionTag: tagResult.type,
+      });
+      currentSectionTag = tagResult.type;
+      
+      // If there's remaining text after the tag, add it as a new word
+      if (tagResult.remainder) {
+        currentLineWords.push({ ...word, word: tagResult.remainder });
+      }
+      continue;
+    }
+    
+    // Check if this is just a section tag (no remainder)
+    const tagMatch = extractSectionTag(wordText);
+    if (tagMatch && !wordText.replace(/[\[\]\(\)]/g, '').replace(/verse|chorus|bridge|intro|outro|pre-?chorus|hook|куплет|припев|бридж|интро|аутро|пре-?припев|хук|instrumental|инструментал|\d+/gi, '').trim()) {
+      finishLine();
+      
       lines.push({
         words: [word],
         startTime: word.startS,
@@ -99,50 +190,14 @@ function groupWordsIntoLines(words: AlignedWord[]): LyricLine[] {
     const isLongLine = currentLineWords.length >= 10;
 
     if (hasNewline || hasTimeGap || isLongLine || !nextWord) {
-      if (currentLineWords.length > 0) {
-        const lineText = currentLineWords.map(w => w.word.replace('\n', '')).join(' ').trim();
-        if (lineText) {
-          lines.push({
-            words: [...currentLineWords],
-            startTime: currentLineWords[0].startS,
-            endTime: currentLineWords[currentLineWords.length - 1].endS,
-            text: lineText,
-            sectionTag: currentSectionTag,
-          });
-        }
-      }
-      currentLineWords = [];
+      finishLine();
     }
   }
 
+  // Finish any remaining line
+  finishLine();
+
   return lines;
-}
-
-// Extract section tag type from text
-function extractSectionTag(text: string): string | null {
-  const trimmed = text.trim();
-  const match = trimmed.match(/^[\[\(](verse|chorus|bridge|intro|outro|pre-?chorus|hook|куплет|припев|бридж|интро|аутро|пре-?припев|хук|instrumental|инструментал)(?:\s*\d+)?[\]\)]$/i);
-  if (match) {
-    const tag = match[1].toLowerCase();
-    // Normalize Russian tags
-    if (tag === 'куплет') return 'verse';
-    if (tag === 'припев') return 'chorus';
-    if (tag === 'бридж') return 'bridge';
-    if (tag === 'интро') return 'intro';
-    if (tag === 'аутро') return 'outro';
-    if (tag.includes('пре')) return 'pre-chorus';
-    if (tag === 'хук') return 'hook';
-    if (tag === 'инструментал') return 'instrumental';
-    return tag;
-  }
-  return null;
-}
-
-// Clean lyrics text from tags
-function cleanLyricsText(text: string): string {
-  return text
-    .replace(/[\[\(](verse|chorus|bridge|intro|outro|pre-?chorus|hook|куплет|припев|бридж|интро|аутро|пре-?припев|хук|instrumental|инструментал)(?:\s*\d+)?[\]\)]/gi, '')
-    .trim();
 }
 
 // Section tag badge component
