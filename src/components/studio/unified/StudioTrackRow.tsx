@@ -8,8 +8,9 @@ import { motion, AnimatePresence } from '@/lib/motion';
 import {
   Volume2, VolumeX, MoreHorizontal, Download,
   Mic2, Guitar, Drum, Music, Piano, Waves, Sliders,
-  Trash2, Sparkles, GripVertical, Scissors, ArrowRight, FileMusic,
+  Trash2, Sparkles, GripVertical, Scissors, ArrowRight, FileMusic, Music2,
 } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import {
@@ -100,13 +101,14 @@ interface StudioTrackRowProps {
   hasSoloTracks?: boolean;
   isSourceTrack?: boolean; // True if this is the main source track (can extend/replace)
   stemsExist?: boolean; // If stems exist, disable extend/replace
+  hasTranscription?: boolean; // If track has MIDI/notation transcription
   onToggleMute: () => void;
   onToggleSolo: () => void;
   onVolumeChange: (volume: number) => void;
   onSeek: (time: number) => void;
   onRemove: () => void;
   onVersionChange?: (versionLabel: string) => void;
-  onAction?: (action: 'download' | 'effects' | 'reference' | 'add_vocals' | 'replace_instrumental' | 'extend' | 'replace_section' | 'transcribe') => void;
+  onAction?: (action: 'download' | 'effects' | 'reference' | 'add_vocals' | 'replace_instrumental' | 'extend' | 'replace_section' | 'transcribe' | 'view_notation') => void;
 }
 
 export const StudioTrackRow = memo(function StudioTrackRow({

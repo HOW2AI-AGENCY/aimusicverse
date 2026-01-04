@@ -26,6 +26,8 @@ export { StudioWaveformTimeline } from './StudioWaveformTimeline';
 export { StudioSectionOverlay } from './StudioSectionOverlay';
 export { StudioDownloadPanel } from './StudioDownloadPanel';
 export { StudioTranscriptionPanel } from './StudioTranscriptionPanel';
+export { StudioNotationPanel } from './StudioNotationPanel';
+export { SaveVersionDialog } from './SaveVersionDialog';
 
 // DAW Canvas Components (ADR-011 - unified interface)
 export { AIActionsFAB } from './AIActionsFAB';

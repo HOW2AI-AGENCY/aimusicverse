@@ -85,6 +85,8 @@ import { useReplacedSections } from '@/hooks/useReplacedSections';
 import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
 import { StudioDownloadPanel } from './StudioDownloadPanel';
 import { StudioTranscriptionPanel } from './StudioTranscriptionPanel';
+import { StudioNotationPanel } from './StudioNotationPanel';
+import { SaveVersionDialog } from './SaveVersionDialog';
 import { StudioArrangementDialog } from './StudioArrangementDialog';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 import { useProjectTrackSync } from '@/hooks/studio/useProjectTrackSync';
@@ -162,6 +164,13 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
   
   // Download panel state
   const [showDownloadPanel, setShowDownloadPanel] = useState(false);
+  
+  // Save Version Dialog state
+  const [showSaveVersionDialog, setShowSaveVersionDialog] = useState(false);
+  
+  // Notation panel state (shows MusicXML/notation view)
+  const [showNotationPanel, setShowNotationPanel] = useState(false);
+  const [selectedNotationTrack, setSelectedNotationTrack] = useState<StudioTrack | null>(null);
   
   // Transcription panel state
   const [showTranscriptionPanel, setShowTranscriptionPanel] = useState(false);
@@ -1509,6 +1518,45 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
           setInstrumentalResultData(null);
         }}
       />
+
+      {/* Save Version Dialog */}
+      <SaveVersionDialog
+        open={showSaveVersionDialog}
+        onOpenChange={setShowSaveVersionDialog}
+        projectId={project.id}
+        sourceTrackId={sourceTrackId || undefined}
+        tracks={project.tracks}
+        masterVolume={project.masterVolume}
+        onVersionSaved={(version) => {
+          // Refresh versions in project if needed
+          toast.success(`Версия "${version.label}" сохранена`);
+        }}
+      />
+
+      {/* Notation Panel Sheet */}
+      <Sheet open={showNotationPanel} onOpenChange={(open) => {
+        setShowNotationPanel(open);
+        if (!open) setSelectedNotationTrack(null);
+      }}>
+        <SheetContent side={isMobile ? 'bottom' : 'right'} className={cn(
+          isMobile ? 'h-[85vh]' : 'w-full sm:max-w-lg',
+          'p-0'
+        )}>
+          {selectedNotationTrack && (
+            <StudioNotationPanel
+              track={selectedNotationTrack}
+              trackId={sourceTrackId || undefined}
+              currentTime={currentTime}
+              isPlaying={isPlaying}
+              onSeek={handleSeek}
+              onClose={() => {
+                setShowNotationPanel(false);
+                setSelectedNotationTrack(null);
+              }}
+            />
+          )}
+        </SheetContent>
+      </Sheet>
     </div>
   );
 });

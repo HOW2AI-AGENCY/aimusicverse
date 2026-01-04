@@ -2929,6 +2929,7 @@ export type Database = {
           track_id: string
           updated_at: string | null
           user_id: string
+          version_id: string | null
         }
         Insert: {
           bpm?: number | null
@@ -2950,6 +2951,7 @@ export type Database = {
           track_id: string
           updated_at?: string | null
           user_id: string
+          version_id?: string | null
         }
         Update: {
           bpm?: number | null
@@ -2971,6 +2973,7 @@ export type Database = {
           track_id?: string
           updated_at?: string | null
           user_id?: string
+          version_id?: string | null
         }
         Relationships: [
           {
@@ -3006,6 +3009,13 @@ export type Database = {
             columns: ["track_id"]
             isOneToOne: false
             referencedRelation: "trending_tracks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stem_transcriptions_version_id_fkey"
+            columns: ["version_id"]
+            isOneToOne: false
+            referencedRelation: "track_versions"
             referencedColumns: ["id"]
           },
         ]
@@ -4234,6 +4244,7 @@ export type Database = {
           metadata: Json | null
           parent_version_id: string | null
           track_id: string
+          transcription_data: Json | null
           version_label: string | null
           version_type: string | null
         }
@@ -4248,6 +4259,7 @@ export type Database = {
           metadata?: Json | null
           parent_version_id?: string | null
           track_id: string
+          transcription_data?: Json | null
           version_label?: string | null
           version_type?: string | null
         }
@@ -4262,6 +4274,7 @@ export type Database = {
           metadata?: Json | null
           parent_version_id?: string | null
           track_id?: string
+          transcription_data?: Json | null
           version_label?: string | null
           version_type?: string | null
         }
@@ -5342,6 +5355,15 @@ export type Database = {
         Args: { p_group_key: string; p_user_id: string }
         Returns: number
       }
+      ensure_track_version: {
+        Args: {
+          p_audio_url: string
+          p_label?: string
+          p_track_id: string
+          p_version_type?: string
+        }
+        Returns: string
+      }
       get_complementary_tags: {
         Args: { _max_depth?: number; _tag_id: string }
         Returns: {
@@ -5721,6 +5743,10 @@ export type Database = {
       }
       is_premium_or_admin: { Args: { _user_id: string }; Returns: boolean }
       jsonb_object_keys_count: { Args: { obj: Json }; Returns: number }
+      link_transcription_to_version: {
+        Args: { p_transcription_id: string; p_version_id: string }
+        Returns: undefined
+      }
       log_share_reward: { Args: never; Returns: undefined }
       process_gateway_payment: {
         Args: {
