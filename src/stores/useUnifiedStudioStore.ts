@@ -179,6 +179,8 @@ interface UnifiedStudioState {
   resolvePendingTrack: (taskId: string, versions: { label: string; audioUrl: string; duration?: number }[]) => void;
   updatePendingTrackTaskId: (trackId: string, taskId: string) => Promise<void>;
   setTrackActiveVersion: (trackId: string, versionLabel: string) => void;
+  addTrackVersion: (trackId: string, label: string, audioUrl: string, duration?: number) => void;
+  replaceTrackAudio: (trackId: string, audioUrl: string, duration?: number) => void;
   removeTrack: (trackId: string) => void;
   updateTrack: (trackId: string, updates: Partial<StudioTrack>) => void;
   setTrackVolume: (trackId: string, volume: number) => void;
@@ -686,6 +688,77 @@ export const useUnifiedStudioStore = create<UnifiedStudioState>()(
                 hasUnsavedChanges: true,
               };
             });
+          },
+
+          addTrackVersion: (trackId, label, audioUrl, duration) => {
+            set(state => {
+              if (!state.project) return state;
+
+              return {
+                project: {
+                  ...state.project,
+                  tracks: state.project.tracks.map(t => {
+                    if (t.id === trackId) {
+                      const existingVersions = t.versions || [
+                        { label: 'A', audioUrl: t.audioUrl || '', duration: t.clips[0]?.duration }
+                      ];
+                      return {
+                        ...t,
+                        versions: [...existingVersions, { label, audioUrl, duration }],
+                      };
+                    }
+                    return t;
+                  }),
+                  updatedAt: new Date().toISOString(),
+                },
+                hasUnsavedChanges: true,
+              };
+            });
+            get().pushToHistory();
+            get().saveProject();
+          },
+
+          replaceTrackAudio: (trackId, audioUrl, duration) => {
+            set(state => {
+              if (!state.project) return state;
+
+              return {
+                project: {
+                  ...state.project,
+                  tracks: state.project.tracks.map(t => {
+                    if (t.id === trackId) {
+                      return {
+                        ...t,
+                        audioUrl,
+                        clips: t.clips.length > 0 
+                          ? t.clips.map((clip, i) => i === 0 
+                              ? { ...clip, audioUrl, duration: duration || clip.duration }
+                              : clip
+                            )
+                          : [{
+                              id: crypto.randomUUID(),
+                              trackId: t.id,
+                              audioUrl,
+                              name: t.name,
+                              startTime: 0,
+                              duration: duration || 180,
+                              trimStart: 0,
+                              trimEnd: 0,
+                              fadeIn: 0,
+                              fadeOut: 0,
+                            }],
+                      };
+                    }
+                    return t;
+                  }),
+                  durationSeconds: duration || state.project.durationSeconds,
+                  updatedAt: new Date().toISOString(),
+                },
+                hasUnsavedChanges: true,
+              };
+            });
+            get().pushToHistory();
+            get().saveProject();
           },
 
           removeTrack: (trackId) => {

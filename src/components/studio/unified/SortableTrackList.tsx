@@ -42,7 +42,7 @@ interface SortableTrackListProps {
   onSeek: (time: number) => void;
   onRemove: (trackId: string) => void;
   onVersionChange: (trackId: string, label: string) => void;
-  onAction: (trackId: string, action: 'download' | 'effects' | 'reference' | 'add_vocals' | 'extend' | 'replace_section' | 'transcribe') => void;
+  onAction: (trackId: string, action: 'download' | 'effects' | 'reference' | 'add_vocals' | 'replace_instrumental' | 'extend' | 'replace_section' | 'transcribe') => void;
 }
 
 interface SortableTrackItemProps {
@@ -59,7 +59,7 @@ interface SortableTrackItemProps {
   onSeek: (time: number) => void;
   onRemove: () => void;
   onVersionChange?: (label: string) => void;
-  onAction?: (action: 'download' | 'effects' | 'reference' | 'add_vocals' | 'extend' | 'replace_section' | 'transcribe') => void;
+  onAction?: (action: 'download' | 'effects' | 'reference' | 'add_vocals' | 'replace_instrumental' | 'extend' | 'replace_section' | 'transcribe') => void;
 }
 
 const SortableTrackItem = memo(function SortableTrackItem({

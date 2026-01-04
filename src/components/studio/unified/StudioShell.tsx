@@ -85,6 +85,7 @@ import { useReplacedSections } from '@/hooks/useReplacedSections';
 import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
 import { StudioDownloadPanel } from './StudioDownloadPanel';
 import { StudioTranscriptionPanel } from './StudioTranscriptionPanel';
+import { StudioArrangementDialog } from './StudioArrangementDialog';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 
 interface StudioShellProps {
@@ -163,8 +164,13 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
   const [showTranscriptionPanel, setShowTranscriptionPanel] = useState(false);
   const [selectedTranscriptionTrack, setSelectedTranscriptionTrack] = useState<StudioTrack | null>(null);
   
+  // Arrangement replacement state (replace instrumental using vocal stem)
+  const [showArrangementDialog, setShowArrangementDialog] = useState(false);
+  const [selectedArrangementTrack, setSelectedArrangementTrack] = useState<StudioTrack | null>(null);
+  
   // Actions sheet state (mobile)
   const [showActionsSheet, setShowActionsSheet] = useState(false);
+
   
   // Section editor store
   const {
@@ -778,6 +784,15 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
       setShowTranscriptionPanel(true);
     } else if (action === 'download_all') {
       setShowDownloadPanel(true);
+    } else if (action === 'replace_instrumental') {
+      // Find the vocal track for arrangement replacement
+      const vocalTrack = project.tracks.find(t => t.type === 'vocal');
+      if (vocalTrack) {
+        setSelectedArrangementTrack(vocalTrack);
+        setShowArrangementDialog(true);
+      } else {
+        toast.error('Вокальный трек не найден');
+      }
     }
   }, [project?.tracks]);
 
@@ -1377,6 +1392,30 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
           onOpenChange={setShowGenerateSheet}
         />
       </Suspense>
+
+      {/* Arrangement Replacement Dialog */}
+      {selectedArrangementTrack && (
+        <StudioArrangementDialog
+          open={showArrangementDialog}
+          onClose={() => {
+            setShowArrangementDialog(false);
+            setSelectedArrangementTrack(null);
+          }}
+          vocalTrack={selectedArrangementTrack}
+          projectName={project.name}
+          onSuccess={(taskId, title) => {
+            // Add pending track for the new arrangement
+            addPendingTrack({
+              name: title,
+              type: 'instrumental',
+              taskId,
+            });
+            toast.success('Генерация запущена', {
+              description: 'Новая аранжировка будет готова через 1-2 минуты',
+            });
+          }}
+        />
+      )}
     </div>
   );
 });
