@@ -85,8 +85,8 @@ export const LazyGamificationOnboarding = lazy(() =>
 // Player components (load after initial render)
 // ============================================
 
-export const LazyFullscreenPlayer = lazy(() => 
-  import('@/components/FullscreenPlayer').then(m => ({ default: m.FullscreenPlayer }))
+export const LazyDesktopFullscreenPlayer = lazy(() => 
+  import('@/components/player/DesktopFullscreenPlayer').then(m => ({ default: m.DesktopFullscreenPlayer }))
 );
 
 export const LazyExpandedPlayer = lazy(() => 
@@ -227,7 +227,8 @@ export const preloadRouteComponents = {
     preloadComponent(LazyAdvancedSettings);
   },
   player: () => {
-    preloadComponent(LazyFullscreenPlayer);
+    preloadComponent(LazyDesktopFullscreenPlayer);
+    preloadComponent(LazyMobileFullscreenPlayer);
     preloadComponent(LazyExpandedPlayer);
   },
   lyrics: () => {
