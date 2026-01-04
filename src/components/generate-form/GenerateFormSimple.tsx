@@ -8,6 +8,7 @@ import { VoiceInputButton } from '@/components/ui/VoiceInputButton';
 import { GenerateFormHint, FORM_HINTS } from './GenerateFormHint';
 import { SectionLabel, SECTION_HINTS } from './SectionLabel';
 import { SmartPromptSuggestions } from './SmartPromptSuggestions';
+import { FormSection, FormDivider } from './FormSection';
 import { cn } from '@/lib/utils';
 import { notify } from '@/lib/notifications';
 
@@ -57,180 +58,190 @@ export function GenerateFormSimple({
       className="space-y-4 w-full max-w-full min-w-0 overflow-x-hidden"
     >
       {/* ========== TRACK TYPE SECTION ========== */}
-      <div className="space-y-1.5">
-        <SectionLabel 
-          label="Тип трека"
-          hint={SECTION_HINTS.trackType}
-        />
-        <div className="flex p-1 bg-muted/50 rounded-xl">
-          <button
-            type="button"
-            onClick={() => onHasVocalsChange(true)}
-            className={cn(
-              "flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-sm font-medium transition-all duration-200",
-              hasVocals 
-                ? "bg-primary text-primary-foreground shadow-sm" 
-                : "text-muted-foreground hover:text-foreground hover:bg-muted"
-            )}
-          >
-            <Mic className="w-4 h-4" />
-            <span>Вокал</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => onHasVocalsChange(false)}
-            className={cn(
-              "flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-sm font-medium transition-all duration-200",
-              !hasVocals 
-                ? "bg-primary text-primary-foreground shadow-sm" 
-                : "text-muted-foreground hover:text-foreground hover:bg-muted"
-            )}
-          >
-            <Music2 className="w-4 h-4" />
-            <span>Инструментал</span>
-          </button>
+      <FormSection>
+        <div className="space-y-2">
+          <SectionLabel 
+            label="Тип трека"
+            hint={SECTION_HINTS.trackType}
+          />
+          <div className="flex p-1 bg-muted/50 rounded-xl">
+            <button
+              type="button"
+              onClick={() => onHasVocalsChange(true)}
+              className={cn(
+                "flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg text-sm font-medium transition-all duration-200",
+                hasVocals 
+                  ? "bg-primary text-primary-foreground shadow-sm" 
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted"
+              )}
+            >
+              <Mic className="w-4 h-4" />
+              <span>Вокал</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => onHasVocalsChange(false)}
+              className={cn(
+                "flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg text-sm font-medium transition-all duration-200",
+                !hasVocals 
+                  ? "bg-primary text-primary-foreground shadow-sm" 
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted"
+              )}
+            >
+              <Music2 className="w-4 h-4" />
+              <span>Инструментал</span>
+            </button>
+          </div>
         </div>
-      </div>
+      </FormSection>
+
+      <FormDivider />
 
       {/* ========== DESCRIPTION SECTION ========== */}
-      <div className="space-y-1.5">
-        {/* Header row */}
-        <div className="flex items-center justify-between">
-          <SectionLabel 
-            label={hasVocals ? 'Опишите песню' : 'Опишите музыку'}
-            hint={SECTION_HINTS.description}
-          />
-          <div className="flex items-center gap-1">
-            {onOpenStyles && (
+      <FormSection>
+        <div className="space-y-2">
+          {/* Header row */}
+          <div className="flex items-center justify-between">
+            <SectionLabel 
+              label={hasVocals ? 'Опишите песню' : 'Опишите музыку'}
+              hint={SECTION_HINTS.description}
+            />
+            <div className="flex items-center gap-1">
+              {onOpenStyles && (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  className="h-6 w-6 p-0 text-primary hover:text-primary/80"
+                  onClick={onOpenStyles}
+                >
+                  <Palette className="w-3.5 h-3.5" />
+                </Button>
+              )}
               <Button
                 type="button"
                 variant="ghost"
-                size="icon"
-                className="h-6 w-6 p-0 text-primary hover:text-primary/80"
-                onClick={onOpenStyles}
+                size="sm"
+                onClick={onBoostStyle}
+                disabled={boostLoading || !description}
+                className="h-6 px-1.5 gap-0.5 text-primary hover:text-primary/80"
               >
-                <Palette className="w-3.5 h-3.5" />
+                {boostLoading ? (
+                  <Loader2 className="w-3 h-3 animate-spin" />
+                ) : (
+                  <Sparkles className="w-3 h-3" />
+                )}
+                <span className="text-[10px]">AI</span>
               </Button>
-            )}
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={onBoostStyle}
-              disabled={boostLoading || !description}
-              className="h-6 px-1.5 gap-0.5 text-primary hover:text-primary/80"
-            >
-              {boostLoading ? (
-                <Loader2 className="w-3 h-3 animate-spin" />
-              ) : (
-                <Sparkles className="w-3 h-3" />
-              )}
-              <span className="text-[10px]">AI</span>
-            </Button>
-          </div>
-        </div>
-        
-        {/* Contextual hint */}
-        <GenerateFormHint type="tip" show={showHint && !description}>
-          {FORM_HINTS.description.empty}
-        </GenerateFormHint>
-        
-        {/* Textarea with bottom toolbar */}
-        <div className="relative">
-          <Textarea
-            id="description"
-            placeholder={hasVocals 
-              ? "Энергичный поп с запоминающимся припевом..." 
-              : "Атмосферный эмбиент с синтезаторами..."
-            }
-            value={description}
-            onChange={(e) => onDescriptionChange(e.target.value)}
-            rows={3}
-            className={cn(
-              "resize-none text-sm pb-9 rounded-xl bg-muted/30 border-muted-foreground/20",
-              "focus:border-primary/50 focus:ring-primary/20 transition-colors",
-              description.length > 500 && "border-destructive focus-visible:ring-destructive"
-            )}
-          />
-          
-          {/* Bottom toolbar */}
-          <div className="absolute bottom-1.5 left-2 right-2 flex items-center justify-between">
-            {/* Character count */}
-            <span className={cn(
-              "text-[10px] px-1.5 py-0.5 rounded-md bg-background/60 backdrop-blur-sm",
-              description.length > 500 ? 'text-destructive font-medium' : 
-              description.length > 400 ? 'text-yellow-500' : 'text-muted-foreground'
-            )}>
-              {description.length}/500
-            </span>
-            
-            {/* Action buttons */}
-            <div className="flex items-center gap-0.5 bg-background/60 backdrop-blur-sm rounded-md px-1">
-              {description && (
-                <>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground"
-                    onClick={handleCopy}
-                  >
-                    <Copy className="w-3 h-3" />
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    className="h-6 w-6 p-0 text-muted-foreground hover:text-destructive"
-                    onClick={handleClear}
-                  >
-                    <X className="w-3 h-3" />
-                  </Button>
-                </>
-              )}
-              <VoiceInputButton
-                onResult={onDescriptionChange}
-                context="description"
-                currentValue={description}
-                appendMode
-                className="h-6 w-6 p-0"
-              />
             </div>
           </div>
-        </div>
+          
+          {/* Contextual hint */}
+          <GenerateFormHint type="tip" show={showHint && !description}>
+            {FORM_HINTS.description.empty}
+          </GenerateFormHint>
+          
+          {/* Textarea with bottom toolbar */}
+          <div className="relative">
+            <Textarea
+              id="description"
+              placeholder={hasVocals 
+                ? "Энергичный поп с запоминающимся припевом..." 
+                : "Атмосферный эмбиент с синтезаторами..."
+              }
+              value={description}
+              onChange={(e) => onDescriptionChange(e.target.value)}
+              rows={3}
+              className={cn(
+                "resize-none text-sm pb-10 rounded-xl bg-muted/30 border-muted-foreground/20",
+                "focus:border-primary/50 focus:ring-primary/20 transition-colors",
+                description.length > 500 && "border-destructive focus-visible:ring-destructive"
+              )}
+            />
+            
+            {/* Bottom toolbar */}
+            <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between">
+              {/* Character count */}
+              <span className={cn(
+                "text-[10px] px-1.5 py-0.5 rounded-md bg-background/60 backdrop-blur-sm",
+                description.length > 500 ? 'text-destructive font-medium' : 
+                description.length > 400 ? 'text-yellow-500' : 'text-muted-foreground'
+              )}>
+                {description.length}/500
+              </span>
+              
+              {/* Action buttons */}
+              <div className="flex items-center gap-0.5 bg-background/60 backdrop-blur-sm rounded-md px-1">
+                {description && (
+                  <>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground"
+                      onClick={handleCopy}
+                    >
+                      <Copy className="w-3 h-3" />
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      className="h-6 w-6 p-0 text-muted-foreground hover:text-destructive"
+                      onClick={handleClear}
+                    >
+                      <X className="w-3 h-3" />
+                    </Button>
+                  </>
+                )}
+                <VoiceInputButton
+                  onResult={onDescriptionChange}
+                  context="description"
+                  currentValue={description}
+                  appendMode
+                  className="h-6 w-6 p-0"
+                />
+              </div>
+            </div>
+          </div>
 
-        {/* Smart Prompt Suggestions */}
-        {!description && (
-          <SmartPromptSuggestions
-            onSelectPrompt={onDescriptionChange}
-            currentPrompt={description}
-            compact={true}
-          />
-        )}
-        
-        {description.length > 500 && (
-          <p className="text-[10px] text-destructive">
-            Сократите описание или переключитесь в Полный режим
-          </p>
-        )}
-      </div>
+          {/* Smart Prompt Suggestions */}
+          {!description && (
+            <SmartPromptSuggestions
+              onSelectPrompt={onDescriptionChange}
+              currentPrompt={description}
+              compact={true}
+            />
+          )}
+          
+          {description.length > 500 && (
+            <p className="text-[10px] text-destructive">
+              Сократите описание или переключитесь в Полный режим
+            </p>
+          )}
+        </div>
+      </FormSection>
+
+      <FormDivider />
 
       {/* ========== TITLE SECTION ========== */}
-      <div className="space-y-1.5">
-        <SectionLabel 
-          label="Название"
-          htmlFor="simple-title"
-          hint={SECTION_HINTS.title}
-          suffix="(опционально)"
-        />
-        <Input
-          id="simple-title"
-          placeholder="Автогенерация если пусто"
-          value={title}
-          onChange={(e) => onTitleChange(e.target.value)}
-          className="h-9 text-sm rounded-xl bg-muted/30 border-muted-foreground/20 focus:border-primary/50 focus:ring-primary/20"
-        />
-      </div>
+      <FormSection>
+        <div className="space-y-2">
+          <SectionLabel 
+            label="Название"
+            htmlFor="simple-title"
+            hint={SECTION_HINTS.title}
+            suffix="(опционально)"
+          />
+          <Input
+            id="simple-title"
+            placeholder="Автогенерация если пусто"
+            value={title}
+            onChange={(e) => onTitleChange(e.target.value)}
+            className="h-10 text-sm rounded-xl bg-muted/30 border-muted-foreground/20 focus:border-primary/50 focus:ring-primary/20"
+          />
+        </div>
+      </FormSection>
     </motion.div>
   );
 }

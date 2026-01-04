@@ -229,10 +229,16 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         onOpenChange(true);
       }
     }}>
-      <SheetContent side="bottom" className="h-[95dvh] sm:h-[85vh] sm:max-h-[800px] flex flex-col frost-sheet p-0 w-full max-w-full min-w-0 overflow-x-hidden">
+      <SheetContent 
+        side="bottom" 
+        className="h-[95dvh] sm:h-[85vh] sm:max-h-[800px] flex flex-col frost-sheet p-0 w-full max-w-full min-w-0 overflow-x-hidden"
+        hideCloseButton
+        hideTitle
+        accessibleTitle="Создание музыки"
+      >
         {/* Compact Header with safe area for Telegram */}
         <div 
-          className="px-3 border-b bg-background/95 backdrop-blur-xl"
+          className="px-3 border-b bg-background/95 backdrop-blur-xl flex-shrink-0"
           style={{ 
             paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.5rem), calc(env(safe-area-inset-top, 0px) + 0.5rem))' 
           }}
@@ -245,6 +251,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
             onOpenHistory={() => setHistoryOpen(true)}
             model={form.model}
             onModelChange={form.setModel}
+            onClose={handleCloseRequest}
           />
         </div>
 
