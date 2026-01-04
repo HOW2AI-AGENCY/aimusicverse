@@ -143,16 +143,20 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
             />
           </div>
 
-          {/* Close button - always visible */}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={handleClose}
-            className="h-8 w-8 flex-shrink-0 rounded-full hover:bg-muted/50"
-            aria-label="Close player"
+          {/* Expand/Actions toggle - LEFT SIDE */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowActions(!showActions);
+            }}
+            className="flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 flex-shrink-0 touch-manipulation"
+            aria-label={showActions ? 'Hide actions' : 'Show actions'}
           >
-            <X className="h-4 w-4" />
-          </Button>
+            <ChevronUp className={cn(
+              "w-4 h-4 text-muted-foreground transition-transform",
+              showActions && "rotate-180"
+            )} />
+          </button>
 
           {/* Cover art */}
           <div className="relative flex-shrink-0">
@@ -204,8 +208,8 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
           </div>
 
           {/* Controls */}
-          <div className="flex items-center gap-0.5 sm:gap-1 flex-shrink-0">
-            {/* Action buttons - show on hover/touch */}
+          <div className="flex items-center gap-0.5 flex-shrink-0">
+            {/* Action buttons - show on toggle */}
             <AnimatePresence>
               {showActions && (
                 <motion.div
@@ -213,7 +217,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 10 }}
                   transition={{ duration: 0.2 }}
-                  className="flex items-center gap-0.5 sm:gap-1"
+                  className="flex items-center gap-0.5"
                 >
                   {/* Like button */}
                   <Button
@@ -221,7 +225,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
                     size="icon"
                     onClick={handleLike}
                     className={cn(
-                      "h-8 w-8 rounded-full hover:bg-muted/50",
+                      "h-7 w-7 rounded-full hover:bg-muted/50",
                       track.is_liked && "text-red-500"
                     )}
                     aria-label={track.is_liked ? 'Unlike' : 'Like'}
@@ -234,44 +238,22 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
                     variant="ghost"
                     size="icon"
                     onClick={handleAddToPlaylist}
-                    className="h-8 w-8 rounded-full hover:bg-muted/50"
+                    className="h-7 w-7 rounded-full hover:bg-muted/50"
                     aria-label="Add to playlist"
                   >
                     <ListPlus className="h-3.5 w-3.5" />
                   </Button>
 
-                  {/* Download button */}
+                  {/* Download button - hidden on mobile */}
                   <Button
                     variant="ghost"
                     size="icon"
                     onClick={handleDownload}
-                    className="h-8 w-8 rounded-full hover:bg-muted/50"
+                    className="h-7 w-7 rounded-full hover:bg-muted/50 hidden sm:flex"
                     aria-label="Download"
                     disabled={!track.audio_url && !track.streaming_url}
                   >
                     <Download className="h-3.5 w-3.5" />
-                  </Button>
-
-                  {/* Share button */}
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={handleShareClick}
-                    className="h-8 w-8 rounded-full hover:bg-muted/50"
-                    aria-label="Share"
-                  >
-                    <Share2 className="h-3.5 w-3.5" />
-                  </Button>
-
-                  {/* Open in Studio button */}
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={handleOpenStudio}
-                    className="h-8 w-8 rounded-full hover:bg-muted/50"
-                    aria-label="Open in Studio"
-                  >
-                    <Layers className="h-3.5 w-3.5" />
                   </Button>
 
                   {/* More Actions Menu */}
@@ -282,15 +264,15 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
               )}
             </AnimatePresence>
 
-            {/* Previous track button */}
+            {/* Previous track button - HIDDEN ON MOBILE */}
             <Button
               variant="ghost"
               size="icon"
               onClick={handlePreviousTrack}
-              className="h-9 w-9 rounded-full hover:bg-muted/50"
+              className="h-7 w-7 sm:h-8 sm:w-8 rounded-full hover:bg-muted/50 hidden sm:flex"
               aria-label="Previous track"
             >
-              <SkipBack className="h-4 w-4" />
+              <SkipBack className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             </Button>
 
             {/* Play/Pause button */}
@@ -298,7 +280,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
               variant="ghost"
               size="icon"
               onClick={handlePlayPause}
-              className="h-10 w-10 rounded-full bg-primary/10 hover:bg-primary/20"
+              className="h-9 w-9 rounded-full bg-primary/10 hover:bg-primary/20"
               aria-label={isPlaying ? 'Pause' : 'Play'}
             >
               {isPlaying ? (
@@ -313,26 +295,22 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
               variant="ghost"
               size="icon"
               onClick={handleNextTrack}
-              className="h-9 w-9 rounded-full hover:bg-muted/50"
+              className="h-7 w-7 sm:h-8 sm:w-8 rounded-full hover:bg-muted/50"
               aria-label="Next track"
             >
-              <SkipForward className="h-4 w-4" />
+              <SkipForward className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             </Button>
 
-            {/* Expand indicator - also toggles action buttons */}
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setShowActions(!showActions);
-              }}
-              className="flex items-center justify-center w-8 h-8 touch-manipulation"
-              aria-label={showActions ? 'Hide actions' : 'Show actions'}
+            {/* Close button - RIGHT SIDE */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleClose}
+              className="h-7 w-7 sm:h-8 sm:w-8 rounded-full hover:bg-muted/50"
+              aria-label="Close player"
             >
-              <ChevronUp className={cn(
-                "w-4 h-4 text-muted-foreground transition-transform",
-                showActions && "rotate-180"
-              )} />
-            </button>
+              <X className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+            </Button>
           </div>
         </motion.div>
         

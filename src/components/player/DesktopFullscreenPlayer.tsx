@@ -60,7 +60,7 @@ export function DesktopFullscreenPlayer({
   );
   
   const { currentTime, duration, buffered, seek } = useAudioTime();
-  const { isPlaying, volume } = usePlayerStore();
+  const { isPlaying, volume, preservedTime, clearPreservedTime } = usePlayerStore();
   const { audioElement } = useGlobalAudioPlayer();
   
   // Ensure AudioContext is ready on mount
@@ -125,6 +125,20 @@ export function DesktopFullscreenPlayer({
     const timer = setTimeout(ensureAudio, 100);
     return () => clearTimeout(timer);
   }, [audioElement, isPlaying, volume]);
+
+  // Restore preserved time on mount (from mode switch)
+  useEffect(() => {
+    if (preservedTime !== null && audioElement && !isNaN(preservedTime)) {
+      const timer = setTimeout(() => {
+        if (audioElement && preservedTime !== null) {
+          audioElement.currentTime = preservedTime;
+          clearPreservedTime();
+          logger.info('Restored preserved time on desktop fullscreen', { time: preservedTime });
+        }
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [preservedTime, audioElement, clearPreservedTime]);
 
   // Keyboard shortcuts
   useEffect(() => {
