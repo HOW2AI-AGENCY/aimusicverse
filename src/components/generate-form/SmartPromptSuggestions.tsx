@@ -175,7 +175,7 @@ export function SmartPromptSuggestions({
           <Lightbulb className="h-3.5 w-3.5" />
           <span>Быстрые идеи:</span>
         </div>
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex gap-1.5 overflow-x-auto pb-1 -mx-1 px-1 scrollbar-none">
           {PROMPT_TEMPLATES.slice(0, 6).map((template) => {
             const Icon = template.icon;
             return (
@@ -184,7 +184,7 @@ export function SmartPromptSuggestions({
                 variant="outline"
                 size="sm"
                 onClick={() => onSelectPrompt(template.prompt)}
-                className="h-7 text-xs gap-1.5 hover:bg-primary/10 hover:text-primary hover:border-primary"
+                className="h-7 text-xs gap-1.5 flex-shrink-0 whitespace-nowrap hover:bg-primary/10 hover:text-primary hover:border-primary"
               >
                 <Icon className="h-3 w-3" />
                 {template.title}
