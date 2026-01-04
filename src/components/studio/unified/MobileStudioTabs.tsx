@@ -1,15 +1,17 @@
 /**
  * MobileStudioTabs - Bottom tab navigation for mobile studio
  * Reusable tab bar component for mobile studio interface
+ * With haptic feedback and smooth animations
  */
 
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 import { motion } from '@/lib/motion';
 import { 
-  Music2, Layers, Mic2, Sparkles, Sliders, Wand2 
+  Music2, Layers, Sparkles, Sliders, Wand2 
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+import { useHaptic } from '@/hooks/useHaptic';
 
 export type MobileStudioTab = 'player' | 'tracks' | 'sections' | 'vocals' | 'mixer' | 'actions';
 
@@ -41,8 +43,17 @@ export const MobileStudioTabs = memo(function MobileStudioTabs({
   trackCount,
   className,
 }: MobileStudioTabsProps) {
+  const { patterns } = useHaptic();
+  
   // Telegram safe area bottom
   const safeAreaBottom = 'max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px))';
+
+  const handleTabChange = useCallback((tab: MobileStudioTab) => {
+    if (tab !== activeTab) {
+      patterns.select();
+      onTabChange(tab);
+    }
+  }, [activeTab, onTabChange, patterns]);
 
   return (
     <nav
@@ -61,7 +72,7 @@ export const MobileStudioTabs = memo(function MobileStudioTabs({
         return (
           <button
             key={tab.id}
-            onClick={() => onTabChange(tab.id)}
+            onClick={() => handleTabChange(tab.id)}
             className={cn(
               "relative flex flex-col items-center gap-0.5 px-3 py-2 rounded-lg transition-all",
               "min-w-[56px] min-h-[48px]", // Touch target
@@ -70,8 +81,12 @@ export const MobileStudioTabs = memo(function MobileStudioTabs({
                 : "text-muted-foreground hover:text-foreground active:scale-95"
             )}
           >
-            <div className="relative">
-              <Icon className={cn("w-5 h-5", isActive && "text-primary")} />
+            <motion.div 
+              className="relative"
+              whileTap={{ scale: 0.9 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+            >
+              <Icon className={cn("w-5 h-5 transition-colors", isActive && "text-primary")} />
               {showBadge && (
                 <Badge
                   variant="secondary"
@@ -80,7 +95,7 @@ export const MobileStudioTabs = memo(function MobileStudioTabs({
                   {trackCount}
                 </Badge>
               )}
-            </div>
+            </motion.div>
             <span className="text-[10px] font-medium">{tab.label}</span>
             
             {/* Active indicator */}
