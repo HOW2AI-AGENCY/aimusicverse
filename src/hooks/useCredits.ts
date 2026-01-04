@@ -5,7 +5,7 @@
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from './useAuth';
-import { toast } from 'sonner';
+import { notify } from '@/lib/notifications';
 import { useTelegram } from '@/contexts/TelegramContext';
 import * as creditsService from '@/services/credits.service';
 import * as creditsApi from '@/api/credits.api';
@@ -63,12 +63,12 @@ export function useCheckin() {
     },
     onSuccess: (result) => {
       hapticFeedback?.('success');
-      toast.success(`+${result.credits} кредитов! День ${result.streak} 🔥`, {
+      notify.success(`+${result.credits} кредитов! День ${result.streak} 🔥`, {
         description: `+${result.experience} опыта`,
       });
       
       if (result.levelUp) {
-        toast.success(`🎉 Новый уровень: ${result.newLevel}!`);
+        notify.success(`🎉 Новый уровень: ${result.newLevel}!`);
       }
       
       queryClient.invalidateQueries({ queryKey: ['user-gamification-stats'] });
@@ -77,9 +77,9 @@ export function useCheckin() {
     },
     onError: (error: Error) => {
       if (error.message === 'Вы уже отметились сегодня') {
-        toast.info(error.message);
+        notify.info(error.message, { dedupe: true, dedupeKey: 'already-checkin' });
       } else {
-        toast.error('Ошибка чекина');
+        notify.error('Ошибка чекина');
       }
     },
   });
