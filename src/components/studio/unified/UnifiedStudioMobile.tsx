@@ -27,6 +27,10 @@ import { ExtendDialog } from '@/components/stem-studio/ExtendDialog';
 import { RemixDialog } from '@/components/stem-studio/RemixDialog';
 import { LazyAddVocalsDrawer } from '@/components/lazy';
 import { RecordTrackDrawer, RecordingType } from './RecordTrackDrawer';
+import { NotationDrawer } from './NotationDrawer';
+import { ChordSheet } from './ChordSheet';
+import { AddInstrumentalDrawer } from './AddInstrumentalDrawer';
+import type { ChordData } from './ChordOverlay';
 import { useUnifiedStudio } from '@/hooks/studio/useUnifiedStudio';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { useStudioOperationLock } from '@/hooks/studio/useStudioOperationLock';
@@ -146,6 +150,10 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
   const [showRemixDialog, setShowRemixDialog] = useState(false);
   const [showAddVocalsDrawer, setShowAddVocalsDrawer] = useState(false);
   const [showRecordDrawer, setShowRecordDrawer] = useState(false);
+  const [showNotationDrawer, setShowNotationDrawer] = useState(false);
+  const [showChordSheet, setShowChordSheet] = useState(false);
+  const [showAddInstrumentalDrawer, setShowAddInstrumentalDrawer] = useState(false);
+  const [selectedTrackForNotation, setSelectedTrackForNotation] = useState<any>(null);
 
   // Convert StudioProject to DAWProject format
   const dawProject = useMemo(() => {
@@ -345,6 +353,35 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
     queryClient.invalidateQueries({ queryKey: ['track', id] });
   }, [patterns, queryClient, id]);
 
+  // Handle notation view
+  const handleShowNotation = useCallback((track: any) => {
+    patterns.select();
+    setSelectedTrackForNotation(track);
+    setShowNotationDrawer(true);
+    logger.info('[UnifiedStudioMobile] Notation drawer opened', { trackId: track.id });
+  }, [patterns]);
+
+  // Handle chord sheet view
+  const handleShowChords = useCallback((track: any) => {
+    patterns.select();
+    setSelectedTrackForNotation(track);
+    setShowChordSheet(true);
+    logger.info('[UnifiedStudioMobile] Chord sheet opened', { trackId: track.id });
+  }, [patterns]);
+
+  // Handle add instrumental
+  const handleAddInstrumental = useCallback(() => {
+    if (!operationLock.isOperationAllowed('add_vocals')) {
+      const reason = operationLock.getBlockReason('add_vocals');
+      patterns.error();
+      toast.warning(reason || 'Операция недоступна');
+      return;
+    }
+    patterns.select();
+    setShowAddInstrumentalDrawer(true);
+    logger.info('[UnifiedStudioMobile] Add instrumental drawer opened');
+  }, [operationLock, patterns]);
+
   // Play/pause with haptic
   const handlePlayPause = useCallback(() => {
     patterns.tap();
@@ -462,6 +499,7 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
           onSeparateStems={handleSeparateStems}
           onSaveAsVersion={operationLock.canSaveAsNewVersion ? handleSaveAsVersion : undefined}
           onRecord={handleRecord}
+          onAddInstrumental={handleAddInstrumental}
           // Operation lock state
           hasStems={operationLock.hasStems}
           hasPendingTracks={operationLock.hasPendingTracks}
@@ -543,6 +581,37 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
         projectId={project?.id || id}
         onRecordingComplete={handleRecordingComplete}
       />
+
+      {/* Notation Drawer */}
+      <NotationDrawer
+        open={showNotationDrawer}
+        onClose={() => setShowNotationDrawer(false)}
+        track={selectedTrackForNotation}
+        transcriptionData={selectedTrackForNotation?.transcription}
+        currentTime={currentTime}
+        duration={duration}
+        isPlaying={isPlaying}
+        onSeek={handleSeek}
+      />
+
+      {/* Chord Sheet */}
+      <ChordSheet
+        open={showChordSheet}
+        onClose={() => setShowChordSheet(false)}
+        trackName={selectedTrackForNotation?.name || 'Track'}
+        chords={selectedTrackForNotation?.chords || []}
+        currentTime={currentTime}
+        onSeekToChord={handleSeek}
+      />
+
+      {/* Add Instrumental Drawer */}
+      {mainTrack && trackForSeparation && (
+        <AddInstrumentalDrawer
+          open={showAddInstrumentalDrawer}
+          onOpenChange={setShowAddInstrumentalDrawer}
+          track={trackForSeparation as any}
+        />
+      )}
     </>
   );
 });
