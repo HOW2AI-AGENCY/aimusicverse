@@ -98,16 +98,36 @@ export async function fetchTracks(
 }
 
 /**
- * Fetch single track by ID
+ * Fetch single track by ID with resolved audio URL from active version
+ * Uses optimized query that leverages idx_tracks_active_version index
  */
 export async function fetchTrackById(trackId: string): Promise<TrackRow | null> {
   const { data, error } = await supabase
     .from('tracks')
-    .select('*')
+    .select(`
+      *,
+      active_version:track_versions!active_version_id(
+        audio_url,
+        cover_url,
+        version_label
+      )
+    `)
     .eq('id', trackId)
     .maybeSingle();
 
   if (error) throw new Error(error.message);
+  
+  // Resolve audio_url from active_version if available
+  if (data && data.active_version) {
+    const version = data.active_version as { audio_url?: string; cover_url?: string };
+    return {
+      ...data,
+      audio_url: version.audio_url || data.audio_url,
+      cover_url: version.cover_url || data.cover_url,
+      active_version: undefined, // Remove nested object from response
+    } as TrackRow;
+  }
+  
   return data;
 }
 

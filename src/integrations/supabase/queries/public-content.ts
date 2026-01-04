@@ -22,29 +22,36 @@ interface QueryFilters {
 
 /**
  * Fetch public tracks with filters
+ * Optimized with idx_tracks_status_public index
  */
 export async function fetchPublicTracks(filters: QueryFilters = {}) {
   const { sortBy = 'recent', limit = 20, offset = 0 } = filters;
 
+  // Uses idx_tracks_status_public partial index for is_public + status filter
   let query = supabase
     .from('tracks')
-    .select('*')
+    .select(`
+      *,
+      active_version:track_versions!active_version_id(audio_url, cover_url)
+    `)
     .eq('is_public', true)
     .eq('status', 'completed')
     .not('audio_url', 'is', null);
 
   // Apply filters
   if (filters.genre) {
-    query = query.contains('metadata', { style: filters.genre });
+    // Uses idx_tracks_computed_genre index
+    query = query.eq('computed_genre', filters.genre);
   }
 
   if (filters.mood) {
-    query = query.contains('metadata', { mood: filters.mood });
+    query = query.eq('computed_mood', filters.mood);
   }
 
   // Apply sorting using computed scores from database
   switch (sortBy) {
     case 'recent':
+      // Uses idx_tracks_user_created for ordering
       query = query.order('created_at', { ascending: false });
       break;
     case 'popular':
@@ -63,7 +70,17 @@ export async function fetchPublicTracks(filters: QueryFilters = {}) {
   const { data, error } = await query;
 
   if (error) throw error;
-  return (data || []) as PublicTrack[];
+  
+  // Resolve audio URLs from active versions
+  return (data || []).map(track => {
+    const activeVersion = track.active_version as { audio_url?: string; cover_url?: string } | null;
+    return {
+      ...track,
+      audio_url: activeVersion?.audio_url || track.audio_url,
+      cover_url: activeVersion?.cover_url || track.cover_url,
+      active_version: undefined,
+    };
+  }) as PublicTrack[];
 }
 
 /**
@@ -156,12 +173,16 @@ export async function fetchPublicArtists(filters: QueryFilters = {}) {
 
 /**
  * Fetch featured/curated content
+ * Optimized with idx_tracks_status_public index
  */
 export async function fetchFeaturedContent() {
-  // Fetch featured tracks
+  // Fetch featured tracks with active version for resolved audio
   const { data: tracks, error: tracksError } = await supabase
     .from('tracks')
-    .select('*')
+    .select(`
+      *,
+      active_version:track_versions!active_version_id(audio_url, cover_url)
+    `)
     .eq('is_public', true)
     .eq('status', 'completed')
     .not('audio_url', 'is', null)
@@ -170,7 +191,7 @@ export async function fetchFeaturedContent() {
 
   if (tracksError) throw tracksError;
 
-  // Fetch featured projects
+  // Fetch featured projects - uses idx_music_projects_user_status index
   const { data: projects, error: projectsError } = await supabase
     .from('music_projects')
     .select('*')
@@ -180,8 +201,19 @@ export async function fetchFeaturedContent() {
 
   if (projectsError) throw projectsError;
 
+  // Resolve audio URLs from active versions
+  const resolvedTracks = (tracks || []).map(track => {
+    const activeVersion = track.active_version as { audio_url?: string; cover_url?: string } | null;
+    return {
+      ...track,
+      audio_url: activeVersion?.audio_url || track.audio_url,
+      cover_url: activeVersion?.cover_url || track.cover_url,
+      active_version: undefined,
+    };
+  });
+
   return {
-    tracks: (tracks || []) as PublicTrack[],
+    tracks: resolvedTracks as PublicTrack[],
     projects: (projects || []) as PublicProject[],
   };
 }

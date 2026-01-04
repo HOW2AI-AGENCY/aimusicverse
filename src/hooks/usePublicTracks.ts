@@ -40,9 +40,14 @@ export function usePublicTracks(options: UsePublicTracksOptions = {}) {
   return useInfiniteQuery({
     queryKey: ['public-tracks', filter, style, search, sortBy],
     queryFn: async ({ pageParam }) => {
+      // Optimized query using idx_tracks_status_public index
       let query = supabase
         .from('tracks')
-        .select('*, track_likes!left(user_id)')
+        .select(`
+          *,
+          track_likes!left(user_id),
+          active_version:track_versions!active_version_id(audio_url, cover_url)
+        `)
         .eq('is_public', true)
         .eq('status', 'completed')
         .range(pageParam, pageParam + limit - 1);
@@ -69,7 +74,7 @@ export function usePublicTracks(options: UsePublicTracksOptions = {}) {
         );
       }
 
-      // Apply sorting
+      // Apply sorting - uses idx_tracks_user_created index for created_at
       switch (sortBy) {
         case 'play_count':
           query = query.order('play_count', { ascending: false, nullsFirst: false });
@@ -83,14 +88,21 @@ export function usePublicTracks(options: UsePublicTracksOptions = {}) {
 
       if (error) throw error;
 
-      // Check which tracks current user has liked
+      // Check which tracks current user has liked and resolve audio URLs
       const { data: { user } } = await supabase.auth.getUser();
-      const tracksWithLikes: PublicTrack[] = (data || []).map((track) => ({
-        ...track,
-        user_liked: track.track_likes?.some(
-          (like: { user_id: string }) => like.user_id === user?.id
-        ),
-      }));
+      const tracksWithLikes: PublicTrack[] = (data || []).map((track) => {
+        const activeVersion = track.active_version as { audio_url?: string; cover_url?: string } | null;
+        return {
+          ...track,
+          // Resolve audio/cover from active_version if available
+          audio_url: activeVersion?.audio_url || track.audio_url,
+          cover_url: activeVersion?.cover_url || track.cover_url,
+          user_liked: track.track_likes?.some(
+            (like: { user_id: string }) => like.user_id === user?.id
+          ),
+          active_version: undefined, // Remove nested object
+        };
+      });
 
       return {
         tracks: tracksWithLikes,
