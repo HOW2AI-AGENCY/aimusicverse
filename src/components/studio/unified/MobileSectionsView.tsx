@@ -141,24 +141,28 @@ export const MobileSectionsView = memo(function MobileSectionsView({
                   transition={{ delay: index * 0.05 }}
                   onClick={() => onSectionClick(section, index)}
                   className={cn(
-                    "w-full p-4 rounded-xl border transition-all text-left",
+                    "w-full p-4 rounded-xl border-2 transition-all text-left shadow-sm",
                     bgColor,
                     isActive 
-                      ? "border-primary ring-2 ring-primary/20" 
-                      : "border-border/50"
+                      ? "border-primary ring-2 ring-primary/20 shadow-primary/10" 
+                      : "border-border/50 hover:border-border/80"
                   )}
                 >
                   <div className="flex items-start gap-3">
                     {/* Color indicator */}
                     <div className={cn(
-                      "w-1.5 h-full min-h-[40px] rounded-full shrink-0",
-                      color
+                      "w-2 h-full min-h-[40px] rounded-full shrink-0 shadow-sm",
+                      color,
+                      isActive && "shadow-lg"
                     )} />
 
                     {/* Content */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="font-medium">{section.label}</span>
+                        <span className={cn(
+                          "font-medium",
+                          isActive && "text-foreground font-semibold"
+                        )}>{section.label}</span>
                         
                         {replacement?.status === 'completed' && (
                           <Badge variant="outline" className="bg-green-500/10 text-green-500 border-green-500/30 text-[10px]">

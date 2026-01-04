@@ -151,12 +151,12 @@ export const StudioSectionOverlay = memo(function StudioSectionOverlay({
             key={`${section.type}-${section.startTime}-${index}`}
             className={cn(
               "absolute top-0 bottom-0 flex flex-col items-start justify-start pt-1 px-0.5",
-              "border-l border-r-0 transition-all duration-200 cursor-pointer pointer-events-auto",
+              "border-l-2 border-r-0 transition-all duration-200 cursor-pointer pointer-events-auto",
               "hover:brightness-110",
               colors.bg,
-              "border-white/20",
-              isSelected && "ring-2 ring-primary ring-inset brightness-125",
-              isActive && !isSelected && "brightness-110"
+              colors.border,
+              isSelected && "ring-2 ring-primary ring-inset brightness-125 border-primary",
+              isActive && !isSelected && "brightness-110 border-white/40"
             )}
             style={{ 
               left: `${left}%`, 
@@ -179,8 +179,8 @@ export const StudioSectionOverlay = memo(function StudioSectionOverlay({
           >
             {/* Section label */}
             <div className={cn(
-              "flex items-center gap-0.5 px-1 py-0.5 rounded text-[8px] font-medium truncate max-w-full",
-              "bg-background/70 backdrop-blur-sm",
+              "flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[9px] font-semibold truncate max-w-full",
+              "bg-background/80 backdrop-blur-sm shadow-sm border border-border/30",
               colors.text
             )}>
               <span className="truncate">{section.label}</span>
@@ -192,7 +192,7 @@ export const StudioSectionOverlay = memo(function StudioSectionOverlay({
             {/* Active pulse indicator */}
             {isActive && (
               <motion.div
-                className="absolute left-0 top-0 bottom-0 w-0.5 bg-primary"
+                className="absolute left-0 top-0 bottom-0 w-1 bg-primary shadow-glow"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: [0.5, 1, 0.5] }}
                 transition={{ repeat: Infinity, duration: 1.5 }}
