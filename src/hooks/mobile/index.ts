@@ -30,6 +30,12 @@ export {
 // Optimistic updates
 export { useOptimisticUpdate } from '../useOptimisticUpdate';
 
+// Bottom sheet gestures
+export { useBottomSheetGestures } from '../useBottomSheetGestures';
+
+// Pull to refresh
+export { usePullToRefresh } from '../usePullToRefresh';
+
 // Media queries
 export { useIsMobile } from '../use-mobile';
 export { useMediaQuery } from '../useMediaQuery';

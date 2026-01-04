@@ -38,7 +38,7 @@ export default function ModerationDashboard() {
     queryFn: async () => {
       let query = supabase
         .from('moderation_reports')
-        .select('*, reported_user:reported_user_id(display_name, username), reporter:reporter_id(display_name, username)', { count: 'exact' })
+        .select('*, reported_user:profiles!moderation_reports_reported_user_id_fkey(display_name, username), reporter:profiles!moderation_reports_reporter_id_fkey(display_name, username)', { count: 'exact' })
         .eq('status', activeTab);
 
       // Apply entity type filter
