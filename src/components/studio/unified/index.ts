@@ -39,6 +39,8 @@ export { StudioNotationPanel } from './StudioNotationPanel';
 export { SaveVersionDialog } from './SaveVersionDialog';
 export { PianoRoll } from './PianoRoll';
 export type { MidiNote } from './PianoRoll';
+export { RecordTrackDrawer } from './RecordTrackDrawer';
+export type { RecordingType } from './RecordTrackDrawer';
 
 // DAW Canvas Components (ADR-011 - unified interface)
 export { AIActionsFAB } from './AIActionsFAB';
