@@ -61,10 +61,11 @@ export function GenerateFormSimple({
             label="Тип трека"
             hint={SECTION_HINTS.trackType}
           />
-          <div className="flex p-1 bg-muted/50 rounded-xl">
+          <div className="flex p-1 bg-muted/50 rounded-xl" role="group" aria-label="Тип трека">
             <button
               type="button"
               onClick={() => onHasVocalsChange(true)}
+              aria-pressed={hasVocals}
               className={cn(
                 "flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg text-sm font-medium transition-all duration-200",
                 hasVocals 
@@ -72,12 +73,13 @@ export function GenerateFormSimple({
                   : "text-muted-foreground hover:text-foreground hover:bg-muted"
               )}
             >
-              <Mic className="w-4 h-4" />
+              <Mic className="w-4 h-4" aria-hidden="true" />
               <span>Вокал</span>
             </button>
             <button
               type="button"
               onClick={() => onHasVocalsChange(false)}
+              aria-pressed={!hasVocals}
               className={cn(
                 "flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg text-sm font-medium transition-all duration-200",
                 !hasVocals 
@@ -85,7 +87,7 @@ export function GenerateFormSimple({
                   : "text-muted-foreground hover:text-foreground hover:bg-muted"
               )}
             >
-              <Music2 className="w-4 h-4" />
+              <Music2 className="w-4 h-4" aria-hidden="true" />
               <span>Инструментал</span>
             </button>
           </div>
@@ -109,10 +111,11 @@ export function GenerateFormSimple({
                   type="button"
                   variant="ghost"
                   size="icon"
-                  className="h-6 w-6 p-0 text-primary hover:text-primary/80"
+                  className="h-7 w-7 min-w-[28px] p-0 text-primary hover:text-primary/80"
                   onClick={onOpenStyles}
+                  aria-label="Выбрать стиль музыки"
                 >
-                  <Palette className="w-3.5 h-3.5" />
+                  <Palette className="w-4 h-4" />
                 </Button>
               )}
               <Button
@@ -121,14 +124,15 @@ export function GenerateFormSimple({
                 size="sm"
                 onClick={onBoostStyle}
                 disabled={boostLoading || !description}
-                className="h-6 px-1.5 gap-0.5 text-primary hover:text-primary/80"
+                className="h-7 px-2 gap-1 text-primary hover:text-primary/80"
+                aria-label="Улучшить описание с помощью AI"
               >
                 {boostLoading ? (
-                  <Loader2 className="w-3 h-3 animate-spin" />
+                  <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
                 ) : (
-                  <Sparkles className="w-3 h-3" />
+                  <Sparkles className="w-4 h-4" aria-hidden="true" />
                 )}
-                <span className="text-[10px]">AI</span>
+                <span className="text-xs">AI</span>
               </Button>
             </div>
           </div>
@@ -170,19 +174,21 @@ export function GenerateFormSimple({
                       type="button"
                       variant="ghost"
                       size="icon"
-                      className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground"
+                      className="h-7 w-7 min-w-[28px] p-0 text-muted-foreground hover:text-foreground"
                       onClick={handleCopy}
+                      aria-label="Копировать описание"
                     >
-                      <Copy className="w-3 h-3" />
+                      <Copy className="w-4 h-4" />
                     </Button>
                     <Button
                       type="button"
                       variant="ghost"
                       size="icon"
-                      className="h-6 w-6 p-0 text-muted-foreground hover:text-destructive"
+                      className="h-7 w-7 min-w-[28px] p-0 text-muted-foreground hover:text-destructive"
                       onClick={handleClear}
+                      aria-label="Очистить описание"
                     >
-                      <X className="w-3 h-3" />
+                      <X className="w-4 h-4" />
                     </Button>
                   </>
                 )}

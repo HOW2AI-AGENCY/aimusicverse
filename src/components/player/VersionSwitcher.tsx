@@ -29,9 +29,9 @@ export function VersionSwitcher({ track, size = 'medium', className }: VersionSw
     : track.id;
 
   const sizeClasses = {
-    compact: 'h-6 w-6 text-xs',
-    medium: 'h-8 w-8 text-sm',
-    large: 'h-10 w-10 text-base',
+    compact: 'h-9 w-9 text-xs',     // 36px minimum for inline compact
+    medium: 'h-11 w-11 text-sm',    // 44px - meets touch target
+    large: 'h-12 w-12 text-base',   // 48px - optimal for mobile
   };
 
   const gapClasses = {

@@ -139,17 +139,18 @@ export const PublicTrackCard = memo(function PublicTrackCard({ track, onRemix, c
             <Button
               size="icon"
               className={cn(
-                "w-9 h-9 rounded-full shadow-xl",
+                "w-11 h-11 min-w-[44px] min-h-[44px] rounded-full shadow-xl touch-manipulation",
                 "bg-primary/90 hover:bg-primary transition-all",
                 isCurrentlyPlaying && "bg-primary"
               )}
               onClick={handlePlay}
               disabled={!track.audio_url}
+              aria-label={isCurrentlyPlaying ? `Пауза: ${track.title}` : `Воспроизвести: ${track.title}`}
             >
               {isCurrentlyPlaying ? (
-                <Pause className="w-4 h-4 text-primary-foreground" />
+                <Pause className="w-5 h-5 text-primary-foreground" />
               ) : (
-                <Play className="w-4 h-4 text-primary-foreground ml-0.5" />
+                <Play className="w-5 h-5 text-primary-foreground ml-0.5" />
               )}
             </Button>
           </motion.div>
@@ -243,10 +244,11 @@ export const PublicTrackCard = memo(function PublicTrackCard({ track, onRemix, c
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-7 w-7"
+                className="h-8 w-8 min-w-[32px] min-h-[32px] touch-manipulation"
                 onClick={handleShare}
+                aria-label={`Поделиться треком: ${track.title}`}
               >
-                <Share2 className="w-3 h-3" />
+                <Share2 className="w-4 h-4" />
               </Button>
             </div>
           )}

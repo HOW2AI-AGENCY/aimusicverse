@@ -142,8 +142,8 @@ export function VersionPicker({
         <Badge 
           variant="default" 
           className={cn(
-            "text-xs cursor-pointer hover:bg-primary/80 transition-colors",
-            "min-h-[28px] px-2 gap-1",
+            "text-xs cursor-pointer hover:bg-primary/80 transition-colors touch-manipulation",
+            "min-h-[44px] px-3 gap-1.5",
             className
           )}
           onClick={(e) => {
@@ -152,7 +152,7 @@ export function VersionPicker({
           }}
         >
           {isUpdating ? (
-            <Loader2 className="w-3 h-3 animate-spin" />
+            <Loader2 className="w-4 h-4 animate-spin" />
           ) : (
             <>
               <span className="font-semibold">{activeVersion?.version_label || 'A'}</span>
