@@ -12,7 +12,7 @@
 
 import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { X, ListMusic, BarChart3, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, ListMusic, BarChart3, ChevronLeft, ChevronRight, Mic2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { WaveformProgressBar } from './WaveformProgressBar';
 import { Track } from '@/types/track';
@@ -24,11 +24,14 @@ import { useAudioVisualizer } from '@/hooks/audio/useAudioVisualizer';
 import { useLyricsSynchronization } from '@/hooks/lyrics/useLyricsSynchronization';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 import { usePrefetchTrackCovers } from '@/hooks/audio/usePrefetchTrackCovers';
+import { usePrefetchNextAudio } from '@/hooks/audio/usePrefetchNextAudio';
 import { SynchronizedWord } from '@/components/lyrics/SynchronizedWord';
 import { QueueSheet } from './QueueSheet';
 import { VersionSwitcher } from './VersionSwitcher';
 import { UnifiedPlayerControls } from './UnifiedPlayerControls';
 import { PlayerActionsBar } from './PlayerActionsBar';
+import { KaraokeView } from './KaraokeView';
+import { DoubleTapSeekFeedback } from './DoubleTapSeekFeedback';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence, PanInfo } from '@/lib/motion';
 import { hapticImpact } from '@/lib/haptic';
@@ -40,6 +43,10 @@ const DRAG_CLOSE_THRESHOLD = 100; // px distance for vertical close
 const VELOCITY_THRESHOLD = 500;   // px/s velocity for vertical close
 const HORIZONTAL_SWIPE_THRESHOLD = 80; // px distance for track switch
 const HORIZONTAL_VELOCITY_THRESHOLD = 400; // px/s velocity for track switch
+
+// Double-tap seek constants
+const DOUBLE_TAP_DELAY = 300; // ms between taps
+const SEEK_AMOUNT = 10; // seconds to seek
 
 interface MobileFullscreenPlayerProps {
   track: Track;
@@ -58,11 +65,14 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
   const [userScrolling, setUserScrolling] = useState(false);
   const [showVisualizer, setShowVisualizer] = useState(true);
   const [horizontalDragOffset, setHorizontalDragOffset] = useState(0);
+  const [karaokeMode, setKaraokeMode] = useState(false);
+  const [doubleTapSide, setDoubleTapSide] = useState<'left' | 'right' | null>(null);
   const lyricsContainerRef = useRef<HTMLDivElement>(null);
   const activeLineRef = useRef<HTMLDivElement>(null);
   const activeWordRef = useRef<HTMLSpanElement>(null);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const lastScrollTopRef = useRef<number>(0);
+  const lastTapRef = useRef<{ time: number; x: number }>({ time: 0, x: 0 });
   const isProgrammaticScrollRef = useRef(false);
 
   // Telegram BackButton integration - closes fullscreen player
@@ -76,6 +86,9 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
   
   // Prefetch covers for smooth transitions
   usePrefetchTrackCovers(queue, currentIndex, { count: 3 });
+  
+  // Prefetch next audio for instant track switching
+  usePrefetchNextAudio(queue, currentIndex, { enabled: true });
   
   // Get audio URL for waveform
   const audioUrl = useMemo(() => {
@@ -513,6 +526,36 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
     setHorizontalDragOffset(info.offset.x);
   }, []);
 
+  // Double-tap seek handler (like YouTube/TikTok)
+  const handleDoubleTapSeek = useCallback((e: React.TouchEvent | React.MouseEvent) => {
+    const now = Date.now();
+    const clientX = 'touches' in e ? e.touches[0]?.clientX : e.clientX;
+    if (clientX === undefined) return;
+    
+    const screenWidth = window.innerWidth;
+    const isLeftSide = clientX < screenWidth / 2;
+    
+    // Check for double-tap
+    if (now - lastTapRef.current.time < DOUBLE_TAP_DELAY) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const seekDelta = isLeftSide ? -SEEK_AMOUNT : SEEK_AMOUNT;
+      const newTime = Math.max(0, Math.min(currentTime + seekDelta, duration));
+      
+      seek(newTime);
+      hapticImpact('medium');
+      
+      // Visual feedback
+      setDoubleTapSide(isLeftSide ? 'left' : 'right');
+      setTimeout(() => setDoubleTapSide(null), 500);
+      
+      lastTapRef.current = { time: 0, x: 0 };
+    } else {
+      lastTapRef.current = { time: now, x: clientX };
+    }
+  }, [currentTime, duration, seek]);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: '100%' }}
@@ -654,6 +697,23 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
               </Button>
             </motion.div>
             
+            {/* Karaoke mode button */}
+            {lyricsLines && (
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => {
+                    hapticImpact('light');
+                    setKaraokeMode(true);
+                  }}
+                  className="h-11 w-11 rounded-full bg-background/40 backdrop-blur-md border border-white/10 touch-manipulation hover:bg-background/60 transition-colors"
+                >
+                  <Mic2 className="h-5 w-5" />
+                </Button>
+              </motion.div>
+            )}
+            
             {/* Queue button */}
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Button
@@ -671,15 +731,22 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
           </div>
         </motion.header>
 
-        {/* Lyrics Section with Horizontal Swipe */}
+        {/* Lyrics Section with Horizontal Swipe and Double-Tap Seek */}
         <motion.div 
           drag="x"
           dragConstraints={{ left: 0, right: 0 }}
           dragElastic={{ left: 0.2, right: 0.2 }}
           onDrag={handleHorizontalDrag}
           onDragEnd={handleHorizontalDragEnd}
+          onTouchStart={handleDoubleTapSeek}
           className="flex-1 relative min-h-0 flex flex-col touch-pan-y"
         >
+          {/* Double-tap seek feedback */}
+          <AnimatePresence>
+            {doubleTapSide && (
+              <DoubleTapSeekFeedback side={doubleTapSide} seekAmount={SEEK_AMOUNT} />
+            )}
+          </AnimatePresence>
           {/* Swipe indicators */}
           <AnimatePresence>
             {Math.abs(horizontalDragOffset) > 20 && (
@@ -912,6 +979,20 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
 
       {/* Queue Sheet */}
       <QueueSheet open={queueOpen} onOpenChange={setQueueOpen} />
+      
+      {/* Karaoke Mode */}
+      <AnimatePresence>
+        {karaokeMode && lyricsLines && (
+          <KaraokeView
+            lyricsLines={lyricsLines}
+            currentTime={syncedTime}
+            isPlaying={isPlaying}
+            activeLineIndex={activeLineIndex}
+            onClose={() => setKaraokeMode(false)}
+            onSeek={handleWordClick}
+          />
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }
