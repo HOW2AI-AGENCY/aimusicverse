@@ -107,6 +107,7 @@ export interface AIMessage {
     producerReview?: ProducerReviewData;
     quickActions?: QuickAction[];
     stylePrompt?: string;
+    title?: string;
     changes?: string[];
     keyInsights?: string[];
     uniqueStrength?: string;
