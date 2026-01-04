@@ -116,6 +116,7 @@ export function LyricsChatAssistant({
       }
     },
     onStylePromptGenerated: onStyleGenerated,
+    onTitleGenerated: onTitleGenerated,
   });
 
   // Auto-scroll to bottom when messages change

@@ -15,9 +15,10 @@ interface UseAIToolsOptions {
   onLyricsGenerated?: (lyrics: string) => void;
   onTagsGenerated?: (tags: string[]) => void;
   onStylePromptGenerated?: (prompt: string) => void;
+  onTitleGenerated?: (title: string) => void;
 }
 
-export function useAITools({ context, onLyricsGenerated, onTagsGenerated, onStylePromptGenerated }: UseAIToolsOptions) {
+export function useAITools({ context, onLyricsGenerated, onTagsGenerated, onStylePromptGenerated, onTitleGenerated }: UseAIToolsOptions) {
   const [isLoading, setIsLoading] = useState(false);
   const [activeTool, setActiveTool] = useState<AIToolId | null>(null);
   
@@ -187,10 +188,19 @@ export function useAITools({ context, onLyricsGenerated, onTagsGenerated, onStyl
         if (lyricsContent) {
           responseData.lyrics = lyricsContent;
           responseType = 'lyrics';
-          // Auto-apply only for write/optimize/style_convert/translate/drill/epic tools
-          if (toolId === 'write' || toolId === 'optimize' || toolId === 'style_convert' || 
-              toolId === 'translate' || toolId === 'drill_builder' || toolId === 'epic_builder') {
+          // Auto-apply lyrics, title, style for write/optimize/style_convert/translate/drill/epic tools
+          const autoApplyTools = ['write', 'optimize', 'style_convert', 'translate', 'drill_builder', 'epic_builder', 'add_tags', 'improve'];
+          if (autoApplyTools.includes(toolId)) {
             onLyricsGenerated?.(lyricsContent);
+            // Also apply title and style if returned
+            if (data.title) {
+              responseData.title = data.title;
+              onTitleGenerated?.(data.title);
+            }
+            if (data.style) {
+              responseData.stylePrompt = data.style;
+              onStylePromptGenerated?.(data.style);
+            }
           }
         }
       }
@@ -238,7 +248,17 @@ export function useAITools({ context, onLyricsGenerated, onTagsGenerated, onStyl
       if (data.quickActions && !responseData.quickActions) {
         responseData.quickActions = data.quickActions;
       }
-      if (data.stylePrompt) responseData.stylePrompt = data.stylePrompt;
+      // Handle style - check both stylePrompt and style keys
+      if (data.stylePrompt && !responseData.stylePrompt) {
+        responseData.stylePrompt = data.stylePrompt;
+      }
+      if (data.style && !responseData.stylePrompt) {
+        responseData.stylePrompt = data.style;
+      }
+      // Handle title
+      if (data.title && !responseData.title) {
+        responseData.title = data.title;
+      }
       if (data.changes) responseData.changes = data.changes;
       if (data.analysis) responseData.analysis = data.analysis;
       if (data.suggestions) responseData.suggestions = data.suggestions;
