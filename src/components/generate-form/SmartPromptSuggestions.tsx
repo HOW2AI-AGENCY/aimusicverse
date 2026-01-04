@@ -175,22 +175,30 @@ export function SmartPromptSuggestions({
           <Lightbulb className="h-3.5 w-3.5" />
           <span>Быстрые идеи:</span>
         </div>
-        <div className="flex gap-1.5 w-full max-w-full min-w-0 overflow-x-auto pb-1 pr-2 scrollbar-none">
-          {PROMPT_TEMPLATES.slice(0, 6).map((template) => {
-            const Icon = template.icon;
-            return (
-              <Button
-                key={template.id}
-                variant="outline"
-                size="sm"
-                onClick={() => onSelectPrompt(template.prompt)}
-                className="h-7 text-xs gap-1.5 flex-shrink-0 whitespace-nowrap hover:bg-primary/10 hover:text-primary hover:border-primary"
-              >
-                <Icon className="h-3 w-3" />
-                {template.title}
-              </Button>
-            );
-          })}
+
+        {/*
+          Mobile/iOS width fix:
+          Outer container is the constrained scroller; inner row is inline-flex (min-w-max)
+          so chips never expand parent width.
+        */}
+        <div className="w-full max-w-full min-w-0 overflow-x-auto overscroll-x-contain pb-1 pr-2 scrollbar-none">
+          <div className="inline-flex gap-1.5 min-w-max">
+            {PROMPT_TEMPLATES.slice(0, 6).map((template) => {
+              const Icon = template.icon;
+              return (
+                <Button
+                  key={template.id}
+                  variant="outline"
+                  size="sm"
+                  onClick={() => onSelectPrompt(template.prompt)}
+                  className="h-7 text-xs gap-1.5 flex-shrink-0 whitespace-nowrap hover:bg-primary/10 hover:text-primary hover:border-primary"
+                >
+                  <Icon className="h-3 w-3" />
+                  {template.title}
+                </Button>
+              );
+            })}
+          </div>
         </div>
       </div>
     );
