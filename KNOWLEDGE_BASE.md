@@ -1,7 +1,45 @@
 # 📚 БАЗА ЗНАНИЙ ПРОЕКТА MusicVerse AI
 
-> **Последнее обновление:** 2026-01-04 (Session 8)  
-> **Версия проекта:** 1.2.1 (Sprint 030 - DAW Canvas + DB Optimization)
+> **Последнее обновление:** 2026-01-04 (Session 9)  
+> **Версия проекта:** 1.2.2 (Sprint 030 - UI/UX Generation Form Polish)
+
+---
+
+## 🆕 НОВОЕ В СЕССИИ 9
+
+### UI/UX Generation Form Improvements (January 4, 2026) ✅
+
+**1. Hints работают по клику (Popover вместо Tooltip)**
+- `SectionLabel.tsx` — заменён Tooltip на Popover для мобильной совместимости
+- Подсказки теперь активируются тапом, не требуют hover
+
+**2. Компактный хедер формы генерации**
+- Удалён логотип из `CollapsibleFormHeader.tsx`
+- Уменьшены размеры: `min-h-[32px]`, `py-1`, `h-6` для кнопок
+- Компактное отображение модели (emoji + короткое имя)
+
+**3. Кнопки Copy/Delete скрыты когда пусто**
+- `FormFieldToolbar.tsx` — кнопки полностью скрыты при пустом поле (не disabled с opacity)
+
+**4. Compact Lyrics Visual Editor**
+- Новый компонент `LyricsVisualEditorCompact.tsx`
+- Упрощённая версия без drag-drop и stats panel
+- Timeline секций как компактные badges
+- Quick templates (Pop, Рэп, EDM)
+- Используется в `LyricsSection.tsx`
+
+**5. Advanced Options заметнее**
+- Кнопка с `border-dashed` и эмодзи ⚙️
+- Удалён дублирующийся Model Selector (модель только в хедере)
+
+**Файлы изменены:**
+- `src/components/generate-form/SectionLabel.tsx`
+- `src/components/generate-form/CollapsibleFormHeader.tsx`
+- `src/components/generate-form/FormFieldToolbar.tsx`
+- `src/components/generate-form/LyricsVisualEditorCompact.tsx` (NEW)
+- `src/components/generate-form/sections/LyricsSection.tsx`
+- `src/components/generate-form/AdvancedSettings.tsx`
+- `src/components/generate-form/GenerateFormCustom.tsx`
 
 ---
 
