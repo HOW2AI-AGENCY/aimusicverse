@@ -77,6 +77,8 @@ const Privacy = lazy(() => import("./pages/Privacy"));
 const Pricing = lazy(() => import("./pages/Pricing"));
 const BuyCredits = lazy(() => import("./pages/payments/BuyCredits"));
 const Subscription = lazy(() => import("./pages/payments/Subscription"));
+const PaymentSuccess = lazy(() => import("./pages/payments/PaymentSuccess"));
+const PaymentFail = lazy(() => import("./pages/payments/PaymentFail"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const ErrorPage = lazy(() => import("./pages/ErrorPage"));
 
@@ -201,6 +203,10 @@ const App = () => (
                     <MobilePlayerPage />
                   </ProtectedRoute>
                 } />
+
+                {/* Payment result pages (no auth required - redirected from Tinkoff) */}
+                <Route path="/payment/success" element={<PaymentSuccess />} />
+                <Route path="/payment/fail" element={<PaymentFail />} />
 
                 {/* Error route */}
                 <Route path="/error" element={<ErrorPage />} />
