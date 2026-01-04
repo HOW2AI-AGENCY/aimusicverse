@@ -805,7 +805,7 @@ export function AudioActionDialog({
   if (isMobile) {
     return (
       <Drawer open={open} onOpenChange={onOpenChange}>
-        <DrawerContent className="max-h-[80vh]">
+        <DrawerContent className="max-h-[85vh] z-[60]">
           <DrawerHeader className="py-3 text-left">
             <DrawerTitle className="flex items-center gap-2 text-base">
               <FileAudio className="w-4 h-4 text-primary" />

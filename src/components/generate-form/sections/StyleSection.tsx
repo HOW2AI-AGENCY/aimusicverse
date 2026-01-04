@@ -44,7 +44,7 @@ export const StyleSection = memo(function StyleSection({
         />
         
         {/* Bottom toolbar inside textarea */}
-        <div className="absolute bottom-2 left-2.5 right-2.5 flex items-center justify-between">
+        <div className="absolute bottom-1.5 left-2 right-2 flex items-center justify-between">
           {/* Character count */}
           <span className={cn(
             "text-[10px] px-1.5 py-0.5 rounded-md bg-background/60 backdrop-blur-sm",
