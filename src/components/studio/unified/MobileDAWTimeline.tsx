@@ -20,6 +20,14 @@ import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import type { StudioTrack } from '@/stores/useUnifiedStudioStore';
 import { Volume2, VolumeX, Headphones } from 'lucide-react';
 
+interface SectionMarker {
+  label: string;
+  type: string;
+  startTime: number;
+  endTime: number;
+  isReplaced?: boolean;
+}
+
 interface MobileDAWTimelineProps {
   tracks: StudioTrack[];
   currentTime: number;
@@ -30,6 +38,10 @@ interface MobileDAWTimelineProps {
   onToggleSolo: (trackId: string) => void;
   onTrackSelect?: (trackId: string) => void;
   selectedTrackId?: string | null;
+  /** Section markers (verse, chorus, bridge, etc.) */
+  sections?: SectionMarker[];
+  /** Callback when section is clicked */
+  onSectionClick?: (section: SectionMarker, index: number) => void;
   className?: string;
 }
 
@@ -54,6 +66,17 @@ const getTrackIcon = (type: string) => {
   }
 };
 
+// Section type colors
+const SECTION_COLORS: Record<string, { bg: string; border: string; text: string }> = {
+  verse: { bg: 'bg-blue-500/20', border: 'border-blue-500/40', text: 'text-blue-400' },
+  chorus: { bg: 'bg-pink-500/20', border: 'border-pink-500/40', text: 'text-pink-400' },
+  bridge: { bg: 'bg-amber-500/20', border: 'border-amber-500/40', text: 'text-amber-400' },
+  intro: { bg: 'bg-emerald-500/20', border: 'border-emerald-500/40', text: 'text-emerald-400' },
+  outro: { bg: 'bg-violet-500/20', border: 'border-violet-500/40', text: 'text-violet-400' },
+  pre_chorus: { bg: 'bg-orange-500/20', border: 'border-orange-500/40', text: 'text-orange-400' },
+  instrumental: { bg: 'bg-cyan-500/20', border: 'border-cyan-500/40', text: 'text-cyan-400' },
+};
+
 export const MobileDAWTimeline = memo(function MobileDAWTimeline({
   tracks,
   currentTime,
@@ -64,6 +87,8 @@ export const MobileDAWTimeline = memo(function MobileDAWTimeline({
   onToggleSolo,
   onTrackSelect,
   selectedTrackId,
+  sections = [],
+  onSectionClick,
   className,
 }: MobileDAWTimelineProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -186,6 +211,50 @@ export const MobileDAWTimeline = memo(function MobileDAWTimeline({
               </div>
             ))}
           </div>
+
+          {/* Section markers overlay */}
+          {sections.length > 0 && (
+            <div className="h-7 border-b border-border/50 relative flex items-stretch">
+              {sections.map((section, index) => {
+                const leftPercent = (section.startTime / duration) * 100;
+                const widthPercent = ((section.endTime - section.startTime) / duration) * 100;
+                const colors = SECTION_COLORS[section.type] || SECTION_COLORS.verse;
+                
+                return (
+                  <button
+                    key={`${section.type}-${index}`}
+                    className={cn(
+                      "absolute top-0.5 bottom-0.5 rounded border transition-all",
+                      "flex items-center justify-center overflow-hidden",
+                      "hover:scale-[1.02] active:scale-[0.98]",
+                      colors.bg,
+                      colors.border,
+                      section.isReplaced && "ring-1 ring-primary"
+                    )}
+                    style={{ 
+                      left: `${leftPercent}%`, 
+                      width: `${Math.max(widthPercent, 3)}%` 
+                    }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      haptic.select();
+                      onSectionClick?.(section, index);
+                    }}
+                  >
+                    <span className={cn(
+                      "text-[9px] font-medium truncate px-1",
+                      colors.text
+                    )}>
+                      {section.label}
+                    </span>
+                    {section.isReplaced && (
+                      <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-primary rounded-full" />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          )}
 
           {/* Tracks */}
           <div className="space-y-1 p-2">

@@ -19,7 +19,7 @@ import { memo, useState, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import {
   Play, Pause, SkipBack, SkipForward, Volume2, VolumeX,
-  Sliders, X, Plus, Sparkles, Download
+  Sliders, X, Plus, Sparkles, Download, Undo2, Redo2
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -67,7 +67,12 @@ interface UnifiedDAWLayoutProps {
   onTrackRemove?: (trackId: string) => void;
   onAddTrack?: () => void;
   onExport?: () => void;
-  onSave?: () => void;
+  onSave?: () => Promise<boolean> | void;
+  // Undo/Redo
+  onUndo?: () => void;
+  onRedo?: () => void;
+  canUndo?: boolean;
+  canRedo?: boolean;
   // AI Actions
   onGenerate?: () => void;
   onExtend?: () => void;
@@ -100,6 +105,11 @@ export const UnifiedDAWLayout = memo(function UnifiedDAWLayout({
   onAddTrack,
   onExport,
   onSave,
+  // Undo/Redo
+  onUndo,
+  onRedo,
+  canUndo = false,
+  canRedo = false,
   // AI Actions
   onGenerate,
   onExtend,
@@ -201,10 +211,45 @@ export const UnifiedDAWLayout = memo(function UnifiedDAWLayout({
     >
       {/* Header with project name and actions */}
       <div className="flex items-center justify-between px-4 py-3 border-b border-border/50 bg-card/95 backdrop-blur-md shrink-0">
-        <div className="flex items-center gap-3">
-          <h1 className="text-lg font-semibold truncate max-w-[200px]">
+        <div className="flex items-center gap-2">
+          <h1 className="text-lg font-semibold truncate max-w-[140px]">
             {project.name}
           </h1>
+          
+          {/* Undo/Redo buttons */}
+          {(onUndo || onRedo) && (
+            <div className="flex items-center gap-0.5 ml-1">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => {
+                  patterns.tap();
+                  onUndo?.();
+                }}
+                disabled={!canUndo}
+                className="h-8 w-8"
+                title="Отменить (Ctrl+Z)"
+              >
+                <Undo2 className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => {
+                  patterns.tap();
+                  onRedo?.();
+                }}
+                disabled={!canRedo}
+                className="h-8 w-8"
+                title="Повторить (Ctrl+Shift+Z)"
+              >
+                <Redo2 className="h-4 w-4" />
+              </Button>
+            </div>
+          )}
+        </div>
+        
+        <div className="flex items-center gap-1.5">
           {onSave && (
             <Button
               variant="ghost"
@@ -212,11 +257,9 @@ export const UnifiedDAWLayout = memo(function UnifiedDAWLayout({
               onClick={onSave}
               className="h-8 px-2 text-xs"
             >
-              Save
+              Сохранить
             </Button>
           )}
-        </div>
-        <div className="flex items-center gap-2">
           <Button
             variant="outline"
             size="icon"

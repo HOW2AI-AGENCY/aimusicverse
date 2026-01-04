@@ -16,6 +16,15 @@ export { AddTrackDrawer } from './AddTrackDrawer';
 export { StudioShell } from './StudioShell';
 export { SortableTrackList } from './SortableTrackList';
 export { AutoSaveIndicator } from './AutoSaveIndicator';
+export { 
+  StudioLoadingSkeleton, 
+  TrackRowSkeleton, 
+  TimelineRulerSkeleton,
+  SectionsSkeleton,
+  TransportSkeleton,
+  WaveformSkeleton,
+  MixerPanelSkeleton,
+} from './StudioSkeletons';
 
 // Unified Mobile Components (new unified DAW interface - NO tabs)
 export { UnifiedStudioMobile } from './UnifiedStudioMobile';
