@@ -179,6 +179,40 @@ export const AI_TOOLS: AITool[] = [
     autoContext: true,
     outputType: 'lyrics',
   },
+  // V5 специализированные билдеры
+  {
+    id: 'drill_builder',
+    name: 'Drill',
+    icon: Zap,
+    action: 'drill_prompt_builder',
+    description: 'UK Drill / Trap билдер',
+    color: 'text-red-400',
+    bgColor: 'bg-red-500/10 hover:bg-red-500/20 border-red-500/30',
+    inputFields: ['theme', 'targetStyle'],
+    outputType: 'lyrics',
+  },
+  {
+    id: 'epic_builder',
+    name: 'Эпик',
+    icon: Music2,
+    action: 'epic_prompt_builder',
+    description: 'Cinematic / Epic билдер',
+    color: 'text-amber-400',
+    bgColor: 'bg-amber-500/10 hover:bg-amber-500/20 border-amber-500/30',
+    inputFields: ['theme', 'targetStyle'],
+    outputType: 'lyrics',
+  },
+  {
+    id: 'validate_v5',
+    name: 'Валидация',
+    icon: Target,
+    action: 'validate_suno_v5',
+    description: 'Проверка V5 синтаксиса',
+    color: 'text-green-400',
+    bgColor: 'bg-green-500/10 hover:bg-green-500/20 border-green-500/30',
+    autoContext: true,
+    outputType: 'analysis',
+  },
 ];
 
 export const TAG_CATEGORIES = {
@@ -247,4 +281,28 @@ export const GENRE_OPTIONS = [
   { value: 'indie', label: 'Indie', emoji: '🌙' },
   { value: 'folk', label: 'Folk', emoji: '🪕' },
   { value: 'jazz', label: 'Jazz', emoji: '🎺' },
+  // V5 новые жанры
+  { value: 'drill', label: 'UK Drill', emoji: '🔥' },
+  { value: 'trap', label: 'Trap', emoji: '💎' },
+  { value: 'phonk', label: 'Phonk', emoji: '👻' },
+  { value: 'cyberpunk', label: 'Cyberpunk', emoji: '🤖' },
+  { value: 'latin', label: 'Latin', emoji: '💃' },
+  { value: 'metal', label: 'Metal', emoji: '🤘' },
+  { value: 'afrobeat', label: 'Afrobeat', emoji: '🌍' },
+  { value: 'house', label: 'House', emoji: '🏠' },
+  { value: 'ambient', label: 'Ambient', emoji: '🌌' },
+];
+
+// Специализированные билдеры промптов V5
+export const PROMPT_BUILDERS = [
+  { id: 'drill', label: 'Drill Builder', action: 'drill_prompt_builder', emoji: '🔥', description: 'UK/US Drill с 808 и агрессией' },
+  { id: 'epic', label: 'Epic Builder', action: 'epic_prompt_builder', emoji: '🎬', description: 'Cinematic, оркестровый эпик' },
+];
+
+// Схемы рифмовки
+export const RHYME_SCHEMES = [
+  { value: 'aabb', label: 'AABB', description: 'Парные рифмы (drill, hip-hop)' },
+  { value: 'abab', label: 'ABAB', description: 'Перекрёстные (поп, баллады)' },
+  { value: 'aabccb', label: 'AABCCB', description: 'Сложные (сторителлинг)' },
+  { value: 'abcabc', label: 'ABCABC', description: 'Прогрессивные (эпик)' },
 ];
