@@ -1044,12 +1044,30 @@ html {
   }
   
   /* Minimum touch target size for iOS (44x44px) */
-  button:not(.icon-button),
-  [role="button"]:not(.icon-button),
+  /* Exclude .chip-button for small inline chips that should scroll horizontally */
+  button:not(.icon-button):not(.chip-button),
+  [role="button"]:not(.icon-button):not(.chip-button),
   a:not(.inline-link) {
     min-height: 44px;
     min-width: 44px;
   }
+}
+
+/* =========================================
+   Radix ScrollArea Mobile Width Fix
+   Works on ALL platforms (iOS, Android, browsers)
+   ========================================= */
+
+[data-radix-scroll-area-viewport] {
+  max-width: 100% !important;
+  overflow-x: hidden;
+}
+
+[data-radix-scroll-area-viewport] > div {
+  display: block !important;
+  min-width: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
 }
 
 /* Telegram Mini App specific fixes */

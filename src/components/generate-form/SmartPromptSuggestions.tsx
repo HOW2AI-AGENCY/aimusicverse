@@ -170,19 +170,26 @@ export function SmartPromptSuggestions({
 
   if (compact) {
     return (
-      <div className="space-y-2 w-full max-w-full min-w-0 overflow-x-hidden">
+      <div 
+        className="space-y-2 w-full min-w-0 overflow-hidden"
+        style={{ maxWidth: 'calc(100vw - 2rem)' }}
+      >
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
           <Lightbulb className="h-3.5 w-3.5" />
           <span>Быстрые идеи:</span>
         </div>
 
         {/*
-          Mobile/iOS width fix:
-          Outer container is the constrained scroller; inner row is inline-flex (min-w-max)
-          so chips never expand parent width.
+          Mobile width fix:
+          - Outer container has calc() max-width to account for parent padding
+          - Inner scroller allows horizontal overflow
+          - Chips have .chip-button class to exclude from iOS 44px min-width rule
         */}
-        <div className="w-full max-w-full min-w-0 overflow-x-auto overscroll-x-contain pb-1 pr-2 scrollbar-none">
-          <div className="inline-flex gap-1.5 min-w-max">
+        <div 
+          className="w-full min-w-0 overflow-x-auto overscroll-x-contain pb-1 scrollbar-none"
+          style={{ maxWidth: 'calc(100vw - 2rem)' }}
+        >
+          <div className="inline-flex gap-1.5 min-w-max pr-2">
             {PROMPT_TEMPLATES.slice(0, 6).map((template) => {
               const Icon = template.icon;
               return (
@@ -191,7 +198,7 @@ export function SmartPromptSuggestions({
                   variant="outline"
                   size="sm"
                   onClick={() => onSelectPrompt(template.prompt)}
-                  className="h-7 text-xs gap-1.5 flex-shrink-0 whitespace-nowrap hover:bg-primary/10 hover:text-primary hover:border-primary"
+                  className="chip-button h-7 text-xs gap-1.5 flex-shrink-0 whitespace-nowrap hover:bg-primary/10 hover:text-primary hover:border-primary"
                 >
                   <Icon className="h-3 w-3" />
                   {template.title}
