@@ -15,13 +15,13 @@
  * @see specs/001-unified-studio-mobile/plan.md for implementation plan
  */
 
-import { memo, useEffect } from 'react';
+import { memo, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UnifiedDAWLayout } from './UnifiedDAWLayout';
 import { useUnifiedStudio } from '@/hooks/studio/useUnifiedStudio';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { useUnifiedStudioStore } from '@/stores/useUnifiedStudioStore';
 import { registerStudioAudio, unregisterStudioAudio } from '@/hooks/studio/useStudioAudio';
+import { studioProjectToDAWProject } from '@/lib/studio/typeAdapters';
 import { Loader2 } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
@@ -111,13 +111,22 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
     save,
   } = useUnifiedStudio({ mode, id });
 
+  // Convert StudioProject to DAWProject format
+  const dawProject = useMemo(() => {
+    if (!project) return null;
+    return studioProjectToDAWProject(project);
+  }, [project]);
+
   // Audio engine registration
-  const { currentTrack: globalPlayingTrack } = usePlayerStore();
+  const { activeTrack: globalPlayingTrack } = usePlayerStore();
   
   useEffect(() => {
     // Register studio audio with global audio manager
     const engineId = `unified-studio-${id}`;
-    registerStudioAudio(engineId);
+    registerStudioAudio(engineId, () => {
+      pause();
+      stop();
+    });
     
     logger.info('[UnifiedStudioMobile] Registered audio engine', {
       mode,
@@ -134,7 +143,7 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
         engineId,
       });
     };
-  }, [id, mode, stop]);
+  }, [id, mode, stop, pause]);
 
   // Handle close navigation
   const handleClose = () => {
@@ -196,7 +205,7 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
   }
 
   // Error state
-  if (!project) {
+  if (!dawProject) {
     return (
       <div 
         className={cn('flex h-screen w-full items-center justify-center p-4', className)}
@@ -232,7 +241,7 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
       aria-label="Music Studio"
     >
       <UnifiedDAWLayout
-        project={project}
+        project={dawProject}
         isPlaying={isPlaying}
         currentTime={currentTime}
         duration={duration}
@@ -248,7 +257,6 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
         onAddTrack={handleAddTrack}
         onExport={handleExport}
         onSave={save}
-        data-testid="unified-daw-layout"
       />
     </div>
   );
@@ -256,6 +264,3 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
 
 // Display name for React DevTools
 UnifiedStudioMobile.displayName = 'UnifiedStudioMobile';
-
-// Type exports for convenience
-export type { UnifiedStudioMobileProps };
