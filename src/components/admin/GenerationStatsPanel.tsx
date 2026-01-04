@@ -245,97 +245,89 @@ export function GenerationStatsPanel() {
     : '0';
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       {/* Header */}
-      <div className="flex items-center justify-between gap-2">
-        <div>
-          <h2 className="text-lg md:text-xl font-bold flex items-center gap-2">
-            <BarChart3 className="h-5 w-5" />
-            Статистика генераций
+      <div className="flex items-center justify-between gap-2 flex-wrap">
+        <div className="min-w-0">
+          <h2 className="text-base md:text-xl font-bold flex items-center gap-1.5">
+            <BarChart3 className="h-4 w-4 md:h-5 md:w-5 flex-shrink-0" />
+            <span className="truncate">Генерации</span>
           </h2>
-          <p className="text-xs md:text-sm text-muted-foreground">
-            Агрегированные данные по генерациям пользователей
+          <p className="text-[10px] md:text-sm text-muted-foreground">
+            Агрегированные данные
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-1.5">
           <Select value={days} onValueChange={setDays}>
-            <SelectTrigger className="w-[140px] md:w-[180px] h-8 md:h-9 text-xs md:text-sm">
+            <SelectTrigger className="w-[100px] md:w-[160px] h-8 text-xs">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
               {TIME_PERIODS.map(p => (
-                <SelectItem key={p.value} value={p.value}>{p.label}</SelectItem>
+                <SelectItem key={p.value} value={p.value} className="text-xs">{p.label}</SelectItem>
               ))}
             </SelectContent>
           </Select>
-          <Button variant="outline" size="sm" onClick={() => refetch()}>
-            <RefreshCw className={`h-4 w-4 ${statsLoading ? 'animate-spin' : ''}`} />
+          <Button variant="outline" size="sm" className="h-8 w-8 p-0" onClick={() => refetch()}>
+            <RefreshCw className={`h-3.5 w-3.5 ${statsLoading ? 'animate-spin' : ''}`} />
           </Button>
         </div>
       </div>
 
-      {/* Main Stats Grid */}
-      <div className="grid grid-cols-2 gap-2 md:grid-cols-4 md:gap-4">
+      {/* Main Stats Grid - compact for mobile */}
+      <div className="grid grid-cols-4 gap-1.5 md:gap-3">
         <Card>
-          <CardContent className="p-3 md:p-4">
-            <div className="flex items-center gap-2 md:gap-3">
-              <div className="p-1.5 md:p-2 rounded-lg bg-primary/10">
-                <Activity className="h-4 w-4 md:h-5 md:w-5 text-primary" />
+          <CardContent className="p-2 md:p-3">
+            <div className="text-center">
+              <div className="p-1 md:p-1.5 rounded-lg bg-primary/10 w-fit mx-auto mb-1">
+                <Activity className="h-3 w-3 md:h-4 md:w-4 text-primary" />
               </div>
-              <div className="min-w-0">
-                <div className="text-lg md:text-2xl font-bold truncate">
-                  {stats?.total_generations?.toLocaleString() || 0}
-                </div>
-                <div className="text-[10px] md:text-xs text-muted-foreground">Генераций</div>
+              <div className="text-sm md:text-xl font-bold">
+                {stats?.total_generations?.toLocaleString() || 0}
               </div>
+              <div className="text-[8px] md:text-[10px] text-muted-foreground">Ген.</div>
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="p-3 md:p-4">
-            <div className="flex items-center gap-2 md:gap-3">
-              <div className="p-1.5 md:p-2 rounded-lg bg-green-500/10">
-                <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-green-500" />
+          <CardContent className="p-2 md:p-3">
+            <div className="text-center">
+              <div className="p-1 md:p-1.5 rounded-lg bg-green-500/10 w-fit mx-auto mb-1">
+                <CheckCircle className="h-3 w-3 md:h-4 md:w-4 text-green-500" />
               </div>
-              <div className="min-w-0">
-                <div className="text-lg md:text-2xl font-bold truncate text-green-600">
-                  {successRate}%
-                </div>
-                <div className="text-[10px] md:text-xs text-muted-foreground">Успешных</div>
+              <div className="text-sm md:text-xl font-bold text-green-600">
+                {successRate}%
               </div>
+              <div className="text-[8px] md:text-[10px] text-muted-foreground">Усп.</div>
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="p-3 md:p-4">
-            <div className="flex items-center gap-2 md:gap-3">
-              <div className="p-1.5 md:p-2 rounded-lg bg-blue-500/10">
-                <Users className="h-4 w-4 md:h-5 md:w-5 text-blue-500" />
+          <CardContent className="p-2 md:p-3">
+            <div className="text-center">
+              <div className="p-1 md:p-1.5 rounded-lg bg-blue-500/10 w-fit mx-auto mb-1">
+                <Users className="h-3 w-3 md:h-4 md:w-4 text-blue-500" />
               </div>
-              <div className="min-w-0">
-                <div className="text-lg md:text-2xl font-bold truncate">
-                  {stats?.unique_users || 0}
-                </div>
-                <div className="text-[10px] md:text-xs text-muted-foreground">Юзеров</div>
+              <div className="text-sm md:text-xl font-bold">
+                {stats?.unique_users || 0}
               </div>
+              <div className="text-[8px] md:text-[10px] text-muted-foreground">Юзеров</div>
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="p-3 md:p-4">
-            <div className="flex items-center gap-2 md:gap-3">
-              <div className="p-1.5 md:p-2 rounded-lg bg-amber-500/10">
-                <Coins className="h-4 w-4 md:h-5 md:w-5 text-amber-500" />
+          <CardContent className="p-2 md:p-3">
+            <div className="text-center">
+              <div className="p-1 md:p-1.5 rounded-lg bg-amber-500/10 w-fit mx-auto mb-1">
+                <Coins className="h-3 w-3 md:h-4 md:w-4 text-amber-500" />
               </div>
-              <div className="min-w-0">
-                <div className="text-lg md:text-2xl font-bold truncate">
-                  {stats?.total_credits_spent?.toLocaleString() || 0}
-                </div>
-                <div className="text-[10px] md:text-xs text-muted-foreground">Кредитов</div>
+              <div className="text-sm md:text-xl font-bold">
+                {stats?.total_credits_spent?.toLocaleString() || 0}
               </div>
+              <div className="text-[8px] md:text-[10px] text-muted-foreground">Кред.</div>
             </div>
           </CardContent>
         </Card>
@@ -343,76 +335,74 @@ export function GenerationStatsPanel() {
 
       {/* Generation Types Breakdown */}
       <Card>
-        <CardHeader className="pb-2 md:pb-3">
-          <CardTitle className="text-sm md:text-base">По типам генерации</CardTitle>
+        <CardHeader className="pb-2 px-3 pt-3">
+          <CardTitle className="text-xs md:text-sm">По типам</CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-3 gap-2 md:grid-cols-6 md:gap-3">
-            <div className="p-2 md:p-3 rounded-lg bg-muted/50 text-center">
-              <Music className="h-4 w-4 md:h-5 md:w-5 mx-auto mb-1 text-violet-500" />
-              <div className="text-sm md:text-lg font-bold">{stats?.total_music || 0}</div>
-              <div className="text-[10px] md:text-xs text-muted-foreground">Музыка</div>
+        <CardContent className="px-3 pb-3">
+          <div className="grid grid-cols-6 gap-1">
+            <div className="p-1.5 md:p-2 rounded-lg bg-muted/50 text-center">
+              <Music className="h-3 w-3 md:h-4 md:w-4 mx-auto text-violet-500" />
+              <div className="text-xs md:text-sm font-bold">{stats?.total_music || 0}</div>
+              <div className="text-[8px] md:text-[10px] text-muted-foreground">Муз.</div>
             </div>
-            <div className="p-2 md:p-3 rounded-lg bg-muted/50 text-center">
-              <Mic className="h-4 w-4 md:h-5 md:w-5 mx-auto mb-1 text-pink-500" />
-              <div className="text-sm md:text-lg font-bold">{stats?.total_vocals || 0}</div>
-              <div className="text-[10px] md:text-xs text-muted-foreground">Вокал</div>
+            <div className="p-1.5 md:p-2 rounded-lg bg-muted/50 text-center">
+              <Mic className="h-3 w-3 md:h-4 md:w-4 mx-auto text-pink-500" />
+              <div className="text-xs md:text-sm font-bold">{stats?.total_vocals || 0}</div>
+              <div className="text-[8px] md:text-[10px] text-muted-foreground">Вок.</div>
             </div>
-            <div className="p-2 md:p-3 rounded-lg bg-muted/50 text-center">
-              <Guitar className="h-4 w-4 md:h-5 md:w-5 mx-auto mb-1 text-orange-500" />
-              <div className="text-sm md:text-lg font-bold">{stats?.total_instrumental || 0}</div>
-              <div className="text-[10px] md:text-xs text-muted-foreground">Инструм.</div>
+            <div className="p-1.5 md:p-2 rounded-lg bg-muted/50 text-center">
+              <Guitar className="h-3 w-3 md:h-4 md:w-4 mx-auto text-orange-500" />
+              <div className="text-xs md:text-sm font-bold">{stats?.total_instrumental || 0}</div>
+              <div className="text-[8px] md:text-[10px] text-muted-foreground">Инстр.</div>
             </div>
-            <div className="p-2 md:p-3 rounded-lg bg-muted/50 text-center">
-              <TrendingUp className="h-4 w-4 md:h-5 md:w-5 mx-auto mb-1 text-cyan-500" />
-              <div className="text-sm md:text-lg font-bold">{stats?.total_extend || 0}</div>
-              <div className="text-[10px] md:text-xs text-muted-foreground">Extend</div>
+            <div className="p-1.5 md:p-2 rounded-lg bg-muted/50 text-center">
+              <TrendingUp className="h-3 w-3 md:h-4 md:w-4 mx-auto text-cyan-500" />
+              <div className="text-xs md:text-sm font-bold">{stats?.total_extend || 0}</div>
+              <div className="text-[8px] md:text-[10px] text-muted-foreground">Ext.</div>
             </div>
-            <div className="p-2 md:p-3 rounded-lg bg-muted/50 text-center">
-              <Scissors className="h-4 w-4 md:h-5 md:w-5 mx-auto mb-1 text-green-500" />
-              <div className="text-sm md:text-lg font-bold">{stats?.total_stems || 0}</div>
-              <div className="text-[10px] md:text-xs text-muted-foreground">Стемы</div>
+            <div className="p-1.5 md:p-2 rounded-lg bg-muted/50 text-center">
+              <Scissors className="h-3 w-3 md:h-4 md:w-4 mx-auto text-green-500" />
+              <div className="text-xs md:text-sm font-bold">{stats?.total_stems || 0}</div>
+              <div className="text-[8px] md:text-[10px] text-muted-foreground">Стем.</div>
             </div>
-            <div className="p-2 md:p-3 rounded-lg bg-muted/50 text-center">
-              <Layers className="h-4 w-4 md:h-5 md:w-5 mx-auto mb-1 text-indigo-500" />
-              <div className="text-sm md:text-lg font-bold">{stats?.total_cover || 0}</div>
-              <div className="text-[10px] md:text-xs text-muted-foreground">Каверы</div>
+            <div className="p-1.5 md:p-2 rounded-lg bg-muted/50 text-center">
+              <Layers className="h-3 w-3 md:h-4 md:w-4 mx-auto text-indigo-500" />
+              <div className="text-xs md:text-sm font-bold">{stats?.total_cover || 0}</div>
+              <div className="text-[8px] md:text-[10px] text-muted-foreground">Кав.</div>
             </div>
           </div>
         </CardContent>
       </Card>
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-3 md:grid-cols-2">
         {/* Daily Breakdown */}
         <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm md:text-base">По дням</CardTitle>
+          <CardHeader className="pb-2 px-3 pt-3">
+            <CardTitle className="text-xs md:text-sm">По дням</CardTitle>
           </CardHeader>
-          <CardContent>
-            <ScrollArea className="h-[250px] md:h-[300px]">
-              <div className="space-y-2">
+          <CardContent className="px-3 pb-3">
+            <ScrollArea className="h-[180px] md:h-[250px]">
+              <div className="space-y-1.5">
                 {dailyStats?.map(day => (
-                  <div key={day.date} className="flex items-center justify-between p-2 rounded-lg hover:bg-muted/50">
+                  <div key={day.date} className="flex items-center justify-between p-1.5 rounded-lg hover:bg-muted/50">
                     <div>
-                      <div className="font-medium text-sm">
+                      <div className="font-medium text-xs">
                         {format(new Date(day.date), 'dd MMM')}
                       </div>
-                      <div className="text-[10px] md:text-xs text-muted-foreground">
+                      <div className="text-[10px] text-muted-foreground">
                         <span className="text-green-600">✓{day.successful_count}</span>
                         {day.failed_count > 0 && (
                           <span className="text-red-500 ml-1">✗{day.failed_count}</span>
                         )}
                       </div>
                     </div>
-                    <div className="text-right">
-                      <Badge variant="outline" className="text-xs">
-                        {day.generations_count}
-                      </Badge>
-                    </div>
+                    <Badge variant="outline" className="text-[10px] h-5 px-1.5">
+                      {day.generations_count}
+                    </Badge>
                   </div>
                 ))}
                 {(!dailyStats || dailyStats.length === 0) && (
-                  <div className="text-center text-muted-foreground py-8 text-sm">
+                  <div className="text-center text-muted-foreground py-6 text-xs">
                     Нет данных
                   </div>
                 )}
@@ -423,16 +413,16 @@ export function GenerationStatsPanel() {
 
         {/* Top Users */}
         <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm md:text-base">Топ пользователей</CardTitle>
+          <CardHeader className="pb-2 px-3 pt-3">
+            <CardTitle className="text-xs md:text-sm">Топ юзеров</CardTitle>
           </CardHeader>
-          <CardContent>
-            <ScrollArea className="h-[250px] md:h-[300px]">
-              <div className="space-y-2">
+          <CardContent className="px-3 pb-3">
+            <ScrollArea className="h-[180px] md:h-[250px]">
+              <div className="space-y-1.5">
                 {topUsers?.map((user, idx) => (
-                  <div key={user.user_id} className="flex items-center gap-2 p-2 rounded-lg hover:bg-muted/50">
-                    <span className="text-xs text-muted-foreground w-4">{idx + 1}</span>
-                    <div className="w-7 h-7 rounded-full bg-muted flex items-center justify-center text-xs font-medium overflow-hidden">
+                  <div key={user.user_id} className="flex items-center gap-1.5 p-1.5 rounded-lg hover:bg-muted/50">
+                    <span className="text-[10px] text-muted-foreground w-3">{idx + 1}</span>
+                    <div className="w-6 h-6 rounded-full bg-muted flex items-center justify-center text-[10px] font-medium overflow-hidden flex-shrink-0">
                       {user.photo_url ? (
                         <img src={user.photo_url} alt="" className="w-full h-full object-cover" />
                       ) : (
@@ -440,18 +430,18 @@ export function GenerationStatsPanel() {
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="font-medium text-sm truncate">{user.first_name}</div>
+                      <div className="font-medium text-xs truncate">{user.first_name}</div>
                       {user.username && (
-                        <div className="text-[10px] text-muted-foreground">@{user.username}</div>
+                        <div className="text-[10px] text-muted-foreground truncate">@{user.username}</div>
                       )}
                     </div>
-                    <Badge variant="secondary" className="text-xs">
+                    <Badge variant="secondary" className="text-[10px] h-5 px-1.5">
                       {user.total_generations}
                     </Badge>
                   </div>
                 ))}
                 {(!topUsers || topUsers.length === 0) && (
-                  <div className="text-center text-muted-foreground py-8 text-sm">
+                  <div className="text-center text-muted-foreground py-6 text-xs">
                     Нет данных
                   </div>
                 )}
