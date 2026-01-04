@@ -41,48 +41,39 @@ const GenerateSheet = lazy(() => import('./GenerateSheet').then(m => ({ default:
 
 const SIDEBAR_COLLAPSED_KEY = 'sidebar-collapsed';
 
+// Main navigation
 const mainNavItems = [
   { path: '/', label: 'Главная', icon: Home },
-  { path: '/projects', label: 'Проекты', icon: FolderOpen },
-  { path: '/library', label: 'Библиотека', icon: Library },
+  { path: '/library', label: 'Моя музыка', icon: Library },
+];
+
+// Content Hub navigation (direct links to tabs)
+const contentNavItems = [
+  { path: '/projects?tab=artists', label: 'Артисты', icon: Users },
+  { path: '/projects?tab=projects', label: 'Проекты', icon: FolderOpen },
+  { path: '/projects?tab=lyrics', label: 'Тексты', icon: FileText },
+  { path: '/projects?tab=cloud', label: 'Облако', icon: Globe },
+];
+
+// Studio navigation
+const studioNavItems = [
+  { path: '/studio', label: 'Студия', icon: Layers, badge: 'NEW', description: 'Unified hub' },
+  { path: '/studio-v2', label: 'DAW Studio', icon: Layers, description: 'Мультитрек редактор' },
+  { path: '/guitar-studio', label: 'Guitar Studio', icon: Guitar, badge: 'PRO', description: 'Запись и анализ гитары' },
+  { path: '/playlists', label: 'Плейлисты', icon: ListMusic, showCount: true },
+];
+
+// Account navigation
+const accountNavItems = [
+  { path: '/profile', label: 'Профиль', icon: User },
+  { path: '/rewards', label: 'Награды', icon: Gift },
   { path: '/analytics', label: 'Аналитика', icon: BarChart2 },
+  { path: '/settings', label: 'Настройки', icon: Settings },
 ];
 
 // Admin navigation items
 const adminNavItems = [
   { path: '/admin', label: 'Админ-панель', icon: Shield, description: 'Панель управления' },
-];
-
-/**
- * 🎵 Секция навигации "Музыка"
- * Содержит музыкальные инструменты, студии и сообщество
- */
-const musicNavItems = [
-  { path: '/playlists', label: 'Плейлисты', icon: ListMusic, showCount: true },
-  {
-    path: '/studio-v2',
-    label: 'DAW Studio',
-    icon: Layers,
-    badge: 'NEW',
-    description: 'Мультитрек редактор'
-  },
-  {
-    path: '/guitar-studio',
-    label: 'Guitar Studio',
-    icon: Guitar,
-    badge: 'PRO',
-    description: 'Запись и анализ гитары'
-  },
-  { path: '/templates', label: 'Шаблоны', icon: FileText },
-  { path: '/artists', label: 'AI-артисты', icon: Users },
-  { path: '/community', label: 'Сообщество', icon: Globe },
-  { path: '/blog', label: 'Блог', icon: BookOpen },
-];
-
-const accountNavItems = [
-  { path: '/profile', label: 'Профиль', icon: User },
-  { path: '/rewards', label: 'Награды', icon: Gift },
-  { path: '/settings', label: 'Настройки', icon: Settings },
 ];
 
 interface SidebarProps {
@@ -344,16 +335,11 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
               <NavButton key={item.path} {...item} />
             ))}
             
-            {/* Music Section */}
+            {/* Content Section */}
             {isCollapsed ? (
-              // Collapsed: just show icons
               <div className="pt-4 space-y-1">
-                {musicNavItems.map((item) => (
-                  <NavButton
-                    key={item.path}
-                    {...item}
-                    badge={item.showCount ? playlistCount : item.badge}
-                  />
+                {contentNavItems.map((item) => (
+                  <NavButton key={item.path} {...item} />
                 ))}
               </div>
             ) : (
@@ -363,7 +349,7 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
                     variant="ghost"
                     className="w-full justify-between h-8 px-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider hover:text-foreground"
                   >
-                    Музыка
+                    Контент
                     {musicOpen ? (
                       <ChevronDown className="w-3.5 h-3.5" />
                     ) : (
@@ -372,7 +358,37 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
                   </Button>
                 </CollapsibleTrigger>
                 <CollapsibleContent className="space-y-1 pt-1">
-                  {musicNavItems.map((item) => (
+                  {contentNavItems.map((item) => (
+                    <NavButton key={item.path} {...item} />
+                  ))}
+                </CollapsibleContent>
+              </Collapsible>
+            )}
+
+            {/* Studio Section */}
+            {isCollapsed ? (
+              <div className="pt-4 space-y-1">
+                {studioNavItems.map((item) => (
+                  <NavButton
+                    key={item.path}
+                    {...item}
+                    badge={item.showCount ? playlistCount : item.badge}
+                  />
+                ))}
+              </div>
+            ) : (
+              <Collapsible className="pt-4">
+                <CollapsibleTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-between h-8 px-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider hover:text-foreground"
+                  >
+                    Студия
+                    <ChevronDown className="w-3.5 h-3.5" />
+                  </Button>
+                </CollapsibleTrigger>
+                <CollapsibleContent className="space-y-1 pt-1">
+                  {studioNavItems.map((item) => (
                     <NavButton
                       key={item.path}
                       {...item}

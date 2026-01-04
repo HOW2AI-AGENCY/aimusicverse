@@ -6,9 +6,10 @@
 import { useState, useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { 
-  User, Settings, Music2, Guitar, FileText, 
+  User, Settings, Guitar, FileText, 
   Users, BookOpen, Gift, BarChart3, Sparkles,
-  Shield, Grid3X3, MessageSquare, Flag
+  Shield, Grid3X3, MessageSquare, Flag, Sliders, 
+  Layers, PenLine, Globe, Headphones
 } from 'lucide-react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
@@ -42,17 +43,19 @@ interface MenuSection {
   defaultExpanded?: boolean;
 }
 
+// Menu structure with improved sections
 const menuSections: MenuSection[] = [
   {
-    id: 'studios',
-    title: 'Студии',
-    icon: Sparkles,
+    id: 'studio',
+    title: 'Студия',
+    icon: Sliders,
     defaultExpanded: true,
     items: [
-      { path: '/music-lab', icon: Music2, label: 'Music Lab', description: 'Все инструменты', section: 'Студии' },
-      { path: '/creative-tools/guitar', icon: Guitar, label: 'Guitar Studio', description: 'Запись гитары', section: 'Студии' },
-      { path: '/creative-tools/lyrics', icon: FileText, label: 'Lyrics Studio', description: 'Текст песен', section: 'Студии' },
-    ],
+      { path: '/studio', icon: Sliders, label: 'Студия', description: 'Unified studio hub', section: 'Студия' },
+      { path: '/studio-v2', icon: Layers, label: 'DAW Studio', description: 'Мультитрек редактор', section: 'Студия' },
+      { path: '/lyrics-studio', icon: PenLine, label: 'Lyrics AI', description: 'AI-помощник для текстов', section: 'Студия' },
+      { path: '/guitar-studio', icon: Guitar, label: 'Гитара', description: 'Запись и анализ', section: 'Студия' },
+    ]
   },
   {
     id: 'community',
@@ -60,9 +63,22 @@ const menuSections: MenuSection[] = [
     icon: Users,
     defaultExpanded: false,
     items: [
-      { path: '/blog', icon: BookOpen, label: 'Блог', description: 'Новости и статьи', section: 'Сообщество' },
-      { path: '/artists', icon: Users, label: 'Авторы', description: 'ИИ-персоны', section: 'Сообщество' },
-    ],
+      { path: '/community', icon: Globe, label: 'Лента', description: 'Публикации', section: 'Сообщество' },
+      { path: '/artists', icon: Users, label: 'AI-артисты', description: 'Персоны', section: 'Сообщество' },
+      { path: '/blog', icon: BookOpen, label: 'Блог', description: 'Новости', section: 'Сообщество' },
+    ]
+  },
+  {
+    id: 'account',
+    title: 'Аккаунт',
+    icon: User,
+    defaultExpanded: false,
+    items: [
+      { path: '/profile', icon: User, label: 'Профиль', description: 'Мой профиль', section: 'Аккаунт' },
+      { path: '/rewards', icon: Gift, label: 'Награды', description: 'Достижения', section: 'Аккаунт' },
+      { path: '/analytics', icon: BarChart3, label: 'Статистика', description: 'Мои данные', section: 'Аккаунт' },
+      { path: '/settings', icon: Settings, label: 'Настройки', description: 'Конфигурация', section: 'Аккаунт' },
+    ]
   },
 ];
 
