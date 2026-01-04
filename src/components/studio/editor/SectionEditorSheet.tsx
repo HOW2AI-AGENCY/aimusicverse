@@ -257,20 +257,51 @@ export function SectionEditorSheet({
             {detectedSections.map((section, idx) => {
               const isActive = Math.abs(section.startTime - startTime) < 1 && Math.abs(section.endTime - endTime) < 1;
               
-              // Get section color for active state
-              const getSectionBg = () => {
-                if (!isActive) return '';
-                switch(section.type) {
-                  case 'verse': return 'bg-blue-500/15 border-blue-500 text-blue-400 hover:bg-blue-500/25';
-                  case 'chorus': return 'bg-purple-500/15 border-purple-500 text-purple-400 hover:bg-purple-500/25';
-                  case 'bridge': return 'bg-amber-500/15 border-amber-500 text-amber-400 hover:bg-amber-500/25';
-                  case 'intro': return 'bg-green-500/15 border-green-500 text-green-400 hover:bg-green-500/25';
-                  case 'outro': return 'bg-red-500/15 border-red-500 text-red-400 hover:bg-red-500/25';
-                  case 'pre-chorus': return 'bg-cyan-500/15 border-cyan-500 text-cyan-400 hover:bg-cyan-500/25';
-                  case 'hook': return 'bg-pink-500/15 border-pink-500 text-pink-400 hover:bg-pink-500/25';
-                  default: return 'bg-slate-500/15 border-slate-500 text-slate-300 hover:bg-slate-500/25';
-                }
+              // Section styling configuration
+              const sectionStyles: Record<DetectedSection['type'], { active: string; inactive: string; dot: string }> = {
+                'verse': { 
+                  active: 'bg-blue-500/15 border-blue-500 text-blue-400 hover:bg-blue-500/25',
+                  inactive: 'border-blue-500/30 hover:border-blue-500/50',
+                  dot: 'bg-blue-500'
+                },
+                'chorus': { 
+                  active: 'bg-purple-500/15 border-purple-500 text-purple-400 hover:bg-purple-500/25',
+                  inactive: 'border-purple-500/40 hover:border-purple-500/60',
+                  dot: 'bg-purple-500'
+                },
+                'bridge': { 
+                  active: 'bg-amber-500/15 border-amber-500 text-amber-400 hover:bg-amber-500/25',
+                  inactive: 'border-amber-500/40 hover:border-amber-500/60',
+                  dot: 'bg-amber-500'
+                },
+                'intro': { 
+                  active: 'bg-green-500/15 border-green-500 text-green-400 hover:bg-green-500/25',
+                  inactive: 'border-green-500/40 hover:border-green-500/60',
+                  dot: 'bg-green-500'
+                },
+                'outro': { 
+                  active: 'bg-red-500/15 border-red-500 text-red-400 hover:bg-red-500/25',
+                  inactive: 'border-red-500/40 hover:border-red-500/60',
+                  dot: 'bg-red-500'
+                },
+                'pre-chorus': { 
+                  active: 'bg-cyan-500/15 border-cyan-500 text-cyan-400 hover:bg-cyan-500/25',
+                  inactive: 'border-cyan-500/40 hover:border-cyan-500/60',
+                  dot: 'bg-cyan-500'
+                },
+                'hook': { 
+                  active: 'bg-pink-500/15 border-pink-500 text-pink-400 hover:bg-pink-500/25',
+                  inactive: 'border-pink-500/40 hover:border-pink-500/60',
+                  dot: 'bg-pink-500'
+                },
+                'unknown': { 
+                  active: 'bg-slate-500/15 border-slate-500 text-slate-300 hover:bg-slate-500/25',
+                  inactive: 'border-slate-500/30 hover:border-slate-500/50',
+                  dot: 'bg-slate-500'
+                },
               };
+
+              const styles = sectionStyles[section.type] || sectionStyles.unknown;
               
               return (
                 <Button
@@ -279,12 +310,7 @@ export function SectionEditorSheet({
                   size="sm"
                   className={cn(
                     "h-7 text-xs gap-1 transition-all border-2",
-                    getSectionBg(),
-                    section.type === 'chorus' && !isActive && "border-purple-500/40 hover:border-purple-500/60",
-                    section.type === 'verse' && !isActive && "border-blue-500/30 hover:border-blue-500/50",
-                    section.type === 'bridge' && !isActive && "border-amber-500/40 hover:border-amber-500/60",
-                    section.type === 'intro' && !isActive && "border-green-500/40 hover:border-green-500/60",
-                    section.type === 'outro' && !isActive && "border-red-500/40 hover:border-red-500/60",
+                    isActive ? styles.active : styles.inactive,
                     isActive && "ring-2 ring-offset-1 ring-offset-background"
                   )}
                   onClick={() => {
@@ -294,14 +320,7 @@ export function SectionEditorSheet({
                 >
                   <span className={cn(
                     "w-2 h-2 rounded-full shrink-0",
-                    section.type === 'verse' && "bg-blue-500",
-                    section.type === 'chorus' && "bg-purple-500",
-                    section.type === 'bridge' && "bg-amber-500",
-                    section.type === 'intro' && "bg-green-500",
-                    section.type === 'outro' && "bg-red-500",
-                    section.type === 'pre-chorus' && "bg-cyan-500",
-                    section.type === 'hook' && "bg-pink-500",
-                    !['verse', 'chorus', 'bridge', 'intro', 'outro', 'pre-chorus', 'hook'].includes(section.type) && "bg-slate-500"
+                    styles.dot
                   )} />
                   {section.label}
                 </Button>
