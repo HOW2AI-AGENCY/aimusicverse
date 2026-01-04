@@ -22,8 +22,7 @@ import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { useTelegramBackButton } from '@/hooks/telegram';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
-import { format } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { format, ru } from '@/lib/date-utils';
 import { formatTime } from '@/lib/formatters';
 
 interface AlbumTrack {

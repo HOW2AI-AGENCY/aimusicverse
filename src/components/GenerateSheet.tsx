@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, Suspense, lazy } from 'react';
 import { AnimatePresence, motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { Sheet, SheetContent, SheetFooter } from '@/components/ui/sheet';
@@ -15,14 +15,31 @@ import { useGenerateForm, useAudioReference } from '@/hooks/generation';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { useTelegramMainButton, useTelegramSecondaryButton, useTelegramBackButton } from '@/hooks/telegram';
 import { useKeyboardAware } from '@/hooks/useKeyboardAware';
-// Form components
+import { Skeleton } from '@/components/ui/skeleton';
+
+// Form components - lazy loaded for bundle optimization
 import { GenerateFormHeaderCompact } from './generate-form/GenerateFormHeaderCompact';
 import { GenerateFormActions } from './generate-form/GenerateFormActions';
 import { GenerateFormReferences } from './generate-form/GenerateFormReferences';
-import { GenerateFormSimple } from './generate-form/GenerateFormSimple';
-import { GenerateFormCustom } from './generate-form/GenerateFormCustom';
 import { GenerationLoadingState } from './generate-form/GenerationLoadingState';
 import { CollapsibleFormHeader } from './generate-form/CollapsibleFormHeader';
+
+// Lazy load heavy form components
+const GenerateFormSimple = lazy(() => 
+  import('./generate-form/GenerateFormSimple').then(m => ({ default: m.GenerateFormSimple }))
+);
+const GenerateFormCustom = lazy(() => 
+  import('./generate-form/GenerateFormCustom').then(m => ({ default: m.GenerateFormCustom }))
+);
+
+// Form skeleton for lazy loading
+const FormSkeleton = () => (
+  <div className="space-y-4 p-4">
+    <Skeleton className="h-10 w-full" />
+    <Skeleton className="h-24 w-full" />
+    <Skeleton className="h-10 w-full" />
+  </div>
+);
 
 // Dialogs
 import { AudioActionDialog } from './generate-form/AudioActionDialog';
@@ -306,53 +323,55 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
             />
 
             {/* Mode Content with Animation */}
-            <AnimatePresence mode="wait">
-              {form.mode === 'simple' ? (
-                <GenerateFormSimple
-                  description={form.description}
-                  onDescriptionChange={form.setDescription}
-                  title={form.title}
-                  onTitleChange={form.setTitle}
-                  hasVocals={form.hasVocals}
-                  onHasVocalsChange={form.setHasVocals}
-                  onBoostStyle={form.handleBoostStyle}
-                  boostLoading={form.boostLoading}
-                />
-              ) : (
-                <GenerateFormCustom
-                  title={form.title}
-                  onTitleChange={form.setTitle}
-                  style={form.style}
-                  onStyleChange={form.setStyle}
-                  lyrics={form.lyrics}
-                  onLyricsChange={form.setLyrics}
-                  hasVocals={form.hasVocals}
-                  onHasVocalsChange={form.setHasVocals}
-                  onBoostStyle={form.handleBoostStyle}
-                  boostLoading={form.boostLoading}
-                  onOpenLyricsAssistant={() => setLyricsAssistantOpen(true)}
-                  isPublic={form.isPublic}
-                  onIsPublicChange={form.setIsPublic}
-                  canMakePrivate={form.canMakePrivate}
-                  advancedOpen={advancedOpen}
-                  onAdvancedOpenChange={setAdvancedOpen}
-                  negativeTags={form.negativeTags}
-                  onNegativeTagsChange={form.setNegativeTags}
-                  vocalGender={form.vocalGender}
-                  onVocalGenderChange={form.setVocalGender}
-                  styleWeight={form.styleWeight}
-                  onStyleWeightChange={form.setStyleWeight}
-                  weirdnessConstraint={form.weirdnessConstraint}
-                  onWeirdnessConstraintChange={form.setWeirdnessConstraint}
-                  audioWeight={form.audioWeight}
-                  onAudioWeightChange={form.setAudioWeight}
-                  hasReferenceAudio={!!form.audioFile || !!activeReference}
-                  hasPersona={!!form.selectedArtistId}
-                  model={form.model}
-                  onModelChange={form.setModel}
-                />
-              )}
-            </AnimatePresence>
+            <Suspense fallback={<FormSkeleton />}>
+              <AnimatePresence mode="wait">
+                {form.mode === 'simple' ? (
+                  <GenerateFormSimple
+                    description={form.description}
+                    onDescriptionChange={form.setDescription}
+                    title={form.title}
+                    onTitleChange={form.setTitle}
+                    hasVocals={form.hasVocals}
+                    onHasVocalsChange={form.setHasVocals}
+                    onBoostStyle={form.handleBoostStyle}
+                    boostLoading={form.boostLoading}
+                  />
+                ) : (
+                  <GenerateFormCustom
+                    title={form.title}
+                    onTitleChange={form.setTitle}
+                    style={form.style}
+                    onStyleChange={form.setStyle}
+                    lyrics={form.lyrics}
+                    onLyricsChange={form.setLyrics}
+                    hasVocals={form.hasVocals}
+                    onHasVocalsChange={form.setHasVocals}
+                    onBoostStyle={form.handleBoostStyle}
+                    boostLoading={form.boostLoading}
+                    onOpenLyricsAssistant={() => setLyricsAssistantOpen(true)}
+                    isPublic={form.isPublic}
+                    onIsPublicChange={form.setIsPublic}
+                    canMakePrivate={form.canMakePrivate}
+                    advancedOpen={advancedOpen}
+                    onAdvancedOpenChange={setAdvancedOpen}
+                    negativeTags={form.negativeTags}
+                    onNegativeTagsChange={form.setNegativeTags}
+                    vocalGender={form.vocalGender}
+                    onVocalGenderChange={form.setVocalGender}
+                    styleWeight={form.styleWeight}
+                    onStyleWeightChange={form.setStyleWeight}
+                    weirdnessConstraint={form.weirdnessConstraint}
+                    onWeirdnessConstraintChange={form.setWeirdnessConstraint}
+                    audioWeight={form.audioWeight}
+                    onAudioWeightChange={form.setAudioWeight}
+                    hasReferenceAudio={!!form.audioFile || !!activeReference}
+                    hasPersona={!!form.selectedArtistId}
+                    model={form.model}
+                    onModelChange={form.setModel}
+                  />
+                )}
+              </AnimatePresence>
+            </Suspense>
           </div>
         </ScrollArea>
 

@@ -11,8 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useTelemetryStats, useErrorTrends } from '@/hooks/admin/useTelemetryStats';
 import { Activity, AlertTriangle, Clock, Monitor, Smartphone, Users } from 'lucide-react';
-import { format } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { format, ru } from '@/lib/date-utils';
 
 const TIME_PERIODS = [
   { value: '1 hour', label: 'Последний час' },

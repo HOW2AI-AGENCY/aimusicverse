@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Clock, User, Edit, Plus, Crown } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { format } from 'date-fns';
+import { format } from '@/lib/date-utils';
 import { Skeleton } from '@/components/ui/skeleton';
 
 interface ChangelogTabProps {
