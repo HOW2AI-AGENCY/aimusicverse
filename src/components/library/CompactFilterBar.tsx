@@ -141,8 +141,8 @@ export const CompactFilterBar = memo(function CompactFilterBar({
         </div>
       </div>
 
-      {/* Filter Chips - Horizontal Scroll */}
-      <div className="flex gap-1.5 overflow-x-auto scrollbar-hide -mx-4 px-4 pb-1">
+      {/* Filter Chips - Horizontal Scroll with improved touch targets */}
+      <div className="flex gap-2 overflow-x-auto scrollbar-hide -mx-4 px-4 pb-1.5">
         {FILTERS.map((filter) => {
           const isActive = activeFilter === filter.id;
           const count = counts?.[filter.id];
@@ -152,10 +152,10 @@ export const CompactFilterBar = memo(function CompactFilterBar({
               key={filter.id}
               whileTap={{ scale: 0.95 }}
               className={cn(
-                "flex items-center gap-1 px-3 py-1.5 rounded-full whitespace-nowrap text-xs font-medium transition-all flex-shrink-0",
+                "flex items-center gap-1.5 px-3.5 py-2 rounded-full whitespace-nowrap text-xs font-medium transition-all flex-shrink-0 min-h-[36px]",
                 isActive
-                  ? "bg-primary text-primary-foreground shadow-sm"
-                  : "bg-muted/50 text-muted-foreground hover:text-foreground border border-border/50"
+                  ? "bg-primary text-primary-foreground shadow-md"
+                  : "bg-muted/60 text-muted-foreground hover:text-foreground hover:bg-muted border border-border/50"
               )}
               onClick={() => onFilterChange(filter.id)}
             >
