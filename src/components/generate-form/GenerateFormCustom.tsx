@@ -38,6 +38,8 @@ interface GenerateFormCustomProps {
   // Optional context for saving templates
   genre?: string;
   mood?: string;
+  // Style presets
+  onOpenStyles?: () => void;
 }
 
 export function GenerateFormCustom({
@@ -73,6 +75,7 @@ export function GenerateFormCustom({
   onModelChange,
   genre,
   mood,
+  onOpenStyles,
 }: GenerateFormCustomProps) {
   return (
     <motion.div
@@ -90,6 +93,7 @@ export function GenerateFormCustom({
         onStyleChange={onStyleChange}
         onBoostStyle={onBoostStyle}
         boostLoading={boostLoading}
+        onOpenStyles={onOpenStyles}
       />
 
       <VocalsToggle

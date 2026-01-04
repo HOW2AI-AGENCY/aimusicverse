@@ -147,6 +147,7 @@ export function DesktopLibrarySidebar({
               model={form.model}
               onModelChange={form.setModel}
               isAdmin={form.isAdmin}
+              onOpenHistory={() => setHistoryOpen(true)}
             />
             <Button
               variant="ghost"
@@ -185,8 +186,6 @@ export function DesktopLibrarySidebar({
               onOpenAudioDialog={() => setAudioActionDialogOpen(true)}
               onOpenArtistDialog={() => setArtistDialogOpen(true)}
               onOpenProjectDialog={() => setProjectDialogOpen(true)}
-              onOpenHistory={() => setHistoryOpen(true)}
-              onOpenStyles={() => setStylesOpen(true)}
             />
 
             {/* References */}
@@ -220,6 +219,7 @@ export function DesktopLibrarySidebar({
                     onHasVocalsChange={form.setHasVocals}
                     onBoostStyle={form.handleBoostStyle}
                     boostLoading={form.boostLoading}
+                    onOpenStyles={() => setStylesOpen(true)}
                   />
                 ) : (
                   <GenerateFormCustom
@@ -253,6 +253,7 @@ export function DesktopLibrarySidebar({
                     hasPersona={!!form.selectedArtistId}
                     model={form.model}
                     onModelChange={form.setModel}
+                    onOpenStyles={() => setStylesOpen(true)}
                   />
                 )}
               </AnimatePresence>

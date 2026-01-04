@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
-import { Sparkles, Loader2, Mic, HelpCircle } from 'lucide-react';
+import { Sparkles, Loader2, Mic, HelpCircle, Palette } from 'lucide-react';
 import { VoiceInputButton } from '@/components/ui/VoiceInputButton';
 import { GenerateFormHint, FORM_HINTS } from './GenerateFormHint';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -20,6 +20,7 @@ interface GenerateFormSimpleProps {
   onHasVocalsChange: (value: boolean) => void;
   onBoostStyle: () => void;
   boostLoading: boolean;
+  onOpenStyles?: () => void;
 }
 
 export function GenerateFormSimple({
@@ -31,6 +32,7 @@ export function GenerateFormSimple({
   onHasVocalsChange,
   onBoostStyle,
   boostLoading,
+  onOpenStyles,
 }: GenerateFormSimpleProps) {
   const [showHint, setShowHint] = useState(true);
 
@@ -66,10 +68,28 @@ export function GenerateFormSimple({
               </Tooltip>
             </TooltipProvider>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
             <span className={`text-xs ${description.length > 500 ? 'text-destructive font-medium' : description.length > 400 ? 'text-yellow-500' : 'text-muted-foreground'}`}>
               {description.length}/500
             </span>
+            {onOpenStyles && (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      className="h-6 w-6 p-0 text-primary hover:text-primary/80"
+                      onClick={onOpenStyles}
+                    >
+                      <Palette className="w-3.5 h-3.5" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent side="top" className="text-xs">Стили</TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
             <VoiceInputButton
               onResult={onDescriptionChange}
               context="description"
@@ -90,7 +110,7 @@ export function GenerateFormSimple({
               ) : (
                 <Sparkles className="w-3 h-3" />
               )}
-              <span className="text-xs">AI Boost</span>
+              <span className="text-xs">AI</span>
             </Button>
           </div>
         </div>
