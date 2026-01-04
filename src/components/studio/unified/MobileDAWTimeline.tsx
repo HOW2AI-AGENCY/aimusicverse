@@ -344,40 +344,49 @@ const MobileTrackRow = memo(function MobileTrackRow({
     >
       {/* Header row */}
       <div className="flex items-center gap-2">
-        {/* Track icon & name */}
-        <div className="flex items-center gap-1.5 min-w-0 flex-1">
-          <Icon className="w-4 h-4 flex-shrink-0 text-foreground/70" />
-          <span className="text-xs font-medium truncate">
+        {/* Track icon & name - more visible */}
+        <div className="flex items-center gap-2 min-w-0 flex-1">
+          <div className={cn(
+            "w-7 h-7 rounded-md flex items-center justify-center shrink-0",
+            config.bg, "border", config.border
+          )}>
+            <Icon className="w-4 h-4 text-foreground" />
+          </div>
+          <span className="text-sm font-medium truncate text-foreground">
             {track.name}
           </span>
         </div>
 
-        {/* Controls */}
-        <div className="flex items-center gap-1">
+        {/* Controls - more visible */}
+        <div className="flex items-center gap-1.5">
           {/* Mute */}
           <button
             className={cn(
-              "w-7 h-7 rounded flex items-center justify-center transition-colors touch-manipulation",
+              "w-8 h-8 rounded-lg flex items-center justify-center transition-colors touch-manipulation",
+              "border",
               track.muted 
-                ? "bg-destructive/30 text-destructive" 
-                : "bg-background/50 text-muted-foreground active:bg-muted"
+                ? "bg-destructive/20 border-destructive/50 text-destructive" 
+                : "bg-background/80 border-border/50 text-foreground/70 active:bg-muted"
             )}
             onClick={handleMute}
+            aria-label={track.muted ? 'Unmute' : 'Mute'}
           >
-            {track.muted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
+            {track.muted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
           </button>
 
           {/* Solo */}
           <button
             className={cn(
-              "w-7 h-7 rounded flex items-center justify-center transition-colors touch-manipulation",
+              "w-8 h-8 rounded-lg flex items-center justify-center transition-colors touch-manipulation",
+              "border",
               track.solo 
-                ? "bg-amber-500/30 text-amber-500" 
-                : "bg-background/50 text-muted-foreground active:bg-muted"
+                ? "bg-amber-500/20 border-amber-500/50 text-amber-400" 
+                : "bg-background/80 border-border/50 text-foreground/70 active:bg-muted"
             )}
             onClick={handleSolo}
+            aria-label={track.solo ? 'Unsolo' : 'Solo'}
           >
-            <Headphones className="w-3.5 h-3.5" />
+            <Headphones className="w-4 h-4" />
           </button>
         </div>
       </div>

@@ -21,6 +21,8 @@ interface WaveformRangeSelectorProps {
   endTime: number;
   onRangeChange: (start: number, end: number) => void;
   onPreviewSeek?: (time: number) => void;
+  /** Called when range changes complete (on mouse/touch up) for lyrics sync */
+  onRangeChangeComplete?: (start: number, end: number) => void;
   minDuration?: number;
   maxDuration?: number;
   height?: number;
@@ -34,6 +36,7 @@ export function WaveformRangeSelector({
   endTime,
   onRangeChange,
   onPreviewSeek,
+  onRangeChangeComplete,
   minDuration = 5,
   maxDuration = 120,
   height = 80,
@@ -179,8 +182,12 @@ export function WaveformRangeSelector({
   }, [isDragging, duration, startTime, endTime, minDuration, maxDuration, onRangeChange]);
 
   const handleMouseUp = useCallback(() => {
+    if (isDragging) {
+      // Notify when drag completes for lyrics sync
+      onRangeChangeComplete?.(startTime, endTime);
+    }
     setIsDragging(null);
-  }, []);
+  }, [isDragging, startTime, endTime, onRangeChangeComplete]);
 
   // Attach global mouse listeners when dragging
   useEffect(() => {
@@ -225,8 +232,12 @@ export function WaveformRangeSelector({
   }, [isDragging, duration, startTime, endTime, minDuration, maxDuration, onRangeChange]);
 
   const handleTouchEnd = useCallback(() => {
+    if (isDragging) {
+      // Notify when drag completes for lyrics sync
+      onRangeChangeComplete?.(startTime, endTime);
+    }
     setIsDragging(null);
-  }, []);
+  }, [isDragging, startTime, endTime, onRangeChangeComplete]);
 
   useEffect(() => {
     if (isDragging) {
