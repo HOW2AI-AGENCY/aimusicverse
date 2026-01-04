@@ -29,10 +29,14 @@ import { VersionSwitcher } from './VersionSwitcher';
 import { UnifiedPlayerControls } from './UnifiedPlayerControls';
 import { PlayerActionsBar } from './PlayerActionsBar';
 import { cn } from '@/lib/utils';
-import { motion, AnimatePresence } from '@/lib/motion';
+import { motion, AnimatePresence, PanInfo } from '@/lib/motion';
 import { hapticImpact } from '@/lib/haptic';
 import { logger } from '@/lib/logger';
 import '@/styles/lyrics-sync.css';
+
+// Swipe-to-close thresholds
+const DRAG_CLOSE_THRESHOLD = 100; // px distance
+const VELOCITY_THRESHOLD = 500;   // px/s velocity
 
 interface MobileFullscreenPlayerProps {
   track: Track;
@@ -449,14 +453,36 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
     }
   };
 
+  // Swipe-to-close handler
+  const handleDragEnd = useCallback((
+    _event: MouseEvent | TouchEvent | PointerEvent,
+    info: PanInfo
+  ) => {
+    const { velocity, offset } = info;
+    
+    // Close if dragged down far enough or fast enough
+    if (offset.y > DRAG_CLOSE_THRESHOLD || velocity.y > VELOCITY_THRESHOLD) {
+      hapticImpact('light');
+      onClose();
+    }
+  }, [onClose]);
+
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      transition={{ duration: 0.3, ease: 'easeOut' }}
-      className="fixed inset-0 z-[90] flex flex-col bg-background overflow-hidden"
+      drag="y"
+      dragConstraints={{ top: 0, bottom: 0 }}
+      dragElastic={{ top: 0.1, bottom: 0.4 }}
+      onDragEnd={handleDragEnd}
+      initial={{ opacity: 0, y: '100%' }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: '100%' }}
+      transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+      className="fixed inset-0 z-[90] flex flex-col bg-background overflow-hidden touch-pan-x"
     >
+      {/* Drag Handle Indicator */}
+      <div className="absolute top-2 left-1/2 -translate-x-1/2 z-10">
+        <div className="w-10 h-1 bg-muted-foreground/30 rounded-full" />
+      </div>
       {/* Animated Blurred Background */}
       <div className="absolute inset-0 overflow-hidden">
         {track.cover_url ? (

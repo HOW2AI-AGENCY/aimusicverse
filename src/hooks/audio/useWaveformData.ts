@@ -11,6 +11,7 @@ interface UseWaveformDataOptions {
   samples?: number;
   autoLoad?: boolean;
   containerWidth?: number;
+  trackId?: string; // Stable key for caching (preferred over URL)
 }
 
 interface UseWaveformDataReturn {
@@ -30,6 +31,7 @@ export function useWaveformData(
     samples: requestedSamples,
     autoLoad = true,
     containerWidth,
+    trackId,
   } = options;
 
   const [waveformData, setWaveformData] = useState<number[] | null>(null);
@@ -56,12 +58,12 @@ export function useWaveformData(
     setError(null);
 
     try {
-      // Check cache first
-      const cached = await getWaveform(audioUrl);
+      // Check cache first (priority: trackId > url)
+      const cached = await getWaveform(audioUrl, trackId);
       if (cached && cached.length > 0) {
         setWaveformData(cached);
         setPeaks(cached); // Use same data for peaks if not stored separately
-        logger.debug('Waveform loaded from cache', { url: audioUrl, samples: cached.length });
+        logger.debug('Waveform loaded from cache', { url: audioUrl, trackId, samples: cached.length });
         setIsLoading(false);
         loadingRef.current = false;
         return;
@@ -74,10 +76,10 @@ export function useWaveformData(
       setPeaks(result.peaks);
       setDuration(result.duration);
 
-      // Save to cache
-      await saveWaveform(audioUrl, result.samples);
+      // Save to cache (with trackId if available for stable caching)
+      await saveWaveform(audioUrl, result.samples, trackId);
       
-      logger.debug('Waveform generated and cached', { url: audioUrl, samples: result.samples.length });
+      logger.debug('Waveform generated and cached', { url: audioUrl, trackId, samples: result.samples.length });
     } catch (err) {
       const error = err instanceof Error ? err : new Error('Failed to load waveform');
       setError(error);
@@ -86,7 +88,7 @@ export function useWaveformData(
       setIsLoading(false);
       loadingRef.current = false;
     }
-  }, [audioUrl, samples, waveformData]);
+  }, [audioUrl, samples, waveformData, trackId]);
 
   // Auto-load on mount and URL change
   useEffect(() => {
