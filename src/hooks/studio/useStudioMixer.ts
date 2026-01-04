@@ -1,26 +1,67 @@
 /**
  * useStudioMixer - Unified mixer hook
- * Combines audio engine, effects, and controls
+ * 
+ * ═══════════════════════════════════════════════════════════════════════════════
+ * PURPOSE
+ * ═══════════════════════════════════════════════════════════════════════════════
+ * 
+ * Combines audio engine, effects engine, and mixer controls into a single hook
+ * for the studio interface. Provides a clean API for:
+ * - Multi-track playback control
+ * - Per-track volume, pan, mute, solo
+ * - Effects chain management per track
+ * - Mix presets
+ * - VU meter data access
+ * 
+ * ═══════════════════════════════════════════════════════════════════════════════
+ * USAGE
+ * ═══════════════════════════════════════════════════════════════════════════════
+ * 
+ * const mixer = useStudioMixer({
+ *   tracks: [
+ *     { id: 'vocal', name: 'Вокал', type: 'vocal', audioUrl: '...', volume: 0.8, pan: 0, muted: false, solo: false, effects: DEFAULT_EFFECTS },
+ *   ],
+ *   masterVolume: 0.85,
+ *   onTrackChange: (trackId, changes) => { ... },
+ * });
+ * 
+ * // Playback
+ * await mixer.play();
+ * mixer.seek(30);
+ * 
+ * // Controls
+ * mixer.setVolume('vocal', 0.5);
+ * mixer.setPan('vocal', -0.5); // pan left
+ * mixer.toggleMute('vocal');
+ * 
+ * // VU meters
+ * const analyser = mixer.getAnalyserNode('vocal');
+ * 
+ * ═══════════════════════════════════════════════════════════════════════════════
  */
 
-import { useCallback, useMemo, useState, useRef } from 'react';
+import { useCallback, useMemo, useState, useEffect } from 'react';
 import { logger } from '@/lib/logger';
 import { useStudioAudioEngine, type AudioTrack } from './useStudioAudioEngine';
 import { useStudioEffectsEngine, DEFAULT_EFFECTS } from './useStudioEffectsEngine';
 import { getMixPreset, getPresetStemSettings, type MixPreset } from './mixPresetsConfig';
 import type { StemEffects } from './types';
 
+// ═══════════════════════════════════════════════════════════════════════════════
+// TYPES
+// ═══════════════════════════════════════════════════════════════════════════════
+
 export interface MixerTrack {
   id: string;
   name: string;
-  type: string;
+  type: string;          // 'vocal', 'instrumental', 'drums', 'bass', 'guitar', 'other'
   audioUrl?: string;
-  volume: number;
-  pan: number;
+  volume: number;        // 0-1
+  pan: number;           // -1 (L) to +1 (R)
   muted: boolean;
   solo: boolean;
   effects: StemEffects;
-  color?: string;
+  color?: string;        // For UI visualization
 }
 
 export interface UseStudioMixerOptions {
@@ -66,9 +107,17 @@ export interface UseStudioMixerReturn {
   applyPreset: (presetId: string) => void;
   getAvailablePresets: () => MixPreset[];
   
+  // Analysis (VU meters)
+  getAnalyserNode: (trackId: string) => AnalyserNode | null;
+  getAudioContext: () => AudioContext | null;
+  
   // Internal state (for UI)
   hasSoloTracks: boolean;
 }
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// HOOK IMPLEMENTATION
+// ═══════════════════════════════════════════════════════════════════════════════
 
 export function useStudioMixer({
   tracks,
@@ -80,12 +129,11 @@ export function useStudioMixer({
 }: UseStudioMixerOptions): UseStudioMixerReturn {
   const [masterVolume, setMasterVolumeState] = useState(initialMasterVolume);
   const [trackEffects, setTrackEffects] = useState<Map<string, StemEffects>>(new Map());
-  const audioContextRef = useRef<AudioContext | null>(null);
 
   // Check if any track has solo enabled
   const hasSoloTracks = useMemo(() => tracks.some(t => t.solo), [tracks]);
 
-  // Convert MixerTracks to AudioTracks for the engine
+  // Convert MixerTracks to AudioTracks for the engine (include pan)
   const audioTracks: AudioTrack[] = useMemo(() => 
     tracks.map(t => ({
       id: t.id,
@@ -93,11 +141,14 @@ export function useStudioMixer({
       volume: t.volume,
       muted: t.muted,
       solo: t.solo,
+      pan: t.pan,
     })),
     [tracks]
   );
 
-  // Audio engine
+  // ─────────────────────────────────────────────────────────────────────────────
+  // AUDIO ENGINE
+  // ─────────────────────────────────────────────────────────────────────────────
   const audioEngine = useStudioAudioEngine({
     tracks: audioTracks,
     masterVolume,
@@ -105,10 +156,31 @@ export function useStudioMixer({
     onEnded,
   });
 
-  // Effects engine
+  // ─────────────────────────────────────────────────────────────────────────────
+  // EFFECTS ENGINE
+  // Get AudioContext from audio engine for effects
+  // ─────────────────────────────────────────────────────────────────────────────
+  const audioContext = audioEngine.getAudioContext();
+  
   const effectsEngine = useStudioEffectsEngine({
-    audioContext: audioContextRef.current,
+    audioContext,
   });
+
+  // TODO: [MIXER-001] Connect effects chain to audio routing
+  // When effectsEngine creates a chain, we need to:
+  // 1. Get input/output nodes from effectsEngine
+  // 2. Call audioEngine.insertEffectsChain(trackId, input, output)
+  // 3. Handle bypass state
+  
+  useEffect(() => {
+    // Log when audio context becomes available for debugging
+    if (audioContext) {
+      logger.debug('Mixer: AudioContext available for effects', { 
+        state: audioContext.state,
+        sampleRate: audioContext.sampleRate 
+      });
+    }
+  }, [audioContext]);
 
   // Playback controls
   const play = useCallback(async () => {
@@ -283,6 +355,10 @@ export function useStudioMixer({
     // Presets
     applyPreset,
     getAvailablePresets,
+
+    // Analysis (VU meters)
+    getAnalyserNode: audioEngine.getAnalyserNode,
+    getAudioContext: audioEngine.getAudioContext,
 
     // State
     hasSoloTracks,

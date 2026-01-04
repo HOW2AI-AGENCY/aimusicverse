@@ -57,9 +57,12 @@ const colorMap: Record<string, { wave: string; progress: string; bg: string }> =
   other: { wave: 'rgba(107, 114, 128, 0.3)', progress: 'rgba(107, 114, 128, 0.8)', bg: 'rgba(107, 114, 128, 0.1)' },
 };
 
+// Adaptive bar sizing for different screen widths
 const BAR_WIDTH = 2;
 const BAR_GAP = 1;
 const BAR_RADIUS = 1;
+const MIN_BARS = 80;   // Minimum bars for narrow containers
+const MAX_BARS = 500;  // Maximum bars for wide containers
 
 export const OptimizedStemWaveform = memo(({
   audioUrl,
@@ -75,6 +78,7 @@ export const OptimizedStemWaveform = memo(({
   const containerRef = useRef<HTMLDivElement>(null);
   const [peaks, setPeaks] = useState<number[] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [containerWidth, setContainerWidth] = useState(0);
   const rafRef = useRef<number>(0);
   const lastProgressRef = useRef<number>(0);
   
@@ -129,7 +133,26 @@ export const OptimizedStemWaveform = memo(({
     };
   }, [audioUrl]);
   
-  // Draw waveform
+  // ResizeObserver for responsive waveform
+  useEffect(() => {
+    if (!containerRef.current) return;
+    
+    const resizeObserver = new ResizeObserver(entries => {
+      const width = entries[0].contentRect.width;
+      if (Math.abs(width - containerWidth) > 10) {
+        setContainerWidth(width);
+      }
+    });
+    
+    resizeObserver.observe(containerRef.current);
+    return () => resizeObserver.disconnect();
+  }, [containerWidth]);
+  
+  /**
+   * Draw waveform with adaptive bar count
+   * - For wide screens: more bars via interpolation
+   * - For narrow screens: fewer bars via sampling
+   */
   const drawWaveform = useCallback((progress: number) => {
     const canvas = canvasRef.current;
     const container = containerRef.current;
@@ -154,20 +177,35 @@ export const OptimizedStemWaveform = memo(({
     // Clear
     ctx.clearRect(0, 0, width, canvasHeight);
     
-  // Calculate bar positions - no centering padding, start from edge
+    // Adaptive bar count: scale with container width for full coverage
     const totalBarWidth = BAR_WIDTH + BAR_GAP;
-    const barsCount = Math.min(peaks.length, Math.floor(width / totalBarWidth));
-    // Start from 0 so progress indicator aligns with container edge
-    const startX = 0;
-    const progressX = progress * width;
+    const idealBarsCount = Math.floor(width / totalBarWidth);
+    // Clamp between MIN and MAX, but prefer filling the width
+    const barsCount = Math.max(MIN_BARS, Math.min(MAX_BARS, idealBarsCount));
+    const needsInterpolation = barsCount > peaks.length;
+    
+    // Calculate actual bar spacing to fill width evenly
+    const barSpacing = width / barsCount;
     
     // Draw bars - spread evenly across full width
     for (let i = 0; i < barsCount; i++) {
-      const peakIndex = Math.floor(i * peaks.length / barsCount);
-      const peakValue = peaks[peakIndex];
+      let peakValue: number;
+      
+      if (needsInterpolation && peaks.length > 1) {
+        // Interpolate between peak values for smooth waveform
+        const floatIndex = i * (peaks.length - 1) / (barsCount - 1);
+        const lowIndex = Math.floor(floatIndex);
+        const highIndex = Math.min(lowIndex + 1, peaks.length - 1);
+        const fraction = floatIndex - lowIndex;
+        peakValue = peaks[lowIndex] * (1 - fraction) + peaks[highIndex] * fraction;
+      } else {
+        // Normal sampling
+        const peakIndex = Math.floor(i * peaks.length / barsCount);
+        peakValue = peaks[peakIndex] ?? 0.15;
+      }
+      
       const barHeight = Math.max(2, peakValue * (canvasHeight - 4));
-      // Distribute bars evenly across full width
-      const x = (i / barsCount) * width;
+      const x = i * barSpacing;
       const y = (canvasHeight - barHeight) / 2;
       
       // Choose color based on progress position
@@ -182,7 +220,7 @@ export const OptimizedStemWaveform = memo(({
       ctx.roundRect(x, y, BAR_WIDTH, barHeight, BAR_RADIUS);
       ctx.fill();
     }
-  }, [peaks, height, colors, isMuted]);
+  }, [peaks, height, colors, isMuted, containerWidth]);
   
   // Animation loop for smooth playhead
   useEffect(() => {
