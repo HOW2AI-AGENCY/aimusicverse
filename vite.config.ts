@@ -149,12 +149,8 @@ export default defineConfig(({ mode }) => ({
             if (id.includes("lucide-react")) {
               return "vendor-icons";
             }
-            // Date utilities - import only needed functions
-            if (id.includes("date-fns")) {
-              // Split date-fns by locale vs core
-              if (id.includes("date-fns/locale")) {
-                return "vendor-date-locale";
-              }
+            // Date utilities - dayjs is much smaller than date-fns
+            if (id.includes("dayjs")) {
               return "vendor-date";
             }
             // Supabase
