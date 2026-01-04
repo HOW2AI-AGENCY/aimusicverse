@@ -1,13 +1,24 @@
 import React, { useCallback, useEffect } from 'react';
-import { FullscreenPlayer } from './FullscreenPlayer';
-import { CompactPlayer } from './player/CompactPlayer';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { useMasterVersion } from '@/hooks/useTrackVersions';
 import { getGlobalAudioRef } from '@/hooks/audio/useAudioTime';
 import { AnimatePresence } from '@/lib/motion';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { logger } from '@/lib/logger';
 
+// Lazy load fullscreen components
+const CompactPlayer = React.lazy(() => 
+  import('./player/CompactPlayer').then(m => ({ default: m.CompactPlayer }))
+);
+const MobileFullscreenPlayer = React.lazy(() => 
+  import('./player/MobileFullscreenPlayer').then(m => ({ default: m.MobileFullscreenPlayer }))
+);
+const DesktopFullscreenPlayer = React.lazy(() => 
+  import('./player/DesktopFullscreenPlayer').then(m => ({ default: m.DesktopFullscreenPlayer }))
+);
+
 export const ResizablePlayer = () => {
+  const isMobile = useIsMobile();
   const { activeTrack, closePlayer, playerMode, setPlayerMode, preserveTime, volume, isPlaying } = usePlayerStore();
   
   // Fetch the primary version for correct lyrics synchronization
@@ -23,7 +34,6 @@ export const ResizablePlayer = () => {
   }, [preserveTime]);
 
   // Ensure audio context is ready when player mode changes
-  // CRITICAL: This ensures audio continues playing during mode transitions
   useEffect(() => {
     if (playerMode === 'minimized' || !activeTrack) return;
     
@@ -34,21 +44,18 @@ export const ResizablePlayer = () => {
       try {
         const { resumeAudioContext, ensureAudioRoutedToDestination } = await import('@/lib/audioContextManager');
         
-        // Resume AudioContext with retries
         const resumed = await resumeAudioContext(3);
         if (!resumed) {
           logger.warn('AudioContext resume failed during mode change');
         }
         
-        // Ensure audio routing
         await ensureAudioRoutedToDestination();
         
-        // Sync volume
         if (audio.volume !== volume) {
           audio.volume = volume;
         }
         
-        // CRITICAL FIX: Resume playback if it should be playing
+        // Resume playback if it should be playing
         if (isPlaying && audio.paused && audio.src) {
           logger.info('Resuming playback after mode switch');
           try {
@@ -69,7 +76,6 @@ export const ResizablePlayer = () => {
       }
     };
     
-    // Small delay to let new component mount
     const timer = setTimeout(ensureAudioReady, 150);
     return () => clearTimeout(timer);
   }, [playerMode, activeTrack, volume, isPlaying]);
@@ -89,25 +95,35 @@ export const ResizablePlayer = () => {
   }
 
   return (
-    <AnimatePresence mode="wait">
-      {/* Compact mode - minimal bottom bar */}
-      {playerMode === 'compact' && (
-        <CompactPlayer
-          key="compact"
-          track={activeTrack}
-          onExpand={handleMaximize}
-        />
-      )}
-      
-      {/* Fullscreen mode */}
-      {playerMode === 'fullscreen' && (
-        <FullscreenPlayer
-          key="fullscreen"
-          track={activeTrack}
-          currentVersion={currentVersion as any}
-          onClose={handleMinimize}
-        />
-      )}
-    </AnimatePresence>
+    <React.Suspense fallback={null}>
+      <AnimatePresence mode="wait">
+        {/* Compact mode - minimal bottom bar */}
+        {playerMode === 'compact' && (
+          <CompactPlayer
+            key="compact"
+            track={activeTrack}
+            onExpand={handleMaximize}
+          />
+        )}
+        
+        {/* Fullscreen mode - render appropriate component based on device */}
+        {playerMode === 'fullscreen' && (
+          isMobile ? (
+            <MobileFullscreenPlayer
+              key="mobile-fullscreen"
+              track={activeTrack}
+              onClose={handleMinimize}
+            />
+          ) : (
+            <DesktopFullscreenPlayer
+              key="desktop-fullscreen"
+              track={activeTrack}
+              currentVersion={currentVersion as any}
+              onClose={handleMinimize}
+            />
+          )
+        )}
+      </AnimatePresence>
+    </React.Suspense>
   );
 };
