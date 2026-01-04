@@ -3,10 +3,12 @@ import { Button, ButtonProps } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useTelegram } from "@/contexts/TelegramContext";
 
-interface TelegramButtonProps extends ButtonProps {
+type TelegramHapticType = "light" | "medium" | "heavy" | "success" | "warning" | "error";
+
+interface TelegramButtonProps extends Omit<ButtonProps, 'haptic'> {
   children: ReactNode;
   icon?: ReactNode;
-  haptic?: "light" | "medium" | "heavy" | "success" | "warning" | "error";
+  haptic?: TelegramHapticType;
 }
 
 export const TelegramButton = ({

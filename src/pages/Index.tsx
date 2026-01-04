@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, lazy, Suspense } from "react";
+import { useState, useEffect, useMemo, lazy, Suspense, useCallback } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
@@ -13,6 +13,8 @@ import { LazySection, SectionSkeleton } from "@/components/lazy/LazySection";
 import { motion, useReducedMotion } from '@/lib/motion';
 import { SEOHead, SEO_PRESETS } from "@/components/SEOHead";
 import { QuickCreatePreset } from "@/constants/quickCreatePresets";
+import { PullToRefreshWrapper } from "@/components/library/PullToRefreshWrapper";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 // Lazy loaded components
 const GamificationBar = lazy(() => import("@/components/gamification/GamificationBar").then(m => ({ default: m.GamificationBar })));
@@ -46,9 +48,10 @@ const Index = () => {
   const [recognitionDialogOpen, setRecognitionDialogOpen] = useState(false);
   const [quickProjectOpen, setQuickProjectOpen] = useState(false);
   const prefersReducedMotion = useReducedMotion();
+  const isMobile = useIsMobile();
 
   // Single optimized query for all public content
-  const { data: publicContent, isLoading: contentLoading } = usePublicContentBatch();
+  const { data: publicContent, isLoading: contentLoading, refetch: refetchContent } = usePublicContentBatch();
   
   // Compute auto-playlists from the same data
   const autoPlaylists = useMemo(() => 
@@ -104,6 +107,11 @@ const Index = () => {
     setGenerateSheetOpen(true);
   };
 
+  // Pull to refresh handler
+  const handleRefresh = useCallback(async () => {
+    await refetchContent();
+  }, [refetchContent]);
+
   // Animation props - disabled when reduced motion is preferred
   const fadeInUp = prefersReducedMotion 
     ? {} 
@@ -114,7 +122,11 @@ const Index = () => {
     : { initial: { opacity: 0 }, animate: { opacity: 1 } };
 
   return (
-    <div className="min-h-screen bg-background pb-20 relative overflow-hidden">
+    <PullToRefreshWrapper 
+      onRefresh={handleRefresh} 
+      disabled={!isMobile}
+      className="min-h-screen bg-background pb-20 relative overflow-hidden"
+    >
         {/* Background gradient - hidden on reduced motion for performance */}
         {!prefersReducedMotion && (
           <div className="fixed inset-0 pointer-events-none opacity-40">
@@ -310,7 +322,7 @@ const Index = () => {
         <Suspense fallback={null}>
           <SubscriptionFeatureAnnouncement />
         </Suspense>
-    </div>
+    </PullToRefreshWrapper>
   );
 };
 

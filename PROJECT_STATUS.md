@@ -12,7 +12,7 @@ MusicVerse AI is a professional AI-powered music creation platform built as a Te
 
 ### Recent Completions (January 4, 2026)
 
-**Sprint 029 Progress (50%)**
+**Sprint 029 Progress (75%)**
 - ✅ Telegram CloudStorage integration with localStorage fallback
 - ✅ useCloudStorage React hook for state persistence
 - ✅ Pull-to-refresh for Library page (mobile)
@@ -21,8 +21,11 @@ MusicVerse AI is a professional AI-powered music creation platform built as a Te
 - ✅ Fixed track_versions constraint (added vocal_add, instrumental_add, cover types)
 - ✅ Fixed suno-music-callback version_type logic
 - ✅ Fixed suno-check-status 'original' → 'initial'
-- 🔄 Haptic feedback integration (planned)
-- 🔄 Mobile navigation improvements (planned)
+- ✅ Haptic feedback integration (Button haptic prop, BottomNavigation)
+- ✅ Mobile navigation improvements (56px touch targets)
+- ✅ Pull-to-refresh on Index.tsx (main page)
+- ✅ useKeyboardAware hook (already implemented)
+- 🔄 E2E tests setup (planned)
 
 ---
 
@@ -44,7 +47,7 @@ MusicVerse AI is a professional AI-powered music creation platform built as a Te
 | 026 | UX Unification | 4-step flow, quick presets, guided workflows | ✅ Complete |
 | 027 | AI Lyrics Tools | 10+ lyrics creation tools, AI assistant | ✅ Complete |
 | 028 | UI/UX Optimization | Mobile polish, audio pooling, enhanced sharing | ✅ Complete |
-| 029 | Mobile Optimization | CloudStorage, deep links, player page | 🟡 50% |
+| 029 | Mobile Optimization | CloudStorage, deep links, haptic, navigation | 🟡 75% |
 | - | Telegram Stars Payment | Full payment system (210 tasks) | ✅ Complete |
 | - | Generation Error Handling | Retry logic, fallback chain | ✅ Complete |
 

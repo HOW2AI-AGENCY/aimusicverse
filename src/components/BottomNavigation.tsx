@@ -64,7 +64,7 @@ export const BottomNavigation = memo(function BottomNavigation() {
         role="navigation"
         aria-label="Главная навигация"
       >
-        <div className="flex items-center justify-around">
+        <div className="flex items-center justify-around h-14">
           {navItems.map((item, index) => {
             if (item.isCenter) {
               return (
@@ -72,7 +72,7 @@ export const BottomNavigation = memo(function BottomNavigation() {
                   key={item.path}
                   onClick={handleGenerateClick}
                   className={cn(
-                    "relative flex items-center justify-center w-11 h-11 -my-1 rounded-full bg-gradient-to-br from-primary to-generate shadow-md shadow-primary/25 fab touch-scale-md touch-manipulation group",
+                    "relative flex items-center justify-center w-14 h-14 -my-2 rounded-full bg-gradient-to-br from-primary to-generate shadow-md shadow-primary/25 fab touch-scale-md touch-manipulation group",
                     activeGenCount > 0 && "ring-2 ring-primary/50 ring-offset-2 ring-offset-background"
                   )}
                   whileTap={{ scale: 0.92 }}
@@ -138,7 +138,7 @@ export const BottomNavigation = memo(function BottomNavigation() {
                 key={item.path}
                 onClick={handleClick}
                 className={cn(
-                  "relative flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-xl transition-all min-h-[44px] min-w-[44px] touch-scale-sm touch-manipulation group",
+                  "relative flex flex-col items-center justify-center gap-0.5 px-3 py-2 rounded-xl transition-all min-h-[56px] min-w-[56px] touch-scale-sm touch-manipulation group",
                   active
                     ? "text-primary bg-primary/10"
                     : "text-muted-foreground hover:text-foreground"
