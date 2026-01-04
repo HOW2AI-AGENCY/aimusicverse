@@ -1,15 +1,16 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { motion } from '@/lib/motion';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { Sparkles, Loader2, Mic, Music2, HelpCircle, Palette } from 'lucide-react';
+import { Sparkles, Loader2, Mic, Music2, HelpCircle, Palette, Copy, X } from 'lucide-react';
 import { VoiceInputButton } from '@/components/ui/VoiceInputButton';
 import { GenerateFormHint, FORM_HINTS } from './GenerateFormHint';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { SmartPromptSuggestions } from './SmartPromptSuggestions';
 import { cn } from '@/lib/utils';
+import { notify } from '@/lib/notifications';
 
 interface GenerateFormSimpleProps {
   description: string;
@@ -35,6 +36,17 @@ export function GenerateFormSimple({
   onOpenStyles,
 }: GenerateFormSimpleProps) {
   const [showHint, setShowHint] = useState(true);
+  
+  const handleCopy = useCallback(async () => {
+    if (description) {
+      await navigator.clipboard.writeText(description);
+      notify.success('Скопировано');
+    }
+  }, [description]);
+  
+  const handleClear = useCallback(() => {
+    onDescriptionChange('');
+  }, [onDescriptionChange]);
 
   return (
     <motion.div
@@ -80,6 +92,7 @@ export function GenerateFormSimple({
 
       {/* Description */}
       <div>
+        {/* Header row - Label + Styles + AI Boost */}
         <div className="flex items-center justify-between mb-1.5">
           <div className="flex items-center gap-1.5">
             <Label htmlFor="description" className="text-xs font-medium">
@@ -103,13 +116,6 @@ export function GenerateFormSimple({
             </TooltipProvider>
           </div>
           <div className="flex items-center gap-1">
-            <span className={cn(
-              "text-[10px]",
-              description.length > 500 ? 'text-destructive font-medium' : 
-              description.length > 400 ? 'text-yellow-500' : 'text-muted-foreground'
-            )}>
-              {description.length}/500
-            </span>
             {onOpenStyles && (
               <Button
                 type="button"
@@ -121,13 +127,6 @@ export function GenerateFormSimple({
                 <Palette className="w-3.5 h-3.5" />
               </Button>
             )}
-            <VoiceInputButton
-              onResult={onDescriptionChange}
-              context="description"
-              currentValue={description}
-              appendMode
-              className="h-6 w-6 p-0"
-            />
             <Button
               type="button"
               variant="ghost"
@@ -151,20 +150,68 @@ export function GenerateFormSimple({
           {FORM_HINTS.description.empty}
         </GenerateFormHint>
         
-        <Textarea
-          id="description"
-          placeholder={hasVocals 
-            ? "Энергичный поп с запоминающимся припевом..." 
-            : "Атмосферный эмбиент с синтезаторами..."
-          }
-          value={description}
-          onChange={(e) => onDescriptionChange(e.target.value)}
-          rows={3}
-          className={cn(
-            "resize-none text-sm mt-1.5",
-            description.length > 500 && "border-destructive focus-visible:ring-destructive"
-          )}
-        />
+        {/* Textarea container with bottom toolbar */}
+        <div className="relative">
+          <Textarea
+            id="description"
+            placeholder={hasVocals 
+              ? "Энергичный поп с запоминающимся припевом..." 
+              : "Атмосферный эмбиент с синтезаторами..."
+            }
+            value={description}
+            onChange={(e) => onDescriptionChange(e.target.value)}
+            rows={3}
+            className={cn(
+              "resize-none text-sm pb-8",
+              description.length > 500 && "border-destructive focus-visible:ring-destructive"
+            )}
+          />
+          
+          {/* Bottom toolbar inside textarea */}
+          <div className="absolute bottom-1.5 left-2 right-2 flex items-center justify-between">
+            {/* Left side: Character count */}
+            <span className={cn(
+              "text-[10px] px-1.5 py-0.5 rounded bg-muted/80",
+              description.length > 500 ? 'text-destructive font-medium' : 
+              description.length > 400 ? 'text-yellow-500' : 'text-muted-foreground'
+            )}>
+              {description.length}/500
+            </span>
+            
+            {/* Right side: Copy, Clear, Voice */}
+            <div className="flex items-center gap-0.5">
+              {description && (
+                <>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground"
+                    onClick={handleCopy}
+                  >
+                    <Copy className="w-3 h-3" />
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    className="h-6 w-6 p-0 text-muted-foreground hover:text-destructive"
+                    onClick={handleClear}
+                  >
+                    <X className="w-3 h-3" />
+                  </Button>
+                </>
+              )}
+              <VoiceInputButton
+                onResult={onDescriptionChange}
+                context="description"
+                currentValue={description}
+                appendMode
+                className="h-6 w-6 p-0"
+              />
+            </div>
+          </div>
+        </div>
 
         {/* Smart Prompt Suggestions - horizontal scroll */}
         {!description && (
