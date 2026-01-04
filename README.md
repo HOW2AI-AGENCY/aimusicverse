@@ -1,31 +1,43 @@
 <div align="center">
 
-<img src="src/assets/logo.png" alt="MusicVerse AI Logo" width="180" height="180" />
+<img src="src/assets/logo.png" alt="MusicVerse AI Logo" width="200" height="200" />
 
 # 🎵 MusicVerse AI
 
-### AI-платформа для создания музыки в Telegram
+### 🚀 Профессиональная AI-платформа для создания музыки в Telegram
 
 <p align="center">
   <strong>Создавайте музыку с помощью искусственного интеллекта</strong><br>
-  <em>Suno AI v5 • Telegram Mini App • A/B Versioning • Stem Studio • AI Artists</em>
+  <em>Suno AI v5 • Telegram Mini App • A/B Versioning • Unified Studio • AI Artists • 277+ Styles</em>
 </p>
 
 ---
 
-<a href="http://t.me/AIMusicVerseBot/app">
-  <img src="https://img.shields.io/badge/🚀%20Открыть%20в%20Telegram-26A5E4?style=for-the-badge&logo=telegram&logoColor=white" alt="Открыть в Telegram" />
-</a>
+<p align="center">
+  <a href="http://t.me/AIMusicVerseBot/app">
+    <img src="https://img.shields.io/badge/🚀_Открыть_в_Telegram-26A5E4?style=for-the-badge&logo=telegram&logoColor=white" alt="Открыть в Telegram" />
+  </a>
+  <a href="https://t.me/AIMusicVerse">
+    <img src="https://img.shields.io/badge/📢_Канал_Новостей-26A5E4?style=for-the-badge&logo=telegram&logoColor=white" alt="Канал новостей" />
+  </a>
+</p>
 
 ---
 
 <p align="center">
-  <img src="https://img.shields.io/badge/React-19.2-61DAFB?style=flat-square&logo=react" alt="React 19.2" />
-  <img src="https://img.shields.io/badge/TypeScript-5.9-blue?style=flat-square&logo=typescript" alt="TypeScript 5.9" />
-  <img src="https://img.shields.io/badge/Telegram-Mini_App-26A5E4?style=flat-square&logo=telegram" alt="Telegram" />
-  <img src="https://img.shields.io/badge/Lovable_Cloud-Backend-8B5CF6?style=flat-square" alt="Lovable Cloud" />
+  <img src="https://img.shields.io/badge/React-19.2-61DAFB?style=flat-square&logo=react&logoColor=white" alt="React 19.2" />
+  <img src="https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript 5.9" />
+  <img src="https://img.shields.io/badge/Telegram-Mini_App-26A5E4?style=flat-square&logo=telegram&logoColor=white" alt="Telegram" />
+  <img src="https://img.shields.io/badge/Vite-5.0-646CFF?style=flat-square&logo=vite&logoColor=white" alt="Vite" />
+  <img src="https://img.shields.io/badge/Supabase-Backend-3ECF8E?style=flat-square&logo=supabase&logoColor=white" alt="Supabase" />
   <img src="https://img.shields.io/badge/Suno_AI-v5-e74c3c?style=flat-square" alt="Suno AI" />
-  <img src="https://img.shields.io/badge/Sprint-028_Complete-green?style=flat-square" alt="Sprint 028 Complete" />
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Sprint-030_Unified_Studio-blue?style=flat-square" alt="Current Sprint" />
+  <img src="https://img.shields.io/badge/Progress-84%25-success?style=flat-square" alt="Progress" />
+  <img src="https://img.shields.io/badge/Health_Score-98%2F100-brightgreen?style=flat-square" alt="Health" />
+  <img src="https://img.shields.io/badge/Components-888-orange?style=flat-square" alt="Components" />
 </p>
 
 </div>
@@ -34,30 +46,58 @@
 
 ## 📑 Содержание
 
+<table>
+<tr>
+<td width="50%">
+
+**🎯 Начало работы**
 - [✨ Возможности](#-возможности)
 - [🚀 Быстрый старт](#-быстрый-старт)
-- [🏗️ Архитектура](#️-архитектура)
-  - [📊 Системная архитектура](#-системная-архитектура)
-  - [🔄 Поток данных](#-поток-данных)
-  - [🎯 Архитектура компонентов](#-архитектура-компонентов)
 - [📊 Ключевые метрики](#-ключевые-метрики)
+
+**🏗️ Архитектура**
+- [Системная архитектура](#-системная-архитектура)
+- [Поток данных](#-поток-данных)
+- [Архитектура компонентов](#-архитектура-компонентов)
+
+</td>
+<td width="50%">
+
+**📱 Разработка**
 - [📁 Структура проекта](#-структура-проекта)
 - [📖 Документация](#-документация)
-- [📱 Мобильная разработка](#-мобильная-разработка)
+- [Мобильная разработка](#-мобильная-разработка)
+
+**🔧 Дополнительно**
 - [🔒 Безопасность](#-безопасность)
 - [🛠️ Недавние улучшения](#️-недавние-улучшения)
 - [📞 Контакты](#-контакты)
 
-> 💡 **Навигация:** См. [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md) для полной карты документации
+</td>
+</tr>
+</table>
+
+---
+
+## 📍 Быстрая навигация
+
+> 💡 **Полная карта документации:** [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md)
 > 
-> 🎯 **Текущий статус:** Sprint 028 (UI/UX Optimization) - ✅ Completed (2025-12-22)  
+> 🎯 **Текущий статус:** Sprint 030 (Unified Studio Mobile) - 🚧 In Progress  
 > 📊 **Статус спринтов:** [SPRINT_STATUS.md](SPRINT_STATUS.md) | **Статус проекта:** [PROJECT_STATUS.md](PROJECT_STATUS.md)
+>
+> 🗺️ **Планы развития:**
+> - [IMPLEMENTATION_ROADMAP_2026.md](IMPLEMENTATION_ROADMAP_2026.md) - Roadmap Q1-Q2 2026
+> - [SPRINTS/SPRINT-029-TELEGRAM-MOBILE-OPTIMIZATION.md](SPRINTS/SPRINT-029-TELEGRAM-MOBILE-OPTIMIZATION.md) - Telegram Mobile Optimization
+> - [SPRINTS/SPRINT-030-UNIFIED-STUDIO-MOBILE.md](SPRINTS/SPRINT-030-UNIFIED-STUDIO-MOBILE.md) - Unified Studio Mobile
 >
 > 📚 **Ключевая документация:**
 > - [PROJECT_STATUS.md](PROJECT_STATUS.md) - Единый источник правды о статусе проекта
-> - [SPRINTS/](SPRINTS/) - Планирование спринтов
-> - [specs/](specs/) - Технические спецификации
+> - [SPRINTS/](SPRINTS/) - Планирование спринтов и задачи
+> - [specs/](specs/) - Технические спецификации и SDD
 > - [docs/guides/](docs/guides/) - Технические руководства
+> - [docs/mobile/](docs/mobile/) - Мобильная оптимизация
+> - [docs/ru/](docs/ru/) - Русская документация
 
 ---
 
@@ -91,6 +131,20 @@
 - **Audio Visualizer** — визуализация частот в реальном времени
 - **Version playback** — режимы воспроизведения версий, переключение в плеере
 - **Lazy image loading** — оптимизированная загрузка обложек во всех режимах
+
+### 🎛️ Unified Studio (NEW!)
+- **Единый интерфейс** — работа с отдельными треками и проектами
+- **Замена секций** — перегенерация отдельных фрагментов трека
+- **Stem separation** — разделение на vocals, drums, bass, instruments
+- **Микширование** — volume, pan, solo, mute для каждого стема
+- **MIDI транскрипция** — экспорт в MIDI, GP5, PDF, MusicXML (6 AI моделей)
+- **Waveform editing** — визуализация и редактирование волновой формы
+- **Effects processing** — реверб, эквалайзер, компрессия
+- **Multi-track playback** — синхронизированное воспроизведение стемов
+- **A/B comparison** — сравнение оригинала и изменений
+- **Mobile-optimized** — адаптивные контролы для сенсорных экранов
+- **Gesture navigation** — swipe, long-press, pinch-to-zoom
+- **История изменений** — undo/redo с 30 уровнями
 
 ### 📝 Плейлисты
 - **CRUD операции** — создание, редактирование, удаление
@@ -549,40 +603,109 @@ npm run dev
 
 ## 📱 Мобильная разработка
 
-### Telegram Mini App
-MusicVerse AI построен как **Telegram Mini App** с оптимизацией для мобильных устройств:
-- 📱 **19 мобильных компонентов** - Специализированные UI для touch-интерфейса
-- ⚡ **~500KB bundle** - Оптимизированный размер для быстрой загрузки
-- 🎯 **Touch targets 44×44px** - Удобство использования на всех устройствах
-- 🔄 **iOS Safari pooling** - Предотвращение крашей audio на iOS
-- ⌨️ **Keyboard-aware** - Интеллектуальная обработка виртуальной клавиатуры
-- 👆 **Gesture system** - Swipe, long-press, pull-to-refresh
-- 📐 **Safe-area padding** - Поддержка всех типов экранов (notch, island)
+### 🎯 Telegram Mini App — Native Experience
 
-### Mobile Performance Targets
-| Метрика | Текущее | Цель Q1 2026 |
-|---------|---------|--------------|
-| First Contentful Paint | 1.2s | 1.0s |
-| Largest Contentful Paint | 2.1s | 1.8s |
-| Time to Interactive | 3.5s | 2.5s |
-| Bundle Size (gzip) | 500KB | 400KB |
+MusicVerse AI построен как **полноценное Telegram Mini App** с глубокой интеграцией платформы:
 
-### Документация по мобильной разработке
-- **[Mobile Optimization Roadmap 2026](docs/mobile/OPTIMIZATION_ROADMAP_2026.md)** - План мобильной оптимизации
+<table>
+<tr>
+<td width="50%">
+
+**🔧 Текущие возможности**
+- ✅ **19 мобильных компонентов** - Специализированные UI
+- ✅ **~450KB bundle** - Оптимизированный размер
+- ✅ **Touch targets 44-56px** - Удобство использования
+- ✅ **iOS Safari audio pooling** - Предотвращение крашей
+- ✅ **Keyboard-aware forms** - Умная обработка клавиатуры
+- ✅ **Gesture system** - Swipe, long-press, pull-to-refresh
+- ✅ **Safe-area padding** - Поддержка notch/island
+- ✅ **Native sharing** - Stories, chat, clipboard
+
+</td>
+<td width="50%">
+
+**🚀 В разработке (Sprint 029-030)**
+- 🚧 **Haptic Feedback** - Тактильная обратная связь
+- 🚧 **CloudStorage API** - Синхронизация настроек
+- 🚧 **Voice input** - Диктовка описания
+- 🚧 **Unified Studio Mobile** - Мобильная студия
+- 🚧 **Gesture navigation** - Swipe между табами
+- 🚧 **Offline mode** - Работа без интернета
+- 🚧 **PWA features** - Install prompt, offline
+- 🚧 **Media Session API** - Lock screen controls
+
+</td>
+</tr>
+</table>
+
+### 📊 Performance Targets Q1 2026
+
+| Метрика | Текущее | Цель Q1 2026 | Улучшение |
+|---------|---------|--------------|-----------|
+| **First Contentful Paint** | 1.2s | 1.0s | -17% ⬇️ |
+| **Largest Contentful Paint** | 2.1s | 1.8s | -14% ⬇️ |
+| **Time to Interactive** | 3.5s | 2.5s | -29% ⬇️ |
+| **Bundle Size (gzip)** | 500KB | 400KB | -20% ⬇️ |
+| **Touch Accuracy** | 85% | 95% | +12% ⬆️ |
+| **Form Completion** | 65% | 85% | +31% ⬆️ |
+
+### 🗂️ Mobile Components Structure
+
+```
+src/components/
+├── mobile/                          # Общие мобильные компоненты
+│   ├── MobilePageTransition.tsx     # Анимации переходов
+│   └── MobileBottomNav.tsx          # Нижняя навигация
+├── player/
+│   └── MobileFullscreenPlayer.tsx   # Полноэкранный плеер
+├── stem-studio/mobile/              # Мобильная версия студии
+│   ├── SectionEditorMobile.tsx
+│   └── MobileActionsTab.tsx
+├── studio/unified/                  # Unified Studio Mobile
+│   ├── MobileStudioTabs.tsx
+│   ├── MobilePlayerTab.tsx
+│   ├── MobileSectionsTab.tsx
+│   ├── MobileStemMixer.tsx
+│   └── MobileActionsContent.tsx
+└── */Mobile*.tsx                    # Специфичные компоненты (19 total)
+```
+
+### 📚 Документация по мобильной разработке
+
+#### Планы и Roadmaps
+- **[Mobile Optimization Roadmap 2026](docs/mobile/OPTIMIZATION_ROADMAP_2026.md)** - Комплексный план оптимизации (4 фазы, 16 недель)
+- **[Sprint 029: Telegram Mobile Optimization](SPRINTS/SPRINT-029-TELEGRAM-MOBILE-OPTIMIZATION.md)** - Telegram SDK интеграция, haptics, CloudStorage
+- **[Sprint 030: Unified Studio Mobile](SPRINTS/SPRINT-030-UNIFIED-STUDIO-MOBILE.md)** - Унификация студии для мобильных
+
+#### Технические руководства
 - **[Mobile UI Audit](docs/MOBILE_UI_AUDIT_2025_12.md)** - Аудит мобильного интерфейса
 - **[Mobile Optimization Summary](MOBILE_OPTIMIZATION_SUMMARY.md)** - Итоги Sprint 028
 - **[Safe Area Guidelines](docs/SAFE_AREA_GUIDELINES.md)** - Руководство по безопасным зонам
 - **[Telegram Mini App Features](docs/TELEGRAM_MINI_APP_FEATURES.md)** - Функции Telegram Mini App
+- **[Telegram Bot Architecture](docs/TELEGRAM_BOT_ARCHITECTURE.md)** - Архитектура бота
 
-### Mobile Components Structure
-```
-src/components/
-├── mobile/                # Общие мобильные компоненты
-├── player/MobileFullscreenPlayer.tsx
-├── stem-studio/mobile/    # Мобильная версия студии
-├── studio/unified/Mobile*.tsx  # Unified studio mobile
-└── */Mobile*.tsx          # Специфичные мобильные компоненты
-```
+### 🎨 Design System для Mobile
+
+- **Touch Targets:** 44-56px minimum (iOS HIG / Material Design)
+- **Typography:** Responsive scale от 14px до 24px
+- **Spacing:** 8px grid system
+- **Colors:** Telegram theme aware (light/dark)
+- **Animations:** 60 FPS с Framer Motion
+- **Icons:** Lucide React (tree-shakeable)
+- **Gestures:** @use-gesture/react для touch
+
+### 🧪 Mobile Testing Strategy
+
+**Devices:**
+- iOS: iPhone 13, 14, 15 Pro (Safari)
+- Android: Pixel 6, Samsung S22 (Chrome)
+- Tablets: iPad Pro, Samsung Tab (landscape)
+
+**Tools:**
+- Playwright для E2E
+- Lighthouse CI для performance
+- BrowserStack для cross-browser
+- Telegram Test Environment
 
 ---
 
