@@ -1,7 +1,6 @@
 /**
- * MobileAIAgentPanel - Full-screen mobile AI agent for lyrics
- * Telegram mini app optimized with safe areas and native buttons
- * Redesigned with category-based toolbar and enhanced UX
+ * MobileAIAgentPanel - Minimalist mobile AI agent for lyrics
+ * Redesigned with smart toolbar, workflow engine, and clean UX
  */
 
 import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
@@ -20,6 +19,7 @@ import { useVoiceInput } from '@/hooks/useVoiceInput';
 
 import { useTelegramMainButton } from '@/hooks/telegram/useTelegramMainButton';
 import { useAITools } from './hooks/useAITools';
+import { useWorkflowEngine } from './hooks/useWorkflowEngine';
 import { 
   WriteToolPanel, AnalyzeToolPanel, ProducerToolPanel, OptimizeToolPanel, RhymeToolPanel, TagsToolPanel,
   ContinueToolPanel, StructureToolPanel, RhythmToolPanel,
@@ -31,12 +31,11 @@ import {
 } from './results';
 import { StructuredLyricsDisplay } from './results/StructuredLyricsDisplay';
 import { AIProgressIndicator } from './AIProgressIndicator';
-import { QuickActionsBar } from './QuickActionsBar';
-import { CategoryToolbar } from './CategoryToolbar';
-import { ContextIndicator } from './ContextIndicator';
-import { WorkflowPresets, WORKFLOW_DEFINITIONS } from './WorkflowPresets';
-import { LyricsGeneratedMessage, AnalysisMessage, ValidationMessage } from './messages';
+import { SmartToolbar } from './SmartToolbar';
+import { WorkflowProgress } from './WorkflowProgress';
+import { AnalysisDashboard } from './AnalysisDashboard';
 import { AIToolId, AIAgentContext, SectionNote, AIMessage } from './types';
+
 interface MobileAIAgentPanelProps {
   existingLyrics?: string;
   selectedSection?: { type: string; content: string; notes?: string; tags?: string[] };
@@ -101,8 +100,6 @@ export function MobileAIAgentPanel({
 }: MobileAIAgentPanelProps) {
   const [input, setInput] = useState('');
   const [openToolPanel, setOpenToolPanel] = useState<AIToolId | null>(null);
-  const [currentWorkflowStep, setCurrentWorkflowStep] = useState(1);
-  const [showQuickActions, setShowQuickActions] = useState(true);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const context: AIAgentContext = {
@@ -135,6 +132,26 @@ export function MobileAIAgentPanel({
     onStylePromptGenerated: onApplyStylePrompt,
   });
 
+  // Workflow engine
+  const {
+    workflow: activeWorkflow,
+    currentStep,
+    currentStepIndex,
+    stepResults,
+    status: workflowStatus,
+    progress: workflowProgress,
+    startWorkflow,
+    pauseWorkflow,
+    resumeWorkflow,
+    skipStep,
+    cancelWorkflow,
+    isRunning: isWorkflowRunning,
+  } = useWorkflowEngine({
+    context,
+    executeTool,
+    onWorkflowComplete: () => hapticImpact('medium'),
+  });
+
   // Voice input for chat
   const { isRecording, isProcessing, toggleRecording } = useVoiceInput({
     onResult: (text) => {
@@ -143,17 +160,17 @@ export function MobileAIAgentPanel({
     context: 'lyrics',
     autoCorrect: true,
   });
+
   const hasGeneratedLyrics = useMemo(() => {
     return messages.some(m => m.role === 'assistant' && m.data?.lyrics);
   }, [messages]);
 
-  // Get the latest generated lyrics
   const latestLyrics = useMemo(() => {
     const lyricsMessages = messages.filter(m => m.role === 'assistant' && m.data?.lyrics);
     return lyricsMessages.length > 0 ? lyricsMessages[lyricsMessages.length - 1].data?.lyrics : null;
   }, [messages]);
 
-  // Telegram main button - only show when lyrics are available
+  // Telegram main button
   useTelegramMainButton({
     text: 'ПРИМЕНИТЬ ЛИРИКУ',
     onClick: () => {
@@ -163,7 +180,7 @@ export function MobileAIAgentPanel({
         onClose();
       }
     },
-    visible: hasGeneratedLyrics && isOpen && !isLoading,
+    visible: hasGeneratedLyrics && isOpen && !isLoading && !isWorkflowRunning,
     color: '#22c55e',
     textColor: '#ffffff',
   });
@@ -174,20 +191,6 @@ export function MobileAIAgentPanel({
       if (viewport) viewport.scrollTop = viewport.scrollHeight;
     }
   }, [messages]);
-
-  // Update workflow step based on conversation
-  useEffect(() => {
-    if (messages.length <= 1) return;
-    
-    const lastMessage = messages[messages.length - 1];
-    if (lastMessage.role === 'assistant' && !lastMessage.isLoading) {
-      if (lastMessage.data?.lyrics) setCurrentWorkflowStep(Math.max(currentWorkflowStep, 3));
-      if (lastMessage.data?.tags?.length) setCurrentWorkflowStep(Math.max(currentWorkflowStep, 4));
-      if (lastMessage.type === 'producer_review' || lastMessage.type === 'full_analysis') {
-        setCurrentWorkflowStep(5);
-      }
-    }
-  }, [messages, currentWorkflowStep]);
 
   const handleToolSelect = useCallback((toolId: AIToolId) => {
     hapticImpact('light');
@@ -200,11 +203,15 @@ export function MobileAIAgentPanel({
     executeTool(toolId, input);
   }, [executeTool]);
 
+  const handleStartWorkflow = useCallback((workflowId: string) => {
+    hapticImpact('medium');
+    startWorkflow(workflowId);
+  }, [startWorkflow]);
+
   const handleSend = useCallback(() => {
     if (!input.trim() || isLoading) return;
     sendChatMessage(input);
     setInput('');
-    setShowQuickActions(false);
   }, [input, isLoading, sendChatMessage]);
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
@@ -213,11 +220,6 @@ export function MobileAIAgentPanel({
       handleSend();
     }
   }, [handleSend]);
-
-  const handleQuickAction = useCallback((action: string) => {
-    sendChatMessage(action);
-    setShowQuickActions(false);
-  }, [sendChatMessage]);
 
   const handleApplyLyrics = useCallback((lyrics: string) => {
     onReplaceLyrics?.(lyrics);
@@ -241,7 +243,6 @@ export function MobileAIAgentPanel({
       case 'optimize': return <OptimizeToolPanel {...panelProps} />;
       case 'rhyme': return <RhymeToolPanel {...panelProps} />;
       case 'tags': return <TagsToolPanel {...panelProps} />;
-      // Phase 2 tools
       case 'continue': return <ContinueToolPanel {...panelProps} />;
       case 'structure': return <StructureToolPanel {...panelProps} />;
       case 'rhythm': return <RhythmToolPanel {...panelProps} />;
@@ -250,7 +251,6 @@ export function MobileAIAgentPanel({
       case 'hook_generator': return <HookGeneratorToolPanel {...panelProps} />;
       case 'vocal_map': return <VocalMapToolPanel {...panelProps} />;
       case 'translate': return <TranslateToolPanel {...panelProps} />;
-      // Phase 3 tools - Suno V5 Enhanced
       case 'drill_builder': return <DrillBuilderToolPanel {...panelProps} />;
       case 'epic_builder': return <EpicBuilderToolPanel {...panelProps} />;
       case 'validate_v5': return <ValidateSunoV5ToolPanel {...panelProps} />;
@@ -269,12 +269,28 @@ export function MobileAIAgentPanel({
       );
     }
 
+    // Check for analysis data to render dashboard
+    const hasAnalysis = message.data?.fullAnalysis || message.data?.producerReview || message.type === 'full_analysis';
+
     return (
       <>
         <p className="text-sm whitespace-pre-wrap leading-relaxed">{message.content}</p>
         
+        {/* Analysis Dashboard for analysis results */}
+        {hasAnalysis && (
+          <AnalysisDashboard
+            qualityScore={message.data?.fullAnalysis?.overallScore || message.data?.producerReview?.overallScore || 0}
+            rhymeScheme={message.data?.fullAnalysis?.rhymes?.scheme}
+            recommendations={
+              message.data?.fullAnalysis?.recommendations?.map(r => r.text) || 
+              message.data?.producerReview?.recommendations?.map(r => r.text) ||
+              message.data?.producerReview?.weaknesses
+            }
+          />
+        )}
+        
         {/* Structured lyrics display */}
-        {message.data?.lyrics && (
+        {message.data?.lyrics && !hasAnalysis && (
           <StructuredLyricsDisplay
             lyrics={message.data.lyrics}
             onApply={() => handleApplyLyrics(message.data!.lyrics!)}
@@ -350,13 +366,13 @@ export function MobileAIAgentPanel({
         {/* Quick actions from AI */}
         {message.data?.quickActions && message.data.quickActions.length > 0 && (
           <div className="mt-3 flex flex-wrap gap-2">
-            {message.data.quickActions.slice(0, 4).map((action, i) => (
+            {message.data.quickActions.slice(0, 3).map((action, i) => (
               <Button
                 key={i}
                 size="sm"
                 variant="outline"
                 className="h-7 text-xs"
-                onClick={() => handleQuickAction(action.action)}
+                onClick={() => sendChatMessage(action.action)}
               >
                 <Sparkles className="w-3 h-3 mr-1" />
                 {action.label}
@@ -382,59 +398,63 @@ export function MobileAIAgentPanel({
         paddingBottom: 'env(safe-area-inset-bottom, 0px)',
       }}
     >
-      {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-border/50 shrink-0">
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 border border-primary/20">
-            <Bot className="w-5 h-5 text-primary" />
+      {/* Compact Header */}
+      <div className="flex items-center justify-between px-4 py-2 border-b border-border/30 shrink-0">
+        <div className="flex items-center gap-2">
+          <div className="p-1.5 rounded-lg bg-primary/10">
+            <Bot className="w-4 h-4 text-primary" />
           </div>
-          <div>
-            <h2 className="font-semibold text-sm">AI Lyrics Agent</h2>
-            {projectContext && (
-              <p className="text-xs text-muted-foreground truncate max-w-[180px]">
-                {projectContext.projectTitle} • {trackContext?.title || 'Новый трек'}
-              </p>
+          <div className="flex items-center gap-2 text-sm">
+            <span className="font-medium">AI Lyrics</span>
+            {existingLyrics && (
+              <span className="text-xs text-muted-foreground">
+                {existingLyrics.length} симв
+              </span>
+            )}
+            {(genre || projectContext?.genre) && (
+              <Badge variant="secondary" className="text-[10px] h-5">
+                {genre || projectContext?.genre}
+              </Badge>
             )}
           </div>
         </div>
-        <Button variant="ghost" size="icon" className="h-9 w-9" onClick={onClose}>
-          <X className="w-5 h-5" />
+        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={onClose}>
+          <X className="w-4 h-4" />
         </Button>
       </div>
 
-      {/* Context indicator - always visible */}
-      <ContextIndicator context={context} />
-
-      {/* Category-based toolbar - replaces old 2-row toolbars */}
-      <CategoryToolbar
+      {/* Smart Toolbar - 4 main buttons */}
+      <SmartToolbar
         activeTool={activeTool}
         onSelectTool={handleToolSelect}
-        isLoading={isLoading}
+        onStartWorkflow={handleStartWorkflow}
+        isLoading={isLoading || isWorkflowRunning}
+        hasLyrics={!!existingLyrics}
       />
 
       {/* Tool panel */}
       <AnimatePresence mode="wait">{renderToolPanel()}</AnimatePresence>
 
+      {/* Workflow progress */}
+      <AnimatePresence>
+        {activeWorkflow && (
+          <WorkflowProgress
+            workflow={activeWorkflow}
+            currentStepIndex={currentStepIndex}
+            stepResults={stepResults}
+            status={workflowStatus}
+            progress={workflowProgress}
+            onPause={pauseWorkflow}
+            onResume={resumeWorkflow}
+            onSkip={skipStep}
+            onCancel={cancelWorkflow}
+          />
+        )}
+      </AnimatePresence>
+
       {/* Messages */}
       <ScrollArea className="flex-1" ref={scrollRef}>
         <div className="p-3 space-y-3">
-          {/* Workflow presets - show at start */}
-          {showQuickActions && messages.length <= 1 && (
-            <>
-              <WorkflowPresets
-                hasLyrics={!!existingLyrics}
-                onStartWorkflow={handleQuickAction}
-                isLoading={isLoading}
-              />
-              <QuickActionsBar
-                hasLyrics={!!existingLyrics}
-                genre={genre || projectContext?.genre}
-                mood={mood || projectContext?.mood}
-                onAction={handleQuickAction}
-              />
-            </>
-          )}
-
           <AnimatePresence mode="popLayout">
             {messages.map((message) => (
               <motion.div
@@ -445,23 +465,23 @@ export function MobileAIAgentPanel({
                 className={cn("flex gap-2", message.role === 'user' ? "justify-end" : "justify-start")}
               >
                 {message.role === 'assistant' && (
-                  <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center shrink-0 border border-primary/20">
-                    <Bot className="w-4 h-4 text-primary" />
+                  <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                    <Bot className="w-3.5 h-3.5 text-primary" />
                   </div>
                 )}
                 
                 <div className={cn(
-                  "max-w-[85%] rounded-2xl px-3 py-2.5",
+                  "max-w-[85%] rounded-2xl px-3 py-2",
                   message.role === 'user' 
                     ? "bg-primary text-primary-foreground rounded-br-sm"
-                    : "bg-muted/80 rounded-bl-sm border border-border/50"
+                    : "bg-muted/60 rounded-bl-sm border border-border/30"
                 )}>
                   {renderMessage(message)}
                 </div>
 
                 {message.role === 'user' && (
-                  <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
-                    <User className="w-4 h-4 text-primary" />
+                  <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                    <User className="w-3.5 h-3.5 text-primary" />
                   </div>
                 )}
               </motion.div>
@@ -470,8 +490,8 @@ export function MobileAIAgentPanel({
         </div>
       </ScrollArea>
 
-      {/* Input area - positioned above navigation */}
-      <div className="border-t border-border/50 p-3 shrink-0 bg-background relative z-50">
+      {/* Input area */}
+      <div className="border-t border-border/30 p-3 shrink-0 bg-background">
         <div className="flex gap-2">
           <Button 
             variant="ghost" 
@@ -483,46 +503,42 @@ export function MobileAIAgentPanel({
             <Trash2 className="w-4 h-4 text-muted-foreground" />
           </Button>
           
-          {/* Voice input button */}
           <Button
             variant={isRecording ? 'destructive' : 'ghost'}
             size="icon"
-            className={cn("h-10 w-10 shrink-0 relative", isRecording && "animate-pulse")}
+            className={cn("h-10 w-10 shrink-0", isRecording && "animate-pulse")}
             onClick={toggleRecording}
             disabled={isProcessing || isLoading}
           >
             {isProcessing ? (
               <Loader2 className="w-4 h-4 animate-spin" />
             ) : isRecording ? (
-              <>
-                <MicOff className="w-4 h-4" />
-                <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full animate-ping" />
-              </>
+              <MicOff className="w-4 h-4" />
             ) : (
               <Mic className="w-4 h-4 text-muted-foreground" />
             )}
           </Button>
           
-          <div className="flex-1 relative">
-            <Textarea
-              placeholder={isRecording ? "Говорите..." : "Опишите задачу или задайте вопрос..."}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-              className={cn(
-                "min-h-[40px] max-h-[100px] resize-none text-sm",
-                isRecording && "border-red-500/50 bg-red-500/5"
-              )}
-              rows={1}
-            />
-          </div>
-          <Button 
-            size="icon" 
-            className="h-10 w-10 shrink-0" 
-            onClick={handleSend} 
-            disabled={isLoading || !input.trim() || isRecording}
+          <Textarea
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="Сообщение..."
+            className="min-h-10 max-h-24 resize-none rounded-xl text-sm"
+            rows={1}
+          />
+          
+          <Button
+            size="icon"
+            className="h-10 w-10 shrink-0 rounded-xl"
+            onClick={handleSend}
+            disabled={!input.trim() || isLoading}
           >
-            {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+            {isLoading ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <Send className="w-4 h-4" />
+            )}
           </Button>
         </div>
       </div>
