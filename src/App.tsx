@@ -21,6 +21,10 @@ import { LoadingScreen } from "@/components/UnifiedSplashScreen";
 // InitializationGuard removed - handled by UnifiedSplashScreen
 import { ProfileSetupGuard } from "@/components/profile/ProfileSetupGuard";
 import { NavigationProvider } from "@/components/NavigationProvider";
+import { initSentry } from "@/lib/sentry";
+
+// Initialize Sentry error tracking
+initSentry();
 
 // Wrapper to use ProfileSetupGuard with Outlet
 function ProfileSetupGuardWrapper({ children }: { children: React.ReactNode }) {
