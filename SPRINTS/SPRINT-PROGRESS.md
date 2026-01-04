@@ -1,6 +1,6 @@
 # Sprint Progress Tracker
 
-**Последнее обновление**: 2026-01-04 (Session 7 - Planning & Status Update)
+**Последнее обновление**: 2026-01-04 (Session 9 - Generation Form UI Polish)
 
 ## 📊 Общий статус
 
@@ -12,7 +12,7 @@
 | Sprint 027: AI Lyrics Agent | ✅ ЗАВЕРШЕН | 100% | Dec 26, 2025 |
 | Sprint 028: UI/UX Optimization | ✅ ЗАВЕРШЕН | 100% | Dec 22, 2025 |
 | Sprint 029: Mobile Optimization | ✅ ЗАВЕРШЕН | 100% | Jan 4, 2026 |
-| Sprint 030: Unified Studio Mobile | 🟢 В РАБОТЕ | 50% | Jan 4-20, 2026 |
+| Sprint 030: Unified Studio Mobile | 🟢 В РАБОТЕ | 55% | Jan 4-20, 2026 |
 
 ---
 
@@ -43,7 +43,14 @@
   - 80% code coverage target
   - TDD enforced for P1 features
 
-### 🟡 В работе (50% - Implementation Planning)
+### 🟡 В работе (55% - Implementation)
+
+#### Session 9: Generation Form UI Polish (Jan 4, 2026) ✅
+- [x] Hints работают по клику (Popover вместо Tooltip)
+- [x] Компактный хедер формы генерации (без лого, уменьшены размеры)
+- [x] Copy/Delete кнопки скрыты когда поле пустое
+- [x] Compact Lyrics Visual Editor (`LyricsVisualEditorCompact.tsx`)
+- [x] Advanced Options заметнее + удалено дублирование модели
 
 #### Session 6: Admin & Notifications (Jan 4, 2026) ✅
 - [x] Centralized Notification System (`src/lib/notifications.ts`)
@@ -71,8 +78,6 @@
 - [x] Swipe navigation интегрирован в MobileStudioLayout
 - [x] Touch targets увеличены до 56px в MobilePlayerContent
 - [x] Haptic feedback интегрирован в studio buttons
-
-### 🟡 В работе (55% - 11/20 задач)
 
 #### Phase 2: Core Implementation (NEXT - Jan 6-8, 2026)
 - [ ] US1: Foundation & Layout (13 tasks - T007-T019)

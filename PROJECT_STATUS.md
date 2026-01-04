@@ -1,16 +1,32 @@
 # MusicVerse AI - Project Status
 
-**Last Updated**: 2026-01-04 (Session 7 - DAW Canvas Architecture)  
+**Last Updated**: 2026-01-04 (Session 9 - Generation Form UI Polish)  
 **Project Health**: 🟢 Excellent (98/100)  
-**Overall Progress**: 93% Complete (24/25 sprints)
+**Overall Progress**: 94% Complete (24/25 sprints)
 
 ---
 
 ## 🎯 Executive Summary
 
-MusicVerse AI is a professional AI-powered music creation platform built as a Telegram Mini App. The project has achieved **93% sprint completion** with 24 out of 25 planned sprints successfully delivered. Sprint 030 (Unified Studio Mobile) is in progress with 50% completion.
+MusicVerse AI is a professional AI-powered music creation platform built as a Telegram Mini App. The project has achieved **94% sprint completion** with 24 out of 25 planned sprints successfully delivered. Sprint 030 (Unified Studio Mobile) is in progress with 55% completion.
 
 ### Recent Completions (January 4, 2026)
+
+**Session 9: Generation Form UI Polish ✅**
+- ✅ **Hints работают по клику**
+  - Заменён Tooltip на Popover в `SectionLabel.tsx`
+  - Подсказки активируются тапом, не требуют hover
+- ✅ **Компактный хедер формы генерации**
+  - Удалён логотип из `CollapsibleFormHeader.tsx`
+  - Уменьшены размеры: `min-h-[32px]`, кнопки `h-6`
+- ✅ **Copy/Delete скрыты когда пусто**
+  - Кнопки полностью скрыты при пустом поле
+- ✅ **Compact Lyrics Visual Editor**
+  - Новый `LyricsVisualEditorCompact.tsx`
+  - Без drag-drop, с quick templates (Pop, Рэп, EDM)
+- ✅ **Advanced Options заметнее**
+  - Кнопка с `border-dashed` и эмодзи ⚙️
+  - Model Selector удалён (только в хедере)
 
 **Session 7: DAW Canvas Architecture ✅**
 - ✅ **ADR-011: Unified Studio Architecture**
@@ -47,9 +63,10 @@ MusicVerse AI is a professional AI-powered music creation platform built as a Te
   - Compact grids for GenerationStatsPanel
   - Responsive UserStatsSection
 
-#### Sprint 030 Progress (45%)
+#### Sprint 030 Progress (55%)
 - ✅ Core Mobile UX (Phase 1)
 - ✅ Admin & Notifications (Phase 2)
+- ✅ Generation Form UI Polish (Phase 2.5)
 - 🔄 Mobile Tabs Implementation (Phase 3 - 50%)
 - 📋 Architecture & State (Phase 4 - Planned)
 
@@ -94,7 +111,7 @@ MusicVerse AI is a professional AI-powered music creation platform built as a Te
 
 | Sprint | Target Date | Status |
 |--------|-------------|--------|
-| 030 - Unified Studio Mobile | Jan 20, 2026 | 🟢 50% In Progress (Specification Complete) |
+| 030 - Unified Studio Mobile | Jan 20, 2026 | 🟢 55% In Progress (UI Polish Complete) |
 
 ### ⏳ Planned Sprints (1/25 - 4%)
 

@@ -1,13 +1,13 @@
 # Known Issues Tracker
 
-Last updated: 2026-01-04
+Last updated: 2026-01-04 (Session 9)
 
 ## Status Overview
 
 | Priority | Total | Resolved | Remaining |
 |----------|-------|----------|-----------|
 | P1 - Critical | 8 | 8 | 0 |
-| P2 - High | 6 | 6 | 0 |
+| P2 - High | 11 | 11 | 0 |
 | P3 - Medium | 6 | 5 | 1 |
 | P4 - Low | 2 | 2 | 0 |
 
@@ -110,6 +110,29 @@ Last updated: 2026-01-04
   - ADR-004: Audio Playback & Error Handling
   - ADR-005: State Machine Architecture
   - ADR-006: Type-Safe Audio Context
+
+## ✅ Recently Resolved (2026-01-04 Session 9)
+
+### Generation Form UI/UX
+
+~~**IMP108** - Hints (tooltips) не работают на мобильных~~ ✅ RESOLVED
+- Заменён Tooltip на Popover в `SectionLabel.tsx`
+- Подсказки теперь активируются по клику
+
+~~**IMP109** - Хедер формы генерации перегружен~~ ✅ RESOLVED
+- Удалён логотип, уменьшены размеры в `CollapsibleFormHeader.tsx`
+- Компактный дизайн: `min-h-[32px]`, кнопки `h-6`
+
+~~**IMP110** - Copy/Delete кнопки видны при пустом поле~~ ✅ RESOLVED
+- Кнопки полностью скрыты когда поле пустое в `FormFieldToolbar.tsx`
+
+~~**IMP111** - Lyrics Visual Editor слишком громоздкий~~ ✅ RESOLVED
+- Создан `LyricsVisualEditorCompact.tsx` — упрощённая версия
+- Без drag-drop, без stats panel, с quick templates
+
+~~**IMP112** - Advanced Options незаметные + дублирование модели~~ ✅ RESOLVED
+- Кнопка с `border-dashed` и эмодзи ⚙️
+- Model Selector удалён из Advanced Options
 
 ## ✅ Recently Resolved (2026-01-04 Session 4)
 
