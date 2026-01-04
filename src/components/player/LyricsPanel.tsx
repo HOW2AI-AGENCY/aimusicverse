@@ -159,14 +159,14 @@ export const LyricsPanel = memo(function LyricsPanel({
     return lyricsLines.flat();
   }, [lyricsLines]);
 
-  // Use sync hook
+  // Use sync hook - enable when we have lyrics (works even when paused for highlighting)
   const {
     activeLineIndex,
     currentTime: syncedTime,
     constants,
   } = useLyricsSynchronization({
     words: flattenedWords,
-    enabled: !!lyricsLines?.length && isPlaying,
+    enabled: !!lyricsLines?.length,
   });
 
   // Handle user scroll detection
