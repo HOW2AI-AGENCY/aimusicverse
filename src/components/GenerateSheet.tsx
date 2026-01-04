@@ -230,7 +230,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         onOpenChange(true);
       }
     }}>
-      <SheetContent side="bottom" className="h-[95dvh] sm:h-[85vh] sm:max-h-[800px] flex flex-col frost-sheet p-0">
+      <SheetContent side="bottom" className="h-[95dvh] sm:h-[85vh] sm:max-h-[800px] flex flex-col frost-sheet p-0 w-full max-w-full min-w-0 overflow-x-hidden">
         {/* Collapsible Header with safe area for Telegram native buttons */}
         <div 
           className="px-3 border-b bg-background/95 backdrop-blur-xl"
