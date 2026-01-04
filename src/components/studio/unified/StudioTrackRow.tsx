@@ -10,20 +10,13 @@ import {
   Mic2, Guitar, Drum, Music, Piano, Waves, Sliders,
   Trash2, Sparkles, GripVertical, Scissors, ArrowRight, FileMusic, Music2,
 } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-  DropdownMenuSeparator,
-} from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 import { StudioTrack, TrackType } from '@/stores/useUnifiedStudioStore';
 import { OptimizedStemWaveform } from '@/components/stem-studio/OptimizedStemWaveform';
 import { StudioVersionSelector } from './StudioVersionSelector';
+import { StemActionSheet } from './StemActionSheet';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 
@@ -129,6 +122,7 @@ export const StudioTrackRow = memo(function StudioTrackRow({
 }: StudioTrackRowProps) {
   const isMobile = useIsMobile();
   const [showVolume, setShowVolume] = useState(false);
+  const [showActionSheet, setShowActionSheet] = useState(false);
   const haptic = useHapticFeedback();
   
   const config = trackConfig[track.type] || trackConfig.other;
@@ -149,7 +143,38 @@ export const StudioTrackRow = memo(function StudioTrackRow({
     }
   }, [haptic, onToggleMute, onToggleSolo]);
 
+  const handleAction = useCallback((actionId: string) => {
+    if (actionId === 'delete') {
+      onRemove();
+    } else if (onAction) {
+      onAction(actionId as any);
+    }
+  }, [onAction, onRemove]);
+
+  // Build disabled actions based on context
+  const disabledActions: string[] = [];
+  const disabledReasons: Record<string, string> = {};
+  
+  if (isSourceTrack && stemsExist) {
+    disabledActions.push('extend', 'replace_section');
+    disabledReasons['extend'] = 'Стемы блокируют изменения';
+    disabledReasons['replace_section'] = 'Стемы блокируют изменения';
+  }
+
   return (
+    <>
+      <StemActionSheet
+        open={showActionSheet}
+        onOpenChange={setShowActionSheet}
+        trackId={track.id}
+        trackName={track.name}
+        trackType={track.type}
+        trackColor={track.color}
+        hasAudio={!!audioUrl}
+        onAction={handleAction}
+        disabledActions={disabledActions}
+        disabledReasons={disabledReasons}
+      />
     <motion.div
       initial={{ opacity: 0, x: -10 }}
       animate={{ opacity: 1, x: 0 }}
@@ -245,84 +270,15 @@ export const StudioTrackRow = memo(function StudioTrackRow({
               {Math.round(track.volume * 100)}
             </Button>
 
-            {/* Menu */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="h-9 w-9 md:h-7 md:w-7 p-0 rounded-lg touch-manipulation">
-                  <MoreHorizontal className="w-4 h-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                {onAction && (
-                  <>
-                    {/* Add Vocals for instrumental tracks */}
-                    {track.type === 'instrumental' && (
-                      <DropdownMenuItem onClick={() => onAction('add_vocals')}>
-                        <Mic2 className="w-4 h-4 mr-2 text-blue-400" />
-                        Добавить вокал
-                      </DropdownMenuItem>
-                    )}
-                    {/* Replace Instrumental for vocal tracks (when stems exist) */}
-                    {track.type === 'vocal' && stemsExist && (
-                      <DropdownMenuItem onClick={() => onAction('replace_instrumental')}>
-                        <Guitar className="w-4 h-4 mr-2 text-green-400" />
-                        Заменить инструментал
-                      </DropdownMenuItem>
-                    )}
-                    {/* Extend and Replace Section - ONLY for source track, disabled when stems exist */}
-                    {isSourceTrack && !stemsExist && (
-                      <>
-                        <DropdownMenuItem onClick={() => onAction('extend')}>
-                          <ArrowRight className="w-4 h-4 mr-2 text-green-400" />
-                          Расширить трек
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => onAction('replace_section')}>
-                          <Scissors className="w-4 h-4 mr-2 text-amber-400" />
-                          Заменить секцию
-                        </DropdownMenuItem>
-                      </>
-                    )}
-                    {/* Show disabled state when stems exist for main track */}
-                    {isSourceTrack && stemsExist && (
-                      <DropdownMenuItem disabled className="opacity-50 cursor-not-allowed">
-                        <Scissors className="w-4 h-4 mr-2 text-muted-foreground" />
-                        <span className="text-xs">Стемы блокируют изменения</span>
-                      </DropdownMenuItem>
-                    )}
-                    <DropdownMenuItem onClick={() => onAction('reference')}>
-                      <Sparkles className="w-4 h-4 mr-2 text-primary" />
-                      Как референс
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => onAction('effects')}>
-                      <Sliders className="w-4 h-4 mr-2" />
-                      Эффекты
-                    </DropdownMenuItem>
-                    {/* MIDI transcription for all tracks with audio */}
-                    {audioUrl && (
-                      <DropdownMenuItem onClick={() => onAction('transcribe')}>
-                        <FileMusic className="w-4 h-4 mr-2 text-cyan-400" />
-                        MIDI / Ноты
-                      </DropdownMenuItem>
-                    )}
-                    <DropdownMenuSeparator />
-                    {audioUrl && (
-                      <DropdownMenuItem onClick={() => onAction('download')}>
-                        <Download className="w-4 h-4 mr-2" />
-                        Скачать
-                      </DropdownMenuItem>
-                    )}
-                  </>
-                )}
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  onClick={onRemove}
-                  className="text-destructive focus:text-destructive"
-                >
-                  <Trash2 className="w-4 h-4 mr-2" />
-                  Удалить
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            {/* Menu - Opens StemActionSheet */}
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-9 w-9 md:h-7 md:w-7 p-0 rounded-lg touch-manipulation"
+              onClick={() => setShowActionSheet(true)}
+            >
+              <MoreHorizontal className="w-4 h-4" />
+            </Button>
           </div>
         </div>
 
@@ -391,5 +347,6 @@ export const StudioTrackRow = memo(function StudioTrackRow({
         </div>
       </div>
     </motion.div>
+    </>
   );
 });

@@ -44,6 +44,12 @@ export type { MidiNote } from './PianoRoll';
 export { AIActionsFAB } from './AIActionsFAB';
 export { MobileDAWTimeline } from './MobileDAWTimeline';
 
+// Mixer Components
+export { MobileMixerContent } from './MobileMixerContent';
+export { MixerChannel } from './MixerChannel';
+export { AudioMeter, StereoMeter, SimpleMeter } from './AudioMeter';
+export { StemActionSheet } from './StemActionSheet';
+
 // Legacy tab-based components (deprecated - will be removed)
 // Kept for backward compatibility during migration
 export { MobileStudioLayout } from './MobileStudioLayout';
@@ -53,6 +59,14 @@ export { MobileStudioTabs } from './MobileStudioTabs';
 export { useSwipeNavigation } from '@/hooks/useSwipeNavigation';
 export { useStudioPerformance, useThrottledCallback, useCustomDeferredValue } from '@/hooks/useStudioPerformance';
 export { useUnifiedStudio } from '@/hooks/studio/useUnifiedStudio';
+export { useStudioMixer } from '@/hooks/studio/useStudioMixer';
+
+// Re-export configs
+export { getActionsForStemType, getGroupedActions, CATEGORY_LABELS, normalizeTrackType } from '@/hooks/studio/stemActionsConfig';
+export { MIX_PRESETS, getMixPreset } from '@/hooks/studio/mixPresetsConfig';
 
 // Type exports
 export type { UnifiedStudioMobileProps } from './UnifiedStudioMobile';
+export type { StemAction, StemType } from '@/hooks/studio/stemActionsConfig';
+export type { MixPreset, StemMixSettings } from '@/hooks/studio/mixPresetsConfig';
+export type { MixerTrack, UseStudioMixerReturn } from '@/hooks/studio/useStudioMixer';
