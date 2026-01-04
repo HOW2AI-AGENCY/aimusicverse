@@ -4,7 +4,7 @@
  * Supports both desktop and mobile layouts
  */
 
-import { memo, useState, useCallback, useEffect, useMemo, Suspense, lazy } from 'react';
+import { memo, useState, useCallback, useEffect, useMemo, useRef, Suspense, lazy } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { useUnifiedStudioStore, ViewMode, TrackType, TRACK_COLORS, StudioTrack } from '@/stores/useUnifiedStudioStore';
@@ -106,6 +106,7 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
     undo,
     redo,
     addTrack,
+    addClip,
     addPendingTrack,
     resolvePendingTrack,
     setTrackActiveVersion,
@@ -409,6 +410,106 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
         .map(t => t.id)
     );
   }, [project?.tracks]);
+
+  // Load separated stems from database into the project (DAW) tracks
+  const importedStemsForTrackRef = useRef<string | null>(null);
+
+  const mapStemTypeToTrackType = useCallback((stemType: string): TrackType => {
+    const t = stemType.toLowerCase();
+    if (t === 'vocals' || t === 'vocal') return 'vocal';
+    if (t === 'instrumental') return 'instrumental';
+    if (t === 'drums') return 'drums';
+    if (t === 'bass') return 'bass';
+    return 'other';
+  }, []);
+
+  const mapStemTypeToLabel = useCallback((stemType: string): string => {
+    const t = stemType.toLowerCase();
+    if (t === 'vocals' || t === 'vocal') return 'Вокал';
+    if (t === 'instrumental') return 'Инструментал';
+    if (t === 'drums') return 'Ударные';
+    if (t === 'bass') return 'Бас';
+    return 'Другое';
+  }, []);
+
+  const addStemToProjectIfMissing = useCallback((stem: { stem_type: string; audio_url: string }) => {
+    const currentProject = useUnifiedStudioStore.getState().project;
+    if (!currentProject) return;
+
+    const alreadyExists = currentProject.tracks.some(t => (t.audioUrl || t.clips?.[0]?.audioUrl) === stem.audio_url);
+    if (alreadyExists) return;
+
+    const type = mapStemTypeToTrackType(stem.stem_type);
+    const name = mapStemTypeToLabel(stem.stem_type);
+
+    const newTrackId = addTrack({
+      name,
+      type,
+      audioUrl: stem.audio_url,
+      volume: 0.9,
+      pan: 0,
+      muted: false,
+      solo: false,
+      color: TRACK_COLORS[type] || TRACK_COLORS.other,
+      status: 'ready',
+    });
+
+    addClip(newTrackId, {
+      audioUrl: stem.audio_url,
+      name,
+      startTime: 0,
+      duration: currentProject.durationSeconds || 180,
+      trimStart: 0,
+      trimEnd: 0,
+      fadeIn: 0,
+      fadeOut: 0,
+    });
+  }, [addTrack, addClip, mapStemTypeToTrackType, mapStemTypeToLabel]);
+
+  useEffect(() => {
+    const sourceTrackId = project?.sourceTrackId;
+    if (!project?.id || !sourceTrackId) return;
+
+    // (Re)import once per source track id, and also listen for new stems
+    if (importedStemsForTrackRef.current !== sourceTrackId) {
+      importedStemsForTrackRef.current = sourceTrackId;
+
+      (async () => {
+        const { data, error } = await supabase
+          .from('track_stems')
+          .select('stem_type,audio_url')
+          .eq('track_id', sourceTrackId);
+
+        if (error) {
+          logger.warn('Failed to load track stems for studio project', { error });
+          return;
+        }
+
+        const stems = (data || []).filter(s => s.audio_url);
+        stems.forEach((s) => addStemToProjectIfMissing(s));
+      })();
+    }
+
+    const channel = supabase
+      .channel(`studio-stems-${sourceTrackId}`)
+      .on('postgres_changes', {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'track_stems',
+        filter: `track_id=eq.${sourceTrackId}`,
+      }, (payload) => {
+        const stem = payload.new as any;
+        if (stem?.audio_url && stem?.stem_type) {
+          addStemToProjectIfMissing(stem);
+          toast.success('Стем добавлен в студию');
+        }
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [project?.id, project?.sourceTrackId, addStemToProjectIfMissing]);
 
   // Realtime subscription for generation tasks (when instrumental generation completes)
   useEffect(() => {
