@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { logger } from '@/lib/logger';
 
 interface UseReducedMotionReturn {
@@ -147,4 +147,69 @@ export function usePerformanceMonitor(componentName: string) {
       }
     };
   });
+}
+
+/**
+ * Hook for image lazy loading with blur placeholder
+ */
+export function useLazyImage(
+  src: string | undefined,
+  options: { threshold?: number; rootMargin?: string } = {}
+): { imgRef: React.RefCallback<HTMLImageElement>; isLoaded: boolean; shouldLoad: boolean } {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [imgRef, shouldLoad] = useIntersectionObserver({
+    threshold: options.threshold ?? 0,
+    rootMargin: options.rootMargin ?? '100px',
+    triggerOnce: true,
+  });
+
+  useEffect(() => {
+    if (shouldLoad && src) {
+      const img = new Image();
+      img.onload = () => setIsLoaded(true);
+      img.src = src;
+    }
+  }, [shouldLoad, src]);
+
+  return { 
+    imgRef: imgRef as React.RefCallback<HTMLImageElement>, 
+    isLoaded, 
+    shouldLoad 
+  };
+}
+
+/**
+ * Hook for batching state updates to reduce re-renders
+ */
+export function useBatchedUpdates<T extends Record<string, unknown>>(
+  initialState: T
+): [T, (updates: Partial<T>) => void] {
+  const [state, setState] = useState<T>(initialState);
+
+  const batchUpdate = useCallback((updates: Partial<T>) => {
+    setState(prev => ({ ...prev, ...updates }));
+  }, []);
+
+  return [state, batchUpdate];
+}
+
+/**
+ * Hook for throttling values - useful for scroll/resize handlers
+ */
+export function useThrottledValue<T>(value: T, limitMs: number = 100): T {
+  const [throttledValue, setThrottledValue] = useState<T>(value);
+  const lastRan = useRef<number>(Date.now());
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      if (Date.now() - lastRan.current >= limitMs) {
+        setThrottledValue(value);
+        lastRan.current = Date.now();
+      }
+    }, limitMs - (Date.now() - lastRan.current));
+
+    return () => clearTimeout(handler);
+  }, [value, limitMs]);
+
+  return throttledValue;
 }
