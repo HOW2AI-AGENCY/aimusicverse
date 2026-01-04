@@ -63,10 +63,13 @@ export function DesktopFullscreenPlayer({
   const { isPlaying, volume, preservedTime, clearPreservedTime } = usePlayerStore();
   const { audioElement } = useGlobalAudioPlayer();
   
-  // Ensure AudioContext is ready on mount
+  // Ensure AudioContext is ready on mount with blob URL recovery
   useEffect(() => {
+    let mounted = true;
+    let hasRecovered = false;
+    
     const ensureAudio = async () => {
-      if (!audioElement) {
+      if (!audioElement || !mounted) {
         logger.warn('No audio element available on desktop fullscreen open');
         return;
       }
@@ -85,27 +88,57 @@ export function DesktopFullscreenPlayer({
           audioElement.volume = volume;
         }
         
-        // CRITICAL: Check if audio source is valid before trying to resume
         const audioSrc = audioElement.src;
-        const isValidSource = audioSrc && 
-          !audioSrc.startsWith('blob:') && 
-          audioSrc.length > 0;
+        const isBlobSource = audioSrc?.startsWith('blob:');
+        const canonicalUrl = track.streaming_url || track.audio_url;
         
-        // If we have an invalid blob URL, don't try to play - let the player handle reload
-        if (audioSrc?.startsWith('blob:')) {
-          logger.info('Skipping resume for blob URL - may be stale', { src: audioSrc.substring(0, 60) });
-          return;
-        }
-        
-        // Resume playback if it should be playing
-        if (isPlaying && audioElement.paused && isValidSource) {
-          logger.info('Resuming paused audio on desktop fullscreen open');
+        // Try to resume playback
+        if (isPlaying && audioElement.paused && audioSrc) {
+          logger.info('Attempting to resume audio on desktop fullscreen open', { 
+            isBlobSource, 
+            src: audioSrc.substring(0, 60) 
+          });
+          
           try {
             await audioElement.play();
+            logger.info('Desktop fullscreen playback resumed successfully');
           } catch (playErr) {
-            // Don't show error toast for expected format issues
             const error = playErr as Error;
-            if (error.name !== 'NotSupportedError' && error.name !== 'AbortError') {
+            
+            // If blob URL fails with format error, recover with canonical URL
+            if ((error.name === 'NotSupportedError' || audioElement.error?.code === 4) && 
+                isBlobSource && canonicalUrl && !hasRecovered) {
+              hasRecovered = true;
+              logger.info('Blob URL failed, recovering with canonical URL', { 
+                canonicalUrl: canonicalUrl.substring(0, 60) 
+              });
+              
+              const currentTime = preservedTime ?? audioElement.currentTime;
+              audioElement.src = canonicalUrl;
+              audioElement.load();
+              
+              // Wait for audio to be ready, then restore position and play
+              audioElement.addEventListener('canplay', async function onCanPlay() {
+                audioElement.removeEventListener('canplay', onCanPlay);
+                if (!mounted) return;
+                
+                if (currentTime > 0 && !isNaN(currentTime)) {
+                  audioElement.currentTime = currentTime;
+                }
+                clearPreservedTime();
+                
+                try {
+                  await audioElement.play();
+                  logger.info('Playback recovered successfully after blob error');
+                } catch (retryErr) {
+                  logger.error('Recovery play failed', retryErr);
+                }
+              }, { once: true });
+              
+              return;
+            }
+            
+            if (error.name !== 'AbortError') {
               logger.error('Failed to resume audio on desktop fullscreen', playErr);
             }
           }
@@ -115,7 +148,7 @@ export function DesktopFullscreenPlayer({
           volume, 
           isPlaying,
           audioPaused: audioElement.paused,
-          hasValidSource: isValidSource
+          isBlobSource
         });
       } catch (err) {
         logger.error('Error initializing desktop fullscreen audio', err);
@@ -123,8 +156,11 @@ export function DesktopFullscreenPlayer({
     };
     
     const timer = setTimeout(ensureAudio, 100);
-    return () => clearTimeout(timer);
-  }, [audioElement, isPlaying, volume]);
+    return () => {
+      mounted = false;
+      clearTimeout(timer);
+    };
+  }, [audioElement, isPlaying, volume, track.streaming_url, track.audio_url, preservedTime, clearPreservedTime]);
 
   // Restore preserved time on mount (from mode switch)
   useEffect(() => {
