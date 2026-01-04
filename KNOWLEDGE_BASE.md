@@ -1,7 +1,69 @@
 # 📚 БАЗА ЗНАНИЙ ПРОЕКТА MusicVerse AI
 
-> **Последнее обновление:** 2026-01-04 (Session 7)  
-> **Версия проекта:** 1.2.0 (Sprint 030 - DAW Canvas)
+> **Последнее обновление:** 2026-01-04 (Session 8)  
+> **Версия проекта:** 1.2.1 (Sprint 030 - DAW Canvas + DB Optimization)
+
+---
+
+## 🆕 НОВОЕ В СЕССИИ 8
+
+### Database Optimization (January 4, 2026) ✅
+
+Выполнена комплексная оптимизация схемы БД:
+
+**Фаза 1: Критические индексы (20 шт)**
+```sql
+-- tracks
+idx_tracks_user_created (user_id, created_at DESC)
+idx_tracks_status_public (status, is_public) WHERE status = 'completed'
+idx_tracks_computed_genre (computed_genre) WHERE NOT NULL
+idx_tracks_active_version (active_version_id) WHERE NOT NULL
+
+-- generation_tasks  
+idx_generation_tasks_track_id (track_id) WHERE NOT NULL
+idx_generation_tasks_user_status (user_id, status, created_at DESC)
+idx_generation_tasks_suno_task (suno_task_id) WHERE NOT NULL
+
+-- track_versions
+idx_track_versions_track_primary (track_id, is_primary) WHERE is_primary = true
+idx_track_versions_track_created (track_id, created_at DESC)
+
+-- track_stems
+idx_track_stems_track_type (track_id, stem_type)
+idx_track_stems_status (status) WHERE status != 'completed'
+
+-- credit_transactions
+idx_credit_transactions_user_created (user_id, created_at DESC)
+idx_credit_transactions_action (action_type, created_at DESC)
+
+-- comments, likes, playlists, projects
+idx_comments_track_created (track_id, created_at DESC)
+idx_track_likes_track (track_id)
+idx_track_likes_user (user_id)
+idx_playlist_tracks_playlist (playlist_id, position)
+idx_music_projects_user_status (user_id, status)
+idx_project_tracks_project_position (project_id, position)
+```
+
+**Фаза 2: Устранение дублирования audio_url/cover_url**
+- Функция `get_track_active_audio(track_id)` — получение audio/cover из active_version
+- View `tracks_with_active_audio` — совместимость с существующим кодом
+- Триггер `trg_set_active_version` — автообновление при создании версии
+
+**Фаза 5: Архивация логов**
+- Таблицы `error_logs_archive`, `api_usage_logs_archive`
+- Функции `archive_old_error_logs()`, `archive_old_api_usage_logs()`
+- Мастер-функция `run_log_archival()` — вызов через cron или edge function
+
+**Фаза 6: Security Fixes**
+- 4 views исправлены: `SECURITY INVOKER` вместо `SECURITY DEFINER`
+- Все функции с `SET search_path = public`
+
+**Интеграция в код:**
+- `fetchTrackById()` — теперь подтягивает active_version с JOIN
+- `fetchTrackDetails()` — оптимизирован с комментариями про индексы
+- `usePublicTracks()` — использует idx_tracks_status_public
+- `fetchPublicTracks()` — использует computed_genre индекс
 
 ---
 

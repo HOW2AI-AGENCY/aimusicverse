@@ -19,13 +19,38 @@ export async function fetchTrackDetails({
   includeAnalysis = true,
   includeChangelog = true,
 }: TrackDetailsParams) {
-  // Fetch track first
-  const trackRes = await supabase.from('tracks').select('*').eq('id', trackId).single();
+  // Optimized: Fetch track with active version in single query
+  // Uses idx_tracks_active_version index
+  const trackRes = await supabase
+    .from('tracks')
+    .select(`
+      *,
+      active_version:track_versions!active_version_id(
+        id,
+        audio_url,
+        cover_url,
+        version_label,
+        is_primary
+      )
+    `)
+    .eq('id', trackId)
+    .single();
+  
   if (trackRes.error) throw trackRes.error;
 
-  const response: any = { track: trackRes.data };
+  // Resolve audio/cover URLs from active version
+  const track = trackRes.data;
+  const activeVersion = track.active_version as { audio_url?: string; cover_url?: string } | null;
+  const resolvedTrack = {
+    ...track,
+    audio_url: activeVersion?.audio_url || track.audio_url,
+    cover_url: activeVersion?.cover_url || track.cover_url,
+  };
+
+  const response: any = { track: resolvedTrack };
 
   if (includeVersions) {
+    // Uses idx_track_versions_track_created index
     const versionsRes = await supabase
       .from('track_versions')
       .select('*')
@@ -36,6 +61,7 @@ export async function fetchTrackDetails({
   }
 
   if (includeStems) {
+    // Uses idx_track_stems_track_type index
     const stemsRes = await supabase
       .from('track_stems')
       .select('*')
