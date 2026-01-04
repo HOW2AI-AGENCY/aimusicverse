@@ -1,13 +1,14 @@
 import { memo, useState } from 'react';
 import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { FormFieldToolbar } from '../FormFieldToolbar';
 import { LyricsVisualEditor } from '../LyricsVisualEditor';
 import { SaveTemplateDialog } from '../SaveTemplateDialog';
 import { SavedLyricsSelector } from '../SavedLyricsSelector';
+import { SectionLabel, SECTION_HINTS } from '../SectionLabel';
 import { useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
+import { LayoutGrid, AlignLeft } from 'lucide-react';
 
 interface LyricsSectionProps {
   lyrics: string;
@@ -35,34 +36,32 @@ export const LyricsSection = memo(function LyricsSection({
 
   return (
     <>
-      <div>
-        <div className="flex items-center justify-between mb-1.5">
-          <div className="flex items-center gap-2">
-            <Label className="text-xs font-medium">Текст песни</Label>
-            {/* Visual toggle button */}
+      <div className="space-y-1.5">
+        <div className="flex items-center justify-between">
+          <SectionLabel 
+            label="Текст песни"
+            hint={SECTION_HINTS.lyrics}
+          />
+          
+          {/* View toggle */}
+          <div className="flex items-center gap-0.5 p-0.5 rounded-lg bg-muted/50">
             <Button 
-              variant="ghost" 
-              size="sm" 
-              className="h-5 text-[10px] px-2"
-              onClick={() => setShowVisualEditor(!showVisualEditor)}
+              variant={!showVisualEditor ? 'default' : 'ghost'}
+              size="icon"
+              className="h-6 w-6"
+              onClick={() => setShowVisualEditor(false)}
             >
-              {showVisualEditor ? '📝 Текст' : '🎨 Визуал'}
+              <AlignLeft className="h-3 w-3" />
+            </Button>
+            <Button 
+              variant={showVisualEditor ? 'default' : 'ghost'}
+              size="icon"
+              className="h-6 w-6"
+              onClick={() => setShowVisualEditor(true)}
+            >
+              <LayoutGrid className="h-3 w-3" />
             </Button>
           </div>
-          
-          <FormFieldToolbar
-            value={lyrics}
-            onClear={() => onLyricsChange('')}
-            onVoiceInput={onLyricsChange}
-            voiceContext="lyrics"
-            appendMode
-            onAIAssist={onOpenLyricsAssistant}
-            onOpenTemplates={() => setTemplateSelectorOpen(true)}
-            onOpenStudio={() => navigate('/lyrics-studio')}
-            onSave={async () => setSaveDialogOpen(true)}
-            showSave
-            compact
-          />
         </div>
 
         {showVisualEditor ? (
@@ -78,14 +77,40 @@ export const LyricsSection = memo(function LyricsSection({
               value={lyrics}
               onChange={(e) => onLyricsChange(e.target.value)}
               rows={8}
-              className="text-sm min-h-[180px] max-h-[300px] overflow-y-auto whitespace-pre-wrap pb-6"
+              className={cn(
+                "text-sm min-h-[180px] max-h-[300px] overflow-y-auto whitespace-pre-wrap pb-9 rounded-xl",
+                "bg-muted/30 border-muted-foreground/20 focus:border-primary/50 focus:ring-primary/20",
+                lyrics.length > 2800 && "border-destructive focus:border-destructive"
+              )}
             />
-            {/* Character count indicator */}
-            <div className={cn(
-              "absolute bottom-2 right-2 text-[10px] bg-background/80 px-1.5 py-0.5 rounded",
-              lyrics.length > 2800 ? "text-destructive" : "text-muted-foreground"
-            )}>
-              {lyrics.length} / 3000
+            
+            {/* Bottom toolbar */}
+            <div className="absolute bottom-2 left-2.5 right-2.5 flex items-center justify-between">
+              {/* Character count */}
+              <span className={cn(
+                "text-[10px] px-1.5 py-0.5 rounded-md bg-background/60 backdrop-blur-sm",
+                lyrics.length > 2800 ? "text-destructive font-medium" : 
+                lyrics.length > 2500 ? "text-yellow-500" : "text-muted-foreground"
+              )}>
+                {lyrics.length}/3000
+              </span>
+              
+              {/* Toolbar */}
+              <div className="flex items-center bg-background/60 backdrop-blur-sm rounded-md">
+                <FormFieldToolbar
+                  value={lyrics}
+                  onClear={() => onLyricsChange('')}
+                  onVoiceInput={onLyricsChange}
+                  voiceContext="lyrics"
+                  appendMode
+                  onAIAssist={onOpenLyricsAssistant}
+                  onOpenTemplates={() => setTemplateSelectorOpen(true)}
+                  onOpenStudio={() => navigate('/lyrics-studio')}
+                  onSave={async () => setSaveDialogOpen(true)}
+                  showSave
+                  compact
+                />
+              </div>
             </div>
           </div>
         )}

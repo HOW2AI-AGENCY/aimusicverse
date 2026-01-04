@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { FormFieldActions } from '@/components/ui/FormFieldActions';
+import { SectionLabel, SECTION_HINTS } from '../SectionLabel';
 
 interface TitleSectionProps {
   title: string;
@@ -13,11 +13,14 @@ export const TitleSection = memo(function TitleSection({
   onTitleChange,
 }: TitleSectionProps) {
   return (
-    <div>
-      <div className="flex items-center justify-between mb-1.5">
-        <Label htmlFor="title" className="text-xs font-medium">
-          Название
-        </Label>
+    <div className="space-y-1.5">
+      <div className="flex items-center justify-between">
+        <SectionLabel 
+          label="Название"
+          htmlFor="title"
+          hint={SECTION_HINTS.title}
+          suffix="(опционально)"
+        />
         <FormFieldActions
           value={title}
           onClear={() => onTitleChange('')}
@@ -28,7 +31,7 @@ export const TitleSection = memo(function TitleSection({
         placeholder="Автогенерация если пусто"
         value={title}
         onChange={(e) => onTitleChange(e.target.value)}
-        className="h-9 text-sm"
+        className="h-9 text-sm rounded-xl bg-muted/30 border-muted-foreground/20 focus:border-primary/50 focus:ring-primary/20"
       />
     </div>
   );
