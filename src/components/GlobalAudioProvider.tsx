@@ -1,13 +1,46 @@
 /**
  * Global Audio Provider
- * 
- * Manages the singleton audio element and syncs it with Zustand store.
- * Must be mounted at app root level.
- * 
- * Optimizations:
- * - Debounced time updates to reduce re-renders
- * - Audio prefetching for next tracks
- * - Enhanced error handling
+ *
+ * @description
+ * Manages the singleton HTMLAudioElement and synchronizes it with the Zustand player store.
+ * This component MUST be mounted at the app root level to ensure a single audio source
+ * across the entire application, preventing multiple audio elements from playing simultaneously.
+ *
+ * @architecture
+ * - Single Responsibility: Manages ONE global audio element for the entire app
+ * - State Sync: Bi-directional sync between HTML5 Audio API and Zustand store
+ * - Performance: Debounced time updates to reduce re-renders (60Hz → ~10Hz)
+ * - Caching: Integrates with IndexedDB audio cache for offline playback
+ * - Prefetching: Automatically prefetches next tracks in queue
+ *
+ * @optimizations
+ * 1. Debounced time updates: Reduces re-renders from 60fps to ~10fps
+ * 2. Audio prefetching: Prefetches next 2 tracks in queue for instant playback
+ * 3. Enhanced error handling: User-friendly error messages with recovery options
+ * 4. Position persistence: Saves/restores playback position across sessions
+ * 5. Startup period suppression: Prevents stale data toasts during initial load
+ *
+ * @usage
+ * ```tsx
+ * // App.tsx (root level)
+ * function App() {
+ *   return (
+ *     <GlobalAudioProvider>
+ *       <YourApp />
+ *     </GlobalAudioProvider>
+ *   );
+ * }
+ *
+ * // Anywhere in the app
+ * const { activeTrack, isPlaying, play, pause } = usePlayerStore();
+ * ```
+ *
+ * @see {@link usePlayerStore} for the Zustand store API
+ * @see {@link useOptimizedAudioPlayer} for the caching/prefetching implementation
+ * @see {@link usePlaybackPosition} for position persistence
+ *
+ * @author MusicVerse AI Team
+ * @since 1.0.0
  */
 
 import { useEffect, useRef, useCallback } from 'react';
