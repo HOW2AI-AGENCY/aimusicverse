@@ -20,6 +20,7 @@ interface MobileActionsContentProps {
   isSaving: boolean;
   onSave: () => void;
   onExport: () => void;
+  onDownloadStems?: () => void;
 }
 
 interface ActionItem {
@@ -38,6 +39,7 @@ export const MobileActionsContent = memo(function MobileActionsContent({
   isSaving,
   onSave,
   onExport,
+  onDownloadStems,
 }: MobileActionsContentProps) {
   const navigate = useNavigate();
 
@@ -77,6 +79,15 @@ export const MobileActionsContent = memo(function MobileActionsContent({
       icon: Download,
       color: 'text-orange-500',
       onClick: onExport,
+    },
+    {
+      id: 'download-stems',
+      label: 'Стемы',
+      description: 'Скачать отдельные дорожки',
+      icon: Download,
+      color: 'text-emerald-500',
+      onClick: onDownloadStems || (() => {}),
+      disabled: !onDownloadStems,
     },
     {
       id: 'share',

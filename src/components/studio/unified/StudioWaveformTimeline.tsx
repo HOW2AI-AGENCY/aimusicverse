@@ -10,6 +10,13 @@ import { formatTime } from '@/lib/formatters';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import { logger } from '@/lib/logger';
+import { StudioSectionOverlay } from './StudioSectionOverlay';
+import type { DetectedSection } from '@/hooks/useSectionDetection';
+
+interface ReplacedRange {
+  start: number;
+  end: number;
+}
 
 interface StudioWaveformTimelineProps {
   audioUrl: string | null;
@@ -19,6 +26,11 @@ interface StudioWaveformTimelineProps {
   onSeek: (time: number) => void;
   height?: number;
   className?: string;
+  // Section overlay props
+  sections?: DetectedSection[];
+  selectedSectionIndex?: number | null;
+  replacedRanges?: ReplacedRange[];
+  onSectionClick?: (section: DetectedSection, index: number) => void;
 }
 
 // Dynamic import type for wavesurfer
@@ -38,6 +50,11 @@ export const StudioWaveformTimeline = memo(function StudioWaveformTimeline({
   onSeek,
   height = 80,
   className,
+  // Section props
+  sections,
+  selectedSectionIndex,
+  replacedRanges,
+  onSectionClick,
 }: StudioWaveformTimelineProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const waveformRef = useRef<HTMLDivElement>(null);
@@ -49,6 +66,7 @@ export const StudioWaveformTimeline = memo(function StudioWaveformTimeline({
   const haptic = useHapticFeedback();
 
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
+  const showSections = sections && sections.length > 0 && onSectionClick;
 
   // Initialize WaveSurfer
   useEffect(() => {
@@ -213,6 +231,18 @@ export const StudioWaveformTimeline = memo(function StudioWaveformTimeline({
         className="absolute left-0 right-0 bottom-0"
         style={{ top: 20 }}
       />
+
+      {/* Section overlay */}
+      {showSections && (
+        <StudioSectionOverlay
+          sections={sections}
+          duration={duration}
+          currentTime={currentTime}
+          selectedIndex={selectedSectionIndex ?? null}
+          replacedRanges={replacedRanges || []}
+          onSectionClick={onSectionClick}
+        />
+      )}
 
       {/* Loading state */}
       {isLoading && (

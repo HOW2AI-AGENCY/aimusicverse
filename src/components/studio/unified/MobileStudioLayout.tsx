@@ -30,6 +30,7 @@ interface MobileStudioLayoutProps {
   onAddTrack: () => void;
   onSave: () => void;
   onExport: () => void;
+  onOpenDownloadPanel?: () => void;
 }
 
 export const MobileStudioLayout = memo(function MobileStudioLayout({
@@ -43,6 +44,7 @@ export const MobileStudioLayout = memo(function MobileStudioLayout({
   onAddTrack,
   onSave,
   onExport,
+  onOpenDownloadPanel,
 }: MobileStudioLayoutProps) {
   const [activeTab, setActiveTab] = useState<MobileStudioTab>('player');
   
@@ -108,7 +110,10 @@ export const MobileStudioLayout = memo(function MobileStudioLayout({
           <MobileSectionsContent
             project={project}
             currentTime={currentTime}
+            duration={duration}
+            isPlaying={isPlaying}
             onSeek={onSeek}
+            onPlayPause={onPlayPause}
           />
         );
 
@@ -132,6 +137,7 @@ export const MobileStudioLayout = memo(function MobileStudioLayout({
             isSaving={isSaving}
             onSave={onSave}
             onExport={onExport}
+            onDownloadStems={onOpenDownloadPanel}
           />
         );
 
@@ -142,7 +148,8 @@ export const MobileStudioLayout = memo(function MobileStudioLayout({
     activeTab, project, isPlaying, currentTime, duration,
     onPlayPause, onSeek, setMasterVolume, toggleTrackMute,
     toggleTrackSolo, setTrackVolume, removeTrack, onAddTrack,
-    onTrackAction, hasUnsavedChanges, isSaving, onSave, onExport
+    onTrackAction, hasUnsavedChanges, isSaving, onSave, onExport,
+    onOpenDownloadPanel
   ]);
 
   if (!project) return null;
