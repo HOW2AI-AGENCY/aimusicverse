@@ -25,6 +25,11 @@ export { StudioSectionOverlay } from './StudioSectionOverlay';
 export { StudioDownloadPanel } from './StudioDownloadPanel';
 export { StudioTranscriptionPanel } from './StudioTranscriptionPanel';
 
+// DAW Canvas Components (ADR-011)
+export { AIActionsFAB } from './AIActionsFAB';
+export { MobileDAWTimeline } from './MobileDAWTimeline';
+
 // Re-export hooks for convenience
 export { useSwipeNavigation } from '@/hooks/useSwipeNavigation';
 export { useStudioPerformance, useThrottledCallback, useCustomDeferredValue } from '@/hooks/useStudioPerformance';
+export { useUnifiedStudio } from '@/hooks/studio/useUnifiedStudio';

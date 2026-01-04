@@ -193,116 +193,104 @@ UnifiedStudioMobile (новый)
 
 ---
 
-### 📱 Блок 2: Mobile Tabs Implementation (4 дня)
+### 📱 Блок 2: DAW Canvas Integration (4 дня) — UPDATED
 
-#### Задача 2.1: Player Tab - мобильный плеер ✅ UPDATED
+> **Архитектурное решение:** Вместо табов реализуем единый DAW-подобный интерфейс.
+> См. [ADR-011-UNIFIED-STUDIO-ARCHITECTURE.md](../ADR/ADR-011-UNIFIED-STUDIO-ARCHITECTURE.md)
+
+#### Задача 2.1: Интеграция компонентов из StemStudio
 **Приоритет:** P0  
 **Сложность:** M (1 день)  
 **Файлы:**
-- `src/components/studio/unified/MobilePlayerContent.tsx` ✅ (обновлен)
+- `src/components/studio/unified/StudioShell.tsx` (обновить)
 
-**Выполнено:**
-- [x] Touch controls увеличены до 56×56px minimum
-- [x] Haptic feedback интегрирован на все кнопки
-- [x] Play/Pause/Skip/Volume с haptic
-- [x] Share button с haptic
+**Действия:**
+- [ ] Добавить QuickCompare для A/B сравнения версий
+- [ ] Интегрировать ReplacementProgressIndicator
+- [ ] Добавить TrimDialog для обрезки
+- [ ] Подключить MixPresetsMenu
 
-**Существует:**
-- [x] Waveform с возможностью seek (touch drag)
-- [x] Volume slider оптимизирован для touch
-- [x] Play/Pause с анимацией
-- [x] Информация о треке отображается
+**Компоненты для переиспользования (из stem-studio):**
+- `QuickCompare.tsx` — A/B/C сравнение секций
+- `ReplacementProgressIndicator.tsx` — прогресс AI замены
+- `TrimDialog.tsx` — обрезка треков
+- `MixPresetsMenu.tsx` — пресеты микса
 
 **Acceptance Criteria:**
-- ✅ Все контролы touch-friendly (56px minimum)
-- ✅ Waveform работает плавно
-- ✅ Haptic feedback на всех действиях
+- QuickCompare работает в StudioShell
+- Прогресс замены отображается в реальном времени
+- TrimDialog интегрирован в actions
 
 ---
 
-#### Задача 2.2: Sections Tab - замена секций
+#### Задача 2.2: DAW Timeline Enhancement
 **Приоритет:** P0  
 **Сложность:** M (1 день)  
 **Файлы:**
-- `src/components/studio/unified/mobile/MobileSectionsTab.tsx` (обновить)
+- `src/components/studio/unified/DAWTrackLane.tsx` (создать)
+- `src/components/studio/unified/TimelineRuler.tsx` (обновить)
 
 **Действия:**
-- [ ] Визуализация секций:
-  - Timeline с разметкой секций
-  - Swipe для навигации между секциями
-  - Tap для выбора секции
-  - Long-press для контекстного меню
-- [ ] Замена секций:
-  - Form для ввода нового текста
-  - Продолжение от выбранной секции
-  - Preview перед применением
-  - A/B comparison slider
-- [ ] Управление секциями:
-  - Add section
-  - Delete section
-  - Reorder sections (drag-drop)
-  - Copy/Paste section
+- [ ] Создать DAWTrackLane с drag-drop клипов
+- [ ] Добавить resize краёв клипов
+- [ ] Реализовать snap to grid
+- [ ] Улучшить TimelineRuler с BPM маркерами
+- [ ] Добавить draggable Playhead
 
 **Acceptance Criteria:**
-- Timeline интерактивный и плавный
-- Замена секций работает корректно
-- A/B comparison удобен на мобильных
-- Drag-drop работает с touch
+- Клипы можно перемещать drag-drop
+- Snap to grid работает
+- Playhead можно перетаскивать
 
 ---
 
-#### Задача 2.3: Stems Tab - микширование ✅ UPDATED
-**Приоритет:** P1  
-**Сложность:** M (1 день)  
+#### Задача 2.3: Mobile DAW Mode
+**Приоритет:** P0  
+**Сложность:** M (2 дня)  
 **Файлы:**
-- `src/components/studio/unified/MobileMixerContent.tsx` ✅ (обновлен)
+- `src/components/studio/unified/MobileDAWTimeline.tsx` (создать)
+- `src/components/studio/unified/AIActionsFAB.tsx` (создать)
+- `src/components/studio/unified/MobileStudioLayout.tsx` (обновить)
 
-**Выполнено:**
-- [x] Touch controls увеличены до 44×44px minimum для Mute/Solo
-- [x] Haptic feedback интегрирован на кнопки
-- [x] Compact cards для каждого стема
-- [x] Volume slider (vertical orientation)
-- [x] Solo/Mute buttons с haptic
-
-**Существует:**
-- [x] Master volume control
-- [x] Horizontal scroll для каналов
+**Действия:**
+- [ ] Создать MobileDAWTimeline:
+  - Горизонтальный scroll для длинных треков
+  - Pinch-to-zoom (используя @use-gesture/react)
+  - Tap-to-seek
+  - Mini waveform overview
+- [ ] Создать AIActionsFAB:
+  - Floating action button с AI действиями
+  - Generate, Extend, Cover, Add Vocals, Stems
+  - Анимированное раскрытие меню
+- [ ] Интегрировать в MobileStudioLayout:
+  - Объединить Player и Tracks табы
+  - Добавить AIActionsFAB
+  - Gesture navigation
 
 **Acceptance Criteria:**
-- ✅ Стемы отображаются компактно
-- ✅ Sliders работают плавно с touch
-- ✅ Solo/Mute мгновенно с haptic
+- MobileDAWTimeline работает с touch gestures
+- AIActionsFAB показывает все AI действия
+- Интерфейс не использует табы для основных функций
 
 ---
 
-#### Задача 2.4: Actions Tab - дополнительные функции
+#### Задача 2.4: Unified Effects Panel
 **Приоритет:** P1  
-**Сложность:** S (4 часа)  
+**Сложность:** S (0.5 дня)  
 **Файлы:**
-- `src/components/studio/unified/mobile/MobileActionsTab.tsx` (обновить)
+- `src/components/studio/unified/StemEffectsDrawer.tsx` (обновить)
+- `src/components/studio/unified/StudioActionsSheet.tsx` (обновить)
 
 **Действия:**
-- [ ] Быстрые действия:
-  - Share (Telegram, Stories, link)
-  - Download (MP3, WAV, FLAC)
-  - Add to playlist
-  - Set as ringtone (если поддерживается)
-- [ ] Расширенные функции:
-  - Extend track
-  - Create remix
-  - Generate variations
-  - Export to DAW
-- [ ] Метаданные:
-  - Edit title, artist
-  - Add tags
-  - Set genre
-  - Change visibility (public/private)
+- [ ] Улучшить StemEffectsDrawer:
+  - Visual EQ curve
+  - Compressor gain reduction meter
+  - Reverb wet/dry visualization
+- [ ] Добавить MixPresetsMenu в StudioActionsSheet
 
 **Acceptance Criteria:**
-- Все действия доступны и работают
-- Share работает с Telegram API
-- Download форматы корректные
-- Метаданные сохраняются
+- Визуализация эффектов работает
+- Пресеты доступны из actions
 
 ---
 
@@ -460,13 +448,14 @@ UnifiedStudioMobile (новый)
 - [UNIFIED_STUDIO_ANALYSIS_AND_PLAN.md](../UNIFIED_STUDIO_ANALYSIS_AND_PLAN.md)
 - [Mobile Optimization Roadmap](../docs/mobile/OPTIMIZATION_ROADMAP_2026.md)
 - [Audio Architecture](../docs/AUDIO_ARCHITECTURE_DIAGRAM.md)
+- [ADR-011 Unified Studio Architecture](../ADR/ADR-011-UNIFIED-STUDIO-ARCHITECTURE.md) ← NEW
 
 ---
 
 **Создан:** 2026-01-04  
-**Обновлён:** 2026-01-04 (Session 7 - Planning)  
+**Обновлён:** 2026-01-04 (Session 7 - DAW Canvas Architecture)  
 **Автор:** GitHub Copilot  
-**Статус:** 🟢 In Progress (Phase 1-2: 45%, Phase 3: Planning)
+**Статус:** 🟢 In Progress (Phase 1-2: 45%, Phase 3: DAW Canvas Planning)
 
 ---
 
@@ -485,41 +474,43 @@ UnifiedStudioMobile (новый)
   - notify.success/error/warning/info functions
   - Deduplication с dedupeKey и dedupeTimeout
 - [x] Миграция toast → notify (15+ компонентов)
-  - useCredits, useGuestAccess, NotificationContext
-  - useTelegramIntegration, ShareSheet, GenerateSheet
-  - Settings, useNotificationSettings
-- [x] Admin Panel Enhancements
-  - GenerationStatsPanel с агрегированной статистикой
-  - Новый таб "Generation Stats" в AdminDashboard
-- [x] User Settings Improvements
-  - UserStatsSection с персональной статистикой
-  - Новый таб "Statistics" в Settings
+- [x] Admin Panel Enhancements (GenerationStatsPanel)
+- [x] User Settings Improvements (UserStatsSection)
 - [x] Mobile Layout Optimization
-  - EnhancedAnalyticsPanel компактные карточки
-  - GenerationStatsPanel адаптивные гриды
-  - UserStatsSection responsive дизайн
 
-### Phase 3: Mobile Tabs (In Progress - 50%)
-- [x] Player Tab с haptic и touch controls
-- [x] Stems Tab с compact cards
-- [ ] Sections Tab - замена секций (Next Priority)
-- [ ] Actions Tab - дополнительные функции (Next Priority)
+### Phase 3: DAW Canvas Integration (In Progress) — NEW ARCHITECTURE
+> **Решение:** Единый DAW интерфейс вместо табов
+> **ADR:** [ADR-011-UNIFIED-STUDIO-ARCHITECTURE.md](../ADR/ADR-011-UNIFIED-STUDIO-ARCHITECTURE.md)
 
-### Phase 4: Architecture & State (Planned - Week 2)
-- [ ] UnifiedStudioMobile компонент
+**Задача 3.1: Интеграция компонентов из StemStudio**
+- [ ] QuickCompare в StudioShell
+- [ ] ReplacementProgressIndicator
+- [ ] TrimDialog
+- [ ] MixPresetsMenu
+
+**Задача 3.2: DAW Timeline Enhancement**
+- [ ] DAWTrackLane с drag-drop
+- [ ] TimelineRuler с BPM маркерами
+- [ ] Draggable Playhead
+
+**Задача 3.3: Mobile DAW Mode**
+- [ ] MobileDAWTimeline (pinch-zoom, tap-seek)
+- [ ] AIActionsFAB (floating AI actions)
+- [ ] Объединение Player + Tracks табов
+
+### Phase 4: State & Effects (Planned)
 - [ ] useUnifiedStudio hook
-- [ ] Store унификация
-- [ ] Component migration
+- [ ] Unified effects visualization
+- [ ] Store унификация (deprecate legacy)
 
-### Phase 5: Testing & Finalization (Planned - Week 2)
+### Phase 5: Testing & Finalization (Planned)
 - [ ] E2E tests
 - [ ] Performance validation (60 FPS target)
 - [ ] Documentation
-- [ ] Production deployment
+- [ ] ADR-011 review
 
 ### Next Actions (Week of Jan 4-10, 2026)
-1. **Priority 1**: Complete Sections Tab implementation
-2. **Priority 2**: Implement Actions Tab
-3. **Priority 3**: Start UnifiedStudioMobile component architecture
-4. **Priority 4**: Begin store unification planning
-
+1. **Priority 1**: Интеграция QuickCompare в StudioShell
+2. **Priority 2**: Создать MobileDAWTimeline с gestures
+3. **Priority 3**: Создать AIActionsFAB компонент
+4. **Priority 4**: Создать useUnifiedStudio hook
