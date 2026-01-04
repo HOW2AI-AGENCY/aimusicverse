@@ -1,12 +1,13 @@
 /**
- * SectionLabel - Unified label component with optional help tooltip
+ * SectionLabel - Unified label component with optional help popover
  * Provides consistent styling and help icons across all form sections
+ * Uses Popover instead of Tooltip for mobile compatibility
  */
 
 import { memo, ReactNode } from 'react';
 import { Label } from '@/components/ui/label';
 import { HelpCircle } from 'lucide-react';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 
 interface SectionLabelProps {
@@ -51,25 +52,23 @@ export const SectionLabel = memo(function SectionLabel({
         <span className="text-[10px] text-muted-foreground">{suffix}</span>
       )}
       {hint && (
-        <TooltipProvider delayDuration={200}>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <button 
-                type="button" 
-                className="text-muted-foreground/60 hover:text-muted-foreground transition-colors focus:outline-none"
-                aria-label="Показать подсказку"
-              >
-                <HelpCircle className="w-3.5 h-3.5" />
-              </button>
-            </TooltipTrigger>
-            <TooltipContent 
-              side="top" 
-              className="max-w-[250px] text-xs leading-relaxed"
+        <Popover>
+          <PopoverTrigger asChild>
+            <button 
+              type="button" 
+              className="text-muted-foreground/60 hover:text-muted-foreground transition-colors focus:outline-none"
+              aria-label="Показать подсказку"
             >
-              {hint}
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+              <HelpCircle className="w-3.5 h-3.5" />
+            </button>
+          </PopoverTrigger>
+          <PopoverContent 
+            side="top" 
+            className="max-w-[220px] text-xs p-2 leading-relaxed"
+          >
+            {hint}
+          </PopoverContent>
+        </Popover>
       )}
     </div>
   );

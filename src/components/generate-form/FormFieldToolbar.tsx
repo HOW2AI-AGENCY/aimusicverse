@@ -187,24 +187,23 @@ export const FormFieldToolbar = memo(function FormFieldToolbar({
         </>
       )}
       
-      {/* Copy Button */}
-      <ToolbarButton 
-        icon={copied ? Check : Copy}
-        onClick={handleCopy}
-        variant={copied ? 'success' : 'default'}
-        tooltip="Копировать"
-        disabled={isEmpty}
-        className={cn(isEmpty && "opacity-40")}
-      />
-      
-      {/* Clear Button */}
-      <ToolbarButton 
-        icon={X}
-        onClick={onClear}
-        tooltip="Очистить"
-        disabled={isEmpty}
-        className={cn(isEmpty && "opacity-40")}
-      />
+      {/* Copy/Clear - only show when field has content */}
+      {!isEmpty && (
+        <>
+          <ToolbarButton 
+            icon={copied ? Check : Copy}
+            onClick={handleCopy}
+            variant={copied ? 'success' : 'default'}
+            tooltip="Копировать"
+          />
+          
+          <ToolbarButton 
+            icon={X}
+            onClick={onClear}
+            tooltip="Очистить"
+          />
+        </>
+      )}
       
       {/* Save Button */}
       {showSave && onSave && (

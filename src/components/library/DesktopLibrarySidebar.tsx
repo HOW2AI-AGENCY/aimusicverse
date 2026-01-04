@@ -248,8 +248,6 @@ export function DesktopLibrarySidebar({
                     onAudioWeightChange={form.setAudioWeight}
                     hasReferenceAudio={!!form.audioFile || !!activeReference}
                     hasPersona={!!form.selectedArtistId}
-                    model={form.model}
-                    onModelChange={form.setModel}
                     onOpenStyles={() => setStylesOpen(true)}
                   />
                 )}

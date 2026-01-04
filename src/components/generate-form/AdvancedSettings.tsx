@@ -1,12 +1,9 @@
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { ChevronDown, AlertTriangle } from 'lucide-react';
-import { SUNO_MODELS, getAvailableModels } from '@/constants/sunoModels';
+import { ChevronDown } from 'lucide-react';
 
 /**
  * Get audio weight label based on reference type
@@ -45,8 +42,6 @@ interface AdvancedSettingsProps {
   onAudioWeightChange: (value: number[]) => void;
   hasReferenceAudio: boolean;
   hasPersona?: boolean;
-  model?: string;
-  onModelChange?: (value: string) => void;
 }
 
 export function AdvancedSettings({
@@ -64,65 +59,22 @@ export function AdvancedSettings({
   onAudioWeightChange,
   hasReferenceAudio,
   hasPersona = false,
-  model,
-  onModelChange,
 }: AdvancedSettingsProps) {
   return (
     <Collapsible open={open} onOpenChange={onOpenChange}>
       <CollapsibleTrigger asChild>
         <Button
           type="button"
-          variant="ghost"
-          className="w-full justify-center gap-2 text-muted-foreground hover:text-foreground"
+          variant="outline"
+          size="sm"
+          className="w-full justify-center gap-2 border-dashed border-muted-foreground/30 hover:border-primary/50 hover:bg-primary/5"
         >
-          <span className="text-sm">Advanced Options</span>
-          <ChevronDown className={`w-4 h-4 transition-transform ${open ? 'rotate-180' : ''}`} />
+          <span className="text-xs text-muted-foreground">⚙️ Продвинутые настройки</span>
+          <ChevronDown className={`w-3.5 h-3.5 text-muted-foreground transition-transform ${open ? 'rotate-180' : ''}`} />
         </Button>
       </CollapsibleTrigger>
 
       <CollapsibleContent className="space-y-4 pt-4">
-        {/* Model Selection */}
-        {model && onModelChange && (
-          <div>
-            <Label htmlFor="model-select" className="text-sm text-muted-foreground">
-              Модель AI
-            </Label>
-            <Select value={model} onValueChange={onModelChange}>
-              <SelectTrigger id="model-select" className="mt-2">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {getAvailableModels().map((modelInfo) => (
-                  <SelectItem key={modelInfo.key} value={modelInfo.key}>
-                    <div className="flex items-center gap-2">
-                      <span>{modelInfo.emoji}</span>
-                      <div className="flex flex-col">
-                        <div className="flex items-center gap-2">
-                          <span className="font-medium">{modelInfo.name}</span>
-                          {modelInfo.status === 'latest' && (
-                            <Badge variant="default" className="text-[10px] px-1.5 py-0 h-4">
-                              NEW
-                            </Badge>
-                          )}
-                        </div>
-                        <span className="text-xs text-muted-foreground">{modelInfo.desc}</span>
-                      </div>
-                    </div>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            {/* Show warning if selected model is deprecated */}
-            {model && SUNO_MODELS[model]?.status === 'deprecated' && (
-              <div className="flex items-center gap-2 mt-2 p-2 bg-destructive/10 border border-destructive/20 rounded-md">
-                <AlertTriangle className="w-4 h-4 text-destructive" />
-                <p className="text-xs text-destructive">
-                  Модель {SUNO_MODELS[model].name} больше недоступна. Выберите другую модель.
-                </p>
-              </div>
-            )}
-          </div>
-        )}
         <div>
           <Label htmlFor="negative-tags">Нежелательные теги</Label>
           <Input

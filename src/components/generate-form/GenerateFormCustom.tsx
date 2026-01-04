@@ -34,8 +34,6 @@ interface GenerateFormCustomProps {
   onAudioWeightChange: (value: number[]) => void;
   hasReferenceAudio: boolean;
   hasPersona: boolean;
-  model: string;
-  onModelChange: (value: string) => void;
   // Optional context for saving templates
   genre?: string;
   mood?: string;
@@ -72,8 +70,6 @@ export function GenerateFormCustom({
   onAudioWeightChange,
   hasReferenceAudio,
   hasPersona,
-  model,
-  onModelChange,
   genre,
   mood,
   onOpenStyles,
@@ -156,8 +152,6 @@ export function GenerateFormCustom({
           onAudioWeightChange={onAudioWeightChange}
           hasReferenceAudio={hasReferenceAudio}
           hasPersona={hasPersona}
-          model={model}
-          onModelChange={onModelChange}
         />
       </FormSection>
     </motion.div>

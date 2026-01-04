@@ -344,8 +344,6 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                     onAudioWeightChange={form.setAudioWeight}
                     hasReferenceAudio={!!form.audioFile || !!activeReference}
                     hasPersona={!!form.selectedArtistId}
-                    model={form.model}
-                    onModelChange={form.setModel}
                     onOpenStyles={() => setStylesOpen(true)}
                   />
                 )}
