@@ -12,9 +12,14 @@
  * 
  * // Or use simpler animation
  * const animationDuration = prefersReducedMotion ? 0 : 0.3;
+ * 
+ * @example Using useMotionPreference for advanced patterns
+ * const { prefersReducedMotion, safeVariants, safeTransition } = useMotionPreference();
+ * <motion.div variants={safeVariants(myVariants)} transition={safeTransition(myTransition)} />
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
+import type { Variants, Transition } from '@/lib/motion';
 
 const QUERY = '(prefers-reduced-motion: reduce)';
 
@@ -53,6 +58,54 @@ export function useReducedMotion(): boolean {
   }, []);
 
   return prefersReducedMotion;
+}
+
+// Instant transition for reduced motion
+const instantTransition: Transition = { duration: 0 };
+
+// Minimal fade-only variants for reduced motion
+const reducedMotionVariants: Variants = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1, transition: instantTransition },
+  exit: { opacity: 0, transition: instantTransition },
+};
+
+/**
+ * Advanced hook for motion preference with helper utilities
+ */
+export function useMotionPreference() {
+  const prefersReducedMotion = useReducedMotion();
+
+  return useMemo(() => ({
+    prefersReducedMotion,
+    
+    /**
+     * Returns motion-safe variants
+     * Replaces complex animations with simple fade when reduced motion is preferred
+     */
+    safeVariants: (variants: Variants): Variants => {
+      if (!prefersReducedMotion) return variants;
+      return reducedMotionVariants;
+    },
+
+    /**
+     * Returns motion-safe transition
+     */
+    safeTransition: (transition: Transition): Transition => {
+      if (!prefersReducedMotion) return transition;
+      return instantTransition;
+    },
+
+    /**
+     * Get animation duration (0 if reduced motion preferred)
+     */
+    safeDuration: (duration: number): number => {
+      return prefersReducedMotion ? 0 : duration;
+    },
+
+    reducedMotionVariants,
+    instantTransition,
+  }), [prefersReducedMotion]);
 }
 
 /**
