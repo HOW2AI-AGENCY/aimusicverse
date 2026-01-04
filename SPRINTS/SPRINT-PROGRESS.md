@@ -11,14 +11,14 @@
 | Sprint 026: UX Unification | ✅ ЗАВЕРШЕН | 100% | Dec 12, 2025 |
 | Sprint 027: AI Lyrics Agent | ✅ ЗАВЕРШЕН | 100% | Dec 26, 2025 |
 | Sprint 028: UI/UX Optimization | ✅ ЗАВЕРШЕН | 100% | Dec 22, 2025 |
-| Sprint 029: Mobile Optimization | 🟢 В РАБОТЕ | 85% | Jan 4-18, 2026 |
+| Sprint 029: Mobile Optimization | 🟢 В РАБОТЕ | 90% | Jan 4-18, 2026 |
 | Sprint 030: Unified Studio Mobile | 📋 ЗАПЛАНИРОВАН | 0% | Jan 20+, 2026 |
 
 ---
 
 ## 🟢 Sprint 029: Mobile Telegram Optimization (Текущий)
 
-### ✅ Завершено (85% - 17/20 задач)
+### ✅ Завершено (90% - 18/20 задач)
 
 #### Блок 1: Telegram Mini App SDK Integration ✅ (100%)
 - [x] Telegram CloudStorage API интеграция
@@ -38,25 +38,46 @@
 - [x] Deep link support (play_, player_, listen_)
 - [x] Auto-playback при загрузке через deep link
 - [x] useKeyboardAware hook для форм
-- [x] Mobile karaoke features
-- [x] Audio prefetching optimization
 
 #### Блок 3: Bug Fixes & Database ✅ (100%)
 - [x] track_versions constraint fix (vocal_add, instrumental_add, cover types)
 - [x] suno-music-callback version_type logic fix
 - [x] suno-check-status 'original' → 'initial' fix
 
-### 🟡 В работе (15% - 3/20 задач)
+#### Блок 4: Fullscreen Player Enhancements ✅ (NEW - 100%)
+- [x] Horizontal swipe for track switching (Spotify-style)
+  - 80px threshold, 400px/s velocity
+  - Haptic feedback при переключении
+  - ChevronLeft/ChevronRight indicators
+  - AnimatePresence для плавных переходов
+- [x] Track cover prefetching (usePrefetchTrackCovers)
+  - Prefetch обложек для следующих 3 треков
+  - Image preloading с LRU кэш
+- [x] Audio prefetch for next track (usePrefetchNextAudio)
+  - Preload='auto' для следующего трека
+  - Cleanup при смене очереди
+- [x] Double-tap seek ±10 seconds
+  - Левая половина = -10s, правая = +10s
+  - DoubleTapSeekFeedback visual component
+  - Haptic feedback при перемотке
+- [x] Karaoke mode (KaraokeView)
+  - Apple Music Sing-style animations
+  - Fullscreen режим с увеличенным текстом
+  - Tap-to-seek на словах
+- [x] Word-level lyrics autoscroll
+  - data-word-index для SynchronizedWord
+  - 30% от верха позиционирование
+  - Подсветка сохраняется при паузе
 
-#### Блок 4: Testing & Quality (33%)
+### 🟡 В работе (10% - 2/20 задач)
+
+#### Блок 5: Testing & Quality (50%)
 - [x] Haptic feedback testing на iOS/Android
 - [ ] E2E tests setup с Playwright (в процессе)
 - [ ] Performance monitoring dashboard
 
-#### Блок 5: Advanced Features (0%)
+#### Блок 6: Advanced Features (0%)
 - [ ] Swipe navigation между табами
-- [ ] Gesture navigation improvements
-- [ ] Mobile animation optimizations
 
 ---
 
@@ -64,7 +85,7 @@
 
 | Метрика | Target | Current | Status |
 |---------|--------|---------|--------|
-| Tasks completed | 20/20 | 17/20 | 🟡 85% |
+| Tasks completed | 20/20 | 18/20 | 🟢 90% |
 | Build status | Success | Success | ✅ |
 | TypeScript strict | Passing | Passing | ✅ |
 | Haptic feedback | iOS+Android | Working | ✅ |
@@ -72,6 +93,7 @@
 | Touch targets | ≥44px | 56px | ✅ |
 | Pull-to-refresh | Working | Library+Index | ✅ |
 | Deep links | Working | 3 prefixes | ✅ |
+| Fullscreen Player | All features | ✅ Complete | ✅ |
 | E2E coverage | >80% | In progress | 🟡 |
 
 ---
@@ -83,7 +105,11 @@
 src/lib/haptic.ts - Haptic feedback utilities
 src/lib/cloudStorage.ts - CloudStorage API wrapper
 src/hooks/useCloudStorage.ts - React hook для CloudStorage
+src/hooks/audio/usePrefetchTrackCovers.ts - Image prefetch для очереди
+src/hooks/audio/usePrefetchNextAudio.ts - Audio preload для next track
 src/components/library/PullToRefreshWrapper.tsx - Pull-to-refresh component
+src/components/player/KaraokeView.tsx - Fullscreen karaoke mode
+src/components/player/DoubleTapSeekFeedback.tsx - Visual feedback for seek
 src/pages/MobilePlayerPage.tsx - Deep link player page
 ```
 

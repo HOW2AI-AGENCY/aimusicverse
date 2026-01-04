@@ -111,9 +111,32 @@ Last updated: 2026-01-04
   - ADR-005: State Machine Architecture
   - ADR-006: Type-Safe Audio Context
 
-## ✅ Recently Resolved (2026-01-04)
+## ✅ Recently Resolved (2026-01-04 Session 4)
 
-### P0 - Critical (Fixed)
+### Fullscreen Player Improvements
+
+~~**IMP102** - No horizontal swipe for track switching~~ ✅ RESOLVED
+- Implemented in `MobileFullscreenPlayer.tsx` with Framer Motion drag
+- 80px threshold, 400px/s velocity, haptic feedback
+
+~~**IMP103** - No track cover prefetching~~ ✅ RESOLVED
+- Created `usePrefetchTrackCovers` hook with Image prefetch for 3 next tracks
+
+~~**IMP104** - No audio preload for next track~~ ✅ RESOLVED
+- Created `usePrefetchNextAudio` hook with preload='auto'
+
+~~**IMP105** - No double-tap seek gesture~~ ✅ RESOLVED
+- Implemented with `DoubleTapSeekFeedback` component
+- Left = -10s, Right = +10s, haptic feedback
+
+~~**IMP106** - No karaoke mode~~ ✅ RESOLVED
+- Created `KaraokeView` component with Apple Music Sing-style animations
+
+~~**IMP107** - Lyrics autoscroll not word-level~~ ✅ RESOLVED
+- Added `data-word-index` to SynchronizedWord
+- 30% from top positioning for active word
+
+### Database & Edge Functions
 
 ~~**IMP099** - track_versions constraint violations~~ ✅ RESOLVED
 - Extended constraint to include: `vocal_add`, `instrumental_add`, `cover`, `original`, etc.

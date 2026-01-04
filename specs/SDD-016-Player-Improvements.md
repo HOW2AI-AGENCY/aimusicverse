@@ -74,6 +74,23 @@
 | T016-C-02 | Кэшировать timestamped lyrics локально | P3 | 🔄 |
 | T016-C-03 | Добавить lyrics edit mode | P3 | 🔄 |
 
+### Sprint 016-D: Fullscreen Player Gestures (COMPLETED 2026-01-04)
+
+| ID | Задача | Приоритет | Статус |
+|----|--------|-----------|--------|
+| T016-D-01 | Горизонтальный свайп для переключения треков | P1 | ✅ |
+| T016-D-02 | Предзагрузка обложек (usePrefetchTrackCovers) | P2 | ✅ |
+| T016-D-03 | Предзагрузка аудио (usePrefetchNextAudio) | P2 | ✅ |
+| T016-D-04 | Double-tap seek ±10 секунд | P1 | ✅ |
+| T016-D-05 | Режим караоке (KaraokeView) | P2 | ✅ |
+| T016-D-06 | Word-level автоскролл лирики | P1 | ✅ |
+
+**Новые файлы:**
+- `src/hooks/audio/usePrefetchTrackCovers.ts`
+- `src/hooks/audio/usePrefetchNextAudio.ts`
+- `src/components/player/KaraokeView.tsx`
+- `src/components/player/DoubleTapSeekFeedback.tsx`
+
 ---
 
 ## 📁 Затронутые файлы

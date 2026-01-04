@@ -94,6 +94,23 @@
 
 ---
 
+## 🆕 Sprint 029: Fullscreen Player Enhancements (2026-01-04)
+
+| ID | Название | Приоритет | Статус | Эпик |
+|---|---|---|---|---|
+| T057 | **Fullscreen Player: Horizontal Swipe** | Высокий | ✅ Done | E007 |
+| T058 | **Fullscreen Player: Track Cover Prefetch** | Средний | ✅ Done | E007 |
+| T059 | **Fullscreen Player: Audio Prefetch** | Средний | ✅ Done | E007 |
+| T060 | **Fullscreen Player: Double-tap Seek** | Высокий | ✅ Done | E007 |
+| T061 | **Fullscreen Player: Karaoke Mode** | Средний | ✅ Done | E007 |
+| T062 | **Lyrics: Word-level Autoscroll** | Высокий | ✅ Done | E007 |
+
+### Новые файлы
+- `src/hooks/audio/usePrefetchTrackCovers.ts` - Prefetch обложек для очереди
+- `src/hooks/audio/usePrefetchNextAudio.ts` - Preload аудио следующего трека  
+- `src/components/player/KaraokeView.tsx` - Fullscreen караоке (Apple Music Sing-style)
+- `src/components/player/DoubleTapSeekFeedback.tsx` - Визуальный feedback для seek
+
 ## 🆕 Новые задачи (Sprint 020 - 2025-12-04)
 
 | ID | Название | Приоритет | Статус | Эпик |
