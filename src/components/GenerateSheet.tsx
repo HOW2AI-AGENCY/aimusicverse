@@ -244,6 +244,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
             balance={form.userBalance}
             cost={form.generationCost}
             mode={form.mode}
+            onModeChange={form.setMode}
             onOpenHistory={() => setHistoryOpen(true)}
           />
           

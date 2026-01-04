@@ -1,6 +1,7 @@
 import { motion } from '@/lib/motion';
 import { TitleSection, StyleSection, VocalsToggle, LyricsSection, PrivacyToggle } from './sections';
 import { AdvancedSettings } from './AdvancedSettings';
+import { Separator } from '@/components/ui/separator';
 
 interface GenerateFormCustomProps {
   title: string;
@@ -84,62 +85,80 @@ export function GenerateFormCustom({
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -20 }}
       transition={{ duration: 0.2, ease: "easeInOut" }}
-      className="space-y-3"
+      className="space-y-4"
     >
-      <TitleSection title={title} onTitleChange={onTitleChange} />
+      {/* ========== BASIC INFO GROUP ========== */}
+      <div className="space-y-3">
+        <TitleSection title={title} onTitleChange={onTitleChange} />
+      </div>
 
-      <StyleSection
-        style={style}
-        onStyleChange={onStyleChange}
-        onBoostStyle={onBoostStyle}
-        boostLoading={boostLoading}
-        onOpenStyles={onOpenStyles}
-      />
+      {/* Subtle divider */}
+      <Separator className="bg-border/50" />
 
-      <VocalsToggle
-        hasVocals={hasVocals}
-        onHasVocalsChange={onHasVocalsChange}
-        onLyricsChange={onLyricsChange}
-      />
-
-      {hasVocals && (
-        <LyricsSection
-          lyrics={lyrics}
-          onLyricsChange={onLyricsChange}
-          onStyleChange={onStyleChange}
-          onOpenLyricsAssistant={onOpenLyricsAssistant}
+      {/* ========== STYLE & VOCALS GROUP ========== */}
+      <div className="space-y-3">
+        <StyleSection
           style={style}
-          genre={genre}
-          mood={mood}
+          onStyleChange={onStyleChange}
+          onBoostStyle={onBoostStyle}
+          boostLoading={boostLoading}
+          onOpenStyles={onOpenStyles}
         />
+
+        <VocalsToggle
+          hasVocals={hasVocals}
+          onHasVocalsChange={onHasVocalsChange}
+          onLyricsChange={onLyricsChange}
+        />
+      </div>
+
+      {/* ========== LYRICS GROUP ========== */}
+      {hasVocals && (
+        <>
+          <Separator className="bg-border/50" />
+          <LyricsSection
+            lyrics={lyrics}
+            onLyricsChange={onLyricsChange}
+            onStyleChange={onStyleChange}
+            onOpenLyricsAssistant={onOpenLyricsAssistant}
+            style={style}
+            genre={genre}
+            mood={mood}
+          />
+        </>
       )}
 
-      {onIsPublicChange && (
-        <PrivacyToggle
-          isPublic={isPublic}
-          onIsPublicChange={onIsPublicChange}
-          canMakePrivate={canMakePrivate}
-        />
-      )}
+      {/* ========== SETTINGS GROUP ========== */}
+      <Separator className="bg-border/50" />
+      
+      <div className="space-y-3">
+        {onIsPublicChange && (
+          <PrivacyToggle
+            isPublic={isPublic}
+            onIsPublicChange={onIsPublicChange}
+            canMakePrivate={canMakePrivate}
+          />
+        )}
 
-      <AdvancedSettings
-        open={advancedOpen}
-        onOpenChange={onAdvancedOpenChange}
-        negativeTags={negativeTags}
-        onNegativeTagsChange={onNegativeTagsChange}
-        vocalGender={vocalGender}
-        onVocalGenderChange={onVocalGenderChange}
-        styleWeight={styleWeight}
-        onStyleWeightChange={onStyleWeightChange}
-        weirdnessConstraint={weirdnessConstraint}
-        onWeirdnessConstraintChange={onWeirdnessConstraintChange}
-        audioWeight={audioWeight}
-        onAudioWeightChange={onAudioWeightChange}
-        hasReferenceAudio={hasReferenceAudio}
-        hasPersona={hasPersona}
-        model={model}
-        onModelChange={onModelChange}
-      />
+        <AdvancedSettings
+          open={advancedOpen}
+          onOpenChange={onAdvancedOpenChange}
+          negativeTags={negativeTags}
+          onNegativeTagsChange={onNegativeTagsChange}
+          vocalGender={vocalGender}
+          onVocalGenderChange={onVocalGenderChange}
+          styleWeight={styleWeight}
+          onStyleWeightChange={onStyleWeightChange}
+          weirdnessConstraint={weirdnessConstraint}
+          onWeirdnessConstraintChange={onWeirdnessConstraintChange}
+          audioWeight={audioWeight}
+          onAudioWeightChange={onAudioWeightChange}
+          hasReferenceAudio={hasReferenceAudio}
+          hasPersona={hasPersona}
+          model={model}
+          onModelChange={onModelChange}
+        />
+      </div>
     </motion.div>
   );
 }

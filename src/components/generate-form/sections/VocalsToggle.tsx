@@ -1,6 +1,6 @@
 import { memo } from 'react';
-import { Label } from '@/components/ui/label';
 import { Mic, Music2 } from 'lucide-react';
+import { SectionLabel, SECTION_HINTS } from '../SectionLabel';
 import { cn } from '@/lib/utils';
 
 interface VocalsToggleProps {
@@ -23,51 +23,21 @@ export const VocalsToggle = memo(function VocalsToggle({
     }
   };
 
-  if (compact) {
-    return (
-      <div className="space-y-1.5">
-        <Label className="text-xs font-medium">Тип трека</Label>
-        <div className="flex p-1 bg-muted/50 rounded-xl">
-          <button
-            type="button"
-            onClick={() => handleChange(true)}
-            className={cn(
-              "flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-sm font-medium transition-all duration-200",
-              hasVocals 
-                ? "bg-primary text-primary-foreground shadow-sm" 
-                : "text-muted-foreground hover:text-foreground hover:bg-muted"
-            )}
-          >
-            <Mic className="w-4 h-4" />
-            <span className="hidden xs:inline">Вокал</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => handleChange(false)}
-            className={cn(
-              "flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-sm font-medium transition-all duration-200",
-              !hasVocals 
-                ? "bg-primary text-primary-foreground shadow-sm" 
-                : "text-muted-foreground hover:text-foreground hover:bg-muted"
-            )}
-          >
-            <Music2 className="w-4 h-4" />
-            <span className="hidden xs:inline">Инструментал</span>
-          </button>
-        </div>
-      </div>
-    );
-  }
-  
   return (
-    <div className="space-y-2">
-      <Label className="text-xs font-medium">Тип трека</Label>
+    <div className={cn("space-y-1.5", compact && "space-y-1")}>
+      <SectionLabel 
+        label="Тип трека"
+        hint={SECTION_HINTS.trackType}
+      />
+      
+      {/* Segmented control */}
       <div className="flex p-1 bg-muted/50 rounded-xl">
         <button
           type="button"
           onClick={() => handleChange(true)}
           className={cn(
-            "flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg text-sm font-medium transition-all duration-200",
+            "flex-1 flex items-center justify-center gap-2 rounded-lg text-sm font-medium transition-all duration-200",
+            compact ? "py-2 px-3" : "py-2.5 px-3",
             hasVocals 
               ? "bg-primary text-primary-foreground shadow-sm" 
               : "text-muted-foreground hover:text-foreground hover:bg-muted"
@@ -80,7 +50,8 @@ export const VocalsToggle = memo(function VocalsToggle({
           type="button"
           onClick={() => handleChange(false)}
           className={cn(
-            "flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg text-sm font-medium transition-all duration-200",
+            "flex-1 flex items-center justify-center gap-2 rounded-lg text-sm font-medium transition-all duration-200",
+            compact ? "py-2 px-3" : "py-2.5 px-3",
             !hasVocals 
               ? "bg-primary text-primary-foreground shadow-sm" 
               : "text-muted-foreground hover:text-foreground hover:bg-muted"
@@ -91,13 +62,15 @@ export const VocalsToggle = memo(function VocalsToggle({
         </button>
       </div>
       
-      {/* Hint text */}
-      <p className="text-[10px] text-muted-foreground text-center">
-        {hasVocals 
-          ? '🎤 AI сгенерирует вокал по тексту песни' 
-          : '🎹 Чистая музыка без голоса'
-        }
-      </p>
+      {/* Contextual hint - only in non-compact mode */}
+      {!compact && (
+        <p className="text-[10px] text-muted-foreground text-center">
+          {hasVocals 
+            ? 'AI сгенерирует вокал по тексту песни' 
+            : 'Чистая музыка без голоса'
+          }
+        </p>
+      )}
     </div>
   );
 });

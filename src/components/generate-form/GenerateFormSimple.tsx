@@ -2,12 +2,11 @@ import { useState, useCallback } from 'react';
 import { motion } from '@/lib/motion';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { Sparkles, Loader2, Mic, Music2, HelpCircle, Palette, Copy, X } from 'lucide-react';
+import { Sparkles, Loader2, Mic, Music2, Palette, Copy, X } from 'lucide-react';
 import { VoiceInputButton } from '@/components/ui/VoiceInputButton';
 import { GenerateFormHint, FORM_HINTS } from './GenerateFormHint';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { SectionLabel, SECTION_HINTS } from './SectionLabel';
 import { SmartPromptSuggestions } from './SmartPromptSuggestions';
 import { cn } from '@/lib/utils';
 import { notify } from '@/lib/notifications';
@@ -55,11 +54,14 @@ export function GenerateFormSimple({
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: 20 }}
       transition={{ duration: 0.2, ease: "easeInOut" }}
-      className="space-y-3 w-full max-w-full min-w-0 overflow-x-hidden"
+      className="space-y-4 w-full max-w-full min-w-0 overflow-x-hidden"
     >
-      {/* Vocals Toggle - Segmented control at top */}
-      <div className="space-y-1">
-        <Label className="text-xs font-medium">Тип трека</Label>
+      {/* ========== TRACK TYPE SECTION ========== */}
+      <div className="space-y-1.5">
+        <SectionLabel 
+          label="Тип трека"
+          hint={SECTION_HINTS.trackType}
+        />
         <div className="flex p-1 bg-muted/50 rounded-xl">
           <button
             type="button"
@@ -90,31 +92,14 @@ export function GenerateFormSimple({
         </div>
       </div>
 
-      {/* Description */}
-      <div>
-        {/* Header row - Label + Styles + AI Boost */}
-        <div className="flex items-center justify-between mb-1.5">
-          <div className="flex items-center gap-1.5">
-            <Label htmlFor="description" className="text-xs font-medium">
-              {hasVocals ? '🎤 Опишите песню' : '🎹 Опишите музыку'}
-            </Label>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <button 
-                    type="button" 
-                    className="text-muted-foreground hover:text-foreground transition-colors"
-                    onClick={() => setShowHint(!showHint)}
-                  >
-                    <HelpCircle className="w-3.5 h-3.5" />
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent side="top" className="max-w-xs text-xs">
-                  {FORM_HINTS.description.tip}
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </div>
+      {/* ========== DESCRIPTION SECTION ========== */}
+      <div className="space-y-1.5">
+        {/* Header row */}
+        <div className="flex items-center justify-between">
+          <SectionLabel 
+            label={hasVocals ? 'Опишите песню' : 'Опишите музыку'}
+            hint={SECTION_HINTS.description}
+          />
           <div className="flex items-center gap-1">
             {onOpenStyles && (
               <Button
@@ -150,7 +135,7 @@ export function GenerateFormSimple({
           {FORM_HINTS.description.empty}
         </GenerateFormHint>
         
-        {/* Textarea container with bottom toolbar */}
+        {/* Textarea with bottom toolbar */}
         <div className="relative">
           <Textarea
             id="description"
@@ -162,24 +147,25 @@ export function GenerateFormSimple({
             onChange={(e) => onDescriptionChange(e.target.value)}
             rows={3}
             className={cn(
-              "resize-none text-sm pb-8",
+              "resize-none text-sm pb-9 rounded-xl bg-muted/30 border-muted-foreground/20",
+              "focus:border-primary/50 focus:ring-primary/20 transition-colors",
               description.length > 500 && "border-destructive focus-visible:ring-destructive"
             )}
           />
           
-          {/* Bottom toolbar inside textarea */}
-          <div className="absolute bottom-1.5 left-2 right-2 flex items-center justify-between">
-            {/* Left side: Character count */}
+          {/* Bottom toolbar */}
+          <div className="absolute bottom-2 left-2.5 right-2.5 flex items-center justify-between">
+            {/* Character count */}
             <span className={cn(
-              "text-[10px] px-1.5 py-0.5 rounded bg-muted/80",
+              "text-[10px] px-1.5 py-0.5 rounded-md bg-background/60 backdrop-blur-sm",
               description.length > 500 ? 'text-destructive font-medium' : 
               description.length > 400 ? 'text-yellow-500' : 'text-muted-foreground'
             )}>
               {description.length}/500
             </span>
             
-            {/* Right side: Copy, Clear, Voice */}
-            <div className="flex items-center gap-0.5">
+            {/* Action buttons */}
+            <div className="flex items-center gap-0.5 bg-background/60 backdrop-blur-sm rounded-md px-1">
               {description && (
                 <>
                   <Button
@@ -213,7 +199,7 @@ export function GenerateFormSimple({
           </div>
         </div>
 
-        {/* Smart Prompt Suggestions - horizontal scroll with calc() constraint */}
+        {/* Smart Prompt Suggestions */}
         {!description && (
           <SmartPromptSuggestions
             onSelectPrompt={onDescriptionChange}
@@ -223,23 +209,26 @@ export function GenerateFormSimple({
         )}
         
         {description.length > 500 && (
-          <p className="text-[10px] text-destructive mt-1">
-            Сократите описание или переключитесь в Custom режим
+          <p className="text-[10px] text-destructive">
+            Сократите описание или переключитесь в Полный режим
           </p>
         )}
       </div>
 
-      {/* Title */}
-      <div>
-        <Label htmlFor="simple-title" className="text-xs font-medium mb-1 block">
-          Название <span className="text-muted-foreground text-[10px]">(опционально)</span>
-        </Label>
+      {/* ========== TITLE SECTION ========== */}
+      <div className="space-y-1.5">
+        <SectionLabel 
+          label="Название"
+          htmlFor="simple-title"
+          hint={SECTION_HINTS.title}
+          suffix="(опционально)"
+        />
         <Input
           id="simple-title"
           placeholder="Автогенерация если пусто"
           value={title}
           onChange={(e) => onTitleChange(e.target.value)}
-          className="h-8 text-sm"
+          className="h-9 text-sm rounded-xl bg-muted/30 border-muted-foreground/20 focus:border-primary/50 focus:ring-primary/20"
         />
       </div>
     </motion.div>

@@ -4,9 +4,10 @@
 
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
-import { Lock, Globe, Crown } from 'lucide-react';
+import { Lock, Globe, Crown, HelpCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { SECTION_HINTS } from '../SectionLabel';
 
 interface PrivacyToggleProps {
   isPublic: boolean;
@@ -31,7 +32,10 @@ export function PrivacyToggle({
   };
 
   return (
-    <div className={cn('flex items-center justify-between rounded-lg bg-muted/30 px-3 py-2', className)}>
+    <div className={cn(
+      'flex items-center justify-between rounded-xl bg-muted/30 px-3 py-2.5 border border-muted-foreground/10',
+      className
+    )}>
       <div className="flex items-center gap-2">
         {isPublic ? (
           <Globe className="w-4 h-4 text-muted-foreground" />
@@ -39,20 +43,39 @@ export function PrivacyToggle({
           <Lock className="w-4 h-4 text-primary" />
         )}
         <Label htmlFor="privacy-toggle" className="text-sm cursor-pointer">
-          {isPublic ? 'Публичный трек' : 'Приватный трек'}
+          {isPublic ? 'Публичный' : 'Приватный'}
         </Label>
+        
+        {/* Help icon */}
+        <TooltipProvider delayDuration={200}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button 
+                type="button" 
+                className="text-muted-foreground/60 hover:text-muted-foreground transition-colors"
+              >
+                <HelpCircle className="w-3.5 h-3.5" />
+              </button>
+            </TooltipTrigger>
+            <TooltipContent side="top" className="max-w-[200px] text-xs">
+              {SECTION_HINTS.privacy}
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
       
       <div className="flex items-center gap-2">
         {!canMakePrivate && !isPublic && (
-          <Tooltip>
-            <TooltipTrigger>
-              <Crown className="w-4 h-4 text-yellow-500" />
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Приватные треки доступны по подписке</p>
-            </TooltipContent>
-          </Tooltip>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <Crown className="w-4 h-4 text-yellow-500" />
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Приватные треки доступны по подписке</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         )}
         <Switch
           id="privacy-toggle"
