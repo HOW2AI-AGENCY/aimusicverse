@@ -13,7 +13,7 @@ export const TitleSection = memo(function TitleSection({
   onTitleChange,
 }: TitleSectionProps) {
   return (
-    <div className="space-y-1.5">
+    <div className="space-y-2">
       <div className="flex items-center justify-between">
         <SectionLabel 
           label="Название"
@@ -31,7 +31,7 @@ export const TitleSection = memo(function TitleSection({
         placeholder="Автогенерация если пусто"
         value={title}
         onChange={(e) => onTitleChange(e.target.value)}
-        className="h-9 text-sm rounded-xl bg-muted/30 border-muted-foreground/20 focus:border-primary/50 focus:ring-primary/20"
+        className="h-10 text-sm rounded-xl bg-muted/30 border-muted-foreground/20 focus:border-primary/50 focus:ring-primary/20"
       />
     </div>
   );

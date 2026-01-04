@@ -1,7 +1,7 @@
 import { motion } from '@/lib/motion';
 import { TitleSection, StyleSection, VocalsToggle, LyricsSection, PrivacyToggle } from './sections';
 import { AdvancedSettings } from './AdvancedSettings';
-import { Separator } from '@/components/ui/separator';
+import { FormSection, FormDivider } from './FormSection';
 
 interface GenerateFormCustomProps {
   title: string;
@@ -88,15 +88,14 @@ export function GenerateFormCustom({
       className="space-y-4"
     >
       {/* ========== BASIC INFO GROUP ========== */}
-      <div className="space-y-3">
+      <FormSection>
         <TitleSection title={title} onTitleChange={onTitleChange} />
-      </div>
+      </FormSection>
 
-      {/* Subtle divider */}
-      <Separator className="bg-border/50" />
+      <FormDivider />
 
       {/* ========== STYLE & VOCALS GROUP ========== */}
-      <div className="space-y-3">
+      <FormSection>
         <StyleSection
           style={style}
           onStyleChange={onStyleChange}
@@ -110,28 +109,30 @@ export function GenerateFormCustom({
           onHasVocalsChange={onHasVocalsChange}
           onLyricsChange={onLyricsChange}
         />
-      </div>
+      </FormSection>
 
       {/* ========== LYRICS GROUP ========== */}
       {hasVocals && (
         <>
-          <Separator className="bg-border/50" />
-          <LyricsSection
-            lyrics={lyrics}
-            onLyricsChange={onLyricsChange}
-            onStyleChange={onStyleChange}
-            onOpenLyricsAssistant={onOpenLyricsAssistant}
-            style={style}
-            genre={genre}
-            mood={mood}
-          />
+          <FormDivider />
+          <FormSection>
+            <LyricsSection
+              lyrics={lyrics}
+              onLyricsChange={onLyricsChange}
+              onStyleChange={onStyleChange}
+              onOpenLyricsAssistant={onOpenLyricsAssistant}
+              style={style}
+              genre={genre}
+              mood={mood}
+            />
+          </FormSection>
         </>
       )}
 
       {/* ========== SETTINGS GROUP ========== */}
-      <Separator className="bg-border/50" />
+      <FormDivider />
       
-      <div className="space-y-3">
+      <FormSection>
         {onIsPublicChange && (
           <PrivacyToggle
             isPublic={isPublic}
@@ -158,7 +159,7 @@ export function GenerateFormCustom({
           model={model}
           onModelChange={onModelChange}
         />
-      </div>
+      </FormSection>
     </motion.div>
   );
 }

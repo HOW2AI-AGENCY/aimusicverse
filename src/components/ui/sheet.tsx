@@ -57,10 +57,12 @@ interface SheetContentProps
   hideTitle?: boolean;
   /** Accessible title for screen readers when no visible SheetTitle is present */
   accessibleTitle?: string;
+  /** If true, hides the default close button */
+  hideCloseButton?: boolean;
 }
 
 const SheetContent = React.forwardRef<React.ElementRef<typeof SheetPrimitive.Content>, SheetContentProps>(
-  ({ side = "right", className, children, hideTitle = false, accessibleTitle = "Боковая панель", ...props }, ref) => {
+  ({ side = "right", className, children, hideTitle = false, accessibleTitle = "Боковая панель", hideCloseButton = false, ...props }, ref) => {
     // Check if this is a fullscreen sheet (has h-full, h-screen, or h-[100dvh] in className)
     const isFullscreen = className?.includes('h-full') || className?.includes('h-screen') || className?.includes('h-[100dvh]') || className?.includes('h-[100vh]');
     
@@ -94,10 +96,12 @@ const SheetContent = React.forwardRef<React.ElementRef<typeof SheetPrimitive.Con
             </VisuallyHidden>
           )}
           {children}
-          <SheetPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity data-[state=open]:bg-secondary hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none">
-            <X className="h-4 w-4" />
-            <span className="sr-only">Закрыть</span>
-          </SheetPrimitive.Close>
+          {!hideCloseButton && (
+            <SheetPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity data-[state=open]:bg-secondary hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none">
+              <X className="h-4 w-4" />
+              <span className="sr-only">Закрыть</span>
+            </SheetPrimitive.Close>
+          )}
         </SheetPrimitive.Content>
       </SheetPortal>
     );

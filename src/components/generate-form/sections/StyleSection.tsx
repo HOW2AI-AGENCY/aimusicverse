@@ -21,7 +21,7 @@ export const StyleSection = memo(function StyleSection({
   onOpenStyles,
 }: StyleSectionProps) {
   return (
-    <div className="space-y-1.5">
+    <div className="space-y-2">
       <SectionLabel 
         label="Стиль"
         htmlFor="style"
