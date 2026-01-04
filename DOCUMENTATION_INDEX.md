@@ -110,6 +110,8 @@ This is the master index for all MusicVerse AI documentation.
 - [docs/CREATIVE_TOOLS.md](docs/CREATIVE_TOOLS.md) - Creative tools documentation
 - [docs/DATABASE.md](docs/DATABASE.md) - Database schema and operations
 - **[docs/DATABASE_OPTIMIZATION_ANALYSIS.md](docs/DATABASE_OPTIMIZATION_ANALYSIS.md)** - ⭐ Database optimization recommendations (NEW)
+- **[docs/STUDIO_INTEGRATION_PLAN_2026.md](docs/STUDIO_INTEGRATION_PLAN_2026.md)** - 🆕 Studio recording, transcription & chord features integration plan
+- **[docs/STUDIO_INTEGRATION_SUMMARY.md](docs/STUDIO_INTEGRATION_SUMMARY.md)** - 🆕 Executive summary of studio integration plan
 
 ### Audio Hooks (⭐ NEW 2026-01-04)
 - `src/hooks/audio/usePrefetchTrackCovers.ts` - Prefetch cover images for queue (3 next tracks)
