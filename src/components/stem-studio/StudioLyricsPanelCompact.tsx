@@ -290,6 +290,23 @@ export function StudioLyricsPanelCompact({
     }
   }, [currentTime, contentLines, activeLineIndex]);
 
+  // Find current section tag for collapsed header display
+  const currentSectionTag = useMemo(() => {
+    // Find the active line index in the full lines array
+    const activeContentLine = contentLines[activeLineIndex];
+    if (!activeContentLine) return null;
+    
+    const activeLineIdx = lines.findIndex(l => l === activeContentLine);
+    
+    // Search backwards from current line for nearest section tag
+    for (let i = activeLineIdx; i >= 0; i--) {
+      if (lines[i]?.sectionTag) {
+        return lines[i].sectionTag;
+      }
+    }
+    return null;
+  }, [lines, contentLines, activeLineIndex]);
+
   // Auto-scroll to active line in expanded mode
   useEffect(() => {
     if (isExpanded && activeLineRef.current) {
@@ -378,6 +395,10 @@ export function StudioLyricsPanelCompact({
         <div className="flex items-center gap-2">
           <Music2 className="w-3.5 h-3.5 text-primary" />
           <span className="text-xs font-medium text-muted-foreground">Текст песни</span>
+          {/* Show current section in collapsed mode */}
+          {!isExpanded && currentSectionTag && (
+            <SectionTagBadge type={currentSectionTag} />
+          )}
         </div>
         <div className="flex items-center gap-2">
           <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4">

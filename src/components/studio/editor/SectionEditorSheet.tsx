@@ -315,7 +315,20 @@ export function SectionEditorSheet({
                   )}
                   onClick={() => {
                     setCustomRange(section.startTime, section.endTime);
-                    setLyrics(section.lyrics || '');
+                    // Extract lyrics from aligned words if section has no lyrics
+                    if (section.lyrics) {
+                      setLyrics(section.lyrics);
+                    } else if (lyricsData?.alignedWords) {
+                      const tolerance = 0.5;
+                      const wordsInRange = lyricsData.alignedWords.filter(w => {
+                        const wordMid = (w.startS + w.endS) / 2;
+                        return wordMid >= section.startTime - tolerance && wordMid <= section.endTime + tolerance;
+                      });
+                      if (wordsInRange.length > 0) {
+                        const extractedLyrics = wordsInRange.map(w => w.word).join(' ').replace(/\s+/g, ' ').trim();
+                        setLyrics(extractedLyrics);
+                      }
+                    }
                   }}
                 >
                   <span className={cn(
