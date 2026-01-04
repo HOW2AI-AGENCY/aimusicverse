@@ -17,7 +17,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useTouchEvents, triggerHapticFeedback } from '@/lib/mobile-utils';
-import { toast } from 'sonner';
+import { notify } from '@/lib/notifications';
 import { motion, PanInfo } from '@/lib/motion';
 import { hapticImpact, hapticNotification } from '@/lib/haptic';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
@@ -132,7 +132,8 @@ export const TrackCard = memo(({
           (payload) => {
             // Stem added - refresh counts
             fetchCounts();
-            toast.success('Стемы готовы! 🎵');
+            // Use centralized notification with deduplication
+            notify.stemReady(track.title || undefined);
             setIsProcessing(false);
           }
         )
@@ -210,7 +211,7 @@ export const TrackCard = memo(({
         // Swipe left: Like/Unlike
         hapticImpact('medium');
         onToggleLike?.();
-        toast.success(track.is_liked ? '💔 Удалено из избранного' : '❤️ Добавлено в избранное');
+        notify.trackLiked(!track.is_liked);
       } else if (offset > threshold) {
         // Swipe right: Delete (with confirmation)
         hapticImpact('heavy');
@@ -227,7 +228,7 @@ export const TrackCard = memo(({
     hapticNotification('success');
     onDelete?.();
     setDeleteDialogOpen(false);
-    toast.success('Трек удален');
+    notify.trackDeleted();
   };
 
   // Touch gesture handlers for mobile interactions
@@ -258,7 +259,7 @@ export const TrackCard = memo(({
   const handleSwipeAddToQueue = () => {
     if (track.audio_url && track.status === 'completed') {
       addToQueue(track);
-      toast.success('Добавлено в очередь');
+      notify.addedToQueue();
     }
   };
 
@@ -286,7 +287,7 @@ export const TrackCard = memo(({
     
     if (!error) {
       queryClient.invalidateQueries({ queryKey: ['tracks'] });
-      toast.success(`Версия ${nextVersion.version_label || 'A'}`);
+      notify.versionSwitched(nextVersion.version_label || 'A');
     }
   };
 

@@ -4,12 +4,30 @@ import { useIsMobile } from "@/hooks/use-mobile";
 
 type ToasterProps = React.ComponentProps<typeof Sonner>;
 
+/**
+ * Get additional offset for Telegram Mini App
+ * Accounts for dynamic viewport changes
+ */
+const getTelegramOffset = (): number => {
+  if (typeof window === 'undefined') return 0;
+  
+  const tgApp = window.Telegram?.WebApp;
+  if (!tgApp) return 0;
+  
+  // Account for keyboard or viewport changes in Telegram
+  const isExpanded = tgApp.isExpanded;
+  return isExpanded ? 0 : 20;
+};
+
 const Toaster = ({ ...props }: ToasterProps) => {
   const { resolvedTheme } = useTheme();
   const isMobile = useIsMobile();
 
   // On mobile, use bottom-center to avoid Telegram header buttons
   const position = isMobile ? "bottom-center" : "top-center";
+  
+  // Calculate dynamic offset for Telegram
+  const telegramOffset = getTelegramOffset();
 
   return (
     <Sonner
@@ -19,6 +37,10 @@ const Toaster = ({ ...props }: ToasterProps) => {
       expand={false}
       richColors
       offset={isMobile ? 16 : 8}
+      // Limit visible toasts on mobile to prevent clutter
+      visibleToasts={isMobile ? 2 : 3}
+      // Gap between stacked toasts
+      gap={8}
       style={{
         // Use left-0 right-0 for reliable centering on mobile
         // Avoid translateX(-50%) with calc widths - causes alignment issues
@@ -31,8 +53,8 @@ const Toaster = ({ ...props }: ToasterProps) => {
         // Telegram + device safe areas  
         ...(isMobile
           ? {
-              // Bottom positioning for mobile - account for bottom safe area + island nav (4rem)
-              bottom: 'max(calc(var(--tg-safe-area-inset-bottom, 0px) + 5.5rem), calc(env(safe-area-inset-bottom, 0px) + 5.5rem))',
+              // Bottom positioning for mobile - account for bottom safe area + island nav (5rem) + telegram offset
+              bottom: `max(calc(var(--tg-safe-area-inset-bottom, 0px) + 5.5rem + ${telegramOffset}px), calc(env(safe-area-inset-bottom, 0px) + 5.5rem))`,
             }
           : {
               // Top positioning for desktop
