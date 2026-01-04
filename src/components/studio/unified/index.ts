@@ -28,6 +28,8 @@ export { StudioDownloadPanel } from './StudioDownloadPanel';
 export { StudioTranscriptionPanel } from './StudioTranscriptionPanel';
 export { StudioNotationPanel } from './StudioNotationPanel';
 export { SaveVersionDialog } from './SaveVersionDialog';
+export { PianoRoll } from './PianoRoll';
+export type { MidiNote } from './PianoRoll';
 
 // DAW Canvas Components (ADR-011 - unified interface)
 export { AIActionsFAB } from './AIActionsFAB';
