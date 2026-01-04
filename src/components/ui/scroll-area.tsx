@@ -9,7 +9,7 @@ const ScrollArea = React.forwardRef<
 >(({ className, children, ...props }, ref) => (
   <ScrollAreaPrimitive.Root ref={ref} className={cn("relative overflow-hidden", className)} {...props}>
     <ScrollAreaPrimitive.Viewport 
-      className="h-full w-full rounded-[inherit]"
+      className="h-full w-full min-w-0 max-w-full overflow-x-hidden rounded-[inherit]"
       style={{ 
         // iOS momentum scrolling for smooth native-like scrolling
         WebkitOverflowScrolling: 'touch',
