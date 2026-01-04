@@ -2,7 +2,7 @@ import { memo, useState } from 'react';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { FormFieldToolbar } from '../FormFieldToolbar';
-import { LyricsVisualEditor } from '../LyricsVisualEditor';
+import { LyricsVisualEditorCompact } from '../LyricsVisualEditorCompact';
 import { SaveTemplateDialog } from '../SaveTemplateDialog';
 import { SavedLyricsSelector } from '../SavedLyricsSelector';
 import { SectionLabel, SECTION_HINTS } from '../SectionLabel';
@@ -65,7 +65,7 @@ export const LyricsSection = memo(function LyricsSection({
         </div>
 
         {showVisualEditor ? (
-          <LyricsVisualEditor
+          <LyricsVisualEditorCompact
             value={lyrics}
             onChange={onLyricsChange}
             onAIGenerate={onOpenLyricsAssistant}

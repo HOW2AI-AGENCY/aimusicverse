@@ -1,7 +1,6 @@
 /**
- * CollapsibleFormHeader - Compact header for GenerateSheet
- * Mobile-optimized layout with all controls in one row
- * Uses dynamic models from sunoModels.ts
+ * CollapsibleFormHeader - Ultra compact header for GenerateSheet
+ * Mobile-optimized with minimal padding and no logo
  */
 
 import { memo, useMemo } from 'react';
@@ -14,8 +13,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
-import logo from '@/assets/logo.png';
-import { SUNO_MODELS, getAvailableModels, type SunoModelKey } from '@/constants/sunoModels';
+import { SUNO_MODELS, getAvailableModels } from '@/constants/sunoModels';
 
 interface CollapsibleFormHeaderProps {
   balance?: number;
@@ -43,109 +41,96 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
     onOpenHistory?.();
   };
 
-  // Get available models dynamically
   const availableModels = useMemo(() => getAvailableModels(), []);
-  
-  // Get current model info
   const currentModel = SUNO_MODELS[model] || SUNO_MODELS.V4_5ALL;
 
   return (
-    <div className="flex items-center justify-between py-2 gap-2 min-h-[44px]">
-      {/* Left side: History + Logo + Mode */}
-      <div className="flex items-center gap-1.5 min-w-0 flex-shrink-0">
-        {/* History button - moved to left to avoid close button conflict */}
+    <div className="flex items-center justify-between py-1 gap-1 min-h-[32px]">
+      {/* Left: History + Mode */}
+      <div className="flex items-center gap-1 min-w-0 flex-shrink-0">
         {onOpenHistory && (
           <Button 
             variant="ghost" 
             size="icon" 
-            className="h-7 w-7 p-0 rounded-lg hover:bg-muted flex-shrink-0" 
+            className="h-6 w-6 p-0 rounded-md hover:bg-muted flex-shrink-0" 
             onClick={handleHistoryClick}
           >
-            <History className="w-4 h-4 text-muted-foreground" />
+            <History className="w-3.5 h-3.5 text-muted-foreground" />
           </Button>
         )}
         
-        <img 
-          src={logo} 
-          alt="MusicVerse AI" 
-          className="h-6 w-6 rounded-md shadow-sm flex-shrink-0"
-        />
-        
-        {/* Mode dropdown - compact */}
+        {/* Mode dropdown */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button 
               type="button"
               className={cn(
-                "flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs font-medium transition-all",
-                "bg-muted/60 hover:bg-muted border border-transparent hover:border-primary/20"
+                "flex items-center gap-0.5 px-1.5 py-1 rounded-md text-xs font-medium transition-all",
+                "bg-muted/50 hover:bg-muted"
               )}
             >
               {mode === 'simple' ? (
-                <Zap className="w-3.5 h-3.5 text-primary" />
+                <Zap className="w-3 h-3 text-primary" />
               ) : (
-                <Settings2 className="w-3.5 h-3.5 text-primary" />
+                <Settings2 className="w-3 h-3 text-primary" />
               )}
-              <span className="hidden xs:inline text-xs">
-                {mode === 'simple' ? 'Быстрый' : 'Полный'}
-              </span>
-              <ChevronDown className="w-3 h-3 text-muted-foreground flex-shrink-0" />
+              <ChevronDown className="w-2.5 h-2.5 text-muted-foreground" />
             </button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="start" className="min-w-[140px]">
+          <DropdownMenuContent align="start" className="min-w-[120px]">
             <DropdownMenuItem 
               onClick={() => onModeChange?.('simple')}
-              className={cn(mode === 'simple' && "bg-primary/10")}
+              className={cn("text-xs", mode === 'simple' && "bg-primary/10")}
             >
-              <Zap className="w-4 h-4 mr-2 text-primary" />
+              <Zap className="w-3.5 h-3.5 mr-1.5 text-primary" />
               Быстрый
             </DropdownMenuItem>
             <DropdownMenuItem 
               onClick={() => onModeChange?.('custom')}
-              className={cn(mode === 'custom' && "bg-primary/10")}
+              className={cn("text-xs", mode === 'custom' && "bg-primary/10")}
             >
-              <Settings2 className="w-4 h-4 mr-2 text-primary" />
+              <Settings2 className="w-3.5 h-3.5 mr-1.5 text-primary" />
               Полный
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
 
-      {/* Right side: Model + Balance + Close */}
-      <div className="flex items-center gap-1.5 flex-shrink-0">
-        {/* Model selector dropdown */}
+      {/* Right: Model + Balance + Close */}
+      <div className="flex items-center gap-1 flex-shrink-0">
+        {/* Model selector */}
         {onModelChange && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button 
                 type="button"
                 className={cn(
-                  "flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs font-medium transition-all",
-                  "bg-muted/60 hover:bg-muted border border-transparent hover:border-primary/20"
+                  "flex items-center gap-0.5 px-1.5 py-1 rounded-md text-xs font-medium transition-all",
+                  "bg-muted/50 hover:bg-muted"
                 )}
               >
-                <span className="text-sm">{currentModel.emoji}</span>
-                <span className="font-semibold text-xs">{currentModel.name}</span>
-                <ChevronDown className="w-3 h-3 text-muted-foreground" />
+                <span className="text-xs">{currentModel.emoji}</span>
+                <span className="font-medium text-[11px] max-w-[50px] truncate">{currentModel.name}</span>
+                <ChevronDown className="w-2.5 h-2.5 text-muted-foreground" />
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="min-w-[180px]">
+            <DropdownMenuContent align="end" className="min-w-[160px]">
               {availableModels.map((m) => (
                 <DropdownMenuItem 
                   key={m.key}
                   onClick={() => onModelChange(m.key)}
                   className={cn(
-                    "flex items-center gap-2",
+                    "flex items-center gap-1.5 text-xs",
                     model === m.key && "bg-primary/10"
                   )}
                 >
-                  <span className="text-base">{m.emoji}</span>
+                  <span>{m.emoji}</span>
                   <div className="flex flex-col flex-1 min-w-0">
-                    <span className="font-medium text-sm">{m.name}</span>
-                    <span className="text-[10px] text-muted-foreground truncate">{m.desc} • {m.cost}💎</span>
+                    <span className="font-medium text-xs">{m.name}</span>
+                    <span className="text-[9px] text-muted-foreground">{m.cost}💎</span>
                   </div>
                   {m.status === 'latest' && (
-                    <span className="text-[9px] px-1.5 py-0.5 rounded bg-primary/20 text-primary font-medium flex-shrink-0">NEW</span>
+                    <span className="text-[8px] px-1 py-0.5 rounded bg-primary/20 text-primary font-medium">NEW</span>
                   )}
                 </DropdownMenuItem>
               ))}
@@ -153,22 +138,22 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
           </DropdownMenu>
         )}
         
-        {/* Balance pill - compact */}
-        <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-primary/10 text-primary">
-          <Coins className="w-3.5 h-3.5" />
-          <span className="text-xs font-semibold tabular-nums">{balance}</span>
-          <span className="text-[10px] text-primary/60">/{cost}</span>
+        {/* Balance */}
+        <div className="flex items-center gap-0.5 px-1.5 py-1 rounded-md bg-primary/10 text-primary">
+          <Coins className="w-3 h-3" />
+          <span className="text-[11px] font-semibold tabular-nums">{balance}</span>
+          <span className="text-[9px] text-primary/60">/{cost}</span>
         </div>
         
-        {/* Close button */}
+        {/* Close */}
         {onClose && (
           <Button 
             variant="ghost" 
             size="icon" 
-            className="h-7 w-7 p-0 rounded-lg hover:bg-muted flex-shrink-0" 
+            className="h-6 w-6 p-0 rounded-md hover:bg-muted flex-shrink-0" 
             onClick={onClose}
           >
-            <X className="w-4 h-4 text-muted-foreground" />
+            <X className="w-3.5 h-3.5 text-muted-foreground" />
           </Button>
         )}
       </div>
