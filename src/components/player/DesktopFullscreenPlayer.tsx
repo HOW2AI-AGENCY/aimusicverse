@@ -6,10 +6,11 @@
  * - Two-column layout (cover + controls | lyrics)
  * - Volume control
  * - Keyboard shortcuts support
+ * - Full action bar with context menu
  */
 
 import { useState, useEffect, useCallback } from 'react';
-import { ChevronDown, Heart, Download, MoreHorizontal, ListMusic, Maximize2, Minimize2 } from 'lucide-react';
+import { ChevronDown, ListMusic, Maximize2, Minimize2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -17,8 +18,6 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { useAudioTime } from '@/hooks/audio/useAudioTime';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { useGlobalAudioPlayer } from '@/hooks/audio/useGlobalAudioPlayer';
-import { useTracks } from '@/hooks/useTracks';
-import { useTrackActions } from '@/hooks/useTrackActions';
 import { Track } from '@/types/track';
 import { LazyImage } from '@/components/ui/lazy-image';
 import { cn } from '@/lib/utils';
@@ -27,6 +26,7 @@ import { WaveformProgressBar } from './WaveformProgressBar';
 import { QueueSheet } from './QueueSheet';
 import { LyricsPanel } from './LyricsPanel';
 import { UnifiedPlayerControls } from './UnifiedPlayerControls';
+import { PlayerActionsBar } from './PlayerActionsBar';
 import { hapticImpact } from '@/lib/haptic';
 import { logger } from '@/lib/logger';
 
@@ -58,9 +58,6 @@ export function DesktopFullscreenPlayer({
   const [selectedVersionId, setSelectedVersionId] = useState<string | null>(
     versions.find(v => v.is_primary)?.id || versions[0]?.id || null
   );
-  
-  const { toggleLike, downloadTrack } = useTracks();
-  const { handleShare } = useTrackActions();
   
   const { currentTime, duration, buffered, seek } = useAudioTime();
   const { isPlaying, volume } = usePlayerStore();
@@ -170,14 +167,6 @@ export function DesktopFullscreenPlayer({
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => handleShare(track)}
-              aria-label="Share"
-            >
-              <MoreHorizontal className="h-5 w-5" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
               onClick={() => setIsMaximized(!isMaximized)}
               className="hidden md:flex"
               aria-label={isMaximized ? 'Restore' : 'Maximize'}
@@ -256,20 +245,14 @@ export function DesktopFullscreenPlayer({
                 showBeatGrid={true}
               />
 
-              {/* Action Buttons */}
+              {/* Action Buttons - PlayerActionsBar + Queue */}
               <div className="flex items-center justify-between">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => {
-                    hapticImpact('light');
-                    toggleLike({ trackId: track.id, isLiked: track.is_liked ?? false });
-                  }}
-                  className="h-11 w-11 touch-manipulation"
-                  aria-label={track.is_liked ? "Unlike" : "Like"}
-                >
-                  <Heart className={cn("h-5 w-5", track.is_liked && "fill-current text-red-500")} />
-                </Button>
+                <PlayerActionsBar 
+                  track={track} 
+                  variant="horizontal"
+                  size="md"
+                  showStudioButton={true}
+                />
                 
                 <Button
                   variant="ghost"
@@ -278,33 +261,21 @@ export function DesktopFullscreenPlayer({
                     hapticImpact('light');
                     setQueueSheetOpen(true);
                   }}
-                  className="h-11 w-11 touch-manipulation"
+                  className="h-11 w-11 touch-manipulation rounded-full hover:bg-muted/50"
                   aria-label="Queue"
                 >
                   <ListMusic className="h-5 w-5" />
                 </Button>
-                
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => {
-                    hapticImpact('light');
-                    downloadTrack({ trackId: track.id, audioUrl: audioUrl!, coverUrl: coverUrl! });
-                  }}
-                  className="h-11 w-11 touch-manipulation"
-                  aria-label="Download"
-                  disabled={!audioUrl}
-                >
-                  <Download className="h-5 w-5" />
-                </Button>
               </div>
 
-              {/* Playback Controls */}
+              {/* Playback Controls with Seek Buttons */}
               <UnifiedPlayerControls 
                 variant="fullscreen" 
                 size="lg" 
                 showVolume={true}
                 showShuffleRepeat={true}
+                showSeekButtons={true}
+                seekSeconds={10}
               />
             </Card>
           </div>

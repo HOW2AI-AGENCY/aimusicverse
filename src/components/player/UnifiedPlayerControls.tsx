@@ -2,13 +2,14 @@
  * UnifiedPlayerControls - Shared playback controls component
  * 
  * Adaptive controls for both compact and fullscreen modes.
- * Features play/pause, skip, shuffle, repeat, and volume control.
+ * Features play/pause, skip, shuffle, repeat, seek buttons, and volume control.
  */
 
 import { memo, useCallback } from 'react';
-import { Play, Pause, SkipBack, SkipForward, Repeat, Shuffle, Volume2, VolumeX } from 'lucide-react';
+import { Play, Pause, SkipBack, SkipForward, Repeat, Shuffle, Volume2, VolumeX, RotateCcw, RotateCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { useAudioTime } from '@/hooks/audio/useAudioTime';
 import { cn } from '@/lib/utils';
@@ -22,6 +23,8 @@ interface UnifiedPlayerControlsProps {
   size?: ControlSize;
   showVolume?: boolean;
   showShuffleRepeat?: boolean;
+  showSeekButtons?: boolean;
+  seekSeconds?: number;
   className?: string;
 }
 
@@ -51,6 +54,8 @@ export const UnifiedPlayerControls = memo(function UnifiedPlayerControls({
   size = 'md',
   showVolume = false,
   showShuffleRepeat = true,
+  showSeekButtons = false,
+  seekSeconds = 10,
   className,
 }: UnifiedPlayerControlsProps) {
   const { 
@@ -66,6 +71,8 @@ export const UnifiedPlayerControls = memo(function UnifiedPlayerControls({
     volume,
     setVolume,
   } = usePlayerStore();
+  
+  const { currentTime, duration, seek } = useAudioTime();
   
   const config = sizeConfig[size];
 
@@ -102,6 +109,16 @@ export const UnifiedPlayerControls = memo(function UnifiedPlayerControls({
     setVolume(value[0]);
   }, [setVolume]);
 
+  const handleSeekBackward = useCallback(() => {
+    hapticImpact('light');
+    seek(Math.max(0, currentTime - seekSeconds));
+  }, [seek, currentTime, seekSeconds]);
+
+  const handleSeekForward = useCallback(() => {
+    hapticImpact('light');
+    seek(Math.min(duration, currentTime + seekSeconds));
+  }, [seek, currentTime, duration, seekSeconds]);
+
   const isCompact = variant === 'compact';
 
   return (
@@ -128,6 +145,34 @@ export const UnifiedPlayerControls = memo(function UnifiedPlayerControls({
               <Shuffle className={config.icon} />
             </Button>
           </motion.div>
+        )}
+
+        {/* Seek Backward */}
+        {showSeekButtons && !isCompact && (
+          <TooltipProvider delayDuration={300}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={handleSeekBackward}
+                    className={cn(
+                      config.secondary,
+                      'touch-manipulation rounded-full hover:bg-muted/50 relative'
+                    )}
+                    aria-label={`Seek backward ${seekSeconds} seconds`}
+                  >
+                    <RotateCcw className={config.icon} />
+                    <span className="absolute text-[9px] font-bold">{seekSeconds}</span>
+                  </Button>
+                </motion.div>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>−{seekSeconds}s</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         )}
 
         {/* Previous */}
@@ -216,6 +261,34 @@ export const UnifiedPlayerControls = memo(function UnifiedPlayerControls({
             <SkipForward className={config.icon} />
           </Button>
         </motion.div>
+
+        {/* Seek Forward */}
+        {showSeekButtons && !isCompact && (
+          <TooltipProvider delayDuration={300}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={handleSeekForward}
+                    className={cn(
+                      config.secondary,
+                      'touch-manipulation rounded-full hover:bg-muted/50 relative'
+                    )}
+                    aria-label={`Seek forward ${seekSeconds} seconds`}
+                  >
+                    <RotateCw className={config.icon} />
+                    <span className="absolute text-[9px] font-bold">{seekSeconds}</span>
+                  </Button>
+                </motion.div>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>+{seekSeconds}s</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        )}
 
         {/* Repeat */}
         {showShuffleRepeat && !isCompact && (
