@@ -10,6 +10,12 @@ import { ButtonBuilder } from '../utils/button-builder.ts';
 import { navigateTo } from '../core/navigation-state.ts';
 import { BOT_CONFIG } from '../config.ts';
 import { deleteActiveMenu, setActiveMenuMessageId } from '../core/active-menu-manager.ts';
+import { 
+  buildTelegramMetadata, 
+  formatDuration, 
+  escapeMarkdown,
+  type TrackMetadataInput 
+} from '../../_shared/telegram-metadata.ts';
 
 const supabase = createClient(
   BOT_CONFIG.supabaseUrl,
@@ -33,18 +39,10 @@ interface Track {
   created_at: string;
   user_id: string;
   artist_name: string | null;
+  creator_display_name: string | null;
+  generation_mode: string | null;
+  has_vocals: boolean | null;
   prompt: string;
-}
-
-function formatDuration(seconds: number | null): string {
-  if (!seconds) return '0:00';
-  const mins = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  return `${mins}:${String(secs).padStart(2, '0')}`;
-}
-
-function escapeMarkdown(text: string): string {
-  return text.replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1');
 }
 
 export async function handleTrackDetails(
@@ -257,6 +255,20 @@ export async function handlePlayTrack(
   // Increment play count
   await supabase.rpc('increment_track_play_count', { track_id_param: trackId });
 
+  // Build metadata using shared utility
+  const metadataInput: TrackMetadataInput = {
+    title: track.title || 'Новый трек',
+    artistName: track.artist_name || undefined,
+    creatorDisplayName: track.creator_display_name || undefined,
+    durationSeconds: track.duration_seconds || undefined,
+    style: track.style || undefined,
+    mode: (track.generation_mode as TrackMetadataInput['mode']) || 'generate',
+    hasVocals: track.has_vocals ?? true,
+    trackId: track.id,
+  };
+
+  const metadata = buildTelegramMetadata(metadataInput);
+
   // Send audio with action buttons (NOT menu, just content)
   const keyboard = new ButtonBuilder()
     .addRow(
@@ -278,15 +290,13 @@ export async function handlePlayTrack(
     })
     .build();
 
-  const title = track.title || 'MusicVerse Track';
-  const performer = track.artist_name || 'MusicVerse AI';
   const duration = track.duration_seconds ? Math.floor(track.duration_seconds) : undefined;
   const thumbnail = track.local_cover_url || track.cover_url || undefined;
 
   await sendAudio(chatId, audioUrl, {
-    caption: `🎵 *${escapeMarkdown(title)}*\n👤 ${escapeMarkdown(performer)}`,
-    title,
-    performer,
+    caption: metadata.caption,
+    title: metadata.title,
+    performer: metadata.performer,
     duration,
     thumbnail,
     replyMarkup: keyboard
