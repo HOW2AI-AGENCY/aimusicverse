@@ -17,7 +17,7 @@ import { formatTime } from '@/lib/formatters';
 import { 
   Music, Piano, ListMusic, FileText, Download, 
   Music2, Play, Pause, Volume2, VolumeX, Loader2,
-  Guitar, FileCode2, ExternalLink
+  Guitar, FileCode2, ExternalLink, Send
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -30,6 +30,7 @@ import { useMidiFileParser, type ParsedMidiNote } from '@/hooks/useMidiFileParse
 import { useMusicXmlParser } from '@/hooks/useMusicXmlParser';
 import { useMidiSynth } from '@/hooks/useMidiSynth';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
 type ViewMode = 'piano' | 'notation' | 'list';
@@ -82,6 +83,9 @@ interface UnifiedNotesViewerProps {
   currentTime?: number;
   isPlaying?: boolean;
   
+  // Track info for sharing
+  trackTitle?: string;
+  
   // Callbacks
   onNoteClick?: (note: NoteInput, index: number) => void;
 }
@@ -116,6 +120,7 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
   enablePlayback = true,
   currentTime: externalTime = 0,
   isPlaying: externalPlaying = false,
+  trackTitle,
   onNoteClick,
 }: UnifiedNotesViewerProps) {
   const isMobile = useIsMobile();
@@ -160,6 +165,7 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
   const [internalPlaying, setInternalPlaying] = useState(false);
   const [internalTime, setInternalTime] = useState(0);
   const [playedNotes, setPlayedNotes] = useState<Set<number>>(new Set());
+  const [sendingFile, setSendingFile] = useState<string | null>(null);
   
   const parsedTimeSignature = parseTimeSignature(timeSignature);
   
@@ -324,6 +330,46 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
     document.body.removeChild(link);
     toast.success('Скачивание начато');
   }, []);
+
+  // Send file to Telegram
+  const handleSendToTelegram = useCallback(async (url: string, type: string, extension: string) => {
+    setSendingFile(type);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('Не авторизован');
+
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('telegram_id')
+        .eq('user_id', user.id)
+        .single();
+
+      if (profileError || !profile?.telegram_id) {
+        toast.error('Telegram не подключен');
+        return;
+      }
+
+      const { error } = await supabase.functions.invoke('send-telegram-notification', {
+        body: {
+          type: 'document_share',
+          chat_id: profile.telegram_id,
+          document_url: url,
+          document_type: type,
+          filename: `${trackTitle || 'transcription'}${extension}`,
+          track_title: trackTitle,
+        },
+      });
+
+      if (error) throw error;
+      toast.success(`Файл отправлен в Telegram`);
+    } catch (error: unknown) {
+      console.error('Send to Telegram error:', error);
+      const msg = error instanceof Error ? error.message : 'Ошибка отправки';
+      toast.error(msg);
+    } finally {
+      setSendingFile(null);
+    }
+  }, [trackTitle]);
   
   const defaultHeight = compact ? (isMobile ? 140 : 180) : (isMobile ? 220 : 280);
   const visualHeight = height ?? defaultHeight;
@@ -598,52 +644,77 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
         </div>
       )}
       
-      {/* Download buttons */}
+      {/* Download and share buttons */}
       {!compact && (
         <div className="flex flex-wrap gap-1.5">
           {effectiveMidiUrl && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => handleDownload(effectiveMidiUrl, 'notes.mid')}
-              className="h-8 text-xs gap-1"
-            >
-              <Download className="w-3.5 h-3.5" />
-              MIDI
-            </Button>
-          )}
-          {files?.midiQuantUrl && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => handleDownload(files.midiQuantUrl!, 'notes_quant.mid')}
-              className="h-8 text-xs gap-1"
-            >
-              <Download className="w-3.5 h-3.5" />
-              MIDI Quant
-            </Button>
+            <>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handleDownload(effectiveMidiUrl, 'notes.mid')}
+                className="h-8 text-xs gap-1"
+              >
+                <Download className="w-3.5 h-3.5" />
+                MIDI
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => handleSendToTelegram(effectiveMidiUrl, 'midi', '.mid')}
+                disabled={sendingFile === 'midi'}
+                className="h-8 text-xs gap-1"
+                title="Отправить в Telegram"
+              >
+                {sendingFile === 'midi' ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
+              </Button>
+            </>
           )}
           {files?.pdfUrl && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => handleDownload(files.pdfUrl!, 'notes.pdf')}
-              className="h-8 text-xs gap-1"
-            >
-              <FileText className="w-3.5 h-3.5" />
-              PDF
-            </Button>
+            <>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handleDownload(files.pdfUrl!, 'notes.pdf')}
+                className="h-8 text-xs gap-1"
+              >
+                <FileText className="w-3.5 h-3.5" />
+                PDF
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => handleSendToTelegram(files.pdfUrl!, 'pdf', '.pdf')}
+                disabled={sendingFile === 'pdf'}
+                className="h-8 text-xs gap-1"
+                title="Отправить в Telegram"
+              >
+                {sendingFile === 'pdf' ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
+              </Button>
+            </>
           )}
           {files?.gp5Url && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => handleDownload(files.gp5Url!, 'tabs.gp5')}
-              className="h-8 text-xs gap-1 text-amber-600"
-            >
-              <Guitar className="w-3.5 h-3.5" />
-              GP5
-            </Button>
+            <>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handleDownload(files.gp5Url!, 'tabs.gp5')}
+                className="h-8 text-xs gap-1 text-amber-600"
+              >
+                <Guitar className="w-3.5 h-3.5" />
+                GP5
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => handleSendToTelegram(files.gp5Url!, 'gp5', '.gp5')}
+                disabled={sendingFile === 'gp5'}
+                className="h-8 text-xs gap-1"
+                title="Отправить в Telegram"
+              >
+                {sendingFile === 'gp5' ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
+              </Button>
+            </>
           )}
           {effectiveMusicXmlUrl && (
             <Button

@@ -640,6 +640,7 @@ export function StemMidiDrawer({
                     <MidiFilesCard
                       files={transcriptionFiles}
                       title="Доступные файлы"
+                      trackTitle={`${trackTitle} - ${stem?.stem_type || 'Stem'}`}
                     />
                   ) : (
                     <div className="flex flex-col items-center justify-center py-12 text-center">
