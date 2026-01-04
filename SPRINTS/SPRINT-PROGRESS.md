@@ -1,23 +1,138 @@
 # Sprint Progress Tracker
 
-**Последнее обновление**: 2026-01-04
+**Последнее обновление**: 2026-01-04 (Comprehensive Update)
 
 ## 📊 Общий статус
 
 | Sprint | Статус | Прогресс | Дата |
 |--------|--------|----------|------|
 | Sprint 011: Social Features | ✅ ЗАВЕРШЕН | 100% | Dec 2025 |
-| Sprint 025: Optimization | ✅ ЗАВЕРШЕН | 100% | Completed Dec 11 |
-| Sprint 026: UX Unification | ✅ ЗАВЕРШЕН | 100% | Completed Dec 12 |
+| Sprint 025: Optimization | ✅ ЗАВЕРШЕН | 100% | Dec 11, 2025 |
+| Sprint 026: UX Unification | ✅ ЗАВЕРШЕН | 100% | Dec 12, 2025 |
 | Sprint 027: AI Lyrics Agent | ✅ ЗАВЕРШЕН | 100% | Dec 26, 2025 |
 | Sprint 028: UI/UX Optimization | ✅ ЗАВЕРШЕН | 100% | Dec 22, 2025 |
-| Sprint 029: Mobile Optimization | 🟢 В РАБОТЕ | 75% | Jan 4-18, 2026 |
+| Sprint 029: Mobile Optimization | 🟢 В РАБОТЕ | 85% | Jan 4-18, 2026 |
+| Sprint 030: Unified Studio Mobile | 📋 ЗАПЛАНИРОВАН | 0% | Jan 20+, 2026 |
 
 ---
 
-## Sprint 011: Social Features (Текущий)
+## 🟢 Sprint 029: Mobile Telegram Optimization (Текущий)
 
-### ✅ Завершено (2025-12-13)
+### ✅ Завершено (85% - 17/20 задач)
+
+#### Блок 1: Telegram Mini App SDK Integration ✅ (100%)
+- [x] Telegram CloudStorage API интеграция
+- [x] useCloudStorage React hook с localStorage fallback
+- [x] Tab synchronization через storage events
+- [x] Haptic feedback utilities (hapticImpact, hapticNotification, hapticSelectionChanged)
+- [x] Button component с haptic prop
+- [x] BottomNavigation с haptic feedback
+- [x] TypeScript типизация для всех API
+
+#### Блок 2: Mobile UI/UX Improvements ✅ (100%)
+- [x] Pull-to-refresh на Library странице
+- [x] Pull-to-refresh на Index (homepage)
+- [x] PullToRefreshWrapper reusable component
+- [x] Mobile navigation с 56px touch targets
+- [x] MobilePlayerPage standalone компонент
+- [x] Deep link support (play_, player_, listen_)
+- [x] Auto-playback при загрузке через deep link
+- [x] useKeyboardAware hook для форм
+- [x] Mobile karaoke features
+- [x] Audio prefetching optimization
+
+#### Блок 3: Bug Fixes & Database ✅ (100%)
+- [x] track_versions constraint fix (vocal_add, instrumental_add, cover types)
+- [x] suno-music-callback version_type logic fix
+- [x] suno-check-status 'original' → 'initial' fix
+
+### 🟡 В работе (15% - 3/20 задач)
+
+#### Блок 4: Testing & Quality (33%)
+- [x] Haptic feedback testing на iOS/Android
+- [ ] E2E tests setup с Playwright (в процессе)
+- [ ] Performance monitoring dashboard
+
+#### Блок 5: Advanced Features (0%)
+- [ ] Swipe navigation между табами
+- [ ] Gesture navigation improvements
+- [ ] Mobile animation optimizations
+
+---
+
+## Метрики Sprint 029
+
+| Метрика | Target | Current | Status |
+|---------|--------|---------|--------|
+| Tasks completed | 20/20 | 17/20 | 🟡 85% |
+| Build status | Success | Success | ✅ |
+| TypeScript strict | Passing | Passing | ✅ |
+| Haptic feedback | iOS+Android | Working | ✅ |
+| CloudStorage | 100% coverage | With fallback | ✅ |
+| Touch targets | ≥44px | 56px | ✅ |
+| Pull-to-refresh | Working | Library+Index | ✅ |
+| Deep links | Working | 3 prefixes | ✅ |
+| E2E coverage | >80% | In progress | 🟡 |
+
+---
+
+## Ключевые файлы Sprint 029
+
+### New Components & Hooks
+```
+src/lib/haptic.ts - Haptic feedback utilities
+src/lib/cloudStorage.ts - CloudStorage API wrapper
+src/hooks/useCloudStorage.ts - React hook для CloudStorage
+src/components/library/PullToRefreshWrapper.tsx - Pull-to-refresh component
+src/pages/MobilePlayerPage.tsx - Deep link player page
+```
+
+### Updated Components
+```
+src/components/ui/button.tsx - Added haptic prop
+src/components/mobile/BottomNavigation.tsx - Haptic on tab change
+src/pages/Library.tsx - Pull-to-refresh integration
+src/pages/Index.tsx - Pull-to-refresh integration
+src/App.tsx - MobilePlayerPage route
+```
+
+### Database & Edge Functions
+```
+supabase/migrations/*.sql - track_versions constraint updates
+supabase/functions/suno-music-callback/ - version_type logic fix
+supabase/functions/suno-check-status/ - 'original' → 'initial' fix
+```
+
+---
+
+## Следующие действия
+
+### Sprint 029 - Текущая неделя (Jan 4-10, 2026)
+1. ✅ **Выполнено**: CloudStorage integration
+2. ✅ **Выполнено**: Haptic feedback system
+3. ✅ **Выполнено**: Pull-to-refresh (Library + Index)
+4. ✅ **Выполнено**: MobilePlayerPage with deep links
+5. ✅ **Выполнено**: Mobile karaoke & prefetch
+6. 🔄 **В работе**: E2E tests setup (Playwright)
+7. 📋 **Планируется**: Swipe navigation между табами
+
+### Sprint 029 - Следующая неделя (Jan 11-18, 2026)
+8. **Приоритет 1**: Завершить E2E тесты (8-10 часов)
+9. **Приоритет 2**: Swipe navigation implementation (6-8 часов)
+10. **Приоритет 3**: Performance monitoring dashboard (4-6 часов)
+11. **Приоритет 4**: Mobile gesture improvements (4-6 часов)
+
+### Sprint 030 - Preparation (Jan 18-20, 2026)
+- Review Sprint 029 results
+- Plan Unified Studio Mobile architecture
+- Create detailed task breakdown
+- Set up development environment
+
+---
+
+## Sprint 011: Social Features (Завершён)
+
+### ✅ Завершено (100% - 2025-12-13)
 
 #### Фаза 1-9: Основные функции (123/143 задачи - 86%)
 - [x] **Phase 1**: Database migrations (10/10 tasks)
