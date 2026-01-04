@@ -984,3 +984,76 @@ html {
     padding-bottom: max(env(safe-area-inset-bottom, 0px), var(--keyboard-height, 0px));
   }
 }
+
+/* =========================================
+   Accessibility - Focus Visible Styles
+   ========================================= */
+
+/* Enhanced focus-visible ring for keyboard navigation */
+:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* Specific focus styles for interactive elements */
+button:focus-visible,
+[role="button"]:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: var(--radius);
+}
+
+/* Focus styles for cards and containers */
+.focusable-card:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+  box-shadow: 0 0 0 4px hsl(var(--primary) / 0.15);
+}
+
+/* Remove default focus for mouse users */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* High contrast focus mode */
+@media (prefers-contrast: high) {
+  :focus-visible {
+    outline-width: 3px;
+    outline-offset: 3px;
+  }
+}
+
+/* =========================================
+   Accessibility - Reduced Motion
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  /* Preserve essential opacity transitions for accessibility */
+  .preserve-opacity-transition {
+    transition-duration: 150ms !important;
+    transition-property: opacity !important;
+  }
+  
+  /* Disable parallax and complex transforms */
+  .parallax,
+  .animate-float,
+  .animate-pulse-slow,
+  .animate-spin-slow {
+    animation: none !important;
+    transform: none !important;
+  }
+}
