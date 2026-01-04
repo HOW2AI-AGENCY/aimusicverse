@@ -348,8 +348,8 @@ export const TrackCard = memo(({
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
             <h3 className="font-medium text-sm sm:text-base truncate">{track.title || 'Без названия'}</h3>
-            {/* Queue Position Indicator */}
-            {isInQueue && !isCurrentTrack && (
+            {/* Queue Position Indicator - desktop only, mobile shows in sheet */}
+            {isInQueue && !isCurrentTrack && !isMobile && (
               <Badge 
                 variant={isNextTrack ? "default" : "secondary"} 
                 size="sm" 
@@ -357,13 +357,14 @@ export const TrackCard = memo(({
                   "flex-shrink-0 gap-0.5 px-1.5 text-[10px]",
                   isNextTrack && "bg-primary/20 text-primary border-primary/30"
                 )}
+                title="Позиция в очереди воспроизведения"
               >
                 <ListMusic className="w-2.5 h-2.5" />
                 {position}
               </Badge>
             )}
-            {/* Version Toggle - only show if more than 1 version and owned by user */}
-            {versionCount > 1 && (
+            {/* Version Toggle - desktop only, mobile shows in sheet */}
+            {versionCount > 1 && !isMobile && (
               <InlineVersionToggle
                 trackId={track.id}
                 activeVersionId={track.active_version_id}

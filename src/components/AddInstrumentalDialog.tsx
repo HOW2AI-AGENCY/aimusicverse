@@ -243,12 +243,13 @@ export const AddInstrumentalDialog = ({ open, onOpenChange, track }: AddInstrume
             />
           </div>
 
-          {/* Advanced Settings */}
+          {/* Advanced Settings - open by default */}
           <GenerationAdvancedSettings
             settings={advancedSettings}
             onChange={setAdvancedSettings}
             showVocalGender={true}
             vocalGenderLabel="Пол вокала (если есть)"
+            defaultOpen={true}
           />
 
           <div className="flex gap-2 justify-end pt-4">

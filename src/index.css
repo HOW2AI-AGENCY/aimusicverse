@@ -239,6 +239,24 @@ All colors MUST be HSL.
     /* Адаптация под полноэкранный режим Telegram Mini App */
     overscroll-behavior: none;
     overflow-x: hidden;
+    /* Скрытие нативных скроллбаров на мобильных */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  body::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Скрытие скроллбаров на мобильных устройствах для всех элементов */
+  @media (max-width: 768px) {
+    * {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    *::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   /* Основной контейнер приложения с safe areas и динамической высотой */
