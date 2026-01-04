@@ -4349,6 +4349,7 @@ export type Database = {
           prompt: string
           provider: string | null
           quality_score: number | null
+          reference_audio_url: string | null
           share_count: number | null
           status: string | null
           streaming_url: string | null
@@ -4406,6 +4407,7 @@ export type Database = {
           prompt: string
           provider?: string | null
           quality_score?: number | null
+          reference_audio_url?: string | null
           share_count?: number | null
           status?: string | null
           streaming_url?: string | null
@@ -4463,6 +4465,7 @@ export type Database = {
           prompt?: string
           provider?: string | null
           quality_score?: number | null
+          reference_audio_url?: string | null
           share_count?: number | null
           status?: string | null
           streaming_url?: string | null
@@ -4918,6 +4921,48 @@ export type Database = {
           updated_at?: string | null
           user_id?: string
           vocals_count?: number | null
+        }
+        Relationships: []
+      }
+      user_journey_events: {
+        Row: {
+          completed: boolean | null
+          created_at: string | null
+          dropped_off: boolean | null
+          duration_from_prev_ms: number | null
+          funnel_name: string
+          id: string
+          metadata: Json | null
+          session_id: string
+          step_index: number
+          step_name: string
+          user_id: string
+        }
+        Insert: {
+          completed?: boolean | null
+          created_at?: string | null
+          dropped_off?: boolean | null
+          duration_from_prev_ms?: number | null
+          funnel_name: string
+          id?: string
+          metadata?: Json | null
+          session_id: string
+          step_index: number
+          step_name: string
+          user_id: string
+        }
+        Update: {
+          completed?: boolean | null
+          created_at?: string | null
+          dropped_off?: boolean | null
+          duration_from_prev_ms?: number | null
+          funnel_name?: string
+          id?: string
+          metadata?: Json | null
+          session_id?: string
+          step_index?: number
+          step_name?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -5417,6 +5462,17 @@ export type Database = {
           title: string
           trending_score: number
           user_id: string
+        }[]
+      }
+      get_funnel_dropoff_stats: {
+        Args: { _days_back?: number; _funnel_name: string }
+        Returns: {
+          avg_duration_ms: number
+          conversion_rate: number
+          step_index: number
+          step_name: string
+          users_dropped: number
+          users_reached: number
         }[]
       }
       get_gamification_analytics: {
