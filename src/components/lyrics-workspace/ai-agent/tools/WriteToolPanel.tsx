@@ -1,19 +1,32 @@
 /**
- * WriteToolPanel - Panel for full lyrics generation
- * Shows project context when available, otherwise shows input form
+ * WriteToolPanel - Enhanced panel for full lyrics generation
+ * Adds reference lyrics, language selection, creativity slider
  */
 
 import { useState } from 'react';
 import { motion } from '@/lib/motion';
-import { PenLine, Sparkles, X, Music2, Target, ListMusic, Info } from 'lucide-react';
+import { 
+  PenLine, Sparkles, X, Music2, Target, ListMusic, Info, 
+  Languages, Sliders, FileText
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
+import { Textarea } from '@/components/ui/textarea';
+import { Slider } from '@/components/ui/slider';
 import { cn } from '@/lib/utils';
+import { hapticImpact } from '@/lib/haptic';
 import { ToolPanelProps } from '../types';
 import { MOOD_OPTIONS, GENRE_OPTIONS, STRUCTURE_OPTIONS } from '../constants';
+
+const LANGUAGE_OPTIONS = [
+  { value: 'ru', label: 'Русский', flag: '🇷🇺' },
+  { value: 'en', label: 'English', flag: '🇺🇸' },
+  { value: 'es', label: 'Español', flag: '🇪🇸' },
+  { value: 'mixed', label: 'Смешанный', flag: '🌐' },
+];
 
 export function WriteToolPanel({ context, onExecute, onClose, isLoading }: ToolPanelProps) {
   const hasProjectContext = !!(context.projectContext || context.trackContext);
@@ -26,18 +39,26 @@ export function WriteToolPanel({ context, onExecute, onClose, isLoading }: ToolP
   const projectConcept = context.projectContext?.concept;
   const recommendedStructure = context.trackContext?.recommendedStructure;
   
-  // State for form (used in non-project mode or for overrides)
+  // State for form
   const [theme, setTheme] = useState(trackNotes || '');
   const [selectedMood, setSelectedMood] = useState(projectMood || 'romantic');
   const [selectedGenre, setSelectedGenre] = useState(projectGenre || 'pop');
   const [selectedStructure, setSelectedStructure] = useState(recommendedStructure || 'full');
+  const [selectedLanguage, setSelectedLanguage] = useState(context.projectContext?.language || 'ru');
+  const [referenceLyrics, setReferenceLyrics] = useState('');
+  const [creativity, setCreativity] = useState([70]);
+  const [showAdvanced, setShowAdvanced] = useState(false);
 
   const handleExecute = (structureOverride?: string) => {
+    hapticImpact('medium');
     onExecute({
       theme: theme || trackNotes || projectConcept || 'любовь и надежда',
       mood: selectedMood,
       genre: selectedGenre,
       structure: STRUCTURE_OPTIONS.find(s => s.value === (structureOverride || selectedStructure))?.desc || (structureOverride || selectedStructure),
+      language: selectedLanguage,
+      referenceLyrics: referenceLyrics || undefined,
+      creativity: creativity[0],
       // Pass project context to AI
       projectTitle: context.projectContext?.projectTitle,
       trackTitle: trackTitle,
@@ -113,60 +134,34 @@ export function WriteToolPanel({ context, onExecute, onClose, isLoading }: ToolP
                     </Badge>
                   )}
                 </div>
-                
-                {projectConcept && (
-                  <div className="mt-2 p-2 bg-background/50 rounded-md">
-                    <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
-                      {projectConcept}
-                    </p>
-                  </div>
-                )}
-
-                {trackNotes && (
-                  <div className="mt-2 p-2 bg-primary/5 rounded-md border border-primary/10">
-                    <div className="flex items-center gap-1.5 mb-1">
-                      <Info className="w-3 h-3 text-primary" />
-                      <span className="text-[10px] text-primary">Заметки к треку</span>
-                    </div>
-                    <p className="text-xs leading-relaxed line-clamp-3">
-                      {trackNotes}
-                    </p>
-                  </div>
-                )}
               </div>
             </div>
           </Card>
 
-          {/* Tracklist Context */}
-          {context.tracklist && context.tracklist.length > 1 && (
-            <div className="space-y-1.5">
-              <Label className="text-xs flex items-center gap-1.5">
-                <ListMusic className="w-3.5 h-3.5" />
-                Треклист ({context.tracklist.length} треков)
-              </Label>
-              <div className="flex gap-1 overflow-x-auto pb-1 scrollbar-hide">
-                {context.tracklist.slice(0, 6).map((track, idx) => (
-                  <Badge
-                    key={idx}
-                    variant={track.position === context.trackContext?.position ? "default" : "outline"}
-                    className={cn(
-                      "text-[10px] whitespace-nowrap shrink-0",
-                      track.hasLyrics && "border-green-500/50"
-                    )}
-                  >
-                    {track.position + 1}. {track.title.slice(0, 12)}{track.title.length > 12 ? '...' : ''}
-                  </Badge>
-                ))}
-                {context.tracklist.length > 6 && (
-                  <Badge variant="outline" className="text-[10px]">
-                    +{context.tracklist.length - 6}
-                  </Badge>
-                )}
-              </div>
+          {/* Language selection */}
+          <div className="space-y-1.5">
+            <Label className="text-xs flex items-center gap-1.5">
+              <Languages className="w-3.5 h-3.5" />
+              Язык текста
+            </Label>
+            <div className="flex gap-1.5 flex-wrap">
+              {LANGUAGE_OPTIONS.map((lang) => (
+                <Badge
+                  key={lang.value}
+                  variant={selectedLanguage === lang.value ? "default" : "outline"}
+                  className={cn(
+                    "cursor-pointer transition-all text-xs",
+                    selectedLanguage === lang.value && "bg-primary"
+                  )}
+                  onClick={() => setSelectedLanguage(lang.value)}
+                >
+                  {lang.flag} {lang.label}
+                </Badge>
+              ))}
             </div>
-          )}
+          </div>
 
-          {/* Structure Selection - Quick Options */}
+          {/* Structure Selection */}
           <div className="space-y-1.5">
             <Label className="text-xs">Выберите структуру</Label>
             <div className="grid grid-cols-2 gap-1.5">
@@ -188,6 +183,57 @@ export function WriteToolPanel({ context, onExecute, onClose, isLoading }: ToolP
             </div>
           </div>
 
+          {/* Advanced options toggle */}
+          <button
+            onClick={() => setShowAdvanced(!showAdvanced)}
+            className="flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <Sliders className="w-3.5 h-3.5" />
+            {showAdvanced ? 'Скрыть дополнительные настройки' : 'Показать дополнительные настройки'}
+          </button>
+
+          {/* Advanced options */}
+          {showAdvanced && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              className="space-y-3 p-3 rounded-lg bg-muted/30 border border-border/30"
+            >
+              {/* Creativity slider */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <Label className="text-xs">Креативность</Label>
+                  <span className="text-xs font-mono text-muted-foreground">{creativity[0]}%</span>
+                </div>
+                <Slider
+                  value={creativity}
+                  onValueChange={setCreativity}
+                  min={20}
+                  max={100}
+                  step={10}
+                  className="w-full"
+                />
+                <p className="text-[10px] text-muted-foreground">
+                  {creativity[0] <= 40 ? 'Строго по теме' : creativity[0] <= 70 ? 'Баланс' : 'Максимальная свобода'}
+                </p>
+              </div>
+
+              {/* Reference lyrics */}
+              <div className="space-y-1.5">
+                <Label className="text-xs flex items-center gap-1.5">
+                  <FileText className="w-3.5 h-3.5" />
+                  Референс (опционально)
+                </Label>
+                <Textarea
+                  placeholder="Вставьте текст похожей песни для вдохновения..."
+                  value={referenceLyrics}
+                  onChange={(e) => setReferenceLyrics(e.target.value)}
+                  className="h-16 text-xs resize-none"
+                />
+              </div>
+            </motion.div>
+          )}
+
           {/* Quick Generate Buttons */}
           <div className="space-y-2 pt-1">
             <Button
@@ -196,7 +242,7 @@ export function WriteToolPanel({ context, onExecute, onClose, isLoading }: ToolP
               className="w-full gap-2"
             >
               <Sparkles className="w-4 h-4" />
-              Сгенерировать с выбранной структурой
+              Сгенерировать текст
             </Button>
             
             <div className="grid grid-cols-2 gap-2">
@@ -231,7 +277,7 @@ export function WriteToolPanel({ context, onExecute, onClose, isLoading }: ToolP
       initial={{ opacity: 0, height: 0 }}
       animate={{ opacity: 1, height: 'auto' }}
       exit={{ opacity: 0, height: 0 }}
-      className="border-b border-border/50 bg-blue-500/5 max-h-[50vh] overflow-y-auto overscroll-contain"
+      className="border-b border-border/50 bg-blue-500/5 max-h-[55vh] overflow-y-auto overscroll-contain"
     >
       <div className="p-3 space-y-3">
         {/* Header */}
@@ -261,6 +307,29 @@ export function WriteToolPanel({ context, onExecute, onClose, isLoading }: ToolP
           />
         </div>
 
+        {/* Language selection */}
+        <div className="space-y-1.5">
+          <Label className="text-xs flex items-center gap-1.5">
+            <Languages className="w-3.5 h-3.5" />
+            Язык
+          </Label>
+          <div className="flex gap-1.5 flex-wrap">
+            {LANGUAGE_OPTIONS.map((lang) => (
+              <Badge
+                key={lang.value}
+                variant={selectedLanguage === lang.value ? "default" : "outline"}
+                className={cn(
+                  "cursor-pointer transition-all text-xs",
+                  selectedLanguage === lang.value && "bg-primary"
+                )}
+                onClick={() => setSelectedLanguage(lang.value)}
+              >
+                {lang.flag} {lang.label}
+              </Badge>
+            ))}
+          </div>
+        </div>
+
         {/* Mood Selection */}
         <div className="space-y-1.5">
           <Label className="text-xs">Настроение</Label>
@@ -285,7 +354,7 @@ export function WriteToolPanel({ context, onExecute, onClose, isLoading }: ToolP
         <div className="space-y-1.5">
           <Label className="text-xs">Жанр</Label>
           <div className="flex flex-wrap gap-1.5">
-            {GENRE_OPTIONS.map((genre) => (
+            {GENRE_OPTIONS.slice(0, 8).map((genre) => (
               <Badge
                 key={genre.value}
                 variant={selectedGenre === genre.value ? "default" : "outline"}

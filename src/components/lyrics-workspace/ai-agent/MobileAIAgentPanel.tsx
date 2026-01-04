@@ -1,14 +1,14 @@
 /**
  * MobileAIAgentPanel - Full-screen mobile AI agent for lyrics
  * Telegram mini app optimized with safe areas and native buttons
+ * Redesigned with category-based toolbar and enhanced UX
  */
 
 import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { 
   Send, Loader2, Bot, User, Trash2, X, Sparkles,
-  PenLine, Wand2, BarChart3, Headphones, Quote, Tag, Mic, MicOff,
-  ArrowRight, LayoutList, Music2, Shuffle, RefreshCw, Anchor, AudioLines, Languages
+  Tag, Mic, MicOff
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -32,8 +32,11 @@ import {
 import { StructuredLyricsDisplay } from './results/StructuredLyricsDisplay';
 import { AIProgressIndicator } from './AIProgressIndicator';
 import { QuickActionsBar } from './QuickActionsBar';
+import { CategoryToolbar } from './CategoryToolbar';
+import { ContextIndicator } from './ContextIndicator';
+import { WorkflowPresets, WORKFLOW_DEFINITIONS } from './WorkflowPresets';
+import { LyricsGeneratedMessage, AnalysisMessage, ValidationMessage } from './messages';
 import { AIToolId, AIAgentContext, SectionNote, AIMessage } from './types';
-
 interface MobileAIAgentPanelProps {
   existingLyrics?: string;
   selectedSection?: { type: string; content: string; notes?: string; tags?: string[] };
@@ -75,35 +78,6 @@ interface MobileAIAgentPanelProps {
   onClose: () => void;
   isOpen: boolean;
 }
-
-const QUICK_TOOLS = [
-  { id: 'write' as AIToolId, icon: PenLine, label: 'Написать', color: 'text-blue-400' },
-  { id: 'continue' as AIToolId, icon: ArrowRight, label: 'Продолжить', color: 'text-green-400' },
-  { id: 'structure' as AIToolId, icon: LayoutList, label: 'Структура', color: 'text-orange-400' },
-  { id: 'rhythm' as AIToolId, icon: Music2, label: 'Ритм', color: 'text-pink-400' },
-  { id: 'rhyme' as AIToolId, icon: Quote, label: 'Рифмы', color: 'text-cyan-400' },
-  { id: 'tags' as AIToolId, icon: Tag, label: 'Теги', color: 'text-emerald-400' },
-  { id: 'analyze' as AIToolId, icon: BarChart3, label: 'Анализ', color: 'text-purple-400' },
-  { id: 'producer' as AIToolId, icon: Headphones, label: 'Продюсер', color: 'text-amber-400' },
-  { id: 'optimize' as AIToolId, icon: Wand2, label: 'Suno', color: 'text-primary' },
-];
-
-// Extended Phase 2 tools
-const EXTENDED_TOOLS = [
-  { id: 'style_convert' as AIToolId, icon: Shuffle, label: 'Стиль', color: 'text-fuchsia-400' },
-  { id: 'paraphrase' as AIToolId, icon: RefreshCw, label: 'Перефраз', color: 'text-indigo-400' },
-  { id: 'hook_generator' as AIToolId, icon: Anchor, label: 'Хуки', color: 'text-red-400' },
-  { id: 'vocal_map' as AIToolId, icon: AudioLines, label: 'Вокал', color: 'text-violet-400' },
-  { id: 'translate' as AIToolId, icon: Languages, label: 'Перевод', color: 'text-teal-400' },
-];
-
-const WORKFLOW_STEPS = [
-  { step: 1, label: 'Концепт', description: 'Тема и настроение' },
-  { step: 2, label: 'Структура', description: 'Секции песни' },
-  { step: 3, label: 'Текст', description: 'Написание лирики' },
-  { step: 4, label: 'Теги', description: 'Мета-теги Suno' },
-  { step: 5, label: 'Финализация', description: 'Проверка и оптимизация' },
-];
 
 export function MobileAIAgentPanel({
   existingLyrics = '',
@@ -428,82 +402,15 @@ export function MobileAIAgentPanel({
         </Button>
       </div>
 
-      {/* Workflow progress */}
-      <div className="px-4 py-2 border-b border-border/30 shrink-0 overflow-x-auto scrollbar-hide">
-        <div className="flex gap-1 min-w-max">
-          {WORKFLOW_STEPS.map((step) => (
-            <div
-              key={step.step}
-              className={cn(
-                "flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs transition-all",
-                currentWorkflowStep >= step.step
-                  ? "bg-primary/10 text-primary border border-primary/20"
-                  : "bg-muted/30 text-muted-foreground"
-              )}
-            >
-              <span className={cn(
-                "w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold",
-                currentWorkflowStep >= step.step ? "bg-primary text-primary-foreground" : "bg-muted"
-              )}>
-                {step.step}
-              </span>
-              <span className="font-medium">{step.label}</span>
-            </div>
-          ))}
-        </div>
-      </div>
+      {/* Context indicator - always visible */}
+      <ContextIndicator context={context} />
 
-      {/* Quick tools bar - Basic */}
-      <div className="px-2 py-1.5 border-b border-border/30 shrink-0 overflow-x-auto scrollbar-hide">
-        <div className="flex gap-1 min-w-max">
-          {QUICK_TOOLS.map((tool) => {
-            const Icon = tool.icon;
-            const isActive = activeTool === tool.id;
-            return (
-              <Button
-                key={tool.id}
-                variant={isActive ? 'default' : 'ghost'}
-                size="sm"
-                className={cn(
-                  "h-7 px-2 gap-1 shrink-0",
-                  isActive && "bg-primary"
-                )}
-                onClick={() => handleToolSelect(tool.id)}
-                disabled={isLoading}
-              >
-                <Icon className={cn("w-3 h-3", !isActive && tool.color)} />
-                <span className="text-[10px]">{tool.label}</span>
-              </Button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Extended tools bar - Phase 2 */}
-      <div className="px-2 py-1.5 border-b border-border/30 shrink-0 overflow-x-auto scrollbar-hide bg-muted/30">
-        <div className="flex gap-1 min-w-max">
-          {EXTENDED_TOOLS.map((tool) => {
-            const Icon = tool.icon;
-            const isActive = activeTool === tool.id;
-            return (
-              <Button
-                key={tool.id}
-                variant={isActive ? 'default' : 'ghost'}
-                size="sm"
-                className={cn(
-                  "h-7 px-2 gap-1 shrink-0",
-                  isActive && "bg-primary"
-                )}
-                onClick={() => handleToolSelect(tool.id)}
-                disabled={isLoading}
-              >
-                <Icon className={cn("w-3 h-3", !isActive && tool.color)} />
-                <span className="text-[10px]">{tool.label}</span>
-              </Button>
-            );
-          })}
-        </div>
-      </div>
+      {/* Category-based toolbar - replaces old 2-row toolbars */}
+      <CategoryToolbar
+        activeTool={activeTool}
+        onSelectTool={handleToolSelect}
+        isLoading={isLoading}
+      />
 
       {/* Tool panel */}
       <AnimatePresence mode="wait">{renderToolPanel()}</AnimatePresence>
@@ -511,39 +418,21 @@ export function MobileAIAgentPanel({
       {/* Messages */}
       <ScrollArea className="flex-1" ref={scrollRef}>
         <div className="p-3 space-y-3">
-          {/* Context indicator */}
-          {(projectContext || existingLyrics) && messages.length <= 1 && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="p-3 rounded-xl bg-muted/50 border border-border/30"
-            >
-              <p className="text-xs font-medium text-muted-foreground mb-2">Контекст:</p>
-              <div className="flex flex-wrap gap-1.5">
-                {projectContext?.genre && (
-                  <Badge variant="secondary" className="text-xs">🎵 {projectContext.genre}</Badge>
-                )}
-                {projectContext?.mood && (
-                  <Badge variant="secondary" className="text-xs">💫 {projectContext.mood}</Badge>
-                )}
-                {existingLyrics && (
-                  <Badge variant="secondary" className="text-xs">📝 Есть текст</Badge>
-                )}
-                {trackContext && (
-                  <Badge variant="secondary" className="text-xs">🎤 Трек #{trackContext.position}</Badge>
-                )}
-              </div>
-            </motion.div>
-          )}
-
-          {/* Quick start actions */}
+          {/* Workflow presets - show at start */}
           {showQuickActions && messages.length <= 1 && (
-            <QuickActionsBar
-              hasLyrics={!!existingLyrics}
-              genre={genre || projectContext?.genre}
-              mood={mood || projectContext?.mood}
-              onAction={handleQuickAction}
-            />
+            <>
+              <WorkflowPresets
+                hasLyrics={!!existingLyrics}
+                onStartWorkflow={handleQuickAction}
+                isLoading={isLoading}
+              />
+              <QuickActionsBar
+                hasLyrics={!!existingLyrics}
+                genre={genre || projectContext?.genre}
+                mood={mood || projectContext?.mood}
+                onAction={handleQuickAction}
+              />
+            </>
           )}
 
           <AnimatePresence mode="popLayout">
