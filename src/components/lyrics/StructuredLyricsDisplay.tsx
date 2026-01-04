@@ -23,25 +23,30 @@ interface StructuredLyricsDisplayProps {
   className?: string;
 }
 
-const TAG_TYPE_COLORS = {
+const TAG_TYPE_COLORS: Record<string, string> = {
   structural: 'bg-blue-500/10 text-blue-500 border-blue-500/20',
   vocal: 'bg-purple-500/10 text-purple-500 border-purple-500/20',
   dynamic: 'bg-orange-500/10 text-orange-500 border-orange-500/20',
   instrumental: 'bg-green-500/10 text-green-500 border-green-500/20',
   emotional: 'bg-pink-500/10 text-pink-500 border-pink-500/20',
+  compound: 'bg-cyan-500/10 text-cyan-500 border-cyan-500/20',
+  transform: 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20',
+  effect: 'bg-indigo-500/10 text-indigo-500 border-indigo-500/20',
 };
 
-const SECTION_TYPE_COLORS = {
+const SECTION_TYPE_COLORS: Record<string, string> = {
   intro: 'bg-emerald-500/10 text-emerald-500 border-emerald-500/30',
   verse: 'bg-blue-500/10 text-blue-500 border-blue-500/30',
   'pre-chorus': 'bg-yellow-500/10 text-yellow-500 border-yellow-500/30',
   chorus: 'bg-purple-500/10 text-purple-500 border-purple-500/30',
   bridge: 'bg-orange-500/10 text-orange-500 border-orange-500/30',
   outro: 'bg-red-500/10 text-red-500 border-red-500/30',
+  instrumental: 'bg-teal-500/10 text-teal-500 border-teal-500/30',
+  solo: 'bg-amber-500/10 text-amber-500 border-amber-500/30',
   other: 'bg-gray-500/10 text-gray-500 border-gray-500/30',
 };
 
-const TAG_TYPE_INFO = {
+const TAG_TYPE_INFO: Record<string, { icon: typeof List; description: string; examples: string }> = {
   structural: {
     icon: List,
     description: 'Структурные теги определяют секции песни',
@@ -66,6 +71,21 @@ const TAG_TYPE_INFO = {
     icon: Info,
     description: 'Эмоциональные указания в круглых скобках',
     examples: '(softly), (powerfully), (with emotion), (tenderly)',
+  },
+  compound: {
+    icon: Tag,
+    description: 'Составные теги V5 для сложных секций',
+    examples: '[Verse | Male Vocal | Intimate], [Chorus | Anthemic]',
+  },
+  transform: {
+    icon: Tag,
+    description: 'Трансформации — смена жанра/темпа внутри трека',
+    examples: '[Slow -> Fast], [Soft -> Explosive]',
+  },
+  effect: {
+    icon: Tag,
+    description: 'Эффекты и продакшн-теги',
+    examples: '[!crescendo], [!reverb], [!distortion]',
   },
 };
 

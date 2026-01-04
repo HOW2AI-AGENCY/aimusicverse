@@ -292,11 +292,126 @@ export const SUNO_META_TAG_CATEGORIES: SunoTagCategory[] = [
   },
 ];
 
+// ═══════════════════════════════════════════════════════
+// VI. COMPOUND TAG TEMPLATES (V5)
+// ═══════════════════════════════════════════════════════
+export const COMPOUND_TAG_TEMPLATES: SunoMetaTag[] = [
+  { value: 'Verse | Male Vocal | Intimate', label: 'Куплет интимный', hint: 'Мужской голос, интимно', example: '[Verse | Male Vocal | Intimate]' },
+  { value: 'Verse | Female Vocal | Powerful', label: 'Куплет мощный', hint: 'Женский вокал, мощный', example: '[Verse | Female Vocal | Powerful]' },
+  { value: 'Chorus | Full Band | Anthemic', label: 'Припев антемный', hint: 'Полный состав, гимновый', example: '[Chorus | Full Band | Anthemic]' },
+  { value: 'Chorus | Stacked Harmonies | Explosive', label: 'Припев взрывной', hint: 'Многоголосие, взрыв', example: '[Chorus | Stacked Harmonies | Explosive]' },
+  { value: 'Bridge | Whisper | Atmospheric | Piano Only', label: 'Бридж атмосферный', hint: 'Шёпот, атмосфера, пианино', example: '[Bridge | Whisper | Atmospheric | Piano Only]' },
+  { value: 'Pre-Chorus | Building | Soft Drums', label: 'Пре-припев нарастающий', hint: 'Нарастание, мягкие ударные', example: '[Pre-Chorus | Building | Soft Drums]' },
+  { value: 'Intro | Dark Synth | !fade_in', label: 'Интро тёмное', hint: 'Тёмный синт, плавное появление', example: '[Intro | Dark Synth | !fade_in]' },
+  { value: 'Outro | Fade Out | Echo', label: 'Аутро с эхо', hint: 'Затухание с эхом', example: '[Outro | Fade Out | Echo]' },
+];
+
+// ═══════════════════════════════════════════════════════
+// VII. SOLO DESCRIPTOR TEMPLATES (V5)
+// ═══════════════════════════════════════════════════════
+export const SOLO_DESCRIPTOR_TEMPLATES: SunoMetaTag[] = [
+  { value: 'Instrumental Solo: Electric Guitar | Shredding | High Gain', label: 'Гитара шреддинг', hint: 'Скоростное соло на перегрузе', example: '[Instrumental Solo: Electric Guitar | Shredding | High Gain]' },
+  { value: 'Instrumental Solo: Piano | Emotional | Rubato', label: 'Пианино эмоциональное', hint: 'Выразительное соло со свободным темпом', example: '[Instrumental Solo: Piano | Emotional | Rubato]' },
+  { value: 'Instrumental Solo: Synth | Modulated | Spacey', label: 'Синт космический', hint: 'Модулированный космический звук', example: '[Instrumental Solo: Synth | Modulated | Spacey]' },
+  { value: 'Instrumental Solo: Saxophone | Smooth | Jazz', label: 'Саксофон джазовый', hint: 'Гладкое джазовое соло', example: '[Instrumental Solo: Saxophone | Smooth | Jazz]' },
+  { value: 'Instrumental Break: Dark Synth | 8 bars | No Vocals', label: 'Брейк 8 тактов', hint: 'Инструментальная вставка без вокала', example: '[Instrumental Break: Dark Synth | 8 bars | No Vocals]' },
+];
+
+// ═══════════════════════════════════════════════════════
+// VIII. TRANSFORM TAGS (V5)
+// ═══════════════════════════════════════════════════════
+export const TRANSFORM_TAGS: SunoMetaTag[] = [
+  { value: 'Slow -> Fast', label: 'Медленно → Быстро', hint: 'Ускорение темпа', example: '[Slow -> Fast]' },
+  { value: 'Soft -> Explosive', label: 'Мягко → Взрыв', hint: 'Нарастание к кульминации', example: '[Soft -> Explosive]' },
+  { value: 'Sad -> Hopeful', label: 'Грустно → Надежда', hint: 'Эмоциональный сдвиг', example: '[Sad -> Hopeful]' },
+  { value: 'Calm -> Intense', label: 'Спокойно → Интенсивно', hint: 'Нарастание напряжения', example: '[Calm -> Intense]' },
+  { value: 'Acoustic -> Electric', label: 'Акустика → Электро', hint: 'Смена звучания', example: '[Acoustic -> Electric]' },
+  { value: 'Verse -> Breakdown', label: 'Куплет → Брейкдаун', hint: 'Переход в минимализм', example: '[Verse -> Breakdown]' },
+];
+
+// ═══════════════════════════════════════════════════════
+// IX. SILENCE & CONTROL TAGS (V5)
+// ═══════════════════════════════════════════════════════
+export const SILENCE_CONTROL_TAGS: SunoMetaTag[] = [
+  { value: 'Stop', label: 'Стоп', hint: 'Жёсткая остановка перед мощным моментом', example: '[Stop]', critical: true },
+  { value: 'Silence', label: 'Тишина', hint: 'Мягкое "зависание", атмосферная пауза', example: '[Silence]' },
+  { value: 'Pause', label: 'Пауза', hint: 'Короткая пауза для драматического эффекта', example: '[Pause]' },
+  { value: 'Breath', label: 'Вдох', hint: 'Естественный вдох перед фразой', example: '[Breath]' },
+];
+
+// ═══════════════════════════════════════════════════════
+// X. DRILL/TRAP SPECIFIC TAGS (V5)
+// ═══════════════════════════════════════════════════════
+export const DRILL_TRAP_TAGS: SunoMetaTag[] = [
+  { value: '808 Bass', label: '808 бас', hint: 'Глубокий sub-bass', example: '[808 Bass]' },
+  { value: '808 Slides', label: '808 слайды', hint: 'Глиссандо на 808', example: '[808 Slides]' },
+  { value: 'Rapid Hi-Hats', label: 'Быстрые хэты', hint: 'Скоростные хай-хэты', example: '[Rapid Hi-Hats]' },
+  { value: 'Drill Glockenspiel', label: 'UK Drill глокеншпиль', hint: 'Характерная мелодия UK Drill', example: '[Drill Glockenspiel]' },
+  { value: 'Dark Piano', label: 'Тёмное пианино', hint: 'Мрачные клавишные для drill', example: '[Dark Piano]' },
+  { value: 'Trap Snare', label: 'Трэп-снэйр', hint: 'Резкий snare с реверберацией', example: '[Trap Snare]' },
+  { value: 'Male Grit Rap', label: 'Агрессивный рэп', hint: 'Мужской агрессивный флоу', example: '[Male Grit Rap]' },
+  { value: 'Aggressive Delivery', label: 'Агрессивная подача', hint: 'Напористая манера исполнения', example: '[Aggressive Delivery]' },
+  { value: 'Street Flow', label: 'Уличный флоу', hint: 'Уличная манера читки', example: '[Street Flow]' },
+  { value: 'Gang Shouts', label: 'Выкрики банды', hint: 'Групповые выкрики', example: '(gang gang!)', critical: false },
+];
+
+// ═══════════════════════════════════════════════════════
+// ADD NEW CATEGORIES TO MAIN EXPORT
+// ═══════════════════════════════════════════════════════
+export const SUNO_V5_TAG_CATEGORIES: SunoTagCategory[] = [
+  {
+    id: 'compound',
+    label: 'Составные теги V5',
+    labelEn: 'Compound Tags V5',
+    icon: 'Layers',
+    description: 'Комбинированные теги для сложных секций',
+    tags: COMPOUND_TAG_TEMPLATES,
+  },
+  {
+    id: 'solo_descriptors',
+    label: 'Соло с дескрипторами',
+    labelEn: 'Solo Descriptors',
+    icon: 'Music',
+    description: 'Инструментальные соло с техническими указаниями',
+    tags: SOLO_DESCRIPTOR_TEMPLATES,
+  },
+  {
+    id: 'transforms',
+    label: 'Трансформации',
+    labelEn: 'Transforms',
+    icon: 'ArrowRightLeft',
+    description: 'Смена жанра/темпа внутри трека',
+    tags: TRANSFORM_TAGS,
+  },
+  {
+    id: 'silence_control',
+    label: 'Управление тишиной',
+    labelEn: 'Silence Control',
+    icon: 'VolumeX',
+    description: 'Паузы и остановки для драматизма',
+    tags: SILENCE_CONTROL_TAGS,
+  },
+  {
+    id: 'drill_trap',
+    label: 'Drill / Trap',
+    labelEn: 'Drill / Trap',
+    icon: 'Flame',
+    description: 'Специфические теги для drill и trap',
+    tags: DRILL_TRAP_TAGS,
+  },
+];
+
+// Combine all categories
+export const ALL_SUNO_TAG_CATEGORIES: SunoTagCategory[] = [
+  ...SUNO_META_TAG_CATEGORIES,
+  ...SUNO_V5_TAG_CATEGORIES,
+];
+
 /**
  * Get all meta tags as flat array
  */
 export function getAllSunoMetaTags(): SunoMetaTag[] {
-  return SUNO_META_TAG_CATEGORIES.flatMap(cat => cat.tags);
+  return ALL_SUNO_TAG_CATEGORIES.flatMap(cat => cat.tags);
 }
 
 /**
@@ -339,4 +454,43 @@ export function getMissingCriticalTags(text: string): string[] {
     missing.push('[End]');
   }
   return missing;
+}
+
+/**
+ * Validate compound tag syntax
+ */
+export function isValidCompoundTag(tag: string): boolean {
+  // [Part1 | Part2 | Part3]
+  return /^\[[^\]]+\s*\|\s*[^\]]+\]$/.test(tag);
+}
+
+/**
+ * Parse compound tag into parts
+ */
+export function parseCompoundTag(tag: string): string[] {
+  const match = tag.match(/^\[([^\]]+)\]$/);
+  if (!match) return [];
+  return match[1].split('|').map(p => p.trim());
+}
+
+/**
+ * Build compound tag from parts
+ */
+export function buildCompoundTag(parts: string[]): string {
+  return `[${parts.join(' | ')}]`;
+}
+
+/**
+ * Get tags by genre profile
+ */
+export function getTagsByGenre(genre: string): SunoMetaTag[] {
+  const genreMap: Record<string, string[]> = {
+    'drill': ['808 Bass', '808 Slides', 'Rapid Hi-Hats', 'Drill Glockenspiel', 'Male Grit Rap'],
+    'uk-drill': ['808 Slides', 'Drill Glockenspiel', 'Dark Piano', 'Aggressive Delivery'],
+    'trap': ['808 Bass', 'Trap Snare', 'Rapid Hi-Hats', 'Autotune'],
+    'phonk': ['808 Bass', 'Cowbell', 'Deep Voice', 'Distortion'],
+  };
+  
+  const tagNames = genreMap[genre.toLowerCase()] || [];
+  return getAllSunoMetaTags().filter(t => tagNames.includes(t.value));
 }
