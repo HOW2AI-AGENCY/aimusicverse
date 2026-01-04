@@ -33,7 +33,11 @@ type LyricsAction =
   | 'paraphrase'              // Paraphrase with different tone
   | 'hook_generator'          // Generate catchy hooks
   | 'vocal_map'               // Generate vocal production map
-  | 'translate_adapt';        // Translate with rhythm preservation
+  | 'translate_adapt'         // Translate with rhythm preservation
+  // Phase 3 - V5 Advanced actions
+  | 'drill_prompt_builder'    // Specialized drill/trap prompt builder
+  | 'epic_prompt_builder'     // Epic/cinematic prompt builder
+  | 'validate_suno_v5';       // Deep V5 syntax validation
 
 interface LyricsRequest {
   action: LyricsAction;
@@ -121,7 +125,80 @@ const GENRE_TAG_PROFILES: Record<string, { vocal: string[], instruments: string[
     instruments: ['Piano', 'Double Bass', 'Saxophone'],
     dynamics: ['Swing Feel', 'Solo Section'],
     emotions: ['Cool', 'Sophisticated']
+  },
+  // === NEW V5 GENRES ===
+  'drill': {
+    vocal: ['Male Grit Rap', 'Aggressive Delivery', 'Street Flow'],
+    instruments: ['808 Bass', 'Rapid Hi-Hats', 'Drill Glockenspiel', 'Dark Synth'],
+    dynamics: ['Drop', 'Build', 'Heavy Distortion'],
+    emotions: ['Menacing', 'Street', 'Confident']
+  },
+  'uk-drill': {
+    vocal: ['Male Rap', 'UK Flow', 'Gritty', 'Aggressive'],
+    instruments: ['808 Slides', 'Trap Snare', '140 BPM', 'Dark Piano', 'Drill Glockenspiel'],
+    dynamics: ['Explosive Drop', 'Heavy Distortion', 'Build'],
+    emotions: ['Dark', 'Street', 'Aggressive', 'Menacing']
+  },
+  'trap': {
+    vocal: ['Autotune Rap', 'Melodic Flow', 'Ad-libs'],
+    instruments: ['808 Bass', 'Hi-Hat Rolls', 'Synth Lead', 'Trap Snare'],
+    dynamics: ['Drop', 'Build', 'Filter Sweep'],
+    emotions: ['Flexing', 'Confident', 'Hypnotic']
+  },
+  'phonk': {
+    vocal: ['Deep Voice', 'Chopped Samples', 'Memphis Flow'],
+    instruments: ['Cowbell', '808 Bass', 'Memphis Sample', 'Distorted Synth'],
+    dynamics: ['Heavy Bass Drop', 'Distortion'],
+    emotions: ['Dark', 'Aggressive', 'Underground']
+  },
+  'cyberpunk': {
+    vocal: ['Vocoder', 'Distorted', 'Robotic', 'Ethereal'],
+    instruments: ['Dark Synth', 'Glitch', 'Industrial Bass', 'Arpeggio'],
+    dynamics: ['Build', 'Breakdown', 'Filter Sweep', 'Explosive'],
+    emotions: ['Dystopian', 'Futuristic', 'Menacing', 'Epic']
+  },
+  'latin': {
+    vocal: ['Spanish Flow', 'Reggaeton Style', 'Melodic'],
+    instruments: ['Dembow Beat', 'Timbales', 'Latin Guitar', 'Brass'],
+    dynamics: ['Rhythmic', 'Dance', 'Drop'],
+    emotions: ['Passionate', 'Sensual', 'Energetic']
+  },
+  'afrobeat': {
+    vocal: ['African Flow', 'Melodic', 'Rhythmic'],
+    instruments: ['African Percussion', 'Guitar', 'Brass', 'Talking Drum'],
+    dynamics: ['Groove', 'Build', 'Polyrhythm'],
+    emotions: ['Joyful', 'Energetic', 'Uplifting']
+  },
+  'metal': {
+    vocal: ['Growl', 'Scream', 'Powerful', 'Aggressive'],
+    instruments: ['Heavy Guitar', 'Double Bass Drums', 'Distorted Bass'],
+    dynamics: ['Breakdown', 'Blast Beat', 'Drop'],
+    emotions: ['Intense', 'Aggressive', 'Dark', 'Powerful']
+  },
+  'ambient': {
+    vocal: ['Ethereal', 'Whisper', 'Atmospheric'],
+    instruments: ['Pad', 'Texture', 'Drone', 'Field Recording'],
+    dynamics: ['Slow Build', 'Fade', 'Atmospheric'],
+    emotions: ['Meditative', 'Dreamy', 'Peaceful', 'Mysterious']
+  },
+  'house': {
+    vocal: ['Soulful', 'Diva', 'Chopped Vocal'],
+    instruments: ['4-on-floor', 'Synth Stab', 'Piano House', 'Clap'],
+    dynamics: ['Build', 'Drop', 'Filter'],
+    emotions: ['Euphoric', 'Uplifting', 'Dance']
   }
+};
+
+// Sub-genre modifiers for compound styles
+const SUB_GENRE_MODIFIERS: Record<string, string[]> = {
+  'russian-flow': ['Russian Rap', 'Cyrillic Lyrics', 'Eastern Melody'],
+  'thai-fusion': ['Thai Gong', 'Asian Percussion', 'Tropical Synth'],
+  'lo-fi': ['Vinyl Crackle', 'Warm', 'Mellow', 'Tape Hiss'],
+  'epic': ['Orchestral', 'Choir', 'Massive Build', 'Cinematic'],
+  'dark': ['Minor Key', 'Ominous', 'Heavy', 'Brooding'],
+  'aggressive': ['Distortion', 'Shout', 'Intense', 'Heavy'],
+  'melodic': ['Harmonies', 'Smooth', 'Emotional', 'Catchy'],
+  'vintage': ['Retro', 'Analog', 'Warm', 'Classic'],
 };
 
 const MOOD_TAG_PROFILES: Record<string, { dynamics: string[], emotions: string[], vocal: string[] }> = {
@@ -164,6 +241,16 @@ const MOOD_TAG_PROFILES: Record<string, { dynamics: string[], emotions: string[]
     dynamics: ['Massive Build', 'Orchestral Swell', 'Climactic'],
     emotions: ['Triumphant', 'Heroic', 'Majestic'],
     vocal: ['Powerful', 'Choir', 'Soaring']
+  },
+  'aggressive': {
+    dynamics: ['Heavy', 'Punchy', 'Explosive'],
+    emotions: ['Angry', 'Intense', 'Fierce'],
+    vocal: ['Shout', 'Growl', 'Aggressive']
+  },
+  'hypnotic': {
+    dynamics: ['Repetitive', 'Pulsing', 'Gradual'],
+    emotions: ['Trance', 'Mysterious', 'Captivating'],
+    vocal: ['Monotone', 'Whisper', 'Ethereal']
   }
 };
 
@@ -275,12 +362,12 @@ const baseSystemPrompt = `Ты опытный автор песен и музы�
    ❌ (Verse 1) - круглые скобки НЕ для тегов!
 
 3. КРУГЛЫЕ СКОБКИ (...) = ТО, ЧТО ПОЁТСЯ (бэк-вокал, подпевки, вокализы):
-   ✅ (ooh, aah), (la-la-la), (yeah, yeah), (echo: love), (harmony)
+   ✅ (ooh, aah), (la-la-la), (yeah, yeah!), (эхо), (harmony), (gang gang!)
    ❌ (softly), (with power) - НЕТ! Используй теги [Soft], [Powerful]
 
 4. ТЕКСТОВОЕ ФОРМАТИРОВАНИЕ:
    - Де-фи-с = распев, легато (so-o-o much, ni-i-ight)
-   - КАПС = акцент, агрессия (I LOVE you, NEVER give up)
+   - КАПС = акцент, агрессия (I LOVE you, NEVER give up, ЭТО НАШ ГОРОД!)
 
 ═══════════════════════════════════════════════════════
 📚 ПОЛНАЯ БИБЛИОТЕКА ТЕГОВ SUNO V5
@@ -296,32 +383,66 @@ const baseSystemPrompt = `Ты опытный автор песен и музы�
 Тип: [Male Singer], [Female Singer], [Male Vocal], [Female Vocal], [Duet], [Choir], [Gospel Choir], [Harmonized Chorus], [Diva solo], [Child voice]
 Регистр: [Vocalist: Alto], [Vocalist: Soprano], [Vocalist: Tenor], [Vocalist: Bass]
 Стиль: [Spoken word], [Whisper], [Shout], [Acapella], [Falsetto], [Belting], [Raspy], [Smooth], [Breathy], [Powerful], [Gentle], [Emotional], [Rap], [Autotune], [Vocoder]
+Drill/Trap: [Male Grit Rap], [Aggressive Delivery], [Street Flow], [UK Flow], [Melodic Flow]
 
 🎸 ИНСТРУМЕНТАЛЬНЫЕ ТЕГИ:
 Соло: [Guitar Solo], [Piano Solo], [Sax Solo], [Synth Solo], [Violin Solo], [Drum Solo]
 Приёмы: [fingerpicked guitar], [slapped bass], [brushes drums], [pizzicato strings], [guitar riff], [arpeggiated], [strummed], [muted]
+Drill/Trap: [808 Bass], [808 Slides], [Rapid Hi-Hats], [Drill Glockenspiel], [Dark Piano], [Trap Snare], [Dark Synth]
 
 🌊 ДИНАМИЧЕСКИЕ ТЕГИ:
 [!crescendo], [!diminuendo], [!build_up], [Fade Out], [Fade In],
-[Soft], [Loud], [Intense], [Calm], [Climax], [Explosive]
+[Soft], [Loud], [Intense], [Calm], [Climax], [Explosive], [Heavy Distortion]
+
+🔇 ТЕГИ ТИШИНЫ И КОНТРОЛЯ:
+[Stop] — жёсткая остановка перед мощным моментом
+[Silence] — мягкое "зависание", атмосферная пауза
+[Pause] — короткая пауза для драматического эффекта
 
 🎧 SFX ТЕГИ:
-[Applause], [Birds chirping], [Phone ringing], [Bleep], [Silence], [Thunder], [Rain], [Wind], [Crowd], [Heartbeat]
+[Applause], [Birds chirping], [Phone ringing], [Bleep], [Silence], [Thunder], [Rain], [Wind], [Crowd], [Heartbeat], [Sirens]
 
 🎛️ ПРОДАКШН ТЕГИ:
 [!reverb], [!delay], [!distortion], [!filter], [!chorus], [!phaser],
 [Mono Vocal Pull], [Texture: Gritty], [Texture: Clean], [Lo-fi], [Hi-fi], [Vintage], [Atmospheric]
 
 ═══════════════════════════════════════════════════════
+🆕 РАСШИРЕННЫЙ СИНТАКСИС SUNO V5 (ПРОФЕССИОНАЛЬНЫЙ)
+═══════════════════════════════════════════════════════
+
+📌 СОСТАВНЫЕ ТЕГИ (для сложных секций):
+[Verse 1 | Male Grit Vocal | Aggressive | 808 Bass]
+[Chorus | Anthemic | Heavy Distortion | Stacked Harmonies]
+Формула: [Структура | Вокал | Динамика | Инструменты]
+
+📌 ИНСТРУМЕНТАЛЬНЫЕ СОЛО С ДЕСКРИПТОРАМИ:
+[Instrumental Solo: Electric Guitar | Shredding | High Gain]
+[Instrumental Break: Dark Synth | 8 bars | No Vocals]
+Формула: [Instrumental Solo: Инструмент | Техника | Тембр]
+
+📌 ТРАНСФОРМАЦИИ (смена внутри трека):
+[Slow -> Fast] — ускорение темпа
+[Soft -> Explosive] — нарастание к кульминации
+[Sad -> Hopeful] — эмоциональный сдвиг
+
+📌 СПЕЦИАЛЬНЫЕ ТЕГИ V5:
+[Vocalist: Female Alto], [Vocalist: Male Tenor Raspy]
+[Vocal Style: Smooth, Emotional, Breathy]
+[Instrument Focus: Piano], [Tempo: Slow Building to Fast]
+[Energy: Low to High], [Mood Shift: Sad to Hopeful]
+
+═══════════════════════════════════════════════════════
 ✅ BEST PRACTICES (ОБЯЗАТЕЛЬНО СОБЛЮДАТЬ!)
 ═══════════════════════════════════════════════════════
 
 1. 1-2 тега на секцию — не перегружай!
-2. Порядок тегов: структура → вокал → эффекты
-   Пример: [Chorus] [Female Vocal] [!reverb]
+2. Порядок тегов: структура → вокал → динамика → инструменты → эффекты
+   Пример: [Chorus] [Female Vocal] [Explosive] [Full Band] [!reverb]
 3. ВСЕГДА добавляй [End] в конце — предотвращает обрывы!
 4. Теги на отдельной строке перед блоком текста
 5. Краткость: 1-3 слова в теге
+6. Оптимум: 6-12 слогов на строку текста
+7. Запятая/точка = микро-пауза для вдоха вокалиста
 
 ❌ АНТИПАТТЕРНЫ (ИЗБЕГАТЬ!):
 - Конфликтующие теги: [Acapella] + [Full band], [Whisper] + [Shout], [Soft] + [Loud]
@@ -329,22 +450,32 @@ const baseSystemPrompt = `Ты опытный автор песен и музы�
 - Русские теги: [Куплет], [Припев] — ЗАПРЕЩЕНО!
 - Отсутствие [End] — песня может зациклиться
 - Теги в круглых скобках: (Verse 1) — использовать [Verse 1]
+- Слишком длинные строки: >16 слогов трудно петь
 
 ═══════════════════════════════════════════════════════
-🆕 СОСТАВНЫЕ ТЕГИ SUNO V5
+💡 ПРОФЕССИОНАЛЬНЫЕ НЮАНСЫ
 ═══════════════════════════════════════════════════════
 
-КОМБИНИРОВАННЫЕ ТЕГИ СЕКЦИЙ:
-[Verse 1] [Male Vocal] [Intimate] [Acoustic Guitar]
-[Chorus] [Female Vocal] [Powerful] [Full Band] [Anthemic]
-[Bridge] [Whisper] [Atmospheric] [Piano Only]
-[Pre-Chorus] [Building] [Soft Drums]
+1. БЭК-ВОКАЛ — ТОЛЬКО В КРУГЛЫХ СКОБКАХ:
+   ✅ (ooh, aah), (yeah, yeah!), (эхо), (harmony), (gang shouts: drill!)
+   ✅ (тихо, шёпот), (Слышишь?! Эхо)
+   ❌ [ooh aah] — это НЕ бэк-вокал, это тег!
 
-СПЕЦИАЛЬНЫЕ ТЕГИ V5:
-[Vocalist: Female Alto], [Vocalist: Male Tenor Raspy]
-[Vocal Style: Smooth, Emotional, Breathy]
-[Instrument Focus: Piano], [Tempo: Slow Building to Fast]
-[Energy: Low to High], [Mood Shift: Sad to Hopeful]
+2. КАПС = АКЦЕНТ И АГРЕССИЯ:
+   ЭТО ГОРОД МАШИН! — будет спето с напором
+   МЫ ЗДЕСЬ НЕ ОДНИ! — кульминация
+
+3. ДЕФИСЫ = РАСПЕВ/ЛЕГАТО:
+   ni-i-ight = затянутый слог
+   so-o-o much = плавный распев
+
+4. ТЕГИ ВСЕГДА НА АНГЛИЙСКОМ:
+   ✅ [Verse 1], [Chorus], [Pre-Chorus], [Bridge], [Outro], [End]
+   ❌ [Куплет], [Припев], [Бридж] — ЗАПРЕЩЕНО!
+
+5. ПОРЯДОК ТЕГОВ:
+   [Структура] [Вокал] [Динамика] [Инструменты] [Эффекты]
+   Пример: [Chorus] [Male Grit Vocal] [Explosive] [808 Bass] [!distortion]
 
 ═══════════════════════════════════════════════════════
 ПРИМЕР ИДЕАЛЬНОГО ФОРМАТИРОВАНИЯ:
@@ -1146,6 +1277,196 @@ ${lyrics || existingLyrics}
 }`;
         break;
 
+      case 'drill_prompt_builder':
+        systemPrompt = `Ты эксперт по UK Drill, US Drill, Trap и aggressive Hip-Hop. Создаёшь профессиональные промпты уровня коммерческих релизов.
+
+═══════════════════════════════════════════════════════
+🔥 ОБЯЗАТЕЛЬНЫЕ ЭЛЕМЕНТЫ DRILL
+═══════════════════════════════════════════════════════
+
+1. РИТМ И БПМ:
+   - UK Drill: 140-145 BPM, triplet hi-hats
+   - US Drill: 140-150 BPM, sliding 808
+   - Chi-Town Drill: 60-70 BPM (half-time feel)
+
+2. ИНСТРУМЕНТЫ:
+   - [808 Bass] или [808 Slides] — ОБЯЗАТЕЛЬНО
+   - [Rapid Hi-Hats] с ghost notes
+   - [Drill Glockenspiel] или [Dark Piano] — характерные мелодии
+   - [Trap Snare] с реверберацией
+   - [Dark Synth] для атмосферы
+
+3. ВОКАЛ:
+   - [Male Grit Rap] или [Aggressive Delivery]
+   - [Street Flow] или [UK Flow]
+   - Autotune опционально для мелодичных частей
+
+4. БЭК-ВОКАЛ И AD-LIBS:
+   - (gang gang!), (drill!), (yuh!), (skrrt!), (bow!)
+   - (gang shouts: Phuket drill! x2)
+   - (Слышишь?! Эхо)
+
+5. ДИНАМИКА:
+   - [!build_up] перед припевом
+   - [Explosive Drop] на chorus
+   - [Heavy Distortion] для агрессии
+
+═══════════════════════════════════════════════════════
+📐 СТРУКТУРА DRILL ТРЕКА
+═══════════════════════════════════════════════════════
+
+[Intro | Dark Synth | !fade_in | Distant Sirens]
+(Эй... тихо, эхо)
+
+[Verse 1 | Male Grit Rap | 808 Bass | Rapid Hi-Hats | Aggressive Delivery]
+4-8 строк, 6-10 слогов на строку
+(Бэк-вокал: gang gang!)
+
+[Pre-Chorus | !crescendo | Distorted 808 Slides]
+2-4 строки, рост напряжения
+
+[Chorus | Explosive Drop | Anthemic | Heavy Distortion | Stacked Harmonies]
+КАПС для акцентов
+(Massive ad-libs: yuh, yuh!)
+
+[Verse 2 | Faster Pace | Trap Snare Rolls]
+Ускорение, больше слогов
+
+[Bridge | Instrumental Break: Dark Synth | 8 bars | No Vocals]
+или [Instrumental Solo: 808 Lead | Shredding]
+
+[Final Chorus | !double_volume | Epic Layering]
+Усиленная версия с хором
+
+[Outro | !fade_out | Reverb Echo]
+(Эхо уходит...)
+[End]
+
+═══════════════════════════════════════════════════════
+⚠️ ПРАВИЛА DRILL ТЕКСТА
+═══════════════════════════════════════════════════════
+
+1. КАПС = АГРЕССИЯ: ЭТО ГОРОД МАШИН! МЫ ЗДЕСЬ НЕ ОДНИ!
+2. Короткие строки: 6-10 слогов
+3. Street slang допустим
+4. Многослойные ad-libs в скобках
+5. Трансформации: [Slow -> Fast], [Soft -> Explosive]
+
+Язык текста: ${language === 'ru' ? 'русский' : 'английский'}`;
+
+        userPrompt = `Создай ПРОФЕССИОНАЛЬНЫЙ Drill/Trap промпт:
+
+ТЕМА: ${theme || 'уличная жизнь, ночной город, неоновые огни'}
+ПОДСТИЛЬ: ${body.targetStyle || 'UK Drill'}
+НАСТРОЕНИЕ: ${mood || 'агрессивное, уличное'}
+ОСОБЕННОСТИ: ${body.sectionNotes || 'добавить локальный колорит'}
+
+ТРЕБОВАНИЯ:
+1. Полная структура от Intro до End
+2. Составные теги V5 для каждой секции
+3. Минимум 3 разных типа ad-libs
+4. Инструментальный брейк с дескрипторами
+5. Трансформация темпа/динамики
+6. КАПС для кульминаций
+7. 6-10 слогов на строку
+
+Верни JSON:
+{
+  "title": "Название 2-4 слова",
+  "style": "UK Drill, aggressive, 808 bass, rapid hi-hats, dark synth, [другие теги], до 120 символов",
+  "lyrics": "ПОЛНЫЙ текст с тегами V5, ad-libs, структурой",
+  "tagsSummary": {
+    "structural": ["Intro", "Verse 1", ...],
+    "vocal": ["Male Grit Rap", ...],
+    "instrumental": ["808 Bass", "Drill Glockenspiel", ...],
+    "dynamics": ["Explosive Drop", "!crescendo", ...]
+  }
+}`;
+        break;
+
+      case 'epic_prompt_builder':
+        systemPrompt = `Ты эксперт по эпическому, киберпанк и cinematic саунду. Создаёшь промпты для масштабных треков.
+
+═══════════════════════════════════════════════════════
+🎬 ЭЛЕМЕНТЫ ЭПИЧЕСКОГО ЗВУЧАНИЯ
+═══════════════════════════════════════════════════════
+
+1. ОРКЕСТРОВЫЕ ЭЛЕМЕНТЫ:
+   - [Orchestral], [Choir], [Strings], [Brass]
+   - [Epic Build], [Massive Build], [Orchestral Swell]
+
+2. СИНТЕЗАТОРЫ:
+   - [Dark Synth], [Arpeggio], [Pad], [Atmospheric]
+   - [Cinematic], [Futuristic], [Dystopian]
+
+3. ДИНАМИКА:
+   - [!crescendo], [Climax], [Explosive]
+   - [Soft -> Explosive], [Calm -> Intense]
+
+4. ВОКАЛ:
+   - [Powerful], [Soaring], [Choir Harmonies]
+   - [Vocoder] для киберпанк
+
+Язык текста: ${language === 'ru' ? 'русский' : 'английский'}`;
+
+        userPrompt = `Создай ЭПИЧЕСКИЙ промпт:
+
+ТЕМА: ${theme || 'героическое противостояние, борьба'}
+СТИЛЬ: ${body.targetStyle || 'Cinematic Epic'}
+НАСТРОЕНИЕ: ${mood || 'триумфальное, героическое'}
+
+Верни JSON:
+{
+  "title": "Эпическое название",
+  "style": "cinematic epic, orchestral, choir, massive build...",
+  "lyrics": "Полный текст с эпическими тегами"
+}`;
+        break;
+
+      case 'validate_suno_v5':
+        systemPrompt = `Ты валидатор синтаксиса Suno V5. Проверяешь тексты на соответствие всем правилам.
+
+ПРОВЕРЯЕМЫЕ АСПЕКТЫ:
+1. Все теги на английском (не русском!)
+2. [End] присутствует
+3. Нет конфликтующих тегов ([Whisper]+[Shout], [Acapella]+[Guitar Solo])
+4. Не более 3 тегов на строку
+5. Слоги: 6-12 оптимально, >16 проблема
+6. Круглые скобки только для пения (ooh, aah)
+7. Составные теги правильно отформатированы [A | B | C]
+8. Инструментальные соло с дескрипторами`;
+
+        userPrompt = `Проведи ГЛУБОКУЮ валидацию V5:
+
+ТЕКСТ:
+${lyrics || existingLyrics}
+
+Проверь ВСЁ. Верни JSON:
+{
+  "isValid": true/false,
+  "score": 0-100,
+  "errors": [
+    {"line": 5, "issue": "Русский тег [Куплет]", "fix": "Заменить на [Verse]", "severity": "error"}
+  ],
+  "warnings": [
+    {"line": 10, "issue": "15 слогов — длинновато", "fix": "Разбить на 2 строки", "severity": "warning"}
+  ],
+  "conflicts": [
+    {"tags": ["Whisper", "Shout"], "reason": "Несовместимы"}
+  ],
+  "suggestions": [
+    {"type": "enhancement", "text": "Добавить [!build_up] перед [Chorus]"}
+  ],
+  "syllableAnalysis": [
+    {"line": "текст строки", "syllables": 8, "ok": true}
+  ],
+  "missingEnd": false,
+  "russianTags": ["Куплет"],
+  "compoundTagsUsed": ["Verse 1 | Male Vocal"],
+  "summary": "Краткое резюме валидации"
+}`;
+        break;
+
       default:
         return new Response(
           JSON.stringify({ success: false, error: 'Invalid action' }),
@@ -1377,6 +1698,43 @@ ${lyrics || existingLyrics}
         }
       } catch (e) {
         response.lyrics = generatedContent;
+      }
+    }
+    // Handle V5 advanced actions
+    else if (action === 'drill_prompt_builder' || action === 'epic_prompt_builder') {
+      try {
+        const jsonMatch = generatedContent.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          const parsed = JSON.parse(jsonMatch[0]);
+          response.lyrics = parsed.lyrics;
+          response.title = parsed.title;
+          response.style = parsed.style;
+          response.tagsSummary = parsed.tagsSummary;
+          logger.info('Parsed prompt_builder response', { action, hasLyrics: !!parsed.lyrics });
+        } else {
+          response.lyrics = generatedContent;
+        }
+      } catch (e) {
+        response.lyrics = generatedContent;
+      }
+    }
+    else if (action === 'validate_suno_v5') {
+      try {
+        const jsonMatch = generatedContent.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          const parsed = JSON.parse(jsonMatch[0]);
+          response.validation = parsed;
+          response.isValid = parsed.isValid;
+          response.score = parsed.score;
+          response.errors = parsed.errors;
+          response.warnings = parsed.warnings;
+          response.suggestions = parsed.suggestions;
+          logger.info('Parsed validate_suno_v5 response', { isValid: parsed.isValid, score: parsed.score });
+        } else {
+          response.message = generatedContent;
+        }
+      } catch (e) {
+        response.message = generatedContent;
       }
     }
     else {
