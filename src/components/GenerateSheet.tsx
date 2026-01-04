@@ -244,6 +244,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
             balance={form.userBalance}
             cost={form.generationCost}
             mode={form.mode}
+            onOpenHistory={() => setHistoryOpen(true)}
           />
           
           {/* Form header row - shown when expanded */}
@@ -269,6 +270,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                   model={form.model}
                   onModelChange={form.setModel}
                   isAdmin={form.isAdmin}
+                  onOpenHistory={() => setHistoryOpen(true)}
                 />
               </motion.div>
             )}
@@ -300,8 +302,6 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
               onOpenAudioDialog={() => setAudioActionDialogOpen(true)}
               onOpenArtistDialog={() => setArtistDialogOpen(true)}
               onOpenProjectDialog={() => setProjectDialogOpen(true)}
-              onOpenHistory={() => setHistoryOpen(true)}
-              onOpenStyles={() => setStylesOpen(true)}
             />
 
             {/* Selected References Indicators */}
@@ -335,6 +335,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                     onHasVocalsChange={form.setHasVocals}
                     onBoostStyle={form.handleBoostStyle}
                     boostLoading={form.boostLoading}
+                    onOpenStyles={() => setStylesOpen(true)}
                   />
                 ) : (
                   <GenerateFormCustom
@@ -368,6 +369,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                     hasPersona={!!form.selectedArtistId}
                     model={form.model}
                     onModelChange={form.setModel}
+                    onOpenStyles={() => setStylesOpen(true)}
                   />
                 )}
               </AnimatePresence>

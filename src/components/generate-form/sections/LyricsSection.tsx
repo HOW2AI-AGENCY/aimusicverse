@@ -2,13 +2,12 @@ import { memo, useState } from 'react';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { Sparkles, FileText, ExternalLink } from 'lucide-react';
-import { VoiceInputButton } from '@/components/ui/VoiceInputButton';
-import { FormFieldActions } from '@/components/ui/FormFieldActions';
+import { FormFieldToolbar } from '../FormFieldToolbar';
 import { LyricsVisualEditor } from '../LyricsVisualEditor';
 import { SaveTemplateDialog } from '../SaveTemplateDialog';
 import { SavedLyricsSelector } from '../SavedLyricsSelector';
 import { useNavigate } from 'react-router-dom';
+import { cn } from '@/lib/utils';
 
 interface LyricsSectionProps {
   lyrics: string;
@@ -38,58 +37,32 @@ export const LyricsSection = memo(function LyricsSection({
     <>
       <div>
         <div className="flex items-center justify-between mb-1.5">
-          <Label className="text-xs font-medium">Текст песни</Label>
-          <div className="flex items-center gap-1">
-            {/* Template selector button */}
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-6 px-2 gap-1"
-              onClick={() => setTemplateSelectorOpen(true)}
-            >
-              <FileText className="w-3 h-3" />
-              <span className="text-xs hidden sm:inline">Шаблоны</span>
-            </Button>
-            {/* Lyrics Studio link */}
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-6 px-2 gap-1"
-              onClick={() => navigate('/lyrics-studio')}
-            >
-              <ExternalLink className="w-3 h-3" />
-              <span className="text-xs hidden sm:inline">Студия</span>
-            </Button>
-            <FormFieldActions
-              value={lyrics}
-              onClear={() => onLyricsChange('')}
-              showSave
-              onSave={async () => setSaveDialogOpen(true)}
-            />
-            <VoiceInputButton
-              onResult={onLyricsChange}
-              context="lyrics"
-              currentValue={lyrics}
-              appendMode
-              className="h-6 w-6 p-0"
-            />
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-6 px-2"
+          <div className="flex items-center gap-2">
+            <Label className="text-xs font-medium">Текст песни</Label>
+            {/* Visual toggle button */}
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="h-5 text-[10px] px-2"
               onClick={() => setShowVisualEditor(!showVisualEditor)}
             >
-              <span className="text-xs">{showVisualEditor ? 'Текст' : 'Визуал'}</span>
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-6 px-2"
-              onClick={onOpenLyricsAssistant}
-            >
-              <Sparkles className="w-3 h-3" />
+              {showVisualEditor ? '📝 Текст' : '🎨 Визуал'}
             </Button>
           </div>
+          
+          <FormFieldToolbar
+            value={lyrics}
+            onClear={() => onLyricsChange('')}
+            onVoiceInput={onLyricsChange}
+            voiceContext="lyrics"
+            appendMode
+            onAIAssist={onOpenLyricsAssistant}
+            onOpenTemplates={() => setTemplateSelectorOpen(true)}
+            onOpenStudio={() => navigate('/lyrics-studio')}
+            onSave={async () => setSaveDialogOpen(true)}
+            showSave
+            compact
+          />
         </div>
 
         {showVisualEditor ? (
@@ -108,7 +81,10 @@ export const LyricsSection = memo(function LyricsSection({
               className="text-sm min-h-[180px] max-h-[300px] overflow-y-auto whitespace-pre-wrap pb-6"
             />
             {/* Character count indicator */}
-            <div className="absolute bottom-2 right-2 text-[10px] text-muted-foreground bg-background/80 px-1.5 py-0.5 rounded">
+            <div className={cn(
+              "absolute bottom-2 right-2 text-[10px] bg-background/80 px-1.5 py-0.5 rounded",
+              lyrics.length > 2800 ? "text-destructive" : "text-muted-foreground"
+            )}>
               {lyrics.length} / 3000
             </div>
           </div>

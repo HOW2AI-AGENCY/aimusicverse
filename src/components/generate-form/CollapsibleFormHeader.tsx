@@ -3,9 +3,10 @@
  * Minimizes to show just essential info when scrolled
  */
 
-import { memo, useState } from 'react';
+import { memo } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
-import { ChevronDown, ChevronUp, Sparkles } from 'lucide-react';
+import { ChevronDown, ChevronUp, Sparkles, History } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import logo from '@/assets/logo.png';
 
@@ -15,6 +16,7 @@ interface CollapsibleFormHeaderProps {
   balance?: number;
   cost?: number;
   mode: 'simple' | 'custom';
+  onOpenHistory?: () => void;
 }
 
 export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
@@ -23,7 +25,13 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
   balance = 0,
   cost = 10,
   mode,
+  onOpenHistory,
 }: CollapsibleFormHeaderProps) {
+  const handleHistoryClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onOpenHistory?.();
+  };
+
   return (
     <motion.div
       layout
@@ -51,11 +59,21 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
               <div className="flex items-center gap-1">
                 <Sparkles className="w-3 h-3 text-primary" />
                 <span className="text-xs font-medium">
-                  {mode === 'simple' ? 'Быстрый режим' : 'Кастомный режим'}
+                  {mode === 'simple' ? 'Быстрый' : 'Кастом'}
                 </span>
               </div>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5">
+              {onOpenHistory && (
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="h-6 w-6 p-0" 
+                  onClick={handleHistoryClick}
+                >
+                  <History className="w-3.5 h-3.5 text-muted-foreground" />
+                </Button>
+              )}
               <span className="text-xs text-muted-foreground">
                 {balance} ⚡ / {cost}
               </span>
