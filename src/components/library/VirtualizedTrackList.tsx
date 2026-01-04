@@ -1,5 +1,5 @@
-import { useCallback, forwardRef, memo, useEffect, useRef } from "react";
-import { Virtuoso, VirtuosoGrid, ListRange } from "react-virtuoso";
+import { useCallback, forwardRef, memo, useEffect, useRef, useMemo } from "react";
+import { Virtuoso, VirtuosoGrid } from "react-virtuoso";
 import type { Track } from "@/types/track";
 import { TrackCard } from "@/components/TrackCard";
 import { Loader2 } from "lucide-react";
@@ -141,17 +141,14 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
     };
   }, []);
   
+  // Stable props for Virtuoso to avoid internal re-init loops
+  const increaseViewportBy = useMemo(() => ({ top: 300, bottom: 800 }), []);
+
   // Memoize item key computation for better React reconciliation
-  const computeItemKey = useCallback(
-    (index: number) => tracks[index]?.id || `track-${index}`,
-    [tracks]
-  );
+  const computeItemKey = useCallback((index: number, item?: Track) => item?.id || `track-${index}`, []);
 
   const renderTrackItem = useCallback(
-    (index: number) => {
-      const track = tracks[index];
-      if (!track) return null;
-      
+    (index: number, track: Track) => {
       const counts = getCountsForTrack(track.id);
       const midiStatus = getMidiStatus?.(track.id);
       return (
@@ -169,7 +166,7 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
         />
       );
     },
-    [tracks, viewMode, activeTrackId, getCountsForTrack, getMidiStatus, onPlay, onDelete, onDownload, onToggleLike]
+    [viewMode, activeTrackId, getCountsForTrack, getMidiStatus, onPlay, onDelete, onDownload, onToggleLike]
   );
 
   // Improved load more with debounce protection
@@ -210,37 +207,6 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
     }
   }, [hasMore, isLoadingMore, onLoadMore, tracks.length]);
 
-  // Range-based loading as backup trigger (when 5 items from end)
-  const handleRangeChanged = useCallback((range: ListRange) => {
-    const { endIndex } = range;
-    const threshold = Math.max(0, tracks.length - 5);
-    
-    // Prevent loading if no tracks or already loading
-    if (tracks.length === 0 || loadingRef.current || isLoadingMore) {
-      return;
-    }
-    
-    if (endIndex >= threshold && hasMore) {
-      loadingRef.current = true;
-      log.info('Range trigger: loading more', { endIndex, threshold, total: tracks.length });
-      
-      // Clear any existing safety timeout
-      if (safetyTimeoutRef.current) {
-        clearTimeout(safetyTimeoutRef.current);
-      }
-      
-      setTimeout(() => {
-        onLoadMore();
-        // Safety: Reset loading flag after timeout if nothing happens
-        safetyTimeoutRef.current = setTimeout(() => {
-          if (loadingRef.current) {
-            log.warn('LoadingRef stuck (range), resetting after timeout');
-            loadingRef.current = false;
-          }
-        }, LOADING_SAFETY_TIMEOUT_MS);
-      }, 0);
-    }
-  }, [tracks.length, hasMore, isLoadingMore, onLoadMore]);
   
   // Reset loading flag when loading state changes
   useEffect(() => {
@@ -269,23 +235,29 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
     );
   }, [hasMore, isLoadingMore]);
 
+  const gridComponents = useMemo(
+    () => ({ List: GridContainer, Item: GridItemWrapper, Footer }),
+    [Footer]
+  );
+
+  const listComponents = useMemo(
+    () => ({ List: ListContainer, Footer }),
+    [Footer]
+  );
+
   // Grid view with VirtuosoGrid
   if (viewMode === "grid") {
     return (
       <TrackListProvider tracks={tracks}>
         <VirtuosoGrid
           useWindowScroll
-          totalCount={tracks.length}
+          data={tracks}
           overscan={100}
           computeItemKey={computeItemKey}
-          components={{
-            List: GridContainer,
-            Item: GridItemWrapper,
-            Footer,
-          }}
+          components={gridComponents}
           endReached={handleEndReached}
           itemContent={renderTrackItem}
-          increaseViewportBy={{ top: 300, bottom: 800 }}
+          increaseViewportBy={increaseViewportBy}
         />
       </TrackListProvider>
     );
@@ -296,16 +268,13 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
     <TrackListProvider tracks={tracks}>
       <Virtuoso
         useWindowScroll
-        totalCount={tracks.length}
+        data={tracks}
         overscan={150}
         computeItemKey={computeItemKey}
-        components={{
-          List: ListContainer,
-          Footer,
-        }}
+        components={listComponents}
         endReached={handleEndReached}
         itemContent={renderTrackItem}
-        increaseViewportBy={{ top: 300, bottom: 800 }}
+        increaseViewportBy={increaseViewportBy}
       />
     </TrackListProvider>
   );
