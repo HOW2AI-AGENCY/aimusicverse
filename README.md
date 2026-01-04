@@ -34,10 +34,10 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Sprint-029_Mobile_Optimization-blue?style=flat-square" alt="Current Sprint" />
-  <img src="https://img.shields.io/badge/Progress-88%25-success?style=flat-square" alt="Progress" />
+  <img src="https://img.shields.io/badge/Sprint-030_Unified_Studio_Mobile-blue?style=flat-square" alt="Current Sprint" />
+  <img src="https://img.shields.io/badge/Progress-93%25-success?style=flat-square" alt="Progress" />
   <img src="https://img.shields.io/badge/Health_Score-98%2F100-brightgreen?style=flat-square" alt="Health" />
-  <img src="https://img.shields.io/badge/Components-888-orange?style=flat-square" alt="Components" />
+  <img src="https://img.shields.io/badge/Components-890+-orange?style=flat-square" alt="Components" />
 </p>
 
 </div>
@@ -83,21 +83,21 @@
 
 > 💡 **Полная карта документации:** [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md)
 > 
-> 🎯 **Текущий статус:** Sprint 029 (Mobile Telegram Optimization) - 🟢 In Progress (85%)  
+> 🎯 **Текущий статус:** Sprint 030 (Unified Studio Mobile) - 🟢 In Progress (45%)  
 > 📊 **Статус спринтов:** [SPRINT_STATUS.md](SPRINT_STATUS.md) | **Статус проекта:** [PROJECT_STATUS.md](PROJECT_STATUS.md)
 >
 > 🗺️ **Планы развития:**
 > - [IMPLEMENTATION_ROADMAP_2026.md](IMPLEMENTATION_ROADMAP_2026.md) - Roadmap Q1-Q2 2026
-> - [SPRINTS/SPRINT-029-TELEGRAM-MOBILE-OPTIMIZATION.md](SPRINTS/SPRINT-029-TELEGRAM-MOBILE-OPTIMIZATION.md) - Mobile Optimization (Current)
-> - [SPRINTS/SPRINT-030-UNIFIED-STUDIO-MOBILE.md](SPRINTS/SPRINT-030-UNIFIED-STUDIO-MOBILE.md) - Unified Studio Mobile (Next)
+> - [SPRINTS/SPRINT-030-UNIFIED-STUDIO-MOBILE.md](SPRINTS/SPRINT-030-UNIFIED-STUDIO-MOBILE.md) - Unified Studio Mobile (Current)
+> - [SPRINTS/SPRINT-029-TELEGRAM-MOBILE-OPTIMIZATION.md](SPRINTS/SPRINT-029-TELEGRAM-MOBILE-OPTIMIZATION.md) - Mobile Optimization (Completed)
 >
 > 📚 **Ключевая документация:**
 > - [PROJECT_STATUS.md](PROJECT_STATUS.md) - Единый источник правды о статусе проекта
+> - [KNOWLEDGE_BASE.md](KNOWLEDGE_BASE.md) - База знаний проекта
 > - [SPRINTS/](SPRINTS/) - Планирование спринтов и задачи
 > - [specs/](specs/) - Технические спецификации и SDD
 > - [docs/guides/](docs/guides/) - Технические руководства
 > - [docs/mobile/](docs/mobile/) - Мобильная оптимизация
-> - [docs/ru/](docs/ru/) - Русская документация
 
 ---
 
@@ -204,10 +204,18 @@
 
 ### 👨‍💼 Admin Dashboard
 - **Overview** — статистика пользователей/треков
+- **Generation Stats** — статистика генерации (NEW)
 - **Bot Metrics** — мониторинг Telegram бота
 - **User Management** — управление ролями
 - **Broadcast** — рассылка уведомлений
 - **Blog** — AI-ассистент для статей
+- **Analytics** — расширенная аналитика
+
+### ⚙️ User Settings
+- **Profile** — управление профилем
+- **Statistics** — персональная статистика (NEW)
+- **Notifications** — настройки уведомлений
+- **Privacy** — настройки приватности
 
 ---
 

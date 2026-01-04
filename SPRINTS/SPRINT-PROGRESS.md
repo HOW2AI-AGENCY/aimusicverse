@@ -1,6 +1,6 @@
 # Sprint Progress Tracker
 
-**Последнее обновление**: 2026-01-04 (Comprehensive Update)
+**Последнее обновление**: 2026-01-04 (Session 6 - Documentation Update)
 
 ## 📊 Общий статус
 
@@ -11,148 +11,144 @@
 | Sprint 026: UX Unification | ✅ ЗАВЕРШЕН | 100% | Dec 12, 2025 |
 | Sprint 027: AI Lyrics Agent | ✅ ЗАВЕРШЕН | 100% | Dec 26, 2025 |
 | Sprint 028: UI/UX Optimization | ✅ ЗАВЕРШЕН | 100% | Dec 22, 2025 |
-| Sprint 029: Mobile Optimization | 🟢 В РАБОТЕ | 90% | Jan 4-18, 2026 |
-| Sprint 030: Unified Studio Mobile | 📋 ЗАПЛАНИРОВАН | 0% | Jan 20+, 2026 |
+| Sprint 029: Mobile Optimization | ✅ ЗАВЕРШЕН | 100% | Jan 4, 2026 |
+| Sprint 030: Unified Studio Mobile | 🟢 В РАБОТЕ | 45% | Jan 4-20, 2026 |
 
 ---
 
-## 🟢 Sprint 029: Mobile Telegram Optimization (Текущий)
+## 🟢 Sprint 030: Unified Studio Mobile (Текущий)
 
-### ✅ Завершено (90% - 18/20 задач)
+### ✅ Завершено (45% - 9/20 задач)
 
-#### Блок 1: Telegram Mini App SDK Integration ✅ (100%)
-- [x] Telegram CloudStorage API интеграция
-- [x] useCloudStorage React hook с localStorage fallback
-- [x] Tab synchronization через storage events
-- [x] Haptic feedback utilities (hapticImpact, hapticNotification, hapticSelectionChanged)
-- [x] Button component с haptic prop
-- [x] BottomNavigation с haptic feedback
-- [x] TypeScript типизация для всех API
+#### Session 6: Admin & Notifications (Jan 4, 2026) ✅
+- [x] Centralized Notification System (`src/lib/notifications.ts`)
+  - notify.success/error/warning/info functions
+  - Deduplication с dedupeKey и dedupeTimeout
+  - ToastOptions для customization
+- [x] Миграция toast → notify (15+ компонентов):
+  - useCredits, useGuestAccess, NotificationContext
+  - useTelegramIntegration, ShareSheet, GenerateSheet
+  - Settings, useNotificationSettings
+- [x] Admin Panel Enhancements:
+  - GenerationStatsPanel с агрегированной статистикой
+  - Новый таб "Generation Stats" в AdminDashboard
+- [x] User Settings Improvements:
+  - UserStatsSection с персональной статистикой
+  - Новый таб "Statistics" в Settings
+- [x] Mobile Layout Optimization:
+  - EnhancedAnalyticsPanel компактные карточки
+  - GenerationStatsPanel адаптивные гриды
+  - UserStatsSection responsive дизайн
 
-#### Блок 2: Mobile UI/UX Improvements ✅ (100%)
-- [x] Pull-to-refresh на Library странице
-- [x] Pull-to-refresh на Index (homepage)
-- [x] PullToRefreshWrapper reusable component
-- [x] Mobile navigation с 56px touch targets
-- [x] MobilePlayerPage standalone компонент
-- [x] Deep link support (play_, player_, listen_)
-- [x] Auto-playback при загрузке через deep link
-- [x] useKeyboardAware hook для форм
+#### Блок 1: Core Mobile UX ✅ (100%)
+- [x] `useSwipeNavigation` hook создан
+- [x] `useStudioPerformance` hook создан
+- [x] Swipe navigation интегрирован в MobileStudioLayout
+- [x] Touch targets увеличены до 56px в MobilePlayerContent
+- [x] Haptic feedback интегрирован в studio buttons
 
-#### Блок 3: Bug Fixes & Database ✅ (100%)
-- [x] track_versions constraint fix (vocal_add, instrumental_add, cover types)
-- [x] suno-music-callback version_type logic fix
-- [x] suno-check-status 'original' → 'initial' fix
+### 🟡 В работе (55% - 11/20 задач)
 
-#### Блок 4: Fullscreen Player Enhancements ✅ (NEW - 100%)
-- [x] Horizontal swipe for track switching (Spotify-style)
-  - 80px threshold, 400px/s velocity
-  - Haptic feedback при переключении
-  - ChevronLeft/ChevronRight indicators
-  - AnimatePresence для плавных переходов
-- [x] Track cover prefetching (usePrefetchTrackCovers)
-  - Prefetch обложек для следующих 3 треков
-  - Image preloading с LRU кэш
-- [x] Audio prefetch for next track (usePrefetchNextAudio)
-  - Preload='auto' для следующего трека
-  - Cleanup при смене очереди
-- [x] Double-tap seek ±10 seconds
-  - Левая половина = -10s, правая = +10s
-  - DoubleTapSeekFeedback visual component
-  - Haptic feedback при перемотке
-- [x] Karaoke mode (KaraokeView)
-  - Apple Music Sing-style animations
-  - Fullscreen режим с увеличенным текстом
-  - Tap-to-seek на словах
-- [x] Word-level lyrics autoscroll
-  - data-word-index для SynchronizedWord
-  - 30% от верха позиционирование
-  - Подсветка сохраняется при паузе
+#### Блок 2: Mobile Tabs Implementation (60%)
+- [x] Player Tab с haptic и touch controls
+- [x] Stems Tab с compact cards
+- [ ] Sections Tab - замена секций (в процессе)
+- [ ] Actions Tab - дополнительные функции
 
-### 🟡 В работе (10% - 2/20 задач)
+#### Блок 3: Architecture & State (0%)
+- [ ] UnifiedStudioMobile компонент
+- [ ] useUnifiedStudio hook
+- [ ] Store унификация
+- [ ] Миграция существующих компонентов
 
-#### Блок 5: Testing & Quality (50%)
-- [x] Haptic feedback testing на iOS/Android
-- [ ] E2E tests setup с Playwright (в процессе)
+#### Блок 4: Testing & Performance (0%)
+- [ ] E2E tests для studio
 - [ ] Performance monitoring dashboard
-
-#### Блок 6: Advanced Features (0%)
-- [ ] Swipe navigation между табами
+- [ ] 60 FPS validation
 
 ---
 
-## Метрики Sprint 029
+## Метрики Sprint 030
 
 | Метрика | Target | Current | Status |
 |---------|--------|---------|--------|
-| Tasks completed | 20/20 | 18/20 | 🟢 90% |
+| Tasks completed | 20/20 | 9/20 | 🟢 45% |
 | Build status | Success | Success | ✅ |
 | TypeScript strict | Passing | Passing | ✅ |
-| Haptic feedback | iOS+Android | Working | ✅ |
-| CloudStorage | 100% coverage | With fallback | ✅ |
 | Touch targets | ≥44px | 56px | ✅ |
-| Pull-to-refresh | Working | Library+Index | ✅ |
-| Deep links | Working | 3 prefixes | ✅ |
-| Fullscreen Player | All features | ✅ Complete | ✅ |
-| E2E coverage | >80% | In progress | 🟡 |
+| Haptic feedback | Full coverage | 80% | 🟢 |
+| Notification dedup | Working | Working | ✅ |
+| Admin stats | Full | Full | ✅ |
+| User stats | Full | Full | ✅ |
 
 ---
 
-## Ключевые файлы Sprint 029
+## Ключевые файлы Sprint 030
 
-### New Components & Hooks
+### New Components & Hooks (Session 6)
 ```
-src/lib/haptic.ts - Haptic feedback utilities
-src/lib/cloudStorage.ts - CloudStorage API wrapper
-src/hooks/useCloudStorage.ts - React hook для CloudStorage
-src/hooks/audio/usePrefetchTrackCovers.ts - Image prefetch для очереди
-src/hooks/audio/usePrefetchNextAudio.ts - Audio preload для next track
-src/components/library/PullToRefreshWrapper.tsx - Pull-to-refresh component
-src/components/player/KaraokeView.tsx - Fullscreen karaoke mode
-src/components/player/DoubleTapSeekFeedback.tsx - Visual feedback for seek
-src/pages/MobilePlayerPage.tsx - Deep link player page
+src/lib/notifications.ts - Centralized notification service
+src/components/admin/GenerationStatsPanel.tsx - Admin generation stats
+src/components/settings/UserStatsSection.tsx - User personal stats
 ```
 
-### Updated Components
+### Updated Components (Session 6)
 ```
-src/components/ui/button.tsx - Added haptic prop
-src/components/mobile/BottomNavigation.tsx - Haptic on tab change
-src/pages/Library.tsx - Pull-to-refresh integration
-src/pages/Index.tsx - Pull-to-refresh integration
-src/App.tsx - MobilePlayerPage route
+src/pages/AdminDashboard.tsx - Added Generation Stats tab
+src/pages/Settings.tsx - Added Statistics tab, migrated to notify
+src/hooks/useCredits.ts - Migrated to notify
+src/hooks/useGuestAccess.tsx - Migrated to notify
+src/hooks/useTelegramIntegration.ts - Migrated to notify
+src/components/ShareSheet.tsx - Migrated to notify
+src/components/GenerateSheet.tsx - Migrated to notify
+src/contexts/NotificationContext.tsx - Migrated to notify
+src/hooks/useNotificationSettings.ts - Migrated to notify
+src/components/admin/EnhancedAnalyticsPanel.tsx - Mobile optimization
 ```
 
-### Database & Edge Functions
+### Previous Session Files
 ```
-supabase/migrations/*.sql - track_versions constraint updates
-supabase/functions/suno-music-callback/ - version_type logic fix
-supabase/functions/suno-check-status/ - 'original' → 'initial' fix
+src/hooks/useSwipeNavigation.ts - Swipe gesture hook
+src/hooks/useStudioPerformance.ts - Performance monitoring
+src/components/studio/unified/MobilePlayerContent.tsx - Touch controls
+src/components/studio/unified/MobileMixerContent.tsx - Compact mixer
+src/components/studio/unified/MobileStudioLayout.tsx - Swipe navigation
 ```
+
+---
+
+## ✅ Sprint 029: Mobile Telegram Optimization (Завершён)
+
+**Completed**: 2026-01-04 (100%)
+
+### Key Deliverables
+- Telegram CloudStorage API интеграция
+- Pull-to-refresh (Library + Index)
+- Deep links для fullscreen player
+- Haptic feedback system
+- Karaoke mode (Apple Music Sing-style)
+- Double-tap seek ±10 seconds
+- Word-level lyrics autoscroll
+- dayjs migration (40KB → 7KB)
+- Vite chunk optimization
 
 ---
 
 ## Следующие действия
 
-### Sprint 029 - Текущая неделя (Jan 4-10, 2026)
-1. ✅ **Выполнено**: CloudStorage integration
-2. ✅ **Выполнено**: Haptic feedback system
-3. ✅ **Выполнено**: Pull-to-refresh (Library + Index)
-4. ✅ **Выполнено**: MobilePlayerPage with deep links
-5. ✅ **Выполнено**: Mobile karaoke & prefetch
-6. 🔄 **В работе**: E2E tests setup (Playwright)
-7. 📋 **Планируется**: Swipe navigation между табами
+### Sprint 030 - Текущая неделя (Jan 4-10, 2026)
+1. ✅ **Выполнено**: Centralized notifications
+2. ✅ **Выполнено**: Admin GenerationStatsPanel
+3. ✅ **Выполнено**: User StatsSection
+4. ✅ **Выполнено**: Mobile layout optimization
+5. 🔄 **В работе**: Sections Tab implementation
+6. 📋 **Планируется**: Actions Tab implementation
 
-### Sprint 029 - Следующая неделя (Jan 11-18, 2026)
-8. **Приоритет 1**: Завершить E2E тесты (8-10 часов)
-9. **Приоритет 2**: Swipe navigation implementation (6-8 часов)
-10. **Приоритет 3**: Performance monitoring dashboard (4-6 часов)
-11. **Приоритет 4**: Mobile gesture improvements (4-6 часов)
-
-### Sprint 030 - Preparation (Jan 18-20, 2026)
-- Review Sprint 029 results
-- Plan Unified Studio Mobile architecture
-- Create detailed task breakdown
-- Set up development environment
+### Sprint 030 - Следующая неделя (Jan 11-18, 2026)
+7. **Приоритет 1**: UnifiedStudioMobile component
+8. **Приоритет 2**: Store унификация
+9. **Приоритет 3**: Component миграция
+10. **Приоритет 4**: Testing & Performance
 
 ---
 
