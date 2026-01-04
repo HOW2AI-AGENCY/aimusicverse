@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef, useEffect, memo } from "react";
 import { cn } from "@/lib/utils";
-import { getOptimizedImageUrl, getTrackCoverUrl } from "@/lib/imageOptimization";
+import { getOptimizedImageUrl, getTrackCoverUrl, generateSrcSet } from "@/lib/imageOptimization";
 
 interface LazyImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   src: string;
@@ -11,6 +11,10 @@ interface LazyImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   coverSize?: 'small' | 'medium' | 'large';
   /** Priority loading (above the fold) */
   priority?: boolean;
+  /** Enable srcset for responsive images */
+  responsive?: boolean;
+  /** Aspect ratio for container (e.g., "1/1", "16/9") */
+  aspectRatio?: string;
 }
 
 export const LazyImage = memo(function LazyImage({
@@ -21,6 +25,8 @@ export const LazyImage = memo(function LazyImage({
   fallback,
   coverSize,
   priority = false,
+  responsive = false,
+  aspectRatio,
   ...props
 }: LazyImageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -33,6 +39,14 @@ export const LazyImage = memo(function LazyImage({
   const optimizedSrc = coverSize 
     ? getTrackCoverUrl(src, coverSize)
     : getOptimizedImageUrl(src, { quality: 80 });
+
+  // Generate srcset for responsive images
+  const srcSet = responsive ? generateSrcSet(src) : undefined;
+  
+  // Default sizes attribute for responsive images
+  const sizes = responsive 
+    ? "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+    : undefined;
 
   // Intersection observer for lazy loading
   useEffect(() => {
@@ -80,7 +94,11 @@ export const LazyImage = memo(function LazyImage({
 
   if (hasError || !src) {
     return (
-      <div className={cn("bg-muted flex items-center justify-center", containerClassName)}>
+      <div 
+        className={cn("bg-muted flex items-center justify-center", containerClassName)}
+        role="img"
+        aria-label={alt || "Изображение недоступно"}
+      >
         {fallback || (
           <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5" />
         )}
@@ -89,11 +107,15 @@ export const LazyImage = memo(function LazyImage({
   }
 
   return (
-    <div className={cn("relative overflow-hidden", containerClassName)}>
+    <div 
+      className={cn("relative overflow-hidden", containerClassName)}
+      style={aspectRatio ? { aspectRatio } : undefined}
+    >
       {/* Placeholder with shimmer - only show while loading */}
       {!isLoaded && (
         <div
           className="absolute inset-0 bg-gradient-to-br from-muted to-muted/50"
+          aria-hidden="true"
         >
           {/* Animated shimmer effect */}
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-foreground/5 to-transparent animate-shimmer" />
@@ -104,6 +126,8 @@ export const LazyImage = memo(function LazyImage({
       <img
         ref={imgRef}
         src={shouldLoad ? optimizedSrc : undefined}
+        srcSet={shouldLoad && srcSet ? srcSet : undefined}
+        sizes={sizes}
         data-src={optimizedSrc}
         alt={alt}
         loading={priority ? "eager" : "lazy"}
@@ -112,7 +136,7 @@ export const LazyImage = memo(function LazyImage({
         onLoad={handleLoad}
         onError={handleError}
         className={cn(
-          "transition-opacity duration-300 ease-out",
+          "transition-opacity duration-slow ease-default",
           isLoaded ? "opacity-100" : "opacity-0",
           className
         )}

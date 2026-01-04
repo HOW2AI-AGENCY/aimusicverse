@@ -333,8 +333,13 @@ export const TrackCard = memo(({
               onPlay?.();
             }}
           >
-            <Button size="icon" variant="ghost" className="w-10 h-10 rounded-full text-white touch-manipulation">
-              {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 ml-0.5" />}
+            <Button 
+              size="icon" 
+              variant="ghost" 
+              className="w-10 h-10 min-h-touch min-w-touch rounded-full text-white touch-manipulation"
+              aria-label={isPlaying ? `Пауза: ${track.title}` : `Воспроизвести: ${track.title}`}
+            >
+              {isPlaying ? <Pause className="w-4 h-4" aria-hidden="true" /> : <Play className="w-4 h-4 ml-0.5" aria-hidden="true" />}
             </Button>
           </div>
         </div>
@@ -382,7 +387,7 @@ export const TrackCard = memo(({
             size="icon"
             variant={isPlaying ? "default" : "ghost"}
             className={cn(
-              "w-10 h-10 rounded-full touch-manipulation transition-colors",
+              "w-10 h-10 min-h-touch min-w-touch rounded-full touch-manipulation transition-colors",
               isPlaying && "bg-primary text-primary-foreground"
             )}
             onClick={(e) => { 
@@ -390,21 +395,25 @@ export const TrackCard = memo(({
               triggerHapticFeedback('medium');
               onPlay?.(); 
             }}
+            aria-label={isPlaying ? `Пауза: ${track.title}` : `Воспроизвести: ${track.title}`}
+            aria-pressed={isPlaying}
           >
-            {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 ml-0.5" />}
+            {isPlaying ? <Pause className="w-4 h-4" aria-hidden="true" /> : <Play className="w-4 h-4 ml-0.5" aria-hidden="true" />}
           </Button>
           {isMobile ? (
             <Button
               size="icon"
               variant="ghost"
-              className="w-10 h-10 touch-manipulation"
+              className="w-10 h-10 min-h-touch min-w-touch touch-manipulation"
               onClick={(e) => { 
                 e.stopPropagation(); 
                 triggerHapticFeedback('light');
                 setSheetOpen(true); 
               }}
+              aria-label={`Дополнительные действия для ${track.title}`}
+              aria-haspopup="menu"
             >
-              <MoreHorizontal className="w-5 h-5" />
+              <MoreHorizontal className="w-5 h-5" aria-hidden="true" />
             </Button>
           ) : (
             <UnifiedTrackMenu track={track} onDelete={onDelete} onDownload={onDownload} />
@@ -532,8 +541,8 @@ export const TrackCard = memo(({
           <Button
             size="lg"
             className={cn(
-              "rounded-full w-14 h-14 sm:w-12 sm:h-12 min-h-[44px] min-w-[44px]",
-              "active:scale-90 transition-all duration-200 touch-manipulation shadow-lg",
+              "rounded-full w-14 h-14 sm:w-12 sm:h-12 min-h-touch min-w-touch",
+              "active:scale-90 transition-all duration-normal touch-manipulation shadow-lg",
               isPlaying 
                 ? "bg-primary text-primary-foreground" 
                 : "bg-white/95 text-black hover:bg-white hover:scale-105"
@@ -544,11 +553,13 @@ export const TrackCard = memo(({
               onPlay?.();
             }}
             disabled={!track.audio_url}
+            aria-label={isPlaying ? `Пауза: ${track.title || 'трек'}` : `Воспроизвести: ${track.title || 'трек'}`}
+            aria-pressed={isPlaying}
           >
             {isPlaying ? (
-              <Pause className="w-5 h-5" />
+              <Pause className="w-5 h-5" aria-hidden="true" />
             ) : (
-              <Play className="w-5 h-5 ml-0.5" />
+              <Play className="w-5 h-5 ml-0.5" aria-hidden="true" />
             )}
           </Button>
         </div>
