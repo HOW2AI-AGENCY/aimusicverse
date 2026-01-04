@@ -87,7 +87,7 @@ export const MobileStudioPlayerBar = memo(function MobileStudioPlayerBar({
       className={cn(
         "fixed bottom-0 left-0 right-0 z-50",
         "bg-card/95 backdrop-blur-xl border-t border-border/50",
-        "pb-[calc(max(var(--tg-safe-area-inset-bottom,0px),env(safe-area-inset-bottom,0px))+0.25rem)]",
+        "pb-[calc(max(var(--tg-safe-area-inset-bottom,0px),env(safe-area-inset-bottom,0px))+0.75rem)]",
         className
       )}
     >

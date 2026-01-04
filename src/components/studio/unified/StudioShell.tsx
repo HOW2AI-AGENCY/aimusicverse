@@ -305,6 +305,28 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
     }));
   }, [replacedSectionsData]);
 
+  // Filter tracks to avoid duplicating main track when stems exist
+  const displayTracks = useMemo(() => {
+    if (!project?.tracks || project.tracks.length === 0) return [];
+    
+    // Check if we have stems (vocal, instrumental, drums, bass)
+    const stemTypes = ['vocal', 'instrumental', 'drums', 'bass', 'other'];
+    const hasStems = project.tracks.some(t => stemTypes.includes(t.type));
+    
+    if (hasStems && project.tracks.length > 1) {
+      // Filter out main/source track if it's already shown on the main timeline
+      return project.tracks.filter(t => {
+        // Keep if it's a stem type
+        if (stemTypes.includes(t.type)) return true;
+        // Filter out track with same audio as main timeline (first track)
+        if (t.audioUrl === mainAudioUrl && mainAudioUrl) return false;
+        return true;
+      });
+    }
+    
+    return project.tracks;
+  }, [project?.tracks, mainAudioUrl]);
+
   // Handle section click on timeline
   const handleSectionClick = useCallback((section: typeof detectedSections[0], index: number) => {
     selectSection(section, index);
@@ -874,8 +896,12 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
     <div 
       className={cn('flex flex-col h-screen bg-background overflow-x-hidden', className)}
       style={{
-        paddingTop: telegramSafeAreaTop,
-        paddingBottom: isMobile ? 'calc(max(var(--tg-safe-area-inset-bottom,0px),env(safe-area-inset-bottom,0px)) + 4.5rem)' : telegramSafeAreaBottom,
+        paddingTop: isMobile 
+          ? 'calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px) + 0.75rem, env(safe-area-inset-top, 0px) + 0.75rem))'
+          : telegramSafeAreaTop,
+        paddingBottom: isMobile 
+          ? 'calc(max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)) + 5.5rem)'
+          : telegramSafeAreaBottom,
       }}
     >
       {/* Unified Header */}
@@ -1016,7 +1042,7 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
           isMobile && "pb-4"
         )}>
           <SortableTrackList
-            tracks={project.tracks}
+            tracks={displayTracks}
             isPlaying={isPlaying}
             currentTime={currentTime}
             duration={duration}

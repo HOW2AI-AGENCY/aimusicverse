@@ -337,8 +337,9 @@ function inferSectionTypeFromContext(
 /**
  * Create sections based on typical song structure
  * Used when no lyrics/words available
+ * @public Exported for use as fallback in components
  */
-function createMusicalSections(duration: number): DetectedSection[] {
+export function createMusicalSections(duration: number): DetectedSection[] {
   if (duration <= 0) return [];
 
   const sections: DetectedSection[] = [];

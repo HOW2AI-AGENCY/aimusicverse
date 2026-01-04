@@ -149,13 +149,13 @@ function applyThemeToDOM(resolvedTheme: ResolvedTheme) {
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  // Initialize with stored theme or 'system' as default
+  // Initialize with stored theme or 'dark' as default (better for music app)
   const [theme, setThemeState] = useState<Theme>(() => {
-    return getStoredTheme() || 'system';
+    return getStoredTheme() || 'dark';
   });
   
   const [resolvedTheme, setResolvedTheme] = useState<ResolvedTheme>(() => {
-    const initialTheme = getStoredTheme() || 'system';
+    const initialTheme = getStoredTheme() || 'dark';
     return resolveTheme(initialTheme);
   });
 
