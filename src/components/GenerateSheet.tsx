@@ -295,8 +295,8 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           )}
         </AnimatePresence>
 
-        <ScrollArea className="flex-1">
-          <div className="px-4 py-3 space-y-3">
+        <ScrollArea className="flex-1 overflow-x-hidden">
+          <div className="px-4 py-3 space-y-3 min-w-0">
             {/* Quick Action Buttons */}
             <GenerateFormActions
               onOpenAudioDialog={() => setAudioActionDialogOpen(true)}
