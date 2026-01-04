@@ -89,6 +89,7 @@ import { StudioArrangementDialog } from './StudioArrangementDialog';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 import { useProjectTrackSync } from '@/hooks/studio/useProjectTrackSync';
 import { useStudioOperationLock } from '@/hooks/studio/useStudioOperationLock';
+import { InstrumentalResultHandler, InstrumentalResultData } from './InstrumentalResultHandler';
 
 interface StudioShellProps {
   className?: string;
@@ -170,10 +171,17 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
   const [showArrangementDialog, setShowArrangementDialog] = useState(false);
   const [selectedArrangementTrack, setSelectedArrangementTrack] = useState<StudioTrack | null>(null);
   
+  // Instrumental result handler state - for choosing action after generation
+  const [showInstrumentalResult, setShowInstrumentalResult] = useState(false);
+  const [instrumentalResultData, setInstrumentalResultData] = useState<InstrumentalResultData | null>(null);
+  
+  // Track generation context - which instrumental we're replacing
+  const pendingGenerationContextRef = useRef<Map<string, { type: 'replace_instrumental'; existingId?: string }>>(new Map());
+  
   // Actions sheet state (mobile)
   const [showActionsSheet, setShowActionsSheet] = useState(false);
 
-  
+
   // Section editor store
   const {
     selectedSection,
@@ -687,10 +695,27 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
                   duration: clip.duration_seconds || 180,
                 }));
 
-                resolvePendingTrack(taskId, versions);
-                toast.success('Инструментал готов! 🎸', {
-                  description: versions.length > 1 ? 'Выберите версию A или B' : 'Трек добавлен'
-                });
+                // Check if this is a replace_instrumental context
+                const context = pendingGenerationContextRef.current.get(taskId);
+                
+                if (context?.type === 'replace_instrumental') {
+                  // Show result handler dialog instead of auto-adding
+                  resolvePendingTrack(taskId, versions);
+                  setInstrumentalResultData({
+                    newTrackId: trackId,
+                    existingInstrumentalId: context.existingId,
+                    versions,
+                    trackName: 'Новый инструментал',
+                  });
+                  setShowInstrumentalResult(true);
+                  pendingGenerationContextRef.current.delete(taskId);
+                } else {
+                  // Standard flow - just resolve
+                  resolvePendingTrack(taskId, versions);
+                  toast.success('Инструментал готов! 🎸', {
+                    description: versions.length > 1 ? 'Выберите версию A или B' : 'Трек добавлен'
+                  });
+                }
               }
             } catch (err) {
               logger.error('Failed to parse audio clips', err);
@@ -1415,6 +1440,15 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
           vocalTrack={selectedArrangementTrack}
           projectName={project.name}
           onSuccess={(taskId, title) => {
+            // Find existing instrumental for context
+            const existingInstrumental = project.tracks.find(t => t.type === 'instrumental' && t.status === 'ready');
+            
+            // Store context for this generation
+            pendingGenerationContextRef.current.set(taskId, {
+              type: 'replace_instrumental',
+              existingId: existingInstrumental?.id,
+            });
+            
             // Add pending track for the new arrangement
             addPendingTrack({
               name: title,
@@ -1427,6 +1461,54 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
           }}
         />
       )}
+
+      {/* Instrumental Result Handler Dialog */}
+      <InstrumentalResultHandler
+        open={showInstrumentalResult}
+        onClose={() => {
+          setShowInstrumentalResult(false);
+          setInstrumentalResultData(null);
+        }}
+        data={instrumentalResultData}
+        onApply={(action, selectedVersionLabel) => {
+          if (!instrumentalResultData) return;
+          
+          const { newTrackId, existingInstrumentalId, versions } = instrumentalResultData;
+          const selectedVersion = versions.find(v => v.label === selectedVersionLabel);
+          
+          if (!selectedVersion) return;
+          
+          const { replaceTrackAudio, addTrackVersion, removeTrack } = useUnifiedStudioStore.getState();
+          
+          switch (action) {
+            case 'replace':
+              if (existingInstrumentalId) {
+                replaceTrackAudio(existingInstrumentalId, selectedVersion.audioUrl, selectedVersion.duration);
+                removeTrack(newTrackId);
+                toast.success('Инструментал заменён');
+              }
+              break;
+              
+            case 'version':
+              if (existingInstrumentalId) {
+                const existingTrack = project.tracks.find(t => t.id === existingInstrumentalId);
+                const currentVersions = existingTrack?.versions?.length || 0;
+                const nextLabel = String.fromCharCode(65 + currentVersions);
+                addTrackVersion(existingInstrumentalId, nextLabel, selectedVersion.audioUrl, selectedVersion.duration);
+                removeTrack(newTrackId);
+                toast.success(`Версия ${nextLabel} добавлена`);
+              }
+              break;
+              
+            case 'new':
+              toast.success('Новый инструментал добавлен');
+              break;
+          }
+          
+          setShowInstrumentalResult(false);
+          setInstrumentalResultData(null);
+        }}
+      />
     </div>
   );
 });

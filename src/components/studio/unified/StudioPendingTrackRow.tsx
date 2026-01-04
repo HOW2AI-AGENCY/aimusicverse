@@ -131,10 +131,10 @@ export const StudioPendingTrackRow = memo(function StudioPendingTrackRow({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
-      className="relative"
+      className="relative w-full max-w-full"
     >
       <div className={cn(
-        "flex flex-col rounded-xl overflow-hidden",
+        "flex flex-col rounded-xl overflow-hidden w-full max-w-full",
         "bg-gradient-to-r from-green-500/10 to-green-600/5",
         "border border-green-500/20",
         isFailed && "border-destructive/30 from-destructive/10 to-destructive/5"
@@ -216,12 +216,12 @@ export const StudioPendingTrackRow = memo(function StudioPendingTrackRow({
             </div>
           ) : (
             <div className="h-full relative">
-              {/* Animated skeleton waveform */}
+              {/* Animated skeleton waveform - adaptive bar count */}
               <div className="absolute inset-0 flex items-center gap-0.5 px-2 overflow-hidden">
-                {Array.from({ length: 50 }).map((_, i) => (
+                {Array.from({ length: 24 }).map((_, i) => (
                   <motion.div
                     key={i}
-                    className="flex-1 bg-green-500/20 rounded-full min-w-[2px]"
+                    className="w-1.5 flex-shrink-0 bg-green-500/20 rounded-full"
                     initial={{ height: '20%' }}
                     animate={{
                       height: [`${20 + Math.random() * 30}%`, `${40 + Math.random() * 40}%`, `${20 + Math.random() * 30}%`],
@@ -229,7 +229,7 @@ export const StudioPendingTrackRow = memo(function StudioPendingTrackRow({
                     transition={{
                       duration: 1.5 + Math.random(),
                       repeat: Infinity,
-                      delay: i * 0.03,
+                      delay: i * 0.04,
                       ease: 'easeInOut',
                     }}
                   />
