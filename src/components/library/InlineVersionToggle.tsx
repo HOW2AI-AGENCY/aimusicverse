@@ -7,6 +7,7 @@ import { Loader2 } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { logger } from '@/lib/logger';
+import { useAuth } from '@/hooks/useAuth';
 
 interface Version {
   id: string;
@@ -21,6 +22,8 @@ interface InlineVersionToggleProps {
   versionCount?: number;
   onVersionChange?: (version: Version) => void;
   className?: string;
+  /** Track owner ID - if provided, toggle only renders for owner */
+  trackOwnerId?: string;
 }
 
 export function InlineVersionToggle({
@@ -29,17 +32,22 @@ export function InlineVersionToggle({
   versionCount = 0,
   onVersionChange,
   className,
+  trackOwnerId,
 }: InlineVersionToggleProps) {
   const [versions, setVersions] = useState<Version[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isUpdating, setIsUpdating] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(activeVersionId || null);
   const queryClient = useQueryClient();
-  const { activeTrack, playTrack, isPlaying } = usePlayerStore();
+  const { activeTrack, playTrack } = usePlayerStore();
+  const { user } = useAuth();
+
+  // Check if current user is the owner (version toggle only for owner)
+  const isOwner = !trackOwnerId || (user?.id === trackOwnerId);
 
   useEffect(() => {
-    // Skip fetch if we know there's only 1 or 0 versions
-    if (versionCount <= 1) {
+    // Skip fetch if we know there's only 1 or 0 versions, or no valid trackId
+    if (!trackId || versionCount <= 1) {
       setIsLoading(false);
       return;
     }
@@ -75,7 +83,9 @@ export function InlineVersionToggle({
   }, [trackId, activeVersionId, versionCount]);
 
   const handleVersionClick = async (e: React.MouseEvent, version: Version) => {
+    e.preventDefault();
     e.stopPropagation();
+    e.nativeEvent?.stopImmediatePropagation?.();
     
     if (version.id === activeId || isUpdating) return;
 
@@ -145,8 +155,8 @@ export function InlineVersionToggle({
     }
   };
 
-  // Don't render if single version or loading with known single version
-  if (versionCount <= 1 || (isLoading && versionCount <= 1)) {
+  // Don't render if single version, loading with known single version, or not owner
+  if (!trackId || versionCount <= 1 || (isLoading && versionCount <= 1) || !isOwner) {
     return null;
   }
 
@@ -168,7 +178,13 @@ export function InlineVersionToggle({
         "flex items-center gap-0.5 bg-background/90 backdrop-blur-sm rounded-md p-0.5 shadow-sm",
         className
       )}
-      onClick={(e) => e.stopPropagation()}
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      }}
+      onTouchStart={(e) => e.stopPropagation()}
+      onTouchEnd={(e) => e.stopPropagation()}
+      style={{ touchAction: 'manipulation' }}
     >
       {versions.map((version) => {
         const isActive = version.id === activeId;

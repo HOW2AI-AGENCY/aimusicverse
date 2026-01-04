@@ -362,12 +362,13 @@ export const TrackCard = memo(({
                 {position}
               </Badge>
             )}
-            {/* Version Toggle - only show if more than 1 version */}
+            {/* Version Toggle - only show if more than 1 version and owned by user */}
             {versionCount > 1 && (
               <InlineVersionToggle
                 trackId={track.id}
                 activeVersionId={track.active_version_id}
                 versionCount={versionCount}
+                trackOwnerId={track.user_id}
                 className="flex-shrink-0"
               />
             )}
@@ -626,6 +627,7 @@ export const TrackCard = memo(({
               trackId={track.id}
               activeVersionId={track.active_version_id}
               versionCount={versionCount}
+              trackOwnerId={track.user_id}
             />
           )}
           {stemCount > 0 && (
