@@ -834,6 +834,11 @@ export const DeepLinkHandler = () => {
       [/^album_(.+)$/, (m) => `/album/${m![1]}`, 'album'],
       [/^blog_(.+)$/, (m) => `/blog/${m![1]}`, 'blog'],
       
+      // Player deep links - open fullscreen player directly
+      [/^play_(.+)$/, (m) => `/player/${m![1]}`, 'play'],
+      [/^player_(.+)$/, (m) => `/player/${m![1]}`, 'player'],
+      [/^listen_(.+)$/, (m) => `/player/${m![1]}`, 'listen'],
+      
       // Generation deep links
       [/^generate_(.+)$/, (m) => `/generate?style=${m![1]}`, 'generate'],
       [/^quick_(.+)$/, (m) => `/generate?style=${m![1]}&quick=true`, 'quick'],
