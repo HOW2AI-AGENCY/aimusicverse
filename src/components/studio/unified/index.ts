@@ -17,15 +17,13 @@ export { StudioShell } from './StudioShell';
 export { SortableTrackList } from './SortableTrackList';
 export { AutoSaveIndicator } from './AutoSaveIndicator';
 
-// Mobile Studio Components
-export { MobileStudioTabs } from './MobileStudioTabs';
-export type { MobileStudioTab } from './MobileStudioTabs';
-export { MobileStudioLayout } from './MobileStudioLayout';
-export { MobilePlayerContent } from './MobilePlayerContent';
-export { MobileTracksContent } from './MobileTracksContent';
-export { MobileSectionsContent } from './MobileSectionsContent';
-export { MobileMixerContent } from './MobileMixerContent';
-export { MobileActionsContent } from './MobileActionsContent';
+// Unified Mobile Components (new unified interface)
+export { MobileStudioPlayerBar } from './MobileStudioPlayerBar';
+export { StudioActionsSheet } from './StudioActionsSheet';
+export { StudioWaveformTimeline } from './StudioWaveformTimeline';
+export { StudioSectionOverlay } from './StudioSectionOverlay';
+export { StudioDownloadPanel } from './StudioDownloadPanel';
+export { StudioTranscriptionPanel } from './StudioTranscriptionPanel';
 
 // Re-export hooks for convenience
 export { useSwipeNavigation } from '@/hooks/useSwipeNavigation';

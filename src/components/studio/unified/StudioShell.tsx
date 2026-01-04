@@ -16,7 +16,8 @@ import { StudioMixerPanel } from './StudioMixerPanel';
 import { ExportMixDialog } from './ExportMixDialog';
 import { StemEffectsDrawer } from './StemEffectsDrawer';
 import { MobileAudioWarning } from '@/components/studio/MobileAudioWarning';
-import { MobileStudioLayout } from './MobileStudioLayout';
+import { MobileStudioPlayerBar } from './MobileStudioPlayerBar';
+import { StudioActionsSheet } from './StudioActionsSheet';
 import { useStudioAudioEngine, AudioTrack } from '@/hooks/studio/useStudioAudioEngine';
 import { useMobileAudioFallback } from '@/hooks/studio/useMobileAudioFallback';
 import { useStudioOptimizations } from '@/hooks/studio/useStudioOptimizations';
@@ -159,6 +160,9 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
   // Transcription panel state
   const [showTranscriptionPanel, setShowTranscriptionPanel] = useState(false);
   const [selectedTranscriptionTrack, setSelectedTranscriptionTrack] = useState<StudioTrack | null>(null);
+  
+  // Actions sheet state (mobile)
+  const [showActionsSheet, setShowActionsSheet] = useState(false);
   
   // Section editor store
   const {
@@ -726,303 +730,169 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
     }
   }, [project?.tracks]);
 
-  // Mobile layout - full tab-based interface
-  if (isMobile) {
-    return (
-      <div 
-        className={cn('flex flex-col h-screen bg-background', className)}
-        style={{ paddingTop: telegramSafeAreaTop }}
-      >
-        <MobileStudioLayout
-          currentTime={currentTime}
-          duration={duration}
-          isPlaying={isPlaying}
-          onSeek={handleSeek}
-          onPlayPause={handlePlayPause}
-          onTrackAction={handleMobileTrackAction}
-          onAddTrack={() => setShowAddTrackDialog(true)}
-          onSave={handleSave}
-          onExport={handleExport}
-          onOpenDownloadPanel={() => setShowDownloadPanel(true)}
-        />
+  // Unified layout for both desktop and mobile
+  // Mobile uses vertical scroll with fixed player bar at bottom
+  // Desktop uses timeline view with sections
 
-        {/* Dialogs stay shared */}
-        <AddTrackDialog
-          open={showAddTrackDialog}
-          onOpenChange={setShowAddTrackDialog}
-          onAdd={handleAddTrack}
-        />
-        <ExportMixDialog
-          open={showExportDialog}
-          onOpenChange={setShowExportDialog}
-          tracks={audioTracks.map(t => ({
-            url: t.audioUrl || '',
-            volume: t.volume,
-            muted: t.muted
-          }))}
-          masterVolume={project.masterVolume}
-          trackTitle={project.name}
-        />
-        <StemEffectsDrawer
-          open={showEffectsDrawer}
-          onOpenChange={setShowEffectsDrawer}
-          stem={selectedEffectsTrack ? {
-            id: selectedEffectsTrack.id,
-            stem_type: selectedEffectsTrack.type,
-            audio_url: selectedEffectsTrack.audioUrl || '',
-            track_id: project.id,
-            separation_mode: null,
-            version_id: null,
-            created_at: new Date().toISOString(),
-          } : null}
-          effects={selectedEffectsTrack ? (trackEffects[selectedEffectsTrack.id] || defaultStemEffects) : defaultStemEffects}
-          onUpdateEQ={(settings) => {
-            if (!selectedEffectsTrack) return;
-            setTrackEffects(prev => ({
-              ...prev,
-              [selectedEffectsTrack.id]: {
-                ...(prev[selectedEffectsTrack.id] || defaultStemEffects),
-                eq: { ...(prev[selectedEffectsTrack.id]?.eq || defaultStemEffects.eq), ...settings }
-              }
-            }));
-          }}
-          onUpdateCompressor={(settings) => {
-            if (!selectedEffectsTrack) return;
-            setTrackEffects(prev => ({
-              ...prev,
-              [selectedEffectsTrack.id]: {
-                ...(prev[selectedEffectsTrack.id] || defaultStemEffects),
-                compressor: { ...(prev[selectedEffectsTrack.id]?.compressor || defaultStemEffects.compressor), ...settings }
-              }
-            }));
-          }}
-          onUpdateReverb={(settings) => {
-            if (!selectedEffectsTrack) return;
-            setTrackEffects(prev => ({
-              ...prev,
-              [selectedEffectsTrack.id]: {
-                ...(prev[selectedEffectsTrack.id] || defaultStemEffects),
-                reverb: { ...(prev[selectedEffectsTrack.id]?.reverb || defaultStemEffects.reverb), ...settings }
-              }
-            }));
-          }}
-          onReset={() => {
-            if (!selectedEffectsTrack) return;
-            setTrackEffects(prev => ({
-              ...prev,
-              [selectedEffectsTrack.id]: defaultStemEffects
-            }));
-          }}
-        />
-        {selectedVocalsTrack && (
-          <Suspense fallback={<div className="fixed inset-0 z-50 flex items-center justify-center bg-background/50"><Loader2 className="h-8 w-8 animate-spin" /></div>}>
-            <LazyAddVocalsDrawer
-              open={showAddVocalsDrawer}
-              onOpenChange={setShowAddVocalsDrawer}
-              track={{
-                id: selectedVocalsTrack.id,
-                title: selectedVocalsTrack.name,
-                audio_url: selectedVocalsTrack.audioUrl || selectedVocalsTrack.clips[0]?.audioUrl || '',
-                cover_url: null,
-                style: null,
-                type: selectedVocalsTrack.type === 'instrumental' ? 'instrumental' : 'complete',
-                project_id: project.id,
-                is_liked: false,
-                likes_count: 0,
-              } as unknown as Track}
-              onSuccess={(newTrackId) => {
-                setShowAddVocalsDrawer(false);
-                setSelectedVocalsTrack(null);
-                toast.success('Вокал добавлен!', { description: 'Новый трек создан' });
-              }}
-            />
-          </Suspense>
-        )}
-        {selectedExtendTrack && (
-          <ExtendTrackDialog
-            open={showExtendDialog}
-            onOpenChange={(open) => {
-              setShowExtendDialog(open);
-              if (!open) setSelectedExtendTrack(null);
-            }}
-            track={{
-              id: selectedExtendTrack.id,
-              title: selectedExtendTrack.name,
-              audio_url: selectedExtendTrack.audioUrl || selectedExtendTrack.clips[0]?.audioUrl || '',
-              cover_url: null,
-              style: null,
-              duration_seconds: selectedExtendTrack.clips[0]?.duration || selectedExtendTrack.versions?.[0]?.duration || 60,
-              project_id: project.id,
-              suno_id: null,
-              is_liked: false,
-              likes_count: 0,
-            } as unknown as Track}
-          />
-        )}
-        {selectedSectionTrack && (
-          <SectionEditorSheet
-            open={showSectionEditor}
-            onClose={() => {
-              setShowSectionEditor(false);
-              setSelectedSectionTrack(null);
-            }}
-            trackId={selectedSectionTrack.id}
-            trackTitle={selectedSectionTrack.name}
-            audioUrl={selectedSectionTrack.audioUrl || selectedSectionTrack.clips[0]?.audioUrl}
-            duration={selectedSectionTrack.clips[0]?.duration || selectedSectionTrack.versions?.[0]?.duration || 60}
-            detectedSections={[]}
-          />
-        )}
-      </div>
-    );
-  }
-
-  // Desktop layout
-  return (
-    <div 
-      className={cn('flex flex-col h-screen bg-background overflow-x-hidden', className)}
-      style={{
-        paddingTop: telegramSafeAreaTop,
-        paddingBottom: telegramSafeAreaBottom,
-      }}
-    >
-      {/* Header */}
-      <header className="flex items-center justify-between gap-2 px-3 py-2 border-b border-border/50 bg-card/50 backdrop-blur-sm shrink-0">
-        {/* Left: Back + Title */}
-        <div className="flex items-center gap-2 min-w-0">
-          <Button variant="ghost" size="icon" onClick={handleBack} className="shrink-0">
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
-          <div className="flex flex-col min-w-0">
-            <h1 className="text-sm font-semibold truncate">{project.name}</h1>
-            <div className="flex items-center gap-1">
-              <Badge variant="outline" className="text-[10px] px-1 py-0">
-                {project.tracks.length} дорожек
-              </Badge>
+  // Common header for both layouts
+  const renderHeader = () => (
+    <header className={cn(
+      "flex items-center justify-between gap-2 px-3 py-2 border-b border-border/50 bg-card/50 backdrop-blur-sm shrink-0",
+      isMobile && "sticky top-0 z-40"
+    )}>
+      {/* Left: Back + Title */}
+      <div className="flex items-center gap-2 min-w-0">
+        <Button variant="ghost" size="icon" onClick={handleBack} className="shrink-0 h-8 w-8">
+          <ArrowLeft className="h-4 w-4" />
+        </Button>
+        <div className="flex flex-col min-w-0">
+          <h1 className="text-sm font-semibold truncate">{project.name}</h1>
+          <div className="flex items-center gap-1">
+            <Badge variant="outline" className="text-[10px] px-1 py-0">
+              {project.tracks.length} дорожек
+            </Badge>
+            {!isMobile && (
               <AutoSaveIndicator
                 status={autoSave.status}
                 lastSavedAt={autoSave.lastSavedAt}
                 timeSinceLastSave={autoSave.timeSinceLastSave}
               />
-            </div>
+            )}
           </div>
         </div>
+      </div>
 
-        {/* Center: View Switcher (desktop) */}
+      {/* Center: View Switcher (desktop only) */}
+      {!isMobile && (
+        <Tabs value={viewMode} onValueChange={(v) => setViewMode(v as ViewMode)}>
+          <TabsList className="h-8">
+            <TabsTrigger value="timeline" className="h-7 px-2 gap-1">
+              <Rows3 className="h-4 w-4" />
+              <span className="hidden lg:inline">Дорожки</span>
+            </TabsTrigger>
+            <TabsTrigger value="mixer" className="h-7 px-2 gap-1">
+              <Sliders className="h-4 w-4" />
+              <span className="hidden lg:inline">Микшер</span>
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
+      )}
+
+      {/* Right: Actions */}
+      <div className="flex items-center gap-1">
         {!isMobile && (
-          <Tabs value={viewMode} onValueChange={(v) => setViewMode(v as ViewMode)}>
-            <TabsList className="h-8">
-              <TabsTrigger value="timeline" className="h-7 px-2 gap-1">
-                <Rows3 className="h-4 w-4" />
-                <span className="hidden lg:inline">Дорожки</span>
-              </TabsTrigger>
-              <TabsTrigger value="mixer" className="h-7 px-2 gap-1">
-                <Sliders className="h-4 w-4" />
-                <span className="hidden lg:inline">Микшер</span>
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
-        )}
-
-        {/* Right: Actions */}
-        <div className="flex items-center gap-1">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8"
-            disabled={!canUndo()}
-            onClick={undo}
-            title="Отменить (Ctrl+Z)"
-          >
-            <Undo2 className="h-4 w-4" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8"
-            disabled={!canRedo()}
-            onClick={redo}
-            title="Повторить (Ctrl+Shift+Z)"
-          >
-            <Redo2 className="h-4 w-4" />
-          </Button>
-
-          {/* Offline/Online indicator */}
-          {studioOptimizations.isOfflineCapable && (
-            <div 
-              className={cn(
-                "flex items-center gap-1 px-2 py-1 rounded text-xs",
-                studioOptimizations.isOnline 
-                  ? "text-muted-foreground" 
-                  : "text-yellow-600 bg-yellow-500/10"
-              )}
-              title={studioOptimizations.isOnline ? "Онлайн" : "Офлайн режим"}
-            >
-              {studioOptimizations.isOnline ? (
-                <Cloud className="h-3 w-3" />
-              ) : (
-                <CloudOff className="h-3 w-3" />
-              )}
-            </div>
-          )}
-
-          {isMobile && (
+          <>
             <Button
               variant="ghost"
               size="icon"
               className="h-8 w-8"
-              onClick={() => setShowMixerSheet(true)}
+              disabled={!canUndo()}
+              onClick={undo}
+              title="Отменить (Ctrl+Z)"
             >
-              <Sliders className="h-4 w-4" />
+              <Undo2 className="h-4 w-4" />
             </Button>
-          )}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8"
+              disabled={!canRedo()}
+              onClick={redo}
+              title="Повторить (Ctrl+Shift+Z)"
+            >
+              <Redo2 className="h-4 w-4" />
+            </Button>
 
-          <Button
-            variant="outline"
-            size="sm"
-            className="h-8 gap-1"
-            onClick={handleSave}
-            disabled={isSaving || !hasUnsavedChanges}
-          >
-            {isSaving ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              <Save className="h-4 w-4" />
+            {/* Offline/Online indicator */}
+            {studioOptimizations.isOfflineCapable && (
+              <div 
+                className={cn(
+                  "flex items-center gap-1 px-2 py-1 rounded text-xs",
+                  studioOptimizations.isOnline 
+                    ? "text-muted-foreground" 
+                    : "text-yellow-600 bg-yellow-500/10"
+                )}
+                title={studioOptimizations.isOnline ? "Онлайн" : "Офлайн режим"}
+              >
+                {studioOptimizations.isOnline ? (
+                  <Cloud className="h-3 w-3" />
+                ) : (
+                  <CloudOff className="h-3 w-3" />
+                )}
+              </div>
             )}
-            <span className="hidden sm:inline">Сохранить</span>
-          </Button>
 
-          <Button
-            variant="outline"
-            size="sm"
-            className="h-8 gap-1"
-            onClick={() => setShowGenerateSheet(true)}
-          >
-            <Sparkles className="h-4 w-4" />
-            <span className="hidden sm:inline">Создать</span>
-          </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-8 gap-1"
+              onClick={handleSave}
+              disabled={isSaving || !hasUnsavedChanges}
+            >
+              {isSaving ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Save className="h-4 w-4" />
+              )}
+              <span className="hidden sm:inline">Сохранить</span>
+            </Button>
 
-          <Button
-            variant="outline"
-            size="sm"
-            className="h-8 gap-1"
-            onClick={handleExport}
-          >
-            <Download className="h-4 w-4" />
-            <span className="hidden sm:inline">Экспорт</span>
-          </Button>
-        </div>
-      </header>
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-8 gap-1"
+              onClick={() => setShowGenerateSheet(true)}
+            >
+              <Sparkles className="h-4 w-4" />
+              <span className="hidden sm:inline">Создать</span>
+            </Button>
+
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-8 gap-1"
+              onClick={handleExport}
+            >
+              <Download className="h-4 w-4" />
+              <span className="hidden sm:inline">Экспорт</span>
+            </Button>
+          </>
+        )}
+
+        {/* Mobile: simple save indicator */}
+        {isMobile && hasUnsavedChanges && (
+          <Badge variant="secondary" className="text-[10px]">
+            Не сохранено
+          </Badge>
+        )}
+      </div>
+    </header>
+  );
+
+  // Unified layout for desktop and mobile
+  return (
+    <div 
+      className={cn('flex flex-col h-screen bg-background overflow-x-hidden', className)}
+      style={{
+        paddingTop: telegramSafeAreaTop,
+        paddingBottom: isMobile ? 'calc(max(var(--tg-safe-area-inset-bottom,0px),env(safe-area-inset-bottom,0px)) + 4.5rem)' : telegramSafeAreaBottom,
+      }}
+    >
+      {/* Unified Header */}
+      {renderHeader()}
 
       {/* Main Timeline with Sections */}
-      <div className="px-3 py-2 border-b border-border/30 bg-card/30">
+      <div className={cn(
+        "px-3 py-2 border-b border-border/30 bg-card/30",
+        isMobile && "sticky top-12 z-30"
+      )}>
         <StudioWaveformTimeline
           audioUrl={mainAudioUrl || null}
           duration={duration}
           currentTime={currentTime}
           isPlaying={isPlaying}
           onSeek={handleSeek}
-          height={80}
+          height={isMobile ? 60 : 80}
           sections={detectedSections}
           selectedSectionIndex={selectedSectionIndex}
           replacedRanges={replacedRanges}
@@ -1038,111 +908,113 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
         onDismiss={dismissWarning}
       />
 
-      {/* Transport Controls */}
-      <div className="flex items-center gap-2 px-3 py-2 border-b border-border/50 bg-card/50 shrink-0 overflow-hidden">
-        {/* Play Controls */}
-        <div className="flex items-center gap-0.5 shrink-0">
+      {/* Transport Controls - desktop only, mobile uses bottom player */}
+      {!isMobile && (
+        <div className="flex items-center gap-2 px-3 py-2 border-b border-border/50 bg-card/50 shrink-0 overflow-hidden">
+          {/* Play Controls */}
+          <div className="flex items-center gap-0.5 shrink-0">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8"
+              onClick={() => handleSeek(0)}
+            >
+              <SkipBack className="h-4 w-4" />
+            </Button>
+
+            <Button
+              variant="default"
+              size="icon"
+              className="h-10 w-10 rounded-full"
+              onClick={handlePlayPause}
+            >
+              {isPlaying ? (
+                <Pause className="h-5 w-5" />
+              ) : (
+                <Play className="h-5 w-5 ml-0.5" />
+              )}
+            </Button>
+
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8"
+              onClick={() => handleSeek(duration)}
+            >
+              <SkipForward className="h-4 w-4" />
+            </Button>
+          </div>
+
+          {/* Time Display */}
+          <div className="flex items-center gap-1 shrink-0">
+            <span className="text-sm font-mono font-medium">
+              {formatTime(currentTime)}
+            </span>
+            <span className="text-muted-foreground text-xs">/</span>
+            <span className="text-sm font-mono text-muted-foreground">
+              {formatTime(duration)}
+            </span>
+          </div>
+
+          {/* Spacer */}
+          <div className="flex-1 min-w-0" />
+
+          {/* Master Volume */}
+          <div className="flex items-center gap-1 shrink-0">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8"
+              onClick={() => setMasterVolume(project.masterVolume === 0 ? 0.85 : 0)}
+            >
+              {project.masterVolume === 0 ? (
+                <VolumeX className="h-4 w-4" />
+              ) : (
+                <Volume2 className="h-4 w-4" />
+              )}
+            </Button>
+            <Slider
+              value={[project.masterVolume]}
+              max={1}
+              step={0.01}
+              onValueChange={(v) => setMasterVolume(v[0])}
+              className="w-20"
+            />
+            <span className="text-xs font-mono text-muted-foreground w-6">
+              {Math.round(project.masterVolume * 100)}
+            </span>
+          </div>
+
+          {/* Import Audio */}
           <Button
             variant="ghost"
             size="icon"
-            className="h-7 w-7 md:h-8 md:w-8"
-            onClick={() => handleSeek(0)}
+            onClick={() => setShowImportDialog(true)}
+            className="h-8 w-8 shrink-0"
+            title="Импорт аудио"
           >
-            <SkipBack className="h-3.5 w-3.5 md:h-4 md:w-4" />
+            <Upload className="h-4 w-4" />
           </Button>
 
+          {/* Add Track */}
           <Button
-            variant="default"
-            size="icon"
-            className="h-9 w-9 md:h-10 md:w-10 rounded-full"
-            onClick={handlePlayPause}
+            variant="outline"
+            size="sm"
+            onClick={() => setShowAddTrackDialog(true)}
+            className="h-8 px-3 shrink-0"
           >
-            {isPlaying ? (
-              <Pause className="h-4 w-4 md:h-5 md:w-5" />
-            ) : (
-              <Play className="h-4 w-4 md:h-5 md:w-5 ml-0.5" />
-            )}
-          </Button>
-
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-7 w-7 md:h-8 md:w-8"
-            onClick={() => handleSeek(duration)}
-          >
-            <SkipForward className="h-3.5 w-3.5 md:h-4 md:w-4" />
+            <Plus className="h-4 w-4" />
+            <span className="ml-1">Дорожка</span>
           </Button>
         </div>
+      )}
 
-        {/* Time Display */}
-        <div className="flex items-center gap-1 shrink-0">
-          <span className="text-xs md:text-sm font-mono font-medium">
-            {formatTime(currentTime)}
-          </span>
-          <span className="text-muted-foreground text-xs">/</span>
-          <span className="text-xs md:text-sm font-mono text-muted-foreground">
-            {formatTime(duration)}
-          </span>
-        </div>
-
-        {/* Spacer */}
-        <div className="flex-1 min-w-0" />
-
-        {/* Master Volume - hide slider on mobile */}
-        <div className="flex items-center gap-1 shrink-0">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-7 w-7 md:h-8 md:w-8"
-            onClick={() => setMasterVolume(project.masterVolume === 0 ? 0.85 : 0)}
-          >
-            {project.masterVolume === 0 ? (
-              <VolumeX className="h-3.5 w-3.5 md:h-4 md:w-4" />
-            ) : (
-              <Volume2 className="h-3.5 w-3.5 md:h-4 md:w-4" />
-            )}
-          </Button>
-          {!isMobile && (
-            <>
-              <Slider
-                value={[project.masterVolume]}
-                max={1}
-                step={0.01}
-                onValueChange={(v) => setMasterVolume(v[0])}
-                className="w-20"
-              />
-              <span className="text-xs font-mono text-muted-foreground w-6">
-                {Math.round(project.masterVolume * 100)}
-              </span>
-            </>
-          )}
-        </div>
-
-        {/* Import Audio */}
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => setShowImportDialog(true)}
-          className="h-7 w-7 md:h-8 md:w-8 shrink-0"
-          title="Импорт аудио"
-        >
-          <Upload className="h-3.5 w-3.5 md:h-4 md:w-4" />
-        </Button>
-
-        {/* Add Track - icon only on mobile */}
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={() => setShowAddTrackDialog(true)}
-          className="h-7 w-7 md:h-8 md:w-auto md:px-3 shrink-0"
-        >
-          <Plus className="h-3.5 w-3.5 md:h-4 md:w-4" />
-          <span className="hidden md:inline ml-1">Дорожка</span>
-        </Button>
-      </div>
-
+      {/* Tracks list - vertical scroll */}
       <ScrollArea className="flex-1">
-        <div className="p-3 space-y-2">
+        <div className={cn(
+          "p-3 space-y-2",
+          isMobile && "pb-4"
+        )}>
           <SortableTrackList
             tracks={project.tracks}
             isPlaying={isPlaying}
@@ -1171,6 +1043,44 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
           )}
         </div>
       </ScrollArea>
+
+      {/* Mobile Player Bar - fixed at bottom */}
+      {isMobile && (
+        <MobileStudioPlayerBar
+          isPlaying={isPlaying}
+          currentTime={currentTime}
+          duration={duration}
+          masterVolume={project.masterVolume}
+          onPlayPause={handlePlayPause}
+          onSkipBack={() => handleSeek(0)}
+          onSkipForward={() => handleSeek(duration)}
+          onSeek={handleSeek}
+          onMasterMuteToggle={() => setMasterVolume(project.masterVolume === 0 ? 0.85 : 0)}
+          onOpenActions={() => setShowActionsSheet(true)}
+        />
+      )}
+
+      {/* Mobile Actions Sheet */}
+      <StudioActionsSheet
+        open={showActionsSheet}
+        onOpenChange={setShowActionsSheet}
+        hasUnsavedChanges={hasUnsavedChanges}
+        isSaving={isSaving}
+        onSave={handleSave}
+        onExport={handleExport}
+        onOpenDownload={() => setShowDownloadPanel(true)}
+        onOpenTranscription={() => {
+          const firstTrack = project.tracks[0];
+          if (firstTrack) {
+            setSelectedTranscriptionTrack(firstTrack);
+            setShowTranscriptionPanel(true);
+          }
+        }}
+        onAddTrack={() => setShowAddTrackDialog(true)}
+        onGenerate={() => setShowGenerateSheet(true)}
+        onImport={() => setShowImportDialog(true)}
+        onBack={handleBack}
+      />
 
       {/* Mobile Mixer Sheet */}
       <Sheet open={showMixerSheet} onOpenChange={setShowMixerSheet}>
@@ -1349,7 +1259,10 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
 
       {/* Download Panel Sheet */}
       <Sheet open={showDownloadPanel} onOpenChange={setShowDownloadPanel}>
-        <SheetContent side="right" className="w-full sm:max-w-md p-0">
+        <SheetContent side={isMobile ? 'bottom' : 'right'} className={cn(
+          isMobile ? 'h-[80vh]' : 'w-full sm:max-w-md',
+          'p-0'
+        )}>
           <StudioDownloadPanel
             tracks={project.tracks}
             projectName={project.name}
@@ -1363,7 +1276,10 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
         setShowTranscriptionPanel(open);
         if (!open) setSelectedTranscriptionTrack(null);
       }}>
-        <SheetContent side="right" className="w-full sm:max-w-md p-0">
+        <SheetContent side={isMobile ? 'bottom' : 'right'} className={cn(
+          isMobile ? 'h-[80vh]' : 'w-full sm:max-w-md',
+          'p-0'
+        )}>
           {selectedTranscriptionTrack && (
             <StudioTranscriptionPanel
               track={selectedTranscriptionTrack}
