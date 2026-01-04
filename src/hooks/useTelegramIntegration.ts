@@ -2,7 +2,7 @@ import { useTelegram } from '@/contexts/TelegramContext';
 import { useNotificationHub } from '@/contexts/NotificationContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
-import { toast } from 'sonner';
+import { notify } from '@/lib/notifications';
 import { logger } from '@/lib/logger';
 
 const log = logger.child({ module: 'TelegramIntegration' });
@@ -36,7 +36,7 @@ export function useTelegramIntegration(): UseTelegramIntegrationReturn {
 
   const setMusicOnProfile = async (trackId: string): Promise<boolean> => {
     if (!webApp || !user?.id) {
-      toast.error('Telegram не доступен');
+      notify.error('Telegram не доступен', { dedupe: true, dedupeKey: 'tg-unavailable' });
       return false;
     }
 
@@ -48,19 +48,19 @@ export function useTelegramIntegration(): UseTelegramIntegrationReturn {
 
       if (error) throw error;
 
-      toast.success('Трек добавлен на профиль!');
+      notify.success('Трек добавлен на профиль!');
       log.info('Music set on profile', { trackId });
       return true;
     } catch (error) {
       log.error('Failed to set music on profile', { error: String(error) });
-      toast.error('Не удалось добавить трек на профиль');
+      notify.error('Не удалось добавить трек на профиль');
       return false;
     }
   };
 
   const removeMusicFromProfile = async (): Promise<boolean> => {
     if (!webApp || !user?.id) {
-      toast.error('Telegram не доступен');
+      notify.error('Telegram не доступен', { dedupe: true, dedupeKey: 'tg-unavailable' });
       return false;
     }
 
@@ -71,18 +71,18 @@ export function useTelegramIntegration(): UseTelegramIntegrationReturn {
 
       if (error) throw error;
 
-      toast.success('Трек удален с профиля');
+      notify.success('Трек удален с профиля');
       return true;
     } catch (error) {
       log.error('Failed to remove music from profile', { error: String(error) });
-      toast.error('Не удалось удалить трек с профиля');
+      notify.error('Не удалось удалить трек с профиля');
       return false;
     }
   };
 
   const addHomeScreenShortcut = (type: 'generate' | 'library' | 'studio') => {
     if (!webApp) {
-      toast.error('Доступно только в Telegram');
+      notify.error('Доступно только в Telegram', { dedupe: true, dedupeKey: 'tg-only' });
       return;
     }
 
@@ -97,9 +97,9 @@ export function useTelegramIntegration(): UseTelegramIntegrationReturn {
     // Use Telegram's addToHomeScreen if available
     if ((webApp as any).addToHomeScreen) {
       (webApp as any).addToHomeScreen();
-      toast.success(`Ярлык "${shortcut.name}" добавлен`);
+      notify.success(`Ярлык "${shortcut.name}" добавлен`, { dedupe: true, dedupeKey: 'home-shortcut' });
     } else {
-      toast.info('Добавьте приложение на главный экран через меню браузера');
+      notify.info('Добавьте приложение на главный экран через меню браузера', { dedupe: true, dedupeKey: 'home-shortcut-fallback' });
     }
   };
 
@@ -115,7 +115,7 @@ export function useTelegramIntegration(): UseTelegramIntegrationReturn {
         });
       } else {
         navigator.clipboard.writeText(url);
-        toast.success('Ссылка скопирована!');
+        notify.success('Ссылка скопирована!', { dedupe: true, dedupeKey: 'link-copied' });
       }
       return;
     }
@@ -133,7 +133,7 @@ export function useTelegramIntegration(): UseTelegramIntegrationReturn {
 
   const shareToStory = async (trackId: string, coverUrl: string): Promise<boolean> => {
     if (!webApp || !(webApp as any).shareToStory) {
-      toast.error('Истории доступны только в Telegram');
+      notify.error('Истории доступны только в Telegram', { dedupe: true, dedupeKey: 'stories-tg-only' });
       return false;
     }
 
@@ -146,11 +146,11 @@ export function useTelegramIntegration(): UseTelegramIntegrationReturn {
         }
       });
       
-      toast.success('Открыт редактор историй');
+      notify.success('Открыт редактор историй');
       return true;
     } catch (error) {
       log.error('Failed to share to story', { error: String(error) });
-      toast.error('Не удалось поделиться в историю');
+      notify.error('Не удалось поделиться в историю');
       return false;
     }
   };

@@ -3,6 +3,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { notify } from '@/lib/notifications';
 import { logger } from '@/lib/logger';
 import { cleanupExpiredNotifications } from '@/services/notificationManager';
 import { getGlobalNavigate } from '@/hooks/useAppNavigate';
@@ -527,18 +528,21 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
 
     if (!error) {
       setNotifications(prev => prev.filter(n => !n.read));
-      toast.success('Прочитанные уведомления удалены');
+      notify.success('Прочитанные уведомления удалены', { dedupe: true, dedupeKey: 'notifications-cleared' });
     }
   }, [user?.id]);
 
   const showToast = useCallback((notification: Omit<NotificationItem, 'id' | 'read' | 'created_at'>) => {
-    const toastFn = notification.type === 'error' ? toast.error : 
-                    notification.type === 'success' ? toast.success :
-                    notification.type === 'warning' ? toast.warning : toast;
-    
-    toastFn(notification.title, {
-      description: notification.message,
-    });
+    // Use centralized notify service for de-duplication
+    if (notification.type === 'error') {
+      notify.error(notification.title, { description: notification.message, dedupe: true, dedupeKey: notification.title });
+    } else if (notification.type === 'success') {
+      notify.success(notification.title, { description: notification.message, dedupe: true, dedupeKey: notification.title });
+    } else if (notification.type === 'warning') {
+      notify.warning(notification.title, { description: notification.message, dedupe: true, dedupeKey: notification.title });
+    } else {
+      notify.info(notification.title, { description: notification.message, dedupe: true, dedupeKey: notification.title });
+    }
   }, []);
 
   const playNotificationSound = useCallback(() => {

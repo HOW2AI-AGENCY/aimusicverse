@@ -1,6 +1,6 @@
 import { useGuestMode } from '@/contexts/GuestModeContext';
 import { useAuth } from '@/hooks/useAuth';
-import { toast } from 'sonner';
+import { notify } from '@/lib/notifications';
 import { useNavigate } from 'react-router-dom';
 
 /**
@@ -17,7 +17,10 @@ export const useGuestAccess = () => {
    */
   const requireAuth = (action: string = 'эта функция'): boolean => {
     if (isGuestMode || !isAuthenticated) {
-      toast.info(`Войдите, чтобы использовать ${action}`, {
+      notify.info(`Войдите, чтобы использовать ${action}`, {
+        dedupe: true,
+        dedupeKey: 'require-auth',
+        dedupeTimeout: 3000,
         action: {
           label: 'Войти',
           onClick: () => navigate('/auth'),

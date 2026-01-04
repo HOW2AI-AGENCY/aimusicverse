@@ -6,7 +6,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Sparkles, Loader2 } from 'lucide-react';
-import { toast } from 'sonner';
+import { notify } from '@/lib/notifications';
 import { useProjects } from '@/hooks/useProjects';
 import { useArtists } from '@/hooks/useArtists';
 import logo from '@/assets/logo.png';
@@ -148,7 +148,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
       setProjectTrackStep('track');
     } else {
       setProjectDialogOpen(false);
-      toast.info('Проект выбран', {
+      notify.info('Проект выбран', {
         description: 'В проекте пока нет треков',
       });
     }
@@ -158,7 +158,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
     hapticFeedback('medium');
     form.clearDraft();
     form.resetForm();
-    toast.success('Черновик очищен');
+    notify.success('Черновик очищен');
   };
 
   const handleGenerate = () => {
@@ -181,7 +181,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
     text: 'Сохранить черновик',
     onClick: () => {
       hapticFeedback('light');
-      toast.success('Черновик сохранён');
+      notify.success('Черновик сохранён');
     },
     enabled: hasUnsavedData && !form.loading,
     visible: open && hasUnsavedData && !lyricsAssistantOpen,
@@ -397,7 +397,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
               <Button
                 onClick={() => {
                   hapticFeedback('light');
-                  toast.success('Черновик сохранён');
+                  notify.success('Черновик сохранён');
                 }}
                 variant="outline"
                 disabled={form.loading || !hasUnsavedData}
@@ -472,7 +472,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
             // Moderate audio weight for cover - allows more creative variation
             form.setAudioWeight([0.5]);
           }
-          toast.success(mode === 'cover' ? 'Аудио для кавера добавлено' : 'Аудио для расширения добавлено');
+          notify.success(mode === 'cover' ? 'Аудио для кавера добавлено' : 'Аудио для расширения добавлено');
         }}
         onAnalysisComplete={(styleDescription) => {
           form.setMode('custom');
@@ -495,7 +495,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           form.setStyle(prevStyle => {
             return prevStyle ? `${prevStyle}\n\n${chordInfo}` : chordInfo;
           });
-          toast.success(`Обнаружено ${chords.length} аккордов`);
+          notify.success(`Обнаружено ${chords.length} аккордов`);
         }}
         onOpenCoverDialog={(file, mode) => {
           // Instead of opening legacy UploadAudioDialog, 
@@ -516,7 +516,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           // Open advanced settings to show provider selector
           setAdvancedOpen(true);
           
-          toast.success(mode === 'cover' ? 'Режим кавера активирован' : 'Режим расширения активирован', {
+          notify.success(mode === 'cover' ? 'Режим кавера активирован' : 'Режим расширения активирован', {
             description: 'Настройте параметры в форме генерации',
           });
         }}
@@ -529,7 +529,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           form.setMode('custom');
           form.setHasVocals(true);
           form.setLyrics(newLyrics);
-          toast.success('Текст песни добавлен! 🎤', {
+          notify.success('Текст песни добавлен! 🎤', {
             description: 'Лирика с профессиональными тегами Suno готова к генерации',
           });
         }}
@@ -609,7 +609,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
             }
             return style;
           });
-          toast.success('Стиль применён');
+          notify.success('Стиль применён');
         }}
       />
     </Sheet>

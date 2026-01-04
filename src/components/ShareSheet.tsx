@@ -23,7 +23,7 @@ import {
   Copy,
   Share2
 } from 'lucide-react';
-import { toast } from 'sonner';
+import { notify } from '@/lib/notifications';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { logger } from '@/lib/logger';
 import { cn } from '@/lib/utils';
@@ -80,11 +80,11 @@ export function ShareSheet({ open, onOpenChange, item, itemType = 'track' }: Sha
     
     try {
       shareURL(url, text);
-      toast.success('Открыто окно выбора чата');
+      notify.success('Открыто окно выбора чата');
       onOpenChange(false);
     } catch (error) {
       logger.error('Failed to share to chat', error instanceof Error ? error : new Error(String(error)));
-      toast.error('Ошибка при отправке');
+      notify.error('Ошибка при отправке');
     }
   };
 
@@ -93,7 +93,7 @@ export function ShareSheet({ open, onOpenChange, item, itemType = 'track' }: Sha
     hapticFeedback('medium');
     
     if (!shareToStory) {
-      toast.error('Stories не поддерживаются в этой версии Telegram');
+      notify.error('Stories не поддерживаются в этой версии Telegram');
       return;
     }
 
@@ -107,14 +107,14 @@ export function ShareSheet({ open, onOpenChange, item, itemType = 'track' }: Sha
             name: 'Слушать в MusicVerse',
           },
         });
-        toast.success('История создана');
+        notify.success('История создана');
         onOpenChange(false);
       } else {
-        toast.info('Для Stories нужна обложка трека');
+        notify.info('Для Stories нужна обложка трека');
       }
     } catch (error) {
       logger.error('Failed to share to story', error instanceof Error ? error : new Error(String(error)));
-      toast.error('Ошибка при создании Stories');
+      notify.error('Ошибка при создании Stories');
     }
   };
 
@@ -125,7 +125,7 @@ export function ShareSheet({ open, onOpenChange, item, itemType = 'track' }: Sha
     
     try {
       await navigator.clipboard.writeText(url);
-      toast.success('Ссылка скопирована', {
+      notify.success('Ссылка скопирована', {
         description: 'Готова к отправке',
       });
     } catch (error) {
@@ -139,9 +139,9 @@ export function ShareSheet({ open, onOpenChange, item, itemType = 'track' }: Sha
       
       try {
         document.execCommand('copy');
-        toast.success('Ссылка скопирована');
+        notify.success('Ссылка скопирована');
       } catch (e) {
-        toast.error('Не удалось скопировать ссылку');
+        notify.error('Не удалось скопировать ссылку');
       }
       
       document.body.removeChild(textArea);
@@ -172,10 +172,10 @@ export function ShareSheet({ open, onOpenChange, item, itemType = 'track' }: Sha
       
       setQrCode(qrDataUrl);
       setShowQR(true);
-      toast.success('QR код сгенерирован');
+      notify.success('QR код сгенерирован');
     } catch (error) {
       logger.error('Failed to generate QR code', error instanceof Error ? error : new Error(String(error)));
-      toast.error('Не удалось создать QR код');
+      notify.error('Не удалось создать QR код');
     }
   };
 
@@ -188,7 +188,7 @@ export function ShareSheet({ open, onOpenChange, item, itemType = 'track' }: Sha
     link.download = `musicverse-${itemType}-${item.id}-qr.png`;
     link.href = qrCode;
     link.click();
-    toast.success('QR код сохранён');
+    notify.success('QR код сохранён');
   };
 
   return (
