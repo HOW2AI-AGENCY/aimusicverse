@@ -85,20 +85,37 @@ export function DesktopFullscreenPlayer({
           audioElement.volume = volume;
         }
         
+        // CRITICAL: Check if audio source is valid before trying to resume
+        const audioSrc = audioElement.src;
+        const isValidSource = audioSrc && 
+          !audioSrc.startsWith('blob:') && 
+          audioSrc.length > 0;
+        
+        // If we have an invalid blob URL, don't try to play - let the player handle reload
+        if (audioSrc?.startsWith('blob:')) {
+          logger.info('Skipping resume for blob URL - may be stale', { src: audioSrc.substring(0, 60) });
+          return;
+        }
+        
         // Resume playback if it should be playing
-        if (isPlaying && audioElement.paused && audioElement.src) {
+        if (isPlaying && audioElement.paused && isValidSource) {
           logger.info('Resuming paused audio on desktop fullscreen open');
           try {
             await audioElement.play();
           } catch (playErr) {
-            logger.error('Failed to resume audio on desktop fullscreen', playErr);
+            // Don't show error toast for expected format issues
+            const error = playErr as Error;
+            if (error.name !== 'NotSupportedError' && error.name !== 'AbortError') {
+              logger.error('Failed to resume audio on desktop fullscreen', playErr);
+            }
           }
         }
         
         logger.info('Desktop fullscreen player audio initialized', { 
           volume, 
           isPlaying,
-          audioPaused: audioElement.paused 
+          audioPaused: audioElement.paused,
+          hasValidSource: isValidSource
         });
       } catch (err) {
         logger.error('Error initializing desktop fullscreen audio', err);

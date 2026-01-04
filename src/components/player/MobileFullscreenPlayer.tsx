@@ -115,13 +115,29 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
         if (audioElement && mounted) {
           audioElement.volume = volume;
           
+          // CRITICAL: Check if audio source is valid before trying to resume
+          const audioSrc = audioElement.src;
+          const isValidSource = audioSrc && 
+            !audioSrc.startsWith('blob:') && 
+            audioSrc.length > 0;
+          
+          // If we have an invalid blob URL, don't try to play - let the player handle reload
+          if (audioSrc?.startsWith('blob:')) {
+            logger.info('Skipping resume for blob URL - may be stale', { src: audioSrc.substring(0, 60) });
+            return;
+          }
+          
           // CRITICAL: Resume playback if it was playing but audio got paused
-          if (isPlaying && audioElement.paused && audioElement.src) {
+          if (isPlaying && audioElement.paused && isValidSource) {
             logger.info('Resuming paused audio on mobile fullscreen open');
             try {
               await audioElement.play();
             } catch (playErr) {
-              logger.error('Failed to resume audio on mobile fullscreen', playErr);
+              // Don't show error toast for expected format issues
+              const error = playErr as Error;
+              if (error.name !== 'NotSupportedError' && error.name !== 'AbortError') {
+                logger.error('Failed to resume audio on mobile fullscreen', playErr);
+              }
             }
           }
           
@@ -129,7 +145,8 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
             volume, 
             isPlaying,
             audioPaused: audioElement.paused,
-            hasAudioElement: true 
+            hasAudioElement: true,
+            hasValidSource: isValidSource
           });
         }
       } catch (err) {
