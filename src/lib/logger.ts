@@ -7,6 +7,7 @@
  * - Error tracking with stack traces
  * - Performance monitoring
  * - Sanitized output (no sensitive data)
+ * - Sentry integration for production error tracking
  * 
  * Usage:
  * ```typescript
@@ -20,6 +21,8 @@
  * timer(); // logs duration
  * ```
  */
+
+import { captureError, isSentryEnabled } from './sentry';
 
 type LogLevel = 'debug' | 'info' | 'warn' | 'error';
 
@@ -98,7 +101,7 @@ class Logger {
 
   /**
    * Log error messages with full context (always shown)
-   * Provides detailed error information for debugging
+   * Sends to Sentry in production
    */
   error(message: string, error?: Error | unknown, context?: LogContext): void {
     const errorContext: LogContext = { ...context };
@@ -110,8 +113,18 @@ class Logger {
       if (this.isDevelopment) {
         errorContext.errorStack = error.stack;
       }
+      
+      // Send to Sentry in production
+      if (isSentryEnabled) {
+        captureError(error, { message, ...this.sanitizeContext(context) });
+      }
     } else if (error !== undefined) {
       errorContext.errorValue = String(error);
+      
+      // Create an error object for Sentry
+      if (isSentryEnabled) {
+        captureError(new Error(message), { errorValue: String(error), ...this.sanitizeContext(context) });
+      }
     }
     
     console.error(this.formatMessage('error', message, errorContext));
