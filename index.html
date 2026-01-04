@@ -41,13 +41,13 @@
         var theme = stored || 'system';
         var resolved = theme;
         
-        if (theme === 'system') {
+        if (theme === 'system' || theme === 'dark') {
           // Check Telegram first
           if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.colorScheme) {
             resolved = window.Telegram.WebApp.colorScheme;
           } else {
-            // Fall back to system preference
-            resolved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            // Default to dark theme for music app
+            resolved = 'dark';
           }
         }
         
