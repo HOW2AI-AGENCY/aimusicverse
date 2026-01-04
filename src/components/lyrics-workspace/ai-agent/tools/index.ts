@@ -13,3 +13,7 @@ export { ParaphraseToolPanel } from './ParaphraseToolPanel';
 export { HookGeneratorToolPanel } from './HookGeneratorToolPanel';
 export { VocalMapToolPanel } from './VocalMapToolPanel';
 export { TranslateToolPanel } from './TranslateToolPanel';
+// Phase 3 tools - Suno V5 Enhanced
+export { DrillBuilderToolPanel } from './DrillBuilderToolPanel';
+export { EpicBuilderToolPanel } from './EpicBuilderToolPanel';
+export { ValidateSunoV5ToolPanel } from './ValidateSunoV5ToolPanel';

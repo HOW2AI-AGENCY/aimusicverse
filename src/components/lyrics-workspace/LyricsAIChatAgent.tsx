@@ -13,7 +13,10 @@ import { hapticImpact } from '@/lib/haptic';
 
 import { AIToolbar } from './ai-agent/AIToolbar';
 import { useAITools } from './ai-agent/hooks/useAITools';
-import { WriteToolPanel, AnalyzeToolPanel, ProducerToolPanel, OptimizeToolPanel, RhymeToolPanel, TagsToolPanel } from './ai-agent/tools';
+import { 
+  WriteToolPanel, AnalyzeToolPanel, ProducerToolPanel, OptimizeToolPanel, RhymeToolPanel, TagsToolPanel,
+  DrillBuilderToolPanel, EpicBuilderToolPanel, ValidateSunoV5ToolPanel
+} from './ai-agent/tools';
 import { StructuredLyricsPreview, TagsResultCard, FullAnalysisResultCard, ProducerResultCard } from './ai-agent/results';
 import { AIToolId, AIAgentContext, SectionNote } from './ai-agent/types';
 
@@ -169,6 +172,10 @@ export function LyricsAIChatAgent({
       case 'optimize': return <OptimizeToolPanel {...panelProps} />;
       case 'rhyme': return <RhymeToolPanel {...panelProps} />;
       case 'tags': return <TagsToolPanel {...panelProps} />;
+      // Phase 3 tools - Suno V5 Enhanced
+      case 'drill_builder': return <DrillBuilderToolPanel {...panelProps} />;
+      case 'epic_builder': return <EpicBuilderToolPanel {...panelProps} />;
+      case 'validate_v5': return <ValidateSunoV5ToolPanel {...panelProps} />;
       default: return null;
     }
   };

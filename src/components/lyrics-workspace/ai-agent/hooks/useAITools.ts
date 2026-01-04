@@ -187,8 +187,9 @@ export function useAITools({ context, onLyricsGenerated, onTagsGenerated, onStyl
         if (lyricsContent) {
           responseData.lyrics = lyricsContent;
           responseType = 'lyrics';
-          // Auto-apply only for write/optimize/style_convert/translate tools
-          if (toolId === 'write' || toolId === 'optimize' || toolId === 'style_convert' || toolId === 'translate') {
+          // Auto-apply only for write/optimize/style_convert/translate/drill/epic tools
+          if (toolId === 'write' || toolId === 'optimize' || toolId === 'style_convert' || 
+              toolId === 'translate' || toolId === 'drill_builder' || toolId === 'epic_builder') {
             onLyricsGenerated?.(lyricsContent);
           }
         }
