@@ -1,9 +1,10 @@
 /**
  * MobileStudioLayout - Full mobile studio experience with bottom tabs
  * Integrates all mobile studio components in a tab-based interface
+ * With smooth animations and optimized performance
  */
 
-import { memo, useState, useCallback } from 'react';
+import { memo, useState, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { MobileStudioTabs, MobileStudioTab } from './MobileStudioTabs';
 import { MobilePlayerContent } from './MobilePlayerContent';
@@ -11,8 +12,9 @@ import { MobileTracksContent } from './MobileTracksContent';
 import { MobileSectionsContent } from './MobileSectionsContent';
 import { MobileMixerContent } from './MobileMixerContent';
 import { MobileActionsContent } from './MobileActionsContent';
-import { useUnifiedStudioStore, StudioTrack } from '@/stores/useUnifiedStudioStore';
+import { useUnifiedStudioStore } from '@/stores/useUnifiedStudioStore';
 import { cn } from '@/lib/utils';
+import { useHaptic } from '@/hooks/useHaptic';
 
 interface MobileStudioLayoutProps {
   className?: string;
@@ -56,9 +58,10 @@ export const MobileStudioLayout = memo(function MobileStudioLayout({
     setActiveTab(tab);
   }, []);
 
-  if (!project) return null;
-
-  const renderTabContent = () => {
+  // Memoize tab content to prevent unnecessary re-renders
+  const tabContent = useMemo(() => {
+    if (!project) return null;
+    
     switch (activeTab) {
       case 'player':
         return (
@@ -124,10 +127,24 @@ export const MobileStudioLayout = memo(function MobileStudioLayout({
       default:
         return null;
     }
-  };
+  }, [
+    activeTab, project, isPlaying, currentTime, duration,
+    onPlayPause, onSeek, setMasterVolume, toggleTrackMute,
+    toggleTrackSolo, setTrackVolume, removeTrack, onAddTrack,
+    onTrackAction, hasUnsavedChanges, isSaving, onSave, onExport
+  ]);
+
+  if (!project) return null;
 
   // Telegram safe area top
   const safeAreaTop = 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px)), env(safe-area-inset-top, 0px))';
+
+  // Animation variants for smoother transitions
+  const contentVariants = {
+    initial: { opacity: 0, y: 10 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -10 }
+  };
 
   return (
     <div 
@@ -135,17 +152,21 @@ export const MobileStudioLayout = memo(function MobileStudioLayout({
       style={{ paddingTop: `calc(${safeAreaTop} + 0.5rem)` }}
     >
       {/* Tab Content Area */}
-      <div className="flex-1 overflow-hidden">
-        <AnimatePresence mode="wait">
+      <div className="flex-1 overflow-hidden relative">
+        <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={activeTab}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.15 }}
-            className="h-full"
+            variants={contentVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            transition={{ 
+              duration: 0.2,
+              ease: [0.25, 0.1, 0.25, 1]
+            }}
+            className="h-full absolute inset-0"
           >
-            {renderTabContent()}
+            {tabContent}
           </motion.div>
         </AnimatePresence>
       </div>
