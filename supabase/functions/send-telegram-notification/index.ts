@@ -380,6 +380,90 @@ async function sendTelegramVideo(
 }
 
 /**
+ * Send document (MIDI, PDF, etc.) to Telegram chat
+ */
+async function sendTelegramDocument(
+  chatId: number, 
+  documentUrl: string, 
+  options: {
+    caption?: string;
+    filename?: string;
+    replyMarkup?: unknown;
+  }
+): Promise<{ ok: boolean; skipped?: boolean; reason?: string; result?: any }> {
+  const botToken = Deno.env.get('TELEGRAM_BOT_TOKEN');
+  if (!botToken) throw new Error('TELEGRAM_BOT_TOKEN not configured');
+
+  // Validate chat_id
+  if (!chatId || chatId <= 0) {
+    logger.warn('Invalid chat_id for document', { chatId });
+    return { ok: false, skipped: true, reason: 'invalid_chat_id' };
+  }
+
+  logger.info('Sending document to Telegram', { chatId, filename: options.filename });
+
+  // Download document file as blob
+  let documentBlob: Blob | null = null;
+  try {
+    logger.debug('Downloading document file');
+    const docResponse = await fetch(documentUrl);
+    if (docResponse.ok) {
+      documentBlob = await docResponse.blob();
+      logger.debug('Document downloaded', { size: documentBlob.size });
+    } else {
+      logger.warn('Failed to download document', { status: docResponse.status });
+    }
+  } catch (downloadError) {
+    logger.warn('Document download error', { error: downloadError });
+  }
+
+  const sanitizeFilename = (name: string) => {
+    return name
+      .replace(/[<>:"/\\|?*]/g, '')
+      .replace(/\s+/g, '_')
+      .substring(0, 60);
+  };
+
+  const filename = options.filename || 'document';
+
+  const formData = new FormData();
+  formData.append('chat_id', chatId.toString());
+  
+  if (documentBlob) {
+    formData.append('document', documentBlob, sanitizeFilename(filename));
+    logger.debug('Sending document via FormData (blob)');
+  } else {
+    formData.append('document', documentUrl);
+    logger.debug('Sending document via FormData (URL fallback)');
+  }
+  
+  if (options.caption) formData.append('caption', options.caption);
+  formData.append('parse_mode', 'MarkdownV2');
+  if (options.replyMarkup) formData.append('reply_markup', JSON.stringify(options.replyMarkup));
+
+  const response = await fetch(`https://api.telegram.org/bot${botToken}/sendDocument`, {
+    method: 'POST',
+    body: formData,
+  });
+
+  const result = await response.json();
+  
+  // Handle errors gracefully
+  if (!result.ok) {
+    const errorDesc = result.description || '';
+    if (errorDesc.includes('chat not found') || errorDesc.includes('bot was blocked') || errorDesc.includes('user is deactivated')) {
+      logger.warn('Chat unavailable for document', { chatId, reason: errorDesc });
+      return { ok: false, skipped: true, reason: 'chat_unavailable' };
+    }
+    logger.error('Telegram API error for document', null, { result });
+    throw new Error(`Telegram API error: ${JSON.stringify(result)}`);
+  }
+
+  logger.success('Document sent successfully');
+  return { ok: true, result };
+}
+
+/**
  * Check if notification should be sent based on user settings
  */
 async function canSendNotification(
@@ -884,6 +968,46 @@ Deno.serve(async (req) => {
           { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
         );
       }
+    }
+
+    // Handle document share (MIDI, PDF, GP5, etc.)
+    if (type === 'document_share') {
+      const { document_url, document_type, filename, track_title } = payload as any;
+      
+      if (!document_url) {
+        return new Response(
+          JSON.stringify({ success: false, error: 'document_url required' }),
+          { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+
+      logger.info('Processing document_share', { document_type, filename });
+
+      const docTypeLabels: Record<string, string> = {
+        'midi': '🎹 MIDI',
+        'pdf': '📄 PDF Ноты',
+        'gp5': '🎸 Guitar Pro',
+        'mxml': '🎼 MusicXML',
+      };
+
+      const typeLabel = docTypeLabels[document_type] || '📎 Файл';
+      const trackName = escapeMarkdown(track_title || 'Трек');
+      const caption = `${typeLabel}\n🎵 *${trackName}*\n\n🤖 _@AIMusicVerseBot_`;
+
+      await sendTelegramDocument(finalChatId, document_url, {
+        caption,
+        filename: filename || `transcription.${document_type || 'file'}`,
+        replyMarkup: {
+          inline_keyboard: [
+            [{ text: '🏠 Меню', callback_data: 'open_main_menu' }]
+          ]
+        }
+      });
+
+      return new Response(
+        JSON.stringify({ success: true, type: 'document_share' }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
     }
 
     // Handle completed status

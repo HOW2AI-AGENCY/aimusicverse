@@ -1,16 +1,19 @@
 /**
- * MidiFilesCard - Shows all available transcription file formats
+ * MidiFilesCard - Shows all available transcription file formats with download and Telegram share
  */
+import { useState } from 'react';
 import { motion } from '@/lib/motion';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
   Download, FileMusic, FileText, FileCode, 
-  Music2, ExternalLink, Check
+  Music2, ExternalLink, Send, Loader2
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { TranscriptionFiles } from '@/hooks/useReplicateMidiTranscription';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
 
 interface FileFormat {
   key: keyof TranscriptionFiles;
@@ -68,9 +71,11 @@ interface MidiFilesCardProps {
   files: TranscriptionFiles;
   className?: string;
   title?: string;
+  trackTitle?: string;
 }
 
-export function MidiFilesCard({ files, className, title }: MidiFilesCardProps) {
+export function MidiFilesCard({ files, className, title, trackTitle }: MidiFilesCardProps) {
+  const [sendingFile, setSendingFile] = useState<string | null>(null);
   const availableFormats = FILE_FORMATS.filter(f => files[f.key]);
   
   if (availableFormats.length === 0) {
@@ -84,10 +89,52 @@ export function MidiFilesCard({ files, className, title }: MidiFilesCardProps) {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    toast.success('Скачивание начато');
   };
 
   const handleOpen = (url: string) => {
     window.open(url, '_blank');
+  };
+
+  const handleSendToTelegram = async (url: string, format: FileFormat) => {
+    setSendingFile(format.key);
+    try {
+      // Get user's telegram_id
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('Не авторизован');
+
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('telegram_id')
+        .eq('user_id', user.id)
+        .single();
+
+      if (profileError || !profile?.telegram_id) {
+        toast.error('Telegram не подключен');
+        return;
+      }
+
+      const { error } = await supabase.functions.invoke('send-telegram-notification', {
+        body: {
+          type: 'document_share',
+          chat_id: profile.telegram_id,
+          document_url: url,
+          document_type: format.key,
+          filename: `${trackTitle || 'transcription'}${format.extension}`,
+          track_title: trackTitle,
+        },
+      });
+
+      if (error) throw error;
+
+      toast.success(`${format.label} отправлен в Telegram`);
+    } catch (error: unknown) {
+      console.error('Send to Telegram error:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Ошибка отправки';
+      toast.error(errorMessage);
+    } finally {
+      setSendingFile(null);
+    }
   };
 
   return (
@@ -107,6 +154,7 @@ export function MidiFilesCard({ files, className, title }: MidiFilesCardProps) {
         {availableFormats.map((format, index) => {
           const url = files[format.key];
           if (!url) return null;
+          const isSending = sendingFile === format.key;
           
           return (
             <motion.div
@@ -132,7 +180,7 @@ export function MidiFilesCard({ files, className, title }: MidiFilesCardProps) {
               </div>
               
               <div className="flex gap-1">
-                {format.key === 'pdf' ? (
+                {format.key === 'pdf' && (
                   <Button
                     size="sm"
                     variant="ghost"
@@ -141,7 +189,20 @@ export function MidiFilesCard({ files, className, title }: MidiFilesCardProps) {
                   >
                     <ExternalLink className="w-3.5 h-3.5" />
                   </Button>
-                ) : null}
+                )}
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => handleSendToTelegram(url, format)}
+                  disabled={isSending}
+                  title="Отправить в Telegram"
+                >
+                  {isSending ? (
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                  ) : (
+                    <Send className="w-3.5 h-3.5" />
+                  )}
+                </Button>
                 <Button
                   size="sm"
                   variant="ghost"
