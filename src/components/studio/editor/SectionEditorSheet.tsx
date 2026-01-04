@@ -338,6 +338,20 @@ export function SectionEditorSheet({
           startTime={startTime}
           endTime={endTime}
           onRangeChange={(start, end) => setCustomRange(start, end)}
+          onRangeChangeComplete={(start, end) => {
+            // When range adjustment completes, update lyrics from words in new range
+            if (lyricsData?.alignedWords) {
+              const tolerance = 0.3;
+              const wordsInRange = lyricsData.alignedWords.filter(w => {
+                const wordMid = (w.startS + w.endS) / 2;
+                return wordMid >= start - tolerance && wordMid <= end + tolerance;
+              });
+              if (wordsInRange.length > 0) {
+                const newLyrics = wordsInRange.map(w => w.word).join(' ').replace(/\s+/g, ' ').trim();
+                setLyrics(newLyrics);
+              }
+            }
+          }}
           onPreviewSeek={(time) => {
             if (previewAudioRef.current) {
               pauseAllStudioAudio();

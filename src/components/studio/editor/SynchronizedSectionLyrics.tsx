@@ -41,18 +41,36 @@ export function SynchronizedSectionLyrics({
   const containerRef = useRef<HTMLDivElement>(null);
   const activeWordRef = useRef<HTMLSpanElement>(null);
 
-  // Filter words within section range
+  // Filter words within section range with tolerance for boundary changes
   const sectionWords = useMemo(() => {
-    return words.filter(w => w.startS >= startTime - 0.1 && w.endS <= endTime + 0.1);
+    if (!words.length) return [];
+    
+    // Use slightly wider tolerance to catch words near boundaries
+    const tolerance = 0.3; // 300ms tolerance
+    return words.filter(w => {
+      // Word overlaps with section range
+      const wordMid = (w.startS + w.endS) / 2;
+      return wordMid >= startTime - tolerance && wordMid <= endTime + tolerance;
+    });
   }, [words, startTime, endTime]);
 
-  // Get lyrics text from words or use initial
+  // Get lyrics text from words or use initial - update when range changes
   const lyricsText = useMemo(() => {
     if (sectionWords.length > 0) {
       return sectionWords.map(w => w.word).join(' ').replace(/\s+/g, ' ').trim();
     }
     return initialLyrics || '';
   }, [sectionWords, initialLyrics]);
+
+  // Notify parent when lyrics change due to range change
+  useEffect(() => {
+    if (sectionWords.length > 0) {
+      const newLyrics = sectionWords.map(w => w.word).join(' ').replace(/\s+/g, ' ').trim();
+      if (newLyrics && newLyrics !== initialLyrics) {
+        onLyricsChange(newLyrics);
+      }
+    }
+  }, [sectionWords, initialLyrics, onLyricsChange]);
 
   // Update edited text when lyrics change
   useEffect(() => {

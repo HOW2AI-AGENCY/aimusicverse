@@ -174,6 +174,11 @@ function matchSectionToTimestamps(
 /**
  * Smart section detection based on gaps in aligned words
  * Uses silence gaps and line breaks as section boundaries
+ * 
+ * Improvements:
+ * - Adaptive thresholds based on track duration
+ * - Merges adjacent sections of the same type
+ * - Better handling of short gaps (doesn't fragment)
  */
 function detectSectionsFromGaps(words: AlignedWord[], duration: number): DetectedSection[] {
   if (!words.length) return [];
@@ -182,15 +187,16 @@ function detectSectionsFromGaps(words: AlignedWord[], duration: number): Detecte
   
   // Adaptive thresholds based on track duration
   const isShortTrack = duration < 120;
-  const GAP_THRESHOLD = isShortTrack ? 1.2 : 1.5; // Reduced from 2.0 for better detection
-  const MIN_SECTION_DURATION = isShortTrack ? 6 : 8; // Reduced from 10
-  const MAX_SECTION_DURATION = 45; // Force split if section is too long
+  const GAP_THRESHOLD = isShortTrack ? 1.5 : 2.0; // Seconds of silence to split
+  const MIN_SECTION_DURATION = isShortTrack ? 8 : 10; // Minimum section length
+  const MAX_SECTION_DURATION = 50; // Force split if section is too long
+  const MERGE_THRESHOLD = 0.8; // Merge gaps smaller than this
   
   let currentWords: AlignedWord[] = [];
   let sectionStart = words[0].startS;
   
   // Track type counters and history for pattern detection
-  const typeCounters = { verse: 0, chorus: 0, bridge: 0 };
+  const typeCounters = { verse: 0, chorus: 0, bridge: 0, 'pre-chorus': 0 };
   const sectionHistory: DetectedSection['type'][] = [];
 
   for (let i = 0; i < words.length; i++) {
@@ -206,13 +212,15 @@ function detectSectionsFromGaps(words: AlignedWord[], duration: number): Detecte
     const hasNewlineMarker = word.word.includes('\n') || word.word.includes('\\n');
     const significantGap = gap >= GAP_THRESHOLD;
     const sectionTooLong = currentDuration >= MAX_SECTION_DURATION;
+    
+    // Skip small gaps - they don't indicate section boundaries
+    const isSmallGap = gap > 0 && gap < MERGE_THRESHOLD;
 
-    // Break section on significant gap, newline marker, section too long, or end
+    // Break section on significant gap, section too long, or end
+    // But NOT on small gaps (these are just pauses within a section)
     const shouldBreak = (
-      ((significantGap || hasNewlineMarker) && currentDuration >= MIN_SECTION_DURATION) ||
-      sectionTooLong ||
-      isLast
-    );
+      ((significantGap && !isSmallGap) || hasNewlineMarker) && currentDuration >= MIN_SECTION_DURATION
+    ) || sectionTooLong || isLast;
 
     if (shouldBreak) {
       if (currentWords.length > 0) {
@@ -228,24 +236,40 @@ function detectSectionsFromGaps(words: AlignedWord[], duration: number): Detecte
             sectionHistory
           );
           
-          if (type === 'verse') typeCounters.verse++;
-          else if (type === 'chorus') typeCounters.chorus++;
-          else if (type === 'bridge') typeCounters.bridge++;
+          // Update counters
+          if (type in typeCounters) {
+            typeCounters[type as keyof typeof typeCounters]++;
+          }
           
           const counter = type === 'verse' ? typeCounters.verse : 
                          type === 'chorus' ? typeCounters.chorus : 
-                         type === 'bridge' ? typeCounters.bridge : 1;
+                         type === 'bridge' ? typeCounters.bridge : 
+                         type === 'pre-chorus' ? typeCounters['pre-chorus'] : 1;
 
-          sections.push({
-            type,
-            label: getSectionLabel(type, counter),
-            startTime: sectionStart,
-            endTime: word.endS,
-            lyrics,
-            words: [...currentWords],
-          });
+          // Check if we should merge with previous section of same type
+          const lastSection = sections[sections.length - 1];
+          const shouldMerge = lastSection && 
+                              lastSection.type === type && 
+                              sectionStart - lastSection.endTime < MERGE_THRESHOLD;
           
-          sectionHistory.push(type);
+          if (shouldMerge && lastSection) {
+            // Merge with previous section
+            lastSection.endTime = word.endS;
+            lastSection.lyrics = (lastSection.lyrics + ' ' + lyrics).trim();
+            lastSection.words = [...lastSection.words, ...currentWords];
+          } else {
+            // Create new section
+            sections.push({
+              type,
+              label: getSectionLabel(type, counter),
+              startTime: sectionStart,
+              endTime: word.endS,
+              lyrics,
+              words: [...currentWords],
+            });
+            
+            sectionHistory.push(type);
+          }
         }
       }
 

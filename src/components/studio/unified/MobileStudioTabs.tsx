@@ -26,7 +26,7 @@ const TABS: TabConfig[] = [
   { id: 'player', label: 'Плеер', icon: Music2 },
   { id: 'tracks', label: 'Треки', icon: Layers },
   { id: 'sections', label: 'Секции', icon: Sparkles },
-  { id: 'mixer', label: 'Микшер', icon: Sliders },
+  { id: 'mixer', label: 'Микс', icon: Sliders },
   { id: 'actions', label: 'Ещё', icon: Wand2 },
 ];
 
@@ -74,10 +74,10 @@ export const MobileStudioTabs = memo(function MobileStudioTabs({
             key={tab.id}
             onClick={() => handleTabChange(tab.id)}
             className={cn(
-              "relative flex flex-col items-center gap-0.5 px-3 py-2 rounded-lg transition-all",
-              "min-w-[56px] min-h-[48px]", // Touch target
+              "relative flex flex-col items-center gap-0.5 px-2 py-2 rounded-lg transition-all",
+              "min-w-[52px] min-h-[52px]", // Increased touch target
               isActive
-                ? "text-primary bg-primary/10"
+                ? "text-primary bg-primary/15"
                 : "text-muted-foreground hover:text-foreground active:scale-95"
             )}
           >
@@ -86,17 +86,23 @@ export const MobileStudioTabs = memo(function MobileStudioTabs({
               whileTap={{ scale: 0.9 }}
               transition={{ type: 'spring', stiffness: 400, damping: 17 }}
             >
-              <Icon className={cn("w-5 h-5 transition-colors", isActive && "text-primary")} />
+              <Icon className={cn(
+                "w-6 h-6 transition-colors", // Increased icon size from w-5 h-5
+                isActive && "text-primary"
+              )} />
               {showBadge && (
                 <Badge
                   variant="secondary"
-                  className="absolute -top-1 -right-2 h-4 min-w-4 px-1 flex items-center justify-center text-[9px]"
+                  className="absolute -top-1.5 -right-2.5 h-4 min-w-4 px-1 flex items-center justify-center text-[9px] bg-primary text-primary-foreground"
                 >
                   {trackCount}
                 </Badge>
               )}
             </motion.div>
-            <span className="text-[10px] font-medium">{tab.label}</span>
+            <span className={cn(
+              "text-[11px] font-medium", // Slightly larger text
+              isActive && "text-primary"
+            )}>{tab.label}</span>
             
             {/* Active indicator */}
             {isActive && (
