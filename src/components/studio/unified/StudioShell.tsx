@@ -11,6 +11,7 @@ import { motion, AnimatePresence } from '@/lib/motion';
 import { useUnifiedStudioStore, ViewMode, TrackType, TRACK_COLORS, StudioTrack } from '@/stores/useUnifiedStudioStore';
 import { StudioTransport } from './StudioTransport';
 import { SortableTrackList } from './SortableTrackList';
+import { StudioLyricsPanelCompact } from '@/components/stem-studio/StudioLyricsPanelCompact';
 import { StudioWaveformTimeline } from './StudioWaveformTimeline';
 import { StudioMixerPanel } from './StudioMixerPanel';
 import { ExportMixDialog } from './ExportMixDialog';
@@ -173,30 +174,38 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
     clearSelection,
   } = useSectionEditorStore();
   // Convert store tracks to AudioTrack format for engine
+  // IMPORTANT: When stems exist, use ONLY stems for playback (exclude main track)
   const audioTracks = useMemo((): AudioTrack[] => {
     if (!project) return [];
     
-    return project.tracks
-      .filter(t => t.status !== 'pending' && t.status !== 'failed')
-      .map(track => {
-        // Get audio URL from track or active version
-        let audioUrl = track.audioUrl;
-        if (!audioUrl && track.versions?.length) {
-          const activeVersion = track.versions.find(v => v.label === track.activeVersionLabel);
-          audioUrl = activeVersion?.audioUrl || track.versions[0]?.audioUrl;
-        }
-        if (!audioUrl && track.clips?.[0]?.audioUrl) {
-          audioUrl = track.clips[0].audioUrl;
-        }
-        
-        return {
-          id: track.id,
-          audioUrl,
-          volume: track.volume,
-          muted: track.muted,
-          solo: track.solo,
-        };
-      });
+    const stemTypes = ['vocal', 'instrumental', 'drums', 'bass', 'other'];
+    const readyTracks = project.tracks.filter(t => t.status !== 'pending' && t.status !== 'failed');
+    const stems = readyTracks.filter(t => stemTypes.includes(t.type));
+    
+    // If stems exist, playback ONLY stems (exclude main track)
+    const tracksToUse = stems.length > 0 
+      ? stems 
+      : readyTracks;
+    
+    return tracksToUse.map(track => {
+      // Get audio URL from track or active version
+      let audioUrl = track.audioUrl;
+      if (!audioUrl && track.versions?.length) {
+        const activeVersion = track.versions.find(v => v.label === track.activeVersionLabel);
+        audioUrl = activeVersion?.audioUrl || track.versions[0]?.audioUrl;
+      }
+      if (!audioUrl && track.clips?.[0]?.audioUrl) {
+        audioUrl = track.clips[0].audioUrl;
+      }
+      
+      return {
+        id: track.id,
+        audioUrl,
+        volume: track.volume,
+        muted: track.muted,
+        solo: track.solo,
+      };
+    });
   }, [project?.tracks]);
 
   // Convert tracks to TrackStem format for mobile fallback detection
@@ -942,6 +951,18 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
         />
       </div>
 
+      {/* Synchronized Lyrics Panel (collapsible) */}
+      {sourceTrack && (
+        <StudioLyricsPanelCompact
+          taskId={sourceTrack.suno_task_id}
+          audioId={sourceTrack.suno_id}
+          plainLyrics={sourceTrack.lyrics}
+          currentTime={currentTime}
+          isPlaying={isPlaying}
+          onSeek={handleSeek}
+        />
+      )}
+
       {/* Mobile Audio Fallback Warning */}
       <MobileAudioWarning
         show={showFallbackWarning}
@@ -1063,6 +1084,7 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
             currentTime={currentTime}
             duration={duration}
             hasSoloTracks={hasSoloTracks}
+            sourceTrackId={sourceTrackId}
             onReorder={reorderTracks}
             onToggleMute={toggleTrackMute}
             onToggleSolo={toggleTrackSolo}

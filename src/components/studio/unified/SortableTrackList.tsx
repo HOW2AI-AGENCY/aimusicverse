@@ -33,6 +33,7 @@ interface SortableTrackListProps {
   currentTime: number;
   duration: number;
   hasSoloTracks?: boolean;
+  sourceTrackId?: string; // The ID of the source track for extend/replace operations
   onReorder: (fromIndex: number, toIndex: number) => void;
   onToggleMute: (trackId: string) => void;
   onToggleSolo: (trackId: string) => void;
@@ -49,6 +50,7 @@ interface SortableTrackItemProps {
   currentTime: number;
   duration: number;
   hasSoloTracks?: boolean;
+  isSourceTrack?: boolean;
   onToggleMute: () => void;
   onToggleSolo: () => void;
   onVolumeChange: (volume: number) => void;
@@ -119,6 +121,7 @@ const SortableTrackItem = memo(function SortableTrackItem({
         currentTime={props.currentTime}
         duration={props.duration}
         hasSoloTracks={props.hasSoloTracks}
+        isSourceTrack={props.isSourceTrack}
         onToggleMute={props.onToggleMute}
         onToggleSolo={props.onToggleSolo}
         onVolumeChange={props.onVolumeChange}
@@ -137,6 +140,7 @@ export const SortableTrackList = memo(function SortableTrackList({
   currentTime,
   duration,
   hasSoloTracks = false,
+  sourceTrackId,
   onReorder,
   onToggleMute,
   onToggleSolo,
@@ -180,23 +184,33 @@ export const SortableTrackList = memo(function SortableTrackList({
     >
       <SortableContext items={trackIds} strategy={verticalListSortingStrategy}>
         <AnimatePresence>
-          {tracks.map((track) => (
-            <SortableTrackItem
-              key={track.id}
-              track={track}
-              isPlaying={isPlaying}
-              currentTime={currentTime}
-              duration={duration}
-              hasSoloTracks={hasSoloTracks}
-              onToggleMute={() => onToggleMute(track.id)}
-              onToggleSolo={() => onToggleSolo(track.id)}
-              onVolumeChange={(v) => onVolumeChange(track.id, v)}
-              onSeek={onSeek}
-              onRemove={() => onRemove(track.id)}
-              onVersionChange={track.versions ? (label) => onVersionChange(track.id, label) : undefined}
-              onAction={(action) => onAction(track.id, action)}
-            />
-          ))}
+          {tracks.map((track) => {
+            // Check if this track is the source track (main track that can be extended/replaced)
+            // A track is the source if: it has type 'main' OR the track.id matches the original source
+            const stemTypes = ['vocal', 'instrumental', 'drums', 'bass', 'other'];
+            const isSourceTrack = track.type === 'main' || 
+              (tracks.length > 0 && tracks[0].id === track.id && !stemTypes.includes(track.type)) ||
+              (sourceTrackId != null && track.id === sourceTrackId);
+            
+            return (
+              <SortableTrackItem
+                key={track.id}
+                track={track}
+                isPlaying={isPlaying}
+                currentTime={currentTime}
+                duration={duration}
+                hasSoloTracks={hasSoloTracks}
+                isSourceTrack={isSourceTrack}
+                onToggleMute={() => onToggleMute(track.id)}
+                onToggleSolo={() => onToggleSolo(track.id)}
+                onVolumeChange={(v) => onVolumeChange(track.id, v)}
+                onSeek={onSeek}
+                onRemove={() => onRemove(track.id)}
+                onVersionChange={track.versions ? (label) => onVersionChange(track.id, label) : undefined}
+                onAction={(action) => onAction(track.id, action)}
+              />
+            );
+          })}
         </AnimatePresence>
       </SortableContext>
     </DndContext>
