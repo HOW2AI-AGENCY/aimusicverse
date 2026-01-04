@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
 import { FullscreenPlayer } from './FullscreenPlayer';
-import { ExpandedPlayer } from './player/ExpandedPlayer';
 import { CompactPlayer } from './player/CompactPlayer';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { useMasterVersion } from '@/hooks/useTrackVersions';
@@ -9,7 +8,7 @@ import { AnimatePresence } from '@/lib/motion';
 import { logger } from '@/lib/logger';
 
 export const ResizablePlayer = () => {
-  const { activeTrack, closePlayer, playerMode, setPlayerMode, preserveTime, volume } = usePlayerStore();
+  const { activeTrack, closePlayer, playerMode, setPlayerMode, preserveTime, volume, isPlaying } = usePlayerStore();
   
   // Fetch the primary version for correct lyrics synchronization
   const { data: currentVersion } = useMasterVersion(activeTrack?.id);
@@ -24,6 +23,7 @@ export const ResizablePlayer = () => {
   }, [preserveTime]);
 
   // Ensure audio context is ready when player mode changes
+  // CRITICAL: This ensures audio continues playing during mode transitions
   useEffect(() => {
     if (playerMode === 'minimized' || !activeTrack) return;
     
@@ -33,27 +33,46 @@ export const ResizablePlayer = () => {
       
       try {
         const { resumeAudioContext, ensureAudioRoutedToDestination } = await import('@/lib/audioContextManager');
-        await resumeAudioContext(2);
+        
+        // Resume AudioContext with retries
+        const resumed = await resumeAudioContext(3);
+        if (!resumed) {
+          logger.warn('AudioContext resume failed during mode change');
+        }
+        
+        // Ensure audio routing
         await ensureAudioRoutedToDestination();
         
         // Sync volume
         if (audio.volume !== volume) {
           audio.volume = volume;
         }
+        
+        // CRITICAL FIX: Resume playback if it should be playing
+        if (isPlaying && audio.paused && audio.src) {
+          logger.info('Resuming playback after mode switch');
+          try {
+            await audio.play();
+          } catch (playErr) {
+            logger.error('Failed to resume playback after mode switch', playErr);
+          }
+        }
+        
+        logger.debug('Audio ready after mode change', { 
+          mode: playerMode, 
+          isPlaying, 
+          audioPaused: audio.paused,
+          volume: audio.volume 
+        });
       } catch (err) {
-        logger.warn('Error ensuring audio on mode change');
+        logger.error('Error ensuring audio on mode change', err);
       }
     };
     
     // Small delay to let new component mount
-    const timer = setTimeout(ensureAudioReady, 100);
+    const timer = setTimeout(ensureAudioReady, 150);
     return () => clearTimeout(timer);
-  }, [playerMode, activeTrack, volume]);
-
-  const handleExpand = useCallback(() => {
-    preserveCurrentTime();
-    setPlayerMode('expanded');
-  }, [preserveCurrentTime, setPlayerMode]);
+  }, [playerMode, activeTrack, volume, isPlaying]);
 
   const handleMaximize = useCallback(() => {
     preserveCurrentTime();
@@ -76,17 +95,7 @@ export const ResizablePlayer = () => {
         <CompactPlayer
           key="compact"
           track={activeTrack}
-          onExpand={handleExpand}
-        />
-      )}
-      
-      {/* Expanded mode - medium overlay card */}
-      {playerMode === 'expanded' && (
-        <ExpandedPlayer
-          key="expanded"
-          track={activeTrack}
-          onClose={handleMinimize}
-          onMaximize={handleMaximize}
+          onExpand={handleMaximize}
         />
       )}
       
