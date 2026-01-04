@@ -120,11 +120,12 @@ src/components/
 ├── 🎼 studio/ (25+ компонентов)
 │   │
 │   ├── unified/
-│   │   ├── UnifiedStudioContent.tsx
-│   │   ├── StudioShell.tsx         ⚠️  Duplicate (needs merge)
-│   │   ├── MobileStudioLayout.tsx  ✅ New
-│   │   ├── MobilePlayerContent.tsx ✅ Enhanced
-│   │   ├── MobileMixerContent.tsx  ✅ Enhanced
+│   │   ├── UnifiedStudioContent.tsx    ❌ УДАЛИТЬ (дублирование)
+│   │   ├── StudioShell.tsx             ❌ УДАЛИТЬ (дублирование)
+│   │   ├── → UnifiedStudioMobile.tsx   ✅ СОЗДАТЬ (ОДИН интерфейс)
+│   │   ├── MobileStudioLayout.tsx      ✅ New
+│   │   ├── MobilePlayerContent.tsx     ✅ Enhanced
+│   │   ├── MobileMixerContent.tsx      ✅ Enhanced
 │   │   ├── MobileSectionsTab.tsx   🔧 In development
 │   │   └── MobileActionsTab.tsx    📋 Planned
 │   │
@@ -282,9 +283,12 @@ Phase 5: Testing & Finalization  ░░░░░░░░░░░░ 0% 📋
 │     ├── Player controls:     8 elements   (36-40 → 48-56px) │
 │     └── Form fields:         3 elements   (16×16 → 24×24px) │
 │                                                               │
-│  2. Code Duplication: 40%                                    │
-│     ├── UnifiedStudioContent vs StudioShell                 │
-│     └── Needs: Merge into UnifiedStudioMobile               │
+│  2. Code Duplication: 40% ⭐ КРИТИЧЕСКАЯ ПРОБЛЕМА              │
+│     ├── UnifiedStudioContent + StudioShell = 2 ПАРАЛЛЕЛЬНЫХ    │
+│     │   интерфейса студии (~1,700 строк дублированного кода)   │
+│     └── ТРЕБОВАНИЕ: Merge into UnifiedStudioMobile             │
+│         → ОДИН интерфейс студии в ОДНОМ окне                   │
+│         → Все функции через табы (без navigation)              │
 │                                                               │
 │  3. Performance: 78/100 → 90/100                            │
 │     ├── Bundle: 500KB → 400KB (-20%)                        │
