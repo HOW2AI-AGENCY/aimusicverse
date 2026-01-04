@@ -4,7 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Copy, Check, Music2, Tag, Info, List, FileText } from 'lucide-react';
+import { Progress } from '@/components/ui/progress';
+import { Copy, Check, Music2, Tag, Info, List, FileText, BarChart3, AlertTriangle, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { LyricsParser, type ParsedLyrics, type LyricsSection } from '@/lib/lyrics/LyricsParser';
@@ -97,10 +98,13 @@ export function StructuredLyricsDisplay({
   className,
 }: StructuredLyricsDisplayProps) {
   const [copied, setCopied] = useState(false);
-  const [activeTab, setActiveTab] = useState<'structured' | 'raw' | 'tags'>('structured');
+  const [activeTab, setActiveTab] = useState<'structured' | 'raw' | 'tags' | 'analysis'>('structured');
   
   // Parse lyrics
   const parsed = useMemo(() => LyricsParser.parse(lyrics), [lyrics]);
+  
+  // Professional analysis
+  const proAnalysis = useMemo(() => LyricsParser.professionalAnalysis(lyrics), [lyrics]);
   
   // Check if there are no tags (memoized)
   const hasNoTags = useMemo(() => 
@@ -228,7 +232,7 @@ export function StructuredLyricsDisplay({
       {/* Tabs */}
       <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as typeof activeTab)} className="w-full">
         <div className="border-b px-4">
-          <TabsList className="w-full grid grid-cols-3 bg-transparent">
+          <TabsList className="w-full grid grid-cols-4 bg-transparent">
             <TabsTrigger value="structured" className="text-xs">
               <List className="w-3 h-3 mr-1" />
               Структура
@@ -240,6 +244,10 @@ export function StructuredLyricsDisplay({
             <TabsTrigger value="tags" className="text-xs">
               <Tag className="w-3 h-3 mr-1" />
               Теги
+            </TabsTrigger>
+            <TabsTrigger value="analysis" className="text-xs">
+              <BarChart3 className="w-3 h-3 mr-1" />
+              Анализ
             </TabsTrigger>
           </TabsList>
         </div>
@@ -317,6 +325,150 @@ export function StructuredLyricsDisplay({
                   <Tag className="w-12 h-12 mx-auto mb-3 opacity-30" />
                   <p className="text-sm">Теги не найдены</p>
                   <p className="text-xs mt-1">Добавьте теги Suno для улучшения качества</p>
+                </div>
+              )}
+            </div>
+          </ScrollArea>
+        </TabsContent>
+        
+        {/* Analysis View (NEW) */}
+        <TabsContent value="analysis" className="m-0">
+          <ScrollArea className="h-[500px]">
+            <div className="p-4 space-y-4">
+              {/* Quality Score */}
+              <div className="bg-gradient-to-r from-primary/5 to-primary/10 rounded-lg p-4 border border-primary/20">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-medium">Качество V5</span>
+                  <span className={cn(
+                    "text-lg font-bold",
+                    proAnalysis.qualityScore >= 80 ? "text-green-500" :
+                    proAnalysis.qualityScore >= 60 ? "text-yellow-500" :
+                    "text-red-500"
+                  )}>
+                    {proAnalysis.qualityScore}/100
+                  </span>
+                </div>
+                <Progress 
+                  value={proAnalysis.qualityScore} 
+                  className={cn(
+                    "h-2",
+                    proAnalysis.qualityScore >= 80 ? "[&>div]:bg-green-500" :
+                    proAnalysis.qualityScore >= 60 ? "[&>div]:bg-yellow-500" :
+                    "[&>div]:bg-red-500"
+                  )}
+                />
+              </div>
+              
+              {/* Syllable Stats */}
+              <div className="bg-muted/30 rounded-lg p-4 border">
+                <h4 className="text-sm font-medium mb-3 flex items-center gap-2">
+                  <BarChart3 className="w-4 h-4" />
+                  Статистика слогов
+                </h4>
+                <div className="grid grid-cols-2 gap-3 text-xs">
+                  <div className="bg-background/50 p-2 rounded">
+                    <span className="text-muted-foreground">Среднее:</span>
+                    <span className={cn(
+                      "ml-2 font-semibold",
+                      proAnalysis.syllableStats.average >= 6 && proAnalysis.syllableStats.average <= 12 
+                        ? "text-green-500" : "text-yellow-500"
+                    )}>
+                      {proAnalysis.syllableStats.average} слогов
+                    </span>
+                  </div>
+                  <div className="bg-background/50 p-2 rounded">
+                    <span className="text-muted-foreground">Диапазон:</span>
+                    <span className="ml-2 font-semibold">
+                      {proAnalysis.syllableStats.min}–{proAnalysis.syllableStats.max}
+                    </span>
+                  </div>
+                  <div className="bg-background/50 p-2 rounded">
+                    <span className="text-muted-foreground">Оптимальных:</span>
+                    <span className="ml-2 font-semibold text-green-500">
+                      {proAnalysis.syllableStats.optimal} строк
+                    </span>
+                  </div>
+                  <div className="bg-background/50 p-2 rounded">
+                    <span className="text-muted-foreground">Длинных:</span>
+                    <span className={cn(
+                      "ml-2 font-semibold",
+                      proAnalysis.syllableStats.overlong === 0 ? "text-green-500" : "text-red-500"
+                    )}>
+                      {proAnalysis.syllableStats.overlong} строк
+                    </span>
+                  </div>
+                </div>
+                <p className="text-xs text-muted-foreground mt-2">
+                  💡 Оптимум: 6-12 слогов на строку
+                </p>
+              </div>
+              
+              {/* Rhyme Scheme */}
+              <div className="bg-muted/30 rounded-lg p-4 border">
+                <h4 className="text-sm font-medium mb-2 flex items-center gap-2">
+                  <Sparkles className="w-4 h-4" />
+                  Схема рифмовки
+                </h4>
+                <code className="text-xs bg-background/50 px-2 py-1 rounded font-mono">
+                  {proAnalysis.rhymeScheme || 'N/A'}
+                </code>
+              </div>
+              
+              {/* Tag Balance */}
+              <div className="bg-muted/30 rounded-lg p-4 border">
+                <h4 className="text-sm font-medium mb-3 flex items-center gap-2">
+                  <Tag className="w-4 h-4" />
+                  Баланс тегов
+                </h4>
+                <div className="grid grid-cols-2 gap-2 text-xs">
+                  {Object.entries(proAnalysis.tagBalance).map(([type, count]) => (
+                    <div key={type} className="flex items-center justify-between bg-background/50 p-2 rounded">
+                      <span className="capitalize text-muted-foreground">{type}:</span>
+                      <Badge variant="outline" className={cn(
+                        "text-xs",
+                        count > 0 ? TAG_TYPE_COLORS[type as keyof typeof TAG_TYPE_COLORS] : "opacity-50"
+                      )}>
+                        {count}
+                      </Badge>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Clichés */}
+              {proAnalysis.cliches.length > 0 && (
+                <div className="bg-yellow-500/10 rounded-lg p-4 border border-yellow-500/20">
+                  <h4 className="text-sm font-medium mb-2 flex items-center gap-2 text-yellow-600 dark:text-yellow-500">
+                    <AlertTriangle className="w-4 h-4" />
+                    Найдены клише ({proAnalysis.cliches.length})
+                  </h4>
+                  <ul className="text-xs space-y-2">
+                    {proAnalysis.cliches.slice(0, 5).map((c, i) => (
+                      <li key={i} className="flex flex-col gap-1">
+                        <span className="text-yellow-600 dark:text-yellow-500">
+                          Строка {c.line}: "{c.cliche}"
+                        </span>
+                        <span className="text-muted-foreground">
+                          → {c.suggestion}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              
+              {/* Recommendations */}
+              {proAnalysis.recommendations.length > 0 && (
+                <div className="bg-primary/5 rounded-lg p-4 border border-primary/20">
+                  <h4 className="text-sm font-medium mb-2 flex items-center gap-2">
+                    <Info className="w-4 h-4" />
+                    Рекомендации
+                  </h4>
+                  <ul className="text-xs space-y-1.5">
+                    {proAnalysis.recommendations.map((rec, i) => (
+                      <li key={i}>{rec}</li>
+                    ))}
+                  </ul>
                 </div>
               )}
             </div>

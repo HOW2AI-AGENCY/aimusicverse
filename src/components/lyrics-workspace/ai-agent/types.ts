@@ -20,7 +20,11 @@ export type AIToolId =
   | 'paraphrase'
   | 'hook_generator'
   | 'vocal_map'
-  | 'translate';
+  | 'translate'
+  // Phase 3 V5 tools
+  | 'drill_builder'
+  | 'epic_builder'
+  | 'validate_v5';
 
 export type BackendAction = 
   | 'generate'
@@ -46,7 +50,11 @@ export type BackendAction =
   | 'paraphrase'
   | 'hook_generator'
   | 'vocal_map'
-  | 'translate_adapt';
+  | 'translate_adapt'
+  // Phase 3 V5 actions
+  | 'drill_prompt_builder'
+  | 'epic_prompt_builder'
+  | 'validate_suno_v5';
 
 export type OutputType = 
   | 'lyrics' 
@@ -62,7 +70,9 @@ export type OutputType =
   | 'hooks'
   | 'vocal_map'
   | 'paraphrase'
-  | 'translation';
+  | 'translation'
+  // Phase 3 V5 output types
+  | 'validation';
 
 export interface AITool {
   id: AIToolId;
