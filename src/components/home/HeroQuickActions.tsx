@@ -117,9 +117,9 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
         <div className="flex-1 h-px bg-border/50" />
       </div>
 
-      {/* Tools Row - With descriptions */}
+      {/* Tools Row - With descriptions - Improved touch targets */}
       <motion.div
-        className="grid grid-cols-3 gap-2"
+        className="grid grid-cols-3 gap-2.5"
         initial="hidden"
         animate="visible"
         variants={{ visible: { transition: { staggerChildren: 0.05, delayChildren: 0.15 } } }}
@@ -128,10 +128,10 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
         <motion.button
           onClick={() => handleAction(() => setAudioRecordOpen(true))}
           className={cn(
-            "group relative flex flex-col items-start gap-1 px-3 py-3 rounded-xl",
+            "group relative flex flex-col items-start gap-1.5 px-3 py-3.5 rounded-xl",
             "bg-gradient-to-br from-rose-500/15 to-pink-500/10",
             "border border-rose-500/25 hover:border-rose-500/50",
-            "touch-scale-sm transition-all duration-300 touch-manipulation min-h-[72px]",
+            "touch-scale-sm transition-all duration-300 touch-manipulation min-h-[80px]",
             "hover:shadow-lg hover:shadow-rose-500/20"
           )}
           variants={{
@@ -166,10 +166,10 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
         <motion.button
           onClick={() => handleAction(() => setGuitarDialogOpen(true))}
           className={cn(
-            "group relative flex flex-col items-start gap-1 px-3 py-3 rounded-xl",
+            "group relative flex flex-col items-start gap-1.5 px-3 py-3.5 rounded-xl",
             "bg-gradient-to-br from-orange-500/15 to-amber-500/10",
             "border border-orange-500/25 hover:border-orange-500/50",
-            "touch-scale-sm transition-all duration-300 touch-manipulation min-h-[72px]",
+            "touch-scale-sm transition-all duration-300 touch-manipulation min-h-[80px]",
             "hover:shadow-lg hover:shadow-orange-500/20"
           )}
           variants={{
@@ -197,10 +197,10 @@ export function HeroQuickActions({ onGenerateClick }: HeroQuickActionsProps) {
         <motion.button
           onClick={() => handleAction(() => setRecognitionDialogOpen(true))}
           className={cn(
-            "group relative flex flex-col items-start gap-1 px-3 py-3 rounded-xl",
+            "group relative flex flex-col items-start gap-1.5 px-3 py-3.5 rounded-xl",
             "bg-gradient-to-br from-purple-500/15 to-violet-500/10",
             "border border-purple-500/25 hover:border-purple-500/50",
-            "touch-scale-sm transition-all duration-300 touch-manipulation min-h-[72px]",
+            "touch-scale-sm transition-all duration-300 touch-manipulation min-h-[80px]",
             "hover:shadow-lg hover:shadow-purple-500/20"
           )}
           variants={{

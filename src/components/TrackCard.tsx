@@ -294,17 +294,16 @@ export const TrackCard = memo(({
     const listContent = (
       <Card
         className={cn(
-          "group grid grid-cols-[auto,1fr,auto] items-center gap-3 p-2 sm:p-3 transition-all touch-manipulation rounded-lg",
+          "group grid grid-cols-[52px_1fr_44px] items-center gap-3 p-2.5 sm:p-3 transition-all touch-manipulation rounded-xl min-h-[72px]",
           // 🖥️ Desktop: hover эффект
           !isMobile && "hover:bg-muted/50",
-          // 📱 Mobile: active состояние
-          isMobile && "active:bg-muted"
+          // 📱 Mobile: active состояние с subtle feedback
+          isMobile && "active:bg-muted/70 active:scale-[0.99]"
         )}
         onClick={handleCardClick}
-        {...(!isMobile ? {} : {})}
       >
-        {/* Cover Image & Play Button */}
-        <div className="relative w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0 rounded-md overflow-hidden" data-play-button>
+        {/* Cover Image & Play Button - Enlarged for better touch */}
+        <div className="relative w-[52px] h-[52px] flex-shrink-0 rounded-lg overflow-hidden shadow-sm" data-play-button>
           <LazyImage
             src={track.cover_url || ''}
             alt={track.title || 'Track cover'}
@@ -317,15 +316,16 @@ export const TrackCard = memo(({
               </div>
             }
           />
+          {/* Play overlay - always visible on mobile for clarity */}
           <div
             className={cn(
-              "absolute inset-0 bg-black/50 flex items-center justify-center cursor-pointer transition-opacity",
+              "absolute inset-0 bg-black/40 flex items-center justify-center cursor-pointer transition-all",
               // 🖥️ Desktop: показываем при hover
               !isMobile && !isPlaying && "opacity-0 group-hover:opacity-100",
-              // 📱 Mobile: всегда показываем overlay
-              isMobile && "opacity-100",
+              // 📱 Mobile: subtle semi-transparent overlay
+              isMobile && !isPlaying && "bg-black/20",
               // ✨ При воспроизведении - всегда показываем
-              isPlaying && "opacity-100"
+              isPlaying && "opacity-100 bg-black/50"
             )}
             onClick={(e) => {
               e.stopPropagation();
@@ -333,22 +333,25 @@ export const TrackCard = memo(({
               onPlay?.();
             }}
           >
-            <Button 
-              size="icon" 
-              variant="ghost" 
-              className="w-10 h-10 min-h-touch min-w-touch rounded-full text-white touch-manipulation"
-              aria-label={isPlaying ? `Пауза: ${track.title}` : `Воспроизвести: ${track.title}`}
-            >
-              {isPlaying ? <Pause className="w-4 h-4" aria-hidden="true" /> : <Play className="w-4 h-4 ml-0.5" aria-hidden="true" />}
-            </Button>
+            <div className={cn(
+              "w-8 h-8 rounded-full flex items-center justify-center transition-transform",
+              isPlaying ? "bg-primary scale-100" : "bg-white/90 scale-90 group-hover:scale-100"
+            )}>
+              {isPlaying ? (
+                <Pause className="w-3.5 h-3.5 text-white" aria-hidden="true" />
+              ) : (
+                <Play className="w-3.5 h-3.5 ml-0.5 text-black/80" aria-hidden="true" />
+              )}
+            </div>
           </div>
         </div>
 
-        {/* Track Info */}
-        <div className="flex-1 min-w-0">
+        {/* Track Info - Improved spacing and hierarchy */}
+        <div className="flex-1 min-w-0 py-0.5">
+          {/* Title row */}
           <div className="flex items-center gap-2">
-            <h3 className="font-medium text-sm sm:text-base truncate">{track.title || 'Без названия'}</h3>
-            {/* Queue Position Indicator - desktop only, mobile shows in sheet */}
+            <h3 className="font-medium text-sm leading-tight truncate">{track.title || 'Без названия'}</h3>
+            {/* Queue Position Indicator - desktop only */}
             {isInQueue && !isCurrentTrack && !isMobile && (
               <Badge 
                 variant={isNextTrack ? "default" : "secondary"} 
@@ -363,7 +366,7 @@ export const TrackCard = memo(({
                 {position}
               </Badge>
             )}
-            {/* Version Toggle - desktop only, mobile shows in sheet */}
+            {/* Version Toggle - desktop only */}
             {versionCount > 1 && !isMobile && (
               <InlineVersionToggle
                 trackId={track.id}
@@ -374,39 +377,33 @@ export const TrackCard = memo(({
               />
             )}
           </div>
-          <div className="flex items-center gap-2 mt-0.5">
-            <span className="text-xs text-muted-foreground truncate">
+          {/* Style + Duration row */}
+          <div className="flex items-center gap-1.5 mt-1">
+            <span className="text-xs text-muted-foreground truncate max-w-[140px]">
               {track.style || track.tags?.split(',').slice(0, 2).join(', ') || 'Без стиля'}
             </span>
-            {/* Type Icons with MIDI/PDF status */}
+            {track.duration_seconds && (
+              <>
+                <span className="text-muted-foreground/50 text-xs">•</span>
+                <span className="text-xs text-muted-foreground/70">
+                  {Math.floor(track.duration_seconds / 60)}:{String(Math.floor(track.duration_seconds % 60)).padStart(2, '0')}
+                </span>
+              </>
+            )}
+          </div>
+          {/* Icons row - moved to separate line for clarity */}
+          <div className="flex items-center gap-1 mt-1">
             <TrackTypeIcons track={track} compact hasMidi={propHasMidi} hasPdf={propHasPdf} />
           </div>
         </div>
 
-        {/* Actions */}
-        <div className="flex items-center gap-1">
-          <Button
-            size="icon"
-            variant={isPlaying ? "default" : "ghost"}
-            className={cn(
-              "w-10 h-10 min-h-touch min-w-touch rounded-full touch-manipulation transition-colors",
-              isPlaying && "bg-primary text-primary-foreground"
-            )}
-            onClick={(e) => { 
-              e.stopPropagation(); 
-              triggerHapticFeedback('medium');
-              onPlay?.(); 
-            }}
-            aria-label={isPlaying ? `Пауза: ${track.title}` : `Воспроизвести: ${track.title}`}
-            aria-pressed={isPlaying}
-          >
-            {isPlaying ? <Pause className="w-4 h-4" aria-hidden="true" /> : <Play className="w-4 h-4 ml-0.5" aria-hidden="true" />}
-          </Button>
+        {/* Actions - Simplified for mobile */}
+        <div className="flex items-center justify-end">
           {isMobile ? (
             <Button
               size="icon"
               variant="ghost"
-              className="w-10 h-10 min-h-touch min-w-touch touch-manipulation"
+              className="w-11 h-11 min-h-[44px] min-w-[44px] rounded-full touch-manipulation"
               onClick={(e) => { 
                 e.stopPropagation(); 
                 triggerHapticFeedback('light');
@@ -418,7 +415,26 @@ export const TrackCard = memo(({
               <MoreHorizontal className="w-5 h-5" aria-hidden="true" />
             </Button>
           ) : (
-            <UnifiedTrackMenu track={track} onDelete={onDelete} onDownload={onDownload} />
+            <div className="flex items-center gap-1">
+              <Button
+                size="icon"
+                variant={isPlaying ? "default" : "ghost"}
+                className={cn(
+                  "w-10 h-10 rounded-full touch-manipulation transition-colors",
+                  isPlaying && "bg-primary text-primary-foreground"
+                )}
+                onClick={(e) => { 
+                  e.stopPropagation(); 
+                  triggerHapticFeedback('medium');
+                  onPlay?.(); 
+                }}
+                aria-label={isPlaying ? `Пауза: ${track.title}` : `Воспроизвести: ${track.title}`}
+                aria-pressed={isPlaying}
+              >
+                {isPlaying ? <Pause className="w-4 h-4" aria-hidden="true" /> : <Play className="w-4 h-4 ml-0.5" aria-hidden="true" />}
+              </Button>
+              <UnifiedTrackMenu track={track} onDelete={onDelete} onDownload={onDownload} />
+            </div>
           )}
         </div>
       </Card>

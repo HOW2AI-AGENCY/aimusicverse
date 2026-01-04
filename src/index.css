@@ -570,6 +570,55 @@ All colors MUST be HSL.
     min-height: 44px;
   }
 
+  .min-h-touch {
+    min-height: var(--touch-target-min);
+  }
+
+  .min-w-touch {
+    min-width: var(--touch-target-min);
+  }
+
+  /* Adaptive touch targets for mobile */
+  @media (max-width: 768px) {
+    .btn-touch, button[type="button"], button[type="submit"] {
+      min-height: var(--touch-target-min);
+    }
+  }
+
+  /* Section spacing utilities - adaptive */
+  .section-gap {
+    margin-bottom: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .section-gap {
+      margin-bottom: 1.25rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .section-gap {
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  /* Card gap utilities - adaptive */
+  .card-gap {
+    gap: 0.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .card-gap {
+      gap: 0.75rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .card-gap {
+      gap: 1rem;
+    }
+  }
+
   /* Smooth 60fps animations */
   .gpu-accelerated {
     transform: translateZ(0);
@@ -1073,5 +1122,47 @@ select:focus-visible,
   .animate-spin-slow {
     animation: none !important;
     transform: none !important;
+  }
+}
+
+/* =========================================
+   Touch Scale Utilities
+   ========================================= */
+
+.touch-scale-sm:active {
+  transform: scale(0.98);
+}
+
+.touch-scale:active {
+  transform: scale(0.97);
+}
+
+.touch-scale-lg:active {
+  transform: scale(0.95);
+}
+
+/* =========================================
+   Responsive Breakpoint Helpers
+   ========================================= */
+
+/* Hide on mobile, show on larger screens */
+.desktop-only {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .desktop-only {
+    display: block;
+  }
+}
+
+/* Show on mobile, hide on larger screens */
+.mobile-only {
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .mobile-only {
+    display: none;
   }
 }
