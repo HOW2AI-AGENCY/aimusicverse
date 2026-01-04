@@ -111,12 +111,21 @@ This is the master index for all MusicVerse AI documentation.
 - [docs/DATABASE.md](docs/DATABASE.md) - Database schema and operations
 - **[docs/DATABASE_OPTIMIZATION_ANALYSIS.md](docs/DATABASE_OPTIMIZATION_ANALYSIS.md)** - ⭐ Database optimization recommendations (NEW)
 
+### Audio Hooks (⭐ NEW 2026-01-04)
+- `src/hooks/audio/usePrefetchTrackCovers.ts` - Prefetch cover images for queue (3 next tracks)
+- `src/hooks/audio/usePrefetchNextAudio.ts` - Preload audio for next track (preload='auto')
+- `src/hooks/audio/usePlayerState.ts` - Zustand store for player state
+
+### Player Components (⭐ NEW 2026-01-04)
+- `src/components/player/KaraokeView.tsx` - Fullscreen karaoke mode (Apple Music Sing-style)
+- `src/components/player/DoubleTapSeekFeedback.tsx` - Visual feedback for double-tap seek
+- `src/components/player/MobileFullscreenPlayer.tsx` - Full-featured mobile player
+
 ### Mobile Development (⭐ NEW)
 - **[docs/mobile/OPTIMIZATION_ROADMAP_2026.md](docs/mobile/OPTIMIZATION_ROADMAP_2026.md)** - Mobile optimization roadmap Q1-Q2 2026
 - [docs/MOBILE_UI_AUDIT_2025_12.md](docs/MOBILE_UI_AUDIT_2025_12.md) - Mobile UI audit
 - [docs/SAFE_AREA_GUIDELINES.md](docs/SAFE_AREA_GUIDELINES.md) - Safe area implementation guide
 - [docs/TELEGRAM_MINI_APP_FEATURES.md](docs/TELEGRAM_MINI_APP_FEATURES.md) - Telegram Mini App features
-- [MOBILE_OPTIMIZATION_SUMMARY.md](MOBILE_OPTIMIZATION_SUMMARY.md) - Sprint 028 mobile achievements
 
 ### Integration Guides
 - [docs/integrations/](docs/integrations/) - Integration documentation
@@ -126,7 +135,7 @@ This is the master index for all MusicVerse AI documentation.
 
 ### Guides & How-Tos
 - [docs/guides/](docs/guides/) - Technical how-to guides
-- [ONBOARDING.md](ONBOARDING.md) - New developer onboarding
+- [docs/ONBOARDING.md](docs/ONBOARDING.md) - New developer onboarding
 
 ---
 
@@ -216,48 +225,42 @@ Historical documentation in `docs/archive/`:
 
 ---
 
-## 📝 Recent Updates (2026-01-04)
+## 📝 Recent Updates (2026-01-04 Session 4)
 
-**Sprint 029 Progress Update**:
+**Sprint 029 Fullscreen Player Enhancements**:
+- ✅ Horizontal swipe for track switching (Spotify-style)
+- ✅ Track cover prefetching (usePrefetchTrackCovers)
+- ✅ Audio prefetch for next track (usePrefetchNextAudio)
+- ✅ Double-tap seek ±10 seconds (YouTube/TikTok-style)
+- ✅ Karaoke mode (KaraokeView - Apple Music Sing-style)
+- ✅ Word-level lyrics autoscroll with 30% positioning
+
+**New Files Created**:
+- `src/hooks/audio/usePrefetchTrackCovers.ts`
+- `src/hooks/audio/usePrefetchNextAudio.ts`
+- `src/components/player/KaraokeView.tsx`
+- `src/components/player/DoubleTapSeekFeedback.tsx`
+
+**Repository Cleanup Session 4**:
+- ✅ Archived 13 files from root to docs/archive/2026-01/
+- ✅ Moved 6 files to docs/ for better organization
+- ✅ Updated PROJECT_STATUS.md (Sprint 029 → 90%)
+- ✅ Updated SPRINT-PROGRESS.md with Fullscreen Player block
+- ✅ Updated SPRINT-029 with all completed tasks
+- ✅ Added T057-T062 to BACKLOG.md
+- ✅ Updated KNOWN_ISSUES_TRACKED.md (IMP102-IMP107 resolved)
+- ✅ Updated SDD-016 with Sprint 016-D
+
+**Previous Updates (2026-01-04 Session 1-3)**:
 - ✅ Updated PROJECT_STATUS.md with Sprint 029 at 85% completion
-- ✅ Updated SPRINT_STATUS.md with current sprint metrics
-- ✅ Updated SPRINTS/SPRINT-PROGRESS.md with detailed progress tracking
-- ✅ Updated README.md badges and navigation to reflect Sprint 029
-
-**Repository Cleanup & Reorganization**:
-- ✅ Archived 12 outdated reports to [docs/archive/2026-01-04-cleanup/](docs/archive/2026-01-04-cleanup/)
-  - Sprint 011, 027, 028 completion reports
-  - Mobile optimization summaries  
-  - Library audit and unified studio reports
+- ✅ Archived 12 outdated reports to docs/archive/2026-01-04-cleanup/
 - ✅ Reduced root directory from 42 to 30 markdown files (29% reduction)
-- ✅ Updated ARCHIVE.md with new archive structure
-- ✅ Created comprehensive README for archived files
-
-**Previous Updates (Preserved)**:
-- ✅ Moved 6 Russian documentation files to [docs/ru/](docs/ru/)
-- ✅ Archived 2 outdated status documents to [docs/archive/2026-01/](docs/archive/2026-01/)
-- ✅ Removed outdated DOCUMENTATION_INDEX_OLD.md
-- ✅ Created comprehensive [Mobile Optimization Roadmap 2026](docs/mobile/OPTIMIZATION_ROADMAP_2026.md)
-- ✅ Enhanced README.md with mobile development section
-
-**Major Documentation Additions**:
-- ✅ Created comprehensive architecture documentation (15,000+ lines)
-- ✅ Created complete hooks reference guide (6,000+ lines)
-- ✅ Created developer onboarding guide (4,000+ lines)
-- ✅ Completed comprehensive code review
-- ✅ Added detailed inline code comments to core components
-- ✅ Total: ~25,000 lines of new documentation
 
 **Impact**:
-- Reduced repository root clutter (42→30 MD files, 29% reduction)
-- Improved documentation discoverability
-- Better organized Russian documentation
-- Clear mobile optimization roadmap for Q1-Q2 2026
-- Reduced onboarding time for new developers by 50%+
-- Improved code maintainability through better documentation
-- Enabled better architectural decisions with clarity
-- Facilitated code reviews with established patterns
-- Accurate Sprint 029 progress tracking (85% complete)
+- Sprint 029 now at 90% completion (18/20 tasks)
+- 6 new Fullscreen Player improvements implemented
+- Repository root reduced from 46 to ~25 MD files
+- All documentation synchronized with latest changes
 
 ---
 
