@@ -7,8 +7,23 @@ import { TrackNameBuilder, APP_NAME } from '../_shared/track-name-builder.ts';
 
 const logger = createLogger('suno-music-callback');
 
-// Cost per generation in user credits (must match suno-music-generate)
-const GENERATION_COST = 10;
+// Model-specific generation costs in user credits (must match suno-music-generate)
+const MODEL_COSTS: Record<string, number> = {
+  V5: 12,
+  V4_5PLUS: 12,
+  V4_5: 12,
+  V4_5ALL: 12,
+  V4: 10,
+  V3_5: 10,
+};
+
+// Default cost for unknown models
+const DEFAULT_GENERATION_COST = 12;
+
+// Get generation cost for a specific model
+function getGenerationCost(modelKey: string): number {
+  return MODEL_COSTS[modelKey] ?? DEFAULT_GENERATION_COST;
+}
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -911,20 +926,25 @@ serve(async (req) => {
       });
 
       // Deduct credits from user balance for generation (non-admin users only)
+      // Get model from task and calculate cost
+      const modelUsed = task.model_used || 'V4_5ALL';
+      const generationCost = getGenerationCost(modelUsed);
+
       if (!isAdmin) {
         try {
-          logger.info('Deducting generation credits from user (atomic RPC)', { userId: task.user_id, cost: GENERATION_COST });
+          logger.info('Deducting generation credits from user (atomic RPC)', { userId: task.user_id, cost: generationCost, model: modelUsed });
 
           // Use atomic RPC function to prevent race conditions
           const { data: deductResult, error: deductError } = await supabase
             .rpc('deduct_generation_credits', {
               p_user_id: task.user_id,
-              p_cost: GENERATION_COST,
+              p_cost: generationCost,
               p_description: `Генерация трека: ${clips[0]?.title || 'Трек'}`,
               p_metadata: {
                 trackId,
                 clips: clips.length,
-                model: task.model_used,
+                model: modelUsed,
+                cost: generationCost,
               },
             });
 

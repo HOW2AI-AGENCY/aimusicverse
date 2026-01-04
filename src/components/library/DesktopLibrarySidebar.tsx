@@ -15,7 +15,7 @@ import { useProjects } from '@/hooks/useProjects';
 import { useArtists } from '@/hooks/useArtists';
 import { useTracks } from '@/hooks/useTracks';
 import { useGenerateForm, useAudioReference } from '@/hooks/generation';
-import { GenerateFormHeaderCompact } from '@/components/generate-form/GenerateFormHeaderCompact';
+import { CollapsibleFormHeader } from '@/components/generate-form/CollapsibleFormHeader';
 import { GenerateFormActions } from '@/components/generate-form/GenerateFormActions';
 import { GenerateFormReferences } from '@/components/generate-form/GenerateFormReferences';
 import { GenerationLoadingState } from '@/components/generate-form/GenerationLoadingState';
@@ -137,16 +137,13 @@ export function DesktopLibrarySidebar({
             <h3 className="text-sm font-semibold">Создать трек</h3>
           </div>
           <div className="flex items-center gap-1">
-            <GenerateFormHeaderCompact
-              userBalance={form.userBalance}
-              generationCost={form.generationCost}
-              canGenerate={form.canGenerate}
-              apiCredits={form.apiCredits}
+            <CollapsibleFormHeader
+              balance={form.userBalance}
+              cost={form.generationCost}
               mode={form.mode}
               onModeChange={form.setMode}
               model={form.model}
               onModelChange={form.setModel}
-              isAdmin={form.isAdmin}
               onOpenHistory={() => setHistoryOpen(true)}
             />
             <Button

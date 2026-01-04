@@ -17,36 +17,41 @@ export interface SunoModelInfo {
   emoji: string;
   apiModel: string;
   status: ModelStatus;
+  cost: number; // Credits per generation
 }
 
 export const SUNO_MODELS: Record<string, SunoModelInfo> = {
   V5: { 
     name: 'V5', 
-    desc: 'Новейшая модель, быстрая генерация', 
+    desc: 'Новейшая модель', 
     emoji: '🚀',
     apiModel: 'chirp-crow',
-    status: 'latest'
+    status: 'latest',
+    cost: 12
   },
   V4_5PLUS: { 
     name: 'V4.5+', 
-    desc: 'Богатый звук, до 8 мин', 
+    desc: 'Богатый звук', 
     emoji: '💎',
     apiModel: 'chirp-bluejay',
-    status: 'active'
+    status: 'active',
+    cost: 12
   },
   V4_5ALL: { 
-    name: 'V4.5 All', 
-    desc: 'Лучшая структура, до 8 мин', 
+    name: 'V4.5', 
+    desc: 'Лучшая структура', 
     emoji: '🎯',
     apiModel: 'chirp-auk',
-    status: 'active'
+    status: 'active',
+    cost: 12
   },
   V4: { 
     name: 'V4', 
-    desc: 'Классика, до 4 мин', 
+    desc: 'Классика', 
     emoji: '🎵',
     apiModel: 'chirp-v4',
-    status: 'active'
+    status: 'active',
+    cost: 10
   },
 } as const;
 
@@ -81,6 +86,14 @@ export const getAvailableModels = (): Array<SunoModelInfo & { key: string; label
       label: `${info.name} - ${info.desc}`,
     }));
 };
+
+// Get cost for a specific model
+export const getModelCost = (modelKey: string): number => {
+  return SUNO_MODELS[modelKey]?.cost ?? 10;
+};
+
+// Default generation cost (for backwards compatibility)
+export const DEFAULT_GENERATION_COST = 12;
 
 // Model fallback chain for deprecated models (IMP006)
 const FALLBACK_CHAIN: Record<string, SunoModelKey[]> = {

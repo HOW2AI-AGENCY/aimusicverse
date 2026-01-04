@@ -5,10 +5,14 @@
 
 import * as creditsApi from '@/api/credits.api';
 import { logger } from '@/lib/logger';
-import { ECONOMY } from '@/lib/economy';
+import { ECONOMY, MODEL_COSTS } from '@/lib/economy';
+import { getModelCost, DEFAULT_GENERATION_COST } from '@/constants/sunoModels';
 
 // Re-export economy constants for backward compatibility
-export const GENERATION_COST = ECONOMY.GENERATION_COST;
+export const GENERATION_COST = ECONOMY.DEFAULT_GENERATION_COST;
+
+// Get model-specific generation cost
+export { getModelCost, MODEL_COSTS };
 
 export const ACTION_REWARDS = {
   // Daily rewards

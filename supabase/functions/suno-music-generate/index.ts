@@ -44,8 +44,23 @@ const ERROR_MESSAGES: Record<string, string> = {
   'credits': 'Недостаточно кредитов на балансе.',
 };
 
-// Cost per generation in user credits
-const GENERATION_COST = 10;
+// Model-specific generation costs in user credits
+const MODEL_COSTS: Record<string, number> = {
+  V5: 12,
+  V4_5PLUS: 12,
+  V4_5: 12,
+  V4_5ALL: 12,
+  V4: 10,
+  V3_5: 10,
+};
+
+// Default cost for unknown models
+const DEFAULT_GENERATION_COST = 12;
+
+// Get generation cost for a specific model
+function getGenerationCost(modelKey: string): number {
+  return MODEL_COSTS[modelKey] ?? DEFAULT_GENERATION_COST;
+}
 
 /**
  * Convert UI model key to API model name with fallback
@@ -128,45 +143,7 @@ serve(async (req) => {
     
     logger.info('User role check', { userId: user.id, isAdmin: !!isAdmin });
 
-    // Only check personal balance for non-admin users
-    if (!isAdmin) {
-      logger.info('Checking user credits balance', { userId: user.id });
-      
-      const { data: userCredits, error: creditsError } = await supabase
-        .from('user_credits')
-        .select('balance')
-        .eq('user_id', user.id)
-        .maybeSingle();
-
-      if (creditsError) {
-        logger.error('Failed to fetch user credits', creditsError);
-        return new Response(
-          JSON.stringify({ success: false, error: 'Ошибка проверки баланса' }),
-          { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 500 }
-        );
-      }
-
-      const userBalance = userCredits?.balance ?? 0;
-      logger.info('User credit balance', { userId: user.id, balance: userBalance, required: GENERATION_COST });
-
-      // Check if user has enough credits for generation
-      if (userBalance < GENERATION_COST) {
-        logger.warn('Insufficient user credits', { balance: userBalance, required: GENERATION_COST });
-        return new Response(
-          JSON.stringify({ 
-            success: false, 
-            error: `Недостаточно кредитов. Баланс: ${userBalance}, требуется: ${GENERATION_COST}`,
-            errorCode: 'INSUFFICIENT_CREDITS',
-            balance: userBalance,
-            required: GENERATION_COST,
-          }),
-          { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 402 }
-        );
-      }
-    } else {
-      logger.info('Admin user - skipping personal balance check, using shared API balance');
-    }
-
+    // Parse body first to get model for cost calculation
     const body = await req.json();
     const {
       mode = 'simple',
@@ -188,6 +165,48 @@ serve(async (req) => {
       language = 'ru',
       isPublic = true, // Track visibility - default public
     } = body;
+
+    // Calculate generation cost based on model
+    const generationCost = getGenerationCost(model);
+
+    // Only check personal balance for non-admin users
+    if (!isAdmin) {
+      logger.info('Checking user credits balance', { userId: user.id });
+      
+      const { data: userCredits, error: creditsError } = await supabase
+        .from('user_credits')
+        .select('balance')
+        .eq('user_id', user.id)
+        .maybeSingle();
+
+      if (creditsError) {
+        logger.error('Failed to fetch user credits', creditsError);
+        return new Response(
+          JSON.stringify({ success: false, error: 'Ошибка проверки баланса' }),
+          { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 500 }
+        );
+      }
+
+      const userBalance = userCredits?.balance ?? 0;
+      logger.info('User credit balance', { userId: user.id, balance: userBalance, required: generationCost, model });
+
+      // Check if user has enough credits for generation
+      if (userBalance < generationCost) {
+        logger.warn('Insufficient user credits', { balance: userBalance, required: generationCost });
+        return new Response(
+          JSON.stringify({ 
+            success: false, 
+            error: `Недостаточно кредитов. Баланс: ${userBalance}, требуется: ${generationCost}`,
+            errorCode: 'INSUFFICIENT_CREDITS',
+            balance: userBalance,
+            required: generationCost,
+          }),
+          { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 402 }
+        );
+      }
+    } else {
+      logger.info('Admin user - skipping personal balance check, using shared API balance');
+    }
     
     // Update plan track status to in_progress if provided
     if (planTrackId) {

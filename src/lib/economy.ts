@@ -4,17 +4,25 @@
  * Based on: 100 credits = $1 = 50 Stars
  */
 
+// Model-specific generation costs
+export const MODEL_COSTS: Record<string, number> = {
+  V5: 12,
+  V4_5PLUS: 12,
+  V4_5ALL: 12,
+  V4: 10,
+};
+
 export const ECONOMY = {
   // Core exchange rates
   CREDITS_PER_USD: 100,
   STARS_PER_USD: 50,
   CREDITS_PER_STAR: 2,
   
-  // Action costs
-  GENERATION_COST: 10,        // 10 credits = $0.10
-  STEM_SEPARATION_COST: 5,    // 5 credits = $0.05
-  MIDI_EXPORT_COST: 3,        // 3 credits = $0.03
-  COVER_GENERATION_COST: 5,   // 5 credits = $0.05
+  // Action costs (GENERATION_COST is now model-specific, see MODEL_COSTS)
+  DEFAULT_GENERATION_COST: 12,  // Default for new models
+  STEM_SEPARATION_COST: 5,      // 5 credits = $0.05
+  MIDI_EXPORT_COST: 3,          // 3 credits = $0.03
+  COVER_GENERATION_COST: 5,     // 5 credits = $0.05
   
   // Rewards
   DAILY_CHECKIN: {
