@@ -168,7 +168,7 @@ export function GenerateFormSimple({
 
         {/* Smart Prompt Suggestions - horizontal scroll */}
         {!description && (
-          <div className="mt-2 -mx-1">
+          <div className="mt-2 max-w-full">
             <SmartPromptSuggestions
               onSelectPrompt={onDescriptionChange}
               currentPrompt={description}
