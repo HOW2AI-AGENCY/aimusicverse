@@ -64,7 +64,19 @@ export const StudioSectionOverlay = memo(function StudioSectionOverlay({
 
   // Fill gaps between sections to ensure full timeline coverage
   const normalizedSections = useMemo(() => {
-    if (!sections.length || duration <= 0) return [];
+    if (duration <= 0) return [];
+    
+    // If no sections, create one section covering the whole track
+    if (!sections.length) {
+      return [{
+        type: 'unknown' as const,
+        label: 'Трек',
+        startTime: 0,
+        endTime: duration,
+        lyrics: '',
+        words: [],
+      }];
+    }
     
     const result: DetectedSection[] = [];
     
