@@ -65,7 +65,7 @@ export const UnifiedWaveform = memo(function UnifiedWaveform({
   const config = MODE_CONFIGS[mode];
   const height = customHeight ?? config.height;
 
-  // Load waveform data if not pre-computed
+  // Load waveform data if not pre-computed (with trackId for stable caching)
   const {
     waveformData: loadedData,
     duration: loadedDuration,
@@ -73,6 +73,7 @@ export const UnifiedWaveform = memo(function UnifiedWaveform({
   } = useWaveformData(precomputedData ? null : audioUrl, {
     samples: config.samples,
     autoLoad: !precomputedData && !!audioUrl,
+    trackId: trackId || undefined, // Stable cache key
   });
 
   // Load beat grid if enabled
