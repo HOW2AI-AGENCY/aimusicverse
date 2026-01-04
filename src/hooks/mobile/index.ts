@@ -36,6 +36,9 @@ export { useBottomSheetGestures } from '../useBottomSheetGestures';
 // Pull to refresh
 export { usePullToRefresh } from '../usePullToRefresh';
 
+// Cloud Storage
+export { useCloudStorage, useCloudStorageFlag } from '../useCloudStorage';
+
 // Media queries
 export { useIsMobile } from '../use-mobile';
 export { useMediaQuery } from '../useMediaQuery';

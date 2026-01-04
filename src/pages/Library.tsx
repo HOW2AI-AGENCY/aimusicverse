@@ -3,6 +3,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Navigate, useSearchParams } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Music2, Search, Loader2, Grid3x3, List, SlidersHorizontal, Play, Shuffle, Library as LibraryIcon, Sparkles } from "lucide-react";
+import { PullToRefreshWrapper } from "@/components/library/PullToRefreshWrapper";
 import { motion } from "@/lib/motion";
 import { useTracks, type Track } from "@/hooks/useTracks";
 import { Button } from "@/components/ui/button";
@@ -402,8 +403,14 @@ export default function Library() {
           )}
         </div>
 
-        {/* Content */}
-        <div className="py-2 sm:py-3">
+        {/* Content with Pull to Refresh for mobile */}
+        <PullToRefreshWrapper
+          onRefresh={async () => {
+            await refetchTracks();
+          }}
+          disabled={!isMobile}
+          className="py-2 sm:py-3"
+        >
           {/* Filter Chips - Only show on desktop since mobile uses CompactFilterBar */}
           {!isMobile && <div className="mb-2" />}
 
@@ -466,7 +473,7 @@ export default function Library() {
               )}
             </>
           )}
-        </div>
+        </PullToRefreshWrapper>
         </div>
       </div>
       
