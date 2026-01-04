@@ -6,6 +6,7 @@
 
 import { memo, useState, useCallback, useEffect, useMemo, useRef, Suspense, lazy } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { useUnifiedStudioStore, ViewMode, TrackType, TRACK_COLORS, StudioTrack } from '@/stores/useUnifiedStudioStore';
 import { StudioTransport } from './StudioTransport';
@@ -76,6 +77,12 @@ import type { StemEffects, EQSettings, CompressorSettings, ReverbSettings } from
 import { defaultStemEffects } from '@/hooks/studio/stemEffectsConfig';
 import type { TrackStem } from '@/hooks/useTrackStems';
 import type { Track } from '@/types/track';
+import { useSectionDetection } from '@/hooks/useSectionDetection';
+import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
+import { useReplacedSections } from '@/hooks/useReplacedSections';
+import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
+import { StudioDownloadPanel } from './StudioDownloadPanel';
+import { StudioTranscriptionPanel } from './StudioTranscriptionPanel';
 
 interface StudioShellProps {
   className?: string;
@@ -145,7 +152,21 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
   
   // Generate Sheet state
   const [showGenerateSheet, setShowGenerateSheet] = useState(false);
-
+  
+  // Download panel state
+  const [showDownloadPanel, setShowDownloadPanel] = useState(false);
+  
+  // Transcription panel state
+  const [showTranscriptionPanel, setShowTranscriptionPanel] = useState(false);
+  const [selectedTranscriptionTrack, setSelectedTranscriptionTrack] = useState<StudioTrack | null>(null);
+  
+  // Section editor store
+  const {
+    selectedSection,
+    selectedSectionIndex,
+    selectSection,
+    clearSelection,
+  } = useSectionEditorStore();
   // Convert store tracks to AudioTrack format for engine
   const audioTracks = useMemo((): AudioTrack[] => {
     if (!project) return [];
@@ -236,8 +257,59 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
   });
 
   // Get main audio URL for waveform visualization
-  const mainAudioUrl = project?.tracks[0]?.audioUrl || project?.tracks[0]?.clips[0]?.audioUrl;
+  const mainAudioUrl = project?.tracks[0]?.audioUrl || project?.tracks[0]?.clips?.[0]?.audioUrl;
   const duration = audioEngine.duration || project?.durationSeconds || 180;
+  const sourceTrackId = project?.sourceTrackId;
+
+  // Fetch source track for section detection
+  const { data: sourceTrack } = useQuery({
+    queryKey: ['source-track-for-studio', sourceTrackId],
+    queryFn: async () => {
+      if (!sourceTrackId) return null;
+      const { data } = await supabase
+        .from('tracks')
+        .select('id, lyrics, suno_task_id, suno_id')
+        .eq('id', sourceTrackId)
+        .maybeSingle();
+      return data;
+    },
+    enabled: !!sourceTrackId,
+  });
+
+  // Get timestamped lyrics for section detection
+  const { data: lyricsData } = useTimestampedLyrics(
+    sourceTrack?.suno_task_id || null,
+    sourceTrack?.suno_id || null
+  );
+
+  // Detect sections from lyrics
+  const detectedSections = useSectionDetection(
+    sourceTrack?.lyrics,
+    lyricsData?.alignedWords,
+    duration
+  );
+
+  // Get replaced sections
+  const { data: replacedSectionsData } = useReplacedSections(sourceTrackId || '');
+
+  // Map replaced sections to ranges
+  const replacedRanges = useMemo(() => {
+    if (!replacedSectionsData) return [];
+    return replacedSectionsData.map(s => ({
+      start: s.start,
+      end: s.end,
+    }));
+  }, [replacedSectionsData]);
+
+  // Handle section click on timeline
+  const handleSectionClick = useCallback((section: typeof detectedSections[0], index: number) => {
+    selectSection(section, index);
+    const mainTrack = project?.tracks[0];
+    if (mainTrack) {
+      setSelectedSectionTrack(mainTrack);
+      setShowSectionEditor(true);
+    }
+  }, [selectSection, project?.tracks]);
 
   // Sync playback state with store
   useEffect(() => {
@@ -646,6 +718,11 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
     } else if (action === 'replace_section') {
       setSelectedSectionTrack(track);
       setShowSectionEditor(true);
+    } else if (action === 'transcribe') {
+      setSelectedTranscriptionTrack(track);
+      setShowTranscriptionPanel(true);
+    } else if (action === 'download_all') {
+      setShowDownloadPanel(true);
     }
   }, [project?.tracks]);
 
@@ -666,6 +743,7 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
           onAddTrack={() => setShowAddTrackDialog(true)}
           onSave={handleSave}
           onExport={handleExport}
+          onOpenDownloadPanel={() => setShowDownloadPanel(true)}
         />
 
         {/* Dialogs stay shared */}
@@ -936,7 +1014,7 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
         </div>
       </header>
 
-      {/* Main Timeline */}
+      {/* Main Timeline with Sections */}
       <div className="px-3 py-2 border-b border-border/30 bg-card/30">
         <StudioWaveformTimeline
           audioUrl={mainAudioUrl || null}
@@ -945,6 +1023,10 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
           isPlaying={isPlaying}
           onSeek={handleSeek}
           height={80}
+          sections={detectedSections}
+          selectedSectionIndex={selectedSectionIndex}
+          replacedRanges={replacedRanges}
+          onSectionClick={handleSectionClick}
         />
       </div>
 
@@ -1255,14 +1337,51 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
           onClose={() => {
             setShowSectionEditor(false);
             setSelectedSectionTrack(null);
+            clearSelection();
           }}
-          trackId={selectedSectionTrack.id}
+          trackId={sourceTrackId || selectedSectionTrack.id}
           trackTitle={selectedSectionTrack.name}
-          audioUrl={selectedSectionTrack.audioUrl || selectedSectionTrack.clips[0]?.audioUrl}
-          duration={selectedSectionTrack.clips[0]?.duration || selectedSectionTrack.versions?.[0]?.duration || 60}
-          detectedSections={[]}
+          audioUrl={selectedSectionTrack.audioUrl || selectedSectionTrack.clips?.[0]?.audioUrl}
+          duration={duration}
+          detectedSections={detectedSections}
         />
       )}
+
+      {/* Download Panel Sheet */}
+      <Sheet open={showDownloadPanel} onOpenChange={setShowDownloadPanel}>
+        <SheetContent side="right" className="w-full sm:max-w-md p-0">
+          <StudioDownloadPanel
+            tracks={project.tracks}
+            projectName={project.name}
+            onClose={() => setShowDownloadPanel(false)}
+          />
+        </SheetContent>
+      </Sheet>
+
+      {/* Transcription Panel Sheet */}
+      <Sheet open={showTranscriptionPanel} onOpenChange={(open) => {
+        setShowTranscriptionPanel(open);
+        if (!open) setSelectedTranscriptionTrack(null);
+      }}>
+        <SheetContent side="right" className="w-full sm:max-w-md p-0">
+          {selectedTranscriptionTrack && (
+            <StudioTranscriptionPanel
+              track={selectedTranscriptionTrack}
+              audioUrl={selectedTranscriptionTrack.audioUrl || selectedTranscriptionTrack.clips?.[0]?.audioUrl || ''}
+              trackId={sourceTrackId || undefined}
+              stemType={selectedTranscriptionTrack.type}
+              onComplete={() => {
+                setShowTranscriptionPanel(false);
+                setSelectedTranscriptionTrack(null);
+              }}
+              onClose={() => {
+                setShowTranscriptionPanel(false);
+                setSelectedTranscriptionTrack(null);
+              }}
+            />
+          )}
+        </SheetContent>
+      </Sheet>
 
       {/* Generate Sheet for creating new tracks */}
       <Suspense fallback={null}>
