@@ -3,6 +3,8 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { createLogger } from "../_shared/logger.ts";
 import { isSunoSuccessCode } from "../_shared/suno.ts";
 import { sanitizeFilename } from "../_shared/sanitize-filename.ts";
+import { extractTitleFromFileName, sanitizeAndCleanTitle } from "../_shared/track-naming.ts";
+import { TrackNameBuilder } from "../_shared/track-name-builder.ts";
 
 const logger = createLogger('suno-upload-extend');
 
@@ -388,7 +390,35 @@ serve(async (req) => {
       logger.error('Error creating task', taskError);
     }
 
-    // Create placeholder track
+    // Get creator display name for metadata
+    let creatorDisplayName: string | null = null;
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('display_name, username, first_name')
+      .eq('user_id', userId)
+      .single();
+    if (profile) {
+      creatorDisplayName = profile.display_name || profile.username || profile.first_name || null;
+    }
+
+    // Build smart track title
+    const originalFileName = body.audioFile?.name || null;
+    const trackNameResult = TrackNameBuilder.build({
+      userTitle: title,
+      referenceFileName: originalFileName,
+      mode: 'extend',
+      style: style,
+      hasVocals: !instrumental,
+      creatorDisplayName: creatorDisplayName || undefined,
+    });
+
+    logger.info('Built track name', { 
+      userTitle: title, 
+      referenceFileName: originalFileName,
+      result: trackNameResult.title 
+    });
+
+    // Create placeholder track with improved naming
     const { data: trackData, error: trackError } = await supabase
       .from('tracks')
       .insert({
@@ -398,7 +428,7 @@ serve(async (req) => {
         suno_task_id: taskId,
         suno_model: model,
         generation_mode: 'upload_extend',
-        title: title || 'Extended Audio',
+        title: trackNameResult.title,
         style: style,
         has_vocals: !instrumental,
         provider: 'suno',
@@ -406,6 +436,8 @@ serve(async (req) => {
         negative_tags: negativeTags,
         vocal_gender: vocalGender,
         style_weight: styleWeight,
+        reference_audio_url: publicUrl,
+        creator_display_name: creatorDisplayName,
       })
       .select()
       .single();
