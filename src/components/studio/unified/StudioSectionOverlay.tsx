@@ -62,7 +62,7 @@ export const StudioSectionOverlay = memo(function StudioSectionOverlay({
     return sections.findIndex(s => currentTime >= s.startTime && currentTime < s.endTime);
   }, [sections, currentTime]);
 
-  // Fill gaps between sections to ensure full timeline coverage
+  // Fill gaps between sections to ensure full timeline coverage - NO GAPS ALLOWED
   const normalizedSections = useMemo(() => {
     if (duration <= 0) return [];
     
@@ -79,9 +79,10 @@ export const StudioSectionOverlay = memo(function StudioSectionOverlay({
     }
     
     const result: DetectedSection[] = [];
+    let currentEnd = 0;
     
     // Ensure first section starts from 0
-    if (sections[0].startTime > 0.5) {
+    if (sections[0].startTime > 0) {
       result.push({
         type: 'intro' as const,
         label: 'Интро',
@@ -90,33 +91,36 @@ export const StudioSectionOverlay = memo(function StudioSectionOverlay({
         lyrics: '',
         words: [],
       });
+      currentEnd = sections[0].startTime;
     }
     
     for (let i = 0; i < sections.length; i++) {
       const current = sections[i];
-      const prev = result[result.length - 1];
       
-      // Fill gap before current section if needed
-      if (prev && current.startTime > prev.endTime + 0.5) {
+      // Fill ANY gap before current section - no threshold, fill all gaps
+      if (current.startTime > currentEnd) {
         result.push({
           type: 'unknown' as const,
           label: 'Переход',
-          startTime: prev.endTime,
+          startTime: currentEnd,
           endTime: current.startTime,
           lyrics: '',
           words: [],
         });
+        currentEnd = current.startTime;
       }
       
-      // Adjust current section to connect with previous
-      result.push({
+      // Add current section, ensuring it starts where previous ended
+      const adjustedSection = {
         ...current,
-        startTime: prev ? Math.max(current.startTime, prev.endTime) : current.startTime,
-      });
+        startTime: Math.max(current.startTime, currentEnd),
+      };
+      result.push(adjustedSection);
+      currentEnd = adjustedSection.endTime;
     }
     
-    // Extend last section to full duration
-    if (result.length > 0 && result[result.length - 1].endTime < duration - 0.5) {
+    // ALWAYS extend last section to full duration - no gap at the end
+    if (result.length > 0 && currentEnd < duration) {
       result[result.length - 1] = {
         ...result[result.length - 1],
         endTime: duration,

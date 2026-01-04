@@ -106,7 +106,7 @@ interface StudioTrackRowProps {
   onSeek: (time: number) => void;
   onRemove: () => void;
   onVersionChange?: (versionLabel: string) => void;
-  onAction?: (action: 'download' | 'effects' | 'reference' | 'add_vocals' | 'extend' | 'replace_section' | 'transcribe') => void;
+  onAction?: (action: 'download' | 'effects' | 'reference' | 'add_vocals' | 'replace_instrumental' | 'extend' | 'replace_section' | 'transcribe') => void;
 }
 
 export const StudioTrackRow = memo(function StudioTrackRow({
@@ -250,7 +250,7 @@ export const StudioTrackRow = memo(function StudioTrackRow({
                   <MoreHorizontal className="w-4 h-4" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-44">
+              <DropdownMenuContent align="end" className="w-48">
                 {onAction && (
                   <>
                     {/* Add Vocals for instrumental tracks */}
@@ -258,6 +258,13 @@ export const StudioTrackRow = memo(function StudioTrackRow({
                       <DropdownMenuItem onClick={() => onAction('add_vocals')}>
                         <Mic2 className="w-4 h-4 mr-2 text-blue-400" />
                         Добавить вокал
+                      </DropdownMenuItem>
+                    )}
+                    {/* Replace Instrumental for vocal tracks (when stems exist) */}
+                    {track.type === 'vocal' && stemsExist && (
+                      <DropdownMenuItem onClick={() => onAction('replace_instrumental')}>
+                        <Guitar className="w-4 h-4 mr-2 text-green-400" />
+                        Заменить инструментал
                       </DropdownMenuItem>
                     )}
                     {/* Extend and Replace Section - ONLY for source track, disabled when stems exist */}
@@ -273,7 +280,7 @@ export const StudioTrackRow = memo(function StudioTrackRow({
                         </DropdownMenuItem>
                       </>
                     )}
-                    {/* Show disabled state when stems exist */}
+                    {/* Show disabled state when stems exist for main track */}
                     {isSourceTrack && stemsExist && (
                       <DropdownMenuItem disabled className="opacity-50 cursor-not-allowed">
                         <Scissors className="w-4 h-4 mr-2 text-muted-foreground" />

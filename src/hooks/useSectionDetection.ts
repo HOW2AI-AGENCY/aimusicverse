@@ -443,9 +443,10 @@ export function useSectionDetection(
         for (const parsed of parsedSections) {
           typeCounters[parsed.type] = (typeCounters[parsed.type] || 0) + 1;
           const match = matchSectionToTimestamps(parsed.lyrics, filteredWords, searchIndex);
+          const prevEnd = sections[sections.length - 1]?.endTime || 0;
 
           if (match && match.endTime > match.startTime) {
-            const prevEnd = sections[sections.length - 1]?.endTime || 0;
+            // Use matched timing, ensuring no overlap with previous section
             const startTime = Math.max(match.startTime, prevEnd);
             
             if (match.endTime > startTime) {
@@ -460,10 +461,9 @@ export function useSectionDetection(
               searchIndex = match.nextSearchIndex;
             }
           } else {
-            // Estimate timing if match failed
-            const prevEnd = sections[sections.length - 1]?.endTime || 0;
-            const estimatedDuration = duration / parsedSections.length;
-            const estimatedStart = prevEnd;
+            // Estimate timing if match failed - section starts RIGHT where previous ended
+            const estimatedDuration = Math.max(10, duration / parsedSections.length);
+            const estimatedStart = prevEnd; // NO GAP - start right where previous ended
             const estimatedEnd = Math.min(duration, estimatedStart + estimatedDuration);
             
             if (estimatedEnd > estimatedStart) {
@@ -479,10 +479,11 @@ export function useSectionDetection(
           }
         }
 
-        // Ensure sections cover full track duration
+        // CRITICAL: Ensure sections cover full track duration with NO GAPS
         if (sections.length > 0) {
-          // Fill gap at the beginning if needed
-          if (sections[0].startTime > 1) {
+          // 1. First section MUST start from 0
+          if (sections[0].startTime > 0) {
+            // Create intro section for the beginning gap
             sections.unshift({
               type: 'intro',
               label: 'Интро',
@@ -491,17 +492,40 @@ export function useSectionDetection(
               lyrics: '',
               words: [],
             });
-          } else {
-            sections[0].startTime = 0;
           }
           
-          // Extend last section to full duration
-          const lastSection = sections[sections.length - 1];
-          if (lastSection.endTime < duration - 1) {
+          // 2. Fill ALL gaps between sections
+          const filledSections: DetectedSection[] = [];
+          for (let i = 0; i < sections.length; i++) {
+            const current = sections[i];
+            const prev = filledSections[filledSections.length - 1];
+            
+            // If there's a gap between previous and current, fill it
+            if (prev && current.startTime > prev.endTime) {
+              filledSections.push({
+                type: 'unknown',
+                label: 'Переход',
+                startTime: prev.endTime,
+                endTime: current.startTime,
+                lyrics: '',
+                words: [],
+              });
+            }
+            
+            // Add current section (adjusting start if needed to connect)
+            filledSections.push({
+              ...current,
+              startTime: prev ? Math.max(current.startTime, prev.endTime) : current.startTime,
+            });
+          }
+          
+          // 3. Last section MUST extend to full duration
+          const lastSection = filledSections[filledSections.length - 1];
+          if (lastSection.endTime < duration) {
             lastSection.endTime = duration;
           }
           
-          return sections;
+          return filledSections;
         }
       }
 
