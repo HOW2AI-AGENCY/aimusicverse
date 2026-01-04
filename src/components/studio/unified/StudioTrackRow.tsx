@@ -370,19 +370,15 @@ export const StudioTrackRow = memo(function StudioTrackRow({
                 height={64}
                 onSeek={onSeek}
               />
-              {/* Progress overlay */}
+              {/* Playhead line only - progress is rendered by OptimizedStemWaveform */}
               {duration > 0 && (
-                <>
-                  <div 
-                    className="absolute top-0 bottom-1 left-1 bg-primary/5 pointer-events-none rounded-l transition-all"
-                    style={{ width: `${Math.min(100, (currentTime / duration) * 100)}%` }}
-                  />
-                  {/* Playhead line */}
-                  <div 
-                    className="absolute top-0 bottom-1 w-0.5 bg-primary/60 pointer-events-none rounded-full shadow-sm shadow-primary/30"
-                    style={{ left: `calc(${Math.min(100, (currentTime / duration) * 100)}% + 0.25rem)` }}
-                  />
-                </>
+                <div 
+                  className="absolute top-0 bottom-1 w-0.5 bg-primary pointer-events-none z-10"
+                  style={{ 
+                    left: `${(currentTime / duration) * 100}%`,
+                    boxShadow: '0 0 6px var(--primary)',
+                  }}
+                />
               )}
             </>
           ) : (

@@ -15,6 +15,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { cn } from '@/lib/utils';
 import { 
   RefreshCw, 
@@ -23,6 +24,7 @@ import {
   X,
   Music,
   Check,
+  Info,
 } from 'lucide-react';
 
 export type SaveResultAction = 'replace' | 'version' | 'new_track' | 'cancel';
@@ -45,6 +47,14 @@ const operationLabels: Record<string, string> = {
   replace_instrumental: 'Замена инструментала',
 };
 
+const operationDescriptions: Record<string, string> = {
+  extend: 'Трек был успешно продлён. Выберите как сохранить результат.',
+  replace_section: 'Секция успешно заменена. Выберите как сохранить результат.',
+  new_arrangement: 'Новая аранжировка готова. Выберите как сохранить результат.',
+  add_vocals: 'Вокал добавлен к инструменталу. Выберите как сохранить результат.',
+  replace_instrumental: 'Инструментал успешно заменён. Выберите как сохранить результат.',
+};
+
 export function SaveResultDialog({
   open,
   onClose,
@@ -54,7 +64,7 @@ export function SaveResultDialog({
   operationType,
   existingVersions = ['A'],
 }: SaveResultDialogProps) {
-  const [selectedAction, setSelectedAction] = useState<SaveResultAction | null>(null);
+  const [selectedAction, setSelectedAction] = useState<SaveResultAction>('version');
   const [newTrackName, setNewTrackName] = useState(`${sourceTrackName} (${operationLabels[operationType]})`);
   
   // Calculate next version label
@@ -76,33 +86,6 @@ export function SaveResultDialog({
     onSave(selectedAction, selectedAction === 'new_track' ? newTrackName : undefined);
   };
 
-  const options = [
-    {
-      action: 'replace' as SaveResultAction,
-      icon: RefreshCw,
-      title: 'Заменить текущий',
-      description: 'Заменить аудио текущего трека результатом',
-      color: 'text-amber-400',
-      bg: 'bg-amber-500/10 hover:bg-amber-500/20 border-amber-500/30',
-    },
-    {
-      action: 'version' as SaveResultAction,
-      icon: GitBranch,
-      title: `Добавить как версию ${nextVersion}`,
-      description: 'Сохранить как альтернативную версию трека',
-      color: 'text-blue-400',
-      bg: 'bg-blue-500/10 hover:bg-blue-500/20 border-blue-500/30',
-    },
-    {
-      action: 'new_track' as SaveResultAction,
-      icon: PlusCircle,
-      title: 'Создать новый трек',
-      description: 'Добавить результат как отдельный трек в проект',
-      color: 'text-green-400',
-      bg: 'bg-green-500/10 hover:bg-green-500/20 border-green-500/30',
-    },
-  ];
-
   return (
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
       <DialogContent className="sm:max-w-md">
@@ -112,61 +95,117 @@ export function SaveResultDialog({
             Сохранить результат
           </DialogTitle>
           <DialogDescription>
-            {operationLabels[operationType]} успешно завершено. Как сохранить результат?
+            {operationDescriptions[operationType] || 'Выберите как сохранить результат.'}
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-3 py-4">
-          {options.map((option) => {
-            const Icon = option.icon;
-            const isSelected = selectedAction === option.action;
-            
-            return (
-              <motion.button
-                key={option.action}
-                onClick={() => setSelectedAction(option.action)}
-                className={cn(
-                  "w-full flex items-start gap-3 p-3 rounded-lg border transition-all text-left",
-                  isSelected 
-                    ? "ring-2 ring-primary border-primary/50" 
-                    : option.bg
-                )}
-                whileTap={{ scale: 0.98 }}
-              >
-                <div className={cn(
-                  "w-10 h-10 rounded-lg flex items-center justify-center shrink-0",
-                  isSelected ? "bg-primary text-primary-foreground" : `bg-background ${option.color}`
-                )}>
-                  {isSelected ? <Check className="w-5 h-5" /> : <Icon className="w-5 h-5" />}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="font-medium text-sm">{option.title}</div>
-                  <div className="text-xs text-muted-foreground">{option.description}</div>
-                </div>
-              </motion.button>
-            );
-          })}
-
-          {/* New track name input */}
-          {selectedAction === 'new_track' && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="pt-2"
-            >
-              <Label htmlFor="track-name" className="text-xs text-muted-foreground">
-                Название нового трека
-              </Label>
-              <Input
-                id="track-name"
-                value={newTrackName}
-                onChange={(e) => setNewTrackName(e.target.value)}
-                className="mt-1"
-                placeholder="Введите название..."
-              />
-            </motion.div>
+        <RadioGroup
+          value={selectedAction}
+          onValueChange={(v) => setSelectedAction(v as SaveResultAction)}
+          className="space-y-3 py-4"
+        >
+          {/* Replace current */}
+          <div className={cn(
+            "flex items-start gap-3 p-3 rounded-lg border transition-all cursor-pointer",
+            selectedAction === 'replace' 
+              ? "ring-2 ring-primary border-primary/50 bg-primary/5" 
+              : "border-border/50 hover:border-border hover:bg-muted/30"
           )}
+            onClick={() => setSelectedAction('replace')}
+          >
+            <RadioGroupItem value="replace" id="replace" className="mt-0.5" />
+            <div className="flex-1 min-w-0">
+              <Label htmlFor="replace" className="font-medium text-sm cursor-pointer">
+                Заменить текущий трек
+              </Label>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Заменить audio_url текущего трека на новый результат
+              </p>
+            </div>
+            <RefreshCw className={cn(
+              "w-5 h-5 shrink-0",
+              selectedAction === 'replace' ? "text-primary" : "text-amber-400"
+            )} />
+          </div>
+
+          {/* Add as version */}
+          <div className={cn(
+            "flex items-start gap-3 p-3 rounded-lg border transition-all cursor-pointer",
+            selectedAction === 'version' 
+              ? "ring-2 ring-primary border-primary/50 bg-primary/5" 
+              : "border-border/50 hover:border-border hover:bg-muted/30"
+          )}
+            onClick={() => setSelectedAction('version')}
+          >
+            <RadioGroupItem value="version" id="version" className="mt-0.5" />
+            <div className="flex-1 min-w-0">
+              <Label htmlFor="version" className="font-medium text-sm cursor-pointer flex items-center gap-2">
+                Добавить как версию {nextVersion}
+                <span className="text-[10px] bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded">
+                  Рекомендуется
+                </span>
+              </Label>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Сохранить оригинал, добавить новую версию для сравнения
+              </p>
+            </div>
+            <GitBranch className={cn(
+              "w-5 h-5 shrink-0",
+              selectedAction === 'version' ? "text-primary" : "text-blue-400"
+            )} />
+          </div>
+
+          {/* Create new track */}
+          <div className={cn(
+            "flex items-start gap-3 p-3 rounded-lg border transition-all cursor-pointer",
+            selectedAction === 'new_track' 
+              ? "ring-2 ring-primary border-primary/50 bg-primary/5" 
+              : "border-border/50 hover:border-border hover:bg-muted/30"
+          )}
+            onClick={() => setSelectedAction('new_track')}
+          >
+            <RadioGroupItem value="new_track" id="new_track" className="mt-0.5" />
+            <div className="flex-1 min-w-0">
+              <Label htmlFor="new_track" className="font-medium text-sm cursor-pointer">
+                Создать новый трек
+              </Label>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Добавить результат как отдельный трек в проект
+              </p>
+            </div>
+            <PlusCircle className={cn(
+              "w-5 h-5 shrink-0",
+              selectedAction === 'new_track' ? "text-primary" : "text-green-400"
+            )} />
+          </div>
+        </RadioGroup>
+
+        {/* New track name input */}
+        {selectedAction === 'new_track' && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="space-y-2"
+          >
+            <Label htmlFor="track-name" className="text-xs text-muted-foreground">
+              Название нового трека
+            </Label>
+            <Input
+              id="track-name"
+              value={newTrackName}
+              onChange={(e) => setNewTrackName(e.target.value)}
+              placeholder="Введите название..."
+            />
+          </motion.div>
+        )}
+
+        {/* Info note */}
+        <div className="flex items-start gap-2 p-2 rounded-md bg-muted/30 text-xs text-muted-foreground">
+          <Info className="w-4 h-4 shrink-0 mt-0.5" />
+          <span>
+            При добавлении версии вы сможете переключаться между вариантами A/B/{nextVersion} в студии.
+          </span>
         </div>
 
         <div className="flex gap-2">

@@ -105,11 +105,36 @@ function extractSectionTagWithRemainder(text: string): { tag: string; type: stri
   return null;
 }
 
-// Clean lyrics text from tags
+// Clean lyrics text from tags (but keep backing vocals)
 function cleanLyricsText(text: string): string {
   return text
     .replace(/[\[\(](verse|chorus|bridge|intro|outro|pre-?chorus|hook|куплет|припев|бридж|интро|аутро|пре-?припев|хук|instrumental|инструментал)(?:\s*\d+)?[\]\)]/gi, '')
     .trim();
+}
+
+// Check if text in parentheses is a backing vocal (not a section tag)
+function isBackingVocal(text: string): boolean {
+  const content = text.replace(/[\(\)]/g, '').toLowerCase().trim();
+  const structureTags = [
+    'verse', 'chorus', 'bridge', 'intro', 'outro', 'pre-chorus', 'hook',
+    'куплет', 'припев', 'бридж', 'интро', 'аутро', 'пре-припев', 'хук',
+    'instrumental', 'инструментал'
+  ];
+  return !structureTags.some(tag => content.includes(tag));
+}
+
+// Extract backing vocal from word
+function extractBackingVocal(word: string): { backing: string; remainder: string } | null {
+  // Match text in parentheses at start or end of word
+  const startMatch = word.match(/^\(([^)]+)\)\s*(.*)$/);
+  if (startMatch && isBackingVocal(startMatch[1])) {
+    return { backing: startMatch[1], remainder: startMatch[2] };
+  }
+  const endMatch = word.match(/^(.*?)\s*\(([^)]+)\)$/);
+  if (endMatch && isBackingVocal(endMatch[2])) {
+    return { backing: endMatch[2], remainder: endMatch[1] };
+  }
+  return null;
 }
 
 // Group words into lines based on newlines or time gaps
@@ -399,6 +424,27 @@ export function StudioLyricsPanelCompact({
                 
                 const cleanWord = word.word.replace('\n', '').trim();
                 if (!cleanWord || extractSectionTag(cleanWord)) return null;
+
+                // Check for backing vocals (text in parentheses)
+                const backingVocal = extractBackingVocal(cleanWord);
+
+                if (backingVocal) {
+                  return (
+                    <span key={wordIdx} className="inline">
+                      {backingVocal.remainder && (
+                        <span className={cn(
+                          'transition-all duration-150',
+                          isWordActive && 'text-primary font-bold bg-gradient-to-r from-primary/20 to-transparent px-0.5 rounded'
+                        )}>
+                          {backingVocal.remainder}{' '}
+                        </span>
+                      )}
+                      <span className="text-muted-foreground italic text-[0.85em] opacity-75">
+                        ({backingVocal.backing}){' '}
+                      </span>
+                    </span>
+                  );
+                }
 
                 return (
                   <span
