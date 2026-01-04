@@ -177,10 +177,11 @@ serve(async (req) => {
     
     // CRITICAL: audioWeight controls how much the generation follows the input audio
     // Higher audioWeight = more adherence to vocal timing and melody
-    // Default to 0.75 for good vocal sync (higher than before)
-    const effectiveAudioWeight = audioWeight !== undefined ? audioWeight : 0.75;
-    const effectiveStyleWeight = styleWeight !== undefined ? styleWeight : 0.6;
-    const effectiveWeirdness = weirdnessConstraint !== undefined ? weirdnessConstraint : 0.3;
+    // Default to 0.85 for strong vocal sync (reduced hallucinations)
+    // Lower weirdness = less creativity/distortion
+    const effectiveAudioWeight = audioWeight !== undefined ? audioWeight : 0.85;
+    const effectiveStyleWeight = styleWeight !== undefined ? styleWeight : 0.5;
+    const effectiveWeirdness = weirdnessConstraint !== undefined ? weirdnessConstraint : 0.15;
     
     const requestBody: Record<string, unknown> = {
       uploadUrl,

@@ -33,11 +33,11 @@ export const AddInstrumentalDialog = ({ open, onOpenChange, track }: AddInstrume
   const [negativeTags, setNegativeTags] = useState('acapella, vocals only, karaoke, low quality');
   const [openInStudio, setOpenInStudio] = useState(true);
   
-  // Advanced settings
+  // Advanced settings - optimized to reduce vocal hallucinations
   const [advancedSettings, setAdvancedSettings] = useState<GenerationSettings>({
-    audioWeight: 0.75,
-    styleWeight: 0.6,
-    weirdnessConstraint: 0.3,
+    audioWeight: 0.85,       // Higher = follows input audio more closely
+    styleWeight: 0.5,        // Lower = less style influence
+    weirdnessConstraint: 0.15, // Lower = less creativity/distortion
     model: 'V4_5PLUS',
     vocalGender: '',
   });
@@ -185,6 +185,9 @@ export const AddInstrumentalDialog = ({ open, onOpenChange, track }: AddInstrume
               </p>
               <p>
                 Для получения готовой песни рекомендуем использовать Stem Studio для сведения.
+              </p>
+              <p className="text-amber-600 dark:text-amber-400 mt-1">
+                💡 Если вокал искажается, увеличьте "Вес аудио" до 0.9+ в расширенных настройках
               </p>
             </AlertDescription>
           </Alert>
