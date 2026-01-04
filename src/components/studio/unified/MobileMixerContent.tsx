@@ -180,23 +180,25 @@ const ChannelStrip = memo(function ChannelStrip({
         {Math.round(volume * 100)}
       </span>
 
-      {/* Mute/Solo */}
-      <div className="flex gap-1">
+      {/* Mute/Solo - 44px minimum touch targets */}
+      <div className="flex gap-1.5">
         <Button
           variant={muted ? "destructive" : "outline"}
           size="icon"
-          className="h-7 w-7"
+          className="h-11 w-11 min-w-11 min-h-11"
           onClick={onToggleMute}
+          haptic
         >
-          {muted ? <VolumeX className="w-3 h-3" /> : <Volume2 className="w-3 h-3" />}
+          {muted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
         </Button>
         <Button
           variant={solo ? "default" : "outline"}
           size="icon"
-          className="h-7 w-7"
+          className="h-11 w-11 min-w-11 min-h-11"
           onClick={onToggleSolo}
+          haptic
         >
-          <Headphones className="w-3 h-3" />
+          <Headphones className="w-4 h-4" />
         </Button>
       </div>
     </motion.div>

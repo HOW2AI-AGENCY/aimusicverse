@@ -1,7 +1,7 @@
 /**
  * MobileStudioLayout - Full mobile studio experience with bottom tabs
  * Integrates all mobile studio components in a tab-based interface
- * With smooth animations and optimized performance
+ * With smooth animations, swipe navigation, and optimized performance
  */
 
 import { memo, useState, useCallback, useMemo } from 'react';
@@ -13,8 +13,11 @@ import { MobileSectionsContent } from './MobileSectionsContent';
 import { MobileMixerContent } from './MobileMixerContent';
 import { MobileActionsContent } from './MobileActionsContent';
 import { useUnifiedStudioStore } from '@/stores/useUnifiedStudioStore';
+import { useSwipeNavigation } from '@/hooks/useSwipeNavigation';
 import { cn } from '@/lib/utils';
-import { useHaptic } from '@/hooks/useHaptic';
+
+// Tab order for swipe navigation
+const TAB_ORDER: MobileStudioTab[] = ['player', 'tracks', 'sections', 'mixer', 'actions'];
 
 interface MobileStudioLayoutProps {
   className?: string;
@@ -57,6 +60,14 @@ export const MobileStudioLayout = memo(function MobileStudioLayout({
   const handleTabChange = useCallback((tab: MobileStudioTab) => {
     setActiveTab(tab);
   }, []);
+
+  // Swipe navigation between tabs
+  const { handlers: swipeHandlers } = useSwipeNavigation(
+    TAB_ORDER,
+    activeTab,
+    handleTabChange,
+    { threshold: 50, maxTime: 300, hapticFeedback: true }
+  );
 
   // Memoize tab content to prevent unnecessary re-renders
   const tabContent = useMemo(() => {
@@ -151,8 +162,11 @@ export const MobileStudioLayout = memo(function MobileStudioLayout({
       className={cn("flex flex-col h-full bg-background", className)}
       style={{ paddingTop: `calc(${safeAreaTop} + 0.5rem)` }}
     >
-      {/* Tab Content Area */}
-      <div className="flex-1 overflow-hidden relative">
+      {/* Tab Content Area - with swipe support */}
+      <div 
+        className="flex-1 overflow-hidden relative"
+        {...swipeHandlers}
+      >
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={activeTab}

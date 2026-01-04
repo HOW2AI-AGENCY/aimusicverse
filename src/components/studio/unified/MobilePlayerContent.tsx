@@ -158,23 +158,25 @@ export const MobilePlayerContent = memo(function MobilePlayerContent({
         </div>
       </div>
 
-      {/* Playback Controls */}
+      {/* Playback Controls - 56px touch targets */}
       <div className="px-6 py-4">
         <div className="flex items-center justify-center gap-4">
           <Button
             variant="ghost"
             size="icon"
             onClick={() => handleSkip('back')}
-            className="h-12 w-12 rounded-full"
+            className="h-14 w-14 rounded-full min-w-14 min-h-14"
+            haptic
           >
-            <SkipBack className="w-5 h-5" />
+            <SkipBack className="w-6 h-6" />
           </Button>
 
           <Button
             variant="default"
             size="icon"
             onClick={onPlayPause}
-            className="h-16 w-16 rounded-full shadow-lg shadow-primary/30"
+            className="h-16 w-16 rounded-full shadow-lg shadow-primary/30 min-w-16 min-h-16"
+            haptic
           >
             {isPlaying ? (
               <Pause className="w-7 h-7" />
@@ -187,26 +189,28 @@ export const MobilePlayerContent = memo(function MobilePlayerContent({
             variant="ghost"
             size="icon"
             onClick={() => handleSkip('forward')}
-            className="h-12 w-12 rounded-full"
+            className="h-14 w-14 rounded-full min-w-14 min-h-14"
+            haptic
           >
-            <SkipForward className="w-5 h-5" />
+            <SkipForward className="w-6 h-6" />
           </Button>
         </div>
       </div>
 
-      {/* Volume Control */}
+      {/* Volume Control - 56px touch target */}
       <div className="px-6 py-2">
         <div className="flex items-center gap-3">
           <Button
             variant="ghost"
             size="icon"
             onClick={toggleMute}
-            className="h-10 w-10 rounded-full shrink-0"
+            className="h-14 w-14 rounded-full shrink-0 min-w-14 min-h-14"
+            haptic
           >
             {isMuted ? (
-              <VolumeX className="w-4 h-4" />
+              <VolumeX className="w-5 h-5" />
             ) : (
-              <Volume2 className="w-4 h-4" />
+              <Volume2 className="w-5 h-5" />
             )}
           </Button>
 
@@ -237,16 +241,17 @@ export const MobilePlayerContent = memo(function MobilePlayerContent({
         </div>
       </div>
 
-      {/* Action Buttons */}
+      {/* Action Buttons - 56px touch targets */}
       <div className="px-6 py-4 mt-auto border-t border-border/30">
         <div className="flex items-center justify-around gap-2">
           <Button
             variant="ghost"
             size="icon"
             onClick={handleShare}
-            className="h-12 w-12 rounded-full"
+            className="h-14 w-14 rounded-full min-w-14 min-h-14"
+            haptic
           >
-            <Share2 className="w-5 h-5" />
+            <Share2 className="w-6 h-6" />
           </Button>
 
           <DropdownMenu>
@@ -254,9 +259,10 @@ export const MobilePlayerContent = memo(function MobilePlayerContent({
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-12 w-12 rounded-full"
+                className="h-14 w-14 rounded-full min-w-14 min-h-14"
+                haptic
               >
-                <MoreVertical className="w-5 h-5" />
+                <MoreVertical className="w-6 h-6" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="center" className="w-48 bg-popover">

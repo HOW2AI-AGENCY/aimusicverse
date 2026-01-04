@@ -26,3 +26,7 @@ export { MobileTracksContent } from './MobileTracksContent';
 export { MobileSectionsContent } from './MobileSectionsContent';
 export { MobileMixerContent } from './MobileMixerContent';
 export { MobileActionsContent } from './MobileActionsContent';
+
+// Re-export hooks for convenience
+export { useSwipeNavigation } from '@/hooks/useSwipeNavigation';
+export { useStudioPerformance, useThrottledCallback, useCustomDeferredValue } from '@/hooks/useStudioPerformance';
