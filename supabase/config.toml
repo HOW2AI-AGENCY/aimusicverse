@@ -251,3 +251,9 @@ verify_jwt = true
 
 [functions.suno-extend-audio]
 verify_jwt = true
+
+[functions.tinkoff-create-payment]
+verify_jwt = true
+
+[functions.tinkoff-webhook]
+verify_jwt = false

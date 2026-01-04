@@ -1838,6 +1838,72 @@ export type Database = {
         }
         Relationships: []
       }
+      payment_transactions: {
+        Row: {
+          amount_cents: number
+          completed_at: string | null
+          created_at: string | null
+          credits_granted: number | null
+          currency: string
+          error_message: string | null
+          gateway: Database["public"]["Enums"]["payment_gateway"]
+          gateway_order_id: string | null
+          gateway_payment_url: string | null
+          gateway_transaction_id: string | null
+          id: string
+          ip_address: unknown
+          metadata: Json | null
+          product_code: string
+          status: Database["public"]["Enums"]["payment_status"]
+          subscription_granted: string | null
+          updated_at: string | null
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          amount_cents: number
+          completed_at?: string | null
+          created_at?: string | null
+          credits_granted?: number | null
+          currency?: string
+          error_message?: string | null
+          gateway: Database["public"]["Enums"]["payment_gateway"]
+          gateway_order_id?: string | null
+          gateway_payment_url?: string | null
+          gateway_transaction_id?: string | null
+          id?: string
+          ip_address?: unknown
+          metadata?: Json | null
+          product_code: string
+          status?: Database["public"]["Enums"]["payment_status"]
+          subscription_granted?: string | null
+          updated_at?: string | null
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          amount_cents?: number
+          completed_at?: string | null
+          created_at?: string | null
+          credits_granted?: number | null
+          currency?: string
+          error_message?: string | null
+          gateway?: Database["public"]["Enums"]["payment_gateway"]
+          gateway_order_id?: string | null
+          gateway_payment_url?: string | null
+          gateway_transaction_id?: string | null
+          id?: string
+          ip_address?: unknown
+          metadata?: Json | null
+          product_code?: string
+          status?: Database["public"]["Enums"]["payment_status"]
+          subscription_granted?: string | null
+          updated_at?: string | null
+          user_agent?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       performance_metrics: {
         Row: {
           branch: string | null
@@ -2549,6 +2615,7 @@ export type Database = {
           id: string
           is_popular: boolean | null
           name: string
+          price_rub_cents: number | null
           product_code: string
           product_type: string
           sort_order: number | null
@@ -2565,6 +2632,7 @@ export type Database = {
           id?: string
           is_popular?: boolean | null
           name: string
+          price_rub_cents?: number | null
           product_code: string
           product_type?: string
           sort_order?: number | null
@@ -2581,6 +2649,7 @@ export type Database = {
           id?: string
           is_popular?: boolean | null
           name?: string
+          price_rub_cents?: number | null
           product_code?: string
           product_type?: string
           sort_order?: number | null
@@ -5333,6 +5402,14 @@ export type Database = {
       is_premium_or_admin: { Args: { _user_id: string }; Returns: boolean }
       jsonb_object_keys_count: { Args: { obj: Json }; Returns: number }
       log_share_reward: { Args: never; Returns: undefined }
+      process_gateway_payment: {
+        Args: {
+          p_gateway_transaction_id: string
+          p_metadata?: Json
+          p_transaction_id: string
+        }
+        Returns: Json
+      }
       process_stars_payment: {
         Args: {
           p_metadata?: Json
@@ -5366,6 +5443,14 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
+      payment_gateway: "telegram_stars" | "tinkoff" | "robokassa"
+      payment_status:
+        | "pending"
+        | "processing"
+        | "completed"
+        | "failed"
+        | "cancelled"
+        | "refunded"
       project_type:
         | "single"
         | "ep"
@@ -5518,6 +5603,15 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "moderator", "user"],
+      payment_gateway: ["telegram_stars", "tinkoff", "robokassa"],
+      payment_status: [
+        "pending",
+        "processing",
+        "completed",
+        "failed",
+        "cancelled",
+        "refunded",
+      ],
       project_type: [
         "single",
         "ep",
