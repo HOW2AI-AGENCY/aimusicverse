@@ -144,6 +144,16 @@ export function useTracks() {
 | useProjects | ✅ API/Service created | projects.api.ts, projects.service.ts |
 | useArtists | ✅ API/Service created | artists.api.ts, artists.service.ts |
 | useStudio | ✅ API/Service created | studio.api.ts, studio.service.ts |
+| useAdminAuth | ✅ Migrated | → admin.api.ts |
+| useBotMetrics | ✅ Migrated | → admin.api.ts |
+| useUserBalanceSummary | ✅ Migrated | → admin.api.ts |
+| useAnalyticsTracking | ✅ Migrated | → analytics.api.ts, analytics.service.ts |
+| useDeeplinkAnalytics | ✅ Migrated | → analytics.api.ts |
+| useJourneyTracking | ✅ Migrated | → analytics.api.ts, analytics.service.ts |
+| useGenerationLogs | ✅ Migrated | → generation.api.ts, generation.service.ts |
+| usePlaybackTracking | ✅ Migrated | → tracks.api.ts |
+| useMelodyAnalysis | ✅ Migrated | → analysis.api.ts, analysis.service.ts |
+| useStudioActivityLogger | ✅ Partial | Uses supabase for track_change_log only |
 
 ## File Structure
 
@@ -155,7 +165,11 @@ src/api/
 ├── playlists.api.ts   # Playlist CRUD, track management
 ├── projects.api.ts    # Music project CRUD, AI concept
 ├── artists.api.ts     # AI artist CRUD, portrait generation
-└── studio.api.ts      # Section replacement, stems, versions
+├── studio.api.ts      # Section replacement, stems, versions
+├── admin.api.ts       # Admin role checks, user management, bot metrics
+├── analytics.api.ts   # User behavior, deeplinks, journey tracking
+├── generation.api.ts  # Generation tasks, logs, statistics
+└── analysis.api.ts    # Audio analysis, melody recognition
 
 src/services/
 ├── index.ts
@@ -167,5 +181,16 @@ src/services/
 ├── studio.service.ts      # Section detection, validation
 ├── starsPaymentService.ts # Telegram Stars payments
 ├── telegram-auth.ts       # Telegram authentication
-└── telegram-share.ts      # Telegram sharing
+├── telegram-share.ts      # Telegram sharing
+├── admin.service.ts       # Admin dashboard, user management
+├── analytics.service.ts   # Session management, funnel analysis
+├── generation.service.ts  # Generation activity, duration analysis
+└── analysis.service.ts    # Music theory, melody analysis
+
+supabase/functions/_shared/
+├── economy.ts         # MODEL_COSTS, generation costs (NEW)
+├── auth.ts            # Request validation, admin checks (NEW)
+├── cors.ts            # CORS headers
+├── logger.ts          # Logging utilities
+└── ...
 ```

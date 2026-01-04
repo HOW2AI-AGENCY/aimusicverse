@@ -1,19 +1,9 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
-import { supabase } from '@/integrations/supabase/client';
 import { useQuery } from '@tanstack/react-query';
-
-type EventType = 
-  | 'page_view'
-  | 'generation_started'
-  | 'generation_completed'
-  | 'track_played'
-  | 'track_liked'
-  | 'track_shared'
-  | 'feature_used'
-  | 'button_clicked'
-  | 'session_started'
-  | 'session_ended';
+import * as analyticsApi from '@/api/analytics.api';
+import * as analyticsService from '@/services/analytics.service';
+import type { EventType, UserBehaviorStats } from '@/api/analytics.api';
 
 interface TrackEventParams {
   eventType: EventType;
@@ -22,43 +12,23 @@ interface TrackEventParams {
   metadata?: Record<string, unknown>;
 }
 
-interface UserBehaviorStats {
-  total_events: number;
-  unique_sessions: number;
-  unique_users: number;
-  events_by_type: Record<string, number>;
-  top_pages: Array<{ page_path: string; views: number }>;
-  hourly_distribution: Record<string, number>;
-}
-
-// Session management
-const getOrCreateSessionId = (): string => {
-  let sessionId = sessionStorage.getItem('analytics_session_id');
-  if (!sessionId) {
-    sessionId = crypto.randomUUID();
-    sessionStorage.setItem('analytics_session_id', sessionId);
-  }
-  return sessionId;
-};
-
 export function useAnalyticsTracking() {
   const location = useLocation();
-  const sessionId = useRef(getOrCreateSessionId());
+  const sessionId = useRef(analyticsService.getOrCreateSessionId());
   const lastPagePath = useRef<string | null>(null);
+  const userId = useRef<string | undefined>(undefined);
 
   // Track event function
   const trackEvent = useCallback(async (params: TrackEventParams) => {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      
-      await supabase.from('user_analytics_events').insert([{
-        user_id: user?.id || null,
-        session_id: sessionId.current,
-        event_type: params.eventType,
-        event_name: params.eventName || null,
-        page_path: params.pagePath || location.pathname,
-        metadata: (params.metadata || {}) as Record<string, string | number | boolean | null>,
-      }]);
+      await analyticsApi.trackAnalyticsEvent({
+        eventType: params.eventType,
+        eventName: params.eventName,
+        pagePath: params.pagePath || location.pathname,
+        metadata: params.metadata,
+        sessionId: sessionId.current,
+        userId: userId.current,
+      });
     } catch (error) {
       console.error('Analytics tracking error:', error);
     }
@@ -91,16 +61,10 @@ export function useAnalyticsTracking() {
       },
     });
 
-    // Track user return frequency on session start
-    const lastVisit = localStorage.getItem('last-visit-date');
-    const now = new Date();
-    const today = now.toISOString().split('T')[0];
+    // Track user return frequency
+    const { isReturning, daysSinceLastVisit } = analyticsService.trackUserReturn();
     
-    if (lastVisit && lastVisit !== today) {
-      const lastVisitDate = new Date(lastVisit);
-      const daysSinceLastVisit = Math.floor((now.getTime() - lastVisitDate.getTime()) / (1000 * 60 * 60 * 24));
-      
-      // Track return event with frequency data
+    if (isReturning) {
       setTimeout(() => {
         trackEvent({
           eventType: 'session_started',
@@ -108,18 +72,14 @@ export function useAnalyticsTracking() {
           metadata: {
             daysSinceLastVisit,
             isReturningUser: true,
-            lastVisit: lastVisit,
           },
         });
       }, 100);
     }
-    
-    localStorage.setItem('last-visit-date', today);
 
     // Track session end on unmount
     return () => {
-      // Use sendBeacon for reliable tracking on page unload
-      const currentPath = window.location.pathname; // Capture at cleanup time
+      const currentPath = window.location.pathname;
       const payload = JSON.stringify({
         session_id: sessionId.current,
         event_type: 'session_ended',
@@ -131,18 +91,15 @@ export function useAnalyticsTracking() {
         payload
       );
     };
-  }, [trackEvent]); // Removed location.pathname from dependencies
+  }, [trackEvent]);
 
   // Convenience methods
   const trackGeneration = useCallback((status: 'started' | 'completed', metadata?: Record<string, unknown>) => {
     const eventMetadata = { ...metadata };
     
-    // Track first generation milestone
     if (status === 'completed') {
-      const firstGenerationTracked = localStorage.getItem('first-generation-tracked');
-      if (!firstGenerationTracked) {
-        localStorage.setItem('first-generation-tracked', 'true');
-        localStorage.setItem('first-generation-date', new Date().toISOString());
+      const isFirst = analyticsService.trackFirstGeneration();
+      if (isFirst) {
         eventMetadata.isFirstGeneration = true;
       }
     }
@@ -215,13 +172,9 @@ export function useUserBehaviorStats(timeRange: '1h' | '24h' | '7d' | '30d' = '7
 
   return useQuery({
     queryKey: ['user-behavior-stats', timeRange],
-    queryFn: async () => {
-      const { data, error } = await supabase.rpc('get_user_behavior_stats', {
-        _time_period: getInterval(),
-      });
-      if (error) throw error;
-      return data?.[0] as UserBehaviorStats | undefined;
-    },
+    queryFn: () => analyticsApi.fetchUserBehaviorStats(getInterval()),
     refetchInterval: 60000,
   });
 }
+
+export type { UserBehaviorStats };

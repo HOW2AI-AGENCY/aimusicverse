@@ -4,9 +4,10 @@
  */
 
 import { useCallback, useRef, useEffect } from 'react';
-import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { logger } from '@/lib/logger';
+import * as analyticsApi from '@/api/analytics.api';
+import * as analyticsService from '@/services/analytics.service';
 
 // ==========================================
 // Types
@@ -17,14 +18,6 @@ export interface FunnelDefinition {
   steps: string[];
   criticalSteps: string[];
   description?: string;
-}
-
-export interface JourneyStep {
-  funnel: string;
-  step: string;
-  stepIndex: number;
-  timestamp: number;
-  metadata?: Record<string, unknown>;
 }
 
 export interface FunnelProgress {
@@ -60,113 +53,34 @@ export const FUNNELS: Record<string, FunnelDefinition> = {
   generation: {
     name: 'Generation',
     description: 'Track creation from prompt to playback',
-    steps: [
-      'open_form',      // 0: Opened generation form
-      'select_mode',    // 1: Selected generation mode
-      'input_prompt',   // 2: Started typing prompt
-      'customize',      // 3: Adjusted settings (optional)
-      'submit',         // 4: Submitted generation
-      'processing',     // 5: Waiting for result
-      'completed',      // 6: Track created successfully
-      'play_result',    // 7: Played the result
-    ],
+    steps: ['open_form', 'select_mode', 'input_prompt', 'customize', 'submit', 'processing', 'completed', 'play_result'],
     criticalSteps: ['submit', 'completed', 'play_result'],
   },
-  
   onboarding: {
     name: 'Onboarding',
     description: 'New user activation flow',
-    steps: [
-      'landing',          // 0: Landed on app
-      'explore',          // 1: Explored features
-      'signup_start',     // 2: Started signup
-      'signup_complete',  // 3: Completed signup
-      'profile_setup',    // 4: Set up profile
-      'first_generation', // 5: Created first track
-      'activated',        // 6: Became active user
-    ],
+    steps: ['landing', 'explore', 'signup_start', 'signup_complete', 'profile_setup', 'first_generation', 'activated'],
     criticalSteps: ['signup_complete', 'first_generation', 'activated'],
   },
-  
   purchase: {
     name: 'Purchase',
     description: 'Credits/subscription purchase flow',
-    steps: [
-      'view_pricing',       // 0: Viewed pricing
-      'select_product',     // 1: Selected product
-      'payment_init',       // 2: Initiated payment
-      'payment_processing', // 3: Processing payment
-      'payment_complete',   // 4: Payment successful
-      'credits_received',   // 5: Credits added
-    ],
+    steps: ['view_pricing', 'select_product', 'payment_init', 'payment_processing', 'payment_complete', 'credits_received'],
     criticalSteps: ['payment_init', 'payment_complete'],
   },
-  
   studio: {
     name: 'Studio',
     description: 'Stem separation and mixing flow',
-    steps: [
-      'open_track',     // 0: Opened track in library
-      'open_studio',    // 1: Clicked open studio
-      'load_stems',     // 2: Stems loading
-      'stems_ready',    // 3: Stems loaded
-      'edit_stem',      // 4: Edited a stem
-      'mix_adjust',     // 5: Adjusted mix
-      'export',         // 6: Exported result
-    ],
+    steps: ['open_track', 'open_studio', 'load_stems', 'stems_ready', 'edit_stem', 'mix_adjust', 'export'],
     criticalSteps: ['stems_ready', 'edit_stem', 'export'],
   },
-  
   reference_generation: {
     name: 'Reference Generation',
     description: 'Generation from audio reference',
-    steps: [
-      'upload_start',   // 0: Started upload
-      'upload_complete',// 1: Upload finished
-      'analyze',        // 2: Analyzing audio
-      'select_mode',    // 3: Selected cover/extend mode
-      'customize',      // 4: Customized settings
-      'generate',       // 5: Started generation
-      'completed',      // 6: Track created
-    ],
+    steps: ['upload_start', 'upload_complete', 'analyze', 'select_mode', 'customize', 'generate', 'completed'],
     criticalSteps: ['upload_complete', 'generate', 'completed'],
   },
 };
-
-// ==========================================
-// Session ID Management
-// ==========================================
-
-const SESSION_KEY = 'journey_session_id';
-const SESSION_EXPIRY = 30 * 60 * 1000; // 30 minutes
-
-function getOrCreateSessionId(): string {
-  const stored = sessionStorage.getItem(SESSION_KEY);
-  if (stored) {
-    const { id, timestamp } = JSON.parse(stored);
-    if (Date.now() - timestamp < SESSION_EXPIRY) {
-      return id;
-    }
-  }
-  
-  const newId = `sess_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
-  sessionStorage.setItem(SESSION_KEY, JSON.stringify({
-    id: newId,
-    timestamp: Date.now(),
-  }));
-  return newId;
-}
-
-function refreshSession(): void {
-  const stored = sessionStorage.getItem(SESSION_KEY);
-  if (stored) {
-    const { id } = JSON.parse(stored);
-    sessionStorage.setItem(SESSION_KEY, JSON.stringify({
-      id,
-      timestamp: Date.now(),
-    }));
-  }
-}
 
 // ==========================================
 // Hook Implementation
@@ -174,13 +88,13 @@ function refreshSession(): void {
 
 export function useJourneyTracking() {
   const { user } = useAuth();
-  const sessionId = useRef(getOrCreateSessionId());
+  const sessionId = useRef(analyticsService.getOrCreateJourneySessionId());
   const funnelProgress = useRef<Map<string, FunnelProgress>>(new Map());
   const lastStepTime = useRef<Map<string, number>>(new Map());
   
   // Refresh session on activity
   useEffect(() => {
-    const handler = () => refreshSession();
+    const handler = () => analyticsService.refreshJourneySession();
     window.addEventListener('click', handler, { passive: true });
     window.addEventListener('keydown', handler, { passive: true });
     return () => {
@@ -210,7 +124,6 @@ export function useJourneyTracking() {
     }
     
     const now = Date.now();
-    const funnelTimeKey = `${funnelKey}_${stepName}`;
     const prevStepTime = lastStepTime.current.get(`${funnelKey}_prev`) || now;
     const durationFromPrev = now - prevStepTime;
     
@@ -241,15 +154,15 @@ export function useJourneyTracking() {
     // Save to database if user is authenticated
     if (user?.id) {
       try {
-        await (supabase.from('user_journey_events') as any).insert({
-          user_id: user.id,
-          session_id: sessionId.current,
-          funnel_name: funnelKey,
-          step_name: stepName,
-          step_index: stepIndex,
+        await analyticsApi.trackJourneyStep({
+          userId: user.id,
+          sessionId: sessionId.current,
+          funnelName: funnelKey,
+          stepName,
+          stepIndex,
           completed: stepIndex === funnel.steps.length - 1,
-          duration_from_prev_ms: stepIndex > 0 ? durationFromPrev : null,
-          metadata: metadata || {},
+          durationFromPrevMs: stepIndex > 0 ? durationFromPrev : undefined,
+          metadata,
         });
         
         logger.debug(`[Journey] ${funnelKey}/${stepName} (step ${stepIndex + 1}/${funnel.steps.length})`, metadata);
@@ -274,13 +187,14 @@ export function useJourneyTracking() {
     if (stepIndex === -1) return;
     
     try {
-      await (supabase.from('user_journey_events') as any).insert({
-        user_id: user.id,
-        session_id: sessionId.current,
-        funnel_name: funnelKey,
-        step_name: stepName,
-        step_index: stepIndex,
-        dropped_off: true,
+      await analyticsApi.trackJourneyStep({
+        userId: user.id,
+        sessionId: sessionId.current,
+        funnelName: funnelKey,
+        stepName,
+        stepIndex,
+        completed: false,
+        droppedOff: true,
         metadata: { reason },
       });
       
@@ -313,59 +227,7 @@ export function useJourneyTracking() {
     funnelKey: string,
     daysBack: number = 7
   ): Promise<DropoffAnalytics | null> => {
-    try {
-      const { data, error } = await supabase.rpc('get_funnel_dropoff_stats', {
-        _funnel_name: funnelKey,
-        _days_back: daysBack,
-      });
-      
-      if (error) throw error;
-      
-      if (!data || data.length === 0) {
-        return null;
-      }
-      
-      const steps = data.map((row: any) => ({
-        step_name: row.step_name,
-        step_index: row.step_index,
-        users_reached: Number(row.users_reached),
-        users_dropped: Number(row.users_dropped),
-        conversion_rate: Number(row.conversion_rate),
-        avg_duration_ms: Number(row.avg_duration_ms),
-      }));
-      
-      // Find biggest dropoff
-      let biggestDropoff: { step: string; rate: number } | null = null;
-      let maxDropRate = 0;
-      
-      for (let i = 0; i < steps.length - 1; i++) {
-        const current = steps[i];
-        const next = steps[i + 1];
-        if (current.users_reached > 0) {
-          const dropRate = ((current.users_reached - next.users_reached) / current.users_reached) * 100;
-          if (dropRate > maxDropRate) {
-            maxDropRate = dropRate;
-            biggestDropoff = { step: current.step_name, rate: dropRate };
-          }
-        }
-      }
-      
-      const firstStep = steps[0];
-      const lastStep = steps[steps.length - 1];
-      const overallConversionRate = firstStep.users_reached > 0
-        ? (lastStep.users_reached / firstStep.users_reached) * 100
-        : 0;
-      
-      return {
-        funnel: funnelKey,
-        steps,
-        overallConversionRate,
-        biggestDropoff,
-      };
-    } catch (error) {
-      logger.error('[Journey] Failed to get dropoff analytics', error);
-      return null;
-    }
+    return analyticsService.analyzeFunnelDropoff(funnelKey, daysBack);
   }, []);
   
   /**
@@ -384,20 +246,13 @@ export function useJourneyTracking() {
   }, []);
 
   return {
-    // Core tracking
     trackFunnelStep,
     markDropoff,
     resetFunnel,
-    
-    // Progress & Analytics
     getFunnelProgress,
     getDropoffAnalytics,
-    
-    // Utilities
     isCriticalStep,
     getFunnelDefinitions,
-    
-    // Current session
     sessionId: sessionId.current,
   };
 }

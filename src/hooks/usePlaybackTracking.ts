@@ -5,7 +5,7 @@
 
 import { useEffect, useRef } from 'react';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { supabase } from '@/integrations/supabase/client';
+import { incrementPlayCount } from '@/api/tracks.api';
 import { logger } from '@/lib/logger';
 
 const log = logger.child({ module: 'PlaybackTracking' });
@@ -31,25 +31,18 @@ export function usePlaybackTracking() {
     playStartTime.current = Date.now();
 
     // Increment play count
-    const incrementPlayCount = async () => {
+    const doIncrementPlayCount = async () => {
       try {
-        const { error } = await supabase.rpc('increment_track_play_count', {
-          track_id_param: activeTrack.id,
-        });
-
-        if (error) {
-          log.error('Failed to increment play count', { error, trackId: activeTrack.id });
-        } else {
-          log.info('Play count incremented', { trackId: activeTrack.id });
-          lastTrackedId.current = activeTrack.id;
-        }
+        await incrementPlayCount(activeTrack.id);
+        log.info('Play count incremented', { trackId: activeTrack.id });
+        lastTrackedId.current = activeTrack.id;
       } catch (err) {
         log.error('Error incrementing play count', { error: err });
       }
     };
 
     // Small delay to avoid counting accidental clicks
-    const timeout = setTimeout(incrementPlayCount, 1000);
+    const timeout = setTimeout(doIncrementPlayCount, 1000);
 
     return () => clearTimeout(timeout);
   }, [activeTrack?.id, isPlaying]);

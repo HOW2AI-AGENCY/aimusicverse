@@ -43,11 +43,20 @@ interface ActivityMetadata {
   [key: string]: unknown;
 }
 
+// Important actions that should be logged to track_change_log
+const IMPORTANT_ACTIONS = [
+  'replacement_apply',
+  'replacement_discard',
+  'version_switch',
+  'stem_separate_complete',
+  'export_complete',
+  'trim_complete'
+];
+
 export function useStudioActivityLogger(trackId: string) {
   const sessionIdRef = useRef<string | null>(null);
   const sessionStartRef = useRef<number>(Date.now());
 
-  // Generate session ID on first use
   const getSessionId = useCallback(() => {
     if (!sessionIdRef.current) {
       sessionIdRef.current = `studio_${trackId}_${Date.now()}`;
@@ -68,16 +77,7 @@ export function useStudioActivityLogger(trackId: string) {
       const sessionDuration = Date.now() - sessionStartRef.current;
 
       // Log to track_change_log for important actions
-      const importantActions = [
-        'replacement_apply',
-        'replacement_discard',
-        'version_switch',
-        'stem_separate_complete',
-        'export_complete',
-        'trim_complete'
-      ];
-
-      if (importantActions.includes(action)) {
+      if (IMPORTANT_ACTIONS.includes(action)) {
         await supabase.from('track_change_log').insert({
           track_id: trackId,
           change_type: action,
@@ -88,7 +88,7 @@ export function useStudioActivityLogger(trackId: string) {
         });
       }
 
-      // Also log to console in development
+      // Log to console in development
       logger.debug(`[Studio Activity] ${action}`, {
         trackId,
         sessionId,
@@ -100,7 +100,7 @@ export function useStudioActivityLogger(trackId: string) {
     }
   }, [trackId, getSessionId]);
 
-  // Convenience methods for common actions
+  // Convenience methods
   const logPlay = useCallback(() => logActivity('play'), [logActivity]);
   const logPause = useCallback(() => logActivity('pause'), [logActivity]);
   const logSeek = useCallback((time: number) => logActivity('seek', { value: time }), [logActivity]);
