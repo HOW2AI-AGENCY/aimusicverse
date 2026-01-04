@@ -26,11 +26,13 @@ import {
   X,
   ArrowRight,
   Music2,
+  Mic,
   Mic2,
   Layers,
   Wand2,
   Save,
   Lock,
+  Guitar,
 } from 'lucide-react';
 
 interface AIActionsFABProps {
@@ -40,6 +42,10 @@ interface AIActionsFABProps {
   onAddVocals?: () => void;
   onSeparateStems?: () => void;
   onSaveAsVersion?: () => void;
+  /** Record audio/guitar/instrument */
+  onRecord?: () => void;
+  /** Add instrumental AI-generated */
+  onAddInstrumental?: () => void;
   
   /** Operations that are currently disabled */
   disabledOperations?: StudioOperation[];
@@ -68,6 +74,8 @@ export const AIActionsFAB = memo(function AIActionsFAB({
   onAddVocals,
   onSeparateStems,
   onSaveAsVersion,
+  onRecord,
+  onAddInstrumental,
   disabledOperations = [],
   getDisabledReason,
   canSaveAsNewVersion = false,
@@ -83,8 +91,17 @@ export const AIActionsFAB = memo(function AIActionsFAB({
 
   const actions: ActionItem[] = useMemo(() => {
     const baseActions: ActionItem[] = [
+      // Record action - always first for quick access
+      ...(onRecord ? [{
+        id: 'record' as StudioOperation,
+        label: 'Записать',
+        icon: <Mic className="w-5 h-5" />,
+        onClick: onRecord,
+        color: 'bg-red-500 text-white',
+        disabledColor: 'bg-muted text-muted-foreground',
+      }] : []),
       {
-        id: 'generate',
+        id: 'generate' as StudioOperation,
         label: 'Создать',
         icon: <Music2 className="w-5 h-5" />,
         onClick: onGenerate,
@@ -92,7 +109,7 @@ export const AIActionsFAB = memo(function AIActionsFAB({
         disabledColor: 'bg-muted text-muted-foreground',
       },
       {
-        id: 'extend',
+        id: 'extend' as StudioOperation,
         label: 'Расширить',
         icon: <ArrowRight className="w-5 h-5" />,
         onClick: onExtend,
@@ -100,7 +117,7 @@ export const AIActionsFAB = memo(function AIActionsFAB({
         disabledColor: 'bg-muted text-muted-foreground',
       },
       {
-        id: 'cover',
+        id: 'cover' as StudioOperation,
         label: 'Кавер',
         icon: <Wand2 className="w-5 h-5" />,
         onClick: onCover,
@@ -108,15 +125,24 @@ export const AIActionsFAB = memo(function AIActionsFAB({
         disabledColor: 'bg-muted text-muted-foreground',
       },
       {
-        id: 'add_vocals',
+        id: 'add_vocals' as StudioOperation,
         label: 'Вокал',
         icon: <Mic2 className="w-5 h-5" />,
         onClick: onAddVocals,
         color: 'bg-pink-500 text-white',
         disabledColor: 'bg-muted text-muted-foreground',
       },
+      // Add instrumental action
+      ...(onAddInstrumental ? [{
+        id: 'add_instrumental' as StudioOperation,
+        label: 'Инструментал',
+        icon: <Guitar className="w-5 h-5" />,
+        onClick: onAddInstrumental,
+        color: 'bg-orange-500 text-white',
+        disabledColor: 'bg-muted text-muted-foreground',
+      }] : []),
       {
-        id: 'separate_stems',
+        id: 'separate_stems' as StudioOperation,
         label: 'Стемы',
         icon: <Layers className="w-5 h-5" />,
         onClick: onSeparateStems,
@@ -128,7 +154,7 @@ export const AIActionsFAB = memo(function AIActionsFAB({
     // Add "Save as Version" button when stems block operations
     if (canSaveAsNewVersion && onSaveAsVersion) {
       baseActions.push({
-        id: 'save_as_version',
+        id: 'save_as_version' as StudioOperation,
         label: 'Новая версия',
         icon: <Save className="w-5 h-5" />,
         onClick: onSaveAsVersion,
@@ -139,7 +165,7 @@ export const AIActionsFAB = memo(function AIActionsFAB({
 
     // Filter out actions without callbacks
     return baseActions.filter(action => action.onClick);
-  }, [onGenerate, onExtend, onCover, onAddVocals, onSeparateStems, onSaveAsVersion, canSaveAsNewVersion]);
+  }, [onGenerate, onExtend, onCover, onAddVocals, onSeparateStems, onSaveAsVersion, onRecord, onAddInstrumental, canSaveAsNewVersion]);
 
   const toggleOpen = useCallback(() => {
     haptic.tap();

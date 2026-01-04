@@ -80,6 +80,8 @@ interface UnifiedDAWLayoutProps {
   onAddVocals?: () => void;
   onSeparateStems?: () => void;
   onSaveAsVersion?: () => void;
+  onRecord?: () => void;
+  onAddInstrumental?: () => void;
   // Operation lock state
   hasStems?: boolean;
   hasPendingTracks?: boolean;
@@ -117,6 +119,8 @@ export const UnifiedDAWLayout = memo(function UnifiedDAWLayout({
   onAddVocals,
   onSeparateStems,
   onSaveAsVersion,
+  onRecord,
+  onAddInstrumental,
   // Operation lock state
   hasStems = false,
   hasPendingTracks = false,
@@ -199,8 +203,9 @@ export const UnifiedDAWLayout = memo(function UnifiedDAWLayout({
     onSeek(time);
   }, [onSeek]);
 
-  // Telegram safe area
-  const safeAreaBottom = 'max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px))';
+  // Telegram safe area - proper handling for both top and bottom
+  const safeAreaTop = 'calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px)))';
+  const safeAreaBottom = 'calc(max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)))';
 
   return (
     <div 
@@ -208,6 +213,7 @@ export const UnifiedDAWLayout = memo(function UnifiedDAWLayout({
         'flex flex-col h-screen w-full bg-background overflow-hidden',
         className
       )}
+      style={{ paddingTop: safeAreaTop }}
     >
       {/* Header with project name and actions */}
       <div className="flex items-center justify-between px-4 py-3 border-b border-border/50 bg-card/95 backdrop-blur-md shrink-0">
@@ -440,6 +446,8 @@ export const UnifiedDAWLayout = memo(function UnifiedDAWLayout({
             console.log('AI Action: Separate Stems');
           })}
           onSaveAsVersion={onSaveAsVersion}
+          onRecord={onRecord}
+          onAddInstrumental={onAddInstrumental}
           disabledOperations={disabledOperations as any}
           getDisabledReason={getDisabledReason as any}
           canSaveAsNewVersion={hasStems && !!onSaveAsVersion}

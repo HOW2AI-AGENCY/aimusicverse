@@ -26,6 +26,7 @@ import { StemSeparationModeDialog } from '@/components/stem-studio/StemSeparatio
 import { ExtendDialog } from '@/components/stem-studio/ExtendDialog';
 import { RemixDialog } from '@/components/stem-studio/RemixDialog';
 import { LazyAddVocalsDrawer } from '@/components/lazy';
+import { RecordTrackDrawer, RecordingType } from './RecordTrackDrawer';
 import { useUnifiedStudio } from '@/hooks/studio/useUnifiedStudio';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { useStudioOperationLock } from '@/hooks/studio/useStudioOperationLock';
@@ -144,6 +145,7 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
   const [showExtendDialog, setShowExtendDialog] = useState(false);
   const [showRemixDialog, setShowRemixDialog] = useState(false);
   const [showAddVocalsDrawer, setShowAddVocalsDrawer] = useState(false);
+  const [showRecordDrawer, setShowRecordDrawer] = useState(false);
 
   // Convert StudioProject to DAWProject format
   const dawProject = useMemo(() => {
@@ -324,6 +326,25 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
     setShowSaveVersionDialog(true);
   }, [patterns]);
 
+  // Handle record action
+  const handleRecord = useCallback(() => {
+    patterns.select();
+    setShowRecordDrawer(true);
+    logger.info('[UnifiedStudioMobile] Record drawer opened');
+  }, [patterns]);
+
+  // Handle recording complete
+  const handleRecordingComplete = useCallback((recordedTrack: any) => {
+    patterns.success();
+    toast.success('Запись добавлена');
+    logger.info('[UnifiedStudioMobile] Recording complete', { 
+      type: recordedTrack.type, 
+      duration: recordedTrack.duration 
+    });
+    // TODO: Add track to project
+    queryClient.invalidateQueries({ queryKey: ['track', id] });
+  }, [patterns, queryClient, id]);
+
   // Play/pause with haptic
   const handlePlayPause = useCallback(() => {
     patterns.tap();
@@ -440,6 +461,7 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
           onAddVocals={handleAddVocals}
           onSeparateStems={handleSeparateStems}
           onSaveAsVersion={operationLock.canSaveAsNewVersion ? handleSaveAsVersion : undefined}
+          onRecord={handleRecord}
           // Operation lock state
           hasStems={operationLock.hasStems}
           hasPendingTracks={operationLock.hasPendingTracks}
@@ -513,6 +535,14 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
           track={trackForSeparation as any}
         />
       )}
+
+      {/* Record Track Drawer */}
+      <RecordTrackDrawer
+        open={showRecordDrawer}
+        onOpenChange={setShowRecordDrawer}
+        projectId={project?.id || id}
+        onRecordingComplete={handleRecordingComplete}
+      />
     </>
   );
 });
