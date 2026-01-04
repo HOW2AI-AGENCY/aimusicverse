@@ -27,9 +27,11 @@ import {
   UserX,
   Lightbulb,
   Palette,
-  Settings as SettingsIcon
+  Settings as SettingsIcon,
+  BarChart3
 } from "lucide-react";
 import { toast } from "sonner";
+import { notify } from "@/lib/notifications";
 import { TelegramBotSetup } from "@/components/TelegramBotSetup";
 import { AddToHomeScreen } from "@/components/telegram/AddToHomeScreen";
 import { AvatarUpload } from "@/components/settings/AvatarUpload";
@@ -38,6 +40,7 @@ import { PrivacySettings } from "@/components/settings/PrivacySettings";
 import { HintsSettings } from "@/components/settings/HintsSettings";
 import { ThemeSettings } from "@/components/settings/ThemeSettings";
 import { ProfileEmojiPicker } from "@/components/settings/ProfileEmojiPicker";
+import { UserStatsSection } from "@/components/settings/UserStatsSection";
 import { motion } from '@/lib/motion';
 import { AppHeader } from "@/components/layout/AppHeader";
 import { NotificationBadge } from "@/components/NotificationBadge";
@@ -91,9 +94,9 @@ export default function Settings() {
         last_name: lastName || undefined,
         is_public: isPublic,
       });
-      toast.success('Профиль сохранён');
+      notify.success('Профиль сохранён');
     } catch (error) {
-      toast.error('Ошибка сохранения');
+      notify.error('Ошибка сохранения');
     }
   };
 
@@ -131,32 +134,36 @@ export default function Settings() {
         />
 
         <Tabs defaultValue="profile" className="w-full">
-          <TabsList className="grid w-full mb-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(70px, 1fr))' }}>
-            <TabsTrigger value="profile" className="gap-1.5 px-2">
+          <TabsList className="grid w-full mb-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(60px, 1fr))' }}>
+            <TabsTrigger value="profile" className="gap-1 px-1.5">
               <User className="w-4 h-4" />
               <span className="hidden sm:inline text-xs">Профиль</span>
             </TabsTrigger>
-            <TabsTrigger value="appearance" className="gap-1.5 px-2">
+            <TabsTrigger value="stats" className="gap-1 px-1.5">
+              <BarChart3 className="w-4 h-4" />
+              <span className="hidden sm:inline text-xs">Статистика</span>
+            </TabsTrigger>
+            <TabsTrigger value="appearance" className="gap-1 px-1.5">
               <Palette className="w-4 h-4" />
               <span className="hidden sm:inline text-xs">Тема</span>
             </TabsTrigger>
-            <TabsTrigger value="privacy" className="gap-1.5 px-2">
+            <TabsTrigger value="privacy" className="gap-1 px-1.5">
               <Shield className="w-4 h-4" />
               <span className="hidden sm:inline text-xs">Приватность</span>
             </TabsTrigger>
-            <TabsTrigger value="notifications" className="gap-1.5 px-2">
+            <TabsTrigger value="notifications" className="gap-1 px-1.5">
               <Bell className="w-4 h-4" />
               <span className="hidden sm:inline text-xs">Уведомления</span>
             </TabsTrigger>
-            <TabsTrigger value="hints" className="gap-1.5 px-2">
+            <TabsTrigger value="hints" className="gap-1 px-1.5">
               <Lightbulb className="w-4 h-4" />
               <span className="hidden sm:inline text-xs">Подсказки</span>
             </TabsTrigger>
-            <TabsTrigger value="midi" className="gap-1.5 px-2">
+            <TabsTrigger value="midi" className="gap-1 px-1.5">
               <Music className="w-4 h-4" />
               <span className="hidden sm:inline text-xs">MIDI</span>
             </TabsTrigger>
-            <TabsTrigger value="telegram" className="gap-1.5 px-2">
+            <TabsTrigger value="telegram" className="gap-1 px-1.5">
               <Send className="w-4 h-4" />
               <span className="hidden sm:inline text-xs">Telegram</span>
             </TabsTrigger>
@@ -226,6 +233,11 @@ export default function Settings() {
                 </CardContent>
               </Card>
             </motion.div>
+          </TabsContent>
+
+          {/* Stats Tab */}
+          <TabsContent value="stats" className="space-y-4">
+            <UserStatsSection />
           </TabsContent>
 
           {/* Appearance Tab */}

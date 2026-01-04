@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
-import { toast } from 'sonner';
+import { notify } from '@/lib/notifications';
 import { logger } from '@/lib/logger';
 
 export interface NotificationSettings {
@@ -86,11 +86,11 @@ export function useNotificationSettings() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['notification-settings'] });
-      toast.success('Настройки сохранены');
+      notify.success('Настройки сохранены', { dedupe: true, dedupeKey: 'settings-saved' });
     },
     onError: (error) => {
       logger.error('Error updating notification settings', error);
-      toast.error('Ошибка сохранения настроек');
+      notify.error('Ошибка сохранения настроек');
     },
   });
 
