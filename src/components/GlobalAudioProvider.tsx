@@ -459,6 +459,9 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
     const MAX_RETRIES = 3;
     let retryTimeoutId: NodeJS.Timeout | null = null;
 
+    // Track if we've attempted blob recovery to prevent loops
+    let hasAttemptedBlobRecovery = false;
+    
     const handleError = () => {
       // Ignore errors when src is empty or not set
       if (!audio.src || audio.src === '' || audio.src === window.location.href) {
@@ -470,14 +473,53 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
         ru: 'Ошибка воспроизведения' 
       };
       
+      const isBlobSource = audio.src?.startsWith('blob:');
+      const canonicalUrl = activeTrack?.streaming_url || activeTrack?.audio_url;
+      
       logger.error('Audio playback error', null, {
         errorCode,
         errorMessage: audio.error?.message,
         trackId: activeTrack?.id,
         title: activeTrack?.title,
         source: audio.src?.substring(0, 100),
+        isBlobSource,
         retryCount,
       });
+      
+      // CRITICAL: Handle format error (code 4) on blob URL with automatic recovery
+      if (errorCode === 4 && isBlobSource && canonicalUrl && !hasAttemptedBlobRecovery) {
+        hasAttemptedBlobRecovery = true;
+        logger.info('Format error on blob URL, attempting fallback to canonical URL', {
+          canonicalUrl: canonicalUrl.substring(0, 60)
+        });
+        
+        // Save current time before switching source
+        const currentTime = audio.currentTime;
+        const wasPlaying = isPlaying;
+        
+        audio.src = canonicalUrl;
+        audio.load();
+        
+        // Restore position and resume playback when ready
+        audio.addEventListener('canplay', async function onCanPlay() {
+          audio.removeEventListener('canplay', onCanPlay);
+          
+          if (currentTime > 0 && !isNaN(currentTime)) {
+            audio.currentTime = currentTime;
+          }
+          
+          if (wasPlaying) {
+            try {
+              await audio.play();
+              logger.info('Playback recovered successfully after blob format error');
+            } catch (playErr) {
+              logger.error('Recovery play after blob error failed', playErr);
+            }
+          }
+        }, { once: true });
+        
+        return; // Don't show error toast for recoverable blob errors
+      }
       
       // Record error in telemetry
       playerAnalytics.trackError(activeTrack?.id || '', `audio_error_${errorCode}`);
@@ -498,7 +540,6 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
         const retryDelay = Math.pow(2, retryCount - 1) * 1000;
         
         retryTimeoutId = setTimeout(() => {
-          const currentSrc = audio.src;
           audio.load();
           
           // Attempt to resume playback if it was playing

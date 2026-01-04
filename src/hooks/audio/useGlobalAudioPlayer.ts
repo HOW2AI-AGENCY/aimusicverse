@@ -36,6 +36,8 @@ export function useGlobalAudioPlayer() {
 
   const lastTrackIdRef = useRef<string | null>(null);
   const lastAudioSourceRef = useRef<string | null>(null);
+  // Track current blob URL to manage lifecycle properly
+  const currentBlobUrlRef = useRef<string | null>(null);
 
   // Get audio source from track
   const getAudioSource = useCallback(() => {
@@ -56,6 +58,17 @@ export function useGlobalAudioPlayer() {
     }
   }, [activeTrack?.id, queue, currentIndex]);
 
+  // Cleanup blob URL helper - revokes previous blob before setting new source
+  const cleanupCurrentBlobUrl = useCallback(() => {
+    if (currentBlobUrlRef.current) {
+      logger.debug('Revoking previous blob URL', { 
+        url: currentBlobUrlRef.current.substring(0, 50) 
+      });
+      URL.revokeObjectURL(currentBlobUrlRef.current);
+      currentBlobUrlRef.current = null;
+    }
+  }, []);
+
   // Handle track change - load new source
   // CRITICAL: Reload audio when track ID OR audio source changes (for version switching)
   // Prioritize cached audio for instant playback
@@ -73,6 +86,9 @@ export function useGlobalAudioPlayer() {
     if (!sourceChanged && !trackChanged) {
       return;
     }
+    
+    // Cleanup previous blob URL before setting new source
+    cleanupCurrentBlobUrl();
     
     // Update refs before any state changes
     lastTrackIdRef.current = trackId || null;
@@ -94,18 +110,18 @@ export function useGlobalAudioPlayer() {
         if (cachedBlob) {
           // Play from cache - instant playback
           const blobUrl = URL.createObjectURL(cachedBlob);
+          // Store blob URL for proper lifecycle management
+          currentBlobUrlRef.current = blobUrl;
+          
           logger.debug('Playing from cache', { 
             trackId, 
-            source: source.substring(0, 50) 
+            source: source.substring(0, 50),
+            blobUrl: blobUrl.substring(0, 50)
           });
           audio.src = blobUrl;
           audio.load();
-          
-          // Cleanup blob URL when audio changes
-          const cleanup = () => {
-            URL.revokeObjectURL(blobUrl);
-          };
-          audio.addEventListener('emptied', cleanup, { once: true });
+          // NOTE: Do NOT revoke blob URL on 'emptied' - it causes format errors
+          // Blob URL will be revoked when source changes or component unmounts
         } else {
           // Load from network and cache for future use
           logger.debug('Loading from network', { 
@@ -135,7 +151,12 @@ export function useGlobalAudioPlayer() {
     };
     
     loadAudio();
-  }, [activeTrack?.id, getAudioSource]);
+    
+    // Cleanup on unmount or source change
+    return () => {
+      cleanupCurrentBlobUrl();
+    };
+  }, [activeTrack?.id, getAudioSource, cleanupCurrentBlobUrl]);
 
   // NOTE: Play/pause is handled by GlobalAudioProvider to avoid race conditions
   // This hook only provides utility functions and audio element access

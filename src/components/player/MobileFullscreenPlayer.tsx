@@ -89,9 +89,10 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
   }, [preservedTime, audioElement, clearPreservedTime]);
   
   // CRITICAL: Resume AudioContext and ensure audio routing when fullscreen opens
-  // Run only ONCE on mount to avoid multiple re-initializations
+  // With blob URL recovery for format errors
   useEffect(() => {
     let mounted = true;
+    let hasRecovered = false;
     
     const ensureAudio = async () => {
       if (!audioElement || !mounted) {
@@ -115,27 +116,57 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
         if (audioElement && mounted) {
           audioElement.volume = volume;
           
-          // CRITICAL: Check if audio source is valid before trying to resume
           const audioSrc = audioElement.src;
-          const isValidSource = audioSrc && 
-            !audioSrc.startsWith('blob:') && 
-            audioSrc.length > 0;
+          const isBlobSource = audioSrc?.startsWith('blob:');
+          const canonicalUrl = track.streaming_url || track.audio_url;
           
-          // If we have an invalid blob URL, don't try to play - let the player handle reload
-          if (audioSrc?.startsWith('blob:')) {
-            logger.info('Skipping resume for blob URL - may be stale', { src: audioSrc.substring(0, 60) });
-            return;
-          }
-          
-          // CRITICAL: Resume playback if it was playing but audio got paused
-          if (isPlaying && audioElement.paused && isValidSource) {
-            logger.info('Resuming paused audio on mobile fullscreen open');
+          // Try to resume playback
+          if (isPlaying && audioElement.paused && audioSrc) {
+            logger.info('Attempting to resume audio on mobile fullscreen open', { 
+              isBlobSource, 
+              src: audioSrc.substring(0, 60) 
+            });
+            
             try {
               await audioElement.play();
+              logger.info('Mobile fullscreen playback resumed successfully');
             } catch (playErr) {
-              // Don't show error toast for expected format issues
               const error = playErr as Error;
-              if (error.name !== 'NotSupportedError' && error.name !== 'AbortError') {
+              
+              // If blob URL fails with format error, recover with canonical URL
+              if ((error.name === 'NotSupportedError' || audioElement.error?.code === 4) && 
+                  isBlobSource && canonicalUrl && !hasRecovered) {
+                hasRecovered = true;
+                logger.info('Blob URL failed, recovering with canonical URL', { 
+                  canonicalUrl: canonicalUrl.substring(0, 60) 
+                });
+                
+                const currentTime = preservedTime ?? audioElement.currentTime;
+                audioElement.src = canonicalUrl;
+                audioElement.load();
+                
+                // Wait for audio to be ready, then restore position and play
+                audioElement.addEventListener('canplay', async function onCanPlay() {
+                  audioElement.removeEventListener('canplay', onCanPlay);
+                  if (!mounted) return;
+                  
+                  if (currentTime > 0 && !isNaN(currentTime)) {
+                    audioElement.currentTime = currentTime;
+                  }
+                  clearPreservedTime();
+                  
+                  try {
+                    await audioElement.play();
+                    logger.info('Mobile playback recovered successfully after blob error');
+                  } catch (retryErr) {
+                    logger.error('Mobile recovery play failed', retryErr);
+                  }
+                }, { once: true });
+                
+                return;
+              }
+              
+              if (error.name !== 'AbortError') {
                 logger.error('Failed to resume audio on mobile fullscreen', playErr);
               }
             }
@@ -146,7 +177,7 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
             isPlaying,
             audioPaused: audioElement.paused,
             hasAudioElement: true,
-            hasValidSource: isValidSource
+            isBlobSource
           });
         }
       } catch (err) {
