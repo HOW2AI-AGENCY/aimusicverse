@@ -1,16 +1,17 @@
 /**
  * CompactPlayer - Minimal bottom bar player for quick access
- * Enhanced with swipe gestures and next track button
+ * Enhanced with action buttons, swipe gestures, and next track button
  */
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Play, Pause, ChevronUp, Music2, SkipForward } from 'lucide-react';
+import { Play, Pause, ChevronUp, Music2, SkipForward, Heart, Download, X } from 'lucide-react';
 import { useAudioTime } from '@/hooks/audio/useAudioTime';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { useGestures } from '@/hooks/useGestures';
+import { useTracks } from '@/hooks/useTracks';
 import type { Track } from '@/types/track';
 import { cn } from '@/lib/utils';
-import { motion } from '@/lib/motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { hapticImpact } from '@/lib/haptic';
 
 interface CompactPlayerProps {
@@ -19,8 +20,10 @@ interface CompactPlayerProps {
 }
 
 export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: CompactPlayerProps) {
-  const { isPlaying, playTrack, pauseTrack, nextTrack, queue } = usePlayerStore();
+  const { isPlaying, playTrack, pauseTrack, nextTrack, queue, closePlayer } = usePlayerStore();
   const { currentTime, duration } = useAudioTime();
+  const { toggleLike, downloadTrack } = useTracks();
+  const [showActions, setShowActions] = useState(false);
   
   // Calculate progress percentage
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
@@ -46,6 +49,27 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
     hapticImpact('light');
     onExpand();
   }, [onExpand]);
+
+  const handleLike = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    hapticImpact('light');
+    toggleLike({ trackId: track.id, isLiked: track.is_liked || false });
+  }, [track.id, track.is_liked, toggleLike]);
+
+  const handleDownload = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    hapticImpact('light');
+    const audioUrl = track.streaming_url || track.audio_url;
+    if (audioUrl) {
+      downloadTrack({ trackId: track.id, audioUrl, coverUrl: track.cover_url || undefined });
+    }
+  }, [track, downloadTrack]);
+
+  const handleClose = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    hapticImpact('medium');
+    closePlayer();
+  }, [closePlayer]);
 
   // Swipe gesture handlers
   const { gestureHandlers } = useGestures({
@@ -135,6 +159,56 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
 
         {/* Controls */}
         <div className="flex items-center gap-1 flex-shrink-0">
+          {/* Action buttons - show on hover/touch */}
+          <AnimatePresence>
+            {showActions && (
+              <motion.div
+                initial={{ opacity: 0, x: 10 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 10 }}
+                transition={{ duration: 0.2 }}
+                className="flex items-center gap-1"
+              >
+                {/* Like button */}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleLike}
+                  className={cn(
+                    "h-8 w-8 rounded-full hover:bg-muted/50",
+                    track.is_liked && "text-red-500"
+                  )}
+                  aria-label={track.is_liked ? 'Unlike' : 'Like'}
+                >
+                  <Heart className={cn("h-3.5 w-3.5", track.is_liked && "fill-current")} />
+                </Button>
+
+                {/* Download button */}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleDownload}
+                  className="h-8 w-8 rounded-full hover:bg-muted/50"
+                  aria-label="Download"
+                  disabled={!track.audio_url && !track.streaming_url}
+                >
+                  <Download className="h-3.5 w-3.5" />
+                </Button>
+
+                {/* Close button */}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleClose}
+                  className="h-8 w-8 rounded-full hover:bg-muted/50"
+                  aria-label="Close"
+                >
+                  <X className="h-3.5 w-3.5" />
+                </Button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
           {/* Play/Pause button */}
           <Button
             variant="ghost"
@@ -163,8 +237,20 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
             </Button>
           )}
 
-          {/* Expand indicator */}
-          <ChevronUp className="w-4 h-4 text-muted-foreground flex-shrink-0 ml-1" />
+          {/* Expand indicator - also toggles action buttons */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowActions(!showActions);
+            }}
+            className="flex items-center justify-center w-8 h-8 touch-manipulation"
+            aria-label={showActions ? 'Hide actions' : 'Show actions'}
+          >
+            <ChevronUp className={cn(
+              "w-4 h-4 text-muted-foreground transition-transform",
+              showActions && "rotate-180"
+            )} />
+          </button>
         </div>
       </motion.div>
       

@@ -115,8 +115,19 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
         if (audioElement && mounted) {
           audioElement.volume = volume;
           
-          logger.info('Fullscreen player audio initialized', { 
+          // CRITICAL: Resume playback if it was playing but audio got paused
+          if (isPlaying && audioElement.paused && audioElement.src) {
+            logger.info('Resuming paused audio on mobile fullscreen open');
+            try {
+              await audioElement.play();
+            } catch (playErr) {
+              logger.error('Failed to resume audio on mobile fullscreen', playErr);
+            }
+          }
+          
+          logger.info('Mobile fullscreen player audio initialized', { 
             volume, 
+            isPlaying,
             audioPaused: audioElement.paused,
             hasAudioElement: true 
           });

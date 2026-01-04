@@ -377,12 +377,19 @@ export function FullscreenPlayer({ track, versions = [], currentVersion, onClose
               {lyricsData?.alignedWords && lyricsData.alignedWords.length > 0 ? (
                 <div className="space-y-2 md:space-y-4">
                   {lyricsData.alignedWords.reduce((lines, word, index) => {
+                    // Filter out structural tags (Verse, Chorus, etc.)
+                    const isStructuralTag = /^\[?(Verse|Chorus|Bridge|Outro|Intro|Hook|Pre-Chorus|Post-Chorus|Refrain|Interlude|Break|Solo|Instrumental|Ad-lib|Coda|Куплет|Припев|Бридж|Аутро|Интро)(\s*\d*)?\]?$/i.test(word.word.trim());
+                    
+                    if (isStructuralTag) {
+                      return lines; // Skip structural tags
+                    }
+                    
                     if (index === 0 || word.word.includes('\n')) {
                       lines.push([]);
                     }
                     lines[lines.length - 1].push(word);
                     return lines;
-                  }, [] as AlignedWord[][]).map((line, lineIndex) => {
+                  }, [] as AlignedWord[][]).filter(line => line.length > 0).map((line, lineIndex) => {
                     const isActive = line.some(word => currentTime >= word.startS && currentTime <= word.endS);
                     const isPast = line.every(word => currentTime > word.endS);
                     return (
@@ -403,7 +410,7 @@ export function FullscreenPlayer({ track, versions = [], currentVersion, onClose
                         onClick={() => seek(line[0].startS)}
                       >
                         {line.map((word, wordIndex) => (
-                          <span key={wordIndex} className="mr-2">{word.word.replace('\n', '')}</span>
+                          <span key={wordIndex} className="mr-2">{word.word.replace('\n', '').replace(/\[|\]/g, '')}</span>
                         ))}
                       </motion.div>
                     );
@@ -411,7 +418,7 @@ export function FullscreenPlayer({ track, versions = [], currentVersion, onClose
                 </div>
               ) : track.lyrics ? (
                 <div className="whitespace-pre-wrap text-base md:text-lg leading-relaxed pb-20 md:pb-0">
-                  {track.lyrics}
+                  {track.lyrics.replace(/\[(Verse|Chorus|Bridge|Outro|Intro|Hook|Pre-Chorus|Post-Chorus|Refrain|Interlude|Break|Solo|Instrumental|Ad-lib|Coda|Куплет|Припев|Бридж|Аутро|Интро)(\s*\d*)?\]/gi, '')}
                 </div>
               ) : (
                 <div className="flex items-center justify-center h-full text-muted-foreground">

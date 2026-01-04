@@ -30,10 +30,9 @@ type VersionMode = 'active' | 'all';
  * Player UI display modes
  * - 'minimized': Hidden/minimized state
  * - 'compact': Small player bar at bottom
- * - 'expanded': Medium-sized player overlay
  * - 'fullscreen': Full-screen player view
  */
-type PlayerMode = 'compact' | 'expanded' | 'fullscreen' | 'minimized';
+type PlayerMode = 'compact' | 'fullscreen' | 'minimized';
 
 /**
  * Player state interface defining all state properties and actions
@@ -85,7 +84,7 @@ interface PlayerState {
   
   // UI mode control actions
   setPlayerMode: (mode: PlayerMode) => void;  // Set specific player mode
-  expandPlayer: () => void;                   // Switch to expanded mode
+  expandPlayer: () => void;                   // Switch to fullscreen mode (was expanded)
   minimizePlayer: () => void;                 // Switch to compact mode
   maximizePlayer: () => void;                 // Switch to fullscreen mode
   
@@ -451,9 +450,9 @@ export const usePlayerStore = create<PlayerState>()(
   setPlayerMode: (mode) => set({ playerMode: mode }),
   
   /**
-   * Expand player - switches to expanded overlay mode
+   * Expand player - switches to fullscreen mode (simplified from expanded)
    */
-  expandPlayer: () => set({ playerMode: 'expanded' }),
+  expandPlayer: () => set({ playerMode: 'fullscreen' }),
   
   /**
    * Minimize player - switches to compact bottom bar mode
