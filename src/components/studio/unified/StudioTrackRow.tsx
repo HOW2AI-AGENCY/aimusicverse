@@ -98,6 +98,7 @@ interface StudioTrackRowProps {
   currentTime: number;
   duration: number;
   hasSoloTracks?: boolean;
+  isSourceTrack?: boolean; // True if this is the main source track (can extend/replace)
   onToggleMute: () => void;
   onToggleSolo: () => void;
   onVolumeChange: (volume: number) => void;
@@ -113,6 +114,7 @@ export const StudioTrackRow = memo(function StudioTrackRow({
   currentTime,
   duration,
   hasSoloTracks = false,
+  isSourceTrack = false,
   onToggleMute,
   onToggleSolo,
   onVolumeChange,
@@ -256,14 +258,19 @@ export const StudioTrackRow = memo(function StudioTrackRow({
                         Добавить вокал
                       </DropdownMenuItem>
                     )}
-                    <DropdownMenuItem onClick={() => onAction('extend')}>
-                      <ArrowRight className="w-4 h-4 mr-2 text-green-400" />
-                      Расширить трек
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => onAction('replace_section')}>
-                      <Scissors className="w-4 h-4 mr-2 text-amber-400" />
-                      Заменить секцию
-                    </DropdownMenuItem>
+                    {/* Extend and Replace Section - ONLY for source track */}
+                    {isSourceTrack && (
+                      <>
+                        <DropdownMenuItem onClick={() => onAction('extend')}>
+                          <ArrowRight className="w-4 h-4 mr-2 text-green-400" />
+                          Расширить трек
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => onAction('replace_section')}>
+                          <Scissors className="w-4 h-4 mr-2 text-amber-400" />
+                          Заменить секцию
+                        </DropdownMenuItem>
+                      </>
+                    )}
                     <DropdownMenuItem onClick={() => onAction('reference')}>
                       <Sparkles className="w-4 h-4 mr-2 text-primary" />
                       Как референс

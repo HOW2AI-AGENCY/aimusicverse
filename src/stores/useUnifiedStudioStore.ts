@@ -755,7 +755,9 @@ export const useUnifiedStudioStore = create<UnifiedStudioState>()(
                   ...state.project,
                   tracks: state.project.tracks.map(t => ({
                     ...t,
-                    solo: t.id === trackId ? !wasSolo : (wasSolo ? t.solo : false),
+                    // When enabling solo on a track, reset solo on ALL other tracks
+                    // When disabling solo, just toggle this track off
+                    solo: t.id === trackId ? !wasSolo : false,
                   })),
                 },
                 hasUnsavedChanges: true,
