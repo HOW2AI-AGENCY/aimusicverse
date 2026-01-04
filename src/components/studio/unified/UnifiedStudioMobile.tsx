@@ -4,18 +4,20 @@
  * 
  * Main entry point for the Unified Studio Mobile (DAW Canvas) experience.
  * Integrates all mobile studio components with:
- * - Tab-based navigation (Player, Tracks, Sections, Mixer, Actions)
+ * - UNIFIED DAW-like interface (NO tabs - all in one view)
+ * - Timeline ruler, track lanes, transport controls
  * - Mobile-first gestures and touch optimization
  * - Unified hook API for consistent state management
  * - Telegram haptic feedback
+ * - Floating AI actions button (FAB)
  * 
- * @see ADR-011 for architecture decisions
+ * @see ADR-011 for architecture decisions (line 278: "Вместо табов реализуем единый DAW-подобный интерфейс")
  * @see specs/001-unified-studio-mobile/plan.md for implementation plan
  */
 
 import { memo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MobileStudioLayout } from './MobileStudioLayout';
+import { UnifiedDAWLayout } from './UnifiedDAWLayout';
 import { useUnifiedStudio } from '@/hooks/studio/useUnifiedStudio';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { useUnifiedStudioStore } from '@/stores/useUnifiedStudioStore';
@@ -33,8 +35,6 @@ export interface UnifiedStudioMobileProps {
   projectId?: string;
   /** Operating mode */
   mode: 'track' | 'project';
-  /** Initial tab to display (optional) */
-  initialTab?: 'player' | 'tracks' | 'sections' | 'mixer' | 'actions';
   /** Callback when studio closes */
   onClose?: () => void;
   /** Additional CSS classes */
@@ -44,12 +44,17 @@ export interface UnifiedStudioMobileProps {
 /**
  * UnifiedStudioMobile - Mobile-optimized studio container
  * 
- * Provides single-window DAW interface with:
- * - 5 bottom tabs (Player, Tracks, Sections, Mixer, Actions)
- * - Touch-optimized gestures (pinch-zoom, swipe)
+ * Provides single-window DAW interface WITHOUT TABS:
+ * - Timeline ruler at top
+ * - Track lanes in middle (vertically stacked with waveforms)
+ * - Transport controls at bottom
+ * - Floating AI actions button (FAB)
+ * - Collapsible mixer panel (slide from right)
+ * - Touch-optimized gestures (pinch-zoom on timeline, tap-to-seek)
  * - Haptic feedback (Telegram integration)
  * - Real-time audio playback
- * - AI-powered editing actions
+ * 
+ * NO tab navigation - everything visible in one view.
  * 
  * Usage:
  * ```tsx
@@ -64,7 +69,6 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
   trackId,
   projectId,
   mode,
-  initialTab,
   onClose,
   className,
 }: UnifiedStudioMobileProps) {
@@ -219,7 +223,7 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
     );
   }
 
-  // Main studio interface
+  // Main studio interface - Unified DAW layout (NO tabs)
   return (
     <div
       className={cn('h-screen w-full bg-background', className)}
@@ -227,18 +231,24 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
       role="main"
       aria-label="Music Studio"
     >
-      <MobileStudioLayout
-        data-testid="mobile-studio-layout"
-        data-initial-tab={initialTab}
+      <UnifiedDAWLayout
+        project={project}
+        isPlaying={isPlaying}
         currentTime={currentTime}
         duration={duration}
-        isPlaying={isPlaying}
-        onSeek={seek}
         onPlayPause={isPlaying ? pause : play}
-        onTrackAction={handleTrackAction}
+        onSeek={seek}
+        onStop={stop}
+        onMasterVolumeChange={setMasterVolume}
+        onTrackMuteToggle={(trackId) => toggleMute(trackId)}
+        onTrackSoloToggle={(trackId) => toggleSolo(trackId)}
+        onTrackVolumeChange={(trackId, volume) => setVolume(trackId, volume)}
+        onTrackPanChange={(trackId, pan) => setPan(trackId, pan)}
+        onTrackRemove={(trackId) => removeTrack(trackId)}
         onAddTrack={handleAddTrack}
-        onSave={save}
         onExport={handleExport}
+        onSave={save}
+        data-testid="unified-daw-layout"
       />
     </div>
   );
