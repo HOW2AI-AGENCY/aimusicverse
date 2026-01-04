@@ -177,7 +177,7 @@ export function useTrackActionsState({
         break;
       case 'download_stems':
         // Navigate to studio for stem download
-        navigate(`/studio/${track.id}`);
+        navigate(`/studio-v2/track/${track.id}`);
         onClose?.();
         break;
 
@@ -212,18 +212,22 @@ export function useTrackActionsState({
         break;
       case 'stems_simple':
         await handleSeparateVocals(track, 'simple');
+        // Автоматически открыть студию после запуска разделения
+        navigate(`/studio-v2/track/${track.id}?stems=pending`);
         onClose?.();
         break;
       case 'stems_detailed':
         await handleSeparateVocals(track, 'detailed');
+        // Автоматически открыть студию после запуска разделения
+        navigate(`/studio-v2/track/${track.id}?stems=pending`);
         onClose?.();
         break;
       case 'transcribe_midi':
-        navigate(`/studio/${track.id}?mode=midi`);
+        navigate(`/studio-v2/track/${track.id}?mode=midi`);
         onClose?.();
         break;
       case 'transcribe_notes':
-        navigate(`/studio/${track.id}?mode=notes`);
+        navigate(`/studio-v2/track/${track.id}?mode=notes`);
         onClose?.();
         break;
 

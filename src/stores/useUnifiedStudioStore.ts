@@ -117,7 +117,7 @@ export const TRACK_COLORS: Record<TrackType, string> = {
 
 // ============ Helpers ============
 
-const generateId = () => `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+const generateId = () => crypto.randomUUID();
 
 const createDefaultViewSettings = (): ViewSettings => ({
   zoom: 50,
