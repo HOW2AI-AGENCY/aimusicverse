@@ -284,7 +284,6 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
             Footer,
           }}
           endReached={handleEndReached}
-          rangeChanged={handleRangeChanged}
           itemContent={renderTrackItem}
           increaseViewportBy={{ top: 300, bottom: 800 }}
         />
@@ -305,7 +304,6 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
           Footer,
         }}
         endReached={handleEndReached}
-        rangeChanged={handleRangeChanged}
         itemContent={renderTrackItem}
         increaseViewportBy={{ top: 300, bottom: 800 }}
       />
