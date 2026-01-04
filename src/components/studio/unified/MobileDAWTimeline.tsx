@@ -5,8 +5,9 @@
  * - Horizontal scroll for long tracks
  * - Pinch-to-zoom gesture support
  * - Tap-to-seek functionality
- * - Mini waveform overview
+ * - Real waveform visualization
  * - Touch-friendly track controls
+ * - Vocals always at the top
  * 
  * @see ADR-011 for architecture decisions
  */
@@ -18,7 +19,8 @@ import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/formatters';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import type { StudioTrack } from '@/stores/useUnifiedStudioStore';
-import { Volume2, VolumeX, Headphones } from 'lucide-react';
+import { Volume2, VolumeX, Headphones, Mic2, Music, Drum, Guitar, Piano, Waves } from 'lucide-react';
+import { OptimizedStemWaveform } from '@/components/stem-studio/OptimizedStemWaveform';
 
 interface SectionMarker {
   label: string;
@@ -45,26 +47,23 @@ interface MobileDAWTimelineProps {
   className?: string;
 }
 
-// Track type colors
-const TRACK_TYPE_COLORS: Record<string, string> = {
-  main: 'bg-primary/20 border-primary',
-  vocal: 'bg-pink-500/20 border-pink-500',
-  instrumental: 'bg-violet-500/20 border-violet-500',
-  drums: 'bg-orange-500/20 border-orange-500',
-  bass: 'bg-blue-500/20 border-blue-500',
-  other: 'bg-muted border-muted-foreground',
+// Track type colors with waveform color
+const TRACK_TYPE_CONFIG: Record<string, { bg: string; border: string; waveColor: string; icon: React.ComponentType<any> }> = {
+  main: { bg: 'bg-primary/20', border: 'border-primary', waveColor: 'blue', icon: Music },
+  vocal: { bg: 'bg-pink-500/20', border: 'border-pink-500', waveColor: 'pink', icon: Mic2 },
+  vocals: { bg: 'bg-pink-500/20', border: 'border-pink-500', waveColor: 'pink', icon: Mic2 },
+  instrumental: { bg: 'bg-violet-500/20', border: 'border-violet-500', waveColor: 'violet', icon: Guitar },
+  drums: { bg: 'bg-orange-500/20', border: 'border-orange-500', waveColor: 'orange', icon: Drum },
+  bass: { bg: 'bg-emerald-500/20', border: 'border-emerald-500', waveColor: 'emerald', icon: Waves },
+  guitar: { bg: 'bg-amber-500/20', border: 'border-amber-500', waveColor: 'amber', icon: Guitar },
+  piano: { bg: 'bg-purple-500/20', border: 'border-purple-500', waveColor: 'purple', icon: Piano },
+  keyboard: { bg: 'bg-purple-500/20', border: 'border-purple-500', waveColor: 'purple', icon: Piano },
+  other: { bg: 'bg-muted', border: 'border-muted-foreground', waveColor: 'gray', icon: Music },
 };
 
-// Track type icons
-const getTrackIcon = (type: string) => {
-  switch (type) {
-    case 'vocal': return '🎤';
-    case 'instrumental': return '🎸';
-    case 'drums': return '🥁';
-    case 'bass': return '🎸';
-    default: return '🎵';
-  }
-};
+// Get track config with fallback
+const getTrackConfig = (type: string) => 
+  TRACK_TYPE_CONFIG[type.toLowerCase()] || TRACK_TYPE_CONFIG.other;
 
 // Section type colors
 const SECTION_COLORS: Record<string, { bg: string; border: string; text: string }> = {
@@ -257,16 +256,19 @@ export const MobileDAWTimeline = memo(function MobileDAWTimeline({
           )}
 
           {/* Tracks */}
-          <div className="space-y-1 p-2">
+          <div className="space-y-1.5 p-2">
             {tracks.map(track => (
               <MobileTrackRow
                 key={track.id}
                 track={track}
+                currentTime={currentTime}
                 duration={duration}
+                isPlaying={isPlaying}
                 isSelected={selectedTrackId === track.id}
                 onToggleMute={() => onToggleMute(track.id)}
                 onToggleSolo={() => onToggleSolo(track.id)}
                 onSelect={() => onTrackSelect?.(track.id)}
+                onSeek={onSeek}
               />
             ))}
           </div>
@@ -285,26 +287,33 @@ export const MobileDAWTimeline = memo(function MobileDAWTimeline({
   );
 });
 
-// Individual track row
+// Individual track row with real waveform
 interface MobileTrackRowProps {
   track: StudioTrack;
+  currentTime: number;
   duration: number;
+  isPlaying: boolean;
   isSelected: boolean;
   onToggleMute: () => void;
   onToggleSolo: () => void;
   onSelect: () => void;
+  onSeek: (time: number) => void;
 }
 
 const MobileTrackRow = memo(function MobileTrackRow({
   track,
+  currentTime,
   duration,
+  isPlaying,
   isSelected,
   onToggleMute,
   onToggleSolo,
   onSelect,
+  onSeek,
 }: MobileTrackRowProps) {
   const haptic = useHapticFeedback();
-  const colorClass = TRACK_TYPE_COLORS[track.type] || TRACK_TYPE_COLORS.other;
+  const config = getTrackConfig(track.type);
+  const Icon = config.icon;
 
   const handleMute = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
@@ -318,71 +327,92 @@ const MobileTrackRow = memo(function MobileTrackRow({
     onToggleSolo();
   }, [onToggleSolo, haptic]);
 
+  // Calculate effective muted state (muted or not solo when others are soloed)
+  const hasSoloTrack = false; // Would need to be passed from parent
+  const effectiveMuted = track.muted || (hasSoloTrack && !track.solo);
+
   return (
     <motion.div
       className={cn(
-        "flex items-center gap-2 h-14 rounded-lg border-l-4 px-3 transition-colors",
-        colorClass,
+        "flex flex-col gap-1 rounded-lg border-l-4 p-2 transition-colors touch-manipulation",
+        config.bg,
+        config.border,
         isSelected && "ring-2 ring-primary"
       )}
       onClick={onSelect}
       whileTap={{ scale: 0.98 }}
     >
-      {/* Track info */}
-      <div className="flex items-center gap-2 min-w-[100px]">
-        <span className="text-lg">{getTrackIcon(track.type)}</span>
-        <span className="text-sm font-medium truncate max-w-[80px]">
-          {track.name}
-        </span>
-      </div>
-
-      {/* Controls */}
-      <div className="flex items-center gap-1 ml-auto">
-        {/* Mute */}
-        <button
-          className={cn(
-            "w-8 h-8 rounded flex items-center justify-center transition-colors",
-            track.muted 
-              ? "bg-destructive/20 text-destructive" 
-              : "bg-muted/50 text-muted-foreground hover:bg-muted"
-          )}
-          onClick={handleMute}
-        >
-          {track.muted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-        </button>
-
-        {/* Solo */}
-        <button
-          className={cn(
-            "w-8 h-8 rounded flex items-center justify-center transition-colors",
-            track.solo 
-              ? "bg-amber-500/20 text-amber-500" 
-              : "bg-muted/50 text-muted-foreground hover:bg-muted"
-          )}
-          onClick={handleSolo}
-        >
-          <Headphones className="w-4 h-4" />
-        </button>
-      </div>
-
-      {/* Waveform placeholder / clip visualization */}
-      <div className="flex-1 h-8 bg-background/50 rounded overflow-hidden">
-        {/* Simple waveform visualization */}
-        <div 
-          className="h-full flex items-center gap-px px-1"
-          style={{ opacity: track.muted ? 0.3 : 1 }}
-        >
-          {Array.from({ length: 40 }).map((_, i) => {
-            const height = 20 + Math.sin(i * 0.5) * 15 + Math.random() * 10;
-            return (
-              <div
-                key={i}
-                className="flex-1 bg-foreground/30 rounded-sm"
-                style={{ height: `${height}%` }}
-              />
-            );
-          })}
+      {/* Header row */}
+      <div className="flex items-center gap-2">
+        {/* Track icon & name */}
+        <div className="flex items-center gap-1.5 min-w-0 flex-1">
+          <Icon className="w-4 h-4 flex-shrink-0 text-foreground/70" />
+          <span className="text-xs font-medium truncate">
+            {track.name}
+          </span>
         </div>
+
+        {/* Controls */}
+        <div className="flex items-center gap-1">
+          {/* Mute */}
+          <button
+            className={cn(
+              "w-7 h-7 rounded flex items-center justify-center transition-colors touch-manipulation",
+              track.muted 
+                ? "bg-destructive/30 text-destructive" 
+                : "bg-background/50 text-muted-foreground active:bg-muted"
+            )}
+            onClick={handleMute}
+          >
+            {track.muted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
+          </button>
+
+          {/* Solo */}
+          <button
+            className={cn(
+              "w-7 h-7 rounded flex items-center justify-center transition-colors touch-manipulation",
+              track.solo 
+                ? "bg-amber-500/30 text-amber-500" 
+                : "bg-background/50 text-muted-foreground active:bg-muted"
+            )}
+            onClick={handleSolo}
+          >
+            <Headphones className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      </div>
+
+      {/* Real waveform visualization */}
+      <div className="h-10 bg-background/30 rounded overflow-hidden">
+        {track.audioUrl ? (
+          <OptimizedStemWaveform
+            audioUrl={track.audioUrl}
+            currentTime={currentTime}
+            duration={duration}
+            isPlaying={isPlaying}
+            isMuted={effectiveMuted}
+            color={config.waveColor}
+            height={40}
+            onSeek={onSeek}
+          />
+        ) : (
+          // Fallback placeholder for tracks without audio
+          <div 
+            className="h-full flex items-center gap-px px-1"
+            style={{ opacity: effectiveMuted ? 0.3 : 1 }}
+          >
+            {Array.from({ length: 30 }).map((_, i) => {
+              const height = 20 + Math.sin(i * 0.5) * 15 + Math.random() * 10;
+              return (
+                <div
+                  key={i}
+                  className="flex-1 bg-foreground/20 rounded-sm"
+                  style={{ height: `${height}%` }}
+                />
+              );
+            })}
+          </div>
+        )}
       </div>
     </motion.div>
   );

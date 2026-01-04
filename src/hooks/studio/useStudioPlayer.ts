@@ -2,16 +2,29 @@
  * useStudioPlayer - Unified playback logic for Studio components
  * 
  * Centralizes audio playback state and controls for both
- * StemStudioContent and TrackStudioContent
+ * StemStudioContent and TrackStudioContent.
+ * 
+ * Now includes:
+ * - Web Audio API integration
+ * - Effects chain support (EQ, compressor, delay, filter)
+ * - Loop region support
+ * - Playback rate control
  */
 
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { logger } from '@/lib/logger';
+import { getOrCreateStudioContext, ensureAudioContextRunning } from '@/lib/audio/audioContextHelper';
+import type { StemEffects, LoopRegion } from './types';
+import { useStudioEffectsEngine, DEFAULT_EFFECTS } from './useStudioEffectsEngine';
 
 interface UseStudioPlayerOptions {
   audioUrl?: string | null;
   onTimeUpdate?: (time: number) => void;
   onEnded?: () => void;
+  /** Enable effects processing (requires more CPU) */
+  enableEffects?: boolean;
+  /** Initial effects settings */
+  initialEffects?: StemEffects;
 }
 
 interface UseStudioPlayerReturn {
@@ -21,6 +34,10 @@ interface UseStudioPlayerReturn {
   duration: number;
   volume: number;
   muted: boolean;
+  playbackRate: number;
+  loopRegion: LoopRegion | null;
+  effects: StemEffects;
+  isEffectsEnabled: boolean;
   
   // Controls
   play: () => Promise<void>;
@@ -30,6 +47,10 @@ interface UseStudioPlayerReturn {
   skip: (seconds: number) => void;
   setVolume: (volume: number) => void;
   toggleMute: () => void;
+  setPlaybackRate: (rate: number) => void;
+  setLoopRegion: (region: LoopRegion | null) => void;
+  setEffects: (effects: Partial<StemEffects>) => void;
+  toggleEffects: () => void;
   
   // Refs
   audioRef: React.RefObject<HTMLAudioElement | null>;
@@ -39,19 +60,34 @@ export function useStudioPlayer({
   audioUrl,
   onTimeUpdate,
   onEnded,
+  enableEffects = false,
+  initialEffects,
 }: UseStudioPlayerOptions = {}): UseStudioPlayerReturn {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const sourceNodeRef = useRef<MediaElementAudioSourceNode | null>(null);
+  const gainNodeRef = useRef<GainNode | null>(null);
   
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolumeState] = useState(1);
   const [muted, setMuted] = useState(false);
+  const [playbackRate, setPlaybackRateState] = useState(1);
+  const [loopRegion, setLoopRegionState] = useState<LoopRegion | null>(null);
+  const [effects, setEffectsState] = useState<StemEffects>(initialEffects || DEFAULT_EFFECTS);
+  const [isEffectsEnabled, setIsEffectsEnabled] = useState(enableEffects);
 
-  // Initialize audio element
+  // Effects engine
+  const effectsEngine = useStudioEffectsEngine({
+    audioContext: audioContextRef.current,
+  });
+
+  // Initialize audio element and Web Audio nodes
   useEffect(() => {
     if (!audioRef.current) {
       audioRef.current = new Audio();
+      audioRef.current.crossOrigin = 'anonymous';
     }
     
     const audio = audioRef.current;
@@ -60,6 +96,11 @@ export function useStudioPlayer({
       const time = audio.currentTime;
       setCurrentTime(time);
       onTimeUpdate?.(time);
+      
+      // Handle loop region
+      if (loopRegion?.enabled && time >= loopRegion.end) {
+        audio.currentTime = loopRegion.start;
+      }
     };
     
     const handleLoadedMetadata = () => {
@@ -67,8 +108,13 @@ export function useStudioPlayer({
     };
     
     const handleEnded = () => {
-      setIsPlaying(false);
-      onEnded?.();
+      if (loopRegion?.enabled) {
+        audio.currentTime = loopRegion.start;
+        audio.play();
+      } else {
+        setIsPlaying(false);
+        onEnded?.();
+      }
     };
     
     const handlePlay = () => setIsPlaying(true);
@@ -87,7 +133,7 @@ export function useStudioPlayer({
       audio.removeEventListener('play', handlePlay);
       audio.removeEventListener('pause', handlePause);
     };
-  }, [onTimeUpdate, onEnded]);
+  }, [onTimeUpdate, onEnded, loopRegion]);
 
   // Update audio source when URL changes
   useEffect(() => {
@@ -99,6 +145,9 @@ export function useStudioPlayer({
       audio.load();
       setCurrentTime(0);
       setIsPlaying(false);
+      
+      // Reset Web Audio connection for new source
+      sourceNodeRef.current = null;
     }
   }, [audioUrl]);
 
@@ -107,19 +156,76 @@ export function useStudioPlayer({
     const audio = audioRef.current;
     if (!audio) return;
     
-    audio.volume = muted ? 0 : volume;
+    // Use gainNode if effects are enabled, otherwise direct audio volume
+    if (gainNodeRef.current) {
+      gainNodeRef.current.gain.value = muted ? 0 : volume;
+      audio.volume = 1; // Full volume to audio element, gain controls final volume
+    } else {
+      audio.volume = muted ? 0 : volume;
+    }
   }, [volume, muted]);
+
+  // Sync playback rate
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.playbackRate = playbackRate;
+  }, [playbackRate]);
+
+  // Initialize Web Audio when effects are enabled
+  const initWebAudio = useCallback(async () => {
+    if (!audioRef.current || sourceNodeRef.current) return;
+    
+    try {
+      const ctx = getOrCreateStudioContext();
+      await ensureAudioContextRunning(ctx);
+      audioContextRef.current = ctx;
+      
+      // Create source from audio element
+      const source = ctx.createMediaElementSource(audioRef.current);
+      sourceNodeRef.current = source;
+      
+      // Create gain node for volume control
+      const gainNode = ctx.createGain();
+      gainNode.gain.value = muted ? 0 : volume;
+      gainNodeRef.current = gainNode;
+      
+      // Create effects chain
+      const effectsChain = effectsEngine.createEffectsChain('main');
+      
+      if (effectsChain && isEffectsEnabled) {
+        // Route: source -> effects -> gain -> destination
+        source.connect(effectsChain.input);
+        effectsChain.output.connect(gainNode);
+        effectsEngine.updateEffects('main', effects);
+      } else {
+        // Direct route: source -> gain -> destination
+        source.connect(gainNode);
+      }
+      
+      gainNode.connect(ctx.destination);
+      
+      logger.debug('Web Audio initialized for studio player');
+    } catch (error) {
+      logger.error('Failed to initialize Web Audio', error);
+    }
+  }, [muted, volume, isEffectsEnabled, effects, effectsEngine]);
 
   const play = useCallback(async () => {
     const audio = audioRef.current;
     if (!audio) return;
     
     try {
+      // Initialize Web Audio on first play if effects are enabled
+      if (isEffectsEnabled && !sourceNodeRef.current) {
+        await initWebAudio();
+      }
+      
       await audio.play();
     } catch (error) {
       logger.error('Studio player play error', error);
     }
-  }, []);
+  }, [isEffectsEnabled, initWebAudio]);
 
   const pause = useCallback(() => {
     audioRef.current?.pause();
@@ -158,6 +264,30 @@ export function useStudioPlayer({
     setMuted(prev => !prev);
   }, []);
 
+  const setPlaybackRate = useCallback((rate: number) => {
+    const clampedRate = Math.max(0.25, Math.min(4, rate));
+    setPlaybackRateState(clampedRate);
+  }, []);
+
+  const setLoopRegion = useCallback((region: LoopRegion | null) => {
+    setLoopRegionState(region);
+  }, []);
+
+  const setEffects = useCallback((newEffects: Partial<StemEffects>) => {
+    setEffectsState(prev => {
+      const updated = { ...prev, ...newEffects };
+      // Update effects engine
+      if (isEffectsEnabled) {
+        effectsEngine.updateEffects('main', updated);
+      }
+      return updated;
+    });
+  }, [isEffectsEnabled, effectsEngine]);
+
+  const toggleEffects = useCallback(() => {
+    setIsEffectsEnabled(prev => !prev);
+  }, []);
+
   // Cleanup on unmount
   useEffect(() => {
     return () => {
@@ -166,8 +296,13 @@ export function useStudioPlayer({
         audio.pause();
         audio.src = '';
       }
+      
+      // Disconnect Web Audio nodes
+      sourceNodeRef.current?.disconnect();
+      gainNodeRef.current?.disconnect();
+      effectsEngine.cleanup();
     };
-  }, []);
+  }, [effectsEngine]);
 
   return {
     isPlaying,
@@ -175,6 +310,10 @@ export function useStudioPlayer({
     duration,
     volume,
     muted,
+    playbackRate,
+    loopRegion,
+    effects,
+    isEffectsEnabled,
     play,
     pause,
     togglePlay,
@@ -182,6 +321,10 @@ export function useStudioPlayer({
     skip,
     setVolume,
     toggleMute,
+    setPlaybackRate,
+    setLoopRegion,
+    setEffects,
+    toggleEffects,
     audioRef,
   };
 }
