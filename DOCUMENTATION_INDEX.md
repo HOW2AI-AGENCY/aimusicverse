@@ -107,6 +107,13 @@ This is the master index for all MusicVerse AI documentation.
 - [docs/CREATIVE_TOOLS.md](docs/CREATIVE_TOOLS.md) - Creative tools documentation
 - [docs/DATABASE.md](docs/DATABASE.md) - Database schema and operations
 
+### Mobile Development (⭐ NEW)
+- **[docs/mobile/OPTIMIZATION_ROADMAP_2026.md](docs/mobile/OPTIMIZATION_ROADMAP_2026.md)** - Mobile optimization roadmap Q1-Q2 2026
+- [docs/MOBILE_UI_AUDIT_2025_12.md](docs/MOBILE_UI_AUDIT_2025_12.md) - Mobile UI audit
+- [docs/SAFE_AREA_GUIDELINES.md](docs/SAFE_AREA_GUIDELINES.md) - Safe area implementation guide
+- [docs/TELEGRAM_MINI_APP_FEATURES.md](docs/TELEGRAM_MINI_APP_FEATURES.md) - Telegram Mini App features
+- [MOBILE_OPTIMIZATION_SUMMARY.md](MOBILE_OPTIMIZATION_SUMMARY.md) - Sprint 028 mobile achievements
+
 ### Integration Guides
 - [docs/integrations/](docs/integrations/) - Integration documentation
 - [docs/SUNO_API.md](docs/SUNO_API.md) - Suno AI integration
@@ -131,10 +138,25 @@ This is the master index for all MusicVerse AI documentation.
 
 ---
 
+## 🌍 Internationalization
+
+### Russian Documentation (🆕 NEW)
+- **[docs/ru/](docs/ru/)** - Russian documentation folder
+- [docs/ru/project-analysis.md](docs/ru/project-analysis.md) - Анализ проекта
+- [docs/ru/user-scenarios.md](docs/ru/user-scenarios.md) - Пользовательские сценарии
+- [docs/ru/analysis-report.md](docs/ru/analysis-report.md) - Итоговый отчет анализа
+- [docs/ru/improvement-plan.md](docs/ru/improvement-plan.md) - План доработки
+- [docs/ru/studio-development-plan.md](docs/ru/studio-development-plan.md) - План развития студии
+- [docs/ru/lyrics-assistant-improvements.md](docs/ru/lyrics-assistant-improvements.md) - Улучшения AI помощника
+
+---
+
 ## 🗂️ Archive
 
 Historical documentation in `docs/archive/`:
 
+- **[docs/archive/2026-01/](docs/archive/2026-01/)** - January 2026 snapshots (latest cleanup)
+- [docs/archive/2025-12/](docs/archive/2025-12/) - December 2025 archives
 - [docs/archive/audits/](docs/archive/audits/) - Historical audits
 - [docs/archive/sprint-reports/](docs/archive/sprint-reports/) - Sprint reports
 - [docs/archive/implementation-reports/](docs/archive/implementation-reports/) - Implementation progress reports
@@ -186,6 +208,14 @@ Historical documentation in `docs/archive/`:
 
 ## 📝 Recent Updates (2026-01-04)
 
+**Repository Cleanup & Reorganization**:
+- ✅ Moved 6 Russian documentation files to [docs/ru/](docs/ru/)
+- ✅ Archived 2 outdated status documents to [docs/archive/2026-01/](docs/archive/2026-01/)
+- ✅ Removed outdated DOCUMENTATION_INDEX_OLD.md
+- ✅ Created comprehensive [Mobile Optimization Roadmap 2026](docs/mobile/OPTIMIZATION_ROADMAP_2026.md)
+- ✅ Enhanced README.md with mobile development section
+- ✅ Improved DOCUMENTATION_INDEX.md navigation
+
 **Major Documentation Additions**:
 - ✅ Created comprehensive architecture documentation (15,000+ lines)
 - ✅ Created complete hooks reference guide (6,000+ lines)
@@ -195,6 +225,10 @@ Historical documentation in `docs/archive/`:
 - ✅ Total: ~25,000 lines of new documentation
 
 **Impact**:
+- Reduced repository root clutter (46→38 MD files)
+- Improved documentation discoverability
+- Better organized Russian documentation
+- Clear mobile optimization roadmap for Q1-Q2 2026
 - Reduced onboarding time for new developers by 50%+
 - Improved code maintainability through better documentation
 - Enabled better architectural decisions with clarity
