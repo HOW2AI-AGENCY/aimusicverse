@@ -24,147 +24,149 @@ MusicVerse AI имеет 3 параллельные студийные реал�
 - **Итеративный подход** — добавлять функции постепенно
 - **Переиспользование** — брать готовые компоненты из существующих студий
 - **Mobile-first** — оптимизация для мобильных устройств
+- **БЕЗ ТАБОВ** — единый DAW-подобный интерфейс в одном окне (все функции видны сразу)
 
 ## Decision
 
-Объединить функционал в **StudioShell** итеративно, создав единый DAW-подобный интерфейс:
+Создать **UnifiedDAWLayout** - единый DAW-подобный интерфейс БЕЗ табов:
 
 ### 1. Архитектура унификации
 
 ```
-StudioShell (главный контейнер)
-├── Переиспользуемые компоненты из stem-studio:
-│   ├── QuickCompare (A/B сравнение версий)
-│   ├── RemixDialog, ExtendDialog, TrimDialog
-│   ├── MixPresetsMenu
-│   ├── ReplacementProgressIndicator
-│   └── DAWMixerPanel (визуализация эффектов)
-├── DAW функции из MultiTrackStudioLayout:
-│   ├── DAWTrackLane (drag-drop клипов)
-│   ├── TimelineRuler (BPM grid)
-│   └── Playhead с drag
-└── Новые компоненты:
-    ├── MobileDAWTimeline (pinch-zoom, tap-seek)
-    ├── AIActionsFAB (floating AI actions)
-    └── useUnifiedStudio hook
+UnifiedDAWLayout (единый интерфейс без табов)
+├── Header: Project name + actions (Save, Mixer, Export)
+├── Timeline Ruler (DAWTimeline from stem-studio)
+├── Track Lanes (vertically stacked, scrollable)
+│   └── DAWTrackLane для каждого трека с waveform
+├── Transport Controls (Play/Pause, Skip, Master Volume)
+├── Floating AI Actions Button (AIActionsFAB)
+└── Collapsible Mixer Panel (slide from right)
+    ├── Master Volume control
+    └── Per-track controls (Mute, Solo, Volume, Pan)
+
+❌ НЕТ табов - все в одном окне
+✅ Вертикальная прокрутка треков
+✅ Все функции видны сразу
+✅ Timeline всегда на экране
+✅ Transport controls всегда доступны
 ```
 
 ### 2. Фазы реализации
 
-| Фаза | Описание | Время |
-|------|----------|-------|
-| 1 | Интеграция компонентов из StemStudio | 4ч |
-| 2 | DAW Timeline Enhancement | 6ч |
-| 3 | Mobile DAW Mode | 6ч |
-| 4 | Unified Effects & Mixer | 3ч |
-| 5 | State Consolidation | 3ч |
+| Фаза | Описание | Время | Статус |
+|------|----------|-------|--------|
+| 1 | Создание UnifiedDAWLayout (без табов) | 4ч | ✅ DONE |
+| 2 | Интеграция с UnifiedStudioMobile | 2ч | ✅ DONE |
+| 3 | Переиспользование компонентов (DAWTimeline, DAWTrackLane) | 2ч | ✅ DONE |
+| 4 | Добавление AI Actions FAB | 1ч | ⏳ In Progress |
+| 5 | Mixer Panel с эффектами | 2ч | ⏳ Pending |
+| 6 | Тестирование и оптимизация | 3ч | ⏳ Pending |
 
-### 3. Компоненты для переиспользования
+### 3. Реализованные компоненты
 
-#### Из stem-studio (готовые, не модифицировать):
-- `QuickCompare.tsx` — A/B/C сравнение секций
-- `RemixDialog.tsx` — диалог ремикса
-- `ExtendDialog.tsx` — диалог расширения
-- `TrimDialog.tsx` — обрезка треков
-- `MixPresetsMenu.tsx` — пресеты микса
-- `ReplacementProgressIndicator.tsx` — прогресс замены
-- `DAWMixerPanel.tsx` — панель микшера с визуализацией
+#### ✅ UnifiedDAWLayout (НОВЫЙ - основной компонент)
+Единый DAW-подобный интерфейс БЕЗ табов:
+- Timeline ruler вверху (реиспользует DAWTimeline)
+- Track lanes в центре (вертикальная прокрутка)
+- Transport controls внизу
+- Floating AI Actions Button (FAB)
+- Collapsible Mixer Panel (справа)
+- Все функции в одном окне - НЕТ навигации по табам
 
-#### Из MultiTrackStudioLayout (адаптировать):
-- `MultiTrackTimeline` → `DAWTrackLane`
-- Drag-drop логика для клипов
+#### Переиспользованные компоненты из stem-studio:
+- `DAWTimeline.tsx` — Timeline ruler с временными метками
+- `DAWTrackLane.tsx` — Track lane с waveform и контролами
+- `DAWMixerPanel.tsx` (будет интегрирован) — панель микшера с визуализацией
 
-### 4. Новые компоненты
+#### ❌ Deprecated (больше не используются):
+- `MobileStudioLayout.tsx` — старый tab-based интерфейс
+- `MobileStudioTabs.tsx` — tab navigation компонент
+- Tab content компоненты (Player, Tracks, Sections, Mixer, Actions)
 
-```typescript
-// src/hooks/studio/useUnifiedStudio.ts
-export function useUnifiedStudio(options: {
-  mode: 'track' | 'project';
-  id: string;
-}) {
-  return {
-    // Project/Track data
-    project, tracks,
-    // Playback
-    isPlaying, play, pause, seek, currentTime, duration,
-    // Track controls
-    toggleMute, toggleSolo, setVolume, setPan,
-    // AI Actions
-    separateStems, replaceSection, addVocals, extend, cover,
-    // Effects
-    trackEffects, setTrackEffects,
-    // History
-    canUndo, canRedo, undo, redo,
-    // Export
-    exportMix, downloadStems,
-  };
-}
-```
+Эти компоненты помечены как deprecated и будут удалены после полного тестирования.
 
-### 5. Mobile Layout
+### 4. Структура интерфейса (Реализованная)
 
 ```
-┌─────────────────────────────────┐
-│ Header: Name | AI | Menu        │
-├─────────────────────────────────┤
-│ Mini Track Overview (collapsed) │
-├─────────────────────────────────┤
-│ Expandable Timeline             │
-│ ┌─────────────────────────────┐ │
-│ │ 🎤 Vocals     [M][S] ▬▬▬▬▬ │ │
-│ │ 🎸 Instr.     [M][S] ▬▬▬▬▬ │ │
-│ └─────────────────────────────┘ │
-├─────────────────────────────────┤
-│ AI Quick Actions (FAB menu)     │
-│ [✨ Generate] [🔀 Extend] [🎤] │
-├─────────────────────────────────┤
-│ Transport: ◄◄ | ▶ | ■ | ►► | Vol│
-└─────────────────────────────────┘
+┌─────────────────────────────────────────────┐
+│ Header: Project Name | Save | Mixer | Export│
+├─────────────────────────────────────────────┤
+│ ⏱️ Timeline Ruler (0:00 ─── playhead ─── 3:45)│
+├─────────────────────────────────────────────┤
+│ 🎤 Track 1: Vocals     [M][S] ▬▬▬▬▬ volume│
+│    ╭───────── waveform ─────────────────╮  │
+├─────────────────────────────────────────────┤
+│ 🎸 Track 2: Guitar     [M][S] ▬▬▬▬▬ volume│
+│    ╭───────── waveform ─────────────────╮  │
+├─────────────────────────────────────────────┤
+│ 🥁 Track 3: Drums      [M][S] ▬▬▬▬▬ volume│
+│    ╭───────── waveform ─────────────────╮  │
+├─────────────────────────────────────────────┤
+│                   ⬆ scroll ⬆               │
+├─────────────────────────────────────────────┤
+│ Transport: 0:23/3:45  ◄◄ | ▶ | ►► | Vol    │
+└─────────────────────────────────────────────┘
+         ┌──────────┐
+         │ ✨ AI    │  ← Floating Action Button
+         └──────────┘
 ```
+
+**Ключевые особенности:**
+- ❌ НЕТ ТАБОВ - все в одном окне
+- ✅ Timeline всегда видим вверху
+- ✅ Треки прокручиваются вертикально
+- ✅ Transport controls всегда внизу
+- ✅ Mixer открывается как panel справа
+- ✅ AI actions доступны через FAB
 
 ## Consequences
 
 ### Positive
-- ✅ Единый интерфейс для всех режимов работы
-- ✅ Сохранение обратной совместимости
-- ✅ Переиспользование проверенного кода
-- ✅ Улучшенный мобильный UX
-- ✅ Сокращение дублирования на 40%
+- ✅ Единый интерфейс для всех режимов работы БЕЗ табов
+- ✅ Сохранение обратной совместимости (legacy компоненты остались)
+- ✅ Переиспользование проверенного кода (DAWTimeline, DAWTrackLane)
+- ✅ Улучшенный мобильный UX - все видно сразу
+- ✅ Сокращение сложности - нет переключения между табами
+- ✅ Соответствует требованиям ADR-011 и SPRINT-030
 
 ### Negative
-- ⚠️ Временное увеличение сложности (2 системы параллельно)
-- ⚠️ Требуется тестирование всех путей
-- ⚠️ Постепенная миграция пользователей
+- ⚠️ Временное увеличение кодовой базы (legacy компоненты остались)
+- ⚠️ Требуется тестирование всех сценариев
+- ⚠️ Для маленьких экранов может быть много прокрутки
 
 ### Neutral
 - Существующие роуты продолжают работать
 - Legacy компоненты остаются как fallback
+- Постепенная миграция без breaking changes
 
 ## Implementation Plan
 
-### Файлы для создания
+### ✅ Файлы созданные
 
-| Файл | Описание |
-|------|----------|
-| `src/components/studio/unified/DAWTrackLane.tsx` | Drag-drop lane |
-| `src/components/studio/unified/TimelineRuler.tsx` | BPM grid ruler |
-| `src/components/studio/unified/MobileDAWTimeline.tsx` | Mobile timeline |
-| `src/components/studio/unified/AIActionsFAB.tsx` | AI actions FAB |
-| `src/hooks/studio/useUnifiedStudio.ts` | Unified hook |
+| Файл | Описание | Статус |
+|------|----------|--------|
+| `src/components/studio/unified/UnifiedDAWLayout.tsx` | Единый DAW интерфейс БЕЗ табов | ✅ DONE |
 
-### Файлы для обновления
+### ✅ Файлы обновленные
 
-| Файл | Изменение |
-|------|-----------|
-| `StudioShell.tsx` | Добавить QuickCompare, TrimDialog, Progress |
-| `MobileStudioLayout.tsx` | Интегрировать MobileDAWTimeline |
-| `StemEffectsDrawer.tsx` | Улучшить визуализацию |
+| Файл | Изменение | Статус |
+|------|-----------|--------|
+| `UnifiedStudioMobile.tsx` | Использует UnifiedDAWLayout вместо MobileStudioLayout | ✅ DONE |
+| `index.ts` | Экспорты обновлены, legacy помечены | ✅ DONE |
 
-### Файлы БЕЗ изменений (переиспользуем)
+### ⏳ Файлы для будущих улучшений
 
-- Все компоненты в `src/components/stem-studio/`
+| Файл | Задача |
+|------|--------|
+| `AIActionsFAB.tsx` | Интеграция с реальными AI функциями |
+| `UnifiedDAWLayout.tsx` | Добавить pinch-zoom на timeline |
+| `UnifiedDAWLayout.tsx` | Интегрировать DAWMixerPanel для эффектов |
+
+### ❌ Файлы НЕ изменяются (переиспользуем)
+
+- Все компоненты в `src/components/stem-studio/` (DAWTimeline, DAWTrackLane, DAWMixerPanel)
 - `src/stores/useStudioProjectStore.ts` (совместимость)
-- `src/components/studio/MultiTrackStudioLayout.tsx` (reference)
+- `src/hooks/studio/useUnifiedStudio.ts` (уже существует)
 
 ## Related Documents
 
@@ -174,6 +176,8 @@ export function useUnifiedStudio(options: {
 
 ---
 
-**Author:** Lovable AI  
+**Author:** Lovable AI + GitHub Copilot
 **Date:** 2026-01-04  
+**Status:** Implemented (Phase 1-3 Complete)
+**Last Updated:** 2026-01-04 (Unified DAW Layout created)
 **Reviewers:** —
