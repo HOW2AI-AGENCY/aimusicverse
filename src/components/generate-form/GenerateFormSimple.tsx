@@ -1,11 +1,10 @@
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
 import { motion } from '@/lib/motion';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Sparkles, Loader2, Mic, Music2, Palette, Copy, X } from 'lucide-react';
 import { VoiceInputButton } from '@/components/ui/VoiceInputButton';
-import { GenerateFormHint, FORM_HINTS } from './GenerateFormHint';
 import { SectionLabel, SECTION_HINTS } from './SectionLabel';
 import { SmartPromptSuggestions } from './SmartPromptSuggestions';
 import { FormSection, FormDivider } from './FormSection';
@@ -35,8 +34,6 @@ export function GenerateFormSimple({
   boostLoading,
   onOpenStyles,
 }: GenerateFormSimpleProps) {
-  const [showHint, setShowHint] = useState(true);
-  
   const handleCopy = useCallback(async () => {
     if (description) {
       await navigator.clipboard.writeText(description);
@@ -135,11 +132,6 @@ export function GenerateFormSimple({
               </Button>
             </div>
           </div>
-          
-          {/* Contextual hint */}
-          <GenerateFormHint type="tip" show={showHint && !description}>
-            {FORM_HINTS.description.empty}
-          </GenerateFormHint>
           
           {/* Textarea with bottom toolbar */}
           <div className="relative">
