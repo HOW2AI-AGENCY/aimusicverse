@@ -32,6 +32,7 @@ interface SortableTrackListProps {
   isPlaying: boolean;
   currentTime: number;
   duration: number;
+  hasSoloTracks?: boolean;
   onReorder: (fromIndex: number, toIndex: number) => void;
   onToggleMute: (trackId: string) => void;
   onToggleSolo: (trackId: string) => void;
@@ -39,7 +40,7 @@ interface SortableTrackListProps {
   onSeek: (time: number) => void;
   onRemove: (trackId: string) => void;
   onVersionChange: (trackId: string, label: string) => void;
-  onAction: (trackId: string, action: 'download' | 'effects' | 'reference' | 'add_vocals' | 'extend' | 'replace_section') => void;
+  onAction: (trackId: string, action: 'download' | 'effects' | 'reference' | 'add_vocals' | 'extend' | 'replace_section' | 'transcribe') => void;
 }
 
 interface SortableTrackItemProps {
@@ -47,13 +48,14 @@ interface SortableTrackItemProps {
   isPlaying: boolean;
   currentTime: number;
   duration: number;
+  hasSoloTracks?: boolean;
   onToggleMute: () => void;
   onToggleSolo: () => void;
   onVolumeChange: (volume: number) => void;
   onSeek: (time: number) => void;
   onRemove: () => void;
   onVersionChange?: (label: string) => void;
-  onAction?: (action: 'download' | 'effects' | 'reference' | 'add_vocals' | 'extend' | 'replace_section') => void;
+  onAction?: (action: 'download' | 'effects' | 'reference' | 'add_vocals' | 'extend' | 'replace_section' | 'transcribe') => void;
 }
 
 const SortableTrackItem = memo(function SortableTrackItem({
@@ -116,6 +118,7 @@ const SortableTrackItem = memo(function SortableTrackItem({
         isPlaying={props.isPlaying}
         currentTime={props.currentTime}
         duration={props.duration}
+        hasSoloTracks={props.hasSoloTracks}
         onToggleMute={props.onToggleMute}
         onToggleSolo={props.onToggleSolo}
         onVolumeChange={props.onVolumeChange}
@@ -133,6 +136,7 @@ export const SortableTrackList = memo(function SortableTrackList({
   isPlaying,
   currentTime,
   duration,
+  hasSoloTracks = false,
   onReorder,
   onToggleMute,
   onToggleSolo,
@@ -183,6 +187,7 @@ export const SortableTrackList = memo(function SortableTrackList({
               isPlaying={isPlaying}
               currentTime={currentTime}
               duration={duration}
+              hasSoloTracks={hasSoloTracks}
               onToggleMute={() => onToggleMute(track.id)}
               onToggleSolo={() => onToggleSolo(track.id)}
               onVolumeChange={(v) => onVolumeChange(track.id, v)}
