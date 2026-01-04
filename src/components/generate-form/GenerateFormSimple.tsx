@@ -55,7 +55,7 @@ export function GenerateFormSimple({
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: 20 }}
       transition={{ duration: 0.2, ease: "easeInOut" }}
-      className="space-y-3"
+      className="space-y-3 w-full max-w-full min-w-0 overflow-x-hidden"
     >
       {/* Vocals Toggle - Segmented control at top */}
       <div className="space-y-1">
@@ -213,15 +213,13 @@ export function GenerateFormSimple({
           </div>
         </div>
 
-        {/* Smart Prompt Suggestions - horizontal scroll */}
+        {/* Smart Prompt Suggestions - horizontal scroll with calc() constraint */}
         {!description && (
-          <div className="mt-2 w-full max-w-full min-w-0 overflow-x-hidden">
-            <SmartPromptSuggestions
-              onSelectPrompt={onDescriptionChange}
-              currentPrompt={description}
-              compact={true}
-            />
-          </div>
+          <SmartPromptSuggestions
+            onSelectPrompt={onDescriptionChange}
+            currentPrompt={description}
+            compact={true}
+          />
         )}
         
         {description.length > 500 && (
