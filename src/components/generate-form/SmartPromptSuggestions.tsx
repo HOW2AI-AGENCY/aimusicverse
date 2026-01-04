@@ -170,12 +170,12 @@ export function SmartPromptSuggestions({
 
   if (compact) {
     return (
-      <div className="space-y-2 w-full max-w-full overflow-hidden">
+      <div className="space-y-2 w-full max-w-full min-w-0 overflow-x-hidden">
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
           <Lightbulb className="h-3.5 w-3.5" />
           <span>Быстрые идеи:</span>
         </div>
-        <div className="flex gap-1.5 w-full max-w-full overflow-x-auto pb-1 pr-2 scrollbar-none">
+        <div className="flex gap-1.5 w-full max-w-full min-w-0 overflow-x-auto pb-1 pr-2 scrollbar-none">
           {PROMPT_TEMPLATES.slice(0, 6).map((template) => {
             const Icon = template.icon;
             return (
