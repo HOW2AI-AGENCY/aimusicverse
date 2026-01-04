@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 import { getTelegramConfig } from '../_shared/telegram-config.ts';
+import { buildTelegramMetadata, formatDuration } from '../_shared/telegram-metadata.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -19,7 +20,10 @@ serve(async (req) => {
       throw new Error('TELEGRAM_BOT_TOKEN not configured');
     }
 
-    const { chatId, trackId, audioUrl, coverUrl, title, duration, status, errorMessage, versionLabel } = await req.json();
+    const { 
+      chatId, trackId, audioUrl, coverUrl, title, duration, status, errorMessage, versionLabel,
+      artistName, creatorDisplayName, creatorUsername, style, mode, hasVocals
+    } = await req.json();
 
     if (!chatId) {
       throw new Error('chatId is required');
@@ -52,28 +56,25 @@ serve(async (req) => {
       throw new Error('audioUrl is required for successful generation');
     }
 
-    // Format duration
-    const formatDuration = (seconds: number) => {
-      if (!seconds) return '';
-      const mins = Math.floor(seconds / 60);
-      const secs = Math.floor(seconds % 60);
-      return `${mins}:${secs.toString().padStart(2, '0')}`;
-    };
-
-    const durationText = duration ? formatDuration(duration) : '';
     const telegramConfig = getTelegramConfig();
     const botDeepLink = telegramConfig.deepLinkBase;
 
-    // Sanitize title for filename
-    const sanitizeFilename = (name: string) => {
-      return name
-        .replace(/[<>:"/\\|?*]/g, '')
-        .replace(/\s+/g, '_')
-        .substring(0, 60);
-    };
+    // Build proper metadata using the new utility
+    const metadata = buildTelegramMetadata({
+      title: title || 'Новый трек',
+      artistName,
+      creatorDisplayName,
+      creatorUsername,
+      durationSeconds: duration,
+      style,
+      versionLabel,
+      mode: mode as any,
+      hasVocals,
+      trackId,
+    });
 
     const trackTitle = title || 'Новый трек';
-    const filename = `${sanitizeFilename(trackTitle)}.mp3`;
+    const filename = metadata.filename;
 
     console.log(`📤 Sending audio to Telegram: ${trackTitle}`);
     console.log(`📎 Audio URL: ${audioUrl.substring(0, 100)}...`);
@@ -107,11 +108,8 @@ serve(async (req) => {
       }
     }
 
-    // Build unified caption format
-    const versionSuffix = versionLabel ? ` — ${versionLabel}` : '';
-    let caption = `🎵 *${trackTitle}${versionSuffix}*`;
-    if (durationText) caption += `\n⏱️ ${durationText}`;
-    caption += `\n\n🤖 _@AIMusicVerseBot_`;
+    // Use the built caption from metadata
+    const caption = metadata.caption;
 
     let response: Response;
     let result: any;
@@ -133,8 +131,8 @@ serve(async (req) => {
       const formData = new FormData();
       formData.append('chat_id', chatId.toString());
       formData.append('audio', audioBlob, filename);
-      formData.append('title', trackTitle);
-      formData.append('performer', 'MusicVerse AI');
+      formData.append('title', metadata.title);
+      formData.append('performer', metadata.performer);
       formData.append('caption', caption);
       formData.append('parse_mode', 'Markdown');
       
@@ -161,8 +159,8 @@ serve(async (req) => {
         audio: audioUrl,
         caption,
         parse_mode: 'Markdown',
-        title: trackTitle,
-        performer: 'MusicVerse AI',
+        title: metadata.title,
+        performer: metadata.performer,
         duration: duration ? Math.round(duration) : undefined,
         thumbnail: coverUrl || undefined,
         reply_markup: replyMarkup

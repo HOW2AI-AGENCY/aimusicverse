@@ -254,7 +254,17 @@ serve(async (req) => {
     // Use persona ID from artist if available, otherwise use direct personaId
     const effectivePersonaId = artistData?.suno_persona_id || personaId;
 
-    // Create track record with artist info - ALL TRACKS ARE PUBLIC BY DEFAULT
+    // Get creator display name for metadata
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('telegram_id, display_name, username, first_name')
+      .eq('user_id', user.id)
+      .single();
+
+    const telegramChatId = profile?.telegram_id || null;
+    const creatorDisplayName = profile?.display_name || profile?.username || profile?.first_name || null;
+
+    // Create track record with artist info and creator metadata - ALL TRACKS ARE PUBLIC BY DEFAULT
     const { data: track, error: trackError } = await supabase
       .from('tracks')
       .insert({
@@ -278,6 +288,8 @@ serve(async (req) => {
         artist_id: artistData?.id || null,
         artist_name: artistData?.name || null,
         artist_avatar_url: artistData?.avatar_url || null,
+        // Store creator display name
+        creator_display_name: creatorDisplayName,
       })
       .select()
       .single();
@@ -286,15 +298,6 @@ serve(async (req) => {
       logger.error('Track creation error', trackError);
       throw new Error('Failed to create track record');
     }
-
-    // Get telegram_chat_id if available
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('telegram_id')
-      .eq('user_id', user.id)
-      .single();
-
-    const telegramChatId = profile?.telegram_id || null;
 
     // Create generation task with planTrackId in audio_clips metadata for callback
     const { data: task, error: taskError } = await supabase

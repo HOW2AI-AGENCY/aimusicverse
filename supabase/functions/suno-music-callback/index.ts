@@ -2,6 +2,8 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 import { createLogger } from '../_shared/logger.ts';
 import { isSunoSuccessCode } from '../_shared/suno.ts';
+import { sanitizeAndCleanTitle, generateFallbackTitle } from '../_shared/track-naming.ts';
+import { TrackNameBuilder, APP_NAME } from '../_shared/track-name-builder.ts';
 
 const logger = createLogger('suno-music-callback');
 
@@ -19,16 +21,10 @@ const getStreamUrl = (clip: any) => clip.source_stream_audio_url || clip.stream_
 const getImageUrl = (clip: any) => clip.source_image_url || clip.image_url;
 
 /**
- * Sanitize track title - remove Suno section tags like [Verse], [Chorus], (Upbeat), etc.
+ * Sanitize track title using improved utility
  */
 const sanitizeTrackTitle = (rawTitle: string, fallback = 'Трек'): string => {
-  if (!rawTitle) return fallback;
-  const cleaned = rawTitle
-    .replace(/\[.*?\]/g, '')  // Remove [Verse], [Chorus], [Intro], etc.
-    .replace(/\(.*?\)/g, '')  // Remove (Upbeat), (Soft), etc.
-    .replace(/\s+/g, ' ')     // Normalize whitespace
-    .trim();
-  return cleaned || fallback;
+  return sanitizeAndCleanTitle(rawTitle, fallback);
 };
 
 /**
