@@ -74,6 +74,8 @@ interface GenerationAdvancedSettingsProps {
   showVocalGender?: boolean;
   vocalGenderLabel?: string;
   className?: string;
+  /** If true, settings are expanded by default */
+  defaultOpen?: boolean;
 }
 
 export function GenerationAdvancedSettings({
@@ -82,8 +84,9 @@ export function GenerationAdvancedSettings({
   showVocalGender = true,
   vocalGenderLabel = 'Пол вокала',
   className,
+  defaultOpen = false,
 }: GenerationAdvancedSettingsProps) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(defaultOpen);
   const [activePreset, setActivePreset] = useState<string | null>('balanced');
 
   const handlePresetSelect = (preset: Preset) => {

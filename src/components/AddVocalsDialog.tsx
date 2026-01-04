@@ -199,12 +199,13 @@ export const AddVocalsDialog = ({ open, onOpenChange, track }: AddVocalsDialogPr
             />
           </div>
 
-          {/* Advanced Settings */}
+          {/* Advanced Settings - open by default */}
           <GenerationAdvancedSettings
             settings={advancedSettings}
             onChange={setAdvancedSettings}
             showVocalGender={true}
             vocalGenderLabel="Пол вокала"
+            defaultOpen={true}
           />
 
           <div className="flex gap-2 justify-end pt-4">
