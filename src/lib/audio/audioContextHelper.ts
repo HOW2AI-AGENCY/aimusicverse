@@ -12,6 +12,9 @@ declare global {
   }
 }
 
+// Singleton AudioContext for studio use
+let studioAudioContext: AudioContext | null = null;
+
 /**
  * Get the AudioContext constructor with webkit fallback
  */
@@ -31,6 +34,29 @@ export function createAudioContext(options?: AudioContextOptions): AudioContext 
   }
   
   return new AudioContextClass(options);
+}
+
+/**
+ * Get or create singleton AudioContext for studio
+ * This prevents multiple contexts being created/destroyed
+ */
+export function getOrCreateStudioContext(options?: AudioContextOptions): AudioContext {
+  if (studioAudioContext && studioAudioContext.state !== 'closed') {
+    return studioAudioContext;
+  }
+  
+  studioAudioContext = createAudioContext(options);
+  return studioAudioContext;
+}
+
+/**
+ * Get current studio context if exists (without creating new one)
+ */
+export function getStudioContext(): AudioContext | null {
+  if (studioAudioContext && studioAudioContext.state !== 'closed') {
+    return studioAudioContext;
+  }
+  return null;
 }
 
 /**
@@ -63,5 +89,15 @@ export async function safeCloseAudioContext(ctx: AudioContext | null): Promise<v
   } catch (e) {
     // Ignore errors during cleanup
     console.warn('Error closing AudioContext:', e);
+  }
+}
+
+/**
+ * Close and reset studio singleton context
+ */
+export async function closeStudioContext(): Promise<void> {
+  if (studioAudioContext) {
+    await safeCloseAudioContext(studioAudioContext);
+    studioAudioContext = null;
   }
 }

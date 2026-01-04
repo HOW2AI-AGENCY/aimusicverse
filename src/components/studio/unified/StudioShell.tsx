@@ -315,15 +315,22 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
     }));
   }, [replacedSectionsData]);
 
+  // Check if stems exist (used to disable extend/replace)
+  const hasStems = useMemo(() => {
+    if (!project?.tracks) return false;
+    const stemTypes = ['vocal', 'instrumental', 'drums', 'bass', 'other'];
+    return project.tracks.some(t => stemTypes.includes(t.type) && t.status === 'ready');
+  }, [project?.tracks]);
+
   // Filter tracks to avoid duplicating main track when stems exist
   const displayTracks = useMemo(() => {
     if (!project?.tracks || project.tracks.length === 0) return [];
     
     // Check if we have stems (vocal, instrumental, drums, bass)
     const stemTypes = ['vocal', 'instrumental', 'drums', 'bass', 'other'];
-    const hasStems = project.tracks.some(t => stemTypes.includes(t.type));
+    const stemsPresent = project.tracks.some(t => stemTypes.includes(t.type));
     
-    if (hasStems && project.tracks.length > 1) {
+    if (stemsPresent && project.tracks.length > 1) {
       // Filter out main/source track if it's already shown on the main timeline
       return project.tracks.filter(t => {
         // Keep if it's a stem type
@@ -938,7 +945,7 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
         <StudioWaveformTimeline
           audioUrl={mainAudioUrl || null}
           duration={duration}
-          currentTime={currentTime}
+          currentTime={audioEngine.isReady ? audioEngine.currentTime : currentTime}
           isPlaying={isPlaying}
           onSeek={handleSeek}
           height={isMobile ? 60 : 80}
@@ -955,7 +962,7 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
           taskId={sourceTrack.suno_task_id}
           audioId={sourceTrack.suno_id}
           plainLyrics={sourceTrack.lyrics}
-          currentTime={currentTime}
+          currentTime={audioEngine.isReady ? audioEngine.currentTime : currentTime}
           isPlaying={isPlaying}
           onSeek={handleSeek}
         />
@@ -1079,10 +1086,11 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
           <SortableTrackList
             tracks={displayTracks}
             isPlaying={isPlaying}
-            currentTime={currentTime}
+            currentTime={audioEngine.isReady ? audioEngine.currentTime : currentTime}
             duration={duration}
             hasSoloTracks={hasSoloTracks}
             sourceTrackId={sourceTrackId}
+            stemsExist={hasStems}
             onReorder={reorderTracks}
             onToggleMute={toggleTrackMute}
             onToggleSolo={toggleTrackSolo}

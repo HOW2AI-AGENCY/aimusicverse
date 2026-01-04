@@ -10,7 +10,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { logger } from '@/lib/logger';
-import { createAudioContext, ensureAudioContextRunning } from '@/lib/audio/audioContextHelper';
+import { getOrCreateStudioContext, ensureAudioContextRunning, getStudioContext } from '@/lib/audio/audioContextHelper';
 
 export interface AudioTrack {
   id: string;
@@ -44,6 +44,7 @@ interface UseStudioAudioEngineReturn {
   currentTime: number;
   duration: number;
   isLoading: boolean;
+  isReady: boolean;
   loadedTracks: Set<string>;
   play: () => Promise<void>;
   pause: () => void;
@@ -75,20 +76,29 @@ export function useStudioAudioEngine({
   const animationFrameRef = useRef<number | null>(null);
   const isMountedRef = useRef(true);
 
-  // Initialize AudioContext and master gain
+  // Initialize AudioContext and master gain using singleton
   const initAudioContext = useCallback(async () => {
-    if (audioContextRef.current) return audioContextRef.current;
+    // Check if we already have a valid context
+    if (audioContextRef.current && audioContextRef.current.state !== 'closed') {
+      await ensureAudioContextRunning(audioContextRef.current);
+      return audioContextRef.current;
+    }
 
     try {
-      const ctx = createAudioContext();
+      // Use singleton to prevent multiple contexts
+      const ctx = getOrCreateStudioContext();
       await ensureAudioContextRunning(ctx);
       
       audioContextRef.current = ctx;
-      masterGainRef.current = ctx.createGain();
-      masterGainRef.current.gain.value = masterVolume;
-      masterGainRef.current.connect(ctx.destination);
       
-      logger.debug('Studio AudioContext initialized');
+      // Only create master gain if not already created for this context
+      if (!masterGainRef.current || masterGainRef.current.context !== ctx) {
+        masterGainRef.current = ctx.createGain();
+        masterGainRef.current.gain.value = masterVolume;
+        masterGainRef.current.connect(ctx.destination);
+      }
+      
+      logger.debug('Studio AudioContext initialized (singleton)');
       return ctx;
     } catch (err) {
       logger.error('Failed to initialize AudioContext', err);
@@ -119,6 +129,14 @@ export function useStudioAudioEngine({
 
     const ctx = await initAudioContext();
     if (!ctx || !masterGainRef.current) return null;
+    
+    // Verify master gain belongs to our context
+    if (masterGainRef.current.context !== ctx) {
+      logger.warn('Master gain context mismatch, recreating');
+      masterGainRef.current = ctx.createGain();
+      masterGainRef.current.gain.value = masterVolume;
+      masterGainRef.current.connect(ctx.destination);
+    }
 
     const audio = new Audio();
     audio.crossOrigin = 'anonymous';
@@ -146,11 +164,14 @@ export function useStudioAudioEngine({
         trackNode.isLoaded = true;
         
         // Create source node only once metadata is loaded
-        try {
-          trackNode.source = ctx.createMediaElementSource(audio);
-          trackNode.source.connect(gainNode);
-        } catch (err) {
-          logger.warn('Failed to create media source', { trackId: track.id, err });
+        // Verify we still have the same context
+        if (audioContextRef.current === ctx) {
+          try {
+            trackNode.source = ctx.createMediaElementSource(audio);
+            trackNode.source.connect(gainNode);
+          } catch (err) {
+            logger.warn('Failed to create media source', { trackId: track.id, err });
+          }
         }
         
         trackNodesRef.current.set(track.id, trackNode);
@@ -170,7 +191,7 @@ export function useStudioAudioEngine({
       audio.src = track.audioUrl!;
       audio.load();
     });
-  }, [initAudioContext, onTrackLoaded]);
+  }, [initAudioContext, onTrackLoaded, masterVolume]);
 
   // Create a stable state signature for mute/solo/volume changes
   const trackStatesSignature = useMemo(() => 
@@ -406,11 +427,15 @@ export function useStudioAudioEngine({
     return trackNodesRef.current.get(trackId)?.duration || 0;
   }, []);
 
+  // isReady = at least one track loaded and not in loading state
+  const isReady = loadedTracks.size > 0 && !isLoading;
+
   return {
     isPlaying,
     currentTime,
     duration,
     isLoading,
+    isReady,
     loadedTracks,
     play,
     pause,
