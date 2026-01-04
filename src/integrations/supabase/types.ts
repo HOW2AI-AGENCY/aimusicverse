@@ -4639,6 +4639,63 @@ export type Database = {
           },
         ]
       }
+      user_generation_stats: {
+        Row: {
+          cover_count: number | null
+          created_at: string | null
+          credits_spent: number | null
+          date: string
+          estimated_cost: number | null
+          extend_count: number | null
+          failed_count: number | null
+          generations_count: number | null
+          id: string
+          instrumental_count: number | null
+          music_count: number | null
+          stems_count: number | null
+          successful_count: number | null
+          updated_at: string | null
+          user_id: string
+          vocals_count: number | null
+        }
+        Insert: {
+          cover_count?: number | null
+          created_at?: string | null
+          credits_spent?: number | null
+          date?: string
+          estimated_cost?: number | null
+          extend_count?: number | null
+          failed_count?: number | null
+          generations_count?: number | null
+          id?: string
+          instrumental_count?: number | null
+          music_count?: number | null
+          stems_count?: number | null
+          successful_count?: number | null
+          updated_at?: string | null
+          user_id: string
+          vocals_count?: number | null
+        }
+        Update: {
+          cover_count?: number | null
+          created_at?: string | null
+          credits_spent?: number | null
+          date?: string
+          estimated_cost?: number | null
+          extend_count?: number | null
+          failed_count?: number | null
+          generations_count?: number | null
+          id?: string
+          instrumental_count?: number | null
+          music_count?: number | null
+          stems_count?: number | null
+          successful_count?: number | null
+          updated_at?: string | null
+          user_id?: string
+          vocals_count?: number | null
+        }
+        Relationships: []
+      }
       user_notification_settings: {
         Row: {
           auto_midi_enabled: boolean | null

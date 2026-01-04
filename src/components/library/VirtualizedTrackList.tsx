@@ -149,22 +149,34 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
 
   const renderTrackItem = useCallback(
     (index: number, track: Track) => {
-      const counts = getCountsForTrack(track.id);
-      const midiStatus = getMidiStatus?.(track.id);
-      return (
-        <MemoizedTrackItem
-          track={track}
-          index={index}
-          viewMode={viewMode}
-          isPlaying={activeTrackId === track.id}
-          counts={counts}
-          midiStatus={midiStatus}
-          onPlay={() => onPlay(track, index)}
-          onDelete={() => onDelete(track.id)}
-          onDownload={() => onDownload(track.id, track.audio_url, track.cover_url)}
-          onToggleLike={() => onToggleLike(track.id, track.is_liked || false)}
-        />
-      );
+      // Wrap in try-catch for error resilience
+      try {
+        if (!track || !track.id) {
+          log.warn('Invalid track data at index', { index, track });
+          return <TrackCardSkeletonCompact />;
+        }
+        
+        const counts = getCountsForTrack(track.id);
+        const midiStatus = getMidiStatus?.(track.id);
+        return (
+          <MemoizedTrackItem
+            track={track}
+            index={index}
+            viewMode={viewMode}
+            isPlaying={activeTrackId === track.id}
+            counts={counts}
+            midiStatus={midiStatus}
+            onPlay={() => onPlay(track, index)}
+            onDelete={() => onDelete(track.id)}
+            onDownload={() => onDownload(track.id, track.audio_url, track.cover_url)}
+            onToggleLike={() => onToggleLike(track.id, track.is_liked || false)}
+          />
+        );
+      } catch (error) {
+        log.error('Error rendering track item', error, { trackId: track?.id, index });
+        // Return skeleton as fallback instead of crashing
+        return <TrackCardSkeletonCompact />;
+      }
     },
     [viewMode, activeTrackId, getCountsForTrack, getMidiStatus, onPlay, onDelete, onDownload, onToggleLike]
   );
