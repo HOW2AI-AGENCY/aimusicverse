@@ -91,4 +91,163 @@ verify_jwt = true
 verify_jwt = true
 
 [functions.analyze-audio-flamingo]
+verify_jwt = false
+
+[functions.suno-add-instrumental]
+verify_jwt = true
+
+[functions.suno-add-vocals]
+verify_jwt = true
+
+[functions.suno-boost-style]
+verify_jwt = true
+
+[functions.suno-upload-extend]
+verify_jwt = true
+
+[functions.suno-upload-cover]
+verify_jwt = true
+
+[functions.suno-convert-wav]
+verify_jwt = true
+
+[functions.suno-wav-callback]
+verify_jwt = false
+
+[functions.suno-cover-callback]
+verify_jwt = false
+
+[functions.suno-generate-cover-image]
+verify_jwt = true
+
+[functions.ai-lyrics-assistant]
+verify_jwt = true
+
+[functions.broadcast-notification]
+verify_jwt = true
+
+[functions.ai-blog-assistant]
+verify_jwt = true
+
+[functions.generate-artist-portrait]
+verify_jwt = true
+
+[functions.generate-playlist-cover]
+verify_jwt = true
+
+[functions.suno-generate-video]
+verify_jwt = true
+
+[functions.suno-video-callback]
+verify_jwt = false
+
+[functions.generate-track-cover]
+verify_jwt = false
+
+[functions.reward-action]
+verify_jwt = false
+
+[functions.generate-blog-cover]
+verify_jwt = true
+
+[functions.speech-to-text]
+verify_jwt = true
+
+[functions.correct-text]
+verify_jwt = true
+
+[functions.retry-failed-tasks]
+verify_jwt = false
+
+[functions.cleanup-orphaned-data]
+verify_jwt = false
+
+[functions.health-check]
+verify_jwt = false
+
+[functions.health-alert]
+verify_jwt = false
+
+[functions.suno-replace-section]
+verify_jwt = true
+
+[functions.recognize-music]
+verify_jwt = true
+
+[functions.analyze-music-emotion]
+verify_jwt = true
+
+[functions.melody-to-tags]
+verify_jwt = true
+
+[functions.detect-beats]
+verify_jwt = true
+
+[functions.klangio-analyze]
+verify_jwt = true
+
+[functions.bot-api]
+verify_jwt = true
+
+[functions.transcribe-lyrics]
+verify_jwt = true
+
+[functions.get-suno-balance]
+verify_jwt = true
+
+[functions.stability-audio-cover]
+verify_jwt = true
+
+[functions.generate-profile-image]
+verify_jwt = true
+
+[functions.create-notification]
+verify_jwt = false
+
+[functions.process-audio-pipeline]
+verify_jwt = false
+
+[functions.musicgen-generate]
+verify_jwt = true
+
+[functions.generate-sfx]
+verify_jwt = true
+
+[functions.analyze-track-context]
+verify_jwt = true
+
+[functions.set-music-profile]
+verify_jwt = true
+
+[functions.audit-log]
+verify_jwt = false
+
+[functions.broadcast-feature]
+verify_jwt = true
+
+[functions.generate-image]
+verify_jwt = true
+
+[functions.reward-purchase]
+verify_jwt = true
+
+[functions.replicate-midi-transcription]
+verify_jwt = true
+
+[functions.generate-contextual-stem]
+verify_jwt = true
+
+[functions.separate-reference-stems]
+verify_jwt = false
+
+[functions.lyrics-ai-assistant]
+verify_jwt = true
+
+[functions.analyze-reference-audio]
+verify_jwt = true
+
+[functions.extract-lyrics-from-stem]
+verify_jwt = true
+
+[functions.suno-extend-audio]
 verify_jwt = true

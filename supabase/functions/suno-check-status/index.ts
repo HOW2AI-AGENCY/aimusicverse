@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { isSunoSuccessCode } from '../_shared/suno.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -36,7 +37,7 @@ serve(async (req) => {
       throw new Error('Unauthorized');
     }
 
-    const { taskId } = await req.json();
+    const { taskId, useFallback } = await req.json();
 
     if (!taskId) {
       throw new Error('taskId is required');
@@ -60,31 +61,94 @@ serve(async (req) => {
       throw new Error('No Suno task ID found');
     }
 
-    console.log('Checking status for Suno task:', sunoTaskId);
+    console.log('Checking status for Suno task:', sunoTaskId, 'useFallback:', useFallback);
 
-    // Query Suno API for task status using correct endpoint
-    const sunoResponse = await fetch(
-      `https://api.sunoapi.org/api/v1/generate/record-info?taskId=${sunoTaskId}`,
-      {
-        headers: {
-          'Authorization': `Bearer ${sunoApiKey}`,
-          'Content-Type': 'application/json',
-        },
+    // Helper function to fetch status with retry
+    const fetchStatusWithRetry = async (endpoint: string, maxRetries = 2): Promise<any> => {
+      let lastError: Error | null = null;
+      
+      for (let attempt = 0; attempt <= maxRetries; attempt++) {
+        try {
+          const response = await fetch(endpoint, {
+            headers: {
+              'Authorization': `Bearer ${sunoApiKey}`,
+              'Content-Type': 'application/json',
+            },
+          });
+
+          if (!response.ok) {
+            throw new Error(`Suno API error: ${response.status}`);
+          }
+
+          const data = await response.json();
+          
+          if (!isSunoSuccessCode(data.code)) {
+            const code = data.code ?? 'unknown';
+            throw new Error(data.msg || `API returned code ${code}`);
+          }
+          
+          return data;
+        } catch (error) {
+          console.error(`Attempt ${attempt + 1} failed:`, error);
+          lastError = error as Error;
+          
+          if (attempt < maxRetries) {
+            // Exponential backoff: 1s, 2s, 4s
+            await new Promise(resolve => setTimeout(resolve, 1000 * Math.pow(2, attempt)));
+          }
+        }
       }
-    );
+      
+      throw lastError;
+    };
 
-    if (!sunoResponse.ok) {
-      throw new Error(`Suno API error: ${sunoResponse.status}`);
+    // Try primary endpoint first, then fallback
+    let sunoData;
+    let taskData;
+    
+    try {
+      if (useFallback) {
+        // Use fallback endpoint directly if requested
+        console.log('Using fallback endpoint: GET /api/get');
+        sunoData = await fetchStatusWithRetry(
+          `https://api.sunoapi.org/api/v1/generate/get?taskId=${sunoTaskId}`
+        );
+      } else {
+        // Try primary endpoint
+        console.log('Using primary endpoint: record-info');
+        sunoData = await fetchStatusWithRetry(
+          `https://api.sunoapi.org/api/v1/generate/record-info?taskId=${sunoTaskId}`
+        );
+      }
+      
+      taskData = sunoData.data;
+    } catch (primaryError) {
+      console.error('Primary endpoint failed, trying fallback:', primaryError);
+      
+      // Log the error for debugging
+      await supabase.from('api_usage_logs').insert({
+        service: 'suno',
+        endpoint: 'check-status-primary-failed',
+        method: 'GET',
+        user_id: user.id,
+        request_body: { taskId: sunoTaskId, error: (primaryError as Error).message },
+        response_status: 500,
+      });
+      
+      // Try fallback endpoint
+      try {
+        console.log('Attempting fallback endpoint: GET /api/get');
+        sunoData = await fetchStatusWithRetry(
+          `https://api.sunoapi.org/api/v1/generate/get?taskId=${sunoTaskId}`,
+          1 // Fewer retries for fallback
+        );
+        taskData = sunoData.data;
+        console.log('Fallback endpoint succeeded');
+      } catch (fallbackError) {
+        console.error('Fallback endpoint also failed:', fallbackError);
+        throw new Error(`Both endpoints failed: ${(primaryError as Error).message}`);
+      }
     }
-
-    const sunoData = await sunoResponse.json();
-
-    if (sunoData.code !== 200) {
-      console.error('SunoAPI query error:', sunoData);
-      throw new Error(sunoData.msg || 'Failed to query Suno API');
-    }
-
-    const taskData = sunoData.data;
     const trackId = task.track_id;
 
     // Check if at least first clip is ready for streaming

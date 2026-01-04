@@ -7,336 +7,238 @@ MusicVerse AI is a professional AI-powered music creation platform built as a Te
 **Key Technologies:**
 - React 19 + TypeScript 5
 - Vite for build tooling
-- Supabase for backend/database
+- Lovable Cloud (Supabase-based backend) for database, auth, edge functions, storage
 - Telegram Mini App SDK (@twa-dev/sdk)
-- TanStack Query for data management
+- TanStack Query for data management with optimized caching
 - Tailwind CSS + shadcn/ui components
 - Zustand for state management
+- Framer Motion for animations
+- react-virtuoso for list virtualization
+
+**Infrastructure Notes:**
+- Backend runs on Lovable Cloud, which provides Supabase functionality
+- Edge Functions deploy automatically on code changes
+- Database uses PostgreSQL with RLS (Row Level Security)
+- Track versioning uses `is_primary` field and `active_version_id` on tracks table
+- Changelog stored in `track_change_log` table
+- Playlists use `playlists` and `playlist_tracks` tables
+
+## Architecture Overview
+
+### State Management Stores (Zustand)
+```
+src/stores/
+├── playerStore.ts       # Global audio player state (currentTrack, queue, playback)
+├── lyricsWizardStore.ts # AI Lyrics Wizard 5-step pipeline state
+└── planTrackStore.ts    # Project track planning context
+```
+
+### Key Hooks Categories
+
+**Audio & Playback:**
+- `useAudioTime.ts` - Shared audio time state
+- `useGlobalAudioPlayer.ts` - Global audio player controls
+- `usePlaybackQueue.ts` - Queue management (Play Next, Add to Queue)
+- `usePlayerState.ts` - Player UI state
+
+**Track Management:**
+- `useTracks.ts` - Main unified track hook with service layer architecture
+- `useTrackVersions.ts` - A/B versioning system
+- `useVersionSwitcher.ts` - Version switching with is_primary + active_version_id sync
+- `useTrackStems.tsx` - Stem separation status
+- `useTrackCounts.ts` - Batch version/stem counts (optimized)
+- `useActiveVersion.ts` - Active version resolution
+
+**Content Discovery:**
+- `usePublicContentOptimized.ts` - Single query for Featured/New/Popular tracks
+- `useAutoPlaylists.ts` - Auto-generated genre playlists
+- `usePlaylists.ts` - User playlist CRUD operations
+
+**Generation:**
+- `useActiveGenerations.ts` - Active task tracking
+- `useGenerateDraft.ts` - Auto-save form drafts to localStorage
+- `useSyncStaleTasks.ts` - Recovery of stuck generation tasks
+
+### Component Architecture
+
+```
+src/components/
+├── ui/                    # shadcn/ui base components + custom
+│   ├── lazy-image.tsx    # Lazy loading with blur placeholder
+│   └── ...
+├── player/               # Audio player components
+│   ├── MobileFullscreenPlayer.tsx
+│   ├── ExpandedPlayer.tsx
+│   └── ...
+├── library/              # Library page components
+│   └── VirtualizedTrackList.tsx  # react-virtuoso grid/list
+├── playlist/             # Playlist management
+├── stem-studio/          # Stem separation studio
+├── generate-form/        # Music generation form
+├── lyrics/               # AI Lyrics Wizard
+├── home/                 # Homepage sections (optimized)
+│   ├── FeaturedSectionOptimized.tsx
+│   ├── NewReleasesSectionOptimized.tsx
+│   ├── PopularSectionOptimized.tsx
+│   └── AutoPlaylistsSectionOptimized.tsx
+├── onboarding/           # User onboarding flow
+└── track/                # Track cards, actions, details
+```
+
+## Performance Optimization Patterns
+
+### 1. Data Fetching (TanStack Query)
+```typescript
+// Optimized caching strategy
+{
+  staleTime: 30 * 1000,      // 30 seconds
+  gcTime: 10 * 60 * 1000,    // 10 minutes
+  refetchOnWindowFocus: false,
+}
+```
+
+### 2. List Virtualization
+```typescript
+// Use react-virtuoso for large lists
+import { Virtuoso, VirtuosoGrid } from 'react-virtuoso';
+```
+
+### 3. Lazy Image Loading
+```typescript
+// Use LazyImage component with blur placeholder
+import { LazyImage } from '@/components/ui/lazy-image';
+```
+
+### 4. Batch Queries
+```typescript
+// Single query for related data instead of N+1
+const { data } = usePublicContentOptimized(); // Returns featured, recent, popular, autoPlaylists
+```
 
 ## Development Commands
 
 ### Essential Commands
 ```bash
-# Install dependencies
-npm install
-
-# Development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Build for development
-npm run build:dev
-
-# Preview production build
-npm preview
-
-# Run tests
-npm test
-
-# Run tests with coverage
-npm test:coverage
-
-# Lint code
-npm run lint
-
-# Format code
-npm run format
-
-# Storybook (component development)
-npm run storybook
-npm run build-storybook
+npm install          # Install dependencies
+npm run dev          # Development server
+npm run build        # Build for production
+npm run preview      # Preview production build
+npm test             # Run tests
+npm run lint         # Lint code
+npm run format       # Format code
 ```
 
 ## Code Style and Standards
 
 ### TypeScript/JavaScript
-- Use **Prettier** for all formatting (config in `.prettierrc.json`)
-- Run `npm run format` before committing
-- Follow ESLint rules (config in `eslint.config.js`)
-- Use strict TypeScript settings from `tsconfig.json`
+- Use **Prettier** for all formatting
+- Follow ESLint rules
+- Use strict TypeScript settings
 
 ### React Best Practices
 - Follow [React Hooks rules](https://reactjs.org/docs/hooks-rules.html)
-- Use functional components with hooks (no class components)
-- Prefer composition over inheritance
+- Use functional components with hooks
+- All hooks called at top level before conditionals
 - Use custom hooks for reusable logic
 
 ### Naming Conventions
-- **Components:** `PascalCase` (e.g., `BottomNavigation`, `MusicPlayer`)
-- **Variables/Functions:** `camelCase` (e.g., `telegramUser`, `handlePlayback`)
-- **Types/Interfaces:** `PascalCase` (e.g., `TelegramUser`, `MusicTrack`)
-- **Constants:** `UPPER_SNAKE_CASE` for true constants (e.g., `MAX_PROMPT_LENGTH`)
-- **Files:** 
-  - Components: `PascalCase.tsx`
-  - Utilities/Hooks: `camelCase.ts`
-  - Types: `types.ts` or `PascalCase.types.ts`
-
-### Comments and Documentation
-- Use `// TODO:` for features to be added
-- Use `// FIXME:` for issues to be fixed
-- Document complex logic with clear comments
-- Add JSDoc comments for exported functions/types
-- CI automatically creates issues from TODO/FIXME comments
+- **Components:** `PascalCase.tsx`
+- **Variables/Functions:** `camelCase`
+- **Types/Interfaces:** `PascalCase`
+- **Constants:** `UPPER_SNAKE_CASE`
+- **Hooks:** `use` prefix (e.g., `usePlayerState`)
+- **Stores:** `Store` suffix (e.g., `playerStore`)
 
 ### Import Organization
 1. External dependencies (React, libraries)
-2. Internal absolute imports (from `src/`)
+2. Internal absolute imports (from `@/`)
 3. Relative imports
-4. Style imports (if any)
+4. Style imports
 
-Example:
-```typescript
-import { useState, useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
+## Key Features Implementation
 
-import { Button } from '@/components/ui/button';
-import { useTelegram } from '@/hooks/useTelegram';
+### Track Versioning (A/B System)
+- Each generation creates 2 versions (A/B)
+- `track_versions` table with `version_label`, `clip_index`, `is_primary`
+- `tracks.active_version_id` points to current version
+- Version switch updates both `is_primary` AND `active_version_id`
 
-import { formatDuration } from './utils';
-```
+### Playlist System
+- `playlists` table with auto-updated stats (track_count, total_duration)
+- `playlist_tracks` with position for drag-drop reordering
+- Deep linking: `t.me/AIMusicVerseBot/app?startapp=playlist_ID`
+- AI-generated covers via `generate-playlist-cover` edge function
 
-## Git Workflow
+### Stem Separation
+- `track_stems` table stores separated stems
+- `stem_separation_tasks` tracks async separation jobs
+- `has_stems` flag on tracks indicates availability
+- Studio interface for mixing with volume controls
 
-### Branch Strategy (GitFlow)
-- **`main`**: Production-ready code
-- **`develop`**: Integration branch for new features
-- **`feature/*`**: New features (e.g., `feature/audio-player`)
-- **`bugfix/*`**: Bug fixes (e.g., `bugfix/playback-issue`)
-- **`hotfix/*`**: Urgent production fixes
+### Auto-Playlists by Genre
+- Dynamic playlists from public community tracks
+- Genre extracted from track style/tags
+- AI-generated playlist covers
+- Displayed on homepage for discovery
 
-### Commit Messages
-Follow [Conventional Commits](https://www.conventionalcommits.org/) format:
+### Onboarding System
+- 9-step guided tour for new users
+- LocalStorage persistence (show once)
+- Manual restart from profile settings
+- Framer-motion animations
 
-**Format:** `<type>(<scope>): <subject>`
+### Telegram Integration
+- Portrait orientation lock
+- Native sharing (Stories, shareURL, downloadFile)
+- Deep linking with startapp parameters
+- File ID caching for efficient media reuse
+- MarkdownV2 message formatting with proper escaping
 
-**Types:**
-- `feat`: New feature
-- `fix`: Bug fix
-- `docs`: Documentation changes
-- `style`: Code style changes (formatting, no logic change)
-- `refactor`: Code refactoring
-- `test`: Adding/updating tests
-- `ci`: CI/CD changes
-- `chore`: Other changes (dependencies, etc.)
+## Database Conventions
 
-**Examples:**
-```
-feat(auth): add Apple ID login support
-fix(player): resolve audio playback stuttering
-docs(readme): update installation instructions
-refactor(api): simplify music generation logic
-```
+### Core Tables
+- `tracks` - Main track data with `active_version_id`
+- `track_versions` - A/B versions with `is_primary`, `version_label`
+- `track_stems` - Separated audio stems
+- `track_change_log` - Audit trail for changes
+- `playlists` - User playlists
+- `playlist_tracks` - Playlist track associations
+- `artists` - AI artist personas
+- `audio_analysis` - AI music analysis results
+- `generation_tasks` - Generation job tracking
 
-### Pull Request Process
-1. Create PR from `feature/*` or `bugfix/*` to `develop`
-2. Ensure all CI checks pass (build, test, lint)
-3. Get approval from at least one team member
-4. Use the PR template (if available)
-5. Squash commits when merging (if needed)
+### RLS Policies
+- `profiles.is_public` controls public visibility
+- User data protected by `auth.uid()` checks
+- Public content requires explicit `is_public = true`
 
-## Directory Structure
+## Security Guidelines
 
-```
-aimusicverse/
-├── .github/              # GitHub configuration (workflows, agents)
-├── .storybook/           # Storybook configuration
-├── docs/                 # Project documentation
-├── public/               # Static assets
-├── src/                  # Source code
-│   ├── assets/          # Images, icons, fonts
-│   ├── components/      # React components
-│   │   ├── ui/         # shadcn/ui base components
-│   │   └── ...         # Feature-specific components
-│   ├── hooks/          # Custom React hooks
-│   ├── lib/            # Utilities and helpers
-│   ├── pages/          # Page components
-│   ├── services/       # API services (Supabase, etc.)
-│   ├── stores/         # Zustand state stores
-│   ├── types/          # TypeScript type definitions
-│   └── main.tsx        # Application entry point
-├── supabase/            # Supabase configuration/migrations
-└── verification/        # Verification scripts
-```
+- Never commit secrets
+- Use environment variables
+- Validate input on client and server
+- RLS policies on all tables with user data
+- `is_public` field controls visibility
 
-## Key Components and Patterns
+## Edge Functions
 
-### Telegram Mini App Integration
-- Use `@twa-dev/sdk` for Telegram features
-- Access via `useTelegram()` hook
-- Handle Telegram theme, user data, and navigation
-- Use Telegram's cloud storage for settings sync
+Key functions in `supabase/functions/`:
+- `suno-music-callback` - Generation completion handler
+- `suno-send-audio` - Telegram audio sending (FormData)
+- `send-telegram-notification` - User notifications
+- `telegram-bot` - Bot command handler
+- `generate-playlist-cover` - AI cover generation
+- `generate-artist-portrait` - AI artist portraits
+- `suno-boost-style` - Style prompt enhancement (Russian, 450 char limit)
 
-### State Management
-- **Zustand** for global state (user preferences, app state)
-- **TanStack Query** for server state (API data, caching)
-- Local state with `useState` for component-specific data
+## Resources
 
-### UI Components
-- Use **shadcn/ui** components from `src/components/ui/`
-- Customize with Tailwind classes
-- Follow existing component patterns
-- Ensure mobile-first responsive design
-
-### API Integration
-- Supabase client in `src/lib/supabase.ts`
-- Use TanStack Query for data fetching
-- Handle loading/error states consistently
-- Implement proper error boundaries
-
-## Testing Guidelines
-
-### Test Structure
-- Place tests next to components or in `__tests__` folders
-- Use Jest + Testing Library
-- File naming: `ComponentName.test.tsx`
-
-### Test Types
-- Unit tests for utilities and hooks
-- Integration tests for component interactions
-- Mock Supabase and external APIs
-- Test accessibility (a11y) requirements
-
-### Coverage Requirements
-- Run `npm test:coverage` to check coverage
-- Aim for >80% coverage on new code
-- Critical paths must have tests
-
-## Acceptance Criteria for Contributions
-
-Before submitting a PR, ensure:
-
-1. **Code Quality:**
-   - [ ] Code is formatted with Prettier (`npm run format`)
-   - [ ] No ESLint errors (`npm run lint`)
-   - [ ] TypeScript types are properly defined (no `any` unless justified)
-   - [ ] Code follows naming conventions
-
-2. **Functionality:**
-   - [ ] Feature works as expected
-   - [ ] No console errors or warnings
-   - [ ] Mobile-responsive (test on different screen sizes)
-   - [ ] Works in Telegram Mini App context
-
-3. **Testing:**
-   - [ ] Tests added for new features/fixes
-   - [ ] All tests pass (`npm test`)
-   - [ ] Coverage maintained or improved
-
-4. **Documentation:**
-   - [ ] Code is self-documenting or has comments
-   - [ ] README updated if needed
-   - [ ] API changes documented
-
-5. **Build:**
-   - [ ] Project builds successfully (`npm run build`)
-   - [ ] No build warnings
-   - [ ] Bundle size is reasonable
-
-## Security and Privacy
-
-- **Never commit secrets** (API keys, tokens, passwords)
-- Use environment variables (`.env` file, not committed)
-- Validate user input on both client and server
-- Follow OWASP security best practices
-- Handle personal data according to privacy policies
-
-## Performance Considerations
-
-- Optimize images (use appropriate formats and sizes)
-- Lazy load components when appropriate
-- Minimize bundle size (check with build output)
-- Use React.memo() for expensive renders
-- Implement proper caching strategies
-
-## Multilingual Support
-
-The project supports 75+ languages:
-- Use i18n for all user-facing text
-- Follow existing translation patterns
-- Test with different language settings
-- Consider RTL (right-to-left) languages
-
-## Music Generation Specifics
-
-When working on music generation features:
-- Respect Suno AI v5 API limits and quotas
-- Handle 174+ meta tags properly
-- Support 277+ music styles
-- Validate prompt length (up to 5000 characters)
-- Implement proper error handling for generation failures
-- Cache generated tracks appropriately
-
-## CI/CD
-
-- Automated builds run on push to `main` and `develop`
-- Quality checks run on all PRs
-- TODO/FIXME scanner creates issues automatically
-- Ensure CI passes before merging
-
-## Planning and Development Tools
-
-<!-- AUTO-GENERATED: START - DO NOT EDIT THIS SECTION MANUALLY -->
-### Feature Planning System
-
-The project uses a structured planning system in `.specify/` for feature development:
-
-**Key Scripts**:
-- `.specify/scripts/powershell/setup-plan.ps1 -Json` - Initialize feature spec and plan
-- PowerShell Core 7+ required (cross-platform)
-
-**Planning Workflow** (Phases 0-2):
-1. **Phase 0 (Research)**: Create `spec.md` → Resolve unknowns → Generate `research.md`
-2. **Phase 1 (Design)**: Generate `data-model.md`, `contracts/*.yaml`, `quickstart.md`
-3. **Phase 2 (Tasks)**: Generate `tasks.md` with INVEST-compliant tasks
-
-**Artifact Structure**:
-```
-specs/[feature-name]/
-├── spec.md          # Feature specification
-├── plan.md          # Implementation plan
-├── research.md      # Technical decisions
-├── data-model.md    # Entity definitions
-├── quickstart.md    # Developer guide
-├── tasks.md         # Granular tasks
-└── contracts/       # JSON Schemas, OpenAPI specs
-```
-
-**Technologies Added**:
-- PowerShell Core 7+ for cross-platform scripting
-- JSON Schema for validation (plan, task, spec schemas)
-- Markdown with YAML frontmatter for structured documentation
-
-**Constitution Compliance**:
-- All plans validated against 8 constitution principles
-- Automatic gates before phase transitions
-- NEEDS CLARIFICATION markers for unknowns
-- TDD requirements enforced for P1 user stories
-
-**Reference**: See `specs/copilot/create-task-plan/quickstart.md` for detailed workflow
-<!-- AUTO-GENERATED: END -->
-
-## Resources and Documentation
-
-- [Main README](../README.md)
-- [Contributing Guide](../CONTRIBUTING.md)
-- [Development Workflow](../DEVELOPMENT_WORKFLOW.md)
-- [Project Management](../PROJECT_MANAGEMENT.md)
-- [Database Documentation](../docs/DATABASE.md)
-- [Suno API Documentation](../docs/SUNO_API.md)
-- [Telegram Bot Architecture](../docs/TELEGRAM_BOT_ARCHITECTURE.md)
-- [Navigation System](../docs/NAVIGATION_SYSTEM.md)
 - [Project Specification](../docs/PROJECT_SPECIFICATION.md)
-- [Constitution](.specify/memory/constitution.md) - Project principles and standards
-
-## Questions or Issues?
-
-- Check existing documentation first
-- Search for similar issues
-- Ask in team communication channels
-- Create a well-scoped issue with clear description
+- [Database Schema](../docs/DATABASE.md)
+- [Suno API](../docs/SUNO_API.md)
+- [Telegram Bot Architecture](../docs/TELEGRAM_BOT_ARCHITECTURE.md)
+- [Player Architecture](../docs/PLAYER_ARCHITECTURE.md)
 
 ---
 
-**Note:** This project is under active development. These instructions may be updated. Check the latest version in the repository.
+**Last Updated:** 2025-12-05

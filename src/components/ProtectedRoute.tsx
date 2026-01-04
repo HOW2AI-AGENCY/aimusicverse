@@ -1,6 +1,7 @@
 import { ReactNode, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
+import { useGuestMode } from '@/contexts/GuestModeContext';
 import { Loader2 } from 'lucide-react';
 
 interface ProtectedRouteProps {
@@ -9,6 +10,7 @@ interface ProtectedRouteProps {
 
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const { isAuthenticated, loading } = useAuth();
+  const { isGuestMode } = useGuestMode();
 
   if (loading) {
     return (
@@ -21,7 +23,8 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     );
   }
 
-  if (!isAuthenticated) {
+  // Allow guest mode users to access protected routes in read-only mode
+  if (!isAuthenticated && !isGuestMode) {
     return <Navigate to="/auth" replace />;
   }
 

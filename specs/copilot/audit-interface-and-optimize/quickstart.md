@@ -67,7 +67,7 @@ The following migrations will be created (in order):
 
 1. `add_master_version_to_tracks.sql`
 2. `add_version_fields_to_track_versions.sql`
-3. `create_track_changelog_table.sql`
+3. `create_track_change_log_table.sql`
 4. `create_playlists_tables.sql`
 5. `add_indexes_for_performance.sql`
 6. `migrate_existing_data.sql`
@@ -100,20 +100,20 @@ WHERE track_versions.id = numbered_versions.id;
 
 -- Set first version as master
 UPDATE track_versions
-SET is_master = true
+SET is_primary = true
 WHERE id IN (
   SELECT MIN(id)
   FROM track_versions
   GROUP BY track_id
 );
 
--- Update tracks with master_version_id
+-- Update tracks with primary_version_id
 UPDATE music_tracks
-SET master_version_id = (
+SET primary_version_id = (
   SELECT id
   FROM track_versions
   WHERE track_id = music_tracks.id
-    AND is_master = true
+    AND is_primary = true
   LIMIT 1
 );
 ```
@@ -630,8 +630,8 @@ supabase db push
 ```sql
 -- Check referential integrity
 SELECT * FROM music_tracks 
-WHERE master_version_id IS NOT NULL 
-  AND master_version_id NOT IN (SELECT id FROM track_versions);
+WHERE primary_version_id IS NOT NULL 
+  AND primary_version_id NOT IN (SELECT id FROM track_versions);
 ```
 
 ### Player Issues

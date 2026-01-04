@@ -1,27 +1,47 @@
-import { useState, useEffect } from 'react';
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { AnimatePresence, motion } from '@/lib/motion';
+import { cn } from '@/lib/utils';
+import { Sheet, SheetContent, SheetFooter } from '@/components/ui/sheet';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Sparkles, Loader2, Zap as ZapIcon, Sliders, Coins, Mic, FileAudio, FolderOpen, User, Music2, History } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
+import { Progress } from '@/components/ui/progress';
+import { Sparkles, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
-import { Badge } from '@/components/ui/badge';
 import { useProjects } from '@/hooks/useProjects';
 import { useArtists } from '@/hooks/useArtists';
+import logo from '@/assets/logo.png';
 import { useTracks } from '@/hooks/useTracks';
-import { UploadExtendDialog } from './UploadExtendDialog';
-import { UploadCoverDialog } from './UploadCoverDialog';
-import { AudioReferenceUpload } from './generate-form/AudioReferenceUpload';
+import { useGenerateForm, useAudioReference } from '@/hooks/generation';
+import { useTelegram } from '@/contexts/TelegramContext';
+import { useTelegramMainButton, useTelegramSecondaryButton, useTelegramBackButton } from '@/hooks/telegram';
+import { useKeyboardAware } from '@/hooks/useKeyboardAware';
+// Form components
+import { GenerateFormHeaderCompact } from './generate-form/GenerateFormHeaderCompact';
+import { GenerateFormActions } from './generate-form/GenerateFormActions';
+import { GenerateFormReferences } from './generate-form/GenerateFormReferences';
+import { GenerateFormSimple } from './generate-form/GenerateFormSimple';
+import { GenerateFormCustom } from './generate-form/GenerateFormCustom';
+import { GenerationLoadingState } from './generate-form/GenerationLoadingState';
+import { CollapsibleFormHeader } from './generate-form/CollapsibleFormHeader';
+
+// Dialogs
+import { AudioActionDialog } from './generate-form/AudioActionDialog';
 import { ArtistSelector } from './generate-form/ArtistSelector';
 import { ProjectTrackSelector } from './generate-form/ProjectTrackSelector';
-import { AdvancedSettings } from './generate-form/AdvancedSettings';
-import { LyricsVisualEditor } from './generate-form/LyricsVisualEditor';
-import { PromptHistory, savePromptToHistory } from './generate-form/PromptHistory';
+import { PromptHistory } from './generate-form/PromptHistory';
+import { LyricsChatAssistant } from './generate-form/LyricsChatAssistant';
+import { StylePresetSelector } from './generate-form/StylePresetSelector';
+// UploadAudioDialog removed - now using unified form for cover/extend
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 
 interface GenerateSheetProps {
   open: boolean;
@@ -33,611 +53,547 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   const { projects } = useProjects();
   const { artists } = useArtists();
   const { tracks: allTracks } = useTracks();
-
-  const [mode, setMode] = useState<'simple' | 'custom'>('simple');
-  const [loading, setLoading] = useState(false);
-  const [boostLoading, setBoostLoading] = useState(false);
-  const [uploadExtendOpen, setUploadExtendOpen] = useState(false);
-  const [uploadCoverOpen, setUploadCoverOpen] = useState(false);
-  const [credits, setCredits] = useState<number | null>(null);
-  const [advancedOpen, setAdvancedOpen] = useState(false);
-  const [historyOpen, setHistoryOpen] = useState(false);
-  const [showVisualEditor, setShowVisualEditor] = useState(false);
+  const { hapticFeedback, enableClosingConfirmation, disableClosingConfirmation } = useTelegram();
   
-  // Simple mode state
-  const [description, setDescription] = useState('');
+  // Get active audio reference for hasReferenceAudio check
+  const { activeReference } = useAudioReference();
   
-  // Custom mode state
-  const [title, setTitle] = useState('');
-  const [lyrics, setLyrics] = useState('');
-  const [style, setStyle] = useState('');
-  const [hasVocals, setHasVocals] = useState(true);
-  
-  // Advanced settings
-  const [model, setModel] = useState('V4_5ALL');
-  const [negativeTags, setNegativeTags] = useState('');
-  const [vocalGender, setVocalGender] = useState<'m' | 'f' | ''>('');
-  const [styleWeight, setStyleWeight] = useState([0.65]);
-  const [weirdnessConstraint, setWeirdnessConstraint] = useState([0.5]);
-  const [audioWeight, setAudioWeight] = useState([0.65]);
+  // Keyboard-aware behavior для адаптации под клавиатуру iOS
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const { keyboardHeight, isKeyboardOpen, createFocusHandler } = useKeyboardAware();
 
-  // Reference data
-  const [selectedProjectId, setSelectedProjectId] = useState<string | undefined>(initialProjectId);
-  const [selectedTrackId, setSelectedTrackId] = useState<string | undefined>();
-  const [selectedArtistId, setSelectedArtistId] = useState<string | undefined>();
-  const [audioFile, setAudioFile] = useState<File | null>(null);
-
-  // Dialogs
+  // Dialog states
   const [projectDialogOpen, setProjectDialogOpen] = useState(false);
   const [artistDialogOpen, setArtistDialogOpen] = useState(false);
-  const [trackDialogOpen, setTrackDialogOpen] = useState(false);
+  const [audioActionDialogOpen, setAudioActionDialogOpen] = useState(false); // For reference audio selection
+  // Legacy UploadAudioDialog states removed - now using unified form
+  const [historyOpen, setHistoryOpen] = useState(false);
+  const [lyricsAssistantOpen, setLyricsAssistantOpen] = useState(false);
+  const [stylesOpen, setStylesOpen] = useState(false);
+  const [projectTrackStep, setProjectTrackStep] = useState<'project' | 'track'>('project');
+  const [advancedOpen, setAdvancedOpen] = useState(false);
+  const [closeConfirmOpen, setCloseConfirmOpen] = useState(false);
+  const [headerCollapsed, setHeaderCollapsed] = useState(false);
 
-  // Fetch credits
+  // Form hook
+  const form = useGenerateForm({
+    open,
+    onOpenChange,
+    initialProjectId,
+    projects,
+    artists,
+    allTracks,
+  });
+
+  // Check if form has unsaved data
+  const hasUnsavedData = Boolean(
+    form.style.trim() ||
+    form.lyrics.trim() ||
+    form.title.trim()
+  );
+
+  // Enable/disable Telegram closing confirmation based on form state
   useEffect(() => {
-    const fetchCredits = async () => {
-      try {
-        const { data } = await supabase.functions.invoke('suno-credits');
-        if (data?.credits !== undefined) {
-          setCredits(data.credits);
-        }
-      } catch (error) {
-        console.error('Error fetching credits:', error);
-      }
+    if (open && hasUnsavedData) {
+      enableClosingConfirmation();
+    } else {
+      disableClosingConfirmation();
+    }
+    return () => {
+      disableClosingConfirmation();
     };
+  }, [open, hasUnsavedData, enableClosingConfirmation, disableClosingConfirmation]);
 
-    if (open) {
-      fetchCredits();
-    }
-  }, [open]);
-
-  // Auto-fill from selected track
-  const handleTrackSelect = (trackId: string) => {
-    const track = allTracks?.find(t => t.id === trackId);
-    if (track) {
-      setTitle(track.title || '');
-      setLyrics(track.lyrics || '');
-      setStyle(track.style || '');
-      setHasVocals(track.has_vocals ?? true);
-      if (track.suno_model) setModel(track.suno_model);
-      if (track.negative_tags) setNegativeTags(track.negative_tags);
-      if (track.vocal_gender) setVocalGender(track.vocal_gender as 'm' | 'f');
-      if (track.style_weight) setStyleWeight([track.style_weight]);
-      toast.success('Данные трека загружены');
-    }
-    setSelectedTrackId(trackId);
-    setTrackDialogOpen(false);
-  };
-
-  const handleBoostStyle = async () => {
-    const content = mode === 'simple' ? description : style;
-    
-    if (!content) {
-      toast.error('Пожалуйста, заполните описание стиля');
-      return;
-    }
-
-    setBoostLoading(true);
-    try {
-      const { data, error } = await supabase.functions.invoke('suno-boost-style', {
-        body: { content },
-      });
-
-      if (error) throw error;
-
-      if (data?.boostedStyle) {
-        if (mode === 'simple') {
-          setDescription(data.boostedStyle);
-        } else {
-          setStyle(data.boostedStyle);
-        }
-        toast.success('Стиль улучшен! ✨', {
-          description: 'Описание стиля было оптимизировано AI',
-        });
-      }
-    } catch (error) {
-      console.error('Boost error:', error);
-      
-      const errorMessage = error instanceof Error ? error.message : '';
-      if (errorMessage.includes('429') || errorMessage.includes('кредитов')) {
-        toast.error('Недостаточно кредитов', {
-          description: 'Пополните баланс SunoAPI',
-        });
-      } else {
-        toast.error('Ошибка улучшения', {
-          description: errorMessage || 'Попробуйте еще раз',
-        });
-      }
-    } finally {
-      setBoostLoading(false);
-    }
-  };
-
-  const handleGenerate = async () => {
-    const instrumental = !hasVocals;
-    const prompt = mode === 'simple' ? description : (instrumental ? '' : lyrics);
-    
-    if (mode === 'simple' && !description) {
-      toast.error('Пожалуйста, опишите музыку');
-      return;
-    }
-
-    if (mode === 'custom' && !style) {
-      toast.error('Пожалуйста, укажите стиль музыки');
-      return;
-    }
-
-    if (mode === 'custom' && hasVocals && !lyrics) {
-      toast.error('Пожалуйста, добавьте лирику или отключите вокал');
-      return;
-    }
-
-    // Save to history before generating
-    savePromptToHistory({
-      mode,
-      description: mode === 'simple' ? description : undefined,
-      title: mode === 'custom' ? title : undefined,
-      style: mode === 'custom' ? style : undefined,
-      lyrics: mode === 'custom' && hasVocals ? lyrics : undefined,
-      model,
-    });
-
-    setLoading(true);
-    try {
-      // Get persona ID from selected artist
-      const personaId = selectedArtistId 
-        ? artists?.find(a => a.id === selectedArtistId)?.suno_persona_id 
-        : undefined;
-
-      const { data, error } = await supabase.functions.invoke('suno-music-generate', {
-        body: {
-          mode,
-          prompt: mode === 'simple' ? description : prompt,
-          title: mode === 'custom' ? title : undefined,
-          style: mode === 'custom' ? style : undefined,
-          instrumental,
-          model,
-          negativeTags: negativeTags || undefined,
-          vocalGender: vocalGender || undefined,
-          styleWeight: styleWeight[0],
-          weirdnessConstraint: weirdnessConstraint[0],
-          audioWeight: (audioFile || personaId) ? audioWeight[0] : undefined,
-          personaId: personaId,
-          projectId: selectedProjectId || initialProjectId,
-        },
-      });
-
-      if (error) throw error;
-
-      toast.success('Генерация началась! 🎵', {
-        description: 'Ваш трек появится в библиотеке через 1-3 минуты',
-      });
-
-      // Reset form and close
-      resetForm();
+  // Handle close with confirmation
+  const handleCloseRequest = useCallback(() => {
+    if (hasUnsavedData) {
+      hapticFeedback('warning');
+      setCloseConfirmOpen(true);
+    } else {
       onOpenChange(false);
-      
-      // Refresh credits
-      const { data: creditsData } = await supabase.functions.invoke('suno-credits');
-      if (creditsData?.credits !== undefined) {
-        setCredits(creditsData.credits);
-      }
-    } catch (error) {
-      console.error('Generation error:', error);
-      
-      const errorMessage = error instanceof Error ? error.message : '';
-      if (errorMessage.includes('429') || errorMessage.includes('credits')) {
-        toast.error('Недостаточно кредитов', {
-          description: 'Пополните баланс SunoAPI для продолжения',
-        });
-      } else {
-        toast.error('Ошибка генерации', {
-          description: errorMessage || 'Попробуйте еще раз',
-        });
-      }
-    } finally {
-      setLoading(false);
     }
-  };
+  }, [hasUnsavedData, hapticFeedback, onOpenChange]);
 
-  const resetForm = () => {
-    setDescription('');
-    setTitle('');
-    setLyrics('');
-    setStyle('');
-    setNegativeTags('');
-    setVocalGender('');
-    setStyleWeight([0.65]);
-    setWeirdnessConstraint([0.5]);
-    setAudioWeight([0.65]);
-    setSelectedProjectId(initialProjectId);
-    setSelectedTrackId(undefined);
-    setSelectedArtistId(undefined);
-    setAudioFile(null);
-  };
+  const handleConfirmClose = useCallback(() => {
+    setCloseConfirmOpen(false);
+    onOpenChange(false);
+  }, [onOpenChange]);
 
-  const modelInfo = {
-    V5: { name: 'V5', desc: 'Новейшая модель, быстрая генерация', emoji: '🚀' },
-    V4_5PLUS: { name: 'V4.5+', desc: 'Богатый звук, до 8 мин', emoji: '💎' },
-    V4_5ALL: { name: 'V4.5 All', desc: 'Лучшая структура, до 8 мин', emoji: '🎯' },
-    V4_5: { name: 'V4.5', desc: 'Быстро, качественно, до 8 мин', emoji: '⚡' },
-    V4: { name: 'V4', desc: 'Классика, до 4 мин', emoji: '🎵' },
-  };
-
-  const projectTracks = selectedProjectId 
-    ? allTracks?.filter(t => t.project_id === selectedProjectId) 
+  const projectTracks = form.selectedProjectId
+    ? allTracks?.filter(t => t.project_id === form.selectedProjectId)
     : [];
 
+  const handleProjectSelect = (projectId: string) => {
+    hapticFeedback('light');
+    form.setSelectedProjectId(projectId);
+    const tracks = allTracks?.filter(t => t.project_id === projectId);
+    if (tracks && tracks.length > 0) {
+      setProjectTrackStep('track');
+    } else {
+      setProjectDialogOpen(false);
+      toast.info('Проект выбран', {
+        description: 'В проекте пока нет треков',
+      });
+    }
+  };
+
+  const handleClearDraft = () => {
+    hapticFeedback('medium');
+    form.clearDraft();
+    form.resetForm();
+    toast.success('Черновик очищен');
+  };
+
+  const handleGenerate = () => {
+    hapticFeedback('medium');
+    form.handleGenerate();
+  };
+
+  // Telegram MainButton integration - shows native button in Mini App, UI button for test users
+  // Hide when LyricsChatAssistant is open (it has its own MainButton for "Apply")
+  const { shouldShowUIButton, showProgress, hideProgress } = useTelegramMainButton({
+    text: form.loading ? 'Создание...' : 'СГЕНЕРИРОВАТЬ',
+    onClick: handleGenerate,
+    enabled: !form.loading,
+    visible: open && !lyricsAssistantOpen,
+  });
+
+  // Telegram SecondaryButton for "Save Draft" - NEW FEATURE
+  // Only show when there's unsaved data
+  const { shouldShowUIButton: shouldShowSecondaryUIButton } = useTelegramSecondaryButton({
+    text: 'Сохранить черновик',
+    onClick: () => {
+      hapticFeedback('light');
+      toast.success('Черновик сохранён');
+    },
+    enabled: hasUnsavedData && !form.loading,
+    visible: open && hasUnsavedData && !lyricsAssistantOpen,
+    position: 'left',
+  });
+
+  // Telegram BackButton integration - with confirmation for unsaved data
+  useTelegramBackButton({
+    visible: open,
+    onClick: handleCloseRequest,
+  });
+
+  // Show/hide progress on MainButton when loading changes
+  useEffect(() => {
+    if (form.loading) {
+      showProgress(true);
+    } else {
+      hideProgress();
+    }
+  }, [form.loading, showProgress, hideProgress]);
+
   return (
-    <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="bottom" className="h-[90vh] overflow-y-auto bg-background/95 backdrop-blur-xl">
-        <SheetHeader className="mb-4">
-          <div className="flex items-center justify-between">
-            <SheetTitle className="text-xl flex items-center gap-2">
-              <Sparkles className="w-5 h-5 text-primary" />
-              Создать трек
-            </SheetTitle>
-          </div>
-        </SheetHeader>
+    <>
+    {/* Close confirmation dialog */}
+    <AlertDialog open={closeConfirmOpen} onOpenChange={setCloseConfirmOpen}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Закрыть форму?</AlertDialogTitle>
+          <AlertDialogDescription>
+            У вас есть несохранённые данные. Они будут потеряны.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Отмена</AlertDialogCancel>
+          <AlertDialogAction onClick={handleConfirmClose}>
+            Закрыть
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
 
-        <div className="space-y-4">
-          {/* Header with credits, history and mode toggle */}
-          <div className="flex items-center justify-between gap-3">
-            <div className="flex items-center gap-2">
-              {credits !== null && (
-                <Button variant="secondary" size="sm" className="rounded-full px-4 gap-2">
-                  <Coins className="w-4 h-4" />
-                  <span className="font-semibold">{credits.toFixed(2)}</span>
-                </Button>
-              )}
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setHistoryOpen(true)}
-                className="gap-2"
-              >
-                <History className="w-4 h-4" />
-              </Button>
-            </div>
-
-            <div className="flex items-center gap-1 p-0.5 rounded-lg bg-secondary/50">
-              <Button
-                variant={mode === 'simple' ? 'default' : 'ghost'}
-                size="sm"
-                onClick={() => setMode('simple')}
-                className="rounded-md px-4"
-              >
-                Simple
-              </Button>
-              <Button
-                variant={mode === 'custom' ? 'default' : 'ghost'}
-                size="sm"
-                onClick={() => setMode('custom')}
-                className="rounded-md px-4"
-              >
-                Custom
-              </Button>
-            </div>
-
-            <Select value={model} onValueChange={setModel}>
-              <SelectTrigger className="w-20 h-9">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {Object.entries(modelInfo).map(([key, info]) => (
-                  <SelectItem key={key} value={key}>
-                    {info.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* Quick Action Buttons */}
-          <div className="grid grid-cols-3 gap-2">
-            <Button
-              type="button"
-              variant="outline"
-              className="h-12 gap-2 border-2"
-              onClick={() => setProjectDialogOpen(true)}
-            >
-              <FolderOpen className="w-4 h-4" />
-              <span className="text-sm font-medium">Проект</span>
-            </Button>
-
-            <Button
-              type="button"
-              variant="outline"
-              className="h-12 gap-2 border-2"
-              onClick={() => setArtistDialogOpen(true)}
-            >
-              <User className="w-4 h-4" />
-              <span className="text-sm font-medium">Персона</span>
-            </Button>
-
-            <Button
-              type="button"
-              variant="outline"
-              className="h-12 gap-2 border-2"
-              onClick={() => setTrackDialogOpen(true)}
-            >
-              <FileAudio className="w-4 h-4" />
-              <span className="text-sm font-medium">Трек</span>
-            </Button>
-          </div>
-
-          {/* Audio Reference Upload */}
-          <AudioReferenceUpload
-            audioFile={audioFile}
-            onAudioChange={setAudioFile}
-            onAnalysisComplete={(styleDescription) => {
-              // Update style field with analysis results
-              if (mode === 'custom') {
-                setStyle(prevStyle => {
-                  const newStyle = prevStyle 
-                    ? `${prevStyle}\n\nАнализ референса:\n${styleDescription}`
-                    : styleDescription;
-                  toast.success('Стиль обновлен с результатами анализа');
-                  return newStyle;
-                });
-              }
-            }}
+    <Sheet open={open} onOpenChange={(newOpen) => {
+      if (!newOpen) {
+        handleCloseRequest();
+      } else {
+        onOpenChange(true);
+      }
+    }}>
+      <SheetContent side="bottom" className="h-[90vh] flex flex-col frost-sheet p-0">
+        {/* Collapsible Header with safe area for Telegram native buttons */}
+        <div 
+          className="px-3 border-b bg-background/95 backdrop-blur-xl"
+          style={{ 
+            paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.5rem), calc(env(safe-area-inset-top, 0px) + 0.5rem))' 
+          }}
+        >
+          <CollapsibleFormHeader
+            isCollapsed={headerCollapsed}
+            onToggle={() => setHeaderCollapsed(!headerCollapsed)}
+            balance={form.userBalance}
+            cost={form.generationCost}
+            mode={form.mode}
           />
-
-          {/* Simple Mode */}
-          {mode === 'simple' && (
-            <div className="space-y-4">
-              <div>
-                <div className="flex items-center gap-2 mb-2">
-                  <Label htmlFor="description" className="text-sm text-muted-foreground">
-                    Описание музыки
-                  </Label>
+          
+          {/* Form header row - shown when expanded */}
+          <AnimatePresence>
+            {!headerCollapsed && (
+              <motion.div 
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="flex items-center justify-between pb-2 overflow-hidden"
+              >
+                <div className="flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-primary" />
+                  <h2 className="text-sm font-semibold">Создать трек</h2>
                 </div>
-                <Textarea
-                  id="description"
-                  placeholder="e.g., Спокойный лоу-фай бит с джазовым пианино..."
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  rows={6}
-                  className="resize-none text-base"
+                <GenerateFormHeaderCompact
+                  userBalance={form.userBalance}
+                  generationCost={form.generationCost}
+                  canGenerate={form.canGenerate}
+                  apiCredits={form.apiCredits}
+                  mode={form.mode}
+                  onModeChange={form.setMode}
+                  model={form.model}
+                  onModelChange={form.setModel}
+                  isAdmin={form.isAdmin}
                 />
-                <div className="flex items-center justify-between mt-2">
-                  <span className="text-xs text-muted-foreground">0/500</span>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    onClick={handleBoostStyle}
-                    disabled={boostLoading || !description}
-                    className="gap-2"
-                  >
-                    {boostLoading ? (
-                      <Loader2 className="w-3 h-3 animate-spin" />
-                    ) : (
-                      <Sparkles className="w-3 h-3" />
-                    )}
-                  </Button>
-                </div>
-              </div>
-
-              <div>
-                <Label htmlFor="simple-title" className="text-sm text-muted-foreground">
-                  Название трека <span className="text-xs">(опционально)</span>
-                </Label>
-                <Input
-                  id="simple-title"
-                  placeholder="Оставьте пустым для автогенерации"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  className="mt-2"
-                />
-              </div>
-            </div>
-          )}
-
-          {/* Custom Mode */}
-          {mode === 'custom' && (
-            <div className="space-y-4">
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <Label htmlFor="title" className="text-sm text-muted-foreground">
-                    Название
-                  </Label>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-6 px-2 gap-1.5"
-                  >
-                    <Sparkles className="w-3 h-3" />
-                    <span className="text-xs">AI</span>
-                  </Button>
-                </div>
-                <Input
-                  id="title"
-                  placeholder="Авто-генерация если пусто"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  className="text-base"
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="style" className="text-sm text-muted-foreground border-l-2 border-primary pl-2">
-                  Описание стиля
-                </Label>
-                <Textarea
-                  id="style"
-                  placeholder="Опишите стиль, жанр, настроение..."
-                  value={style}
-                  onChange={(e) => setStyle(e.target.value)}
-                  rows={4}
-                  className="mt-2 resize-none text-base"
-                />
-                <div className="flex items-center justify-between mt-2">
-                  <span className="text-xs text-muted-foreground">0/3000</span>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    onClick={handleBoostStyle}
-                    disabled={boostLoading || !style}
-                    className="gap-2"
-                  >
-                    {boostLoading ? (
-                      <Loader2 className="w-3 h-3 animate-spin" />
-                    ) : (
-                      <Sparkles className="w-3 h-3" />
-                    )}
-                  </Button>
-                </div>
-              </div>
-
-              {/* Lyrics Section */}
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <Label className="text-sm">Lyrics</Label>
-                  <div className="flex gap-1">
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      className="h-6 px-2"
-                      onClick={() => setShowVisualEditor(!showVisualEditor)}
-                    >
-                      <span className="text-xs">{showVisualEditor ? 'Text' : 'Visual'}</span>
-                    </Button>
-                    <Button variant="ghost" size="sm" className="h-6 px-2">
-                      <span className="text-xs">AI</span>
-                    </Button>
-                  </div>
-                </div>
-                
-                {showVisualEditor ? (
-                  <LyricsVisualEditor
-                    value={lyrics}
-                    onChange={setLyrics}
-                  />
-                ) : (
-                  <Textarea
-                    placeholder="Введите текст песни или используйте AI генерацию..."
-                    value={lyrics}
-                    onChange={(e) => setLyrics(e.target.value)}
-                    rows={6}
-                    className="resize-none text-base"
-                  />
-                )}
-              </div>
-
-              {/* Advanced Settings Collapsible */}
-              <AdvancedSettings
-                open={advancedOpen}
-                onOpenChange={setAdvancedOpen}
-                negativeTags={negativeTags}
-                onNegativeTagsChange={setNegativeTags}
-                vocalGender={vocalGender}
-                onVocalGenderChange={setVocalGender}
-                styleWeight={styleWeight}
-                onStyleWeightChange={setStyleWeight}
-                weirdnessConstraint={weirdnessConstraint}
-                onWeirdnessConstraintChange={setWeirdnessConstraint}
-                audioWeight={audioWeight}
-                onAudioWeightChange={setAudioWeight}
-                hasReferenceAudio={!!audioFile}
-              />
-
-              <div className="flex items-center justify-between p-4 rounded-lg border border-border/30">
-                <div className="flex items-center gap-3">
-                  <Mic className="w-4 h-4" />
-                  <Label htmlFor="vocals-toggle" className="cursor-pointer font-medium">
-                    С вокалом
-                  </Label>
-                </div>
-                <Switch
-                  id="vocals-toggle"
-                  checked={hasVocals}
-                  onCheckedChange={setHasVocals}
-                />
-              </div>
-            </div>
-          )}
-
-          {/* Generate Button */}
-          <Button
-            onClick={handleGenerate}
-            disabled={loading}
-            size="lg"
-            className="w-full h-14 text-base gap-2 bg-primary hover:bg-primary/90"
-          >
-            {loading ? (
-              <>
-                <Loader2 className="w-5 h-5 animate-spin" />
-                Создать музыку
-              </>
-            ) : (
-              <>
-                <Music2 className="w-5 h-5" />
-                Создать
-              </>
+              </motion.div>
             )}
-          </Button>
+          </AnimatePresence>
+        </div>
+
+        {/* Loading Overlay */}
+        <AnimatePresence>
+          {form.loading && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-background/90 backdrop-blur-sm z-50 flex items-center justify-center"
+            >
+              <GenerationLoadingState
+                stage="processing"
+                showCancel={false}
+                compact={false}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <ScrollArea className="flex-1">
+          <div className="px-4 py-3 space-y-3">
+            {/* Quick Action Buttons */}
+            <GenerateFormActions
+              onOpenAudioDialog={() => setAudioActionDialogOpen(true)}
+              onOpenArtistDialog={() => setArtistDialogOpen(true)}
+              onOpenProjectDialog={() => setProjectDialogOpen(true)}
+              onOpenHistory={() => setHistoryOpen(true)}
+              onOpenStyles={() => setStylesOpen(true)}
+            />
+
+            {/* Selected References Indicators */}
+            <GenerateFormReferences
+              planTrackId={form.planTrackId}
+              planTrackTitle={form.title}
+              audioFile={form.audioFile}
+              audioReferenceLoading={form.audioReferenceLoading}
+              selectedArtistId={form.selectedArtistId}
+              selectedProjectId={form.selectedProjectId}
+              artists={artists}
+              projects={projects}
+              onRemoveAudioFile={() => form.setAudioFile(null)}
+              onRemoveArtist={() => form.setSelectedArtistId(undefined)}
+              onRemoveProject={() => {
+                form.setSelectedProjectId(undefined);
+                form.setSelectedTrackId(undefined);
+              }}
+            />
+
+            {/* Mode Content with Animation */}
+            <AnimatePresence mode="wait">
+              {form.mode === 'simple' ? (
+                <GenerateFormSimple
+                  description={form.description}
+                  onDescriptionChange={form.setDescription}
+                  title={form.title}
+                  onTitleChange={form.setTitle}
+                  hasVocals={form.hasVocals}
+                  onHasVocalsChange={form.setHasVocals}
+                  onBoostStyle={form.handleBoostStyle}
+                  boostLoading={form.boostLoading}
+                />
+              ) : (
+                <GenerateFormCustom
+                  title={form.title}
+                  onTitleChange={form.setTitle}
+                  style={form.style}
+                  onStyleChange={form.setStyle}
+                  lyrics={form.lyrics}
+                  onLyricsChange={form.setLyrics}
+                  hasVocals={form.hasVocals}
+                  onHasVocalsChange={form.setHasVocals}
+                  onBoostStyle={form.handleBoostStyle}
+                  boostLoading={form.boostLoading}
+                  onOpenLyricsAssistant={() => setLyricsAssistantOpen(true)}
+                  isPublic={form.isPublic}
+                  onIsPublicChange={form.setIsPublic}
+                  canMakePrivate={form.canMakePrivate}
+                  advancedOpen={advancedOpen}
+                  onAdvancedOpenChange={setAdvancedOpen}
+                  negativeTags={form.negativeTags}
+                  onNegativeTagsChange={form.setNegativeTags}
+                  vocalGender={form.vocalGender}
+                  onVocalGenderChange={form.setVocalGender}
+                  styleWeight={form.styleWeight}
+                  onStyleWeightChange={form.setStyleWeight}
+                  weirdnessConstraint={form.weirdnessConstraint}
+                  onWeirdnessConstraintChange={form.setWeirdnessConstraint}
+                  audioWeight={form.audioWeight}
+                  onAudioWeightChange={form.setAudioWeight}
+                  hasReferenceAudio={!!form.audioFile || !!activeReference}
+                  hasPersona={!!form.selectedArtistId}
+                  model={form.model}
+                  onModelChange={form.setModel}
+                />
+              )}
+            </AnimatePresence>
+          </div>
+        </ScrollArea>
+
+        {/* Footer - keyboard-aware padding */}
+        <div 
+          className="p-4 border-t bg-background/95 backdrop-blur"
+          style={{
+            // Применяем padding для клавиатуры + safe-area
+            paddingBottom: isKeyboardOpen
+              ? `${keyboardHeight + 16}px`
+              : 'max(1rem, env(safe-area-inset-bottom))',
+            transition: 'padding-bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          }}
+        >
+          {form.loading && (
+            <div className="mb-1.5">
+              <Progress value={33} className="h-1" />
+            </div>
+          )}
+          <div className="flex gap-2">
+            {/* SecondaryButton fallback - Save Draft */}
+            {shouldShowSecondaryUIButton && (
+              <Button
+                onClick={() => {
+                  hapticFeedback('light');
+                  toast.success('Черновик сохранён');
+                }}
+                variant="outline"
+                disabled={form.loading || !hasUnsavedData}
+                className="flex-1 h-12 text-sm font-semibold rounded-xl"
+              >
+                Сохранить черновик
+              </Button>
+            )}
+            {/* MainButton fallback - Generate */}
+            {shouldShowUIButton && (
+              <Button
+                onClick={handleGenerate}
+                disabled={form.loading}
+                className={cn(
+                  "h-12 text-sm font-semibold gap-2 bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 rounded-xl disabled:opacity-50",
+                  shouldShowSecondaryUIButton ? "flex-1" : "w-full"
+                )}
+              >
+                {form.loading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Создание...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-4 h-4" />
+                    Сгенерировать
+                  </>
+                )}
+              </Button>
+            )}
+          </div>
         </div>
       </SheetContent>
 
-      {/* Project Selector */}
+      {/* Dialogs */}
       <ProjectTrackSelector
-        type="project"
+        type={projectTrackStep}
         open={projectDialogOpen}
-        onOpenChange={setProjectDialogOpen}
+        onOpenChange={(open) => {
+          setProjectDialogOpen(open);
+          if (!open) {
+            setProjectTrackStep('project');
+          }
+        }}
         projects={projects}
-        selectedId={selectedProjectId}
-        onSelect={setSelectedProjectId}
+        tracks={projectTrackStep === 'track' ? projectTracks : undefined}
+        selectedId={projectTrackStep === 'project' ? form.selectedProjectId : form.selectedTrackId}
+        onSelect={projectTrackStep === 'project' ? handleProjectSelect : form.handleTrackSelect}
       />
 
-      {/* Artist Selector */}
       <ArtistSelector
         open={artistDialogOpen}
         onOpenChange={setArtistDialogOpen}
         artists={artists}
-        selectedArtistId={selectedArtistId}
-        onSelect={setSelectedArtistId}
+        selectedArtistId={form.selectedArtistId}
+        onSelect={form.handleArtistSelect}
       />
 
-      {/* Track Selector */}
-      <ProjectTrackSelector
-        type="track"
-        open={trackDialogOpen}
-        onOpenChange={setTrackDialogOpen}
-        tracks={projectTracks}
-        selectedId={selectedTrackId}
-        onSelect={handleTrackSelect}
-      />
-      
-      <UploadExtendDialog 
-        open={uploadExtendOpen}
-        onOpenChange={setUploadExtendOpen}
-        projectId={selectedProjectId || initialProjectId}
-      />
-      
-      <UploadCoverDialog 
-        open={uploadCoverOpen}
-        onOpenChange={setUploadCoverOpen}
-        projectId={selectedProjectId || initialProjectId}
+      {/* Audio Action Dialog - for cover/extend operations */}
+      <AudioActionDialog
+        open={audioActionDialogOpen}
+        onOpenChange={setAudioActionDialogOpen}
+        onAudioSelected={(file, mode) => {
+          form.setAudioFile(file);
+          form.setMode('custom');
+          // Set mode-specific audio weight based on cover/extend selection
+          if (mode === 'extend') {
+            // High audio weight for extending - preserves original characteristics
+            form.setAudioWeight([0.9]);
+          } else {
+            // Moderate audio weight for cover - allows more creative variation
+            form.setAudioWeight([0.5]);
+          }
+          toast.success(mode === 'cover' ? 'Аудио для кавера добавлено' : 'Аудио для расширения добавлено');
+        }}
+        onAnalysisComplete={(styleDescription) => {
+          form.setMode('custom');
+          form.setStyle(prevStyle => {
+            const newStyle = prevStyle
+              ? `${prevStyle}\n\n${styleDescription}`
+              : styleDescription;
+            return newStyle;
+          });
+        }}
+        onLyricsExtracted={(lyrics) => {
+          form.setMode('custom');
+          form.setHasVocals(true);
+          form.setLyrics(lyrics);
+        }}
+        onChordsDetected={(chords, progression) => {
+          form.setMode('custom');
+          // Add chord progression to style description
+          const chordInfo = `Guitar chord progression: ${progression}`;
+          form.setStyle(prevStyle => {
+            return prevStyle ? `${prevStyle}\n\n${chordInfo}` : chordInfo;
+          });
+          toast.success(`Обнаружено ${chords.length} аккордов`);
+        }}
+        onOpenCoverDialog={(file, mode) => {
+          // Instead of opening legacy UploadAudioDialog, 
+          // use unified audio reference system and switch form to custom mode
+          hapticFeedback?.('light');
+          
+          // Close the audio action dialog
+          setAudioActionDialogOpen(false);
+          
+          // Switch form to custom mode with appropriate audio weight
+          form.setMode('custom');
+          if (mode === 'extend') {
+            form.setAudioWeight([0.9]);
+          } else {
+            form.setAudioWeight([0.5]);
+          }
+          
+          // Open advanced settings to show provider selector
+          setAdvancedOpen(true);
+          
+          toast.success(mode === 'cover' ? 'Режим кавера активирован' : 'Режим расширения активирован', {
+            description: 'Настройте параметры в форме генерации',
+          });
+        }}
       />
 
-      {/* Prompt History */}
+      <LyricsChatAssistant
+        open={lyricsAssistantOpen}
+        onOpenChange={setLyricsAssistantOpen}
+        onLyricsGenerated={(newLyrics: string) => {
+          form.setMode('custom');
+          form.setHasVocals(true);
+          form.setLyrics(newLyrics);
+          toast.success('Текст песни добавлен! 🎤', {
+            description: 'Лирика с профессиональными тегами Suno готова к генерации',
+          });
+        }}
+        onStyleGenerated={(generatedStyle: string) => {
+          if (generatedStyle && generatedStyle.trim()) {
+            form.setStyle(generatedStyle);
+          }
+        }}
+        onTitleGenerated={(generatedTitle: string) => {
+          if (generatedTitle && generatedTitle.trim()) {
+            form.setTitle(generatedTitle);
+          }
+        }}
+        initialGenre={projects?.find(p => p.id === form.selectedProjectId)?.genre || undefined}
+        initialMood={projects?.find(p => p.id === form.selectedProjectId)?.mood ? [projects.find(p => p.id === form.selectedProjectId)!.mood!] : undefined}
+        initialLanguage={(projects?.find(p => p.id === form.selectedProjectId)?.language as 'ru' | 'en') || 'ru'}
+        projectContext={form.selectedProjectId ? (() => {
+          const project = projects?.find(p => p.id === form.selectedProjectId);
+          if (!project) return undefined;
+          return {
+            projectId: project.id,
+            projectTitle: project.title,
+            genre: project.genre || undefined,
+            mood: project.mood || undefined,
+            language: project.language as 'ru' | 'en' | undefined,
+            concept: project.concept || undefined,
+            targetAudience: project.target_audience || undefined,
+            referenceArtists: project.reference_artists || undefined,
+            projectType: project.project_type || undefined,
+            existingTracks: allTracks?.filter(t => t.project_id === project.id).map((t, index) => ({
+              title: t.title || 'Untitled',
+              position: index + 1,
+              stylePrompt: t.style || undefined,
+              generatedLyrics: t.lyrics || undefined,
+              draftLyrics: undefined,
+            })),
+          };
+        })() : undefined}
+        trackContext={form.selectedTrackId ? (() => {
+          const track = allTracks?.find(t => t.id === form.selectedTrackId);
+          if (!track) return undefined;
+          return {
+            title: track.title || 'Untitled',
+            position: 1,
+            stylePrompt: track.style || undefined,
+            draftLyrics: undefined,
+            generatedLyrics: track.lyrics || undefined,
+          };
+        })() : undefined}
+      />
+
       <PromptHistory
         open={historyOpen}
         onOpenChange={setHistoryOpen}
         onSelectPrompt={(prompt) => {
-          setMode(prompt.mode);
+          form.setMode(prompt.mode);
           if (prompt.mode === 'simple') {
-            setDescription(prompt.description || '');
+            form.setDescription(prompt.description || '');
           } else {
-            setTitle(prompt.title || '');
-            setStyle(prompt.style || '');
-            setLyrics(prompt.lyrics || '');
+            form.setTitle(prompt.title || '');
+            form.setStyle(prompt.style || '');
+            form.setLyrics(prompt.lyrics || '');
           }
-          if (prompt.model) setModel(prompt.model);
+          if (prompt.model) form.setModel(prompt.model);
+        }}
+      />
+
+      <StylePresetSelector
+        open={stylesOpen}
+        onOpenChange={setStylesOpen}
+        currentStyle={form.style}
+        onSelect={(style, tags) => {
+          form.setMode('custom');
+          form.setStyle(prevStyle => {
+            if (prevStyle && prevStyle.trim()) {
+              return `${prevStyle}, ${style}`;
+            }
+            return style;
+          });
+          toast.success('Стиль применён');
         }}
       />
     </Sheet>
+    </>
   );
 };

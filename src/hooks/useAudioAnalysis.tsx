@@ -1,6 +1,9 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
+
+const analysisLogger = logger.child({ module: 'AudioAnalysis' });
 
 export interface AudioAnalysis {
   id: string;
@@ -62,7 +65,7 @@ export function useAnalyzeAudio() {
       analysisType?: string;
       customPrompt?: string;
     }) => {
-      console.log('Starting audio analysis:', { trackId, audioUrl, analysisType });
+      analysisLogger.debug('Starting audio analysis', { trackId, analysisType });
       
       const { data, error } = await supabase.functions.invoke('analyze-audio-flamingo', {
         body: {
@@ -74,7 +77,7 @@ export function useAnalyzeAudio() {
       });
 
       if (error) {
-        console.error('Audio analysis error:', error);
+        analysisLogger.error('Audio analysis error', error);
         throw error;
       }
 
@@ -82,7 +85,7 @@ export function useAnalyzeAudio() {
         throw new Error(data.error || 'Analysis failed');
       }
 
-      console.log('Audio analysis completed:', data);
+      analysisLogger.info('Audio analysis completed', { trackId });
       return data;
     },
     onSuccess: (data, variables) => {
@@ -91,7 +94,7 @@ export function useAnalyzeAudio() {
       queryClient.invalidateQueries({ queryKey: ['tracks'] });
     },
     onError: (error: Error) => {
-      console.error('Error analyzing audio:', error);
+      analysisLogger.error('Error analyzing audio', error);
       toast.error(`Ошибка анализа: ${error.message}`);
     },
   });

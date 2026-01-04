@@ -1,22 +1,40 @@
 import { BOT_CONFIG } from '../config.ts';
 import type { InlineKeyboardButton } from '../telegram-api.ts';
+import { getMenuImage } from './menu-images.ts';
+import { buildDynamicKeyboard, loadMenuItems, getMenuItem } from '../handlers/dynamic-menu.ts';
 
-export function createMainMenuKeyboard() {
+// Channel configuration
+export const CHANNEL_USERNAME = 'AIMusicVerse';
+export const CHANNEL_URL = `https://t.me/${CHANNEL_USERNAME}`;
+
+/**
+ * Create main menu keyboard - ALWAYS uses async dynamic loading
+ * @deprecated Use createMainMenuKeyboardAsync instead
+ */
+export async function createMainMenuKeyboard(): Promise<{ inline_keyboard: InlineKeyboardButton[][] }> {
+  return createMainMenuKeyboardAsync();
+}
+
+/**
+ * Create main menu keyboard from database
+ * Async version that loads menu structure dynamically
+ */
+export async function createMainMenuKeyboardAsync(): Promise<{ inline_keyboard: InlineKeyboardButton[][] }> {
+  try {
+    const keyboard = await buildDynamicKeyboard('main', false);
+    
+    if (keyboard.length > 0) {
+      return { inline_keyboard: keyboard };
+    }
+  } catch (error) {
+    console.error('Failed to load dynamic menu', error);
+  }
+  
+  // Minimal fallback - just studio link
   return {
     inline_keyboard: [
-      [{ text: '🚀 Открыть студию', web_app: { url: BOT_CONFIG.miniAppUrl + '/studio' } }],
-      [
-        { text: '🎼 Генератор', callback_data: 'generate' },
-        { text: '📚 Библиотека', callback_data: 'library' }
-      ],
-      [
-        { text: '📁 Проекты', callback_data: 'projects' },
-        { text: '⚙️ Настройки', callback_data: 'settings' }
-      ],
-      [
-        { text: 'ℹ️ О платформе', callback_data: 'help' }
-      ]
-    ] as InlineKeyboardButton[][]
+      [{ text: '🚀 Открыть студию', web_app: { url: BOT_CONFIG.miniAppUrl } }]
+    ]
   };
 }
 
@@ -46,6 +64,24 @@ export function createProjectKeyboard(projectId: string) {
   return {
     inline_keyboard: [
       [{ text: '📁 Открыть проект', web_app: { url: `${BOT_CONFIG.miniAppUrl}?startapp=project_${projectId}` } }]
+    ] as InlineKeyboardButton[][]
+  };
+}
+
+export function createProjectListKeyboard(projects: Array<{ id: string; title: string }>) {
+  const projectButtons = projects.slice(0, 5).map(p => ([
+    { 
+      text: `📁 ${(p.title || 'Проект').substring(0, 25)}`, 
+      web_app: { url: `${BOT_CONFIG.miniAppUrl}?startapp=project_${p.id}` } 
+    }
+  ]));
+
+  return {
+    inline_keyboard: [
+      ...projectButtons,
+      [{ text: '➕ Создать проект', callback_data: 'wizard_start_project' }],
+      [{ text: '📱 В приложении', web_app: { url: `${BOT_CONFIG.miniAppUrl}/projects` } }],
+      [{ text: '⬅️ Назад', callback_data: 'main_menu' }]
     ] as InlineKeyboardButton[][]
   };
 }
@@ -99,13 +135,14 @@ export function createShareMenu(trackId: string) {
   return {
     inline_keyboard: [
       [
-        { text: '💬 Отправить в чат', callback_data: `share_chat_${trackId}` }
+        { text: '📤 Отправить в Telegram', switch_inline_query: `track_${trackId}` }
       ],
       [
-        { text: '👥 Поделиться с друзьями', switch_inline_query: `track_${trackId}` }
+        { text: '💬 В этот чат', switch_inline_query_current_chat: `track_${trackId}` }
       ],
       [
-        { text: '🔗 Копировать ссылку', callback_data: `share_link_${trackId}` }
+        { text: '📊 Статистика', callback_data: `stats_${trackId}` },
+        { text: '🔗 Ссылка', callback_data: `share_link_${trackId}` }
       ],
       [
         { text: '🔙 К треку', callback_data: `track_${trackId}` }
@@ -122,13 +159,20 @@ export function createTrackDetailsKeyboard(trackId: string) {
       ],
       [
         { text: '📤 Поделиться', callback_data: `share_${trackId}` },
+        { text: '❤️ Лайк', callback_data: `like_${trackId}` }
+      ],
+      [
+        { text: '📊 Статистика', callback_data: `stats_${trackId}` },
         { text: '⬇️ Скачать', callback_data: `dl_${trackId}` }
+      ],
+      [
+        { text: '🎛️ Студия', callback_data: `studio_${trackId}` },
+        { text: '🔀 Ремикс', callback_data: `remix_${trackId}` }
       ]
     ] as InlineKeyboardButton[][]
   };
 }
 
 export function getMainBanner(): string {
-  // Use stable, reliable image hosting
-  return 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800&h=400&fit=crop&q=80';
+  return getMenuImage('mainMenu');
 }

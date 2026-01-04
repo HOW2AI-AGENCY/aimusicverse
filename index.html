@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ru" class="dark">
+<html lang="ru">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
@@ -7,8 +7,8 @@
     <meta name="description" content="Платформа для генерации и редактирования музыки с помощью искусственного интеллекта">
     <meta name="author" content="MusicVerse" />
     <meta name="keywords" content="AI music, генерация музыки, музыкальный редактор, искусственный интеллект, Telegram">
-    <meta name="theme-color" content="#8b5cf6" />
-    <link rel="icon" type="image/x-icon" href="https://storage.googleapis.com/gpt-engineer-file-uploads/m2hrG8MCkeTjXpdUtXsnQBBuQRJ2/uploads/1764486116539-MusicVerse_Sticker_Headphones (1).png">
+    <meta name="theme-color" content="hsl(220, 20%, 7%)" id="theme-color-meta" />
+    <link rel="icon" type="image/x-icon" href="https://storage.googleapis.com/gpt-engineer-file-uploads/m2hrG8MCkeTjXpdUtXsnQBBuQRJ2/uploads/1766346193151-weavy-GPT Image 1.5-2025-12-21 at 20.42.07.png">
 
     
     
@@ -20,18 +20,183 @@
     
     <meta name="twitter:image" content="https://storage.googleapis.com/gpt-engineer-file-uploads/m2hrG8MCkeTjXpdUtXsnQBBuQRJ2/social-images/social-1764486144696-MusicVerse_Horizontal_Banner_2_Modified (1).png">
     
+    <!-- DNS Prefetch & Preconnect for faster loading -->
+    <link rel="dns-prefetch" href="https://ygmvthybdrqymfsqifmj.supabase.co">
+    <link rel="preconnect" href="https://ygmvthybdrqymfsqifmj.supabase.co" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Critical font with display:swap for faster FCP -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Preload critical script -->
+    <link rel="preload" href="https://telegram.org/js/telegram-web-app.js" as="script">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <meta property="og:title" content="MusicVerse">
+    
+    <!-- Early theme detection script - runs before React -->
+    <script>
+      (function() {
+        // Check saved theme preference
+        var stored = localStorage.getItem('musicverse-theme');
+        var theme = stored || 'system';
+        var resolved = theme;
+        
+        if (theme === 'system') {
+          // Check Telegram first
+          if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.colorScheme) {
+            resolved = window.Telegram.WebApp.colorScheme;
+          } else {
+            // Fall back to system preference
+            resolved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          }
+        }
+        
+        // Apply theme class immediately
+        if (resolved === 'dark') {
+          document.documentElement.classList.add('dark');
+          document.documentElement.classList.remove('light');
+        } else {
+          document.documentElement.classList.remove('dark');
+          document.documentElement.classList.add('light');
+        }
+        
+        // Update meta theme-color
+        var metaTheme = document.getElementById('theme-color-meta');
+        if (metaTheme) {
+          metaTheme.setAttribute('content', resolved === 'dark' ? 'hsl(220, 20%, 7%)' : 'hsl(220, 20%, 98%)');
+        }
+      })();
+    </script>
+    
+    
+  
+  
+  
+  
+  <!-- Fallback loading styles (shown before React loads) -->
+  <style>
+    #loading-fallback {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, hsl(220, 20%, 7%) 0%, hsl(220, 18%, 10%) 100%);
+      color: #fff;
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+    .light #loading-fallback {
+      background: linear-gradient(180deg, hsl(220, 20%, 98%) 0%, hsl(220, 15%, 94%) 100%);
+      color: hsl(220, 25%, 10%);
+    }
+    #loading-fallback .content {
+      text-align: center;
+      animation: fadeIn 0.3s ease-out;
+    }
+    #loading-fallback .spinner {
+      width: 48px;
+      height: 48px;
+      border: 3px solid rgba(59, 130, 246, 0.2);
+      border-top-color: hsl(207, 90%, 54%);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 16px;
+    }
+    #loading-fallback p {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+      margin: 0;
+    }
+    .light #loading-fallback p {
+      color: rgba(0, 0, 0, 0.6);
+    }
+    #error-display {
+      display: none;
+      margin-top: 16px;
+      padding: 12px;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 8px;
+      text-align: left;
+      max-width: 90vw;
+      max-height: 200px;
+      overflow: auto;
+    }
+    #error-display.visible {
+      display: block;
+    }
+    #error-display pre {
+      font-size: 10px;
+      white-space: pre-wrap;
+      word-break: break-all;
+      margin: 0;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    /* Fallback is removed automatically once React renders (root content replaced). */
+  </style>
+  
+  <!-- Early error catcher -->
+  <script>
+    window.__EARLY_ERRORS = [];
+    window.onerror = function(msg, url, line, col, error) {
+      window.__EARLY_ERRORS.push({msg: msg, url: url, line: line, error: error ? error.toString() : null, time: new Date().toISOString()});
+      console.error('[Early Error]', msg, url, line);
+      // Show error on fallback screen
+      var el = document.getElementById('error-display');
+      if (el) {
+        el.classList.add('visible');
+        el.innerHTML = '<pre>Error: ' + msg + '\nAt: ' + url + ':' + line + '</pre>';
+      }
+      return false;
+    };
+  </script>
+  <meta property="og:title" content="MusicVerse">
   <meta name="twitter:title" content="MusicVerse">
   <meta property="og:description" content="Платформа для генерации и редактирования музыки с помощью искусственного интеллекта">
   <meta name="twitter:description" content="Платформа для генерации и редактирования музыки с помощью искусственного интеллекта">
 </head>
 
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Fallback loading UI shown before React hydrates -->
+      <div id="loading-fallback">
+        <div class="content">
+          <div class="spinner"></div>
+          <p id="loading-status">Загрузка MusicVerse...</p>
+          <div id="error-display"></div>
+        </div>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Fallback timeout: if app doesn't load in 10s, show debug info -->
+    <script>
+      setTimeout(function() {
+        var root = document.getElementById('root');
+        var fallback = document.getElementById('loading-fallback');
+        if (root && fallback && fallback.style.display !== 'none') {
+          var status = document.getElementById('loading-status');
+          if (status) {
+            status.textContent = 'Загрузка занимает больше времени...';
+          }
+          // Check boot log
+          try {
+            var bootLog = sessionStorage.getItem('musicverse_boot_log');
+            if (bootLog) {
+              var el = document.getElementById('error-display');
+              if (el) {
+                el.classList.add('visible');
+                el.innerHTML = '<pre>Boot Log:\n' + JSON.parse(bootLog).join('\n') + '</pre>';
+              }
+            }
+          } catch(e) {}
+        }
+      }, 10000);
+    </script>
   </body>
 </html>

@@ -117,7 +117,7 @@ serve(async (req) => {
         track_id: trackId || null,
       });
 
-    // Log the generation attempt
+    // Log the generation attempt to track_change_log
     if (trackId) {
       await supabase.from('track_change_log').insert({
         track_id: trackId,
@@ -136,6 +136,30 @@ serve(async (req) => {
         },
       });
     }
+
+    // Log to content_audit_log for deposition
+    await supabase.from('content_audit_log').insert({
+      entity_type: 'lyrics',
+      entity_id: trackId || taskId,
+      user_id: user.id,
+      actor_type: 'ai',
+      ai_model_used: 'suno_api',
+      action_type: 'generation_started',
+      action_category: 'generation',
+      prompt_used: promptText,
+      input_metadata: {
+        theme,
+        style,
+        mood,
+        structure,
+        language,
+        task_id: taskId,
+        track_id: trackId,
+        project_id: projectId,
+      },
+    });
+
+    console.log(`[generate-lyrics] Audit logged for lyrics generation request`);
 
     return new Response(
       JSON.stringify({ 

@@ -1,6 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
+
+const log = logger.child({ module: 'MidiTranscription' });
 
 export function useMidiTranscription() {
   const queryClient = useQueryClient();
@@ -9,24 +12,33 @@ export function useMidiTranscription() {
     mutationFn: async ({ 
       trackId, 
       audioUrl,
-      modelType = 'mt3'
+      modelType = 'mt3',
+      stemId,
+      stemType,
+      autoSelect = true,
     }: { 
       trackId: string; 
       audioUrl: string;
-      modelType?: 'ismir2021' | 'mt3';
+      modelType?: 'ismir2021' | 'mt3' | 'basic-pitch';
+      stemId?: string;
+      stemType?: string;
+      autoSelect?: boolean;
     }) => {
-      console.log('Starting MIDI transcription:', { trackId, audioUrl, modelType });
+      log.info('Starting MIDI transcription', { trackId, modelType, stemType, autoSelect });
       
       const { data, error } = await supabase.functions.invoke('transcribe-midi', {
         body: {
           track_id: trackId,
           audio_url: audioUrl,
           model_type: modelType,
+          stem_id: stemId,
+          stem_type: stemType,
+          auto_select: autoSelect,
         },
       });
 
       if (error) {
-        console.error('MIDI transcription error:', error);
+        log.error('MIDI transcription error', { error });
         throw error;
       }
 
@@ -34,7 +46,7 @@ export function useMidiTranscription() {
         throw new Error(data.error || 'Transcription failed');
       }
 
-      console.log('MIDI transcription completed:', data);
+      log.info('MIDI transcription completed', { trackId });
       return data;
     },
     onSuccess: (data, variables) => {
@@ -49,7 +61,7 @@ export function useMidiTranscription() {
       queryClient.invalidateQueries({ queryKey: ['tracks'] });
     },
     onError: (error: Error) => {
-      console.error('Error transcribing to MIDI:', error);
+      log.error('Error transcribing to MIDI', { error: error.message });
       toast.error(`Ошибка транскрипции: ${error.message}`);
     },
   });

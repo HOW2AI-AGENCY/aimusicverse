@@ -1,13 +1,348 @@
 # 🗄️ Database Schema - MusicVerse AI
 
+**Last Updated:** 2025-12-08
+
+---
+
+## 📑 Содержание
+
+- [Обзор](#обзор)
+- [Схема связей таблиц](#схема-связей-таблиц)
+- [Основные таблицы приложения](#основные-таблицы-приложения)
+- [Система версионирования](#система-версионирования)
+- [Система плейлистов](#система-плейлистов)
+- [RLS Policies](#rls-policies)
+- [Индексы и оптимизация](#индексы-и-оптимизация)
+
+---
+
 ## Обзор
 
-MusicVerse использует **PostgreSQL** с **графовой структурой данных** для управления:
+MusicVerse использует **PostgreSQL** с **Row Level Security (RLS)** для управления:
+- Треками и версиями (A/B versioning)
+- Плейлистами пользователей
+- AI-артистами
+- Stem-разделением
 - 174+ мета-тегов Suno
 - 277+ музыкальных стилей
 - 500+ связей между тегами
-- Пользовательские предпочтения
-- История генераций
+- Пользовательскими предпочтениями
+- Историей генераций
+
+### Ключевые статистики
+
+| Метрика | Значение |
+|---------|----------|
+| Всего таблиц | 30+ |
+| RLS политик | 50+ |
+| Индексов | 60+ |
+| Триггеров | 15+ |
+| Edge Functions | 45+ |
+
+---
+
+## Схема связей таблиц
+
+### Основная ERD диаграмма
+
+```mermaid
+erDiagram
+    profiles ||--o{ tracks : creates
+    profiles ||--o{ playlists : owns
+    profiles ||--o{ artists : creates
+    profiles ||--o{ generation_tasks : initiates
+    
+    tracks ||--|| audio_analysis : "has"
+    tracks ||--o{ track_versions : "has versions"
+    tracks ||--o{ track_stems : "has stems"
+    tracks ||--o{ track_likes : "receives"
+    tracks ||--o{ track_change_log : "has changelog"
+    tracks }o--o| artists : "by artist"
+    tracks }o--o| music_projects : "belongs to"
+    
+    track_versions ||--|| tracks : "is active version"
+    
+    playlists ||--o{ playlist_tracks : contains
+    playlist_tracks }o--|| tracks : references
+    
+    generation_tasks ||--o| tracks : generates
+    stem_separation_tasks ||--o{ track_stems : creates
+    
+    suno_meta_tags ||--o{ generation_tag_usage : "used in"
+    music_styles ||--o{ generation_tag_usage : "used in"
+    
+    profiles {
+        uuid id PK
+        uuid user_id FK
+        text telegram_username
+        boolean is_public
+        integer credits
+        text app_role
+    }
+    
+    tracks {
+        uuid id PK
+        uuid user_id FK
+        uuid active_version_id FK
+        text title
+        text prompt
+        boolean is_public
+        boolean has_stems
+        int play_count
+        int likes_count
+    }
+    
+    track_versions {
+        uuid id PK
+        uuid track_id FK
+        text version_label
+        boolean is_primary
+        int clip_index
+        text audio_url
+    }
+    
+    playlists {
+        uuid id PK
+        uuid user_id FK
+        text title
+        int track_count
+        int total_duration
+    }
+    
+    artists {
+        uuid id PK
+        uuid user_id FK
+        text name
+        text style
+        boolean is_public
+    }
+```
+
+### Система генерации треков
+
+```mermaid
+flowchart TB
+    A[generation_tasks] -->|creates| B[tracks]
+    B -->|creates 2x| C[track_versions]
+    C -->|version A| D[is_primary = true]
+    C -->|version B| E[is_primary = false]
+    D -->|points back| F[tracks.active_version_id]
+    
+    B -->|optional| G[track_stems]
+    B -->|creates| H[audio_analysis]
+    B -->|logs changes| I[track_change_log]
+    
+    style A fill:#FFE4B5
+    style B fill:#90EE90
+    style C fill:#87CEEB
+    style D fill:#98FB98
+    style E fill:#FFB6C1
+```
+
+---
+
+## Основные таблицы приложения
+
+### tracks
+Основная таблица треков.
+
+```sql
+CREATE TABLE public.tracks (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID NOT NULL,
+  prompt TEXT NOT NULL,
+  title VARCHAR(255),
+  style VARCHAR(500),
+  lyrics TEXT,
+  audio_url TEXT,
+  cover_url TEXT,
+  streaming_url TEXT,                    -- Превью во время генерации
+  duration_seconds INTEGER,
+  status VARCHAR(50) DEFAULT 'pending',  -- pending, processing, streaming_ready, completed, failed
+  is_public BOOLEAN DEFAULT false,
+  is_instrumental BOOLEAN DEFAULT false,
+  has_vocals BOOLEAN DEFAULT true,
+  has_stems BOOLEAN DEFAULT false,
+  active_version_id UUID,                -- Текущая активная версия
+  artist_id UUID REFERENCES artists(id),
+  artist_name VARCHAR(255),
+  project_id UUID REFERENCES music_projects(id),
+  suno_id VARCHAR(100),
+  suno_task_id VARCHAR(100),
+  model_name VARCHAR(50),
+  play_count INTEGER DEFAULT 0,
+  telegram_file_id VARCHAR(255),          -- Кэш Telegram file ID
+  telegram_cover_file_id VARCHAR(255),
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+### track_versions
+A/B версии треков. Каждая генерация создает 2 версии.
+
+```sql
+CREATE TABLE public.track_versions (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  track_id UUID NOT NULL REFERENCES tracks(id) ON DELETE CASCADE,
+  audio_url TEXT NOT NULL,
+  cover_url TEXT,
+  duration_seconds INTEGER,
+  version_label VARCHAR(10),             -- 'A', 'B', 'A-1', 'A-2'
+  clip_index INTEGER,                    -- 0 или 1
+  is_primary BOOLEAN DEFAULT false,      -- Первичная версия
+  version_type VARCHAR(50),              -- initial, extend, remix, vocal_add
+  parent_version_id UUID,                -- Для вложенных версий
+  metadata JSONB,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+### track_stems
+Разделенные стемы трека.
+
+```sql
+CREATE TABLE public.track_stems (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  track_id UUID NOT NULL REFERENCES tracks(id) ON DELETE CASCADE,
+  version_id UUID REFERENCES track_versions(id),
+  stem_type VARCHAR(50) NOT NULL,        -- vocals, drums, bass, guitar, etc.
+  audio_url TEXT NOT NULL,
+  separation_mode VARCHAR(50),           -- separate_vocal, split_stem
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+### playlists
+Пользовательские плейлисты.
+
+```sql
+CREATE TABLE public.playlists (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  description TEXT,
+  cover_url TEXT,
+  is_public BOOLEAN DEFAULT false,
+  track_count INTEGER DEFAULT 0,          -- Автообновляется триггером
+  total_duration INTEGER DEFAULT 0,       -- Автообновляется триггером
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+### playlist_tracks
+Связь плейлистов и треков.
+
+```sql
+CREATE TABLE public.playlist_tracks (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  playlist_id UUID NOT NULL REFERENCES playlists(id) ON DELETE CASCADE,
+  track_id UUID NOT NULL REFERENCES tracks(id) ON DELETE CASCADE,
+  position INTEGER NOT NULL,              -- Для drag-drop ordering
+  added_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(playlist_id, track_id)
+);
+```
+
+### artists
+AI-артисты/персоны.
+
+```sql
+CREATE TABLE public.artists (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  bio TEXT,
+  avatar_url TEXT,                        -- AI-generated portrait
+  style_description TEXT,
+  genre_tags TEXT[],
+  mood_tags TEXT[],
+  is_public BOOLEAN DEFAULT false,
+  is_ai_generated BOOLEAN DEFAULT true,
+  suno_persona_id VARCHAR(100),
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+### profiles
+Профили пользователей (связаны с Telegram).
+
+```sql
+CREATE TABLE public.profiles (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID NOT NULL UNIQUE,
+  telegram_id BIGINT NOT NULL UNIQUE,
+  telegram_chat_id BIGINT,
+  first_name VARCHAR(255) NOT NULL,
+  last_name VARCHAR(255),
+  username VARCHAR(255),
+  photo_url TEXT,
+  language_code VARCHAR(10),
+  is_public BOOLEAN DEFAULT false,        -- Контроль видимости профиля
+  subscription_tier subscription_tier DEFAULT 'free',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+### generation_tasks
+Отслеживание задач генерации.
+
+```sql
+CREATE TABLE public.generation_tasks (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID NOT NULL,
+  track_id UUID REFERENCES tracks(id),
+  prompt TEXT NOT NULL,
+  status VARCHAR(50) DEFAULT 'pending',   -- pending, processing, completed, failed
+  suno_task_id VARCHAR(100),
+  audio_clips JSONB,                      -- Данные от Suno API
+  expected_clips INTEGER DEFAULT 2,
+  received_clips INTEGER DEFAULT 0,
+  error_message TEXT,
+  source VARCHAR(50),                     -- web, telegram
+  telegram_chat_id BIGINT,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  completed_at TIMESTAMPTZ
+);
+```
+
+### track_change_log
+Аудит изменений треков.
+
+```sql
+CREATE TABLE public.track_change_log (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  track_id UUID NOT NULL REFERENCES tracks(id) ON DELETE CASCADE,
+  version_id UUID REFERENCES track_versions(id),
+  user_id UUID NOT NULL,
+  change_type VARCHAR(50) NOT NULL,       -- create, update, version_add, stem_add
+  field_name VARCHAR(100),
+  old_value TEXT,
+  new_value TEXT,
+  changed_by VARCHAR(50),                 -- user, system, ai
+  prompt_used TEXT,
+  ai_model_used VARCHAR(100),
+  metadata JSONB,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+### track_likes
+Лайки треков.
+
+```sql
+CREATE TABLE public.track_likes (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  track_id UUID NOT NULL REFERENCES tracks(id) ON DELETE CASCADE,
+  user_id UUID NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(track_id, user_id)
+);
+```
 
 ## Архитектура базы данных
 
@@ -536,3 +871,191 @@ supabase/migrations/
 - Ежедневный backup всей БД
 - Point-in-time recovery (7 дней)
 - Manual backup перед мажорными изменениями
+
+---
+
+## Диаграммы взаимодействия
+
+### Жизненный цикл трека
+
+```mermaid
+stateDiagram-v2
+    [*] --> pending: User submits generation
+    pending --> processing: Suno accepts task
+    processing --> streaming_ready: Streaming URL available
+    streaming_ready --> completed: Final audio ready
+    processing --> failed: Generation error
+    failed --> [*]
+    
+    completed --> has_stems: User requests stems
+    has_stems --> completed: Stems processed
+    
+    completed --> extended: User extends track
+    extended --> completed: Extension added
+```
+
+### Процесс версионирования
+
+```mermaid
+flowchart LR
+    A[User generates track] --> B[Suno returns 2 clips]
+    B --> C[Create track record]
+    C --> D[Create Version A<br/>clip_index=0<br/>is_primary=true]
+    C --> E[Create Version B<br/>clip_index=1<br/>is_primary=false]
+    D --> F[Set active_version_id<br/>to Version A]
+    
+    G[User switches to B] --> H[Update is_primary flags]
+    H --> I[Update active_version_id]
+    H --> J[Log change in<br/>track_change_log]
+    
+    style D fill:#98FB98
+    style E fill:#FFB6C1
+    style F fill:#FFD700
+```
+
+### Система лайков с denormalized счётчиками
+
+```mermaid
+flowchart TB
+    A[User clicks like] --> B{Already liked?}
+    B -->|No| C[INSERT track_likes]
+    B -->|Yes| D[DELETE track_likes]
+    
+    C --> E[Trigger: increment_likes_count]
+    D --> F[Trigger: decrement_likes_count]
+    
+    E --> G[UPDATE tracks<br/>SET likes_count = likes_count + 1]
+    F --> H[UPDATE tracks<br/>SET likes_count = likes_count - 1]
+    
+    G --> I[Optimistic UI update]
+    H --> I
+    
+    style C fill:#90EE90
+    style D fill:#FFB6C1
+    style I fill:#61DAFB
+```
+
+### RLS Policy Flow
+
+```mermaid
+flowchart TB
+    A[Client Query] --> B{Authenticated?}
+    B -->|No| C[Anonymous Policy]
+    B -->|Yes| D{Check table}
+    
+    C --> E{is_public = true?}
+    E -->|Yes| F[Allow SELECT]
+    E -->|No| G[Deny]
+    
+    D --> H{tracks}
+    D --> I{playlists}
+    D --> J{artists}
+    
+    H --> K{user_id = auth.uid?}
+    K -->|Yes| L[Full access]
+    K -->|No| E
+    
+    I --> M{user_id = auth.uid?}
+    M -->|Yes| L
+    M -->|No| E
+    
+    J --> N{user_id = auth.uid?}
+    N -->|Yes| L
+    N -->|No| E
+    
+    style B fill:#FFE4B5
+    style L fill:#90EE90
+    style G fill:#FFB6C1
+```
+
+---
+
+## Performance Tips
+
+### Оптимизация запросов
+
+```sql
+-- ✅ GOOD: Используем индексы и лимиты
+SELECT t.*, tv.audio_url, tv.version_label
+FROM tracks t
+JOIN track_versions tv ON tv.id = t.active_version_id
+WHERE t.user_id = 'user-uuid'
+  AND t.is_public = true
+ORDER BY t.created_at DESC
+LIMIT 20;
+
+-- ❌ BAD: N+1 queries без JOIN
+SELECT * FROM tracks WHERE user_id = 'user-uuid';
+-- Затем для каждого трека:
+SELECT * FROM track_versions WHERE track_id = 'track-uuid';
+
+-- ✅ GOOD: Batch операции
+UPDATE tracks 
+SET play_count = play_count + 1 
+WHERE id = ANY(ARRAY['id1', 'id2', 'id3']);
+
+-- ❌ BAD: Множественные UPDATE
+UPDATE tracks SET play_count = play_count + 1 WHERE id = 'id1';
+UPDATE tracks SET play_count = play_count + 1 WHERE id = 'id2';
+UPDATE tracks SET play_count = play_count + 1 WHERE id = 'id3';
+```
+
+### Использование индексов
+
+```sql
+-- Composite индексы для частых запросов
+CREATE INDEX idx_tracks_user_public_created 
+ON tracks(user_id, is_public, created_at DESC);
+
+-- Partial индексы для фильтрации
+CREATE INDEX idx_tracks_public 
+ON tracks(created_at DESC) 
+WHERE is_public = true;
+
+-- GIN индексы для JSONB
+CREATE INDEX idx_audio_analysis_metadata 
+ON audio_analysis USING GIN(metadata);
+```
+
+---
+
+## Troubleshooting
+
+### Часто встречающиеся проблемы
+
+1. **Несинхронизированные счётчики**
+   ```sql
+   -- Пересчитать likes_count
+   UPDATE tracks t
+   SET likes_count = (
+     SELECT COUNT(*) FROM track_likes 
+     WHERE track_id = t.id
+   );
+   ```
+
+2. **Потерянные active_version_id**
+   ```sql
+   -- Восстановить active_version_id
+   UPDATE tracks t
+   SET active_version_id = (
+     SELECT id FROM track_versions 
+     WHERE track_id = t.id AND is_primary = true
+     LIMIT 1
+   )
+   WHERE active_version_id IS NULL;
+   ```
+
+3. **Дублирующиеся is_primary флаги**
+   ```sql
+   -- Найти треки с несколькими primary версиями
+   SELECT track_id, COUNT(*) 
+   FROM track_versions 
+   WHERE is_primary = true
+   GROUP BY track_id 
+   HAVING COUNT(*) > 1;
+   ```
+
+---
+
+**Документ последний раз обновлён:** 2025-12-08  
+**Версия схемы:** 2.1

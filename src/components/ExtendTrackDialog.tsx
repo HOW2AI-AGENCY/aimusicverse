@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -11,7 +11,13 @@ import { Loader2, Plus, Sparkles } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
-import { Track } from '@/hooks/useTracks';
+import { Track } from '@/types/track';
+import { formatTime } from '@/lib/player-utils';
+import { logger } from '@/lib/logger';
+import { useExtendProgress } from '@/hooks/generation/useExtendProgress';
+import { GenerationProgressBar } from '@/components/generation/GenerationProgressBar';
+import { useNavigate } from 'react-router-dom';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 
 interface ExtendTrackDialogProps {
   open: boolean;
@@ -20,7 +26,10 @@ interface ExtendTrackDialogProps {
 }
 
 export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDialogProps) => {
-  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const playTrack = usePlayerStore(s => s.playTrack);
+  const extendProgress = useExtendProgress();
+  
   const [useCustomParams, setUseCustomParams] = useState(true);
   
   // Custom parameters
@@ -36,6 +45,15 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
   const [styleWeight, setStyleWeight] = useState([0.65]);
   const [weirdnessConstraint, setWeirdnessConstraint] = useState([0.5]);
   const [audioWeight, setAudioWeight] = useState([0.65]);
+
+  // Reset progress when dialog opens
+  useEffect(() => {
+    if (open) {
+      extendProgress.reset();
+    }
+  }, [open]);
+
+  const loading = extendProgress.status === 'submitting';
 
   const handleExtend = async () => {
     if (useCustomParams) {
@@ -57,7 +75,7 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
       }
     }
 
-    setLoading(true);
+    extendProgress.setSubmitting();
     try {
       const { data, error } = await supabase.functions.invoke('suno-music-extend', {
         body: {
@@ -79,33 +97,43 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
 
       if (error) throw error;
 
-      toast.success('Расширение началось! 🎵', {
-        description: 'Расширенный трек появится в библиотеке через 1-3 минуты',
-      });
-
-      onOpenChange(false);
+      // Start tracking the task
+      if (data?.taskId) {
+        extendProgress.startTracking(data.taskId, data.trackId || track.id);
+      } else {
+        toast.success('Расширение началось! 🎵', {
+          description: 'Расширенный трек появится в библиотеке через 1-3 минуты',
+        });
+        onOpenChange(false);
+      }
     } catch (error) {
-      console.error('Extend error:', error);
+      logger.error('Extend error', { error });
       
       const errorMessage = error instanceof Error ? error.message : '';
       if (errorMessage.includes('429') || errorMessage.includes('credits')) {
-        toast.error('Недостаточно кредитов', {
-          description: 'Пополните баланс SunoAPI для продолжения',
-        });
+        extendProgress.setError('Недостаточно кредитов');
       } else {
-        toast.error('Ошибка расширения', {
-          description: errorMessage || 'Попробуйте еще раз',
-        });
+        extendProgress.setError(errorMessage || 'Попробуйте еще раз');
       }
-    } finally {
-      setLoading(false);
     }
   };
 
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  const handlePlayTrack = () => {
+    if (extendProgress.completedTrack) {
+      playTrack({
+        id: extendProgress.completedTrack.id,
+        title: extendProgress.completedTrack.title,
+        audio_url: extendProgress.completedTrack.audio_url,
+        cover_url: extendProgress.completedTrack.cover_url || undefined,
+      } as Track);
+    }
+  };
+
+  const handleOpenTrack = () => {
+    if (extendProgress.completedTrack) {
+      navigate(`/track/${extendProgress.completedTrack.id}`);
+      onOpenChange(false);
+    }
   };
 
   return (
@@ -119,6 +147,24 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
         </DialogHeader>
 
         <div className="space-y-6">
+          {/* Progress indicator */}
+          {extendProgress.status !== 'idle' && (
+            <GenerationProgressBar
+              status={extendProgress.status}
+              progress={extendProgress.progress}
+              message={extendProgress.message}
+              error={extendProgress.error}
+              completedTrack={extendProgress.completedTrack}
+              onPlayTrack={handlePlayTrack}
+              onOpenTrack={handleOpenTrack}
+              onRetry={handleExtend}
+              onDismiss={() => {
+                extendProgress.reset();
+                if (extendProgress.isCompleted) onOpenChange(false);
+              }}
+            />
+          )}
+
           {/* Track Info */}
           <div className="p-4 rounded-lg glass border border-border/50">
             <div className="flex items-center gap-3">
@@ -325,14 +371,14 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
 
           <Button
             onClick={handleExtend}
-            disabled={loading}
+            disabled={loading || extendProgress.isActive}
             size="lg"
             className="w-full gap-2"
           >
-            {loading ? (
+            {loading || extendProgress.isActive ? (
               <>
                 <Loader2 className="w-5 h-5 animate-spin" />
-                Расширение...
+                {extendProgress.message || 'Расширение...'}
               </>
             ) : (
               <>

@@ -316,11 +316,11 @@ src/
 ### Database Schema Considerations
 
 **Tracks Table**:
-- Add `master_version_id` field (FK to track_versions)
+- Add `primary_version_id` field (FK to track_versions)
 - Existing: `is_public`, `audio_url`, `cover_url`, `lyrics`, `timestamped_lyrics`
 
 **Track Versions Table**:
-- Add `is_master` boolean field
+- Add `is_primary` boolean field
 - Add `version_number` integer
 - Track: `audio_url`, `cover_url`, `duration_seconds`, `metadata`
 
@@ -338,7 +338,7 @@ src/
 
 **Changelog Table** (new):
 ```sql
-create table track_changelog (
+create table track_change_log (
   id uuid primary key default uuid_generate_v4(),
   track_id uuid references music_tracks(id),
   version_id uuid references track_versions(id),
@@ -353,9 +353,9 @@ create table track_changelog (
 
 ### Phase 1: Database & Infrastructure (Week 1)
 1. **Database Schema Updates**
-   - Add `master_version_id` to tracks
-   - Add `is_master`, `version_number` to track_versions
-   - Create `track_changelog` table
+   - Add `primary_version_id` to tracks
+   - Add `is_primary`, `version_number` to track_versions
+   - Create `track_change_log` table
    - Add necessary indexes
    - Migration scripts with rollback
 

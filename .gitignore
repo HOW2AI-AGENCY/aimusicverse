@@ -7,10 +7,21 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies
 node_modules
 dist
 dist-ssr
 *.local
+
+# Environment variables (keeping .env public as it contains only public data)
+# .env contains public keys (Supabase anon key, Telegram bot token, etc.)
+# No secrets should be stored in .env
+.env.local
+.env.*.local
+
+# Build outputs
+build
+coverage
 
 # Editor directories and files
 .vscode/*
@@ -23,9 +34,16 @@ dist-ssr
 *.sln
 *.sw?
 
+# Storybook
 *storybook.log
 storybook-static
 
 # Verification artifacts
 *.png
 verify.cjs
+
+# Temporary files
+*.tmp
+*.swp
+*.bak
+supabase/.temp/

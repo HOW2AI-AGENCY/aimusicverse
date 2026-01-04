@@ -1,91 +1,359 @@
-import { Track } from '@/hooks/useTracks';
+import type { Track } from '@/types/track';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { Music2, Clock, Tag, FileText, Mic, Wand2, Heart, Play } from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
+import { Music2, Clock, Tag, FileText, Mic, Wand2, Heart, Play, BookmarkPlus, User, FolderOpen, FileAudio, Cpu, Lock, Unlock, Headphones, Link2 } from 'lucide-react';
+import { savePromptToBookmarks } from '@/components/generate-form/PromptHistory';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
+import { VideoSection } from './VideoSection';
+import { useTrackActions } from '@/hooks/useTrackActions';
+import { formatDuration } from '@/lib/player-utils';
+import { ParentTrackLink } from './ParentTrackLink';
+import { useAuth } from '@/hooks/useAuth';
+import { toast } from 'sonner';
 
 interface TrackDetailsTabProps {
   track: Track;
 }
 
 export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
-  const formatDuration = (seconds: number | null) => {
-    if (!seconds) return 'N/A';
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+  const { handleGenerateVideo, isProcessing } = useTrackActions();
+  
+  // Check if current user owns the track
+  const isOwner = user?.id === track.user_id;
+  
+  // Fetch artist info if track has artist_id
+  const { data: artist } = useQuery({
+    queryKey: ['artist', track.artist_id],
+    queryFn: async () => {
+      if (!track.artist_id) return null;
+      const { data, error } = await supabase
+        .from('artists')
+        .select('id, name, avatar_url, genre_tags')
+        .eq('id', track.artist_id)
+        .single();
+      if (error) return null;
+      return data;
+    },
+    enabled: !!track.artist_id,
+  });
+
+  // Fetch project info if track has project_id
+  const { data: project } = useQuery({
+    queryKey: ['project', track.project_id],
+    queryFn: async () => {
+      if (!track.project_id) return null;
+      const { data, error } = await supabase
+        .from('music_projects')
+        .select('id, title, cover_url, genre')
+        .eq('id', track.project_id)
+        .single();
+      if (error) return null;
+      return data;
+    },
+    enabled: !!track.project_id,
+  });
+
+  // Fetch reference audio if track was generated with a reference
+  const { data: referenceAudio } = useQuery({
+    queryKey: ['track-reference-audio', track.id],
+    queryFn: async () => {
+      // First check user_generation_history for reference_audio_id
+      const { data: historyData } = await supabase
+        .from('user_generation_history')
+        .select('reference_audio_id')
+        .eq('track_id', track.id)
+        .not('reference_audio_id', 'is', null)
+        .maybeSingle();
+
+      if (historyData?.reference_audio_id) {
+        const { data: refAudio, error } = await supabase
+          .from('reference_audio')
+          .select('id, file_name, file_url, genre, mood, bpm, style_description, duration_seconds')
+          .eq('id', historyData.reference_audio_id)
+          .single();
+        
+        if (!error && refAudio) {
+          return refAudio;
+        }
+      }
+
+      return null;
+    },
+    enabled: !!track.id,
+  });
+  
+  // Mutation to toggle allow_remix
+  const toggleRemixMutation = useMutation({
+    mutationFn: async (allowRemix: boolean) => {
+      const { error } = await supabase
+        .from('tracks')
+        .update({ allow_remix: allowRemix })
+        .eq('id', track.id);
+      if (error) throw error;
+      return allowRemix;
+    },
+    onSuccess: (allowRemix) => {
+      queryClient.invalidateQueries({ queryKey: ['tracks'] });
+      toast.success(allowRemix ? 'Ремикс разрешён' : 'Ремикс запрещён');
+    },
+    onError: () => {
+      toast.error('Ошибка обновления настроек');
+    },
+  });
+
+  // Format model name for display
+  const formatModelName = (model: string | null) => {
+    if (!model) return null;
+    const modelLabels: Record<string, string> = {
+      'V5': 'Suno V5 (Crow)',
+      'V4_5ALL': 'Suno V4.5',
+      'V4': 'Suno V4',
+      'V3_5': 'Suno V3.5',
+    };
+    return modelLabels[model] || model;
   };
 
+  // Check if prompt and lyrics are the same (to avoid duplication)
+  const promptAndLyricsSame = track.prompt && track.lyrics && 
+    track.prompt.trim().toLowerCase() === track.lyrics.trim().toLowerCase();
+
+  // Determine if this is a cover/extension based on generation_mode or parent_track_id
+  const isCoverOrExtension = track.generation_mode === 'cover' || 
+    track.generation_mode === 'extend' || 
+    !!track.parent_track_id;
+
   return (
-    <div className="space-y-6">
-      {/* Cover & Basic Info */}
-      <div className="flex flex-col sm:flex-row gap-6">
-        <div className="flex-shrink-0">
-          {track.cover_url ? (
+    <div className="space-y-6 pb-20">
+      {/* Full-width Cover on Mobile */}
+      <div className="relative -mx-4 sm:mx-0">
+        {track.cover_url ? (
+          <div className="relative">
             <img
               src={track.cover_url}
               alt={track.title || 'Track cover'}
-              className="w-full sm:w-56 h-56 rounded-xl object-cover shadow-lg"
+              className="w-full aspect-square sm:aspect-video sm:max-h-64 object-cover sm:rounded-xl"
             />
-          ) : (
-            <div className="w-full sm:w-56 h-56 rounded-xl bg-gradient-to-br from-primary/20 via-primary/10 to-primary/5 flex items-center justify-center shadow-lg">
-              <Music2 className="w-20 h-20 text-primary/40" />
-            </div>
-          )}
-        </div>
-
-        <div className="flex-1 space-y-4">
-          <div>
-            <h3 className="text-3xl font-bold mb-3 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
-              {track.title || 'Без названия'}
-            </h3>
-            <div className="flex flex-wrap items-center gap-2">
-              <Badge variant={track.status === 'completed' ? 'default' : 'secondary'}>
-                {track.status}
-              </Badge>
-              {track.is_public && (
-                <Badge variant="outline" className="border-primary">
-                  Публичный
-                </Badge>
-              )}
-            </div>
+            {/* Gradient overlay for text readability */}
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent sm:rounded-xl" />
           </div>
-
-          {/* Stats Grid */}
-          <div className="grid grid-cols-2 gap-3">
-            <div className="flex items-center gap-2 p-3 rounded-lg bg-muted/50">
-              <Clock className="w-5 h-5 text-primary" />
-              <div>
-                <p className="text-xs text-muted-foreground">Длительность</p>
-                <p className="font-semibold">{formatDuration(track.duration_seconds)}</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2 p-3 rounded-lg bg-muted/50">
-              <Play className="w-5 h-5 text-primary" />
-              <div>
-                <p className="text-xs text-muted-foreground">Прослушиваний</p>
-                <p className="font-semibold">{track.play_count || 0}</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2 p-3 rounded-lg bg-muted/50">
-              <Heart className="w-5 h-5 text-primary" />
-              <div>
-                <p className="text-xs text-muted-foreground">Лайков</p>
-                <p className="font-semibold">{track.likes_count || 0}</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2 p-3 rounded-lg bg-muted/50">
-              <Mic className="w-5 h-5 text-primary" />
-              <div>
-                <p className="text-xs text-muted-foreground">Тип</p>
-                <p className="font-semibold">{track.has_vocals ? 'Вокал' : 'Инструментал'}</p>
-              </div>
-            </div>
+        ) : (
+          <div className="w-full aspect-square sm:aspect-video sm:max-h-64 bg-gradient-to-br from-primary/20 via-primary/10 to-primary/5 flex items-center justify-center sm:rounded-xl">
+            <Music2 className="w-24 h-24 text-primary/40" />
+          </div>
+        )}
+        
+        {/* Title overlay on cover */}
+        <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
+          <h3 className="text-2xl sm:text-3xl font-bold text-white drop-shadow-lg">
+            {track.title || 'Без названия'}
+          </h3>
+          <div className="flex flex-wrap items-center gap-2 mt-2">
+            <Badge variant={track.status === 'completed' ? 'default' : 'secondary'} className="bg-background/80 backdrop-blur-sm">
+              {track.status}
+            </Badge>
+            {track.is_public && (
+              <Badge variant="outline" className="border-primary bg-background/80 backdrop-blur-sm">
+                Публичный
+              </Badge>
+            )}
+            {track.generation_mode && (
+              <Badge variant="secondary" className="bg-background/80 backdrop-blur-sm capitalize">
+                {track.generation_mode === 'cover' ? 'Кавер' : 
+                 track.generation_mode === 'extend' ? 'Расширение' : 
+                 track.generation_mode}
+              </Badge>
+            )}
           </div>
         </div>
       </div>
+
+      {/* Stats Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 px-4 sm:px-0">
+        <div className="flex items-center gap-2 p-3 rounded-lg bg-muted/50">
+          <Clock className="w-5 h-5 text-primary" />
+          <div>
+            <p className="text-xs text-muted-foreground">Длительность</p>
+            <p className="font-semibold">{track.duration_seconds ? formatDuration(track.duration_seconds) : 'N/A'}</p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 p-3 rounded-lg bg-muted/50">
+          <Play className="w-5 h-5 text-primary" />
+          <div>
+            <p className="text-xs text-muted-foreground">Прослушиваний</p>
+            <p className="font-semibold">{track.play_count || 0}</p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 p-3 rounded-lg bg-muted/50">
+          <Heart className="w-5 h-5 text-primary" />
+          <div>
+            <p className="text-xs text-muted-foreground">Лайков</p>
+            <p className="font-semibold">{track.likes_count || 0}</p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 p-3 rounded-lg bg-muted/50">
+          <Mic className="w-5 h-5 text-primary" />
+          <div>
+            <p className="text-xs text-muted-foreground">Тип</p>
+            <p className="font-semibold">{track.has_vocals ? 'Вокал' : 'Инструментал'}</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Parent Track Link - if this is a remix */}
+      {track.parent_track_id && (
+        <ParentTrackLink parentTrackId={track.parent_track_id} />
+      )}
+
+      {/* Allow Remix Toggle - Only for track owner */}
+      {isOwner && track.is_public && (
+        <>
+          <Separator />
+          <div className="flex items-center justify-between p-4 rounded-lg bg-muted/30 border border-border">
+            <div className="flex items-center gap-3">
+              {track.allow_remix !== false ? (
+                <Unlock className="w-5 h-5 text-green-500" />
+              ) : (
+                <Lock className="w-5 h-5 text-muted-foreground" />
+              )}
+              <div>
+                <Label htmlFor="allow-remix" className="text-sm font-medium">
+                  Разрешить ремиксы
+                </Label>
+                <p className="text-xs text-muted-foreground">
+                  Другие пользователи смогут создавать ремиксы
+                </p>
+              </div>
+            </div>
+            <Switch
+              id="allow-remix"
+              checked={track.allow_remix !== false}
+              onCheckedChange={(checked) => toggleRemixMutation.mutate(checked)}
+              disabled={toggleRemixMutation.isPending}
+            />
+          </div>
+        </>
+      )}
+
+      {/* References Section - Artist, Project, and Audio Reference */}
+      {(artist || project || referenceAudio || (isCoverOrExtension && track.streaming_url)) && (
+        <>
+          <Separator />
+          <div className="space-y-4">
+            <h4 className="font-semibold flex items-center gap-2 text-lg">
+              <FileAudio className="w-5 h-5 text-primary" />
+              Референсы
+            </h4>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {/* Artist Reference */}
+              {artist && (
+                <div className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-r from-blue-500/10 to-blue-500/5 border border-blue-500/20">
+                  <div className="w-12 h-12 rounded-full overflow-hidden bg-muted flex-shrink-0">
+                    {artist.avatar_url ? (
+                      <img src={artist.avatar_url} alt={artist.name} className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <User className="w-6 h-6 text-muted-foreground" />
+                      </div>
+                    )}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-xs text-muted-foreground">AI Артист</p>
+                    <p className="font-medium truncate">{artist.name}</p>
+                    {artist.genre_tags && artist.genre_tags.length > 0 && (
+                      <p className="text-xs text-muted-foreground truncate">{artist.genre_tags.slice(0, 2).join(', ')}</p>
+                    )}
+                  </div>
+                </div>
+              )}
+              
+              {/* Project Reference */}
+              {project && (
+                <div className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-r from-purple-500/10 to-purple-500/5 border border-purple-500/20">
+                  <div className="w-12 h-12 rounded-lg overflow-hidden bg-muted flex-shrink-0">
+                    {project.cover_url ? (
+                      <img src={project.cover_url} alt={project.title} className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <FolderOpen className="w-6 h-6 text-muted-foreground" />
+                      </div>
+                    )}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-xs text-muted-foreground">Проект</p>
+                    <p className="font-medium truncate">{project.title}</p>
+                    {project.genre && (
+                      <p className="text-xs text-muted-foreground truncate">{project.genre}</p>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Audio Reference - for covers/extensions */}
+              {referenceAudio && (
+                <div className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-r from-orange-500/10 to-amber-500/5 border border-orange-500/20 sm:col-span-2">
+                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-orange-500/20 to-amber-500/10 flex items-center justify-center flex-shrink-0">
+                    <Headphones className="w-6 h-6 text-orange-500" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs text-muted-foreground">Аудио референс</p>
+                    <p className="font-medium truncate">{referenceAudio.file_name}</p>
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground mt-0.5">
+                      {referenceAudio.genre && <span>{referenceAudio.genre}</span>}
+                      {referenceAudio.bpm && <span>• {referenceAudio.bpm} BPM</span>}
+                      {referenceAudio.duration_seconds && (
+                        <span>• {formatDuration(referenceAudio.duration_seconds)}</span>
+                      )}
+                    </div>
+                  </div>
+                  {referenceAudio.file_url && (
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8 shrink-0"
+                      onClick={() => window.open(referenceAudio.file_url, '_blank')}
+                    >
+                      <Link2 className="w-4 h-4" />
+                    </Button>
+                  )}
+                </div>
+              )}
+
+              {/* Streaming URL reference for covers/extensions when no reference_audio found */}
+              {!referenceAudio && isCoverOrExtension && track.streaming_url && (
+                <div className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-r from-orange-500/10 to-amber-500/5 border border-orange-500/20 sm:col-span-2">
+                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-orange-500/20 to-amber-500/10 flex items-center justify-center flex-shrink-0">
+                    <Headphones className="w-6 h-6 text-orange-500" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs text-muted-foreground">
+                      {track.generation_mode === 'cover' ? 'Оригинальный трек' : 'Исходный трек'}
+                    </p>
+                    <p className="font-medium truncate">Внешний аудио-референс</p>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8 shrink-0"
+                    onClick={() => window.open(track.streaming_url!, '_blank')}
+                  >
+                    <Link2 className="w-4 h-4" />
+                  </Button>
+                </div>
+              )}
+            </div>
+          </div>
+        </>
+      )}
 
       <Separator />
 
@@ -132,14 +400,36 @@ export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
         </>
       )}
 
-      {/* Prompt */}
-      {track.prompt && (
+      {/* Prompt - only if different from lyrics or no lyrics */}
+      {track.prompt && !promptAndLyricsSame && (
         <>
           <div className="space-y-3">
-            <h4 className="font-semibold flex items-center gap-2 text-lg">
-              <Wand2 className="w-5 h-5 text-primary" />
-              Промпт
-            </h4>
+            <div className="flex items-center justify-between">
+              <h4 className="font-semibold flex items-center gap-2 text-lg">
+                <Wand2 className="w-5 h-5 text-primary" />
+                Промпт
+              </h4>
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-1.5"
+                onClick={() => {
+                  const promptName = track.title || track.prompt.substring(0, 30);
+                  savePromptToBookmarks({
+                    name: promptName,
+                    mode: track.generation_mode === 'custom' ? 'custom' : 'simple',
+                    description: track.generation_mode === 'simple' ? track.prompt : undefined,
+                    title: track.title || undefined,
+                    style: track.style || undefined,
+                    lyrics: track.lyrics || undefined,
+                    model: track.suno_model || 'V4_5ALL',
+                  });
+                }}
+              >
+                <BookmarkPlus className="w-4 h-4" />
+                <span className="hidden sm:inline">В закладки</span>
+              </Button>
+            </div>
             <div className="p-4 rounded-lg bg-muted/50 border border-border">
               <p className="text-sm whitespace-pre-wrap leading-relaxed">{track.prompt}</p>
             </div>
@@ -153,15 +443,51 @@ export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
       {track.lyrics && (
         <>
           <div className="space-y-3">
-            <h4 className="font-semibold flex items-center gap-2 text-lg">
-              <FileText className="w-5 h-5 text-primary" />
-              Текст песни
-            </h4>
+            <div className="flex items-center justify-between">
+              <h4 className="font-semibold flex items-center gap-2 text-lg">
+                <FileText className="w-5 h-5 text-primary" />
+                Текст песни
+              </h4>
+              {/* Show bookmark button here if prompt was same as lyrics */}
+              {promptAndLyricsSame && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="gap-1.5"
+                  onClick={() => {
+                    const promptName = track.title || track.lyrics!.substring(0, 30);
+                    savePromptToBookmarks({
+                      name: promptName,
+                      mode: track.generation_mode === 'custom' ? 'custom' : 'simple',
+                      description: track.generation_mode === 'simple' ? track.prompt : undefined,
+                      title: track.title || undefined,
+                      style: track.style || undefined,
+                      lyrics: track.lyrics || undefined,
+                      model: track.suno_model || 'V4_5ALL',
+                    });
+                  }}
+                >
+                  <BookmarkPlus className="w-4 h-4" />
+                  <span className="hidden sm:inline">В закладки</span>
+                </Button>
+              )}
+            </div>
             <div className="p-4 rounded-lg bg-muted/50 border border-border max-h-80 overflow-y-auto">
               <p className="text-sm whitespace-pre-wrap leading-relaxed">{track.lyrics}</p>
             </div>
           </div>
 
+          <Separator />
+        </>
+      )}
+
+      {/* Video Section - Show for tracks with suno_id */}
+      {track.suno_id && track.suno_task_id && (
+        <>
+          <VideoSection 
+            track={track} 
+            onGenerateVideo={() => handleGenerateVideo(track)} 
+          />
           <Separator />
         </>
       )}
@@ -173,7 +499,10 @@ export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
           {track.suno_model && (
             <div className="p-3 rounded-lg bg-muted/30">
               <p className="text-xs text-muted-foreground mb-1">Модель</p>
-              <p className="font-mono text-sm">{track.suno_model}</p>
+              <div className="flex items-center gap-2">
+                <Cpu className="w-4 h-4 text-primary" />
+                <p className="font-medium text-sm">{formatModelName(track.suno_model)}</p>
+              </div>
             </div>
           )}
 

@@ -74,9 +74,129 @@ serve(async (req) => {
       ? 'ВАЖНО: Отвечай ТОЛЬКО на русском языке. Весь текст должен быть на русском.' 
       : 'IMPORTANT: Respond ONLY in English. All text must be in English.';
 
+    // Helper to get recommended track count by project type
+    const getRecommendedTrackCount = (type: string): number => {
+      switch (type) {
+        case 'single': return 2;
+        case 'ep': return 5;
+        case 'album': return 10;
+        case 'ost': return 8;
+        case 'mixtape': return 8;
+        default: return 8;
+      }
+    };
+
     let result;
 
     switch (action) {
+      case 'full-project': {
+        // Generate complete project with title, description, concept, tracklist with cover prompts
+        const trackCountNum = trackCount || getRecommendedTrackCount(projectType);
+        
+        const fullProjectPrompt = `${languageInstruction}
+
+You are a professional music producer and A&R expert. Create a COMPLETE music project with all details.
+
+Project Type: ${projectType || 'album'}
+Genre: ${genre || 'any'}
+Mood: ${mood || 'any'}
+Target Audience: ${targetAudience || 'general'}
+Theme: ${theme || 'open'}
+${artistPersona ? `Artist Persona: ${artistPersona}` : ''}
+Number of Tracks: ${trackCountNum}
+
+Generate a COMPLETE project including:
+
+1. PROJECT INFO:
+   - Creative project title
+   - Detailed description (2-3 paragraphs)
+   - Creative concept and narrative
+   - Visual aesthetic direction
+
+2. TRACKLIST (${trackCountNum} tracks):
+   For each track provide:
+   - Title
+   - Style/genre tags for music generation
+   - Theme/mood description (notes for lyrics development)
+   - Recommended song structure
+   - Cover art prompt (detailed prompt for AI image generation for this specific track)
+   - BPM suggestion
+
+Return as JSON:
+{
+  "title": "Project Title",
+  "description": "Detailed project description...",
+  "concept": "Creative concept and narrative arc...",
+  "visualAesthetic": "Visual direction for artwork...",
+  "coverPrompt": "Detailed AI prompt for main project cover art...",
+  "tracks": [
+    {
+      "position": 1,
+      "title": "Track Title",
+      "styleTags": ["tag1", "tag2", "tag3"],
+      "notes": "Theme and mood description for lyrics development...",
+      "structure": "intro-verse-chorus-verse-chorus-bridge-chorus-outro",
+      "coverPrompt": "Detailed AI prompt for this track's cover art...",
+      "bpm": 120
+    }
+  ]
+}`;
+
+        const fullProjectResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${lovableApiKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            model: 'google/gemini-2.5-flash',
+            messages: [{ role: 'user', content: fullProjectPrompt }],
+          }),
+        });
+
+        const fullProjectData = await fullProjectResponse.json();
+        const fullProjectText = fullProjectData.choices?.[0]?.message?.content || '{}';
+        
+        try {
+          const jsonMatch = fullProjectText.match(/```json\s*([\s\S]*?)\s*```/) || 
+                           fullProjectText.match(/```\s*([\s\S]*?)\s*```/);
+          const jsonText = jsonMatch ? jsonMatch[1] : fullProjectText;
+          result = JSON.parse(jsonText);
+          
+          // If projectId is provided, insert tracks into database
+          if (result.tracks && Array.isArray(result.tracks) && projectId) {
+            const tracksToInsert = result.tracks.map((track: any) => ({
+              project_id: projectId,
+              position: track.position,
+              title: track.title,
+              style_prompt: track.styleTags?.join(', ') || null,
+              notes: track.notes || null,
+              recommended_tags: track.styleTags || null,
+              recommended_structure: track.structure || null,
+              duration_target: track.bpm ? Math.round((60 / track.bpm) * 240) : 120,
+              status: 'draft',
+            }));
+
+            const { data: insertedTracks, error: insertError } = await supabase
+              .from('project_tracks')
+              .insert(tracksToInsert)
+              .select();
+
+            if (insertError) {
+              console.error('Error inserting tracks:', insertError);
+              throw insertError;
+            }
+            
+            console.log('Tracks inserted successfully:', insertedTracks?.length);
+            result.insertedCount = insertedTracks?.length || 0;
+          }
+        } catch (e) {
+          console.error('Error in full-project generation:', e);
+          result = { error: 'Failed to parse full project', raw: fullProjectText };
+        }
+        break;
+      }
+
       case 'concept': {
         // Generate project concept
         const conceptPrompt = `${languageInstruction}

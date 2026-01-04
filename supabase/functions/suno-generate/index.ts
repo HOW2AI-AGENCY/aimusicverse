@@ -1,3 +1,11 @@
+/**
+ * Suno Generate - Legacy Proxy
+ * 
+ * DEPRECATED: This function is a proxy to suno-music-generate for backwards compatibility.
+ * New code should use suno-music-generate directly.
+ * 
+ * Maps legacy action-based API to modern suno-music-generate API.
+ */
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
@@ -14,182 +22,136 @@ serve(async (req) => {
   try {
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseKey = Deno.env.get('SUPABASE_ANON_KEY')!;
-    const sunoApiKey = Deno.env.get('SUNO_API_KEY');
 
-    if (!sunoApiKey) {
-      throw new Error('SUNO_API_KEY not configured');
-    }
-
-    const supabase = createClient(supabaseUrl, supabaseKey);
-
-    // Verify user authentication
-    const authHeader = req.headers.get('Authorization');
-    if (!authHeader) {
-      throw new Error('No authorization header');
-    }
-
-    const { data: { user }, error: authError } = await supabase.auth.getUser(
-      authHeader.replace('Bearer ', '')
-    );
-
-    if (authError || !user) {
-      throw new Error('Unauthorized');
-    }
-
+    // Forward to suno-music-generate
+    const body = await req.json();
     const { 
-      action, // 'generate', 'extend', 'cover', 'stems', 'add_vocals', 'add_instrumental'
+      action,
       trackId,
       prompt,
       lyrics,
       style,
       title,
       makeInstrumental = false,
-      waitAudio = false,
       extendAudioUrl,
       continueAt,
       coverAudioUrl,
-      stemMode // '2_stems', '4_stems', '5_stems'
-    } = await req.json();
+      stemMode,
+      defaultParamFlag,
+    } = body;
 
-    console.log(`Suno API action: ${action} for user: ${user.id}`);
+    console.log(`[suno-generate] Legacy proxy - action: ${action}`);
 
-    let sunoResponse;
+    // Map legacy actions to modern endpoints
+    let targetFunction = 'suno-music-generate';
+    let mappedBody: any = {};
 
     switch (action) {
       case 'generate':
-        // Generate new music
-        sunoResponse = await fetch('https://api.sunoapi.org/api/v1/gateway/generate/music', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${sunoApiKey}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            title: title || 'Untitled',
-            tags: style || '',
-            prompt: prompt || '',
-            lyrics: lyrics || '',
-            make_instrumental: makeInstrumental,
-            wait_audio: waitAudio,
-          }),
-        });
+        mappedBody = {
+          mode: lyrics ? 'custom' : 'simple',
+          prompt: lyrics || prompt,
+          style: style,
+          title: title,
+          instrumental: makeInstrumental,
+        };
         break;
 
       case 'extend':
-        // Extend existing audio
-        if (!extendAudioUrl || !continueAt) {
-          throw new Error('extendAudioUrl and continueAt required for extend action');
+        // For extend with audioUrl (from reference audio), use suno-extend-audio
+        // For extend with trackId (from existing track), use suno-music-extend
+        if (extendAudioUrl && !trackId) {
+          targetFunction = 'suno-extend-audio';
+          mappedBody = {
+            audioUrl: extendAudioUrl,
+            continueAt: continueAt,
+            prompt: prompt,
+            style: style,
+            title: title,
+            defaultParamFlag: defaultParamFlag ?? true, // Default to using original params
+          };
+        } else {
+          targetFunction = 'suno-music-extend';
+          mappedBody = {
+            sourceTrackId: trackId,
+            continueAt: continueAt,
+            prompt: prompt,
+            style: style,
+            title: title,
+            defaultParamFlag: false,
+          };
         }
-        sunoResponse = await fetch('https://api.sunoapi.org/api/v1/gateway/generate/extend', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${sunoApiKey}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            audio_url: extendAudioUrl,
-            continue_at: continueAt,
-            prompt: prompt || '',
-            tags: style || '',
-          }),
-        });
         break;
 
       case 'cover':
-        // Create cover version
-        if (!coverAudioUrl) {
-          throw new Error('coverAudioUrl required for cover action');
-        }
-        sunoResponse = await fetch('https://api.sunoapi.org/api/v1/gateway/generate/cover', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${sunoApiKey}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            audio_url: coverAudioUrl,
-            prompt: prompt || '',
-          }),
-        });
+        targetFunction = 'suno-remix';
+        mappedBody = {
+          audioUrl: coverAudioUrl,
+          prompt: prompt,
+          style: style,
+          title: title,
+          instrumental: makeInstrumental,
+          audioWeight: body.audioWeight ?? 0.5, // Pass through audioWeight
+        };
         break;
 
       case 'stems':
-        // Separate audio into stems
-        if (!coverAudioUrl) {
-          throw new Error('audio_url required for stems action');
-        }
-        sunoResponse = await fetch('https://api.sunoapi.org/api/v1/gateway/generate/stem', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${sunoApiKey}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            audio_url: coverAudioUrl,
-            stem_mode: stemMode || '4_stems',
-          }),
-        });
+        targetFunction = 'suno-separate-vocals';
+        mappedBody = {
+          audioUrl: coverAudioUrl,
+          mode: stemMode || '4_stems',
+        };
         break;
 
       case 'add_vocals':
-        // Add vocals to instrumental
-        if (!coverAudioUrl || !lyrics) {
-          throw new Error('audio_url and lyrics required for add_vocals action');
-        }
-        sunoResponse = await fetch('https://api.sunoapi.org/api/v1/gateway/generate/concat', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${sunoApiKey}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            audio_url: coverAudioUrl,
-            lyrics: lyrics,
-          }),
-        });
+        targetFunction = 'suno-add-vocals';
+        mappedBody = {
+          audioUrl: coverAudioUrl,
+          lyrics: lyrics,
+        };
         break;
 
       default:
-        throw new Error(`Unknown action: ${action}`);
+        throw new Error(`Unknown action: ${action}. Use suno-music-generate directly.`);
     }
 
-    if (!sunoResponse.ok) {
-      const errorText = await sunoResponse.text();
-      console.error('Suno API error:', errorText);
-      throw new Error(`Suno API error: ${sunoResponse.status} ${errorText}`);
-    }
+    console.log(`[suno-generate] Forwarding to ${targetFunction}`, { hasAudioUrl: !!extendAudioUrl, hasTrackId: !!trackId });
 
-    const sunoData = await sunoResponse.json();
+    // Forward the request with original auth header
+    const response = await fetch(`${supabaseUrl}/functions/v1/${targetFunction}`, {
+      method: 'POST',
+      headers: {
+        'Authorization': req.headers.get('Authorization') || '',
+        'Content-Type': 'application/json',
+        'apikey': supabaseKey,
+      },
+      body: JSON.stringify(mappedBody),
+    });
 
-    // Log the change if trackId is provided
-    if (trackId && action !== 'stems') {
-      await supabase.from('track_change_log').insert({
-        track_id: trackId,
-        user_id: user.id,
-        change_type: action,
-        changed_by: 'user',
-        ai_model_used: 'suno_v3',
-        prompt_used: prompt,
-        metadata: {
-          action,
-          suno_task_id: sunoData.task_id || sunoData.id,
-          style,
-          title,
-        },
-      });
+    const data = await response.json();
+
+    // Map response back to legacy format if needed
+    if (data.success && data.trackId) {
+      return new Response(
+        JSON.stringify({ 
+          success: true, 
+          data: data,
+          taskId: data.taskId || data.sunoTaskId,
+        }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
     }
 
     return new Response(
-      JSON.stringify({ 
-        success: true, 
-        data: sunoData,
-        taskId: sunoData.task_id || sunoData.id,
-      }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      JSON.stringify(data),
+      { 
+        status: response.status,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+      }
     );
 
   } catch (error: any) {
-    console.error('Error in suno-generate:', error);
+    console.error('[suno-generate] Error:', error);
     return new Response(
       JSON.stringify({ error: error.message }),
       { 

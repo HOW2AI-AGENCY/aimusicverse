@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useCallback } from 'react';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { 
@@ -14,6 +14,7 @@ import {
   Check
 } from 'lucide-react';
 import { useTelegram } from '@/contexts/TelegramContext';
+import { useTelegramMainButton } from '@/hooks/telegram';
 
 interface OnboardingStep {
   id: number;
@@ -114,7 +115,9 @@ export const OnboardingSlider = ({ onComplete, onSkip }: OnboardingSliderProps) 
   const [currentStep, setCurrentStep] = useState(0);
   const { hapticFeedback } = useTelegram();
 
-  const nextStep = () => {
+  const isLastStep = currentStep === steps.length - 1;
+
+  const nextStep = useCallback(() => {
     if (currentStep < steps.length - 1) {
       hapticFeedback?.('light');
       setCurrentStep(currentStep + 1);
@@ -122,7 +125,7 @@ export const OnboardingSlider = ({ onComplete, onSkip }: OnboardingSliderProps) 
       hapticFeedback?.('success');
       onComplete();
     }
-  };
+  }, [currentStep, hapticFeedback, onComplete]);
 
   const prevStep = () => {
     if (currentStep > 0) {
@@ -135,6 +138,14 @@ export const OnboardingSlider = ({ onComplete, onSkip }: OnboardingSliderProps) 
     hapticFeedback?.('medium');
     onSkip();
   };
+
+  // Main Button integration
+  const { shouldShowUIButton } = useTelegramMainButton({
+    text: isLastStep ? 'НАЧАТЬ' : 'ДАЛЕЕ',
+    onClick: nextStep,
+    enabled: true,
+    visible: true,
+  });
 
   const step = steps[currentStep];
   const Icon = step.icon;
@@ -219,29 +230,31 @@ export const OnboardingSlider = ({ onComplete, onSkip }: OnboardingSliderProps) 
               size="lg"
               onClick={prevStep}
               disabled={currentStep === 0}
-              className="flex-1"
+              className={shouldShowUIButton ? "flex-1" : "w-full"}
             >
               <ChevronLeft className="w-4 h-4 mr-2" />
               Назад
             </Button>
 
-            <Button
-              size="lg"
-              onClick={nextStep}
-              className={`flex-1 bg-gradient-to-r ${step.gradient} text-white border-0 hover:opacity-90`}
-            >
-              {currentStep === steps.length - 1 ? (
-                <>
-                  <Check className="w-4 h-4 mr-2" />
-                  Начать
-                </>
-              ) : (
-                <>
-                  Далее
-                  <ChevronRight className="w-4 h-4 ml-2" />
-                </>
-              )}
-            </Button>
+            {shouldShowUIButton && (
+              <Button
+                size="lg"
+                onClick={nextStep}
+                className={`flex-1 bg-gradient-to-r ${step.gradient} text-white border-0 hover:opacity-90`}
+              >
+                {isLastStep ? (
+                  <>
+                    <Check className="w-4 h-4 mr-2" />
+                    Начать
+                  </>
+                ) : (
+                  <>
+                    Далее
+                    <ChevronRight className="w-4 h-4 ml-2" />
+                  </>
+                )}
+              </Button>
+            )}
           </div>
 
           {/* Dots indicator */}

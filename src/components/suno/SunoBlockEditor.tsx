@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -18,6 +18,7 @@ import { TagMenu } from './TagMenu';
 import { SunoTimeline } from './SunoTimeline';
 import { generateSunoPrompt, parseTextToSections, insertTagAtCursor } from './utils';
 import { toast } from 'sonner';
+import { LyricsValidationAlert } from '@/components/lyrics-workspace/LyricsValidationAlert';
 
 interface SunoBlockEditorProps {
   initialSections?: LyricSection[];
@@ -42,8 +43,9 @@ export const SunoBlockEditor = ({
 
   const handleAddSection = (type: SectionType) => {
     const existingCount = sections.filter((s) => s.type === type).length;
+    const timestamp = Date.now();
     const newSection: LyricSection = {
-      id: `${type}-${existingCount + 1}-${Date.now()}`,
+      id: `${type}-${existingCount + 1}-${timestamp}`,
       type,
       header: `[${SECTION_LABELS[type].en}]`,
       content: '',
@@ -171,6 +173,21 @@ export const SunoBlockEditor = ({
         </CardContent>
       </Card>
 
+      {/* Validation Alert */}
+      {!instrumental && sections.length > 0 && (
+        <LyricsValidationAlert
+          lyrics={generateSunoPrompt(sections, stylePrompt)}
+          onAutoFix={(fixedLyrics) => {
+            const parsed = parseTextToSections(fixedLyrics);
+            if (parsed.length > 0) {
+              setSections(parsed);
+              toast.success('Текст исправлен');
+            }
+          }}
+          compact={false}
+        />
+      )}
+
       {/* Timeline */}
       {sections.length > 0 && (
         <Card className="glass-card border-primary/20">
@@ -239,7 +256,7 @@ export const SunoBlockEditor = ({
                                   onMoveUp={() => handleMoveSection(section.id, 'up')}
                                   onMoveDown={() => handleMoveSection(section.id, 'down')}
                                   onOpenTagMenu={handleOpenTagMenu}
-                                  dragHandleProps={provided.dragHandleProps}
+                                  dragHandleProps={provided.dragHandleProps ?? undefined}
                                 />
                               </div>
                             )}

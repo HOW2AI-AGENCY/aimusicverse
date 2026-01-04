@@ -3,7 +3,10 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-async function callTelegramAPI(method: string, body?: any) {
+// Type definition for Telegram API request body
+type TelegramAPIBody = Record<string, unknown>;
+
+async function callTelegramAPI(method: string, body?: TelegramAPIBody) {
   const botToken = Deno.env.get('TELEGRAM_BOT_TOKEN');
   if (!botToken) {
     throw new Error('TELEGRAM_BOT_TOKEN not configured');
@@ -36,31 +39,64 @@ Deno.serve(async (req) => {
       throw new Error('SUPABASE_URL not configured');
     }
 
-    // Construct webhook URL
-    const webhookUrl = `${supabaseUrl}/functions/v1/telegram-bot`;
+    // Parse request body for webhook type selection
+    let webhookType = 'bot'; // default
+    try {
+      const body = await req.json();
+      webhookType = body.type || 'bot';
+    } catch {
+      // No body or invalid JSON, use default
+    }
 
-    console.log('Setting webhook to:', webhookUrl);
+    // Configure webhook URL based on type
+    const webhookUrl = webhookType === 'payments'
+      ? `${supabaseUrl}/functions/v1/stars-webhook`
+      : `${supabaseUrl}/functions/v1/telegram-bot`;
 
-    // Set webhook
-    const webhookResult = await callTelegramAPI('setWebhook', {
+    // Get secret token for webhook verification (recommended)
+    // Use the same secret as the webhook handler expects.
+    const secretToken = Deno.env.get('TELEGRAM_WEBHOOK_SECRET');
+
+    console.log(`Setting ${webhookType} webhook to:`, webhookUrl);
+
+    // Set webhook with pre_checkout_query for payments support
+    const webhookParams: TelegramAPIBody = {
       url: webhookUrl,
-      allowed_updates: ['message', 'callback_query', 'inline_query'],
+      allowed_updates: [
+        'message',
+        'callback_query',
+        'inline_query',
+        'pre_checkout_query', // Required for Stars payments
+      ],
       drop_pending_updates: true,
-    });
+    };
+
+    // Add secret token if configured
+    if (secretToken) {
+      webhookParams.secret_token = secretToken;
+    }
+
+    const webhookResult = await callTelegramAPI('setWebhook', webhookParams);
     
     console.log('Webhook set result:', webhookResult);
 
-    // Set bot commands
+    // Set bot commands - full list
     const commandsResult = await callTelegramAPI('setMyCommands', {
       commands: [
-        { command: 'start', description: '🎵 Начать работу с ботом' },
-        { command: 'generate', description: '🎼 Создать музыкальный трек' },
-        { command: 'library', description: '📚 Моя библиотека треков' },
-        { command: 'projects', description: '📁 Мои музыкальные проекты' },
-        { command: 'status', description: '⚡ Статус генерации' },
-        { command: 'settings', description: '⚙️ Настройки бота' },
-        { command: 'app', description: '🎵 Открыть приложение' },
-        { command: 'help', description: '❓ Справка по командам' },
+        { command: 'start', description: '🚀 Начать работу' },
+        { command: 'help', description: '📚 Справка по командам' },
+        { command: 'app', description: '📱 Открыть приложение' },
+        { command: 'channel', description: '📢 Канал @AIMusiicVerse' },
+        { command: 'news', description: '📰 Новости платформы' },
+        { command: 'generate', description: '🎼 Создать трек' },
+        { command: 'cover', description: '🎤 Создать кавер' },
+        { command: 'extend', description: '➕ Расширить трек' },
+        { command: 'status', description: '📊 Статус генерации' },
+        { command: 'analyze', description: '🔬 Анализ аудио' },
+        { command: 'library', description: '📚 Мои треки' },
+        { command: 'projects', description: '📁 Мои проекты' },
+        { command: 'upload', description: '📤 Загрузить аудио' },
+        { command: 'buy', description: '💎 Купить кредиты' },
       ],
     });
     
@@ -72,10 +108,12 @@ Deno.serve(async (req) => {
     return new Response(
       JSON.stringify({
         success: true,
+        webhook_type: webhookType,
         webhook_url: webhookUrl,
         webhook_result: webhookResult,
         commands_result: commandsResult,
         webhook_info: webhookInfo,
+        secret_token_configured: !!secretToken,
       }),
       {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },

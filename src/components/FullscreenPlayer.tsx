@@ -1,17 +1,28 @@
 import { useState, useEffect, useRef } from 'react';
-import { ChevronDown, Play, Pause, Volume2, VolumeX, Maximize2, Minimize2, SkipBack, SkipForward, Heart, Download, MoreHorizontal } from 'lucide-react';
+import { ChevronDown, Volume2, VolumeX, Maximize2, Minimize2, Heart, Download, MoreHorizontal, ListMusic } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { useAudioPlayer } from '@/hooks/useAudioPlayer';
+import { useAudioTime } from '@/hooks/audio/useAudioTime';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { useGlobalAudioPlayer } from '@/hooks/audio/useGlobalAudioPlayer';
 import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
-import { useTracks, Track } from '@/hooks/useTracksOptimized';
+import { useTracks } from '@/hooks/useTracks';
+import { Track } from '@/types/track';
 import { useTrackActions } from '@/hooks/useTrackActions';
-import { AudioWaveformVisualizer } from '@/components/AudioWaveformVisualizer';
+import { LazyImage } from '@/components/ui/lazy-image';
 import { cn } from '@/lib/utils';
-import { motion, AnimatePresence } from 'framer-motion';
+import { formatTime } from '@/lib/player-utils';
+import { motion } from '@/lib/motion';
+import { PlaybackControls } from '@/components/player/PlaybackControls';
+import { WaveformProgressBar } from '@/components/player/WaveformProgressBar';
+import { QueueSheet } from '@/components/player/QueueSheet';
+import { MobileFullscreenPlayer } from '@/components/player/MobileFullscreenPlayer';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { hapticImpact } from '@/lib/haptic';
+import { logger } from '@/lib/logger';
 
 interface AlignedWord {
   word: string;
@@ -32,68 +43,117 @@ interface TrackVersion {
 interface FullscreenPlayerProps {
   track: Track;
   versions?: TrackVersion[];
+  currentVersion?: TrackVersion | null;
   onClose: () => void;
 }
 
-export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPlayerProps) {
+export function FullscreenPlayer({ track, versions = [], currentVersion, onClose }: FullscreenPlayerProps) {
+  // ALL HOOKS MUST BE CALLED BEFORE ANY CONDITIONAL RETURNS
+  const isMobile = useIsMobile();
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [volume, setVolume] = useState(1);
   const [muted, setMuted] = useState(false);
+  const [queueSheetOpen, setQueueSheetOpen] = useState(false);
   const [selectedVersionId, setSelectedVersionId] = useState<string | null>(
     versions.find(v => v.is_primary)?.id || versions[0]?.id || null
   );
+  
   const { toggleLike, downloadTrack } = useTracks();
   const { handleShare } = useTrackActions();
+  
+  // Use global audio system instead of local useAudioPlayer
+  const { currentTime, duration, buffered, seek, setVolume: setAudioVolume } = useAudioTime();
+  const { isPlaying, volume: storeVolume } = usePlayerStore();
+  const { audioElement } = useGlobalAudioPlayer();
+  
+  // CRITICAL: Use version-specific suno_task_id/suno_id for correct lyrics sync
+  const versionMetadata = currentVersion?.metadata as { suno_task_id?: string; suno_id?: string } | undefined;
+  const lyricsTaskId = versionMetadata?.suno_task_id || track.suno_task_id || null;
+  const lyricsAudioId = versionMetadata?.suno_id || track.suno_id || null;
+  
+  const { data: lyricsData } = useTimestampedLyrics(lyricsTaskId, lyricsAudioId);
+
+  // CRITICAL: Ensure AudioContext is resumed and audio is routed on fullscreen open
+  useEffect(() => {
+    const ensureAudio = async () => {
+      if (!audioElement) {
+        logger.warn('No audio element available on fullscreen open');
+        return;
+      }
+      
+      try {
+        const { resumeAudioContext, ensureAudioRoutedToDestination } = await import('@/lib/audioContextManager');
+        
+        // Resume AudioContext
+        const resumed = await resumeAudioContext(3);
+        if (!resumed) {
+          logger.warn('Failed to resume AudioContext on fullscreen open');
+        }
+        
+        // Ensure audio is routed to destination
+        await ensureAudioRoutedToDestination();
+        
+        // Sync volume with audio element
+        if (audioElement.volume !== storeVolume) {
+          audioElement.volume = storeVolume;
+          setVolume(storeVolume);
+          logger.debug('Volume synced on fullscreen open', { volume: storeVolume });
+        }
+        
+        // CRITICAL: Resume playback if it was playing but audio got paused
+        if (isPlaying && audioElement.paused) {
+          logger.info('Resuming paused audio on fullscreen open');
+          try {
+            await audioElement.play();
+          } catch (playErr) {
+            logger.error('Failed to resume audio', playErr);
+          }
+        }
+        
+        logger.info('Fullscreen player audio initialized', { 
+          volume: storeVolume, 
+          isPlaying,
+          audioPaused: audioElement.paused,
+          hasAudioElement: true 
+        });
+      } catch (err) {
+        logger.error('Error initializing fullscreen audio', err);
+      }
+    };
+    
+    ensureAudio();
+  }, [audioElement, isPlaying, storeVolume]);
+  
+  const lyricsRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll lyrics to active line
+  useEffect(() => {
+    if (!lyricsRef.current || !isPlaying) return;
+    
+    const activeElement = lyricsRef.current.querySelector('[data-active="true"]');
+    if (activeElement) {
+      const container = lyricsRef.current;
+      const containerRect = container.getBoundingClientRect();
+      const elementRect = activeElement.getBoundingClientRect();
+      
+      // Check if element is outside visible area
+      const elementTop = elementRect.top - containerRect.top;
+      const isVisible = elementTop >= 0 && elementTop < containerRect.height * 0.6;
+      
+      if (!isVisible) {
+        activeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+  }, [currentTime, isPlaying]);
+
+  // NOW it's safe to do conditional return after all hooks
+  if (isMobile) {
+    return <MobileFullscreenPlayer track={track} onClose={onClose} />;
+  }
 
   const selectedVersion = versions.find(v => v.id === selectedVersionId);
   const audioUrl = selectedVersion?.audio_url || track.audio_url;
   const coverUrl = selectedVersion?.cover_url || track.cover_url;
-
-  const {
-    isPlaying,
-    currentTime,
-    duration,
-    buffered,
-    loading,
-    togglePlay,
-    seek,
-    setVolume: setAudioVolume,
-  } = useAudioPlayer({
-    trackId: track.id,
-    streamingUrl: track.streaming_url,
-    localAudioUrl: track.local_audio_url,
-    audioUrl,
-  });
-
-  const { data: lyricsData } = useTimestampedLyrics(
-    track.suno_task_id || null,
-    track.suno_id || null
-  );
-
-  const lyricsRef = useRef<HTMLDivElement>(null);
-
-  // Auto-scroll lyrics
-  useEffect(() => {
-    if (!lyricsData?.alignedWords || !lyricsRef.current) return;
-
-    const currentWord = lyricsData.alignedWords.find(
-      (word) => currentTime >= word.startS && currentTime <= word.endS
-    );
-
-    if (currentWord) {
-      const wordElement = lyricsRef.current.querySelector(`[data-start="${currentWord.startS}"]`);
-      if (wordElement) {
-        wordElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
-    }
-  }, [currentTime, lyricsData]);
-
-  const formatTime = (seconds: number) => {
-    if (!seconds || !isFinite(seconds)) return '0:00';
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
 
   const handleVolumeChange = (value: number[]) => {
     const newVolume = value[0];
@@ -175,10 +235,11 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
             {/* Album Art */}
             <Card className="relative aspect-square w-full max-w-md overflow-hidden glass-card border-primary/20">
               {coverUrl ? (
-                <img
+                <LazyImage
                   src={coverUrl}
                   alt={track.title || 'Track cover'}
                   className="w-full h-full object-cover"
+                  containerClassName="w-full h-full"
                 />
               ) : (
                 <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
@@ -193,11 +254,10 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
             {versions.length > 1 && (
               <div className="flex gap-2 flex-wrap justify-center">
                 {versions.map((version, index) => (
-                  <TooltipProvider>
+                  <TooltipProvider key={version.id}>
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Button
-                          key={version.id}
                           variant={selectedVersionId === version.id ? 'default' : 'outline'}
                           size="sm"
                           onClick={() => setSelectedVersionId(version.id)}
@@ -222,72 +282,63 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
 
             {/* Controls */}
             <Card className="w-full max-w-md glass-card border-primary/20 p-6 space-y-4">
-              {/* Waveform Visualizer */}
-              <div className="space-y-2">
-                <AudioWaveformVisualizer
-                  audioUrl={audioUrl}
-                  isPlaying={isPlaying}
-                  currentTime={currentTime}
-                  duration={duration}
-                  onSeek={seek}
-                />
+              {/* Waveform Progress Bar */}
+              <WaveformProgressBar
+                audioUrl={audioUrl}
+                trackId={track.id}
+                currentTime={currentTime}
+                duration={duration}
+                buffered={buffered}
+                onSeek={seek}
+                mode="detailed"
+                showBeatGrid={true}
+              />
 
-                <div className="flex justify-between text-xs text-muted-foreground">
-                  <span>{formatTime(currentTime)}</span>
-                  <span>{formatTime(duration)}</span>
-                </div>
+              {/* Action Buttons */}
+              <div className="flex items-center justify-between">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => {
+                    hapticImpact('light');
+                    toggleLike({ trackId: track.id, isLiked: track.is_liked ?? false });
+                  }}
+                  className="h-11 w-11 touch-manipulation"
+                  aria-label={track.is_liked ? "Unlike" : "Like"}
+                >
+                  <Heart className={cn("h-5 w-5", track.is_liked && "fill-current text-red-500")} />
+                </Button>
+                
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => {
+                    hapticImpact('light');
+                    setQueueSheetOpen(true);
+                  }}
+                  className="h-11 w-11 touch-manipulation"
+                  aria-label="Queue"
+                >
+                  <ListMusic className="h-5 w-5" />
+                </Button>
+                
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => {
+                    hapticImpact('light');
+                    downloadTrack({ trackId: track.id, audioUrl: audioUrl!, coverUrl: coverUrl! });
+                  }}
+                  className="h-11 w-11 touch-manipulation"
+                  aria-label="Download"
+                  disabled={!audioUrl}
+                >
+                  <Download className="h-5 w-5" />
+                </Button>
               </div>
 
               {/* Playback Controls */}
-              <div className="flex items-center justify-center gap-4">
-                <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => toggleLike({ trackId: track.id, isLiked: track.is_liked })}
-                >
-                    <Heart className={cn("h-5 w-5", track.is_liked && "fill-current text-red-500")} />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => skipSeconds(-10)}
-                  disabled={!audioUrl}
-                >
-                  <SkipBack className="h-5 w-5" />
-                </Button>
-
-                <Button
-                  variant="default"
-                  size="icon"
-                  onClick={togglePlay}
-                  disabled={!audioUrl}
-                  className="h-14 w-14"
-                >
-                  {loading ? (
-                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary-foreground" />
-                  ) : isPlaying ? (
-                    <Pause className="h-6 w-6" />
-                  ) : (
-                    <Play className="h-6 w-6" />
-                  )}
-                </Button>
-
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => skipSeconds(10)}
-                  disabled={!audioUrl}
-                >
-                  <SkipForward className="h-5 w-5" />
-                </Button>
-                <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => downloadTrack({ trackId: track.id, audioUrl: audioUrl!, coverUrl: coverUrl! })}
-                >
-                    <Download className="h-5 w-5" />
-                </Button>
-              </div>
+              <PlaybackControls size="large" />
 
               {/* Volume Control */}
               <div className="flex items-center gap-3">
@@ -295,12 +346,13 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
                   variant="ghost"
                   size="icon"
                   onClick={toggleMute}
-                  className="h-8 w-8 flex-shrink-0"
+                  className="h-11 w-11 flex-shrink-0 touch-manipulation"
+                  aria-label={muted ? "Unmute" : "Mute"}
                 >
                   {muted || volume === 0 ? (
-                    <VolumeX className="h-4 w-4" />
+                    <VolumeX className="h-5 w-5" />
                   ) : (
-                    <Volume2 className="h-4 w-4" />
+                    <Volume2 className="h-5 w-5" />
                   )}
                 </Button>
                 <Slider
@@ -309,6 +361,7 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
                   step={0.01}
                   onValueChange={handleVolumeChange}
                   className="flex-1"
+                  aria-label="Volume"
                 />
               </div>
             </Card>
@@ -335,14 +388,16 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
                     return (
                       <motion.div
                         key={lineIndex}
+                        data-active={isActive}
+                        data-line={lineIndex}
                         initial={{ opacity: 0.4 }}
                         animate={{
                             opacity: isActive ? 1 : isPast ? 0.6 : 0.4,
-                            scale: isActive ? 1.05 : 1,
+                            scale: isActive ? 1.02 : 1,
                         }}
                         transition={{ duration: 0.2 }}
                         className={cn(
-                          'text-base md:text-lg lg:text-xl font-medium cursor-pointer transition-all',
+                          'text-base md:text-lg lg:text-xl font-medium cursor-pointer transition-all py-1',
                           isActive && 'font-bold text-primary'
                         )}
                         onClick={() => seek(line[0].startS)}
@@ -367,6 +422,9 @@ export function FullscreenPlayer({ track, versions = [], onClose }: FullscreenPl
           </Card>
         </div>
       </div>
+      
+      {/* Queue Sheet */}
+      <QueueSheet open={queueSheetOpen} onOpenChange={setQueueSheetOpen} />
     </motion.div>
   );
 }

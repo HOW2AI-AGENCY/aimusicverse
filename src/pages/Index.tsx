@@ -1,316 +1,315 @@
-import { Onboarding } from "@/components/Onboarding";
-import { TelegramInfo } from "@/components/TelegramInfo";
-import { NotificationBadge } from "@/components/NotificationBadge";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Music, LogOut, UserCircle, Activity, TrendingUp, Clock, CheckCircle2, CheckSquare, Library, Sparkles, FolderOpen } from "lucide-react";
+import { useState, useEffect, useMemo, lazy, Suspense } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useTelegram } from "@/contexts/TelegramContext";
-import { useNavigate } from "react-router-dom";
-import { useUserActivity, useCreateActivity } from "@/hooks/useUserActivity";
-import { ActivitySkeleton, StatCardSkeleton } from "@/components/ui/skeleton-loader";
-import { toast } from "sonner";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
+import { useProfile } from "@/hooks/useProfile.tsx";
 import logo from "@/assets/logo.png";
-import { useTracks } from "@/hooks/useTracksOptimized";
-import { TrackCard } from "@/components/TrackCard";
-import { supabase } from "@/integrations/supabase/client";
-import { useQuery } from "@tanstack/react-query";
+import { usePublicContentBatch, getGenrePlaylists } from "@/hooks/usePublicContent";
+import { HeroQuickActions } from "@/components/home/HeroQuickActions";
+import { HomeHeader } from "@/components/home/HomeHeader";
+import { HomeSkeletonEnhanced } from "@/components/home/HomeSkeletonEnhanced";
+import { QuickPresetsCarousel } from "@/components/home/QuickPresetsCarousel";
+import { LazySection, SectionSkeleton } from "@/components/lazy/LazySection";
+import { motion, useReducedMotion } from '@/lib/motion';
+import { SEOHead, SEO_PRESETS } from "@/components/SEOHead";
+import { QuickCreatePreset } from "@/constants/quickCreatePresets";
+
+// Lazy loaded components
+const GamificationBar = lazy(() => import("@/components/gamification/GamificationBar").then(m => ({ default: m.GamificationBar })));
+const RecentTracksSection = lazy(() => import("@/components/home/RecentTracksSection").then(m => ({ default: m.RecentTracksSection })));
+const UserProjectsSection = lazy(() => import("@/components/home/UserProjectsSection").then(m => ({ default: m.UserProjectsSection })));
+const FollowingFeed = lazy(() => import("@/components/social/FollowingFeed").then(m => ({ default: m.FollowingFeed })));
+const AutoPlaylistsSection = lazy(() => import("@/components/home/AutoPlaylistsSection").then(m => ({ default: m.AutoPlaylistsSection })));
+const PublicArtistsSection = lazy(() => import("@/components/home/PublicArtistsSection").then(m => ({ default: m.PublicArtistsSection })));
+const FeaturedBlogHero = lazy(() => import("@/components/home/FeaturedBlogHero").then(m => ({ default: m.FeaturedBlogHero })));
+const PopularCreatorsSection = lazy(() => import("@/components/home/PopularCreatorsSection").then(m => ({ default: m.PopularCreatorsSection })));
+const PublishedProjectsSlider = lazy(() => import("@/components/home/PublishedProjectsSlider").then(m => ({ default: m.PublishedProjectsSlider })));
+const ProfessionalToolsHub = lazy(() => import("@/components/home/ProfessionalToolsHub").then(m => ({ default: m.ProfessionalToolsHub })));
+const FeaturedProjectsBanner = lazy(() => import("@/components/home/FeaturedProjectsBanner").then(m => ({ default: m.FeaturedProjectsBanner })));
+const UnifiedTrackFeed = lazy(() => import("@/components/home/UnifiedTrackFeed").then(m => ({ default: m.UnifiedTrackFeed })));
+const EngagementBanner = lazy(() => import("@/components/home/EngagementBanner").then(m => ({ default: m.EngagementBanner })));
+
+// Dialogs - only loaded when opened
+const GenerateSheet = lazy(() => import("@/components/GenerateSheet").then(m => ({ default: m.GenerateSheet })));
+const MusicRecognitionDialog = lazy(() => import("@/components/music-recognition/MusicRecognitionDialog").then(m => ({ default: m.MusicRecognitionDialog })));
+const QuickProjectSheet = lazy(() => import("@/components/project/QuickProjectSheet").then(m => ({ default: m.QuickProjectSheet })));
+const SubscriptionFeatureAnnouncement = lazy(() => import("@/components/announcements/SubscriptionFeatureAnnouncement").then(m => ({ default: m.SubscriptionFeatureAnnouncement })));
 
 const Index = () => {
-  const { logout } = useAuth();
-  const { hapticFeedback } = useTelegram();
+  const { user } = useAuth();
+  const { hapticFeedback, user: telegramUser } = useTelegram();
+  const { data: profile } = useProfile();
   const navigate = useNavigate();
-  const { data: activities, isLoading: activitiesLoading } = useUserActivity();
-  const createActivity = useCreateActivity();
-  const { tracks: publicTracks } = useTracks();
+  const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [generateSheetOpen, setGenerateSheetOpen] = useState(false);
+  const [recognitionDialogOpen, setRecognitionDialogOpen] = useState(false);
+  const [quickProjectOpen, setQuickProjectOpen] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
 
-  const { data: publicProjects, isLoading: projectsLoading } = useQuery({
-    queryKey: ['public-projects'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('music_projects')
-        .select('*')
-        .eq('is_public', true)
-        .order('created_at', { ascending: false })
-        .limit(6);
+  // Single optimized query for all public content
+  const { data: publicContent, isLoading: contentLoading } = usePublicContentBatch();
+  
+  // Compute auto-playlists from the same data
+  const autoPlaylists = useMemo(() => 
+    publicContent?.allTracks ? getGenrePlaylists(publicContent.allTracks) : [],
+    [publicContent?.allTracks]
+  );
 
-      if (error) throw error;
-      return data || [];
-    },
-    staleTime: 60000,
-  });
+  // Use profile data from DB if available, fallback to Telegram context
+  const displayUser = profile || telegramUser;
 
-  const handleAction = async (actionType: string) => {
-    hapticFeedback('success');
+  // Handle navigation state for opening GenerateSheet
+  useEffect(() => {
+    let mounted = true;
     
-    createActivity.mutate(
-      { action_type: actionType, action_data: { timestamp: new Date().toISOString() } },
-      {
-        onSuccess: () => {
-          toast.success(`Действие "${actionType}" выполнено!`);
-        },
-        onError: () => {
-          toast.error('Ошибка при выполнении действия');
-        }
+    const handleNavigationState = () => {
+      if (location.state?.openGenerate && mounted) {
+        setGenerateSheetOpen(true);
+        navigate(location.pathname, { replace: true, state: {} });
       }
-    );
-  };
+    };
+    
+    handleNavigationState();
+    
+    return () => {
+      mounted = false;
+    };
+  }, [location.state, navigate, location.pathname]);
 
-  const handleLogout = () => {
-    hapticFeedback('medium');
-    logout();
-  };
+  // Handle deep link for recognition
+  useEffect(() => {
+    if (searchParams.get('recognize') === 'true') {
+      setRecognitionDialogOpen(true);
+      setSearchParams({}, { replace: true });
+    }
+  }, [searchParams, setSearchParams]);
 
   const goToProfile = () => {
-    hapticFeedback('light');
-    navigate('/profile');
+    hapticFeedback("light");
+    // Navigate to public profile page if user is logged in
+    if (user?.id) {
+      navigate(`/profile/${user.id}`);
+    } else {
+      navigate("/profile");
+    }
   };
 
-  return (
-    <div className="min-h-screen bg-background pb-24">
-      <Onboarding />
-      <div className="container max-w-6xl mx-auto px-4 py-6">
-        {/* Header */}
-        <header className="flex items-center justify-between mb-8 glass-card p-4 rounded-2xl">
-          <div className="flex items-center gap-4">
-            <div className="relative">
-              <img src={logo} alt="MusicVerse" className="w-12 h-12 rounded-xl" />
-              <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-background animate-pulse-glow"></div>
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold bg-gradient-telegram bg-clip-text text-transparent">
-                MusicVerse
-              </h1>
-              <p className="text-sm text-muted-foreground">
-                AI Music Studio
-              </p>
-            </div>
-          </div>
-          <div className="flex gap-2">
-            <NotificationBadge />
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={goToProfile}
-              className="text-muted-foreground hover:text-foreground glass rounded-full"
-            >
-              <UserCircle className="w-5 h-5" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleLogout}
-              className="text-muted-foreground hover:text-destructive glass rounded-full"
-            >
-              <LogOut className="w-5 h-5" />
-            </Button>
-          </div>
-        </header>
+  const handleRemix = (trackId: string) => {
+    hapticFeedback("light");
+    navigate(`/generate?remix=${trackId}`);
+  };
 
-        {/* User Info Card */}
-        <div className="mb-6">
-          <TelegramInfo />
+  const handlePresetSelect = (preset: QuickCreatePreset) => {
+    setGenerateSheetOpen(true);
+  };
+
+  // Animation props - disabled when reduced motion is preferred
+  const fadeInUp = prefersReducedMotion 
+    ? {} 
+    : { initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 } };
+  
+  const fadeIn = prefersReducedMotion
+    ? {}
+    : { initial: { opacity: 0 }, animate: { opacity: 1 } };
+
+  return (
+    <div className="min-h-screen bg-background pb-20 relative overflow-hidden">
+        {/* Background gradient - hidden on reduced motion for performance */}
+        {!prefersReducedMotion && (
+          <div className="fixed inset-0 pointer-events-none opacity-40">
+            <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/12 rounded-full blur-3xl animate-pulse-slow" />
+            <div className="absolute top-1/4 right-1/4 w-80 h-80 bg-generate/10 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1s' }} />
+          </div>
+        )}
+        
+        <div className="max-w-6xl mx-auto px-3 sm:px-4 pb-4 sm:py-6 relative z-10">
+          {/* SEO */}
+          <SEOHead {...SEO_PRESETS.home} />
+          {/* Unified Header Component */}
+          <HomeHeader
+            userName={displayUser?.first_name || displayUser?.username?.split('@')[0]}
+            userPhotoUrl={displayUser?.photo_url}
+            onProfileClick={goToProfile}
+          />
+
+          {/* Compact Gamification Bar */}
+          {user && (
+            <Suspense fallback={<div className="h-14 bg-card/40 animate-pulse rounded-2xl mb-3" />}>
+              <motion.div 
+                className="mb-3"
+                {...fadeInUp}
+                transition={{ delay: 0.05, duration: 0.25 }}
+              >
+                <GamificationBar />
+              </motion.div>
+            </Suspense>
+          )}
+
+          {/* Loading Skeleton */}
+          {contentLoading && !publicContent && (
+            <HomeSkeletonEnhanced />
+          )}
+
+          {/* Featured Projects Banner - Widescreen CTA */}
+          <LazySection className="mb-4 sm:mb-5" fallback={<div className="w-full rounded-2xl bg-card/40 animate-pulse" style={{ aspectRatio: '21/9' }} />}>
+            <FeaturedProjectsBanner />
+          </LazySection>
+
+          {/* Hero Quick Actions - Primary CTA */}
+          <motion.section 
+            className="mb-4 sm:mb-5"
+            {...fadeInUp}
+            transition={{ delay: 0.1, duration: 0.3 }}
+          >
+            <HeroQuickActions onGenerateClick={() => setGenerateSheetOpen(true)} />
+          </motion.section>
+
+          {/* Quick Presets Carousel */}
+          <motion.section
+            {...fadeInUp}
+            transition={{ delay: 0.11, duration: 0.3 }}
+          >
+            <QuickPresetsCarousel onSelectPreset={handlePresetSelect} />
+          </motion.section>
+
+          {/* Featured Blog Hero - Large Banner */}
+          <LazySection className="mb-4 sm:mb-5" fallback={<SectionSkeleton height="200px" />}>
+            <FeaturedBlogHero />
+          </LazySection>
+
+          {/* Unified Track Feed - Tabs with genres */}
+          <Suspense fallback={<SectionSkeleton height="300px" />}>
+            <motion.section 
+              className="mb-4 sm:mb-5"
+              {...fadeIn}
+              transition={{ delay: 0.15, duration: 0.3 }}
+            >
+              <UnifiedTrackFeed
+                recentTracks={publicContent?.recentTracks || []}
+                popularTracks={publicContent?.popularTracks || []}
+                isLoading={contentLoading}
+                onRemix={handleRemix}
+              />
+            </motion.section>
+          </Suspense>
+
+          {/* Engagement Banner - Follow creators */}
+          {!user && (
+            <LazySection className="mb-4 sm:mb-5" fallback={null}>
+              <EngagementBanner type="create_first" onAction={() => setGenerateSheetOpen(true)} />
+            </LazySection>
+          )}
+
+          {/* Recent Tracks for logged-in users */}
+          {user && (
+            <Suspense fallback={<SectionSkeleton height="120px" />}>
+              <motion.section
+                className="mb-4 sm:mb-5"
+                {...fadeInUp}
+                transition={{ delay: 0.18, duration: 0.3 }}
+              >
+                <RecentTracksSection maxTracks={4} />
+              </motion.section>
+            </Suspense>
+          )}
+
+          {/* User Projects Section */}
+          {user && (
+            <Suspense fallback={<SectionSkeleton height="120px" />}>
+              <motion.section
+                className="mb-4 sm:mb-5"
+                {...fadeInUp}
+                transition={{ delay: 0.2, duration: 0.3 }}
+              >
+                <UserProjectsSection />
+              </motion.section>
+            </Suspense>
+          )}
+
+          {/* Engagement Banner - Follow creators (for logged in users) */}
+          {user && (
+            <LazySection className="mb-4 sm:mb-5" fallback={null}>
+              <EngagementBanner type="follow_creators" />
+            </LazySection>
+          )}
+
+          {/* Following Feed - Tracks from followed users and liked creators */}
+          {user && (
+            <LazySection className="mb-4 sm:mb-5" fallback={<SectionSkeleton height="160px" />}>
+              <FollowingFeed />
+            </LazySection>
+          )}
+
+          {/* Auto Playlists by Genre */}
+          <Suspense fallback={<SectionSkeleton height="160px" />}>
+            <motion.section 
+              className="mb-4 sm:mb-5"
+              {...fadeIn}
+              transition={{ delay: 0.25, duration: 0.3 }}
+            >
+              <AutoPlaylistsSection 
+                playlists={autoPlaylists} 
+                isLoading={contentLoading} 
+              />
+            </motion.section>
+          </Suspense>
+
+          {/* Popular Creators Section - Lazy loaded */}
+          <LazySection 
+            className="mb-4 sm:mb-5"
+            fallback={<SectionSkeleton height="160px" />}
+          >
+            <PopularCreatorsSection maxCreators={8} />
+          </LazySection>
+
+
+          {/* Public AI Artists Section */}
+          <LazySection className="mb-4 sm:mb-5" fallback={<SectionSkeleton height="160px" />}>
+            <PublicArtistsSection />
+          </LazySection>
+
+          {/* Published Projects Slider - Large Banners with Create CTA */}
+          <LazySection 
+            className="mb-4 sm:mb-5"
+            fallback={<SectionSkeleton height="180px" />}
+          >
+            <PublishedProjectsSlider />
+          </LazySection>
+
+          {/* Professional Tools Hub - Desktop only, Lazy loaded */}
+          {user && (
+            <LazySection 
+              className="hidden sm:block mb-5"
+              fallback={<SectionSkeleton height="200px" />}
+            >
+              <ProfessionalToolsHub />
+            </LazySection>
+          )}
+
         </div>
 
-        {/* Stats Grid */}
-        {activitiesLoading ? (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-            {[1, 2, 3, 4].map((i) => (
-              <StatCardSkeleton key={i} />
-            ))}
-          </div>
-        ) : (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-            <Card className="p-4 glass-card border-primary/20">
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10">
-                  <Activity className="w-5 h-5 text-primary" />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold text-foreground">{activities?.length || 0}</p>
-                  <p className="text-xs text-muted-foreground">Действий</p>
-                </div>
-              </div>
-            </Card>
-
-            <Card className="p-4 glass-card border-primary/20">
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-gradient-to-br from-purple-500/20 to-purple-500/10">
-                  <TrendingUp className="w-5 h-5 text-purple-400" />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold text-foreground">100%</p>
-                  <p className="text-xs text-muted-foreground">Активность</p>
-                </div>
-              </div>
-            </Card>
-
-            <Card className="p-4 glass-card border-primary/20">
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-gradient-to-br from-blue-500/20 to-blue-500/10">
-                  <Clock className="w-5 h-5 text-blue-400" />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold text-foreground">24/7</p>
-                  <p className="text-xs text-muted-foreground">Онлайн</p>
-                </div>
-              </div>
-            </Card>
-
-            <Card className="p-4 glass-card border-primary/20">
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-gradient-to-br from-green-500/20 to-green-500/10">
-                  <CheckCircle2 className="w-5 h-5 text-green-400" />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold text-foreground">OK</p>
-                  <p className="text-xs text-muted-foreground">Статус</p>
-                </div>
-              </div>
-            </Card>
-          </div>
+        {/* Dialogs - only render when open */}
+        {generateSheetOpen && (
+          <Suspense fallback={null}>
+            <GenerateSheet open={generateSheetOpen} onOpenChange={setGenerateSheetOpen} />
+          </Suspense>
         )}
-
-        {/* Quick Actions */}
-        <Card className="p-6 mb-6 glass-card border-primary/30">
-          <h2 className="text-lg font-semibold mb-4 text-foreground">Быстрые действия</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <Button
-              onClick={() => navigate('/generate')}
-              className="bg-gradient-telegram hover:opacity-90 h-auto py-6 flex flex-col gap-2 shadow-lg hover:shadow-primary/30 transition-all active:scale-95"
-            >
-              <Sparkles className="w-6 h-6" />
-              <span className="text-sm font-semibold">Генератор</span>
-            </Button>
-            <Button
-              onClick={() => navigate('/library')}
-              className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 h-auto py-6 flex flex-col gap-2 shadow-lg hover:shadow-purple-500/30 transition-all active:scale-95"
-            >
-              <Library className="w-6 h-6" />
-              <span className="text-sm font-semibold">Библиотека</span>
-            </Button>
-            <Button
-              onClick={() => navigate('/tasks')}
-              variant="outline"
-              className="glass border-primary/30 hover:border-primary/50 h-auto py-6 flex flex-col gap-2 transition-all active:scale-95"
-            >
-              <CheckSquare className="w-6 h-6" />
-              <span className="text-sm">Задачи</span>
-            </Button>
-            <Button
-              onClick={goToProfile}
-              variant="outline"
-              className="glass border-primary/30 hover:border-primary/50 h-auto py-6 flex flex-col gap-2 transition-all active:scale-95"
-            >
-              <UserCircle className="w-6 h-6" />
-              <span className="text-sm">Профиль</span>
-            </Button>
-          </div>
-        </Card>
-
-        {/* Public Projects */}
-        {publicProjects && publicProjects.length > 0 && (
-          <Card className="p-6 mb-6 glass-card border-primary/20">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
-                <FolderOpen className="w-5 h-5 text-primary" />
-                Публичные проекты
-              </h2>
-            </div>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {publicProjects.map((project) => (
-                <Card
-                  key={project.id}
-                  onClick={() => navigate(`/projects/${project.id}`)}
-                  className="p-4 glass-card border-primary/20 hover:border-primary/40 transition-all cursor-pointer"
-                >
-                  <div className="flex gap-4">
-                    <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center flex-shrink-0">
-                      {project.cover_url ? (
-                        <img src={project.cover_url} alt={project.title} className="w-full h-full object-cover rounded-lg" />
-                      ) : (
-                        <Music className="w-6 h-6 text-primary" />
-                      )}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-foreground mb-1 truncate">{project.title}</h3>
-                      {project.genre && (
-                        <Badge variant="secondary" className="text-xs">
-                          {project.genre}
-                        </Badge>
-                      )}
-                    </div>
-                  </div>
-                </Card>
-              ))}
-            </div>
-          </Card>
+        {recognitionDialogOpen && (
+          <Suspense fallback={null}>
+            <MusicRecognitionDialog open={recognitionDialogOpen} onOpenChange={setRecognitionDialogOpen} />
+          </Suspense>
         )}
-
-        {/* Public Tracks */}
-        {publicTracks && publicTracks.filter(t => t.is_public).length > 0 && (
-          <Card className="p-6 mb-6 glass-card border-primary/20">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
-                <Music className="w-5 h-5 text-primary" />
-                Публичные треки
-              </h2>
-            </div>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {publicTracks
-                .filter(track => track.is_public)
-                .slice(0, 6)
-                .map((track) => (
-                  <TrackCard key={track.id} track={track} />
-                ))}
-            </div>
-          </Card>
+        {quickProjectOpen && (
+          <Suspense fallback={null}>
+            <QuickProjectSheet open={quickProjectOpen} onOpenChange={setQuickProjectOpen} />
+          </Suspense>
         )}
-
-        {/* Recent Activity */}
-        <Card className="p-6 glass-card border-primary/20">
-          <h2 className="text-lg font-semibold mb-4 text-foreground">Последняя активность</h2>
-          {activitiesLoading ? (
-            <div className="space-y-3">
-              {[1, 2, 3].map((i) => (
-                <ActivitySkeleton key={i} />
-              ))}
-            </div>
-          ) : activities && activities.length > 0 ? (
-            <div className="space-y-3">
-              {activities.slice(0, 5).map((activity) => (
-                <div
-                  key={activity.id}
-                  className="flex items-center justify-between p-3 rounded-lg glass border border-primary/10 hover:border-primary/20 transition-all"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10">
-                      <Activity className="w-4 h-4 text-primary" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-foreground capitalize">
-                        {activity.action_type.replace(/_/g, ' ')}
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        {new Date(activity.created_at).toLocaleString('ru-RU')}
-                      </p>
-                    </div>
-                  </div>
-                  <Badge className="bg-primary/20 text-primary border-primary/30">Завершено</Badge>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-8">
-              <Clock className="w-12 h-12 text-muted-foreground mx-auto mb-3 opacity-50" />
-              <p className="text-sm text-muted-foreground">
-                Пока нет активности. Выполните действие, чтобы увидеть его здесь.
-              </p>
-            </div>
-          )}
-        </Card>
-      </div>
+        
+        {/* Feature announcement for subscriptions */}
+        <Suspense fallback={null}>
+          <SubscriptionFeatureAnnouncement />
+        </Suspense>
     </div>
   );
 };

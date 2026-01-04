@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { isSunoSuccessCode } from "../_shared/suno.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -48,85 +49,159 @@ serve(async (req) => {
 
     const {
       audioFile,
-      prompt,
+      audioUrl,
+      prompt,        // Optional - for DB record only, not sent to Suno API
       customMode = false,
-      style,
+      style,         // Maps to 'tags' in Suno API (can be built from settings)
       title,
-      personaId,
-      model = 'V4_5ALL',
       negativeTags,
+      vocalGender,   // 'm' or 'f'
+      model = 'V4_5PLUS',
       styleWeight,
       weirdnessConstraint,
       audioWeight,
       projectId,
+      // Studio project integration
+      studioProjectId,
+      pendingTrackId,
+      // NEW: Instrumental settings from dialog
+      genre,
+      mood,
+      bpm,
+      customStyle,
+      // NEW: From AddInstrumentalDialog
+      openInStudio,
+      originalTrackId,
     } = await req.json();
 
-    if (!audioFile) {
+    if (!audioFile && !audioUrl) {
       return new Response(
-        JSON.stringify({ error: 'Audio file is required' }),
+        JSON.stringify({ error: 'Audio file or URL is required' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
-    console.log('Adding instrumental to vocals:', { customMode, model });
-
-    // Upload audio to Supabase Storage
-    const fileName = `${user.id}/uploads/${Date.now()}-${audioFile.name || 'audio.mp3'}`;
-    
-    // Decode base64 if needed
-    let audioBuffer: Uint8Array;
-    if (audioFile.data.startsWith('data:')) {
-      const base64Data = audioFile.data.split(',')[1];
-      audioBuffer = Uint8Array.from(atob(base64Data), c => c.charCodeAt(0));
-    } else {
-      audioBuffer = new Uint8Array(audioFile.data);
-    }
-
-    const { data: uploadData, error: uploadError } = await supabase.storage
-      .from('project-assets')
-      .upload(fileName, audioBuffer, {
-        contentType: audioFile.type || 'audio/mpeg',
-        upsert: false,
-      });
-
-    if (uploadError) {
-      console.error('Upload error:', uploadError);
+    // Validate required parameters per SunoAPI docs
+    // Note: prompt is NOT required by Suno API for add-instrumental
+    if (!title) {
       return new Response(
-        JSON.stringify({ error: 'Failed to upload audio' }),
-        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        JSON.stringify({ error: 'title is required for add-instrumental' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
-    // Get public URL
-    const { data: publicUrlData } = supabase.storage
-      .from('project-assets')
-      .getPublicUrl(fileName);
-
-    const uploadUrl = publicUrlData.publicUrl;
-    const callBackUrl = `${supabaseUrl}/functions/v1/suno-music-callback`;
-
-    console.log('Calling Suno API add-instrumental with uploadUrl:', uploadUrl);
-
-    // Build request body
-    const requestBody: any = {
-      uploadUrl,
-      customMode,
-      callBackUrl,
-      model,
-    };
-
-    if (prompt) requestBody.prompt = prompt;
-    
-    if (customMode) {
-      if (style) requestBody.style = style;
-      if (title) requestBody.title = title;
+    // Build style from settings if not directly provided
+    let effectiveStyle = style;
+    if (!effectiveStyle && (genre || mood || bpm || customStyle)) {
+      const styleParts: string[] = [];
+      if (genre) styleParts.push(genre);
+      if (mood) styleParts.push(mood);
+      if (bpm) styleParts.push(`${bpm} bpm`);
+      if (customStyle) styleParts.push(customStyle);
+      styleParts.push('professional instrumental backing track');
+      effectiveStyle = styleParts.join(', ');
     }
 
-    if (personaId) requestBody.personaId = personaId;
-    if (negativeTags) requestBody.negativeTags = negativeTags;
-    if (styleWeight !== undefined) requestBody.styleWeight = styleWeight;
-    if (weirdnessConstraint !== undefined) requestBody.weirdnessConstraint = weirdnessConstraint;
-    if (audioWeight !== undefined) requestBody.audioWeight = audioWeight;
+    if (!effectiveStyle) {
+      return new Response(
+        JSON.stringify({ error: 'style/tags or genre/mood settings required for add-instrumental' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+    // Use default negativeTags if not provided or empty
+    const effectiveNegativeTags = negativeTags?.trim() || 'low quality, distorted, amateur';
+
+    console.log('🎸 Adding instrumental to vocals:', { 
+      customMode, model, userId: user.id, 
+      hasFile: !!audioFile, hasUrl: !!audioUrl,
+      genre, mood, bpm, customStyle 
+    });
+
+    let uploadUrl: string;
+
+    if (audioUrl) {
+      // Use existing URL directly
+      uploadUrl = audioUrl;
+      console.log('✅ Using existing audio URL:', uploadUrl);
+    } else {
+      // Upload audio to Supabase Storage
+      const fileName = `${user.id}/uploads/${Date.now()}-${audioFile.name || 'audio.mp3'}`;
+      
+      // Decode base64 if needed
+      let audioBuffer: Uint8Array;
+      try {
+        if (audioFile.data.startsWith('data:')) {
+          const base64Data = audioFile.data.split(',')[1];
+          audioBuffer = Uint8Array.from(atob(base64Data), c => c.charCodeAt(0));
+        } else {
+          audioBuffer = new Uint8Array(audioFile.data);
+        }
+        console.log('✅ Audio buffer created:', audioBuffer.length, 'bytes');
+      } catch (error) {
+        console.error('❌ Failed to decode audio file:', error);
+        throw new Error('Invalid audio file format');
+      }
+
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('project-assets')
+        .upload(fileName, audioBuffer, {
+          contentType: audioFile.type || 'audio/mpeg',
+          upsert: false,
+        });
+
+      if (uploadError) {
+        console.error('❌ Upload error:', uploadError);
+        return new Response(
+          JSON.stringify({ error: `Failed to upload audio: ${uploadError.message}` }),
+          { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+
+      // Get public URL
+      const { data: publicUrlData } = supabase.storage
+        .from('project-assets')
+        .getPublicUrl(fileName);
+
+      uploadUrl = publicUrlData.publicUrl;
+      console.log('✅ Audio uploaded:', uploadUrl);
+    }
+    const callBackUrl = `${supabaseUrl}/functions/v1/suno-music-callback`;
+
+    console.log('✅ Audio uploaded, calling Suno API add-instrumental');
+    console.log('📋 Upload URL:', uploadUrl);
+    console.log('📋 Callback URL:', callBackUrl);
+
+    // Build request body - per SunoAPI OpenAPI docs
+    // Required: uploadUrl, title, tags, negativeTags, callBackUrl
+    // Optional: vocalGender, styleWeight, audioWeight, weirdnessConstraint, model
+    
+    // CRITICAL: audioWeight controls how much the generation follows the input audio
+    // Higher audioWeight = more adherence to vocal timing and melody
+    // Default to 0.75 for good vocal sync (higher than before)
+    const effectiveAudioWeight = audioWeight !== undefined ? audioWeight : 0.75;
+    const effectiveStyleWeight = styleWeight !== undefined ? styleWeight : 0.6;
+    const effectiveWeirdness = weirdnessConstraint !== undefined ? weirdnessConstraint : 0.3;
+    
+    const requestBody: Record<string, unknown> = {
+      uploadUrl,
+      title,                         // Required
+      tags: effectiveStyle,          // Required - describes instrumental style (built from settings)
+      negativeTags: effectiveNegativeTags, // Defaults applied above if empty
+      callBackUrl,
+      model: model === 'V4_5ALL' ? 'V4_5PLUS' : model,
+      // These weights control audio adherence vs style creativity
+      audioWeight: effectiveAudioWeight,       // Follow input audio timing/melody (0-1)
+      styleWeight: effectiveStyleWeight,       // Style adherence (0-1)
+      weirdnessConstraint: effectiveWeirdness, // Creativity constraint (0-1)
+    };
+
+    // Optional parameters
+    if (vocalGender && (vocalGender === 'm' || vocalGender === 'f')) {
+      requestBody.vocalGender = vocalGender;
+    }
+
+    console.log('📋 Suno add-instrumental payload:', JSON.stringify(requestBody, null, 2));
+    console.log('🎚️ Audio weight:', effectiveAudioWeight, '| Style weight:', effectiveStyleWeight, '| Weirdness:', effectiveWeirdness);
 
     // Call Suno API
     const sunoResponse = await fetch('https://api.sunoapi.org/api/v1/generate/add-instrumental', {
@@ -140,10 +215,14 @@ serve(async (req) => {
 
     const sunoData = await sunoResponse.json();
 
-    if (!sunoResponse.ok || sunoData.code !== 200) {
-      console.error('Suno API error:', sunoData);
+    if (!sunoResponse.ok || !isSunoSuccessCode(sunoData.code)) {
+      console.error('❌ Suno API error:', JSON.stringify(sunoData, null, 2));
       return new Response(
-        JSON.stringify({ error: sunoData.msg || 'Failed to add instrumental' }),
+        JSON.stringify({ 
+          error: sunoData.msg || 'Failed to add instrumental',
+          code: sunoData.code,
+          details: sunoData
+        }),
         { status: sunoResponse.status, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
@@ -151,10 +230,11 @@ serve(async (req) => {
     const sunoTaskId = sunoData.data?.taskId;
 
     if (!sunoTaskId) {
+      console.error('❌ No taskId in Suno response:', JSON.stringify(sunoData, null, 2));
       throw new Error('No taskId in Suno response');
     }
 
-    console.log('Suno add-instrumental task created:', sunoTaskId);
+    console.log('✅ Suno add-instrumental task created:', sunoTaskId);
 
     // Create track record
     const { data: track, error: trackError } = await supabase
@@ -164,7 +244,7 @@ serve(async (req) => {
         project_id: projectId,
         prompt: prompt || 'Add instrumental',
         title: title || null,
-        style: style || null,
+        style: effectiveStyle || null,
         status: 'pending',
         provider: 'suno',
         suno_model: model,
@@ -180,8 +260,21 @@ serve(async (req) => {
       throw trackError;
     }
 
-    // Create generation task
-    const { error: taskError } = await supabase
+    // Create generation task with studio metadata and settings
+    const taskMetadata = {
+      studio_project_id: studioProjectId || null,
+      pending_track_id: pendingTrackId || null,
+      open_in_studio: openInStudio || false,
+      original_track_id: originalTrackId || null,
+      settings: {
+        genre: genre || null,
+        mood: mood || null,
+        bpm: bpm || null,
+        customStyle: customStyle || null,
+      },
+    };
+
+    const { data: generationTask, error: taskError } = await supabase
       .from('generation_tasks')
       .insert({
         user_id: user.id,
@@ -191,17 +284,23 @@ serve(async (req) => {
         suno_task_id: sunoTaskId,
         model_used: model,
         generation_mode: 'add_instrumental',
-      });
+        audio_clips: JSON.stringify(taskMetadata),
+      })
+      .select('id')
+      .single();
 
     if (taskError) {
       console.error('Task creation error:', taskError);
       throw taskError;
     }
 
+    console.log('✅ Generation task created:', generationTask?.id, 'openInStudio:', openInStudio);
+
     return new Response(
       JSON.stringify({
         success: true,
-        taskId: sunoTaskId,
+        taskId: generationTask?.id,  // Return generation_tasks.id for frontend tracking (consistent with add-vocals)
+        sunoTaskId: sunoTaskId,      // Also include Suno's task ID
         trackId: track.id,
       }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }

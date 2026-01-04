@@ -1,55 +1,15 @@
-import { MESSAGES, BOT_CONFIG } from '../config.ts';
-import { createMainMenuKeyboard } from '../keyboards/main-menu.ts';
-import { sendMessage, sendPhoto } from '../telegram-api.ts';
+import { handleDashboard } from '../handlers/dashboard.ts';
+import { handleDeepLink } from '../handlers/deep-links.ts';
 
-export async function handleStart(chatId: number, startParam?: string) {
-  // Handle deep links
+export async function handleStart(chatId: number, userId: number, startParam?: string) {
+  // Handle deep links first
   if (startParam) {
-    if (startParam.startsWith('track_')) {
-      const trackId = startParam.replace('track_', '');
-      await sendMessage(
-        chatId,
-        '🎵 *Открываем трек...*\n\nЗагрузка...',
-        {
-          inline_keyboard: [
-            [{ text: '🎵 Открыть в приложении', web_app: { url: `${BOT_CONFIG.miniAppUrl}?startapp=track_${trackId}` } }],
-            [{ text: '⬅️ Главное меню', callback_data: 'main_menu' }]
-          ]
-        }
-      );
-      return;
-    }
-    
-    if (startParam.startsWith('project_')) {
-      const projectId = startParam.replace('project_', '');
-      await sendMessage(
-        chatId,
-        '📁 *Открываем проект...*\n\nЗагрузка...',
-        {
-          inline_keyboard: [
-            [{ text: '📁 Открыть в приложении', web_app: { url: `${BOT_CONFIG.miniAppUrl}?startapp=project_${projectId}` } }],
-            [{ text: '⬅️ Главное меню', callback_data: 'main_menu' }]
-          ]
-        }
-      );
-      return;
-    }
-    
-    if (startParam.startsWith('generate_')) {
-      const style = startParam.replace('generate_', '');
-      await sendMessage(
-        chatId,
-        `🎼 *Быстрая генерация*\n\nСтиль: ${style}\n\nОтправьте описание трека или используйте:\n/generate ваше описание`,
-        createMainMenuKeyboard()
-      );
+    const result = await handleDeepLink(chatId, userId, startParam);
+    if (result.handled) {
       return;
     }
   }
   
-  // Default start message (text only to avoid image errors)
-  await sendMessage(
-    chatId,
-    `${MESSAGES.welcome}\n\n🎵 Выберите действие:`,
-    createMainMenuKeyboard()
-  );
+  // Show dashboard for all users (onboarding removed)
+  await handleDashboard(chatId, userId);
 }

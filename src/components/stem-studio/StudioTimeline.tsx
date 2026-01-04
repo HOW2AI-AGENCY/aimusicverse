@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { cn } from '@/lib/utils';
+import { formatTime } from '@/lib/player-utils';
 
 interface StudioTimelineProps {
   currentTime: number;
@@ -20,7 +21,7 @@ export function StudioTimeline({ currentTime, duration, onSeek }: StudioTimeline
 
   const handleMouseMove = (e: MouseEvent) => {
     if (isDragging) {
-      handleSeek(e as any);
+      handleSeek(e);
     }
   };
 
@@ -49,13 +50,9 @@ export function StudioTimeline({ currentTime, duration, onSeek }: StudioTimeline
         document.removeEventListener('mouseup', handleMouseUp);
       };
     }
-  }, [isDragging]);
+  }, [isDragging, handleMouseMove]);
 
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-  };
+  // formatTime imported from @/lib/player-utils
 
   return (
     <section className="relative px-6 py-3 border-b border-border/50 bg-muted/20">
@@ -95,7 +92,7 @@ export function StudioTimeline({ currentTime, duration, onSeek }: StudioTimeline
         
         {/* Playhead Cursor */}
         <div
-          className="absolute -top-1 bottom-0 w-[2px] bg-primary z-20 shadow-[0_0_12px_rgba(139,92,246,1)] transition-none pointer-events-none"
+          className="absolute -top-1 bottom-0 w-[2px] bg-primary z-20 shadow-glow transition-none pointer-events-none"
           style={{ left: `${progress}%` }}
         >
           <div className="absolute -top-1.5 -left-[4px] w-2.5 h-2.5 bg-primary rounded-sm rotate-45 shadow-sm" />

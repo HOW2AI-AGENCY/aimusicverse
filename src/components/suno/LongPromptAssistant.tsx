@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 
 interface PromptPart {
   title: string;
@@ -67,10 +68,11 @@ export const LongPromptAssistant = ({ onGenerateParts }: LongPromptAssistantProp
             : 'Промпт оптимален'
         });
       }
-    } catch (error: any) {
-      console.error('Analysis error:', error);
+    } catch (error) {
+      logger.error('Analysis error', error);
+      const errorMessage = error instanceof Error ? error.message : 'Попробуйте еще раз';
       toast.error('Ошибка анализа', {
-        description: error.message || 'Попробуйте еще раз',
+        description: errorMessage,
       });
     } finally {
       setAnalyzing(false);
@@ -100,10 +102,11 @@ export const LongPromptAssistant = ({ onGenerateParts }: LongPromptAssistantProp
           description: `${data.analysis.length || 0} символов`,
         });
       }
-    } catch (error: any) {
-      console.error('Optimization error:', error);
+    } catch (error) {
+      logger.error('Optimization error', error);
+      const errorMessage = error instanceof Error ? error.message : 'Попробуйте еще раз';
       toast.error('Ошибка оптимизации', {
-        description: error.message || 'Попробуйте еще раз',
+        description: errorMessage,
       });
     } finally {
       setOptimizing(false);

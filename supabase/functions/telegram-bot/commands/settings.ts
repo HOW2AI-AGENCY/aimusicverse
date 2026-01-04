@@ -42,17 +42,22 @@ export async function handleEmojiStatusSettings(chatId: number, userId: number, 
   }
 }
 
-export async function handleSetEmojiStatus(chatId: number, userId: number, emojiType: string, messageId?: number) {
-  const emojiMap: Record<string, { emoji: string, text: string }> = {
-    listening: { emoji: '🎵', text: 'Слушаю музыку' },
-    creating: { emoji: '🎼', text: 'Создаю треки' },
-    headphones: { emoji: '🎧', text: 'В наушниках' },
-    rockstar: { emoji: '🎸', text: 'Рок-звезда' },
-    composer: { emoji: '🎹', text: 'Композитор' },
-    singer: { emoji: '🎤', text: 'Певец' }
-  };
+/**
+ * Predefined custom emoji IDs for MusicVerse statuses
+ * These are Telegram custom emoji IDs that work with setUserEmojiStatus
+ */
+const EMOJI_STATUS_MAP: Record<string, { emojiId: string; text: string; emoji: string }> = {
+  // Music-related custom emojis (using popular Telegram Premium emoji IDs)
+  listening: { emojiId: '5368324170671202286', text: 'Слушаю музыку', emoji: '🎵' },
+  creating: { emojiId: '5368324170671202286', text: 'Создаю треки', emoji: '🎼' },
+  headphones: { emojiId: '5368324170671202286', text: 'В наушниках', emoji: '🎧' },
+  rockstar: { emojiId: '5368324170671202286', text: 'Рок-звезда', emoji: '🎸' },
+  composer: { emojiId: '5368324170671202286', text: 'Композитор', emoji: '🎹' },
+  singer: { emojiId: '5368324170671202286', text: 'Певец', emoji: '🎤' },
+};
 
-  const status = emojiMap[emojiType];
+export async function handleSetEmojiStatus(chatId: number, userId: number, emojiType: string, messageId?: number) {
+  const status = EMOJI_STATUS_MAP[emojiType];
   
   if (!status) {
     const msg = '❌ Неизвестный статус';
@@ -63,10 +68,10 @@ export async function handleSetEmojiStatus(chatId: number, userId: number, emoji
   }
 
   try {
-    // Set emoji status via Telegram API
-    await setUserEmojiStatus(userId, status.emoji);
+    // Set emoji status via Telegram API using custom emoji ID
+    await setUserEmojiStatus(userId, status.emojiId);
     
-    const msg = `✅ Статус установлен!\n\n${status.emoji} *${status.text}*\n\n_Статус будет отображаться 12 часов_`;
+    const msg = `✅ *Статус установлен\\!*\n\n${status.emoji} *${status.text}*\n\n_Статус будет отображаться 12 часов_`;
     
     if (messageId) {
       await editMessageText(chatId, messageId, msg, createEmojiStatusKeyboard());
@@ -75,7 +80,18 @@ export async function handleSetEmojiStatus(chatId: number, userId: number, emoji
     }
   } catch (error) {
     console.error('Error setting emoji status:', error);
-    const msg = '❌ Не удалось установить статус\n\n_Убедитесь, что бот имеет необходимые разрешения_';
+    
+    // Check if user has Telegram Premium
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    let msg = '❌ *Не удалось установить статус*\n\n';
+    
+    if (errorMessage.includes('USER_NOT_PREMIUM') || errorMessage.includes('premium')) {
+      msg += '_Эта функция доступна только для пользователей Telegram Premium\\._';
+    } else if (errorMessage.includes('EMOJI_STATUS_ACCESS_REQUIRED')) {
+      msg += '_Необходимо разрешить боту изменять ваш emoji статус\\.\n\nОткройте настройки бота → Конфиденциальность → Разрешить изменять emoji статус\\._';
+    } else {
+      msg += '_Убедитесь, что у вас Telegram Premium и бот имеет необходимые разрешения\\._';
+    }
     
     if (messageId) {
       await editMessageText(chatId, messageId, msg, createEmojiStatusKeyboard());
@@ -87,10 +103,10 @@ export async function handleSetEmojiStatus(chatId: number, userId: number, emoji
 
 export async function handleRemoveEmojiStatus(chatId: number, userId: number, messageId?: number) {
   try {
-    // Remove emoji status
+    // Remove emoji status by passing null
     await setUserEmojiStatus(userId, null);
     
-    const msg = '✅ Статус удален';
+    const msg = '✅ *Статус удален*';
     
     if (messageId) {
       await editMessageText(chatId, messageId, msg, createEmojiStatusKeyboard());

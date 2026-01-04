@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Loader2, Sparkles, Languages, Check } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { logger } from '@/lib/logger';
 
 interface AIOption {
   title: string;
@@ -18,7 +19,7 @@ interface AIActionsDialogProps {
   onOpenChange: (open: boolean) => void;
   projectId: string;
   field?: string;
-  onApply: (updates: Record<string, any>) => void;
+  onApply: (updates: Record<string, string | number | boolean | null>) => void;
 }
 
 export function AIActionsDialog({ 
@@ -52,7 +53,7 @@ export function AIActionsDialog({
 
       setOptions(data.result.options || []);
     } catch (error) {
-      console.error('Error getting AI options:', error);
+      logger.error('Error getting AI options', error);
       toast.error('Ошибка получения вариантов улучшений');
       setMode('menu');
     } finally {
@@ -72,7 +73,7 @@ export function AIActionsDialog({
       onOpenChange(false);
       resetState();
     } catch (error) {
-      console.error('Error applying option:', error);
+      logger.error('Error applying option', error);
       toast.error('Ошибка применения улучшения');
     } finally {
       setIsLoading(false);
@@ -99,7 +100,7 @@ export function AIActionsDialog({
       onOpenChange(false);
       resetState();
     } catch (error) {
-      console.error('Error translating:', error);
+      logger.error('Error translating', error);
       toast.error('Ошибка перевода');
       setMode('menu');
     } finally {

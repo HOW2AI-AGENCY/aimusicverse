@@ -1,10 +1,25 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { createLogger } from '../_shared/logger.ts';
+import { isSunoSuccessCode } from '../_shared/suno.ts';
+
+const logger = createLogger('suno-music-extend');
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
+
+/**
+ * Per SunoAPI docs: Model values are V5, V4_5PLUS, V4_5, V4, V3_5
+ */
+const VALID_MODELS = ['V5', 'V4_5PLUS', 'V4_5', 'V4', 'V3_5'];
+const DEFAULT_MODEL = 'V4_5'; // Fixed: Unified with other functions
+
+function getApiModelName(uiKey: string): string {
+  if (uiKey === 'V4_5ALL') return 'V4_5'; // Fixed: Unified with other functions
+  return VALID_MODELS.includes(uiKey) ? uiKey : DEFAULT_MODEL;
+}
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -39,7 +54,7 @@ serve(async (req) => {
     const body = await req.json();
     const {
       sourceTrackId,
-      defaultParamFlag = true,
+      defaultParamFlag = false, // false means use custom parameters
       continueAt,
       prompt,
       style,
@@ -74,23 +89,24 @@ serve(async (req) => {
       throw new Error('Source track does not have a Suno ID');
     }
 
-    // Validate parameters
-    if (defaultParamFlag) {
-      if (!continueAt || continueAt <= 0) {
-        throw new Error('continueAt must be greater than 0');
-      }
-      if (!prompt) {
-        throw new Error('prompt is required when using custom parameters');
-      }
-      if (!style) {
-        throw new Error('style is required when using custom parameters');
-      }
-      if (!title) {
-        throw new Error('title is required when using custom parameters');
-      }
-    }
+    // When defaultParamFlag is false (custom mode), we need prompt, style, title
+    // When defaultParamFlag is true (use original), we can skip them
+    const useCustomParams = !defaultParamFlag;
+    
+    // Build effective values - always have fallbacks
+    const effectivePrompt = prompt || sourceTrack.prompt || 'Продолжить в том же стиле';
+    const effectiveStyle = style || sourceTrack.style || 'pop';
+    const effectiveTitle = title || `${sourceTrack.title || 'Трек'} (Extended)`;
+    const effectiveContinueAt = continueAt || sourceTrack.duration_seconds || 30;
 
-    const effectiveModel = model || sourceTrack.suno_model || 'V4_5ALL';
+    const effectiveModel = getApiModelName(model || sourceTrack.suno_model || 'V4_5ALL');
+    
+    logger.info('Extend track request', {
+      sourceTrackId,
+      useCustomParams,
+      continueAt: effectiveContinueAt,
+      model: effectiveModel,
+    });
 
     // Create new track record for extension
     const { data: newTrack, error: trackError } = await supabase
@@ -98,9 +114,9 @@ serve(async (req) => {
       .insert({
         user_id: user.id,
         project_id: projectId || sourceTrack.project_id,
-        prompt: prompt || sourceTrack.prompt,
-        title: title || `${sourceTrack.title} (Extended)`,
-        style: style || sourceTrack.style,
+        prompt: effectivePrompt,
+        title: effectiveTitle,
+        style: effectiveStyle,
         has_vocals: sourceTrack.has_vocals,
         status: 'pending',
         provider: 'suno',
@@ -114,7 +130,7 @@ serve(async (req) => {
       .single();
 
     if (trackError || !newTrack) {
-      console.error('Track creation error:', trackError);
+      logger.error('Track creation error', trackError);
       throw new Error('Failed to create track record');
     }
 
@@ -167,18 +183,26 @@ serve(async (req) => {
     // Prepare SunoAPI extend request
     const callbackUrl = `${supabaseUrl}/functions/v1/suno-music-callback`;
     
+    // Per SunoAPI docs:
+    // defaultParamFlag=true: use original track params (no prompt/style/title needed)
+    // defaultParamFlag=false: use custom params (prompt/style/title required)
     const sunoPayload: any = {
       defaultParamFlag,
       audioId: sourceTrack.suno_id,
       model: effectiveModel,
       callBackUrl: callbackUrl,
+      continueAt: effectiveContinueAt,
     };
 
-    if (defaultParamFlag) {
-      sunoPayload.prompt = prompt;
-      sunoPayload.style = style;
-      sunoPayload.title = title;
-      sunoPayload.continueAt = continueAt;
+    // Always include these for custom mode, and as fallback for default mode
+    if (!defaultParamFlag || prompt) {
+      sunoPayload.prompt = effectivePrompt;
+    }
+    if (!defaultParamFlag || style) {
+      sunoPayload.style = effectiveStyle;
+    }
+    if (!defaultParamFlag || title) {
+      sunoPayload.title = effectiveTitle;
     }
 
     if (negativeTags) sunoPayload.negativeTags = negativeTags;
@@ -188,7 +212,7 @@ serve(async (req) => {
     if (audioWeight !== undefined) sunoPayload.audioWeight = audioWeight;
     if (personaId) sunoPayload.personaId = personaId;
 
-    console.log('Sending extend request to SunoAPI:', JSON.stringify(sunoPayload, null, 2));
+    logger.info('Sending extend request to SunoAPI', { payload: sunoPayload });
 
     // Call SunoAPI extend endpoint
     const startTime = Date.now();
@@ -219,7 +243,7 @@ serve(async (req) => {
       estimated_cost: 0.03,
     });
 
-    if (!sunoResponse.ok || sunoData.code !== 200) {
+    if (!sunoResponse.ok || !isSunoSuccessCode(sunoData.code)) {
       console.error('SunoAPI extend error:', sunoData);
       
       // Update task and track as failed

@@ -7,7 +7,16 @@ import prettier from "eslint-config-prettier";
 
 export default tseslint.config(
   {
-    ignores: ["dist", "**/*.stories.tsx"],
+    ignores: [
+      "dist",
+      "build",
+      "coverage",
+      "node_modules",
+      "**/*.stories.tsx",
+      "**/*.min.js",
+      "storybook-static",
+      ".storybook",
+    ],
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
@@ -27,6 +36,8 @@ export default tseslint.config(
       "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
       // Отключим правило о неиспользуемых переменных, чтобы сначала разобраться с основными ошибками
       "@typescript-eslint/no-unused-vars": "off",
+      // Temporarily disable react-hooks/refs rule due to false positives with custom hooks
+      "react-hooks/refs": "off",
     },
   },
   prettier

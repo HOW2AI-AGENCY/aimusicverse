@@ -2,19 +2,20 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { useTelegram } from '@/contexts/TelegramContext';
-import { Loader2, Music } from 'lucide-react';
+import { useGuestMode } from '@/contexts/GuestModeContext';
+import { Loader2, Music, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { SplashScreen } from '@/components/SplashScreen';
-import { Onboarding } from '@/components/Onboarding';
+import { SplashScreen } from '@/components/UnifiedSplashScreen';
 import logo from '@/assets/logo.png';
+import { logger } from '@/lib/logger';
 
 const Auth = () => {
   const navigate = useNavigate();
   const { isAuthenticated, loading, authenticateWithTelegram } = useAuth();
   const { webApp, user, isInitialized, isDevelopmentMode } = useTelegram();
+  const { enableGuestMode } = useGuestMode();
   const [showSplash, setShowSplash] = useState(true);
-  const [showOnboarding, setShowOnboarding] = useState(false);
   const [isAuthenticating, setIsAuthenticating] = useState(false);
 
   const handleAuth = async () => {
@@ -23,14 +24,14 @@ const Auth = () => {
     setIsAuthenticating(false);
     
     if (result?.session) {
-      // Если профиля нет в БД - показать онбординг
-      if (!result.hasProfile) {
-        setShowOnboarding(true);
-      } else {
-        // Если профиль есть - перейти на главную
-        navigate('/', { replace: true });
-      }
+      // Navigate to main page - onboarding is handled via OnboardingOverlay
+      navigate('/', { replace: true });
     }
+  };
+
+  const handleGuestMode = () => {
+    enableGuestMode();
+    navigate('/', { replace: true });
   };
 
   useEffect(() => {
@@ -42,7 +43,7 @@ const Auth = () => {
   // Auto-authenticate in development mode
   useEffect(() => {
     if (isDevelopmentMode && !isAuthenticated && !loading && !showSplash && !isAuthenticating) {
-      console.log('🔧 Auto-authenticating in dev mode...');
+      logger.debug('Auto-authenticating in dev mode...');
       handleAuth();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -52,19 +53,9 @@ const Auth = () => {
     setShowSplash(false);
   };
 
-  const handleOnboardingComplete = () => {
-    // После завершения онбординга перейти на главную
-    navigate('/', { replace: true });
-  };
-
   // Show splash screen on first load
   if (showSplash) {
     return <SplashScreen onComplete={handleSplashComplete} />;
-  }
-
-  // Show onboarding for new users
-  if (showOnboarding) {
-    return <Onboarding onComplete={handleOnboardingComplete} />;
   }
 
   // Show loading while initializing
@@ -100,13 +91,25 @@ const Auth = () => {
                 <p className="text-muted-foreground">Создание тестовой сессии...</p>
               </div>
             ) : (
-              <Button
-                onClick={handleAuth}
-                className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70"
-                size="lg"
-              >
-                Войти как Test User
-              </Button>
+              <>
+                <Button
+                  onClick={handleAuth}
+                  className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70"
+                  size="lg"
+                >
+                  Войти как Test User
+                </Button>
+                
+                <Button
+                  onClick={handleGuestMode}
+                  variant="outline"
+                  className="w-full mt-3"
+                  size="lg"
+                >
+                  <Eye className="w-4 h-4 mr-2" />
+                  Попробовать без авторизации
+                </Button>
+              </>
             )}
             
             <div className="mt-6 p-4 glass rounded-lg text-left">
@@ -129,15 +132,34 @@ const Auth = () => {
       <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-background via-background to-primary/5">
         <Card className="max-w-md w-full glass-card border-primary/20">
           <div className="p-8 text-center">
+            <div className="mb-4 flex justify-center">
+              <img src={logo} alt="MusicVerse" className="w-24 h-24 rounded-2xl" />
+            </div>
             <h1 className="text-2xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
               Требуется Telegram
             </h1>
             <p className="text-muted-foreground mb-6">
               Это приложение должно быть открыто через Telegram.
             </p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground mb-6">
               Пожалуйста, откройте приложение из вашего Telegram бота.
             </p>
+            
+            <Button
+              onClick={handleGuestMode}
+              variant="outline"
+              className="w-full"
+              size="lg"
+            >
+              <Eye className="w-4 h-4 mr-2" />
+              Попробовать без авторизации
+            </Button>
+            
+            <div className="mt-4 p-3 glass rounded-lg">
+              <p className="text-xs text-muted-foreground text-center">
+                В гостевом режиме вы можете просматривать интерфейс и публичные треки
+              </p>
+            </div>
           </div>
         </Card>
       </div>
@@ -193,6 +215,16 @@ const Auth = () => {
                 size="lg"
               >
                 Продолжить
+              </Button>
+              
+              <Button
+                onClick={handleGuestMode}
+                variant="outline"
+                className="w-full mt-3"
+                size="lg"
+              >
+                <Eye className="w-4 h-4 mr-2" />
+                Попробовать без авторизации
               </Button>
               
               <div className="mt-4 p-3 glass rounded-lg">

@@ -1,5 +1,6 @@
 // Telegram Authentication Service for Mini App
 import { supabase } from '@/integrations/supabase/client';
+import { logger } from '@/lib/logger';
 
 interface TelegramAuthResponse {
   user: {
@@ -9,7 +10,10 @@ interface TelegramAuthResponse {
     last_name?: string;
     username?: string;
   };
-  session: string;
+  session: {
+    access_token: string;
+    refresh_token: string;
+  };
 }
 
 export class TelegramAuthService {
@@ -20,40 +24,35 @@ export class TelegramAuthService {
       });
 
       if (error) {
-        console.error('Telegram auth error:', error);
+        logger.error('Telegram auth error', error);
         return null;
       }
 
       if (data.session) {
-        // Set the session in Supabase
+        // Set the session in Supabase - session is now properly typed
         await this.setSession(data.session);
       }
 
       return data;
     } catch (error) {
-      console.error('Error in Telegram auth:', error);
+      logger.error('Error in Telegram auth', error);
       return null;
     }
   }
 
-  private async setSession(actionLink: string) {
+  private async setSession(session: { access_token: string; refresh_token: string }) {
     try {
-      // Extract token from action link
-      const url = new URL(actionLink);
-      const token = url.searchParams.get('token');
-      
-      if (token) {
-        const { error } = await supabase.auth.setSession({
-          access_token: token,
-          refresh_token: token,
-        });
+      // Session is a JWT object with access_token and refresh_token
+      const { error } = await supabase.auth.setSession({
+        access_token: session.access_token,
+        refresh_token: session.refresh_token,
+      });
 
-        if (error) {
-          console.error('Error setting session:', error);
-        }
+      if (error) {
+        logger.error('Error setting session', error);
       }
     } catch (error) {
-      console.error('Error parsing session:', error);
+      logger.error('Error setting session', error);
     }
   }
 }

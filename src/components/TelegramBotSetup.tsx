@@ -5,25 +5,40 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { CheckCircle2, AlertCircle, Loader2, Send } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
+
+const botLogger = logger.child({ module: 'TelegramBotSetup' });
+
+interface WebhookInfo {
+  webhook_url?: string;
+  webhook_info?: {
+    ok: boolean;
+    result?: {
+      url?: string;
+      pending_update_count?: number;
+      last_error_message?: string;
+    };
+  };
+}
 
 export const TelegramBotSetup = () => {
   const [loading, setLoading] = useState(false);
-  const [webhookInfo, setWebhookInfo] = useState<any>(null);
+  const [webhookInfo, setWebhookInfo] = useState<WebhookInfo | null>(null);
 
   const setupWebhook = async () => {
     setLoading(true);
     try {
-      console.log('🤖 Настройка Telegram вебхука...');
+      botLogger.info('Setting up Telegram webhook...');
       
       const { data, error } = await supabase.functions.invoke('telegram-webhook-setup');
 
       if (error) throw error;
 
-      console.log('✅ Вебхук настроен:', data);
+      botLogger.info('Webhook configured successfully');
       setWebhookInfo(data);
       toast.success('Telegram бот успешно настроен!');
     } catch (error) {
-      console.error('❌ Ошибка настройки вебхука:', error);
+      botLogger.error('Webhook setup error', error);
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       toast.error('Ошибка настройки бота: ' + errorMessage);
     } finally {
@@ -49,7 +64,7 @@ export const TelegramBotSetup = () => {
           <Alert className="border-green-500/50 bg-green-500/10">
             <CheckCircle2 className="w-4 h-4 text-green-500" />
             <AlertDescription className="text-green-200">
-              Бот активен: {webhookInfo.webhook_info.result.url}
+              Бот активен: {webhookInfo?.webhook_info?.result?.url || 'URL недоступен'}
             </AlertDescription>
           </Alert>
         ) : webhookInfo && !isWebhookActive ? (

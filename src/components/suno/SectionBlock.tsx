@@ -17,7 +17,7 @@ interface SectionBlockProps {
   onMoveUp: (id: string) => void;
   onMoveDown: (id: string) => void;
   onOpenTagMenu: (sectionId: string, cursorPosition: number) => void;
-  dragHandleProps?: any;
+  dragHandleProps?: React.HTMLAttributes<HTMLElement>;
 }
 
 export const SectionBlock = ({
@@ -50,10 +50,12 @@ export const SectionBlock = ({
     }
   }, [isEditing]);
 
-  // Update section content when it changes from outside
+  // Update section content when it changes from outside (only if not currently editing)
   useEffect(() => {
-    setLocalContent(section.content);
-  }, [section.content]);
+    if (!isEditing) {
+      setLocalContent(section.content);
+    }
+  }, [section.content, isEditing]);
 
   const handleSave = () => {
     onUpdate(section.id, localContent);

@@ -1,18 +1,48 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useCallback, useEffect, useId } from 'react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
 import { FileAudio, Mic, X, Play, Pause, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
+import { logger } from '@/lib/logger';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from '@/hooks/studio/useStudioAudio';
+
+const refLogger = logger.child({ module: 'AudioReferenceUpload' });
+
+interface ReferenceAnalysisResult {
+  bpm?: number;
+  key?: string;
+  genre?: string;
+  mood?: string;
+  energy?: string;
+  instruments?: string[];
+  style_description?: string;
+  vocal_style?: string;
+  suggested_tags?: string[];
+}
 
 interface AudioReferenceUploadProps {
   audioFile: File | null;
   onAudioChange: (file: File | null) => void;
-  onAnalysisComplete?: (styleDescription: string) => void;
+  onAnalysisComplete?: (styleDescription: string, analysis?: ReferenceAnalysisResult) => void;
+  onMelodyAnalysis?: (data: {
+    tags: string[];
+    key: string;
+    bpm: number;
+    chords: string[];
+  }) => void;
 }
 
-export function AudioReferenceUpload({ audioFile, onAudioChange, onAnalysisComplete }: AudioReferenceUploadProps) {
+export function AudioReferenceUpload({ 
+  audioFile, 
+  onAudioChange, 
+  onAnalysisComplete,
+  onMelodyAnalysis 
+}: AudioReferenceUploadProps) {
+  const sourceId = useId();
+  const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
   const [isRecording, setIsRecording] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
@@ -21,31 +51,137 @@ export function AudioReferenceUpload({ audioFile, onAudioChange, onAnalysisCompl
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const chunksRef = useRef<Blob[]>([]);
 
-  const analyzeAudio = async (file: File) => {
+  // Register for studio audio coordination
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio) {
+      registerStudioAudio(sourceId, () => {
+        audio.pause();
+        setIsPlaying(false);
+      });
+    }
+    return () => unregisterStudioAudio(sourceId);
+  }, [sourceId]);
+
+  // Pause if global player starts
+  useEffect(() => {
+    if (globalIsPlaying && isPlaying) {
+      audioRef.current?.pause();
+      setIsPlaying(false);
+    }
+  }, [globalIsPlaying, isPlaying]);
+
+  // Check for cached analysis by file URL
+  const checkCachedAnalysis = useCallback(async (fileUrl: string): Promise<ReferenceAnalysisResult | null> => {
+    try {
+      const { data, error } = await supabase
+        .from('reference_audio')
+        .select('style_description, genre, mood, bpm, tempo, energy, instruments, vocal_style')
+        .eq('file_url', fileUrl)
+        .eq('analysis_status', 'completed')
+        .maybeSingle();
+      
+      if (error || !data) return null;
+      
+      refLogger.info('Found cached analysis', { fileUrl });
+      return {
+        style_description: data.style_description || undefined,
+        genre: data.genre || undefined,
+        mood: data.mood || undefined,
+        bpm: data.bpm || undefined,
+        energy: data.energy || undefined,
+        instruments: data.instruments || undefined,
+        vocal_style: data.vocal_style || undefined,
+      };
+    } catch (err) {
+      refLogger.warn('Error checking cached analysis', { error: err });
+      return null;
+    }
+  }, []);
+
+  // Save analysis to reference_audio table
+  const saveAnalysisToDb = useCallback(async (
+    fileUrl: string, 
+    fileName: string,
+    fileSize: number,
+    analysis: ReferenceAnalysisResult
+  ) => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { error } = await supabase
+        .from('reference_audio')
+        .upsert({
+          user_id: user.id,
+          file_url: fileUrl,
+          file_name: fileName,
+          file_size: fileSize,
+          source: 'upload',
+          analysis_status: 'completed',
+          analyzed_at: new Date().toISOString(),
+          style_description: analysis.style_description,
+          genre: analysis.genre,
+          mood: analysis.mood,
+          bpm: analysis.bpm,
+          energy: analysis.energy,
+          instruments: analysis.instruments,
+          vocal_style: analysis.vocal_style,
+        }, { 
+          onConflict: 'file_url',
+          ignoreDuplicates: false 
+        });
+
+      if (error) {
+        refLogger.warn('Failed to save analysis to DB', { error });
+      } else {
+        refLogger.info('Analysis saved to reference_audio', { fileUrl });
+      }
+    } catch (err) {
+      refLogger.error('Error saving analysis', { error: err });
+    }
+  }, []);
+
+  const analyzeAudio = async (file: File, fileUrl?: string) => {
     setIsAnalyzing(true);
     try {
-      console.log('Uploading reference audio for analysis...');
+      refLogger.debug('Starting reference audio analysis', { fileName: file.name });
       
       // Get current user
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('Not authenticated');
       
-      // Upload audio to storage for analysis
-      const fileName = `reference-${Date.now()}-${file.name}`;
-      const { data: uploadData, error: uploadError } = await supabase.storage
-        .from('project-assets')
-        .upload(fileName, file, {
-          cacheControl: '3600',
-          upsert: false,
-        });
+      let publicUrl = fileUrl;
+      let fileName = file.name;
+      
+      // Upload audio to storage if not already uploaded
+      if (!publicUrl) {
+        fileName = `reference-${Date.now()}-${file.name}`;
+        const { error: uploadError } = await supabase.storage
+          .from('project-assets')
+          .upload(fileName, file, {
+            cacheControl: '3600',
+            upsert: false,
+          });
 
-      if (uploadError) throw uploadError;
+        if (uploadError) throw uploadError;
 
-      const { data: { publicUrl } } = supabase.storage
-        .from('project-assets')
-        .getPublicUrl(fileName);
+        const { data: urlData } = supabase.storage
+          .from('project-assets')
+          .getPublicUrl(fileName);
+        publicUrl = urlData.publicUrl;
+      }
 
-      console.log('Analyzing reference audio:', publicUrl);
+      // Check for cached analysis first
+      const cachedAnalysis = await checkCachedAnalysis(publicUrl);
+      if (cachedAnalysis?.style_description) {
+        refLogger.info('Using cached analysis', { fileUrl: publicUrl });
+        toast.success('Анализ загружен из кэша!');
+        onAnalysisComplete?.(cachedAnalysis.style_description, cachedAnalysis);
+        return;
+      }
+
+      refLogger.debug('Analyzing reference audio via API');
       toast.info('Анализируем референс...', { icon: <Sparkles className="w-4 h-4" /> });
 
       // Create temporary track for analysis
@@ -77,16 +213,35 @@ export function AudioReferenceUpload({ audioFile, onAudioChange, onAnalysisCompl
 
       if (analysisError) throw analysisError;
 
-      if (analysisData.success && analysisData.parsed.style_description) {
+      // Extract analysis result
+      const analysisResult: ReferenceAnalysisResult = {
+        style_description: analysisData.parsed?.style_description,
+        genre: analysisData.parsed?.genre,
+        mood: analysisData.parsed?.mood,
+        bpm: analysisData.parsed?.bpm,
+        energy: analysisData.parsed?.energy,
+        instruments: analysisData.parsed?.instruments,
+        vocal_style: analysisData.parsed?.vocal_style,
+        suggested_tags: analysisData.parsed?.suggested_tags,
+      };
+
+      // Save analysis to database for future use
+      if (analysisResult.style_description) {
+        await saveAnalysisToDb(publicUrl, fileName, file.size, analysisResult);
+        refLogger.info('Audio analysis completed and saved', { 
+          style: analysisResult.style_description,
+          bpm: analysisResult.bpm,
+          genre: analysisResult.genre 
+        });
         toast.success('Анализ завершен!');
-        onAnalysisComplete?.(analysisData.parsed.style_description);
+        onAnalysisComplete?.(analysisResult.style_description, analysisResult);
       }
 
       // Clean up temporary track
       await supabase.from('tracks').delete().eq('id', tempTrack.id);
 
     } catch (error) {
-      console.error('Audio analysis error:', error);
+      refLogger.error('Audio analysis error', error);
       toast.error('Ошибка анализа аудио');
     } finally {
       setIsAnalyzing(false);
@@ -125,7 +280,7 @@ export function AudioReferenceUpload({ audioFile, onAudioChange, onAnalysisCompl
       setIsRecording(true);
       toast.success('Запись началась');
     } catch (error) {
-      console.error('Recording error:', error);
+      refLogger.error('Recording error', error);
       toast.error('Не удалось начать запись');
     }
   };
@@ -170,9 +325,42 @@ export function AudioReferenceUpload({ audioFile, onAudioChange, onAnalysisCompl
       audioRef.current.pause();
       setIsPlaying(false);
     } else {
+      pauseTrack();
+      pauseAllStudioAudio(sourceId);
       audioRef.current.play();
       setIsPlaying(true);
     }
+  };
+
+  const handleMelodyComplete = (data: {
+    audioFile: File;
+    audioUrl: string;
+    analysis: {
+      notes: any[];
+      chords: { chord: string }[];
+      bpm: number;
+      key: string;
+      generatedTags: string[];
+    };
+    generatedTags: string[];
+  }) => {
+    // Set the audio file
+    setAudioUrl(data.audioUrl);
+    onAudioChange(data.audioFile);
+    
+    // Pass melody analysis data to parent
+    onMelodyAnalysis?.({
+      tags: data.generatedTags,
+      key: data.analysis.key,
+      bpm: data.analysis.bpm,
+      chords: [...new Set(data.analysis.chords.map(c => c.chord))],
+    });
+    
+    // Also set style description from tags
+    const styleDescription = data.generatedTags.join(', ');
+    onAnalysisComplete?.(styleDescription);
+    
+    toast.success('Мелодия добавлена как референс');
   };
 
   return (
@@ -219,6 +407,8 @@ export function AudioReferenceUpload({ audioFile, onAudioChange, onAnalysisCompl
             <Mic className={`w-4 h-4 ${isRecording ? 'text-destructive animate-pulse' : ''}`} />
             {isRecording ? 'Остановить запись' : 'Записать аудио'}
           </Button>
+
+          {/* RecordMelodyDialog removed - use Guitar quick action from homepage */}
         </div>
       ) : (
         <div className="space-y-2">
@@ -262,7 +452,7 @@ export function AudioReferenceUpload({ audioFile, onAudioChange, onAnalysisCompl
       )}
 
       <p className="text-xs text-muted-foreground">
-        Загрузите или запишите аудио для использования в качестве референса (до 20 МБ)
+        Загрузите файл или запишите аудио для автоматического анализа стиля
       </p>
     </Card>
   );

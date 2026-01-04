@@ -68,5 +68,5 @@ export interface InputMediaPhoto {
   type: 'photo';
   media: string;
   caption?: string;
-  parse_mode?: 'Markdown' | 'HTML';
+  parse_mode?: 'MarkdownV2' | 'HTML';
 }

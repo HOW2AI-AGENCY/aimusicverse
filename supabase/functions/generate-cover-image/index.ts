@@ -43,7 +43,9 @@ serve(async (req) => {
 
     console.log(`Generating cover image for user: ${user.id}`);
 
-    // Generate image using Lovable AI (Gemini 2.5 Flash Image)
+    // Generate image using Lovable AI (Gemini 3 Pro Image)
+    const imagePrompt = `Create a professional music album cover image. ${prompt}. Style: ${genre || 'modern'}, mood: ${mood || 'dynamic'}. High quality, artistic, suitable for music streaming platforms. Square aspect ratio, visually striking.`;
+    
     const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -51,11 +53,11 @@ serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'google/gemini-2.5-flash-image-preview',
+        model: 'google/gemini-3-pro-image-preview',
         messages: [
           {
             role: 'user',
-            content: `Create a professional music album cover image. ${prompt}. Style: ${genre || 'modern'}, mood: ${mood || 'dynamic'}. High quality, artistic, suitable for music streaming platforms.`,
+            content: imagePrompt,
           },
         ],
         modalities: ['image', 'text'],

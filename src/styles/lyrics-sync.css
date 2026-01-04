@@ -1,0 +1,139 @@
+/**
+ * Lyrics Synchronization Styles
+ * 
+ * GPU-accelerated animations and transitions for smooth lyrics highlighting.
+ */
+
+/* Base word styles */
+.lyric-word {
+  display: inline-block;
+  will-change: color, transform, opacity;
+  transition: 
+    color 100ms ease-out,
+    transform 100ms ease-out,
+    opacity 100ms ease-out;
+  transform-origin: center;
+}
+
+/* Active word animation */
+.lyric-word--active {
+  animation: word-highlight 150ms ease-out forwards;
+}
+
+@keyframes word-highlight {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1.05);
+  }
+}
+
+/* Line styles */
+.lyric-line {
+  will-change: transform, background-color, opacity;
+  transition: 
+    transform 200ms ease-out,
+    background-color 200ms ease-out,
+    opacity 200ms ease-out;
+  transform-origin: center left;
+}
+
+/* Active line styles */
+.lyric-line--active {
+  animation: line-enter 200ms ease-out forwards;
+}
+
+@keyframes line-enter {
+  0% {
+    transform: scale(1) translateX(0);
+  }
+  50% {
+    transform: scale(1.02) translateX(2px);
+  }
+  100% {
+    transform: scale(1.02) translateX(0);
+  }
+}
+
+/* Smooth scroll container */
+.lyrics-scroll-container {
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Auto-scroll animation for mobile */
+.lyrics-auto-scroll {
+  transition: scroll-top 300ms cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  .lyric-word,
+  .lyric-line {
+    transition: none;
+    animation: none;
+  }
+  
+  .lyric-word--active,
+  .lyric-line--active {
+    animation: none;
+    transform: none;
+  }
+  
+  .lyrics-scroll-container {
+    scroll-behavior: auto;
+  }
+}
+
+/* Touch feedback for mobile */
+.lyric-line:active {
+  transform: scale(0.98);
+  transition: transform 50ms ease-out;
+}
+
+/* Glow effect for active word (optional, can be enabled with class) */
+.lyric-word--glow.lyric-word--active {
+  text-shadow: 0 0 8px hsl(var(--primary) / 0.5);
+}
+
+/* Fade in animation for lyrics container */
+.lyrics-container-enter {
+  animation: lyrics-fade-in 300ms ease-out forwards;
+}
+
+@keyframes lyrics-fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Loading shimmer for lyrics placeholder */
+.lyrics-loading-shimmer {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--muted)) 0%,
+    hsl(var(--muted-foreground) / 0.1) 50%,
+    hsl(var(--muted)) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

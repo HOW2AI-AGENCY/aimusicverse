@@ -1,10 +1,85 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { createLogger } from '../_shared/logger.ts';
+import { isSunoSuccessCode } from '../_shared/suno.ts';
+
+const logger = createLogger('suno-music-generate');
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
+
+/**
+ * Per SunoAPI docs (https://docs.sunoapi.org/suno-api/generate-music):
+ * Model parameter accepts: V5, V4_5PLUS, V4_5, V4, V3_5 - NOT chirp-* names
+ */
+const VALID_MODELS = ['V5', 'V4_5PLUS', 'V4_5', 'V4', 'V3_5'];
+const DEFAULT_MODEL = 'V4_5';
+
+// Deprecated models that should be auto-migrated
+const DEPRECATED_MODELS: Record<string, string> = {
+  'V4AUK': 'V4_5',      // V4AUK deprecated - migrate to V4_5
+  'V4_5ALL': 'V4_5',    // V4_5ALL deprecated - migrate to V4_5
+  'chirp-v4': 'V4',     // Legacy chirp names
+  'chirp-v3-5': 'V3_5',
+};
+
+// Fallback chain for model errors
+const MODEL_FALLBACK_CHAIN: Record<string, string> = {
+  'V5': 'V4_5PLUS',
+  'V4_5PLUS': 'V4_5',
+  'V4_5': 'V4',
+  'V4': 'V3_5',
+};
+
+// User-friendly error messages
+const ERROR_MESSAGES: Record<string, string> = {
+  'model error': 'Ошибка модели AI. Пробуем другую модель...',
+  'Audio generation failed': 'Генерация не удалась. Попробуйте изменить описание.',
+  'malformed': 'Проверьте текст песни. Он должен содержать структуру (куплеты, припевы).',
+  'artist name': 'Нельзя использовать имена известных артистов. Измените описание.',
+  'copyrighted': 'Текст содержит защищённый материал. Измените слова.',
+  'rate limit': 'Слишком много запросов. Подождите минуту.',
+  'credits': 'Недостаточно кредитов на балансе.',
+};
+
+// Cost per generation in user credits
+const GENERATION_COST = 10;
+
+/**
+ * Convert UI model key to API model name with fallback
+ */
+function getApiModelName(uiKey: string): string {
+  // Check for deprecated models first
+  if (DEPRECATED_MODELS[uiKey]) {
+    logger.info('Migrating deprecated model', { from: uiKey, to: DEPRECATED_MODELS[uiKey] });
+    return DEPRECATED_MODELS[uiKey];
+  }
+  // Return as-is if valid, otherwise default
+  return VALID_MODELS.includes(uiKey) ? uiKey : DEFAULT_MODEL;
+}
+
+/**
+ * Get user-friendly error message
+ */
+function getUserFriendlyError(errorMsg: string): string {
+  const lowerError = errorMsg.toLowerCase();
+  for (const [key, message] of Object.entries(ERROR_MESSAGES)) {
+    if (lowerError.includes(key.toLowerCase())) {
+      return message;
+    }
+  }
+  return errorMsg;
+}
+
+/**
+ * Check if error is retriable with fallback model
+ */
+function isRetriableModelError(errorMsg: string): boolean {
+  const lowerError = errorMsg.toLowerCase();
+  return lowerError.includes('model error') || lowerError.includes('audio generation failed');
+}
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -26,7 +101,7 @@ serve(async (req) => {
     // Get user from auth header
     const authHeader = req.headers.get('Authorization');
     if (!authHeader) {
-      console.error('No authorization header');
+      logger.warn('No authorization header');
       return new Response(
         JSON.stringify({ success: false, error: 'Unauthorized' }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 401 }
@@ -38,11 +113,58 @@ serve(async (req) => {
     );
 
     if (userError || !user) {
-      console.error('User authentication failed:', userError);
+      logger.error('User authentication failed', userError);
       return new Response(
         JSON.stringify({ success: false, error: 'Unauthorized' }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 401 }
       );
+    }
+
+    // Check if user is admin - admins use shared API balance, not personal credits
+    const { data: isAdmin } = await supabase.rpc('has_role', { 
+      _user_id: user.id, 
+      _role: 'admin' 
+    });
+    
+    logger.info('User role check', { userId: user.id, isAdmin: !!isAdmin });
+
+    // Only check personal balance for non-admin users
+    if (!isAdmin) {
+      logger.info('Checking user credits balance', { userId: user.id });
+      
+      const { data: userCredits, error: creditsError } = await supabase
+        .from('user_credits')
+        .select('balance')
+        .eq('user_id', user.id)
+        .maybeSingle();
+
+      if (creditsError) {
+        logger.error('Failed to fetch user credits', creditsError);
+        return new Response(
+          JSON.stringify({ success: false, error: 'Ошибка проверки баланса' }),
+          { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 500 }
+        );
+      }
+
+      const userBalance = userCredits?.balance ?? 0;
+      logger.info('User credit balance', { userId: user.id, balance: userBalance, required: GENERATION_COST });
+
+      // Check if user has enough credits for generation
+      if (userBalance < GENERATION_COST) {
+        logger.warn('Insufficient user credits', { balance: userBalance, required: GENERATION_COST });
+        return new Response(
+          JSON.stringify({ 
+            success: false, 
+            error: `Недостаточно кредитов. Баланс: ${userBalance}, требуется: ${GENERATION_COST}`,
+            errorCode: 'INSUFFICIENT_CREDITS',
+            balance: userBalance,
+            required: GENERATION_COST,
+          }),
+          { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 402 }
+        );
+      }
+    } else {
+      logger.info('Admin user - skipping personal balance check, using shared API balance');
     }
 
     const body = await req.json();
@@ -60,14 +182,26 @@ serve(async (req) => {
       audioWeight,
       personaId,
       projectId,
+      artistId,
+      planTrackId, // Link to project_tracks for status update
+      parentTrackId, // Link to parent track for remixes
       language = 'ru',
+      isPublic = true, // Track visibility - default public
     } = body;
+    
+    // Update plan track status to in_progress if provided
+    if (planTrackId) {
+      await supabase
+        .from('project_tracks')
+        .update({ status: 'in_progress' })
+        .eq('id', planTrackId);
+    }
 
     // Validate required fields
     if (!prompt) {
-      console.error('Prompt is required');
+      logger.warn('Prompt is required');
       return new Response(
-        JSON.stringify({ success: false, error: 'Prompt is required' }),
+        JSON.stringify({ success: false, error: 'Требуется описание музыки' }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
       );
     }
@@ -75,27 +209,58 @@ serve(async (req) => {
     const customMode = mode === 'custom';
 
     if (customMode && !style) {
-      console.error('Style is required in custom mode');
+      logger.warn('Style is required in custom mode');
       return new Response(
-        JSON.stringify({ success: false, error: 'Style is required in custom mode' }),
+        JSON.stringify({ success: false, error: 'Укажите стиль музыки в custom режиме' }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
+      );
+    }
+
+    // Validate prompt length for non-custom mode (Suno limit: 500 chars)
+    if (!customMode && prompt.length > 500) {
+      logger.warn('Prompt too long for simple mode', { promptLength: prompt.length });
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          error: `Описание слишком длинное (${prompt.length}/500 символов). Сократите текст или используйте Custom режим.` 
+        }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
       );
     }
 
     if (customMode && !instrumental && prompt.length > 5000) {
-      console.error('Prompt too long');
+      logger.warn('Prompt too long', { promptLength: prompt.length });
       return new Response(
-        JSON.stringify({ success: false, error: 'Prompt too long (max 5000 characters)' }),
+        JSON.stringify({ success: false, error: 'Текст слишком длинный (макс. 5000 символов)' }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
       );
     }
 
-    // Create track record
+    // Fetch artist data if artistId provided
+    let artistData: { id: string; name: string; avatar_url: string | null; suno_persona_id: string | null } | null = null;
+    if (artistId) {
+      const { data: artist, error: artistError } = await supabase
+        .from('artists')
+        .select('id, name, avatar_url, suno_persona_id')
+        .eq('id', artistId)
+        .single();
+      
+      if (!artistError && artist) {
+        artistData = artist;
+        logger.info('Found artist', { name: artist.name, hasPersona: !!artist.suno_persona_id });
+      }
+    }
+
+    // Use persona ID from artist if available, otherwise use direct personaId
+    const effectivePersonaId = artistData?.suno_persona_id || personaId;
+
+    // Create track record with artist info - ALL TRACKS ARE PUBLIC BY DEFAULT
     const { data: track, error: trackError } = await supabase
       .from('tracks')
       .insert({
         user_id: user.id,
         project_id: projectId,
+        project_track_id: planTrackId || null, // Link to project_track slot immediately
         prompt: prompt,
         title: customMode ? title : null,
         style: style,
@@ -107,12 +272,18 @@ serve(async (req) => {
         vocal_gender: vocalGender,
         style_weight: styleWeight,
         negative_tags: negativeTags,
+        is_public: isPublic, // Use value from request, default true
+        parent_track_id: parentTrackId || null, // Link to parent track for remixes
+        // Store artist reference
+        artist_id: artistData?.id || null,
+        artist_name: artistData?.name || null,
+        artist_avatar_url: artistData?.avatar_url || null,
       })
       .select()
       .single();
 
     if (trackError || !track) {
-      console.error('Track creation error:', trackError);
+      logger.error('Track creation error', trackError);
       throw new Error('Failed to create track record');
     }
 
@@ -125,7 +296,7 @@ serve(async (req) => {
 
     const telegramChatId = profile?.telegram_id || null;
 
-    // Create generation task
+    // Create generation task with planTrackId in audio_clips metadata for callback
     const { data: task, error: taskError } = await supabase
       .from('generation_tasks')
       .insert({
@@ -137,22 +308,27 @@ serve(async (req) => {
         source: 'mini_app',
         generation_mode: mode,
         model_used: model,
+        audio_clips: planTrackId ? JSON.stringify({ project_track_id: planTrackId }) : null,
       })
       .select()
       .single();
 
     if (taskError || !task) {
-      console.error('Task creation error:', taskError);
+      logger.error('Task creation error', taskError);
       throw new Error('Failed to create generation task');
     }
 
     // Prepare SunoAPI request
     const callbackUrl = `${supabaseUrl}/functions/v1/suno-music-callback`;
     
+    // Map UI model key to API model name
+    const apiModel = getApiModelName(model);
+    logger.info('Model mapping', { from: model, to: apiModel });
+    
     const sunoPayload: any = {
       customMode,
       instrumental,
-      model,
+      model: apiModel,
       callBackUrl: callbackUrl,
     };
 
@@ -169,95 +345,173 @@ serve(async (req) => {
     if (styleWeight !== undefined) sunoPayload.styleWeight = styleWeight;
     if (weirdnessConstraint !== undefined) sunoPayload.weirdnessConstraint = weirdnessConstraint;
     if (audioWeight !== undefined) sunoPayload.audioWeight = audioWeight;
-    if (personaId) sunoPayload.personaId = personaId;
+    if (effectivePersonaId) sunoPayload.personaId = effectivePersonaId;
 
-    console.log('Sending to SunoAPI:', JSON.stringify(sunoPayload, null, 2));
+    logger.apiCall('suno', '/api/v1/generate', { mode, model: apiModel, instrumental });
 
-    // Call SunoAPI
-    const startTime = Date.now();
-    const sunoResponse = await fetch('https://api.sunoapi.org/api/v1/generate', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${sunoApiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(sunoPayload),
-    });
+    // Call SunoAPI with retry logic for model errors
+    let currentModel = apiModel;
+    let retryCount = 0;
+    const maxRetries = 2;
+    let sunoResponse: Response | null = null;
+    let sunoData: any = null;
+    let lastErrorMsg = '';
 
-    const duration = Date.now() - startTime;
-    const sunoData = await sunoResponse.json();
-    
-    console.log(`📥 Suno response (${duration}ms, $0.05)`);
-
-    // Log API call
-    await supabase.from('api_usage_logs').insert({
-      user_id: user.id,
-      service: 'suno',
-      endpoint: 'generate',
-      method: 'POST',
-      request_body: sunoPayload,
-      response_status: sunoResponse.status,
-      response_body: sunoData,
-      duration_ms: duration,
-      estimated_cost: 0.05,
-    });
-
-    if (!sunoResponse.ok || sunoData.code !== 200) {
-      console.error('SunoAPI error:', sunoResponse.status, sunoData);
+    while (retryCount <= maxRetries) {
+      sunoPayload.model = currentModel;
       
-      const errorMsg = sunoData.msg || 'SunoAPI request failed';
+      const startTime = Date.now();
+      sunoResponse = await fetch('https://api.sunoapi.org/api/v1/generate', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${sunoApiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(sunoPayload),
+      });
+
+      const duration = Date.now() - startTime;
+      sunoData = await sunoResponse.json();
+      
+      logger.info('Suno API response', { 
+        durationMs: duration, 
+        status: sunoResponse.status, 
+        model: currentModel,
+        attempt: retryCount + 1 
+      });
+
+      // Log API call
+      await supabase.from('api_usage_logs').insert({
+        user_id: user.id,
+        service: 'suno',
+        endpoint: 'generate',
+        method: 'POST',
+        request_body: { ...sunoPayload, attempt: retryCount + 1 },
+        response_status: sunoResponse.status,
+        response_body: sunoData,
+        duration_ms: duration,
+        estimated_cost: 0.05,
+      });
+
+      // Check if successful
+      if (sunoResponse.ok && isSunoSuccessCode(sunoData.code)) {
+        break; // Success - exit loop
+      }
+
+      lastErrorMsg = sunoData.msg || 'SunoAPI request failed';
+      
+      // Check if this is a retriable model error
+      if (isRetriableModelError(lastErrorMsg) && MODEL_FALLBACK_CHAIN[currentModel]) {
+        const fallbackModel = MODEL_FALLBACK_CHAIN[currentModel];
+        logger.warn('Model error, attempting fallback', { 
+          from: currentModel, 
+          to: fallbackModel, 
+          error: lastErrorMsg 
+        });
+        currentModel = fallbackModel;
+        retryCount++;
+        continue;
+      }
+
+      // Non-retriable error - break out
+      break;
+    }
+
+    // Handle final error state
+    if (!sunoResponse || !sunoResponse.ok || !isSunoSuccessCode(sunoData?.code)) {
+      logger.error('SunoAPI error (final)', null, { 
+        status: sunoResponse?.status, 
+        data: sunoData,
+        attempts: retryCount + 1 
+      });
+      
+      const userFriendlyError = getUserFriendlyError(lastErrorMsg);
       
       // Handle rate limiting
-      if (sunoResponse.status === 429) {
+      if (sunoResponse?.status === 429) {
+        const rateLimitMsg = 'Превышен лимит запросов. Попробуйте через минуту.';
         await supabase.from('generation_tasks').update({ 
           status: 'failed', 
-          error_message: 'Превышен лимит запросов. Попробуйте позже.' 
+          error_message: rateLimitMsg 
         }).eq('id', task.id);
 
         await supabase.from('tracks').update({ 
           status: 'failed', 
-          error_message: 'Превышен лимит запросов. Попробуйте позже.' 
+          error_message: rateLimitMsg 
         }).eq('id', track.id);
 
         return new Response(
-          JSON.stringify({ success: false, error: 'Превышен лимит запросов. Попробуйте позже.' }),
+          JSON.stringify({ 
+            success: false, 
+            error: rateLimitMsg,
+            errorCode: 'RATE_LIMIT',
+            retryAfter: 60
+          }),
           { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 429 }
         );
       }
 
       // Handle insufficient credits
-      if (sunoResponse.status === 402) {
+      if (sunoResponse?.status === 402) {
+        const creditsMsg = 'Недостаточно кредитов на аккаунте';
         await supabase.from('generation_tasks').update({ 
           status: 'failed', 
-          error_message: 'Недостаточно кредитов на аккаунте' 
+          error_message: creditsMsg 
         }).eq('id', task.id);
 
         await supabase.from('tracks').update({ 
           status: 'failed', 
-          error_message: 'Недостаточно кредитов на аккаунте' 
+          error_message: creditsMsg 
         }).eq('id', track.id);
 
         return new Response(
-          JSON.stringify({ success: false, error: 'Недостаточно кредитов на аккаунте' }),
+          JSON.stringify({ 
+            success: false, 
+            error: creditsMsg,
+            errorCode: 'INSUFFICIENT_CREDITS'
+          }),
           { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 402 }
         );
       }
       
-      // Update task and track as failed
+      // Update task and track as failed with user-friendly error
       await supabase.from('generation_tasks').update({ 
         status: 'failed', 
-        error_message: errorMsg 
+        error_message: userFriendlyError 
       }).eq('id', task.id);
 
       await supabase.from('tracks').update({ 
         status: 'failed', 
-        error_message: errorMsg 
+        error_message: userFriendlyError 
       }).eq('id', track.id);
 
+      // Determine error code for client
+      let errorCode = 'GENERATION_FAILED';
+      if (lastErrorMsg.toLowerCase().includes('artist name')) errorCode = 'ARTIST_NAME_NOT_ALLOWED';
+      if (lastErrorMsg.toLowerCase().includes('copyrighted')) errorCode = 'COPYRIGHTED_CONTENT';
+      if (lastErrorMsg.toLowerCase().includes('malformed')) errorCode = 'MALFORMED_LYRICS';
+
       return new Response(
-        JSON.stringify({ success: false, error: errorMsg }),
+        JSON.stringify({ 
+          success: false, 
+          error: userFriendlyError,
+          errorCode,
+          originalError: lastErrorMsg,
+          canRetry: !['ARTIST_NAME_NOT_ALLOWED', 'COPYRIGHTED_CONTENT', 'MALFORMED_LYRICS'].includes(errorCode)
+        }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 500 }
       );
+    }
+
+    // Update model_used if fallback was used
+    if (currentModel !== apiModel) {
+      await supabase.from('generation_tasks').update({ 
+        model_used: currentModel 
+      }).eq('id', task.id);
+      
+      await supabase.from('tracks').update({ 
+        suno_model: currentModel 
+      }).eq('id', track.id);
     }
 
     const sunoTaskId = sunoData.data?.taskId;
@@ -299,8 +553,12 @@ serve(async (req) => {
           style,
           model,
           suno_task_id: sunoTaskId,
+          artist_id: artistData?.id,
+          artist_name: artistData?.name,
         },
       });
+
+    logger.success('Generation started', { trackId: track.id, taskId: task.id, sunoTaskId });
 
     return new Response(
       JSON.stringify({
@@ -316,7 +574,7 @@ serve(async (req) => {
     );
 
   } catch (error: any) {
-    console.error('Error in suno-music-generate:', error);
+    logger.error('Error in suno-music-generate', error);
     
     // Try to log error to database if we have context
     try {
@@ -335,14 +593,15 @@ serve(async (req) => {
             .from('notifications')
             .insert({
               user_id: user.id,
-              type: 'generation_error',
+              type: 'error',
               title: 'Ошибка генерации',
-              message: error.message || 'Произошла ошибка при генерации трека',
+              message: (error.message || 'Произошла ошибка при генерации трека').substring(0, 250),
+              metadata: { error_type: 'generation_error', original_message: error.message },
             });
         }
       }
     } catch (logError) {
-      console.error('Failed to log error:', logError);
+      logger.error('Failed to log error notification', logError);
     }
     
     return new Response(

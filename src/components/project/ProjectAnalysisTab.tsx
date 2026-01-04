@@ -8,6 +8,7 @@ import { Project } from '@/hooks/useProjects';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { useAuth } from '@/hooks/useAuth';
+import { logger } from '@/lib/logger';
 import { AIActionsDialog } from './AIActionsDialog';
 
 interface ProjectAnalysisTabProps {
@@ -39,9 +40,10 @@ export const ProjectAnalysisTab = ({ project }: ProjectAnalysisTabProps) => {
   // Load saved analysis from project.ai_context on mount
   useEffect(() => {
     if (project.ai_context && typeof project.ai_context === 'object') {
-      const savedAnalysis = (project.ai_context as any).analysis;
-      if (savedAnalysis) {
-        setAnalysis(savedAnalysis);
+      const contextData = project.ai_context as Record<string, unknown>;
+      const savedAnalysis = contextData.analysis;
+      if (savedAnalysis && typeof savedAnalysis === 'object') {
+        setAnalysis(savedAnalysis as AnalysisResult);
       }
     }
   }, [project.ai_context]);
@@ -83,7 +85,7 @@ export const ProjectAnalysisTab = ({ project }: ProjectAnalysisTabProps) => {
           .eq('id', project.id);
 
         if (saveError) {
-          console.error('Error saving analysis:', saveError);
+          logger.error('Error saving analysis', saveError);
         }
 
         // Invalidate queries to refresh project data
@@ -92,7 +94,7 @@ export const ProjectAnalysisTab = ({ project }: ProjectAnalysisTabProps) => {
         toast.success('Анализ проекта завершен');
       }
     } catch (error) {
-      console.error('Analysis error:', error);
+      logger.error('Analysis error', error);
       toast.error('Ошибка при анализе проекта');
     } finally {
       setIsAnalyzing(false);
@@ -104,7 +106,7 @@ export const ProjectAnalysisTab = ({ project }: ProjectAnalysisTabProps) => {
     setAiDialogOpen(true);
   };
 
-  const handleApplyUpdates = async (updates: Record<string, any>) => {
+  const handleApplyUpdates = async (updates: Record<string, string | number | boolean | null>) => {
     try {
       const { error } = await supabase
         .from('music_projects')
@@ -115,7 +117,7 @@ export const ProjectAnalysisTab = ({ project }: ProjectAnalysisTabProps) => {
 
       queryClient.invalidateQueries({ queryKey: ['projects', user?.id] });
     } catch (error) {
-      console.error('Error updating project:', error);
+      logger.error('Error updating project', error);
       throw error;
     }
   };

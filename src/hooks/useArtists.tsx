@@ -2,6 +2,8 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
+import { useAuditLog } from './useAuditLog';
 
 export interface Artist {
   id: string;
@@ -14,6 +16,7 @@ export interface Artist {
   genre_tags: string[] | null;
   mood_tags: string[] | null;
   is_ai_generated: boolean;
+  is_public: boolean | null;
   suno_persona_id: string | null;
   metadata: any | null;
   created_at: string;
@@ -23,6 +26,7 @@ export interface Artist {
 export const useArtists = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
+  const { logArtistCreated } = useAuditLog();
 
   const { data: artists, isLoading, error } = useQuery({
     queryKey: ['artists', user?.id],
@@ -56,12 +60,19 @@ export const useArtists = () => {
       if (error) throw error;
       return data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['artists', user?.id] });
+      queryClient.invalidateQueries({ queryKey: ['public-artists'] });
       toast.success('Артист создан успешно');
+      // Log to audit
+      logArtistCreated(data.id, data.name, {
+        styleDescription: data.style_description,
+        genreTags: data.genre_tags,
+        isAiGenerated: data.is_ai_generated,
+      });
     },
     onError: (error: any) => {
-      console.error('Error creating artist:', error);
+      logger.error('Error creating artist', error);
       toast.error('Ошибка создания артиста');
     },
   });
@@ -83,7 +94,7 @@ export const useArtists = () => {
       toast.success('Артист обновлен');
     },
     onError: (error: any) => {
-      console.error('Error updating artist:', error);
+      logger.error('Error updating artist', error);
       toast.error('Ошибка обновления артиста');
     },
   });
@@ -102,7 +113,7 @@ export const useArtists = () => {
       toast.success('Артист удален');
     },
     onError: (error: any) => {
-      console.error('Error deleting artist:', error);
+      logger.error('Error deleting artist', error);
       toast.error('Ошибка удаления артиста');
     },
   });

@@ -3,6 +3,19 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
 import { toast } from 'sonner';
 import { useEffect } from 'react';
+import { logger } from '@/lib/logger';
+
+const log = logger.child({ module: 'ProjectTracks' });
+
+export interface LinkedTrack {
+  id: string;
+  title: string | null;
+  lyrics: string | null;
+  audio_url: string | null;
+  cover_url: string | null;
+  duration_seconds: number | null;
+  status: string | null;
+}
 
 export interface ProjectTrack {
   id: string;
@@ -11,7 +24,9 @@ export interface ProjectTrack {
   position: number;
   title: string;
   style_prompt: string | null;
-  notes: string | null;
+  lyrics: string | null; // Full song lyrics
+  notes: string | null; // Production notes
+  lyrics_status: 'draft' | 'prompt' | 'generated' | 'approved' | null;
   recommended_tags: string[] | null;
   recommended_structure: string | null;
   duration_target: number | null;
@@ -19,6 +34,8 @@ export interface ProjectTrack {
   status: string;
   created_at: string;
   updated_at: string;
+  // Linked track data
+  linked_track?: LinkedTrack | null;
 }
 
 export const useProjectTracks = (projectId: string | undefined) => {
@@ -32,7 +49,18 @@ export const useProjectTracks = (projectId: string | undefined) => {
 
       const { data, error } = await supabase
         .from('project_tracks')
-        .select('*')
+        .select(`
+          *,
+          linked_track:tracks!project_tracks_track_id_fkey (
+            id,
+            title,
+            lyrics,
+            audio_url,
+            cover_url,
+            duration_seconds,
+            status
+          )
+        `)
         .eq('project_id', projectId)
         .order('position', { ascending: true });
 
@@ -46,7 +74,7 @@ export const useProjectTracks = (projectId: string | undefined) => {
   useEffect(() => {
     if (!projectId) return;
 
-    console.log('🔄 Setting up realtime subscription for project tracks:', projectId);
+    log.debug('Setting up realtime subscription for project tracks', { projectId });
 
     const channel = supabase
       .channel(`project-tracks-${projectId}`)
@@ -59,14 +87,14 @@ export const useProjectTracks = (projectId: string | undefined) => {
           filter: `project_id=eq.${projectId}`,
         },
         (payload) => {
-          console.log('📊 Project tracks change received:', payload);
+          log.debug('Project tracks change received', { event: payload.eventType });
           queryClient.invalidateQueries({ queryKey: ['project-tracks', projectId] });
         }
       )
       .subscribe();
 
     return () => {
-      console.log('🔌 Unsubscribing from project tracks realtime');
+      log.debug('Unsubscribing from project tracks realtime');
       supabase.removeChannel(channel);
     };
   }, [projectId, queryClient]);
@@ -92,7 +120,7 @@ export const useProjectTracks = (projectId: string | undefined) => {
       toast.success('Трек добавлен');
     },
     onError: (error: any) => {
-      console.error('Error adding track:', error);
+      log.error('Error adding track', error);
       toast.error('Ошибка добавления трека');
     },
   });
@@ -107,14 +135,23 @@ export const useProjectTracks = (projectId: string | undefined) => {
         .single();
 
       if (error) throw error;
-      return data;
+      return { data, updates };
     },
-    onSuccess: () => {
+    onSuccess: ({ updates }) => {
       queryClient.invalidateQueries({ queryKey: ['project-tracks', projectId] });
-      toast.success('Трек обновлен');
+      // Show specific toast based on what was updated
+      if (updates.lyrics !== undefined) {
+        const statusLabel = updates.lyrics_status === 'generated' ? 'AI лирика' : 
+                           updates.lyrics_status === 'approved' ? 'Лирика одобрена' : 'Лирика сохранена';
+        toast.success(statusLabel);
+      } else if (updates.notes !== undefined) {
+        toast.success('Заметки сохранены');
+      } else {
+        toast.success('Трек обновлен');
+      }
     },
     onError: (error: any) => {
-      console.error('Error updating track:', error);
+      log.error('Error updating track', error);
       toast.error('Ошибка обновления трека');
     },
   });
@@ -133,7 +170,7 @@ export const useProjectTracks = (projectId: string | undefined) => {
       toast.success('Трек удален');
     },
     onError: (error: any) => {
-      console.error('Error deleting track:', error);
+      log.error('Error deleting track', error);
       toast.error('Ошибка удаления трека');
     },
   });
@@ -154,7 +191,7 @@ export const useProjectTracks = (projectId: string | undefined) => {
       toast.success('Порядок треков обновлен');
     },
     onError: (error: any) => {
-      console.error('Error reordering tracks:', error);
+      log.error('Error reordering tracks', error);
       toast.error('Ошибка изменения порядка');
     },
   });
@@ -186,12 +223,20 @@ export const useProjectTracks = (projectId: string | undefined) => {
       // Tracks are now inserted by the edge function using service role
       return data;
     },
-    onSuccess: () => {
+    onMutate: () => {
+      // Show loading toast
+      toast.loading('Генерация трек-листа...', { id: 'tracklist-gen' });
+    },
+    onSuccess: (data) => {
+      toast.dismiss('tracklist-gen');
+      // Force immediate refetch
       queryClient.invalidateQueries({ queryKey: ['project-tracks', projectId] });
-      toast.success('Трек-лист создан с помощью AI');
+      const count = data?.data?.insertedCount || data?.data?.tracks?.length || 0;
+      toast.success(`Трек-лист создан: ${count} треков`);
     },
     onError: (error: any) => {
-      console.error('Error generating tracklist:', error);
+      toast.dismiss('tracklist-gen');
+      log.error('Error generating tracklist', error);
       toast.error('Ошибка генерации трек-листа');
     },
   });

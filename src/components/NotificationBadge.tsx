@@ -1,19 +1,25 @@
 import { Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { useUnreadCount } from "@/hooks/useNotifications";
+import { useNotificationHub } from "@/contexts/NotificationContext";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { NotificationList } from "./NotificationList";
+import { useState } from "react";
 
 export const NotificationBadge = () => {
-  const unreadCount = useUnreadCount();
+  const { unreadCount } = useNotificationHub();
+  const [open, setOpen] = useState(false);
+
+  const handleNotificationClick = () => {
+    setOpen(false);
+  };
 
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button variant="ghost" size="icon" className="relative">
           <Bell className="w-5 h-5" />
@@ -27,8 +33,8 @@ export const NotificationBadge = () => {
           )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-96 p-0" align="end">
-        <NotificationList />
+      <PopoverContent className="w-[calc(100vw-2rem)] sm:w-96 p-0" align="end">
+        <NotificationList onNotificationClick={handleNotificationClick} />
       </PopoverContent>
     </Popover>
   );

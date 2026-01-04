@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { Track } from './useTracksOptimized';
+import { Track } from '@/types/track';
+import { logger } from '@/lib/logger';
 
 export function useTrackVersionManagement() {
   const [isProcessing, setIsProcessing] = useState(false);
+  const queryClient = useQueryClient();
 
   const createVersionFromTrack = async (track: Track) => {
     if (!track.audio_url) {
@@ -53,7 +56,7 @@ export function useTrackVersionManagement() {
 
       toast.success('Версия создана из основного трека');
     } catch (error: any) {
-      console.error('Create version error:', error);
+      logger.error('Create version error', error);
       toast.error(error.message || 'Ошибка создания версии');
     } finally {
       setIsProcessing(false);
@@ -92,15 +95,19 @@ export function useTrackVersionManagement() {
       const metadata = version.metadata as any;
       const versionTitle = metadata?.title || (typeof metadata?.prompt === 'string' ? metadata.prompt.split('\n')[0] : null) || null;
       
+      // Also update active_version_id for proper synchronization
       const { error: trackError } = await supabase
         .from('tracks')
         .update({
           audio_url: version.audio_url,
           cover_url: version.cover_url,
           duration_seconds: version.duration_seconds,
+          active_version_id: versionId,
           title: versionTitle,
           tags: metadata?.tags || null,
           lyrics: metadata?.lyrics || null,
+          style: metadata?.style || null,
+          suno_model: metadata?.model_name || null,
         })
         .eq('id', trackId);
 
@@ -125,9 +132,13 @@ export function useTrackVersionManagement() {
       }
 
       toast.success('Версия установлена как основная');
-      window.location.reload();
+      
+      // Invalidate queries to refresh data without page reload
+      await queryClient.invalidateQueries({ queryKey: ['tracks'] });
+      await queryClient.invalidateQueries({ queryKey: ['track', trackId] });
+      await queryClient.invalidateQueries({ queryKey: ['track-versions', trackId] });
     } catch (error: any) {
-      console.error('Set primary error:', error);
+      logger.error('Set primary error', error);
       toast.error(error.message || 'Ошибка установки версии');
     } finally {
       setIsProcessing(false);
@@ -146,7 +157,7 @@ export function useTrackVersionManagement() {
 
       toast.success('Версия удалена');
     } catch (error: any) {
-      console.error('Delete version error:', error);
+      logger.error('Delete version error', error);
       toast.error(error.message || 'Ошибка удаления версии');
     } finally {
       setIsProcessing(false);

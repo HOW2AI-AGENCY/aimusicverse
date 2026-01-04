@@ -82,7 +82,7 @@ Technical approach uses React 19.2, TypeScript 5.9, Supabase, Radix UI, Tailwind
 - Database migrations with rollback scripts for schema changes
 - Backward compatible API changes (new fields optional)
 - Feature flags for gradual rollout of new UI components
-- Migration plan for existing tracks to add master_version_id
+- Migration plan for existing tracks to add primary_version_id
 - Changelog tracking for all version-related changes
 - Semantic versioning for component library changes
 
@@ -310,7 +310,7 @@ interface Track {
   cover_url: string;
   duration_seconds: number;
   is_public: boolean;
-  master_version_id: string | null; // NEW: FK to track_versions
+  primary_version_id: string | null; // NEW: FK to track_versions
   lyrics: string | null;
   timestamped_lyrics: Json | null;
   metadata: Json;
@@ -325,7 +325,7 @@ interface TrackVersion {
   id: string;
   track_id: string;
   version_number: number; // NEW: Sequential version number
-  is_master: boolean; // NEW: Is this the active version?
+  is_primary: boolean; // NEW: Is this the active version?
   version_type: 'original' | 'remix' | 'cover' | 'extended' | 'alternative';
   audio_url: string;
   cover_url: string | null;
@@ -375,15 +375,15 @@ interface PlayerState {
 #### Relationships
 
 - Track → TrackVersion (1:many)
-- Track → TrackVersion (master_version_id, 1:1)
+- Track → TrackVersion (primary_version_id, 1:1)
 - Track → TrackChangelog (1:many)
 - Track → TrackStems (1:many)
 - Track → AudioAnalysis (1:1)
 
 #### Validation Rules
 
-- `master_version_id` must reference existing version
-- Only one version can have `is_master = true` per track
+- `primary_version_id` must reference existing version
+- Only one version can have `is_primary = true` per track
 - `version_number` must be sequential and unique per track
 - Public tracks must have valid audio_url and cover_url
 - Track duration must match audio file duration (±2s tolerance)
@@ -447,7 +447,7 @@ components:
           type: string
         version_number:
           type: integer
-        is_master:
+        is_primary:
           type: boolean
         audio_url:
           type: string
