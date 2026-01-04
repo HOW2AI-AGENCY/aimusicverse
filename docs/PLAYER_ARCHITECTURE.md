@@ -9,11 +9,11 @@ MusicVerse AI's music player is a comprehensive audio playback system built with
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                        UI Layer                             │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐     │
-│  │  Expanded    │  │   Compact    │  │  Fullscreen  │     │
-│  │   Player     │  │    Player    │  │    Player    │     │
-│  └──────────────┘  └──────────────┘  └──────────────┘     │
-│         │                  │                  │             │
+│  ┌──────────────┐                        ┌──────────────┐  │
+│  │   Compact    │                        │  Fullscreen  │  │
+│  │    Player    │                        │    Player    │  │
+│  └──────────────┘                        └──────────────┘  │
+│         │                                        │          │
 │         └──────────────────┴──────────────────┘             │
 │                           │                                 │
 ├───────────────────────────┼─────────────────────────────────┤
@@ -68,7 +68,7 @@ The central state store using Zustand. Manages all player state and provides act
 - `currentIndex`: Position in queue
 - `shuffle`: Shuffle mode enabled/disabled
 - `repeat`: Repeat mode (off/all/one)
-- `playerMode`: UI display mode (minimized/compact/expanded/fullscreen)
+- `playerMode`: UI display mode (minimized/compact/fullscreen)
 
 **Key Actions:**
 - `playTrack(track?)`: Play specific track or resume
@@ -190,18 +190,6 @@ Bottom sheet displaying playback queue.
 - Clear all option
 - Empty state message
 
-### ExpandedPlayer
-
-Medium-sized player overlay.
-
-**Features:**
-- Swipe down to close
-- Cover art display
-- Track information
-- Like button integration
-- Queue access
-- Fullscreen expand option
-
 ## Player Modes
 
 ### 1. Minimized
@@ -211,23 +199,21 @@ Medium-sized player overlay.
 
 ### 2. Compact
 - Small bar at bottom
-- Basic controls visible
-- Track info and progress
+- Basic controls visible (play/pause, next)
+- Track info and progress bar
+- Action buttons (like, download, close) expandable
+- Swipe up to open fullscreen
 - Auto-opens when playing
 
-### 3. Expanded
-- Medium overlay
-- Full controls
-- Cover art
-- Progress bar
-- Can swipe to close
-
-### 4. Fullscreen
+### 3. Fullscreen
 - Full screen takeover
-- Large cover art
-- All controls
-- Lyrics/analysis tabs
+- Large cover art with animated background
+- All playback controls
+- Lyrics display with synchronized highlighting
+- Version switcher for A/B tracks
+- Queue management
 - Maximum immersion
+- Swipe down or tap close to return to compact mode
 
 ## Data Flow
 
