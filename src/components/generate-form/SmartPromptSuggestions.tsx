@@ -170,7 +170,7 @@ export function SmartPromptSuggestions({
 
   if (compact) {
     return (
-      <div className="space-y-2 max-w-full">
+      <div className="space-y-2 w-full max-w-full overflow-hidden">
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
           <Lightbulb className="h-3.5 w-3.5" />
           <span>Быстрые идеи:</span>
