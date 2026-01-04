@@ -67,8 +67,11 @@ export function useGenerateForm({
   // Unified audio reference hook
   const { activeReference, clearActive: clearAudioReference } = useAudioReference();
 
-  // User credits hook for personal balance (admins use shared API balance)
-  const { balance: userBalance, canGenerate, generationCost, invalidate: invalidateCredits, isAdmin, apiBalance } = useUserCredits();
+  // Advanced settings - model first for dynamic cost calculation
+  const [model, setModel] = useState('V4_5ALL');
+
+  // User credits hook with model-specific cost
+  const { balance: userBalance, canGenerate, generationCost, invalidate: invalidateCredits, isAdmin, apiBalance } = useUserCredits(model);
 
   // Form state
   const [mode, setMode] = useState<'simple' | 'custom'>('simple');
@@ -85,8 +88,7 @@ export function useGenerateForm({
   const [style, setStyle] = useState('');
   const [hasVocals, setHasVocals] = useState(true);
 
-  // Advanced settings
-  const [model, setModel] = useState('V4_5ALL');
+  // Advanced settings (model already defined above for dynamic cost)
   const [negativeTags, setNegativeTags] = useState('');
   const [vocalGender, setVocalGender] = useState<'m' | 'f' | ''>('');
   const [styleWeight, setStyleWeight] = useState([DEFAULT_STYLE_WEIGHT]);

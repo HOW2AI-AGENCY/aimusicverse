@@ -1,10 +1,11 @@
 /**
  * CollapsibleFormHeader - Compact header for GenerateSheet
  * Single-line layout with mode dropdown, model selector, balance and history
+ * Uses dynamic models from sunoModels.ts
  */
 
-import { memo, useState } from 'react';
-import { Zap, Settings2, History, Coins, ChevronDown, Flame, Cpu } from 'lucide-react';
+import { memo, useMemo } from 'react';
+import { Zap, Settings2, History, Coins, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -12,15 +13,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { cn } from '@/lib/utils';
 import logo from '@/assets/logo.png';
+import { SUNO_MODELS, getAvailableModels, type SunoModelKey } from '@/constants/sunoModels';
 
 interface CollapsibleFormHeaderProps {
   balance?: number;
@@ -32,19 +27,13 @@ interface CollapsibleFormHeaderProps {
   onModelChange?: (model: string) => void;
 }
 
-const MODELS = [
-  { value: 'chirp-v4', label: '4.5 Turbo', icon: Flame },
-  { value: 'chirp-v3-5', label: 'v3.5', icon: Cpu },
-  { value: 'chirp-v3', label: 'v3', icon: Cpu },
-];
-
 export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
   balance = 0,
-  cost = 10,
+  cost = 12,
   mode,
   onModeChange,
   onOpenHistory,
-  model = 'chirp-v4',
+  model = 'V4_5ALL',
   onModelChange,
 }: CollapsibleFormHeaderProps) {
   const handleHistoryClick = (e: React.MouseEvent) => {
@@ -52,25 +41,29 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
     onOpenHistory?.();
   };
 
-  const currentModel = MODELS.find(m => m.value === model) || MODELS[0];
+  // Get available models dynamically
+  const availableModels = useMemo(() => getAvailableModels(), []);
+  
+  // Get current model info
+  const currentModel = SUNO_MODELS[model] || SUNO_MODELS.V4_5ALL;
 
   return (
-    <div className="flex items-center justify-between py-2.5 gap-2">
+    <div className="flex items-center justify-between py-2.5 gap-1.5">
       {/* Left: Logo + Mode dropdown */}
-      <div className="flex items-center gap-2 min-w-0">
+      <div className="flex items-center gap-1.5 min-w-0">
         <img 
           src={logo} 
           alt="MusicVerse AI" 
-          className="h-7 w-7 rounded-lg shadow-sm flex-shrink-0"
+          className="h-6 w-6 rounded-md shadow-sm flex-shrink-0"
         />
         
-        {/* Mode dropdown */}
+        {/* Mode dropdown - compact on mobile */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button 
               type="button"
               className={cn(
-                "flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all",
+                "flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium transition-all",
                 "bg-muted/60 hover:bg-muted border border-transparent hover:border-primary/20"
               )}
             >
@@ -79,7 +72,7 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
               ) : (
                 <Settings2 className="w-3.5 h-3.5 text-primary" />
               )}
-              <span className="truncate">
+              <span className="hidden xs:inline truncate max-w-[60px]">
                 {mode === 'simple' ? 'Быстрый' : 'Полный'}
               </span>
               <ChevronDown className="w-3 h-3 text-muted-foreground flex-shrink-0" />
@@ -105,32 +98,52 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
       </div>
 
       {/* Right: Model + Balance + History */}
-      <div className="flex items-center gap-1.5 flex-shrink-0">
-        {/* Model selector - compact */}
+      <div className="flex items-center gap-1 flex-shrink-0">
+        {/* Model selector - dropdown with all versions */}
         {onModelChange && (
-          <Select value={model} onValueChange={onModelChange}>
-            <SelectTrigger className="h-7 w-auto gap-1 px-2 text-xs border-0 bg-muted/60 hover:bg-muted rounded-lg">
-              <currentModel.icon className="w-3 h-3 text-orange-500" />
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent align="end">
-              {MODELS.map((m) => (
-                <SelectItem key={m.value} value={m.value} className="text-xs">
-                  <div className="flex items-center gap-2">
-                    <m.icon className="w-3 h-3" />
-                    {m.label}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button 
+                type="button"
+                className={cn(
+                  "flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium transition-all",
+                  "bg-muted/60 hover:bg-muted border border-transparent hover:border-primary/20"
+                )}
+              >
+                <span className="text-sm">{currentModel.emoji}</span>
+                <span className="font-semibold">{currentModel.name}</span>
+                <ChevronDown className="w-3 h-3 text-muted-foreground" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="min-w-[160px]">
+              {availableModels.map((m) => (
+                <DropdownMenuItem 
+                  key={m.key}
+                  onClick={() => onModelChange(m.key)}
+                  className={cn(
+                    "flex items-center gap-2",
+                    model === m.key && "bg-primary/10"
+                  )}
+                >
+                  <span className="text-base">{m.emoji}</span>
+                  <div className="flex flex-col">
+                    <span className="font-medium">{m.name}</span>
+                    <span className="text-[10px] text-muted-foreground">{m.desc} • {m.cost}💎</span>
                   </div>
-                </SelectItem>
+                  {m.status === 'latest' && (
+                    <span className="ml-auto text-[9px] px-1 py-0.5 rounded bg-primary/20 text-primary font-medium">NEW</span>
+                  )}
+                </DropdownMenuItem>
               ))}
-            </SelectContent>
-          </Select>
+            </DropdownMenuContent>
+          </DropdownMenu>
         )}
         
-        {/* Balance pill */}
-        <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-primary/10 text-primary">
+        {/* Balance pill - compact */}
+        <div className="flex items-center gap-0.5 px-1.5 py-1 rounded-md bg-primary/10 text-primary">
           <Coins className="w-3 h-3" />
           <span className="text-xs font-semibold">{balance}</span>
-          <span className="text-[10px] text-primary/60">/{cost}</span>
+          <span className="text-[9px] text-primary/60">/{cost}</span>
         </div>
         
         {/* History button */}
@@ -138,10 +151,10 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
           <Button 
             variant="ghost" 
             size="icon" 
-            className="h-7 w-7 p-0 rounded-lg hover:bg-muted" 
+            className="h-6 w-6 p-0 rounded-md hover:bg-muted" 
             onClick={handleHistoryClick}
           >
-            <History className="w-4 h-4 text-muted-foreground" />
+            <History className="w-3.5 h-3.5 text-muted-foreground" />
           </Button>
         )}
       </div>

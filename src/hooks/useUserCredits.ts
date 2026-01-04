@@ -6,7 +6,7 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from './useAuth';
 import * as creditsApi from '@/api/credits.api';
-import { GENERATION_COST } from '@/services/credits.service';
+import { GENERATION_COST, getModelCost } from '@/services/credits.service';
 import { logger } from '@/lib/logger';
 
 interface UserCredits {
@@ -18,7 +18,7 @@ interface UserCredits {
   current_streak: number;
 }
 
-export function useUserCredits() {
+export function useUserCredits(modelKey?: string) {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
@@ -84,9 +84,12 @@ export function useUserCredits() {
     refetchInterval: 60000,
   });
 
+  // Dynamic generation cost based on model
+  const generationCost = modelKey ? getModelCost(modelKey) : GENERATION_COST;
+
   // For admins, use API balance; for regular users, use personal balance
   const effectiveBalance = isAdmin ? (apiBalance ?? 0) : (credits?.balance ?? 0);
-  const canGenerate = isAdmin ? true : effectiveBalance >= GENERATION_COST;
+  const canGenerate = isAdmin ? true : effectiveBalance >= generationCost;
 
   const invalidate = () => {
     queryClient.invalidateQueries({ queryKey: ['user-credits'] });
@@ -103,7 +106,7 @@ export function useUserCredits() {
     refetch,
     invalidate,
     canGenerate,
-    generationCost: GENERATION_COST,
+    generationCost,
     isAdmin,
     apiBalance: apiBalance ?? null,
   };
