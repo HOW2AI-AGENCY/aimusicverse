@@ -4,6 +4,7 @@
  * Uses Klangio as the main provider for transcription
  * Supports multiple output formats: MIDI, MusicXML, Guitar Pro, PDF
  * Intelligently selects model and formats based on stem type
+ * Now includes Piano Roll editor for MIDI editing
  */
 
 import { useState, useCallback, useEffect, useMemo } from 'react';
@@ -11,7 +12,7 @@ import { motion, AnimatePresence } from '@/lib/motion';
 import { 
   Music2, Download, Loader2, 
   Piano, Mic2, Drum, Guitar, FileAudio,
-  Play, FileText, CheckCircle2
+  Play, FileText, CheckCircle2, PenTool
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -30,9 +31,11 @@ import { useReplicateMidiTranscription, TranscriptionFiles } from '@/hooks/useRe
 import { useStemTranscription, useSaveTranscription } from '@/hooks/useStemTranscription';
 import { UnifiedNotesViewer } from '@/components/studio/UnifiedNotesViewer';
 import { MidiFilesCard } from '@/components/studio/MidiFilesCard';
+import { PianoRoll, type MidiNote } from './PianoRoll';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { supabase } from '@/integrations/supabase/client';
 import { 
   getTranscriptionConfig, 
   getFormatLabel, 
@@ -79,9 +82,11 @@ export function StemMidiDrawer({
 }: StemMidiDrawerProps) {
   const isMobile = useIsMobile();
   const [selectedModel, setSelectedModel] = useState<KlangioModel>('universal');
-  const [activeTab, setActiveTab] = useState<'create' | 'player' | 'files'>('create');
+  const [activeTab, setActiveTab] = useState<'create' | 'player' | 'editor' | 'files'>('create');
   const [activeMidiUrl, setActiveMidiUrl] = useState<string | null>(null);
   const [transcriptionFiles, setTranscriptionFiles] = useState<TranscriptionFiles>({});
+  const [pianoRollNotes, setPianoRollNotes] = useState<MidiNote[]>([]);
+  const [isExportingMidi, setIsExportingMidi] = useState(false);
   
   const { 
     transcribe, 
@@ -97,6 +102,29 @@ export function StemMidiDrawer({
   } = useStemTranscription(stem?.id);
   
   const { saveTranscription, isSaving } = useSaveTranscription();
+  
+  // Load notes from transcription into Piano Roll
+  useEffect(() => {
+    if (latestTranscription?.notes && Array.isArray(latestTranscription.notes)) {
+      const notes = latestTranscription.notes as Array<{
+        pitch?: number;
+        start_time?: number;
+        startTime?: number;
+        duration?: number;
+        velocity?: number;
+      }>;
+      
+      const midiNotes: MidiNote[] = notes.map((n, i) => ({
+        id: `note-${i}`,
+        pitch: n.pitch ?? 60,
+        startTime: n.start_time ?? n.startTime ?? 0,
+        duration: n.duration ?? 0.25,
+        velocity: n.velocity ?? 100,
+      }));
+      
+      setPianoRollNotes(midiNotes);
+    }
+  }, [latestTranscription?.notes]);
   
   // Switch to player tab when files become available
   useEffect(() => {
@@ -269,15 +297,58 @@ export function StemMidiDrawer({
     setActiveTab('player');
   }, []);
 
+  // Export edited notes from Piano Roll to MIDI
+  const handleExportMidi = useCallback(async () => {
+    if (pianoRollNotes.length === 0) {
+      toast.error('Нет нот для экспорта');
+      return;
+    }
+
+    setIsExportingMidi(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('export-midi', {
+        body: {
+          notes: pianoRollNotes,
+          bpm: latestTranscription?.bpm || 120,
+          timeSignature: latestTranscription?.time_signature || '4/4',
+          trackName: `${trackTitle} - ${stem?.stem_type || 'Export'}`,
+        },
+      });
+
+      if (error) throw error;
+      if (!data?.success) throw new Error(data?.error || 'Export failed');
+
+      // Download the MIDI file
+      const midiBlob = Uint8Array.from(atob(data.data), c => c.charCodeAt(0));
+      const blob = new Blob([midiBlob], { type: 'audio/midi' });
+      const url = URL.createObjectURL(blob);
+      
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = data.filename || 'export.mid';
+      a.click();
+      URL.revokeObjectURL(url);
+
+      toast.success('MIDI экспортирован');
+    } catch (error) {
+      console.error('Export MIDI error:', error);
+      toast.error('Ошибка экспорта MIDI');
+    } finally {
+      setIsExportingMidi(false);
+    }
+  }, [pianoRollNotes, latestTranscription, trackTitle, stem]);
+
   const latestMidiUrl = result?.midiUrl || activeMidiUrl || latestTranscription?.midi_url;
   const hasFiles = Object.keys(transcriptionFiles).length > 0;
+  const hasNotes = pianoRollNotes.length > 0;
+  const trackDuration = trackDurationSeconds || latestTranscription?.duration_seconds || 30;
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent 
         side={isMobile ? 'bottom' : 'right'} 
         className={cn(
-          isMobile ? "h-[90vh] rounded-t-2xl flex flex-col" : "w-[450px] flex flex-col"
+          isMobile ? "h-[90vh] rounded-t-2xl flex flex-col" : "w-[600px] flex flex-col"
         )}
       >
         <SheetHeader className="pb-4 flex-shrink-0">
@@ -288,11 +359,15 @@ export function StemMidiDrawer({
         </SheetHeader>
 
         {stem && (
-          <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as 'create' | 'player' | 'files')} className="flex-1 flex flex-col min-h-0">
-            <TabsList className="grid grid-cols-3 mb-4">
+          <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as 'create' | 'player' | 'editor' | 'files')} className="flex-1 flex flex-col min-h-0">
+            <TabsList className="grid grid-cols-4 mb-4">
               <TabsTrigger value="create">Создать</TabsTrigger>
               <TabsTrigger value="player" disabled={!latestMidiUrl && !activeMidiUrl}>
                 Плеер
+              </TabsTrigger>
+              <TabsTrigger value="editor" disabled={!hasNotes}>
+                <PenTool className="w-3 h-3 mr-1" />
+                Редактор
               </TabsTrigger>
               <TabsTrigger value="files" disabled={!hasFiles}>
                 Файлы
@@ -531,6 +606,31 @@ export function StemMidiDrawer({
                   )}
                 </div>
               </ScrollArea>
+            </TabsContent>
+
+            {/* Piano Roll Editor Tab */}
+            <TabsContent value="editor" className="flex-1 min-h-0 m-0">
+              {hasNotes ? (
+                <div className="h-full -mx-6">
+                  <PianoRoll
+                    notes={pianoRollNotes}
+                    onNotesChange={setPianoRollNotes}
+                    duration={trackDuration}
+                    bpm={latestTranscription?.bpm || 120}
+                    timeSignature={latestTranscription?.time_signature || '4/4'}
+                    onExport={handleExportMidi}
+                    className="h-full"
+                  />
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center py-12 text-center">
+                  <PenTool className="w-12 h-12 text-muted-foreground mb-4" />
+                  <p className="text-muted-foreground">Нет нот для редактирования</p>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Создайте транскрипцию во вкладке "Создать"
+                  </p>
+                </div>
+              )}
             </TabsContent>
 
             <TabsContent value="files" className="flex-1 min-h-0 m-0">
