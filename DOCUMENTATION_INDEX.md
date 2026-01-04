@@ -121,6 +121,14 @@ This is the master index for all MusicVerse AI documentation.
 - `src/components/player/DoubleTapSeekFeedback.tsx` - Visual feedback for double-tap seek
 - `src/components/player/MobileFullscreenPlayer.tsx` - Full-featured mobile player
 
+### Design System & Accessibility (⭐ NEW 2026-01-04 Session 3)
+- `src/lib/accessibility.ts` - Accessibility utilities (WCAG 2.1 AA compliance)
+- `src/lib/haptic.ts` - Standardized haptic feedback with usage guidelines
+- `src/lib/motion.ts` - Motion tokens aligned with CSS duration variables
+- `src/lib/touch-target.ts` - Touch target utilities (44px minimum per WCAG)
+- `tailwind.config.ts` - Semantic spacing tokens (touch, touch-lg, touch-xl)
+- `src/index.css` - CSS design tokens (spacing, motion, focus ring)
+
 ### Mobile Development (⭐ NEW)
 - **[docs/mobile/OPTIMIZATION_ROADMAP_2026.md](docs/mobile/OPTIMIZATION_ROADMAP_2026.md)** - Mobile optimization roadmap Q1-Q2 2026
 - [docs/MOBILE_UI_AUDIT_2025_12.md](docs/MOBILE_UI_AUDIT_2025_12.md) - Mobile UI audit

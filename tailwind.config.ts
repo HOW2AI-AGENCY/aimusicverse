@@ -98,12 +98,48 @@ export default {
           glow: "hsl(var(--warning-glow))",
         },
       },
+      spacing: {
+        // Semantic spacing tokens
+        'touch': 'var(--touch-target-min)',
+        'touch-lg': 'var(--touch-target-comfortable)',
+        'touch-xl': 'var(--touch-target-large)',
+        // Additional semantic spacing
+        '4.5': '1.125rem', // 18px
+        '5.5': '1.375rem', // 22px
+        '13': '3.25rem',   // 52px
+        '15': '3.75rem',   // 60px
+        '18': '4.5rem',    // 72px
+        'safe-bottom': 'max(var(--safe-area-bottom), 1rem)',
+      },
+      minHeight: {
+        'touch': 'var(--touch-target-min)',
+        'touch-lg': 'var(--touch-target-comfortable)',
+        'touch-xl': 'var(--touch-target-large)',
+      },
+      minWidth: {
+        'touch': 'var(--touch-target-min)',
+        'touch-lg': 'var(--touch-target-comfortable)',
+        'touch-xl': 'var(--touch-target-large)',
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
         "2xl": "1.5rem",
         "3xl": "2rem",
+      },
+      transitionDuration: {
+        'instant': 'var(--duration-instant)',
+        'fast': 'var(--duration-fast)',
+        'normal': 'var(--duration-normal)',
+        'slow': 'var(--duration-slow)',
+        'slower': 'var(--duration-slower)',
+        'slowest': 'var(--duration-slowest)',
+      },
+      transitionTimingFunction: {
+        'default': 'var(--ease-default)',
+        'bounce': 'var(--ease-bounce)',
+        'spring': 'var(--ease-spring)',
       },
       backgroundImage: {
         'gradient-telegram': 'linear-gradient(135deg, hsl(207 90% 54%), hsl(250 80% 60%))',
