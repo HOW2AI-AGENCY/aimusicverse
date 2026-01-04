@@ -17,6 +17,8 @@ interface SynchronizedWordProps {
   activeClassName?: string;
   pastClassName?: string;
   futureClassName?: string;
+  /** Global word index for precise scroll targeting */
+  'data-word-index'?: number;
 }
 
 export const SynchronizedWord = memo(function SynchronizedWord({
@@ -28,6 +30,7 @@ export const SynchronizedWord = memo(function SynchronizedWord({
   activeClassName = 'text-primary font-bold scale-105',
   pastClassName = 'text-foreground/70',
   futureClassName = 'text-muted-foreground/60',
+  'data-word-index': dataWordIndex,
 }: SynchronizedWordProps) {
   // Clean word from newlines
   const cleanWord = word.replace(/\n/g, '').trim();
@@ -36,6 +39,7 @@ export const SynchronizedWord = memo(function SynchronizedWord({
   return (
     <span
       onClick={onClick}
+      data-word-index={dataWordIndex}
       className={cn(
         // Base styles with GPU acceleration
         'inline-block transition-all duration-100 ease-out',

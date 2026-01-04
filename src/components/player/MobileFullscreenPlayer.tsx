@@ -12,7 +12,7 @@
 
 import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { X, ListMusic, BarChart3 } from 'lucide-react';
+import { X, ListMusic, BarChart3, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { WaveformProgressBar } from './WaveformProgressBar';
 import { Track } from '@/types/track';
@@ -23,6 +23,7 @@ import { useGlobalAudioPlayer } from '@/hooks/audio/useGlobalAudioPlayer';
 import { useAudioVisualizer } from '@/hooks/audio/useAudioVisualizer';
 import { useLyricsSynchronization } from '@/hooks/lyrics/useLyricsSynchronization';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
+import { usePrefetchTrackCovers } from '@/hooks/audio/usePrefetchTrackCovers';
 import { SynchronizedWord } from '@/components/lyrics/SynchronizedWord';
 import { QueueSheet } from './QueueSheet';
 import { VersionSwitcher } from './VersionSwitcher';
@@ -34,9 +35,11 @@ import { hapticImpact } from '@/lib/haptic';
 import { logger } from '@/lib/logger';
 import '@/styles/lyrics-sync.css';
 
-// Swipe-to-close thresholds
-const DRAG_CLOSE_THRESHOLD = 100; // px distance
-const VELOCITY_THRESHOLD = 500;   // px/s velocity
+// Swipe thresholds
+const DRAG_CLOSE_THRESHOLD = 100; // px distance for vertical close
+const VELOCITY_THRESHOLD = 500;   // px/s velocity for vertical close
+const HORIZONTAL_SWIPE_THRESHOLD = 80; // px distance for track switch
+const HORIZONTAL_VELOCITY_THRESHOLD = 400; // px/s velocity for track switch
 
 interface MobileFullscreenPlayerProps {
   track: Track;
@@ -54,8 +57,10 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
   const [queueOpen, setQueueOpen] = useState(false);
   const [userScrolling, setUserScrolling] = useState(false);
   const [showVisualizer, setShowVisualizer] = useState(true);
+  const [horizontalDragOffset, setHorizontalDragOffset] = useState(0);
   const lyricsContainerRef = useRef<HTMLDivElement>(null);
   const activeLineRef = useRef<HTMLDivElement>(null);
+  const activeWordRef = useRef<HTMLSpanElement>(null);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const lastScrollTopRef = useRef<number>(0);
   const isProgrammaticScrollRef = useRef(false);
@@ -66,8 +71,11 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
     visible: true,
   });
   const { currentTime, duration, seek } = useAudioTime();
-  const { isPlaying, playTrack, pauseTrack, nextTrack, previousTrack, repeat, shuffle, toggleRepeat, toggleShuffle, volume, preservedTime, clearPreservedTime } = usePlayerStore();
+  const { isPlaying, playTrack, pauseTrack, nextTrack, previousTrack, repeat, shuffle, toggleRepeat, toggleShuffle, volume, preservedTime, clearPreservedTime, queue, currentIndex } = usePlayerStore();
   const { audioElement } = useGlobalAudioPlayer();
+  
+  // Prefetch covers for smooth transitions
+  usePrefetchTrackCovers(queue, currentIndex, { count: 3 });
   
   // Get audio URL for waveform
   const audioUrl = useMemo(() => {
@@ -393,32 +401,39 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
     };
   }, []);
 
-  // Auto-scroll to active line - keep active line in upper third of screen
+  // Auto-scroll to active word/line - keep in upper third of screen
+  // Works both when playing AND paused (highlighting should persist)
   useEffect(() => {
-    if (activeLineIndex < 0 || !activeLineRef.current || !lyricsContainerRef.current || userScrolling) return;
+    if (activeLineIndex < 0 || !lyricsContainerRef.current || userScrolling) return;
     
-    // Only scroll when playing
+    // Only auto-scroll when playing, but highlighting still works when paused
     if (!isPlaying) return;
     
     const container = lyricsContainerRef.current;
+    
+    // Try word-level scroll first for more precision
+    const activeWord = container.querySelector(`[data-word-index="${activeWordIndex}"]`) as HTMLElement;
     const activeLine = activeLineRef.current;
+    const targetElement = activeWord || activeLine;
+    
+    if (!targetElement) return;
     
     // Use requestAnimationFrame for smoother scroll timing
     requestAnimationFrame(() => {
       const containerRect = container.getBoundingClientRect();
-      const lineRect = activeLine.getBoundingClientRect();
+      const elementRect = targetElement.getBoundingClientRect();
       
-      // Calculate where the line currently is relative to container
-      const lineTopInContainer = lineRect.top - containerRect.top + container.scrollTop;
+      // Calculate where the element currently is relative to container
+      const elementTopInContainer = elementRect.top - containerRect.top + container.scrollTop;
       
-      // Target: position active line at 30% from top of visible area
-      const targetScrollTop = lineTopInContainer - (containerRect.height * 0.3);
+      // Target: position active element at 30% from top of visible area
+      const targetScrollTop = elementTopInContainer - (containerRect.height * 0.3);
       
-      // Check if line is already roughly in view
-      const currentLinePos = lineRect.top - containerRect.top;
-      const isInView = currentLinePos > containerRect.height * 0.2 && currentLinePos < containerRect.height * 0.5;
+      // Check if element is already roughly in view (between 20%-50% from top)
+      const currentElementPos = elementRect.top - containerRect.top;
+      const isInView = currentElementPos > containerRect.height * 0.2 && currentElementPos < containerRect.height * 0.5;
       
-      // Only scroll if line is not already in the target area
+      // Only scroll if element is not already in the target area
       if (!isInView) {
         isProgrammaticScrollRef.current = true;
         container.scrollTo({
@@ -432,7 +447,7 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
         }, 400);
       }
     });
-  }, [activeLineIndex, userScrolling, isPlaying]);
+  }, [activeLineIndex, activeWordIndex, userScrolling, isPlaying]);
 
   const handleSeek = (value: number[]) => {
     seek(value[0]);
@@ -453,8 +468,8 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
     }
   };
 
-  // Swipe-to-close handler
-  const handleDragEnd = useCallback((
+  // Vertical swipe-to-close handler (for header area)
+  const handleVerticalDragEnd = useCallback((
     _event: MouseEvent | TouchEvent | PointerEvent,
     info: PanInfo
   ) => {
@@ -467,22 +482,55 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
     }
   }, [onClose]);
 
+  // Horizontal swipe for track switching (Spotify/Apple Music style)
+  const handleHorizontalDragEnd = useCallback((
+    _event: MouseEvent | TouchEvent | PointerEvent,
+    info: PanInfo
+  ) => {
+    const { velocity, offset } = info;
+    setHorizontalDragOffset(0);
+    
+    // Swipe left = next track
+    if (offset.x < -HORIZONTAL_SWIPE_THRESHOLD || velocity.x < -HORIZONTAL_VELOCITY_THRESHOLD) {
+      hapticImpact('medium');
+      nextTrack();
+      return;
+    }
+    
+    // Swipe right = previous track
+    if (offset.x > HORIZONTAL_SWIPE_THRESHOLD || velocity.x > HORIZONTAL_VELOCITY_THRESHOLD) {
+      hapticImpact('medium');
+      previousTrack();
+      return;
+    }
+  }, [nextTrack, previousTrack]);
+
+  // Track horizontal drag for visual feedback
+  const handleHorizontalDrag = useCallback((
+    _event: MouseEvent | TouchEvent | PointerEvent,
+    info: PanInfo
+  ) => {
+    setHorizontalDragOffset(info.offset.x);
+  }, []);
+
   return (
     <motion.div
-      drag="y"
-      dragConstraints={{ top: 0, bottom: 0 }}
-      dragElastic={{ top: 0.1, bottom: 0.4 }}
-      onDragEnd={handleDragEnd}
       initial={{ opacity: 0, y: '100%' }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: '100%' }}
       transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-      className="fixed inset-0 z-[90] flex flex-col bg-background overflow-hidden touch-pan-x"
+      className="fixed inset-0 z-[90] flex flex-col bg-background overflow-hidden"
     >
-      {/* Drag Handle Indicator */}
-      <div className="absolute top-2 left-1/2 -translate-x-1/2 z-10">
-        <div className="w-10 h-1 bg-muted-foreground/30 rounded-full" />
-      </div>
+      {/* Drag Handle Indicator - also serves as vertical swipe area */}
+      <motion.div 
+        drag="y"
+        dragConstraints={{ top: 0, bottom: 0 }}
+        dragElastic={{ top: 0.1, bottom: 0.5 }}
+        onDragEnd={handleVerticalDragEnd}
+        className="absolute top-0 left-0 right-0 h-12 z-20 flex items-center justify-center cursor-grab active:cursor-grabbing"
+      >
+        <div className="w-10 h-1 bg-muted-foreground/30 rounded-full mt-2" />
+      </motion.div>
       {/* Animated Blurred Background */}
       <div className="absolute inset-0 overflow-hidden">
         {track.cover_url ? (
@@ -623,8 +671,43 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
           </div>
         </motion.header>
 
-        {/* Lyrics Section */}
-        <div className="flex-1 relative min-h-0 flex flex-col">
+        {/* Lyrics Section with Horizontal Swipe */}
+        <motion.div 
+          drag="x"
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={{ left: 0.2, right: 0.2 }}
+          onDrag={handleHorizontalDrag}
+          onDragEnd={handleHorizontalDragEnd}
+          className="flex-1 relative min-h-0 flex flex-col touch-pan-y"
+        >
+          {/* Swipe indicators */}
+          <AnimatePresence>
+            {Math.abs(horizontalDragOffset) > 20 && (
+              <>
+                {horizontalDragOffset > 20 && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: Math.min(horizontalDragOffset / HORIZONTAL_SWIPE_THRESHOLD, 1) * 0.6 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute left-2 top-1/2 -translate-y-1/2 z-10"
+                  >
+                    <ChevronLeft className="w-8 h-8 text-muted-foreground" />
+                  </motion.div>
+                )}
+                {horizontalDragOffset < -20 && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: Math.min(Math.abs(horizontalDragOffset) / HORIZONTAL_SWIPE_THRESHOLD, 1) * 0.6 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 z-10"
+                  >
+                    <ChevronRight className="w-8 h-8 text-muted-foreground" />
+                  </motion.div>
+                )}
+              </>
+            )}
+          </AnimatePresence>
+
           {/* User scroll indicator with re-enable button */}
           <AnimatePresence>
             {userScrolling && (
@@ -656,52 +739,57 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
           {lyricsLines ? (
             // Synchronized lyrics with improved timing using useLyricsSynchronization
             <div className="flex flex-col items-center text-center space-y-1 pb-[30vh] lyrics-container-enter">
-              {lyricsLines.map((line, lineIndex) => {
-                const isActiveLine = lineIndex === activeLineIndex;
-                const isPastLine = activeLineIndex > -1 && lineIndex < activeLineIndex;
-                const lineStart = line[0]?.startS ?? 0;
+              {(() => {
+                let globalWordIndex = 0;
+                return lyricsLines.map((line, lineIndex) => {
+                  const isActiveLine = lineIndex === activeLineIndex;
+                  const isPastLine = activeLineIndex > -1 && lineIndex < activeLineIndex;
+                  const lineStart = line[0]?.startS ?? 0;
 
-                return (
-                  <motion.div
-                    key={lineIndex}
-                    ref={isActiveLine ? activeLineRef : null}
-                    onClick={() => handleWordClick(lineStart)}
-                    animate={{
-                      scale: isActiveLine ? 1.02 : 1,
-                      opacity: isActiveLine ? 1 : isPastLine ? 0.35 : 0.5,
-                    }}
-                    transition={{ duration: 0.15, ease: 'easeOut' }}
-                    className={cn(
-                      'px-3 py-1 rounded-lg cursor-pointer w-full lyric-line',
-                      'will-change-[transform,opacity,background-color] transform-gpu',
-                      isActiveLine && 'bg-primary/10 lyric-line--active'
-                    )}
-                  >
-                    <div className="flex flex-wrap justify-center gap-x-1.5 gap-y-0.5">
-                      {line.map((word, wordIndex) => {
-                        // Use sync hook's look-ahead timing
-                        const adjustedTime = syncedTime + constants.WORD_LOOK_AHEAD_MS / 1000;
-                        const endTolerance = constants.WORD_END_TOLERANCE_MS / 1000;
-                        const isActiveWord = isActiveLine && adjustedTime >= word.startS && adjustedTime <= word.endS + endTolerance;
-                        const isPastWord = syncedTime > word.endS + endTolerance;
+                  return (
+                    <motion.div
+                      key={lineIndex}
+                      ref={isActiveLine ? activeLineRef : null}
+                      onClick={() => handleWordClick(lineStart)}
+                      animate={{
+                        scale: isActiveLine ? 1.02 : 1,
+                        opacity: isActiveLine ? 1 : isPastLine ? 0.35 : 0.5,
+                      }}
+                      transition={{ duration: 0.15, ease: 'easeOut' }}
+                      className={cn(
+                        'px-3 py-1 rounded-lg cursor-pointer w-full lyric-line',
+                        'will-change-[transform,opacity,background-color] transform-gpu',
+                        isActiveLine && 'bg-primary/10 lyric-line--active'
+                      )}
+                    >
+                      <div className="flex flex-wrap justify-center gap-x-1.5 gap-y-0.5">
+                        {line.map((word, wordIndex) => {
+                          const currentGlobalIndex = globalWordIndex++;
+                          // Use sync hook's look-ahead timing
+                          const adjustedTime = syncedTime + constants.WORD_LOOK_AHEAD_MS / 1000;
+                          const endTolerance = constants.WORD_END_TOLERANCE_MS / 1000;
+                          const isActiveWord = isActiveLine && adjustedTime >= word.startS && adjustedTime <= word.endS + endTolerance;
+                          const isPastWord = syncedTime > word.endS + endTolerance;
 
-                        return (
-                          <SynchronizedWord
-                            key={`${lineIndex}-${wordIndex}-${word.startS}`}
-                            word={word.word}
-                            isActive={isActiveWord}
-                            isPast={isPastWord}
-                            className="text-lg font-medium"
-                            activeClassName="text-primary scale-110 font-bold"
-                            pastClassName="text-foreground/70"
-                            futureClassName="text-foreground/50"
-                          />
-                        );
-                      })}
-                    </div>
-                  </motion.div>
-                );
-              })}
+                          return (
+                            <SynchronizedWord
+                              key={`${lineIndex}-${wordIndex}-${word.startS}`}
+                              word={word.word}
+                              isActive={isActiveWord}
+                              isPast={isPastWord}
+                              data-word-index={currentGlobalIndex}
+                              className="text-lg font-medium"
+                              activeClassName="text-primary scale-110 font-bold"
+                              pastClassName="text-foreground/70"
+                              futureClassName="text-foreground/50"
+                            />
+                          );
+                        })}
+                      </div>
+                    </motion.div>
+                  );
+                });
+              })()}
             </div>
           ) : plainLyrics ? (
             // Plain text lyrics
@@ -719,7 +807,7 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
             </div>
           )}
           </div>
-        </div>
+        </motion.div>
 
         {/* Audio Visualizer Section */}
         <AnimatePresence>
