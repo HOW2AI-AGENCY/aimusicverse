@@ -47,6 +47,7 @@ import { BotMenuEditor } from "@/components/admin/BotMenuEditor";
 import { StatCard, StatGrid } from "@/components/admin/StatCard";
 import { AdminUserCard } from "@/components/admin/AdminUserCard";
 import { PerformanceDashboard } from "@/components/performance";
+import { GenerationStatsPanel } from "@/components/admin/GenerationStatsPanel";
 import { SubscriptionTiersManager } from "@/components/admin/SubscriptionTiersManager";
 import { useQueryClient } from "@tanstack/react-query";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -71,6 +72,7 @@ interface UserWithRoles {
 const TAB_OPTIONS = [
   { value: "overview", label: "Обзор", icon: Activity },
   { value: "analytics", label: "Аналитика", icon: TrendingUp },
+  { value: "generation-stats", label: "Генерации", icon: Music },
   { value: "performance", label: "Перформанс", icon: Activity },
   { value: "users", label: "Пользователи", icon: Users },
   { value: "balances", label: "Балансы", icon: Coins },
@@ -234,6 +236,11 @@ export default function AdminDashboard() {
         {/* Analytics Tab */}
         {activeTab === "analytics" && (
           <EnhancedAnalyticsPanel />
+        )}
+
+        {/* Generation Stats Tab */}
+        {activeTab === "generation-stats" && (
+          <GenerationStatsPanel />
         )}
 
         {/* Performance Tab */}
