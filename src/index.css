@@ -992,7 +992,21 @@ html {
   [data-radix-scroll-area-viewport] {
     -webkit-overflow-scrolling: touch;
   }
-  
+
+  /* Radix ScrollArea: prevent horizontal "layout burst" on mobile.
+     Radix wraps viewport children in a div with display: table, which can expand width.
+     Force it to behave like a normal block container and clip x-overflow at the viewport. */
+  [data-radix-scroll-area-viewport] {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  [data-radix-scroll-area-viewport] > div {
+    display: block !important;
+    min-width: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
   /* Disable iOS context menu on interactive elements */
   button,
   a,
