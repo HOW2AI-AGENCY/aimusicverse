@@ -20,4 +20,12 @@ module.exports = {
       },
     ],
   },
+  // Property-based testing configuration for analytics
+  testMatch: [
+    '**/__tests__/**/*.(test|spec).[jt]s?(x)',
+    '**/?(*.)+(spec|test).[jt]s?(x)',
+    '**/tests/**/*.(test|spec).[jt]s?(x)',
+  ],
+  // Increase timeout for property-based tests
+  testTimeout: 10000,
 };
