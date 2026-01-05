@@ -14,7 +14,9 @@ import {
   Guitar, 
   Layers, 
   FileMusic, 
-  Music 
+  Music,
+  Sparkles,
+  Zap
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
@@ -25,6 +27,26 @@ const formatDuration = (seconds: number): string => {
   const secs = Math.floor(seconds % 60);
   return `${mins}:${secs.toString().padStart(2, '0')}`;
 };
+
+// Get model display info
+function getModelInfo(track: Track): { label: string; color: string } | null {
+  const model = (track as any).suno_model || (track as any).model_name;
+  if (!model) return null;
+  
+  const modelLower = model.toLowerCase();
+  
+  if (modelLower.includes('v4')) {
+    return { label: 'V4', color: 'text-purple-500' };
+  }
+  if (modelLower.includes('v3.5')) {
+    return { label: 'V3.5', color: 'text-blue-500' };
+  }
+  if (modelLower.includes('v3')) {
+    return { label: 'V3', color: 'text-cyan-500' };
+  }
+  
+  return null;
+}
 
 interface TrackSheetHeaderProps {
   track: Track;
@@ -39,18 +61,22 @@ interface StatusBadgeProps {
   color: string;
   active?: boolean;
   badge?: number;
+  label?: string;
 }
 
-const StatusBadge = ({ icon: Icon, color, active = true, badge }: StatusBadgeProps) => {
+const StatusBadge = ({ icon: Icon, color, active = true, badge, label }: StatusBadgeProps) => {
   if (!active) return null;
   return (
     <div className={cn(
-      "relative w-5 h-5 rounded flex items-center justify-center",
+      "relative flex items-center gap-0.5 px-1 py-0.5 rounded",
       "bg-muted/60"
     )}>
       <Icon className={cn("w-3 h-3", color)} />
+      {label && (
+        <span className={cn("text-[8px] font-semibold", color)}>{label}</span>
+      )}
       {badge !== undefined && badge > 0 && (
-        <span className="absolute -top-0.5 -right-0.5 text-[7px] font-bold bg-purple-500 text-white rounded-full w-2.5 h-2.5 flex items-center justify-center leading-none">
+        <span className="text-[7px] font-bold bg-purple-500 text-white rounded-full w-2.5 h-2.5 flex items-center justify-center leading-none ml-0.5">
           {badge}
         </span>
       )}
@@ -70,6 +96,7 @@ export const TrackSheetHeader = memo(function TrackSheetHeader({
   const hasHD = !!(track as any).audio_url_hd || (track as any).audio_quality === 'hd';
   const isPublic = track.is_public;
   const isInstrumental = (track as any).is_instrumental;
+  const modelInfo = getModelInfo(track);
 
   return (
     <div className={cn("flex gap-3 py-2", className)}>
@@ -125,7 +152,15 @@ export const TrackSheetHeader = memo(function TrackSheetHeader({
       </div>
 
       {/* Status badges - inline right */}
-      <div className="flex items-center gap-1 flex-shrink-0">
+      <div className="flex items-center gap-1 flex-shrink-0 flex-wrap justify-end max-w-[100px]">
+        {/* Model badge */}
+        {modelInfo && (
+          <StatusBadge 
+            icon={modelInfo.label === 'V4' ? Sparkles : Zap} 
+            color={modelInfo.color}
+            label={modelInfo.label}
+          />
+        )}
         <StatusBadge 
           icon={isPublic ? Globe : Lock} 
           color={isPublic ? 'text-green-500' : 'text-muted-foreground'} 

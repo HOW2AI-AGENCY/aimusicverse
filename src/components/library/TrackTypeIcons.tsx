@@ -1,4 +1,4 @@
-import { Mic2, Guitar, Layers, Music2, FileText, FileMusic, Copy, ArrowRight } from 'lucide-react';
+import { Mic2, Guitar, Layers, Music2, FileText, FileMusic, Copy, ArrowRight, Sparkles, Zap } from 'lucide-react';
 import {
   Tooltip,
   TooltipContent,
@@ -14,6 +14,27 @@ interface TrackTypeIconsProps {
   hasMidi?: boolean;
   hasPdf?: boolean;
   hasGp5?: boolean;
+  showModel?: boolean;
+}
+
+// Get model display info
+function getModelInfo(track: Track): { label: string; color: string; icon: 'sparkles' | 'zap' } | null {
+  const model = (track as any).suno_model || (track as any).model_name;
+  if (!model) return null;
+  
+  const modelLower = model.toLowerCase();
+  
+  if (modelLower.includes('v4')) {
+    return { label: 'V4', color: 'text-purple-500', icon: 'sparkles' };
+  }
+  if (modelLower.includes('v3.5')) {
+    return { label: 'V3.5', color: 'text-blue-500', icon: 'zap' };
+  }
+  if (modelLower.includes('v3')) {
+    return { label: 'V3', color: 'text-cyan-500', icon: 'zap' };
+  }
+  
+  return { label: model.slice(0, 4), color: 'text-muted-foreground', icon: 'zap' };
 }
 
 export function TrackTypeIcons({ 
@@ -22,6 +43,7 @@ export function TrackTypeIcons({
   hasMidi = false,
   hasPdf = false,
   hasGp5 = false,
+  showModel = true,
 }: TrackTypeIconsProps) {
   const hasVocals = track.has_vocals === true;
   // is_instrumental derived from has_vocals if not explicitly set
@@ -29,15 +51,16 @@ export function TrackTypeIcons({
   const hasStems = track.has_stems === true;
   
   // Detect cover/extend based on generation_mode
-  // 'remix', 'cover', 'upload_cover' are all covers
-  // 'extend', 'upload_extend' are extensions
   const isCover = track.generation_mode === 'remix' || 
     track.generation_mode === 'cover' || 
     track.generation_mode === 'upload_cover';
   const isExtend = track.generation_mode === 'extend' || 
     track.generation_mode === 'upload_extend';
 
-  const hasAnyIcon = hasVocals || isInstrumental || hasStems || hasMidi || hasPdf || hasGp5 || isCover || isExtend;
+  // Get model info
+  const modelInfo = showModel ? getModelInfo(track) : null;
+
+  const hasAnyIcon = hasVocals || isInstrumental || hasStems || hasMidi || hasPdf || hasGp5 || isCover || isExtend || modelInfo;
 
   if (!hasAnyIcon) {
     return null;
@@ -48,6 +71,27 @@ export function TrackTypeIcons({
   return (
     <TooltipProvider delayDuration={300}>
       <div className="flex items-center gap-0.5">
+        {/* Model indicator */}
+        {modelInfo && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className={cn("cursor-help px-1 py-0.5 rounded flex items-center gap-0.5", 
+                modelInfo.color.replace('text-', 'bg-').replace('-500', '-500/10')
+              )}>
+                {modelInfo.icon === 'sparkles' ? (
+                  <Sparkles className={cn("w-2.5 h-2.5", modelInfo.color)} />
+                ) : (
+                  <Zap className={cn("w-2.5 h-2.5", modelInfo.color)} />
+                )}
+                <span className={cn("text-[9px] font-semibold", modelInfo.color)}>{modelInfo.label}</span>
+              </div>
+            </TooltipTrigger>
+            <TooltipContent side="top" className="text-xs">
+              <p>Модель: {modelInfo.label}</p>
+            </TooltipContent>
+          </Tooltip>
+        )}
+
         {/* Cover indicator */}
         {isCover && (
           <Tooltip>
