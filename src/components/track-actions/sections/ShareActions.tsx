@@ -4,9 +4,6 @@ import { Share2, Video, Send, Link, ListMusic, Folder, Loader2, CheckCircle2 } f
 import { Track } from '@/types/track';
 import { ActionId } from '@/config/trackActionsConfig';
 import { TrackActionState, isActionAvailable, isActionDisabled, getActionLabel } from '@/lib/trackActionConditions';
-import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
-import { ChevronDown } from 'lucide-react';
-import { useState } from 'react';
 
 interface ShareActionsProps {
   track: Track;
@@ -17,8 +14,6 @@ interface ShareActionsProps {
 }
 
 export function ShareActions({ track, state, onAction, variant, isProcessing }: ShareActionsProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  
   const showVideo = isActionAvailable('generate_video', track, state) || state.isVideoGenerating || state.hasVideo;
   const showTelegram = isActionAvailable('send_telegram', track, state);
   const showCopyLink = isActionAvailable('copy_link', track, state);
@@ -80,81 +75,77 @@ export function ShareActions({ track, state, onAction, variant, isProcessing }: 
     );
   }
 
-  // Sheet variant
+  // Sheet variant - flat list for use inside ActionCategory
   return (
-    <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-      <CollapsibleTrigger asChild>
+    <div className="space-y-1">
+      {showVideo && (
         <Button
           variant="ghost"
-          className="w-full justify-between gap-3 h-12"
+          className="w-full justify-start gap-3 h-12 rounded-xl hover:bg-purple-500/10 group"
+          onClick={() => onAction('generate_video')}
+          disabled={isProcessing || isActionDisabled('generate_video', track, state, isProcessing || false)}
         >
-          <div className="flex items-center gap-3">
-            <Share2 className="w-5 h-5" />
-            <span>Поделиться</span>
-          </div>
-          <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
-        </Button>
-      </CollapsibleTrigger>
-      <CollapsibleContent className="pl-4 space-y-1">
-        {showVideo && (
-          <Button
-            variant="ghost"
-            className="w-full justify-start gap-3 h-11"
-            onClick={() => onAction('generate_video')}
-            disabled={isProcessing || isActionDisabled('generate_video', track, state, isProcessing || false)}
-          >
+          <div className="w-9 h-9 rounded-lg bg-purple-500/10 flex items-center justify-center group-hover:bg-purple-500/20 transition-colors">
             {state.isVideoGenerating ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
+              <Loader2 className="w-4 h-4 text-purple-500 animate-spin" />
             ) : state.hasVideo ? (
               <CheckCircle2 className="w-4 h-4 text-green-500" />
             ) : (
-              <Video className="w-4 h-4" />
+              <Video className="w-4 h-4 text-purple-500" />
             )}
-            <span>{getActionLabel('generate_video', track, state)}</span>
-          </Button>
-        )}
-        {showTelegram && (
-          <Button
-            variant="ghost"
-            className="w-full justify-start gap-3 h-11"
-            onClick={() => onAction('send_telegram')}
-            disabled={isProcessing}
-          >
-            <Send className="w-4 h-4" />
-            <span>Отправить в Telegram</span>
-          </Button>
-        )}
-        {showCopyLink && (
-          <Button
-            variant="ghost"
-            className="w-full justify-start gap-3 h-11"
-            onClick={() => onAction('copy_link')}
-          >
+          </div>
+          <span className="font-medium">{getActionLabel('generate_video', track, state)}</span>
+        </Button>
+      )}
+      {showTelegram && (
+        <Button
+          variant="ghost"
+          className="w-full justify-start gap-3 h-12 rounded-xl hover:bg-blue-500/10 group"
+          onClick={() => onAction('send_telegram')}
+          disabled={isProcessing}
+        >
+          <div className="w-9 h-9 rounded-lg bg-blue-500/10 flex items-center justify-center group-hover:bg-blue-500/20 transition-colors">
+            <Send className="w-4 h-4 text-blue-500" />
+          </div>
+          <span className="font-medium">Отправить в Telegram</span>
+        </Button>
+      )}
+      {showCopyLink && (
+        <Button
+          variant="ghost"
+          className="w-full justify-start gap-3 h-12 rounded-xl hover:bg-muted group"
+          onClick={() => onAction('copy_link')}
+        >
+          <div className="w-9 h-9 rounded-lg bg-muted flex items-center justify-center group-hover:bg-muted/80 transition-colors">
             <Link className="w-4 h-4" />
-            <span>Скопировать ссылку</span>
-          </Button>
-        )}
-        {showPlaylist && (
-          <Button
-            variant="ghost"
-            className="w-full justify-start gap-3 h-11"
-            onClick={() => onAction('add_to_playlist')}
-          >
-            <ListMusic className="w-4 h-4" />
-            <span>В плейлист</span>
-          </Button>
-        )}
-        {showProject && (
-          <Button
-            variant="ghost"
-            className="w-full justify-start gap-3 h-11"
-            onClick={() => onAction('add_to_project')}
-          >
-            <Folder className="w-4 h-4" />
-            <span>В проект</span>
-          </Button>
-        )}
-      </CollapsibleContent>
-    </Collapsible>
+          </div>
+          <span className="font-medium">Скопировать ссылку</span>
+        </Button>
+      )}
+      {showPlaylist && (
+        <Button
+          variant="ghost"
+          className="w-full justify-start gap-3 h-12 rounded-xl hover:bg-amber-500/10 group"
+          onClick={() => onAction('add_to_playlist')}
+        >
+          <div className="w-9 h-9 rounded-lg bg-amber-500/10 flex items-center justify-center group-hover:bg-amber-500/20 transition-colors">
+            <ListMusic className="w-4 h-4 text-amber-500" />
+          </div>
+          <span className="font-medium">В плейлист</span>
+        </Button>
+      )}
+      {showProject && (
+        <Button
+          variant="ghost"
+          className="w-full justify-start gap-3 h-12 rounded-xl hover:bg-green-500/10 group"
+          onClick={() => onAction('add_to_project')}
+        >
+          <div className="w-9 h-9 rounded-lg bg-green-500/10 flex items-center justify-center group-hover:bg-green-500/20 transition-colors">
+            <Folder className="w-4 h-4 text-green-500" />
+          </div>
+          <span className="font-medium">В проект</span>
+        </Button>
+      )}
+    </div>
   );
 }

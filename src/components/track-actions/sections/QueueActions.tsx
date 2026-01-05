@@ -159,19 +159,18 @@ export function QueueActionsSheet({
   const canPlayFromHere = trackList && trackIndex !== undefined && trackIndex >= 0;
 
   return (
-    <div className="space-y-2">
-      <p className="text-xs text-muted-foreground uppercase tracking-wider font-medium px-1 mb-2">
-        Очередь
-      </p>
+    <div className="space-y-1.5">
       {canPlayFromHere && (
         <Button
-          variant="outline"
+          variant="ghost"
           size="sm"
-          className="w-full justify-start h-11 rounded-xl"
+          className="w-full justify-start h-12 rounded-xl hover:bg-primary/10 group"
           onClick={handlePlayFromHere}
         >
-          <ListMusic className="w-4 h-4 mr-3" />
-          <span className="flex-1 text-left">Играть отсюда</span>
+          <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center mr-3 group-hover:bg-primary/20 transition-colors">
+            <ListMusic className="w-4 h-4 text-primary" />
+          </div>
+          <span className="flex-1 text-left font-medium">Играть отсюда</span>
           {trackList.length - trackIndex > 1 && (
             <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
               +{trackList.length - trackIndex - 1}
@@ -180,22 +179,26 @@ export function QueueActionsSheet({
         </Button>
       )}
       <Button
-        variant="outline"
+        variant="ghost"
         size="sm"
-        className="w-full justify-start h-11 rounded-xl"
+        className="w-full justify-start h-12 rounded-xl hover:bg-blue-500/10 group"
         onClick={handlePlayNext}
       >
-        <PlayCircle className="w-4 h-4 mr-3" />
-        Играть следующим
+        <div className="w-9 h-9 rounded-lg bg-blue-500/10 flex items-center justify-center mr-3 group-hover:bg-blue-500/20 transition-colors">
+          <PlayCircle className="w-4 h-4 text-blue-500" />
+        </div>
+        <span className="font-medium">Играть следующим</span>
       </Button>
       <Button
-        variant="outline"
+        variant="ghost"
         size="sm"
-        className="w-full justify-start h-11 rounded-xl"
+        className="w-full justify-start h-12 rounded-xl hover:bg-green-500/10 group"
         onClick={handleAddToQueue}
       >
-        <ListEnd className="w-4 h-4 mr-3" />
-        <span className="flex-1 text-left">Добавить в очередь</span>
+        <div className="w-9 h-9 rounded-lg bg-green-500/10 flex items-center justify-center mr-3 group-hover:bg-green-500/20 transition-colors">
+          <ListEnd className="w-4 h-4 text-green-500" />
+        </div>
+        <span className="flex-1 text-left font-medium">Добавить в очередь</span>
         {queue.length > 0 && (
           <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
             #{queue.length + 1}
