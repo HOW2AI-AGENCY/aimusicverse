@@ -349,36 +349,45 @@ export const TrackCard = memo(({
 
         {/* Track Info - Improved spacing and hierarchy */}
         <div className="flex-1 min-w-0 py-0.5">
-          {/* Title row */}
+          {/* Title row with fixed-width right section */}
           <div className="flex items-center gap-2">
-            <h3 className="font-medium text-sm leading-tight truncate">{track.title || 'Без названия'}</h3>
-            {/* Queue Position Indicator - desktop only */}
-            {isInQueue && !isCurrentTrack && !isMobile && (
-              <Badge 
-                variant={isNextTrack ? "default" : "secondary"} 
-                size="sm" 
-                className={cn(
-                  "flex-shrink-0 gap-0.5 px-1.5 text-[10px]",
-                  isNextTrack && "bg-primary/20 text-primary border-primary/30"
-                )}
-                title="Позиция в очереди воспроизведения"
-              >
-                <ListMusic className="w-2.5 h-2.5" />
-                {position}
-              </Badge>
-            )}
-            {/* Version Toggle - all devices */}
-            {versionCount > 1 && (
-              <InlineVersionToggle
-                trackId={track.id}
-                activeVersionId={track.active_version_id}
-                versionCount={versionCount}
-                trackOwnerId={track.user_id}
-                className="flex-shrink-0"
-                compact={isMobile}
-              />
-            )}
+            <h3 className="font-medium text-sm leading-tight truncate flex-1">{track.title || 'Без названия'}</h3>
+            
+            {/* Fixed right group - always aligned */}
+            <div className="flex items-center gap-1 flex-shrink-0">
+              {/* Model badge - always first */}
+              <TrackTypeIcons track={track} compact showModel hasMidi={propHasMidi} hasPdf={propHasPdf} hasGp5={propHasGp5} />
+              
+              {/* Queue Position Indicator - desktop only */}
+              {isInQueue && !isCurrentTrack && !isMobile && (
+                <Badge 
+                  variant={isNextTrack ? "default" : "secondary"} 
+                  size="sm" 
+                  className={cn(
+                    "flex-shrink-0 gap-0.5 px-1.5 text-[10px]",
+                    isNextTrack && "bg-primary/20 text-primary border-primary/30"
+                  )}
+                  title="Позиция в очереди воспроизведения"
+                >
+                  <ListMusic className="w-2.5 h-2.5" />
+                  {position}
+                </Badge>
+              )}
+              
+              {/* Version Toggle - all devices */}
+              {versionCount > 1 && (
+                <InlineVersionToggle
+                  trackId={track.id}
+                  activeVersionId={track.active_version_id}
+                  versionCount={versionCount}
+                  trackOwnerId={track.user_id}
+                  className="flex-shrink-0"
+                  compact={isMobile}
+                />
+              )}
+            </div>
           </div>
+          
           {/* Style + Duration row */}
           <div className="flex items-center gap-1.5 mt-1">
             <span className="text-xs text-muted-foreground truncate max-w-[140px]">
@@ -392,10 +401,6 @@ export const TrackCard = memo(({
                 </span>
               </>
             )}
-          </div>
-          {/* Icons row - moved to separate line for clarity */}
-          <div className="flex items-center gap-1 mt-1">
-            <TrackTypeIcons track={track} compact hasMidi={propHasMidi} hasPdf={propHasPdf} />
           </div>
         </div>
 
