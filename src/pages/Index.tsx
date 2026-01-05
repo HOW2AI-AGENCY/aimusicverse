@@ -12,13 +12,14 @@ import { SEOHead, SEO_PRESETS } from "@/components/SEOHead";
 import { QuickCreatePreset } from "@/constants/quickCreatePresets";
 import { PullToRefreshWrapper } from "@/components/library/PullToRefreshWrapper";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Flame, TrendingUp, Clock, Music2 } from "lucide-react";
+import { TrendingUp, Clock } from "lucide-react";
 
 // Core components - not lazy loaded for critical content
 import { TracksGridSection } from "@/components/home/TracksGridSection";
-import { QuickToolsBar } from "@/components/home/QuickToolsBar";
+import { MainActionsBar } from "@/components/home/MainActionsBar";
 import { GenreTracksRow } from "@/components/home/GenreTracksRow";
 import { CreateCTABanner } from "@/components/home/CreateCTABanner";
+import { FeaturedBlogBanners } from "@/components/home/FeaturedBlogBanners";
 
 // Lazy loaded components
 const GamificationBar = lazy(() => import("@/components/gamification/GamificationBar").then(m => ({ default: m.GamificationBar })));
@@ -27,7 +28,7 @@ const FollowingFeed = lazy(() => import("@/components/social/FollowingFeed").the
 const AutoPlaylistsSection = lazy(() => import("@/components/home/AutoPlaylistsSection").then(m => ({ default: m.AutoPlaylistsSection })));
 const PopularCreatorsSection = lazy(() => import("@/components/home/PopularCreatorsSection").then(m => ({ default: m.PopularCreatorsSection })));
 const PublicArtistsSection = lazy(() => import("@/components/home/PublicArtistsSection").then(m => ({ default: m.PublicArtistsSection })));
-const QuickPresetsCarousel = lazy(() => import("@/components/home/QuickPresetsCarousel").then(m => ({ default: m.QuickPresetsCarousel })));
+const FeaturedProjectsBanner = lazy(() => import("@/components/home/FeaturedProjectsBanner").then(m => ({ default: m.FeaturedProjectsBanner })));
 const EngagementBanner = lazy(() => import("@/components/home/EngagementBanner").then(m => ({ default: m.EngagementBanner })));
 
 // Dialogs - only loaded when opened
@@ -97,10 +98,6 @@ const Index = () => {
     navigate(`/generate?remix=${trackId}`);
   };
 
-  const handlePresetSelect = (preset: QuickCreatePreset) => {
-    setGenerateSheetOpen(true);
-  };
-
   // Pull to refresh handler
   const handleRefresh = useCallback(async () => {
     await refetchContent();
@@ -155,20 +152,25 @@ const Index = () => {
           </motion.section>
         )}
 
-        {/* Quick Tools Bar */}
-        <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.12 }}>
-          <QuickToolsBar onGenerateClick={() => setGenerateSheetOpen(true)} />
-        </motion.section>
-
-        {/* Quick Presets Carousel */}
-        <Suspense fallback={null}>
-          <motion.div {...fadeInUp} transition={{ delay: 0.14 }}>
-            <QuickPresetsCarousel onSelectPreset={handlePresetSelect} />
-          </motion.div>
+        {/* Featured Projects Banner */}
+        <Suspense fallback={<div className="w-full h-[180px] rounded-2xl bg-card/40 animate-pulse mb-4" />}>
+          <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.12 }}>
+            <FeaturedProjectsBanner />
+          </motion.section>
         </Suspense>
 
-        {/* Popular Tracks - Main section */}
+        {/* Main Actions Bar (Audio/Lyrics/Projects) */}
+        <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.14 }}>
+          <MainActionsBar />
+        </motion.section>
+
+        {/* Blog Articles */}
         <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.16 }}>
+          <FeaturedBlogBanners />
+        </motion.section>
+
+        {/* Popular Tracks - Main section */}
+        <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.18 }}>
           <TracksGridSection
             title="Популярное"
             subtitle="Треки, которые слушают больше всего"
@@ -186,7 +188,7 @@ const Index = () => {
         </motion.section>
 
         {/* New Tracks */}
-        <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.18 }}>
+        <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.2 }}>
           <TracksGridSection
             title="Новинки"
             subtitle="Свежие треки от сообщества"
@@ -205,7 +207,7 @@ const Index = () => {
 
         {/* CTA for logged in users */}
         {user && (
-          <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.2 }}>
+          <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.22 }}>
             <CreateCTABanner 
               onGenerateClick={() => setGenerateSheetOpen(true)} 
               variant="minimal"
@@ -216,7 +218,7 @@ const Index = () => {
         {/* Recent user tracks */}
         {user && (
           <Suspense fallback={<SectionSkeleton height="120px" />}>
-            <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.22 }}>
+            <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.24 }}>
               <RecentTracksSection maxTracks={4} />
             </motion.section>
           </Suspense>
@@ -230,7 +232,7 @@ const Index = () => {
                 key={genre.genre} 
                 className="mb-4"
                 {...fadeInUp}
-                transition={{ delay: 0.24 + index * 0.04 }}
+                transition={{ delay: 0.26 + index * 0.04 }}
               >
                 <GenreTracksRow
                   genre={genre.genre}
