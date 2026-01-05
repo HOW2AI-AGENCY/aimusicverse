@@ -7,6 +7,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { LazyImage } from '@/components/ui/lazy-image';
 import type { Playlist } from '@/hooks/usePlaylists';
 
 interface PlaylistCardProps {
@@ -27,9 +28,11 @@ export function PlaylistCard({ playlist, formatDuration, onOpen, onEdit, onDelet
       {/* Cover */}
       <div className="aspect-square bg-muted relative">
         {playlist.cover_url ? (
-          <img
+          <LazyImage
             src={playlist.cover_url}
             alt={playlist.title}
+            coverSize="medium"
+            responsive={false}
             className="w-full h-full object-cover"
           />
         ) : (

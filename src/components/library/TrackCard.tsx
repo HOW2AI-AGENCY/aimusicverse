@@ -2,6 +2,7 @@ import { memo } from 'react';
 import { Play } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/formatters';
+import { LazyImage } from '@/components/ui/lazy-image';
 
 /**
  * TrackCard - Performance-optimized track card component
@@ -56,10 +57,11 @@ export const TrackCard = memo(
         {/* Image */}
         <div className="aspect-square bg-muted relative">
           {imageUrl ? (
-            <img
+            <LazyImage
               src={imageUrl}
               alt=""
-              loading="lazy"
+              coverSize="small"
+              responsive={false}
               className="w-full h-full object-cover"
             />
           ) : (

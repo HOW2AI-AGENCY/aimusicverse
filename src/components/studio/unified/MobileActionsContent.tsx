@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
+import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import type { StudioProject } from '@/stores/useUnifiedStudioStore';
 
 interface MobileActionsContentProps {
@@ -42,8 +43,10 @@ export const MobileActionsContent = memo(function MobileActionsContent({
   onDownloadStems,
 }: MobileActionsContentProps) {
   const navigate = useNavigate();
+  const haptic = useHapticFeedback();
 
   const handleShare = useCallback(() => {
+    haptic.select();
     const shareUrl = `${window.location.origin}/studio-v2/project/${project.id}`;
     const shareText = `Послушай мой проект "${project.name}" 🎵`;
 
@@ -60,7 +63,39 @@ export const MobileActionsContent = memo(function MobileActionsContent({
       navigator.clipboard.writeText(shareUrl);
       toast.success('Ссылка скопирована!');
     }
-  }, [project]);
+  }, [project, haptic]);
+
+  const handleSave = useCallback(() => {
+    haptic.success();
+    onSave();
+  }, [onSave, haptic]);
+
+  const handleExport = useCallback(() => {
+    haptic.select();
+    onExport();
+  }, [onExport, haptic]);
+
+  const handleDownloadStems = useCallback(() => {
+    if (onDownloadStems) {
+      haptic.select();
+      onDownloadStems();
+    }
+  }, [onDownloadStems, haptic]);
+
+  const handleNavigate = useCallback((path: string) => {
+    haptic.select();
+    navigate(path);
+  }, [navigate, haptic]);
+
+  const handleInfoAction = useCallback((message: string) => {
+    haptic.light();
+    toast.info(message);
+  }, [haptic]);
+
+  const handleDeleteProject = useCallback(() => {
+    haptic.warning();
+    toast.info('Удаление проекта в разработке');
+  }, [haptic]);
 
   const actions: ActionItem[] = [
     {
@@ -69,7 +104,7 @@ export const MobileActionsContent = memo(function MobileActionsContent({
       description: hasUnsavedChanges ? 'Есть несохранённые изменения' : 'Всё сохранено',
       icon: Save,
       color: hasUnsavedChanges ? 'text-primary' : 'text-green-500',
-      onClick: onSave,
+      onClick: handleSave,
       disabled: isSaving || !hasUnsavedChanges,
     },
     {
@@ -78,7 +113,7 @@ export const MobileActionsContent = memo(function MobileActionsContent({
       description: 'Экспортировать микс в MP3/WAV',
       icon: Download,
       color: 'text-orange-500',
-      onClick: onExport,
+      onClick: handleExport,
     },
     {
       id: 'download-stems',
@@ -86,7 +121,7 @@ export const MobileActionsContent = memo(function MobileActionsContent({
       description: 'Скачать отдельные дорожки',
       icon: Download,
       color: 'text-emerald-500',
-      onClick: onDownloadStems || (() => {}),
+      onClick: handleDownloadStems,
       disabled: !onDownloadStems,
     },
     {
@@ -103,7 +138,7 @@ export const MobileActionsContent = memo(function MobileActionsContent({
       description: 'Обрезать начало или конец',
       icon: Scissors,
       color: 'text-blue-500',
-      onClick: () => toast.info('Функция в разработке'),
+      onClick: () => handleInfoAction('Функция в разработке'),
     },
     {
       id: 'remix',
@@ -111,7 +146,7 @@ export const MobileActionsContent = memo(function MobileActionsContent({
       description: 'Создать новую версию',
       icon: Sparkles,
       color: 'text-purple-500',
-      onClick: () => toast.info('Функция в разработке'),
+      onClick: () => handleInfoAction('Функция в разработке'),
     },
     {
       id: 'arrange',
@@ -119,7 +154,7 @@ export const MobileActionsContent = memo(function MobileActionsContent({
       description: 'Создать новую аранжировку',
       icon: Music2,
       color: 'text-pink-500',
-      onClick: () => toast.info('Функция в разработке'),
+      onClick: () => handleInfoAction('Функция в разработке'),
     },
     {
       id: 'open',
@@ -127,7 +162,7 @@ export const MobileActionsContent = memo(function MobileActionsContent({
       description: 'Открыть другой проект',
       icon: FolderOpen,
       color: 'text-yellow-500',
-      onClick: () => navigate('/studio-v2'),
+      onClick: () => handleNavigate('/studio-v2'),
     },
     {
       id: 'settings',
@@ -135,7 +170,7 @@ export const MobileActionsContent = memo(function MobileActionsContent({
       description: 'Настройки проекта',
       icon: Settings,
       color: 'text-muted-foreground',
-      onClick: () => toast.info('Функция в разработке'),
+      onClick: () => handleInfoAction('Функция в разработке'),
     },
   ];
 
@@ -183,7 +218,7 @@ export const MobileActionsContent = memo(function MobileActionsContent({
         <Button
           variant="outline"
           className="w-full text-destructive border-destructive/30 hover:bg-destructive/10"
-          onClick={() => toast.info('Удаление проекта в разработке')}
+          onClick={handleDeleteProject}
         >
           <Trash2 className="w-4 h-4 mr-2" />
           Удалить проект
