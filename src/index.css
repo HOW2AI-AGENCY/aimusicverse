@@ -14,11 +14,20 @@ All colors MUST be HSL.
     --safe-area-left: env(safe-area-inset-left, 0px);
     --safe-area-right: env(safe-area-inset-right, 0px);
 
-    /* Telegram Safe Area Variables (устанавливаются автоматически) */
-    --tg-safe-area-inset-top: 0px;
-    --tg-safe-area-inset-bottom: 0px;
+    /* Telegram Safe Area Variables (устанавливаются автоматически из Telegram WebApp)
+       Fallback значения соответствуют типичным iOS устройствам (iPhone 15 Pro) */
+    --tg-safe-area-inset-top: 44px;    /* iOS notch/Dynamic Island fallback */
+    --tg-safe-area-inset-bottom: 34px; /* iOS home indicator fallback */
     --tg-safe-area-inset-left: 0px;
     --tg-safe-area-inset-right: 0px;
+    
+    /* Telegram Content Safe Area (для учета нативных кнопок Telegram: MainButton, BackButton) */
+    --tg-content-safe-area-inset-top: 0px;
+    --tg-content-safe-area-inset-bottom: 60px; /* MainButton height fallback */
+    
+    /* Telegram Viewport Height (обновляется динамически) */
+    --tg-viewport-height: 100vh;
+    --tg-viewport-stable-height: 100vh;
 
     /* Telegram Theme Params (устанавливаются автоматически из Telegram WebApp) */
     /* Hex values */

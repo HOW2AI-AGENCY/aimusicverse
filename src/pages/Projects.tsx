@@ -8,6 +8,7 @@ import { SEOHead, SEO_PRESETS } from '@/components/SEOHead';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
+import { safeAreaClasses } from '@/hooks/useTelegramSafeArea';
 
 const VALID_TABS = ['artists', 'projects', 'lyrics', 'cloud'];
 
@@ -49,14 +50,19 @@ export default function Projects() {
   }
 
   return (
-    <div className="min-h-screen pb-20">
+    <div 
+      className={cn(
+        safeAreaClasses.fullHeight,
+        safeAreaClasses.containerWithNav
+      )}
+    >
       <SEOHead {...SEO_PRESETS.projects} />
       
       {/* Compact Header - no logo on mobile for internal pages */}
       <div className={cn(
         "sticky top-0 z-40 bg-background/95 backdrop-blur-md border-b border-border/50",
         isMobile 
-          ? "px-4 pt-[calc(max(var(--tg-content-safe-area-inset-top,0px)+var(--tg-safe-area-inset-top,0px)+0.5rem,env(safe-area-inset-top,0px)+0.5rem))] pb-1.5" 
+          ? cn("px-4 pb-1.5", safeAreaClasses.headerTop)
           : "px-4 py-2.5"
       )}>
         <div className="max-w-6xl mx-auto">
