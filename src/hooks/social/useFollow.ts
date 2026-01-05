@@ -7,11 +7,12 @@ import { showErrorWithRecovery } from '@/lib/errorHandling';
 import { logger } from '@/lib/logger';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 
-export function useFollow(targetUserId: string) {
+export function useFollow(targetUserId: string, initialFollowing?: boolean) {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const haptic = useHapticFeedback();
 
+  // If initialFollowing is provided, use it and skip the query
   const { data: isFollowing, isLoading: isCheckingFollow } = useQuery({
     queryKey: ['follow-status', targetUserId, user?.id],
     queryFn: async () => {
@@ -24,7 +25,8 @@ export function useFollow(targetUserId: string) {
         .maybeSingle();
       return !!data;
     },
-    enabled: !!user?.id && !!targetUserId && user.id !== targetUserId,
+    enabled: !!user?.id && !!targetUserId && user.id !== targetUserId && initialFollowing === undefined,
+    initialData: initialFollowing,
   });
 
   const followMutation = useMutation({
