@@ -1,6 +1,7 @@
 import { useTheme } from "@/contexts/ThemeContext";
 import { Toaster as Sonner, toast } from "sonner";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { getToastStyles, TOAST_Z_INDEX } from "@/lib/toast-position";
 
 type ToasterProps = React.ComponentProps<typeof Sonner>;
 
@@ -28,6 +29,9 @@ const Toaster = ({ ...props }: ToasterProps) => {
   
   // Calculate dynamic offset for Telegram
   const telegramOffset = getTelegramOffset();
+  
+  // Get unified positioning styles
+  const positionStyles = getToastStyles(isMobile, telegramOffset);
 
   return (
     <Sonner
@@ -42,25 +46,11 @@ const Toaster = ({ ...props }: ToasterProps) => {
       // Gap between stacked toasts
       gap={8}
       style={{
-        // Use left-0 right-0 for reliable centering on mobile
-        // Avoid translateX(-50%) with calc widths - causes alignment issues
-        left: 0,
-        right: 0,
-        margin: '0 auto',
-        width: 'calc(100% - 2rem)',
-        maxWidth: '24rem', // max-w-sm
-        minWidth: '200px', // Prevent vertical text on narrow screens
-        // Telegram + device safe areas  
-        ...(isMobile
-          ? {
-              // Bottom positioning for mobile - account for bottom safe area + island nav (5rem) + telegram offset
-              bottom: `max(calc(var(--tg-safe-area-inset-bottom, 0px) + 5.5rem + ${telegramOffset}px), calc(env(safe-area-inset-bottom, 0px) + 5.5rem))`,
-            }
-          : {
-              // Top positioning for desktop
-              top: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px) + 1rem), calc(env(safe-area-inset-top, 0px) + 1rem))',
-            }),
-        zIndex: 100, // z-[100] per Z_INDEX_HIERARCHY.md for system notifications
+        // Use unified positioning from toast-position utility
+        ...positionStyles,
+        // Remove transform for mobile (not needed with left/right)
+        ...(isMobile ? { transform: 'none' } : {}),
+        zIndex: TOAST_Z_INDEX.system,
       }}
       toastOptions={{
         classNames: {
