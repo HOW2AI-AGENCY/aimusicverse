@@ -91,7 +91,7 @@ export const MinimalTrackCard = memo(({
             }}
           >
             {/* Cover + Play */}
-            <div className="relative w-10 h-10 flex-shrink-0 rounded-md overflow-hidden">
+            <div className="relative w-11 h-11 flex-shrink-0 rounded-lg overflow-hidden">
               <LazyImage
                 src={track.cover_url || ''}
                 alt={track.title || 'Track'}
@@ -112,16 +112,16 @@ export const MinimalTrackCard = memo(({
                 <Button
                   size="icon"
                   variant="ghost"
-                  className="w-7 h-7 rounded-full text-white"
+                  className="w-11 h-11 min-h-[44px] min-w-[44px] rounded-full text-white"
                   onClick={handlePlay}
                   data-play-button
                   aria-label={isPlaying ? 'Приостановить' : 'Воспроизвести'}
                   title={isPlaying ? 'Приостановить' : 'Воспроизвести'}
                 >
                   {isPlaying ? (
-                    <Pause className="w-3.5 h-3.5" />
+                    <Pause className="w-4 h-4" />
                   ) : (
-                    <Play className="w-3.5 h-3.5 ml-0.5" />
+                    <Play className="w-4 h-4 ml-0.5" />
                   )}
                 </Button>
               </motion.div>
@@ -164,11 +164,11 @@ export const MinimalTrackCard = memo(({
               />
             )}
 
-            {/* Menu button */}
+            {/* Menu button - always visible on mobile for touch targets */}
             <Button
               size="icon"
               variant="ghost"
-              className="w-8 h-8 opacity-0 group-hover:opacity-100 transition-opacity touch-manipulation flex-shrink-0"
+              className="w-11 h-11 min-h-[44px] min-w-[44px] opacity-60 sm:opacity-0 group-hover:opacity-100 transition-opacity touch-manipulation flex-shrink-0 -mr-2"
               onClick={(e) => {
                 e.stopPropagation();
                 triggerHapticFeedback('light');
@@ -177,7 +177,7 @@ export const MinimalTrackCard = memo(({
               aria-label="Открыть меню трека"
               title="Открыть меню трека"
             >
-              <MoreHorizontal className="w-4 h-4" />
+              <MoreHorizontal className="w-5 h-5" />
             </Button>
           </Card>
         </motion.div>
@@ -235,16 +235,16 @@ export const MinimalTrackCard = memo(({
               <Button
                 size="icon"
                 className={cn(
-                  "w-8 h-8 rounded-full transition-all",
+                  "w-11 h-11 min-h-[44px] min-w-[44px] rounded-full transition-all",
                   isPlaying ? "bg-primary" : "bg-white/90 hover:bg-white text-black"
                 )}
                 onClick={handlePlay}
                 data-play-button
               >
                 {isPlaying ? (
-                  <Pause className="w-3.5 h-3.5" />
+                  <Pause className="w-4 h-4" />
                 ) : (
-                  <Play className="w-3.5 h-3.5 ml-0.5" />
+                  <Play className="w-4 h-4 ml-0.5" />
                 )}
               </Button>
               
