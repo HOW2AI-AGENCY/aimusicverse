@@ -1,12 +1,10 @@
 /**
- * QuickActionsSection - Compact horizontal quick actions (4 items only)
- * Play, Like, Queue, Share - minimal and fast
+ * QuickActionsSection - Ultra compact icon-only quick actions with inline versions
+ * Play, Like, Queue, Share + Version badges
  */
 
 import { memo, useMemo } from 'react';
 import { Play, Pause, Heart, Share2, ListPlus } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { Track } from '@/types/track';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
@@ -14,30 +12,20 @@ import { useTracks } from '@/hooks/useTracks';
 import { hapticImpact } from '@/lib/haptic';
 import { toast } from 'sonner';
 
-interface QuickAction {
-  id: string;
-  icon: React.ElementType;
-  label: string;
-  isActive?: boolean;
-  onClick: () => void;
-  color?: 'default' | 'primary' | 'danger';
-}
-
 interface QuickActionsSectionProps {
   track: Track;
   onClose: () => void;
-  onDownload?: () => void;
+  versions?: Array<{ id: string; label: string }>;
+  activeVersionId?: string | null;
+  onVersionSwitch?: (versionId: string) => void;
 }
-
-const colorVariants = {
-  default: 'bg-muted hover:bg-muted/80 text-foreground',
-  primary: 'bg-primary/15 hover:bg-primary/25 text-primary',
-  danger: 'bg-red-500/15 hover:bg-red-500/25 text-red-500',
-};
 
 export const QuickActionsSection = memo(function QuickActionsSection({ 
   track, 
   onClose,
+  versions = [],
+  activeVersionId,
+  onVersionSwitch,
 }: QuickActionsSectionProps) {
   const { activeTrack, isPlaying, playTrack, pauseTrack, addToQueue } = usePlayerStore();
   const { toggleLike } = useTracks();
@@ -48,11 +36,7 @@ export const QuickActionsSection = memo(function QuickActionsSection({
   const handlePlay = () => {
     hapticImpact('light');
     if (isCurrentTrack) {
-      if (isPlaying) {
-        pauseTrack();
-      } else {
-        playTrack();
-      }
+      isPlaying ? pauseTrack() : playTrack();
     } else {
       playTrack(track);
     }
@@ -71,17 +55,12 @@ export const QuickActionsSection = memo(function QuickActionsSection({
     const url = `${window.location.origin}/track/${track.id}`;
     try {
       if (navigator.share) {
-        await navigator.share({
-          title: track.title || 'Track',
-          url,
-        });
+        await navigator.share({ title: track.title || 'Track', url });
       } else {
         await navigator.clipboard.writeText(url);
         toast.success('Ссылка скопирована');
       }
-    } catch (err) {
-      // User cancelled share
-    }
+    } catch { /* User cancelled */ }
   };
 
   const handleAddToQueue = () => {
@@ -90,75 +69,90 @@ export const QuickActionsSection = memo(function QuickActionsSection({
     toast.success('Добавлено в очередь');
   };
 
-  const quickActions: QuickAction[] = useMemo(() => [
-    {
-      id: 'play',
-      icon: isTrackPlaying ? Pause : Play,
-      label: isTrackPlaying ? 'Пауза' : 'Играть',
-      onClick: handlePlay,
-      color: 'primary' as const,
-    },
-    {
-      id: 'like',
-      icon: Heart,
-      label: track.is_liked ? 'Убрать' : 'Лайк',
-      isActive: track.is_liked,
-      onClick: handleLike,
-      color: track.is_liked ? 'danger' as const : 'default' as const,
-    },
-    {
-      id: 'queue',
-      icon: ListPlus,
-      label: 'В очередь',
-      onClick: handleAddToQueue,
-    },
-    {
-      id: 'share',
-      icon: Share2,
-      label: 'Поделиться',
-      onClick: handleShare,
-    },
-  ], [isTrackPlaying, track.is_liked, track.id]);
+  const hasVersions = versions.length > 1;
 
   return (
-    <div className="py-2">
-      <div className="flex gap-2 justify-between">
-        {quickActions.map((action, index) => {
-          const Icon = action.icon;
-          const colorClass = action.color ? colorVariants[action.color] : colorVariants.default;
-          
-          return (
-            <motion.div
-              key={action.id}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: index * 0.03, type: 'spring', stiffness: 400, damping: 25 }}
-              className="flex-1"
-            >
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={action.onClick}
-                className={cn(
-                  "w-full gap-1.5 h-11 min-h-[44px] px-2 rounded-xl border transition-all",
-                  "active:scale-95 touch-manipulation",
-                  colorClass,
-                  action.isActive && action.id === 'like' && "bg-red-500/20 border-red-500/40 text-red-500"
-                )}
-              >
-                <Icon 
-                  className={cn(
-                    "w-4 h-4 transition-transform",
-                    action.isActive && "scale-110"
-                  )} 
-                  fill={action.isActive && action.id === 'like' ? 'currentColor' : 'none'} 
-                />
-                <span className="text-[11px] font-medium">{action.label}</span>
-              </Button>
-            </motion.div>
-          );
-        })}
+    <div className="flex items-center justify-between py-1.5">
+      {/* Quick action buttons */}
+      <div className="flex gap-2">
+        {/* Play */}
+        <button
+          onClick={handlePlay}
+          className={cn(
+            "w-11 h-11 rounded-xl flex items-center justify-center",
+            "bg-primary/15 text-primary",
+            "active:scale-95 transition-transform touch-manipulation"
+          )}
+        >
+          {isTrackPlaying ? (
+            <Pause className="w-5 h-5" />
+          ) : (
+            <Play className="w-5 h-5 ml-0.5" />
+          )}
+        </button>
+
+        {/* Like */}
+        <button
+          onClick={handleLike}
+          className={cn(
+            "w-11 h-11 rounded-xl flex items-center justify-center",
+            "active:scale-95 transition-transform touch-manipulation",
+            track.is_liked 
+              ? "bg-red-500/15 text-red-500" 
+              : "bg-muted text-muted-foreground"
+          )}
+        >
+          <Heart 
+            className="w-5 h-5" 
+            fill={track.is_liked ? 'currentColor' : 'none'} 
+          />
+        </button>
+
+        {/* Queue */}
+        <button
+          onClick={handleAddToQueue}
+          className={cn(
+            "w-11 h-11 rounded-xl flex items-center justify-center",
+            "bg-muted text-muted-foreground",
+            "active:scale-95 transition-transform touch-manipulation"
+          )}
+        >
+          <ListPlus className="w-5 h-5" />
+        </button>
+
+        {/* Share */}
+        <button
+          onClick={handleShare}
+          className={cn(
+            "w-11 h-11 rounded-xl flex items-center justify-center",
+            "bg-muted text-muted-foreground",
+            "active:scale-95 transition-transform touch-manipulation"
+          )}
+        >
+          <Share2 className="w-5 h-5" />
+        </button>
       </div>
+
+      {/* Version badges - inline right */}
+      {hasVersions && onVersionSwitch && (
+        <div className="flex gap-1">
+          {versions.map((version) => (
+            <button
+              key={version.id}
+              onClick={() => onVersionSwitch(version.id)}
+              className={cn(
+                'min-w-7 h-7 px-2 rounded-md text-xs font-semibold',
+                'transition-all active:scale-95 touch-manipulation',
+                version.id === activeVersionId
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-muted/60 text-muted-foreground hover:bg-muted'
+              )}
+            >
+              {version.label}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 });

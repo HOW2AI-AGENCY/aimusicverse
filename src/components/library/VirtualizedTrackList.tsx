@@ -142,7 +142,7 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
   }, []);
   
   // Stable props for Virtuoso to avoid internal re-init loops
-  const increaseViewportBy = useMemo(() => ({ top: 300, bottom: 800 }), []);
+  const increaseViewportBy = useMemo(() => ({ top: 400, bottom: 1000 }), []);
 
   // Memoize item key computation for better React reconciliation
   const computeItemKey = useCallback((index: number, item?: Track) => item?.id || `track-${index}`, []);
@@ -264,7 +264,7 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
         <VirtuosoGrid
           useWindowScroll
           data={tracks}
-          overscan={100}
+          overscan={150}
           computeItemKey={computeItemKey}
           components={gridComponents}
           endReached={handleEndReached}
@@ -281,7 +281,7 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
       <Virtuoso
         useWindowScroll
         data={tracks}
-        overscan={150}
+        overscan={200}
         computeItemKey={computeItemKey}
         components={listComponents}
         endReached={handleEndReached}

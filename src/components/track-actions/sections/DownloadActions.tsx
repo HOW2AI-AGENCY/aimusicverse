@@ -1,9 +1,9 @@
-import { Button } from '@/components/ui/button';
 import { DropdownMenuItem, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from '@/components/ui/dropdown-menu';
 import { Download, FileAudio, FileMusic, Archive } from 'lucide-react';
 import { Track } from '@/types/track';
 import { ActionId } from '@/config/trackActionsConfig';
 import { TrackActionState, isActionAvailable, getActionLabel } from '@/lib/trackActionConditions';
+import { IconGridButton } from '../IconGridButton';
 
 interface DownloadActionsProps {
   track: Track;
@@ -51,47 +51,34 @@ export function DownloadActions({ track, state, onAction, variant, isProcessing 
     );
   }
 
-  // Sheet variant - flat list for use inside ActionCategory
+  // Sheet variant - Icon Grid Layout
   return (
-    <div className="space-y-1">
+    <div className="grid grid-cols-4 gap-1">
       {showMp3 && (
-        <Button
-          variant="ghost"
-          className="w-full justify-start gap-3 h-12 rounded-xl hover:bg-green-500/10 group"
+        <IconGridButton
+          icon={FileAudio}
+          label="MP3"
+          color="green"
           onClick={() => onAction('download_mp3')}
-        >
-          <div className="w-9 h-9 rounded-lg bg-green-500/10 flex items-center justify-center group-hover:bg-green-500/20 transition-colors">
-            <FileAudio className="w-4 h-4 text-green-500" />
-          </div>
-          <span className="font-medium">MP3</span>
-          <span className="ml-auto text-xs text-muted-foreground">Стандарт</span>
-        </Button>
+        />
       )}
       {showWav && (
-        <Button
-          variant="ghost"
-          className="w-full justify-start gap-3 h-12 rounded-xl hover:bg-blue-500/10 group"
+        <IconGridButton
+          icon={FileMusic}
+          label="WAV"
+          color="blue"
           onClick={() => onAction('download_wav')}
           disabled={isProcessing}
-        >
-          <div className="w-9 h-9 rounded-lg bg-blue-500/10 flex items-center justify-center group-hover:bg-blue-500/20 transition-colors">
-            <FileMusic className="w-4 h-4 text-blue-500" />
-          </div>
-          <span className="font-medium">WAV</span>
-          <span className="ml-auto text-xs text-muted-foreground">Без потерь</span>
-        </Button>
+        />
       )}
       {showStems && (
-        <Button
-          variant="ghost"
-          className="w-full justify-start gap-3 h-12 rounded-xl hover:bg-purple-500/10 group"
+        <IconGridButton
+          icon={Archive}
+          label="Стемы"
+          badge={state.stemCount > 0 ? state.stemCount : undefined}
+          color="purple"
           onClick={() => onAction('download_stems')}
-        >
-          <div className="w-9 h-9 rounded-lg bg-purple-500/10 flex items-center justify-center group-hover:bg-purple-500/20 transition-colors">
-            <Archive className="w-4 h-4 text-purple-500" />
-          </div>
-          <span className="font-medium">{getActionLabel('download_stems', track, state)}</span>
-        </Button>
+        />
       )}
     </div>
   );

@@ -24,6 +24,8 @@ interface InlineVersionToggleProps {
   className?: string;
   /** Track owner ID - if provided, toggle only renders for owner */
   trackOwnerId?: string;
+  /** Compact mode for mobile */
+  compact?: boolean;
 }
 
 export function InlineVersionToggle({
@@ -33,6 +35,7 @@ export function InlineVersionToggle({
   onVersionChange,
   className,
   trackOwnerId,
+  compact = false,
 }: InlineVersionToggleProps) {
   const [versions, setVersions] = useState<Version[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -196,8 +199,11 @@ export function InlineVersionToggle({
             onClick={(e) => handleVersionClick(e, version)}
             disabled={isUpdating}
             className={cn(
-              "min-w-[24px] h-6 px-1.5 text-xs font-semibold rounded transition-all",
+              "font-semibold rounded transition-all",
               "touch-manipulation active:scale-95",
+              compact 
+                ? "min-w-[20px] h-5 px-1 text-[10px]" 
+                : "min-w-[24px] h-6 px-1.5 text-xs",
               isActive 
                 ? "bg-primary text-primary-foreground shadow-sm" 
                 : "text-muted-foreground hover:bg-muted hover:text-foreground",

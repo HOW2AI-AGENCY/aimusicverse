@@ -7,6 +7,7 @@ import {
 } from '@/components/ui/tooltip';
 import type { Track } from '@/types/track';
 import { cn } from '@/lib/utils';
+import { ModelBadge } from './ModelBadge';
 
 interface TrackTypeIconsProps {
   track: Track;
@@ -14,6 +15,7 @@ interface TrackTypeIconsProps {
   hasMidi?: boolean;
   hasPdf?: boolean;
   hasGp5?: boolean;
+  showModel?: boolean;
 }
 
 export function TrackTypeIcons({ 
@@ -22,6 +24,7 @@ export function TrackTypeIcons({
   hasMidi = false,
   hasPdf = false,
   hasGp5 = false,
+  showModel = true,
 }: TrackTypeIconsProps) {
   const hasVocals = track.has_vocals === true;
   // is_instrumental derived from has_vocals if not explicitly set
@@ -29,15 +32,17 @@ export function TrackTypeIcons({
   const hasStems = track.has_stems === true;
   
   // Detect cover/extend based on generation_mode
-  // 'remix', 'cover', 'upload_cover' are all covers
-  // 'extend', 'upload_extend' are extensions
   const isCover = track.generation_mode === 'remix' || 
     track.generation_mode === 'cover' || 
     track.generation_mode === 'upload_cover';
   const isExtend = track.generation_mode === 'extend' || 
     track.generation_mode === 'upload_extend';
 
-  const hasAnyIcon = hasVocals || isInstrumental || hasStems || hasMidi || hasPdf || hasGp5 || isCover || isExtend;
+  // Get model from track
+  const model = (track as any).suno_model || (track as any).model_name;
+  const hasModel = showModel && !!model;
+
+  const hasAnyIcon = hasVocals || isInstrumental || hasStems || hasMidi || hasPdf || hasGp5 || isCover || isExtend || hasModel;
 
   if (!hasAnyIcon) {
     return null;
@@ -48,6 +53,11 @@ export function TrackTypeIcons({
   return (
     <TooltipProvider delayDuration={300}>
       <div className="flex items-center gap-0.5">
+        {/* Model indicator - using ModelBadge component */}
+        {hasModel && (
+          <ModelBadge model={model} compact={compact} />
+        )}
+
         {/* Cover indicator */}
         {isCover && (
           <Tooltip>

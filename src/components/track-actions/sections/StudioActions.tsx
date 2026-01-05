@@ -1,10 +1,10 @@
-import { Button } from '@/components/ui/button';
 import { DropdownMenuItem, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from '@/components/ui/dropdown-menu';
 import { Layers, Scissors, Wand2, Music2, FileMusic, RefreshCw } from 'lucide-react';
 import { Track } from '@/types/track';
 import { ActionId } from '@/config/trackActionsConfig';
 import { TrackActionState, isActionAvailable } from '@/lib/trackActionConditions';
 import { ProBadge } from '@/components/ui/pro-badge';
+import { IconGridButton } from '../IconGridButton';
 
 interface StudioActionsProps {
   track: Track;
@@ -79,91 +79,59 @@ export function StudioActions({ track, state, onAction, variant, isProcessing }:
     );
   }
 
-  // Sheet variant - compact buttons h-10
+  // Sheet variant - Icon Grid Layout
   return (
-    <div className="space-y-0.5">
+    <div className="grid grid-cols-4 gap-1">
       {showStudio && (
-        <Button
-          variant="ghost"
-          className="w-full justify-start gap-3 h-10 rounded-lg hover:bg-blue-500/10 group"
+        <IconGridButton
+          icon={Layers}
+          label="Студия"
+          color="blue"
+          badge={state.stemCount > 0 ? state.stemCount : undefined}
           onClick={() => onAction('open_studio')}
-        >
-          <div className="w-7 h-7 rounded-md bg-blue-500/10 flex items-center justify-center group-hover:bg-blue-500/20 transition-colors">
-            <Layers className="w-3.5 h-3.5 text-blue-500" />
-          </div>
-          <span className="text-sm">Открыть студию</span>
-          {state.stemCount > 0 && (
-            <span className="ml-auto text-xs text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
-              {state.stemCount} стемов
-            </span>
-          )}
-        </Button>
+        />
       )}
       {showReplaceSection && (
-        <Button
-          variant="ghost"
-          className="w-full justify-start gap-3 h-10 rounded-lg hover:bg-amber-500/10 group"
+        <IconGridButton
+          icon={RefreshCw}
+          label="Секция"
+          color="amber"
           onClick={() => onAction('replace_section')}
-        >
-          <div className="w-7 h-7 rounded-md bg-amber-500/10 flex items-center justify-center group-hover:bg-amber-500/20 transition-colors">
-            <RefreshCw className="w-3.5 h-3.5 text-amber-500" />
-          </div>
-          <span className="text-sm">Замена секции</span>
-        </Button>
+        />
       )}
       {showStemsSimple && (
-        <Button
-          variant="ghost"
-          className="w-full justify-start gap-3 h-10 rounded-lg hover:bg-green-500/10 group"
+        <IconGridButton
+          icon={Scissors}
+          label="2 стема"
+          color="green"
           onClick={() => onAction('stems_simple')}
           disabled={isProcessing}
-        >
-          <div className="w-7 h-7 rounded-md bg-green-500/10 flex items-center justify-center group-hover:bg-green-500/20 transition-colors">
-            <Scissors className="w-3.5 h-3.5 text-green-500" />
-          </div>
-          <span className="text-sm">Стемы (2 дорожки)</span>
-          <span className="ml-auto text-xs text-muted-foreground">Быстро</span>
-        </Button>
+        />
       )}
       {showStemsDetailed && (
-        <Button
-          variant="ghost"
-          className="w-full justify-start gap-3 h-10 rounded-lg hover:bg-purple-500/10 group"
+        <IconGridButton
+          icon={Wand2}
+          label="6+ стемов"
+          color="purple"
           onClick={() => onAction('stems_detailed')}
           disabled={isProcessing}
-        >
-          <div className="w-7 h-7 rounded-md bg-purple-500/10 flex items-center justify-center group-hover:bg-purple-500/20 transition-colors">
-            <Wand2 className="w-3.5 h-3.5 text-purple-500" />
-          </div>
-          <span className="text-sm">Стемы (6+ дорожек)</span>
-          <span className="ml-auto text-xs text-muted-foreground">Детально</span>
-        </Button>
+        />
       )}
       {showMidi && (
-        <Button
-          variant="ghost"
-          className="w-full justify-start gap-3 h-10 rounded-lg hover:bg-pink-500/10 group"
+        <IconGridButton
+          icon={Music2}
+          label="MIDI"
+          color="pink"
           onClick={() => onAction('transcribe_midi')}
-        >
-          <div className="w-7 h-7 rounded-md bg-pink-500/10 flex items-center justify-center group-hover:bg-pink-500/20 transition-colors">
-            <Music2 className="w-3.5 h-3.5 text-pink-500" />
-          </div>
-          <span className="text-sm">MIDI</span>
-          <ProBadge size="sm" className="ml-auto" />
-        </Button>
+        />
       )}
       {showNotes && (
-        <Button
-          variant="ghost"
-          className="w-full justify-start gap-3 h-10 rounded-lg hover:bg-orange-500/10 group"
+        <IconGridButton
+          icon={FileMusic}
+          label="Ноты"
+          color="orange"
           onClick={() => onAction('transcribe_notes')}
-        >
-          <div className="w-7 h-7 rounded-md bg-orange-500/10 flex items-center justify-center group-hover:bg-orange-500/20 transition-colors">
-            <FileMusic className="w-3.5 h-3.5 text-orange-500" />
-          </div>
-          <span className="text-sm">Ноты</span>
-          <ProBadge size="sm" className="ml-auto" />
-        </Button>
+        />
       )}
     </div>
   );

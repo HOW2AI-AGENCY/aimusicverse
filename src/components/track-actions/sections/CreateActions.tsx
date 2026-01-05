@@ -1,9 +1,9 @@
-import { Button } from '@/components/ui/button';
 import { DropdownMenuItem, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from '@/components/ui/dropdown-menu';
-import { Plus, Music, ImagePlus, Disc, Sparkles, Mic2, Guitar } from 'lucide-react';
+import { Plus, Music, ImagePlus, Disc, Sparkles, Mic2, Guitar, Video, Fingerprint } from 'lucide-react';
 import { Track } from '@/types/track';
 import { ActionId } from '@/config/trackActionsConfig';
 import { TrackActionState, isActionAvailable } from '@/lib/trackActionConditions';
+import { IconGridButton } from '../IconGridButton';
 
 interface CreateActionsProps {
   track: Track;
@@ -20,8 +20,10 @@ export function CreateActions({ track, state, onAction, variant, isProcessing }:
   const showRemix = isActionAvailable('remix', track, state);
   const showAddVocals = isActionAvailable('add_vocals', track, state);
   const showAddInstrumental = isActionAvailable('add_instrumental', track, state);
+  // Video generation available for all tracks
+  const showVideo = true;
 
-  const hasAnyAction = showGenerateCover || showCover || showExtend || showRemix || showAddVocals || showAddInstrumental;
+  const hasAnyAction = showGenerateCover || showCover || showExtend || showRemix || showAddVocals || showAddInstrumental || showVideo;
   if (!hasAnyAction) return null;
 
   if (variant === 'dropdown') {
@@ -56,6 +58,12 @@ export function CreateActions({ track, state, onAction, variant, isProcessing }:
               Ремикс
             </DropdownMenuItem>
           )}
+          {showVideo && (
+            <DropdownMenuItem onClick={() => onAction('generate_video')} disabled={isProcessing}>
+              <Video className="w-4 h-4 mr-2" />
+              Видео
+            </DropdownMenuItem>
+          )}
           {showAddVocals && (
             <DropdownMenuItem onClick={() => onAction('add_vocals')} disabled={isProcessing}>
               <Mic2 className="w-4 h-4 mr-2" />
@@ -73,85 +81,69 @@ export function CreateActions({ track, state, onAction, variant, isProcessing }:
     );
   }
 
-  // Sheet variant - compact buttons h-10
+  // Sheet variant - Icon Grid Layout
   return (
-    <div className="space-y-0.5">
+    <div className="grid grid-cols-4 gap-1">
       {showGenerateCover && (
-        <Button
-          variant="ghost"
-          className="w-full justify-start gap-3 h-10 rounded-lg hover:bg-pink-500/10 group"
+        <IconGridButton
+          icon={ImagePlus}
+          label="Обложка"
+          color="pink"
           onClick={() => onAction('generate_cover')}
           disabled={isProcessing}
-        >
-          <div className="w-7 h-7 rounded-md bg-pink-500/10 flex items-center justify-center group-hover:bg-pink-500/20 transition-colors">
-            <ImagePlus className="w-3.5 h-3.5 text-pink-500" />
-          </div>
-          <span className="text-sm">Обложка</span>
-          <span className="ml-auto text-xs text-muted-foreground">AI</span>
-        </Button>
+        />
       )}
       {showCover && (
-        <Button
-          variant="ghost"
-          className="w-full justify-start gap-3 h-10 rounded-lg hover:bg-purple-500/10 group"
+        <IconGridButton
+          icon={Disc}
+          label="Кавер"
+          color="purple"
           onClick={() => onAction('cover')}
-        >
-          <div className="w-7 h-7 rounded-md bg-purple-500/10 flex items-center justify-center group-hover:bg-purple-500/20 transition-colors">
-            <Disc className="w-3.5 h-3.5 text-purple-500" />
-          </div>
-          <span className="text-sm">Кавер версия</span>
-        </Button>
+        />
       )}
       {showExtend && (
-        <Button
-          variant="ghost"
-          className="w-full justify-start gap-3 h-10 rounded-lg hover:bg-green-500/10 group"
+        <IconGridButton
+          icon={Plus}
+          label="Расширить"
+          color="green"
           onClick={() => onAction('extend')}
-        >
-          <div className="w-7 h-7 rounded-md bg-green-500/10 flex items-center justify-center group-hover:bg-green-500/20 transition-colors">
-            <Plus className="w-3.5 h-3.5 text-green-500" />
-          </div>
-          <span className="text-sm">Расширить трек</span>
-        </Button>
+        />
       )}
       {showRemix && (
-        <Button
-          variant="ghost"
-          className="w-full justify-start gap-3 h-10 rounded-lg hover:bg-amber-500/10 group"
+        <IconGridButton
+          icon={Music}
+          label="Ремикс"
+          color="amber"
           onClick={() => onAction('remix')}
           disabled={isProcessing}
-        >
-          <div className="w-7 h-7 rounded-md bg-amber-500/10 flex items-center justify-center group-hover:bg-amber-500/20 transition-colors">
-            <Music className="w-3.5 h-3.5 text-amber-500" />
-          </div>
-          <span className="text-sm">Ремикс</span>
-        </Button>
+        />
+      )}
+      {showVideo && (
+        <IconGridButton
+          icon={Video}
+          label="Видео"
+          color="blue"
+          onClick={() => onAction('generate_video')}
+          disabled={isProcessing}
+        />
       )}
       {showAddVocals && (
-        <Button
-          variant="ghost"
-          className="w-full justify-start gap-3 h-10 rounded-lg hover:bg-blue-500/10 group"
+        <IconGridButton
+          icon={Mic2}
+          label="Вокал"
+          color="cyan"
           onClick={() => onAction('add_vocals')}
           disabled={isProcessing}
-        >
-          <div className="w-7 h-7 rounded-md bg-blue-500/10 flex items-center justify-center group-hover:bg-blue-500/20 transition-colors">
-            <Mic2 className="w-3.5 h-3.5 text-blue-500" />
-          </div>
-          <span className="text-sm">Добавить вокал</span>
-        </Button>
+        />
       )}
       {showAddInstrumental && (
-        <Button
-          variant="ghost"
-          className="w-full justify-start gap-3 h-10 rounded-lg hover:bg-orange-500/10 group"
+        <IconGridButton
+          icon={Guitar}
+          label="Инструм."
+          color="orange"
           onClick={() => onAction('add_instrumental')}
           disabled={isProcessing}
-        >
-          <div className="w-7 h-7 rounded-md bg-orange-500/10 flex items-center justify-center group-hover:bg-orange-500/20 transition-colors">
-            <Guitar className="w-3.5 h-3.5 text-orange-500" />
-          </div>
-          <span className="text-sm">Добавить инструментал</span>
-        </Button>
+        />
       )}
     </div>
   );
