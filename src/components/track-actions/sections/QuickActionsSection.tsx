@@ -1,6 +1,6 @@
 /**
- * QuickActionsSection - Compact horizontal quick actions (4 items only)
- * Play, Like, Queue, Share - minimal and fast
+ * QuickActionsSection - Compact icon-only quick actions
+ * Play, Like, Queue, Share - minimal, icons only
  */
 
 import { memo, useMemo } from 'react';
@@ -13,15 +13,6 @@ import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { useTracks } from '@/hooks/useTracks';
 import { hapticImpact } from '@/lib/haptic';
 import { toast } from 'sonner';
-
-interface QuickAction {
-  id: string;
-  icon: React.ElementType;
-  label: string;
-  isActive?: boolean;
-  onClick: () => void;
-  color?: 'default' | 'primary' | 'danger';
-}
 
 interface QuickActionsSectionProps {
   track: Track;
@@ -90,18 +81,17 @@ export const QuickActionsSection = memo(function QuickActionsSection({
     toast.success('Добавлено в очередь');
   };
 
-  const quickActions: QuickAction[] = useMemo(() => [
+  const quickActions = useMemo(() => [
     {
       id: 'play',
       icon: isTrackPlaying ? Pause : Play,
-      label: isTrackPlaying ? 'Пауза' : 'Играть',
       onClick: handlePlay,
       color: 'primary' as const,
+      isActive: false,
     },
     {
       id: 'like',
       icon: Heart,
-      label: track.is_liked ? 'Убрать' : 'Лайк',
       isActive: track.is_liked,
       onClick: handleLike,
       color: track.is_liked ? 'danger' as const : 'default' as const,
@@ -109,20 +99,22 @@ export const QuickActionsSection = memo(function QuickActionsSection({
     {
       id: 'queue',
       icon: ListPlus,
-      label: 'В очередь',
       onClick: handleAddToQueue,
+      color: 'default' as const,
+      isActive: false,
     },
     {
       id: 'share',
       icon: Share2,
-      label: 'Поделиться',
       onClick: handleShare,
+      color: 'default' as const,
+      isActive: false,
     },
   ], [isTrackPlaying, track.is_liked, track.id]);
 
   return (
     <div className="py-2">
-      <div className="flex gap-2 justify-between">
+      <div className="flex gap-3 justify-center">
         {quickActions.map((action, index) => {
           const Icon = action.icon;
           const colorClass = action.color ? colorVariants[action.color] : colorVariants.default;
@@ -133,14 +125,13 @@ export const QuickActionsSection = memo(function QuickActionsSection({
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: index * 0.03, type: 'spring', stiffness: 400, damping: 25 }}
-              className="flex-1"
             >
               <Button
                 variant="outline"
-                size="sm"
+                size="icon"
                 onClick={action.onClick}
                 className={cn(
-                  "w-full gap-1.5 h-11 min-h-[44px] px-2 rounded-xl border transition-all",
+                  "w-12 h-12 rounded-xl border transition-all",
                   "active:scale-95 touch-manipulation",
                   colorClass,
                   action.isActive && action.id === 'like' && "bg-red-500/20 border-red-500/40 text-red-500"
@@ -148,12 +139,11 @@ export const QuickActionsSection = memo(function QuickActionsSection({
               >
                 <Icon 
                   className={cn(
-                    "w-4 h-4 transition-transform",
+                    "w-5 h-5 transition-transform",
                     action.isActive && "scale-110"
                   )} 
                   fill={action.isActive && action.id === 'like' ? 'currentColor' : 'none'} 
                 />
-                <span className="text-[11px] font-medium">{action.label}</span>
               </Button>
             </motion.div>
           );

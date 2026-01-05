@@ -17,12 +17,11 @@ import { PlaybackActions } from './sections/PlaybackActions';
 import { CollapsibleSection } from './CollapsibleSection';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 import { 
-  Play, 
   Sparkles, 
   Layers, 
   Download, 
-  Info, 
-  Trash2 
+  Trash2,
+  ListMusic
 } from 'lucide-react';
 
 interface UnifiedTrackSheetProps {
@@ -75,14 +74,14 @@ export function UnifiedTrackSheet({
       <Sheet open={open} onOpenChange={onOpenChange}>
         <SheetContent 
           side="bottom" 
-          className="h-[85vh] max-h-[85vh] rounded-t-2xl flex flex-col pb-0 px-0"
+          className="h-[75vh] max-h-[75vh] rounded-t-2xl flex flex-col pb-0 px-0"
         >
-          {/* Compact Header */}
+          {/* Compact Header with status icons */}
           <div className="px-4">
             <TrackSheetHeader track={track} />
           </div>
           
-          {/* Quick Actions - 4 items only */}
+          {/* Quick Actions - icons only */}
           <div className="px-4">
             <QuickActionsSection 
               track={track} 
@@ -93,22 +92,21 @@ export function UnifiedTrackSheet({
 
           {/* Versions Section - inline compact badges */}
           {versionCount > 1 && (
-            <div className="px-4 mt-3 flex items-center justify-between">
+            <div className="px-4 pb-2 flex items-center justify-center">
               <VersionsSection track={track} compact />
             </div>
           )}
 
-          {/* Scrollable Collapsible Sections */}
-          <ScrollArea className="flex-1 mt-3">
-            <div className="px-4 pb-safe space-y-2">
+          {/* Scrollable Sections - Minimized */}
+          <ScrollArea className="flex-1">
+            <div className="px-4 pb-safe space-y-1.5">
               
-              {/* Playback & Queue */}
+              {/* Queue & Playback */}
               <CollapsibleSection
-                title="Воспроизведение"
-                icon={Play}
+                title="Очередь"
+                icon={ListMusic}
                 iconColor="text-green-500"
                 iconBgColor="bg-green-500/10"
-                defaultOpen
               >
                 <QueueActionsSheet 
                   track={track} 
@@ -123,29 +121,13 @@ export function UnifiedTrackSheet({
                 />
               </CollapsibleSection>
 
-              {/* Studio Actions - Icon Grid */}
-              <CollapsibleSection
-                title="Студия"
-                icon={Layers}
-                iconColor="text-blue-500"
-                iconBgColor="bg-blue-500/10"
-                badge={actionState.stemCount > 0 ? `${actionState.stemCount} стемов` : undefined}
-              >
-                <StudioActions
-                  track={track}
-                  state={actionState}
-                  onAction={executeAction}
-                  variant="sheet"
-                  isProcessing={isProcessing}
-                />
-              </CollapsibleSection>
-
-              {/* Create Actions - Icon Grid */}
+              {/* Create + Studio combined */}
               <CollapsibleSection
                 title="Создать"
                 icon={Sparkles}
                 iconColor="text-purple-500"
                 iconBgColor="bg-purple-500/10"
+                defaultOpen
               >
                 <CreateActions
                   track={track}
@@ -156,23 +138,34 @@ export function UnifiedTrackSheet({
                 />
               </CollapsibleSection>
 
-              {/* Info - Icon Grid */}
+              {/* Studio */}
               <CollapsibleSection
-                title="Информация"
-                icon={Info}
-                iconColor="text-sky-500"
-                iconBgColor="bg-sky-500/10"
+                title="Студия"
+                icon={Layers}
+                iconColor="text-blue-500"
+                iconBgColor="bg-blue-500/10"
+                badge={actionState.stemCount > 0 ? `${actionState.stemCount}` : undefined}
               >
-                <InfoActions
+                <StudioActions
                   track={track}
                   state={actionState}
                   onAction={executeAction}
                   variant="sheet"
                   isProcessing={isProcessing}
                 />
+                {/* Info actions moved here */}
+                <div className="mt-2 pt-2 border-t border-border/50">
+                  <InfoActions
+                    track={track}
+                    state={actionState}
+                    onAction={executeAction}
+                    variant="sheet"
+                    isProcessing={isProcessing}
+                  />
+                </div>
               </CollapsibleSection>
 
-              {/* Download & Share - Icon Grid */}
+              {/* Export - Download & Share */}
               <CollapsibleSection
                 title="Экспорт"
                 icon={Download}
@@ -195,7 +188,7 @@ export function UnifiedTrackSheet({
                 />
               </CollapsibleSection>
 
-              {/* Delete - Danger Zone */}
+              {/* Delete - minimal */}
               <CollapsibleSection
                 title="Удалить"
                 icon={Trash2}
