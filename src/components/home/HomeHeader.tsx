@@ -67,9 +67,9 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
     <motion.header 
       className={cn(
         "sticky top-0 z-20 -mx-4 px-3",
-        // Telegram content safe area for native buttons (back, minimize, settings)
-        // Reduced base padding to 0.5rem to avoid excessive top margin
-        "pt-[max(calc(var(--tg-content-safe-area-inset-top,0px)+0.5rem),calc(env(safe-area-inset-top,0px)+0.5rem))] pb-2",
+        // Telegram safe area: system insets + content insets (for native Telegram buttons)
+        // Fallback: 44px for iOS notch devices
+        "pt-[calc(max(var(--tg-content-safe-area-inset-top,0px)+var(--tg-safe-area-inset-top,44px)+0.5rem,env(safe-area-inset-top,44px)+0.5rem))] pb-2",
         "backdrop-blur-xl bg-background/90 border-b border-border/50",
         className
       )}
