@@ -1,25 +1,24 @@
 /**
- * CompactPlayer - Minimal bottom bar player for quick access
- * Enhanced with action buttons, swipe gestures, previous/next track buttons
+ * CompactPlayer - Redesigned 2-row layout
+ * Row 1: Interactive Waveform timeline (minimal mode)
+ * Row 2: Cover + Info + Like/Playlist + Play/Next/Close
  */
 import { memo, useCallback, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { 
-  Play, Pause, ChevronUp, Music2, SkipForward, SkipBack,
-  Heart, Download, X, ListPlus, Share2, Layers 
+  Play, Pause, Music2, SkipForward, Heart, X, ListPlus, MoreHorizontal
 } from 'lucide-react';
 import { useAudioTime } from '@/hooks/audio/useAudioTime';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { useGestures } from '@/hooks/useGestures';
 import { useTracks } from '@/hooks/useTracks';
-import { useTrackActions } from '@/hooks/useTrackActions';
 import type { Track } from '@/types/track';
 import { cn } from '@/lib/utils';
-import { motion, AnimatePresence } from '@/lib/motion';
+import { motion } from '@/lib/motion';
 import { hapticImpact } from '@/lib/haptic';
 import { AddToPlaylistDialog } from '@/components/track/AddToPlaylistDialog';
 import { UnifiedTrackMenu } from '@/components/track-actions/UnifiedTrackMenu';
+import { WaveformProgressBar } from './WaveformProgressBar';
 
 interface CompactPlayerProps {
   track: Track;
@@ -27,16 +26,11 @@ interface CompactPlayerProps {
 }
 
 export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: CompactPlayerProps) {
-  const navigate = useNavigate();
-  const { isPlaying, playTrack, pauseTrack, nextTrack, previousTrack, queue, closePlayer } = usePlayerStore();
-  const { currentTime, duration } = useAudioTime();
-  const { toggleLike, downloadTrack } = useTracks();
-  const { handleShare } = useTrackActions();
-  const [showActions, setShowActions] = useState(false);
+  const { isPlaying, playTrack, pauseTrack, nextTrack, queue, closePlayer } = usePlayerStore();
+  const { currentTime, duration, buffered, seek } = useAudioTime();
+  const { toggleLike } = useTracks();
   const [playlistDialogOpen, setPlaylistDialogOpen] = useState(false);
-  
-  // Calculate progress percentage
-  const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
+
   const hasNextTrack = queue.length > 0;
 
   const handlePlayPause = useCallback((e: React.MouseEvent) => {
@@ -48,12 +42,6 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
       playTrack();
     }
   }, [isPlaying, playTrack, pauseTrack]);
-
-  const handlePreviousTrack = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
-    hapticImpact('light');
-    previousTrack();
-  }, [previousTrack]);
 
   const handleNextTrack = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
@@ -72,15 +60,6 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
     toggleLike({ trackId: track.id, isLiked: track.is_liked || false });
   }, [track.id, track.is_liked, toggleLike]);
 
-  const handleDownload = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
-    hapticImpact('light');
-    const audioUrl = track.streaming_url || track.audio_url;
-    if (audioUrl) {
-      downloadTrack({ trackId: track.id, audioUrl, coverUrl: track.cover_url || undefined });
-    }
-  }, [track, downloadTrack]);
-
   const handleClose = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
     hapticImpact('medium');
@@ -93,17 +72,10 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
     setPlaylistDialogOpen(true);
   }, []);
 
-  const handleShareClick = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handleSeek = useCallback((time: number) => {
     hapticImpact('light');
-    handleShare(track);
-  }, [track, handleShare]);
-
-  const handleOpenStudio = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
-    hapticImpact('light');
-    navigate(`/studio-v2/track/${track.id}`);
-  }, [track.id, navigate]);
+    seek(time);
+  }, [seek]);
 
   // Swipe gesture handlers
   const { gestureHandlers } = useGestures({
@@ -123,205 +95,172 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
         {...gestureHandlers}
       >
         <motion.div
-          onClick={handleExpand}
           className={cn(
             "w-full max-w-2xl mx-auto",
             "bg-card/95 backdrop-blur-xl border border-border/50 rounded-2xl",
             "shadow-lg shadow-black/10",
-            "flex items-center gap-2 p-2.5 sm:p-3",
-            "touch-manipulation cursor-pointer",
-            "hover:bg-card/100 transition-colors"
+            "flex flex-col overflow-hidden",
+            "touch-manipulation"
           )}
-          whileTap={{ scale: 0.98 }}
         >
-          {/* Progress bar at top */}
-          <div className="absolute top-0 left-3 right-3 h-0.5 bg-muted/50 rounded-full overflow-hidden">
-            <motion.div
-              className="h-full bg-primary rounded-full"
-              style={{ width: `${progress}%` }}
-              transition={{ type: 'tween', ease: 'linear' }}
+          {/* Row 1: Waveform Timeline (clickable to expand / seekable) */}
+          <div 
+            onClick={handleExpand}
+            className="px-3 pt-3 pb-2 cursor-pointer"
+          >
+            <WaveformProgressBar
+              audioUrl={track.streaming_url || track.audio_url}
+              trackId={track.id}
+              currentTime={currentTime}
+              duration={duration}
+              onSeek={handleSeek}
+              buffered={buffered}
+              mode="minimal"
+              showLabels={false}
+              className="pointer-events-auto"
             />
           </div>
 
-          {/* Expand/Actions toggle - LEFT SIDE */}
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              setShowActions(!showActions);
-            }}
-            className="flex items-center justify-center w-10 h-10 min-h-[44px] min-w-[44px] flex-shrink-0 touch-manipulation -ml-1"
-            aria-label={showActions ? 'Hide actions' : 'Show actions'}
-          >
-            <ChevronUp className={cn(
-              "w-5 h-5 text-muted-foreground transition-transform",
-              showActions && "rotate-180"
-            )} />
-          </button>
-
-          {/* Cover art */}
-          <div className="relative flex-shrink-0">
-            {track.cover_url ? (
-              <motion.img
-                src={track.cover_url}
-                alt={track.title || 'Track cover'}
-                className="w-11 h-11 sm:w-12 sm:h-12 rounded-lg object-cover ring-1 ring-white/10"
-                animate={isPlaying ? { scale: [1, 1.02, 1] } : { scale: 1 }}
-                transition={{ duration: 2, repeat: Infinity }}
-              />
-            ) : (
-              <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-lg bg-gradient-to-br from-primary/30 to-primary/5 flex items-center justify-center ring-1 ring-white/10">
-                <Music2 className="w-5 h-5 text-primary/60" />
-              </div>
-            )}
-            
-            {/* Playing indicator */}
-            {isPlaying && (
-              <motion.div
-                className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 flex gap-0.5"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-              >
-                {[0, 1, 2].map((i) => (
-                  <motion.div
-                    key={i}
-                    className="w-0.5 bg-primary rounded-full"
-                    animate={{ height: [3, 8, 3] }}
-                    transition={{
-                      duration: 0.5,
-                      repeat: Infinity,
-                      delay: i * 0.1,
-                    }}
-                  />
-                ))}
-              </motion.div>
-            )}
-          </div>
-
-          {/* Track info */}
-          <div className="flex-1 min-w-0 text-left">
-            <p className="font-medium text-sm line-clamp-1">
-              {track.title || 'Untitled Track'}
-            </p>
-            <p className="text-xs text-muted-foreground line-clamp-1">
-              {track.style || 'Unknown Style'}
-            </p>
-          </div>
-
-          {/* Controls */}
-          <div className="flex items-center gap-0.5 flex-shrink-0">
-            {/* Action buttons - show on toggle */}
-            <AnimatePresence>
-              {showActions && (
+          {/* Row 2: Cover + Info + Actions */}
+          <div className="flex items-center gap-2 px-3 pb-3">
+            {/* Cover art */}
+            <div 
+              onClick={handleExpand}
+              className="relative flex-shrink-0 cursor-pointer"
+            >
+              {track.cover_url ? (
+                <motion.img
+                  src={track.cover_url}
+                  alt={track.title || 'Track cover'}
+                  className="w-11 h-11 rounded-lg object-cover ring-1 ring-white/10"
+                  animate={isPlaying ? { scale: [1, 1.02, 1] } : { scale: 1 }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                />
+              ) : (
+                <div className="w-11 h-11 rounded-lg bg-gradient-to-br from-primary/30 to-primary/5 flex items-center justify-center ring-1 ring-white/10">
+                  <Music2 className="w-5 h-5 text-primary/60" />
+                </div>
+              )}
+              
+              {/* Playing indicator */}
+              {isPlaying && (
                 <motion.div
-                  initial={{ opacity: 0, x: 10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 10 }}
-                  transition={{ duration: 0.2 }}
-                  className="flex items-center gap-0.5"
+                  className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 flex gap-0.5"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
                 >
-                  {/* Like button */}
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={handleLike}
-                    className={cn(
-                      "h-10 w-10 min-h-[44px] min-w-[44px] rounded-full hover:bg-muted/50",
-                      track.is_liked && "text-red-500"
-                    )}
-                    aria-label={track.is_liked ? 'Unlike' : 'Like'}
-                  >
-                    <Heart className={cn("h-4 w-4", track.is_liked && "fill-current")} />
-                  </Button>
-
-                  {/* Add to Playlist button */}
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={handleAddToPlaylist}
-                    className="h-10 w-10 min-h-[44px] min-w-[44px] rounded-full hover:bg-muted/50"
-                    aria-label="Add to playlist"
-                  >
-                    <ListPlus className="h-4 w-4" />
-                  </Button>
-
-                  {/* Download button - hidden on mobile */}
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={handleDownload}
-                    className="h-10 w-10 min-h-[44px] min-w-[44px] rounded-full hover:bg-muted/50 hidden sm:flex"
-                    aria-label="Download"
-                    disabled={!track.audio_url && !track.streaming_url}
-                  >
-                    <Download className="h-4 w-4" />
-                  </Button>
-
-                  {/* More Actions Menu */}
-                  <div onClick={(e) => e.stopPropagation()}>
-                    <UnifiedTrackMenu track={track} />
-                  </div>
+                  {[0, 1, 2].map((i) => (
+                    <motion.div
+                      key={i}
+                      className="w-0.5 bg-primary rounded-full"
+                      animate={{ height: [3, 8, 3] }}
+                      transition={{
+                        duration: 0.5,
+                        repeat: Infinity,
+                        delay: i * 0.1,
+                      }}
+                    />
+                  ))}
                 </motion.div>
               )}
-            </AnimatePresence>
+            </div>
 
-            {/* Previous track button - HIDDEN ON MOBILE */}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handlePreviousTrack}
-              className="h-10 w-10 min-h-[44px] min-w-[44px] rounded-full hover:bg-muted/50 hidden sm:flex"
-              aria-label="Previous track"
+            {/* Track info */}
+            <div 
+              onClick={handleExpand}
+              className="flex-1 min-w-0 text-left cursor-pointer"
             >
-              <SkipBack className="h-4 w-4" />
-            </Button>
+              <p className="font-medium text-sm line-clamp-1">
+                {track.title || 'Untitled Track'}
+              </p>
+              <p className="text-xs text-muted-foreground line-clamp-1">
+                {track.style || 'Unknown Style'}
+              </p>
+            </div>
 
-            {/* Play/Pause button */}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handlePlayPause}
-              className="h-11 w-11 min-h-[44px] min-w-[44px] rounded-full bg-primary/10 hover:bg-primary/20"
-              aria-label={isPlaying ? 'Pause' : 'Play'}
-            >
-              {isPlaying ? (
-                <Pause className="h-5 w-5" fill="currentColor" />
-              ) : (
-                <Play className="h-5 w-5 ml-0.5" fill="currentColor" />
-              )}
-            </Button>
+            {/* Action buttons: Like + Playlist */}
+            <div className="flex items-center gap-0.5 flex-shrink-0">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleLike}
+                className={cn(
+                  "h-9 w-9 min-h-[44px] min-w-[44px] rounded-full hover:bg-muted/50",
+                  track.is_liked && "text-red-500"
+                )}
+                aria-label={track.is_liked ? 'Unlike' : 'Like'}
+              >
+                <Heart className={cn("h-4 w-4", track.is_liked && "fill-current")} />
+              </Button>
 
-            {/* Next track button */}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleNextTrack}
-              className="h-10 w-10 min-h-[44px] min-w-[44px] rounded-full hover:bg-muted/50"
-              aria-label="Next track"
-            >
-              <SkipForward className="h-4 w-4" />
-            </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleAddToPlaylist}
+                className="h-9 w-9 min-h-[44px] min-w-[44px] rounded-full hover:bg-muted/50"
+                aria-label="Add to playlist"
+              >
+                <ListPlus className="h-4 w-4" />
+              </Button>
+            </div>
 
-            {/* Close button - RIGHT SIDE */}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleClose}
-              className="h-10 w-10 min-h-[44px] min-w-[44px] rounded-full hover:bg-muted/50 -mr-1"
-              aria-label="Close player"
-            >
-              <X className="h-4 w-4" />
-            </Button>
+            {/* Playback controls */}
+            <div className="flex items-center gap-0.5 flex-shrink-0 border-l border-border/30 pl-2">
+              {/* Play/Pause button */}
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handlePlayPause}
+                className="h-10 w-10 min-h-[44px] min-w-[44px] rounded-full bg-primary/10 hover:bg-primary/20"
+                aria-label={isPlaying ? 'Pause' : 'Play'}
+              >
+                {isPlaying ? (
+                  <Pause className="h-5 w-5" fill="currentColor" />
+                ) : (
+                  <Play className="h-5 w-5 ml-0.5" fill="currentColor" />
+                )}
+              </Button>
+
+              {/* Next track button */}
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleNextTrack}
+                className="h-9 w-9 min-h-[44px] min-w-[44px] rounded-full hover:bg-muted/50"
+                aria-label="Next track"
+              >
+                <SkipForward className="h-4 w-4" />
+              </Button>
+
+              {/* More menu */}
+              <div onClick={(e) => e.stopPropagation()}>
+                <UnifiedTrackMenu 
+                  track={track}
+                  trigger={
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-9 w-9 min-h-[44px] min-w-[44px] rounded-full hover:bg-muted/50"
+                      aria-label="More options"
+                    >
+                      <MoreHorizontal className="h-4 w-4" />
+                    </Button>
+                  }
+                />
+              </div>
+
+              {/* Close button */}
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleClose}
+                className="h-9 w-9 min-h-[44px] min-w-[44px] rounded-full hover:bg-muted/50"
+                aria-label="Close player"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
-        </motion.div>
-        
-        {/* Swipe hint - subtle indicator */}
-        <motion.div 
-          className="flex justify-center mt-1"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.5 }}
-          transition={{ delay: 1 }}
-        >
-          <span className="text-[10px] text-muted-foreground/50">↑ свайп вверх</span>
         </motion.div>
       </motion.div>
 
