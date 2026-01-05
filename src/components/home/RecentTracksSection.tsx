@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
 import { motion } from '@/lib/motion';
 import { useNavigate } from 'react-router-dom';
-import { Clock, ChevronRight, Play, Pause, Music2, Disc3 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Clock, Play, Pause, Music2, Disc3 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { useTracks } from '@/hooks/useTracks';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { cn } from '@/lib/utils';
+import { SectionHeader } from '@/components/common/SectionHeader';
 
 interface RecentTracksSectionProps {
   className?: string;
@@ -70,30 +70,15 @@ export function RecentTracksSection({ className, maxTracks = 4 }: RecentTracksSe
 
   return (
     <section className={cn("space-y-4", className)}>
-      {/* Enhanced Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <motion.div 
-            className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500/20 to-cyan-500/10 flex items-center justify-center border border-blue-500/20"
-            whileHover={{ scale: 1.05 }}
-          >
-            <Clock className="w-4 h-4 text-blue-400" />
-          </motion.div>
-          <div>
-            <h2 className="text-base font-bold text-gradient">Недавние</h2>
-            <p className="text-xs text-muted-foreground">Ваши последние треки</p>
-          </div>
-        </div>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => navigate('/library')}
-          className="h-8 px-3 gap-1.5 text-xs text-muted-foreground hover:text-foreground hover:bg-primary/10 rounded-xl"
-        >
-          Все
-          <ChevronRight className="w-3.5 h-3.5" />
-        </Button>
-      </div>
+      <SectionHeader
+        icon={Clock}
+        iconColor="text-blue-400"
+        iconGradient="from-blue-500/20 to-cyan-500/10"
+        title="Недавние"
+        subtitle="Ваши последние треки"
+        showMoreLink="/library"
+        showMoreLabel="Все"
+      />
 
       {/* Enhanced Grid */}
       <div className="grid grid-cols-2 gap-3">
