@@ -9,10 +9,15 @@
  * - Download for sharing
  * 
  * Integrates with Telegram Mini App API for native sharing
+ * 
+ * ARCHITECTURE:
+ * - Mobile (<768px): Uses MobileActionSheet for iOS-style UX
+ * - Desktop (>=768px): Uses Sheet/Dialog pattern
  */
 
 import { useState } from 'react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
+import { MobileActionSheet } from '@/components/mobile/MobileActionSheet';
 import { Button } from '@/components/ui/button';
 import { 
   MessageCircle, 
@@ -27,6 +32,7 @@ import { notify } from '@/lib/notifications';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { logger } from '@/lib/logger';
 import { cn } from '@/lib/utils';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 
 interface ShareSheetProps {
   open: boolean;
@@ -46,6 +52,7 @@ export function ShareSheet({ open, onOpenChange, item, itemType = 'track' }: Sha
   const { shareToStory, shareURL, hapticFeedback } = useTelegram();
   const [showQR, setShowQR] = useState(false);
   const [qrCode, setQrCode] = useState<string | null>(null);
+  const isMobile = useMediaQuery('(max-width: 767px)');
 
   // Generate deep link
   const getDeepLink = () => {
@@ -190,6 +197,132 @@ export function ShareSheet({ open, onOpenChange, item, itemType = 'track' }: Sha
     link.click();
     notify.success('QR код сохранён');
   };
+
+  // Build action groups for MobileActionSheet
+  const buildActionGroups = () => {
+    const groups: Array<{
+      title?: string;
+      actions: Array<{
+        label: string;
+        icon: React.ReactNode;
+        onClick: () => void;
+        variant?: 'default' | 'destructive' | 'muted';
+        disabled?: boolean;
+      }>;
+    }> = [];
+
+    // Primary actions group
+    const primaryActions = [];
+
+    // Share to Chat
+    primaryActions.push({
+      label: 'Отправить в чат',
+      icon: <MessageCircle className="w-5 h-5" />,
+      onClick: handleShareToChat,
+    });
+
+    // Share to Story
+    if (typeof shareToStory === 'function' && item.coverUrl) {
+      primaryActions.push({
+        label: 'Опубликовать в Stories',
+        icon: <Sparkles className="w-5 h-5" />,
+        onClick: handleShareToStory,
+      });
+    }
+
+    groups.push({
+      title: 'Telegram',
+      actions: primaryActions,
+    });
+
+    // Link actions group
+    const linkActions = [
+      {
+        label: 'Скопировать ссылку',
+        icon: <LinkIcon className="w-5 h-5" />,
+        onClick: handleCopyLink,
+      },
+    ];
+
+    // QR Code action
+    if (!showQR) {
+      linkActions.push({
+        label: 'Показать QR код',
+        icon: <QrCode className="w-5 h-5" />,
+        onClick: handleShowQR,
+      });
+    }
+
+    groups.push({
+      title: 'Ссылки',
+      actions: linkActions,
+    });
+
+    return groups;
+  };
+
+  // Mobile version - MobileActionSheet
+  if (isMobile) {
+    return (
+      <>
+        <MobileActionSheet
+          open={open && !showQR}
+          onOpenChange={onOpenChange}
+          title="Поделиться"
+          description={item.title}
+          groups={buildActionGroups()}
+          showCancel={true}
+          cancelLabel="Отмена"
+        />
+
+        {/* QR Code Modal for Mobile */}
+        {showQR && qrCode && (
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] flex items-center justify-center p-4" onClick={() => setShowQR(false)}>
+            <div 
+              className="bg-card rounded-2xl p-6 max-w-sm w-full space-y-4"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="text-center">
+                <h3 className="text-lg font-semibold mb-1">QR код</h3>
+                <p className="text-sm text-muted-foreground">{item.title}</p>
+              </div>
+              
+              <div className="flex flex-col items-center gap-3">
+                <img 
+                  src={qrCode} 
+                  alt="QR Code" 
+                  className="w-64 h-64 bg-white p-3 rounded-lg"
+                />
+                <p className="text-xs text-center text-muted-foreground">
+                  Отсканируйте для быстрого доступа
+                </p>
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <Button
+                  onClick={handleDownloadQR}
+                  variant="default"
+                  className="w-full h-12 gap-2"
+                >
+                  <Download className="w-4 h-4" />
+                  Сохранить QR код
+                </Button>
+                <Button
+                  onClick={() => setShowQR(false)}
+                  variant="outline"
+                  className="w-full h-12"
+                >
+                  Закрыть
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
+      </>
+    );
+  }
+
+  // Desktop version - Sheet pattern
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
