@@ -17,3 +17,7 @@ export { MinimalProjectTrackItem } from './MinimalProjectTrackItem';
 export { ProjectInfoCard } from './ProjectInfoCard';
 export { ProjectProgressRing } from './ProjectProgressRing';
 export { ProjectReadinessIndicator } from './ProjectReadinessIndicator';
+
+// Editors
+export { VisualStyleEditor } from './VisualStyleEditor';
+export { TrackParamsEditor } from './TrackParamsEditor';

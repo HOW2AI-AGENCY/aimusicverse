@@ -1704,6 +1704,7 @@ export type Database = {
           banner_prompt: string | null
           banner_url: string | null
           bpm_range: unknown
+          color_palette: Json | null
           concept: string | null
           context_vector: Json | null
           copyright_info: string | null
@@ -1713,6 +1714,7 @@ export type Database = {
           description: string | null
           genre: string | null
           id: string
+          image_style: string | null
           is_commercial: boolean | null
           is_public: boolean | null
           key_signature: string | null
@@ -1731,9 +1733,11 @@ export type Database = {
           title: string
           total_tracks_count: number | null
           type: string | null
+          typography_style: string | null
           updated_at: string | null
           user_id: string
           visual_aesthetic: string | null
+          visual_keywords: string[] | null
         }
         Insert: {
           ai_context?: Json | null
@@ -1741,6 +1745,7 @@ export type Database = {
           banner_prompt?: string | null
           banner_url?: string | null
           bpm_range?: unknown
+          color_palette?: Json | null
           concept?: string | null
           context_vector?: Json | null
           copyright_info?: string | null
@@ -1750,6 +1755,7 @@ export type Database = {
           description?: string | null
           genre?: string | null
           id?: string
+          image_style?: string | null
           is_commercial?: boolean | null
           is_public?: boolean | null
           key_signature?: string | null
@@ -1768,9 +1774,11 @@ export type Database = {
           title: string
           total_tracks_count?: number | null
           type?: string | null
+          typography_style?: string | null
           updated_at?: string | null
           user_id: string
           visual_aesthetic?: string | null
+          visual_keywords?: string[] | null
         }
         Update: {
           ai_context?: Json | null
@@ -1778,6 +1786,7 @@ export type Database = {
           banner_prompt?: string | null
           banner_url?: string | null
           bpm_range?: unknown
+          color_palette?: Json | null
           concept?: string | null
           context_vector?: Json | null
           copyright_info?: string | null
@@ -1787,6 +1796,7 @@ export type Database = {
           description?: string | null
           genre?: string | null
           id?: string
+          image_style?: string | null
           is_commercial?: boolean | null
           is_public?: boolean | null
           key_signature?: string | null
@@ -1805,9 +1815,11 @@ export type Database = {
           title?: string
           total_tracks_count?: number | null
           type?: string | null
+          typography_style?: string | null
           updated_at?: string | null
           user_id?: string
           visual_aesthetic?: string | null
+          visual_keywords?: string[] | null
         }
         Relationships: [
           {
@@ -2350,10 +2362,15 @@ export type Database = {
       }
       project_tracks: {
         Row: {
+          bpm_target: number | null
           collab_artist_id: string | null
           created_at: string | null
           duration_target: number | null
+          energy_level: number | null
+          generation_params: Json | null
           id: string
+          instrumental_only: boolean | null
+          key_signature: string | null
           lyrics: string | null
           lyrics_status: string | null
           notes: string | null
@@ -2361,17 +2378,24 @@ export type Database = {
           project_id: string
           recommended_structure: string | null
           recommended_tags: string[] | null
+          reference_url: string | null
           status: string | null
           style_prompt: string | null
           title: string
           track_id: string | null
           updated_at: string | null
+          vocal_style: string | null
         }
         Insert: {
+          bpm_target?: number | null
           collab_artist_id?: string | null
           created_at?: string | null
           duration_target?: number | null
+          energy_level?: number | null
+          generation_params?: Json | null
           id?: string
+          instrumental_only?: boolean | null
+          key_signature?: string | null
           lyrics?: string | null
           lyrics_status?: string | null
           notes?: string | null
@@ -2379,17 +2403,24 @@ export type Database = {
           project_id: string
           recommended_structure?: string | null
           recommended_tags?: string[] | null
+          reference_url?: string | null
           status?: string | null
           style_prompt?: string | null
           title: string
           track_id?: string | null
           updated_at?: string | null
+          vocal_style?: string | null
         }
         Update: {
+          bpm_target?: number | null
           collab_artist_id?: string | null
           created_at?: string | null
           duration_target?: number | null
+          energy_level?: number | null
+          generation_params?: Json | null
           id?: string
+          instrumental_only?: boolean | null
+          key_signature?: string | null
           lyrics?: string | null
           lyrics_status?: string | null
           notes?: string | null
@@ -2397,11 +2428,13 @@ export type Database = {
           project_id?: string
           recommended_structure?: string | null
           recommended_tags?: string[] | null
+          reference_url?: string | null
           status?: string | null
           style_prompt?: string | null
           title?: string
           track_id?: string | null
           updated_at?: string | null
+          vocal_style?: string | null
         }
         Relationships: [
           {
