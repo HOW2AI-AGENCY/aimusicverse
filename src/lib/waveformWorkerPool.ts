@@ -20,6 +20,7 @@ class WaveformWorkerPool {
   private pendingTasks: Map<string, PendingTask> = new Map();
   private taskQueue: Array<{ audioUrl: string; id: string }> = [];
   private busyWorkers: Set<number> = new Set();
+  private workerTaskMap: Map<number, string> = new Map(); // Track which worker is processing which task
   private initialized = false;
   
   constructor() {
@@ -39,28 +40,60 @@ class WaveformWorkerPool {
         );
         
         worker.onmessage = (event) => {
-          const { type, id, peaks, audioUrl, error } = event.data;
-          
-          const task = this.pendingTasks.get(id);
-          if (!task) return;
-          
-          this.pendingTasks.delete(id);
-          this.busyWorkers.delete(i);
-          
-          if (type === 'result' && peaks) {
-            // Cache the result
-            saveWaveform(audioUrl, peaks).catch(() => {});
-            task.resolve(peaks);
-          } else if (type === 'error') {
-            task.reject(new Error(error || 'Worker error'));
+          try {
+            const { type, id, peaks, audioUrl, error } = event.data;
+            
+            const task = this.pendingTasks.get(id);
+            if (!task) return;
+            
+            this.pendingTasks.delete(id);
+            this.busyWorkers.delete(i);
+            this.workerTaskMap.delete(i);
+            
+            if (type === 'result' && peaks) {
+              // Cache the result
+              saveWaveform(audioUrl, peaks).catch(() => {});
+              task.resolve(peaks);
+            } else if (type === 'error') {
+              task.reject(new Error(error || 'Worker error'));
+            } else {
+              // Unexpected message type
+              task.reject(new Error('Unexpected worker message type'));
+            }
+            
+            // Process next task in queue
+            this.processQueue();
+          } catch (error) {
+            logger.error('Error processing worker message', { workerIndex: i, error });
+            // Try to clean up this worker's task
+            const taskId = this.workerTaskMap.get(i);
+            if (taskId) {
+              const task = this.pendingTasks.get(taskId);
+              if (task) {
+                this.pendingTasks.delete(taskId);
+                task.reject(new Error('Error processing worker response'));
+              }
+              this.workerTaskMap.delete(i);
+            }
+            this.busyWorkers.delete(i);
+            this.processQueue();
           }
-          
-          // Process next task in queue
-          this.processQueue();
         };
         
         worker.onerror = (error) => {
           logger.error('Waveform worker error', { workerIndex: i, error });
+          
+          // Clean up the specific task that was being processed by this worker
+          const taskId = this.workerTaskMap.get(i);
+          if (taskId) {
+            const task = this.pendingTasks.get(taskId);
+            if (task) {
+              this.pendingTasks.delete(taskId);
+              task.reject(new Error('Worker crashed during waveform generation'));
+            }
+            this.workerTaskMap.delete(i);
+          }
+          
           this.busyWorkers.delete(i);
           this.processQueue();
         };
@@ -82,6 +115,7 @@ class WaveformWorkerPool {
       if (!this.busyWorkers.has(i) && this.taskQueue.length > 0) {
         const task = this.taskQueue.shift()!;
         this.busyWorkers.add(i);
+        this.workerTaskMap.set(i, task.id); // Track which worker is processing this task
         
         this.workers[i].postMessage({
           type: 'generate',
@@ -203,6 +237,7 @@ class WaveformWorkerPool {
     this.pendingTasks.clear();
     this.taskQueue = [];
     this.busyWorkers.clear();
+    this.workerTaskMap.clear();
     this.initialized = false;
   }
 }
