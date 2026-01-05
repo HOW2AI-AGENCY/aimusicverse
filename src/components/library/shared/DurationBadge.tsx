@@ -12,9 +12,9 @@ interface DurationBadgeProps {
  * DurationBadge - Reusable duration display component
  * 
  * Used in:
- * - TrackCard (cover overlay)
- * - PublicTrackCard (cover overlay)
- * - MinimalTrackCard
+ * - UnifiedTrackCard
+ * - TrackCover
+ * - TrackCard (legacy)
  * - Player components
  */
 export const DurationBadge = memo(function DurationBadge({ 

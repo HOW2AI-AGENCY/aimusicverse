@@ -1,3 +1,10 @@
+/**
+ * @deprecated Use UnifiedTrackCard from '@/components/track' instead
+ * This component is kept for backward compatibility but will be removed in future.
+ * 
+ * Migration: Replace with UnifiedTrackCard variant="grid" or variant="list"
+ */
+
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';

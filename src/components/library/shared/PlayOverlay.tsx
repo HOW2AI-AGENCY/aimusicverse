@@ -22,9 +22,9 @@ const SIZE_CONFIG = {
  * PlayOverlay - Reusable play/pause overlay for track covers
  * 
  * Used in:
- * - TrackCard (list and grid)
- * - PublicTrackCard
- * - MinimalTrackCard
+ * - TrackCover (new unified component)
+ * - UnifiedTrackCard
+ * - TrackCard (legacy)
  */
 export const PlayOverlay = memo(function PlayOverlay({ 
   isPlaying, 
