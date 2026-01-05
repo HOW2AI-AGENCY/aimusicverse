@@ -262,35 +262,40 @@
 
 #### Implementation for User Story 3
 
-- [ ] T023 [P] [US3] Fix touch targets in Generate form inputs in `src/components/generate-form/GenerateForm.tsx`
+- [x] T023 [P] [US3] Fix touch targets in Generate form inputs in `src/components/generate-form/GenerateForm.tsx`
   - **Acceptance**: All input fields minimum 44px height, labels above inputs for better touch targeting
   - **Estimate**: 2 hours
   - **Rollback**: Revert GenerateForm.tsx input styling
   - **Priority**: P0 (primary feature)
+  - **Completed**: 2026-01-05 - Fixed in GenerateFormSimple.tsx, TitleSection.tsx, VocalsToggle.tsx, and FormFieldToolbar.tsx
 
-- [ ] T024 [P] [US3] Fix touch targets in Generate form buttons in `src/components/generate-form/GenerateForm.tsx`
+- [x] T024 [P] [US3] Fix touch targets in Generate form buttons in `src/components/generate-form/GenerateForm.tsx`
   - **Acceptance**: Submit button minimum 48px height, secondary buttons 44px height
   - **Estimate**: 1 hour
   - **Rollback**: Revert button sizing
   - **Priority**: P0
+  - **Completed**: 2026-01-05 - All buttons meet requirements (submit: 48px, actions: 48px, toolbar: 44px)
 
-- [ ] T025 [US3] Enhance auto-save functionality in `src/hooks/useGenerateDraft.ts`
+- [x] T025 [US3] Enhance auto-save functionality in `src/hooks/useGenerateDraft.ts`
   - **Acceptance**: Drafts save every 2 seconds after user stops typing, expiry 30 minutes, version number for migration
   - **Estimate**: 2 hours
   - **Rollback**: Revert useGenerateDraft.ts changes
   - **Dependencies**: T023, T024 (form structure stable)
+  - **Completed**: 2026-01-05 - Added autoSaveDraft() with 2s debounce, version number for compatibility, isAutoSaving indicator
 
-- [ ] T026 [US3] Add inline validation messages in `src/components/generate-form/GenerateForm.tsx`
+- [x] T026 [US3] Add inline validation messages in `src/components/generate-form/GenerateForm.tsx`
   - **Acceptance**: Validation errors appear next to affected fields, clear error messages, WCAG AA compliant color contrast
   - **Estimate**: 2 hours
   - **Rollback**: Remove validation message components
   - **Dependencies**: T025
+  - **Completed**: 2026-01-05 - Created ValidationMessage component with WCAG AA compliant colors, added validation for description/title fields
 
-- [ ] T027 [US3] Add loading state to submit button in `src/components/generate-form/GenerateForm.tsx`
+- [x] T027 [US3] Add loading state to submit button in `src/components/generate-form/GenerateForm.tsx`
   - **Acceptance**: Button shows spinner during submission, disabled state, Telegram haptic feedback fires
   - **Estimate**: 1 hour
   - **Rollback**: Revert button loading state
   - **Dependencies**: T026
+  - **Completed**: 2026-01-05 - Already implemented: Loading spinner, disabled state, and haptic feedback on submit
 
 **US3 Checkpoint**: Generation form fully functional with auto-save, validation, and touch-friendly controls
 
