@@ -9,6 +9,8 @@ import { Button } from '@/components/ui/button';
 import { Search, SlidersHorizontal, X, Music2, Mic, Volume2, Layers } from 'lucide-react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { LibraryFilterModal } from './LibraryFilterModal';
 
 type FilterOption = 'all' | 'vocals' | 'instrumental' | 'stems';
 type SortOption = 'recent' | 'popular' | 'liked';
@@ -52,8 +54,10 @@ export const CompactFilterBar = memo(function CompactFilterBar({
   counts,
   className,
 }: CompactFilterBarProps) {
+  const isMobile = useIsMobile();
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [showSortMenu, setShowSortMenu] = useState(false);
+  const [showFilterModal, setShowFilterModal] = useState(false);
 
   return (
     <div className={cn("space-y-2", className)}>
@@ -63,14 +67,15 @@ export const CompactFilterBar = memo(function CompactFilterBar({
           "relative flex-1 transition-all duration-200",
           isSearchFocused && "flex-[2]"
         )}>
-          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
+          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground pointer-events-none" />
           <Input
             placeholder="Поиск..."
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
             onFocus={() => setIsSearchFocused(true)}
             onBlur={() => setIsSearchFocused(false)}
-            className="pl-8 pr-8 h-9 text-sm rounded-lg bg-card/50"
+            className="pl-8 pr-8 h-9 text-sm rounded-lg bg-card/50 min-h-[44px] md:min-h-[36px]"
+            aria-label="Поиск треков"
           />
           <AnimatePresence>
             {searchQuery && (
@@ -78,8 +83,9 @@ export const CompactFilterBar = memo(function CompactFilterBar({
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.8 }}
-                className="absolute right-2 top-1/2 -translate-y-1/2 p-1 hover:bg-muted rounded-full"
+                className="absolute right-2 top-1/2 -translate-y-1/2 p-1 hover:bg-muted rounded-full min-w-[28px] min-h-[28px] flex items-center justify-center"
                 onClick={() => onSearchChange('')}
+                aria-label="Очистить поиск"
               >
                 <X className="w-3 h-3 text-muted-foreground" />
               </motion.button>
@@ -88,57 +94,73 @@ export const CompactFilterBar = memo(function CompactFilterBar({
         </div>
 
         {/* Sort Button */}
-        <div className="relative">
+        {isMobile ? (
+          /* On mobile: Open filter modal with both filter and sort options */
           <Button
             variant="outline"
             size="sm"
-            className="h-9 gap-1.5 px-2.5 text-xs"
-            onClick={() => setShowSortMenu(!showSortMenu)}
+            className="h-9 gap-1.5 px-2.5 text-xs min-h-[44px] min-w-[44px]"
+            onClick={() => setShowFilterModal(true)}
+            aria-label="Фильтры и сортировка"
           >
-            <SlidersHorizontal className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">
-              {SORTS.find(s => s.id === sortBy)?.label}
-            </span>
+            <SlidersHorizontal className="w-4 h-4" />
+            <span className="sr-only">Фильтры</span>
           </Button>
+        ) : (
+          /* On desktop: Keep existing dropdown behavior */
+          <div className="relative">
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-9 gap-1.5 px-2.5 text-xs"
+              onClick={() => setShowSortMenu(!showSortMenu)}
+              aria-label="Сортировка"
+            >
+              <SlidersHorizontal className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">
+                {SORTS.find(s => s.id === sortBy)?.label}
+              </span>
+            </Button>
 
-          <AnimatePresence>
-            {showSortMenu && (
-              <>
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="fixed inset-0 z-40"
-                  onClick={() => setShowSortMenu(false)}
-                />
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95, y: -5 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95, y: -5 }}
-                  className="absolute right-0 top-full mt-1 z-50 bg-popover border rounded-lg shadow-lg p-1 min-w-[120px]"
-                >
-                  {SORTS.map((sort) => (
-                    <button
-                      key={sort.id}
-                      className={cn(
-                        "w-full text-left px-3 py-2 text-xs rounded-md transition-colors",
-                        sortBy === sort.id
-                          ? "bg-primary text-primary-foreground"
-                          : "hover:bg-muted"
-                      )}
-                      onClick={() => {
-                        onSortChange(sort.id);
-                        setShowSortMenu(false);
-                      }}
-                    >
-                      {sort.label}
-                    </button>
-                  ))}
-                </motion.div>
-              </>
-            )}
-          </AnimatePresence>
-        </div>
+            <AnimatePresence>
+              {showSortMenu && (
+                <>
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="fixed inset-0 z-40"
+                    onClick={() => setShowSortMenu(false)}
+                  />
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95, y: -5 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95, y: -5 }}
+                    className="absolute right-0 top-full mt-1 z-50 bg-popover border rounded-lg shadow-lg p-1 min-w-[120px]"
+                  >
+                    {SORTS.map((sort) => (
+                      <button
+                        key={sort.id}
+                        className={cn(
+                          "w-full text-left px-3 py-2 text-xs rounded-md transition-colors",
+                          sortBy === sort.id
+                            ? "bg-primary text-primary-foreground"
+                            : "hover:bg-muted"
+                        )}
+                        onClick={() => {
+                          onSortChange(sort.id);
+                          setShowSortMenu(false);
+                        }}
+                      >
+                        {sort.label}
+                      </button>
+                    ))}
+                  </motion.div>
+                </>
+              )}
+            </AnimatePresence>
+          </div>
+        )}
       </div>
 
       {/* Filter Chips - Horizontal Scroll with improved touch targets */}
@@ -152,18 +174,20 @@ export const CompactFilterBar = memo(function CompactFilterBar({
               key={filter.id}
               whileTap={{ scale: 0.95 }}
               className={cn(
-                "flex items-center gap-1.5 px-3.5 py-2 rounded-full whitespace-nowrap text-xs font-medium transition-all flex-shrink-0 min-h-[36px]",
+                "flex items-center gap-1.5 px-3.5 py-2 rounded-full whitespace-nowrap text-xs font-medium transition-all flex-shrink-0 min-h-[44px] md:min-h-[36px] touch-manipulation",
                 isActive
                   ? "bg-primary text-primary-foreground shadow-md"
                   : "bg-muted/60 text-muted-foreground hover:text-foreground hover:bg-muted border border-border/50"
               )}
               onClick={() => onFilterChange(filter.id)}
+              aria-label={`Фильтр: ${filter.label}`}
+              aria-pressed={isActive}
             >
               {filter.icon}
               <span>{filter.label}</span>
               {count !== undefined && count > 0 && (
                 <span className={cn(
-                  "text-[10px] px-1 rounded-full min-w-[16px] text-center",
+                  "text-[10px] px-1 rounded-full min-w-[16px] text-center tabular-nums",
                   isActive ? "bg-white/20" : "bg-muted"
                 )}>
                   {count > 99 ? '99+' : count}
@@ -173,6 +197,17 @@ export const CompactFilterBar = memo(function CompactFilterBar({
           );
         })}
       </div>
+
+      {/* Filter Modal for Mobile */}
+      <LibraryFilterModal
+        open={showFilterModal}
+        onOpenChange={setShowFilterModal}
+        activeFilter={activeFilter}
+        onFilterChange={onFilterChange}
+        sortBy={sortBy}
+        onSortChange={onSortChange}
+        counts={counts}
+      />
     </div>
   );
 });

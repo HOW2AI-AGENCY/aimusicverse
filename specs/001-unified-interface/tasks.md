@@ -181,17 +181,19 @@
   - **Priority**: P0 (frequent interaction)
   - **Completed**: Menu button updated to h-11 w-11 (44px), desktop play button to w-10 h-10 with touch-target-44
 
-- [ ] T018 [P] [US2] Merge MinimalTrackCard and ProfessionalTrackRow into TrackCard variants in `src/components/track/TrackCard.tsx`
+- [x] T018 [P] [US2] Merge MinimalTrackCard and ProfessionalTrackRow into TrackCard variants in `src/components/track/TrackCard.tsx`
   - **Acceptance**: TrackCard supports `variant="default" | "compact" | "minimal" | "professional"`, old components deprecated
   - **Estimate**: 3 hours
   - **Rollback**: Restore MinimalTrackCard.tsx and ProfessionalTrackRow.tsx files, revert TrackCard.tsx
   - **Priority**: P2 (cleanup, not blocking)
+  - **Completed**: UnifiedTrackCard now supports all variants including professional glassmorphism design
 
-- [ ] T019 [US2] Add pull-to-refresh to VirtualizedTrackList in `src/components/library/VirtualizedTrackList.tsx`
+- [x] T019 [US2] Add pull-to-refresh to VirtualizedTrackList in `src/components/library/VirtualizedTrackList.tsx`
   - **Acceptance**: Pull-down gesture triggers refresh, loading indicator shown, haptic feedback fires
   - **Estimate**: 2 hours
   - **Rollback**: Remove pull-to-refresh code, feature flag off
   - **Dependencies**: T016, T017 (touch targets fixed)
+  - **Completed**: Pull-to-refresh implemented with touch handlers, animated indicator, and haptic feedback
 
 - [ ] T020 [US2] Apply VirtualizedTrackList to Playlists page in `src/pages/Playlists.tsx`
   - **Acceptance**: Playlist track lists use VirtualizedTrackList, smooth 60 FPS scrolling with 500+ tracks
@@ -199,13 +201,17 @@
   - **Rollback**: Revert Playlists.tsx to use .map(), disable VIRTUALIZED_LISTS_ENABLED flag
   - **Dependencies**: T019
   - **Priority**: P0 (performance critical)
+  - **Status**: ⚠️ BLOCKED - Playlists.tsx currently shows playlist cards, not track lists. No playlist detail view exists. Needs product decision on implementation approach.
+  - **Notes**: Research.md indicates P0 priority for "playlist track display" but current implementation doesn't have this feature yet.
 
-- [ ] T021 [US2] Apply VirtualizedTrackList to Community page in `src/pages/Community.tsx`
+- [x] T021 [US2] Apply VirtualizedTrackList to Community page in `src/pages/Community.tsx`
   - **Acceptance**: Community feed uses VirtualizedTrackList, infinite scroll works
   - **Estimate**: 2 hours
   - **Rollback**: Revert Community.tsx
   - **Dependencies**: T019
   - **Priority**: P0 (performance critical)
+  - **Status**: ✅ COMPLETE - Community.tsx now uses VirtuosoGrid for virtualized rendering with pull-to-refresh support
+  - **Completed**: 2026-01-05 - Replaced `.map()` rendering with VirtuosoGrid in both "tracks" and "popular" tabs. Added pull-to-refresh with haptic feedback. Supports both grid and list view modes.
 
 - [ ] T022 [US2] Performance test with Chrome DevTools on lists >500 items
   - **Acceptance**: Maintain 60 FPS during scrolling, memory usage <100MB increase
@@ -256,35 +262,40 @@
 
 #### Implementation for User Story 3
 
-- [ ] T023 [P] [US3] Fix touch targets in Generate form inputs in `src/components/generate-form/GenerateForm.tsx`
+- [x] T023 [P] [US3] Fix touch targets in Generate form inputs in `src/components/generate-form/GenerateForm.tsx`
   - **Acceptance**: All input fields minimum 44px height, labels above inputs for better touch targeting
   - **Estimate**: 2 hours
   - **Rollback**: Revert GenerateForm.tsx input styling
   - **Priority**: P0 (primary feature)
+  - **Completed**: 2026-01-05 - Fixed in GenerateFormSimple.tsx, TitleSection.tsx, VocalsToggle.tsx, and FormFieldToolbar.tsx
 
-- [ ] T024 [P] [US3] Fix touch targets in Generate form buttons in `src/components/generate-form/GenerateForm.tsx`
+- [x] T024 [P] [US3] Fix touch targets in Generate form buttons in `src/components/generate-form/GenerateForm.tsx`
   - **Acceptance**: Submit button minimum 48px height, secondary buttons 44px height
   - **Estimate**: 1 hour
   - **Rollback**: Revert button sizing
   - **Priority**: P0
+  - **Completed**: 2026-01-05 - All buttons meet requirements (submit: 48px, actions: 48px, toolbar: 44px)
 
-- [ ] T025 [US3] Enhance auto-save functionality in `src/hooks/useGenerateDraft.ts`
+- [x] T025 [US3] Enhance auto-save functionality in `src/hooks/useGenerateDraft.ts`
   - **Acceptance**: Drafts save every 2 seconds after user stops typing, expiry 30 minutes, version number for migration
   - **Estimate**: 2 hours
   - **Rollback**: Revert useGenerateDraft.ts changes
   - **Dependencies**: T023, T024 (form structure stable)
+  - **Completed**: 2026-01-05 - Added autoSaveDraft() with 2s debounce, version number for compatibility, isAutoSaving indicator
 
-- [ ] T026 [US3] Add inline validation messages in `src/components/generate-form/GenerateForm.tsx`
+- [x] T026 [US3] Add inline validation messages in `src/components/generate-form/GenerateForm.tsx`
   - **Acceptance**: Validation errors appear next to affected fields, clear error messages, WCAG AA compliant color contrast
   - **Estimate**: 2 hours
   - **Rollback**: Remove validation message components
   - **Dependencies**: T025
+  - **Completed**: 2026-01-05 - Created ValidationMessage component with WCAG AA compliant colors, added validation for description/title fields
 
-- [ ] T027 [US3] Add loading state to submit button in `src/components/generate-form/GenerateForm.tsx`
+- [x] T027 [US3] Add loading state to submit button in `src/components/generate-form/GenerateForm.tsx`
   - **Acceptance**: Button shows spinner during submission, disabled state, Telegram haptic feedback fires
   - **Estimate**: 1 hour
   - **Rollback**: Revert button loading state
   - **Dependencies**: T026
+  - **Completed**: 2026-01-05 - Already implemented: Loading spinner, disabled state, and haptic feedback on submit
 
 **US3 Checkpoint**: Generation form fully functional with auto-save, validation, and touch-friendly controls
 
@@ -300,36 +311,46 @@
 
 #### Implementation for User Story 4
 
-- [ ] T028 [P] [US4] Migrate Settings edit forms to ResponsiveModal in `src/pages/Settings.tsx`
+- [x] T028 [P] [US4] Migrate Settings edit forms to ResponsiveModal in `src/pages/Settings.tsx`
   - **Acceptance**: Profile edit, preferences, account settings use MobileBottomSheet on mobile, Dialog on desktop
   - **Estimate**: 2 hours
   - **Rollback**: Revert Settings.tsx, disable UNIFIED_MODALS_ENABLED flag
   - **Priority**: P1 (high-traffic page)
+  - **Status**: ✅ COMPLETE - **No work needed**: Settings.tsx uses inline Card forms, no modals present. All forms are already inline with proper touch targets (min-h-[44px] on inputs).
+  - **Completed**: 2026-01-05
 
-- [ ] T029 [P] [US4] Migrate Library filter modals to ResponsiveModal in `src/pages/Library.tsx`
+- [x] T029 [P] [US4] Migrate Library filter modals to ResponsiveModal in `src/pages/Library.tsx`
   - **Acceptance**: Sort/filter options use MobileBottomSheet on mobile, Popover on desktop
   - **Estimate**: 1.5 hours
   - **Rollback**: Revert Library.tsx filter components
   - **Priority**: P1
+  - **Status**: ✅ COMPLETE - Created LibraryFilterModal.tsx using ResponsiveModal pattern. Updated CompactFilterBar.tsx to open modal on mobile (min-h-[44px] button), keep inline popover on desktop. Filter modal includes both filter and sort options with proper touch targets (min-h-[56px] radio items, min-h-[44px]/[48px] buttons).
+  - **Completed**: 2026-01-05
 
-- [ ] T030 [P] [US4] Create playlist modal migration in `src/components/playlist/CreatePlaylistSheet.tsx`
+- [x] T030 [P] [US4] Create playlist modal migration in `src/components/playlist/CreatePlaylistSheet.tsx`
   - **Acceptance**: Use MobileBottomSheet with snapPoints [0.5, 0.9], swipe-to-dismiss enabled
   - **Estimate**: 2 hours
   - **Rollback**: Revert CreatePlaylistSheet.tsx
   - **Priority**: P0 (core feature)
+  - **Status**: ✅ COMPLETE - Migrated CreatePlaylistDialog.tsx from Dialog to ResponsiveModal with snapPoints [0.5, 0.9] and swipe-to-dismiss. Added Telegram haptic feedback (light/success/error). All inputs/buttons meet touch target requirements (min-h-[44px] inputs, min-h-[48px] primary button).
+  - **Completed**: 2026-01-05
 
-- [ ] T031 [P] [US4] Migrate ProfilePage edit modal in `src/pages/ProfilePage.tsx`
+- [x] T031 [P] [US4] Migrate ProfilePage edit modal in `src/pages/ProfilePage.tsx`
   - **Acceptance**: Profile edit uses ResponsiveModal, form validation works, auto-save enabled
   - **Estimate**: 2 hours
   - **Rollback**: Revert ProfilePage.tsx
   - **Priority**: P1
+  - **Status**: ✅ COMPLETE - **No work needed**: ProfilePage.tsx has no edit modal. Profile editing is done in Settings.tsx with inline forms (see T028).
+  - **Completed**: 2026-01-05
 
-- [ ] T032 [US4] Migrate track action menus to MobileActionSheet in `src/components/track/TrackMenu.tsx`
+- [x] T032 [US4] Migrate track action menus to MobileActionSheet in `src/components/track/TrackMenu.tsx`
   - **Acceptance**: Track 3-dot menu uses MobileActionSheet on mobile, DropdownMenu on desktop, destructive actions red
   - **Estimate**: 2 hours
   - **Rollback**: Revert TrackMenu.tsx
   - **Dependencies**: T028-T031 (other modals tested first)
   - **Priority**: P0 (frequent interaction)
+  - **Status**: ✅ COMPLETE - Updated UnifiedTrackMenu.tsx to use useIsMobile hook for conditional rendering. Mobile: Opens MobileActionSheet with proper touch targets (h-11 w-11 = 44px button). Desktop: Keeps DropdownMenu. Created MobileTrackActionSheet.tsx component that converts all track actions into ActionSheet groups with proper icons, destructive variants for delete actions, and haptic feedback.
+  - **Completed**: 2026-01-05
 
 - [ ] T033 [US4] Migrate share sheet to MobileActionSheet in `src/components/share/ShareSheet.tsx`
   - **Acceptance**: Share options use MobileActionSheet, Telegram native sharing integrated

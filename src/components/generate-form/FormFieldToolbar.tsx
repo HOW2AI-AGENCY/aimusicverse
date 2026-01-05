@@ -69,13 +69,13 @@ const ToolbarButton = memo(function ToolbarButton({
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        "h-6 w-6 p-0",
+        "h-11 w-11 min-w-[44px] p-0",
         variant === 'primary' && "text-primary hover:text-primary/80 hover:bg-primary/10",
         variant === 'success' && "text-green-500",
         className
       )}
     >
-      <Icon className="w-3 h-3" />
+      <Icon className="w-4 h-4" />
     </Button>
   );
 
@@ -213,13 +213,13 @@ export const FormFieldToolbar = memo(function FormFieldToolbar({
           size="icon"
           onClick={handleSave}
           disabled={isEmpty || saving}
-          className={cn("h-6 w-6 p-0", isEmpty && "opacity-40")}
+          className={cn("h-11 w-11 min-w-[44px] p-0", isEmpty && "opacity-40")}
           title="Сохранить"
         >
           {saving ? (
-            <Loader2 className="w-3 h-3 animate-spin" />
+            <Loader2 className="w-4 h-4 animate-spin" />
           ) : (
-            <Save className="w-3 h-3" />
+            <Save className="w-4 h-4" />
           )}
         </Button>
       )}
@@ -231,7 +231,7 @@ export const FormFieldToolbar = memo(function FormFieldToolbar({
           context={voiceContext}
           currentValue={value}
           appendMode={appendMode}
-          className="h-6 w-6 p-0"
+          className="h-11 w-11 min-w-[44px] p-0"
         />
       )}
       
@@ -244,16 +244,16 @@ export const FormFieldToolbar = memo(function FormFieldToolbar({
           onClick={onAIAssist}
           disabled={aiLoading}
           className={cn(
-            "h-6 gap-0.5 text-primary hover:text-primary/80 hover:bg-primary/10",
-            aiLabel ? "px-1.5" : "px-0 w-6"
+            "h-11 gap-1 text-primary hover:text-primary/80 hover:bg-primary/10",
+            aiLabel ? "px-3" : "px-0 w-11 min-w-[44px]"
           )}
         >
           {aiLoading ? (
-            <Loader2 className="w-3 h-3 animate-spin" />
+            <Loader2 className="w-4 h-4 animate-spin" />
           ) : (
-            <Sparkles className="w-3 h-3" />
+            <Sparkles className="w-4 h-4" />
           )}
-          {aiLabel && <span className="text-[10px] font-medium">{aiLabel}</span>}
+          {aiLabel && <span className="text-xs font-medium">{aiLabel}</span>}
         </Button>
       )}
     </div>
