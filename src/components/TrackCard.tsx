@@ -367,14 +367,15 @@ export const TrackCard = memo(({
                 {position}
               </Badge>
             )}
-            {/* Version Toggle - desktop only */}
-            {versionCount > 1 && !isMobile && (
+            {/* Version Toggle - all devices */}
+            {versionCount > 1 && (
               <InlineVersionToggle
                 trackId={track.id}
                 activeVersionId={track.active_version_id}
                 versionCount={versionCount}
                 trackOwnerId={track.user_id}
                 className="flex-shrink-0"
+                compact={isMobile}
               />
             )}
           </div>
