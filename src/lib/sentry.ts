@@ -12,7 +12,9 @@
 
 import * as Sentry from '@sentry/react';
 
-const SENTRY_DSN = import.meta.env.VITE_SENTRY_DSN;
+// DSN is safe to expose in client code - it only allows sending errors
+const SENTRY_DSN = import.meta.env.VITE_SENTRY_DSN || 
+  'https://c5b78ff8198243ead020079930e99dc0@o4510153936076800.ingest.de.sentry.io/4510651370242128';
 
 export const isSentryEnabled = !!SENTRY_DSN;
 
