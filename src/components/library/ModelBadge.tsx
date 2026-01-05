@@ -1,4 +1,4 @@
-import { Rocket, Gem, Target, Sparkles, LucideIcon } from 'lucide-react';
+import { Crown, Sparkles, LucideIcon } from 'lucide-react';
 import {
   Tooltip,
   TooltipContent,
@@ -18,31 +18,31 @@ interface ModelDisplayInfo {
 
 const MODEL_DISPLAY: Record<string, ModelDisplayInfo> = {
   'chirp-crow': { 
-    icon: Rocket, 
+    icon: Crown, 
     label: 'V5',
-    color: 'text-rose-500', 
-    bgColor: 'bg-rose-500/10',
+    color: 'text-yellow-400', 
+    bgColor: 'bg-yellow-400/15',
     desc: 'Новейшая модель'
   },
   'chirp-bluejay': { 
-    icon: Gem, 
+    icon: Crown, 
     label: 'V4.5+',
-    color: 'text-violet-500', 
-    bgColor: 'bg-violet-500/10',
+    color: 'text-amber-400', 
+    bgColor: 'bg-amber-400/12',
     desc: 'Богатый звук'
   },
   'chirp-auk': { 
-    icon: Target, 
+    icon: Sparkles, 
     label: 'V4.5',
-    color: 'text-blue-500', 
-    bgColor: 'bg-blue-500/10',
+    color: 'text-amber-500/80', 
+    bgColor: 'bg-amber-500/10',
     desc: 'Лучшая структура'
   },
   'chirp-v4': { 
     icon: Sparkles, 
     label: 'V4',
-    color: 'text-emerald-500', 
-    bgColor: 'bg-emerald-500/10',
+    color: 'text-zinc-400', 
+    bgColor: 'bg-zinc-400/10',
     desc: 'Классика'
   },
 };
