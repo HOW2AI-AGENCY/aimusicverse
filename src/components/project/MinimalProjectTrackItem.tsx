@@ -292,7 +292,7 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
             </div>
           )}
 
-          {/* Content */}
+            {/* Content */}
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-1">
               <span className={cn(
@@ -311,6 +311,27 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
                 {isMobile ? '' : statusConfig.label}
               </Badge>
             </div>
+            
+            {/* Track params indicators */}
+            {((track as any).bpm_target || (track as any).key_signature || (track as any).energy_level) && (
+              <div className="flex items-center gap-1 mt-0.5">
+                {(track as any).bpm_target && (
+                  <span className="text-[9px] text-muted-foreground bg-muted/50 px-1 rounded">
+                    {(track as any).bpm_target} BPM
+                  </span>
+                )}
+                {(track as any).key_signature && (
+                  <span className="text-[9px] text-muted-foreground bg-muted/50 px-1 rounded">
+                    {(track as any).key_signature}
+                  </span>
+                )}
+                {(track as any).energy_level && (
+                  <span className="text-[9px] text-muted-foreground bg-muted/50 px-1 rounded">
+                    ⚡{(track as any).energy_level}
+                  </span>
+                )}
+              </div>
+            )}
             
             {/* Hide style_prompt on mobile to save space */}
             {!isMobile && track.style_prompt && (
