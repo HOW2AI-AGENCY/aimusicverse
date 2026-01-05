@@ -10,7 +10,8 @@
       "Bash(powershell:*)",
       "Bash(mkdir:*)",
       "Bash(git checkout:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(ls:*)"
     ]
   }
 }
