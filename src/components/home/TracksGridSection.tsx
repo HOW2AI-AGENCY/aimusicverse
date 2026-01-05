@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { motion } from '@/lib/motion';
 import { LucideIcon } from 'lucide-react';
-import { TrackCardEnhanced } from './TrackCardEnhanced';
+import { UnifiedTrackCard } from '@/components/track/track-card-new';
 import type { PublicTrackWithCreator } from '@/hooks/usePublicContent';
 import { cn } from '@/lib/utils';
 import { SectionHeader } from '@/components/common/SectionHeader';
@@ -78,7 +78,8 @@ export const TracksGridSection = memo(function TracksGridSection({
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.03, duration: 0.25 }}
               >
-                <TrackCardEnhanced
+                <UnifiedTrackCard
+                  variant="enhanced"
                   track={track}
                   onRemix={onRemix}
                 />

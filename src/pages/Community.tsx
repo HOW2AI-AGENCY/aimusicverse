@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { usePublicContentBatch, PublicTrackWithCreator } from "@/hooks/usePublicContent";
 import { usePublicArtists } from "@/hooks/usePublicArtists";
-import { PublicTrackCard } from "@/components/home/PublicTrackCard";
+import { UnifiedTrackCard } from "@/components/track/track-card-new";
 import { ActorCard } from "@/components/actors/ActorCard";
 import { motion, AnimatePresence } from '@/lib/motion';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
@@ -402,8 +402,9 @@ export default function Community() {
                       Item: GridItemWrapper,
                     }}
                     itemContent={(index, track) => (
-                      <PublicTrackCard 
+                      <UnifiedTrackCard 
                         key={track.id}
+                        variant="enhanced"
                         track={track} 
                         compact={false} 
                       />
@@ -419,10 +420,10 @@ export default function Community() {
                       Item: GridItemWrapper,
                     }}
                     itemContent={(index, track) => (
-                      <PublicTrackCard 
+                      <UnifiedTrackCard 
                         key={track.id}
-                        track={track} 
-                        compact={true} 
+                        variant="compact"
+                        track={track as any}
                       />
                     )}
                   />
@@ -481,8 +482,9 @@ export default function Community() {
                         Item: GridItemWrapper,
                       }}
                       itemContent={(index, track) => (
-                        <PublicTrackCard 
+                        <UnifiedTrackCard 
                           key={track.id}
+                          variant="enhanced"
                           track={track} 
                           compact={false} 
                         />
@@ -498,10 +500,10 @@ export default function Community() {
                         Item: GridItemWrapper,
                       }}
                       itemContent={(index, track) => (
-                        <PublicTrackCard 
+                        <UnifiedTrackCard 
                           key={track.id}
-                          track={track} 
-                          compact={true} 
+                          variant="compact"
+                          track={track as any}
                         />
                       )}
                     />

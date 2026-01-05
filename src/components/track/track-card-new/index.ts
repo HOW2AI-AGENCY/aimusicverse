@@ -8,10 +8,20 @@
  * - minimal
  * - professional
  * - enhanced
+ * 
+ * This is the NEW unified track card that replaces:
+ * - TrackCard
+ * - MinimalTrackCard
+ * - PublicTrackCard
+ * - TrackCardEnhanced
+ * - Old UnifiedTrackCard
  */
 
-// Main component
+// Main component - use this for all track card needs
 export { UnifiedTrackCard } from './UnifiedTrackCard';
+
+// Re-export as aliases for easier migration
+export { UnifiedTrackCard as TrackCardNew } from './UnifiedTrackCard';
 
 // Types
 export type {
