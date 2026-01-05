@@ -23,25 +23,29 @@
 
 **Rollback Plan**: All tasks are preparatory and non-destructive. If issues arise, simply delete added files.
 
-- [ ] T001 Run production build and establish bundle size baseline using `npm run build && du -sh dist/`
+- [x] T001 Run production build and establish bundle size baseline using `npm run build && du -sh dist/`
   - **Acceptance**: Bundle size documented in KB with breakdown by chunk using vite-bundle-visualizer
   - **Estimate**: 2 hours
   - **Rollback**: N/A (read-only operation)
+  - **Completed**: Bundle: 1748 KB (798 KB over limit). Report: `bundle-baseline.md`
 
-- [ ] T002 [P] Create bundle size monitoring script in `.specify/scripts/check-bundle-size.sh`
+- [x] T002 [P] Create bundle size monitoring script in `.specify/scripts/check-bundle-size.sh`
   - **Acceptance**: Script exits with error if bundle >950KB, outputs size comparison
   - **Estimate**: 1 hour
   - **Rollback**: Delete script file
+  - **Completed**: Script created with top 10 chunks reporting and exit codes
 
-- [ ] T003 [P] Add feature flag system using environment variables in `src/lib/featureFlags.ts`
+- [x] T003 [P] Add feature flag system using environment variables in `src/lib/featureFlags.ts`
   - **Acceptance**: `useFeatureFlag(flagName)` hook returns boolean, flags configurable via `.env.local`
   - **Estimate**: 2 hours
   - **Rollback**: Delete featureFlags.ts, remove imports
+  - **Completed**: 19 feature flags with rollout percentage support and master kill switch
 
-- [ ] T004 [P] Create touch target validation utility in `src/lib/validation/touchTargets.ts`
+- [x] T004 [P] Create touch target validation utility in `src/lib/validation/touchTargets.ts`
   - **Acceptance**: `validateTouchTarget(width, height)` returns validation result with errors array
   - **Estimate**: 1.5 hours
   - **Rollback**: Delete file
+  - **Completed**: Validation functions, React hook, and page audit utility
 
 - [ ] T005 [P] Create migration tracking spreadsheet in `specs/001-unified-interface/migration-tracker.csv`
   - **Acceptance**: CSV contains all 991 components with status, priority, sprint columns
@@ -71,10 +75,11 @@
   - **Rollback**: Revert toneLoader.ts, restore direct imports
   - **Dependencies**: T001 (need baseline)
 
-- [ ] T008 [P] Create touch target utility classes in `src/styles/touch-targets.css`
+- [x] T008 [P] Create touch target utility classes in `src/styles/touch-targets.css`
   - **Acceptance**: Classes `touch-target-44`, `touch-target-48`, `touch-target-56` enforce minimum sizes
   - **Estimate**: 1 hour
   - **Rollback**: Delete CSS file, remove import
+  - **Completed**: CSS utilities for 44/48/56px targets, debug mode, and variants
 
 - [ ] T009 [P] Create ResponsiveModal wrapper component in `src/components/ui/responsive-modal.tsx`
   - **Acceptance**: Component auto-switches between Dialog (desktop) and MobileBottomSheet (mobile) based on viewport
