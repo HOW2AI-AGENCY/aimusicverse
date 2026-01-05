@@ -410,6 +410,14 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
     }
   }, [isPlaying, play, pause, audioEngine, pauseGlobalPlayer]);
 
+  // Track component mount state for cleanup
+  useEffect(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
+
   // Register studio audio for global coordination
   useEffect(() => {
     registerStudioAudio('studio-shell', () => {
@@ -562,6 +570,9 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
 
   // Load separated stems from database into the project (DAW) tracks
   const importedStemsForTrackRef = useRef<string | null>(null);
+  
+  // Track if component is mounted to prevent state updates after unmount
+  const isMountedRef = useRef(true);
 
   const mapStemTypeToTrackType = useCallback((stemType: string): TrackType => {
     const t = stemType.toLowerCase();
@@ -619,23 +630,36 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
     const sourceTrackId = project?.sourceTrackId;
     if (!project?.id || !sourceTrackId) return;
 
+    const abortController = new AbortController();
+
     // (Re)import once per source track id, and also listen for new stems
     if (importedStemsForTrackRef.current !== sourceTrackId) {
       importedStemsForTrackRef.current = sourceTrackId;
 
       (async () => {
-        const { data, error } = await supabase
-          .from('track_stems')
-          .select('stem_type,audio_url')
-          .eq('track_id', sourceTrackId);
+        try {
+          const { data, error } = await supabase
+            .from('track_stems')
+            .select('stem_type,audio_url')
+            .eq('track_id', sourceTrackId)
+            .abortSignal(abortController.signal);
 
-        if (error) {
-          logger.warn('Failed to load track stems for studio project', { error });
-          return;
+          if (error) {
+            logger.warn('Failed to load track stems for studio project', { error });
+            return;
+          }
+
+          if (!isMountedRef.current) return;
+
+          const stems = (data || []).filter(s => s.audio_url);
+          stems.forEach((s) => addStemToProjectIfMissing(s));
+        } catch (err) {
+          // Ignore abort errors
+          if (err instanceof Error && err.name === 'AbortError') {
+            return;
+          }
+          logger.error('Error loading track stems', err);
         }
-
-        const stems = (data || []).filter(s => s.audio_url);
-        stems.forEach((s) => addStemToProjectIfMissing(s));
       })();
     }
 
@@ -647,6 +671,8 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
         table: 'track_stems',
         filter: `track_id=eq.${sourceTrackId}`,
       }, (payload) => {
+        if (!isMountedRef.current) return;
+        
         const stem = payload.new as any;
         if (stem?.audio_url && stem?.stem_type) {
           addStemToProjectIfMissing(stem);
@@ -656,6 +682,7 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
       .subscribe();
 
     return () => {
+      abortController.abort();
       supabase.removeChannel(channel);
     };
   }, [project?.id, project?.sourceTrackId, addStemToProjectIfMissing]);
@@ -683,6 +710,8 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
           table: 'generation_tasks',
           filter: `suno_task_id=eq.${taskId}`,
         }, async (payload) => {
+          if (!isMountedRef.current) return;
+          
           const newData = payload.new as any;
           logger.info('Task update received in StudioShell', { 
             taskId, 
@@ -745,6 +774,8 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
         table: 'studio_projects',
         filter: `id=eq.${project.id}`,
       }, async (payload) => {
+        if (!isMountedRef.current) return;
+        
         logger.info('Studio project updated via realtime', { projectId: project.id });
         
         // Check if any pending track became ready

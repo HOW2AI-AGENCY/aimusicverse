@@ -39,6 +39,8 @@ export function useTimestampedLyrics(taskId: string | null, audioId: string | nu
       return;
     }
 
+    const abortController = new AbortController();
+
     const fetchLyrics = async () => {
       setLoading(true);
       setError(null);
@@ -55,11 +57,14 @@ export function useTimestampedLyrics(taskId: string | null, audioId: string | nu
           return;
         }
 
-        // Fetch from API
+        // Fetch from API with abort signal
         const { data: responseData, error: functionError } = await supabase.functions.invoke(
           'get-timestamped-lyrics',
           {
             body: { taskId, audioId },
+          },
+          {
+            signal: abortController.signal,
           }
         );
 
@@ -85,6 +90,10 @@ export function useTimestampedLyrics(taskId: string | null, audioId: string | nu
         setFromCache(false);
         fetchedRef.current = cacheKey;
       } catch (err) {
+        // Ignore abort errors
+        if (err instanceof Error && err.name === 'AbortError') {
+          return;
+        }
         logger.error('Error fetching timestamped lyrics', { error: err instanceof Error ? err.message : String(err) });
         setError(err instanceof Error ? err.message : 'Failed to load lyrics');
       } finally {
@@ -93,6 +102,10 @@ export function useTimestampedLyrics(taskId: string | null, audioId: string | nu
     };
 
     fetchLyrics();
+
+    return () => {
+      abortController.abort();
+    };
   }, [taskId, audioId]);
 
   return { data, loading, error, fromCache };
