@@ -11,12 +11,7 @@ export async function handleUpdate(update: TelegramUpdate) {
   const startTime = Date.now();
   
   try {
-    // Handle pre-checkout query (payment validation)
-    if (update.pre_checkout_query) {
-      const { handlePreCheckoutQuery } = await import('./handlers/payment.ts');
-      await handlePreCheckoutQuery(update.pre_checkout_query);
-      return;
-    }
+    // Pre-checkout query handling removed - Tinkoff payments use webhook
 
     // Handle inline queries for sharing tracks (enhanced with public content)
     if (update.inline_query) {
@@ -52,12 +47,7 @@ export async function handleUpdate(update: TelegramUpdate) {
 
     logger.info('message', { userId: from.id, chatId: chat.id, text: text?.substring(0, 50) });
 
-    // Handle successful payment
-    if (message.successful_payment) {
-      const { handleSuccessfulPayment } = await import('./handlers/payment.ts');
-      await handleSuccessfulPayment(chat.id, from.id, message.successful_payment);
-      return;
-    }
+    // Telegram Stars payment handling removed - using Tinkoff webhook instead
 
     // Handle audio messages
     const { isAudioMessage, handleAudioMessage } = await import('./handlers/audio.ts');

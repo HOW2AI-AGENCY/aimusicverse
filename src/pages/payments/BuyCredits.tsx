@@ -1,35 +1,23 @@
 /**
  * BuyCredits Page
- * Displays credit packages for purchase with Telegram Stars or Card
- * Supports multiple payment gateways: Telegram Stars, Tinkoff, Robokassa
- * 
- * UX Improvements (Sprint 011):
- * - Added comparison table with value indicators
- * - Shows conversion rate (3 credits = 1 track)
- * - Best Value badge for optimal package
+ * Displays credit packages for purchase with Tinkoff card payment
  */
 
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { Sparkles, Zap, LayoutGrid, List, CreditCard } from 'lucide-react';
+import { Zap, LayoutGrid, List, CreditCard, Loader2 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useUserRole } from '@/hooks/useUserRole';
-import { useStarsPayment } from '@/hooks/useStarsPayment';
 import { useTinkoffPayment } from '@/hooks/useTinkoffPayment';
 import { useGroupedProducts } from '@/hooks/useStarsProducts';
-import { useTelegramIntegration } from '@/hooks/useTelegramIntegration';
 import { CreditPackageCard } from '@/components/payments/CreditPackageCard';
 import { PackageComparisonTable } from '@/components/payments/PackageComparisonTable';
-import { StarsPaymentButton } from '@/components/payments/StarsPaymentButton';
 import { PaymentMethodSelector } from '@/components/payments/PaymentMethodSelector';
-import { PaymentSuccessModal } from '@/components/payments/PaymentSuccessModal';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Loader2 } from 'lucide-react';
 import type { StarsProduct } from '@/services/starsPaymentService';
-import type { PaymentGateway } from '@/types/payment';
 import { formatRubles } from '@/types/payment';
 
 type ViewMode = 'grid' | 'list';
@@ -49,15 +37,10 @@ function LoadingState() {
 export default function BuyCredits() {
   const { user } = useAuth();
   const { isAdmin, isLoading: roleLoading } = useUserRole();
-  const { isTelegramAvailable } = useTelegramIntegration();
   const [viewMode, setViewMode] = useState<ViewMode>('list');
   const [selectedProduct, setSelectedProduct] = useState<StarsProduct | null>(null);
-  const [paymentMethod, setPaymentMethod] = useState<PaymentGateway>(
-    isTelegramAvailable ? 'telegram_stars' : 'tinkoff'
-  );
   
   const { data: groupedProducts, isLoading, error } = useGroupedProducts();
-  const { initiatePayment, isCreatingInvoice, flowState, resetFlow } = useStarsPayment();
   const { pay: payWithTinkoff, isLoading: isTinkoffLoading } = useTinkoffPayment();
 
   // Admin users don't need to purchase credits - redirect to home
@@ -81,55 +64,34 @@ export default function BuyCredits() {
 
   const handlePurchase = () => {
     if (!selectedProduct || !user?.id) return;
-
-    if (paymentMethod === 'telegram_stars') {
-      initiatePayment(selectedProduct, user.id);
-    } else if (paymentMethod === 'tinkoff') {
-      payWithTinkoff(selectedProduct.product_code);
-    }
+    payWithTinkoff(selectedProduct.product_code);
   };
 
-  const isProcessing = isCreatingInvoice || isTinkoffLoading;
+  const isProcessing = isTinkoffLoading;
 
-  // Get price display based on payment method
+  // Get price display
   const getPriceDisplay = () => {
     if (!selectedProduct) return null;
     
-    if (paymentMethod === 'telegram_stars') {
-      return (
-        <div className="text-right">
-          <div className="flex items-center gap-1">
-            <Sparkles className="h-4 w-4 text-yellow-500" aria-hidden="true" />
-            <span className="text-2xl font-bold">{selectedProduct.price_stars}</span>
-          </div>
-          <p className="text-xs text-muted-foreground">Stars</p>
+    const priceRub = selectedProduct.price_rub_cents;
+    return (
+      <div className="text-right">
+        <div className="flex items-center gap-1">
+          <CreditCard className="h-4 w-4 text-primary" aria-hidden="true" />
+          <span className="text-2xl font-bold">
+            {priceRub ? formatRubles(priceRub) : '—'}
+          </span>
         </div>
-      );
-    } else {
-      const priceRub = (selectedProduct as any).price_rub_cents;
-      return (
-        <div className="text-right">
-          <div className="flex items-center gap-1">
-            <CreditCard className="h-4 w-4 text-primary" aria-hidden="true" />
-            <span className="text-2xl font-bold">
-              {priceRub ? formatRubles(priceRub) : `~${selectedProduct.price_stars * 2} ₽`}
-            </span>
-          </div>
-          <p className="text-xs text-muted-foreground">Картой</p>
-        </div>
-      );
-    }
+        <p className="text-xs text-muted-foreground">Картой</p>
+      </div>
+    );
   };
 
   const getButtonText = () => {
     if (!selectedProduct) return 'Выберите пакет';
     
-    if (paymentMethod === 'telegram_stars') {
-      return `Купить за ${selectedProduct.price_stars} Stars`;
-    } else {
-      const priceRub = (selectedProduct as any).price_rub_cents;
-      return `Оплатить ${priceRub ? formatRubles(priceRub) : `~${selectedProduct.price_stars * 2} ₽`}`;
-    }
+    const priceRub = selectedProduct.price_rub_cents;
+    return `Оплатить ${priceRub ? formatRubles(priceRub) : '—'}`;
   };
 
   return (
@@ -137,7 +99,7 @@ export default function BuyCredits() {
       {/* Header */}
       <div className="mb-8 text-center space-y-4">
         <div className="flex items-center justify-center gap-2">
-          <Sparkles className="h-8 w-8 text-primary" aria-hidden="true" />
+          <CreditCard className="h-8 w-8 text-primary" aria-hidden="true" />
           <h1 className="text-3xl font-bold">Купить кредиты</h1>
         </div>
         <p className="text-muted-foreground max-w-2xl mx-auto">
@@ -216,7 +178,7 @@ export default function BuyCredits() {
       {/* Empty State */}
       {!isLoading && displayProducts.length === 0 && (
         <div className="text-center py-12">
-          <Sparkles className="mx-auto h-12 w-12 text-muted-foreground/50" aria-hidden="true" />
+          <CreditCard className="mx-auto h-12 w-12 text-muted-foreground/50" aria-hidden="true" />
           <p className="mt-4 text-muted-foreground">
             Пакеты кредитов недоступны.
           </p>
@@ -242,51 +204,35 @@ export default function BuyCredits() {
                 {getPriceDisplay()}
               </div>
 
-              {/* Payment Method Selector */}
+              {/* Payment Method Info */}
               <PaymentMethodSelector
-                selectedMethod={paymentMethod}
-                onSelect={setPaymentMethod}
-                isTelegram={isTelegramAvailable}
-                priceStars={selectedProduct.price_stars}
-                priceRubCents={(selectedProduct as any).price_rub_cents}
+                priceRubCents={selectedProduct.price_rub_cents ?? undefined}
               />
 
               {/* Pay Button */}
-              {paymentMethod === 'telegram_stars' ? (
-                <StarsPaymentButton
-                  onClick={handlePurchase}
-                  isLoading={isProcessing}
-                  size="lg"
-                  className="w-full"
-                >
-                  {getButtonText()}
-                </StarsPaymentButton>
-              ) : (
-                <Button
-                  onClick={handlePurchase}
-                  disabled={isProcessing}
-                  size="lg"
-                  className="w-full gap-2"
-                >
-                  {isProcessing ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                  ) : (
-                    <CreditCard className="w-4 h-4" />
-                  )}
-                  {getButtonText()}
-                </Button>
+              <Button
+                onClick={handlePurchase}
+                disabled={isProcessing || !selectedProduct.price_rub_cents}
+                size="lg"
+                className="w-full gap-2"
+              >
+                {isProcessing ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <CreditCard className="w-4 h-4" />
+                )}
+                {getButtonText()}
+              </Button>
+
+              {!selectedProduct.price_rub_cents && (
+                <p className="text-xs text-center text-destructive">
+                  Цена в рублях не указана для этого пакета
+                </p>
               )}
             </div>
           </div>
         </div>
       )}
-
-      {/* Success Modal (for Stars payments) */}
-      <PaymentSuccessModal
-        isOpen={flowState.step === 'success'}
-        onClose={resetFlow}
-        product={selectedProduct || undefined}
-      />
     </div>
   );
 }

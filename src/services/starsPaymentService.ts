@@ -51,6 +51,7 @@ interface DbStarsProduct {
   name: unknown; // Can be JSON object or string
   description: unknown | null;
   stars_price: number;
+  price_rub_cents: number | null;
   credits_amount: number | null;
   subscription_days: number | null;
   features: Json | null;
@@ -69,6 +70,7 @@ export interface StarsProduct {
   name: string;
   description: string | null;
   stars_price: number;
+  price_rub_cents: number | null;
   credits_amount: number | null;
   subscription_tier?: string | null;
   subscription_days: number | null;
@@ -105,6 +107,7 @@ function mapDbProduct(db: DbStarsProduct): StarsProduct {
     description: parseLocalizedField(db.description),
     stars_price: db.stars_price,
     price_stars: db.stars_price, // alias for compatibility
+    price_rub_cents: db.price_rub_cents,
     credits_amount: db.credits_amount,
     subscription_tier: normalizedType === 'subscription' ? db.product_code.replace('sub_', '') : null,
     subscription_days: db.subscription_days,
