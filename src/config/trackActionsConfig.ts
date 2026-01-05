@@ -10,18 +10,20 @@ import { LucideIcon } from 'lucide-react';
 export type ActionId = 
   // Info
   | 'details' | 'toggle_public' | 'rename'
+  // Queue
+  | 'add_to_queue' | 'play_next'
   // Download
-  | 'download_mp3' | 'download_wav' | 'download_stems'
+  | 'download' | 'download_mp3' | 'download_wav' | 'download_stems' | 'download_midi'
   // Share
-  | 'generate_video' | 'send_telegram' | 'copy_link' | 'add_to_playlist' | 'add_to_project'
+  | 'share' | 'generate_video' | 'send_telegram' | 'copy_link' | 'add_to_playlist' | 'add_to_project'
   // Studio
-  | 'open_studio' | 'replace_section' | 'stems_simple' | 'stems_detailed' | 'transcribe_midi' | 'transcribe_notes'
+  | 'open_studio' | 'replace_section' | 'stems' | 'stems_simple' | 'stems_detailed' | 'transcribe_midi' | 'transcribe_notes'
   // Quality
-  | 'upscale_hd'
+  | 'upscale' | 'upscale_hd' | 'remove_watermark'
   // Create
   | 'generate_cover' | 'cover' | 'extend' | 'remix' | 'create_artist_persona' | 'add_vocals' | 'add_instrumental'
   // Delete
-  | 'delete_version' | 'delete_all';
+  | 'delete' | 'delete_version' | 'delete_all';
 
 export type ActionCategory = 
   | 'info'
@@ -74,7 +76,36 @@ export const TRACK_ACTIONS: Record<ActionId, TrackAction> = {
     priority: 3,
   },
 
+  // Queue Actions (Priority 4-10)
+  add_to_queue: {
+    id: 'add_to_queue',
+    label: 'Добавить в очередь',
+    icon: ListMusic,
+    category: 'info',
+    priority: 4,
+    requiresAudio: true,
+    requiresCompleted: true,
+  },
+  play_next: {
+    id: 'play_next',
+    label: 'Играть следующим',
+    icon: Plus,
+    category: 'info',
+    priority: 5,
+    requiresAudio: true,
+    requiresCompleted: true,
+  },
+
   // Download Actions (Priority 11-20)
+  download: {
+    id: 'download',
+    label: 'Скачать аудио',
+    icon: Download,
+    category: 'download',
+    priority: 10,
+    requiresAudio: true,
+    requiresCompleted: true,
+  },
   download_mp3: {
     id: 'download_mp3',
     label: 'MP3',
@@ -92,12 +123,20 @@ export const TRACK_ACTIONS: Record<ActionId, TrackAction> = {
     priority: 12,
     requiresSunoId: true,
   },
+  download_midi: {
+    id: 'download_midi',
+    label: 'MIDI',
+    icon: Music2,
+    category: 'download',
+    priority: 13,
+    requiresAudio: true,
+  },
   download_stems: {
     id: 'download_stems',
     label: 'Архив стемов',
     icon: Archive,
     category: 'download',
-    priority: 13,
+    priority: 14,
     requiresStems: true,
   },
 
@@ -118,6 +157,14 @@ export const TRACK_ACTIONS: Record<ActionId, TrackAction> = {
     category: 'share',
     priority: 22,
     requiresAudio: true,
+    requiresCompleted: true,
+  },
+  share: {
+    id: 'share',
+    label: 'Поделиться',
+    icon: Share2,
+    category: 'share',
+    priority: 22,
     requiresCompleted: true,
   },
   copy_link: {
@@ -162,6 +209,14 @@ export const TRACK_ACTIONS: Record<ActionId, TrackAction> = {
     priority: 32,
     requiresCompleted: true,
   },
+  stems: {
+    id: 'stems',
+    label: 'Разделить на стемы',
+    icon: Scissors,
+    category: 'studio',
+    priority: 32,
+    requiresSunoId: true,
+  },
   stems_simple: {
     id: 'stems_simple',
     label: 'Стемы (2 дорожки)',
@@ -196,12 +251,30 @@ export const TRACK_ACTIONS: Record<ActionId, TrackAction> = {
   },
 
   // Quality Actions (Priority 37-40)
+  upscale: {
+    id: 'upscale',
+    label: 'Улучшить качество',
+    icon: Sparkles,
+    category: 'quality',
+    priority: 37,
+    requiresAudio: true,
+    requiresCompleted: true,
+  },
   upscale_hd: {
     id: 'upscale_hd',
     label: 'HD Audio (48kHz)',
     icon: Sparkles,
     category: 'quality',
-    priority: 37,
+    priority: 38,
+    requiresAudio: true,
+    requiresCompleted: true,
+  },
+  remove_watermark: {
+    id: 'remove_watermark',
+    label: 'Убрать водяной знак',
+    icon: Wand2,
+    category: 'quality',
+    priority: 39,
     requiresAudio: true,
     requiresCompleted: true,
   },
@@ -269,6 +342,14 @@ export const TRACK_ACTIONS: Record<ActionId, TrackAction> = {
   },
 
   // Delete Actions (Priority 100+)
+  delete: {
+    id: 'delete',
+    label: 'Удалить трек',
+    icon: Trash2,
+    category: 'delete',
+    priority: 99,
+    dangerous: true,
+  },
   delete_version: {
     id: 'delete_version',
     label: 'Удалить версию',

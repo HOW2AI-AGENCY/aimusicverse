@@ -57,14 +57,11 @@ export function useTimestampedLyrics(taskId: string | null, audioId: string | nu
           return;
         }
 
-        // Fetch from API with abort signal
+        // Fetch from API
         const { data: responseData, error: functionError } = await supabase.functions.invoke(
           'get-timestamped-lyrics',
           {
             body: { taskId, audioId },
-          },
-          {
-            signal: abortController.signal,
           }
         );
 

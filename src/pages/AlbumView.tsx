@@ -32,7 +32,7 @@ interface AlbumTrack {
   cover_url: string | null;
   duration_seconds: number | null;
   style: string | null;
-  is_primary: boolean | null;
+  is_master: boolean | null;
   project_track_id: string | null;
 }
 
@@ -106,9 +106,9 @@ export default function AlbumView() {
       if (!id) throw new Error('No album ID');
       const { data, error } = await supabase
         .from('tracks')
-        .select('id, title, audio_url, cover_url, duration_seconds, style, is_primary, project_track_id')
+        .select('id, title, audio_url, cover_url, duration_seconds, style, is_master, project_track_id')
         .eq('project_id', id)
-        .eq('is_primary', true)
+        .eq('is_master', true)
         .order('created_at', { ascending: true });
 
       if (error) throw error;

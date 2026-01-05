@@ -101,8 +101,8 @@ export function ProjectTracksGrid({
               >
                 <Card className={cn(
                   "glass-card transition-all overflow-hidden",
-                  track.is_primary && "ring-2 ring-primary border-primary/50",
-                  track.is_approved && !track.is_primary && "border-green-500/30",
+                  track.is_master && "ring-2 ring-primary border-primary/50",
+                  track.is_approved && !track.is_master && "border-green-500/30",
                   isCurrentTrack && "bg-primary/5"
                 )}>
                   <CardContent className="p-3">
@@ -155,13 +155,13 @@ export function ProjectTracksGrid({
 
                           {/* Status badges */}
                           <div className="flex flex-col gap-1">
-                            {track.is_primary && (
+                            {track.is_master && (
                               <Badge className="bg-primary text-primary-foreground text-[10px] h-5">
                                 <Star className="w-3 h-3 mr-0.5" />
                                 Мастер
                               </Badge>
                             )}
-                            {track.is_approved && !track.is_primary && (
+                            {track.is_approved && !track.is_master && (
                               <Badge variant="outline" className="text-green-500 border-green-500/50 text-[10px] h-5">
                                 <CheckCircle2 className="w-3 h-3 mr-0.5" />
                                 Одобрен
@@ -181,7 +181,7 @@ export function ProjectTracksGrid({
 
                     {/* Actions */}
                     <div className="flex gap-1.5 mt-3 pt-3 border-t border-border/50">
-                      {!track.is_primary && (
+                      {!track.is_master && (
                         <Button
                           size="sm"
                           variant={track.is_approved ? "outline" : "default"}
@@ -194,7 +194,7 @@ export function ProjectTracksGrid({
                         </Button>
                       )}
                       
-                      {!track.is_approved && !track.is_primary && (
+                      {!track.is_approved && !track.is_master && (
                         <Button
                           size="sm"
                           variant="ghost"
@@ -207,7 +207,7 @@ export function ProjectTracksGrid({
                         </Button>
                       )}
 
-                      {track.is_approved && !track.is_primary && (
+                      {track.is_approved && !track.is_master && (
                         <Button
                           size="sm"
                           variant="ghost"
