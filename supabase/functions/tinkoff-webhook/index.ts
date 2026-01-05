@@ -105,8 +105,42 @@ serve(async (req) => {
           .eq('id', transaction.id);
       } else {
         console.log('Payment processed successfully:', result);
+        
+        // Send Telegram notification if payment was from bot
+        const metadata = transaction.metadata as Record<string, unknown> | null;
+        if (metadata?.source === 'telegram_bot' && metadata?.telegram_id) {
+          try {
+            // Get user's chat_id from profiles
+            const telegramId = Number(metadata.telegram_id);
+            const { data: profile } = await supabase
+              .from('profiles')
+              .select('telegram_chat_id')
+              .eq('telegram_id', telegramId)
+              .single();
+            
+            const chatId = metadata.chat_id || profile?.telegram_chat_id;
+            
+            if (chatId) {
+              // Send notification via telegram-bot
+              await supabase.functions.invoke('send-telegram-notification', {
+                body: {
+                  chatId: Number(chatId),
+                  message: `✅ *Оплата успешна!*\n\n` +
+                    `📦 ${metadata.product_name || 'Пакет кредитов'}\n` +
+                    `💎 Начислено: *${metadata.credits_amount || transaction.credits_granted} кредитов*\n\n` +
+                    `Теперь вы можете создавать музыку!`,
+                  parseMode: 'Markdown',
+                }
+              });
+              console.log('Telegram notification sent to chat:', chatId);
+            }
+          } catch (notifyError) {
+            console.error('Failed to send Telegram notification:', notifyError);
+            // Don't fail the webhook for notification errors
+          }
+        }
       }
-    } 
+    }
     // Handle other statuses
     else if (['REJECTED', 'DEADLINE_EXPIRED'].includes(notification.Status)) {
       await supabase
