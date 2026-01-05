@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { useAuth } from "@/hooks/useAuth";
-import { Navigate, useSearchParams } from "react-router-dom";
+import { Navigate, useSearchParams, useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Music2, Search, Loader2, Grid3x3, List, SlidersHorizontal, Play, Shuffle, Library as LibraryIcon, Sparkles, Tag, X } from "lucide-react";
 import { PullToRefreshWrapper } from "@/components/library/PullToRefreshWrapper";
@@ -42,6 +42,7 @@ type FilterOption = 'all' | 'vocals' | 'instrumental' | 'stems';
 export default function Library() {
   const { user, isAuthenticated, loading: authLoading } = useAuth();
   const isMobile = useIsMobile();
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
   const { activeTrack, playTrack, queue } = usePlayerStore();
@@ -274,11 +275,11 @@ export default function Library() {
     link.click();
   }, []);
 
-  // Handle tag click - filter by tag
+  // Handle tag click - navigate to community search
   const handleTagClick = useCallback((tag: string) => {
-    log.info('Tag filter applied', { tag });
-    setTagFilter(tag);
-  }, []);
+    log.info('Tag clicked, navigating to community', { tag });
+    navigate(`/community?tag=${encodeURIComponent(tag)}`);
+  }, [navigate]);
 
   // Clear tag filter
   const clearTagFilter = useCallback(() => {

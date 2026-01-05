@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { Globe, Music, Users, TrendingUp, Heart, Search } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+import { Globe, Music, Users, TrendingUp, Heart, Search, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -9,6 +10,7 @@ import { PublicTrackCard } from "@/components/home/PublicTrackCard";
 import { ActorCard } from "@/components/actors/ActorCard";
 import { motion } from '@/lib/motion';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
+import { Button } from "@/components/ui/button";
 
 const GENRES = ["Pop", "Rock", "Hip-Hop", "Electronic", "R&B", "Jazz", "Indie", "Lo-Fi"];
 
@@ -19,11 +21,30 @@ export default function Community() {
     fallbackPath: '/',
   });
 
+  // URL params for tag search
+  const [searchParams, setSearchParams] = useSearchParams();
+  const tagFromUrl = searchParams.get('tag');
+
   const { data: publicContent, isLoading: tracksLoading } = usePublicContentBatch();
   const { data: publicArtists, isLoading: artistsLoading } = usePublicArtists(20);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("tracks");
+
+  // Apply tag from URL to search query
+  useEffect(() => {
+    if (tagFromUrl) {
+      setSearchQuery(tagFromUrl);
+    }
+  }, [tagFromUrl]);
+
+  // Clear tag filter
+  const clearTagFilter = () => {
+    setSearchQuery("");
+    const newParams = new URLSearchParams(searchParams);
+    newParams.delete('tag');
+    setSearchParams(newParams, { replace: true });
+  };
 
   const allTracks = publicContent?.allTracks || [];
   const popularTracks = publicContent?.popularTracks || [];
@@ -70,6 +91,28 @@ export default function Community() {
         </motion.header>
 
         {/* Search */}
+        {/* Active tag indicator */}
+        {tagFromUrl && (
+          <motion.div
+            className="mb-3 flex items-center gap-2"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+          >
+            <Badge variant="secondary" className="gap-1.5 px-3 py-1.5 text-sm">
+              <Search className="w-3.5 h-3.5" />
+              Тег: {tagFromUrl}
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-4 w-4 ml-1 hover:bg-transparent"
+                onClick={clearTagFilter}
+              >
+                <X className="w-3 h-3" />
+              </Button>
+            </Badge>
+          </motion.div>
+        )}
+
         <motion.div 
           className="mb-4"
           initial={{ opacity: 0, y: 10 }}
