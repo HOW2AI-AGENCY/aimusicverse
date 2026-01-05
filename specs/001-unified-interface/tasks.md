@@ -223,6 +223,30 @@
 
 ---
 
+### ⚠️ CRITICAL: Sprint 1 Blocker Task (MUST COMPLETE BEFORE SPRINT 2)
+
+- [ ] T070 [CRITICAL] Emergency bundle size optimization to meet <950KB target
+  - **Acceptance**: Production bundle < 950KB gzipped (verified by `npm run build && .specify/scripts/check-bundle-size.sh`)
+  - **Current Status**: 1748KB (798KB over limit - 84% over budget)
+  - **Actions**:
+    - Verify T007 Tone.js lazy loading is working (check dist/ chunks)
+    - Implement Wavesurfer.js lazy loading (~150KB) - only load when waveform needed
+    - Run bundle analyzer: `npm run build -- --report`
+    - Audit and remove unused dependencies using `npx depcheck`
+    - Split feature chunks more aggressively (separate stem-studio, lyrics-wizard)
+    - Consider deferring non-critical features if needed
+  - **Verification Steps**:
+    1. `npm run build`
+    2. Check output shows bundle < 950KB
+    3. `.specify/scripts/check-bundle-size.sh` passes
+    4. Test that lazy-loaded features still work (Studio, waveform display)
+  - **Estimate**: 2-3 days
+  - **Rollback**: Git revert commit, restore previous build config
+  - **Dependencies**: T001 (baseline established), T007 (Tone.js loader exists)
+  - **Priority**: P0 (BLOCKS Sprint 2)
+  - **Owner**: Frontend Lead
+  - **Notes**: Constitution violation (Section II & X) - MUST resolve before production deployment
+
 ### Sprint 1 Summary & Validation
 
 **Deliverables**:
@@ -237,6 +261,8 @@
 - Run touch target audit script on modified components
 - Manual testing on iPhone 14 Pro and Pixel 7 for navigation and scrolling
 - Lighthouse Performance score >90 on Library and Community pages
+
+**⚠️ SPRINT 1 CANNOT BE MARKED COMPLETE UNTIL T070 IS RESOLVED**
 
 **Rollback**: If critical issues, disable feature flags `UNIFIED_NAV_ENABLED` and `VIRTUALIZED_LISTS_ENABLED`
 
@@ -438,6 +464,55 @@
   - **Dependencies**: T036-T038
 
 **US5 Checkpoint**: Studio optimized for mobile, touch targets compliant, virtualization applied
+
+---
+
+### Accessibility Tasks (NEW - Added from Analysis)
+
+These tasks address critical gaps identified in FR-TO-TASK-MAPPING.md for FR-021 and FR-023.
+
+- [ ] T071 [P1] [US6] Audit and add ARIA labels to all icon-only buttons
+  - **Acceptance**: Zero axe-core "button-name" violations, all icon buttons have descriptive aria-label
+  - **Scope**: TrackCard (play, like, menu), PlaylistCard actions, MobileHeaderBar (back), Player controls
+  - **Actions**:
+    1. Run axe-core DevTools on all main pages
+    2. Document all icon-only buttons without labels
+    3. Add aria-label to each: "Play track", "Like track", "Track options menu", "Go back"
+    4. Re-run axe-core to verify zero violations
+  - **Estimate**: 3 hours
+  - **Rollback**: Remove aria-label additions (cosmetic only)
+  - **Priority**: P1 (WCAG AA compliance, blocks SC-013)
+  - **Owner**: Accessibility Specialist
+  - **Notes**: Addresses FR-021 gap from analysis
+
+- [ ] T072 [P1] [US6] Implement focus trap in all modal components
+  - **Acceptance**: Tab navigation stays within modal, Escape key closes modal, focus returns to trigger element
+  - **Scope**: ResponsiveModal, MobileBottomSheet, MobileActionSheet
+  - **Actions**:
+    1. Install focus-trap-react if not present
+    2. Wrap modal content with FocusTrap component
+    3. Test keyboard navigation: Tab cycles within modal, Shift+Tab works, Escape closes
+    4. Verify focus returns to button that opened modal
+  - **Estimate**: 2 hours
+  - **Rollback**: Remove FocusTrap wrappers
+  - **Dependencies**: T009 (ResponsiveModal exists)
+  - **Priority**: P1 (WCAG AA compliance, blocks SC-013)
+  - **Owner**: Accessibility Specialist
+  - **Notes**: Addresses FR-023 gap from analysis
+
+- [ ] T073 [P2] [US6] Audit all Dialog component usages for mobile appropriateness
+  - **Acceptance**: All Dialog usages documented, mobile usages flagged for migration
+  - **Actions**:
+    1. `grep -r "<Dialog>" src/` to find all usages
+    2. For each usage, document: file, purpose, viewport (desktop/mobile/both)
+    3. Flag any mobile usages (should use MobileBottomSheet instead)
+    4. Create migration plan for flagged usages
+  - **Deliverable**: Dialog usage audit report (Markdown table)
+  - **Estimate**: 2 hours
+  - **Rollback**: N/A (audit only)
+  - **Priority**: P2 (validation, not blocking)
+  - **Owner**: Frontend Lead
+  - **Notes**: Addresses FR-006 gap from analysis
 
 ---
 
