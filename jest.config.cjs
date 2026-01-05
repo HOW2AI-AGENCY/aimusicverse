@@ -28,4 +28,25 @@ module.exports = {
   ],
   // Increase timeout for property-based tests
   testTimeout: 10000,
+  // Coverage thresholds - focus on hook testing
+  collectCoverageFrom: [
+    'src/hooks/**/*.{ts,tsx}',
+    '!src/hooks/**/*.test.{ts,tsx}',
+    '!src/hooks/**/*.spec.{ts,tsx}',
+    '!src/hooks/**/index.ts',
+  ],
+  coverageThreshold: {
+    global: {
+      branches: 0,
+      functions: 0,
+      lines: 0,
+      statements: 0,
+    },
+    './src/hooks/': {
+      branches: 70,
+      functions: 75,
+      lines: 80,
+      statements: 80,
+    },
+  },
 };

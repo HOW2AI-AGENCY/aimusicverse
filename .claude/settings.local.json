@@ -2,7 +2,20 @@
   "permissions": {
     "allow": [
       "Bash(powershell -ExecutionPolicy Bypass -File .specify/scripts/powershell/check-prerequisites.ps1:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(git fetch:*)",
+      "Bash(ls:*)",
+      "Bash(powershell:*)",
+      "Bash(pwsh:*)",
+      "Bash(cd:*)",
+      "Bash(git checkout:*)",
+      "Bash(mkdir:*)",
+      "Bash(export:*)",
+      "Bash(echo:*)",
+      "Bash(find:*)",
+      "Bash(git rev-parse:*)",
+      "Bash(npm install:*)",
+      "Bash(node scripts/lint-filenames.js:*)"
     ]
   }
 }
