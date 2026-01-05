@@ -22,14 +22,14 @@ export function LongPressTooltip({
   className 
 }: LongPressTooltipProps) {
   const [showTooltip, setShowTooltip] = useState(false);
-  const timerRef = useRef<ReturnType<typeof setTimeout>>();
+  const timerRef = useRef<number | undefined>(undefined);
   const touchStartRef = useRef<{ x: number; y: number } | null>(null);
 
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     const touch = e.touches[0];
     touchStartRef.current = { x: touch.clientX, y: touch.clientY };
     
-    timerRef.current = setTimeout(() => {
+    timerRef.current = window.setTimeout(() => {
       setShowTooltip(true);
       hapticImpact('light');
     }, delay);
@@ -44,20 +44,20 @@ export function LongPressTooltip({
     
     // Cancel if user moves finger more than 10px
     if (deltaX > 10 || deltaY > 10) {
-      clearTimeout(timerRef.current);
+      window.clearTimeout(timerRef.current);
       setShowTooltip(false);
       touchStartRef.current = null;
     }
   }, []);
 
   const handleTouchEnd = useCallback(() => {
-    clearTimeout(timerRef.current);
+    window.clearTimeout(timerRef.current);
     setShowTooltip(false);
     touchStartRef.current = null;
   }, []);
 
   const handleTouchCancel = useCallback(() => {
-    clearTimeout(timerRef.current);
+    window.clearTimeout(timerRef.current);
     setShowTooltip(false);
     touchStartRef.current = null;
   }, []);
