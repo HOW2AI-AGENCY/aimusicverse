@@ -4336,6 +4336,7 @@ export type Database = {
           is_instrumental: boolean | null
           is_master: boolean | null
           is_public: boolean | null
+          is_watermarked: boolean | null
           likes_count: number | null
           local_audio_url: string | null
           local_cover_url: string | null
@@ -4371,6 +4372,9 @@ export type Database = {
           user_id: string
           video_url: string | null
           vocal_gender: string | null
+          watermark_status: string | null
+          watermarked_at: string | null
+          watermarked_url: string | null
         }
         Insert: {
           active_version_id?: string | null
@@ -4398,6 +4402,7 @@ export type Database = {
           is_instrumental?: boolean | null
           is_master?: boolean | null
           is_public?: boolean | null
+          is_watermarked?: boolean | null
           likes_count?: number | null
           local_audio_url?: string | null
           local_cover_url?: string | null
@@ -4433,6 +4438,9 @@ export type Database = {
           user_id: string
           video_url?: string | null
           vocal_gender?: string | null
+          watermark_status?: string | null
+          watermarked_at?: string | null
+          watermarked_url?: string | null
         }
         Update: {
           active_version_id?: string | null
@@ -4460,6 +4468,7 @@ export type Database = {
           is_instrumental?: boolean | null
           is_master?: boolean | null
           is_public?: boolean | null
+          is_watermarked?: boolean | null
           likes_count?: number | null
           local_audio_url?: string | null
           local_cover_url?: string | null
@@ -4495,6 +4504,9 @@ export type Database = {
           user_id?: string
           video_url?: string | null
           vocal_gender?: string | null
+          watermark_status?: string | null
+          watermarked_at?: string | null
+          watermarked_url?: string | null
         }
         Relationships: [
           {
