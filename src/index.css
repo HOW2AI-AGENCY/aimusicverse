@@ -1198,3 +1198,17 @@ select:focus-visible,
     display: none;
   }
 }
+
+/* =========================================
+   Scrollbar Hide Utility
+   ========================================= */
+
+/* Hide scrollbar but keep scroll functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
