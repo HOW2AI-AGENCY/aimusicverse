@@ -51,6 +51,11 @@ import { usePlaybackPosition } from '@/hooks/audio/usePlaybackPosition';
 import { logger } from '@/lib/logger';
 import { toast } from 'sonner';
 import { playerAnalytics, recordError } from '@/lib/telemetry';
+import { 
+  detectMobileBrowser, 
+  isAudioFormatSupported,
+  logAudioDiagnostics 
+} from '@/lib/audioFormatUtils';
 
 // Audio error messages by error code
 const AUDIO_ERROR_MESSAGES: Record<number, { ru: string; action?: string }> = {
@@ -66,6 +71,10 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
   // Suppress errors during initial startup to avoid stale data toasts
   const mountTimeRef = useRef(Date.now());
   const isStartupPeriod = () => Date.now() - mountTimeRef.current < 2000;
+  
+  // Detect mobile browser for enhanced error handling
+  const mobileBrowserInfo = useRef(detectMobileBrowser());
+  const isMobileBrowser = mobileBrowserInfo.current.isMobile;
 
   const {
     activeTrack,
@@ -100,8 +109,16 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
       logger.info('Audio element initialized', {
         volume: audioRef.current.volume,
         muted: audioRef.current.muted,
-        readyState: audioRef.current.readyState
+        readyState: audioRef.current.readyState,
+        isMobile: isMobileBrowser,
+        browser: mobileBrowserInfo.current.browserName,
+        os: mobileBrowserInfo.current.osName,
       });
+      
+      // Log audio diagnostics for debugging mobile issues
+      if (isMobileBrowser) {
+        logAudioDiagnostics();
+      }
 
       setGlobalAudioRef(audioRef.current);
     }
@@ -131,10 +148,16 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
       return null;
     }
 
-    const source = activeTrack.streaming_url || activeTrack.local_audio_url || activeTrack.audio_url;
-
-    // Validate source URL
-    if (!source) {
+    // Build fallback chain: prefer streaming_url > local_audio_url > audio_url
+    // On mobile with format errors, we'll skip blob URLs in favor of canonical URLs
+    const sources = [
+      { url: activeTrack.local_audio_url, label: 'local_audio_url (blob)' },
+      { url: activeTrack.streaming_url, label: 'streaming_url' },
+      { url: activeTrack.audio_url, label: 'audio_url' },
+    ].filter(s => s.url); // Remove null/undefined sources
+    
+    // If no sources available, show error
+    if (sources.length === 0) {
       logger.warn('Track has no audio source', {
         trackId: activeTrack.id,
         title: activeTrack.title,
@@ -150,6 +173,57 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
 
       return null;
     }
+    
+    // On mobile devices, proactively check format compatibility
+    if (isMobileBrowser) {
+      // Filter out sources that are known to be incompatible
+      const compatibleSources = sources.filter(s => {
+        const url = s.url!;
+        
+        // Skip blob URLs on mobile if we have canonical URLs available
+        // This prevents format errors that would need recovery
+        if (url.startsWith('blob:') && sources.length > 1) {
+          logger.debug('Skipping blob URL on mobile in favor of canonical URL', {
+            trackId: activeTrack.id,
+            availableSources: sources.length,
+          });
+          return false;
+        }
+        
+        // Check format compatibility for non-blob URLs
+        if (!url.startsWith('blob:')) {
+          const isSupported = isAudioFormatSupported(url);
+          if (!isSupported) {
+            logger.warn('Audio format may not be supported on mobile', {
+              trackId: activeTrack.id,
+              url: url.substring(0, 60),
+              browser: mobileBrowserInfo.current.browserName,
+            });
+          }
+          return isSupported;
+        }
+        
+        return true;
+      });
+      
+      // If we filtered everything out, use original list (let browser try)
+      const finalSources = compatibleSources.length > 0 ? compatibleSources : sources;
+      
+      // Use first compatible source
+      const selectedSource = finalSources[0];
+      logger.info('Selected audio source for mobile', {
+        trackId: activeTrack.id,
+        selectedSource: selectedSource.label,
+        url: selectedSource.url!.substring(0, 60),
+        totalSources: sources.length,
+        compatibleSources: compatibleSources.length,
+      });
+      
+      return selectedSource.url!;
+    }
+    
+    // On desktop, use first available source
+    const source = sources[0].url!;
 
     // Check for valid URL format
     try {
@@ -199,7 +273,7 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
       }
       return null;
     }
-  }, [activeTrack]);
+  }, [activeTrack, isMobileBrowser, mobileBrowserInfo, isStartupPeriod]);
 
   // Stable ref for isPlaying to avoid effect re-runs
   const isPlayingRef = useRef(isPlaying);
@@ -476,7 +550,8 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
       const isBlobSource = audio.src?.startsWith('blob:');
       const canonicalUrl = activeTrack?.streaming_url || activeTrack?.audio_url;
       
-      logger.error('Audio playback error', null, {
+      // Enhanced error context with mobile browser info
+      const errorContext = {
         errorCode,
         errorMessage: audio.error?.message,
         trackId: activeTrack?.id,
@@ -484,49 +559,86 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
         source: audio.src?.substring(0, 100),
         isBlobSource,
         retryCount,
-      });
+        isMobile: isMobileBrowser,
+        browser: mobileBrowserInfo.current.browserName,
+        os: mobileBrowserInfo.current.osName,
+        readyState: audio.readyState,
+        networkState: audio.networkState,
+      };
       
-      // CRITICAL: Handle format error (code 4) on blob URL with automatic recovery
-      if (errorCode === 4 && isBlobSource && canonicalUrl && !hasAttemptedBlobRecovery) {
+      // CRITICAL: Handle format error (code 4) with automatic recovery using fallback chain
+      // DO NOT log to Sentry until all recovery attempts fail
+      if (errorCode === 4 && !hasAttemptedBlobRecovery) {
         hasAttemptedBlobRecovery = true;
-        logger.info('Format error on blob URL, attempting fallback to canonical URL', {
-          canonicalUrl: canonicalUrl.substring(0, 60)
-        });
         
-        // Save current time before switching source
-        const currentTime = audio.currentTime;
-        const wasPlaying = isPlaying;
+        // Build fallback chain
+        const fallbackChain = [
+          activeTrack?.streaming_url,
+          activeTrack?.audio_url,
+        ].filter(url => url && url !== audio.src); // Skip current failed URL
         
-        audio.src = canonicalUrl;
-        audio.load();
-        
-        // Restore position and resume playback when ready
-        audio.addEventListener('canplay', async function onCanPlay() {
-          audio.removeEventListener('canplay', onCanPlay);
+        if (fallbackChain.length > 0) {
+          const fallbackUrl = fallbackChain[0];
           
-          if (currentTime > 0 && !isNaN(currentTime)) {
-            audio.currentTime = currentTime;
-          }
+          // Log recovery attempt (info level, not error)
+          logger.info('Format error (code 4), attempting fallback to next URL in chain', {
+            ...errorContext,
+            currentSource: isBlobSource ? 'blob URL' : 'canonical URL',
+            fallbackUrl: fallbackUrl?.substring(0, 60),
+            fallbacksRemaining: fallbackChain.length,
+            recoveryAttempt: true,
+          });
           
-          if (wasPlaying) {
-            try {
-              await audio.play();
-              logger.info('Playback recovered successfully after blob format error');
-            } catch (playErr) {
-              logger.error('Recovery play after blob error failed', playErr);
+          // Save current time before switching source
+          const currentTime = audio.currentTime;
+          const wasPlaying = isPlaying;
+          
+          audio.src = fallbackUrl!;
+          audio.load();
+          
+          // Restore position and resume playback when ready
+          audio.addEventListener('canplay', async function onCanPlay() {
+            audio.removeEventListener('canplay', onCanPlay);
+            
+            if (currentTime > 0 && !isNaN(currentTime)) {
+              audio.currentTime = currentTime;
             }
-          }
-        }, { once: true });
-        
-        return; // Don't show error toast for recoverable blob errors
+            
+            if (wasPlaying) {
+              try {
+                await audio.play();
+                logger.info('✅ Playback recovered successfully after format error', {
+                  trackId: activeTrack?.id,
+                  isMobile: isMobileBrowser,
+                  fallbackUsed: fallbackUrl?.substring(0, 60),
+                });
+              } catch (playErr) {
+                // Recovery failed - NOW log to Sentry
+                logger.error('❌ Recovery play after format error failed', playErr, errorContext);
+                recordError(`audio:${errorCode}:recovery_failed`, 
+                  audio.error?.message || 'Recovery failed after format error', 
+                  {
+                    ...errorContext,
+                    fallbackUrl: fallbackUrl?.substring(0, 60),
+                  }
+                );
+              }
+            }
+          }, { once: true });
+          
+          return; // Don't show error toast or report to Sentry for recoverable format errors
+        } else {
+          // No fallbacks available - log to Sentry
+          logger.error('❌ Format error (code 4) with no fallback URLs available', null, errorContext);
+        }
       }
+      
+      // Log error with full context
+      logger.error('Audio playback error', null, errorContext);
       
       // Record error in telemetry
       playerAnalytics.trackError(activeTrack?.id || '', `audio_error_${errorCode}`);
-      recordError(`audio:${errorCode}`, audio.error?.message || 'Unknown audio error', {
-        trackId: activeTrack?.id,
-        retryCount,
-      });
+      recordError(`audio:${errorCode}`, audio.error?.message || 'Unknown audio error', errorContext);
       
       // During startup, suppress toasts to avoid stale data errors
       const suppressToast = isStartupPeriod();

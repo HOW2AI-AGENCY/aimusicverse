@@ -11,9 +11,11 @@
  * 2. Only one MediaElementSource per audio element
  * 3. Proper connection to destination for audio playback
  * 4. Graceful handling of visualizer failures (audio continues to work)
+ * 5. Mobile-specific AudioContext handling for better reliability
  */
 
 import { logger } from '@/lib/logger';
+import { detectMobileBrowser } from '@/lib/audioFormatUtils';
 
 type AudioElementWithSourceFlag = HTMLAudioElement & { __hasMediaSource?: boolean };
 
@@ -42,13 +44,8 @@ export function getAudioContext(): AudioContext {
  * Resume the AudioContext if it's suspended
  * MUST be called on user interaction for browser autoplay policy
  * MUST be awaited to prevent race conditions
- */
-/**
- * Resume the AudioContext if it's suspended
- * MUST be called on user interaction for browser autoplay policy
- * MUST be awaited to prevent race conditions
  * 
- * Enhanced with retry logic for reliability
+ * Enhanced with retry logic and mobile-specific handling for reliability
  */
 export async function resumeAudioContext(maxRetries: number = 3): Promise<boolean> {
   const ctx = getAudioContext();
@@ -63,9 +60,22 @@ export async function resumeAudioContext(maxRetries: number = 3): Promise<boolea
     return false;
   }
   
-  logger.debug('Attempting to resume AudioContext', { state: ctx.state });
+  // Detect if we're on mobile for enhanced handling
+  const mobileInfo = detectMobileBrowser();
+  const isMobile = mobileInfo.isMobile;
   
-  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+  logger.debug('Attempting to resume AudioContext', { 
+    state: ctx.state,
+    isMobile,
+    browser: mobileInfo.browserName,
+    os: mobileInfo.osName,
+  });
+  
+  // On mobile, use longer retry delays and more attempts
+  const retryDelay = isMobile ? 150 : 100;
+  const effectiveMaxRetries = isMobile ? Math.max(maxRetries, 5) : maxRetries;
+  
+  for (let attempt = 1; attempt <= effectiveMaxRetries; attempt++) {
     try {
       await ctx.resume();
       
@@ -76,34 +86,39 @@ export async function resumeAudioContext(maxRetries: number = 3): Promise<boolea
         logger.info('✅ AudioContext resumed successfully', { 
           attempt,
           state: currentState,
-          sampleRate: ctx.sampleRate 
+          sampleRate: ctx.sampleRate,
+          isMobile,
         });
         return true;
       }
       
       logger.warn('AudioContext resume called but state not running', { 
         state: ctx.state, 
-        attempt 
+        attempt,
+        isMobile,
       });
       
-      // Wait before retry
-      if (attempt < maxRetries) {
-        await new Promise(resolve => setTimeout(resolve, 100 * attempt));
+      // Wait before retry (longer on mobile)
+      if (attempt < effectiveMaxRetries) {
+        await new Promise(resolve => setTimeout(resolve, retryDelay * attempt));
       }
     } catch (err) {
-      logger.error(`❌ Failed to resume AudioContext (attempt ${attempt}/${maxRetries})`, 
-        err instanceof Error ? err : new Error(String(err))
+      logger.error(`❌ Failed to resume AudioContext (attempt ${attempt}/${effectiveMaxRetries})`, 
+        err instanceof Error ? err : new Error(String(err)),
+        { isMobile, browser: mobileInfo.browserName }
       );
       
-      if (attempt < maxRetries) {
-        await new Promise(resolve => setTimeout(resolve, 100 * attempt));
+      if (attempt < effectiveMaxRetries) {
+        await new Promise(resolve => setTimeout(resolve, retryDelay * attempt));
       }
     }
   }
   
   logger.error('AudioContext resume failed after all retries', { 
     state: ctx.state,
-    maxRetries 
+    maxRetries: effectiveMaxRetries,
+    isMobile,
+    browser: mobileInfo.browserName,
   });
   return false;
 }
