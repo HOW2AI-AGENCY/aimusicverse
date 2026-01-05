@@ -8,11 +8,10 @@ import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import type { BaseUnifiedTrackCardProps } from '../track-card.types';
 
-interface GridVariantProps extends BaseUnifiedTrackCardProps {
-  variant: 'grid';
-}
+export function GridVariant({ track, onPlay, className, testDataId }: BaseUnifiedTrackCardProps) {
+  // Support both cover_url (from Track) and image_url (from legacy types)
+  const coverUrl = track.cover_url || (track as any).image_url || '/placeholder-cover.png';
 
-export function GridVariant({ track, onPlay, className, testDataId }: GridVariantProps) {
   return (
     <motion.div
       data-testid={testDataId}
@@ -31,8 +30,8 @@ export function GridVariant({ track, onPlay, className, testDataId }: GridVarian
       {/* Cover Image */}
       <div className="w-full h-1/2 relative">
         <img
-          src={track.image_url || '/placeholder-cover.png'}
-          alt={track.title}
+          src={coverUrl}
+          alt={track.title || 'Track'}
           className="w-full h-full object-cover"
           loading="lazy"
         />
@@ -50,7 +49,6 @@ export function GridVariant({ track, onPlay, className, testDataId }: GridVarian
       <button
         onClick={() => onPlay?.(track)}
         className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity"
-        style={{ width: 44, height: 44 }}
       >
         <div className="w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center bg-primary text-primary-foreground rounded-full">
           <span className="text-2xl">▶</span>
