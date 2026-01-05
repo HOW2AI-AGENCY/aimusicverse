@@ -122,14 +122,15 @@ export const ProjectHero = memo(function ProjectHero({
             </Badge>
             
             {/* Status badge */}
-            <Badge className={cn(
-              "border-0 text-xs backdrop-blur-sm",
-              status.color,
-              isPublished && "flex items-center gap-1"
-            )}>
-              {isPublished && <Globe className="w-3 h-3" />}
-              {status.label}
-            </Badge>
+            {isPublished ? (
+              <Badge className={cn("h-6 w-6 p-0 border-0 flex items-center justify-center backdrop-blur-sm", status.color)} title={status.label}>
+                <Globe className="w-3.5 h-3.5" />
+              </Badge>
+            ) : (
+              <Badge className={cn("border-0 text-xs backdrop-blur-sm", status.color)}>
+                {status.label}
+              </Badge>
+            )}
             
             {/* Genre */}
             {project.genre && (

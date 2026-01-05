@@ -65,14 +65,15 @@ export const ProjectMeta = memo(function ProjectMeta({
   if (variant === 'badges-only') {
     return (
       <div className={cn("flex items-center gap-1.5 flex-wrap", className)}>
-        <Badge className={cn(
-          "text-[9px] h-4 px-1.5 border-0",
-          statusConfig.color,
-          isPublished && "flex items-center gap-0.5"
-        )}>
-          {isPublished && <Globe className="w-2.5 h-2.5" />}
-          {statusConfig.label}
-        </Badge>
+        {isPublished ? (
+          <Badge className={cn("h-4 w-4 p-0 border-0 flex items-center justify-center", statusConfig.color)} title={statusConfig.label}>
+            <Globe className="w-2.5 h-2.5" />
+          </Badge>
+        ) : (
+          <Badge className={cn("text-[9px] h-4 px-1.5 border-0", statusConfig.color)}>
+            {statusConfig.label}
+          </Badge>
+        )}
         {genre && (
           <Badge variant="secondary" className="text-[9px] h-4 px-1.5">
             <Music className="w-2.5 h-2.5 mr-0.5" />
@@ -87,14 +88,15 @@ export const ProjectMeta = memo(function ProjectMeta({
     <div className={cn("space-y-1.5", className)}>
       {/* Badges row */}
       <div className="flex items-center gap-1.5 flex-wrap">
-        <Badge className={cn(
-          "text-[9px] h-4 px-1.5 border-0",
-          statusConfig.color,
-          isPublished && "flex items-center gap-0.5"
-        )}>
-          {isPublished && <Globe className="w-2.5 h-2.5" />}
-          {statusConfig.label}
-        </Badge>
+        {isPublished ? (
+          <Badge className={cn("h-4 w-4 p-0 border-0 flex items-center justify-center", statusConfig.color)} title={statusConfig.label}>
+            <Globe className="w-2.5 h-2.5" />
+          </Badge>
+        ) : (
+          <Badge className={cn("text-[9px] h-4 px-1.5 border-0", statusConfig.color)}>
+            {statusConfig.label}
+          </Badge>
+        )}
         {genre && (
           <Badge variant="secondary" className="text-[9px] h-4 px-1.5">
             <Music className="w-2.5 h-2.5 mr-0.5" />
