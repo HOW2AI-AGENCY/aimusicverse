@@ -15,6 +15,8 @@ import { PublicTrackDetailSheet } from './PublicTrackDetailSheet';
 import { CreatorAvatar, CreatorLink } from '@/components/ui/creator-avatar';
 import { DoubleTapLike } from '@/components/engagement/DoubleTapLike';
 import { AddToPlaylistSheet } from './AddToPlaylistSheet';
+import { useSocialInteractions } from '@/hooks/social/use-social-interactions';
+import { usePlayerControls } from '@/hooks/player/use-player-controls';
 
 interface TrackCardEnhancedProps {
   track: PublicTrackWithCreator;
@@ -29,7 +31,7 @@ export const TrackCardEnhanced = memo(function TrackCardEnhanced({
   className,
   showFollowButton = true,
 }: TrackCardEnhancedProps) {
-  const { activeTrack, isPlaying, playTrack, pauseTrack } = usePlayerStore();
+  const { activeTrack, isPlaying } = usePlayerStore();
   const { hapticFeedback } = useTelegram();
   const { user } = useAuth();
   const [imageError, setImageError] = useState(false);
@@ -37,12 +39,19 @@ export const TrackCardEnhanced = memo(function TrackCardEnhanced({
   const [playlistSheetOpen, setPlaylistSheetOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
+  // Use new extracted hooks
+  const { play, togglePlayPause, currentTrack } = usePlayerControls();
+  const { share, isSharing } = useSocialInteractions({
+    entityType: 'track',
+    entityId: track.id,
+  });
+
   const isOwnTrack = user?.id === track.user_id;
   // Note: We don't have batch-loaded follow status yet, so useFollow will still query individually
   // This will be optimized in a future enhancement when we add creator_following to the batch data
   const { isFollowing, toggleFollow, isLoading: isFollowLoading } = useFollow(track.user_id);
 
-  const isCurrentTrack = activeTrack?.id === track.id;
+  const isCurrentTrack = activeTrack?.id === track.id || currentTrack?.id === track.id;
   const isCurrentlyPlaying = isCurrentTrack && isPlaying;
 
   const trackForPlayer: Track = {
@@ -56,31 +65,35 @@ export const TrackCardEnhanced = memo(function TrackCardEnhanced({
     setDetailsOpen(true);
   };
 
-  const handlePlay = (e: React.MouseEvent) => {
+  const handlePlay = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    hapticFeedback('light');
     
     if (isCurrentTrack) {
-      if (isPlaying) {
-        pauseTrack();
-      } else {
-        playTrack(trackForPlayer);
-      }
+      togglePlayPause();
     } else {
-      playTrack(trackForPlayer);
+      await play(trackForPlayer);
     }
   };
 
-  const handleShare = (e: React.MouseEvent) => {
+  const handleShare = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    hapticFeedback('light');
     
+    // Use native share if available, otherwise use our hook
     if (navigator.share) {
-      navigator.share({
-        title: track.title || 'Трек',
-        text: `Послушай "${track.title}" на MusicVerse`,
-        url: `${window.location.origin}/track/${track.id}`,
-      });
+      try {
+        await navigator.share({
+          title: track.title || 'Трек',
+          text: `Послушай "${track.title}" на MusicVerse`,
+          url: `${window.location.origin}/track/${track.id}`,
+        });
+      } catch (err) {
+        // User cancelled or error - fallback to our hook
+        if ((err as Error).name !== 'AbortError') {
+          await share('clipboard');
+        }
+      }
+    } else {
+      await share('clipboard');
     }
   };
 
