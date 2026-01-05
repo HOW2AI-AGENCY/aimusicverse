@@ -119,33 +119,5 @@ export function SectionLoading({ height = '120px', className }: SectionLoadingPr
   );
 }
 
-// Card skeleton for grid layouts
-export function CardSkeleton({ className }: { className?: string }) {
-  return (
-    <div className={cn('rounded-lg bg-muted/50 animate-pulse', className)}>
-      <div className="aspect-square rounded-t-lg bg-muted" />
-      <div className="p-3 space-y-2">
-        <div className="h-4 bg-muted rounded w-3/4" />
-        <div className="h-3 bg-muted rounded w-1/2" />
-      </div>
-    </div>
-  );
-}
-
-// Text skeleton for inline content
-export function TextSkeleton({ 
-  width = '100%', 
-  height = '1rem',
-  className 
-}: { 
-  width?: string; 
-  height?: string;
-  className?: string;
-}) {
-  return (
-    <div 
-      className={cn('bg-muted rounded animate-pulse', className)}
-      style={{ width, height }}
-    />
-  );
-}
+// Re-export consolidated skeletons from unified source
+export { CardSkeleton, TextSkeleton } from './skeleton-components';
