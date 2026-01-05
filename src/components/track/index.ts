@@ -1,31 +1,33 @@
 /**
  * Track components - unified exports
  * 
- * MIGRATION GUIDE:
- * - Use UnifiedTrackCard from './track-card-new' for all new code
- * - Legacy UnifiedTrackCard from './UnifiedTrackCard' is deprecated
+ * USE: UnifiedTrackCard from './track-card-new' for all track card needs
  */
 
-// NEW: Unified Track Card v2 - USE THIS
+// Primary export - UnifiedTrackCard v2
 export { 
-  UnifiedTrackCard as UnifiedTrackCardNew,
+  UnifiedTrackCard,
   TrackCardNew,
 } from './track-card-new';
+
 export type {
-  UnifiedTrackCardProps as UnifiedTrackCardNewProps,
+  UnifiedTrackCardProps,
   StandardTrackCardProps,
   ProfessionalTrackCardProps,
   EnhancedTrackCardProps,
+  TrackData,
+  MidiStatus,
 } from './track-card-new';
 
-// Legacy components (deprecated - will be removed)
-export { UnifiedTrackCard } from './UnifiedTrackCard';
+// Re-export components for convenience
+export * from './track-card-new/components';
+export * from './track-card-new/hooks';
+export * from './track-card-new/variants';
+
+// Shared components
 export { TrackCover } from './TrackCover';
 export { TrackInfo } from './TrackInfo';
 export { useTrackCardLogic } from './hooks/useTrackCardLogic';
-
-// Variants
-export * from './variants';
 
 // Re-export DurationBadge for convenience
 export { DurationBadge } from '@/components/library/shared/DurationBadge';
