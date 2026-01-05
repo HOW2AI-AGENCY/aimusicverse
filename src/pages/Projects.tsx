@@ -56,7 +56,7 @@ export default function Projects() {
       <div className={cn(
         "sticky top-0 z-40 bg-background/95 backdrop-blur-md border-b border-border/50",
         isMobile 
-          ? "px-4 pt-[max(calc(var(--tg-content-safe-area-inset-top,0px)+0.25rem),calc(env(safe-area-inset-top,0px)+0.25rem))] pb-1.5" 
+          ? "px-4 pt-[calc(max(var(--tg-content-safe-area-inset-top,0px)+var(--tg-safe-area-inset-top,0px)+0.5rem,env(safe-area-inset-top,0px)+0.5rem))] pb-1.5" 
           : "px-4 py-2.5"
       )}>
         <div className="max-w-6xl mx-auto">
