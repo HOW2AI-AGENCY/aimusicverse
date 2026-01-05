@@ -14,11 +14,19 @@ This directory contains the complete planning and design documentation for the M
 
 | Document | Purpose | Status | Key Sections |
 |----------|---------|--------|-------------|
-| **[spec.md](./spec.md)** | Feature specification with user stories and requirements | ✅ Complete | Problem statement, 8 user stories, 62 functional requirements, success criteria |
+| **[spec.md](./spec.md)** | Feature specification with user stories and requirements | ✅ Complete | Problem statement, 8 user stories, 30 functional requirements, success criteria |
 | **[plan.md](./plan.md)** | Implementation plan with phases, timeline, risks | ✅ Complete | Technical context, constitution check, Phase 0-1 plans, risks |
+| **[tasks.md](./tasks.md)** | Detailed task breakdown for implementation | ✅ Complete | 70 tasks across 5 sprints, 29 completed (41%) |
 | **[research.md](./research.md)** | Phase 0 audit findings and gap analysis | ✅ Complete | Component inventory (991 files), touch target audit, modal analysis, bundle size estimation |
 | **[data-model.md](./data-model.md)** | Phase 1 unified component schemas | ✅ Complete | 7 core entities, TypeScript interfaces, validation rules |
 | **[quickstart.md](./quickstart.md)** | Phase 1 developer guide with code examples | ✅ Complete | 8 patterns, code examples, checklist, common mistakes |
+
+### Analysis & Tracking Documents
+
+| Document | Purpose | Status | Key Sections |
+|----------|---------|--------|-------------|
+| **[ANALYSIS-REMEDIATION.md](./ANALYSIS-REMEDIATION.md)** | Cross-artifact consistency analysis and remediation plan | ✅ Complete | 34 issues identified (3 critical, 17 high), actionable remediation steps |
+| **[FR-TO-TASK-MAPPING.md](./FR-TO-TASK-MAPPING.md)** | Functional requirements to tasks mapping table | ✅ Complete | 30 FRs mapped to 70 tasks, 68% coverage, gap analysis |
 
 ### Supporting Documents
 
@@ -47,11 +55,13 @@ This directory contains the complete planning and design documentation for the M
 
 ### What Comes Next
 
-**Phase 2 (Implementation) - NOT in /speckit.plan scope**:
-- Generate tasks.md via `/speckit.tasks` command
-- Screen-by-screen migration (20-30 components per sprint)
-- Estimated timeline: 15-25 days (based on research findings)
-- First sprint priorities: Bundle size baseline, touch target fixes, modal migration
+**Phase 2 (Implementation) - IN PROGRESS**:
+- ✅ Sprint 0 complete (10 tasks): Bundle baseline, feature flags, validation tooling
+- 🔄 Sprint 1 in progress (14/17 tasks, 82%): Touch targets, virtualization
+- ⏸️ Sprint 2-5 not started
+- ⚠️ **CRITICAL BLOCKERS**: Bundle size 798KB over limit, T020 product decision needed
+- 📊 Progress: 29/70 tasks complete (41%)
+- 📋 Recent: Comprehensive analysis completed, remediation plan documented
 
 ## 📊 Key Findings Summary
 
