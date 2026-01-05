@@ -84,7 +84,8 @@ export const MobileHeaderBar = memo(function MobileHeaderBar({
               variant="ghost"
               size="icon"
               onClick={handleBack}
-              className="h-9 w-9"
+              className="touch-target-44 h-11 w-11"
+              aria-label="Назад"
             >
               <ArrowLeft className="w-5 h-5" />
             </Button>
@@ -116,7 +117,8 @@ export const MobileHeaderBar = memo(function MobileHeaderBar({
               variant="ghost"
               size="icon"
               onClick={handleMore}
-              className="h-9 w-9"
+              className="touch-target-44 h-11 w-11"
+              aria-label="Дополнительно"
             >
               <MoreVertical className="w-5 h-5" />
             </Button>
