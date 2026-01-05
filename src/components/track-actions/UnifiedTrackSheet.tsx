@@ -21,7 +21,7 @@ import {
   ImagePlus, Disc, Plus, Music, Video, Mic2, Guitar,
   Layers, RefreshCw, Scissors, Wand2, Music2, FileMusic,
   FileAudio, Archive, Send, Link, ListMusic, Folder,
-  Info, Pencil, Globe, Lock, Trash2
+  Info, Pencil, Globe, Lock, Trash2, Sparkles, Check, Loader2
 } from 'lucide-react';
 import { isActionAvailable } from '@/lib/trackActionConditions';
 
@@ -155,6 +155,11 @@ export function UnifiedTrackSheet({
   const showDetails = isActionAvailable('details', track, actionState);
   const showRename = isActionAvailable('rename', track, actionState);
   const showTogglePublic = isActionAvailable('toggle_public', track, actionState);
+  const showUpscaleHd = isActionAvailable('upscale_hd', track, actionState);
+  
+  // HD status
+  const hasHdAudio = !!(track as any).audio_url_hd || (track as any).audio_quality === 'hd';
+  const isUpscaling = (track as any).upscale_status === 'processing';
 
   return (
     <>
@@ -264,6 +269,37 @@ export function UnifiedTrackSheet({
                     <IconGridButton icon={Folder} label="Проект" color="green" onClick={() => executeAction('add_to_project')} />
                   )}
                 </ActionGroup>
+
+                {/* Quality actions */}
+                {showUpscaleHd && (
+                  <ActionGroup title="Качество">
+                    {hasHdAudio ? (
+                      <IconGridButton 
+                        icon={Check} 
+                        label="HD 48kHz ✓" 
+                        color="green" 
+                        disabled 
+                        onClick={() => {}}
+                      />
+                    ) : isUpscaling ? (
+                      <IconGridButton 
+                        icon={Loader2} 
+                        label="Улучшение..." 
+                        color="amber" 
+                        disabled 
+                        onClick={() => {}}
+                      />
+                    ) : (
+                      <IconGridButton 
+                        icon={Sparkles} 
+                        label="HD Audio" 
+                        color="amber" 
+                        onClick={() => executeAction('upscale_hd')} 
+                        disabled={isProcessing}
+                      />
+                    )}
+                  </ActionGroup>
+                )}
 
                 {/* Utils actions */}
                 <ActionGroup title="Управление">
