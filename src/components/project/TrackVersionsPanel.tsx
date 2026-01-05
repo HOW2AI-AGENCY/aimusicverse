@@ -282,7 +282,7 @@ export const TrackVersionsPanel = memo(function TrackVersionsPanel({
 
   const versions = tracksBySlot[projectTrackId] || [];
   const versionsCount = versions.length;
-  const masterVersion = versions.find(v => v.is_master);
+  const masterVersion = versions.find(v => v.is_primary);
 
   if (isLoading) {
     return (
@@ -300,7 +300,7 @@ export const TrackVersionsPanel = memo(function TrackVersionsPanel({
   const renderTrackItem = (version: ProjectGeneratedTrack, index: number) => {
     const isCurrentTrack = activeTrack?.id === version.id;
     const isTrackPlaying = isCurrentTrack && isPlaying;
-    const isMaster = version.is_master;
+    const isMaster = version.is_primary;
 
     return (
       <div
