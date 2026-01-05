@@ -158,9 +158,13 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
               setTimeout(async () => {
                 setStep('tracklist');
                 setProgress(40);
-                setStatusMessage('AI генерирует треклист...');
+                setStatusMessage('AI анализирует концепцию...');
                 
                 try {
+                  // Step 1: Generate the full project
+                  setProgress(50);
+                  setStatusMessage('AI создаёт трек-лист...');
+                  
                   const { data: aiResult, error } = await supabase.functions.invoke('project-ai', {
                     body: {
                       action: 'full-project',
@@ -174,11 +178,28 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
                     },
                   });
                   
-                  if (error) throw error;
+                  if (error) {
+                    logger.error('Project AI error', error);
+                    throw new Error(error.message || 'Ошибка AI генерации');
+                  }
                   
-                  // Update project with AI-generated data
-                  if (aiResult?.data) {
-                    const { concept, visualAesthetic, coverPrompt, title: aiTitle, description: aiDescription } = aiResult.data;
+                  // Check for partial errors
+                  if (aiResult?.data?.error) {
+                    logger.warn('AI parsing error', { error: aiResult.data.error });
+                    toast.error('AI не смог полностью обработать запрос');
+                    setStep('complete');
+                    setProgress(100);
+                    return;
+                  }
+                  
+                  const aiData = aiResult?.data;
+                  
+                  // Step 2: Update project with AI-generated data
+                  if (aiData) {
+                    setProgress(70);
+                    setStatusMessage('Сохранение концепции...');
+                    
+                    const { concept, visualAesthetic, coverPrompt, title: aiTitle, description: aiDescription } = aiData;
                     
                     // Save all AI-generated fields
                     const updateData: Record<string, any> = {};
@@ -188,16 +209,20 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
                     if (!description && aiDescription) updateData.description = aiDescription;
                     
                     if (Object.keys(updateData).length > 0) {
-                      await supabase
+                      const { error: updateError } = await supabase
                         .from('music_projects')
                         .update(updateData)
                         .eq('id', data.id);
+                        
+                      if (updateError) {
+                        logger.warn('Failed to update project with AI data', { error: updateError });
+                      }
                     }
                     
-                    // Auto-generate cover if coverPrompt is available
+                    // Step 3: Auto-generate cover if coverPrompt is available
                     if (coverPrompt) {
-                      setStatusMessage('Генерация обложки...');
                       setProgress(85);
+                      setStatusMessage('Генерация обложки...');
                       
                       try {
                         const { data: coverData, error: coverError } = await supabase.functions.invoke('generate-cover-image', {
@@ -219,22 +244,36 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
                         // Don't fail the whole process if cover fails
                       }
                     }
+                    
+                    // Log success metrics
+                    logger.info('Project generation complete', {
+                      projectId: data.id,
+                      tracksGenerated: aiData.insertedCount || aiData.tracks?.length || 0,
+                      hasCover: !!coverPrompt,
+                    });
                   }
                   
-                  setProgress(90);
-                  setStatusMessage('Треклист готов!');
+                  setProgress(95);
+                  setStatusMessage('Финализация...');
                   
                   // Wait for real-time to update
                   setTimeout(() => {
                     setStep('complete');
                     setProgress(100);
-                  }, 1000);
+                    setStatusMessage('Проект готов!');
+                  }, 800);
                   
-                } catch (error) {
+                } catch (error: any) {
                   logger.error('Error generating full project', error);
-                  toast.error('Ошибка генерации треклиста');
+                  const errorMessage = error.message?.includes('429') 
+                    ? 'Превышен лимит AI запросов'
+                    : error.message?.includes('402')
+                    ? 'Необходимо пополнить баланс'
+                    : 'Ошибка генерации';
+                  toast.error(errorMessage);
                   setStep('complete');
                   setProgress(100);
+                  setStatusMessage('Проект создан (без AI трек-листа)');
                 }
               }, 500);
             } else {
