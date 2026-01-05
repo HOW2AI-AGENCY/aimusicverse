@@ -1,11 +1,13 @@
 /**
- * VersionPills - A/B/C/D version switcher pills
+ * VersionPills - Single icon version switcher
+ * Cycles through versions on click (A → B → C → D → A)
  */
 
 import { memo, useCallback } from 'react';
 import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { hapticImpact } from '@/lib/haptic';
+import { Layers } from 'lucide-react';
 
 interface VersionPillsProps {
   count: number;
@@ -22,45 +24,38 @@ export const VersionPills = memo(function VersionPills({
 }: VersionPillsProps) {
   if (count <= 1) return null;
 
-  const handleClick = useCallback((e: React.MouseEvent, index: number) => {
+  const handleClick = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
     hapticImpact('light');
-    onSwitch?.(index);
-  }, [onSwitch]);
+    // Cycle to next version
+    const nextIndex = (activeIndex + 1) % count;
+    onSwitch?.(nextIndex);
+  }, [onSwitch, activeIndex, count]);
 
-  const pillSize = compact ? 'w-6 h-6 min-w-[24px] min-h-[24px] text-[10px]' : 'w-7 h-7 min-w-[28px] min-h-[28px] text-xs';
+  const currentLabel = String.fromCharCode(65 + activeIndex); // A, B, C, D
+  const iconSize = compact ? 'w-3.5 h-3.5' : 'w-4 h-4';
+  const buttonSize = compact ? 'w-7 h-7 min-w-[28px]' : 'w-8 h-8 min-w-[32px]';
 
   return (
-    <div
-      className="flex items-center gap-1 bg-background/80 backdrop-blur-sm rounded-full px-1.5 py-0.5 border border-border/50"
-      onClick={(e) => e.stopPropagation()}
-    >
-      {Array.from({ length: Math.min(count, 4) }).map((_, i) => {
-        const isActive = i === activeIndex;
-        const label = String.fromCharCode(65 + i); // A, B, C, D
-
-        return (
-          <motion.button
-            key={i}
-            onClick={(e) => handleClick(e, i)}
-            className={cn(
-              pillSize,
-              'rounded-full font-bold transition-all touch-manipulation',
-              isActive
-                ? 'bg-primary text-primary-foreground shadow-sm'
-                : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
-            )}
-            whileTap={{ scale: 0.95 }}
-          >
-            {label}
-          </motion.button>
-        );
-      })}
-      {count > 4 && (
-        <span className="text-[10px] text-muted-foreground font-medium px-0.5">
-          +{count - 4}
-        </span>
+    <motion.button
+      onClick={handleClick}
+      className={cn(
+        buttonSize,
+        'rounded-lg font-bold transition-all touch-manipulation',
+        'flex items-center justify-center gap-0.5',
+        'bg-primary/15 text-primary hover:bg-primary/25',
+        'border border-primary/20'
       )}
-    </div>
+      whileTap={{ scale: 0.92 }}
+      title={`Версия ${currentLabel} из ${count}. Нажмите для переключения`}
+    >
+      <Layers className={cn(iconSize, 'flex-shrink-0')} />
+      <span className={cn(
+        compact ? 'text-[10px]' : 'text-xs',
+        'font-bold leading-none'
+      )}>
+        {currentLabel}
+      </span>
+    </motion.button>
   );
 });
