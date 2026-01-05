@@ -24,7 +24,7 @@ import { FeaturedBlogBanners } from "@/components/home/FeaturedBlogBanners";
 // Lazy loaded components
 const GamificationBar = lazy(() => import("@/components/gamification/GamificationBar").then(m => ({ default: m.GamificationBar })));
 const RecentTracksSection = lazy(() => import("@/components/home/RecentTracksSection").then(m => ({ default: m.RecentTracksSection })));
-const FollowingFeed = lazy(() => import("@/components/social/FollowingFeed").then(m => ({ default: m.FollowingFeed })));
+
 const AutoPlaylistsSection = lazy(() => import("@/components/home/AutoPlaylistsSection").then(m => ({ default: m.AutoPlaylistsSection })));
 const PopularCreatorsSection = lazy(() => import("@/components/home/PopularCreatorsSection").then(m => ({ default: m.PopularCreatorsSection })));
 const PublicArtistsSection = lazy(() => import("@/components/home/PublicArtistsSection").then(m => ({ default: m.PublicArtistsSection })));
@@ -35,12 +35,14 @@ const EngagementBanner = lazy(() => import("@/components/home/EngagementBanner")
 const GenerateSheet = lazy(() => import("@/components/GenerateSheet").then(m => ({ default: m.GenerateSheet })));
 const MusicRecognitionDialog = lazy(() => import("@/components/music-recognition/MusicRecognitionDialog").then(m => ({ default: m.MusicRecognitionDialog })));
 
-// Genre configurations
+// Genre configurations (based on computed_genre data in DB)
 const GENRE_SECTIONS = [
-  { genre: 'electronic', label: 'Электронная', color: 'cyan' },
-  { genre: 'hip-hop', label: 'Хип-хоп', color: 'violet' },
+  { genre: 'hiphop', label: 'Хип-Хоп', color: 'violet' },
   { genre: 'pop', label: 'Поп', color: 'rose' },
   { genre: 'rock', label: 'Рок', color: 'orange' },
+  { genre: 'folk', label: 'Фолк', color: 'emerald' },
+  { genre: 'jazz', label: 'Джаз', color: 'primary' },
+  { genre: 'electronic', label: 'Электроника', color: 'cyan' },
   { genre: 'ambient', label: 'Эмбиент', color: 'emerald' },
 ] as const;
 
@@ -179,7 +181,7 @@ const Index = () => {
             iconGradient="from-emerald-500/20 to-teal-500/10"
             tracks={publicContent?.popularTracks || []}
             isLoading={contentLoading}
-            maxTracks={8}
+            maxTracks={12}
             columns={4}
             showMoreLink="/community?sort=popular"
             showMoreLabel="Все популярные"
@@ -197,7 +199,7 @@ const Index = () => {
             iconGradient="from-orange-500/20 to-amber-500/10"
             tracks={publicContent?.recentTracks || []}
             isLoading={contentLoading}
-            maxTracks={8}
+            maxTracks={12}
             columns={4}
             showMoreLink="/community?sort=recent"
             showMoreLabel="Все новинки"
@@ -246,12 +248,6 @@ const Index = () => {
           </>
         )}
 
-        {/* Following Feed */}
-        {user && (
-          <LazySection className="mb-5" fallback={<SectionSkeleton height="160px" />}>
-            <FollowingFeed />
-          </LazySection>
-        )}
 
         {/* Auto Playlists by Genre */}
         <Suspense fallback={<SectionSkeleton height="160px" />}>

@@ -29,18 +29,23 @@ export const GenreTracksRow = memo(function GenreTracksRow({
 }: GenreTracksRowProps) {
   const navigate = useNavigate();
   
-  // Filter tracks by genre
+  // Filter tracks by genre - prioritize computed_genre
   const genreTracks = useMemo(() => {
     const searchTerm = genre.toLowerCase();
     return tracks.filter(track => {
+      // Priority: computed_genre (most reliable from DB)
+      const computed = (track.computed_genre || '').toLowerCase();
+      if (computed === searchTerm || computed.includes(searchTerm)) {
+        return true;
+      }
+      // Fallback: style and tags
       const tags = (Array.isArray(track.tags) ? track.tags.join(' ') : (track.tags || '')).toLowerCase();
       const style = (track.style || '').toLowerCase();
-      const computed = (track.computed_genre || '').toLowerCase();
-      return tags.includes(searchTerm) || style.includes(searchTerm) || computed.includes(searchTerm);
-    }).slice(0, 10);
+      return tags.includes(searchTerm) || style.includes(searchTerm);
+    }).slice(0, 12);
   }, [tracks, genre]);
 
-  if (genreTracks.length < 3) {
+  if (genreTracks.length < 2) {
     return null;
   }
 
