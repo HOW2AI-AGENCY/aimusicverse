@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, ReactNode, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { telegramAuthService } from '@/services/telegram-auth';
 import { supabase } from '@/integrations/supabase/client';
@@ -101,6 +101,19 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
   const [initData, setInitData] = useState<string>('');
   const [isInitialized, setIsInitialized] = useState(false);
   const [isDevelopmentMode, setIsDevelopmentMode] = useState(false);
+
+  // Refs to store event handlers for proper cleanup
+  const safeAreaHandlersRef = useRef<{
+    handleViewportChanged: (() => void) | null;
+    handleFullscreenChanged: (() => void) | null;
+    handleSafeAreaChanged: (() => void) | null;
+    handleContentSafeAreaChanged: (() => void) | null;
+  }>({
+    handleViewportChanged: null,
+    handleFullscreenChanged: null,
+    handleSafeAreaChanged: null,
+    handleContentSafeAreaChanged: null,
+  });
 
   useEffect(() => {
     bootLog('TelegramProvider useEffect started');
@@ -301,54 +314,117 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
 
       // Apply Safe Area Insets для iOS и Android
       // IMPORTANT: Telegram 8.0+ supports contentSafeAreaInset for fullscreen mode
-      const applySafeAreaInsets = () => {
-        const isIOS = tg.platform === 'ios';
-        const isAndroid = tg.platform === 'android';
-        
-        telegramLogger.debug('Safe Area setup', { platform: tg.platform });
-        
-        // Get contentSafeAreaInset from Telegram (Mini App 8.0+)
-        // This provides the actual safe area when native Telegram buttons are present
-        const contentSafeArea = (tg as any).contentSafeAreaInset || { top: 0, bottom: 0, left: 0, right: 0 };
-        const safeArea = (tg as any).safeAreaInset || { top: 0, bottom: 0, left: 0, right: 0 };
-        
-        telegramLogger.debug('Content Safe Area Insets', { contentSafeArea, safeArea });
-        
-        // Set Telegram-specific content safe area (for native buttons like Back/Settings)
-        root.style.setProperty('--tg-content-safe-area-inset-top', `${contentSafeArea.top}px`);
-        root.style.setProperty('--tg-content-safe-area-inset-bottom', `${contentSafeArea.bottom}px`);
-        root.style.setProperty('--tg-safe-area-inset-top', `${safeArea.top}px`);
-        root.style.setProperty('--tg-safe-area-inset-bottom', `${safeArea.bottom}px`);
-        
-        // Calculate combined safe area (max of device + Telegram native buttons)
-        if (isIOS) {
-          const deviceTop = 44; // typical iOS notch
-          const deviceBottom = 34; // typical iOS home indicator
-          root.style.setProperty('--safe-area-top', `max(env(safe-area-inset-top, ${deviceTop}px), ${contentSafeArea.top}px)`);
-          root.style.setProperty('--safe-area-bottom', `max(env(safe-area-inset-bottom, ${deviceBottom}px), ${contentSafeArea.bottom}px)`);
-        } else if (isAndroid) {
-          const deviceTop = 24; // typical Android status bar
-          root.style.setProperty('--safe-area-top', `max(env(safe-area-inset-top, ${deviceTop}px), ${contentSafeArea.top}px)`);
-          root.style.setProperty('--safe-area-bottom', `max(env(safe-area-inset-bottom, 0px), ${contentSafeArea.bottom}px)`);
-        } else {
-          root.style.setProperty('--safe-area-top', `max(env(safe-area-inset-top, 0px), ${contentSafeArea.top}px)`);
-          root.style.setProperty('--safe-area-bottom', `max(env(safe-area-inset-bottom, 0px), ${contentSafeArea.bottom}px)`);
-        }
-        
-        root.style.setProperty('--safe-area-left', 'env(safe-area-inset-left, 0px)');
-        root.style.setProperty('--safe-area-right', 'env(safe-area-inset-right, 0px)');
+      // FIX: Add protection against recursive event loops
+      let isApplyingInsets = false;
+      let debounceTimer: NodeJS.Timeout | null = null;
+      const previousInsets = {
+        contentTop: -1,
+        contentBottom: -1,
+        safeTop: -1,
+        safeBottom: -1,
       };
 
+      const applySafeAreaInsets = () => {
+        // Prevent re-entrant calls
+        if (isApplyingInsets) {
+          telegramLogger.debug('Safe Area update skipped - already in progress');
+          return;
+        }
+
+        // Debounce rapid calls
+        if (debounceTimer) {
+          clearTimeout(debounceTimer);
+        }
+
+        debounceTimer = setTimeout(() => {
+          isApplyingInsets = true;
+          
+          try {
+            const isIOS = tg.platform === 'ios';
+            const isAndroid = tg.platform === 'android';
+            
+            // Get contentSafeAreaInset from Telegram (Mini App 8.0+)
+            // This provides the actual safe area when native Telegram buttons are present
+            const contentSafeArea = (tg as any).contentSafeAreaInset || { top: 0, bottom: 0, left: 0, right: 0 };
+            const safeArea = (tg as any).safeAreaInset || { top: 0, bottom: 0, left: 0, right: 0 };
+            
+            // Check if values actually changed - prevent unnecessary DOM updates
+            if (
+              previousInsets.contentTop === contentSafeArea.top &&
+              previousInsets.contentBottom === contentSafeArea.bottom &&
+              previousInsets.safeTop === safeArea.top &&
+              previousInsets.safeBottom === safeArea.bottom
+            ) {
+              telegramLogger.debug('Safe Area values unchanged - skipping update');
+              return;
+            }
+
+            // Update tracked values
+            previousInsets.contentTop = contentSafeArea.top;
+            previousInsets.contentBottom = contentSafeArea.bottom;
+            previousInsets.safeTop = safeArea.top;
+            previousInsets.safeBottom = safeArea.bottom;
+
+            telegramLogger.debug('Applying Safe Area Insets', { 
+              platform: tg.platform,
+              contentSafeArea, 
+              safeArea 
+            });
+            
+            // Set Telegram-specific content safe area (for native buttons like Back/Settings)
+            root.style.setProperty('--tg-content-safe-area-inset-top', `${contentSafeArea.top}px`);
+            root.style.setProperty('--tg-content-safe-area-inset-bottom', `${contentSafeArea.bottom}px`);
+            root.style.setProperty('--tg-safe-area-inset-top', `${safeArea.top}px`);
+            root.style.setProperty('--tg-safe-area-inset-bottom', `${safeArea.bottom}px`);
+            
+            // Calculate combined safe area (max of device + Telegram native buttons)
+            if (isIOS) {
+              const deviceTop = 44; // typical iOS notch
+              const deviceBottom = 34; // typical iOS home indicator
+              root.style.setProperty('--safe-area-top', `max(env(safe-area-inset-top, ${deviceTop}px), ${contentSafeArea.top}px)`);
+              root.style.setProperty('--safe-area-bottom', `max(env(safe-area-inset-bottom, ${deviceBottom}px), ${contentSafeArea.bottom}px)`);
+            } else if (isAndroid) {
+              const deviceTop = 24; // typical Android status bar
+              root.style.setProperty('--safe-area-top', `max(env(safe-area-inset-top, ${deviceTop}px), ${contentSafeArea.top}px)`);
+              root.style.setProperty('--safe-area-bottom', `max(env(safe-area-inset-bottom, 0px), ${contentSafeArea.bottom}px)`);
+            } else {
+              root.style.setProperty('--safe-area-top', `max(env(safe-area-inset-top, 0px), ${contentSafeArea.top}px)`);
+              root.style.setProperty('--safe-area-bottom', `max(env(safe-area-inset-bottom, 0px), ${contentSafeArea.bottom}px)`);
+            }
+            
+            root.style.setProperty('--safe-area-left', 'env(safe-area-inset-left, 0px)');
+            root.style.setProperty('--safe-area-right', 'env(safe-area-inset-right, 0px)');
+          } finally {
+            isApplyingInsets = false;
+          }
+        }, 100); // 100ms debounce delay
+      };
+
+      // Apply initial safe area insets
       applySafeAreaInsets();
 
-      // Отслеживание изменений viewport и fullscreen для обновления safe areas
-      tg.onEvent?.('viewportChanged', applySafeAreaInsets);
-      tg.onEvent?.('fullscreenChanged', () => {
+      // Event handlers for safe area changes
+      const handleViewportChanged = () => applySafeAreaInsets();
+      const handleFullscreenChanged = () => {
         telegramLogger.debug('Fullscreen changed', { isFullscreen: (tg as any).isFullscreen });
         applySafeAreaInsets();
-      });
-      tg.onEvent?.('safeAreaChanged', applySafeAreaInsets);
-      tg.onEvent?.('contentSafeAreaChanged', applySafeAreaInsets);
+      };
+      const handleSafeAreaChanged = () => applySafeAreaInsets();
+      const handleContentSafeAreaChanged = () => applySafeAreaInsets();
+
+      // Store handlers in ref for cleanup
+      safeAreaHandlersRef.current = {
+        handleViewportChanged,
+        handleFullscreenChanged,
+        handleSafeAreaChanged,
+        handleContentSafeAreaChanged,
+      };
+
+      // Register event listeners
+      tg.onEvent?.('viewportChanged', handleViewportChanged);
+      tg.onEvent?.('fullscreenChanged', handleFullscreenChanged);
+      tg.onEvent?.('safeAreaChanged', handleSafeAreaChanged);
+      tg.onEvent?.('contentSafeAreaChanged', handleContentSafeAreaChanged);
       
       // Note: ensureInitialized is now called in the auth .finally() block above
     } else if (devMode) {
@@ -439,9 +515,32 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
       ensureInitialized();
     }
 
-    // Cleanup timeout on unmount
+    // Cleanup function - remove event listeners on unmount
     return () => {
       clearTimeout(initializationTimeout);
+      
+      // Clean up Telegram event listeners to prevent memory leaks and recursive calls
+      if (typeof window !== 'undefined' && window.Telegram?.WebApp) {
+        const tg = window.Telegram.WebApp;
+        
+        // Remove safe area event listeners if they were registered
+        if (tg.offEvent && safeAreaHandlersRef.current) {
+          const handlers = safeAreaHandlersRef.current;
+          
+          if (handlers.handleViewportChanged) {
+            tg.offEvent('viewportChanged', handlers.handleViewportChanged);
+          }
+          if (handlers.handleFullscreenChanged) {
+            tg.offEvent('fullscreenChanged', handlers.handleFullscreenChanged);
+          }
+          if (handlers.handleSafeAreaChanged) {
+            tg.offEvent('safeAreaChanged', handlers.handleSafeAreaChanged);
+          }
+          if (handlers.handleContentSafeAreaChanged) {
+            tg.offEvent('contentSafeAreaChanged', handlers.handleContentSafeAreaChanged);
+          }
+        }
+      }
     };
   }, []);
 
