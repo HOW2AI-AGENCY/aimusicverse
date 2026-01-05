@@ -168,7 +168,7 @@ export function UnifiedTrackSheet({
       <Sheet open={open} onOpenChange={onOpenChange}>
         <SheetContent 
           side="bottom" 
-          className="h-[55vh] max-h-[55vh] rounded-t-2xl flex flex-col pb-0 px-0 bg-background/95 backdrop-blur-xl"
+          className="h-[70vh] sm:h-[55vh] max-h-[70vh] sm:max-h-[55vh] rounded-t-2xl flex flex-col pb-0 px-0 bg-background/95 backdrop-blur-xl"
         >
           {/* Drag handle */}
           <div className="flex justify-center pt-2 pb-1">
