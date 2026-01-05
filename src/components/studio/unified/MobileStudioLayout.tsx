@@ -2,19 +2,28 @@
  * MobileStudioLayout - Full mobile studio experience with bottom tabs
  * Integrates all mobile studio components in a tab-based interface
  * With smooth animations, swipe navigation, and optimized performance
+ * 
+ * OPTIMIZATION:
+ * - Lazy loading for tab content components
+ * - Memoized tab content rendering
+ * - Smooth 60 FPS animations with optimized transitions
+ * - Swipe navigation with haptic feedback
  */
 
-import { memo, useState, useCallback, useMemo } from 'react';
+import { memo, useState, useCallback, useMemo, lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { MobileStudioTabs, MobileStudioTab } from './MobileStudioTabs';
-import { MobilePlayerContent } from './MobilePlayerContent';
-import { MobileTracksContent } from './MobileTracksContent';
-import { MobileSectionsContent } from './MobileSectionsContent';
-import { MobileMixerContent } from './MobileMixerContent';
-import { MobileActionsContent } from './MobileActionsContent';
 import { useUnifiedStudioStore } from '@/stores/useUnifiedStudioStore';
 import { useSwipeNavigation } from '@/hooks/useSwipeNavigation';
 import { cn } from '@/lib/utils';
+import { Loader2 } from 'lucide-react';
+
+// Lazy load tab components for better code splitting
+const MobilePlayerContent = lazy(() => import('./MobilePlayerContent').then(m => ({ default: m.MobilePlayerContent })));
+const MobileTracksContent = lazy(() => import('./MobileTracksContent').then(m => ({ default: m.MobileTracksContent })));
+const MobileSectionsContent = lazy(() => import('./MobileSectionsContent').then(m => ({ default: m.MobileSectionsContent })));
+const MobileMixerContent = lazy(() => import('./MobileMixerContent').then(m => ({ default: m.MobileMixerContent })));
+const MobileActionsContent = lazy(() => import('./MobileActionsContent').then(m => ({ default: m.MobileActionsContent })));
 
 // Tab order for swipe navigation
 const TAB_ORDER: MobileStudioTab[] = ['player', 'tracks', 'sections', 'mixer', 'actions'];
@@ -157,12 +166,19 @@ export const MobileStudioLayout = memo(function MobileStudioLayout({
   // Telegram safe area top
   const safeAreaTop = 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px)), env(safe-area-inset-top, 0px))';
 
-  // Animation variants for smoother transitions
+  // Animation variants for smoother 60 FPS transitions
   const contentVariants = {
     initial: { opacity: 0, y: 10 },
     animate: { opacity: 1, y: 0 },
     exit: { opacity: 0, y: -10 }
   };
+
+  // Loading fallback for lazy-loaded tabs
+  const LoadingFallback = () => (
+    <div className="flex items-center justify-center h-full">
+      <Loader2 className="w-6 h-6 animate-spin text-primary" />
+    </div>
+  );
 
   return (
     <div 
@@ -182,12 +198,14 @@ export const MobileStudioLayout = memo(function MobileStudioLayout({
             animate="animate"
             exit="exit"
             transition={{ 
-              duration: 0.2,
+              duration: 0.15,
               ease: [0.25, 0.1, 0.25, 1]
             }}
             className="h-full absolute inset-0"
           >
-            {tabContent}
+            <Suspense fallback={<LoadingFallback />}>
+              {tabContent}
+            </Suspense>
           </motion.div>
         </AnimatePresence>
       </div>
