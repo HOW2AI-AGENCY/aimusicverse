@@ -49,11 +49,44 @@ export function getToastClasses(isMobile: boolean): string {
 }
 
 /**
+ * Z-index constants per Z_INDEX_HIERARCHY.md
+ */
+export const Z_INDEX = {
+  base: 10,           // Regular page content
+  sidebar: 40,        // Background UI elements
+  navigation: 50,     // Bottom navigation bar
+  floatingButton: 60, // Floating action buttons
+  tooltips: 70,       // Smart hints, tooltips
+  dialogs: 80,        // Modal dialogs, sheets
+  fullscreen: 90,     // Major fullscreen experiences
+  system: 100,        // System notifications
+  critical: 110,      // Critical alerts
+  dropdown: 9999,     // Temporary floating menus
+} as const;
+
+/**
  * Z-index constants for notification hierarchy
- * Per Z_INDEX_HIERARCHY.md
+ * @deprecated Use Z_INDEX instead
  */
 export const TOAST_Z_INDEX = {
-  standard: 50,      // Regular toasts
-  system: 100,       // System notifications (Sonner)
-  critical: 110,     // Critical alerts
+  standard: Z_INDEX.navigation,
+  system: Z_INDEX.system,
+  critical: Z_INDEX.critical,
 } as const;
+
+/**
+ * Get safe area padding styles for fullscreen overlays
+ */
+export function getFullscreenSafeAreaStyles() {
+  return {
+    paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px)), env(safe-area-inset-top, 0px))',
+    paddingBottom: 'max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px))',
+  };
+}
+
+/**
+ * Get bottom safe area with navigation offset
+ */
+export function getBottomSafeAreaWithNav(navHeight: string = '5rem') {
+  return `calc(${navHeight} + max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)))`;
+}

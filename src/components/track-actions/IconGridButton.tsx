@@ -1,11 +1,13 @@
 /**
  * IconGridButton - Ultra compact icon button for action grids
  * 56px height, no sublabel, minimalist design
+ * Includes haptic feedback support
  */
 
-import { forwardRef } from 'react';
+import { forwardRef, useCallback } from 'react';
 import { cn } from '@/lib/utils';
 import { LucideIcon, Loader2 } from 'lucide-react';
+import { hapticImpact } from '@/lib/haptic';
 
 interface IconGridButtonProps {
   icon: LucideIcon;
@@ -16,6 +18,8 @@ interface IconGridButtonProps {
   loading?: boolean;
   onClick: () => void;
   className?: string;
+  /** Enable haptic feedback on click (default: true) */
+  haptic?: boolean;
 }
 
 const colorStyles = {
@@ -33,14 +37,21 @@ const colorStyles = {
 };
 
 export const IconGridButton = forwardRef<HTMLButtonElement, IconGridButtonProps>(
-  ({ icon: Icon, label, color = 'muted', badge, disabled, loading, onClick, className }, ref) => {
+  ({ icon: Icon, label, color = 'muted', badge, disabled, loading, onClick, className, haptic = true }, ref) => {
     const styles = colorStyles[color];
+
+    const handleClick = useCallback(() => {
+      if (haptic) {
+        hapticImpact('light');
+      }
+      onClick();
+    }, [haptic, onClick]);
 
     return (
       <button
         ref={ref}
         type="button"
-        onClick={onClick}
+        onClick={handleClick}
         disabled={disabled || loading}
         className={cn(
           'flex flex-col items-center justify-center gap-0.5',
