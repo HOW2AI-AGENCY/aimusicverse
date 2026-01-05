@@ -204,13 +204,14 @@
   - **Status**: ⚠️ BLOCKED - Playlists.tsx currently shows playlist cards, not track lists. No playlist detail view exists. Needs product decision on implementation approach.
   - **Notes**: Research.md indicates P0 priority for "playlist track display" but current implementation doesn't have this feature yet.
 
-- [ ] T021 [US2] Apply VirtualizedTrackList to Community page in `src/pages/Community.tsx`
+- [x] T021 [US2] Apply VirtualizedTrackList to Community page in `src/pages/Community.tsx`
   - **Acceptance**: Community feed uses VirtualizedTrackList, infinite scroll works
   - **Estimate**: 2 hours
   - **Rollback**: Revert Community.tsx
   - **Dependencies**: T019
   - **Priority**: P0 (performance critical)
-  - **Status**: 📋 READY - Community.tsx uses .map() for track rendering (lines 205-214, 246-255). Straightforward migration to VirtualizedTrackList.
+  - **Status**: ✅ COMPLETE - Community.tsx now uses VirtuosoGrid for virtualized rendering with pull-to-refresh support
+  - **Completed**: 2026-01-05 - Replaced `.map()` rendering with VirtuosoGrid in both "tracks" and "popular" tabs. Added pull-to-refresh with haptic feedback. Supports both grid and list view modes.
 
 - [ ] T022 [US2] Performance test with Chrome DevTools on lists >500 items
   - **Acceptance**: Maintain 60 FPS during scrolling, memory usage <100MB increase

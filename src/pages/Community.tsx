@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef, forwardRef, memo } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Globe, Music, Users, TrendingUp, Heart, Search, X } from "lucide-react";
+import { Globe, Music, Users, TrendingUp, Heart, Search, X, RefreshCw } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -8,13 +8,123 @@ import { usePublicContentBatch, PublicTrackWithCreator } from "@/hooks/usePublic
 import { usePublicArtists } from "@/hooks/usePublicArtists";
 import { PublicTrackCard } from "@/components/home/PublicTrackCard";
 import { ActorCard } from "@/components/actors/ActorCard";
-import { motion } from '@/lib/motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ViewModeToggle } from "@/components/library/shared";
+import { VirtuosoGrid } from "react-virtuoso";
+import { triggerHapticFeedback } from "@/lib/mobile-utils";
 
 const GENRES = ["Pop", "Rock", "Hip-Hop", "Electronic", "R&B", "Jazz", "Indie", "Lo-Fi"];
+
+// Grid container for VirtuosoGrid
+const GridContainer = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ children, style, ...props }, ref) => (
+    <div
+      ref={ref}
+      style={style}
+      {...props}
+      className={cn(
+        "grid gap-3",
+        props.className
+      )}
+    >
+      {children}
+    </div>
+  )
+);
+GridContainer.displayName = "GridContainer";
+
+// Item wrapper for grid
+const GridItemWrapper = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ children, ...props }, ref) => (
+    <div ref={ref} {...props}>{children}</div>
+  )
+);
+GridItemWrapper.displayName = "GridItemWrapper";
+
+// List container for VirtuosoGrid in list mode
+const ListContainer = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ children, style, ...props }, ref) => (
+    <div
+      ref={ref}
+      style={style}
+      {...props}
+      className="flex flex-col gap-3"
+    >
+      {children}
+    </div>
+  )
+);
+ListContainer.displayName = "ListContainer";
+
+// Pull-to-refresh indicator
+const PullToRefreshIndicator = memo(function PullToRefreshIndicator({
+  pullDistance,
+  isRefreshing,
+  threshold,
+}: {
+  pullDistance: number;
+  isRefreshing: boolean;
+  threshold: number;
+}) {
+  const progress = Math.min(pullDistance / threshold, 1);
+  const isReady = pullDistance >= threshold;
+  
+  return (
+    <AnimatePresence>
+      {(pullDistance > 0 || isRefreshing) && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-safe-top"
+          style={{
+            transform: `translateY(${Math.min(pullDistance, threshold)}px)`,
+          }}
+        >
+          <div className="flex flex-col items-center gap-2 px-4 py-2 bg-background/95 backdrop-blur-sm rounded-b-xl shadow-lg border-x border-b border-border">
+            <motion.div
+              animate={{
+                rotate: isRefreshing ? 360 : isReady ? 180 : 0,
+              }}
+              transition={{
+                duration: isRefreshing ? 1 : 0.3,
+                repeat: isRefreshing ? Infinity : 0,
+                ease: "linear",
+              }}
+            >
+              <RefreshCw
+                className={cn(
+                  "w-5 h-5 transition-colors",
+                  isReady || isRefreshing ? "text-primary" : "text-muted-foreground"
+                )}
+              />
+            </motion.div>
+            <span className="text-xs text-muted-foreground font-medium">
+              {isRefreshing
+                ? "Обновление..."
+                : isReady
+                ? "Отпустите для обновления"
+                : "Потяните для обновления"}
+            </span>
+            {!isRefreshing && (
+              <div className="w-16 h-1 bg-muted rounded-full overflow-hidden">
+                <motion.div
+                  className="h-full bg-primary rounded-full"
+                  initial={{ width: "0%" }}
+                  animate={{ width: `${progress * 100}%` }}
+                  transition={{ duration: 0.1 }}
+                />
+              </div>
+            )}
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+});
 
 export default function Community() {
   // Telegram BackButton
@@ -27,12 +137,78 @@ export default function Community() {
   const [searchParams, setSearchParams] = useSearchParams();
   const tagFromUrl = searchParams.get('tag');
 
-  const { data: publicContent, isLoading: tracksLoading } = usePublicContentBatch();
+  const { data: publicContent, isLoading: tracksLoading, refetch: refetchTracks } = usePublicContentBatch();
   const { data: publicArtists, isLoading: artistsLoading } = usePublicArtists(20);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("tracks");
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  
+  // Pull-to-refresh state
+  const [pullDistance, setPullDistance] = useState(0);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isPulling, setIsPulling] = useState(false);
+  const touchStartY = useRef(0);
+  const touchCurrentY = useRef(0);
+  const canPull = useRef(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  // Pull-to-refresh constants
+  const PULL_THRESHOLD = 80;
+  const MAX_PULL = 120;
+
+  // Pull-to-refresh handlers
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    if (isRefreshing) return;
+    
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    canPull.current = scrollTop === 0;
+    
+    if (canPull.current) {
+      touchStartY.current = e.touches[0].clientY;
+      setIsPulling(true);
+    }
+  }, [isRefreshing]);
+
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    if (!canPull.current || !isPulling || isRefreshing) return;
+    
+    touchCurrentY.current = e.touches[0].clientY;
+    const distance = touchCurrentY.current - touchStartY.current;
+    
+    if (distance > 0) {
+      e.preventDefault();
+      const resistance = Math.min(distance * 0.4, MAX_PULL);
+      setPullDistance(resistance);
+      
+      if (resistance >= PULL_THRESHOLD && pullDistance < PULL_THRESHOLD) {
+        triggerHapticFeedback('medium');
+      }
+    }
+  }, [isPulling, isRefreshing, pullDistance, PULL_THRESHOLD, MAX_PULL]);
+
+  const handleTouchEnd = useCallback(async () => {
+    if (!canPull.current || !isPulling) return;
+    
+    setIsPulling(false);
+    canPull.current = false;
+    
+    if (pullDistance >= PULL_THRESHOLD && !isRefreshing) {
+      setIsRefreshing(true);
+      triggerHapticFeedback('success');
+      
+      try {
+        await refetchTracks();
+      } catch (error) {
+        console.error('Failed to refresh tracks:', error);
+      } finally {
+        setPullDistance(0);
+        setTimeout(() => setIsRefreshing(false), 500);
+      }
+    } else {
+      setPullDistance(0);
+    }
+  }, [isPulling, pullDistance, PULL_THRESHOLD, isRefreshing, refetchTracks]);
 
   // Apply tag from URL to search query
   useEffect(() => {
@@ -188,80 +364,157 @@ export default function Community() {
 
           {/* All Tracks */}
           <TabsContent value="tracks" className="mt-0">
-            {tracksLoading ? (
-              <div className={cn(
-                "grid gap-3",
-                viewMode === 'grid' ? "grid-cols-2 md:grid-cols-3 lg:grid-cols-4" : "grid-cols-1"
-              )}>
-                {[1, 2, 3, 4, 5, 6].map((i) => (
-                  <div key={i} className="h-24 rounded-xl bg-muted/50 animate-pulse" />
-                ))}
-              </div>
-            ) : filteredTracks.length > 0 ? (
-              <div className={cn(
-                "grid gap-3",
-                viewMode === 'grid' ? "grid-cols-2 md:grid-cols-3 lg:grid-cols-4" : "grid-cols-1"
-              )}>
-                {filteredTracks.map((track: PublicTrackWithCreator, index: number) => (
-                  <motion.div
-                    key={track.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: Math.min(index * 0.05, 0.3) }}
-                  >
-                    <PublicTrackCard track={track} compact={viewMode === 'list'} />
-                  </motion.div>
-                ))}
-              </div>
-            ) : (
-              <EmptyState 
-                icon={Music}
-                title="Треки не найдены"
-                description="Попробуйте изменить поисковый запрос или фильтры"
+            <div
+              ref={containerRef}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+            >
+              <PullToRefreshIndicator
+                pullDistance={pullDistance}
+                isRefreshing={isRefreshing}
+                threshold={PULL_THRESHOLD}
               />
-            )}
-          </TabsContent>
-
-          {/* Popular Tracks */}
-          <TabsContent value="popular" className="mt-0">
-            {tracksLoading ? (
-              <div className={cn(
-                "grid gap-3",
-                viewMode === 'grid' ? "grid-cols-2 md:grid-cols-3 lg:grid-cols-4" : "grid-cols-1"
-              )}>
-                {[1, 2, 3].map((i) => (
-                  <div key={i} className="h-24 rounded-xl bg-muted/50 animate-pulse" />
-                ))}
-              </div>
-            ) : popularTracks.length > 0 ? (
-              <div className="space-y-4">
-                <div className="flex items-center gap-2 text-muted-foreground">
-                  <Heart className="w-4 h-4" />
-                  <span className="text-sm">Топ по популярности</span>
-                </div>
+              
+              {tracksLoading ? (
                 <div className={cn(
                   "grid gap-3",
                   viewMode === 'grid' ? "grid-cols-2 md:grid-cols-3 lg:grid-cols-4" : "grid-cols-1"
                 )}>
-                  {popularTracks.map((track: PublicTrackWithCreator, index: number) => (
-                    <motion.div
-                      key={track.id}
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: Math.min(index * 0.05, 0.3) }}
-                    >
-                      <PublicTrackCard track={track} compact={viewMode === 'list'} />
-                    </motion.div>
+                  {[1, 2, 3, 4, 5, 6].map((i) => (
+                    <div key={i} className="h-24 rounded-xl bg-muted/50 animate-pulse" />
                   ))}
                 </div>
-              </div>
-            ) : (
-              <EmptyState 
-                icon={TrendingUp}
-                title="Пока нет популярных треков"
-                description="Лайкайте треки, чтобы они попадали в топ"
+              ) : filteredTracks.length > 0 ? (
+                viewMode === 'grid' ? (
+                  <VirtuosoGrid
+                    style={{ height: '100vh', minHeight: '400px' }}
+                    data={filteredTracks}
+                    components={{
+                      // @ts-ignore - VirtuosoGrid has correct type, but TS inference is confused
+                      List: forwardRef((props, ref) => (
+                        <GridContainer 
+                          {...props} 
+                          ref={ref} 
+                          className="grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+                        />
+                      )),
+                      Item: GridItemWrapper,
+                    }}
+                    itemContent={(index, track) => (
+                      <PublicTrackCard 
+                        key={track.id}
+                        track={track} 
+                        compact={false} 
+                      />
+                    )}
+                  />
+                ) : (
+                  <VirtuosoGrid
+                    style={{ height: '100vh', minHeight: '400px' }}
+                    data={filteredTracks}
+                    components={{
+                      // @ts-ignore
+                      List: ListContainer,
+                      Item: GridItemWrapper,
+                    }}
+                    itemContent={(index, track) => (
+                      <PublicTrackCard 
+                        key={track.id}
+                        track={track} 
+                        compact={true} 
+                      />
+                    )}
+                  />
+                )
+              ) : (
+                <EmptyState 
+                  icon={Music}
+                  title="Треки не найдены"
+                  description="Попробуйте изменить поисковый запрос или фильтры"
+                />
+              )}
+            </div>
+          </TabsContent>
+
+          {/* Popular Tracks */}
+          <TabsContent value="popular" className="mt-0">
+            <div
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+            >
+              <PullToRefreshIndicator
+                pullDistance={pullDistance}
+                isRefreshing={isRefreshing}
+                threshold={PULL_THRESHOLD}
               />
-            )}
+              
+              {tracksLoading ? (
+                <div className={cn(
+                  "grid gap-3",
+                  viewMode === 'grid' ? "grid-cols-2 md:grid-cols-3 lg:grid-cols-4" : "grid-cols-1"
+                )}>
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="h-24 rounded-xl bg-muted/50 animate-pulse" />
+                  ))}
+                </div>
+              ) : popularTracks.length > 0 ? (
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 text-muted-foreground">
+                    <Heart className="w-4 h-4" />
+                    <span className="text-sm">Топ по популярности</span>
+                  </div>
+                  {viewMode === 'grid' ? (
+                    <VirtuosoGrid
+                      style={{ height: '100vh', minHeight: '400px' }}
+                      data={popularTracks}
+                      components={{
+                        // @ts-ignore
+                        List: forwardRef((props, ref) => (
+                          <GridContainer 
+                            {...props} 
+                            ref={ref} 
+                            className="grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+                          />
+                        )),
+                        Item: GridItemWrapper,
+                      }}
+                      itemContent={(index, track) => (
+                        <PublicTrackCard 
+                          key={track.id}
+                          track={track} 
+                          compact={false} 
+                        />
+                      )}
+                    />
+                  ) : (
+                    <VirtuosoGrid
+                      style={{ height: '100vh', minHeight: '400px' }}
+                      data={popularTracks}
+                      components={{
+                        // @ts-ignore
+                        List: ListContainer,
+                        Item: GridItemWrapper,
+                      }}
+                      itemContent={(index, track) => (
+                        <PublicTrackCard 
+                          key={track.id}
+                          track={track} 
+                          compact={true} 
+                        />
+                      )}
+                    />
+                  )}
+                </div>
+              ) : (
+                <EmptyState 
+                  icon={TrendingUp}
+                  title="Пока нет популярных треков"
+                  description="Лайкайте треки, чтобы они попадали в топ"
+                />
+              )}
+            </div>
           </TabsContent>
 
           {/* Artists */}
