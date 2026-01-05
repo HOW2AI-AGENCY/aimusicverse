@@ -299,7 +299,7 @@ export const TrackCard = memo(({
     const listContent = (
       <Card
         className={cn(
-          "group grid grid-cols-[52px_1fr_44px] items-center gap-3 p-2.5 sm:p-3 transition-all touch-manipulation rounded-xl min-h-[72px]",
+          "group grid grid-cols-[64px_1fr_44px] items-center gap-3 p-2.5 sm:p-3 transition-all touch-manipulation rounded-xl min-h-[80px]",
           // 🖥️ Desktop: hover эффект
           !isMobile && "hover:bg-muted/50",
           // 📱 Mobile: active состояние с subtle feedback
@@ -308,7 +308,7 @@ export const TrackCard = memo(({
         onClick={handleCardClick}
       >
         {/* Cover Image & Play Button - with Duration Badge */}
-        <div className="relative w-[52px] h-[52px] flex-shrink-0 rounded-lg overflow-hidden shadow-sm" data-play-button>
+        <div className="relative w-[64px] h-[64px] flex-shrink-0 rounded-lg overflow-hidden shadow-sm" data-play-button>
           <LazyImage
             src={track.cover_url || ''}
             alt={track.title || 'Track cover'}
@@ -358,9 +358,21 @@ export const TrackCard = memo(({
 
         {/* Track Info - 3 rows structure */}
         <div className="flex-1 min-w-0 py-0.5">
-          {/* Row 1: Title */}
+          {/* Row 1: Title + Version Toggle (right-aligned) */}
           <div className="flex items-center gap-2">
-            <h3 className="font-medium text-sm leading-tight truncate">{track.title || 'Без названия'}</h3>
+            <h3 className="font-medium text-sm leading-tight truncate flex-1">{track.title || 'Без названия'}</h3>
+            
+            {/* Version Toggle - in title row, aligned right */}
+            {versionCount > 1 && (
+              <InlineVersionToggle
+                trackId={track.id}
+                activeVersionId={track.active_version_id}
+                versionCount={versionCount}
+                trackOwnerId={track.user_id}
+                className="flex-shrink-0"
+                compact={isMobile}
+              />
+            )}
             
             {/* Queue Position Indicator - desktop only */}
             {isInQueue && !isCurrentTrack && !isMobile && (
@@ -379,25 +391,10 @@ export const TrackCard = memo(({
             )}
           </div>
           
-          {/* Row 2: Icons + Version Toggle */}
+          {/* Row 2: Icons only */}
           <div className="flex items-center gap-1.5 mt-0.5">
             {/* Model & Type Icons - compact */}
             <TrackTypeIcons track={track} compact showModel hasMidi={propHasMidi} hasPdf={propHasPdf} hasGp5={propHasGp5} />
-            
-            {/* Spacer */}
-            <div className="flex-1" />
-            
-            {/* Version Toggle - aligned right */}
-            {versionCount > 1 && (
-              <InlineVersionToggle
-                trackId={track.id}
-                activeVersionId={track.active_version_id}
-                versionCount={versionCount}
-                trackOwnerId={track.user_id}
-                className="flex-shrink-0"
-                compact={isMobile}
-              />
-            )}
           </div>
           
           {/* Row 3: Scrollable Tags */}
