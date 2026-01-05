@@ -38,6 +38,8 @@ export const TrackCardEnhanced = memo(function TrackCardEnhanced({
   const [isHovered, setIsHovered] = useState(false);
 
   const isOwnTrack = user?.id === track.user_id;
+  // Note: We don't have batch-loaded follow status yet, so useFollow will still query individually
+  // This will be optimized in a future enhancement when we add creator_following to the batch data
   const { isFollowing, toggleFollow, isLoading: isFollowLoading } = useFollow(track.user_id);
 
   const isCurrentTrack = activeTrack?.id === track.id;
@@ -46,7 +48,7 @@ export const TrackCardEnhanced = memo(function TrackCardEnhanced({
   const trackForPlayer: Track = {
     ...track,
     is_liked: track.user_liked ?? false,
-    likes_count: track.likes_count ?? 0,
+    likes_count: track.like_count ?? 0,
   };
 
   const handleCardClick = () => {
@@ -102,6 +104,7 @@ export const TrackCardEnhanced = memo(function TrackCardEnhanced({
     <>
       <DoubleTapLike 
         trackId={track.id} 
+        initialLiked={track.user_liked}
         onSingleTap={handleCardClick}
         className="h-full"
       >
@@ -199,10 +202,11 @@ export const TrackCardEnhanced = memo(function TrackCardEnhanced({
               <div className="absolute top-2 right-2 flex items-center gap-1.5">
                 <LikeButton
                   trackId={track.id}
-                  likesCount={track.likes_count || 0}
+                  likesCount={track.like_count || 0}
+                  initialLiked={track.user_liked}
                   size="sm"
                   variant="glass"
-                  showCount={(track.likes_count || 0) > 0}
+                  showCount={(track.like_count || 0) > 0}
                   className="h-7 min-w-[28px] rounded-full text-white"
                 />
               </div>

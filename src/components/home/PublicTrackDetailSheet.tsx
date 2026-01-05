@@ -51,7 +51,7 @@ export function PublicTrackDetailSheet({ open, onOpenChange, track }: PublicTrac
   const trackForPlayer: Track = {
     ...track,
     is_liked: track.user_liked ?? false,
-    likes_count: track.likes_count ?? 0,
+    likes_count: track.like_count ?? 0,
   };
 
   const handlePlay = () => {
@@ -266,7 +266,8 @@ export function PublicTrackDetailSheet({ open, onOpenChange, track }: PublicTrac
                   </Button>
                   <LikeButton 
                     trackId={track.id} 
-                    likesCount={track.likes_count || 0}
+                    likesCount={track.like_count || 0}
+                    initialLiked={track.user_liked}
                     showCount
                     size="lg"
                   />
@@ -292,7 +293,7 @@ export function PublicTrackDetailSheet({ open, onOpenChange, track }: PublicTrac
           {[
             { icon: Clock, label: 'Длительность', value: formatDurationValue(track.duration_seconds), color: 'text-blue-500' },
             { icon: Headphones, label: 'Plays', value: track.play_count || 0, color: 'text-green-500' },
-            { icon: Heart, label: 'Лайки', value: track.likes_count || 0, color: 'text-red-500' },
+            { icon: Heart, label: 'Лайки', value: track.like_count || 0, color: 'text-red-500' },
             { icon: Calendar, label: 'Создан', value: track.created_at ? new Date(track.created_at).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit' }) : '—', color: 'text-purple-500' },
           ].map((stat, i) => (
             <motion.div

@@ -9,11 +9,12 @@ interface FollowButtonProps {
   userId: string;
   size?: 'sm' | 'default' | 'lg';
   className?: string;
+  initialFollowing?: boolean;
 }
 
-export function FollowButton({ userId, size = 'default', className }: FollowButtonProps) {
+export function FollowButton({ userId, size = 'default', className, initialFollowing }: FollowButtonProps) {
   const { user } = useAuth();
-  const { isFollowing, isLoading, toggleFollow } = useFollow(userId);
+  const { isFollowing, isLoading, toggleFollow } = useFollow(userId, initialFollowing);
 
   // Don't show button for own profile
   if (user?.id === userId) return null;

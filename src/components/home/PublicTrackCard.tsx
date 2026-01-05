@@ -34,7 +34,7 @@ export const PublicTrackCard = memo(function PublicTrackCard({ track, onRemix, c
   const trackForPlayer: Track = {
     ...track,
     is_liked: track.user_liked ?? false,
-    likes_count: track.likes_count ?? 0,
+    likes_count: track.like_count ?? 0,
   };
 
   const handleCardClick = () => {
@@ -79,6 +79,7 @@ export const PublicTrackCard = memo(function PublicTrackCard({ track, onRemix, c
     <>
     <DoubleTapLike 
       trackId={track.id} 
+      initialLiked={track.user_liked}
       onSingleTap={handleCardClick}
       className="h-full"
     >
@@ -181,10 +182,11 @@ export const PublicTrackCard = memo(function PublicTrackCard({ track, onRemix, c
           <div className="absolute top-2 right-2">
             <LikeButton
               trackId={track.id}
-              likesCount={track.likes_count || 0}
+              likesCount={track.like_count || 0}
+              initialLiked={track.user_liked}
               size="sm"
               variant="glass"
-              showCount={(track.likes_count || 0) > 0}
+              showCount={(track.like_count || 0) > 0}
               className="h-7 min-w-[28px] rounded-full text-white"
             />
           </div>
@@ -235,7 +237,8 @@ export const PublicTrackCard = memo(function PublicTrackCard({ track, onRemix, c
               
               <LikeButton 
                 trackId={track.id} 
-                likesCount={track.likes_count || 0}
+                likesCount={track.like_count || 0}
+                initialLiked={track.user_liked}
                 size="sm"
                 showCount={false}
                 className="h-7 w-7"
