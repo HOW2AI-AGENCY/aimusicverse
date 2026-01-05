@@ -8,7 +8,6 @@ import { ArrowLeft, MoreVertical } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useHaptic } from '@/hooks/useHaptic';
 import { Button } from '@/components/ui/button';
-import { useTelegramContext } from '@/contexts/TelegramContext';
 
 interface MobileHeaderBarProps {
   /** Header title */
@@ -52,7 +51,6 @@ export const MobileHeaderBar = memo(function MobileHeaderBar({
   className,
 }: MobileHeaderBarProps) {
   const { patterns } = useHaptic();
-  const { platform } = useTelegramContext();
 
   const handleBack = () => {
     if (!onBack) return;
