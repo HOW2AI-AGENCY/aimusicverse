@@ -17,6 +17,7 @@ export interface TrackFilters {
   sortBy?: 'recent' | 'popular' | 'liked';
   statusFilter?: string[];
   isPublic?: boolean;
+  tagFilter?: string;  // Filter by specific tag
 }
 
 export interface PaginationParams {
@@ -37,7 +38,7 @@ export async function fetchTracks(
   filters: TrackFilters,
   pagination?: PaginationParams
 ): Promise<TracksResponse> {
-  const { userId, projectId, searchQuery, sortBy = 'recent', statusFilter, isPublic } = filters;
+  const { userId, projectId, searchQuery, sortBy = 'recent', statusFilter, isPublic, tagFilter } = filters;
 
   let query = supabase
     .from('tracks')
@@ -65,6 +66,11 @@ export async function fetchTracks(
   // Search filter
   if (searchQuery) {
     query = query.or(`title.ilike.%${searchQuery}%,prompt.ilike.%${searchQuery}%,style.ilike.%${searchQuery}%`);
+  }
+
+  // Tag filter - search in style and tags fields
+  if (tagFilter) {
+    query = query.or(`style.ilike.%${tagFilter}%,tags.ilike.%${tagFilter}%`);
   }
 
   // Sorting
