@@ -318,6 +318,7 @@ export const TrackCard = memo(({
             isPlaying={isPlaying} 
             isMobile={isMobile} 
             onPlay={() => onPlay?.()} 
+            size="lg"
           />
         </div>
 
@@ -368,7 +369,7 @@ export const TrackCard = memo(({
             <Button
               size="icon"
               variant="ghost"
-              className="w-10 h-10 min-h-[40px] min-w-[40px] rounded-full touch-manipulation"
+              className="touch-target-44 w-11 h-11 min-h-[44px] min-w-[44px] rounded-full touch-manipulation"
               onClick={(e) => { 
                 e.stopPropagation(); 
                 triggerHapticFeedback('light');
@@ -385,7 +386,7 @@ export const TrackCard = memo(({
                 size="icon"
                 variant={isPlaying ? "default" : "ghost"}
                 className={cn(
-                  "w-9 h-9 rounded-full touch-manipulation transition-colors",
+                  "touch-target-44 w-10 h-10 rounded-full touch-manipulation transition-colors",
                   isPlaying && "bg-primary text-primary-foreground"
                 )}
                 onClick={(e) => { 

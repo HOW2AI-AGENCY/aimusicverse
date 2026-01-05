@@ -148,15 +148,27 @@ export const MainLayout = () => {
           // to avoid double padding and allow proper sticky header behavior
         )}
         style={{
-          minHeight: 'var(--tg-viewport-stable-height, 100vh)'
+          minHeight: 'var(--tg-viewport-stable-height, 100vh)',
+          // Enhanced safe area handling for notched devices (iPhone 14 Pro, etc.)
+          // Ensures content respects device notches/cutouts
+          paddingTop: isDesktop 
+            ? undefined 
+            : 'max(var(--tg-safe-area-inset-top, 0px), var(--tg-content-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))',
         }}
       >
-        <div className={cn(
-          'flex-1',
-          isDesktop 
-            ? 'p-6' 
-            : 'px-4 py-3 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))]'
-        )}>
+        <div 
+          className={cn(
+            'flex-1',
+            isDesktop 
+              ? 'p-6' 
+              : 'px-4 py-3'
+          )}
+          style={!isDesktop ? {
+            // Enhanced horizontal safe area handling for notched/curved edge devices
+            paddingLeft: 'max(1rem, var(--tg-safe-area-inset-left, 0px), env(safe-area-inset-left, 0px))',
+            paddingRight: 'max(1rem, var(--tg-safe-area-inset-right, 0px), env(safe-area-inset-right, 0px))',
+          } : undefined}
+        >
           <Outlet />
           <BetaFooter />
         </div>

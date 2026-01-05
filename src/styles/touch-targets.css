@@ -1,0 +1,205 @@
+/**
+ * T008: Touch Target Utility Classes
+ * 
+ * Enforces minimum touch target sizes (44px, 48px, 56px) according to:
+ * - iOS Human Interface Guidelines: 44x44px minimum
+ * - Material Design: 48x48px minimum
+ * - Recommended: 56x56px for primary actions
+ * 
+ * Usage:
+ * <button className="touch-target-48">Click me</button>
+ */
+
+/* Base touch target styles */
+.touch-target {
+  @apply inline-flex items-center justify-center;
+  @apply touch-manipulation select-none;
+  @apply transition-transform duration-150 ease-out;
+}
+
+/* iOS HIG Standard: 44x44px */
+.touch-target-44 {
+  @apply touch-target;
+  @apply min-w-[44px] min-h-[44px];
+  @apply w-11 h-11;
+}
+
+/* Material Design Standard: 48x48px (Recommended) */
+.touch-target-48 {
+  @apply touch-target;
+  @apply min-w-[48px] min-h-[48px];
+  @apply w-12 h-12;
+}
+
+/* Large Touch Target: 56x56px (Best for Primary Actions) */
+.touch-target-56 {
+  @apply touch-target;
+  @apply min-w-[56px] min-h-[56px];
+  @apply w-14 h-14;
+}
+
+/* Touch target with feedback */
+.touch-target-feedback {
+  @apply active:scale-95;
+}
+
+/* Touch target with padding (allows smaller visual but correct touch area) */
+.touch-target-padded-44 {
+  @apply touch-target touch-target-feedback;
+  @apply p-2;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.touch-target-padded-48 {
+  @apply touch-target touch-target-feedback;
+  @apply p-3;
+  min-width: 48px;
+  min-height: 48px;
+}
+
+.touch-target-padded-56 {
+  @apply touch-target touch-target-feedback;
+  @apply p-4;
+  min-width: 56px;
+  min-height: 56px;
+}
+
+/* Touch target spacing utilities */
+.touch-target-spacing {
+  @apply gap-2; /* 8px minimum spacing */
+}
+
+.touch-target-spacing-comfortable {
+  @apply gap-3; /* 12px comfortable spacing */
+}
+
+.touch-target-spacing-generous {
+  @apply gap-4; /* 16px generous spacing */
+}
+
+/* Icon button variants */
+.icon-button-44 {
+  @apply touch-target-44;
+  @apply rounded-full;
+}
+
+.icon-button-48 {
+  @apply touch-target-48;
+  @apply rounded-full;
+}
+
+.icon-button-56 {
+  @apply touch-target-56;
+  @apply rounded-full;
+}
+
+/* List item touch targets (full width, min height) */
+.list-item-touchable {
+  @apply touch-target;
+  @apply w-full min-h-[44px];
+  @apply px-4 py-2;
+}
+
+.list-item-touchable-comfortable {
+  @apply touch-target;
+  @apply w-full min-h-[56px];
+  @apply px-4 py-3;
+}
+
+/* Card touch targets */
+.card-touchable {
+  @apply touch-target;
+  @apply min-h-[88px]; /* 2x touch target height */
+  @apply p-4;
+  @apply rounded-lg;
+}
+
+/* FAB (Floating Action Button) - always 56px */
+.fab {
+  @apply touch-target-56;
+  @apply rounded-full;
+  @apply shadow-lg;
+  @apply fixed bottom-4 right-4;
+  @apply z-50;
+}
+
+/* Checkbox and Radio - 24x24px visual, 44x44px touch area */
+.checkbox-touchable,
+.radio-touchable {
+  @apply relative;
+  @apply inline-flex items-center justify-center;
+  @apply w-11 h-11; /* 44px */
+  @apply touch-manipulation;
+}
+
+.checkbox-touchable input[type="checkbox"],
+.radio-touchable input[type="radio"] {
+  @apply w-6 h-6; /* 24px visual size */
+  @apply cursor-pointer;
+}
+
+/* Switch - 44px touch height */
+.switch-touchable {
+  @apply inline-flex items-center;
+  @apply min-h-[44px];
+  @apply touch-manipulation;
+}
+
+/* Slider - 20px height with 44px touch area */
+.slider-touchable {
+  @apply relative;
+  @apply h-5; /* 20px track */
+  @apply touch-manipulation;
+}
+
+.slider-touchable input[type="range"] {
+  @apply w-full h-full;
+  @apply cursor-pointer;
+  /* Thumb will be styled to have 44px touch area */
+}
+
+/* Tab buttons - 48px height recommended */
+.tab-button {
+  @apply touch-target;
+  @apply min-h-[48px];
+  @apply px-4 py-3;
+  @apply font-medium;
+  @apply transition-colors;
+}
+
+/* Bottom sheet drag handle - 48px height for easy grabbing */
+.bottom-sheet-handle {
+  @apply touch-target;
+  @apply w-full h-12; /* 48px */
+  @apply flex items-center justify-center;
+  @apply cursor-grab active:cursor-grabbing;
+}
+
+/* Utility: Make any element touch-friendly */
+.touchable {
+  @apply touch-manipulation select-none;
+  @apply active:opacity-70;
+  @apply transition-opacity duration-150;
+}
+
+/* Debug mode: Show touch target boundaries (development only) */
+.debug-touch-targets .touch-target,
+.debug-touch-targets .touch-target-44,
+.debug-touch-targets .touch-target-48,
+.debug-touch-targets .touch-target-56 {
+  @apply outline outline-2 outline-dashed outline-yellow-500;
+  @apply outline-offset-0;
+}
+
+.debug-touch-targets .touch-target-44::after,
+.debug-touch-targets .touch-target-48::after,
+.debug-touch-targets .touch-target-56::after {
+  content: attr(class);
+  @apply absolute top-full left-0;
+  @apply text-xs text-yellow-600 bg-yellow-50;
+  @apply px-1 py-0.5 rounded;
+  @apply whitespace-nowrap;
+  @apply pointer-events-none;
+  @apply z-50;
+}
