@@ -291,12 +291,12 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
         useWindowScroll
         data={tracks}
         overscan={50}
-        defaultItemHeight={120}
+        defaultItemHeight={100}
         computeItemKey={computeItemKey}
         components={listComponents}
         endReached={handleEndReached}
         itemContent={renderTrackItem}
-        increaseViewportBy={increaseViewportBy}
+        increaseViewportBy={{ top: 200, bottom: 400 }}
       />
     </TrackListProvider>
   );
