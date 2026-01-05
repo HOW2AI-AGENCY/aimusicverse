@@ -245,20 +245,20 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
       >
         {/* Main row - larger padding on mobile for touch */}
         <div className={cn(
-          "flex items-center gap-1.5",
-          isMobile ? "p-2.5" : "p-2"
+          "flex items-center gap-2",
+          isMobile ? "p-3" : "p-2"
         )}>
           {/* Drag Handle - larger on mobile */}
-          <div 
-            {...dragHandleProps} 
+          <div
+            {...dragHandleProps}
             className={cn(
               "touch-manipulation cursor-grab active:cursor-grabbing",
-              isMobile && "p-1 -m-1"
+              isMobile && "p-1.5 -m-1"
             )}
           >
             <GripVertical className={cn(
               "text-muted-foreground",
-              isMobile ? "w-4 h-4" : "w-3.5 h-3.5"
+              isMobile ? "w-5 h-5" : "w-3.5 h-3.5"
             )} />
           </div>
 
@@ -275,18 +275,21 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
           {/* Cover - show master version cover if available, otherwise linked track cover */}
           {(hasLinkedTrack || versionsExpanded) && (
             <div className={cn(
-              "rounded-md overflow-hidden shrink-0 bg-secondary",
-              isMobile ? "w-10 h-10" : "w-8 h-8"
+              "rounded-lg overflow-hidden shrink-0 bg-secondary shadow-sm",
+              isMobile ? "w-12 h-12" : "w-8 h-8"
             )}>
               {linkedTrack?.cover_url ? (
-                <img 
-                  src={linkedTrack.cover_url} 
+                <img
+                  src={linkedTrack.cover_url}
                   alt={track.title}
                   className="w-full h-full object-cover"
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/20 to-primary/5">
-                  <Music className="w-3 h-3 text-primary/50" />
+                  <Music className={cn(
+                    "text-primary/50",
+                    isMobile ? "w-4 h-4" : "w-3 h-3"
+                  )} />
                 </div>
               )}
             </div>
