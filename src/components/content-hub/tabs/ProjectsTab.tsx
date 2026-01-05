@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useProjects } from '@/hooks/useProjects';
-import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { FolderOpen, Search, Plus, LayoutGrid, LayoutList, Sparkles, TrendingUp } from 'lucide-react';
@@ -8,9 +7,8 @@ import { EmptyState } from '@/components/common/EmptyState';
 import { ProjectCreationWizard } from '@/components/project/ProjectCreationWizard';
 import { toast } from 'sonner';
 import { VirtualizedProjectsList } from '@/components/content-hub/VirtualizedProjectsList';
-import { ProjectsOnboarding } from '@/components/content-hub/ProjectsOnboarding';
 import { MobileProjectsToolbar } from '@/components/content-hub/MobileProjectsToolbar';
-import { motion, AnimatePresence } from '@/lib/motion';
+import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import {
@@ -23,8 +21,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-
-const ONBOARDING_KEY = 'projects-onboarding-dismissed';
 
 const statusLabels: Record<string, { label: string; color: string }> = {
   draft: { label: 'Черновик', color: 'bg-muted text-muted-foreground' },
@@ -49,20 +45,6 @@ export function ProjectsTab() {
   const [createSheetOpen, setCreateSheetOpen] = useState(false);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  const [showOnboarding, setShowOnboarding] = useState(false);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const dismissed = localStorage.getItem(ONBOARDING_KEY);
-    if (!dismissed) {
-      setShowOnboarding(true);
-    }
-  }, []);
-
-  const handleDismissOnboarding = () => {
-    localStorage.setItem(ONBOARDING_KEY, 'true');
-    setShowOnboarding(false);
-  };
 
   const filteredProjects = projects?.filter((project) =>
     project.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -101,23 +83,6 @@ export function ProjectsTab() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
     >
-      {/* Onboarding */}
-      <AnimatePresence>
-        {showOnboarding && (
-          <ProjectsOnboarding
-            onDismiss={handleDismissOnboarding}
-            onCreateProject={() => {
-              handleDismissOnboarding();
-              setCreateSheetOpen(true);
-            }}
-            onCreateArtist={() => {
-              handleDismissOnboarding();
-              navigate('/projects?tab=artists');
-            }}
-          />
-        )}
-      </AnimatePresence>
-
       {/* Search & Create - different layout for mobile */}
       {isMobile ? (
         <MobileProjectsToolbar
