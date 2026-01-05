@@ -43,8 +43,8 @@ export const LazyVersionTree = lazy(() =>
   import('@/components/studio/shared/VersionTree').then(m => ({ default: m.VersionTree }))
 );
 
-export const LazyMobileStudioLayout = lazy(() => 
-  import('@/components/studio/unified/MobileStudioLayout').then(m => ({ default: m.MobileStudioLayout }))
+export const LazyUnifiedDAWLayout = lazy(() => 
+  import('@/components/studio/unified/UnifiedDAWLayout').then(m => ({ default: m.UnifiedDAWLayout }))
 );
 
 // ============================================
