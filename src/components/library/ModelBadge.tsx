@@ -17,6 +17,7 @@ interface ModelDisplayInfo {
 }
 
 const MODEL_DISPLAY: Record<string, ModelDisplayInfo> = {
+  // API model names
   'chirp-crow': { 
     icon: Crown, 
     label: 'V5',
@@ -45,6 +46,49 @@ const MODEL_DISPLAY: Record<string, ModelDisplayInfo> = {
     bgColor: 'bg-zinc-400/10',
     desc: 'Классика'
   },
+  // UI keys from suno_model field
+  'V5': { 
+    icon: Crown, 
+    label: 'V5',
+    color: 'text-yellow-400', 
+    bgColor: 'bg-yellow-400/15',
+    desc: 'Новейшая модель'
+  },
+  'V4_5PLUS': { 
+    icon: Crown, 
+    label: 'V4.5+',
+    color: 'text-amber-400', 
+    bgColor: 'bg-amber-400/12',
+    desc: 'Богатый звук'
+  },
+  'V4_5ALL': { 
+    icon: Sparkles, 
+    label: 'V4.5',
+    color: 'text-amber-500/80', 
+    bgColor: 'bg-amber-500/10',
+    desc: 'Лучшая структура'
+  },
+  'V4_5': { 
+    icon: Sparkles, 
+    label: 'V4.5',
+    color: 'text-amber-500/80', 
+    bgColor: 'bg-amber-500/10',
+    desc: 'Лучшая структура'
+  },
+  'V4AUK': { 
+    icon: Sparkles, 
+    label: 'V4.5',
+    color: 'text-amber-500/80', 
+    bgColor: 'bg-amber-500/10',
+    desc: 'Лучшая структура'
+  },
+  'V4': { 
+    icon: Sparkles, 
+    label: 'V4',
+    color: 'text-zinc-400', 
+    bgColor: 'bg-zinc-400/10',
+    desc: 'Классика'
+  },
 };
 
 // Get model info from track's suno_model or model_name
@@ -65,18 +109,20 @@ export function getModelDisplayInfo(model: string | null | undefined): ModelDisp
   }
   
   // Fallback pattern matching for legacy data
-  const modelLower = model.toLowerCase();
-  if (modelLower.includes('v5') || modelLower.includes('crow')) {
-    return MODEL_DISPLAY['chirp-crow'];
+  // Normalize: lowercase, remove underscores, replace _ with nothing
+  const modelNormalized = model.toLowerCase().replace(/_/g, '');
+  
+  if (modelNormalized.includes('v5') || modelNormalized.includes('crow')) {
+    return MODEL_DISPLAY['V5'];
   }
-  if (modelLower.includes('4.5+') || modelLower.includes('bluejay')) {
-    return MODEL_DISPLAY['chirp-bluejay'];
+  if (modelNormalized.includes('45plus') || modelNormalized.includes('bluejay')) {
+    return MODEL_DISPLAY['V4_5PLUS'];
   }
-  if (modelLower.includes('4.5') || modelLower.includes('auk')) {
-    return MODEL_DISPLAY['chirp-auk'];
+  if (modelNormalized.includes('45') || modelNormalized.includes('auk')) {
+    return MODEL_DISPLAY['V4_5'];
   }
-  if (modelLower.includes('v4') || modelLower.includes('chirp-v4')) {
-    return MODEL_DISPLAY['chirp-v4'];
+  if (modelNormalized.includes('v4') || modelNormalized.includes('chirpv4')) {
+    return MODEL_DISPLAY['V4'];
   }
   
   return null;

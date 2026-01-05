@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Globe, Music, Users, TrendingUp, Heart, Search, X } from "lucide-react";
+import { Globe, Music, Users, TrendingUp, Heart, Search, X, Grid3X3, List } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -11,6 +11,7 @@ import { ActorCard } from "@/components/actors/ActorCard";
 import { motion } from '@/lib/motion';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 const GENRES = ["Pop", "Rock", "Hip-Hop", "Electronic", "R&B", "Jazz", "Indie", "Lo-Fi"];
 
@@ -30,6 +31,7 @@ export default function Community() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("tracks");
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   // Apply tag from URL to search query
   useEffect(() => {
@@ -50,9 +52,12 @@ export default function Community() {
   const popularTracks = publicContent?.popularTracks || [];
 
   const filteredTracks = allTracks.filter((track) => {
+    const query = searchQuery.toLowerCase();
     const matchesSearch = 
-      track.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      track.style?.toLowerCase().includes(searchQuery.toLowerCase());
+      track.title?.toLowerCase().includes(query) ||
+      track.style?.toLowerCase().includes(query) ||
+      track.tags?.toLowerCase().includes(query) ||
+      (track as any).prompt?.toLowerCase().includes(query);
     const matchesGenre = !selectedGenre || track.style?.toLowerCase().includes(selectedGenre.toLowerCase());
     return matchesSearch && matchesGenre;
   });
@@ -83,10 +88,30 @@ export default function Community() {
               <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
                 Сообщество
               </h1>
-              <p className="text-sm text-muted-foreground">
-                Открывайте музыку и артистов со всего мира
-              </p>
-            </div>
+            <p className="text-sm text-muted-foreground">
+              Открывайте музыку и артистов со всего мира
+            </p>
+          </div>
+          
+          {/* View mode toggle */}
+          <div className="ml-auto flex gap-0.5 bg-muted/50 rounded-lg p-0.5">
+            <Button
+              variant={viewMode === 'grid' ? 'secondary' : 'ghost'}
+              size="icon"
+              className="h-7 w-7"
+              onClick={() => setViewMode('grid')}
+            >
+              <Grid3X3 className="w-4 h-4" />
+            </Button>
+            <Button
+              variant={viewMode === 'list' ? 'secondary' : 'ghost'}
+              size="icon"
+              className="h-7 w-7"
+              onClick={() => setViewMode('list')}
+            >
+              <List className="w-4 h-4" />
+            </Button>
+          </div>
           </div>
         </motion.header>
 
@@ -176,13 +201,19 @@ export default function Community() {
           {/* All Tracks */}
           <TabsContent value="tracks" className="mt-0">
             {tracksLoading ? (
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <div className={cn(
+                "grid gap-3",
+                viewMode === 'grid' ? "grid-cols-2 md:grid-cols-3 lg:grid-cols-4" : "grid-cols-1"
+              )}>
                 {[1, 2, 3, 4, 5, 6].map((i) => (
                   <div key={i} className="h-24 rounded-xl bg-muted/50 animate-pulse" />
                 ))}
               </div>
             ) : filteredTracks.length > 0 ? (
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <div className={cn(
+                "grid gap-3",
+                viewMode === 'grid' ? "grid-cols-2 md:grid-cols-3 lg:grid-cols-4" : "grid-cols-1"
+              )}>
                 {filteredTracks.map((track: PublicTrackWithCreator, index: number) => (
                   <motion.div
                     key={track.id}
@@ -190,7 +221,7 @@ export default function Community() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: Math.min(index * 0.05, 0.3) }}
                   >
-                    <PublicTrackCard track={track} />
+                    <PublicTrackCard track={track} compact={viewMode === 'list'} />
                   </motion.div>
                 ))}
               </div>
@@ -206,18 +237,24 @@ export default function Community() {
           {/* Popular Tracks */}
           <TabsContent value="popular" className="mt-0">
             {tracksLoading ? (
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <div className={cn(
+                "grid gap-3",
+                viewMode === 'grid' ? "grid-cols-2 md:grid-cols-3 lg:grid-cols-4" : "grid-cols-1"
+              )}>
                 {[1, 2, 3].map((i) => (
                   <div key={i} className="h-24 rounded-xl bg-muted/50 animate-pulse" />
                 ))}
               </div>
             ) : popularTracks.length > 0 ? (
-              <div className="space-y-6">
+              <div className="space-y-4">
                 <div className="flex items-center gap-2 text-muted-foreground">
                   <Heart className="w-4 h-4" />
                   <span className="text-sm">Топ по популярности</span>
                 </div>
-                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <div className={cn(
+                  "grid gap-3",
+                  viewMode === 'grid' ? "grid-cols-2 md:grid-cols-3 lg:grid-cols-4" : "grid-cols-1"
+                )}>
                   {popularTracks.map((track: PublicTrackWithCreator, index: number) => (
                     <motion.div
                       key={track.id}
@@ -225,7 +262,7 @@ export default function Community() {
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: Math.min(index * 0.05, 0.3) }}
                     >
-                      <PublicTrackCard track={track} />
+                      <PublicTrackCard track={track} compact={viewMode === 'list'} />
                     </motion.div>
                   ))}
                 </div>
