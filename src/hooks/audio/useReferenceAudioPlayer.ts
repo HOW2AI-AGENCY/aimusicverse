@@ -3,7 +3,7 @@
  * Manages audio playback for reference audio with coordination with global player
  */
 
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { pauseAllStudioAudio, registerStudioAudio, unregisterStudioAudio } from '@/hooks/studio/useStudioAudio';
 
@@ -44,6 +44,16 @@ export function useReferenceAudioPlayer({
   const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
   const audioRef = useRef<HTMLAudioElement | null>(null);
   
+  // Store callbacks in refs to avoid re-creating audio element
+  const onEndedRef = useRef(onEnded);
+  const onTimeUpdateRef = useRef(onTimeUpdate);
+  
+  // Update refs when callbacks change
+  useEffect(() => {
+    onEndedRef.current = onEnded;
+    onTimeUpdateRef.current = onTimeUpdate;
+  }, [onEnded, onTimeUpdate]);
+  
   const [state, setState] = useState<ReferenceAudioPlayerState>({
     isPlaying: false,
     currentTime: 0,
@@ -82,12 +92,12 @@ export function useReferenceAudioPlayer({
     const handleTimeUpdate = () => {
       const time = audio.currentTime;
       setState(prev => ({ ...prev, currentTime: time }));
-      onTimeUpdate?.(time);
+      onTimeUpdateRef.current?.(time);
     };
 
     const handleEnded = () => {
       setState(prev => ({ ...prev, isPlaying: false, currentTime: 0 }));
-      onEnded?.();
+      onEndedRef.current?.();
     };
 
     const handleError = () => {
@@ -147,7 +157,7 @@ export function useReferenceAudioPlayer({
       unregisterStudioAudio(SOURCE_ID);
       audioRef.current = null;
     };
-  }, [audioUrl, autoPlay, onEnded, onTimeUpdate]);
+  }, [audioUrl, autoPlay]);
 
   // Pause reference audio when global player starts
   useEffect(() => {
