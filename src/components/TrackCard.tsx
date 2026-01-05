@@ -11,6 +11,7 @@ import { UnifiedTrackMenu, UnifiedTrackSheet } from './track-actions';
 import { InlineVersionToggle } from './library/InlineVersionToggle';
 import { TrackTypeIcons } from './library/TrackTypeIcons';
 import { TrackStyleTags } from './library/TrackStyleTags';
+import { ScrollableTagsRow } from './library/ScrollableTagsRow';
 import { SwipeableTrackItem } from './library/SwipeableTrackItem';
 import { SwipeOnboardingTooltip } from './library/SwipeOnboardingTooltip';
 import { LazyImage } from '@/components/ui/lazy-image';
@@ -306,7 +307,7 @@ export const TrackCard = memo(({
         )}
         onClick={handleCardClick}
       >
-        {/* Cover Image & Play Button - Enlarged for better touch */}
+        {/* Cover Image & Play Button - with Duration Badge */}
         <div className="relative w-[52px] h-[52px] flex-shrink-0 rounded-lg overflow-hidden shadow-sm" data-play-button>
           <LazyImage
             src={track.cover_url || ''}
@@ -320,15 +321,20 @@ export const TrackCard = memo(({
               </div>
             }
           />
+          
+          {/* Duration badge on cover - bottom right */}
+          {track.duration_seconds && (
+            <div className="absolute bottom-0.5 right-0.5 bg-black/70 text-white text-[9px] px-1 py-0.5 rounded font-medium z-10">
+              {Math.floor(track.duration_seconds / 60)}:{String(Math.floor(track.duration_seconds % 60)).padStart(2, '0')}
+            </div>
+          )}
+          
           {/* Play overlay - always visible on mobile for clarity */}
           <div
             className={cn(
               "absolute inset-0 bg-black/40 flex items-center justify-center cursor-pointer transition-all",
-              // 🖥️ Desktop: показываем при hover
               !isMobile && !isPlaying && "opacity-0 group-hover:opacity-100",
-              // 📱 Mobile: subtle semi-transparent overlay
               isMobile && !isPlaying && "bg-black/20",
-              // ✨ При воспроизведении - всегда показываем
               isPlaying && "opacity-100 bg-black/50"
             )}
             onClick={(e) => {
@@ -350,13 +356,13 @@ export const TrackCard = memo(({
           </div>
         </div>
 
-        {/* Track Info - Improved spacing and hierarchy */}
+        {/* Track Info - 3 rows structure */}
         <div className="flex-1 min-w-0 py-0.5">
-          {/* Title row - full width for title */}
+          {/* Row 1: Title */}
           <div className="flex items-center gap-2">
             <h3 className="font-medium text-sm leading-tight truncate">{track.title || 'Без названия'}</h3>
             
-            {/* Queue Position Indicator - desktop only, in title row */}
+            {/* Queue Position Indicator - desktop only */}
             {isInQueue && !isCurrentTrack && !isMobile && (
               <Badge 
                 variant={isNextTrack ? "default" : "secondary"} 
@@ -373,35 +379,15 @@ export const TrackCard = memo(({
             )}
           </div>
           
-          {/* Second row: Icons + Tags + Duration + Versions */}
-          <div className="flex items-center gap-1.5 mt-1">
+          {/* Row 2: Icons + Version Toggle */}
+          <div className="flex items-center gap-1.5 mt-0.5">
             {/* Model & Type Icons - compact */}
             <TrackTypeIcons track={track} compact showModel hasMidi={propHasMidi} hasPdf={propHasPdf} hasGp5={propHasGp5} />
             
-            {/* Separator */}
-            <span className="text-muted-foreground/30 text-xs">|</span>
+            {/* Spacer */}
+            <div className="flex-1" />
             
-            {/* Clickable Tags */}
-            <TrackStyleTags 
-              style={track.style} 
-              tags={track.tags}
-              maxTags={isMobile ? 2 : 3}
-              onClick={onTagClick}
-              compact
-              className="flex-1 min-w-0"
-            />
-            
-            {/* Duration */}
-            {track.duration_seconds && (
-              <>
-                <span className="text-muted-foreground/30 text-xs">•</span>
-                <span className="text-xs text-muted-foreground/70 flex-shrink-0">
-                  {Math.floor(track.duration_seconds / 60)}:{String(Math.floor(track.duration_seconds % 60)).padStart(2, '0')}
-                </span>
-              </>
-            )}
-            
-            {/* Version Toggle - moved to end */}
+            {/* Version Toggle - aligned right */}
             {versionCount > 1 && (
               <InlineVersionToggle
                 trackId={track.id}
@@ -413,6 +399,14 @@ export const TrackCard = memo(({
               />
             )}
           </div>
+          
+          {/* Row 3: Scrollable Tags */}
+          <ScrollableTagsRow 
+            style={track.style} 
+            tags={track.tags}
+            onClick={onTagClick}
+            className="mt-0.5"
+          />
         </div>
 
         {/* Actions - Simplified for mobile */}
