@@ -400,9 +400,8 @@ export default function ProjectDetail() {
               {completedTracks}/{totalTracks} треков
             </Badge>
             {isPublished && (
-              <Badge variant="default" className="bg-green-500 gap-0.5 text-[10px] h-5 px-1.5 shrink-0">
-                <Rocket className="w-2.5 h-2.5" />
-                Опубликован
+              <Badge variant="default" className="bg-green-500 h-5 w-5 p-0 flex items-center justify-center shrink-0" title="Опубликован">
+                <Rocket className="w-3 h-3" />
               </Badge>
             )}
           </div>

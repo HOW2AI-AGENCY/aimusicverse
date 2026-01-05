@@ -231,14 +231,15 @@ const GridCard = memo(function GridCard({
         {/* Status badge */}
         <div className="absolute top-2 right-2 z-10">
           <motion.div whileHover={{ scale: 1.05 }}>
-            <Badge className={cn(
-              "text-[10px] h-5 px-2 border-0 backdrop-blur-sm shadow-lg",
-              status.color,
-              isPublished && "flex items-center gap-1"
-            )}>
-              {isPublished && <Globe className="w-2.5 h-2.5" />}
-              {status.label}
-            </Badge>
+            {isPublished ? (
+              <Badge className={cn("h-5 w-5 p-0 border-0 flex items-center justify-center backdrop-blur-sm shadow-lg", status.color)} title={status.label}>
+                <Globe className="w-3 h-3" />
+              </Badge>
+            ) : (
+              <Badge className={cn("text-[10px] h-5 px-2 border-0 backdrop-blur-sm shadow-lg", status.color)}>
+                {status.label}
+              </Badge>
+            )}
           </motion.div>
         </div>
 
@@ -335,14 +336,15 @@ const ListCard = memo(function ListCard({
             {project.title}
           </h3>
           <div className="flex items-center gap-1.5 mt-1 flex-wrap">
-            <Badge className={cn(
-              "text-[9px] h-4 px-1.5 border-0",
-              status.color,
-              isPublished && "flex items-center gap-0.5"
-            )}>
-              {isPublished && <Globe className="w-2.5 h-2.5" />}
-              {status.label}
-            </Badge>
+            {isPublished ? (
+              <Badge className={cn("h-4 w-4 p-0 border-0 flex items-center justify-center", status.color)} title={status.label}>
+                <Globe className="w-2.5 h-2.5" />
+              </Badge>
+            ) : (
+              <Badge className={cn("text-[9px] h-4 px-1.5 border-0", status.color)}>
+                {status.label}
+              </Badge>
+            )}
             {project.genre && (
               <Badge variant="secondary" className="text-[9px] h-4 px-1.5">
                 <Music className="w-2.5 h-2.5 mr-0.5" />
