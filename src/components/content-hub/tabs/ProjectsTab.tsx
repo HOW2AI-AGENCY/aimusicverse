@@ -78,7 +78,7 @@ export function ProjectsTab() {
   }
   return (
     <motion.div 
-      className="space-y-4"
+      className={cn("space-y-2", isMobile && "space-y-1.5")}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
@@ -142,18 +142,25 @@ export function ProjectsTab() {
         </motion.div>
       )}
 
-      {/* Stats with animations */}
+      {/* Stats - compact on mobile, full on desktop */}
       <motion.div 
-        className="flex items-center gap-3 text-xs"
+        className={cn(
+          "flex items-center gap-2 text-xs",
+          isMobile && "gap-1.5"
+        )}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2 }}
       >
-        <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-muted/50">
+        <div className={cn(
+          "flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-muted/50",
+          isMobile && "px-2 py-1"
+        )}>
           <FolderOpen className="w-3 h-3 text-muted-foreground" />
-          <span className="text-muted-foreground">{projects?.length || 0} проектов</span>
+          <span className="text-muted-foreground">{projects?.length || 0}</span>
         </div>
-        {publishedCount > 0 && (
+        {/* Show extra stats only on desktop */}
+        {!isMobile && publishedCount > 0 && (
           <motion.div 
             className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-emerald-500/10"
             initial={{ scale: 0 }}
@@ -164,7 +171,7 @@ export function ProjectsTab() {
             <span className="text-emerald-600 dark:text-emerald-400">{publishedCount} опубликовано</span>
           </motion.div>
         )}
-        {completedCount > 0 && (
+        {!isMobile && completedCount > 0 && (
           <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-green-500/10">
             <TrendingUp className="w-3 h-3 text-green-500" />
             <span className="text-green-600 dark:text-green-400">{completedCount} завершено</span>

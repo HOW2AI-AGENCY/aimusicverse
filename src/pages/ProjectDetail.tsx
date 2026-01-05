@@ -235,13 +235,19 @@ export default function ProjectDetail() {
   const draftTracks = tracks?.filter(t => t.status === 'draft' && !t.track_id) || [];
 
   return (
-    <div className="pb-24">
+    <div 
+      className="pb-24"
+      style={{
+        minHeight: 'var(--tg-viewport-stable-height, 100vh)',
+        paddingBottom: 'calc(max(var(--tg-content-safe-area-inset-bottom, 60px), var(--tg-safe-area-inset-bottom, 34px)) + 4rem)'
+      }}
+    >
       {/* Hero Section with Full-width Cover on Mobile */}
       <div className="relative">
-        {/* Full-width cover for mobile */}
+        {/* Full-width cover for mobile - 4:3 aspect for compactness */}
         {isMobile ? (
           <div className="relative">
-            <div className="relative w-full aspect-square">
+            <div className="relative w-full aspect-[4/3]">
               {project.cover_url ? (
                 <img
                   src={project.cover_url}
@@ -250,19 +256,24 @@ export default function ProjectDetail() {
                 />
               ) : (
                 <div className="w-full h-full bg-gradient-to-br from-primary/20 via-secondary to-muted flex items-center justify-center">
-                  <Music className="w-24 h-24 text-muted-foreground/40" />
+                  <Music className="w-16 h-16 text-muted-foreground/40" />
                 </div>
               )}
               {/* Gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
               
-              {/* Floating header */}
-              <div className="absolute top-0 left-0 right-0 flex items-center justify-between p-3 z-10">
+              {/* Floating header with safe area */}
+              <div 
+                className="absolute top-0 left-0 right-0 flex items-center justify-between px-3 z-10"
+                style={{
+                  paddingTop: 'calc(var(--tg-safe-area-inset-top, 44px) + var(--tg-content-safe-area-inset-top, 0px) + 0.5rem)'
+                }}
+              >
                 <Button 
                   variant="secondary" 
                   size="icon" 
                   onClick={() => navigate('/projects')}
-                  className="h-9 w-9 bg-background/60 backdrop-blur-md"
+                  className="h-10 w-10 bg-background/60 backdrop-blur-md"
                 >
                   <ArrowLeft className="w-4 h-4" />
                 </Button>
@@ -271,7 +282,7 @@ export default function ProjectDetail() {
                   variant="secondary" 
                   size="icon"
                   onClick={() => setSettingsOpen(true)}
-                  className="h-9 w-9 bg-background/60 backdrop-blur-md"
+                  className="h-10 w-10 bg-background/60 backdrop-blur-md"
                 >
                   <Settings className="w-4 h-4" />
                 </Button>
@@ -281,7 +292,7 @@ export default function ProjectDetail() {
               <Button
                 size="icon"
                 variant="secondary"
-                className="absolute bottom-4 right-4 h-10 w-10 rounded-full shadow-lg bg-background/80 backdrop-blur-md"
+                className="absolute bottom-3 right-3 h-10 w-10 rounded-full shadow-lg bg-background/80 backdrop-blur-md"
                 onClick={() => {
                   setSelectedTrackForMedia(null);
                   setMediaGeneratorOpen(true);
@@ -368,24 +379,28 @@ export default function ProjectDetail() {
 
         {/* Project Meta - shown for both mobile and desktop */}
         <div className={cn(
-          "text-center space-y-1.5",
-          isMobile ? "px-3 -mt-12 relative z-10" : "pt-2"
+          "text-center space-y-1",
+          isMobile ? "px-3 -mt-8 relative z-10" : "pt-2"
         )}>
           {isMobile && (
-            <h1 className="text-xl font-bold text-foreground mb-2">{project.title}</h1>
+            <h1 className="text-lg font-bold text-foreground mb-1.5">{project.title}</h1>
           )}
-          <div className="flex items-center justify-center gap-1.5 flex-wrap">
+          {/* Horizontally scrollable badges on mobile */}
+          <div className={cn(
+            "flex items-center justify-center gap-1.5",
+            isMobile && "overflow-x-auto scrollbar-hide justify-start pb-1 -mx-3 px-3"
+          )}>
             {project.genre && (
-              <Badge variant="secondary" className="gap-0.5 text-[10px] h-5 px-1.5">
+              <Badge variant="secondary" className="gap-0.5 text-[10px] h-5 px-1.5 shrink-0">
                 <Music className="w-2.5 h-2.5" />
                 {project.genre}
               </Badge>
             )}
-            <Badge variant="outline" className="text-[10px] h-5 px-1.5">
+            <Badge variant="outline" className="text-[10px] h-5 px-1.5 shrink-0">
               {completedTracks}/{totalTracks} треков
             </Badge>
             {isPublished && (
-              <Badge variant="default" className="bg-green-500 gap-0.5 text-[10px] h-5 px-1.5">
+              <Badge variant="default" className="bg-green-500 gap-0.5 text-[10px] h-5 px-1.5 shrink-0">
                 <Rocket className="w-2.5 h-2.5" />
                 Опубликован
               </Badge>
@@ -437,80 +452,110 @@ export default function ProjectDetail() {
         )}
       </div>
 
-      {/* Quick Actions Bar */}
+      {/* Quick Actions Bar with scroll indicator */}
       <div className={cn(
-        "flex gap-1.5 overflow-x-auto scrollbar-hide",
+        "relative",
         isMobile ? "px-3 pb-2" : "px-4 pb-3"
       )}>
-        <Button 
-          size="sm"
-          onClick={() => setAddTrackOpen(true)}
-          className="gap-1 shrink-0 h-7 px-2 text-xs"
-        >
-          <Plus className="w-3.5 h-3.5" />
-          Добавить
-        </Button>
-        <Button 
-          variant="outline" 
-          size="sm"
-          onClick={() => generateTracklist({
-            projectType: project.project_type || 'album',
-            genre: project.genre || undefined,
-            mood: project.mood || undefined,
-            theme: project.concept || undefined,
-            trackCount: 10,
-          })}
-          disabled={isGenerating}
-          className="gap-1 shrink-0 h-7 px-2 text-xs"
-        >
-          <Sparkles className="w-3.5 h-3.5" />
-          {isGenerating ? 'Генерация...' : 'AI'}
-        </Button>
-        <Button 
-          variant="outline" 
-          size="sm"
-          onClick={() => setAiDialogOpen(true)}
-          className="gap-1 shrink-0 h-7 px-2 text-xs"
-        >
-          <Sparkles className="w-3.5 h-3.5" />
-          Действия
-        </Button>
-        <Button 
-          variant="outline" 
-          size="sm"
-          onClick={() => {
-            setSelectedTrackForMedia(null);
-            setMediaGeneratorOpen(true);
-          }}
-          className="gap-1 shrink-0 h-7 px-2 text-xs"
-        >
-          <Image className="w-3.5 h-3.5" />
-          Медиа
-        </Button>
-        <ShareProjectCard 
-          project={{
-            id: project.id,
-            title: project.title,
-            cover_url: project.cover_url,
-            genre: project.genre,
-            total_tracks_count: totalTracks,
-            approved_tracks_count: tracksWithMaster,
-          }}
-          variant="button"
-          className="gap-1 shrink-0 h-7 px-2 text-xs"
-        />
+        {/* Right fade indicator for scroll */}
+        {isMobile && (
+          <div className="absolute right-0 top-0 bottom-2 w-6 bg-gradient-to-l from-background to-transparent pointer-events-none z-10" />
+        )}
+        <div className="flex gap-1.5 overflow-x-auto scrollbar-hide">
+          <Button 
+            size="sm"
+            onClick={() => setAddTrackOpen(true)}
+            className={cn(
+              "gap-1 shrink-0",
+              isMobile ? "h-9 px-3 text-xs" : "h-7 px-2 text-xs"
+            )}
+          >
+            <Plus className="w-3.5 h-3.5" />
+            Добавить
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={() => generateTracklist({
+              projectType: project.project_type || 'album',
+              genre: project.genre || undefined,
+              mood: project.mood || undefined,
+              theme: project.concept || undefined,
+              trackCount: 10,
+            })}
+            disabled={isGenerating}
+            className={cn(
+              "gap-1 shrink-0",
+              isMobile ? "h-9 px-3 text-xs" : "h-7 px-2 text-xs"
+            )}
+          >
+            <Sparkles className="w-3.5 h-3.5" />
+            {isGenerating ? '...' : 'AI'}
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={() => setAiDialogOpen(true)}
+            className={cn(
+              "gap-1 shrink-0",
+              isMobile ? "h-9 px-3 text-xs" : "h-7 px-2 text-xs"
+            )}
+          >
+            <Sparkles className="w-3.5 h-3.5" />
+            Действия
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={() => {
+              setSelectedTrackForMedia(null);
+              setMediaGeneratorOpen(true);
+            }}
+            className={cn(
+              "gap-1 shrink-0",
+              isMobile ? "h-9 px-3 text-xs" : "h-7 px-2 text-xs"
+            )}
+          >
+            <Image className="w-3.5 h-3.5" />
+            Медиа
+          </Button>
+          <ShareProjectCard 
+            project={{
+              id: project.id,
+              title: project.title,
+              cover_url: project.cover_url,
+              genre: project.genre,
+              total_tracks_count: totalTracks,
+              approved_tracks_count: tracksWithMaster,
+            }}
+            variant="button"
+            className={cn(
+              "gap-1 shrink-0",
+              isMobile ? "h-9 px-3 text-xs" : "h-7 px-2 text-xs"
+            )}
+          />
+        </div>
       </div>
 
-      {/* Tabs: Tracklist and Lyrics */}
+      {/* Tabs: Tracklist and Lyrics - compact on mobile */}
       <Tabs defaultValue="tracks" className="w-full">
         <div className={cn(isMobile ? "px-3" : "px-4")}>
-          <TabsList className="w-full grid grid-cols-2 mb-3">
-            <TabsTrigger value="tracks" className="gap-1.5">
-              <Music className="w-3.5 h-3.5" />
+          <TabsList className={cn(
+            "w-full grid grid-cols-2",
+            isMobile ? "h-9 mb-2" : "mb-3"
+          )}>
+            <TabsTrigger value="tracks" className={cn(
+              "gap-1.5",
+              isMobile && "text-xs"
+            )}>
+              {!isMobile && <Music className="w-3.5 h-3.5" />}
               Треки
             </TabsTrigger>
-            <TabsTrigger value="text" className="gap-1.5">
-              <FileText className="w-3.5 h-3.5" />
+            <TabsTrigger value="text" className={cn(
+              "gap-1.5",
+              isMobile && "text-xs"
+            )}>
+              {!isMobile && <FileText className="w-3.5 h-3.5" />}
               Текст
             </TabsTrigger>
           </TabsList>
