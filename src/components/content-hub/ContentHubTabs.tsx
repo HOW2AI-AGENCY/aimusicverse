@@ -16,10 +16,10 @@ interface ContentHubTabsProps {
 }
 
 const tabs = [
-  { id: 'artists', label: 'Артисты', icon: Users },
-  { id: 'projects', label: 'Проекты', icon: FolderOpen },
-  { id: 'lyrics', label: 'Тексты', icon: FileText },
-  { id: 'cloud', label: 'Облако', icon: Cloud },
+  { id: 'artists', label: 'Артисты', shortLabel: 'Арт.', icon: Users },
+  { id: 'projects', label: 'Проекты', shortLabel: 'Проек.', icon: FolderOpen },
+  { id: 'lyrics', label: 'Тексты', shortLabel: 'Текс.', icon: FileText },
+  { id: 'cloud', label: 'Облако', shortLabel: 'Обл.', icon: Cloud },
 ];
 
 const TabLoader = () => (
@@ -47,13 +47,18 @@ export function ContentHubTabs({ defaultTab = 'projects', onTabChange }: Content
             key={tab.id}
             value={tab.id}
             className={cn(
-              "flex items-center justify-center gap-1.5 rounded-lg py-2 px-2 text-xs font-medium transition-all",
+              "flex items-center justify-center rounded-lg font-medium transition-all",
               "data-[state=active]:bg-primary data-[state=active]:text-primary-foreground",
-              "data-[state=active]:shadow-sm"
+              "data-[state=active]:shadow-sm",
+              isMobile 
+                ? "flex-col gap-0.5 py-1.5 px-1 text-[10px]" 
+                : "gap-1.5 py-2 px-2 text-xs"
             )}
           >
-            <tab.icon className="w-4 h-4 shrink-0" />
-            {!isMobile && <span>{tab.label}</span>}
+            <tab.icon className={cn("shrink-0", isMobile ? "w-4 h-4" : "w-4 h-4")} />
+            <span className={isMobile ? "leading-tight" : ""}>
+              {isMobile ? tab.shortLabel : tab.label}
+            </span>
           </TabsTrigger>
         ))}
       </TabsList>

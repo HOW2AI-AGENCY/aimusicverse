@@ -16,6 +16,7 @@ import { FolderOpen, MoreVertical, Trash2, Music, Calendar, ChevronRight, Globe,
 import { cn } from '@/lib/utils';
 import { format, ru } from '@/lib/date-utils';
 import { motion } from '@/lib/motion';
+import { useIsMobile } from '@/hooks/use-mobile';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -171,6 +172,7 @@ const GridCard = memo(function GridCard({
   className,
 }: CardVariantProps) {
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   return (
     <motion.div
@@ -240,9 +242,12 @@ const GridCard = memo(function GridCard({
           </motion.div>
         </div>
 
-        {/* Actions menu */}
+        {/* Actions menu - always visible on mobile */}
         {showActions && onDelete && (
-          <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+          <div className={cn(
+            "absolute bottom-2 right-2 z-10 transition-opacity",
+            isMobile ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+          )}>
             <ProjectActionsMenu
               onOpen={(e) => { e.stopPropagation(); navigate(`/projects/${project.id}`); }}
               onDelete={onDelete}

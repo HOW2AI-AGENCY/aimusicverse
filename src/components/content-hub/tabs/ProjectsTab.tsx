@@ -9,8 +9,10 @@ import { ProjectCreationWizard } from '@/components/project/ProjectCreationWizar
 import { toast } from 'sonner';
 import { VirtualizedProjectsList } from '@/components/content-hub/VirtualizedProjectsList';
 import { ProjectsOnboarding } from '@/components/content-hub/ProjectsOnboarding';
+import { MobileProjectsToolbar } from '@/components/content-hub/MobileProjectsToolbar';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks/use-mobile';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -41,6 +43,7 @@ const typeLabels: Record<string, string> = {
 
 
 export function ProjectsTab() {
+  const isMobile = useIsMobile();
   const { projects, isLoading, deleteProject, isDeleting } = useProjects();
   const [searchQuery, setSearchQuery] = useState('');
   const [createSheetOpen, setCreateSheetOpen] = useState(false);
@@ -115,54 +118,64 @@ export function ProjectsTab() {
         )}
       </AnimatePresence>
 
-      {/* Search & Create */}
-      <motion.div 
-        className="flex items-center gap-2"
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
-      >
-        <div className="relative flex-1 group">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground group-focus-within:text-primary transition-colors" />
-          <Input
-            placeholder="Поиск проектов..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-9 h-9 text-sm transition-all focus:ring-2 focus:ring-primary/20"
-          />
-        </div>
-        {/* View mode toggle */}
-        <div className="flex items-center gap-0.5 bg-muted/50 p-0.5 rounded-lg">
-          <Button
-            variant={viewMode === 'grid' ? 'secondary' : 'ghost'}
-            size="icon"
-            className={cn(
-              "h-8 w-8 transition-all",
-              viewMode === 'grid' && "shadow-sm"
-            )}
-            onClick={() => setViewMode('grid')}
-          >
-            <LayoutGrid className="w-4 h-4" />
-          </Button>
-          <Button
-            variant={viewMode === 'list' ? 'secondary' : 'ghost'}
-            size="icon"
-            className={cn(
-              "h-8 w-8 transition-all",
-              viewMode === 'list' && "shadow-sm"
-            )}
-            onClick={() => setViewMode('list')}
-          >
-            <LayoutList className="w-4 h-4" />
-          </Button>
-        </div>
-        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-          <Button size="sm" onClick={() => setCreateSheetOpen(true)} className="gap-1.5 shrink-0 shadow-sm">
-            <Plus className="w-4 h-4" />
-            Создать
-          </Button>
+      {/* Search & Create - different layout for mobile */}
+      {isMobile ? (
+        <MobileProjectsToolbar
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          viewMode={viewMode}
+          onViewModeChange={setViewMode}
+          onCreateClick={() => setCreateSheetOpen(true)}
+        />
+      ) : (
+        <motion.div 
+          className="flex items-center gap-2"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+        >
+          <div className="relative flex-1 group">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground group-focus-within:text-primary transition-colors" />
+            <Input
+              placeholder="Поиск проектов..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-9 h-9 text-sm transition-all focus:ring-2 focus:ring-primary/20"
+            />
+          </div>
+          {/* View mode toggle */}
+          <div className="flex items-center gap-0.5 bg-muted/50 p-0.5 rounded-lg">
+            <Button
+              variant={viewMode === 'grid' ? 'secondary' : 'ghost'}
+              size="icon"
+              className={cn(
+                "h-8 w-8 transition-all",
+                viewMode === 'grid' && "shadow-sm"
+              )}
+              onClick={() => setViewMode('grid')}
+            >
+              <LayoutGrid className="w-4 h-4" />
+            </Button>
+            <Button
+              variant={viewMode === 'list' ? 'secondary' : 'ghost'}
+              size="icon"
+              className={cn(
+                "h-8 w-8 transition-all",
+                viewMode === 'list' && "shadow-sm"
+              )}
+              onClick={() => setViewMode('list')}
+            >
+              <LayoutList className="w-4 h-4" />
+            </Button>
+          </div>
+          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+            <Button size="sm" onClick={() => setCreateSheetOpen(true)} className="gap-1.5 shrink-0 shadow-sm">
+              <Plus className="w-4 h-4" />
+              Создать
+            </Button>
+          </motion.div>
         </motion.div>
-      </motion.div>
+      )}
 
       {/* Stats with animations */}
       <motion.div 
