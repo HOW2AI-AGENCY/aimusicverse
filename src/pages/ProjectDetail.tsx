@@ -7,7 +7,7 @@ import { useProjectTracks, ProjectTrack } from '@/hooks/useProjectTracks';
 import { useProjectGeneratedTracks } from '@/hooks/useProjectGeneratedTracks';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, Sparkles, Music, MoreVertical, Play, Plus, Settings, Image, Rocket, Share2, FileText } from 'lucide-react';
+import { ArrowLeft, Sparkles, Music, MoreVertical, Play, Plus, Settings, Image, Rocket, Share2, FileText, ChevronDown, ChevronUp } from 'lucide-react';
 import { AIActionsDialog } from '@/components/project/AIActionsDialog';
 import { supabase } from '@/integrations/supabase/client';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -15,6 +15,7 @@ import { MinimalProjectTrackItem } from '@/components/project/MinimalProjectTrac
 import { ProjectSettingsSheet } from '@/components/project/ProjectSettingsSheet';
 import { AddTrackDialog } from '@/components/project/AddTrackDialog';
 import { ProjectInfoCard } from '@/components/project/ProjectInfoCard';
+import { ProjectDetailsCard } from '@/components/project/ProjectDetailsCard';
 import { LyricsPreviewSheet } from '@/components/project/LyricsPreviewSheet';
 import { LyricsChatAssistant } from '@/components/generate-form/LyricsChatAssistant';
 import { ProjectMediaGenerator } from '@/components/project/ProjectMediaGenerator';
@@ -50,6 +51,7 @@ export default function ProjectDetail() {
   const [selectedTrackForLyrics, setSelectedTrackForLyrics] = useState<ProjectTrack | null>(null);
   const [selectedTrackForMedia, setSelectedTrackForMedia] = useState<ProjectTrack | null>(null);
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
+  const [projectInfoExpanded, setProjectInfoExpanded] = useState(false);
   const isMobile = useIsMobile();
   const { setPlanTrackContext } = usePlanTrackStore();
   const { updateTrack } = useProjectTracks(id);
@@ -421,6 +423,39 @@ export default function ProjectDetail() {
                 <span className="text-[10px] text-primary/70 group-hover:text-primary transition-colors">
                   {descriptionExpanded ? 'Свернуть' : 'Читать полностью'}
                 </span>
+              )}
+            </div>
+          )}
+
+          {/* Expandable Project Details Card */}
+          {(project.genre || project.mood || project.concept || project.image_style || project.color_palette) && (
+            <div className="max-w-sm mx-auto mt-2">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setProjectInfoExpanded(!projectInfoExpanded)}
+                className="w-full h-7 text-xs text-muted-foreground hover:text-foreground gap-1"
+              >
+                {projectInfoExpanded ? (
+                  <>
+                    <ChevronUp className="w-3 h-3" />
+                    Скрыть детали
+                  </>
+                ) : (
+                  <>
+                    <ChevronDown className="w-3 h-3" />
+                    Показать детали
+                  </>
+                )}
+              </Button>
+              
+              {projectInfoExpanded && (
+                <div className="mt-2 animate-in slide-in-from-top-2 duration-200">
+                  <ProjectDetailsCard 
+                    project={project} 
+                    onEdit={() => setSettingsOpen(true)}
+                  />
+                </div>
               )}
             </div>
           )}

@@ -15,6 +15,8 @@ export { ProjectMeta, ProjectTypeBadge, ProjectStatusBadge } from './ProjectMeta
 // Project management
 export { MinimalProjectTrackItem } from './MinimalProjectTrackItem';
 export { ProjectInfoCard } from './ProjectInfoCard';
+export { ProjectDetailsCard } from './ProjectDetailsCard';
+export { TrackDetailsCard } from './TrackDetailsCard';
 export { ProjectProgressRing } from './ProjectProgressRing';
 export { ProjectReadinessIndicator } from './ProjectReadinessIndicator';
 
