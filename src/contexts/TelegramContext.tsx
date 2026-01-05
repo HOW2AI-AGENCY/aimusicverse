@@ -403,14 +403,37 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
       // Apply initial safe area insets
       applySafeAreaInsets();
 
-      // Event handlers for safe area changes
-      const handleViewportChanged = () => applySafeAreaInsets();
+      // Event handlers for safe area and viewport changes
+      const handleViewportChanged = (...args: unknown[]) => {
+        // Update viewport height CSS variables
+        const event = args[0] as { height?: number; stableHeight?: number; isStateStable?: boolean } | undefined;
+        if (event?.height) {
+          root.style.setProperty('--tg-viewport-height', `${event.height}px`);
+        }
+        if (event?.stableHeight) {
+          root.style.setProperty('--tg-viewport-stable-height', `${event.stableHeight}px`);
+        }
+        telegramLogger.debug('Viewport changed', { 
+          height: event?.height,
+          stableHeight: event?.stableHeight,
+          isStateStable: event?.isStateStable
+        });
+        applySafeAreaInsets();
+      };
       const handleFullscreenChanged = () => {
         telegramLogger.debug('Fullscreen changed', { isFullscreen: (tg as any).isFullscreen });
         applySafeAreaInsets();
       };
       const handleSafeAreaChanged = () => applySafeAreaInsets();
       const handleContentSafeAreaChanged = () => applySafeAreaInsets();
+      
+      // Set initial viewport height
+      if ((tg as any).viewportHeight) {
+        root.style.setProperty('--tg-viewport-height', `${(tg as any).viewportHeight}px`);
+      }
+      if ((tg as any).viewportStableHeight) {
+        root.style.setProperty('--tg-viewport-stable-height', `${(tg as any).viewportStableHeight}px`);
+      }
 
       // Store handlers in ref for cleanup
       safeAreaHandlersRef.current = {
