@@ -484,7 +484,7 @@ export default function Library() {
               ))}
             </div>
           ) : tracksToDisplay.length === 0 && !hasActiveGenerations ? (
-            <EmptyLibraryState searchQuery={searchQuery} />
+            <EmptyLibraryState searchQuery={searchQuery} navigate={navigate} />
           ) : (
             <>
               <VirtualizedTrackList
