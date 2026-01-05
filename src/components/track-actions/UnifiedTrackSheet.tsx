@@ -1,6 +1,6 @@
 /**
  * UnifiedTrackSheet - Minimalist flat track actions panel
- * 50vh max height, no collapsible sections, iOS/Telegram style
+ * Compact header with maximized scroll area
  */
 
 import { useState, useEffect } from 'react';
@@ -9,10 +9,9 @@ import { Sheet, SheetContent } from '@/components/ui/sheet';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useTrackActionsState } from '@/hooks/useTrackActionsState';
 import { TrackDialogsPortal } from './TrackDialogsPortal';
-import { QuickActionsSection } from './sections/QuickActionsSection';
+import { CompactSheetHeader } from './CompactSheetHeader';
 import { PromptPreview } from './sections/PromptPreview';
 import { LyricsPreview } from './sections/LyricsPreview';
-import { TrackSheetHeader } from './TrackSheetHeader';
 import { ActionGroup, ActionDivider, ActionGridContainer } from './ActionGrid';
 import { IconGridButton } from './IconGridButton';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
@@ -175,40 +174,30 @@ export function UnifiedTrackSheet({
             <div className="w-10 h-1 rounded-full bg-muted-foreground/30" />
           </div>
 
-          {/* Compact Header */}
-          <div className="px-4">
-            <TrackSheetHeader 
-              track={track} 
-              stemCount={actionState.stemCount}
-              hasMidi={trackStatus.hasMidi}
-              hasNotes={trackStatus.hasNotes}
-            />
-          </div>
-          
-          {/* Quick Actions + Versions */}
-          <div className="px-4">
-            <QuickActionsSection 
-              track={track} 
-              onClose={() => onOpenChange(false)}
+          {/* Compact Header - Cover + Title + Quick Actions in one row */}
+          <div className="px-4 flex-shrink-0">
+            <CompactSheetHeader 
+              track={track}
               versions={versions.map(v => ({ id: v.id, label: v.version_label || 'A' }))}
               activeVersionId={activeVersionId}
               onVersionSwitch={handleVersionSwitch}
+              onClose={() => onOpenChange(false)}
             />
           </div>
 
-          {/* Content previews - Prompt and Lyrics */}
-          {(track.prompt || track.style || track.lyrics) && (
-            <div className="px-4 py-2 space-y-2">
-              <PromptPreview prompt={track.prompt} style={track.style} />
-              <LyricsPreview lyrics={track.lyrics} />
-            </div>
-          )}
-
           <ActionDivider />
 
-          {/* Scrollable flat action grid */}
+          {/* Scrollable content - Prompt, Lyrics, and Actions */}
           <ScrollArea className="flex-1">
             <div className="px-4 pb-safe">
+              {/* Content previews - now inside scroll area */}
+              {(track.prompt || track.style || track.lyrics) && (
+                <div className="py-2 space-y-2">
+                  <PromptPreview prompt={track.prompt} style={track.style} />
+                  <LyricsPreview lyrics={track.lyrics} />
+                </div>
+              )}
+
               <ActionGridContainer>
                 {/* Create actions */}
                 <ActionGroup title="Создать">
