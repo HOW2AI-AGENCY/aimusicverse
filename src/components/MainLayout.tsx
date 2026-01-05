@@ -140,11 +140,16 @@ export const MainLayout = () => {
         id="main-content"
         className={cn(
           'flex-1 flex flex-col overflow-y-auto relative transition-all duration-300',
-          isDesktop ? mainMargin : 'pb-[calc(4rem+env(safe-area-inset-bottom,0px))]',
+          isDesktop 
+            ? mainMargin 
+            : 'pb-[calc(max(var(--tg-content-safe-area-inset-bottom,60px),var(--tg-safe-area-inset-bottom,34px),env(safe-area-inset-bottom,34px))+4rem)]',
           isGuestMode && 'pt-9'
           // Note: Safe area padding is handled by individual page headers (HomeHeader, AppHeader)
           // to avoid double padding and allow proper sticky header behavior
         )}
+        style={{
+          minHeight: 'var(--tg-viewport-stable-height, 100vh)'
+        }}
       >
         <div className={cn(
           'flex-1',
