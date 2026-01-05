@@ -104,8 +104,11 @@ export const UnifiedPageHeader = memo(function UnifiedPageHeader({
         'flex items-center justify-between',
         isMobile ? 'px-3 py-2' : 'px-4 py-3'
       )}>
-        {/* Left side */}
-        <div className="flex items-center gap-2 min-w-0 flex-1">
+        {/* Left side - fixed width for centering on mobile */}
+        <div className={cn(
+          "flex items-center gap-2 shrink-0",
+          isMobile && "w-10" // Fixed width for symmetry
+        )}>
           {showNativeBackButton && (
             <Button
               size="icon"
@@ -121,62 +124,71 @@ export const UnifiedPageHeader = memo(function UnifiedPageHeader({
           )}
 
           {leftAction}
-
-          {/* Title section */}
-          {(title || subtitle || breadcrumbs) && (
-            <div className="min-w-0 flex-1">
-              {/* Breadcrumbs */}
-              {breadcrumbs && breadcrumbs.length > 0 && (
-                <nav className="flex items-center gap-1 text-xs text-muted-foreground mb-0.5">
-                  {breadcrumbs.map((item, index) => {
-                    const BreadcrumbIcon = item.icon;
-                    return (
-                      <React.Fragment key={index}>
-                        {index > 0 && <span>/</span>}
-                        {item.href ? (
-                          <button
-                            onClick={() => navigate(item.href!)}
-                            className="hover:text-foreground transition-colors"
-                          >
-                            {BreadcrumbIcon && <BreadcrumbIcon className="w-3 h-3 inline mr-0.5" />}
-                            {item.label}
-                          </button>
-                        ) : (
-                          <span className="text-foreground truncate">
-                            {BreadcrumbIcon && <BreadcrumbIcon className="w-3 h-3 inline mr-0.5" />}
-                            {item.label}
-                          </span>
-                        )}
-                      </React.Fragment>
-                    );
-                  })}
-                </nav>
-              )}
-
-              {title && (
-                <h1 className={cn(
-                  'font-semibold truncate',
-                  variant === 'floating' && 'text-white drop-shadow-md',
-                  isMobile ? 'text-base' : 'text-lg'
-                )}>
-                  {title}
-                </h1>
-              )}
-              
-              {subtitle && (
-                <p className={cn(
-                  'text-xs truncate',
-                  variant === 'floating' ? 'text-white/80' : 'text-muted-foreground'
-                )}>
-                  {subtitle}
-                </p>
-              )}
-            </div>
-          )}
         </div>
 
-        {/* Right side */}
-        <div className="flex items-center gap-1 shrink-0">
+        {/* Title section - centered on mobile */}
+        {(title || subtitle || breadcrumbs) && (
+          <div className={cn(
+            "min-w-0 flex-1",
+            isMobile && "text-center"
+          )}>
+            {/* Breadcrumbs */}
+            {breadcrumbs && breadcrumbs.length > 0 && (
+              <nav className={cn(
+                "flex items-center gap-1 text-xs text-muted-foreground mb-0.5",
+                isMobile && "justify-center"
+              )}>
+                {breadcrumbs.map((item, index) => {
+                  const BreadcrumbIcon = item.icon;
+                  return (
+                    <React.Fragment key={index}>
+                      {index > 0 && <span>/</span>}
+                      {item.href ? (
+                        <button
+                          onClick={() => navigate(item.href!)}
+                          className="hover:text-foreground transition-colors"
+                        >
+                          {BreadcrumbIcon && <BreadcrumbIcon className="w-3 h-3 inline mr-0.5" />}
+                          {item.label}
+                        </button>
+                      ) : (
+                        <span className="text-foreground truncate">
+                          {BreadcrumbIcon && <BreadcrumbIcon className="w-3 h-3 inline mr-0.5" />}
+                          {item.label}
+                        </span>
+                      )}
+                    </React.Fragment>
+                  );
+                })}
+              </nav>
+            )}
+
+            {title && (
+              <h1 className={cn(
+                'font-semibold truncate',
+                variant === 'floating' && 'text-white drop-shadow-md',
+                isMobile ? 'text-base' : 'text-lg'
+              )}>
+                {title}
+              </h1>
+            )}
+            
+            {subtitle && (
+              <p className={cn(
+                'text-xs truncate',
+                variant === 'floating' ? 'text-white/80' : 'text-muted-foreground'
+              )}>
+                {subtitle}
+              </p>
+            )}
+          </div>
+        )}
+
+        {/* Right side - fixed width for centering on mobile */}
+        <div className={cn(
+          "flex items-center gap-1 shrink-0",
+          isMobile && "w-10 justify-end" // Fixed width for symmetry
+        )}>
           {rightAction}
         </div>
       </div>

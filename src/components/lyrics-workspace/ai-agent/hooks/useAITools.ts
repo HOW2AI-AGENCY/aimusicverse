@@ -10,6 +10,21 @@ import { AITool, AIMessage, AIAgentContext, AIToolId, OutputType } from '../type
 import { AI_TOOLS } from '../constants';
 import { parseAIResponse } from '@/lib/ai/aiResponseParser';
 
+/**
+ * Clean lyrics from syllable counts that AI sometimes adds
+ * e.g., "(8)" or "(10 слогов)" at the end of lines
+ */
+function cleanLyricsFromSyllableCounts(lyrics: string): string {
+  return lyrics
+    // Remove patterns like (8), (10), (12) at the end of lines
+    .replace(/\s*\(\d{1,2}\)\s*$/gm, '')
+    // Remove patterns like (8 слогов), (10 syllables)
+    .replace(/\s*\(\d{1,2}\s*(?:слог(?:а|ов)?|syl(?:lables?)?)\s*\)/gi, '')
+    // Remove patterns like [8 syl] or [10]
+    .replace(/\s*\[\d{1,2}(?:\s*syl(?:lables?)?)?\]\s*$/gm, '')
+    .trim();
+}
+
 interface UseAIToolsOptions {
   context: AIAgentContext;
   onLyricsGenerated?: (lyrics: string) => void;
@@ -184,8 +199,10 @@ export function useAITools({ context, onLyricsGenerated, onTagsGenerated, onStyl
       }
       // Handle lyrics response
       else if (data.lyrics || parsed.lyrics) {
-        const lyricsContent = data.lyrics || parsed.lyrics;
+        let lyricsContent = data.lyrics || parsed.lyrics;
         if (lyricsContent) {
+          // Clean syllable counts from lyrics
+          lyricsContent = cleanLyricsFromSyllableCounts(lyricsContent);
           responseData.lyrics = lyricsContent;
           responseType = 'lyrics';
           // Auto-apply lyrics, title, style for write/optimize/style_convert/translate/drill/epic tools

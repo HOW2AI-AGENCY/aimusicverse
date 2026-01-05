@@ -252,7 +252,7 @@ export default function ProjectDetail() {
                 <img
                   src={project.cover_url}
                   alt={project.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain bg-black/30"
                 />
               ) : (
                 <div className="w-full h-full bg-gradient-to-br from-primary/20 via-secondary to-muted flex items-center justify-center">
