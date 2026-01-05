@@ -1,11 +1,14 @@
 /**
+ * @deprecated Use UnifiedTrackCardNew from './track-card' instead.
+ * This component will be removed in a future release.
+ *
  * UnifiedTrackCard - Single track card component with multiple variants
- * 
+ *
  * Replaces:
  * - TrackCard (basic)
  * - MinimalTrackCard (grid/list)
  * - TrackCardEnhanced (public/enhanced)
- * 
+ *
  * Variants:
  * - 'default': Standard grid card with cover (alias for 'grid')
  * - 'grid': Standard grid card with cover
@@ -15,6 +18,12 @@
  * - 'professional': Modern glassmorphism design with enhanced visuals
  * - 'enhanced': Rich card with social features (for public tracks)
  */
+
+if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
+  console.warn(
+    '[DEPRECATED] UnifiedTrackCard is deprecated. Use UnifiedTrackCardNew from @/components/track/track-card instead.'
+  );
+}
 
 import { memo, useCallback, useState } from 'react';
 import { 

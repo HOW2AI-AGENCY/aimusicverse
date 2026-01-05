@@ -16,11 +16,15 @@
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:report": "playwright show-report",
     "lint": "eslint .",
+    "lint:filenames": "node scripts/lint-filenames.js",
+    "migrate:filenames": "node scripts/migrate-filenames.js",
+    "migrate:filenames:dry": "node scripts/migrate-filenames.js --dry-run",
     "format": "prettier --write .",
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "size": "size-limit",
     "size:why": "size-limit --why",
+    "size:track": "node scripts/track-bundle-size.js",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
@@ -150,6 +154,60 @@
       "name": "Total Bundle",
       "path": "dist/assets/*.js",
       "limit": "950 KB",
+      "gzip": false
+    },
+    {
+      "name": "React Vendor",
+      "path": "dist/assets/vendor-react*.js",
+      "limit": "200 KB",
+      "gzip": false
+    },
+    {
+      "name": "Framer Motion Vendor",
+      "path": "dist/assets/vendor-framer*.js",
+      "limit": "100 KB",
+      "gzip": false
+    },
+    {
+      "name": "Tone.js Vendor",
+      "path": "dist/assets/vendor-tone*.js",
+      "limit": "150 KB",
+      "gzip": false
+    },
+    {
+      "name": "Wavesurfer Vendor",
+      "path": "dist/assets/vendor-wavesurfer*.js",
+      "limit": "100 KB",
+      "gzip": false
+    },
+    {
+      "name": "TanStack Query Vendor",
+      "path": "dist/assets/vendor-query*.js",
+      "limit": "50 KB",
+      "gzip": false
+    },
+    {
+      "name": "Radix UI Vendor",
+      "path": "dist/assets/vendor-radix*.js",
+      "limit": "80 KB",
+      "gzip": false
+    },
+    {
+      "name": "Studio Feature",
+      "path": "dist/assets/feature-studio*.js",
+      "limit": "200 KB",
+      "gzip": false
+    },
+    {
+      "name": "Lyrics Feature",
+      "path": "dist/assets/feature-lyrics*.js",
+      "limit": "150 KB",
+      "gzip": false
+    },
+    {
+      "name": "Generation Feature",
+      "path": "dist/assets/feature-generation*.js",
+      "limit": "180 KB",
       "gzip": false
     }
   ]
