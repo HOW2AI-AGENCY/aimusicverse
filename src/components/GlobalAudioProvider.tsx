@@ -688,12 +688,25 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
       }, 2000);
     };
 
-    const handleStalled = () => {
+    const handleStalled = async () => {
       logger.warn('Audio playback stalled', { 
         trackId: activeTrack?.id,
         currentTime: audio.currentTime,
         buffered: audio.buffered.length,
       });
+      
+      // CRITICAL FIX: Wait for any pending play promise before attempting recovery
+      // This prevents AbortError: "The play() request was interrupted by a new load request"
+      if (playPromiseRef.current) {
+        logger.debug('Waiting for pending play promise before stall recovery');
+        try {
+          await playPromiseRef.current;
+        } catch (err) {
+          // Ignore errors from the pending play promise
+          logger.debug('Pending play promise rejected during stall recovery', err);
+        }
+        playPromiseRef.current = null;
+      }
       
       // Try to recover by reloading
       const currentTime = audio.currentTime;
