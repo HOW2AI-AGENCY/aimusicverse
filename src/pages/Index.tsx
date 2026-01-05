@@ -13,6 +13,8 @@ import { QuickCreatePreset } from "@/constants/quickCreatePresets";
 import { PullToRefreshWrapper } from "@/components/library/PullToRefreshWrapper";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { TrendingUp, Clock } from "lucide-react";
+import { lazyWithRetry } from "@/lib/performance";
+import { FeatureErrorBoundary } from "@/components/ui/feature-error-boundary";
 
 // Core components - not lazy loaded for critical content
 import { TracksGridSection } from "@/components/home/TracksGridSection";
@@ -28,7 +30,7 @@ const RecentTracksSection = lazy(() => import("@/components/home/RecentTracksSec
 const AutoPlaylistsSection = lazy(() => import("@/components/home/AutoPlaylistsSection").then(m => ({ default: m.AutoPlaylistsSection })));
 const PopularCreatorsSection = lazy(() => import("@/components/home/PopularCreatorsSection").then(m => ({ default: m.PopularCreatorsSection })));
 const PublicArtistsSection = lazy(() => import("@/components/home/PublicArtistsSection").then(m => ({ default: m.PublicArtistsSection })));
-const FeaturedProjectsBanner = lazy(() => import("@/components/home/FeaturedProjectsBanner").then(m => ({ default: m.FeaturedProjectsBanner })));
+const FeaturedProjectsBanner = lazyWithRetry(() => import("@/components/home/FeaturedProjectsBanner").then(m => ({ default: m.FeaturedProjectsBanner })));
 const EngagementBanner = lazy(() => import("@/components/home/EngagementBanner").then(m => ({ default: m.EngagementBanner })));
 
 // Dialogs - only loaded when opened
@@ -155,11 +157,13 @@ const Index = () => {
         )}
 
         {/* Featured Projects Banner */}
-        <Suspense fallback={null}>
-          <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.12 }}>
-            <FeaturedProjectsBanner />
-          </motion.section>
-        </Suspense>
+        <FeatureErrorBoundary featureName="Featured Projects Banner">
+          <Suspense fallback={null}>
+            <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.12 }}>
+              <FeaturedProjectsBanner />
+            </motion.section>
+          </Suspense>
+        </FeatureErrorBoundary>
 
         {/* Main Actions Bar (Audio/Lyrics/Projects) */}
         <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.14 }}>
