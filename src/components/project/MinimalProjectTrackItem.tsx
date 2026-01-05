@@ -236,16 +236,29 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
           !isDragging && "hover:bg-card hover:border-border"
         )}
       >
-        {/* Main row */}
-        <div className="flex items-center gap-1.5 p-2">
-          {/* Drag Handle */}
-          <div {...dragHandleProps} className="touch-manipulation cursor-grab active:cursor-grabbing">
-            <GripVertical className="w-3.5 h-3.5 text-muted-foreground" />
+        {/* Main row - larger padding on mobile for touch */}
+        <div className={cn(
+          "flex items-center gap-1.5",
+          isMobile ? "p-2.5" : "p-2"
+        )}>
+          {/* Drag Handle - larger on mobile */}
+          <div 
+            {...dragHandleProps} 
+            className={cn(
+              "touch-manipulation cursor-grab active:cursor-grabbing",
+              isMobile && "p-1 -m-1"
+            )}
+          >
+            <GripVertical className={cn(
+              "text-muted-foreground",
+              isMobile ? "w-4 h-4" : "w-3.5 h-3.5"
+            )} />
           </div>
 
           {/* Position */}
           <div className={cn(
-            "w-6 h-6 rounded-md flex items-center justify-center font-semibold text-xs shrink-0",
+            "rounded-md flex items-center justify-center font-semibold text-xs shrink-0",
+            isMobile ? "w-7 h-7" : "w-6 h-6",
             statusConfig.bg,
             statusConfig.color
           )}>
@@ -254,7 +267,10 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
 
           {/* Cover - show master version cover if available, otherwise linked track cover */}
           {(hasLinkedTrack || versionsExpanded) && (
-            <div className="w-8 h-8 rounded-md overflow-hidden shrink-0 bg-secondary">
+            <div className={cn(
+              "rounded-md overflow-hidden shrink-0 bg-secondary",
+              isMobile ? "w-10 h-10" : "w-8 h-8"
+            )}>
               {linkedTrack?.cover_url ? (
                 <img 
                   src={linkedTrack.cover_url} 
@@ -272,7 +288,10 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
           {/* Content */}
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-1">
-              <span className="font-medium text-xs truncate">{track.title}</span>
+              <span className={cn(
+                "font-medium truncate",
+                isMobile ? "text-sm" : "text-xs"
+              )}>{track.title}</span>
               <Badge 
                 variant="outline" 
                 className={cn(
@@ -286,7 +305,8 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
               </Badge>
             </div>
             
-            {track.style_prompt && (
+            {/* Hide style_prompt on mobile to save space */}
+            {!isMobile && track.style_prompt && (
               <p className="text-[10px] text-muted-foreground truncate">
                 {track.style_prompt}
               </p>
@@ -322,8 +342,11 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
             )}
           </div>
 
-          {/* Actions */}
-          <div className="flex items-center gap-0.5 shrink-0">
+          {/* Actions - larger touch targets on mobile */}
+          <div className={cn(
+            "flex items-center shrink-0",
+            isMobile ? "gap-1" : "gap-0.5"
+          )}>
             {/* Lyrics Button */}
             <Button
               size="icon"
@@ -332,10 +355,10 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
                 e.stopPropagation();
                 onOpenLyrics?.();
               }}
-              className="h-7 w-7"
+              className={isMobile ? "h-9 w-9" : "h-7 w-7"}
               title={hasLyricsContent ? 'Просмотр лирики' : 'Написать лирику'}
             >
-              <FileText className="w-3.5 h-3.5" />
+              <FileText className={isMobile ? "w-4 h-4" : "w-3.5 h-3.5"} />
             </Button>
 
             {generationStatus ? (
@@ -354,12 +377,12 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
                 size="icon"
                 variant="ghost"
                 onClick={handlePlay}
-                className="h-7 w-7"
+                className={isMobile ? "h-9 w-9" : "h-7 w-7"}
               >
                 {isPlayingThis ? (
-                  <Pause className="w-3.5 h-3.5" />
+                  <Pause className={isMobile ? "w-4 h-4" : "w-3.5 h-3.5"} />
                 ) : (
-                  <Play className="w-3.5 h-3.5" />
+                  <Play className={isMobile ? "w-4 h-4" : "w-3.5 h-3.5"} />
                 )}
               </Button>
             ) : (
@@ -369,11 +392,12 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
                     size="sm"
                     onClick={handleGenerateClick}
                     className={cn(
-                      "h-7 px-2 gap-0.5 text-[10px]",
+                      "gap-0.5",
+                      isMobile ? "h-9 px-3 text-xs" : "h-7 px-2 text-[10px]",
                       lyricsStatus === 'prompt' ? "bg-amber-500/80 hover:bg-amber-500" : "bg-primary/90"
                     )}
                   >
-                    <Sparkles className="w-3 h-3" />
+                    <Sparkles className={isMobile ? "w-3.5 h-3.5" : "w-3 h-3"} />
                     {!isMobile && 'Создать'}
                   </Button>
                 </TooltipTrigger>
@@ -387,8 +411,8 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button size="icon" variant="ghost" className="h-7 w-7">
-                  <MoreVertical className="w-3.5 h-3.5" />
+                <Button size="icon" variant="ghost" className={isMobile ? "h-9 w-9" : "h-7 w-7"}>
+                  <MoreVertical className={isMobile ? "w-4 h-4" : "w-3.5 h-3.5"} />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
