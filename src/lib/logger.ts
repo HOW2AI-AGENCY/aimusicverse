@@ -22,7 +22,7 @@
  * ```
  */
 
-import { captureError, isSentryEnabled } from './sentry';
+import { captureError, isSentryEnabled, Sentry } from './sentry';
 
 type LogLevel = 'debug' | 'info' | 'warn' | 'error';
 
@@ -81,6 +81,11 @@ class Logger {
     if (this.isDevelopment) {
       console.debug(this.formatMessage('debug', message, context));
     }
+
+    // Send to Sentry in production
+    if (!this.isDevelopment && isSentryEnabled) {
+      Sentry.logger.debug(message, this.sanitizeContext(context));
+    }
   }
 
   /**
@@ -90,6 +95,11 @@ class Logger {
     if (this.isDevelopment) {
       console.log(this.formatMessage('info', message, context));
     }
+
+    // Send to Sentry in production
+    if (!this.isDevelopment && isSentryEnabled) {
+      Sentry.logger.info(message, this.sanitizeContext(context));
+    }
   }
 
   /**
@@ -97,6 +107,11 @@ class Logger {
    */
   warn(message: string, context?: LogContext): void {
     console.warn(this.formatMessage('warn', message, context));
+
+    // Send to Sentry in production
+    if (isSentryEnabled) {
+      Sentry.logger.warn(message, this.sanitizeContext(context));
+    }
   }
 
   /**
@@ -105,7 +120,7 @@ class Logger {
    */
   error(message: string, error?: Error | unknown, context?: LogContext): void {
     const errorContext: LogContext = { ...context };
-    
+
     if (error instanceof Error) {
       errorContext.errorName = error.name;
       errorContext.errorMessage = error.message;
@@ -113,20 +128,33 @@ class Logger {
       if (this.isDevelopment) {
         errorContext.errorStack = error.stack;
       }
-      
+
       // Send to Sentry in production
       if (isSentryEnabled) {
         captureError(error, { message, ...this.sanitizeContext(context) });
+
+        // Also send as structured log
+        Sentry.logger.error(message, {
+          ...this.sanitizeContext(context),
+          errorName: error.name,
+          errorMessage: error.message,
+        });
       }
     } else if (error !== undefined) {
       errorContext.errorValue = String(error);
-      
+
       // Create an error object for Sentry
       if (isSentryEnabled) {
         captureError(new Error(message), { errorValue: String(error), ...this.sanitizeContext(context) });
+
+        // Also send as structured log
+        Sentry.logger.error(message, {
+          ...this.sanitizeContext(context),
+          errorValue: String(error),
+        });
       }
     }
-    
+
     console.error(this.formatMessage('error', message, errorContext));
   }
 
