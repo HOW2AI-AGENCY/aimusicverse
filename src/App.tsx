@@ -22,6 +22,7 @@ import { LoadingScreen } from "@/components/UnifiedSplashScreen";
 import { ProfileSetupGuard } from "@/components/profile/ProfileSetupGuard";
 import { NavigationProvider } from "@/components/NavigationProvider";
 import { initSentry } from "@/lib/sentry";
+import { lazyWithRetry } from "@/lib/performance";
 
 // Initialize Sentry error tracking
 initSentry();
@@ -31,7 +32,7 @@ function ProfileSetupGuardWrapper({ children }: { children: React.ReactNode }) {
   return <ProfileSetupGuard>{children}</ProfileSetupGuard>;
 }
 // Lazy load pages
-const Index = lazy(() => import("./pages/Index"));
+const Index = lazyWithRetry(() => import("./pages/Index"));
 const Auth = lazy(() => import("./pages/Auth"));
 const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 const PublicProfilePage = lazy(() => import("./pages/PublicProfilePage"));
