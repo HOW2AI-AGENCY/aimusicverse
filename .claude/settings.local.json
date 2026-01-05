@@ -1,7 +1,15 @@
 {
   "permissions": {
     "allow": [
-      "Bash(powershell -ExecutionPolicy Bypass -File .specify/scripts/powershell/check-prerequisites.ps1:*)"
+      "Bash(powershell -ExecutionPolicy Bypass -File .specify/scripts/powershell/check-prerequisites.ps1:*)",
+      "Bash($env:SPECIFY_FEATURE = \"001-unified-studio-mobile\")",
+      "Bash(powershell -Command \"$env:SPECIFY_FEATURE = ''001-unified-studio-mobile''; & ''.specify/scripts/powershell/check-prerequisites.ps1'' -Json -PathsOnly\")",
+      "Bash(powershell -Command \"$env:SPECIFY_FEATURE = ''001-unified-studio-mobile''; .\\\\.specify\\\\scripts\\\\powershell\\\\check-prerequisites.ps1 -Json -PathsOnly\")",
+      "Bash(git fetch:*)",
+      "Bash(powershell -Command:*)",
+      "Bash(powershell:*)",
+      "Bash(mkdir:*)",
+      "Bash(git checkout:*)"
     ]
   }
 }
