@@ -4,10 +4,7 @@ import { Layers, Scissors, Wand2, Music2, FileMusic, RefreshCw } from 'lucide-re
 import { Track } from '@/types/track';
 import { ActionId } from '@/config/trackActionsConfig';
 import { TrackActionState, isActionAvailable } from '@/lib/trackActionConditions';
-import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
 import { ProBadge } from '@/components/ui/pro-badge';
-import { ChevronDown } from 'lucide-react';
-import { useState } from 'react';
 
 interface StudioActionsProps {
   track: Track;
@@ -18,8 +15,6 @@ interface StudioActionsProps {
 }
 
 export function StudioActions({ track, state, onAction, variant, isProcessing }: StudioActionsProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  
   const showStudio = isActionAvailable('open_studio', track, state);
   const showReplaceSection = isActionAvailable('replace_section', track, state);
   const showStemsSimple = isActionAvailable('stems_simple', track, state);
@@ -84,90 +79,92 @@ export function StudioActions({ track, state, onAction, variant, isProcessing }:
     );
   }
 
-  // Sheet variant
+  // Sheet variant - flat list with colored icons
   return (
-    <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-      <CollapsibleTrigger asChild>
+    <div className="space-y-1">
+      {showStudio && (
         <Button
           variant="ghost"
-          className="w-full justify-between gap-3 h-12"
+          className="w-full justify-start gap-3 h-12 rounded-xl hover:bg-blue-500/10 group"
+          onClick={() => onAction('open_studio')}
         >
-          <div className="flex items-center gap-3">
-            <Layers className="w-5 h-5" />
-            <span>Открыть в студии</span>
+          <div className="w-9 h-9 rounded-lg bg-blue-500/10 flex items-center justify-center group-hover:bg-blue-500/20 transition-colors">
+            <Layers className="w-4 h-4 text-blue-500" />
           </div>
-          <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+          <span className="font-medium">Открыть студию</span>
+          {state.stemCount > 0 && (
+            <span className="ml-auto text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
+              {state.stemCount} стемов
+            </span>
+          )}
         </Button>
-      </CollapsibleTrigger>
-      <CollapsibleContent className="pl-4 space-y-1">
-        {showStudio && (
-          <Button
-            variant="ghost"
-            className="w-full justify-start gap-3 h-11"
-            onClick={() => onAction('open_studio')}
-          >
-            <Layers className="w-4 h-4" />
-            <span>Открыть студию</span>
-            {state.stemCount > 0 && (
-              <span className="ml-auto text-xs text-muted-foreground">{state.stemCount} стемов</span>
-            )}
-          </Button>
-        )}
-        {showReplaceSection && (
-          <Button
-            variant="ghost"
-            className="w-full justify-start gap-3 h-11"
-            onClick={() => onAction('replace_section')}
-          >
-            <RefreshCw className="w-4 h-4" />
-            <span>Замена секции</span>
-          </Button>
-        )}
-        {showStemsSimple && (
-          <Button
-            variant="ghost"
-            className="w-full justify-start gap-3 h-11"
-            onClick={() => onAction('stems_simple')}
-            disabled={isProcessing}
-          >
-            <Scissors className="w-4 h-4" />
-            <span>Стемы (2 дорожки)</span>
-          </Button>
-        )}
-        {showStemsDetailed && (
-          <Button
-            variant="ghost"
-            className="w-full justify-start gap-3 h-11"
-            onClick={() => onAction('stems_detailed')}
-            disabled={isProcessing}
-          >
-            <Wand2 className="w-4 h-4" />
-            <span>Стемы (6+ дорожек)</span>
-          </Button>
-        )}
-        {showMidi && (
-          <Button
-            variant="ghost"
-            className="w-full justify-start gap-3 h-11"
-            onClick={() => onAction('transcribe_midi')}
-          >
-            <Music2 className="w-4 h-4" />
-            <span>MIDI</span>
-            <ProBadge size="sm" className="ml-auto" />
-          </Button>
-        )}
-        {showNotes && (
-          <Button
-            variant="ghost"
-            className="w-full justify-start gap-3 h-11"
-            onClick={() => onAction('transcribe_notes')}
-          >
-            <FileMusic className="w-4 h-4" />
-            <span>Ноты</span>
-            <ProBadge size="sm" className="ml-auto" />
-          </Button>
-        )}
-      </CollapsibleContent>
-    </Collapsible>
+      )}
+      {showReplaceSection && (
+        <Button
+          variant="ghost"
+          className="w-full justify-start gap-3 h-12 rounded-xl hover:bg-amber-500/10 group"
+          onClick={() => onAction('replace_section')}
+        >
+          <div className="w-9 h-9 rounded-lg bg-amber-500/10 flex items-center justify-center group-hover:bg-amber-500/20 transition-colors">
+            <RefreshCw className="w-4 h-4 text-amber-500" />
+          </div>
+          <span className="font-medium">Замена секции</span>
+        </Button>
+      )}
+      {showStemsSimple && (
+        <Button
+          variant="ghost"
+          className="w-full justify-start gap-3 h-12 rounded-xl hover:bg-green-500/10 group"
+          onClick={() => onAction('stems_simple')}
+          disabled={isProcessing}
+        >
+          <div className="w-9 h-9 rounded-lg bg-green-500/10 flex items-center justify-center group-hover:bg-green-500/20 transition-colors">
+            <Scissors className="w-4 h-4 text-green-500" />
+          </div>
+          <span className="font-medium">Стемы (2 дорожки)</span>
+          <span className="ml-auto text-xs text-muted-foreground">Быстро</span>
+        </Button>
+      )}
+      {showStemsDetailed && (
+        <Button
+          variant="ghost"
+          className="w-full justify-start gap-3 h-12 rounded-xl hover:bg-purple-500/10 group"
+          onClick={() => onAction('stems_detailed')}
+          disabled={isProcessing}
+        >
+          <div className="w-9 h-9 rounded-lg bg-purple-500/10 flex items-center justify-center group-hover:bg-purple-500/20 transition-colors">
+            <Wand2 className="w-4 h-4 text-purple-500" />
+          </div>
+          <span className="font-medium">Стемы (6+ дорожек)</span>
+          <span className="ml-auto text-xs text-muted-foreground">Детально</span>
+        </Button>
+      )}
+      {showMidi && (
+        <Button
+          variant="ghost"
+          className="w-full justify-start gap-3 h-12 rounded-xl hover:bg-pink-500/10 group"
+          onClick={() => onAction('transcribe_midi')}
+        >
+          <div className="w-9 h-9 rounded-lg bg-pink-500/10 flex items-center justify-center group-hover:bg-pink-500/20 transition-colors">
+            <Music2 className="w-4 h-4 text-pink-500" />
+          </div>
+          <span className="font-medium">MIDI</span>
+          <ProBadge size="sm" className="ml-auto" />
+        </Button>
+      )}
+      {showNotes && (
+        <Button
+          variant="ghost"
+          className="w-full justify-start gap-3 h-12 rounded-xl hover:bg-orange-500/10 group"
+          onClick={() => onAction('transcribe_notes')}
+        >
+          <div className="w-9 h-9 rounded-lg bg-orange-500/10 flex items-center justify-center group-hover:bg-orange-500/20 transition-colors">
+            <FileMusic className="w-4 h-4 text-orange-500" />
+          </div>
+          <span className="font-medium">Ноты</span>
+          <ProBadge size="sm" className="ml-auto" />
+        </Button>
+      )}
+    </div>
   );
 }

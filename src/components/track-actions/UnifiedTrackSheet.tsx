@@ -1,5 +1,5 @@
 import type { Track } from '@/types/track';
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import { Sheet, SheetContent } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
 import { useTrackActionsState } from '@/hooks/useTrackActionsState';
 import { InfoActions } from './sections/InfoActions';
@@ -13,12 +13,17 @@ import { TrackDialogsPortal } from './TrackDialogsPortal';
 import { VersionsSection } from './sections/VersionsSection';
 import { QuickStemsButton } from './sections/QuickStemsButton';
 import { QuickActionsSection } from './sections/QuickActionsSection';
+import { TrackSheetHeader } from './TrackSheetHeader';
+import { ActionCategory } from './ActionCategory';
+import { AIActions } from './sections/AIActions';
+import { PlaybackActions } from './sections/PlaybackActions';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
 import { Button } from '@/components/ui/button';
-import { ChevronDown, MoreHorizontal } from 'lucide-react';
+import { ChevronDown, MoreHorizontal, Layers, Sparkles, Play, Brain, Share2, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface UnifiedTrackSheetProps {
   track: Track | null;
@@ -72,18 +77,10 @@ export function UnifiedTrackSheet({
       <Sheet open={open} onOpenChange={onOpenChange}>
         <SheetContent 
           side="bottom" 
-          className="h-auto max-h-[80vh] rounded-t-xl overflow-y-auto touch-pan-y overscroll-contain pb-safe"
+          className="h-auto max-h-[85vh] rounded-t-2xl overflow-hidden pb-safe"
         >
-          <SheetHeader>
-            <SheetTitle className="text-left">
-              {track.title || 'Без названия'}
-            </SheetTitle>
-            {track.style && (
-              <p className="text-sm text-muted-foreground text-left">
-                {track.style}
-              </p>
-            )}
-          </SheetHeader>
+          {/* New Enhanced Header with Cover */}
+          <TrackSheetHeader track={track} />
           
           {/* Quick Actions - horizontal scroll bar */}
           <QuickActionsSection 
@@ -92,125 +89,147 @@ export function UnifiedTrackSheet({
             onDownload={onDownload}
           />
 
-          <Separator className="my-2" />
+          <Separator className="my-3" />
           
-          <div className="space-y-1">
-            {/* Quick Stems CTA - prominent button for new tracks */}
-            <QuickStemsButton
-              track={track}
-              state={actionState}
-              onAction={executeAction}
-              isProcessing={isProcessing}
-              className="mb-3"
-            />
+          <ScrollArea className="max-h-[50vh] pr-2 -mr-2">
+            <div className="space-y-4 pb-4">
+              {/* Quick Stems CTA - prominent button for new tracks */}
+              <QuickStemsButton
+                track={track}
+                state={actionState}
+                onAction={executeAction}
+                isProcessing={isProcessing}
+              />
 
-            {/* Versions Section - if multiple versions exist */}
-            {versionCount > 1 && (
-              <>
+              {/* Versions Section - if multiple versions exist */}
+              {versionCount > 1 && (
                 <VersionsSection track={track} />
-                <Separator className="my-2" />
-              </>
-            )}
+              )}
 
-            {/* Queue Actions - important for playback */}
-            <QueueActionsSheet 
-              track={track} 
-              onAction={() => onOpenChange(false)}
-              trackList={trackList}
-              trackIndex={trackIndex}
-            />
+              {/* Queue Actions - important for playback */}
+              <ActionCategory icon={Play} title="Воспроизведение" color="primary">
+                <QueueActionsSheet 
+                  track={track} 
+                  onAction={() => onOpenChange(false)}
+                  trackList={trackList}
+                  trackIndex={trackIndex}
+                />
+                <PlaybackActions 
+                  track={track} 
+                  variant="sheet"
+                  onClose={() => onOpenChange(false)}
+                />
+              </ActionCategory>
 
-            <Separator className="my-2" />
+              {/* Studio & Create Actions - frequently used */}
+              <ActionCategory icon={Layers} title="Студия" color="info">
+                <StudioActions
+                  track={track}
+                  state={actionState}
+                  onAction={executeAction}
+                  variant="sheet"
+                  isProcessing={isProcessing}
+                />
+              </ActionCategory>
 
-            {/* Studio Actions - frequently used */}
-            <StudioActions
-              track={track}
-              state={actionState}
-              onAction={executeAction}
-              variant="sheet"
-              isProcessing={isProcessing}
-            />
+              <ActionCategory icon={Sparkles} title="Создание" color="warning">
+                <CreateActions
+                  track={track}
+                  state={actionState}
+                  onAction={executeAction}
+                  variant="sheet"
+                  isProcessing={isProcessing}
+                />
+              </ActionCategory>
 
-            {/* Create Actions - frequently used */}
-            <CreateActions
-              track={track}
-              state={actionState}
-              onAction={executeAction}
-              variant="sheet"
-              isProcessing={isProcessing}
-            />
+              {/* AI Actions - new section */}
+              <ActionCategory icon={Brain} title="AI Инструменты" color="primary">
+                <AIActions
+                  track={track}
+                  state={actionState}
+                  onAction={executeAction}
+                  variant="sheet"
+                  isProcessing={isProcessing}
+                  onClose={() => onOpenChange(false)}
+                />
+              </ActionCategory>
 
-            {/* More Actions - collapsible section for less common actions */}
-            <Collapsible open={moreActionsOpen} onOpenChange={setMoreActionsOpen}>
-              <CollapsibleTrigger asChild>
-                <Button
-                  variant="ghost"
-                  className="w-full justify-between gap-3 h-12 mt-2"
-                >
-                  <div className="flex items-center gap-3">
-                    <MoreHorizontal className="w-5 h-5" />
-                    <span>Ещё действия</span>
-                  </div>
-                  <motion.div
-                    animate={{ rotate: moreActionsOpen ? 180 : 0 }}
-                    transition={{ duration: 0.2 }}
+              {/* More Actions - collapsible section for less common actions */}
+              <Collapsible open={moreActionsOpen} onOpenChange={setMoreActionsOpen}>
+                <CollapsibleTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-between gap-3 h-12 mt-2 border border-border/50 rounded-xl"
                   >
-                    <ChevronDown className="w-4 h-4" />
-                  </motion.div>
-                </Button>
-              </CollapsibleTrigger>
-              <AnimatePresence>
-                {moreActionsOpen && (
-                  <CollapsibleContent forceMount>
+                    <div className="flex items-center gap-3">
+                      <MoreHorizontal className="w-5 h-5" />
+                      <span>Ещё действия</span>
+                    </div>
                     <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
+                      animate={{ rotate: moreActionsOpen ? 180 : 0 }}
                       transition={{ duration: 0.2 }}
-                      className="overflow-hidden pl-2 space-y-1 pt-1"
                     >
-                      {/* Info Actions */}
-                      <InfoActions
-                        track={track}
-                        state={actionState}
-                        onAction={executeAction}
-                        variant="sheet"
-                        isProcessing={isProcessing}
-                      />
-
-                      {/* Download Actions */}
-                      <DownloadActions
-                        track={track}
-                        state={actionState}
-                        onAction={executeAction}
-                        variant="sheet"
-                        isProcessing={isProcessing}
-                      />
-
-                      {/* Share Actions */}
-                      <ShareActions
-                        track={track}
-                        state={actionState}
-                        onAction={executeAction}
-                        variant="sheet"
-                        isProcessing={isProcessing}
-                      />
-
-                      <Separator className="my-2" />
-
-                      {/* Delete Actions */}
-                      <DeleteActions
-                        track={track}
-                        state={actionState}
-                        onAction={executeAction}
-                        variant="sheet"
-                      />
+                      <ChevronDown className="w-4 h-4" />
                     </motion.div>
-                  </CollapsibleContent>
-                )}
-              </AnimatePresence>
-            </Collapsible>
-          </div>
+                  </Button>
+                </CollapsibleTrigger>
+                <AnimatePresence>
+                  {moreActionsOpen && (
+                    <CollapsibleContent forceMount>
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="overflow-hidden space-y-4 pt-4"
+                      >
+                        {/* Info Actions */}
+                        <div className="space-y-1">
+                          <InfoActions
+                            track={track}
+                            state={actionState}
+                            onAction={executeAction}
+                            variant="sheet"
+                            isProcessing={isProcessing}
+                          />
+                        </div>
+
+                        {/* Share Actions */}
+                        <ActionCategory icon={Share2} title="Поделиться" color="success">
+                          <DownloadActions
+                            track={track}
+                            state={actionState}
+                            onAction={executeAction}
+                            variant="sheet"
+                            isProcessing={isProcessing}
+                          />
+                          <ShareActions
+                            track={track}
+                            state={actionState}
+                            onAction={executeAction}
+                            variant="sheet"
+                            isProcessing={isProcessing}
+                          />
+                        </ActionCategory>
+
+                        <Separator className="my-2" />
+
+                        {/* Delete Actions */}
+                        <ActionCategory icon={Trash2} title="Опасная зона" color="danger">
+                          <DeleteActions
+                            track={track}
+                            state={actionState}
+                            onAction={executeAction}
+                            variant="sheet"
+                          />
+                        </ActionCategory>
+                      </motion.div>
+                    </CollapsibleContent>
+                  )}
+                </AnimatePresence>
+              </Collapsible>
+            </div>
+          </ScrollArea>
         </SheetContent>
       </Sheet>
 

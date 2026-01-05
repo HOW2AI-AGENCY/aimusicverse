@@ -4,9 +4,6 @@ import { Download, FileAudio, FileMusic, Archive } from 'lucide-react';
 import { Track } from '@/types/track';
 import { ActionId } from '@/config/trackActionsConfig';
 import { TrackActionState, isActionAvailable, getActionLabel } from '@/lib/trackActionConditions';
-import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
-import { ChevronDown } from 'lucide-react';
-import { useState } from 'react';
 
 interface DownloadActionsProps {
   track: Track;
@@ -17,8 +14,6 @@ interface DownloadActionsProps {
 }
 
 export function DownloadActions({ track, state, onAction, variant, isProcessing }: DownloadActionsProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  
   const showMp3 = isActionAvailable('download_mp3', track, state);
   const showWav = isActionAvailable('download_wav', track, state);
   const showStems = isActionAvailable('download_stems', track, state);
@@ -56,54 +51,48 @@ export function DownloadActions({ track, state, onAction, variant, isProcessing 
     );
   }
 
-  // Sheet variant
+  // Sheet variant - flat list for use inside ActionCategory
   return (
-    <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-      <CollapsibleTrigger asChild>
+    <div className="space-y-1">
+      {showMp3 && (
         <Button
           variant="ghost"
-          className="w-full justify-between gap-3 h-12"
+          className="w-full justify-start gap-3 h-12 rounded-xl hover:bg-green-500/10 group"
+          onClick={() => onAction('download_mp3')}
         >
-          <div className="flex items-center gap-3">
-            <Download className="w-5 h-5" />
-            <span>Скачать</span>
+          <div className="w-9 h-9 rounded-lg bg-green-500/10 flex items-center justify-center group-hover:bg-green-500/20 transition-colors">
+            <FileAudio className="w-4 h-4 text-green-500" />
           </div>
-          <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+          <span className="font-medium">MP3</span>
+          <span className="ml-auto text-xs text-muted-foreground">Стандарт</span>
         </Button>
-      </CollapsibleTrigger>
-      <CollapsibleContent className="pl-4 space-y-1">
-        {showMp3 && (
-          <Button
-            variant="ghost"
-            className="w-full justify-start gap-3 h-11"
-            onClick={() => onAction('download_mp3')}
-          >
-            <FileAudio className="w-4 h-4" />
-            <span>MP3</span>
-          </Button>
-        )}
-        {showWav && (
-          <Button
-            variant="ghost"
-            className="w-full justify-start gap-3 h-11"
-            onClick={() => onAction('download_wav')}
-            disabled={isProcessing}
-          >
-            <FileMusic className="w-4 h-4" />
-            <span>WAV</span>
-          </Button>
-        )}
-        {showStems && (
-          <Button
-            variant="ghost"
-            className="w-full justify-start gap-3 h-11"
-            onClick={() => onAction('download_stems')}
-          >
-            <Archive className="w-4 h-4" />
-            <span>{getActionLabel('download_stems', track, state)}</span>
-          </Button>
-        )}
-      </CollapsibleContent>
-    </Collapsible>
+      )}
+      {showWav && (
+        <Button
+          variant="ghost"
+          className="w-full justify-start gap-3 h-12 rounded-xl hover:bg-blue-500/10 group"
+          onClick={() => onAction('download_wav')}
+          disabled={isProcessing}
+        >
+          <div className="w-9 h-9 rounded-lg bg-blue-500/10 flex items-center justify-center group-hover:bg-blue-500/20 transition-colors">
+            <FileMusic className="w-4 h-4 text-blue-500" />
+          </div>
+          <span className="font-medium">WAV</span>
+          <span className="ml-auto text-xs text-muted-foreground">Без потерь</span>
+        </Button>
+      )}
+      {showStems && (
+        <Button
+          variant="ghost"
+          className="w-full justify-start gap-3 h-12 rounded-xl hover:bg-purple-500/10 group"
+          onClick={() => onAction('download_stems')}
+        >
+          <div className="w-9 h-9 rounded-lg bg-purple-500/10 flex items-center justify-center group-hover:bg-purple-500/20 transition-colors">
+            <Archive className="w-4 h-4 text-purple-500" />
+          </div>
+          <span className="font-medium">{getActionLabel('download_stems', track, state)}</span>
+        </Button>
+      )}
+    </div>
   );
 }
