@@ -18,7 +18,7 @@
  * ```
  */
 
-import { lazy, ComponentType } from 'react';
+import { lazy, ComponentType, LazyExoticComponent } from 'react';
 import { logger } from '@/lib/logger';
 
 interface LazyLoadOptions {
@@ -36,8 +36,8 @@ interface LazyLoadOptions {
 export function lazyLoad<T extends ComponentType<any>>(
   importFn: () => Promise<{ default: T }>,
   options: LazyLoadOptions = {}
-): T {
-  const { fallback = null, onError } = options;
+): LazyExoticComponent<T> {
+  const { onError } = options;
 
   return lazy(() => {
     return importFn().catch((error) => {
@@ -47,10 +47,8 @@ export function lazyLoad<T extends ComponentType<any>>(
         onError(error);
       }
 
-      // Return a fallback component on error
-      return {
-        default: () => fallback || null,
-      } as { default: T };
+      // Re-throw to let React's error boundary handle it
+      throw error;
     });
   });
 }
@@ -65,9 +63,8 @@ export function lazyLoad<T extends ComponentType<any>>(
  */
 export function createLazyRoute<T extends ComponentType<any>>(
   importFn: () => Promise<{ default: T }>
-): T {
+): LazyExoticComponent<T> {
   return lazyLoad(importFn, {
-    fallback: null, // Routes handle their own loading states
     onError: (error) => {
       logger.error('Failed to load route', { error: error.message });
     },

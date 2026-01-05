@@ -2,15 +2,14 @@
  * Track components - unified exports
  */
 
-// New UnifiedTrackCard (refactored)
-export { UnifiedTrackCard as UnifiedTrackCardNew } from './track-card';
-export type { UnifiedTrackCardProps } from './track-card.types';
-
-// Legacy components (deprecated)
+// Legacy components
 export { UnifiedTrackCard } from './UnifiedTrackCard';
 export { TrackCover } from './TrackCover';
 export { TrackInfo } from './TrackInfo';
 export { useTrackCardLogic } from './hooks/useTrackCardLogic';
+
+// Variants
+export * from './variants';
 
 // Re-export DurationBadge for convenience
 export { DurationBadge } from '@/components/library/shared/DurationBadge';

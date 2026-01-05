@@ -1,11 +1,10 @@
 /**
  * UnifiedTrackCard Component Types
  *
- * Per contracts/UnifiedTrackCard.contract.ts:
  * Discriminated union for 7 variants (grid, list, compact, minimal, default, enhanced, professional)
  */
 
-import type { Track, PublicTrackWithCreator } from '@/types/track';
+import type { Track, TrackWithCreator } from '@/types/track';
 
 // ============================================================================
 // Base Props (shared by all variants)
@@ -13,10 +12,10 @@ import type { Track, PublicTrackWithCreator } from '@/types/track';
 
 export interface BaseUnifiedTrackCardProps {
   /** The track object to display */
-  track: Track | PublicTrackWithCreator;
+  track: Track | TrackWithCreator;
 
   /** Callback when the play button is clicked */
-  onPlay?: (track: Track | PublicTrackWithCreator) => void;
+  onPlay?: (track: Track | TrackWithCreator) => void;
 
   /** Callback when the delete button is clicked */
   onDelete?: (trackId: string) => void;
@@ -111,81 +110,3 @@ export type UnifiedTrackCardProps =
   | EnhancedUnifiedTrackCardProps
   | ProfessionalUnifiedTrackCardProps
   | StandardUnifiedTrackCardProps;
-
-// ============================================================================
-// Variant Configuration
-// ============================================================================
-
-export interface UnifiedTrackCardVariantConfig {
-  /** Visual layout */
-  layout: 'grid' | 'list';
-
-  /** Whether to show the cover art image */
-  showCover: boolean;
-
-  /** Whether to show the track title */
-  showTitle: boolean;
-
-  /** Whether to show action buttons */
-  showActions: boolean;
-
-  /** Whether to show the version switcher (A/B) */
-  showVersionToggle: boolean;
-
-  /** Whether to show the stem count indicator */
-  showStemCount: boolean;
-
-  /** Whether this is a compact variant */
-  compact: boolean;
-
-  /** Animation classes for different states */
-  animations: {
-    /** Initial animation (when card appears) */
-    enter: string;
-
-    /** Hover animation (desktop only) */
-    hover: string;
-
-    /** Tap/active animation (mobile) */
-    tap: string;
-  };
-}
-
-// ============================================================================
-// Gesture Handlers
-// ============================================================================
-
-export interface TrackCardGestures {
-  /** Swipe right to like */
-  onSwipeRight?: () => void;
-
-  /** Swipe left to delete */
-  onSwipeLeft?: () => void;
-
-  /** Double tap to like */
-  onDoubleTap?: () => void;
-
-  /** Long press for context menu */
-  onLongPress?: () => void;
-}
-
-// ============================================================================
-// Internal State
-// ============================================================================
-
-export interface TrackCardState {
-  /** Whether the card is currently being hovered */
-  isHovered: boolean;
-
-  /** Whether the card is currently being pressed */
-  isPressed: boolean;
-
-  /** Current animation state */
-  animationState: 'idle' | 'entering' | 'exiting';
-
-  /** Swipe offset in pixels */
-  swipeOffset: number;
-
-  /** Whether swipe is in progress */
-  isSwiping: boolean;
-}

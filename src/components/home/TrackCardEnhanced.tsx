@@ -15,8 +15,7 @@ import { PublicTrackDetailSheet } from './PublicTrackDetailSheet';
 import { CreatorAvatar, CreatorLink } from '@/components/ui/creator-avatar';
 import { DoubleTapLike } from '@/components/engagement/DoubleTapLike';
 import { AddToPlaylistSheet } from './AddToPlaylistSheet';
-import { useSocialInteractions } from '@/hooks/social/use-social-interactions';
-import { usePlayerControls } from '@/hooks/player/use-player-controls';
+import { toast } from 'sonner';
 
 interface TrackCardEnhancedProps {
   track: PublicTrackWithCreator;
@@ -31,7 +30,7 @@ export const TrackCardEnhanced = memo(function TrackCardEnhanced({
   className,
   showFollowButton = true,
 }: TrackCardEnhancedProps) {
-  const { activeTrack, isPlaying } = usePlayerStore();
+  const { activeTrack, isPlaying, playTrack, pauseTrack } = usePlayerStore();
   const { hapticFeedback } = useTelegram();
   const { user } = useAuth();
   const [imageError, setImageError] = useState(false);
@@ -39,19 +38,10 @@ export const TrackCardEnhanced = memo(function TrackCardEnhanced({
   const [playlistSheetOpen, setPlaylistSheetOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
-  // Use new extracted hooks
-  const { play, togglePlayPause, currentTrack } = usePlayerControls();
-  const { share, isSharing } = useSocialInteractions({
-    entityType: 'track',
-    entityId: track.id,
-  });
-
   const isOwnTrack = user?.id === track.user_id;
-  // Note: We don't have batch-loaded follow status yet, so useFollow will still query individually
-  // This will be optimized in a future enhancement when we add creator_following to the batch data
   const { isFollowing, toggleFollow, isLoading: isFollowLoading } = useFollow(track.user_id);
 
-  const isCurrentTrack = activeTrack?.id === track.id || currentTrack?.id === track.id;
+  const isCurrentTrack = activeTrack?.id === track.id;
   const isCurrentlyPlaying = isCurrentTrack && isPlaying;
 
   const trackForPlayer: Track = {
@@ -68,32 +58,36 @@ export const TrackCardEnhanced = memo(function TrackCardEnhanced({
   const handlePlay = async (e: React.MouseEvent) => {
     e.stopPropagation();
     
-    if (isCurrentTrack) {
-      togglePlayPause();
+    if (isCurrentTrack && isPlaying) {
+      pauseTrack();
     } else {
-      await play(trackForPlayer);
+      playTrack(trackForPlayer);
     }
   };
 
   const handleShare = async (e: React.MouseEvent) => {
     e.stopPropagation();
     
-    // Use native share if available, otherwise use our hook
+    const shareUrl = `${window.location.origin}/track/${track.id}`;
+    
+    // Use native share if available
     if (navigator.share) {
       try {
         await navigator.share({
           title: track.title || 'Трек',
           text: `Послушай "${track.title}" на MusicVerse`,
-          url: `${window.location.origin}/track/${track.id}`,
+          url: shareUrl,
         });
       } catch (err) {
-        // User cancelled or error - fallback to our hook
+        // User cancelled or error - fallback to clipboard
         if ((err as Error).name !== 'AbortError') {
-          await share('clipboard');
+          await navigator.clipboard.writeText(shareUrl);
+          toast.success('Ссылка скопирована');
         }
       }
     } else {
-      await share('clipboard');
+      await navigator.clipboard.writeText(shareUrl);
+      toast.success('Ссылка скопирована');
     }
   };
 
