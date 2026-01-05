@@ -1,10 +1,10 @@
 /**
- * QuickActionsSection - Horizontal scrollable quick actions for track sheet
- * Shows most frequently used actions in compact, beautiful pill-style form
+ * QuickActionsSection - Compact horizontal quick actions (4 items only)
+ * Play, Like, Queue, Share - minimal and fast
  */
 
 import { memo, useMemo } from 'react';
-import { Play, Pause, Heart, Share2, Download, Link, ListPlus, Layers, Plus, Music } from 'lucide-react';
+import { Play, Pause, Heart, Share2, ListPlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
@@ -13,17 +13,14 @@ import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { useTracks } from '@/hooks/useTracks';
 import { hapticImpact } from '@/lib/haptic';
 import { toast } from 'sonner';
-import { useNavigate } from 'react-router-dom';
 
 interface QuickAction {
   id: string;
   icon: React.ElementType;
-  activeIcon?: React.ElementType;
   label: string;
   isActive?: boolean;
   onClick: () => void;
-  disabled?: boolean;
-  color?: 'default' | 'primary' | 'success' | 'warning' | 'danger';
+  color?: 'default' | 'primary' | 'danger';
 }
 
 interface QuickActionsSectionProps {
@@ -34,18 +31,14 @@ interface QuickActionsSectionProps {
 
 const colorVariants = {
   default: 'bg-muted hover:bg-muted/80 text-foreground',
-  primary: 'bg-primary/15 hover:bg-primary/25 text-primary border-primary/30',
-  success: 'bg-green-500/15 hover:bg-green-500/25 text-green-600 border-green-500/30',
-  warning: 'bg-amber-500/15 hover:bg-amber-500/25 text-amber-600 border-amber-500/30',
-  danger: 'bg-red-500/15 hover:bg-red-500/25 text-red-500 border-red-500/30',
+  primary: 'bg-primary/15 hover:bg-primary/25 text-primary',
+  danger: 'bg-red-500/15 hover:bg-red-500/25 text-red-500',
 };
 
 export const QuickActionsSection = memo(function QuickActionsSection({ 
   track, 
   onClose,
-  onDownload 
 }: QuickActionsSectionProps) {
-  const navigate = useNavigate();
   const { activeTrack, isPlaying, playTrack, pauseTrack, addToQueue } = usePlayerStore();
   const { toggleLike } = useTracks();
 
@@ -97,38 +90,6 @@ export const QuickActionsSection = memo(function QuickActionsSection({
     toast.success('Добавлено в очередь');
   };
 
-  const handleAddToPlaylist = () => {
-    hapticImpact('light');
-    onClose();
-    // Navigate to playlist selector or open dialog
-    toast.info('Выберите плейлист');
-  };
-
-  const handleDownload = () => {
-    hapticImpact('light');
-    if (onDownload) {
-      onDownload();
-    } else if (track.audio_url) {
-      const link = document.createElement('a');
-      link.href = track.audio_url;
-      link.download = `${track.title || 'track'}.mp3`;
-      link.click();
-      toast.success('Загрузка началась');
-    }
-  };
-
-  const handleOpenStudio = () => {
-    hapticImpact('medium');
-    onClose();
-    navigate(`/studio?trackId=${track.id}`);
-  };
-
-  const handleExtend = () => {
-    hapticImpact('medium');
-    onClose();
-    navigate(`/create?mode=extend&trackId=${track.id}`);
-  };
-
   const quickActions: QuickAction[] = useMemo(() => [
     {
       id: 'play',
@@ -140,7 +101,7 @@ export const QuickActionsSection = memo(function QuickActionsSection({
     {
       id: 'like',
       icon: Heart,
-      label: track.is_liked ? 'В избранном' : 'Лайк',
+      label: track.is_liked ? 'Убрать' : 'Лайк',
       isActive: track.is_liked,
       onClick: handleLike,
       color: track.is_liked ? 'danger' as const : 'default' as const,
@@ -152,37 +113,16 @@ export const QuickActionsSection = memo(function QuickActionsSection({
       onClick: handleAddToQueue,
     },
     {
-      id: 'studio',
-      icon: Layers,
-      label: 'Студия',
-      onClick: handleOpenStudio,
-      color: 'warning' as const,
-    },
-    {
-      id: 'extend',
-      icon: Plus,
-      label: 'Расширить',
-      onClick: handleExtend,
-      color: 'success' as const,
-    },
-    {
       id: 'share',
       icon: Share2,
       label: 'Поделиться',
       onClick: handleShare,
     },
-    {
-      id: 'download',
-      icon: Download,
-      label: 'Скачать',
-      onClick: handleDownload,
-      disabled: !track.audio_url,
-    },
-  ], [isTrackPlaying, track.is_liked, track.audio_url, track.id]);
+  ], [isTrackPlaying, track.is_liked, track.id]);
 
   return (
-    <div className="py-3 -mx-4">
-      <div className="flex gap-2 overflow-x-auto pb-1 px-4 scrollbar-hide">
+    <div className="py-2">
+      <div className="flex gap-2 justify-between">
         {quickActions.map((action, index) => {
           const Icon = action.icon;
           const colorClass = action.color ? colorVariants[action.color] : colorVariants.default;
@@ -190,17 +130,17 @@ export const QuickActionsSection = memo(function QuickActionsSection({
           return (
             <motion.div
               key={action.id}
-              initial={{ opacity: 0, scale: 0.9, y: 10 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: index * 0.03, type: 'spring', stiffness: 400, damping: 25 }}
+              className="flex-1"
             >
               <Button
                 variant="outline"
                 size="sm"
                 onClick={action.onClick}
-                disabled={action.disabled}
                 className={cn(
-                  "flex-shrink-0 gap-2 h-11 px-4 rounded-full border transition-all",
+                  "w-full gap-1.5 h-9 px-2 rounded-lg border transition-all",
                   "active:scale-95 touch-manipulation",
                   colorClass,
                   action.isActive && action.id === 'like' && "bg-red-500/20 border-red-500/40 text-red-500"
@@ -213,7 +153,7 @@ export const QuickActionsSection = memo(function QuickActionsSection({
                   )} 
                   fill={action.isActive && action.id === 'like' ? 'currentColor' : 'none'} 
                 />
-                <span className="text-xs font-medium whitespace-nowrap">{action.label}</span>
+                <span className="text-[11px] font-medium">{action.label}</span>
               </Button>
             </motion.div>
           );

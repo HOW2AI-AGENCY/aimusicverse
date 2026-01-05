@@ -11,3 +11,4 @@ export { StudioActions } from './sections/StudioActions';
 export { CreateActions } from './sections/CreateActions';
 export { DeleteActions } from './sections/DeleteActions';
 export { VersionsSection } from './sections/VersionsSection';
+export { PlaybackActions } from './sections/PlaybackActions';

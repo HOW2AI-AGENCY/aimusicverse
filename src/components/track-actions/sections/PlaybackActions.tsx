@@ -1,16 +1,17 @@
 /**
- * PlaybackActions - Special playback modes
- * Karaoke mode, loop section, speed control
+ * PlaybackActions - Compact playback controls
+ * Loop, speed control (simplified)
  */
 
 import { Button } from '@/components/ui/button';
 import { DropdownMenuItem, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from '@/components/ui/dropdown-menu';
-import { Mic2, Repeat, Gauge } from 'lucide-react';
+import { Repeat, Gauge } from 'lucide-react';
 import { Track } from '@/types/track';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { hapticImpact } from '@/lib/haptic';
 import { toast } from 'sonner';
 import { useState } from 'react';
+import { cn } from '@/lib/utils';
 
 interface PlaybackActionsProps {
   track: Track;
@@ -28,19 +29,6 @@ export function PlaybackActions({ track, variant, onClose }: PlaybackActionsProp
   
   const isCurrentTrack = activeTrack?.id === track.id;
   const isLooping = repeat === 'one';
-  
-  // Check if track has stems for karaoke
-  const hasVocalStem = false; // TODO: Check from track.stems
-  
-  const handleKaraoke = () => {
-    hapticImpact('medium');
-    if (!hasVocalStem) {
-      toast.info('Для караоке нужно сначала разделить трек на стемы');
-      return;
-    }
-    toast.success('Караоке режим включён');
-    onClose?.();
-  };
 
   const handleToggleLoop = () => {
     hapticImpact('light');
@@ -51,19 +39,14 @@ export function PlaybackActions({ track, variant, onClose }: PlaybackActionsProp
   const handleSpeedChange = (speed: number) => {
     hapticImpact('light');
     setPlaybackSpeed(speed);
-    // Note: actual speed change would need AudioElement access
     toast.success(`Скорость: ${speed}x`);
   };
 
-  const speedOptions = [0.5, 0.75, 1, 1.25, 1.5, 2];
+  const speedOptions = [0.75, 1, 1.25, 1.5];
 
   if (variant === 'dropdown') {
     return (
       <>
-        <DropdownMenuItem onClick={handleKaraoke} disabled={!hasVocalStem}>
-          <Mic2 className="w-4 h-4 mr-2" />
-          Караоке режим
-        </DropdownMenuItem>
         <DropdownMenuItem onClick={handleToggleLoop}>
           <Repeat className={`w-4 h-4 mr-2 ${isLooping ? 'text-primary' : ''}`} />
           {isLooping ? 'Выключить повтор' : 'Повтор трека'}
@@ -89,43 +72,42 @@ export function PlaybackActions({ track, variant, onClose }: PlaybackActionsProp
     );
   }
 
-  // Sheet variant
+  // Sheet variant - compact
   return (
-    <>
+    <div className="space-y-0.5">
       <Button
         variant="ghost"
-        className="w-full justify-start gap-3 h-12"
-        onClick={handleKaraoke}
-        disabled={!hasVocalStem}
-      >
-        <Mic2 className="w-5 h-5 text-pink-500" />
-        <span>Караоке режим</span>
-        {!hasVocalStem && (
-          <span className="ml-auto text-xs text-muted-foreground">Нужны стемы</span>
+        className={cn(
+          "w-full justify-start gap-3 h-10 rounded-lg",
+          isLooping ? "text-primary hover:bg-primary/10" : "hover:bg-muted"
         )}
-      </Button>
-      
-      <Button
-        variant="ghost"
-        className={`w-full justify-start gap-3 h-12 ${isLooping ? 'text-primary' : ''}`}
         onClick={handleToggleLoop}
       >
-        <Repeat className={`w-5 h-5 ${isLooping ? 'text-primary' : ''}`} />
-        <span>{isLooping ? 'Выключить повтор' : 'Повтор трека'}</span>
+        <div className={cn(
+          "w-7 h-7 rounded-md flex items-center justify-center transition-colors",
+          isLooping ? "bg-primary/20" : "bg-muted"
+        )}>
+          <Repeat className={cn("w-3.5 h-3.5", isLooping && "text-primary")} />
+        </div>
+        <span className="text-sm">{isLooping ? 'Выключить повтор' : 'Повтор трека'}</span>
       </Button>
       
-      <div className="px-3 py-3 space-y-2">
-        <div className="flex items-center gap-3">
-          <Gauge className="w-5 h-5 text-muted-foreground" />
-          <span className="text-sm">Скорость: {playbackSpeed}x</span>
+      {/* Speed options - inline compact */}
+      <div className="flex items-center gap-2 px-2 py-2">
+        <div className="w-7 h-7 rounded-md bg-muted flex items-center justify-center">
+          <Gauge className="w-3.5 h-3.5 text-muted-foreground" />
         </div>
-        <div className="flex items-center gap-2 pl-8 flex-wrap">
+        <span className="text-sm text-muted-foreground">Скорость:</span>
+        <div className="flex items-center gap-1 ml-auto">
           {speedOptions.map(speed => (
             <Button
               key={speed}
-              variant={playbackSpeed === speed ? 'default' : 'outline'}
+              variant={playbackSpeed === speed ? 'default' : 'ghost'}
               size="sm"
-              className="h-8 px-2.5 text-xs"
+              className={cn(
+                "h-7 px-2 text-xs rounded-md",
+                playbackSpeed === speed && "bg-primary text-primary-foreground"
+              )}
               onClick={() => handleSpeedChange(speed)}
             >
               {speed}x
@@ -133,6 +115,6 @@ export function PlaybackActions({ track, variant, onClose }: PlaybackActionsProp
           ))}
         </div>
       </div>
-    </>
+    </div>
   );
 }
