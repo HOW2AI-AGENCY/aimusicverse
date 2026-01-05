@@ -149,11 +149,11 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
               e.stopPropagation();
               setShowActions(!showActions);
             }}
-            className="flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 flex-shrink-0 touch-manipulation"
+            className="flex items-center justify-center w-10 h-10 min-h-[44px] min-w-[44px] flex-shrink-0 touch-manipulation -ml-1"
             aria-label={showActions ? 'Hide actions' : 'Show actions'}
           >
             <ChevronUp className={cn(
-              "w-4 h-4 text-muted-foreground transition-transform",
+              "w-5 h-5 text-muted-foreground transition-transform",
               showActions && "rotate-180"
             )} />
           </button>
@@ -225,12 +225,12 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
                     size="icon"
                     onClick={handleLike}
                     className={cn(
-                      "h-7 w-7 rounded-full hover:bg-muted/50",
+                      "h-10 w-10 min-h-[44px] min-w-[44px] rounded-full hover:bg-muted/50",
                       track.is_liked && "text-red-500"
                     )}
                     aria-label={track.is_liked ? 'Unlike' : 'Like'}
                   >
-                    <Heart className={cn("h-3.5 w-3.5", track.is_liked && "fill-current")} />
+                    <Heart className={cn("h-4 w-4", track.is_liked && "fill-current")} />
                   </Button>
 
                   {/* Add to Playlist button */}
@@ -238,10 +238,10 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
                     variant="ghost"
                     size="icon"
                     onClick={handleAddToPlaylist}
-                    className="h-7 w-7 rounded-full hover:bg-muted/50"
+                    className="h-10 w-10 min-h-[44px] min-w-[44px] rounded-full hover:bg-muted/50"
                     aria-label="Add to playlist"
                   >
-                    <ListPlus className="h-3.5 w-3.5" />
+                    <ListPlus className="h-4 w-4" />
                   </Button>
 
                   {/* Download button - hidden on mobile */}
@@ -249,11 +249,11 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
                     variant="ghost"
                     size="icon"
                     onClick={handleDownload}
-                    className="h-7 w-7 rounded-full hover:bg-muted/50 hidden sm:flex"
+                    className="h-10 w-10 min-h-[44px] min-w-[44px] rounded-full hover:bg-muted/50 hidden sm:flex"
                     aria-label="Download"
                     disabled={!track.audio_url && !track.streaming_url}
                   >
-                    <Download className="h-3.5 w-3.5" />
+                    <Download className="h-4 w-4" />
                   </Button>
 
                   {/* More Actions Menu */}
@@ -269,10 +269,10 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
               variant="ghost"
               size="icon"
               onClick={handlePreviousTrack}
-              className="h-7 w-7 sm:h-8 sm:w-8 rounded-full hover:bg-muted/50 hidden sm:flex"
+              className="h-10 w-10 min-h-[44px] min-w-[44px] rounded-full hover:bg-muted/50 hidden sm:flex"
               aria-label="Previous track"
             >
-              <SkipBack className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              <SkipBack className="h-4 w-4" />
             </Button>
 
             {/* Play/Pause button */}
@@ -280,13 +280,13 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
               variant="ghost"
               size="icon"
               onClick={handlePlayPause}
-              className="h-9 w-9 rounded-full bg-primary/10 hover:bg-primary/20"
+              className="h-11 w-11 min-h-[44px] min-w-[44px] rounded-full bg-primary/10 hover:bg-primary/20"
               aria-label={isPlaying ? 'Pause' : 'Play'}
             >
               {isPlaying ? (
-                <Pause className="h-4 w-4" fill="currentColor" />
+                <Pause className="h-5 w-5" fill="currentColor" />
               ) : (
-                <Play className="h-4 w-4 ml-0.5" fill="currentColor" />
+                <Play className="h-5 w-5 ml-0.5" fill="currentColor" />
               )}
             </Button>
 
@@ -295,10 +295,10 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
               variant="ghost"
               size="icon"
               onClick={handleNextTrack}
-              className="h-7 w-7 sm:h-8 sm:w-8 rounded-full hover:bg-muted/50"
+              className="h-10 w-10 min-h-[44px] min-w-[44px] rounded-full hover:bg-muted/50"
               aria-label="Next track"
             >
-              <SkipForward className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              <SkipForward className="h-4 w-4" />
             </Button>
 
             {/* Close button - RIGHT SIDE */}
@@ -306,10 +306,10 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
               variant="ghost"
               size="icon"
               onClick={handleClose}
-              className="h-7 w-7 sm:h-8 sm:w-8 rounded-full hover:bg-muted/50"
+              className="h-10 w-10 min-h-[44px] min-w-[44px] rounded-full hover:bg-muted/50 -mr-1"
               aria-label="Close player"
             >
-              <X className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              <X className="h-4 w-4" />
             </Button>
           </div>
         </motion.div>
