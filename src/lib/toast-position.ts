@@ -13,15 +13,15 @@ export function getToastStyles(isMobile: boolean, telegramOffset: number = 0) {
     return {
       // Bottom positioning - account for nav bar (5rem) + mini-player gap + safe area
       bottom: `max(calc(var(--tg-safe-area-inset-bottom, 0px) + 7rem + ${telegramOffset}px), calc(env(safe-area-inset-bottom, 0px) + 7rem))`,
-      // Symmetric margins - use CSS calc for precise centering
-      left: '0',
-      right: '0',
-      // Use padding for internal margins (Sonner applies to container)
-      paddingLeft: '1rem',
-      paddingRight: '1rem',
-      // Let Sonner handle width
-      width: '100%',
-      maxWidth: 'none',
+
+      // Force true centering on mobile (Sonner's internal layout can drift in Telegram)
+      left: '50%',
+      right: 'auto',
+      transform: 'translateX(-50%)',
+
+      // IMPORTANT: use 100% (not 100vw) to avoid Telegram/scrollbar viewport quirks
+      width: 'calc(100% - 2rem)',
+      maxWidth: 'min(28rem, calc(100% - 2rem))',
     };
   }
 
