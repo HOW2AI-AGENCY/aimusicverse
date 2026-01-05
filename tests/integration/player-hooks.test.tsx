@@ -11,21 +11,24 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { usePlayerControls } from '@/hooks/player/use-player-controls';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import type { ReactNode } from 'react';
 
 // Mock dependencies
-vi.mock('@/stores/playerStore', () => ({
-  playerStore: {
-    getState: vi.fn(() => ({
-      currentTrack: null,
+vi.mock('@/hooks/audio/usePlayerState', () => ({
+  usePlayerStore: vi.fn((selector) => {
+    const state = {
+      activeTrack: null,
       isPlaying: false,
       volume: 1,
       queue: [],
-    })),
-    setState: vi.fn(),
-    subscribe: vi.fn(() => vi.fn()),
-  },
+      playTrack: vi.fn(),
+      pauseTrack: vi.fn(),
+      setVolume: vi.fn(),
+      addToQueue: vi.fn(),
+    };
+    return selector ? selector(state) : state;
+  }),
 }));
 
 vi.mock('@/hooks/useHapticFeedback', () => ({
@@ -42,31 +45,36 @@ vi.mock('@/lib/logger', () => ({
   },
 }));
 
-// Test component that uses usePlayerControls
+// Test component that uses usePlayerStore
 function PlayerTestComponent() {
-  const {
-    currentTrack,
-    isPlaying,
-    play,
-    pause,
-    togglePlayPause,
-    volume,
-    setVolume,
-    queue,
-    addToQueue,
-  } = usePlayerControls();
+  const activeTrack = usePlayerStore((s) => s.activeTrack);
+  const isPlaying = usePlayerStore((s) => s.isPlaying);
+  const volume = usePlayerStore((s) => s.volume);
+  const queue = usePlayerStore((s) => s.queue);
+  const playTrack = usePlayerStore((s) => s.playTrack);
+  const pauseTrack = usePlayerStore((s) => s.pauseTrack);
+  const setVolume = usePlayerStore((s) => s.setVolume);
+  const addToQueue = usePlayerStore((s) => s.addToQueue);
+
+  const togglePlayPause = () => {
+    if (isPlaying) {
+      pauseTrack();
+    } else {
+      playTrack();
+    }
+  };
 
   return (
     <div>
       <div data-testid="current-track">
-        {currentTrack ? currentTrack.title : 'No track'}
+        {activeTrack ? activeTrack.title : 'No track'}
       </div>
       <div data-testid="is-playing">{isPlaying ? 'Playing' : 'Paused'}</div>
       <div data-testid="volume">{volume}</div>
       <div data-testid="queue-length">{queue.length}</div>
       
       <button
-        onClick={() => play({
+        onClick={() => playTrack({
           id: 'test-1',
           title: 'Test Track',
           audio_url: 'test.mp3',
@@ -74,7 +82,7 @@ function PlayerTestComponent() {
       >
         Play Track
       </button>
-      <button onClick={pause}>Pause</button>
+      <button onClick={pauseTrack}>Pause</button>
       <button onClick={togglePlayPause}>Toggle</button>
       <button onClick={() => setVolume(0.5)}>Set Volume</button>
       <button onClick={() => addToQueue({
@@ -101,7 +109,7 @@ function createWrapper() {
   );
 }
 
-describe('Player Integration with usePlayerControls', () => {
+describe('Player Integration with usePlayerStore', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
