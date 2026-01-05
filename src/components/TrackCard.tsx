@@ -12,6 +12,7 @@ import { InlineVersionToggle } from './library/InlineVersionToggle';
 import { TrackTypeIcons } from './library/TrackTypeIcons';
 import { TrackStyleTags } from './library/TrackStyleTags';
 import { ScrollableTagsRow } from './library/ScrollableTagsRow';
+import { MarqueeTitle } from './library/MarqueeTitle';
 import { SwipeableTrackItem } from './library/SwipeableTrackItem';
 import { SwipeOnboardingTooltip } from './library/SwipeOnboardingTooltip';
 import { LazyImage } from '@/components/ui/lazy-image';
@@ -358,21 +359,9 @@ export const TrackCard = memo(({
 
         {/* Track Info - 3 rows structure */}
         <div className="flex-1 min-w-0 py-0.5">
-          {/* Row 1: Title + Version Toggle (right-aligned) */}
+          {/* Row 1: Animated Title + Queue badge */}
           <div className="flex items-center gap-2">
-            <h3 className="font-medium text-sm leading-tight truncate flex-1">{track.title || 'Без названия'}</h3>
-            
-            {/* Version Toggle - in title row, aligned right */}
-            {versionCount > 1 && (
-              <InlineVersionToggle
-                trackId={track.id}
-                activeVersionId={track.active_version_id}
-                versionCount={versionCount}
-                trackOwnerId={track.user_id}
-                className="flex-shrink-0"
-                compact={isMobile}
-              />
-            )}
+            <MarqueeTitle title={track.title || 'Без названия'} />
             
             {/* Queue Position Indicator - desktop only */}
             {isInQueue && !isCurrentTrack && !isMobile && (
@@ -406,13 +395,26 @@ export const TrackCard = memo(({
           />
         </div>
 
-        {/* Actions - Simplified for mobile */}
-        <div className="flex items-center justify-end">
+        {/* Actions Column - Version Toggle + Menu Button */}
+        <div className="flex flex-col items-center justify-center gap-1">
+          {/* Version Toggle - above menu button */}
+          {versionCount > 1 && (
+            <InlineVersionToggle
+              trackId={track.id}
+              activeVersionId={track.active_version_id}
+              versionCount={versionCount}
+              trackOwnerId={track.user_id}
+              className="flex-shrink-0"
+              compact={isMobile}
+            />
+          )}
+          
+          {/* Menu Button */}
           {isMobile ? (
             <Button
               size="icon"
               variant="ghost"
-              className="w-11 h-11 min-h-[44px] min-w-[44px] rounded-full touch-manipulation"
+              className="w-10 h-10 min-h-[40px] min-w-[40px] rounded-full touch-manipulation"
               onClick={(e) => { 
                 e.stopPropagation(); 
                 triggerHapticFeedback('light');
@@ -429,7 +431,7 @@ export const TrackCard = memo(({
                 size="icon"
                 variant={isPlaying ? "default" : "ghost"}
                 className={cn(
-                  "w-10 h-10 rounded-full touch-manipulation transition-colors",
+                  "w-9 h-9 rounded-full touch-manipulation transition-colors",
                   isPlaying && "bg-primary text-primary-foreground"
                 )}
                 onClick={(e) => { 
