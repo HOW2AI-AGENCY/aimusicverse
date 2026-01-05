@@ -51,6 +51,11 @@ import { usePlaybackPosition } from '@/hooks/audio/usePlaybackPosition';
 import { logger } from '@/lib/logger';
 import { toast } from 'sonner';
 import { playerAnalytics, recordError } from '@/lib/telemetry';
+import { 
+  detectMobileBrowser, 
+  isAudioFormatSupported,
+  logAudioDiagnostics 
+} from '@/lib/audioFormatUtils';
 
 // Audio error messages by error code
 const AUDIO_ERROR_MESSAGES: Record<number, { ru: string; action?: string }> = {
@@ -66,6 +71,10 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
   // Suppress errors during initial startup to avoid stale data toasts
   const mountTimeRef = useRef(Date.now());
   const isStartupPeriod = () => Date.now() - mountTimeRef.current < 2000;
+  
+  // Detect mobile browser for enhanced error handling
+  const mobileBrowserInfo = useRef(detectMobileBrowser());
+  const isMobileBrowser = mobileBrowserInfo.current.isMobile;
 
   const {
     activeTrack,
@@ -100,8 +109,16 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
       logger.info('Audio element initialized', {
         volume: audioRef.current.volume,
         muted: audioRef.current.muted,
-        readyState: audioRef.current.readyState
+        readyState: audioRef.current.readyState,
+        isMobile: isMobileBrowser,
+        browser: mobileBrowserInfo.current.browserName,
+        os: mobileBrowserInfo.current.osName,
       });
+      
+      // Log audio diagnostics for debugging mobile issues
+      if (isMobileBrowser) {
+        logAudioDiagnostics();
+      }
 
       setGlobalAudioRef(audioRef.current);
     }
@@ -476,7 +493,8 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
       const isBlobSource = audio.src?.startsWith('blob:');
       const canonicalUrl = activeTrack?.streaming_url || activeTrack?.audio_url;
       
-      logger.error('Audio playback error', null, {
+      // Enhanced error context with mobile browser info
+      const errorContext = {
         errorCode,
         errorMessage: audio.error?.message,
         trackId: activeTrack?.id,
@@ -484,13 +502,23 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
         source: audio.src?.substring(0, 100),
         isBlobSource,
         retryCount,
-      });
+        isMobile: isMobileBrowser,
+        browser: mobileBrowserInfo.current.browserName,
+        os: mobileBrowserInfo.current.osName,
+        readyState: audio.readyState,
+        networkState: audio.networkState,
+      };
       
       // CRITICAL: Handle format error (code 4) on blob URL with automatic recovery
+      // DO NOT log to Sentry until recovery attempt is made
       if (errorCode === 4 && isBlobSource && canonicalUrl && !hasAttemptedBlobRecovery) {
         hasAttemptedBlobRecovery = true;
+        
+        // Log recovery attempt (info level, not error)
         logger.info('Format error on blob URL, attempting fallback to canonical URL', {
-          canonicalUrl: canonicalUrl.substring(0, 60)
+          ...errorContext,
+          canonicalUrl: canonicalUrl.substring(0, 60),
+          recoveryAttempt: true,
         });
         
         // Save current time before switching source
@@ -511,22 +539,30 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
           if (wasPlaying) {
             try {
               await audio.play();
-              logger.info('Playback recovered successfully after blob format error');
+              logger.info('✅ Playback recovered successfully after blob format error', {
+                trackId: activeTrack?.id,
+                isMobile: isMobileBrowser,
+              });
             } catch (playErr) {
-              logger.error('Recovery play after blob error failed', playErr);
+              // Recovery failed - NOW log to Sentry
+              logger.error('❌ Recovery play after blob error failed', playErr, errorContext);
+              recordError(`audio:${errorCode}:recovery_failed`, 
+                audio.error?.message || 'Recovery failed after blob format error', 
+                errorContext
+              );
             }
           }
         }, { once: true });
         
-        return; // Don't show error toast for recoverable blob errors
+        return; // Don't show error toast or report to Sentry for recoverable blob errors
       }
+      
+      // Log error with full context
+      logger.error('Audio playback error', null, errorContext);
       
       // Record error in telemetry
       playerAnalytics.trackError(activeTrack?.id || '', `audio_error_${errorCode}`);
-      recordError(`audio:${errorCode}`, audio.error?.message || 'Unknown audio error', {
-        trackId: activeTrack?.id,
-        retryCount,
-      });
+      recordError(`audio:${errorCode}`, audio.error?.message || 'Unknown audio error', errorContext);
       
       // During startup, suppress toasts to avoid stale data errors
       const suppressToast = isStartupPeriod();
