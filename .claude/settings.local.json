@@ -15,7 +15,8 @@
       "Bash(find:*)",
       "Bash(git rev-parse:*)",
       "Bash(npm install:*)",
-      "Bash(node scripts/lint-filenames.js:*)"
+      "Bash(node scripts/lint-filenames.js:*)",
+      "Bash(git add:*)"
     ]
   }
 }
