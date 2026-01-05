@@ -197,14 +197,16 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
         }
       }
 
-      // Request fullscreen mode automatically (Mini App 2.0+)
-      if (typeof (tg as any).requestFullscreen === 'function') {
+      // Request fullscreen mode automatically (Mini App 2.0+ requires version 8.0)
+      if (tg.isVersionAtLeast?.('8.0') && typeof (tg as any).requestFullscreen === 'function') {
         try {
           (tg as any).requestFullscreen();
           bootLog('Fullscreen requested');
         } catch (e) {
           bootLog(`Fullscreen error: ${e}`);
         }
+      } else if (typeof (tg as any).requestFullscreen === 'function') {
+        bootLog(`Fullscreen skipped - version ${tg.version} < 8.0`);
       }
 
       // Установка цветов header и background (requires 6.1+)
