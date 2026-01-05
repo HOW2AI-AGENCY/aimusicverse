@@ -1,5 +1,4 @@
-import { Music2, Play, ChevronRight, Disc3, Headphones, Sparkles } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Music2, Play, Disc3, Headphones, Sparkles } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { usePlaybackQueue } from '@/hooks/audio/usePlaybackQueue';
@@ -9,6 +8,7 @@ import { motion } from '@/lib/motion';
 import { GlassCard } from '@/components/ui/glass-card';
 import { cn } from '@/lib/utils';
 import type { PublicTrackWithCreator } from '@/hooks/usePublicContent';
+import { SectionHeader } from '@/components/common/SectionHeader';
 
 const GENRE_COLORS: Record<string, { gradient: string; accent: string }> = {
   'electronic': { gradient: 'from-cyan-500/30 via-blue-500/20 to-indigo-500/30', accent: 'text-cyan-400' },
@@ -193,39 +193,17 @@ export function AutoPlaylistsSection({ playlists, isLoading }: AutoPlaylistsSect
 
   return (
     <div className="space-y-4">
-      {/* Enhanced Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <motion.div 
-            className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/20 to-accent/10 flex items-center justify-center border border-primary/20"
-            whileHover={{ scale: 1.05 }}
-          >
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-            >
-              <Disc3 className="w-5 h-5 text-primary" />
-            </motion.div>
-          </motion.div>
-          <div>
-            <h2 className="text-base sm:text-lg font-bold text-gradient">
-              Подборки по жанрам
-            </h2>
-            <p className="text-xs text-muted-foreground">
-              Автоматические плейлисты
-            </p>
-          </div>
-        </div>
-        <Button 
-          variant="ghost" 
-          size="sm" 
-          className="text-xs h-8 gap-1.5 text-muted-foreground hover:text-foreground hover:bg-primary/10 rounded-xl"
-          onClick={() => navigate('/playlists')}
-        >
-          Все
-          <ChevronRight className="h-3.5 w-3.5" />
-        </Button>
-      </div>
+      <SectionHeader
+        icon={Disc3}
+        iconColor="text-primary"
+        iconGradient="from-primary/20 to-accent/10"
+        title="Подборки по жанрам"
+        subtitle="Автоматические плейлисты"
+        showMoreLink="/playlists"
+        showMoreLabel="Все"
+        iconAnimation="rotate"
+        variant="large"
+      />
 
       {/* Playlists scroll */}
       <div className="relative -mx-3 sm:mx-0">

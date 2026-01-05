@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { FolderOpen, Search, Plus, LayoutGrid, LayoutList, Sparkles, TrendingUp } from 'lucide-react';
+import { EmptyState } from '@/components/common/EmptyState';
 import { ProjectCreationWizard } from '@/components/project/ProjectCreationWizard';
 import { toast } from 'sonner';
 import { VirtualizedProjectsList } from '@/components/content-hub/VirtualizedProjectsList';
@@ -203,18 +204,16 @@ export function ProjectsTab() {
           typeLabels={typeLabels}
         />
       ) : (
-        <div className="text-center py-12">
-          <FolderOpen className="w-12 h-12 text-muted-foreground/50 mx-auto mb-3" />
-          <p className="text-muted-foreground mb-4">
-            {searchQuery ? 'Ничего не найдено' : 'Нет проектов'}
-          </p>
-          {!searchQuery && (
-            <Button onClick={() => setCreateSheetOpen(true)} className="gap-2">
-              <Plus className="w-4 h-4" />
-              Создать проект
-            </Button>
-          )}
-        </div>
+        <EmptyState
+          icon={FolderOpen}
+          title={searchQuery ? 'Ничего не найдено' : 'Нет проектов'}
+          variant="compact"
+          actions={!searchQuery ? [{
+            label: 'Создать проект',
+            onClick: () => setCreateSheetOpen(true),
+            icon: Plus
+          }] : undefined}
+        />
       )}
 
       {/* Delete Confirmation */}

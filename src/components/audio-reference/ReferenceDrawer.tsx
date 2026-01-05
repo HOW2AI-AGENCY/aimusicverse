@@ -28,6 +28,7 @@ import {
   FileAudio,
   Trash2,
 } from 'lucide-react';
+import { EmptyState } from '@/components/common/EmptyState';
 import { useAudioReference } from '@/hooks/useAudioReference';
 import { useReferenceAudio, ReferenceAudio } from '@/hooks/useReferenceAudio';
 import { useReferenceAudioPlayer } from '@/hooks/audio/useReferenceAudioPlayer';
@@ -289,11 +290,12 @@ export function ReferenceDrawer({
                   <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
                 </div>
               ) : filteredReferences.length === 0 ? (
-                <div className="text-center py-8 text-muted-foreground">
-                  <Cloud className="h-12 w-12 mx-auto mb-2 opacity-50" />
-                  <p>{searchQuery ? 'Ничего не найдено' : 'Нет сохранённых референсов'}</p>
-                  {!searchQuery && <p className="text-sm">Загрузите или запишите аудио</p>}
-                </div>
+                <EmptyState
+                  icon={Cloud}
+                  title={searchQuery ? 'Ничего не найдено' : 'Нет сохранённых референсов'}
+                  description={!searchQuery ? 'Загрузите или запишите аудио' : undefined}
+                  variant="compact"
+                />
               ) : (
                 <div className="space-y-3 pb-4">
                   {filteredReferences.map((audio) => (

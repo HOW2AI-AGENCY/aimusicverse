@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Search, Palette, Sparkles, Music, Check, TrendingUp } from 'lucide-react';
+import { EmptyState } from '@/components/common/EmptyState';
 import { cn } from '@/lib/utils';
 import { useSavedStylePresets } from '@/hooks/usePromptHistorySync';
 import { QUICK_MIX_PRESETS, GENRE_PRESETS, MOOD_PRESETS } from '@/lib/prompt-dj-presets';
@@ -203,15 +204,13 @@ export function StylePresetSelector({
                   <div className="animate-spin w-5 h-5 border-2 border-primary border-t-transparent rounded-full" />
                 </div>
               ) : filteredSaved.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-8 text-muted-foreground">
-                  <Palette className="w-10 h-10 mb-3 opacity-50" />
-                  <p className="text-sm">
-                    {searchQuery ? 'Ничего не найдено' : 'Нет сохранённых стилей'}
-                  </p>
-                  <p className="text-xs mt-1 text-center max-w-[200px]">
-                    Сохраняйте любимые стили при генерации для быстрого доступа
-                  </p>
-                </div>
+                <EmptyState
+                  icon={Palette}
+                  title={searchQuery ? 'Ничего не найдено' : 'Нет сохранённых стилей'}
+                  description="Сохраняйте любимые стили при генерации для быстрого доступа"
+                  variant="compact"
+                  animated={false}
+                />
               ) : (
                 filteredSaved.map((preset: any) => (
                   <button
