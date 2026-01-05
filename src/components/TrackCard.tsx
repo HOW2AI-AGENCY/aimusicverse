@@ -1,6 +1,6 @@
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Play, Pause, Heart, Mic, Volume2, Globe, Lock, MoreHorizontal, Layers, Music2, Trash2, User, Wand2, ListMusic } from 'lucide-react';
+import { Play, Pause, Heart, MoreHorizontal, Trash2, Mic, Volume2, Layers, ListMusic, User, Wand2 } from 'lucide-react';
 import type { Track } from '@/types/track';
 import { useState, useEffect, memo, useCallback } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
@@ -359,31 +359,21 @@ export const TrackCard = memo(({
 
         {/* Track Info - 3 rows structure */}
         <div className="flex-1 min-w-0 py-0.5">
-          {/* Row 1: Animated Title + Queue badge */}
+          {/* Row 1: Animated Title */}
           <div className="flex items-center gap-2">
             <MarqueeTitle title={track.title || 'Без названия'} />
-            
-            {/* Queue Position Indicator - desktop only */}
-            {isInQueue && !isCurrentTrack && !isMobile && (
-              <Badge 
-                variant={isNextTrack ? "default" : "secondary"} 
-                size="sm" 
-                className={cn(
-                  "flex-shrink-0 gap-0.5 px-1.5 text-[10px]",
-                  isNextTrack && "bg-primary/20 text-primary border-primary/30"
-                )}
-                title="Позиция в очереди воспроизведения"
-              >
-                <ListMusic className="w-2.5 h-2.5" />
-                {position}
-              </Badge>
-            )}
           </div>
           
-          {/* Row 2: Icons only */}
+          {/* Row 2: Icons only - Model + type indicators (no duplicates) */}
           <div className="flex items-center gap-1.5 mt-0.5">
-            {/* Model & Type Icons - compact */}
-            <TrackTypeIcons track={track} compact showModel hasMidi={propHasMidi} hasPdf={propHasPdf} hasGp5={propHasGp5} />
+            <TrackTypeIcons 
+              track={track} 
+              compact 
+              showModel 
+              hasMidi={propHasMidi} 
+              hasPdf={propHasPdf} 
+              hasGp5={propHasGp5} 
+            />
           </div>
           
           {/* Row 3: Scrollable Tags */}
