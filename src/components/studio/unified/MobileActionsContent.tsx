@@ -88,7 +88,7 @@ export const MobileActionsContent = memo(function MobileActionsContent({
   }, [navigate, haptic]);
 
   const handleInfoAction = useCallback((message: string) => {
-    haptic.light();
+    haptic.tap();
     toast.info(message);
   }, [haptic]);
 

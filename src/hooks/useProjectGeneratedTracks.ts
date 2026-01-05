@@ -18,7 +18,7 @@ export interface ProjectGeneratedTrack {
   duration_seconds: number | null;
   status: string | null;
   is_approved: boolean | null;
-  is_primary: boolean | null;
+  is_master: boolean | null;
   approved_at: string | null;
   project_track_id: string | null;
   project_id: string | null;
@@ -123,7 +123,7 @@ export function useProjectGeneratedTracks(projectId: string | undefined, project
           is_approved: false,
           approved_at: null,
           approved_by: null,
-          is_primary: false,
+          is_master: false,
         })
         .eq('id', trackId);
 
@@ -154,14 +154,14 @@ export function useProjectGeneratedTracks(projectId: string | undefined, project
       // First, unset any existing master for this project track slot
       await supabase
         .from('tracks')
-        .update({ is_primary: false })
+        .update({ is_master: false })
         .eq('project_track_id', projectTrackId);
 
       // Then set the new master
       const { error } = await supabase
         .from('tracks')
         .update({ 
-          is_primary: true,
+          is_master: true,
           is_approved: true,
           approved_at: new Date().toISOString(),
         })

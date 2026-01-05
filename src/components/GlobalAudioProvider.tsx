@@ -739,7 +739,7 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
           await playPromiseRef.current;
         } catch (err) {
           // Ignore errors from the pending play promise
-          logger.debug('Pending play promise rejected during stall recovery', err);
+          logger.debug('Pending play promise rejected during stall recovery', err instanceof Error ? { message: err.message } : undefined);
         }
         playPromiseRef.current = null;
       }

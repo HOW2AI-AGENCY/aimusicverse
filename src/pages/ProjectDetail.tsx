@@ -61,7 +61,7 @@ export default function ProjectDetail() {
   
   // Compute values for MainButton logic (before early returns)
   const totalTracks = tracks?.length || 0;
-  const tracksWithMaster = generatedTracks?.filter(t => t.is_primary).length || 0;
+  const tracksWithMaster = generatedTracks?.filter(t => t.is_master).length || 0;
   const isReadyToPublish = totalTracks > 0 && tracksWithMaster === totalTracks;
   const isPublished = project?.status === 'published';
   const draftCount = tracks?.filter(t => t.status === 'draft' && !t.track_id).length || 0;

@@ -63,7 +63,8 @@ export function initSentry(): void {
     beforeSendLog(log) {
       // Filter out noisy log messages
       // Drop logs from certain modules that are too verbose
-      if (log.category?.includes('react-query') || log.category?.includes('zustand')) {
+      const logAny = log as unknown as { category?: string };
+      if (logAny.category?.includes('react-query') || logAny.category?.includes('zustand')) {
         // Only keep error and warning levels from these modules
         if (log.level === 'info' || log.level === 'debug') {
           return null;

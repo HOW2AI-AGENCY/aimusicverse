@@ -33,12 +33,15 @@ export function useProjectTrackSync(projectId: string | null, sourceTrackId?: st
     if (!project) return;
 
     try {
-      const { data: dbVersions, error } = await supabase
+      const query = supabase
         .from('track_versions')
         .select('*')
         .eq('track_id', trackId)
-        .order('created_at', { ascending: true })
-        .abortSignal(signal);
+        .order('created_at', { ascending: true });
+      
+      const { data: dbVersions, error } = signal 
+        ? await query.abortSignal(signal)
+        : await query;
 
       if (error) {
         logger.error('Failed to fetch track versions', error);
