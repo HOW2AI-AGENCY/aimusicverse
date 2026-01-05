@@ -335,7 +335,7 @@ export default function Library() {
                   <Play className="w-3.5 h-3.5" />
                 </Button>
               )}
-              {!isMobile && tracksToDisplay.length > 0 && (
+              {tracksToDisplay.length > 0 && !isMobile && (
                 <Button
                   variant="ghost"
                   size="icon"
@@ -346,28 +346,27 @@ export default function Library() {
                   <Shuffle className="w-3.5 h-3.5" />
                 </Button>
               )}
-              {!isMobile && (
-                <div className="flex items-center bg-muted/50 rounded-md p-0.5 border border-border/30">
-                  <Button
-                    variant={viewMode === "grid" ? "default" : "ghost"}
-                    size="icon"
-                    onClick={() => setViewMode("grid")}
-                    className={cn("h-6 w-6 rounded", viewMode === "grid" && "shadow-sm")}
-                    aria-label="Сетка"
-                  >
-                    <Grid3x3 className="w-3 h-3" />
-                  </Button>
-                  <Button
-                    variant={viewMode === "list" ? "default" : "ghost"}
-                    size="icon"
-                    onClick={() => setViewMode("list")}
-                    className={cn("h-6 w-6 rounded", viewMode === "list" && "shadow-sm")}
-                    aria-label="Список"
-                  >
-                    <List className="w-3 h-3" />
-                  </Button>
-                </div>
-              )}
+              {/* View mode toggle - visible on all devices */}
+              <div className="flex items-center bg-muted/50 rounded-md p-0.5 border border-border/30">
+                <Button
+                  variant={viewMode === "grid" ? "default" : "ghost"}
+                  size="icon"
+                  onClick={() => setViewMode("grid")}
+                  className={cn("h-6 w-6 rounded", viewMode === "grid" && "shadow-sm")}
+                  aria-label="Сетка"
+                >
+                  <Grid3x3 className="w-3 h-3" />
+                </Button>
+                <Button
+                  variant={viewMode === "list" ? "default" : "ghost"}
+                  size="icon"
+                  onClick={() => setViewMode("list")}
+                  className={cn("h-6 w-6 rounded", viewMode === "list" && "shadow-sm")}
+                  aria-label="Список"
+                >
+                  <List className="w-3 h-3" />
+                </Button>
+              </div>
             </div>
           }
         />
