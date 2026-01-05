@@ -18,7 +18,11 @@
       "Bash(node scripts/lint-filenames.js:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Skill(speckit.specify)",
+      "Skill(speckit.specify:*)",
+      "Bash(npm run size:*)",
+      "Bash(npm run lint:*)"
     ]
   }
 }
