@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { TrackCardEnhanced } from './TrackCardEnhanced';
 import type { PublicTrackWithCreator } from '@/hooks/usePublicContent';
 import { cn } from '@/lib/utils';
+import { CarouselSkeleton } from '@/components/ui/skeleton-components';
 
 interface GenreTracksRowProps {
   genre: string;

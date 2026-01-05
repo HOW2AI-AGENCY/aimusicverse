@@ -27,6 +27,8 @@ interface UnifiedTrackMenuProps {
   trackList?: Track[];
   /** Index of current track in the list */
   trackIndex?: number;
+  /** Custom trigger element - defaults to MoreVertical button */
+  trigger?: React.ReactNode;
 }
 
 export function UnifiedTrackMenu({ 
@@ -34,7 +36,8 @@ export function UnifiedTrackMenu({
   onDelete, 
   onDownload,
   trackList,
-  trackIndex 
+  trackIndex,
+  trigger,
 }: UnifiedTrackMenuProps) {
   const {
     actionState,
@@ -54,9 +57,11 @@ export function UnifiedTrackMenu({
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button size="icon" variant="ghost" className="h-8 w-8">
-            <MoreVertical className="w-4 h-4" />
-          </Button>
+          {trigger || (
+            <Button size="icon" variant="ghost" className="h-8 w-8">
+              <MoreVertical className="w-4 h-4" />
+            </Button>
+          )}
         </DropdownMenuTrigger>
 
         <DropdownMenuContent 

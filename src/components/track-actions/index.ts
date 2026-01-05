@@ -3,6 +3,7 @@ export { UnifiedTrackMenu } from './UnifiedTrackMenu';
 export { UnifiedTrackSheet } from './UnifiedTrackSheet';
 export { TrackDialogsPortal } from './TrackDialogsPortal';
 export { IconGridButton } from './IconGridButton';
+export { TrackActionTrigger } from './TrackActionTrigger';
 
 // Section components
 export { InfoActions } from './sections/InfoActions';

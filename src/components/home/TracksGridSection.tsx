@@ -1,12 +1,12 @@
 import { memo } from 'react';
 import { motion } from '@/lib/motion';
 import { LucideIcon } from 'lucide-react';
-import { Skeleton } from '@/components/ui/skeleton';
 import { TrackCardEnhanced } from './TrackCardEnhanced';
 import type { PublicTrackWithCreator } from '@/hooks/usePublicContent';
 import { cn } from '@/lib/utils';
 import { SectionHeader } from '@/components/common/SectionHeader';
 import { ResponsiveGrid } from '@/components/common/ResponsiveGrid';
+import { GridSkeleton, TrackCardSkeleton } from '@/components/ui/skeleton-components';
 
 interface TracksGridSectionProps {
   title: string;
@@ -59,11 +59,11 @@ export const TracksGridSection = memo(function TracksGridSection({
       />
 
       {isLoading ? (
-        <ResponsiveGrid columns={columns} gap={3}>
-          {[...Array(maxTracks)].map((_, i) => (
-            <Skeleton key={i} className="aspect-square rounded-xl" />
-          ))}
-        </ResponsiveGrid>
+        <GridSkeleton 
+          count={maxTracks} 
+          columns={columns} 
+          SkeletonComponent={TrackCardSkeleton}
+        />
       ) : (
         <motion.div
           initial={{ opacity: 0 }}
