@@ -95,7 +95,6 @@ export function StudioActions({ track, state, onAction, variant, isProcessing }:
         <IconGridButton
           icon={RefreshCw}
           label="Секция"
-          sublabel="Замена"
           color="amber"
           onClick={() => onAction('replace_section')}
         />
@@ -104,7 +103,6 @@ export function StudioActions({ track, state, onAction, variant, isProcessing }:
         <IconGridButton
           icon={Scissors}
           label="2 стема"
-          sublabel="Быстро"
           color="green"
           onClick={() => onAction('stems_simple')}
           disabled={isProcessing}
@@ -114,7 +112,6 @@ export function StudioActions({ track, state, onAction, variant, isProcessing }:
         <IconGridButton
           icon={Wand2}
           label="6+ стемов"
-          sublabel="Детально"
           color="purple"
           onClick={() => onAction('stems_detailed')}
           disabled={isProcessing}
