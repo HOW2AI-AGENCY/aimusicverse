@@ -8,7 +8,7 @@ import { ProjectCreationWizard } from '@/components/project/ProjectCreationWizar
 import { toast } from 'sonner';
 import { VirtualizedProjectsList } from '@/components/content-hub/VirtualizedProjectsList';
 import { MobileProjectsToolbar } from '@/components/content-hub/MobileProjectsToolbar';
-import { motion } from '@/lib/motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import {
