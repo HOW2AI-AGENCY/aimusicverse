@@ -12,6 +12,8 @@ import { LikeButton } from '@/components/ui/like-button';
 import { PublicTrackDetailSheet } from './PublicTrackDetailSheet';
 import { CreatorAvatar, CreatorLink } from '@/components/ui/creator-avatar';
 import { DoubleTapLike } from '@/components/engagement/DoubleTapLike';
+import { useSocialInteractions } from '@/hooks/social/use-social-interactions';
+import { usePlayerControls } from '@/hooks/player/use-player-controls';
 
 interface PublicTrackCardProps {
   track: PublicTrackWithCreator;
@@ -21,13 +23,20 @@ interface PublicTrackCardProps {
 }
 
 export const PublicTrackCard = memo(function PublicTrackCard({ track, onRemix, compact = false, className }: PublicTrackCardProps) {
-  const { activeTrack, isPlaying, playTrack, pauseTrack } = usePlayerStore();
+  const { activeTrack, isPlaying } = usePlayerStore();
   const { hapticFeedback } = useTelegram();
   const [imageError, setImageError] = useState(false);
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   
-  const isCurrentTrack = activeTrack?.id === track.id;
+  // Use new extracted hooks
+  const { play, pause, togglePlayPause, currentTrack } = usePlayerControls();
+  const { share, isSharing } = useSocialInteractions({
+    entityType: 'track',
+    entityId: track.id,
+  });
+  
+  const isCurrentTrack = activeTrack?.id === track.id || currentTrack?.id === track.id;
   const isCurrentlyPlaying = isCurrentTrack && isPlaying;
 
   // Convert to Track type for player
@@ -42,31 +51,36 @@ export const PublicTrackCard = memo(function PublicTrackCard({ track, onRemix, c
     setDetailsOpen(true);
   };
 
-  const handlePlay = (e: React.MouseEvent) => {
+  const handlePlay = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    hapticFeedback('light');
     
     if (isCurrentTrack) {
-      if (isPlaying) {
-        pauseTrack();
-      } else {
-        playTrack(trackForPlayer);
-      }
+      togglePlayPause();
     } else {
-      playTrack(trackForPlayer);
+      await play(trackForPlayer);
     }
   };
 
-  const handleShare = (e: React.MouseEvent) => {
+  const handleShare = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    hapticFeedback('light');
     
+    // Use native share if available, otherwise use our hook
     if (navigator.share) {
-      navigator.share({
-        title: track.title || 'Трек',
-        text: `Послушай "${track.title}" на MusicVerse`,
-        url: `${window.location.origin}/track/${track.id}`,
-      });
+      try {
+        await navigator.share({
+          title: track.title || 'Трек',
+          text: `Послушай "${track.title}" на MusicVerse`,
+          url: `${window.location.origin}/track/${track.id}`,
+        });
+      } catch (err) {
+        // User cancelled or error - fallback to our hook
+        if ((err as Error).name !== 'AbortError') {
+          await share('clipboard');
+        }
+      }
+    } else {
+      // Fallback to clipboard
+      await share('clipboard');
     }
   };
 
