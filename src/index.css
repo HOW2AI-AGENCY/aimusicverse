@@ -573,6 +573,19 @@ All colors MUST be HSL.
     display: none;
   }
 
+  /* 3D Card utilities */
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+  
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+
   /* Minimum touch target sizes (44x44px) */
   .touch-target {
     min-width: 44px;
