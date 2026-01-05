@@ -1,5 +1,4 @@
 import { memo, useMemo, useRef, useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { getDisplayTags, TagCategory } from '@/lib/styleTagParser';
 
@@ -70,18 +69,9 @@ export const ScrollableTagsRow = memo(function ScrollableTagsRow({
         className="overflow-x-auto scrollbar-hide"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
-        <motion.div 
+        <div 
           ref={contentRef}
           className="flex items-center gap-1 w-max py-0.5"
-          animate={isOverflowing ? {
-            x: [0, -20, 0],
-          } : {}}
-          transition={{
-            duration: 3,
-            repeat: Infinity,
-            ease: "easeInOut",
-            repeatDelay: 3
-          }}
         >
           {parsedTags.visible.map((tag, index) => (
             <button
@@ -105,7 +95,7 @@ export const ScrollableTagsRow = memo(function ScrollableTagsRow({
               +{parsedTags.hiddenCount}
             </span>
           )}
-        </motion.div>
+        </div>
       </div>
       
       {/* Fade indicator for more content */}

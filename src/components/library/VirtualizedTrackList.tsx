@@ -147,7 +147,8 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
   }, []);
   
   // Stable props for Virtuoso to avoid internal re-init loops
-  const increaseViewportBy = useMemo(() => ({ top: 400, bottom: 1000 }), []);
+  // Reduced buffer zones to prevent measuring too many items simultaneously
+  const increaseViewportBy = useMemo(() => ({ top: 200, bottom: 400 }), []);
 
   // Memoize item key computation for better React reconciliation
   const computeItemKey = useCallback((index: number, item?: Track) => item?.id || `track-${index}`, []);
@@ -283,14 +284,14 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
 
   // List view with Virtuoso
   // Fixed item height to prevent infinite recalculation loops
-  // 3-row layout: ~100px (cover 52 + padding + 3 rows of content)
+  // 3-row layout: ~120px (cover 52px + padding 2.5-3 + title + icons + tags rows)
   return (
     <TrackListProvider tracks={tracks}>
       <Virtuoso
         useWindowScroll
         data={tracks}
-        overscan={200}
-        defaultItemHeight={100}
+        overscan={50}
+        defaultItemHeight={120}
         computeItemKey={computeItemKey}
         components={listComponents}
         endReached={handleEndReached}
