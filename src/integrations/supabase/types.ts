@@ -3417,6 +3417,36 @@ export type Database = {
           },
         ]
       }
+      tag_statistics: {
+        Row: {
+          category: string | null
+          created_at: string | null
+          id: string
+          last_used_at: string | null
+          normalized_name: string
+          tag_name: string
+          usage_count: number | null
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string | null
+          id?: string
+          last_used_at?: string | null
+          normalized_name: string
+          tag_name: string
+          usage_count?: number | null
+        }
+        Update: {
+          category?: string | null
+          created_at?: string | null
+          id?: string
+          last_used_at?: string | null
+          normalized_name?: string
+          tag_name?: string
+          usage_count?: number | null
+        }
+        Relationships: []
+      }
       task_categories: {
         Row: {
           color: string
@@ -4228,6 +4258,55 @@ export type Database = {
             columns: ["version_id"]
             isOneToOne: false
             referencedRelation: "track_versions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      track_tags: {
+        Row: {
+          category: string | null
+          created_at: string | null
+          id: string
+          normalized_name: string
+          tag_name: string
+          track_id: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string | null
+          id?: string
+          normalized_name: string
+          tag_name: string
+          track_id: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string | null
+          id?: string
+          normalized_name?: string
+          tag_name?: string
+          track_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "track_tags_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "tracks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "track_tags_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "tracks_with_active_audio"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "track_tags_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "trending_tracks"
             referencedColumns: ["id"]
           },
         ]

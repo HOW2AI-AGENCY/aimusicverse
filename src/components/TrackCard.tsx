@@ -2,7 +2,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Play, Pause, Heart, Mic, Volume2, Globe, Lock, MoreHorizontal, Layers, Music2, Trash2, User, Wand2, ListMusic } from 'lucide-react';
 import type { Track } from '@/types/track';
-import { useState, useEffect, memo } from 'react';
+import { useState, useEffect, memo, useCallback } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
@@ -10,6 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { UnifiedTrackMenu, UnifiedTrackSheet } from './track-actions';
 import { InlineVersionToggle } from './library/InlineVersionToggle';
 import { TrackTypeIcons } from './library/TrackTypeIcons';
+import { TrackStyleTags } from './library/TrackStyleTags';
 import { SwipeableTrackItem } from './library/SwipeableTrackItem';
 import { SwipeOnboardingTooltip } from './library/SwipeOnboardingTooltip';
 import { LazyImage } from '@/components/ui/lazy-image';
@@ -44,6 +45,7 @@ interface TrackCardProps {
   onDelete?: () => void;
   onDownload?: () => void;
   onToggleLike?: () => void;
+  onTagClick?: (tag: string) => void;
   isPlaying?: boolean;
   layout?: 'grid' | 'list';
   // Counts passed from parent to avoid individual subscriptions
@@ -63,6 +65,7 @@ export const TrackCard = memo(({
   onDelete,
   onDownload,
   onToggleLike,
+  onTagClick,
   isPlaying,
   layout = 'grid',
   versionCount: propVersionCount,
@@ -349,57 +352,65 @@ export const TrackCard = memo(({
 
         {/* Track Info - Improved spacing and hierarchy */}
         <div className="flex-1 min-w-0 py-0.5">
-          {/* Title row with fixed-width right section */}
+          {/* Title row - full width for title */}
           <div className="flex items-center gap-2">
-            <h3 className="font-medium text-sm leading-tight truncate flex-1">{track.title || 'Без названия'}</h3>
+            <h3 className="font-medium text-sm leading-tight truncate">{track.title || 'Без названия'}</h3>
             
-            {/* Fixed right group - always aligned */}
-            <div className="flex items-center gap-1 flex-shrink-0">
-              {/* Model badge - always first */}
-              <TrackTypeIcons track={track} compact showModel hasMidi={propHasMidi} hasPdf={propHasPdf} hasGp5={propHasGp5} />
-              
-              {/* Queue Position Indicator - desktop only */}
-              {isInQueue && !isCurrentTrack && !isMobile && (
-                <Badge 
-                  variant={isNextTrack ? "default" : "secondary"} 
-                  size="sm" 
-                  className={cn(
-                    "flex-shrink-0 gap-0.5 px-1.5 text-[10px]",
-                    isNextTrack && "bg-primary/20 text-primary border-primary/30"
-                  )}
-                  title="Позиция в очереди воспроизведения"
-                >
-                  <ListMusic className="w-2.5 h-2.5" />
-                  {position}
-                </Badge>
-              )}
-              
-              {/* Version Toggle - all devices */}
-              {versionCount > 1 && (
-                <InlineVersionToggle
-                  trackId={track.id}
-                  activeVersionId={track.active_version_id}
-                  versionCount={versionCount}
-                  trackOwnerId={track.user_id}
-                  className="flex-shrink-0"
-                  compact={isMobile}
-                />
-              )}
-            </div>
+            {/* Queue Position Indicator - desktop only, in title row */}
+            {isInQueue && !isCurrentTrack && !isMobile && (
+              <Badge 
+                variant={isNextTrack ? "default" : "secondary"} 
+                size="sm" 
+                className={cn(
+                  "flex-shrink-0 gap-0.5 px-1.5 text-[10px]",
+                  isNextTrack && "bg-primary/20 text-primary border-primary/30"
+                )}
+                title="Позиция в очереди воспроизведения"
+              >
+                <ListMusic className="w-2.5 h-2.5" />
+                {position}
+              </Badge>
+            )}
           </div>
           
-          {/* Style + Duration row */}
+          {/* Second row: Icons + Tags + Duration + Versions */}
           <div className="flex items-center gap-1.5 mt-1">
-            <span className="text-xs text-muted-foreground truncate max-w-[140px]">
-              {track.style || track.tags?.split(',').slice(0, 2).join(', ') || 'Без стиля'}
-            </span>
+            {/* Model & Type Icons - compact */}
+            <TrackTypeIcons track={track} compact showModel hasMidi={propHasMidi} hasPdf={propHasPdf} hasGp5={propHasGp5} />
+            
+            {/* Separator */}
+            <span className="text-muted-foreground/30 text-xs">|</span>
+            
+            {/* Clickable Tags */}
+            <TrackStyleTags 
+              style={track.style} 
+              tags={track.tags}
+              maxTags={isMobile ? 2 : 3}
+              onClick={onTagClick}
+              compact
+              className="flex-1 min-w-0"
+            />
+            
+            {/* Duration */}
             {track.duration_seconds && (
               <>
-                <span className="text-muted-foreground/50 text-xs">•</span>
-                <span className="text-xs text-muted-foreground/70">
+                <span className="text-muted-foreground/30 text-xs">•</span>
+                <span className="text-xs text-muted-foreground/70 flex-shrink-0">
                   {Math.floor(track.duration_seconds / 60)}:{String(Math.floor(track.duration_seconds % 60)).padStart(2, '0')}
                 </span>
               </>
+            )}
+            
+            {/* Version Toggle - moved to end */}
+            {versionCount > 1 && (
+              <InlineVersionToggle
+                trackId={track.id}
+                activeVersionId={track.active_version_id}
+                versionCount={versionCount}
+                trackOwnerId={track.user_id}
+                className="flex-shrink-0"
+                compact={isMobile}
+              />
             )}
           </div>
         </div>

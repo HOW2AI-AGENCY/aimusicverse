@@ -24,6 +24,7 @@ export interface UseTracksParams {
   paginate?: boolean;
   pageSize?: number;
   statusFilter?: string[];
+  tagFilter?: string;  // Filter by specific tag
 }
 
 /**
@@ -32,9 +33,9 @@ export interface UseTracksParams {
 export function useTracks(params: UseTracksParams = {}) {
   const { user } = useAuth();
   const queryClient = useQueryClient();
-  const { paginate = false, projectId, searchQuery, sortBy, pageSize = PAGE_SIZE, statusFilter } = params;
+  const { paginate = false, projectId, searchQuery, sortBy, pageSize = PAGE_SIZE, statusFilter, tagFilter } = params;
 
-  const queryKey = ['tracks', user?.id, projectId, searchQuery, sortBy, paginate, pageSize, statusFilter];
+  const queryKey = ['tracks', user?.id, projectId, searchQuery, sortBy, paginate, pageSize, statusFilter, tagFilter];
 
   // Infinite query for paginated mode
   const infiniteQuery = useInfiniteQuery({
@@ -43,7 +44,7 @@ export function useTracks(params: UseTracksParams = {}) {
       if (!user?.id) return { tracks: [], totalCount: 0, hasMore: false };
       return tracksService.fetchTracksWithLikes(
         user.id,
-        { projectId, searchQuery, sortBy, statusFilter },
+        { projectId, searchQuery, sortBy, statusFilter, tagFilter },
         { page: pageParam, pageSize }
       );
     },
@@ -73,7 +74,7 @@ export function useTracks(params: UseTracksParams = {}) {
       if (!user?.id) return [];
       const result = await tracksService.fetchTracksWithLikes(
         user.id,
-        { projectId, searchQuery, sortBy, statusFilter }
+        { projectId, searchQuery, sortBy, statusFilter, tagFilter }
       );
       return result.tracks;
     },
