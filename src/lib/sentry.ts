@@ -32,11 +32,12 @@ export function initSentry(): void {
   Sentry.init({
     dsn: SENTRY_DSN,
     environment: import.meta.env.MODE,
+    sendDefaultPii: true,
     integrations: [
       Sentry.browserTracingIntegration(),
       Sentry.replayIntegration({
-        maskAllText: true,
-        blockAllMedia: true,
+        maskAllText: false,
+        blockAllMedia: false,
       }),
     ],
     tracesSampleRate: 0.1,
