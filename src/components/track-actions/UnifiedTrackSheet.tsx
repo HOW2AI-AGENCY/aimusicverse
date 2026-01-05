@@ -1,7 +1,5 @@
 import type { Track } from '@/types/track';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
-import { Separator } from '@/components/ui/separator';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useTrackActionsState } from '@/hooks/useTrackActionsState';
 import { InfoActions } from './sections/InfoActions';
@@ -16,8 +14,17 @@ import { VersionsSection } from './sections/VersionsSection';
 import { QuickActionsSection } from './sections/QuickActionsSection';
 import { TrackSheetHeader } from './TrackSheetHeader';
 import { PlaybackActions } from './sections/PlaybackActions';
+import { CollapsibleSection } from './CollapsibleSection';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
-import { Play, Sparkles, MoreHorizontal } from 'lucide-react';
+import { 
+  Play, 
+  Sparkles, 
+  Layers, 
+  Download, 
+  Share2, 
+  Info, 
+  Trash2 
+} from 'lucide-react';
 
 interface UnifiedTrackSheetProps {
   track: Track | null;
@@ -69,131 +76,143 @@ export function UnifiedTrackSheet({
       <Sheet open={open} onOpenChange={onOpenChange}>
         <SheetContent 
           side="bottom" 
-          className="h-[85vh] rounded-t-2xl flex flex-col pb-0"
+          className="h-[85vh] max-h-[85vh] rounded-t-2xl flex flex-col pb-0 px-0"
         >
           {/* Compact Header */}
-          <TrackSheetHeader track={track} />
+          <div className="px-4">
+            <TrackSheetHeader track={track} />
+          </div>
           
           {/* Quick Actions - 4 items only */}
-          <QuickActionsSection 
-            track={track} 
-            onClose={() => onOpenChange(false)}
-            onDownload={onDownload}
-          />
+          <div className="px-4">
+            <QuickActionsSection 
+              track={track} 
+              onClose={() => onOpenChange(false)}
+              onDownload={onDownload}
+            />
+          </div>
 
-          <Separator className="my-2" />
-          
           {/* Versions Section - if multiple versions exist */}
           {versionCount > 1 && (
-            <div className="mb-2">
+            <div className="px-4 mt-2">
               <VersionsSection track={track} />
             </div>
           )}
 
-          {/* Tabs for categories */}
-          <Tabs defaultValue="playback" className="flex-1 flex flex-col min-h-0">
-            <TabsList className="grid grid-cols-3 h-10 shrink-0">
-              <TabsTrigger value="playback" className="text-xs gap-1.5">
-                <Play className="w-3.5 h-3.5" />
-                Воспроизв.
-              </TabsTrigger>
-              <TabsTrigger value="create" className="text-xs gap-1.5">
-                <Sparkles className="w-3.5 h-3.5" />
-                Создание
-              </TabsTrigger>
-              <TabsTrigger value="more" className="text-xs gap-1.5">
-                <MoreHorizontal className="w-3.5 h-3.5" />
-                Ещё
-              </TabsTrigger>
-            </TabsList>
+          {/* Scrollable Collapsible Sections */}
+          <ScrollArea className="flex-1 mt-3">
+            <div className="px-4 pb-safe space-y-2">
+              
+              {/* Playback & Queue */}
+              <CollapsibleSection
+                title="Воспроизведение"
+                icon={Play}
+                iconColor="text-green-500"
+                iconBgColor="bg-green-500/10"
+                defaultOpen
+              >
+                <QueueActionsSheet 
+                  track={track} 
+                  onAction={() => onOpenChange(false)}
+                  trackList={trackList}
+                  trackIndex={trackIndex}
+                />
+                <PlaybackActions 
+                  track={track} 
+                  variant="sheet"
+                  onClose={() => onOpenChange(false)}
+                />
+              </CollapsibleSection>
 
-            {/* Tab Content - Scrollable */}
-            <div className="flex-1 min-h-0 mt-2">
-              <TabsContent value="playback" className="h-full m-0">
-                <ScrollArea className="h-full">
-                  <div className="space-y-1 pb-safe pr-2">
-                    <QueueActionsSheet 
-                      track={track} 
-                      onAction={() => onOpenChange(false)}
-                      trackList={trackList}
-                      trackIndex={trackIndex}
-                    />
-                    <Separator className="my-2" />
-                    <PlaybackActions 
-                      track={track} 
-                      variant="sheet"
-                      onClose={() => onOpenChange(false)}
-                    />
-                  </div>
-                </ScrollArea>
-              </TabsContent>
+              {/* Studio Actions */}
+              <CollapsibleSection
+                title="Студия"
+                icon={Layers}
+                iconColor="text-blue-500"
+                iconBgColor="bg-blue-500/10"
+                badge={actionState.stemCount > 0 ? `${actionState.stemCount} стемов` : undefined}
+              >
+                <StudioActions
+                  track={track}
+                  state={actionState}
+                  onAction={executeAction}
+                  variant="sheet"
+                  isProcessing={isProcessing}
+                />
+              </CollapsibleSection>
 
-              <TabsContent value="create" className="h-full m-0">
-                <ScrollArea className="h-full">
-                  <div className="space-y-1 pb-safe pr-2">
-                    <StudioActions
-                      track={track}
-                      state={actionState}
-                      onAction={executeAction}
-                      variant="sheet"
-                      isProcessing={isProcessing}
-                    />
-                    <Separator className="my-2" />
-                    <CreateActions
-                      track={track}
-                      state={actionState}
-                      onAction={executeAction}
-                      variant="sheet"
-                      isProcessing={isProcessing}
-                    />
-                  </div>
-                </ScrollArea>
-              </TabsContent>
+              {/* Create Actions */}
+              <CollapsibleSection
+                title="Создать"
+                icon={Sparkles}
+                iconColor="text-purple-500"
+                iconBgColor="bg-purple-500/10"
+              >
+                <CreateActions
+                  track={track}
+                  state={actionState}
+                  onAction={executeAction}
+                  variant="sheet"
+                  isProcessing={isProcessing}
+                />
+              </CollapsibleSection>
 
-              <TabsContent value="more" className="h-full m-0">
-                <ScrollArea className="h-full">
-                  <div className="space-y-1 pb-safe pr-2">
-                    {/* Info */}
-                    <InfoActions
-                      track={track}
-                      state={actionState}
-                      onAction={executeAction}
-                      variant="sheet"
-                      isProcessing={isProcessing}
-                    />
-                    
-                    <Separator className="my-2" />
-                    
-                    {/* Download & Share */}
-                    <DownloadActions
-                      track={track}
-                      state={actionState}
-                      onAction={executeAction}
-                      variant="sheet"
-                      isProcessing={isProcessing}
-                    />
-                    <ShareActions
-                      track={track}
-                      state={actionState}
-                      onAction={executeAction}
-                      variant="sheet"
-                      isProcessing={isProcessing}
-                    />
-                    
-                    <Separator className="my-3" />
-                    
-                    {/* Delete - Danger Zone */}
-                    <DeleteActions
-                      track={track}
-                      state={actionState}
-                      onAction={executeAction}
-                      variant="sheet"
-                    />
-                  </div>
-                </ScrollArea>
-              </TabsContent>
+              {/* Info & Settings */}
+              <CollapsibleSection
+                title="Информация"
+                icon={Info}
+                iconColor="text-sky-500"
+                iconBgColor="bg-sky-500/10"
+              >
+                <InfoActions
+                  track={track}
+                  state={actionState}
+                  onAction={executeAction}
+                  variant="sheet"
+                  isProcessing={isProcessing}
+                />
+              </CollapsibleSection>
+
+              {/* Download & Share */}
+              <CollapsibleSection
+                title="Экспорт"
+                icon={Download}
+                iconColor="text-emerald-500"
+                iconBgColor="bg-emerald-500/10"
+              >
+                <DownloadActions
+                  track={track}
+                  state={actionState}
+                  onAction={executeAction}
+                  variant="sheet"
+                  isProcessing={isProcessing}
+                />
+                <ShareActions
+                  track={track}
+                  state={actionState}
+                  onAction={executeAction}
+                  variant="sheet"
+                  isProcessing={isProcessing}
+                />
+              </CollapsibleSection>
+
+              {/* Delete - Danger Zone */}
+              <CollapsibleSection
+                title="Удалить"
+                icon={Trash2}
+                iconColor="text-red-500"
+                iconBgColor="bg-red-500/10"
+              >
+                <DeleteActions
+                  track={track}
+                  state={actionState}
+                  onAction={executeAction}
+                  variant="sheet"
+                />
+              </CollapsibleSection>
+
             </div>
-          </Tabs>
+          </ScrollArea>
         </SheetContent>
       </Sheet>
 
