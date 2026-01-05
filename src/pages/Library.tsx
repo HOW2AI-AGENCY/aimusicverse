@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { Navigate, useSearchParams } from "react-router-dom";
 import { Input } from "@/components/ui/input";
-import { Music2, Search, Loader2, Grid3x3, List, SlidersHorizontal, Play, Shuffle, Library as LibraryIcon, Sparkles } from "lucide-react";
+import { Music2, Search, Loader2, Grid3x3, List, SlidersHorizontal, Play, Shuffle, Library as LibraryIcon, Sparkles, Tag, X } from "lucide-react";
 import { PullToRefreshWrapper } from "@/components/library/PullToRefreshWrapper";
 import { motion } from "@/lib/motion";
 import { useTracks, type Track } from "@/hooks/useTracks";
@@ -65,6 +65,7 @@ export default function Library() {
   });
   const [sortBy, setSortBy] = useState<"recent" | "popular" | "liked">("recent");
   const [typeFilter, setTypeFilter] = useState<FilterOption>('all');
+  const [tagFilter, setTagFilter] = useState<string | null>(null);
   const [debouncedSearchQuery] = useDebounce(searchQuery, 300);
 
   useGenerationRealtime();
@@ -92,6 +93,7 @@ export default function Library() {
     sortBy,
     pageSize: 50, // Increased for better initial load
     paginate: true,
+    tagFilter: tagFilter || undefined,
   });
   
   // Debug logging for track loading
@@ -272,6 +274,17 @@ export default function Library() {
     link.click();
   }, []);
 
+  // Handle tag click - filter by tag
+  const handleTagClick = useCallback((tag: string) => {
+    log.info('Tag filter applied', { tag });
+    setTagFilter(tag);
+  }, []);
+
+  // Clear tag filter
+  const clearTagFilter = useCallback(() => {
+    setTagFilter(null);
+  }, []);
+
   // Conditional returns AFTER all hooks
   if (authLoading) {
     return (
@@ -414,6 +427,29 @@ export default function Library() {
           {/* Filter Chips - Only show on desktop since mobile uses CompactFilterBar */}
           {!isMobile && <div className="mb-2" />}
 
+          {/* Active Tag Filter Indicator */}
+          {tagFilter && (
+            <motion.div 
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex items-center gap-2 px-4 py-2.5 mb-3 mx-4 bg-primary/10 border border-primary/20 rounded-xl"
+            >
+              <Tag className="w-4 h-4 text-primary flex-shrink-0" />
+              <span className="text-sm text-primary font-medium truncate">
+                Фильтр: {tagFilter}
+              </span>
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={clearTagFilter}
+                className="ml-auto h-7 w-7 p-0 rounded-full hover:bg-primary/20"
+                aria-label="Убрать фильтр"
+              >
+                <X className="w-4 h-4" />
+              </Button>
+            </motion.div>
+          )}
+
           {/* Active Generations Section */}
           {hasActiveGenerations && (
             <div className="mb-4">
@@ -461,6 +497,7 @@ export default function Library() {
                 onDelete={(id) => deleteTrack(id)}
                 onDownload={(id, audioUrl, coverUrl) => handleDownload(id, audioUrl, coverUrl)}
                 onToggleLike={(id, isLiked) => toggleLike({ trackId: id, isLiked })}
+                onTagClick={handleTagClick}
                 onLoadMore={fetchNextPage}
                 hasMore={hasNextPage || false}
                 isLoadingMore={isFetchingNextPage}

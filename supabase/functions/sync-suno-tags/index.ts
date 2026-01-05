@@ -98,24 +98,37 @@ Deno.serve(async (req) => {
     const syncedTags = [];
     for (const tagName of uniqueTags) {
       // Categorize tag based on common patterns
-      let category = 'unknown';
+      let category = 'genre';
       const lowerTag = tagName.toLowerCase();
 
-      if (lowerTag.includes('genre:') || lowerTag.includes('style:')) {
-        category = 'genre_style';
-      } else if (lowerTag.includes('mood:') || lowerTag.includes('energy:')) {
-        category = 'mood_energy';
-      } else if (lowerTag.includes('instrument:')) {
-        category = 'instrument';
-      } else if (lowerTag.includes('vocal')) {
+      if (/melanchol|happy|sad|dark|bright|aggressive|calm|dreamy|atmospheric|energetic|chill|upbeat|mellow|intense|romantic|nostalgic|epic|ethereal|groovy|funky|angry|peaceful|mysterious|playful|somber|triumphant/i.test(lowerTag)) {
+        category = 'mood';
+      } else if (/vocal|rap|sing|voice|female|male|choir|acapella|harmony/i.test(lowerTag)) {
         category = 'vocal';
-      } else if (lowerTag.includes('texture:') || lowerTag.includes('mix:')) {
-        category = 'production_texture';
-      } else if (['intro', 'verse', 'chorus', 'bridge', 'outro', 'drop'].includes(lowerTag)) {
+      } else if (/slow|fast|medium|tempo|bpm|uptempo|downtempo/i.test(lowerTag)) {
+        category = 'tempo';
+      } else if (/piano|guitar|drum|bass|synth|string|orchestra|violin|cello|brass|horn|flute|sax|organ|harp|percussion|808/i.test(lowerTag)) {
+        category = 'instrument';
+      } else if (/intro|verse|chorus|bridge|outro|drop|breakdown|build|hook/i.test(lowerTag)) {
         category = 'structure';
       }
 
-      // Use RPC to sync tag
+      // Insert into track_tags table (new normalized storage)
+      const normalized = tagName.toLowerCase().trim();
+      const { error: trackTagError } = await supabase
+        .from('track_tags')
+        .upsert({
+          track_id: trackData.id,
+          tag_name: tagName,
+          normalized_name: normalized,
+          category: category
+        }, { onConflict: 'track_id,normalized_name' });
+
+      if (trackTagError) {
+        console.error(`Error saving track tag "${tagName}":`, trackTagError);
+      }
+
+      // Also use legacy RPC to sync tag to parsed_suno_tags (backward compatibility)
       const { data: tagId, error: syncError } = await supabase.rpc('sync_parsed_tag', {
         _tag_name: tagName,
         _category: category,

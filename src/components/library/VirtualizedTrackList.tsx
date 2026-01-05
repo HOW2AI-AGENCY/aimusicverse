@@ -30,6 +30,7 @@ interface VirtualizedTrackListProps {
   onDelete: (trackId: string) => void;
   onDownload: (trackId: string, audioUrl: string | null, coverUrl: string | null) => void;
   onToggleLike: (trackId: string, isLiked: boolean) => void;
+  onTagClick?: (tag: string) => void;
   onLoadMore: () => void;
   hasMore: boolean;
   isLoadingMore: boolean;
@@ -82,6 +83,7 @@ const MemoizedTrackItem = memo(function MemoizedTrackItem({
   onDelete,
   onDownload,
   onToggleLike,
+  onTagClick,
 }: {
   track: Track;
   index: number;
@@ -93,6 +95,7 @@ const MemoizedTrackItem = memo(function MemoizedTrackItem({
   onDelete: () => void;
   onDownload: () => void;
   onToggleLike: () => void;
+  onTagClick?: (tag: string) => void;
 }) {
   return (
     <TrackCard
@@ -103,6 +106,7 @@ const MemoizedTrackItem = memo(function MemoizedTrackItem({
       onDelete={onDelete}
       onDownload={onDownload}
       onToggleLike={onToggleLike}
+      onTagClick={onTagClick}
       versionCount={counts.versionCount}
       stemCount={counts.stemCount}
       hasMidi={midiStatus?.hasMidi}
@@ -123,6 +127,7 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
   onDelete,
   onDownload,
   onToggleLike,
+  onTagClick,
   onLoadMore,
   hasMore,
   isLoadingMore,
@@ -170,6 +175,7 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
             onDelete={() => onDelete(track.id)}
             onDownload={() => onDownload(track.id, track.audio_url, track.cover_url)}
             onToggleLike={() => onToggleLike(track.id, track.is_liked || false)}
+            onTagClick={onTagClick}
           />
         );
       } catch (error) {
@@ -178,7 +184,7 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
         return <TrackCardSkeletonCompact />;
       }
     },
-    [viewMode, activeTrackId, getCountsForTrack, getMidiStatus, onPlay, onDelete, onDownload, onToggleLike]
+    [viewMode, activeTrackId, getCountsForTrack, getMidiStatus, onPlay, onDelete, onDownload, onToggleLike, onTagClick]
   );
 
   // Improved load more with debounce protection
