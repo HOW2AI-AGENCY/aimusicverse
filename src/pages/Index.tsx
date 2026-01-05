@@ -137,7 +137,7 @@ const Index = () => {
 
         {/* Gamification Bar - logged in users */}
         {user && (
-          <Suspense fallback={<div className="h-14 bg-card/40 animate-pulse rounded-2xl mb-3" />}>
+          <Suspense fallback={null}>
             <motion.div className="mb-3" {...fadeInUp} transition={{ delay: 0.05 }}>
               <GamificationBar />
             </motion.div>
@@ -155,7 +155,7 @@ const Index = () => {
         )}
 
         {/* Featured Projects Banner */}
-        <Suspense fallback={<div className="w-full h-[180px] rounded-2xl bg-card/40 animate-pulse mb-4" />}>
+        <Suspense fallback={null}>
           <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.12 }}>
             <FeaturedProjectsBanner />
           </motion.section>
@@ -219,7 +219,7 @@ const Index = () => {
 
         {/* Recent user tracks */}
         {user && (
-          <Suspense fallback={<SectionSkeleton height="120px" />}>
+          <Suspense fallback={null}>
             <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.24 }}>
               <RecentTracksSection maxTracks={4} />
             </motion.section>
@@ -250,7 +250,7 @@ const Index = () => {
 
 
         {/* Auto Playlists by Genre */}
-        <Suspense fallback={<SectionSkeleton height="160px" />}>
+        <Suspense fallback={null}>
           <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.4 }}>
             <AutoPlaylistsSection 
               playlists={autoPlaylists} 
@@ -267,12 +267,12 @@ const Index = () => {
         )}
 
         {/* Popular Creators */}
-        <LazySection className="mb-5" fallback={<SectionSkeleton height="160px" />}>
+        <LazySection className="mb-5" fallback={null}>
           <PopularCreatorsSection maxCreators={8} />
         </LazySection>
 
         {/* AI Artists */}
-        <LazySection className="mb-5" fallback={<SectionSkeleton height="160px" />}>
+        <LazySection className="mb-5" fallback={null}>
           <PublicArtistsSection />
         </LazySection>
       </div>
