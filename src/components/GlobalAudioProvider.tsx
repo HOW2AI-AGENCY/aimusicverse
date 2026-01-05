@@ -571,11 +571,19 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
       if (errorCode === 4 && !hasAttemptedBlobRecovery) {
         hasAttemptedBlobRecovery = true;
         
-        // Build fallback chain
-        const fallbackChain = [
+        // Build fallback chain with all available audio URLs
+        // Step 1: Collect all possible URLs (including local_audio_url)
+        const allAudioUrls = [
           activeTrack?.streaming_url,
           activeTrack?.audio_url,
-        ].filter(url => url && url !== audio.src); // Skip current failed URL
+          activeTrack?.local_audio_url,
+        ].filter(url => url); // Remove null/undefined
+        
+        // Step 2: Deduplicate URLs to avoid redundant retry attempts
+        const uniqueUrls = Array.from(new Set(allAudioUrls));
+        
+        // Step 3: Filter out the current failed URL
+        const fallbackChain = uniqueUrls.filter(url => url !== audio.src);
         
         if (fallbackChain.length > 0) {
           const fallbackUrl = fallbackChain[0];
