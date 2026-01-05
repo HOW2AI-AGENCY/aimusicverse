@@ -64,14 +64,17 @@
 
 ---
 
-## 📐 Touch Targets
+## 📐 Touch Targets (Updated Jan 2025)
 
 | Элемент | Размер | Статус |
 |---------|--------|--------|
 | Quick Action buttons | h-11 (44px) | ✅ |
-| Action buttons | h-12 (48px) | ✅ |
-| Icon containers | w-9 h-9 (36px) | ✅ |
-| "Ещё действия" trigger | h-12 (48px) | ✅ |
+| Action buttons | h-10 (40px) + min-h-[44px] | ✅ |
+| Icon containers | w-7 h-7 (28px) | ✅ |
+| CompactPlayer buttons | h-10/h-11 + min-h-[44px] | ✅ |
+| MinimalTrackCard play | h-11 w-11 (44px) | ✅ |
+| MinimalTrackCard menu | h-11 w-11 (44px) | ✅ |
+| Grid card play button | h-11 w-11 (44px) | ✅ |
 
 ---
 

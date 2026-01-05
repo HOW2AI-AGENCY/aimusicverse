@@ -127,17 +127,15 @@ export function SmartAlertOverlay({ alert, onDismiss }: SmartAlertOverlayProps) 
               onClick={alert.dismissible !== false ? onDismiss : undefined}
             />
 
-            {/* Alert Card */}
+            {/* Alert Card - centered on all screens */}
             <motion.div
               initial={{ opacity: 0, y: -50, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -30, scale: 0.95 }}
               transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-              className="fixed z-[201] w-[calc(100vw-2rem)] max-w-md"
+              className="fixed z-[201] left-4 right-4 sm:left-1/2 sm:right-auto sm:w-full sm:max-w-md sm:-translate-x-1/2"
               style={{
-                top: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px) + 1rem), calc(env(safe-area-inset-top, 0px) + 1rem))',
-                left: '50%',
-                transform: 'translateX(-50%)',
+                top: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px) + 0.75rem), calc(env(safe-area-inset-top, 0px) + 0.75rem))',
               }}
             >
               {/* Shake animation wrapper for errors */}
@@ -190,13 +188,14 @@ export function SmartAlertOverlay({ alert, onDismiss }: SmartAlertOverlayProps) 
                     </div>
                   )}
 
-                  {/* Dismiss button */}
+                  {/* Dismiss button - larger touch target */}
                   {alert.dismissible !== false && (
                     <button
                       onClick={onDismiss}
-                      className="absolute top-3 right-3 p-1.5 rounded-full hover:bg-foreground/10 transition-colors z-10"
+                      className="absolute top-2 right-2 p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-full hover:bg-foreground/10 transition-colors z-10"
+                      aria-label="Закрыть"
                     >
-                      <X className="w-4 h-4 text-muted-foreground" />
+                      <X className="w-5 h-5 text-muted-foreground" />
                     </button>
                   )}
 
@@ -264,7 +263,7 @@ export function SmartAlertOverlay({ alert, onDismiss }: SmartAlertOverlayProps) 
                                 onDismiss();
                               }}
                               className={cn(
-                                "relative overflow-hidden group",
+                                "relative overflow-hidden group h-10 min-h-[44px] px-4",
                                 index === 0 && "min-w-[100px]"
                               )}
                             >
@@ -282,9 +281,9 @@ export function SmartAlertOverlay({ alert, onDismiss }: SmartAlertOverlayProps) 
                               variant="ghost"
                               size="sm"
                               onClick={handleLearnMore}
-                              className="text-muted-foreground hover:text-foreground gap-1"
+                              className="text-muted-foreground hover:text-foreground gap-1.5 h-10 min-h-[44px] px-3"
                             >
-                              <HelpCircle className="w-3.5 h-3.5" />
+                              <HelpCircle className="w-4 h-4" />
                               Подробнее
                             </Button>
                           )}

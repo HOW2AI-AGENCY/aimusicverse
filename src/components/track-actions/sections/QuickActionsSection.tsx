@@ -140,7 +140,7 @@ export const QuickActionsSection = memo(function QuickActionsSection({
                 size="sm"
                 onClick={action.onClick}
                 className={cn(
-                  "w-full gap-1.5 h-9 px-2 rounded-lg border transition-all",
+                  "w-full gap-1.5 h-11 min-h-[44px] px-2 rounded-xl border transition-all",
                   "active:scale-95 touch-manipulation",
                   colorClass,
                   action.isActive && action.id === 'like' && "bg-red-500/20 border-red-500/40 text-red-500"
