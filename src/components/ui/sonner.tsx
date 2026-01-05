@@ -40,7 +40,8 @@ const Toaster = ({ ...props }: ToasterProps) => {
       position={position}
       expand={false}
       richColors
-      offset={isMobile ? 16 : 8}
+      // No offset - controlled via positionStyles for symmetry
+      offset={0}
       // Limit visible toasts on mobile to prevent clutter
       visibleToasts={isMobile ? 2 : 3}
       // Gap between stacked toasts
@@ -48,8 +49,6 @@ const Toaster = ({ ...props }: ToasterProps) => {
       style={{
         // Use unified positioning from toast-position utility
         ...positionStyles,
-        // Remove transform for mobile (not needed with left/right)
-        ...(isMobile ? { transform: 'none' } : {}),
         zIndex: TOAST_Z_INDEX.system,
       }}
       toastOptions={{

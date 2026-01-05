@@ -13,11 +13,14 @@ export function getToastStyles(isMobile: boolean, telegramOffset: number = 0) {
     return {
       // Bottom positioning - account for nav bar (5rem) + mini-player gap + safe area
       bottom: `max(calc(var(--tg-safe-area-inset-bottom, 0px) + 7rem + ${telegramOffset}px), calc(env(safe-area-inset-bottom, 0px) + 7rem))`,
-      // Symmetric left/right margins
-      left: '1rem',
-      right: '1rem',
-      // No width calc needed - auto from left/right
-      width: 'auto',
+      // Symmetric margins - use CSS calc for precise centering
+      left: '0',
+      right: '0',
+      // Use padding for internal margins (Sonner applies to container)
+      paddingLeft: '1rem',
+      paddingRight: '1rem',
+      // Let Sonner handle width
+      width: '100%',
       maxWidth: 'none',
     };
   }
