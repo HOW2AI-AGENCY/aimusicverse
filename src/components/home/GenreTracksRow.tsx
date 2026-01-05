@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Badge } from '@/components/ui/badge';
 import { useNavigate } from 'react-router-dom';
-import { TrackCardEnhanced } from './TrackCardEnhanced';
+import { UnifiedTrackCard } from '@/components/track/track-card-new';
 import type { PublicTrackWithCreator } from '@/hooks/usePublicContent';
 import { cn } from '@/lib/utils';
 import { CarouselSkeleton } from '@/components/ui/skeleton-components';
@@ -98,10 +98,11 @@ export const GenreTracksRow = memo(function GenreTracksRow({
               transition={{ delay: index * 0.05 }}
               className="flex-shrink-0 w-[140px] sm:w-[160px]"
             >
-            <TrackCardEnhanced
-              track={track}
-              onRemix={onRemix}
-            />
+              <UnifiedTrackCard
+                variant="enhanced"
+                track={track}
+                onRemix={onRemix}
+              />
             </motion.div>
           ))}
         </div>

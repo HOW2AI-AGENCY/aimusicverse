@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import { useNavigate } from 'react-router-dom';
-import { TrackCardEnhanced } from './TrackCardEnhanced';
+import { UnifiedTrackCard } from '@/components/track/track-card-new';
 import { GenreFilterChips, GENRES } from './GenreFilterChips';
 import type { PublicTrackWithCreator } from '@/hooks/usePublicContent';
 import { ResponsiveGrid } from '@/components/common/ResponsiveGrid';
@@ -154,7 +154,8 @@ export const UnifiedTrackFeed = memo(function UnifiedTrackFeed({
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05, duration: 0.3 }}
               >
-                <TrackCardEnhanced
+                <UnifiedTrackCard
+                  variant="enhanced"
                   track={track}
                   onRemix={onRemix}
                 />
