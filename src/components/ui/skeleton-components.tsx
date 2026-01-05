@@ -400,3 +400,39 @@ export function ArtistCardSkeleton({ className }: { className?: string }) {
     </div>
   );
 }
+
+/**
+ * Card Skeleton - Generic card with cover and text
+ * @deprecated Use TrackCardSkeleton or PlaylistCoverSkeleton instead
+ */
+export function CardSkeleton({ className }: { className?: string }) {
+  return (
+    <div className={cn('rounded-lg bg-muted/50 animate-pulse', className)}>
+      <div className="aspect-square rounded-t-lg bg-muted" />
+      <div className="p-3 space-y-2">
+        <div className="h-4 bg-muted rounded w-3/4" />
+        <div className="h-3 bg-muted rounded w-1/2" />
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Text Skeleton - Single line text placeholder
+ */
+export function TextSkeleton({ 
+  width = '100%', 
+  height = '1rem',
+  className 
+}: { 
+  width?: string; 
+  height?: string;
+  className?: string;
+}) {
+  return (
+    <Skeleton 
+      className={cn('rounded', className)}
+      style={{ width, height }}
+    />
+  );
+}
