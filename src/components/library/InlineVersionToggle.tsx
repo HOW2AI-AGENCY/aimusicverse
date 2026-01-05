@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { cn } from '@/lib/utils';
 import { supabase } from '@/integrations/supabase/client';
 import { triggerHapticFeedback } from '@/lib/mobile-utils';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
-import { useQueryClient } from '@tanstack/react-query';
+import { useQueryClient, useQuery } from '@tanstack/react-query';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { logger } from '@/lib/logger';
 import { useAuth } from '@/hooks/useAuth';
@@ -26,6 +26,24 @@ interface InlineVersionToggleProps {
   trackOwnerId?: string;
   /** Compact mode for mobile */
   compact?: boolean;
+  /** Pre-fetched versions to avoid extra query */
+  preloadedVersions?: Version[];
+}
+
+// Centralized version fetcher with caching
+async function fetchVersions(trackId: string): Promise<Version[]> {
+  const { data, error } = await supabase
+    .from('track_versions')
+    .select('id, version_label, audio_url, is_primary')
+    .eq('track_id', trackId)
+    .order('clip_index', { ascending: true });
+
+  if (error) {
+    logger.error('Error fetching versions', { error });
+    return [];
+  }
+
+  return data || [];
 }
 
 export function InlineVersionToggle({
@@ -36,56 +54,41 @@ export function InlineVersionToggle({
   className,
   trackOwnerId,
   compact = false,
+  preloadedVersions,
 }: InlineVersionToggleProps) {
-  const [versions, setVersions] = useState<Version[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [isUpdating, setIsUpdating] = useState(false);
-  const [activeId, setActiveId] = useState<string | null>(activeVersionId || null);
+  const [localActiveId, setLocalActiveId] = useState<string | null>(null);
   const queryClient = useQueryClient();
   const { activeTrack, playTrack } = usePlayerStore();
   const { user } = useAuth();
 
-  // Check if current user is the owner (version toggle only for owner)
+  // Check if current user is the owner
   const isOwner = !trackOwnerId || (user?.id === trackOwnerId);
 
-  useEffect(() => {
-    // Skip fetch if we know there's only 1 or 0 versions, or no valid trackId
-    if (!trackId || versionCount <= 1) {
-      setIsLoading(false);
-      return;
-    }
+  // Use React Query for cached versions - skip if preloaded
+  const { data: fetchedVersions, isLoading } = useQuery({
+    queryKey: ['inline-versions', trackId],
+    queryFn: () => fetchVersions(trackId),
+    enabled: !!trackId && versionCount > 1 && !preloadedVersions && isOwner,
+    staleTime: 60 * 1000, // 1 minute - versions rarely change
+    gcTime: 5 * 60 * 1000, // Keep in cache for 5 minutes
+  });
 
-    const fetchVersions = async () => {
-      setIsLoading(true);
-      const { data, error } = await supabase
-        .from('track_versions')
-        .select('id, version_label, audio_url, is_primary')
-        .eq('track_id', trackId)
-        .order('clip_index', { ascending: true });
+  // Use preloaded versions if available, otherwise use fetched
+  const versions = useMemo(() => 
+    preloadedVersions || fetchedVersions || [], 
+    [preloadedVersions, fetchedVersions]
+  );
 
-      if (error) {
-        logger.error('Error fetching versions', { error });
-        setIsLoading(false);
-        return;
-      }
+  // Determine active version ID
+  const activeId = useMemo(() => {
+    if (localActiveId) return localActiveId;
+    if (activeVersionId) return activeVersionId;
+    const primary = versions.find(v => v.is_primary);
+    return primary?.id || versions[0]?.id || null;
+  }, [localActiveId, activeVersionId, versions]);
 
-      setVersions(data || []);
-      
-      // Set active version
-      if (activeVersionId) {
-        setActiveId(activeVersionId);
-      } else {
-        const primary = data?.find(v => v.is_primary);
-        setActiveId(primary?.id || data?.[0]?.id || null);
-      }
-      
-      setIsLoading(false);
-    };
-
-    fetchVersions();
-  }, [trackId, activeVersionId, versionCount]);
-
-  const handleVersionClick = async (e: React.MouseEvent, version: Version) => {
+  const handleVersionClick = useCallback(async (e: React.MouseEvent, version: Version) => {
     e.preventDefault();
     e.stopPropagation();
     e.nativeEvent?.stopImmediatePropagation?.();
@@ -94,6 +97,7 @@ export function InlineVersionToggle({
 
     triggerHapticFeedback('light');
     setIsUpdating(true);
+    setLocalActiveId(version.id); // Optimistic update
 
     try {
       // Fetch the full version data to get cover_url and duration
@@ -129,7 +133,6 @@ export function InlineVersionToggle({
         .update({ is_primary: true })
         .eq('id', version.id);
 
-      setActiveId(version.id);
       onVersionChange?.(version);
       
       // Update player if this track is currently playing
@@ -141,32 +144,45 @@ export function InlineVersionToggle({
           duration_seconds: fullVersion.duration_seconds,
           active_version_id: version.id,
         };
-        // Play with updated audio URL
         playTrack(updatedTrack);
       }
       
       // Invalidate queries to refresh UI with new cover/duration
-      await queryClient.invalidateQueries({ queryKey: ['tracks'] });
-      await queryClient.invalidateQueries({ queryKey: ['track-versions', trackId] });
+      queryClient.invalidateQueries({ queryKey: ['tracks'] });
+      queryClient.invalidateQueries({ queryKey: ['track-versions', trackId] });
+      queryClient.invalidateQueries({ queryKey: ['inline-versions', trackId] });
       
       toast.success(`Версия ${version.version_label || 'A'}`);
     } catch (error) {
       logger.error('Error switching version', { error });
       toast.error('Ошибка переключения');
+      setLocalActiveId(null); // Revert optimistic update
     } finally {
       setIsUpdating(false);
     }
-  };
+  }, [activeId, isUpdating, trackId, activeTrack, playTrack, queryClient, onVersionChange]);
 
-  // Don't render if single version, loading with known single version, or not owner
-  if (!trackId || versionCount <= 1 || (isLoading && versionCount <= 1) || !isOwner) {
+  // Don't render if single version, not owner, or no versions
+  if (!trackId || versionCount <= 1 || !isOwner) {
     return null;
   }
 
-  if (isLoading) {
+  // Show skeleton while loading (only if not preloaded)
+  if (isLoading && !preloadedVersions) {
     return (
-      <div className={cn("flex items-center gap-0.5 bg-background/80 backdrop-blur-sm rounded-md p-0.5", className)}>
-        <Loader2 className="w-3 h-3 animate-spin text-muted-foreground" />
+      <div className={cn(
+        "flex items-center gap-0.5 bg-background/80 backdrop-blur-sm rounded-md p-0.5",
+        compact ? "h-5" : "h-6",
+        className
+      )}>
+        <div className={cn(
+          "rounded bg-muted animate-pulse",
+          compact ? "w-5 h-4" : "w-6 h-5"
+        )} />
+        <div className={cn(
+          "rounded bg-muted animate-pulse",
+          compact ? "w-5 h-4" : "w-6 h-5"
+        )} />
       </div>
     );
   }
@@ -207,7 +223,7 @@ export function InlineVersionToggle({
               isActive 
                 ? "bg-primary text-primary-foreground shadow-sm" 
                 : "text-muted-foreground hover:bg-muted hover:text-foreground",
-              isUpdating && "opacity-50 cursor-wait"
+              isUpdating && !isActive && "opacity-50 cursor-wait"
             )}
           >
             {label}
