@@ -1,7 +1,7 @@
 import { useCallback, forwardRef, memo, useEffect, useRef, useMemo, useState } from "react";
 import { VirtuosoGrid } from "react-virtuoso";
 import type { Track } from "@/types/track";
-import { TrackCard } from "@/components/TrackCard";
+import { UnifiedTrackCard } from "@/components/track/track-card-new";
 import { Loader2, RefreshCw } from "lucide-react";
 import { GridSkeleton, TrackCardSkeletonCompact } from "@/components/ui/skeleton-components";
 import { TrackListProvider } from "@/contexts/TrackListContext";
@@ -93,9 +93,9 @@ const MemoizedTrackItem = memo(function MemoizedTrackItem({
   onTagClick?: (tag: string) => void;
 }) {
   return (
-    <TrackCard
+    <UnifiedTrackCard
+      variant={viewMode === 'grid' ? 'grid' : 'list'}
       track={track}
-      layout={viewMode}
       isPlaying={isPlaying}
       onPlay={onPlay}
       onDelete={onDelete}
@@ -104,9 +104,11 @@ const MemoizedTrackItem = memo(function MemoizedTrackItem({
       onTagClick={onTagClick}
       versionCount={counts.versionCount}
       stemCount={counts.stemCount}
-      hasMidi={midiStatus?.hasMidi}
-      hasPdf={midiStatus?.hasPdf}
-      hasGp5={midiStatus?.hasGp5}
+      midiStatus={{
+        hasMidi: midiStatus?.hasMidi ?? false,
+        hasPdf: midiStatus?.hasPdf ?? false,
+        hasGp5: midiStatus?.hasGp5 ?? false,
+      }}
       isFirstSwipeableItem={index === 0 && viewMode === "list"}
     />
   );
