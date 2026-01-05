@@ -13,7 +13,7 @@ import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { ErrorBoundaryWrapper } from "@/components/ErrorBoundaryWrapper";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useDebounce } from "use-debounce";
-import { TrackCardSkeleton } from "@/components/ui/skeleton-loader";
+import { TrackCardSkeleton, TrackCardSkeletonCompact } from "@/components/ui/skeleton-components";
 import { GeneratingTrackSkeleton } from "@/components/library/GeneratingTrackSkeleton";
 import { useSyncStaleTasks, useActiveGenerations } from "@/hooks/generation";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -480,7 +480,9 @@ export default function Library() {
               : "flex flex-col gap-1.5"
             }>
               {Array.from({ length: 8 }).map((_, i) => (
-                <TrackCardSkeleton key={i} layout={viewMode} />
+                viewMode === 'grid' 
+                  ? <TrackCardSkeleton key={i} />
+                  : <TrackCardSkeletonCompact key={i} />
               ))}
             </div>
           ) : tracksToDisplay.length === 0 && !hasActiveGenerations ? (
