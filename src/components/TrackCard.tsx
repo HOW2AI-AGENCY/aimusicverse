@@ -1,6 +1,6 @@
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Play, Pause, Heart, MoreHorizontal, Trash2, Mic, Volume2, Layers, ListMusic, User, Wand2 } from 'lucide-react';
+import { Play, Pause, Heart, MoreHorizontal, Trash2, Layers, ListMusic, User, Wand2 } from 'lucide-react';
 import type { Track } from '@/types/track';
 import { useState, useEffect, memo, useCallback } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
@@ -170,18 +170,7 @@ export const TrackCard = memo(({
   }, [track.id, propVersionCount, propStemCount]);
 
   // Determine track type icon
-  const getTrackIcon = () => {
-    if (!track.has_vocals) {
-      return <Volume2 className="w-3 h-3" />;
-    }
-    // Check if it's a stem
-    if (track.generation_mode === 'separate_vocals') {
-      return <Mic className="w-3 h-3" />;
-    }
-    return null;
-  };
-
-  const trackIcon = getTrackIcon();
+  // trackIcon removed - TrackTypeIcons handles this now
 
   const handleCardClick = (e: React.MouseEvent) => {
     // Don't trigger if clicking on buttons or interactive elements
@@ -616,12 +605,6 @@ export const TrackCard = memo(({
             </Badge>
           )}
           
-          {trackIcon && (
-            <Badge variant="glass" size="sm" className="gap-1">
-              {trackIcon}
-              {!track.has_vocals ? 'Инстр.' : 'Вокал'}
-            </Badge>
-          )}
         </div>
 
         {/* Badges - Versions, Stems, and Queue Position */}
@@ -658,16 +641,14 @@ export const TrackCard = memo(({
       </div>
 
         <div className="p-3 sm:p-4">
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-2 flex-1 min-w-0">
-              <h3 className="font-semibold text-base sm:text-lg truncate">{track.title || 'Без названия'}</h3>
-              <TrackTypeIcons track={track} hasMidi={propHasMidi} hasPdf={propHasPdf} hasGp5={propHasGp5} />
-            </div>
+          {/* Row 1: Title + Menu */}
+          <div className="flex items-center justify-between gap-2 mb-1">
+            <h3 className="font-semibold text-base sm:text-lg truncate flex-1 min-w-0">{track.title || 'Без названия'}</h3>
             {isMobile ? (
               <Button
                 size="icon"
                 variant="ghost"
-                className="-mr-2 flex-shrink-0 w-11 h-11 min-w-[44px] min-h-[44px] touch-manipulation active:scale-95 transition-transform"
+                className="-mr-2 flex-shrink-0 w-9 h-9 touch-manipulation active:scale-95 transition-transform"
                 onClick={(e) => { 
                   e.stopPropagation(); 
                   triggerHapticFeedback('light');
@@ -684,7 +665,12 @@ export const TrackCard = memo(({
                 <UnifiedTrackMenu track={track} onDelete={onDelete} onDownload={onDownload} />
               </div>
             )}
-        </div>
+          </div>
+          
+          {/* Row 2: Type icons */}
+          <div className="flex items-center gap-1.5 mb-2">
+            <TrackTypeIcons track={track} compact showModel hasMidi={propHasMidi} hasPdf={propHasPdf} hasGp5={propHasGp5} />
+          </div>
 
           <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
              {track.artist_name && (
