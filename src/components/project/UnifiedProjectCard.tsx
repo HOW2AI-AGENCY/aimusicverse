@@ -206,8 +206,8 @@ const GridCard = memo(function GridCard({
             alt={project.title}
             className="w-full h-full object-cover"
             loading="lazy"
-            whileHover={{ scale: 1.08 }}
-            transition={{ duration: 0.5 }}
+            whileHover={{ scale: isMobile ? 1.05 : 1.08 }}
+            transition={{ duration: isMobile ? 0.3 : 0.5 }}
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
@@ -215,11 +215,17 @@ const GridCard = memo(function GridCard({
               animate={{ rotate: [0, 5, -5, 0] }}
               transition={{ duration: 4, repeat: Infinity }}
             >
-              <Disc className="w-16 h-16 text-primary/30" />
+              <Disc className={cn(
+                "text-primary/30",
+                isMobile ? "w-12 h-12" : "w-16 h-16"
+              )} />
             </motion.div>
           </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+        <div className={cn(
+          "absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-opacity",
+          isMobile ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+        )} />
 
         {/* Type badge */}
         <div className="absolute top-2 left-2">
@@ -258,20 +264,36 @@ const GridCard = memo(function GridCard({
       </div>
 
       {/* Info */}
-      <div className="p-3 space-y-2">
-        <h3 className="font-bold text-sm truncate group-hover:text-primary transition-colors">
+      <div className={cn(
+        "space-y-2",
+        isMobile ? "p-3.5" : "p-3"
+      )}>
+        <h3 className={cn(
+          "font-bold truncate group-hover:text-primary transition-colors",
+          isMobile ? "text-base" : "text-sm"
+        )}>
           {project.title}
         </h3>
         <div className="flex items-center gap-1.5 flex-wrap">
           {project.genre && (
-            <Badge variant="secondary" className="text-[9px] h-4 px-1.5">
-              <Music className="w-2.5 h-2.5 mr-0.5" />
+            <Badge variant="secondary" className={cn(
+              isMobile ? "text-[10px] h-5 px-2" : "text-[9px] h-4 px-1.5"
+            )}>
+              <Music className={cn(
+                "mr-0.5",
+                isMobile ? "w-3 h-3" : "w-2.5 h-2.5"
+              )} />
               {project.genre}
             </Badge>
           )}
           {project.created_at && (
-            <span className="text-[10px] text-muted-foreground flex items-center gap-0.5">
-              <Calendar className="w-2.5 h-2.5" />
+            <span className={cn(
+              "text-muted-foreground flex items-center gap-0.5",
+              isMobile ? "text-[11px]" : "text-[10px]"
+            )}>
+              <Calendar className={cn(
+                isMobile ? "w-3 h-3" : "w-2.5 h-2.5"
+              )} />
               {format(new Date(project.created_at), 'd MMM', { locale: ru })}
             </span>
           )}
