@@ -67,9 +67,18 @@ export function useTimestampedLyrics(taskId: string | null, audioId: string | nu
           throw functionError;
         }
 
-        // Cache the response
+        // Cache the response (non-blocking, errors are logged but don't fail the fetch)
         if (responseData) {
-          await setCachedLyrics(taskId, audioId, responseData);
+          try {
+            await setCachedLyrics(taskId, audioId, responseData);
+          } catch (cacheError) {
+            // Log cache error but don't fail the entire operation
+            logger.warn('Failed to cache lyrics, continuing with response data', {
+              error: cacheError instanceof Error ? cacheError.message : String(cacheError),
+              taskId,
+              audioId
+            });
+          }
         }
 
         setData(responseData);

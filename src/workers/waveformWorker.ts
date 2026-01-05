@@ -27,6 +27,12 @@ interface WaveformError {
 // Generate peaks from ArrayBuffer
 function generatePeaksFromArrayBuffer(arrayBuffer: ArrayBuffer, samples: number): Promise<number[]> {
   return new Promise((resolve, reject) => {
+    // Check if OfflineAudioContext is available (may not be in some WebView environments)
+    if (typeof OfflineAudioContext === 'undefined') {
+      reject(new Error('OfflineAudioContext is not available in this environment'));
+      return;
+    }
+    
     // Use OfflineAudioContext for decoding (available in workers)
     const audioContext = new OfflineAudioContext(1, 1, 44100);
     
@@ -64,6 +70,18 @@ self.onmessage = async (event: MessageEvent<WaveformMessage>) => {
   
   if (type === 'generate') {
     try {
+      // Check environment capability first
+      if (typeof OfflineAudioContext === 'undefined') {
+        const errorResult: WaveformError = {
+          type: 'error',
+          id,
+          error: 'OfflineAudioContext is not available in this environment (WebView limitation)',
+          audioUrl,
+        };
+        self.postMessage(errorResult);
+        return;
+      }
+      
       const response = await fetch(audioUrl);
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}`);
