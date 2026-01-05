@@ -1,6 +1,6 @@
 # Sprint Progress Tracker
 
-**Последнее обновление**: 2026-01-04 (Session 9 - Generation Form UI Polish)
+**Последнее обновление**: 2026-01-05 (Session 10 - Library & Track Actions Optimization)
 
 ## 📊 Общий статус
 
@@ -12,38 +12,23 @@
 | Sprint 027: AI Lyrics Agent | ✅ ЗАВЕРШЕН | 100% | Dec 26, 2025 |
 | Sprint 028: UI/UX Optimization | ✅ ЗАВЕРШЕН | 100% | Dec 22, 2025 |
 | Sprint 029: Mobile Optimization | ✅ ЗАВЕРШЕН | 100% | Jan 4, 2026 |
-| Sprint 030: Unified Studio Mobile | 🟢 В РАБОТЕ | 55% | Jan 4-20, 2026 |
+| Sprint 030: Unified Studio Mobile | 🟢 В РАБОТЕ | 60% | Jan 4-20, 2026 |
 
 ---
 
 ## 🟢 Sprint 030: Unified Studio Mobile (Текущий)
 
-### ✅ Завершено (50% - Specification Complete)
+### ✅ Завершено (60% - UI/UX Optimization Phase)
 
-#### Session 7: Specification & Planning (Jan 4, 2026) ✅
-- [x] **Phase 0: Research** (100% Complete)
-  - ADR-011: Unified Studio Architecture documented
-  - research.md created (685 lines, 21KB)
-  - Technical decisions and risk analysis completed
-  - Architecture patterns and migration strategy defined
-- [x] **Phase 1: Design & Contracts** (100% Complete)
-  - spec.md - Feature specification with 8 user stories (template populated)
-  - plan.md - Implementation plan (1,548 lines, 61KB)
-  - tasks.md - Task breakdown (628 lines, 142 tasks)
-  - data-model.md - Component hierarchy (907 lines, 21KB)
-  - contracts/ - TypeScript interfaces (components, hooks, stores - 2,201 lines)
-  - quickstart.md - Developer guide (654 lines, 15KB)
-  - All artifacts validated 100% compliant with constitution
-- [x] **Specification Quality**
-  - 8 user stories (US-STUDIO-001 to US-STUDIO-008)
-  - 43 functional requirements (FR-001 to FR-043)
-  - 26 success criteria with validation gates
-  - 142 tasks across 5 implementation phases
-  - 60 tests planned (40 unit + 15 integration + 5 E2E)
-  - 80% code coverage target
-  - TDD enforced for P1 features
-
-### 🟡 В работе (55% - Implementation)
+#### Session 10: Library & Track Actions Optimization (Jan 5, 2026) ✅
+- [x] **ModelBadge V4.5 versions** - Direct mappings for all suno_model variants
+- [x] **ScrollableTagsRow** - iOS touch scrolling fix with touch-pan-x
+- [x] **Community page** - Grid/List toggle, 2-column mobile grid
+- [x] **PromptPreview & LyricsPreview** - New reusable components
+- [x] **TrackCard layout** - Title full width, removed icon duplicates
+- [x] **Library defaults** - LIST on mobile, GRID on desktop
+- [x] **UnifiedTrackSheet** - Height 70vh on mobile for better scroll
+- [x] **InlineVersionToggle** - React Query caching + optimistic updates
 
 #### Session 9: Generation Form UI Polish (Jan 4, 2026) ✅
 - [x] Hints работают по клику (Popover вместо Tooltip)
@@ -51,6 +36,12 @@
 - [x] Copy/Delete кнопки скрыты когда поле пустое
 - [x] Compact Lyrics Visual Editor (`LyricsVisualEditorCompact.tsx`)
 - [x] Advanced Options заметнее + удалено дублирование модели
+
+#### Session 7: Specification & Planning (Jan 4, 2026) ✅
+- [x] ADR-011: Unified Studio Architecture documented
+- [x] spec.md, plan.md, tasks.md, data-model.md, contracts/
+- [x] 142 tasks across 5 implementation phases
+- [x] 100% constitution compliance
 
 #### Session 6: Admin & Notifications (Jan 4, 2026) ✅
 - [x] Centralized Notification System (`src/lib/notifications.ts`)

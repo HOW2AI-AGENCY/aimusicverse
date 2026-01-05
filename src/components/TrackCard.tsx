@@ -1,6 +1,6 @@
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Play, Pause, Heart, MoreHorizontal, Trash2, Layers, ListMusic, User, Wand2 } from 'lucide-react';
+import { Play, Pause, Heart, MoreHorizontal, Trash2, User, Wand2 } from 'lucide-react';
 import type { Track } from '@/types/track';
 import { useState, useEffect, memo, useCallback } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { UnifiedTrackMenu, UnifiedTrackSheet } from './track-actions';
+import { DurationBadge, PlayOverlay, TrackBadges } from './library/shared';
 import { InlineVersionToggle } from './library/InlineVersionToggle';
 import { TrackTypeIcons } from './library/TrackTypeIcons';
 import { TrackStyleTags } from './library/TrackStyleTags';
@@ -312,38 +313,12 @@ export const TrackCard = memo(({
             }
           />
           
-          {/* Duration badge on cover - bottom right */}
-          {track.duration_seconds && (
-            <div className="absolute bottom-0.5 right-0.5 bg-black/70 text-white text-[9px] px-1 py-0.5 rounded font-medium z-10">
-              {Math.floor(track.duration_seconds / 60)}:{String(Math.floor(track.duration_seconds % 60)).padStart(2, '0')}
-            </div>
-          )}
-          
-          {/* Play overlay - always visible on mobile for clarity */}
-          <div
-            className={cn(
-              "absolute inset-0 bg-black/40 flex items-center justify-center cursor-pointer transition-all",
-              !isMobile && !isPlaying && "opacity-0 group-hover:opacity-100",
-              isMobile && !isPlaying && "bg-black/20",
-              isPlaying && "opacity-100 bg-black/50"
-            )}
-            onClick={(e) => {
-              e.stopPropagation();
-              triggerHapticFeedback('medium');
-              onPlay?.();
-            }}
-          >
-            <div className={cn(
-              "w-8 h-8 rounded-full flex items-center justify-center transition-transform",
-              isPlaying ? "bg-primary scale-100" : "bg-white/90 scale-90 group-hover:scale-100"
-            )}>
-              {isPlaying ? (
-                <Pause className="w-3.5 h-3.5 text-white" aria-hidden="true" />
-              ) : (
-                <Play className="w-3.5 h-3.5 ml-0.5 text-black/80" aria-hidden="true" />
-              )}
-            </div>
-          </div>
+          <DurationBadge seconds={track.duration_seconds} />
+          <PlayOverlay 
+            isPlaying={isPlaying} 
+            isMobile={isMobile} 
+            onPlay={() => onPlay?.()} 
+          />
         </div>
 
         {/* Track Info - 3 rows structure */}
@@ -608,36 +583,16 @@ export const TrackCard = memo(({
         </div>
 
         {/* Badges - Versions, Stems, and Queue Position */}
-        <div className="absolute top-2 right-2 flex gap-1">
-          {/* Queue Position Badge */}
-          {isInQueue && !isCurrentTrack && (
-            <Badge 
-              variant={isNextTrack ? "default" : "glass"} 
-              size="sm"
-              className={cn(
-                "gap-0.5",
-                isNextTrack && "bg-primary text-primary-foreground"
-              )}
-            >
-              <ListMusic className="w-3 h-3" />
-              {position}
-            </Badge>
-          )}
-          {versionCount > 1 && (
-            <InlineVersionToggle
-              trackId={track.id}
-              activeVersionId={track.active_version_id}
-              versionCount={versionCount}
-              trackOwnerId={track.user_id}
-            />
-          )}
-          {stemCount > 0 && (
-            <Badge variant="secondary" className="gap-1">
-              <Layers className="w-3 h-3" />
-              {stemCount}
-            </Badge>
-          )}
-        </div>
+        <TrackBadges
+          trackId={track.id}
+          trackOwnerId={track.user_id}
+          versionCount={versionCount}
+          activeVersionId={track.active_version_id}
+          stemCount={stemCount}
+          queuePosition={isInQueue && !isCurrentTrack ? position : null}
+          isNextTrack={isNextTrack}
+          className="absolute top-2 right-2"
+        />
       </div>
 
         <div className="p-3 sm:p-4">

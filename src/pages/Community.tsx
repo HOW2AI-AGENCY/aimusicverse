@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Globe, Music, Users, TrendingUp, Heart, Search, X, Grid3X3, List } from "lucide-react";
+import { Globe, Music, Users, TrendingUp, Heart, Search, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -12,6 +12,7 @@ import { motion } from '@/lib/motion';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { ViewModeToggle } from "@/components/library/shared";
 
 const GENRES = ["Pop", "Rock", "Hip-Hop", "Electronic", "R&B", "Jazz", "Indie", "Lo-Fi"];
 
@@ -94,24 +95,11 @@ export default function Community() {
           </div>
           
           {/* View mode toggle */}
-          <div className="ml-auto flex gap-0.5 bg-muted/50 rounded-lg p-0.5">
-            <Button
-              variant={viewMode === 'grid' ? 'secondary' : 'ghost'}
-              size="icon"
-              className="h-7 w-7"
-              onClick={() => setViewMode('grid')}
-            >
-              <Grid3X3 className="w-4 h-4" />
-            </Button>
-            <Button
-              variant={viewMode === 'list' ? 'secondary' : 'ghost'}
-              size="icon"
-              className="h-7 w-7"
-              onClick={() => setViewMode('list')}
-            >
-              <List className="w-4 h-4" />
-            </Button>
-          </div>
+          <ViewModeToggle 
+            viewMode={viewMode} 
+            onChange={setViewMode}
+            className="ml-auto"
+          />
           </div>
         </motion.header>
 
