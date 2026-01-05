@@ -31,7 +31,7 @@ export function SheetDialog({
   onOpenChange,
   title,
   children,
-  snapPoints = DIALOG_CONFIG.snapPoints.default,
+  snapPoints = [...DIALOG_CONFIG.snapPoints.default] as number[],
   defaultSnapPoint = DIALOG_CONFIG.snapPoints.defaultSnapIndex,
   closeOnDragDown = true,
   className,

@@ -41,7 +41,7 @@
  * ```
  */
 
-import { useEffect } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import type { UnifiedDialogProps } from './unified-dialog.types';
@@ -49,9 +49,9 @@ import { DIALOG_CONFIG } from './unified-dialog.config';
 import { isModalDialogProps, isSheetDialogProps, isAlertDialogProps } from '@/lib/type-guards';
 
 // Lazy load variants for code splitting
-const ModalVariant = React.lazy(() => import('./variants/modal'));
-const SheetVariant = React.lazy(() => import('./variants/sheet'));
-const AlertVariant = React.lazy(() => import('./variants/alert'));
+const ModalVariant = React.lazy(() => import('./variants/modal').then(m => ({ default: m.ModalDialog })));
+const SheetVariant = React.lazy(() => import('./variants/sheet').then(m => ({ default: m.SheetDialog })));
+const AlertVariant = React.lazy(() => import('./variants/alert').then(m => ({ default: m.AlertDialog })));
 
 /**
  * Check if we're on mobile device
