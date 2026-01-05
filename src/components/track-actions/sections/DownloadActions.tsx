@@ -58,7 +58,6 @@ export function DownloadActions({ track, state, onAction, variant, isProcessing 
         <IconGridButton
           icon={FileAudio}
           label="MP3"
-          sublabel="Стандарт"
           color="green"
           onClick={() => onAction('download_mp3')}
         />
@@ -67,7 +66,6 @@ export function DownloadActions({ track, state, onAction, variant, isProcessing 
         <IconGridButton
           icon={FileMusic}
           label="WAV"
-          sublabel="Lossless"
           color="blue"
           onClick={() => onAction('download_wav')}
           disabled={isProcessing}

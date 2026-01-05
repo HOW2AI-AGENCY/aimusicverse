@@ -131,7 +131,6 @@ export function CreateActions({ track, state, onAction, variant, isProcessing }:
         <IconGridButton
           icon={Mic2}
           label="Вокал"
-          sublabel="Добавить"
           color="cyan"
           onClick={() => onAction('add_vocals')}
           disabled={isProcessing}
@@ -141,7 +140,6 @@ export function CreateActions({ track, state, onAction, variant, isProcessing }:
         <IconGridButton
           icon={Guitar}
           label="Инструм."
-          sublabel="Добавить"
           color="orange"
           onClick={() => onAction('add_instrumental')}
           disabled={isProcessing}
