@@ -31,10 +31,7 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-- Tests: P1 user stories MUST include failing tests before implementation (TDD requirement per Constitution).
-- Security & Privacy: Plans MUST document data minimalization and secrets handling (comply with Constitution).
-- Observability: Plans MUST list necessary logs/metrics/traces required for the feature.
-- Versioning & Migration: Any breaking change MUST include versioning and migration notes per Constitution.
+[Gates determined based on constitution file]
 
 ## Project Structure
 

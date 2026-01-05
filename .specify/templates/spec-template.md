@@ -77,18 +77,10 @@
 
 ## Requirements *(mandatory)*
 
-### Contracts & Schemas (MANDATORY)
-
-- Any feature that introduces, changes or exposes APIs, messages, or persisted
-  schemas MUST include machine-readable contract artifacts and human-readable
-  documentation in the same PR.
-  - HTTP APIs: provide OpenAPI (YAML/JSON) under `specs/[###-feature]/contracts/`
-    or `contracts/` with examples of requests/responses.
-  - Shared data schemas: provide JSON Schema and/or TypeScript types for all
-    objects exchanged between components and stored in the database.
-  - For breaking changes include a migration plan and compatibility notes.
-- CI SHOULD validate OpenAPI/JSON Schema (linting) and run basic contract tests
-  where possible; PRs that modify contracts MUST pass these checks before merge.
+<!--
+  ACTION REQUIRED: The content in this section represents placeholders.
+  Fill them out with the right functional requirements.
+-->
 
 ### Functional Requirements
 
@@ -121,21 +113,3 @@
 - **SC-002**: [Measurable metric, e.g., "System handles 1000 concurrent users without degradation"]
 - **SC-003**: [User satisfaction metric, e.g., "90% of users successfully complete primary task on first attempt"]
 - **SC-004**: [Business metric, e.g., "Reduce support tickets related to [X] by 50%"]
-
-## Constitution Compliance Checklist *(mandatory)*
-
-Review the feature against all 8 [Constitution principles](../../.specify/memory/constitution.md):
-
-- [ ] **Principle I: Quality & Testing** - Tests planned for this feature (TDD for P1)?
-- [ ] **Principle II: Security & Privacy** - Security implications considered? Data minimization?
-- [ ] **Principle III: Observability** - Logging, metrics, monitoring planned?
-- [ ] **Principle IV: Incremental Delivery** - Can this be delivered in small, safe increments?
-- [ ] **Principle V: Simplicity** - Is the solution as simple as possible? Clear contracts?
-- [ ] **Principle VI: Performance** - Performance targets defined? Bundle size impact?
-- [ ] **Principle VII: i18n & a11y** - Internationalization and accessibility considered?
-- [ ] **Principle VIII: Telegram-first UX** - Does this feel native to Telegram?
-
-**Infrastructure Considerations** (if applicable):
-- [ ] Storage requirements considered? (See [Infrastructure Audit](../../INFRASTRUCTURE_AUDIT_2025-12-03.md))
-- [ ] Database naming follows conventions? (`is_primary`, `track_change_log`, `audio_analysis`)
-- [ ] Lovable Cloud/Supabase properly referenced? (Lovable Cloud for users, Supabase in code)

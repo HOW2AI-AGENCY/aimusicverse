@@ -4,7 +4,6 @@
 [CmdletBinding()]
 param(
     [switch]$Json,
-    [string]$FeatureDescription,
     [switch]$Help
 )
 
@@ -41,41 +40,6 @@ if (Test-Path $template) {
     Write-Warning "Plan template not found at $template"
     # Create a basic plan file if template doesn't exist
     New-Item -ItemType File -Path $paths.IMPL_PLAN -Force | Out-Null
-}
-
-# Copy spec template to create spec.md and optionally populate frontmatter
-$specTemplate = Join-Path $paths.REPO_ROOT '.specify/templates/spec-template.md'
-if (Test-Path $specTemplate) {
-    Copy-Item $specTemplate $paths.FEATURE_SPEC -Force
-    Write-Output "Copied spec template to $($paths.FEATURE_SPEC)"
-    if ($FeatureDescription) {
-        $front = @"
----
-title: "$FeatureDescription"
-branch: "$($paths.CURRENT_BRANCH)"
-created: "$(Get-Date -Format 'yyyy-MM-dd')"
-status: "Draft"
-input: "$FeatureDescription"
----
-"@
-        $content = Get-Content $paths.FEATURE_SPEC -Raw
-        Set-Content -Path $paths.FEATURE_SPEC -Value ($front + "`n" + $content) -Force
-    }
-} else {
-    Write-Warning "Spec template not found at $specTemplate"
-    New-Item -ItemType File -Path $paths.FEATURE_SPEC -Force | Out-Null
-    if ($FeatureDescription) {
-        $front = @"
----
-title: "$FeatureDescription"
-branch: "$($paths.CURRENT_BRANCH)"
-created: "$(Get-Date -Format 'yyyy-MM-dd')"
-status: "Draft"
-input: "$FeatureDescription"
----
-"@
-        Set-Content -Path $paths.FEATURE_SPEC -Value $front -Force
-    }
 }
 
 # Output results
