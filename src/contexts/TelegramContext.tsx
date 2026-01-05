@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, ReactNode, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { telegramAuthService } from '@/services/telegram-auth';
+import { telegramAuthService } from '@/services/telegram';
 import { supabase } from '@/integrations/supabase/client';
 import { logger } from '@/lib/logger';
 import { toast } from 'sonner';
