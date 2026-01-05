@@ -34,11 +34,20 @@ export interface TracksResponse {
 /**
  * Fetch tracks with filters and optional pagination
  */
+/**
+ * Fetch tracks with filters and optional pagination
+ * When tagFilter is used, performs a join on track_tags for accurate matching
+ */
 export async function fetchTracks(
   filters: TrackFilters,
   pagination?: PaginationParams
 ): Promise<TracksResponse> {
   const { userId, projectId, searchQuery, sortBy = 'recent', statusFilter, isPublic, tagFilter } = filters;
+
+  // If tagFilter is specified, use track_tags join for accurate search
+  if (tagFilter) {
+    return fetchTracksWithTagJoin(filters, pagination);
+  }
 
   let query = supabase
     .from('tracks')
@@ -68,11 +77,6 @@ export async function fetchTracks(
     query = query.or(`title.ilike.%${searchQuery}%,prompt.ilike.%${searchQuery}%,style.ilike.%${searchQuery}%`);
   }
 
-  // Tag filter - search in style and tags fields
-  if (tagFilter) {
-    query = query.or(`style.ilike.%${tagFilter}%,tags.ilike.%${tagFilter}%`);
-  }
-
   // Sorting
   switch (sortBy) {
     case 'popular':
@@ -98,6 +102,84 @@ export async function fetchTracks(
 
   return {
     data: data || [],
+    count,
+    error: error ? new Error(error.message) : null,
+  };
+}
+
+/**
+ * Fetch tracks using track_tags join for accurate tag filtering
+ */
+async function fetchTracksWithTagJoin(
+  filters: TrackFilters,
+  pagination?: PaginationParams
+): Promise<TracksResponse> {
+  const { userId, projectId, searchQuery, sortBy = 'recent', statusFilter, isPublic, tagFilter } = filters;
+  
+  // Normalize tag for comparison
+  const normalizedTag = tagFilter?.toLowerCase().trim() || '';
+  
+  // Query with inner join on track_tags
+  let query = supabase
+    .from('tracks')
+    .select('*, track_tags!inner(normalized_name)', { count: 'exact' })
+    .eq('track_tags.normalized_name', normalizedTag);
+
+  // User filter
+  if (userId) {
+    query = query.eq('user_id', userId);
+  }
+
+  // Public filter
+  if (isPublic !== undefined) {
+    query = query.eq('is_public', isPublic);
+  }
+
+  // Status filter
+  const statuses = statusFilter || ['completed', 'streaming_ready'];
+  query = query.in('status', statuses);
+
+  // Project filter
+  if (projectId) {
+    query = query.eq('project_id', projectId);
+  }
+
+  // Search filter
+  if (searchQuery) {
+    query = query.or(`title.ilike.%${searchQuery}%,prompt.ilike.%${searchQuery}%,style.ilike.%${searchQuery}%`);
+  }
+
+  // Sorting
+  switch (sortBy) {
+    case 'popular':
+      query = query.order('play_count', { ascending: false, nullsFirst: false });
+      break;
+    case 'liked':
+      query = query.order('likes_count', { ascending: false, nullsFirst: false });
+      break;
+    case 'recent':
+    default:
+      query = query.order('created_at', { ascending: false });
+      break;
+  }
+
+  // Pagination
+  if (pagination) {
+    const from = pagination.page * pagination.pageSize;
+    const to = from + pagination.pageSize - 1;
+    query = query.range(from, to);
+  }
+
+  const { data, error, count } = await query;
+
+  // Remove track_tags from response to match TrackRow type
+  const cleanedData = (data || []).map(track => {
+    const { track_tags, ...rest } = track as TrackRow & { track_tags?: unknown };
+    return rest as TrackRow;
+  });
+
+  return {
+    data: cleanedData,
     count,
     error: error ? new Error(error.message) : null,
   };

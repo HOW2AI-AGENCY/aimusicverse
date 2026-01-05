@@ -1,16 +1,14 @@
 import { useCallback, forwardRef, memo, useEffect, useRef, useMemo } from "react";
-import { Virtuoso, VirtuosoGrid } from "react-virtuoso";
+import { VirtuosoGrid } from "react-virtuoso";
 import type { Track } from "@/types/track";
 import { TrackCard } from "@/components/TrackCard";
 import { Loader2 } from "lucide-react";
-import { GridSkeleton, TrackCardSkeleton, TrackCardSkeletonCompact } from "@/components/ui/skeleton-components";
+import { GridSkeleton, TrackCardSkeletonCompact } from "@/components/ui/skeleton-components";
 import { TrackListProvider } from "@/contexts/TrackListContext";
 import { logger } from "@/lib/logger";
+import { Button } from "@/components/ui/button";
 
 const log = logger.child({ module: 'VirtualizedTrackList' });
-
-// Safety timeout duration to reset loadingRef if it gets stuck
-const LOADING_SAFETY_TIMEOUT_MS = 5000;
 
 interface TrackMidiStatus {
   hasMidi: boolean;
@@ -52,16 +50,6 @@ const GridContainer = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEle
   )
 );
 GridContainer.displayName = "GridContainer";
-
-// List container for virtuoso list view
-const ListContainer = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ children, style, ...props }, ref) => (
-    <div ref={ref} style={style} {...props} className="flex flex-col gap-3 px-4 sm:px-6">
-      {children}
-    </div>
-  )
-);
-ListContainer.displayName = "ListContainer";
 
 // Item wrapper for grid - minimal wrapper
 const GridItemWrapper = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
@@ -131,23 +119,11 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
   onLoadMore,
   hasMore,
   isLoadingMore,
-  onTrackSelect,
-  selectedTrackId,
 }: VirtualizedTrackListProps) {
+  const sentinelRef = useRef<HTMLDivElement>(null);
   const loadingRef = useRef(false);
-  const safetyTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  
-  // Cleanup timeouts on unmount
-  useEffect(() => {
-    return () => {
-      if (safetyTimeoutRef.current) {
-        clearTimeout(safetyTimeoutRef.current);
-      }
-    };
-  }, []);
   
   // Stable props for Virtuoso to avoid internal re-init loops
-  // Reduced buffer zones to prevent measuring too many items simultaneously
   const increaseViewportBy = useMemo(() => ({ top: 200, bottom: 400 }), []);
 
   // Memoize item key computation for better React reconciliation
@@ -155,7 +131,6 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
 
   const renderTrackItem = useCallback(
     (index: number, track: Track) => {
-      // Wrap in try-catch for error resilience
       try {
         if (!track || !track.id) {
           log.warn('Invalid track data at index', { index, track });
@@ -181,73 +156,58 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
         );
       } catch (error) {
         log.error('Error rendering track item', error, { trackId: track?.id, index });
-        // Return skeleton as fallback instead of crashing
         return <TrackCardSkeletonCompact />;
       }
     },
     [viewMode, activeTrackId, getCountsForTrack, getMidiStatus, onPlay, onDelete, onDownload, onToggleLike, onTagClick]
   );
 
-  // Improved load more with debounce protection
-  const handleEndReached = useCallback(() => {
-    // Prevent multiple simultaneous calls
-    if (loadingRef.current || isLoadingMore) {
-      log.debug('Skipping load - already loading', { loadingRef: loadingRef.current, isLoadingMore });
-      return;
-    }
+  // IntersectionObserver for list view pagination (stable, no virtuoso issues)
+  useEffect(() => {
+    if (viewMode !== "list") return;
     
-    // Only load if there's more data
-    if (hasMore && tracks.length > 0) {
-      loadingRef.current = true;
-      log.info('Loading more tracks (endReached)', { 
-        currentCount: tracks.length, 
-        hasMore, 
-        isLoadingMore 
-      });
-      
-      // Clear any existing safety timeout
-      if (safetyTimeoutRef.current) {
-        clearTimeout(safetyTimeoutRef.current);
-      }
-      
-      // Use setTimeout to break potential synchronous loops
-      setTimeout(() => {
-        onLoadMore();
-        // Safety: Reset loading flag after timeout if nothing happens
-        safetyTimeoutRef.current = setTimeout(() => {
-          if (loadingRef.current) {
-            log.warn('LoadingRef stuck, resetting after timeout');
-            loadingRef.current = false;
-          }
-        }, LOADING_SAFETY_TIMEOUT_MS);
-      }, 0);
-    } else {
-      log.debug('Not loading more', { hasMore, trackCount: tracks.length, loadingRef: loadingRef.current, isLoadingMore });
-    }
-  }, [hasMore, isLoadingMore, onLoadMore, tracks.length]);
+    const sentinel = sentinelRef.current;
+    if (!sentinel) return;
+    
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry.isIntersecting && hasMore && !isLoadingMore && !loadingRef.current) {
+          loadingRef.current = true;
+          log.info('Loading more tracks (intersection)', { currentCount: tracks.length });
+          onLoadMore();
+        }
+      },
+      { rootMargin: '200px' }
+    );
+    
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [viewMode, hasMore, isLoadingMore, onLoadMore, tracks.length]);
 
-  
-  // Reset loading flag when loading state changes
+  // Reset loading ref when loading finishes
   useEffect(() => {
     if (!isLoadingMore) {
-      // Small delay to prevent immediate re-trigger
-      const timer = setTimeout(() => {
-        loadingRef.current = false;
-      }, 100);
-      return () => clearTimeout(timer);
+      loadingRef.current = false;
     }
   }, [isLoadingMore]);
-  
-  // Footer component to show loading indicator
-  const Footer = useCallback(() => {
+
+  // Grid view endReached handler
+  const handleGridEndReached = useCallback(() => {
+    if (loadingRef.current || isLoadingMore || !hasMore) return;
+    loadingRef.current = true;
+    log.info('Loading more tracks (grid endReached)', { currentCount: tracks.length });
+    setTimeout(() => onLoadMore(), 0);
+  }, [hasMore, isLoadingMore, onLoadMore, tracks.length]);
+
+  // Footer for grid
+  const GridFooter = useCallback(() => {
     if (!hasMore) return null;
-    
     return (
       <div className="flex justify-center py-6">
         {isLoadingMore ? (
           <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
         ) : (
-          // Invisible trigger for intersection observer backup
           <div className="h-1" />
         )}
       </div>
@@ -255,16 +215,11 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
   }, [hasMore, isLoadingMore]);
 
   const gridComponents = useMemo(
-    () => ({ List: GridContainer, Item: GridItemWrapper, Footer }),
-    [Footer]
+    () => ({ List: GridContainer, Item: GridItemWrapper, Footer: GridFooter }),
+    [GridFooter]
   );
 
-  const listComponents = useMemo(
-    () => ({ List: ListContainer, Footer }),
-    [Footer]
-  );
-
-  // Grid view with VirtuosoGrid
+  // Grid view with VirtuosoGrid (stable)
   if (viewMode === "grid") {
     return (
       <TrackListProvider tracks={tracks}>
@@ -274,7 +229,7 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
           overscan={150}
           computeItemKey={computeItemKey}
           components={gridComponents}
-          endReached={handleEndReached}
+          endReached={handleGridEndReached}
           itemContent={renderTrackItem}
           increaseViewportBy={increaseViewportBy}
         />
@@ -282,22 +237,40 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
     );
   }
 
-  // List view with Virtuoso
-  // Fixed item height to prevent infinite recalculation loops
-  // 3-row layout: ~120px (cover 52px + padding 2.5-3 + title + icons + tags rows)
+  // List view - simple map + IntersectionObserver (no virtuoso, stable)
   return (
     <TrackListProvider tracks={tracks}>
-      <Virtuoso
-        useWindowScroll
-        data={tracks}
-        overscan={50}
-        defaultItemHeight={100}
-        computeItemKey={computeItemKey}
-        components={listComponents}
-        endReached={handleEndReached}
-        itemContent={renderTrackItem}
-        increaseViewportBy={{ top: 200, bottom: 400 }}
-      />
+      <div className="flex flex-col gap-3 px-4 sm:px-6">
+        {tracks.map((track, index) => (
+          <div key={track.id}>
+            {renderTrackItem(index, track)}
+          </div>
+        ))}
+        
+        {/* Sentinel for infinite scroll */}
+        <div ref={sentinelRef} className="h-1" />
+        
+        {/* Loading indicator */}
+        {isLoadingMore && (
+          <div className="flex justify-center py-6">
+            <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+          </div>
+        )}
+        
+        {/* Manual load button as fallback */}
+        {hasMore && !isLoadingMore && tracks.length > 0 && (
+          <div className="flex justify-center py-4">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onLoadMore}
+              className="text-muted-foreground"
+            >
+              Загрузить ещё
+            </Button>
+          </div>
+        )}
+      </div>
     </TrackListProvider>
   );
 });
