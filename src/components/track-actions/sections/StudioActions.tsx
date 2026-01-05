@@ -79,21 +79,21 @@ export function StudioActions({ track, state, onAction, variant, isProcessing }:
     );
   }
 
-  // Sheet variant - flat list with colored icons
+  // Sheet variant - compact buttons h-10
   return (
-    <div className="space-y-1">
+    <div className="space-y-0.5">
       {showStudio && (
         <Button
           variant="ghost"
-          className="w-full justify-start gap-3 h-12 rounded-xl hover:bg-blue-500/10 group"
+          className="w-full justify-start gap-3 h-10 rounded-lg hover:bg-blue-500/10 group"
           onClick={() => onAction('open_studio')}
         >
-          <div className="w-9 h-9 rounded-lg bg-blue-500/10 flex items-center justify-center group-hover:bg-blue-500/20 transition-colors">
-            <Layers className="w-4 h-4 text-blue-500" />
+          <div className="w-7 h-7 rounded-md bg-blue-500/10 flex items-center justify-center group-hover:bg-blue-500/20 transition-colors">
+            <Layers className="w-3.5 h-3.5 text-blue-500" />
           </div>
-          <span className="font-medium">Открыть студию</span>
+          <span className="text-sm">Открыть студию</span>
           {state.stemCount > 0 && (
-            <span className="ml-auto text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
+            <span className="ml-auto text-xs text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
               {state.stemCount} стемов
             </span>
           )}
@@ -102,66 +102,66 @@ export function StudioActions({ track, state, onAction, variant, isProcessing }:
       {showReplaceSection && (
         <Button
           variant="ghost"
-          className="w-full justify-start gap-3 h-12 rounded-xl hover:bg-amber-500/10 group"
+          className="w-full justify-start gap-3 h-10 rounded-lg hover:bg-amber-500/10 group"
           onClick={() => onAction('replace_section')}
         >
-          <div className="w-9 h-9 rounded-lg bg-amber-500/10 flex items-center justify-center group-hover:bg-amber-500/20 transition-colors">
-            <RefreshCw className="w-4 h-4 text-amber-500" />
+          <div className="w-7 h-7 rounded-md bg-amber-500/10 flex items-center justify-center group-hover:bg-amber-500/20 transition-colors">
+            <RefreshCw className="w-3.5 h-3.5 text-amber-500" />
           </div>
-          <span className="font-medium">Замена секции</span>
+          <span className="text-sm">Замена секции</span>
         </Button>
       )}
       {showStemsSimple && (
         <Button
           variant="ghost"
-          className="w-full justify-start gap-3 h-12 rounded-xl hover:bg-green-500/10 group"
+          className="w-full justify-start gap-3 h-10 rounded-lg hover:bg-green-500/10 group"
           onClick={() => onAction('stems_simple')}
           disabled={isProcessing}
         >
-          <div className="w-9 h-9 rounded-lg bg-green-500/10 flex items-center justify-center group-hover:bg-green-500/20 transition-colors">
-            <Scissors className="w-4 h-4 text-green-500" />
+          <div className="w-7 h-7 rounded-md bg-green-500/10 flex items-center justify-center group-hover:bg-green-500/20 transition-colors">
+            <Scissors className="w-3.5 h-3.5 text-green-500" />
           </div>
-          <span className="font-medium">Стемы (2 дорожки)</span>
+          <span className="text-sm">Стемы (2 дорожки)</span>
           <span className="ml-auto text-xs text-muted-foreground">Быстро</span>
         </Button>
       )}
       {showStemsDetailed && (
         <Button
           variant="ghost"
-          className="w-full justify-start gap-3 h-12 rounded-xl hover:bg-purple-500/10 group"
+          className="w-full justify-start gap-3 h-10 rounded-lg hover:bg-purple-500/10 group"
           onClick={() => onAction('stems_detailed')}
           disabled={isProcessing}
         >
-          <div className="w-9 h-9 rounded-lg bg-purple-500/10 flex items-center justify-center group-hover:bg-purple-500/20 transition-colors">
-            <Wand2 className="w-4 h-4 text-purple-500" />
+          <div className="w-7 h-7 rounded-md bg-purple-500/10 flex items-center justify-center group-hover:bg-purple-500/20 transition-colors">
+            <Wand2 className="w-3.5 h-3.5 text-purple-500" />
           </div>
-          <span className="font-medium">Стемы (6+ дорожек)</span>
+          <span className="text-sm">Стемы (6+ дорожек)</span>
           <span className="ml-auto text-xs text-muted-foreground">Детально</span>
         </Button>
       )}
       {showMidi && (
         <Button
           variant="ghost"
-          className="w-full justify-start gap-3 h-12 rounded-xl hover:bg-pink-500/10 group"
+          className="w-full justify-start gap-3 h-10 rounded-lg hover:bg-pink-500/10 group"
           onClick={() => onAction('transcribe_midi')}
         >
-          <div className="w-9 h-9 rounded-lg bg-pink-500/10 flex items-center justify-center group-hover:bg-pink-500/20 transition-colors">
-            <Music2 className="w-4 h-4 text-pink-500" />
+          <div className="w-7 h-7 rounded-md bg-pink-500/10 flex items-center justify-center group-hover:bg-pink-500/20 transition-colors">
+            <Music2 className="w-3.5 h-3.5 text-pink-500" />
           </div>
-          <span className="font-medium">MIDI</span>
+          <span className="text-sm">MIDI</span>
           <ProBadge size="sm" className="ml-auto" />
         </Button>
       )}
       {showNotes && (
         <Button
           variant="ghost"
-          className="w-full justify-start gap-3 h-12 rounded-xl hover:bg-orange-500/10 group"
+          className="w-full justify-start gap-3 h-10 rounded-lg hover:bg-orange-500/10 group"
           onClick={() => onAction('transcribe_notes')}
         >
-          <div className="w-9 h-9 rounded-lg bg-orange-500/10 flex items-center justify-center group-hover:bg-orange-500/20 transition-colors">
-            <FileMusic className="w-4 h-4 text-orange-500" />
+          <div className="w-7 h-7 rounded-md bg-orange-500/10 flex items-center justify-center group-hover:bg-orange-500/20 transition-colors">
+            <FileMusic className="w-3.5 h-3.5 text-orange-500" />
           </div>
-          <span className="font-medium">Ноты</span>
+          <span className="text-sm">Ноты</span>
           <ProBadge size="sm" className="ml-auto" />
         </Button>
       )}

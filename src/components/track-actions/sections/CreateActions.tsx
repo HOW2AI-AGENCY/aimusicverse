@@ -73,84 +73,84 @@ export function CreateActions({ track, state, onAction, variant, isProcessing }:
     );
   }
 
-  // Sheet variant - flat list with colored icons
+  // Sheet variant - compact buttons h-10
   return (
-    <div className="space-y-1">
+    <div className="space-y-0.5">
       {showGenerateCover && (
         <Button
           variant="ghost"
-          className="w-full justify-start gap-3 h-12 rounded-xl hover:bg-pink-500/10 group"
+          className="w-full justify-start gap-3 h-10 rounded-lg hover:bg-pink-500/10 group"
           onClick={() => onAction('generate_cover')}
           disabled={isProcessing}
         >
-          <div className="w-9 h-9 rounded-lg bg-pink-500/10 flex items-center justify-center group-hover:bg-pink-500/20 transition-colors">
-            <ImagePlus className="w-4 h-4 text-pink-500" />
+          <div className="w-7 h-7 rounded-md bg-pink-500/10 flex items-center justify-center group-hover:bg-pink-500/20 transition-colors">
+            <ImagePlus className="w-3.5 h-3.5 text-pink-500" />
           </div>
-          <span className="font-medium">Обложка</span>
+          <span className="text-sm">Обложка</span>
           <span className="ml-auto text-xs text-muted-foreground">AI</span>
         </Button>
       )}
       {showCover && (
         <Button
           variant="ghost"
-          className="w-full justify-start gap-3 h-12 rounded-xl hover:bg-purple-500/10 group"
+          className="w-full justify-start gap-3 h-10 rounded-lg hover:bg-purple-500/10 group"
           onClick={() => onAction('cover')}
         >
-          <div className="w-9 h-9 rounded-lg bg-purple-500/10 flex items-center justify-center group-hover:bg-purple-500/20 transition-colors">
-            <Disc className="w-4 h-4 text-purple-500" />
+          <div className="w-7 h-7 rounded-md bg-purple-500/10 flex items-center justify-center group-hover:bg-purple-500/20 transition-colors">
+            <Disc className="w-3.5 h-3.5 text-purple-500" />
           </div>
-          <span className="font-medium">Кавер версия</span>
+          <span className="text-sm">Кавер версия</span>
         </Button>
       )}
       {showExtend && (
         <Button
           variant="ghost"
-          className="w-full justify-start gap-3 h-12 rounded-xl hover:bg-green-500/10 group"
+          className="w-full justify-start gap-3 h-10 rounded-lg hover:bg-green-500/10 group"
           onClick={() => onAction('extend')}
         >
-          <div className="w-9 h-9 rounded-lg bg-green-500/10 flex items-center justify-center group-hover:bg-green-500/20 transition-colors">
-            <Plus className="w-4 h-4 text-green-500" />
+          <div className="w-7 h-7 rounded-md bg-green-500/10 flex items-center justify-center group-hover:bg-green-500/20 transition-colors">
+            <Plus className="w-3.5 h-3.5 text-green-500" />
           </div>
-          <span className="font-medium">Расширить трек</span>
+          <span className="text-sm">Расширить трек</span>
         </Button>
       )}
       {showRemix && (
         <Button
           variant="ghost"
-          className="w-full justify-start gap-3 h-12 rounded-xl hover:bg-amber-500/10 group"
+          className="w-full justify-start gap-3 h-10 rounded-lg hover:bg-amber-500/10 group"
           onClick={() => onAction('remix')}
           disabled={isProcessing}
         >
-          <div className="w-9 h-9 rounded-lg bg-amber-500/10 flex items-center justify-center group-hover:bg-amber-500/20 transition-colors">
-            <Music className="w-4 h-4 text-amber-500" />
+          <div className="w-7 h-7 rounded-md bg-amber-500/10 flex items-center justify-center group-hover:bg-amber-500/20 transition-colors">
+            <Music className="w-3.5 h-3.5 text-amber-500" />
           </div>
-          <span className="font-medium">Ремикс</span>
+          <span className="text-sm">Ремикс</span>
         </Button>
       )}
       {showAddVocals && (
         <Button
           variant="ghost"
-          className="w-full justify-start gap-3 h-12 rounded-xl hover:bg-blue-500/10 group"
+          className="w-full justify-start gap-3 h-10 rounded-lg hover:bg-blue-500/10 group"
           onClick={() => onAction('add_vocals')}
           disabled={isProcessing}
         >
-          <div className="w-9 h-9 rounded-lg bg-blue-500/10 flex items-center justify-center group-hover:bg-blue-500/20 transition-colors">
-            <Mic2 className="w-4 h-4 text-blue-500" />
+          <div className="w-7 h-7 rounded-md bg-blue-500/10 flex items-center justify-center group-hover:bg-blue-500/20 transition-colors">
+            <Mic2 className="w-3.5 h-3.5 text-blue-500" />
           </div>
-          <span className="font-medium">Добавить вокал</span>
+          <span className="text-sm">Добавить вокал</span>
         </Button>
       )}
       {showAddInstrumental && (
         <Button
           variant="ghost"
-          className="w-full justify-start gap-3 h-12 rounded-xl hover:bg-orange-500/10 group"
+          className="w-full justify-start gap-3 h-10 rounded-lg hover:bg-orange-500/10 group"
           onClick={() => onAction('add_instrumental')}
           disabled={isProcessing}
         >
-          <div className="w-9 h-9 rounded-lg bg-orange-500/10 flex items-center justify-center group-hover:bg-orange-500/20 transition-colors">
-            <Guitar className="w-4 h-4 text-orange-500" />
+          <div className="w-7 h-7 rounded-md bg-orange-500/10 flex items-center justify-center group-hover:bg-orange-500/20 transition-colors">
+            <Guitar className="w-3.5 h-3.5 text-orange-500" />
           </div>
-          <span className="font-medium">Добавить инструментал</span>
+          <span className="text-sm">Добавить инструментал</span>
         </Button>
       )}
     </div>

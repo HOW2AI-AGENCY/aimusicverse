@@ -1,6 +1,8 @@
 import type { Track } from '@/types/track';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { useTrackActionsState } from '@/hooks/useTrackActionsState';
 import { InfoActions } from './sections/InfoActions';
 import { DownloadActions } from './sections/DownloadActions';
@@ -11,19 +13,11 @@ import { DeleteActions } from './sections/DeleteActions';
 import { QueueActionsSheet } from './sections/QueueActions';
 import { TrackDialogsPortal } from './TrackDialogsPortal';
 import { VersionsSection } from './sections/VersionsSection';
-import { QuickStemsButton } from './sections/QuickStemsButton';
 import { QuickActionsSection } from './sections/QuickActionsSection';
 import { TrackSheetHeader } from './TrackSheetHeader';
-import { ActionCategory } from './ActionCategory';
-import { AIActions } from './sections/AIActions';
 import { PlaybackActions } from './sections/PlaybackActions';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
-import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
-import { Button } from '@/components/ui/button';
-import { ChevronDown, MoreHorizontal, Layers, Sparkles, Play, Brain, Share2, Trash2 } from 'lucide-react';
-import { useState } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { Play, Sparkles, MoreHorizontal } from 'lucide-react';
 
 interface UnifiedTrackSheetProps {
   track: Track | null;
@@ -46,8 +40,6 @@ export function UnifiedTrackSheet({
   trackList,
   trackIndex 
 }: UnifiedTrackSheetProps) {
-  const [moreActionsOpen, setMoreActionsOpen] = useState(false);
-  
   // Telegram BackButton integration
   useTelegramBackButton({
     visible: open,
@@ -77,159 +69,131 @@ export function UnifiedTrackSheet({
       <Sheet open={open} onOpenChange={onOpenChange}>
         <SheetContent 
           side="bottom" 
-          className="h-auto max-h-[85vh] rounded-t-2xl overflow-hidden pb-safe"
+          className="h-[85vh] rounded-t-2xl flex flex-col pb-0"
         >
-          {/* New Enhanced Header with Cover */}
+          {/* Compact Header */}
           <TrackSheetHeader track={track} />
           
-          {/* Quick Actions - horizontal scroll bar */}
+          {/* Quick Actions - 4 items only */}
           <QuickActionsSection 
             track={track} 
             onClose={() => onOpenChange(false)}
             onDownload={onDownload}
           />
 
-          <Separator className="my-3" />
+          <Separator className="my-2" />
           
-          <ScrollArea className="max-h-[50vh] pr-2 -mr-2">
-            <div className="space-y-4 pb-4">
-              {/* Quick Stems CTA - prominent button for new tracks */}
-              <QuickStemsButton
-                track={track}
-                state={actionState}
-                onAction={executeAction}
-                isProcessing={isProcessing}
-              />
-
-              {/* Versions Section - if multiple versions exist */}
-              {versionCount > 1 && (
-                <VersionsSection track={track} />
-              )}
-
-              {/* Queue Actions - important for playback */}
-              <ActionCategory icon={Play} title="Воспроизведение" color="primary">
-                <QueueActionsSheet 
-                  track={track} 
-                  onAction={() => onOpenChange(false)}
-                  trackList={trackList}
-                  trackIndex={trackIndex}
-                />
-                <PlaybackActions 
-                  track={track} 
-                  variant="sheet"
-                  onClose={() => onOpenChange(false)}
-                />
-              </ActionCategory>
-
-              {/* Studio & Create Actions - frequently used */}
-              <ActionCategory icon={Layers} title="Студия" color="info">
-                <StudioActions
-                  track={track}
-                  state={actionState}
-                  onAction={executeAction}
-                  variant="sheet"
-                  isProcessing={isProcessing}
-                />
-              </ActionCategory>
-
-              <ActionCategory icon={Sparkles} title="Создание" color="warning">
-                <CreateActions
-                  track={track}
-                  state={actionState}
-                  onAction={executeAction}
-                  variant="sheet"
-                  isProcessing={isProcessing}
-                />
-              </ActionCategory>
-
-              {/* AI Actions - new section */}
-              <ActionCategory icon={Brain} title="AI Инструменты" color="primary">
-                <AIActions
-                  track={track}
-                  state={actionState}
-                  onAction={executeAction}
-                  variant="sheet"
-                  isProcessing={isProcessing}
-                  onClose={() => onOpenChange(false)}
-                />
-              </ActionCategory>
-
-              {/* More Actions - collapsible section for less common actions */}
-              <Collapsible open={moreActionsOpen} onOpenChange={setMoreActionsOpen}>
-                <CollapsibleTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-between gap-3 h-12 mt-2 border border-border/50 rounded-xl"
-                  >
-                    <div className="flex items-center gap-3">
-                      <MoreHorizontal className="w-5 h-5" />
-                      <span>Ещё действия</span>
-                    </div>
-                    <motion.div
-                      animate={{ rotate: moreActionsOpen ? 180 : 0 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <ChevronDown className="w-4 h-4" />
-                    </motion.div>
-                  </Button>
-                </CollapsibleTrigger>
-                <AnimatePresence>
-                  {moreActionsOpen && (
-                    <CollapsibleContent forceMount>
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                        className="overflow-hidden space-y-4 pt-4"
-                      >
-                        {/* Info Actions */}
-                        <div className="space-y-1">
-                          <InfoActions
-                            track={track}
-                            state={actionState}
-                            onAction={executeAction}
-                            variant="sheet"
-                            isProcessing={isProcessing}
-                          />
-                        </div>
-
-                        {/* Share Actions */}
-                        <ActionCategory icon={Share2} title="Поделиться" color="success">
-                          <DownloadActions
-                            track={track}
-                            state={actionState}
-                            onAction={executeAction}
-                            variant="sheet"
-                            isProcessing={isProcessing}
-                          />
-                          <ShareActions
-                            track={track}
-                            state={actionState}
-                            onAction={executeAction}
-                            variant="sheet"
-                            isProcessing={isProcessing}
-                          />
-                        </ActionCategory>
-
-                        <Separator className="my-2" />
-
-                        {/* Delete Actions */}
-                        <ActionCategory icon={Trash2} title="Опасная зона" color="danger">
-                          <DeleteActions
-                            track={track}
-                            state={actionState}
-                            onAction={executeAction}
-                            variant="sheet"
-                          />
-                        </ActionCategory>
-                      </motion.div>
-                    </CollapsibleContent>
-                  )}
-                </AnimatePresence>
-              </Collapsible>
+          {/* Versions Section - if multiple versions exist */}
+          {versionCount > 1 && (
+            <div className="mb-2">
+              <VersionsSection track={track} />
             </div>
-          </ScrollArea>
+          )}
+
+          {/* Tabs for categories */}
+          <Tabs defaultValue="playback" className="flex-1 flex flex-col min-h-0">
+            <TabsList className="grid grid-cols-3 h-10 shrink-0">
+              <TabsTrigger value="playback" className="text-xs gap-1.5">
+                <Play className="w-3.5 h-3.5" />
+                Воспроизв.
+              </TabsTrigger>
+              <TabsTrigger value="create" className="text-xs gap-1.5">
+                <Sparkles className="w-3.5 h-3.5" />
+                Создание
+              </TabsTrigger>
+              <TabsTrigger value="more" className="text-xs gap-1.5">
+                <MoreHorizontal className="w-3.5 h-3.5" />
+                Ещё
+              </TabsTrigger>
+            </TabsList>
+
+            {/* Tab Content - Scrollable */}
+            <div className="flex-1 min-h-0 mt-2">
+              <TabsContent value="playback" className="h-full m-0">
+                <ScrollArea className="h-full">
+                  <div className="space-y-1 pb-safe pr-2">
+                    <QueueActionsSheet 
+                      track={track} 
+                      onAction={() => onOpenChange(false)}
+                      trackList={trackList}
+                      trackIndex={trackIndex}
+                    />
+                    <Separator className="my-2" />
+                    <PlaybackActions 
+                      track={track} 
+                      variant="sheet"
+                      onClose={() => onOpenChange(false)}
+                    />
+                  </div>
+                </ScrollArea>
+              </TabsContent>
+
+              <TabsContent value="create" className="h-full m-0">
+                <ScrollArea className="h-full">
+                  <div className="space-y-1 pb-safe pr-2">
+                    <StudioActions
+                      track={track}
+                      state={actionState}
+                      onAction={executeAction}
+                      variant="sheet"
+                      isProcessing={isProcessing}
+                    />
+                    <Separator className="my-2" />
+                    <CreateActions
+                      track={track}
+                      state={actionState}
+                      onAction={executeAction}
+                      variant="sheet"
+                      isProcessing={isProcessing}
+                    />
+                  </div>
+                </ScrollArea>
+              </TabsContent>
+
+              <TabsContent value="more" className="h-full m-0">
+                <ScrollArea className="h-full">
+                  <div className="space-y-1 pb-safe pr-2">
+                    {/* Info */}
+                    <InfoActions
+                      track={track}
+                      state={actionState}
+                      onAction={executeAction}
+                      variant="sheet"
+                      isProcessing={isProcessing}
+                    />
+                    
+                    <Separator className="my-2" />
+                    
+                    {/* Download & Share */}
+                    <DownloadActions
+                      track={track}
+                      state={actionState}
+                      onAction={executeAction}
+                      variant="sheet"
+                      isProcessing={isProcessing}
+                    />
+                    <ShareActions
+                      track={track}
+                      state={actionState}
+                      onAction={executeAction}
+                      variant="sheet"
+                      isProcessing={isProcessing}
+                    />
+                    
+                    <Separator className="my-3" />
+                    
+                    {/* Delete - Danger Zone */}
+                    <DeleteActions
+                      track={track}
+                      state={actionState}
+                      onAction={executeAction}
+                      variant="sheet"
+                    />
+                  </div>
+                </ScrollArea>
+              </TabsContent>
+            </div>
+          </Tabs>
         </SheetContent>
       </Sheet>
 
