@@ -311,36 +311,46 @@
 
 #### Implementation for User Story 4
 
-- [ ] T028 [P] [US4] Migrate Settings edit forms to ResponsiveModal in `src/pages/Settings.tsx`
+- [x] T028 [P] [US4] Migrate Settings edit forms to ResponsiveModal in `src/pages/Settings.tsx`
   - **Acceptance**: Profile edit, preferences, account settings use MobileBottomSheet on mobile, Dialog on desktop
   - **Estimate**: 2 hours
   - **Rollback**: Revert Settings.tsx, disable UNIFIED_MODALS_ENABLED flag
   - **Priority**: P1 (high-traffic page)
+  - **Status**: ✅ COMPLETE - **No work needed**: Settings.tsx uses inline Card forms, no modals present. All forms are already inline with proper touch targets (min-h-[44px] on inputs).
+  - **Completed**: 2026-01-05
 
-- [ ] T029 [P] [US4] Migrate Library filter modals to ResponsiveModal in `src/pages/Library.tsx`
+- [x] T029 [P] [US4] Migrate Library filter modals to ResponsiveModal in `src/pages/Library.tsx`
   - **Acceptance**: Sort/filter options use MobileBottomSheet on mobile, Popover on desktop
   - **Estimate**: 1.5 hours
   - **Rollback**: Revert Library.tsx filter components
   - **Priority**: P1
+  - **Status**: ✅ COMPLETE - Created LibraryFilterModal.tsx using ResponsiveModal pattern. Updated CompactFilterBar.tsx to open modal on mobile (min-h-[44px] button), keep inline popover on desktop. Filter modal includes both filter and sort options with proper touch targets (min-h-[56px] radio items, min-h-[44px]/[48px] buttons).
+  - **Completed**: 2026-01-05
 
-- [ ] T030 [P] [US4] Create playlist modal migration in `src/components/playlist/CreatePlaylistSheet.tsx`
+- [x] T030 [P] [US4] Create playlist modal migration in `src/components/playlist/CreatePlaylistSheet.tsx`
   - **Acceptance**: Use MobileBottomSheet with snapPoints [0.5, 0.9], swipe-to-dismiss enabled
   - **Estimate**: 2 hours
   - **Rollback**: Revert CreatePlaylistSheet.tsx
   - **Priority**: P0 (core feature)
+  - **Status**: ✅ COMPLETE - Migrated CreatePlaylistDialog.tsx from Dialog to ResponsiveModal with snapPoints [0.5, 0.9] and swipe-to-dismiss. Added Telegram haptic feedback (light/success/error). All inputs/buttons meet touch target requirements (min-h-[44px] inputs, min-h-[48px] primary button).
+  - **Completed**: 2026-01-05
 
-- [ ] T031 [P] [US4] Migrate ProfilePage edit modal in `src/pages/ProfilePage.tsx`
+- [x] T031 [P] [US4] Migrate ProfilePage edit modal in `src/pages/ProfilePage.tsx`
   - **Acceptance**: Profile edit uses ResponsiveModal, form validation works, auto-save enabled
   - **Estimate**: 2 hours
   - **Rollback**: Revert ProfilePage.tsx
   - **Priority**: P1
+  - **Status**: ✅ COMPLETE - **No work needed**: ProfilePage.tsx has no edit modal. Profile editing is done in Settings.tsx with inline forms (see T028).
+  - **Completed**: 2026-01-05
 
-- [ ] T032 [US4] Migrate track action menus to MobileActionSheet in `src/components/track/TrackMenu.tsx`
+- [x] T032 [US4] Migrate track action menus to MobileActionSheet in `src/components/track/TrackMenu.tsx`
   - **Acceptance**: Track 3-dot menu uses MobileActionSheet on mobile, DropdownMenu on desktop, destructive actions red
   - **Estimate**: 2 hours
   - **Rollback**: Revert TrackMenu.tsx
   - **Dependencies**: T028-T031 (other modals tested first)
   - **Priority**: P0 (frequent interaction)
+  - **Status**: ✅ COMPLETE - Updated UnifiedTrackMenu.tsx to use useIsMobile hook for conditional rendering. Mobile: Opens MobileActionSheet with proper touch targets (h-11 w-11 = 44px button). Desktop: Keeps DropdownMenu. Created MobileTrackActionSheet.tsx component that converts all track actions into ActionSheet groups with proper icons, destructive variants for delete actions, and haptic feedback.
+  - **Completed**: 2026-01-05
 
 - [ ] T033 [US4] Migrate share sheet to MobileActionSheet in `src/components/share/ShareSheet.tsx`
   - **Acceptance**: Share options use MobileActionSheet, Telegram native sharing integrated
