@@ -22,6 +22,7 @@ import { LoadingScreen } from "@/components/UnifiedSplashScreen";
 import { ProfileSetupGuard } from "@/components/profile/ProfileSetupGuard";
 import { NavigationProvider } from "@/components/NavigationProvider";
 import { initSentry } from "@/lib/sentry";
+import { SentryTestButton } from "@/components/dev/SentryTestButton";
 
 // Initialize Sentry error tracking
 initSentry();
@@ -228,6 +229,7 @@ const App = () => (
           </TelegramProvider>
         </ThemeProvider>
       </QueryClientProvider>
+      {import.meta.env.DEV && <SentryTestButton />}
     </ErrorBoundary>
   </ErrorBoundaryWrapper>
 );

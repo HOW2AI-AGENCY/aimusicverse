@@ -260,3 +260,6 @@ verify_jwt = false
 
 [functions.replicate-audio-upscale]
 verify_jwt = true
+
+[functions.replicate-audio-watermark]
+verify_jwt = true
