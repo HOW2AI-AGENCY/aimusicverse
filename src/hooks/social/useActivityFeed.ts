@@ -134,7 +134,7 @@ export function useActivityFeed(options?: {
           likes_count,
           play_count,
           user_id,
-          profiles!inner (
+          profiles (
             user_id,
             display_name,
             username,
