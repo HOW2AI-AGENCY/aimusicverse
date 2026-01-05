@@ -66,7 +66,7 @@ export const AudioCoverDialog = ({
   // Advanced (collapsed by default)
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [negativeTags, setNegativeTags] = useState('');
-  const [vocalGender, setVocalGender] = useState<'m' | 'f' | ''>('');
+  const [vocalGender, setVocalGender] = useState<'m' | 'f' | 'auto'>('auto');
   
   // Validation
   const [durationError, setDurationError] = useState<string | null>(null);
@@ -229,7 +229,7 @@ export const AudioCoverDialog = ({
           title: title || 'Кавер',
           prompt: instrumental ? undefined : lyrics,
           negativeTags: negativeTags || undefined,
-          vocalGender: vocalGender || undefined,
+          vocalGender: vocalGender === 'auto' ? undefined : vocalGender,
           projectId,
         }
       });
@@ -246,7 +246,7 @@ export const AudioCoverDialog = ({
       setTitle('');
       setLyrics('');
       setNegativeTags('');
-      setVocalGender('');
+      setVocalGender('auto');
       onOpenChange(false);
     } catch (error) {
       logger.error('Cover submit error', { error });
@@ -411,7 +411,7 @@ export const AudioCoverDialog = ({
             {!instrumental && (
               <div>
                 <Label className="text-xs">Пол вокала</Label>
-                <Select value={vocalGender || "auto"} onValueChange={(v) => setVocalGender(v === "auto" ? '' : v as 'm' | 'f')}>
+                <Select value={vocalGender} onValueChange={(v) => setVocalGender(v as 'm' | 'f' | 'auto')}>
                   <SelectTrigger className="mt-1 h-8 text-sm">
                     <SelectValue />
                   </SelectTrigger>

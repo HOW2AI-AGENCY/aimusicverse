@@ -41,7 +41,7 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
   // Advanced settings
   const [model, setModel] = useState(track.suno_model || 'V4_5ALL');
   const [negativeTags, setNegativeTags] = useState('');
-  const [vocalGender, setVocalGender] = useState<'m' | 'f' | ''>('');
+  const [vocalGender, setVocalGender] = useState<'m' | 'f' | 'auto'>('auto');
   const [styleWeight, setStyleWeight] = useState([0.65]);
   const [weirdnessConstraint, setWeirdnessConstraint] = useState([0.5]);
   const [audioWeight, setAudioWeight] = useState([0.65]);
@@ -87,7 +87,7 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
           title: useCustomParams ? title : undefined,
           model,
           negativeTags: negativeTags || undefined,
-          vocalGender: vocalGender || undefined,
+          vocalGender: vocalGender === 'auto' ? undefined : vocalGender,
           styleWeight: styleWeight[0],
           weirdnessConstraint: weirdnessConstraint[0],
           audioWeight: audioWeight[0],
@@ -292,7 +292,7 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
             {track.has_vocals && (
               <div>
                 <Label htmlFor="vocal-gender">Пол вокала</Label>
-                <Select value={vocalGender || "auto"} onValueChange={(v) => setVocalGender(v === "auto" ? '' : v as 'm' | 'f')}>
+                <Select value={vocalGender} onValueChange={(v) => setVocalGender(v as 'm' | 'f' | 'auto')}>
                   <SelectTrigger className="mt-2">
                     <SelectValue placeholder="Автоматически" />
                   </SelectTrigger>
