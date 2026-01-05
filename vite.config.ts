@@ -84,11 +84,45 @@ export default defineConfig(({ mode }) => ({
       compress: {
         drop_console: mode === "production",
         drop_debugger: true,
-        pure_funcs: mode === "production" ? ["console.log", "console.info", "console.debug"] : [],
-        passes: 2,
+        pure_funcs: mode === "production" ? ["console.log", "console.info", "console.debug", "console.trace"] : [],
+        passes: 3, // Increased from 2 to 3 for better compression
+        unsafe: false, // Keep safe for production
+        unsafe_comps: false,
+        unsafe_math: false,
+        // Additional aggressive optimizations
+        arguments: true,
+        booleans_as_integers: false, // Keep false for compatibility
+        computed_props: true,
+        conditionals: true,
+        dead_code: true,
+        directives: true,
+        evaluate: true,
+        hoist_funs: true,
+        hoist_props: true,
+        hoist_vars: false, // Keep false to avoid var hoisting issues
+        if_return: true,
+        join_vars: true,
+        keep_fargs: false, // Remove unused function arguments
+        keep_infinity: false, // Convert Infinity to 1/0
+        loops: true,
+        negate_iife: true,
+        properties: true,
+        reduce_funcs: true,
+        reduce_vars: true,
+        sequences: true,
+        side_effects: true,
+        switches: true,
+        typeofs: true,
+        unused: true,
       },
       mangle: {
         safari10: true,
+        toplevel: false, // Don't mangle top-level names
+        properties: false, // Don't mangle properties (can break things)
+      },
+      format: {
+        comments: false, // Remove all comments
+        ecma: 2020,
       },
     },
     rollupOptions: {
@@ -183,6 +217,7 @@ export default defineConfig(({ mode }) => ({
           }
           
           // Feature-based code splitting
+          // Pages - separate chunks for each major page
           if (id.includes("/pages/StemStudio")) {
             return "page-stem-studio";
           }
@@ -192,14 +227,34 @@ export default defineConfig(({ mode }) => ({
           if (id.includes("/pages/MusicGraph")) {
             return "page-music-graph";
           }
-          if (id.includes("/components/stem-studio/")) {
+          if (id.includes("/pages/Studio")) {
+            return "page-studio";
+          }
+          if (id.includes("/pages/LyricsStudio") || id.includes("/pages/LyricsWorkspace")) {
+            return "page-lyrics-studio";
+          }
+          if (id.includes("/pages/Projects")) {
+            return "page-projects";
+          }
+          if (id.includes("/pages/Analytics")) {
+            return "page-analytics";
+          }
+          
+          // Feature components - split heavy feature sets
+          if (id.includes("/components/stem-studio/") || id.includes("/components/audio-reference/")) {
             return "feature-stem-studio";
           }
-          if (id.includes("/components/lyrics/")) {
-            return "feature-lyrics";
+          if (id.includes("/components/lyrics/") || id.includes("/components/lyrics-workspace/")) {
+            return "feature-lyrics-wizard";
           }
           if (id.includes("/components/generate-form/")) {
-            return "feature-generate";
+            return "feature-generation-form";
+          }
+          if (id.includes("/components/studio/")) {
+            return "feature-studio";
+          }
+          if (id.includes("/components/analytics/")) {
+            return "feature-analytics";
           }
         },
         chunkFileNames: "assets/[name]-[hash].js",
