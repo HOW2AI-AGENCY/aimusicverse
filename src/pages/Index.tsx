@@ -5,8 +5,8 @@ import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import { useProfile } from "@/hooks/useProfile.tsx";
 import { usePublicContentBatch, getGenrePlaylists } from "@/hooks/usePublicContent";
 import { HomeHeader } from "@/components/home/HomeHeader";
-import { HomeSkeletonEnhanced } from "@/components/home/HomeSkeletonEnhanced";
-import { LazySection, SectionSkeleton } from "@/components/lazy/LazySection";
+import { SectionSkeleton as UnifiedSectionSkeleton, GridSkeleton } from "@/components/ui/skeleton-components";
+import { LazySection } from "@/components/lazy/LazySection";
 import { motion, useReducedMotion } from '@/lib/motion';
 import { SEOHead, SEO_PRESETS } from "@/components/SEOHead";
 import { QuickCreatePreset } from "@/constants/quickCreatePresets";
@@ -147,7 +147,12 @@ const Index = () => {
         )}
 
         {/* Loading Skeleton */}
-        {contentLoading && !publicContent && <HomeSkeletonEnhanced />}
+        {contentLoading && !publicContent && (
+          <div className="space-y-5">
+            <UnifiedSectionSkeleton contentType="grid" gridCount={4} gridColumns={2} />
+            <UnifiedSectionSkeleton contentType="carousel" />
+          </div>
+        )}
 
         {/* CTA for guests */}
         {!user && (
