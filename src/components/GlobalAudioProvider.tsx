@@ -583,7 +583,27 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
         const uniqueUrls = Array.from(new Set(allAudioUrls));
         
         // Step 3: Filter out the current failed URL
-        const fallbackChain = uniqueUrls.filter(url => url !== audio.src);
+        let fallbackChain = uniqueUrls.filter(url => url !== audio.src);
+        
+        // Step 4: CRITICAL FIX - If fallback chain is empty (all URLs are the same),
+        // add a cache-busting retry of the original URL
+        // This handles cases where streaming_url, audio_url, and local_audio_url all point to the same resource
+        let isRetryingSameUrl = false;
+        if (fallbackChain.length === 0 && uniqueUrls.length > 0) {
+          // Extract the base URL without existing query params
+          const baseUrl = uniqueUrls[0]!;
+          const urlSeparator = baseUrl.includes('?') ? '&' : '?';
+          const cacheBustingUrl = `${baseUrl}${urlSeparator}retry=${Date.now()}`;
+          fallbackChain = [cacheBustingUrl];
+          isRetryingSameUrl = true;
+          
+          logger.info('All audio URLs are identical, retrying with cache-busting', {
+            trackId: activeTrack?.id,
+            originalUrl: baseUrl.substring(0, 60),
+            uniqueUrlsCount: uniqueUrls.length,
+            isMobile: isMobileBrowser,
+          });
+        }
         
         if (fallbackChain.length > 0) {
           const fallbackUrl = fallbackChain[0];
@@ -595,6 +615,8 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
             fallbackUrl: fallbackUrl?.substring(0, 60),
             fallbacksRemaining: fallbackChain.length,
             recoveryAttempt: true,
+            isRetryingSameUrl,
+            strategy: isRetryingSameUrl ? 'cache-busting-retry' : 'alternative-url',
           });
           
           // Save current time before switching source
@@ -619,15 +641,21 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
                   trackId: activeTrack?.id,
                   isMobile: isMobileBrowser,
                   fallbackUsed: fallbackUrl?.substring(0, 60),
+                  wasRetryingSameUrl: isRetryingSameUrl,
                 });
               } catch (playErr) {
                 // Recovery failed - NOW log to Sentry
-                logger.error('❌ Recovery play after format error failed', playErr, errorContext);
+                logger.error('❌ Recovery play after format error failed', playErr, {
+                  ...errorContext,
+                  fallbackUrl: fallbackUrl?.substring(0, 60),
+                  wasRetryingSameUrl: isRetryingSameUrl,
+                });
                 recordError(`audio:${errorCode}:recovery_failed`, 
                   audio.error?.message || 'Recovery failed after format error', 
                   {
                     ...errorContext,
                     fallbackUrl: fallbackUrl?.substring(0, 60),
+                    wasRetryingSameUrl: isRetryingSameUrl,
                   }
                 );
               }
