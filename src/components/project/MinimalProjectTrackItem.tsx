@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, memo } from 'react';
+import { useState, useEffect, useRef, memo, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
@@ -148,6 +148,13 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
 
   // Check if we have actual lyrics content (use new lyrics field, fallback to notes for backward compat)
   const hasLyricsContent = !!(track.lyrics || linkedTrack?.lyrics);
+
+  // Check if ready to generate - need lyrics >= 50 chars and not just a prompt
+  const isReadyToGenerate = useMemo(() => {
+    if (lyricsStatus === 'prompt') return false;
+    const lyricsText = track.lyrics || linkedTrack?.lyrics || '';
+    return lyricsText.length >= 50;
+  }, [track.lyrics, linkedTrack?.lyrics, lyricsStatus]);
 
   // Track lyrics changes for animation
   const prevLyricsRef = useRef(track.lyrics);
@@ -391,9 +398,11 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
                   <Button
                     size="sm"
                     onClick={handleGenerateClick}
+                    disabled={!isReadyToGenerate}
                     className={cn(
                       "gap-0.5",
                       isMobile ? "h-9 px-3 text-xs" : "h-7 px-2 text-[10px]",
+                      !isReadyToGenerate && "opacity-50 cursor-not-allowed",
                       lyricsStatus === 'prompt' ? "bg-amber-500/80 hover:bg-amber-500" : "bg-primary/90"
                     )}
                   >
@@ -401,11 +410,13 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
                     {!isMobile && 'Создать'}
                   </Button>
                 </TooltipTrigger>
-                {lyricsStatus === 'prompt' && (
-                  <TooltipContent side="top" className="text-xs max-w-[200px]">
-                    Лирика ещё не готова. Нажмите чтобы увидеть предупреждение.
-                  </TooltipContent>
-                )}
+                <TooltipContent side="top" className="text-xs max-w-[200px]">
+                  {lyricsStatus === 'prompt' 
+                    ? 'Сначала сгенерируйте текст песни через AI Wizard' 
+                    : !hasLyricsContent 
+                      ? 'Требуется текст песни (минимум 50 символов)'
+                      : 'Нажмите для генерации трека'}
+                </TooltipContent>
               </Tooltip>
             )}
 
