@@ -181,17 +181,19 @@
   - **Priority**: P0 (frequent interaction)
   - **Completed**: Menu button updated to h-11 w-11 (44px), desktop play button to w-10 h-10 with touch-target-44
 
-- [ ] T018 [P] [US2] Merge MinimalTrackCard and ProfessionalTrackRow into TrackCard variants in `src/components/track/TrackCard.tsx`
+- [x] T018 [P] [US2] Merge MinimalTrackCard and ProfessionalTrackRow into TrackCard variants in `src/components/track/TrackCard.tsx`
   - **Acceptance**: TrackCard supports `variant="default" | "compact" | "minimal" | "professional"`, old components deprecated
   - **Estimate**: 3 hours
   - **Rollback**: Restore MinimalTrackCard.tsx and ProfessionalTrackRow.tsx files, revert TrackCard.tsx
   - **Priority**: P2 (cleanup, not blocking)
+  - **Completed**: UnifiedTrackCard now supports all variants including professional glassmorphism design
 
-- [ ] T019 [US2] Add pull-to-refresh to VirtualizedTrackList in `src/components/library/VirtualizedTrackList.tsx`
+- [x] T019 [US2] Add pull-to-refresh to VirtualizedTrackList in `src/components/library/VirtualizedTrackList.tsx`
   - **Acceptance**: Pull-down gesture triggers refresh, loading indicator shown, haptic feedback fires
   - **Estimate**: 2 hours
   - **Rollback**: Remove pull-to-refresh code, feature flag off
   - **Dependencies**: T016, T017 (touch targets fixed)
+  - **Completed**: Pull-to-refresh implemented with touch handlers, animated indicator, and haptic feedback
 
 - [ ] T020 [US2] Apply VirtualizedTrackList to Playlists page in `src/pages/Playlists.tsx`
   - **Acceptance**: Playlist track lists use VirtualizedTrackList, smooth 60 FPS scrolling with 500+ tracks
@@ -199,6 +201,8 @@
   - **Rollback**: Revert Playlists.tsx to use .map(), disable VIRTUALIZED_LISTS_ENABLED flag
   - **Dependencies**: T019
   - **Priority**: P0 (performance critical)
+  - **Status**: ⚠️ BLOCKED - Playlists.tsx currently shows playlist cards, not track lists. No playlist detail view exists. Needs product decision on implementation approach.
+  - **Notes**: Research.md indicates P0 priority for "playlist track display" but current implementation doesn't have this feature yet.
 
 - [ ] T021 [US2] Apply VirtualizedTrackList to Community page in `src/pages/Community.tsx`
   - **Acceptance**: Community feed uses VirtualizedTrackList, infinite scroll works
@@ -206,6 +210,7 @@
   - **Rollback**: Revert Community.tsx
   - **Dependencies**: T019
   - **Priority**: P0 (performance critical)
+  - **Status**: 📋 READY - Community.tsx uses .map() for track rendering (lines 205-214, 246-255). Straightforward migration to VirtualizedTrackList.
 
 - [ ] T022 [US2] Performance test with Chrome DevTools on lists >500 items
   - **Acceptance**: Maintain 60 FPS during scrolling, memory usage <100MB increase

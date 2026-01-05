@@ -2,7 +2,9 @@
  * @deprecated Use UnifiedTrackCard from '@/components/track' instead
  * This component is kept for backward compatibility but will be removed in future.
  * 
- * Migration: Replace with UnifiedTrackCard variant="grid" or variant="list"
+ * Migration: Replace with UnifiedTrackCard variant="compact" or variant="minimal"
+ * 
+ * T018 COMPLETE: MinimalTrackCard features merged into UnifiedTrackCard
  */
 
 import { Card } from '@/components/ui/card';

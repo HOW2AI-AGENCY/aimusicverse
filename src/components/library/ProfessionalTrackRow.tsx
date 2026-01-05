@@ -1,6 +1,13 @@
 /**
  * ProfessionalTrackRow - Modern, stylish track list item
  * 
+ * @deprecated Use UnifiedTrackCard from '@/components/track' with variant="professional"
+ * This component is kept for backward compatibility but will be removed in future.
+ * 
+ * Migration: Replace with UnifiedTrackCard variant="professional"
+ * 
+ * T018 COMPLETE: ProfessionalTrackRow features merged into UnifiedTrackCard
+ * 
  * Features:
  * - Sleek glassmorphism design
  * - Animated waveform visualization for playing tracks
