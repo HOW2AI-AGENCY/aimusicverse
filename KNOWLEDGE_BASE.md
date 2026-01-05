@@ -1,7 +1,7 @@
 # 📚 БАЗА ЗНАНИЙ ПРОЕКТА MusicVerse AI
 
 > **Последнее обновление:** 2026-01-05 (Session 10)  
-> **Версия проекта:** 1.2.3 (Sprint 030 - Library & Track Actions Optimization)
+> **Версия проекта:** 1.2.4 (Sprint 030 - Library & Track Actions Optimization)
 
 ---
 
@@ -42,6 +42,21 @@
 - React Query кэширование (staleTime: 1 min, gcTime: 5 min)
 - Optimistic UI updates для instant feedback
 - Skeleton loader вместо spinner
+
+**9. Reusable Library Components (NEW)**
+- `DurationBadge` — форматированное отображение длительности трека
+- `PlayOverlay` — overlay воспроизведения с hover эффектами
+- `TrackBadges` — badges версий, стемов, позиции в очереди
+- `ViewModeToggle` — переключатель grid/list view
+
+**Новые файлы:**
+```
+src/components/library/shared/DurationBadge.tsx
+src/components/library/shared/PlayOverlay.tsx
+src/components/library/shared/TrackBadges.tsx
+src/components/library/shared/ViewModeToggle.tsx
+src/components/library/shared/index.ts
+```
 
 **Файлы изменены:**
 - `src/components/library/ModelBadge.tsx`
