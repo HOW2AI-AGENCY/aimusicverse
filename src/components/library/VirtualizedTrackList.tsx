@@ -282,12 +282,15 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
   }
 
   // List view with Virtuoso
+  // Fixed item height to prevent infinite recalculation loops
+  // 3-row layout: ~100px (cover 52 + padding + 3 rows of content)
   return (
     <TrackListProvider tracks={tracks}>
       <Virtuoso
         useWindowScroll
         data={tracks}
         overscan={200}
+        defaultItemHeight={100}
         computeItemKey={computeItemKey}
         components={listComponents}
         endReached={handleEndReached}
