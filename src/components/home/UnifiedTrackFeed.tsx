@@ -3,12 +3,14 @@ import { motion } from '@/lib/motion';
 import { Flame, TrendingUp, Music2, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 import { useNavigate } from 'react-router-dom';
 import { TrackCardEnhanced } from './TrackCardEnhanced';
 import { GenreFilterChips, GENRES } from './GenreFilterChips';
 import type { PublicTrackWithCreator } from '@/hooks/usePublicContent';
+import { ResponsiveGrid } from '@/components/common/ResponsiveGrid';
+import { GridSkeleton, TrackCardSkeleton } from '@/components/ui/skeleton-components';
+import { EmptyState } from '@/components/common/EmptyState';
 
 type FeedTab = 'new' | 'popular' | 'genre';
 
@@ -136,42 +138,38 @@ export const UnifiedTrackFeed = memo(function UnifiedTrackFeed({
 
       {/* Track Grid */}
       {isLoading ? (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-          {[...Array(8)].map((_, i) => (
-            <Skeleton key={i} className="aspect-square rounded-xl" />
-          ))}
-        </div>
+        <GridSkeleton count={8} columns={4} SkeletonComponent={TrackCardSkeleton} />
       ) : displayTracks.length > 0 ? (
         <motion.div
           key={activeTab + selectedGenre}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.2 }}
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3"
         >
-          {displayTracks.map((track, index) => (
-            <motion.div
-              key={track.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.05, duration: 0.3 }}
-            >
-              <TrackCardEnhanced
-                track={track}
-                onRemix={onRemix}
-              />
-            </motion.div>
-          ))}
+          <ResponsiveGrid columns={4} gap={3}>
+            {displayTracks.map((track, index) => (
+              <motion.div
+                key={track.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05, duration: 0.3 }}
+              >
+                <TrackCardEnhanced
+                  track={track}
+                  onRemix={onRemix}
+                />
+              </motion.div>
+            ))}
+          </ResponsiveGrid>
         </motion.div>
       ) : (
-        <div className="text-center py-12">
-          <Music2 className="w-12 h-12 mx-auto text-muted-foreground/30 mb-3" />
-          <p className="text-sm text-muted-foreground">
-            {activeTab === 'genre' 
-              ? `Нет треков в жанре "${GENRES.find(g => g.id === selectedGenre)?.label}"`
-              : 'Треки пока не найдены'}
-          </p>
-        </div>
+        <EmptyState
+          icon={Music2}
+          title={activeTab === 'genre' 
+            ? `Нет треков в жанре "${GENRES.find(g => g.id === selectedGenre)?.label}"`
+            : 'Треки пока не найдены'}
+          variant="compact"
+        />
       )}
 
       {/* Load More hint */}
