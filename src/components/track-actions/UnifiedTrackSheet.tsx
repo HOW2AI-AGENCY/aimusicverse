@@ -21,7 +21,6 @@ import {
   Sparkles, 
   Layers, 
   Download, 
-  Share2, 
   Info, 
   Trash2 
 } from 'lucide-react';
@@ -92,10 +91,10 @@ export function UnifiedTrackSheet({
             />
           </div>
 
-          {/* Versions Section - if multiple versions exist */}
+          {/* Versions Section - inline compact badges */}
           {versionCount > 1 && (
-            <div className="px-4 mt-2">
-              <VersionsSection track={track} />
+            <div className="px-4 mt-3 flex items-center justify-between">
+              <VersionsSection track={track} compact />
             </div>
           )}
 
@@ -124,7 +123,7 @@ export function UnifiedTrackSheet({
                 />
               </CollapsibleSection>
 
-              {/* Studio Actions */}
+              {/* Studio Actions - Icon Grid */}
               <CollapsibleSection
                 title="Студия"
                 icon={Layers}
@@ -141,7 +140,7 @@ export function UnifiedTrackSheet({
                 />
               </CollapsibleSection>
 
-              {/* Create Actions */}
+              {/* Create Actions - Icon Grid */}
               <CollapsibleSection
                 title="Создать"
                 icon={Sparkles}
@@ -157,7 +156,7 @@ export function UnifiedTrackSheet({
                 />
               </CollapsibleSection>
 
-              {/* Info & Settings */}
+              {/* Info - Icon Grid */}
               <CollapsibleSection
                 title="Информация"
                 icon={Info}
@@ -173,7 +172,7 @@ export function UnifiedTrackSheet({
                 />
               </CollapsibleSection>
 
-              {/* Download & Share */}
+              {/* Download & Share - Icon Grid */}
               <CollapsibleSection
                 title="Экспорт"
                 icon={Download}

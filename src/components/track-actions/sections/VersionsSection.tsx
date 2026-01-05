@@ -1,18 +1,16 @@
 import { useState, useEffect } from 'react';
 import { Track } from '@/types/track';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
-import { GitBranch, ChevronDown, Check, Star } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { triggerHapticFeedback } from '@/lib/mobile-utils';
 import { logger } from '@/lib/logger';
-import { motion, AnimatePresence } from '@/lib/motion';
 import { formatDuration } from '@/lib/player-utils';
 
 interface VersionsSectionProps {
   track: Track;
+  compact?: boolean;
 }
 
 interface TrackVersion {
@@ -24,8 +22,7 @@ interface TrackVersion {
   is_primary: boolean | null;
 }
 
-export function VersionsSection({ track }: VersionsSectionProps) {
-  const [isOpen, setIsOpen] = useState(false);
+export function VersionsSection({ track, compact = false }: VersionsSectionProps) {
   const [versions, setVersions] = useState<TrackVersion[]>([]);
   const [activeVersionId, setActiveVersionId] = useState<string | null>(null);
   const [isVersionSwitching, setIsVersionSwitching] = useState(false);
@@ -54,7 +51,6 @@ export function VersionsSection({ track }: VersionsSectionProps) {
     setIsVersionSwitching(true);
     
     try {
-      // Update both is_primary and active_version_id for consistency
       await supabase
         .from('track_versions')
         .update({ is_primary: false })
@@ -83,85 +79,28 @@ export function VersionsSection({ track }: VersionsSectionProps) {
     }
   };
 
-
   if (versions.length <= 1) return null;
 
+  // Compact inline variant - just badges
   return (
-    <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-      <CollapsibleTrigger asChild>
-        <Button
-          variant="ghost"
-          className="w-full justify-between gap-3 h-12"
+    <div className="flex items-center gap-1.5">
+      <span className="text-xs text-muted-foreground mr-1">Версия:</span>
+      {versions.map((version) => (
+        <button
+          key={version.id}
+          onClick={() => handleVersionSwitch(version.id)}
+          disabled={isVersionSwitching}
+          className={cn(
+            'min-w-8 h-8 px-2.5 rounded-lg text-sm font-medium',
+            'transition-all duration-200 active:scale-95',
+            version.id === activeVersionId
+              ? 'bg-primary text-primary-foreground shadow-sm'
+              : 'bg-muted/50 text-muted-foreground hover:bg-muted'
+          )}
         >
-          <div className="flex items-center gap-3">
-            <GitBranch className="w-5 h-5" />
-            <span>Версии</span>
-            <Badge variant="secondary" className="ml-1">
-              {versions.length}
-            </Badge>
-          </div>
-          <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
-        </Button>
-      </CollapsibleTrigger>
-      <CollapsibleContent className="pl-4 space-y-1">
-        {versions.map((version, index) => (
-          <motion.div
-            key={version.id}
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: index * 0.05, duration: 0.2 }}
-          >
-            <Button
-              variant={version.id === activeVersionId ? 'secondary' : 'ghost'}
-              className={`w-full justify-between gap-3 h-11 transition-all duration-300 ${
-                version.id === activeVersionId 
-                  ? 'bg-primary/10 border border-primary/20 shadow-sm' 
-                  : ''
-              }`}
-              onClick={() => handleVersionSwitch(version.id)}
-              disabled={isVersionSwitching}
-            >
-              <div className="flex items-center gap-2">
-                <motion.span 
-                  className="font-medium"
-                  animate={{ 
-                    scale: version.id === activeVersionId ? 1.02 : 1,
-                  }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                >
-                  Версия {version.version_label || 'A'}
-                </motion.span>
-                {version.duration_seconds && (
-                  <span className="text-xs text-muted-foreground">
-                    ({formatDuration(version.duration_seconds)})
-                  </span>
-                )}
-              </div>
-              <div className="flex items-center gap-2">
-                {version.is_primary && (
-                  <Star className="w-3 h-3 fill-yellow-500 text-yellow-500" />
-                )}
-                <AnimatePresence mode="wait">
-                  {version.id === activeVersionId && (
-                    <motion.div
-                      initial={{ scale: 0, rotate: -180 }}
-                      animate={{ scale: 1, rotate: 0 }}
-                      exit={{ scale: 0, rotate: 180 }}
-                      transition={{ 
-                        type: "spring", 
-                        stiffness: 400, 
-                        damping: 15 
-                      }}
-                    >
-                      <Check className="w-4 h-4 text-primary" />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            </Button>
-          </motion.div>
-        ))}
-      </CollapsibleContent>
-    </Collapsible>
+          {version.version_label || 'A'}
+        </button>
+      ))}
+    </div>
   );
 }

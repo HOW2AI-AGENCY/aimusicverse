@@ -1,9 +1,9 @@
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import { Button } from '@/components/ui/button';
 import { Info, Globe, Lock, Pencil } from 'lucide-react';
 import { Track } from '@/types/track';
 import { ActionId } from '@/config/trackActionsConfig';
 import { TrackActionState, isActionAvailable } from '@/lib/trackActionConditions';
+import { IconGridButton } from '../IconGridButton';
 
 interface InfoActionsProps {
   track: Track;
@@ -54,49 +54,34 @@ export function InfoActions({ track, state, onAction, variant, isProcessing }: I
     );
   }
 
-  // Sheet variant
+  // Sheet variant - Icon Grid Layout
   return (
-    <>
+    <div className="grid grid-cols-4 gap-1">
       {showDetails && (
-        <Button
-          variant="ghost"
-          className="w-full justify-start gap-3 h-11"
+        <IconGridButton
+          icon={Info}
+          label="Детали"
+          color="sky"
           onClick={() => onAction('details')}
-        >
-          <Info className="w-4 h-4" />
-          <span>Детали трека</span>
-        </Button>
+        />
       )}
       {showRename && (
-        <Button
-          variant="ghost"
-          className="w-full justify-start gap-3 h-11"
+        <IconGridButton
+          icon={Pencil}
+          label="Имя"
+          color="amber"
           onClick={() => onAction('rename')}
-        >
-          <Pencil className="w-4 h-4" />
-          <span>Переименовать</span>
-        </Button>
+        />
       )}
       {showTogglePublic && (
-        <Button
-          variant="ghost"
-          className="w-full justify-start gap-3 h-11"
+        <IconGridButton
+          icon={track.is_public ? Lock : Globe}
+          label={track.is_public ? 'Приватный' : 'Публичный'}
+          color={track.is_public ? 'orange' : 'green'}
           onClick={() => onAction('toggle_public')}
           disabled={isProcessing}
-        >
-          {track.is_public ? (
-            <>
-              <Lock className="w-4 h-4" />
-              <span>Сделать приватным</span>
-            </>
-          ) : (
-            <>
-              <Globe className="w-4 h-4" />
-              <span>Опубликовать</span>
-            </>
-          )}
-        </Button>
+        />
       )}
-    </>
+    </div>
   );
 }
