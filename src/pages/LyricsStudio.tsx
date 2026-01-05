@@ -409,35 +409,63 @@ export default function LyricsStudio() {
     }}>
       {/* Project Header for project mode - compact multi-line on mobile */}
       {isProjectTrackMode && projectData && (
-        <div className="border-b border-border/50 bg-gradient-to-r from-muted/50 to-background">
-          {/* First row: back + logo + actions */}
-          <div className="flex items-center justify-between px-3 py-2">
+        <div className="border-b border-border/50 bg-card/50">
+          {/* Compact header row */}
+          <div className="flex items-center gap-3 px-3 py-2.5">
             <Button 
               variant="ghost" 
               size="icon" 
               onClick={handleBack}
-              className="h-9 w-9 shrink-0"
+              className="h-8 w-8 shrink-0"
             >
               <ChevronLeft className="w-5 h-5" />
             </Button>
             
-            {/* Centered logo */}
-            <div className="flex flex-col items-center">
-              <img 
-                src={logo} 
-                alt="MusicVerse AI" 
-                className="h-8 w-8 rounded-lg shadow-sm" 
-              />
+            {/* Cover + info */}
+            <div className="flex items-center gap-2.5 flex-1 min-w-0">
+              <div className="w-10 h-10 rounded-lg overflow-hidden bg-muted shrink-0 shadow-sm">
+                {projectData.cover_url ? (
+                  <img 
+                    src={projectData.cover_url} 
+                    alt={projectData.title}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/20 to-primary/5">
+                    <Music2 className="w-5 h-5 text-primary/50" />
+                  </div>
+                )}
+              </div>
+              
+              <div className="flex-1 min-w-0">
+                <p className="text-[11px] text-muted-foreground truncate">
+                  {projectData.title} • #{projectTrack?.position ?? 0 + 1}
+                </p>
+                <p className="text-sm font-semibold truncate">
+                  {title}
+                </p>
+              </div>
             </div>
             
             {/* Actions */}
             <div className="flex items-center gap-1 shrink-0">
               <Button 
+                onClick={() => {
+                  setAiPanelOpen(true);
+                  hapticImpact('light');
+                }}
+                size="icon"
+                variant="ghost"
+                className="h-8 w-8"
+              >
+                <Bot className="w-4 h-4" />
+              </Button>
+              <Button 
                 onClick={handleSave}
                 disabled={isSavingLyrics || !isDirty}
                 size="icon"
                 variant={isDirty ? "default" : "ghost"}
-                className="h-9 w-9"
+                className="h-8 w-8"
               >
                 {isSavingLyrics ? (
                   <Loader2 className="w-4 h-4 animate-spin" />
@@ -445,70 +473,33 @@ export default function LyricsStudio() {
                   <Save className="w-4 h-4" />
                 )}
               </Button>
-
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="h-9 w-9">
-                    <MoreVertical className="w-4 h-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48 bg-popover">
-                  <DropdownMenuItem onClick={() => {
-                    setAiPanelOpen(true);
-                    hapticImpact('light');
-                  }}>
-                    <Bot className="w-4 h-4 mr-2" />
-                    AI Ассистент
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => {
-                    setTagsPanelOpen(true);
-                    hapticImpact('light');
-                  }}>
-                    <Tag className="w-4 h-4 mr-2" />
-                    Теги ({globalTags.length + enrichedTags.length})
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
             </div>
           </div>
           
-          {/* Second row: cover + track info - compact */}
-          <div className="flex items-center gap-2 px-3 pb-2">
-            <div className="w-10 h-10 rounded-lg overflow-hidden bg-muted shrink-0 border border-border/50">
-              {projectData.cover_url ? (
-                <img 
-                  src={projectData.cover_url} 
-                  alt={projectData.title}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/20 to-primary/5">
-                  <Music2 className="w-5 h-5 text-primary/50" />
-                </div>
-              )}
-            </div>
-            
-            <div className="flex-1 min-w-0">
-              <p className="text-[10px] text-muted-foreground truncate">
-                {projectData.title}
-              </p>
-              <p className="text-sm font-medium truncate">
-                {projectTrack && `#${projectTrack.position + 1} `}{title}
-              </p>
-            </div>
-          </div>
-          
-          {/* Third row: tags - horizontal scroll */}
-          {(projectData.genre || projectData.mood) && (
-            <div className="flex gap-1.5 px-3 pb-2 overflow-x-auto scrollbar-hide">
+          {/* Tags row - only if present */}
+          {(projectData.genre || projectData.mood || globalTags.length > 0) && (
+            <div 
+              className="flex gap-1.5 px-3 pb-2 overflow-x-auto scrollbar-hide cursor-pointer"
+              onClick={() => setTagsPanelOpen(true)}
+            >
               {projectData.genre && (
-                <Badge variant="secondary" className="text-[10px] h-4 shrink-0">
+                <Badge variant="secondary" className="text-[10px] h-5 px-2 shrink-0 bg-primary/10 text-primary border-0">
                   {projectData.genre}
                 </Badge>
               )}
               {projectData.mood && (
-                <Badge variant="outline" className="text-[10px] h-4 shrink-0">
+                <Badge variant="outline" className="text-[10px] h-5 px-2 shrink-0">
                   {projectData.mood}
+                </Badge>
+              )}
+              {globalTags.slice(0, 3).map(tag => (
+                <Badge key={tag} variant="secondary" className="text-[10px] h-5 px-2 shrink-0">
+                  {tag}
+                </Badge>
+              ))}
+              {globalTags.length > 3 && (
+                <Badge variant="outline" className="text-[10px] h-5 px-2 shrink-0">
+                  +{globalTags.length - 3}
                 </Badge>
               )}
             </div>

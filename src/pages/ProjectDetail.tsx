@@ -246,23 +246,23 @@ export default function ProjectDetail() {
     >
       {/* Hero Section with Full-width Cover on Mobile */}
       <div className="relative">
-        {/* Full-width cover for mobile - 4:3 aspect for compactness */}
+        {/* Full-width cover for mobile - 3:2 aspect for more compact view */}
         {isMobile ? (
           <div className="relative">
-            <div className="relative w-full aspect-[4/3]">
+            <div className="relative w-full aspect-[3/2]">
               {project.cover_url ? (
                 <img
                   src={project.cover_url}
                   alt={project.title}
-                  className="w-full h-full object-contain bg-black/30"
+                  className="w-full h-full object-cover"
                 />
               ) : (
-                <div className="w-full h-full bg-gradient-to-br from-primary/20 via-secondary to-muted flex items-center justify-center">
-                  <Music className="w-16 h-16 text-muted-foreground/40" />
+                <div className="w-full h-full bg-gradient-to-br from-primary/30 via-secondary to-muted flex items-center justify-center">
+                  <Music className="w-14 h-14 text-muted-foreground/40" />
                 </div>
               )}
-              {/* Gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
+              {/* Gradient overlay - more subtle */}
+              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
               
               {/* Floating header with safe area */}
               <div 
@@ -275,33 +275,33 @@ export default function ProjectDetail() {
                   variant="secondary" 
                   size="icon" 
                   onClick={() => navigate('/projects')}
-                  className="h-10 w-10 bg-background/60 backdrop-blur-md"
+                  className="h-9 w-9 bg-background/70 backdrop-blur-md border-0 shadow-lg"
                 >
                   <ArrowLeft className="w-4 h-4" />
                 </Button>
                 
-                <Button 
-                  variant="secondary" 
-                  size="icon"
-                  onClick={() => setSettingsOpen(true)}
-                  className="h-10 w-10 bg-background/60 backdrop-blur-md"
-                >
-                  <Settings className="w-4 h-4" />
-                </Button>
+                <div className="flex gap-1.5">
+                  <Button 
+                    variant="secondary" 
+                    size="icon"
+                    onClick={() => {
+                      setSelectedTrackForMedia(null);
+                      setMediaGeneratorOpen(true);
+                    }}
+                    className="h-9 w-9 bg-background/70 backdrop-blur-md border-0 shadow-lg"
+                  >
+                    <Image className="w-4 h-4" />
+                  </Button>
+                  <Button 
+                    variant="secondary" 
+                    size="icon"
+                    onClick={() => setSettingsOpen(true)}
+                    className="h-9 w-9 bg-background/70 backdrop-blur-md border-0 shadow-lg"
+                  >
+                    <Settings className="w-4 h-4" />
+                  </Button>
+                </div>
               </div>
-              
-              {/* Media button overlay */}
-              <Button
-                size="icon"
-                variant="secondary"
-                className="absolute bottom-3 right-3 h-10 w-10 rounded-full shadow-lg bg-background/80 backdrop-blur-md"
-                onClick={() => {
-                  setSelectedTrackForMedia(null);
-                  setMediaGeneratorOpen(true);
-                }}
-              >
-                <Image className="w-4 h-4" />
-              </Button>
             </div>
           </div>
         ) : (
@@ -381,29 +381,30 @@ export default function ProjectDetail() {
 
         {/* Project Meta - shown for both mobile and desktop */}
         <div className={cn(
-          "text-center space-y-1",
-          isMobile ? "px-3 -mt-8 relative z-10" : "pt-2"
+          "text-center space-y-1.5",
+          isMobile ? "px-4 -mt-6 relative z-10" : "pt-2"
         )}>
           {isMobile && (
-            <h1 className="text-lg font-bold text-foreground mb-1.5">{project.title}</h1>
+            <h1 className="text-xl font-bold text-foreground mb-1">{project.title}</h1>
           )}
           {/* Horizontally scrollable badges on mobile */}
           <div className={cn(
-            "flex items-center justify-center gap-1.5",
-            isMobile && "overflow-x-auto scrollbar-hide justify-start pb-1 -mx-3 px-3"
+            "flex items-center gap-1.5",
+            isMobile ? "justify-center flex-wrap" : "justify-center"
           )}>
             {project.genre && (
-              <Badge variant="secondary" className="gap-0.5 text-[10px] h-5 px-1.5 shrink-0">
+              <Badge variant="secondary" className="gap-0.5 text-[10px] h-5 px-2 shrink-0 bg-primary/10 text-primary border-0">
                 <Music className="w-2.5 h-2.5" />
                 {project.genre}
               </Badge>
             )}
-            <Badge variant="outline" className="text-[10px] h-5 px-1.5 shrink-0">
+            <Badge variant="outline" className="text-[10px] h-5 px-2 shrink-0">
               {completedTracks}/{totalTracks} треков
             </Badge>
             {isPublished && (
-              <Badge variant="default" className="bg-green-500 h-5 w-5 p-0 flex items-center justify-center shrink-0" title="Опубликован">
-                <Rocket className="w-3 h-3" />
+              <Badge className="bg-emerald-500/20 text-emerald-500 border-0 h-5 px-2 gap-0.5 shrink-0">
+                <Rocket className="w-2.5 h-2.5" />
+                Опубликован
               </Badge>
             )}
           </div>
@@ -486,26 +487,22 @@ export default function ProjectDetail() {
         )}
       </div>
 
-      {/* Quick Actions Bar with scroll indicator */}
+      {/* Quick Actions Bar - simplified */}
       <div className={cn(
-        "relative",
-        isMobile ? "px-3 pb-2" : "px-4 pb-3"
+        "sticky top-0 z-30 bg-background/95 backdrop-blur-md border-b border-border/50",
+        isMobile ? "px-3 py-2" : "px-4 py-2"
       )}>
-        {/* Right fade indicator for scroll */}
-        {isMobile && (
-          <div className="absolute right-0 top-0 bottom-2 w-6 bg-gradient-to-l from-background to-transparent pointer-events-none z-10" />
-        )}
-        <div className="flex gap-1.5 overflow-x-auto scrollbar-hide">
+        <div className="flex gap-2 overflow-x-auto scrollbar-hide">
           <Button 
             size="sm"
             onClick={() => setAddTrackOpen(true)}
             className={cn(
-              "gap-1 shrink-0",
-              isMobile ? "h-9 px-3 text-xs" : "h-7 px-2 text-xs"
+              "gap-1.5 shrink-0 bg-primary",
+              isMobile ? "h-8 px-3 text-xs" : "h-7 px-3 text-xs"
             )}
           >
             <Plus className="w-3.5 h-3.5" />
-            Добавить
+            Трек
           </Button>
           <Button 
             variant="outline" 
@@ -519,39 +516,24 @@ export default function ProjectDetail() {
             })}
             disabled={isGenerating}
             className={cn(
-              "gap-1 shrink-0",
-              isMobile ? "h-9 px-3 text-xs" : "h-7 px-2 text-xs"
+              "gap-1.5 shrink-0",
+              isMobile ? "h-8 px-3 text-xs" : "h-7 px-3 text-xs"
             )}
           >
             <Sparkles className="w-3.5 h-3.5" />
-            {isGenerating ? '...' : 'AI'}
+            AI треклист
           </Button>
           <Button 
             variant="outline" 
             size="sm"
             onClick={() => setAiDialogOpen(true)}
             className={cn(
-              "gap-1 shrink-0",
-              isMobile ? "h-9 px-3 text-xs" : "h-7 px-2 text-xs"
+              "gap-1.5 shrink-0",
+              isMobile ? "h-8 px-3 text-xs" : "h-7 px-3 text-xs"
             )}
           >
             <Sparkles className="w-3.5 h-3.5" />
-            Действия
-          </Button>
-          <Button 
-            variant="outline" 
-            size="sm"
-            onClick={() => {
-              setSelectedTrackForMedia(null);
-              setMediaGeneratorOpen(true);
-            }}
-            className={cn(
-              "gap-1 shrink-0",
-              isMobile ? "h-9 px-3 text-xs" : "h-7 px-2 text-xs"
-            )}
-          >
-            <Image className="w-3.5 h-3.5" />
-            Медиа
+            AI
           </Button>
           <ShareProjectCard 
             project={{
@@ -564,38 +546,38 @@ export default function ProjectDetail() {
             }}
             variant="button"
             className={cn(
-              "gap-1 shrink-0",
-              isMobile ? "h-9 px-3 text-xs" : "h-7 px-2 text-xs"
+              "gap-1.5 shrink-0",
+              isMobile ? "h-8 px-3 text-xs" : "h-7 px-3 text-xs"
             )}
           />
         </div>
       </div>
 
-      {/* Tabs: Tracklist and Lyrics - compact on mobile */}
+      {/* Tabs: Tracklist and Lyrics */}
       <Tabs defaultValue="tracks" className="w-full">
-        <div className={cn(isMobile ? "px-3" : "px-4")}>
+        <div className={cn(isMobile ? "px-3 pt-2" : "px-4 pt-2")}>
           <TabsList className={cn(
-            "w-full grid grid-cols-2",
-            isMobile ? "h-9 mb-2" : "mb-3"
+            "w-full grid grid-cols-2 bg-muted/50",
+            isMobile ? "h-10" : "h-9"
           )}>
             <TabsTrigger value="tracks" className={cn(
-              "gap-1.5",
-              isMobile && "text-xs"
+              "gap-1.5 data-[state=active]:bg-background",
+              isMobile && "text-sm"
             )}>
-              {!isMobile && <Music className="w-3.5 h-3.5" />}
+              <Music className="w-4 h-4" />
               Треки
             </TabsTrigger>
             <TabsTrigger value="text" className={cn(
-              "gap-1.5",
-              isMobile && "text-xs"
+              "gap-1.5 data-[state=active]:bg-background",
+              isMobile && "text-sm"
             )}>
-              {!isMobile && <FileText className="w-3.5 h-3.5" />}
-              Текст
+              <FileText className="w-4 h-4" />
+              Тексты
             </TabsTrigger>
           </TabsList>
         </div>
 
-        <TabsContent value="tracks" className="mt-0">
+        <TabsContent value="tracks" className="mt-0 pt-3">
           <div className={cn(isMobile ? "px-3" : "px-4")}>
         {tracksLoading ? (
           <div className="flex items-center justify-center py-12">
