@@ -10,6 +10,8 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useTrackActionsState } from '@/hooks/useTrackActionsState';
 import { TrackDialogsPortal } from './TrackDialogsPortal';
 import { QuickActionsSection } from './sections/QuickActionsSection';
+import { PromptPreview } from './sections/PromptPreview';
+import { LyricsPreview } from './sections/LyricsPreview';
 import { TrackSheetHeader } from './TrackSheetHeader';
 import { ActionGroup, ActionDivider, ActionGridContainer } from './ActionGrid';
 import { IconGridButton } from './IconGridButton';
@@ -193,6 +195,14 @@ export function UnifiedTrackSheet({
               onVersionSwitch={handleVersionSwitch}
             />
           </div>
+
+          {/* Content previews - Prompt and Lyrics */}
+          {(track.prompt || track.style || track.lyrics) && (
+            <div className="px-4 py-2 space-y-2">
+              <PromptPreview prompt={track.prompt} style={track.style} />
+              <LyricsPreview lyrics={track.lyrics} />
+            </div>
+          )}
 
           <ActionDivider />
 

@@ -107,11 +107,13 @@ export const TrackSheetHeader = memo(function TrackSheetHeader({
         </div>
         
         {/* Row 3: Scrollable Tags */}
-        <ScrollableTagsRow 
-          style={track.style} 
-          tags={track.tags}
-          onClick={handleTagClick}
-        />
+        <div className="min-w-0 w-full">
+          <ScrollableTagsRow 
+            style={track.style} 
+            tags={track.tags}
+            onClick={handleTagClick}
+          />
+        </div>
       </div>
     </div>
   );
