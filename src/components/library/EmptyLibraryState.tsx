@@ -1,5 +1,4 @@
 import { motion } from '@/lib/motion';
-import { useNavigate } from 'react-router-dom';
 import { Sparkles, Music2, Wand2, Upload, ArrowRight, Zap, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -8,10 +7,19 @@ import { cn } from '@/lib/utils';
 interface EmptyLibraryStateProps {
   searchQuery?: string;
   className?: string;
+  navigate?: (path: string, options?: { state?: Record<string, any> }) => void;
 }
 
-export function EmptyLibraryState({ searchQuery, className }: EmptyLibraryStateProps) {
-  const navigate = useNavigate();
+export function EmptyLibraryState({ searchQuery, className, navigate }: EmptyLibraryStateProps) {
+  // Fallback if navigate is not provided
+  const handleNavigate = (path: string, options?: { state?: Record<string, any> }) => {
+    if (navigate) {
+      navigate(path, options);
+    } else {
+      // Fallback to window.location if navigate function is not available
+      window.location.href = path;
+    }
+  };
 
   if (searchQuery) {
     return (
@@ -138,7 +146,7 @@ export function EmptyLibraryState({ searchQuery, className }: EmptyLibraryStateP
       >
         <motion.div className="flex-1" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
           <Button
-            onClick={() => navigate('/', { state: { openGenerate: true } })}
+            onClick={() => handleNavigate('/', { state: { openGenerate: true } })}
             className="w-full h-14 gap-2 bg-gradient-to-r from-primary via-primary to-generate hover:from-primary/90 hover:to-generate/90 shadow-xl shadow-primary/25 text-base font-semibold rounded-2xl"
           >
             <Wand2 className="w-5 h-5" />
@@ -149,7 +157,7 @@ export function EmptyLibraryState({ searchQuery, className }: EmptyLibraryStateP
         <motion.div className="flex-1 sm:flex-none" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
           <Button
             variant="outline"
-            onClick={() => navigate('/', { state: { openGenerate: true, mode: 'upload' } })}
+            onClick={() => handleNavigate('/', { state: { openGenerate: true, mode: 'upload' } })}
             className="w-full sm:w-auto h-14 gap-2 text-base rounded-2xl border-border/50 hover:border-primary/50 hover:bg-primary/5"
           >
             <Upload className="w-5 h-5" />
@@ -174,7 +182,7 @@ export function EmptyLibraryState({ searchQuery, className }: EmptyLibraryStateP
             transition={{ delay: 0.5 + i * 0.05 }}
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => navigate('/', { state: { openGenerate: true, prompt: tag.replace(/[^\w\s]/g, '').trim() } })}
+            onClick={() => handleNavigate('/', { state: { openGenerate: true, prompt: tag.replace(/[^\w\s]/g, '').trim() } })}
             className="px-4 py-2 rounded-full text-sm bg-card hover:bg-primary/10 text-muted-foreground hover:text-foreground transition-all border border-border/50 hover:border-primary/30 shadow-sm"
           >
             {tag}
