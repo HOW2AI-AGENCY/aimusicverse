@@ -16,6 +16,7 @@ import { CreateActions } from './sections/CreateActions';
 import { DeleteActions } from './sections/DeleteActions';
 import { QueueActionsMenu } from './sections/QueueActions';
 import { QualityActions } from './sections/QualityActions';
+import { WatermarkActions } from './sections/WatermarkActions';
 import { TrackDialogsPortal } from './TrackDialogsPortal';
 
 interface UnifiedTrackMenuProps {
@@ -116,6 +117,9 @@ export function UnifiedTrackMenu({
             variant="dropdown"
             isProcessing={isProcessing}
           />
+
+          {/* Watermark Actions */}
+          <WatermarkActions track={track} />
 
           {/* Create Actions */}
           <CreateActions
