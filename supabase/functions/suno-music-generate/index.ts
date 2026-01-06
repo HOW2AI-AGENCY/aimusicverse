@@ -213,15 +213,17 @@ serve(async (req) => {
     }
 
     // Validate required fields
-    if (!prompt) {
-      logger.warn('Prompt is required');
+    const customMode = mode === 'custom';
+
+    // Prompt validation: required for simple mode and for custom mode with vocals
+    // Instrumental tracks in custom mode don't require a prompt (lyrics)
+    if (!prompt && (mode === 'simple' || (customMode && !instrumental))) {
+      logger.warn('Prompt is required', { mode, instrumental });
       return new Response(
         JSON.stringify({ success: false, error: 'Требуется описание музыки' }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
       );
     }
-
-    const customMode = mode === 'custom';
 
     if (customMode && !style) {
       logger.warn('Style is required in custom mode');
