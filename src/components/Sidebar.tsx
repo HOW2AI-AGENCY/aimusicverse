@@ -57,8 +57,7 @@ const contentNavItems = [
 
 // Studio navigation
 const studioNavItems = [
-  { path: '/studio', label: 'Студия', icon: Layers, badge: 'NEW', description: 'Unified hub' },
-  { path: '/studio-v2', label: 'DAW Studio', icon: Layers, description: 'Мультитрек редактор' },
+  { path: '/studio-v2', label: 'Студия', icon: Layers, badge: 'NEW', description: 'Мультитрек редактор' },
   { path: '/guitar-studio', label: 'Guitar Studio', icon: Guitar, badge: 'PRO', description: 'Запись и анализ гитары' },
   { path: '/playlists', label: 'Плейлисты', icon: ListMusic, showCount: true },
 ];
