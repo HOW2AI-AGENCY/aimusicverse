@@ -2,6 +2,23 @@
  * Studio Shell
  * Main layout wrapper for the unified studio with full audio integration
  * Supports both desktop and mobile layouts
+ *
+ * **Tab System (Mobile):**
+ * - **Tracks Tab (Дорожки):** Displays the multi-track timeline with sortable track list
+ * - **Lyrics Tab (Текст):** Opens the LyricsPanel for editing, version history, and AI assistance
+ *
+ * **Tab System (Desktop):**
+ * - **Timeline (Дорожки):** Timeline view with track waveforms
+ * - **Mixer (Микшер):** Mixing console with volume/pan controls
+ *
+ * @example
+ * ```tsx
+ * <StudioShell />
+ * ```
+ *
+ * @see src/components/studio/unified/LyricsPanel.tsx for lyrics editing functionality
+ * @see src/components/studio/unified/SortableTrackList.tsx for track list component
+ * @see src/stores/useUnifiedStudioStore.ts for studio state management
  */
 
 import { memo, useState, useCallback, useEffect, useMemo, useRef, Suspense, lazy } from 'react';
@@ -29,9 +46,10 @@ import { LazyAddVocalsDrawer, LazyGenerateSheet } from '@/components/lazy';
 import { ExtendTrackDialog } from '@/components/ExtendTrackDialog';
 import { SectionEditorSheet } from '@/components/studio/editor/SectionEditorSheet';
 import { AutoSaveIndicator } from './AutoSaveIndicator';
+import { LyricsPanel } from './LyricsPanel';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
@@ -68,6 +86,7 @@ import {
   Mic2,
   Sparkles,
   Layers,
+  FileText,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
@@ -198,6 +217,13 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
   const [showStemSeparationDialog, setShowStemSeparationDialog] = useState(false);
   const { separate: separateStems, isSeparating } = useStemSeparation();
 
+  /**
+   * Mobile tab state
+   * Controls which tab is active on mobile devices
+   * - 'tracks': Shows the track list (default)
+   * - 'lyrics': Shows the lyrics editing panel
+   */
+  const [mobileTab, setMobileTab] = useState<'tracks' | 'lyrics'>('tracks');
 
   // Section editor store
   const {
@@ -984,6 +1010,22 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
         </Tabs>
       )}
 
+      {/* Center: Mobile Tab Switcher (mobile only) */}
+      {isMobile && (
+        <Tabs value={mobileTab} onValueChange={(v) => setMobileTab(v as 'tracks' | 'lyrics')} className="w-auto">
+          <TabsList className="h-8">
+            <TabsTrigger value="tracks" className="h-7 px-2 gap-1">
+              <Layers className="h-4 w-4" />
+              <span className="text-xs">Дорожки</span>
+            </TabsTrigger>
+            <TabsTrigger value="lyrics" className="h-7 px-2 gap-1">
+              <FileText className="h-4 w-4" />
+              <span className="text-xs">Текст</span>
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
+      )}
+
       {/* Right: Actions */}
       <div className="flex items-center gap-1">
         {!isMobile && (
@@ -1233,40 +1275,71 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
 
       {/* Tracks list - vertical scroll */}
       <ScrollArea className="flex-1">
-        <div className={cn(
-          "p-3 space-y-2",
-          isMobile && "pb-4"
-        )}>
-          <SortableTrackList
-            tracks={displayTracks}
-            isPlaying={isPlaying}
-            currentTime={audioEngine.isReady ? audioEngine.currentTime : currentTime}
-            duration={duration}
-            hasSoloTracks={hasSoloTracks}
-            sourceTrackId={sourceTrackId}
-            stemsExist={hasStems}
-            onReorder={reorderTracks}
-            onToggleMute={toggleTrackMute}
-            onToggleSolo={toggleTrackSolo}
-            onVolumeChange={setTrackVolume}
-            onSeek={handleSeek}
-            onRemove={removeTrack}
-            onVersionChange={setTrackActiveVersion}
-            onAction={handleMobileTrackAction}
-          />
+        <Tabs value={mobileTab} className="h-full">
+          <TabsContent value="tracks" className="mt-0 h-full">
+            <div className={cn(
+              "p-3 space-y-2",
+              isMobile && "pb-4"
+            )}>
+              <SortableTrackList
+                tracks={displayTracks}
+                isPlaying={isPlaying}
+                currentTime={audioEngine.isReady ? audioEngine.currentTime : currentTime}
+                duration={duration}
+                hasSoloTracks={hasSoloTracks}
+                sourceTrackId={sourceTrackId}
+                stemsExist={hasStems}
+                onReorder={reorderTracks}
+                onToggleMute={toggleTrackMute}
+                onToggleSolo={toggleTrackSolo}
+                onVolumeChange={setTrackVolume}
+                onSeek={handleSeek}
+                onRemove={removeTrack}
+                onVersionChange={setTrackActiveVersion}
+                onAction={handleMobileTrackAction}
+              />
 
-          {project.tracks.length === 0 && (
-            <div className="flex flex-col items-center justify-center py-12 text-center">
-              <p className="text-muted-foreground mb-4">
-                Нет дорожек в проекте
-              </p>
-              <Button onClick={() => setShowAddTrackDialog(true)}>
-                <Plus className="h-4 w-4 mr-2" />
-                Добавить дорожку
-              </Button>
+              {project.tracks.length === 0 && (
+                <div className="flex flex-col items-center justify-center py-12 text-center">
+                  <p className="text-muted-foreground mb-4">
+                    Нет дорожек в проекте
+                  </p>
+                  <Button onClick={() => setShowAddTrackDialog(true)}>
+                    <Plus className="h-4 w-4 mr-2" />
+                    Добавить дорожку
+                  </Button>
+                </div>
+              )}
             </div>
-          )}
-        </div>
+          </TabsContent>
+
+          <TabsContent value="lyrics" className="mt-0 h-full">
+            <div className="p-3 h-full">
+              {sourceTrackId ? (
+                <LyricsPanel
+                  trackId={sourceTrackId}
+                  initialLyrics={sourceTrack?.lyrics}
+                  isOpen={true}
+                  onClose={() => setMobileTab('tracks')}
+                  onLyricsSaved={(content) => {
+                    // Update lyrics in source track if needed
+                    logger.info('Lyrics saved', { trackId: sourceTrackId, contentLength: content.length });
+                  }}
+                />
+              ) : (
+                <div className="flex flex-col items-center justify-center h-full text-center">
+                  <FileText className="h-12 w-12 text-muted-foreground/50 mb-3" />
+                  <p className="text-sm text-muted-foreground">
+                    Нет текста для редактирования
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Текст недоступен для этого проекта
+                  </p>
+                </div>
+              )}
+            </div>
+          </TabsContent>
+        </Tabs>
       </ScrollArea>
 
       {/* AI Actions FAB - Mobile only */}
