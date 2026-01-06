@@ -54,7 +54,13 @@ export function useMusicXML({
   }, []);
 
   useEffect(() => {
-    if (!containerRef.current || !url) return;
+    // Validate URL - must be a non-empty string starting with http
+    if (!containerRef.current || !url || typeof url !== 'string' || !url.startsWith('http')) {
+      if (url && typeof url !== 'string') {
+        log.warn('Invalid MusicXML URL type', { url, type: typeof url });
+      }
+      return;
+    }
 
     const container = containerRef.current;
     let osmd: OSMD | null = null;
