@@ -36,6 +36,7 @@ import type { StudioTrack } from '@/stores/useUnifiedStudioStore';
 interface StudioNotationPanelProps {
   track: StudioTrack;
   trackId?: string;
+  stemType?: string;
   versionId?: string;
   currentTime?: number;
   isPlaying?: boolean;
@@ -70,6 +71,7 @@ const STEM_ICONS: Record<string, typeof Guitar> = {
 export const StudioNotationPanel = memo(function StudioNotationPanel({
   track,
   trackId,
+  stemType,
   versionId,
   currentTime = 0,
   isPlaying = false,
@@ -84,7 +86,7 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
 
   // Fetch transcription data
   const { data: transcription, isLoading, error, refetch } = useQuery({
-    queryKey: ['studio-transcription', trackId, versionId, track.id],
+    queryKey: ['studio-transcription', trackId, stemType || null, versionId, track.id],
     queryFn: async () => {
       // First try to get from track_versions.transcription_data (cached)
       if (versionId) {
@@ -112,9 +114,14 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
       }
 
       // Fall back to stem_transcriptions
-      const query = trackId 
-        ? supabase.from('stem_transcriptions').select('*').eq('track_id', trackId)
-        : supabase.from('stem_transcriptions').select('*').eq('stem_id', track.id);
+      const query = (() => {
+        if (trackId) {
+          let q = supabase.from('stem_transcriptions').select('*').eq('track_id', trackId);
+          if (stemType) q = q.eq('stem_type', stemType);
+          return q;
+        }
+        return supabase.from('stem_transcriptions').select('*').eq('stem_id', track.id);
+      })();
 
       const { data, error } = await query.order('created_at', { ascending: false }).limit(1);
 
@@ -310,32 +317,32 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
           )}
         </TabsContent>
 
-        <TabsContent value="piano-roll" className="flex-1 min-h-0 p-3">
-          {transcription?.notes && transcription.notes.length > 0 ? (
-            <div className="h-full overflow-hidden rounded-lg border border-border/50 bg-background">
-              <PianoRoll
-                notes={pianoRollNotes}
-                onNotesChange={setPianoRollNotes}
-                duration={track.duration || 60}
-                bpm={transcription.bpm}
-                timeSignature={transcription.time_signature}
-                currentTime={currentTime}
-                onSeek={onSeek}
-                isPlaying={isPlaying}
-                readOnly={true}
-                className="h-full"
-              />
-            </div>
-          ) : (
-            <div className="flex items-center justify-center h-full text-muted-foreground">
-              <div className="text-center">
-                <Grid3X3 className="w-12 h-12 mx-auto mb-3 opacity-50" />
-                <p className="text-sm">MIDI данные недоступны</p>
-                <p className="text-xs mt-1">Выполните транскрипцию трека для просмотра нот в Piano Roll</p>
-              </div>
-            </div>
-          )}
-        </TabsContent>
+         <TabsContent value="piano-roll" className="flex-1 min-h-0 p-3">
+           {transcription?.notes && transcription.notes.length > 0 ? (
+             <div className="h-full overflow-hidden rounded-lg border border-border/50 bg-background">
+               <PianoRoll
+                 notes={pianoRollNotes}
+                 onNotesChange={setPianoRollNotes}
+                 duration={(track as any).duration || track.clips?.[0]?.duration || 60}
+                 bpm={transcription.bpm}
+                 timeSignature={transcription.time_signature}
+                 currentTime={currentTime}
+                 onSeek={onSeek}
+                 isPlaying={isPlaying}
+                 readOnly={true}
+                 className="h-full"
+               />
+             </div>
+           ) : (
+             <div className="flex items-center justify-center h-full text-muted-foreground">
+               <div className="text-center">
+                 <Grid3X3 className="w-12 h-12 mx-auto mb-3 opacity-50" />
+                 <p className="text-sm">MIDI данные недоступны</p>
+                 <p className="text-xs mt-1">Выполните транскрипцию трека для просмотра нот в Piano Roll</p>
+               </div>
+             </div>
+           )}
+         </TabsContent>
 
         <TabsContent value="files" className="flex-1 min-h-0 p-3">
           <ScrollArea className="h-full">

@@ -1318,7 +1318,7 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
               {sourceTrackId ? (
                 <LyricsPanel
                   trackId={sourceTrackId}
-                  initialLyrics={sourceTrack?.lyrics}
+                  initialLyrics={sourceTrack?.lyrics ?? undefined}
                   isOpen={true}
                   onClose={() => setMobileTab('tracks')}
                   onLyricsSaved={(content) => {
@@ -1755,6 +1755,7 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
             <StudioNotationPanel
               track={selectedNotationTrack}
               trackId={sourceTrackId || undefined}
+              stemType={selectedNotationTrack.type}
               currentTime={currentTime}
               isPlaying={isPlaying}
               onSeek={handleSeek}

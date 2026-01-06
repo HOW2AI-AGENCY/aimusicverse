@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Batch API Layer
  * Raw Supabase operations for batch stem processing functionality

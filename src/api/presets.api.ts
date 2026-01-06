@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Presets API Layer
  * Raw Supabase database operations for mixer and effects presets

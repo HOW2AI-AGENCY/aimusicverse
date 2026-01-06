@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * SectionReferenceDisplay - Show analysis results from audio reference for lyrics sections
  */

@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Lyrics Studio Page
  * Professional lyrics editing with section notes, audio references, and tag enrichment

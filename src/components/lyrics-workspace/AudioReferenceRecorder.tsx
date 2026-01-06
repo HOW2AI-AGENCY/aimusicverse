@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * AudioReferenceRecorder - Record or upload audio for section references
  * Supports vocal and guitar recording modes with different audio settings

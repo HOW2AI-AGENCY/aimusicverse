@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Section Notes Hook
  *

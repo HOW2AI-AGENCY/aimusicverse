@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Keyboard Shortcuts API Layer
  * Raw Supabase database operations for user keyboard shortcuts

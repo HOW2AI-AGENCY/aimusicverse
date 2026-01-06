@@ -66,7 +66,7 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
   // - if stemId is provided: get latest for this stem
   // - else if trackId is provided: get latest for this track
   const { data: existingTranscription, isLoading: loadingExisting } = useQuery({
-    queryKey: ['transcription', stemId || trackId],
+    queryKey: ['transcription', stemId || trackId, stemType || null],
     queryFn: async () => {
       if (!stemId && !trackId) return null;
 
@@ -78,13 +78,17 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
             .order('created_at', { ascending: false })
             .limit(1)
             .maybeSingle()
-        : supabase
-            .from('stem_transcriptions')
-            .select('*')
-            .eq('track_id', trackId as string)
-            .order('created_at', { ascending: false })
-            .limit(1)
-            .maybeSingle();
+        : (() => {
+            let q = supabase
+              .from('stem_transcriptions')
+              .select('*')
+              .eq('track_id', trackId as string);
+
+            // In Studio V2 we store/expect transcriptions per stem type.
+            if (stemType) q = q.eq('stem_type', stemType);
+
+            return q.order('created_at', { ascending: false }).limit(1).maybeSingle();
+          })();
 
       const { data, error } = await query;
       if (error) throw error;
