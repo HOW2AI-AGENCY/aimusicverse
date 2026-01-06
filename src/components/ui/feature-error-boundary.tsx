@@ -31,10 +31,31 @@ export class FeatureErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     const { featureName = 'Feature' } = this.props;
-    logger.error(`${featureName} error`, { 
-      error, 
-      componentStack: errorInfo.componentStack 
-    });
+    
+    // Don't log chunk loading errors to Sentry - these are expected during deployments
+    // The lazyWithRetry will handle reloading the page
+    if (!this.isChunkLoadError(error)) {
+      logger.error(`${featureName} error`, { 
+        error, 
+        componentStack: errorInfo.componentStack 
+      });
+    }
+  }
+
+  /**
+   * Check if an error is a chunk loading error
+   */
+  private isChunkLoadError(error: Error): boolean {
+    const message = error.message || '';
+    const name = error.name || '';
+    
+    return (
+      message.includes('Failed to fetch dynamically imported module') ||
+      message.includes('error loading dynamically imported module') ||
+      message.includes('Importing a module script failed') ||
+      message.includes('Failed to load module script') ||
+      name === 'ChunkLoadError'
+    );
   }
 
   handleReset = () => {
@@ -57,6 +78,14 @@ export class FeatureErrorBoundary extends Component<Props, State> {
     if (this.state.hasError) {
       const { featureName = 'Функция' } = this.props;
       
+      // For chunk loading errors, silently hide the feature
+      // The lazyWithRetry will handle reloading the page
+      if (this.state.error && this.isChunkLoadError(this.state.error)) {
+        // Return null to hide the feature completely without showing error UI
+        return null;
+      }
+      
+      // For other errors, show the error UI
       return (
         <div className="flex items-center justify-center p-4 min-h-[400px]">
           <Card className="max-w-md w-full p-6">

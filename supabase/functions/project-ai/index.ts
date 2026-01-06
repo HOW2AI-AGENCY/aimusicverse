@@ -95,32 +95,49 @@ serve(async (req) => {
         
         const fullProjectPrompt = `${languageInstruction}
 
-You are a professional music producer and A&R expert. Create a COMPLETE music project with all details.
+You are a professional music producer, A&R expert, and album conceptualist. Create a COMPLETE, COHESIVE music project.
 
-Project Type: ${projectType || 'album'}
-Genre: ${genre || 'any'}
-Mood: ${mood || 'any'}
+═══════════════════════════════════════════════════════
+PROJECT REQUIREMENTS:
+═══════════════════════════════════════════════════════
+Type: ${projectType || 'album'}
+Genre: ${genre || 'open to interpretation'}
+Mood: ${mood || 'varied'}
 Target Audience: ${targetAudience || 'general'}
-Theme: ${theme || 'open'}
+Theme/Concept: ${theme || 'create an original concept'}
 ${artistPersona ? `Artist Persona: ${artistPersona}` : ''}
 Number of Tracks: ${trackCountNum}
 
-Generate a COMPLETE project including:
+═══════════════════════════════════════════════════════
+WHAT TO GENERATE:
+═══════════════════════════════════════════════════════
 
-1. PROJECT INFO:
-   - Creative project title
-   - Detailed description (2-3 paragraphs)
-   - Creative concept and narrative
-   - Visual aesthetic direction
+1. PROJECT IDENTITY:
+   - Creative, memorable title that captures the essence
+   - Description (2-3 paragraphs): what the project is about, its journey
+   - Creative concept: the narrative arc, emotional journey, story
+   - Visual aesthetic: colors, imagery, art style direction
 
-2. TRACKLIST (${trackCountNum} tracks):
-   For each track provide:
-   - Title
-   - Style/genre tags for music generation
-   - Theme/mood description (notes for lyrics development)
-   - Recommended song structure
-   - Cover art prompt (detailed prompt for AI image generation for this specific track)
-   - BPM suggestion
+2. COVER ART PROMPT:
+   - Detailed AI image generation prompt for main project cover
+   - Include: style, colors, composition, mood, symbolic elements
+   - Should be specific enough for image AI to generate cohesive artwork
+
+3. TRACKLIST (${trackCountNum} tracks) with narrative flow:
+   Each track needs:
+   - Title (creative, fits the concept)
+   - styleTags: 4-6 genre/style tags for music generation (e.g., "Dark Trap", "808", "Melancholic Piano")
+   - notes: Lyrics development hints, theme, story for this song
+   - structure: Song structure (e.g., "intro-verse-chorus-verse-chorus-bridge-outro")
+   - coverPrompt: Unique AI prompt for this track's cover art
+   - bpm: Tempo suggestion (60-180)
+   - keySignature: Musical key (e.g., "Am", "C#m", "F")
+   - energyLevel: 1-10 energy rating
+
+IMPORTANT: 
+- Create an emotional journey across tracks (opener → development → climax → resolution)
+- Each track should connect to the overall concept but have its own identity
+- Vary tempos, keys, and energy levels for dynamic listening experience
 
 Return as JSON:
 {
@@ -133,15 +150,19 @@ Return as JSON:
     {
       "position": 1,
       "title": "Track Title",
-      "styleTags": ["tag1", "tag2", "tag3"],
+      "styleTags": ["tag1", "tag2", "tag3", "tag4"],
       "notes": "Theme and mood description for lyrics development...",
       "structure": "intro-verse-chorus-verse-chorus-bridge-chorus-outro",
       "coverPrompt": "Detailed AI prompt for this track's cover art...",
-      "bpm": 120
+      "bpm": 120,
+      "keySignature": "Am",
+      "energyLevel": 7
     }
   ]
 }`;
 
+        console.log('Generating full project with prompt length:', fullProjectPrompt.length);
+        
         const fullProjectResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
           method: 'POST',
           headers: {
@@ -154,14 +175,35 @@ Return as JSON:
           }),
         });
 
+        if (!fullProjectResponse.ok) {
+          const errorText = await fullProjectResponse.text();
+          console.error('AI gateway error:', fullProjectResponse.status, errorText);
+          if (fullProjectResponse.status === 429) {
+            throw new Error('Превышен лимит запросов AI. Попробуйте позже.');
+          }
+          if (fullProjectResponse.status === 402) {
+            throw new Error('Необходимо пополнить баланс AI.');
+          }
+          throw new Error('Ошибка AI сервиса');
+        }
+
         const fullProjectData = await fullProjectResponse.json();
         const fullProjectText = fullProjectData.choices?.[0]?.message?.content || '{}';
         
+        console.log('Received AI response length:', fullProjectText.length);
+        
         try {
+          // Parse JSON from response (handle markdown code blocks)
           const jsonMatch = fullProjectText.match(/```json\s*([\s\S]*?)\s*```/) || 
                            fullProjectText.match(/```\s*([\s\S]*?)\s*```/);
           const jsonText = jsonMatch ? jsonMatch[1] : fullProjectText;
-          result = JSON.parse(jsonText);
+          result = JSON.parse(jsonText.trim());
+          
+          console.log('Parsed project:', { 
+            title: result.title, 
+            trackCount: result.tracks?.length,
+            hasCoverPrompt: !!result.coverPrompt 
+          });
           
           // If projectId is provided, insert tracks into database
           if (result.tracks && Array.isArray(result.tracks) && projectId) {
@@ -173,7 +215,10 @@ Return as JSON:
               notes: track.notes || null,
               recommended_tags: track.styleTags || null,
               recommended_structure: track.structure || null,
-              duration_target: track.bpm ? Math.round((60 / track.bpm) * 240) : 120,
+              key_signature: track.keySignature || null,
+              energy_level: track.energyLevel || null,
+              bpm_target: track.bpm || null,
+              duration_target: track.bpm ? Math.round((60 / track.bpm) * 240) : 180,
               status: 'draft',
             }));
 
@@ -184,15 +229,16 @@ Return as JSON:
 
             if (insertError) {
               console.error('Error inserting tracks:', insertError);
-              throw insertError;
+              // Don't throw - return result anyway so user gets the generated data
+              result.insertError = insertError.message;
+            } else {
+              console.log('Tracks inserted successfully:', insertedTracks?.length);
+              result.insertedCount = insertedTracks?.length || 0;
             }
-            
-            console.log('Tracks inserted successfully:', insertedTracks?.length);
-            result.insertedCount = insertedTracks?.length || 0;
           }
         } catch (e) {
-          console.error('Error in full-project generation:', e);
-          result = { error: 'Failed to parse full project', raw: fullProjectText };
+          console.error('Error in full-project generation:', e, 'Raw text:', fullProjectText.slice(0, 500));
+          result = { error: 'Failed to parse AI response', raw: fullProjectText.slice(0, 1000) };
         }
         break;
       }

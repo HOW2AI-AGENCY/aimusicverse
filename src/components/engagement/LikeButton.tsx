@@ -10,6 +10,7 @@ interface LikeButtonProps {
   showCount?: boolean;
   likesCount?: number;
   className?: string;
+  initialLiked?: boolean;
 }
 
 export function LikeButton({ 
@@ -17,9 +18,10 @@ export function LikeButton({
   size = 'default', 
   showCount = false,
   likesCount = 0,
-  className 
+  className,
+  initialLiked
 }: LikeButtonProps) {
-  const { isLiked, isLoading, toggleLike } = useLikeTrack(trackId);
+  const { isLiked, isLoading, toggleLike } = useLikeTrack(trackId, initialLiked);
 
   const iconSize = size === 'sm' ? 'w-4 h-4' : size === 'lg' ? 'w-6 h-6' : 'w-5 h-5';
 

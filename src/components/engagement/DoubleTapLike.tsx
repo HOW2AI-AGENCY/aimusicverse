@@ -13,12 +13,13 @@ interface DoubleTapLikeProps {
   children: React.ReactNode;
   className?: string;
   onSingleTap?: () => void;
+  initialLiked?: boolean;
 }
 
-export function DoubleTapLike({ trackId, children, className, onSingleTap }: DoubleTapLikeProps) {
+export function DoubleTapLike({ trackId, children, className, onSingleTap, initialLiked }: DoubleTapLikeProps) {
   const { user } = useAuth();
   const { hapticFeedback } = useTelegram();
-  const { isLiked, toggleLike } = useLikeTrack(trackId);
+  const { isLiked, toggleLike } = useLikeTrack(trackId, initialLiked);
   const [showHeart, setShowHeart] = useState(false);
   const lastTapRef = useRef<number>(0);
   const singleTapTimeoutRef = useRef<NodeJS.Timeout | null>(null);

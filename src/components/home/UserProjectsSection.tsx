@@ -8,10 +8,10 @@ import { useNavigate } from 'react-router-dom';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { FolderOpen, Plus, ArrowRight, Music, CheckCircle2, Clock, Disc3 } from 'lucide-react';
+import { FolderOpen, Plus, Music, CheckCircle2, Clock, Disc3 } from 'lucide-react';
 import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
+import { SectionHeader } from '@/components/common/SectionHeader';
 import { ProjectProgressRing } from '@/components/project/ProjectProgressRing';
 
 interface UserProject {
@@ -77,15 +77,14 @@ export function UserProjectsSection() {
   if (isLoading) {
     return (
       <section className="space-y-4">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-            <FolderOpen className="w-5 h-5 text-primary" />
-          </div>
-          <div>
-            <h2 className="text-base font-semibold">Мои проекты</h2>
-            <p className="text-xs text-muted-foreground">Альбомы и EP</p>
-          </div>
-        </div>
+        <SectionHeader
+          icon={FolderOpen}
+          iconColor="text-primary"
+          iconGradient="from-primary/10 to-primary/5"
+          title="Мои проекты"
+          subtitle="Альбомы и EP"
+          showShowMore={false}
+        />
         <div className="flex gap-4 overflow-hidden">
           {[1, 2, 3].map((i) => (
             <Skeleton key={i} className="w-44 h-56 rounded-2xl shrink-0" />
@@ -108,30 +107,16 @@ export function UserProjectsSection() {
 
   return (
     <section className="space-y-3">
-      {/* Header - Compact */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2.5">
-          <motion.div 
-            className="w-8 h-8 rounded-lg bg-gradient-to-br from-generate/20 to-generate/5 flex items-center justify-center"
-            whileHover={{ scale: 1.05 }}
-          >
-            <FolderOpen className="w-4 h-4 text-generate" />
-          </motion.div>
-          <div>
-            <h2 className="text-sm font-semibold">Мои проекты</h2>
-            <p className="text-[10px] text-muted-foreground">Альбомы и EP</p>
-          </div>
-        </div>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => navigate('/projects')}
-          className="text-xs text-muted-foreground hover:text-primary gap-1 h-7 px-2 rounded-lg"
-        >
-          Все
-          <ArrowRight className="w-3 h-3" />
-        </Button>
-      </div>
+      <SectionHeader
+        icon={FolderOpen}
+        iconColor="text-generate"
+        iconGradient="from-generate/20 to-generate/5"
+        title="Мои проекты"
+        subtitle="Альбомы и EP"
+        showMoreLink="/projects"
+        showMoreLabel="Все"
+        variant="compact"
+      />
 
       <ScrollArea className="-mx-3 px-3">
         <div className="flex gap-3 pb-2">

@@ -10,6 +10,21 @@ import { AITool, AIMessage, AIAgentContext, AIToolId, OutputType } from '../type
 import { AI_TOOLS } from '../constants';
 import { parseAIResponse } from '@/lib/ai/aiResponseParser';
 
+/**
+ * Clean lyrics from syllable counts that AI sometimes adds
+ * e.g., "(8)" or "(10 слогов)" at the end of lines
+ */
+function cleanLyricsFromSyllableCounts(lyrics: string): string {
+  return lyrics
+    // Remove patterns like (8), (10), (12) at the end of lines
+    .replace(/\s*\(\d{1,2}\)\s*$/gm, '')
+    // Remove patterns like (8 слогов), (10 syllables)
+    .replace(/\s*\(\d{1,2}\s*(?:слог(?:а|ов)?|syl(?:lables?)?)\s*\)/gi, '')
+    // Remove patterns like [8 syl] or [10]
+    .replace(/\s*\[\d{1,2}(?:\s*syl(?:lables?)?)?\]\s*$/gm, '')
+    .trim();
+}
+
 interface UseAIToolsOptions {
   context: AIAgentContext;
   onLyricsGenerated?: (lyrics: string) => void;
@@ -184,8 +199,10 @@ export function useAITools({ context, onLyricsGenerated, onTagsGenerated, onStyl
       }
       // Handle lyrics response
       else if (data.lyrics || parsed.lyrics) {
-        const lyricsContent = data.lyrics || parsed.lyrics;
+        let lyricsContent = data.lyrics || parsed.lyrics;
         if (lyricsContent) {
+          // Clean syllable counts from lyrics
+          lyricsContent = cleanLyricsFromSyllableCounts(lyricsContent);
           responseData.lyrics = lyricsContent;
           responseType = 'lyrics';
           // Auto-apply lyrics, title, style for write/optimize/style_convert/translate/drill/epic tools
@@ -296,30 +313,51 @@ export function useAITools({ context, onLyricsGenerated, onTagsGenerated, onStyl
     addMessage({ role: 'assistant', content: '', isLoading: true });
 
     try {
+      // Build full context with project/track info for better AI responses
+      const fullContext = {
+        existingLyrics: context.existingLyrics,
+        currentLyrics: context.existingLyrics,
+        sectionType: context.selectedSection?.type,
+        sectionContent: context.selectedSection?.content,
+        globalTags: context.globalTags,
+        sectionTags: context.sectionTags,
+        stylePrompt: context.stylePrompt,
+        allSectionNotes: context.allSectionNotes,
+        genre: context.genre,
+        mood: context.mood,
+        language: context.language,
+        title: context.title,
+        // Include full project context for coherent album lyrics
+        projectContext: context.projectContext,
+        trackContext: context.trackContext,
+        tracklist: context.tracklist,
+        // Build conversation history for context continuity
+        conversationHistory: messages.slice(-6).map(m => ({
+          role: m.role,
+          content: m.content?.slice(0, 500),
+        })),
+      };
+
       const { data, error } = await supabase.functions.invoke('ai-lyrics-assistant', {
         body: {
           action: 'chat',
           message,
-          context: {
-            existingLyrics: context.existingLyrics,
-            sectionType: context.selectedSection?.type,
-            sectionContent: context.selectedSection?.content,
-            globalTags: context.globalTags,
-            sectionTags: context.sectionTags,
-            stylePrompt: context.stylePrompt,
-            allSectionNotes: context.allSectionNotes,
-          },
+          context: fullContext,
         },
       });
 
-      if (error) throw error;
+      if (error) {
+        if (error.message?.includes('429')) toast.error('Превышен лимит запросов.');
+        else if (error.message?.includes('402')) toast.error('Необходимо пополнить баланс AI.');
+        throw error;
+      }
 
       let responseData: AIMessage['data'] = {};
       let responseType: OutputType = 'text';
       
       // Handle lyrics - don't auto-apply, show in card with buttons
       if (data.lyrics) {
-        responseData.lyrics = data.lyrics;
+        responseData.lyrics = cleanLyricsFromSyllableCounts(data.lyrics);
         responseType = 'lyrics';
       }
       
@@ -327,6 +365,8 @@ export function useAITools({ context, onLyricsGenerated, onTagsGenerated, onStyl
       if (data.suggestions) responseData.suggestions = data.suggestions;
       if (data.quickActions) responseData.quickActions = data.quickActions;
       if (data.stylePrompt) responseData.stylePrompt = data.stylePrompt;
+      if (data.style) responseData.stylePrompt = data.style;
+      if (data.title) responseData.title = data.title;
       if (data.changes) responseData.changes = data.changes;
 
       updateLastMessage({
@@ -340,10 +380,11 @@ export function useAITools({ context, onLyricsGenerated, onTagsGenerated, onStyl
     } catch (error) {
       console.error('Chat error:', error);
       updateLastMessage({ content: 'Произошла ошибка. Попробуйте ещё раз.', isLoading: false });
+      toast.error('Ошибка чата');
     } finally {
       setIsLoading(false);
     }
-  }, [context, addMessage, updateLastMessage]);
+  }, [context, messages, addMessage, updateLastMessage]);
 
   const clearMessages = useCallback(() => {
     setMessages([{

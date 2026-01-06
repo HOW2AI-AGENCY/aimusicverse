@@ -366,7 +366,7 @@ export function usePublicContentBatch() {
         .eq("status", "completed")
         .not("audio_url", "is", null)
         .order("created_at", { ascending: false })
-        .limit(100);
+        .limit(200);
 
       if (error) throw error;
       if (!tracks || tracks.length === 0) {
@@ -431,9 +431,9 @@ export function usePublicContentBatch() {
       );
 
       return {
-        featuredTracks: sortedByPopular.slice(0, 10), // Top 10 by plays
-        recentTracks: enrichedTracks.slice(0, 20), // First 20 (already sorted by date)
-        popularTracks: sortedByPopular.slice(0, 20), // Top 20 by plays
+        featuredTracks: sortedByPopular.slice(0, 15), // Top 15 by plays
+        recentTracks: enrichedTracks.slice(0, 30), // First 30 (already sorted by date)
+        popularTracks: sortedByPopular.slice(0, 30), // Top 30 by plays
         allTracks: enrichedTracks, // All for auto-playlists
       };
     },
@@ -463,11 +463,17 @@ export function getGenrePlaylists(tracks: PublicTrackWithCreator[]) {
 
   return GENRE_PLAYLISTS.map(({ genre, title, description, keywords }) => {
     const genreTracks = tracks.filter(track => {
+      // Priority: computed_genre (most reliable)
+      const computedGenre = (track.computed_genre || '').toLowerCase();
+      if (keywords.some(keyword => computedGenre.includes(keyword))) {
+        return true;
+      }
+      // Fallback: style and tags
       const style = (track.style || '').toLowerCase();
       const tags = (track.tags || '').toLowerCase();
       const searchText = `${style} ${tags}`;
       return keywords.some(keyword => searchText.includes(keyword));
-    }).slice(0, 20);
+    }).slice(0, 25);
 
     return {
       id: `auto-${genre}`,
@@ -476,5 +482,5 @@ export function getGenrePlaylists(tracks: PublicTrackWithCreator[]) {
       description,
       tracks: genreTracks,
     };
-  }).filter(p => p.tracks.length >= 2); // Lower threshold for more genres
+  }).filter(p => p.tracks.length >= 2);
 }

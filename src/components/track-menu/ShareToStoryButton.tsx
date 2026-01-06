@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Camera } from 'lucide-react';
 import { useTelegram } from '@/contexts/TelegramContext';
-import { telegramShareService } from '@/services/telegram-share';
+import { telegramShareService } from '@/services/telegram';
 import { toast } from 'sonner';
 
 interface Track {

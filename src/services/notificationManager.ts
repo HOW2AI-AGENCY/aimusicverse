@@ -321,3 +321,35 @@ export async function notifyFeatureAnnouncement(
     priority: 5,
   });
 }
+
+/**
+ * Project change notification
+ */
+export async function notifyProjectChange(
+  userId: string, 
+  projectTitle: string, 
+  changeType: 'created' | 'updated' | 'deleted',
+  projectId?: string
+): Promise<string | null> {
+  const messages = {
+    created: `Проект "${projectTitle}" успешно создан`,
+    updated: `Проект "${projectTitle}" обновлён`,
+    deleted: `Проект "${projectTitle}" удалён`,
+  };
+
+  const titles = {
+    created: 'Новый проект 📁',
+    updated: 'Проект обновлён ✏️',
+    deleted: 'Проект удалён 🗑️',
+  };
+
+  return createNotification({
+    userId,
+    title: titles[changeType],
+    message: messages[changeType],
+    type: 'project',
+    groupKey: projectId ? `project_${projectId}` : undefined,
+    actionUrl: projectId && changeType !== 'deleted' ? `/project/${projectId}` : undefined,
+    priority: 4,
+  });
+}

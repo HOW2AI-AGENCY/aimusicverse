@@ -36,8 +36,7 @@ export const VocalsToggle = memo(function VocalsToggle({
           type="button"
           onClick={() => handleChange(true)}
           className={cn(
-            "flex-1 flex items-center justify-center gap-2 rounded-lg text-sm font-medium transition-all duration-200",
-            compact ? "py-2 px-3" : "py-2.5 px-3",
+            "flex-1 flex items-center justify-center gap-2 rounded-lg text-sm font-medium transition-all duration-200 min-h-[44px] px-3",
             hasVocals 
               ? "bg-primary text-primary-foreground shadow-sm" 
               : "text-muted-foreground hover:text-foreground hover:bg-muted"
@@ -50,8 +49,7 @@ export const VocalsToggle = memo(function VocalsToggle({
           type="button"
           onClick={() => handleChange(false)}
           className={cn(
-            "flex-1 flex items-center justify-center gap-2 rounded-lg text-sm font-medium transition-all duration-200",
-            compact ? "py-2 px-3" : "py-2.5 px-3",
+            "flex-1 flex items-center justify-center gap-2 rounded-lg text-sm font-medium transition-all duration-200 min-h-[44px] px-3",
             !hasVocals 
               ? "bg-primary text-primary-foreground shadow-sm" 
               : "text-muted-foreground hover:text-foreground hover:bg-muted"

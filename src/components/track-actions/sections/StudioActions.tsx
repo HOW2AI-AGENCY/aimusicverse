@@ -19,10 +19,8 @@ export function StudioActions({ track, state, onAction, variant, isProcessing }:
   const showReplaceSection = isActionAvailable('replace_section', track, state);
   const showStemsSimple = isActionAvailable('stems_simple', track, state);
   const showStemsDetailed = isActionAvailable('stems_detailed', track, state);
-  const showMidi = isActionAvailable('transcribe_midi', track, state);
-  const showNotes = isActionAvailable('transcribe_notes', track, state);
 
-  const hasAnyAction = showStudio || showReplaceSection || showStemsSimple || showStemsDetailed || showMidi || showNotes;
+  const hasAnyAction = showStudio || showReplaceSection || showStemsSimple || showStemsDetailed;
   if (!hasAnyAction) return null;
 
   if (variant === 'dropdown') {
@@ -58,20 +56,6 @@ export function StudioActions({ track, state, onAction, variant, isProcessing }:
             <DropdownMenuItem onClick={() => onAction('stems_detailed')} disabled={isProcessing}>
               <Wand2 className="w-4 h-4 mr-2" />
               Стемы (6+ дорожек)
-            </DropdownMenuItem>
-          )}
-          {showMidi && (
-            <DropdownMenuItem onClick={() => onAction('transcribe_midi')}>
-              <Music2 className="w-4 h-4 mr-2" />
-              MIDI
-              <ProBadge size="sm" className="ml-auto" />
-            </DropdownMenuItem>
-          )}
-          {showNotes && (
-            <DropdownMenuItem onClick={() => onAction('transcribe_notes')}>
-              <FileMusic className="w-4 h-4 mr-2" />
-              Ноты
-              <ProBadge size="sm" className="ml-auto" />
             </DropdownMenuItem>
           )}
         </DropdownMenuSubContent>
@@ -115,22 +99,6 @@ export function StudioActions({ track, state, onAction, variant, isProcessing }:
           color="purple"
           onClick={() => onAction('stems_detailed')}
           disabled={isProcessing}
-        />
-      )}
-      {showMidi && (
-        <IconGridButton
-          icon={Music2}
-          label="MIDI"
-          color="pink"
-          onClick={() => onAction('transcribe_midi')}
-        />
-      )}
-      {showNotes && (
-        <IconGridButton
-          icon={FileMusic}
-          label="Ноты"
-          color="orange"
-          onClick={() => onAction('transcribe_notes')}
         />
       )}
     </div>

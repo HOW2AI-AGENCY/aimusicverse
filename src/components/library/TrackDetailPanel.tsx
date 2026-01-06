@@ -4,6 +4,7 @@
  */
 
 import { useState } from 'react';
+import { TrackStyleTags } from '@/components/library/TrackStyleTags';
 import { Track } from '@/hooks/useTracks';
 import { useTrackVersions } from '@/hooks/useTrackVersions';
 import { Button } from '@/components/ui/button';
@@ -62,11 +63,6 @@ export function TrackDetailPanel({ track, onPlay, onClose }: TrackDetailPanelPro
   };
 
   const trackDuration = track.duration_seconds || 0;
-  // Extract style info from metadata if available
-  const metadata = track.metadata as Record<string, unknown> | null;
-  const stylePrompt = (metadata?.style_prompt as string) || '';
-  const genreTag = stylePrompt.split(' ')[0] || track.style || '';
-  const moodTag = stylePrompt.split(' ')[1] || '';
 
   return (
     <div className="flex flex-col h-full">
@@ -105,17 +101,12 @@ export function TrackDetailPanel({ track, onPlay, onClose }: TrackDetailPanelPro
           <div className="flex-1 min-w-0 space-y-2">
             <h2 className="text-lg font-semibold truncate">{track.title}</h2>
             
-            <div className="flex flex-wrap gap-1.5">
-              {genreTag && (
-                <Badge variant="secondary" className="text-xs">
-                  {genreTag}
-                </Badge>
-              )}
-              {moodTag && (
-                <Badge variant="outline" className="text-xs">
-                  {moodTag}
-                </Badge>
-              )}
+            <div className="flex flex-wrap gap-1.5 items-center">
+              <TrackStyleTags 
+                style={track.style} 
+                tags={track.tags} 
+                maxTags={4}
+              />
               {track.has_vocals && (
                 <Badge variant="outline" className="text-xs gap-1">
                   <Mic2 className="w-3 h-3" />

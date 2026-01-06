@@ -1,6 +1,6 @@
 /**
  * UnifiedTrackSheet - Minimalist flat track actions panel
- * 50vh max height, no collapsible sections, iOS/Telegram style
+ * Compact header with maximized scroll area
  */
 
 import { useState, useEffect } from 'react';
@@ -9,8 +9,9 @@ import { Sheet, SheetContent } from '@/components/ui/sheet';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useTrackActionsState } from '@/hooks/useTrackActionsState';
 import { TrackDialogsPortal } from './TrackDialogsPortal';
-import { QuickActionsSection } from './sections/QuickActionsSection';
-import { TrackSheetHeader } from './TrackSheetHeader';
+import { CompactSheetHeader } from './CompactSheetHeader';
+import { PromptPreview } from './sections/PromptPreview';
+import { LyricsPreview } from './sections/LyricsPreview';
 import { ActionGroup, ActionDivider, ActionGridContainer } from './ActionGrid';
 import { IconGridButton } from './IconGridButton';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
@@ -21,7 +22,7 @@ import {
   ImagePlus, Disc, Plus, Music, Video, Mic2, Guitar,
   Layers, RefreshCw, Scissors, Wand2, Music2, FileMusic,
   FileAudio, Archive, Send, Link, ListMusic, Folder,
-  Info, Pencil, Globe, Lock, Trash2
+  Info, Pencil, Globe, Lock, Trash2, Sparkles, Check, Loader2
 } from 'lucide-react';
 import { isActionAvailable } from '@/lib/trackActionConditions';
 
@@ -143,8 +144,6 @@ export function UnifiedTrackSheet({
   const showReplaceSection = isActionAvailable('replace_section', track, actionState);
   const showStemsSimple = isActionAvailable('stems_simple', track, actionState);
   const showStemsDetailed = isActionAvailable('stems_detailed', track, actionState);
-  const showMidi = isActionAvailable('transcribe_midi', track, actionState);
-  const showNotes = isActionAvailable('transcribe_notes', track, actionState);
   const showMp3 = isActionAvailable('download_mp3', track, actionState);
   const showWav = isActionAvailable('download_wav', track, actionState);
   const showDownloadStems = isActionAvailable('download_stems', track, actionState);
@@ -153,47 +152,49 @@ export function UnifiedTrackSheet({
   const showPlaylist = isActionAvailable('add_to_playlist', track, actionState);
   const showProject = isActionAvailable('add_to_project', track, actionState);
   const showDetails = isActionAvailable('details', track, actionState);
-  const showRename = isActionAvailable('rename', track, actionState);
   const showTogglePublic = isActionAvailable('toggle_public', track, actionState);
+  const showUpscaleHd = isActionAvailable('upscale_hd', track, actionState);
+  
+  // HD status
+  const hasHdAudio = !!(track as any).audio_url_hd || (track as any).audio_quality === 'hd';
+  const isUpscaling = (track as any).upscale_status === 'processing';
 
   return (
     <>
       <Sheet open={open} onOpenChange={onOpenChange}>
         <SheetContent 
           side="bottom" 
-          className="h-[55vh] max-h-[55vh] rounded-t-2xl flex flex-col pb-0 px-0 bg-background/95 backdrop-blur-xl"
+          className="h-[85vh] sm:h-[70vh] max-h-[85vh] sm:max-h-[70vh] rounded-t-2xl flex flex-col pb-0 px-0 bg-background/95 backdrop-blur-xl"
         >
           {/* Drag handle */}
           <div className="flex justify-center pt-2 pb-1">
             <div className="w-10 h-1 rounded-full bg-muted-foreground/30" />
           </div>
 
-          {/* Compact Header */}
-          <div className="px-4">
-            <TrackSheetHeader 
-              track={track} 
-              stemCount={actionState.stemCount}
-              hasMidi={trackStatus.hasMidi}
-              hasNotes={trackStatus.hasNotes}
-            />
-          </div>
-          
-          {/* Quick Actions + Versions */}
-          <div className="px-4">
-            <QuickActionsSection 
-              track={track} 
-              onClose={() => onOpenChange(false)}
+          {/* Compact Header - Cover + Title + Quick Actions in one row */}
+          <div className="px-4 flex-shrink-0">
+            <CompactSheetHeader 
+              track={track}
               versions={versions.map(v => ({ id: v.id, label: v.version_label || 'A' }))}
               activeVersionId={activeVersionId}
               onVersionSwitch={handleVersionSwitch}
+              onClose={() => onOpenChange(false)}
             />
           </div>
 
           <ActionDivider />
 
-          {/* Scrollable flat action grid */}
+          {/* Scrollable content - Prompt, Lyrics, and Actions */}
           <ScrollArea className="flex-1">
             <div className="px-4 pb-safe">
+              {/* Content previews - now inside scroll area */}
+              {(track.prompt || track.style || track.lyrics) && (
+                <div className="py-2 space-y-2">
+                  <PromptPreview prompt={track.prompt} style={track.style} />
+                  <LyricsPreview lyrics={track.lyrics} />
+                </div>
+              )}
+
               <ActionGridContainer>
                 {/* Create actions */}
                 <ActionGroup title="Создать">
@@ -213,9 +214,6 @@ export function UnifiedTrackSheet({
                   {showAddVocals && (
                     <IconGridButton icon={Mic2} label="Вокал" color="cyan" onClick={() => executeAction('add_vocals')} disabled={isProcessing} />
                   )}
-                  {showAddInstrumental && (
-                    <IconGridButton icon={Guitar} label="Инструм." color="orange" onClick={() => executeAction('add_instrumental')} disabled={isProcessing} />
-                  )}
                 </ActionGroup>
 
                 {/* Studio actions */}
@@ -231,12 +229,6 @@ export function UnifiedTrackSheet({
                   )}
                   {showStemsDetailed && (
                     <IconGridButton icon={Wand2} label="6+ стемов" color="purple" onClick={() => executeAction('stems_detailed')} disabled={isProcessing} />
-                  )}
-                  {showMidi && (
-                    <IconGridButton icon={Music2} label="MIDI" color="pink" onClick={() => executeAction('transcribe_midi')} />
-                  )}
-                  {showNotes && (
-                    <IconGridButton icon={FileMusic} label="Ноты" color="orange" onClick={() => executeAction('transcribe_notes')} />
                   )}
                 </ActionGroup>
 
@@ -265,13 +257,41 @@ export function UnifiedTrackSheet({
                   )}
                 </ActionGroup>
 
+                {/* Quality actions */}
+                {showUpscaleHd && (
+                  <ActionGroup title="Качество">
+                    {hasHdAudio ? (
+                      <IconGridButton 
+                        icon={Check} 
+                        label="HD 48kHz ✓" 
+                        color="green" 
+                        disabled 
+                        onClick={() => {}}
+                      />
+                    ) : isUpscaling ? (
+                      <IconGridButton 
+                        icon={Loader2} 
+                        label="Улучшение..." 
+                        color="amber" 
+                        disabled 
+                        onClick={() => {}}
+                      />
+                    ) : (
+                      <IconGridButton 
+                        icon={Sparkles} 
+                        label="HD Audio" 
+                        color="amber" 
+                        onClick={() => executeAction('upscale_hd')} 
+                        disabled={isProcessing}
+                      />
+                    )}
+                  </ActionGroup>
+                )}
+
                 {/* Utils actions */}
                 <ActionGroup title="Управление">
                   {showDetails && (
                     <IconGridButton icon={Info} label="Детали" color="sky" onClick={() => executeAction('details')} />
-                  )}
-                  {showRename && (
-                    <IconGridButton icon={Pencil} label="Имя" color="amber" onClick={() => executeAction('rename')} />
                   )}
                   {showTogglePublic && (
                     <IconGridButton 

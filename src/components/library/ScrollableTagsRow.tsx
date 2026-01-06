@@ -62,12 +62,17 @@ export const ScrollableTagsRow = memo(function ScrollableTagsRow({
   }
   
   return (
-    <div className={cn("relative overflow-hidden", className)}>
+    <div className={cn("relative overflow-hidden min-w-0", className)}>
       {/* Scrollable container */}
       <div 
         ref={containerRef}
-        className="overflow-x-auto scrollbar-hide"
-        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        className="overflow-x-auto scrollbar-hide touch-pan-x"
+        style={{ 
+          scrollbarWidth: 'none', 
+          msOverflowStyle: 'none',
+          overscrollBehaviorX: 'contain',
+          WebkitOverflowScrolling: 'touch',
+        }}
       >
         <div 
           ref={contentRef}

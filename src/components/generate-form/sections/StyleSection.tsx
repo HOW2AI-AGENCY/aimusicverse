@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { FormFieldToolbar } from '../FormFieldToolbar';
+import { FormFieldActions } from '@/components/ui/FormFieldActions';
 import { SectionLabel, SECTION_HINTS } from '../SectionLabel';
 import { cn } from '@/lib/utils';
 
@@ -56,7 +56,7 @@ export const StyleSection = memo(function StyleSection({
           
           {/* Toolbar buttons */}
           <div className="flex items-center bg-background/60 backdrop-blur-sm rounded-md">
-            <FormFieldToolbar
+            <FormFieldActions
               value={style}
               onClear={() => onStyleChange('')}
               onVoiceInput={onStyleChange}
@@ -66,7 +66,7 @@ export const StyleSection = memo(function StyleSection({
               aiLoading={boostLoading}
               aiLabel="AI"
               onOpenStyles={onOpenStyles}
-              compact
+              size="lg"
             />
           </div>
         </div>

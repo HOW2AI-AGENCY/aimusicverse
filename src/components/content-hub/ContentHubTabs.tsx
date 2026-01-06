@@ -16,10 +16,10 @@ interface ContentHubTabsProps {
 }
 
 const tabs = [
-  { id: 'artists', label: 'Артисты', icon: Users },
-  { id: 'projects', label: 'Проекты', icon: FolderOpen },
-  { id: 'lyrics', label: 'Тексты', icon: FileText },
-  { id: 'cloud', label: 'Облако', icon: Cloud },
+  { id: 'projects', label: 'Проекты', shortLabel: 'Проекты', icon: FolderOpen },
+  { id: 'artists', label: 'Артисты', shortLabel: 'Артисты', icon: Users },
+  { id: 'lyrics', label: 'Тексты', shortLabel: 'Тексты', icon: FileText },
+  { id: 'cloud', label: 'Облако', shortLabel: 'Облако', icon: Cloud },
 ];
 
 const TabLoader = () => (
@@ -39,7 +39,7 @@ export function ContentHubTabs({ defaultTab = 'projects', onTabChange }: Content
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
       <TabsList className={cn(
-        "w-full grid bg-secondary/50 backdrop-blur-sm border border-border/50 rounded-xl p-1",
+        "w-full grid bg-muted/50 border border-border/30 rounded-xl p-1",
         "grid-cols-4"
       )}>
         {tabs.map((tab) => (
@@ -47,31 +47,35 @@ export function ContentHubTabs({ defaultTab = 'projects', onTabChange }: Content
             key={tab.id}
             value={tab.id}
             className={cn(
-              "flex items-center justify-center gap-1.5 rounded-lg py-2 px-2 text-xs font-medium transition-all",
-              "data-[state=active]:bg-primary data-[state=active]:text-primary-foreground",
-              "data-[state=active]:shadow-sm"
+              "flex items-center justify-center rounded-lg font-medium transition-all",
+              "data-[state=active]:bg-background data-[state=active]:shadow-sm",
+              isMobile 
+                ? "flex-col gap-0.5 py-2 px-1 text-[11px]" 
+                : "gap-1.5 py-2 px-3 text-xs"
             )}
           >
-            <tab.icon className="w-4 h-4 shrink-0" />
-            {!isMobile && <span>{tab.label}</span>}
+            <tab.icon className={cn("shrink-0", isMobile ? "w-4 h-4" : "w-4 h-4")} />
+            <span className="leading-tight truncate">
+              {isMobile ? tab.shortLabel : tab.label}
+            </span>
           </TabsTrigger>
         ))}
       </TabsList>
 
       <Suspense fallback={<TabLoader />}>
-        <TabsContent value="artists" className="mt-4 focus-visible:outline-none">
-          <ArtistsTab />
-        </TabsContent>
-
-        <TabsContent value="projects" className="mt-4 focus-visible:outline-none">
+        <TabsContent value="projects" className="mt-3 focus-visible:outline-none">
           <ProjectsTab />
         </TabsContent>
 
-        <TabsContent value="lyrics" className="mt-4 focus-visible:outline-none">
+        <TabsContent value="artists" className="mt-3 focus-visible:outline-none">
+          <ArtistsTab />
+        </TabsContent>
+
+        <TabsContent value="lyrics" className="mt-3 focus-visible:outline-none">
           <LyricsTab />
         </TabsContent>
 
-        <TabsContent value="cloud" className="mt-4 focus-visible:outline-none">
+        <TabsContent value="cloud" className="mt-3 focus-visible:outline-none">
           <CloudTab />
         </TabsContent>
       </Suspense>

@@ -8,6 +8,7 @@ import { VoiceInputButton } from '@/components/ui/VoiceInputButton';
 import { SectionLabel, SECTION_HINTS } from './SectionLabel';
 import { SmartPromptSuggestions } from './SmartPromptSuggestions';
 import { FormSection, FormDivider } from './FormSection';
+import { ValidationMessage, validation } from './ValidationMessage';
 import { cn } from '@/lib/utils';
 import { notify } from '@/lib/notifications';
 
@@ -45,6 +46,10 @@ export function GenerateFormSimple({
     onDescriptionChange('');
   }, [onDescriptionChange]);
 
+  // Validation messages
+  const descriptionValidation = validation.description.getMessage(description.length);
+  const titleValidation = validation.title.getMessage(title.length);
+
   return (
     <motion.div
       key="simple"
@@ -67,7 +72,7 @@ export function GenerateFormSimple({
               onClick={() => onHasVocalsChange(true)}
               aria-pressed={hasVocals}
               className={cn(
-                "flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg text-sm font-medium transition-all duration-200",
+                "flex-1 flex items-center justify-center gap-2 min-h-[44px] px-3 rounded-lg text-sm font-medium transition-all duration-200",
                 hasVocals 
                   ? "bg-primary text-primary-foreground shadow-sm" 
                   : "text-muted-foreground hover:text-foreground hover:bg-muted"
@@ -81,7 +86,7 @@ export function GenerateFormSimple({
               onClick={() => onHasVocalsChange(false)}
               aria-pressed={!hasVocals}
               className={cn(
-                "flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg text-sm font-medium transition-all duration-200",
+                "flex-1 flex items-center justify-center gap-2 min-h-[44px] px-3 rounded-lg text-sm font-medium transition-all duration-200",
                 !hasVocals 
                   ? "bg-primary text-primary-foreground shadow-sm" 
                   : "text-muted-foreground hover:text-foreground hover:bg-muted"
@@ -111,7 +116,7 @@ export function GenerateFormSimple({
                   type="button"
                   variant="ghost"
                   size="icon"
-                  className="h-7 w-7 min-w-[28px] p-0 text-primary hover:text-primary/80"
+                  className="h-11 w-11 min-w-[44px] p-0 text-primary hover:text-primary/80"
                   onClick={onOpenStyles}
                   aria-label="Выбрать стиль музыки"
                 >
@@ -124,7 +129,7 @@ export function GenerateFormSimple({
                 size="sm"
                 onClick={onBoostStyle}
                 disabled={boostLoading || !description}
-                className="h-7 px-2 gap-1 text-primary hover:text-primary/80"
+                className="h-11 px-3 gap-1.5 text-primary hover:text-primary/80"
                 aria-label="Улучшить описание с помощью AI"
               >
                 {boostLoading ? (
@@ -153,6 +158,8 @@ export function GenerateFormSimple({
                 "focus:border-primary/50 focus:ring-primary/20 transition-colors",
                 description.length > 500 && "border-destructive focus-visible:ring-destructive"
               )}
+              aria-invalid={description.length > 500}
+              aria-describedby={descriptionValidation ? "description-error" : undefined}
             />
             
             {/* Bottom toolbar */}
@@ -174,7 +181,7 @@ export function GenerateFormSimple({
                       type="button"
                       variant="ghost"
                       size="icon"
-                      className="h-7 w-7 min-w-[28px] p-0 text-muted-foreground hover:text-foreground"
+                      className="h-11 w-11 min-w-[44px] p-0 text-muted-foreground hover:text-foreground"
                       onClick={handleCopy}
                       aria-label="Копировать описание"
                     >
@@ -184,7 +191,7 @@ export function GenerateFormSimple({
                       type="button"
                       variant="ghost"
                       size="icon"
-                      className="h-7 w-7 min-w-[28px] p-0 text-muted-foreground hover:text-destructive"
+                      className="h-11 w-11 min-w-[44px] p-0 text-muted-foreground hover:text-destructive"
                       onClick={handleClear}
                       aria-label="Очистить описание"
                     >
@@ -197,7 +204,7 @@ export function GenerateFormSimple({
                   context="description"
                   currentValue={description}
                   appendMode
-                  className="h-6 w-6 p-0"
+                  className="h-11 w-11 min-w-[44px] p-0"
                 />
               </div>
             </div>
@@ -212,10 +219,13 @@ export function GenerateFormSimple({
             />
           )}
           
-          {description.length > 500 && (
-            <p className="text-[10px] text-destructive">
-              Сократите описание или переключитесь в Полный режим
-            </p>
+          {/* Validation message */}
+          {descriptionValidation && (
+            <ValidationMessage
+              message={descriptionValidation.message}
+              level={descriptionValidation.level}
+              fieldId="description"
+            />
           )}
         </div>
       </FormSection>
@@ -236,8 +246,19 @@ export function GenerateFormSimple({
             placeholder="Автогенерация если пусто"
             value={title}
             onChange={(e) => onTitleChange(e.target.value)}
-            className="h-10 text-sm rounded-xl bg-muted/30 border-muted-foreground/20 focus:border-primary/50 focus:ring-primary/20"
+            className="min-h-[44px] text-sm rounded-xl bg-muted/30 border-muted-foreground/20 focus:border-primary/50 focus:ring-primary/20"
+            aria-invalid={title.length > validation.title.maxLength}
+            aria-describedby={titleValidation ? "simple-title-error" : undefined}
           />
+          
+          {/* Validation message */}
+          {titleValidation && (
+            <ValidationMessage
+              message={titleValidation.message}
+              level={titleValidation.level}
+              fieldId="simple-title"
+            />
+          )}
         </div>
       </FormSection>
     </motion.div>

@@ -35,12 +35,21 @@ export async function handlePaymentCallbacks(
     return true;
   }
 
-  // Buy specific product
+  // Buy specific product (legacy callback)
   if (data.startsWith('buy_product_')) {
     const productCode = data.replace('buy_product_', '');
     const { handleBuyProduct } = await import('../handlers/payment.ts');
     await handleBuyProduct(chatId, userId, productCode);
-    await answerCallbackQuery(queryId, '🔄 Создаём счёт...');
+    await answerCallbackQuery(queryId, '🔄 Создаём ссылку...');
+    return true;
+  }
+
+  // Tinkoff card payment
+  if (data.startsWith('buy_tinkoff_')) {
+    const productCode = data.replace('buy_tinkoff_', '');
+    const { handleBuyProduct } = await import('../handlers/payment.ts');
+    await handleBuyProduct(chatId, userId, productCode);
+    await answerCallbackQuery(queryId, '🔄 Создаём ссылку для оплаты...');
     return true;
   }
 

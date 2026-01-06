@@ -31,7 +31,7 @@ export const TitleSection = memo(function TitleSection({
         placeholder="Автогенерация если пусто"
         value={title}
         onChange={(e) => onTitleChange(e.target.value)}
-        className="h-10 text-sm rounded-xl bg-muted/30 border-muted-foreground/20 focus:border-primary/50 focus:ring-primary/20"
+        className="min-h-[44px] text-sm rounded-xl bg-muted/30 border-muted-foreground/20 focus:border-primary/50 focus:ring-primary/20"
       />
     </div>
   );

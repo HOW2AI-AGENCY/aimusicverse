@@ -196,6 +196,84 @@ export function CarouselSkeleton({
 }
 
 /**
+ * Horizontal Scroll Skeleton
+ * For horizontal scroll areas with customizable item width
+ */
+export function HorizontalScrollSkeleton({
+  count = 4,
+  itemWidth = 140,
+  aspectRatio = 'square',
+  className,
+}: {
+  count?: number;
+  itemWidth?: number;
+  aspectRatio?: 'square' | 'video' | 'portrait';
+  className?: string;
+}) {
+  const aspectClasses = {
+    square: 'aspect-square',
+    video: 'aspect-video',
+    portrait: 'aspect-[3/4]',
+  };
+
+  return (
+    <div className={cn("flex gap-3 overflow-x-auto pb-2 -mx-3 px-3", className)}>
+      {Array.from({ length: count }).map((_, i) => (
+        <div 
+          key={i} 
+          className="flex-shrink-0 space-y-2"
+          style={{ width: itemWidth }}
+        >
+          <Skeleton className={cn("w-full rounded-xl", aspectClasses[aspectRatio])} />
+          <Skeleton className="h-3 w-3/4" />
+          <Skeleton className="h-2 w-1/2" />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/**
+ * Section Skeleton
+ * Header + content skeleton for loading sections
+ */
+export function SectionSkeleton({
+  headerWidth = 120,
+  contentType = 'grid',
+  gridCount = 6,
+  gridColumns = 2,
+  className,
+}: {
+  headerWidth?: number;
+  contentType?: 'grid' | 'carousel' | 'list';
+  gridCount?: number;
+  gridColumns?: 2 | 3 | 4;
+  className?: string;
+}) {
+  return (
+    <div className={cn("space-y-4 animate-in fade-in-50 duration-300", className)}>
+      <SectionHeaderSkeleton />
+      
+      {contentType === 'grid' && (
+        <GridSkeleton count={gridCount} columns={gridColumns} />
+      )}
+      
+      {contentType === 'carousel' && (
+        <CarouselSkeleton count={4} />
+      )}
+      
+      {contentType === 'list' && (
+        <div className="space-y-2">
+          {Array.from({ length: gridCount }).map((_, i) => (
+            <ListItemSkeleton key={i} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/**
  * Section Header Skeleton
  * For section titles and action buttons
  */
@@ -320,5 +398,41 @@ export function ArtistCardSkeleton({ className }: { className?: string }) {
       <Skeleton className="h-4 w-24 mx-auto" />
       <Skeleton className="h-3 w-16 mx-auto" />
     </div>
+  );
+}
+
+/**
+ * Card Skeleton - Generic card with cover and text
+ * @deprecated Use TrackCardSkeleton or PlaylistCoverSkeleton instead
+ */
+export function CardSkeleton({ className }: { className?: string }) {
+  return (
+    <div className={cn('rounded-lg bg-muted/50 animate-pulse', className)}>
+      <div className="aspect-square rounded-t-lg bg-muted" />
+      <div className="p-3 space-y-2">
+        <div className="h-4 bg-muted rounded w-3/4" />
+        <div className="h-3 bg-muted rounded w-1/2" />
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Text Skeleton - Single line text placeholder
+ */
+export function TextSkeleton({ 
+  width = '100%', 
+  height = '1rem',
+  className 
+}: { 
+  width?: string; 
+  height?: string;
+  className?: string;
+}) {
+  return (
+    <Skeleton 
+      className={cn('rounded', className)}
+      style={{ width, height }}
+    />
   );
 }

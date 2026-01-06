@@ -5,11 +5,12 @@ import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 
-export function useLikeTrack(trackId: string) {
+export function useLikeTrack(trackId: string, initialLiked?: boolean) {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const haptic = useHapticFeedback();
 
+  // If initialLiked is provided, use it and skip the query
   const { data: isLiked, isLoading: isCheckingLike } = useQuery({
     queryKey: ['track-like', trackId, user?.id],
     queryFn: async () => {
@@ -22,7 +23,8 @@ export function useLikeTrack(trackId: string) {
         .maybeSingle();
       return !!data;
     },
-    enabled: !!user?.id && !!trackId,
+    enabled: !!user?.id && !!trackId && initialLiked === undefined,
+    initialData: initialLiked,
   });
 
   const likeMutation = useMutation({

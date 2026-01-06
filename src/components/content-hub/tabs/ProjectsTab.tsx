@@ -1,15 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useProjects } from '@/hooks/useProjects';
-import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { FolderOpen, Search, Plus, LayoutGrid, LayoutList, Sparkles, TrendingUp } from 'lucide-react';
+import { EmptyState } from '@/components/common/EmptyState';
 import { ProjectCreationWizard } from '@/components/project/ProjectCreationWizard';
 import { toast } from 'sonner';
 import { VirtualizedProjectsList } from '@/components/content-hub/VirtualizedProjectsList';
-import { ProjectsOnboarding } from '@/components/content-hub/ProjectsOnboarding';
+import { MobileProjectsToolbar } from '@/components/content-hub/MobileProjectsToolbar';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks/use-mobile';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,8 +21,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-
-const ONBOARDING_KEY = 'projects-onboarding-dismissed';
 
 const statusLabels: Record<string, { label: string; color: string }> = {
   draft: { label: 'Черновик', color: 'bg-muted text-muted-foreground' },
@@ -40,25 +39,12 @@ const typeLabels: Record<string, string> = {
 
 
 export function ProjectsTab() {
+  const isMobile = useIsMobile();
   const { projects, isLoading, deleteProject, isDeleting } = useProjects();
   const [searchQuery, setSearchQuery] = useState('');
   const [createSheetOpen, setCreateSheetOpen] = useState(false);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  const [showOnboarding, setShowOnboarding] = useState(false);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const dismissed = localStorage.getItem(ONBOARDING_KEY);
-    if (!dismissed) {
-      setShowOnboarding(true);
-    }
-  }, []);
-
-  const handleDismissOnboarding = () => {
-    localStorage.setItem(ONBOARDING_KEY, 'true');
-    setShowOnboarding(false);
-  };
 
   const filteredProjects = projects?.filter((project) =>
     project.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -92,89 +78,89 @@ export function ProjectsTab() {
   }
   return (
     <motion.div 
-      className="space-y-4"
+      className={cn("space-y-2", isMobile && "space-y-1.5")}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
     >
-      {/* Onboarding */}
-      <AnimatePresence>
-        {showOnboarding && (
-          <ProjectsOnboarding
-            onDismiss={handleDismissOnboarding}
-            onCreateProject={() => {
-              handleDismissOnboarding();
-              setCreateSheetOpen(true);
-            }}
-            onCreateArtist={() => {
-              handleDismissOnboarding();
-              navigate('/projects?tab=artists');
-            }}
-          />
-        )}
-      </AnimatePresence>
-
-      {/* Search & Create */}
-      <motion.div 
-        className="flex items-center gap-2"
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
-      >
-        <div className="relative flex-1 group">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground group-focus-within:text-primary transition-colors" />
-          <Input
-            placeholder="Поиск проектов..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-9 h-9 text-sm transition-all focus:ring-2 focus:ring-primary/20"
-          />
-        </div>
-        {/* View mode toggle */}
-        <div className="flex items-center gap-0.5 bg-muted/50 p-0.5 rounded-lg">
-          <Button
-            variant={viewMode === 'grid' ? 'secondary' : 'ghost'}
-            size="icon"
-            className={cn(
-              "h-8 w-8 transition-all",
-              viewMode === 'grid' && "shadow-sm"
-            )}
-            onClick={() => setViewMode('grid')}
-          >
-            <LayoutGrid className="w-4 h-4" />
-          </Button>
-          <Button
-            variant={viewMode === 'list' ? 'secondary' : 'ghost'}
-            size="icon"
-            className={cn(
-              "h-8 w-8 transition-all",
-              viewMode === 'list' && "shadow-sm"
-            )}
-            onClick={() => setViewMode('list')}
-          >
-            <LayoutList className="w-4 h-4" />
-          </Button>
-        </div>
-        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-          <Button size="sm" onClick={() => setCreateSheetOpen(true)} className="gap-1.5 shrink-0 shadow-sm">
-            <Plus className="w-4 h-4" />
-            Создать
-          </Button>
+      {/* Search & Create - different layout for mobile */}
+      {isMobile ? (
+        <MobileProjectsToolbar
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          viewMode={viewMode}
+          onViewModeChange={setViewMode}
+          onCreateClick={() => setCreateSheetOpen(true)}
+        />
+      ) : (
+        <motion.div 
+          className="flex items-center gap-2"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+        >
+          <div className="relative flex-1 group">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground group-focus-within:text-primary transition-colors" />
+            <Input
+              placeholder="Поиск проектов..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-9 h-9 text-sm transition-all focus:ring-2 focus:ring-primary/20"
+            />
+          </div>
+          {/* View mode toggle */}
+          <div className="flex items-center gap-0.5 bg-muted/50 p-0.5 rounded-lg">
+            <Button
+              variant={viewMode === 'grid' ? 'secondary' : 'ghost'}
+              size="icon"
+              className={cn(
+                "h-8 w-8 transition-all",
+                viewMode === 'grid' && "shadow-sm"
+              )}
+              onClick={() => setViewMode('grid')}
+            >
+              <LayoutGrid className="w-4 h-4" />
+            </Button>
+            <Button
+              variant={viewMode === 'list' ? 'secondary' : 'ghost'}
+              size="icon"
+              className={cn(
+                "h-8 w-8 transition-all",
+                viewMode === 'list' && "shadow-sm"
+              )}
+              onClick={() => setViewMode('list')}
+            >
+              <LayoutList className="w-4 h-4" />
+            </Button>
+          </div>
+          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+            <Button size="sm" onClick={() => setCreateSheetOpen(true)} className="gap-1.5 shrink-0 shadow-sm">
+              <Plus className="w-4 h-4" />
+              Создать
+            </Button>
+          </motion.div>
         </motion.div>
-      </motion.div>
+      )}
 
-      {/* Stats with animations */}
+      {/* Stats - compact on mobile, full on desktop */}
       <motion.div 
-        className="flex items-center gap-3 text-xs"
+        className={cn(
+          "flex items-center gap-2 text-xs",
+          isMobile && "gap-1.5"
+        )}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2 }}
       >
-        <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-muted/50">
+        <div className={cn(
+          "flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-muted/50",
+          isMobile && "px-2 py-1"
+        )}>
           <FolderOpen className="w-3 h-3 text-muted-foreground" />
-          <span className="text-muted-foreground">{projects?.length || 0} проектов</span>
+          <span className="text-muted-foreground">{projects?.length || 0}</span>
         </div>
-        {publishedCount > 0 && (
+        {/* Show extra stats only on desktop */}
+        {!isMobile && publishedCount > 0 && (
           <motion.div 
             className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-emerald-500/10"
             initial={{ scale: 0 }}
@@ -185,7 +171,7 @@ export function ProjectsTab() {
             <span className="text-emerald-600 dark:text-emerald-400">{publishedCount} опубликовано</span>
           </motion.div>
         )}
-        {completedCount > 0 && (
+        {!isMobile && completedCount > 0 && (
           <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-green-500/10">
             <TrendingUp className="w-3 h-3 text-green-500" />
             <span className="text-green-600 dark:text-green-400">{completedCount} завершено</span>
@@ -203,18 +189,16 @@ export function ProjectsTab() {
           typeLabels={typeLabels}
         />
       ) : (
-        <div className="text-center py-12">
-          <FolderOpen className="w-12 h-12 text-muted-foreground/50 mx-auto mb-3" />
-          <p className="text-muted-foreground mb-4">
-            {searchQuery ? 'Ничего не найдено' : 'Нет проектов'}
-          </p>
-          {!searchQuery && (
-            <Button onClick={() => setCreateSheetOpen(true)} className="gap-2">
-              <Plus className="w-4 h-4" />
-              Создать проект
-            </Button>
-          )}
-        </div>
+        <EmptyState
+          icon={FolderOpen}
+          title={searchQuery ? 'Ничего не найдено' : 'Нет проектов'}
+          variant="compact"
+          actions={!searchQuery ? [{
+            label: 'Создать проект',
+            onClick: () => setCreateSheetOpen(true),
+            icon: Plus
+          }] : undefined}
+        />
       )}
 
       {/* Delete Confirmation */}

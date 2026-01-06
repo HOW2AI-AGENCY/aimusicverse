@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Search, Play, Pause, Music, Mic, Cloud, Check } from 'lucide-react';
+import { EmptyState } from '@/components/common/EmptyState';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
@@ -99,17 +100,12 @@ export function CloudAudioPicker({ onSelect, selectedId }: CloudAudioPickerProps
 
   if (!audioList || audioList.length === 0) {
     return (
-      <div className="text-center py-12">
-        <Cloud className="w-12 h-12 text-muted-foreground/50 mx-auto mb-3" />
-        <p className="text-muted-foreground">Нет загруженных файлов</p>
-        <p className="text-xs text-muted-foreground mt-2">
-          Загрузите аудио через Telegram бот или сделайте запись
-        </p>
-        <p className="text-[10px] text-muted-foreground/70 mt-3">
-          Если вы записывали аудио, но оно не появилось — <br />
-          проверьте подключение к интернету и повторите запись
-        </p>
-      </div>
+      <EmptyState
+        icon={Cloud}
+        title="Нет загруженных файлов"
+        description="Загрузите аудио через Telegram бот или сделайте запись. Если вы записывали аудио, но оно не появилось — проверьте подключение к интернету и повторите запись"
+        variant="compact"
+      />
     );
   }
 
@@ -210,9 +206,13 @@ export function CloudAudioPicker({ onSelect, selectedId }: CloudAudioPickerProps
           })}
 
           {filteredAudio.length === 0 && (
-            <div className="text-center py-6 text-muted-foreground text-sm">
-              Ничего не найдено
-            </div>
+            <EmptyState
+              icon={Search}
+              title="Ничего не найдено"
+              variant="compact"
+              animated={false}
+              className="py-6"
+            />
           )}
         </div>
       </ScrollArea>

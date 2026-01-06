@@ -62,7 +62,7 @@ The application follows a layered architecture:
 ├─────────────────────────────────────────────┤
 │  Hooks (200+)                               │  Reusable React logic
 ├─────────────────────────────────────────────┤
-│  Services (20)                              │  Business logic & data transformation
+│  Services (13)                              │  Business logic & data transformation
 ├─────────────────────────────────────────────┤
 │  API Layer (13)                             │  Direct Supabase queries
 ├─────────────────────────────────────────────┤
@@ -70,10 +70,16 @@ The application follows a layered architecture:
 └─────────────────────────────────────────────┘
 ```
 
+**Data Flow Pattern:** API Layer → Service Layer → Hooks → Components
+- **API Layer** (`src/api/*.api.ts`): Direct Supabase queries, type-safe
+- **Service Layer** (`src/services/*.service.ts`): Business logic, data transformation
+- **Hook Layer** (`src/hooks/*.ts`): React Query integration, state management
+- **Component Layer** (`src/components/*.tsx`): UI presentation
+
 ### Critical Directory Purposes
 
 - **`src/api/`** (13 files) - Direct Supabase database operations, type-safe queries
-- **`src/services/`** (20 files) - Business logic layer, data transformation, complex operations
+- **`src/services/`** (13 files) - Business logic layer, data transformation, complex operations
 - **`src/hooks/`** (200+ files) - Custom React hooks for UI logic and state management
 - **`src/stores/`** (8 files) - Zustand stores for complex global state (player, unified studio, lyrics)
 - **`src/components/`** (890+ files) - React components organized by feature
@@ -87,6 +93,14 @@ The application follows a layered architecture:
 - **`src/lib/`** (60+ files) - Utility functions (audio, logging, performance, error handling)
 - **`src/pages/`** (40+ files) - Route pages with code splitting
 - **`src/contexts/`** (10 files) - React Context providers (Auth, Theme, Telegram, Notification)
+
+### Key Architecture Files
+
+- **`src/App.tsx`** - Root component with lazy-loaded routes, global providers
+- **`src/components/GlobalAudioProvider.tsx`** - Single HTMLAudioElement management (CRITICAL)
+- **`src/hooks/audio/usePlayerState.ts`** - Zustand player store hook
+- **`src/lib/motion.ts`** - Tree-shakeable framer-motion exports
+- **`src/lib/logger.ts`** - Structured logging with Sentry integration
 
 ### State Management Strategy
 
@@ -113,14 +127,14 @@ The application follows a layered architecture:
 
 **Single Audio Source Pattern** - The entire app uses ONE `<audio>` element managed by `GlobalAudioProvider`:
 
-- **Provider:** `src/contexts/GlobalAudioContext.tsx`
-- **Hook:** `useGlobalAudioPlayer()` - Access player controls anywhere
+- **Provider:** `src/components/GlobalAudioProvider.tsx` (625 lines, comprehensive)
+- **Hook:** `usePlayerStore()` from `src/hooks/audio/usePlayerState.ts` - Access player controls
 - **Store:** `playerStore` (Zustand) - Playback state, queue, current track
 - **Player Modes:** Compact → Expanded → Fullscreen (mobile)
 - **Audio Element Pool:** `src/lib/audioElementPool.ts` - Reuse audio elements (iOS Safari crash prevention)
 - **Audio Cache:** `src/lib/audioCache.ts` - Pre-computed waveforms, CDN optimization
 
-**Important:** Never create multiple `<audio>` elements. Always use `useGlobalAudioPlayer()`.
+**Important:** Never create multiple `<audio>` elements. Always use `usePlayerStore()` or `useGlobalAudioPlayer()`.
 
 ### Track Versioning System (A/B)
 
@@ -472,10 +486,11 @@ Logger persists to sessionStorage and integrates with Sentry.
 - [specs/](specs/) - Technical specifications
 
 **Current Status:**
-- Sprint: 030 (Unified Studio Mobile) - 93% complete
+- Sprint: 030 (Unified Studio Mobile) - 60% complete
 - Health Score: 98/100
 - Components: 890+
 - Bundle Size Target: 950 KB
+- Overall Progress: 95% (24/25 sprints complete)
 
 ## Telegram Bot Integration
 
@@ -519,4 +534,4 @@ Logger persists to sessionStorage and integrates with Sentry.
 
 ---
 
-**Last Updated:** 2026-01-05 (Sprint 030 - Unified Studio Mobile)
+**Last Updated:** 2026-01-05 (Sprint 030 - Unified Studio Mobile - 60% Complete)

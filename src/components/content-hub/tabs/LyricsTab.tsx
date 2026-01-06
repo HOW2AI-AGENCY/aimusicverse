@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { FileText, Search, Trash2, PenLine } from 'lucide-react';
+import { EmptyState } from '@/components/common/EmptyState';
 import { toast } from 'sonner';
 import { VirtualizedLyricsList } from '@/components/content-hub/VirtualizedLyricsList';
 import { StructuredLyricsPreview } from '@/components/lyrics-workspace/ai-agent/results/StructuredLyricsPreview';
@@ -87,15 +88,12 @@ export function LyricsTab() {
           onDelete={setDeleteConfirmId}
         />
       ) : (
-        <div className="text-center py-12">
-          <FileText className="w-12 h-12 text-muted-foreground/50 mx-auto mb-3" />
-          <p className="text-muted-foreground">
-            {searchQuery ? 'Ничего не найдено' : 'Нет сохраненных текстов'}
-          </p>
-          <p className="text-xs text-muted-foreground mt-2">
-            Сохраняйте тексты из AI Lyrics Assistant
-          </p>
-        </div>
+        <EmptyState
+          icon={FileText}
+          title={searchQuery ? 'Ничего не найдено' : 'Нет сохраненных текстов'}
+          description="Сохраняйте тексты из AI Lyrics Assistant"
+          variant="compact"
+        />
       )}
 
       {/* Lyrics Detail Sheet */}

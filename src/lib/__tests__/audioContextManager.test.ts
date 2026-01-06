@@ -151,11 +151,12 @@ describe('audioContextManager', () => {
       await expect(resumeAudioContext()).resolves.not.toThrow();
     });
 
-    it('should throw if resume fails', async () => {
+    it('should return false if resume fails', async () => {
       const ctx = getAudioContext();
-      jest.spyOn(ctx, 'resume').mockRejectedValueOnce(new Error('Resume failed'));
+      jest.spyOn(ctx, 'resume').mockRejectedValue(new Error('Resume failed'));
       
-      await expect(resumeAudioContext()).rejects.toThrow('Resume failed');
+      const result = await resumeAudioContext();
+      expect(result).toBe(false);
     });
   });
 

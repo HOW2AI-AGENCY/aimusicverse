@@ -14,7 +14,7 @@ import { Share2, Copy, Check, ExternalLink, Download, Camera, Gift } from 'lucid
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { hapticNotification } from '@/lib/haptic';
-import { telegramShareService } from '@/services/telegram-share';
+import { telegramShareService } from '@/services/telegram';
 import { logger } from '@/lib/logger';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { useRewardShare } from '@/hooks/useGamification';

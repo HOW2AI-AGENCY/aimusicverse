@@ -27,8 +27,25 @@ interface WaveformError {
 // Generate peaks from ArrayBuffer
 function generatePeaksFromArrayBuffer(arrayBuffer: ArrayBuffer, samples: number): Promise<number[]> {
   return new Promise((resolve, reject) => {
+    // Check if OfflineAudioContext is available (may not be in some WebView environments)
+    try {
+      if (typeof OfflineAudioContext === 'undefined') {
+        reject(new Error('OfflineAudioContext is not available in this environment'));
+        return;
+      }
+    } catch (error) {
+      reject(new Error('OfflineAudioContext is not available in this environment'));
+      return;
+    }
+    
     // Use OfflineAudioContext for decoding (available in workers)
-    const audioContext = new OfflineAudioContext(1, 1, 44100);
+    let audioContext;
+    try {
+      audioContext = new OfflineAudioContext(1, 1, 44100);
+    } catch (error) {
+      reject(new Error('Failed to create OfflineAudioContext'));
+      return;
+    }
     
     audioContext.decodeAudioData(arrayBuffer)
       .then((audioBuffer) => {
@@ -64,6 +81,30 @@ self.onmessage = async (event: MessageEvent<WaveformMessage>) => {
   
   if (type === 'generate') {
     try {
+      // Check environment capability first with defensive error handling
+      try {
+        if (typeof OfflineAudioContext === 'undefined') {
+          const errorResult: WaveformError = {
+            type: 'error',
+            id,
+            error: 'OfflineAudioContext is not available in this environment (WebView limitation)',
+            audioUrl,
+          };
+          self.postMessage(errorResult);
+          return;
+        }
+      } catch (checkError) {
+        // In some Android WebViews, even checking for OfflineAudioContext can throw
+        const errorResult: WaveformError = {
+          type: 'error',
+          id,
+          error: 'OfflineAudioContext is not available in this environment (WebView limitation)',
+          audioUrl,
+        };
+        self.postMessage(errorResult);
+        return;
+      }
+      
       const response = await fetch(audioUrl);
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}`);

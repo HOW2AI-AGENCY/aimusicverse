@@ -1,7 +1,28 @@
 {
   "permissions": {
     "allow": [
-      "Bash(powershell -ExecutionPolicy Bypass -File .specify/scripts/powershell/check-prerequisites.ps1:*)"
+      "Bash(powershell -ExecutionPolicy Bypass -File .specify/scripts/powershell/check-prerequisites.ps1:*)",
+      "Bash(cat:*)",
+      "Bash(git fetch:*)",
+      "Bash(ls:*)",
+      "Bash(powershell:*)",
+      "Bash(pwsh:*)",
+      "Bash(cd:*)",
+      "Bash(git checkout:*)",
+      "Bash(mkdir:*)",
+      "Bash(export:*)",
+      "Bash(echo:*)",
+      "Bash(find:*)",
+      "Bash(git rev-parse:*)",
+      "Bash(npm install:*)",
+      "Bash(node scripts/lint-filenames.js:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Skill(speckit.specify)",
+      "Skill(speckit.specify:*)",
+      "Bash(npm run size:*)",
+      "Bash(npm run lint:*)"
     ]
   }
 }

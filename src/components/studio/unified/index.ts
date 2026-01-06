@@ -61,10 +61,8 @@ export { MixerChannel } from './MixerChannel';
 export { AudioMeter, StereoMeter, SimpleMeter } from './AudioMeter';
 export { StemActionSheet } from './StemActionSheet';
 
-// Legacy tab-based components (deprecated - will be removed)
-// Kept for backward compatibility during migration
-export { MobileStudioLayout } from './MobileStudioLayout';
-export { MobileStudioTabs } from './MobileStudioTabs';
+// Legacy tab-based components have been removed (MobileStudioLayout, MobileStudioTabs)
+// Use UnifiedDAWLayout instead
 
 // Re-export hooks for convenience
 export { useSwipeNavigation } from '@/hooks/useSwipeNavigation';

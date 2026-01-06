@@ -22,7 +22,7 @@
  * ```
  */
 
-import { captureError, isSentryEnabled } from './sentry';
+import { captureError, isSentryEnabled, Sentry } from './sentry';
 
 type LogLevel = 'debug' | 'info' | 'warn' | 'error';
 
@@ -35,6 +35,60 @@ const SENSITIVE_KEYS = [
   'password', 'token', 'secret', 'key', 'authorization',
   'telegram_id', 'chat_id', 'api_key', 'apikey'
 ];
+
+/**
+ * Serialize error objects (including Supabase PostgrestError) into a readable format
+ * Supabase errors typically have: message, details, hint, code properties
+ */
+function serializeError(error: unknown): string {
+  if (error === null || error === undefined) {
+    return String(error);
+  }
+
+  // Handle Error instances
+  if (error instanceof Error) {
+    return error.message;
+  }
+
+  // Handle Supabase PostgrestError and other error-like objects
+  if (typeof error === 'object') {
+    const errorObj = error as Record<string, unknown>;
+    
+    // Try to extract common error properties
+    const parts: string[] = [];
+    
+    if (errorObj.message) {
+      parts.push(String(errorObj.message));
+    }
+    
+    if (errorObj.code) {
+      parts.push(`[Code: ${errorObj.code}]`);
+    }
+    
+    if (errorObj.details) {
+      parts.push(`Details: ${errorObj.details}`);
+    }
+    
+    if (errorObj.hint) {
+      parts.push(`Hint: ${errorObj.hint}`);
+    }
+    
+    // If we found error properties, return them
+    if (parts.length > 0) {
+      return parts.join(' | ');
+    }
+    
+    // Fallback: try to stringify the object
+    try {
+      return JSON.stringify(error);
+    } catch {
+      return String(error);
+    }
+  }
+
+  // Fallback for primitives
+  return String(error);
+}
 
 class Logger {
   private isDevelopment = import.meta.env.DEV;
@@ -81,6 +135,11 @@ class Logger {
     if (this.isDevelopment) {
       console.debug(this.formatMessage('debug', message, context));
     }
+
+    // Send to Sentry in production
+    if (!this.isDevelopment && isSentryEnabled) {
+      Sentry.logger.debug(message, this.sanitizeContext(context));
+    }
   }
 
   /**
@@ -90,6 +149,11 @@ class Logger {
     if (this.isDevelopment) {
       console.log(this.formatMessage('info', message, context));
     }
+
+    // Send to Sentry in production
+    if (!this.isDevelopment && isSentryEnabled) {
+      Sentry.logger.info(message, this.sanitizeContext(context));
+    }
   }
 
   /**
@@ -97,6 +161,11 @@ class Logger {
    */
   warn(message: string, context?: LogContext): void {
     console.warn(this.formatMessage('warn', message, context));
+
+    // Send to Sentry in production
+    if (isSentryEnabled) {
+      Sentry.logger.warn(message, this.sanitizeContext(context));
+    }
   }
 
   /**
@@ -105,7 +174,7 @@ class Logger {
    */
   error(message: string, error?: Error | unknown, context?: LogContext): void {
     const errorContext: LogContext = { ...context };
-    
+
     if (error instanceof Error) {
       errorContext.errorName = error.name;
       errorContext.errorMessage = error.message;
@@ -113,20 +182,35 @@ class Logger {
       if (this.isDevelopment) {
         errorContext.errorStack = error.stack;
       }
-      
+
       // Send to Sentry in production
       if (isSentryEnabled) {
         captureError(error, { message, ...this.sanitizeContext(context) });
+
+        // Also send as structured log
+        Sentry.logger.error(message, {
+          ...this.sanitizeContext(context),
+          errorName: error.name,
+          errorMessage: error.message,
+        });
       }
     } else if (error !== undefined) {
-      errorContext.errorValue = String(error);
-      
+      // Use serializeError to properly extract error information
+      const serializedError = serializeError(error);
+      errorContext.errorValue = serializedError;
+
       // Create an error object for Sentry
       if (isSentryEnabled) {
-        captureError(new Error(message), { errorValue: String(error), ...this.sanitizeContext(context) });
+        captureError(new Error(message), { errorValue: serializedError, ...this.sanitizeContext(context) });
+
+        // Also send as structured log
+        Sentry.logger.error(message, {
+          ...this.sanitizeContext(context),
+          errorValue: serializedError,
+        });
       }
     }
-    
+
     console.error(this.formatMessage('error', message, errorContext));
   }
 

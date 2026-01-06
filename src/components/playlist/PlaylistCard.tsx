@@ -7,6 +7,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { LazyImage } from '@/components/ui/lazy-image';
 import type { Playlist } from '@/hooks/usePlaylists';
 
 interface PlaylistCardProps {
@@ -27,9 +28,11 @@ export function PlaylistCard({ playlist, formatDuration, onOpen, onEdit, onDelet
       {/* Cover */}
       <div className="aspect-square bg-muted relative">
         {playlist.cover_url ? (
-          <img
+          <LazyImage
             src={playlist.cover_url}
             alt={playlist.title}
+            coverSize="medium"
+            responsive={false}
             className="w-full h-full object-cover"
           />
         ) : (
@@ -40,7 +43,7 @@ export function PlaylistCard({ playlist, formatDuration, onOpen, onEdit, onDelet
         
         {/* Play overlay */}
         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-          <Button size="icon" variant="secondary" className="h-12 w-12 rounded-full">
+          <Button size="icon" variant="secondary" className="h-12 w-12 rounded-full" aria-label="Воспроизвести плейлист">
             <Play className="h-6 w-6" />
           </Button>
         </div>
@@ -78,7 +81,7 @@ export function PlaylistCard({ playlist, formatDuration, onOpen, onEdit, onDelet
           {/* Actions */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
-              <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0">
+              <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0" aria-label="Меню плейлиста">
                 <MoreVertical className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>

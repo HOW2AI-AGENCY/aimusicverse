@@ -1,7 +1,74 @@
 # 📚 БАЗА ЗНАНИЙ ПРОЕКТА MusicVerse AI
 
-> **Последнее обновление:** 2026-01-04 (Session 9)  
-> **Версия проекта:** 1.2.2 (Sprint 030 - UI/UX Generation Form Polish)
+> **Последнее обновление:** 2026-01-05 (Session 10)  
+> **Версия проекта:** 1.2.4 (Sprint 030 - Library & Track Actions Optimization)
+
+---
+
+## 🆕 НОВОЕ В СЕССИИ 10
+
+### Library & Track Actions Optimization (January 5, 2026) ✅
+
+**1. ModelBadge V4.5 versions**
+- `ModelBadge.tsx` — прямые маппинги для `suno_model` (V5, V4_5PLUS, V4_5ALL, V4_5, V4AUK, V4)
+- Улучшена fallback логика для model names
+
+**2. ScrollableTagsRow iOS fix**
+- `ScrollableTagsRow.tsx` — добавлены touch-pan-x, overscroll-behavior-x: contain
+- WebkitOverflowScrolling: 'touch' для плавного скролла на iOS
+
+**3. Community Grid View**
+- `Community.tsx` — переключатель Grid/List, 2-column grid на мобильных
+- Client-side фильтрация по тегам в title, style, tags, prompt
+
+**4. PromptPreview & LyricsPreview**
+- Новые компоненты в `src/components/track-actions/sections/`
+- Expand/copy функциональность для промптов и текстов
+- Интегрированы в UnifiedTrackSheet
+
+**5. TrackCard Layout Optimization**
+- Заголовок на отдельной строке (полная ширина)
+- Удалён дубликат vocal/instrumental badge с cover overlay
+- TrackTypeIcons вынесены на отдельную строку
+
+**6. Library View Defaults**
+- LIST по умолчанию на мобильных, GRID на десктопе
+- Пользователь может переключать режим
+
+**7. Track Actions Panel Height**
+- 70vh на мобильных (было 55vh) для лучшего скролла
+
+**8. InlineVersionToggle Optimization**
+- React Query кэширование (staleTime: 1 min, gcTime: 5 min)
+- Optimistic UI updates для instant feedback
+- Skeleton loader вместо spinner
+
+**9. Reusable Library Components (NEW)**
+- `DurationBadge` — форматированное отображение длительности трека
+- `PlayOverlay` — overlay воспроизведения с hover эффектами
+- `TrackBadges` — badges версий, стемов, позиции в очереди
+- `ViewModeToggle` — переключатель grid/list view
+
+**Новые файлы:**
+```
+src/components/library/shared/DurationBadge.tsx
+src/components/library/shared/PlayOverlay.tsx
+src/components/library/shared/TrackBadges.tsx
+src/components/library/shared/ViewModeToggle.tsx
+src/components/library/shared/index.ts
+```
+
+**Файлы изменены:**
+- `src/components/library/ModelBadge.tsx`
+- `src/components/library/ScrollableTagsRow.tsx`
+- `src/components/library/InlineVersionToggle.tsx`
+- `src/components/track-actions/TrackSheetHeader.tsx`
+- `src/components/track-actions/UnifiedTrackSheet.tsx`
+- `src/components/track-actions/sections/PromptPreview.tsx` (NEW)
+- `src/components/track-actions/sections/LyricsPreview.tsx` (NEW)
+- `src/components/TrackCard.tsx`
+- `src/pages/Library.tsx`
+- `src/pages/Community.tsx`
 
 ---
 
@@ -10,36 +77,10 @@
 ### UI/UX Generation Form Improvements (January 4, 2026) ✅
 
 **1. Hints работают по клику (Popover вместо Tooltip)**
-- `SectionLabel.tsx` — заменён Tooltip на Popover для мобильной совместимости
-- Подсказки теперь активируются тапом, не требуют hover
-
 **2. Компактный хедер формы генерации**
-- Удалён логотип из `CollapsibleFormHeader.tsx`
-- Уменьшены размеры: `min-h-[32px]`, `py-1`, `h-6` для кнопок
-- Компактное отображение модели (emoji + короткое имя)
-
 **3. Кнопки Copy/Delete скрыты когда пусто**
-- `FormFieldToolbar.tsx` — кнопки полностью скрыты при пустом поле (не disabled с opacity)
-
-**4. Compact Lyrics Visual Editor**
-- Новый компонент `LyricsVisualEditorCompact.tsx`
-- Упрощённая версия без drag-drop и stats panel
-- Timeline секций как компактные badges
-- Quick templates (Pop, Рэп, EDM)
-- Используется в `LyricsSection.tsx`
-
+**4. Compact Lyrics Visual Editor** (`LyricsVisualEditorCompact.tsx`)
 **5. Advanced Options заметнее**
-- Кнопка с `border-dashed` и эмодзи ⚙️
-- Удалён дублирующийся Model Selector (модель только в хедере)
-
-**Файлы изменены:**
-- `src/components/generate-form/SectionLabel.tsx`
-- `src/components/generate-form/CollapsibleFormHeader.tsx`
-- `src/components/generate-form/FormFieldToolbar.tsx`
-- `src/components/generate-form/LyricsVisualEditorCompact.tsx` (NEW)
-- `src/components/generate-form/sections/LyricsSection.tsx`
-- `src/components/generate-form/AdvancedSettings.tsx`
-- `src/components/generate-form/GenerateFormCustom.tsx`
 
 ---
 

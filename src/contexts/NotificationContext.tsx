@@ -144,6 +144,10 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
           log.info('Auto-cleaned expired notifications', { count });
           fetchNotifications(); // Refresh after cleanup
         }
+      }).catch(error => {
+        // Gracefully handle cleanup failures (e.g., network timeouts on slow connections)
+        // Error is already logged in notificationManager, so we just note it here at debug level
+        log.debug('Cleanup failed, continuing without cleanup', { error });
       });
     }
   }, [user?.id, fetchNotifications]);
