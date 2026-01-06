@@ -27,7 +27,8 @@ interface StudioSectionOverlayProps {
 }
 
 // Gap merge threshold - gaps smaller than this will be merged with adjacent sections
-const GAP_MERGE_THRESHOLD_S = 0.5; // 500ms
+// Increased from 0.5s to 1.5s to avoid unnecessary "Переход" sections
+const GAP_MERGE_THRESHOLD_S = 1.5;
 
 // Section type colors - improved contrast for dark theme
 const SECTION_COLORS: Record<DetectedSection['type'], { bg: string; border: string; text: string }> = {
