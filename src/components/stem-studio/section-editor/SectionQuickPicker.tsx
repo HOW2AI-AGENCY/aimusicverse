@@ -1,5 +1,6 @@
 /**
- * Compact horizontal section picker for detected sections
+ * SectionQuickPicker - Compact horizontal section picker
+ * Extracted from deleted SectionPicker.tsx for reuse
  */
 
 import { motion } from '@/lib/motion';
@@ -9,7 +10,7 @@ import { DetectedSection } from '@/hooks/useSectionDetection';
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
 
-interface SectionPickerProps {
+interface SectionQuickPickerProps {
   sections: DetectedSection[];
   selectedIndex: number;
   maxDuration: number;
@@ -27,14 +28,12 @@ const SECTION_COLORS: Record<DetectedSection['type'], string> = {
   'unknown': 'bg-muted border-border text-muted-foreground',
 };
 
-// formatTime imported from @/lib/player-utils
-
-export function SectionPicker({
+export function SectionQuickPicker({
   sections,
   selectedIndex,
   maxDuration,
   onSelect,
-}: SectionPickerProps) {
+}: SectionQuickPickerProps) {
   return (
     <div className="space-y-1.5">
       <p className="text-xs text-muted-foreground">Выберите секцию</p>
@@ -81,3 +80,5 @@ export function SectionPicker({
     </div>
   );
 }
+
+export default SectionQuickPicker;

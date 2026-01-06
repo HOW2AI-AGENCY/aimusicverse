@@ -24,7 +24,7 @@ export {
   TransportSkeleton,
   WaveformSkeleton,
   MixerPanelSkeleton,
-} from './StudioSkeletons';
+} from '@/components/ui/skeleton-components';
 
 // Unified Mobile Components (new unified DAW interface - NO tabs)
 export { UnifiedStudioMobile } from './UnifiedStudioMobile';
@@ -50,6 +50,7 @@ export type { ChordSheetProps } from './ChordSheet';
 export { AddInstrumentalDrawer } from './AddInstrumentalDrawer';
 export type { AddInstrumentalDrawerProps } from './AddInstrumentalDrawer';
 export { AudioUpscaleButton } from '../AudioUpscaleButton';
+export { UnifiedSectionEditor } from './UnifiedSectionEditor';
 
 // DAW Canvas Components (ADR-011 - unified interface)
 export { AIActionsFAB } from './AIActionsFAB';
@@ -58,6 +59,7 @@ export { MobileDAWTimeline } from './MobileDAWTimeline';
 // Mixer Components
 export { MobileMixerContent } from './MobileMixerContent';
 export { MixerChannel } from './MixerChannel';
+export { UnifiedMixerChannel, type ChannelVariant, type UnifiedMixerChannelProps } from './UnifiedMixerChannel';
 export { AudioMeter, StereoMeter, SimpleMeter } from './AudioMeter';
 export { StemActionSheet } from './StemActionSheet';
 

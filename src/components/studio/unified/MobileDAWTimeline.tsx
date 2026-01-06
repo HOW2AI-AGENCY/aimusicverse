@@ -20,7 +20,7 @@ import { formatTime } from '@/lib/formatters';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import type { StudioTrack } from '@/stores/useUnifiedStudioStore';
 import { Volume2, VolumeX, Headphones, Mic2, Music, Drum, Guitar, Piano, Waves } from 'lucide-react';
-import { OptimizedStemWaveform } from '@/components/stem-studio/OptimizedStemWaveform';
+import { UnifiedWaveform, type StemType } from '@/components/waveform/UnifiedWaveform';
 
 interface SectionMarker {
   label: string;
@@ -394,13 +394,14 @@ const MobileTrackRow = memo(function MobileTrackRow({
       {/* Real waveform visualization */}
       <div className="h-10 bg-background/30 rounded overflow-hidden">
         {track.audioUrl ? (
-          <OptimizedStemWaveform
+          <UnifiedWaveform
             audioUrl={track.audioUrl}
             currentTime={currentTime}
             duration={duration}
             isPlaying={isPlaying}
             isMuted={effectiveMuted}
-            color={config.waveColor}
+            stemType={config.waveColor as StemType}
+            mode="stem"
             height={40}
             onSeek={onSeek}
           />

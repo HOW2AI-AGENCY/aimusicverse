@@ -16,7 +16,7 @@ import {
   SectionValidation,
   SectionActions,
 } from './section-editor';
-import { SectionPicker } from './SectionPicker';
+import { SectionQuickPicker } from './section-editor/SectionQuickPicker';
 
 const containerVariants: Variants = {
   hidden: { height: 0, opacity: 0 },
@@ -147,7 +147,7 @@ export function SectionReplacementPanel({
           {/* Section Picker */}
           {detectedSections.length > 0 && (
             <motion.div variants={itemVariants}>
-              <SectionPicker
+              <SectionQuickPicker
                 sections={detectedSections}
                 selectedIndex={detectedSections.findIndex(
                   s => Math.abs(s.startTime - startTime) < 0.5 && Math.abs(s.endTime - endTime) < 0.5
