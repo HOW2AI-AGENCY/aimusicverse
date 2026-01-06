@@ -243,7 +243,7 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
         track: 0,
       };
     });
-    console.log('[UnifiedNotesViewer] xmlNotesAsMidi converted', converted.length, 'notes');
+    console.log('[UnifiedNotesViewer] xmlNotesAsMidi converted', converted.length, 'notes', { durationFromXml: parsedXml?.duration });
     return converted;
   }, [parsedXml]);
 
@@ -271,7 +271,27 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
     return xmlNotesAsMidi;
   }, [providedNotes, parsedMidi, xmlNotesAsMidi]);
   
-  const duration = providedDuration ?? parsedMidi?.duration ?? parsedXml?.duration ?? 60;
+  const computedNotesDuration = useMemo(() => {
+    if (!notes.length) return 0;
+    let maxEnd = 0;
+    for (const n of notes) {
+      const start = n.startTime ?? 0;
+      const dur = n.duration ?? 0;
+      const end = n.endTime ?? (start + dur);
+      if (Number.isFinite(end)) maxEnd = Math.max(maxEnd, end);
+    }
+    return maxEnd;
+  }, [notes]);
+
+  // Duration must cover all notes, otherwise piano roll becomes "empty" (notes rendered outside content width).
+  const duration = Math.max(
+    1,
+    providedDuration ?? 0,
+    parsedMidi?.duration ?? 0,
+    parsedXml?.duration ?? 0,
+    computedNotesDuration
+  );
+
   const effectiveBpm = bpm ?? parsedMidi?.bpm ?? parsedXml?.bpm ?? 120;
   
   // Process notes for display
