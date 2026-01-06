@@ -1,12 +1,12 @@
 /**
  * Studio Track Row
- * Individual track lane with waveform, controls, and stem-style UI
+ * Individual track lane with waveform, controls, stem-style UI, and MIDI preview
  */
 
-import { memo, useState, useCallback } from 'react';
+import { memo, useState, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import {
-  Volume2, VolumeX, MoreHorizontal, Download,
+  Volume2, VolumeX, MoreHorizontal, Download, Eye,
   Mic2, Guitar, Drum, Music, Piano, Waves, Sliders,
   Trash2, Sparkles, GripVertical, Scissors, ArrowRight, FileMusic, Music2,
 } from 'lucide-react';
@@ -19,6 +19,133 @@ import { StudioVersionSelector } from './StudioVersionSelector';
 import { StemActionSheet } from './StemActionSheet';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
+import { StemTranscriptionData } from '@/hooks/studio/useStemTypeTranscriptionStatus';
+
+// Mini MIDI Notes Preview component
+interface MidiNotesPreviewProps {
+  notes: any[];
+  duration: number;
+  currentTime: number;
+  notesCount: number;
+  bpm: number | null;
+  keyDetected: string | null;
+  onViewFull?: () => void;
+  onDownloadMidi?: () => void;
+  onDownloadPdf?: () => void;
+}
+
+const MidiNotesPreview = memo(function MidiNotesPreview({
+  notes,
+  duration,
+  currentTime,
+  notesCount,
+  bpm,
+  keyDetected,
+  onViewFull,
+  onDownloadMidi,
+  onDownloadPdf,
+}: MidiNotesPreviewProps) {
+  const { normalizedNotes, playheadPos } = useMemo(() => {
+    if (!notes || notes.length === 0 || duration <= 0) {
+      return { normalizedNotes: [], playheadPos: 0 };
+    }
+
+    const pitches = notes.map((n: any) => n.pitch);
+    const min = Math.min(...pitches);
+    const max = Math.max(...pitches);
+    const range = max - min || 1;
+
+    return {
+      normalizedNotes: notes.map((n: any) => ({
+        x: (n.startTime / duration) * 100,
+        width: ((n.endTime - n.startTime) / duration) * 100,
+        y: ((max - n.pitch) / range) * 100,
+      })),
+      playheadPos: (currentTime / duration) * 100,
+    };
+  }, [notes, duration, currentTime]);
+
+  // Show info bar even without notes visualization (for PDF/GP5 only cases)
+  const hasNotes = normalizedNotes.length > 0;
+  const hasAnyFile = !!(onDownloadMidi || onDownloadPdf);
+
+  if (!hasNotes && !hasAnyFile) return null;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, height: 0 }}
+      animate={{ opacity: 1, height: 'auto' }}
+      exit={{ opacity: 0, height: 0 }}
+      className="pt-1.5 space-y-1.5"
+    >
+      {/* Mini piano roll - only if we have notes */}
+      {hasNotes && (
+        <div className="relative h-8 rounded overflow-hidden bg-gradient-to-r from-primary/5 to-primary/10">
+          {normalizedNotes.map((note, i) => (
+            <div
+              key={i}
+              className="absolute bg-primary/60 rounded-[1px]"
+              style={{
+                left: `${note.x}%`,
+                width: `${Math.max(note.width, 0.5)}%`,
+                top: `${note.y}%`,
+                height: '12%',
+              }}
+            />
+          ))}
+          {currentTime > 0 && (
+            <div 
+              className="absolute top-0 bottom-0 w-px bg-primary shadow-glow"
+              style={{ left: `${playheadPos}%` }}
+            />
+          )}
+        </div>
+      )}
+
+      {/* Info + actions */}
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center gap-1.5 min-w-0 flex-1 overflow-hidden">
+          <Music2 className="w-3 h-3 text-primary shrink-0" />
+          <span className="text-[10px] text-muted-foreground truncate">
+            {notesCount > 0 ? (
+              <>
+                {notesCount} {notesCount === 1 ? 'нота' : notesCount < 5 ? 'ноты' : 'нот'}
+                {bpm && ` • ${Math.round(bpm)} BPM`}
+                {keyDetected && ` • ${keyDetected}`}
+              </>
+            ) : (
+              <>
+                Транскрипция готова
+                {bpm && ` • ${Math.round(bpm)} BPM`}
+                {keyDetected && ` • ${keyDetected}`}
+              </>
+            )}
+          </span>
+        </div>
+
+        <div className="flex items-center gap-1 shrink-0">
+          {onDownloadMidi && (
+            <Button variant="ghost" size="sm" onClick={onDownloadMidi} className="h-5 w-5 p-0" title="Скачать MIDI">
+              <Download className="w-3 h-3" />
+            </Button>
+          )}
+          {onDownloadPdf && (
+            <Button variant="ghost" size="sm" onClick={onDownloadPdf} className="h-5 w-5 p-0" title="Скачать PDF">
+              <FileMusic className="w-3 h-3" />
+            </Button>
+          )}
+          {onViewFull && (
+            <Button variant="ghost" size="sm" onClick={onViewFull} className="h-5 gap-1 px-1.5 text-[10px]">
+              <Eye className="w-3 h-3" />
+              <span className="hidden sm:inline">Ноты</span>
+            </Button>
+          )}
+        </div>
+      </div>
+    </motion.div>
+  );
+});
+
 
 // Track type configuration
 const trackConfig: Record<string, { 
@@ -95,6 +222,7 @@ interface StudioTrackRowProps {
   isSourceTrack?: boolean; // True if this is the main source track (can extend/replace)
   stemsExist?: boolean; // If stems exist, disable extend/replace
   hasTranscription?: boolean; // If track has MIDI/notation transcription
+  transcription?: StemTranscriptionData | null; // Full transcription data for MIDI preview
   onToggleMute: () => void;
   onToggleSolo: () => void;
   onVolumeChange: (volume: number) => void;
@@ -113,6 +241,7 @@ export const StudioTrackRow = memo(function StudioTrackRow({
   isSourceTrack = false,
   stemsExist = false,
   hasTranscription = false,
+  transcription,
   onToggleMute,
   onToggleSolo,
   onVolumeChange,
@@ -358,6 +487,23 @@ export const StudioTrackRow = memo(function StudioTrackRow({
             </div>
           )}
         </div>
+
+        {/* MIDI Notes Preview - show if we have transcription data */}
+        {transcription && (transcription.notes?.length || transcription.midiUrl || transcription.pdfUrl || transcription.gp5Url) && (
+          <div className="px-3 pb-2">
+            <MidiNotesPreview
+              notes={transcription.notes || []}
+              duration={transcription.durationSeconds || duration}
+              currentTime={currentTime}
+              notesCount={transcription.notesCount || transcription.notes?.length || 0}
+              bpm={transcription.bpm}
+              keyDetected={transcription.keyDetected}
+              onViewFull={() => onAction?.('view_notation')}
+              onDownloadMidi={transcription.midiUrl ? () => window.open(transcription.midiUrl!, '_blank') : undefined}
+              onDownloadPdf={transcription.pdfUrl ? () => window.open(transcription.pdfUrl!, '_blank') : undefined}
+            />
+          </div>
+        )}
       </div>
     </motion.div>
     </>
