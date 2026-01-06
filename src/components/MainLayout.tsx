@@ -13,7 +13,7 @@ import { cn } from '@/lib/utils';
 import { setSubscriptionDialogCallback } from '@/hooks/useTrackActions';
 import { useTelegramSettingsButton } from '@/hooks/telegram';
 import { SmartAlertProvider } from './notifications/smart-alerts';
-import { BetaFooter } from './BetaFooter';
+
 import { useAdminDailyStats } from '@/hooks/useAdminDailyStats';
 
 // Lazy load heavy dialogs - not needed on initial render
@@ -170,7 +170,7 @@ export const MainLayout = () => {
           } : undefined}
         >
           <Outlet />
-          <BetaFooter />
+          
         </div>
         <ResizablePlayer />
       </main>
