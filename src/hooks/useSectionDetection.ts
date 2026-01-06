@@ -285,6 +285,17 @@ function detectSectionsFromGaps(words: AlignedWord[], duration: number): Detecte
     return createMusicalSections(duration);
   }
 
+  // Make sections continuous (no gaps)
+  if (sections.length > 0) {
+    sections[0].startTime = 0;
+    for (let i = 0; i < sections.length - 1; i++) {
+      const current = sections[i];
+      const next = sections[i + 1];
+      if (current.endTime < next.startTime) current.endTime = next.startTime;
+    }
+    sections[sections.length - 1].endTime = duration;
+  }
+
   return sections;
 }
 
@@ -503,53 +514,33 @@ export function useSectionDetection(
           }
         }
 
-        // CRITICAL: Ensure sections cover full track duration with NO GAPS
+        // CRITICAL: Ensure sections are CONTINUOUS with NO GAPS
+        // Strategy: absorb gaps by extending neighboring sections (never inject "Переход" sections).
         if (sections.length > 0) {
-          // 1. First section MUST start from 0
-          if (sections[0].startTime > 0) {
-            // Create intro section for the beginning gap
-            sections.unshift({
-              type: 'intro',
-              label: 'Интро',
-              startTime: 0,
-              endTime: sections[0].startTime,
-              lyrics: '',
-              words: [],
-            });
-          }
-          
-          // 2. Fill ALL gaps between sections
-          const filledSections: DetectedSection[] = [];
-          for (let i = 0; i < sections.length; i++) {
+          // 1) First section starts at 0
+          sections[0].startTime = 0;
+
+          // 2) Make sections continuous
+          for (let i = 0; i < sections.length - 1; i++) {
             const current = sections[i];
-            const prev = filledSections[filledSections.length - 1];
-            
-            // If there's a gap between previous and current, fill it
-            if (prev && current.startTime > prev.endTime) {
-              filledSections.push({
-                type: 'unknown',
-                label: 'Переход',
-                startTime: prev.endTime,
-                endTime: current.startTime,
-                lyrics: '',
-                words: [],
-              });
+            const next = sections[i + 1];
+
+            // If there's a gap, extend current to meet next
+            if (current.endTime < next.startTime) {
+              current.endTime = next.startTime;
             }
-            
-            // Add current section (adjusting start if needed to connect)
-            filledSections.push({
-              ...current,
-              startTime: prev ? Math.max(current.startTime, prev.endTime) : current.startTime,
-            });
+
+            // If overlap, clamp next start
+            if (next.startTime < current.endTime) {
+              next.startTime = current.endTime;
+            }
           }
-          
-          // 3. Last section MUST extend to full duration
-          const lastSection = filledSections[filledSections.length - 1];
-          if (lastSection.endTime < duration) {
-            lastSection.endTime = duration;
-          }
-          
-          return filledSections;
+
+          // 3) Last section extends to full duration
+          const last = sections[sections.length - 1];
+          if (last.endTime < duration) last.endTime = duration;
+
+          return sections;
         }
       }
 

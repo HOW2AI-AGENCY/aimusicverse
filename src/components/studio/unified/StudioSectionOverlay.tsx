@@ -26,9 +26,9 @@ interface StudioSectionOverlayProps {
   className?: string;
 }
 
-// Gap merge threshold - gaps smaller than this will be merged with adjacent sections
-// Increased from 0.5s to 1.5s to avoid unnecessary "Переход" sections
-const GAP_MERGE_THRESHOLD_S = 1.5;
+// Gap merge threshold - used only for merging adjacent same-type sections
+// We DO NOT create "Переход" blocks from gaps; gaps are absorbed by neighboring sections.
+const GAP_MERGE_THRESHOLD_S = 3.0;
 
 // Section type colors - improved contrast for dark theme
 const SECTION_COLORS: Record<DetectedSection['type'], { bg: string; border: string; text: string }> = {
@@ -93,44 +93,19 @@ export const StudioSectionOverlay = memo(function StudioSectionOverlay({
     const result: DetectedSection[] = [];
     let currentEnd = 0;
     
-    // If there's a significant gap at the start, add intro
-    if (sections[0].startTime > GAP_MERGE_THRESHOLD_S) {
-      result.push({
-        type: 'intro' as const,
-        label: 'Интро',
-        startTime: 0,
-        endTime: sections[0].startTime,
-        lyrics: '',
-        words: [],
-      });
-      currentEnd = sections[0].startTime;
-    } else if (sections[0].startTime > 0) {
-      // Small gap at start - just adjust first section to start from 0
-      currentEnd = 0;
-    }
+    // Always start from 0 (avoid creating artificial "Переход"/intro-only fillers here)
+    currentEnd = 0;
     
     for (let i = 0; i < sections.length; i++) {
       const current = sections[i];
       const gapSize = current.startTime - currentEnd;
       
-      // Small gap: extend previous section instead of creating transition
-      if (gapSize > 0 && gapSize < GAP_MERGE_THRESHOLD_S && result.length > 0) {
+      // Absorb any gap by extending the previous section (no standalone transition blocks)
+      if (gapSize > 0 && result.length > 0) {
         result[result.length - 1] = {
           ...result[result.length - 1],
           endTime: current.startTime,
         };
-        currentEnd = current.startTime;
-      }
-      // Medium/large gap: create transition section only if gap is significant
-      else if (gapSize >= GAP_MERGE_THRESHOLD_S) {
-        result.push({
-          type: 'unknown' as const,
-          label: 'Переход',
-          startTime: currentEnd,
-          endTime: current.startTime,
-          lyrics: '',
-          words: [],
-        });
         currentEnd = current.startTime;
       }
       
