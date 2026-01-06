@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, lazy, Suspense, useCallback } from "react";
+import { useState, useEffect, useMemo, lazy, Suspense, useCallback, useRef } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
@@ -9,10 +9,9 @@ import { SectionSkeleton as UnifiedSectionSkeleton, GridSkeleton } from "@/compo
 import { LazySection } from "@/components/lazy/LazySection";
 import { motion, useReducedMotion } from '@/lib/motion';
 import { SEOHead, SEO_PRESETS } from "@/components/SEOHead";
-import { QuickCreatePreset } from "@/constants/quickCreatePresets";
 import { PullToRefreshWrapper } from "@/components/library/PullToRefreshWrapper";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { TrendingUp, Clock } from "lucide-react";
+import { TrendingUp, Clock, Flame, Sparkles } from "lucide-react";
 import { lazyWithRetry } from "@/lib/performance";
 import { FeatureErrorBoundary } from "@/components/ui/feature-error-boundary";
 
@@ -20,8 +19,11 @@ import { FeatureErrorBoundary } from "@/components/ui/feature-error-boundary";
 import { TracksGridSection } from "@/components/home/TracksGridSection";
 import { MainActionsBar } from "@/components/home/MainActionsBar";
 import { GenreTracksRow } from "@/components/home/GenreTracksRow";
-import { CreateCTABanner } from "@/components/home/CreateCTABanner";
 import { FeaturedBlogBanners } from "@/components/home/FeaturedBlogBanners";
+import { HeroSection } from "@/components/home/HeroSection";
+import { QuickPlaySection } from "@/components/home/QuickPlaySection";
+import { SocialProofSection } from "@/components/home/SocialProofSection";
+import { EngagementHint } from "@/components/home/EngagementHint";
 
 // Lazy loaded components
 const GamificationBar = lazy(() => import("@/components/gamification/GamificationBar").then(m => ({ default: m.GamificationBar })));
@@ -42,10 +44,7 @@ const GENRE_SECTIONS = [
   { genre: 'hiphop', label: 'Хип-Хоп', color: 'violet' },
   { genre: 'pop', label: 'Поп', color: 'rose' },
   { genre: 'rock', label: 'Рок', color: 'orange' },
-  { genre: 'folk', label: 'Фолк', color: 'emerald' },
-  { genre: 'jazz', label: 'Джаз', color: 'primary' },
   { genre: 'electronic', label: 'Электроника', color: 'cyan' },
-  { genre: 'ambient', label: 'Эмбиент', color: 'emerald' },
 ] as const;
 
 const Index = () => {
@@ -112,6 +111,12 @@ const Index = () => {
     ? {} 
     : { initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 } };
 
+  // Scroll to tracks section
+  const tracksSectionRef = useRef<HTMLDivElement>(null);
+  const scrollToTracks = useCallback(() => {
+    tracksSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, []);
+
   return (
     <PullToRefreshWrapper 
       onRefresh={handleRefresh} 
@@ -154,55 +159,85 @@ const Index = () => {
           </div>
         )}
 
-        {/* CTA for guests */}
+        {/* Hero Section for guests - привлечение внимания */}
         {!user && (
-          <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.1 }}>
-            <CreateCTABanner onGenerateClick={() => setGenerateSheetOpen(true)} />
+          <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.1 }}>
+            <HeroSection 
+              onListenClick={scrollToTracks}
+              onCreateClick={() => setGenerateSheetOpen(true)}
+              isGuest={true}
+            />
           </motion.section>
         )}
+
+        {/* Quick Play Section - начни слушать сразу */}
+        {!contentLoading && publicContent?.popularTracks && publicContent.popularTracks.length > 0 && (
+          <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.15 }}>
+            <QuickPlaySection 
+              tracks={publicContent.popularTracks} 
+              isLoading={contentLoading}
+            />
+          </motion.section>
+        )}
+
+        {/* Social Proof - статистика для доверия */}
+        {!user && (
+          <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.18 }}>
+            <SocialProofSection />
+          </motion.section>
+        )}
+
+        {/* Main Actions Bar (Audio/Lyrics/Projects) */}
+        <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.2 }}>
+          <MainActionsBar />
+        </motion.section>
 
         {/* Featured Projects Banner */}
         <FeatureErrorBoundary featureName="Featured Projects Banner">
           <Suspense fallback={null}>
-            <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.12 }}>
+            <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.22 }}>
               <FeaturedProjectsBanner />
             </motion.section>
           </Suspense>
         </FeatureErrorBoundary>
 
-        {/* Main Actions Bar (Audio/Lyrics/Projects) */}
-        <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.14 }}>
-          <MainActionsBar />
-        </motion.section>
-
         {/* Blog Articles */}
-        <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.16 }}>
+        <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.24 }}>
           <FeaturedBlogBanners />
         </motion.section>
 
+        {/* Engagement Hint - подсказка для вовлечения */}
+        {!user && (
+          <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.26 }}>
+            <EngagementHint variant="like" />
+          </motion.section>
+        )}
+
         {/* Popular Tracks - Main section */}
-        <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.18 }}>
-          <TracksGridSection
-            title="Популярное"
-            subtitle="Треки, которые слушают больше всего"
-            icon={TrendingUp}
-            iconColor="text-emerald-400"
-            iconGradient="from-emerald-500/20 to-teal-500/10"
-            tracks={publicContent?.popularTracks || []}
-            isLoading={contentLoading}
-            maxTracks={12}
-            columns={4}
-            showMoreLink="/community?sort=popular"
-            showMoreLabel="Все популярные"
-            onRemix={handleRemix}
-          />
-        </motion.section>
+        <div ref={tracksSectionRef}>
+          <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.28 }}>
+            <TracksGridSection
+              title="🔥 Популярное"
+              subtitle="Треки, которые слушают больше всего — начни с них!"
+              icon={TrendingUp}
+              iconColor="text-emerald-400"
+              iconGradient="from-emerald-500/20 to-teal-500/10"
+              tracks={publicContent?.popularTracks || []}
+              isLoading={contentLoading}
+              maxTracks={12}
+              columns={4}
+              showMoreLink="/community?sort=popular"
+              showMoreLabel="Все популярные"
+              onRemix={handleRemix}
+            />
+          </motion.section>
+        </div>
 
         {/* New Tracks */}
-        <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.2 }}>
+        <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.3 }}>
           <TracksGridSection
-            title="Новинки"
-            subtitle="Свежие треки от сообщества"
+            title="✨ Новинки"
+            subtitle="Свежие треки от сообщества — оцени первым!"
             icon={Clock}
             iconColor="text-orange-400"
             iconGradient="from-orange-500/20 to-amber-500/10"
@@ -216,20 +251,17 @@ const Index = () => {
           />
         </motion.section>
 
-        {/* CTA for logged in users */}
+        {/* Engagement Hint for logged users */}
         {user && (
-          <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.22 }}>
-            <CreateCTABanner 
-              onGenerateClick={() => setGenerateSheetOpen(true)} 
-              variant="minimal"
-            />
+          <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.32 }}>
+            <EngagementHint variant="play" />
           </motion.section>
         )}
 
         {/* Recent user tracks */}
         {user && (
           <Suspense fallback={null}>
-            <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.24 }}>
+            <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.34 }}>
               <RecentTracksSection maxTracks={4} />
             </motion.section>
           </Suspense>
