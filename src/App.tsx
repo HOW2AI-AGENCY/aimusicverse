@@ -65,8 +65,8 @@ const ReferenceAudioDetail = lazy(() => import("./pages/ReferenceAudioDetail"));
 const HardwareStudioDemo = lazy(() => import("./pages/HardwareStudioDemo"));
 const MobilePlayerPage = lazy(() => import("./pages/MobilePlayerPage"));
 
-// Unified Studio Hub
-const StudioHub = lazy(() => import("./pages/Studio"));
+// Legacy Studio Hub - now redirects to Studio V2
+// const StudioHub = lazy(() => import("./pages/Studio"));
 
 // Studio V2 pages (isolated from existing studio)
 const StudioHubPage = lazy(() => import("./pages/studio-v2/StudioHubPage"));
@@ -129,7 +129,7 @@ const App = () => (
                   </ProtectedRoute>
                 }>
                   <Route path="/" element={<Index />} />
-                  <Route path="/studio" element={<StudioHub />} />
+                  <Route path="/studio" element={<Navigate to="/studio-v2" replace />} />
                   <Route path="/profile" element={<ProfilePage />} />
                   <Route path="/profile/:userId" element={<PublicProfilePage />} />
                   <Route path="/settings" element={<Settings />} />

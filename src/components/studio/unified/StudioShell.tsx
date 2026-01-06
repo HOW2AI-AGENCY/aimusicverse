@@ -67,6 +67,7 @@ import {
   SkipForward,
   Mic2,
   Sparkles,
+  Layers,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
@@ -92,6 +93,9 @@ import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 import { useProjectTrackSync } from '@/hooks/studio/useProjectTrackSync';
 import { useStudioOperationLock } from '@/hooks/studio/useStudioOperationLock';
 import { InstrumentalResultHandler, InstrumentalResultData } from './InstrumentalResultHandler';
+import { AIActionsFAB } from './AIActionsFAB';
+import { StemSeparationModeDialog } from '@/components/stem-studio/StemSeparationModeDialog';
+import { useStemSeparation } from '@/hooks/useStemSeparation';
 
 interface StudioShellProps {
   className?: string;
@@ -189,6 +193,10 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
   
   // Actions sheet state (mobile)
   const [showActionsSheet, setShowActionsSheet] = useState(false);
+  
+  // Stem separation state
+  const [showStemSeparationDialog, setShowStemSeparationDialog] = useState(false);
+  const { separate: separateStems, isSeparating } = useStemSeparation();
 
 
   // Section editor store
@@ -845,6 +853,38 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
     return project?.tracks?.some(t => t.solo) ?? false;
   }, [project?.tracks]);
 
+  // Handle stem separation request
+  const handleStemSeparation = useCallback(async (mode: 'simple' | 'detailed') => {
+    if (!sourceTrackId) {
+      toast.error('Исходный трек не найден');
+      return;
+    }
+    
+    // Get source track data from database
+    const { data: trackData, error } = await supabase
+      .from('tracks')
+      .select('id, title, audio_url, suno_id, suno_task_id')
+      .eq('id', sourceTrackId)
+      .maybeSingle();
+    
+    if (error || !trackData) {
+      toast.error('Не удалось загрузить трек');
+      return;
+    }
+    
+    if (!trackData.suno_id || !trackData.audio_url) {
+      toast.error('Трек не поддерживает разделение на стемы');
+      return;
+    }
+    
+    try {
+      await separateStems(trackData as Track, mode);
+      setShowStemSeparationDialog(false);
+    } catch (err) {
+      logger.error('Stem separation failed', err);
+    }
+  }, [sourceTrackId, separateStems]);
+
   // Handle track actions from mobile UI
   const handleMobileTrackAction = useCallback((trackId: string, action: string) => {
     const track = project.tracks.find(t => t.id === trackId);
@@ -880,7 +920,12 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
       } else {
         toast.error('Вокальный трек не найден');
       }
-    } else if (action === 'reference') {
+    } else if (action === 'separate_stems') {
+      setShowStemSeparationDialog(true);
+    } else if (action === 'view_notation') {
+      setSelectedNotationTrack(track);
+      setShowNotationPanel(true);
+    } else if (action === 'cover') {
       // Navigate to create page with audio as reference for cover
       if (track.audioUrl) {
         navigate(`/create?mode=cover&audioUrl=${encodeURIComponent(track.audioUrl)}`);
@@ -888,7 +933,7 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
         toast.error('Нет аудио для референса');
       }
     }
-  }, [project?.tracks]);
+  }, [project?.tracks, navigate]);
 
   // Unified layout for both desktop and mobile
   // Mobile uses vertical scroll with fixed player bar at bottom
@@ -1223,6 +1268,49 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
           )}
         </div>
       </ScrollArea>
+
+      {/* AI Actions FAB - Mobile only */}
+      {isMobile && project.tracks.length > 0 && (
+        <AIActionsFAB
+          onGenerate={() => setShowGenerateSheet(true)}
+          onExtend={() => {
+            const mainTrack = project.tracks[0];
+            if (mainTrack) {
+              setSelectedExtendTrack(mainTrack);
+              setShowExtendDialog(true);
+            }
+          }}
+          onCover={() => {
+            const mainTrack = project.tracks[0];
+            if (mainTrack?.audioUrl) {
+              navigate(`/create?mode=cover&audioUrl=${encodeURIComponent(mainTrack.audioUrl)}`);
+            }
+          }}
+          onAddVocals={() => {
+            const instrumental = project.tracks.find(t => t.type === 'instrumental');
+            if (instrumental) {
+              setSelectedVocalsTrack(instrumental);
+              setShowAddVocalsDrawer(true);
+            } else {
+              toast.info('Сначала разделите трек на стемы');
+            }
+          }}
+          onSeparateStems={() => setShowStemSeparationDialog(true)}
+          onSaveAsVersion={() => setShowSaveVersionDialog(true)}
+          onAddInstrumental={() => {
+            const vocal = project.tracks.find(t => t.type === 'vocal');
+            if (vocal) {
+              setSelectedArrangementTrack(vocal);
+              setShowArrangementDialog(true);
+            }
+          }}
+          disabledOperations={operationLock.blockedOperations}
+          getDisabledReason={operationLock.getBlockReason}
+          canSaveAsNewVersion={operationLock.canSaveAsNewVersion}
+          disabled={isSeparating}
+          className="fixed bottom-28 right-4 z-40"
+        />
+      )}
 
       {/* Mobile Player Bar - fixed at bottom */}
       {isMobile && (
@@ -1605,6 +1693,14 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
           )}
         </SheetContent>
       </Sheet>
+
+      {/* Stem Separation Mode Dialog */}
+      <StemSeparationModeDialog
+        open={showStemSeparationDialog}
+        onOpenChange={setShowStemSeparationDialog}
+        onConfirm={handleStemSeparation}
+        isProcessing={isSeparating}
+      />
     </div>
   );
 });

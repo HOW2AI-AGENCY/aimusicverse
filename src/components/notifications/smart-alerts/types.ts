@@ -46,7 +46,7 @@ export const MAX_ALERTS_PER_SESSION = 3; // Max 3 alerts per session
 export const MAX_ALERTS_ON_PAGE_LOAD = 1;
 
 // Routes where alerts should not appear
-export const QUIET_ROUTES = ['/studio', '/generate', '/onboarding'];
+export const QUIET_ROUTES = ['/studio-v2', '/generate', '/onboarding'];
 
 export const ALERT_COOLDOWNS: Record<string, number> = {
   'generation-error': 5 * 60 * 1000, // 5 minutes

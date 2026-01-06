@@ -106,7 +106,7 @@ export const CONTEXTUAL_HINTS: ContextualHint[] = [
     title: "🎵 Анализ музыки с AI",
     description:
       "Загрузите свою музыку для AI-анализа: определение аккордов, темпа, структуры композиции. Идеально для кавер-версий и ремиксов!",
-    showOnRoutes: ["/library", "/studio"],
+    showOnRoutes: ["/library", "/studio-v2"],
     minVisits: 3,
     cooldownHours: 96,
     maxShows: 2,

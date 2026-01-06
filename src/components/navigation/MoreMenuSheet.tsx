@@ -51,8 +51,7 @@ const menuSections: MenuSection[] = [
     icon: Sliders,
     defaultExpanded: true,
     items: [
-      { path: '/studio', icon: Sliders, label: 'Студия', description: 'Unified studio hub', section: 'Студия' },
-      { path: '/studio-v2', icon: Layers, label: 'DAW Studio', description: 'Мультитрек редактор', section: 'Студия' },
+      { path: '/studio-v2', icon: Layers, label: 'Студия', description: 'Мультитрек редактор', section: 'Студия' },
       { path: '/lyrics-studio', icon: PenLine, label: 'Lyrics AI', description: 'AI-помощник для текстов', section: 'Студия' },
       { path: '/guitar-studio', icon: Guitar, label: 'Гитара', description: 'Запись и анализ', section: 'Студия' },
     ]
