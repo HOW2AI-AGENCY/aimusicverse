@@ -12,7 +12,7 @@ import { AlignedWord } from '@/hooks/useTimestampedLyrics';
 import { logger } from '@/lib/logger';
 
 export interface DetectedSection {
-  type: 'verse' | 'chorus' | 'bridge' | 'intro' | 'outro' | 'pre-chorus' | 'hook' | 'unknown';
+  type: 'verse' | 'chorus' | 'bridge' | 'intro' | 'outro' | 'pre-chorus' | 'hook' | 'instrumental' | 'interlude' | 'breakdown' | 'drop' | 'unknown';
   label: string;
   startTime: number;
   endTime: number;
@@ -20,8 +20,8 @@ export interface DetectedSection {
   words: AlignedWord[];
 }
 
-// Tag patterns - English and Russian
-const TAG_PATTERN = /[\[\(](verse|chorus|bridge|intro|outro|pre-?chorus|hook|куплет|припев|бридж|интро|аутро|концовка|пре-?припев|хук|instrumental|инструментал|solo|соло|refrain|рефрен)(?:\s*\d+)?[\]\)]/gi;
+// Tag patterns - English and Russian (expanded)
+const TAG_PATTERN = /[\[\(](verse|chorus|bridge|intro|outro|pre-?chorus|post-?chorus|hook|куплет|припев|бридж|интро|аутро|концовка|пре-?припев|пост-?припев|хук|instrumental|инструментал|interlude|интерлюдия|solo|соло|refrain|рефрен|breakdown|брейкдаун|drop|дроп|break|брейк)(?:\s*\d+)?[\]\)]/gi;
 
 function getTypeFromTag(tagText: string): DetectedSection['type'] {
   const lower = tagText.toLowerCase();
@@ -31,21 +31,30 @@ function getTypeFromTag(tagText: string): DetectedSection['type'] {
   if (/intro|интро/i.test(lower)) return 'intro';
   if (/outro|аутро|концовка/i.test(lower)) return 'outro';
   if (/pre-?chorus|пре-?припев/i.test(lower)) return 'pre-chorus';
+  if (/post-?chorus|пост-?припев/i.test(lower)) return 'hook'; // Map post-chorus to hook
   if (/hook|хук/i.test(lower)) return 'hook';
+  if (/instrumental|инструментал|solo|соло/i.test(lower)) return 'instrumental';
+  if (/interlude|интерлюдия/i.test(lower)) return 'interlude';
+  if (/breakdown|брейкдаун|break|брейк/i.test(lower)) return 'breakdown';
+  if (/drop|дроп/i.test(lower)) return 'drop';
   return 'unknown';
 }
 
-// Russian labels for sections
+// Russian labels for sections (no "Переход" - all real musical parts)
 function getSectionLabel(type: DetectedSection['type'], counter: number): string {
   const labels: Record<DetectedSection['type'], string> = {
     'verse': `Куплет ${counter}`,
     'chorus': `Припев ${counter}`,
-    'bridge': `Бридж`,
+    'bridge': 'Бридж',
     'intro': 'Интро',
     'outro': 'Аутро',
     'pre-chorus': `Пре-припев ${counter}`,
     'hook': `Хук ${counter}`,
-    'unknown': `Секция ${counter}`,
+    'instrumental': 'Инструментал',
+    'interlude': 'Интерлюдия',
+    'breakdown': 'Брейкдаун',
+    'drop': 'Дроп',
+    'unknown': `Часть ${counter}`,
   };
   return labels[type];
 }
