@@ -1,4 +1,4 @@
-import { useCallback, forwardRef, memo, useEffect, useRef, useMemo } from "react";
+import { useCallback, forwardRef, memo, useEffect, useRef, useMemo, Component, ErrorInfo, ReactNode } from "react";
 import { VirtuosoGrid } from "react-virtuoso";
 import type { Track } from "@/types/track";
 import { TrackCard } from "@/components/TrackCard";
@@ -9,6 +9,42 @@ import { logger } from "@/lib/logger";
 import { Button } from "@/components/ui/button";
 
 const log = logger.child({ module: 'VirtualizedTrackList' });
+
+// Error boundary for individual track items during HMR
+class TrackItemErrorBoundary extends Component<
+  { children: ReactNode; trackId?: string },
+  { hasError: boolean }
+> {
+  constructor(props: { children: ReactNode; trackId?: string }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(_error: Error) {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    log.error('TrackItem render error (likely HMR)', error, { 
+      trackId: this.props.trackId,
+      errorInfo 
+    });
+  }
+
+  componentDidUpdate(prevProps: { children: ReactNode; trackId?: string }) {
+    // Reset error state when trackId changes (new track loaded)
+    if (this.state.hasError && prevProps.trackId !== this.props.trackId) {
+      this.setState({ hasError: false });
+    }
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <TrackCardSkeletonCompact />;
+    }
+    return this.props.children;
+  }
+}
 
 interface TrackMidiStatus {
   hasMidi: boolean;
@@ -86,22 +122,24 @@ const MemoizedTrackItem = memo(function MemoizedTrackItem({
   onTagClick?: (tag: string) => void;
 }) {
   return (
-    <TrackCard
-      track={track}
-      layout={viewMode}
-      isPlaying={isPlaying}
-      onPlay={onPlay}
-      onDelete={onDelete}
-      onDownload={onDownload}
-      onToggleLike={onToggleLike}
-      onTagClick={onTagClick}
-      versionCount={counts.versionCount}
-      stemCount={counts.stemCount}
-      hasMidi={midiStatus?.hasMidi}
-      hasPdf={midiStatus?.hasPdf}
-      hasGp5={midiStatus?.hasGp5}
-      isFirstSwipeableItem={index === 0 && viewMode === "list"}
-    />
+    <TrackItemErrorBoundary trackId={track.id}>
+      <TrackCard
+        track={track}
+        layout={viewMode}
+        isPlaying={isPlaying}
+        onPlay={onPlay}
+        onDelete={onDelete}
+        onDownload={onDownload}
+        onToggleLike={onToggleLike}
+        onTagClick={onTagClick}
+        versionCount={counts.versionCount}
+        stemCount={counts.stemCount}
+        hasMidi={midiStatus?.hasMidi}
+        hasPdf={midiStatus?.hasPdf}
+        hasGp5={midiStatus?.hasGp5}
+        isFirstSwipeableItem={index === 0 && viewMode === "list"}
+      />
+    </TrackItemErrorBoundary>
   );
 });
 
@@ -141,6 +179,7 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
         const midiStatus = getMidiStatus?.(track.id);
         return (
           <MemoizedTrackItem
+            key={`track-item-${track.id}`}
             track={track}
             index={index}
             viewMode={viewMode}
@@ -155,8 +194,9 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
           />
         );
       } catch (error) {
-        log.error('Error rendering track item', error, { trackId: track?.id, index });
-        return <TrackCardSkeletonCompact />;
+        log.error('Error rendering track item during HMR or runtime', error, { trackId: track?.id, index });
+        // Return skeleton as graceful fallback during HMR errors
+        return <TrackCardSkeletonCompact key={`skeleton-${track?.id || index}`} />;
       }
     },
     [viewMode, activeTrackId, getCountsForTrack, getMidiStatus, onPlay, onDelete, onDownload, onToggleLike, onTagClick]

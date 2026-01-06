@@ -87,11 +87,23 @@ export const TrackCard = memo(({
   const { addToQueue } = usePlayerStore();
   const { isInQueue, position, isCurrentTrack, isNextTrack } = useQueuePosition(track.id);
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
+  
+  // Safely get navigate hook with fallback for HMR scenarios
+  let navigate: ReturnType<typeof useNavigate> | null = null;
+  try {
+    navigate = useNavigate();
+  } catch (error) {
+    // During HMR, router context might not be available yet
+    console.warn('[TrackCard] Router context not available during HMR, navigation disabled temporarily');
+  }
   
   // Direct studio access handler
   const handleOpenStudio = (e: React.MouseEvent) => {
     e.stopPropagation();
+    if (!navigate) {
+      console.warn('[TrackCard] Navigation not available');
+      return;
+    }
     triggerHapticFeedback('medium');
     navigate(`/studio-v2/track/${track.id}`);
   };
