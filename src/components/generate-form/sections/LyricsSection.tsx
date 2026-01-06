@@ -1,7 +1,7 @@
 import { memo, useState } from 'react';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { FormFieldToolbar } from '../FormFieldToolbar';
+import { FormFieldActions } from '@/components/ui/FormFieldActions';
 import { LyricsVisualEditorCompact } from '../LyricsVisualEditorCompact';
 import { SaveTemplateDialog } from '../SaveTemplateDialog';
 import { SavedLyricsSelector } from '../SavedLyricsSelector';
@@ -97,7 +97,7 @@ export const LyricsSection = memo(function LyricsSection({
               
               {/* Toolbar */}
               <div className="flex items-center bg-background/60 backdrop-blur-sm rounded-md">
-                <FormFieldToolbar
+                <FormFieldActions
                   value={lyrics}
                   onClear={() => onLyricsChange('')}
                   onVoiceInput={onLyricsChange}
@@ -108,7 +108,7 @@ export const LyricsSection = memo(function LyricsSection({
                   onOpenStudio={() => navigate('/lyrics-studio')}
                   onSave={async () => setSaveDialogOpen(true)}
                   showSave
-                  compact
+                  size="lg"
                 />
               </div>
             </div>

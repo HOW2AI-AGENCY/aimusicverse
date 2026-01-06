@@ -1,41 +1,51 @@
-import { useState, useEffect, useMemo, lazy, Suspense, useCallback } from "react";
+import { useState, useEffect, useMemo, lazy, Suspense, useCallback, useRef } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import { useProfile } from "@/hooks/useProfile.tsx";
-import logo from "@/assets/logo.png";
 import { usePublicContentBatch, getGenrePlaylists } from "@/hooks/usePublicContent";
-import { HeroQuickActions } from "@/components/home/HeroQuickActions";
 import { HomeHeader } from "@/components/home/HomeHeader";
-import { HomeSkeletonEnhanced } from "@/components/home/HomeSkeletonEnhanced";
-import { QuickPresetsCarousel } from "@/components/home/QuickPresetsCarousel";
-import { LazySection, SectionSkeleton } from "@/components/lazy/LazySection";
+import { SectionSkeleton as UnifiedSectionSkeleton, GridSkeleton } from "@/components/ui/skeleton-components";
+import { LazySection } from "@/components/lazy/LazySection";
 import { motion, useReducedMotion } from '@/lib/motion';
 import { SEOHead, SEO_PRESETS } from "@/components/SEOHead";
-import { QuickCreatePreset } from "@/constants/quickCreatePresets";
 import { PullToRefreshWrapper } from "@/components/library/PullToRefreshWrapper";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { TrendingUp, Clock, Flame, Sparkles } from "lucide-react";
+import { lazyWithRetry } from "@/lib/performance";
+import { FeatureErrorBoundary } from "@/components/ui/feature-error-boundary";
+
+// Core components - not lazy loaded for critical content
+import { TracksGridSection } from "@/components/home/TracksGridSection";
+import { MainActionsBar } from "@/components/home/MainActionsBar";
+import { GenreTracksRow } from "@/components/home/GenreTracksRow";
+import { FeaturedBlogBanners } from "@/components/home/FeaturedBlogBanners";
+import { HeroSection } from "@/components/home/HeroSection";
+import { QuickPlaySection } from "@/components/home/QuickPlaySection";
+import { SocialProofSection } from "@/components/home/SocialProofSection";
+import { EngagementHint } from "@/components/home/EngagementHint";
 
 // Lazy loaded components
 const GamificationBar = lazy(() => import("@/components/gamification/GamificationBar").then(m => ({ default: m.GamificationBar })));
 const RecentTracksSection = lazy(() => import("@/components/home/RecentTracksSection").then(m => ({ default: m.RecentTracksSection })));
-const UserProjectsSection = lazy(() => import("@/components/home/UserProjectsSection").then(m => ({ default: m.UserProjectsSection })));
-const FollowingFeed = lazy(() => import("@/components/social/FollowingFeed").then(m => ({ default: m.FollowingFeed })));
+
 const AutoPlaylistsSection = lazy(() => import("@/components/home/AutoPlaylistsSection").then(m => ({ default: m.AutoPlaylistsSection })));
-const PublicArtistsSection = lazy(() => import("@/components/home/PublicArtistsSection").then(m => ({ default: m.PublicArtistsSection })));
-const FeaturedBlogHero = lazy(() => import("@/components/home/FeaturedBlogHero").then(m => ({ default: m.FeaturedBlogHero })));
 const PopularCreatorsSection = lazy(() => import("@/components/home/PopularCreatorsSection").then(m => ({ default: m.PopularCreatorsSection })));
-const PublishedProjectsSlider = lazy(() => import("@/components/home/PublishedProjectsSlider").then(m => ({ default: m.PublishedProjectsSlider })));
-const ProfessionalToolsHub = lazy(() => import("@/components/home/ProfessionalToolsHub").then(m => ({ default: m.ProfessionalToolsHub })));
-const FeaturedProjectsBanner = lazy(() => import("@/components/home/FeaturedProjectsBanner").then(m => ({ default: m.FeaturedProjectsBanner })));
-const UnifiedTrackFeed = lazy(() => import("@/components/home/UnifiedTrackFeed").then(m => ({ default: m.UnifiedTrackFeed })));
+const PublicArtistsSection = lazy(() => import("@/components/home/PublicArtistsSection").then(m => ({ default: m.PublicArtistsSection })));
+const FeaturedProjectsBanner = lazyWithRetry(() => import("@/components/home/FeaturedProjectsBanner").then(m => ({ default: m.FeaturedProjectsBanner })));
 const EngagementBanner = lazy(() => import("@/components/home/EngagementBanner").then(m => ({ default: m.EngagementBanner })));
 
 // Dialogs - only loaded when opened
 const GenerateSheet = lazy(() => import("@/components/GenerateSheet").then(m => ({ default: m.GenerateSheet })));
 const MusicRecognitionDialog = lazy(() => import("@/components/music-recognition/MusicRecognitionDialog").then(m => ({ default: m.MusicRecognitionDialog })));
-const QuickProjectSheet = lazy(() => import("@/components/project/QuickProjectSheet").then(m => ({ default: m.QuickProjectSheet })));
-const SubscriptionFeatureAnnouncement = lazy(() => import("@/components/announcements/SubscriptionFeatureAnnouncement").then(m => ({ default: m.SubscriptionFeatureAnnouncement })));
+
+// Genre configurations (based on computed_genre data in DB)
+const GENRE_SECTIONS = [
+  { genre: 'hiphop', label: 'Хип-Хоп', color: 'violet' },
+  { genre: 'pop', label: 'Поп', color: 'rose' },
+  { genre: 'rock', label: 'Рок', color: 'orange' },
+  { genre: 'electronic', label: 'Электроника', color: 'cyan' },
+] as const;
 
 const Index = () => {
   const { user } = useAuth();
@@ -46,7 +56,6 @@ const Index = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [generateSheetOpen, setGenerateSheetOpen] = useState(false);
   const [recognitionDialogOpen, setRecognitionDialogOpen] = useState(false);
-  const [quickProjectOpen, setQuickProjectOpen] = useState(false);
   const prefersReducedMotion = useReducedMotion();
   const isMobile = useIsMobile();
 
@@ -64,20 +73,10 @@ const Index = () => {
 
   // Handle navigation state for opening GenerateSheet
   useEffect(() => {
-    let mounted = true;
-    
-    const handleNavigationState = () => {
-      if (location.state?.openGenerate && mounted) {
-        setGenerateSheetOpen(true);
-        navigate(location.pathname, { replace: true, state: {} });
-      }
-    };
-    
-    handleNavigationState();
-    
-    return () => {
-      mounted = false;
-    };
+    if (location.state?.openGenerate) {
+      setGenerateSheetOpen(true);
+      navigate(location.pathname, { replace: true, state: {} });
+    }
   }, [location.state, navigate, location.pathname]);
 
   // Handle deep link for recognition
@@ -90,7 +89,6 @@ const Index = () => {
 
   const goToProfile = () => {
     hapticFeedback("light");
-    // Navigate to public profile page if user is logged in
     if (user?.id) {
       navigate(`/profile/${user.id}`);
     } else {
@@ -103,23 +101,21 @@ const Index = () => {
     navigate(`/generate?remix=${trackId}`);
   };
 
-  const handlePresetSelect = (preset: QuickCreatePreset) => {
-    setGenerateSheetOpen(true);
-  };
-
   // Pull to refresh handler
   const handleRefresh = useCallback(async () => {
     await refetchContent();
   }, [refetchContent]);
 
-  // Animation props - disabled when reduced motion is preferred
+  // Animation props
   const fadeInUp = prefersReducedMotion 
     ? {} 
     : { initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 } };
-  
-  const fadeIn = prefersReducedMotion
-    ? {}
-    : { initial: { opacity: 0 }, animate: { opacity: 1 } };
+
+  // Scroll to tracks section
+  const tracksSectionRef = useRef<HTMLDivElement>(null);
+  const scrollToTracks = useCallback(() => {
+    tracksSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, []);
 
   return (
     <PullToRefreshWrapper 
@@ -127,201 +123,212 @@ const Index = () => {
       disabled={!isMobile}
       className="min-h-screen bg-background pb-20 relative overflow-hidden"
     >
-        {/* Background gradient - hidden on reduced motion for performance */}
-        {!prefersReducedMotion && (
-          <div className="fixed inset-0 pointer-events-none opacity-40">
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/12 rounded-full blur-3xl animate-pulse-slow" />
-            <div className="absolute top-1/4 right-1/4 w-80 h-80 bg-generate/10 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1s' }} />
+      {/* Background gradient */}
+      {!prefersReducedMotion && (
+        <div className="fixed inset-0 pointer-events-none opacity-40">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/12 rounded-full blur-3xl animate-pulse-slow" />
+          <div className="absolute top-1/4 right-1/4 w-80 h-80 bg-generate/10 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1s' }} />
+        </div>
+      )}
+      
+      <div className="max-w-6xl mx-auto px-3 sm:px-4 pb-4 sm:py-6 relative z-10">
+        {/* SEO */}
+        <SEOHead {...SEO_PRESETS.home} />
+        
+        {/* Header */}
+        <HomeHeader
+          userName={displayUser?.first_name || displayUser?.username?.split('@')[0]}
+          userPhotoUrl={displayUser?.photo_url}
+          onProfileClick={goToProfile}
+        />
+
+        {/* Gamification Bar - logged in users */}
+        {user && (
+          <Suspense fallback={null}>
+            <motion.div className="mb-3" {...fadeInUp} transition={{ delay: 0.05 }}>
+              <GamificationBar />
+            </motion.div>
+          </Suspense>
+        )}
+
+        {/* Loading Skeleton */}
+        {contentLoading && !publicContent && (
+          <div className="space-y-5">
+            <UnifiedSectionSkeleton contentType="grid" gridCount={4} gridColumns={2} />
+            <UnifiedSectionSkeleton contentType="carousel" />
           </div>
         )}
-        
-        <div className="max-w-6xl mx-auto px-3 sm:px-4 pb-4 sm:py-6 relative z-10">
-          {/* SEO */}
-          <SEOHead {...SEO_PRESETS.home} />
-          {/* Unified Header Component */}
-          <HomeHeader
-            userName={displayUser?.first_name || displayUser?.username?.split('@')[0]}
-            userPhotoUrl={displayUser?.photo_url}
-            onProfileClick={goToProfile}
-          />
 
-          {/* Compact Gamification Bar */}
-          {user && (
-            <Suspense fallback={<div className="h-14 bg-card/40 animate-pulse rounded-2xl mb-3" />}>
-              <motion.div 
-                className="mb-3"
-                {...fadeInUp}
-                transition={{ delay: 0.05, duration: 0.25 }}
-              >
-                <GamificationBar />
-              </motion.div>
-            </Suspense>
-          )}
-
-          {/* Loading Skeleton */}
-          {contentLoading && !publicContent && (
-            <HomeSkeletonEnhanced />
-          )}
-
-          {/* Featured Projects Banner - Widescreen CTA */}
-          <LazySection className="mb-4 sm:mb-5" fallback={<div className="w-full rounded-2xl bg-card/40 animate-pulse" style={{ aspectRatio: '21/9' }} />}>
-            <FeaturedProjectsBanner />
-          </LazySection>
-
-          {/* Hero Quick Actions - Primary CTA */}
-          <motion.section 
-            className="mb-4 sm:mb-5"
-            {...fadeInUp}
-            transition={{ delay: 0.1, duration: 0.3 }}
-          >
-            <HeroQuickActions onGenerateClick={() => setGenerateSheetOpen(true)} />
+        {/* Hero Section for guests - привлечение внимания */}
+        {!user && (
+          <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.1 }}>
+            <HeroSection 
+              onListenClick={scrollToTracks}
+              onCreateClick={() => setGenerateSheetOpen(true)}
+              isGuest={true}
+            />
           </motion.section>
+        )}
 
-          {/* Quick Presets Carousel */}
-          <motion.section
-            {...fadeInUp}
-            transition={{ delay: 0.11, duration: 0.3 }}
-          >
-            <QuickPresetsCarousel onSelectPreset={handlePresetSelect} />
+        {/* Quick Play Section - начни слушать сразу */}
+        {!contentLoading && publicContent?.popularTracks && publicContent.popularTracks.length > 0 && (
+          <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.15 }}>
+            <QuickPlaySection 
+              tracks={publicContent.popularTracks} 
+              isLoading={contentLoading}
+            />
           </motion.section>
+        )}
 
-          {/* Featured Blog Hero - Large Banner */}
-          <LazySection className="mb-4 sm:mb-5" fallback={<SectionSkeleton height="200px" />}>
-            <FeaturedBlogHero />
-          </LazySection>
+        {/* Social Proof - статистика для доверия */}
+        {!user && (
+          <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.18 }}>
+            <SocialProofSection />
+          </motion.section>
+        )}
 
-          {/* Unified Track Feed - Tabs with genres */}
-          <Suspense fallback={<SectionSkeleton height="300px" />}>
-            <motion.section 
-              className="mb-4 sm:mb-5"
-              {...fadeIn}
-              transition={{ delay: 0.15, duration: 0.3 }}
-            >
-              <UnifiedTrackFeed
-                recentTracks={publicContent?.recentTracks || []}
-                popularTracks={publicContent?.popularTracks || []}
-                isLoading={contentLoading}
-                onRemix={handleRemix}
-              />
+        {/* Main Actions Bar (Audio/Lyrics/Projects) */}
+        <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.2 }}>
+          <MainActionsBar />
+        </motion.section>
+
+        {/* Featured Projects Banner */}
+        <FeatureErrorBoundary featureName="Featured Projects Banner">
+          <Suspense fallback={null}>
+            <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.22 }}>
+              <FeaturedProjectsBanner />
             </motion.section>
           </Suspense>
+        </FeatureErrorBoundary>
 
-          {/* Engagement Banner - Follow creators */}
-          {!user && (
-            <LazySection className="mb-4 sm:mb-5" fallback={null}>
-              <EngagementBanner type="create_first" onAction={() => setGenerateSheetOpen(true)} />
-            </LazySection>
-          )}
+        {/* Blog Articles */}
+        <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.24 }}>
+          <FeaturedBlogBanners />
+        </motion.section>
 
-          {/* Recent Tracks for logged-in users */}
-          {user && (
-            <Suspense fallback={<SectionSkeleton height="120px" />}>
-              <motion.section
-                className="mb-4 sm:mb-5"
-                {...fadeInUp}
-                transition={{ delay: 0.18, duration: 0.3 }}
-              >
-                <RecentTracksSection maxTracks={4} />
-              </motion.section>
-            </Suspense>
-          )}
+        {/* Engagement Hint - подсказка для вовлечения */}
+        {!user && (
+          <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.26 }}>
+            <EngagementHint variant="like" />
+          </motion.section>
+        )}
 
-          {/* User Projects Section */}
-          {user && (
-            <Suspense fallback={<SectionSkeleton height="120px" />}>
-              <motion.section
-                className="mb-4 sm:mb-5"
-                {...fadeInUp}
-                transition={{ delay: 0.2, duration: 0.3 }}
-              >
-                <UserProjectsSection />
-              </motion.section>
-            </Suspense>
-          )}
-
-          {/* Engagement Banner - Follow creators (for logged in users) */}
-          {user && (
-            <LazySection className="mb-4 sm:mb-5" fallback={null}>
-              <EngagementBanner type="follow_creators" />
-            </LazySection>
-          )}
-
-          {/* Following Feed - Tracks from followed users and liked creators */}
-          {user && (
-            <LazySection className="mb-4 sm:mb-5" fallback={<SectionSkeleton height="160px" />}>
-              <FollowingFeed />
-            </LazySection>
-          )}
-
-          {/* Auto Playlists by Genre */}
-          <Suspense fallback={<SectionSkeleton height="160px" />}>
-            <motion.section 
-              className="mb-4 sm:mb-5"
-              {...fadeIn}
-              transition={{ delay: 0.25, duration: 0.3 }}
-            >
-              <AutoPlaylistsSection 
-                playlists={autoPlaylists} 
-                isLoading={contentLoading} 
-              />
-            </motion.section>
-          </Suspense>
-
-          {/* Popular Creators Section - Lazy loaded */}
-          <LazySection 
-            className="mb-4 sm:mb-5"
-            fallback={<SectionSkeleton height="160px" />}
-          >
-            <PopularCreatorsSection maxCreators={8} />
-          </LazySection>
-
-
-          {/* Public AI Artists Section */}
-          <LazySection className="mb-4 sm:mb-5" fallback={<SectionSkeleton height="160px" />}>
-            <PublicArtistsSection />
-          </LazySection>
-
-          {/* Published Projects Slider - Large Banners with Create CTA */}
-          <LazySection 
-            className="mb-4 sm:mb-5"
-            fallback={<SectionSkeleton height="180px" />}
-          >
-            <PublishedProjectsSlider />
-          </LazySection>
-
-          {/* Professional Tools Hub - Desktop only, Lazy loaded */}
-          {user && (
-            <LazySection 
-              className="hidden sm:block mb-5"
-              fallback={<SectionSkeleton height="200px" />}
-            >
-              <ProfessionalToolsHub />
-            </LazySection>
-          )}
-
+        {/* Popular Tracks - Main section */}
+        <div ref={tracksSectionRef}>
+          <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.28 }}>
+            <TracksGridSection
+              title="🔥 Популярное"
+              subtitle="Треки, которые слушают больше всего — начни с них!"
+              icon={TrendingUp}
+              iconColor="text-emerald-400"
+              iconGradient="from-emerald-500/20 to-teal-500/10"
+              tracks={publicContent?.popularTracks || []}
+              isLoading={contentLoading}
+              maxTracks={12}
+              columns={4}
+              showMoreLink="/community?sort=popular"
+              showMoreLabel="Все популярные"
+              onRemix={handleRemix}
+            />
+          </motion.section>
         </div>
 
-        {/* Dialogs - only render when open */}
-        {generateSheetOpen && (
+        {/* New Tracks */}
+        <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.3 }}>
+          <TracksGridSection
+            title="✨ Новинки"
+            subtitle="Свежие треки от сообщества — оцени первым!"
+            icon={Clock}
+            iconColor="text-orange-400"
+            iconGradient="from-orange-500/20 to-amber-500/10"
+            tracks={publicContent?.recentTracks || []}
+            isLoading={contentLoading}
+            maxTracks={12}
+            columns={4}
+            showMoreLink="/community?sort=recent"
+            showMoreLabel="Все новинки"
+            onRemix={handleRemix}
+          />
+        </motion.section>
+
+        {/* Engagement Hint for logged users */}
+        {user && (
+          <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.32 }}>
+            <EngagementHint variant="play" />
+          </motion.section>
+        )}
+
+        {/* Recent user tracks */}
+        {user && (
           <Suspense fallback={null}>
-            <GenerateSheet open={generateSheetOpen} onOpenChange={setGenerateSheetOpen} />
+            <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.34 }}>
+              <RecentTracksSection maxTracks={4} />
+            </motion.section>
           </Suspense>
         )}
-        {recognitionDialogOpen && (
-          <Suspense fallback={null}>
-            <MusicRecognitionDialog open={recognitionDialogOpen} onOpenChange={setRecognitionDialogOpen} />
-          </Suspense>
+
+        {/* Genre Rows */}
+        {publicContent?.allTracks && publicContent.allTracks.length > 0 && (
+          <>
+            {GENRE_SECTIONS.map((genre, index) => (
+              <motion.section 
+                key={genre.genre} 
+                className="mb-4"
+                {...fadeInUp}
+                transition={{ delay: 0.26 + index * 0.04 }}
+              >
+                <GenreTracksRow
+                  genre={genre.genre}
+                  genreLabel={genre.label}
+                  tracks={publicContent.allTracks}
+                  color={genre.color}
+                  onRemix={handleRemix}
+                />
+              </motion.section>
+            ))}
+          </>
         )}
-        {quickProjectOpen && (
-          <Suspense fallback={null}>
-            <QuickProjectSheet open={quickProjectOpen} onOpenChange={setQuickProjectOpen} />
-          </Suspense>
-        )}
-        
-        {/* Feature announcement for subscriptions */}
+
+
+        {/* Auto Playlists by Genre */}
         <Suspense fallback={null}>
-          <SubscriptionFeatureAnnouncement />
+          <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.4 }}>
+            <AutoPlaylistsSection 
+              playlists={autoPlaylists} 
+              isLoading={contentLoading} 
+            />
+          </motion.section>
         </Suspense>
+
+        {/* Engagement Banner for guests */}
+        {!user && (
+          <LazySection className="mb-5" fallback={null}>
+            <EngagementBanner type="follow_creators" />
+          </LazySection>
+        )}
+
+        {/* Popular Creators */}
+        <LazySection className="mb-5" fallback={null}>
+          <PopularCreatorsSection maxCreators={8} />
+        </LazySection>
+
+        {/* AI Artists */}
+        <LazySection className="mb-5" fallback={null}>
+          <PublicArtistsSection />
+        </LazySection>
+      </div>
+
+      {/* Dialogs */}
+      {generateSheetOpen && (
+        <Suspense fallback={null}>
+          <GenerateSheet open={generateSheetOpen} onOpenChange={setGenerateSheetOpen} />
+        </Suspense>
+      )}
+      {recognitionDialogOpen && (
+        <Suspense fallback={null}>
+          <MusicRecognitionDialog open={recognitionDialogOpen} onOpenChange={setRecognitionDialogOpen} />
+        </Suspense>
+      )}
     </PullToRefreshWrapper>
   );
 };

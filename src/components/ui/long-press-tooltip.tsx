@@ -79,15 +79,18 @@ export function LongPressTooltip({
             exit={{ opacity: 0, scale: 0.95, y: -4 }}
             transition={{ duration: 0.15 }}
             className={cn(
-              "absolute z-50 left-0 right-0 -top-2 -translate-y-full",
+              "absolute z-50 -top-2 -translate-y-full",
+              "left-1/2 -translate-x-1/2", // Center the tooltip
               "bg-popover text-popover-foreground",
               "px-3 py-2 rounded-lg shadow-lg border border-border",
-              "text-sm max-w-[280px] break-words"
+              "text-sm max-w-[280px] break-words",
+              // Ensure tooltip stays within viewport with proper margins
+              "max-w-[calc(100vw-2rem)] mx-4"
             )}
           >
             {content}
             {/* Arrow */}
-            <div className="absolute left-4 -bottom-1.5 w-3 h-3 bg-popover border-r border-b border-border rotate-45" />
+            <div className="absolute left-1/2 -translate-x-1/2 -bottom-1.5 w-3 h-3 bg-popover border-r border-b border-border rotate-45" />
           </motion.div>
         )}
       </AnimatePresence>

@@ -13,6 +13,7 @@ interface LikeButtonProps {
   variant?: 'default' | 'ghost' | 'outline' | 'glass';
   showCount?: boolean;
   className?: string;
+  initialLiked?: boolean;
 }
 
 export function LikeButton({ 
@@ -21,10 +22,11 @@ export function LikeButton({
   size = 'icon', 
   variant = 'ghost',
   showCount = false,
-  className 
+  className,
+  initialLiked
 }: LikeButtonProps) {
   const { user } = useAuth();
-  const { isLiked, isLoading, toggleLike } = useLikeTrack(trackId);
+  const { isLiked, isLoading, toggleLike } = useLikeTrack(trackId, initialLiked);
 
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();

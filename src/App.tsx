@@ -22,6 +22,7 @@ import { LoadingScreen } from "@/components/UnifiedSplashScreen";
 import { ProfileSetupGuard } from "@/components/profile/ProfileSetupGuard";
 import { NavigationProvider } from "@/components/NavigationProvider";
 import { initSentry } from "@/lib/sentry";
+import { lazyWithRetry } from "@/lib/performance";
 
 // Initialize Sentry error tracking
 initSentry();
@@ -31,7 +32,7 @@ function ProfileSetupGuardWrapper({ children }: { children: React.ReactNode }) {
   return <ProfileSetupGuard>{children}</ProfileSetupGuard>;
 }
 // Lazy load pages
-const Index = lazy(() => import("./pages/Index"));
+const Index = lazyWithRetry(() => import("./pages/Index"));
 const Auth = lazy(() => import("./pages/Auth"));
 const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 const PublicProfilePage = lazy(() => import("./pages/PublicProfilePage"));
@@ -76,6 +77,7 @@ const Terms = lazy(() => import("./pages/Terms"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const Pricing = lazy(() => import("./pages/Pricing"));
 const BuyCredits = lazy(() => import("./pages/payments/BuyCredits"));
+const MobilePaymentScreen = lazy(() => import("./pages/payments/MobilePaymentScreen"));
 const Subscription = lazy(() => import("./pages/payments/Subscription"));
 const PaymentSuccess = lazy(() => import("./pages/payments/PaymentSuccess"));
 const PaymentFail = lazy(() => import("./pages/payments/PaymentFail"));
@@ -204,7 +206,9 @@ const App = () => (
                   </ProtectedRoute>
                 } />
 
-                {/* Payment result pages (no auth required - redirected from Tinkoff) */}
+                {/* Payment pages */}
+                <Route path="/payment" element={<MobilePaymentScreen />} />
+                <Route path="/payment/buy" element={<MobilePaymentScreen />} />
                 <Route path="/payment/success" element={<PaymentSuccess />} />
                 <Route path="/payment/fail" element={<PaymentFail />} />
 

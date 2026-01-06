@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { Track } from '@/types/track';
 import {
   DropdownMenu,
@@ -7,6 +8,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { MoreVertical } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { useTrackActionsState } from '@/hooks/useTrackActionsState';
 import { InfoActions } from './sections/InfoActions';
 import { DownloadActions } from './sections/DownloadActions';
@@ -18,6 +20,7 @@ import { QueueActionsMenu } from './sections/QueueActions';
 import { QualityActions } from './sections/QualityActions';
 import { WatermarkActions } from './sections/WatermarkActions';
 import { TrackDialogsPortal } from './TrackDialogsPortal';
+import { MobileTrackActionSheet } from './MobileTrackActionSheet';
 
 interface UnifiedTrackMenuProps {
   track: Track;
@@ -27,6 +30,8 @@ interface UnifiedTrackMenuProps {
   trackList?: Track[];
   /** Index of current track in the list */
   trackIndex?: number;
+  /** Custom trigger element - defaults to MoreVertical button */
+  trigger?: React.ReactNode;
 }
 
 export function UnifiedTrackMenu({ 
@@ -34,8 +39,12 @@ export function UnifiedTrackMenu({
   onDelete, 
   onDownload,
   trackList,
-  trackIndex 
+  trackIndex,
+  trigger,
 }: UnifiedTrackMenuProps) {
+  const isMobile = useIsMobile();
+  const [mobileSheetOpen, setMobileSheetOpen] = useState(false);
+  
   const {
     actionState,
     isProcessing,
@@ -50,13 +59,53 @@ export function UnifiedTrackMenu({
     onDownload,
   });
 
+  // On mobile, use MobileActionSheet pattern
+  if (isMobile) {
+    return (
+      <>
+        <Button 
+          size="icon" 
+          variant="ghost" 
+          className="h-11 w-11 touch-manipulation" 
+          onClick={() => setMobileSheetOpen(true)}
+          aria-label="Меню трека"
+        >
+          {trigger || <MoreVertical className="w-5 h-5" />}
+        </Button>
+
+        <MobileTrackActionSheet
+          open={mobileSheetOpen}
+          onOpenChange={setMobileSheetOpen}
+          track={track}
+          trackList={trackList}
+          trackIndex={trackIndex}
+          actionState={actionState}
+          isProcessing={isProcessing}
+          onAction={executeAction}
+        />
+
+        {/* Dialogs Portal */}
+        <TrackDialogsPortal
+          track={track}
+          dialogs={dialogs}
+          onCloseDialog={closeDialog}
+          onConfirmDelete={handleConfirmDelete}
+          stems={stems}
+        />
+      </>
+    );
+  }
+
+  // On desktop, use DropdownMenu
   return (
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button size="icon" variant="ghost" className="h-8 w-8">
-            <MoreVertical className="w-4 h-4" />
-          </Button>
+          {trigger || (
+            <Button size="icon" variant="ghost" className="h-8 w-8">
+              <MoreVertical className="w-4 h-4" />
+            </Button>
+          )}
         </DropdownMenuTrigger>
 
         <DropdownMenuContent 

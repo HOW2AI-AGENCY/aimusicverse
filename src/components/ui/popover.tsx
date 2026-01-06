@@ -16,7 +16,7 @@ const PopoverContent = React.forwardRef<
       ref={ref}
       align={align}
       sideOffset={sideOffset}
-      collisionPadding={{ top: 16, bottom: 16, left: 16, right: 16 }}
+      collisionPadding={{ top: 8, bottom: 8, left: 8, right: 8 }}
       avoidCollisions={true}
       className={cn(
         // z-[9999] per Z_INDEX_HIERARCHY.md for floating popovers

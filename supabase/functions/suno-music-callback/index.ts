@@ -672,7 +672,27 @@ serve(async (req) => {
 
       // Link generated track to project_track if planTrackId was provided
       const taskMetadata = typeof task.audio_clips === 'string' ? JSON.parse(task.audio_clips || '{}') : (task.audio_clips || {});
-      const projectTrackId = taskMetadata?.project_track_id;
+      let projectTrackId = taskMetadata?.project_track_id;
+      
+      // Fallback: try to link by title if project_track_id not provided but project_id is
+      const projectId = task.tracks?.project_id;
+      if (!projectTrackId && projectId && trackTitle) {
+        logger.info('Attempting fallback track linking by title', { projectId, trackTitle });
+        const { data: matchingTrack } = await supabase
+          .from('project_tracks')
+          .select('id')
+          .eq('project_id', projectId)
+          .ilike('title', trackTitle)
+          .is('track_id', null)
+          .order('position', { ascending: true })
+          .limit(1)
+          .single();
+        
+        if (matchingTrack) {
+          projectTrackId = matchingTrack.id;
+          logger.info('Fallback linking matched', { projectTrackId });
+        }
+      }
       
       if (projectTrackId) {
         logger.info('Linking track to project_track', { projectTrackId, trackId });

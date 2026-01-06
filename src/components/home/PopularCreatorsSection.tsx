@@ -4,7 +4,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { Crown, Music2, Heart, ArrowRight, Users, UserPlus, Check, Loader2 } from 'lucide-react';
+import { Crown, Music2, Heart, Users, UserPlus, Check, Loader2 } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -16,6 +16,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useFollow } from '@/hooks/social/useFollow';
 import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
+import { SectionHeader } from '@/components/common/SectionHeader';
 
 interface PopularCreator {
   user_id: string;
@@ -128,36 +129,20 @@ export function PopularCreatorsSection({ className, maxCreators = 10 }: PopularC
 
   return (
     <section className={cn('space-y-4', className)}>
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <motion.div 
-            className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500/20 to-orange-500/10 flex items-center justify-center shadow-soft"
-            whileHover={{ scale: 1.05, rotate: -5 }}
-          >
-            <Crown className="w-5 h-5 text-amber-500" />
-          </motion.div>
-          <div>
-            <div className="flex items-center gap-2">
-              <h2 className="text-base font-semibold">Топ создатели</h2>
-              <Badge variant="secondary" className="text-[10px] h-4 gap-0.5 bg-amber-500/10 text-amber-600 border-amber-500/20">
-                <Users className="w-2.5 h-2.5" />
-                {creators.length}
-              </Badge>
-            </div>
-            <p className="text-xs text-muted-foreground">Лучшие авторы сообщества</p>
-          </div>
-        </div>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => navigate('/community')}
-          className="text-xs text-muted-foreground hover:text-primary gap-1.5 rounded-xl"
-        >
-          Все авторы
-          <ArrowRight className="w-3.5 h-3.5" />
-        </Button>
-      </div>
+      <SectionHeader
+        icon={Crown}
+        iconColor="text-amber-500"
+        iconGradient="from-amber-500/20 to-orange-500/10"
+        title="Топ создатели"
+        subtitle="Лучшие авторы сообщества"
+        showMoreLink="/community"
+        showMoreLabel="Все авторы"
+        badge={{
+          label: creators.length,
+          icon: Users,
+          className: "bg-amber-500/10 text-amber-600 border-amber-500/20"
+        }}
+      />
 
       <ScrollArea className="-mx-3 px-3">
         <div className="flex gap-3 pb-3">

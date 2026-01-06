@@ -3,12 +3,12 @@
  */
 
 import { useEffect, useState, useCallback } from 'react';
-import { Heart, Sparkles, ThumbsUp, Music2, X } from 'lucide-react';
+import { Heart, Sparkles, Music2, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { useAuth } from '@/hooks/useAuth';
-import { cn } from '@/lib/utils';
-
+import { useIsMobile } from '@/hooks/use-mobile';
+import { getToastStyles, TOAST_Z_INDEX } from '@/lib/toast-position';
 interface EncouragementMessage {
   id: string;
   icon: React.ReactNode;
@@ -131,6 +131,9 @@ function EncouragementToast({
   message: EncouragementMessage; 
   onDismiss: () => void;
 }) {
+  const isMobile = useIsMobile();
+  const positionStyles = getToastStyles(isMobile);
+
   useEffect(() => {
     const timer = setTimeout(onDismiss, 8000); // Auto-dismiss after 8s
     return () => clearTimeout(timer);
@@ -141,7 +144,22 @@ function EncouragementToast({
       initial={{ opacity: 0, y: 100, scale: 0.9 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: 50, scale: 0.95 }}
-      className="fixed bottom-24 left-4 right-4 z-50 sm:left-auto sm:right-4 sm:max-w-sm"
+      style={{
+        position: 'fixed',
+        zIndex: TOAST_Z_INDEX.standard,
+        // Use unified positioning - on mobile use bottom, on desktop use top
+        ...(isMobile ? {
+          bottom: positionStyles.bottom,
+          left: positionStyles.left,
+          right: positionStyles.right,
+        } : {
+          top: positionStyles.top,
+          left: positionStyles.left,
+          right: positionStyles.right,
+          transform: positionStyles.transform,
+          maxWidth: positionStyles.maxWidth,
+        }),
+      }}
     >
       <div className="relative p-4 rounded-xl bg-card/95 backdrop-blur-md border border-border/50 shadow-lg">
         {/* Dismiss button */}

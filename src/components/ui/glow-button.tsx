@@ -1,3 +1,8 @@
+/**
+ * @deprecated Use Button component with variant="glow" or variant="generate" instead
+ * This component is kept for backwards compatibility only
+ */
+
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";

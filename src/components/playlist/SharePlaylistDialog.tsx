@@ -9,7 +9,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
-import { telegramShareService } from '@/services/telegram-share';
+import { telegramShareService } from '@/services/telegram';
 import { useTelegram } from '@/contexts/TelegramContext';
 import type { Playlist } from '@/hooks/usePlaylists';
 

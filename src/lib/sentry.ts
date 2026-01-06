@@ -35,8 +35,12 @@ export function initSentry(): void {
     dsn: SENTRY_DSN,
     environment: import.meta.env.MODE,
     sendDefaultPii: true,
+    enableLogs: true,
     integrations: [
       Sentry.browserTracingIntegration(),
+      Sentry.consoleLoggingIntegration({
+        levels: ['warn', 'error'],
+      }),
       Sentry.replayIntegration({
         maskAllText: false,
         blockAllMedia: false,
@@ -55,6 +59,29 @@ export function initSentry(): void {
         return null;
       }
       return event;
+    },
+    beforeSendLog(log) {
+      // Filter out noisy log messages
+      // Drop logs from certain modules that are too verbose
+      const logAny = log as unknown as { category?: string };
+      if (logAny.category?.includes('react-query') || logAny.category?.includes('zustand')) {
+        // Only keep error and warning levels from these modules
+        if (log.level === 'info' || log.level === 'debug') {
+          return null;
+        }
+      }
+
+      // Drop logs that contain certain patterns
+      const message = log.message?.toLowerCase() || '';
+      if (
+        message.includes('resizeobserver') ||
+        message.includes('[sentry]') ||
+        message.includes('[boot]')
+      ) {
+        return null;
+      }
+
+      return log;
     },
   });
 

@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { useAuth } from "@/hooks/useAuth";
-import { Navigate, useSearchParams } from "react-router-dom";
+import { Navigate, useSearchParams, useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Music2, Search, Loader2, Grid3x3, List, SlidersHorizontal, Play, Shuffle, Library as LibraryIcon, Sparkles, Tag, X } from "lucide-react";
 import { PullToRefreshWrapper } from "@/components/library/PullToRefreshWrapper";
@@ -13,7 +13,7 @@ import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { ErrorBoundaryWrapper } from "@/components/ErrorBoundaryWrapper";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useDebounce } from "use-debounce";
-import { TrackCardSkeleton } from "@/components/ui/skeleton-loader";
+import { TrackCardSkeleton, TrackCardSkeletonCompact } from "@/components/ui/skeleton-components";
 import { GeneratingTrackSkeleton } from "@/components/library/GeneratingTrackSkeleton";
 import { useSyncStaleTasks, useActiveGenerations } from "@/hooks/generation";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -52,6 +52,7 @@ if (import.meta.hot) {
 export default function Library() {
   const { user, isAuthenticated, loading: authLoading } = useAuth();
   const isMobile = useIsMobile();
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
   const { activeTrack, playTrack, queue } = usePlayerStore();
@@ -284,11 +285,11 @@ export default function Library() {
     link.click();
   }, []);
 
-  // Handle tag click - filter by tag
+  // Handle tag click - navigate to community search
   const handleTagClick = useCallback((tag: string) => {
-    log.info('Tag filter applied', { tag });
-    setTagFilter(tag);
-  }, []);
+    log.info('Tag clicked, navigating to community', { tag });
+    navigate(`/community?tag=${encodeURIComponent(tag)}`);
+  }, [navigate]);
 
   // Clear tag filter
   const clearTagFilter = useCallback(() => {
@@ -344,7 +345,7 @@ export default function Library() {
                   <Play className="w-3.5 h-3.5" />
                 </Button>
               )}
-              {!isMobile && tracksToDisplay.length > 0 && (
+              {tracksToDisplay.length > 0 && !isMobile && (
                 <Button
                   variant="ghost"
                   size="icon"
@@ -355,34 +356,33 @@ export default function Library() {
                   <Shuffle className="w-3.5 h-3.5" />
                 </Button>
               )}
-              {!isMobile && (
-                <div className="flex items-center bg-muted/50 rounded-md p-0.5 border border-border/30">
-                  <Button
-                    variant={viewMode === "grid" ? "default" : "ghost"}
-                    size="icon"
-                    onClick={() => setViewMode("grid")}
-                    className={cn("h-6 w-6 rounded", viewMode === "grid" && "shadow-sm")}
-                    aria-label="Сетка"
-                  >
-                    <Grid3x3 className="w-3 h-3" />
-                  </Button>
-                  <Button
-                    variant={viewMode === "list" ? "default" : "ghost"}
-                    size="icon"
-                    onClick={() => setViewMode("list")}
-                    className={cn("h-6 w-6 rounded", viewMode === "list" && "shadow-sm")}
-                    aria-label="Список"
-                  >
-                    <List className="w-3 h-3" />
-                  </Button>
-                </div>
-              )}
+              {/* View mode toggle - visible on all devices */}
+              <div className="flex items-center bg-muted/50 rounded-md p-0.5 border border-border/30">
+                <Button
+                  variant={viewMode === "grid" ? "default" : "ghost"}
+                  size="icon"
+                  onClick={() => setViewMode("grid")}
+                  className={cn("h-6 w-6 rounded", viewMode === "grid" && "shadow-sm")}
+                  aria-label="Сетка"
+                >
+                  <Grid3x3 className="w-3 h-3" />
+                </Button>
+                <Button
+                  variant={viewMode === "list" ? "default" : "ghost"}
+                  size="icon"
+                  onClick={() => setViewMode("list")}
+                  className={cn("h-6 w-6 rounded", viewMode === "list" && "shadow-sm")}
+                  aria-label="Список"
+                >
+                  <List className="w-3 h-3" />
+                </Button>
+              </div>
             </div>
           }
         />
 
-        {/* Compact Search and Filters - Mobile Optimized */}
-        <div className="sticky top-[calc(var(--tg-content-safe-area-inset-top,0px)+8rem)] z-20 bg-background/95 backdrop-blur-sm border-b border-border/30 -mx-4 px-4 py-2">
+        {/* Compact Search and Filters - Not sticky to allow scrolling to first track */}
+        <div className="z-20 bg-background border-b border-border/30 -mx-4 px-4 py-2">
           {isMobile ? (
             <CompactFilterBar
               searchQuery={searchQuery}
@@ -490,11 +490,13 @@ export default function Library() {
               : "flex flex-col gap-1.5"
             }>
               {Array.from({ length: 8 }).map((_, i) => (
-                <TrackCardSkeleton key={i} layout={viewMode} />
+                viewMode === 'grid' 
+                  ? <TrackCardSkeleton key={i} />
+                  : <TrackCardSkeletonCompact key={i} />
               ))}
             </div>
           ) : tracksToDisplay.length === 0 && !hasActiveGenerations ? (
-            <EmptyLibraryState searchQuery={searchQuery} />
+            <EmptyLibraryState searchQuery={searchQuery} navigate={navigate} />
           ) : (
             <>
               <VirtualizedTrackList

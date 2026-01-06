@@ -407,82 +407,65 @@ export default function LyricsStudio() {
     <div className="flex flex-col h-full bg-background" style={{
       paddingTop: isMobile ? 'max(var(--tg-content-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))' : undefined
     }}>
-      {/* Project Header for project mode */}
+      {/* Project Header for project mode - compact multi-line on mobile */}
       {isProjectTrackMode && projectData && (
-        <div className={cn(
-          "border-b border-border/50 bg-gradient-to-r from-muted/50 to-background"
-        )}>
-          {/* Centered logo for mobile */}
-          {isMobile && (
-            <div className="flex justify-center py-2">
-              <div className="flex flex-col items-center">
-                <img 
-                  src={logo} 
-                  alt="MusicVerse AI" 
-                  className="h-10 w-10 rounded-xl shadow-md" 
-                />
-                <span className="text-xs font-bold text-gradient leading-tight mt-1">
-                  MusicVerse AI
-                </span>
-              </div>
-            </div>
-          )}
-          <div className="flex items-center gap-3 px-4 py-3">
-            {/* Back button */}
+        <div className="border-b border-border/50 bg-card/50">
+          {/* Compact header row */}
+          <div className="flex items-center gap-3 px-3 py-2.5">
             <Button 
               variant="ghost" 
               size="icon" 
               onClick={handleBack}
-              className="h-9 w-9 shrink-0"
+              className="h-8 w-8 shrink-0"
             >
               <ChevronLeft className="w-5 h-5" />
             </Button>
             
-            {/* Project cover */}
-            <div className="w-12 h-12 rounded-lg overflow-hidden bg-muted shrink-0 border border-border/50">
-              {projectData.cover_url ? (
-                <img 
-                  src={projectData.cover_url} 
-                  alt={projectData.title}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/20 to-primary/5">
-                  <Music2 className="w-6 h-6 text-primary/50" />
-                </div>
-              )}
-            </div>
-            
-            {/* Project & Track info */}
-            <div className="flex-1 min-w-0">
-              <p className="text-xs text-muted-foreground truncate">
-                {projectData.title}
-              </p>
-              <h1 className="font-semibold text-sm truncate">
-                {projectTrack && `#${projectTrack.position + 1} `}{title}
-              </h1>
-              <div className="flex items-center gap-1.5 mt-0.5">
-                {projectData.genre && (
-                  <Badge variant="secondary" className="text-[10px] h-4">
-                    {projectData.genre}
-                  </Badge>
+            {/* Cover + info */}
+            <div className="flex items-center gap-2.5 flex-1 min-w-0">
+              <div className="w-10 h-10 rounded-lg overflow-hidden bg-muted shrink-0 shadow-sm">
+                {projectData.cover_url ? (
+                  <img 
+                    src={projectData.cover_url} 
+                    alt={projectData.title}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/20 to-primary/5">
+                    <Music2 className="w-5 h-5 text-primary/50" />
+                  </div>
                 )}
-                {projectData.mood && (
-                  <Badge variant="outline" className="text-[10px] h-4">
-                    {projectData.mood}
-                  </Badge>
-                )}
+              </div>
+              
+              <div className="flex-1 min-w-0">
+                <p className="text-[11px] text-muted-foreground truncate">
+                  {projectData.title} • #{projectTrack?.position ?? 0 + 1}
+                </p>
+                <p className="text-sm font-semibold truncate">
+                  {title}
+                </p>
               </div>
             </div>
             
             {/* Actions */}
             <div className="flex items-center gap-1 shrink-0">
               <Button 
+                onClick={() => {
+                  setAiPanelOpen(true);
+                  hapticImpact('light');
+                }}
+                size="icon"
+                variant="ghost"
+                className="h-8 w-8"
+              >
+                <Bot className="w-4 h-4" />
+              </Button>
+              <Button 
                 onClick={handleSave}
                 disabled={isSavingLyrics || !isDirty}
                 size="icon"
                 variant={isDirty ? "default" : "ghost"}
-                className="h-9 w-9"
+                className="h-8 w-8"
               >
                 {isSavingLyrics ? (
                   <Loader2 className="w-4 h-4 animate-spin" />
@@ -490,32 +473,37 @@ export default function LyricsStudio() {
                   <Save className="w-4 h-4" />
                 )}
               </Button>
-
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="h-9 w-9">
-                    <MoreVertical className="w-4 h-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48 bg-popover">
-                  <DropdownMenuItem onClick={() => {
-                    setAiPanelOpen(true);
-                    hapticImpact('light');
-                  }}>
-                    <Bot className="w-4 h-4 mr-2" />
-                    AI Ассистент
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => {
-                    setTagsPanelOpen(true);
-                    hapticImpact('light');
-                  }}>
-                    <Tag className="w-4 h-4 mr-2" />
-                    Теги ({globalTags.length + enrichedTags.length})
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
             </div>
           </div>
+          
+          {/* Tags row - only if present */}
+          {(projectData.genre || projectData.mood || globalTags.length > 0) && (
+            <div 
+              className="flex gap-1.5 px-3 pb-2 overflow-x-auto scrollbar-hide cursor-pointer"
+              onClick={() => setTagsPanelOpen(true)}
+            >
+              {projectData.genre && (
+                <Badge variant="secondary" className="text-[10px] h-5 px-2 shrink-0 bg-primary/10 text-primary border-0">
+                  {projectData.genre}
+                </Badge>
+              )}
+              {projectData.mood && (
+                <Badge variant="outline" className="text-[10px] h-5 px-2 shrink-0">
+                  {projectData.mood}
+                </Badge>
+              )}
+              {globalTags.slice(0, 3).map(tag => (
+                <Badge key={tag} variant="secondary" className="text-[10px] h-5 px-2 shrink-0">
+                  {tag}
+                </Badge>
+              ))}
+              {globalTags.length > 3 && (
+                <Badge variant="outline" className="text-[10px] h-5 px-2 shrink-0">
+                  +{globalTags.length - 3}
+                </Badge>
+              )}
+            </div>
+          )}
         </div>
       )}
       
@@ -1013,14 +1001,15 @@ export default function LyricsStudio() {
         </AnimatePresence>
       )}
 
-      {/* Mobile FAB for AI Assistant - positioned above bottom nav */}
+      {/* Mobile FAB for AI Assistant - positioned above player and Telegram MainButton */}
       {isMobile && !aiPanelOpen && (
         <motion.div
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           className="fixed z-40"
           style={{
-            bottom: 'calc(env(safe-area-inset-bottom, 0px) + 5rem)',
+            // Account for: safe area + player height (4rem) + MainButton area + padding
+            bottom: 'calc(max(var(--tg-content-safe-area-inset-bottom, 60px), var(--tg-safe-area-inset-bottom, 34px), env(safe-area-inset-bottom, 0px)) + 5rem)',
             right: '1rem'
           }}
         >

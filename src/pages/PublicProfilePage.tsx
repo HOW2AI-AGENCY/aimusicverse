@@ -21,7 +21,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { useTelegramBackButton } from '@/hooks/telegram';
-import { PublicTrackCard } from '@/components/home/PublicTrackCard';
+import { UnifiedTrackCard } from '@/components/track/track-card-new';
 import { FollowButton } from '@/components/social/FollowButton';
 import { cn } from '@/lib/utils';
 
@@ -454,7 +454,7 @@ export default function PublicProfilePage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.05 }}
                 >
-                  <PublicTrackCard track={track as any} compact />
+                  <UnifiedTrackCard variant="compact" track={track as any} />
                 </motion.div>
               ))}
             </motion.div>

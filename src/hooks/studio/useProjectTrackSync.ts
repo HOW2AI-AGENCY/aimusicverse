@@ -5,7 +5,7 @@
  * Listens to track_versions changes and syncs with project state
  */
 
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useRef } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useUnifiedStudioStore, StudioTrackVersion } from '@/stores/useUnifiedStudioStore';
@@ -26,17 +26,22 @@ interface TrackVersionRecord {
 export function useProjectTrackSync(projectId: string | null, sourceTrackId?: string) {
   const queryClient = useQueryClient();
   const { project, addTrackVersion, setTrackActiveVersion } = useUnifiedStudioStore();
+  const isMountedRef = useRef(true);
 
   // Sync versions from database to project
-  const syncVersionsFromDb = useCallback(async (trackId: string) => {
+  const syncVersionsFromDb = useCallback(async (trackId: string, signal?: AbortSignal) => {
     if (!project) return;
 
     try {
-      const { data: dbVersions, error } = await supabase
+      const query = supabase
         .from('track_versions')
         .select('*')
         .eq('track_id', trackId)
         .order('created_at', { ascending: true });
+      
+      const { data: dbVersions, error } = signal 
+        ? await query.abortSignal(signal)
+        : await query;
 
       if (error) {
         logger.error('Failed to fetch track versions', error);
@@ -78,6 +83,10 @@ export function useProjectTrackSync(projectId: string | null, sourceTrackId?: st
         }
       }
     } catch (err) {
+      // Ignore abort errors
+      if (err instanceof Error && err.name === 'AbortError') {
+        return;
+      }
       logger.error('Version sync failed', err);
     }
   }, [project, sourceTrackId, addTrackVersion]);
@@ -85,6 +94,9 @@ export function useProjectTrackSync(projectId: string | null, sourceTrackId?: st
   // Subscribe to realtime changes
   useEffect(() => {
     if (!sourceTrackId) return;
+
+    isMountedRef.current = true;
+    const abortController = new AbortController();
 
     const channel = supabase
       .channel(`track_versions:${sourceTrackId}`)
@@ -97,6 +109,8 @@ export function useProjectTrackSync(projectId: string | null, sourceTrackId?: st
           filter: `track_id=eq.${sourceTrackId}`,
         },
         (payload) => {
+          if (!isMountedRef.current) return;
+          
           const newVersion = payload.new as TrackVersionRecord;
           logger.debug('New track version detected', { versionId: newVersion.id });
 
@@ -121,15 +135,17 @@ export function useProjectTrackSync(projectId: string | null, sourceTrackId?: st
           });
 
           // Sync versions
-          syncVersionsFromDb(sourceTrackId);
+          syncVersionsFromDb(sourceTrackId, abortController.signal);
         }
       )
       .subscribe();
 
     // Initial sync
-    syncVersionsFromDb(sourceTrackId);
+    syncVersionsFromDb(sourceTrackId, abortController.signal);
 
     return () => {
+      isMountedRef.current = false;
+      abortController.abort();
       supabase.removeChannel(channel);
     };
   }, [sourceTrackId, project, queryClient, syncVersionsFromDb, setTrackActiveVersion]);

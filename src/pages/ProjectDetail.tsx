@@ -7,7 +7,7 @@ import { useProjectTracks, ProjectTrack } from '@/hooks/useProjectTracks';
 import { useProjectGeneratedTracks } from '@/hooks/useProjectGeneratedTracks';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, Sparkles, Music, MoreVertical, Play, Plus, Settings, Image, Rocket, Share2, FileText } from 'lucide-react';
+import { ArrowLeft, Sparkles, Music, MoreVertical, Play, Plus, Settings, Image, Rocket, Share2, FileText, ChevronDown, ChevronUp } from 'lucide-react';
 import { AIActionsDialog } from '@/components/project/AIActionsDialog';
 import { supabase } from '@/integrations/supabase/client';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -15,6 +15,7 @@ import { MinimalProjectTrackItem } from '@/components/project/MinimalProjectTrac
 import { ProjectSettingsSheet } from '@/components/project/ProjectSettingsSheet';
 import { AddTrackDialog } from '@/components/project/AddTrackDialog';
 import { ProjectInfoCard } from '@/components/project/ProjectInfoCard';
+import { ProjectDetailsCard } from '@/components/project/ProjectDetailsCard';
 import { LyricsPreviewSheet } from '@/components/project/LyricsPreviewSheet';
 import { LyricsChatAssistant } from '@/components/generate-form/LyricsChatAssistant';
 import { ProjectMediaGenerator } from '@/components/project/ProjectMediaGenerator';
@@ -50,6 +51,7 @@ export default function ProjectDetail() {
   const [selectedTrackForLyrics, setSelectedTrackForLyrics] = useState<ProjectTrack | null>(null);
   const [selectedTrackForMedia, setSelectedTrackForMedia] = useState<ProjectTrack | null>(null);
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
+  const [projectInfoExpanded, setProjectInfoExpanded] = useState(false);
   const isMobile = useIsMobile();
   const { setPlanTrackContext } = usePlanTrackStore();
   const { updateTrack } = useProjectTracks(id);
@@ -235,13 +237,19 @@ export default function ProjectDetail() {
   const draftTracks = tracks?.filter(t => t.status === 'draft' && !t.track_id) || [];
 
   return (
-    <div className="pb-24">
+    <div 
+      className="pb-24"
+      style={{
+        minHeight: 'var(--tg-viewport-stable-height, 100vh)',
+        paddingBottom: 'calc(max(var(--tg-content-safe-area-inset-bottom, 60px), var(--tg-safe-area-inset-bottom, 34px)) + 4rem)'
+      }}
+    >
       {/* Hero Section with Full-width Cover on Mobile */}
       <div className="relative">
-        {/* Full-width cover for mobile */}
+        {/* Full-width cover for mobile - 3:2 aspect for more compact view */}
         {isMobile ? (
           <div className="relative">
-            <div className="relative w-full aspect-square">
+            <div className="relative w-full aspect-[3/2]">
               {project.cover_url ? (
                 <img
                   src={project.cover_url}
@@ -249,46 +257,51 @@ export default function ProjectDetail() {
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <div className="w-full h-full bg-gradient-to-br from-primary/20 via-secondary to-muted flex items-center justify-center">
-                  <Music className="w-24 h-24 text-muted-foreground/40" />
+                <div className="w-full h-full bg-gradient-to-br from-primary/30 via-secondary to-muted flex items-center justify-center">
+                  <Music className="w-14 h-14 text-muted-foreground/40" />
                 </div>
               )}
-              {/* Gradient overlay */}
+              {/* Gradient overlay - more subtle */}
               <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
               
-              {/* Floating header */}
-              <div className="absolute top-0 left-0 right-0 flex items-center justify-between p-3 z-10">
+              {/* Floating header with safe area */}
+              <div 
+                className="absolute top-0 left-0 right-0 flex items-center justify-between px-3 z-10"
+                style={{
+                  paddingTop: 'calc(var(--tg-safe-area-inset-top, 44px) + var(--tg-content-safe-area-inset-top, 0px) + 0.5rem)'
+                }}
+              >
                 <Button 
                   variant="secondary" 
                   size="icon" 
                   onClick={() => navigate('/projects')}
-                  className="h-9 w-9 bg-background/60 backdrop-blur-md"
+                  className="h-9 w-9 bg-background/70 backdrop-blur-md border-0 shadow-lg"
                 >
                   <ArrowLeft className="w-4 h-4" />
                 </Button>
                 
-                <Button 
-                  variant="secondary" 
-                  size="icon"
-                  onClick={() => setSettingsOpen(true)}
-                  className="h-9 w-9 bg-background/60 backdrop-blur-md"
-                >
-                  <Settings className="w-4 h-4" />
-                </Button>
+                <div className="flex gap-1.5">
+                  <Button 
+                    variant="secondary" 
+                    size="icon"
+                    onClick={() => {
+                      setSelectedTrackForMedia(null);
+                      setMediaGeneratorOpen(true);
+                    }}
+                    className="h-9 w-9 bg-background/70 backdrop-blur-md border-0 shadow-lg"
+                  >
+                    <Image className="w-4 h-4" />
+                  </Button>
+                  <Button 
+                    variant="secondary" 
+                    size="icon"
+                    onClick={() => setSettingsOpen(true)}
+                    className="h-9 w-9 bg-background/70 backdrop-blur-md border-0 shadow-lg"
+                  >
+                    <Settings className="w-4 h-4" />
+                  </Button>
+                </div>
               </div>
-              
-              {/* Media button overlay */}
-              <Button
-                size="icon"
-                variant="secondary"
-                className="absolute bottom-4 right-4 h-10 w-10 rounded-full shadow-lg bg-background/80 backdrop-blur-md"
-                onClick={() => {
-                  setSelectedTrackForMedia(null);
-                  setMediaGeneratorOpen(true);
-                }}
-              >
-                <Image className="w-4 h-4" />
-              </Button>
             </div>
           </div>
         ) : (
@@ -369,23 +382,27 @@ export default function ProjectDetail() {
         {/* Project Meta - shown for both mobile and desktop */}
         <div className={cn(
           "text-center space-y-1.5",
-          isMobile ? "px-3 -mt-12 relative z-10" : "pt-2"
+          isMobile ? "px-4 -mt-6 relative z-10" : "pt-2"
         )}>
           {isMobile && (
-            <h1 className="text-xl font-bold text-foreground mb-2">{project.title}</h1>
+            <h1 className="text-xl font-bold text-foreground mb-1">{project.title}</h1>
           )}
-          <div className="flex items-center justify-center gap-1.5 flex-wrap">
+          {/* Horizontally scrollable badges on mobile */}
+          <div className={cn(
+            "flex items-center gap-1.5",
+            isMobile ? "justify-center flex-wrap" : "justify-center"
+          )}>
             {project.genre && (
-              <Badge variant="secondary" className="gap-0.5 text-[10px] h-5 px-1.5">
+              <Badge variant="secondary" className="gap-0.5 text-[10px] h-5 px-2 shrink-0 bg-primary/10 text-primary border-0">
                 <Music className="w-2.5 h-2.5" />
                 {project.genre}
               </Badge>
             )}
-            <Badge variant="outline" className="text-[10px] h-5 px-1.5">
+            <Badge variant="outline" className="text-[10px] h-5 px-2 shrink-0">
               {completedTracks}/{totalTracks} треков
             </Badge>
             {isPublished && (
-              <Badge variant="default" className="bg-green-500 gap-0.5 text-[10px] h-5 px-1.5">
+              <Badge className="bg-emerald-500/20 text-emerald-500 border-0 h-5 px-2 gap-0.5 shrink-0">
                 <Rocket className="w-2.5 h-2.5" />
                 Опубликован
               </Badge>
@@ -407,6 +424,39 @@ export default function ProjectDetail() {
                 <span className="text-[10px] text-primary/70 group-hover:text-primary transition-colors">
                   {descriptionExpanded ? 'Свернуть' : 'Читать полностью'}
                 </span>
+              )}
+            </div>
+          )}
+
+          {/* Expandable Project Details Card */}
+          {(project.genre || project.mood || project.concept || project.image_style || project.color_palette) && (
+            <div className="max-w-sm mx-auto mt-2">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setProjectInfoExpanded(!projectInfoExpanded)}
+                className="w-full h-7 text-xs text-muted-foreground hover:text-foreground gap-1"
+              >
+                {projectInfoExpanded ? (
+                  <>
+                    <ChevronUp className="w-3 h-3" />
+                    Скрыть детали
+                  </>
+                ) : (
+                  <>
+                    <ChevronDown className="w-3 h-3" />
+                    Показать детали
+                  </>
+                )}
+              </Button>
+              
+              {projectInfoExpanded && (
+                <div className="mt-2 animate-in slide-in-from-top-2 duration-200">
+                  <ProjectDetailsCard 
+                    project={project} 
+                    onEdit={() => setSettingsOpen(true)}
+                  />
+                </div>
               )}
             </div>
           )}
@@ -437,86 +487,97 @@ export default function ProjectDetail() {
         )}
       </div>
 
-      {/* Quick Actions Bar */}
+      {/* Quick Actions Bar - simplified */}
       <div className={cn(
-        "flex gap-1.5 overflow-x-auto scrollbar-hide",
-        isMobile ? "px-3 pb-2" : "px-4 pb-3"
+        "sticky top-0 z-30 bg-background/95 backdrop-blur-md border-b border-border/50",
+        isMobile ? "px-3 py-2" : "px-4 py-2"
       )}>
-        <Button 
-          size="sm"
-          onClick={() => setAddTrackOpen(true)}
-          className="gap-1 shrink-0 h-7 px-2 text-xs"
-        >
-          <Plus className="w-3.5 h-3.5" />
-          Добавить
-        </Button>
-        <Button 
-          variant="outline" 
-          size="sm"
-          onClick={() => generateTracklist({
-            projectType: project.project_type || 'album',
-            genre: project.genre || undefined,
-            mood: project.mood || undefined,
-            theme: project.concept || undefined,
-            trackCount: 10,
-          })}
-          disabled={isGenerating}
-          className="gap-1 shrink-0 h-7 px-2 text-xs"
-        >
-          <Sparkles className="w-3.5 h-3.5" />
-          {isGenerating ? 'Генерация...' : 'AI'}
-        </Button>
-        <Button 
-          variant="outline" 
-          size="sm"
-          onClick={() => setAiDialogOpen(true)}
-          className="gap-1 shrink-0 h-7 px-2 text-xs"
-        >
-          <Sparkles className="w-3.5 h-3.5" />
-          Действия
-        </Button>
-        <Button 
-          variant="outline" 
-          size="sm"
-          onClick={() => {
-            setSelectedTrackForMedia(null);
-            setMediaGeneratorOpen(true);
-          }}
-          className="gap-1 shrink-0 h-7 px-2 text-xs"
-        >
-          <Image className="w-3.5 h-3.5" />
-          Медиа
-        </Button>
-        <ShareProjectCard 
-          project={{
-            id: project.id,
-            title: project.title,
-            cover_url: project.cover_url,
-            genre: project.genre,
-            total_tracks_count: totalTracks,
-            approved_tracks_count: tracksWithMaster,
-          }}
-          variant="button"
-          className="gap-1 shrink-0 h-7 px-2 text-xs"
-        />
+        <div className="flex gap-2 overflow-x-auto scrollbar-hide">
+          <Button 
+            size="sm"
+            onClick={() => setAddTrackOpen(true)}
+            className={cn(
+              "gap-1.5 shrink-0 bg-primary",
+              isMobile ? "h-8 px-3 text-xs" : "h-7 px-3 text-xs"
+            )}
+          >
+            <Plus className="w-3.5 h-3.5" />
+            Трек
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={() => generateTracklist({
+              projectType: project.project_type || 'album',
+              genre: project.genre || undefined,
+              mood: project.mood || undefined,
+              theme: project.concept || undefined,
+              trackCount: 10,
+            })}
+            disabled={isGenerating}
+            className={cn(
+              "gap-1.5 shrink-0",
+              isMobile ? "h-8 px-3 text-xs" : "h-7 px-3 text-xs"
+            )}
+          >
+            <Sparkles className="w-3.5 h-3.5" />
+            AI треклист
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={() => setAiDialogOpen(true)}
+            className={cn(
+              "gap-1.5 shrink-0",
+              isMobile ? "h-8 px-3 text-xs" : "h-7 px-3 text-xs"
+            )}
+          >
+            <Sparkles className="w-3.5 h-3.5" />
+            AI
+          </Button>
+          <ShareProjectCard 
+            project={{
+              id: project.id,
+              title: project.title,
+              cover_url: project.cover_url,
+              genre: project.genre,
+              total_tracks_count: totalTracks,
+              approved_tracks_count: tracksWithMaster,
+            }}
+            variant="button"
+            className={cn(
+              "gap-1.5 shrink-0",
+              isMobile ? "h-8 px-3 text-xs" : "h-7 px-3 text-xs"
+            )}
+          />
+        </div>
       </div>
 
       {/* Tabs: Tracklist and Lyrics */}
       <Tabs defaultValue="tracks" className="w-full">
-        <div className={cn(isMobile ? "px-3" : "px-4")}>
-          <TabsList className="w-full grid grid-cols-2 mb-3">
-            <TabsTrigger value="tracks" className="gap-1.5">
-              <Music className="w-3.5 h-3.5" />
+        <div className={cn(isMobile ? "px-3 pt-2" : "px-4 pt-2")}>
+          <TabsList className={cn(
+            "w-full grid grid-cols-2 bg-muted/50",
+            isMobile ? "h-10" : "h-9"
+          )}>
+            <TabsTrigger value="tracks" className={cn(
+              "gap-1.5 data-[state=active]:bg-background",
+              isMobile && "text-sm"
+            )}>
+              <Music className="w-4 h-4" />
               Треки
             </TabsTrigger>
-            <TabsTrigger value="text" className="gap-1.5">
-              <FileText className="w-3.5 h-3.5" />
-              Текст
+            <TabsTrigger value="text" className={cn(
+              "gap-1.5 data-[state=active]:bg-background",
+              isMobile && "text-sm"
+            )}>
+              <FileText className="w-4 h-4" />
+              Тексты
             </TabsTrigger>
           </TabsList>
         </div>
 
-        <TabsContent value="tracks" className="mt-0">
+        <TabsContent value="tracks" className="mt-0 pt-3">
           <div className={cn(isMobile ? "px-3" : "px-4")}>
         {tracksLoading ? (
           <div className="flex items-center justify-center py-12">

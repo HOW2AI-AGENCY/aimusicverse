@@ -7,6 +7,7 @@ import { lazy, ComponentType, LazyExoticComponent, Suspense, ReactNode } from 'r
 
 /**
  * Enhanced lazy loading with retry logic
+ * Handles chunk loading failures during deployments by triggering a page reload
  */
 export function lazyWithRetry<T extends ComponentType<unknown>>(
   importFn: () => Promise<{ default: T }>,
@@ -29,9 +30,54 @@ export function lazyWithRetry<T extends ComponentType<unknown>>(
       }
     }
 
-    // After all retries failed, throw the last error
+    // After all retries failed, check if it's a chunk loading error
+    if (lastError && isChunkLoadError(lastError)) {
+      // Check if we've already tried reloading once to prevent infinite loops
+      const reloadKey = 'chunk_reload_attempted';
+      const reloadAttempted = sessionStorage.getItem(reloadKey);
+      
+      if (!reloadAttempted) {
+        // Mark that we're attempting a reload
+        sessionStorage.setItem(reloadKey, Date.now().toString());
+        
+        // Clear the flag after 10 seconds (in case reload doesn't happen)
+        setTimeout(() => {
+          sessionStorage.removeItem(reloadKey);
+        }, 10000);
+        
+        // Reload the page to get the new chunk versions
+        window.location.reload();
+        
+        // Return a dummy component while reload is happening
+        // This will never actually render but prevents the error from propagating
+        return { default: (() => null) as unknown as T };
+      }
+      
+      // If we already tried reloading, clear the flag and let the error propagate
+      // This prevents infinite reload loops if the chunk is genuinely missing
+      sessionStorage.removeItem(reloadKey);
+    }
+
+    // Throw the error for non-chunk-loading errors or if reload didn't help
     throw lastError;
   });
+}
+
+/**
+ * Check if an error is a chunk loading error
+ */
+function isChunkLoadError(error: Error): boolean {
+  const message = error.message || '';
+  const name = error.name || '';
+  
+  // Detect various chunk loading error patterns
+  return (
+    message.includes('Failed to fetch dynamically imported module') ||
+    message.includes('error loading dynamically imported module') ||
+    message.includes('Importing a module script failed') ||
+    message.includes('Failed to load module script') ||
+    name === 'ChunkLoadError'
+  );
 }
 
 /**

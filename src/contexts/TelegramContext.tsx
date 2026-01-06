@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, ReactNode, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { telegramAuthService } from '@/services/telegram-auth';
+import { telegramAuthService } from '@/services/telegram';
 import { supabase } from '@/integrations/supabase/client';
 import { logger } from '@/lib/logger';
 import { toast } from 'sonner';
@@ -197,14 +197,16 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
         }
       }
 
-      // Request fullscreen mode automatically (Mini App 2.0+)
-      if (typeof (tg as any).requestFullscreen === 'function') {
+      // Request fullscreen mode automatically (Mini App 2.0+ requires version 8.0)
+      if (tg.isVersionAtLeast?.('8.0') && typeof (tg as any).requestFullscreen === 'function') {
         try {
           (tg as any).requestFullscreen();
           bootLog('Fullscreen requested');
         } catch (e) {
           bootLog(`Fullscreen error: ${e}`);
         }
+      } else if (typeof (tg as any).requestFullscreen === 'function') {
+        bootLog(`Fullscreen skipped - version ${tg.version} < 8.0`);
       }
 
       // Установка цветов header и background (requires 6.1+)
@@ -403,14 +405,37 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
       // Apply initial safe area insets
       applySafeAreaInsets();
 
-      // Event handlers for safe area changes
-      const handleViewportChanged = () => applySafeAreaInsets();
+      // Event handlers for safe area and viewport changes
+      const handleViewportChanged = (...args: unknown[]) => {
+        // Update viewport height CSS variables
+        const event = args[0] as { height?: number; stableHeight?: number; isStateStable?: boolean } | undefined;
+        if (event?.height) {
+          root.style.setProperty('--tg-viewport-height', `${event.height}px`);
+        }
+        if (event?.stableHeight) {
+          root.style.setProperty('--tg-viewport-stable-height', `${event.stableHeight}px`);
+        }
+        telegramLogger.debug('Viewport changed', { 
+          height: event?.height,
+          stableHeight: event?.stableHeight,
+          isStateStable: event?.isStateStable
+        });
+        applySafeAreaInsets();
+      };
       const handleFullscreenChanged = () => {
         telegramLogger.debug('Fullscreen changed', { isFullscreen: (tg as any).isFullscreen });
         applySafeAreaInsets();
       };
       const handleSafeAreaChanged = () => applySafeAreaInsets();
       const handleContentSafeAreaChanged = () => applySafeAreaInsets();
+      
+      // Set initial viewport height
+      if ((tg as any).viewportHeight) {
+        root.style.setProperty('--tg-viewport-height', `${(tg as any).viewportHeight}px`);
+      }
+      if ((tg as any).viewportStableHeight) {
+        root.style.setProperty('--tg-viewport-stable-height', `${(tg as any).viewportStableHeight}px`);
+      }
 
       // Store handlers in ref for cleanup
       safeAreaHandlersRef.current = {
@@ -549,85 +574,153 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
 
   const showMainButton = (text: string, onClick: () => void, options?: { color?: string; textColor?: string; isActive?: boolean; isVisible?: boolean }) => {
     if (webApp?.MainButton) {
-      // Remove previous callback if exists
-      if (mainButtonCallbackRef.current) {
-        webApp.MainButton.offClick(mainButtonCallbackRef.current);
+      try {
+        // Remove previous callback if exists
+        if (mainButtonCallbackRef.current) {
+          webApp.MainButton.offClick(mainButtonCallbackRef.current);
+        }
+        
+        mainButtonCallbackRef.current = onClick;
+        webApp.MainButton.setText(text);
+        if (options?.color) webApp.MainButton.color = options.color;
+        if (options?.textColor) webApp.MainButton.textColor = options.textColor;
+        if (options?.isActive !== undefined) webApp.MainButton.isActive = options.isActive;
+        if (options?.isVisible !== undefined) webApp.MainButton.isVisible = options.isVisible;
+        webApp.MainButton.onClick(onClick);
+        webApp.MainButton.show();
+        
+        telegramLogger.debug('MainButton shown', { text, isActive: options?.isActive });
+      } catch (error) {
+        telegramLogger.warn('showMainButton failed (bridge may be stale)', { 
+          error: error instanceof Error ? error.message : String(error),
+          text 
+        });
       }
-      
-      mainButtonCallbackRef.current = onClick;
-      webApp.MainButton.setText(text);
-      if (options?.color) webApp.MainButton.color = options.color;
-      if (options?.textColor) webApp.MainButton.textColor = options.textColor;
-      if (options?.isActive !== undefined) webApp.MainButton.isActive = options.isActive;
-      if (options?.isVisible !== undefined) webApp.MainButton.isVisible = options.isVisible;
-      webApp.MainButton.onClick(onClick);
-      webApp.MainButton.show();
-      
-      telegramLogger.debug('MainButton shown', { text, isActive: options?.isActive });
     }
   };
 
   const hideMainButton = () => {
     if (webApp?.MainButton) {
-      // Properly remove callback
-      if (mainButtonCallbackRef.current) {
-        webApp.MainButton.offClick(mainButtonCallbackRef.current);
-        mainButtonCallbackRef.current = null;
+      try {
+        // Properly remove callback
+        if (mainButtonCallbackRef.current) {
+          webApp.MainButton.offClick(mainButtonCallbackRef.current);
+          mainButtonCallbackRef.current = null;
+        }
+        webApp.MainButton.hide();
+        telegramLogger.debug('MainButton hidden');
+      } catch (error) {
+        telegramLogger.debug('hideMainButton failed (bridge may be stale)', { 
+          error: error instanceof Error ? error.message : String(error) 
+        });
       }
-      webApp.MainButton.hide();
-      telegramLogger.debug('MainButton hidden');
     }
   };
 
   const showBackButton = (onClick: () => void) => {
     if (webApp && webApp.isVersionAtLeast?.('6.1')) {
-      webApp.BackButton.show();
-      webApp.BackButton.onClick(onClick);
+      try {
+        webApp.BackButton.show();
+        webApp.BackButton.onClick(onClick);
+      } catch (error) {
+        telegramLogger.debug('showBackButton failed (bridge may be stale)', { 
+          error: error instanceof Error ? error.message : String(error) 
+        });
+      }
     }
   };
 
   const hideBackButton = () => {
     if (webApp && webApp.isVersionAtLeast?.('6.1')) {
-      webApp.BackButton.hide();
-      webApp.BackButton.offClick(() => {});
+      try {
+        webApp.BackButton.hide();
+        webApp.BackButton.offClick(() => {});
+      } catch (error) {
+        telegramLogger.debug('hideBackButton failed (bridge may be stale)', { 
+          error: error instanceof Error ? error.message : String(error) 
+        });
+      }
     }
   };
 
   const showSettingsButton = (onClick: () => void) => {
     if (webApp && webApp.isVersionAtLeast?.('6.10') && (webApp as any).SettingsButton) {
-      (webApp as any).SettingsButton.show();
-      (webApp as any).SettingsButton.onClick(onClick);
+      try {
+        (webApp as any).SettingsButton.show();
+        (webApp as any).SettingsButton.onClick(onClick);
+      } catch (error) {
+        telegramLogger.debug('showSettingsButton failed (bridge may be stale)', { 
+          error: error instanceof Error ? error.message : String(error) 
+        });
+      }
     }
   };
 
   const hideSettingsButton = () => {
     if (webApp && webApp.isVersionAtLeast?.('6.10') && (webApp as any).SettingsButton) {
-      (webApp as any).SettingsButton.hide();
-      (webApp as any).SettingsButton.offClick(() => {});
+      try {
+        (webApp as any).SettingsButton.hide();
+        (webApp as any).SettingsButton.offClick(() => {});
+      } catch (error) {
+        telegramLogger.debug('hideSettingsButton failed (bridge may be stale)', { 
+          error: error instanceof Error ? error.message : String(error) 
+        });
+      }
     }
   };
 
   const enableClosingConfirmation = () => {
     if (webApp?.enableClosingConfirmation) {
-      webApp.enableClosingConfirmation();
+      try {
+        webApp.enableClosingConfirmation();
+      } catch (error) {
+        // Silently handle "Java object is gone" errors on Android
+        // This happens when the WebView bridge becomes stale after navigation
+        telegramLogger.debug('enableClosingConfirmation failed (bridge may be stale)', { 
+          error: error instanceof Error ? error.message : String(error) 
+        });
+      }
     }
   };
 
   const disableClosingConfirmation = () => {
     if (webApp?.disableClosingConfirmation) {
-      webApp.disableClosingConfirmation();
+      try {
+        webApp.disableClosingConfirmation();
+      } catch (error) {
+        // Silently handle "Java object is gone" errors on Android
+        // This happens when the WebView bridge becomes stale after navigation
+        telegramLogger.debug('disableClosingConfirmation failed (bridge may be stale)', { 
+          error: error instanceof Error ? error.message : String(error) 
+        });
+      }
     }
   };
 
   const showPopup = (params: { title?: string; message: string; buttons?: Array<{ id: string; type: string; text: string }> }, callback?: (buttonId: string) => void) => {
     if (webApp?.showPopup) {
-      webApp.showPopup(params, callback);
+      try {
+        webApp.showPopup(params, callback);
+      } catch (error) {
+        telegramLogger.warn('showPopup failed (bridge may be stale)', { 
+          error: error instanceof Error ? error.message : String(error) 
+        });
+        // Fallback to browser alert if Telegram API fails
+        alert(params.message);
+      }
     }
   };
 
   const showAlert = (message: string) => {
     if (webApp?.showAlert) {
-      webApp.showAlert(message);
+      try {
+        webApp.showAlert(message);
+      } catch (error) {
+        telegramLogger.warn('showAlert failed (bridge may be stale)', { 
+          error: error instanceof Error ? error.message : String(error) 
+        });
+        alert(message);
+      }
     } else {
       alert(message);
     }
@@ -635,7 +728,15 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
 
   const showConfirm = (message: string, callback?: (confirmed: boolean) => void) => {
     if (webApp?.showConfirm) {
-      webApp.showConfirm(message, callback);
+      try {
+        webApp.showConfirm(message, callback);
+      } catch (error) {
+        telegramLogger.warn('showConfirm failed (bridge may be stale)', { 
+          error: error instanceof Error ? error.message : String(error) 
+        });
+        const confirmed = confirm(message);
+        callback?.(confirmed);
+      }
     } else {
       const confirmed = confirm(message);
       callback?.(confirmed);
@@ -644,45 +745,79 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
 
   const hapticFeedback = (type: 'light' | 'medium' | 'heavy' | 'success' | 'error' | 'warning' | 'selection') => {
     if (webApp?.HapticFeedback) {
-      switch (type) {
-        case 'light':
-        case 'medium':
-        case 'heavy':
-          webApp.HapticFeedback.impactOccurred(type);
-          break;
-        case 'success':
-        case 'error':
-        case 'warning':
-          webApp.HapticFeedback.notificationOccurred(type);
-          break;
-        case 'selection':
-          webApp.HapticFeedback.selectionChanged();
-          break;
+      try {
+        switch (type) {
+          case 'light':
+          case 'medium':
+          case 'heavy':
+            webApp.HapticFeedback.impactOccurred(type);
+            break;
+          case 'success':
+          case 'error':
+          case 'warning':
+            webApp.HapticFeedback.notificationOccurred(type);
+            break;
+          case 'selection':
+            webApp.HapticFeedback.selectionChanged();
+            break;
+        }
+      } catch (error) {
+        // Silently ignore haptic feedback errors - non-critical feature
+        telegramLogger.debug('hapticFeedback failed (bridge may be stale)', { 
+          error: error instanceof Error ? error.message : String(error),
+          type 
+        });
       }
     }
   };
 
   const close = () => {
     if (webApp) {
-      webApp.close();
+      try {
+        webApp.close();
+      } catch (error) {
+        telegramLogger.warn('close failed (bridge may be stale)', { 
+          error: error instanceof Error ? error.message : String(error) 
+        });
+      }
     }
   };
 
   const expand = () => {
     if (webApp) {
-      webApp.expand();
+      try {
+        webApp.expand();
+      } catch (error) {
+        telegramLogger.debug('expand failed (bridge may be stale)', { 
+          error: error instanceof Error ? error.message : String(error) 
+        });
+      }
     }
   };
 
   const ready = () => {
     if (webApp) {
-      webApp.ready();
+      try {
+        webApp.ready();
+      } catch (error) {
+        telegramLogger.debug('ready failed (bridge may be stale)', { 
+          error: error instanceof Error ? error.message : String(error) 
+        });
+      }
     }
   };
 
   const openLink = (url: string, options?: { try_instant_view?: boolean }) => {
     if (webApp?.openLink) {
-      (webApp.openLink as (url: string, options?: { try_instant_view?: boolean }) => void)(url, options);
+      try {
+        (webApp.openLink as (url: string, options?: { try_instant_view?: boolean }) => void)(url, options);
+      } catch (error) {
+        telegramLogger.warn('openLink failed (bridge may be stale)', { 
+          error: error instanceof Error ? error.message : String(error),
+          url 
+        });
+        window.open(url, '_blank');
+      }
     } else {
       window.open(url, '_blank');
     }
@@ -690,7 +825,15 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
 
   const openTelegramLink = (url: string) => {
     if (webApp?.openTelegramLink) {
-      webApp.openTelegramLink(url);
+      try {
+        webApp.openTelegramLink(url);
+      } catch (error) {
+        telegramLogger.warn('openTelegramLink failed (bridge may be stale)', { 
+          error: error instanceof Error ? error.message : String(error),
+          url 
+        });
+        window.open(url, '_blank');
+      }
     } else {
       window.open(url, '_blank');
     }
@@ -698,7 +841,14 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
 
   const shareToStory = (mediaUrl: string, options?: { text?: string; widget_link?: { url: string; name?: string } }) => {
     if (webApp && (webApp as any).shareToStory) {
-      (webApp as any).shareToStory(mediaUrl, options);
+      try {
+        (webApp as any).shareToStory(mediaUrl, options);
+      } catch (error) {
+        telegramLogger.warn('shareToStory failed (bridge may be stale)', { 
+          error: error instanceof Error ? error.message : String(error),
+          mediaUrl 
+        });
+      }
     } else {
       telegramLogger.warn('shareToStory not available');
     }
@@ -709,55 +859,99 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
 
   const showSecondaryButton = (text: string, onClick: () => void, options?: { color?: string; textColor?: string; position?: 'left' | 'right' }) => {
     if (webApp && webApp.SecondaryButton) {
-      webApp.SecondaryButton.setText(text);
-      if (options?.color) webApp.SecondaryButton.color = options.color;
-      if (options?.textColor) webApp.SecondaryButton.textColor = options.textColor;
-      if (options?.position) webApp.SecondaryButton.position = options.position;
-      webApp.SecondaryButton.show();
-      webApp.SecondaryButton.onClick(onClick);
+      try {
+        webApp.SecondaryButton.setText(text);
+        if (options?.color) webApp.SecondaryButton.color = options.color;
+        if (options?.textColor) webApp.SecondaryButton.textColor = options.textColor;
+        if (options?.position) webApp.SecondaryButton.position = options.position;
+        webApp.SecondaryButton.show();
+        webApp.SecondaryButton.onClick(onClick);
+      } catch (error) {
+        telegramLogger.debug('showSecondaryButton failed (bridge may be stale)', { 
+          error: error instanceof Error ? error.message : String(error),
+          text 
+        });
+      }
     }
   };
 
   const hideSecondaryButton = () => {
     if (webApp?.SecondaryButton) {
-      webApp.SecondaryButton.hide();
-      webApp.SecondaryButton.offClick(() => {});
+      try {
+        webApp.SecondaryButton.hide();
+        webApp.SecondaryButton.offClick(() => {});
+      } catch (error) {
+        telegramLogger.debug('hideSecondaryButton failed (bridge may be stale)', { 
+          error: error instanceof Error ? error.message : String(error) 
+        });
+      }
     }
   };
 
   const requestFullscreen = () => {
     if (webApp?.requestFullscreen) {
-      webApp.requestFullscreen();
-      setIsFullscreen(true);
-      telegramLogger.info('Requested fullscreen mode');
+      try {
+        webApp.requestFullscreen();
+        setIsFullscreen(true);
+        telegramLogger.info('Requested fullscreen mode');
+      } catch (error) {
+        telegramLogger.warn('requestFullscreen failed (bridge may be stale)', { 
+          error: error instanceof Error ? error.message : String(error) 
+        });
+      }
     }
   };
 
   const exitFullscreen = () => {
     if (webApp?.exitFullscreen) {
-      webApp.exitFullscreen();
-      setIsFullscreen(false);
-      telegramLogger.info('Exited fullscreen mode');
+      try {
+        webApp.exitFullscreen();
+        setIsFullscreen(false);
+        telegramLogger.info('Exited fullscreen mode');
+      } catch (error) {
+        telegramLogger.warn('exitFullscreen failed (bridge may be stale)', { 
+          error: error instanceof Error ? error.message : String(error) 
+        });
+      }
     }
   };
 
   const lockOrientation = () => {
     if (webApp?.lockOrientation) {
-      webApp.lockOrientation();
-      telegramLogger.info('Orientation locked');
+      try {
+        webApp.lockOrientation();
+        telegramLogger.info('Orientation locked');
+      } catch (error) {
+        telegramLogger.debug('lockOrientation failed (bridge may be stale)', { 
+          error: error instanceof Error ? error.message : String(error) 
+        });
+      }
     }
   };
 
   const unlockOrientation = () => {
     if (webApp?.unlockOrientation) {
-      webApp.unlockOrientation();
-      telegramLogger.info('Orientation unlocked');
+      try {
+        webApp.unlockOrientation();
+        telegramLogger.info('Orientation unlocked');
+      } catch (error) {
+        telegramLogger.debug('unlockOrientation failed (bridge may be stale)', { 
+          error: error instanceof Error ? error.message : String(error) 
+        });
+      }
     }
   };
 
   const shareURL = (url: string, text?: string) => {
     if (webApp?.shareURL) {
-      webApp.shareURL(url, text);
+      try {
+        webApp.shareURL(url, text);
+      } catch (error) {
+        telegramLogger.warn('shareURL failed (bridge may be stale)', { 
+          error: error instanceof Error ? error.message : String(error),
+          url 
+        });
+      }
     } else {
       telegramLogger.warn('shareURL not available');
     }
@@ -765,7 +959,13 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
 
   const showQRScanner = (text?: string, callback?: (data: string) => boolean) => {
     if (webApp?.showScanQrPopup) {
-      webApp.showScanQrPopup({ text: text || 'Scan QR code' }, callback || (() => true));
+      try {
+        webApp.showScanQrPopup({ text: text || 'Scan QR code' }, callback || (() => true));
+      } catch (error) {
+        telegramLogger.warn('showQRScanner failed (bridge may be stale)', { 
+          error: error instanceof Error ? error.message : String(error) 
+        });
+      }
     } else {
       telegramLogger.warn('QR Scanner not available');
     }
@@ -773,13 +973,28 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
 
   const closeQRScanner = () => {
     if (webApp?.closeScanQrPopup) {
-      webApp.closeScanQrPopup();
+      try {
+        webApp.closeScanQrPopup();
+      } catch (error) {
+        telegramLogger.debug('closeQRScanner failed (bridge may be stale)', { 
+          error: error instanceof Error ? error.message : String(error) 
+        });
+      }
     }
   };
 
   const downloadFile = (url: string, fileName: string, callback?: (success: boolean) => void) => {
     if (webApp?.downloadFile) {
-      webApp.downloadFile({ url, file_name: fileName }, callback);
+      try {
+        webApp.downloadFile({ url, file_name: fileName }, callback);
+      } catch (error) {
+        telegramLogger.warn('downloadFile failed (bridge may be stale)', { 
+          error: error instanceof Error ? error.message : String(error),
+          url,
+          fileName 
+        });
+        callback?.(false);
+      }
     } else {
       telegramLogger.warn('downloadFile not available');
       callback?.(false);
@@ -788,7 +1003,14 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
 
   const requestWriteAccess = (callback?: (granted: boolean) => void) => {
     if (webApp?.requestWriteAccess) {
-      webApp.requestWriteAccess(callback);
+      try {
+        webApp.requestWriteAccess(callback);
+      } catch (error) {
+        telegramLogger.warn('requestWriteAccess failed (bridge may be stale)', { 
+          error: error instanceof Error ? error.message : String(error) 
+        });
+        callback?.(false);
+      }
     } else {
       telegramLogger.warn('requestWriteAccess not available');
       callback?.(false);

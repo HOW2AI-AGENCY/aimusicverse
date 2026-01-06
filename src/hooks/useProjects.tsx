@@ -3,7 +3,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
 import { toast } from 'sonner';
 import { logger } from '@/lib/logger';
-import { notifyProjectChange } from '@/services/notification.service';
+import { notifyProjectChange } from '@/services/notificationManager';
 import { useAuditLog } from './useAuditLog';
 import { useEffect, useCallback } from 'react';
 import type { Tables, TablesInsert, TablesUpdate } from '@/integrations/supabase/types';

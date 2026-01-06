@@ -10,6 +10,7 @@ import { motion, AnimatePresence } from '@/lib/motion';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Z_INDEX, getBottomSafeAreaWithNav } from '@/lib/toast-position';
 
 interface FloatingMainButtonProps {
   visible: boolean;
@@ -38,9 +39,10 @@ export function FloatingMainButton({
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
           transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-          className="fixed bottom-0 left-0 right-0 z-[60] pointer-events-none"
+          className="fixed bottom-0 left-0 right-0 pointer-events-none"
           style={{
-            paddingBottom: 'calc(5rem + env(safe-area-inset-bottom, 0px))',
+            zIndex: Z_INDEX.floatingButton,
+            paddingBottom: getBottomSafeAreaWithNav(),
           }}
         >
           <div className="px-4 pointer-events-auto">

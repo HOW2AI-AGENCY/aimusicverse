@@ -39,6 +39,8 @@ export function useTimestampedLyrics(taskId: string | null, audioId: string | nu
       return;
     }
 
+    const abortController = new AbortController();
+
     const fetchLyrics = async () => {
       setLoading(true);
       setError(null);
@@ -67,15 +69,28 @@ export function useTimestampedLyrics(taskId: string | null, audioId: string | nu
           throw functionError;
         }
 
-        // Cache the response
+        // Cache the response (non-blocking, errors are logged but don't fail the fetch)
         if (responseData) {
-          await setCachedLyrics(taskId, audioId, responseData);
+          try {
+            await setCachedLyrics(taskId, audioId, responseData);
+          } catch (cacheError) {
+            // Log cache error but don't fail the entire operation
+            logger.warn('Failed to cache lyrics, continuing with response data', {
+              error: cacheError instanceof Error ? cacheError.message : String(cacheError),
+              taskId,
+              audioId
+            });
+          }
         }
 
         setData(responseData);
         setFromCache(false);
         fetchedRef.current = cacheKey;
       } catch (err) {
+        // Ignore abort errors
+        if (err instanceof Error && err.name === 'AbortError') {
+          return;
+        }
         logger.error('Error fetching timestamped lyrics', { error: err instanceof Error ? err.message : String(err) });
         setError(err instanceof Error ? err.message : 'Failed to load lyrics');
       } finally {
@@ -84,6 +99,10 @@ export function useTimestampedLyrics(taskId: string | null, audioId: string | nu
     };
 
     fetchLyrics();
+
+    return () => {
+      abortController.abort();
+    };
   }, [taskId, audioId]);
 
   return { data, loading, error, fromCache };

@@ -34,9 +34,20 @@ export interface ProjectTrack {
   status: string;
   created_at: string;
   updated_at: string;
+  // Extended generation parameters
+  bpm_target: number | null;
+  key_signature: string | null;
+  energy_level: number | null;
+  vocal_style: string | null;
+  instrumental_only: boolean | null;
+  reference_url: string | null;
+  generation_params: Json | null;
   // Linked track data
   linked_track?: LinkedTrack | null;
 }
+
+// JSON type from Supabase
+type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
 
 export const useProjectTracks = (projectId: string | undefined) => {
   const { user } = useAuth();

@@ -659,6 +659,7 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
                 onClose();
               }}
               className="h-11 w-11 rounded-full bg-background/40 backdrop-blur-md border border-white/10 touch-manipulation hover:bg-background/60 transition-colors"
+              aria-label="Закрыть плеер"
             >
               <X className="h-5 w-5" />
             </Button>
@@ -692,6 +693,7 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
                   'h-11 w-11 rounded-full bg-background/40 backdrop-blur-md border border-white/10 touch-manipulation hover:bg-background/60 transition-colors',
                   showVisualizer && 'bg-primary/20 border-primary/30'
                 )}
+                aria-label={showVisualizer ? "Скрыть визуализацию" : "Показать визуализацию"}
               >
                 <BarChart3 className="h-5 w-5" />
               </Button>
@@ -708,6 +710,7 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
                     setKaraokeMode(true);
                   }}
                   className="h-11 w-11 rounded-full bg-background/40 backdrop-blur-md border border-white/10 touch-manipulation hover:bg-background/60 transition-colors"
+                  aria-label="Режим караоке"
                 >
                   <Mic2 className="h-5 w-5" />
                 </Button>
@@ -724,6 +727,7 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
                   setQueueOpen(true);
                 }}
                 className="h-11 w-11 rounded-full bg-background/40 backdrop-blur-md border border-white/10 touch-manipulation hover:bg-background/60 transition-colors"
+                aria-label="Открыть очередь"
               >
                 <ListMusic className="h-5 w-5" />
               </Button>
