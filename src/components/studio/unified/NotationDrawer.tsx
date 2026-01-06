@@ -1,35 +1,33 @@
 /**
  * NotationDrawer
- * Mobile bottom drawer for viewing notation, piano roll, and tabs
- * Phase 2 - Transcription Integration
+ * Mobile bottom drawer for viewing notation + piano roll + notes list.
+ * Uses the same implementation as the old studio (UnifiedNotesViewer) to keep
+ * MusicXML parsing + note list consistent.
  */
 
-import { memo, useState, useCallback, useMemo } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { 
-  Music2, Piano, Guitar, X, Download, ChevronDown,
-  Loader2, FileMusic, FileText
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { memo, useCallback, useMemo, useState } from 'react';
+import { ChevronDown, Download, FileText, Loader2, Music2, X } from 'lucide-react';
+import { toast } from 'sonner';
+
+import { cn } from '@/lib/utils';
+import { useHapticFeedback } from '@/hooks/useHapticFeedback';
+
 import { Badge } from '@/components/ui/badge';
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { cn } from '@/lib/utils';
-import { toast } from 'sonner';
-import { useHapticFeedback } from '@/hooks/useHapticFeedback';
-import { MusicXMLViewer } from '@/components/guitar/MusicXMLViewer';
-import { PianoRoll } from './PianoRoll';
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+
+import { UnifiedNotesViewer } from '@/components/studio/UnifiedNotesViewer';
+
 import type { StudioTrack } from '@/stores/useUnifiedStudioStore';
 import type { MidiNote } from './PianoRoll';
 
-interface NotationDrawerProps {
+export interface NotationDrawerProps {
   open: boolean;
   onClose: () => void;
   track: StudioTrack | null;
@@ -42,14 +40,13 @@ interface NotationDrawerProps {
     key?: string;
     time_signature?: string;
     notes?: MidiNote[];
+    notes_count?: number;
   };
   currentTime?: number;
   duration?: number;
   isPlaying?: boolean;
   onSeek?: (time: number) => void;
 }
-
-type NotationTab = 'piano-roll' | 'sheet' | 'tabs';
 
 export const NotationDrawer = memo(function NotationDrawer({
   open,
@@ -59,70 +56,55 @@ export const NotationDrawer = memo(function NotationDrawer({
   currentTime = 0,
   duration = 0,
   isPlaying = false,
-  onSeek,
 }: NotationDrawerProps) {
   const haptic = useHapticFeedback();
-  const [activeTab, setActiveTab] = useState<NotationTab>('piano-roll');
   const [isDownloading, setIsDownloading] = useState<string | null>(null);
-  const [pianoRollNotes, setPianoRollNotes] = useState<MidiNote[]>(
-    transcriptionData?.notes || []
-  );
 
   // Telegram safe area padding
   const safeAreaTop = `calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px) + 0.5rem, env(safe-area-inset-top, 0px) + 0.5rem))`;
   const safeAreaBottom = `calc(max(var(--tg-safe-area-inset-bottom, 0px) + 1rem, env(safe-area-inset-bottom, 0px) + 1rem))`;
 
-  // Available download files
+  const effectiveDuration = duration || (track as any)?.duration || track?.clips?.[0]?.duration || 60;
+
   const availableFiles = useMemo(() => {
     if (!transcriptionData) return [];
     return [
-      { key: 'midi', url: transcriptionData.midi_url, label: 'MIDI', ext: '.mid', icon: FileMusic },
-      { key: 'mxml', url: transcriptionData.mxml_url, label: 'MusicXML', ext: '.xml', icon: FileText },
-      { key: 'gp5', url: transcriptionData.gp5_url, label: 'Guitar Pro', ext: '.gp5', icon: Guitar },
-      { key: 'pdf', url: transcriptionData.pdf_url, label: 'PDF', ext: '.pdf', icon: FileText },
-    ].filter(f => f.url);
+      { key: 'midi', url: transcriptionData.midi_url, label: 'MIDI', ext: '.mid' },
+      { key: 'mxml', url: transcriptionData.mxml_url, label: 'MusicXML', ext: '.xml' },
+      { key: 'gp5', url: transcriptionData.gp5_url, label: 'Guitar Pro', ext: '.gp5' },
+      { key: 'pdf', url: transcriptionData.pdf_url, label: 'PDF', ext: '.pdf' },
+    ].filter((f) => !!f.url);
   }, [transcriptionData]);
 
-  // Download file
-  const handleDownload = useCallback(async (url: string, filename: string) => {
-    haptic.tap();
-    setIsDownloading(filename);
-    
-    try {
-      const response = await fetch(url);
-      if (!response.ok) throw new Error('Download failed');
-      
-      const blob = await response.blob();
-      const downloadUrl = URL.createObjectURL(blob);
-      
-      const a = document.createElement('a');
-      a.href = downloadUrl;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(downloadUrl);
-      
-      toast.success(`${filename} скачан`);
-    } catch (err) {
-      toast.error('Ошибка скачивания');
-    } finally {
-      setIsDownloading(null);
-    }
-  }, [haptic]);
+  const handleDownload = useCallback(
+    async (url: string, filename: string) => {
+      haptic.tap();
+      setIsDownloading(filename);
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Download failed');
 
-  // Handle tab change
-  const handleTabChange = useCallback((value: string) => {
-    haptic.tap();
-    setActiveTab(value as NotationTab);
-  }, [haptic]);
+        const blob = await response.blob();
+        const downloadUrl = URL.createObjectURL(blob);
 
-  // Handle notes change from piano roll
-  const handleNotesChange = useCallback((notes: MidiNote[]) => {
-    setPianoRollNotes(notes);
-  }, []);
+        const a = document.createElement('a');
+        a.href = downloadUrl;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(downloadUrl);
 
-  // Handle close
+        toast.success(`${filename} скачан`);
+      } catch {
+        toast.error('Ошибка скачивания');
+      } finally {
+        setIsDownloading(null);
+      }
+    },
+    [haptic]
+  );
+
   const handleClose = useCallback(() => {
     haptic.tap();
     onClose();
@@ -132,42 +114,41 @@ export const NotationDrawer = memo(function NotationDrawer({
 
   return (
     <Sheet open={open} onOpenChange={(isOpen) => !isOpen && handleClose()}>
-      <SheetContent 
-        side="bottom" 
-        className="h-[85vh] rounded-t-2xl p-0 flex flex-col"
+      <SheetContent
+        side="bottom"
+        className={cn('h-[85vh] rounded-t-2xl p-0 flex flex-col')}
         style={{ paddingBottom: safeAreaBottom }}
       >
-        {/* Header */}
-        <SheetHeader 
+        <SheetHeader
           className="flex-shrink-0 px-4 py-3 border-b border-border/50"
           style={{ paddingTop: safeAreaTop }}
         >
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                <Music2 className="w-5 h-5 text-primary" />
-              </div>
-              <div>
-                <SheetTitle className="text-left text-base">
-                  {track.name}
-                </SheetTitle>
-                <div className="flex items-center gap-2 mt-0.5">
-                  {transcriptionData?.bpm && (
-                    <Badge variant="secondary" className="text-xs h-5">
-                      {transcriptionData.bpm} BPM
-                    </Badge>
-                  )}
-                  {transcriptionData?.key && (
-                    <Badge variant="outline" className="text-xs h-5">
-                      {transcriptionData.key}
-                    </Badge>
-                  )}
-                </div>
+          <div className="flex items-center justify-between gap-2">
+            <div className="min-w-0">
+              <SheetTitle className="text-left text-base truncate flex items-center gap-2">
+                <Music2 className="w-5 h-5 text-primary shrink-0" />
+                <span className="truncate">{track.name}</span>
+              </SheetTitle>
+              <div className="flex items-center gap-2 mt-1 flex-wrap">
+                {transcriptionData?.bpm && (
+                  <Badge variant="secondary" className="text-xs h-5">
+                    {Math.round(transcriptionData.bpm)} BPM
+                  </Badge>
+                )}
+                {transcriptionData?.key && (
+                  <Badge variant="outline" className="text-xs h-5">
+                    {transcriptionData.key}
+                  </Badge>
+                )}
+                {typeof transcriptionData?.notes_count === 'number' && transcriptionData.notes_count > 0 && (
+                  <Badge variant="outline" className="text-xs h-5">
+                    {transcriptionData.notes_count} нот
+                  </Badge>
+                )}
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
-              {/* Download menu */}
+            <div className="flex items-center gap-2 shrink-0">
               {availableFiles.length > 0 && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -177,7 +158,7 @@ export const NotationDrawer = memo(function NotationDrawer({
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    {availableFiles.map(file => (
+                    {availableFiles.map((file) => (
                       <DropdownMenuItem
                         key={file.key}
                         onClick={() => handleDownload(file.url!, `${track.name}${file.ext}`)}
@@ -186,7 +167,7 @@ export const NotationDrawer = memo(function NotationDrawer({
                         {isDownloading === `${track.name}${file.ext}` ? (
                           <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                         ) : (
-                          <file.icon className="w-4 h-4 mr-2" />
+                          <FileText className="w-4 h-4 mr-2" />
                         )}
                         {file.label}
                       </DropdownMenuItem>
@@ -195,156 +176,37 @@ export const NotationDrawer = memo(function NotationDrawer({
                 </DropdownMenu>
               )}
 
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-9 w-9"
-                onClick={handleClose}
-              >
+              <Button variant="ghost" size="icon" className="h-9 w-9" onClick={handleClose}>
                 <X className="w-5 h-5" />
               </Button>
             </div>
           </div>
         </SheetHeader>
 
-        {/* Tabs */}
-        <Tabs 
-          value={activeTab} 
-          onValueChange={handleTabChange}
-          className="flex-1 flex flex-col min-h-0"
-        >
-          <TabsList className="mx-4 mt-3 grid grid-cols-3 h-10">
-            <TabsTrigger value="piano-roll" className="text-xs gap-1.5">
-              <Piano className="w-3.5 h-3.5" />
-              Piano Roll
-            </TabsTrigger>
-            <TabsTrigger value="sheet" className="text-xs gap-1.5">
-              <Music2 className="w-3.5 h-3.5" />
-              Ноты
-            </TabsTrigger>
-            <TabsTrigger value="tabs" className="text-xs gap-1.5">
-              <Guitar className="w-3.5 h-3.5" />
-              Табы
-            </TabsTrigger>
-          </TabsList>
-
-          {/* Piano Roll */}
-          <TabsContent value="piano-roll" className="flex-1 min-h-0 m-0 mt-3">
-            <div className="h-full px-4 pb-4">
-              {pianoRollNotes.length > 0 || transcriptionData?.notes?.length ? (
-                <div className="h-full rounded-lg border border-border/50 overflow-hidden">
-                  <PianoRoll
-                    notes={pianoRollNotes.length > 0 ? pianoRollNotes : transcriptionData?.notes || []}
-                    bpm={transcriptionData?.bpm || 120}
-                    duration={duration}
-                    currentTime={currentTime}
-                    isPlaying={isPlaying}
-                    onNotesChange={handleNotesChange}
-                    onSeek={onSeek}
-                  />
-                </div>
-              ) : (
-                <div className="h-full flex items-center justify-center">
-                  <div className="text-center text-muted-foreground">
-                    <Piano className="w-12 h-12 mx-auto mb-3 opacity-50" />
-                    <p className="text-sm font-medium">Нет MIDI данных</p>
-                    <p className="text-xs mt-1">Выполните транскрипцию для отображения нот</p>
-                  </div>
-                </div>
-              )}
-            </div>
-          </TabsContent>
-
-          {/* Sheet Music */}
-          <TabsContent value="sheet" className="flex-1 min-h-0 m-0 mt-3">
-            <div className="h-full px-4 pb-4">
-              {transcriptionData?.mxml_url ? (
-                <div className="h-full rounded-lg border border-border/50 overflow-hidden bg-card">
-                  <MusicXMLViewer
-                    url={transcriptionData.mxml_url}
-                    className="h-full"
-                    showControls
-                  />
-                </div>
-              ) : (
-                <div className="h-full flex items-center justify-center">
-                  <div className="text-center text-muted-foreground">
-                    <Music2 className="w-12 h-12 mx-auto mb-3 opacity-50" />
-                    <p className="text-sm font-medium">MusicXML недоступен</p>
-                    <p className="text-xs mt-1">Используйте Klangio для получения нотной записи</p>
-                  </div>
-                </div>
-              )}
-            </div>
-          </TabsContent>
-
-          {/* Tabs (Guitar tablature) */}
-          <TabsContent value="tabs" className="flex-1 min-h-0 m-0 mt-3">
-            <div className="h-full px-4 pb-4">
-              {transcriptionData?.gp5_url ? (
-                <ScrollArea className="h-full">
-                  <div className="space-y-4">
-                    <div className="p-4 rounded-lg bg-card border border-border/50">
-                      <div className="flex items-center gap-3 mb-3">
-                        <Guitar className="w-5 h-5 text-primary" />
-                        <span className="font-medium">Guitar Pro файл</span>
-                      </div>
-                      <p className="text-sm text-muted-foreground mb-4">
-                        Скачайте файл для просмотра в Guitar Pro или TuxGuitar
-                      </p>
-                      <Button
-                        variant="outline"
-                        className="w-full"
-                        onClick={() => handleDownload(transcriptionData.gp5_url!, `${track.name}.gp5`)}
-                        disabled={isDownloading === `${track.name}.gp5`}
-                      >
-                        {isDownloading === `${track.name}.gp5` ? (
-                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                        ) : (
-                          <Download className="w-4 h-4 mr-2" />
-                        )}
-                        Скачать Guitar Pro
-                      </Button>
-                    </div>
-
-                    {transcriptionData?.pdf_url && (
-                      <div className="p-4 rounded-lg bg-card border border-border/50">
-                        <div className="flex items-center gap-3 mb-3">
-                          <FileText className="w-5 h-5 text-primary" />
-                          <span className="font-medium">PDF ноты</span>
-                        </div>
-                        <Button
-                          variant="outline"
-                          className="w-full"
-                          onClick={() => handleDownload(transcriptionData.pdf_url!, `${track.name}.pdf`)}
-                          disabled={isDownloading === `${track.name}.pdf`}
-                        >
-                          {isDownloading === `${track.name}.pdf` ? (
-                            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                          ) : (
-                            <Download className="w-4 h-4 mr-2" />
-                          )}
-                          Скачать PDF
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                </ScrollArea>
-              ) : (
-                <div className="h-full flex items-center justify-center">
-                  <div className="text-center text-muted-foreground">
-                    <Guitar className="w-12 h-12 mx-auto mb-3 opacity-50" />
-                    <p className="text-sm font-medium">Табы недоступны</p>
-                    <p className="text-xs mt-1">Используйте Klangio с моделью "Гитара"</p>
-                  </div>
-                </div>
-              )}
-            </div>
-          </TabsContent>
-        </Tabs>
+        <div className="flex-1 min-h-0 p-4">
+          <UnifiedNotesViewer
+            notes={transcriptionData?.notes as any}
+            duration={effectiveDuration}
+            bpm={transcriptionData?.bpm ?? 120}
+            timeSignature={transcriptionData?.time_signature}
+            keySignature={transcriptionData?.key}
+            notesCount={transcriptionData?.notes_count}
+            files={{
+              midiUrl: transcriptionData?.midi_url,
+              pdfUrl: transcriptionData?.pdf_url,
+              gp5Url: transcriptionData?.gp5_url,
+              musicXmlUrl: transcriptionData?.mxml_url,
+            }}
+            midiUrl={transcriptionData?.midi_url}
+            musicXmlUrl={transcriptionData?.mxml_url}
+            currentTime={currentTime}
+            isPlaying={isPlaying}
+            enablePlayback={false}
+            trackTitle={track.name}
+            className="h-full"
+          />
+        </div>
       </SheetContent>
     </Sheet>
   );
 });
-
-export type { NotationDrawerProps };
