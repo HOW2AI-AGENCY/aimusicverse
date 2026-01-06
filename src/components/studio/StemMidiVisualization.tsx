@@ -5,19 +5,20 @@
  * - Piano Roll with playhead sync
  * - Staff Notation view
  * - Guitar Tab/Fretboard view
- * - Chord Progression display
+ * - Chord Diagrams with fingering
  * - Download buttons for all formats
  * - Responsive mobile-first design
  */
 
-import { memo, useState, useMemo, useCallback } from 'react';
+import { memo, useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/formatters';
 import { 
   Piano, Music2, ListMusic, Guitar, Download, 
   Play, Pause, Volume2, VolumeX, ZoomIn, ZoomOut,
-  FileMusic, FileText, ChevronDown, Sparkles, Grid3X3
+  FileMusic, FileText, ChevronDown, Sparkles, Grid3X3,
+  Hand, Clock, Layers, ChevronLeft, ChevronRight
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -30,9 +31,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useMidiSynth } from '@/hooks/useMidiSynth';
+import { ChordDiagramUnified } from '@/components/guitar/ChordDiagramUnified';
 import { toast } from 'sonner';
 
 // Types
@@ -270,104 +272,219 @@ const PianoRollView = memo(function PianoRollView({
   );
 });
 
-// ================== Chord Timeline Component ==================
+// ================== Chord Timeline Component with Diagrams ==================
 const ChordTimelineView = memo(function ChordTimelineView({
   chords,
   duration,
   currentTime,
+  stemType,
 }: {
   chords: ChordData[];
   duration: number;
   currentTime: number;
+  stemType?: string;
 }) {
+  const isMobile = useIsMobile();
+  const scrollRef = useRef<HTMLDivElement>(null);
+  
   const uniqueChords = useMemo(() => [...new Set(chords.map(c => c.chord))], [chords]);
   const currentChord = useMemo(() => 
     chords.find(c => c.startTime <= currentTime && c.endTime > currentTime),
   [chords, currentTime]);
+  
+  const currentChordIndex = useMemo(() => {
+    if (!currentChord) return -1;
+    return chords.findIndex(c => c.startTime === currentChord.startTime);
+  }, [chords, currentChord]);
+
+  // Show guitar diagrams for guitar-related stems
+  const showGuitarDiagrams = useMemo(() => {
+    if (!stemType) return true; // Show by default
+    const type = stemType.toLowerCase();
+    return type.includes('guitar') || type.includes('other') || !type.includes('vocal') && !type.includes('drum');
+  }, [stemType]);
+
+  // Auto-scroll to current chord
+  useEffect(() => {
+    if (scrollRef.current && currentChordIndex >= 0) {
+      const container = scrollRef.current;
+      const items = container.querySelectorAll('[data-chord-item]');
+      const currentItem = items[currentChordIndex] as HTMLElement;
+      if (currentItem) {
+        currentItem.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      }
+    }
+  }, [currentChordIndex]);
 
   if (chords.length === 0) {
     return (
-      <div className="flex items-center justify-center h-full text-muted-foreground">
-        <Music2 className="w-6 h-6 mr-2 opacity-50" />
-        <span>Аккорды не обнаружены</span>
+      <div className="flex flex-col items-center justify-center h-full text-muted-foreground gap-3">
+        <Music2 className="w-12 h-12 opacity-30" />
+        <div className="text-center">
+          <p className="font-medium">Аккорды не обнаружены</p>
+          <p className="text-xs mt-1">Попробуйте транскрибировать трек с другой моделью</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-4 p-4">
-      {/* Current Chord */}
-      {currentChord && (
-        <div className="flex items-center gap-3 p-4 rounded-xl bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20">
-          <Sparkles className="w-5 h-5 text-primary animate-pulse" />
-          <div>
-            <p className="text-xs text-muted-foreground">Сейчас играет</p>
-            <p className="text-2xl font-bold font-mono">{currentChord.chord}</p>
-          </div>
-        </div>
-      )}
-
-      {/* Chord Progression */}
-      <div>
-        <p className="text-xs text-muted-foreground mb-2">Прогрессия аккордов</p>
-        <div className="flex flex-wrap gap-2">
-          {uniqueChords.map((chord, i) => (
-            <Badge
-              key={i}
-              variant="outline"
-              className={cn(
-                "text-sm font-mono transition-all px-3 py-1",
-                getChordColor(chord),
-                currentChord?.chord === chord && "ring-2 ring-primary scale-110"
+    <div className="h-full flex flex-col">
+      {/* Current Chord Display with Diagram */}
+      <div className="p-4 shrink-0 border-b">
+        <div className="flex items-center gap-4">
+          {currentChord ? (
+            <>
+              {/* Chord Diagram */}
+              {showGuitarDiagrams && (
+                <div className="shrink-0">
+                  <ChordDiagramUnified
+                    chord={currentChord.chord}
+                    size={isMobile ? 'lg' : 'xl'}
+                    showFingers
+                    showStringNames
+                    animated
+                    isActive
+                  />
+                </div>
               )}
-            >
-              {chord}
-            </Badge>
-          ))}
+              
+              {/* Chord Info */}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-2">
+                  <Sparkles className="w-4 h-4 text-primary animate-pulse" />
+                  <span className="text-xs text-muted-foreground">Сейчас играет</span>
+                </div>
+                <p className="text-3xl font-bold font-mono text-primary">{currentChord.chord}</p>
+                <div className="flex items-center gap-2 mt-2 text-xs text-muted-foreground">
+                  <Clock className="w-3 h-3" />
+                  <span>{formatTime(currentChord.startTime)} – {formatTime(currentChord.endTime)}</span>
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className="flex items-center gap-3 p-4 rounded-xl bg-muted/30 w-full">
+              <Hand className="w-6 h-6 text-muted-foreground" />
+              <div>
+                <p className="text-sm font-medium">Ожидание...</p>
+                <p className="text-xs text-muted-foreground">Воспроизведите трек для отображения аккордов</p>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Timeline */}
-      <div>
-        <p className="text-xs text-muted-foreground mb-2">Таймлайн</p>
-        <div className="relative h-12 rounded-lg bg-muted/30 border overflow-hidden">
+      {/* Chord Progression Timeline */}
+      <div className="p-4 shrink-0">
+        <p className="text-xs text-muted-foreground mb-2 flex items-center gap-1">
+          <Layers className="w-3 h-3" />
+          Таймлайн аккордов
+        </p>
+        <div className="relative h-10 rounded-lg bg-muted/30 border overflow-hidden">
           {chords.map((chord, i) => {
             const isActive = chord.startTime <= currentTime && chord.endTime > currentTime;
             const isPast = chord.endTime < currentTime;
             
             return (
-              <div
+              <motion.div
                 key={i}
+                initial={false}
+                animate={{
+                  opacity: isPast ? 0.4 : 1,
+                  scale: isActive ? 1.02 : 1,
+                }}
                 className={cn(
                   "absolute top-0 bottom-0 flex items-center justify-center",
-                  "border-r border-border/30 transition-all",
+                  "border-r border-border/30 transition-colors",
                   getChordColor(chord.chord),
-                  isPast && "opacity-50",
-                  isActive && "ring-1 ring-inset ring-primary"
+                  isActive && "ring-2 ring-inset ring-primary shadow-lg z-10"
                 )}
                 style={{
                   left: `${(chord.startTime / duration) * 100}%`,
-                  width: `${((chord.endTime - chord.startTime) / duration) * 100}%`,
+                  width: `${Math.max(2, ((chord.endTime - chord.startTime) / duration) * 100)}%`,
                 }}
               >
                 <span className={cn(
-                  "text-xs font-mono font-semibold truncate px-1",
+                  "text-[10px] font-mono font-bold truncate px-0.5",
                   isActive && "text-primary"
                 )}>
                   {chord.chord}
                 </span>
-              </div>
+              </motion.div>
             );
           })}
           
           {/* Playhead */}
           {currentTime > 0 && (
-            <div 
-              className="absolute top-0 bottom-0 w-0.5 bg-primary z-10"
+            <motion.div 
+              className="absolute top-0 bottom-0 w-0.5 bg-destructive z-20 pointer-events-none"
               style={{ left: `${(currentTime / duration) * 100}%` }}
+              initial={false}
+              animate={{ boxShadow: '0 0 8px rgba(239, 68, 68, 0.6)' }}
             />
           )}
         </div>
+      </div>
+
+      {/* Scrollable Chord Cards with Diagrams */}
+      <div className="flex-1 min-h-0 overflow-hidden">
+        <p className="px-4 text-xs text-muted-foreground mb-2 flex items-center gap-1">
+          <Guitar className="w-3 h-3" />
+          Все аккорды ({uniqueChords.length})
+        </p>
+        
+        <ScrollArea className="h-full">
+          <div 
+            ref={scrollRef}
+            className="flex gap-3 px-4 pb-4 overflow-x-auto"
+          >
+            {uniqueChords.map((chord, i) => {
+              const isActive = currentChord?.chord === chord;
+              const occurrences = chords.filter(c => c.chord === chord).length;
+              
+              return (
+                <motion.div
+                  key={chord}
+                  data-chord-item
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                  className={cn(
+                    "shrink-0 p-3 rounded-xl border transition-all",
+                    isActive 
+                      ? "bg-primary/10 border-primary shadow-lg shadow-primary/20" 
+                      : "bg-muted/30 border-border/50 hover:border-primary/30"
+                  )}
+                >
+                  {showGuitarDiagrams && (
+                    <ChordDiagramUnified
+                      chord={chord}
+                      size="md"
+                      showFingers
+                      animated={isActive}
+                      isActive={isActive}
+                    />
+                  )}
+                  {!showGuitarDiagrams && (
+                    <div className="flex flex-col items-center justify-center w-16 h-16">
+                      <span className={cn(
+                        "text-2xl font-bold font-mono",
+                        isActive && "text-primary"
+                      )}>
+                        {chord}
+                      </span>
+                    </div>
+                  )}
+                  <div className="mt-2 text-center">
+                    <Badge variant="outline" className="text-[10px] h-4">
+                      ×{occurrences}
+                    </Badge>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        </ScrollArea>
       </div>
     </div>
   );
@@ -842,11 +959,12 @@ export const StemMidiVisualization = memo(function StemMidiVisualization({
           </TabsContent>
         )}
 
-        <TabsContent value="chords" className="flex-1 m-0 min-h-0 overflow-auto">
+        <TabsContent value="chords" className="flex-1 m-0 min-h-0 overflow-hidden">
           <ChordTimelineView
             chords={chords}
             duration={duration}
             currentTime={effectiveTime}
+            stemType={stemType}
           />
         </TabsContent>
 
