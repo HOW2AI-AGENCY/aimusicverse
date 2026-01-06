@@ -203,6 +203,7 @@ export const NotationDrawer = memo(function NotationDrawer({
             isPlaying={isPlaying}
             enablePlayback={false}
             trackTitle={track.name}
+            height={560}
             className="h-full"
           />
         </div>
