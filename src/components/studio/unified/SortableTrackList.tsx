@@ -3,7 +3,7 @@
  * Uses @dnd-kit/sortable for smooth drag interactions
  */
 
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 import {
   DndContext,
   closestCenter,
@@ -26,6 +26,7 @@ import { StudioTrack } from '@/stores/useUnifiedStudioStore';
 import { StudioTrackRow } from './StudioTrackRow';
 import { StudioPendingTrackRow } from './StudioPendingTrackRow';
 import { cn } from '@/lib/utils';
+import { useTrackTranscriptionStatus } from '@/hooks/studio/useTrackTranscriptionStatus';
 
 interface SortableTrackListProps {
   tracks: StudioTrack[];
@@ -53,6 +54,7 @@ interface SortableTrackItemProps {
   hasSoloTracks?: boolean;
   isSourceTrack?: boolean;
   stemsExist?: boolean;
+  hasTranscription?: boolean;
   onToggleMute: () => void;
   onToggleSolo: () => void;
   onVolumeChange: (volume: number) => void;
@@ -125,6 +127,7 @@ const SortableTrackItem = memo(function SortableTrackItem({
         hasSoloTracks={props.hasSoloTracks}
         isSourceTrack={props.isSourceTrack}
         stemsExist={props.stemsExist}
+        hasTranscription={props.hasTranscription}
         onToggleMute={props.onToggleMute}
         onToggleSolo={props.onToggleSolo}
         onVolumeChange={props.onVolumeChange}
@@ -154,6 +157,10 @@ export const SortableTrackList = memo(function SortableTrackList({
   onVersionChange,
   onAction,
 }: SortableTrackListProps) {
+  // Get transcription status for all tracks
+  const trackIds = useMemo(() => tracks.map((t) => t.id), [tracks]);
+  const { data: transcriptionStatus } = useTrackTranscriptionStatus(trackIds);
+  
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -178,8 +185,6 @@ export const SortableTrackList = memo(function SortableTrackList({
     }
   }, [tracks, onReorder]);
 
-  const trackIds = tracks.map((t) => t.id);
-
   return (
     <DndContext
       sensors={sensors}
@@ -196,6 +201,9 @@ export const SortableTrackList = memo(function SortableTrackList({
               (tracks.length > 0 && tracks[0].id === track.id && !stemTypes.includes(track.type)) ||
               (sourceTrackId != null && track.id === sourceTrackId);
             
+            // Check if track has transcription
+            const hasTranscription = transcriptionStatus?.[track.id] || false;
+            
             return (
               <SortableTrackItem
                 key={track.id}
@@ -206,6 +214,7 @@ export const SortableTrackList = memo(function SortableTrackList({
                 hasSoloTracks={hasSoloTracks}
                 isSourceTrack={isSourceTrack}
                 stemsExist={stemsExist}
+                hasTranscription={hasTranscription}
                 onToggleMute={() => onToggleMute(track.id)}
                 onToggleSolo={() => onToggleSolo(track.id)}
                 onVolumeChange={(v) => onVolumeChange(track.id, v)}
