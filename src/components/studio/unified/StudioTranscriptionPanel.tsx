@@ -4,24 +4,21 @@
  */
 
 import { memo, useState, useCallback } from 'react';
-import { motion } from '@/lib/motion';
 import { 
-  Music2, Download, FileMusic, FileText, Loader2,
-  Zap, Settings2, Check, AlertCircle
+  Music2, FileMusic, FileText, Loader2,
+  Zap, Settings2, Check
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import type { StudioTrack } from '@/stores/useUnifiedStudioStore';
 
 interface StudioTranscriptionPanelProps {
@@ -86,31 +83,36 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
     enabled: !!(stemId || trackId),
   });
 
-  // Basic Pitch transcription
+  // Basic Pitch transcription (Replicate)
   const runBasicPitch = useCallback(async () => {
     if (!audioUrl) return;
-    
+
     setIsTranscribing(true);
     setProgress(10);
 
     try {
-      const { data, error } = await supabase.functions.invoke('transcribe-audio', {
+      const progressInterval = window.setInterval(() => {
+        setProgress((p) => Math.min(85, p + 5));
+      }, 2500);
+
+      const { data, error } = await supabase.functions.invoke('replicate-midi-transcription', {
         body: {
           audioUrl,
-          stemId,
           trackId,
-          stemType: stemType || track.type,
+          stemId,
+          model: 'basic-pitch',
         },
       });
 
+      window.clearInterval(progressInterval);
+
       if (error) throw error;
+      if (!data?.success) throw new Error(data?.error || 'Transcription failed');
 
       setProgress(100);
       setResult({
-        midi_url: data?.midiUrl,
-        notes_count: data?.notesCount,
-        bpm: data?.bpm,
-        key: data?.key,
+        midi_url: data?.files?.midi || data?.midiUrl,
+        notes_count: data?.notes_count || (Array.isArray(data?.notes) ? data.notes.length : undefined),
       });
 
       toast.success('Транскрипция завершена');
@@ -118,69 +120,65 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
       onComplete?.();
     } catch (err) {
       console.error('Basic Pitch error:', err);
-      toast.error('Ошибка транскрипции');
+      toast.error(err instanceof Error ? err.message : 'Ошибка транскрипции');
     } finally {
       setIsTranscribing(false);
     }
-  }, [audioUrl, stemId, trackId, stemType, track.type, queryClient, onComplete]);
+  }, [audioUrl, stemId, trackId, queryClient, onComplete]);
 
-  // Klangio transcription
+  // Klangio transcription (klangio-analyze, server-side polling)
   const runKlangio = useCallback(async () => {
+    if (!audioUrl) return;
+
     setIsTranscribing(true);
     setProgress(10);
 
     try {
-      const { data, error } = await supabase.functions.invoke('klangio-transcribe', {
+      const progressInterval = window.setInterval(() => {
+        setProgress((p) => Math.min(90, p + 7));
+      }, 3000);
+
+      const { data, error } = await supabase.functions.invoke('klangio-analyze', {
         body: {
-          audioUrl,
+          audio_url: audioUrl,
+          mode: 'transcription',
           model: klangioModel,
-          outputs: ['midi', 'pdf', 'gp5', 'musicxml'],
-          stemId,
-          trackId,
+          outputs: ['midi', 'midi_quant', 'gp5', 'pdf', 'mxml'],
+          title: track.name,
+          stem_type: stemType || track.type,
+          user_id: (track as any).user_id,
         },
       });
 
+      window.clearInterval(progressInterval);
+
       if (error) throw error;
+      if (!data?.success) throw new Error(data?.error || 'Transcription failed');
 
-      // Klangio is async, poll for completion
-      if (data?.jobId) {
-        const pollInterval = setInterval(async () => {
-          const { data: status } = await supabase.functions.invoke('klangio-status', {
-            body: { jobId: data.jobId },
-          });
+      setProgress(100);
 
-          if (status?.status === 'completed') {
-            clearInterval(pollInterval);
-            setProgress(100);
-            setResult(status.files);
-            toast.success('Транскрипция завершена');
-            queryClient.invalidateQueries({ queryKey: ['transcription'] });
-            onComplete?.();
-            setIsTranscribing(false);
-          } else if (status?.status === 'failed') {
-            clearInterval(pollInterval);
-            toast.error('Ошибка транскрипции');
-            setIsTranscribing(false);
-          } else {
-            setProgress(prev => Math.min(90, prev + 10));
-          }
-        }, 3000);
+      // klangio-analyze returns files in multiple shapes; normalize to our UI shape
+      setResult({
+        midi_url: data?.files?.midi || data?.files?.midi_url || data?.midi_url,
+        midi_quant_url: data?.files?.midi_quant || data?.files?.midi_quant_url || data?.midi_quant_url,
+        musicxml_url: data?.files?.mxml || data?.files?.musicxml || data?.files?.musicxml_url || data?.musicxml_url,
+        pdf_url: data?.files?.pdf || data?.files?.pdf_url || data?.pdf_url,
+        gp5_url: data?.files?.gp5 || data?.files?.gp5_url || data?.gp5_url,
+        bpm: data?.bpm,
+        key: data?.key_detected || data?.key,
+        notes_count: data?.notes_count,
+      });
 
-        // Timeout after 5 minutes
-        setTimeout(() => {
-          clearInterval(pollInterval);
-          if (isTranscribing) {
-            toast.error('Таймаут транскрипции');
-            setIsTranscribing(false);
-          }
-        }, 300000);
-      }
+      toast.success('Транскрипция завершена');
+      queryClient.invalidateQueries({ queryKey: ['transcription'] });
+      onComplete?.();
     } catch (err) {
       console.error('Klangio error:', err);
-      toast.error('Ошибка транскрипции');
+      toast.error(err instanceof Error ? err.message : 'Ошибка транскрипции');
+    } finally {
       setIsTranscribing(false);
     }
-  }, [audioUrl, klangioModel, stemId, trackId, queryClient, onComplete, isTranscribing]);
+  }, [audioUrl, klangioModel, stemId, trackId, stemType, track.name, track.type, queryClient, onComplete]);
 
   // Start transcription
   const startTranscription = useCallback(() => {
