@@ -198,15 +198,40 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
     }
   }, [effectiveMidiUrl, providedNotes?.length, parseMidiFromUrl]);
 
-  // Parse MusicXML when in notation mode and URL is available
+  // Parse MusicXML when URL is available.
+  // Нужно и для режима notation, и для fallback в piano roll, если MIDI отсутствует.
   useEffect(() => {
-    if (effectiveMusicXmlUrl && viewMode === 'notation') {
+    const shouldParseXml =
+      !!effectiveMusicXmlUrl &&
+      !musicXmlFailed &&
+      (viewMode === 'notation' || (!effectiveMidiUrl && !providedNotes?.length));
+
+    if (shouldParseXml) {
       parseMusicXmlFromUrl(effectiveMusicXmlUrl);
     }
-  }, [effectiveMusicXmlUrl, viewMode, parseMusicXmlFromUrl]);
+  }, [effectiveMusicXmlUrl, viewMode, effectiveMidiUrl, providedNotes?.length, musicXmlFailed, parseMusicXmlFromUrl]);
+  const xmlNotesAsMidi = useMemo((): ParsedMidiNote[] => {
+    if (!parsedXml?.notes?.length) return [];
+    return parsedXml.notes.map((n, idx) => {
+      const pitch = n.midiPitch ?? 60;
+      const startTime = n.startTime ?? 0;
+      // В нашем MusicXML парсере duration уже в секундах (см. measureTime += duration / 256)
+      const dur = n.duration ?? 0.5;
+      return {
+        pitch,
+        startTime,
+        endTime: startTime + dur,
+        duration: dur,
+        velocity: 100,
+        noteName: `${NOTE_NAMES[pitch % 12]}${Math.floor(pitch / 12) - 1}`,
+        track: 0,
+      };
+    });
+  }, [parsedXml]);
+
   const notes = useMemo((): ParsedMidiNote[] => {
     if (providedNotes?.length) {
-      return providedNotes.map((n, idx) => {
+      return providedNotes.map((n) => {
         const pitch = n.pitch ?? n.midi ?? 60;
         const startTime = n.startTime ?? n.time ?? 0;
         const dur = n.duration ?? 0.5;
@@ -221,23 +246,11 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
         };
       });
     }
-    return parsedMidi?.notes ?? [];
-  }, [providedNotes, parsedMidi]);
+    return parsedMidi?.notes ?? xmlNotesAsMidi;
+  }, [providedNotes, parsedMidi, xmlNotesAsMidi]);
   
-  // Convert MusicXML notes to NoteInput format for visualization components
-  const xmlNotesConverted = useMemo((): NoteInput[] => {
-    if (!parsedXml?.notes?.length) return [];
-    return parsedXml.notes.map(n => ({
-      pitch: n.midiPitch ?? 60,
-      startTime: n.startTime,
-      duration: n.duration,
-      noteName: `${n.pitch}${n.octave}`,
-      velocity: 100,
-    }));
-  }, [parsedXml]);
-  
-  const duration = providedDuration ?? parsedMidi?.duration ?? 60;
-  const effectiveBpm = bpm ?? parsedMidi?.bpm ?? 120;
+  const duration = providedDuration ?? parsedMidi?.duration ?? parsedXml?.duration ?? 60;
+  const effectiveBpm = bpm ?? parsedMidi?.bpm ?? parsedXml?.bpm ?? 120;
   
   // Process notes for display
   const processedNotes = useMemo(() => {
@@ -394,7 +407,7 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
   }, [trackTitle]);
   
   // Увеличенная высота для мобильных устройств
-  const defaultHeight = compact ? (isMobile ? 200 : 220) : (isMobile ? 320 : 360);
+  const defaultHeight = compact ? (isMobile ? 240 : 240) : (isMobile ? 440 : 360);
   const visualHeight = height ?? defaultHeight;
   
   // Loading state
