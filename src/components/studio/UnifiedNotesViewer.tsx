@@ -224,8 +224,10 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
     parseMusicXmlFromUrl,
   ]);
   const xmlNotesAsMidi = useMemo((): ParsedMidiNote[] => {
-    if (!parsedXml?.notes?.length) return [];
-    return parsedXml.notes.map((n) => {
+    if (!parsedXml?.notes?.length) {
+      return [];
+    }
+    const converted = parsedXml.notes.map((n) => {
       const pitch = n.midiPitch ?? 60;
       const startTime = n.startTime ?? 0;
       // В useMusicXmlParser duration хранится в "тиках" (см. measureTime += duration / 256)
@@ -241,6 +243,8 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
         track: 0,
       };
     });
+    console.log('[UnifiedNotesViewer] xmlNotesAsMidi converted', converted.length, 'notes');
+    return converted;
   }, [parsedXml]);
 
   const notes = useMemo((): ParsedMidiNote[] => {
