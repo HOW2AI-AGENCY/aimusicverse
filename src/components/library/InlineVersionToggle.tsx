@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils';
 import { supabase } from '@/integrations/supabase/client';
 import { triggerHapticFeedback } from '@/lib/mobile-utils';
 import { toast } from 'sonner';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Hammer } from 'lucide-react';
 import { useQueryClient, useQuery } from '@tanstack/react-query';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { logger } from '@/lib/logger';
@@ -14,6 +14,7 @@ interface Version {
   version_label: string | null;
   audio_url: string;
   is_primary: boolean | null;
+  source_type?: string | null;
 }
 
 interface InlineVersionToggleProps {
@@ -34,7 +35,7 @@ interface InlineVersionToggleProps {
 async function fetchVersions(trackId: string): Promise<Version[]> {
   const { data, error } = await supabase
     .from('track_versions')
-    .select('id, version_label, audio_url, is_primary')
+    .select('id, version_label, audio_url, is_primary, source_type')
     .eq('track_id', trackId)
     .order('clip_index', { ascending: true });
 
@@ -208,6 +209,7 @@ export function InlineVersionToggle({
       {versions.map((version) => {
         const isActive = version.id === activeId;
         const label = version.version_label || 'A';
+        const isStudioVersion = version.source_type === 'studio';
         
         return (
           <button
@@ -215,7 +217,7 @@ export function InlineVersionToggle({
             onClick={(e) => handleVersionClick(e, version)}
             disabled={isUpdating}
             className={cn(
-              "font-semibold rounded transition-all",
+              "font-semibold rounded transition-all flex items-center justify-center gap-0.5",
               "touch-manipulation active:scale-95",
               compact 
                 ? "min-w-[20px] h-5 px-1 text-[10px]" 
@@ -225,8 +227,13 @@ export function InlineVersionToggle({
                 : "text-muted-foreground hover:bg-muted hover:text-foreground",
               isUpdating && !isActive && "opacity-50 cursor-wait"
             )}
+            title={isStudioVersion ? `Версия ${label} (Студия)` : `Версия ${label}`}
           >
-            {label}
+            {isStudioVersion ? (
+              <Hammer className={compact ? "w-3 h-3" : "w-3.5 h-3.5"} />
+            ) : (
+              label
+            )}
           </button>
         );
       })}

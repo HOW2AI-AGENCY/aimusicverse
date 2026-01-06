@@ -4355,6 +4355,7 @@ export type Database = {
           is_primary: boolean | null
           metadata: Json | null
           parent_version_id: string | null
+          source_type: string | null
           track_id: string
           transcription_data: Json | null
           version_label: string | null
@@ -4370,6 +4371,7 @@ export type Database = {
           is_primary?: boolean | null
           metadata?: Json | null
           parent_version_id?: string | null
+          source_type?: string | null
           track_id: string
           transcription_data?: Json | null
           version_label?: string | null
@@ -4385,6 +4387,7 @@ export type Database = {
           is_primary?: boolean | null
           metadata?: Json | null
           parent_version_id?: string | null
+          source_type?: string | null
           track_id?: string
           transcription_data?: Json | null
           version_label?: string | null
