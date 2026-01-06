@@ -11,7 +11,7 @@ import { motion, useReducedMotion } from '@/lib/motion';
 import { SEOHead, SEO_PRESETS } from "@/components/SEOHead";
 import { PullToRefreshWrapper } from "@/components/library/PullToRefreshWrapper";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { TrendingUp, Clock, Flame, Sparkles } from "lucide-react";
+import { TrendingUp, Clock } from "lucide-react";
 import { lazyWithRetry } from "@/lib/performance";
 import { FeatureErrorBoundary } from "@/components/ui/feature-error-boundary";
 
@@ -20,7 +20,10 @@ import { TracksGridSection } from "@/components/home/TracksGridSection";
 import { MainActionsBar } from "@/components/home/MainActionsBar";
 import { GenreTracksRow } from "@/components/home/GenreTracksRow";
 import { FeaturedBlogBanners } from "@/components/home/FeaturedBlogBanners";
-import { HeroSection } from "@/components/home/HeroSection";
+import { HeroSectionPro } from "@/components/home/HeroSectionPro";
+import { CreatorToolsSection } from "@/components/home/CreatorToolsSection";
+import { QuickInputBar } from "@/components/home/QuickInputBar";
+import { FeatureShowcase } from "@/components/home/FeatureShowcase";
 import { QuickPlaySection } from "@/components/home/QuickPlaySection";
 import { SocialProofSection } from "@/components/home/SocialProofSection";
 import { EngagementHint } from "@/components/home/EngagementHint";
@@ -28,7 +31,6 @@ import { EngagementHint } from "@/components/home/EngagementHint";
 // Lazy loaded components
 const GamificationBar = lazy(() => import("@/components/gamification/GamificationBar").then(m => ({ default: m.GamificationBar })));
 const RecentTracksSection = lazy(() => import("@/components/home/RecentTracksSection").then(m => ({ default: m.RecentTracksSection })));
-
 const AutoPlaylistsSection = lazy(() => import("@/components/home/AutoPlaylistsSection").then(m => ({ default: m.AutoPlaylistsSection })));
 const PopularCreatorsSection = lazy(() => import("@/components/home/PopularCreatorsSection").then(m => ({ default: m.PopularCreatorsSection })));
 const PublicArtistsSection = lazy(() => import("@/components/home/PublicArtistsSection").then(m => ({ default: m.PublicArtistsSection })));
@@ -38,6 +40,7 @@ const EngagementBanner = lazy(() => import("@/components/home/EngagementBanner")
 // Dialogs - only loaded when opened
 const GenerateSheet = lazy(() => import("@/components/GenerateSheet").then(m => ({ default: m.GenerateSheet })));
 const MusicRecognitionDialog = lazy(() => import("@/components/music-recognition/MusicRecognitionDialog").then(m => ({ default: m.MusicRecognitionDialog })));
+const AudioActionDialog = lazy(() => import("@/components/generate-form/AudioActionDialog").then(m => ({ default: m.AudioActionDialog })));
 
 // Genre configurations (based on computed_genre data in DB)
 const GENRE_SECTIONS = [
@@ -55,7 +58,10 @@ const Index = () => {
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const [generateSheetOpen, setGenerateSheetOpen] = useState(false);
+  const [generatePrompt, setGeneratePrompt] = useState('');
   const [recognitionDialogOpen, setRecognitionDialogOpen] = useState(false);
+  const [audioDialogOpen, setAudioDialogOpen] = useState(false);
+  const [audioDialogMode, setAudioDialogMode] = useState<'record' | 'upload'>('record');
   const prefersReducedMotion = useReducedMotion();
   const isMobile = useIsMobile();
 
@@ -106,6 +112,32 @@ const Index = () => {
     await refetchContent();
   }, [refetchContent]);
 
+  // Hero actions
+  const handleRecord = useCallback(() => {
+    hapticFeedback("light");
+    setAudioDialogMode('record');
+    setAudioDialogOpen(true);
+  }, [hapticFeedback]);
+
+  const handleUpload = useCallback(() => {
+    hapticFeedback("light");
+    setAudioDialogMode('upload');
+    setAudioDialogOpen(true);
+  }, [hapticFeedback]);
+
+  const handleCreate = useCallback(() => {
+    hapticFeedback("light");
+    setGeneratePrompt('');
+    setGenerateSheetOpen(true);
+  }, [hapticFeedback]);
+
+  // Quick input submit
+  const handleQuickInputSubmit = useCallback((prompt: string) => {
+    hapticFeedback("light");
+    setGeneratePrompt(prompt);
+    setGenerateSheetOpen(true);
+  }, [hapticFeedback]);
+
   // Animation props
   const fadeInUp = prefersReducedMotion 
     ? {} 
@@ -113,9 +145,6 @@ const Index = () => {
 
   // Scroll to tracks section
   const tracksSectionRef = useRef<HTMLDivElement>(null);
-  const scrollToTracks = useCallback(() => {
-    tracksSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, []);
 
   return (
     <PullToRefreshWrapper 
@@ -159,20 +188,28 @@ const Index = () => {
           </div>
         )}
 
-        {/* Hero Section for guests - привлечение внимания */}
-        {!user && (
-          <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.1 }}>
-            <HeroSection 
-              onListenClick={scrollToTracks}
-              onCreateClick={() => setGenerateSheetOpen(true)}
-              isGuest={true}
-            />
-          </motion.section>
-        )}
+        {/* Hero Section Pro - главный баннер */}
+        <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.1 }}>
+          <HeroSectionPro 
+            onRecord={handleRecord}
+            onUpload={handleUpload}
+            onCreate={handleCreate}
+          />
+        </motion.section>
+
+        {/* Quick Input Bar - быстрый ввод промпта */}
+        <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.12 }}>
+          <QuickInputBar onSubmit={handleQuickInputSubmit} />
+        </motion.section>
+
+        {/* Creator Tools Section - инструменты */}
+        <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.14 }}>
+          <CreatorToolsSection onRecordClick={handleRecord} />
+        </motion.section>
 
         {/* Quick Play Section - начни слушать сразу */}
         {!contentLoading && publicContent?.popularTracks && publicContent.popularTracks.length > 0 && (
-          <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.15 }}>
+          <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.16 }}>
             <QuickPlaySection 
               tracks={publicContent.popularTracks} 
               isLoading={contentLoading}
@@ -180,17 +217,17 @@ const Index = () => {
           </motion.section>
         )}
 
-        {/* Social Proof - статистика для доверия */}
+        {/* Feature Showcase - возможности платформы */}
+        <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.18 }}>
+          <FeatureShowcase />
+        </motion.section>
+
+        {/* Social Proof - статистика для доверия (только для гостей) */}
         {!user && (
-          <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.18 }}>
+          <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.2 }}>
             <SocialProofSection />
           </motion.section>
         )}
-
-        {/* Main Actions Bar (Audio/Lyrics/Projects) */}
-        <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.2 }}>
-          <MainActionsBar />
-        </motion.section>
 
         {/* Featured Projects Banner */}
         <FeatureErrorBoundary featureName="Featured Projects Banner">
@@ -207,11 +244,9 @@ const Index = () => {
         </motion.section>
 
         {/* Engagement Hint - подсказка для вовлечения */}
-        {!user && (
-          <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.26 }}>
-            <EngagementHint variant="like" />
-          </motion.section>
-        )}
+        <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.26 }}>
+          <EngagementHint variant={user ? "play" : "like"} />
+        </motion.section>
 
         {/* Popular Tracks - Main section */}
         <div ref={tracksSectionRef}>
@@ -251,17 +286,10 @@ const Index = () => {
           />
         </motion.section>
 
-        {/* Engagement Hint for logged users */}
-        {user && (
-          <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.32 }}>
-            <EngagementHint variant="play" />
-          </motion.section>
-        )}
-
         {/* Recent user tracks */}
         {user && (
           <Suspense fallback={null}>
-            <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.34 }}>
+            <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.32 }}>
               <RecentTracksSection maxTracks={4} />
             </motion.section>
           </Suspense>
@@ -275,7 +303,7 @@ const Index = () => {
                 key={genre.genre} 
                 className="mb-4"
                 {...fadeInUp}
-                transition={{ delay: 0.26 + index * 0.04 }}
+                transition={{ delay: 0.34 + index * 0.04 }}
               >
                 <GenreTracksRow
                   genre={genre.genre}
@@ -289,10 +317,9 @@ const Index = () => {
           </>
         )}
 
-
         {/* Auto Playlists by Genre */}
         <Suspense fallback={null}>
-          <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.4 }}>
+          <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.5 }}>
             <AutoPlaylistsSection 
               playlists={autoPlaylists} 
               isLoading={contentLoading} 
@@ -321,12 +348,27 @@ const Index = () => {
       {/* Dialogs */}
       {generateSheetOpen && (
         <Suspense fallback={null}>
-          <GenerateSheet open={generateSheetOpen} onOpenChange={setGenerateSheetOpen} />
+          <GenerateSheet 
+            open={generateSheetOpen} 
+            onOpenChange={setGenerateSheetOpen}
+          />
         </Suspense>
       )}
       {recognitionDialogOpen && (
         <Suspense fallback={null}>
           <MusicRecognitionDialog open={recognitionDialogOpen} onOpenChange={setRecognitionDialogOpen} />
+        </Suspense>
+      )}
+      {audioDialogOpen && (
+        <Suspense fallback={null}>
+          <AudioActionDialog 
+            open={audioDialogOpen} 
+            onOpenChange={setAudioDialogOpen}
+            onAudioSelected={() => {
+              // Handle audio selection - will be used in generation
+              setAudioDialogOpen(false);
+            }}
+          />
         </Suspense>
       )}
     </PullToRefreshWrapper>
