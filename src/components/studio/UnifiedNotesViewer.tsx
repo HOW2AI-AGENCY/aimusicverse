@@ -135,10 +135,10 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
   const effectiveMidiUrl = isValidUrl(midiUrl) ? midiUrl : (isValidUrl(files?.midiUrl) ? files.midiUrl : null);
   const effectiveMusicXmlUrl = isValidUrl(musicXmlUrl) ? musicXmlUrl : (isValidUrl(files?.musicXmlUrl) ? files.musicXmlUrl : null);
   
-  // Auto-select view mode: notation if MusicXML available, else piano
-  const [viewMode, setViewMode] = useState<ViewMode>(
-    effectiveMusicXmlUrl ? 'notation' : 'piano'
-  );
+  // По умолчанию Piano Roll - более надёжный вариант
+  // notation только если пользователь явно выберет
+  const [viewMode, setViewMode] = useState<ViewMode>('piano');
+  const [musicXmlFailed, setMusicXmlFailed] = useState(false);
   const [selectedNoteIndex, setSelectedNoteIndex] = useState<number | null>(null);
   
   // MIDI parsing
@@ -492,7 +492,7 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
           />
         )}
 
-        {viewMode === 'notation' && effectiveMusicXmlUrl && (
+        {viewMode === 'notation' && effectiveMusicXmlUrl && !musicXmlFailed && (
           <div className="p-1 sm:p-2">
             {isParsingXml ? (
               <div
@@ -510,7 +510,8 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
                 minHeight={`${Math.max(280, visualHeight)}px`}
                 className="w-full"
                 onError={() => {
-                  // При ошибке переключаемся на piano roll
+                  // При ошибке помечаем и переключаемся на piano roll
+                  setMusicXmlFailed(true);
                   if (notes.length > 0) {
                     setViewMode('piano');
                   }
@@ -520,28 +521,20 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
           </div>
         )}
 
-        {viewMode === 'notation' && !effectiveMusicXmlUrl && (
-          <div className="p-2">
-            {notes.length > 0 ? (
-              <StaffNotation
-                notes={notes}
-                duration={duration}
-                bpm={effectiveBpm}
-                timeSignature={parsedTimeSignature}
-                keySignature={keySignature}
-                height={visualHeight}
-              />
-            ) : (
-              <div
-                className="rounded-lg border bg-muted/20 flex flex-col items-center justify-center gap-2"
-                style={{ height: visualHeight }}
-              >
-                <Music2 className="w-8 h-8 text-muted-foreground" />
-                <p className="text-sm text-muted-foreground">Нет нот для отображения</p>
-              </div>
-            )}
-          </div>
+        {/* Fallback на StaffNotation когда MusicXML недоступен но выбран notation */}
+        {viewMode === 'notation' && (!effectiveMusicXmlUrl || musicXmlFailed) && notes.length > 0 && (
+          <InteractivePianoRoll
+            notes={notes}
+            duration={duration}
+            currentTime={currentTime}
+            height={visualHeight}
+            onNoteClick={handleNoteClick}
+            showKeys={!isMobile}
+            showMiniMap={!compact}
+            colorByVelocity={true}
+          />
         )}
+
 
         {viewMode === 'list' && (
           <ScrollArea style={{ height: visualHeight }}>
