@@ -1,4 +1,4 @@
-import { useCallback, forwardRef, memo, useEffect, useRef, useMemo, useState } from "react";
+import { useCallback, forwardRef, memo, useEffect, useRef, useMemo, Component, ErrorInfo, ReactNode, useState } from "react";
 import { VirtuosoGrid } from "react-virtuoso";
 import type { Track } from "@/types/track";
 import { UnifiedTrackCard } from "@/components/track/track-card-new";
@@ -12,6 +12,42 @@ import { motion, AnimatePresence } from "@/lib/motion";
 import { triggerHapticFeedback } from "@/lib/mobile-utils";
 
 const log = logger.child({ module: 'VirtualizedTrackList' });
+
+// Error boundary for individual track items during HMR
+class TrackItemErrorBoundary extends Component<
+  { children: ReactNode; trackId?: string },
+  { hasError: boolean }
+> {
+  constructor(props: { children: ReactNode; trackId?: string }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(_error: Error) {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    log.error('TrackItem render error (likely HMR)', error, { 
+      trackId: this.props.trackId,
+      errorInfo 
+    });
+  }
+
+  componentDidUpdate(prevProps: { children: ReactNode; trackId?: string }) {
+    // Reset error state when trackId changes (new track loaded)
+    if (this.state.hasError && prevProps.trackId !== this.props.trackId) {
+      this.setState({ hasError: false });
+    }
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <TrackCardSkeletonCompact />;
+    }
+    return this.props.children;
+  }
+}
 
 interface TrackMidiStatus {
   hasMidi: boolean;
@@ -93,24 +129,93 @@ const MemoizedTrackItem = memo(function MemoizedTrackItem({
   onTagClick?: (tag: string) => void;
 }) {
   return (
-    <UnifiedTrackCard
-      variant={viewMode === 'grid' ? 'grid' : 'list'}
-      track={track}
-      isPlaying={isPlaying}
-      onPlay={onPlay}
-      onDelete={onDelete}
-      onDownload={onDownload}
-      onToggleLike={onToggleLike}
-      onTagClick={onTagClick}
-      versionCount={counts.versionCount}
-      stemCount={counts.stemCount}
-      midiStatus={{
-        hasMidi: midiStatus?.hasMidi ?? false,
-        hasPdf: midiStatus?.hasPdf ?? false,
-        hasGp5: midiStatus?.hasGp5 ?? false,
-      }}
-      isFirstSwipeableItem={index === 0 && viewMode === "list"}
-    />
+    <TrackItemErrorBoundary trackId={track.id}>
+      <UnifiedTrackCard
+        variant={viewMode === 'grid' ? 'grid' : 'list'}
+        track={track}
+        isPlaying={isPlaying}
+        onPlay={onPlay}
+        onDelete={onDelete}
+        onDownload={onDownload}
+        onToggleLike={onToggleLike}
+        onTagClick={onTagClick}
+        versionCount={counts.versionCount}
+        stemCount={counts.stemCount}
+        midiStatus={{
+          hasMidi: midiStatus?.hasMidi ?? false,
+          hasPdf: midiStatus?.hasPdf ?? false,
+          hasGp5: midiStatus?.hasGp5 ?? false,
+        }}
+        isFirstSwipeableItem={index === 0 && viewMode === "list"}
+      />
+    </TrackItemErrorBoundary>
+  );
+});
+
+// Pull-to-refresh indicator
+const PullToRefreshIndicator = memo(function PullToRefreshIndicator({
+  pullDistance,
+  isRefreshing,
+  threshold,
+}: {
+  pullDistance: number;
+  isRefreshing: boolean;
+  threshold: number;
+}) {
+  const progress = Math.min(pullDistance / threshold, 1);
+  const isReady = pullDistance >= threshold;
+  
+  return (
+    <AnimatePresence>
+      {(pullDistance > 0 || isRefreshing) && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-safe-top"
+          style={{
+            transform: `translateY(${Math.min(pullDistance, threshold)}px)`,
+          }}
+        >
+          <div className="flex flex-col items-center gap-2 px-4 py-2 bg-background/95 backdrop-blur-sm rounded-b-xl shadow-lg border-x border-b border-border">
+            <motion.div
+              animate={{
+                rotate: isRefreshing ? 360 : isReady ? 180 : 0,
+              }}
+              transition={{
+                duration: isRefreshing ? 1 : 0.3,
+                repeat: isRefreshing ? Infinity : 0,
+                ease: "linear",
+              }}
+            >
+              <RefreshCw
+                className={cn(
+                  "w-5 h-5 transition-colors",
+                  isReady || isRefreshing ? "text-primary" : "text-muted-foreground"
+                )}
+              />
+            </motion.div>
+            <span className="text-xs text-muted-foreground font-medium">
+              {isRefreshing
+                ? "Обновление..."
+                : isReady
+                ? "Отпустите для обновления"
+                : "Потяните для обновления"}
+            </span>
+            {!isRefreshing && (
+              <div className="w-16 h-1 bg-muted rounded-full overflow-hidden">
+                <motion.div
+                  className="h-full bg-primary rounded-full"
+                  initial={{ width: "0%" }}
+                  animate={{ width: `${progress * 100}%` }}
+                  transition={{ duration: 0.1 }}
+                />
+              </div>
+            )}
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 });
 
@@ -308,6 +413,7 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
         const midiStatus = getMidiStatus?.(track.id);
         return (
           <MemoizedTrackItem
+            key={`track-item-${track.id}`}
             track={track}
             index={index}
             viewMode={viewMode}
@@ -322,8 +428,9 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
           />
         );
       } catch (error) {
-        log.error('Error rendering track item', error, { trackId: track?.id, index });
-        return <TrackCardSkeletonCompact />;
+        log.error('Error rendering track item during HMR or runtime', error, { trackId: track?.id, index });
+        // Return skeleton as graceful fallback during HMR errors
+        return <TrackCardSkeletonCompact key={`skeleton-${track?.id || index}`} />;
       }
     },
     [viewMode, activeTrackId, getCountsForTrack, getMidiStatus, onPlay, onDelete, onDownload, onToggleLike, onTagClick]

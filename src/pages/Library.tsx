@@ -39,6 +39,16 @@ import { DesktopLibraryLayout } from "@/components/library/DesktopLibraryLayout"
 const log = logger.child({ module: 'Library' });
 
 type FilterOption = 'all' | 'vocals' | 'instrumental' | 'stems';
+
+// Vite HMR accept handler to prevent stale module references during hot updates
+if (import.meta.hot) {
+  import.meta.hot.accept((newModule) => {
+    if (newModule) {
+      log.info('Library module hot-reloaded');
+    }
+  });
+}
+
 export default function Library() {
   const { user, isAuthenticated, loading: authLoading } = useAuth();
   const isMobile = useIsMobile();
