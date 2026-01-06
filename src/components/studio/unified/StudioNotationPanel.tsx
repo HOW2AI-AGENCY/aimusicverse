@@ -114,14 +114,58 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
       }
 
       // Fall back to stem_transcriptions
-      const query = (() => {
-        if (trackId) {
-          let q = supabase.from('stem_transcriptions').select('*').eq('track_id', trackId);
-          if (stemType) q = q.eq('stem_type', stemType);
-          return q;
+      // If we have trackId + stemType, first find the stem, then get transcription
+      if (trackId && stemType) {
+        const { data: stem } = await supabase
+          .from('track_stems')
+          .select('id')
+          .eq('track_id', trackId)
+          .eq('stem_type', stemType)
+          .maybeSingle();
+
+        if (stem) {
+          const { data, error } = await supabase
+            .from('stem_transcriptions')
+            .select('*')
+            .eq('stem_id', stem.id)
+            .order('created_at', { ascending: false })
+            .limit(1);
+          if (error) throw error;
+          if (!data || data.length === 0) return null;
+          const item = data[0];
+          
+          // Parse notes from JSON if available
+          let notes: MidiNote[] | undefined;
+          if (item.notes && typeof item.notes === 'object') {
+            try {
+              const notesData = item.notes as any;
+              if (Array.isArray(notesData)) {
+                notes = notesData;
+              }
+            } catch (e) {
+              console.error('Failed to parse MIDI notes:', e);
+            }
+          }
+          
+          return {
+            id: item.id,
+            midi_url: item.midi_url ?? undefined,
+            mxml_url: item.mxml_url ?? undefined,
+            gp5_url: item.gp5_url ?? undefined,
+            pdf_url: item.pdf_url ?? undefined,
+            bpm: item.bpm ? Number(item.bpm) : undefined,
+            key_detected: item.key_detected ?? undefined,
+            time_signature: item.time_signature ?? undefined,
+            notes_count: item.notes_count ?? undefined,
+            notes,
+          } as TranscriptionData;
         }
-        return supabase.from('stem_transcriptions').select('*').eq('stem_id', track.id);
-      })();
+      }
+
+      // Fallback: query by trackId or stem track.id
+      const query = trackId 
+        ? supabase.from('stem_transcriptions').select('*').eq('track_id', trackId)
+        : supabase.from('stem_transcriptions').select('*').eq('stem_id', track.id);
 
       const { data, error } = await query.order('created_at', { ascending: false }).limit(1);
 

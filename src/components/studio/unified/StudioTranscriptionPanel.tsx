@@ -64,33 +64,56 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
 
   // Fetch existing transcription from stem_transcriptions (preferred)
   // - if stemId is provided: get latest for this stem
-  // - else if trackId is provided: get latest for this track
+  // - else if trackId + stemType is provided: lookup stem first, then get transcription
+  // - else if trackId only: get latest for this track
   const { data: existingTranscription, isLoading: loadingExisting } = useQuery({
     queryKey: ['transcription', stemId || trackId, stemType || null],
     queryFn: async () => {
       if (!stemId && !trackId) return null;
 
-      const query = stemId
-        ? supabase
+      // If we have stemId directly, use it
+      if (stemId) {
+        const { data, error } = await supabase
+          .from('stem_transcriptions')
+          .select('*')
+          .eq('stem_id', stemId)
+          .order('created_at', { ascending: false })
+          .limit(1)
+          .maybeSingle();
+        if (error) throw error;
+        return data;
+      }
+
+      // If we have trackId + stemType, first find the stem, then get transcription
+      if (trackId && stemType) {
+        const { data: stem } = await supabase
+          .from('track_stems')
+          .select('id')
+          .eq('track_id', trackId)
+          .eq('stem_type', stemType)
+          .maybeSingle();
+
+        if (stem) {
+          const { data, error } = await supabase
             .from('stem_transcriptions')
             .select('*')
-            .eq('stem_id', stemId)
+            .eq('stem_id', stem.id)
             .order('created_at', { ascending: false })
             .limit(1)
-            .maybeSingle()
-        : (() => {
-            let q = supabase
-              .from('stem_transcriptions')
-              .select('*')
-              .eq('track_id', trackId as string);
+            .maybeSingle();
+          if (error) throw error;
+          return data;
+        }
+      }
 
-            // In Studio V2 we store/expect transcriptions per stem type.
-            if (stemType) q = q.eq('stem_type', stemType);
-
-            return q.order('created_at', { ascending: false }).limit(1).maybeSingle();
-          })();
-
-      const { data, error } = await query;
+      // Fallback: get any transcription for this track
+      const { data, error } = await supabase
+        .from('stem_transcriptions')
+        .select('*')
+        .eq('track_id', trackId as string)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle();
       if (error) throw error;
       return data;
     },
