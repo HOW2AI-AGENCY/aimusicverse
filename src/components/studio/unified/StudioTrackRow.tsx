@@ -472,7 +472,7 @@ export const StudioTrackRow = memo(function StudioTrackRow({
         </AnimatePresence>
 
         {/* Waveform with progress overlay */}
-        <div className="h-16 px-1 pb-1 relative">
+        <div className="h-16 relative">
           {audioUrl ? (
             <>
               <UnifiedWaveform

@@ -126,9 +126,14 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
 }: UnifiedNotesViewerProps) {
   const isMobile = useIsMobile();
   
-  // Determine effective URLs
-  const effectiveMidiUrl = midiUrl || files?.midiUrl;
-  const effectiveMusicXmlUrl = musicXmlUrl || files?.musicXmlUrl;
+  // Validate URL helper
+  const isValidUrl = (url: unknown): url is string => {
+    return typeof url === 'string' && url.length > 0 && url.startsWith('http');
+  };
+  
+  // Determine effective URLs (with validation)
+  const effectiveMidiUrl = isValidUrl(midiUrl) ? midiUrl : (isValidUrl(files?.midiUrl) ? files.midiUrl : null);
+  const effectiveMusicXmlUrl = isValidUrl(musicXmlUrl) ? musicXmlUrl : (isValidUrl(files?.musicXmlUrl) ? files.musicXmlUrl : null);
   
   // Auto-select view mode: notation if MusicXML available, else piano
   const [viewMode, setViewMode] = useState<ViewMode>(
