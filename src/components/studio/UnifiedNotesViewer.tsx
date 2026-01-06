@@ -26,6 +26,7 @@ import { Slider } from '@/components/ui/slider';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { InteractivePianoRoll } from '@/components/analysis/InteractivePianoRoll';
 import { StaffNotation } from '@/components/analysis/StaffNotation';
+import { MusicXMLViewer } from '@/components/guitar/MusicXMLViewer';
 import { useMidiFileParser, type ParsedMidiNote } from '@/hooks/useMidiFileParser';
 import { useMusicXmlParser } from '@/hooks/useMusicXmlParser';
 import { useMidiSynth } from '@/hooks/useMidiSynth';
@@ -472,79 +473,76 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
       
       {/* Visualization area */}
       <div className="rounded-xl border overflow-hidden bg-background shadow-sm">
-        <div 
-          className="overflow-x-auto touch-pan-x" 
-          style={{ WebkitOverflowScrolling: 'touch' }}
-        >
-          {viewMode === 'piano' && notes.length > 0 && (
-            <div className="min-w-[300px]">
-              <InteractivePianoRoll
+        {viewMode === 'piano' && notes.length > 0 && (
+          <InteractivePianoRoll
+            notes={notes}
+            duration={duration}
+            currentTime={currentTime}
+            height={visualHeight}
+            onNoteClick={handleNoteClick}
+            showKeys={false}
+          />
+        )}
+
+        {viewMode === 'notation' && effectiveMusicXmlUrl && (
+          <div className="p-2">
+            {isParsingXml ? (
+              <div
+                className="rounded-lg border bg-muted/20 flex items-center justify-center"
+                style={{ height: visualHeight }}
+              >
+                <div className="text-muted-foreground flex items-center gap-2">
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  Загрузка нот...
+                </div>
+              </div>
+            ) : musicXmlError ? (
+              <div
+                className="rounded-lg border bg-muted/20 flex flex-col items-center justify-center gap-2 p-4"
+                style={{ height: visualHeight }}
+              >
+                <Music2 className="w-8 h-8 text-muted-foreground" />
+                <p className="text-sm text-muted-foreground text-center">Не удалось загрузить MusicXML</p>
+                <p className="text-xs text-muted-foreground/80 text-center">{musicXmlError}</p>
+              </div>
+            ) : (
+              <MusicXMLViewer
+                url={effectiveMusicXmlUrl}
+                minHeight={`${Math.max(220, visualHeight)}px`}
+                className="w-full"
+              />
+            )}
+          </div>
+        )}
+
+        {viewMode === 'notation' && !effectiveMusicXmlUrl && (
+          <div className="p-2">
+            {notes.length > 0 ? (
+              <StaffNotation
                 notes={notes}
                 duration={duration}
-                currentTime={currentTime}
+                bpm={effectiveBpm}
+                timeSignature={parsedTimeSignature}
+                keySignature={keySignature}
                 height={visualHeight}
-                onNoteClick={handleNoteClick}
               />
-            </div>
-          )}
-          
-          {viewMode === 'notation' && effectiveMusicXmlUrl && (
-            <div className="min-w-[300px]">
-              {isParsingXml ? (
-                <div 
-                  className="rounded-lg border bg-muted/20 flex items-center justify-center"
-                  style={{ height: visualHeight }}
-                >
-                  <div className="text-muted-foreground flex items-center gap-2">
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                    Загрузка нот...
-                  </div>
-                </div>
-              ) : musicXmlError ? (
-                <div 
-                  className="rounded-lg border bg-muted/20 flex flex-col items-center justify-center gap-2 p-4"
-                  style={{ height: visualHeight }}
-                >
-                  <Music2 className="w-8 h-8 text-muted-foreground" />
-                  <p className="text-sm text-muted-foreground text-center">Не удалось загрузить MusicXML</p>
-                  <p className="text-xs text-muted-foreground/80 text-center">{musicXmlError}</p>
-                </div>
-              ) : xmlNotesConverted.length > 0 ? (
-                <StaffNotation
-                  notes={xmlNotesConverted}
-                  duration={parsedXml?.duration ?? duration}
-                  bpm={parsedXml?.bpm ?? effectiveBpm}
-                  timeSignature={parsedXml?.timeSignature ?? parsedTimeSignature}
-                  keySignature={parsedXml?.keySignature ?? keySignature}
-                  height={visualHeight}
-                />
-              ) : notes.length > 0 ? (
-                <StaffNotation
-                  notes={notes}
-                  duration={duration}
-                  bpm={effectiveBpm}
-                  timeSignature={parsedTimeSignature}
-                  keySignature={keySignature}
-                  height={visualHeight}
-                />
-              ) : (
-                <div 
-                  className="rounded-lg border bg-muted/20 flex flex-col items-center justify-center gap-2"
-                  style={{ height: visualHeight }}
-                >
-                  <Music2 className="w-8 h-8 text-muted-foreground" />
-                  <p className="text-sm text-muted-foreground">Нет нот для отображения</p>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-        
+            ) : (
+              <div
+                className="rounded-lg border bg-muted/20 flex flex-col items-center justify-center gap-2"
+                style={{ height: visualHeight }}
+              >
+                <Music2 className="w-8 h-8 text-muted-foreground" />
+                <p className="text-sm text-muted-foreground">Нет нот для отображения</p>
+              </div>
+            )}
+          </div>
+        )}
+
         {viewMode === 'list' && (
           <ScrollArea style={{ height: visualHeight }}>
             <div className="divide-y divide-border/50">
               {processedNotes.slice(0, 100).map((note, i) => (
-                <div 
+                <div
                   key={i}
                   className={cn(
                     "flex items-center justify-between px-3 py-2 transition-colors active:bg-muted/50",
@@ -558,15 +556,11 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
                     </div>
                     <div>
                       <p className="font-medium text-xs">{note.noteNameRu}</p>
-                      <p className="text-[10px] text-muted-foreground">
-                        {formatTime(note.startTime)}
-                      </p>
+                      <p className="text-[10px] text-muted-foreground">{formatTime(note.startTime)}</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <span className="text-[10px] text-muted-foreground">
-                      {(note.duration * 1000).toFixed(0)} мс
-                    </span>
+                    <span className="text-[10px] text-muted-foreground">{(note.duration * 1000).toFixed(0)} мс</span>
                   </div>
                 </div>
               ))}
@@ -579,7 +573,7 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
           </ScrollArea>
         )}
       </div>
-      
+
       {/* Playback controls (if enabled and not in list mode) */}
       {enablePlayback && viewMode !== 'list' && notes.length > 0 && (
         <div className="flex items-center gap-2">
