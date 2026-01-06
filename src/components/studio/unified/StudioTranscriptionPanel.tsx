@@ -33,21 +33,23 @@ interface StudioTranscriptionPanelProps {
 }
 
 type TranscriptionEngine = 'basic-pitch' | 'klangio';
-type KlangioModel = 'guitar' | 'piano' | 'bass' | 'drums' | 'strings' | 'orchestral' | 'choir' | 'universal';
+// Valid Klangio models from API: piano, guitar, bass, vocal, universal, lead, detect, drums, multi, wind, string, piano_arrangement
+type KlangioModel = 'detect' | 'universal' | 'piano' | 'piano_arrangement' | 'guitar' | 'bass' | 'drums' | 'vocal' | 'lead' | 'multi' | 'wind' | 'string';
 
 /**
  * Map stem/track type to the most appropriate Klangio model
  */
 function autoDetectKlangioModel(stemType?: string, trackType?: string): KlangioModel {
   const t = (stemType || trackType || '').toLowerCase();
-  if (t.includes('vocal') || t.includes('voice')) return 'choir';
+  if (t.includes('vocal') || t.includes('voice') || t.includes('vocals')) return 'vocal';
   if (t.includes('guitar')) return 'guitar';
   if (t.includes('bass')) return 'bass';
   if (t.includes('drum') || t.includes('percussion')) return 'drums';
   if (t.includes('piano') || t.includes('keys') || t.includes('keyboard')) return 'piano';
-  if (t.includes('string') || t.includes('violin') || t.includes('cello')) return 'strings';
-  if (t.includes('orches') || t.includes('symphony')) return 'orchestral';
-  return 'universal';
+  if (t.includes('string') || t.includes('violin') || t.includes('cello')) return 'string';
+  if (t.includes('wind') || t.includes('flute') || t.includes('sax') || t.includes('trumpet')) return 'wind';
+  if (t.includes('lead') || t.includes('melody') || t.includes('solo')) return 'lead';
+  return 'detect'; // Let Klangio auto-detect
 }
 
 interface TranscriptionResult {
@@ -432,14 +434,18 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="universal">Универсальная</SelectItem>
-                      <SelectItem value="guitar">Гитара</SelectItem>
-                      <SelectItem value="piano">Пианино</SelectItem>
-                      <SelectItem value="bass">Бас</SelectItem>
-                      <SelectItem value="drums">Ударные</SelectItem>
-                      <SelectItem value="strings">Струнные</SelectItem>
-                      <SelectItem value="orchestral">Оркестр</SelectItem>
-                      <SelectItem value="choir">Хор / Вокал</SelectItem>
+                      <SelectItem value="detect">🔍 Автоопределение</SelectItem>
+                      <SelectItem value="universal">🎵 Универсальная</SelectItem>
+                      <SelectItem value="vocal">🎤 Вокал</SelectItem>
+                      <SelectItem value="piano">🎹 Пианино</SelectItem>
+                      <SelectItem value="piano_arrangement">🎼 Пианино (аранжировка)</SelectItem>
+                      <SelectItem value="guitar">🎸 Гитара</SelectItem>
+                      <SelectItem value="bass">🎸 Бас</SelectItem>
+                      <SelectItem value="drums">🥁 Ударные</SelectItem>
+                      <SelectItem value="lead">🎶 Соло/Мелодия</SelectItem>
+                      <SelectItem value="multi">🎻 Мульти-инструмент</SelectItem>
+                      <SelectItem value="string">🎻 Струнные</SelectItem>
+                      <SelectItem value="wind">🎺 Духовые</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
