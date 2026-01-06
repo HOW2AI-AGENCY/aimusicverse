@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { cn } from '@/lib/utils';
 import { StudioTrack, TrackType } from '@/stores/useUnifiedStudioStore';
-import { OptimizedStemWaveform } from '@/components/stem-studio/OptimizedStemWaveform';
+import { UnifiedWaveform, type StemType } from '@/components/waveform/UnifiedWaveform';
 import { StudioVersionSelector } from './StudioVersionSelector';
 import { StemActionSheet } from './StemActionSheet';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -475,13 +475,14 @@ export const StudioTrackRow = memo(function StudioTrackRow({
         <div className="h-16 px-1 pb-1 relative">
           {audioUrl ? (
             <>
-              <OptimizedStemWaveform
+              <UnifiedWaveform
                 audioUrl={audioUrl}
                 currentTime={currentTime}
                 duration={duration}
                 isPlaying={isPlaying}
                 isMuted={track.muted}
-                color={track.type}
+                stemType={track.type as StemType}
+                mode="stem"
                 height={64}
                 onSeek={onSeek}
               />

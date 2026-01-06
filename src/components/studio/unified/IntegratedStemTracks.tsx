@@ -30,7 +30,7 @@ import {
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 import { TrackStem } from '@/hooks/useTrackStems';
-import { OptimizedStemWaveform } from '@/components/stem-studio/OptimizedStemWaveform';
+import { UnifiedWaveform, type StemType } from '@/components/waveform/UnifiedWaveform';
 import { StemTrackSkeleton } from '@/components/studio/StemTrackSkeleton';
 import { VirtualizedStemList } from '@/components/studio/VirtualizedStemList';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -394,15 +394,16 @@ const StemTrackRowMobile = memo(({
           )}
         </AnimatePresence>
 
-        {/* Waveform - Optimized canvas-based renderer */}
+        {/* Waveform - Unified canvas-based renderer */}
         <div className="h-14 px-1 pb-1">
-          <OptimizedStemWaveform
+          <UnifiedWaveform
             audioUrl={stem.audio_url}
             currentTime={currentTime}
             duration={duration}
             isPlaying={isPlaying}
             isMuted={state.muted}
-            color={stem.stem_type.toLowerCase()}
+            stemType={stem.stem_type.toLowerCase() as StemType}
+            mode="stem"
             height={56}
             onSeek={onSeek}
           />
@@ -564,15 +565,16 @@ const StemTrackRowDesktop = memo(({
         />
       </div>
 
-      {/* Waveform - Optimized canvas-based renderer */}
+      {/* Waveform - Unified canvas-based renderer */}
       <div className="flex-1 h-8 min-w-0 rounded overflow-hidden bg-background/30">
-        <OptimizedStemWaveform
+        <UnifiedWaveform
           audioUrl={stem.audio_url}
           currentTime={currentTime}
           duration={duration}
           isPlaying={isPlaying}
           isMuted={state.muted}
-          color={stem.stem_type.toLowerCase()}
+          stemType={stem.stem_type.toLowerCase() as StemType}
+          mode="compact"
           height={32}
           onSeek={onSeek}
         />

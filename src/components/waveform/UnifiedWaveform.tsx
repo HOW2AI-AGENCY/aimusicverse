@@ -1,9 +1,12 @@
 /**
  * Unified Waveform Component
  * Single component for all waveform visualization needs
+ * 
+ * Replaces: StemWaveform, OptimizedStemWaveform
+ * Supports: standard playback, stem visualization, beat grid
  */
 
-import React, { memo, useRef, useEffect, useMemo } from 'react';
+import React, { memo, useRef, useMemo } from 'react';
 import { cn } from '@/lib/utils';
 import { useWaveformData } from '@/hooks/audio/useWaveformData';
 import { useBeatGrid, generateSyntheticBeatGrid } from '@/hooks/audio/useBeatGrid';
@@ -11,16 +14,20 @@ import { WaveformCanvas } from './WaveformCanvas';
 import { BeatGridOverlay } from './BeatGridOverlay';
 import { Skeleton } from '@/components/ui/skeleton';
 
-export type WaveformMode = 'compact' | 'standard' | 'detailed' | 'minimal';
+export type WaveformMode = 'compact' | 'standard' | 'detailed' | 'minimal' | 'stem';
+export type StemType = 'vocals' | 'vocal' | 'drums' | 'bass' | 'guitar' | 'piano' | 'keyboard' | 
+  'instrumental' | 'other' | 'backing_vocals' | 'strings' | 'brass' | 'woodwinds' | 
+  'percussion' | 'synth' | 'fx' | 'atmosphere';
 
 interface UnifiedWaveformProps {
   audioUrl?: string | null;
   trackId?: string | null;
-  waveformData?: number[] | null; // Pre-computed data (optional)
+  waveformData?: number[] | null;
   
   // Playback state
   currentTime?: number;
   duration?: number;
+  isPlaying?: boolean;
   
   // Display options
   mode?: WaveformMode;
@@ -28,6 +35,10 @@ interface UnifiedWaveformProps {
   showBeatGrid?: boolean;
   showProgress?: boolean;
   interactive?: boolean;
+  
+  // Stem-specific options
+  stemType?: StemType;
+  isMuted?: boolean;
   
   // Styling
   waveColor?: string;
@@ -43,6 +54,29 @@ const MODE_CONFIGS: Record<WaveformMode, { height: number; barWidth: number; bar
   compact: { height: 32, barWidth: 2, barGap: 1, samples: 80 },
   standard: { height: 48, barWidth: 3, barGap: 1, samples: 100 },
   detailed: { height: 80, barWidth: 4, barGap: 2, samples: 150 },
+  stem: { height: 40, barWidth: 2, barGap: 1, samples: 120 },
+};
+
+// HSL-based color map for stem types (design system consistency)
+const STEM_COLORS: Record<string, { wave: string; progress: string }> = {
+  vocals: { wave: 'hsl(207 90% 54% / 0.4)', progress: 'hsl(207 90% 54% / 0.8)' },
+  vocal: { wave: 'hsl(207 90% 54% / 0.4)', progress: 'hsl(207 90% 54% / 0.8)' },
+  backing_vocals: { wave: 'hsl(188 80% 43% / 0.4)', progress: 'hsl(188 80% 43% / 0.8)' },
+  drums: { wave: 'hsl(25 95% 53% / 0.4)', progress: 'hsl(25 95% 53% / 0.8)' },
+  bass: { wave: 'hsl(270 70% 65% / 0.4)', progress: 'hsl(270 70% 65% / 0.8)' },
+  guitar: { wave: 'hsl(38 95% 50% / 0.4)', progress: 'hsl(38 95% 50% / 0.8)' },
+  piano: { wave: 'hsl(330 75% 60% / 0.4)', progress: 'hsl(330 75% 60% / 0.8)' },
+  keyboard: { wave: 'hsl(330 75% 60% / 0.4)', progress: 'hsl(330 75% 60% / 0.8)' },
+  strings: { wave: 'hsl(160 70% 40% / 0.4)', progress: 'hsl(160 70% 40% / 0.8)' },
+  brass: { wave: 'hsl(48 95% 48% / 0.4)', progress: 'hsl(48 95% 48% / 0.8)' },
+  woodwinds: { wave: 'hsl(84 80% 44% / 0.4)', progress: 'hsl(84 80% 44% / 0.8)' },
+  percussion: { wave: 'hsl(0 72% 51% / 0.4)', progress: 'hsl(0 72% 51% / 0.8)' },
+  synth: { wave: 'hsl(250 80% 60% / 0.4)', progress: 'hsl(250 80% 60% / 0.8)' },
+  fx: { wave: 'hsl(175 70% 40% / 0.4)', progress: 'hsl(175 70% 40% / 0.8)' },
+  atmosphere: { wave: 'hsl(200 90% 48% / 0.4)', progress: 'hsl(200 90% 48% / 0.8)' },
+  instrumental: { wave: 'hsl(145 65% 45% / 0.4)', progress: 'hsl(145 65% 45% / 0.8)' },
+  other: { wave: 'hsl(220 10% 55% / 0.4)', progress: 'hsl(220 10% 55% / 0.8)' },
+  muted: { wave: 'hsl(220 10% 40% / 0.2)', progress: 'hsl(220 10% 40% / 0.4)' },
 };
 
 export const UnifiedWaveform = memo(function UnifiedWaveform({
@@ -51,13 +85,16 @@ export const UnifiedWaveform = memo(function UnifiedWaveform({
   waveformData: precomputedData,
   currentTime = 0,
   duration: providedDuration,
+  isPlaying = false,
   mode = 'standard',
   height: customHeight,
   showBeatGrid = false,
   showProgress = true,
   interactive = true,
-  waveColor,
-  progressColor,
+  stemType,
+  isMuted = false,
+  waveColor: customWaveColor,
+  progressColor: customProgressColor,
   className,
   onSeek,
 }: UnifiedWaveformProps) {
@@ -65,7 +102,19 @@ export const UnifiedWaveform = memo(function UnifiedWaveform({
   const config = MODE_CONFIGS[mode];
   const height = customHeight ?? config.height;
 
-  // Load waveform data if not pre-computed (with trackId for stable caching)
+  // Determine colors based on stem type or custom colors
+  const colors = useMemo(() => {
+    if (isMuted) return STEM_COLORS.muted;
+    if (customWaveColor && customProgressColor) {
+      return { wave: customWaveColor, progress: customProgressColor };
+    }
+    if (stemType) {
+      return STEM_COLORS[stemType.toLowerCase()] || STEM_COLORS.other;
+    }
+    return { wave: undefined, progress: undefined };
+  }, [isMuted, customWaveColor, customProgressColor, stemType]);
+
+  // Load waveform data if not pre-computed
   const {
     waveformData: loadedData,
     duration: loadedDuration,
@@ -73,7 +122,7 @@ export const UnifiedWaveform = memo(function UnifiedWaveform({
   } = useWaveformData(precomputedData ? null : audioUrl, {
     samples: config.samples,
     autoLoad: !precomputedData && !!audioUrl,
-    trackId: trackId || undefined, // Stable cache key
+    trackId: trackId || undefined,
   });
 
   // Load beat grid if enabled
@@ -128,7 +177,11 @@ export const UnifiedWaveform = memo(function UnifiedWaveform({
   return (
     <div 
       ref={containerRef}
-      className={cn('relative', className)}
+      className={cn(
+        'relative transition-opacity',
+        isMuted && 'opacity-50',
+        className
+      )}
       style={{ height }}
     >
       {/* Beat grid overlay (behind waveform) */}
@@ -150,8 +203,8 @@ export const UnifiedWaveform = memo(function UnifiedWaveform({
         barWidth={config.barWidth}
         barGap={config.barGap}
         barRadius={1}
-        waveColor={waveColor}
-        progressColor={progressColor}
+        waveColor={colors.wave}
+        progressColor={colors.progress}
         onClick={interactive ? handleSeek : undefined}
         className="relative z-10"
       />
