@@ -26,7 +26,7 @@ import { StudioTrack } from '@/stores/useUnifiedStudioStore';
 import { StudioTrackRow } from './StudioTrackRow';
 import { StudioPendingTrackRow } from './StudioPendingTrackRow';
 import { cn } from '@/lib/utils';
-import { useTrackTranscriptionStatus } from '@/hooks/studio/useTrackTranscriptionStatus';
+import { useStemTypeTranscriptionStatus } from '@/hooks/studio/useStemTypeTranscriptionStatus';
 
 interface SortableTrackListProps {
   tracks: StudioTrack[];
@@ -157,9 +157,20 @@ export const SortableTrackList = memo(function SortableTrackList({
   onVersionChange,
   onAction,
 }: SortableTrackListProps) {
-  // Get transcription status for all tracks
+  // Get transcription status for stem types of the source track
+  const stemTypes = useMemo(() => {
+    const types = new Set<string>();
+    tracks.forEach((t) => types.add(t.type));
+    return Array.from(types);
+  }, [tracks]);
+
+  const { data: transcriptionStatus } = useStemTypeTranscriptionStatus({
+    sourceTrackId,
+    stemTypes,
+  });
+
+  // DnD kit needs stable item IDs
   const trackIds = useMemo(() => tracks.map((t) => t.id), [tracks]);
-  const { data: transcriptionStatus } = useTrackTranscriptionStatus(trackIds);
   
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -201,8 +212,8 @@ export const SortableTrackList = memo(function SortableTrackList({
               (tracks.length > 0 && tracks[0].id === track.id && !stemTypes.includes(track.type)) ||
               (sourceTrackId != null && track.id === sourceTrackId);
             
-            // Check if track has transcription
-            const hasTranscription = transcriptionStatus?.[track.id] || false;
+            // Check if track has transcription (by stem type for this studio project)
+            const hasTranscription = transcriptionStatus?.[track.type] || false;
             
             return (
               <SortableTrackItem

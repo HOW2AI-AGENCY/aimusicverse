@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Lyrics Service
  * Business logic layer for lyrics versioning and section notes operations

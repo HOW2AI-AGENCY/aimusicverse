@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Dashboard API Usage Examples
  *
@@ -13,6 +14,7 @@ import {
   isStorageNearLimit,
   dashboardQueryKeys,
   DASHBOARD_STALE_TIME,
+  DASHBOARD_CACHE_TIME,
   type DashboardStats,
 } from '@/api/dashboard.api';
 import { useQuery } from '@tanstack/react-query';

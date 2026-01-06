@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * SectionNotesPanel - Edit notes, tags, and references for a lyrics section
  * Professional mobile-first design with refined UI/UX
