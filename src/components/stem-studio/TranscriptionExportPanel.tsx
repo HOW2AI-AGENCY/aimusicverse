@@ -33,8 +33,15 @@ import { toast } from 'sonner';
 import { logger } from '@/lib/logger';
 import { showErrorWithRecovery } from '@/lib/errorHandling';
 import { toAppError } from '@/lib/errors/AppError';
+import { useSaveTranscription } from '@/hooks/useStemTranscription';
 
 const log = logger.child({ module: 'TranscriptionExportPanel' });
+
+// Engine model names for database storage
+const ENGINE_MODEL_NAMES = {
+  replicate: 'replicate-basic-pitch',
+  klangio: (model: TranscriptionModel) => `klangio-${model}`,
+} as const;
 
 interface TranscriptionFiles {
   midiUrl?: string;
@@ -91,6 +98,7 @@ export function TranscriptionExportPanel({
   const [selectedModel, setSelectedModel] = useState<TranscriptionModel>(getDefaultModel(stemType));
   const [selectedEngine, setSelectedEngine] = useState<TranscriptionEngine>('replicate');
   const [error, setError] = useState<string | null>(null);
+  const { saveTranscription } = useSaveTranscription();
 
   const handleTranscribe = async () => {
     setIsTranscribing(true);
@@ -134,6 +142,22 @@ export function TranscriptionExportPanel({
           midiUrl: data.midi_url,
         });
 
+        // Save to stem_transcriptions table
+        if (trackId && stemId) {
+          try {
+            await saveTranscription({
+              stemId,
+              trackId,
+              midiUrl: data.midi_url,
+              model: ENGINE_MODEL_NAMES.replicate,
+            });
+            log.info('Transcription saved to database');
+          } catch (saveError) {
+            log.error('Failed to save transcription to database', saveError);
+            // Don't throw - transcription succeeded, saving is optional
+          }
+        }
+
         setProgress('Готово!');
         setProgressPercent(100);
 
@@ -172,6 +196,30 @@ export function TranscriptionExportPanel({
             pdfUrl: data.files.pdf,
             musicXmlUrl: data.files.mxml,
           });
+
+          // Save to stem_transcriptions table
+          if (trackId && stemId) {
+            try {
+              await saveTranscription({
+                stemId,
+                trackId,
+                midiUrl: data.files.midi,
+                midiQuantUrl: data.files.midi_quant || data.files.midi_unq,
+                mxmlUrl: data.files.mxml,
+                gp5Url: data.files.gp5,
+                pdfUrl: data.files.pdf,
+                model: ENGINE_MODEL_NAMES.klangio(selectedModel),
+                bpm: data.bpm,
+                keyDetected: data.key,
+                timeSignature: data.time_signature,
+                notesCount: data.notes_count,
+              });
+              log.info('Transcription saved to database');
+            } catch (saveError) {
+              log.error('Failed to save transcription to database', saveError);
+              // Don't throw - transcription succeeded, saving is optional
+            }
+          }
 
           setProgress('Готово!');
           setProgressPercent(100);
