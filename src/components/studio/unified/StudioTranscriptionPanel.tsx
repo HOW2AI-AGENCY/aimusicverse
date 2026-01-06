@@ -33,7 +33,22 @@ interface StudioTranscriptionPanelProps {
 }
 
 type TranscriptionEngine = 'basic-pitch' | 'klangio';
-type KlangioModel = 'guitar' | 'piano' | 'bass' | 'drums' | 'universal';
+type KlangioModel = 'guitar' | 'piano' | 'bass' | 'drums' | 'strings' | 'orchestral' | 'choir' | 'universal';
+
+/**
+ * Map stem/track type to the most appropriate Klangio model
+ */
+function autoDetectKlangioModel(stemType?: string, trackType?: string): KlangioModel {
+  const t = (stemType || trackType || '').toLowerCase();
+  if (t.includes('vocal') || t.includes('voice')) return 'choir';
+  if (t.includes('guitar')) return 'guitar';
+  if (t.includes('bass')) return 'bass';
+  if (t.includes('drum') || t.includes('percussion')) return 'drums';
+  if (t.includes('piano') || t.includes('keys') || t.includes('keyboard')) return 'piano';
+  if (t.includes('string') || t.includes('violin') || t.includes('cello')) return 'strings';
+  if (t.includes('orches') || t.includes('symphony')) return 'orchestral';
+  return 'universal';
+}
 
 interface TranscriptionResult {
   midi_url?: string;
@@ -58,8 +73,10 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
   const queryClient = useQueryClient();
   const { saveTranscription } = useSaveTranscription();
   
-  const [engine, setEngine] = useState<TranscriptionEngine>('basic-pitch');
-  const [klangioModel, setKlangioModel] = useState<KlangioModel>('universal');
+  const [engine, setEngine] = useState<TranscriptionEngine>('klangio');
+  // Auto-detect initial model based on stem/track type
+  const detectedModel = autoDetectKlangioModel(stemType, track.type);
+  const [klangioModel, setKlangioModel] = useState<KlangioModel>(detectedModel);
   const [isTranscribing, setIsTranscribing] = useState(false);
   const [progress, setProgress] = useState(0);
   const [result, setResult] = useState<TranscriptionResult | null>(null);
@@ -420,6 +437,9 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
                       <SelectItem value="piano">Пианино</SelectItem>
                       <SelectItem value="bass">Бас</SelectItem>
                       <SelectItem value="drums">Ударные</SelectItem>
+                      <SelectItem value="strings">Струнные</SelectItem>
+                      <SelectItem value="orchestral">Оркестр</SelectItem>
+                      <SelectItem value="choir">Хор / Вокал</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

@@ -91,26 +91,26 @@ const MidiNotesPreview = memo(function MidiNotesPreview({
       initial={{ opacity: 0, height: 0 }}
       animate={{ opacity: 1, height: 'auto' }}
       exit={{ opacity: 0, height: 0 }}
-      className="pt-1.5 space-y-1.5"
+      className="space-y-1.5"
     >
-      {/* Mini piano roll - only if we have notes */}
+      {/* Mini piano roll - full width like waveform, no padding */}
       {hasNotes && (
-        <div className="relative h-8 rounded overflow-hidden bg-gradient-to-r from-primary/5 to-primary/10">
+        <div className="relative h-6 overflow-hidden bg-gradient-to-r from-primary/5 to-primary/10">
           {normalizedNotes.map((note, i) => (
             <div
               key={i}
               className="absolute bg-primary/60 rounded-[1px]"
               style={{
                 left: `${note.x}%`,
-                width: `${Math.max(note.width, 0.5)}%`,
+                width: `${Math.max(note.width, 0.3)}%`,
                 top: `${note.y}%`,
-                height: '12%',
+                height: '14%',
               }}
             />
           ))}
           {currentTime > 0 && (
             <div 
-              className="absolute top-0 bottom-0 w-px bg-primary shadow-glow"
+              className="absolute top-0 bottom-0 w-0.5 bg-primary shadow-glow"
               style={{ left: `${playheadPos}%` }}
             />
           )}
@@ -118,7 +118,7 @@ const MidiNotesPreview = memo(function MidiNotesPreview({
       )}
 
       {/* Info + actions */}
-      <div className="flex items-center justify-between gap-2">
+      <div className="flex items-center justify-between gap-2 px-3">
         <div className="flex items-center gap-1.5 min-w-0 flex-1 overflow-hidden">
           <Music2 className="w-3 h-3 text-primary shrink-0" />
           <span className="text-[10px] text-muted-foreground truncate">
@@ -503,21 +503,19 @@ export const StudioTrackRow = memo(function StudioTrackRow({
           )}
         </div>
 
-        {/* MIDI Notes Preview - show if we have transcription data */}
+        {/* MIDI Notes Preview - show if we have transcription data (directly under waveform, no extra padding) */}
         {transcription && (transcription.notes?.length || transcription.midiUrl || transcription.pdfUrl || transcription.gp5Url || transcription.mxmlUrl || transcription.notesCount) && (
-          <div className="px-3 pb-2">
-            <MidiNotesPreview
-              notes={transcription.notes || []}
-              duration={transcription.durationSeconds || duration}
-              currentTime={currentTime}
-              notesCount={transcription.notesCount || transcription.notes?.length || 0}
-              bpm={transcription.bpm}
-              keyDetected={transcription.keyDetected}
-              onViewFull={() => onAction?.('view_notation')}
-              onDownloadMidi={transcription.midiUrl ? () => window.open(transcription.midiUrl!, '_blank') : undefined}
-              onDownloadPdf={transcription.pdfUrl ? () => window.open(transcription.pdfUrl!, '_blank') : undefined}
-            />
-          </div>
+          <MidiNotesPreview
+            notes={transcription.notes || []}
+            duration={transcription.durationSeconds || duration}
+            currentTime={currentTime}
+            notesCount={transcription.notesCount || transcription.notes?.length || 0}
+            bpm={transcription.bpm}
+            keyDetected={transcription.keyDetected}
+            onViewFull={() => onAction?.('view_notation')}
+            onDownloadMidi={transcription.midiUrl ? () => window.open(transcription.midiUrl!, '_blank') : undefined}
+            onDownloadPdf={transcription.pdfUrl ? () => window.open(transcription.pdfUrl!, '_blank') : undefined}
+          />
         )}
       </div>
     </motion.div>
