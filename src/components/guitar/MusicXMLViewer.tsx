@@ -20,6 +20,11 @@ interface MusicXMLViewerProps {
   onError?: (error: Error) => void;
   className?: string;
   showControls?: boolean;
+  /**
+   * Minimum height for the notation viewport.
+   * Use px string (e.g. "320px").
+   */
+  minHeight?: string;
 }
 
 export function MusicXMLViewer({
@@ -30,6 +35,7 @@ export function MusicXMLViewer({
   onError,
   className,
   showControls = false,
+  minHeight = '300px',
 }: MusicXMLViewerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const fullscreenContainerRef = useRef<HTMLDivElement>(null);
@@ -233,7 +239,7 @@ export function MusicXMLViewer({
 
         <NotationContent 
           containerRefProp={containerRef} 
-          minHeight="300px" 
+          minHeight={minHeight} 
         />
       </div>
 

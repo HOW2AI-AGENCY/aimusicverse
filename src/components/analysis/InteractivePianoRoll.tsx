@@ -26,6 +26,10 @@ interface InteractivePianoRollProps {
   className?: string;
   currentTime?: number;
   onNoteClick?: (note: NoteInput, index: number) => void;
+  /**
+   * Show left pitch ruler (octave labels). When false, timeline/notes start at the very left edge.
+   */
+  showKeys?: boolean;
 }
 
 const NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
@@ -38,6 +42,7 @@ export const InteractivePianoRoll = memo(function InteractivePianoRoll({
   className,
   currentTime = 0,
   onNoteClick,
+  showKeys = true,
 }: InteractivePianoRollProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [zoom, setZoom] = useState(1);
@@ -130,13 +135,14 @@ export const InteractivePianoRoll = memo(function InteractivePianoRoll({
   const handleFitToScreen = useCallback(() => {
     // Calculate zoom to fit all notes
     if (scrollContainerRef.current && duration > 0) {
-      const containerWidth = scrollContainerRef.current.clientWidth - 40; // minus piano keys width
+      const keysWidth = showKeys ? 40 : 0;
+      const containerWidth = scrollContainerRef.current.clientWidth - keysWidth;
       const idealZoom = containerWidth / (duration * 10); // 10px per second base
       const clampedZoom = Math.max(0.5, Math.min(5, idealZoom));
       setZoom(clampedZoom);
       scrollContainerRef.current.scrollLeft = 0;
     }
-  }, [duration]);
+  }, [duration, showKeys]);
 
   // Drag to scroll
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
@@ -269,23 +275,25 @@ export const InteractivePianoRoll = memo(function InteractivePianoRoll({
 
       {/* Main content */}
       <div className="flex-1 flex min-h-0">
-        {/* Piano keys */}
-        <div className="w-9 shrink-0 bg-muted/40 border-r relative">
-          {octaveLines.map((line, i) => (
-            <div
-              key={i}
-              className="absolute left-0 right-0 flex items-center justify-center"
-              style={{ 
-                bottom: `${line.pos * 100}%`, 
-                transform: 'translateY(50%)',
-              }}
-            >
-              <span className="text-[9px] font-mono text-muted-foreground bg-muted px-0.5 rounded">
-                {line.label}
-              </span>
-            </div>
-          ))}
-        </div>
+        {/* Pitch ruler (optional) */}
+        {showKeys && (
+          <div className="w-9 shrink-0 bg-muted/40 border-r relative">
+            {octaveLines.map((line, i) => (
+              <div
+                key={i}
+                className="absolute left-0 right-0 flex items-center justify-center"
+                style={{ 
+                  bottom: `${line.pos * 100}%`, 
+                  transform: 'translateY(50%)',
+                }}
+              >
+                <span className="text-[9px] font-mono text-muted-foreground bg-muted px-0.5 rounded">
+                  {line.label}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
 
         {/* Scrollable piano roll */}
         <div 
@@ -294,6 +302,13 @@ export const InteractivePianoRoll = memo(function InteractivePianoRoll({
             "flex-1 overflow-x-auto overflow-y-hidden relative",
             isDragging ? "cursor-grabbing" : "cursor-grab"
           )}
+          onWheel={(e) => {
+            // Make vertical wheel scroll horizontally (like timeline/waveform scrubbing)
+            if (!scrollContainerRef.current) return;
+            if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+              scrollContainerRef.current.scrollLeft += e.deltaY;
+            }
+          }}
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
