@@ -411,7 +411,7 @@ const StemTrackRowMobile = memo(({
         </div>
 
         {/* Notes Preview (if transcription exists) */}
-        {transcription && (
+        {transcription && !!(
           transcription.notes || 
           transcription.pdf_url || 
           transcription.midi_url || 
@@ -846,7 +846,7 @@ export function IntegratedStemTracks({
                 />
               </div>
             ) : (
-              /* Standard mode - virtualized list */
+              /* Standard mode - virtualized list - stems already sorted by caller */
               <VirtualizedStemList
                 stems={stems}
                 stemStates={stemStates}

@@ -97,7 +97,9 @@ export function useStudioData(trackId: string | undefined) {
       logger.debug('Studio data loaded', { 
         trackId, 
         stemsCount: stems.length, 
-        transcriptionsCount: transcriptions.length 
+        transcriptionsCount: transcriptions.length,
+        stemIds: stems.map(s => s.id),
+        transcriptionStemIds: Object.keys(transcriptionsByStem),
       });
       
       return { stems, transcriptions, transcriptionsByStem };
