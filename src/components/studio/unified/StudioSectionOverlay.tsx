@@ -30,8 +30,8 @@ interface StudioSectionOverlayProps {
 // We DO NOT create "Переход" blocks from gaps; gaps are absorbed by neighboring sections.
 const GAP_MERGE_THRESHOLD_S = 3.0;
 
-// Section type colors - improved contrast for dark theme
-const SECTION_COLORS: Record<DetectedSection['type'], { bg: string; border: string; text: string }> = {
+// Section type colors - all musical section types with distinct colors
+const SECTION_COLORS: Record<string, { bg: string; border: string; text: string }> = {
   'verse': { bg: 'bg-blue-500/25', border: 'border-blue-500/60', text: 'text-blue-400' },
   'chorus': { bg: 'bg-purple-500/30', border: 'border-purple-500/70', text: 'text-purple-300' },
   'bridge': { bg: 'bg-amber-500/25', border: 'border-amber-500/60', text: 'text-amber-400' },
@@ -39,8 +39,11 @@ const SECTION_COLORS: Record<DetectedSection['type'], { bg: string; border: stri
   'outro': { bg: 'bg-rose-500/25', border: 'border-rose-500/60', text: 'text-rose-400' },
   'pre-chorus': { bg: 'bg-cyan-500/25', border: 'border-cyan-500/60', text: 'text-cyan-400' },
   'hook': { bg: 'bg-pink-500/25', border: 'border-pink-500/60', text: 'text-pink-400' },
-  // Unknown/transition - improved contrast for dark theme
-  'unknown': { bg: 'bg-neutral-400/35', border: 'border-neutral-400/60', text: 'text-neutral-200' },
+  'instrumental': { bg: 'bg-indigo-500/25', border: 'border-indigo-500/60', text: 'text-indigo-400' },
+  'interlude': { bg: 'bg-teal-500/25', border: 'border-teal-500/60', text: 'text-teal-400' },
+  'breakdown': { bg: 'bg-orange-500/25', border: 'border-orange-500/60', text: 'text-orange-400' },
+  'drop': { bg: 'bg-red-500/25', border: 'border-red-500/60', text: 'text-red-400' },
+  'unknown': { bg: 'bg-slate-500/25', border: 'border-slate-500/60', text: 'text-slate-300' },
 };
 
 export const StudioSectionOverlay = memo(function StudioSectionOverlay({
