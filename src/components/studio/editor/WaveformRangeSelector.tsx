@@ -120,6 +120,17 @@ export function WaveformRangeSelector({
 
     ctx.clearRect(0, 0, width, canvasHeight);
 
+    // Get computed styles for colors
+    const computedStyle = getComputedStyle(canvas);
+    const primaryColor = computedStyle.getPropertyValue('--primary').trim() || '262 83% 58%';
+    const mutedFgColor = computedStyle.getPropertyValue('--muted-foreground').trim() || '240 5% 65%';
+
+    // Draw selected range overlay first (background)
+    const rangeStart = startPercent * width;
+    const rangeEnd = endPercent * width;
+    ctx.fillStyle = `hsla(${primaryColor}, 0.15)`;
+    ctx.fillRect(rangeStart, 0, rangeEnd - rangeStart, canvasHeight);
+
     // Draw bars
     waveformData.forEach((value, i) => {
       const x = i * barWidth;
@@ -132,22 +143,30 @@ export function WaveformRangeSelector({
       
       if (inRange) {
         // Selected range - use primary color
-        ctx.fillStyle = 'hsl(var(--primary))';
+        ctx.fillStyle = `hsl(${primaryColor})`;
       } else {
         // Outside range - muted
-        ctx.fillStyle = 'hsl(var(--muted-foreground) / 0.3)';
+        ctx.fillStyle = `hsla(${mutedFgColor}, 0.3)`;
       }
       
+      // Draw rounded rectangle manually for compatibility
+      const barX = x + 1;
+      const barW = Math.max(1, barWidth - 2);
+      const radius = Math.min(2, barW / 2);
+      
       ctx.beginPath();
-      ctx.roundRect(x + 1, y, barWidth - 2, barHeight, 2);
+      ctx.moveTo(barX + radius, y);
+      ctx.lineTo(barX + barW - radius, y);
+      ctx.quadraticCurveTo(barX + barW, y, barX + barW, y + radius);
+      ctx.lineTo(barX + barW, y + barHeight - radius);
+      ctx.quadraticCurveTo(barX + barW, y + barHeight, barX + barW - radius, y + barHeight);
+      ctx.lineTo(barX + radius, y + barHeight);
+      ctx.quadraticCurveTo(barX, y + barHeight, barX, y + barHeight - radius);
+      ctx.lineTo(barX, y + radius);
+      ctx.quadraticCurveTo(barX, y, barX + radius, y);
+      ctx.closePath();
       ctx.fill();
     });
-
-    // Draw selected range overlay
-    const rangeStart = startPercent * width;
-    const rangeEnd = endPercent * width;
-    ctx.fillStyle = 'hsl(var(--primary) / 0.1)';
-    ctx.fillRect(rangeStart, 0, rangeEnd - rangeStart, canvasHeight);
 
   }, [waveformData, startTime, endTime, duration]);
 
