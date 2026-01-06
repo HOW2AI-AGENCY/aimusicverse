@@ -19,11 +19,10 @@ export function CreateActions({ track, state, onAction, variant, isProcessing }:
   const showExtend = isActionAvailable('extend', track, state);
   const showRemix = isActionAvailable('remix', track, state);
   const showAddVocals = isActionAvailable('add_vocals', track, state);
-  const showAddInstrumental = isActionAvailable('add_instrumental', track, state);
   // Video generation available for all tracks
   const showVideo = true;
 
-  const hasAnyAction = showGenerateCover || showCover || showExtend || showRemix || showAddVocals || showAddInstrumental || showVideo;
+  const hasAnyAction = showGenerateCover || showCover || showExtend || showRemix || showAddVocals || showVideo;
   if (!hasAnyAction) return null;
 
   if (variant === 'dropdown') {
@@ -68,12 +67,6 @@ export function CreateActions({ track, state, onAction, variant, isProcessing }:
             <DropdownMenuItem onClick={() => onAction('add_vocals')} disabled={isProcessing}>
               <Mic2 className="w-4 h-4 mr-2" />
               Добавить вокал
-            </DropdownMenuItem>
-          )}
-          {showAddInstrumental && (
-            <DropdownMenuItem onClick={() => onAction('add_instrumental')} disabled={isProcessing}>
-              <Guitar className="w-4 h-4 mr-2" />
-              Добавить инструментал
             </DropdownMenuItem>
           )}
         </DropdownMenuSubContent>
@@ -133,15 +126,6 @@ export function CreateActions({ track, state, onAction, variant, isProcessing }:
           label="Вокал"
           color="cyan"
           onClick={() => onAction('add_vocals')}
-          disabled={isProcessing}
-        />
-      )}
-      {showAddInstrumental && (
-        <IconGridButton
-          icon={Guitar}
-          label="Инструм."
-          color="orange"
-          onClick={() => onAction('add_instrumental')}
           disabled={isProcessing}
         />
       )}

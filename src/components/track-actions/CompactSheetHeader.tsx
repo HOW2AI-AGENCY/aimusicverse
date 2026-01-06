@@ -3,7 +3,7 @@
  * Minimizes vertical space usage for better scrolling
  */
 
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import { Track } from '@/types/track';
 import { Play, Pause, Heart, Share2, ListPlus, Music2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -12,6 +12,7 @@ import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { useTracks } from '@/hooks/useTracks';
 import { hapticImpact } from '@/lib/haptic';
 import { toast } from 'sonner';
+import { EditableTrackTitle } from './EditableTrackTitle';
 
 // Format duration from seconds to mm:ss
 const formatDuration = (seconds: number): string => {
@@ -37,6 +38,7 @@ export const CompactSheetHeader = memo(function CompactSheetHeader({
 }: CompactSheetHeaderProps) {
   const { activeTrack, isPlaying, playTrack, pauseTrack, addToQueue } = usePlayerStore();
   const { toggleLike } = useTracks();
+  const [localTitle, setLocalTitle] = useState(track.title || 'Без названия');
 
   const coverUrl = track.cover_url;
   const duration = track.duration_seconds ? formatDuration(track.duration_seconds) : null;
@@ -123,9 +125,11 @@ export const CompactSheetHeader = memo(function CompactSheetHeader({
 
       {/* Title + Versions */}
       <div className="flex-1 min-w-0">
-        <h3 className="text-sm font-semibold truncate leading-tight">
-          {track.title || 'Без названия'}
-        </h3>
+        <EditableTrackTitle
+          trackId={track.id}
+          title={localTitle}
+          onTitleChange={setLocalTitle}
+        />
         
         {/* Version pills - compact inline */}
         {hasVersions && onVersionSwitch && (
