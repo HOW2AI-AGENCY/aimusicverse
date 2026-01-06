@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss";
 import tailwindcssAnimate from "tailwindcss-animate";
+import { typography, colors, spacing, shadows, animation } from "./src/lib/design-tokens";
 
 export default {
   darkMode: ["class"],
@@ -154,6 +155,13 @@ export default {
         'glow-sm': '0 0 15px 0 hsl(207 90% 54% / 0.2)',
         'glow-lg': '0 0 50px 0 hsl(207 90% 54% / 0.4)',
         'glow-generate': '0 0 30px 0 hsl(var(--generate) / 0.4)',
+        // Design system elevation levels (feature 032-professional-ui)
+        'elevation-0': shadows.none,
+        'elevation-1': shadows.level1,
+        'elevation-2': shadows.level2,
+        'elevation-3': shadows.level3,
+        'elevation-4': shadows.level4,
+        'elevation-5': shadows.level5,
       },
       keyframes: {
         "accordion-down": {
