@@ -349,7 +349,7 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
   // Check if stems exist (used to disable extend/replace) - use operationLock
   const hasStems = operationLock.hasStems;
 
-  // Filter tracks to avoid duplicating main track when stems exist
+  // Filter tracks to avoid duplicating main track when stems exist + sort vocals first
   const displayTracks = useMemo(() => {
     if (!project?.tracks || project.tracks.length === 0) return [];
     
@@ -357,9 +357,11 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
     const stemTypes = ['vocal', 'instrumental', 'drums', 'bass', 'other'];
     const stemsPresent = project.tracks.some(t => stemTypes.includes(t.type));
     
+    let filtered = project.tracks;
+    
     if (stemsPresent && project.tracks.length > 1) {
       // Filter out main/source track if it's already shown on the main timeline
-      return project.tracks.filter(t => {
+      filtered = project.tracks.filter(t => {
         // Keep if it's a stem type
         if (stemTypes.includes(t.type)) return true;
         // Filter out track with same audio as main timeline (first track)
@@ -368,7 +370,23 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
       });
     }
     
-    return project.tracks;
+    // Sort: vocals always first, then by type priority
+    const priority: Record<string, number> = {
+      vocal: 0,
+      instrumental: 1,
+      bass: 2,
+      drums: 3,
+      stem: 4,
+      main: 5,
+      sfx: 6,
+      other: 99,
+    };
+    
+    return [...filtered].sort((a, b) => {
+      const pA = priority[a.type] ?? 50;
+      const pB = priority[b.type] ?? 50;
+      return pA - pB;
+    });
   }, [project?.tracks, mainAudioUrl]);
 
   // Handle section click on timeline

@@ -112,6 +112,7 @@ export const StudioTrackRow = memo(function StudioTrackRow({
   hasSoloTracks = false,
   isSourceTrack = false,
   stemsExist = false,
+  hasTranscription = false,
   onToggleMute,
   onToggleSolo,
   onVolumeChange,
@@ -206,9 +207,21 @@ export const StudioTrackRow = memo(function StudioTrackRow({
               <Icon className="w-3.5 h-3.5" />
             </div>
             <div className="min-w-0 flex-1">
-              <span className="text-xs font-mono font-semibold tracking-wider truncate block">
-                {track.name}
-              </span>
+              <div className="flex items-center gap-1.5">
+                <span className="text-xs font-mono font-semibold tracking-wider truncate block">
+                  {track.name}
+                </span>
+                {/* Transcription badge */}
+                {hasTranscription && (
+                  <button
+                    onClick={() => onAction?.('view_notation')}
+                    className="h-4 px-1 rounded text-[8px] bg-primary/10 border border-primary/30 text-primary hover:bg-primary/20 transition-colors flex items-center gap-0.5"
+                    title="Показать ноты"
+                  >
+                    <Music2 className="w-2.5 h-2.5" />
+                  </button>
+                )}
+              </div>
               <span className="text-[10px] text-muted-foreground">
                 {config.shortLabel}
               </span>
