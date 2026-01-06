@@ -42,7 +42,11 @@ const SECTION_COLORS: Record<DetectedSection['type'], string> = {
   'outro': 'bg-rose-500',
   'pre-chorus': 'bg-cyan-500',
   'hook': 'bg-pink-500',
-  'unknown': 'bg-neutral-400', // Improved from slate-500 for better visibility
+  'instrumental': 'bg-indigo-500',
+  'interlude': 'bg-teal-500',
+  'breakdown': 'bg-orange-600',
+  'drop': 'bg-red-500',
+  'unknown': 'bg-neutral-400',
 };
 
 const SECTION_BG: Record<DetectedSection['type'], string> = {
@@ -53,7 +57,11 @@ const SECTION_BG: Record<DetectedSection['type'], string> = {
   'outro': 'bg-rose-500/15 hover:bg-rose-500/25',
   'pre-chorus': 'bg-cyan-500/15 hover:bg-cyan-500/25',
   'hook': 'bg-pink-500/15 hover:bg-pink-500/25',
-  'unknown': 'bg-neutral-500/25 hover:bg-neutral-500/35', // Improved contrast for transitions
+  'instrumental': 'bg-indigo-500/15 hover:bg-indigo-500/25',
+  'interlude': 'bg-teal-500/15 hover:bg-teal-500/25',
+  'breakdown': 'bg-orange-600/15 hover:bg-orange-600/25',
+  'drop': 'bg-red-500/15 hover:bg-red-500/25',
+  'unknown': 'bg-neutral-500/25 hover:bg-neutral-500/35',
 };
 
 export const MobileSectionsView = memo(function MobileSectionsView({
