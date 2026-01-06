@@ -9,7 +9,6 @@ import { cn } from '@/lib/utils';
 import { TrackStem } from '@/hooks/useTrackStems';
 import { StemWaveform } from './StemWaveform';
 import { StemEffectsPanel } from './effects/StemEffectsPanel';
-import { StemTranscriptionSheet } from './mobile/StemTranscriptionSheet';
 import { InlineStemNotes } from './InlineStemNotes';
 import {
   StemEffects,
@@ -143,20 +142,15 @@ export const StemChannel = memo(({
 
         {/* Controls */}
         <div className="flex items-center gap-1 flex-shrink-0">
-          {/* MIDI/Notes Transcription Button */}
-          <StemTranscriptionSheet
-            stem={stem}
-            stemLabel={stemLabel}
-            trigger={
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-8 w-8 p-0"
-              >
-                <FileMusic className="w-4 h-4" />
-              </Button>
-            }
-          />
+          {/* MIDI/Notes Transcription Button - open unified transcription panel */}
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-8 w-8 p-0"
+            title="Транскрипция MIDI/Ноты"
+          >
+            <FileMusic className="w-4 h-4" />
+          </Button>
 
           <Button
             variant={state.solo ? "default" : "outline"}
