@@ -377,7 +377,7 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
           }}
           enablePlayback={false}
           trackTitle={track.name}
-          height={isMobile ? 520 : 420}
+          height={isMobile ? 640 : 480}
           className="h-full"
         />
       </div>

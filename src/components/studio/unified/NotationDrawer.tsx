@@ -116,7 +116,7 @@ export const NotationDrawer = memo(function NotationDrawer({
     <Sheet open={open} onOpenChange={(isOpen) => !isOpen && handleClose()}>
       <SheetContent
         side="bottom"
-        className={cn('h-[85vh] rounded-t-2xl p-0 flex flex-col')}
+        className={cn('h-[92vh] rounded-t-2xl p-0 flex flex-col')}
         style={{ paddingBottom: safeAreaBottom }}
       >
         <SheetHeader
@@ -203,7 +203,7 @@ export const NotationDrawer = memo(function NotationDrawer({
             isPlaying={isPlaying}
             enablePlayback={false}
             trackTitle={track.name}
-            height={560}
+            height={680}
             className="h-full"
           />
         </div>
