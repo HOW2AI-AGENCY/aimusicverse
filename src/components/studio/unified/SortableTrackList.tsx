@@ -174,6 +174,7 @@ export const SortableTrackList = memo(function SortableTrackList({
   });
 
   // Fetch full transcription data for all stems that have transcriptions
+  // Also fetch by track_id directly for main tracks without stems
   const { data: transcriptionsMap, isLoading: loadingTranscriptions } = useQuery({
     queryKey: ['stem-transcriptions-full', sourceTrackId, stemTypes.sort().join(',')],
     queryFn: async (): Promise<Record<string, StemTranscriptionData>> => {
@@ -186,9 +187,37 @@ export const SortableTrackList = memo(function SortableTrackList({
         .eq('track_id', sourceTrackId)
         .in('stem_type', stemTypes);
 
+      const result: Record<string, StemTranscriptionData> = {};
+
       if (stemsError || !stems?.length) {
         console.log('[SortableTrackList] No stems found for', sourceTrackId, stemTypes);
-        return {};
+        // Try to fetch transcriptions directly by track_id for 'main' type
+        if (stemTypes.includes('main')) {
+          const { data: mainTrans } = await supabase
+            .from('stem_transcriptions')
+            .select('*')
+            .eq('track_id', sourceTrackId)
+            .order('created_at', { ascending: false })
+            .limit(1)
+            .maybeSingle();
+          
+          if (mainTrans) {
+            result['main'] = {
+              stemType: 'main',
+              stemId: mainTrans.stem_id,
+              midiUrl: mainTrans.midi_url,
+              pdfUrl: mainTrans.pdf_url,
+              gp5Url: mainTrans.gp5_url,
+              mxmlUrl: mainTrans.mxml_url,
+              notes: mainTrans.notes as any[] | null,
+              notesCount: mainTrans.notes_count,
+              bpm: mainTrans.bpm ? Number(mainTrans.bpm) : null,
+              keyDetected: mainTrans.key_detected,
+              durationSeconds: mainTrans.duration_seconds ? Number(mainTrans.duration_seconds) : null,
+            };
+          }
+        }
+        return result;
       }
 
       const stemIds = stems.map(s => s.id);
@@ -201,18 +230,17 @@ export const SortableTrackList = memo(function SortableTrackList({
 
       if (transError) {
         console.error('[SortableTrackList] Error fetching transcriptions:', transError);
-        return {};
+        return result;
       }
       
       if (!transcriptions?.length) {
         console.log('[SortableTrackList] No transcriptions found for stemIds:', stemIds);
-        return {};
+        return result;
       }
 
       console.log('[SortableTrackList] Found transcriptions:', transcriptions.length, 'for stems:', stems.map(s => s.stem_type));
 
-      // Build map: stemType -> transcription data
-      const result: Record<string, StemTranscriptionData> = {};
+      // Build map: stemType -> transcription data (reuse result already declared above)
       
       for (const trans of transcriptions) {
         const stem = stems.find(s => s.id === trans.stem_id);

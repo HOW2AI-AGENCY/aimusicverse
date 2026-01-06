@@ -87,7 +87,7 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
   const normalizedStemType = useMemo(() => {
     const t = (stemType || track.type || '').toLowerCase();
     if (t === 'main' || t === 'stem') return null; // Can't determine
-    if (t.includes('vocal')) return 'vocal';
+    if (t.includes('vocal') && !t.includes('instrumental')) return 'vocal';
     if (t.includes('instrumental') || t.includes('music')) return 'instrumental';
     if (t.includes('drum')) return 'drums';
     if (t.includes('bass')) return 'bass';
@@ -109,7 +109,7 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
         return data ? { stemId: data.id, stemType: data.stem_type } : null;
       }
 
-      // Try to find stem by trackId + normalizedStemType
+      // Try to find stem by trackId + normalizedStemType (exact match)
       if (trackId && normalizedStemType) {
         const { data } = await supabase
           .from('track_stems')
@@ -117,23 +117,18 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
           .eq('track_id', trackId)
           .eq('stem_type', normalizedStemType)
           .maybeSingle();
-        if (data) return { stemId: data.id, stemType: data.stem_type };
+        if (data) {
+          console.log('[StudioTranscriptionPanel] Resolved stem by type:', normalizedStemType, '->', data.id);
+          return { stemId: data.id, stemType: data.stem_type };
+        }
       }
 
-      // Fallback: get any stem for this track
-      if (trackId) {
-        const { data } = await supabase
-          .from('track_stems')
-          .select('id, stem_type')
-          .eq('track_id', trackId)
-          .limit(1)
-          .maybeSingle();
-        if (data) return { stemId: data.id, stemType: data.stem_type };
-      }
-
+      // NO FALLBACK - if we can't find the correct stem, don't use a random one
+      // This prevents saving transcriptions to wrong stems
+      console.warn('[StudioTranscriptionPanel] Could not resolve stem for', { trackId, normalizedStemType });
       return null;
     },
-    enabled: !!(propStemId || trackId),
+    enabled: !!(propStemId || (trackId && normalizedStemType)),
     staleTime: 60000,
   });
 
