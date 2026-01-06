@@ -12,6 +12,11 @@ import { persist, subscribeWithSelector } from 'zustand/middleware';
 import { supabase } from '@/integrations/supabase/client';
 import { createHistorySlice } from '@/lib/zustand/historyMiddleware';
 import { Json } from '@/integrations/supabase/types';
+import type {
+  LyricVersion,
+  SectionNote,
+  NoteType,
+} from '@/types/studio-entities';
 
 // ============ Types ============
 
@@ -108,6 +113,35 @@ export interface CreateProjectParams {
   tracks?: Omit<StudioTrack, 'id' | 'clips'>[];
 }
 
+// ============ Lyrics Types ============
+
+/**
+ * Simplified lyric version for studio store
+ * Includes essential version information for lyrics editing
+ */
+export interface StudioLyricVersion {
+  id: string;
+  versionNumber: number;
+  content: string;
+  isCurrent: boolean;
+  changeSummary?: string;
+  createdAt: Date;
+}
+
+/**
+ * Simplified section note for studio store
+ * Includes note metadata for lyrics sections
+ */
+export interface StudioSectionNote {
+  id: string;
+  sectionId: string;
+  content: string;
+  noteType: NoteType;
+  isResolved: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 // ============ Track Colors ============
 
 export const TRACK_COLORS: Record<TrackType, string> = {
@@ -158,7 +192,15 @@ interface UnifiedStudioState {
   viewMode: ViewMode;
   snapToGrid: boolean;
   gridSize: number;
-  
+
+  // Lyrics State
+  currentLyrics: string | null;
+  lyricsVersions: StudioLyricVersion[];
+  currentVersionId: string | null;
+  isLyricsDirty: boolean;
+  sectionNotes: StudioSectionNote[];
+  activeNoteId: string | null;
+
   // History (from middleware)
   _history: unknown[];
   _historyIndex: number;
@@ -223,7 +265,17 @@ interface UnifiedStudioState {
   setMasterVolume: (volume: number) => void;
   setBpm: (bpm: number) => void;
   setProjectStatus: (status: ProjectStatus) => void;
-  
+
+  // Lyrics Actions
+  setCurrentLyrics: (content: string) => void;
+  setCurrentVersionId: (versionId: string | null) => void;
+  markLyricsDirty: () => void;
+  markLyricsClean: () => void;
+  addSectionNote: (note: Omit<StudioSectionNote, 'id' | 'createdAt' | 'updatedAt'>) => string;
+  updateSectionNote: (noteId: string, updates: Partial<Omit<StudioSectionNote, 'id' | 'sectionId' | 'createdAt'>>) => void;
+  deleteSectionNote: (noteId: string) => void;
+  setActiveNoteId: (noteId: string | null) => void;
+
   // DB Sync
   syncToDatabase: () => Promise<boolean>;
 }
@@ -257,7 +309,15 @@ export const useUnifiedStudioStore = create<UnifiedStudioState>()(
           viewMode: 'timeline',
           snapToGrid: true,
           gridSize: 4,
-          
+
+          // Lyrics state
+          currentLyrics: null,
+          lyricsVersions: [],
+          currentVersionId: null,
+          isLyricsDirty: false,
+          sectionNotes: [],
+          activeNoteId: null,
+
           // History slice
           ...historySlice,
 
@@ -1097,6 +1157,152 @@ export const useUnifiedStudioStore = create<UnifiedStudioState>()(
                 hasUnsavedChanges: true,
               };
             });
+          },
+
+          // ============ Lyrics Actions ============
+
+          /**
+           * Set the current lyrics content
+           * Updates the working lyrics and marks as dirty if different from current
+           *
+           * @param content - The new lyrics content
+           *
+           * @example
+           * setCurrentLyrics('Verse 1\nLyrics here...');
+           */
+          setCurrentLyrics: (content) => {
+            set(state => {
+              // Only mark as dirty if content actually changed
+              const isDirty = state.currentLyrics !== content;
+              return {
+                currentLyrics: content,
+                isLyricsDirty: isDirty ? true : state.isLyricsDirty,
+              };
+            });
+          },
+
+          /**
+           * Set the current active lyrics version ID
+           * Updates which version is currently selected/active
+           *
+           * @param versionId - The version ID to set as active, or null to clear
+           *
+           * @example
+           * setCurrentVersionId('version-uuid');
+           * setCurrentVersionId(null); // Clear active version
+           */
+          setCurrentVersionId: (versionId) => {
+            set({ currentVersionId: versionId });
+          },
+
+          /**
+           * Mark lyrics as dirty (unsaved changes)
+           * Use this to indicate that lyrics have been modified but not saved
+           *
+           * @example
+           * markLyricsDirty();
+           */
+          markLyricsDirty: () => {
+            set({ isLyricsDirty: true });
+          },
+
+          /**
+           * Mark lyrics as clean (no unsaved changes)
+           * Use this after successfully saving lyrics to clear dirty state
+           *
+           * @example
+           * markLyricsClean();
+           */
+          markLyricsClean: () => {
+            set({ isLyricsDirty: false });
+          },
+
+          /**
+           * Add a new section note
+           * Creates a note with a generated ID and timestamps
+           *
+           * @param note - The note data without id, createdAt, updatedAt
+           * @returns The generated note ID
+           *
+           * @example
+           * const noteId = addSectionNote({
+           *   sectionId: 'section-uuid',
+           *   content: 'Add more emotion here',
+           *   noteType: NoteType.PRODUCTION,
+           *   isResolved: false
+           * });
+           */
+          addSectionNote: (note) => {
+            const noteId = generateId();
+            const now = new Date();
+            const newNote: StudioSectionNote = {
+              id: noteId,
+              ...note,
+              createdAt: now,
+              updatedAt: now,
+            };
+
+            set(state => ({
+              sectionNotes: [...state.sectionNotes, newNote],
+            }));
+
+            get().pushToHistory();
+            return noteId;
+          },
+
+          /**
+           * Update an existing section note
+           * Modifies note content, type, or resolved status
+           *
+           * @param noteId - The ID of the note to update
+           * @param updates - Partial updates to apply to the note
+           *
+           * @example
+           * updateSectionNote('note-uuid', {
+           *   content: 'Updated note content',
+           *   isResolved: true
+           * });
+           */
+          updateSectionNote: (noteId, updates) => {
+            set(state => ({
+              sectionNotes: state.sectionNotes.map(note =>
+                note.id === noteId
+                  ? { ...note, ...updates, updatedAt: new Date() }
+                  : note
+              ),
+            }));
+            get().pushToHistory();
+          },
+
+          /**
+           * Delete a section note
+           * Removes the note from the section notes array
+           *
+           * @param noteId - The ID of the note to delete
+           *
+           * @example
+           * deleteSectionNote('note-uuid');
+           */
+          deleteSectionNote: (noteId) => {
+            set(state => ({
+              sectionNotes: state.sectionNotes.filter(note => note.id !== noteId),
+              activeNoteId: state.activeNoteId === noteId ? null : state.activeNoteId,
+            }));
+            get().pushToHistory();
+          },
+
+          /**
+           * Set the active note ID (currently editing)
+           * Tracks which note is currently being edited in the UI
+           *
+           * @param noteId - The note ID to set as active, or null to clear
+           *
+           * @example
+           * setActiveNoteId('note-uuid'); // Start editing
+           * setActiveNoteId(null); // Finish editing
+           */
+          setActiveNoteId: (noteId) => {
+            set({ activeNoteId: noteId });
           },
 
           // ============ DB Sync ============
