@@ -130,25 +130,48 @@ export function useStudioData(trackId: string | undefined) {
     prefetchedRef.current = false;
   }, [trackId]);
   
-  // Memoized stems sorted by priority
+  // Memoized stems sorted by priority - VOCALS ALWAYS FIRST
   const sortedStems = useMemo(() => {
     if (!query.data?.stems) return [];
     
     const priority: Record<string, number> = {
-      vocals: 1,
-      vocal: 1,
-      bass: 2,
-      drums: 3,
-      guitar: 4,
-      piano: 5,
-      keyboard: 5,
-      instrumental: 6,
-      other: 10,
+      // Vocals always first (priority 0-1)
+      vocals: 0,
+      vocal: 0,
+      voice: 0,
+      lead_vocal: 0,
+      main_vocal: 0,
+      backing_vocals: 1,
+      backing_vocal: 1,
+      harmonies: 1,
+      // Instrumental next
+      instrumental: 2,
+      // Then by instrument
+      bass: 3,
+      drums: 4,
+      guitar: 5,
+      piano: 6,
+      keyboard: 6,
+      synth: 7,
+      strings: 8,
+      other: 99,
     };
     
     return [...query.data.stems].sort((a, b) => {
-      const pA = priority[a.stem_type.toLowerCase()] || 10;
-      const pB = priority[b.stem_type.toLowerCase()] || 10;
+      const typeA = a.stem_type.toLowerCase();
+      const typeB = b.stem_type.toLowerCase();
+      
+      // Check if either contains 'vocal' anywhere in the name
+      const isVocalA = typeA.includes('vocal') || typeA === 'voice';
+      const isVocalB = typeB.includes('vocal') || typeB === 'voice';
+      
+      // Vocals always come first
+      if (isVocalA && !isVocalB) return -1;
+      if (!isVocalA && isVocalB) return 1;
+      
+      // Then sort by priority
+      const pA = priority[typeA] ?? 50;
+      const pB = priority[typeB] ?? 50;
       return pA - pB;
     });
   }, [query.data?.stems]);

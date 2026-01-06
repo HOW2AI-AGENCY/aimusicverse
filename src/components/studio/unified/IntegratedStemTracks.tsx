@@ -571,6 +571,20 @@ const StemTrackRowDesktop = memo(({
         />
       </div>
 
+      {/* Notes Preview (if transcription exists) - Desktop version */}
+      {transcription && (transcription.notes || transcription.pdf_url || transcription.midi_url || transcription.gp5_url || transcription.mxml_url) && (
+        <div className="w-36 shrink-0">
+          <StemNotesPreview
+            transcription={transcription}
+            currentTime={currentTime}
+            duration={duration}
+            onViewFull={() => onAction('view-notes')}
+            onDownloadPdf={() => transcription.pdf_url && window.open(transcription.pdf_url, '_blank')}
+            onDownloadMidi={() => transcription.midi_url && window.open(transcription.midi_url, '_blank')}
+          />
+        </div>
+      )}
+
       {/* Quick actions */}
       <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
         <Button
