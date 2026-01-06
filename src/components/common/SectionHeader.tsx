@@ -1,14 +1,9 @@
 /**
  * SectionHeader - Unified section header component
- * 
- * Replaces duplicate header patterns across:
- * - TracksGridSection
- * - UserProjectsSection
- * - PopularCreatorsSection
- * - FeaturedBlogBanners
- * - RecentTracksSection
- * - AutoPlaylistsSection
- * - etc.
+ * Feature: 032-professional-ui
+ *
+ * Updated with design system typography components.
+ * Replaces duplicate header patterns across the app.
  */
 
 import { memo, ReactNode } from 'react';
@@ -18,6 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { useNavigate } from 'react-router-dom';
+import { Heading, Text } from '@/components/ui/typography';
 
 interface SectionHeaderProps {
   /** Icon component from lucide-react */
@@ -63,18 +59,6 @@ const ICON_SIZES = {
   large: { container: 'w-12 h-12 rounded-2xl', icon: 'w-6 h-6' },
 };
 
-const TITLE_SIZES = {
-  default: 'text-base',
-  compact: 'text-sm',
-  large: 'text-lg sm:text-xl',
-};
-
-const SUBTITLE_SIZES = {
-  default: 'text-xs',
-  compact: 'text-[10px]',
-  large: 'text-sm',
-};
-
 export const SectionHeader = memo(function SectionHeader({
   icon: Icon,
   iconColor = 'text-primary',
@@ -94,8 +78,6 @@ export const SectionHeader = memo(function SectionHeader({
 }: SectionHeaderProps) {
   const navigate = useNavigate();
   const sizes = ICON_SIZES[variant];
-  const titleSize = TITLE_SIZES[variant];
-  const subtitleSize = SUBTITLE_SIZES[variant];
 
   const handleShowMore = () => {
     if (onShowMore) {
@@ -121,6 +103,10 @@ export const SectionHeader = memo(function SectionHeader({
     </motion.div>
   ) : iconElement;
 
+  // Design system typography mapping
+  const headingLevel = variant === 'large' ? 'h3' as const : 'h4' as const;
+  const textSize = variant === 'compact' ? 'caption' as const : 'caption' as const;
+
   return (
     <div className={cn("flex items-center justify-between", className)}>
       <div className="flex items-center gap-2.5 sm:gap-3">
@@ -137,7 +123,9 @@ export const SectionHeader = memo(function SectionHeader({
 
         <div className="min-w-0">
           <div className="flex items-center gap-2">
-            <h2 className={cn(titleSize, "font-semibold truncate")}>{title}</h2>
+            <Heading level={headingLevel} className="truncate">
+              {title}
+            </Heading>
             {badge && (
               <Badge
                 variant={badge.variant || 'secondary'}
@@ -152,9 +140,9 @@ export const SectionHeader = memo(function SectionHeader({
             )}
           </div>
           {subtitle && (
-            <p className={cn(subtitleSize, "text-muted-foreground truncate")}>
+            <Text variant={textSize} className="truncate text-muted-foreground">
               {subtitle}
-            </p>
+            </Text>
           )}
         </div>
       </div>
