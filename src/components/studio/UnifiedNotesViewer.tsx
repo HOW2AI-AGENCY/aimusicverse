@@ -406,12 +406,14 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
     }
   }, [trackTitle]);
   
-  // Увеличенная высота для мобильных устройств
-  const defaultHeight = compact ? (isMobile ? 240 : 240) : (isMobile ? 440 : 360);
+  // Увеличенная высота для мобильных устройств (mobile-first)
+  const defaultHeight = compact ? (isMobile ? 280 : 260) : (isMobile ? 560 : 400);
   const visualHeight = height ?? defaultHeight;
   
-  // Loading state
-  if (isParsing && !notes.length) {
+  // Combined loading state (MIDI or MusicXML parsing)
+  const isLoadingNotes = (isParsing || isParsingXml) && !notes.length;
+  
+  if (isLoadingNotes) {
     return (
       <div 
         className={cn(
@@ -422,22 +424,6 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
       >
         <Loader2 className="w-6 h-6 animate-spin text-primary" />
         <p className="text-xs text-muted-foreground">Загрузка нот...</p>
-      </div>
-    );
-  }
-  
-  // Empty state
-  if (!notes.length && !effectiveMusicXmlUrl) {
-    return (
-      <div 
-        className={cn(
-          "rounded-xl border bg-muted/30 flex flex-col items-center justify-center gap-3 p-6",
-          className
-        )}
-        style={{ minHeight: visualHeight }}
-      >
-        <Music className="w-10 h-10 text-muted-foreground/40" />
-        <p className="text-sm text-muted-foreground text-center">Ноты не найдены</p>
       </div>
     );
   }
@@ -508,17 +494,27 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
       
       {/* Visualization area */}
       <div className="rounded-xl border overflow-hidden bg-background shadow-sm">
-        {viewMode === 'piano' && notes.length > 0 && (
-          <InteractivePianoRoll
-            notes={notes}
-            duration={duration}
-            currentTime={currentTime}
-            height={visualHeight}
-            onNoteClick={handleNoteClick}
-            showKeys={!isMobile}
-            showMiniMap={!compact}
-            colorByVelocity={true}
-          />
+        {viewMode === 'piano' && (
+          notes.length > 0 ? (
+            <InteractivePianoRoll
+              notes={notes}
+              duration={duration}
+              currentTime={currentTime}
+              height={visualHeight}
+              onNoteClick={handleNoteClick}
+              showKeys={!isMobile}
+              showMiniMap={!compact}
+              colorByVelocity={true}
+            />
+          ) : (
+            <div 
+              className="flex flex-col items-center justify-center gap-3"
+              style={{ height: visualHeight }}
+            >
+              <Music className="w-10 h-10 text-muted-foreground/30" />
+              <p className="text-sm text-muted-foreground">Ноты не обнаружены</p>
+            </div>
+          )
         )}
 
         {viewMode === 'notation' && effectiveMusicXmlUrl && !musicXmlFailed && (
@@ -550,18 +546,28 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
           </div>
         )}
 
-        {/* Fallback на StaffNotation когда MusicXML недоступен но выбран notation */}
-        {viewMode === 'notation' && (!effectiveMusicXmlUrl || musicXmlFailed) && notes.length > 0 && (
-          <InteractivePianoRoll
-            notes={notes}
-            duration={duration}
-            currentTime={currentTime}
-            height={visualHeight}
-            onNoteClick={handleNoteClick}
-            showKeys={!isMobile}
-            showMiniMap={!compact}
-            colorByVelocity={true}
-          />
+        {/* Fallback на PianoRoll когда MusicXML недоступен но выбран notation */}
+        {viewMode === 'notation' && (!effectiveMusicXmlUrl || musicXmlFailed) && (
+          notes.length > 0 ? (
+            <InteractivePianoRoll
+              notes={notes}
+              duration={duration}
+              currentTime={currentTime}
+              height={visualHeight}
+              onNoteClick={handleNoteClick}
+              showKeys={!isMobile}
+              showMiniMap={!compact}
+              colorByVelocity={true}
+            />
+          ) : (
+            <div 
+              className="flex flex-col items-center justify-center gap-3"
+              style={{ height: visualHeight }}
+            >
+              <Music className="w-10 h-10 text-muted-foreground/30" />
+              <p className="text-sm text-muted-foreground">Ноты не обнаружены</p>
+            </div>
+          )
         )}
 
 
