@@ -18,7 +18,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 // Critical path - minimal imports for first paint
 import { TracksGridSection } from "@/components/home/TracksGridSection";
-import { MainActionsBar } from "@/components/home/MainActionsBar";
 
 // Lazy loaded - above fold but can wait
 const HeroSectionPro = lazy(() => import("@/components/home/HeroSectionPro").then(m => ({ default: m.HeroSectionPro })));
@@ -226,11 +225,6 @@ const Index = () => {
             <CreatorToolsSection onRecordClick={handleRecord} />
           </motion.section>
         </Suspense>
-
-        {/* Main Actions Bar - critical path */}
-        <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.16 }}>
-          <MainActionsBar />
-        </motion.section>
 
         {/* Quick Play Section - lazy loaded */}
         {publicContent?.popularTracks && publicContent.popularTracks.length > 0 && (
