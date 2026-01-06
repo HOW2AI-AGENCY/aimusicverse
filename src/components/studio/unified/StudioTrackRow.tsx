@@ -50,13 +50,28 @@ const MidiNotesPreview = memo(function MidiNotesPreview({
       return { normalizedNotes: [], playheadPos: 0 };
     }
 
-    const pitches = notes.map((n: any) => n.pitch);
+    // Normalize note shape (we may store start_time/duration from transcription engines)
+    const normalizedInput = notes
+      .map((n: any) => {
+        const pitch = typeof n?.pitch === 'number' ? n.pitch : 60;
+        const startTime = typeof n?.startTime === 'number' ? n.startTime : (typeof n?.start_time === 'number' ? n.start_time : 0);
+        const dur = typeof n?.duration === 'number' ? n.duration : (typeof n?.dur === 'number' ? n.dur : 0.25);
+        const endTime = typeof n?.endTime === 'number' ? n.endTime : (typeof n?.end_time === 'number' ? n.end_time : startTime + dur);
+        return { pitch, startTime, endTime };
+      })
+      .filter((n: any) => Number.isFinite(n.pitch) && Number.isFinite(n.startTime) && Number.isFinite(n.endTime) && n.endTime > n.startTime);
+
+    if (normalizedInput.length === 0) {
+      return { normalizedNotes: [], playheadPos: (currentTime / duration) * 100 };
+    }
+
+    const pitches = normalizedInput.map((n: any) => n.pitch);
     const min = Math.min(...pitches);
     const max = Math.max(...pitches);
     const range = max - min || 1;
 
     return {
-      normalizedNotes: notes.map((n: any) => ({
+      normalizedNotes: normalizedInput.map((n: any) => ({
         x: (n.startTime / duration) * 100,
         width: ((n.endTime - n.startTime) / duration) * 100,
         y: ((max - n.pitch) / range) * 100,
