@@ -294,6 +294,26 @@ export function SectionEditorSheet({
                   inactive: 'border-pink-500/40 hover:border-pink-500/60',
                   dot: 'bg-pink-500'
                 },
+                'instrumental': { 
+                  active: 'bg-indigo-500/15 border-indigo-500 text-indigo-400 hover:bg-indigo-500/25',
+                  inactive: 'border-indigo-500/40 hover:border-indigo-500/60',
+                  dot: 'bg-indigo-500'
+                },
+                'interlude': { 
+                  active: 'bg-teal-500/15 border-teal-500 text-teal-400 hover:bg-teal-500/25',
+                  inactive: 'border-teal-500/40 hover:border-teal-500/60',
+                  dot: 'bg-teal-500'
+                },
+                'breakdown': { 
+                  active: 'bg-orange-600/15 border-orange-600 text-orange-300 hover:bg-orange-600/25',
+                  inactive: 'border-orange-600/40 hover:border-orange-600/60',
+                  dot: 'bg-orange-600'
+                },
+                'drop': { 
+                  active: 'bg-red-500/15 border-red-500 text-red-400 hover:bg-red-500/25',
+                  inactive: 'border-red-500/40 hover:border-red-500/60',
+                  dot: 'bg-red-500'
+                },
                 'unknown': { 
                   active: 'bg-slate-500/15 border-slate-500 text-slate-300 hover:bg-slate-500/25',
                   inactive: 'border-slate-500/30 hover:border-slate-500/50',

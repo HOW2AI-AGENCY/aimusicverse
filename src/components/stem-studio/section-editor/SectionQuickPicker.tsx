@@ -25,6 +25,10 @@ const SECTION_COLORS: Record<DetectedSection['type'], string> = {
   'outro': 'bg-rose-500/20 border-rose-500/50 text-rose-400',
   'pre-chorus': 'bg-cyan-500/20 border-cyan-500/50 text-cyan-400',
   'hook': 'bg-orange-500/20 border-orange-500/50 text-orange-400',
+  'instrumental': 'bg-indigo-500/20 border-indigo-500/50 text-indigo-400',
+  'interlude': 'bg-teal-500/20 border-teal-500/50 text-teal-400',
+  'breakdown': 'bg-orange-600/20 border-orange-600/50 text-orange-300',
+  'drop': 'bg-red-500/20 border-red-500/50 text-red-400',
   'unknown': 'bg-muted border-border text-muted-foreground',
 };
 

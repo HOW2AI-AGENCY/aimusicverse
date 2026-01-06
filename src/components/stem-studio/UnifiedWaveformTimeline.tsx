@@ -96,6 +96,38 @@ const SECTION_COLORS: Record<DetectedSection['type'], {
     progress: 'hsl(25 95% 53% / 0.7)',
     label: 'text-orange-400'
   },
+  instrumental: { 
+    bg: 'bg-indigo-500/20', 
+    bgHover: 'bg-indigo-500/30',
+    border: 'border-indigo-500/40', 
+    wave: 'hsl(234 89% 64% / 0.3)',
+    progress: 'hsl(234 89% 64% / 0.7)',
+    label: 'text-indigo-400'
+  },
+  interlude: { 
+    bg: 'bg-teal-500/20', 
+    bgHover: 'bg-teal-500/30',
+    border: 'border-teal-500/40', 
+    wave: 'hsl(168 76% 42% / 0.3)',
+    progress: 'hsl(168 76% 42% / 0.7)',
+    label: 'text-teal-400'
+  },
+  breakdown: { 
+    bg: 'bg-orange-600/20', 
+    bgHover: 'bg-orange-600/30',
+    border: 'border-orange-600/40', 
+    wave: 'hsl(20 91% 48% / 0.3)',
+    progress: 'hsl(20 91% 48% / 0.7)',
+    label: 'text-orange-300'
+  },
+  drop: { 
+    bg: 'bg-red-500/20', 
+    bgHover: 'bg-red-500/30',
+    border: 'border-red-500/40', 
+    wave: 'hsl(0 84% 60% / 0.3)',
+    progress: 'hsl(0 84% 60% / 0.7)',
+    label: 'text-red-400'
+  },
   unknown: { 
     bg: 'bg-muted/30', 
     bgHover: 'bg-muted/50',

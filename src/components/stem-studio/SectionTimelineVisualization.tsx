@@ -59,6 +59,10 @@ const SECTION_COLORS: Record<DetectedSection['type'], { bg: string; border: stri
   outro: { bg: 'bg-rose-500/30', border: 'border-rose-500/50', text: 'text-rose-400' },
   'pre-chorus': { bg: 'bg-cyan-500/30', border: 'border-cyan-500/50', text: 'text-cyan-400' },
   hook: { bg: 'bg-orange-500/30', border: 'border-orange-500/50', text: 'text-orange-400' },
+  instrumental: { bg: 'bg-indigo-500/30', border: 'border-indigo-500/50', text: 'text-indigo-400' },
+  interlude: { bg: 'bg-teal-500/30', border: 'border-teal-500/50', text: 'text-teal-400' },
+  breakdown: { bg: 'bg-orange-600/30', border: 'border-orange-600/50', text: 'text-orange-300' },
+  drop: { bg: 'bg-red-500/30', border: 'border-red-500/50', text: 'text-red-400' },
   unknown: { bg: 'bg-muted/50', border: 'border-muted', text: 'text-muted-foreground' },
 };
 
