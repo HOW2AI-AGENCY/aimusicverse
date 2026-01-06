@@ -62,20 +62,30 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
   const [progress, setProgress] = useState(0);
   const [result, setResult] = useState<TranscriptionResult | null>(null);
 
-  // Fetch existing transcription from guitar_recordings
+  // Fetch existing transcription from stem_transcriptions (preferred)
+  // - if stemId is provided: get latest for this stem
+  // - else if trackId is provided: get latest for this track
   const { data: existingTranscription, isLoading: loadingExisting } = useQuery({
     queryKey: ['transcription', stemId || trackId],
     queryFn: async () => {
       if (!stemId && !trackId) return null;
-      
-      const query = stemId 
-        ? supabase.from('guitar_recordings').select('*').eq('id', stemId).maybeSingle()
-        : trackId 
-          ? supabase.from('guitar_recordings').select('*').eq('track_id', trackId).maybeSingle()
-          : null;
-      
-      if (!query) return null;
-      
+
+      const query = stemId
+        ? supabase
+            .from('stem_transcriptions')
+            .select('*')
+            .eq('stem_id', stemId)
+            .order('created_at', { ascending: false })
+            .limit(1)
+            .maybeSingle()
+        : supabase
+            .from('stem_transcriptions')
+            .select('*')
+            .eq('track_id', trackId as string)
+            .order('created_at', { ascending: false })
+            .limit(1)
+            .maybeSingle();
+
       const { data, error } = await query;
       if (error) throw error;
       return data;
@@ -117,6 +127,12 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
 
       toast.success('Транскрипция завершена');
       queryClient.invalidateQueries({ queryKey: ['transcription'] });
+      if (stemId) queryClient.invalidateQueries({ queryKey: ['stem-transcriptions', stemId] });
+      if (trackId) {
+        queryClient.invalidateQueries({ queryKey: ['track-transcriptions', trackId] });
+        queryClient.invalidateQueries({ queryKey: ['track-midi-status', trackId] });
+      }
+      queryClient.invalidateQueries({ queryKey: ['tracks-midi-status'] });
       onComplete?.();
     } catch (err) {
       console.error('Basic Pitch error:', err);
@@ -171,6 +187,12 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
 
       toast.success('Транскрипция завершена');
       queryClient.invalidateQueries({ queryKey: ['transcription'] });
+      if (stemId) queryClient.invalidateQueries({ queryKey: ['stem-transcriptions', stemId] });
+      if (trackId) {
+        queryClient.invalidateQueries({ queryKey: ['track-transcriptions', trackId] });
+        queryClient.invalidateQueries({ queryKey: ['track-midi-status', trackId] });
+      }
+      queryClient.invalidateQueries({ queryKey: ['tracks-midi-status'] });
       onComplete?.();
     } catch (err) {
       console.error('Klangio error:', err);
@@ -214,12 +236,12 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
   const displayResult = result || (existingTranscription ? {
     midi_url: existingTranscription.midi_url,
     midi_quant_url: existingTranscription.midi_quant_url,
-    musicxml_url: existingTranscription.musicxml_url,
+    musicxml_url: existingTranscription.mxml_url,
     pdf_url: existingTranscription.pdf_url,
     gp5_url: existingTranscription.gp5_url,
     bpm: existingTranscription.bpm,
-    key: existingTranscription.key,
-    notes_count: Array.isArray(existingTranscription.notes) ? existingTranscription.notes.length : undefined,
+    key: existingTranscription.key_detected,
+    notes_count: existingTranscription.notes_count ?? (Array.isArray(existingTranscription.notes) ? existingTranscription.notes.length : undefined),
   } : null);
 
   const hasFiles = displayResult && (

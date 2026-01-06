@@ -1449,8 +1449,7 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
               trackId={sourceTrackId || undefined}
               stemType={selectedTranscriptionTrack.type}
               onComplete={() => {
-                setShowTranscriptionPanel(false);
-                setSelectedTranscriptionTrack(null);
+                // Keep panel open so user can download/view results immediately
               }}
               onClose={() => {
                 setShowTranscriptionPanel(false);
