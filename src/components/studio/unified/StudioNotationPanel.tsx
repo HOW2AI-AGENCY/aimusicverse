@@ -1,14 +1,19 @@
 /**
  * StudioNotationPanel
- * Displays musical notation (MusicXML) for a track/stem with playback sync
+ * Enhanced MIDI/MusicXML viewer with multiple visualization options
+ * - Sheet music (MusicXML)
+ * - Piano Roll (MIDI notes)
+ * - File downloads
+ * - Metadata display
  */
 
-import { memo, useState, useCallback, useEffect, useRef } from 'react';
+import { memo, useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { 
   Music, FileText, Download, Play, Pause, 
   Loader2, AlertCircle, RefreshCw, ChevronDown,
-  Guitar, Piano, Drum, Mic2
+  Guitar, Piano as PianoIcon, Drum, Mic2, Grid3X3,
+  Music2, Sparkles, Clock
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -25,6 +30,7 @@ import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { useQuery } from '@tanstack/react-query';
 import { MusicXMLViewer } from '@/components/guitar/MusicXMLViewer';
+import { PianoRoll, type MidiNote } from './PianoRoll';
 import type { StudioTrack } from '@/stores/useUnifiedStudioStore';
 
 interface StudioNotationPanelProps {
@@ -49,12 +55,13 @@ interface TranscriptionData {
   time_signature?: string;
   notes_count?: number;
   stem_type?: string;
+  notes?: MidiNote[];
 }
 
 const STEM_ICONS: Record<string, typeof Guitar> = {
   guitar: Guitar,
   bass: Guitar,
-  piano: Piano,
+  piano: PianoIcon,
   drums: Drum,
   vocal: Mic2,
   default: Music,
@@ -70,8 +77,9 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
   onClose,
   className,
 }: StudioNotationPanelProps) {
-  const [activeTab, setActiveTab] = useState<'notation' | 'files'>('notation');
+  const [activeTab, setActiveTab] = useState<'sheet' | 'piano-roll' | 'files'>('sheet');
   const [isDownloading, setIsDownloading] = useState<string | null>(null);
+  const [pianoRollNotes, setPianoRollNotes] = useState<MidiNote[]>([]);
   const cursorRef = useRef<HTMLDivElement>(null);
 
   // Fetch transcription data
@@ -98,6 +106,7 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
             key_detected: td.key as string | undefined,
             time_signature: td.time_signature as string | undefined,
             notes_count: typeof td.notes_count === 'number' ? td.notes_count : undefined,
+            notes: Array.isArray(td.notes) ? td.notes as MidiNote[] : undefined,
           } as TranscriptionData;
         }
       }
@@ -113,6 +122,20 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
       if (!data || data.length === 0) return null;
       
       const item = data[0];
+      
+      // Parse notes from JSON if available
+      let notes: MidiNote[] | undefined;
+      if (item.notes && typeof item.notes === 'object') {
+        try {
+          const notesData = item.notes as any;
+          if (Array.isArray(notesData)) {
+            notes = notesData;
+          }
+        } catch (e) {
+          console.error('Failed to parse MIDI notes:', e);
+        }
+      }
+      
       return {
         id: item.id,
         midi_url: item.midi_url ?? undefined,
@@ -123,10 +146,18 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
         key_detected: item.key_detected ?? undefined,
         time_signature: item.time_signature ?? undefined,
         notes_count: item.notes_count ?? undefined,
+        notes,
       } as TranscriptionData;
     },
     enabled: !!(trackId || track.id),
   });
+
+  // Update piano roll notes when transcription data changes
+  useEffect(() => {
+    if (transcription?.notes) {
+      setPianoRollNotes(transcription.notes);
+    }
+  }, [transcription]);
 
   // Download file helper
   const downloadFile = useCallback(async (url: string, filename: string) => {
@@ -244,10 +275,14 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
 
       {/* Tabs */}
       <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as typeof activeTab)} className="flex-1 flex flex-col min-h-0">
-        <TabsList className="mx-3 mt-2 grid grid-cols-2 w-auto">
-          <TabsTrigger value="notation" className="text-xs">
+        <TabsList className="mx-3 mt-2 grid grid-cols-3 w-auto">
+          <TabsTrigger value="sheet" className="text-xs">
             <Music className="w-3 h-3 mr-1.5" />
             Ноты
+          </TabsTrigger>
+          <TabsTrigger value="piano-roll" className="text-xs" disabled={!transcription?.notes || transcription.notes.length === 0}>
+            <Grid3X3 className="w-3 h-3 mr-1.5" />
+            Piano Roll
           </TabsTrigger>
           <TabsTrigger value="files" className="text-xs">
             <FileText className="w-3 h-3 mr-1.5" />
@@ -255,7 +290,7 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="notation" className="flex-1 min-h-0 p-3">
+        <TabsContent value="sheet" className="flex-1 min-h-0 p-3">
           {transcription.mxml_url ? (
             <div className="h-full overflow-hidden rounded-lg border border-border/50">
               <MusicXMLViewer
@@ -269,7 +304,34 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
               <div className="text-center">
                 <Music className="w-12 h-12 mx-auto mb-3 opacity-50" />
                 <p className="text-sm">MusicXML недоступен</p>
-                <p className="text-xs mt-1">Используйте Klangio для получения нотной записи</p>
+                <p className="text-xs mt-1">Используйте транскрипцию для получения нотной записи</p>
+              </div>
+            </div>
+          )}
+        </TabsContent>
+
+        <TabsContent value="piano-roll" className="flex-1 min-h-0 p-3">
+          {transcription?.notes && transcription.notes.length > 0 ? (
+            <div className="h-full overflow-hidden rounded-lg border border-border/50 bg-background">
+              <PianoRoll
+                notes={pianoRollNotes}
+                onNotesChange={setPianoRollNotes}
+                duration={track.duration || 60}
+                bpm={transcription.bpm}
+                timeSignature={transcription.time_signature}
+                currentTime={currentTime}
+                onSeek={onSeek}
+                isPlaying={isPlaying}
+                readOnly={true}
+                className="h-full"
+              />
+            </div>
+          ) : (
+            <div className="flex items-center justify-center h-full text-muted-foreground">
+              <div className="text-center">
+                <Grid3X3 className="w-12 h-12 mx-auto mb-3 opacity-50" />
+                <p className="text-sm">MIDI данные недоступны</p>
+                <p className="text-xs mt-1">Выполните транскрипцию трека для просмотра нот в Piano Roll</p>
               </div>
             </div>
           )}
