@@ -37,6 +37,12 @@ import { useSaveTranscription } from '@/hooks/useStemTranscription';
 
 const log = logger.child({ module: 'TranscriptionExportPanel' });
 
+// Engine model names for database storage
+const ENGINE_MODEL_NAMES = {
+  replicate: 'replicate-basic-pitch',
+  klangio: (model: TranscriptionModel) => `klangio-${model}`,
+} as const;
+
 interface TranscriptionFiles {
   midiUrl?: string;
   midiQuantUrl?: string;
@@ -143,7 +149,7 @@ export function TranscriptionExportPanel({
               stemId,
               trackId,
               midiUrl: data.midi_url,
-              model: 'replicate-basic-pitch',
+              model: ENGINE_MODEL_NAMES.replicate,
             });
             log.info('Transcription saved to database');
           } catch (saveError) {
@@ -202,7 +208,7 @@ export function TranscriptionExportPanel({
                 mxmlUrl: data.files.mxml,
                 gp5Url: data.files.gp5,
                 pdfUrl: data.files.pdf,
-                model: `klangio-${selectedModel}`,
+                model: ENGINE_MODEL_NAMES.klangio(selectedModel),
                 bpm: data.bpm,
                 keyDetected: data.key,
                 timeSignature: data.time_signature,

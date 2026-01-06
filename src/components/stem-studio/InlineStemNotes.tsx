@@ -9,7 +9,7 @@
  * - Quick transcription button if no data exists
  */
 
-import { memo, useState, useCallback } from 'react';
+import { memo, useState, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { FileMusic, Loader2, Music2, ChevronDown, ChevronUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -41,6 +41,27 @@ export const InlineStemNotes = memo(function InlineStemNotes({
   const handleToggleExpand = useCallback(() => {
     setIsExpanded(prev => !prev);
   }, []);
+
+  // Memoize formatted metadata to avoid recalculation on every render
+  const metadataText = useMemo(() => {
+    if (!latestTranscription) return '';
+    
+    const parts: string[] = [];
+    
+    if (latestTranscription.notes_count) {
+      parts.push(`${latestTranscription.notes_count} нот`);
+    }
+    
+    if (latestTranscription.bpm) {
+      parts.push(`${Math.round(latestTranscription.bpm)} BPM`);
+    }
+    
+    if (latestTranscription.key_detected) {
+      parts.push(latestTranscription.key_detected);
+    }
+    
+    return parts.join(' • ');
+  }, [latestTranscription]);
 
   // Don't show if no transcription and not loading
   if (!hasTranscription && !isLoading) {
@@ -76,9 +97,7 @@ export const InlineStemNotes = memo(function InlineStemNotes({
               <div className="flex items-center gap-1.5">
                 <Music2 className="w-3 h-3 text-primary" />
                 <span className="text-xs text-muted-foreground">
-                  {latestTranscription.notes_count || 0} нот
-                  {latestTranscription.bpm && ` • ${Math.round(latestTranscription.bpm)} BPM`}
-                  {latestTranscription.key_detected && ` • ${latestTranscription.key_detected}`}
+                  {metadataText}
                 </span>
               </div>
               <Button
@@ -121,8 +140,6 @@ export const InlineStemNotes = memo(function InlineStemNotes({
 
             {/* Unified Notes Viewer */}
             <UnifiedNotesViewer
-              midiUrl={latestTranscription.midi_url}
-              musicXmlUrl={latestTranscription.mxml_url}
               files={{
                 midiUrl: latestTranscription.midi_url,
                 midiQuantUrl: latestTranscription.midi_quant_url,
