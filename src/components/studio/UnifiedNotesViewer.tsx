@@ -131,20 +131,22 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
     if (typeof url !== 'string') return null;
     const trimmed = url.trim();
     if (!trimmed || trimmed === '0') return null;
+    
+    // Skip XML content (raw string)
+    if (trimmed.startsWith('<')) return null;
 
     // absolute
     if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) return trimmed;
+    
+    // blob/data URLs
+    if (trimmed.startsWith('blob:') || trimmed.startsWith('data:')) return trimmed;
 
-    // relative (e.g. /storage/v1/...) — превращаем в absolute
-    if (trimmed.startsWith('/')) {
-      try {
-        return new URL(trimmed, window.location.origin).toString();
-      } catch {
-        return null;
-      }
+    // relative (e.g. /storage/v1/... or storage/v1/...) — превращаем в absolute
+    try {
+      return new URL(trimmed, window.location.origin).toString();
+    } catch {
+      return null;
     }
-
-    return null;
   };
 
   // Determine effective URLs (with normalization)
@@ -223,6 +225,7 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
     musicXmlFailed,
     parseMusicXmlFromUrl,
   ]);
+  // Convert MusicXML parsed notes to MIDI format (now using SECONDS directly from parser)
   const xmlNotesAsMidi = useMemo((): ParsedMidiNote[] => {
     if (!parsedXml?.notes?.length) {
       return [];
@@ -230,20 +233,29 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
     const converted = parsedXml.notes.map((n) => {
       const pitch = n.midiPitch ?? 60;
       const startTime = n.startTime ?? 0;
-      // В useMusicXmlParser duration хранится в "тиках" (см. measureTime += duration / 256)
-      const durTicks = n.duration ?? 128;
-      const durSeconds = Math.max(0.02, durTicks / 256);
+      // Parser now stores duration in SECONDS directly
+      const dur = Math.max(0.02, n.duration ?? 0.25);
       return {
         pitch,
         startTime,
-        endTime: startTime + durSeconds,
-        duration: durSeconds,
+        endTime: startTime + dur,
+        duration: dur,
         velocity: 100,
         noteName: `${NOTE_NAMES[pitch % 12]}${Math.floor(pitch / 12) - 1}`,
         track: 0,
       };
     });
-    console.log('[UnifiedNotesViewer] xmlNotesAsMidi converted', converted.length, 'notes', { durationFromXml: parsedXml?.duration });
+    
+    if (converted.length > 0) {
+      const minStart = Math.min(...converted.map(n => n.startTime));
+      const maxEnd = Math.max(...converted.map(n => n.endTime));
+      console.log('[UnifiedNotesViewer] xmlNotesAsMidi converted', converted.length, 'notes', { 
+        durationFromXml: parsedXml?.duration,
+        minStart,
+        maxEnd,
+        bpm: parsedXml?.bpm,
+      });
+    }
     return converted;
   }, [parsedXml]);
 
