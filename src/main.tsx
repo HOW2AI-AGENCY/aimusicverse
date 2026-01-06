@@ -1,6 +1,12 @@
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
+// Feature 032-professional-ui: Design system CSS imports
+import "./styles/typography.css";
+import "./styles/colors.css";
+import "./styles/spacing.css";
+import "./styles/shadows.css";
+import "./styles/animations.css";
 import { logger } from "./lib/logger";
 import { initSentry, captureError } from "./lib/sentry";
 import { initTelemetry } from "./lib/telemetry";
@@ -12,7 +18,7 @@ const bootLog = (msg: string) => {
   const entry = `[${timestamp}] ${msg}`;
   BOOT_LOG.push(entry);
   console.log(`[BOOT] ${entry}`);
-  
+
   // Also save to sessionStorage for persistence
   try {
     sessionStorage.setItem('musicverse_boot_log', JSON.stringify(BOOT_LOG));
@@ -44,18 +50,18 @@ const mainLogger = logger.child({ module: 'main' });
 
 // Handle unhandled promise rejections
 window.addEventListener('unhandledrejection', (event) => {
-  const errorMsg = event.reason instanceof Error 
-    ? `${event.reason.name}: ${event.reason.message}` 
+  const errorMsg = event.reason instanceof Error
+    ? `${event.reason.name}: ${event.reason.message}`
     : String(event.reason);
-  
+
   bootLog(`Unhandled rejection: ${errorMsg}`);
-  
+
   // Ignore AbortError - these are expected during component cleanup
   if (event.reason?.name === 'AbortError') {
     event.preventDefault();
     return;
   }
-  
+
   const error = event.reason instanceof Error ? event.reason : new Error(String(event.reason));
   mainLogger.error('Unhandled promise rejection', error);
   captureError(error, { type: 'unhandledrejection' });
@@ -65,14 +71,14 @@ window.addEventListener('unhandledrejection', (event) => {
 // Handle uncaught errors
 window.addEventListener('error', (event) => {
   bootLog(`Uncaught error: ${event.message} at ${event.filename}:${event.lineno}`);
-  
+
   const error = event.error instanceof Error ? event.error : new Error(event.message);
   mainLogger.error('Uncaught error', error, {
     filename: event.filename,
     lineno: event.lineno,
     colno: event.colno,
   });
-  captureError(error, { 
+  captureError(error, {
     type: 'uncaughterror',
     filename: event.filename,
     lineno: event.lineno,
@@ -99,7 +105,7 @@ if ('visualViewport' in window && window.visualViewport) {
     const keyboardHeight = window.innerHeight - window.visualViewport!.height;
     const safeKeyboardHeight = Math.max(0, keyboardHeight);
     document.documentElement.style.setProperty('--keyboard-height', `${safeKeyboardHeight}px`);
-    
+
     // Add/remove class for keyboard-open state
     if (safeKeyboardHeight > 100) {
       document.body.classList.add('keyboard-open');
@@ -107,7 +113,7 @@ if ('visualViewport' in window && window.visualViewport) {
       document.body.classList.remove('keyboard-open');
     }
   };
-  
+
   window.visualViewport.addEventListener('resize', updateKeyboardHeight);
   window.visualViewport.addEventListener('scroll', updateKeyboardHeight);
   updateKeyboardHeight();
@@ -133,12 +139,12 @@ if ('serviceWorker' in navigator) {
 try {
   bootLog('Creating React root...');
   const rootElement = document.getElementById("root");
-  
+
   if (!rootElement) {
     bootLog('CRITICAL: Root element not found!');
     throw new Error('Root element not found');
   }
-  
+
   bootLog('Root element found, rendering App...');
   const root = createRoot(rootElement);
   root.render(<App />);
@@ -146,7 +152,7 @@ try {
 } catch (e) {
   bootLog(`CRITICAL: React render failed: ${e}`);
   captureError(e);
-  
+
   // Show error on screen
   const root = document.getElementById("root");
   if (root) {
