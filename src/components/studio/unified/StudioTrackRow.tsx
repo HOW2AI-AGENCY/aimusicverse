@@ -504,7 +504,7 @@ export const StudioTrackRow = memo(function StudioTrackRow({
         </div>
 
         {/* MIDI Notes Preview - show if we have transcription data */}
-        {transcription && (transcription.notes?.length || transcription.midiUrl || transcription.pdfUrl || transcription.gp5Url) && (
+        {transcription && (transcription.notes?.length || transcription.midiUrl || transcription.pdfUrl || transcription.gp5Url || transcription.mxmlUrl || transcription.notesCount) && (
           <div className="px-3 pb-2">
             <MidiNotesPreview
               notes={transcription.notes || []}

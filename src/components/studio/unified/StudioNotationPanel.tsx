@@ -88,6 +88,7 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
   const { data: transcription, isLoading, error, refetch } = useQuery({
     queryKey: ['studio-transcription', trackId, stemType || null, versionId, track.id],
     queryFn: async () => {
+      console.log('[StudioNotationPanel] Fetching transcription:', { trackId, stemType, versionId, trackTrackId: track.id });
       // First try to get from track_versions.transcription_data (cached)
       if (versionId) {
         const { data: version } = await supabase
@@ -230,6 +231,18 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
     },
     enabled: !!(trackId || track.id),
   });
+
+  // Log loaded transcription for debugging
+  useEffect(() => {
+    if (transcription) {
+      console.log('[StudioNotationPanel] Loaded transcription:', {
+        hasMidi: !!transcription.midi_url,
+        hasMxml: !!transcription.mxml_url,
+        hasPdf: !!transcription.pdf_url,
+        notesCount: transcription.notes?.length,
+      });
+    }
+  }, [transcription]);
 
   // Update piano roll notes when transcription data changes
   useEffect(() => {
