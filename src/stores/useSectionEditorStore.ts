@@ -69,12 +69,15 @@ export const useSectionEditorStore = create<SectionEditorState>((set) => ({
     editMode: 'editing',
   }),
   
-  setCustomRange: (start, end) => set((state) => ({
-    customRange: { start, end },
-    selectedSection: null,
-    selectedSectionIndex: null,
-    editMode: state.editMode === 'none' ? 'selecting' : state.editMode,
-  })),
+  setCustomRange: (start, end) => set((state) => {
+    // Keep lyrics when adjusting range (lyrics sync handled by SynchronizedSectionLyrics component)
+    return {
+      customRange: { start, end },
+      selectedSection: null,
+      selectedSectionIndex: null,
+      editMode: state.editMode === 'none' ? 'selecting' : state.editMode,
+    };
+  }),
   
   setEditedLyrics: (lyrics) => set({ editedLyrics: lyrics }),
   setPrompt: (prompt) => set({ prompt }),

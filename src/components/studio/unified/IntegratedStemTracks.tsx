@@ -394,8 +394,8 @@ const StemTrackRowMobile = memo(({
           )}
         </AnimatePresence>
 
-        {/* Waveform - Unified canvas-based renderer */}
-        <div className="h-14 px-1 pb-1">
+        {/* Waveform - Unified canvas-based renderer (no padding for sync with MIDI/cursor) */}
+        <div className="h-14 relative">
           <UnifiedWaveform
             audioUrl={stem.audio_url}
             currentTime={currentTime}
@@ -407,6 +407,16 @@ const StemTrackRowMobile = memo(({
             height={56}
             onSeek={onSeek}
           />
+          {/* Playhead cursor */}
+          {duration > 0 && (
+            <div 
+              className="absolute top-0 bottom-0 w-0.5 bg-primary pointer-events-none z-10"
+              style={{ 
+                left: `${(currentTime / duration) * 100}%`,
+                boxShadow: '0 0 6px hsl(var(--primary))',
+              }}
+            />
+          )}
         </div>
 
         {/* Notes Preview (if transcription exists) */}
@@ -565,8 +575,8 @@ const StemTrackRowDesktop = memo(({
         />
       </div>
 
-      {/* Waveform - Unified canvas-based renderer */}
-      <div className="flex-1 h-8 min-w-0 rounded overflow-hidden bg-background/30">
+      {/* Waveform - Unified canvas-based renderer (no padding for sync with MIDI/cursor) */}
+      <div className="flex-1 h-8 min-w-0 relative bg-background/30">
         <UnifiedWaveform
           audioUrl={stem.audio_url}
           currentTime={currentTime}
@@ -578,6 +588,16 @@ const StemTrackRowDesktop = memo(({
           height={32}
           onSeek={onSeek}
         />
+        {/* Playhead cursor */}
+        {duration > 0 && (
+          <div 
+            className="absolute top-0 bottom-0 w-0.5 bg-primary pointer-events-none z-10"
+            style={{ 
+              left: `${(currentTime / duration) * 100}%`,
+              boxShadow: '0 0 4px hsl(var(--primary))',
+            }}
+          />
+        )}
       </div>
 
       {/* Notes Preview (if transcription exists) - Desktop version */}
