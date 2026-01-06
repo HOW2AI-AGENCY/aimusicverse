@@ -1128,7 +1128,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
         {/* Integrated Stem Tracks */}
         {hasStems && (
           <IntegratedStemTracks
-            stems={stems}
+            stems={sortedStems}
             stemStates={stemStates}
             transcriptionsByStem={transcriptionsByStem}
             isPlaying={isPlaying}
