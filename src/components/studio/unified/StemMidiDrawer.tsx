@@ -29,7 +29,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { TrackStem } from '@/hooks/useTrackStems';
 import { useReplicateMidiTranscription, TranscriptionFiles } from '@/hooks/useReplicateMidiTranscription';
 import { useStemTranscription, useSaveTranscription } from '@/hooks/useStemTranscription';
-import { UnifiedNotesViewer } from '@/components/studio/UnifiedNotesViewer';
+import { StemMidiVisualization } from '@/components/studio/StemMidiVisualization';
 import { MidiFilesCard } from '@/components/studio/MidiFilesCard';
 import { PianoRoll, type MidiNote } from './PianoRoll';
 import { toast } from 'sonner';
@@ -575,38 +575,50 @@ export function StemMidiDrawer({
             </TabsContent>
 
             <TabsContent value="player" className="flex-1 min-h-0 m-0">
-              <ScrollArea className="h-full -mx-6 px-6">
-                <div className="pb-6">
-                  {(activeMidiUrl || latestMidiUrl) ? (
-                    <UnifiedNotesViewer
-                      midiUrl={activeMidiUrl || latestMidiUrl}
-                      musicXmlUrl={transcriptionFiles.mxml || latestTranscription?.mxml_url}
-                      notes={latestTranscription?.notes as any[] || undefined}
-                      bpm={latestTranscription?.bpm || undefined}
-                      keySignature={latestTranscription?.key_detected || undefined}
-                      timeSignature={latestTranscription?.time_signature || undefined}
-                      notesCount={latestTranscription?.notes_count || undefined}
-                      model={latestTranscription?.model}
-                      files={{
-                        midiUrl: transcriptionFiles.midi || latestTranscription?.midi_url,
-                        midiQuantUrl: transcriptionFiles.midi_quant || latestTranscription?.midi_quant_url,
-                        pdfUrl: transcriptionFiles.pdf || latestTranscription?.pdf_url,
-                        gp5Url: transcriptionFiles.gp5 || latestTranscription?.gp5_url,
-                        musicXmlUrl: transcriptionFiles.mxml || latestTranscription?.mxml_url,
-                      }}
-                    />
-                  ) : (
-                    <div className="flex flex-col items-center justify-center py-8 sm:py-12 text-center px-4">
-                      <Piano className="w-10 h-10 sm:w-12 sm:h-12 text-muted-foreground mb-3 sm:mb-4" />
-                      <p className="text-sm text-muted-foreground">Нет MIDI для воспроизведения</p>
-                      <p className="text-xs text-muted-foreground mt-1">
-                        Создайте транскрипцию во вкладке "Создать"
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </ScrollArea>
+              <div className="h-full -mx-6 px-6">
+                {(activeMidiUrl || latestMidiUrl || (latestTranscription?.notes && Array.isArray(latestTranscription.notes))) ? (
+                  <StemMidiVisualization
+                    notes={(latestTranscription?.notes as Array<{
+                      pitch?: number;
+                      start_time?: number;
+                      startTime?: number;
+                      end_time?: number;
+                      endTime?: number;
+                      duration?: number;
+                      velocity?: number;
+                    }> || []).map(n => ({
+                      pitch: n.pitch ?? 60,
+                      startTime: n.start_time ?? n.startTime ?? 0,
+                      endTime: n.end_time ?? n.endTime ?? ((n.start_time ?? n.startTime ?? 0) + (n.duration ?? 0.5)),
+                      duration: n.duration ?? 0.5,
+                      velocity: n.velocity ?? 100,
+                    }))}
+                    duration={trackDuration}
+                    bpm={latestTranscription?.bpm || undefined}
+                    keySignature={latestTranscription?.key_detected || undefined}
+                    timeSignature={latestTranscription?.time_signature || undefined}
+                    stemType={stem?.stem_type}
+                    files={{
+                      midiUrl: transcriptionFiles.midi || latestTranscription?.midi_url,
+                      midiQuantUrl: transcriptionFiles.midi_quant || latestTranscription?.midi_quant_url,
+                      pdfUrl: transcriptionFiles.pdf || latestTranscription?.pdf_url,
+                      gp5Url: transcriptionFiles.gp5 || latestTranscription?.gp5_url,
+                      musicXmlUrl: transcriptionFiles.mxml || latestTranscription?.mxml_url,
+                    }}
+                    className="h-full"
+                  />
+                ) : (
+                  <div className="flex flex-col items-center justify-center py-8 sm:py-12 text-center px-4">
+                    <Piano className="w-10 h-10 sm:w-12 sm:h-12 text-muted-foreground mb-3 sm:mb-4" />
+                    <p className="text-sm text-muted-foreground">Нет MIDI для воспроизведения</p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Создайте транскрипцию во вкладке "Создать"
+                    </p>
+                  </div>
+                )}
+              </div>
             </TabsContent>
+
 
             {/* Piano Roll Editor Tab */}
             <TabsContent value="editor" className="flex-1 min-h-0 m-0">
