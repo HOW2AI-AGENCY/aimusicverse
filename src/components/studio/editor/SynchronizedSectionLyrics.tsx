@@ -62,15 +62,20 @@ export function SynchronizedSectionLyrics({
     return initialLyrics || '';
   }, [sectionWords, initialLyrics]);
 
-  // Notify parent when lyrics change due to range change
+  // Track if we've already synced lyrics for this range to prevent loops
+  const lastSyncedRangeRef = useRef<string>('');
+
+  // Notify parent when lyrics change due to range change (only once per unique range)
   useEffect(() => {
-    if (sectionWords.length > 0) {
+    const rangeKey = `${startTime.toFixed(2)}-${endTime.toFixed(2)}`;
+    if (sectionWords.length > 0 && rangeKey !== lastSyncedRangeRef.current) {
       const newLyrics = sectionWords.map(w => w.word).join(' ').replace(/\s+/g, ' ').trim();
-      if (newLyrics && newLyrics !== initialLyrics) {
+      if (newLyrics) {
+        lastSyncedRangeRef.current = rangeKey;
         onLyricsChange(newLyrics);
       }
     }
-  }, [sectionWords, initialLyrics, onLyricsChange]);
+  }, [sectionWords, startTime, endTime, onLyricsChange]);
 
   // Update edited text when lyrics change
   useEffect(() => {
