@@ -13,9 +13,9 @@ interface PlayOverlayProps {
 }
 
 const SIZE_CONFIG = {
-  sm: { button: 'w-6 h-6', icon: 'w-2.5 h-2.5' },
-  md: { button: 'w-8 h-8', icon: 'w-3.5 h-3.5' },
-  lg: { button: 'w-12 h-12', icon: 'w-5 h-5' },
+  sm: { button: 'w-5 h-5', icon: 'w-2 h-2' },
+  md: { button: 'w-7 h-7', icon: 'w-3 h-3' },
+  lg: { button: 'w-9 h-9', icon: 'w-4 h-4' },
 };
 
 /**
@@ -44,23 +44,23 @@ export const PlayOverlay = memo(function PlayOverlay({
   return (
     <div
       className={cn(
-        "absolute inset-0 bg-black/40 flex items-center justify-center cursor-pointer transition-all",
-        !isMobile && !isPlaying && "opacity-0 group-hover:opacity-100",
-        isMobile && !isPlaying && "bg-black/20",
-        isPlaying && "opacity-100 bg-black/50",
+        "absolute inset-0 flex items-center justify-center cursor-pointer transition-all",
+        !isMobile && !isPlaying && "opacity-0 group-hover:opacity-100 bg-black/30",
+        isMobile && !isPlaying && "opacity-0",
+        isPlaying && "opacity-100 bg-black/40",
         className
       )}
       onClick={handleClick}
     >
       <div className={cn(
         config.button,
-        "rounded-full flex items-center justify-center transition-transform",
-        isPlaying ? "bg-primary scale-100" : "bg-white/90 scale-90 group-hover:scale-100"
+        "rounded-full flex items-center justify-center transition-transform backdrop-blur-sm",
+        isPlaying ? "bg-primary/90 scale-100" : "bg-white/80 scale-90 group-hover:scale-100"
       )}>
         {isPlaying ? (
           <Pause className={cn(config.icon, "text-white")} aria-hidden="true" />
         ) : (
-          <Play className={cn(config.icon, "ml-0.5 text-black/80")} aria-hidden="true" />
+          <Play className={cn(config.icon, "ml-0.5 text-black/70")} aria-hidden="true" />
         )}
       </div>
     </div>

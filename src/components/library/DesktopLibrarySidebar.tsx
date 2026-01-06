@@ -180,6 +180,8 @@ export function DesktopLibrarySidebar({
           <div className="px-3 py-3 space-y-3">
             {/* Quick Actions */}
             <GenerateFormActions
+              onOpenAudioDialog={() => setAudioActionDialogOpen(true)}
+              onOpenProjectDialog={() => setProjectDialogOpen(true)}
               onOpenArtistDialog={() => setArtistDialogOpen(true)}
             />
 
