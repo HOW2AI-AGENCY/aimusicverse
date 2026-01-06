@@ -410,8 +410,15 @@ const StemTrackRowMobile = memo(({
           />
         </div>
 
-        {/* Notes Preview (if transcription exists with notes or PDF) */}
-        {transcription && (transcription.notes || transcription.pdf_url || transcription.midi_url) && (
+        {/* Notes Preview (if transcription exists) */}
+        {transcription && (
+          transcription.notes || 
+          transcription.pdf_url || 
+          transcription.midi_url || 
+          transcription.gp5_url || 
+          transcription.mxml_url ||
+          transcription.notes_count
+        ) && (
           <div className="px-3 pb-2">
             <StemNotesPreview
               transcription={transcription}
@@ -419,6 +426,7 @@ const StemTrackRowMobile = memo(({
               duration={duration}
               onViewFull={() => onAction('view-notes')}
               onDownloadPdf={() => transcription.pdf_url && window.open(transcription.pdf_url, '_blank')}
+              onDownloadMidi={() => transcription.midi_url && window.open(transcription.midi_url, '_blank')}
             />
           </div>
         )}
