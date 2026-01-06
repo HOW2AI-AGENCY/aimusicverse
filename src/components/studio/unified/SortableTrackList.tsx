@@ -26,7 +26,9 @@ import { StudioTrack } from '@/stores/useUnifiedStudioStore';
 import { StudioTrackRow } from './StudioTrackRow';
 import { StudioPendingTrackRow } from './StudioPendingTrackRow';
 import { cn } from '@/lib/utils';
-import { useStemTypeTranscriptionStatus } from '@/hooks/studio/useStemTypeTranscriptionStatus';
+import { useStemTypeTranscriptionStatus, StemTranscriptionData } from '@/hooks/studio/useStemTypeTranscriptionStatus';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
 
 interface SortableTrackListProps {
   tracks: StudioTrack[];
@@ -55,6 +57,7 @@ interface SortableTrackItemProps {
   isSourceTrack?: boolean;
   stemsExist?: boolean;
   hasTranscription?: boolean;
+  transcription?: StemTranscriptionData | null;
   onToggleMute: () => void;
   onToggleSolo: () => void;
   onVolumeChange: (volume: number) => void;
@@ -128,6 +131,7 @@ const SortableTrackItem = memo(function SortableTrackItem({
         isSourceTrack={props.isSourceTrack}
         stemsExist={props.stemsExist}
         hasTranscription={props.hasTranscription}
+        transcription={props.transcription}
         onToggleMute={props.onToggleMute}
         onToggleSolo={props.onToggleSolo}
         onVolumeChange={props.onVolumeChange}
@@ -169,6 +173,59 @@ export const SortableTrackList = memo(function SortableTrackList({
     stemTypes,
   });
 
+  // Fetch full transcription data for all stems that have transcriptions
+  const { data: transcriptionsMap } = useQuery({
+    queryKey: ['stem-transcriptions-full', sourceTrackId, stemTypes.sort().join(',')],
+    queryFn: async (): Promise<Record<string, StemTranscriptionData>> => {
+      if (!sourceTrackId || stemTypes.length === 0) return {};
+
+      // Get stems for this track
+      const { data: stems, error: stemsError } = await supabase
+        .from('track_stems')
+        .select('id, stem_type')
+        .eq('track_id', sourceTrackId)
+        .in('stem_type', stemTypes);
+
+      if (stemsError || !stems?.length) return {};
+
+      const stemIds = stems.map(s => s.id);
+
+      // Get transcriptions for these stems
+      const { data: transcriptions, error: transError } = await supabase
+        .from('stem_transcriptions')
+        .select('*')
+        .in('stem_id', stemIds);
+
+      if (transError || !transcriptions?.length) return {};
+
+      // Build map: stemType -> transcription data
+      const result: Record<string, StemTranscriptionData> = {};
+      
+      for (const trans of transcriptions) {
+        const stem = stems.find(s => s.id === trans.stem_id);
+        if (!stem) continue;
+
+        result[stem.stem_type] = {
+          stemType: stem.stem_type,
+          stemId: stem.id,
+          midiUrl: trans.midi_url,
+          pdfUrl: trans.pdf_url,
+          gp5Url: trans.gp5_url,
+          mxmlUrl: trans.mxml_url,
+          notes: trans.notes as any[] | null,
+          notesCount: trans.notes_count,
+          bpm: trans.bpm ? Number(trans.bpm) : null,
+          keyDetected: trans.key_detected,
+          durationSeconds: trans.duration_seconds ? Number(trans.duration_seconds) : null,
+        };
+      }
+
+      return result;
+    },
+    enabled: !!sourceTrackId && stemTypes.length > 0,
+    staleTime: 60 * 1000,
+  });
+
   // DnD kit needs stable item IDs
   const trackIds = useMemo(() => tracks.map((t) => t.id), [tracks]);
   
@@ -207,13 +264,14 @@ export const SortableTrackList = memo(function SortableTrackList({
           {tracks.map((track) => {
             // Check if this track is the source track (main track that can be extended/replaced)
             // A track is the source if: it has type 'main' OR the track.id matches the original source
-            const stemTypes = ['vocal', 'instrumental', 'drums', 'bass', 'other'];
+            const stemTypesArr = ['vocal', 'instrumental', 'drums', 'bass', 'other'];
             const isSourceTrack = track.type === 'main' || 
-              (tracks.length > 0 && tracks[0].id === track.id && !stemTypes.includes(track.type)) ||
+              (tracks.length > 0 && tracks[0].id === track.id && !stemTypesArr.includes(track.type)) ||
               (sourceTrackId != null && track.id === sourceTrackId);
             
             // Check if track has transcription (by stem type for this studio project)
             const hasTranscription = transcriptionStatus?.[track.type] || false;
+            const transcription = transcriptionsMap?.[track.type] || null;
             
             return (
               <SortableTrackItem
@@ -226,6 +284,7 @@ export const SortableTrackList = memo(function SortableTrackList({
                 isSourceTrack={isSourceTrack}
                 stemsExist={stemsExist}
                 hasTranscription={hasTranscription}
+                transcription={transcription}
                 onToggleMute={() => onToggleMute(track.id)}
                 onToggleSolo={() => onToggleSolo(track.id)}
                 onVolumeChange={(v) => onVolumeChange(track.id, v)}
