@@ -4,7 +4,7 @@
  */
 
 import { memo, useState, useCallback } from 'react';
-import { 
+import {
   Music2, FileMusic, FileText, Loader2,
   Zap, Settings2, Check
 } from 'lucide-react';
@@ -20,6 +20,7 @@ import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import type { StudioTrack } from '@/stores/useUnifiedStudioStore';
+import { useSaveTranscription } from '@/hooks/useStemTranscription';
 
 interface StudioTranscriptionPanelProps {
   track: StudioTrack;
@@ -55,6 +56,7 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
   onClose,
 }: StudioTranscriptionPanelProps) {
   const queryClient = useQueryClient();
+  const { saveTranscription } = useSaveTranscription();
   
   const [engine, setEngine] = useState<TranscriptionEngine>('basic-pitch');
   const [klangioModel, setKlangioModel] = useState<KlangioModel>('universal');
@@ -147,10 +149,41 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
       if (!data?.success) throw new Error(data?.error || 'Transcription failed');
 
       setProgress(100);
+      const midiUrl = data?.files?.midi || data?.midiUrl || null;
+      const notesCount = data?.notes_count || (Array.isArray(data?.notes) ? data.notes.length : undefined);
+
       setResult({
-        midi_url: data?.files?.midi || data?.midiUrl,
-        notes_count: data?.notes_count || (Array.isArray(data?.notes) ? data.notes.length : undefined),
+        midi_url: midiUrl ?? undefined,
+        notes_count: notesCount,
       });
+
+      // Persist result to database so icons/visualization appear across sessions
+      try {
+        let resolvedStemId = stemId;
+        if (!resolvedStemId && trackId && stemType) {
+          const { data: stem } = await supabase
+            .from('track_stems')
+            .select('id')
+            .eq('track_id', trackId)
+            .eq('stem_type', stemType)
+            .maybeSingle();
+          resolvedStemId = stem?.id;
+        }
+
+        if (trackId && resolvedStemId && (midiUrl || notesCount)) {
+          await saveTranscription({
+            stemId: resolvedStemId,
+            trackId,
+            midiUrl,
+            model: 'basic-pitch',
+            notes: Array.isArray(data?.notes) ? data.notes : null,
+            notesCount: typeof notesCount === 'number' ? notesCount : null,
+          });
+        }
+      } catch (e) {
+        // Saving is required for the UI, but transcription itself succeeded
+        console.error('Failed to persist transcription:', e);
+      }
 
       toast.success('Транскрипция завершена');
       queryClient.invalidateQueries({ queryKey: ['transcription'] });
@@ -167,7 +200,7 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
     } finally {
       setIsTranscribing(false);
     }
-  }, [audioUrl, stemId, trackId, queryClient, onComplete]);
+  }, [audioUrl, stemId, stemType, trackId, queryClient, saveTranscription, onComplete]);
 
   // Klangio transcription (klangio-analyze, server-side polling)
   const runKlangio = useCallback(async () => {
@@ -200,17 +233,62 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
 
       setProgress(100);
 
+      const normalized = {
+        midiUrl: (data?.files?.midi || data?.files?.midi_url || data?.midi_url || null) as string | null,
+        midiQuantUrl: (data?.files?.midi_quant || data?.files?.midi_quant_url || data?.midi_quant_url || null) as string | null,
+        mxmlUrl: (data?.files?.mxml || data?.files?.musicxml || data?.files?.musicxml_url || data?.musicxml_url || null) as string | null,
+        pdfUrl: (data?.files?.pdf || data?.files?.pdf_url || data?.pdf_url || null) as string | null,
+        gp5Url: (data?.files?.gp5 || data?.files?.gp5_url || data?.gp5_url || null) as string | null,
+        bpm: typeof data?.bpm === 'number' ? data.bpm : null,
+        keyDetected: (data?.key_detected || data?.key || null) as string | null,
+        notesCount: typeof data?.notes_count === 'number' ? data.notes_count : null,
+      };
+
       // klangio-analyze returns files in multiple shapes; normalize to our UI shape
       setResult({
-        midi_url: data?.files?.midi || data?.files?.midi_url || data?.midi_url,
-        midi_quant_url: data?.files?.midi_quant || data?.files?.midi_quant_url || data?.midi_quant_url,
-        musicxml_url: data?.files?.mxml || data?.files?.musicxml || data?.files?.musicxml_url || data?.musicxml_url,
-        pdf_url: data?.files?.pdf || data?.files?.pdf_url || data?.pdf_url,
-        gp5_url: data?.files?.gp5 || data?.files?.gp5_url || data?.gp5_url,
-        bpm: data?.bpm,
-        key: data?.key_detected || data?.key,
-        notes_count: data?.notes_count,
+        midi_url: normalized.midiUrl ?? undefined,
+        midi_quant_url: normalized.midiQuantUrl ?? undefined,
+        musicxml_url: normalized.mxmlUrl ?? undefined,
+        pdf_url: normalized.pdfUrl ?? undefined,
+        gp5_url: normalized.gp5Url ?? undefined,
+        bpm: normalized.bpm ?? undefined,
+        key: normalized.keyDetected ?? undefined,
+        notes_count: normalized.notesCount ?? undefined,
       });
+
+      // Persist result to database so notation panel / icons can load it
+      try {
+        let resolvedStemId = stemId;
+        if (!resolvedStemId && trackId && stemType) {
+          const { data: stem } = await supabase
+            .from('track_stems')
+            .select('id')
+            .eq('track_id', trackId)
+            .eq('stem_type', stemType)
+            .maybeSingle();
+          resolvedStemId = stem?.id;
+        }
+
+        const hasAny = !!(normalized.midiUrl || normalized.midiQuantUrl || normalized.mxmlUrl || normalized.pdfUrl || normalized.gp5Url || normalized.notesCount);
+        if (trackId && resolvedStemId && hasAny) {
+          await saveTranscription({
+            stemId: resolvedStemId,
+            trackId,
+            midiUrl: normalized.midiUrl,
+            midiQuantUrl: normalized.midiQuantUrl,
+            mxmlUrl: normalized.mxmlUrl,
+            pdfUrl: normalized.pdfUrl,
+            gp5Url: normalized.gp5Url,
+            model: `klangio:${klangioModel}`,
+            notes: Array.isArray(data?.notes) ? data.notes : null,
+            bpm: normalized.bpm,
+            keyDetected: normalized.keyDetected,
+            notesCount: normalized.notesCount,
+          });
+        }
+      } catch (e) {
+        console.error('Failed to persist transcription:', e);
+      }
 
       toast.success('Транскрипция завершена');
       queryClient.invalidateQueries({ queryKey: ['transcription'] });
@@ -227,7 +305,7 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
     } finally {
       setIsTranscribing(false);
     }
-  }, [audioUrl, klangioModel, stemId, trackId, stemType, track.name, track.type, queryClient, onComplete]);
+  }, [audioUrl, klangioModel, stemId, trackId, stemType, track.name, track.type, queryClient, saveTranscription, onComplete]);
 
   // Start transcription
   const startTranscription = useCallback(() => {
