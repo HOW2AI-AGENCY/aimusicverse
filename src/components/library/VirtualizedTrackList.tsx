@@ -219,6 +219,73 @@ const PullToRefreshIndicator = memo(function PullToRefreshIndicator({
   );
 });
 
+// Pull-to-refresh indicator
+const PullToRefreshIndicator = memo(function PullToRefreshIndicator({
+  pullDistance,
+  isRefreshing,
+  threshold,
+}: {
+  pullDistance: number;
+  isRefreshing: boolean;
+  threshold: number;
+}) {
+  const progress = Math.min(pullDistance / threshold, 1);
+  const isReady = pullDistance >= threshold;
+  
+  return (
+    <AnimatePresence>
+      {(pullDistance > 0 || isRefreshing) && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-safe-top"
+          style={{
+            transform: `translateY(${Math.min(pullDistance, threshold)}px)`,
+          }}
+        >
+          <div className="flex flex-col items-center gap-2 px-4 py-2 bg-background/95 backdrop-blur-sm rounded-b-xl shadow-lg border-x border-b border-border">
+            <motion.div
+              animate={{
+                rotate: isRefreshing ? 360 : isReady ? 180 : 0,
+              }}
+              transition={{
+                duration: isRefreshing ? 1 : 0.3,
+                repeat: isRefreshing ? Infinity : 0,
+                ease: "linear",
+              }}
+            >
+              <RefreshCw
+                className={cn(
+                  "w-5 h-5 transition-colors",
+                  isReady || isRefreshing ? "text-primary" : "text-muted-foreground"
+                )}
+              />
+            </motion.div>
+            <span className="text-xs text-muted-foreground font-medium">
+              {isRefreshing
+                ? "Обновление..."
+                : isReady
+                ? "Отпустите для обновления"
+                : "Потяните для обновления"}
+            </span>
+            {!isRefreshing && (
+              <div className="w-16 h-1 bg-muted rounded-full overflow-hidden">
+                <motion.div
+                  className="h-full bg-primary rounded-full"
+                  initial={{ width: "0%" }}
+                  animate={{ width: `${progress * 100}%` }}
+                  transition={{ duration: 0.1 }}
+                />
+              </div>
+            )}
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+});
+
 export const VirtualizedTrackList = memo(function VirtualizedTrackList({
   tracks,
   viewMode,
