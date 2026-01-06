@@ -663,15 +663,17 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
       case 'download':
         window.open(stem.audio_url, '_blank');
         break;
-      case 'view-notes':
+      case 'view-notes': {
         // Check if stem has transcription data to view
         const stemTranscription = transcriptionsByStem?.[stem.id];
-        if (stemTranscription && (
+        const hasTranscriptionData = stemTranscription && (
           stemTranscription.midi_url || 
           stemTranscription.pdf_url || 
           stemTranscription.gp5_url || 
           stemTranscription.mxml_url
-        )) {
+        );
+        
+        if (hasTranscriptionData) {
           // Open viewer for existing transcription
           setSelectedStemForNotes(stem);
           setNotesViewerOpen(true);
@@ -681,6 +683,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
           setMidiDrawerOpen(true);
         }
         break;
+      }
       case 'arrangement':
         // Open new arrangement dialog for vocal stems
         if (track) {
@@ -1354,14 +1357,22 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
       </Suspense>
 
       {/* Notes Viewer Dialog - for viewing existing transcriptions */}
-      <NotesViewerDialog
-        open={notesViewerOpen}
-        onOpenChange={setNotesViewerOpen}
-        transcription={selectedStemForNotes ? transcriptionsByStem?.[selectedStemForNotes.id] || null : null}
-        stemType={selectedStemForNotes?.stem_type || 'Стем'}
-        currentTime={currentTime}
-        isPlaying={isPlaying}
-      />
+      {(() => {
+        const selectedTranscription = selectedStemForNotes 
+          ? transcriptionsByStem?.[selectedStemForNotes.id] ?? null 
+          : null;
+        
+        return (
+          <NotesViewerDialog
+            open={notesViewerOpen}
+            onOpenChange={setNotesViewerOpen}
+            transcription={selectedTranscription}
+            stemType={selectedStemForNotes?.stem_type || 'Стем'}
+            currentTime={currentTime}
+            isPlaying={isPlaying}
+          />
+        );
+      })()}
 
       {/* Effects Drawer */}
       <Suspense fallback={null}>
