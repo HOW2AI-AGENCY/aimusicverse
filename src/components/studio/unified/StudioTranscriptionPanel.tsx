@@ -3,7 +3,7 @@
  * MIDI/Notes transcription panel with Basic Pitch and Klangio support
  */
 
-import { memo, useState, useCallback } from 'react';
+import { memo, useState, useCallback, useMemo } from 'react';
 import {
   Music2, FileMusic, FileText, Loader2,
   Zap, Settings2, Check
@@ -67,7 +67,7 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
   track,
   audioUrl,
   trackId,
-  stemId,
+  stemId: propStemId,
   stemType,
   onComplete,
   onClose,
@@ -83,21 +83,73 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
   const [progress, setProgress] = useState(0);
   const [result, setResult] = useState<TranscriptionResult | null>(null);
 
-  // Fetch existing transcription from stem_transcriptions (preferred)
-  // - if stemId is provided: get latest for this stem
-  // - else if trackId + stemType is provided: lookup stem first, then get transcription
-  // - else if trackId only: get latest for this track
-  const { data: existingTranscription, isLoading: loadingExisting } = useQuery({
-    queryKey: ['transcription', stemId || trackId, stemType || null],
-    queryFn: async () => {
-      if (!stemId && !trackId) return null;
+  // Normalize stem type for DB lookup - map StudioTrack.type to track_stems.stem_type
+  const normalizedStemType = useMemo(() => {
+    const t = (stemType || track.type || '').toLowerCase();
+    if (t === 'main' || t === 'stem') return null; // Can't determine
+    if (t.includes('vocal')) return 'vocal';
+    if (t.includes('instrumental') || t.includes('music')) return 'instrumental';
+    if (t.includes('drum')) return 'drums';
+    if (t.includes('bass')) return 'bass';
+    if (t.includes('other')) return 'other';
+    return t; // Return as-is for exact match attempt
+  }, [stemType, track.type]);
 
-      // If we have stemId directly, use it
-      if (stemId) {
+  // Resolve stemId from trackId + stemType if not provided directly
+  const { data: resolvedStemData } = useQuery({
+    queryKey: ['resolve-stem-id', trackId, normalizedStemType, propStemId],
+    queryFn: async () => {
+      // If propStemId provided, just verify it exists
+      if (propStemId) {
+        const { data } = await supabase
+          .from('track_stems')
+          .select('id, stem_type')
+          .eq('id', propStemId)
+          .maybeSingle();
+        return data ? { stemId: data.id, stemType: data.stem_type } : null;
+      }
+
+      // Try to find stem by trackId + normalizedStemType
+      if (trackId && normalizedStemType) {
+        const { data } = await supabase
+          .from('track_stems')
+          .select('id, stem_type')
+          .eq('track_id', trackId)
+          .eq('stem_type', normalizedStemType)
+          .maybeSingle();
+        if (data) return { stemId: data.id, stemType: data.stem_type };
+      }
+
+      // Fallback: get any stem for this track
+      if (trackId) {
+        const { data } = await supabase
+          .from('track_stems')
+          .select('id, stem_type')
+          .eq('track_id', trackId)
+          .limit(1)
+          .maybeSingle();
+        if (data) return { stemId: data.id, stemType: data.stem_type };
+      }
+
+      return null;
+    },
+    enabled: !!(propStemId || trackId),
+    staleTime: 60000,
+  });
+
+  const resolvedStemId = resolvedStemData?.stemId || propStemId;
+  const resolvedStemType = resolvedStemData?.stemType || normalizedStemType;
+
+  // Fetch existing transcription using resolved stemId
+  const { data: existingTranscription, isLoading: loadingExisting } = useQuery({
+    queryKey: ['transcription', resolvedStemId, trackId],
+    queryFn: async () => {
+      // If we have resolved stemId, use it
+      if (resolvedStemId) {
         const { data, error } = await supabase
           .from('stem_transcriptions')
           .select('*')
-          .eq('stem_id', stemId)
+          .eq('stem_id', resolvedStemId)
           .order('created_at', { ascending: false })
           .limit(1)
           .maybeSingle();
@@ -105,40 +157,22 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
         return data;
       }
 
-      // If we have trackId + stemType, first find the stem, then get transcription
-      if (trackId && stemType) {
-        const { data: stem } = await supabase
-          .from('track_stems')
-          .select('id')
+      // Fallback: get any transcription for this track
+      if (trackId) {
+        const { data, error } = await supabase
+          .from('stem_transcriptions')
+          .select('*')
           .eq('track_id', trackId)
-          .eq('stem_type', stemType)
+          .order('created_at', { ascending: false })
+          .limit(1)
           .maybeSingle();
-
-        if (stem) {
-          const { data, error } = await supabase
-            .from('stem_transcriptions')
-            .select('*')
-            .eq('stem_id', stem.id)
-            .order('created_at', { ascending: false })
-            .limit(1)
-            .maybeSingle();
-          if (error) throw error;
-          return data;
-        }
+        if (error) throw error;
+        return data;
       }
 
-      // Fallback: get any transcription for this track
-      const { data, error } = await supabase
-        .from('stem_transcriptions')
-        .select('*')
-        .eq('track_id', trackId as string)
-        .order('created_at', { ascending: false })
-        .limit(1)
-        .maybeSingle();
-      if (error) throw error;
-      return data;
+      return null;
     },
-    enabled: !!(stemId || trackId),
+    enabled: !!(resolvedStemId || trackId),
   });
 
   // Basic Pitch transcription (Replicate)
@@ -157,7 +191,7 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
         body: {
           audioUrl,
           trackId,
-          stemId,
+          stemId: resolvedStemId,
           model: 'basic-pitch',
         },
       });
@@ -178,20 +212,11 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
 
       // Persist result to database so icons/visualization appear across sessions
       try {
-        let resolvedStemId = stemId;
-        if (!resolvedStemId && trackId && stemType) {
-          const { data: stem } = await supabase
-            .from('track_stems')
-            .select('id')
-            .eq('track_id', trackId)
-            .eq('stem_type', stemType)
-            .maybeSingle();
-          resolvedStemId = stem?.id;
-        }
+        const stemIdForSave = resolvedStemId;
 
-        if (trackId && resolvedStemId && (midiUrl || notesCount)) {
+        if (trackId && stemIdForSave && (midiUrl || notesCount)) {
           await saveTranscription({
-            stemId: resolvedStemId,
+            stemId: stemIdForSave,
             trackId,
             midiUrl,
             model: 'basic-pitch',
@@ -208,7 +233,7 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
       queryClient.invalidateQueries({ queryKey: ['transcription'] });
       queryClient.invalidateQueries({ queryKey: ['stem-type-transcription-status'] });
       queryClient.invalidateQueries({ queryKey: ['stem-transcriptions-full'] });
-      if (stemId) queryClient.invalidateQueries({ queryKey: ['stem-transcriptions', stemId] });
+      if (resolvedStemId) queryClient.invalidateQueries({ queryKey: ['stem-transcriptions', resolvedStemId] });
       if (trackId) {
         queryClient.invalidateQueries({ queryKey: ['track-transcriptions', trackId] });
         queryClient.invalidateQueries({ queryKey: ['track-midi-status', trackId] });
@@ -221,7 +246,7 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
     } finally {
       setIsTranscribing(false);
     }
-  }, [audioUrl, stemId, stemType, trackId, queryClient, saveTranscription, onComplete]);
+  }, [audioUrl, resolvedStemId, trackId, queryClient, saveTranscription, onComplete]);
 
   // Klangio transcription (klangio-analyze, server-side polling)
   const runKlangio = useCallback(async () => {
@@ -242,7 +267,7 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
           model: klangioModel,
           outputs: ['midi', 'midi_quant', 'gp5', 'pdf', 'mxml'],
           title: track.name,
-          stem_type: stemType || track.type,
+          stem_type: resolvedStemType || track.type,
           user_id: (track as any).user_id,
         },
       });
@@ -279,21 +304,12 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
 
       // Persist result to database so notation panel / icons can load it
       try {
-        let resolvedStemId = stemId;
-        if (!resolvedStemId && trackId && stemType) {
-          const { data: stem } = await supabase
-            .from('track_stems')
-            .select('id')
-            .eq('track_id', trackId)
-            .eq('stem_type', stemType)
-            .maybeSingle();
-          resolvedStemId = stem?.id;
-        }
+        const stemIdForSave = resolvedStemId;
 
         const hasAny = !!(normalized.midiUrl || normalized.midiQuantUrl || normalized.mxmlUrl || normalized.pdfUrl || normalized.gp5Url || normalized.notesCount);
-        if (trackId && resolvedStemId && hasAny) {
+        if (trackId && stemIdForSave && hasAny) {
           await saveTranscription({
-            stemId: resolvedStemId,
+            stemId: stemIdForSave,
             trackId,
             midiUrl: normalized.midiUrl,
             midiQuantUrl: normalized.midiQuantUrl,
@@ -315,7 +331,7 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
       queryClient.invalidateQueries({ queryKey: ['transcription'] });
       queryClient.invalidateQueries({ queryKey: ['stem-type-transcription-status'] });
       queryClient.invalidateQueries({ queryKey: ['stem-transcriptions-full'] });
-      if (stemId) queryClient.invalidateQueries({ queryKey: ['stem-transcriptions', stemId] });
+      if (resolvedStemId) queryClient.invalidateQueries({ queryKey: ['stem-transcriptions', resolvedStemId] });
       if (trackId) {
         queryClient.invalidateQueries({ queryKey: ['track-transcriptions', trackId] });
         queryClient.invalidateQueries({ queryKey: ['track-midi-status', trackId] });
@@ -328,7 +344,7 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
     } finally {
       setIsTranscribing(false);
     }
-  }, [audioUrl, klangioModel, stemId, trackId, stemType, track.name, track.type, queryClient, saveTranscription, onComplete]);
+  }, [audioUrl, klangioModel, resolvedStemId, resolvedStemType, trackId, track.name, track.type, queryClient, saveTranscription, onComplete]);
 
   // Start transcription
   const startTranscription = useCallback(() => {
