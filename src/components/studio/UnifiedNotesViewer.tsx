@@ -126,14 +126,30 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
 }: UnifiedNotesViewerProps) {
   const isMobile = useIsMobile();
   
-  // Validate URL helper
-  const isValidUrl = (url: unknown): url is string => {
-    return typeof url === 'string' && url.length > 0 && url.startsWith('http');
+  // Validate/normalize URL helper (поддерживаем относительные ссылки из backend)
+  const normalizeUrl = (url: unknown): string | null => {
+    if (typeof url !== 'string') return null;
+    const trimmed = url.trim();
+    if (!trimmed || trimmed === '0') return null;
+
+    // absolute
+    if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) return trimmed;
+
+    // relative (e.g. /storage/v1/...) — превращаем в absolute
+    if (trimmed.startsWith('/')) {
+      try {
+        return new URL(trimmed, window.location.origin).toString();
+      } catch {
+        return null;
+      }
+    }
+
+    return null;
   };
-  
-  // Determine effective URLs (with validation)
-  const effectiveMidiUrl = isValidUrl(midiUrl) ? midiUrl : (isValidUrl(files?.midiUrl) ? files.midiUrl : null);
-  const effectiveMusicXmlUrl = isValidUrl(musicXmlUrl) ? musicXmlUrl : (isValidUrl(files?.musicXmlUrl) ? files.musicXmlUrl : null);
+
+  // Determine effective URLs (with normalization)
+  const effectiveMidiUrl = normalizeUrl(midiUrl) ?? normalizeUrl(files?.midiUrl);
+  const effectiveMusicXmlUrl = normalizeUrl(musicXmlUrl) ?? normalizeUrl(files?.musicXmlUrl);
   
   // По умолчанию Piano Roll - более надёжный вариант
   // notation только если пользователь явно выберет

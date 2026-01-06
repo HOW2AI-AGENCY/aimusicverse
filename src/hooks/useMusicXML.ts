@@ -54,13 +54,25 @@ export function useMusicXML({
   }, []);
 
   useEffect(() => {
-    // Validate URL - must be a non-empty string starting with http
-    if (!containerRef.current || !url || typeof url !== 'string' || !url.startsWith('http')) {
-      if (url && typeof url !== 'string') {
-        log.warn('Invalid MusicXML URL type', { url, type: typeof url });
+    // Validate/normalize URL (поддерживаем относительные ссылки)
+    if (!containerRef.current || !url || typeof url !== 'string') return;
+
+    const trimmed = url.trim();
+    if (!trimmed || trimmed === '0') return;
+
+    const normalizedUrl = (() => {
+      if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) return trimmed;
+      if (trimmed.startsWith('/')) {
+        try {
+          return new URL(trimmed, window.location.origin).toString();
+        } catch {
+          return null;
+        }
       }
-      return;
-    }
+      return trimmed; // allow OSMD to try (could be raw xml string)
+    })();
+
+    if (!normalizedUrl) return;
 
     const container = containerRef.current;
     let osmd: OSMD | null = null;
@@ -79,10 +91,10 @@ export function useMusicXML({
         });
 
         osmd.Zoom = zoom;
-        await osmd.load(url);
+        await osmd.load(normalizedUrl);
         osmd.render();
         osmdRef.current = osmd;
-        log.info('MusicXML loaded successfully', { url });
+        log.info('MusicXML loaded successfully', { url: normalizedUrl });
       } catch (err) {
         const error = err instanceof Error ? err : new Error('Failed to load MusicXML');
         setError(error);

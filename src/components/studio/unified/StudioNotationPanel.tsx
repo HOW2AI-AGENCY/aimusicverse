@@ -14,6 +14,7 @@ import { toast } from 'sonner';
 
 import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -64,6 +65,7 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
   onSeek,
   className,
 }: StudioNotationPanelProps) {
+  const isMobile = useIsMobile();
   const [isDownloading, setIsDownloading] = useState<string | null>(null);
 
   const durationSeconds =
@@ -375,6 +377,7 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
           }}
           enablePlayback={false}
           trackTitle={track.name}
+          height={isMobile ? 520 : 420}
           className="h-full"
         />
       </div>
