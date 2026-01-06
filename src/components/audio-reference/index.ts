@@ -10,3 +10,4 @@ export { ReferenceAnalysisDisplay } from './ReferenceAnalysisDisplay';
 export { ReferenceModeSelector, modeConfig } from './ReferenceModeSelector';
 export { CloudAudioSelector } from './CloudAudioSelector';
 export { ExtendRangeSelector } from './ExtendRangeSelector';
+export { ExtractLyricsButton } from './ExtractLyricsButton';
