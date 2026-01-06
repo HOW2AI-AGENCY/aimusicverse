@@ -71,6 +71,7 @@ import {
   LazyAddVocalsDrawer,
   preloadRouteComponents,
 } from '@/components/lazy';
+import { NotesViewerDialog } from '@/components/studio/NotesViewerDialog';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { logger } from '@/lib/logger';
@@ -155,9 +156,11 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
   const [addTrackDrawerOpen, setAddTrackDrawerOpen] = useState(false);
   const [addVocalsDrawerOpen, setAddVocalsDrawerOpen] = useState(false);
   const [newArrangementOpen, setNewArrangementOpen] = useState(false);
+  const [notesViewerOpen, setNotesViewerOpen] = useState(false);
   const [selectedStemForMidi, setSelectedStemForMidi] = useState<TrackStem | null>(null);
   const [selectedStemForEffects, setSelectedStemForEffects] = useState<TrackStem | null>(null);
   const [selectedStemForArrangement, setSelectedStemForArrangement] = useState<TrackStem | null>(null);
+  const [selectedStemForNotes, setSelectedStemForNotes] = useState<TrackStem | null>(null);
   
   // Effects state for the selected stem
   const [stemEffects, setStemEffects] = useState(defaultStemEffects);
@@ -661,8 +664,22 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
         window.open(stem.audio_url, '_blank');
         break;
       case 'view-notes':
-        setSelectedStemForMidi(stem);
-        setMidiDrawerOpen(true);
+        // Check if stem has transcription data to view
+        const stemTranscription = transcriptionsByStem?.[stem.id];
+        if (stemTranscription && (
+          stemTranscription.midi_url || 
+          stemTranscription.pdf_url || 
+          stemTranscription.gp5_url || 
+          stemTranscription.mxml_url
+        )) {
+          // Open viewer for existing transcription
+          setSelectedStemForNotes(stem);
+          setNotesViewerOpen(true);
+        } else {
+          // No transcription exists - open transcription creation drawer
+          setSelectedStemForMidi(stem);
+          setMidiDrawerOpen(true);
+        }
         break;
       case 'arrangement':
         // Open new arrangement dialog for vocal stems
@@ -1335,6 +1352,16 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
           trackDurationSeconds={track.duration_seconds}
         />
       </Suspense>
+
+      {/* Notes Viewer Dialog - for viewing existing transcriptions */}
+      <NotesViewerDialog
+        open={notesViewerOpen}
+        onOpenChange={setNotesViewerOpen}
+        transcription={selectedStemForNotes ? transcriptionsByStem?.[selectedStemForNotes.id] || null : null}
+        stemType={selectedStemForNotes?.stem_type || 'Стем'}
+        currentTime={currentTime}
+        isPlaying={isPlaying}
+      />
 
       {/* Effects Drawer */}
       <Suspense fallback={null}>
