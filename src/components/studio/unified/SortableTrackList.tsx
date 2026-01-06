@@ -174,7 +174,7 @@ export const SortableTrackList = memo(function SortableTrackList({
   });
 
   // Fetch full transcription data for all stems that have transcriptions
-  const { data: transcriptionsMap } = useQuery({
+  const { data: transcriptionsMap, isLoading: loadingTranscriptions } = useQuery({
     queryKey: ['stem-transcriptions-full', sourceTrackId, stemTypes.sort().join(',')],
     queryFn: async (): Promise<Record<string, StemTranscriptionData>> => {
       if (!sourceTrackId || stemTypes.length === 0) return {};
@@ -186,7 +186,10 @@ export const SortableTrackList = memo(function SortableTrackList({
         .eq('track_id', sourceTrackId)
         .in('stem_type', stemTypes);
 
-      if (stemsError || !stems?.length) return {};
+      if (stemsError || !stems?.length) {
+        console.log('[SortableTrackList] No stems found for', sourceTrackId, stemTypes);
+        return {};
+      }
 
       const stemIds = stems.map(s => s.id);
 
@@ -196,7 +199,17 @@ export const SortableTrackList = memo(function SortableTrackList({
         .select('*')
         .in('stem_id', stemIds);
 
-      if (transError || !transcriptions?.length) return {};
+      if (transError) {
+        console.error('[SortableTrackList] Error fetching transcriptions:', transError);
+        return {};
+      }
+      
+      if (!transcriptions?.length) {
+        console.log('[SortableTrackList] No transcriptions found for stemIds:', stemIds);
+        return {};
+      }
+
+      console.log('[SortableTrackList] Found transcriptions:', transcriptions.length, 'for stems:', stems.map(s => s.stem_type));
 
       // Build map: stemType -> transcription data
       const result: Record<string, StemTranscriptionData> = {};
@@ -205,6 +218,17 @@ export const SortableTrackList = memo(function SortableTrackList({
         const stem = stems.find(s => s.id === trans.stem_id);
         if (!stem) continue;
 
+        // Normalize notes array
+        let normalizedNotes: any[] | null = null;
+        if (trans.notes && Array.isArray(trans.notes)) {
+          normalizedNotes = trans.notes.map((n: any) => {
+            const pitch = typeof n?.pitch === 'number' ? n.pitch : 60;
+            const startTime = typeof n?.startTime === 'number' ? n.startTime : (typeof n?.start_time === 'number' ? n.start_time : 0);
+            const duration = typeof n?.duration === 'number' ? n.duration : (typeof n?.dur === 'number' ? n.dur : 0.25);
+            return { pitch, startTime, endTime: startTime + duration, duration };
+          }).filter((n: any) => Number.isFinite(n.pitch) && Number.isFinite(n.startTime));
+        }
+
         result[stem.stem_type] = {
           stemType: stem.stem_type,
           stemId: stem.id,
@@ -212,12 +236,18 @@ export const SortableTrackList = memo(function SortableTrackList({
           pdfUrl: trans.pdf_url,
           gp5Url: trans.gp5_url,
           mxmlUrl: trans.mxml_url,
-          notes: trans.notes as any[] | null,
-          notesCount: trans.notes_count,
+          notes: normalizedNotes,
+          notesCount: trans.notes_count ?? (normalizedNotes?.length || null),
           bpm: trans.bpm ? Number(trans.bpm) : null,
           keyDetected: trans.key_detected,
           durationSeconds: trans.duration_seconds ? Number(trans.duration_seconds) : null,
         };
+        
+        console.log('[SortableTrackList] Mapped transcription for', stem.stem_type, ':', {
+          hasNotes: !!normalizedNotes?.length,
+          hasMidi: !!trans.midi_url,
+          hasPdf: !!trans.pdf_url,
+        });
       }
 
       return result;
@@ -270,8 +300,17 @@ export const SortableTrackList = memo(function SortableTrackList({
               (sourceTrackId != null && track.id === sourceTrackId);
             
             // Check if track has transcription (by stem type for this studio project)
-            const hasTranscription = transcriptionStatus?.[track.type] || false;
             const transcription = transcriptionsMap?.[track.type] || null;
+            // hasTranscription = true if we have transcription data with files or status says so
+            const hasTranscription = !!(
+              transcriptionStatus?.[track.type] || 
+              transcription?.midiUrl || 
+              transcription?.pdfUrl || 
+              transcription?.gp5Url || 
+              transcription?.mxmlUrl ||
+              (transcription?.notes && transcription.notes.length > 0) ||
+              (transcription?.notesCount && transcription.notesCount > 0)
+            );
             
             return (
               <SortableTrackItem
