@@ -28,8 +28,7 @@ import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
 import { useHaptic } from '@/hooks/useHaptic';
 import { AIActionsFAB } from './AIActionsFAB';
-import { DAWTimeline } from '@/components/stem-studio/DAWTimeline';
-import { DAWTrackLane } from '@/components/stem-studio/DAWTrackLane';
+import { SortableTrackList } from './SortableTrackList';
 
 interface Track {
   id: string;
@@ -287,14 +286,28 @@ export const UnifiedDAWLayout = memo(function UnifiedDAWLayout({
         </div>
       </div>
 
-      {/* Timeline Ruler */}
-      <div className="shrink-0 border-b border-border/30">
-        <DAWTimeline
-          duration={duration}
-          currentTime={currentTime}
-          onSeek={handleSeek}
-          showGrid={true}
-          className="h-8"
+      {/* Timeline Ruler - inline simple version */}
+      <div 
+        className="shrink-0 border-b border-border/30 h-8 relative bg-muted/20 cursor-pointer"
+        onClick={(e) => {
+          const rect = e.currentTarget.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const percent = x / rect.width;
+          handleSeek(percent * duration);
+        }}
+      >
+        <div className="absolute inset-0 flex items-end">
+          {Array.from({ length: Math.ceil(duration / 10) + 1 }).map((_, i) => (
+            <div key={i} className="flex-shrink-0" style={{ width: `${(10 / duration) * 100}%` }}>
+              <div className="h-2 border-l border-muted-foreground/30" />
+              <span className="text-[9px] text-muted-foreground pl-0.5">{i * 10}s</span>
+            </div>
+          ))}
+        </div>
+        {/* Playhead */}
+        <div 
+          className="absolute top-0 bottom-0 w-0.5 bg-primary z-10 pointer-events-none"
+          style={{ left: `${(currentTime / duration) * 100}%` }}
         />
       </div>
 
@@ -314,33 +327,40 @@ export const UnifiedDAWLayout = memo(function UnifiedDAWLayout({
           </div>
         ) : (
           <div className="min-h-full">
-            {project.tracks.map((track, index) => {
-              // Map track to stem format for DAWTrackLane
-              const stemData = {
-                id: track.id,
-                track_id: project.id,
-                stem_type: track.stemType || 'other',
-                audio_url: track.audioUrl,
-                status: 'completed' as const,
-                separation_mode: null,
-                version_id: null,
-                created_at: new Date().toISOString(),
-                updated_at: new Date().toISOString(),
-              };
-
+            {project.tracks.map((track) => {
+              const state = trackStates[track.id];
               return (
-                <DAWTrackLane
-                  key={track.id}
-                  stem={stemData}
-                  index={index}
-                  state={trackStates[track.id]}
-                  onToggle={(type: 'mute' | 'solo') => handleTrackToggle(track.id, type)}
-                  onVolumeChange={(volume: number) => handleTrackVolume(track.id, volume)}
-                  isPlaying={isPlaying}
-                  currentTime={currentTime}
-                  duration={duration}
-                  onSeek={handleSeek}
-                />
+                <div 
+                  key={track.id} 
+                  className="flex items-center gap-2 p-2 border-b border-border/20 hover:bg-muted/30"
+                >
+                  <div className="w-24 truncate text-sm font-medium">{track.name}</div>
+                  <div className="flex items-center gap-1">
+                    <Button
+                      variant={state?.muted ? "default" : "ghost"}
+                      size="sm"
+                      className="h-6 w-6 p-0"
+                      onClick={() => handleTrackToggle(track.id, 'mute')}
+                    >
+                      {state?.muted ? <VolumeX className="h-3 w-3" /> : <Volume2 className="h-3 w-3" />}
+                    </Button>
+                    <Slider
+                      value={[state?.volume ?? 0.85]}
+                      min={0}
+                      max={1}
+                      step={0.01}
+                      onValueChange={(v) => handleTrackVolume(track.id, v[0])}
+                      className="w-20"
+                    />
+                  </div>
+                  <div className="flex-1 h-8 bg-muted/20 rounded relative overflow-hidden">
+                    {/* Playhead indicator */}
+                    <div 
+                      className="absolute top-0 bottom-0 w-0.5 bg-primary/50"
+                      style={{ left: `${(currentTime / duration) * 100}%` }}
+                    />
+                  </div>
+                </div>
               );
             })}
           </div>

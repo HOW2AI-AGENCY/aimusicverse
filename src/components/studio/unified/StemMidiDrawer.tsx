@@ -29,7 +29,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { TrackStem } from '@/hooks/useTrackStems';
 import { useReplicateMidiTranscription, TranscriptionFiles } from '@/hooks/useReplicateMidiTranscription';
 import { useStemTranscription, useSaveTranscription } from '@/hooks/useStemTranscription';
-import { StemMidiVisualization } from '@/components/studio/StemMidiVisualization';
+import { UnifiedNotesViewer } from '@/components/studio/UnifiedNotesViewer';
 import { MidiFilesCard } from '@/components/studio/MidiFilesCard';
 import { PianoRoll, type MidiNote } from './PianoRoll';
 import { toast } from 'sonner';
@@ -577,7 +577,7 @@ export function StemMidiDrawer({
             <TabsContent value="player" className="flex-1 min-h-0 m-0">
               <div className="h-full -mx-6 px-6">
                 {(activeMidiUrl || latestMidiUrl || (latestTranscription?.notes && Array.isArray(latestTranscription.notes))) ? (
-                  <StemMidiVisualization
+                  <UnifiedNotesViewer
                     notes={(latestTranscription?.notes as Array<{
                       pitch?: number;
                       start_time?: number;
@@ -595,16 +595,8 @@ export function StemMidiDrawer({
                     }))}
                     duration={trackDuration}
                     bpm={latestTranscription?.bpm || undefined}
-                    keySignature={latestTranscription?.key_detected || undefined}
-                    timeSignature={latestTranscription?.time_signature || undefined}
-                    stemType={stem?.stem_type}
-                    files={{
-                      midiUrl: transcriptionFiles.midi || latestTranscription?.midi_url,
-                      midiQuantUrl: transcriptionFiles.midi_quant || latestTranscription?.midi_quant_url,
-                      pdfUrl: transcriptionFiles.pdf || latestTranscription?.pdf_url,
-                      gp5Url: transcriptionFiles.gp5 || latestTranscription?.gp5_url,
-                      musicXmlUrl: transcriptionFiles.mxml || latestTranscription?.mxml_url,
-                    }}
+                    currentTime={0}
+                    isPlaying={false}
                     className="h-full"
                   />
                 ) : (

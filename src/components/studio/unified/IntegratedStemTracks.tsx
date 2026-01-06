@@ -33,10 +33,8 @@ import { TrackStem } from '@/hooks/useTrackStems';
 import { OptimizedStemWaveform } from '@/components/stem-studio/OptimizedStemWaveform';
 import { StemTrackSkeleton } from '@/components/studio/StemTrackSkeleton';
 import { VirtualizedStemList } from '@/components/studio/VirtualizedStemList';
-import { HardwareMixer } from '@/components/stem-studio/hardware';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
-import { StemNotesPreview } from '@/components/studio/StemNotesPreview';
 import { StemTranscription } from '@/hooks/useStemTranscription';
 import { preloadRouteComponents } from '@/components/lazy';
 import { useSimulatedStemLevels } from '@/hooks/audio/useSimulatedStemLevels';
@@ -420,14 +418,15 @@ const StemTrackRowMobile = memo(({
           transcription.notes_count
         ) && (
           <div className="px-3 pb-2">
-            <StemNotesPreview
-              transcription={transcription}
-              currentTime={currentTime}
-              duration={duration}
-              onViewFull={() => onAction('view-notes')}
-              onDownloadPdf={() => transcription.pdf_url && window.open(transcription.pdf_url, '_blank')}
-              onDownloadMidi={() => transcription.midi_url && window.open(transcription.midi_url, '_blank')}
-            />
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <Music2 className="w-3 h-3" />
+              <span>{transcription.notes_count || 0} нот</span>
+              {transcription.bpm && <span>• {transcription.bpm} BPM</span>}
+              <Button variant="ghost" size="sm" className="h-5 px-2 ml-auto" onClick={() => onAction('view-notes')}>
+                <Eye className="w-3 h-3 mr-1" />
+                Показать
+              </Button>
+            </div>
           </div>
         )}
       </div>
@@ -581,15 +580,12 @@ const StemTrackRowDesktop = memo(({
 
       {/* Notes Preview (if transcription exists) - Desktop version */}
       {transcription && (transcription.notes || transcription.pdf_url || transcription.midi_url || transcription.gp5_url || transcription.mxml_url) && (
-        <div className="w-36 shrink-0">
-          <StemNotesPreview
-            transcription={transcription}
-            currentTime={currentTime}
-            duration={duration}
-            onViewFull={() => onAction('view-notes')}
-            onDownloadPdf={() => transcription.pdf_url && window.open(transcription.pdf_url, '_blank')}
-            onDownloadMidi={() => transcription.midi_url && window.open(transcription.midi_url, '_blank')}
-          />
+        <div className="w-36 shrink-0 flex items-center gap-2 text-xs text-muted-foreground">
+          <Music2 className="w-3 h-3" />
+          <span>{transcription.notes_count || 0} нот</span>
+          <Button variant="ghost" size="sm" className="h-5 px-2" onClick={() => onAction('view-notes')}>
+            <Eye className="w-3 h-3" />
+          </Button>
         </div>
       )}
 
@@ -823,27 +819,6 @@ export function IntegratedStemTracks({
             {!stemsReady && stemsLoadingProgress < 100 ? (
               <div className="p-2">
                 <StemTrackSkeleton count={stems.length} isMobile={isMobile} />
-              </div>
-            ) : isHardwareMode ? (
-              /* Hardware Mixer Mode - all devices, compact on mobile */
-              <div className={cn(
-                "bg-gradient-to-b from-muted/20 to-background",
-                isMobile ? "p-2 overflow-x-auto" : "p-4"
-              )}>
-                <HardwareMixer
-                  stems={hardwareStems}
-                  stemStates={stemStates}
-                  masterVolume={masterVolume}
-                  masterMuted={masterMuted}
-                  masterLeftLevel={simulatedLevels.master.left}
-                  masterRightLevel={simulatedLevels.master.right}
-                  onStemVolumeChange={(stemId, volume) => onStemVolumeChange(stemId, volume)}
-                  onStemMuteToggle={(stemId) => onStemToggle(stemId, 'mute')}
-                  onStemSoloToggle={(stemId) => onStemToggle(stemId, 'solo')}
-                  onMasterVolumeChange={onMasterVolumeChange}
-                  onMasterMuteToggle={onMasterMuteToggle}
-                  compact={isMobile}
-                />
               </div>
             ) : (
               /* Standard mode - virtualized list - stems already sorted by caller */

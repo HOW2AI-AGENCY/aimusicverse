@@ -22,7 +22,7 @@ import { UnifiedDAWLayout } from './UnifiedDAWLayout';
 import { AddTrackDrawer } from './AddTrackDrawer';
 import { ExportMixDialog } from './ExportMixDialog';
 import { SaveVersionDialog } from './SaveVersionDialog';
-import { StemSeparationModeDialog } from '@/components/stem-studio/StemSeparationModeDialog';
+import { StemSeparationModeDialog } from './StemSeparationModeDialog';
 import { ExtendDialog } from '@/components/stem-studio/ExtendDialog';
 import { RemixDialog } from '@/components/stem-studio/RemixDialog';
 import { LazyAddVocalsDrawer } from '@/components/lazy';
