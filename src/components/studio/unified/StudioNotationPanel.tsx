@@ -140,13 +140,27 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
             try {
               const notesData = item.notes as any;
               if (Array.isArray(notesData)) {
-                notes = notesData;
+                notes = notesData
+                  .map((n: any, i: number) => {
+                    const pitch = typeof n?.pitch === 'number' ? n.pitch : 60;
+                    const startTime = typeof n?.startTime === 'number' ? n.startTime : (typeof n?.start_time === 'number' ? n.start_time : 0);
+                    const duration = typeof n?.duration === 'number' ? n.duration : (typeof n?.dur === 'number' ? n.dur : 0.25);
+                    const velocity = typeof n?.velocity === 'number' ? n.velocity : 100;
+                    return {
+                      id: String(n?.id ?? `note-${i}`),
+                      pitch,
+                      startTime,
+                      duration,
+                      velocity,
+                    } as MidiNote;
+                  })
+                  .filter((n: MidiNote) => Number.isFinite(n.pitch) && Number.isFinite(n.startTime) && Number.isFinite(n.duration) && n.duration > 0);
               }
             } catch (e) {
               console.error('Failed to parse MIDI notes:', e);
             }
           }
-          
+
           return {
             id: item.id,
             midi_url: item.midi_url ?? undefined,
@@ -156,7 +170,7 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
             bpm: item.bpm ? Number(item.bpm) : undefined,
             key_detected: item.key_detected ?? undefined,
             time_signature: item.time_signature ?? undefined,
-            notes_count: item.notes_count ?? undefined,
+            notes_count: item.notes_count ?? (notes ? notes.length : undefined),
             notes,
           } as TranscriptionData;
         }
@@ -180,7 +194,21 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
         try {
           const notesData = item.notes as any;
           if (Array.isArray(notesData)) {
-            notes = notesData;
+            notes = notesData
+              .map((n: any, i: number) => {
+                const pitch = typeof n?.pitch === 'number' ? n.pitch : 60;
+                const startTime = typeof n?.startTime === 'number' ? n.startTime : (typeof n?.start_time === 'number' ? n.start_time : 0);
+                const duration = typeof n?.duration === 'number' ? n.duration : (typeof n?.dur === 'number' ? n.dur : 0.25);
+                const velocity = typeof n?.velocity === 'number' ? n.velocity : 100;
+                return {
+                  id: String(n?.id ?? `note-${i}`),
+                  pitch,
+                  startTime,
+                  duration,
+                  velocity,
+                } as MidiNote;
+              })
+              .filter((n: MidiNote) => Number.isFinite(n.pitch) && Number.isFinite(n.startTime) && Number.isFinite(n.duration) && n.duration > 0);
           }
         } catch (e) {
           console.error('Failed to parse MIDI notes:', e);
@@ -196,7 +224,7 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
         bpm: typeof item.bpm === 'number' ? item.bpm : undefined,
         key_detected: item.key_detected ?? undefined,
         time_signature: item.time_signature ?? undefined,
-        notes_count: item.notes_count ?? undefined,
+        notes_count: item.notes_count ?? (notes ? notes.length : undefined),
         notes,
       } as TranscriptionData;
     },

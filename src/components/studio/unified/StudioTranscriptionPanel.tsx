@@ -187,6 +187,8 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
 
       toast.success('Транскрипция завершена');
       queryClient.invalidateQueries({ queryKey: ['transcription'] });
+      queryClient.invalidateQueries({ queryKey: ['stem-type-transcription-status'] });
+      queryClient.invalidateQueries({ queryKey: ['stem-transcriptions-full'] });
       if (stemId) queryClient.invalidateQueries({ queryKey: ['stem-transcriptions', stemId] });
       if (trackId) {
         queryClient.invalidateQueries({ queryKey: ['track-transcriptions', trackId] });
@@ -292,6 +294,8 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
 
       toast.success('Транскрипция завершена');
       queryClient.invalidateQueries({ queryKey: ['transcription'] });
+      queryClient.invalidateQueries({ queryKey: ['stem-type-transcription-status'] });
+      queryClient.invalidateQueries({ queryKey: ['stem-transcriptions-full'] });
       if (stemId) queryClient.invalidateQueries({ queryKey: ['stem-transcriptions', stemId] });
       if (trackId) {
         queryClient.invalidateQueries({ queryKey: ['track-transcriptions', trackId] });
