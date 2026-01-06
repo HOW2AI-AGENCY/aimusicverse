@@ -113,7 +113,7 @@ import { useProjectTrackSync } from '@/hooks/studio/useProjectTrackSync';
 import { useStudioOperationLock } from '@/hooks/studio/useStudioOperationLock';
 import { InstrumentalResultHandler, InstrumentalResultData } from './InstrumentalResultHandler';
 import { AIActionsFAB } from './AIActionsFAB';
-import { StemSeparationModeDialog } from '@/components/stem-studio/StemSeparationModeDialog';
+import { StemSeparationModeDialog } from './StemSeparationModeDialog';
 import { useStemSeparation } from '@/hooks/useStemSeparation';
 
 interface StudioShellProps {

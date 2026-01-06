@@ -38,7 +38,7 @@ import {
   reverbPresets,
   defaultStemEffects,
 } from '@/hooks/studio/stemEffectsConfig';
-import { HardwareEQPanel, HardwareCompressorPanel, HardwareReverbPanel } from '@/components/stem-studio/effects';
+import { EqualizerControl, CompressorControl, ReverbControl } from '@/components/stem-studio/effects';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';

@@ -1,7 +1,8 @@
 /**
- * Hardware Effects Panels
+ * Effects Panels - Core effects only
  */
 
-export { HardwareEQPanel } from './HardwareEQPanel';
-export { HardwareCompressorPanel } from './HardwareCompressorPanel';
-export { HardwareReverbPanel } from './HardwareReverbPanel';
+export { CompressorControl } from './CompressorControl';
+export { EqualizerControl } from './EqualizerControl';
+export { ReverbControl } from './ReverbControl';
+export { StemEffectsPanel } from './StemEffectsPanel';

@@ -53,7 +53,6 @@ export { UnifiedStudioLayout } from './layout/UnifiedStudioLayout';
 
 // Loading and transcription indicators
 export { TranscriptionInProgress, TranscriptionPlaceholder } from './TranscriptionInProgress';
-export { StemNotesPreview, StemNotesPreviewSkeleton } from './StemNotesPreview';
 
 // Skeleton and virtualization
 export { StemTrackSkeleton, SingleStemSkeleton } from './StemTrackSkeleton';
