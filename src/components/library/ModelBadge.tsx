@@ -17,77 +17,91 @@ interface ModelDisplayInfo {
 }
 
 const MODEL_DISPLAY: Record<string, ModelDisplayInfo> = {
-  // API model names
+  // API model names - V5 (Gold/Crown)
   'chirp-crow': { 
     icon: Crown, 
     label: 'V5',
-    color: 'text-yellow-400', 
-    bgColor: 'bg-yellow-400/15',
+    color: 'text-yellow-300', 
+    bgColor: 'bg-yellow-500/20',
     desc: 'Новейшая модель'
   },
+  // V4.5+ (Emerald/Green)
   'chirp-bluejay': { 
     icon: Crown, 
     label: 'V4.5+',
-    color: 'text-amber-400', 
-    bgColor: 'bg-amber-400/12',
+    color: 'text-emerald-400', 
+    bgColor: 'bg-emerald-500/15',
     desc: 'Богатый звук'
   },
+  // V4.5 (Cyan/Teal)
   'chirp-auk': { 
     icon: Sparkles, 
     label: 'V4.5',
-    color: 'text-amber-500/80', 
-    bgColor: 'bg-amber-500/10',
+    color: 'text-cyan-400', 
+    bgColor: 'bg-cyan-500/15',
     desc: 'Лучшая структура'
   },
+  // V4 (Purple/Violet)
   'chirp-v4': { 
     icon: Sparkles, 
     label: 'V4',
-    color: 'text-zinc-400', 
-    bgColor: 'bg-zinc-400/10',
+    color: 'text-violet-400', 
+    bgColor: 'bg-violet-500/15',
     desc: 'Классика'
   },
-  // UI keys from suno_model field
+  // UI keys from suno_model field - V5
   'V5': { 
     icon: Crown, 
     label: 'V5',
-    color: 'text-yellow-400', 
-    bgColor: 'bg-yellow-400/15',
+    color: 'text-yellow-300', 
+    bgColor: 'bg-yellow-500/20',
     desc: 'Новейшая модель'
   },
+  // V4.5+
   'V4_5PLUS': { 
     icon: Crown, 
     label: 'V4.5+',
-    color: 'text-amber-400', 
-    bgColor: 'bg-amber-400/12',
+    color: 'text-emerald-400', 
+    bgColor: 'bg-emerald-500/15',
     desc: 'Богатый звук'
   },
+  // V4.5
   'V4_5ALL': { 
     icon: Sparkles, 
     label: 'V4.5',
-    color: 'text-amber-500/80', 
-    bgColor: 'bg-amber-500/10',
+    color: 'text-cyan-400', 
+    bgColor: 'bg-cyan-500/15',
     desc: 'Лучшая структура'
   },
   'V4_5': { 
     icon: Sparkles, 
     label: 'V4.5',
-    color: 'text-amber-500/80', 
-    bgColor: 'bg-amber-500/10',
+    color: 'text-cyan-400', 
+    bgColor: 'bg-cyan-500/15',
     desc: 'Лучшая структура'
   },
   'V4AUK': { 
     icon: Sparkles, 
     label: 'V4.5',
-    color: 'text-amber-500/80', 
-    bgColor: 'bg-amber-500/10',
+    color: 'text-cyan-400', 
+    bgColor: 'bg-cyan-500/15',
     desc: 'Лучшая структура'
   },
+  // V4
   'V4': { 
     icon: Sparkles, 
     label: 'V4',
-    color: 'text-zinc-400', 
-    bgColor: 'bg-zinc-400/10',
+    color: 'text-violet-400', 
+    bgColor: 'bg-violet-500/15',
     desc: 'Классика'
+  },
+  // V3.5 (Rose/Pink)
+  'V3_5': { 
+    icon: Sparkles, 
+    label: 'V3.5',
+    color: 'text-rose-400', 
+    bgColor: 'bg-rose-500/15',
+    desc: 'Ретро'
   },
 };
 

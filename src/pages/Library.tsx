@@ -371,8 +371,8 @@ export default function Library() {
           }
         />
 
-        {/* Compact Search and Filters - Mobile Optimized */}
-        <div className="sticky top-[calc(var(--tg-content-safe-area-inset-top,0px)+8rem)] z-20 bg-background/95 backdrop-blur-sm border-b border-border/30 -mx-4 px-4 py-2">
+        {/* Compact Search and Filters - Not sticky to allow scrolling to first track */}
+        <div className="z-20 bg-background border-b border-border/30 -mx-4 px-4 py-2">
           {isMobile ? (
             <CompactFilterBar
               searchQuery={searchQuery}

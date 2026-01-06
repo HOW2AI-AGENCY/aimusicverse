@@ -16,9 +16,8 @@ interface InfoActionsProps {
 export function InfoActions({ track, state, onAction, variant, isProcessing }: InfoActionsProps) {
   const showDetails = isActionAvailable('details', track, state);
   const showTogglePublic = isActionAvailable('toggle_public', track, state);
-  const showRename = isActionAvailable('rename', track, state);
 
-  if (!showDetails && !showTogglePublic && !showRename) return null;
+  if (!showDetails && !showTogglePublic) return null;
 
   if (variant === 'dropdown') {
     return (
@@ -27,12 +26,6 @@ export function InfoActions({ track, state, onAction, variant, isProcessing }: I
           <DropdownMenuItem onClick={() => onAction('details')}>
             <Info className="w-4 h-4 mr-2" />
             Детали трека
-          </DropdownMenuItem>
-        )}
-        {showRename && (
-          <DropdownMenuItem onClick={() => onAction('rename')}>
-            <Pencil className="w-4 h-4 mr-2" />
-            Переименовать
           </DropdownMenuItem>
         )}
         {showTogglePublic && (
@@ -63,14 +56,6 @@ export function InfoActions({ track, state, onAction, variant, isProcessing }: I
           label="Детали"
           color="sky"
           onClick={() => onAction('details')}
-        />
-      )}
-      {showRename && (
-        <IconGridButton
-          icon={Pencil}
-          label="Имя"
-          color="amber"
-          onClick={() => onAction('rename')}
         />
       )}
       {showTogglePublic && (

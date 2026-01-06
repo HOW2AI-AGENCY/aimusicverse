@@ -144,8 +144,6 @@ export function UnifiedTrackSheet({
   const showReplaceSection = isActionAvailable('replace_section', track, actionState);
   const showStemsSimple = isActionAvailable('stems_simple', track, actionState);
   const showStemsDetailed = isActionAvailable('stems_detailed', track, actionState);
-  const showMidi = isActionAvailable('transcribe_midi', track, actionState);
-  const showNotes = isActionAvailable('transcribe_notes', track, actionState);
   const showMp3 = isActionAvailable('download_mp3', track, actionState);
   const showWav = isActionAvailable('download_wav', track, actionState);
   const showDownloadStems = isActionAvailable('download_stems', track, actionState);
@@ -154,7 +152,6 @@ export function UnifiedTrackSheet({
   const showPlaylist = isActionAvailable('add_to_playlist', track, actionState);
   const showProject = isActionAvailable('add_to_project', track, actionState);
   const showDetails = isActionAvailable('details', track, actionState);
-  const showRename = isActionAvailable('rename', track, actionState);
   const showTogglePublic = isActionAvailable('toggle_public', track, actionState);
   const showUpscaleHd = isActionAvailable('upscale_hd', track, actionState);
   
@@ -217,9 +214,6 @@ export function UnifiedTrackSheet({
                   {showAddVocals && (
                     <IconGridButton icon={Mic2} label="Вокал" color="cyan" onClick={() => executeAction('add_vocals')} disabled={isProcessing} />
                   )}
-                  {showAddInstrumental && (
-                    <IconGridButton icon={Guitar} label="Инструм." color="orange" onClick={() => executeAction('add_instrumental')} disabled={isProcessing} />
-                  )}
                 </ActionGroup>
 
                 {/* Studio actions */}
@@ -235,12 +229,6 @@ export function UnifiedTrackSheet({
                   )}
                   {showStemsDetailed && (
                     <IconGridButton icon={Wand2} label="6+ стемов" color="purple" onClick={() => executeAction('stems_detailed')} disabled={isProcessing} />
-                  )}
-                  {showMidi && (
-                    <IconGridButton icon={Music2} label="MIDI" color="pink" onClick={() => executeAction('transcribe_midi')} />
-                  )}
-                  {showNotes && (
-                    <IconGridButton icon={FileMusic} label="Ноты" color="orange" onClick={() => executeAction('transcribe_notes')} />
                   )}
                 </ActionGroup>
 
@@ -304,9 +292,6 @@ export function UnifiedTrackSheet({
                 <ActionGroup title="Управление">
                   {showDetails && (
                     <IconGridButton icon={Info} label="Детали" color="sky" onClick={() => executeAction('details')} />
-                  )}
-                  {showRename && (
-                    <IconGridButton icon={Pencil} label="Имя" color="amber" onClick={() => executeAction('rename')} />
                   )}
                   {showTogglePublic && (
                     <IconGridButton 
