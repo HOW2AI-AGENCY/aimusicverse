@@ -12,7 +12,6 @@ import { NotificationProvider } from "@/contexts/NotificationContext";
 import { AnnouncementProvider } from "@/contexts/AnnouncementContext";
 import { GuestModeProvider } from "@/contexts/GuestModeContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
-import { LegacyStudioRedirect } from "@/components/studio/LegacyStudioRedirect";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { ErrorBoundaryWrapper } from "@/components/ErrorBoundaryWrapper";
 import { MainLayout } from "@/components/MainLayout";
@@ -56,7 +55,7 @@ const BlockedUsersPage = lazy(() => import("./pages/settings/BlockedUsersPage"))
 const Templates = lazy(() => import("./pages/Templates"));
 const MusicGraph = lazy(() => import("./pages/MusicGraph"));
 const CreativeTools = lazy(() => import("./pages/CreativeTools"));
-const ProfessionalStudio = lazy(() => import("./pages/ProfessionalStudio"));
+
 const GuitarStudio = lazy(() => import("./pages/GuitarStudio"));
 const MusicLab = lazy(() => import("./pages/MusicLab"));
 const AlbumView = lazy(() => import("./pages/AlbumView"));
@@ -153,7 +152,7 @@ const App = () => (
                 <Route path="/templates" element={<Templates />} />
                 <Route path="/music-graph" element={<MusicGraph />} />
                 <Route path="/creative-tools" element={<Navigate to="/music-lab" replace />} />
-                <Route path="/professional-studio" element={<ProfessionalStudio />} />
+                <Route path="/professional-studio" element={<Navigate to="/studio-v2" replace />} />
                 <Route path="/guitar-studio" element={<GuitarStudio />} />
                 <Route path="/music-lab" element={<MusicLab />} />
                 <Route path="/lyrics-studio" element={<LyricsStudio />} />
@@ -174,7 +173,7 @@ const App = () => (
                 {/* Routes without BottomNavigation */}
                 {/* Redirect legacy studio to unified version */}
                 <Route path="/studio/:trackId" element={
-                  <LegacyStudioRedirect />
+                  <Navigate to="/studio-v2" replace />
                 } />
 
                 {/* Studio V2 - isolated new studio implementation */}
