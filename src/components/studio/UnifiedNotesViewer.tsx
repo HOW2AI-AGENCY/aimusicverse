@@ -160,7 +160,8 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
   // MIDI parsing
   const { 
     parseMidiFromUrl, 
-    parsedMidi, 
+    parsedMidi,
+    error: midiError,
     isLoading: isParsing 
   } = useMidiFileParser();
 
@@ -204,24 +205,37 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
     const shouldParseXml =
       !!effectiveMusicXmlUrl &&
       !musicXmlFailed &&
-      (viewMode === 'notation' || (!effectiveMidiUrl && !providedNotes?.length));
+      (
+        viewMode === 'notation' ||
+        // Fallback: если MIDI отсутствует ИЛИ MIDI упал, берём ноты из MusicXML
+        (!providedNotes?.length && (!effectiveMidiUrl || !!midiError))
+      );
 
     if (shouldParseXml) {
       parseMusicXmlFromUrl(effectiveMusicXmlUrl);
     }
-  }, [effectiveMusicXmlUrl, viewMode, effectiveMidiUrl, providedNotes?.length, musicXmlFailed, parseMusicXmlFromUrl]);
+  }, [
+    effectiveMusicXmlUrl,
+    viewMode,
+    effectiveMidiUrl,
+    providedNotes?.length,
+    midiError,
+    musicXmlFailed,
+    parseMusicXmlFromUrl,
+  ]);
   const xmlNotesAsMidi = useMemo((): ParsedMidiNote[] => {
     if (!parsedXml?.notes?.length) return [];
-    return parsedXml.notes.map((n, idx) => {
+    return parsedXml.notes.map((n) => {
       const pitch = n.midiPitch ?? 60;
       const startTime = n.startTime ?? 0;
-      // В нашем MusicXML парсере duration уже в секундах (см. measureTime += duration / 256)
-      const dur = n.duration ?? 0.5;
+      // В useMusicXmlParser duration хранится в "тиках" (см. measureTime += duration / 256)
+      const durTicks = n.duration ?? 128;
+      const durSeconds = Math.max(0.02, durTicks / 256);
       return {
         pitch,
         startTime,
-        endTime: startTime + dur,
-        duration: dur,
+        endTime: startTime + durSeconds,
+        duration: durSeconds,
         velocity: 100,
         noteName: `${NOTE_NAMES[pitch % 12]}${Math.floor(pitch / 12) - 1}`,
         track: 0,
@@ -246,7 +260,11 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
         };
       });
     }
-    return parsedMidi?.notes ?? xmlNotesAsMidi;
+
+    const midiNotes = parsedMidi?.notes ?? [];
+    if (midiNotes.length > 0) return midiNotes;
+
+    return xmlNotesAsMidi;
   }, [providedNotes, parsedMidi, xmlNotesAsMidi]);
   
   const duration = providedDuration ?? parsedMidi?.duration ?? parsedXml?.duration ?? 60;

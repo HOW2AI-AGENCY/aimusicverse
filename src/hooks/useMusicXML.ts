@@ -91,7 +91,20 @@ export function useMusicXML({
         });
 
         osmd.Zoom = zoom;
-        await osmd.load(normalizedUrl);
+
+        // OSMD sometimes mis-detects a URL string as raw XML.
+        // To make rendering reliable, we fetch the XML ourselves and pass the content.
+        const isLikelyXmlString = normalizedUrl.trimStart().startsWith('<');
+        const xmlContent = isLikelyXmlString
+          ? normalizedUrl
+          : await (async () => {
+              const res = await fetch(normalizedUrl);
+              if (!res.ok) throw new Error(`Failed to fetch MusicXML: ${res.status}`);
+              const text = await res.text();
+              return text.replace(/^\uFEFF/, '').trimStart();
+            })();
+
+        await osmd.load(xmlContent);
         osmd.render();
         osmdRef.current = osmd;
         log.info('MusicXML loaded successfully', { url: normalizedUrl });
