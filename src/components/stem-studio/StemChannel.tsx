@@ -10,6 +10,7 @@ import { TrackStem } from '@/hooks/useTrackStems';
 import { StemWaveform } from './StemWaveform';
 import { StemEffectsPanel } from './effects/StemEffectsPanel';
 import { StemTranscriptionSheet } from './mobile/StemTranscriptionSheet';
+import { InlineStemNotes } from './InlineStemNotes';
 import {
   StemEffects,
   EQSettings,
@@ -193,6 +194,15 @@ export const StemChannel = memo(({
         color={config.waveColor}
         height={40}
         onSeek={onSeek}
+      />
+
+      {/* Inline MIDI/Notes Visualization */}
+      <InlineStemNotes
+        stem={stem}
+        trackTitle={trackTitle}
+        currentTime={currentTime}
+        duration={duration}
+        isPlaying={isPlaying}
       />
 
       {/* Effects Panel */}
