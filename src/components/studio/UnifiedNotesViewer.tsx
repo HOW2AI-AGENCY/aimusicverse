@@ -377,7 +377,8 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
     }
   }, [trackTitle]);
   
-  const defaultHeight = compact ? (isMobile ? 140 : 180) : (isMobile ? 220 : 280);
+  // Увеличенная высота для мобильных устройств
+  const defaultHeight = compact ? (isMobile ? 200 : 220) : (isMobile ? 320 : 360);
   const visualHeight = height ?? defaultHeight;
   
   // Loading state
@@ -492,7 +493,7 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
         )}
 
         {viewMode === 'notation' && effectiveMusicXmlUrl && (
-          <div className="p-2">
+          <div className="p-1 sm:p-2">
             {isParsingXml ? (
               <div
                 className="rounded-lg border bg-muted/20 flex items-center justify-center"
@@ -503,20 +504,17 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
                   Загрузка нот...
                 </div>
               </div>
-            ) : musicXmlError ? (
-              <div
-                className="rounded-lg border bg-muted/20 flex flex-col items-center justify-center gap-2 p-4"
-                style={{ height: visualHeight }}
-              >
-                <Music2 className="w-8 h-8 text-muted-foreground" />
-                <p className="text-sm text-muted-foreground text-center">Не удалось загрузить MusicXML</p>
-                <p className="text-xs text-muted-foreground/80 text-center">{musicXmlError}</p>
-              </div>
             ) : (
               <MusicXMLViewer
                 url={effectiveMusicXmlUrl}
-                minHeight={`${Math.max(220, visualHeight)}px`}
+                minHeight={`${Math.max(280, visualHeight)}px`}
                 className="w-full"
+                onError={() => {
+                  // При ошибке переключаемся на piano roll
+                  if (notes.length > 0) {
+                    setViewMode('piano');
+                  }
+                }}
               />
             )}
           </div>

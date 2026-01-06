@@ -73,11 +73,6 @@ export function MusicXMLViewer({
     }
   }, [isLoading, error, onLoaded]);
 
-  useEffect(() => {
-    if (error) {
-      onError?.(error);
-    }
-  }, [error, onError]);
 
   const handleZoomIn = () => {
     const newZoom = internalZoom + 0.1;
@@ -126,18 +121,25 @@ export function MusicXMLViewer({
     };
   }, [isFullscreen, isLoading, error, render, activeContainerRef]);
 
+  // При ошибке вызываем callback и показываем сообщение
+  useEffect(() => {
+    if (error) {
+      onError?.(error);
+    }
+  }, [error, onError]);
+
   if (error) {
     return (
-      <div className={cn('flex flex-col items-center justify-center py-8 px-4', className)}>
-        <AlertCircle className="w-10 h-10 sm:w-12 sm:h-12 text-destructive mb-3" />
+      <div className={cn('flex flex-col items-center justify-center py-6 px-4 min-h-[200px]', className)} style={{ minHeight }}>
+        <AlertCircle className="w-8 h-8 sm:w-10 sm:h-10 text-orange-500 mb-3" />
         <p className="text-sm text-muted-foreground mb-2 text-center">
-          Не удалось загрузить ноты
+          MusicXML недоступен
         </p>
-        <p className="text-xs text-muted-foreground mb-4 max-w-sm text-center">
-          {error.message}
+        <p className="text-xs text-muted-foreground/70 mb-4 max-w-xs text-center">
+          Используйте Piano Roll для просмотра нот
         </p>
-        <Button variant="outline" size="sm" onClick={handleRetry}>
-          <RefreshCw className="w-4 h-4 mr-2" />
+        <Button variant="outline" size="sm" onClick={handleRetry} className="h-8">
+          <RefreshCw className="w-3.5 h-3.5 mr-1.5" />
           Повторить
         </Button>
       </div>
