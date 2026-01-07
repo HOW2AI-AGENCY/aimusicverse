@@ -15,7 +15,7 @@
  * @see specs/001-unified-studio-mobile/plan.md for implementation plan
  */
 
-import { memo, useEffect, useMemo, useState, useCallback } from 'react';
+import { memo, useEffect, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { UnifiedDAWLayout } from './UnifiedDAWLayout';
@@ -35,6 +35,7 @@ import { useUnifiedStudio } from '@/hooks/studio/useUnifiedStudio';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { useStudioOperationLock } from '@/hooks/studio/useStudioOperationLock';
 import { useStemSeparation } from '@/hooks/useStemSeparation';
+import { useStudioModals, useStudioModalHandlers } from '@/hooks/studio/useStudioModals';
 import { registerStudioAudio, unregisterStudioAudio } from '@/hooks/studio/useStudioAudio';
 import { studioProjectToDAWProject } from '@/lib/studio/typeAdapters';
 import { useHaptic } from '@/hooks/useHaptic';
@@ -132,6 +133,10 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
   // Haptic feedback
   const { patterns } = useHaptic();
 
+  // Modal state machine - single source of truth for all dialogs
+  const modals = useStudioModals();
+  const modalHandlers = useStudioModalHandlers(modals, patterns.select);
+
   // Operation lock - determines what AI actions are available
   const operationLock = useStudioOperationLock(project);
 
@@ -140,20 +145,6 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
 
   // Stem separation hook
   const { separate, isSeparating } = useStemSeparation();
-
-  // UI State - Dialogs
-  const [showAddTrackDrawer, setShowAddTrackDrawer] = useState(false);
-  const [showExportDialog, setShowExportDialog] = useState(false);
-  const [showSaveVersionDialog, setShowSaveVersionDialog] = useState(false);
-  const [showStemDialog, setShowStemDialog] = useState(false);
-  const [showExtendDialog, setShowExtendDialog] = useState(false);
-  const [showRemixDialog, setShowRemixDialog] = useState(false);
-  const [showAddVocalsDrawer, setShowAddVocalsDrawer] = useState(false);
-  const [showRecordDrawer, setShowRecordDrawer] = useState(false);
-  const [showNotationDrawer, setShowNotationDrawer] = useState(false);
-  const [showChordSheet, setShowChordSheet] = useState(false);
-  const [showAddInstrumentalDrawer, setShowAddInstrumentalDrawer] = useState(false);
-  const [selectedTrackForNotation, setSelectedTrackForNotation] = useState<any>(null);
 
   // Convert StudioProject to DAWProject format
   const dawProject = useMemo(() => {
@@ -233,20 +224,6 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
     }
   }, [toggleMute, toggleSolo, removeTrack, patterns]);
 
-  // Handle add track
-  const handleAddTrack = useCallback(() => {
-    patterns.select();
-    setShowAddTrackDrawer(true);
-    logger.info('[UnifiedStudioMobile] Add track drawer opened');
-  }, [patterns]);
-
-  // Handle export
-  const handleExport = useCallback(() => {
-    patterns.select();
-    setShowExportDialog(true);
-    logger.info('[UnifiedStudioMobile] Export dialog opened');
-  }, [patterns]);
-
   // Handle save with haptic feedback
   const handleSave = useCallback(async () => {
     patterns.tap();
@@ -261,13 +238,7 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
     return success;
   }, [save, patterns]);
 
-  // AI Actions handlers
-  const handleGenerate = useCallback(() => {
-    patterns.select();
-    toast.info('Генерация нового трека');
-    // TODO: Open generate sheet
-  }, [patterns]);
-
+  // AI Actions handlers with operation lock checks
   const handleExtend = useCallback(() => {
     if (!operationLock.isOperationAllowed('extend')) {
       const reason = operationLock.getBlockReason('extend');
@@ -275,9 +246,8 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
       toast.warning(reason || 'Операция недоступна');
       return;
     }
-    patterns.select();
-    setShowExtendDialog(true);
-  }, [operationLock, patterns]);
+    modalHandlers.openExtend();
+  }, [operationLock, patterns, modalHandlers]);
 
   const handleCover = useCallback(() => {
     if (!operationLock.isOperationAllowed('cover')) {
@@ -286,9 +256,8 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
       toast.warning(reason || 'Операция недоступна');
       return;
     }
-    patterns.select();
-    setShowRemixDialog(true);
-  }, [operationLock, patterns]);
+    modalHandlers.openRemix();
+  }, [operationLock, patterns, modalHandlers]);
 
   const handleAddVocals = useCallback(() => {
     if (!operationLock.isOperationAllowed('add_vocals')) {
@@ -297,9 +266,8 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
       toast.warning(reason || 'Операция недоступна');
       return;
     }
-    patterns.select();
-    setShowAddVocalsDrawer(true);
-  }, [operationLock, patterns]);
+    modalHandlers.openAddVocals();
+  }, [operationLock, patterns, modalHandlers]);
 
   const handleSeparateStems = useCallback(() => {
     if (!operationLock.isOperationAllowed('separate_stems')) {
@@ -308,38 +276,41 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
       toast.warning(reason || 'Операция недоступна');
       return;
     }
+    modalHandlers.openStemSeparation();
+  }, [operationLock, patterns, modalHandlers]);
+
+  const handleAddInstrumental = useCallback(() => {
+    if (!operationLock.isOperationAllowed('add_vocals')) {
+      const reason = operationLock.getBlockReason('add_vocals');
+      patterns.error();
+      toast.warning(reason || 'Операция недоступна');
+      return;
+    }
+    modalHandlers.openAddInstrumental();
+  }, [operationLock, patterns, modalHandlers]);
+
+  const handleGenerate = useCallback(() => {
     patterns.select();
-    setShowStemDialog(true);
-  }, [operationLock, patterns]);
+    toast.info('Генерация нового трека');
+    // TODO: Open generate sheet
+  }, [patterns]);
 
   // Handle stem separation confirmation
-  const handleStemSeparationConfirm = useCallback(async (mode: 'simple' | 'detailed') => {
+  const handleStemSeparationConfirm = useCallback(async (stemMode: 'simple' | 'detailed') => {
     if (!trackForSeparation?.suno_id) {
       toast.error('Не удалось найти данные трека для разделения');
-      setShowStemDialog(false);
+      modals.close();
       return;
     }
     
     try {
-      await separate(trackForSeparation as any, mode);
-      setShowStemDialog(false);
+      await separate(trackForSeparation as any, stemMode);
+      modals.close();
       queryClient.invalidateQueries({ queryKey: ['track-stems', id] });
     } catch (error) {
       logger.error('Stem separation failed', error);
     }
-  }, [trackForSeparation, separate, id, queryClient]);
-
-  const handleSaveAsVersion = useCallback(() => {
-    patterns.select();
-    setShowSaveVersionDialog(true);
-  }, [patterns]);
-
-  // Handle record action
-  const handleRecord = useCallback(() => {
-    patterns.select();
-    setShowRecordDrawer(true);
-    logger.info('[UnifiedStudioMobile] Record drawer opened');
-  }, [patterns]);
+  }, [trackForSeparation, separate, id, queryClient, modals]);
 
   // Handle recording complete
   const handleRecordingComplete = useCallback((recordedTrack: any) => {
@@ -351,36 +322,8 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
     });
     // TODO: Add track to project
     queryClient.invalidateQueries({ queryKey: ['track', id] });
-  }, [patterns, queryClient, id]);
-
-  // Handle notation view
-  const handleShowNotation = useCallback((track: any) => {
-    patterns.select();
-    setSelectedTrackForNotation(track);
-    setShowNotationDrawer(true);
-    logger.info('[UnifiedStudioMobile] Notation drawer opened', { trackId: track.id });
-  }, [patterns]);
-
-  // Handle chord sheet view
-  const handleShowChords = useCallback((track: any) => {
-    patterns.select();
-    setSelectedTrackForNotation(track);
-    setShowChordSheet(true);
-    logger.info('[UnifiedStudioMobile] Chord sheet opened', { trackId: track.id });
-  }, [patterns]);
-
-  // Handle add instrumental
-  const handleAddInstrumental = useCallback(() => {
-    if (!operationLock.isOperationAllowed('add_vocals')) {
-      const reason = operationLock.getBlockReason('add_vocals');
-      patterns.error();
-      toast.warning(reason || 'Операция недоступна');
-      return;
-    }
-    patterns.select();
-    setShowAddInstrumentalDrawer(true);
-    logger.info('[UnifiedStudioMobile] Add instrumental drawer opened');
-  }, [operationLock, patterns]);
+    modals.close();
+  }, [patterns, queryClient, id, modals]);
 
   // Play/pause with haptic
   const handlePlayPause = useCallback(() => {
@@ -483,24 +426,21 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
           onTrackVolumeChange={(trackId, volume) => setVolume(trackId, volume)}
           onTrackPanChange={(trackId, pan) => setPan(trackId, pan)}
           onTrackRemove={(trackId) => removeTrack(trackId)}
-          onAddTrack={handleAddTrack}
-          onExport={handleExport}
+          onAddTrack={modalHandlers.openAddTrack}
+          onExport={modalHandlers.openExport}
           onSave={handleSave}
-          // Undo/Redo
           onUndo={undo}
           onRedo={redo}
           canUndo={canUndo}
           canRedo={canRedo}
-          // AI Actions
           onGenerate={handleGenerate}
           onExtend={handleExtend}
           onCover={handleCover}
           onAddVocals={handleAddVocals}
           onSeparateStems={handleSeparateStems}
-          onSaveAsVersion={operationLock.canSaveAsNewVersion ? handleSaveAsVersion : undefined}
-          onRecord={handleRecord}
+          onSaveAsVersion={operationLock.canSaveAsNewVersion ? modalHandlers.openSaveVersion : undefined}
+          onRecord={modalHandlers.openRecord}
           onAddInstrumental={handleAddInstrumental}
-          // Operation lock state
           hasStems={operationLock.hasStems}
           hasPendingTracks={operationLock.hasPendingTracks}
         />
@@ -508,8 +448,8 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
 
       {/* Add Track Drawer */}
       <AddTrackDrawer
-        open={showAddTrackDrawer}
-        onOpenChange={setShowAddTrackDrawer}
+        open={modals.isOpen('addTrack')}
+        onOpenChange={modals.getOpenChangeHandler('addTrack')}
         trackId={id}
         trackUrl={mainTrackUrl}
         trackTitle={mainTrackTitle}
@@ -517,8 +457,8 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
 
       {/* Export Dialog */}
       <ExportMixDialog
-        open={showExportDialog}
-        onOpenChange={setShowExportDialog}
+        open={modals.isOpen('export')}
+        onOpenChange={modals.getOpenChangeHandler('export')}
         tracks={exportTracks}
         masterVolume={masterVolume}
         trackTitle={mainTrackTitle}
@@ -526,8 +466,8 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
 
       {/* Save Version Dialog */}
       <SaveVersionDialog
-        open={showSaveVersionDialog}
-        onOpenChange={setShowSaveVersionDialog}
+        open={modals.isOpen('saveVersion')}
+        onOpenChange={modals.getOpenChangeHandler('saveVersion')}
         projectId={project?.id || id}
         sourceTrackId={id}
         tracks={tracks}
@@ -535,14 +475,14 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
         onVersionSaved={() => {
           patterns.success();
           toast.success('Версия сохранена');
-          setShowSaveVersionDialog(false);
+          modals.close();
         }}
       />
 
       {/* Stem Separation Dialog */}
       <StemSeparationModeDialog
-        open={showStemDialog}
-        onOpenChange={setShowStemDialog}
+        open={modals.isOpen('stemSeparation')}
+        onOpenChange={modals.getOpenChangeHandler('stemSeparation')}
         onConfirm={handleStemSeparationConfirm}
         isProcessing={isSeparating}
       />
@@ -550,8 +490,8 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
       {/* Extend Dialog */}
       {mainTrack && trackForSeparation && (
         <ExtendDialog
-          open={showExtendDialog}
-          onOpenChange={setShowExtendDialog}
+          open={modals.isOpen('extend')}
+          onOpenChange={modals.getOpenChangeHandler('extend')}
           track={trackForSeparation as any}
         />
       )}
@@ -559,8 +499,8 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
       {/* Remix/Cover Dialog */}
       {mainTrack && trackForSeparation && (
         <RemixDialog
-          open={showRemixDialog}
-          onOpenChange={setShowRemixDialog}
+          open={modals.isOpen('remix')}
+          onOpenChange={modals.getOpenChangeHandler('remix')}
           track={trackForSeparation as any}
         />
       )}
@@ -568,26 +508,26 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
       {/* Add Vocals Drawer */}
       {mainTrack && trackForSeparation && (
         <LazyAddVocalsDrawer
-          open={showAddVocalsDrawer}
-          onOpenChange={setShowAddVocalsDrawer}
+          open={modals.isOpen('addVocals')}
+          onOpenChange={modals.getOpenChangeHandler('addVocals')}
           track={trackForSeparation as any}
         />
       )}
 
       {/* Record Track Drawer */}
       <RecordTrackDrawer
-        open={showRecordDrawer}
-        onOpenChange={setShowRecordDrawer}
+        open={modals.isOpen('record')}
+        onOpenChange={modals.getOpenChangeHandler('record')}
         projectId={project?.id || id}
         onRecordingComplete={handleRecordingComplete}
       />
 
       {/* Notation Drawer */}
       <NotationDrawer
-        open={showNotationDrawer}
-        onClose={() => setShowNotationDrawer(false)}
-        track={selectedTrackForNotation}
-        transcriptionData={selectedTrackForNotation?.transcription}
+        open={modals.isOpen('notation')}
+        onClose={modals.close}
+        track={modals.payload.selectedTrack}
+        transcriptionData={modals.payload.selectedTrack?.transcription}
         currentTime={currentTime}
         duration={duration}
         isPlaying={isPlaying}
@@ -596,10 +536,10 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
 
       {/* Chord Sheet */}
       <ChordSheet
-        open={showChordSheet}
-        onClose={() => setShowChordSheet(false)}
-        trackName={selectedTrackForNotation?.name || 'Track'}
-        chords={selectedTrackForNotation?.chords || []}
+        open={modals.isOpen('chordSheet')}
+        onClose={modals.close}
+        trackName={modals.payload.selectedTrack?.name || 'Track'}
+        chords={modals.payload.selectedTrack?.chords || []}
         currentTime={currentTime}
         onSeekToChord={handleSeek}
       />
@@ -607,14 +547,13 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
       {/* Add Instrumental Drawer */}
       {mainTrack && trackForSeparation && (
         <AddInstrumentalDrawer
-          open={showAddInstrumentalDrawer}
-          onOpenChange={setShowAddInstrumentalDrawer}
+          open={modals.isOpen('addInstrumental')}
+          onOpenChange={modals.getOpenChangeHandler('addInstrumental')}
           track={trackForSeparation as any}
         />
       )}
     </>
   );
 });
-
 // Display name for React DevTools
 UnifiedStudioMobile.displayName = 'UnifiedStudioMobile';
