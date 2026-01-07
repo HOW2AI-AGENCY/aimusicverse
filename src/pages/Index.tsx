@@ -14,6 +14,7 @@ import { PullToRefreshWrapper } from "@/components/library/PullToRefreshWrapper"
 import { useIsMobile } from "@/hooks/use-mobile";
 import { TrendingUp, Clock } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { preloadImages } from "@/lib/imageOptimization";
 
 // Critical path - eager loading for first paint
 import { TracksGridSection } from "@/components/home/TracksGridSection";
@@ -78,6 +79,20 @@ const Index = () => {
 
   // Single optimized query for all public content
   const { data: publicContent, isLoading: contentLoading, refetch: refetchContent } = usePublicContentBatch();
+
+  // Preload first 4 track cover images for faster perceived loading
+  useEffect(() => {
+    if (publicContent?.popularTracks?.length) {
+      const firstCovers = publicContent.popularTracks
+        .slice(0, 4)
+        .map(t => t.cover_url)
+        .filter(Boolean) as string[];
+      
+      if (firstCovers.length) {
+        preloadImages(firstCovers, true).catch(() => {});
+      }
+    }
+  }, [publicContent?.popularTracks]);
 
   // Use profile data from DB if available, fallback to Telegram context
   const displayUser = profile || telegramUser;
