@@ -133,22 +133,50 @@ export function startTimer(name: string): () => number {
   };
 }
 
+// Rate limiting for error recording
+const ERROR_RATE_LIMIT = {
+  maxPerMinute: 10,
+  windowMs: 60000,
+};
+const errorRateWindow = new Map<string, { count: number; resetTime: number }>();
+
 /**
- * Record an error occurrence
+ * Record an error occurrence with rate limiting
  */
 export function recordError(code: string, message: string, context?: Record<string, unknown>) {
+  const now = Date.now();
+  
+  // Rate limiting per error code
+  const rateInfo = errorRateWindow.get(code);
+  if (rateInfo) {
+    if (now < rateInfo.resetTime) {
+      if (rateInfo.count >= ERROR_RATE_LIMIT.maxPerMinute) {
+        // Rate limited - just increment existing count silently
+        const existing = errorCounts.get(code);
+        if (existing) existing.count++;
+        return;
+      }
+      rateInfo.count++;
+    } else {
+      // Reset window
+      errorRateWindow.set(code, { count: 1, resetTime: now + ERROR_RATE_LIMIT.windowMs });
+    }
+  } else {
+    errorRateWindow.set(code, { count: 1, resetTime: now + ERROR_RATE_LIMIT.windowMs });
+  }
+  
   const existing = errorCounts.get(code);
   
   if (existing) {
     existing.count++;
-    existing.lastOccurred = Date.now();
+    existing.lastOccurred = now;
     existing.message = message;
   } else {
     errorCounts.set(code, {
       code,
       message,
       count: 1,
-      lastOccurred: Date.now(),
+      lastOccurred: now,
       context,
     });
   }
@@ -217,8 +245,10 @@ export async function flushMetrics(useBeacon = false) {
     timestamp: new Date().toISOString(),
   };
   
-  // Clear buffers
+  // Clear buffers BEFORE sending to prevent duplicate sends
   metricsBuffer.length = 0;
+  const errorSnapshot = new Map(errorCounts);
+  errorCounts.clear();
   
   if (useBeacon && navigator.sendBeacon) {
     // Use sendBeacon for page unload - fire and forget
@@ -241,8 +271,16 @@ export async function flushMetrics(useBeacon = false) {
     });
     logger.debug('Metrics flushed', { count: payload.metrics.length });
   } catch (error) {
-    // Re-queue metrics on failure
+    // Re-queue metrics and errors on failure
     metricsBuffer.push(...payload.metrics);
+    errorSnapshot.forEach((err, code) => {
+      const existing = errorCounts.get(code);
+      if (existing) {
+        existing.count += err.count;
+      } else {
+        errorCounts.set(code, err);
+      }
+    });
     logger.warn('Failed to flush metrics', { error });
   }
 }

@@ -110,23 +110,46 @@ serve(async (req) => {
       }
     }
 
-    // Insert errors into error_logs table
-    const errorLogs = Object.entries(errors).map(([code, data]) => ({
-      session_id: sessionId,
-      error_type: code.split(':')[0] || 'unknown',
-      error_message: data.message,
-      error_fingerprint: code,
-      severity: data.count >= 5 ? 'critical' : data.count >= 3 ? 'error' : 'warning',
-      context: { count: data.count },
-    }));
-
-    if (errorLogs.length > 0) {
-      const { error: errorInsertError } = await supabase
-        .from('error_logs')
-        .insert(errorLogs);
-      
-      if (errorInsertError) {
-        console.warn('Failed to insert error logs:', errorInsertError.message);
+    // Insert or update errors in error_logs table with deduplication
+    // Use upsert based on error_fingerprint + session_id to prevent duplicates
+    if (Object.keys(errors).length > 0) {
+      for (const [code, data] of Object.entries(errors)) {
+        const errorType = code.split(':')[0] || 'unknown';
+        const severity = data.count >= 5 ? 'critical' : data.count >= 3 ? 'error' : 'warning';
+        
+        // First, try to find existing error with same fingerprint in last hour
+        const { data: existing } = await supabase
+          .from('error_logs')
+          .select('id, context')
+          .eq('error_fingerprint', code)
+          .eq('session_id', sessionId)
+          .gte('created_at', new Date(Date.now() - 3600000).toISOString())
+          .limit(1)
+          .single();
+        
+        if (existing) {
+          // Update existing error count
+          const prevCount = (existing.context as any)?.count || 0;
+          await supabase
+            .from('error_logs')
+            .update({ 
+              context: { count: prevCount + data.count },
+              severity: data.count + prevCount >= 5 ? 'critical' : data.count + prevCount >= 3 ? 'error' : severity,
+            })
+            .eq('id', existing.id);
+        } else {
+          // Insert new error
+          await supabase
+            .from('error_logs')
+            .insert({
+              session_id: sessionId,
+              error_type: errorType,
+              error_message: data.message,
+              error_fingerprint: code,
+              severity,
+              context: { count: data.count },
+            });
+        }
       }
     }
 
