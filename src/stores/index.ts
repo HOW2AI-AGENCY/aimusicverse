@@ -12,6 +12,10 @@
 // import { useStemMixerStore } from '@/stores/useStemMixerStore';
 // import { usePlaybackStore } from '@/stores/usePlaybackStore';
 
+// Safe re-exports (no circular deps - these stores don't import from this barrel)
+export { useStemMixerStore, useStemState, useStemActions, useMasterControls, useEffectiveStemVolume, useIsStemMuted } from './useStemMixerStore';
+export { usePlaybackStore, usePlaybackStatus, usePlaybackControls, useLoopControls, usePlaybackProgress, usePlaybackLoadingState } from './usePlaybackStore';
+
 // ============ Full Stores ============
 export { useUnifiedStudioStore, TRACK_COLORS } from './useUnifiedStudioStore';
 export type {
