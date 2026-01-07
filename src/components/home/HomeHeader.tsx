@@ -11,6 +11,7 @@ import { cn } from '@/lib/utils';
 import { useUnreadCount } from '@/hooks/useNotifications';
 import { useTelegram } from '@/contexts/TelegramContext';
 import logo from '@/assets/logo.png';
+import { TELEGRAM_SAFE_AREA } from '@/constants/safe-area';
 
 // Use the same menu as bottom navigation "More" button
 const MoreMenuSheet = lazy(() => import('@/components/navigation/MoreMenuSheet').then(m => ({ default: m.MoreMenuSheet })));
@@ -66,13 +67,13 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
   return (
     <motion.header 
       className={cn(
-        "sticky top-0 z-20 -mx-4 px-3",
-        // Telegram safe area: system insets + content insets (for native Telegram buttons)
-        // Fallback: 44px for iOS notch devices
-        "pt-[calc(max(var(--tg-content-safe-area-inset-top,0px)+var(--tg-safe-area-inset-top,44px)+0.5rem,env(safe-area-inset-top,44px)+0.5rem))] pb-2",
+        "sticky top-0 z-20 -mx-4 px-3 pb-2",
         "backdrop-blur-xl bg-background/90 border-b border-border/50",
         className
       )}
+      style={{
+        paddingTop: TELEGRAM_SAFE_AREA.homeHeaderTop,
+      }}
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
@@ -103,10 +104,10 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
             <img 
               src={logo} 
               alt="MusicVerse AI" 
-              className="h-10 w-10 rounded-xl shadow-md" 
+              className="h-8 w-8 sm:h-10 sm:w-10 rounded-xl shadow-md" 
             />
           </motion.div>
-          <h1 className="text-xs font-bold text-gradient leading-tight mt-1">
+          <h1 className="text-[10px] sm:text-xs font-bold text-gradient leading-tight mt-1">
             MusicVerse AI
           </h1>
         </motion.div>

@@ -18,14 +18,23 @@ export const TELEGRAM_SAFE_AREA = {
 
   /**
    * For sticky headers that need to account for native controls
-   * Includes minimum fallback of 44px for status bar
    */
-  stickyHeaderTop: `calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px)) + 0.75rem)`,
+  stickyHeaderTop: `calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px)) + 0.5rem)`,
+
+  /**
+   * For home header with larger padding
+   */
+  homeHeaderTop: `calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px)) + 1rem)`,
 
   /**
    * Minimal safe area (just the device insets, no extra padding)
    */
   minimalTop: `max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))`,
+
+  /**
+   * For overlays that need consistent positioning
+   */
+  overlayTop: `calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px)) + 0.5rem)`,
 
   /**
    * Bottom safe area for navigation and controls
@@ -36,6 +45,11 @@ export const TELEGRAM_SAFE_AREA = {
    * Bottom with content padding
    */
   bottomWithPadding: `calc(max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)) + 1rem)`,
+
+  /**
+   * Bottom for navigation bar (includes nav height)
+   */
+  bottomNav: `calc(max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)) + 4rem)`,
 } as const;
 
 /**

@@ -79,17 +79,17 @@ export const CreatorToolsSection = memo(function CreatorToolsSection({
   };
 
   return (
-    <section className={cn('space-y-3', className)}>
+    <section className={cn('space-y-2.5 sm:space-y-3', className)}>
       {/* Section Header */}
       <div className="flex items-center gap-2">
-        <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-          <Sparkles className="w-4 h-4 text-primary" />
+        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+          <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary" />
         </div>
         <div>
-          <h2 className="text-base font-semibold text-foreground">
+          <h2 className="text-sm sm:text-base font-semibold text-foreground">
             Инструменты для музыкантов
           </h2>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-[11px] sm:text-xs text-muted-foreground">
             Записывай, играй, пиши — AI поможет на каждом шаге
           </p>
         </div>
@@ -105,33 +105,33 @@ export const CreatorToolsSection = memo(function CreatorToolsSection({
             transition={{ delay: index * 0.05 }}
             onClick={() => handleToolClick(tool)}
             className={cn(
-              'relative overflow-hidden rounded-xl p-3 sm:p-4 text-left',
+              'relative overflow-hidden rounded-xl p-3 sm:p-4 text-left min-h-[100px] sm:min-h-[120px]',
               'bg-gradient-to-br border border-border/50',
               'hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5',
-              'transition-all duration-200 group',
+              'transition-all duration-200 group active:scale-[0.98]',
               tool.gradient
             )}
           >
             {/* Icon */}
             <div className={cn(
-              'w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center mb-2 sm:mb-3',
+              'w-9 h-9 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center mb-2 sm:mb-3',
               'transition-transform duration-200 group-hover:scale-110',
               tool.iconBg
             )}>
-              <tool.icon className={cn('w-5 h-5 sm:w-6 sm:h-6', tool.iconColor)} />
+              <tool.icon className={cn('w-4 h-4 sm:w-6 sm:h-6', tool.iconColor)} />
             </div>
 
             {/* Content */}
-            <h3 className="text-sm sm:text-base font-medium text-foreground mb-0.5 sm:mb-1">
+            <h3 className="text-xs sm:text-base font-medium text-foreground mb-0.5 sm:mb-1">
               {tool.title}
             </h3>
-            <p className="text-xs text-muted-foreground line-clamp-2">
+            <p className="text-[10px] sm:text-xs text-muted-foreground line-clamp-2">
               {tool.description}
             </p>
 
             {/* Arrow indicator */}
-            <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
-              <ArrowRight className="w-4 h-4 text-muted-foreground" />
+            <div className="absolute top-2.5 right-2.5 sm:top-3 sm:right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground" />
             </div>
           </motion.button>
         ))}

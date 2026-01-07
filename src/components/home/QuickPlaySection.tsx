@@ -82,11 +82,11 @@ const TrackQuickCard = memo(function TrackQuickCard({
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
-        {/* Play Button */}
+        {/* Play Button - larger on mobile */}
         <div className="absolute inset-0 flex items-center justify-center">
           <motion.div
             className={cn(
-              "w-14 h-14 rounded-full flex items-center justify-center",
+              "w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center",
               "bg-primary/90 backdrop-blur-sm shadow-xl",
               "group-hover:scale-110 transition-transform"
             )}
@@ -94,22 +94,22 @@ const TrackQuickCard = memo(function TrackQuickCard({
             transition={{ duration: 1, repeat: Infinity }}
           >
             {isCurrentlyPlaying ? (
-              <Pause className="w-6 h-6 text-primary-foreground" />
+              <Pause className="w-5 h-5 sm:w-6 sm:h-6 text-primary-foreground" />
             ) : (
-              <Play className="w-6 h-6 text-primary-foreground ml-1" />
+              <Play className="w-5 h-5 sm:w-6 sm:h-6 text-primary-foreground ml-0.5" />
             )}
           </motion.div>
         </div>
 
         {/* Track Info */}
-        <div className="absolute bottom-0 left-0 right-0 p-3">
-          <p className="text-white font-semibold text-sm truncate mb-0.5">
+        <div className="absolute bottom-0 left-0 right-0 p-2.5 sm:p-3">
+          <p className="text-white font-semibold text-xs sm:text-sm truncate mb-0.5">
             {track.title || 'Без названия'}
           </p>
-          <div className="flex items-center gap-2 text-white/70 text-xs">
+          <div className="flex items-center gap-1.5 sm:gap-2 text-white/70 text-[10px] sm:text-xs">
             {(track.like_count || 0) > 0 && (
-              <span className="flex items-center gap-1">
-                <Heart className="w-3 h-3" />
+              <span className="flex items-center gap-0.5 sm:gap-1">
+                <Heart className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
                 {track.like_count}
               </span>
             )}
@@ -157,21 +157,21 @@ export const QuickPlaySection = memo(function QuickPlaySection({
   }
 
   return (
-    <section className={cn("py-4", className)}>
+    <section className={cn("py-3 sm:py-4", className)}>
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-center mb-4"
+        className="text-center mb-3 sm:mb-4"
       >
-        <h2 className="text-base font-semibold mb-1">
+        <h2 className="text-sm sm:text-base font-semibold mb-0.5 sm:mb-1">
           🎧 Начни слушать прямо сейчас
         </h2>
-        <p className="text-xs text-muted-foreground">
+        <p className="text-[11px] sm:text-xs text-muted-foreground">
           Нажми на обложку — и музыка заиграет
         </p>
       </motion.div>
 
-      <div className="flex gap-3">
+      <div className="flex gap-2 sm:gap-3">
         {displayTracks.map((track, index) => (
           <TrackQuickCard key={track.id} track={track} index={index} />
         ))}
