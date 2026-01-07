@@ -17,18 +17,14 @@ import { lazyWithRetry } from "@/lib/performance";
 import { FeatureErrorBoundary } from "@/components/ui/feature-error-boundary";
 import { Skeleton } from "@/components/ui/skeleton";
 
-// Critical path - minimal imports for first paint
+// Critical path - eager loading for first paint
 import { TracksGridSection } from "@/components/home/TracksGridSection";
-
-// Lazy loaded - above fold but can wait
-const HeroSectionPro = lazy(() => import("@/components/home/HeroSectionPro").then(m => ({ default: m.HeroSectionPro })));
-const FirstTimeHeroCard = lazy(() => import("@/components/home/FirstTimeHeroCard").then(m => ({ default: m.FirstTimeHeroCard })));
-const NewUserProgress = lazy(() => import("@/components/home/NewUserProgress").then(m => ({ default: m.NewUserProgress })));
-const QuickInputBar = lazy(() => import("@/components/home/QuickInputBar").then(m => ({ default: m.QuickInputBar })));
-const CreatorToolsSection = lazy(() => import("@/components/home/CreatorToolsSection").then(m => ({ default: m.CreatorToolsSection })));
-
-// Lazy loaded - below fold
-const QuickPlaySection = lazy(() => import("@/components/home/QuickPlaySection").then(m => ({ default: m.QuickPlaySection })));
+import { HeroSectionPro } from "@/components/home/HeroSectionPro";
+import { FirstTimeHeroCard } from "@/components/home/FirstTimeHeroCard";
+import { NewUserProgress } from "@/components/home/NewUserProgress";
+import { QuickInputBar } from "@/components/home/QuickInputBar";
+import { CreatorToolsSection } from "@/components/home/CreatorToolsSection";
+import { QuickPlaySection } from "@/components/home/QuickPlaySection";
 const FeatureShowcase = lazy(() => import("@/components/home/FeatureShowcase").then(m => ({ default: m.FeatureShowcase })));
 const SocialProofSection = lazy(() => import("@/components/home/SocialProofSection").then(m => ({ default: m.SocialProofSection })));
 const EngagementHint = lazy(() => import("@/components/home/EngagementHint").then(m => ({ default: m.EngagementHint })));
