@@ -203,14 +203,17 @@ function CreatorCard({
 
   return (
     <motion.div
-      className="relative flex-shrink-0 w-[140px] sm:w-[150px] cursor-pointer group"
+      className="relative flex-shrink-0 w-[150px] sm:w-[160px] cursor-pointer group"
       whileHover={{ scale: 1.03, y: -4 }}
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
+      role="button"
+      tabIndex={0}
+      aria-label={`Профиль ${displayName}`}
     >
       <div className={cn(
-        "relative p-3 rounded-xl bg-card/80 border border-border/50 backdrop-blur-sm h-full min-h-[180px] flex flex-col",
-        "hover:border-primary/30 hover:shadow-md transition-all",
+        "relative p-4 rounded-2xl bg-card/80 border border-border/50 backdrop-blur-sm h-full min-h-[200px] flex flex-col",
+        "hover:border-primary/30 hover:shadow-lg transition-all",
         rankConfig && `bg-gradient-to-br ${rankConfig.bg}`
       )}>
         {/* Rank Badge */}
@@ -221,17 +224,17 @@ function CreatorCard({
         )}
         
         {/* Avatar */}
-        <div className="flex justify-center mb-2">
+        <div className="flex justify-center mb-3">
           <div className={cn(
             "relative",
             rank <= 3 && "after:absolute after:inset-0 after:rounded-full after:bg-primary/10 after:blur-lg after:-z-10"
           )}>
             <Avatar className={cn(
-              "w-14 h-14 border-2 transition-all shadow-md",
+              "w-16 h-16 border-2 transition-all shadow-md",
               rankConfig?.ring || "border-border/50 group-hover:border-primary/50"
             )}>
               <AvatarImage src={creator.photo_url || undefined} alt={displayName} />
-              <AvatarFallback className="text-sm bg-gradient-to-br from-primary/20 to-primary/5">
+              <AvatarFallback className="text-base bg-gradient-to-br from-primary/20 to-primary/5">
                 {displayName[0]?.toUpperCase()}
               </AvatarFallback>
             </Avatar>
@@ -239,49 +242,50 @@ function CreatorCard({
         </div>
 
         {/* Name */}
-        <h3 className="font-semibold text-[11px] text-center truncate mb-0.5 group-hover:text-primary transition-colors">
+        <h3 className="font-semibold text-xs text-center truncate mb-0.5 group-hover:text-primary transition-colors">
           {displayName}
         </h3>
         
         {/* Username - always reserve space */}
-        <p className="text-[9px] text-muted-foreground text-center truncate mb-1.5 h-3">
+        <p className="text-[10px] text-muted-foreground text-center truncate mb-2 h-3.5">
           {creator.username ? `@${creator.username}` : ''}
         </p>
 
         {/* Stats */}
-        <div className="flex items-center justify-center gap-2 text-[10px] mb-2">
-          <div className="flex items-center gap-0.5 text-muted-foreground">
-            <Music2 className="w-2.5 h-2.5" />
+        <div className="flex items-center justify-center gap-3 text-xs mb-3">
+          <div className="flex items-center gap-1 text-muted-foreground">
+            <Music2 className="w-3 h-3" />
             <span className="font-medium">{creator.tracks_count}</span>
           </div>
-          <div className="flex items-center gap-0.5 text-red-400">
-            <Heart className="w-2.5 h-2.5 fill-current" />
+          <div className="flex items-center gap-1 text-red-400">
+            <Heart className="w-3 h-3 fill-current" />
             <span className="font-medium">{creator.total_likes}</span>
           </div>
         </div>
 
-        {/* Follow Button - pushed to bottom */}
+        {/* Follow Button - 44px+ touch target */}
         {user && !isOwnProfile && (
           <Button
             size="sm"
             variant={isFollowing ? "outline" : "default"}
             className={cn(
-              "w-full h-7 text-[10px] mt-auto gap-1 rounded-lg",
+              "w-full min-h-[44px] h-11 text-xs mt-auto gap-1.5 rounded-xl font-medium",
               isFollowing && "border-primary/30 text-primary"
             )}
             onClick={handleFollowClick}
             disabled={isFollowLoading}
+            aria-label={isFollowing ? `Отписаться от ${displayName}` : `Подписаться на ${displayName}`}
           >
             {isFollowLoading ? (
-              <Loader2 className="w-3 h-3 animate-spin" />
+              <Loader2 className="w-4 h-4 animate-spin" />
             ) : isFollowing ? (
               <>
-                <Check className="w-3 h-3" />
+                <Check className="w-4 h-4" />
                 Подписка
               </>
             ) : (
               <>
-                <UserPlus className="w-3 h-3" />
+                <UserPlus className="w-4 h-4" />
                 Подписаться
               </>
             )}
