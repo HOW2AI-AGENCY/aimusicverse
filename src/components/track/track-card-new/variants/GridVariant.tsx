@@ -216,22 +216,26 @@ export const GridVariant = memo(function GridVariant({
             )}
           </div>
 
-          {/* Content */}
-          <div className="p-2.5 space-y-1">
+          {/* Content - increased padding for mobile touch */}
+          <div className="p-3 sm:p-2.5 space-y-1.5">
             <div className="flex items-center justify-between gap-2">
-              <h3 className="font-semibold text-sm truncate flex-1">{track.title || 'Без названия'}</h3>
+              <h3 className="font-semibold text-sm sm:text-xs truncate flex-1">{track.title || 'Без названия'}</h3>
 
               {showActions && (
                 <Button
                   size="icon"
                   variant="ghost"
-                  className="w-8 h-8 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                  className={cn(
+                    "w-10 h-10 sm:w-8 sm:h-8 min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex-shrink-0 transition-opacity",
+                    isMobile ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+                  )}
                   onClick={(e) => {
                     e.stopPropagation();
                     openSheet();
                   }}
+                  aria-label="Дополнительные действия"
                 >
-                  <MoreHorizontal className="w-4 h-4" />
+                  <MoreHorizontal className="w-5 h-5 sm:w-4 sm:h-4" />
                 </Button>
               )}
             </div>

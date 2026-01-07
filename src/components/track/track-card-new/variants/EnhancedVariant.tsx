@@ -178,7 +178,7 @@ export const EnhancedVariant = memo(function EnhancedVariant({
                 )}
               />
 
-              {/* Play Button */}
+              {/* Play Button - larger touch target on mobile */}
               <motion.div
                 className="absolute inset-0 flex items-center justify-center"
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -191,16 +191,17 @@ export const EnhancedVariant = memo(function EnhancedVariant({
                 <Button
                   size="icon"
                   className={cn(
-                    'w-10 h-10 rounded-full shadow-xl',
+                    'w-12 h-12 sm:w-10 sm:h-10 min-w-[44px] min-h-[44px] rounded-full shadow-xl',
                     'bg-primary/90 hover:bg-primary transition-all'
                   )}
                   onClick={handlePlay}
                   disabled={!track.audio_url}
+                  aria-label={isCurrentlyPlaying ? 'Пауза' : 'Воспроизвести'}
                 >
                   {isCurrentlyPlaying ? (
-                    <Pause className="w-5 h-5 text-primary-foreground" />
+                    <Pause className="w-6 h-6 sm:w-5 sm:h-5 text-primary-foreground" />
                   ) : (
-                    <Play className="w-5 h-5 text-primary-foreground ml-0.5" />
+                    <Play className="w-6 h-6 sm:w-5 sm:h-5 text-primary-foreground ml-0.5" />
                   )}
                 </Button>
               </motion.div>
@@ -250,15 +251,16 @@ export const EnhancedVariant = memo(function EnhancedVariant({
                 }}
                 transition={{ duration: 0.2 }}
               >
-                {/* Add to Playlist */}
+                {/* Add to Playlist - 44px touch target */}
                 {user && (
                   <Button
                     size="icon"
                     variant="secondary"
-                    className="h-7 w-7 rounded-full bg-black/50 hover:bg-black/70 border-0"
+                    className="h-11 w-11 min-w-[44px] min-h-[44px] sm:h-7 sm:w-7 sm:min-w-0 sm:min-h-0 rounded-full bg-black/50 hover:bg-black/70 border-0"
                     onClick={handleAddToPlaylist}
+                    aria-label="Добавить в плейлист"
                   >
-                    <Plus className="w-3.5 h-3.5 text-white" />
+                    <Plus className="w-5 h-5 sm:w-3.5 sm:h-3.5 text-white" />
                   </Button>
                 )}
 
@@ -267,11 +269,12 @@ export const EnhancedVariant = memo(function EnhancedVariant({
                   <Button
                     size="icon"
                     variant="secondary"
-                    className="h-7 w-7 rounded-full bg-black/50 hover:bg-black/70 border-0"
+                    className="h-11 w-11 min-w-[44px] min-h-[44px] sm:h-7 sm:w-7 sm:min-w-0 sm:min-h-0 rounded-full bg-black/50 hover:bg-black/70 border-0"
                     onClick={handleFollow}
                     disabled={isFollowLoading}
+                    aria-label="Подписаться на автора"
                   >
-                    <UserPlus className="w-3.5 h-3.5 text-white" />
+                    <UserPlus className="w-5 h-5 sm:w-3.5 sm:h-3.5 text-white" />
                   </Button>
                 )}
 
@@ -279,16 +282,17 @@ export const EnhancedVariant = memo(function EnhancedVariant({
                 <Button
                   size="icon"
                   variant="secondary"
-                  className="h-7 w-7 rounded-full bg-black/50 hover:bg-black/70 border-0 ml-auto"
+                  className="h-11 w-11 min-w-[44px] min-h-[44px] sm:h-7 sm:w-7 sm:min-w-0 sm:min-h-0 rounded-full bg-black/50 hover:bg-black/70 border-0 ml-auto"
                   onClick={handleShare}
+                  aria-label="Поделиться"
                 >
-                  <Share2 className="w-3.5 h-3.5 text-white" />
+                  <Share2 className="w-5 h-5 sm:w-3.5 sm:h-3.5 text-white" />
                 </Button>
               </motion.div>
             </div>
 
-            {/* Content */}
-            <div className={cn('relative', compact ? 'p-2' : 'p-2.5')}>
+            {/* Content - increased padding for mobile */}
+            <div className={cn('relative', compact ? 'p-2.5' : 'p-3 sm:p-2.5')}>
               <h3
                 className={cn(
                   'font-semibold line-clamp-1 transition-colors',

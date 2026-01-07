@@ -23,10 +23,10 @@ interface LazySectionProps {
 export function LazySection({
   children,
   fallback,
-  rootMargin = '400px', // Increased for earlier loading on mobile
+  rootMargin = '200px', // Reduced for better mobile performance
   minHeight = '200px',
   className,
-  threshold = 0,
+  threshold = 0.1, // Trigger when 10% visible
 }: LazySectionProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -38,7 +38,8 @@ export function LazySection({
 
     // Check if already in viewport on mount (for fast mobile scrolling)
     const rect = element.getBoundingClientRect();
-    const isInitiallyVisible = rect.top < window.innerHeight + 400;
+    const margin = typeof window !== 'undefined' && window.innerWidth < 768 ? 200 : 300;
+    const isInitiallyVisible = rect.top < window.innerHeight + margin;
     
     if (isInitiallyVisible) {
       setIsVisible(true);
