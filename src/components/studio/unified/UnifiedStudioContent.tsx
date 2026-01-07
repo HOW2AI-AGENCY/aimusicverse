@@ -13,6 +13,7 @@ import { useState, useEffect, useRef, useCallback, Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { useUnifiedStudioStore } from '@/stores/useUnifiedStudioStore';
 import { 
   Scissors, Split, Layers, Sliders, ChevronLeft,
   Play, Pause, SkipBack, SkipForward, Volume2, VolumeX,
@@ -128,15 +129,27 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
   // Activity logging
   const { logActivity, logReplacementApply, logReplacementDiscard } = useStudioActivityLogger(trackId);
 
-  // Audio state
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
+  // Unified Studio Store - Playback state (migrated from local state)
+  // Note: isPlaying and currentTime are now managed by the store
+  const isPlaying = useUnifiedStudioStore(state => state.isPlaying);
+  const currentTime = useUnifiedStudioStore(state => state.currentTime);
+  const storePlay = useUnifiedStudioStore(state => state.play);
+  const storePause = useUnifiedStudioStore(state => state.pause);
+  const storeSeek = useUnifiedStudioStore(state => state.seek);
+
+  // Local state for audio coordination (NOT duplicate - store doesn't have these fields)
+  // - duration: Store tracks currentTime but not total duration
+  // - volume/muted: Component needs both, store only has masterVolume without mute
+  // - currentAudioUrl: Store doesn't track active audio URL
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(0.85);
   const [muted, setMuted] = useState(false);
   const [currentAudioUrl, setCurrentAudioUrl] = useState<string | null>(null);
 
-  // Stem states
+  // Stem mixer state (NOT duplicate - store uses track-based model, component uses stem-based model)
+  // The store's StudioTrack model is designed for the full DAW timeline
+  // This component uses a simpler stem-based model for stem separation playback
+  // Future optimization: Could migrate to store's track model with proper mapping
   const [stemStates, setStemStates] = useState<Record<string, StemState>>({});
   const [masterVolume, setMasterVolume] = useState(0.85);
   const [masterMuted, setMasterMuted] = useState(false);
@@ -414,7 +427,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
       Object.values(stemAudioRefs.current).forEach(stemAudio => {
         stemAudio.pause();
       });
-      setIsPlaying(false);
+      storePause(); // Use store action
     });
 
     audio.addEventListener('loadedmetadata', () => {
@@ -427,8 +440,8 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
         stemAudio.pause();
         stemAudio.currentTime = 0;
       });
-      setIsPlaying(false);
-      setCurrentTime(0);
+      storePause(); // Use store action
+      storeSeek(0); // Reset time in store
     });
 
     return () => {
@@ -453,10 +466,10 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
 
   const updateTime = useCallback(() => {
     if (audioRef.current) {
-      setCurrentTime(audioRef.current.currentTime);
+      storeSeek(audioRef.current.currentTime); // Update store instead of local state
     }
     animationFrameRef.current = requestAnimationFrame(updateTime);
-  }, []);
+  }, [storeSeek]);
 
   const togglePlay = async () => {
     // When stems are available, play stems instead of main track
@@ -465,16 +478,16 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
     if (isPlaying) {
       // Pause main audio
       audioRef.current?.pause();
-      
+
       // Pause all stem audio
       Object.values(stemAudioRefs.current).forEach(audio => {
         audio.pause();
       });
-      
+
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }
-      setIsPlaying(false);
+      storePause(); // Use store action
     } else {
       try {
         if (hasPlayableStems) {
@@ -558,8 +571,8 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
             }
           }
         }
-        
-        setIsPlaying(true);
+
+        storePlay(); // Use store action
         animationFrameRef.current = requestAnimationFrame(updateTime);
       } catch (error) {
         logger.error('Error playing audio', error);
@@ -569,18 +582,18 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
   };
 
   const handleSeek = useCallback((time: number) => {
-    setCurrentTime(time);
-    
+    storeSeek(time); // Update store
+
     // Seek main audio
     if (audioRef.current) {
       audioRef.current.currentTime = time;
     }
-    
+
     // Seek all stem audio
     Object.values(stemAudioRefs.current).forEach(audio => {
       audio.currentTime = time;
     });
-  }, []);
+  }, [storeSeek]);
 
   const handleSkip = (direction: 'back' | 'forward') => {
     const skipAmount = 10;

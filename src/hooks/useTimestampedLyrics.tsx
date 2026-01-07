@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { logger } from '@/lib/logger';
 import { getCachedLyrics, setCachedLyrics } from '@/lib/lyricsCache';
@@ -18,92 +18,56 @@ export interface TimestampedLyricsData {
   isStreamed: boolean;
 }
 
+/**
+ * useTimestampedLyrics - Fetch timestamped lyrics with TanStack Query
+ * Optimized with localStorage cache and proper stale time
+ */
 export function useTimestampedLyrics(taskId: string | null, audioId: string | null) {
-  const [data, setData] = useState<TimestampedLyricsData | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [fromCache, setFromCache] = useState(false);
-  const fetchedRef = useRef<string | null>(null);
-
-  useEffect(() => {
-    if (!taskId || !audioId) {
-      setData(null);
-      setFromCache(false);
-      return;
-    }
-
-    const cacheKey = `${taskId}_${audioId}`;
-    
-    // Avoid duplicate fetches for same taskId/audioId
-    if (fetchedRef.current === cacheKey && data) {
-      return;
-    }
-
-    const abortController = new AbortController();
-
-    const fetchLyrics = async () => {
-      setLoading(true);
-      setError(null);
-
-      try {
-        // Try cache first
-        const cached = await getCachedLyrics(taskId, audioId);
-        if (cached) {
-          logger.debug('Using cached lyrics', { taskId, audioId });
-          setData(cached as TimestampedLyricsData);
-          setFromCache(true);
-          setLoading(false);
-          fetchedRef.current = cacheKey;
-          return;
-        }
-
-        // Fetch from API
-        const { data: responseData, error: functionError } = await supabase.functions.invoke(
-          'get-timestamped-lyrics',
-          {
-            body: { taskId, audioId },
-          }
-        );
-
-        if (functionError) {
-          throw functionError;
-        }
-
-        // Cache the response (non-blocking, errors are logged but don't fail the fetch)
-        if (responseData) {
-          try {
-            await setCachedLyrics(taskId, audioId, responseData);
-          } catch (cacheError) {
-            // Log cache error but don't fail the entire operation
-            logger.warn('Failed to cache lyrics, continuing with response data', {
-              error: cacheError instanceof Error ? cacheError.message : String(cacheError),
-              taskId,
-              audioId
-            });
-          }
-        }
-
-        setData(responseData);
-        setFromCache(false);
-        fetchedRef.current = cacheKey;
-      } catch (err) {
-        // Ignore abort errors
-        if (err instanceof Error && err.name === 'AbortError') {
-          return;
-        }
-        logger.error('Error fetching timestamped lyrics', { error: err instanceof Error ? err.message : String(err) });
-        setError(err instanceof Error ? err.message : 'Failed to load lyrics');
-      } finally {
-        setLoading(false);
+  return useQuery({
+    queryKey: ['timestamped-lyrics', taskId, audioId],
+    queryFn: async (): Promise<TimestampedLyricsData | null> => {
+      if (!taskId || !audioId) {
+        return null;
       }
-    };
 
-    fetchLyrics();
+      // Try cache first
+      const cached = await getCachedLyrics(taskId, audioId);
+      if (cached) {
+        logger.debug('Using cached lyrics', { taskId, audioId });
+        return cached as TimestampedLyricsData;
+      }
 
-    return () => {
-      abortController.abort();
-    };
-  }, [taskId, audioId]);
+      // Fetch from API
+      const { data: responseData, error: functionError } = await supabase.functions.invoke(
+        'get-timestamped-lyrics',
+        {
+          body: { taskId, audioId },
+        }
+      );
 
-  return { data, loading, error, fromCache };
+      if (functionError) {
+        throw functionError;
+      }
+
+      // Cache the response (non-blocking, errors are logged but don't fail the fetch)
+      if (responseData) {
+        try {
+          await setCachedLyrics(taskId, audioId, responseData);
+        } catch (cacheError) {
+          // Log cache error but don't fail the entire operation
+          logger.warn('Failed to cache lyrics, continuing with response data', {
+            error: cacheError instanceof Error ? cacheError.message : String(cacheError),
+            taskId,
+            audioId
+          });
+        }
+      }
+
+      return responseData;
+    },
+    enabled: !!taskId && !!audioId,
+    staleTime: 30 * 60 * 1000, // 30 minutes - lyrics don't change often
+    gcTime: 60 * 60 * 1000, // 1 hour - keep in cache for a while
+    retry: 2, // Retry failed requests twice
+  });
 }

@@ -18,6 +18,7 @@ import { useGesture } from '@use-gesture/react';
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/formatters';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
+import { snapToGrid, type SnapOptions } from '@/lib/audio/beatSnap';
 import type { StudioTrack } from '@/stores/useUnifiedStudioStore';
 import { Volume2, VolumeX, Headphones, Mic2, Music, Drum, Guitar, Piano, Waves } from 'lucide-react';
 import { UnifiedWaveform, type StemType } from '@/components/waveform/UnifiedWaveform';
@@ -187,15 +188,23 @@ export const MobileDAWTimeline = memo(function MobileDAWTimeline({
 
   const handlePlayheadDrag = useCallback((e: TouchEvent | MouseEvent) => {
     if (!isDraggingPlayhead || !timelineRef.current) return;
-    
+
     const rect = timelineRef.current.getBoundingClientRect();
     const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
     const x = clientX - rect.left + scrollLeft;
     const percent = x / timelineWidth;
     const newTime = Math.max(0, Math.min(duration, percent * duration));
-    
-    onSeek(newTime);
-  }, [isDraggingPlayhead, timelineWidth, duration, scrollLeft, onSeek]);
+
+    // Snap to grid if BPM is available (T065)
+    const snapOptions: SnapOptions = {
+      bpm: bpm || null,
+      snapDivision: 4, // Quarter note snap
+      timeSignature: 4,
+    };
+
+    const snapped = snapToGrid(newTime, snapOptions);
+    onSeek(snapped.snappedTime);
+  }, [isDraggingPlayhead, timelineWidth, duration, scrollLeft, onSeek, bpm]);
 
   const handlePlayheadDragEnd = useCallback(() => {
     if (isDraggingPlayhead) {

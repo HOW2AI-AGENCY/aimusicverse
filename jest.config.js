@@ -8,6 +8,7 @@ const config = {
   },
   testMatch: [
     '<rootDir>/src/__tests__/**/*.test.{ts,tsx}',
+    '<rootDir>/tests/unit/**/*.test.{ts,tsx}',
   ],
   transform: {
     '^.+\\.tsx?$': ['ts-jest', {

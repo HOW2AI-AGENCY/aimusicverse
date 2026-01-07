@@ -47,3 +47,6 @@ verify.cjs
 *.swp
 *.bak
 supabase/.temp/
+
+
+.claude/settings.local.json

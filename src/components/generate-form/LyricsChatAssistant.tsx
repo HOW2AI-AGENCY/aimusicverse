@@ -31,7 +31,7 @@ import { AIToolId, AIAgentContext, AIMessage } from '@/components/lyrics-workspa
 // Legacy imports for compatibility
 import { TagBuilderPanel } from './TagBuilderPanel';
 import { ContextRecommendations, Recommendation } from './lyrics-chat/ContextRecommendations';
-import { QuickActions } from './lyrics-chat/QuickActions';
+import { QuickActions } from './lyrics-chat/QuickActions.tsx';
 import type { LyricsChatAssistantProps } from './lyrics-chat/types';
 import type { LyricsQuickAction } from './lyrics-chat/quickActions';
 

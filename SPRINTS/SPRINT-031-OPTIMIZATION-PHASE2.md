@@ -33,12 +33,15 @@ Continue the studio optimization work started in Sprint 030, focusing on:
 
 ### Phase 2: Store Unification (Priority: P1)
 
+> **Strategy:** Hybrid approach - Zustand for client state (playback, mixer) + TanStack Query for server state (tracks, stems)
+
 | Task | Status | Estimate |
 |------|--------|----------|
-| Create useUnifiedStudioStore with Zustand slices | ⬜ Todo | 2h |
-| Migrate UnifiedStudioContent state to unified store | ⬜ Todo | 1h |
-| Migrate StudioShell state to unified store | ⬜ Todo | 1h |
+| Create useUnifiedStudioStore with Zustand slices for client state | ⬜ Todo | 2h |
+| Migrate UnifiedStudioContent client state to unified store | ⬜ Todo | 1h |
+| Migrate StudioShell client state to unified store | ⬜ Todo | 1h |
 | Add selectors for minimized re-renders | ⬜ Todo | 1h |
+| Ensure TanStack Query handles server state (tracks, stems) | ⬜ Todo | 30min |
 | Update useUnifiedStudio hook | ⬜ Todo | 30min |
 
 ### Phase 3: Additional Component Optimizations (Priority: P2)
@@ -53,13 +56,15 @@ Continue the studio optimization work started in Sprint 030, focusing on:
 
 ### Phase 4: DAW Timeline Improvements (Priority: P2)
 
+> **Snap-to-Grid Strategy:** Smart fallback - snap to seconds (0.5s/1s) if no BPM, snap to beats if BPM available
+
 | Task | Status | Estimate |
 |------|--------|----------|
-| Add BPM markers to TimelineRuler | ⬜ Todo | 1h |
-| Implement draggable Playhead | ⬜ Todo | 2h |
-| Improve pinch-zoom performance | ⬜ Todo | 1h |
-| Integrate AIActionsFAB with real AI functions | ⬜ Todo | 2h |
-| Add haptic feedback to FAB | ⬜ Todo | 30min |
+| Add BPM markers to TimelineRuler with smart snap-to-grid | ⬜ Todo | 1h |
+| Implement draggable Playhead with touch gesture support | ⬜ Todo | 2h |
+| Improve pinch-zoom performance with RAF throttling | ⬜ Todo | 1h |
+| Integrate AIActionsFAB with real AI functions (Generate, Extend, Cover, Add Vocals, Stems) | ⬜ Todo | 2h |
+| Add haptic feedback to FAB and playhead interactions | ⬜ Todo | 30min |
 
 ### Phase 5: Testing & Validation (Priority: P1)
 
@@ -76,10 +81,11 @@ Continue the studio optimization work started in Sprint 030, focusing on:
 
 | Task | Status | Estimate |
 |------|--------|----------|
-| Update PERFORMANCE_OPTIMIZATION.md | ⬜ Todo | 30min |
+| Update PERFORMANCE_OPTIMIZATION.md with new metrics (target: mid-range devices) | ⬜ Todo | 30min |
 | Add migration guide for legacy components | ⬜ Todo | 30min |
-| Update KNOWLEDGE_BASE.md | ⬜ Todo | 30min |
-| Remove unused legacy components | ⬜ Todo | 1h |
+| Update KNOWLEDGE_BASE.md with new hooks | ⬜ Todo | 30min |
+| Deprecate MobileStudioLayout and MobileStudioTabs with console warnings (keep for 1 sprint) | ⬜ Todo | 30min |
+| Document audio routing TODOs as technical debt, defer to audio-focused sprint | ⬜ Todo | 15min |
 | Clean up unused imports | ⬜ Todo | 30min |
 
 ---
@@ -95,6 +101,8 @@ Continue the studio optimization work started in Sprint 030, focusing on:
 ---
 
 ## 📊 Metrics to Track
+
+> **Target Device Class:** Mid-range devices (Pixel 5, iPhone 12, Samsung Galaxy S52) - realistic for 80%+ of users
 
 | Metric | Before | Target | Current |
 |--------|--------|--------|---------|
@@ -135,3 +143,26 @@ Continue the studio optimization work started in Sprint 030, focusing on:
 - `StudioTrackRow` and `StudioMixerPanel` kept for now due to incompatible APIs and richer functionality
 - `OptimizedMixerChannel` now supports dual API (legacy callbacks without id, new callbacks with id)
 - Focus next on store unification to eliminate state duplication between UnifiedStudioContent and StudioShell
+
+---
+
+## 🔍 Clarifications (Session 2026-01-07)
+
+### Phase 2: Store Unification
+- **Q: Should we create a single unified Zustand store or use the existing multi-store pattern with TanStack Query?**
+- **A:** Hybrid approach: Zustand for client state (playback, mixer controls) + TanStack Query for server state (tracks, stems, playlists). This maintains separation of concerns and leverages TanStack Query's caching/invalidation benefits while Zustand handles ephemeral UI state.
+
+### Phase 4: DAW Timeline Improvements
+- **Q: What should be the target device class for performance metrics?**
+- **A:** Mid-range devices (Pixel 5, iPhone 12, Samsung Galaxy S52). This ensures realistic performance targets for 80%+ of users while maintaining good UX/performance balance.
+
+- **Q: How should snap-to-grid behave when BPM is unknown or variable?**
+- **A:** Smart fallback: snap to seconds (0.5s or 1s grid) if no BPM available, snap to beats if BPM is present. This provides consistent and predictable UX across all track types.
+
+### Phase 6: Cleanup & Documentation
+- **Q: Should we remove legacy components (MobileStudioLayout, MobileStudioTabs) immediately or keep them for backwards compatibility?**
+- **A:** Deprecate with console warnings, keep for 1 sprint. This safer approach allows monitoring usage patterns and ensures new components work correctly in production before complete removal.
+
+### Technical Debt (TODO/FIXME)
+- **Q: Should we implement audio routing TODOs (effects chain, StereoPannerNode) in this sprint or defer?**
+- **A:** Document as technical debt and defer to a dedicated audio-focused sprint. These require deep Web Audio API knowledge and separate testing. Mixing them with UI optimization would delay Sprint 031's primary focus.
