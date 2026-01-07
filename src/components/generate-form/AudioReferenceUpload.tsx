@@ -2,12 +2,14 @@ import { useState, useRef, useCallback, useEffect, useId } from 'react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
-import { FileAudio, Mic, X, Play, Pause, Sparkles } from 'lucide-react';
+import { Progress } from '@/components/ui/progress';
+import { FileAudio, Mic, X, Play, Pause, Sparkles, Upload, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { logger } from '@/lib/logger';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from '@/hooks/studio/useStudioAudio';
+import { cn } from '@/lib/utils';
 
 const refLogger = logger.child({ module: 'AudioReferenceUpload' });
 
@@ -47,6 +49,8 @@ export function AudioReferenceUpload({
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [analyzeProgress, setAnalyzeProgress] = useState(0);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const chunksRef = useRef<Blob[]>([]);
@@ -70,6 +74,19 @@ export function AudioReferenceUpload({
       setIsPlaying(false);
     }
   }, [globalIsPlaying, isPlaying]);
+
+  // Simulate analyze progress
+  useEffect(() => {
+    if (isAnalyzing) {
+      setAnalyzeProgress(0);
+      const interval = setInterval(() => {
+        setAnalyzeProgress(prev => Math.min(prev + 10, 90));
+      }, 500);
+      return () => clearInterval(interval);
+    } else {
+      setAnalyzeProgress(0);
+    }
+  }, [isAnalyzing]);
 
   // Check for cached analysis by file URL
   const checkCachedAnalysis = useCallback(async (fileUrl: string): Promise<ReferenceAnalysisResult | null> => {
@@ -147,7 +164,6 @@ export function AudioReferenceUpload({
     try {
       refLogger.debug('Starting reference audio analysis', { fileName: file.name });
       
-      // Get current user
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('Not authenticated');
       
@@ -156,6 +172,7 @@ export function AudioReferenceUpload({
       
       // Upload audio to storage if not already uploaded
       if (!publicUrl) {
+        setUploadProgress(10);
         fileName = `reference-${Date.now()}-${file.name}`;
         const { error: uploadError } = await supabase.storage
           .from('project-assets')
@@ -165,6 +182,7 @@ export function AudioReferenceUpload({
           });
 
         if (uploadError) throw uploadError;
+        setUploadProgress(100);
 
         const { data: urlData } = supabase.storage
           .from('project-assets')
@@ -245,6 +263,7 @@ export function AudioReferenceUpload({
       toast.error('Ошибка анализа аудио');
     } finally {
       setIsAnalyzing(false);
+      setUploadProgress(0);
     }
   };
 
@@ -344,11 +363,9 @@ export function AudioReferenceUpload({
     };
     generatedTags: string[];
   }) => {
-    // Set the audio file
     setAudioUrl(data.audioUrl);
     onAudioChange(data.audioFile);
     
-    // Pass melody analysis data to parent
     onMelodyAnalysis?.({
       tags: data.generatedTags,
       key: data.analysis.key,
@@ -356,7 +373,6 @@ export function AudioReferenceUpload({
       chords: [...new Set(data.analysis.chords.map(c => c.chord))],
     });
     
-    // Also set style description from tags
     const styleDescription = data.generatedTags.join(', ');
     onAnalysisComplete?.(styleDescription);
     
@@ -365,31 +381,45 @@ export function AudioReferenceUpload({
 
   return (
     <Card className="p-4 space-y-3 relative">
+      {/* Analyzing overlay */}
       {isAnalyzing && (
-        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm z-10 flex items-center justify-center rounded-lg">
-          <div className="text-center space-y-2">
-            <Sparkles className="w-8 h-8 animate-pulse text-primary mx-auto" />
-            <p className="text-sm font-medium">Анализируем аудио...</p>
-          </div>
+        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm z-10 flex flex-col items-center justify-center rounded-lg p-4">
+          <Sparkles className="w-8 h-8 animate-pulse text-primary mb-3" />
+          <p className="text-sm font-medium mb-2">Анализируем аудио...</p>
+          <Progress value={analyzeProgress} className="w-full max-w-[200px] h-2" />
+          <p className="text-xs text-muted-foreground mt-2">
+            Определяем стиль, темп и настроение
+          </p>
         </div>
       )}
       
       <Label className="text-base flex items-center gap-2">
-        <FileAudio className="w-4 h-4" />
-        Референс аудио (опционально)
+        <FileAudio className="w-4 h-4 text-primary" />
+        Референс аудио
+        <span className="text-xs text-muted-foreground font-normal">(опционально)</span>
       </Label>
 
       {!audioFile ? (
         <div className="space-y-2">
-          <Button
+          {/* Upload button - touch-friendly */}
+          <button
             type="button"
-            variant="outline"
-            className="w-full gap-2"
             onClick={() => document.getElementById('audio-file-input')?.click()}
+            className={cn(
+              'w-full min-h-[56px] p-3 rounded-xl border-2 border-dashed',
+              'flex items-center gap-3 text-left',
+              'bg-muted/30 hover:bg-muted/50 hover:border-primary/30',
+              'transition-all active:scale-[0.99]'
+            )}
           >
-            <FileAudio className="w-4 h-4" />
-            Загрузить файл
-          </Button>
+            <div className="w-10 h-10 min-w-[40px] rounded-lg bg-primary/10 flex items-center justify-center">
+              <Upload className="w-5 h-5 text-primary" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium">Загрузить файл</p>
+              <p className="text-xs text-muted-foreground">MP3, WAV, M4A до 20 МБ</p>
+            </div>
+          </button>
           <input
             id="audio-file-input"
             type="file"
@@ -398,43 +428,70 @@ export function AudioReferenceUpload({
             onChange={handleFileUpload}
           />
 
-          <Button
+          {/* Record button - touch-friendly */}
+          <button
             type="button"
-            variant="outline"
-            className="w-full gap-2"
             onClick={isRecording ? stopRecording : startRecording}
+            className={cn(
+              'w-full min-h-[56px] p-3 rounded-xl border',
+              'flex items-center gap-3 text-left',
+              'transition-all active:scale-[0.99]',
+              isRecording 
+                ? 'bg-destructive/10 border-destructive/30' 
+                : 'bg-card hover:bg-muted/50 hover:border-primary/30'
+            )}
           >
-            <Mic className={`w-4 h-4 ${isRecording ? 'text-destructive animate-pulse' : ''}`} />
-            {isRecording ? 'Остановить запись' : 'Записать аудио'}
-          </Button>
-
-          {/* RecordMelodyDialog removed - use Guitar quick action from homepage */}
+            <div className={cn(
+              'w-10 h-10 min-w-[40px] rounded-lg flex items-center justify-center',
+              isRecording ? 'bg-destructive/20' : 'bg-primary/10'
+            )}>
+              <Mic className={cn(
+                'w-5 h-5',
+                isRecording ? 'text-destructive animate-pulse' : 'text-primary'
+              )} />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium">
+                {isRecording ? 'Остановить запись' : 'Записать аудио'}
+              </p>
+              <p className="text-xs text-muted-foreground">
+                {isRecording ? 'Нажмите для остановки' : 'Используйте микрофон'}
+              </p>
+            </div>
+            {isRecording && (
+              <div className="w-3 h-3 rounded-full bg-destructive animate-pulse" />
+            )}
+          </button>
         </div>
       ) : (
         <div className="space-y-2">
-          <div className="flex items-center gap-2 p-3 rounded-lg bg-muted">
+          {/* Audio preview - larger touch targets */}
+          <div className="flex items-center gap-3 p-3 rounded-xl bg-muted/50 border">
             <Button
               type="button"
               size="icon"
               variant="ghost"
               onClick={togglePlayback}
-              className="h-8 w-8"
+              className="h-10 w-10 min-h-[40px] min-w-[40px] rounded-full bg-primary/10 hover:bg-primary/20"
             >
               {isPlaying ? (
                 <Pause className="w-4 h-4" />
               ) : (
-                <Play className="w-4 h-4" />
+                <Play className="w-4 h-4 ml-0.5" />
               )}
             </Button>
-            <div className="flex-1 text-sm truncate">
-              {audioFile.name}
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium truncate">{audioFile.name}</p>
+              <p className="text-xs text-muted-foreground">
+                {(audioFile.size / 1024 / 1024).toFixed(1)} МБ
+              </p>
             </div>
             <Button
               type="button"
               size="icon"
               variant="ghost"
               onClick={handleRemove}
-              className="h-8 w-8"
+              className="h-10 w-10 min-h-[40px] min-w-[40px] text-muted-foreground hover:text-destructive"
             >
               <X className="w-4 h-4" />
             </Button>
@@ -452,7 +509,7 @@ export function AudioReferenceUpload({
       )}
 
       <p className="text-xs text-muted-foreground">
-        Загрузите файл или запишите аудио для автоматического анализа стиля
+        💡 AI автоматически анализирует стиль, темп и настроение референса
       </p>
     </Card>
   );

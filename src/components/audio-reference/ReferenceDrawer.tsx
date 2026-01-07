@@ -1,6 +1,6 @@
 /**
  * Reference Drawer Component
- * Unified UI for browsing and selecting audio references with improved UX
+ * Mobile-optimized with larger touch targets and better UX
  */
 
 import { useState, useCallback, useEffect } from 'react';
@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
+import { Skeleton } from '@/components/ui/skeleton';
 import { 
   Cloud, 
   Music, 
@@ -27,6 +28,7 @@ import {
   Sparkles,
   FileAudio,
   Trash2,
+  Upload,
 } from 'lucide-react';
 import { EmptyState } from '@/components/common/EmptyState';
 import { useAudioReference } from '@/hooks/useAudioReference';
@@ -43,6 +45,28 @@ interface ReferenceDrawerProps {
   onOpenChange: (open: boolean) => void;
   onSelect?: (mode?: ReferenceMode) => void;
   defaultMode?: ReferenceMode;
+}
+
+function ReferenceItemSkeleton() {
+  return (
+    <div className="p-3 rounded-xl border bg-card">
+      <div className="flex items-start gap-3">
+        <Skeleton className="h-11 w-11 rounded-full" />
+        <div className="flex-1 space-y-2">
+          <Skeleton className="h-4 w-3/4" />
+          <Skeleton className="h-3 w-1/2" />
+          <div className="flex gap-1">
+            <Skeleton className="h-5 w-16 rounded-full" />
+            <Skeleton className="h-5 w-12 rounded-full" />
+          </div>
+        </div>
+      </div>
+      <div className="flex gap-2 mt-3">
+        <Skeleton className="h-9 flex-1 rounded-lg" />
+        <Skeleton className="h-9 flex-1 rounded-lg" />
+      </div>
+    </div>
+  );
 }
 
 function ReferenceItem({ 
@@ -86,16 +110,17 @@ function ReferenceItem({
 
   return (
     <div className={cn(
-      "p-3 rounded-lg border bg-card transition-all",
-      "hover:border-primary/50 hover:shadow-sm"
+      "p-3 rounded-xl border bg-card transition-all",
+      "hover:border-primary/30 active:scale-[0.99]"
     )}>
       <div className="flex items-start gap-3">
-        {/* Play button */}
+        {/* Play button - 44px touch target */}
         <Button
           variant="ghost"
           size="icon"
-          className="h-10 w-10 shrink-0 rounded-full bg-primary/10 hover:bg-primary/20"
+          className="h-11 w-11 min-h-[44px] min-w-[44px] shrink-0 rounded-full bg-primary/10 hover:bg-primary/20"
           onClick={onPlay}
+          aria-label={isPlaying ? 'Пауза' : 'Воспроизвести'}
         >
           {isPlaying ? (
             <Pause className="h-4 w-4" />
@@ -108,7 +133,7 @@ function ReferenceItem({
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
             {getSourceIcon(audio.source)}
-            <span className="font-medium truncate">{audio.file_name}</span>
+            <span className="font-medium text-sm truncate">{audio.file_name}</span>
           </div>
           
           <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground flex-wrap">
@@ -137,23 +162,24 @@ function ReferenceItem({
           </div>
         </div>
 
-        {/* Delete button */}
+        {/* Delete button - 44px touch target */}
         <Button
           variant="ghost"
           size="icon"
-          className="h-8 w-8 text-muted-foreground hover:text-destructive"
+          className="h-10 w-10 min-h-[40px] min-w-[40px] text-muted-foreground hover:text-destructive"
           onClick={onDelete}
+          aria-label="Удалить"
         >
           <Trash2 className="h-4 w-4" />
         </Button>
       </div>
 
-      {/* Actions */}
+      {/* Actions - touch-friendly buttons */}
       <div className="flex gap-2 mt-3">
         <Button
           size="sm"
           variant="outline"
-          className="flex-1"
+          className="flex-1 h-10 min-h-[40px]"
           onClick={() => onSelect('cover')}
         >
           Кавер
@@ -161,7 +187,7 @@ function ReferenceItem({
         <Button
           size="sm"
           variant="outline"
-          className="flex-1"
+          className="flex-1 h-10 min-h-[40px]"
           onClick={() => onSelect('extend')}
         >
           Расширить
@@ -212,14 +238,12 @@ export function ReferenceDrawer({
     } else {
       setPlayingUrl(url);
       setPlayingId(id);
-      // Let the effect handle playing the new audio
     }
   }, [playingId, togglePlay]);
 
   // Auto-play when URL changes
   useEffect(() => {
     if (playingUrl && playingId) {
-      // Small delay to let the audio load
       const timer = setTimeout(() => {
         togglePlay();
       }, 100);
@@ -253,47 +277,61 @@ export function ReferenceDrawer({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="bottom" className="h-[85vh] flex flex-col">
-        <SheetHeader className="pb-4 shrink-0">
-          <SheetTitle>Аудио референсы</SheetTitle>
+      <SheetContent 
+        side="bottom" 
+        className="h-[90vh] flex flex-col"
+        style={{
+          paddingBottom: 'calc(max(var(--tg-safe-area-inset-bottom, 0px) + 1rem, env(safe-area-inset-bottom, 0px) + 1rem))'
+        }}
+      >
+        <SheetHeader className="pb-3 shrink-0">
+          <SheetTitle className="flex items-center gap-2">
+            <Cloud className="w-5 h-5 text-primary" />
+            Аудио референсы
+          </SheetTitle>
+          <p className="text-xs text-muted-foreground">
+            Используйте сохранённые аудио для создания каверов или расширения треков
+          </p>
         </SheetHeader>
 
         <Tabs defaultValue={activeReference ? "active" : "recent"} className="flex-1 flex flex-col overflow-hidden">
-          <TabsList className="grid w-full grid-cols-2 shrink-0">
-            <TabsTrigger value="recent">
+          <TabsList className="grid w-full grid-cols-2 shrink-0 h-11">
+            <TabsTrigger value="recent" className="min-h-[40px]">
               Недавние
               {recentReferences.length > 0 && (
-                <Badge variant="secondary" className="ml-1 text-xs">{recentReferences.length}</Badge>
+                <Badge variant="secondary" className="ml-1.5 text-xs">{recentReferences.length}</Badge>
               )}
             </TabsTrigger>
-            <TabsTrigger value="active" disabled={!activeReference}>
-              Активный {activeReference && <Badge variant="default" className="ml-1 text-xs">1</Badge>}
+            <TabsTrigger value="active" disabled={!activeReference} className="min-h-[40px]">
+              Активный {activeReference && <Badge variant="default" className="ml-1.5 text-xs">1</Badge>}
             </TabsTrigger>
           </TabsList>
 
           {/* Recent references */}
-          <TabsContent value="recent" className="flex-1 overflow-hidden mt-4">
-            {/* Search */}
-            <div className="relative mb-3">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <TabsContent value="recent" className="flex-1 overflow-hidden mt-4 flex flex-col">
+            {/* Search - touch-friendly */}
+            <div className="relative mb-3 shrink-0">
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="Поиск по названию, жанру..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-9"
+                className="pl-10 h-11 min-h-[44px]"
               />
             </div>
 
-            <ScrollArea className="flex-1 h-[calc(100%-60px)] pr-4">
+            <ScrollArea className="flex-1 pr-4">
               {isLoading ? (
-                <div className="flex items-center justify-center py-8">
-                  <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+                <div className="space-y-3 pb-4">
+                  <ReferenceItemSkeleton />
+                  <ReferenceItemSkeleton />
+                  <ReferenceItemSkeleton />
                 </div>
               ) : filteredReferences.length === 0 ? (
                 <EmptyState
-                  icon={Cloud}
+                  icon={searchQuery ? Search : Upload}
                   title={searchQuery ? 'Ничего не найдено' : 'Нет сохранённых референсов'}
-                  description={!searchQuery ? 'Загрузите или запишите аудио' : undefined}
+                  description={!searchQuery ? 'Загрузите или запишите аудио для использования как референс' : 'Попробуйте другой запрос'}
                   variant="compact"
                 />
               ) : (
@@ -317,7 +355,7 @@ export function ReferenceDrawer({
           <TabsContent value="active" className="flex-1 overflow-auto mt-4">
             {activeReference && (
               <div className="space-y-4">
-                <div className="p-4 rounded-lg border bg-card">
+                <div className="p-4 rounded-xl border bg-card">
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-2">
                       <FileAudio className="h-5 w-5 text-primary" />
@@ -326,7 +364,7 @@ export function ReferenceDrawer({
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="h-8 w-8"
+                      className="h-10 w-10 min-h-[40px] min-w-[40px]"
                       onClick={clearActive}
                     >
                       <X className="h-4 w-4" />
@@ -363,17 +401,15 @@ export function ReferenceDrawer({
                   status={analysisStatus}
                 />
 
-                <div className="flex gap-2">
-                  <Button
-                    className="flex-1"
-                    onClick={() => {
-                      onSelect?.(activeReference.intendedMode);
-                      onOpenChange(false);
-                    }}
-                  >
-                    Использовать
-                  </Button>
-                </div>
+                <Button
+                  className="w-full h-12 min-h-[48px]"
+                  onClick={() => {
+                    onSelect?.(activeReference.intendedMode);
+                    onOpenChange(false);
+                  }}
+                >
+                  Использовать референс
+                </Button>
               </div>
             )}
           </TabsContent>
