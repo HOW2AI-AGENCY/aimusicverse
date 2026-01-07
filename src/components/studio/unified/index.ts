@@ -86,8 +86,22 @@ export { useLyricsSync } from '@/hooks/lyrics/useLyricsSync';
 export { getActionsForStemType, getGroupedActions, CATEGORY_LABELS, normalizeTrackType } from '@/hooks/studio/stemActionsConfig';
 export { MIX_PRESETS, getMixPreset } from '@/hooks/studio/mixPresetsConfig';
 
-// Note: Stores are imported directly from @/stores, not re-exported here to avoid circular deps
-// Note: OptimizedLyricsPanel is imported directly from @/components/lyrics/ to avoid circular deps
+// Re-export stores for convenience
+export { 
+  useStemMixerStore, 
+  useStemState, 
+  useStemActions, 
+  useMasterControls,
+} from '@/stores/useStemMixerStore';
+export { 
+  usePlaybackStore, 
+  usePlaybackStatus, 
+  usePlaybackControls,
+} from '@/stores/usePlaybackStore';
+
+// Re-export optimized lyrics
+export { OptimizedLyricsPanel } from '@/components/lyrics/OptimizedLyricsPanel';
+export { OptimizedLyricsLine } from '@/components/lyrics/OptimizedLyricsLine';
 
 // Type exports
 export type { UnifiedStudioMobileProps } from './UnifiedStudioMobile';
