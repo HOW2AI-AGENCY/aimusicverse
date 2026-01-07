@@ -6,7 +6,7 @@ import { useProfile } from "@/hooks/useProfile.tsx";
 import { usePublicContentBatch, getGenrePlaylists } from "@/hooks/usePublicContent";
 import { useUserJourneyState } from "@/hooks/useUserJourneyState";
 import { HomeHeader } from "@/components/home/HomeHeader";
-import { SectionSkeleton as UnifiedSectionSkeleton } from "@/components/ui/skeleton-components";
+import { SectionSkeleton as UnifiedSectionSkeleton, GridSkeleton } from "@/components/ui/skeleton-components";
 import { LazySection } from "@/components/lazy/LazySection";
 import { motion, useReducedMotion } from '@/lib/motion';
 import { SEOHead, SEO_PRESETS } from "@/components/SEOHead";
@@ -249,14 +249,16 @@ const Index = () => {
           </Suspense>
         )}
 
-        {/* Quick Play Section - lazy loaded */}
+        {/* Quick Play Section - always show, eager load on mobile */}
         {publicContent?.popularTracks && publicContent.popularTracks.length > 0 && (
-          <LazySection className="mb-5" minHeight="120px" rootMargin="100px">
-            <QuickPlaySection 
-              tracks={publicContent.popularTracks} 
-              isLoading={contentLoading}
-            />
-          </LazySection>
+          <Suspense fallback={<Skeleton className="h-40 rounded-xl" />}>
+            <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.16 }}>
+              <QuickPlaySection 
+                tracks={publicContent.popularTracks} 
+                isLoading={contentLoading}
+              />
+            </motion.section>
+          </Suspense>
         )}
 
         {/* Feature Showcase - hide for new users to reduce cognitive load */}
@@ -290,43 +292,47 @@ const Index = () => {
           <EngagementHint variant={user ? "play" : "like"} />
         </LazySection>
 
-        {/* Popular Tracks - Main section */}
+        {/* Popular Tracks - Main section - eager load */}
         <div ref={tracksSectionRef}>
-          <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.2 }}>
+          <Suspense fallback={<GridSkeleton count={8} columns={2} />}>
+            <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.2 }}>
+              <TracksGridSection
+                title="🔥 Популярное"
+                subtitle="Треки, которые слушают больше всего"
+                icon={TrendingUp}
+                iconColor="text-emerald-400"
+                iconGradient="from-emerald-500/20 to-teal-500/10"
+                tracks={publicContent?.popularTracks || []}
+                isLoading={contentLoading}
+                maxTracks={isMobile ? 6 : 12}
+                columns={isMobile ? 2 : 4}
+                showMoreLink="/community?sort=popular"
+                showMoreLabel="Все популярные"
+                onRemix={handleRemix}
+              />
+            </motion.section>
+          </Suspense>
+        </div>
+
+        {/* New Tracks - eager load */}
+        <Suspense fallback={<GridSkeleton count={6} columns={2} />}>
+          <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.22 }}>
             <TracksGridSection
-              title="🔥 Популярное"
-              subtitle="Треки, которые слушают больше всего"
-              icon={TrendingUp}
-              iconColor="text-emerald-400"
-              iconGradient="from-emerald-500/20 to-teal-500/10"
-              tracks={publicContent?.popularTracks || []}
+              title="✨ Новинки"
+              subtitle="Свежие треки от сообщества"
+              icon={Clock}
+              iconColor="text-orange-400"
+              iconGradient="from-orange-500/20 to-amber-500/10"
+              tracks={publicContent?.recentTracks || []}
               isLoading={contentLoading}
-              maxTracks={12}
-              columns={4}
-              showMoreLink="/community?sort=popular"
-              showMoreLabel="Все популярные"
+              maxTracks={isMobile ? 6 : 12}
+              columns={isMobile ? 2 : 4}
+              showMoreLink="/community?sort=recent"
+              showMoreLabel="Все новинки"
               onRemix={handleRemix}
             />
           </motion.section>
-        </div>
-
-        {/* New Tracks */}
-        <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.22 }}>
-          <TracksGridSection
-            title="✨ Новинки"
-            subtitle="Свежие треки от сообщества"
-            icon={Clock}
-            iconColor="text-orange-400"
-            iconGradient="from-orange-500/20 to-amber-500/10"
-            tracks={publicContent?.recentTracks || []}
-            isLoading={contentLoading}
-            maxTracks={12}
-            columns={4}
-            showMoreLink="/community?sort=recent"
-            showMoreLabel="Все новинки"
-            onRemix={handleRemix}
-          />
-        </motion.section>
+        </Suspense>
 
         {/* Recent user tracks */}
         {user && (
