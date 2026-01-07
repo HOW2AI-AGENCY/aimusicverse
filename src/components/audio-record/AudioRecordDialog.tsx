@@ -447,32 +447,31 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent 
-        className="max-w-md h-[90vh] flex flex-col overflow-hidden"
+        className="max-w-md h-[85vh] sm:h-[90vh] flex flex-col overflow-hidden"
         style={{
           paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px) + 1rem), calc(env(safe-area-inset-top, 0px) + 1rem))'
         }}
       >
         <DialogHeader className="shrink-0">
-          <DialogTitle className="flex items-center gap-2">
+          <DialogTitle className="flex items-center gap-2 text-base sm:text-lg">
             <Mic className="w-5 h-5 text-primary" />
             Запись вокала
           </DialogTitle>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-xs sm:text-sm text-muted-foreground mt-1">
             Запишите голос или выберите аудио из облака. AI добавит профессиональный инструментал или вокал к вашей записи.
           </p>
         </DialogHeader>
 
-        <div className="flex-1 min-h-0 overflow-y-auto">
-
+        <div className="flex-1 min-h-0 overflow-y-auto px-1">
 
         {/* Source Tabs */}
         <Tabs value={sourceTab} onValueChange={(v) => setSourceTab(v as SourceTab)}>
-          <TabsList className="w-full grid grid-cols-2">
-            <TabsTrigger value="record" className="gap-2">
+          <TabsList className="w-full grid grid-cols-2 h-11 sm:h-10">
+            <TabsTrigger value="record" className="gap-2 min-h-[44px] sm:min-h-[40px] text-xs sm:text-sm">
               <Mic className="w-4 h-4" />
               Записать
             </TabsTrigger>
-            <TabsTrigger value="cloud" className="gap-2">
+            <TabsTrigger value="cloud" className="gap-2 min-h-[44px] sm:min-h-[40px] text-xs sm:text-sm">
               <Cloud className="w-4 h-4" />
               Из облака
             </TabsTrigger>
@@ -485,7 +484,7 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
               <div className="flex flex-col items-center gap-4">
                 <motion.div
                   className={cn(
-                    "relative w-32 h-32 rounded-full flex items-center justify-center",
+                    "relative w-28 h-28 sm:w-32 sm:h-32 rounded-full flex items-center justify-center",
                     state === 'recording' && "bg-destructive/10",
                     state === 'recorded' && "bg-primary/10",
                     state === 'idle' && "bg-muted"
@@ -509,16 +508,33 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
                   )}
                   
                   <Mic className={cn(
-                    "w-12 h-12",
+                    "w-10 h-10 sm:w-12 sm:h-12",
                     state === 'recording' && "text-destructive",
                     state === 'recorded' && "text-primary",
                     state === 'idle' && "text-muted-foreground"
                   )} />
                 </motion.div>
 
-                <div className="text-2xl font-mono font-bold">
+                <div className="text-xl sm:text-2xl font-mono font-bold">
                   {formatTime(duration)}
                 </div>
+
+                {/* Auto-save indicator */}
+                {state === 'recorded' && (
+                  <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                    {isAutoSaving ? (
+                      <>
+                        <Loader2 className="w-3 h-3 animate-spin" />
+                        <span>Сохранение в облако...</span>
+                      </>
+                    ) : autoSavedUrl ? (
+                      <>
+                        <Cloud className="w-3 h-3 text-emerald-500" />
+                        <span className="text-emerald-600">Сохранено в облако</span>
+                      </>
+                    ) : null}
+                  </div>
+                )}
 
                 {state === 'recorded' && audioUrl && (
                   <audio 
@@ -530,13 +546,13 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
                 )}
               </div>
 
-              {/* Controls */}
+              {/* Controls - touch-friendly 48px+ targets */}
               <div className="flex justify-center gap-3">
                 {state === 'idle' && (
                   <Button 
                     size="lg" 
                     onClick={startRecording}
-                    className="gap-2"
+                    className="gap-2 h-12 sm:h-11 px-6 text-sm sm:text-base"
                   >
                     <Mic className="w-5 h-5" />
                     Начать запись
@@ -548,7 +564,7 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
                     size="lg" 
                     variant="destructive"
                     onClick={stopRecording}
-                    className="gap-2"
+                    className="gap-2 h-12 sm:h-11 px-6 text-sm sm:text-base"
                   >
                     <Square className="w-5 h-5" />
                     Остановить
@@ -561,6 +577,8 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
                       size="icon" 
                       variant="outline"
                       onClick={togglePlayback}
+                      className="w-12 h-12 sm:w-11 sm:h-11"
+                      aria-label={isPlaying ? 'Пауза' : 'Воспроизвести'}
                     >
                       {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
                     </Button>
@@ -568,12 +586,21 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
                       size="icon" 
                       variant="outline"
                       onClick={resetRecording}
+                      className="w-12 h-12 sm:w-11 sm:h-11"
+                      aria-label="Удалить запись"
                     >
                       <Trash2 className="w-5 h-5" />
                     </Button>
                   </>
                 )}
               </div>
+
+              {/* First-time hint */}
+              {state === 'idle' && (
+                <p className="text-center text-xs text-muted-foreground/80 px-4">
+                  💡 Запишите вокал или мелодию, а AI создаст профессиональный аккомпанемент
+                </p>
+              )}
             </div>
           </TabsContent>
 
@@ -586,80 +613,108 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
           </TabsContent>
         </Tabs>
 
-        {/* Action buttons */}
+        {/* Action buttons - improved with descriptions */}
         <AnimatePresence>
           {canProcess && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
-              className="space-y-4 pt-2"
+              className="space-y-3 pt-4 pb-2"
             >
-              <p className="text-sm text-muted-foreground text-center">
+              <p className="text-xs sm:text-sm text-muted-foreground text-center">
                 Выберите действие для {sourceTab === 'cloud' ? 'выбранного файла' : 'вашей записи'}:
               </p>
               
-              {/* Main actions grid */}
-              <div className="grid grid-cols-2 gap-3">
-                <Button
-                  variant="outline"
-                  className="h-auto py-3 flex-col gap-1.5 border-primary/30 hover:border-primary"
+              {/* Main actions grid - touch-friendly cards */}
+              <div className="grid grid-cols-2 gap-2 sm:gap-3">
+                <button
+                  className={cn(
+                    "relative flex flex-col items-center gap-1.5 p-3 sm:p-4 rounded-xl",
+                    "border border-primary/30 bg-primary/5",
+                    "hover:border-primary hover:bg-primary/10",
+                    "transition-all duration-200 min-h-[80px] sm:min-h-[88px]",
+                    "disabled:opacity-50 disabled:cursor-not-allowed"
+                  )}
                   onClick={handleInstrumentalClick}
                   disabled={processingAction !== null}
                 >
                   {processingAction === 'instrumental' ? (
-                    <Loader2 className="w-5 h-5 animate-spin" />
+                    <Loader2 className="w-6 h-6 sm:w-7 sm:h-7 animate-spin text-primary" />
                   ) : (
-                    <Music className="w-5 h-5 text-primary" />
+                    <Music className="w-6 h-6 sm:w-7 sm:h-7 text-primary" />
                   )}
-                  <span className="text-xs font-medium">+ Инструментал</span>
-                  <span className="text-[10px] text-muted-foreground">Настроить стиль</span>
-                </Button>
+                  <span className="text-xs sm:text-sm font-medium">+ Инструментал</span>
+                  <span className="text-[10px] sm:text-xs text-muted-foreground text-center leading-tight">
+                    AI создаст аккомпанемент к вокалу
+                  </span>
+                </button>
                 
-                <Button
-                  variant="outline"
-                  className="h-auto py-3 flex-col gap-1.5"
+                <button
+                  className={cn(
+                    "relative flex flex-col items-center gap-1.5 p-3 sm:p-4 rounded-xl",
+                    "border border-border/50 bg-card",
+                    "hover:border-primary/30 hover:bg-primary/5",
+                    "transition-all duration-200 min-h-[80px] sm:min-h-[88px]",
+                    "disabled:opacity-50 disabled:cursor-not-allowed"
+                  )}
                   onClick={() => uploadAndProcess('vocals')}
                   disabled={processingAction !== null}
                 >
                   {processingAction === 'vocals' ? (
-                    <Loader2 className="w-5 h-5 animate-spin" />
+                    <Loader2 className="w-6 h-6 sm:w-7 sm:h-7 animate-spin text-primary" />
                   ) : (
-                    <MicVocal className="w-5 h-5 text-primary" />
+                    <MicVocal className="w-6 h-6 sm:w-7 sm:h-7 text-primary" />
                   )}
-                  <span className="text-xs font-medium">+ Вокал</span>
-                  <span className="text-[10px] text-muted-foreground">К инструменталу</span>
-                </Button>
+                  <span className="text-xs sm:text-sm font-medium">+ Вокал</span>
+                  <span className="text-[10px] sm:text-xs text-muted-foreground text-center leading-tight">
+                    AI добавит вокал к инструменталу
+                  </span>
+                </button>
 
-                <Button
-                  variant="outline"
-                  className="h-auto py-3 flex-col gap-1.5"
+                <button
+                  className={cn(
+                    "relative flex flex-col items-center gap-1.5 p-3 sm:p-4 rounded-xl",
+                    "border border-amber-500/30 bg-amber-500/5",
+                    "hover:border-amber-500 hover:bg-amber-500/10",
+                    "transition-all duration-200 min-h-[80px] sm:min-h-[88px]",
+                    "disabled:opacity-50 disabled:cursor-not-allowed"
+                  )}
                   onClick={() => uploadAndProcess('cover')}
                   disabled={processingAction !== null}
                 >
                   {processingAction === 'cover' ? (
-                    <Loader2 className="w-5 h-5 animate-spin" />
+                    <Loader2 className="w-6 h-6 sm:w-7 sm:h-7 animate-spin text-amber-500" />
                   ) : (
-                    <Disc className="w-5 h-5 text-amber-500" />
+                    <Disc className="w-6 h-6 sm:w-7 sm:h-7 text-amber-500" />
                   )}
-                  <span className="text-xs font-medium">Кавер</span>
-                  <span className="text-[10px] text-muted-foreground">Новая версия</span>
-                </Button>
+                  <span className="text-xs sm:text-sm font-medium">Кавер</span>
+                  <span className="text-[10px] sm:text-xs text-muted-foreground text-center leading-tight">
+                    Новая версия в другом стиле
+                  </span>
+                </button>
 
-                <Button
-                  variant="outline"
-                  className="h-auto py-3 flex-col gap-1.5"
+                <button
+                  className={cn(
+                    "relative flex flex-col items-center gap-1.5 p-3 sm:p-4 rounded-xl",
+                    "border border-emerald-500/30 bg-emerald-500/5",
+                    "hover:border-emerald-500 hover:bg-emerald-500/10",
+                    "transition-all duration-200 min-h-[80px] sm:min-h-[88px]",
+                    "disabled:opacity-50 disabled:cursor-not-allowed"
+                  )}
                   onClick={() => uploadAndProcess('extend')}
                   disabled={processingAction !== null}
                 >
                   {processingAction === 'extend' ? (
-                    <Loader2 className="w-5 h-5 animate-spin" />
+                    <Loader2 className="w-6 h-6 sm:w-7 sm:h-7 animate-spin text-emerald-500" />
                   ) : (
-                    <ArrowRight className="w-5 h-5 text-emerald-500" />
+                    <ArrowRight className="w-6 h-6 sm:w-7 sm:h-7 text-emerald-500" />
                   )}
-                  <span className="text-xs font-medium">Расширение</span>
-                  <span className="text-[10px] text-muted-foreground">Продолжить трек</span>
-                </Button>
+                  <span className="text-xs sm:text-sm font-medium">Расширение</span>
+                  <span className="text-[10px] sm:text-xs text-muted-foreground text-center leading-tight">
+                    AI продолжит ваш трек
+                  </span>
+                </button>
               </div>
             </motion.div>
           )}
@@ -667,7 +722,7 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
         </div>
 
         {state === 'uploading' && (
-          <div className="text-center text-sm text-muted-foreground shrink-0 px-2 pb-2">
+          <div className="text-center text-xs sm:text-sm text-muted-foreground shrink-0 px-2 pb-3 pt-2">
             <Loader2 className="w-5 h-5 animate-spin mx-auto mb-2" />
             Загрузка и обработка...
           </div>
