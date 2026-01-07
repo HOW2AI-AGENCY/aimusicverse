@@ -312,16 +312,60 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
     }
   }, [trackForSeparation, separate, id, queryClient, modals]);
 
-  // Handle recording complete
-  const handleRecordingComplete = useCallback((recordedTrack: any) => {
+  // Handle recording complete - save to track_stems
+  const handleRecordingComplete = useCallback(async (recordedTrack: {
+    id: string;
+    audioUrl: string;
+    type: RecordingType;
+    duration: number;
+    name: string;
+    chords?: Array<{ chord: string; time: number }>;
+  }) => {
     patterns.success();
-    toast.success('Запись добавлена');
     logger.info('[UnifiedStudioMobile] Recording complete', { 
       type: recordedTrack.type, 
       duration: recordedTrack.duration 
     });
-    // TODO: Add track to project
-    queryClient.invalidateQueries({ queryKey: ['track', id] });
+    
+    try {
+      // Map recording type to stem type
+      const stemTypeMap: Record<RecordingType, string> = {
+        vocal: 'vocals',
+        guitar: 'guitar',
+        instrument: 'other',
+      };
+      const stemType = stemTypeMap[recordedTrack.type] || 'other';
+      
+      // Save to track_stems table
+      const { error } = await supabase
+        .from('track_stems')
+        .insert({
+          track_id: id,
+          stem_type: stemType,
+          audio_url: recordedTrack.audioUrl,
+          duration: recordedTrack.duration,
+          status: 'completed',
+          metadata: recordedTrack.chords 
+            ? { chords: recordedTrack.chords, name: recordedTrack.name }
+            : { name: recordedTrack.name },
+        });
+      
+      if (error) {
+        logger.error('Failed to save recording to database', error);
+        toast.error('Ошибка сохранения записи');
+        return;
+      }
+      
+      // Invalidate queries to refresh UI
+      queryClient.invalidateQueries({ queryKey: ['track', id] });
+      queryClient.invalidateQueries({ queryKey: ['trackStems', id] });
+      
+      toast.success('Запись добавлена в проект');
+    } catch (error) {
+      logger.error('Failed to save recording', error);
+      toast.error('Ошибка сохранения записи');
+    }
+    
     modals.close();
   }, [patterns, queryClient, id, modals]);
 

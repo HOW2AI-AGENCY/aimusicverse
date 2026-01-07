@@ -28,16 +28,34 @@ export const HAPTIC_GUIDE = {
   warning: 'warning' as NotificationType,
 } as const;
 
+// Minimum Telegram WebApp version that supports HapticFeedback
+const MIN_HAPTIC_VERSION = 6.1;
+
+/**
+ * Check if HapticFeedback is supported in current Telegram WebApp version
+ */
+const isHapticSupported = (): boolean => {
+  try {
+    const webApp = window.Telegram?.WebApp;
+    if (!webApp?.HapticFeedback) return false;
+    
+    const version = parseFloat(webApp.version || '0');
+    return version >= MIN_HAPTIC_VERSION;
+  } catch {
+    return false;
+  }
+};
+
 /**
  * Trigger impact haptic feedback
  */
 export const hapticImpact = (style: ImpactStyle = 'medium') => {
   try {
-    if (window.Telegram?.WebApp?.HapticFeedback) {
-      window.Telegram.WebApp.HapticFeedback.impactOccurred(style);
+    if (isHapticSupported()) {
+      window.Telegram?.WebApp?.HapticFeedback?.impactOccurred(style);
     }
-  } catch (error) {
-    logger.warn('Haptic feedback not available', { error });
+  } catch {
+    // Silently ignore - expected outside Telegram
   }
 };
 
@@ -46,11 +64,11 @@ export const hapticImpact = (style: ImpactStyle = 'medium') => {
  */
 export const hapticNotification = (type: NotificationType = 'success') => {
   try {
-    if (window.Telegram?.WebApp?.HapticFeedback) {
-      window.Telegram.WebApp.HapticFeedback.notificationOccurred(type);
+    if (isHapticSupported()) {
+      window.Telegram?.WebApp?.HapticFeedback?.notificationOccurred(type);
     }
-  } catch (error) {
-    logger.warn('Haptic feedback not available', { error });
+  } catch {
+    // Silently ignore - expected outside Telegram
   }
 };
 
@@ -59,11 +77,11 @@ export const hapticNotification = (type: NotificationType = 'success') => {
  */
 export const hapticSelectionChanged = () => {
   try {
-    if (window.Telegram?.WebApp?.HapticFeedback) {
-      window.Telegram.WebApp.HapticFeedback.selectionChanged();
+    if (isHapticSupported()) {
+      window.Telegram?.WebApp?.HapticFeedback?.selectionChanged();
     }
-  } catch (error) {
-    logger.warn('Haptic feedback not available', { error });
+  } catch {
+    // Silently ignore - expected outside Telegram
   }
 };
 
@@ -71,7 +89,7 @@ export const hapticSelectionChanged = () => {
  * Check if haptic feedback is available
  */
 export const isHapticAvailable = (): boolean => {
-  return !!window.Telegram?.WebApp?.HapticFeedback;
+  return isHapticSupported();
 };
 
 /**
