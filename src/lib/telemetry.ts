@@ -54,22 +54,34 @@ const featureTimers = new Map<string, number>();
 // Session tracking
 let sessionId = crypto.randomUUID();
 let sessionStartTime = Date.now();
+let flushIntervalId: ReturnType<typeof setInterval> | null = null;
+let isInitialized = false;
 
 /**
- * Initialize telemetry session
+ * Initialize telemetry session (idempotent - safe to call multiple times)
  */
 export function initTelemetry() {
+  // Prevent duplicate initialization (important for HMR)
+  if (isInitialized) {
+    logger.debug('Telemetry already initialized, skipping');
+    return;
+  }
+  
   sessionId = crypto.randomUUID();
   sessionStartTime = Date.now();
   
   // Auto-flush on interval
   if (typeof window !== 'undefined') {
-    setInterval(flushMetrics, TELEMETRY_CONFIG.flushIntervalMs);
+    // Clear any existing interval (safety for HMR)
+    if (flushIntervalId) {
+      clearInterval(flushIntervalId);
+    }
+    flushIntervalId = setInterval(flushMetrics, TELEMETRY_CONFIG.flushIntervalMs);
     
     // Flush on page unload
     window.addEventListener('beforeunload', () => {
       flushMetrics(true);
-    });
+    }, { once: true });
     
     // Track visibility changes
     document.addEventListener('visibilitychange', () => {
@@ -79,6 +91,7 @@ export function initTelemetry() {
     });
   }
   
+  isInitialized = true;
   logger.info('Telemetry initialized', { sessionId });
 }
 
