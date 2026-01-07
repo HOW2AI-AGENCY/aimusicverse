@@ -80,10 +80,28 @@ export { useSwipeNavigation } from '@/hooks/useSwipeNavigation';
 export { useStudioPerformance, useThrottledCallback, useCustomDeferredValue } from '@/hooks/useStudioPerformance';
 export { useUnifiedStudio } from '@/hooks/studio/useUnifiedStudio';
 export { useStudioMixer } from '@/hooks/studio/useStudioMixer';
+export { useLyricsSync } from '@/hooks/lyrics/useLyricsSync';
 
 // Re-export configs
 export { getActionsForStemType, getGroupedActions, CATEGORY_LABELS, normalizeTrackType } from '@/hooks/studio/stemActionsConfig';
 export { MIX_PRESETS, getMixPreset } from '@/hooks/studio/mixPresetsConfig';
+
+// Re-export stores
+export { 
+  useStemMixerStore, 
+  useStemState, 
+  useStemActions, 
+  useMasterControls,
+} from '@/stores/useStemMixerStore';
+export { 
+  usePlaybackStore, 
+  usePlaybackStatus, 
+  usePlaybackControls,
+} from '@/stores/usePlaybackStore';
+
+// Re-export optimized lyrics
+export { OptimizedLyricsPanel } from '@/components/lyrics/OptimizedLyricsPanel';
+export { OptimizedLyricsLine } from '@/components/lyrics/OptimizedLyricsLine';
 
 // Type exports
 export type { UnifiedStudioMobileProps } from './UnifiedStudioMobile';
