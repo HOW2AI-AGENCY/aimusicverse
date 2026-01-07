@@ -69,6 +69,8 @@ export { OptimizedTrackRow } from './OptimizedTrackRow';
 export { OptimizedWaveform } from './OptimizedWaveform';
 export { OptimizedVolumeSlider } from './OptimizedVolumeSlider';
 export { OptimizedMixerPanel } from './OptimizedMixerPanel';
+export { OptimizedTransport } from './OptimizedTransport';
+export { OptimizedStemTrack } from './OptimizedStemTrack';
 
 // Legacy tab-based components have been removed (MobileStudioLayout, MobileStudioTabs)
 // Use UnifiedDAWLayout instead

@@ -24,6 +24,16 @@ export { useAudioSync, useAutoSync } from './useAudioSync';
 export { useStudioState } from './useStudioState';
 export type { StemState, StemStates, UseStudioStateOptions, UseStudioStateReturn } from './useStudioState';
 export { useWaveformCache } from './useWaveformCache';
+export { useOptimizedPlayback } from './useOptimizedPlayback';
+export { 
+  useBatchedUpdates, 
+  useRAFThrottle, 
+  useShallowMemo, 
+  useDeferredValue as useOptimizedDeferredValue,
+  useStableCallback,
+  useRenderTracker,
+  useStableObject,
+} from './useRenderOptimization';
 
 interface UseStudioOptimizationsProps {
   stems: TrackStem[];
