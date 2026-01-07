@@ -28,6 +28,20 @@ export default {
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
         mono: ['Roboto Mono', 'monospace'],
+        display: ['Inter', 'sans-serif'], // Can be replaced with a distinctive font
+      },
+      fontSize: {
+        // Professional Typography Scale (from 032-professional-ui spec)
+        'display-1': ['2.5rem', { lineHeight: '1.2', fontWeight: '700' }],
+        'display-2': ['2rem', { lineHeight: '1.25', fontWeight: '600' }],
+        'heading-1': ['1.5rem', { lineHeight: '1.3', fontWeight: '600' }],
+        'heading-2': ['1.25rem', { lineHeight: '1.35', fontWeight: '600' }],
+        'heading-3': ['1.125rem', { lineHeight: '1.4', fontWeight: '500' }],
+        'body-lg': ['1rem', { lineHeight: '1.6' }],
+        'body': ['0.875rem', { lineHeight: '1.5' }],
+        'body-sm': ['0.8125rem', { lineHeight: '1.5' }],
+        'caption': ['0.75rem', { lineHeight: '1.4' }],
+        'caption-sm': ['0.6875rem', { lineHeight: '1.3' }],
       },
       colors: {
         border: "hsl(var(--border))",

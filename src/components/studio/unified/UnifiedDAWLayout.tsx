@@ -46,6 +46,7 @@ interface Project {
   name: string;
   masterVolume: number;
   tracks: Track[];
+  bpm?: number; // BPM for beat grid display
 }
 
 interface UnifiedDAWLayoutProps {
@@ -286,30 +287,69 @@ export const UnifiedDAWLayout = memo(function UnifiedDAWLayout({
         </div>
       </div>
 
-      {/* Timeline Ruler - inline simple version */}
-      <div 
-        className="shrink-0 border-b border-border/30 h-8 relative bg-muted/20 cursor-pointer"
-        onClick={(e) => {
-          const rect = e.currentTarget.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const percent = x / rect.width;
-          handleSeek(percent * duration);
-        }}
-      >
-        <div className="absolute inset-0 flex items-end">
-          {Array.from({ length: Math.ceil(duration / 10) + 1 }).map((_, i) => (
-            <div key={i} className="flex-shrink-0" style={{ width: `${(10 / duration) * 100}%` }}>
-              <div className="h-2 border-l border-muted-foreground/30" />
-              <span className="text-[9px] text-muted-foreground pl-0.5">{i * 10}s</span>
+      {/* Timeline Ruler with BPM markers */}
+      {(() => {
+        const bpm = project.bpm || 120;
+        const beatDuration = 60 / bpm;
+        const barDuration = beatDuration * 4;
+        const beatCount = Math.ceil(duration / beatDuration);
+        
+        return (
+          <div 
+            className="shrink-0 border-b border-border/30 h-10 relative bg-muted/20 cursor-pointer"
+            onClick={(e) => {
+              const rect = e.currentTarget.getBoundingClientRect();
+              const x = e.clientX - rect.left;
+              const percent = x / rect.width;
+              handleSeek(percent * duration);
+            }}
+          >
+            {/* BPM indicator */}
+            <div className="absolute left-2 top-1 text-[10px] text-muted-foreground font-mono">
+              {bpm} BPM
             </div>
-          ))}
-        </div>
-        {/* Playhead */}
-        <div 
-          className="absolute top-0 bottom-0 w-0.5 bg-primary z-10 pointer-events-none"
-          style={{ left: `${(currentTime / duration) * 100}%` }}
-        />
-      </div>
+            
+            {/* Beat markers */}
+            <div className="absolute left-0 right-0 bottom-0 h-6">
+              {Array.from({ length: beatCount + 1 }).map((_, i) => {
+                const time = i * beatDuration;
+                if (time > duration) return null;
+                const isBar = i % 4 === 0;
+                const barNumber = Math.floor(i / 4) + 1;
+                
+                return (
+                  <div
+                    key={i}
+                    className="absolute bottom-0"
+                    style={{ left: `${(time / duration) * 100}%` }}
+                  >
+                    <div 
+                      className={cn(
+                        "w-px",
+                        isBar ? "h-4 bg-foreground/40" : "h-2 bg-foreground/15"
+                      )} 
+                    />
+                    {isBar && (
+                      <span className="absolute -top-3 text-[9px] text-muted-foreground -translate-x-1/2 font-mono">
+                        {barNumber}
+                      </span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+            
+            {/* Playhead */}
+            <div 
+              className="absolute top-0 bottom-0 w-0.5 bg-primary z-10 pointer-events-none"
+              style={{ left: `${(currentTime / duration) * 100}%` }}
+            >
+              {/* Playhead head */}
+              <div className="absolute -top-0.5 left-1/2 -translate-x-1/2 w-2 h-2 bg-primary rounded-full" />
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Track Lanes - Scrollable middle area */}
       <div className="flex-1 overflow-y-auto overflow-x-hidden">

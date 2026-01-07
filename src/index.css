@@ -508,6 +508,42 @@ All colors MUST be HSL.
     -webkit-user-select: none;
   }
 
+  /* Touch Target Utilities (WCAG 2.5.5 - min 44x44px) */
+  .touch-target {
+    min-height: var(--touch-target-min);
+    min-width: var(--touch-target-min);
+  }
+
+  .touch-target-lg {
+    min-height: var(--touch-target-comfortable);
+    min-width: var(--touch-target-comfortable);
+  }
+
+  .touch-target-xl {
+    min-height: var(--touch-target-large);
+    min-width: var(--touch-target-large);
+  }
+
+  /* Interactive button with proper touch target */
+  .btn-touch {
+    min-height: var(--touch-target-min);
+    min-width: var(--touch-target-min);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* List item touch target */
+  .list-item-touch {
+    min-height: var(--touch-target-comfortable);
+    display: flex;
+    align-items: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
   /* Smooth transitions for interactive elements */
   .transition-smooth {
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
