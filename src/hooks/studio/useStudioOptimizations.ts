@@ -22,6 +22,8 @@ import { logger } from '@/lib/logger';
 // Re-export for convenience
 export { useAudioSync, useAutoSync } from './useAudioSync';
 export { useStudioState } from './useStudioState';
+export type { StemState, StemStates, UseStudioStateOptions, UseStudioStateReturn } from './useStudioState';
+export { useWaveformCache } from './useWaveformCache';
 
 interface UseStudioOptimizationsProps {
   stems: TrackStem[];

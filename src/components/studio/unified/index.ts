@@ -63,6 +63,12 @@ export { UnifiedMixerChannel, type ChannelVariant, type UnifiedMixerChannelProps
 export { AudioMeter, StereoMeter, SimpleMeter } from './AudioMeter';
 export { StemActionSheet } from './StemActionSheet';
 
+// Optimized Components
+export { OptimizedMixerChannel } from './OptimizedMixerChannel';
+export { OptimizedTrackRow } from './OptimizedTrackRow';
+export { OptimizedWaveform } from './OptimizedWaveform';
+export { OptimizedVolumeSlider } from './OptimizedVolumeSlider';
+
 // Legacy tab-based components have been removed (MobileStudioLayout, MobileStudioTabs)
 // Use UnifiedDAWLayout instead
 
