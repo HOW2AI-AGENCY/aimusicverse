@@ -166,21 +166,43 @@ export function useStudioMixer({
     audioContext,
   });
 
-  // TODO: [MIXER-001] Connect effects chain to audio routing
-  // When effectsEngine creates a chain, we need to:
-  // 1. Get input/output nodes from effectsEngine
-  // 2. Call audioEngine.insertEffectsChain(trackId, input, output)
-  // 3. Handle bypass state
+  // ─────────────────────────────────────────────────────────────────────────────
+  // EFFECTS CHAIN INTEGRATION
+  // Connect effectsEngine to audioEngine for each track
+  // ─────────────────────────────────────────────────────────────────────────────
   
   useEffect(() => {
-    // Log when audio context becomes available for debugging
-    if (audioContext) {
-      logger.debug('Mixer: AudioContext available for effects', { 
-        state: audioContext.state,
-        sampleRate: audioContext.sampleRate 
+    // Wait for audio context to be available and tracks to be loaded
+    if (!audioContext || !audioEngine.isReady) return;
+    
+    // Create and connect effects chains for each track
+    tracks.forEach(track => {
+      const existingChain = effectsEngine.getEffectsChain(track.id);
+      if (!existingChain) {
+        const chain = effectsEngine.createEffectsChain(track.id);
+        if (chain) {
+          // Insert the effects chain between source and gain in audio engine
+          audioEngine.insertEffectsChain(track.id, chain.input, chain.output);
+          logger.debug('Effects chain connected to audio routing', { trackId: track.id });
+          
+          // Apply initial effects from track
+          if (track.effects) {
+            effectsEngine.updateEffects(track.id, track.effects);
+          }
+        }
+      }
+    });
+    
+    // Cleanup effects chains when tracks are removed
+    return () => {
+      tracks.forEach(track => {
+        const chain = effectsEngine.getEffectsChain(track.id);
+        if (chain) {
+          audioEngine.removeEffectsChain(track.id);
+        }
       });
-    }
-  }, [audioContext]);
+    };
+  }, [audioContext, audioEngine.isReady, tracks, effectsEngine, audioEngine]);
 
   // Playback controls
   const play = useCallback(async () => {
@@ -214,10 +236,10 @@ export function useStudioMixer({
   }, [audioEngine, onTrackChange]);
 
   const setPan = useCallback((trackId: string, pan: number) => {
-    // TODO: Implement pan in audio engine using StereoPannerNode
+    // Apply pan to audio engine (StereoPannerNode)
+    audioEngine.setTrackPan(trackId, pan);
     onTrackChange?.(trackId, { pan });
-    logger.debug('Pan change', { trackId, pan });
-  }, [onTrackChange]);
+  }, [audioEngine, onTrackChange]);
 
   const toggleMute = useCallback((trackId: string) => {
     const track = tracks.find(t => t.id === trackId);
