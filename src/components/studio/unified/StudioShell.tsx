@@ -26,7 +26,7 @@ import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { useUnifiedStudioStore, ViewMode, TrackType, TRACK_COLORS, StudioTrack } from '@/stores/useUnifiedStudioStore';
-import { StudioTransport } from './StudioTransport';
+import { OptimizedTransport } from './OptimizedTransport';
 import { SortableTrackList } from './SortableTrackList';
 import { StudioLyricsPanelCompact } from '@/components/stem-studio/StudioLyricsPanelCompact';
 import { StudioWaveformTimeline } from './StudioWaveformTimeline';
@@ -1175,50 +1175,18 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
       {/* Transport Controls - desktop only, mobile uses bottom player */}
       {!isMobile && (
         <div className="flex items-center gap-2 px-3 py-2 border-b border-border/50 bg-card/50 shrink-0 overflow-hidden">
-          {/* Play Controls */}
-          <div className="flex items-center gap-0.5 shrink-0">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8"
-              onClick={() => handleSeek(0)}
-            >
-              <SkipBack className="h-4 w-4" />
-            </Button>
-
-            <Button
-              variant="default"
-              size="icon"
-              className="h-10 w-10 rounded-full"
-              onClick={handlePlayPause}
-            >
-              {isPlaying ? (
-                <Pause className="h-5 w-5" />
-              ) : (
-                <Play className="h-5 w-5 ml-0.5" />
-              )}
-            </Button>
-
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8"
-              onClick={() => handleSeek(duration)}
-            >
-              <SkipForward className="h-4 w-4" />
-            </Button>
-          </div>
-
-          {/* Time Display */}
-          <div className="flex items-center gap-1 shrink-0">
-            <span className="text-sm font-mono font-medium">
-              {formatTime(currentTime)}
-            </span>
-            <span className="text-muted-foreground text-xs">/</span>
-            <span className="text-sm font-mono text-muted-foreground">
-              {formatTime(duration)}
-            </span>
-          </div>
+          {/* Play Controls - OptimizedTransport */}
+          <OptimizedTransport
+            isPlaying={isPlaying}
+            currentTime={currentTime}
+            duration={duration}
+            onPlay={handlePlayPause}
+            onPause={handlePlayPause}
+            onStop={() => handleSeek(0)}
+            onSeek={handleSeek}
+            compact={true}
+            className="shrink-0"
+          />
 
           {/* Spacer */}
           <div className="flex-1 min-w-0" />
