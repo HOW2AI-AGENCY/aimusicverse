@@ -7,7 +7,33 @@
 
 ## 🆕 НОВОЕ В СЕССИИ ОПТИМИЗАЦИИ СТУДИИ (January 7, 2026)
 
-### Studio Performance Optimization ✅
+### Studio Performance Optimization - Phase 2 ✅
+
+**1. Zustand Store Slices**
+- `stemMixerSlice` — модульный slice для управления стемами (mute/solo/volume/pan)
+- `playbackSlice` — модульный slice для состояния воспроизведения
+- Selectors для оптимизированных re-renders
+
+**2. Standalone Stores**
+- `useStemMixerStore` — standalone store для стемов с хелперами
+- `usePlaybackStore` — standalone store для playback с хелперами
+
+**3. Component Integration**
+- `MobileMixerContent` → использует `OptimizedMixerChannel`
+- `StudioShell` → использует `OptimizedTransport`
+- `OptimizedMixerChannel` — dual API support (legacy + new)
+
+**Новые файлы:**
+```
+src/stores/slices/stemMixerSlice.ts
+src/stores/slices/playbackSlice.ts
+src/stores/slices/index.ts
+src/stores/useStemMixerStore.ts
+src/stores/usePlaybackStore.ts
+src/stores/index.ts (barrel export)
+```
+
+### Studio Performance Optimization - Phase 1 ✅
 
 **1. Unified Studio State Management**
 - `useStudioState` — централизованное управление mute/solo/volume/pan
@@ -29,15 +55,28 @@
 - `OptimizedVolumeSlider` — Touch-optimized с throttled updates
 - `OptimizedMixerPanel` — Virtualized mixer channels
 - `OptimizedMixerChannel` — Memoized с stable callbacks
+- `OptimizedTransport` — RAF-based time display
+- `OptimizedStemTrack` — High-performance stem track
+- `OptimizedTrackRow` — Lightweight track row
 
-**Новые файлы:**
+**5. Render Optimization Utilities**
+- `useRenderOptimization` — useBatchedUpdates, useRAFThrottle, useShallowMemo
+- `useDebouncedStemControls` — debounced volume/seek controls
+
+**Файлы оптимизации:**
 ```
-src/hooks/studio/useStudioState.ts (extended)
+src/hooks/studio/useStudioState.ts
 src/hooks/studio/useWaveformCache.ts
 src/hooks/studio/useOptimizedPlayback.ts
+src/hooks/studio/useRenderOptimization.ts
+src/hooks/studio/useDebouncedStemControls.ts
 src/components/studio/unified/OptimizedWaveform.tsx
 src/components/studio/unified/OptimizedVolumeSlider.tsx
 src/components/studio/unified/OptimizedMixerPanel.tsx
+src/components/studio/unified/OptimizedMixerChannel.tsx
+src/components/studio/unified/OptimizedTransport.tsx
+src/components/studio/unified/OptimizedStemTrack.tsx
+src/components/studio/unified/OptimizedTrackRow.tsx
 ```
 
 **Экспорты обновлены:**
