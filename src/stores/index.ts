@@ -5,11 +5,12 @@
  */
 
 // ============ Slices ============
-export * from './slices';
+// Note: Import slices directly: import { createStemMixerSlice } from '@/stores/slices/stemMixerSlice';
 
 // ============ Standalone Stores ============
-export { useStemMixerStore, useStemState, useStemActions, useMasterControls, useEffectiveStemVolume, useIsStemMuted } from './useStemMixerStore';
-export { usePlaybackStore, usePlaybackStatus, usePlaybackControls, useLoopControls, usePlaybackProgress, usePlaybackLoadingState } from './usePlaybackStore';
+// Note: Import new stores directly to avoid potential circular deps:
+// import { useStemMixerStore } from '@/stores/useStemMixerStore';
+// import { usePlaybackStore } from '@/stores/usePlaybackStore';
 
 // ============ Full Stores ============
 export { useUnifiedStudioStore, TRACK_COLORS } from './useUnifiedStudioStore';
