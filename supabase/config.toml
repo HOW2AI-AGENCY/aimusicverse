@@ -266,3 +266,6 @@ verify_jwt = true
 
 [functions.replicate-audio-watermark]
 verify_jwt = true
+
+[functions.cleanup-old-data]
+verify_jwt = false
