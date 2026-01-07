@@ -35,6 +35,24 @@ export {
   useStableObject,
 } from './useRenderOptimization';
 
+// Re-export new stores
+export { 
+  useStemMixerStore, 
+  useStemState, 
+  useStemActions, 
+  useMasterControls,
+  useEffectiveStemVolume,
+  useIsStemMuted,
+} from '@/stores/useStemMixerStore';
+export { 
+  usePlaybackStore, 
+  usePlaybackStatus, 
+  usePlaybackControls,
+  useLoopControls,
+  usePlaybackProgress,
+  usePlaybackLoadingState,
+} from '@/stores/usePlaybackStore';
+
 interface UseStudioOptimizationsProps {
   stems: TrackStem[];
   audioRefs: Record<string, HTMLAudioElement>;

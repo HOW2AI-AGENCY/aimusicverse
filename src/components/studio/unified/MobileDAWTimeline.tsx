@@ -44,6 +44,8 @@ interface MobileDAWTimelineProps {
   sections?: SectionMarker[];
   /** Callback when section is clicked */
   onSectionClick?: (section: SectionMarker, index: number) => void;
+  /** BPM for beat markers (default: 120) */
+  bpm?: number;
   className?: string;
 }
 
@@ -88,12 +90,15 @@ export const MobileDAWTimeline = memo(function MobileDAWTimeline({
   selectedTrackId,
   sections = [],
   onSectionClick,
+  bpm = 120,
   className,
 }: MobileDAWTimelineProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
+  const playheadRef = useRef<HTMLDivElement>(null);
   const [zoom, setZoom] = useState(1);
   const [scrollLeft, setScrollLeft] = useState(0);
+  const [isDraggingPlayhead, setIsDraggingPlayhead] = useState(false);
   const haptic = useHapticFeedback();
 
   // Calculate timeline width based on zoom
@@ -134,7 +139,33 @@ export const MobileDAWTimeline = memo(function MobileDAWTimeline({
     },
   });
 
-  // Time markers
+  // BPM-based markers (beats and bars)
+  const bpmMarkers = useMemo(() => {
+    const beatDuration = 60 / bpm;
+    const barDuration = beatDuration * 4;
+    const markers: { time: number; position: number; isBeat: boolean; isBar: boolean; label: string }[] = [];
+    
+    // Show bars at low zoom, beats at high zoom
+    const showBeats = zoom >= 1.5;
+    const interval = showBeats ? beatDuration : barDuration;
+    
+    for (let t = 0; t <= duration; t += interval) {
+      const barNum = Math.floor(t / barDuration) + 1;
+      const beatInBar = Math.floor((t % barDuration) / beatDuration) + 1;
+      const isBar = beatInBar === 1;
+      
+      markers.push({
+        time: t,
+        position: duration > 0 ? (t / duration) * 100 : 0,
+        isBeat: !isBar && showBeats,
+        isBar,
+        label: isBar ? `${barNum}` : '',
+      });
+    }
+    return markers;
+  }, [duration, zoom, bpm]);
+
+  // Time markers (seconds)
   const timeMarkers = useMemo(() => {
     const interval = zoom < 1 ? 30 : zoom < 2 ? 15 : 10; // seconds
     const markers = [];
@@ -146,6 +177,52 @@ export const MobileDAWTimeline = memo(function MobileDAWTimeline({
     }
     return markers;
   }, [duration, zoom]);
+
+  // Draggable playhead handlers
+  const handlePlayheadDragStart = useCallback((e: React.TouchEvent | React.MouseEvent) => {
+    e.stopPropagation();
+    setIsDraggingPlayhead(true);
+    haptic.select();
+  }, [haptic]);
+
+  const handlePlayheadDrag = useCallback((e: TouchEvent | MouseEvent) => {
+    if (!isDraggingPlayhead || !timelineRef.current) return;
+    
+    const rect = timelineRef.current.getBoundingClientRect();
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const x = clientX - rect.left + scrollLeft;
+    const percent = x / timelineWidth;
+    const newTime = Math.max(0, Math.min(duration, percent * duration));
+    
+    onSeek(newTime);
+  }, [isDraggingPlayhead, timelineWidth, duration, scrollLeft, onSeek]);
+
+  const handlePlayheadDragEnd = useCallback(() => {
+    if (isDraggingPlayhead) {
+      setIsDraggingPlayhead(false);
+      haptic.tap();
+    }
+  }, [isDraggingPlayhead, haptic]);
+
+  // Global listeners for playhead drag
+  useEffect(() => {
+    if (!isDraggingPlayhead) return;
+    
+    const handleMove = (e: TouchEvent | MouseEvent) => handlePlayheadDrag(e);
+    const handleEnd = () => handlePlayheadDragEnd();
+    
+    window.addEventListener('touchmove', handleMove, { passive: false });
+    window.addEventListener('mousemove', handleMove);
+    window.addEventListener('touchend', handleEnd);
+    window.addEventListener('mouseup', handleEnd);
+    
+    return () => {
+      window.removeEventListener('touchmove', handleMove);
+      window.removeEventListener('mousemove', handleMove);
+      window.removeEventListener('touchend', handleEnd);
+      window.removeEventListener('mouseup', handleEnd);
+    };
+  }, [isDraggingPlayhead, handlePlayheadDrag, handlePlayheadDragEnd]);
 
   // Auto-scroll to follow playhead when playing
   useEffect(() => {
@@ -195,20 +272,44 @@ export const MobileDAWTimeline = memo(function MobileDAWTimeline({
           style={{ width: timelineWidth }}
           onClick={handleTimelineClick}
         >
-          {/* Time ruler */}
-          <div className="h-6 border-b border-border relative">
-            {timeMarkers.map(marker => (
+          {/* BPM indicator + Time ruler */}
+          <div className="h-8 border-b border-border relative bg-muted/30">
+            {/* BPM badge */}
+            <div className="absolute left-1 top-1/2 -translate-y-1/2 text-[9px] font-medium text-muted-foreground bg-background/50 px-1.5 py-0.5 rounded">
+              {bpm} BPM
+            </div>
+            
+            {/* Beat/Bar markers */}
+            {bpmMarkers.map((marker, idx) => (
               <div
-                key={marker.time}
-                className="absolute top-0 h-full flex flex-col items-center"
+                key={idx}
+                className="absolute top-0 h-full flex flex-col items-center justify-end"
                 style={{ left: `${marker.position}%` }}
               >
-                <div className="h-2 w-px bg-border" />
-                <span className="text-[10px] text-muted-foreground mt-0.5">
-                  {formatTime(marker.time)}
-                </span>
+                <div className={cn(
+                  "w-px",
+                  marker.isBar ? "h-4 bg-primary/60" : "h-2 bg-border/50"
+                )} />
+                {marker.isBar && marker.label && (
+                  <span className="absolute top-0.5 text-[9px] font-mono text-primary/80 -translate-x-1/2">
+                    {marker.label}
+                  </span>
+                )}
               </div>
             ))}
+            
+            {/* Time overlay (seconds) */}
+            <div className="absolute bottom-0 left-0 right-0 h-3 pointer-events-none">
+              {timeMarkers.map(marker => (
+                <span
+                  key={marker.time}
+                  className="absolute text-[8px] text-muted-foreground/60 -translate-x-1/2"
+                  style={{ left: `${marker.position}%` }}
+                >
+                  {formatTime(marker.time)}
+                </span>
+              ))}
+            </div>
           </div>
 
           {/* Section markers overlay */}
@@ -273,13 +374,32 @@ export const MobileDAWTimeline = memo(function MobileDAWTimeline({
             ))}
           </div>
 
-          {/* Playhead */}
+          {/* Draggable Playhead */}
           <div 
-            className="absolute top-0 bottom-0 w-0.5 bg-primary z-10 pointer-events-none"
-            style={{ left: `${progressPercent}%` }}
+            ref={playheadRef}
+            className={cn(
+              "absolute top-0 bottom-0 z-20 cursor-grab touch-none",
+              isDraggingPlayhead && "cursor-grabbing"
+            )}
+            style={{ left: `calc(${progressPercent}% - 8px)`, width: '16px' }}
+            onMouseDown={handlePlayheadDragStart}
+            onTouchStart={handlePlayheadDragStart}
           >
-            {/* Playhead head */}
-            <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-3 h-3 bg-primary rounded-full" />
+            {/* Playhead line */}
+            <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-0.5 bg-primary" />
+            
+            {/* Playhead handle (top) */}
+            <div className={cn(
+              "absolute left-1/2 -translate-x-1/2 -top-1 w-4 h-4 rounded-full transition-transform",
+              "bg-primary shadow-lg border-2 border-background",
+              isDraggingPlayhead && "scale-125"
+            )} />
+            
+            {/* Playhead handle (bottom grab area) */}
+            <div className={cn(
+              "absolute left-1/2 -translate-x-1/2 bottom-0 w-3 h-3",
+              "bg-primary/80 rounded-sm"
+            )} />
           </div>
         </div>
       </div>
