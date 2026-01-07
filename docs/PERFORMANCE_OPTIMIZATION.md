@@ -1,10 +1,73 @@
 # Performance Optimization Guide
 
-**Sprint 025 US-025-002**: List Performance Optimization
+**Last Updated**: 2026-01-07 (Studio Optimization Session)
 
 ## Implemented Optimizations
 
-### 1. React.memo Usage
+### 1. Studio State Management (NEW - 2026-01-07)
+
+#### useStudioState
+Unified state management for studio with minimal re-renders:
+```typescript
+import { useStudioState } from '@/hooks/studio/useStudioOptimizations';
+
+const {
+  stemStates,
+  masterVolume,
+  setStemVolume,
+  toggleMute,
+  toggleSolo,
+  getEffectiveVolume,  // considers mute/solo/master
+  isStemEffectivelyMuted,
+} = useStudioState({ stems });
+```
+
+**Features:**
+- Centralized mute/solo/volume/pan management
+- Effective volume calculation considering master and solo states
+- Memoized callbacks to prevent re-renders
+- Batch state updates support
+
+### 2. Waveform Caching (NEW - 2026-01-07)
+
+#### useWaveformCache
+IndexedDB + LRU memory cache for waveform peaks:
+```typescript
+import { useWaveformCache } from '@/hooks/studio/useWaveformCache';
+
+const { get, set, clear, clearExpired } = useWaveformCache();
+
+// Check cache first
+const cached = await get(audioId);
+if (cached) {
+  // Use cached.peaks
+}
+
+// Cache new peaks
+await set(audioId, peaks, duration);
+```
+
+**Features:**
+- IndexedDB for persistent storage
+- LRU memory cache (20 entries)
+- 7-day TTL with automatic cleanup
+- Background cache maintenance
+
+### 3. Optimized Playback (NEW - 2026-01-07)
+
+#### useOptimizedPlayback
+Lightweight playback with RAF-based time updates:
+```typescript
+import { useOptimizedPlayback } from '@/hooks/studio/useOptimizedPlayback';
+
+const { state, play, pause, seek, isBuffering } = useOptimizedPlayback({
+  audioRef,
+  onTimeUpdate: (time) => setCurrentTime(time),
+  updateInterval: 50, // ms
+});
+```
+
+### 4. React.memo Usage
 
 #### OptimizedTrackCard
 ```typescript
@@ -22,7 +85,7 @@ export const OptimizedTrackCard = memo(
 
 **Impact**: ~60% reduction in unnecessary re-renders during scrolling
 
-### 2. Performance Utilities
+### 5. Performance Utilities
 
 Created `src/lib/performance-utils.ts` with:
 - `useStableCallback` - Prevents callback re-creation
@@ -31,17 +94,20 @@ Created `src/lib/performance-utils.ts` with:
 - `useComputedValue` - Memoizes expensive computations
 - `usePerformanceMonitor` - Development performance tracking
 
-### 3. Component Optimization Checklist
+### 6. Component Optimization Checklist
 
 Apply to components with high render frequency:
 - [x] TrackCard (React.memo)
 - [x] OptimizedTrackCard (new, optimized version)
 - [x] VirtualizedTrackList (React.memo added)
+- [x] OptimizedMixerChannel (new, memoized)
+- [x] OptimizedMixerPanel (new, virtualized)
+- [x] OptimizedWaveform (new, canvas-based)
+- [x] OptimizedVolumeSlider (new, throttled)
 - [ ] PlaylistTrackItem (to be optimized)
 - [ ] LyricsLine (to be optimized)
-- [ ] ChordBox (to be optimized)
 
-### 4. Lazy Loading Components (15+ components)
+### 7. Lazy Loading Components (15+ components)
 
 Heavy components loaded on-demand via `src/components/lazy/index.ts`:
 - Dialogs: UploadAudioDialog, GenerateSheet, LyricsChatAssistant, TrackDetailSheet

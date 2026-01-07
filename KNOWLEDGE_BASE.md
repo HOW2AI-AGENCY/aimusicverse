@@ -1,11 +1,52 @@
 # 📚 БАЗА ЗНАНИЙ ПРОЕКТА MusicVerse AI
 
-> **Последнее обновление:** 2026-01-05 (Session 10)  
-> **Версия проекта:** 1.2.4 (Sprint 030 - Library & Track Actions Optimization)
+> **Последнее обновление:** 2026-01-07 (Studio Optimization Session)  
+> **Версия проекта:** 1.2.5 (Sprint 030 - Studio Optimization)
 
 ---
 
-## 🆕 НОВОЕ В СЕССИИ 10
+## 🆕 НОВОЕ В СЕССИИ ОПТИМИЗАЦИИ СТУДИИ (January 7, 2026)
+
+### Studio Performance Optimization ✅
+
+**1. Unified Studio State Management**
+- `useStudioState` — централизованное управление mute/solo/volume/pan
+- Effective volume calculation с учётом master и solo
+- Memoized callbacks для минимизации re-renders
+
+**2. Waveform Caching System**
+- `useWaveformCache` — IndexedDB + LRU memory cache
+- 7-day TTL, 20 entries memory limit
+- Автоматическая очистка устаревших данных
+
+**3. Optimized Playback Hook**
+- `useOptimizedPlayback` — RAF-based time updates
+- Throttled updates (50ms default)
+- Proper cleanup и event handling
+
+**4. Optimized Components**
+- `OptimizedWaveform` — Canvas-based с Web Worker генерацией peaks
+- `OptimizedVolumeSlider` — Touch-optimized с throttled updates
+- `OptimizedMixerPanel` — Virtualized mixer channels
+- `OptimizedMixerChannel` — Memoized с stable callbacks
+
+**Новые файлы:**
+```
+src/hooks/studio/useStudioState.ts (extended)
+src/hooks/studio/useWaveformCache.ts
+src/hooks/studio/useOptimizedPlayback.ts
+src/components/studio/unified/OptimizedWaveform.tsx
+src/components/studio/unified/OptimizedVolumeSlider.tsx
+src/components/studio/unified/OptimizedMixerPanel.tsx
+```
+
+**Экспорты обновлены:**
+- `src/hooks/studio/useStudioOptimizations.ts`
+- `src/components/studio/unified/index.ts`
+
+---
+
+## 🆕 ПРЕДЫДУЩАЯ СЕССИЯ 10
 
 ### Library & Track Actions Optimization (January 5, 2026) ✅
 
@@ -31,25 +72,7 @@
 - Удалён дубликат vocal/instrumental badge с cover overlay
 - TrackTypeIcons вынесены на отдельную строку
 
-**6. Library View Defaults**
-- LIST по умолчанию на мобильных, GRID на десктопе
-- Пользователь может переключать режим
-
-**7. Track Actions Panel Height**
-- 70vh на мобильных (было 55vh) для лучшего скролла
-
-**8. InlineVersionToggle Optimization**
-- React Query кэширование (staleTime: 1 min, gcTime: 5 min)
-- Optimistic UI updates для instant feedback
-- Skeleton loader вместо spinner
-
-**9. Reusable Library Components (NEW)**
-- `DurationBadge` — форматированное отображение длительности трека
-- `PlayOverlay` — overlay воспроизведения с hover эффектами
-- `TrackBadges` — badges версий, стемов, позиции в очереди
-- `ViewModeToggle` — переключатель grid/list view
-
-**Новые файлы:**
+**6. Reusable Library Components**
 ```
 src/components/library/shared/DurationBadge.tsx
 src/components/library/shared/PlayOverlay.tsx
@@ -57,46 +80,6 @@ src/components/library/shared/TrackBadges.tsx
 src/components/library/shared/ViewModeToggle.tsx
 src/components/library/shared/index.ts
 ```
-
-**Файлы изменены:**
-- `src/components/library/ModelBadge.tsx`
-- `src/components/library/ScrollableTagsRow.tsx`
-- `src/components/library/InlineVersionToggle.tsx`
-- `src/components/track-actions/TrackSheetHeader.tsx`
-- `src/components/track-actions/UnifiedTrackSheet.tsx`
-- `src/components/track-actions/sections/PromptPreview.tsx` (NEW)
-- `src/components/track-actions/sections/LyricsPreview.tsx` (NEW)
-- `src/components/TrackCard.tsx`
-- `src/pages/Library.tsx`
-- `src/pages/Community.tsx`
-
----
-
-## 🆕 НОВОЕ В СЕССИИ 9
-
-### UI/UX Generation Form Improvements (January 4, 2026) ✅
-
-**1. Hints работают по клику (Popover вместо Tooltip)**
-**2. Компактный хедер формы генерации**
-**3. Кнопки Copy/Delete скрыты когда пусто**
-**4. Compact Lyrics Visual Editor** (`LyricsVisualEditorCompact.tsx`)
-**5. Advanced Options заметнее**
-
----
-
-## 🆕 НОВОЕ В СЕССИИ 8
-
-### Database Optimization (January 4, 2026) ✅
-
-Выполнена комплексная оптимизация схемы БД:
-
-**Фаза 1: Критические индексы (20 шт)**
-```sql
--- tracks
-idx_tracks_user_created (user_id, created_at DESC)
-idx_tracks_status_public (status, is_public) WHERE status = 'completed'
-idx_tracks_computed_genre (computed_genre) WHERE NOT NULL
-idx_tracks_active_version (active_version_id) WHERE NOT NULL
 
 -- generation_tasks  
 idx_generation_tasks_track_id (track_id) WHERE NOT NULL

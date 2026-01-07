@@ -23,9 +23,12 @@
  * import { useDebouncedStemControls } from '@/hooks/studio/useDebouncedStemControls';
  * import { useOptimisticVersions } from '@/hooks/studio/useOptimisticVersions';
  * import { useStudioOptimizations } from '@/hooks/studio/useStudioOptimizations';
+ * import { useStudioState } from '@/hooks/studio/useStudioState';
+ * import { useWaveformCache } from '@/hooks/studio/useWaveformCache';
+ * import { useOptimizedPlayback } from '@/hooks/studio/useOptimizedPlayback';
  *
  * For types and constants (safe to import):
- * import type { StemEffects, MixPreset } from '@/hooks/studio/types';
+ * import type { StemEffects, MixPreset, StemState } from '@/hooks/studio/types';
  * import { defaultStemEffects, eqPresets } from '@/hooks/studio/stemEffectsConfig';
  */
 
@@ -41,6 +44,13 @@ export type {
   LoopRegion,
   KeyboardShortcut,
 } from './types';
+
+// Export types from useStudioState
+export type { 
+  StemStates, 
+  UseStudioStateOptions, 
+  UseStudioStateReturn 
+} from './useStudioState';
 
 // Safe constant exports - no AudioContext dependencies
 export { 

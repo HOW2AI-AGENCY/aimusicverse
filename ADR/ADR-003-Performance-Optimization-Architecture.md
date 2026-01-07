@@ -58,6 +58,43 @@
 
 **Оптимизация:** Один запрос для версий и стемов всех треков вместо N+1 запросов на каждый трек.
 
+### 6. Studio State Management (NEW - 2026-01-07)
+
+**Хук:** `useStudioState`
+
+**Функции:**
+- Централизованное управление mute/solo/volume/pan
+- Effective volume calculation с учётом master и solo
+- Memoized callbacks для минимизации re-renders
+- Batch state updates
+
+### 7. Waveform Caching (NEW - 2026-01-07)
+
+**Хук:** `useWaveformCache`
+
+**Функции:**
+- IndexedDB для персистентного хранения peaks
+- LRU memory cache (20 entries)
+- 7-day TTL с автоматической очисткой
+- Web Worker для генерации peaks
+
+### 8. Optimized Playback (NEW - 2026-01-07)
+
+**Хук:** `useOptimizedPlayback`
+
+**Функции:**
+- RAF-based time updates (50ms throttle)
+- Lightweight state management
+- Proper cleanup и event handling
+
+### 9. Optimized Components (NEW - 2026-01-07)
+
+**Компоненты:**
+- `OptimizedWaveform` - Canvas-based с кэшированием
+- `OptimizedVolumeSlider` - Touch-optimized с throttling
+- `OptimizedMixerPanel` - Виртуализованные каналы
+- `OptimizedMixerChannel` - Memoized с stable callbacks
+
 ## Последствия
 
 ### Положительные:
@@ -65,10 +102,13 @@
 - **Быстрая прокрутка:** Виртуализация позволяет работать с 1000+ треков без лагов
 - **Меньше трафика:** Ленивая загрузка экономит bandwidth
 - **Лучший UX:** Placeholder'ы вместо пустоты при загрузке
+- **Плавная студия:** Минимальные re-renders в миксере
+- **Быстрые waveforms:** IndexedDB кэширование экономит CPU
 
 ### Отрицательные:
 - **Сложность:** Дополнительная абстракция в коде
 - **Память:** Виртуализация требует осторожности с высотой элементов
+- **IndexedDB:** Требует обработки ошибок для приватного режима браузера
 
 ## Метрики
 
@@ -77,6 +117,8 @@
 | 12+ запросов на Index | 3-4 запроса |
 | 100+ запросов на Library (100 треков) | 2-3 запроса |
 | Нет кэширования | 30s staleTime |
+| Waveform каждый раз | IndexedDB cache 7 days |
+| Mixer re-renders | Memoized channels |
 
 ## Связанные изменения
 
@@ -84,3 +126,7 @@
 - `src/components/library/VirtualizedTrackList.tsx` - Виртуализация
 - `src/components/ui/lazy-image.tsx` - Ленивые изображения
 - `src/components/home/*Optimized.tsx` - Оптимизированные секции
+- `src/hooks/studio/useStudioState.ts` - Unified studio state
+- `src/hooks/studio/useWaveformCache.ts` - IndexedDB waveform cache
+- `src/hooks/studio/useOptimizedPlayback.ts` - RAF playback
+- `src/components/studio/unified/Optimized*.tsx` - Optimized components
