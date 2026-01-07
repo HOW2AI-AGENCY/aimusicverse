@@ -152,36 +152,36 @@ export const HeroSectionPro = memo(function HeroSectionPro({
           ))}
         </motion.div>
 
-        {/* CTA Buttons - stack on mobile */}
+        {/* CTA Buttons - stack on mobile with larger touch targets */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25 }}
-          className="flex flex-col sm:flex-row gap-2 sm:gap-3 justify-center max-w-md mx-auto"
+          className="flex flex-col sm:flex-row gap-2.5 sm:gap-3 justify-center max-w-md mx-auto"
         >
           <Button
             onClick={onRecord}
             size="lg"
-            className="flex-1 bg-destructive hover:bg-destructive/90 text-destructive-foreground gap-2 h-11 sm:h-12 text-sm"
+            className="flex-1 bg-destructive hover:bg-destructive/90 text-destructive-foreground gap-2.5 h-12 sm:h-12 text-sm font-medium min-h-[48px] touch-manipulation"
           >
-            <Mic className="w-4 h-4 sm:w-5 sm:h-5" />
+            <Mic className="w-5 h-5" />
             Записать
           </Button>
           <Button
             onClick={onUpload}
             size="lg"
             variant="outline"
-            className="flex-1 gap-2 h-11 sm:h-12 border-primary/30 hover:bg-primary/10 text-sm"
+            className="flex-1 gap-2.5 h-12 sm:h-12 border-primary/30 hover:bg-primary/10 text-sm font-medium min-h-[48px] touch-manipulation"
           >
-            <Upload className="w-4 h-4 sm:w-5 sm:h-5" />
+            <Upload className="w-5 h-5" />
             Загрузить
           </Button>
           <Button
             onClick={onCreate}
             size="lg"
-            className="flex-1 bg-generate hover:bg-generate/90 text-white gap-2 h-11 sm:h-12 text-sm"
+            className="flex-1 bg-generate hover:bg-generate/90 text-white gap-2.5 h-12 sm:h-12 text-sm font-medium min-h-[48px] touch-manipulation"
           >
-            <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
+            <Sparkles className="w-5 h-5" />
             Создать с AI
           </Button>
         </motion.div>

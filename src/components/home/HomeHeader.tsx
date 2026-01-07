@@ -157,12 +157,12 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
         </div>
 
         {/* Actions: Menu + Avatar (notifications moved to menu) */}
-        <div className="flex items-center gap-1.5">
-          {/* Menu Button with notification badge */}
+        <div className="flex items-center gap-2">
+          {/* Menu Button with notification badge - 44px touch target */}
           <motion.button
             onClick={handleMenuClick}
             className={cn(
-              "relative w-9 h-9 rounded-xl flex items-center justify-center",
+              "relative w-11 h-11 min-w-[44px] min-h-[44px] rounded-xl flex items-center justify-center",
               "bg-muted/60 hover:bg-muted transition-all duration-200 touch-manipulation",
               "hover:shadow-md"
             )}
@@ -170,10 +170,10 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
             whileTap={{ scale: 0.92 }}
             aria-label="Меню"
           >
-            <Menu className="w-4.5 h-4.5" />
+            <Menu className="w-5 h-5" />
             {unreadCount > 0 && (
               <motion.span 
-                className="absolute -top-1 -right-1 flex h-4.5 w-4.5 items-center justify-center rounded-full bg-destructive text-[9px] font-bold text-destructive-foreground shadow-lg"
+                className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-destructive text-[10px] font-bold text-destructive-foreground shadow-lg"
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ type: "spring", stiffness: 400 }}
@@ -183,17 +183,18 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
             )}
           </motion.button>
           
-          {/* Avatar with glow effect */}
+          {/* Avatar with glow effect - 44px touch target */}
           <motion.button
             onClick={onProfileClick}
             className={cn(
-              "relative w-9 h-9 rounded-full overflow-hidden",
+              "relative w-11 h-11 min-w-[44px] min-h-[44px] rounded-full overflow-hidden",
               "border-2 border-primary/40 hover:border-primary/80",
               "transition-all duration-300 touch-manipulation",
               "hover:shadow-lg hover:shadow-primary/25"
             )}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.92 }}
+            aria-label="Профиль"
           >
             {/* Animated ring */}
             <motion.div
@@ -209,7 +210,7 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
               />
             ) : (
               <div className="w-full h-full bg-gradient-to-br from-primary/30 to-primary/10 flex items-center justify-center relative z-10">
-                <User className="w-4 h-4 text-primary" />
+                <User className="w-5 h-5 text-primary" />
               </div>
             )}
           </motion.button>
