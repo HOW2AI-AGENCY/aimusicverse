@@ -2,10 +2,12 @@
  * Genre Tabs Section
  * Displays tracks by genre with tab navigation
  * Personalizes order based on user preferences
+ * Mobile-optimized with scroll fade indicators
  */
 
 import { useState, useMemo, useCallback } from 'react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { HorizontalScrollFade } from '@/components/ui/horizontal-scroll-fade';
 import { TracksGridSection } from './TracksGridSection';
 import { useUserPreferences } from '@/hooks/useUserPreferences';
 import type { PublicTrackWithCreator } from '@/hooks/usePublicContent';
@@ -102,7 +104,6 @@ export function GenreTabsSection({ tracks, isLoading, onRemix }: GenreTabsSectio
   }, [tracks]);
 
   const activeConfig = GENRES.find(g => g.id === activeGenre) || GENRES[0];
-  const ActiveIcon = activeConfig.icon;
 
   const handleTabChange = useCallback((value: string) => {
     setActiveGenre(value);
@@ -114,40 +115,44 @@ export function GenreTabsSection({ tracks, isLoading, onRemix }: GenreTabsSectio
   return (
     <section className="mb-5">
       <Tabs value={activeGenre} onValueChange={handleTabChange} className="w-full">
-        {/* Tab Navigation */}
-        <TabsList className="w-full justify-start gap-1 bg-transparent p-0 mb-4 overflow-x-auto no-scrollbar">
-          {sortedGenres.map(genre => {
-            const Icon = genre.icon;
-            const isActive = activeGenre === genre.id;
-            const trackCount = tracksByGenre[genre.id]?.length || 0;
-            
-            return (
-              <TabsTrigger
-                key={genre.id}
-                value={genre.id}
-                className={cn(
-                  "flex items-center gap-1.5 px-3 py-2 rounded-full text-sm font-medium transition-all",
-                  "border border-transparent",
-                  "data-[state=active]:border-primary/30 data-[state=active]:bg-primary/10",
-                  "data-[state=inactive]:bg-muted/50 data-[state=inactive]:text-muted-foreground",
-                  "hover:bg-muted",
-                  "min-w-fit whitespace-nowrap"
-                )}
-              >
-                <Icon className={cn("h-4 w-4", isActive && genre.color)} />
-                <span>{genre.label}</span>
-                {trackCount > 0 && (
-                  <span className={cn(
-                    "text-xs px-1.5 py-0.5 rounded-full",
-                    isActive ? "bg-primary/20 text-primary" : "bg-muted text-muted-foreground"
-                  )}>
-                    {trackCount}
-                  </span>
-                )}
-              </TabsTrigger>
-            );
-          })}
-        </TabsList>
+        {/* Tab Navigation with scroll fade */}
+        <HorizontalScrollFade fadeWidth={32} className="mb-4">
+          <TabsList className="inline-flex w-max gap-1.5 bg-transparent p-0">
+            {sortedGenres.map(genre => {
+              const Icon = genre.icon;
+              const isActive = activeGenre === genre.id;
+              const trackCount = tracksByGenre[genre.id]?.length || 0;
+              
+              return (
+                <TabsTrigger
+                  key={genre.id}
+                  value={genre.id}
+                  className={cn(
+                    // Touch-friendly size - 44px minimum height
+                    'flex items-center gap-1.5 px-3.5 py-2.5 min-h-[44px] rounded-full',
+                    'text-sm font-medium transition-all',
+                    'border border-transparent',
+                    'data-[state=active]:border-primary/30 data-[state=active]:bg-primary/10',
+                    'data-[state=inactive]:bg-muted/50 data-[state=inactive]:text-muted-foreground',
+                    'hover:bg-muted active:scale-[0.98]',
+                    'whitespace-nowrap'
+                  )}
+                >
+                  <Icon className={cn('h-4 w-4', isActive && genre.color)} />
+                  <span>{genre.label}</span>
+                  {trackCount > 0 && (
+                    <span className={cn(
+                      'text-xs px-1.5 py-0.5 rounded-full min-w-[20px] text-center',
+                      isActive ? 'bg-primary/20 text-primary' : 'bg-muted text-muted-foreground'
+                    )}>
+                      {trackCount}
+                    </span>
+                  )}
+                </TabsTrigger>
+              );
+            })}
+          </TabsList>
+        </HorizontalScrollFade>
 
         {/* Tab Content */}
         {GENRES.map(genre => (
