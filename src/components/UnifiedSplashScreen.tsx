@@ -367,13 +367,37 @@ export const LoadingScreen = ({
   progress?: number;
   variant?: 'loading' | 'inline' | 'overlay';
   className?: string;
-}) => (
-  <UnifiedSplashScreen 
-    variant={variant === 'loading' ? 'loading' : variant === 'inline' ? 'inline' : 'overlay'} 
-    message={message} 
-    progress={progress}
-    className={className}
-  />
-);
+}) => {
+  const [showRetry, setShowRetry] = useState(false);
+  
+  useEffect(() => {
+    // Show retry button after 8 seconds
+    const timer = setTimeout(() => setShowRetry(true), 8000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (showRetry) {
+    return (
+      <div className="fixed inset-0 flex flex-col items-center justify-center bg-background z-50 gap-4">
+        <p className="text-muted-foreground">Загрузка занимает слишком долго</p>
+        <button 
+          onClick={() => window.location.reload()}
+          className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90"
+        >
+          Перезагрузить
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <UnifiedSplashScreen 
+      variant={variant === 'loading' ? 'loading' : variant === 'inline' ? 'inline' : 'overlay'} 
+      message={message} 
+      progress={progress}
+      className={className}
+    />
+  );
+};
 
 export default UnifiedSplashScreen;
