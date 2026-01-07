@@ -16,12 +16,19 @@ export interface OptimizedMixerChannelProps {
   icon?: string;
   color?: string;
   volume: number;
+  pan?: number;
   muted: boolean;
   solo: boolean;
   isPlaying?: boolean;
-  onVolumeChange: (id: string, volume: number) => void;
-  onToggleMute: (id: string) => void;
-  onToggleSolo: (id: string) => void;
+  hasEffects?: boolean;
+  compact?: boolean;
+  delay?: number;
+  // Support both APIs - legacy (without id) and new (with id)
+  onVolumeChange: ((id: string, volume: number) => void) | ((volume: number) => void);
+  onPanChange?: ((id: string, pan: number) => void) | ((pan: number) => void);
+  onToggleMute: ((id: string) => void) | (() => void);
+  onToggleSolo: ((id: string) => void) | (() => void);
+  onOpenEffects?: ((id: string) => void) | (() => void);
 }
 
 // Memoized fader component
@@ -98,28 +105,47 @@ export const OptimizedMixerChannel = memo(function OptimizedMixerChannel({
   icon = '🎵',
   color = 'hsl(var(--primary))',
   volume,
+  pan = 0,
   muted,
   solo,
   isPlaying = false,
+  hasEffects = false,
+  compact = false,
+  delay = 0,
   onVolumeChange,
+  onPanChange,
   onToggleMute,
   onToggleSolo,
+  onOpenEffects,
 }: OptimizedMixerChannelProps) {
-  // Stable callbacks with id bound
+  // Detect if callback expects id parameter (new API) or not (legacy API)
+  // by checking function length - functions with id expect 2 args for volume, 1 for toggles
   const handleVolumeChange = useCallback(
-    (v: number) => onVolumeChange(id, v),
+    (v: number) => {
+      if (onVolumeChange.length === 2) {
+        (onVolumeChange as (id: string, volume: number) => void)(id, v);
+      } else {
+        (onVolumeChange as (volume: number) => void)(v);
+      }
+    },
     [id, onVolumeChange]
   );
 
-  const handleToggleMute = useCallback(
-    () => onToggleMute(id),
-    [id, onToggleMute]
-  );
+  const handleToggleMute = useCallback(() => {
+    if (onToggleMute.length === 1) {
+      (onToggleMute as (id: string) => void)(id);
+    } else {
+      (onToggleMute as () => void)();
+    }
+  }, [id, onToggleMute]);
 
-  const handleToggleSolo = useCallback(
-    () => onToggleSolo(id),
-    [id, onToggleSolo]
-  );
+  const handleToggleSolo = useCallback(() => {
+    if (onToggleSolo.length === 1) {
+      (onToggleSolo as (id: string) => void)(id);
+    } else {
+      (onToggleSolo as () => void)();
+    }
+  }, [id, onToggleSolo]);
 
   return (
     <div

@@ -9,7 +9,7 @@ import { Volume2, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { cn } from '@/lib/utils';
-import { MixerChannel } from './MixerChannel';
+import { OptimizedMixerChannel } from './OptimizedMixerChannel';
 import { MIX_PRESETS } from '@/hooks/studio/mixPresetsConfig';
 import type { StudioProject } from '@/stores/useUnifiedStudioStore';
 
@@ -146,8 +146,8 @@ export const MobileMixerContent = memo(function MobileMixerContent({
           <h4 className="text-sm font-medium text-muted-foreground">Каналы</h4>
           
           <div className="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4">
-            {project.tracks.map((track, index) => (
-              <MixerChannel
+            {project.tracks.map((track) => (
+              <OptimizedMixerChannel
                 key={track.id}
                 id={track.id}
                 name={track.name}
@@ -160,13 +160,11 @@ export const MobileMixerContent = memo(function MobileMixerContent({
                 solo={track.solo}
                 isPlaying={isPlaying}
                 hasEffects={false}
-                onVolumeChange={(v) => onVolumeChange(track.id, v)}
-                onPanChange={onPanChange ? (p) => onPanChange(track.id, p) : undefined}
+                onVolumeChange={(v: number) => onVolumeChange(track.id, v)}
+                onPanChange={onPanChange ? (p: number) => onPanChange(track.id, p) : undefined}
                 onToggleMute={() => onToggleMute(track.id)}
                 onToggleSolo={() => onToggleSolo(track.id)}
                 onOpenEffects={onOpenEffects ? () => onOpenEffects(track.id) : undefined}
-                compact={false}
-                delay={index * 0.05}
               />
             ))}
           </div>
