@@ -6,21 +6,21 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { TrackStem } from '@/hooks/useTrackStems';
 
-interface StemState {
+export interface StemState {
   volume: number;
   muted: boolean;
   solo: boolean;
   pan: number;
 }
 
-type StemStates = Record<string, StemState>;
+export type StemStates = Record<string, StemState>;
 
-interface UseStudioStateOptions {
+export interface UseStudioStateOptions {
   stems: TrackStem[];
   initialMasterVolume?: number;
 }
 
-interface UseStudioStateReturn {
+export interface UseStudioStateReturn {
   // Stem states
   stemStates: StemStates;
   getStemState: (stemId: string) => StemState;
@@ -29,6 +29,8 @@ interface UseStudioStateReturn {
   setStemVolume: (stemId: string, volume: number) => void;
   setMasterVolume: (volume: number) => void;
   masterVolume: number;
+  masterMuted: boolean;
+  setMasterMuted: (muted: boolean) => void;
   
   // Mute/Solo
   toggleMute: (stemId: string) => void;
@@ -44,6 +46,13 @@ interface UseStudioStateReturn {
   hasSoloStems: boolean;
   mutedStemIds: string[];
   soloStemIds: string[];
+  
+  // Effective values (considering mute/solo/master)
+  getEffectiveVolume: (stemId: string) => number;
+  isStemEffectivelyMuted: (stemId: string) => boolean;
+  
+  // Batch operations
+  setAllStemStates: (states: StemStates) => void;
   
   // Reset
   resetToDefaults: () => void;
@@ -61,6 +70,7 @@ export function useStudioState({
   initialMasterVolume = 1,
 }: UseStudioStateOptions): UseStudioStateReturn {
   const [masterVolume, setMasterVolume] = useState(initialMasterVolume);
+  const [masterMuted, setMasterMuted] = useState(false);
   const [stemStates, setStemStates] = useState<StemStates>(() => {
     return stems.reduce((acc, stem) => {
       acc[stem.id] = { ...DEFAULT_STEM_STATE };
@@ -154,9 +164,15 @@ export function useStudioState({
     });
   }, []);
 
+  // Batch update
+  const setAllStemStates = useCallback((states: StemStates) => {
+    setStemStates(states);
+  }, []);
+
   // Reset
   const resetToDefaults = useCallback(() => {
     setMasterVolume(initialMasterVolume);
+    setMasterMuted(false);
     setStemStates(prev => {
       const updated = { ...prev };
       for (const id of Object.keys(updated)) {
@@ -183,12 +199,32 @@ export function useStudioState({
     };
   }, [stemStates]);
 
+  // Effective volume calculation (considering mute, solo, master)
+  const getEffectiveVolume = useCallback((stemId: string): number => {
+    const state = stemStatesRef.current[stemId];
+    if (!state) return 0;
+    
+    // Check if effectively muted
+    const isMuted = masterMuted || state.muted || (hasSoloStems && !state.solo);
+    if (isMuted) return 0;
+    
+    return state.volume * masterVolume;
+  }, [masterVolume, masterMuted, hasSoloStems]);
+
+  const isStemEffectivelyMuted = useCallback((stemId: string): boolean => {
+    const state = stemStatesRef.current[stemId];
+    if (!state) return true;
+    return masterMuted || state.muted || (hasSoloStems && !state.solo);
+  }, [masterMuted, hasSoloStems]);
+
   return {
     stemStates,
     getStemState,
     setStemVolume,
     setMasterVolume,
     masterVolume,
+    masterMuted,
+    setMasterMuted,
     toggleMute,
     toggleSolo,
     muteAll,
@@ -198,6 +234,9 @@ export function useStudioState({
     hasSoloStems,
     mutedStemIds,
     soloStemIds,
+    getEffectiveVolume,
+    isStemEffectivelyMuted,
+    setAllStemStates,
     resetToDefaults,
   };
 }
