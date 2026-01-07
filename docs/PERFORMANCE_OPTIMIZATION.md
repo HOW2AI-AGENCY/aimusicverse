@@ -1,8 +1,34 @@
 # Performance Optimization Guide
 
-**Last Updated**: 2026-01-07 (Studio Optimization Session)
+**Last Updated**: 2026-01-07 (Loading Optimization Session)
 
 ## Implemented Optimizations
+
+### 0. Loading Performance (NEW - 2026-01-07)
+
+#### Reduced Initial Data Load
+- **Library pageSize**: Reduced from 50 to 20 for faster initial load
+- **useTracks default pageSize**: Reduced from 30 to 20
+- **LoadingScreen timeout**: Increased from 8s to 15s with progress indicator
+
+#### Image Optimization
+```typescript
+// AvatarImage optimization
+<AvatarImage src={url} size={80} /> // 2x for retina, quality 75
+
+// LazyImage optimization  
+rootMargin: '50px' // Reduced from 200px for faster initial load
+```
+
+#### Image Preloading
+```typescript
+// Preload first 4 track covers on homepage
+useEffect(() => {
+  if (tracks?.length) {
+    preloadImages(tracks.slice(0, 4).map(t => t.cover_url));
+  }
+}, [tracks]);
+```
 
 ### 1. Studio State Management (NEW - 2026-01-07)
 
