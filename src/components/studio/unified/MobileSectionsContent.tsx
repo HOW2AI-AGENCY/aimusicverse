@@ -69,7 +69,7 @@ export const MobileSectionsContent = memo(function MobileSectionsContent({
   });
 
   // Get timestamped lyrics for section detection
-  const { data: lyricsData, loading: lyricsLoading } = useTimestampedLyrics(
+  const { data: lyricsData, isLoading: lyricsLoading } = useTimestampedLyrics(
     sourceTrack?.suno_task_id || null,
     sourceTrack?.suno_id || null
   );

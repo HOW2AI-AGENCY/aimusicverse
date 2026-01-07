@@ -262,7 +262,7 @@ export function StudioLyricsPanelCompact({
   onSectionSelect,
   highlightedSection,
 }: StudioLyricsPanelCompactProps) {
-  const { data: lyricsData, loading } = useTimestampedLyrics(taskId, audioId);
+  const { data: lyricsData, isLoading: loading } = useTimestampedLyrics(taskId, audioId);
   const [isExpanded, setIsExpanded] = useState(false);
   const [activeLineIndex, setActiveLineIndex] = useState(0);
   const scrollAreaRef = useRef<HTMLDivElement>(null);

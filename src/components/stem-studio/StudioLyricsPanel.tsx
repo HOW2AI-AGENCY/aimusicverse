@@ -242,7 +242,7 @@ export function StudioLyricsPanel({
   onSectionSelect,
   highlightedSection,
 }: StudioLyricsPanelProps) {
-  const { data: lyricsData, loading } = useTimestampedLyrics(taskId, audioId);
+  const { data: lyricsData, isLoading: loading } = useTimestampedLyrics(taskId, audioId);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [activeLineIndex, setActiveLineIndex] = useState(0);
   const [selectedLines, setSelectedLines] = useState<Set<number>>(new Set());
