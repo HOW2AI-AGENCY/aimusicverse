@@ -23,10 +23,10 @@ interface LazySectionProps {
 export function LazySection({
   children,
   fallback,
-  rootMargin = '200px',
+  rootMargin = '400px', // Increased for earlier loading on mobile
   minHeight = '200px',
   className,
-  threshold = 0.1,
+  threshold = 0,
 }: LazySectionProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -36,12 +36,21 @@ export function LazySection({
     const element = ref.current;
     if (!element) return;
 
+    // Check if already in viewport on mount (for fast mobile scrolling)
+    const rect = element.getBoundingClientRect();
+    const isInitiallyVisible = rect.top < window.innerHeight + 400;
+    
+    if (isInitiallyVisible) {
+      setIsVisible(true);
+      setHasBeenVisible(true);
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
           setHasBeenVisible(true);
-          // Once visible, disconnect observer to prevent re-renders
           observer.disconnect();
         }
       },
