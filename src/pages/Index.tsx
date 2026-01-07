@@ -4,6 +4,7 @@ import { useTelegram } from "@/contexts/TelegramContext";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import { useProfile } from "@/hooks/useProfile.tsx";
 import { usePublicContentBatch, getGenrePlaylists } from "@/hooks/usePublicContent";
+import { useUserJourneyState } from "@/hooks/useUserJourneyState";
 import { HomeHeader } from "@/components/home/HomeHeader";
 import { SectionSkeleton as UnifiedSectionSkeleton } from "@/components/ui/skeleton-components";
 import { LazySection } from "@/components/lazy/LazySection";
@@ -21,6 +22,8 @@ import { TracksGridSection } from "@/components/home/TracksGridSection";
 
 // Lazy loaded - above fold but can wait
 const HeroSectionPro = lazy(() => import("@/components/home/HeroSectionPro").then(m => ({ default: m.HeroSectionPro })));
+const FirstTimeHeroCard = lazy(() => import("@/components/home/FirstTimeHeroCard").then(m => ({ default: m.FirstTimeHeroCard })));
+const NewUserProgress = lazy(() => import("@/components/home/NewUserProgress").then(m => ({ default: m.NewUserProgress })));
 const QuickInputBar = lazy(() => import("@/components/home/QuickInputBar").then(m => ({ default: m.QuickInputBar })));
 const CreatorToolsSection = lazy(() => import("@/components/home/CreatorToolsSection").then(m => ({ default: m.CreatorToolsSection })));
 
@@ -89,6 +92,9 @@ const Index = () => {
   const prefersReducedMotion = useReducedMotion();
   const isMobile = useIsMobile();
   const tracksSectionRef = useRef<HTMLDivElement>(null);
+
+  // User journey state for personalized experience
+  const { journeyPhase, isNewUser, markTrackPlayed } = useUserJourneyState();
 
   // Single optimized query for all public content
   const { data: publicContent, isLoading: contentLoading, refetch: refetchContent } = usePublicContentBatch();
@@ -201,30 +207,47 @@ const Index = () => {
           </div>
         )}
 
-        {/* Hero Section Pro */}
+        {/* Hero Section - Personalized */}
         <Suspense fallback={<HeroSkeleton />}>
           <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.1 }}>
-            <HeroSectionPro 
-              onRecord={handleRecord}
-              onUpload={handleUpload}
-              onCreate={handleCreate}
-            />
+            {isNewUser ? (
+              <FirstTimeHeroCard onCreateClick={handleCreate} />
+            ) : (
+              <HeroSectionPro 
+                onRecord={handleRecord}
+                onUpload={handleUpload}
+                onCreate={handleCreate}
+              />
+            )}
           </motion.section>
         </Suspense>
 
-        {/* Quick Input Bar */}
-        <Suspense fallback={<Skeleton className="h-14 w-full rounded-lg" />}>
-          <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.12 }}>
-            <QuickInputBar onSubmit={handleQuickInputSubmit} />
-          </motion.section>
-        </Suspense>
+        {/* New User Progress - only for newcomers */}
+        {isNewUser && (
+          <Suspense fallback={null}>
+            <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.12 }}>
+              <NewUserProgress />
+            </motion.section>
+          </Suspense>
+        )}
 
-        {/* Creator Tools Section */}
-        <Suspense fallback={<ToolsSkeleton />}>
-          <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.14 }}>
-            <CreatorToolsSection onRecordClick={handleRecord} />
-          </motion.section>
-        </Suspense>
+        {/* Quick Input Bar - hide for new users (already have CTA in FirstTimeHeroCard) */}
+        {!isNewUser && (
+          <Suspense fallback={<Skeleton className="h-14 w-full rounded-lg" />}>
+            <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.12 }}>
+              <QuickInputBar onSubmit={handleQuickInputSubmit} />
+            </motion.section>
+          </Suspense>
+        )}
+
+        {/* Creator Tools Section - simplified for new users */}
+        {!isNewUser && (
+          <Suspense fallback={<ToolsSkeleton />}>
+            <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.14 }}>
+              <CreatorToolsSection onRecordClick={handleRecord} />
+            </motion.section>
+          </Suspense>
+        )}
 
         {/* Quick Play Section - lazy loaded */}
         {publicContent?.popularTracks && publicContent.popularTracks.length > 0 && (
@@ -236,10 +259,12 @@ const Index = () => {
           </LazySection>
         )}
 
-        {/* Feature Showcase - lazy loaded */}
-        <LazySection className="mb-5" minHeight="150px" rootMargin="100px">
-          <FeatureShowcase />
-        </LazySection>
+        {/* Feature Showcase - hide for new users to reduce cognitive load */}
+        {!isNewUser && (
+          <LazySection className="mb-5" minHeight="150px" rootMargin="100px">
+            <FeatureShowcase />
+          </LazySection>
+        )}
 
         {/* Social Proof - only for guests */}
         {!user && (
@@ -310,10 +335,10 @@ const Index = () => {
           </LazySection>
         )}
 
-        {/* Genre Rows - lazy loaded */}
+        {/* Genre Rows - show fewer for new users */}
         {publicContent?.allTracks && publicContent.allTracks.length > 0 && (
           <>
-            {GENRE_SECTIONS.map((genre) => (
+            {GENRE_SECTIONS.slice(0, isNewUser ? 2 : GENRE_SECTIONS.length).map((genre) => (
               <LazySection key={genre.genre} className="mb-4" minHeight="120px">
                 <GenreTracksRow
                   genre={genre.genre}
@@ -327,13 +352,15 @@ const Index = () => {
           </>
         )}
 
-        {/* Auto Playlists */}
-        <LazySection className="mb-5" minHeight="120px">
-          <AutoPlaylistsSection 
-            playlists={autoPlaylists} 
-            isLoading={contentLoading} 
-          />
-        </LazySection>
+        {/* Auto Playlists - hide for new users */}
+        {!isNewUser && (
+          <LazySection className="mb-5" minHeight="120px">
+            <AutoPlaylistsSection 
+              playlists={autoPlaylists} 
+              isLoading={contentLoading} 
+            />
+          </LazySection>
+        )}
 
         {/* Engagement Banner for guests */}
         {!user && (

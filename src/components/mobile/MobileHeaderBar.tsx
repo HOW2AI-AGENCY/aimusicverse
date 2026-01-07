@@ -8,6 +8,7 @@ import { ArrowLeft, MoreVertical } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useHaptic } from '@/hooks/useHaptic';
 import { Button } from '@/components/ui/button';
+import { TELEGRAM_SAFE_AREA } from '@/constants/safe-area';
 
 interface MobileHeaderBarProps {
   /** Header title */
@@ -73,7 +74,7 @@ export const MobileHeaderBar = memo(function MobileHeaderBar({
         className
       )}
       style={{
-        paddingTop: sticky ? 'max(0.75rem, env(safe-area-inset-top))' : '0.75rem',
+        paddingTop: sticky ? TELEGRAM_SAFE_AREA.stickyHeaderTop : '0.75rem',
       }}
     >
       <div className="flex items-center justify-between gap-3 px-3 pb-3 min-h-[44px]">
