@@ -537,10 +537,16 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
     let hasAttemptedBlobRecovery = false;
     
     const handleError = () => {
-      // Ignore errors when src is empty or not set
-      if (!audio.src || audio.src === '' || audio.src === window.location.href) {
+      // Ignore errors when src is empty or not set (prevents "Empty src attribute" spam)
+      const currentSrc = audio.src || '';
+      if (!currentSrc || currentSrc === '' || currentSrc === window.location.href) {
+        logger.debug('Ignoring error for empty/invalid src');
         return;
       }
+      
+      // During startup period, only log but don't record to telemetry
+      // This prevents thousands of errors from stale localStorage data
+      const inStartupPeriod = isStartupPeriod();
       
       const errorCode = audio.error?.code || 0;
       const errorInfo = AUDIO_ERROR_MESSAGES[errorCode] || { 
@@ -672,12 +678,15 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
       // Log error with full context
       logger.error('Audio playback error', null, errorContext);
       
-      // Record error in telemetry
-      playerAnalytics.trackError(activeTrack?.id || '', `audio_error_${errorCode}`);
-      recordError(`audio:${errorCode}`, audio.error?.message || 'Unknown audio error', errorContext);
+      // Record error in telemetry ONLY if not in startup period
+      // This prevents thousands of errors from stale localStorage data
+      if (!inStartupPeriod) {
+        // Use only one telemetry call to avoid duplicate entries
+        recordError(`audio:${errorCode}`, audio.error?.message || 'Unknown audio error', errorContext);
+      }
       
       // During startup, suppress toasts to avoid stale data errors
-      const suppressToast = isStartupPeriod();
+      const suppressToast = inStartupPeriod;
       
       // Retry logic for network errors (code 2)
       if (errorCode === 2 && retryCount < MAX_RETRIES) {
