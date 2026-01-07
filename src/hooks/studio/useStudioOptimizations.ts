@@ -6,6 +6,8 @@
  * - Master clock synchronization
  * - Debounced controls
  * - Offline status
+ * 
+ * Optimized for minimal re-renders and maximum performance.
  */
 
 import { useRef, useCallback, useMemo, useEffect } from 'react';
@@ -16,6 +18,10 @@ import { useDebouncedStemControls } from './useDebouncedStemControls';
 import { useOfflineStatus } from '@/hooks/useOfflineStatus';
 import { precacheAudioUrls } from '@/lib/audioServiceWorker';
 import { logger } from '@/lib/logger';
+
+// Re-export for convenience
+export { useAudioSync, useAutoSync } from './useAudioSync';
+export { useStudioState } from './useStudioState';
 
 interface UseStudioOptimizationsProps {
   stems: TrackStem[];
