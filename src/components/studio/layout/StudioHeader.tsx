@@ -11,6 +11,7 @@ import { VersionTimeline } from '@/components/stem-studio/VersionTimeline';
 import { OfflineIndicator } from '@/components/studio/OfflineIndicator';
 import { UndoRedoControls } from '@/components/studio/UndoRedoControls';
 import { cn } from '@/lib/utils';
+import { TELEGRAM_SAFE_AREA } from '@/constants/safe-area';
 
 interface StudioHeaderProps {
   trackId: string;
@@ -40,11 +41,16 @@ export function StudioHeader({
   const navigate = useNavigate();
 
   return (
-    <header className={cn(
-      "flex items-center justify-between px-4 sm:px-6 py-3",
-      "border-b border-border/50 bg-card/50 backdrop-blur",
-      className
-    )}>
+    <header 
+      className={cn(
+        "flex items-center justify-between px-4 sm:px-6 py-3",
+        "border-b border-border/50 bg-card/50 backdrop-blur",
+        className
+      )}
+      style={{
+        paddingTop: TELEGRAM_SAFE_AREA.stickyHeaderTop,
+      }}
+    >
       <div className="flex items-center gap-3">
         <Button
           variant="ghost"

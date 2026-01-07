@@ -18,6 +18,7 @@ import { useAdminDailyStats } from '@/hooks/useAdminDailyStats';
 
 // Lazy load heavy dialogs - not needed on initial render
 const TelegramOnboarding = lazy(() => import('./onboarding/TelegramOnboarding').then(m => ({ default: m.TelegramOnboarding })));
+const QuickStartOverlay = lazy(() => import('./onboarding/QuickStartOverlay').then(m => ({ default: m.QuickStartOverlay })));
 const SubscriptionRequiredDialog = lazy(() => import('./dialogs/SubscriptionRequiredDialog').then(m => ({ default: m.SubscriptionRequiredDialog })));
 const GamificationOnboarding = lazy(() => import('./gamification/GamificationOnboarding').then(m => ({ default: m.GamificationOnboarding })));
 
