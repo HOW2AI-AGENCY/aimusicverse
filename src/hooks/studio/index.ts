@@ -62,3 +62,11 @@ export {
   defaultCompressorSettings,
   defaultReverbSettings,
 } from './stemEffectsConfig';
+
+// Export new utility hooks (safe - no AudioContext in module scope)
+export { useVirtualizedTracks } from './useVirtualizedTracks';
+export { useStemAnalyzer, useMultiStemAnalyzer } from './useStemAnalyzer';
+export { useKeyboardShortcuts, useStudioKeyboardShortcuts } from './useKeyboardShortcuts';
+export { useStudioGestures, usePinchZoom, useSwipeNavigation, type GestureConfig, type GestureCallbacks } from './useStudioGestures';
+export { useAudioBufferCache, formatCacheSize } from './useAudioBufferCache';
+export { useTransportSync, type AudioSource, type TransportState, type UseTransportSyncOptions } from './useTransportSync';
