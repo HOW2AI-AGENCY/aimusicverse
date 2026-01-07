@@ -3,7 +3,7 @@
  * Uses web-audio-beat-detector package for tempo detection
  */
 
-import { detect } from 'web-audio-beat-detector';
+import { analyze, guess } from 'web-audio-beat-detector';
 import { logger } from '@/lib/logger';
 
 const log = logger.child({ module: 'bpmDetection' });
@@ -47,7 +47,6 @@ export async function detectBPM(
   const {
     minBPM = 60,
     maxBPM = 200,
-    useWorker = true,
   } = options;
 
   try {
@@ -59,11 +58,8 @@ export async function detectBPM(
 
     const startTime = performance.now();
 
-    // Use web-audio-beat-detector package
-    const result = await detect(audioBuffer, {
-      offset: 0,
-      returnTempo: true,
-    });
+    // Use web-audio-beat-detector package - guess() returns { bpm, offset, tempo }
+    const result = await guess(audioBuffer);
 
     const endTime = performance.now();
     const processingTime = endTime - startTime;
