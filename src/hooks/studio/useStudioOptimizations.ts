@@ -19,10 +19,11 @@ import { useOfflineStatus } from '@/hooks/useOfflineStatus';
 import { precacheAudioUrls } from '@/lib/audioServiceWorker';
 import { logger } from '@/lib/logger';
 
-// Re-export for convenience
+// Re-export for convenience - ONLY types and non-conflicting hooks
+// Note: To avoid circular dependencies, import stores directly from @/stores
+// Note: To avoid naming conflicts, useStudioState is NOT re-exported here
+//       (conflicts with useStemState from stores)
 export { useAudioSync, useAutoSync } from './useAudioSync';
-export { useStudioState } from './useStudioState';
-export type { StemState, StemStates, UseStudioStateOptions, UseStudioStateReturn } from './useStudioState';
 export { useWaveformCache } from './useWaveformCache';
 export { useOptimizedPlayback } from './useOptimizedPlayback';
 export { 
@@ -35,23 +36,12 @@ export {
   useStableObject,
 } from './useRenderOptimization';
 
-// Re-export new stores
-export { 
-  useStemMixerStore, 
-  useStemState, 
-  useStemActions, 
-  useMasterControls,
-  useEffectiveStemVolume,
-  useIsStemMuted,
-} from '@/stores/useStemMixerStore';
-export { 
-  usePlaybackStore, 
-  usePlaybackStatus, 
-  usePlaybackControls,
-  useLoopControls,
-  usePlaybackProgress,
-  usePlaybackLoadingState,
-} from '@/stores/usePlaybackStore';
+// Direct import for useStudioState to avoid conflicts
+// import { useStudioState } from '@/hooks/studio/useStudioState';
+
+// Direct import for stores to avoid circular deps
+// import { useStemMixerStore, useStemState, ... } from '@/stores/useStemMixerStore';
+// import { usePlaybackStore, usePlaybackStatus, ... } from '@/stores/usePlaybackStore';
 
 interface UseStudioOptimizationsProps {
   stems: TrackStem[];
