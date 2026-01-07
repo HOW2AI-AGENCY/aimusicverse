@@ -15,7 +15,7 @@ import * as tracksApi from '@/api/tracks.api';
 export type { Track, TrackWithCreator, TrackSummary } from '@/types/track';
 export type { EnrichedTrack } from '@/services/tracks.service';
 
-const PAGE_SIZE = 30; // Increased for fewer requests
+const PAGE_SIZE = 20; // Reduced for faster initial load
 
 export interface UseTracksParams {
   projectId?: string;
