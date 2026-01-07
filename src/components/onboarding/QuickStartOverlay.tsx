@@ -101,14 +101,15 @@ export function QuickStartOverlay({
       className="fixed inset-0 z-[100] bg-background"
       style={{ paddingTop: TELEGRAM_SAFE_AREA.minimalTop }}
     >
-      {/* Skip button */}
+      {/* Skip button - increased touch target to 44px */}
       <motion.button
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
         onClick={handleSkip}
-        className="absolute top-4 right-4 z-10 p-2 rounded-full bg-muted/50 backdrop-blur-sm text-muted-foreground hover:text-foreground transition-colors"
+        className="absolute top-4 right-4 z-10 w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full bg-muted/50 backdrop-blur-sm text-muted-foreground hover:text-foreground transition-colors"
         style={{ marginTop: TELEGRAM_SAFE_AREA.minimalTop }}
+        aria-label="Пропустить онбординг"
       >
         <X className="w-5 h-5" />
       </motion.button>
@@ -356,15 +357,20 @@ export function QuickStartOverlay({
         )}
       </AnimatePresence>
 
-      {/* Progress indicator */}
-      <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-2">
+      {/* Progress indicator - moved higher to avoid keyboard overlap */}
+      <div className="absolute bottom-16 left-0 right-0 flex justify-center gap-2 pb-safe">
         {['welcome', 'choose-path', 'quick-create'].map((s, i) => (
-          <div
+          <button
             key={s}
+            onClick={() => {
+              if (s === 'welcome') setStep('welcome');
+              else if (s === 'choose-path' && step !== 'welcome') setStep('choose-path');
+            }}
             className={cn(
-              "h-1.5 rounded-full transition-all duration-300",
-              step === s ? "w-6 bg-primary" : "w-1.5 bg-muted-foreground/30"
+              "h-2 rounded-full transition-all duration-300 min-w-[44px] min-h-[44px] flex items-center justify-center",
+              step === s ? "w-8 bg-primary" : "w-2 bg-muted-foreground/30"
             )}
+            aria-label={`Шаг ${i + 1}`}
           />
         ))}
       </div>

@@ -237,6 +237,11 @@ export function VolumeControl({
           onValueChange={handleVolumeChange}
           className={cn(
             'w-full cursor-pointer transition-opacity duration-300',
+            // Mobile-friendly larger thumb
+            '[&_[role=slider]]:h-6 [&_[role=slider]]:w-6 sm:[&_[role=slider]]:h-5 sm:[&_[role=slider]]:w-5',
+            '[&_[role=slider]]:border-2 [&_[role=slider]]:shadow-md',
+            // Larger track for easier touch
+            '[&_.relative]:h-2 sm:[&_.relative]:h-1.5',
             muted && 'opacity-50'
           )}
           aria-label="Громкость"

@@ -3,20 +3,12 @@
  * Re-exports all variant components for UnifiedTrackCard
  */
 
-// Grid variant (default card layout)
-export { GridVariant } from './grid-variant';
-
-// List variant
-export { ListVariant } from './list-variant';
-
-// Compact variant
-export { CompactVariant } from './compact-variant';
-
-// Minimal variant
-export { MinimalVariant } from './minimal-variant';
-
-// Enhanced variant
-export { EnhancedVariant } from './enhanced-variant';
-
-// Professional variant
-export { ProfessionalVariant } from './professional-variant';
+// Re-export from track-card-new which has the updated variants
+export { 
+  GridVariant,
+  ListVariant, 
+  CompactVariant,
+  MinimalVariant,
+  EnhancedVariant,
+  ProfessionalVariant
+} from '../track-card-new/variants';

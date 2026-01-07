@@ -1,15 +1,11 @@
 /**
  * RecordTrackDrawer - Recording interface for studio
  * 
- * Allows recording vocals, guitar, and other instruments
- * directly into the studio project.
- * 
- * Features:
- * - Real-time audio level visualization
- * - Real-time chord detection for guitar
- * - Recording type selection (vocal, guitar, instrument)
- * - Auto-upload to cloud storage
- * - Add recorded track to project
+ * Mobile-optimized with:
+ * - 64px record button
+ * - Adaptive visualization (12 bars mobile, 20 desktop)
+ * - Touch-friendly type selection (44px+)
+ * - Clear hints for each recording type
  */
 
 import { memo, useState, useCallback, useRef, useEffect } from 'react';
@@ -30,10 +26,11 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { useHaptic } from '@/hooks/useHaptic';
 import { useRealtimeChordDetection } from '@/hooks/useRealtimeChordDetection';
+import { useHintTracking } from '@/hooks/useHintTracking';
 import { ChordDiagram } from '@/components/guitar/ChordDiagram';
 import {
   Mic, Guitar, Music2, Square, Loader2,
-  CircleDot, AlertCircle
+  CircleDot, AlertCircle, Info
 } from 'lucide-react';
 
 export type RecordingType = 'vocal' | 'guitar' | 'instrument';
@@ -54,6 +51,33 @@ interface RecordTrackDrawerProps {
   onRecordingComplete?: (track: RecordedTrack) => void;
 }
 
+const TYPE_CONFIG = {
+  vocal: {
+    icon: Mic,
+    label: 'Вокал',
+    description: 'Пение, речь, напевание',
+    hint: 'Используйте наушники для лучшего качества',
+    color: 'text-red-400',
+    bg: 'bg-red-500/20',
+  },
+  guitar: {
+    icon: Guitar,
+    label: 'Гитара',
+    description: 'Акустика или электро',
+    hint: 'Аккорды распознаются автоматически',
+    color: 'text-amber-400',
+    bg: 'bg-amber-500/20',
+  },
+  instrument: {
+    icon: Music2,
+    label: 'Инструмент',
+    description: 'Клавиши, духовые, другие',
+    hint: 'Подключите к аудиоинтерфейсу',
+    color: 'text-purple-400',
+    bg: 'bg-purple-500/20',
+  },
+} as const;
+
 export const RecordTrackDrawer = memo(function RecordTrackDrawer({
   open,
   onOpenChange,
@@ -62,6 +86,9 @@ export const RecordTrackDrawer = memo(function RecordTrackDrawer({
 }: RecordTrackDrawerProps) {
   const { user } = useAuth();
   const { patterns } = useHaptic();
+  
+  // First-time hint
+  const { hasSeenHint, markAsSeen } = useHintTracking('guitar-chords');
   
   // Recording state
   const [recordingType, setRecordingType] = useState<RecordingType>('vocal');
@@ -86,7 +113,7 @@ export const RecordTrackDrawer = memo(function RecordTrackDrawer({
   const chordDetection = useRealtimeChordDetection({
     onChordChange: (chord) => {
       if (isRecording && recordingType === 'guitar') {
-        // Log chord with timestamp
+        markAsSeen();
         const elapsed = (Date.now() - startTimeRef.current) / 1000;
         detectedChordsRef.current.push({
           chord: chord.name,
@@ -220,13 +247,12 @@ export const RecordTrackDrawer = memo(function RecordTrackDrawer({
       };
       
       mediaRecorderRef.current = mediaRecorder;
-      mediaRecorder.start(1000); // Collect data every second
+      mediaRecorder.start(1000);
       
       startTimeRef.current = Date.now();
       setIsRecording(true);
       setRecordingDuration(0);
       
-      // Start duration timer
       timerRef.current = setInterval(() => {
         setRecordingDuration((Date.now() - startTimeRef.current) / 1000);
       }, 100);
@@ -244,28 +270,23 @@ export const RecordTrackDrawer = memo(function RecordTrackDrawer({
     
     patterns.tap();
     
-    // Stop timer
     if (timerRef.current) {
       clearInterval(timerRef.current);
       timerRef.current = null;
     }
     
-    // Stop monitoring
     stopAudioLevelMonitoring();
     
-    // Stop chord detection
     if (recordingType === 'guitar') {
       chordDetection.stopListening();
     }
     
     setIsRecording(false);
     
-    // Stop recorder and get final blob
     return new Promise<void>((resolve) => {
       const recorder = mediaRecorderRef.current!;
       
       recorder.onstop = async () => {
-        // Stop stream
         if (streamRef.current) {
           streamRef.current.getTracks().forEach(t => t.stop());
           streamRef.current = null;
@@ -279,7 +300,6 @@ export const RecordTrackDrawer = memo(function RecordTrackDrawer({
           return;
         }
         
-        // Upload to storage
         setIsUploading(true);
         
         try {
@@ -294,7 +314,6 @@ export const RecordTrackDrawer = memo(function RecordTrackDrawer({
           
           if (uploadError) throw uploadError;
           
-          // Get public URL
           const { data: urlData } = supabase.storage
             .from('reference-audio')
             .getPublicUrl(fileName);
@@ -302,7 +321,6 @@ export const RecordTrackDrawer = memo(function RecordTrackDrawer({
           const audioUrl = urlData.publicUrl;
           const duration = recordingDuration;
           
-          // Create track name
           const typeLabels: Record<RecordingType, string> = {
             vocal: 'Вокал',
             guitar: 'Гитара',
@@ -342,38 +360,36 @@ export const RecordTrackDrawer = memo(function RecordTrackDrawer({
     patterns, stopAudioLevelMonitoring, chordDetection, onRecordingComplete, onOpenChange
   ]);
   
-  // Format duration
   const formatDuration = (seconds: number): string => {
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
-  
-  // Recording type icons
-  const typeIcons: Record<RecordingType, React.ReactNode> = {
-    vocal: <Mic className="w-5 h-5" />,
-    guitar: <Guitar className="w-5 h-5" />,
-    instrument: <Music2 className="w-5 h-5" />,
-  };
+
+  // Adaptive bar count - 12 on mobile, 16 on tablet, 20 on desktop
+  const barCount = typeof window !== 'undefined' && window.innerWidth < 640 ? 12 : 20;
   
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
       <DrawerContent 
-        className="max-h-[85vh]"
+        className="max-h-[90vh]"
         style={{ paddingBottom: safeAreaBottom }}
       >
         <div style={{ paddingTop: safeAreaTop }}>
-          <DrawerHeader className="text-center pb-2">
+          <DrawerHeader className="text-center pb-3">
             <DrawerTitle className="flex items-center justify-center gap-2">
               <Mic className="w-5 h-5 text-primary" />
               Запись в проект
             </DrawerTitle>
+            <p className="text-xs text-muted-foreground mt-1">
+              Запишите аудио напрямую в студийный проект
+            </p>
           </DrawerHeader>
           
-          <div className="px-4 pb-6 space-y-6">
+          <div className="px-4 pb-6 space-y-5">
             {/* Permission check */}
             {hasPermission === false && (
-              <div className="flex items-center gap-3 p-4 rounded-lg bg-destructive/10 text-destructive">
+              <div className="flex items-center gap-3 p-4 rounded-xl bg-destructive/10 text-destructive">
                 <AlertCircle className="w-5 h-5 shrink-0" />
                 <div className="text-sm">
                   <p className="font-medium">Нет доступа к микрофону</p>
@@ -384,40 +400,56 @@ export const RecordTrackDrawer = memo(function RecordTrackDrawer({
               </div>
             )}
             
-            {/* Recording type selection */}
+            {/* Recording type selection - touch-friendly */}
             {!isRecording && !isUploading && (
               <div className="space-y-3">
-                <Label className="text-sm font-medium">Тип записи</Label>
+                <Label className="text-sm font-medium flex items-center gap-2">
+                  Тип записи
+                  <Info className="w-3.5 h-3.5 text-muted-foreground" />
+                </Label>
                 <RadioGroup
                   value={recordingType}
                   onValueChange={(v) => setRecordingType(v as RecordingType)}
                   className="grid grid-cols-3 gap-2"
                 >
-                  {(['vocal', 'guitar', 'instrument'] as RecordingType[]).map((type) => (
-                    <Label
-                      key={type}
-                      className={cn(
-                        'flex flex-col items-center gap-2 p-4 rounded-xl border-2 cursor-pointer transition-all',
-                        recordingType === type
-                          ? 'border-primary bg-primary/10'
-                          : 'border-border/50 hover:border-border'
-                      )}
-                    >
-                      <RadioGroupItem value={type} className="sr-only" />
-                      <span className={cn(
-                        'p-2 rounded-full',
-                        recordingType === type ? 'bg-primary text-primary-foreground' : 'bg-muted'
-                      )}>
-                        {typeIcons[type]}
-                      </span>
-                      <span className="text-xs font-medium">
-                        {type === 'vocal' && 'Вокал'}
-                        {type === 'guitar' && 'Гитара'}
-                        {type === 'instrument' && 'Инструмент'}
-                      </span>
-                    </Label>
-                  ))}
+                  {(Object.keys(TYPE_CONFIG) as RecordingType[]).map((type) => {
+                    const config = TYPE_CONFIG[type];
+                    const Icon = config.icon;
+                    const isSelected = recordingType === type;
+                    
+                    return (
+                      <Label
+                        key={type}
+                        className={cn(
+                          // Touch-friendly - 80px minimum height
+                          'flex flex-col items-center gap-2 p-3 min-h-[80px] rounded-xl',
+                          'border-2 cursor-pointer transition-all active:scale-[0.98]',
+                          isSelected
+                            ? 'border-primary bg-primary/10'
+                            : 'border-border/50 hover:border-border bg-card'
+                        )}
+                      >
+                        <RadioGroupItem value={type} className="sr-only" />
+                        <span className={cn(
+                          // 44px icon container
+                          'w-11 h-11 min-w-[44px] min-h-[44px] rounded-full',
+                          'flex items-center justify-center',
+                          isSelected ? 'bg-primary text-primary-foreground' : config.bg
+                        )}>
+                          <Icon className={cn('w-5 h-5', !isSelected && config.color)} />
+                        </span>
+                        <span className="text-xs font-medium text-center">
+                          {config.label}
+                        </span>
+                      </Label>
+                    );
+                  })}
                 </RadioGroup>
+                
+                {/* Type description */}
+                <p className="text-xs text-muted-foreground text-center">
+                  {TYPE_CONFIG[recordingType].description}
+                </p>
               </div>
             )}
             
@@ -436,27 +468,25 @@ export const RecordTrackDrawer = memo(function RecordTrackDrawer({
                       transition={{ repeat: Infinity, duration: 1 }}
                       className="w-3 h-3 rounded-full bg-red-500"
                     />
-                    <span className="text-3xl font-mono font-bold">
+                    <span className="text-3xl font-mono font-bold tabular-nums">
                       {formatDuration(recordingDuration)}
                     </span>
                   </div>
                   <Badge variant="outline" className="text-xs">
-                    {recordingType === 'vocal' && 'Запись вокала'}
-                    {recordingType === 'guitar' && 'Запись гитары'}
-                    {recordingType === 'instrument' && 'Запись инструмента'}
+                    {TYPE_CONFIG[recordingType].label}
                   </Badge>
                 </div>
                 
-                {/* Audio level visualization */}
+                {/* Audio level visualization - adaptive bars */}
                 <div className="flex items-center justify-center gap-1 h-16">
-                  {Array.from({ length: 20 }).map((_, i) => {
-                    const threshold = i / 20;
+                  {Array.from({ length: barCount }).map((_, i) => {
+                    const threshold = i / barCount;
                     const isActive = audioLevel > threshold;
                     return (
                       <motion.div
                         key={i}
                         className={cn(
-                          'w-2 rounded-full transition-all',
+                          'w-2 sm:w-2.5 rounded-full transition-colors',
                           isActive ? 'bg-primary' : 'bg-muted'
                         )}
                         animate={{
@@ -478,13 +508,20 @@ export const RecordTrackDrawer = memo(function RecordTrackDrawer({
                     <span className="text-2xl font-bold text-primary">
                       {chordDetection.currentChord.name}
                     </span>
-                    <div className="w-32 h-32">
+                    <div className="w-28 h-28 sm:w-32 sm:h-32">
                       <ChordDiagram 
                         chord={chordDetection.currentChord.name}
                         size="sm"
                       />
                     </div>
                   </motion.div>
+                )}
+                
+                {/* First-time guitar hint */}
+                {recordingType === 'guitar' && !hasSeenHint && !chordDetection.currentChord && (
+                  <p className="text-xs text-center text-muted-foreground animate-pulse">
+                    🎸 Играйте — аккорды появятся автоматически
+                  </p>
                 )}
               </motion.div>
             )}
@@ -493,19 +530,23 @@ export const RecordTrackDrawer = memo(function RecordTrackDrawer({
             {isUploading && (
               <div className="flex flex-col items-center justify-center py-8 gap-4">
                 <Loader2 className="w-10 h-10 animate-spin text-primary" />
-                <p className="text-sm text-muted-foreground">Сохранение записи...</p>
+                <div className="text-center">
+                  <p className="text-sm font-medium">Сохранение записи...</p>
+                  <p className="text-xs text-muted-foreground">Загрузка в облако</p>
+                </div>
               </div>
             )}
             
-            {/* Record button */}
+            {/* Record button - 64px for easy touch */}
             {hasPermission !== false && !isUploading && (
-              <div className="flex justify-center pt-4">
+              <div className="flex justify-center pt-2">
                 {isRecording ? (
                   <Button
                     size="lg"
                     variant="destructive"
                     onClick={stopRecording}
-                    className="h-16 w-16 rounded-full"
+                    className="h-16 w-16 min-h-[64px] min-w-[64px] rounded-full shadow-lg"
+                    aria-label="Остановить запись"
                   >
                     <Square className="w-6 h-6" />
                   </Button>
@@ -513,8 +554,9 @@ export const RecordTrackDrawer = memo(function RecordTrackDrawer({
                   <Button
                     size="lg"
                     onClick={startRecording}
-                    className="h-16 w-16 rounded-full bg-red-500 hover:bg-red-600 text-white"
+                    className="h-16 w-16 min-h-[64px] min-w-[64px] rounded-full bg-red-500 hover:bg-red-600 text-white shadow-lg"
                     disabled={!hasPermission}
+                    aria-label="Начать запись"
                   >
                     <CircleDot className="w-8 h-8" />
                   </Button>
@@ -522,18 +564,12 @@ export const RecordTrackDrawer = memo(function RecordTrackDrawer({
               </div>
             )}
             
-            {/* Tips */}
-            {!isRecording && !isUploading && (
-              <div className="text-center text-xs text-muted-foreground">
-                {recordingType === 'guitar' && (
-                  <p>Аккорды будут распознаны автоматически</p>
-                )}
-                {recordingType === 'vocal' && (
-                  <p>Используйте наушники для лучшего качества</p>
-                )}
-                {recordingType === 'instrument' && (
-                  <p>Подключите инструмент к аудиоинтерфейсу</p>
-                )}
+            {/* Tips - more visible */}
+            {!isRecording && !isUploading && hasPermission && (
+              <div className="text-center">
+                <p className="text-xs text-muted-foreground bg-muted/50 rounded-lg py-2 px-3 inline-block">
+                  💡 {TYPE_CONFIG[recordingType].hint}
+                </p>
               </div>
             )}
           </div>

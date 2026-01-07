@@ -92,14 +92,14 @@ export const HeroSectionPro = memo(function HeroSectionPro({
       </div>
 
       {/* Content */}
-      <div className="relative z-10 px-4 py-8 sm:px-6 sm:py-12">
+      <div className="relative z-10 px-3 py-6 sm:px-6 sm:py-12">
         {/* Badge */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex justify-center mb-4"
+          className="flex justify-center mb-3 sm:mb-4"
         >
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/15 text-primary text-xs font-medium border border-primary/20">
+          <span className="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1 rounded-full bg-primary/15 text-primary text-[11px] sm:text-xs font-medium border border-primary/20">
             <Sparkles className="w-3 h-3" />
             AI-платформа для создания музыки
           </span>
@@ -110,7 +110,7 @@ export const HeroSectionPro = memo(function HeroSectionPro({
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-3"
+          className="text-xl sm:text-3xl lg:text-4xl font-bold text-center mb-2 sm:mb-3"
         >
           <span className="bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent">
             Твоя музыка начинается здесь
@@ -122,47 +122,47 @@ export const HeroSectionPro = memo(function HeroSectionPro({
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
-          className="text-sm sm:text-base text-muted-foreground text-center max-w-lg mx-auto mb-6"
+          className="text-xs sm:text-base text-muted-foreground text-center max-w-lg mx-auto mb-4 sm:mb-6 px-2"
         >
           Записывай, загружай или описывай — AI превратит твои идеи в профессиональные треки
         </motion.p>
 
-        {/* Value Props */}
+        {/* Value Props - compact on mobile */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="grid grid-cols-3 gap-2 sm:gap-4 mb-6 max-w-xl mx-auto"
+          className="grid grid-cols-3 gap-1.5 sm:gap-4 mb-4 sm:mb-6 max-w-xl mx-auto"
         >
           {VALUE_PROPS.map((prop, i) => (
             <div 
               key={i}
-              className="flex flex-col items-center text-center p-2 sm:p-3 rounded-xl bg-background/50 backdrop-blur-sm border border-border/50"
+              className="flex flex-col items-center text-center p-1.5 sm:p-3 rounded-xl bg-background/50 backdrop-blur-sm border border-border/50"
             >
-              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-1.5 sm:mb-2">
-                <prop.icon className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
+              <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-1 sm:mb-2">
+                <prop.icon className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-primary" />
               </div>
-              <span className="text-xs sm:text-sm font-medium text-foreground line-clamp-1">
+              <span className="text-[10px] sm:text-sm font-medium text-foreground line-clamp-1">
                 {prop.title}
               </span>
-              <span className="text-[10px] sm:text-xs text-muted-foreground line-clamp-2 hidden sm:block">
+              <span className="text-[9px] sm:text-xs text-muted-foreground line-clamp-2 hidden sm:block">
                 {prop.description}
               </span>
             </div>
           ))}
         </motion.div>
 
-        {/* CTA Buttons */}
+        {/* CTA Buttons - stack on mobile with larger touch targets */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25 }}
-          className="flex flex-col sm:flex-row gap-2 sm:gap-3 justify-center max-w-md mx-auto"
+          className="flex flex-col sm:flex-row gap-2.5 sm:gap-3 justify-center max-w-md mx-auto"
         >
           <Button
             onClick={onRecord}
             size="lg"
-            className="flex-1 bg-destructive hover:bg-destructive/90 text-destructive-foreground gap-2 h-12"
+            className="flex-1 bg-destructive hover:bg-destructive/90 text-destructive-foreground gap-2.5 h-12 sm:h-12 text-sm font-medium min-h-[48px] touch-manipulation"
           >
             <Mic className="w-5 h-5" />
             Записать
@@ -171,7 +171,7 @@ export const HeroSectionPro = memo(function HeroSectionPro({
             onClick={onUpload}
             size="lg"
             variant="outline"
-            className="flex-1 gap-2 h-12 border-primary/30 hover:bg-primary/10"
+            className="flex-1 gap-2.5 h-12 sm:h-12 border-primary/30 hover:bg-primary/10 text-sm font-medium min-h-[48px] touch-manipulation"
           >
             <Upload className="w-5 h-5" />
             Загрузить
@@ -179,7 +179,7 @@ export const HeroSectionPro = memo(function HeroSectionPro({
           <Button
             onClick={onCreate}
             size="lg"
-            className="flex-1 bg-generate hover:bg-generate/90 text-white gap-2 h-12"
+            className="flex-1 bg-generate hover:bg-generate/90 text-white gap-2.5 h-12 sm:h-12 text-sm font-medium min-h-[48px] touch-manipulation"
           >
             <Sparkles className="w-5 h-5" />
             Создать с AI

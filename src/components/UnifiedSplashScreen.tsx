@@ -367,13 +367,51 @@ export const LoadingScreen = ({
   progress?: number;
   variant?: 'loading' | 'inline' | 'overlay';
   className?: string;
-}) => (
-  <UnifiedSplashScreen 
-    variant={variant === 'loading' ? 'loading' : variant === 'inline' ? 'inline' : 'overlay'} 
-    message={message} 
-    progress={progress}
-    className={className}
-  />
-);
+}) => {
+  const [loadingTime, setLoadingTime] = useState(0);
+  const [showRetry, setShowRetry] = useState(false);
+  
+  useEffect(() => {
+    // Track loading time for progress indication
+    const interval = setInterval(() => {
+      setLoadingTime(prev => prev + 1);
+    }, 1000);
+    
+    // Show retry button after 15 seconds (increased from 8)
+    const retryTimer = setTimeout(() => setShowRetry(true), 15000);
+    
+    return () => {
+      clearInterval(interval);
+      clearTimeout(retryTimer);
+    };
+  }, []);
+
+  // Calculate simulated progress based on time
+  const simulatedProgress = progress ?? Math.min(loadingTime * 8, 90);
+
+  if (showRetry) {
+    return (
+      <div className="fixed inset-0 flex flex-col items-center justify-center bg-background z-50 gap-4">
+        <p className="text-muted-foreground">Загрузка занимает слишком долго</p>
+        <p className="text-xs text-muted-foreground/70">Проверьте подключение к интернету</p>
+        <button 
+          onClick={() => window.location.reload()}
+          className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+        >
+          Перезагрузить
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <UnifiedSplashScreen 
+      variant={variant === 'loading' ? 'loading' : variant === 'inline' ? 'inline' : 'overlay'} 
+      message={message ?? (loadingTime > 5 ? 'Почти готово...' : undefined)}
+      progress={simulatedProgress}
+      className={className}
+    />
+  );
+};
 
 export default UnifiedSplashScreen;

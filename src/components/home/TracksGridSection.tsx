@@ -22,6 +22,7 @@ interface TracksGridSectionProps {
   showMoreLabel?: string;
   onRemix?: (trackId: string) => void;
   className?: string;
+  hideHeader?: boolean;
 }
 
 export const TracksGridSection = memo(function TracksGridSection({
@@ -38,6 +39,7 @@ export const TracksGridSection = memo(function TracksGridSection({
   showMoreLabel = 'Все треки',
   onRemix,
   className,
+  hideHeader = false,
 }: TracksGridSectionProps) {
   const displayTracks = tracks.slice(0, maxTracks);
 
@@ -47,16 +49,18 @@ export const TracksGridSection = memo(function TracksGridSection({
 
   return (
     <section className={cn("space-y-4", className)}>
-      <SectionHeader
-        icon={icon}
-        iconColor={iconColor}
-        iconGradient={iconGradient}
-        title={title}
-        subtitle={subtitle}
-        showMoreLink={showMoreLink}
-        showMoreLabel={showMoreLabel}
-        showShowMore={displayTracks.length >= maxTracks}
-      />
+      {!hideHeader && (
+        <SectionHeader
+          icon={icon}
+          iconColor={iconColor}
+          iconGradient={iconGradient}
+          title={title}
+          subtitle={subtitle}
+          showMoreLink={showMoreLink}
+          showMoreLabel={showMoreLabel}
+          showShowMore={displayTracks.length >= maxTracks}
+        />
+      )}
 
       {isLoading ? (
         <GridSkeleton 

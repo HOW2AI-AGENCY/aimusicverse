@@ -68,7 +68,7 @@ export const LazyImage = memo(function LazyImage({
           observerRef.current?.disconnect();
         }
       },
-      { rootMargin: '200px' } // Start loading 200px before entering viewport
+      { rootMargin: '50px' } // Reduced from 200px for faster initial load
     );
 
     observerRef.current.observe(element);
@@ -111,14 +111,14 @@ export const LazyImage = memo(function LazyImage({
       className={cn("relative overflow-hidden", containerClassName)}
       style={aspectRatio ? { aspectRatio } : undefined}
     >
-      {/* Placeholder with shimmer - only show while loading */}
+      {/* Low quality blur placeholder - only show while loading */}
       {!isLoaded && (
         <div
-          className="absolute inset-0 bg-gradient-to-br from-muted to-muted/50"
+          className="absolute inset-0 bg-muted/80 backdrop-blur-sm"
           aria-hidden="true"
         >
-          {/* Animated shimmer effect */}
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-foreground/5 to-transparent animate-shimmer" />
+          {/* Subtle pulse effect */}
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent animate-pulse" />
         </div>
       )}
 

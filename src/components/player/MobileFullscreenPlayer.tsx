@@ -564,15 +564,23 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
       transition={{ type: 'spring', damping: 30, stiffness: 300 }}
       className="fixed inset-0 z-[90] flex flex-col bg-background overflow-hidden"
     >
-      {/* Drag Handle Indicator - also serves as vertical swipe area */}
+      {/* Drag Handle Indicator - visual swipe-to-close zone */}
       <motion.div 
         drag="y"
         dragConstraints={{ top: 0, bottom: 0 }}
         dragElastic={{ top: 0.1, bottom: 0.5 }}
         onDragEnd={handleVerticalDragEnd}
-        className="absolute top-0 left-0 right-0 h-12 z-20 flex items-center justify-center cursor-grab active:cursor-grabbing"
+        className="absolute top-0 left-0 right-0 h-14 z-20 flex flex-col items-center justify-center cursor-grab active:cursor-grabbing touch-manipulation"
+        aria-label="Потяните вниз чтобы закрыть"
       >
-        <div className="w-10 h-1 bg-muted-foreground/30 rounded-full mt-2" />
+        {/* Visible drag indicator */}
+        <motion.div 
+          className="w-12 h-1.5 bg-muted-foreground/40 rounded-full mt-3 shadow-sm"
+          whileHover={{ width: 48, backgroundColor: 'hsl(var(--muted-foreground) / 0.6)' }}
+          whileTap={{ width: 56, backgroundColor: 'hsl(var(--primary) / 0.6)' }}
+          transition={{ duration: 0.2 }}
+        />
+        <span className="text-[10px] text-muted-foreground/50 mt-1">↓ свайп</span>
       </motion.div>
       {/* Animated Blurred Background */}
       <div className="absolute inset-0 overflow-hidden">
