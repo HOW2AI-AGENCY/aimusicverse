@@ -157,21 +157,26 @@ export const QuickPlaySection = memo(function QuickPlaySection({
   }
 
   return (
-    <section className={cn("py-3 sm:py-4", className)}>
+    <section className={cn("py-4 sm:py-5", className)}>
+      {/* Section header with hint */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-center mb-3 sm:mb-4"
+        className="mb-4"
       >
-        <h2 className="text-sm sm:text-base font-semibold mb-0.5 sm:mb-1">
-          🎧 Начни слушать прямо сейчас
-        </h2>
-        <p className="text-[11px] sm:text-xs text-muted-foreground">
-          Нажми на обложку — и музыка заиграет
+        <div className="flex items-center gap-2 mb-1">
+          <span className="text-lg">🎧</span>
+          <h2 className="text-base sm:text-lg font-semibold">
+            Начни слушать
+          </h2>
+        </div>
+        <p className="text-xs sm:text-sm text-muted-foreground pl-7">
+          Нажми на обложку — музыка заиграет мгновенно
         </p>
       </motion.div>
 
-      <div className="flex gap-2 sm:gap-3">
+      {/* Track cards grid */}
+      <div className="flex gap-3 sm:gap-4">
         {displayTracks.map((track, index) => (
           <TrackQuickCard key={track.id} track={track} index={index} />
         ))}

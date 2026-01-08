@@ -95,17 +95,17 @@ export const CreatorToolsSection = memo(function CreatorToolsSection({
 
   return (
     <TooltipProvider delayDuration={300}>
-      <section className={cn('space-y-3', className)}>
-        {/* Section Header */}
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-            <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
+      <section className={cn('space-y-4', className)}>
+        {/* Section Header - improved hierarchy */}
+        <div className="flex items-start gap-3">
+          <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center shrink-0 shadow-sm">
+            <Sparkles className="w-5 h-5 sm:w-5 sm:h-5 text-primary" />
           </div>
-          <div className="min-w-0">
-            <h2 className="text-sm sm:text-base font-semibold text-foreground">
-              Инструменты для музыкантов
+          <div className="min-w-0 pt-0.5">
+            <h2 className="text-base sm:text-lg font-semibold text-foreground leading-tight">
+              Инструменты
             </h2>
-            <p className="text-xs sm:text-sm text-muted-foreground truncate">
+            <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
               Записывай, играй, пиши — AI поможет на каждом шаге
             </p>
           </div>

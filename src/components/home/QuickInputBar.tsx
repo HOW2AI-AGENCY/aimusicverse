@@ -51,23 +51,29 @@ export const QuickInputBar = memo(function QuickInputBar({
 
   return (
     <section className={cn('space-y-3', className)}>
-      {/* Input container */}
+      {/* Section label - helps establish hierarchy */}
+      <div className="flex items-center gap-2 px-1">
+        <Sparkles className="w-4 h-4 text-primary" />
+        <span className="text-sm font-medium text-foreground">Быстрое создание</span>
+      </div>
+      
+      {/* Input container - larger touch target */}
       <div className="relative">
-        <div className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none">
-          <Sparkles className="w-4 h-4 text-primary" />
+        <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none">
+          <Sparkles className="w-4 h-4 text-muted-foreground/50" />
         </div>
         <Input
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Опиши музыку, которую хочешь создать..."
+          placeholder="Опиши музыку, например: грустный лоу-фай..."
           aria-label="Описание музыки для генерации"
           className={cn(
-            // Larger touch-friendly input
-            'pl-10 pr-14 h-12 sm:h-14 text-sm sm:text-base',
-            'bg-background/80 backdrop-blur-sm',
-            'border-primary/20 focus:border-primary/40',
-            'placeholder:text-muted-foreground/60'
+            // Large touch-friendly input - 56px on mobile
+            'pl-11 pr-16 h-14 text-base',
+            'bg-card/80 backdrop-blur-sm rounded-xl',
+            'border-border/50 focus:border-primary/50',
+            'placeholder:text-muted-foreground/50'
           )}
         />
         <Button
@@ -76,13 +82,13 @@ export const QuickInputBar = memo(function QuickInputBar({
           disabled={!prompt.trim() && !SUGGESTIONS[activeSuggestion]}
           aria-label="Создать музыку"
           className={cn(
-            'absolute right-1.5 top-1/2 -translate-y-1/2',
-            // Touch-friendly button - 44px minimum
-            'w-10 h-10 sm:w-11 sm:h-11 min-h-[44px] min-w-[44px] rounded-lg',
-            'bg-generate hover:bg-generate/90'
+            'absolute right-2 top-1/2 -translate-y-1/2',
+            // Touch-friendly button - 48px
+            'w-11 h-11 min-h-[44px] min-w-[44px] rounded-xl',
+            'bg-generate hover:bg-generate/90 shadow-md shadow-generate/20'
           )}
         >
-          <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
+          <ArrowRight className="w-5 h-5" />
         </Button>
       </div>
 
