@@ -159,17 +159,18 @@ const Index = () => {
     <PullToRefreshWrapper 
       onRefresh={handleRefresh} 
       disabled={!isMobile}
-      className="min-h-screen bg-background pb-20 relative overflow-hidden"
+      className="min-h-screen bg-background pb-24 relative overflow-hidden"
     >
       {/* Background gradient - simplified */}
       {!prefersReducedMotion && (
-        <div className="fixed inset-0 pointer-events-none opacity-30">
-          <div className="absolute top-0 left-1/4 w-72 h-72 bg-primary/15 rounded-full blur-3xl" />
-          <div className="absolute top-1/3 right-1/4 w-64 h-64 bg-generate/10 rounded-full blur-3xl" />
+        <div className="fixed inset-0 pointer-events-none opacity-20">
+          <div className="absolute top-0 left-1/4 w-48 sm:w-72 h-48 sm:h-72 bg-primary/15 rounded-full blur-3xl" />
+          <div className="absolute top-1/3 right-1/4 w-40 sm:w-64 h-40 sm:h-64 bg-generate/10 rounded-full blur-3xl" />
         </div>
       )}
       
-      <div className="max-w-6xl mx-auto px-3 sm:px-4 pb-4 sm:py-6 relative z-10">
+      {/* Main content container - mobile-first spacing */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 pb-4 sm:py-6 relative z-10">
         <SEOHead {...SEO_PRESETS.home} />
         
         {/* Header */}
@@ -250,43 +251,43 @@ const Index = () => {
           </Suspense>
         )}
 
-        {/* Popular Tracks */}
+        {/* Popular Tracks - Primary content section */}
         <div ref={tracksSectionRef}>
           <Suspense fallback={<GridSkeleton count={6} columns={2} />}>
-            <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.18 }}>
+            <motion.section className="mb-6 sm:mb-8" {...fadeInUp} transition={{ delay: 0.18 }}>
               <TracksGridSection
                 title="🔥 Популярное"
-                subtitle="Треки, которые слушают больше всего"
+                subtitle="Треки, которые слушают прямо сейчас"
                 icon={TrendingUp}
                 iconColor="text-emerald-400"
                 iconGradient="from-emerald-500/20 to-teal-500/10"
                 tracks={publicContent?.popularTracks || []}
                 isLoading={contentLoading}
-                maxTracks={isMobile ? 6 : 8}
+                maxTracks={isMobile ? 4 : 8}
                 columns={isMobile ? 2 : 4}
                 showMoreLink="/community?sort=popular"
-                showMoreLabel="Все популярные"
+                showMoreLabel="Смотреть все"
                 onRemix={handleRemix}
               />
             </motion.section>
           </Suspense>
         </div>
 
-        {/* New Tracks */}
-        <Suspense fallback={<GridSkeleton count={6} columns={2} />}>
-          <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.2 }}>
+        {/* New Tracks - Secondary content section */}
+        <Suspense fallback={<GridSkeleton count={4} columns={2} />}>
+          <motion.section className="mb-6 sm:mb-8" {...fadeInUp} transition={{ delay: 0.2 }}>
             <TracksGridSection
               title="✨ Новинки"
-              subtitle="Свежие треки от сообщества"
+              subtitle="Свежие треки от авторов сообщества"
               icon={Clock}
               iconColor="text-orange-400"
               iconGradient="from-orange-500/20 to-amber-500/10"
               tracks={publicContent?.recentTracks || []}
               isLoading={contentLoading}
-              maxTracks={isMobile ? 6 : 8}
+              maxTracks={isMobile ? 4 : 8}
               columns={isMobile ? 2 : 4}
               showMoreLink="/community?sort=recent"
-              showMoreLabel="Все новинки"
+              showMoreLabel="Смотреть все"
               onRemix={handleRemix}
             />
           </motion.section>

@@ -105,26 +105,26 @@ export const HeroSectionPro = memo(function HeroSectionPro({
           </span>
         </motion.div>
 
-        {/* Headline */}
+        {/* Headline - improved typography hierarchy */}
         <motion.h1
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="text-xl sm:text-3xl lg:text-4xl font-bold text-center mb-2 sm:mb-3"
+          className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-2 sm:mb-3 leading-tight"
         >
           <span className="bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent">
             Твоя музыка начинается здесь
           </span>
         </motion.h1>
 
-        {/* Subtitle */}
+        {/* Subtitle - better readability */}
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
-          className="text-xs sm:text-base text-muted-foreground text-center max-w-lg mx-auto mb-4 sm:mb-6 px-2"
+          className="text-sm sm:text-base text-muted-foreground text-center max-w-md mx-auto mb-5 sm:mb-6 px-4 leading-relaxed"
         >
-          Записывай, загружай или описывай — AI превратит твои идеи в профессиональные треки
+          Записывай, загружай или описывай — AI превратит идеи в профессиональные треки
         </motion.p>
 
         {/* Value Props - compact on mobile */}
@@ -152,38 +152,44 @@ export const HeroSectionPro = memo(function HeroSectionPro({
           ))}
         </motion.div>
 
-        {/* CTA Buttons - stack on mobile with larger touch targets */}
+        {/* CTA Buttons - mobile-optimized with larger touch targets */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25 }}
-          className="flex flex-col sm:flex-row gap-2.5 sm:gap-3 justify-center max-w-md mx-auto"
+          className="flex flex-col sm:flex-row gap-3 justify-center max-w-md mx-auto px-2"
         >
-          <Button
-            onClick={onRecord}
-            size="lg"
-            className="flex-1 bg-destructive hover:bg-destructive/90 text-destructive-foreground gap-2.5 h-12 sm:h-12 text-sm font-medium min-h-[48px] touch-manipulation"
-          >
-            <Mic className="w-5 h-5" />
-            Записать
-          </Button>
-          <Button
-            onClick={onUpload}
-            size="lg"
-            variant="outline"
-            className="flex-1 gap-2.5 h-12 sm:h-12 border-primary/30 hover:bg-primary/10 text-sm font-medium min-h-[48px] touch-manipulation"
-          >
-            <Upload className="w-5 h-5" />
-            Загрузить
-          </Button>
+          {/* Primary CTA - most prominent */}
           <Button
             onClick={onCreate}
             size="lg"
-            className="flex-1 bg-generate hover:bg-generate/90 text-white gap-2.5 h-12 sm:h-12 text-sm font-medium min-h-[48px] touch-manipulation"
+            className="flex-1 bg-generate hover:bg-generate/90 text-white gap-2.5 h-14 sm:h-12 text-base sm:text-sm font-semibold min-h-[56px] touch-manipulation shadow-lg shadow-generate/25"
           >
             <Sparkles className="w-5 h-5" />
             Создать с AI
           </Button>
+          
+          {/* Secondary CTAs - row on mobile */}
+          <div className="flex gap-2.5 sm:contents">
+            <Button
+              onClick={onRecord}
+              size="lg"
+              variant="outline"
+              className="flex-1 border-destructive/40 hover:bg-destructive/10 hover:border-destructive text-destructive gap-2 h-12 sm:h-12 text-sm font-medium min-h-[48px] touch-manipulation"
+            >
+              <Mic className="w-4 h-4" />
+              Записать
+            </Button>
+            <Button
+              onClick={onUpload}
+              size="lg"
+              variant="outline"
+              className="flex-1 gap-2 h-12 sm:h-12 border-border hover:bg-muted text-sm font-medium min-h-[48px] touch-manipulation"
+            >
+              <Upload className="w-4 h-4" />
+              Загрузить
+            </Button>
+          </div>
         </motion.div>
       </div>
     </section>
