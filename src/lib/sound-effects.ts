@@ -155,23 +155,3 @@ export function getSoundEffects(): SoundEffects {
   }
   return _soundEffectsInstance;
 }
-
-// Legacy export for backwards compatibility - will trigger instance creation
-// Deprecated: prefer getSoundEffects() for lazy initialization
-export const soundEffects = {
-  get creditEarned() { return getSoundEffects().creditEarned.bind(getSoundEffects()); },
-  get xpEarned() { return getSoundEffects().xpEarned.bind(getSoundEffects()); },
-  get levelUp() { return getSoundEffects().levelUp.bind(getSoundEffects()); },
-  get achievementUnlock() { return getSoundEffects().achievementUnlock.bind(getSoundEffects()); },
-  get checkinSuccess() { return getSoundEffects().checkinSuccess.bind(getSoundEffects()); },
-  get streakBonus() { return getSoundEffects().streakBonus.bind(getSoundEffects()); },
-  get missionComplete() { return getSoundEffects().missionComplete.bind(getSoundEffects()); },
-  get buttonClick() { return getSoundEffects().buttonClick.bind(getSoundEffects()); },
-  get toggleOn() { return getSoundEffects().toggleOn.bind(getSoundEffects()); },
-  get toggleOff() { return getSoundEffects().toggleOff.bind(getSoundEffects()); },
-  get error() { return getSoundEffects().error.bind(getSoundEffects()); },
-  get success() { return getSoundEffects().success.bind(getSoundEffects()); },
-  get notification() { return getSoundEffects().notification.bind(getSoundEffects()); },
-  get setEnabled() { return getSoundEffects().setEnabled.bind(getSoundEffects()); },
-  get isEnabled() { return getSoundEffects().isEnabled.bind(getSoundEffects()); },
-};

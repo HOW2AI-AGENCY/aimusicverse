@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { useQueryClient, useQuery } from '@tanstack/react-query';
-import { soundEffects } from '@/lib/sound-effects';
+import { getSoundEffects } from '@/lib/sound-effects';
 import { triggerHapticFeedback } from '@/lib/mobile-utils';
 import { toast } from 'sonner';
 import { logger } from '@/lib/logger';
@@ -113,7 +113,7 @@ export function useRewards() {
       });
 
       // Play sound and haptic
-      soundEffects.creditEarned();
+      getSoundEffects().creditEarned();
       triggerHapticFeedback('success');
 
       // Refresh queries
@@ -171,11 +171,11 @@ export function useRewards() {
 
       // Play sound
       if (leveledUp) {
-        soundEffects.levelUp();
+        getSoundEffects().levelUp();
         triggerHapticFeedback('success');
         toast.success(`🎉 Новый уровень: ${newLevel}!`);
       } else {
-        soundEffects.xpEarned();
+        getSoundEffects().xpEarned();
         triggerHapticFeedback('light');
       }
 
@@ -285,7 +285,7 @@ export function useRewards() {
             await awardExperience(achievement.experience_reward, 'achievement');
           }
 
-          soundEffects.achievementUnlock();
+          getSoundEffects().achievementUnlock();
           triggerHapticFeedback('success');
 
           results.push({
@@ -311,24 +311,25 @@ export function useRewards() {
   }, [user?.id, awardCredits, awardExperience, queryClient]);
 
   const playRewardSound = useCallback((type: 'credits' | 'xp' | 'levelUp' | 'achievement' | 'streak' | 'mission') => {
+    const sounds = getSoundEffects();
     switch (type) {
       case 'credits':
-        soundEffects.creditEarned();
+        sounds.creditEarned();
         break;
       case 'xp':
-        soundEffects.xpEarned();
+        sounds.xpEarned();
         break;
       case 'levelUp':
-        soundEffects.levelUp();
+        sounds.levelUp();
         break;
       case 'achievement':
-        soundEffects.achievementUnlock();
+        sounds.achievementUnlock();
         break;
       case 'streak':
-        soundEffects.streakBonus();
+        sounds.streakBonus();
         break;
       case 'mission':
-        soundEffects.missionComplete();
+        sounds.missionComplete();
         break;
     }
   }, []);
