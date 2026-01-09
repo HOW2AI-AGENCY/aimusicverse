@@ -316,27 +316,4 @@ export function buildPlaylistShareCaption(playlist: ShareablePlaylist, creatorUs
   return lines.join('\n');
 }
 
-// ============================================================================
-// Legacy Class Export (for backwards compatibility)
-// ============================================================================
-
-export class TelegramShareService {
-  getTrackDeepLink = getTrackDeepLink;
-  getPlaylistDeepLink = getPlaylistDeepLink;
-  getRecognizeDeepLink = getRecognizeDeepLink;
-  getShareUrl = getTrackShareUrl;
-  getPlaylistShareUrl = getPlaylistShareUrl;
-  canShareToStory = canShareToStory;
-  canShareURL = canShareURL;
-  canDownloadFile = canDownloadFile;
-  shareToStory = shareTrackToStory;
-  shareURL = shareTrackURL;
-  downloadFile = downloadTrack;
-  sharePlaylistToStory = sharePlaylistToStory;
-  sharePlaylistURL = sharePlaylistURL;
-  switchInlineQuery = switchInlineQuery;
-  buildShareCaption = buildTrackShareCaption;
-  buildPlaylistShareCaption = buildPlaylistShareCaption;
-}
-
-export const telegramShareService = new TelegramShareService();
+// Legacy class exports removed - use functional exports directly

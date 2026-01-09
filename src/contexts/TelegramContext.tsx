@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, ReactNode, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { telegramAuthService } from '@/services/telegram';
+import { authenticateWithTelegram } from '@/services/telegram';
 import { supabase } from '@/integrations/supabase/client';
 import { logger } from '@/lib/logger';
 import { toast } from 'sonner';
@@ -263,7 +263,7 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
         // Seamless authentication with backend - NON-BLOCKING
         // CRITICAL: Do NOT use showPopup during initialization as it can block the app
         bootLog('Starting auth...');
-        telegramAuthService.authenticateWithTelegram(tg.initData)
+        authenticateWithTelegram(tg.initData)
           .then(authData => {
             bootLog(`Auth result: ${authData ? 'success' : 'failed'}`);
             if (authData) {
