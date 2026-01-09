@@ -4,7 +4,7 @@
 
 import { sendMessage, parseCommand, type TelegramUpdate } from './telegram-api.ts';
 import { BOT_CONFIG } from './config.ts';
-import { logger, checkRateLimit, trackMetric } from './utils/index.ts';
+import { logger, isRateLimited, trackMetric } from './utils/index.ts';
 import { handleCallbackQuery } from './callbacks/router.ts';
 
 export async function handleUpdate(update: TelegramUpdate) {
@@ -33,8 +33,8 @@ export async function handleUpdate(update: TelegramUpdate) {
     const { chat, from, text } = message;
     if (!from) return;
 
-    // Rate limiting
-    if (!checkRateLimit(from.id, 20, 60000)) {
+    // Rate limiting (async database-backed)
+    if (await isRateLimited(from.id, 'message')) {
       await sendMessage(chat.id, '⏳ Слишком много запросов. Подождите немного.', undefined, null);
       trackMetric({
         eventType: 'rate_limited',

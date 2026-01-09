@@ -4,7 +4,7 @@
  */
 
 import { answerCallbackQuery } from '../telegram-api.ts';
-import { logger, checkRateLimit } from '../utils/index.ts';
+import { logger, isRateLimited } from '../utils/index.ts';
 import { logBotAction } from '../utils/bot-logger.ts';
 import type { TelegramUpdate } from '../telegram-api.ts';
 
@@ -49,8 +49,8 @@ export async function handleCallbackQuery(
 
   const messageId = message?.message_id ?? 0;
 
-  // Rate limiting
-  if (!checkRateLimit(from.id, 30, 60000)) {
+  // Rate limiting (async database-backed)
+  if (await isRateLimited(from.id, 'callback')) {
     await answerCallbackQuery(id, '⏳ Слишком много запросов.');
     return;
   }

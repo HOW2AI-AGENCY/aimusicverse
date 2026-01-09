@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Volume2, VolumeX } from 'lucide-react';
-import { soundEffects } from '@/lib/sound-effects';
+import { getSoundEffects } from '@/lib/sound-effects';
 import { cn } from '@/lib/utils';
 
 interface SoundToggleProps {
@@ -10,15 +10,15 @@ interface SoundToggleProps {
 }
 
 export function SoundToggle({ className, size = 'default' }: SoundToggleProps) {
-  const [enabled, setEnabled] = useState(() => soundEffects.isEnabled());
+  const [enabled, setEnabled] = useState(() => getSoundEffects().isEnabled());
 
   const toggle = () => {
     const newValue = !enabled;
     setEnabled(newValue);
-    soundEffects.setEnabled(newValue);
+    getSoundEffects().setEnabled(newValue);
     
     if (newValue) {
-      soundEffects.toggleOn();
+      getSoundEffects().toggleOn();
     }
   };
 

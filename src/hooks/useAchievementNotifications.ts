@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { useQueryClient } from '@tanstack/react-query';
-import { soundEffects } from '@/lib/sound-effects';
+import { getSoundEffects } from '@/lib/sound-effects';
 import { triggerHapticFeedback } from '@/lib/mobile-utils';
 
 interface Achievement {
@@ -61,7 +61,7 @@ export function useAchievementNotifications() {
             setShownAchievements(prev => new Set([...prev, achievementId]));
             
             // Play sounds and haptic
-            soundEffects.achievementUnlock();
+            getSoundEffects().achievementUnlock();
             triggerHapticFeedback('success');
 
             // Invalidate queries

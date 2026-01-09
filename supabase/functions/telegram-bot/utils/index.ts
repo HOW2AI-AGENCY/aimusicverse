@@ -107,29 +107,6 @@ export const logger = {
 };
 
 /**
- * @deprecated Use isRateLimited() from rate-limiter.ts instead
- * This is kept for backward compatibility but uses in-memory (resets on restart)
- */
-const rateLimitMap = new Map<number, { count: number; resetAt: number }>();
-
-export function checkRateLimit(userId: number, limit: number = 10, windowMs: number = 60000): boolean {
-  const now = Date.now();
-  const userLimit = rateLimitMap.get(userId);
-  
-  if (!userLimit || now > userLimit.resetAt) {
-    rateLimitMap.set(userId, { count: 1, resetAt: now + windowMs });
-    return true;
-  }
-  
-  if (userLimit.count >= limit) {
-    return false;
-  }
-  
-  userLimit.count++;
-  return true;
-}
-
-/**
  * Clean Suno tags from lyrics
  */
 export function cleanLyrics(lyrics: string): string {
