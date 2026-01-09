@@ -120,4 +120,4 @@ export function SectionLoading({ height = '120px', className }: SectionLoadingPr
 }
 
 // Re-export consolidated skeletons from unified source
-export { CardSkeleton, TextSkeleton } from './skeleton-components';
+export { TrackCardSkeleton as CardSkeleton, TextSkeleton } from './skeleton-components';

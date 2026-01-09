@@ -145,14 +145,12 @@ export async function fetchPublicTracksWithCreators(
     return { tracks: [], totalCount, hasMore: false };
   }
 
-  // Fetch likes
+  // Fetch likes with single optimized query
   const trackIds = tracks.map(t => t.id);
-  const [likesCounts, userLikes] = await Promise.all([
-    tracksApi.fetchTrackLikes(trackIds),
-    currentUserId 
-      ? tracksApi.fetchUserLikes(currentUserId, trackIds)
-      : Promise.resolve(new Set<string>()),
-  ]);
+  const { counts: likesCounts, userLikes } = await tracksApi.fetchTrackLikesWithUser(
+    trackIds,
+    currentUserId ?? undefined
+  );
 
   const enrichedTracks: EnrichedTrack[] = tracks.map(track => ({
     ...track,

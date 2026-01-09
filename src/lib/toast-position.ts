@@ -66,17 +66,6 @@ export const Z_INDEX = {
   critical: 110,      // Critical alerts
   dropdown: 9999,     // Temporary floating menus
 } as const;
-
-/**
- * Z-index constants for notification hierarchy
- * @deprecated Use Z_INDEX instead
- */
-export const TOAST_Z_INDEX = {
-  standard: Z_INDEX.navigation,
-  system: Z_INDEX.system,
-  critical: Z_INDEX.critical,
-} as const;
-
 /**
  * Get safe area padding styles for fullscreen overlays
  */

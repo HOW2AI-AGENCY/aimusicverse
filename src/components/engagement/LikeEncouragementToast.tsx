@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { useAuth } from '@/hooks/useAuth';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { getToastStyles, TOAST_Z_INDEX } from '@/lib/toast-position';
+import { getToastStyles, Z_INDEX } from '@/lib/toast-position';
 interface EncouragementMessage {
   id: string;
   icon: React.ReactNode;
@@ -146,7 +146,7 @@ function EncouragementToast({
       exit={{ opacity: 0, y: 50, scale: 0.95 }}
       style={{
         position: 'fixed',
-        zIndex: TOAST_Z_INDEX.standard,
+        zIndex: Z_INDEX.navigation,
         // Use unified positioning - on mobile use bottom, on desktop use top
         ...(isMobile ? {
           bottom: positionStyles.bottom,
