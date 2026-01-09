@@ -9,7 +9,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
-import { telegramShareService } from '@/services/telegram';
+import { canShareToStory, getPlaylistDeepLink, sharePlaylistToStory, sharePlaylistURL } from '@/services/telegram';
 import { useTelegram } from '@/contexts/TelegramContext';
 import type { Playlist } from '@/hooks/usePlaylists';
 
@@ -25,12 +25,12 @@ export function SharePlaylistDialog({ playlist, open, onOpenChange }: SharePlayl
   const [loading, setLoading] = useState(false);
   const { webApp } = useTelegram();
 
-  const canShareToStory = telegramShareService.canShareToStory();
+  const canShare = canShareToStory();
 
   useEffect(() => {
     if (open && playlist) {
       setLoading(true);
-      const deepLink = telegramShareService.getPlaylistDeepLink(playlist.id);
+      const deepLink = getPlaylistDeepLink(playlist.id);
       setShareUrl(deepLink);
       setLoading(false);
     }
@@ -50,7 +50,7 @@ export function SharePlaylistDialog({ playlist, open, onOpenChange }: SharePlayl
   const handleShareToStory = () => {
     if (!playlist) return;
     
-    const success = telegramShareService.sharePlaylistToStory({
+    const success = sharePlaylistToStory({
       id: playlist.id,
       title: playlist.title,
       cover_url: playlist.cover_url,
@@ -68,7 +68,7 @@ export function SharePlaylistDialog({ playlist, open, onOpenChange }: SharePlayl
   const handleShare = () => {
     if (!playlist) return;
     
-    telegramShareService.sharePlaylistURL({
+    sharePlaylistURL({
       id: playlist.id,
       title: playlist.title,
       track_count: playlist.track_count,
@@ -141,7 +141,7 @@ export function SharePlaylistDialog({ playlist, open, onOpenChange }: SharePlayl
           {/* Share Options */}
           <div className="grid grid-cols-2 gap-2">
             {/* Share to Story */}
-            {canShareToStory && (
+            {canShare && (
               <Button
                 variant="outline"
                 className="h-auto py-3 flex flex-col gap-1"

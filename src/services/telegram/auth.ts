@@ -65,11 +65,4 @@ async function setSession(session: { access_token: string; refresh_token: string
   }
 }
 
-// Legacy export for backwards compatibility
-export class TelegramAuthService {
-  async authenticateWithTelegram(initData: string) {
-    return authenticateWithTelegram(initData);
-  }
-}
-
-export const telegramAuthService = new TelegramAuthService();
+// Legacy class exports removed - use authenticateWithTelegram function directly

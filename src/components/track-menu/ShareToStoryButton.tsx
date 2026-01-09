@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Camera } from 'lucide-react';
 import { useTelegram } from '@/contexts/TelegramContext';
-import { telegramShareService } from '@/services/telegram';
+import { canShareToStory, shareTrackToStory } from '@/services/telegram';
 import { toast } from 'sonner';
 
 interface Track {
@@ -28,7 +28,7 @@ export function ShareToStoryButton({
   const [isSupported, setIsSupported] = useState(false);
 
   useEffect(() => {
-    setIsSupported(telegramShareService.canShareToStory());
+    setIsSupported(canShareToStory());
   }, [webApp]);
 
   const handleShare = () => {
@@ -37,7 +37,7 @@ export function ShareToStoryButton({
       return;
     }
 
-    const success = telegramShareService.shareToStory(track);
+    const success = shareTrackToStory(track);
     
     if (!success) {
       toast.error('Stories не поддерживаются на этой платформе');

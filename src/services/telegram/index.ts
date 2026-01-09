@@ -8,11 +8,7 @@
  */
 
 // Authentication
-export {
-  authenticateWithTelegram,
-  TelegramAuthService,
-  telegramAuthService,
-} from './auth';
+export { authenticateWithTelegram } from './auth';
 
 // Sharing
 export {
@@ -43,10 +39,6 @@ export {
   // Caption builders
   buildTrackShareCaption,
   buildPlaylistShareCaption,
-  
-  // Legacy class
-  TelegramShareService,
-  telegramShareService,
 } from './share';
 
 // Telegram Bot Notifications

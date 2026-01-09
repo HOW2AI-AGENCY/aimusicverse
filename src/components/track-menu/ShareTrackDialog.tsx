@@ -14,7 +14,7 @@ import { Share2, Copy, Check, ExternalLink, Download, Camera, Gift } from 'lucid
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { hapticNotification } from '@/lib/haptic';
-import { telegramShareService } from '@/services/telegram';
+import { canShareToStory, getTrackDeepLink, shareTrackURL, shareTrackToStory, downloadTrack } from '@/services/telegram';
 import { logger } from '@/lib/logger';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { useRewardShare } from '@/hooks/useGamification';
@@ -34,7 +34,7 @@ export function ShareTrackDialog({ open, onOpenChange, track }: ShareTrackDialog
   const rewardShare = useRewardShare();
   const rewardedRef = useRef(false);
   
-  const canShareToStory = telegramShareService.canShareToStory();
+  const canShare = canShareToStory();
   const canDownload = !!track.audio_url;
 
   // Reset rewarded state when dialog opens with new track
@@ -65,7 +65,7 @@ export function ShareTrackDialog({ open, onOpenChange, track }: ShareTrackDialog
   useEffect(() => {
     if (open && track) {
       setLoading(true);
-      const deepLink = telegramShareService.getTrackDeepLink(track.id);
+      const deepLink = getTrackDeepLink(track.id);
       setShareUrl(deepLink);
       setLoading(false);
     }
@@ -89,7 +89,7 @@ export function ShareTrackDialog({ open, onOpenChange, track }: ShareTrackDialog
 
   const handleShare = async () => {
     // Use Telegram SDK if available
-    const success = telegramShareService.shareURL(track);
+    const success = shareTrackURL(track);
     if (success) {
       hapticNotification('success');
       await handleRewardShare();
@@ -120,7 +120,7 @@ export function ShareTrackDialog({ open, onOpenChange, track }: ShareTrackDialog
       return;
     }
     
-    const success = telegramShareService.shareToStory(track);
+    const success = shareTrackToStory(track);
     if (success) {
       toast.success('Открыта Stories');
     } else {
@@ -129,7 +129,7 @@ export function ShareTrackDialog({ open, onOpenChange, track }: ShareTrackDialog
   };
 
   const handleDownload = async () => {
-    const success = await telegramShareService.downloadFile(track);
+    const success = await downloadTrack(track);
     if (success) {
       toast.success('Загрузка начата');
     } else {
@@ -226,7 +226,7 @@ export function ShareTrackDialog({ open, onOpenChange, track }: ShareTrackDialog
               Поделиться
             </Button>
             
-            {canShareToStory && track.cover_url && (
+            {canShare && track.cover_url && (
               <Button
                 variant="outline"
                 className="gap-2"
