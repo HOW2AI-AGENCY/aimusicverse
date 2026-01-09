@@ -1,7 +1,7 @@
 import { useTheme } from "@/contexts/ThemeContext";
 import { Toaster as Sonner, toast } from "sonner";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { getToastStyles, TOAST_Z_INDEX } from "@/lib/toast-position";
+import { getToastStyles, Z_INDEX } from "@/lib/toast-position";
 
 type ToasterProps = React.ComponentProps<typeof Sonner>;
 
@@ -49,7 +49,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
       style={{
         // Use unified positioning from toast-position utility
         ...positionStyles,
-        zIndex: TOAST_Z_INDEX.system,
+        zIndex: Z_INDEX.system,
       }}
       toastOptions={{
         classNames: {

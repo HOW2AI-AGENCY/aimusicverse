@@ -294,25 +294,6 @@ export async function fetchTrackLikesWithUser(
 
   return { counts, userLikes };
 }
-
-/**
- * @deprecated Use fetchTrackLikesWithUser instead
- * Fetch track likes for multiple tracks
- */
-export async function fetchTrackLikes(trackIds: string[]): Promise<Record<string, number>> {
-  const result = await fetchTrackLikesWithUser(trackIds);
-  return result.counts;
-}
-
-/**
- * @deprecated Use fetchTrackLikesWithUser instead
- * Fetch user's liked tracks
- */
-export async function fetchUserLikes(userId: string, trackIds: string[]): Promise<Set<string>> {
-  const result = await fetchTrackLikesWithUser(trackIds, userId);
-  return result.userLikes;
-}
-
 /**
  * Toggle track like
  */
