@@ -177,5 +177,3 @@ export function getReducedMotionVariants(
     exit: { opacity: 0 },
   };
 }
-// Note: useAnimationPresets is deprecated - use useReducedMotion directly from exports
-// and call getReducedMotionVariants manually if needed

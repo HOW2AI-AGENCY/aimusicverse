@@ -64,5 +64,3 @@ async function setSession(session: { access_token: string; refresh_token: string
     log.error('Error setting session', error);
   }
 }
-
-// Legacy class exports removed - use authenticateWithTelegram function directly

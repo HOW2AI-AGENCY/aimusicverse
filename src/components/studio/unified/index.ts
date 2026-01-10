@@ -72,9 +72,6 @@ export { OptimizedMixerPanel } from './OptimizedMixerPanel';
 export { OptimizedTransport } from './OptimizedTransport';
 export { OptimizedStemTrack } from './OptimizedStemTrack';
 
-// Legacy tab-based components have been removed (MobileStudioLayout, MobileStudioTabs)
-// Use UnifiedDAWLayout instead
-
 // Re-export hooks for convenience
 export { useSwipeNavigation } from '@/hooks/useSwipeNavigation';
 export { useStudioPerformance, useThrottledCallback, useCustomDeferredValue } from '@/hooks/useStudioPerformance';
