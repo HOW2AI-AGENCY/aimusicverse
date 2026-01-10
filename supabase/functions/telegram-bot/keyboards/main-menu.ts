@@ -8,12 +8,9 @@ export const CHANNEL_USERNAME = 'AIMusicVerse';
 export const CHANNEL_URL = `https://t.me/${CHANNEL_USERNAME}`;
 
 /**
- * Create main menu keyboard - ALWAYS uses async dynamic loading
- * @deprecated Use createMainMenuKeyboardAsync instead
+ * Create main menu keyboard from database
+ * Async version that loads menu structure dynamically
  */
-export async function createMainMenuKeyboard(): Promise<{ inline_keyboard: InlineKeyboardButton[][] }> {
-  return createMainMenuKeyboardAsync();
-}
 
 /**
  * Create main menu keyboard from database

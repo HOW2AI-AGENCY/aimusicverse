@@ -106,8 +106,4 @@ export async function executeWithRetry<T>(
   throw lastError!;
 }
 
-/**
- * Export a pre-configured instance for backward compatibility
- * @deprecated Use getSupabaseClient() instead
- */
-export const supabase = getSupabaseClient();
+// Use getSupabaseClient() for all new code

@@ -175,20 +175,7 @@ export function ProjectDetailSkeleton() {
   );
 }
 
-// Legacy exports for backwards compatibility
-export const ProfileSkeleton = () => (
-  <div className="p-6 space-y-4">
-    <div className="flex items-center gap-4">
-      <Skeleton className="w-12 h-12 rounded-full" />
-      <div className="flex-1">
-        <Skeleton className="h-6 w-32 mb-2" />
-        <Skeleton className="h-4 w-24" />
-      </div>
-    </div>
-    <Skeleton className="h-4 w-full" />
-  </div>
-);
-
+// NotificationSkeleton - still used in NotificationList.tsx
 export const NotificationSkeleton = () => (
   <div className="p-3 rounded-lg">
     <div className="flex gap-3">

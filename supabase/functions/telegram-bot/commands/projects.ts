@@ -5,9 +5,8 @@
 
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 import { BOT_CONFIG, MESSAGES } from '../config.ts';
-import { createProjectKeyboard, createProjectListKeyboard } from '../keyboards/main-menu.ts';
+import { createProjectKeyboard, createProjectListKeyboard, createMainMenuKeyboardAsync } from '../keyboards/main-menu.ts';
 import { sendMessage, editMessageText, sendPhoto } from '../telegram-api.ts';
-import { createMainMenuKeyboard } from '../keyboards/main-menu.ts';
 import { escapeMarkdown, formatDuration } from '../../_shared/telegram-utils.ts';
 
 const supabase = createClient(
@@ -56,7 +55,7 @@ export async function handleProjects(chatId: number, userId: number, messageId?:
 
     if (!profile) {
       const text = '❌ Пользователь не найден\\. Сначала откройте Mini App\\.';
-      const keyboard = await createMainMenuKeyboard();
+      const keyboard = await createMainMenuKeyboardAsync();
       if (messageId) {
         await editMessageText(chatId, messageId, text, keyboard, 'MarkdownV2');
       } else {
@@ -76,7 +75,7 @@ export async function handleProjects(chatId: number, userId: number, messageId?:
     if (error) {
       console.error('Error fetching projects:', error);
       const text = '❌ Ошибка при загрузке проектов\\.';
-      const keyboard = await createMainMenuKeyboard();
+      const keyboard = await createMainMenuKeyboardAsync();
       if (messageId) {
         await editMessageText(chatId, messageId, text, keyboard, 'MarkdownV2');
       } else {
@@ -169,7 +168,7 @@ export async function handleProjects(chatId: number, userId: number, messageId?:
   } catch (error) {
     console.error('Error in projects command:', error);
     const text = '❌ Ошибка при загрузке проектов\\.';
-    const keyboard = await createMainMenuKeyboard();
+    const keyboard = await createMainMenuKeyboardAsync();
     if (messageId) {
       await editMessageText(chatId, messageId, text, keyboard, 'MarkdownV2');
     } else {
