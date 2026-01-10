@@ -333,12 +333,7 @@ export const V5_COMPOUND_PRESETS: CompoundPreset[] = [
   },
 ];
 
-// ==================== VOCAL STYLE TAGS (Legacy) ====================
-
-export const VOCAL_STYLE_TAGS = [
-  'Gentle', 'Powerful', 'Whisper', 'Falsetto', 'Raspy', 
-  'Soulful', 'Breathy', 'Belting', 'Smooth', 'Raw'
-] as const;
+// VOCAL_STYLE_TAGS moved to @/constants/sunoMetaTags.ts with full metadata
 
 export const DYNAMIC_TAGS = [
   'Build', 'Drop', 'Breakdown', 'Climax', 'Crescendo',
