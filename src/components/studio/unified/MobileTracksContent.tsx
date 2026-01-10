@@ -21,11 +21,13 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 import type { StudioProject, StudioTrack, TRACK_COLORS } from '@/stores/useUnifiedStudioStore';
+import { MobileStudioTrackSkeleton } from '@/components/mobile/MobileSkeletons';
 
 interface MobileTracksContentProps {
   project: StudioProject;
   isPlaying: boolean;
   currentTime: number;
+  isLoading?: boolean;
   onToggleMute: (trackId: string) => void;
   onToggleSolo: (trackId: string) => void;
   onVolumeChange: (trackId: string, volume: number) => void;
@@ -38,6 +40,7 @@ export const MobileTracksContent = memo(function MobileTracksContent({
   project,
   isPlaying,
   currentTime,
+  isLoading = false,
   onToggleMute,
   onToggleSolo,
   onVolumeChange,
@@ -86,34 +89,44 @@ export const MobileTracksContent = memo(function MobileTracksContent({
 
       {/* Track List */}
       <div className="flex-1 overflow-y-auto px-3 pb-20">
-        <AnimatePresence>
-          {project.tracks.map((track, index) => (
-            <TrackCard
-              key={track.id}
-              track={track}
-              index={index}
-              isExpanded={expandedTrack === track.id}
-              onToggleExpand={() => toggleExpand(track.id)}
-              onToggleMute={() => onToggleMute(track.id)}
-              onToggleSolo={() => onToggleSolo(track.id)}
-              onVolumeChange={(v) => onVolumeChange(track.id, v)}
-              onRemove={() => onRemoveTrack(track.id)}
-              onAction={(action) => onTrackAction(track.id, action)}
-              getIcon={getTrackIcon}
-            />
-          ))}
-        </AnimatePresence>
-
-        {project.tracks.length === 0 && (
-          <div className="flex flex-col items-center justify-center py-12 text-center">
-            <p className="text-muted-foreground mb-4 text-sm">
-              Нет дорожек в проекте
-            </p>
-            <Button onClick={onAddTrack}>
-              <Plus className="w-4 h-4 mr-2" />
-              Добавить первую дорожку
-            </Button>
+        {isLoading ? (
+          <div className="space-y-2 py-4">
+            <MobileStudioTrackSkeleton />
+            <MobileStudioTrackSkeleton />
+            <MobileStudioTrackSkeleton />
           </div>
+        ) : (
+          <>
+            <AnimatePresence>
+              {project.tracks.map((track, index) => (
+                <TrackCard
+                  key={track.id}
+                  track={track}
+                  index={index}
+                  isExpanded={expandedTrack === track.id}
+                  onToggleExpand={() => toggleExpand(track.id)}
+                  onToggleMute={() => onToggleMute(track.id)}
+                  onToggleSolo={() => onToggleSolo(track.id)}
+                  onVolumeChange={(v) => onVolumeChange(track.id, v)}
+                  onRemove={() => onRemoveTrack(track.id)}
+                  onAction={(action) => onTrackAction(track.id, action)}
+                  getIcon={getTrackIcon}
+                />
+              ))}
+            </AnimatePresence>
+
+            {project.tracks.length === 0 && (
+              <div className="flex flex-col items-center justify-center py-12 text-center">
+                <p className="text-muted-foreground mb-4 text-sm">
+                  Нет дорожек в проекте
+                </p>
+                <Button onClick={onAddTrack}>
+                  <Plus className="w-4 h-4 mr-2" />
+                  Добавить первую дорожку
+                </Button>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>

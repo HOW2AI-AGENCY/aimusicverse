@@ -15,6 +15,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { TrendingUp, Clock } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { preloadImages } from "@/lib/imageOptimization";
+import { MobileHeroSkeleton, MobileSectionSkeleton } from "@/components/mobile/MobileSkeletons";
 
 // Critical path - eager loading for first paint
 import { TracksGridSection } from "@/components/home/TracksGridSection";
@@ -191,10 +192,21 @@ const Index = () => {
 
         {/* Loading state */}
         {contentLoading && !publicContent && (
-          <div className="space-y-4">
-            <HeroSkeleton />
-            <ToolsSkeleton />
-          </div>
+          isMobile ? (
+            <div className="space-y-4">
+              <MobileHeroSkeleton />
+              <div className="grid grid-cols-2 gap-2">
+                {[1, 2, 3, 4].map(i => (
+                  <Skeleton key={i} className="h-24 rounded-xl" />
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              <HeroSkeleton />
+              <ToolsSkeleton />
+            </div>
+          )
         )}
 
         {/* Hero Section - Personalized */}
@@ -253,7 +265,7 @@ const Index = () => {
 
         {/* Popular Tracks - Primary content section */}
         <div ref={tracksSectionRef}>
-          <Suspense fallback={<GridSkeleton count={6} columns={2} />}>
+          <Suspense fallback={isMobile ? <MobileSectionSkeleton /> : <GridSkeleton count={6} columns={2} />}>
             <motion.section className="mb-6 sm:mb-8" {...fadeInUp} transition={{ delay: 0.18 }}>
               <TracksGridSection
                 title="🔥 Популярное"
@@ -274,7 +286,7 @@ const Index = () => {
         </div>
 
         {/* New Tracks - Secondary content section */}
-        <Suspense fallback={<GridSkeleton count={4} columns={2} />}>
+        <Suspense fallback={isMobile ? <MobileSectionSkeleton /> : <GridSkeleton count={4} columns={2} />}>
           <motion.section className="mb-6 sm:mb-8" {...fadeInUp} transition={{ delay: 0.2 }}>
             <TracksGridSection
               title="✨ Новинки"

@@ -17,6 +17,7 @@ import { TrackCardSkeleton, TrackCardSkeletonCompact } from "@/components/ui/ske
 import { GeneratingTrackSkeleton } from "@/components/library/GeneratingTrackSkeleton";
 import { useSyncStaleTasks, useActiveGenerations } from "@/hooks/generation";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { MobileListSkeleton, MobileGridSkeleton } from "@/components/mobile/MobileSkeletons";
 import { useTrackCounts } from "@/hooks/useTrackCounts";
 import { LibraryFilterChips } from "@/components/library/LibraryFilterChips";
 import { CompactFilterBar } from "@/components/library/CompactFilterBar";
@@ -485,16 +486,24 @@ export default function Library() {
           )}
 
           {isLoading ? (
-            <div className={viewMode === "grid"
-              ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3"
-              : "flex flex-col gap-1.5"
-            }>
-              {Array.from({ length: 8 }).map((_, i) => (
-                viewMode === 'grid' 
-                  ? <TrackCardSkeleton key={i} />
-                  : <TrackCardSkeletonCompact key={i} />
-              ))}
-            </div>
+            isMobile ? (
+              viewMode === "grid" ? (
+                <MobileGridSkeleton count={4} />
+              ) : (
+                <MobileListSkeleton count={5} />
+              )
+            ) : (
+              <div className={viewMode === "grid"
+                ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3"
+                : "flex flex-col gap-1.5"
+              }>
+                {Array.from({ length: 6 }).map((_, i) => (
+                  viewMode === 'grid'
+                    ? <TrackCardSkeleton key={i} />
+                    : <TrackCardSkeletonCompact key={i} />
+                ))}
+              </div>
+            )
           ) : tracksToDisplay.length === 0 && !hasActiveGenerations ? (
             <EmptyLibraryState searchQuery={searchQuery} navigate={navigate} />
           ) : (

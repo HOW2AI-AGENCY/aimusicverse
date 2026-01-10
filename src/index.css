@@ -714,16 +714,6 @@ All colors MUST be HSL.
     @apply focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2;
   }
 
-  /* Shimmer animation for loading states */
-  @keyframes shimmer {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-  }
-
-  .animate-shimmer {
-    animation: shimmer 2s infinite;
-  }
-
   /* NEW: Glow button effect */
   .glow-button {
     position: relative;
@@ -997,16 +987,6 @@ All colors MUST be HSL.
 
   .animate-pulse-slow {
     animation: pulse-slow 4s ease-in-out infinite;
-  }
-
-  /* Shimmer effect for skeleton loading */
-  @keyframes shimmer {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-  }
-
-  .animate-shimmer {
-    animation: shimmer 1.5s ease-in-out infinite;
   }
 
   /* iOS Safari zoom prevention on input focus */

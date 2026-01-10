@@ -23,6 +23,7 @@ import { formatTime } from '@/lib/formatters';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import type { StudioProject } from '@/stores/useUnifiedStudioStore';
+import { MobilePlayerSkeleton } from '@/components/mobile/MobileSkeletons';
 
 interface MobilePlayerContentProps {
   project: StudioProject;
@@ -30,6 +31,7 @@ interface MobilePlayerContentProps {
   currentTime: number;
   duration: number;
   masterVolume: number;
+  isLoading?: boolean;
   onPlayPause: () => void;
   onSeek: (time: number) => void;
   onVolumeChange: (volume: number) => void;
@@ -41,6 +43,7 @@ export const MobilePlayerContent = memo(function MobilePlayerContent({
   currentTime,
   duration,
   masterVolume,
+  isLoading = false,
   onPlayPause,
   onSeek,
   onVolumeChange,
@@ -90,6 +93,10 @@ export const MobilePlayerContent = memo(function MobilePlayerContent({
       toast.success('Ссылка скопирована!');
     }
   };
+
+  if (isLoading) {
+    return <MobilePlayerSkeleton />;
+  }
 
   return (
     <div className="flex flex-col h-full bg-gradient-to-b from-background to-muted/10 overflow-y-auto">
