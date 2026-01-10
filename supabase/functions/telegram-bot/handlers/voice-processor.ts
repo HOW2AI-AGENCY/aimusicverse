@@ -9,7 +9,7 @@
  * 5. Format for Suno API compatibility
  */
 
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { getSupabaseClient } from '../core/supabase-client.ts';
 import { BOT_CONFIG } from '../config.ts';
 import { sendMessage, editMessageText, deleteMessage } from '../telegram-api.ts';
 import { escapeMarkdown, trackMetric } from '../utils/index.ts';
@@ -18,10 +18,8 @@ import { setActiveMenuMessageId, deleteActiveMenu } from '../core/active-menu-ma
 
 const logger = createLogger('voice-processor');
 
-const supabase = createClient(
-  BOT_CONFIG.supabaseUrl,
-  BOT_CONFIG.supabaseServiceKey
-);
+// Use centralized singleton client
+const supabase = getSupabaseClient();
 
 interface TelegramVoice {
   file_id: string;

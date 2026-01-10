@@ -6,12 +6,10 @@
 
 import { sendMessage, editMessageText } from '../telegram-api.ts';
 import { logger } from '../utils/index.ts';
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.7';
+import { getSupabaseClient } from '../core/supabase-client.ts';
 
-const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
+// Use centralized singleton client
+const supabase = getSupabaseClient();
 
 /**
  * Handle stem separation request

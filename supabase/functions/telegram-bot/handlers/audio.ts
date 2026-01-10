@@ -2,7 +2,7 @@
  * Handler for processing audio messages received in Telegram bot
  */
 
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { getSupabaseClient } from '../core/supabase-client.ts';
 import { BOT_CONFIG } from '../config.ts';
 import { sendMessage, sendAudio, deleteMessage } from '../telegram-api.ts';
 import { consumePendingUpload, type PendingUpload, setPendingAudio } from '../core/db-session-store.ts';
@@ -17,10 +17,8 @@ import {
 
 const logger = createLogger('telegram-audio-handler');
 
-const supabase = createClient(
-  BOT_CONFIG.supabaseUrl,
-  BOT_CONFIG.supabaseServiceKey
-);
+// Use centralized singleton client
+const supabase = getSupabaseClient();
 
 interface TelegramAudio {
   file_id: string;
