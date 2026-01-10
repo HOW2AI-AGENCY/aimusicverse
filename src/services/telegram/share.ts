@@ -315,5 +315,3 @@ export function buildPlaylistShareCaption(playlist: ShareablePlaylist, creatorUs
 
   return lines.join('\n');
 }
-
-// Legacy class exports removed - use functional exports directly

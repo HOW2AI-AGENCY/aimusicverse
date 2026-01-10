@@ -399,7 +399,10 @@ export function getPresetById(presets: PresetItem[], id: string): PresetItem | u
   return presets.find(p => p.id === id);
 }
 
-// Legacy function for backward compatibility with old usePromptDJ hook
+/**
+ * Build a style prompt from DJ mixer channels
+ * Used by usePromptDJ hook to construct generation prompts
+ */
 export function buildPromptFromChannels(
   channels: Array<{
     type: string;

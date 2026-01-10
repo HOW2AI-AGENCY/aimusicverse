@@ -352,7 +352,10 @@ export function UnifiedSplashScreen({
   );
 }
 
-// Legacy exports for backwards compatibility
+/**
+ * Simplified splash screen for initial app load
+ * Used in Auth.tsx for first-time load animation
+ */
 export const SplashScreen = ({ onComplete }: { onComplete: () => void }) => (
   <UnifiedSplashScreen variant="splash" onComplete={onComplete} />
 );
