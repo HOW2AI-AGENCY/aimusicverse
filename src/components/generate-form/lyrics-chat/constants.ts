@@ -12,13 +12,15 @@ export {
   STRUCTURES, 
   STRUCTURE_MAP,
   SECTION_TYPES,
-  VOCAL_STYLE_TAGS,
   DYNAMIC_TAGS,
   EMOTIONAL_CUES,
   messageVariants,
   buttonVariants,
   badgeVariants,
 } from '@/lib/lyrics/constants';
+
+// VOCAL_STYLE_TAGS is now in @/constants/sunoMetaTags.ts with full metadata
+export { VOCAL_STYLE_TAGS } from '@/constants/sunoMetaTags';
 
 // ==================== CHAT-SPECIFIC CONSTANTS ====================
 
