@@ -1,7 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import Replicate from "https://esm.sh/replicate@0.25.2";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.3";
 import { corsHeaders } from "../_shared/cors.ts";
+import { getSupabaseClient } from "../telegram-bot/core/supabase-client.ts";
 
 interface UpscaleRequest {
   audioUrl: string;
@@ -24,9 +24,7 @@ serve(async (req) => {
     }
 
     const replicate = new Replicate({ auth: REPLICATE_API_KEY });
-    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-    const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    const supabase = getSupabaseClient();
 
     const {
       audioUrl,
@@ -165,9 +163,7 @@ serve(async (req) => {
     // Update track status on error
     const body = await req.clone().json().catch(() => ({}));
     if (body.trackId) {
-      const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-      const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-      const supabase = createClient(supabaseUrl, supabaseKey);
+      const supabase = getSupabaseClient();
       await supabase
         .from("tracks")
         .update({ upscale_status: "failed" })
