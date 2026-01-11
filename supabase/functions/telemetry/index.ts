@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { corsHeaders } from "../_shared/cors.ts";
-import { getSupabaseClient } from "../telegram-bot/core/supabase-client.ts";
+import { getSupabaseClient } from "../_shared/supabase-client.ts";
 
 interface TelemetryPayload {
   sessionId: string;
