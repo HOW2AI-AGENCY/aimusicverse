@@ -1,13 +1,9 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import Replicate from "https://esm.sh/replicate@0.25.2";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.3";
+import { corsHeaders } from "../_shared/cors.ts";
+import { getSupabaseClient } from "../telegram-bot/core/supabase-client.ts";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-};
-
-// Note structure for MIDI
+/** Note structure for MIDI */
 interface MidiNote {
   pitch: number;
   startTime: number;
@@ -41,9 +37,7 @@ serve(async (req) => {
     console.log(`[replicate-midi] Starting transcription for: ${audioUrl}`);
     console.log(`[replicate-midi] Model: ${model}`);
 
-    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-    const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    const supabase = getSupabaseClient();
 
     let output: any;
     let notes: MidiNote[] = [];
