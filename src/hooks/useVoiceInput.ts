@@ -125,7 +125,21 @@ export function useVoiceInput({
       }
 
     } catch (error) {
-      logger.error('Microphone access error', error);
+      // Don't send expected permission errors to Sentry
+      // NotAllowedError and AbortError are expected when user denies microphone access
+      const isExpectedError = error instanceof Error && 
+        (error.name === 'NotAllowedError' || error.name === 'AbortError');
+      
+      if (isExpectedError) {
+        // Only log to console in development, don't send to Sentry
+        if (import.meta.env.DEV) {
+          console.warn('Microphone access denied (expected behavior)', error);
+        }
+      } else {
+        // Unexpected errors should be reported to Sentry
+        logger.error('Microphone access error', error);
+      }
+      
       toast.error('Нет доступа к микрофону', {
         description: 'Разрешите доступ в настройках браузера'
       });
