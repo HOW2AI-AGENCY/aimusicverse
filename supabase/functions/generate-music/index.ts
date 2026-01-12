@@ -1,5 +1,5 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.78.0';
+import { getSupabaseClient } from '../_shared/supabase-client.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -12,9 +12,7 @@ serve(async (req) => {
   }
 
   try {
-    const supabaseUrl = Deno.env.get('SUPABASE_URL') ?? '';
-    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '';
-    const supabaseClient = createClient(supabaseUrl, supabaseKey);
+    const supabaseClient = getSupabaseClient();
 
     // Authenticate user from Authorization header
     const authHeader = req.headers.get('Authorization')!;
