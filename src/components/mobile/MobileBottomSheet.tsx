@@ -35,27 +35,27 @@ export const MobileBottomSheet = memo(function MobileBottomSheet({
   const { patterns } = useHaptic();
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentSnap, setCurrentSnap] = useState(defaultSnapPoint);
-  
+
   const y = useMotionValue(0);
   const backdropOpacity = useTransform(y, [0, 200], [1, 0]);
-  
+
   const currentHeight = snapPoints[currentSnap] * window.innerHeight;
 
   const handleDragEnd = useCallback((event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     const { velocity, offset } = info;
-    
+
     // Close if dragged down far enough or with high velocity
     if (offset.y > DRAG_CLOSE_THRESHOLD || velocity.y > VELOCITY_THRESHOLD) {
       patterns.tap();
       onOpenChange(false);
       return;
     }
-    
+
     // Snap to nearest snap point
     const currentPosition = offset.y;
     let closestSnapIndex = currentSnap;
     let closestDistance = Infinity;
-    
+
     snapPoints.forEach((snap, index) => {
       const snapY = (1 - snap) * window.innerHeight;
       const distance = Math.abs(currentPosition - snapY);
@@ -64,7 +64,7 @@ export const MobileBottomSheet = memo(function MobileBottomSheet({
         closestSnapIndex = index;
       }
     });
-    
+
     if (closestSnapIndex !== currentSnap) {
       patterns.select();
       setCurrentSnap(closestSnapIndex);
@@ -87,10 +87,10 @@ export const MobileBottomSheet = memo(function MobileBottomSheet({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             style={{ opacity: backdropOpacity }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-sheet-backdrop"
             onClick={handleBackdropClick}
           />
-          
+
           {/* Sheet */}
           <motion.div
             ref={containerRef}
@@ -106,12 +106,12 @@ export const MobileBottomSheet = memo(function MobileBottomSheet({
             dragConstraints={{ top: 0, bottom: 0 }}
             dragElastic={{ top: 0.1, bottom: 0.4 }}
             onDragEnd={handleDragEnd}
-            style={{ 
+            style={{
               y,
               height: `${snapPoints[currentSnap] * 100}vh`,
             }}
             className={cn(
-              "fixed bottom-0 left-0 right-0 z-50",
+              "fixed bottom-0 left-0 right-0 z-sheet-content",
               "bg-background rounded-t-3xl",
               "shadow-2xl",
               "flex flex-col overflow-hidden",
@@ -124,7 +124,7 @@ export const MobileBottomSheet = memo(function MobileBottomSheet({
                 <div className="w-10 h-1 bg-muted-foreground/30 rounded-full" />
               </div>
             )}
-            
+
             {/* Content */}
             <div className="flex-1 overflow-hidden">
               {children}

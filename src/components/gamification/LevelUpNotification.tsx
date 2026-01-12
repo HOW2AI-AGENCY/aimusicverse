@@ -62,7 +62,7 @@ export function LevelUpNotification({ level, title, show, onComplete }: LevelUpN
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -100 }}
           transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-          className="fixed top-4 left-1/2 -translate-x-1/2 z-[100]"
+          className="fixed top-4 left-1/2 -translate-x-1/2 z-system"
         >
           <motion.div
             initial={{ scale: 0.8 }}

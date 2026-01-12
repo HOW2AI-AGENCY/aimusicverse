@@ -91,7 +91,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: 100, opacity: 0 }}
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-        className="fixed bottom-[calc(5rem+max(env(safe-area-inset-bottom,0px),0.5rem))] left-0 right-0 z-40 px-3 sm:px-4"
+        className="fixed bottom-[calc(5rem+max(var(--tg-safe-area-inset-bottom,0px),env(safe-area-inset-bottom,0px),0.5rem))] left-0 right-0 z-player px-3 sm:px-4"
         {...gestureHandlers}
       >
         <motion.div

@@ -177,6 +177,26 @@ export default {
         'elevation-4': shadows.level4,
         'elevation-5': shadows.level5,
       },
+      zIndex: {
+        'base': '0',
+        'raised': '10',
+        'sticky': '20',
+        'floating': '30',
+        'overlay': '40',
+        'navigation': '50',
+        'player': '60',
+        'contextual': '70',
+        'dialog': '80',
+        'fullscreen': '90',
+        'system': '100',
+        'dropdown': '200',
+        // Specific component helpers
+        'sheet-backdrop': '80',
+        'sheet-content': '81',
+        'player-overlay': '61',
+        'toast': '70',
+        'hint': '70',
+      },
       keyframes: {
         "accordion-down": {
           from: {
