@@ -6,8 +6,8 @@
  */
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.3";
 import Replicate from "https://esm.sh/replicate@0.25.2";
+import { getSupabaseClient } from "../_shared/supabase-client.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -81,14 +81,12 @@ serve(async (req) => {
 
   try {
     const REPLICATE_API_KEY = Deno.env.get("REPLICATE_API_KEY");
-    const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
-    const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 
     if (!REPLICATE_API_KEY) {
       throw new Error("REPLICATE_API_KEY is not set");
     }
 
-    const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+    const supabase = getSupabaseClient();
     const replicate = new Replicate({ auth: REPLICATE_API_KEY });
 
     const body: SeparationRequest = await req.json();
@@ -256,10 +254,7 @@ serve(async (req) => {
     try {
       const body = await req.clone().json();
       if (body.reference_id) {
-        const supabase = createClient(
-          Deno.env.get("SUPABASE_URL")!,
-          Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
-        );
+        const supabase = getSupabaseClient();
         await supabase
           .from("reference_audio")
           .update({ stems_status: 'failed' })
