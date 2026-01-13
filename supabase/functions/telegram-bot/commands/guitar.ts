@@ -6,12 +6,9 @@
 import { sendMessage, editMessageText } from '../telegram-api.ts';
 import { BOT_CONFIG } from '../config.ts';
 import { logger, escapeMarkdown, trackMetric } from '../utils/index.ts';
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { getSupabaseClient } from '../core/supabase-client.ts';
 
-const supabase = createClient(
-  BOT_CONFIG.supabaseUrl,
-  BOT_CONFIG.supabaseServiceKey
-);
+const supabase = getSupabaseClient();
 
 // Session store for guitar analysis
 const GUITAR_SESSIONS: Record<string, { 

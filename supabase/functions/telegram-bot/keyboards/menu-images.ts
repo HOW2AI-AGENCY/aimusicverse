@@ -3,7 +3,7 @@
  * Loads custom images from database config, falls back to Unsplash
  */
 
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { getSupabaseClient } from '../core/supabase-client.ts';
 
 export interface MenuImage {
   url: string;
@@ -85,9 +85,7 @@ async function loadCustomImages(): Promise<Record<string, string>> {
   }
 
   try {
-    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    const supabase = getSupabaseClient();
 
     const { data, error } = await supabase
       .from('telegram_bot_config')
