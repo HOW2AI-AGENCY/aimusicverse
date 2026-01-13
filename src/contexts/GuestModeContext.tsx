@@ -17,8 +17,31 @@ const GuestModeContext = createContext<GuestModeContextType | undefined>(undefin
 
 const guestLogger = logger.child({ module: 'GuestMode' });
 
+/**
+ * Check if we're running in development/preview environment (not in Telegram production)
+ */
+const isDevEnvironment = () => {
+  if (typeof window === 'undefined') return false;
+  const hostname = window.location.hostname;
+  const hasTelegramWebApp = !!window.Telegram?.WebApp?.initData;
+  
+  // Development environment = lovable domains OR localhost, AND no real Telegram WebApp
+  const isLovableDomain = hostname.includes('lovable.dev') ||
+                          hostname.includes('lovable.app') ||
+                          hostname.includes('lovableproject.com');
+  const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1';
+  const hasDevParam = window.location.search.includes('dev=1');
+  
+  return (isLovableDomain || isLocalhost || hasDevParam) && !hasTelegramWebApp;
+};
+
 export const GuestModeProvider = ({ children }: { children: ReactNode }) => {
   const [isGuestMode, setIsGuestMode] = useState(() => {
+    // Auto-enable guest mode in dev environment for seamless preview
+    if (isDevEnvironment()) {
+      guestLogger.info('Dev environment detected - auto-enabling guest mode');
+      return true;
+    }
     const saved = localStorage.getItem('guestMode');
     return saved === 'true';
   });
@@ -31,6 +54,14 @@ export const GuestModeProvider = ({ children }: { children: ReactNode }) => {
     }
     return false;
   });
+
+  // Auto-enable guest mode in dev environment (handles late detection)
+  useEffect(() => {
+    if (isDevEnvironment() && !isGuestMode) {
+      guestLogger.info('Dev environment detected in effect - enabling guest mode');
+      setIsGuestMode(true);
+    }
+  }, [isGuestMode]);
 
   // Enable screenshot mode via URL param or keyboard shortcut
   useEffect(() => {
