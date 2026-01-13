@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.4';
+import { getSupabaseClient } from '../_shared/supabase-client.ts';
 import Replicate from "https://esm.sh/replicate@0.25.2";
 import { createLogger } from "../_shared/logger.ts";
 
@@ -31,9 +31,7 @@ serve(async (req) => {
 
     const replicate = new Replicate({ auth: REPLICATE_API_KEY });
     
-    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = getSupabaseClient();
 
     const { audio_url, track_id, analyze_style = true } = await req.json();
     logger.info('Transcribing lyrics', { audio_url, track_id, analyze_style });

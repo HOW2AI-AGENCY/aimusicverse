@@ -1,4 +1,4 @@
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { getSupabaseClient } from '../_shared/supabase-client.ts';
 import { getTelegramConfig, getTrackDeepLink } from '../_shared/telegram-config.ts';
 import { escapeMarkdown } from '../_shared/telegram-utils.ts';
 import { createLogger } from '../_shared/logger.ts';
@@ -556,10 +556,7 @@ Deno.serve(async (req) => {
       currentVersion, totalVersions, generationMode, audioClips
     } = payload;
 
-    const supabase = createClient(
-      Deno.env.get('SUPABASE_URL')!,
-      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
-    );
+    const supabase = getSupabaseClient();
 
     // Determine chat_id
     let finalChatId = chat_id || chatId;
