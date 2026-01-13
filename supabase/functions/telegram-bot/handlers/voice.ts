@@ -3,7 +3,7 @@
  * Transcribes voice messages and uses them for music generation
  */
 
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { getSupabaseClient } from '../core/supabase-client.ts';
 import { BOT_CONFIG } from '../config.ts';
 import { sendMessage, editMessageText } from '../telegram-api.ts';
 import { escapeMarkdown, trackMetric } from '../utils/index.ts';
@@ -11,10 +11,7 @@ import { createLogger } from '../../_shared/logger.ts';
 
 const logger = createLogger('voice-handler');
 
-const supabase = createClient(
-  BOT_CONFIG.supabaseUrl,
-  BOT_CONFIG.supabaseServiceKey
-);
+const supabase = getSupabaseClient();
 
 interface TelegramVoice {
   file_id: string;

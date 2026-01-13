@@ -1,11 +1,8 @@
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { getSupabaseClient } from '../core/supabase-client.ts';
 import { BOT_CONFIG } from '../config.ts';
 import { editMessageText } from '../telegram-api.ts';
 
-const supabase = createClient(
-  BOT_CONFIG.supabaseUrl,
-  BOT_CONFIG.supabaseServiceKey
-);
+const supabase = getSupabaseClient();
 
 // Helper to escape markdown special characters
 function escapeMarkdown(text: string): string {

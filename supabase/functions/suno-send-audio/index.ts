@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { getSupabaseClient } from '../_shared/supabase-client.ts';
 import { getTelegramConfig } from '../_shared/telegram-config.ts';
 import { buildTelegramMetadata, formatDuration } from '../_shared/telegram-metadata.ts';
 
@@ -182,9 +182,7 @@ serve(async (req) => {
     // Cache file_id for future use
     if (result.result?.audio?.file_id && trackId) {
       try {
-        const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-        const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-        const supabase = createClient(supabaseUrl, supabaseServiceKey);
+        const supabase = getSupabaseClient();
         
         await supabase
           .from('tracks')

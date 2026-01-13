@@ -2,16 +2,13 @@
  * Audio upload commands for creating covers and extending tracks via Telegram bot
  */
 
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { getSupabaseClient } from '../core/supabase-client.ts';
 import { BOT_CONFIG } from '../config.ts';
 import { sendMessage, editMessageText, deleteMessage } from '../telegram-api.ts';
 import { setPendingUpload, cancelPendingUpload, hasPendingUpload } from '../core/db-session-store.ts';
 import { escapeMarkdown } from '../utils/index.ts';
 
-const supabase = createClient(
-  BOT_CONFIG.supabaseUrl,
-  BOT_CONFIG.supabaseServiceKey
-);
+const supabase = getSupabaseClient();
 
 /**
  * /cover command - initiate cover creation from audio

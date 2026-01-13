@@ -2,7 +2,7 @@
  * Profile and balance handling for Telegram bot
  */
 
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { getSupabaseClient } from '../core/supabase-client.ts';
 import { sendPhoto, editMessageMedia, answerCallbackQuery } from '../telegram-api.ts';
 import { buildMessage, createKeyValue } from '../utils/message-formatter.ts';
 import { ButtonBuilder } from '../utils/button-builder.ts';
@@ -11,10 +11,7 @@ import { navigateTo } from '../core/navigation-state.ts';
 import { BOT_CONFIG } from '../config.ts';
 import { deleteAndSendNewMenuPhoto } from '../core/active-menu-manager.ts';
 
-const supabase = createClient(
-  BOT_CONFIG.supabaseUrl,
-  BOT_CONFIG.supabaseServiceKey
-);
+const supabase = getSupabaseClient();
 
 interface UserProfile {
   id: string;

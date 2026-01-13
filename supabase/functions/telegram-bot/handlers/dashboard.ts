@@ -3,7 +3,7 @@
  * Shows quick stats, balance, and main actions
  */
 
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { getSupabaseClient } from '../core/supabase-client.ts';
 import { sendPhoto, editMessageMedia, escapeMarkdownV2 } from '../telegram-api.ts';
 import { buildMessage, createKeyValue, createProgressBar } from '../utils/message-formatter.ts';
 import { ButtonBuilder } from '../utils/button-builder.ts';
@@ -15,10 +15,7 @@ import { trackMessage, messageManager } from '../utils/message-manager.ts';
 import { buildDynamicKeyboard } from './dynamic-menu.ts';
 import { logBotAction } from '../utils/bot-logger.ts';
 
-const supabase = createClient(
-  BOT_CONFIG.supabaseUrl,
-  BOT_CONFIG.supabaseServiceKey
-);
+const supabase = getSupabaseClient();
 
 interface DashboardData {
   firstName: string;

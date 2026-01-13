@@ -1,4 +1,4 @@
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { getSupabaseClient } from '../core/supabase-client.ts';
 import { BOT_CONFIG, MESSAGES } from '../config.ts';
 import { sendMessage } from '../telegram-api.ts';
 import { 
@@ -13,10 +13,7 @@ import { ButtonBuilder } from '../utils/button-builder.ts';
 import { trackMessage } from '../utils/message-manager.ts';
 import { escapeMarkdownV2, isSafeText } from '../utils/text-processor.ts';
 
-const supabase = createClient(
-  BOT_CONFIG.supabaseUrl,
-  BOT_CONFIG.supabaseServiceKey
-);
+const supabase = getSupabaseClient();
 
 export async function handleGenerate(chatId: number, userId: number, prompt: string) {
   if (!prompt || prompt.trim().length === 0) {
