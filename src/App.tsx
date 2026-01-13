@@ -3,7 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { TooltipProvider as InteractiveTooltipProvider } from "@/components/tooltips";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Outlet, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet, Navigate, useLocation } from "react-router-dom";
 import { TelegramProvider, DeepLinkHandler } from "@/contexts/TelegramContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { AuthProvider } from "@/contexts/AuthContext";
@@ -17,6 +17,7 @@ import { ErrorBoundaryWrapper } from "@/components/ErrorBoundaryWrapper";
 import { MainLayout } from "@/components/MainLayout";
 import { GlobalAudioProvider } from "@/components/GlobalAudioProvider";
 import { LoadingScreen } from "@/components/UnifiedSplashScreen";
+import { PageTransition } from "@/components/PageTransition";
 // InitializationGuard removed - handled by UnifiedSplashScreen
 import { ProfileSetupGuard } from "@/components/profile/ProfileSetupGuard";
 import { NavigationProvider } from "@/components/NavigationProvider";
@@ -29,6 +30,17 @@ initSentry();
 // Wrapper to use ProfileSetupGuard with Outlet
 function ProfileSetupGuardWrapper({ children }: { children: React.ReactNode }) {
   return <ProfileSetupGuard>{children}</ProfileSetupGuard>;
+}
+
+// Wrapper for page transitions with location-based key
+function RouteWithTransition({ children }: { children: React.ReactNode }) {
+  const location = useLocation();
+
+  return (
+    <PageTransition key={location.pathname} variant="fade" duration={0.2}>
+      {children}
+    </PageTransition>
+  );
 }
 // Lazy load pages
 const Index = lazyWithRetry(() => import("./pages/Index"));
@@ -116,7 +128,8 @@ const App = () => (
                       <InteractiveTooltipProvider>
                         <DeepLinkHandler />
                       <Suspense fallback={<LoadingScreen />}>
-                <Routes>
+                      <RouteWithTransition>
+                      <Routes>
                   <Route path="/auth" element={<Auth />} />
 
                   {/* Routes with BottomNavigation */}
@@ -158,7 +171,7 @@ const App = () => (
                 <Route path="/lyrics-studio" element={<LyricsStudio />} />
                 <Route path="/album/:id" element={<AlbumView />} />
                 <Route path="/reference/:id" element={<ReferenceAudioDetail />} />
-                
+
                 <Route path="/terms" element={<Terms />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/pricing" element={<Pricing />} />
@@ -217,6 +230,7 @@ const App = () => (
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
                       </Routes>
+                      </RouteWithTransition>
                       </Suspense>
                         </InteractiveTooltipProvider>
                       </NavigationProvider>

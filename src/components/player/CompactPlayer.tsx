@@ -5,7 +5,7 @@
  */
 import { memo, useCallback, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { 
+import {
   Play, Pause, Music2, SkipForward, Heart, X, ListPlus, MoreHorizontal
 } from 'lucide-react';
 import { useAudioTime } from '@/hooks/audio/useAudioTime';
@@ -19,6 +19,7 @@ import { hapticImpact } from '@/lib/haptic';
 import { AddToPlaylistDialog } from '@/components/track/AddToPlaylistDialog';
 import { UnifiedTrackMenu } from '@/components/track-actions/UnifiedTrackMenu';
 import { WaveformProgressBar } from './WaveformProgressBar';
+import { VersionBadge } from './VersionBadge';
 
 interface CompactPlayerProps {
   track: Track;
@@ -166,13 +167,16 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
             </div>
 
             {/* Track info */}
-            <div 
+            <div
               onClick={handleExpand}
               className="flex-1 min-w-0 text-left cursor-pointer"
             >
-              <p className="font-medium text-sm line-clamp-1">
-                {track.title || 'Untitled Track'}
-              </p>
+              <div className="flex items-center gap-1.5">
+                <p className="font-medium text-sm line-clamp-1">
+                  {track.title || 'Untitled Track'}
+                </p>
+                <VersionBadge trackId={track.id} size="sm" />
+              </div>
               <p className="text-xs text-muted-foreground line-clamp-1">
                 {track.style || 'Unknown Style'}
               </p>

@@ -28,6 +28,7 @@ import { usePrefetchNextAudio } from '@/hooks/audio/usePrefetchNextAudio';
 import { SynchronizedWord } from '@/components/lyrics/SynchronizedWord';
 import { QueueSheet } from './QueueSheet';
 import { VersionSwitcher } from './VersionSwitcher';
+import { VersionBadge } from './VersionBadge';
 import { UnifiedPlayerControls } from './UnifiedPlayerControls';
 import { PlayerActionsBar } from './PlayerActionsBar';
 import { KaraokeView } from './KaraokeView';
@@ -673,13 +674,16 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
             </Button>
           </motion.div>
           
-          <motion.div 
+          <motion.div
             className="text-center flex-1 px-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
           >
-            <h2 className="font-bold text-lg truncate text-gradient">{track.title || 'Без названия'}</h2>
+            <div className="flex items-center justify-center gap-1.5 mb-0.5">
+              <h2 className="font-bold text-lg truncate text-gradient">{track.title || 'Без названия'}</h2>
+              <VersionBadge trackId={track.id} size="sm" />
+            </div>
             <p className="text-sm text-muted-foreground truncate">{track.style || ''}</p>
             {/* Version Switcher */}
             <div className="flex justify-center mt-2">

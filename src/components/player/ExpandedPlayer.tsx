@@ -7,6 +7,7 @@ import { PlaybackControls } from './PlaybackControls';
 import { ProgressBar } from './ProgressBar';
 import { QueueSheet } from './QueueSheet';
 import { VersionSwitcher } from './VersionSwitcher';
+import { VersionBadge } from './VersionBadge';
 import { useTracks } from '@/hooks/useTracks';
 import { useGestures } from '@/hooks/useGestures';
 import type { Track } from '@/types/track';
@@ -344,16 +345,19 @@ export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerPro
           </div>
 
           {/* Track Info with gradient text */}
-          <motion.div 
+          <motion.div
             className="text-center mb-4"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
           >
-            <h3 className="font-semibold text-xl sm:text-2xl line-clamp-1 mb-1 bg-gradient-to-r from-foreground via-foreground to-foreground/70 bg-clip-text">
-              {track.title || 'Untitled Track'}
-            </h3>
-            <motion.p 
+            <div className="flex items-center justify-center gap-2 mb-1">
+              <h3 className="font-semibold text-xl sm:text-2xl line-clamp-1 bg-gradient-to-r from-foreground via-foreground to-foreground/70 bg-clip-text">
+                {track.title || 'Untitled Track'}
+              </h3>
+              <VersionBadge trackId={track.id} size="md" />
+            </div>
+            <motion.p
               className="text-sm sm:text-base text-muted-foreground line-clamp-1"
               animate={{
                 opacity: isPlaying ? [0.7, 1, 0.7] : 0.7

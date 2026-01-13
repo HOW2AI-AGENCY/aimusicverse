@@ -9,6 +9,7 @@ import { EditPlaylistDialog } from '@/components/playlist/EditPlaylistDialog';
 import { SharePlaylistDialog } from '@/components/playlist/SharePlaylistDialog';
 import type { Playlist } from '@/hooks/usePlaylists';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
+import { UnifiedEmptyState } from '@/components/ui/unified-empty-state';
 
 export default function Playlists() {
   // Telegram BackButton
@@ -67,19 +68,13 @@ export default function Playlists() {
             ))}
           </div>
         ) : playlists.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-16 text-center">
-            <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mb-4">
-              <Music2 className="h-8 w-8 text-muted-foreground" />
-            </div>
-            <h2 className="text-lg font-semibold mb-2">Нет плейлистов</h2>
-            <p className="text-muted-foreground mb-4">
-              Создайте свой первый плейлист
-            </p>
-            <Button onClick={() => setCreateDialogOpen(true)}>
-              <Plus className="h-4 w-4 mr-2" />
-              Создать плейлист
-            </Button>
-          </div>
+          <UnifiedEmptyState
+            type="playlists"
+            action={{
+              label: 'Создать плейлист',
+              onClick: () => setCreateDialogOpen(true),
+            }}
+          />
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {playlists.map((playlist) => (
