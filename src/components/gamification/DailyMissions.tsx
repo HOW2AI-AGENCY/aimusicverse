@@ -4,12 +4,13 @@ import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/hooks/useAuth';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { Target, Music, Share2, Heart, Zap, Check, Gift } from 'lucide-react';
+import { Target, Music, Share2, Heart, Zap, Check, Gift, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useNavigate } from 'react-router-dom';
 import { triggerHapticFeedback } from '@/lib/mobile-utils';
+import { toast } from 'sonner';
 
 interface Mission {
   id: string;
@@ -21,13 +22,15 @@ interface Mission {
   reward: { credits: number; xp: number };
   actionPath?: string;
   actionLabel?: string;
+  claimed?: boolean;
 }
 
 export function DailyMissions() {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   
-  // Get today's activity counts
+  // Get today's activity counts and claimed missions
   const { data: activity, isLoading } = useQuery({
     queryKey: ['daily-activity', user?.id],
     queryFn: async () => {
@@ -69,17 +72,63 @@ export function DailyMissions() {
         .eq('user_id', user.id)
         .eq('checkin_date', today)
         .maybeSingle();
+
+      // Get claimed missions for today (from user_activity with mission_ prefix)
+      const { data: claimedMissions } = await supabase
+        .from('user_activity')
+        .select('action_type')
+        .eq('user_id', user.id)
+        .like('action_type', 'mission_%')
+        .gte('created_at', todayStart)
+        .lte('created_at', todayEnd);
+      
+      const claimedIds = new Set(
+        (claimedMissions || []).map((m: { action_type: string }) => 
+          m.action_type.replace('mission_', '')
+        )
+      );
       
       return {
         generations: generationsCount || 0,
         shares: sharesCount || 0,
         likes: likesCount || 0,
         checkedIn: !!checkin,
+        claimedIds,
       };
     },
     enabled: !!user?.id,
     staleTime: 30000,
     refetchInterval: 60000, // Refresh every minute
+  });
+
+  // Claim mission reward mutation
+  const claimMission = useMutation({
+    mutationFn: async (mission: Mission) => {
+      if (!user?.id) throw new Error('Not authenticated');
+      
+      const { error } = await supabase.functions.invoke('reward-action', {
+        body: {
+          userId: user.id,
+          actionType: `mission_${mission.id}`,
+          customCredits: mission.reward.credits,
+          customExperience: mission.reward.xp,
+          description: `Миссия: ${mission.title}`,
+        },
+      });
+      
+      if (error) throw error;
+      return mission;
+    },
+    onSuccess: (mission) => {
+      triggerHapticFeedback('success');
+      toast.success(`+${mission.reward.credits} кредитов за миссию "${mission.title}"!`);
+      queryClient.invalidateQueries({ queryKey: ['daily-activity'] });
+      queryClient.invalidateQueries({ queryKey: ['user-credits'] });
+    },
+    onError: (error) => {
+      console.error('Failed to claim mission:', error);
+      toast.error('Не удалось получить награду');
+    },
   });
 
   const missions: Mission[] = [
@@ -93,6 +142,7 @@ export function DailyMissions() {
       reward: { credits: 10, xp: 30 },
       actionPath: '/generate',
       actionLabel: 'Создать',
+      claimed: activity?.claimedIds?.has('generate'),
     },
     {
       id: 'share',
@@ -104,6 +154,7 @@ export function DailyMissions() {
       reward: { credits: 6, xp: 20 },
       actionPath: '/library',
       actionLabel: 'Библиотека',
+      claimed: activity?.claimedIds?.has('share'),
     },
     {
       id: 'like',
@@ -115,6 +166,7 @@ export function DailyMissions() {
       reward: { credits: 5, xp: 15 },
       actionPath: '/',
       actionLabel: 'Обзор',
+      claimed: activity?.claimedIds?.has('like'),
     },
   ];
 
@@ -122,6 +174,12 @@ export function DailyMissions() {
     if (path) {
       triggerHapticFeedback('light');
       navigate(path);
+    }
+  };
+
+  const handleClaimReward = (mission: Mission) => {
+    if (mission.current >= mission.target && !mission.claimed) {
+      claimMission.mutate(mission);
     }
   };
 
@@ -139,7 +197,7 @@ export function DailyMissions() {
     );
   }
 
-  const completedCount = missions.filter(m => m.current >= m.target).length;
+  const completedCount = missions.filter(m => m.claimed).length;
   const allCompleted = completedCount === missions.length;
 
   return (
@@ -158,6 +216,8 @@ export function DailyMissions() {
       <CardContent className="p-4 pt-2 space-y-3">
         {missions.map((mission, index) => {
           const isCompleted = mission.current >= mission.target;
+          const canClaim = isCompleted && !mission.claimed;
+          const isClaiming = claimMission.isPending && claimMission.variables?.id === mission.id;
           const progress = Math.min((mission.current / mission.target) * 100, 100);
           
           return (
@@ -168,26 +228,30 @@ export function DailyMissions() {
               transition={{ delay: index * 0.1 }}
               className={cn(
                 "p-3 rounded-lg border transition-all",
-                isCompleted 
-                  ? "bg-green-500/10 border-green-500/30" 
-                  : "bg-muted/50 border-border"
+                mission.claimed
+                  ? "bg-green-500/10 border-green-500/30"
+                  : canClaim
+                    ? "bg-yellow-500/10 border-yellow-500/30"
+                    : "bg-muted/50 border-border"
               )}
             >
               <div className="flex items-start gap-3">
                 <div className={cn(
                   "w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0",
-                  isCompleted 
+                  mission.claimed 
                     ? "bg-green-500 text-white" 
-                    : "bg-primary/10 text-primary"
+                    : canClaim
+                      ? "bg-yellow-500 text-white"
+                      : "bg-primary/10 text-primary"
                 )}>
-                  {isCompleted ? <Check className="w-4 h-4" /> : mission.icon}
+                  {mission.claimed ? <Check className="w-4 h-4" /> : mission.icon}
                 </div>
                 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-2 mb-1">
                     <span className={cn(
                       "font-medium text-sm",
-                      isCompleted && "line-through text-muted-foreground"
+                      mission.claimed && "line-through text-muted-foreground"
                     )}>
                       {mission.title}
                     </span>
@@ -211,7 +275,24 @@ export function DailyMissions() {
                   </div>
                 </div>
                 
-                {!isCompleted && mission.actionPath && (
+                {canClaim ? (
+                  <Button
+                    size="sm"
+                    variant="default"
+                    className="h-8 px-3 text-xs flex-shrink-0 bg-yellow-500 hover:bg-yellow-600"
+                    onClick={() => handleClaimReward(mission)}
+                    disabled={isClaiming}
+                  >
+                    {isClaiming ? (
+                      <Loader2 className="w-3 h-3 animate-spin" />
+                    ) : (
+                      <>
+                        <Gift className="w-3 h-3 mr-1" />
+                        Забрать
+                      </>
+                    )}
+                  </Button>
+                ) : !isCompleted && mission.actionPath ? (
                   <Button
                     size="sm"
                     variant="ghost"
@@ -221,7 +302,7 @@ export function DailyMissions() {
                     <Zap className="w-3 h-3 mr-1" />
                     {mission.actionLabel}
                   </Button>
-                )}
+                ) : null}
               </div>
             </motion.div>
           );

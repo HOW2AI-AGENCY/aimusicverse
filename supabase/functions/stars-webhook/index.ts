@@ -296,6 +296,30 @@ async function handleSuccessfulPayment(
       duration,
     });
 
+    // Call reward-action for XP, achievements (first_purchase, subscriber)
+    try {
+      const actionType = result.type === 'credits' ? 'credits_purchase' : 'subscription_purchase';
+      await supabase.functions.invoke('reward-action', {
+        body: {
+          userId: payload.userId,
+          actionType,
+          customCredits: 0, // Credits already granted via process_stars_payment
+          customExperience: result.type === 'credits' ? 25 : 50,
+          description: result.type === 'credits' 
+            ? `Покупка ${result.credits_granted} кредитов` 
+            : `Подписка ${result.subscription_tier}`,
+          metadata: {
+            transactionId: payload.transactionId,
+            productCode: payload.productCode,
+          },
+        },
+      });
+      logger.info('Reward-action called for purchase', { actionType, userId: payload.userId });
+    } catch (rewardError) {
+      logger.error('Failed to call reward-action', { error: rewardError });
+      // Don't fail the payment if reward fails
+    }
+
     // Send confirmation message to user
     const confirmationMessage = result.type === 'credits'
       ? `✅ Payment successful! ${result.credits_granted} credits have been added to your account.`
