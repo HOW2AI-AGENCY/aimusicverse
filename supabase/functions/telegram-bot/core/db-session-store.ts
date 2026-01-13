@@ -3,7 +3,7 @@
  * Replaces in-memory storage for persistence across cold starts
  */
 
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { getSupabaseClient } from './supabase-client.ts';
 import { createLogger } from '../../_shared/logger.ts';
 
 const logger = createLogger('db-session-store');
@@ -31,12 +31,6 @@ export interface UserSession {
 // Session expiry time (15 minutes)
 const SESSION_EXPIRY_MS = 15 * 60 * 1000;
 
-function getSupabase() {
-  const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-  const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-  return createClient(supabaseUrl, supabaseServiceKey);
-}
-
 /**
  * Set pending audio upload for user (database-backed)
  */
@@ -45,7 +39,7 @@ export async function setPendingUpload(
   mode: AudioUploadMode,
   options: Partial<Omit<PendingUpload, 'mode' | 'createdAt'>> = {}
 ): Promise<void> {
-  const supabase = getSupabase();
+  const supabase = getSupabaseClient();
   
   try {
     // Clear any existing sessions first
@@ -86,7 +80,7 @@ export async function setPendingUpload(
  * Get pending upload without consuming it
  */
 export async function getPendingUpload(telegramUserId: number): Promise<PendingUpload | null> {
-  const supabase = getSupabase();
+  const supabase = getSupabaseClient();
   
   try {
     const { data, error } = await supabase
@@ -123,7 +117,7 @@ export async function getPendingUpload(telegramUserId: number): Promise<PendingU
  * Get and clear pending upload (consume it)
  */
 export async function consumePendingUpload(telegramUserId: number): Promise<PendingUpload | null> {
-  const supabase = getSupabase();
+  const supabase = getSupabaseClient();
   
   try {
     // Get the session first
@@ -162,7 +156,7 @@ export async function setPendingAudio(
     hasVocals?: boolean;
   }
 ): Promise<void> {
-  const supabase = getSupabase();
+  const supabase = getSupabaseClient();
   
   try {
     // Clear any existing pending_audio sessions
@@ -207,7 +201,7 @@ export async function setPendingAudio(
 export async function consumePendingAudio(
   telegramUserId: number
 ): Promise<{ fileId: string; fileType: string; analysisResult?: { style?: string; genre?: string; mood?: string; lyrics?: string; hasVocals?: boolean } } | null> {
-  const supabase = getSupabase();
+  const supabase = getSupabaseClient();
   
   try {
     const { data, error } = await supabase
@@ -247,7 +241,7 @@ export async function consumePendingAudio(
 export async function getPendingAudioWithoutConsuming(
   telegramUserId: number
 ): Promise<{ fileId: string; fileType: string; analysisResult?: { style?: string; genre?: string; mood?: string; lyrics?: string; hasVocals?: boolean } } | null> {
-  const supabase = getSupabase();
+  const supabase = getSupabaseClient();
   
   try {
     const { data, error } = await supabase
@@ -282,7 +276,7 @@ export async function updatePendingAudioAnalysis(
   telegramUserId: number,
   analysisUpdate: { lyrics?: string; hasVocals?: boolean; genre?: string; mood?: string }
 ): Promise<void> {
-  const supabase = getSupabase();
+  const supabase = getSupabaseClient();
   
   try {
     const { data, error: fetchError } = await supabase
@@ -331,7 +325,7 @@ export async function updatePendingUpload(
   telegramUserId: number,
   updates: Partial<Omit<PendingUpload, 'mode' | 'createdAt'>>
 ): Promise<void> {
-  const supabase = getSupabase();
+  const supabase = getSupabaseClient();
   
   try {
     const { data, error: fetchError } = await supabase
@@ -361,7 +355,7 @@ export async function updatePendingUpload(
  * Cancel pending upload
  */
 export async function cancelPendingUpload(telegramUserId: number): Promise<boolean> {
-  const supabase = getSupabase();
+  const supabase = getSupabaseClient();
   
   try {
     const { data } = await supabase
@@ -385,7 +379,7 @@ export async function setConversationContext(
   telegramUserId: number,
   context: UserSession['conversationContext']
 ): Promise<void> {
-  const supabase = getSupabase();
+  const supabase = getSupabaseClient();
   
   try {
     await supabase
@@ -407,7 +401,7 @@ export async function setWizardState(
   wizardType: string,
   state: Record<string, unknown>
 ): Promise<void> {
-  const supabase = getSupabase();
+  const supabase = getSupabaseClient();
   
   try {
     // Clear existing wizard state
@@ -442,7 +436,7 @@ export async function setWizardState(
 export async function getWizardState(
   telegramUserId: number
 ): Promise<{ type: string; state: Record<string, unknown> } | null> {
-  const supabase = getSupabase();
+  const supabase = getSupabaseClient();
   
   try {
     const { data, error } = await supabase
@@ -469,7 +463,7 @@ export async function getWizardState(
  * Clear wizard state
  */
 export async function clearWizardState(telegramUserId: number): Promise<void> {
-  const supabase = getSupabase();
+  const supabase = getSupabaseClient();
   
   try {
     await supabase
@@ -486,7 +480,7 @@ export async function clearWizardState(telegramUserId: number): Promise<void> {
  * Cleanup expired sessions (called periodically)
  */
 export async function cleanupSessions(): Promise<void> {
-  const supabase = getSupabase();
+  const supabase = getSupabaseClient();
   
   try {
     await supabase.rpc('cleanup_expired_bot_sessions');

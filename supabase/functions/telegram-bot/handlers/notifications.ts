@@ -4,19 +4,17 @@
  */
 
 import { sendMessage, sendPhoto } from '../telegram-api.ts';
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { getSupabaseClient } from '../core/supabase-client.ts';
 import { escapeMarkdownV2, truncateText } from '../utils/text-processor.ts';
-import { getProjectDeepLink, getTrackDeepLink } from '../../_shared/telegram-config.ts';
+import { getProjectDeepLink, getTrackDeepLink, getTelegramConfig } from '../../_shared/telegram-config.ts';
 import { createLogger } from '../../_shared/logger.ts';
 
 const logger = createLogger('notifications');
 
-const supabase = createClient(
-  Deno.env.get('SUPABASE_URL')!,
-  Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
-);
+const supabase = getSupabaseClient();
 
-const MINI_APP_URL = Deno.env.get('MINI_APP_URL') || 'https://t.me/AIMusicVerseBot/app';
+const telegramConfig = getTelegramConfig();
+const MINI_APP_URL = telegramConfig.miniAppUrl;
 const CHANNEL_URL = 'https://t.me/AIMusiicVerse';
 const CHANNEL_USERNAME = 'AIMusiicVerse';
 

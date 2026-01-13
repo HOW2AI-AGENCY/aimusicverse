@@ -1,15 +1,7 @@
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { getSupabaseClient } from '../supabase-client.ts';
 import { Track, Project, GenerationTask } from '../types/bot.ts';
 
-const BOT_CONFIG = {
-  supabaseUrl: Deno.env.get('SUPABASE_URL')!,
-  supabaseServiceKey: Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,
-};
-
-const supabase = createClient(
-  BOT_CONFIG.supabaseUrl,
-  BOT_CONFIG.supabaseServiceKey
-);
+const supabase = getSupabaseClient();
 
 export class MusicService {
   async getUserByTelegramId(telegramId: number) {

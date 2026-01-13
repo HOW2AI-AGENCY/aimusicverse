@@ -5,7 +5,7 @@ import { sendMessage } from './telegram-api.ts';
 import { handleInlineQuery } from './commands/inline-enhanced.ts';
 import { handleChosenInlineResult } from './handlers/inline-chosen.ts';
 import { flushMetrics, checkAlerts } from './utils/metrics.ts';
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { getSupabaseClient } from './core/supabase-client.ts';
 import { createLogger } from '../_shared/logger.ts';
 import { corsHeaders } from '../_shared/cors.ts';
 
@@ -97,10 +97,7 @@ Deno.serve(async (req) => {
 
     // Metrics endpoint
     if (url.pathname === '/metrics') {
-      const supabase = createClient(
-        Deno.env.get('SUPABASE_URL')!,
-        Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
-      );
+      const supabase = getSupabaseClient();
       
       const { data, error } = await supabase.rpc('get_telegram_bot_metrics', { 
         _time_period: url.searchParams.get('period') || '24 hours' 
