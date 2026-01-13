@@ -78,22 +78,27 @@ serve(async (req) => {
       metrics 
     });
 
+    // Always return 200 - the health status is in the response body
+    // Returning 503 causes Supabase client to throw an error before parsing the body
     return new Response(JSON.stringify(response, null, 2), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      status: overall_status === 'unhealthy' ? 503 : 200,
+      status: 200,
     });
 
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     logger.error('Health check failed', { error: errorMessage });
     
+    // Return 200 even for errors - status is in body, 503 breaks Supabase client
     return new Response(JSON.stringify({
       overall_status: 'unhealthy',
       timestamp: new Date().toISOString(),
       error: errorMessage,
+      checks: {},
+      metrics: { active_generations: 0, stuck_tasks: 0, failed_tracks_24h: 0, bot_success_rate: 0 },
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      status: 503,
+      status: 200,
     });
   }
 });
