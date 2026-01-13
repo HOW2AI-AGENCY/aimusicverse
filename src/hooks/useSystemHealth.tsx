@@ -60,16 +60,27 @@ export function useSystemHealth() {
     queryFn: async (): Promise<SystemHealth> => {
       const { data, error } = await supabase.functions.invoke<SystemHealthResponse>('health-check');
 
-      if (error) {
-        throw new Error(error.message);
+      // Try to parse error response - it may contain valid health data
+      let healthData = data;
+      if (error && !data) {
+        // Try to extract data from error context if available
+        try {
+          const errorContext = (error as { context?: { body?: string } }).context;
+          if (errorContext?.body) {
+            healthData = JSON.parse(errorContext.body) as SystemHealthResponse;
+          }
+        } catch {
+          // If we can't parse, throw the original error
+          throw new Error(error.message || 'Health check failed');
+        }
       }
 
-      if (!data) {
+      if (!healthData) {
         throw new Error('No health data received');
       }
 
       // Transform API response to UI format
-      const checks = Object.entries(data.checks).map(([key, check]) => ({
+      const checks = Object.entries(healthData.checks || {}).map(([key, check]) => ({
         name: check.name,
         status: mapStatus(check.status),
         message: check.message || 'OK',
@@ -77,18 +88,19 @@ export function useSystemHealth() {
       }));
 
       return {
-        overall: mapStatus(data.overall_status),
+        overall: mapStatus(healthData.overall_status),
         checks,
         metrics: {
-          activeGenerations: data.metrics.active_generations,
-          stuckTasks: data.metrics.stuck_tasks,
-          failedTracks24h: data.metrics.failed_tracks_24h,
-          botSuccessRate: data.metrics.bot_success_rate,
+          activeGenerations: healthData.metrics?.active_generations ?? 0,
+          stuckTasks: healthData.metrics?.stuck_tasks ?? 0,
+          failedTracks24h: healthData.metrics?.failed_tracks_24h ?? 0,
+          botSuccessRate: healthData.metrics?.bot_success_rate ?? 0,
         },
-        lastChecked: new Date(data.timestamp),
+        lastChecked: new Date(healthData.timestamp),
       };
     },
     refetchInterval: 60000,
     staleTime: 30000,
+    retry: 2,
   });
 }
