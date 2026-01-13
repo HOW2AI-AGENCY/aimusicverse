@@ -1,7 +1,7 @@
 import { sendMessage, editMessageText, answerCallbackQuery } from '../telegram-api.ts';
 import { BOT_CONFIG } from '../config.ts';
 import { logger } from '../utils/index.ts';
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { getSupabaseClient } from '../core/supabase-client.ts';
 
 // MIDI conversion sessions
 const MIDI_SESSIONS: Record<string, { 
@@ -35,10 +35,7 @@ export async function handleMidiCommand(
   args?: string
 ): Promise<void> {
   try {
-    const supabase = createClient(
-      Deno.env.get('SUPABASE_URL')!,
-      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
-    );
+    const supabase = getSupabaseClient();
 
     // Get user from profile
     const { data: profile } = await supabase
@@ -132,10 +129,7 @@ export async function handlePianoCommand(
   args?: string
 ): Promise<void> {
   try {
-    const supabase = createClient(
-      Deno.env.get('SUPABASE_URL')!,
-      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
-    );
+    const supabase = getSupabaseClient();
 
     const { data: profile } = await supabase
       .from('profiles')
@@ -245,10 +239,7 @@ export async function handleMidiTrackCallback(
 ): Promise<void> {
   await answerCallbackQuery(callbackId);
   
-  const supabase = createClient(
-    Deno.env.get('SUPABASE_URL')!,
-    Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
-  );
+  const supabase = getSupabaseClient();
 
   const { data: track } = await supabase
     .from('tracks')
@@ -290,10 +281,7 @@ async function startMidiConversion(
   messageId?: number
 ): Promise<void> {
   try {
-    const supabase = createClient(
-      Deno.env.get('SUPABASE_URL')!,
-      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
-    );
+    const supabase = getSupabaseClient();
 
     // Get track
     const { data: track, error: trackError } = await supabase

@@ -3,7 +3,7 @@
  * Displays full track information with playback, share, and action options
  */
 
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { getSupabaseClient } from '../core/supabase-client.ts';
 import { sendPhoto, sendAudio, editMessageMedia, answerCallbackQuery, deleteMessage } from '../telegram-api.ts';
 import { buildMessage, createKeyValue } from '../utils/message-formatter.ts';
 import { ButtonBuilder } from '../utils/button-builder.ts';
@@ -17,10 +17,7 @@ import {
   type TrackMetadataInput 
 } from '../../_shared/telegram-metadata.ts';
 
-const supabase = createClient(
-  BOT_CONFIG.supabaseUrl,
-  BOT_CONFIG.supabaseServiceKey
-);
+const supabase = getSupabaseClient();
 
 interface Track {
   id: string;

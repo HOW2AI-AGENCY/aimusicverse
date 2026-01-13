@@ -3,16 +3,13 @@
  * Enhanced with progress bars and better formatting
  */
 
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { getSupabaseClient } from '../core/supabase-client.ts';
 import { BOT_CONFIG, MESSAGES } from '../config.ts';
 import { createProjectKeyboard, createProjectListKeyboard, createMainMenuKeyboardAsync } from '../keyboards/main-menu.ts';
 import { sendMessage, editMessageText, sendPhoto } from '../telegram-api.ts';
 import { escapeMarkdown, formatDuration } from '../../_shared/telegram-utils.ts';
 
-const supabase = createClient(
-  BOT_CONFIG.supabaseUrl,
-  BOT_CONFIG.supabaseServiceKey
-);
+const supabase = getSupabaseClient();
 
 // Progress bar generator
 function getProgressBar(percent: number, length: number = 5): string {

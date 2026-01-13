@@ -3,15 +3,12 @@
  * Enhanced with projects, tracks, and smart search
  */
 
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { getSupabaseClient } from '../core/supabase-client.ts';
 import { BOT_CONFIG } from '../config.ts';
 import { logger, escapeMarkdown } from '../utils/index.ts';
 import { getProjectDeepLink, getTrackDeepLink } from '../../_shared/telegram-config.ts';
 
-const supabase = createClient(
-  BOT_CONFIG.supabaseUrl,
-  BOT_CONFIG.supabaseServiceKey
-);
+const supabase = getSupabaseClient();
 
 interface InlineQuery {
   id: string;

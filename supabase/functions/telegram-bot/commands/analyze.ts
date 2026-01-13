@@ -3,7 +3,7 @@
  * Transcription, chord recognition, beat tracking, MIDI/PDF export
  */
 
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { getSupabaseClient } from '../core/supabase-client.ts';
 import { BOT_CONFIG } from '../config.ts';
 import { sendMessage, editMessageText, answerCallbackQuery, escapeMarkdownV2 } from '../telegram-api.ts';
 import { trackMetric, formatDuration } from '../utils/index.ts';
@@ -11,10 +11,7 @@ import { createLogger } from '../../_shared/logger.ts';
 
 const logger = createLogger('telegram-analyze-cmd');
 
-const supabase = createClient(
-  BOT_CONFIG.supabaseUrl,
-  BOT_CONFIG.supabaseServiceKey
-);
+const supabase = getSupabaseClient();
 
 interface AnalysisSession {
   referenceId: string;

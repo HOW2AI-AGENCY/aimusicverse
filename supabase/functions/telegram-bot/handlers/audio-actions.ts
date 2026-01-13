@@ -9,7 +9,7 @@
  * - MIDI export
  */
 
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { getSupabaseClient } from '../core/supabase-client.ts';
 import { BOT_CONFIG } from '../config.ts';
 import { sendMessage, answerCallbackQuery, editMessageText, deleteMessage } from '../telegram-api.ts';
 import { escapeMarkdown } from '../utils/index.ts';
@@ -19,10 +19,7 @@ import { createLogger } from '../../_shared/logger.ts';
 
 const logger = createLogger('audio-actions');
 
-const supabase = createClient(
-  BOT_CONFIG.supabaseUrl,
-  BOT_CONFIG.supabaseServiceKey
-);
+const supabase = getSupabaseClient();
 
 const TELEGRAM_API = `https://api.telegram.org/bot${Deno.env.get('TELEGRAM_BOT_TOKEN')}`;
 

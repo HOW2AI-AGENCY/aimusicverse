@@ -3,7 +3,7 @@
  * 4-step guided introduction to MusicVerse
  */
 
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { getSupabaseClient } from '../core/supabase-client.ts';
 import { sendPhoto, editMessageMedia, answerCallbackQuery } from '../telegram-api.ts';
 import { buildMessage, createProgressBar } from '../utils/message-formatter.ts';
 import { ButtonBuilder } from '../utils/button-builder.ts';
@@ -11,10 +11,7 @@ import { getMenuImage } from '../keyboards/menu-images.ts';
 import { BOT_CONFIG, CHANNEL_URL, CHANNEL_USERNAME } from '../config.ts';
 import { trackMessage } from '../utils/message-manager.ts';
 
-const supabase = createClient(
-  BOT_CONFIG.supabaseUrl,
-  BOT_CONFIG.supabaseServiceKey
-);
+const supabase = getSupabaseClient();
 
 interface OnboardingStep {
   step: number;

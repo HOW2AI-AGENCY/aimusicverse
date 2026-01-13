@@ -3,7 +3,7 @@
  * Handles all deep link types with rich previews and analytics
  */
 
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { getSupabaseClient } from '../core/supabase-client.ts';
 import { sendMessage, sendPhoto, sendAudio } from '../telegram-api.ts';
 import { ButtonBuilder } from '../utils/button-builder.ts';
 import { buildMessage, createProgressBar } from '../utils/message-formatter.ts';
@@ -12,10 +12,7 @@ import { trackMessage } from '../utils/message-manager.ts';
 import { getMenuImage } from '../keyboards/menu-images.ts';
 import { logger } from '../utils/index.ts';
 
-const supabase = createClient(
-  BOT_CONFIG.supabaseUrl,
-  BOT_CONFIG.supabaseServiceKey
-);
+const supabase = getSupabaseClient();
 
 // Deep link type definitions
 export type DeepLinkType = 

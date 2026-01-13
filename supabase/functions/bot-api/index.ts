@@ -7,7 +7,7 @@
  * - Managing bot state
  */
 
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { getSupabaseClient } from '../_shared/supabase-client.ts';
 import { createLogger } from '../_shared/logger.ts';
 
 const logger = createLogger('bot-api');
@@ -47,10 +47,7 @@ Deno.serve(async (req) => {
     const url = new URL(req.url);
     const path = url.pathname.replace('/bot-api', '');
     
-    const supabase = createClient(
-      Deno.env.get('SUPABASE_URL')!,
-      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
-    );
+    const supabase = getSupabaseClient();
 
     // Verify admin access
     const authHeader = req.headers.get('Authorization');
@@ -261,10 +258,7 @@ async function sendNotifications(
   const BOT_TOKEN = Deno.env.get('TELEGRAM_BOT_TOKEN');
   if (!BOT_TOKEN) throw new Error('TELEGRAM_BOT_TOKEN not configured');
 
-  const supabase = createClient(
-    Deno.env.get('SUPABASE_URL')!,
-    Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
-  );
+  const supabase = getSupabaseClient();
 
   // Get chat IDs for users
   const { data: profiles } = await supabase
