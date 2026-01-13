@@ -133,8 +133,10 @@ serve(async (req) => {
       formData.append('audio', audioBlob, filename);
       formData.append('title', metadata.title);
       formData.append('performer', metadata.performer);
-      formData.append('caption', caption);
-      formData.append('parse_mode', 'Markdown');
+      // Escape caption for MarkdownV2
+      const { escapeMarkdown } = await import('../_shared/telegram-utils.ts');
+      formData.append('caption', escapeMarkdown(caption));
+      formData.append('parse_mode', 'MarkdownV2');
       
       if (duration) {
         formData.append('duration', Math.round(duration).toString());
@@ -154,11 +156,13 @@ serve(async (req) => {
     } else {
       // Fallback: send URL directly (titles may not display correctly)
       console.log('📦 Sending via JSON (URL fallback)...');
+      // Escape caption for MarkdownV2
+      const { escapeMarkdown } = await import('../_shared/telegram-utils.ts');
       const audioMessage = {
         chat_id: chatId,
         audio: audioUrl,
-        caption,
-        parse_mode: 'Markdown',
+        caption: escapeMarkdown(caption),
+        parse_mode: 'MarkdownV2',
         title: metadata.title,
         performer: metadata.performer,
         duration: duration ? Math.round(duration) : undefined,

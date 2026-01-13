@@ -265,9 +265,24 @@ export const usePlayerStore = create<PlayerState>()(
   
   /**
    * Play track action - delegates to playerLogic and auto-opens player UI
+   * Validates track has audio URL before playing
    * Automatically opens compact player if currently minimized
    */
   playTrack: (track) => {
+    // Validate track has audio source before attempting playback
+    if (track && !track.audio_url && !track.streaming_url && !track.local_audio_url) {
+      console.warn('[PlayerStore] Attempted to play track without audio URL:', track.id, track.title);
+      // Import toast dynamically to avoid circular deps
+      import('sonner').then(({ toast }) => {
+        toast.error('Трек не готов к воспроизведению', {
+          description: track.status === 'processing' 
+            ? 'Трек еще генерируется, подождите...'
+            : 'Аудио файл недоступен'
+        });
+      });
+      return;
+    }
+    
     playerLogic.playTrack(set, get, track);
     
     // Auto-open compact player when starting playback

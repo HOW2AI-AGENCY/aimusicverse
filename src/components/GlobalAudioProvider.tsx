@@ -95,8 +95,22 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
   // Use playback position persistence
   usePlaybackPosition();
 
-  // Initialize audio element once
+  // Initialize audio element once and clean up invalid tracks from localStorage
   useEffect(() => {
+    // Clean up invalid tracks from persisted state on startup
+    const storedActiveTrack = usePlayerStore.getState().activeTrack;
+    if (storedActiveTrack && 
+        !storedActiveTrack.audio_url && 
+        !storedActiveTrack.streaming_url && 
+        !storedActiveTrack.local_audio_url) {
+      logger.info('Clearing invalid track from localStorage on startup', {
+        trackId: storedActiveTrack.id,
+        title: storedActiveTrack.title,
+        status: storedActiveTrack.status,
+      });
+      usePlayerStore.getState().closePlayer();
+    }
+    
     if (!audioRef.current) {
       audioRef.current = new Audio();
       audioRef.current.preload = 'auto';

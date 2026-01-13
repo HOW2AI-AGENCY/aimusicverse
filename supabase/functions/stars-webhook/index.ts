@@ -301,13 +301,17 @@ async function handleSuccessfulPayment(
       ? `✅ Payment successful! ${result.credits_granted} credits have been added to your account.`
       : `✅ Subscription activated! You now have ${result.subscription_tier} access.`;
 
+    // Use MarkdownV2 and escape special characters
+    const { escapeMarkdown } = await import('../_shared/telegram-utils.ts');
+    const escapedMessage = escapeMarkdown(confirmationMessage);
+    
     await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         chat_id: telegramUserId,
-        text: confirmationMessage,
-        parse_mode: 'Markdown',
+        text: escapedMessage,
+        parse_mode: 'MarkdownV2',
       }),
     });
 
