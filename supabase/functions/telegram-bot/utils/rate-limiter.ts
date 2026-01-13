@@ -3,7 +3,7 @@
  * Persists rate limits across Edge Function restarts
  */
 
-import { getSupabaseClient } from '../../_shared/supabase-client.ts';
+import { getSupabaseClient } from '../core/supabase-client.ts';
 
 interface RateLimitResult {
   isLimited: boolean;

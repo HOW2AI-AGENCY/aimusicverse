@@ -3,7 +3,7 @@
  * Provides an intuitive interface for creating music projects via Telegram bot
  */
 
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { getSupabaseClient } from '../core/supabase-client.ts';
 import { BOT_CONFIG } from '../config.ts';
 import { sendMessage, editMessageText, answerCallbackQuery } from '../telegram-api.ts';
 import { escapeMarkdownV2 } from '../utils/text-processor.ts';
@@ -11,12 +11,9 @@ import { createLogger } from '../../_shared/logger.ts';
 
 const logger = createLogger('project-wizard');
 
-const supabase = createClient(
-  BOT_CONFIG.supabaseUrl,
-  BOT_CONFIG.supabaseServiceKey
-);
+const supabase = getSupabaseClient();
 
-const MINI_APP_URL = Deno.env.get('MINI_APP_URL') || 'https://t.me/PhuketMusicBot/app';
+const MINI_APP_URL = BOT_CONFIG.miniAppUrl;
 
 // Wizard state storage (in-memory, should be moved to Redis/DB for production)
 const wizardStates = new Map<number, ProjectWizardState>();

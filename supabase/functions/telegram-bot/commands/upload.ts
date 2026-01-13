@@ -2,7 +2,7 @@
  * /upload command - Upload audio to cloud storage for later use
  */
 
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { getSupabaseClient } from '../core/supabase-client.ts';
 import { BOT_CONFIG } from '../config.ts';
 import { sendMessage, editMessageText, answerCallbackQuery, deleteMessage } from '../telegram-api.ts';
 import { setPendingUpload, cancelPendingUpload } from '../core/session-store.ts';
@@ -11,10 +11,7 @@ import { createLogger } from '../../_shared/logger.ts';
 
 const logger = createLogger('telegram-upload-cmd');
 
-const supabase = createClient(
-  BOT_CONFIG.supabaseUrl,
-  BOT_CONFIG.supabaseServiceKey
-);
+const supabase = getSupabaseClient();
 
 /**
  * /upload command - initiate audio upload to cloud

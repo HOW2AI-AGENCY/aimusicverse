@@ -1,6 +1,7 @@
 import { musicService } from '../core/services/music.ts';
 import { createTrackDetailsKeyboard, createShareMenu, createTrackKeyboard } from '../keyboards/main-menu.ts';
 import { sendAudio, sendMessage, editMessageCaption, answerCallbackQuery } from '../telegram-api.ts';
+import { BOT_CONFIG } from '../config.ts';
 
 export async function handlePlayTrack(
   chatId: number,
@@ -116,8 +117,7 @@ export async function handleCopyLink(
   messageId: number,
   queryId: string
 ) {
-  const MINI_APP_URL = Deno.env.get('MINI_APP_URL') || 'https://t.me/your_bot/app';
-  const link = `${MINI_APP_URL}?startapp=track_${trackId}`;
+  const link = `${BOT_CONFIG.miniAppUrl}?startapp=track_${trackId}`;
 
   await answerCallbackQuery(queryId, '✅ Ссылка готова!');
 
