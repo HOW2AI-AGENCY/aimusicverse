@@ -1,7 +1,7 @@
 // Edge Function: moderate-content - Sprint 011 Task T020
 // Server-side content validation for comments and user-generated content
 
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { getSupabaseClient } from '../_shared/supabase-client.ts';
 import { corsHeaders } from '../_shared/cors.ts';
 
 interface ModerationRequest {
@@ -87,21 +87,23 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const supabaseClient = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_ANON_KEY') ?? '',
-      {
-        global: {
-          headers: { Authorization: req.headers.get('Authorization')! },
-        },
-      }
-    );
+    const supabaseClient = getSupabaseClient();
 
-    // Get user from JWT
-    const {
-      data: { user },
-      error: authError,
-    } = await supabaseClient.auth.getUser();
+    // Get user from JWT token in Authorization header
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader) {
+      return new Response(
+        JSON.stringify({ error: 'No authorization header' }),
+        {
+          status: 401,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      );
+    }
+
+    const { data: { user }, error: authError } = await supabaseClient.auth.getUser(
+      authHeader.replace('Bearer ', '')
+    );
 
     if (authError || !user) {
       return new Response(
