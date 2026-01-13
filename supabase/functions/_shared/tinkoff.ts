@@ -3,6 +3,12 @@
  * Documentation: https://www.tinkoff.ru/kassa/develop/api/payments/
  */
 
+// CORS headers
+export const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+};
+
 // Tinkoff API endpoints
 export const TINKOFF_API_URL = 'https://securepay.tinkoff.ru/v2';
 
@@ -157,8 +163,8 @@ export async function verifyTinkoffToken(
   const receivedToken = notification.Token;
   
   // Remove Token from params for verification
-  const paramsWithoutToken = { ...notification };
-  delete (paramsWithoutToken as Record<string, unknown>).Token;
+  const paramsWithoutToken = { ...notification } as Record<string, unknown>;
+  delete paramsWithoutToken.Token;
   
   const calculatedToken = await generateTinkoffToken(paramsWithoutToken, password);
   
@@ -187,7 +193,7 @@ export async function initTinkoffPayment(
 }
 
 /**
- * Charge recurrent payment (автосписание)
+ * Charge recurrent payment (автосписание) - low-level
  */
 export async function chargeTinkoffRecurrent(
   request: TinkoffChargeRequest
@@ -205,6 +211,62 @@ export async function chargeTinkoffRecurrent(
   }
   
   return response.json();
+}
+
+/**
+ * High-level wrapper for tinkoffCharge with auto-init and token
+ */
+export async function tinkoffCharge(params: {
+  RebillId: string;
+  Amount: number;
+  OrderId: string;
+  Description?: string;
+}): Promise<TinkoffChargeResponse> {
+  const terminalKey = Deno.env.get('TINKOFF_TERMINAL_KEY');
+  const password = Deno.env.get('TINKOFF_SECRET_KEY');
+  
+  if (!terminalKey || !password) {
+    throw new Error('Tinkoff credentials not configured');
+  }
+
+  // First, init a payment to get PaymentId
+  const initRequest: TinkoffInitRequest = {
+    TerminalKey: terminalKey,
+    Amount: params.Amount,
+    OrderId: params.OrderId,
+    Description: params.Description,
+    PayType: 'O',
+  };
+  
+  const initToken = await generateTinkoffToken(initRequest as unknown as Record<string, unknown>, password);
+  initRequest.Token = initToken;
+  
+  const initResponse = await initTinkoffPayment(initRequest);
+  
+  if (!initResponse.Success || !initResponse.PaymentId) {
+    return {
+      Success: false,
+      ErrorCode: initResponse.ErrorCode,
+      Message: initResponse.Message,
+      TerminalKey: terminalKey,
+      Amount: params.Amount,
+      OrderId: params.OrderId,
+      PaymentId: '',
+      Status: 'REJECTED',
+    };
+  }
+
+  // Now charge using RebillId
+  const chargeRequest: TinkoffChargeRequest = {
+    TerminalKey: terminalKey,
+    PaymentId: initResponse.PaymentId,
+    RebillId: params.RebillId,
+  };
+  
+  const chargeToken = await generateTinkoffToken(chargeRequest as unknown as Record<string, unknown>, password);
+  chargeRequest.Token = chargeToken;
+  
+  return chargeTinkoffRecurrent(chargeRequest);
 }
 
 /**
