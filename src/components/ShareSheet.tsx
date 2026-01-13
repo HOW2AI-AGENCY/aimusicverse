@@ -277,7 +277,7 @@ export function ShareSheet({ open, onOpenChange, item, itemType = 'track' }: Sha
 
         {/* QR Code Modal for Mobile */}
         {showQR && qrCode && (
-          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[80] flex items-center justify-center p-4" onClick={() => setShowQR(false)}>
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-dialog flex items-center justify-center p-4" onClick={() => setShowQR(false)}>
             <div 
               className="bg-card rounded-2xl p-6 max-w-sm w-full space-y-4"
               onClick={(e) => e.stopPropagation()}

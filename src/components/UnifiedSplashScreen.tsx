@@ -112,9 +112,9 @@ export function UnifiedSplashScreen({
 
   // Container styles based on variant
   const containerClasses: Record<SplashVariant, string> = {
-    splash: 'fixed inset-0 flex items-center justify-center bg-background z-[100]',
-    loading: 'fixed inset-0 flex items-center justify-center bg-background z-50',
-    overlay: 'fixed inset-0 flex items-center justify-center bg-background/90 backdrop-blur-xl z-50',
+    splash: 'fixed inset-0 flex items-center justify-center bg-background z-system',
+    loading: 'fixed inset-0 flex items-center justify-center bg-background z-fullscreen',
+    overlay: 'fixed inset-0 flex items-center justify-center bg-background/90 backdrop-blur-xl z-fullscreen',
     inline: 'flex items-center justify-center py-16',
     minimal: 'flex items-center justify-center p-4',
   };

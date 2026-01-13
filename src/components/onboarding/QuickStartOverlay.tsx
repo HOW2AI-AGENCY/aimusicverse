@@ -98,7 +98,7 @@ export function QuickStartOverlay({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] bg-background"
+      className="fixed inset-0 z-system bg-background"
       style={{ paddingTop: TELEGRAM_SAFE_AREA.minimalTop }}
     >
       {/* Skip button - increased touch target to 44px */}
