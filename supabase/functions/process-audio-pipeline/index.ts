@@ -9,7 +9,7 @@
  */
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.4';
+import { getSupabaseClient } from '../_shared/supabase-client.ts';
 import Replicate from "https://esm.sh/replicate@0.25.2";
 
 const corsHeaders = {
@@ -106,10 +106,7 @@ function normalizeLanguage(lang: string | null | undefined): string | undefined 
   return LANGUAGE_MAP[lowerLang] || undefined;
 }
 
-const supabase = createClient(
-  Deno.env.get('SUPABASE_URL')!,
-  Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
-);
+const supabase = getSupabaseClient();
 
 // ==================== TELEGRAM THROTTLING ====================
 // Prevent message edit spam - Telegram has rate limits

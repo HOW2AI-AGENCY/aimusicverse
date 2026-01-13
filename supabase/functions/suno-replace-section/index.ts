@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { getSupabaseClient } from '../_shared/supabase-client.ts';
 import { createLogger } from '../_shared/logger.ts';
 import { isSunoSuccessCode } from '../_shared/suno.ts';
 
@@ -18,11 +18,10 @@ serve(async (req) => {
   }
 
   try {
-    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const sunoApiKey = Deno.env.get('SUNO_API_KEY')!;
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = getSupabaseClient();
 
     // Get user from JWT
     const authHeader = req.headers.get('Authorization');
