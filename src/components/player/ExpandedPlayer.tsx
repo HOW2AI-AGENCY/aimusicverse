@@ -355,7 +355,7 @@ export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerPro
               <h3 className="font-semibold text-xl sm:text-2xl line-clamp-1 bg-gradient-to-r from-foreground via-foreground to-foreground/70 bg-clip-text">
                 {track.title || 'Untitled Track'}
               </h3>
-              <VersionBadge trackId={track.id} size="md" />
+              {/* VersionBadge removed - active_version_label not available on Track type */}
             </div>
             <motion.p
               className="text-sm sm:text-base text-muted-foreground line-clamp-1"

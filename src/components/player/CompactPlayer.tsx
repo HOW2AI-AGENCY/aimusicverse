@@ -175,7 +175,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
                 <p className="font-medium text-sm line-clamp-1">
                   {track.title || 'Untitled Track'}
                 </p>
-                <VersionBadge trackId={track.id} size="sm" />
+                {/* VersionBadge removed - active_version_label not available on Track type */}
               </div>
               <p className="text-xs text-muted-foreground line-clamp-1">
                 {track.style || 'Unknown Style'}

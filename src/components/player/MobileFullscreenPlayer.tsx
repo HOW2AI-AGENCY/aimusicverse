@@ -682,7 +682,7 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
           >
             <div className="flex items-center justify-center gap-1.5 mb-0.5">
               <h2 className="font-bold text-lg truncate text-gradient">{track.title || 'Без названия'}</h2>
-              <VersionBadge trackId={track.id} size="sm" />
+              {/* VersionBadge removed - active_version_label not available on Track type */}
             </div>
             <p className="text-sm text-muted-foreground truncate">{track.style || ''}</p>
             {/* Version Switcher */}

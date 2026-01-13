@@ -70,10 +70,8 @@ export default function Playlists() {
         ) : playlists.length === 0 ? (
           <UnifiedEmptyState
             type="playlists"
-            action={{
-              label: 'Создать плейлист',
-              onClick: () => setCreateDialogOpen(true),
-            }}
+            actionLabel="Создать плейлист"
+            onAction={() => setCreateDialogOpen(true)}
           />
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
