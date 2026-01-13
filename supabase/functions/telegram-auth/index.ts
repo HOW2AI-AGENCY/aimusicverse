@@ -1,4 +1,4 @@
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.7';
+import { getSupabaseClient } from '../_shared/supabase-client.ts';
 import { createHmac } from 'node:crypto';
 import { createLogger } from '../_shared/logger.ts';
 
@@ -178,16 +178,7 @@ Deno.serve(async (req) => {
   console.log('🚀 Telegram Auth function invoked');
 
   try {
-    const supabaseUrl = Deno.env.get('SUPABASE_URL');
-    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
     const botToken = Deno.env.get('TELEGRAM_BOT_TOKEN');
-
-    if (!supabaseUrl || !supabaseServiceKey) {
-      return new Response(
-        JSON.stringify({ error: 'Server configuration error' }),
-        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
 
     if (!botToken) {
       return new Response(
@@ -196,9 +187,7 @@ Deno.serve(async (req) => {
       );
     }
 
-    const supabase = createClient(supabaseUrl, supabaseServiceKey, {
-      auth: { autoRefreshToken: false, persistSession: false }
-    });
+    const supabase = getSupabaseClient();
 
     const { initData, chatId: providedChatId } = await req.json() as TelegramAuthData;
 
