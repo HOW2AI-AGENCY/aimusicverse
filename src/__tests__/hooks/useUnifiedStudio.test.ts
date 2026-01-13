@@ -4,34 +4,35 @@
  */
 
 import { renderHook, act } from '@testing-library/react';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { useUnifiedStudio } from '@/hooks/useUnifiedStudio';
 
 // Mock stores
 const mockPlayerStore = {
-  activeTrack: null as any,
+  activeTrack: null as unknown,
   isPlaying: false,
   volume: 0.85,
-  playTrack: jest.fn(),
-  pauseTrack: jest.fn(),
-  setVolume: jest.fn(),
+  playTrack: vi.fn(),
+  pauseTrack: vi.fn(),
+  setVolume: vi.fn(),
 };
 
 const mockStudioStore = {
-  project: null as any,
+  project: null as unknown,
   isPlaying: false,
   currentTime: 0,
-  play: jest.fn(),
-  pause: jest.fn(),
-  stop: jest.fn(),
-  seek: jest.fn(),
-  setMasterVolume: jest.fn(),
+  play: vi.fn(),
+  pause: vi.fn(),
+  stop: vi.fn(),
+  seek: vi.fn(),
+  setMasterVolume: vi.fn(),
 };
 
-jest.mock('@/hooks/audio/usePlayerState', () => ({
+vi.mock('@/hooks/audio/usePlayerState', () => ({
   usePlayerStore: () => mockPlayerStore,
 }));
 
-jest.mock('@/stores/useUnifiedStudioStore', () => ({
+vi.mock('@/stores/useUnifiedStudioStore', () => ({
   useUnifiedStudioStore: () => mockStudioStore,
 }));
 
@@ -138,7 +139,7 @@ describe('useUnifiedStudio', () => {
 
     it('should force track mode when track is provided', () => {
       const { result } = renderHook(() => 
-        useUnifiedStudio({ track: { id: 'track-1' } as any })
+        useUnifiedStudio({ track: { id: 'track-1' } as never })
       );
 
       expect(result.current.mode).toBe('track');
