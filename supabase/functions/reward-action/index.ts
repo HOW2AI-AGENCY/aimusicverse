@@ -250,6 +250,12 @@ async function checkAndUnlockAchievements(supabase: any, userId: string, actionT
           case 'first_project':
             if (actionType === 'project_created') shouldUnlock = true;
             break;
+          case 'first_purchase':
+            if (actionType === 'purchase' || actionType === 'credits_purchase') shouldUnlock = true;
+            break;
+          case 'subscriber':
+            if (actionType === 'subscription' || actionType === 'subscription_purchase') shouldUnlock = true;
+            break;
         }
       }
 
