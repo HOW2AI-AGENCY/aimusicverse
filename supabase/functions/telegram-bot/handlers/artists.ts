@@ -3,16 +3,14 @@
  */
 
 import { sendMessage, editMessageText, answerCallbackQuery, sendPhoto, deleteMessage } from '../telegram-api.ts';
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { getSupabaseClient } from '../core/supabase-client.ts';
 import { escapeMarkdownV2 } from '../utils/text-processor.ts';
 import { deleteActiveMenu, setActiveMenuMessageId } from '../core/active-menu-manager.ts';
+import { BOT_CONFIG } from '../config.ts';
 
-const supabase = createClient(
-  Deno.env.get('SUPABASE_URL')!,
-  Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
-);
+const supabase = getSupabaseClient();
 
-const MINI_APP_URL = Deno.env.get('MINI_APP_URL') || 'https://t.me/PhuketMusicBot/app';
+const MINI_APP_URL = BOT_CONFIG.miniAppUrl;
 
 /**
  * Show artists list

@@ -4,17 +4,15 @@
  */
 
 import { sendMessage, editMessageText, answerCallbackQuery, deleteMessage, sendPhoto, editMessageMedia } from '../telegram-api.ts';
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { getSupabaseClient } from '../core/supabase-client.ts';
 import { escapeMarkdownV2, truncateText } from '../utils/text-processor.ts';
 import { deleteActiveMenu, setActiveMenuMessageId } from '../core/active-menu-manager.ts';
 import { getTelegramConfig, getProjectDeepLink } from '../../_shared/telegram-config.ts';
+import { BOT_CONFIG } from '../config.ts';
 
-const supabase = createClient(
-  Deno.env.get('SUPABASE_URL')!,
-  Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
-);
+const supabase = getSupabaseClient();
 
-const MINI_APP_URL = Deno.env.get('MINI_APP_URL') || 'https://t.me/PhuketMusicBot/app';
+const MINI_APP_URL = BOT_CONFIG.miniAppUrl;
 
 // Default project cover
 const DEFAULT_PROJECT_COVER = 'https://ygmvthybdrqymfsqifmj.supabase.co/storage/v1/object/public/bot-assets/project-cover.png';

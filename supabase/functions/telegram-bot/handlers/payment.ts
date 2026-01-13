@@ -1,12 +1,9 @@
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { getSupabaseClient } from '../core/supabase-client.ts';
 import { sendMessage } from '../telegram-api.ts';
 import { logger } from '../utils/index.ts';
 import { getTelegramConfig } from '../../_shared/telegram-config.ts';
 
-const supabase = createClient(
-  Deno.env.get('SUPABASE_URL')!,
-  Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
-);
+const supabase = getSupabaseClient();
 
 /**
  * Handle /buy command - show pricing with card payment
@@ -211,14 +208,14 @@ export async function handleBuyProduct(
 
   try {
     // Call tinkoff-create-bot-payment function
-    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+    const functionUrl = Deno.env.get('SUPABASE_URL')!;
+    const serviceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 
-    const response = await fetch(`${supabaseUrl}/functions/v1/tinkoff-create-bot-payment`, {
+    const response = await fetch(`${functionUrl}/functions/v1/tinkoff-create-bot-payment`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${supabaseKey}`,
+        'Authorization': `Bearer ${serviceKey}`,
       },
       body: JSON.stringify({
         productCode,

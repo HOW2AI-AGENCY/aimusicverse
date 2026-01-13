@@ -3,10 +3,7 @@
  * Tracks delivery rates, error rates, and response times
  */
 
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-
-const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+import { getSupabaseClient } from '../core/supabase-client.ts';
 
 // Event types for tracking
 export type MetricEventType = 
@@ -97,7 +94,7 @@ export async function flushMetrics(): Promise<void> {
   metricsBuffer.length = 0;
   
   try {
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = getSupabaseClient();
     
     const records = metricsToInsert.map(m => ({
       event_type: m.eventType,
@@ -180,7 +177,7 @@ export async function checkAlerts(): Promise<{
   };
 }> {
   try {
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = getSupabaseClient();
     
     // Get metrics for the last hour
     const { data, error } = await supabase

@@ -3,14 +3,11 @@
  * Display track analytics in Telegram
  */
 
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { getSupabaseClient } from '../core/supabase-client.ts';
 import { sendMessage, editMessageText } from '../telegram-api.ts';
 import { escapeMarkdown, formatDuration } from '../utils/index.ts';
 
-const supabase = createClient(
-  Deno.env.get('SUPABASE_URL')!,
-  Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
-);
+const supabase = getSupabaseClient();
 
 export async function handleTrackStats(
   chatId: number,

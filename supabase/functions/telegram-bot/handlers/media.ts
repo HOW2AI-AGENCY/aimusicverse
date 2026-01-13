@@ -140,10 +140,8 @@ export async function handleLikeTrack(
   }
 
   try {
-    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-    const { createClient } = await import('https://esm.sh/@supabase/supabase-js@2.39.3');
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const { getSupabaseClient } = await import('../core/supabase-client.ts');
+    const supabase = getSupabaseClient();
 
     // Check if already liked
     const { data: existingLike } = await supabase
