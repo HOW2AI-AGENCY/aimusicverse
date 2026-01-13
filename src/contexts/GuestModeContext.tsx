@@ -38,6 +38,9 @@ export const GuestModeProvider = ({ children }: { children: ReactNode }) => {
     const params = new URLSearchParams(window.location.search);
     if (params.get('screenshot') === 'true' && !isScreenshotMode) {
       setIsScreenshotMode(true);
+      // Also enable guest mode for route access
+      setIsGuestMode(true);
+      localStorage.setItem('guestMode', 'true');
       guestLogger.info('Screenshot mode enabled via URL');
     }
 
@@ -89,6 +92,9 @@ export const GuestModeProvider = ({ children }: { children: ReactNode }) => {
   const enableScreenshotMode = () => {
     guestLogger.info('Screenshot mode enabled');
     setIsScreenshotMode(true);
+    // Screenshot mode also enables guest mode for route access
+    setIsGuestMode(true);
+    localStorage.setItem('guestMode', 'true');
   };
 
   const disableScreenshotMode = () => {
