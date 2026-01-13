@@ -34,6 +34,7 @@ serve(async (req) => {
       status: notification.Status,
       amount: notification.Amount,
       success: notification.Success,
+      rebillId: notification.RebillId,
     });
 
     // Verify token
@@ -87,6 +88,7 @@ serve(async (req) => {
             tinkoff_status: notification.Status,
             pan: notification.Pan,
             card_id: notification.CardId,
+            rebill_id: notification.RebillId,
           }
         });
 
@@ -103,9 +105,54 @@ serve(async (req) => {
           .eq('id', transaction.id);
       } else {
         console.log('Payment processed successfully:', result);
+
+        // Handle recurrent subscription creation
+        const metadata = transaction.metadata as Record<string, unknown> | null;
+        if (transaction.is_recurrent && notification.RebillId && metadata?.subscription_days) {
+          try {
+            // Create or update subscription record
+            const subscriptionDays = Number(metadata.subscription_days) || 30;
+            const nextBillingDate = new Date();
+            nextBillingDate.setDate(nextBillingDate.getDate() + subscriptionDays);
+
+            await supabase
+              .from('tinkoff_subscriptions')
+              .upsert({
+                user_id: transaction.user_id,
+                product_code: transaction.product_code,
+                rebill_id: notification.RebillId,
+                card_pan: notification.Pan || null,
+                card_exp_date: notification.ExpDate || null,
+                status: 'active',
+                amount_cents: transaction.amount_cents,
+                currency: transaction.currency,
+                billing_cycle_days: subscriptionDays,
+                next_billing_date: nextBillingDate.toISOString(),
+                last_payment_date: new Date().toISOString(),
+                last_payment_id: transaction.id,
+                failed_attempts: 0,
+                metadata: {
+                  subscription_tier: metadata.subscription_tier,
+                  card_id: notification.CardId,
+                }
+              }, {
+                onConflict: 'user_id,product_code',
+                ignoreDuplicates: false,
+              });
+
+            console.log('Subscription created/updated:', {
+              userId: transaction.user_id,
+              productCode: transaction.product_code,
+              rebillId: notification.RebillId,
+              nextBilling: nextBillingDate,
+            });
+          } catch (subError) {
+            console.error('Failed to create subscription:', subError);
+            // Don't fail the payment for subscription errors
+          }
+        }
         
         // Send Telegram notification if payment was from bot
-        const metadata = transaction.metadata as Record<string, unknown> | null;
         if (metadata?.source === 'telegram_bot' && metadata?.telegram_id) {
           try {
             // Get user's chat_id from profiles

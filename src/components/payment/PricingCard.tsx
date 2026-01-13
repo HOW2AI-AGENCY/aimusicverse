@@ -23,6 +23,7 @@ export interface StarsProduct {
 interface PricingCardProps {
   product: StarsProduct;
   onPurchase: (productCode: string) => void;
+  onPurchaseTinkoff?: (productCode: string) => void;
   lang?: 'en' | 'ru';
   isPurchasing?: boolean;
   className?: string;
@@ -31,6 +32,7 @@ interface PricingCardProps {
 export function PricingCard({ 
   product, 
   onPurchase, 
+  onPurchaseTinkoff,
   lang = 'ru',
   isPurchasing = false,
   className 
@@ -38,10 +40,12 @@ export function PricingCard({
   const name = product.name[lang] || product.name['en'];
   const description = product.description[lang] || product.description['en'];
   
-  const handlePurchase = () => {
-    if (!isPurchasing) {
-      onPurchase(product.product_code);
-    }
+  const handlePurchaseStars = () => {
+    if (!isPurchasing) onPurchase(product.product_code);
+  };
+
+  const handlePurchaseTinkoff = () => {
+    if (!isPurchasing && onPurchaseTinkoff) onPurchaseTinkoff(product.product_code);
   };
 
   const isSubscription = product.product_type === 'subscription';
@@ -128,9 +132,9 @@ export function PricingCard({
           )}
         </CardContent>
 
-        <CardFooter>
+        <CardFooter className="flex flex-col gap-2">
           <Button
-            onClick={handlePurchase}
+            onClick={handlePurchaseStars}
             disabled={isPurchasing}
             className={cn(
               "w-full",
@@ -139,9 +143,7 @@ export function PricingCard({
             size="lg"
           >
             {isPurchasing ? (
-              <>
-                <span className="animate-pulse">Обработка...</span>
-              </>
+              <span className="animate-pulse">Обработка...</span>
             ) : (
               <>
                 <Star className="w-4 h-4 mr-2 fill-current" />
@@ -149,6 +151,17 @@ export function PricingCard({
               </>
             )}
           </Button>
+          {onPurchaseTinkoff && (
+            <Button
+              onClick={handlePurchaseTinkoff}
+              disabled={isPurchasing}
+              variant="outline"
+              className="w-full"
+              size="lg"
+            >
+              💳 Оплатить картой / СБП
+            </Button>
+          )}
         </CardFooter>
       </Card>
     </motion.div>

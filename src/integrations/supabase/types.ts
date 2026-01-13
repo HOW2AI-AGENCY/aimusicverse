@@ -1992,10 +1992,12 @@ export type Database = {
           gateway_transaction_id: string | null
           id: string
           ip_address: unknown
+          is_recurrent: boolean | null
           metadata: Json | null
           product_code: string
           status: Database["public"]["Enums"]["payment_status"]
           subscription_granted: string | null
+          subscription_id: string | null
           updated_at: string | null
           user_agent: string | null
           user_id: string
@@ -2013,10 +2015,12 @@ export type Database = {
           gateway_transaction_id?: string | null
           id?: string
           ip_address?: unknown
+          is_recurrent?: boolean | null
           metadata?: Json | null
           product_code: string
           status?: Database["public"]["Enums"]["payment_status"]
           subscription_granted?: string | null
+          subscription_id?: string | null
           updated_at?: string | null
           user_agent?: string | null
           user_id: string
@@ -2034,15 +2038,25 @@ export type Database = {
           gateway_transaction_id?: string | null
           id?: string
           ip_address?: unknown
+          is_recurrent?: boolean | null
           metadata?: Json | null
           product_code?: string
           status?: Database["public"]["Enums"]["payment_status"]
           subscription_granted?: string | null
+          subscription_id?: string | null
           updated_at?: string | null
           user_agent?: string | null
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "payment_transactions_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "tinkoff_subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       performance_metrics: {
         Row: {
@@ -4051,6 +4065,74 @@ export type Database = {
           user_id?: string | null
         }
         Relationships: []
+      }
+      tinkoff_subscriptions: {
+        Row: {
+          amount_cents: number
+          billing_cycle_days: number
+          card_exp_date: string | null
+          card_pan: string | null
+          created_at: string
+          currency: string
+          failed_attempts: number | null
+          id: string
+          last_payment_date: string | null
+          last_payment_id: string | null
+          metadata: Json | null
+          next_billing_date: string | null
+          product_code: string
+          rebill_id: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount_cents: number
+          billing_cycle_days?: number
+          card_exp_date?: string | null
+          card_pan?: string | null
+          created_at?: string
+          currency?: string
+          failed_attempts?: number | null
+          id?: string
+          last_payment_date?: string | null
+          last_payment_id?: string | null
+          metadata?: Json | null
+          next_billing_date?: string | null
+          product_code: string
+          rebill_id: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount_cents?: number
+          billing_cycle_days?: number
+          card_exp_date?: string | null
+          card_pan?: string | null
+          created_at?: string
+          currency?: string
+          failed_attempts?: number | null
+          id?: string
+          last_payment_date?: string | null
+          last_payment_id?: string | null
+          metadata?: Json | null
+          next_billing_date?: string | null
+          product_code?: string
+          rebill_id?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tinkoff_subscriptions_last_payment_id_fkey"
+            columns: ["last_payment_id"]
+            isOneToOne: false
+            referencedRelation: "payment_transactions"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       track_analytics: {
         Row: {

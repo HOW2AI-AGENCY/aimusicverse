@@ -17,6 +17,8 @@ interface CreatePaymentRequest {
   productCode: string;
   successUrl?: string;
   failUrl?: string;
+  paymentMethod?: 'card' | 'sbp' | 'tinkoff_pay';  // Метод оплаты
+  isRecurrent?: boolean;  // Рекуррентный платёж для подписки
 }
 
 serve(async (req) => {
@@ -66,7 +68,13 @@ serve(async (req) => {
     }
 
     // Parse request
-    const { productCode, successUrl, failUrl }: CreatePaymentRequest = await req.json();
+    const { 
+      productCode, 
+      successUrl, 
+      failUrl, 
+      paymentMethod = 'card',
+      isRecurrent = false 
+    }: CreatePaymentRequest = await req.json();
 
     if (!productCode) {
       return new Response(
@@ -99,6 +107,10 @@ serve(async (req) => {
       );
     }
 
+    // Determine if this is a subscription (needs recurrent)
+    const isSubscription = product.product_type === 'subscription';
+    const enableRecurrent = isRecurrent || isSubscription;
+
     // Generate unique order ID
     const orderId = generateOrderId();
 
@@ -113,10 +125,14 @@ serve(async (req) => {
         currency: 'RUB',
         status: 'pending',
         gateway_order_id: orderId,
+        is_recurrent: enableRecurrent,
         metadata: {
           product_name: product.name,
           credits_amount: product.credits_amount,
           subscription_tier: product.subscription_tier,
+          subscription_days: product.subscription_days,
+          payment_method: paymentMethod,
+          is_first_recurrent: enableRecurrent,
         }
       })
       .select()
@@ -156,10 +172,21 @@ serve(async (req) => {
       }
     };
 
+    // Add recurrent flag for subscriptions
+    if (enableRecurrent) {
+      tinkoffRequest.Recurrent = 'Y';
+      tinkoffRequest.CustomerKey = user.id;  // Используем user_id как CustomerKey
+    }
+
     // Generate token
     tinkoffRequest.Token = await generateTinkoffToken(tinkoffRequest as unknown as Record<string, unknown>, secretKey);
 
-    console.log('Initializing Tinkoff payment:', { orderId, amount: product.price_rub_cents });
+    console.log('Initializing Tinkoff payment:', { 
+      orderId, 
+      amount: product.price_rub_cents,
+      recurrent: enableRecurrent,
+      paymentMethod 
+    });
 
     // Call Tinkoff Init
     const tinkoffResponse = await initTinkoffPayment(tinkoffRequest);
@@ -210,6 +237,7 @@ serve(async (req) => {
         orderId: orderId,
         amount: product.price_rub_cents,
         currency: 'RUB',
+        isRecurrent: enableRecurrent,
       }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );

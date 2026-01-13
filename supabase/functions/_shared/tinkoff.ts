@@ -18,6 +18,8 @@ export interface TinkoffInitRequest {
   NotificationURL?: string;
   PayType?: 'O' | 'T'; // O - одностадийная, T - двухстадийная
   Language?: 'ru' | 'en';
+  Recurrent?: 'Y';  // Для рекуррентных платежей
+  CustomerKey?: string;  // Идентификатор покупателя для рекуррента
   Receipt?: TinkoffReceipt;
   DATA?: Record<string, string>;
 }
@@ -45,6 +47,7 @@ export interface TinkoffNotification {
   CardId?: number;
   Pan?: string;
   ExpDate?: string;
+  RebillId?: string;  // ID для автосписания
   Token: string;
 }
 
@@ -80,6 +83,28 @@ export interface TinkoffReceiptItem {
   PaymentMethod?: 'full_prepayment' | 'prepayment' | 'advance' | 'full_payment' | 'partial_payment' | 'credit' | 'credit_payment';
   PaymentObject?: 'commodity' | 'excise' | 'job' | 'service' | 'gambling_bet' | 'gambling_prize' | 'lottery' | 'lottery_prize' | 'intellectual_activity' | 'payment' | 'agent_commission' | 'composite' | 'another';
   Tax: 'none' | 'vat0' | 'vat10' | 'vat20' | 'vat110' | 'vat120';
+}
+
+// Recurrent payment types
+export interface TinkoffChargeRequest {
+  TerminalKey: string;
+  PaymentId: string;
+  RebillId: string;
+  Token?: string;
+  SendEmail?: boolean;
+  InfoEmail?: string;
+}
+
+export interface TinkoffChargeResponse {
+  Success: boolean;
+  ErrorCode: string;
+  Message?: string;
+  Details?: string;
+  TerminalKey: string;
+  Amount: number;
+  OrderId: string;
+  PaymentId: string;
+  Status: TinkoffPaymentStatus;
 }
 
 /**
@@ -156,6 +181,27 @@ export async function initTinkoffPayment(
   
   if (!response.ok) {
     throw new Error(`Tinkoff API error: ${response.status} ${response.statusText}`);
+  }
+  
+  return response.json();
+}
+
+/**
+ * Charge recurrent payment (автосписание)
+ */
+export async function chargeTinkoffRecurrent(
+  request: TinkoffChargeRequest
+): Promise<TinkoffChargeResponse> {
+  const response = await fetch(`${TINKOFF_API_URL}/Charge`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(request),
+  });
+  
+  if (!response.ok) {
+    throw new Error(`Tinkoff Charge API error: ${response.status} ${response.statusText}`);
   }
   
   return response.json();
