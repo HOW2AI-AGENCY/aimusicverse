@@ -358,7 +358,7 @@ export function usePublicContentBatch() {
   return useQuery({
     queryKey: ['public-content-optimized', user?.id],
     queryFn: async (): Promise<PublicContentData> => {
-      // Single query to get all public tracks (max 100 for performance)
+      // Fetch public tracks - increased limit for better content variety
       const { data: tracks, error } = await supabase
         .from("tracks")
         .select("*")
@@ -366,7 +366,7 @@ export function usePublicContentBatch() {
         .eq("status", "completed")
         .not("audio_url", "is", null)
         .order("created_at", { ascending: false })
-        .limit(200);
+        .limit(500);
 
       if (error) throw error;
       if (!tracks || tracks.length === 0) {
@@ -431,10 +431,10 @@ export function usePublicContentBatch() {
       );
 
       return {
-        featuredTracks: sortedByPopular.slice(0, 15), // Top 15 by plays
-        recentTracks: enrichedTracks.slice(0, 30), // First 30 (already sorted by date)
-        popularTracks: sortedByPopular.slice(0, 30), // Top 30 by plays
-        allTracks: enrichedTracks, // All for auto-playlists
+        featuredTracks: sortedByPopular.slice(0, 20), // Top 20 by plays
+        recentTracks: enrichedTracks.slice(0, 50), // First 50 (already sorted by date)
+        popularTracks: sortedByPopular.slice(0, 50), // Top 50 by plays
+        allTracks: enrichedTracks, // All for auto-playlists (up to 500)
       };
     },
     staleTime: 2 * 60 * 1000, // 2 minutes

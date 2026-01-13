@@ -275,7 +275,7 @@ const Index = () => {
                 iconGradient="from-emerald-500/20 to-teal-500/10"
                 tracks={publicContent?.popularTracks || []}
                 isLoading={contentLoading}
-                maxTracks={isMobile ? 4 : 8}
+                maxTracks={isMobile ? 6 : 12}
                 columns={isMobile ? 2 : 4}
                 showMoreLink="/community?sort=popular"
                 showMoreLabel="Смотреть все"
@@ -296,7 +296,7 @@ const Index = () => {
               iconGradient="from-orange-500/20 to-amber-500/10"
               tracks={publicContent?.recentTracks || []}
               isLoading={contentLoading}
-              maxTracks={isMobile ? 4 : 8}
+              maxTracks={isMobile ? 6 : 12}
               columns={isMobile ? 2 : 4}
               showMoreLink="/community?sort=recent"
               showMoreLabel="Смотреть все"
