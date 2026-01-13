@@ -4,15 +4,16 @@
  */
 
 import { renderHook, act } from '@testing-library/react';
+import { describe, it, expect, vi } from 'vitest';
 import { useSwipeNavigation } from '@/hooks/useSwipeNavigation';
 
 // Mock useHaptic
-jest.mock('@/hooks/useHaptic', () => ({
+vi.mock('@/hooks/useHaptic', () => ({
   useHaptic: () => ({
     patterns: {
-      tap: jest.fn(),
-      success: jest.fn(),
-      error: jest.fn(),
+      tap: vi.fn(),
+      success: vi.fn(),
+      error: vi.fn(),
     },
   }),
 }));
@@ -28,7 +29,7 @@ describe('useSwipeNavigation', () => {
 
   describe('initialization', () => {
     it('should return handlers object', () => {
-      const onTabChange = jest.fn();
+      const onTabChange = vi.fn();
       const { result } = renderHook(() =>
         useSwipeNavigation(tabs as unknown as Tab[], 'player', onTabChange)
       );
@@ -40,7 +41,7 @@ describe('useSwipeNavigation', () => {
     });
 
     it('should have isSwipeActive as false initially', () => {
-      const onTabChange = jest.fn();
+      const onTabChange = vi.fn();
       const { result } = renderHook(() =>
         useSwipeNavigation(tabs as unknown as Tab[], 'player', onTabChange)
       );
@@ -51,7 +52,7 @@ describe('useSwipeNavigation', () => {
 
   describe('swipe left (next tab)', () => {
     it('should navigate to next tab on left swipe', () => {
-      const onTabChange = jest.fn();
+      const onTabChange = vi.fn();
       const { result } = renderHook(() =>
         useSwipeNavigation(tabs as unknown as Tab[], 'player', onTabChange)
       );
@@ -75,7 +76,7 @@ describe('useSwipeNavigation', () => {
     });
 
     it('should not navigate past last tab', () => {
-      const onTabChange = jest.fn();
+      const onTabChange = vi.fn();
       const { result } = renderHook(() =>
         useSwipeNavigation(tabs as unknown as Tab[], 'mixer', onTabChange)
       );
@@ -95,7 +96,7 @@ describe('useSwipeNavigation', () => {
 
   describe('swipe right (previous tab)', () => {
     it('should navigate to previous tab on right swipe', () => {
-      const onTabChange = jest.fn();
+      const onTabChange = vi.fn();
       const { result } = renderHook(() =>
         useSwipeNavigation(tabs as unknown as Tab[], 'sections', onTabChange)
       );
@@ -117,7 +118,7 @@ describe('useSwipeNavigation', () => {
     });
 
     it('should not navigate before first tab', () => {
-      const onTabChange = jest.fn();
+      const onTabChange = vi.fn();
       const { result } = renderHook(() =>
         useSwipeNavigation(tabs as unknown as Tab[], 'player', onTabChange)
       );
@@ -136,7 +137,7 @@ describe('useSwipeNavigation', () => {
 
   describe('swipe thresholds', () => {
     it('should not trigger for small swipes below threshold', () => {
-      const onTabChange = jest.fn();
+      const onTabChange = vi.fn();
       const { result } = renderHook(() =>
         useSwipeNavigation(tabs as unknown as Tab[], 'player', onTabChange, { threshold: 50 })
       );
@@ -154,7 +155,7 @@ describe('useSwipeNavigation', () => {
     });
 
     it('should use custom threshold', () => {
-      const onTabChange = jest.fn();
+      const onTabChange = vi.fn();
       const { result } = renderHook(() =>
         useSwipeNavigation(tabs as unknown as Tab[], 'player', onTabChange, { threshold: 20 })
       );
@@ -174,7 +175,7 @@ describe('useSwipeNavigation', () => {
 
   describe('vertical vs horizontal detection', () => {
     it('should ignore vertical swipes', () => {
-      const onTabChange = jest.fn();
+      const onTabChange = vi.fn();
       const { result } = renderHook(() =>
         useSwipeNavigation(tabs as unknown as Tab[], 'player', onTabChange)
       );
@@ -192,7 +193,7 @@ describe('useSwipeNavigation', () => {
     });
 
     it('should require horizontal movement to be 1.5x vertical', () => {
-      const onTabChange = jest.fn();
+      const onTabChange = vi.fn();
       const { result } = renderHook(() =>
         useSwipeNavigation(tabs as unknown as Tab[], 'player', onTabChange)
       );
@@ -212,7 +213,7 @@ describe('useSwipeNavigation', () => {
 
   describe('config options', () => {
     it('should respect hapticFeedback=false', () => {
-      const onTabChange = jest.fn();
+      const onTabChange = vi.fn();
       const { result } = renderHook(() =>
         useSwipeNavigation(tabs as unknown as Tab[], 'player', onTabChange, { 
           hapticFeedback: false 

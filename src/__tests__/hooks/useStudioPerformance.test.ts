@@ -4,6 +4,7 @@
  */
 
 import { renderHook, act } from '@testing-library/react';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { 
   useStudioPerformance, 
   useThrottledCallback, 
@@ -11,27 +12,26 @@ import {
 } from '@/hooks/useStudioPerformance';
 
 // Mock logger
-jest.mock('@/lib/logger', () => ({
+vi.mock('@/lib/logger', () => ({
   logger: {
-    debug: jest.fn(),
-    warn: jest.fn(),
-    info: jest.fn(),
-    error: jest.fn(),
+    debug: vi.fn(),
+    warn: vi.fn(),
+    info: vi.fn(),
+    error: vi.fn(),
   },
 }));
 
 describe('useStudioPerformance', () => {
   // Mock performance.now()
   let mockNow = 0;
-  const originalPerformanceNow = performance.now.bind(performance);
   
   beforeEach(() => {
     mockNow = 0;
-    jest.spyOn(performance, 'now').mockImplementation(() => mockNow);
+    vi.spyOn(performance, 'now').mockImplementation(() => mockNow);
   });
 
   afterEach(() => {
-    jest.restoreAllMocks();
+    vi.restoreAllMocks();
   });
 
   describe('initialization', () => {
@@ -126,7 +126,7 @@ describe('useStudioPerformance', () => {
 
       // Cleanup
       // @ts-ignore
-      delete (performance as any).memory;
+      delete (performance as Record<string, unknown>).memory;
     });
 
     it('should not warn when memory is below threshold', () => {
@@ -146,13 +146,13 @@ describe('useStudioPerformance', () => {
       expect(result.current.isMemoryWarning).toBe(false);
 
       // @ts-ignore
-      delete (performance as any).memory;
+      delete (performance as Record<string, unknown>).memory;
     });
   });
 
   describe('logMetrics', () => {
-    it('should call logger.debug with metrics', () => {
-      const { logger } = require('@/lib/logger');
+    it('should call logger.debug with metrics', async () => {
+      const { logger } = await import('@/lib/logger');
       
       const { result } = renderHook(() => 
         useStudioPerformance('TestComponent')
@@ -175,15 +175,15 @@ describe('useStudioPerformance', () => {
 
 describe('useThrottledCallback', () => {
   beforeEach(() => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
   });
 
   afterEach(() => {
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   it('should call callback immediately on first call', () => {
-    const callback = jest.fn((x: number) => x * 2);
+    const callback = vi.fn((x: number) => x * 2);
     
     const { result } = renderHook(() => 
       useThrottledCallback(callback, 100)
@@ -196,7 +196,7 @@ describe('useThrottledCallback', () => {
   });
 
   it('should throttle subsequent calls within delay', () => {
-    const callback = jest.fn((x: number) => x * 2);
+    const callback = vi.fn((x: number) => x * 2);
     
     const { result } = renderHook(() => 
       useThrottledCallback(callback, 100)
@@ -212,7 +212,7 @@ describe('useThrottledCallback', () => {
   });
 
   it('should schedule delayed execution for throttled calls', () => {
-    const callback = jest.fn((x: number) => x * 2);
+    const callback = vi.fn((x: number) => x * 2);
     
     const { result } = renderHook(() => 
       useThrottledCallback(callback, 100)
@@ -222,14 +222,14 @@ describe('useThrottledCallback', () => {
     result.current(2);
 
     // Fast-forward time
-    jest.advanceTimersByTime(100);
+    vi.advanceTimersByTime(100);
 
     expect(callback).toHaveBeenCalledTimes(2);
     expect(callback).toHaveBeenLastCalledWith(2);
   });
 
   it('should return undefined for throttled calls', () => {
-    const callback = jest.fn((x: number) => x * 2);
+    const callback = vi.fn((x: number) => x * 2);
     
     const { result } = renderHook(() => 
       useThrottledCallback(callback, 100)
@@ -244,11 +244,11 @@ describe('useThrottledCallback', () => {
 
 describe('useCustomDeferredValue', () => {
   beforeEach(() => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
   });
 
   afterEach(() => {
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   it('should return initial value immediately', () => {
@@ -273,7 +273,7 @@ describe('useCustomDeferredValue', () => {
 
     // Fast-forward time
     act(() => {
-      jest.advanceTimersByTime(100);
+      vi.advanceTimersByTime(100);
     });
 
     // Re-render to get updated ref value
@@ -290,10 +290,10 @@ describe('useCustomDeferredValue', () => {
     );
 
     rerender({ value: 'v2' });
-    jest.advanceTimersByTime(50);
+    vi.advanceTimersByTime(50);
     
     rerender({ value: 'v3' });
-    jest.advanceTimersByTime(50);
+    vi.advanceTimersByTime(50);
 
     // v2 should have been cancelled
     expect(result.current).toBe('v1');
@@ -308,7 +308,7 @@ describe('useCustomDeferredValue', () => {
     rerender({ value: 'updated' });
 
     act(() => {
-      jest.advanceTimersByTime(99);
+      vi.advanceTimersByTime(99);
     });
     
     // Should still be initial before 100ms
