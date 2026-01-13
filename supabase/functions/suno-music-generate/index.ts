@@ -97,6 +97,11 @@ serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
+  // Track created DB records so we can mark them failed in the catch block.
+  let createdTrackId: string | null = null;
+  let createdTaskId: string | null = null;
+  let planTrackIdForCatch: string | null = null;
+
   try {
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const sunoApiKey = Deno.env.get('SUNO_API_KEY');
@@ -160,6 +165,9 @@ serve(async (req) => {
       language = 'ru',
       isPublic = true, // Track visibility - default public
     } = body;
+
+    // Keep for catch block (so we can revert project_tracks on errors)
+    planTrackIdForCatch = planTrackId || null;
 
     // Calculate generation cost based on model
     const generationCost = getGenerationCost(model);
@@ -315,6 +323,8 @@ serve(async (req) => {
       throw new Error('Failed to create track record');
     }
 
+    createdTrackId = track.id;
+
     // Create generation task with planTrackId in audio_clips metadata for callback
     const { data: task, error: taskError } = await supabase
       .from('generation_tasks')
@@ -336,6 +346,8 @@ serve(async (req) => {
       logger.error('Task creation error', taskError);
       throw new Error('Failed to create generation task');
     }
+
+    createdTaskId = task.id;
 
     // Prepare SunoAPI request
     const callbackUrl = `${supabaseUrl}/functions/v1/suno-music-callback`;
@@ -533,7 +545,7 @@ serve(async (req) => {
       }).eq('id', track.id);
     }
 
-    const sunoTaskId = sunoData.data?.taskId;
+    const sunoTaskId = sunoData?.data?.taskId ?? sunoData?.data?.task_id ?? sunoData?.data?.id;
 
     if (!sunoTaskId) {
       throw new Error('No taskId returned from SunoAPI');
@@ -594,17 +606,55 @@ serve(async (req) => {
 
   } catch (error: any) {
     logger.error('Error in suno-music-generate', error);
-    
-    // Try to log error to database if we have context
+
+    const message = (error?.message || 'Unknown error').toString();
+
+    // If we already created DB records, ensure they don't stay stuck in `pending`.
+    try {
+      const supabase = getSupabaseClient();
+
+      if (createdTaskId) {
+        await supabase
+          .from('generation_tasks')
+          .update({
+            status: 'failed',
+            error_message: message.substring(0, 500),
+            completed_at: new Date().toISOString(),
+          })
+          .eq('id', createdTaskId);
+      }
+
+      if (createdTrackId) {
+        await supabase
+          .from('tracks')
+          .update({
+            status: 'failed',
+            error_message: message.substring(0, 500),
+          })
+          .eq('id', createdTrackId);
+      }
+
+      // If a project track slot was marked in progress, revert it to failed so UI doesn't hang.
+      if (planTrackIdForCatch) {
+        await supabase
+          .from('project_tracks')
+          .update({ status: 'failed' })
+          .eq('id', planTrackIdForCatch);
+      }
+    } catch (markErr) {
+      logger.error('Failed to mark generation as failed after exception', markErr);
+    }
+
+    // Try to log error to database notification if we have auth context
     try {
       const authHeader = req.headers.get('Authorization');
       if (authHeader) {
         const supabase = getSupabaseClient();
-        
+
         const { data: { user } } = await supabase.auth.getUser(
           authHeader.replace('Bearer ', '')
         );
-        
+
         if (user) {
           await supabase
             .from('notifications')
@@ -612,21 +662,21 @@ serve(async (req) => {
               user_id: user.id,
               type: 'error',
               title: 'Ошибка генерации',
-              message: (error.message || 'Произошла ошибка при генерации трека').substring(0, 250),
-              metadata: { error_type: 'generation_error', original_message: error.message },
+              message: message.substring(0, 250),
+              metadata: { error_type: 'generation_error', original_message: message },
             });
         }
       }
     } catch (logError) {
       logger.error('Failed to log error notification', logError);
     }
-    
+
     return new Response(
-      JSON.stringify({ 
-        success: false, 
-        error: error.message || 'Unknown error',
+      JSON.stringify({
+        success: false,
+        error: message,
       }),
-      { 
+      {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 500,
       }
