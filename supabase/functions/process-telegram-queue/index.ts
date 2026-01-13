@@ -5,8 +5,11 @@
  */
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
-import { createClient, SupabaseClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { getSupabaseClient } from '../_shared/supabase-client.ts';
 import { createLogger } from '../_shared/logger.ts';
+
+// Type alias for supabase client
+type AnySupabaseClient = ReturnType<typeof getSupabaseClient>;
 
 const logger = createLogger('process-telegram-queue');
 
@@ -208,7 +211,7 @@ async function sendTelegramAudio(
 
 // deno-lint-ignore no-explicit-any
 async function processQueueItem(
-  supabase: SupabaseClient<any>,
+  supabase: AnySupabaseClient,
   item: QueueItem
 ): Promise<{ success: boolean; permanent?: boolean }> {
   const { id, chat_id, notification_type, payload } = item;
@@ -312,10 +315,7 @@ serve(async (req) => {
       );
     }
 
-    const supabase = createClient(
-      Deno.env.get('SUPABASE_URL')!,
-      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
-    );
+    const supabase = getSupabaseClient();
 
     // Parse request
     let limit = 50;

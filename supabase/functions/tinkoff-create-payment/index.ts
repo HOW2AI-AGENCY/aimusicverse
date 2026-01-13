@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { getSupabaseClient } from '../_shared/supabase-client.ts';
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { 
   generateTinkoffToken, 
@@ -29,7 +30,6 @@ serve(async (req) => {
     const terminalKey = Deno.env.get('TINKOFF_TERMINAL_KEY');
     const secretKey = Deno.env.get('TINKOFF_SECRET_KEY');
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 
     if (!terminalKey || !secretKey) {
       console.error('Tinkoff credentials not configured');
@@ -48,9 +48,10 @@ serve(async (req) => {
       );
     }
 
-    // Create Supabase clients
-    const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
-    const supabaseAuth = createClient(supabaseUrl, supabaseServiceKey, {
+    // Use shared admin client
+    const supabaseAdmin = getSupabaseClient();
+    // Auth client needs user token
+    const supabaseAuth = createClient(supabaseUrl, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!, {
       global: { headers: { Authorization: authHeader } }
     });
 
