@@ -97,6 +97,15 @@ serve(async (req) => {
     // Send audio message to user
     const sendAudioUrl = `https://api.telegram.org/bot${telegramBotToken}/sendAudio`;
     
+    // Escape for MarkdownV2 format
+    const { escapeMarkdown } = await import('../_shared/telegram-utils.ts');
+    const trackTitle = escapeMarkdown(track.title || 'Трек');
+    const caption = `🎵 *${trackTitle}*\n\n` +
+      `Чтобы установить как музыку профиля:\n` +
+      `1\\. Нажмите на аудио выше\n` +
+      `2\\. Нажмите ⋮ \\(три точки\\)\n` +
+      `3\\. Выберите "Set as Profile Music"`;
+    
     const audioResponse = await fetch(sendAudioUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -104,12 +113,8 @@ serve(async (req) => {
         chat_id: chatId,
         audio: audioSource,
         title: track.title || 'MusicVerse Track',
-        caption: `🎵 *${track.title || 'Трек'}*\n\n` +
-          `Чтобы установить как музыку профиля:\n` +
-          `1. Нажмите на аудио выше\n` +
-          `2. Нажмите ⋮ (три точки)\n` +
-          `3. Выберите "Set as Profile Music"`,
-        parse_mode: 'Markdown',
+        caption,
+        parse_mode: 'MarkdownV2',
       }),
     });
 
