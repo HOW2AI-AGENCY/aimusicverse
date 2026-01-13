@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { getSupabaseClient } from "../_shared/supabase-client.ts";
 import { 
   generateTinkoffToken, 
   initTinkoffPayment, 
@@ -26,8 +26,6 @@ serve(async (req) => {
   try {
     const terminalKey = Deno.env.get('TINKOFF_TERMINAL_KEY');
     const secretKey = Deno.env.get('TINKOFF_SECRET_KEY');
-    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 
     if (!terminalKey || !secretKey) {
       console.error('Tinkoff credentials not configured');
@@ -37,7 +35,7 @@ serve(async (req) => {
       );
     }
 
-    const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
+    const supabaseAdmin = getSupabaseClient();
 
     const { productCode, telegramId, chatId }: CreateBotPaymentRequest = await req.json();
 
@@ -123,7 +121,7 @@ serve(async (req) => {
     }
 
     // Build Tinkoff request
-    const notificationUrl = `${supabaseUrl}/functions/v1/tinkoff-webhook`;
+    const notificationUrl = `${Deno.env.get('SUPABASE_URL')}/functions/v1/tinkoff-webhook`;
     
     // Get product name for description
     const productName = typeof product.name === 'object' 

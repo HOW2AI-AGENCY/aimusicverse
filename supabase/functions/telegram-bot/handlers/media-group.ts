@@ -3,7 +3,7 @@
  * Handles sending multiple tracks as a batch and processing media groups from users
  */
 
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { getSupabaseClient } from '../core/supabase-client.ts';
 import { BOT_CONFIG } from '../config.ts';
 import { sendMessage, escapeMarkdownV2 } from '../telegram-api.ts';
 import { musicService } from '../core/services/music.ts';
@@ -12,12 +12,9 @@ import { createLogger } from '../../_shared/logger.ts';
 
 const logger = createLogger('media-group-handler');
 
-const TELEGRAM_API = `https://api.telegram.org/bot${Deno.env.get('TELEGRAM_BOT_TOKEN')}`;
+const TELEGRAM_API = `https://api.telegram.org/bot${BOT_CONFIG.botToken}`;
 
-const supabase = createClient(
-  BOT_CONFIG.supabaseUrl,
-  BOT_CONFIG.supabaseServiceKey
-);
+const supabase = getSupabaseClient();
 
 interface MediaItem {
   type: 'audio' | 'photo' | 'video' | 'document';

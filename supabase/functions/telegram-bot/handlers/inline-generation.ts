@@ -3,15 +3,12 @@
  * Handles music generation initiated from inline mode
  */
 
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { getSupabaseClient } from '../core/supabase-client.ts';
 import { BOT_CONFIG } from '../config.ts';
 import { logger, escapeMarkdown } from '../utils/index.ts';
 import { editInlineMessage } from './inline-chosen.ts';
 
-const supabase = createClient(
-  BOT_CONFIG.supabaseUrl,
-  BOT_CONFIG.supabaseServiceKey
-);
+const supabase = getSupabaseClient();
 
 // Generation presets for quick inline generation
 export const GENERATION_PRESETS = [

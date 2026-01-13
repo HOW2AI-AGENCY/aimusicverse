@@ -1,12 +1,9 @@
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { getSupabaseClient } from '../core/supabase-client.ts';
 import { BOT_CONFIG } from '../config.ts';
 import { sendMessage, editMessageText, sendAudio } from '../telegram-api.ts';
 import { createShareTrackKeyboard, createTrackDetailsKeyboard } from '../keyboards/share-menu.ts';
 
-const supabase = createClient(
-  BOT_CONFIG.supabaseUrl,
-  BOT_CONFIG.supabaseServiceKey
-);
+const supabase = getSupabaseClient();
 
 export async function handleShareTrack(chatId: number, trackId: string, messageId?: number) {
   try {
