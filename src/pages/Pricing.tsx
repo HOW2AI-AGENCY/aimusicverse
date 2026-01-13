@@ -94,7 +94,7 @@ export default function Pricing() {
   const creditPackages = products?.filter(p => p.product_type === 'credit_package') || [];
   const subscriptions = products?.filter(p => p.product_type === 'subscription') || [];
 
-  const handlePurchase = async (productCode: string) => {
+  const handlePurchase = async (productCode: string, paymentMethod: 'stars' | 'tinkoff' = 'stars') => {
     if (!userId) {
       showAlert?.('Необходима авторизация через Telegram');
       return;
@@ -103,7 +103,6 @@ export default function Pricing() {
     setPurchasingProduct(productCode);
 
     try {
-      // Call edge function to create invoice
       const { data: authData } = await supabase.auth.getSession();
       const token = authData.session?.access_token;
 
@@ -111,6 +110,32 @@ export default function Pricing() {
         throw new Error('Не удалось получить токен авторизации');
       }
 
+      if (paymentMethod === 'tinkoff') {
+        // Tinkoff payment - карты, СБП, Tinkoff Pay
+        const response = await fetch(
+          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/tinkoff-create-payment`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({ productCode }),
+          }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+          throw new Error(result.error || 'Не удалось создать платёж');
+        }
+
+        // Redirect to Tinkoff payment page
+        window.location.href = result.paymentUrl;
+        return;
+      }
+
+      // Telegram Stars payment
       const response = await fetch(
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-stars-invoice`,
         {
@@ -119,10 +144,7 @@ export default function Pricing() {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
           },
-          body: JSON.stringify({
-            productCode,
-            userId,
-          }),
+          body: JSON.stringify({ productCode, userId }),
         }
       );
 
@@ -134,36 +156,27 @@ export default function Pricing() {
 
       const { invoiceLink } = result;
 
-      // Open invoice using Telegram WebApp API
       if (webApp && 'openInvoice' in webApp) {
         (webApp as any).openInvoice(invoiceLink, (status: string) => {
           if (status === 'paid') {
-            // Payment successful
             toast.success('Платёж успешно завершён!', {
               description: 'Кредиты начислены на ваш счёт',
               duration: 5000,
             });
-            
-            // Show celebration (you can add confetti here)
             if (webApp.HapticFeedback) {
               webApp.HapticFeedback.notificationOccurred('success');
             }
           } else if (status === 'failed') {
-            toast.error('Платёж не прошёл', {
-              description: 'Попробуйте ещё раз или выберите другой способ оплаты',
-            });
-            
+            toast.error('Платёж не прошёл');
             if (webApp.HapticFeedback) {
               webApp.HapticFeedback.notificationOccurred('error');
             }
           } else if (status === 'cancelled') {
             toast.info('Платёж отменён');
           }
-
           setPurchasingProduct(null);
         });
       } else {
-        // Fallback: open link in external browser (shouldn't happen in Mini App)
         window.open(invoiceLink, '_blank');
         setPurchasingProduct(null);
       }
@@ -242,7 +255,8 @@ export default function Pricing() {
                 <PricingCard
                   key={product.id}
                   product={product}
-                  onPurchase={handlePurchase}
+                  onPurchase={(code) => handlePurchase(code, 'stars')}
+                  onPurchaseTinkoff={(code) => handlePurchase(code, 'tinkoff')}
                   isPurchasing={purchasingProduct === product.product_code}
                 />
               ))}
@@ -262,7 +276,8 @@ export default function Pricing() {
                 <PricingCard
                   key={product.id}
                   product={product}
-                  onPurchase={handlePurchase}
+                  onPurchase={(code) => handlePurchase(code, 'stars')}
+                  onPurchaseTinkoff={(code) => handlePurchase(code, 'tinkoff')}
                   isPurchasing={purchasingProduct === product.product_code}
                 />
               ))}
