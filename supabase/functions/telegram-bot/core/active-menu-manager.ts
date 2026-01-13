@@ -3,17 +3,14 @@
  * Manages the single active menu message per user to prevent spam in Telegram chat
  */
 
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { getSupabaseClient } from './supabase-client.ts';
 import { sendMessage, sendPhoto, deleteMessage, type InlineKeyboardButton } from '../telegram-api.ts';
 import { BOT_CONFIG } from '../config.ts';
 import { createLogger } from '../../_shared/logger.ts';
 
 const logger = createLogger('active-menu-manager');
 
-const supabase = createClient(
-  BOT_CONFIG.supabaseUrl,
-  BOT_CONFIG.supabaseServiceKey
-);
+const supabase = getSupabaseClient();
 
 interface MenuState {
   id: string;

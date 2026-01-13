@@ -4,12 +4,9 @@
  */
 
 import { createLogger } from '../../_shared/logger.ts';
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { getSupabaseClient } from '../core/supabase-client.ts';
 
 const logger = createLogger('telegram-retry');
-
-const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!;
-const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 
 export interface RetryConfig {
   maxRetries?: number;
@@ -144,7 +141,7 @@ export async function storeFailedNotification(
   retryCount: number = 0
 ): Promise<void> {
   try {
-    const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+    const supabase = getSupabaseClient();
     
     // Calculate next retry time with exponential backoff
     const delayMs = Math.min(
@@ -179,7 +176,7 @@ export async function storeFailedNotification(
  */
 export async function markNotificationSuccess(notificationId: string): Promise<void> {
   try {
-    const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+    const supabase = getSupabaseClient();
     
     await supabase
       .from('failed_telegram_notifications')
@@ -198,7 +195,7 @@ export async function markNotificationFailed(
   errorMessage: string
 ): Promise<void> {
   try {
-    const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+    const supabase = getSupabaseClient();
     
     await supabase
       .from('failed_telegram_notifications')
@@ -221,7 +218,7 @@ export async function scheduleRetry(
   errorMessage: string
 ): Promise<void> {
   try {
-    const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+    const supabase = getSupabaseClient();
     
     const delayMs = Math.min(
       DEFAULT_CONFIG.initialDelayMs * Math.pow(DEFAULT_CONFIG.backoffMultiplier, retryCount),
@@ -255,7 +252,7 @@ export async function getPendingRetries(batchSize: number = 10): Promise<Array<{
   max_retries: number;
 }>> {
   try {
-    const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+    const supabase = getSupabaseClient();
     
     const { data, error } = await supabase
       .rpc('get_pending_telegram_retries', { batch_size: batchSize });
