@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { getSupabaseClient } from '../_shared/supabase-client.ts';
 import { isSunoSuccessCode } from "../_shared/suno.ts";
 
 const corsHeaders = {
@@ -13,8 +13,6 @@ serve(async (req) => {
   }
 
   try {
-    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const sunoApiKey = Deno.env.get('SUNO_API_KEY');
 
     if (!sunoApiKey) {
@@ -25,7 +23,7 @@ serve(async (req) => {
       );
     }
 
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = getSupabaseClient();
 
     // Verify auth
     const authHeader = req.headers.get('Authorization');
@@ -58,7 +56,7 @@ serve(async (req) => {
 
     console.log('Converting to WAV format:', audioId);
 
-    const callBackUrl = `${supabaseUrl}/functions/v1/suno-wav-callback`;
+    const callBackUrl = `${Deno.env.get('SUPABASE_URL')}/functions/v1/suno-wav-callback`;
 
     // Call Suno API
     const sunoResponse = await fetch('https://api.sunoapi.org/api/v1/generate/convert-to-wav', {
