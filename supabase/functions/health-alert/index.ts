@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { getSupabaseClient } from '../_shared/supabase-client.ts';
 import { createLogger } from "../_shared/logger.ts";
 
 const logger = createLogger('health-alert');
@@ -36,9 +36,7 @@ serve(async (req) => {
 
     logger.info('Health alert triggered', { test, force });
 
-    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    const supabase = getSupabaseClient();
 
     // Get admin users to send alerts to
     const { data: adminUsers, error: adminError } = await supabase
