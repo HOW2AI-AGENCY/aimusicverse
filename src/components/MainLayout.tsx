@@ -7,6 +7,8 @@ import { ResizablePlayer } from './ResizablePlayer';
 import { usePlaybackTracking } from '@/hooks/usePlaybackTracking';
 import { SkipToContent } from './ui/skip-to-content';
 import { GuestModeBanner } from './GuestModeBanner';
+import { ScreenshotNavigator } from './screenshot/ScreenshotNavigator';
+import { ScreenshotModeBanner } from './screenshot/ScreenshotModeBanner';
 import { useGuestMode } from '@/contexts/GuestModeContext';
 import { cn } from '@/lib/utils';
 import { setSubscriptionDialogCallback } from '@/hooks/useTrackActions';
@@ -146,6 +148,10 @@ export const MainLayout = () => {
       
       {/* Guest mode banner - subtle and compact */}
       {isGuestMode && <GuestModeBanner />}
+      
+      {/* Screenshot mode components */}
+      <ScreenshotModeBanner />
+      <ScreenshotNavigator />
       
       {/* Quick Start Overlay for new users */}
       {quickStartOpen && (
