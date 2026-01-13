@@ -22,7 +22,7 @@ const Auth = () => {
     setIsAuthenticating(true);
     const result = await authenticateWithTelegram();
     setIsAuthenticating(false);
-    
+
     if (result?.session) {
       // Navigate to main page - onboarding is handled via OnboardingOverlay
       navigate('/', { replace: true });
@@ -39,6 +39,13 @@ const Auth = () => {
       navigate('/', { replace: true });
     }
   }, [isAuthenticated, navigate]);
+
+  // Hard failsafe: never let splash block auth screen
+  useEffect(() => {
+    if (!showSplash) return;
+    const t = window.setTimeout(() => setShowSplash(false), 2000);
+    return () => window.clearTimeout(t);
+  }, [showSplash]);
 
   // Auto-authenticate in development mode
   useEffect(() => {
