@@ -8,6 +8,8 @@ import { useAuth } from './useAuth';
 import * as creditsApi from '@/api/credits.api';
 import { GENERATION_COST, getModelCost } from '@/services/credits.service';
 import { logger } from '@/lib/logger';
+import { useGuestMode } from '@/contexts/GuestModeContext';
+import { mockCredits, mockStats } from '@/lib/screenshotMockData';
 
 interface UserCredits {
   balance: number;
@@ -21,6 +23,32 @@ interface UserCredits {
 export function useUserCredits(modelKey?: string) {
   const { user } = useAuth();
   const queryClient = useQueryClient();
+  const { isScreenshotMode } = useGuestMode();
+
+  // Return mock data in screenshot mode
+  if (isScreenshotMode) {
+    const mockUserCredits: UserCredits = {
+      balance: mockCredits.credits_balance,
+      total_earned: mockCredits.lifetime_credits,
+      total_spent: mockCredits.lifetime_credits - mockCredits.credits_balance,
+      experience: mockStats.experience,
+      level: mockStats.level,
+      current_streak: mockCredits.streak_days,
+    };
+
+    return {
+      credits: mockUserCredits,
+      balance: mockCredits.credits_balance,
+      isLoading: false,
+      error: null,
+      refetch: () => Promise.resolve(),
+      invalidate: () => {},
+      canGenerate: true,
+      generationCost: GENERATION_COST,
+      isAdmin: false,
+      apiBalance: null,
+    };
+  }
 
   // Check admin status
   const { data: adminData } = useQuery({

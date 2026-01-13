@@ -955,7 +955,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
                   )}
                   {!isMobile && track.tags && (
                     <span className="text-xs text-muted-foreground truncate max-w-[200px]">
-                      {track.tags.split(',').slice(0, 3).map(t => t.trim()).join(' · ')}
+                      {track.tags.split(',').slice(0, 3).map((t: string) => t.trim()).join(' · ')}
                     </span>
                   )}
                 </div>

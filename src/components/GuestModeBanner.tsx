@@ -24,6 +24,9 @@ export const GuestModeBanner = () => {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
         className="fixed top-0 left-0 right-0 z-50 bg-muted/95 backdrop-blur-md border-b border-border/50"
+        style={{
+          paddingTop: 'max(env(safe-area-inset-top, 0px), var(--tg-safe-area-inset-top, 0px))',
+        }}
       >
         <div className="container mx-auto px-3 py-2 flex items-center justify-between gap-2">
           <p className="text-xs text-muted-foreground flex-1 truncate">

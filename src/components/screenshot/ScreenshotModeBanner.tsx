@@ -17,6 +17,9 @@ export const ScreenshotModeBanner = ({ className }: ScreenshotModeBannerProps) =
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       className={`fixed top-0 left-0 right-0 z-[9998] bg-primary/95 backdrop-blur-md ${className}`}
+      style={{
+        paddingTop: 'max(env(safe-area-inset-top, 0px), var(--tg-safe-area-inset-top, 0px))',
+      }}
     >
       <div className="container mx-auto px-3 py-1.5 flex items-center justify-between">
         <div className="flex items-center gap-2">

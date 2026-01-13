@@ -10,38 +10,46 @@ import {
   mockAchievements,
   mockGenerationFormData,
   mockLyrics,
+  MockTrack,
 } from '@/lib/screenshotMockData';
+import { Profile } from '@/hooks/useProfile';
+
+// Re-export types for consumers
+export type { MockTrack } from '@/lib/screenshotMockData';
+
+interface ScreenshotDataReturn {
+  isScreenshotMode: boolean;
+  getMockProfile: () => Profile | null;
+  getMockStats: () => typeof mockStats | null;
+  getMockCredits: () => typeof mockCredits | null;
+  getMockTracks: () => MockTrack[] | null;
+  getMockProjects: () => typeof mockProjects | null;
+  getMockPlaylists: () => typeof mockPlaylists | null;
+  getMockArtists: () => typeof mockArtists | null;
+  getMockAchievements: () => typeof mockAchievements | null;
+  getMockGenerationFormData: () => typeof mockGenerationFormData | null;
+  getMockLyrics: () => string | null;
+}
 
 /**
  * Hook to access mock data in screenshot mode
  * Returns null for all getters when not in screenshot mode
  */
-export const useScreenshotData = () => {
+export const useScreenshotData = (): ScreenshotDataReturn => {
   const { isScreenshotMode } = useGuestMode();
-
-  const getMockProfile = () => (isScreenshotMode ? mockProfile : null);
-  const getMockStats = () => (isScreenshotMode ? mockStats : null);
-  const getMockCredits = () => (isScreenshotMode ? mockCredits : null);
-  const getMockTracks = () => (isScreenshotMode ? mockTracks : null);
-  const getMockProjects = () => (isScreenshotMode ? mockProjects : null);
-  const getMockPlaylists = () => (isScreenshotMode ? mockPlaylists : null);
-  const getMockArtists = () => (isScreenshotMode ? mockArtists : null);
-  const getMockAchievements = () => (isScreenshotMode ? mockAchievements : null);
-  const getMockGenerationFormData = () => (isScreenshotMode ? mockGenerationFormData : null);
-  const getMockLyrics = () => (isScreenshotMode ? mockLyrics : null);
 
   return {
     isScreenshotMode,
-    getMockProfile,
-    getMockStats,
-    getMockCredits,
-    getMockTracks,
-    getMockProjects,
-    getMockPlaylists,
-    getMockArtists,
-    getMockAchievements,
-    getMockGenerationFormData,
-    getMockLyrics,
+    getMockProfile: () => (isScreenshotMode ? mockProfile : null),
+    getMockStats: () => (isScreenshotMode ? mockStats : null),
+    getMockCredits: () => (isScreenshotMode ? mockCredits : null),
+    getMockTracks: () => (isScreenshotMode ? mockTracks : null),
+    getMockProjects: () => (isScreenshotMode ? mockProjects : null),
+    getMockPlaylists: () => (isScreenshotMode ? mockPlaylists : null),
+    getMockArtists: () => (isScreenshotMode ? mockArtists : null),
+    getMockAchievements: () => (isScreenshotMode ? mockAchievements : null),
+    getMockGenerationFormData: () => (isScreenshotMode ? mockGenerationFormData : null),
+    getMockLyrics: () => (isScreenshotMode ? mockLyrics : null),
   };
 };
 

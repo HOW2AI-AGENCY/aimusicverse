@@ -10,6 +10,8 @@ import { useCallback, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import * as tracksService from '@/services/tracks.service';
 import * as tracksApi from '@/api/tracks.api';
+import { useGuestMode } from '@/contexts/GuestModeContext';
+import { mockTracks as screenshotMockTracks } from '@/lib/screenshotMockData';
 
 // Re-export Track type for convenience
 export type { Track, TrackWithCreator, TrackSummary } from '@/types/track';
@@ -33,7 +35,28 @@ export interface UseTracksParams {
 export function useTracks(params: UseTracksParams = {}) {
   const { user } = useAuth();
   const queryClient = useQueryClient();
+  const { isScreenshotMode } = useGuestMode();
   const { paginate = false, projectId, searchQuery, sortBy, pageSize = PAGE_SIZE, statusFilter, tagFilter } = params;
+
+  // Return mock data in screenshot mode
+  if (isScreenshotMode) {
+    return {
+      tracks: screenshotMockTracks as any[],
+      totalCount: screenshotMockTracks.length,
+      isLoading: false,
+      error: null,
+      fetchNextPage: () => Promise.resolve(),
+      hasNextPage: false,
+      isFetchingNextPage: false,
+      refetch: () => Promise.resolve(),
+      deleteTrack: () => {},
+      toggleLike: () => {},
+      logPlay: () => {},
+      downloadTrack: () => {},
+      isDeleting: false,
+      isTogglingLike: false,
+    };
+  }
 
   const queryKey = ['tracks', user?.id, projectId, searchQuery, sortBy, paginate, pageSize, statusFilter, tagFilter];
 
