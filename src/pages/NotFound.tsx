@@ -1,14 +1,86 @@
 /**
- * NotFound - Animated 404 error page in MusicVerse style
+ * NotFound - Contextual 404 error page in MusicVerse style
+ * Provides relevant messaging based on URL path
  */
 import { useNavigate, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { logger } from "@/lib/logger";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { Button } from "@/components/ui/button";
-import { Home, ArrowLeft, Music2, Search, Radio, Disc3, HeadphonesIcon } from "lucide-react";
+import { Home, ArrowLeft, Music2, Search, Radio, Disc3, HeadphonesIcon, FolderOpen, ListMusic, User, Mic2 } from "lucide-react";
 import { motion, AnimatePresence } from '@/lib/motion';
 import { cn } from "@/lib/utils";
+
+// Content type configuration based on URL path
+interface NotFoundContent {
+  title: string;
+  description: string;
+  icon: React.ElementType;
+  primaryAction: {
+    label: string;
+    path: string;
+    icon: React.ElementType;
+  };
+}
+
+const getNotFoundContent = (pathname: string): NotFoundContent => {
+  if (pathname.startsWith('/track/') || pathname.startsWith('/tracks/')) {
+    return {
+      title: 'Трек не найден',
+      description: 'Этот трек был удалён или никогда не существовал',
+      icon: Music2,
+      primaryAction: { label: 'К библиотеке', path: '/library', icon: ListMusic },
+    };
+  }
+  if (pathname.startsWith('/project/') || pathname.startsWith('/projects/')) {
+    return {
+      title: 'Проект не найден',
+      description: 'Этот проект был удалён или недоступен',
+      icon: FolderOpen,
+      primaryAction: { label: 'К проектам', path: '/projects', icon: FolderOpen },
+    };
+  }
+  if (pathname.startsWith('/playlist/') || pathname.startsWith('/playlists/')) {
+    return {
+      title: 'Плейлист не найден',
+      description: 'Этот плейлист был удалён или стал приватным',
+      icon: ListMusic,
+      primaryAction: { label: 'К плейлистам', path: '/library?tab=playlists', icon: ListMusic },
+    };
+  }
+  if (pathname.startsWith('/user/') || pathname.startsWith('/profile/')) {
+    return {
+      title: 'Пользователь не найден',
+      description: 'Этот профиль не существует или скрыт',
+      icon: User,
+      primaryAction: { label: 'Сообщество', path: '/community', icon: User },
+    };
+  }
+  if (pathname.startsWith('/artist/') || pathname.startsWith('/artists/')) {
+    return {
+      title: 'Артист не найден',
+      description: 'Этот AI-артист был удалён или недоступен',
+      icon: Mic2,
+      primaryAction: { label: 'К артистам', path: '/artists', icon: Mic2 },
+    };
+  }
+  if (pathname.startsWith('/studio')) {
+    return {
+      title: 'Студия недоступна',
+      description: 'Выберите трек для открытия в студии',
+      icon: Radio,
+      primaryAction: { label: 'К библиотеке', path: '/library', icon: ListMusic },
+    };
+  }
+  
+  // Default
+  return {
+    title: 'Страница не найдена',
+    description: 'Похоже, эта страница взяла паузу. Вернёмся к музыке?',
+    icon: Disc3,
+    primaryAction: { label: 'На главную', path: '/', icon: Home },
+  };
+};
 
 // Animated broken record component
 const BrokenRecord = () => (
@@ -120,6 +192,11 @@ const NotFound = () => {
   const { hapticFeedback, showBackButton, hideBackButton } = useTelegram();
   const [glitchEffect, setGlitchEffect] = useState(false);
 
+  // Get contextual content based on URL
+  const content = useMemo(() => getNotFoundContent(location.pathname), [location.pathname]);
+  const ContentIcon = content.icon;
+  const ActionIcon = content.primaryAction.icon;
+
   useEffect(() => {
     logger.error("404 Error: Page not found", undefined, { path: location.pathname });
     
@@ -141,9 +218,9 @@ const NotFound = () => {
     };
   }, [location.pathname, showBackButton, hideBackButton, hapticFeedback, navigate]);
 
-  const handleGoHome = () => {
+  const handlePrimaryAction = () => {
     hapticFeedback('medium');
-    navigate('/');
+    navigate(content.primaryAction.path);
   };
 
   const handleGoBack = () => {
@@ -253,24 +330,34 @@ const NotFound = () => {
             <SoundWave />
           </motion.div>
 
-          {/* Title */}
+          {/* Contextual icon */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.45, type: "spring" }}
+            className="mb-3"
+          >
+            <ContentIcon className="w-8 h-8 text-muted-foreground/60" />
+          </motion.div>
+
+          {/* Title - contextual */}
           <motion.h1
             className="text-xl sm:text-2xl font-bold text-center mb-2"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
           >
-            Трек не найден
+            {content.title}
           </motion.h1>
 
-          {/* Description */}
+          {/* Description - contextual */}
           <motion.p
             className="text-sm text-muted-foreground text-center mb-6 max-w-xs"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
           >
-            Похоже, эта страница взяла паузу. Вернёмся к музыке?
+            {content.description}
           </motion.p>
 
           {/* Path info */}
@@ -295,12 +382,12 @@ const NotFound = () => {
             transition={{ delay: 0.7 }}
           >
             <Button 
-              onClick={handleGoHome} 
+              onClick={handlePrimaryAction} 
               className="w-full h-12 text-base"
               size="lg"
             >
-              <Home className="mr-2 h-5 w-5" />
-              На главную
+              <ActionIcon className="mr-2 h-5 w-5" />
+              {content.primaryAction.label}
             </Button>
             
             <div className="grid grid-cols-2 gap-3">
@@ -316,13 +403,13 @@ const NotFound = () => {
               <Button 
                 onClick={() => {
                   hapticFeedback('light');
-                  navigate('/library');
+                  navigate('/');
                 }} 
                 variant="outline"
                 className="h-11"
               >
-                <Search className="mr-2 h-4 w-4" />
-                Библиотека
+                <Home className="mr-2 h-4 w-4" />
+                Главная
               </Button>
             </div>
           </motion.div>

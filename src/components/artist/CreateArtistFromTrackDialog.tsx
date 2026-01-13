@@ -80,7 +80,7 @@ export function CreateArtistFromTrackDialog({ open, onOpenChange }: CreateArtist
       setAvatarUrl(selectedTrack.local_cover_url || selectedTrack.cover_url || null);
 
       if (selectedTrack.tags && typeof selectedTrack.tags === 'string') {
-        const tags = selectedTrack.tags.split(',').map(t => t.trim()).filter(Boolean);
+        const tags = selectedTrack.tags.split(',').map((t: string) => t.trim()).filter(Boolean);
         setGenreTags(tags.slice(0, 5));
       }
 

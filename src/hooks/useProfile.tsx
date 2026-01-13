@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "./useAuth";
 import { toast } from "sonner";
+import { useGuestMode } from "@/contexts/GuestModeContext";
 
 export interface Profile {
   id: string;
@@ -34,6 +35,19 @@ export interface ProfileUpdate {
 
 export const useProfile = () => {
   const { user } = useAuth();
+  const { isScreenshotMode, screenshotProfile } = useGuestMode();
+
+  // Return mock data in screenshot mode
+  if (isScreenshotMode && screenshotProfile) {
+    return {
+      data: screenshotProfile,
+      isLoading: false,
+      error: null,
+      refetch: () => Promise.resolve({ data: screenshotProfile, error: null }),
+      isRefetching: false,
+      isFetching: false,
+    } as const;
+  }
 
   return useQuery({
     queryKey: ['profile', user?.id],
