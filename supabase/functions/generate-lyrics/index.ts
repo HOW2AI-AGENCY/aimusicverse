@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { getSupabaseClient } from '../_shared/supabase-client.ts';
 import { corsHeaders } from '../_shared/cors.ts';
 
 serve(async (req) => {
@@ -9,14 +9,13 @@ serve(async (req) => {
 
   try {
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-    const supabaseKey = Deno.env.get('SUPABASE_ANON_KEY')!;
     const sunoApiKey = Deno.env.get('SUNO_API_KEY');
 
     if (!sunoApiKey) {
       throw new Error('SUNO_API_KEY not configured');
     }
 
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    const supabase = getSupabaseClient();
 
     const authHeader = req.headers.get('Authorization');
     if (!authHeader) {

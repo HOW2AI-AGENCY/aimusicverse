@@ -3,7 +3,7 @@
 // Should be run as a scheduled cron job (e.g., daily at 2 AM)
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { getSupabaseClient } from '../_shared/supabase-client.ts';
 
 const DAYS_TO_KEEP = 30;
 const BATCH_SIZE = 1000;
@@ -32,9 +32,7 @@ serve(async (req) => {
     }
 
     // Create Supabase client
-    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    const supabase = getSupabaseClient();
 
     // Calculate cutoff date (30 days ago)
     const cutoffDate = new Date();

@@ -7,7 +7,7 @@
  * CRITICAL: Uses upload-extend endpoint, NOT generic generate endpoint!
  */
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { getSupabaseClient } from '../_shared/supabase-client.ts';
 import { isSunoSuccessCode } from '../_shared/suno.ts';
 import { corsHeaders } from '../_shared/cors.ts';
 
@@ -25,15 +25,13 @@ serve(async (req) => {
   }
 
   try {
-    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const sunoApiKey = Deno.env.get('SUNO_API_KEY');
 
     if (!sunoApiKey) {
       throw new Error('SUNO_API_KEY not configured');
     }
 
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = getSupabaseClient();
     
     const authHeader = req.headers.get('Authorization');
     if (!authHeader) {
@@ -137,7 +135,7 @@ serve(async (req) => {
       throw new Error('Failed to create generation task');
     }
 
-    const callbackUrl = `${supabaseUrl}/functions/v1/suno-music-callback`;
+    const callbackUrl = `${Deno.env.get('SUPABASE_URL')}/functions/v1/suno-music-callback`;
     
     // Build payload for upload-extend endpoint
     // Per API docs: https://docs.sunoapi.org/suno-api/upload-extend-music

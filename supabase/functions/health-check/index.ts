@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { getSupabaseClient } from '../_shared/supabase-client.ts';
 import { createLogger } from "../_shared/logger.ts";
 import { corsHeaders } from '../_shared/cors.ts';
 
@@ -41,9 +41,7 @@ serve(async (req) => {
   logger.info('Starting health check');
 
   try {
-    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    const supabase = getSupabaseClient();
 
     const checks: SystemHealthResponse['checks'] = {
       database: await checkDatabase(supabase),

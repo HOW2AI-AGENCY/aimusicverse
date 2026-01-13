@@ -7,7 +7,7 @@
  */
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { getSupabaseClient } from '../_shared/supabase-client.ts';
 import { createLogger } from '../_shared/logger.ts';
 
 const logger = createLogger('stars-subscription-check');
@@ -27,9 +27,7 @@ serve(async (req) => {
   }
 
   try {
-    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = getSupabaseClient();
 
     // T060: Authentication check
     const authHeader = req.headers.get('authorization');
