@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { getSupabaseClient } from '../_shared/supabase-client.ts';
 import { createLogger } from '../_shared/logger.ts';
 import { isSunoSuccessCode } from '../_shared/suno.ts';
 import { sanitizeAndCleanTitle, generateFallbackTitle } from '../_shared/track-naming.ts';
@@ -133,7 +133,7 @@ serve(async (req) => {
   try {
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = getSupabaseClient();
 
     const payload = await req.json();
     logger.info('Callback received from SunoAPI', { code: payload.code, callbackType: payload.data?.callbackType });
@@ -969,7 +969,12 @@ serve(async (req) => {
             });
 
           if (deductError) {
-            logger.error('Failed to deduct credits via RPC', deductError);
+            logger.error('Failed to deduct credits via RPC', null, { 
+              errorCode: deductError.code,
+              errorMessage: deductError.message,
+              errorDetails: deductError.details,
+              errorHint: deductError.hint,
+            });
           } else if (deductResult && deductResult.length > 0) {
             const { new_balance, success, message } = deductResult[0];
             if (success) {
@@ -979,7 +984,8 @@ serve(async (req) => {
             }
           }
         } catch (deductErr) {
-          logger.error('Credit deduction error', deductErr);
+          const err = deductErr as Error;
+          logger.error('Credit deduction error', err, { message: err.message });
         }
       } else {
         logger.info('Admin user - skipping credit deduction, using shared API balance', { userId: task.user_id });
