@@ -111,6 +111,17 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
       usePlayerStore.getState().closePlayer();
     }
     
+    // Also clean up legacy localStorage keys that may contain stale data
+    try {
+      const oldPlayerData = localStorage.getItem('player-storage');
+      if (oldPlayerData) {
+        localStorage.removeItem('player-storage');
+        logger.info('Removed legacy player-storage from localStorage');
+      }
+    } catch (e) {
+      // Ignore localStorage errors
+    }
+    
     if (!audioRef.current) {
       audioRef.current = new Audio();
       audioRef.current.preload = 'auto';
@@ -140,7 +151,10 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
     return () => {
       if (audioRef.current) {
         audioRef.current.pause();
-        audioRef.current.src = '';
+        // CRITICAL: Don't set src to empty string to avoid "Empty src attribute" error
+        // Instead, just leave it as-is during cleanup
+        audioRef.current.removeAttribute('src');
+        audioRef.current.load(); // Reset internal state without triggering error
         logger.debug('Audio element cleaned up');
       }
     };
@@ -308,7 +322,11 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
     if (!source) {
       logger.debug('No source available, clearing audio');
       audio.pause();
-      audio.src = '';
+      // CRITICAL: Use removeAttribute instead of setting empty string to avoid error
+      if (audio.src) {
+        audio.removeAttribute('src');
+        audio.load(); // Reset internal state
+      }
       lastTrackIdRef.current = null;
       isLoadingRef.current = false;
       return;

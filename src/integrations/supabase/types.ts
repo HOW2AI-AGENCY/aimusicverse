@@ -5617,6 +5617,15 @@ export type Database = {
         Args: { _style: string; _tags: string }
         Returns: string
       }
+      deduct_generation_credits: {
+        Args: {
+          p_cost: number
+          p_description?: string
+          p_metadata?: Json
+          p_user_id: string
+        }
+        Returns: Json
+      }
       delete_notifications_by_group: {
         Args: { p_group_key: string; p_user_id: string }
         Returns: number
