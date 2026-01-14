@@ -13,6 +13,50 @@ import { logger } from '@/lib/logger';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { useTelegram } from '@/contexts/TelegramContext';
 
+// Common Tinkoff error codes with user-friendly messages
+const ERROR_MESSAGES: Record<string, { title: string; description: string }> = {
+  '0': { 
+    title: 'Операция отменена', 
+    description: 'Вы отменили платёж. Деньги не были списаны.' 
+  },
+  '99': { 
+    title: 'Платёж отклонён банком', 
+    description: 'Попробуйте использовать другую карту или обратитесь в банк.' 
+  },
+  '100': { 
+    title: 'Недостаточно средств', 
+    description: 'На карте недостаточно средств для оплаты.' 
+  },
+  '101': { 
+    title: 'Карта заблокирована', 
+    description: 'Карта заблокирована. Обратитесь в банк.' 
+  },
+  '102': { 
+    title: 'Превышен лимит', 
+    description: 'Превышен лимит на операции по карте.' 
+  },
+  '103': { 
+    title: 'Срок действия карты истёк', 
+    description: 'Используйте другую карту с действующим сроком.' 
+  },
+  '119': { 
+    title: 'Превышены попытки ввода PIN', 
+    description: 'Попробуйте позже или обратитесь в банк.' 
+  },
+  '191': { 
+    title: 'Некорректная сумма', 
+    description: 'Произошла техническая ошибка. Попробуйте снова.' 
+  },
+  '1006': { 
+    title: 'Ошибка 3D-Secure', 
+    description: 'Проблема с подтверждением платежа. Попробуйте снова.' 
+  },
+  '1051': { 
+    title: 'Недостаточно средств', 
+    description: 'На карте недостаточно средств для оплаты.' 
+  },
+};
+
 export default function PaymentFail() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
