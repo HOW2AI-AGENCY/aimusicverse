@@ -975,12 +975,17 @@ serve(async (req) => {
               errorDetails: deductError.details,
               errorHint: deductError.hint,
             });
-          } else if (deductResult && deductResult.length > 0) {
-            const { new_balance, success, message } = deductResult[0];
+          } else if (deductResult) {
+            // Handle both JSONB (new) and TABLE (legacy) return formats
+            const result = Array.isArray(deductResult) ? deductResult[0] : deductResult;
+            const success = result?.success ?? false;
+            const newCredits = result?.new_credits ?? result?.new_balance;
+            const errorMsg = result?.error ?? result?.message;
+            
             if (success) {
-              logger.success('Credits deducted successfully (atomic)', { newBalance: new_balance });
+              logger.success('Credits deducted successfully (atomic)', { newBalance: newCredits });
             } else {
-              logger.warn('Credit deduction failed', { message, balance: new_balance });
+              logger.warn('Credit deduction failed', { error: errorMsg, balance: newCredits });
             }
           }
         } catch (deductErr) {
