@@ -12,7 +12,7 @@ import { motion, useReducedMotion } from '@/lib/motion';
 import { SEOHead, SEO_PRESETS } from "@/components/SEOHead";
 import { PullToRefreshWrapper } from "@/components/library/PullToRefreshWrapper";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { TrendingUp, Clock } from "lucide-react";
+import { TrendingUp, Clock, Wrench, Users, Music2 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { preloadImages } from "@/lib/imageOptimization";
 import { MobileHeroSkeleton, MobileSectionSkeleton } from "@/components/mobile/MobileSkeletons";
@@ -25,6 +25,8 @@ import { NewUserProgress } from "@/components/home/NewUserProgress";
 import { QuickInputBar } from "@/components/home/QuickInputBar";
 import { CreatorToolsSection } from "@/components/home/CreatorToolsSection";
 import { QuickPlaySection } from "@/components/home/QuickPlaySection";
+import { QuickStartCards, type QuickStartPreset } from "@/components/home/QuickStartCards";
+import { CollapsibleSection } from "@/components/home/CollapsibleSection";
 import { InviteFriendsCard } from "@/components/gamification/InviteFriendsCard";
 
 // Lazy loaded components - only essential ones
@@ -150,6 +152,25 @@ const Index = () => {
     setGenerateSheetOpen(true);
   }, [hapticFeedback]);
 
+  // Handler for Quick Start preset cards
+  const handleQuickStartPreset = useCallback((preset: QuickStartPreset) => {
+    hapticFeedback("medium");
+    switch (preset) {
+      case 'track':
+        // Open generate sheet in custom mode for full track
+        setGenerateSheetOpen(true);
+        break;
+      case 'riff':
+        // Open generate sheet - could prefill with instrumental
+        setGenerateSheetOpen(true);
+        break;
+      case 'cover':
+        // Open audio dialog for cover/remix
+        setAudioDialogOpen(true);
+        break;
+    }
+  }, [hapticFeedback]);
+
   // Animation props - memoized
   const fadeInUp = useMemo(() => prefersReducedMotion 
     ? {} 
@@ -234,20 +255,34 @@ const Index = () => {
           </Suspense>
         )}
 
+        {/* Quick Start Cards - для быстрого старта */}
+        {!isNewUser && (
+          <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.12 }}>
+            <QuickStartCards onPresetSelect={handleQuickStartPreset} />
+          </motion.section>
+        )}
+
         {/* Quick Input Bar - for returning users */}
         {!isNewUser && (
           <Suspense fallback={<Skeleton className="h-14 w-full rounded-lg" />}>
-            <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.12 }}>
+            <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.14 }}>
               <QuickInputBar onSubmit={handleQuickInputSubmit} />
             </motion.section>
           </Suspense>
         )}
 
-        {/* Creator Tools Section - for returning users */}
+        {/* Creator Tools Section - collapsible for returning users */}
         {!isNewUser && (
           <Suspense fallback={<ToolsSkeleton />}>
-            <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.14 }}>
-              <CreatorToolsSection onRecordClick={handleRecord} />
+            <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.16 }}>
+              <CollapsibleSection
+                storageKey="home-creator-tools"
+                title="Инструменты"
+                icon={<Wrench className="w-3.5 h-3.5 text-primary" />}
+                defaultCollapsed={false}
+              >
+                <CreatorToolsSection onRecordClick={handleRecord} />
+              </CollapsibleSection>
             </motion.section>
           </Suspense>
         )}
@@ -313,20 +348,34 @@ const Index = () => {
           </LazySection>
         )}
 
-        {/* Genre Tabs - personalized based on user preferences */}
+        {/* Genre Tabs - collapsible, personalized based on user preferences */}
         {publicContent?.allTracks && publicContent.allTracks.length > 0 && (
           <LazySection className="mb-5" minHeight="120px" skipSuspense>
-            <GenreTabsSection
-              tracks={publicContent.allTracks}
-              isLoading={contentLoading}
-              onRemix={handleRemix}
-            />
+            <CollapsibleSection
+              storageKey="home-genre-tabs"
+              title="По жанрам"
+              icon={<Music2 className="w-3.5 h-3.5 text-primary" />}
+              defaultCollapsed={true}
+            >
+              <GenreTabsSection
+                tracks={publicContent.allTracks}
+                isLoading={contentLoading}
+                onRemix={handleRemix}
+              />
+            </CollapsibleSection>
           </LazySection>
         )}
 
-        {/* Popular Creators */}
+        {/* Popular Creators - collapsible */}
         <LazySection className="mb-5" skipSuspense>
-          <PopularCreatorsSection maxCreators={6} />
+          <CollapsibleSection
+            storageKey="home-creators"
+            title="Популярные авторы"
+            icon={<Users className="w-3.5 h-3.5 text-primary" />}
+            defaultCollapsed={true}
+          >
+            <PopularCreatorsSection maxCreators={6} />
+          </CollapsibleSection>
         </LazySection>
 
         {/* Invite Friends Banner - for logged in users */}
