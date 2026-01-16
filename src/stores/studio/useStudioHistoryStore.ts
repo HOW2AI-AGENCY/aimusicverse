@@ -26,7 +26,8 @@ const EXCLUDED_KEYS = [
 // ============ State Interface ============
 
 interface StudioHistoryState extends HistoryState {
-  // Additional studio-specific history state can be added here
+  // pushToHistory is from the historySlice
+  pushToHistory: () => void;
 }
 
 // ============ Store Implementation ============
@@ -34,8 +35,8 @@ interface StudioHistoryState extends HistoryState {
 export const useStudioHistoryStore = create<StudioHistoryState>()((set, get) => {
   // Create the history slice using the middleware
   const historySlice = createHistorySlice(
-    set as (partial: Record<string, unknown>) => void,
-    get as () => Record<string, unknown>,
+    set as unknown as (partial: Record<string, unknown>) => void,
+    get as unknown as () => Record<string, unknown>,
     {
       maxHistory: 30,
       exclude: EXCLUDED_KEYS,
