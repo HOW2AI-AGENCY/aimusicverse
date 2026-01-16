@@ -25,6 +25,7 @@ import { NewUserProgress } from "@/components/home/NewUserProgress";
 import { QuickInputBar } from "@/components/home/QuickInputBar";
 import { CreatorToolsSection } from "@/components/home/CreatorToolsSection";
 import { QuickPlaySection } from "@/components/home/QuickPlaySection";
+import { InviteFriendsCard } from "@/components/gamification/InviteFriendsCard";
 
 // Lazy loaded components - only essential ones
 const GamificationBar = lazy(() => import("@/components/gamification/GamificationBar").then(m => ({ default: m.GamificationBar })));
@@ -327,6 +328,13 @@ const Index = () => {
         <LazySection className="mb-5" fallback={null}>
           <PopularCreatorsSection maxCreators={6} />
         </LazySection>
+
+        {/* Invite Friends Banner - for logged in users */}
+        {user && !isNewUser && (
+          <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.25 }}>
+            <InviteFriendsCard variant="banner" />
+          </motion.section>
+        )}
       </div>
 
       {/* Dialogs - lazy loaded on demand */}

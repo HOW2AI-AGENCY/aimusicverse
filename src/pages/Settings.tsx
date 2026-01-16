@@ -28,7 +28,8 @@ import {
   Lightbulb,
   Palette,
   Settings as SettingsIcon,
-  BarChart3
+  BarChart3,
+  CreditCard
 } from "lucide-react";
 import { toast } from "sonner";
 import { notify } from "@/lib/notifications";
@@ -41,6 +42,8 @@ import { HintsSettings } from "@/components/settings/HintsSettings";
 import { ThemeSettings } from "@/components/settings/ThemeSettings";
 import { ProfileEmojiPicker } from "@/components/settings/ProfileEmojiPicker";
 import { UserStatsSection } from "@/components/settings/UserStatsSection";
+import { SubscriptionManagement } from "@/components/payments/SubscriptionManagement";
+import { InviteFriendsCard } from "@/components/gamification/InviteFriendsCard";
 import { motion } from '@/lib/motion';
 import { AppHeader } from "@/components/layout/AppHeader";
 import { NotificationBadge } from "@/components/NotificationBadge";
@@ -134,36 +137,40 @@ export default function Settings() {
         />
 
         <Tabs defaultValue="profile" className="w-full">
-          <TabsList className="grid w-full mb-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(60px, 1fr))' }}>
-            <TabsTrigger value="profile" className="gap-1 px-1.5">
+          <TabsList className="grid w-full mb-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(55px, 1fr))' }}>
+            <TabsTrigger value="profile" className="gap-1 px-1">
               <User className="w-4 h-4" />
               <span className="hidden sm:inline text-xs">Профиль</span>
             </TabsTrigger>
-            <TabsTrigger value="stats" className="gap-1 px-1.5">
+            <TabsTrigger value="subscription" className="gap-1 px-1">
+              <CreditCard className="w-4 h-4" />
+              <span className="hidden sm:inline text-xs">Подписка</span>
+            </TabsTrigger>
+            <TabsTrigger value="stats" className="gap-1 px-1">
               <BarChart3 className="w-4 h-4" />
               <span className="hidden sm:inline text-xs">Статистика</span>
             </TabsTrigger>
-            <TabsTrigger value="appearance" className="gap-1 px-1.5">
+            <TabsTrigger value="appearance" className="gap-1 px-1">
               <Palette className="w-4 h-4" />
               <span className="hidden sm:inline text-xs">Тема</span>
             </TabsTrigger>
-            <TabsTrigger value="privacy" className="gap-1 px-1.5">
+            <TabsTrigger value="privacy" className="gap-1 px-1">
               <Shield className="w-4 h-4" />
               <span className="hidden sm:inline text-xs">Приватность</span>
             </TabsTrigger>
-            <TabsTrigger value="notifications" className="gap-1 px-1.5">
+            <TabsTrigger value="notifications" className="gap-1 px-1">
               <Bell className="w-4 h-4" />
               <span className="hidden sm:inline text-xs">Уведомления</span>
             </TabsTrigger>
-            <TabsTrigger value="hints" className="gap-1 px-1.5">
+            <TabsTrigger value="hints" className="gap-1 px-1">
               <Lightbulb className="w-4 h-4" />
               <span className="hidden sm:inline text-xs">Подсказки</span>
             </TabsTrigger>
-            <TabsTrigger value="midi" className="gap-1 px-1.5">
+            <TabsTrigger value="midi" className="gap-1 px-1">
               <Music className="w-4 h-4" />
               <span className="hidden sm:inline text-xs">MIDI</span>
             </TabsTrigger>
-            <TabsTrigger value="telegram" className="gap-1 px-1.5">
+            <TabsTrigger value="telegram" className="gap-1 px-1">
               <Send className="w-4 h-4" />
               <span className="hidden sm:inline text-xs">Telegram</span>
             </TabsTrigger>
@@ -232,6 +239,25 @@ export default function Settings() {
                   </Button>
                 </CardContent>
               </Card>
+            </motion.div>
+          </TabsContent>
+
+          {/* Subscription Tab */}
+          <TabsContent value="subscription" className="space-y-4">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <SubscriptionManagement />
+            </motion.div>
+
+            {/* Referral Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+            >
+              <InviteFriendsCard />
             </motion.div>
           </TabsContent>
 
