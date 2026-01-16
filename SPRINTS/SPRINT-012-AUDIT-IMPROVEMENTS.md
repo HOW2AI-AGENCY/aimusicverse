@@ -120,7 +120,18 @@ src/components/generate-form/sections/StyleSection.tsx - Validation
 src/components/generate-form/sections/LyricsSection.tsx - Validation
 src/pages/Settings.tsx - Subscription tab, components
 src/pages/Index.tsx - InviteFriendsCard banner
+src/stores/studio/index.ts - Fixed duplicate export, subscribe typing
+src/stores/studio/useStudioHistoryStore.ts - Fixed pushToHistory type
 ```
+
+---
+
+## 🐛 Bug Fixes During Review
+
+### Build Errors Fixed
+1. **Duplicate identifier `useStudioHistoryStore`** - Removed duplicate re-export in index.ts
+2. **Property 'pushToHistory' missing** - Added to StudioHistoryState interface  
+3. **Subscribe typing errors** - Fixed Zustand subscribe callback signatures
 
 ---
 
