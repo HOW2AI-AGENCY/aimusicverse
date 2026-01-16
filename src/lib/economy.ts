@@ -24,38 +24,47 @@ export const ECONOMY = {
   MIDI_EXPORT_COST: 3,          // 3 credits = $0.03
   COVER_GENERATION_COST: 5,     // 5 credits = $0.05
   
-  // Rewards
+  // Rewards (BOOSTED for faster progression - Sprint 012)
   DAILY_CHECKIN: {
-    credits: 5,
-    xp: 10,
+    credits: 10,  // Was 5
+    xp: 25,       // Was 10
   },
   STREAK_BONUS: {
-    credits_per_day: 2,
-    xp_per_day: 5,
+    credits_per_day: 5,  // Was 2
+    xp_per_day: 15,      // Was 5
   },
   SHARE_REWARD: {
-    credits: 3,
-    xp: 15,
+    credits: 5,   // Was 3
+    xp: 30,       // Was 15
   },
   LIKE_RECEIVED: {
-    credits: 1,
-    xp: 5,
+    credits: 2,   // Was 1
+    xp: 10,       // Was 5
   },
   GENERATION_COMPLETE: {
     credits: 0,
-    xp: 20,
+    xp: 40,       // Was 20
   },
   PUBLIC_TRACK: {
-    credits: 2,
-    xp: 10,
+    credits: 5,   // Was 2
+    xp: 25,       // Was 10
   },
   ARTIST_CREATED: {
-    credits: 5,
-    xp: 25,
+    credits: 10,  // Was 5
+    xp: 50,       // Was 25
   },
   PROJECT_CREATED: {
+    credits: 8,   // Was 3
+    xp: 35,       // Was 15
+  },
+  // New rewards
+  COMMENT_POSTED: {
     credits: 3,
     xp: 15,
+  },
+  FIRST_COMMENT_ON_TRACK: {
+    credits: 5,
+    xp: 25,
   },
   
   // Purchase rewards
