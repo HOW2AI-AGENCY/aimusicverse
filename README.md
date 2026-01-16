@@ -34,10 +34,10 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Sprint-030_Unified_Studio_Mobile-blue?style=flat-square" alt="Current Sprint" />
-  <img src="https://img.shields.io/badge/Progress-93%25-success?style=flat-square" alt="Progress" />
-  <img src="https://img.shields.io/badge/Health_Score-98%2F100-brightgreen?style=flat-square" alt="Health" />
-  <img src="https://img.shields.io/badge/Components-890+-orange?style=flat-square" alt="Components" />
+  <img src="https://img.shields.io/badge/Sprint-012_Audit_Improvements-blue?style=flat-square" alt="Current Sprint" />
+  <img src="https://img.shields.io/badge/Progress-98%25-success?style=flat-square" alt="Progress" />
+  <img src="https://img.shields.io/badge/Health_Score-99%2F100-brightgreen?style=flat-square" alt="Health" />
+  <img src="https://img.shields.io/badge/Components-920+-orange?style=flat-square" alt="Components" />
 </p>
 
 </div>
