@@ -101,6 +101,22 @@ serve(async (req) => {
     if (!aiResponse.ok) {
       const errorText = await aiResponse.text();
       console.error('Lovable AI error:', aiResponse.status, errorText);
+      
+      // Graceful degradation: return original content if AI unavailable
+      if (aiResponse.status === 402 || aiResponse.status === 429 || aiResponse.status === 503) {
+        console.warn(`Lovable AI unavailable (${aiResponse.status}), returning original content`);
+        return new Response(
+          JSON.stringify({ 
+            boostedStyle: content,
+            original: content,
+            length: content.length,
+            fallback: true,
+            message: 'AI временно недоступен, используем оригинальное описание'
+          }),
+          { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+      
       throw new Error(`AI API error: ${aiResponse.status}`);
     }
 
