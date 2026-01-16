@@ -373,6 +373,7 @@ export const LoadingScreen = ({
 }) => {
   const [loadingTime, setLoadingTime] = useState(0);
   const [showRetry, setShowRetry] = useState(false);
+  const [dismissed, setDismissed] = useState(false);
   
   useEffect(() => {
     // Track loading time for progress indication
@@ -380,8 +381,8 @@ export const LoadingScreen = ({
       setLoadingTime(prev => prev + 1);
     }, 1000);
     
-    // Show retry button after 15 seconds (increased from 8)
-    const retryTimer = setTimeout(() => setShowRetry(true), 15000);
+    // Show retry button after 30 seconds (increased from 15 to reduce false positives)
+    const retryTimer = setTimeout(() => setShowRetry(true), 30000);
     
     return () => {
       clearInterval(interval);
@@ -390,19 +391,38 @@ export const LoadingScreen = ({
   }, []);
 
   // Calculate simulated progress based on time
-  const simulatedProgress = progress ?? Math.min(loadingTime * 8, 90);
+  const simulatedProgress = progress ?? Math.min(loadingTime * 5, 95);
+
+  // If dismissed, just show minimal loader
+  if (dismissed) {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-background/80 z-50">
+        <div className="animate-spin w-6 h-6 border-2 border-primary border-t-transparent rounded-full" />
+      </div>
+    );
+  }
 
   if (showRetry) {
     return (
       <div className="fixed inset-0 flex flex-col items-center justify-center bg-background z-50 gap-4">
         <p className="text-muted-foreground">Загрузка занимает слишком долго</p>
-        <p className="text-xs text-muted-foreground/70">Проверьте подключение к интернету</p>
-        <button 
-          onClick={() => window.location.reload()}
-          className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
-        >
-          Перезагрузить
-        </button>
+        <p className="text-xs text-muted-foreground/70 text-center px-4">
+          Попробуйте обновить страницу или подождите ещё немного
+        </p>
+        <div className="flex gap-3">
+          <button 
+            onClick={() => setDismissed(true)}
+            className="px-4 py-2 bg-muted text-muted-foreground rounded-lg hover:bg-muted/80 transition-colors"
+          >
+            Подождать
+          </button>
+          <button 
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+          >
+            Обновить
+          </button>
+        </div>
       </div>
     );
   }
@@ -410,7 +430,7 @@ export const LoadingScreen = ({
   return (
     <UnifiedSplashScreen 
       variant={variant === 'loading' ? 'loading' : variant === 'inline' ? 'inline' : 'overlay'} 
-      message={message ?? (loadingTime > 5 ? 'Почти готово...' : undefined)}
+      message={message ?? (loadingTime > 8 ? 'Почти готово...' : undefined)}
       progress={simulatedProgress}
       className={className}
     />
