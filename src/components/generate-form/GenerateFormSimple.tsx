@@ -46,8 +46,8 @@ export function GenerateFormSimple({
     onDescriptionChange('');
   }, [onDescriptionChange]);
 
-  // Validation messages
-  const descriptionValidation = validation.description.getMessage(description.length);
+  // Validation messages - now pass text for artist checking
+  const descriptionValidation = validation.description.getMessage(description.length, description);
   const titleValidation = validation.title.getMessage(title.length);
 
   return (
