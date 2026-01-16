@@ -30,7 +30,7 @@ export { useTrackStore as useStudioTrackStore };
 export { useViewStore as useStudioViewStore };
 export { usePlaybackStore as useStudioPlaybackStore };
 export { useLyricsStore as useStudioLyricsStore };
-export { useStudioHistoryStore as useStudioHistoryStore };
+// useStudioHistoryStore is already exported above
 
 /**
  * COMPOSED STORE (Backward Compatibility)
@@ -170,39 +170,45 @@ export const useUnifiedStudioStore = create<
 );
 
 // Subscribe to individual stores and update composed store
-useProjectStore.subscribe(
-  (state) => ({ project: state.project, projectId: state.projectId, isLoading: state.isLoading, isSaving: state.isSaving }),
-  (projectState) => {
-    useUnifiedStudioStore.setState(projectState as any);
-  }
-);
+useProjectStore.subscribe((state) => {
+  useUnifiedStudioStore.setState({
+    project: state.project,
+    projectId: state.projectId,
+    isLoading: state.isLoading,
+    isSaving: state.isSaving,
+  });
+});
 
-useTrackStore.subscribe(
-  (state) => ({ tracks: state.tracks, selectedTrackId: state.selectedTrackId, selectedClipId: state.selectedClipId }),
-  (trackState) => {
-    useUnifiedStudioStore.setState(trackState as any);
-  }
-);
+useTrackStore.subscribe((state) => {
+  useUnifiedStudioStore.setState({
+    tracks: state.tracks,
+    selectedTrackId: state.selectedTrackId,
+    selectedClipId: state.selectedClipId,
+  });
+});
 
-useViewStore.subscribe(
-  (state) => ({ zoom: state.zoom, viewMode: state.viewMode, snapToGrid: state.snapToGrid, gridSize: state.gridSize }),
-  (viewState) => {
-    useUnifiedStudioStore.setState(viewState as any);
-  }
-);
+useViewStore.subscribe((state) => {
+  useUnifiedStudioStore.setState({
+    zoom: state.zoom,
+    viewMode: state.viewMode,
+    snapToGrid: state.snapToGrid,
+    gridSize: state.gridSize,
+  });
+});
 
-usePlaybackStore.subscribe(
-  (state) => ({ isPlaying: state.isPlaying, currentTime: state.currentTime }),
-  (playbackState) => {
-    useUnifiedStudioStore.setState(playbackState as any);
-  }
-);
+usePlaybackStore.subscribe((state) => {
+  useUnifiedStudioStore.setState({
+    isPlaying: state.isPlaying,
+    currentTime: state.currentTime,
+  });
+});
 
-useLyricsStore.subscribe(
-  (state) => ({ currentLyrics: state.currentLyrics, lyricsVersions: state.lyricsVersions, isLyricsDirty: state.isLyricsDirty }),
-  (lyricsState) => {
-    useUnifiedStudioStore.setState(lyricsState as any);
-  }
-);
+useLyricsStore.subscribe((state) => {
+  useUnifiedStudioStore.setState({
+    currentLyrics: state.currentLyrics,
+    lyricsVersions: state.lyricsVersions,
+    isLyricsDirty: state.isLyricsDirty,
+  });
+});
 
 composedLogger.info('Studio stores composed successfully');
