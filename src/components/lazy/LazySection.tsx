@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, ReactNode, Suspense } from 'react';
+import { useRef, useState, useEffect, ReactNode, Suspense, memo, useLayoutEffect } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 
@@ -16,42 +16,58 @@ interface LazySectionProps {
   threshold?: number;
   /** Skip Suspense wrapper if children handle their own loading */
   skipSuspense?: boolean;
+  /** Eager load - render immediately without waiting for visibility */
+  eager?: boolean;
 }
 
 /**
  * LazySection - renders children only when visible in viewport
  * Uses Intersection Observer for optimal performance
+ * FIXED: No double skeleton, faster initial visibility check
  */
-export function LazySection({
+export const LazySection = memo(function LazySection({
   children,
   fallback,
-  rootMargin = '100px', // Reduced for faster trigger
+  rootMargin = '200px', // Increased for earlier trigger
   minHeight = '100px',
   className,
   threshold = 0,
   skipSuspense = false,
+  eager = false,
 }: LazySectionProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const [hasBeenVisible, setHasBeenVisible] = useState(false);
+  const [hasBeenVisible, setHasBeenVisible] = useState(eager);
+  const [isReady, setIsReady] = useState(eager);
 
-  useEffect(() => {
+  // Synchronous initial visibility check to avoid flash
+  useLayoutEffect(() => {
+    if (eager || hasBeenVisible) return;
+    
     const element = ref.current;
     if (!element) return;
 
-    // Check if already in viewport on mount
     const rect = element.getBoundingClientRect();
-    const margin = 150;
+    const margin = 300; // Large margin for faster trigger
     const isInitiallyVisible = rect.top < window.innerHeight + margin;
     
     if (isInitiallyVisible) {
       setHasBeenVisible(true);
-      return;
+      setIsReady(true);
     }
+  }, [eager, hasBeenVisible]);
+
+  useEffect(() => {
+    if (eager || hasBeenVisible) return;
+    
+    const element = ref.current;
+    if (!element) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setHasBeenVisible(true);
+          // Small delay to ensure smooth transition
+          requestAnimationFrame(() => setIsReady(true));
           observer.disconnect();
         }
       },
@@ -64,7 +80,7 @@ export function LazySection({
     observer.observe(element);
 
     return () => observer.disconnect();
-  }, [rootMargin, threshold]);
+  }, [rootMargin, threshold, eager, hasBeenVisible]);
 
   // Default skeleton fallback - minimal
   const defaultFallback = (
@@ -77,32 +93,36 @@ export function LazySection({
     </div>
   );
 
-  // Not visible yet - show fallback
+  // Use provided fallback or default
+  const loadingFallback = fallback ?? defaultFallback;
+
+  // Not visible yet - show fallback (or nothing if fallback is null)
   if (!hasBeenVisible) {
     return (
       <div 
         ref={ref} 
         className={cn(className)}
-        style={{ minHeight }}
+        style={{ minHeight: fallback === null ? undefined : minHeight }}
       >
-        {fallback ?? defaultFallback}
+        {loadingFallback}
       </div>
     );
   }
 
-  // Visible - render children (with optional Suspense)
+  // Visible and ready - render children WITHOUT double Suspense
+  // The key change: we don't wrap in Suspense if skipSuspense is true OR if already ready
   return (
     <div ref={ref} className={cn(className)}>
-      {skipSuspense ? (
+      {skipSuspense || isReady ? (
         children
       ) : (
-        <Suspense fallback={fallback ?? defaultFallback}>
+        <Suspense fallback={loadingFallback}>
           {children}
         </Suspense>
       )}
     </div>
   );
-}
+});
 
 /**
  * Skeleton for section header with icon

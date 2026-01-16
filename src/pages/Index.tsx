@@ -308,14 +308,14 @@ const Index = () => {
 
         {/* Recent user tracks - for logged in users */}
         {user && (
-          <LazySection className="mb-5" minHeight="100px" fallback={null}>
+          <LazySection className="mb-5" minHeight="80px" skipSuspense eager>
             <RecentTracksSection maxTracks={4} />
           </LazySection>
         )}
 
         {/* Genre Tabs - personalized based on user preferences */}
         {publicContent?.allTracks && publicContent.allTracks.length > 0 && (
-          <LazySection className="mb-5" minHeight="150px" skipSuspense fallback={null}>
+          <LazySection className="mb-5" minHeight="120px" skipSuspense>
             <GenreTabsSection
               tracks={publicContent.allTracks}
               isLoading={contentLoading}
@@ -325,7 +325,7 @@ const Index = () => {
         )}
 
         {/* Popular Creators */}
-        <LazySection className="mb-5" fallback={null}>
+        <LazySection className="mb-5" skipSuspense>
           <PopularCreatorsSection maxCreators={6} />
         </LazySection>
 
