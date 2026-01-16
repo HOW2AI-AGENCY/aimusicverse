@@ -27,6 +27,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sh
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
 import { useHaptic } from '@/hooks/useHaptic';
+import { logger } from '@/lib/logger';
 import { AIActionsFAB } from './AIActionsFAB';
 import { SortableTrackList } from './SortableTrackList';
 
@@ -487,23 +488,23 @@ export const UnifiedDAWLayout = memo(function UnifiedDAWLayout({
         <AIActionsFAB
           onGenerate={onGenerate || (() => {
             patterns.select();
-            console.log('AI Action: Generate');
+            logger.info('AI Action: Generate');
           })}
           onExtend={onExtend || (() => {
             patterns.select();
-            console.log('AI Action: Extend', project.tracks[0]?.id);
+            logger.info('AI Action: Extend', { trackId: project.tracks[0]?.id });
           })}
           onCover={onCover || (() => {
             patterns.select();
-            console.log('AI Action: Cover');
+            logger.info('AI Action: Cover');
           })}
           onAddVocals={onAddVocals || (() => {
             patterns.select();
-            console.log('AI Action: Add Vocals');
+            logger.info('AI Action: Add Vocals');
           })}
           onSeparateStems={onSeparateStems || (() => {
             patterns.select();
-            console.log('AI Action: Separate Stems');
+            logger.info('AI Action: Separate Stems');
           })}
           onSaveAsVersion={onSaveAsVersion}
           onRecord={onRecord}

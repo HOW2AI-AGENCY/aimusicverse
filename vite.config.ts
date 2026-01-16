@@ -250,11 +250,28 @@ export default defineConfig(({ mode }) => ({
           if (id.includes("/components/generate-form/")) {
             return "feature-generation-form";
           }
+          // Studio components - split more granularly
+          if (id.includes("/components/studio/unified/")) {
+            return "feature-studio-unified";
+          }
+          if (id.includes("/components/studio/timeline/")) {
+            return "feature-studio-timeline";
+          }
+          if (id.includes("/components/studio/editor/")) {
+            return "feature-studio-editor";
+          }
+          if (id.includes("/components/studio/mixer/")) {
+            return "feature-studio-mixer";
+          }
           if (id.includes("/components/studio/")) {
             return "feature-studio";
           }
           if (id.includes("/components/analytics/")) {
             return "feature-analytics";
+          }
+          // Split studio stores
+          if (id.includes("/stores/studio/")) {
+            return "store-studio";
           }
         },
         chunkFileNames: "assets/[name]-[hash].js",

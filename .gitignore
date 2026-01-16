@@ -7,6 +7,9 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+tmpclaude-*.cwd
+tmpclaude-*
+
 # Dependencies
 node_modules
 dist
@@ -46,7 +49,63 @@ verify.cjs
 *.tmp
 *.swp
 *.bak
+*.swo
+*.cache
+*.temp
+*.placeholder
 supabase/.temp/
 
+# System temporary files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+~$*
 
+# Editor temporary files
+*~
+.#*
+\#*\#
+.*.sw[a-z]
+*.un~
+Session.vim
+Sessionx.vim
+.netrwhist
+
+# Build/CI temporary files
+.tsbuildinfo
+*.tsbuildinfo
+.vite/cache
+.turbo
+.next/cache
+
+# Testing temporary files
+.nyc_output
+playwright-report/
+test-results/
+*.lcov
+.v8-coverage
+
+# Log files (expanded)
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+server.log
+*.log.gz
+
+# Database temporary files
+*.sqlite
+*.sqlite3
+*.db
+*.db-journal
+
+# Claude Code settings
 .claude/settings.local.json
+.claude/cache/

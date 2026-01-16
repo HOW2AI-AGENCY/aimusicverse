@@ -10,6 +10,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { Track } from '@/types/track';
+import { logger } from '@/lib/logger';
 
 /**
  * Repeat mode options for playback
@@ -271,7 +272,7 @@ export const usePlayerStore = create<PlayerState>()(
   playTrack: (track) => {
     // Validate track has audio source before attempting playback
     if (track && !track.audio_url && !track.streaming_url && !track.local_audio_url) {
-      console.warn('[PlayerStore] Attempted to play track without audio URL:', track.id, track.title);
+      logger.warn('[PlayerStore] Attempted to play track without audio URL', { trackId: track.id, trackTitle: track.title });
       // Import toast dynamically to avoid circular deps
       import('sonner').then(({ toast }) => {
         toast.error('Трек не готов к воспроизведению', {
