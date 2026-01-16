@@ -13,9 +13,9 @@ import { deleteActiveMenu, setActiveMenuMessageId } from '../core/active-menu-ma
 import { 
   buildTelegramMetadata, 
   formatDuration, 
-  escapeMarkdown,
   type TrackMetadataInput 
 } from '../../_shared/telegram-metadata.ts';
+import { escapeMarkdown } from '../../_shared/telegram-utils.ts';
 
 const supabase = getSupabaseClient();
 

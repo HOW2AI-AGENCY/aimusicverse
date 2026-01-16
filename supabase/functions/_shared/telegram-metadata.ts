@@ -5,6 +5,7 @@
 
 import { sanitizeForFilename, sanitizeForTelegram } from './track-naming.ts';
 import { APP_NAME, APP_HANDLE, getPerformerName } from './track-name-builder.ts';
+import { escapeMarkdown } from './telegram-utils.ts';
 
 export interface TelegramAudioMetadata {
   title: string;
@@ -36,18 +37,8 @@ export function formatDuration(seconds: number): string {
   return `${mins}:${secs.toString().padStart(2, '0')}`;
 }
 
-/**
- * Escape Markdown special characters for Telegram
- */
-export function escapeMarkdown(text: string): string {
-  if (!text) return '';
-  return text
-    .replace(/\*/g, '\\*')
-    .replace(/_/g, '\\_')
-    .replace(/`/g, '\\`')
-    .replace(/\[/g, '\\[')
-    .replace(/\]/g, '\\]');
-}
+// escapeMarkdown is now imported from telegram-utils.ts
+// which has proper MarkdownV2 escaping for all special characters
 
 /**
  * Get mode emoji
