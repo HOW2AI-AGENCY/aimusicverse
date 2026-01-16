@@ -606,10 +606,20 @@ serve(async (req) => {
         const taskMeta = typeof task.audio_clips === 'string' 
           ? JSON.parse(task.audio_clips || '{}') 
           : (task.audio_clips || {});
-        const projectTrackIdFromMeta = taskMeta?.project_track_id;
+        // Ensure we don't pass string "null" as UUID - convert to actual null
+        const rawProjectTrackId = taskMeta?.project_track_id;
+        const projectTrackIdFromMeta = (rawProjectTrackId && rawProjectTrackId !== 'null' && rawProjectTrackId !== 'undefined') 
+          ? rawProjectTrackId 
+          : null;
 
         if (i === 0) {
           logger.db('UPDATE', 'tracks');
+          // Safely extract project_id, ensuring string "null" becomes actual null
+          const rawProjectId = task.tracks?.project_id;
+          const safeProjectId = (rawProjectId && rawProjectId !== 'null' && rawProjectId !== 'undefined') 
+            ? rawProjectId 
+            : null;
+          
           await supabase.from('tracks').update({
             status: 'completed',
             audio_url: finalAudioUrl,
@@ -622,9 +632,9 @@ serve(async (req) => {
             suno_id: clip.id,
             model_name: clip.model_name || 'chirp-v4',
             suno_task_id: sunoTaskId,
-            // Link track to project and project_track
-            project_id: task.tracks?.project_id || null,
-            project_track_id: projectTrackIdFromMeta || null,
+            // Link track to project and project_track (safely handling "null" strings)
+            project_id: safeProjectId,
+            project_track_id: projectTrackIdFromMeta,
           }).eq('id', trackId);
           logger.success('Main track updated', { 
             projectId: task.tracks?.project_id, 
