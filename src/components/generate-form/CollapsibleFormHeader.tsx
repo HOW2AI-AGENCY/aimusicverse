@@ -1,10 +1,10 @@
 /**
  * CollapsibleFormHeader - Compact header for GenerateSheet
- * Mobile-optimized with visible mode switcher (text + icons)
+ * Mobile: dropdown mode switcher | Desktop: segmented control
  */
 
 import { memo, useMemo } from 'react';
-import { Zap, Settings2, Wand2, History, Coins, X } from 'lucide-react';
+import { Zap, Settings2, Wand2, History, Coins, X, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 import { SUNO_MODELS, getAvailableModels } from '@/constants/sunoModels';
+import { useIsMobile } from '@/hooks/use-media-query';
 
 export type GenerationMode = 'simple' | 'custom' | 'wizard';
 
@@ -58,6 +59,8 @@ const MODE_CONFIG: Record<GenerationMode, ModeConfig> = {
   },
 };
 
+const MODE_KEYS: GenerationMode[] = ['simple', 'custom', 'wizard'];
+
 export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
   balance = 0,
   cost = 12,
@@ -68,6 +71,8 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
   onModelChange,
   onClose,
 }: CollapsibleFormHeaderProps) {
+  const isMobile = useIsMobile();
+  
   const handleHistoryClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     onOpenHistory?.();
@@ -93,40 +98,97 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
           </Button>
         )}
         
-        {/* Segmented Mode Switcher - visible with text labels */}
-        <div className="flex bg-muted/60 rounded-lg p-0.5 gap-0.5">
-          {(Object.keys(MODE_CONFIG) as GenerationMode[]).map((modeKey) => {
-            const config = MODE_CONFIG[modeKey];
-            const Icon = config.icon;
-            const isActive = mode === modeKey;
-            
-            return (
-              <button
-                key={modeKey}
+        {/* Mode Switcher - Dropdown on mobile, Segmented on desktop */}
+        {isMobile ? (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button 
                 type="button"
-                onClick={() => onModeChange?.(modeKey)}
                 className={cn(
-                  "flex items-center gap-1 px-2 py-1.5 rounded-md text-xs font-medium transition-all relative",
-                  "min-h-[28px] min-w-[60px] justify-center",
-                  isActive
-                    ? "bg-background shadow-sm text-foreground"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted/80"
+                  "flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all relative",
+                  "bg-muted/60 hover:bg-muted min-h-[28px]"
                 )}
               >
-                <Icon className={cn(
-                  "w-3.5 h-3.5 flex-shrink-0",
-                  isActive && "text-primary"
-                )} />
-                <span className="hidden xs:inline">{config.shortLabel}</span>
-                {config.isNew && (
+                <CurrentIcon className="w-3.5 h-3.5 text-primary" />
+                <span className="font-medium">{currentModeConfig.shortLabel}</span>
+                <ChevronDown className="w-3 h-3 text-muted-foreground" />
+                {currentModeConfig.isNew && (
                   <span className="absolute -top-1 -right-1 text-[8px] px-1 py-0.5 rounded bg-primary text-primary-foreground font-bold leading-none">
                     NEW
                   </span>
                 )}
               </button>
-            );
-          })}
-        </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="min-w-[180px] bg-popover">
+              {MODE_KEYS.map((modeKey) => {
+                const config = MODE_CONFIG[modeKey];
+                const Icon = config.icon;
+                const isActive = mode === modeKey;
+                
+                return (
+                  <DropdownMenuItem 
+                    key={modeKey}
+                    onClick={() => onModeChange?.(modeKey)}
+                    className={cn(
+                      "flex items-center gap-2 text-xs cursor-pointer",
+                      isActive && "bg-primary/10"
+                    )}
+                  >
+                    <Icon className={cn(
+                      "w-4 h-4",
+                      isActive ? "text-primary" : "text-muted-foreground"
+                    )} />
+                    <div className="flex flex-col flex-1 min-w-0">
+                      <div className="flex items-center gap-1.5">
+                        <span className="font-medium">{config.label}</span>
+                        {config.isNew && (
+                          <span className="text-[8px] px-1 py-0.5 rounded bg-primary text-primary-foreground font-bold leading-none">
+                            NEW
+                          </span>
+                        )}
+                      </div>
+                      <span className="text-[10px] text-muted-foreground">{config.description}</span>
+                    </div>
+                  </DropdownMenuItem>
+                );
+              })}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : (
+          <div className="flex bg-muted/60 rounded-lg p-0.5 gap-0.5">
+            {MODE_KEYS.map((modeKey) => {
+              const config = MODE_CONFIG[modeKey];
+              const Icon = config.icon;
+              const isActive = mode === modeKey;
+              
+              return (
+                <button
+                  key={modeKey}
+                  type="button"
+                  onClick={() => onModeChange?.(modeKey)}
+                  className={cn(
+                    "flex items-center gap-1 px-2 py-1.5 rounded-md text-xs font-medium transition-all relative",
+                    "min-h-[28px] min-w-[60px] justify-center",
+                    isActive
+                      ? "bg-background shadow-sm text-foreground"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted/80"
+                  )}
+                >
+                  <Icon className={cn(
+                    "w-3.5 h-3.5 flex-shrink-0",
+                    isActive && "text-primary"
+                  )} />
+                  <span>{config.shortLabel}</span>
+                  {config.isNew && (
+                    <span className="absolute -top-1 -right-1 text-[8px] px-1 py-0.5 rounded bg-primary text-primary-foreground font-bold leading-none">
+                      NEW
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       {/* Right: Model + Balance + Close */}
@@ -146,7 +208,7 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
                 <span className="font-medium text-[11px] max-w-[40px] truncate hidden sm:inline">{currentModel.name}</span>
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="min-w-[160px]">
+            <DropdownMenuContent align="end" className="min-w-[160px] bg-popover">
               {availableModels.map((m) => (
                 <DropdownMenuItem 
                   key={m.key}
