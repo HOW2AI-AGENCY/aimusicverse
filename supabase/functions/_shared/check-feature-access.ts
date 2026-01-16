@@ -66,20 +66,21 @@ export async function getSubscriptionStatus(
 }
 
 /**
- * Check if user is admin
+ * Check if user is admin via user_roles table
  */
 export async function checkIsAdmin(
   supabase: SupabaseClient,
   userId: string
 ): Promise<boolean> {
   try {
-    const { data } = await supabase
-      .from('profiles')
-      .select('is_admin')
+    const { data, error } = await supabase
+      .from('user_roles')
+      .select('role')
       .eq('user_id', userId)
-      .single();
+      .eq('role', 'admin')
+      .maybeSingle();
 
-    return data?.is_admin === true;
+    return !!data && !error;
   } catch {
     return false;
   }

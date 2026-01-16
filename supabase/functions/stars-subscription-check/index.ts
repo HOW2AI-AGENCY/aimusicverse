@@ -57,14 +57,15 @@ serve(async (req) => {
     // T060: Users can only query their own subscription (unless admin)
     let targetUserId = user.id;
     if (requestedUserId && requestedUserId !== user.id) {
-      // Check if user is admin
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('is_admin')
+      // Check if user is admin via user_roles table
+      const { data: adminRole } = await supabase
+        .from('user_roles')
+        .select('role')
         .eq('user_id', user.id)
-        .single();
+        .eq('role', 'admin')
+        .maybeSingle();
 
-      if (!profile?.is_admin) {
+      if (!adminRole) {
         return new Response(
           JSON.stringify({ error: 'Forbidden: cannot query other users subscriptions' }),
           { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
