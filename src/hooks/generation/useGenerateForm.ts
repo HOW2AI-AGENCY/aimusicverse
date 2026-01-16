@@ -22,8 +22,10 @@ import { useAnalyticsTracking } from '@/hooks/useAnalyticsTracking';
 import { generationAnalytics, startTimer } from '@/lib/telemetry';
 // GenerationProvider type removed - only Suno is used
 
+export type GenerationMode = 'simple' | 'custom' | 'wizard';
+
 export interface GenerateFormState {
-  mode: 'simple' | 'custom';
+  mode: GenerationMode;
   description: string;
   title: string;
   lyrics: string;
@@ -74,7 +76,7 @@ export function useGenerateForm({
   const { balance: userBalance, canGenerate, generationCost, invalidate: invalidateCredits, isAdmin, apiBalance } = useUserCredits(model);
 
   // Form state
-  const [mode, setMode] = useState<'simple' | 'custom'>('simple');
+  const [mode, setMode] = useState<GenerationMode>('simple');
   const [loading, setLoading] = useState(false);
   const [boostLoading, setBoostLoading] = useState(false);
   const [apiCredits, setApiCredits] = useState<number | null>(null);

@@ -6,8 +6,10 @@ const DRAFT_EXPIRY_MS = 30 * 60 * 1000; // 30 minutes
 const DRAFT_VERSION = 1; // Version number for migration compatibility
 const AUTO_SAVE_DELAY_MS = 2000; // 2 seconds after user stops typing
 
+export type GenerationModeType = 'simple' | 'custom' | 'wizard';
+
 export interface GenerateDraft {
-  mode: 'simple' | 'custom';
+  mode: GenerationModeType;
   description: string;
   title: string;
   lyrics: string;
