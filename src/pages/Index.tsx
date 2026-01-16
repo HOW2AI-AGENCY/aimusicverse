@@ -27,6 +27,7 @@ import { CreatorToolsSection } from "@/components/home/CreatorToolsSection";
 import { QuickPlaySection } from "@/components/home/QuickPlaySection";
 import { QuickStartCards, type QuickStartPreset } from "@/components/home/QuickStartCards";
 import { CollapsibleSection } from "@/components/home/CollapsibleSection";
+import { BotContextBanner } from "@/components/home/BotContextBanner";
 import { InviteFriendsCard } from "@/components/gamification/InviteFriendsCard";
 
 // Lazy loaded components - only essential ones
@@ -202,6 +203,9 @@ const Index = () => {
           userPhotoUrl={displayUser?.photo_url}
           onProfileClick={goToProfile}
         />
+
+        {/* Bot Context Banner - shows context when navigating from Telegram bot */}
+        <BotContextBanner />
 
         {/* Gamification Bar - for logged in users */}
         {user && (

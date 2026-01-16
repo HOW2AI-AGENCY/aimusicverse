@@ -744,7 +744,8 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const hapticFeedback = (type: 'light' | 'medium' | 'heavy' | 'success' | 'error' | 'warning' | 'selection') => {
-    if (webApp?.HapticFeedback) {
+    // HapticFeedback requires Telegram WebApp version 6.1+
+    if (webApp?.HapticFeedback && webApp.isVersionAtLeast?.('6.1')) {
       try {
         switch (type) {
           case 'light':
