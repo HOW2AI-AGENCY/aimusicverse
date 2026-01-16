@@ -131,15 +131,16 @@ export function DailyMissions() {
     },
   });
 
+  // Boosted mission rewards for faster progression
   const missions: Mission[] = [
     {
       id: 'generate',
       title: 'Создатель',
-      description: 'Сгенерируй 3 трека',
+      description: 'Сгенерируй 2 трека',  // Reduced from 3
       icon: <Music className="w-4 h-4" />,
-      target: 3,
+      target: 2,  // Easier to complete
       current: activity?.generations || 0,
-      reward: { credits: 10, xp: 30 },
+      reward: { credits: 15, xp: 50 },  // Boosted from 10/30
       actionPath: '/generate',
       actionLabel: 'Создать',
       claimed: activity?.claimedIds?.has('generate'),
@@ -147,11 +148,11 @@ export function DailyMissions() {
     {
       id: 'share',
       title: 'Промоутер',
-      description: 'Поделись 2 треками',
+      description: 'Поделись 1 треком',  // Reduced from 2
       icon: <Share2 className="w-4 h-4" />,
-      target: 2,
+      target: 1,  // Easier
       current: activity?.shares || 0,
-      reward: { credits: 6, xp: 20 },
+      reward: { credits: 10, xp: 35 },  // Boosted from 6/20
       actionPath: '/library',
       actionLabel: 'Библиотека',
       claimed: activity?.claimedIds?.has('share'),
@@ -159,11 +160,11 @@ export function DailyMissions() {
     {
       id: 'like',
       title: 'Ценитель',
-      description: 'Лайкни 5 публичных треков',
+      description: 'Лайкни 3 публичных трека',  // Reduced from 5
       icon: <Heart className="w-4 h-4" />,
-      target: 5,
+      target: 3,  // Easier
       current: activity?.likes || 0,
-      reward: { credits: 5, xp: 15 },
+      reward: { credits: 8, xp: 25 },  // Boosted from 5/15
       actionPath: '/',
       actionLabel: 'Обзор',
       claimed: activity?.claimedIds?.has('like'),
