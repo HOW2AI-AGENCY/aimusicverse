@@ -121,8 +121,12 @@ export function useFeatureAccess(featureKey: FeatureKey) {
     };
   }
 
+  // CRITICAL: If subscription is not active, treat user as 'free' tier
+  // This prevents expired subscriptions from accessing premium features
+  const effectiveTier = (!isActive && tier !== 'free') ? 'free' : (tier || 'free');
+  
   // Check tier hierarchy
-  const userTierLevel = TIER_HIERARCHY[tier || 'free'] ?? 0;
+  const userTierLevel = TIER_HIERARCHY[effectiveTier] ?? 0;
   const requiredTierLevel = TIER_HIERARCHY[permission.min_tier] ?? 0;
   const hasAccess = userTierLevel >= requiredTierLevel;
 
@@ -133,6 +137,8 @@ export function useFeatureAccess(featureKey: FeatureKey) {
     isAdminOnly: false,
     creditsPerUse: permission.credits_per_use,
     isAdmin: false,
+    // Expose subscription status for UI warnings
+    subscriptionExpired: !isActive && tier !== 'free',
   };
 }
 
@@ -160,7 +166,13 @@ export function useUserFeatures() {
     };
   }
 
-  const userTierLevel = TIER_HIERARCHY[tier || 'free'] ?? 0;
+  // CRITICAL: If subscription is not active, treat user as 'free' tier
+  const { isActive } = useSubscriptionStatus({ 
+    userId: user?.id || '', 
+    enabled: !!user?.id 
+  });
+  const effectiveTier = (!isActive && tier !== 'free') ? 'free' : (tier || 'free');
+  const userTierLevel = TIER_HIERARCHY[effectiveTier] ?? 0;
   
   const accessibleFeatures = permissions
     .filter(p => {
@@ -175,17 +187,21 @@ export function useUserFeatures() {
 
 /**
  * Quick access check without hook (for edge cases)
+ * @param isSubscriptionActive - Whether subscription is currently active (not expired)
  */
 export function checkFeatureAccess(
   userTier: string,
   isAdmin: boolean,
   featureMinTier: string,
-  isFeatureAdminOnly: boolean
+  isFeatureAdminOnly: boolean,
+  isSubscriptionActive: boolean = true
 ): boolean {
   if (isAdmin) return true;
   if (isFeatureAdminOnly) return false;
   
-  const userTierLevel = TIER_HIERARCHY[userTier || 'free'] ?? 0;
+  // CRITICAL: If subscription is not active, treat user as 'free' tier
+  const effectiveTier = (!isSubscriptionActive && userTier !== 'free') ? 'free' : (userTier || 'free');
+  const userTierLevel = TIER_HIERARCHY[effectiveTier] ?? 0;
   const requiredLevel = TIER_HIERARCHY[featureMinTier] ?? 0;
   
   return userTierLevel >= requiredLevel;
