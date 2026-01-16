@@ -31,6 +31,9 @@ const GenerateFormSimple = lazy(() =>
 const GenerateFormCustom = lazy(() => 
   import('./generate-form/GenerateFormCustom').then(m => ({ default: m.GenerateFormCustom }))
 );
+const GenerationWizard = lazy(() => 
+  import('./generate-form/wizard/GenerationWizard').then(m => ({ default: m.GenerationWizard }))
+);
 
 // Form skeleton for lazy loading
 const FormSkeleton = () => (
@@ -313,6 +316,23 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                     onBoostStyle={form.handleBoostStyle}
                     boostLoading={form.boostLoading}
                     onOpenStyles={() => setStylesOpen(true)}
+                  />
+                ) : form.mode === 'wizard' ? (
+                  <GenerationWizard
+                    onGenerate={(params) => {
+                      // Transfer wizard params to form and generate
+                      form.setDescription(params.description);
+                      form.setTitle(params.title);
+                      form.setStyle(params.style);
+                      form.setLyrics(params.lyrics);
+                      form.setHasVocals(params.hasVocals);
+                      form.setVocalGender(params.vocalGender);
+                      form.setModel(params.model);
+                      form.setIsPublic(params.isPublic);
+                      // Trigger generation
+                      setTimeout(() => form.handleGenerate(), 100);
+                    }}
+                    isLoading={form.loading}
                   />
                 ) : (
                   <GenerateFormCustom
