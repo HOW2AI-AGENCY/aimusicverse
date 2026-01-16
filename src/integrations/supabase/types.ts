@@ -5479,36 +5479,57 @@ export type Database = {
         Row: {
           banner_url: string | null
           bio: string | null
+          created_at: string | null
           display_name: string | null
+          first_name: string | null
           followers_count: number | null
           following_count: number | null
-          id: string | null
           is_public: boolean | null
+          last_name: string | null
           photo_url: string | null
+          profile_theme: Json | null
+          social_links: Json | null
+          subscription_tier:
+            | Database["public"]["Enums"]["subscription_tier"]
+            | null
           user_id: string | null
           username: string | null
         }
         Insert: {
           banner_url?: string | null
           bio?: string | null
+          created_at?: string | null
           display_name?: string | null
+          first_name?: string | null
           followers_count?: number | null
           following_count?: number | null
-          id?: string | null
           is_public?: boolean | null
+          last_name?: string | null
           photo_url?: string | null
+          profile_theme?: Json | null
+          social_links?: Json | null
+          subscription_tier?:
+            | Database["public"]["Enums"]["subscription_tier"]
+            | null
           user_id?: string | null
           username?: string | null
         }
         Update: {
           banner_url?: string | null
           bio?: string | null
+          created_at?: string | null
           display_name?: string | null
+          first_name?: string | null
           followers_count?: number | null
           following_count?: number | null
-          id?: string | null
           is_public?: boolean | null
+          last_name?: string | null
           photo_url?: string | null
+          profile_theme?: Json | null
+          social_links?: Json | null
+          subscription_tier?:
+            | Database["public"]["Enums"]["subscription_tier"]
+            | null
           user_id?: string | null
           username?: string | null
         }

@@ -6,6 +6,7 @@
 import { memo } from 'react';
 import { AlertCircle, AlertTriangle, Info } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { checkForBlockedArtists } from '@/lib/errorHandling';
 
 export type ValidationLevel = 'error' | 'warning' | 'info';
 
@@ -73,11 +74,36 @@ export const ValidationMessage = memo(function ValidationMessage({
 /**
  * Validation rules for generate form fields
  */
+/**
+ * Check for blocked artist names in text
+ * Returns validation result if artist found
+ */
+export function checkArtistValidation(text: string): { message: string; level: ValidationLevel; suggestion?: string } | null {
+  if (!text) return null;
+  
+  const blockedArtist = checkForBlockedArtists(text);
+  if (blockedArtist) {
+    return {
+      message: `Нельзя использовать имя "${blockedArtist}". Опишите стиль без упоминания артистов.`,
+      level: 'error',
+      suggestion: 'Например: "мелодичный рэп" вместо имени артиста',
+    };
+  }
+  
+  return null;
+}
+
 export const validation = {
   description: {
     minLength: 10,
     maxLength: 500,
-    getMessage: (length: number): { message: string; level: ValidationLevel } | null => {
+    getMessage: (length: number, text?: string): { message: string; level: ValidationLevel; suggestion?: string } | null => {
+      // First check for blocked artists (priority error)
+      if (text) {
+        const artistCheck = checkArtistValidation(text);
+        if (artistCheck) return artistCheck;
+      }
+      
       if (length === 0) {
         return null; // Empty is allowed
       }
@@ -125,7 +151,13 @@ export const validation = {
   style: {
     minLength: 10,
     maxLength: 500,
-    getMessage: (length: number): { message: string; level: ValidationLevel } | null => {
+    getMessage: (length: number, text?: string): { message: string; level: ValidationLevel; suggestion?: string } | null => {
+      // First check for blocked artists (priority error)
+      if (text) {
+        const artistCheck = checkArtistValidation(text);
+        if (artistCheck) return artistCheck;
+      }
+      
       if (length === 0) {
         return null; // Empty is allowed
       }

@@ -1,8 +1,8 @@
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import { Textarea } from '@/components/ui/textarea';
-import { Button } from '@/components/ui/button';
 import { FormFieldActions } from '@/components/ui/FormFieldActions';
 import { SectionLabel, SECTION_HINTS } from '../SectionLabel';
+import { ValidationMessage, validation } from '../ValidationMessage';
 import { cn } from '@/lib/utils';
 
 interface StyleSectionProps {
@@ -20,6 +20,14 @@ export const StyleSection = memo(function StyleSection({
   boostLoading,
   onOpenStyles,
 }: StyleSectionProps) {
+  // Validate style with artist checking
+  const styleValidation = useMemo(
+    () => validation.style.getMessage(style.length, style),
+    [style]
+  );
+  
+  const hasError = styleValidation?.level === 'error';
+  
   return (
     <div className="space-y-2">
       <SectionLabel 
@@ -39,8 +47,10 @@ export const StyleSection = memo(function StyleSection({
           className={cn(
             "resize-none text-sm pb-9 rounded-xl bg-muted/30 border-muted-foreground/20",
             "focus:border-primary/50 focus:ring-primary/20 transition-colors",
-            style.length > 450 && "border-destructive focus:border-destructive"
+            hasError && "border-destructive focus:border-destructive focus-visible:ring-destructive"
           )}
+          aria-invalid={hasError}
+          aria-describedby={styleValidation ? "style-error" : undefined}
         />
         
         {/* Bottom toolbar inside textarea */}
@@ -71,6 +81,15 @@ export const StyleSection = memo(function StyleSection({
           </div>
         </div>
       </div>
+      
+      {/* Validation message */}
+      {styleValidation && (
+        <ValidationMessage
+          message={styleValidation.message}
+          level={styleValidation.level}
+          fieldId="style"
+        />
+      )}
     </div>
   );
 });

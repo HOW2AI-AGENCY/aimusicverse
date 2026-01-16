@@ -1,4 +1,4 @@
-import { memo, useState } from 'react';
+import { memo, useState, useMemo } from 'react';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { FormFieldActions } from '@/components/ui/FormFieldActions';
@@ -6,6 +6,7 @@ import { LyricsVisualEditorCompact } from '../LyricsVisualEditorCompact';
 import { SaveTemplateDialog } from '../SaveTemplateDialog';
 import { SavedLyricsSelector } from '../SavedLyricsSelector';
 import { SectionLabel, SECTION_HINTS } from '../SectionLabel';
+import { ValidationMessage, checkArtistValidation } from '../ValidationMessage';
 import { useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { LayoutGrid, AlignLeft } from 'lucide-react';
@@ -33,6 +34,14 @@ export const LyricsSection = memo(function LyricsSection({
   const [showVisualEditor, setShowVisualEditor] = useState(false);
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
   const [templateSelectorOpen, setTemplateSelectorOpen] = useState(false);
+
+  // Check for blocked artists in lyrics
+  const lyricsValidation = useMemo(
+    () => checkArtistValidation(lyrics),
+    [lyrics]
+  );
+  
+  const hasError = lyricsValidation?.level === 'error';
 
   return (
     <>
@@ -80,8 +89,10 @@ export const LyricsSection = memo(function LyricsSection({
               className={cn(
                 "text-sm min-h-[180px] max-h-[300px] overflow-y-auto whitespace-pre-wrap pb-9 rounded-xl",
                 "bg-muted/30 border-muted-foreground/20 focus:border-primary/50 focus:ring-primary/20",
-                lyrics.length > 2800 && "border-destructive focus:border-destructive"
+                (lyrics.length > 2800 || hasError) && "border-destructive focus:border-destructive focus-visible:ring-destructive"
               )}
+              aria-invalid={hasError || lyrics.length > 3000}
+              aria-describedby={lyricsValidation ? "lyrics-error" : undefined}
             />
             
             {/* Bottom toolbar */}
@@ -113,6 +124,15 @@ export const LyricsSection = memo(function LyricsSection({
               </div>
             </div>
           </div>
+        )}
+        
+        {/* Validation message for artist names */}
+        {lyricsValidation && (
+          <ValidationMessage
+            message={lyricsValidation.message}
+            level={lyricsValidation.level}
+            fieldId="lyrics"
+          />
         )}
       </div>
 
