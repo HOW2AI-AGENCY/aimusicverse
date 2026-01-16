@@ -5,7 +5,7 @@
  * Includes filtering, sorting, pagination, and batch loading for homepage
  */
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 import { useAuth } from "./useAuth";
@@ -358,7 +358,8 @@ export function usePublicContentBatch() {
   return useQuery({
     queryKey: ['public-content-optimized', user?.id],
     queryFn: async (): Promise<PublicContentData> => {
-      // Fetch public tracks - increased limit for better content variety
+      // Fetch public tracks
+      // PERF: keep the batch small enough for fast mobile paint
       const { data: tracks, error } = await supabase
         .from("tracks")
         .select("*")
@@ -366,7 +367,7 @@ export function usePublicContentBatch() {
         .eq("status", "completed")
         .not("audio_url", "is", null)
         .order("created_at", { ascending: false })
-        .limit(500);
+        .limit(160);
 
       if (error) throw error;
       if (!tracks || tracks.length === 0) {
@@ -430,16 +431,17 @@ export function usePublicContentBatch() {
         (b.play_count || 0) - (a.play_count || 0)
       );
 
-      return {
-        featuredTracks: sortedByPopular.slice(0, 20), // Top 20 by plays
-        recentTracks: enrichedTracks.slice(0, 50), // First 50 (already sorted by date)
-        popularTracks: sortedByPopular.slice(0, 50), // Top 50 by plays
-        allTracks: enrichedTracks, // All for auto-playlists (up to 500)
-      };
-    },
-    staleTime: 2 * 60 * 1000, // 2 minutes
-    gcTime: 10 * 60 * 1000, // 10 minutes
-  });
+       return {
+         featuredTracks: sortedByPopular.slice(0, 20), // Top 20 by plays
+         recentTracks: enrichedTracks.slice(0, 50), // First 50 (already sorted by date)
+         popularTracks: sortedByPopular.slice(0, 50), // Top 50 by plays
+         allTracks: enrichedTracks, // up to 160
+       };
+     },
+     staleTime: 2 * 60 * 1000, // 2 minutes
+     gcTime: 10 * 60 * 1000, // 10 minutes
+     placeholderData: keepPreviousData,
+   });
 }
 
 /**
