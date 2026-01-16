@@ -14,6 +14,8 @@ interface LazySectionProps {
   className?: string;
   /** Threshold for intersection (0-1) */
   threshold?: number;
+  /** Skip Suspense wrapper if children handle their own loading */
+  skipSuspense?: boolean;
 }
 
 /**
@@ -23,26 +25,25 @@ interface LazySectionProps {
 export function LazySection({
   children,
   fallback,
-  rootMargin = '200px', // Reduced for better mobile performance
-  minHeight = '200px',
+  rootMargin = '100px', // Reduced for faster trigger
+  minHeight = '100px',
   className,
-  threshold = 0.1, // Trigger when 10% visible
+  threshold = 0,
+  skipSuspense = false,
 }: LazySectionProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
   const [hasBeenVisible, setHasBeenVisible] = useState(false);
 
   useEffect(() => {
     const element = ref.current;
     if (!element) return;
 
-    // Check if already in viewport on mount (for fast mobile scrolling)
+    // Check if already in viewport on mount
     const rect = element.getBoundingClientRect();
-    const margin = typeof window !== 'undefined' && window.innerWidth < 768 ? 200 : 300;
+    const margin = 150;
     const isInitiallyVisible = rect.top < window.innerHeight + margin;
     
     if (isInitiallyVisible) {
-      setIsVisible(true);
       setHasBeenVisible(true);
       return;
     }
@@ -50,7 +51,6 @@ export function LazySection({
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setIsVisible(true);
           setHasBeenVisible(true);
           observer.disconnect();
         }
@@ -63,35 +63,42 @@ export function LazySection({
 
     observer.observe(element);
 
-    return () => {
-      observer.disconnect();
-    };
+    return () => observer.disconnect();
   }, [rootMargin, threshold]);
 
-  // Default skeleton fallback
+  // Default skeleton fallback - minimal
   const defaultFallback = (
-    <div className="space-y-3">
-      <Skeleton className="h-6 w-40" />
+    <div className="space-y-3 animate-pulse">
+      <Skeleton className="h-5 w-32" />
       <div className="flex gap-3 overflow-hidden">
-        <Skeleton className="h-40 w-36 rounded-xl shrink-0" />
-        <Skeleton className="h-40 w-36 rounded-xl shrink-0" />
-        <Skeleton className="h-40 w-36 rounded-xl shrink-0" />
+        <Skeleton className="h-32 w-32 rounded-xl shrink-0" />
+        <Skeleton className="h-32 w-32 rounded-xl shrink-0" />
       </div>
     </div>
   );
 
+  // Not visible yet - show fallback
+  if (!hasBeenVisible) {
+    return (
+      <div 
+        ref={ref} 
+        className={cn(className)}
+        style={{ minHeight }}
+      >
+        {fallback ?? defaultFallback}
+      </div>
+    );
+  }
+
+  // Visible - render children (with optional Suspense)
   return (
-    <div 
-      ref={ref} 
-      className={cn(className)}
-      style={{ minHeight: hasBeenVisible ? 'auto' : minHeight }}
-    >
-      {hasBeenVisible ? (
-        <Suspense fallback={fallback || defaultFallback}>
+    <div ref={ref} className={cn(className)}>
+      {skipSuspense ? (
+        children
+      ) : (
+        <Suspense fallback={fallback ?? defaultFallback}>
           {children}
         </Suspense>
-      ) : (
-        fallback || defaultFallback
       )}
     </div>
   );

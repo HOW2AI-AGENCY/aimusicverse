@@ -308,14 +308,14 @@ const Index = () => {
 
         {/* Recent user tracks - for logged in users */}
         {user && (
-          <LazySection className="mb-5" minHeight="120px">
+          <LazySection className="mb-5" minHeight="100px" fallback={null}>
             <RecentTracksSection maxTracks={4} />
           </LazySection>
         )}
 
         {/* Genre Tabs - personalized based on user preferences */}
         {publicContent?.allTracks && publicContent.allTracks.length > 0 && (
-          <LazySection className="mb-5" minHeight="200px">
+          <LazySection className="mb-5" minHeight="150px" skipSuspense fallback={null}>
             <GenreTabsSection
               tracks={publicContent.allTracks}
               isLoading={contentLoading}
