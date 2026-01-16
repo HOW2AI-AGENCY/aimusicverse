@@ -1,7 +1,48 @@
 # 📚 БАЗА ЗНАНИЙ ПРОЕКТА MusicVerse AI
 
-> **Последнее обновление:** 2026-01-07 (Studio Optimization Session)  
-> **Версия проекта:** 1.2.5 (Sprint 030 - Studio Optimization)
+> **Последнее обновление:** 2026-01-16 (Sprint 012 - Audit Improvements)  
+> **Версия проекта:** 1.3.0 (Sprint 012 - Security & Engagement Boost)
+
+---
+
+## 🆕 НОВОЕ В SPRINT 012: AUDIT IMPROVEMENTS (January 16, 2026)
+
+### 1. Security Fixes ✅
+- **safe_public_profiles view** — скрыты telegram_id и telegram_chat_id от публичного доступа
+- **DELETE RLS policy** — добавлена для generation_tasks
+- **Prompt validation** — real-time блокировка имён артистов в описании/стиле/текстах
+
+### 2. Gamification Boost ✅
+**XP Rewards увеличены на 100-200%:**
+| Действие | Было | Стало |
+|----------|------|-------|
+| Daily Check-in | 10 XP | 25 XP (+150%) |
+| Streak Bonus | 5 XP/day | 15 XP/day (+200%) |
+| Share | 15 XP | 30 XP (+100%) |
+| Like Received | 5 XP | 10 XP (+100%) |
+| Generation | 20 XP | 40 XP (+100%) |
+| Public Track | 10 XP | 25 XP (+150%) |
+
+**Daily Missions упрощены:**
+- Generate: 3→2 tracks, reward 10→15 credits
+- Share: 2→1 tracks, reward 6→10 credits
+- Like: 5→3 tracks, reward 5→8 credits
+
+**Новые награды:**
+- COMMENT_POSTED: 3 credits, 15 XP
+- FIRST_COMMENT_ON_TRACK: 5 credits, 25 XP
+
+### 3. New Components ✅
+```
+src/components/gamification/InviteFriendsCard.tsx - Реферальная карточка (3 варианта)
+src/components/gamification/LevelProgressCard.tsx - Визуализация уровня с тирами
+src/components/settings/NotificationSettingsSection.tsx - Группированные уведомления
+```
+
+### 4. Integrations ✅
+- `InviteFriendsCard` интегрирован на Index (баннер) и Settings (подписка)
+- `SubscriptionManagement` добавлен в новый таб "Подписка" в Settings
+- `NotificationSettingsSection` для группировки уведомлений по категориям
 
 ---
 
