@@ -19,12 +19,14 @@ import { cn } from '@/lib/utils';
 import { logger } from '@/lib/logger';
 import { usePromptHistorySync } from '@/hooks/usePromptHistorySync';
 
+export type PromptMode = 'simple' | 'custom' | 'wizard';
+
 export interface PromptHistoryItem {
   id: string;
   timestamp: Date;
   lastUsed?: Date;
   usageCount: number;
-  mode: 'simple' | 'custom';
+  mode: PromptMode;
   description?: string;
   title?: string;
   style?: string;
@@ -37,7 +39,7 @@ export interface PromptHistoryItem {
 export interface SavedPrompt {
   id: string;
   name: string;
-  mode: 'simple' | 'custom';
+  mode: PromptMode;
   description?: string;
   title?: string;
   style?: string;
