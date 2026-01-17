@@ -5592,6 +5592,16 @@ export type Database = {
       }
     }
     Functions: {
+      add_credits: {
+        Args: {
+          p_action_type?: string
+          p_amount: number
+          p_description?: string
+          p_metadata?: Json
+          p_user_id: string
+        }
+        Returns: Json
+      }
       archive_old_api_usage_logs: { Args: never; Returns: Json }
       archive_old_error_logs: { Args: never; Returns: Json }
       build_suno_prompt: {
@@ -6049,6 +6059,10 @@ export type Database = {
         Returns: undefined
       }
       is_premium_or_admin: { Args: { _user_id: string }; Returns: boolean }
+      is_user_blocked: {
+        Args: { p_blocked_id: string; p_blocker_id: string }
+        Returns: boolean
+      }
       jsonb_object_keys_count: { Args: { obj: Json }; Returns: number }
       link_transcription_to_version: {
         Args: { p_transcription_id: string; p_version_id: string }
