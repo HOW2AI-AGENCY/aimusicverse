@@ -12,8 +12,6 @@ import { TrendingUp } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { UnifiedTrackCard } from '@/components/shared/UnifiedTrackCard';
-import type { Track } from '@/types/track';
-
 import type { TrackData } from '@/components/track/track-card-new/types';
 
 interface FeaturedSectionProps {
