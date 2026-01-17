@@ -169,24 +169,39 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
         .limit(10);
 
       if (!error && data) {
-        const generations = data.map(task => {
-          const stageInfo = getGenerationStage(task.status);
-          const createdAt = new Date(task.created_at).getTime();
-          const elapsed = (Date.now() - createdAt) / 1000;
-          const estimatedTotal = 120;
-          const remaining = Math.max(0, estimatedTotal - elapsed);
-          
-          return {
-            id: task.id,
-            prompt: task.prompt,
-            status: task.status as GenerationProgress['status'],
-            progress: stageInfo.progress,
-            stage: stageInfo.stage,
-            created_at: task.created_at,
-            estimated_time: Math.round(remaining),
-            track_id: task.track_id,
-          };
-        });
+        // Filter out stale tasks (older than 10 minutes = 600 seconds)
+        const STALE_THRESHOLD_MS = 10 * 60 * 1000;
+        const now = Date.now();
+        
+        const generations = data
+          .filter(task => {
+            const createdAt = new Date(task.created_at).getTime();
+            const elapsed = now - createdAt;
+            // Skip tasks older than 10 minutes - they're likely stuck
+            if (elapsed > STALE_THRESHOLD_MS) {
+              console.warn('[NotificationContext] Skipping stale task:', task.id, 'age:', Math.round(elapsed / 60000), 'min');
+              return false;
+            }
+            return true;
+          })
+          .map(task => {
+            const stageInfo = getGenerationStage(task.status);
+            const createdAt = new Date(task.created_at).getTime();
+            const elapsed = (now - createdAt) / 1000;
+            const estimatedTotal = 120;
+            const remaining = Math.max(0, estimatedTotal - elapsed);
+            
+            return {
+              id: task.id,
+              prompt: task.prompt,
+              status: task.status as GenerationProgress['status'],
+              progress: stageInfo.progress,
+              stage: stageInfo.stage,
+              created_at: task.created_at,
+              estimated_time: Math.round(remaining),
+              track_id: task.track_id,
+            };
+          });
         setActiveGenerations(generations);
         
         generations.forEach(g => {
