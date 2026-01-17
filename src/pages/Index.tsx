@@ -2,16 +2,14 @@
  * Index Page - Redesigned Mobile-First Home
  * Feature: 001-mobile-ui-redesign
  *
- * Streamlined home screen with maximum 4 sections:
- * 1. QuickCreate - Primary create action with FAB trigger
+ * Streamlined home screen with 4 main sections:
+ * 1. QuickCreate - Primary create action
  * 2. Featured - Popular tracks (max 6, horizontal scroll)
  * 3. RecentPlays - Last 5 played tracks
  * 4. QuickStart - Quick action cards
- *
- * Design: 16px vertical spacing, progressive loading, haptic feedback
  */
 
-import { useState, useEffect, useMemo, lazy, Suspense, useCallback, useRef } from "react";
+import { useState, useEffect, useMemo, lazy, Suspense, useCallback } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
@@ -26,25 +24,20 @@ import { PullToRefreshWrapper } from "@/components/library/PullToRefreshWrapper"
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Skeleton } from "@/components/ui/skeleton";
 import { preloadImages } from "@/lib/imageOptimization";
-import { Clock } from "lucide-react";
+import { Clock, Users, Music2 } from "lucide-react";
 
-// Redesigned home components
+// Core home components
 import { HomeQuickCreate } from "@/components/home/HomeQuickCreate";
 import { FeaturedSection } from "@/components/home/FeaturedSection";
-import { RecentPlaysSection } from "@/components/home/RecentPlaysSection";
 import { QuickStartCards, type QuickStartPreset } from "@/components/home/QuickStartCards";
-
-// Existing components to preserve functionality
 import { BotContextBanner } from "@/components/home/BotContextBanner";
 import { TracksGridSection } from "@/components/home/TracksGridSection";
-import { HeroSectionPro } from "@/components/home/HeroSectionPro";
 import { FirstTimeHeroCard } from "@/components/home/FirstTimeHeroCard";
 import { NewUserProgress } from "@/components/home/NewUserProgress";
 import { CollapsibleSection } from "@/components/home/CollapsibleSection";
 import { GenreTabsSection } from "@/components/home/GenreTabsSection";
 import { PopularCreatorsSection } from "@/components/home/PopularCreatorsSection";
 import { InviteFriendsCard } from "@/components/gamification/InviteFriendsCard";
-import { Users, Music2 } from "lucide-react";
 
 // Lazy loaded components
 const GamificationBar = lazy(() => import("@/components/gamification/GamificationBar").then(m => ({ default: m.GamificationBar })));
@@ -55,7 +48,7 @@ const GenerateSheet = lazy(() => import("@/components/GenerateSheet").then(m => 
 const MusicRecognitionDialog = lazy(() => import("@/components/music-recognition/MusicRecognitionDialog").then(m => ({ default: m.MusicRecognitionDialog })));
 const AudioActionDialog = lazy(() => import("@/components/generate-form/AudioActionDialog").then(m => ({ default: m.AudioActionDialog })));
 
-// Skeletons
+// Skeleton for hero section
 const HeroSkeleton = () => (
   <div className="rounded-2xl bg-gradient-to-br from-primary/10 to-background p-6 animate-pulse">
     <div className="flex flex-col items-center gap-4">
@@ -89,10 +82,10 @@ const Index = () => {
   // Single optimized query for all public content
   const { data: publicContent, isLoading: contentLoading, refetch: refetchContent } = usePublicContentBatch();
 
-  // Show skeleton only on initial load (no cached data yet)
+  // Show skeleton only on initial load
   const showSkeleton = contentLoading && !publicContent;
 
-  // Preload first 4 track cover images for faster perceived loading
+  // Preload first 4 track cover images
   useEffect(() => {
     if (publicContent?.popularTracks?.length) {
       const firstCovers = publicContent.popularTracks
@@ -139,17 +132,6 @@ const Index = () => {
     await refetchContent();
   }, [refetchContent]);
 
-  // Hero actions
-  const handleRecord = useCallback(() => {
-    hapticFeedback("light");
-    setAudioDialogOpen(true);
-  }, [hapticFeedback]);
-
-  const handleUpload = useCallback(() => {
-    hapticFeedback("light");
-    setAudioDialogOpen(true);
-  }, [hapticFeedback]);
-
   const handleCreate = useCallback(() => {
     hapticFeedback("medium");
     setGenerateSheetOpen(true);
@@ -169,14 +151,13 @@ const Index = () => {
     }
   }, [hapticFeedback]);
 
-  // Animation props - memoized with smooth 200-300ms transitions
+  // Animation props
   const fadeInUp = useMemo(() => prefersReducedMotion
     ? {}
     : { initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.25 } },
     [prefersReducedMotion]
   );
 
-  // Progressive loading animation for sections below fold
   const lazySectionAnimation = useMemo(() => prefersReducedMotion
     ? {}
     : {
@@ -194,7 +175,7 @@ const Index = () => {
       disabled={!isMobile}
       className="min-h-screen bg-background pb-24 relative overflow-hidden"
     >
-      {/* Background gradient - simplified */}
+      {/* Background gradient */}
       {!prefersReducedMotion && (
         <div className="fixed inset-0 pointer-events-none opacity-20">
           <div className="absolute top-0 left-1/4 w-48 sm:w-72 h-48 sm:h-72 bg-primary/15 rounded-full blur-3xl" />
@@ -202,7 +183,7 @@ const Index = () => {
         </div>
       )}
 
-      {/* Main content container - mobile-first with 16px (gap-4) vertical spacing */}
+      {/* Main content */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 pb-4 sm:py-6 relative z-10">
         <SEOHead {...SEO_PRESETS.home} />
 
@@ -213,7 +194,7 @@ const Index = () => {
           onProfileClick={goToProfile}
         />
 
-        {/* Bot Context Banner - shows context when navigating from Telegram bot */}
+        {/* Bot Context Banner */}
         <BotContextBanner />
 
         {/* Gamification Bar - for logged in users */}
@@ -225,18 +206,32 @@ const Index = () => {
           </Suspense>
         )}
 
-        {/* ======================================== */}
-        {/* REDESIGNED HOME - Max 4 Sections (16px spacing) */}
-        {/* ======================================== */}
+        {/* ============== MAIN SECTIONS ============== */}
 
-        {/* Section 1: QuickCreate - Primary create action */}
+        {/* New Users: Hero + Progress */}
+        {isNewUser && (
+          <>
+            <Suspense fallback={<HeroSkeleton />}>
+              <motion.section className="mb-4" {...fadeInUp}>
+                <FirstTimeHeroCard onCreateClick={handleCreate} />
+              </motion.section>
+            </Suspense>
+            <Suspense fallback={null}>
+              <motion.section className="mb-4" {...lazySectionAnimation}>
+                <NewUserProgress />
+              </motion.section>
+            </Suspense>
+          </>
+        )}
+
+        {/* Returning Users: QuickCreate */}
         {!isNewUser && (
           <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.05 }}>
             <HomeQuickCreate onCreateClick={handleCreate} />
           </motion.section>
         )}
 
-        {/* Section 2: Featured - Popular tracks (max 6, horizontal scroll) */}
+        {/* Featured Tracks */}
         <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.1 }}>
           <FeaturedSection
             tracks={publicContent?.popularTracks || []}
@@ -250,7 +245,7 @@ const Index = () => {
           />
         </motion.section>
 
-        {/* Section 3: RecentPlays - Last 5 tracks (for logged in users) */}
+        {/* Recent Tracks - for logged in users */}
         {user && (
           <Suspense fallback={<Skeleton className="h-40 rounded-xl" />}>
             <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.15 }}>
@@ -259,49 +254,16 @@ const Index = () => {
           </Suspense>
         )}
 
-        {/* Section 4: QuickStart - Quick action cards */}
+        {/* QuickStart Cards - for returning users */}
         {!isNewUser && (
           <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.2 }}>
             <QuickStartCards onPresetSelect={handleQuickStartPreset} />
           </motion.section>
         )}
 
-        {/* ======================================== */}
-        {/* PROGRESSIVE LOADING - Sections below fold */}
-        {/* ======================================== */}
+        {/* ============== SECONDARY SECTIONS ============== */}
 
-        {/* Hero Section - for new users */}
-        {isNewUser && (
-          <Suspense fallback={<HeroSkeleton />}>
-            <motion.section className="mb-4" {...fadeInUp}>
-              <FirstTimeHeroCard onCreateClick={handleCreate} />
-            </motion.section>
-          </Suspense>
-        )}
-
-        {/* New User Progress - only for newcomers */}
-        {isNewUser && (
-          <Suspense fallback={null}>
-            <motion.section className="mb-4" {...lazySectionAnimation}>
-              <NewUserProgress />
-            </motion.section>
-          </Suspense>
-        )}
-
-        {/* Hero Section Pro - for returning users */}
-        {!isNewUser && (
-          <Suspense fallback={<HeroSkeleton />}>
-            <motion.section className="mb-4" {...lazySectionAnimation}>
-              <HeroSectionPro
-                onRecord={handleRecord}
-                onUpload={handleUpload}
-                onCreate={handleCreate}
-              />
-            </motion.section>
-          </Suspense>
-        )}
-
-        {/* New Tracks - Secondary content section (lazy loaded) */}
+        {/* New Tracks */}
         <LazySection className="mb-4" minHeight="120px" skipSuspense>
           <motion.div {...lazySectionAnimation}>
             <TracksGridSection
@@ -355,7 +317,7 @@ const Index = () => {
           </motion.div>
         </LazySection>
 
-        {/* Invite Friends Banner - for logged in users */}
+        {/* Invite Friends Banner */}
         {user && !isNewUser && (
           <motion.section className="mb-4" {...lazySectionAnimation}>
             <InviteFriendsCard variant="banner" />
