@@ -60,8 +60,10 @@ export function useTrackActionsState({
     addInstrumental: false,
   });
 
-  // Hooks
-  const { isGenerating: isVideoGenerating, hasVideo } = useVideoGenerationStatus(track?.id);
+  // Hooks - lazy load video status only when needed
+  const [shouldFetchVideoStatus, setShouldFetchVideoStatus] = useState(false);
+  const videoStatus = useVideoGenerationStatus(shouldFetchVideoStatus ? track?.id : undefined);
+  const { isGenerating: isVideoGenerating, hasVideo } = videoStatus;
   const {
     isProcessing,
     handleShare,
@@ -315,6 +317,9 @@ export function useTrackActionsState({
     // Actions
     executeAction,
     handleConfirmDelete,
+    
+    // Video status loader
+    enableVideoStatusFetch: () => setShouldFetchVideoStatus(true),
     
     // Helpers
     isActionAvailable: (actionId: ActionId) => isActionAvailable(actionId, track, actionState),
