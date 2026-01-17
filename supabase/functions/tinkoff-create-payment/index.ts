@@ -88,7 +88,7 @@ serve(async (req) => {
       .from('stars_products')
       .select('*')
       .eq('product_code', productCode)
-      .eq('is_active', true)
+      .eq('status', 'active')
       .single();
 
     if (productError || !product) {
