@@ -20,6 +20,7 @@ import {
 import { showGenerationError, validatePromptForGeneration } from '@/lib/errorHandling';
 import { useAnalyticsTracking } from '@/hooks/useAnalyticsTracking';
 import { generationAnalytics, startTimer } from '@/lib/telemetry';
+import { expectGenerationResult } from './useGenerationResult';
 // GenerationProvider type removed - only Suno is used
 
 // Wizard mode removed for UX simplification - only 2 modes now
@@ -581,6 +582,9 @@ export function useGenerateForm({
     });
 
     setLoading(true);
+    
+    // Signal that we expect a result to show the GenerationResultSheet
+    expectGenerationResult();
     
     // Start generation timer for analytics
     const stopTimer = startTimer('generation:request');

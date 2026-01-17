@@ -16,6 +16,7 @@ import { useTelegramSettingsButton } from '@/hooks/telegram';
 import { SmartAlertProvider } from './notifications/smart-alerts';
 import { useUserJourneyState } from '@/hooks/useUserJourneyState';
 import { useOnboarding } from '@/hooks/useOnboarding';
+import { useGenerationResult } from '@/hooks/generation';
 
 import { useAdminDailyStats } from '@/hooks/useAdminDailyStats';
 
@@ -25,6 +26,7 @@ const QuickStartOverlay = lazy(() => import('./onboarding/QuickStartOverlay').th
 const SubscriptionRequiredDialog = lazy(() => import('./dialogs/SubscriptionRequiredDialog').then(m => ({ default: m.SubscriptionRequiredDialog })));
 const GamificationOnboarding = lazy(() => import('./gamification/GamificationOnboarding').then(m => ({ default: m.GamificationOnboarding })));
 const GenerateSheet = lazy(() => import('./GenerateSheet').then(m => ({ default: m.GenerateSheet })));
+const GenerationResultSheet = lazy(() => import('./generate-form/GenerationResultSheet').then(m => ({ default: m.GenerationResultSheet })));
 
 const SIDEBAR_COLLAPSED_KEY = 'sidebar-collapsed';
 
@@ -37,6 +39,14 @@ export const MainLayout = () => {
   const [gamificationOnboardingOpen, setGamificationOnboardingOpen] = useState(false);
   const [quickStartOpen, setQuickStartOpen] = useState(false);
   const [generateSheetOpen, setGenerateSheetOpen] = useState(false);
+
+  // Generation result sheet for post-generation A/B selection
+  const { 
+    resultOpen, 
+    resultTrackId, 
+    resultTrackTitle, 
+    setResultOpen 
+  } = useGenerationResult();
 
   // User journey tracking
   const { shouldShowQuickStart, isNewUser, completedOnboarding } = useUserJourneyState();
@@ -239,6 +249,18 @@ export const MainLayout = () => {
       {generateSheetOpen && (
         <Suspense fallback={null}>
           <GenerateSheet open={generateSheetOpen} onOpenChange={setGenerateSheetOpen} />
+        </Suspense>
+      )}
+      
+      {/* Generation Result Sheet - shows A/B versions after track creation */}
+      {resultOpen && resultTrackId && (
+        <Suspense fallback={null}>
+          <GenerationResultSheet 
+            open={resultOpen} 
+            onOpenChange={setResultOpen}
+            trackId={resultTrackId}
+            trackTitle={resultTrackTitle || undefined}
+          />
         </Suspense>
       )}
     </div>
