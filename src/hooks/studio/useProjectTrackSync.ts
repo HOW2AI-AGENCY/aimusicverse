@@ -60,27 +60,33 @@ export function useProjectTrackSync(projectId: string | null, sourceTrackId?: st
 
       // Map DB versions to project format
       const labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-      const existingLabels = new Set(projectTrack.versions?.map(v => v.label) || ['A']);
+      const existingVersions = projectTrack.versions || [];
+      const existingAudioUrls = new Set(existingVersions.map(v => v.audioUrl));
+      const existingLabels = new Set(existingVersions.map(v => v.label));
       
       let labelIndex = existingLabels.size;
+      let versionsAdded = 0;
       
       for (const dbVersion of dbVersions) {
-        // Check if version already exists
-        const exists = projectTrack.versions?.some(v => 
-          v.audioUrl === dbVersion.audio_url ||
-          (v as any).id === dbVersion.id
-        );
-
-        if (!exists) {
-          const newLabel = labels[labelIndex++] || `V${labelIndex}`;
-          addTrackVersion(
-            projectTrack.id,
-            newLabel,
-            dbVersion.audio_url,
-            dbVersion.duration_seconds || undefined
-          );
-          logger.info('Synced new version from DB', { trackId, label: newLabel });
+        // BUGFIX: More robust duplicate check using audioUrl
+        if (existingAudioUrls.has(dbVersion.audio_url)) {
+          continue; // Skip - already exists
         }
+
+        const newLabel = labels[labelIndex++] || `V${labelIndex}`;
+        addTrackVersion(
+          projectTrack.id,
+          newLabel,
+          dbVersion.audio_url,
+          dbVersion.duration_seconds || undefined
+        );
+        versionsAdded++;
+        logger.info('Synced new version from DB', { trackId, label: newLabel });
+      }
+      
+      // Only log if we actually added versions
+      if (versionsAdded > 0) {
+        logger.debug('Version sync complete', { trackId, versionsAdded });
       }
     } catch (err) {
       // Ignore abort errors
