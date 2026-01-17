@@ -1,5 +1,4 @@
 import { memo } from 'react';
-import { motion } from '@/lib/motion';
 import { LucideIcon } from 'lucide-react';
 import { UnifiedTrackCard } from '@/components/track/track-card-new';
 import type { PublicTrackWithCreator } from '@/hooks/usePublicContent';
@@ -64,33 +63,21 @@ export const TracksGridSection = memo(function TracksGridSection({
 
       {isLoading ? (
         <GridSkeleton 
-          count={maxTracks} 
+          count={Math.min(maxTracks, 4)} 
           columns={columns} 
           SkeletonComponent={TrackCardSkeleton}
         />
       ) : (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.2 }}
-        >
-          <ResponsiveGrid columns={columns} gap={3}>
-            {displayTracks.map((track, index) => (
-              <motion.div
-                key={track.id}
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.03, duration: 0.25 }}
-              >
-                <UnifiedTrackCard
-                  variant="enhanced"
-                  track={track}
-                  onRemix={onRemix}
-                />
-              </motion.div>
-            ))}
-          </ResponsiveGrid>
-        </motion.div>
+        <ResponsiveGrid columns={columns} gap={3}>
+          {displayTracks.map((track) => (
+            <UnifiedTrackCard
+              key={track.id}
+              variant="enhanced"
+              track={track}
+              onRemix={onRemix}
+            />
+          ))}
+        </ResponsiveGrid>
       )}
     </section>
   );
