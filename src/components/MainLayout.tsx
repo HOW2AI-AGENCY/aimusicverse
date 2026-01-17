@@ -141,8 +141,8 @@ export const MainLayout = () => {
 
   return (
     <SmartAlertProvider>
-    <div className="flex flex-col h-screen bg-background">
-      <div className="flex flex-1 overflow-hidden">
+    <div className="flex flex-col h-screen bg-background overflow-hidden">
+      <div className="flex flex-1 min-h-0">
       {/* Skip to content for keyboard navigation */}
       <SkipToContent />
       
