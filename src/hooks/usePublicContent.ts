@@ -358,16 +358,15 @@ export function usePublicContentBatch() {
   return useQuery({
     queryKey: ['public-content-optimized', user?.id],
     queryFn: async (): Promise<PublicContentData> => {
-      // Fetch public tracks
-      // PERF: keep the batch small enough for fast mobile paint
+      // PERF: Reduced limit for faster initial load, select only needed fields
       const { data: tracks, error } = await supabase
         .from("tracks")
-        .select("*")
+        .select("id,title,cover_url,audio_url,play_count,user_id,created_at,style,tags,computed_genre,status,is_public")
         .eq("is_public", true)
         .eq("status", "completed")
         .not("audio_url", "is", null)
         .order("created_at", { ascending: false })
-        .limit(160);
+        .limit(50);
 
       if (error) throw error;
       if (!tracks || tracks.length === 0) {
@@ -381,67 +380,45 @@ export function usePublicContentBatch() {
 
       // Get unique user_ids from tracks
       const userIds = [...new Set(tracks.map(t => t.user_id))];
-      const trackIds = tracks.map(t => t.id);
 
-      // Batch fetch profiles and likes in parallel
-      const [profilesResult, likesResult, userLikesResult] = await Promise.all([
-        supabase
-          .from("profiles")
-          .select("user_id, username, photo_url, first_name, last_name")
-          .in("user_id", userIds),
-        supabase
-          .from("track_likes")
-          .select("track_id")
-          .in("track_id", trackIds),
-        user ? supabase
-          .from("track_likes")
-          .select("track_id")
-          .eq("user_id", user.id)
-          .in("track_id", trackIds) : Promise.resolve({ data: [] }),
-      ]);
+      // Fetch only profiles (skip likes for faster load)
+      const { data: profiles } = await supabase
+        .from("profiles")
+        .select("user_id, username, photo_url, first_name")
+        .in("user_id", userIds);
 
-      // Create lookup maps
-      const profileMap = new Map(profilesResult.data?.map(p => [p.user_id, p]) || []);
-      const likeCountMap = new Map<string, number>();
-      likesResult.data?.forEach(l => {
-        likeCountMap.set(l.track_id, (likeCountMap.get(l.track_id) || 0) + 1);
-      });
-      const userLikes = new Set(userLikesResult.data?.map(l => l.track_id) || []);
+      // Create lookup map
+      const profileMap = new Map(profiles?.map(p => [p.user_id, p]) || []);
 
-      // Enrich all tracks with creator info and likes
+      // Enrich tracks with minimal creator info
       const enrichedTracks: PublicTrackWithCreator[] = tracks.map(track => {
         const profile = profileMap.get(track.user_id);
-        const fullName = profile 
-          ? [profile.first_name, profile.last_name].filter(Boolean).join(' ')
-          : '';
-        const creatorName = fullName || profile?.username || undefined;
-        
         return {
           ...track,
-          creator_name: creatorName,
+          creator_name: profile?.first_name || profile?.username || undefined,
           creator_username: profile?.username || undefined,
           creator_photo_url: profile?.photo_url || undefined,
-          like_count: likeCountMap.get(track.id) || 0,
-          user_liked: userLikes.has(track.id),
-        };
+          like_count: 0,
+          user_liked: false,
+        } as PublicTrackWithCreator;
       });
 
-      // Sort for different views (all from same dataset)
+      // Sort for different views
       const sortedByPopular = [...enrichedTracks].sort((a, b) => 
         (b.play_count || 0) - (a.play_count || 0)
       );
 
-       return {
-         featuredTracks: sortedByPopular.slice(0, 20), // Top 20 by plays
-         recentTracks: enrichedTracks.slice(0, 50), // First 50 (already sorted by date)
-         popularTracks: sortedByPopular.slice(0, 50), // Top 50 by plays
-         allTracks: enrichedTracks, // up to 160
-       };
-     },
-     staleTime: 2 * 60 * 1000, // 2 minutes
-     gcTime: 10 * 60 * 1000, // 10 minutes
-     placeholderData: keepPreviousData,
-   });
+      return {
+        featuredTracks: sortedByPopular.slice(0, 10),
+        recentTracks: enrichedTracks.slice(0, 20),
+        popularTracks: sortedByPopular.slice(0, 20),
+        allTracks: enrichedTracks,
+      };
+    },
+    staleTime: 3 * 60 * 1000, // 3 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes
+    placeholderData: keepPreviousData,
+  });
 }
 
 /**

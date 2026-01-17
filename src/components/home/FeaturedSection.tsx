@@ -23,7 +23,20 @@ interface FeaturedSectionProps {
   maxTracks?: number;
 }
 
-const SKELETON_COUNT = 6;
+const SKELETON_COUNT = 4;
+
+// Lightweight skeleton component
+const TrackSkeleton = memo(function TrackSkeleton() {
+  return (
+    <div className="flex-shrink-0 w-[140px]">
+      <div className="aspect-square rounded-xl bg-muted/20 animate-pulse" />
+      <div className="mt-2 space-y-1">
+        <div className="h-3 w-4/5 bg-muted/15 rounded animate-pulse" />
+        <div className="h-2.5 w-1/2 bg-muted/10 rounded animate-pulse" />
+      </div>
+    </div>
+  );
+});
 
 export const FeaturedSection = memo(function FeaturedSection({
   tracks,
@@ -43,43 +56,23 @@ export const FeaturedSection = memo(function FeaturedSection({
     onTrackClick?.(trackId);
   }, [hapticFeedback, onTrackClick]);
 
-  const handleRemix = useCallback((trackId: string) => {
-    hapticFeedback('medium');
-    onRemix?.(trackId);
-  }, [hapticFeedback, onRemix]);
-
-  if (isLoading) {
+  // Show lightweight skeleton only when truly loading with no data
+  if (isLoading && displayTracks.length === 0) {
     return (
-      <motion.section
-        className={cn("space-y-3", className)}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-      >
-        {/* Header skeleton */}
-        <div className="flex items-center justify-between">
-          <div className="space-y-1.5">
-            <div className="h-5 w-28 bg-muted/50 rounded-lg animate-pulse" />
-            <div className="h-3.5 w-40 bg-muted/30 rounded-md animate-pulse" />
+      <section className={cn("space-y-3", className)}>
+        <div className="flex items-center gap-2 px-1">
+          <div className="w-8 h-8 rounded-lg bg-muted/20 animate-pulse" />
+          <div className="space-y-1">
+            <div className="h-4 w-24 bg-muted/20 rounded animate-pulse" />
+            <div className="h-3 w-36 bg-muted/15 rounded animate-pulse" />
           </div>
         </div>
-
-        {/* Horizontal scroll skeleton */}
-        <div className="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide">
+        <div className="flex gap-3 overflow-x-auto pb-2 scroll-smooth touch-pan-x">
           {Array.from({ length: SKELETON_COUNT }).map((_, i) => (
-            <div
-              key={i}
-              className="flex-shrink-0"
-              style={{ width: 140 }}
-            >
-              <div className="aspect-square rounded-xl bg-muted/30 animate-pulse" />
-              <div className="mt-2 space-y-1.5">
-                <div className="h-3.5 w-4/5 bg-muted/20 rounded-md animate-pulse" />
-                <div className="h-2.5 w-1/2 bg-muted/20 rounded-md animate-pulse" />
-              </div>
-            </div>
+            <TrackSkeleton key={i} />
           ))}
         </div>
-      </motion.section>
+      </section>
     );
   }
 
@@ -130,20 +123,15 @@ export const FeaturedSection = memo(function FeaturedSection({
         )}
       </div>
 
-      {/* Horizontal scroll container */}
-      <div className="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide">
-        {displayTracks.map((track, index) => (
-          <motion.div
+      {/* Horizontal scroll container - fixed scroll issues */}
+      <div 
+        className="flex gap-3 overflow-x-auto pb-2 scroll-smooth touch-pan-x scrollbar-hide"
+        style={{ WebkitOverflowScrolling: 'touch' }}
+      >
+        {displayTracks.map((track) => (
+          <div
             key={track.id}
-            className="flex-shrink-0"
-            style={{ width: 140 }}
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{
-              delay: index * 0.05,
-              duration: 0.3,
-              ease: [0.4, 0, 0.2, 1],
-            }}
+            className="flex-shrink-0 w-[140px]"
           >
             <UnifiedTrackCard
               track={track}
@@ -151,7 +139,7 @@ export const FeaturedSection = memo(function FeaturedSection({
               onPlay={() => handleTrackClick(track.id)}
               className="h-full"
             />
-          </motion.div>
+          </div>
         ))}
       </div>
     </motion.section>
