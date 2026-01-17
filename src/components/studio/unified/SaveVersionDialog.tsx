@@ -82,6 +82,7 @@ export const SaveVersionDialog = memo(function SaveVersionDialog({
 
         setProgress(50);
 
+        // Use ensure_track_version RPC which handles duplicates
         const { data: versionId, error: ensureError } = await supabase.rpc('ensure_track_version', {
           p_track_id: sourceTrackId,
           p_audio_url: audioUrl,
@@ -93,11 +94,10 @@ export const SaveVersionDialog = memo(function SaveVersionDialog({
 
         setProgress(100);
         toast.success('Версия сохранена');
-        onVersionSaved?.({ 
-          id: versionId as string, 
-          audioUrl, 
-          label 
-        });
+        
+        // BUGFIX: Don't call onVersionSaved to avoid duplicate version creation
+        // The realtime listener in useProjectTrackSync will handle syncing
+        // Just close the dialog - version is already saved to DB
         onOpenChange(false);
 
       } else if (mode === 'merge') {

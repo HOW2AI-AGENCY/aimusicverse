@@ -768,9 +768,26 @@ export const useUnifiedStudioStore = create<UnifiedStudioState>()(
                       const existingVersions = t.versions || [
                         { label: 'A', audioUrl: t.audioUrl || '', duration: t.clips[0]?.duration }
                       ];
+                      
+                      // BUGFIX: Check for duplicate audioUrl to prevent version explosion
+                      const isDuplicate = existingVersions.some(v => v.audioUrl === audioUrl);
+                      if (isDuplicate) {
+                        // Already exists, don't add duplicate
+                        return t;
+                      }
+                      
+                      // Also check for duplicate label and generate new one if needed
+                      const existingLabels = new Set(existingVersions.map(v => v.label));
+                      let finalLabel = label;
+                      if (existingLabels.has(label)) {
+                        // Generate unique label
+                        const labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+                        finalLabel = labels.find(l => !existingLabels.has(l)) || `V${existingVersions.length + 1}`;
+                      }
+                      
                       return {
                         ...t,
-                        versions: [...existingVersions, { label, audioUrl, duration }],
+                        versions: [...existingVersions, { label: finalLabel, audioUrl, duration }],
                       };
                     }
                     return t;
@@ -781,7 +798,8 @@ export const useUnifiedStudioStore = create<UnifiedStudioState>()(
               };
             });
             get().pushToHistory();
-            get().saveProject();
+            // Don't auto-save here - let the caller decide when to save
+            // This prevents save loops when syncing from realtime
           },
 
           replaceTrackAudio: (trackId, audioUrl, duration) => {
