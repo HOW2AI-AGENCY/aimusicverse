@@ -123,32 +123,43 @@ export const CompactSheetHeader = memo(function CompactSheetHeader({
         )}
       </div>
 
-      {/* Title + Versions */}
+      {/* Title + Active Version Indicator + Version Switcher */}
       <div className="flex-1 min-w-0">
-        <EditableTrackTitle
-          trackId={track.id}
-          title={localTitle}
-          onTitleChange={setLocalTitle}
-        />
+        <div className="flex items-center gap-2">
+          <EditableTrackTitle
+            trackId={track.id}
+            title={localTitle}
+            onTitleChange={setLocalTitle}
+          />
+          {/* Active version badge - always visible when multiple versions */}
+          {hasVersions && activeVersionId && (
+            <span className="flex-shrink-0 px-1.5 py-0.5 rounded text-[10px] font-bold bg-primary/15 text-primary">
+              Версия {versions.find(v => v.id === activeVersionId)?.label || 'A'}
+            </span>
+          )}
+        </div>
         
-        {/* Version pills - compact inline */}
+        {/* Version pills - compact inline switcher */}
         {hasVersions && onVersionSwitch && (
-          <div className="flex gap-1 mt-1">
-            {versions.map((version) => (
-              <button
-                key={version.id}
-                onClick={() => onVersionSwitch(version.id)}
-                className={cn(
-                  "h-5 min-w-[20px] px-1.5 rounded text-[10px] font-semibold",
-                  "transition-all active:scale-95",
-                  version.id === activeVersionId
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-muted/60 text-muted-foreground hover:bg-muted"
-                )}
-              >
-                {version.label}
-              </button>
-            ))}
+          <div className="flex items-center gap-1.5 mt-1">
+            <span className="text-[10px] text-muted-foreground">Переключить:</span>
+            <div className="flex gap-0.5">
+              {versions.map((version) => (
+                <button
+                  key={version.id}
+                  onClick={() => onVersionSwitch(version.id)}
+                  className={cn(
+                    "h-5 min-w-[20px] px-1.5 rounded text-[10px] font-semibold",
+                    "transition-all active:scale-95",
+                    version.id === activeVersionId
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-muted/60 text-muted-foreground hover:bg-muted"
+                  )}
+                >
+                  {version.label}
+                </button>
+              ))}
+            </div>
           </div>
         )}
       </div>

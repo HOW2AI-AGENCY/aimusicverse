@@ -1,10 +1,10 @@
 import { DropdownMenuItem, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from '@/components/ui/dropdown-menu';
-import { Layers, Scissors, Wand2, Music2, FileMusic, RefreshCw } from 'lucide-react';
+import { Layers, Scissors, Wand2, RefreshCw } from 'lucide-react';
 import { Track } from '@/types/track';
 import { ActionId } from '@/config/trackActionsConfig';
 import { TrackActionState, isActionAvailable } from '@/lib/trackActionConditions';
-import { ProBadge } from '@/components/ui/pro-badge';
 import { IconGridButton } from '../IconGridButton';
+import { StemsActionButton } from './StemsActionButton';
 
 interface StudioActionsProps {
   track: Track;
@@ -19,8 +19,11 @@ export function StudioActions({ track, state, onAction, variant, isProcessing }:
   const showReplaceSection = isActionAvailable('replace_section', track, state);
   const showStemsSimple = isActionAvailable('stems_simple', track, state);
   const showStemsDetailed = isActionAvailable('stems_detailed', track, state);
+  
+  // Show unified stems button if either mode is available
+  const showStems = showStemsSimple || showStemsDetailed;
 
-  const hasAnyAction = showStudio || showReplaceSection || showStemsSimple || showStemsDetailed;
+  const hasAnyAction = showStudio || showReplaceSection || showStems;
   if (!hasAnyAction) return null;
 
   if (variant === 'dropdown') {
@@ -46,6 +49,7 @@ export function StudioActions({ track, state, onAction, variant, isProcessing }:
               Замена секции
             </DropdownMenuItem>
           )}
+          {/* Unified stems actions - still show as separate items in dropdown for clarity */}
           {showStemsSimple && (
             <DropdownMenuItem onClick={() => onAction('stems_simple')} disabled={isProcessing}>
               <Scissors className="w-4 h-4 mr-2" />
@@ -63,7 +67,7 @@ export function StudioActions({ track, state, onAction, variant, isProcessing }:
     );
   }
 
-  // Sheet variant - Icon Grid Layout
+  // Sheet variant - Icon Grid Layout with unified stems button
   return (
     <div className="grid grid-cols-4 gap-1">
       {showStudio && (
@@ -83,22 +87,11 @@ export function StudioActions({ track, state, onAction, variant, isProcessing }:
           onClick={() => onAction('replace_section')}
         />
       )}
-      {showStemsSimple && (
-        <IconGridButton
-          icon={Scissors}
-          label="2 стема"
-          color="green"
-          onClick={() => onAction('stems_simple')}
-          disabled={isProcessing}
-        />
-      )}
-      {showStemsDetailed && (
-        <IconGridButton
-          icon={Wand2}
-          label="6+ стемов"
-          color="purple"
-          onClick={() => onAction('stems_detailed')}
-          disabled={isProcessing}
+      {/* Unified stems button with mode selector dialog */}
+      {showStems && (
+        <StemsActionButton
+          onAction={onAction}
+          isProcessing={isProcessing}
         />
       )}
     </div>
