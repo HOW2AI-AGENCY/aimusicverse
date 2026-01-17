@@ -4,7 +4,6 @@
  */
 
 import { memo, ReactNode } from 'react';
-import { motion } from '@/lib/motion';
 import { usePullToRefresh } from '@/hooks/usePullToRefresh';
 import { PullToRefreshIndicator } from '@/components/ui/pull-to-refresh-indicator';
 import { cn } from '@/lib/utils';
@@ -29,7 +28,7 @@ export const PullToRefreshWrapper = memo(function PullToRefreshWrapper({
   });
 
   return (
-    <div className={cn("relative h-full overflow-hidden", className)}>
+    <div className={cn("relative min-h-full", className)}>
       {/* Pull indicator */}
       <PullToRefreshIndicator
         pullDistance={pullDistance}
@@ -38,17 +37,17 @@ export const PullToRefreshWrapper = memo(function PullToRefreshWrapper({
         progress={progress}
       />
 
-      {/* Content with pull offset */}
-      <motion.div
+      {/* Content with pull offset - no overflow restrictions */}
+      <div
         ref={containerRef}
-        className="h-full overflow-auto"
+        className="min-h-full"
         style={{
-          transform: isPulling ? `translateY(${pullDistance * 0.5}px)` : 'translateY(0)',
+          transform: isPulling ? `translateY(${pullDistance * 0.5}px)` : undefined,
           transition: !isPulling ? 'transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)' : 'none'
         }}
       >
         {children}
-      </motion.div>
+      </div>
     </div>
   );
 });
