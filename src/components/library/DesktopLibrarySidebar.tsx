@@ -339,8 +339,10 @@ export function DesktopLibrarySidebar({
         open={historyOpen}
         onOpenChange={setHistoryOpen}
         onSelectPrompt={(prompt) => {
-          form.setMode(prompt.mode);
-          if (prompt.mode === 'simple') {
+          // Map wizard to custom if it exists in old history
+          const mode = prompt.mode === 'wizard' ? 'custom' : prompt.mode;
+          form.setMode(mode as 'simple' | 'custom');
+          if (mode === 'simple') {
             form.setDescription(prompt.description || '');
           } else {
             form.setTitle(prompt.title || '');

@@ -24,15 +24,12 @@ import { GenerateFormReferences } from './generate-form/GenerateFormReferences';
 import { GenerationLoadingState } from './generate-form/GenerationLoadingState';
 import { CollapsibleFormHeader } from './generate-form/CollapsibleFormHeader';
 
-// Lazy load heavy form components
+// Lazy load heavy form components - Wizard removed for UX simplification
 const GenerateFormSimple = lazy(() => 
   import('./generate-form/GenerateFormSimple').then(m => ({ default: m.GenerateFormSimple }))
 );
 const GenerateFormCustom = lazy(() => 
   import('./generate-form/GenerateFormCustom').then(m => ({ default: m.GenerateFormCustom }))
-);
-const GenerationWizard = lazy(() => 
-  import('./generate-form/wizard/GenerationWizard').then(m => ({ default: m.GenerationWizard }))
 );
 
 // Form skeleton for lazy loading
@@ -302,7 +299,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
               }}
             />
 
-            {/* Mode Content with Animation */}
+            {/* Mode Content with Animation - Wizard removed for UX simplification */}
             <Suspense fallback={<FormSkeleton />}>
               <AnimatePresence mode="wait">
                 {form.mode === 'simple' ? (
@@ -316,23 +313,6 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                     onBoostStyle={form.handleBoostStyle}
                     boostLoading={form.boostLoading}
                     onOpenStyles={() => setStylesOpen(true)}
-                  />
-                ) : form.mode === 'wizard' ? (
-                  <GenerationWizard
-                    onGenerate={(params) => {
-                      // Transfer wizard params to form and generate
-                      form.setDescription(params.description);
-                      form.setTitle(params.title);
-                      form.setStyle(params.style);
-                      form.setLyrics(params.lyrics);
-                      form.setHasVocals(params.hasVocals);
-                      form.setVocalGender(params.vocalGender);
-                      form.setModel(params.model);
-                      form.setIsPublic(params.isPublic);
-                      // Trigger generation
-                      setTimeout(() => form.handleGenerate(), 100);
-                    }}
-                    isLoading={form.loading}
                   />
                 ) : (
                   <GenerateFormCustom
@@ -582,8 +562,10 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         open={historyOpen}
         onOpenChange={setHistoryOpen}
         onSelectPrompt={(prompt) => {
-          form.setMode(prompt.mode);
-          if (prompt.mode === 'simple') {
+          // Map wizard to custom if it exists in old history
+          const mode = prompt.mode === 'wizard' ? 'custom' : prompt.mode;
+          form.setMode(mode as 'simple' | 'custom');
+          if (mode === 'simple') {
             form.setDescription(prompt.description || '');
           } else {
             form.setTitle(prompt.title || '');
