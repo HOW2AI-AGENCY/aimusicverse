@@ -73,53 +73,54 @@ export const UnifiedVersionSelector = memo(function UnifiedVersionSelector({
 
   const [versions, setVersions] = useState<TrackVersion[]>([]);
   const [activeVersionId, setActiveVersionId] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [isSwitching, setIsSwitching] = useState(false);
   const [previewingId, setPreviewingId] = useState<string | null>(null);
+  const [hasFetched, setHasFetched] = useState(false);
 
-  // Fetch versions
-  useEffect(() => {
-    if (!trackId) {
-      setVersions([]);
+  // Lazy fetch versions - only when needed
+  const fetchVersions = useCallback(async () => {
+    if (!trackId || hasFetched) return;
+    
+    setIsLoading(true);
+    setHasFetched(true);
+    
+    try {
+      const { data, error } = await supabase
+        .from('track_versions')
+        .select('id, version_label, audio_url, cover_url, duration_seconds, is_primary, version_type, created_at')
+        .eq('track_id', trackId)
+        .order('clip_index', { ascending: true });
+
+      if (error) throw error;
+
+      const mappedVersions: TrackVersion[] = (data || []).map((v, index) => ({
+        id: v.id,
+        label: v.version_label || String.fromCharCode(65 + index),
+        audioUrl: v.audio_url,
+        coverUrl: v.cover_url,
+        duration: v.duration_seconds ?? undefined,
+        isPrimary: v.is_primary || false,
+        versionType: v.version_type ?? undefined,
+        createdAt: v.created_at ?? undefined,
+      }));
+
+      setVersions(mappedVersions);
+      
+      const primary = mappedVersions.find(v => v.isPrimary);
+      setActiveVersionId(primary?.id || mappedVersions[0]?.id || null);
+    } catch (error) {
+      logger.error('Failed to fetch versions', error);
+    } finally {
       setIsLoading(false);
-      return;
     }
+  }, [trackId, hasFetched]);
 
-    const fetchVersions = async () => {
-      setIsLoading(true);
-      try {
-        const { data, error } = await supabase
-          .from('track_versions')
-          .select('id, version_label, audio_url, cover_url, duration_seconds, is_primary, version_type, created_at')
-          .eq('track_id', trackId)
-          .order('clip_index', { ascending: true });
-
-        if (error) throw error;
-
-        const mappedVersions: TrackVersion[] = (data || []).map((v, index) => ({
-          id: v.id,
-          label: v.version_label || String.fromCharCode(65 + index), // A, B, C...
-          audioUrl: v.audio_url,
-          coverUrl: v.cover_url,
-          duration: v.duration_seconds ?? undefined,
-          isPrimary: v.is_primary || false,
-          versionType: v.version_type ?? undefined,
-          createdAt: v.created_at ?? undefined,
-        }));
-
-        setVersions(mappedVersions);
-        
-        // Set active version
-        const primary = mappedVersions.find(v => v.isPrimary);
-        setActiveVersionId(primary?.id || mappedVersions[0]?.id || null);
-      } catch (error) {
-        logger.error('Failed to fetch versions', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchVersions();
+  // Reset when trackId changes
+  useEffect(() => {
+    setHasFetched(false);
+    setVersions([]);
+    setActiveVersionId(null);
   }, [trackId]);
 
   // Handle version switch
@@ -211,11 +212,35 @@ export const UnifiedVersionSelector = memo(function UnifiedVersionSelector({
     }
   }, [trackId, previewingId, isPlaying, haptic, playTrack, pauseTrack]);
 
-  // Don't render if only one version
-  if (!isLoading && versions.length <= 1) return null;
+  // Don't render if no trackId
+  if (!trackId) return null;
 
-  // INLINE variant - compact A/B buttons
+  // INLINE variant - compact A/B buttons with lazy loading
   if (variant === 'inline') {
+    // If not fetched yet, show placeholder that triggers fetch on hover/click
+    if (!hasFetched) {
+      return (
+        <div 
+          className={cn("flex items-center gap-1", className)}
+          onMouseEnter={fetchVersions}
+          onClick={(e) => {
+            e.stopPropagation();
+            fetchVersions();
+          }}
+        >
+          <div className="h-7 min-w-[28px] px-1.5 rounded-md font-mono text-xs font-bold bg-muted/30 text-muted-foreground flex items-center justify-center">
+            A
+          </div>
+          <div className="h-7 min-w-[28px] px-1.5 rounded-md font-mono text-xs font-bold bg-muted/30 text-muted-foreground flex items-center justify-center">
+            B
+          </div>
+        </div>
+      );
+    }
+
+    // Don't render if only one version after fetch
+    if (!isLoading && versions.length <= 1) return null;
+
     return (
       <div className={cn("flex items-center gap-1", className)}>
         {isLoading ? (
@@ -227,14 +252,16 @@ export const UnifiedVersionSelector = memo(function UnifiedVersionSelector({
           versions.slice(0, 4).map((version) => {
             const isActive = version.id === activeVersionId;
             return (
-              <motion.button
+              <button
                 key={version.id}
-                onClick={() => handleSwitch(version)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleSwitch(version);
+                }}
                 disabled={disabled || isSwitching}
-                whileTap={{ scale: 0.95 }}
                 className={cn(
                   "relative h-7 min-w-[28px] px-1.5 rounded-md font-mono text-xs font-bold",
-                  "transition-all touch-manipulation",
+                  "transition-all touch-manipulation active:scale-95",
                   isActive
                     ? "bg-primary text-primary-foreground shadow-sm"
                     : "bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground",
@@ -243,12 +270,9 @@ export const UnifiedVersionSelector = memo(function UnifiedVersionSelector({
               >
                 {showLabels ? version.label : version.label.charAt(0)}
                 {isActive && (
-                  <motion.span
-                    layoutId={`active-indicator-${trackId}`}
-                    className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-primary rounded-full border border-background"
-                  />
+                  <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-primary rounded-full border border-background" />
                 )}
-              </motion.button>
+              </button>
             );
           })
         )}
@@ -257,33 +281,33 @@ export const UnifiedVersionSelector = memo(function UnifiedVersionSelector({
     );
   }
 
-  // COMPACT variant - minimal for player bar
+  // COMPACT variant - minimal for player bar (fetch on first interaction)
   if (variant === 'compact') {
+    if (!hasFetched) {
+      fetchVersions(); // Auto-fetch for compact since it's in player
+    }
+    
+    if (!hasFetched || versions.length <= 1) return null;
+
     return (
       <div className={cn("flex items-center gap-0.5", className)}>
-        {isLoading ? (
-          <Skeleton className="h-6 w-12 rounded" />
-        ) : (
-          versions.slice(0, 2).map((version) => {
-            const isActive = version.id === activeVersionId;
-            return (
-              <button
-                key={version.id}
-                onClick={() => handleSwitch(version)}
-                disabled={disabled || isSwitching}
-                className={cn(
-                  "h-6 w-6 rounded text-xs font-bold transition-colors",
-                  isActive
-                    ? "bg-primary/20 text-primary"
-                    : "text-muted-foreground hover:text-foreground",
-                  (disabled || isSwitching) && "opacity-50"
-                )}
-              >
-                {version.label}
-              </button>
-            );
-          })
-        )}
+        {versions.slice(0, 2).map((version) => {
+          const isActive = version.id === activeVersionId;
+          return (
+            <button
+              key={version.id}
+              onClick={() => handleSwitch(version)}
+              disabled={disabled || isSwitching}
+              className={cn(
+                "h-6 w-6 rounded text-xs font-bold transition-colors",
+                isActive ? "bg-primary/20 text-primary" : "text-muted-foreground hover:text-foreground",
+                (disabled || isSwitching) && "opacity-50"
+              )}
+            >
+              {version.label}
+            </button>
+          );
+        })}
       </div>
     );
   }

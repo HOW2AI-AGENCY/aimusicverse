@@ -51,11 +51,7 @@ export const MinimalVariant = memo(function MinimalVariant({
 
   return (
     <>
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: index * 0.02, duration: 0.2 }}
-      >
+      <div>
         <Card
           className={cn(
             'group flex items-center gap-3 p-2 transition-all cursor-pointer touch-manipulation',
@@ -135,7 +131,7 @@ export const MinimalVariant = memo(function MinimalVariant({
             </Button>
           )}
         </Card>
-      </motion.div>
+      </div>
 
       <UnifiedTrackSheet
         track={track as any}

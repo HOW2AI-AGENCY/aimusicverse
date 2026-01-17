@@ -57,12 +57,20 @@ export function UnifiedTrackSheet({
     executeAction,
     handleConfirmDelete,
     stems,
+    enableVideoStatusFetch,
   } = useTrackActionsState({
     track: track!,
     onDelete,
     onDownload,
     onClose: () => onOpenChange(false),
   });
+
+  // Enable video status fetch when sheet opens
+  useEffect(() => {
+    if (open) {
+      enableVideoStatusFetch();
+    }
+  }, [open, enableVideoStatusFetch]);
 
   // Fetch track status (MIDI, notes)
   useEffect(() => {
