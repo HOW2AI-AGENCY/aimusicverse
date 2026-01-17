@@ -1,3 +1,16 @@
+/**
+ * Index Page - Redesigned Mobile-First Home
+ * Feature: 001-mobile-ui-redesign
+ *
+ * Streamlined home screen with maximum 4 sections:
+ * 1. QuickCreate - Primary create action with FAB trigger
+ * 2. Featured - Popular tracks (max 6, horizontal scroll)
+ * 3. RecentPlays - Last 5 played tracks
+ * 4. QuickStart - Quick action cards
+ *
+ * Design: 16px vertical spacing, progressive loading, haptic feedback
+ */
+
 import { useState, useEffect, useMemo, lazy, Suspense, useCallback, useRef } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useTelegram } from "@/contexts/TelegramContext";
@@ -11,35 +24,38 @@ import { motion, useReducedMotion } from '@/lib/motion';
 import { SEOHead, SEO_PRESETS } from "@/components/SEOHead";
 import { PullToRefreshWrapper } from "@/components/library/PullToRefreshWrapper";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { TrendingUp, Clock, Wrench, Users, Music2 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { preloadImages } from "@/lib/imageOptimization";
+import { Clock } from "lucide-react";
 
-// Critical path - eager loading for first paint
+// Redesigned home components
+import { HomeQuickCreate } from "@/components/home/HomeQuickCreate";
+import { FeaturedSection } from "@/components/home/FeaturedSection";
+import { RecentPlaysSection } from "@/components/home/RecentPlaysSection";
+import { QuickStartCards, type QuickStartPreset } from "@/components/home/QuickStartCards";
+
+// Existing components to preserve functionality
+import { BotContextBanner } from "@/components/home/BotContextBanner";
 import { TracksGridSection } from "@/components/home/TracksGridSection";
 import { HeroSectionPro } from "@/components/home/HeroSectionPro";
 import { FirstTimeHeroCard } from "@/components/home/FirstTimeHeroCard";
 import { NewUserProgress } from "@/components/home/NewUserProgress";
-import { QuickInputBar } from "@/components/home/QuickInputBar";
-import { CreatorToolsSection } from "@/components/home/CreatorToolsSection";
-import { QuickPlaySection } from "@/components/home/QuickPlaySection";
-import { QuickStartCards, type QuickStartPreset } from "@/components/home/QuickStartCards";
 import { CollapsibleSection } from "@/components/home/CollapsibleSection";
-import { BotContextBanner } from "@/components/home/BotContextBanner";
+import { GenreTabsSection } from "@/components/home/GenreTabsSection";
+import { PopularCreatorsSection } from "@/components/home/PopularCreatorsSection";
 import { InviteFriendsCard } from "@/components/gamification/InviteFriendsCard";
+import { Users, Music2 } from "lucide-react";
 
-// Lazy loaded components - only essential ones
+// Lazy loaded components
 const GamificationBar = lazy(() => import("@/components/gamification/GamificationBar").then(m => ({ default: m.GamificationBar })));
 const RecentTracksSection = lazy(() => import("@/components/home/RecentTracksSection").then(m => ({ default: m.RecentTracksSection })));
-const PopularCreatorsSection = lazy(() => import("@/components/home/PopularCreatorsSection").then(m => ({ default: m.PopularCreatorsSection })));
-const GenreTabsSection = lazy(() => import("@/components/home/GenreTabsSection").then(m => ({ default: m.GenreTabsSection })));
 
 // Dialogs - only loaded when opened
 const GenerateSheet = lazy(() => import("@/components/GenerateSheet").then(m => ({ default: m.GenerateSheet })));
 const MusicRecognitionDialog = lazy(() => import("@/components/music-recognition/MusicRecognitionDialog").then(m => ({ default: m.MusicRecognitionDialog })));
 const AudioActionDialog = lazy(() => import("@/components/generate-form/AudioActionDialog").then(m => ({ default: m.AudioActionDialog })));
 
-// Lightweight skeletons
+// Skeletons
 const HeroSkeleton = () => (
   <div className="rounded-2xl bg-gradient-to-br from-primary/10 to-background p-6 animate-pulse">
     <div className="flex flex-col items-center gap-4">
@@ -49,17 +65,8 @@ const HeroSkeleton = () => (
       <div className="flex gap-2 mt-4">
         <Skeleton className="h-12 w-28" />
         <Skeleton className="h-12 w-28" />
-        <Skeleton className="h-12 w-28" />
       </div>
     </div>
-  </div>
-);
-
-const ToolsSkeleton = () => (
-  <div className="grid grid-cols-2 gap-2">
-    {[1, 2, 3, 4].map(i => (
-      <Skeleton key={i} className="h-28 rounded-xl" />
-    ))}
   </div>
 );
 
@@ -75,14 +82,13 @@ const Index = () => {
   const [audioDialogOpen, setAudioDialogOpen] = useState(false);
   const prefersReducedMotion = useReducedMotion();
   const isMobile = useIsMobile();
-  const tracksSectionRef = useRef<HTMLDivElement>(null);
 
   // User journey state for personalized experience
   const { isNewUser } = useUserJourneyState();
 
   // Single optimized query for all public content
-  const { data: publicContent, isLoading: contentLoading, isFetching, refetch: refetchContent } = usePublicContentBatch();
-  
+  const { data: publicContent, isLoading: contentLoading, refetch: refetchContent } = usePublicContentBatch();
+
   // Show skeleton only on initial load (no cached data yet)
   const showSkeleton = contentLoading && !publicContent;
 
@@ -93,7 +99,7 @@ const Index = () => {
         .slice(0, 4)
         .map(t => t.cover_url)
         .filter(Boolean) as string[];
-      
+
       if (firstCovers.length) {
         preloadImages(firstCovers, true).catch(() => {});
       }
@@ -145,12 +151,7 @@ const Index = () => {
   }, [hapticFeedback]);
 
   const handleCreate = useCallback(() => {
-    hapticFeedback("light");
-    setGenerateSheetOpen(true);
-  }, [hapticFeedback]);
-
-  const handleQuickInputSubmit = useCallback(() => {
-    hapticFeedback("light");
+    hapticFeedback("medium");
     setGenerateSheetOpen(true);
   }, [hapticFeedback]);
 
@@ -159,30 +160,37 @@ const Index = () => {
     hapticFeedback("medium");
     switch (preset) {
       case 'track':
-        // Open generate sheet in custom mode for full track
-        setGenerateSheetOpen(true);
-        break;
       case 'riff':
-        // Open generate sheet - could prefill with instrumental
         setGenerateSheetOpen(true);
         break;
       case 'cover':
-        // Open audio dialog for cover/remix
         setAudioDialogOpen(true);
         break;
     }
   }, [hapticFeedback]);
 
-  // Animation props - memoized
-  const fadeInUp = useMemo(() => prefersReducedMotion 
-    ? {} 
-    : { initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 } },
+  // Animation props - memoized with smooth 200-300ms transitions
+  const fadeInUp = useMemo(() => prefersReducedMotion
+    ? {}
+    : { initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.25 } },
+    [prefersReducedMotion]
+  );
+
+  // Progressive loading animation for sections below fold
+  const lazySectionAnimation = useMemo(() => prefersReducedMotion
+    ? {}
+    : {
+        initial: { opacity: 0, y: 30 },
+        animate: { opacity: 1, y: 0 },
+        transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
+        viewport: { once: true, margin: "-50px" }
+      },
     [prefersReducedMotion]
   );
 
   return (
-    <PullToRefreshWrapper 
-      onRefresh={handleRefresh} 
+    <PullToRefreshWrapper
+      onRefresh={handleRefresh}
       disabled={!isMobile}
       className="min-h-screen bg-background pb-24 relative overflow-hidden"
     >
@@ -193,11 +201,11 @@ const Index = () => {
           <div className="absolute top-1/3 right-1/4 w-40 sm:w-64 h-40 sm:h-64 bg-generate/10 rounded-full blur-3xl" />
         </div>
       )}
-      
-      {/* Main content container - mobile-first spacing */}
+
+      {/* Main content container - mobile-first with 16px (gap-4) vertical spacing */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 pb-4 sm:py-6 relative z-10">
         <SEOHead {...SEO_PRESETS.home} />
-        
+
         {/* Header */}
         <HomeHeader
           userName={displayUser?.first_name || displayUser?.username?.split('@')[0]}
@@ -211,158 +219,145 @@ const Index = () => {
         {/* Gamification Bar - for logged in users */}
         {user && (
           <Suspense fallback={null}>
-            <motion.div className="mb-3" {...fadeInUp} transition={{ delay: 0.05 }}>
+            <motion.div className="mb-4" {...fadeInUp}>
               <GamificationBar />
             </motion.div>
           </Suspense>
         )}
 
-        {/* Hero Section - Personalized */}
-        <Suspense fallback={<HeroSkeleton />}>
-          <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.1 }}>
-            {isNewUser ? (
-              <FirstTimeHeroCard onCreateClick={handleCreate} />
-            ) : (
-              <HeroSectionPro 
-                onRecord={handleRecord}
-                onUpload={handleUpload}
-                onCreate={handleCreate}
-              />
-            )}
+        {/* ======================================== */}
+        {/* REDESIGNED HOME - Max 4 Sections (16px spacing) */}
+        {/* ======================================== */}
+
+        {/* Section 1: QuickCreate - Primary create action */}
+        {!isNewUser && (
+          <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.05 }}>
+            <HomeQuickCreate onCreateClick={handleCreate} />
           </motion.section>
-        </Suspense>
+        )}
+
+        {/* Section 2: Featured - Popular tracks (max 6, horizontal scroll) */}
+        <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.1 }}>
+          <FeaturedSection
+            tracks={publicContent?.popularTracks || []}
+            isLoading={showSkeleton}
+            maxTracks={6}
+            onTrackClick={(trackId) => {
+              hapticFeedback("light");
+              navigate(`/track/${trackId}`);
+            }}
+            onRemix={handleRemix}
+          />
+        </motion.section>
+
+        {/* Section 3: RecentPlays - Last 5 tracks (for logged in users) */}
+        {user && (
+          <Suspense fallback={<Skeleton className="h-40 rounded-xl" />}>
+            <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.15 }}>
+              <RecentTracksSection maxTracks={5} />
+            </motion.section>
+          </Suspense>
+        )}
+
+        {/* Section 4: QuickStart - Quick action cards */}
+        {!isNewUser && (
+          <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.2 }}>
+            <QuickStartCards onPresetSelect={handleQuickStartPreset} />
+          </motion.section>
+        )}
+
+        {/* ======================================== */}
+        {/* PROGRESSIVE LOADING - Sections below fold */}
+        {/* ======================================== */}
+
+        {/* Hero Section - for new users */}
+        {isNewUser && (
+          <Suspense fallback={<HeroSkeleton />}>
+            <motion.section className="mb-4" {...fadeInUp}>
+              <FirstTimeHeroCard onCreateClick={handleCreate} />
+            </motion.section>
+          </Suspense>
+        )}
 
         {/* New User Progress - only for newcomers */}
         {isNewUser && (
           <Suspense fallback={null}>
-            <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.12 }}>
+            <motion.section className="mb-4" {...lazySectionAnimation}>
               <NewUserProgress />
             </motion.section>
           </Suspense>
         )}
 
-        {/* Quick Start Cards - для быстрого старта */}
+        {/* Hero Section Pro - for returning users */}
         {!isNewUser && (
-          <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.12 }}>
-            <QuickStartCards onPresetSelect={handleQuickStartPreset} />
-          </motion.section>
-        )}
-
-        {/* Quick Input Bar - for returning users */}
-        {!isNewUser && (
-          <Suspense fallback={<Skeleton className="h-14 w-full rounded-lg" />}>
-            <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.14 }}>
-              <QuickInputBar onSubmit={handleQuickInputSubmit} />
-            </motion.section>
-          </Suspense>
-        )}
-
-        {/* Creator Tools Section - collapsible for returning users */}
-        {!isNewUser && (
-          <Suspense fallback={<ToolsSkeleton />}>
-            <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.16 }}>
-              <CollapsibleSection
-                storageKey="home-creator-tools"
-                title="Инструменты"
-                icon={<Wrench className="w-3.5 h-3.5 text-primary" />}
-                defaultCollapsed={false}
-              >
-                <CreatorToolsSection onRecordClick={handleRecord} />
-              </CollapsibleSection>
-            </motion.section>
-          </Suspense>
-        )}
-
-        {/* Quick Play Section */}
-        {publicContent?.popularTracks && publicContent.popularTracks.length > 0 && (
-          <Suspense fallback={<Skeleton className="h-40 rounded-xl" />}>
-            <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.16 }}>
-              <QuickPlaySection 
-                tracks={publicContent.popularTracks} 
-                isLoading={showSkeleton}
+          <Suspense fallback={<HeroSkeleton />}>
+            <motion.section className="mb-4" {...lazySectionAnimation}>
+              <HeroSectionPro
+                onRecord={handleRecord}
+                onUpload={handleUpload}
+                onCreate={handleCreate}
               />
             </motion.section>
           </Suspense>
         )}
 
-        {/* Popular Tracks - Primary content section */}
-        <div ref={tracksSectionRef}>
-          <motion.section className="mb-6 sm:mb-8" {...fadeInUp} transition={{ delay: 0.18 }}>
+        {/* New Tracks - Secondary content section (lazy loaded) */}
+        <LazySection className="mb-4" minHeight="120px" skipSuspense>
+          <motion.div {...lazySectionAnimation}>
             <TracksGridSection
-              title="🔥 Популярное"
-              subtitle="Треки, которые слушают прямо сейчас"
-              icon={TrendingUp}
-              iconColor="text-emerald-400"
-              iconGradient="from-emerald-500/20 to-teal-500/10"
-              tracks={publicContent?.popularTracks || []}
+              title="✨ Новинки"
+              subtitle="Свежие треки от авторов сообщества"
+              icon={Clock}
+              iconColor="text-orange-400"
+              iconGradient="from-orange-500/20 to-amber-500/10"
+              tracks={publicContent?.recentTracks || []}
               isLoading={showSkeleton}
               maxTracks={isMobile ? 6 : 12}
               columns={isMobile ? 2 : 4}
-              showMoreLink="/community?sort=popular"
+              showMoreLink="/community?sort=recent"
               showMoreLabel="Смотреть все"
               onRemix={handleRemix}
             />
-          </motion.section>
-        </div>
+          </motion.div>
+        </LazySection>
 
-        {/* New Tracks - Secondary content section */}
-        <motion.section className="mb-6 sm:mb-8" {...fadeInUp} transition={{ delay: 0.2 }}>
-          <TracksGridSection
-            title="✨ Новинки"
-            subtitle="Свежие треки от авторов сообщества"
-            icon={Clock}
-            iconColor="text-orange-400"
-            iconGradient="from-orange-500/20 to-amber-500/10"
-            tracks={publicContent?.recentTracks || []}
-            isLoading={showSkeleton}
-            maxTracks={isMobile ? 6 : 12}
-            columns={isMobile ? 2 : 4}
-            showMoreLink="/community?sort=recent"
-            showMoreLabel="Смотреть все"
-            onRemix={handleRemix}
-          />
-        </motion.section>
-
-        {/* Recent user tracks - for logged in users */}
-        {user && (
-          <LazySection className="mb-5" minHeight="80px" skipSuspense eager>
-            <RecentTracksSection maxTracks={4} />
-          </LazySection>
-        )}
-
-        {/* Genre Tabs - collapsible, personalized based on user preferences */}
+        {/* Genre Tabs - collapsible */}
         {publicContent?.allTracks && publicContent.allTracks.length > 0 && (
-          <LazySection className="mb-5" minHeight="120px" skipSuspense>
-            <CollapsibleSection
-              storageKey="home-genre-tabs"
-              title="По жанрам"
-              icon={<Music2 className="w-3.5 h-3.5 text-primary" />}
-              defaultCollapsed={true}
-            >
-              <GenreTabsSection
-                tracks={publicContent.allTracks}
-                isLoading={showSkeleton}
-                onRemix={handleRemix}
-              />
-            </CollapsibleSection>
+          <LazySection className="mb-4" minHeight="120px" skipSuspense>
+            <motion.div {...lazySectionAnimation}>
+              <CollapsibleSection
+                storageKey="home-genre-tabs"
+                title="По жанрам"
+                icon={<Music2 className="w-3.5 h-3.5 text-primary" />}
+                defaultCollapsed={true}
+              >
+                <GenreTabsSection
+                  tracks={publicContent.allTracks}
+                  isLoading={showSkeleton}
+                  onRemix={handleRemix}
+                />
+              </CollapsibleSection>
+            </motion.div>
           </LazySection>
         )}
 
         {/* Popular Creators - collapsible */}
-        <LazySection className="mb-5" skipSuspense>
-          <CollapsibleSection
-            storageKey="home-creators"
-            title="Популярные авторы"
-            icon={<Users className="w-3.5 h-3.5 text-primary" />}
-            defaultCollapsed={true}
-          >
-            <PopularCreatorsSection maxCreators={6} />
-          </CollapsibleSection>
+        <LazySection className="mb-4" minHeight="80px" skipSuspense>
+          <motion.div {...lazySectionAnimation}>
+            <CollapsibleSection
+              storageKey="home-creators"
+              title="Популярные авторы"
+              icon={<Users className="w-3.5 h-3.5 text-primary" />}
+              defaultCollapsed={true}
+            >
+              <PopularCreatorsSection maxCreators={6} />
+            </CollapsibleSection>
+          </motion.div>
         </LazySection>
 
         {/* Invite Friends Banner - for logged in users */}
         {user && !isNewUser && (
-          <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.25 }}>
+          <motion.section className="mb-4" {...lazySectionAnimation}>
             <InviteFriendsCard variant="banner" />
           </motion.section>
         )}
@@ -381,8 +376,8 @@ const Index = () => {
       )}
       {audioDialogOpen && (
         <Suspense fallback={null}>
-          <AudioActionDialog 
-            open={audioDialogOpen} 
+          <AudioActionDialog
+            open={audioDialogOpen}
             onOpenChange={setAudioDialogOpen}
             onAudioSelected={() => setAudioDialogOpen(false)}
           />

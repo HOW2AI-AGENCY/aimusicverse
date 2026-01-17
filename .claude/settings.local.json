@@ -14,7 +14,19 @@
       "Bash(npm run build:dev:*)",
       "Bash(find:*)",
       "Bash(npm run build:*)",
-      "Bash(npm run:*)"
+      "Bash(npm run:*)",
+      "Bash(cmd.exe /c \"pwsh -NoProfile -ExecutionPolicy Bypass -File .specify\\\\scripts\\\\powershell\\\\create-new-feature.ps1 -ShortName mobile-ui-redesign -Number 1 -Json \"\"test feature\"\"\")",
+      "Skill(speckit.plan)",
+      "Skill(speckit.plan:*)",
+      "Bash(cmd.exe /c \"dir \"\"C:\\\\Users\\\\oat70\\\\Documents\\\\[ALBERT]MUSICVERSE\\\\FINAL\\\\vs\\\\tma\\\\aimusicverse\\\\specs\\\\001-mobile-ui-redesign\\\\plan.md\"\"\")",
+      "Skill(speckit.tasks)",
+      "Skill(speckit.tasks:*)",
+      "Skill(speckit.analyze)",
+      "Skill(speckit.analyze:*)",
+      "Skill(speckit.implement)",
+      "Skill(speckit.implement:*)",
+      "Bash(cd:*)",
+      "Bash(powershell.exe:*)"
     ]
   }
 }

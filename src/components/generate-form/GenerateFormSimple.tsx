@@ -11,6 +11,7 @@ import { FormSection, FormDivider } from './FormSection';
 import { ValidationMessage, validation } from './ValidationMessage';
 import { cn } from '@/lib/utils';
 import { notify } from '@/lib/notifications';
+import { useTelegram } from '@/contexts/TelegramContext';
 
 interface GenerateFormSimpleProps {
   description: string;
@@ -35,16 +36,37 @@ export function GenerateFormSimple({
   boostLoading,
   onOpenStyles,
 }: GenerateFormSimpleProps) {
+  const { hapticFeedback } = useTelegram();
+
   const handleCopy = useCallback(async () => {
     if (description) {
       await navigator.clipboard.writeText(description);
       notify.success('Скопировано');
     }
   }, [description]);
-  
+
   const handleClear = useCallback(() => {
+    hapticFeedback('light');
     onDescriptionChange('');
-  }, [onDescriptionChange]);
+  }, [hapticFeedback, onDescriptionChange]);
+
+  // Haptic feedback for track type toggle (T045)
+  const handleVocalsToggle = useCallback((value: boolean) => {
+    hapticFeedback('light');
+    onHasVocalsChange(value);
+  }, [hapticFeedback, onHasVocalsChange]);
+
+  // Haptic feedback for boost style (T045)
+  const handleBoostStyle = useCallback(() => {
+    hapticFeedback('medium');
+    onBoostStyle();
+  }, [hapticFeedback, onBoostStyle]);
+
+  // Haptic feedback for open styles (T045)
+  const handleOpenStyles = useCallback(() => {
+    hapticFeedback('light');
+    onOpenStyles?.();
+  }, [hapticFeedback, onOpenStyles]);
 
   // Validation messages - now pass text for artist checking
   const descriptionValidation = validation.description.getMessage(description.length, description);
@@ -69,7 +91,7 @@ export function GenerateFormSimple({
           <div className="flex p-1 bg-muted/50 rounded-xl" role="group" aria-label="Тип трека">
             <button
               type="button"
-              onClick={() => onHasVocalsChange(true)}
+              onClick={() => handleVocalsToggle(true)}
               aria-pressed={hasVocals}
               className={cn(
                 "flex-1 flex items-center justify-center gap-2 min-h-[44px] px-3 rounded-lg text-sm font-medium transition-all duration-200",
@@ -83,7 +105,7 @@ export function GenerateFormSimple({
             </button>
             <button
               type="button"
-              onClick={() => onHasVocalsChange(false)}
+              onClick={() => handleVocalsToggle(false)}
               aria-pressed={!hasVocals}
               className={cn(
                 "flex-1 flex items-center justify-center gap-2 min-h-[44px] px-3 rounded-lg text-sm font-medium transition-all duration-200",
@@ -117,7 +139,7 @@ export function GenerateFormSimple({
                   variant="ghost"
                   size="icon"
                   className="h-11 w-11 min-w-[44px] p-0 text-primary hover:text-primary/80"
-                  onClick={onOpenStyles}
+                  onClick={handleOpenStyles}
                   aria-label="Выбрать стиль музыки"
                 >
                   <Palette className="w-4 h-4" />
@@ -127,7 +149,7 @@ export function GenerateFormSimple({
                 type="button"
                 variant="ghost"
                 size="sm"
-                onClick={onBoostStyle}
+                onClick={handleBoostStyle}
                 disabled={boostLoading || !description}
                 className="h-11 px-3 gap-1.5 text-primary hover:text-primary/80"
                 aria-label="Улучшить описание с помощью AI"

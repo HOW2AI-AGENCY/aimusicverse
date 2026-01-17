@@ -1,6 +1,16 @@
 import type { Config } from "tailwindcss";
 import tailwindcssAnimate from "tailwindcss-animate";
-import { typography, colors, spacing, shadows, animation } from "./src/lib/design-tokens";
+import { typography, spacing, borderRadius } from "./src/lib/design-tokens";
+
+// Shadow values (moved from design-tokens to avoid breaking changes)
+const shadows = {
+  none: 'none',
+  level1: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+  level2: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+  level3: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+  level4: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
+  level5: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
+};
 
 export default {
   darkMode: ["class"],

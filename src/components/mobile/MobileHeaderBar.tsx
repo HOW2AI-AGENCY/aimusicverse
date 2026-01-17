@@ -98,12 +98,12 @@ export const MobileHeaderBar = memo(function MobileHeaderBar({
           {center || (
             <div className="px-2">
               {title && (
-                <h1 className="text-base font-semibold truncate leading-tight">
+                <h1 className="text-2xl font-semibold truncate leading-tight">
                   {title}
                 </h1>
               )}
               {subtitle && (
-                <p className="text-xs text-muted-foreground truncate mt-0.5">
+                <p className="text-sm text-muted-foreground truncate mt-0.5 leading-relaxed">
                   {subtitle}
                 </p>
               )}

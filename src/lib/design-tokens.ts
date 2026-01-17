@@ -1,186 +1,285 @@
 /**
- * Design Tokens for Professional & Stylish UI Enhancement
- * Feature: 032-professional-ui
- * 
- * Centralized design system constants for typography, colors, spacing,
- * shadows, and animations. All tokens are technology-agnostic and
- * can be used across components.
+ * Design Tokens for Mobile-First Minimalist UI Redesign
+ * Feature: 001-mobile-ui-redesign
+ *
+ * This file consolidates all design system constants for TypeScript usage.
+ * These values mirror the CSS custom properties defined in src/index.css.
+ *
+ * Design System:
+ * - 8px spatial grid system
+ * - 3-level typography scale (H1: 24px, H2: 20px, H3: 16px)
+ * - Consistent border radius (8-12px)
+ * - Touch targets (44-56px minimum)
  */
 
 // ============================================================================
-// TYPOGRAPHY TOKENS
-// ============================================================================
-
-export const typography = {
-  // Font sizes (in pixels, converted to rem)
-  fontSize: {
-    h1: '1.75rem',      // 28px - Page titles
-    h2: '1.5rem',       // 24px - Section headers
-    h3: '1.25rem',      // 20px - Card titles
-    h4: '1.125rem',     // 18px - List titles
-    bodyLarge: '1rem',  // 16px - Primary content
-    body: '0.875rem',   // 14px - Standard text
-    caption: '0.75rem', // 12px - Metadata
-  },
-
-  // Font weights
-  fontWeight: {
-    regular: '400',
-    medium: '500',
-    semibold: '600',
-    bold: '700',
-  },
-
-  // Line heights
-  lineHeight: {
-    tight: '1.2',      // Headings
-    normal: '1.3',     // Subheadings
-    comfortable: '1.5', // Body text
-    relaxed: '1.6',    // Large body
-  },
-} as const;
-
-// ============================================================================
-// COLOR TOKENS
-// ============================================================================
-
-export const colors = {
-  // Primary brand colors (Indigo/Violet for music/art aesthetic)
-  primary: {
-    light: '#6366f1',   // Indigo 500
-    dark: '#818cf8',    // Indigo 400 (dark mode)
-  },
-  
-  secondary: {
-    light: '#8b5cf6',   // Violet 500
-    dark: '#a78bfa',    // Violet 400 (dark mode)
-  },
-
-  // Semantic colors
-  success: {
-    light: '#10b981',   // Emerald 500
-    dark: '#34d399',    // Emerald 400
-  },
-  
-  warning: {
-    light: '#f59e0b',   // Amber 500
-    dark: '#fbbf24',    // Amber 400
-  },
-  
-  error: {
-    light: '#ef4444',   // Red 500
-    dark: '#f87171',    // Red 400
-  },
-
-  // Neutral colors
-  background: {
-    light: '#ffffff',
-    dark: '#111827',    // Gray 900
-  },
-
-  surface: {
-    light: '#f9fafb',   // Gray 50
-    dark: '#1f2937',    // Gray 800
-  },
-
-  text: {
-    primary: {
-      light: '#111827', // Gray 900
-      dark: '#f9fafb',  // Gray 50
-    },
-    secondary: {
-      light: '#6b7280', // Gray 500
-      dark: '#d1d5db', // Gray 300
-    },
-  },
-} as const;
-
-// ============================================================================
-// GRADIENT TOKENS
-// ============================================================================
-
-export const gradients = {
-  primary: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
-  success: 'linear-gradient(135deg, #10b981 0%, #34d399 100%)',
-  player: 'linear-gradient(180deg, rgba(99,102,241,0.1) 0%, rgba(139,92,246,0.1) 100%)',
-  fab: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
-} as const;
-
-// ============================================================================
-// SPACING TOKENS (4px base unit)
+// SPACING SCALE (8px Grid System)
 // ============================================================================
 
 export const spacing = {
-  xs: '4px',    // 0.25rem - Tight spacing
-  sm: '8px',    // 0.5rem  - Compact
-  md: '12px',   // 0.75rem - Comfortable
-  lg: '16px',   // 1rem    - Standard
-  xl: '24px',   // 1.5rem  - Relaxed
-  '2xl': '32px', // 2rem    - Spacious
+  xs: 4,   // 0.25rem - Extra small (1/2 grid unit)
+  sm: 8,   // 0.5rem  - Small (1 grid unit)
+  md: 12,  // 0.75rem - Medium (1.5 grid units)
+  lg: 16,  // 1rem    - Large (2 grid units)
+  xl: 24,  // 1.5rem  - Extra large (3 grid units)
+  '2xl': 32, // 2rem  - 2X large (4 grid units)
+  '3xl': 48, // 3rem  - 3X large (6 grid units)
 } as const;
 
-// ============================================================================
-// SHADOW/ELEVATION TOKENS
-// ============================================================================
-
-export const shadows = {
-  none: 'none',
-  level1: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
-  level2: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
-  level3: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
-  level4: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
-  level5: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
-} as const;
+export type SpacingValue = typeof spacing[keyof typeof spacing];
 
 // ============================================================================
-// ANIMATION TIMING TOKENS
+// TYPOGRAPHY SCALE (3-Level System)
 // ============================================================================
 
-export const animation = {
-  duration: {
-    fast: 150,      // ms - Micro-interactions
-    standard: 200,  // ms - Modals, sheets
-    slow: 300,      // ms - Page transitions
+export const typography = {
+  // Heading levels - Mobile-first minimalist approach
+  h1: {
+    fontSize: 24,    // px - Primary page headings
+    lineHeight: 1.2,
+    fontWeight: 700,
+  },
+  h2: {
+    fontSize: 20,    // px - Section headings
+    lineHeight: 1.3,
+    fontWeight: 600,
+  },
+  h3: {
+    fontSize: 16,    // px - Card/subsection headings
+    lineHeight: 1.4,
+    fontWeight: 600,
   },
 
-  easing: {
-    easeOut: 'cubic-bezier(0, 0, 0.2, 1)',
-    easeInOut: 'cubic-bezier(0.4, 0, 0.2, 1)',
-    spring: 'spring(15, 150)',
+  // Body text
+  body: {
+    fontSize: 14,    // px - Standard body text (mobile)
+    lineHeight: 1.5,
+    fontWeight: 400,
+  },
+
+  // Small text
+  small: {
+    fontSize: 12,    // px - Metadata, captions
+    lineHeight: 1.5,
+    fontWeight: 400,
+  },
+
+  // Caption
+  caption: {
+    fontSize: 10,    // px - Tiny labels
+    lineHeight: 1.4,
+    fontWeight: 400,
   },
 } as const;
 
+export type TypographyLevel = keyof typeof typography;
+
 // ============================================================================
-// ICON SIZE TOKENS
+// BORDER RADIUS
 // ============================================================================
 
-export const iconSizes = {
-  small: '16px',
-  standard: '20px',
-  large: '24px',
+export const borderRadius = {
+  sm: 8,      // 0.5rem  - Small radius (cards, buttons)
+  md: 12,     // 0.75rem - Medium radius (default)
+  lg: 16,     // 1rem    - Large radius (modals, sheets)
+  xl: 20,     // 1.25rem - Extra large radius
+  full: 9999, // Fully rounded (pills, avatar)
 } as const;
 
+export type BorderRadiusValue = typeof borderRadius[keyof typeof borderRadius];
+
 // ============================================================================
-// TOUCH TARGET TOKENS
+// TOUCH TARGETS (Mobile)
 // ============================================================================
 
 export const touchTargets = {
-  minimum: '44px',
-  recommended: '48px',
-  spacing: '8px', // Between adjacent interactive elements
+  min: 44,         // px - iOS HIG minimum
+  comfortable: 48, // px - Comfortable touch target
+  large: 56,       // px - Large touch target (Material Design)
+} as const;
+
+export type TouchTargetValue = typeof touchTargets[keyof typeof touchTargets];
+
+// ============================================================================
+// MOTION DURATION
+// ============================================================================
+
+export const duration = {
+  instant: 0,
+  fast: 100,      // ms - Visual feedback
+  normal: 200,    // ms - Standard transitions
+  slow: 300,      // ms - Navigation transitions
+  slower: 400,    // ms - Complex animations
+  slowest: 500,   // ms - Hero animations
 } as const;
 
 // ============================================================================
-// EXPORT ALL TOKENS
+// Z-INDEX SCALE
 // ============================================================================
 
-export const designTokens = {
-  typography,
-  colors,
-  gradients,
-  spacing,
-  shadows,
-  animation,
-  iconSizes,
-  touchTargets,
+export const zIndex = {
+  base: 0,
+  raised: 10,
+  sticky: 20,
+  floating: 30,
+  overlay: 40,
+  navigation: 50,
+  player: 60,
+  contextual: 70,
+  dialog: 80,
+  fullscreen: 90,
+  system: 100,
+  dropdown: 200,
 } as const;
+
+// ============================================================================
+// BREAKPOINTS
+// ============================================================================
+
+export const breakpoints = {
+  xs: 375,    // Small phones
+  sm: 640,    // Medium phones
+  md: 768,    // Tablets
+  lg: 1024,   // Desktop
+  xl: 1280,   // Large desktop
+  '2xl': 1536, // Extra large desktop
+} as const;
+
+// ============================================================================
+// CARD DIMENSIONS
+// ============================================================================
+
+export const card = {
+  height: {
+    list: 72,        // px - Track card list view height
+    listCompact: 64, // px - Compact list view
+  },
+  padding: {
+    xs: 8,      // px - Tight cards
+    sm: 12,     // px - Small cards
+    md: 16,     // px - Medium cards (default)
+    lg: 20,     // px - Large cards
+  },
+  gap: {
+    xs: 8,      // px - Tight grid
+    sm: 12,     // px - Small grid
+    md: 16,     // px - Medium grid
+    lg: 24,     // px - Large grid
+  },
+} as const;
+
+// ============================================================================
+// NAVIGATION
+// ============================================================================
+
+export const navigation = {
+  tabBar: {
+    height: 56,    // px - Bottom navigation bar height
+    iconSize: 24,  // px - Icon size
+    labelSize: 11, // px - Label font size
+  },
+  fab: {
+    size: 56,      // px - FAB diameter
+    iconSize: 24,  // px - FAB icon size
+  },
+} as const;
+
+// ============================================================================
+// PLAYER
+// ============================================================================
+
+export const player = {
+  compact: {
+    height: 64,        // px - Compact player height
+    expandedHeight: 72, // px - Expanded compact player
+  },
+  expanded: {
+    minHeight: 280,    // px - Expanded player minimum height
+  },
+  fullscreen: {
+    minHeight: '100vh', // Fullscreen player
+  },
+} as const;
+
+// ============================================================================
+// SAFE AREAS (CSS Variable Names)
+// ============================================================================
+
+export const safeAreaVars = {
+  top: '--tg-safe-area-inset-top',
+  bottom: '--tg-safe-area-inset-bottom',
+  left: '--tg-safe-area-inset-left',
+  right: '--tg-safe-area-inset-right',
+  contentTop: '--tg-content-safe-area-inset-top',
+  contentBottom: '--tg-content-safe-area-inset-bottom',
+} as const;
+
+// Helper to get safe area value from CSS variable
+export const getSafeAreaInset = (varName: string): string => {
+  if (typeof window === 'undefined') return '0px';
+  return getComputedStyle(document.documentElement)
+    .getPropertyValue(varName)
+    .trim() || '0px';
+};
+
+// ============================================================================
+// UTILITY FUNCTIONS
+// ============================================================================
+
+/**
+ * Convert rem value to pixels
+ * @param rem - Value in rem
+ * @param baseFontSize - Base font size in px (default: 16)
+ */
+export const remToPx = (rem: number, baseFontSize = 16): number => {
+  return rem * baseFontSize;
+};
+
+/**
+ * Convert pixels to rem
+ * @param px - Value in pixels
+ * @param baseFontSize - Base font size in px (default: 16)
+ */
+export const pxToRem = (px: number, baseFontSize = 16): number => {
+  return px / baseFontSize;
+};
+
+/**
+ * Get spacing value as CSS string (px or rem)
+ * @param value - Spacing token value
+ * @param unit - Unit to use ('px' | 'rem')
+ */
+export const getSpacing = (
+  value: SpacingValue,
+  unit: 'px' | 'rem' = 'px'
+): string => {
+  return unit === 'px' ? `${value}px` : `${value / 16}rem`;
+};
+
+/**
+ * Check if device is mobile based on viewport width
+ */
+export const isMobile = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  return window.innerWidth < breakpoints.md;
+};
+
+/**
+ * Check if device should use touch interactions
+ */
+export const isTouchDevice = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  return (
+    'ontouchstart' in window ||
+    navigator.maxTouchPoints > 0 ||
+    // @ts-expect-error - vendor prefix
+    navigator.msMaxTouchPoints > 0
+  );
+};
+
+/**
+ * Get appropriate touch target size based on device
+ */
+export const getTouchTargetSize = (): number => {
+  return isTouchDevice() ? touchTargets.min : 32; // 32px for desktop
+};

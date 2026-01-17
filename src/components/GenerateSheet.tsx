@@ -88,8 +88,26 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   const [lyricsAssistantOpen, setLyricsAssistantOpen] = useState(false);
   const [stylesOpen, setStylesOpen] = useState(false);
   const [projectTrackStep, setProjectTrackStep] = useState<'project' | 'track'>('project');
-  const [advancedOpen, setAdvancedOpen] = useState(false);
+  // Persist advanced settings state to localStorage (T044)
+  const [advancedOpen, setAdvancedOpen] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('generate-form-advanced-open');
+      return saved === 'true';
+    }
+    return false;
+  });
   const [closeConfirmOpen, setCloseConfirmOpen] = useState(false);
+
+  // Save advancedOpen state to localStorage when it changes (T044)
+  useEffect(() => {
+    localStorage.setItem('generate-form-advanced-open', String(advancedOpen));
+  }, [advancedOpen]);
+
+  // Haptic feedback wrapper for advanced toggle (T045)
+  const handleAdvancedToggle = useCallback((open: boolean) => {
+    hapticFeedback('light');
+    setAdvancedOpen(open);
+  }, [hapticFeedback]);
 
   // Form hook
   const form = useGenerateForm({
@@ -331,7 +349,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                     onIsPublicChange={form.setIsPublic}
                     canMakePrivate={form.canMakePrivate}
                     advancedOpen={advancedOpen}
-                    onAdvancedOpenChange={setAdvancedOpen}
+                    onAdvancedOpenChange={handleAdvancedToggle}
                     negativeTags={form.negativeTags}
                     onNegativeTagsChange={form.setNegativeTags}
                     vocalGender={form.vocalGender}
