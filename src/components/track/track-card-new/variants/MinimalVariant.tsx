@@ -18,7 +18,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { formatDuration } from '@/lib/player-utils';
 import { LazyImage } from '@/components/ui/lazy-image';
-import { InlineVersionToggle } from '@/components/library/InlineVersionToggle';
+import { UnifiedVersionSelector } from '@/components/shared/UnifiedVersionSelector';
 import { UnifiedTrackSheet } from '@/components/track-actions';
 import { useTrackCardState } from '../hooks/useTrackCardState';
 import { TrackCoverImage } from '../components/TrackCoverImage';
@@ -109,12 +109,12 @@ export const MinimalVariant = memo(function MinimalVariant({
             {track.duration_seconds ? formatDuration(track.duration_seconds) : '--:--'}
           </span>
 
-          {/* Version Toggle */}
+          {/* Version Toggle - using UnifiedVersionSelector */}
           {versionCount > 1 && (
-            <InlineVersionToggle
+            <UnifiedVersionSelector
               trackId={track.id}
-              activeVersionId={(track as any).active_version_id}
-              versionCount={versionCount}
+              variant="inline"
+              showLabels={false}
               className="flex-shrink-0"
             />
           )}

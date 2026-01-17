@@ -20,7 +20,7 @@ import { hapticImpact, hapticNotification } from '@/lib/haptic';
 import { notify } from '@/lib/notifications';
 import { LazyImage } from '@/components/ui/lazy-image';
 import { TrackBadges, DurationBadge, PlayOverlay } from '@/components/library/shared';
-import { InlineVersionToggle } from '@/components/library/InlineVersionToggle';
+import { UnifiedVersionSelector } from '@/components/shared/UnifiedVersionSelector';
 import { TrackTypeIcons } from '@/components/library/TrackTypeIcons';
 import { ScrollableTagsRow } from '@/components/library/ScrollableTagsRow';
 import { UnifiedTrackSheet } from '@/components/track-actions';
@@ -194,13 +194,12 @@ export const GridVariant = memo(function GridVariant({
                 hasGp5={midiStatus?.hasGp5}
               />
 
-              {/* Version toggle */}
+              {/* Version toggle - using UnifiedVersionSelector */}
               {versionCount > 1 && (
-                <InlineVersionToggle
+                <UnifiedVersionSelector
                   trackId={track.id}
-                  activeVersionId={(track as any).active_version_id}
-                  versionCount={versionCount}
-                  trackOwnerId={track.user_id}
+                  variant="inline"
+                  showLabels={false}
                 />
               )}
             </div>

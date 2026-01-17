@@ -19,7 +19,7 @@ import { cn } from '@/lib/utils';
 import { triggerHapticFeedback } from '@/lib/mobile-utils';
 import { LazyImage } from '@/components/ui/lazy-image';
 import { DurationBadge, PlayOverlay } from '@/components/library/shared';
-import { InlineVersionToggle } from '@/components/library/InlineVersionToggle';
+import { UnifiedVersionSelector } from '@/components/shared/UnifiedVersionSelector';
 import { TrackTypeIcons } from '@/components/library/TrackTypeIcons';
 import { ScrollableTagsRow } from '@/components/library/ScrollableTagsRow';
 import { MarqueeTitle } from '@/components/library/MarqueeTitle';
@@ -129,15 +129,13 @@ export const ListVariant = memo(function ListVariant({
 
       {/* Actions Column */}
       <div className="flex flex-col items-center justify-center gap-1">
-        {/* Version Toggle */}
+        {/* Version Toggle - using UnifiedVersionSelector */}
         {versionCount > 1 && (
-          <InlineVersionToggle
+          <UnifiedVersionSelector
             trackId={track.id}
-            activeVersionId={(track as any).active_version_id}
-            versionCount={versionCount}
-            trackOwnerId={track.user_id}
+            variant="inline"
+            showLabels={!isMobile}
             className="flex-shrink-0"
-            compact={isMobile}
           />
         )}
 
