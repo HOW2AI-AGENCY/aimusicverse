@@ -43,7 +43,7 @@ export default function BuyCredits() {
   const { data: groupedProducts, isLoading, error } = useGroupedProducts();
   const { pay: payWithTinkoff, isLoading: isTinkoffLoading } = useTinkoffPayment();
 
-  // Admin users don't need to purchase credits - redirect to home
+  // Show loading while checking role
   if (roleLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -52,9 +52,7 @@ export default function BuyCredits() {
     );
   }
 
-  if (isAdmin) {
-    return <Navigate to="/" replace />;
-  }
+  // Admins can now access this page for testing payments
 
   const displayProducts = groupedProducts?.credits || [];
 
