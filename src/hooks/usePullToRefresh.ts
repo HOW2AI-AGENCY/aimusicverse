@@ -38,11 +38,24 @@ export function usePullToRefresh({
   
   const startYRef = useRef(0);
   const currentYRef = useRef(0);
+  // Use refs to avoid stale closures in event handlers
+  const isPullingRef = useRef(false);
+  const pullDistanceRef = useRef(0);
+  const isRefreshingRef = useRef(false);
   const { patterns } = useHaptic();
+
+  // Keep refs in sync with state
+  isPullingRef.current = isPulling;
+  pullDistanceRef.current = pullDistance;
+  isRefreshingRef.current = isRefreshing;
 
   const containerRef = useCallback((node: HTMLElement | null) => {
     setContainer(node);
   }, []);
+
+  // Store onRefresh in ref to avoid recreating handlers
+  const onRefreshRef = useRef(onRefresh);
+  onRefreshRef.current = onRefresh;
 
   useEffect(() => {
     if (!container || !enabled) return;
@@ -52,47 +65,56 @@ export function usePullToRefresh({
       if (container.scrollTop > 0) return;
       
       startYRef.current = e.touches[0].clientY;
+      isPullingRef.current = true;
       setIsPulling(true);
     };
 
     const handleTouchMove = (e: TouchEvent) => {
-      if (!isPulling || container.scrollTop > 0) return;
+      // Use ref for immediate value check
+      if (!isPullingRef.current || container.scrollTop > 0) return;
 
       currentYRef.current = e.touches[0].clientY;
       const distance = Math.max(0, currentYRef.current - startYRef.current);
       
       // Apply resistance (logarithmic) for natural feel
       const resistedDistance = Math.min(threshold * 1.5, distance * 0.5);
+      pullDistanceRef.current = resistedDistance;
       setPullDistance(resistedDistance);
 
       // Haptic feedback when crossing threshold
-      if (resistedDistance >= threshold && pullDistance < threshold) {
+      if (resistedDistance >= threshold && pullDistanceRef.current < threshold) {
         patterns.tap();
       }
 
-      // Prevent scroll while pulling
-      if (distance > 0) {
+      // Prevent default scroll only when actively pulling down
+      if (distance > 5) {
         e.preventDefault();
       }
     };
 
     const handleTouchEnd = async () => {
-      if (!isPulling) return;
+      if (!isPullingRef.current) return;
 
+      isPullingRef.current = false;
       setIsPulling(false);
 
-      if (pullDistance >= threshold && !isRefreshing) {
+      const currentPullDistance = pullDistanceRef.current;
+
+      if (currentPullDistance >= threshold && !isRefreshingRef.current) {
+        isRefreshingRef.current = true;
         setIsRefreshing(true);
         patterns.success();
         
         try {
-          await onRefresh();
+          await onRefreshRef.current();
         } finally {
+          isRefreshingRef.current = false;
           setIsRefreshing(false);
         }
       }
 
       // Animate back
+      pullDistanceRef.current = 0;
       setPullDistance(0);
     };
 
@@ -105,7 +127,7 @@ export function usePullToRefresh({
       container.removeEventListener('touchmove', handleTouchMove);
       container.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [container, enabled, isPulling, pullDistance, threshold, isRefreshing, onRefresh, patterns]);
+  }, [container, enabled, threshold, patterns]);
 
   const progress = Math.min(1, pullDistance / threshold);
 
