@@ -19,12 +19,13 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { hapticImpact } from '@/lib/haptic';
 import { 
-  ImagePlus, Disc, Plus, Music, Video, Mic2, Guitar,
-  Layers, RefreshCw, Scissors, Wand2, Music2, FileMusic,
+  ImagePlus, Disc, Plus, Music, Video, Mic2,
+  Layers, RefreshCw, FileMusic,
   FileAudio, Archive, Send, Link, ListMusic, Folder,
-  Info, Pencil, Globe, Lock, Trash2, Sparkles, Check, Loader2
+  Info, Globe, Lock, Trash2, Sparkles, Check, Loader2
 } from 'lucide-react';
 import { isActionAvailable } from '@/lib/trackActionConditions';
+import { StemsActionButton } from './sections/StemsActionButton';
 
 interface UnifiedTrackSheetProps {
   track: Track | null;
@@ -224,11 +225,12 @@ export function UnifiedTrackSheet({
                   {showReplaceSection && (
                     <IconGridButton icon={RefreshCw} label="Секция" color="amber" onClick={() => executeAction('replace_section')} />
                   )}
-                  {showStemsSimple && (
-                    <IconGridButton icon={Scissors} label="2 стема" color="green" onClick={() => executeAction('stems_simple')} disabled={isProcessing} />
-                  )}
-                  {showStemsDetailed && (
-                    <IconGridButton icon={Wand2} label="6+ стемов" color="purple" onClick={() => executeAction('stems_detailed')} disabled={isProcessing} />
+                  {/* Unified stems button with mode selector */}
+                  {(showStemsSimple || showStemsDetailed) && (
+                    <StemsActionButton
+                      onAction={executeAction}
+                      isProcessing={isProcessing}
+                    />
                   )}
                 </ActionGroup>
 
