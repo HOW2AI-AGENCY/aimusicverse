@@ -83,7 +83,10 @@ const Index = () => {
   const { isNewUser } = useUserJourneyState();
 
   // Single optimized query for all public content
-  const { data: publicContent, isLoading: contentLoading, refetch: refetchContent } = usePublicContentBatch();
+  const { data: publicContent, isLoading: contentLoading, isFetching, refetch: refetchContent } = usePublicContentBatch();
+  
+  // Show skeleton only on initial load (no cached data yet)
+  const showSkeleton = contentLoading && !publicContent;
 
   // Preload first 4 track cover images for faster perceived loading
   useEffect(() => {
@@ -216,8 +219,8 @@ const Index = () => {
           </Suspense>
         )}
 
-        {/* Loading state */}
-        {contentLoading && !publicContent && (
+        {/* Loading state - only on initial load without cached data */}
+        {showSkeleton && (
           isMobile ? (
             <div className="space-y-4">
               <MobileHeroSkeleton />
@@ -297,7 +300,7 @@ const Index = () => {
             <motion.section className="mb-5" {...fadeInUp} transition={{ delay: 0.16 }}>
               <QuickPlaySection 
                 tracks={publicContent.popularTracks} 
-                isLoading={contentLoading}
+                isLoading={showSkeleton}
               />
             </motion.section>
           </Suspense>
@@ -314,7 +317,7 @@ const Index = () => {
                 iconColor="text-emerald-400"
                 iconGradient="from-emerald-500/20 to-teal-500/10"
                 tracks={publicContent?.popularTracks || []}
-                isLoading={contentLoading}
+                isLoading={showSkeleton}
                 maxTracks={isMobile ? 6 : 12}
                 columns={isMobile ? 2 : 4}
                 showMoreLink="/community?sort=popular"
@@ -335,7 +338,7 @@ const Index = () => {
               iconColor="text-orange-400"
               iconGradient="from-orange-500/20 to-amber-500/10"
               tracks={publicContent?.recentTracks || []}
-              isLoading={contentLoading}
+              isLoading={showSkeleton}
               maxTracks={isMobile ? 6 : 12}
               columns={isMobile ? 2 : 4}
               showMoreLink="/community?sort=recent"
@@ -363,7 +366,7 @@ const Index = () => {
             >
               <GenreTabsSection
                 tracks={publicContent.allTracks}
-                isLoading={contentLoading}
+                isLoading={showSkeleton}
                 onRemix={handleRemix}
               />
             </CollapsibleSection>
