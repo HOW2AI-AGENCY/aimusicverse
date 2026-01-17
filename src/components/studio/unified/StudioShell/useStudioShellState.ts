@@ -3,7 +3,7 @@
  * Manages all dialog and selected track states for StudioShell
  */
 
-import { useState, useMemo, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import type { StudioTrack } from '@/stores/useUnifiedStudioStore';
 import type { TrackEffectsState, InstrumentalResultData } from './types';
 import { defaultStemEffects } from '@/hooks/studio/stemEffectsConfig';

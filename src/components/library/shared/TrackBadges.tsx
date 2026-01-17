@@ -28,9 +28,9 @@ interface TrackBadgesProps {
  */
 export const TrackBadges = memo(function TrackBadges({
   trackId,
-  trackOwnerId,
+  trackOwnerId: _trackOwnerId,
   versionCount = 0,
-  activeVersionId,
+  activeVersionId: _activeVersionId,
   stemCount = 0,
   queuePosition,
   isNextTrack = false,
