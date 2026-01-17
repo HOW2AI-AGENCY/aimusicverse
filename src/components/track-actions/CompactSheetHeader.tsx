@@ -1,6 +1,6 @@
 /**
  * CompactSheetHeader - Ultra-compact header with cover, title and quick actions in single row
- * Minimizes vertical space usage for better scrolling
+ * Uses UnifiedVersionSelector for A/B version switching
  */
 
 import { memo, useState } from 'react';
@@ -13,6 +13,7 @@ import { useTracks } from '@/hooks/useTracks';
 import { hapticImpact } from '@/lib/haptic';
 import { toast } from 'sonner';
 import { EditableTrackTitle } from './EditableTrackTitle';
+import { UnifiedVersionSelector } from '@/components/shared/UnifiedVersionSelector';
 
 // Format duration from seconds to mm:ss
 const formatDuration = (seconds: number): string => {
@@ -23,17 +24,11 @@ const formatDuration = (seconds: number): string => {
 
 interface CompactSheetHeaderProps {
   track: Track;
-  versions?: Array<{ id: string; label: string }>;
-  activeVersionId?: string | null;
-  onVersionSwitch?: (versionId: string) => void;
   onClose: () => void;
 }
 
 export const CompactSheetHeader = memo(function CompactSheetHeader({
   track,
-  versions = [],
-  activeVersionId,
-  onVersionSwitch,
   onClose,
 }: CompactSheetHeaderProps) {
   const { activeTrack, isPlaying, playTrack, pauseTrack, addToQueue } = usePlayerStore();
@@ -46,7 +41,6 @@ export const CompactSheetHeader = memo(function CompactSheetHeader({
 
   const isCurrentTrack = activeTrack?.id === track.id;
   const isTrackPlaying = isCurrentTrack && isPlaying;
-  const hasVersions = versions.length > 1;
 
   const handlePlay = () => {
     hapticImpact('light');
@@ -123,7 +117,7 @@ export const CompactSheetHeader = memo(function CompactSheetHeader({
         )}
       </div>
 
-      {/* Title + Active Version Indicator + Version Switcher */}
+      {/* Title + Version Selector */}
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
           <EditableTrackTitle
@@ -131,37 +125,16 @@ export const CompactSheetHeader = memo(function CompactSheetHeader({
             title={localTitle}
             onTitleChange={setLocalTitle}
           />
-          {/* Active version badge - always visible when multiple versions */}
-          {hasVersions && activeVersionId && (
-            <span className="flex-shrink-0 px-1.5 py-0.5 rounded text-[10px] font-bold bg-primary/15 text-primary">
-              Версия {versions.find(v => v.id === activeVersionId)?.label || 'A'}
-            </span>
-          )}
         </div>
         
-        {/* Version pills - compact inline switcher */}
-        {hasVersions && onVersionSwitch && (
-          <div className="flex items-center gap-1.5 mt-1">
-            <span className="text-[10px] text-muted-foreground">Переключить:</span>
-            <div className="flex gap-0.5">
-              {versions.map((version) => (
-                <button
-                  key={version.id}
-                  onClick={() => onVersionSwitch(version.id)}
-                  className={cn(
-                    "h-5 min-w-[20px] px-1.5 rounded text-[10px] font-semibold",
-                    "transition-all active:scale-95",
-                    version.id === activeVersionId
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-muted/60 text-muted-foreground hover:bg-muted"
-                  )}
-                >
-                  {version.label}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
+        {/* UnifiedVersionSelector - compact inline variant */}
+        <div className="mt-1">
+          <UnifiedVersionSelector 
+            trackId={track.id}
+            variant="inline"
+            showLabels
+          />
+        </div>
       </div>
 
       {/* Quick actions - compact icons */}

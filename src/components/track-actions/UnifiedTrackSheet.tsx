@@ -16,8 +16,6 @@ import { ActionGroup, ActionDivider, ActionGridContainer } from './ActionGrid';
 import { IconGridButton } from './IconGridButton';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-import { hapticImpact } from '@/lib/haptic';
 import { 
   ImagePlus, Disc, Plus, Music, Video, Mic2,
   Layers, RefreshCw, FileMusic,
@@ -37,11 +35,6 @@ interface UnifiedTrackSheetProps {
   trackIndex?: number;
 }
 
-interface TrackVersion {
-  id: string;
-  version_label: string | null;
-}
-
 export function UnifiedTrackSheet({ 
   track, 
   open, 
@@ -54,8 +47,6 @@ export function UnifiedTrackSheet({
     onClick: () => onOpenChange(false),
   });
 
-  const [versions, setVersions] = useState<TrackVersion[]>([]);
-  const [activeVersionId, setActiveVersionId] = useState<string | null>(null);
   const [trackStatus, setTrackStatus] = useState({ hasMidi: false, hasNotes: false });
 
   const {
@@ -73,64 +64,25 @@ export function UnifiedTrackSheet({
     onClose: () => onOpenChange(false),
   });
 
-  // Fetch versions and status
+  // Fetch track status (MIDI, notes)
   useEffect(() => {
     if (!track?.id || !open) return;
 
-    const fetchData = async () => {
-      const [versionsResult, transcriptionsResult] = await Promise.all([
-        supabase
-          .from('track_versions')
-          .select('id, version_label')
-          .eq('track_id', track.id)
-          .order('clip_index', { ascending: true }),
-        supabase
-          .from('stem_transcriptions')
-          .select('midi_url, pdf_url')
-          .eq('track_id', track.id),
-      ]);
+    const fetchStatus = async () => {
+      const { data } = await supabase
+        .from('stem_transcriptions')
+        .select('midi_url, pdf_url')
+        .eq('track_id', track.id);
 
-      setVersions(versionsResult.data || []);
-      setActiveVersionId((track as any).active_version_id || versionsResult.data?.[0]?.id || null);
-
-      const transcriptions = transcriptionsResult.data || [];
+      const transcriptions = data || [];
       setTrackStatus({
         hasMidi: transcriptions.some(t => !!t.midi_url),
         hasNotes: transcriptions.some(t => !!t.pdf_url),
       });
     };
 
-    fetchData();
+    fetchStatus();
   }, [track?.id, open]);
-
-  const handleVersionSwitch = async (versionId: string) => {
-    if (versionId === activeVersionId || !track) return;
-    
-    hapticImpact('light');
-    
-    try {
-      await supabase
-        .from('track_versions')
-        .update({ is_primary: false })
-        .eq('track_id', track.id);
-
-      await supabase
-        .from('track_versions')
-        .update({ is_primary: true })
-        .eq('id', versionId);
-
-      await supabase
-        .from('tracks')
-        .update({ active_version_id: versionId })
-        .eq('id', track.id);
-      
-      setActiveVersionId(versionId);
-      const version = versions.find(v => v.id === versionId);
-      toast.success(`Версия ${version?.version_label || 'A'}`);
-    } catch {
-      toast.error('Ошибка переключения');
-    }
-  };
 
   if (!track) return null;
 
@@ -176,9 +128,6 @@ export function UnifiedTrackSheet({
           <div className="px-4 flex-shrink-0">
             <CompactSheetHeader 
               track={track}
-              versions={versions.map(v => ({ id: v.id, label: v.version_label || 'A' }))}
-              activeVersionId={activeVersionId}
-              onVersionSwitch={handleVersionSwitch}
               onClose={() => onOpenChange(false)}
             />
           </div>
