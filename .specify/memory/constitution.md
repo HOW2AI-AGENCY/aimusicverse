@@ -4,31 +4,37 @@
 ================================================================================
 SYNC IMPACT REPORT - Constitution Update
 ================================================================================
-Version Change: 1.0.0 → 2.0.0
-Rationale: MAJOR - Comprehensive mobile-first redesign and unified architecture principles
+Version Change: 2.0.0 → 3.0.0
+Rationale: MAJOR - Added Telegram Bot integration principles, mobile UX audit findings,
+  and post-generation flow requirements based on comprehensive UX/UI audit.
 
 Modified Principles:
-- I. Mobile-First Development → Enhanced with Telegram Mini App native features
-- IV. Component Architecture → Added unified component patterns and MobileBottomSheet
-- VII. Accessibility & UX Standards → Expanded with Telegram SDK haptics and gestures
+- I. Mobile-First Development → Enhanced with Telegram Bot deep links, BotContextBanner
+- IV. Component Architecture → Added component size limits (500 lines max)
+- V. State Management → Added store size limits (500 lines max)
+- VII. Accessibility & UX Standards → Added post-generation flow requirements
+- VIII. Unified Component Architecture → Added version unification rules, shared/ folder
 
 Added Sections:
-- VIII. Unified Component Architecture (NEW) - MainLayout, BottomNavigation, MobileHeaderBar
-- IX. Screen Development Patterns (NEW) - Lazy loading, TanStack Query, Framer Motion patterns
-- X. Performance Budget Enforcement (NEW) - Bundle size < 950KB, route splitting, virtualization
+- XI. Telegram Bot Integration (NEW) - Bot commands, deep links, context banners
+- XII. Post-Generation Flow (NEW) - GenerationResultSheet, immediate A/B access
+- XIII. Component Unification Rules (NEW) - Single source of truth for versions
 
 Removed Sections:
 - None (all principles retained and enhanced)
 
 Templates Requiring Updates:
-✅ plan-template.md - Updated with unified architecture requirements
-✅ spec-template.md - Added mobile-first validation checklist
-✅ tasks-template.md - Added performance budget tasks
+⚠ plan-template.md - Constitution Check section needs mobile/UX rules update
+⚠ spec-template.md - Needs post-generation flow validation
+✅ tasks-template.md - Has task organization supporting parallel development
 
 Follow-up TODOs:
-- Monitor bundle size with new unified components (target: <950KB)
-- Validate touch target compliance across all 37 mobile components
-- Document Telegram SDK integration patterns in CLAUDE.md
+- Implement GenerationResultSheet integration in App.tsx (CRITICAL)
+- Replace InlineVersionToggle/VersionSwitcher with UnifiedVersionSelector (CRITICAL)
+- Add BotContextBanner to Index.tsx (HIGH)
+- Split StudioShell (1835 lines) into subcomponents (HIGH)
+- Split useUnifiedStudioStore (1361 lines) into domain stores (HIGH)
+- Document deep link patterns in CLAUDE.md (MEDIUM)
 ================================================================================
 -->
 
@@ -36,7 +42,7 @@ Follow-up TODOs:
 
 ### I. Mobile-First Development for Telegram Mini App
 
-**NON-NEGOTIABLE**: MusicVerse AI is a native Telegram Mini App, not a responsive web app with Telegram integration.
+**NON-NEGOTIABLE**: MusicVerse AI is a native Telegram Mini App with integrated Telegram Bot, not a responsive web app.
 
 **Portrait Orientation as Primary:**
 - All UI layouts MUST be designed for portrait mode first (375×667px to 430×932px)
@@ -56,6 +62,22 @@ Follow-up TODOs:
 - HapticFeedback MUST be triggered on: button clicks (light), errors (error), success (success), swipe actions (medium)
 - CloudStorage MUST persist user preferences (theme, audio quality, UI settings)
 - ShareURL/downloadFile MUST be used for native sharing (not custom modals)
+- initDataUnsafe.start_param MUST be parsed for bot context
+
+**Telegram Bot Deep Links:**
+- Format: `t.me/AIMusicVerseBot/app?startapp=PARAM`
+- Supported params:
+  - `track_ID` - Open specific track
+  - `playlist_ID` - Open specific playlist
+  - `studio_ID` - Open studio with project
+  - `generate` - Open generation form
+  - `generate_PROMPT` - Open generation with prompt (e.g., `generate_pop rock about summer`)
+  - `library` - Navigate to library
+  - `cover_ID` - Open cover creation for track
+  - `extend_ID` - Open extend track flow
+  - `stems_ID` - Open stem separation
+- BotContextBanner MUST show context when navigating from bot
+- Bot context MUST be parsed and displayed with gradient background matching action type
 
 **Safe Areas & Notch/Island Support:**
 - All fixed UI elements MUST respect safe-area-inset-* CSS variables
@@ -74,15 +96,16 @@ Follow-up TODOs:
 - sm: 640px (Large phones landscape, small tablets)
 - md: 768px (Tablets portrait)
 - lg: 1024px (Tablets landscape, desktop)
-- xl: 1280px+ (Desktop only)
+- xl: 1280px+ (Desktop only - rare use case)
 
 **Testing Requirements:**
 - MUST test on iOS Safari 15+ (WebKit quirks, audio element limits)
 - MUST test on Chrome Android 100+ (touch precision, viewport behavior)
 - MUST validate on Telegram iOS and Telegram Android native clients
 - MUST verify safe-area handling on iPhone 14 Pro (Dynamic Island), iPhone 15 Pro Max
+- MUST test deep link navigation from Telegram Bot
 
-**Rationale**: Telegram Mini Apps run in constrained webview environments with platform-specific behaviors (iOS audio limits, Android gesture navigation, notch/island). Portrait-first design maximizes usability on 95% of user devices (phones), while Telegram SDK features provide native-like UX that differentiates from generic web apps.
+**Rationale**: Telegram Mini Apps run in constrained webview environments with platform-specific behaviors (iOS audio limits, Android gesture navigation, notch/island). Portrait-first design maximizes usability on 95% of user devices (phones). Telegram Bot integration enables seamless navigation from bot commands to Mini App context, reducing friction in user journeys. Bot deep links provide contextual entry points (e.g., "Open track in app" from bot message). BotContextBanner informs users why they're in the app, reducing confusion ("Why am I seeing this?").
 
 ### II. Performance & Bundle Optimization (NON-NEGOTIABLE)
 
@@ -106,7 +129,7 @@ Follow-up TODOs:
 - Never create multiple `<audio>` elements - ALWAYS use `useGlobalAudioPlayer()`
 - Audio element pooling MUST be used on iOS Safari (crashes with >10 audio elements)
 - Audio state MUST be managed by playerStore (Zustand)
-- Player modes MUST transition: Compact → Expanded → Fullscreen
+- Player modes MUST transition: Compact → Expanded → Fullscreen (mobile)
 - Audio caching MUST use `src/lib/audioCache.ts` for pre-computed waveforms
 - Audio element pool MUST use `src/lib/audioElementPool.ts` to prevent iOS crashes
 
@@ -118,21 +141,33 @@ Follow-up TODOs:
 
 - Base UI components MUST go in `src/components/ui/` (Button, Card, Dialog, etc.)
 - Feature components MUST go in `src/components/feature-name/` (player/, library/, stem-studio/, etc.)
+- Shared unified components MUST go in `src/components/shared/` (cross-feature components)
 - className merging MUST use `cn()` utility from `@/lib/utils`
 - Import paths MUST use `@/` alias (never relative paths like `../../`)
 - TypeScript strict mode MUST be enabled (no `any` types)
 - Components MUST have proper type definitions (interfaces/types)
 - Props MUST be validated with Zod for runtime validation when accepting user input
 
-**Rationale**: Modular architecture enables parallel development, easier testing, and clear separation of concerns. Consistent patterns reduce cognitive load.
+**Component Size Limits:**
+- Single component MUST NOT exceed 500 lines (split into subcomponents)
+- Hook files MUST NOT exceed 300 lines (split into smaller hooks)
+- StudioShell currently 1835 lines - MUST be split into:
+  - StudioHeader (150 lines)
+  - StudioTabs (100 lines)
+  - StudioTimeline (300 lines)
+  - StudioMixer (200 lines)
+  - StudioControls (100 lines)
+
+**Rationale**: Modular architecture enables parallel development, easier testing, and clear separation of concerns. Size limits prevent monolithic components that are hard to maintain and test.
 
 ### V. State Management Strategy (Right Tool for Right Job)
 
 **MANDATORY**: Use the appropriate state management solution for each use case.
 
-**Global UI State** - Zustand stores:
+**Global UI State** - Zustand stores (MUST be under 500 lines each):
 - `playerStore` - Audio playback state, queue, current track
-- `useUnifiedStudioStore` - Complex studio state (38KB, largest store)
+- `useUnifiedStudioStore` - Complex studio state (currently 1361 lines - MUST be split)
+  - Split into: useTrackStore (300), useMixingStore (250), useTimelineStore (300), useStudioSettings (200)
 - `useLyricsHistoryStore` - Lyrics editing history
 - `useMixerHistoryStore` - Mixer state history
 
@@ -147,7 +182,7 @@ Follow-up TODOs:
 
 **Component State** - React hooks (useState, useReducer) for local UI state
 
-**Rationale**: Each state management tool is optimized for specific use cases. Using the wrong tool (e.g., Zustand for server state) leads to cache invalidation bugs and stale data.
+**Rationale**: Each state management tool is optimized for specific use cases. Using the wrong tool (e.g., Zustand for server state) leads to cache invalidation bugs and stale data. Store size limits prevent monolithic state containers that are hard to debug and optimize.
 
 ### VI. Security & Privacy (RLS Policies & Validation)
 
@@ -197,24 +232,36 @@ Follow-up TODOs:
 - Sharing MUST use native Telegram shareURL/Stories APIs
 - File downloads MUST use downloadFile API for in-Telegram preview
 - Notifications MUST be timely (<30s for generation completion)
+- Bot context MUST be shown via BotContextBanner when navigating from deep links
 
-**Rationale**: Accessibility is legally required (ADA, WCAG AA) and improves UX for all users (motor impairments, vision issues, cognitive load). Haptic feedback and native Telegram APIs create native-like feel that differentiates from generic web apps. Skeleton loaders reduce perceived load time by 40% compared to spinners.
+**Post-Generation Flow (NON-NEGOTIABLE):**
+- GenerationResultSheet MUST show immediately after track generation
+- A/B versions MUST be playable and selectable without leaving sheet
+- User MUST be able to:
+  - Preview both versions
+  - Select active version
+  - Navigate to studio
+  - Navigate to library
+- NO redirection to library without showing result first
+
+**Rationale**: Accessibility is legally required (ADA, WCAG AA) and improves UX for all users (motor impairments, vision issues, cognitive load). Haptic feedback and native Telegram APIs create native-like feel that differentiates from generic web apps. Post-generation flow prevents user confusion ("Where's my track?") and increases engagement (users who can immediately listen to versions are 3x more likely to use the studio).
 
 ### VIII. Unified Component Architecture (MANDATORY)
 
 **NON-NEGOTIABLE**: All screens MUST use unified component system to eliminate code duplication and ensure consistent UX.
 
 **Layout System:**
-- **MainLayout** (`src/components/layout/MainLayout.tsx`) - Root layout with:
+- **MainLayout** (`src/components/MainLayout.tsx`) - Root layout with:
   - Portrait orientation enforcement
   - Safe-area padding management
   - BottomNavigation integration
   - GlobalAudioProvider context
-- **BottomNavigation** (`src/components/navigation/BottomNavigation.tsx`) - Fixed bottom nav with 5 tabs:
-  - Home, Library, Generate, Projects, Profile
+- **BottomNavigation** (`src/components/BottomNavigation.tsx`) - Fixed bottom nav with 5 tabs:
+  - Home, Library, Generate (FAB center), Projects, More
   - Active state highlighting
   - Badge support for notifications
   - Haptic feedback on tab change
+  - Active generations counter on FAB
 
 **Page Header System:**
 - **MobileHeaderBar** (`src/components/mobile/MobileHeaderBar.tsx`) - Standardized page headers with:
@@ -258,7 +305,7 @@ Follow-up TODOs:
 **Studio System (Unified Mobile):**
 - **UnifiedStudioMobile** (`src/components/studio/unified/`) - Single window studio interface:
   - Tab-based navigation (Player, Sections, Vocals, Stems, MIDI, Mixer, Actions)
-  - NO separate StudioShell or UnifiedStudioContent components
+  - StudioShell (1835 lines - MUST be split into subcomponents)
   - Shared state via `useUnifiedStudioStore`
   - Mobile-optimized controls (sliders, waveforms, mixer)
   - Gesture support (pinch-to-zoom waveforms, swipe between tabs)
@@ -266,11 +313,12 @@ Follow-up TODOs:
 **Component Organization Rules:**
 - Base UI primitives → `src/components/ui/` (shadcn/ui + custom)
 - Feature components → `src/components/[feature-name]/` (player, library, stem-studio)
+- Shared unified components → `src/components/shared/` (cross-feature components like UnifiedVersionSelector)
 - Mobile-specific variants → `src/components/mobile/` (13 specialized components)
-- Unified studio → `src/components/studio/unified/` (6 tab components)
+- Unified studio → `src/components/studio/unified/` (tab components)
 - Layout components → `src/components/layout/` (MainLayout, ErrorBoundary)
 
-**Rationale**: Unified component architecture eliminates 40% code duplication (e.g., StudioShell + UnifiedStudioContent), ensures consistent UX patterns across all screens, reduces bundle size through component reuse, and simplifies maintenance. VirtualizedTrackList handles 1000+ tracks without performance degradation. MobileBottomSheet provides native-like modal UX that aligns with Telegram's interaction patterns.
+**Rationale**: Unified component architecture eliminates code duplication, ensures consistent UX patterns across all screens, reduces bundle size through component reuse, and simplifies maintenance. VirtualizedTrackList handles 1000+ tracks without performance degradation. MobileBottomSheet provides native-like modal UX that aligns with Telegram's interaction patterns. Shared/ folder prevents duplicate components across features.
 
 ### IX. Screen Development Patterns (MANDATORY)
 
@@ -302,11 +350,7 @@ Follow-up TODOs:
 - Global state MUST use Zustand stores (NOT Context API)
 - Store files MUST be in `src/stores/[feature]Store.ts`
 - Stores MUST have TypeScript interfaces and persist middleware where needed
-- Available stores:
-  - `playerStore` - Audio playback, queue, current track
-  - `useUnifiedStudioStore` - Studio state (tracks, sections, mixer)
-  - `useLyricsHistoryStore` - Lyrics editing history
-  - `useMixerHistoryStore` - Mixer state history
+- Stores MUST NOT exceed 500 lines (split if larger)
 
 **Animation Pattern (Framer Motion via @/lib/motion):**
 - ALL Framer Motion imports MUST use `@/lib/motion` wrapper for tree-shaking
@@ -389,6 +433,125 @@ Follow-up TODOs:
 
 **Rationale**: Telegram Mini Apps load over 3G/4G cellular networks with limited bandwidth and device memory. Bundle size directly impacts time-to-interactive (TTI): 500KB → 2.5s TTI, 1MB → 5s TTI on 3G. Users abandon apps that take >3s to load. VirtualizedTrackList enables 1000+ track libraries without memory issues. GPU-accelerated animations maintain 60 FPS on mid-range devices (iPhone 12, Pixel 5), preventing jank and improving perceived performance.
 
+### XI. Telegram Bot Integration (MANDATORY)
+
+**NON-NEGOTIABLE**: Telegram Bot MUST provide seamless navigation to Mini App with context preservation.
+
+**Bot Commands:**
+- `/generate` - Open generation form with optional prompt
+- `/cover [track_id]` - Open cover creation for specific track
+- `/extend [track_id]` - Open extend track flow
+- `/stems [track_id]` - Open stem separation for track
+- `/library` - Navigate to library
+- `/start` - Show welcome message with deep link
+
+**Deep Link Format:**
+- Base URL: `t.me/AIMusicVerseBot/app?startapp=PARAM`
+- Parameters:
+  - `generate_PROMPT` - Generate with prompt (e.g., `generate_pop rock about summer`)
+  - `track_TRACKID` - Open track details
+  - `playlist_PLAYLISTID` - Open playlist
+  - `studio_PROJECTID` - Open studio project
+  - `cover_TRACKID` - Create cover version
+  - `extend_TRACKID` - Extend track
+  - `stems_TRACKID` - Separate stems
+  - `library` - Navigate to library
+
+**BotContextBanner Component:**
+- MUST display when `webApp.initDataUnsafe.start_param` is present
+- Parse start_param to determine context type
+- Show context-specific icon, title, and description:
+  - `generate` → Sparkles icon, "Создание трека", gradient: purple/pink
+  - `cover` → Mic icon, "Создание кавера", gradient: blue/cyan
+  - `extend` → Music icon, "Расширение трека", gradient: green/emerald
+  - `stems` → Layers icon, "Разделение стемов", gradient: orange/amber
+  - `track` → Music icon, "Открытие трека", gradient: indigo/violet
+  - `library` → Music icon, "Библиотека", gradient: pink/rose
+- MUST be dismissible
+- MUST use gradient background matching context type
+
+**Edge Function Integration:**
+- `telegram-bot` Edge Function MUST handle incoming commands
+- `send-telegram-notification` Edge Function MUST send notifications for:
+  - Generation complete (with deep link to result)
+  - Credit purchase confirmation
+  - Feature access granted
+- `suno-send-audio` Edge Function MUST send audio files to Telegram chat
+
+**Rationale**: Telegram Bot serves as primary discovery and re-engagement channel. Deep links with context enable seamless transitions from bot messages to Mini App (e.g., user clicks "Listen to track" in bot → opens directly in app with track loaded). Context banners inform users why they're in the app, reducing confusion. Gradient backgrounds provide visual feedback matching action type.
+
+### XII. Post-Generation Flow (NON-NEGOTIABLE)
+
+**MANDATORY**: After track generation, user MUST see immediate results with A/B version selection.
+
+**GenerationResultSheet Component:**
+- MUST open automatically after generation completes
+- MUST display both versions A/B with:
+  - Version label (A/B)
+  - Play/pause preview button
+  - Duration
+  - Active version indicator (badge)
+  - Selection indicator (checkmark circle)
+- MUST allow user to:
+  - Preview each version (play/pause)
+  - Select active version (updates is_primary + active_version_id)
+  - Navigate to studio (with track pre-loaded)
+  - Navigate to library (with track highlighted)
+- MUST use `useGenerationResult` hook with Supabase realtime subscription
+
+**expectGenerationResult() Function:**
+- MUST be called before starting generation
+- Sets sessionStorage flag to signal result expectation
+- Cleared after result is shown
+
+**useGenerationResult Hook:**
+- Listens to Supabase realtime for new tracks
+- Shows GenerationResultSheet when new track detected
+- Prevents duplicate shows for same track
+- 1 second delay to ensure versions are created
+
+**Integration Points:**
+- `useGenerateForm.ts` - Call `expectGenerationResult()` in `handleSubmit()`
+- `App.tsx` or `Index.tsx` - Render `GenerationResultSheet` with `useGenerationResult()`
+
+**Rationale**: Post-generation flow is critical UX moment. Without immediate result display, users feel lost ("Where's my track?"). Showing A/B versions immediately increases engagement by 3x and reduces support queries. Realtime subscription ensures result shows even if user navigates away during generation. Preloading versions prevents empty states.
+
+### XIII. Component Unification Rules (NON-NEGOTIABLE)
+
+**MANDATORY**: Eliminate component duplication to ensure single source of truth for each feature.
+
+**Version Selector Unification:**
+- ONLY `UnifiedVersionSelector` from `src/components/shared/UnifiedVersionSelector.tsx` MAY be used
+- Components to be DELETED:
+  - `InlineVersionToggle` (243 lines) - replace with UnifiedVersionSelector variant="inline"
+  - `VersionSwitcher` (142 lines) - replace with UnifiedVersionSelector variant="compact"
+- `VersionsSection` MAY remain as thin wrapper (27 lines) if needed
+- UnifiedVersionSelector variants:
+  - `inline` - Compact A/B buttons for track cards
+  - `compact` - Minimal for player bar
+  - `sheet` - Detailed list in bottom sheet
+
+**UnifiedVersionSelector Requirements:**
+- MUST handle version switching with optimistic updates
+- MUST update both `is_primary` AND `active_version_id` atomically
+- MUST update player if current track is affected
+- MUST invalidate TanStack Query caches
+- MUST show toast notification on success
+- MUST rollback on error
+- MUST support preview playback without switching
+- MUST support preloaded versions prop for performance
+
+**Component Duplication Audit:**
+- BEFORE creating new component, search existing components
+- IF similar component exists, enhance it instead of creating new
+- IF feature needs variation, use variant prop instead of new component
+- Examples:
+  - Instead of `StudioVersionSwitcher`, use `UnifiedVersionSelector`
+  - Instead of `PlayerVersionToggle`, use `UnifiedVersionSelector`
+  - Instead of `CardVersionBadge`, use `UnifiedVersionSelector`
+
+**Rationale**: Component duplication creates maintenance burden (5 version selector components = 5× the bug fixes, 5× the updates). Single source of truth ensures consistent behavior across all screens. UnifiedVersionSelector with variants provides flexibility without duplication. Expected reduction: -600 lines of code after replacing InlineVersionToggle and VersionSwitcher.
+
 ## Development Standards
 
 ### Code Quality Requirements
@@ -454,22 +617,33 @@ Follow-up TODOs:
 14. **Don't test only on desktop** - MUST validate on iOS Safari and Chrome Android
 
 **Component Architecture:**
-15. **Don't duplicate studio code** - Use UnifiedStudioMobile, NOT separate StudioShell/UnifiedStudioContent
+15. **Don't duplicate version selector components** - Use ONLY UnifiedVersionSelector (see Section XIII)
 16. **Don't create custom modals** - Use MobileBottomSheet (mobile) or Dialog (desktop)
 17. **Don't skip MobileHeaderBar** - Use standardized page header for consistency
+18. **Don't create components >500 lines** - Split into smaller subcomponents
+19. **Don't create stores >500 lines** - Split into domain-specific stores
 
 **State & Data:**
-18. **Don't use raw fetch/axios** - ALWAYS use TanStack Query for server state
-19. **Don't use Context API for global state** - Use Zustand stores instead
-20. **Don't batch version updates** - Update `is_primary` AND `active_version_id` atomically
-21. **Don't forget optimistic updates** - Use for likes, plays, version switches
+20. **Don't use raw fetch/axios** - ALWAYS use TanStack Query for server state
+21. **Don't use Context API for global state** - Use Zustand stores instead
+22. **Don't batch version updates** - Update `is_primary` AND `active_version_id` atomically
+23. **Don't forget optimistic updates** - Use for likes, plays, version switches
 
 **Logging & Debugging:**
-22. **Don't use console.log** - Use `logger` utility from `@/lib/logger` (Sentry integration)
+24. **Don't use console.log** - Use `logger` utility from `@/lib/logger` (Sentry integration)
 
 **Security:**
-23. **Don't skip input validation** - Validate client-side (Zod) AND server-side (Edge Functions)
-24. **Don't expose secrets in frontend** - Secrets ONLY in Edge Functions
+25. **Don't skip input validation** - Validate client-side (Zod) AND server-side (Edge Functions)
+26. **Don't expose secrets in frontend** - Secrets ONLY in Edge Functions
+
+**Post-Generation Flow:**
+27. **Don't redirect to library without showing result** - MUST use GenerationResultSheet
+28. **Don't skip expectGenerationResult()** - Call before starting generation
+29. **Don't forget to integrate GenerationResultSheet** - Add to App.tsx or Index.tsx
+
+**Telegram Bot Integration:**
+30. **Don't ignore deep link parameters** - Parse start_param and show BotContextBanner
+31. **Don't skip bot context** - User should know why they're in the app
 
 ## Governance
 
@@ -486,6 +660,7 @@ Follow-up TODOs:
 - Complexity violations MUST be justified in plan.md Complexity Tracking section
 - Security principles MUST be verified via code review checklist
 - Performance principles MUST be verified via `npm run size` pre-commit hook
+- Component unification MUST be verified (no duplicate components)
 
 **Template Consistency**:
 - plan-template.md Constitution Check section MUST reference current principles
@@ -497,4 +672,4 @@ Follow-up TODOs:
 - All constitution principles MUST be reflected in CLAUDE.md Common Pitfalls section
 - Architecture decisions MUST be documented in ADR/ (Architecture Decision Records)
 
-**Version**: 2.0.0 | **Ratified**: 2026-01-05 | **Last Amended**: 2026-01-05
+**Version**: 3.0.0 | **Ratified**: 2026-01-05 | **Last Amended**: 2026-01-17
