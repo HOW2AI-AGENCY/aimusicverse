@@ -16,7 +16,8 @@ import { cn } from '@/lib/utils';
 import { SUNO_MODELS, getAvailableModels } from '@/constants/sunoModels';
 import { useIsMobile } from '@/hooks/use-media-query';
 
-export type GenerationMode = 'simple' | 'custom' | 'wizard';
+// Wizard mode removed for UX simplification - now exported from useGenerateForm
+export type GenerationMode = 'simple' | 'custom';
 
 interface CollapsibleFormHeaderProps {
   balance?: number;
@@ -50,16 +51,10 @@ const MODE_CONFIG: Record<GenerationMode, ModeConfig> = {
     shortLabel: 'Полный',
     description: 'Все настройки',
   },
-  wizard: {
-    icon: Wand2,
-    label: 'Мастер',
-    shortLabel: 'Мастер',
-    description: 'Пошаговый AI-помощник',
-    isNew: true,
-  },
 };
 
-const MODE_KEYS: GenerationMode[] = ['simple', 'custom', 'wizard'];
+// Wizard mode removed for UX simplification - only 2 modes now
+const MODE_KEYS: GenerationMode[] = ['simple', 'custom'];
 
 export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
   balance = 0,

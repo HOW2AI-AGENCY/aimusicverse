@@ -22,7 +22,8 @@ import { useAnalyticsTracking } from '@/hooks/useAnalyticsTracking';
 import { generationAnalytics, startTimer } from '@/lib/telemetry';
 // GenerationProvider type removed - only Suno is used
 
-export type GenerationMode = 'simple' | 'custom' | 'wizard';
+// Wizard mode removed for UX simplification - only 2 modes now
+export type GenerationMode = 'simple' | 'custom';
 
 export interface GenerateFormState {
   mode: GenerationMode;
@@ -379,7 +380,9 @@ export function useGenerateForm({
       const hasTemplate = sessionStorage.getItem('templateLyrics');
       if (hasTemplate) return;
 
-      setMode(draft.mode);
+      // Map wizard to custom for backwards compatibility with old drafts
+      const mode = draft.mode === 'wizard' ? 'custom' : draft.mode;
+      setMode(mode as GenerationMode);
       setDescription(draft.description);
       setTitle(draft.title);
       setLyrics(draft.lyrics);
