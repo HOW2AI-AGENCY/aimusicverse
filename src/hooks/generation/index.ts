@@ -12,6 +12,9 @@ export { useSyncStaleTasks } from './useSyncStaleTasks';
 export { useAddVocalsProgress } from './useAddVocalsProgress';
 export type { AddVocalsStatus, AddVocalsProgressState } from './useAddVocalsProgress';
 
+// Generation result hook for post-generation flow
+export { useGenerationResult, expectGenerationResult, clearGenerationExpectation, isExpectingResult } from './useGenerationResult';
+
 // Unified audio reference hook
 export { useAudioReference } from '../useAudioReference';
 

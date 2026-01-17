@@ -2,7 +2,7 @@
  * useGenerationResult Hook
  * 
  * Manages the state for showing generation results after track creation.
- * Listens for new track creation and opens the result sheet.
+ * Uses sessionStorage to signal when a result should be shown.
  */
 
 import { useState, useCallback, useEffect, useRef } from 'react';
@@ -10,10 +10,34 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { logger } from '@/lib/logger';
 
+const EXPECT_RESULT_KEY = 'generation_expect_result';
+
 interface GenerationResultState {
   open: boolean;
   trackId: string | null;
   trackTitle: string | null;
+}
+
+/**
+ * Call this before starting generation to signal that we want to show results
+ */
+export function expectGenerationResult() {
+  sessionStorage.setItem(EXPECT_RESULT_KEY, 'true');
+  logger.debug('Generation result expected');
+}
+
+/**
+ * Clear the expectation flag
+ */
+export function clearGenerationExpectation() {
+  sessionStorage.removeItem(EXPECT_RESULT_KEY);
+}
+
+/**
+ * Check if we're expecting a generation result
+ */
+export function isExpectingResult(): boolean {
+  return sessionStorage.getItem(EXPECT_RESULT_KEY) === 'true';
 }
 
 export function useGenerationResult() {
@@ -26,15 +50,6 @@ export function useGenerationResult() {
   
   // Track IDs we've already shown results for (to avoid duplicates)
   const shownTrackIds = useRef<Set<string>>(new Set());
-  
-  // Flag to track if we're expecting a generation result
-  const expectingResult = useRef(false);
-
-  // Mark that we're expecting a generation result
-  const expectResult = useCallback(() => {
-    expectingResult.current = true;
-    logger.debug('Generation result expected');
-  }, []);
 
   // Open result sheet for a specific track
   const showResult = useCallback((trackId: string, trackTitle?: string) => {
@@ -44,7 +59,7 @@ export function useGenerationResult() {
     }
     
     shownTrackIds.current.add(trackId);
-    expectingResult.current = false;
+    clearGenerationExpectation();
     
     setState({
       open: true,
@@ -88,7 +103,7 @@ export function useGenerationResult() {
         },
         (payload) => {
           // Only show result if we're expecting one
-          if (!expectingResult.current) {
+          if (!isExpectingResult()) {
             logger.debug('Track inserted but not expecting result', { trackId: payload.new.id });
             return;
           }
@@ -99,7 +114,7 @@ export function useGenerationResult() {
           // Small delay to ensure versions are also created
           setTimeout(() => {
             showResult(newTrack.id, newTrack.title);
-          }, 500);
+          }, 1000);
         }
       )
       .subscribe();
@@ -116,7 +131,6 @@ export function useGenerationResult() {
     resultTrackTitle: state.trackTitle,
     
     // Actions
-    expectResult,
     showResult,
     closeResult,
     clearResult,
