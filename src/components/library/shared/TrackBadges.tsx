@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { Layers, ListMusic } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
-import { InlineVersionToggle } from '../InlineVersionToggle';
+import { UnifiedVersionSelector } from '@/components/shared/UnifiedVersionSelector';
 
 interface TrackBadgesProps {
   trackId: string;
@@ -58,14 +58,12 @@ export const TrackBadges = memo(function TrackBadges({
         </Badge>
       )}
       
-      {/* Version Toggle */}
+      {/* Version Toggle - using UnifiedVersionSelector */}
       {versionCount > 1 && (
-        <InlineVersionToggle
+        <UnifiedVersionSelector
           trackId={trackId}
-          activeVersionId={activeVersionId}
-          versionCount={versionCount}
-          trackOwnerId={trackOwnerId}
-          compact={compact}
+          variant="inline"
+          showLabels={!compact}
         />
       )}
       

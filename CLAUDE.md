@@ -515,14 +515,54 @@ Logger persists to sessionStorage and integrates with Sentry.
 
 ## Common Pitfalls
 
-1. **Don't create multiple audio elements** - Use `useGlobalAudioPlayer()`
-2. **Don't import entire framer-motion** - Use `@/lib/motion`
-3. **Don't forget mobile touch targets** - Minimum 44×44px
-4. **Don't use console.log** - Use `logger` utility
-5. **Don't skip LazyImage** - All images should lazy load
-6. **Don't batch version updates** - Update `is_primary` AND `active_version_id` together
-7. **Don't exceed bundle limit** - Monitor with `npm run size`
-8. **Don't create audio elements on iOS** - Use `audioElementPool`
+### Audio & Playback
+1. **Don't create multiple audio elements** - Use `useGlobalAudioPlayer()` or `usePlayerStore()`
+2. **Don't create audio elements on iOS** - Use `audioElementPool` (iOS Safari limit of 10)
+3. **Don't forget audio element pooling** - iOS Safari crashes with >10 audio elements
+
+### Performance & Bundle
+4. **Don't import entire framer-motion** - Use `@/lib/motion` (tree-shaking wrapper)
+5. **Don't exceed bundle limit** - Run `npm run size` (950KB max)
+6. **Don't skip lazy loading** - All pages use `React.lazy()`
+7. **Don't skip LazyImage** - All images must lazy load with blur placeholder
+8. **Don't animate width/height** - Use `transform: scale()` for 60 FPS
+9. **Don't render large lists without virtualization** - Use `react-virtuoso`
+
+### Mobile & Touch
+10. **Don't forget mobile touch targets** - Minimum 44-56px
+11. **Don't use Dialog on mobile** - Use `MobileBottomSheet` from `vaul`
+12. **Don't ignore safe areas** - Use `safe-bottom` utility for notch/island
+13. **Don't skip haptic feedback** - Use `hapticImpact()` and `hapticNotification()`
+14. **Don't test only on desktop** - Always test on Telegram mobile
+
+### Component Architecture
+15. **Don't duplicate version selector components** - Use ONLY `UnifiedVersionSelector`
+16. **Don't create custom modals** - Use `MobileBottomSheet` or `Dialog`
+17. **Don't skip MobileHeaderBar** - All mobile screens need proper header
+18. **Don't create components >500 lines** - Split into subcomponents
+19. **Don't create stores >500 lines** - Split into domain slices
+
+### State & Data
+20. **Don't use raw fetch/axios** - Use TanStack Query for server state
+21. **Don't use Context API for global state** - Use Zustand stores
+22. **Don't batch version updates** - Update `is_primary` AND `active_version_id` atomically
+23. **Don't forget optimistic updates** - For likes, plays, version switches
+
+### Logging & Debugging
+24. **Don't use console.log** - Use `logger` utility from `@/lib/logger`
+
+### Security
+25. **Don't skip input validation** - Use Zod for client + server validation
+26. **Don't expose secrets in frontend** - Only in Edge Functions
+
+### Post-Generation Flow
+27. **Don't redirect to library without showing result** - Use `GenerationResultSheet`
+28. **Don't skip expectGenerationResult()** - Call before starting generation
+29. **Don't forget to integrate GenerationResultSheet** - Must be in `MainLayout`
+
+### Telegram Bot Integration
+30. **Don't ignore deep link parameters** - Parse `startapp` and show `BotContextBanner`
+31. **Don't skip bot context** - User should know why they navigated from bot
 
 ## Getting Help
 
@@ -534,4 +574,4 @@ Logger persists to sessionStorage and integrates with Sentry.
 
 ---
 
-**Last Updated:** 2026-01-05 (Sprint 030 - Unified Studio Mobile - 60% Complete)
+**Last Updated:** 2026-01-17 (Sprint 031 - Constitution v3.0.0 Compliance)
