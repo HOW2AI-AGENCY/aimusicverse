@@ -6,7 +6,15 @@
  * Provides utilities for checking and ensuring accessible color contrast.
  */
 
-import { colors } from './design-tokens';
+// Color definitions for contrast validation (inline to avoid circular deps)
+const colors = {
+  primary: { light: '#7c3aed', dark: '#a78bfa' },
+  background: { light: '#ffffff', dark: '#0f0f0f' },
+  text: {
+    primary: { light: '#1f2937', dark: '#f9fafb' },
+    secondary: { light: '#6b7280', dark: '#9ca3af' },
+  },
+};
 
 /**
  * Convert hex color to RGB

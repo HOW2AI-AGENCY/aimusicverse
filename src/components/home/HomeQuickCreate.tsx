@@ -12,7 +12,7 @@ import { Sparkles, Plus } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { Button } from '@/components/ui/button';
-import { designTokens } from '@/lib/design-tokens';
+
 
 interface HomeQuickCreateProps {
   onCreateClick: () => void;

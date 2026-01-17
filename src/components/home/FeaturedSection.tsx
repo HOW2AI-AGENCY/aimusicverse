@@ -12,11 +12,12 @@ import { TrendingUp } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { UnifiedTrackCard } from '@/components/shared/UnifiedTrackCard';
-import type { Track } from '@/types';
-import { designTokens } from '@/lib/design-tokens';
+import type { Track } from '@/types/track';
+
+import type { TrackData } from '@/components/track/track-card-new/types';
 
 interface FeaturedSectionProps {
-  tracks: Track[];
+  tracks: TrackData[];
   isLoading?: boolean;
   onTrackClick?: (trackId: string) => void;
   onRemix?: (trackId: string) => void;
@@ -150,7 +151,6 @@ export const FeaturedSection = memo(function FeaturedSection({
               track={track}
               variant="minimal"
               onPlay={() => handleTrackClick(track.id)}
-              onRemix={() => handleRemix(track.id)}
               className="h-full"
             />
           </motion.div>
