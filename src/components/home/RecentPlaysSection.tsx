@@ -12,11 +12,11 @@ import { Clock } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { UnifiedTrackCard } from '@/components/shared/UnifiedTrackCard';
-import type { Track } from '@/types';
+import type { TrackData } from '@/components/track/track-card-new/types';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 
 interface RecentPlaysSectionProps {
-  tracks: Track[];
+  tracks: TrackData[];
   isLoading?: boolean;
   onTrackClick?: (trackId: string) => void;
   className?: string;
@@ -34,7 +34,7 @@ export const RecentPlaysSection = memo(function RecentPlaysSection({
   maxTracks = MAX_TRACKS_DEFAULT,
 }: RecentPlaysSectionProps) {
   const { hapticFeedback } = useTelegram();
-  const currentTrackId = usePlayerStore((state) => state.currentTrack?.id);
+  const currentTrackId = usePlayerStore((state) => state.activeTrack?.id);
 
   // Get recent plays from player history, limit to maxTracks
   const recentTracks = useMemo(() => {
@@ -113,7 +113,7 @@ export const RecentPlaysSection = memo(function RecentPlaysSection({
                 track={track}
                 variant="list"
                 onPlay={() => handleTrackClick(track.id)}
-                isActive={track.id === currentTrackId}
+                isPlaying={track.id === currentTrackId}
                 className={cn(
                   "min-h-[56px]",
                   track.id === currentTrackId && "bg-primary/5 border-primary/20"
