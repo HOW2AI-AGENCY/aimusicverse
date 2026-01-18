@@ -5487,11 +5487,7 @@ export type Database = {
           is_public: boolean | null
           last_name: string | null
           photo_url: string | null
-          profile_theme: Json | null
           social_links: Json | null
-          subscription_tier:
-            | Database["public"]["Enums"]["subscription_tier"]
-            | null
           user_id: string | null
           username: string | null
         }
@@ -5506,11 +5502,7 @@ export type Database = {
           is_public?: boolean | null
           last_name?: string | null
           photo_url?: string | null
-          profile_theme?: Json | null
           social_links?: Json | null
-          subscription_tier?:
-            | Database["public"]["Enums"]["subscription_tier"]
-            | null
           user_id?: string | null
           username?: string | null
         }
@@ -5525,11 +5517,7 @@ export type Database = {
           is_public?: boolean | null
           last_name?: string | null
           photo_url?: string | null
-          profile_theme?: Json | null
           social_links?: Json | null
-          subscription_tier?:
-            | Database["public"]["Enums"]["subscription_tier"]
-            | null
           user_id?: string | null
           username?: string | null
         }
