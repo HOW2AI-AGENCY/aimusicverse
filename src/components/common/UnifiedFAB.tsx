@@ -9,7 +9,7 @@
 
 import React, { useState, useCallback } from 'react';
 import { LucideIcon, X } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { useHaptic } from '@/hooks/useHaptic';

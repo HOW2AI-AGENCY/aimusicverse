@@ -3,7 +3,7 @@
  * Beautiful animated package selector for mobile
  */
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { Zap, Check, TrendingUp, Crown } from 'lucide-react';
 import type { StarsProduct } from '@/services/starsPaymentService';
 import { formatRubles } from '@/types/payment';

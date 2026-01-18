@@ -9,7 +9,7 @@
 
 import React, { memo } from 'react';
 import { LucideIcon, GripVertical, Music } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';

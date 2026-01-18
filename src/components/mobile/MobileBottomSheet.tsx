@@ -4,7 +4,7 @@
  */
 
 import { memo, useRef, useCallback, useState, ReactNode } from 'react';
-import { motion, AnimatePresence, PanInfo, useMotionValue, useTransform } from 'framer-motion';
+import { motion, AnimatePresence, useMotionValue, useTransform, type PanInfo } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { useHaptic } from '@/hooks/useHaptic';
 

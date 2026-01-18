@@ -17,7 +17,7 @@
  * />
  */
 
-import { Variants } from 'framer-motion';
+import type { Variants } from '@/lib/motion';
 
 // Timing constants (matching CSS animations)
 export const timing = {
