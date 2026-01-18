@@ -7,7 +7,7 @@ import { memo, ReactNode, useCallback } from 'react';
 import { X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useHaptic } from '@/hooks/useHaptic';
-import { motion, AnimatePresence, PanInfo, useMotionValue } from 'framer-motion';
+import { motion, AnimatePresence, useMotionValue, type PanInfo } from '@/lib/motion';
 import { Button } from '@/components/ui/button';
 
 interface MobileSlidePanelProps {

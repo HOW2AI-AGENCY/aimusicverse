@@ -1,7 +1,7 @@
 import { useTelegram } from '@/contexts/TelegramContext';
 import { useEffect, useState } from 'react';
 import { X, Sparkles, Music, Mic, Layers } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { Button } from '@/components/ui/button';
 
 interface BotContext {

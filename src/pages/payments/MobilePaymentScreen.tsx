@@ -5,7 +5,7 @@
 
 import { useState, useEffect } from 'react';
 import { Navigate, useSearchParams } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { 
   Zap, ArrowLeft, Shield, Clock, 
   Loader2, CheckCircle2, Info

@@ -2,7 +2,7 @@
  * Rhythm Tool Panel - Uses analyze_rhythm action to analyze syllables and rhythm
  */
 
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { Music, X, Activity } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';

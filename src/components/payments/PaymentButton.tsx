@@ -3,7 +3,7 @@
  * Premium button with loading states and animations
  */
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { CreditCard, Loader2, Lock, Check, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 

@@ -4,7 +4,7 @@
  */
 
 import { useState, useRef } from 'react';
-import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
+import { motion, useMotionValue, useTransform, useSpring } from '@/lib/motion';
 import { CreditCard, Lock, Wifi } from 'lucide-react';
 
 interface Card3DProps {

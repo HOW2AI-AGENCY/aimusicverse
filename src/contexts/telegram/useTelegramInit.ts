@@ -65,6 +65,10 @@ export function useTelegramInit(): UseTelegramInitResult {
     setIsDevelopmentMode(devMode);
 
     let initializationTimeout: NodeJS.Timeout;
+    let retryCount = 0;
+    const MAX_RETRIES = 3;
+    const INITIAL_TIMEOUT = 3000; // 3 seconds first try
+    const RETRY_TIMEOUT = 2000;   // 2 seconds for retries
     
     const ensureInitialized = () => {
       bootLog('ensureInitialized called');
@@ -72,11 +76,23 @@ export function useTelegramInit(): UseTelegramInitResult {
       telegramLogger.info('TelegramProvider initialized');
     };
 
-    initializationTimeout = setTimeout(() => {
-      bootLog('Initialization TIMEOUT (2.5s) - forcing complete');
-      telegramLogger.warn('Initialization timeout - forcing initialization complete');
-      ensureInitialized();
-    }, 2500);
+    const scheduleTimeout = (timeout: number) => {
+      return setTimeout(() => {
+        retryCount++;
+        if (retryCount < MAX_RETRIES) {
+          bootLog(`Initialization attempt ${retryCount} timed out, retrying...`);
+          telegramLogger.warn(`Initialization timeout (attempt ${retryCount}/${MAX_RETRIES})`);
+          // Schedule next retry with shorter timeout
+          initializationTimeout = scheduleTimeout(RETRY_TIMEOUT);
+        } else {
+          bootLog(`Initialization TIMEOUT after ${MAX_RETRIES} attempts - forcing complete`);
+          telegramLogger.error('Initialization failed after max retries, forcing complete');
+          ensureInitialized();
+        }
+      }, timeout);
+    };
+
+    initializationTimeout = scheduleTimeout(INITIAL_TIMEOUT);
     
     if (typeof window !== 'undefined' && window.Telegram?.WebApp) {
       const tg = window.Telegram.WebApp;
