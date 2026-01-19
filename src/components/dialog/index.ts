@@ -7,6 +7,11 @@
 // Main component
 export { UnifiedDialog, DialogBackdrop, DialogContainer } from './unified-dialog';
 
+// Variants (for direct access when needed)
+export { AlertDialog } from './variants/alert';
+export { ModalDialog } from './variants/modal';
+export { SheetDialog } from './variants/sheet';
+
 // Types
 export type {
   UnifiedDialogProps,
