@@ -2,16 +2,17 @@
  * FeaturedSection - Featured tracks with horizontal scroll
  * Feature: 001-mobile-ui-redesign
  *
- * Displays a maximum of 6 featured tracks in a horizontally scrollable list.
+ * Displays featured tracks in a horizontally scrollable list with optional "Load More" button.
  * Uses the UnifiedTrackCard with minimalist styling.
  */
 
 import { memo, useCallback } from 'react';
 import { motion } from '@/lib/motion';
-import { TrendingUp } from 'lucide-react';
+import { TrendingUp, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { UnifiedTrackCard } from '@/components/shared/UnifiedTrackCard';
+import { Button } from '@/components/ui/button';
 import type { TrackData } from '@/components/track/track-card-new/types';
 
 interface FeaturedSectionProps {
@@ -21,6 +22,10 @@ interface FeaturedSectionProps {
   onRemix?: (trackId: string) => void;
   className?: string;
   maxTracks?: number;
+  /** Enable "Load More" functionality */
+  hasMore?: boolean;
+  isLoadingMore?: boolean;
+  onLoadMore?: () => void;
 }
 
 const SKELETON_COUNT = 4;
@@ -44,17 +49,25 @@ export const FeaturedSection = memo(function FeaturedSection({
   onTrackClick,
   onRemix,
   className,
-  maxTracks = 6,
+  maxTracks,
+  hasMore,
+  isLoadingMore,
+  onLoadMore,
 }: FeaturedSectionProps) {
   const { hapticFeedback } = useTelegram();
 
-  // Limit to maxTracks for minimalist design
-  const displayTracks = tracks.slice(0, maxTracks);
+  // Limit to maxTracks if specified
+  const displayTracks = maxTracks ? tracks.slice(0, maxTracks) : tracks;
 
   const handleTrackClick = useCallback((trackId: string) => {
     hapticFeedback('light');
     onTrackClick?.(trackId);
   }, [hapticFeedback, onTrackClick]);
+
+  const handleLoadMore = useCallback(() => {
+    hapticFeedback('light');
+    onLoadMore?.();
+  }, [hapticFeedback, onLoadMore]);
 
   // Show lightweight skeleton only when truly loading with no data
   if (isLoading && displayTracks.length === 0) {
@@ -103,24 +116,6 @@ export const FeaturedSection = memo(function FeaturedSection({
             </p>
           </div>
         </div>
-
-        {/* Show more button */}
-        {displayTracks.length >= maxTracks && (
-          <button
-            className={cn(
-              "px-3 py-1.5 rounded-lg",
-              "bg-card/50 backdrop-blur-sm",
-              "border border-border/50",
-              "text-xs font-medium text-foreground/80",
-              "hover:bg-card hover:border-primary/30",
-              "active:scale-95",
-              "transition-all duration-200",
-              "min-h-[36px]"
-            )}
-          >
-            Все
-          </button>
-        )}
       </div>
 
       {/* Horizontal scroll container - fixed scroll issues */}
@@ -141,6 +136,25 @@ export const FeaturedSection = memo(function FeaturedSection({
             />
           </div>
         ))}
+
+        {/* Load More button in horizontal scroll */}
+        {hasMore && onLoadMore && (
+          <div className="flex-shrink-0 w-[140px] flex items-center justify-center">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleLoadMore}
+              disabled={isLoadingMore}
+              className="h-10 px-4 border-dashed"
+            >
+              {isLoadingMore ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                "Ещё"
+              )}
+            </Button>
+          </div>
+        )}
       </div>
     </motion.section>
   );

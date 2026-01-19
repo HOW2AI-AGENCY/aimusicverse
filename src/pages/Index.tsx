@@ -91,16 +91,30 @@ const Index = () => {
     hasNextPage: hasMoreRecent,
     isFetchingNextPage: isLoadingMoreRecent,
     isLoading: isLoadingRecent,
-  } = useInfinitePublicTracks({ sortBy: 'recent', pageSize: 12 });
+  } = useInfinitePublicTracks({ sortBy: 'recent', pageSize: 20 });
 
-  // Flatten infinite pages into single array
+  // Infinite scroll for "Popular Tracks" section
+  const {
+    data: infinitePopularData,
+    fetchNextPage: fetchMorePopular,
+    hasNextPage: hasMorePopular,
+    isFetchingNextPage: isLoadingMorePopular,
+    isLoading: isLoadingPopular,
+  } = useInfinitePublicTracks({ sortBy: 'popular', pageSize: 20 });
+
+  // Flatten infinite pages into single arrays
   const recentTracksInfinite = useMemo(
     () => flattenInfiniteTracksPages(infiniteRecentData?.pages),
     [infiniteRecentData?.pages]
   );
 
+  const popularTracksInfinite = useMemo(
+    () => flattenInfiniteTracksPages(infinitePopularData?.pages),
+    [infinitePopularData?.pages]
+  );
+
   // Show skeleton only on initial load
-  const showSkeleton = (contentLoading || isLoadingRecent) && !publicContent;
+  const showSkeleton = (contentLoading || isLoadingRecent || isLoadingPopular) && !publicContent;
 
   // Preload first 4 track cover images
   useEffect(() => {
@@ -250,17 +264,19 @@ const Index = () => {
           </>
         )}
 
-        {/* Featured Tracks */}
+        {/* Featured Tracks - horizontal scroll with load more */}
         <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.1 }}>
           <FeaturedSection
-            tracks={publicContent?.popularTracks || []}
+            tracks={popularTracksInfinite.length > 0 ? popularTracksInfinite : (publicContent?.popularTracks || [])}
             isLoading={showSkeleton}
-            maxTracks={6}
             onTrackClick={(trackId) => {
               hapticFeedback("light");
               navigate(`/track/${trackId}`);
             }}
             onRemix={handleRemix}
+            hasMore={hasMorePopular}
+            isLoadingMore={isLoadingMorePopular}
+            onLoadMore={fetchMorePopular}
           />
         </motion.section>
 
