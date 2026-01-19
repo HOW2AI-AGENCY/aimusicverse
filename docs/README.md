@@ -2,7 +2,7 @@
 
 Welcome to MusicVerse AI documentation.
 
-**Last Updated:** 2025-12-17
+**Last Updated:** 2026-01-19
 
 ## 📁 Structure
 
@@ -46,10 +46,18 @@ Welcome to MusicVerse AI documentation.
 - [AI_LYRICS_ASSISTANT.md](./AI_LYRICS_ASSISTANT.md) - Lyrics generation assistant
 - [AUDIT_SYSTEM.md](./AUDIT_SYSTEM.md) - Content audit and deposition system
 
+### UI Components
+- **UnifiedDialog** - Стандартный компонент для всех модальных окон
+  - Автоматически Sheet на мобильных, Modal на десктопе
+  - Telegram safe area поддержка
+  - Haptic feedback интеграция
+  - 44px touch targets
+- **UnifiedRewardNotification** - Единая система уведомлений о наградах
+
 ### Archive
 - [archive/](archive/) - Historical documentation
 - [ARCHIVE.md](../ARCHIVE.md) - Archive index
 
 ---
 
-*Last Updated: 2025-12-17*
+*Last Updated: 2026-01-19*
