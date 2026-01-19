@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { getSupabaseClient } from '../_shared/supabase-client.ts';
 import { isSunoSuccessCode } from '../_shared/suno.ts';
+import { checkRateLimit, getRateLimitHeaders, RateLimitConfigs } from '../_shared/rate-limiter.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -45,6 +46,26 @@ serve(async (req) => {
     if (!separationTaskId) {
       console.error('❌ Missing separationTaskId in callback:', data);
       throw new Error('Missing taskId in callback');
+    }
+
+    // Rate limit check - prevent callback abuse (10 requests per separation task per hour)
+    const rateLimitResult = checkRateLimit(`vocal:${separationTaskId}`, RateLimitConfigs.vocalCallback);
+    if (rateLimitResult.isLimited) {
+      console.warn('⚠️ Rate limit exceeded for vocal callback:', { 
+        separationTaskId, 
+        count: rateLimitResult.limit - rateLimitResult.remaining 
+      });
+      return new Response(
+        JSON.stringify({ success: false, error: 'Rate limit exceeded' }), 
+        { 
+          headers: { 
+            ...corsHeaders, 
+            ...getRateLimitHeaders(rateLimitResult.limit, rateLimitResult.remaining, rateLimitResult.resetAt),
+            'Content-Type': 'application/json' 
+          }, 
+          status: 429 
+        }
+      );
     }
 
     console.log('🔍 Looking up separation task:', separationTaskId);

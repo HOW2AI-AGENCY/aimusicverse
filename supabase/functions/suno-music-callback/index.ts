@@ -4,6 +4,7 @@ import { createLogger } from '../_shared/logger.ts';
 import { isSunoSuccessCode } from '../_shared/suno.ts';
 import { sanitizeAndCleanTitle, generateFallbackTitle } from '../_shared/track-naming.ts';
 import { TrackNameBuilder, APP_NAME } from '../_shared/track-name-builder.ts';
+import { checkRateLimit, getRateLimitHeaders, RateLimitConfigs } from '../_shared/rate-limiter.ts';
 
 const logger = createLogger('suno-music-callback');
 
@@ -148,6 +149,27 @@ serve(async (req) => {
       return new Response(
         JSON.stringify({ success: false, error: 'Missing taskId' }), 
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
+      );
+    }
+
+    // Rate limit check - prevent callback abuse (15 requests per task per hour)
+    const rateLimitResult = checkRateLimit(`callback:${sunoTaskId}`, RateLimitConfigs.sunoCallback);
+    if (rateLimitResult.isLimited) {
+      logger.warn('Rate limit exceeded for callback', { 
+        sunoTaskId, 
+        count: rateLimitResult.limit - rateLimitResult.remaining,
+        limit: rateLimitResult.limit 
+      });
+      return new Response(
+        JSON.stringify({ success: false, error: 'Rate limit exceeded' }), 
+        { 
+          headers: { 
+            ...corsHeaders, 
+            ...getRateLimitHeaders(rateLimitResult.limit, rateLimitResult.remaining, rateLimitResult.resetAt),
+            'Content-Type': 'application/json' 
+          }, 
+          status: 429 
+        }
       );
     }
 
