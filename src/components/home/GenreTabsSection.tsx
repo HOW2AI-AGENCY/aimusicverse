@@ -3,6 +3,7 @@
  * Displays tracks by genre with tab navigation
  * Personalizes order based on user preferences
  * Mobile-optimized with scroll fade indicators
+ * Supports infinite scroll for loading more tracks
  */
 
 import { useState, useMemo, useCallback } from 'react';
@@ -10,9 +11,10 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { HorizontalScrollFade } from '@/components/ui/horizontal-scroll-fade';
 import { TracksGridSection } from './TracksGridSection';
 import { useUserPreferences } from '@/hooks/useUserPreferences';
+import { useInfiniteGenreTracks, flattenGenreTracksPages } from '@/hooks/useInfiniteGenreTracks';
 import type { PublicTrackWithCreator } from '@/hooks/usePublicContent';
 import { cn } from '@/lib/utils';
-import { Music2, Disc3, Guitar, Waves } from 'lucide-react';
+import { Music2, Disc3, Guitar, Waves, Leaf } from 'lucide-react';
 
 interface GenreConfig {
   id: string;
@@ -24,7 +26,7 @@ interface GenreConfig {
 }
 
 // Genre configurations
-// NOTE: IDs must match keys in usePublicContent GENRE_QUERIES
+// NOTE: IDs must match keys in usePublicContent GENRE_QUERIES and useInfiniteGenreTracks GENRE_DB_VALUES
 const GENRES: GenreConfig[] = [
   {
     id: 'hiphop',
@@ -61,7 +63,7 @@ const GENRES: GenreConfig[] = [
   {
     id: 'folk',
     label: 'Фолк',
-    icon: Guitar,
+    icon: Leaf,
     color: 'text-amber-400',
     gradient: 'from-amber-500/20 to-yellow-500/10',
     keywords: ['folk', 'acoustic', 'country', 'americana'],
@@ -97,33 +99,56 @@ export function GenreTabsSection({ tracks, tracksByGenre: preloadedByGenre, isLo
   // Default to first (most preferred) genre
   const [activeGenre, setActiveGenre] = useState(sortedGenres[0]?.id || 'hiphop');
 
-  // Use preloaded genre tracks if available, otherwise fall back to client-side filtering
+  // Infinite scroll for active genre
+  const {
+    data: infiniteData,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteGenreTracks({
+    genre: activeGenre,
+    pageSize: 20,
+    enabled: true,
+    initialData: preloadedByGenre?.[activeGenre],
+  });
+
+  // Get tracks for active genre from infinite query or fallback to preloaded
+  const activeGenreTracks = useMemo(() => {
+    const infiniteTracks = flattenGenreTracksPages(infiniteData?.pages);
+    if (infiniteTracks.length > 0) return infiniteTracks;
+    return preloadedByGenre?.[activeGenre] || [];
+  }, [infiniteData?.pages, preloadedByGenre, activeGenre]);
+
+  // Use preloaded genre tracks for non-active tabs (display count only)
   const tracksByGenre = useMemo(() => {
-    // If we have preloaded server-filtered tracks, use them
-    if (preloadedByGenre && Object.keys(preloadedByGenre).length > 0) {
-      return preloadedByGenre;
+    // Start with preloaded data
+    const result: Record<string, PublicTrackWithCreator[]> = { ...preloadedByGenre };
+    
+    // Override active genre with infinite scroll data
+    if (activeGenreTracks.length > 0) {
+      result[activeGenre] = activeGenreTracks;
     }
     
-    // Fallback: client-side filtering using computed_genre
-    const result: Record<string, PublicTrackWithCreator[]> = {};
-    
-    GENRES.forEach(genre => {
-      result[genre.id] = tracks.filter(track => {
-        // Priority: computed_genre (most reliable)
-        const computedGenre = (track.computed_genre || '').toLowerCase();
-        if (genre.keywords.some(kw => computedGenre.includes(kw.toLowerCase()))) {
-          return true;
+    // Fallback: client-side filtering if no preloaded data
+    if (!preloadedByGenre || Object.keys(preloadedByGenre).length === 0) {
+      GENRES.forEach(genre => {
+        if (!result[genre.id] || result[genre.id].length === 0) {
+          result[genre.id] = tracks.filter(track => {
+            const computedGenre = (track.computed_genre || '').toLowerCase();
+            if (genre.keywords.some(kw => computedGenre.includes(kw.toLowerCase()))) {
+              return true;
+            }
+            const style = (track.style || '').toLowerCase();
+            const prompt = (track.prompt || '').toLowerCase();
+            const combined = `${style} ${prompt}`;
+            return genre.keywords.some(keyword => combined.includes(keyword));
+          }).slice(0, 20);
         }
-        // Fallback: style and prompt matching
-        const style = (track.style || '').toLowerCase();
-        const prompt = (track.prompt || '').toLowerCase();
-        const combined = `${style} ${prompt}`;
-        return genre.keywords.some(keyword => combined.includes(keyword));
-      }).slice(0, 12);
-    });
+      });
+    }
     
     return result;
-  }, [tracks, preloadedByGenre]);
+  }, [tracks, preloadedByGenre, activeGenre, activeGenreTracks]);
 
   const activeConfig = GENRES.find(g => g.id === activeGenre) || GENRES[0];
 
@@ -131,8 +156,16 @@ export function GenreTabsSection({ tracks, tracksByGenre: preloadedByGenre, isLo
     setActiveGenre(value);
   }, []);
 
+  const handleLoadMore = useCallback(() => {
+    if (hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+
   // Don't render if no tracks
-  if (!tracks.length && !isLoading) return null;
+  if (!tracks.length && !isLoading && (!preloadedByGenre || Object.values(preloadedByGenre).every(arr => arr.length === 0))) {
+    return null;
+  }
 
   return (
     <section className="mb-5">
@@ -167,7 +200,7 @@ export function GenreTabsSection({ tracks, tracksByGenre: preloadedByGenre, isLo
                       'text-xs px-1.5 py-0.5 rounded-full min-w-[20px] text-center',
                       isActive ? 'bg-primary/20 text-primary' : 'bg-muted text-muted-foreground'
                     )}>
-                      {trackCount}
+                      {trackCount > 99 ? '99+' : trackCount}
                     </span>
                   )}
                 </TabsTrigger>
@@ -186,12 +219,15 @@ export function GenreTabsSection({ tracks, tracksByGenre: preloadedByGenre, isLo
               iconGradient={genre.gradient}
               tracks={tracksByGenre[genre.id] || []}
               isLoading={isLoading}
-              maxTracks={12}
+              maxTracks={20}
               columns={2}
               showMoreLink={`/community?genre=${genre.id}`}
               showMoreLabel={`Все ${genre.label.toLowerCase()}`}
               onRemix={onRemix}
               hideHeader
+              hasMore={genre.id === activeGenre && hasNextPage}
+              isLoadingMore={genre.id === activeGenre && isFetchingNextPage}
+              onLoadMore={genre.id === activeGenre ? handleLoadMore : undefined}
             />
           </TabsContent>
         ))}

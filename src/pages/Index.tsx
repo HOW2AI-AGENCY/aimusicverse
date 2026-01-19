@@ -85,13 +85,17 @@ const Index = () => {
   const { data: publicContent, isLoading: contentLoading, refetch: refetchContent } = usePublicContentBatch();
 
   // Infinite scroll for "New Tracks" section
+  // Uses batch data as initial page to avoid duplicate requests
   const {
     data: infiniteRecentData,
     fetchNextPage: fetchMoreRecent,
     hasNextPage: hasMoreRecent,
     isFetchingNextPage: isLoadingMoreRecent,
-    isLoading: isLoadingRecent,
-  } = useInfinitePublicTracks({ sortBy: 'recent', pageSize: 20 });
+  } = useInfinitePublicTracks({
+    sortBy: 'recent',
+    pageSize: 20,
+    enabled: !contentLoading, // Wait for batch query to complete
+  });
 
   // Infinite scroll for "Popular Tracks" section
   const {
@@ -99,22 +103,26 @@ const Index = () => {
     fetchNextPage: fetchMorePopular,
     hasNextPage: hasMorePopular,
     isFetchingNextPage: isLoadingMorePopular,
-    isLoading: isLoadingPopular,
-  } = useInfinitePublicTracks({ sortBy: 'popular', pageSize: 20 });
+  } = useInfinitePublicTracks({
+    sortBy: 'popular',
+    pageSize: 20,
+    enabled: !contentLoading,
+  });
 
-  // Flatten infinite pages into single arrays
-  const recentTracksInfinite = useMemo(
-    () => flattenInfiniteTracksPages(infiniteRecentData?.pages),
-    [infiniteRecentData?.pages]
-  );
+  // Flatten infinite pages into single arrays, with batch data as fallback
+  const recentTracksInfinite = useMemo(() => {
+    const infiniteTracks = flattenInfiniteTracksPages(infiniteRecentData?.pages);
+    // Use infinite data if available, otherwise use batch data
+    return infiniteTracks.length > 0 ? infiniteTracks : (publicContent?.recentTracks || []);
+  }, [infiniteRecentData?.pages, publicContent?.recentTracks]);
 
-  const popularTracksInfinite = useMemo(
-    () => flattenInfiniteTracksPages(infinitePopularData?.pages),
-    [infinitePopularData?.pages]
-  );
+  const popularTracksInfinite = useMemo(() => {
+    const infiniteTracks = flattenInfiniteTracksPages(infinitePopularData?.pages);
+    return infiniteTracks.length > 0 ? infiniteTracks : (publicContent?.popularTracks || []);
+  }, [infinitePopularData?.pages, publicContent?.popularTracks]);
 
-  // Show skeleton only on initial load
-  const showSkeleton = (contentLoading || isLoadingRecent || isLoadingPopular) && !publicContent;
+  // Show skeleton only on initial batch load
+  const showSkeleton = contentLoading && !publicContent;
 
   // Preload first 4 track cover images
   useEffect(() => {
@@ -267,7 +275,7 @@ const Index = () => {
         {/* Featured Tracks - horizontal scroll with load more */}
         <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.1 }}>
           <FeaturedSection
-            tracks={popularTracksInfinite.length > 0 ? popularTracksInfinite : (publicContent?.popularTracks || [])}
+            tracks={popularTracksInfinite}
             isLoading={showSkeleton}
             onTrackClick={(trackId) => {
               hapticFeedback("light");
@@ -307,7 +315,7 @@ const Index = () => {
               icon={Clock}
               iconColor="text-orange-400"
               iconGradient="from-orange-500/20 to-amber-500/10"
-              tracks={recentTracksInfinite.length > 0 ? recentTracksInfinite : (publicContent?.recentTracks || [])}
+              tracks={recentTracksInfinite}
               isLoading={showSkeleton}
               maxTracks={100}
               columns={isMobile ? 2 : 4}
