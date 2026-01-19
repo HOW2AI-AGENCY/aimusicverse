@@ -94,7 +94,7 @@ export default function Pricing() {
   const creditPackages = products?.filter(p => p.product_type === 'credit_package') || [];
   const subscriptions = products?.filter(p => p.product_type === 'subscription') || [];
 
-  const handlePurchase = async (productCode: string, paymentMethod: 'stars' | 'tinkoff' = 'stars') => {
+  const handlePurchase = async (productCode: string) => {
     if (!userId) {
       showAlert?.('Необходима авторизация через Telegram');
       return;
@@ -110,83 +110,33 @@ export default function Pricing() {
         throw new Error('Не удалось получить токен авторизации');
       }
 
-      if (paymentMethod === 'tinkoff') {
-        // Tinkoff payment - карты, СБП, Tinkoff Pay
-        const response = await fetch(
-          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/tinkoff-create-payment`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`,
-            },
-            body: JSON.stringify({ productCode }),
-          }
-        );
-
-        const result = await response.json();
-
-        if (!response.ok || !result.success) {
-          throw new Error(result.error || 'Не удалось создать платёж');
-        }
-
-        // Redirect to Tinkoff payment page
-        window.location.href = result.paymentUrl;
-        return;
-      }
-
-      // Telegram Stars payment
+      // Tinkoff payment - карты, СБП, Tinkoff Pay (only RUB)
       const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-stars-invoice`,
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/tinkoff-create-payment`,
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
           },
-          body: JSON.stringify({ productCode, userId }),
+          body: JSON.stringify({ productCode }),
         }
       );
 
       const result = await response.json();
 
       if (!response.ok || !result.success) {
-        throw new Error(result.error || 'Не удалось создать счёт');
+        throw new Error(result.error || 'Не удалось создать платёж');
       }
 
-      const { invoiceLink } = result;
+      // Redirect to Tinkoff payment page
+      window.location.href = result.paymentUrl;
 
-      if (webApp && 'openInvoice' in webApp) {
-        (webApp as any).openInvoice(invoiceLink, (status: string) => {
-          if (status === 'paid') {
-            toast.success('Платёж успешно завершён!', {
-              description: 'Кредиты начислены на ваш счёт',
-              duration: 5000,
-            });
-            if (webApp.HapticFeedback) {
-              webApp.HapticFeedback.notificationOccurred('success');
-            }
-          } else if (status === 'failed') {
-            toast.error('Платёж не прошёл');
-            if (webApp.HapticFeedback) {
-              webApp.HapticFeedback.notificationOccurred('error');
-            }
-          } else if (status === 'cancelled') {
-            toast.info('Платёж отменён');
-          }
-          setPurchasingProduct(null);
-        });
-      } else {
-        window.open(invoiceLink, '_blank');
-        setPurchasingProduct(null);
-      }
-    } catch (error: any) {
-      logger.error('Purchase error', error instanceof Error ? error : new Error(String(error)), {
-        productCode,
-        userId
-      });
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      logger.error('Purchase error', err, { productCode, userId });
       toast.error('Ошибка при создании платежа', {
-        description: error.message || 'Попробуйте позже',
+        description: err.message || 'Попробуйте позже',
       });
       setPurchasingProduct(null);
     }
@@ -255,8 +205,7 @@ export default function Pricing() {
                 <PricingCard
                   key={product.id}
                   product={product}
-                  onPurchase={(code) => handlePurchase(code, 'stars')}
-                  onPurchaseTinkoff={(code) => handlePurchase(code, 'tinkoff')}
+                  onPurchase={handlePurchase}
                   isPurchasing={purchasingProduct === product.product_code}
                 />
               ))}
@@ -276,8 +225,7 @@ export default function Pricing() {
                 <PricingCard
                   key={product.id}
                   product={product}
-                  onPurchase={(code) => handlePurchase(code, 'stars')}
-                  onPurchaseTinkoff={(code) => handlePurchase(code, 'tinkoff')}
+                  onPurchase={handlePurchase}
                   isPurchasing={purchasingProduct === product.product_code}
                 />
               ))}

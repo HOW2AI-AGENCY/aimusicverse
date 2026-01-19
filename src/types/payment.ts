@@ -2,7 +2,7 @@
  * Multi-gateway payment types
  */
 
-export type PaymentGateway = 'telegram_stars' | 'tinkoff' | 'robokassa';
+export type PaymentGateway = 'tinkoff'; // Stars and Robokassa removed - RUB only
 
 export type PaymentStatus = 
   | 'pending' 
@@ -86,31 +86,21 @@ export function formatRubles(kopecks: number): string {
   }).format(rubles);
 }
 
-// Helper to format price in stars
+// Helper to format price in stars (deprecated - kept for compatibility)
 export function formatStars(stars: number): string {
   return `⭐ ${stars}`;
 }
 
-// Get available payment methods
-export function getPaymentMethods(isTelegram: boolean): PaymentMethod[] {
-  const methods: PaymentMethod[] = [
-    {
-      gateway: 'telegram_stars',
-      name: 'Telegram Stars',
-      description: 'Оплата через Telegram',
-      icon: '⭐',
-      available: isTelegram,
-      currencies: ['XTR'], // Telegram Stars
-    },
+// Get available payment methods - Tinkoff only
+export function getPaymentMethods(_isTelegram: boolean): PaymentMethod[] {
+  return [
     {
       gateway: 'tinkoff',
       name: 'Банковская карта',
-      description: 'Visa, Mastercard, МИР',
+      description: 'Visa, Mastercard, МИР, СБП',
       icon: '💳',
       available: true,
       currencies: ['RUB'],
     },
   ];
-
-  return methods.filter(m => m.available);
 }
