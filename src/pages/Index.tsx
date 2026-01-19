@@ -38,6 +38,7 @@ import { CollapsibleSection } from "@/components/home/CollapsibleSection";
 import { GenreTabsSection } from "@/components/home/GenreTabsSection";
 import { PopularCreatorsSection } from "@/components/home/PopularCreatorsSection";
 import { InviteFriendsCard } from "@/components/gamification/InviteFriendsCard";
+import { ContinueDraftCard } from "@/components/home/ContinueDraftCard";
 
 // Lazy loaded components
 const GamificationBar = lazy(() => import("@/components/gamification/GamificationBar").then(m => ({ default: m.GamificationBar })));
@@ -224,11 +225,14 @@ const Index = () => {
           </>
         )}
 
-        {/* Returning Users: QuickCreate */}
+        {/* Returning Users: Continue Draft or QuickCreate */}
         {!isNewUser && (
-          <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.05 }}>
-            <HomeQuickCreate onCreateClick={handleCreate} />
-          </motion.section>
+          <>
+            <ContinueDraftCard onContinue={handleCreate} className="mb-3" />
+            <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.05 }}>
+              <HomeQuickCreate onCreateClick={handleCreate} />
+            </motion.section>
+          </>
         )}
 
         {/* Featured Tracks */}
