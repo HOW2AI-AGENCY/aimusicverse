@@ -666,6 +666,73 @@ export type Database = {
         }
         Relationships: []
       }
+      cover_thumbnails: {
+        Row: {
+          blurhash: string | null
+          created_at: string | null
+          dominant_color: string | null
+          error_message: string | null
+          id: string
+          large_url: string | null
+          medium_url: string | null
+          original_url: string
+          small_url: string | null
+          status: string | null
+          track_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          blurhash?: string | null
+          created_at?: string | null
+          dominant_color?: string | null
+          error_message?: string | null
+          id?: string
+          large_url?: string | null
+          medium_url?: string | null
+          original_url: string
+          small_url?: string | null
+          status?: string | null
+          track_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          blurhash?: string | null
+          created_at?: string | null
+          dominant_color?: string | null
+          error_message?: string | null
+          id?: string
+          large_url?: string | null
+          medium_url?: string | null
+          original_url?: string
+          small_url?: string | null
+          status?: string | null
+          track_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cover_thumbnails_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: true
+            referencedRelation: "tracks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cover_thumbnails_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: true
+            referencedRelation: "tracks_with_active_audio"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cover_thumbnails_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: true
+            referencedRelation: "trending_tracks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       credit_transactions: {
         Row: {
           action_type: string
@@ -5865,6 +5932,10 @@ export type Database = {
       get_level_from_experience: {
         Args: { _experience: number }
         Returns: number
+      }
+      get_optimized_cover_url: {
+        Args: { p_size?: string; p_track_id: string }
+        Returns: string
       }
       get_payment_analytics: {
         Args: { _time_period?: unknown }
