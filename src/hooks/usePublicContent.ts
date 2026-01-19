@@ -358,15 +358,15 @@ export function usePublicContentBatch() {
   return useQuery({
     queryKey: ['public-content-optimized', user?.id],
     queryFn: async (): Promise<PublicContentData> => {
-      // PERF: Reduced limit to 30 for faster initial load (homepage shows max 20)
+      // PERF: Reduced limit to 20 for faster initial load (homepage shows max 12 per section)
       const { data: tracks, error } = await supabase
         .from("tracks")
-        .select("id,title,cover_url,audio_url,play_count,user_id,created_at,style,tags,computed_genre,status,is_public")
+        .select("id,title,cover_url,audio_url,play_count,user_id,created_at,style,tags,computed_genre")
         .eq("is_public", true)
         .eq("status", "completed")
         .not("audio_url", "is", null)
         .order("created_at", { ascending: false })
-        .limit(30);
+        .limit(20);
 
       if (error) throw error;
       if (!tracks || tracks.length === 0) {
@@ -415,9 +415,10 @@ export function usePublicContentBatch() {
         allTracks: enrichedTracks,
       };
     },
-    staleTime: 3 * 60 * 1000, // 3 minutes
-    gcTime: 10 * 60 * 1000, // 10 minutes
+    staleTime: 5 * 60 * 1000, // 5 minutes - increased for faster perceived load
+    gcTime: 15 * 60 * 1000, // 15 minutes
     placeholderData: keepPreviousData,
+    refetchOnMount: false, // Don't refetch if we have cached data
   });
 }
 

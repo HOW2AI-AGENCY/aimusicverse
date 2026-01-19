@@ -376,13 +376,13 @@ export const LoadingScreen = ({
   const [dismissed, setDismissed] = useState(false);
   
   useEffect(() => {
-    // Track loading time for progress indication
+    // Track loading time for progress indication - faster updates
     const interval = setInterval(() => {
-      setLoadingTime(prev => prev + 1);
-    }, 1000);
+      setLoadingTime(prev => prev + 0.5);
+    }, 500);
     
-    // Show retry button after 30 seconds (increased from 15 to reduce false positives)
-    const retryTimer = setTimeout(() => setShowRetry(true), 30000);
+    // Show retry button after 15 seconds (reduced for better UX)
+    const retryTimer = setTimeout(() => setShowRetry(true), 15000);
     
     return () => {
       clearInterval(interval);
@@ -390,8 +390,8 @@ export const LoadingScreen = ({
     };
   }, []);
 
-  // Calculate simulated progress based on time
-  const simulatedProgress = progress ?? Math.min(loadingTime * 5, 95);
+  // Calculate simulated progress based on time - faster progression
+  const simulatedProgress = progress ?? Math.min(loadingTime * 15, 95);
 
   // If dismissed, just show minimal loader
   if (dismissed) {
@@ -430,7 +430,7 @@ export const LoadingScreen = ({
   return (
     <UnifiedSplashScreen 
       variant={variant === 'loading' ? 'loading' : variant === 'inline' ? 'inline' : 'overlay'} 
-      message={message ?? (loadingTime > 8 ? 'Почти готово...' : undefined)}
+      message={message ?? (loadingTime > 4 ? 'Почти готово...' : undefined)}
       progress={simulatedProgress}
       className={className}
     />

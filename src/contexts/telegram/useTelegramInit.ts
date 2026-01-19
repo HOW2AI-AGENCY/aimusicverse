@@ -66,9 +66,9 @@ export function useTelegramInit(): UseTelegramInitResult {
 
     let initializationTimeout: NodeJS.Timeout;
     let retryCount = 0;
-    const MAX_RETRIES = 3;
-    const INITIAL_TIMEOUT = 3000; // 3 seconds first try
-    const RETRY_TIMEOUT = 2000;   // 2 seconds for retries
+    const MAX_RETRIES = 2; // Reduced from 3 for faster fallback
+    const INITIAL_TIMEOUT = 1500; // Reduced from 3000ms for faster load
+    const RETRY_TIMEOUT = 1000;   // Reduced from 2000ms
     
     const ensureInitialized = () => {
       bootLog('ensureInitialized called');
