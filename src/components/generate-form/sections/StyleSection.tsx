@@ -3,6 +3,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { FormFieldActions } from '@/components/ui/FormFieldActions';
 import { SectionLabel, SECTION_HINTS } from '../SectionLabel';
 import { ValidationMessage, validation } from '../ValidationMessage';
+import { PromptValidationAlert } from '../PromptValidationAlert';
 import { cn } from '@/lib/utils';
 
 interface StyleSectionProps {
@@ -81,6 +82,12 @@ export const StyleSection = memo(function StyleSection({
           </div>
         </div>
       </div>
+      
+      {/* Artist name warning with replacement suggestions */}
+      <PromptValidationAlert
+        text={style}
+        onApplyReplacement={onStyleChange}
+      />
       
       {/* Validation message */}
       {styleValidation && (
