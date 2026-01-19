@@ -21,6 +21,8 @@ export { AddTrackDialog } from './AddTrackDialog';
 export { useStudioShellState } from './useStudioShellState';
 export { useStudioKeyboardShortcuts } from './useStudioKeyboardShortcuts';
 export { useStudioStemSync } from './useStudioStemSync';
+export { useStudioDialogState } from './useStudioDialogState';
+export { useStudioAudioSetup } from './useStudioAudioSetup';
 
 // Types
 export * from './types';
