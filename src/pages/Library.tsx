@@ -105,7 +105,7 @@ export default function Library() {
   } = useTracks({
     searchQuery: debouncedSearchQuery,
     sortBy,
-    pageSize: 20, // Reduced for faster initial load, more loaded on scroll
+    pageSize: 12, // Optimized: faster initial load, more loaded on scroll
     paginate: true,
     tagFilter: tagFilter || undefined,
     statusFilter: statusFilter === 'all' ? undefined : [statusFilter],
