@@ -20,6 +20,7 @@ import { validatePromptForGeneration, showGenerationError } from '@/lib/errorHan
 import { cn } from '@/lib/utils';
 import { formatDuration } from '@/lib/player-utils';
 import { useTelegramMainButton } from '@/hooks/telegram';
+import { PromptValidationAlert } from '@/components/generate-form/PromptValidationAlert';
 interface AudioCoverDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -341,6 +342,11 @@ export const AudioCoverDialog = ({
           className="mt-1.5 resize-none"
           maxLength={500}
         />
+        <PromptValidationAlert 
+          text={style} 
+          onApplyReplacement={(newText) => setStyle(newText)}
+          className="mt-1"
+        />
         <p className="text-xs text-muted-foreground mt-1">{style.length}/500</p>
       </div>
 
@@ -379,6 +385,11 @@ export const AudioCoverDialog = ({
             rows={4}
             className="mt-1.5 font-mono text-sm resize-none"
             maxLength={3000}
+          />
+          <PromptValidationAlert 
+            text={lyrics} 
+            onApplyReplacement={(newText) => setLyrics(newText)}
+            className="mt-1"
           />
           <p className="text-xs text-muted-foreground mt-1">{lyrics.length}/3000</p>
         </div>

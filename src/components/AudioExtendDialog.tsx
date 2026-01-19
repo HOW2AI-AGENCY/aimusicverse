@@ -19,6 +19,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { logger } from '@/lib/logger';
 import { validatePromptForGeneration, showGenerationError } from '@/lib/errorHandling';
 import { formatDuration } from '@/lib/player-utils';
+import { PromptValidationAlert } from '@/components/generate-form/PromptValidationAlert';
 
 interface AudioExtendDialogProps {
   open: boolean;
@@ -340,6 +341,11 @@ export const AudioExtendDialog = ({
           className="mt-1.5 resize-none"
           maxLength={500}
         />
+        <PromptValidationAlert 
+          text={style} 
+          onApplyReplacement={(newText) => setStyle(newText)}
+          className="mt-1"
+        />
       </div>
 
       {/* Title */}
@@ -377,6 +383,11 @@ export const AudioExtendDialog = ({
             rows={3}
             className="mt-1.5 font-mono text-sm resize-none"
             maxLength={3000}
+          />
+          <PromptValidationAlert 
+            text={lyrics} 
+            onApplyReplacement={(newText) => setLyrics(newText)}
+            className="mt-1"
           />
         </div>
       )}

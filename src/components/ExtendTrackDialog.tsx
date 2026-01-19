@@ -18,6 +18,8 @@ import { useExtendProgress } from '@/hooks/generation/useExtendProgress';
 import { GenerationProgressBar } from '@/components/generation/GenerationProgressBar';
 import { useNavigate } from 'react-router-dom';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { PromptValidationAlert } from '@/components/generate-form/PromptValidationAlert';
+import { validatePromptForGeneration } from '@/lib/errorHandling';
 
 interface ExtendTrackDialogProps {
   open: boolean;
@@ -71,6 +73,13 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
       }
       if (!continueAt || continueAt <= 0) {
         toast.error('Пожалуйста, укажите время продолжения');
+        return;
+      }
+      
+      // Validate for blocked artist names
+      const validation = validatePromptForGeneration(prompt, style);
+      if (!validation.valid) {
+        toast.error(validation.error, { description: validation.suggestion });
         return;
       }
     }
@@ -231,6 +240,11 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
                   rows={4}
                   className="mt-2 resize-none"
                 />
+                <PromptValidationAlert 
+                  text={prompt} 
+                  onApplyReplacement={(newText) => setPrompt(newText)}
+                  className="mt-2"
+                />
               </div>
 
               {/* Style */}
@@ -241,6 +255,11 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
                   placeholder="Electronic Dance Music, 128 BPM"
                   value={style}
                   onChange={(e) => setStyle(e.target.value)}
+                  className="mt-2"
+                />
+                <PromptValidationAlert 
+                  text={style} 
+                  onApplyReplacement={(newText) => setStyle(newText)}
                   className="mt-2"
                 />
               </div>
