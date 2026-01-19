@@ -1,21 +1,23 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { getSupabaseClient } from '../_shared/supabase-client.ts';
+import { ECONOMY } from '../_shared/economy.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-// Action rewards configuration
+// Action rewards configuration (synced with frontend ECONOMY)
 const ACTION_REWARDS = {
-  checkin: { credits: 5, experience: 10, description: 'Ежедневный чекин' },
-  streak_bonus: { credits: 2, experience: 5, description: 'Бонус за серию' },
-  share: { credits: 3, experience: 15, description: 'Расшаривание трека' },
-  like_received: { credits: 1, experience: 5, description: 'Получен лайк' },
-  generation_complete: { credits: 0, experience: 20, description: 'Генерация трека' },
-  public_track: { credits: 2, experience: 10, description: 'Публичный трек' },
-  artist_created: { credits: 5, experience: 25, description: 'Создание артиста' },
-  project_created: { credits: 3, experience: 15, description: 'Создание проекта' },
+  checkin: { credits: ECONOMY.DAILY_CHECKIN.credits, experience: ECONOMY.DAILY_CHECKIN.xp, description: 'Ежедневный чекин' },
+  streak_bonus: { credits: ECONOMY.STREAK_BONUS.credits_per_day, experience: ECONOMY.STREAK_BONUS.xp_per_day, description: 'Бонус за серию' },
+  share: { credits: ECONOMY.SHARE_REWARD.credits, experience: ECONOMY.SHARE_REWARD.xp, description: 'Расшаривание трека' },
+  like_received: { credits: ECONOMY.LIKE_RECEIVED.credits, experience: ECONOMY.LIKE_RECEIVED.xp, description: 'Получен лайк' },
+  generation_complete: { credits: 0, experience: 40, description: 'Генерация трека' },
+  public_track: { credits: ECONOMY.PUBLIC_TRACK.credits, experience: ECONOMY.PUBLIC_TRACK.xp, description: 'Публичный трек' },
+  artist_created: { credits: ECONOMY.ARTIST_CREATED.credits, experience: ECONOMY.ARTIST_CREATED.xp, description: 'Создание артиста' },
+  project_created: { credits: ECONOMY.PROJECT_CREATED.credits, experience: ECONOMY.PROJECT_CREATED.xp, description: 'Создание проекта' },
+  comment_posted: { credits: ECONOMY.COMMENT_POSTED.credits, experience: ECONOMY.COMMENT_POSTED.xp, description: 'Комментарий' },
 };
 
 function getLevelFromExperience(experience: number): number {
@@ -54,11 +56,9 @@ serve(async (req) => {
       });
     }
 
-    const credits = customCredits ?? reward?.credits ?? 0;
+    let credits = customCredits ?? reward?.credits ?? 0;
     const experience = customExperience ?? reward?.experience ?? 0;
     const description = customDescription || reward?.description || actionType;
-
-    console.log(`🎁 Rewarding user ${userId}: ${actionType} = +${credits} credits, +${experience} XP`);
 
     // Get or create user credits record
     const { data: currentCredits, error: fetchError } = await supabase
@@ -72,11 +72,44 @@ serve(async (req) => {
       throw fetchError;
     }
 
+    // Get user subscription tier
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('subscription_tier, subscription_expires_at')
+      .eq('user_id', userId)
+      .single();
+
+    const isExpired = profile?.subscription_expires_at 
+      ? new Date(profile.subscription_expires_at) < new Date() 
+      : true;
+    const tier = (!isExpired && profile?.subscription_tier) || 'free';
+    const isFreeUser = tier === 'free';
+
+    // Apply FREE user limits
+    if (isFreeUser && credits > 0) {
+      const currentBalance = currentCredits?.balance || 0;
+      const dailyEarned = currentCredits?.daily_earned_today || 0;
+      
+      // Check daily cap (30 credits/day for free users)
+      if (dailyEarned + credits > ECONOMY.FREE_DAILY_EARN_CAP) {
+        credits = Math.max(0, ECONOMY.FREE_DAILY_EARN_CAP - dailyEarned);
+        console.log(`📊 Daily cap applied: reduced to ${credits} credits`);
+      }
+      
+      // Check balance cap (100 max for free users)
+      if (currentBalance + credits > ECONOMY.FREE_MAX_BALANCE) {
+        credits = Math.max(0, ECONOMY.FREE_MAX_BALANCE - currentBalance);
+        console.log(`📊 Balance cap applied: reduced to ${credits} credits`);
+      }
+    }
+
+    console.log(`🎁 Rewarding user ${userId}: ${actionType} = +${credits} credits, +${experience} XP (tier: ${tier})`);
+
     const newExperience = (currentCredits?.experience || 0) + experience;
     const newLevel = getLevelFromExperience(newExperience);
 
     if (currentCredits) {
-      // Update existing record
+      // Update existing record with daily tracking
       const { error: updateError } = await supabase
         .from('user_credits')
         .update({
@@ -84,6 +117,7 @@ serve(async (req) => {
           total_earned: currentCredits.total_earned + credits,
           experience: newExperience,
           level: newLevel,
+          daily_earned_today: (currentCredits.daily_earned_today || 0) + credits,
           updated_at: new Date().toISOString(),
         })
         .eq('user_id', userId);
@@ -102,6 +136,7 @@ serve(async (req) => {
           total_earned: credits,
           experience: experience,
           level: newLevel,
+          daily_earned_today: credits,
         });
 
       if (insertError) {

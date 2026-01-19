@@ -4875,6 +4875,8 @@ export type Database = {
           balance: number
           created_at: string | null
           current_streak: number
+          daily_earned_reset_at: string | null
+          daily_earned_today: number | null
           experience: number
           id: string
           last_checkin_date: string | null
@@ -4897,6 +4899,8 @@ export type Database = {
           balance?: number
           created_at?: string | null
           current_streak?: number
+          daily_earned_reset_at?: string | null
+          daily_earned_today?: number | null
           experience?: number
           id?: string
           last_checkin_date?: string | null
@@ -4919,6 +4923,8 @@ export type Database = {
           balance?: number
           created_at?: string | null
           current_streak?: number
+          daily_earned_reset_at?: string | null
+          daily_earned_today?: number | null
           experience?: number
           id?: string
           last_checkin_date?: string | null
@@ -6081,6 +6087,7 @@ export type Database = {
           style_name: string
         }[]
       }
+      reset_daily_earnings: { Args: never; Returns: undefined }
       run_log_archival: { Args: never; Returns: Json }
       upsert_notification: {
         Args: {

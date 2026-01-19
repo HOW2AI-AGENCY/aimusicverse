@@ -76,10 +76,15 @@ export const ECONOMY = {
     xp: 15,
   },
   
-  // Referral
+  // Referral (reduced rewards)
   REFERRAL_PERCENT: 10,
-  REFERRAL_INVITE_BONUS: 100,
-  REFERRAL_NEW_USER_BONUS: 50,
+  REFERRAL_INVITE_BONUS: 15, // Was 100
+  REFERRAL_NEW_USER_BONUS: 15, // Was 50
+  
+  // Free user limits
+  FREE_DAILY_EARN_CAP: 30,
+  FREE_MAX_BALANCE: 100,
+  WELCOME_BONUS: 50,
 };
 
 /**

@@ -174,7 +174,7 @@ const Index = () => {
     <PullToRefreshWrapper
       onRefresh={handleRefresh}
       disabled={!isMobile}
-      className="min-h-screen bg-background pb-24 relative overflow-hidden"
+      className="min-h-screen bg-background pb-24 relative"
     >
       {/* Background gradient - lazy rendered */}
       {!prefersReducedMotion && !showSkeleton && (
