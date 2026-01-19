@@ -1,10 +1,5 @@
 import { useState, useEffect } from 'react';
-import { 
-  ResponsiveModal, 
-  ResponsiveModalContent, 
-  ResponsiveModalHeader, 
-  ResponsiveModalTitle 
-} from '@/components/ui/responsive-modal';
+import { UnifiedDialog } from '@/components/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -328,27 +323,25 @@ export function CreateArtistFromTrackDialog({ open, onOpenChange }: CreateArtist
   );
 
   return (
-    <ResponsiveModal 
+    <UnifiedDialog 
+      variant="sheet"
       open={open} 
       onOpenChange={onOpenChange}
+      title={
+        <span className="flex items-center justify-center gap-2">
+          <Sparkles className="w-5 h-5 text-primary" />
+          {step === 'select' ? 'Выберите трек' : 'Создать AI Артиста'}
+        </span>
+      }
       snapPoints={[0.5, 0.9]}
       defaultSnapPoint={1}
-      showHandle={true}
     >
-      <ResponsiveModalContent className="max-w-lg max-h-[85vh] flex flex-col">
-        <ResponsiveModalHeader>
-          <ResponsiveModalTitle className="flex items-center justify-center gap-2">
-            <Sparkles className="w-5 h-5 text-primary" />
-            {step === 'select' ? 'Выберите трек' : 'Создать AI Артиста'}
-          </ResponsiveModalTitle>
-        </ResponsiveModalHeader>
-        <div className={cn(
-          "flex-1 flex flex-col min-h-0",
-          isMobile && "pb-2"
-        )}>
-          {content}
-        </div>
-      </ResponsiveModalContent>
-    </ResponsiveModal>
+      <div className={cn(
+        "flex-1 flex flex-col min-h-0 max-h-[75vh] overflow-auto",
+        isMobile && "pb-2"
+      )}>
+        {content}
+      </div>
+    </UnifiedDialog>
   );
 }
