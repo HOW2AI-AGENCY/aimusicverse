@@ -48,6 +48,7 @@ import { StatCard, StatGrid } from "@/components/admin/StatCard";
 import { AdminUserCard } from "@/components/admin/AdminUserCard";
 import { PerformanceDashboard } from "@/components/performance";
 import { GenerationStatsPanel } from "@/components/admin/GenerationStatsPanel";
+import { EconomyConfigEditor } from "@/components/admin/economy";
 import { SubscriptionTiersManager } from "@/components/admin/SubscriptionTiersManager";
 import { useQueryClient } from "@tanstack/react-query";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -74,6 +75,7 @@ const TAB_OPTIONS = [
   { value: "analytics", label: "Аналитика", icon: TrendingUp },
   { value: "generation-stats", label: "Генерации", icon: Music },
   { value: "performance", label: "Перформанс", icon: Activity },
+  { value: "economy", label: "Экономика", icon: Coins },
   { value: "users", label: "Пользователи", icon: Users },
   { value: "balances", label: "Балансы", icon: Coins },
   { value: "tracks", label: "Треки", icon: Music },
@@ -447,6 +449,11 @@ export default function AdminDashboard() {
               </CardContent>
             </Card>
           </div>
+        )}
+
+        {/* Economy Tab */}
+        {activeTab === "economy" && (
+          <EconomyConfigEditor />
         )}
 
         {/* Tariffs Tab */}
