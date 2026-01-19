@@ -86,14 +86,16 @@ export interface AlertDialogProps extends BaseDialogProps {
   description: string;
   /** Confirm button label */
   confirmLabel: string;
-  /** Optional cancel button label */
+  /** Optional cancel button label (default: 'Отмена') */
   cancelLabel?: string;
   /** Confirm action callback */
   onConfirm: () => void | Promise<void>;
   /** Optional cancel action callback */
   onCancel?: () => void;
-  /** Alert severity level */
+  /** Alert severity level (default: 'danger') */
   severity?: 'danger' | 'warning' | 'info';
+  /** Legacy variant prop for destructive styling (maps to severity: danger) */
+  destructive?: boolean;
 }
 
 /**
