@@ -59,8 +59,8 @@ export interface ModalDialogProps extends BaseDialogProps {
 export interface SheetDialogProps extends BaseDialogProps {
   /** Discriminant: 'sheet' variant */
   variant: 'sheet';
-  /** Sheet title */
-  title: string;
+  /** Sheet title - string or ReactNode */
+  title: ReactNode;
   /** Sheet content */
   children: ReactNode;
   /** Snap points as percentages of viewport height (e.g., [0.25, 0.5, 0.9]) */
