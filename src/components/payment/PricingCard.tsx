@@ -1,9 +1,10 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Check, Star, Zap } from 'lucide-react';
+import { Check, CreditCard, Zap } from 'lucide-react';
 import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
+import { formatRubles } from '@/types/payment';
 
 export interface StarsProduct {
   id: string;
@@ -11,7 +12,8 @@ export interface StarsProduct {
   product_type: 'credit_package' | 'subscription';
   name: Record<string, string>;
   description: Record<string, string>;
-  stars_price: number;
+  stars_price: number; // kept for compatibility
+  price_rub_cents?: number; // RUB price in kopecks
   credits_amount?: number;
   subscription_tier?: string;
   subscription_duration_days?: number;
@@ -23,7 +25,6 @@ export interface StarsProduct {
 interface PricingCardProps {
   product: StarsProduct;
   onPurchase: (productCode: string) => void;
-  onPurchaseTinkoff?: (productCode: string) => void;
   lang?: 'en' | 'ru';
   isPurchasing?: boolean;
   className?: string;
@@ -32,7 +33,6 @@ interface PricingCardProps {
 export function PricingCard({ 
   product, 
   onPurchase, 
-  onPurchaseTinkoff,
   lang = 'ru',
   isPurchasing = false,
   className 
@@ -40,16 +40,17 @@ export function PricingCard({
   const name = product.name[lang] || product.name['en'];
   const description = product.description[lang] || product.description['en'];
   
-  const handlePurchaseStars = () => {
+  const handlePurchase = () => {
     if (!isPurchasing) onPurchase(product.product_code);
-  };
-
-  const handlePurchaseTinkoff = () => {
-    if (!isPurchasing && onPurchaseTinkoff) onPurchaseTinkoff(product.product_code);
   };
 
   const isSubscription = product.product_type === 'subscription';
   const isCreditPackage = product.product_type === 'credit_package';
+  
+  // Format price in RUB
+  const priceDisplay = product.price_rub_cents 
+    ? formatRubles(product.price_rub_cents)
+    : `${product.stars_price} ₽`; // fallback
 
   return (
     <motion.div
@@ -81,11 +82,7 @@ export function PricingCard({
 
           <div className="mt-4">
             <div className="flex items-baseline gap-2">
-              <span className="text-4xl font-bold">{product.stars_price}</span>
-              <div className="flex items-center gap-1 text-yellow-500">
-                <Star className="w-5 h-5 fill-current" />
-                <span className="text-lg font-semibold">Stars</span>
-              </div>
+              <span className="text-4xl font-bold">{priceDisplay}</span>
             </div>
             {isSubscription && (
               <p className="text-sm text-muted-foreground mt-1">в месяц</p>
@@ -132,9 +129,9 @@ export function PricingCard({
           )}
         </CardContent>
 
-        <CardFooter className="flex flex-col gap-2">
+        <CardFooter>
           <Button
-            onClick={handlePurchaseStars}
+            onClick={handlePurchase}
             disabled={isPurchasing}
             className={cn(
               "w-full",
@@ -146,22 +143,11 @@ export function PricingCard({
               <span className="animate-pulse">Обработка...</span>
             ) : (
               <>
-                <Star className="w-4 h-4 mr-2 fill-current" />
-                Купить за {product.stars_price} Stars
+                <CreditCard className="w-4 h-4 mr-2" />
+                Оплатить {priceDisplay}
               </>
             )}
           </Button>
-          {onPurchaseTinkoff && (
-            <Button
-              onClick={handlePurchaseTinkoff}
-              disabled={isPurchasing}
-              variant="outline"
-              className="w-full"
-              size="lg"
-            >
-              💳 Оплатить картой / СБП
-            </Button>
-          )}
         </CardFooter>
       </Card>
     </motion.div>

@@ -240,15 +240,9 @@ async function showTierInfo(chatId: number, messageId: number, tierCode: string)
   } else {
     // Fallback to generated description
     // Pricing section
-    if (tier.price_usd > 0) {
+    if (tier.price_robokassa > 0) {
       text += `💰 *СТОИМОСТЬ*\n`;
-      text += `├ USD: *$${tier.price_usd}*/месяц\n`;
-      if (tier.price_stars > 0) {
-        text += `├ Stars: *${tier.price_stars}* ⭐\n`;
-      }
-      if (tier.price_robokassa > 0) {
-        text += `└ RUB: *${tier.price_robokassa}₽*\n`;
-      }
+      text += `└ RUB: *${tier.price_robokassa}₽*/месяц\n`;
       text += `\n`;
     } else {
       text += `💰 *БЕСПЛАТНО!* 🎉\n\n`;
@@ -280,9 +274,9 @@ async function showTierInfo(chatId: number, messageId: number, tierCode: string)
     }
   }
   
-  // Pricing summary
-  if (tier.price_usd > 0 && !tier.custom_pricing) {
-    text += `\n💳 *Цена:* $${tier.price_usd} / ${tier.price_stars}⭐`;
+  // Pricing summary (RUB only)
+  if (tier.price_robokassa > 0 && !tier.custom_pricing) {
+    text += `\n💳 *Цена:* ${tier.price_robokassa}₽`;
   }
   
   // Badge
@@ -295,10 +289,10 @@ async function showTierInfo(chatId: number, messageId: number, tierCode: string)
   // Build keyboard with navigation
   const keyboard: Array<Array<{ text: string; callback_data?: string; url?: string; web_app?: { url: string } }>> = [];
   
-  // Purchase button
-  if (tier.price_usd > 0 && !tier.custom_pricing) {
+  // Purchase button (Tinkoff/RUB only)
+  if (tier.price_robokassa > 0 && !tier.custom_pricing) {
     keyboard.push([{ 
-      text: `⭐ Оформить за ${tier.price_stars} Stars`, 
+      text: `💳 Оформить за ${tier.price_robokassa}₽`, 
       callback_data: `tariff_buy_${tier.code}` 
     }]);
   }
@@ -432,15 +426,16 @@ async function initiateTariffPurchase(chatId: number, userId: number, tierCode: 
   text += `├ ${tier.max_concurrent_generations} треков одновременно\n`;
   text += `└ ${getQualityBadge(tier.audio_quality)}\n\n`;
   text += `💳 *Выберите способ оплаты:*\n\n`;
-  text += `⭐ Telegram Stars — мгновенно\n`;
-  text += `💳 Robokassa — карты РФ/СНГ\n\n`;
+  text += `💳 Tinkoff — карты, СБП, Tinkoff Pay\n\n`;
   text += `━━━━━━━━━━━━━━━━━━━━━\n`;
-  text += `💰 Итого: *$${tier.price_usd}* или *${tier.price_stars}⭐*`;
+  text += `💰 Итого: *${tier.price_robokassa}₽*`;
+  
+  // Build Tinkoff payment URL
+  const tinkoffUrl = `${BOT_CONFIG.miniAppUrl}/shop?product=${productCode}&method=tinkoff&tx=${transaction.id}`;
   
   await editMessageText(chatId, 0, escapeMarkdownV2(text), {
     inline_keyboard: [
-      [{ text: `⭐ Telegram Stars (${tier.price_stars})`, url: paymentUrl }],
-      [{ text: `💳 Robokassa (${tier.price_robokassa}₽)`, url: robokassaUrl }],
+      [{ text: `💳 Оплатить ${tier.price_robokassa}₽`, url: tinkoffUrl }],
       [{ text: '◀️ Отмена', callback_data: 'tariff_menu' }]
     ]
   });
