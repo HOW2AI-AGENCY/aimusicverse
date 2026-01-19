@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, ReactNode, Suspense, memo, useLayoutEffect } from 'react';
+import { useRef, useState, useEffect, ReactNode, Suspense, memo, useLayoutEffect, useCallback } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 
@@ -8,7 +8,7 @@ interface LazySectionProps {
   fallback?: ReactNode;
   /** Root margin for intersection observer */
   rootMargin?: string;
-  /** Minimum height for skeleton */
+  /** Minimum height for skeleton - should match expected content height */
   minHeight?: string;
   /** Class name for wrapper */
   className?: string;
@@ -18,26 +18,54 @@ interface LazySectionProps {
   skipSuspense?: boolean;
   /** Eager load - render immediately without waiting for visibility */
   eager?: boolean;
+  /** Preserve space after loading to prevent layout shifts */
+  preserveHeight?: boolean;
 }
 
 /**
  * LazySection - renders children only when visible in viewport
  * Uses Intersection Observer for optimal performance
- * FIXED: No double skeleton, faster initial visibility check
+ * 
+ * FIXED: Scroll anchoring issues resolved by:
+ * 1. Using contain-intrinsic-size for content-visibility optimization
+ * 2. Setting overflow-anchor: none on loading state to prevent scroll jumps
+ * 3. Preserving container height after loading to prevent layout collapse
  */
 export const LazySection = memo(function LazySection({
   children,
   fallback,
-  rootMargin = '200px', // Increased for earlier trigger
-  minHeight = '100px',
+  rootMargin = '300px', // Increased for earlier trigger
+  minHeight = '120px',
   className,
   threshold = 0,
   skipSuspense = false,
   eager = false,
+  preserveHeight = true,
 }: LazySectionProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [hasBeenVisible, setHasBeenVisible] = useState(eager);
   const [isReady, setIsReady] = useState(eager);
+  const [measuredHeight, setMeasuredHeight] = useState<number | null>(null);
+
+  // Measure content height after render to prevent layout shifts
+  const measureHeight = useCallback(() => {
+    if (preserveHeight && ref.current && isReady) {
+      const height = ref.current.offsetHeight;
+      if (height > 0) {
+        setMeasuredHeight(height);
+      }
+    }
+  }, [preserveHeight, isReady]);
+
+  // Measure after ready state changes
+  useEffect(() => {
+    if (isReady) {
+      // Use RAF to ensure DOM has updated
+      requestAnimationFrame(() => {
+        measureHeight();
+      });
+    }
+  }, [isReady, measureHeight]);
 
   // Synchronous initial visibility check to avoid flash
   useLayoutEffect(() => {
@@ -47,7 +75,7 @@ export const LazySection = memo(function LazySection({
     if (!element) return;
 
     const rect = element.getBoundingClientRect();
-    const margin = 300; // Large margin for faster trigger
+    const margin = 400; // Large margin for faster trigger
     const isInitiallyVisible = rect.top < window.innerHeight + margin;
     
     if (isInitiallyVisible) {
@@ -66,8 +94,8 @@ export const LazySection = memo(function LazySection({
       ([entry]) => {
         if (entry.isIntersecting) {
           setHasBeenVisible(true);
-          // Small delay to ensure smooth transition
-          requestAnimationFrame(() => setIsReady(true));
+          // Immediate ready for faster content display
+          setIsReady(true);
           observer.disconnect();
         }
       },
@@ -96,23 +124,39 @@ export const LazySection = memo(function LazySection({
   // Use provided fallback or default
   const loadingFallback = fallback ?? defaultFallback;
 
-  // Not visible yet - show fallback (or nothing if fallback is null)
+  // Not visible yet - show fallback
+  // Key fix: overflow-anchor: none prevents scroll position jumps when content changes
   if (!hasBeenVisible) {
     return (
       <div 
         ref={ref} 
         className={cn(className)}
-        style={{ minHeight: fallback === null ? undefined : minHeight }}
+        style={{ 
+          minHeight: fallback === null ? undefined : minHeight,
+          // Prevent scroll anchoring to this element while loading
+          overflowAnchor: 'none',
+          // Hint to browser about intrinsic size for scroll calculations
+          containIntrinsicSize: `auto ${minHeight}`,
+          contentVisibility: 'auto',
+        }}
       >
         {loadingFallback}
       </div>
     );
   }
 
-  // Visible and ready - render children WITHOUT double Suspense
-  // The key change: we don't wrap in Suspense if skipSuspense is true OR if already ready
+  // Visible and ready - render children
   return (
-    <div ref={ref} className={cn(className)}>
+    <div 
+      ref={ref} 
+      className={cn(className)}
+      style={{
+        // Once loaded, allow anchoring and preserve height
+        overflowAnchor: 'auto',
+        // If we measured height, use it to prevent collapse during re-renders
+        minHeight: measuredHeight ? `${measuredHeight}px` : undefined,
+      }}
+    >
       {skipSuspense || isReady ? (
         children
       ) : (

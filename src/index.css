@@ -1121,6 +1121,18 @@ html {
     overscroll-behavior-y: none;
   }
   
+  /* Enable scroll anchoring on main content to prevent scroll jumps during lazy loading */
+  #main-content {
+    overflow-anchor: auto;
+    /* Contain layout to prevent reflow cascades */
+    contain: layout style;
+  }
+  
+  /* Lazy sections should not anchor during loading */
+  [data-lazy-loading="true"] {
+    overflow-anchor: none;
+  }
+  
   /* Ensure content doesn't get hidden behind keyboard */
   .pb-safe {
     padding-bottom: max(env(safe-area-inset-bottom, 0px), var(--keyboard-height, 0px));
