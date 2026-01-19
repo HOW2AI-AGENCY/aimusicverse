@@ -15,6 +15,7 @@ import { useTelegram } from "@/contexts/TelegramContext";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import { useProfile } from "@/hooks/useProfile.tsx";
 import { usePublicContentBatch } from "@/hooks/usePublicContent";
+import { useInfinitePublicTracks, flattenInfiniteTracksPages } from "@/hooks/useInfinitePublicTracks";
 import { useUserJourneyState } from "@/hooks/useUserJourneyState";
 import { HomeHeader } from "@/components/home/HomeHeader";
 import { LazySection } from "@/components/lazy/LazySection";
@@ -80,11 +81,26 @@ const Index = () => {
   // User journey state for personalized experience
   const { isNewUser } = useUserJourneyState();
 
-  // Single optimized query for all public content
+  // Single optimized query for all public content (genres, featured, etc.)
   const { data: publicContent, isLoading: contentLoading, refetch: refetchContent } = usePublicContentBatch();
 
+  // Infinite scroll for "New Tracks" section
+  const {
+    data: infiniteRecentData,
+    fetchNextPage: fetchMoreRecent,
+    hasNextPage: hasMoreRecent,
+    isFetchingNextPage: isLoadingMoreRecent,
+    isLoading: isLoadingRecent,
+  } = useInfinitePublicTracks({ sortBy: 'recent', pageSize: 12 });
+
+  // Flatten infinite pages into single array
+  const recentTracksInfinite = useMemo(
+    () => flattenInfiniteTracksPages(infiniteRecentData?.pages),
+    [infiniteRecentData?.pages]
+  );
+
   // Show skeleton only on initial load
-  const showSkeleton = contentLoading && !publicContent;
+  const showSkeleton = (contentLoading || isLoadingRecent) && !publicContent;
 
   // Preload first 4 track cover images
   useEffect(() => {
@@ -266,7 +282,7 @@ const Index = () => {
 
         {/* ============== SECONDARY SECTIONS ============== */}
 
-        {/* New Tracks */}
+        {/* New Tracks - with infinite scroll */}
         <LazySection className="mb-4" minHeight="120px" skipSuspense>
           <motion.div {...lazySectionAnimation}>
             <TracksGridSection
@@ -275,13 +291,14 @@ const Index = () => {
               icon={Clock}
               iconColor="text-orange-400"
               iconGradient="from-orange-500/20 to-amber-500/10"
-              tracks={publicContent?.recentTracks || []}
+              tracks={recentTracksInfinite.length > 0 ? recentTracksInfinite : (publicContent?.recentTracks || [])}
               isLoading={showSkeleton}
-              maxTracks={isMobile ? 6 : 12}
+              maxTracks={100}
               columns={isMobile ? 2 : 4}
-              showMoreLink="/community?sort=recent"
-              showMoreLabel="Смотреть все"
               onRemix={handleRemix}
+              hasMore={hasMoreRecent}
+              isLoadingMore={isLoadingMoreRecent}
+              onLoadMore={fetchMoreRecent}
             />
           </motion.div>
         </LazySection>
