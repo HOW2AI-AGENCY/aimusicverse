@@ -122,4 +122,17 @@ export const RateLimitConfigs = {
     windowMs: 60 * 1000, // 1 minute
     maxRequests: 5,
   },
+  
+  // 15 callbacks per task for Suno API webhooks
+  // Prevents abuse and duplicate processing
+  sunoCallback: {
+    windowMs: 60 * 60 * 1000, // 1 hour
+    maxRequests: 15,
+  },
+  
+  // 10 callbacks per separation task
+  vocalCallback: {
+    windowMs: 60 * 60 * 1000, // 1 hour
+    maxRequests: 10,
+  },
 };
