@@ -1,11 +1,63 @@
 # 📚 БАЗА ЗНАНИЙ ПРОЕКТА MusicVerse AI
 
 > **Последнее обновление:** 2026-01-19 (Roadmap V4)  
-> **Версия проекта:** 1.4.0 (UI/UX Roadmap V3 Complete)
+> **Версия проекта:** 1.5.0 (Popup/Notification Unification Complete)
 
 ---
 
-## 🆕 НОВОЕ: UI/UX Roadmap V3 (January 19, 2026)
+## 🆕 НОВОЕ: Popup/Notification Unification (January 19, 2026)
+
+### Unified Reward Notification System ✅
+**Цель:** Консолидировать 4 gamification компонента в 1
+
+**Новые компоненты:**
+```typescript
+// Единое уведомление для всех наград
+import { UnifiedRewardNotification } from '@/components/gamification/UnifiedRewardNotification';
+
+// Глобальный провайдер контекста
+import { RewardNotificationProvider, useRewardNotificationContext } from '@/contexts/RewardNotificationContext';
+
+// Хук для показа уведомлений
+const { showLevelUp, showAchievement, showCredits, showStreak, showWelcomeBonus, showSubscription } = useRewardNotificationContext();
+```
+
+**Удалённые компоненты (deprecated):**
+- ❌ `LevelUpNotification.tsx` — заменён на UnifiedRewardNotification
+- ❌ `AchievementUnlockNotification.tsx` — заменён на UnifiedRewardNotification
+- ❌ `RewardCelebration.tsx` — заменён на UnifiedRewardNotification
+
+**Использование:**
+```tsx
+// В любом компоненте
+const { showCredits, showStreak, showAchievement } = useRewardNotificationContext();
+
+// Показать награду за чекин
+showCredits(50);
+
+// Показать streak с бонусами
+showStreak(7, { credits: 100, experience: 50 });
+
+// Показать достижение
+showAchievement('Первый трек', 'Создайте первый трек', '🎵', { credits: 20 });
+```
+
+### UnifiedDialog System ✅
+**Цель:** Единый компонент для всех диалогов
+
+```typescript
+// Импорт
+import { UnifiedDialog } from '@/components/dialog';
+
+// Варианты
+<UnifiedDialog variant="modal" ... />  // Desktop модальное окно
+<UnifiedDialog variant="sheet" ... />  // Mobile bottom sheet
+<UnifiedDialog variant="alert" ... />  // Confirmation dialog
+```
+
+---
+
+## 🆕 UI/UX Roadmap V3 (January 19, 2026)
 
 ### Phase 1: Failure Rate Reduction ✅
 **Цель:** Снизить failure rate генерации с 16% до <8%
@@ -22,47 +74,17 @@ import { CreditBalanceWarning } from '@/components/generate-form/CreditBalanceWa
 import { findArtistReplacement, getGenreSuggestions } from '@/lib/artistReplacements';
 ```
 
-**Использование:**
-```tsx
-// В форме генерации
-<PromptValidationAlert 
-  text={description} 
-  onApplyReplacement={handleReplace}
-/>
-
-// В GenerateSheet
-<CreditBalanceWarning 
-  balance={userCredits} 
-  cost={generationCost}
-/>
-```
-
 ### Phase 2: Engagement Increase ✅
-**Цель:** Увеличить лайки с 14/неделю до 100+
-
 ```typescript
 // Лайк одним тапом в карточках треков
 import { QuickLikeButton } from '@/components/social/QuickLikeButton';
 ```
 
 ### Phase 3: Performance ✅
-**Цель:** Улучшить perceived performance
-
 ```typescript
-// Skeleton loaders для треков
 import { TrackCardSkeleton } from '@/components/track/TrackCardSkeleton';
-// Варианты: 'grid' | 'list' | 'compact'
-
-// Skeleton loaders для контента
 import { ContentSkeleton } from '@/components/ui/ContentSkeleton';
-// Варианты: 'hero' | 'stats' | 'header' | 'horizontal'
 ```
-
-### Phase 4: UX Enhancements ✅
-**Фильтр по статусу в библиотеке:**
-- `all` — все треки
-- `completed` — успешно созданные
-- `failed` — с ошибками
 
 ---
 
@@ -74,6 +96,7 @@ import { ContentSkeleton } from '@/components/ui/ContentSkeleton';
 - ✅ QuickLikeButton
 - ✅ Skeleton loaders
 - ✅ Фильтр по статусу
+- ✅ **Унификация Popup/Notification систем** ✨ NEW
 - 📋 Интеграция валидации в extend/cover
 - 📋 Снижение Bounce Rate
 

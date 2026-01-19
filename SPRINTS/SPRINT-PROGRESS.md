@@ -27,13 +27,21 @@
 - [x] artistReplacements.ts — маппинг артистов
 - [x] StatusFilter в библиотеке
 
-#### 1.2 Снижение Bounce Rate — 📋 PLANNED
+#### 1.2 Popup/Notification Unification — ✅ COMPLETE ✨ NEW
+- [x] UnifiedRewardNotification — консолидация gamification уведомлений
+- [x] RewardNotificationContext — глобальный провайдер
+- [x] ConfirmationDialog → UnifiedDialog alert
+- [x] AlertDialog с haptic feedback
+- [x] Удалены deprecated: LevelUpNotification, AchievementUnlockNotification, RewardCelebration
+- [x] DailyCheckin и GamificationBar используют unified notifications
+
+#### 1.3 Снижение Bounce Rate — 📋 PLANNED
 - [ ] Показывать популярные треки без авторизации
 - [ ] Упростить путь до первой генерации (2 клика)
 - [ ] CTA "Попробовать бесплатно"
 - [ ] Персонализированные рекомендации
 
-#### 1.3 Социальная активность — 📋 PLANNED
+#### 1.4 Социальная активность — 📋 PLANNED
 - [ ] CTA "Оставить первый комментарий"
 - [ ] Предложение создать плейлист после 3 лайков
 - [ ] Push-уведомления о новых треках
@@ -87,6 +95,9 @@
 src/lib/artistReplacements.ts
 src/components/track/TrackCardSkeleton.tsx
 src/components/ui/ContentSkeleton.tsx
+src/components/gamification/UnifiedRewardNotification.tsx
+src/hooks/useRewardNotification.ts
+src/contexts/RewardNotificationContext.tsx
 ```
 
 ### Files Modified
@@ -98,6 +109,19 @@ src/components/track/track-card-new/variants/GridVariant.tsx
 src/components/library/CompactFilterBar.tsx
 src/components/library/LibraryFilterModal.tsx
 src/pages/Library.tsx
+src/components/ConfirmationDialog.tsx
+src/components/dialog/variants/alert.tsx
+src/components/gamification/DailyCheckin.tsx
+src/components/gamification/GamificationBar.tsx
+src/contexts/GamificationContext.tsx
+src/App.tsx
+```
+
+### Files Deleted (Deprecated)
+```
+src/components/gamification/LevelUpNotification.tsx
+src/components/gamification/AchievementUnlockNotification.tsx
+src/components/gamification/RewardCelebration.tsx
 ```
 
 ---
