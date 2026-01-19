@@ -50,6 +50,7 @@ import { PerformanceDashboard } from "@/components/performance";
 import { GenerationStatsPanel } from "@/components/admin/GenerationStatsPanel";
 import { EconomyConfigEditor } from "@/components/admin/economy";
 import { FeatureFlagsEditor } from "@/components/admin/features";
+import { QuickActionsPanel } from "@/components/admin/QuickActionsPanel";
 import { SubscriptionTiersManager } from "@/components/admin/SubscriptionTiersManager";
 import { useQueryClient } from "@tanstack/react-query";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -224,6 +225,7 @@ export default function AdminDashboard() {
         {/* Overview Tab */}
         {activeTab === "overview" && (
           <div className="space-y-4">
+            <QuickActionsPanel />
             <StatGrid columns={6}>
               <StatCard title="Пользователи" value={stats?.totalUsers || 0} icon={<Users className="h-4 w-4" />} />
               <StatCard title="Треки" value={stats?.totalTracks || 0} icon={<Music className="h-4 w-4" />} />
