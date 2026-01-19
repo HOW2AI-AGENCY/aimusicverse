@@ -17,6 +17,7 @@ import { SmartAlertProvider } from './notifications/smart-alerts';
 import { useUserJourneyState } from '@/hooks/useUserJourneyState';
 import { useOnboarding } from '@/hooks/useOnboarding';
 import { useGenerationResult } from '@/hooks/generation';
+import { useWelcomeBonusCheck } from '@/hooks/useCreditsLimits';
 
 import { useAdminDailyStats } from '@/hooks/useAdminDailyStats';
 
@@ -27,6 +28,7 @@ const SubscriptionRequiredDialog = lazy(() => import('./dialogs/SubscriptionRequ
 const GamificationOnboarding = lazy(() => import('./gamification/GamificationOnboarding').then(m => ({ default: m.GamificationOnboarding })));
 const GenerateSheet = lazy(() => import('./GenerateSheet').then(m => ({ default: m.GenerateSheet })));
 const GenerationResultSheet = lazy(() => import('./generate-form/GenerationResultSheet').then(m => ({ default: m.GenerationResultSheet })));
+const WelcomeBonusPopup = lazy(() => import('./popups/WelcomeBonusPopup').then(m => ({ default: m.WelcomeBonusPopup })));
 
 const SIDEBAR_COLLAPSED_KEY = 'sidebar-collapsed';
 
@@ -39,6 +41,10 @@ export const MainLayout = () => {
   const [gamificationOnboardingOpen, setGamificationOnboardingOpen] = useState(false);
   const [quickStartOpen, setQuickStartOpen] = useState(false);
   const [generateSheetOpen, setGenerateSheetOpen] = useState(false);
+  const [welcomeBonusOpen, setWelcomeBonusOpen] = useState(false);
+  
+  // Welcome bonus check
+  const { shouldShowWelcomeBonus, markWelcomeBonusShown } = useWelcomeBonusCheck();
 
   // Generation result sheet for post-generation A/B selection
   const { 
@@ -109,6 +115,21 @@ export const MainLayout = () => {
       return () => clearTimeout(timer);
     }
   }, []);
+
+  // Show welcome bonus popup for new users
+  useEffect(() => {
+    if (shouldShowWelcomeBonus && !welcomeBonusOpen) {
+      const timer = setTimeout(() => {
+        setWelcomeBonusOpen(true);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [shouldShowWelcomeBonus, welcomeBonusOpen]);
+
+  const handleWelcomeBonusClose = useCallback(() => {
+    setWelcomeBonusOpen(false);
+    markWelcomeBonusShown();
+  }, [markWelcomeBonusShown]);
 
   const handleGamificationOnboardingComplete = () => {
     localStorage.setItem('gamification-onboarding-completed', 'true');
@@ -197,6 +218,16 @@ export const MainLayout = () => {
           <GamificationOnboarding
             open={gamificationOnboardingOpen}
             onComplete={handleGamificationOnboardingComplete}
+          />
+        </Suspense>
+      )}
+
+      {/* Welcome Bonus Popup - for new users */}
+      {welcomeBonusOpen && (
+        <Suspense fallback={null}>
+          <WelcomeBonusPopup
+            open={welcomeBonusOpen}
+            onClose={handleWelcomeBonusClose}
           />
         </Suspense>
       )}
