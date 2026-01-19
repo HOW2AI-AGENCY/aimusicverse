@@ -184,10 +184,38 @@ const App = () => (
                 <Route path="/rewards" element={<Rewards />} />
                 <Route path="/referral" element={<Referral />} />
                 <Route path="/analytics" element={<Analytics />} />
-                <Route path="/admin" element={<AdminDashboard />} />
-                <Route path="/admin/moderation" element={<ModerationDashboard />} />
-                <Route path="/admin/analytics" element={<AnalyticsDashboard />} />
-                <Route path="/admin/feedback" element={<AdminFeedback />} />
+                
+                {/* 
+                 * Modular Admin Routes with nested layout
+                 * Each sub-route lazy-loads its component
+                 * AdminLayout provides shared navigation and auth check
+                 * TODO: Add more admin sections as needed
+                 * TODO: Consider role-based access for specific routes
+                 */}
+                <Route path="/admin" element={<AdminLayout />}>
+                  <Route index element={<AdminOverview />} />
+                  <Route path="overview" element={<AdminOverview />} />
+                  <Route path="analytics" element={<AnalyticsDashboard />} />
+                  <Route path="generation-stats" element={<GenerationStatsPanel />} />
+                  <Route path="performance" element={<PerformanceDashboard />} />
+                  <Route path="economy" element={<AdminEconomy />} />
+                  <Route path="users" element={<AdminUsers />} />
+                  <Route path="balances" element={<UserBalancesPanel />} />
+                  <Route path="tracks" element={<AdminTracks />} />
+                  <Route path="moderation" element={<ModerationDashboard />} />
+                  <Route path="feedback" element={<AdminFeedback />} />
+                  <Route path="tariffs" element={<AdminTariffs />} />
+                  <Route path="bot" element={<AdminBot />} />
+                  <Route path="telegram" element={<AdminTelegram />} />
+                  <Route path="payments" element={<StarsPaymentsPanel />} />
+                  <Route path="logs" element={<GenerationLogsPanel />} />
+                  <Route path="deeplinks" element={<DeeplinkAnalyticsPanel />} />
+                  <Route path="alerts" element={<AdminAlerts />} />
+                  <Route path="broadcast" element={<AdminBroadcast />} />
+                </Route>
+                
+                {/* Legacy admin route redirect for backward compatibility */}
+                {/* TODO: Remove after full migration verified */}
                 <Route path="/settings/blocked-users" element={<BlockedUsersPage />} />
                 <Route path="/templates" element={<Templates />} />
                 <Route path="/music-graph" element={<MusicGraph />} />
