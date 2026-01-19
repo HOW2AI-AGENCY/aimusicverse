@@ -8,6 +8,7 @@ import { TelegramProvider, DeepLinkHandler } from "@/contexts/TelegramContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { GamificationProvider } from "@/contexts/GamificationContext";
+import { RewardNotificationProvider } from "@/contexts/RewardNotificationContext";
 import { NotificationProvider } from "@/contexts/NotificationContext";
 import { AnnouncementProvider } from "@/contexts/AnnouncementContext";
 import { GuestModeProvider } from "@/contexts/GuestModeContext";
@@ -126,6 +127,7 @@ const App = () => (
                 <GlobalAudioProvider>
                   <NotificationProvider>
                     <AnnouncementProvider>
+                    <RewardNotificationProvider>
                     <GamificationProvider>
                       <TooltipProvider>
                         <Sonner />
@@ -244,6 +246,7 @@ const App = () => (
                       </BrowserRouter>
                     </TooltipProvider>
                   </GamificationProvider>
+                    </RewardNotificationProvider>
                     </AnnouncementProvider>
                 </NotificationProvider>
                 </GlobalAudioProvider>
