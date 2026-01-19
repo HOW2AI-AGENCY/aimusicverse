@@ -114,11 +114,9 @@ serve(async (req) => {
     // Generate thumbnails
     const result = await generateThumbnails(track_id, cover_url);
 
-    // Update database with results (use service role client)
-    const { createClient } = await import("https://esm.sh/@supabase/supabase-js@2.39.3");
-    const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
-    
-    await supabaseAdmin
+    // Update database with results
+    // NOTE: Using same supabase client (service role) for write access
+    await supabase
       .from('cover_thumbnails')
       .update({
         small_url: result.small_url,
