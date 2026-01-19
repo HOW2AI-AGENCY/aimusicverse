@@ -264,6 +264,33 @@ WITH CHECK (auth.uid() = user_id);
 
 ---
 
+## 📱 iOS/iPhone Telegram Mini App
+
+### Реализованные оптимизации
+
+| Оптимизация | Файл | Описание |
+|-------------|------|----------|
+| Vertical Swipe Prevention | `useTelegramInit.ts` | `disableVerticalSwipes()` |
+| Keyboard Height Tracking | `main.tsx` | `visualViewport` API |
+| Input Zoom Prevention | `input.tsx` | `text-base` + `touch-manipulation` |
+| Momentum Scrolling | `scroll-area.tsx` | `-webkit-overflow-scrolling: touch` |
+| Touch Targets | `input.tsx`, `sheet.tsx` | `min-h-[44px]` |
+| Safe Areas | `index.css` | CSS classes `.safe-top`, `.safe-bottom` |
+| 100vh Fix | `main.tsx` | `--vh` variable |
+| Context Menu Prevention | `index.css` | `-webkit-touch-callout: none` |
+| Backdrop Filter | `index.css` | `-webkit-backdrop-filter` prefix |
+
+### Полная документация: `docs/iOS_FIXES.md`
+
+### Debug-команды
+```javascript
+window.__getBootLog()  // Лог инициализации
+getComputedStyle(document.documentElement).getPropertyValue('--keyboard-height')
+getComputedStyle(document.documentElement).getPropertyValue('--tg-safe-area-inset-bottom')
+```
+
+---
+
 ## ✅ Чек-лист при разработке
 
 1. **Проверить существующие компоненты** — возможно уже есть
@@ -273,7 +300,9 @@ WITH CHECK (auth.uid() = user_id);
 5. **RLS политики для новых таблиц**
 6. **Lazy loading для тяжелых компонентов**
 7. **Cleanup в useEffect** — особенно для подписок
-8. **Touch targets минимум 44px**
+8. **Touch targets минимум 44px** — для iOS
+9. **text-base для inputs** — предотвращает iOS auto-zoom
+10. **Тестировать на iOS** — см. `docs/iOS_FIXES.md`
 
 ---
 
@@ -283,6 +312,7 @@ WITH CHECK (auth.uid() = user_id);
 |------|----------|
 | `PROJECT_STATUS.md` | Текущий статус |
 | `docs/ROADMAP_V4.md` | Роадмап развития |
+| `docs/iOS_FIXES.md` | iOS/iPhone оптимизации |
 | `SPRINTS/SPRINT-PROGRESS.md` | Прогресс спринтов |
 | `docs/KNOWN_ISSUES.md` | Известные проблемы |
 | `docs/ARCHITECTURE.md` | Архитектура |
