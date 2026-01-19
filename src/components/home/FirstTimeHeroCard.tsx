@@ -131,8 +131,12 @@ export const FirstTimeHeroCard = memo(function FirstTimeHeroCard({
           <Button
             onClick={onCreateClick}
             size="lg"
-            className="w-full h-12 sm:h-11 rounded-xl bg-gradient-to-r from-primary to-generate hover:from-primary/90 hover:to-generate/90 text-white gap-2 shadow-lg text-sm sm:text-base"
+            className="w-full h-12 sm:h-11 rounded-xl bg-gradient-to-r from-primary to-generate hover:from-primary/90 hover:to-generate/90 text-white gap-2 shadow-lg text-sm sm:text-base relative overflow-hidden group"
           >
+            {/* Free badge */}
+            <span className="absolute -top-0.5 -right-0.5 px-1.5 py-0.5 text-[9px] font-bold bg-green-500 text-white rounded-bl-lg rounded-tr-xl">
+              БЕСПЛАТНО
+            </span>
             <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
             Создать первый трек
           </Button>

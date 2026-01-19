@@ -1,6 +1,7 @@
 /**
  * QuickLikeButton - One-tap like button for track cards
  * Provides instant feedback with animation and haptics
+ * Suggests playlist creation after 3 likes in session
  */
 
 import { memo, useCallback, useState } from 'react';
@@ -9,6 +10,7 @@ import { motion, AnimatePresence } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { useLikeTrack } from '@/hooks/engagement/useLikeTrack';
+import { useLikeSessionTracker } from '@/hooks/engagement/useLikeSessionTracker';
 import { useAuth } from '@/hooks/useAuth';
 import { notify } from '@/lib/notifications';
 
@@ -36,6 +38,7 @@ export const QuickLikeButton = memo(function QuickLikeButton({
   const { hapticFeedback } = useTelegram();
   const { user } = useAuth();
   const [isAnimating, setIsAnimating] = useState(false);
+  const { trackLike } = useLikeSessionTracker();
   
   const { isLiked, isLoading, toggleLike } = useLikeTrack(trackId);
   
@@ -64,9 +67,12 @@ export const QuickLikeButton = memo(function QuickLikeButton({
     toggleLike();
     onLikeChange?.(!currentIsLiked);
     
+    // Track for playlist suggestion
+    trackLike(!currentIsLiked);
+    
     // Show toast
     notify.trackLiked(!currentIsLiked);
-  }, [user, isLoading, currentIsLiked, hapticFeedback, toggleLike, trackId, onLikeChange]);
+  }, [user, isLoading, currentIsLiked, hapticFeedback, toggleLike, trackId, onLikeChange, trackLike]);
   
   const sizeClasses = {
     sm: 'w-7 h-7',

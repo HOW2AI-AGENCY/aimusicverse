@@ -51,18 +51,24 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({
       {/* Content */}
       <div className="relative z-10">
         {/* Header */}
-        <div className="flex items-center gap-2 mb-3">
-          <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center">
-            <Sparkles className="w-4 h-4 text-primary" />
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center">
+              <Sparkles className="w-4 h-4 text-primary" />
+            </div>
+            <div>
+              <h2 className="text-lg font-bold text-foreground">
+                Создать музыку
+              </h2>
+              <p className="text-xs text-muted-foreground">
+                С помощью AI за несколько секунд
+              </p>
+            </div>
           </div>
-          <div>
-            <h2 className="text-lg font-bold text-foreground">
-              Создать музыку
-            </h2>
-            <p className="text-xs text-muted-foreground">
-              С помощью AI за несколько секунд
-            </p>
-          </div>
+          {/* Free credits badge */}
+          <span className="px-2 py-1 text-[10px] font-semibold bg-green-500/15 text-green-500 rounded-full border border-green-500/20">
+            5 бесплатных
+          </span>
         </div>
 
         {/* FAB - Primary action */}
