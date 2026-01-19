@@ -735,24 +735,28 @@ src/components/
 
 > 📄 **Полный отчёт:** [RECENT_IMPROVEMENTS.md](RECENT_IMPROVEMENTS.md) - Все улучшения декабря 2025
 
+### Январь 2026 (Roadmap V4)
+
+#### 🎨 Popup/Notification Unification (Jan 19) ✨ NEW
+- ✅ **UnifiedRewardNotification** - Консолидация 4 gamification компонентов в 1
+  - Заменяет: LevelUpNotification, AchievementUnlockNotification, RewardCelebration
+  - Поддерживает: level ups, achievements, credits, experience, streak, welcome bonus, subscription
+- ✅ **RewardNotificationContext** - Глобальный провайдер для reward notifications
+- ✅ **ConfirmationDialog → UnifiedDialog** - Миграция на единую систему диалогов
+- ✅ **AlertDialog с haptic feedback** - Улучшенный UX для confirmation dialogs
+- 🗑️ **Удалены deprecated компоненты** - -40% дублирующего кода
+
+#### 🎯 UI/UX Roadmap V3 (Jan 19)
+- ✅ **PromptValidationAlert** - Валидация имён артистов с AI-подсказками
+- ✅ **CreditBalanceWarning** - Предупреждение о балансе перед генерацией
+- ✅ **QuickLikeButton** - Лайк одним тапом в карточках треков
+- ✅ **TrackCardSkeleton** - Skeleton loaders для perceived performance
+- ✅ **StatusFilter** - Фильтр по статусу в библиотеке
+
 ### Декабрь 2025 (Highlights)
 
 #### 🎨 UI/UX Optimization Sprint (Dec 12)
 - ✅ **Database & Type System** - Все миграции и интерфейсы завершены
-  - `active_version_id` field на tracks для быстрого доступа к активной версии
-  - `is_primary` field на track_versions (renamed from is_master)
-  - `track_changelog` table для аудита изменений версий
-  - `playlists` + `playlist_tracks` с автообновлением счетчиков
-- ✅ **LazyImage Expansion** - Оптимизация загрузки изображений
-  - Внедрено в QueueItem, AudioPlayer, CompactPlayer, FullscreenPlayer
-  - Blur placeholder + shimmer animation для лучшего UX
-  - Graceful fallback при ошибках загрузки
-- ✅ **Code Splitting** - Bundle optimization
-  - feature-generate: 244KB → 68KB (gzip)
-  - feature-stem-studio: 280KB → 72KB (gzip)
-  - Brotli compression: ~500KB total
-- ✅ **Skeleton Loaders** - 200+ использований для async состояний
-- ✅ **Mobile Touch Targets** - Все интерактивные элементы 44×44px minimum
 
 #### 🎨 Mobile UX & Stem Studio Cleanup (Dec 10)
 - 🗑️ **Removed 80KB+ broken MIDI code** - 5 non-working components deleted
@@ -821,7 +825,7 @@ src/components/
 
 **Сделано с ❤️ командой MusicVerse AI**
 
-*Last Updated: 2026-01-13 (Sprint 030 - Screenshot Demo Mode added)*
+*Last Updated: 2026-01-19 (Roadmap V4 - Popup/Notification Unification)*
 
 📋 [План улучшений интерфейса](docs/UI_IMPROVEMENT_PLAN_2026-01.md)
 
