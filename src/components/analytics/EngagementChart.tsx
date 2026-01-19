@@ -3,31 +3,46 @@
  * Area chart showing likes and plays over time
  */
 
+import { useEffect, useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { motion } from '@/lib/motion';
 import { useAnalyticsData } from '@/hooks/useAnalyticsData';
 import { Skeleton } from '@/components/ui/skeleton';
-import {
-  AreaChart,
-  Area,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Legend,
-} from 'recharts';
+
+type RechartsModule = typeof import('recharts');
 
 export function EngagementChart() {
   const { data, isLoading } = useAnalyticsData();
+  const [recharts, setRecharts] = useState<RechartsModule | null>(null);
 
-  if (isLoading) {
+  useEffect(() => {
+    let mounted = true;
+    import('recharts').then((mod) => {
+      if (mounted) setRecharts(mod as RechartsModule);
+    });
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  if (isLoading || !recharts) {
     return (
       <Card className="p-4 glass-card border-border/50">
         <Skeleton className="h-[200px] w-full" />
       </Card>
     );
   }
+
+  const {
+    AreaChart,
+    Area,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    ResponsiveContainer,
+    Legend,
+  } = recharts;
 
   const chartData = data?.dailyEngagement || [];
 
@@ -39,7 +54,7 @@ export function EngagementChart() {
     >
       <Card className="p-4 glass-card border-border/50">
         <h3 className="text-sm font-semibold mb-4">Активность за 7 дней</h3>
-        
+
         <div className="h-[200px]">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={chartData}>
@@ -53,18 +68,18 @@ export function EngagementChart() {
                   <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <CartesianGrid 
-                strokeDasharray="3 3" 
-                stroke="hsl(var(--border))" 
-                opacity={0.5} 
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke="hsl(var(--border))"
+                opacity={0.5}
               />
-              <XAxis 
-                dataKey="date" 
+              <XAxis
+                dataKey="date"
                 tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }}
                 tickLine={false}
                 axisLine={false}
               />
-              <YAxis 
+              <YAxis
                 tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }}
                 tickLine={false}
                 axisLine={false}
@@ -79,7 +94,7 @@ export function EngagementChart() {
                 }}
                 labelStyle={{ color: 'hsl(var(--foreground))' }}
               />
-              <Legend 
+              <Legend
                 wrapperStyle={{ fontSize: '12px' }}
                 iconType="circle"
               />
