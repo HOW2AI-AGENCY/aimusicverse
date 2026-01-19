@@ -40,6 +40,7 @@ import { DesktopLibraryLayout } from "@/components/library/DesktopLibraryLayout"
 const log = logger.child({ module: 'Library' });
 
 type FilterOption = 'all' | 'vocals' | 'instrumental' | 'stems';
+type StatusFilter = 'all' | 'completed' | 'failed';
 
 // Vite HMR accept handler to prevent stale module references during hot updates
 if (import.meta.hot) {
@@ -77,6 +78,7 @@ export default function Library() {
   });
   const [sortBy, setSortBy] = useState<"recent" | "popular" | "liked">("recent");
   const [typeFilter, setTypeFilter] = useState<FilterOption>('all');
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
   const [tagFilter, setTagFilter] = useState<string | null>(null);
   const [debouncedSearchQuery] = useDebounce(searchQuery, 300);
 
@@ -106,6 +108,7 @@ export default function Library() {
     pageSize: 20, // Reduced for faster initial load, more loaded on scroll
     paginate: true,
     tagFilter: tagFilter || undefined,
+    statusFilter: statusFilter === 'all' ? undefined : [statusFilter],
   });
   
   // Debug logging for track loading
@@ -392,6 +395,8 @@ export default function Library() {
               onFilterChange={setTypeFilter}
               sortBy={sortBy}
               onSortChange={setSortBy}
+              statusFilter={statusFilter}
+              onStatusFilterChange={setStatusFilter}
               counts={filterCounts}
             />
           ) : (

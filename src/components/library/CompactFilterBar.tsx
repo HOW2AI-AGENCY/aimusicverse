@@ -6,7 +6,7 @@
 import { memo, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, SlidersHorizontal, X, Music2, Mic, Volume2, Layers } from 'lucide-react';
+import { Search, SlidersHorizontal, X, Music2, Mic, Volume2, Layers, CheckCircle2, AlertCircle } from 'lucide-react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -14,6 +14,7 @@ import { LibraryFilterModal } from './LibraryFilterModal';
 
 type FilterOption = 'all' | 'vocals' | 'instrumental' | 'stems';
 type SortOption = 'recent' | 'popular' | 'liked';
+export type StatusFilter = 'all' | 'completed' | 'failed';
 
 interface CompactFilterBarProps {
   searchQuery: string;
@@ -22,12 +23,15 @@ interface CompactFilterBarProps {
   onFilterChange: (filter: FilterOption) => void;
   sortBy: SortOption;
   onSortChange: (sort: SortOption) => void;
+  statusFilter?: StatusFilter;
+  onStatusFilterChange?: (status: StatusFilter) => void;
   counts?: {
     all: number;
     vocals: number;
     instrumental: number;
     stems: number;
   };
+  failedCount?: number;
   className?: string;
 }
 
@@ -44,6 +48,11 @@ const SORTS: { id: SortOption; label: string }[] = [
   { id: 'liked', label: 'Любимые' },
 ];
 
+const STATUS_FILTERS: { id: StatusFilter; label: string; icon: React.ReactNode }[] = [
+  { id: 'completed', label: 'Готовые', icon: <CheckCircle2 className="w-3 h-3" /> },
+  { id: 'failed', label: 'С ошибками', icon: <AlertCircle className="w-3 h-3" /> },
+];
+
 export const CompactFilterBar = memo(function CompactFilterBar({
   searchQuery,
   onSearchChange,
@@ -51,7 +60,10 @@ export const CompactFilterBar = memo(function CompactFilterBar({
   onFilterChange,
   sortBy,
   onSortChange,
+  statusFilter = 'all',
+  onStatusFilterChange,
   counts,
+  failedCount,
   className,
 }: CompactFilterBarProps) {
   const isMobile = useIsMobile();
@@ -196,6 +208,41 @@ export const CompactFilterBar = memo(function CompactFilterBar({
             </motion.button>
           );
         })}
+        
+        {/* Status Filter Chips */}
+        {onStatusFilterChange && STATUS_FILTERS.map((filter) => {
+          const isActive = statusFilter === filter.id;
+          const count = filter.id === 'failed' ? failedCount : undefined;
+
+          return (
+            <motion.button
+              key={filter.id}
+              whileTap={{ scale: 0.95 }}
+              className={cn(
+                "flex items-center gap-1.5 px-3.5 py-2 rounded-full whitespace-nowrap text-xs font-medium transition-all flex-shrink-0 min-h-[44px] md:min-h-[36px] touch-manipulation",
+                isActive
+                  ? filter.id === 'failed' 
+                    ? "bg-destructive text-destructive-foreground shadow-md"
+                    : "bg-green-600 text-white shadow-md"
+                  : "bg-muted/60 text-muted-foreground hover:text-foreground hover:bg-muted border border-border/50"
+              )}
+              onClick={() => onStatusFilterChange(isActive ? 'all' : filter.id)}
+              aria-label={`Фильтр: ${filter.label}`}
+              aria-pressed={isActive}
+            >
+              {filter.icon}
+              <span>{filter.label}</span>
+              {count !== undefined && count > 0 && (
+                <span className={cn(
+                  "text-[10px] px-1 rounded-full min-w-[16px] text-center tabular-nums",
+                  isActive ? "bg-white/20" : "bg-destructive/20 text-destructive"
+                )}>
+                  {count > 99 ? '99+' : count}
+                </span>
+              )}
+            </motion.button>
+          );
+        })}
       </div>
 
       {/* Filter Modal for Mobile */}
@@ -206,7 +253,10 @@ export const CompactFilterBar = memo(function CompactFilterBar({
         onFilterChange={onFilterChange}
         sortBy={sortBy}
         onSortChange={onSortChange}
+        statusFilter={statusFilter}
+        onStatusFilterChange={onStatusFilterChange}
         counts={counts}
+        failedCount={failedCount}
       />
     </div>
   );
