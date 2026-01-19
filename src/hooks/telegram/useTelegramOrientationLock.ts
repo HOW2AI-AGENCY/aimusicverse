@@ -11,7 +11,7 @@
  * ```
  */
 
-import { useEffect, useCallback, useState } from 'react';
+import { useEffect, useCallback, useState, useRef } from 'react';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { logger } from '@/lib/logger';
 
@@ -43,6 +43,9 @@ export function useTelegramOrientationLock(
   const { lockOnMount = false, unlockOnUnmount = true } = options;
   const { webApp } = useTelegram();
   const [isLocked, setIsLocked] = useState(false);
+  
+  // Track if we locked orientation (to properly unlock on unmount)
+  const didLockRef = useRef(false);
 
   const isSupported = !!(webApp && typeof (webApp as any).lockOrientation === 'function');
 
@@ -55,6 +58,7 @@ export function useTelegramOrientationLock(
     try {
       (webApp as any).lockOrientation();
       setIsLocked(true);
+      didLockRef.current = true;
       log.info('Orientation locked');
     } catch (error) {
       log.warn('Failed to lock orientation', { error: String(error) });
@@ -70,6 +74,7 @@ export function useTelegramOrientationLock(
     try {
       (webApp as any).unlockOrientation();
       setIsLocked(false);
+      didLockRef.current = false;
       log.info('Orientation unlocked');
     } catch (error) {
       log.warn('Failed to unlock orientation', { error: String(error) });
@@ -84,18 +89,26 @@ export function useTelegramOrientationLock(
     }
   }, [isLocked, lock, unlock]);
 
-  // Auto lock/unlock on mount/unmount
+  // Auto lock on mount
   useEffect(() => {
     if (lockOnMount && isSupported) {
       lock();
     }
+  }, [lockOnMount, isSupported, lock]);
 
+  // Cleanup: unlock on unmount using ref to avoid stale closure
+  useEffect(() => {
     return () => {
-      if (unlockOnUnmount && isLocked) {
-        unlock();
+      if (unlockOnUnmount && didLockRef.current && webApp) {
+        try {
+          (webApp as any).unlockOrientation?.();
+          log.info('Orientation unlocked on unmount');
+        } catch (error) {
+          log.warn('Failed to unlock orientation on unmount', { error: String(error) });
+        }
       }
     };
-  }, [lockOnMount, unlockOnUnmount, isSupported]);
+  }, [unlockOnUnmount, webApp]);
 
   return {
     isSupported,
