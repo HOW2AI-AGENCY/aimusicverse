@@ -14,21 +14,29 @@ import { logger } from '@/lib/logger';
 import { motion, AnimatePresence } from '@/lib/motion';
 import confetti from 'canvas-confetti';
 import { useTelegram } from '@/contexts/TelegramContext';
+import { SubscriptionSuccessPopup } from '@/components/popups/SubscriptionSuccessPopup';
 
 export default function PaymentSuccess() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const queryClient = useQueryClient();
   const [showContent, setShowContent] = useState(false);
+  const [showSubscriptionPopup, setShowSubscriptionPopup] = useState(false);
   const { webApp, isInitialized } = useTelegram();
   const isTelegram = isInitialized && !!webApp;
 
   // Get order info from URL params (Tinkoff adds these)
   const orderId = searchParams.get('OrderId');
   const amount = searchParams.get('Amount');
+  const productCode = searchParams.get('product') || searchParams.get('ProductCode');
+  
+  // Determine if this was a subscription purchase
+  const isSubscriptionPurchase = productCode?.includes('pro') || productCode?.includes('premium');
+  const purchasedTier = productCode?.includes('premium') ? 'premium' : 
+                         productCode?.includes('pro') ? 'pro' : null;
 
   useEffect(() => {
-    logger.info('Payment success page loaded', { orderId, amount });
+    logger.info('Payment success page loaded', { orderId, amount, productCode, isSubscriptionPurchase });
 
     // Invalidate relevant queries
     queryClient.invalidateQueries({ queryKey: ['user-credits'] });
@@ -36,6 +44,15 @@ export default function PaymentSuccess() {
     queryClient.invalidateQueries({ queryKey: ['subscription-status'] });
     queryClient.invalidateQueries({ queryKey: ['payment-transactions'] });
     queryClient.invalidateQueries({ queryKey: ['tinkoff-subscriptions'] });
+    queryClient.invalidateQueries({ queryKey: ['credits-limits'] });
+
+    // Show subscription popup for subscription purchases
+    if (isSubscriptionPurchase && purchasedTier) {
+      const timer = setTimeout(() => {
+        setShowSubscriptionPopup(true);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
 
     // Celebration confetti burst
     const duration = 3000;
@@ -72,7 +89,7 @@ export default function PaymentSuccess() {
     }
 
     return () => clearTimeout(timer);
-  }, [orderId, amount, queryClient, webApp]);
+  }, [orderId, amount, productCode, isSubscriptionPurchase, purchasedTier, queryClient, webApp]);
 
   const handleGoToLibrary = () => {
     navigate('/library');
@@ -236,6 +253,16 @@ export default function PaymentSuccess() {
           </motion.div>
         )}
       </AnimatePresence>
+      
+      {/* Subscription Success Popup */}
+      {purchasedTier && (
+        <SubscriptionSuccessPopup
+          open={showSubscriptionPopup}
+          onClose={() => setShowSubscriptionPopup(false)}
+          tier={purchasedTier}
+          credits={purchasedTier === 'premium' ? 1200 : 500}
+        />
+      )}
     </div>
   );
 }
