@@ -361,37 +361,41 @@ export function usePublicContentBatch() {
   return useQuery({
     queryKey: ['public-content-optimized', user?.id],
     queryFn: async (): Promise<PublicContentData> => {
-      // Define genres for server-side filtering (using computed_genre values from DB)
+      // Define genres for server-side filtering
+      // IMPORTANT: Values must match computed_genre column in DB exactly!
+      // DB values: hiphop (253), pop (163), rock (81), electronic (17), folk (47), etc.
       const GENRE_QUERIES = [
-        { id: 'hiphop', dbValues: ['hip-hop', 'rap', 'trap'] },
-        { id: 'pop', dbValues: ['pop', 'dance'] },
-        { id: 'rock', dbValues: ['rock', 'alternative', 'metal'] },
-        { id: 'electronic', dbValues: ['electronic', 'house', 'techno', 'edm'] },
+        { id: 'hiphop', dbValues: ['hiphop', 'hip-hop', 'rap', 'trap'] },
+        { id: 'pop', dbValues: ['pop', 'dance', 'electropop'] },
+        { id: 'rock', dbValues: ['rock', 'alternative', 'metal', 'indie'] },
+        { id: 'electronic', dbValues: ['electronic', 'house', 'techno', 'edm', 'ambient'] },
+        { id: 'folk', dbValues: ['folk', 'acoustic', 'country'] },
       ];
 
       // PARALLEL FETCH: Main tracks + Genre-specific tracks
+      // TODO: Add infinite scroll with cursor-based pagination
       const [mainResult, ...genreResults] = await Promise.all([
-        // 1. Main tracks for featured/recent/popular (limit 30)
+        // 1. Main tracks for featured/recent/popular (limit 50 for better sections)
         supabase
           .from("tracks")
-          .select("id,title,cover_url,audio_url,play_count,user_id,created_at,style,tags,computed_genre")
+          .select("id,title,cover_url,audio_url,play_count,user_id,created_at,style,tags,computed_genre,prompt")
           .eq("is_public", true)
           .eq("status", "completed")
           .not("audio_url", "is", null)
           .order("created_at", { ascending: false })
-          .limit(30),
+          .limit(50),
         
-        // 2. Genre-specific queries (12 tracks each, sorted by popularity)
+        // 2. Genre-specific queries (20 tracks each, sorted by popularity)
         ...GENRE_QUERIES.map(genre => 
           supabase
             .from("tracks")
-            .select("id,title,cover_url,audio_url,play_count,user_id,created_at,style,tags,computed_genre")
+            .select("id,title,cover_url,audio_url,play_count,user_id,created_at,style,tags,computed_genre,prompt")
             .eq("is_public", true)
             .eq("status", "completed")
             .not("audio_url", "is", null)
             .in("computed_genre", genre.dbValues)
             .order("play_count", { ascending: false, nullsFirst: false })
-            .limit(12)
+            .limit(20)
         ),
       ]);
 

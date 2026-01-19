@@ -286,15 +286,15 @@ const Index = () => {
           </motion.div>
         </LazySection>
 
-        {/* Genre Tabs - collapsible */}
-        {publicContent?.allTracks && publicContent.allTracks.length > 0 && (
-          <LazySection className="mb-4" minHeight="120px" skipSuspense>
+        {/* Genre Tabs */}
+        {(publicContent?.tracksByGenre && Object.keys(publicContent.tracksByGenre).length > 0) && (
+          <LazySection className="mb-4" minHeight="200px" skipSuspense>
             <motion.div {...lazySectionAnimation}>
               <CollapsibleSection
                 storageKey="home-genre-tabs"
                 title="По жанрам"
                 icon={<Music2 className="w-3.5 h-3.5 text-primary" />}
-                defaultCollapsed={true}
+                defaultCollapsed={false}
               >
                 <GenreTabsSection
                   tracks={publicContent.allTracks}

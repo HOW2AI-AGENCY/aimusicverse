@@ -1,11 +1,25 @@
+/**
+ * TracksGridSection - Grid display of tracks with optional load more
+ * 
+ * Features:
+ * - Responsive grid layout
+ * - Optional "Load More" button for infinite scroll
+ * - Skeleton loading states
+ * - Mobile-optimized with 2 columns
+ * 
+ * TODO: Add intersection observer for auto-loading
+ * TODO: Consider virtual scrolling for large lists
+ */
+
 import { memo } from 'react';
-import { LucideIcon } from 'lucide-react';
+import { LucideIcon, Loader2 } from 'lucide-react';
 import { UnifiedTrackCard } from '@/components/track/track-card-new';
 import type { PublicTrackWithCreator } from '@/hooks/usePublicContent';
 import { cn } from '@/lib/utils';
 import { SectionHeader } from '@/components/common/SectionHeader';
 import { ResponsiveGrid } from '@/components/common/ResponsiveGrid';
 import { GridSkeleton, TrackCardSkeleton } from '@/components/ui/skeleton-components';
+import { Button } from '@/components/ui/button';
 
 interface TracksGridSectionProps {
   title: string;
@@ -22,6 +36,12 @@ interface TracksGridSectionProps {
   onRemix?: (trackId: string) => void;
   className?: string;
   hideHeader?: boolean;
+  /** Enable load more functionality */
+  hasMore?: boolean;
+  /** Loading state for load more */
+  isLoadingMore?: boolean;
+  /** Callback when load more is clicked */
+  onLoadMore?: () => void;
 }
 
 export const TracksGridSection = memo(function TracksGridSection({
@@ -39,8 +59,11 @@ export const TracksGridSection = memo(function TracksGridSection({
   onRemix,
   className,
   hideHeader = false,
+  hasMore = false,
+  isLoadingMore = false,
+  onLoadMore,
 }: TracksGridSectionProps) {
-  const displayTracks = tracks.slice(0, maxTracks);
+  const displayTracks = maxTracks ? tracks.slice(0, maxTracks) : tracks;
 
   if (!isLoading && displayTracks.length === 0) {
     return null;
@@ -57,7 +80,7 @@ export const TracksGridSection = memo(function TracksGridSection({
           subtitle={subtitle}
           showMoreLink={showMoreLink}
           showMoreLabel={showMoreLabel}
-          showShowMore={displayTracks.length >= maxTracks}
+          showShowMore={displayTracks.length >= maxTracks && !onLoadMore}
         />
       )}
 
@@ -68,16 +91,40 @@ export const TracksGridSection = memo(function TracksGridSection({
           SkeletonComponent={TrackCardSkeleton}
         />
       ) : (
-        <ResponsiveGrid columns={columns} gap={3}>
-          {displayTracks.map((track) => (
-            <UnifiedTrackCard
-              key={track.id}
-              variant="enhanced"
-              track={track}
-              onRemix={onRemix}
-            />
-          ))}
-        </ResponsiveGrid>
+        <>
+          <ResponsiveGrid columns={columns} gap={3}>
+            {displayTracks.map((track) => (
+              <UnifiedTrackCard
+                key={track.id}
+                variant="enhanced"
+                track={track}
+                onRemix={onRemix}
+              />
+            ))}
+          </ResponsiveGrid>
+          
+          {/* Load More Button */}
+          {hasMore && onLoadMore && (
+            <div className="flex justify-center pt-4">
+              <Button
+                variant="outline"
+                size="lg"
+                onClick={onLoadMore}
+                disabled={isLoadingMore}
+                className="min-w-[200px]"
+              >
+                {isLoadingMore ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Загрузка...
+                  </>
+                ) : (
+                  'Загрузить ещё'
+                )}
+              </Button>
+            </div>
+          )}
+        </>
       )}
     </section>
   );

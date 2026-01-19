@@ -23,6 +23,8 @@ interface GenreConfig {
   keywords: string[];
 }
 
+// Genre configurations
+// NOTE: IDs must match keys in usePublicContent GENRE_QUERIES
 const GENRES: GenreConfig[] = [
   {
     id: 'hiphop',
@@ -38,7 +40,7 @@ const GENRES: GenreConfig[] = [
     icon: Music2,
     color: 'text-rose-400',
     gradient: 'from-rose-500/20 to-pink-500/10',
-    keywords: ['pop', 'dance pop', 'synth pop', 'electro pop'],
+    keywords: ['pop', 'dance pop', 'synth pop', 'electro pop', 'electropop'],
   },
   {
     id: 'rock',
@@ -54,7 +56,15 @@ const GENRES: GenreConfig[] = [
     icon: Waves,
     color: 'text-cyan-400',
     gradient: 'from-cyan-500/20 to-blue-500/10',
-    keywords: ['electronic', 'edm', 'house', 'techno', 'dubstep', 'trance', 'dnb', 'drum and bass'],
+    keywords: ['electronic', 'edm', 'house', 'techno', 'dubstep', 'trance', 'dnb', 'ambient'],
+  },
+  {
+    id: 'folk',
+    label: 'Фолк',
+    icon: Guitar,
+    color: 'text-amber-400',
+    gradient: 'from-amber-500/20 to-yellow-500/10',
+    keywords: ['folk', 'acoustic', 'country', 'americana'],
   },
 ];
 
@@ -176,7 +186,7 @@ export function GenreTabsSection({ tracks, tracksByGenre: preloadedByGenre, isLo
               iconGradient={genre.gradient}
               tracks={tracksByGenre[genre.id] || []}
               isLoading={isLoading}
-              maxTracks={6}
+              maxTracks={12}
               columns={2}
               showMoreLink={`/community?genre=${genre.id}`}
               showMoreLabel={`Все ${genre.label.toLowerCase()}`}
