@@ -298,6 +298,7 @@ const Index = () => {
               >
                 <GenreTabsSection
                   tracks={publicContent.allTracks}
+                  tracksByGenre={publicContent.tracksByGenre}
                   isLoading={showSkeleton}
                   onRemix={handleRemix}
                 />

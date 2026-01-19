@@ -60,11 +60,12 @@ const GENRES: GenreConfig[] = [
 
 interface GenreTabsSectionProps {
   tracks: PublicTrackWithCreator[];
+  tracksByGenre?: Record<string, PublicTrackWithCreator[]>;
   isLoading?: boolean;
   onRemix?: (trackId: string) => void;
 }
 
-export function GenreTabsSection({ tracks, isLoading, onRemix }: GenreTabsSectionProps) {
+export function GenreTabsSection({ tracks, tracksByGenre: preloadedByGenre, isLoading, onRemix }: GenreTabsSectionProps) {
   const { preferredGenres } = useUserPreferences();
   
   // Sort genres by user preference
@@ -86,22 +87,33 @@ export function GenreTabsSection({ tracks, isLoading, onRemix }: GenreTabsSectio
   // Default to first (most preferred) genre
   const [activeGenre, setActiveGenre] = useState(sortedGenres[0]?.id || 'hiphop');
 
-  // Filter tracks by genre
+  // Use preloaded genre tracks if available, otherwise fall back to client-side filtering
   const tracksByGenre = useMemo(() => {
+    // If we have preloaded server-filtered tracks, use them
+    if (preloadedByGenre && Object.keys(preloadedByGenre).length > 0) {
+      return preloadedByGenre;
+    }
+    
+    // Fallback: client-side filtering using computed_genre
     const result: Record<string, PublicTrackWithCreator[]> = {};
     
     GENRES.forEach(genre => {
       result[genre.id] = tracks.filter(track => {
+        // Priority: computed_genre (most reliable)
+        const computedGenre = (track.computed_genre || '').toLowerCase();
+        if (genre.keywords.some(kw => computedGenre.includes(kw.toLowerCase()))) {
+          return true;
+        }
+        // Fallback: style and prompt matching
         const style = (track.style || '').toLowerCase();
         const prompt = (track.prompt || '').toLowerCase();
         const combined = `${style} ${prompt}`;
-        
         return genre.keywords.some(keyword => combined.includes(keyword));
-      });
+      }).slice(0, 12);
     });
     
     return result;
-  }, [tracks]);
+  }, [tracks, preloadedByGenre]);
 
   const activeConfig = GENRES.find(g => g.id === activeGenre) || GENRES[0];
 
