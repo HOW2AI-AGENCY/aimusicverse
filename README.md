@@ -34,10 +34,10 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Sprint-012_Audit_Improvements-blue?style=flat-square" alt="Current Sprint" />
+  <img src="https://img.shields.io/badge/Sprint-Roadmap_V4-blue?style=flat-square" alt="Current Sprint" />
   <img src="https://img.shields.io/badge/Progress-98%25-success?style=flat-square" alt="Progress" />
   <img src="https://img.shields.io/badge/Health_Score-99%2F100-brightgreen?style=flat-square" alt="Health" />
-  <img src="https://img.shields.io/badge/Components-920+-orange?style=flat-square" alt="Components" />
+  <img src="https://img.shields.io/badge/Components-170+-orange?style=flat-square" alt="Components" />
 </p>
 
 </div>
@@ -81,23 +81,18 @@
 
 ## 📍 Быстрая навигация
 
-> 💡 **Полная карта документации:** [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md)
+> 🎯 **Текущий статус:** Roadmap V4 - 🟢 Active (Priority 1)
 > 
-> 🎯 **Текущий статус:** Sprint 030 (Unified Studio Mobile) - 🟢 In Progress (45%)  
-> 📊 **Статус спринтов:** [SPRINT_STATUS.md](SPRINT_STATUS.md) | **Статус проекта:** [PROJECT_STATUS.md](PROJECT_STATUS.md)
+> 📊 **Статус проекта:** [PROJECT_STATUS.md](PROJECT_STATUS.md)
 >
 > 🗺️ **Планы развития:**
-> - [IMPLEMENTATION_ROADMAP_2026.md](IMPLEMENTATION_ROADMAP_2026.md) - Roadmap Q1-Q2 2026
-> - [SPRINTS/SPRINT-030-UNIFIED-STUDIO-MOBILE.md](SPRINTS/SPRINT-030-UNIFIED-STUDIO-MOBILE.md) - Unified Studio Mobile (Current)
-> - [SPRINTS/SPRINT-029-TELEGRAM-MOBILE-OPTIMIZATION.md](SPRINTS/SPRINT-029-TELEGRAM-MOBILE-OPTIMIZATION.md) - Mobile Optimization (Completed)
+> - [docs/ROADMAP_V4.md](docs/ROADMAP_V4.md) - Текущий роадмап
+> - [SPRINTS/SPRINT-PROGRESS.md](SPRINTS/SPRINT-PROGRESS.md) - Прогресс спринтов
 >
 > 📚 **Ключевая документация:**
-> - [PROJECT_STATUS.md](PROJECT_STATUS.md) - Единый источник правды о статусе проекта
 > - [KNOWLEDGE_BASE.md](KNOWLEDGE_BASE.md) - База знаний проекта
-> - [SPRINTS/](SPRINTS/) - Планирование спринтов и задачи
-> - [specs/](specs/) - Технические спецификации и SDD
-> - [docs/guides/](docs/guides/) - Технические руководства
-> - [docs/mobile/](docs/mobile/) - Мобильная оптимизация
+> - [ADR/](ADR/) - Архитектурные решения
+> - [specs/](specs/) - Технические спецификации
 
 ---
 

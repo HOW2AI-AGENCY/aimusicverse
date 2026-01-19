@@ -1,975 +1,189 @@
 # 📚 БАЗА ЗНАНИЙ ПРОЕКТА MusicVerse AI
 
-> **Последнее обновление:** 2026-01-16 (Sprint 012 - Audit Improvements)  
-> **Версия проекта:** 1.3.0 (Sprint 012 - Security & Engagement Boost)
+> **Последнее обновление:** 2026-01-19 (Roadmap V4)  
+> **Версия проекта:** 1.4.0 (UI/UX Roadmap V3 Complete)
 
 ---
 
-## 🆕 НОВОЕ В SPRINT 012: AUDIT IMPROVEMENTS (January 16, 2026)
+## 🆕 НОВОЕ: UI/UX Roadmap V3 (January 19, 2026)
 
-### 1. Security Fixes ✅
-- **safe_public_profiles view** — скрыты telegram_id и telegram_chat_id от публичного доступа
-- **DELETE RLS policy** — добавлена для generation_tasks
-- **Prompt validation** — real-time блокировка имён артистов в описании/стиле/текстах
-
-### 2. Gamification Boost ✅
-**XP Rewards увеличены на 100-200%:**
-| Действие | Было | Стало |
-|----------|------|-------|
-| Daily Check-in | 10 XP | 25 XP (+150%) |
-| Streak Bonus | 5 XP/day | 15 XP/day (+200%) |
-| Share | 15 XP | 30 XP (+100%) |
-| Like Received | 5 XP | 10 XP (+100%) |
-| Generation | 20 XP | 40 XP (+100%) |
-| Public Track | 10 XP | 25 XP (+150%) |
-
-**Daily Missions упрощены:**
-- Generate: 3→2 tracks, reward 10→15 credits
-- Share: 2→1 tracks, reward 6→10 credits
-- Like: 5→3 tracks, reward 5→8 credits
-
-**Новые награды:**
-- COMMENT_POSTED: 3 credits, 15 XP
-- FIRST_COMMENT_ON_TRACK: 5 credits, 25 XP
-
-### 3. New Components ✅
-```
-src/components/gamification/InviteFriendsCard.tsx - Реферальная карточка (3 варианта)
-src/components/gamification/LevelProgressCard.tsx - Визуализация уровня с тирами
-src/components/settings/NotificationSettingsSection.tsx - Группированные уведомления
-```
-
-### 4. Integrations ✅
-- `InviteFriendsCard` интегрирован на Index (баннер) и Settings (подписка)
-- `SubscriptionManagement` добавлен в новый таб "Подписка" в Settings
-- `NotificationSettingsSection` для группировки уведомлений по категориям
-
----
-
-## 🆕 НОВОЕ В СЕССИИ ОПТИМИЗАЦИИ СТУДИИ (January 7, 2026)
-
-### Studio Performance Optimization - Phase 2 ✅
-
-**1. Zustand Store Slices**
-- `stemMixerSlice` — модульный slice для управления стемами (mute/solo/volume/pan)
-- `playbackSlice` — модульный slice для состояния воспроизведения
-- Selectors для оптимизированных re-renders
-
-**2. Standalone Stores**
-- `useStemMixerStore` — standalone store для стемов с хелперами
-- `usePlaybackStore` — standalone store для playback с хелперами
-
-**3. Component Integration**
-- `MobileMixerContent` → использует `OptimizedMixerChannel`
-- `StudioShell` → использует `OptimizedTransport`
-- `OptimizedMixerChannel` — dual API support (legacy + new)
-
-**Новые файлы:**
-```
-src/stores/slices/stemMixerSlice.ts
-src/stores/slices/playbackSlice.ts
-src/stores/slices/index.ts
-src/stores/useStemMixerStore.ts
-src/stores/usePlaybackStore.ts
-src/stores/index.ts (barrel export)
-```
-
-### Studio Performance Optimization - Phase 1 ✅
-
-**1. Unified Studio State Management**
-- `useStudioState` — централизованное управление mute/solo/volume/pan
-- Effective volume calculation с учётом master и solo
-- Memoized callbacks для минимизации re-renders
-
-**2. Waveform Caching System**
-- `useWaveformCache` — IndexedDB + LRU memory cache
-- 7-day TTL, 20 entries memory limit
-- Автоматическая очистка устаревших данных
-
-**3. Optimized Playback Hook**
-- `useOptimizedPlayback` — RAF-based time updates
-- Throttled updates (50ms default)
-- Proper cleanup и event handling
-
-**4. Optimized Components**
-- `OptimizedWaveform` — Canvas-based с Web Worker генерацией peaks
-- `OptimizedVolumeSlider` — Touch-optimized с throttled updates
-- `OptimizedMixerPanel` — Virtualized mixer channels
-- `OptimizedMixerChannel` — Memoized с stable callbacks
-- `OptimizedTransport` — RAF-based time display
-- `OptimizedStemTrack` — High-performance stem track
-- `OptimizedTrackRow` — Lightweight track row
-
-**5. Render Optimization Utilities**
-- `useRenderOptimization` — useBatchedUpdates, useRAFThrottle, useShallowMemo
-- `useDebouncedStemControls` — debounced volume/seek controls
-
-**Файлы оптимизации:**
-```
-src/hooks/studio/useStudioState.ts
-src/hooks/studio/useWaveformCache.ts
-src/hooks/studio/useOptimizedPlayback.ts
-src/hooks/studio/useRenderOptimization.ts
-src/hooks/studio/useDebouncedStemControls.ts
-src/components/studio/unified/OptimizedWaveform.tsx
-src/components/studio/unified/OptimizedVolumeSlider.tsx
-src/components/studio/unified/OptimizedMixerPanel.tsx
-src/components/studio/unified/OptimizedMixerChannel.tsx
-src/components/studio/unified/OptimizedTransport.tsx
-src/components/studio/unified/OptimizedStemTrack.tsx
-src/components/studio/unified/OptimizedTrackRow.tsx
-```
-
-**Экспорты обновлены:**
-- `src/hooks/studio/useStudioOptimizations.ts`
-- `src/components/studio/unified/index.ts`
-
----
-
-## 🆕 ПРЕДЫДУЩАЯ СЕССИЯ 10
-
-### Library & Track Actions Optimization (January 5, 2026) ✅
-
-**1. ModelBadge V4.5 versions**
-- `ModelBadge.tsx` — прямые маппинги для `suno_model` (V5, V4_5PLUS, V4_5ALL, V4_5, V4AUK, V4)
-- Улучшена fallback логика для model names
-
-**2. ScrollableTagsRow iOS fix**
-- `ScrollableTagsRow.tsx` — добавлены touch-pan-x, overscroll-behavior-x: contain
-- WebkitOverflowScrolling: 'touch' для плавного скролла на iOS
-
-**3. Community Grid View**
-- `Community.tsx` — переключатель Grid/List, 2-column grid на мобильных
-- Client-side фильтрация по тегам в title, style, tags, prompt
-
-**4. PromptPreview & LyricsPreview**
-- Новые компоненты в `src/components/track-actions/sections/`
-- Expand/copy функциональность для промптов и текстов
-- Интегрированы в UnifiedTrackSheet
-
-**5. TrackCard Layout Optimization**
-- Заголовок на отдельной строке (полная ширина)
-- Удалён дубликат vocal/instrumental badge с cover overlay
-- TrackTypeIcons вынесены на отдельную строку
-
-**6. Reusable Library Components**
-```
-src/components/library/shared/DurationBadge.tsx
-src/components/library/shared/PlayOverlay.tsx
-src/components/library/shared/TrackBadges.tsx
-src/components/library/shared/ViewModeToggle.tsx
-src/components/library/shared/index.ts
-```
-
--- generation_tasks  
-idx_generation_tasks_track_id (track_id) WHERE NOT NULL
-idx_generation_tasks_user_status (user_id, status, created_at DESC)
-idx_generation_tasks_suno_task (suno_task_id) WHERE NOT NULL
-
--- track_versions
-idx_track_versions_track_primary (track_id, is_primary) WHERE is_primary = true
-idx_track_versions_track_created (track_id, created_at DESC)
-
--- track_stems
-idx_track_stems_track_type (track_id, stem_type)
-idx_track_stems_status (status) WHERE status != 'completed'
-
--- credit_transactions
-idx_credit_transactions_user_created (user_id, created_at DESC)
-idx_credit_transactions_action (action_type, created_at DESC)
-
--- comments, likes, playlists, projects
-idx_comments_track_created (track_id, created_at DESC)
-idx_track_likes_track (track_id)
-idx_track_likes_user (user_id)
-idx_playlist_tracks_playlist (playlist_id, position)
-idx_music_projects_user_status (user_id, status)
-idx_project_tracks_project_position (project_id, position)
-```
-
-**Фаза 2: Устранение дублирования audio_url/cover_url**
-- Функция `get_track_active_audio(track_id)` — получение audio/cover из active_version
-- View `tracks_with_active_audio` — совместимость с существующим кодом
-- Триггер `trg_set_active_version` — автообновление при создании версии
-
-**Фаза 5: Архивация логов**
-- Таблицы `error_logs_archive`, `api_usage_logs_archive`
-- Функции `archive_old_error_logs()`, `archive_old_api_usage_logs()`
-- Мастер-функция `run_log_archival()` — вызов через cron или edge function
-
-**Фаза 6: Security Fixes**
-- 4 views исправлены: `SECURITY INVOKER` вместо `SECURITY DEFINER`
-- Все функции с `SET search_path = public`
-
-**Интеграция в код:**
-- `fetchTrackById()` — теперь подтягивает active_version с JOIN
-- `fetchTrackDetails()` — оптимизирован с комментариями про индексы
-- `usePublicTracks()` — использует idx_tracks_status_public
-- `fetchPublicTracks()` — использует computed_genre индекс
-
----
-
-## 🆕 НОВОЕ В СЕССИИ 7
-
-### Sprint 030 Specification Complete (January 4, 2026) ✅
-
-Завершена комплексная спецификация Sprint 030: Unified Studio Mobile (DAW Canvas)
-
-**Артефакты спецификации:** `specs/001-unified-studio-mobile/`
-
-**Phase 0-1 Complete (Specification & Design):**
-- ✅ spec.md - 8 user stories, 43 requirements, 26 success criteria (672 lines)
-- ✅ plan.md - 5-phase implementation plan, 142 tasks (1,548 lines, 61KB)
-- ✅ tasks.md - Dependency-ordered task breakdown (628 lines)
-- ✅ research.md - Technical research and risk analysis (685 lines, 21KB)
-- ✅ data-model.md - Component hierarchy and state shape (907 lines, 21KB)
-- ✅ quickstart.md - Developer setup and workflow guide (654 lines, 15KB)
-- ✅ contracts/ - TypeScript interfaces (components, hooks, stores - 2,201 lines)
-
-**Качество спецификации:**
-- 100% compliance with constitution (all 8 principles)
-- 142 tasks across 5 phases (January 4-20, 2026)
-- 60 tests planned (40 unit + 15 integration + 5 E2E)
-- 80% code coverage target
-- TDD enforced for P1 features
-- Risk management (16 risks with mitigation)
-- Rollback plan with feature flags
-- Performance targets (TTI <1.8s, 60 FPS, <80ms tab switch)
-
-**Используемые агенты:**
-- speckit.analyze - Project consistency analysis
-- speckit.specify - Specification generation
-- speckit.plan - Implementation planning
-- speckit.tasks - Task breakdown generation
-
----
-
-### DAW Canvas Architecture (ADR-011)
-
-Архитектурное решение: объединение 3 студий в единый DAW-подобный интерфейс.
-
-**Проблема:** 3 параллельные студии с дублирующимся кодом (~40%)
-- `StudioShell` — основной интерфейс
-- `StemStudioContent` — legacy с богатым функционалом
-- `MultiTrackStudioLayout` — DAW с drag-drop
-
-**Решение:** Итеративная интеграция в StudioShell без деструктивных изменений
-
-**Компоненты для переиспользования из stem-studio:**
-- `QuickCompare` — A/B/C сравнение секций
-- `TrimDialog` — обрезка треков
-- `MixPresetsMenu` — пресеты микса
-- `ReplacementProgressIndicator` — прогресс AI замены
+### Phase 1: Failure Rate Reduction ✅
+**Цель:** Снизить failure rate генерации с 16% до <8%
 
 **Новые компоненты:**
-- `MobileDAWTimeline` — timeline с pinch-zoom, tap-seek
-- `AIActionsFAB` — floating action button для AI
-- `useUnifiedStudio` — унифицированный hook
+```typescript
+// Валидация имён артистов в промпте
+import { PromptValidationAlert } from '@/components/generate-form/PromptValidationAlert';
 
-**ADR:** `ADR/ADR-011-UNIFIED-STUDIO-ARCHITECTURE.md`
+// Предупреждение о балансе кредитов
+import { CreditBalanceWarning } from '@/components/generate-form/CreditBalanceWarning';
 
-### Track Operation Lifecycle (Operation Lock)
-
-Логика блокировки операций в зависимости от состояния трека:
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    TRACK LIFECYCLE                          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   ┌──────────────┐                                          │
-│   │    FRESH     │  ← Только что сгенерирован               │
-│   │    TRACK     │                                          │
-│   └──────┬───────┘                                          │
-│          │                                                  │
-│   ┌──────┴───────────────────────────────┐                  │
-│   │  Доступные операции:                  │                 │
-│   │  ✅ Extend                            │                 │
-│   │  ✅ Replace Section                   │                 │
-│   │  ✅ Separate Stems                    │                 │
-│   │  ✅ Cover                             │                 │
-│   │  ✅ Add Vocals (если instrumental)   │                 │
-│   └──────┬───────────────────────────────┘                  │
-│          │                                                  │
-│   ┌──────▼───────┐      ┌────────────────┐                  │
-│   │   EXTEND     │      │ REPLACE SECTION │                 │
-│   │   ────────   │      │ ──────────────  │                 │
-│   │   Трек       │      │ Трек обновлён,  │                 │
-│   │   удлинён    │      │ Extend работает │                 │
-│   │              │      │ с новой версией │                 │
-│   └──────┬───────┘      └────────┬───────┘                  │
-│          │                       │                          │
-│          └───────────┬───────────┘                          │
-│                      │                                      │
-│          ┌───────────▼───────────┐                          │
-│          │   SEPARATE STEMS      │                          │
-│          │   ─────────────────   │                          │
-│          │   Стемы созданы       │                          │
-│          └───────────┬───────────┘                          │
-│                      │                                      │
-│          ┌───────────▼───────────┐                          │
-│          │  BLOCKED OPERATIONS   │                          │
-│          │  ──────────────────   │                          │
-│          │  ❌ Extend            │                          │
-│          │  ❌ Replace Section   │                          │
-│          │  ✅ Cover             │                          │
-│          │  ✅ Add Vocals        │                          │
-│          │  ❌ Separate (уже)    │                          │
-│          └───────────┬───────────┘                          │
-│                      │                                      │
-│          ┌───────────▼───────────┐                          │
-│          │ SAVE AS NEW VERSION   │ ← Выход из блокировки    │
-│          │ ────────────────────  │                          │
-│          │ Удаляет стемы,        │                          │
-│          │ создаёт новую версию  │                          │
-│          │ трека                 │                          │
-│          └───────────────────────┘                          │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
+// Библиотека замен артистов на жанры
+import { findArtistReplacement, getGenreSuggestions } from '@/lib/artistReplacements';
 ```
 
-**Файлы:**
-- `src/hooks/studio/useStudioOperationLock.ts` — логика блокировки
-- `src/components/studio/unified/AIActionsFAB.tsx` — UI с disabled states
+**Использование:**
+```tsx
+// В форме генерации
+<PromptValidationAlert 
+  text={description} 
+  onApplyReplacement={handleReplace}
+/>
 
----
+// В GenerateSheet
+<CreditBalanceWarning 
+  balance={userCredits} 
+  cost={generationCost}
+/>
+```
 
-## 🔔 Централизованная система уведомлений (notify)
+### Phase 2: Engagement Increase ✅
+**Цель:** Увеличить лайки с 14/неделю до 100+
 
 ```typescript
-import { notify } from '@/lib/notifications';
-
-// Базовое использование
-notify.success('Успешно сохранено');
-notify.error('Ошибка загрузки');
-notify.warning('Внимание');
-notify.info('Информация');
-
-// С дедупликацией (предотвращает дублирование)
-notify.success('Настройки сохранены', { 
-  dedupe: true, 
-  dedupeKey: 'settings-saved',
-  dedupeTimeout: 2000 // 2 секунды
-});
-
-// С кастомными опциями
-notify.error('Ошибка сети', { 
-  duration: 5000,
-  action: { label: 'Повторить', onClick: () => retry() }
-});
+// Лайк одним тапом в карточках треков
+import { QuickLikeButton } from '@/components/social/QuickLikeButton';
 ```
 
-**Файлы:** `src/lib/notifications.ts`
+### Phase 3: Performance ✅
+**Цель:** Улучшить perceived performance
 
-### Admin Panel - GenerationStatsPanel
+```typescript
+// Skeleton loaders для треков
+import { TrackCardSkeleton } from '@/components/track/TrackCardSkeleton';
+// Варианты: 'grid' | 'list' | 'compact'
 
-Новая панель статистики генерации в админ-панели:
-- Общая статистика (генерации, успешность, пользователи, кредиты)
-- Разбивка по типам (custom, simple, extend, cover, stems)
-- Ежедневная статистика за последние 7 дней
-- Топ-5 пользователей по генерациям
+// Skeleton loaders для контента
+import { ContentSkeleton } from '@/components/ui/ContentSkeleton';
+// Варианты: 'hero' | 'stats' | 'header' | 'horizontal'
+```
 
-**Файлы:** `src/components/admin/GenerationStatsPanel.tsx`
-
-### User Settings - UserStatsSection
-
-Персональная статистика пользователя в настройках:
-- Статистика за сегодня (генерации, кредиты, успешность)
-- Общая статистика (всего генераций, типы)
-- Разбивка по типам генерации
-- История за последние 7 дней
-
-**Файлы:** `src/components/settings/UserStatsSection.tsx`
+### Phase 4: UX Enhancements ✅
+**Фильтр по статусу в библиотеке:**
+- `all` — все треки
+- `completed` — успешно созданные
+- `failed` — с ошибками
 
 ---
 
-## 🎯 ОБЗОР ПРОЕКТА
+## 🎯 Текущий фокус: Roadmap V4
 
-**MusicVerse AI** — профессиональная платформа для создания музыки на базе AI, реализованная как Telegram Mini App.
+### Priority 1: Критические улучшения (Week 1-2)
+- ✅ Валидация промпта (PromptValidationAlert)
+- ✅ Предупреждение о балансе (CreditBalanceWarning)
+- ✅ QuickLikeButton
+- ✅ Skeleton loaders
+- ✅ Фильтр по статусу
+- 📋 Интеграция валидации в extend/cover
+- 📋 Снижение Bounce Rate
 
-### Технологический стек
-
-| Категория | Технология |
-|-----------|------------|
-| Frontend | React 19, TypeScript, Vite 5 |
-| Стили | Tailwind CSS 3.4, shadcn/ui |
-| Состояние | Zustand, TanStack Query |
-| Backend | Supabase (Lovable Cloud) |
-| AI API | Suno API, Lovable AI Gateway |
-| Платформа | Telegram Mini App |
-| Анимации | Framer Motion |
-| Аудио | Web Audio API, Tone.js, WaveSurfer.js |
+### Priority 2-5
+См. [docs/ROADMAP_V4.md](docs/ROADMAP_V4.md)
 
 ---
 
-## 📁 СТРУКТУРА ПРОЕКТА
+## 🏗️ Архитектура проекта
 
-### Корневые директории
-
-```
-/
-├── src/                    # Исходный код фронтенда
-├── supabase/               # Edge Functions и конфигурация
-│   ├── functions/          # 80+ Edge Functions
-│   └── migrations/         # SQL миграции
-├── docs/                   # Документация (80+ файлов)
-├── ADR/                    # Architecture Decision Records
-├── specs/                  # Спецификации спринтов
-├── SPRINTS/                # Планирование спринтов
-└── public/                 # Статические файлы
-```
-
-### Структура src/
+### Структура директорий
 
 ```
 src/
-├── components/             # 150+ React компонентов
-│   ├── ui/                 # Base UI (shadcn/ui)
-│   ├── player/             # Аудио плеер
-│   ├── library/            # Библиотека треков
-│   ├── generate-form/      # Форма генерации
-│   ├── stem-studio/        # Разделение стемов
-│   ├── lyrics/             # Работа с текстами
-│   ├── lyrics-workspace/   # Lyrics Workspace с AI Agent (NEW)
-│   │   └── ai-agent/       # AI Agent инструменты
-│   ├── admin/              # Админ панель
-│   ├── telegram/           # Telegram компоненты
-│   ├── audio-record/       # Запись аудио
-│   ├── profile/            # Профиль пользователя
-│   ├── projects/           # Музыкальные проекты
-│   └── ...
-├── hooks/                  # 80+ кастомных хуков
-│   ├── audio/              # Аудио хуки
-│   ├── generation/         # Генерация
-│   ├── studio/             # Студийные хуки
-│   ├── telegram/           # Telegram хуки
-│   └── ...
-├── stores/                 # Zustand stores
-├── services/               # Сервисы API
-├── contexts/               # React контексты
-├── lib/                    # Утилиты и хелперы
-│   ├── errors/             # Типизированные ошибки
-│   ├── audio/              # Аудио утилиты
-│   └── ...
-├── types/                  # TypeScript типы
-├── constants/              # Константы
-├── pages/                  # Страницы приложения
-└── integrations/           # Интеграции (Supabase)
+├── components/           # 170+ React компонентов
+│   ├── ui/               # Base UI (shadcn/ui)
+│   ├── player/           # Аудио плеер
+│   ├── library/          # Библиотека треков
+│   ├── generate-form/    # Форма генерации
+│   ├── stem-studio/      # Разделение стемов
+│   ├── lyrics/           # Работа с текстами
+│   ├── admin/            # Админ панель
+│   ├── track/            # Компоненты треков
+│   ├── social/           # Социальные функции
+│   └── gamification/     # Геймификация
+├── hooks/                # 100+ кастомных хуков
+│   ├── audio/            # usePlayerState, useAudioTime
+│   ├── generation/       # useGenerateForm
+│   ├── studio/           # useStudioState
+│   └── telegram/         # useTelegramMainButton
+├── stores/               # Zustand stores
+├── services/             # Сервисы API
+├── lib/                  # Утилиты
+│   ├── errors/           # Типизированные ошибки
+│   ├── audio/            # Аудио утилиты
+│   └── artistReplacements.ts  # NEW: Замены артистов
+├── types/                # TypeScript типы
+└── pages/                # Страницы приложения
 ```
 
-### Структура Edge Functions
-
-```
-supabase/functions/
-├── _shared/                # Общие утилиты
-│   ├── cors.ts             # CORS headers
-│   ├── logger.ts           # Логирование
-│   ├── telegram-utils.ts   # Telegram утилиты
-│   └── suno.ts             # Suno API клиент
-├── suno-generate/          # Legacy прокси генерации
-├── suno-music-generate/    # Основная генерация
-├── suno-extend-audio/      # Расширение треков
-├── suno-remix/             # Каверы (upload-cover)
-├── suno-separate-vocals/   # Разделение стемов
-├── ai-lyrics-assistant/    # AI помощник для текстов (15+ actions)
-├── telegram-bot/           # Telegram бот
-├── analyze-audio/          # Анализ аудио
-├── generate-cover/         # Генерация обложек
-└── ... (80+ функций)
-```
-
----
-
-## 🔑 КЛЮЧЕВЫЕ ФАЙЛЫ
-
-### ⚠️ Файлы которые НЕЛЬЗЯ редактировать
-
-| Файл | Причина |
-|------|---------|
-| `src/integrations/supabase/client.ts` | Автогенерируется Supabase |
-| `src/integrations/supabase/types.ts` | Автогенерируется из схемы БД |
-| `supabase/config.toml` | Конфигурация Supabase |
-| `.env` | Переменные окружения |
-| `package.json` | Только через lov-add-dependency |
-
-### Конфигурация
+### Ключевые файлы
 
 | Файл | Описание |
 |------|----------|
-| `src/App.tsx` | Корневой компонент с провайдерами |
-| `tailwind.config.ts` | Конфигурация Tailwind |
-| `vite.config.ts` | Конфигурация Vite |
-| `src/index.css` | CSS переменные дизайн-системы |
-
-### Состояние и хуки
-
-| Файл | Описание |
-|------|----------|
-| `src/hooks/audio/usePlayerState.ts` | Zustand store плеера |
-| `src/hooks/generation/useGenerateForm.ts` | Логика формы генерации |
-| `src/hooks/audio/useAudioTime.ts` | Глобальное аудио время |
-| `src/stores/lyricsWizardStore.ts` | Store мастера лирики |
-| `src/stores/planTrackStore.ts` | Store планирования треков |
-| `src/hooks/useRecordingUpload.ts` | Автосохранение записей |
-
-### Основные компоненты
-
-| Файл | Описание |
-|------|----------|
-| `src/components/GlobalAudioProvider.tsx` | Синглтон аудио элемента |
-| `src/components/MainLayout.tsx` | Основной layout приложения |
-| `src/components/player/` | Все компоненты плеера |
-| `src/components/generate-form/` | Форма генерации музыки |
-| `src/components/library/` | Библиотека треков |
-| `src/components/stem-studio/` | Студия стемов |
-
-### Типы
-
-| Файл | Описание |
-|------|----------|
-| `src/types/track.ts` | Типы треков (Track, TrackWithCreator) |
-| `src/types/branded.ts` | Branded types (TrackId, UserId) |
-| `src/types/telegram.ts` | Telegram типы |
-| `src/types/generation.ts` | Типы генерации |
-
-### Утилиты
-
-| Файл | Описание |
-|------|----------|
-| `src/lib/logger.ts` | Централизованное логирование |
-| `src/lib/errors/AppError.ts` | Типизированные ошибки |
-| `src/lib/errorHandling.ts` | Обработка ошибок UI |
-| `src/lib/performance.ts` | Утилиты производительности |
-| `src/lib/audio/audioContextHelper.ts` | Хелпер AudioContext |
-| `src/lib/waveformCache.ts` | Кэш waveform в IndexedDB |
+| `src/integrations/supabase/client.ts` | Supabase клиент (**НЕ РЕДАКТИРОВАТЬ**) |
+| `src/integrations/supabase/types.ts` | Типы БД (**НЕ РЕДАКТИРОВАТЬ**) |
+| `src/lib/artistReplacements.ts` | Маппинг артистов на жанры |
+| `src/components/generate-form/PromptValidationAlert.tsx` | Валидация промпта |
+| `src/components/generate-form/CreditBalanceWarning.tsx` | Предупреждение о балансе |
 
 ---
 
-## 🚨 ЧАСТО ПОВТОРЯЮЩИЕСЯ ОШИБКИ И ИСПРАВЛЕНИЯ
-
-### 1. Аудио ошибки при старте приложения
-
-**Симптом:** Ошибка "NotAllowedError" или "NotSupportedError" при загрузке.
-
-**Причина:** Старые данные в localStorage с недействительными audio_url.
-
-**Решение:**
-```typescript
-// В GlobalAudioProvider.tsx
-const mountTimeRef = useRef(Date.now());
-const isStartupPeriod = () => Date.now() - mountTimeRef.current < 2000;
-
-// Подавляем ошибки первые 2 секунды после загрузки
-if (isStartupPeriod()) return; // не показывать toast
-```
-
-**Файлы:** `src/components/GlobalAudioProvider.tsx`
-
----
-
-### 2. Telegram Mini App Safe Area
-
-**Симптом:** Контент обрезается сверху/снизу в Telegram.
-
-**Решение:**
-```typescript
-// Правильный отступ сверху для Telegram
-paddingTop: `calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px) + 0.75rem, calc(env(safe-area-inset-top, 0px) + 0.75rem)))`
-
-// Правильный отступ снизу
-paddingBottom: `calc(max(var(--tg-safe-area-inset-bottom, 0px) + 70px, calc(env(safe-area-inset-bottom, 0px) + 70px)))`
-```
-
-**Файлы:** `src/components/MainLayout.tsx`, `src/index.css`
-
----
-
-### 3. Сжатие высоты Drawer/Sheet панелей
-
-**Симптом:** Drawer сжимается после отправки сообщения или взаимодействия.
-
-**Решение:**
-```tsx
-// Контейнер
-<div className="flex-1 min-h-0 overflow-hidden relative">
-  {/* Используй absolute позиционирование для контента */}
-  <div className="absolute inset-0 overflow-y-auto overscroll-contain">
-    {content}
-  </div>
-</div>
-
-// DrawerContent
-<DrawerContent className="h-[100dvh] max-h-[100dvh] flex flex-col overflow-hidden">
-```
-
-**Файлы:** `src/components/generate-form/LyricsChatAssistant.tsx`
-
----
-
-### 4. AudioContext не инициализирован
-
-**Симптом:** "The AudioContext was not allowed to start".
-
-**Причина:** Браузер требует user interaction для запуска AudioContext.
-
-**Решение:**
-```typescript
-import { getAudioContext, resumeAudioContext } from '@/lib/audio/audioContextHelper';
-
-// Всегда проверяй состояние и возобновляй при user gesture
-const handlePlay = async () => {
-  const ctx = getAudioContext();
-  await resumeAudioContext(ctx);
-  // теперь можно воспроизводить
-};
-```
-
-**Файлы:** `src/lib/audio/audioContextHelper.ts`
-
----
-
-### 5. Неправильный эндпоинт для Cover/Extend
-
-**Симптом:** Cover или Extend создают новый трек вместо обработки референса.
-
-**Правильные эндпоинты:**
-```typescript
-// ✅ Для Cover (создание кавера с референсом)
-POST /api/v1/generate/upload-cover
-// Обрабатывается: suno-remix
-
-// ✅ Для Extend (расширение трека)
-POST /api/v1/generate/upload-extend  
-// Обрабатывается: suno-extend-audio
-
-// ❌ НЕ используй для Cover/Extend:
-POST /api/v1/generate  // это создание НОВОГО трека
-```
-
-**Файлы:** `supabase/functions/suno-remix/`, `supabase/functions/suno-extend-audio/`
-
----
-
-### 6. RLS политики блокируют запросы
-
-**Симптом:** "new row violates row-level security policy".
-
-**Чек-лист:**
-1. Проверь что `auth.uid()` совпадает с `user_id` в записи
-2. Убедись что есть INSERT политика с `WITH CHECK`
-3. Проверь что пользователь аутентифицирован
-4. Проверь что таблица добавлена в RLS
-
-**Пример правильной политики:**
-```sql
-CREATE POLICY "Users can CRUD own data"
-ON public.table_name FOR ALL
-USING (auth.uid() = user_id)
-WITH CHECK (auth.uid() = user_id);
-```
-
----
-
-### 7. Bundle size слишком большой
-
-**Решение - централизованные импорты:**
-```typescript
-// ✅ Правильно
-import { motion, AnimatePresence } from '@/lib/motion';
-import { format, formatDistance } from '@/lib/date-utils';
-
-// ❌ Неправильно (тянет весь пакет)
-import { motion } from 'framer-motion';
-import { format } from 'date-fns';
-```
-
-**Lazy loading для тяжелых компонентов:**
-```typescript
-const HeavyComponent = lazy(() => import('./HeavyComponent'));
-
-<Suspense fallback={<Skeleton />}>
-  <HeavyComponent />
-</Suspense>
-```
-
----
-
-### 8. Утечки памяти в Realtime подписках
-
-**Симптом:** Память растет со временем, дублирующиеся события.
-
-**Решение:**
-```typescript
-useEffect(() => {
-  const channel = supabase.channel('my-channel')
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'tracks' }, callback)
-    .subscribe();
-  
-  return () => {
-    supabase.removeChannel(channel); // ⚠️ ОБЯЗАТЕЛЬНО!
-  };
-}, []);
-```
-
----
-
-### 9. Waveform перегенерируется каждый раз
-
-**Симптом:** При каждом открытии трека waveform генерируется заново.
-
-**Решение:**
-```typescript
-import { getWaveformFromCache, saveWaveformToCache } from '@/lib/waveformCache';
-
-// Проверяем кэш перед генерацией
-const cached = await getWaveformFromCache(trackId);
-if (cached) return cached;
-
-// Генерируем и сохраняем
-const waveform = await generateWaveform(audioUrl);
-await saveWaveformToCache(trackId, waveform);
-```
-
-**Файлы:** `src/lib/waveformCache.ts`
-
----
-
-### 10. iOS Safari не воспроизводит аудио
-
-**Причина:** Safari требует user interaction для autoplay.
-
-**Решение:**
-```typescript
-// ❌ Не пытайся автовоспроизведение
-audioRef.current.play(); // Будет заблокировано
-
-// ✅ Показывай кнопку play, используй user gesture
-<button onClick={() => audioRef.current.play()}>Play</button>
-```
-
----
-
-### 11. Типы не обновляются после миграции
-
-**Симптом:** TypeScript не видит новые колонки/таблицы.
-
-**Причина:** `types.ts` генерируется автоматически после применения миграции.
-
-**Решение:**
-1. Дождись применения миграции пользователем
-2. Типы обновятся автоматически
-3. **НЕ** редактируй `src/integrations/supabase/types.ts` вручную
-
----
-
-### 12. Edge Function возвращает 500
-
-**Чек-лист отладки:**
-1. Проверь логи: `supabase--edge-function-logs`
-2. Проверь CORS headers
-3. Проверь что все env переменные настроены
-4. Проверь JSON.parse ошибки
-
-**Шаблон обработки ошибок:**
-```typescript
-try {
-  const body = await req.json();
-} catch (e) {
-  return new Response(
-    JSON.stringify({ error: 'Invalid JSON body' }),
-    { status: 400, headers: corsHeaders }
-  );
-}
-```
-
----
-
-### 13. Дублирование toast уведомлений
-
-**Симптом:** Одинаковые toast появляются несколько раз.
-
-**Решение - использовать notify с дедупликацией:**
-```typescript
-import { notify } from '@/lib/notifications';
-
-// ❌ Может дублироваться
-toast.success('Сохранено');
-
-// ✅ С дедупликацией
-notify.success('Сохранено', { 
-  dedupe: true, 
-  dedupeKey: 'save-success',
-  dedupeTimeout: 2000 
-});
-```
-
-**Файлы:** `src/lib/notifications.ts`
-
----
-
-### 14. Компактный layout на мобильных устройствах
-
-**Симптом:** Слишком много контента, сложно читать на мобильных.
-
-**Решение - адаптивные гриды:**
-```tsx
-// Компактные карточки
-<div className="grid grid-cols-3 gap-1.5 sm:grid-cols-5 sm:gap-2">
-  <Card className="p-1.5 sm:p-2">
-    <p className="text-[10px] sm:text-xs">{label}</p>
-    <p className="text-sm sm:text-base font-bold">{value}</p>
-  </Card>
-</div>
-
-// Scroll areas для списков
-<ScrollArea className="h-32 sm:h-40">
-  {items.map(...)}
-</ScrollArea>
-```
-
----
-
-## 📐 АРХИТЕКТУРНЫЕ ПАТТЕРНЫ
+## 🔧 Паттерны разработки
 
 ### Error Handling (ADR-004)
 
 ```typescript
-import { 
-  AppError, NetworkError, APIError, 
-  toAppError, tryCatch, retryWithBackoff 
-} from '@/lib/errors';
+import { AppError, tryCatch, retryWithBackoff } from '@/lib/errors';
 
-// Result type для async операций
 const result = await tryCatch(() => fetchData());
 if (!result.success) {
   showErrorWithRecovery(result.error);
   return;
 }
-
-// Retry с exponential backoff
-const data = await retryWithBackoff(
-  () => apiCall(),
-  { maxRetries: 3, initialDelayMs: 1000 }
-);
 ```
 
-**Файлы:** `src/lib/errors/`, `ADR/ADR-004-error-handling.md`
-
----
-
-### State Machine (ADR-005)
+### Уведомления
 
 ```typescript
-import { useStateMachine, StateConfig } from '@/lib/stateMachine';
+import { notify } from '@/lib/notifications';
 
-const config: StateConfig<States, Context> = {
-  initial: 'idle',
-  context: { data: null },
-  states: {
-    idle: { on: { FETCH: 'loading' } },
-    loading: { 
-      on: { SUCCESS: 'success', ERROR: 'error' },
-      entry: (ctx) => console.log('Loading started')
-    },
-    success: { on: { RESET: 'idle' } },
-    error: { on: { RETRY: 'loading', RESET: 'idle' } }
-  }
-};
-
-const { state, send, can } = useStateMachine(config);
+notify.success('Сохранено');
+notify.error('Ошибка', { dedupe: true, dedupeKey: 'error-key' });
 ```
-
-**Файлы:** `src/lib/stateMachine.ts`, `ADR/ADR-005-state-machine.md`
-
----
 
 ### Логирование
 
 ```typescript
 import { logger } from '@/lib/logger';
 
-// Уровни логирования
-logger.debug('Debug info', { data });     // Только в dev
-logger.info('User action', { userId });    // Только в dev
-logger.warn('Warning', { issue });         // Всегда
-logger.error('Error occurred', error);     // Всегда
-
-// Таймеры для измерения производительности
-const timer = logger.startTimer('API Call');
-await apiCall();
-timer(); // логирует длительность
-
-// Группировка логов
-logger.group('Operation');
-logger.info('Step 1');
-logger.info('Step 2');
-logger.groupEnd();
+logger.info('Action', { userId, action });
+logger.error('Failed', error, { endpoint });
 ```
 
-**Файлы:** `src/lib/logger.ts`
+### Telegram Safe Area
+
+```css
+padding-top: calc(
+  max(
+    var(--tg-content-safe-area-inset-top, 0px) + 
+    var(--tg-safe-area-inset-top, 0px) + 0.75rem,
+    calc(env(safe-area-inset-top, 0px) + 0.75rem)
+  )
+);
+```
 
 ---
 
-### Типизированные ID (Branded Types)
-
-```typescript
-import { TrackId, UserId, createTrackId, isTrackId } from '@/types/branded';
-
-// Создание типизированного ID
-const trackId: TrackId = createTrackId('uuid-string');
-
-// Type guard
-if (isTrackId(value)) {
-  // value гарантированно TrackId
-}
-
-// Предотвращает смешивание разных типов ID
-function playTrack(id: TrackId) { ... }
-playTrack(userId); // ❌ TypeScript ошибка
-playTrack(trackId); // ✅ OK
-```
-
-**Файлы:** `src/types/branded.ts`
-
----
-
-### Централизованный Audio Provider
-
-```typescript
-// Синглтон аудио элемента для всего приложения
-<GlobalAudioProvider>
-  <App />
-</GlobalAudioProvider>
-
-// Использование в компонентах
-const { audioRef, play, pause, seek } = useAudio();
-```
-
-**Файлы:** `src/components/GlobalAudioProvider.tsx`
-
----
-
-## 📊 БАЗА ДАННЫХ
+## 📊 База данных
 
 ### Ключевые таблицы
 
-| Таблица | Описание | RLS |
-|---------|----------|-----|
-| `tracks` | Треки пользователей | По user_id |
-| `track_versions` | Версии треков (A/B) | По user_id |
-| `track_stems` | Стемы (vocals, drums, bass, other) | По user_id |
-| `profiles` | Профили пользователей | По user_id |
-| `user_credits` | Баланс и гамификация | По user_id |
-| `generation_tasks` | Задачи генерации | По user_id |
-| `music_projects` | Музыкальные проекты | По user_id |
-| `project_tracks` | Треки в проектах | Через project |
-| `playlists` | Плейлисты | По user_id |
-| `playlist_tracks` | Треки в плейлистах | Через playlist |
-| `comments` | Комментарии к трекам | По user_id |
-| `track_likes` | Лайки треков | По user_id |
-| `stars_transactions` | Telegram Stars платежи | По user_id |
-| `reference_audio` | Референсные аудио | По user_id |
-| `lyrics_templates` | Шаблоны лирики | По user_id |
+| Таблица | Описание |
+|---------|----------|
+| `tracks` | Треки пользователей |
+| `track_versions` | Версии треков (A/B) |
+| `track_stems` | Стемы (vocals, drums, bass) |
+| `profiles` | Профили пользователей |
+| `user_credits` | Баланс и геймификация |
+| `generation_tasks` | Задачи генерации |
 
 ### RLS паттерны
 
@@ -979,371 +193,54 @@ CREATE POLICY "Users can CRUD own data"
 ON public.table_name FOR ALL
 USING (auth.uid() = user_id)
 WITH CHECK (auth.uid() = user_id);
-
--- Публичный доступ на чтение
-CREATE POLICY "Public read access"
-ON public.table_name FOR SELECT
-USING (is_public = true);
-
--- Админ доступ
-CREATE POLICY "Admin full access"
-ON public.table_name FOR ALL
-USING (
-  EXISTS (
-    SELECT 1 FROM profiles 
-    WHERE user_id = auth.uid() 
-    AND role = 'admin'
-  )
-);
-
--- Доступ к связанным данным
-CREATE POLICY "Access through parent"
-ON public.child_table FOR ALL
-USING (
-  EXISTS (
-    SELECT 1 FROM parent_table 
-    WHERE parent_table.id = child_table.parent_id 
-    AND parent_table.user_id = auth.uid()
-  )
-);
-```
-
-### Включение Realtime
-
-```sql
--- Включить realtime для таблицы
-ALTER PUBLICATION supabase_realtime ADD TABLE public.tracks;
-ALTER PUBLICATION supabase_realtime ADD TABLE public.generation_tasks;
 ```
 
 ---
 
-## 🔧 EDGE FUNCTIONS
+## 🚨 Частые ошибки и решения
 
-### Архитектура генерации
+### 1. Аудио ошибки при старте
+**Проблема:** "NotAllowedError" при восстановлении из localStorage  
+**Решение:** Подавлять ошибки первые 2 секунды в GlobalAudioProvider
 
-```
-suno-generate (legacy proxy)
-    │
-    ├── action: 'generate'    → suno-music-generate
-    ├── action: 'extend'      → suno-extend-audio / suno-music-extend
-    ├── action: 'cover'       → suno-remix
-    ├── action: 'stems'       → suno-separate-vocals
-    ├── action: 'add_vocals'  → suno-add-vocals
-    └── action: 'lyrics'      → ai-lyrics-assistant
-```
+### 2. Telegram Safe Area
+**Проблема:** Контент обрезается  
+**Решение:** Использовать CSS переменные `--tg-*`
 
-### Шаблон Edge Function
+### 3. iOS Safari автозум
+**Проблема:** Input fields вызывают zoom  
+**Решение:** `text-base` font size, `touch-manipulation`
 
-```typescript
-import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
-
-serve(async (req) => {
-  // CORS preflight
-  if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders });
-  }
-
-  try {
-    // Парсинг body
-    const body = await req.json();
-    const { param1, param2 } = body;
-
-    // Валидация
-    if (!param1) {
-      return new Response(
-        JSON.stringify({ error: 'param1 is required' }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
-
-    // Получение секретов
-    const apiKey = Deno.env.get('API_KEY');
-    if (!apiKey) {
-      throw new Error('API_KEY not configured');
-    }
-
-    // Логика функции
-    console.log('Processing request:', { param1 });
-    
-    const result = await someAsyncOperation();
-
-    // Успешный ответ
-    return new Response(
-      JSON.stringify({ success: true, data: result }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-    );
-
-  } catch (error) {
-    console.error('Function error:', error);
-    return new Response(
-      JSON.stringify({ error: error.message }),
-      { 
-        status: 500, 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-      }
-    );
-  }
-});
-```
-
-### Shared утилиты
-
-```typescript
-// supabase/functions/_shared/cors.ts
-export const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
-
-// supabase/functions/_shared/suno.ts
-export const SUNO_API_BASE = 'https://api.sunoapi.org';
-
-export function isSunoSuccessCode(code: number | undefined): boolean {
-  return code === 200 || code === 0;
-}
-```
+### 4. RLS блокирует запросы
+**Проблема:** "violates row-level security policy"  
+**Решение:** Проверить auth.uid() и политики
 
 ---
 
-## 📱 TELEGRAM ИНТЕГРАЦИЯ
+## ✅ Чек-лист при разработке
 
-### CSS переменные Telegram
-
-```css
-/* Автоматически устанавливаются Telegram WebApp */
---tg-viewport-height: высота viewport
---tg-viewport-stable-height: стабильная высота
---tg-safe-area-inset-top: верхний safe area
---tg-safe-area-inset-bottom: нижний safe area
---tg-content-safe-area-inset-top: контентный safe area сверху
---tg-content-safe-area-inset-bottom: контентный safe area снизу
---tg-theme-bg-color: цвет фона темы
---tg-theme-text-color: цвет текста темы
---tg-theme-button-color: цвет кнопок
---tg-theme-button-text-color: цвет текста кнопок
-```
-
-### Хуки Telegram
-
-```typescript
-import { useTelegramIntegration } from '@/hooks/useTelegramIntegration';
-
-const { 
-  isTelegram,      // boolean - запущено ли в Telegram
-  tgUser,          // TelegramUser | null
-  telegramId,      // number | null
-  webApp,          // WebApp API
-  platform,        // 'ios' | 'android' | 'web' | etc.
-  colorScheme,     // 'light' | 'dark'
-  themeParams,     // Параметры темы
-  isReady,         // boolean - готов ли WebApp
-} = useTelegramIntegration();
-
-// Haptic feedback
-webApp?.HapticFeedback.impactOccurred('medium');
-
-// Main button
-webApp?.MainButton.setText('Submit');
-webApp?.MainButton.show();
-
-// Back button
-webApp?.BackButton.show();
-```
-
-### Telegram Stars платежи
-
-```typescript
-// Создание инвойса
-const invoice = await supabase.functions.invoke('create-stars-invoice', {
-  body: { 
-    productCode: 'credits_100',
-    amount: 100 
-  }
-});
-
-// Открытие окна оплаты
-webApp?.openInvoice(invoice.data.invoiceLink, (status) => {
-  if (status === 'paid') {
-    // Успешная оплата
-  }
-});
-```
+1. **Проверить существующие компоненты** — возможно уже есть
+2. **Использовать типизированные ошибки** — `@/lib/errors`
+3. **Логирование через logger** — `@/lib/logger`
+4. **Safe area для Telegram** — CSS переменные `--tg-*`
+5. **RLS политики для новых таблиц**
+6. **Lazy loading для тяжелых компонентов**
+7. **Cleanup в useEffect** — особенно для подписок
+8. **Touch targets минимум 44px**
 
 ---
 
-## 📋 ДОКУМЕНТАЦИЯ ПРОЕКТА
-
-### Ключевые документы
+## 📚 Документация
 
 | Файл | Описание |
 |------|----------|
-| `PROJECT_STATUS.md` | Текущий статус и прогресс |
-| `ROADMAP.md` | Дорожная карта развития |
-| `KNOWN_ISSUES_TRACKED.md` | Отслеживание известных проблем |
-| `KNOWLEDGE_BASE.md` | Этот файл |
-
-### Директория docs/
-
-| Файл | Описание |
-|------|----------|
-| `docs/KNOWN_ISSUES.md` | Известные проблемы и решения |
-| `docs/ARCHITECTURE.md` | Архитектура приложения |
-| `docs/SUNO_API.md` | Документация Suno API |
-| `docs/TELEGRAM_INTEGRATION.md` | Интеграция с Telegram |
-| `docs/GAMIFICATION.md` | Система гамификации |
-
-### ADR (Architecture Decision Records)
-
-| Файл | Описание |
-|------|----------|
-| `ADR/ADR-001-audio-architecture.md` | Архитектура аудио |
-| `ADR/ADR-002-player-state.md` | Состояние плеера |
-| `ADR/ADR-003-track-versions.md` | Версии треков |
-| `ADR/ADR-004-error-handling.md` | Обработка ошибок |
-| `ADR/ADR-005-state-machine.md` | State machine |
-| `ADR/ADR-006-telegram-webapp.md` | Telegram WebApp |
+| `PROJECT_STATUS.md` | Текущий статус |
+| `docs/ROADMAP_V4.md` | Роадмап развития |
+| `SPRINTS/SPRINT-PROGRESS.md` | Прогресс спринтов |
+| `docs/KNOWN_ISSUES.md` | Известные проблемы |
+| `docs/ARCHITECTURE.md` | Архитектура |
+| `ADR/` | Архитектурные решения |
 
 ---
 
-## ✅ ЧЕК-ЛИСТ ПРИ ДОБАВЛЕНИИ ФУНКЦИОНАЛА
-
-### Перед началом работы
-
-- [ ] Проверить существующие компоненты — возможно уже есть похожий функционал
-- [ ] Изучить связанные файлы через поиск
-- [ ] Проверить типы в `src/types/` и `src/integrations/supabase/types.ts`
-
-### При разработке
-
-- [ ] Использовать типизированные ошибки из `@/lib/errors`
-- [ ] Логирование через `@/lib/logger`
-- [ ] CSS переменные для Telegram safe area
-- [ ] Семантические токены из дизайн-системы (НЕ прямые цвета)
-- [ ] Lazy loading для тяжелых компонентов
-
-### При работе с БД
-
-- [ ] RLS политики для новых таблиц
-- [ ] Проверить что auth.uid() используется корректно
-- [ ] Включить Realtime если нужно
-
-### При создании Edge Functions
-
-- [ ] CORS headers
-- [ ] Проверка секретов
-- [ ] Обработка ошибок
-- [ ] Логирование
-
-### После разработки
-
-- [ ] Cleanup в useEffect для подписок
-- [ ] Проверить на мобильных устройствах
-- [ ] Проверить в Telegram Mini App
-- [ ] Особенно протестировать iOS Safari
-
----
-
-## 🎨 ДИЗАЙН-СИСТЕМА
-
-### Использование токенов
-
-```tsx
-// ✅ Правильно - семантические токены
-<div className="bg-background text-foreground">
-<div className="bg-primary text-primary-foreground">
-<div className="bg-muted text-muted-foreground">
-<div className="border-border">
-
-// ❌ Неправильно - прямые цвета
-<div className="bg-white text-black">
-<div className="bg-purple-500">
-```
-
-### Основные токены
-
-```css
-/* Backgrounds */
---background: основной фон
---foreground: основной текст
---card: фон карточек
---card-foreground: текст карточек
---popover: фон поповеров
---popover-foreground: текст поповеров
-
-/* Primary */
---primary: основной акцент
---primary-foreground: текст на primary
-
-/* Secondary */
---secondary: вторичный акцент
---secondary-foreground: текст на secondary
-
-/* Muted */
---muted: приглушенный фон
---muted-foreground: приглушенный текст
-
-/* Accent */
---accent: акцентный цвет
---accent-foreground: текст на accent
-
-/* Destructive */
---destructive: цвет ошибок/удаления
---destructive-foreground: текст на destructive
-
-/* Border & Input */
---border: цвет границ
---input: фон инпутов
---ring: цвет фокуса
-```
-
----
-
-## 🔄 WORKFLOW РАЗРАБОТКИ
-
-### Добавление новой таблицы
-
-1. Создать миграцию через `supabase--migration`
-2. Добавить RLS политики
-3. Дождаться применения миграции
-4. Типы обновятся автоматически
-5. Использовать типы из `@/integrations/supabase/types`
-
-### Добавление Edge Function
-
-1. Создать файл в `supabase/functions/function-name/index.ts`
-2. Использовать шаблон из этой документации
-3. Добавить секреты через `secrets--add_secret` если нужно
-4. Функция задеплоится автоматически
-
-### Отладка
-
-1. Console logs: `lov-read-console-logs`
-2. Network requests: `lov-read-network-requests`
-3. Edge function logs: `supabase--edge-function-logs`
-4. DB queries: `supabase--read-query`
-5. Session replay: `lov-read-session-replay`
-
----
-
-## 📞 КОНТАКТЫ И РЕСУРСЫ
-
-### API Документация
-
-- **Suno API:** `docs/SUNO_API.md`
-- **Telegram Bot API:** https://core.telegram.org/bots/api
-- **Telegram Mini Apps:** https://core.telegram.org/bots/webapps
-
-### Внутренние ресурсы
-
-- **Supabase Project ID:** `ygmvthybdrqymfsqifmj`
-- **Edge Functions URL:** `https://ygmvthybdrqymfsqifmj.supabase.co/functions/v1/`
-
----
-
-> 💡 **Совет:** Используй поиск по этому файлу для быстрого нахождения решений. Ключевые слова: ошибка, проблема, решение, паттерн, шаблон.
+*Обновлено: 2026-01-19*
