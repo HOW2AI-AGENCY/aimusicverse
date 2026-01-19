@@ -37,13 +37,49 @@ export const ECONOMY = {
   // Feature costs
   STEM_SEPARATION_COST: 5,
   AUDIO_ANALYSIS_COST: 3,
-  COVER_GENERATION_COST: 15,
+  COVER_GENERATION_COST: 10,    // Synced: was 15
   EXTEND_GENERATION_COST: 10,
+  MIDI_EXPORT_COST: 3,
   
-  // Rewards
-  DAILY_LOGIN_BONUS: 5,
-  STREAK_BONUS_MULTIPLIER: 0.1, // +10% per day
-  MAX_STREAK_BONUS: 50,
+  // Rewards (BOOSTED - synced with frontend)
+  DAILY_CHECKIN: {
+    credits: 10,  // Was 5
+    xp: 25,
+  },
+  STREAK_BONUS: {
+    credits_per_day: 5,  // Was multiplier
+    xp_per_day: 15,
+    max_credits: 50,
+  },
+  SHARE_REWARD: {
+    credits: 5,
+    xp: 30,
+  },
+  LIKE_RECEIVED: {
+    credits: 2,
+    xp: 10,
+  },
+  PUBLIC_TRACK: {
+    credits: 5,
+    xp: 25,
+  },
+  ARTIST_CREATED: {
+    credits: 10,
+    xp: 50,
+  },
+  PROJECT_CREATED: {
+    credits: 8,
+    xp: 35,
+  },
+  COMMENT_POSTED: {
+    credits: 3,
+    xp: 15,
+  },
+  
+  // Referral
+  REFERRAL_PERCENT: 10,
+  REFERRAL_INVITE_BONUS: 100,
+  REFERRAL_NEW_USER_BONUS: 50,
 };
 
 /**
