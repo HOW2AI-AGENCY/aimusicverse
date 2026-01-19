@@ -17,7 +17,7 @@ import { mockTracks as screenshotMockTracks } from '@/lib/screenshotMockData';
 export type { Track, TrackWithCreator, TrackSummary } from '@/types/track';
 export type { EnrichedTrack } from '@/services/tracks.service';
 
-const PAGE_SIZE = 20; // Reduced for faster initial load
+const PAGE_SIZE = 12; // Optimized for faster initial load
 
 export interface UseTracksParams {
   projectId?: string;

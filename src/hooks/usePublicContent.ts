@@ -358,7 +358,7 @@ export function usePublicContentBatch() {
   return useQuery({
     queryKey: ['public-content-optimized', user?.id],
     queryFn: async (): Promise<PublicContentData> => {
-      // PERF: Reduced limit for faster initial load, select only needed fields
+      // PERF: Reduced limit to 30 for faster initial load (homepage shows max 20)
       const { data: tracks, error } = await supabase
         .from("tracks")
         .select("id,title,cover_url,audio_url,play_count,user_id,created_at,style,tags,computed_genre,status,is_public")
@@ -366,7 +366,7 @@ export function usePublicContentBatch() {
         .eq("status", "completed")
         .not("audio_url", "is", null)
         .order("created_at", { ascending: false })
-        .limit(50);
+        .limit(30);
 
       if (error) throw error;
       if (!tracks || tracks.length === 0) {
@@ -409,9 +409,9 @@ export function usePublicContentBatch() {
       );
 
       return {
-        featuredTracks: sortedByPopular.slice(0, 10),
-        recentTracks: enrichedTracks.slice(0, 20),
-        popularTracks: sortedByPopular.slice(0, 20),
+        featuredTracks: sortedByPopular.slice(0, 6), // Reduced for faster render
+        recentTracks: enrichedTracks.slice(0, 12),   // Reduced for faster render
+        popularTracks: sortedByPopular.slice(0, 12), // Reduced for faster render
         allTracks: enrichedTracks,
       };
     },
