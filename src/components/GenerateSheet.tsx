@@ -48,6 +48,7 @@ import { ProjectTrackSelector } from './generate-form/ProjectTrackSelector';
 import { PromptHistory } from './generate-form/PromptHistory';
 import { LyricsChatAssistant } from './generate-form/LyricsChatAssistant';
 import { StylePresetSelector } from './generate-form/StylePresetSelector';
+import { CreditBalanceWarning } from './generate-form/CreditBalanceWarning';
 // UploadAudioDialog removed - now using unified form for cover/extend
 import {
   AlertDialog,
@@ -293,6 +294,13 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
 
         <ScrollArea className="flex-1 overflow-x-hidden">
           <div className="px-4 py-3 space-y-3 w-full max-w-full min-w-0 overflow-x-hidden">
+            {/* Credit Balance Warning */}
+            <CreditBalanceWarning
+              balance={form.userBalance}
+              cost={form.generationCost}
+              onClose={() => onOpenChange(false)}
+            />
+            
             <GenerateFormActions
               onOpenAudioDialog={() => setAudioActionDialogOpen(true)}
               onOpenProjectDialog={() => setProjectDialogOpen(true)}

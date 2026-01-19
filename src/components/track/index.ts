@@ -27,6 +27,8 @@ export * from './track-card-new/variants';
 // Shared components
 export { TrackCover } from './TrackCover';
 export { TrackInfo } from './TrackInfo';
+export { QuickLikeButton } from './QuickLikeButton';
+export { TrackCardSkeleton, TrackGridSkeleton } from './TrackCardSkeleton';
 
 // Re-export DurationBadge for convenience
 export { DurationBadge } from '@/components/library/shared/DurationBadge';

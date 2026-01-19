@@ -9,6 +9,7 @@ import { SectionLabel, SECTION_HINTS } from './SectionLabel';
 import { SmartPromptSuggestions } from './SmartPromptSuggestions';
 import { FormSection, FormDivider } from './FormSection';
 import { ValidationMessage, validation } from './ValidationMessage';
+import { PromptValidationAlert } from './PromptValidationAlert';
 import { cn } from '@/lib/utils';
 import { notify } from '@/lib/notifications';
 import { useTelegram } from '@/contexts/TelegramContext';
@@ -240,6 +241,12 @@ export function GenerateFormSimple({
               compact={true}
             />
           )}
+          
+          {/* Artist name warning with replacement suggestions */}
+          <PromptValidationAlert
+            text={description}
+            onApplyReplacement={onDescriptionChange}
+          />
           
           {/* Validation message */}
           {descriptionValidation && (
