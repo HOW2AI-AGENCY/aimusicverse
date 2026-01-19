@@ -1,47 +1,110 @@
 /**
  * Route preloading utilities for faster navigation
- * Preloads route components on hover/focus
+ * Preloads route components on hover/focus with priority system
  */
 
-// Map of routes to their lazy import functions
-const routeImporters: Record<string, () => Promise<unknown>> = {
-  '/': () => import('@/pages/Index'),
-  '/library': () => import('@/pages/Library'),
-  '/projects': () => import('@/pages/Projects'),
-  '/generate': () => import('@/pages/Generate'),
-  '/profile': () => import('@/pages/ProfilePage'),
-  '/settings': () => import('@/pages/Settings'),
-  '/playlists': () => import('@/pages/Playlists'),
-  '/artists': () => import('@/pages/Artists'),
-  '/templates': () => import('@/pages/Templates'),
-  '/rewards': () => import('@/pages/Rewards'),
-  '/analytics': () => import('@/pages/Analytics'),
-  '/guitar-studio': () => import('@/pages/GuitarStudio'),
-  '/music-lab': () => import('@/pages/MusicLab'),
-  '/community': () => import('@/pages/Community'),
-  '/blog': () => import('@/pages/Blog'),
+// Priority levels for route preloading
+type Priority = 'critical' | 'high' | 'normal' | 'low';
+
+interface RouteConfig {
+  importer: () => Promise<unknown>;
+  priority: Priority;
+}
+
+// Map of routes to their lazy import functions with priority
+const routeConfigs: Record<string, RouteConfig> = {
+  // Critical - preload immediately after mount
+  '/': { importer: () => import('@/pages/Index'), priority: 'critical' },
+  '/library': { importer: () => import('@/pages/Library'), priority: 'critical' },
+  
+  // High - preload during idle time (common navigation)
+  '/projects': { importer: () => import('@/pages/Projects'), priority: 'high' },
+  '/generate': { importer: () => import('@/pages/Generate'), priority: 'high' },
+  '/profile': { importer: () => import('@/pages/ProfilePage'), priority: 'high' },
+  
+  // Normal - preload on hover or when approaching
+  '/settings': { importer: () => import('@/pages/Settings'), priority: 'normal' },
+  '/playlists': { importer: () => import('@/pages/Playlists'), priority: 'normal' },
+  '/artists': { importer: () => import('@/pages/Artists'), priority: 'normal' },
+  '/community': { importer: () => import('@/pages/Community'), priority: 'normal' },
+  '/rewards': { importer: () => import('@/pages/Rewards'), priority: 'normal' },
+  
+  // Low - only preload on hover
+  '/templates': { importer: () => import('@/pages/Templates'), priority: 'low' },
+  '/analytics': { importer: () => import('@/pages/Analytics'), priority: 'low' },
+  '/guitar-studio': { importer: () => import('@/pages/GuitarStudio'), priority: 'low' },
+  '/music-lab': { importer: () => import('@/pages/MusicLab'), priority: 'low' },
+  '/blog': { importer: () => import('@/pages/Blog'), priority: 'low' },
 };
 
 // Track which routes have been preloaded
 const preloadedRoutes = new Set<string>();
+let preloadQueue: string[] = [];
+let isProcessingQueue = false;
 
 /**
- * Preload a route component by path
+ * Process preload queue in batches during idle time
+ */
+function processQueue(): void {
+  if (isProcessingQueue || preloadQueue.length === 0) return;
+  
+  isProcessingQueue = true;
+  
+  const processNext = () => {
+    if (preloadQueue.length === 0) {
+      isProcessingQueue = false;
+      return;
+    }
+    
+    const path = preloadQueue.shift()!;
+    const config = routeConfigs[path];
+    
+    if (config && !preloadedRoutes.has(path)) {
+      preloadedRoutes.add(path);
+      config.importer().catch(() => {
+        // Silently fail - component will load when needed
+      });
+    }
+    
+    // Continue processing with small delay to not block main thread
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(processNext, { timeout: 1000 });
+    } else {
+      setTimeout(processNext, 50);
+    }
+  };
+  
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(processNext, { timeout: 2000 });
+  } else {
+    setTimeout(processNext, 100);
+  }
+}
+
+/**
+ * Preload a route component by path (queued)
  */
 export function preloadRoute(path: string): void {
-  // Skip if already preloaded
-  if (preloadedRoutes.has(path)) return;
+  if (preloadedRoutes.has(path) || preloadQueue.includes(path)) return;
   
-  const importer = routeImporters[path];
-  if (importer) {
+  const config = routeConfigs[path];
+  if (!config) return;
+  
+  // Critical routes load immediately
+  if (config.priority === 'critical') {
     preloadedRoutes.add(path);
-    // Use requestIdleCallback for non-blocking preload
-    if ('requestIdleCallback' in window) {
-      requestIdleCallback(() => importer(), { timeout: 3000 });
-    } else {
-      setTimeout(() => importer(), 100);
-    }
+    config.importer().catch(() => {});
+    return;
   }
+  
+  // High priority goes to front of queue
+  if (config.priority === 'high') {
+    preloadQueue.unshift(path);
+  } else {
+    preloadQueue.push(path);
+  }
+  
+  processQueue();
 }
 
 /**
@@ -52,17 +115,56 @@ export function preloadRoutes(paths: string[]): void {
 }
 
 /**
- * Preload critical routes after initial load
+ * Preload critical routes immediately after initial load
  */
 export function preloadCriticalRoutes(): void {
-  // Wait for initial render, then preload common routes
+  // Immediate preload of most critical routes
+  const criticalPaths = Object.entries(routeConfigs)
+    .filter(([, config]) => config.priority === 'critical')
+    .map(([path]) => path);
+  
+  criticalPaths.forEach(path => {
+    preloadedRoutes.add(path);
+    routeConfigs[path].importer().catch(() => {});
+  });
+  
+  // Queue high priority routes for idle time
+  const highPriorityPaths = Object.entries(routeConfigs)
+    .filter(([, config]) => config.priority === 'high')
+    .map(([path]) => path);
+  
   if ('requestIdleCallback' in window) {
     requestIdleCallback(() => {
-      preloadRoutes(['/', '/library', '/projects', '/generate']);
-    }, { timeout: 5000 });
+      preloadRoutes(highPriorityPaths);
+    }, { timeout: 3000 });
   } else {
     setTimeout(() => {
-      preloadRoutes(['/', '/library', '/projects', '/generate']);
-    }, 2000);
+      preloadRoutes(highPriorityPaths);
+    }, 1500);
   }
+}
+
+/**
+ * Preload route on link hover (for Link components)
+ */
+export function preloadOnHover(path: string): () => void {
+  let timeoutId: number | undefined;
+  
+  return () => {
+    // Small delay to avoid preloading on quick mouse movements
+    timeoutId = window.setTimeout(() => {
+      preloadRoute(path);
+    }, 100);
+    
+    return () => {
+      if (timeoutId) window.clearTimeout(timeoutId);
+    };
+  };
+}
+
+/**
+ * Check if route is preloaded
+ */
+export function isRoutePreloaded(path: string): boolean {
+  return preloadedRoutes.has(path);
 }

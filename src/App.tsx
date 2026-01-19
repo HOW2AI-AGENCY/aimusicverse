@@ -42,14 +42,16 @@ function RouteWithTransition({ children }: { children: React.ReactNode }) {
     </PageTransition>
   );
 }
-// Lazy load pages
+// Lazy load pages - prioritize critical paths with retry
 const Index = lazyWithRetry(() => import("./pages/Index"));
-const Auth = lazy(() => import("./pages/Auth"));
+const Auth = lazyWithRetry(() => import("./pages/Auth")); // Critical: auth flow
+const Library = lazyWithRetry(() => import("./pages/Library")); // Critical: main navigation
+
+// Secondary pages - standard lazy
 const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 const PublicProfilePage = lazy(() => import("./pages/PublicProfilePage"));
 const Settings = lazy(() => import("./pages/Settings"));
 const Generate = lazy(() => import("./pages/Generate"));
-const Library = lazy(() => import("./pages/Library"));
 const Projects = lazy(() => import("./pages/Projects"));
 const ProjectDetail = lazy(() => import("./pages/ProjectDetail"));
 const Artists = lazy(() => import("./pages/Artists"));
@@ -58,6 +60,8 @@ const Blog = lazy(() => import("./pages/Blog"));
 const Community = lazy(() => import("./pages/Community"));
 const Onboarding = lazy(() => import("./pages/Onboarding"));
 const Rewards = lazy(() => import("./pages/Rewards"));
+
+// Heavy pages - load on demand
 const Analytics = lazy(() => import(/* webpackChunkName: "analytics" */ "./pages/Analytics"));
 const AdminDashboard = lazy(() => import(/* webpackChunkName: "admin" */ "./pages/AdminDashboard"));
 const ModerationDashboard = lazy(() => import(/* webpackChunkName: "admin" */ "./pages/admin/ModerationDashboard"));
@@ -96,14 +100,17 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 const ErrorPage = lazy(() => import("./pages/ErrorPage"));
 
 
+// Optimized QueryClient configuration for faster perceived loading
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60 * 5, // 5 minutes
-      gcTime: 1000 * 60 * 10, // 10 minutes garbage collection
-      retry: 1,
+      staleTime: 1000 * 60 * 5, // 5 minutes - data stays fresh
+      gcTime: 1000 * 60 * 15, // 15 minutes garbage collection (increased for better caching)
+      retry: 1, // Single retry to fail fast
       refetchOnWindowFocus: false, // Prevent refetch on tab focus for faster UX
       refetchOnReconnect: 'always',
+      refetchOnMount: false, // Don't refetch if data exists - critical for speed
+      networkMode: 'offlineFirst', // Use cache first, then network
     },
   },
 });

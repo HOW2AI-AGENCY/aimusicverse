@@ -50,7 +50,14 @@
 
 ## Приоритет 3: Mobile-first оптимизация (Неделя 3-4)
 
-### 3.1 Улучшение мобильного UX
+### 3.1 Ускорение загрузки ✅
+- [x] Route preloading с приоритетами (critical/high/normal/low)
+- [x] Preload on hover/touch для BottomNavigation
+- [x] QueryClient offlineFirst mode для быстрого отображения кэша
+- [x] useRoutePreloader для автоматической предзагрузки смежных маршрутов
+- [x] lazyWithRetry для критических страниц (Index, Auth, Library)
+
+### 3.2 Улучшение мобильного UX
 - [ ] Touch targets 48-56px
 - [ ] Оптимизация формы генерации для mobile
 - [ ] Gesture navigation (swipe back)
