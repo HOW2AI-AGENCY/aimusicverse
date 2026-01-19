@@ -1,9 +1,11 @@
 /**
  * StemSeparationModeDialog - Dialog for choosing stem separation mode
  * Simple (2 stems) or Detailed (6+ stems)
+ * 
+ * Integrates with Telegram SecondaryButton for native cancel action
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { Music, Mic2, Drum, Guitar, Piano, Waves, Check, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -16,6 +18,7 @@ import {
 } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
+import { useTelegramSecondaryButton } from '@/hooks/telegram/useTelegramSecondaryButton';
 
 type SeparationMode = 'simple' | 'detailed';
 
@@ -61,6 +64,19 @@ export function StemSeparationModeDialog({
 }: StemSeparationModeDialogProps) {
   const [selectedMode, setSelectedMode] = useState<SeparationMode>('simple');
   const { impact, select } = useHapticFeedback();
+
+  const handleCancel = () => {
+    onOpenChange(false);
+  };
+
+  // Telegram SecondaryButton for cancel action
+  const { shouldShowUIButton } = useTelegramSecondaryButton({
+    text: 'Отмена',
+    onClick: handleCancel,
+    enabled: !isProcessing,
+    visible: open,
+    position: 'left',
+  });
 
   const handleSelect = (mode: SeparationMode) => {
     select();
@@ -140,16 +156,19 @@ export function StemSeparationModeDialog({
         </div>
 
         <div className="flex gap-2">
+          {/* Show UI cancel button only when native SecondaryButton is not available */}
+          {shouldShowUIButton && (
+            <Button
+              variant="outline"
+              className="flex-1"
+              onClick={handleCancel}
+              disabled={isProcessing}
+            >
+              Отмена
+            </Button>
+          )}
           <Button
-            variant="outline"
-            className="flex-1"
-            onClick={() => onOpenChange(false)}
-            disabled={isProcessing}
-          >
-            Отмена
-          </Button>
-          <Button
-            className="flex-1"
+            className={cn("flex-1", !shouldShowUIButton && "w-full")}
             onClick={handleConfirm}
             disabled={isProcessing}
           >
