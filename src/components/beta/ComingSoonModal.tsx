@@ -4,12 +4,7 @@
 import { motion } from '@/lib/motion';
 import { Clock, Bell, Sparkles, ArrowRight, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
+import { UnifiedDialog } from '@/components/dialog';
 import { cn } from '@/lib/utils';
 import { FEATURE_METADATA, type FeatureKey } from '@/config/app.config';
 import { toast } from 'sonner';
@@ -45,8 +40,14 @@ export function ComingSoonModal({
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md p-0 overflow-hidden bg-background/95 backdrop-blur-xl border-primary/20">
+    <UnifiedDialog 
+      variant="modal" 
+      open={open} 
+      onOpenChange={onOpenChange}
+      title={title}
+      size="sm"
+    >
+      <div className="p-0 overflow-hidden">
         {/* Decorative header */}
         <div className="relative h-32 bg-gradient-to-br from-primary/20 via-generate/10 to-primary/5 overflow-hidden">
           {/* Animated particles */}
@@ -98,7 +99,7 @@ export function ComingSoonModal({
         </div>
 
         <div className="pt-12 pb-6 px-6">
-          <DialogHeader className="text-center space-y-3">
+          <div className="text-center space-y-3">
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -110,9 +111,9 @@ export function ComingSoonModal({
                   Скоро
                 </span>
               </div>
-              <DialogTitle className="text-2xl font-bold">
+              <h2 className="text-2xl font-bold">
                 {title}
-              </DialogTitle>
+              </h2>
             </motion.div>
             
             <motion.p
@@ -123,7 +124,7 @@ export function ComingSoonModal({
             >
               {description}
             </motion.p>
-          </DialogHeader>
+          </div>
 
           {/* Progress indicator */}
           <motion.div
@@ -174,8 +175,8 @@ export function ComingSoonModal({
             </Button>
           </motion.div>
         </div>
-      </DialogContent>
-    </Dialog>
+      </div>
+    </UnifiedDialog>
   );
 }
 
