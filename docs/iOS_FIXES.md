@@ -164,8 +164,29 @@ To debug iOS issues:
 
 ---
 
+## 10. UnifiedDialog Telegram Optimization (NEW)
+
+**Problem**: Modal/Sheet components need native Telegram integration.
+
+**Solution**:
+- Telegram safe area padding (`--tg-safe-area-inset-bottom`)
+- Haptic feedback on open/close via `HapticFeedback.impactOccurred('light')`
+- 44px minimum touch targets for header close button
+- iOS momentum scrolling in content area
+- Drag handle for bottom sheet interactions
+
+**Files affected**:
+- `src/components/dialog/variants/sheet.tsx`
+- `src/components/dialog/variants/modal.tsx`
+
+---
+
 ## References
 
 - [Telegram Mini Apps Documentation](https://core.telegram.org/bots/webapps)
 - [iOS Safari CSS Support](https://caniuse.com/?compare=ios_saf+17.0)
 - [Visual Viewport API](https://developer.mozilla.org/en-US/docs/Web/API/Visual_Viewport_API)
+
+---
+
+*Last Updated: 2026-01-19*
