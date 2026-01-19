@@ -22,7 +22,9 @@ export const ECONOMY = {
   DEFAULT_GENERATION_COST: 12,  // Default for new models
   STEM_SEPARATION_COST: 5,      // 5 credits = $0.05
   MIDI_EXPORT_COST: 3,          // 3 credits = $0.03
-  COVER_GENERATION_COST: 5,     // 5 credits = $0.05
+  COVER_GENERATION_COST: 10,    // 10 credits = $0.10 (synced with edge functions)
+  EXTEND_GENERATION_COST: 10,   // 10 credits = $0.10
+  AUDIO_ANALYSIS_COST: 3,       // 3 credits = $0.03
   
   // Rewards (BOOSTED for faster progression - Sprint 012)
   DAILY_CHECKIN: {
