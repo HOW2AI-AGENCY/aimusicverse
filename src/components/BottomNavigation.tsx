@@ -1,4 +1,4 @@
-import { useState, lazy, Suspense, memo } from 'react';
+import { useState, lazy, Suspense, memo, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Home, Plus, Library, Grid3X3, FolderOpen } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -8,6 +8,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useActiveGenerations } from '@/hooks/generation/useActiveGenerations';
 import { MoreMenuSheet } from './navigation/MoreMenuSheet';
 import { Badge } from '@/components/ui/badge';
+import { preloadRoute } from '@/lib/route-preloader';
 
 // Lazy load heavy sheet component
 const GenerateSheet = lazy(() => import('./GenerateSheet').then(m => ({ default: m.GenerateSheet })));
@@ -32,20 +33,26 @@ export const BottomNavigation = memo(function BottomNavigation() {
   const { data: activeGenerations = [] } = useActiveGenerations();
   const activeGenCount = activeGenerations.length;
 
-  const handleNavigate = (path: string) => {
+  const handleNavigate = useCallback((path: string) => {
     hapticFeedback('light');
     navigate(path);
-  };
+  }, [hapticFeedback, navigate]);
 
-  const handleGenerateClick = () => {
+  const handleGenerateClick = useCallback(() => {
     hapticFeedback('medium');
     setGenerateOpen(true);
-  };
+  }, [hapticFeedback]);
 
-  const handleMoreClick = () => {
+  const handleMoreClick = useCallback(() => {
     hapticFeedback('light');
     setMoreMenuOpen(true);
-  };
+  }, [hapticFeedback]);
+
+  // Preload route on hover/touch start for faster navigation
+  const handlePreload = useCallback((path: string) => {
+    if (path.startsWith('__')) return; // Skip special paths
+    preloadRoute(path);
+  }, []);
 
   const isActive = (path: string) => location.pathname === path || location.pathname.startsWith(path + '/');
 
@@ -137,7 +144,7 @@ export const BottomNavigation = memo(function BottomNavigation() {
               <motion.button
                 key={item.path}
                 onClick={handleClick}
-                className={cn(
+              className={cn(
                   "relative flex flex-col items-center justify-center gap-0.5 px-3 py-2 rounded-xl transition-all min-h-[56px] min-w-[56px] touch-scale-sm touch-manipulation group",
                   active
                     ? "text-primary bg-primary/10"
@@ -145,6 +152,8 @@ export const BottomNavigation = memo(function BottomNavigation() {
                 )}
                 whileTap={{ scale: 0.92 }}
                 whileHover={{ scale: 1.05 }}
+                onMouseEnter={() => handlePreload(item.path)}
+                onTouchStart={() => handlePreload(item.path)}
                 aria-label={item.label}
                 aria-current={active ? 'page' : undefined}
                 title={item.label}
