@@ -1,20 +1,14 @@
 /**
  * Genre Distribution Chart
  * Pie chart showing top genres
+ * Uses lazy-loaded Recharts to reduce bundle size
  */
 
 import { Card } from '@/components/ui/card';
 import { motion } from '@/lib/motion';
 import { useAnalyticsData } from '@/hooks/useAnalyticsData';
 import { Skeleton } from '@/components/ui/skeleton';
-import {
-  PieChart,
-  Pie,
-  Cell,
-  ResponsiveContainer,
-  Tooltip,
-  Legend,
-} from 'recharts';
+import { useRecharts } from '@/lib/recharts-lazy';
 
 const COLORS = [
   'hsl(var(--primary))',
@@ -26,8 +20,9 @@ const COLORS = [
 
 export function GenreDistributionChart() {
   const { data, isLoading } = useAnalyticsData();
+  const { recharts, isLoading: rechartsLoading } = useRecharts();
 
-  if (isLoading) {
+  if (isLoading || rechartsLoading || !recharts) {
     return (
       <Card className="p-4 glass-card border-border/50">
         <Skeleton className="h-[200px] w-full" />
@@ -35,6 +30,7 @@ export function GenreDistributionChart() {
     );
   }
 
+  const { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } = recharts;
   const chartData = data?.genreDistribution || [];
 
   if (chartData.length === 0) {
