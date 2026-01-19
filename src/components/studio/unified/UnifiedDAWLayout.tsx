@@ -30,6 +30,7 @@ import { useHaptic } from '@/hooks/useHaptic';
 import { logger } from '@/lib/logger';
 import { AIActionsFAB } from './AIActionsFAB';
 import { SortableTrackList } from './SortableTrackList';
+import { useTelegramOrientationLock } from '@/hooks/telegram/useTelegramOrientationLock';
 
 interface Track {
   id: string;
@@ -130,6 +131,9 @@ export const UnifiedDAWLayout = memo(function UnifiedDAWLayout({
   const { patterns } = useHaptic();
   const [mixerOpen, setMixerOpen] = useState(false);
   const [masterMuted, setMasterMuted] = useState(false);
+
+  // Lock orientation in Studio for immersive DAW experience
+  useTelegramOrientationLock({ lockOnMount: true, unlockOnUnmount: true });
 
   // Compute disabled operations based on state
   const disabledOperations = useMemo(() => {
