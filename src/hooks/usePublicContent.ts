@@ -41,11 +41,12 @@ export interface PublicTrackWithCreator extends PublicTrack {
   user_liked?: boolean;
 }
 
-interface PublicContentData {
+export interface PublicContentData {
   featuredTracks: PublicTrackWithCreator[];
   recentTracks: PublicTrackWithCreator[];
   popularTracks: PublicTrackWithCreator[];
   allTracks: PublicTrackWithCreator[];
+  tracksByGenre?: Record<string, PublicTrackWithCreator[]>;
 }
 
 export function usePublicContent(params: UsePublicContentParams = {}) {
@@ -351,6 +352,8 @@ export function useSearchPublicContent(searchQuery: string) {
 /**
  * Single optimized hook that fetches all public content in one query
  * Used by homepage sections to avoid multiple database calls
+ * 
+ * OPTIMIZATION: Server-side genre filtering instead of client-side
  */
 export function usePublicContentBatch() {
   const { user } = useAuth();
@@ -358,30 +361,66 @@ export function usePublicContentBatch() {
   return useQuery({
     queryKey: ['public-content-optimized', user?.id],
     queryFn: async (): Promise<PublicContentData> => {
-      // PERF: Reduced limit to 20 for faster initial load (homepage shows max 12 per section)
-      const { data: tracks, error } = await supabase
-        .from("tracks")
-        .select("id,title,cover_url,audio_url,play_count,user_id,created_at,style,tags,computed_genre")
-        .eq("is_public", true)
-        .eq("status", "completed")
-        .not("audio_url", "is", null)
-        .order("created_at", { ascending: false })
-        .limit(20);
+      // Define genres for server-side filtering (using computed_genre values from DB)
+      const GENRE_QUERIES = [
+        { id: 'hiphop', dbValues: ['hip-hop', 'rap', 'trap'] },
+        { id: 'pop', dbValues: ['pop', 'dance'] },
+        { id: 'rock', dbValues: ['rock', 'alternative', 'metal'] },
+        { id: 'electronic', dbValues: ['electronic', 'house', 'techno', 'edm'] },
+      ];
 
-      if (error) throw error;
-      if (!tracks || tracks.length === 0) {
+      // PARALLEL FETCH: Main tracks + Genre-specific tracks
+      const [mainResult, ...genreResults] = await Promise.all([
+        // 1. Main tracks for featured/recent/popular (limit 30)
+        supabase
+          .from("tracks")
+          .select("id,title,cover_url,audio_url,play_count,user_id,created_at,style,tags,computed_genre")
+          .eq("is_public", true)
+          .eq("status", "completed")
+          .not("audio_url", "is", null)
+          .order("created_at", { ascending: false })
+          .limit(30),
+        
+        // 2. Genre-specific queries (12 tracks each, sorted by popularity)
+        ...GENRE_QUERIES.map(genre => 
+          supabase
+            .from("tracks")
+            .select("id,title,cover_url,audio_url,play_count,user_id,created_at,style,tags,computed_genre")
+            .eq("is_public", true)
+            .eq("status", "completed")
+            .not("audio_url", "is", null)
+            .in("computed_genre", genre.dbValues)
+            .order("play_count", { ascending: false, nullsFirst: false })
+            .limit(12)
+        ),
+      ]);
+
+      if (mainResult.error) throw mainResult.error;
+      
+      const tracks = mainResult.data || [];
+      
+      // Build genre tracks map from server-filtered results
+      const tracksByGenre: Record<string, PublicTrackWithCreator[]> = {};
+      GENRE_QUERIES.forEach((genre, idx) => {
+        const genreData = genreResults[idx]?.data || [];
+        tracksByGenre[genre.id] = genreData as PublicTrackWithCreator[];
+      });
+
+      if (tracks.length === 0 && Object.values(tracksByGenre).every(arr => arr.length === 0)) {
         return {
           featuredTracks: [],
           recentTracks: [],
           popularTracks: [],
           allTracks: [],
+          tracksByGenre: {},
         };
       }
 
-      // Get unique user_ids from tracks
-      const userIds = [...new Set(tracks.map(t => t.user_id))];
+      // Collect all unique user IDs from all tracks
+      const allTrackArrays = [tracks, ...Object.values(tracksByGenre)];
+      const userIds = [...new Set(allTrackArrays.flat().map(t => t.user_id))];
 
-      // Fetch only profiles (skip likes for faster load)
+      // Fetch profiles for all creators
       const { data: profiles } = await supabase
         .from("profiles")
         .select("user_id, username, photo_url, first_name")
@@ -390,8 +429,8 @@ export function usePublicContentBatch() {
       // Create lookup map
       const profileMap = new Map(profiles?.map(p => [p.user_id, p]) || []);
 
-      // Enrich tracks with minimal creator info
-      const enrichedTracks: PublicTrackWithCreator[] = tracks.map(track => {
+      // Helper to enrich tracks
+      const enrichTrack = (track: typeof tracks[0]): PublicTrackWithCreator => {
         const profile = profileMap.get(track.user_id);
         return {
           ...track,
@@ -401,24 +440,34 @@ export function usePublicContentBatch() {
           like_count: 0,
           user_liked: false,
         } as PublicTrackWithCreator;
-      });
+      };
 
-      // Sort for different views
+      // Enrich main tracks
+      const enrichedTracks = tracks.map(enrichTrack);
+
+      // Enrich genre tracks
+      const enrichedByGenre: Record<string, PublicTrackWithCreator[]> = {};
+      for (const [genreId, genreTracks] of Object.entries(tracksByGenre)) {
+        enrichedByGenre[genreId] = genreTracks.map(enrichTrack);
+      }
+
+      // Sort main tracks for different views
       const sortedByPopular = [...enrichedTracks].sort((a, b) => 
         (b.play_count || 0) - (a.play_count || 0)
       );
 
       return {
-        featuredTracks: sortedByPopular.slice(0, 6), // Reduced for faster render
-        recentTracks: enrichedTracks.slice(0, 12),   // Reduced for faster render
-        popularTracks: sortedByPopular.slice(0, 12), // Reduced for faster render
+        featuredTracks: sortedByPopular.slice(0, 6),
+        recentTracks: enrichedTracks.slice(0, 12),
+        popularTracks: sortedByPopular.slice(0, 12),
         allTracks: enrichedTracks,
+        tracksByGenre: enrichedByGenre,
       };
     },
-    staleTime: 5 * 60 * 1000, // 5 minutes - increased for faster perceived load
+    staleTime: 5 * 60 * 1000, // 5 minutes
     gcTime: 15 * 60 * 1000, // 15 minutes
     placeholderData: keepPreviousData,
-    refetchOnMount: false, // Don't refetch if we have cached data
+    refetchOnMount: false,
   });
 }
 
