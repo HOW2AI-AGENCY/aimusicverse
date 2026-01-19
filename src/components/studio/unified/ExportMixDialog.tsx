@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -22,6 +22,7 @@ import { Download, X, FileAudio, Loader2 } from 'lucide-react';
 import { useMixExport, ExportFormat, ExportQuality, Mp3Bitrate } from '@/hooks/studio/useMixExport';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useTelegramSecondaryButton } from '@/hooks/telegram/useTelegramSecondaryButton';
 
 interface ExportMixDialogProps {
   open: boolean;
@@ -50,6 +51,24 @@ export function ExportMixDialog({
   const [limiter, setLimiter] = useState(true);
   
   const { isExporting, exportProgress, exportMix, cancelExport, downloadBlob } = useMixExport();
+
+  // Handle cancel via Telegram SecondaryButton
+  const handleCancelExport = useCallback(() => {
+    if (isExporting) {
+      cancelExport();
+    } else {
+      onOpenChange(false);
+    }
+  }, [isExporting, cancelExport, onOpenChange]);
+
+  // Telegram SecondaryButton for cancel action during export
+  const { shouldShowUIButton } = useTelegramSecondaryButton({
+    text: isExporting ? 'Отменить' : 'Закрыть',
+    onClick: handleCancelExport,
+    enabled: true,
+    visible: open && isExporting,
+    position: 'left',
+  });
 
   const handleExport = async () => {
     const blob = await exportMix({
@@ -102,14 +121,17 @@ export function ExportMixDialog({
             <span className="font-mono">{Math.round(exportProgress.progress)}%</span>
           </div>
           <Progress value={exportProgress.progress} className="h-2" />
-          <Button
-            variant="outline"
-            onClick={cancelExport}
-            className="w-full h-12 touch-manipulation"
-          >
-            <X className="h-4 w-4 mr-2" />
-            Отменить
-          </Button>
+          {/* Show UI cancel button only when native SecondaryButton is not available */}
+          {shouldShowUIButton && (
+            <Button
+              variant="outline"
+              onClick={cancelExport}
+              className="w-full h-12 touch-manipulation"
+            >
+              <X className="h-4 w-4 mr-2" />
+              Отменить
+            </Button>
+          )}
         </div>
       ) : (
         <div className="space-y-5 py-4">
