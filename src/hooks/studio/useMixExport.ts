@@ -1,6 +1,7 @@
 import { useState, useCallback, useRef } from 'react';
 import { toast } from 'sonner';
-import lamejs from 'lamejs';
+
+type LameModule = typeof import('lamejs');
 
 export type ExportFormat = 'wav' | 'mp3';
 export type ExportQuality = 'high' | 'medium' | 'low';
@@ -200,62 +201,65 @@ export function useMixExport() {
   };
 
   /**
-   * Encode AudioBuffer to MP3 using lamejs
+   * Encode AudioBuffer to MP3 using lamejs (lazy-loaded)
    */
-  const encodeMp3 = (audioBuffer: AudioBuffer, bitrate: Mp3Bitrate): Blob => {
+  const encodeMp3 = async (audioBuffer: AudioBuffer, bitrate: Mp3Bitrate): Promise<Blob> => {
     const numChannels = audioBuffer.numberOfChannels;
     const sampleRate = audioBuffer.sampleRate;
     const samples = audioBuffer.length;
-    
+
+    const lame = (await import('lamejs')) as unknown as LameModule;
+    const Mp3Encoder = (lame as any).Mp3Encoder;
+
     // Get channel data
     const leftChannelData = audioBuffer.getChannelData(0);
     const rightChannelData = numChannels > 1 ? audioBuffer.getChannelData(1) : leftChannelData;
-    
+
     // Convert Float32 to Int16
     const leftInt16 = new Int16Array(samples);
     const rightInt16 = new Int16Array(samples);
-    
+
     for (let i = 0; i < samples; i++) {
       leftInt16[i] = Math.max(-32768, Math.min(32767, Math.floor(leftChannelData[i] * 32767)));
       rightInt16[i] = Math.max(-32768, Math.min(32767, Math.floor(rightChannelData[i] * 32767)));
     }
-    
+
     // Create MP3 encoder
-    const mp3Encoder = new lamejs.Mp3Encoder(numChannels, sampleRate, bitrate);
+    const mp3Encoder = new Mp3Encoder(numChannels, sampleRate, bitrate);
     const mp3Data: Int8Array[] = [];
-    
+
     // Encode in chunks
     const chunkSize = 1152; // MP3 frame size
-    
+
     for (let i = 0; i < samples; i += chunkSize) {
       const leftChunk = leftInt16.subarray(i, i + chunkSize);
       const rightChunk = rightInt16.subarray(i, i + chunkSize);
-      
-      const mp3buf = numChannels === 1 
+
+      const mp3buf = numChannels === 1
         ? mp3Encoder.encodeBuffer(leftChunk)
         : mp3Encoder.encodeBuffer(leftChunk, rightChunk);
-        
+
       if (mp3buf.length > 0) {
         mp3Data.push(mp3buf);
       }
     }
-    
+
     // Flush encoder
     const mp3End = mp3Encoder.flush();
     if (mp3End.length > 0) {
       mp3Data.push(mp3End);
     }
-    
+
     // Combine chunks
     const totalLength = mp3Data.reduce((acc, buf) => acc + buf.length, 0);
     const mp3Buffer = new Uint8Array(totalLength);
     let offset = 0;
-    
+
     for (const chunk of mp3Data) {
       mp3Buffer.set(chunk, offset);
       offset += chunk.length;
     }
-    
+
     return new Blob([mp3Buffer], { type: 'audio/mp3' });
   };
 
@@ -345,12 +349,12 @@ export function useMixExport() {
       setExportProgress({ stage: 'encoding', progress: 0, message: 'Кодирование...' });
 
       let blob: Blob;
-      
+
       if (format === 'wav') {
         blob = encodeWav(renderedBuffer);
       } else {
         setExportProgress({ stage: 'encoding', progress: 50, message: `Кодирование MP3 (${mp3Bitrate} kbps)...` });
-        blob = encodeMp3(renderedBuffer, mp3Bitrate);
+        blob = await encodeMp3(renderedBuffer, mp3Bitrate);
       }
 
       setExportProgress({ stage: 'done', progress: 100, message: 'Готово!' });

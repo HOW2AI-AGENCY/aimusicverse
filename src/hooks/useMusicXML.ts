@@ -4,8 +4,10 @@
  */
 
 import { useEffect, useRef, useState, useCallback, RefObject } from 'react';
-import { OpenSheetMusicDisplay as OSMD } from 'opensheetmusicdisplay';
+import type { OpenSheetMusicDisplay as OSMD } from 'opensheetmusicdisplay';
 import { logger } from '@/lib/logger';
+
+type OSMDConstructor = typeof import('opensheetmusicdisplay').OpenSheetMusicDisplay;
 
 const log = logger.child({ module: 'useMusicXML' });
 
@@ -82,7 +84,11 @@ export function useMusicXML({
       setError(null);
 
       try {
-        osmd = new OSMD(container, {
+        // Lazy-load OSMD (очень тяжёлая библиотека) только при открытии нотного/гитарного view
+        const mod = await import('opensheetmusicdisplay');
+        const OpenSheetMusicDisplay = (mod as unknown as { OpenSheetMusicDisplay: OSMDConstructor }).OpenSheetMusicDisplay;
+
+        osmd = new OpenSheetMusicDisplay(container, {
           autoResize,
           backend: 'svg',
           drawTitle: true,

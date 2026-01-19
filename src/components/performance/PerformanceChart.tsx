@@ -2,22 +2,13 @@
  * Reusable chart component for performance metrics
  */
 
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { 
-  LineChart, 
-  Line, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  ResponsiveContainer,
-  ReferenceLine,
-  Legend
-} from 'recharts';
+import type { PerformanceMetric } from '@/hooks/usePerformanceMetrics';
 import { format } from '@/lib/date-utils';
-import { PerformanceMetric } from '@/hooks/usePerformanceMetrics';
+
+type RechartsModule = typeof import('recharts');
 
 interface ChartField {
   key: keyof PerformanceMetric;
@@ -33,13 +24,25 @@ interface PerformanceChartProps {
   isLoading: boolean;
 }
 
-export function PerformanceChart({ 
-  metrics, 
-  title, 
-  fields, 
+export function PerformanceChart({
+  metrics,
+  title,
+  fields,
   targetLine,
-  isLoading 
+  isLoading
 }: PerformanceChartProps) {
+  const [recharts, setRecharts] = useState<RechartsModule | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    import('recharts').then((mod) => {
+      if (mounted) setRecharts(mod as RechartsModule);
+    });
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
   const chartData = useMemo(() => {
     // Reverse to show oldest to newest (left to right)
     return [...metrics].reverse().map((m) => ({
@@ -52,7 +55,7 @@ export function PerformanceChart({
     }));
   }, [metrics, fields]);
 
-  if (isLoading) {
+  if (isLoading || !recharts) {
     return (
       <Card>
         <CardHeader>
@@ -80,6 +83,18 @@ export function PerformanceChart({
     );
   }
 
+  const {
+    LineChart,
+    Line,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    ResponsiveContainer,
+    ReferenceLine,
+    Legend,
+  } = recharts;
+
   return (
     <Card>
       <CardHeader>
@@ -90,18 +105,18 @@ export function PerformanceChart({
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={chartData} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-              <XAxis 
-                dataKey="date" 
+              <XAxis
+                dataKey="date"
                 tick={{ fontSize: 12 }}
                 className="text-muted-foreground"
               />
-              <YAxis 
+              <YAxis
                 tick={{ fontSize: 12 }}
                 className="text-muted-foreground"
                 width={60}
               />
-              <Tooltip 
-                contentStyle={{ 
+              <Tooltip
+                contentStyle={{
                   backgroundColor: 'hsl(var(--popover))',
                   border: '1px solid hsl(var(--border))',
                   borderRadius: '8px',
@@ -115,21 +130,21 @@ export function PerformanceChart({
                 }}
               />
               <Legend />
-              
+
               {targetLine !== undefined && (
-                <ReferenceLine 
-                  y={targetLine} 
-                  stroke="hsl(var(--destructive))" 
+                <ReferenceLine
+                  y={targetLine}
+                  stroke="hsl(var(--destructive))"
                   strokeDasharray="5 5"
-                  label={{ 
-                    value: `Target: ${targetLine}`, 
+                  label={{
+                    value: `Target: ${targetLine}`,
                     position: 'right',
                     fill: 'hsl(var(--destructive))',
                     fontSize: 11,
                   }}
                 />
               )}
-              
+
               {fields.map((field) => (
                 <Line
                   key={field.key}

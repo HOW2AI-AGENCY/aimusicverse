@@ -10,7 +10,8 @@ import { useState, useCallback, useRef } from 'react';
 import { logger } from '@/lib/logger';
 import type { StemEffects } from './studio/types';
 import { defaultStemEffects } from './studio/stemEffectsConfig';
-import lamejs from 'lamejs';
+
+type LameModule = typeof import('lamejs');
 
 interface StemMixData {
   id: string;
@@ -103,26 +104,29 @@ function audioBufferToWav(buffer: AudioBuffer): Blob {
   return new Blob([arrayBuffer], { type: 'audio/wav' });
 }
 
-// Convert AudioBuffer to MP3 using lamejs
-function audioBufferToMp3(buffer: AudioBuffer, bitRate: number = 192): Blob {
+// Convert AudioBuffer to MP3 using lamejs (lazy-loaded)
+async function audioBufferToMp3(buffer: AudioBuffer, bitRate: number = 192): Promise<Blob> {
   const numChannels = buffer.numberOfChannels;
   const sampleRate = buffer.sampleRate;
-  
-  const mp3encoder = new lamejs.Mp3Encoder(numChannels, sampleRate, bitRate);
+
+  const lame = (await import('lamejs')) as unknown as LameModule;
+  const Mp3Encoder = (lame as any).Mp3Encoder;
+
+  const mp3encoder = new Mp3Encoder(numChannels, sampleRate, bitRate);
   const mp3Data: number[][] = [];
-  
+
   const left = buffer.getChannelData(0);
   const right = numChannels > 1 ? buffer.getChannelData(1) : left;
-  
+
   // Convert Float32Array to Int16Array
   const leftInt16 = new Int16Array(left.length);
   const rightInt16 = new Int16Array(right.length);
-  
+
   for (let i = 0; i < left.length; i++) {
     leftInt16[i] = Math.max(-32768, Math.min(32767, Math.round(left[i] * 32767)));
     rightInt16[i] = Math.max(-32768, Math.min(32767, Math.round(right[i] * 32767)));
   }
-  
+
   // Encode in chunks
   const blockSize = 1152;
   for (let i = 0; i < leftInt16.length; i += blockSize) {
@@ -133,17 +137,17 @@ function audioBufferToMp3(buffer: AudioBuffer, bitRate: number = 192): Blob {
       mp3Data.push(Array.from(mp3buf));
     }
   }
-  
+
   // Flush remaining data
   const mp3buf = mp3encoder.flush();
   if (mp3buf.length > 0) {
     mp3Data.push(Array.from(mp3buf));
   }
-  
+
   // Combine all chunks into single array
   const combined = mp3Data.flat();
   const uint8Array = new Uint8Array(combined);
-  
+
   return new Blob([uint8Array.buffer], { type: 'audio/mp3' });
 }
 
@@ -304,7 +308,7 @@ export function useMixExport() {
       let outputBlob: Blob;
       if (options.format === 'mp3') {
         setProgressMessage('Кодирование в MP3...');
-        outputBlob = audioBufferToMp3(renderedBuffer, options.bitRate || 192);
+        outputBlob = await audioBufferToMp3(renderedBuffer, options.bitRate || 192);
       } else {
         outputBlob = audioBufferToWav(renderedBuffer);
       }
