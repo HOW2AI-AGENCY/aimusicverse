@@ -58,6 +58,7 @@ const Blog = lazy(() => import("./pages/Blog"));
 const Community = lazy(() => import("./pages/Community"));
 const Onboarding = lazy(() => import("./pages/Onboarding"));
 const Rewards = lazy(() => import("./pages/Rewards"));
+const Referral = lazy(() => import("./pages/Referral"));
 
 // Heavy pages - load on demand
 const Analytics = lazy(() => import(/* webpackChunkName: "analytics" */ "./pages/Analytics"));
@@ -161,6 +162,7 @@ const App = () => (
                 <Route path="/community" element={<Community />} />
                 <Route path="/onboarding" element={<Onboarding />} />
                 <Route path="/rewards" element={<Rewards />} />
+                <Route path="/referral" element={<Referral />} />
                 <Route path="/analytics" element={<Analytics />} />
                 <Route path="/admin" element={<AdminDashboard />} />
                 <Route path="/admin/moderation" element={<ModerationDashboard />} />
