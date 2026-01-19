@@ -912,6 +912,57 @@ export type Database = {
         }
         Relationships: []
       }
+      feature_flags: {
+        Row: {
+          category: string
+          created_at: string
+          description: string | null
+          enabled: boolean
+          icon: string | null
+          id: string
+          is_admin_only: boolean | null
+          key: string
+          metadata: Json | null
+          min_tier: string | null
+          name: string
+          rollout_percentage: number | null
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          enabled?: boolean
+          icon?: string | null
+          id?: string
+          is_admin_only?: boolean | null
+          key: string
+          metadata?: Json | null
+          min_tier?: string | null
+          name: string
+          rollout_percentage?: number | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          enabled?: boolean
+          icon?: string | null
+          id?: string
+          is_admin_only?: boolean | null
+          key?: string
+          metadata?: Json | null
+          min_tier?: string | null
+          name?: string
+          rollout_percentage?: number | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
       feature_permissions: {
         Row: {
           created_at: string | null

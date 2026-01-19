@@ -49,6 +49,7 @@ import { AdminUserCard } from "@/components/admin/AdminUserCard";
 import { PerformanceDashboard } from "@/components/performance";
 import { GenerationStatsPanel } from "@/components/admin/GenerationStatsPanel";
 import { EconomyConfigEditor } from "@/components/admin/economy";
+import { FeatureFlagsEditor } from "@/components/admin/features";
 import { SubscriptionTiersManager } from "@/components/admin/SubscriptionTiersManager";
 import { useQueryClient } from "@tanstack/react-query";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -453,7 +454,10 @@ export default function AdminDashboard() {
 
         {/* Economy Tab */}
         {activeTab === "economy" && (
-          <EconomyConfigEditor />
+          <div className="space-y-4">
+            <EconomyConfigEditor />
+            <FeatureFlagsEditor />
+          </div>
         )}
 
         {/* Tariffs Tab */}
