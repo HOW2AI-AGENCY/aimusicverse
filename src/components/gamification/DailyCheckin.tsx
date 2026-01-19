@@ -27,9 +27,9 @@ export const DailyCheckin = memo(function DailyCheckin() {
       onSuccess: (result) => {
         // Show unified reward notification
         if (result.streak > 1) {
-          showStreak(result.streak, result.credits, result.experience);
+          showStreak(result.streak, { credits: result.credits, experience: result.experience });
         } else {
-          showCredits(result.credits, result.experience);
+          showCredits(result.credits);
         }
         // Mark first checkin completed for gamification onboarding
         localStorage.setItem('first-checkin-completed', 'true');

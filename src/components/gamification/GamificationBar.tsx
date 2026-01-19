@@ -40,9 +40,9 @@ export const GamificationBar = memo(function GamificationBar({ className }: Gami
       onSuccess: (result) => {
         // Show unified reward notification
         if (result.streak > 1) {
-          showStreak(result.streak, result.credits, result.experience);
+          showStreak(result.streak, { credits: result.credits, experience: result.experience });
         } else {
-          showCredits(result.credits, result.experience);
+          showCredits(result.credits);
         }
         localStorage.setItem('first-checkin-completed', 'true');
       },
