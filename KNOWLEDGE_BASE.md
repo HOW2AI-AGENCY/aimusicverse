@@ -1,7 +1,7 @@
 # 📚 БАЗА ЗНАНИЙ ПРОЕКТА MusicVerse AI
 
 > **Последнее обновление:** 2026-01-19 (Roadmap V4)  
-> **Версия проекта:** 1.6.0 (UI Unification Complete)
+> **Версия проекта:** 1.7.0 (UI & Toast Unification Complete)
 
 ---
 
@@ -74,6 +74,23 @@ import { UnifiedDialog } from '@/components/dialog';
 <UnifiedDialog variant="modal" ... />  // Desktop модальное окно
 <UnifiedDialog variant="sheet" ... />  // Mobile bottom sheet
 <UnifiedDialog variant="alert" ... />  // Confirmation dialog
+```
+
+### Toast/Notification System ✅
+**Стандарт:** Только Sonner, Radix Toast удалён
+
+```typescript
+// Централизованный сервис с дедупликацией
+import { notify } from '@/lib/notifications';
+
+notify.success('Готово!');
+notify.error('Ошибка');
+notify.generationStarted('music');
+notify.creditsLow(5);
+
+// Для ошибок с recovery
+import { displayError, showErrorWithRecovery } from '@/lib/errorReporting';
+displayError(appError, { onRetry: () => retry() });
 ```
 
 ---

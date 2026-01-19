@@ -45,7 +45,15 @@
 - [x] Haptic feedback интеграция
 - [x] 44px touch targets для header actions
 
-#### 1.3 Снижение Bounce Rate — 📋 PLANNED
+#### 1.4 Toast/Error System Audit — ✅ COMPLETE ✨ NEW
+- [x] Radix Toast удалён (use-toast.ts, toast.tsx)
+- [x] Sonner как единственная система уведомлений
+- [x] Централизованное позиционирование (toast-position.ts)
+- [x] Дедупликация через notify service (notifications.ts)
+- [x] Error display через displayError/showErrorWithRecovery
+- [x] Telegram-aware offsets в Toaster
+
+#### 1.5 Снижение Bounce Rate — 📋 PLANNED
 - [ ] Показывать популярные треки без авторизации
 - [ ] Упростить путь до первой генерации (2 клика)
 - [ ] CTA "Попробовать бесплатно"
