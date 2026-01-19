@@ -35,6 +35,16 @@
 - [x] Удалены deprecated: LevelUpNotification, AchievementUnlockNotification, RewardCelebration
 - [x] DailyCheckin и GamificationBar используют unified notifications
 
+#### 1.3 ResponsiveModal → UnifiedDialog Migration — ✅ COMPLETE ✨ NEW
+- [x] CreatePlaylistDialog → UnifiedDialog variant="sheet"
+- [x] LibraryFilterModal → UnifiedDialog variant="sheet"
+- [x] ComingSoonModal → UnifiedDialog variant="modal"
+- [x] CreateArtistFromTrackDialog → UnifiedDialog variant="sheet"
+- [x] ResponsiveModal удалён из проекта
+- [x] UnifiedDialog с Telegram safe area поддержкой
+- [x] Haptic feedback интеграция
+- [x] 44px touch targets для header actions
+
 #### 1.3 Снижение Bounce Rate — 📋 PLANNED
 - [ ] Показывать популярные треки без авторизации
 - [ ] Упростить путь до первой генерации (2 клика)
@@ -122,6 +132,18 @@ src/App.tsx
 src/components/gamification/LevelUpNotification.tsx
 src/components/gamification/AchievementUnlockNotification.tsx
 src/components/gamification/RewardCelebration.tsx
+src/components/ui/responsive-modal.tsx
+```
+
+### Files Modified (ResponsiveModal Migration)
+```
+src/components/playlist/CreatePlaylistDialog.tsx
+src/components/library/LibraryFilterModal.tsx
+src/components/beta/ComingSoonModal.tsx
+src/components/artist/CreateArtistFromTrackDialog.tsx
+src/components/dialog/variants/sheet.tsx
+src/components/dialog/variants/modal.tsx
+src/components/dialog/unified-dialog.types.ts
 ```
 
 ---

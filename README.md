@@ -35,9 +35,9 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Sprint-Roadmap_V4-blue?style=flat-square" alt="Current Sprint" />
-  <img src="https://img.shields.io/badge/Progress-98%25-success?style=flat-square" alt="Progress" />
+  <img src="https://img.shields.io/badge/Progress-99%25-success?style=flat-square" alt="Progress" />
   <img src="https://img.shields.io/badge/Health_Score-99%2F100-brightgreen?style=flat-square" alt="Health" />
-  <img src="https://img.shields.io/badge/Components-170+-orange?style=flat-square" alt="Components" />
+  <img src="https://img.shields.io/badge/Components-165+-orange?style=flat-square" alt="Components" />
 </p>
 
 </div>

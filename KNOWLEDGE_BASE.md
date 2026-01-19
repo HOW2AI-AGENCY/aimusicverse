@@ -1,11 +1,32 @@
 # 📚 БАЗА ЗНАНИЙ ПРОЕКТА MusicVerse AI
 
 > **Последнее обновление:** 2026-01-19 (Roadmap V4)  
-> **Версия проекта:** 1.5.0 (Popup/Notification Unification Complete)
+> **Версия проекта:** 1.6.0 (UI Unification Complete)
 
 ---
 
-## 🆕 НОВОЕ: Popup/Notification Unification (January 19, 2026)
+## 🆕 НОВОЕ: UI Unification Complete (January 19, 2026)
+
+### ResponsiveModal → UnifiedDialog Migration ✅
+**Цель:** Единый компонент для всех модальных окон с Telegram Mini App оптимизацией
+
+**Удалённые компоненты:**
+- ❌ `src/components/ui/responsive-modal.tsx` — полностью заменён на UnifiedDialog
+
+**Миграция:**
+| Компонент | До | После |
+|-----------|-----|-------|
+| CreatePlaylistDialog | ResponsiveModal | UnifiedDialog variant="sheet" |
+| LibraryFilterModal | ResponsiveModal | UnifiedDialog variant="sheet" |
+| ComingSoonModal | ResponsiveModal | UnifiedDialog variant="modal" |
+| CreateArtistFromTrackDialog | ResponsiveModal | UnifiedDialog variant="sheet" |
+
+**Telegram Mini App оптимизации:**
+- ✅ Safe area поддержка (`--tg-safe-area-inset-bottom`, `env(safe-area-inset-bottom)`)
+- ✅ Haptic feedback при открытии/закрытии
+- ✅ 44px минимальные touch targets
+- ✅ iOS momentum scrolling
+- ✅ Drag handle для bottom sheet
 
 ### Unified Reward Notification System ✅
 **Цель:** Консолидировать 4 gamification компонента в 1
@@ -96,7 +117,8 @@ import { ContentSkeleton } from '@/components/ui/ContentSkeleton';
 - ✅ QuickLikeButton
 - ✅ Skeleton loaders
 - ✅ Фильтр по статусу
-- ✅ **Унификация Popup/Notification систем** ✨ NEW
+- ✅ **Унификация Popup/Notification систем** ✨
+- ✅ **ResponsiveModal → UnifiedDialog миграция** ✨ NEW
 - 📋 Интеграция валидации в extend/cover
 - 📋 Снижение Bounce Rate
 
@@ -111,8 +133,9 @@ import { ContentSkeleton } from '@/components/ui/ContentSkeleton';
 
 ```
 src/
-├── components/           # 170+ React компонентов
+├── components/           # 165+ React компонентов
 │   ├── ui/               # Base UI (shadcn/ui)
+│   ├── dialog/           # UnifiedDialog система
 │   ├── player/           # Аудио плеер
 │   ├── library/          # Библиотека треков
 │   ├── generate-form/    # Форма генерации
@@ -121,18 +144,19 @@ src/
 │   ├── admin/            # Админ панель
 │   ├── track/            # Компоненты треков
 │   ├── social/           # Социальные функции
-│   └── gamification/     # Геймификация
+│   └── gamification/     # Геймификация (UnifiedRewardNotification)
 ├── hooks/                # 100+ кастомных хуков
 │   ├── audio/            # usePlayerState, useAudioTime
 │   ├── generation/       # useGenerateForm
 │   ├── studio/           # useStudioState
 │   └── telegram/         # useTelegramMainButton
 ├── stores/               # Zustand stores
+├── contexts/             # React Contexts (RewardNotificationContext)
 ├── services/             # Сервисы API
 ├── lib/                  # Утилиты
 │   ├── errors/           # Типизированные ошибки
 │   ├── audio/            # Аудио утилиты
-│   └── artistReplacements.ts  # NEW: Замены артистов
+│   └── artistReplacements.ts  # Замены артистов
 ├── types/                # TypeScript типы
 └── pages/                # Страницы приложения
 ```
