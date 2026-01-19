@@ -356,7 +356,12 @@ All colors MUST be HSL.
     margin: 0 auto;
     width: calc(100% - 1rem);
     max-width: 26rem;
-    margin-bottom: max(env(safe-area-inset-bottom, 0px), 0.5rem);
+    /* iPhone safe area: учитываем и Telegram переменные, и стандартный env() */
+    margin-bottom: max(
+      var(--tg-safe-area-inset-bottom, 0px),
+      env(safe-area-inset-bottom, 0px),
+      0.5rem
+    );
     background: hsl(var(--background) / 0.9);
     backdrop-filter: blur(24px) saturate(180%);
     -webkit-backdrop-filter: blur(24px) saturate(180%);
