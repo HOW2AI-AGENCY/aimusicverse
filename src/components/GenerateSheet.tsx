@@ -49,6 +49,7 @@ import { PromptHistory } from './generate-form/PromptHistory';
 import { LyricsChatAssistant } from './generate-form/LyricsChatAssistant';
 import { StylePresetSelector } from './generate-form/StylePresetSelector';
 import { CreditBalanceWarning } from './generate-form/CreditBalanceWarning';
+import { CreditBalanceIndicator } from './generate-form/CreditBalanceIndicator';
 // UploadAudioDialog removed - now using unified form for cover/extend
 import {
   AlertDialog,
@@ -389,6 +390,16 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
             transition: 'padding-bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
           }}
         >
+          {/* Credit balance indicator */}
+          <div className="flex items-center justify-between mb-2">
+            <CreditBalanceIndicator 
+              balance={form.userBalance} 
+              cost={form.generationCost} 
+            />
+            {form.loading && (
+              <span className="text-xs text-muted-foreground animate-pulse">Создание...</span>
+            )}
+          </div>
           {form.loading && (
             <div className="mb-1.5">
               <Progress value={33} className="h-1" />
