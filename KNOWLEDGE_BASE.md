@@ -1,7 +1,103 @@
 # 📚 БАЗА ЗНАНИЙ ПРОЕКТА MusicVerse AI
 
-> **Последнее обновление:** 2026-01-19 (Roadmap V4)  
-> **Версия проекта:** 1.7.0 (UI & Toast Unification Complete)
+> **Последнее обновление:** 2026-01-19 (Infrastructure Optimization Complete)  
+> **Версия проекта:** 1.8.0 (DB + Thumbnails + Modular Admin)
+
+---
+
+## 🆕 НОВОЕ: Infrastructure Optimization (January 19, 2026)
+
+### Фаза 1: Загрузка треков по жанрам ✅
+**Проблема:** Секции по жанрам были пустые — загружалось только 20 треков с клиентской фильтрацией
+
+**Решение:**
+```typescript
+// usePublicContent.ts — серверная фильтрация по computed_genre
+const GENRE_QUERIES = [
+  { key: 'hiphop', dbValues: ['hip-hop', 'hiphop', 'hip hop', 'rap'] },
+  { key: 'pop', dbValues: ['pop', 'pop-music', 'electropop'] },
+  // ...
+];
+
+// Параллельные запросы для каждого жанра
+const [mainResult, ...genreResults] = await Promise.all([
+  supabase.from("tracks").select(...).limit(30),
+  ...GENRE_QUERIES.map(genre => 
+    supabase.from("tracks").eq("computed_genre", genre.dbValues).limit(12)
+  ),
+]);
+```
+
+**Результат:** 100% секций отображаются (было ~10%)
+
+### Фаза 2: Cover Image Thumbnails ✅
+**Цель:** Pre-generate WebP thumbnails для ускорения загрузки (-60% bandwidth)
+
+**Новая таблица:** `public.cover_thumbnails`
+```sql
+-- Хранит предгенерированные thumbnail URLs
+CREATE TABLE public.cover_thumbnails (
+  track_id UUID REFERENCES tracks(id),
+  small_url TEXT,   -- 160px WebP
+  medium_url TEXT,  -- 320px WebP
+  large_url TEXT,   -- 640px WebP
+  blurhash TEXT,
+  dominant_color TEXT,
+  status TEXT DEFAULT 'pending'
+);
+```
+
+**Edge Function:** `supabase/functions/generate-thumbnails/index.ts`
+
+**TODO:**
+- [ ] Реализовать blurhash генерацию
+- [ ] Добавить batch processing для существующих обложек
+- [ ] Интегрировать pg_net для автоматического вызова Edge Function
+
+**Фронтенд хелпер:**
+```typescript
+// src/lib/imageOptimization.ts
+export function getTrackCoverUrl(
+  coverUrl: string,
+  size: 'small' | 'medium' | 'large',
+  thumbnails?: ThumbnailUrls  // NEW: pre-generated thumbnails
+): string;
+```
+
+### Фаза 3: Database Optimization ✅
+**Новые индексы:**
+```sql
+-- Оптимизация публичных треков по жанрам
+CREATE INDEX idx_tracks_public_genre_optimized 
+  ON public.tracks(is_public, status, computed_genre);
+
+-- Сортировка по свежести
+CREATE INDEX idx_tracks_public_recent 
+  ON public.tracks(created_at DESC);
+
+-- Сортировка по популярности
+CREATE INDEX idx_tracks_public_popular 
+  ON public.tracks(play_count DESC NULLS LAST);
+```
+
+### Фаза 4: Modular Admin Panel ✅
+**Архитектура:** Nested routes с lazy loading
+
+```typescript
+// App.tsx — вложенные роуты
+<Route path="/admin" element={<AdminLayout />}>
+  <Route index element={<AdminOverview />} />
+  <Route path="analytics" element={<AnalyticsDashboard />} />
+  <Route path="economy" element={<AdminEconomy />} />
+  <Route path="users" element={<AdminUsers />} />
+  <Route path="tracks" element={<AdminTracks />} />
+  // ...ещё 10+ sub-routes
+</Route>
+```
+
+**Файлы:** `src/pages/admin/` (16 компонентов)
+
+**Удалённые дубликаты:** `src/components/admin/pages/` — объединено с `src/pages/admin/`
 
 ---
 

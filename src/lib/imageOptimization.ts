@@ -300,14 +300,58 @@ export function getOptimizedImageUrl(
 }
 
 /**
+ * Thumbnail URLs from cover_thumbnails table
+ * Used for pre-generated WebP thumbnails
+ * 
+ * TODO: Integrate with track queries to fetch these alongside track data
+ */
+export interface ThumbnailUrls {
+  small_url?: string | null;
+  medium_url?: string | null;
+  large_url?: string | null;
+  blurhash?: string | null;
+  dominant_color?: string | null;
+}
+
+/**
  * Get optimized cover URL for track cards
+ * 
+ * Priority:
+ * 1. Pre-generated thumbnail (if available) - fastest, WebP
+ * 2. On-the-fly Supabase transform - slower but works
+ * 3. Original URL - fallback
+ * 
+ * @param coverUrl - Original cover URL from track
+ * @param size - Thumbnail size preset
+ * @param thumbnails - Optional pre-generated thumbnails from cover_thumbnails table
+ * @returns Optimized image URL
+ * 
+ * TODO: Add srcset generation for responsive images
+ * TODO: Consider using blurhash for instant placeholder
  */
 export function getTrackCoverUrl(
   coverUrl: string | null | undefined,
-  size: 'small' | 'medium' | 'large' = 'medium'
+  size: 'small' | 'medium' | 'large' = 'medium',
+  thumbnails?: ThumbnailUrls | null
 ): string {
   if (!coverUrl) return '';
   
+  // Priority 1: Use pre-generated thumbnail if available
+  // These are already optimized WebP images stored in Supabase Storage
+  if (thumbnails) {
+    const thumbnailUrl = size === 'small' 
+      ? thumbnails.small_url
+      : size === 'medium' 
+        ? thumbnails.medium_url
+        : thumbnails.large_url;
+    
+    if (thumbnailUrl) {
+      return thumbnailUrl;
+    }
+  }
+  
+  // Priority 2: Fall back to on-the-fly transformation
+  // Supabase Storage image transforms work but add latency
   const sizeMap = {
     small: { width: 160, quality: 70 },
     medium: { width: 320, quality: 80 },
@@ -316,6 +360,18 @@ export function getTrackCoverUrl(
   
   const { width, quality } = sizeMap[size];
   return getOptimizedImageUrl(coverUrl, { width, quality });
+}
+
+/**
+ * Get dominant color from thumbnails for placeholder background
+ * 
+ * @param thumbnails - Thumbnail data from cover_thumbnails table
+ * @returns Hex color string or default background color
+ */
+export function getThumbnailPlaceholderColor(
+  thumbnails?: ThumbnailUrls | null
+): string {
+  return thumbnails?.dominant_color || 'hsl(var(--muted))';
 }
 
 /**
