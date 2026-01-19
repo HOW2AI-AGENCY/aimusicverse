@@ -152,20 +152,20 @@ const Index = () => {
     }
   }, [hapticFeedback]);
 
-  // Animation props
+  // Animation props - simplified for faster rendering
   const fadeInUp = useMemo(() => prefersReducedMotion
     ? {}
-    : { initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.25 } },
+    : { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: 0.15 } },
     [prefersReducedMotion]
   );
 
   const lazySectionAnimation = useMemo(() => prefersReducedMotion
     ? {}
     : {
-        initial: { opacity: 0, y: 30 },
-        animate: { opacity: 1, y: 0 },
-        transition: { duration: 0.3, ease: "easeOut" as const },
-        viewport: { once: true, margin: "-50px" }
+        initial: { opacity: 0 },
+        animate: { opacity: 1 },
+        transition: { duration: 0.2 },
+        viewport: { once: true, margin: "-30px" }
       },
     [prefersReducedMotion]
   );
@@ -176,11 +176,10 @@ const Index = () => {
       disabled={!isMobile}
       className="min-h-screen bg-background pb-24 relative overflow-hidden"
     >
-      {/* Background gradient */}
-      {!prefersReducedMotion && (
-        <div className="fixed inset-0 pointer-events-none opacity-20">
-          <div className="absolute top-0 left-1/4 w-48 sm:w-72 h-48 sm:h-72 bg-primary/15 rounded-full blur-3xl" />
-          <div className="absolute top-1/3 right-1/4 w-40 sm:w-64 h-40 sm:h-64 bg-generate/10 rounded-full blur-3xl" />
+      {/* Background gradient - lazy rendered */}
+      {!prefersReducedMotion && !showSkeleton && (
+        <div className="fixed inset-0 pointer-events-none opacity-15">
+          <div className="absolute top-0 left-1/4 w-48 h-48 bg-primary/10 rounded-full blur-3xl" />
         </div>
       )}
 
