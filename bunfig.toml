@@ -1,0 +1,10 @@
+# Bun configuration to reduce transient install failures in CI/preview environments.
+# https://bun.sh/docs/runtime/bunfig
+
+[install]
+# Increase network/install timeout to avoid "Process killed due to timeout" on cold installs.
+# Value is in milliseconds.
+timeout = 300000
+
+# Prefer reusing cached artifacts when available.
+cache = true
