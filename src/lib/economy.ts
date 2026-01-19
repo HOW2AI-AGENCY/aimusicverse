@@ -74,10 +74,15 @@ export const ECONOMY = {
   SUBSCRIPTION_XP_BONUS: 50,
   FIRST_PURCHASE_BONUS_CREDITS: 25,
   
-  // Referral
+  // Referral (reduced rewards)
   REFERRAL_PERCENT: 10, // 10% of purchase
-  REFERRAL_INVITE_BONUS: 100, // Credits for inviter
-  REFERRAL_NEW_USER_BONUS: 50, // Credits for new user
+  REFERRAL_INVITE_BONUS: 15, // Credits for inviter (was 100)
+  REFERRAL_NEW_USER_BONUS: 15, // Credits for new user (was 50)
+  
+  // Free user limits
+  FREE_DAILY_EARN_CAP: 30, // Max credits free user can earn per day
+  FREE_MAX_BALANCE: 100, // Max balance for free users
+  WELCOME_BONUS: 50, // Registration bonus
 } as const;
 
 /**
