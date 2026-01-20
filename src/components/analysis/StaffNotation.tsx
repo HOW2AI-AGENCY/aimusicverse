@@ -9,10 +9,12 @@
  * - Measure bar lines
  * - Note duration representation (whole, half, quarter, eighth, sixteenth)
  * - Responsive line breaks based on container width
+ * - Mobile optimization: adaptive spacing, note limiting for performance
  */
 
 import { memo, useMemo, useRef, useState, useEffect, type ReactNode } from 'react';
 import { cn } from '@/lib/utils';
+import { Loader2 } from 'lucide-react';
 
 interface NoteInput {
   pitch?: number;
@@ -128,50 +130,69 @@ export const StaffNotation = memo(function StaffNotation({
   className,
 }: StaffNotationProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [containerWidth, setContainerWidth] = useState(600);
-  
-  // Measure container width
+  const [containerWidth, setContainerWidth] = useState(350); // Mobile-friendly default
+  const [isRendering, setIsRendering] = useState(false);
+
+  // Show loading state for large scores on mobile
+  useEffect(() => {
+    if (notes.length > 100 && isMobile) {
+      setIsRendering(true);
+      const timer = setTimeout(() => setIsRendering(false), 100);
+      return () => clearTimeout(timer);
+    }
+  }, [notes.length, isMobile]);
+
+  // Measure container width with mobile detection
   useEffect(() => {
     const updateWidth = () => {
       if (containerRef.current) {
-        setContainerWidth(containerRef.current.clientWidth);
+        const width = containerRef.current.clientWidth;
+        // Ensure minimum width for mobile devices
+        setContainerWidth(Math.max(width, 320));
       }
     };
-    
+
     updateWidth();
-    
+
     const resizeObserver = new ResizeObserver(updateWidth);
     if (containerRef.current) {
       resizeObserver.observe(containerRef.current);
     }
-    
+
     return () => resizeObserver.disconnect();
   }, []);
 
+  // Mobile detection - must be before useMemo
+  const isMobile = containerWidth < 500;
+
   const ts = timeSignature ?? { numerator: 4, denominator: 4 };
-  
+
+  // Performance: Limit notes for rendering on mobile
+  const maxNotes = isMobile ? 200 : 500;
+  const limitedNotes = notes.slice(0, maxNotes);
+
   const { processedNotes, clef, keyInfo } = useMemo(() => {
-    if (notes.length === 0) {
-      return { 
-        processedNotes: [] as ProcessedNote[], 
+    if (limitedNotes.length === 0) {
+      return {
+        processedNotes: [] as ProcessedNote[],
         clef: 'treble' as const,
         keyInfo: { sharps: 0, flats: 0 }
       };
     }
-    
+
     const secondsPerBeat = 60 / bpm;
     const secondsPerMeasure = ts.numerator * secondsPerBeat;
-    
-    const avgPitch = notes.reduce((sum, n) => sum + (n.pitch ?? n.midi ?? 60), 0) / notes.length;
+
+    const avgPitch = limitedNotes.reduce((sum, n) => sum + (n.pitch ?? n.midi ?? 60), 0) / limitedNotes.length;
     const useClef: 'treble' | 'bass' = avgPitch < 55 ? 'bass' : 'treble';
-    
-    const processed: ProcessedNote[] = notes.map(n => {
+
+    const processed: ProcessedNote[] = limitedNotes.map(n => {
       const pitch = n.pitch ?? n.midi ?? 60;
       const startTime = n.startTime ?? n.time ?? 0;
       const noteDuration = n.duration ?? 0.5;
       const beatDuration = noteDuration / secondsPerBeat;
       const position = getStaffPosition(pitch, useClef);
-      
+
       return {
         pitch,
         startTime,
@@ -190,18 +211,18 @@ export const StaffNotation = memo(function StaffNotation({
     const ki = KEY_SIGNATURES[keyStr] || { sharps: 0, flats: 0 };
     
     return { processedNotes: processed, clef: useClef, keyInfo: ki };
-  }, [notes, bpm, ts, keySignature]);
+  }, [limitedNotes, bpm, ts, keySignature, isMobile]);
 
-  // Layout constants
-  const lineSpacing = 8;
+  // Layout constants - mobile-optimized
+  const lineSpacing = isMobile ? 10 : 8; // Larger spacing on mobile for readability
   const staffHeight = lineSpacing * 4;
-  const rowHeight = staffHeight + 70;
-  const clefWidth = 32;
-  const keySignatureWidth = (keyInfo.sharps + keyInfo.flats) * 9;
-  const timeSignatureWidth = 22;
-  const marginLeft = 10;
-  const marginRight = 10;
-  const minNoteSpacing = 14; // Minimum horizontal space between notes
+  const rowHeight = staffHeight + (isMobile ? 80 : 70);
+  const clefWidth = isMobile ? 28 : 32;
+  const keySignatureWidth = (keyInfo.sharps + keyInfo.flats) * (isMobile ? 10 : 9);
+  const timeSignatureWidth = isMobile ? 20 : 22;
+  const marginLeft = isMobile ? 8 : 10;
+  const marginRight = isMobile ? 8 : 10;
+  const minNoteSpacing = isMobile ? 12 : 14; // Slightly tighter on mobile
   
   const secondsPerBeat = 60 / bpm;
   const secondsPerMeasure = ts.numerator * secondsPerBeat;
@@ -233,6 +254,11 @@ export const StaffNotation = memo(function StaffNotation({
   
   const totalRows = Math.ceil(totalMeasures / measuresPerRow);
   const svgHeight = Math.max(height, totalRows * rowHeight + 40);
+  const svgWidth = containerWidth; // Full width for horizontal scrolling
+
+  // Check if notes were limited for performance
+  const hasMoreNotes = notes.length > maxNotes;
+  const remainingNotes = notes.length - maxNotes;
 
   if (notes.length === 0) {
     return (
@@ -406,16 +432,36 @@ export const StaffNotation = memo(function StaffNotation({
   };
 
   return (
-    <div 
+    <div
       ref={containerRef}
-      className={cn("bg-white dark:bg-slate-950 rounded-lg overflow-auto", className)}
-      style={{ height }}
+      className={cn(
+        "bg-white dark:bg-slate-950 rounded-lg overflow-auto relative",
+        // Mobile-optimized scrolling
+        "overflow-x-auto overflow-y-auto touch-pan-x touch-pan-y",
+        className
+      )}
+      style={{
+        height,
+        // Enable smooth scrolling on touch devices
+        WebkitOverflowScrolling: 'touch',
+      }}
     >
-      <svg 
-        width={containerWidth}
+      {/* Loading overlay for large scores on mobile */}
+      {isRendering && (
+        <div className="absolute inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm z-10 rounded-lg">
+          <div className="flex flex-col items-center gap-2">
+            <Loader2 className="w-5 h-5 animate-spin text-primary" />
+            <p className="text-xs text-muted-foreground">Рендеринг нот...</p>
+          </div>
+        </div>
+      )}
+
+      <svg
+        width={Math.max(containerWidth, svgWidth)} // Ensure full width
         height={svgHeight}
-        viewBox={`0 0 ${containerWidth} ${svgHeight}`}
+        viewBox={`0 0 ${Math.max(containerWidth, svgWidth)} ${svgHeight}`}
         style={{ background: 'transparent' }}
+        preserveAspectRatio="xMinYMid meet"
       >
         {/* Title area */}
         <g transform={`translate(${containerWidth / 2}, 18)`}>
@@ -551,6 +597,20 @@ export const StaffNotation = memo(function StaffNotation({
           );
         })}
       </svg>
+
+      {/* Performance indicator - shows when notes are limited */}
+      {hasMoreNotes && (
+        <div className="mt-2 text-center">
+          <p className="text-xs text-muted-foreground">
+            Показано {maxNotes} из {notes.length} нот.
+            {isMobile && (
+              <span className="block mt-1 text-[10px] text-muted-foreground/70">
+                Используйте Piano Roll для просмотра всех нот
+              </span>
+            )}
+          </p>
+        </div>
+      )}
     </div>
   );
 });

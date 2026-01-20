@@ -208,6 +208,8 @@ export function MusicXMLViewer({
         ref={containerRefProp}
         className={cn(
           'w-full bg-white rounded-lg overflow-x-auto overflow-y-auto touch-pan-x touch-pan-y',
+          // Mobile-optimized
+          'scrollbar-thin scrollbar-thumb-muted-foreground/20 scrollbar-track-transparent',
           isLoading && 'opacity-50'
         )}
         style={{
@@ -215,6 +217,8 @@ export function MusicXMLViewer({
           minHeight,
           // Enable smooth scrolling on touch devices
           WebkitOverflowScrolling: 'touch',
+          // Prevent overscroll bounce on iOS
+          overscrollBehavior: 'contain',
         }}
       />
     </div>

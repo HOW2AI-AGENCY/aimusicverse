@@ -411,12 +411,21 @@ export const InteractivePianoRoll = memo(function InteractivePianoRoll({
         )}
 
         {/* Scrollable piano roll */}
-        <div 
+        <div
           ref={scrollContainerRef}
           className={cn(
             "flex-1 overflow-x-auto overflow-y-hidden relative",
+            // Mobile-optimized scrolling
+            "touch-pan-x touch-pan-y",
+            "scrollbar-thin scrollbar-thumb-muted-foreground/20 scrollbar-track-transparent",
             isDragging ? "cursor-grabbing select-none" : "cursor-grab"
           )}
+          style={{
+            // Enable smooth scrolling on touch devices
+            WebkitOverflowScrolling: 'touch',
+            // Prevent overscroll bounce on iOS
+            overscrollBehavior: 'contain',
+          }}
           onWheel={(e) => {
             if (!scrollContainerRef.current) return;
             // Shift+wheel for horizontal scroll, or vertical wheel scrolls horizontally

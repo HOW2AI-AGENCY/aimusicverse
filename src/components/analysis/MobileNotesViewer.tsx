@@ -223,9 +223,12 @@ export const MobileNotesViewer = memo(function MobileNotesViewer({
 
       {/* Visualization area - scrollable container */}
       <div className="rounded-xl border overflow-hidden bg-background shadow-sm">
-        <div className="overflow-x-auto touch-pan-x" style={{ WebkitOverflowScrolling: 'touch' }}>
+        <div
+          className="overflow-x-auto overflow-y-hidden touch-pan-x"
+          style={{ WebkitOverflowScrolling: 'touch' }}
+        >
           {viewMode === 'piano' && (
-            <div className="min-w-[320px]">
+            <div className="min-w-[100%] xs:min-w-[350px]">
               <InteractivePianoRoll
                 notes={notes}
                 duration={duration}
@@ -234,9 +237,9 @@ export const MobileNotesViewer = memo(function MobileNotesViewer({
               />
             </div>
           )}
-          
+
           {viewMode === 'staff' && (
-            <div className="min-w-[320px]">
+            <div className="min-w-[100%] xs:min-w-[350px]">
               <StaffNotation
                 notes={notes}
                 duration={duration}
