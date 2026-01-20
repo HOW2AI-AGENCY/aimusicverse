@@ -8,7 +8,7 @@
 
 import { memo, useCallback, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
-import { MessageCircle, Close, Sparkles } from 'lucide-react';
+import { MessageCircle, X, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useTelegram } from '@/contexts/TelegramContext';
@@ -100,8 +100,12 @@ export const FirstCommentCTA = memo(function FirstCommentCTA({
   }
 
   const handleCommentClick = useCallback(() => {
-    hapticFeedback('light');
-    trackEvent('comment_cta_tapped', { trackId, variant });
+    hapticFeedback?.('light');
+    trackEvent({
+      eventType: 'feature_used',
+      eventName: 'comment_cta_tapped',
+      metadata: { trackId, variant },
+    });
 
     logger.info('First comment CTA tapped', { trackId, trackTitle });
 
@@ -110,9 +114,13 @@ export const FirstCommentCTA = memo(function FirstCommentCTA({
 
   const handleDismiss = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
-    hapticFeedback('light');
+    hapticFeedback?.('light');
 
-    trackEvent('comment_cta_dismissed', { trackId, variant });
+    trackEvent({
+      eventType: 'feature_used',
+      eventName: 'comment_cta_dismissed',
+      metadata: { trackId, variant },
+    });
 
     // Save dismissal to localStorage
     const dismissedCtas = JSON.parse(
@@ -202,7 +210,7 @@ export const FirstCommentCTA = memo(function FirstCommentCTA({
             className="shrink-0 p-1 rounded-md hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
             aria-label="Dismiss"
           >
-            <Close className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+            <X className="w-4 h-4 text-purple-600 dark:text-purple-400" />
           </button>
         </div>
       </motion.div>
@@ -227,7 +235,7 @@ export const FirstCommentCTA = memo(function FirstCommentCTA({
           className="absolute top-2 right-2 p-1 rounded-md bg-black/10 hover:bg-black/20 transition-colors"
           aria-label="Dismiss"
         >
-          <Close className="w-4 h-4 text-white/80" />
+          <X className="w-4 h-4 text-white/80" />
         </button>
 
         {/* Content */}
@@ -297,7 +305,7 @@ export const FirstCommentCTA = memo(function FirstCommentCTA({
           onClick={handleDismiss}
           className="shrink-0 p-1 rounded hover:bg-purple-100 dark:hover:bg-purple-900/30"
         >
-          <Close className="w-3 h-3 text-purple-600 dark:text-purple-400" />
+          <X className="w-3 h-3 text-purple-600 dark:text-purple-400" />
         </button>
       </motion.div>
     ),

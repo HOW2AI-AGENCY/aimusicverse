@@ -6,7 +6,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { useTracks } from '@/hooks/useTracks';
-import type { Track } from '@/integrations/supabase/types/track';
+import type { Track } from '@/types/track';
 import { logger } from '@/lib/logger';
 
 const FIRST_TRACK_KEY = 'musicverse_first_track_id';
@@ -33,11 +33,9 @@ export function useFirstGeneratedTrack(): FirstGeneratedTrackState {
   const [isLoading, setIsLoading] = useState(true);
 
   // Get user's tracks
-  const { data: tracks, isLoading: tracksLoading } = useTracks({
-    userId: user?.id,
-    limit: 1, // Only need first track
-    sortBy: 'created_at',
-    sortOrder: 'asc',
+  const { tracks, isLoading: tracksLoading } = useTracks({
+    sortBy: 'recent',
+    pageSize: 1,
   });
 
   useEffect(() => {
@@ -59,7 +57,7 @@ export function useFirstGeneratedTrack(): FirstGeneratedTrackState {
 
     if (firstTrackId && tracks && tracks.length > 0) {
       // Verify the track still exists
-      const firstTrack = tracks.find(t => t.id === firstTrackId);
+      const firstTrack = tracks.find((t: Track) => t.id === firstTrackId);
 
       if (firstTrack) {
         setState({
