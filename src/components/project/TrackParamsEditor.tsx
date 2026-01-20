@@ -101,14 +101,14 @@ export const TrackParamsEditor = memo(function TrackParamsEditor({
           Тональность
         </Label>
         <Select 
-          value={params.key_signature || ''} 
-          onValueChange={(value) => handleChange('key_signature', value || null)}
+          value={params.key_signature || 'auto'} 
+          onValueChange={(value) => handleChange('key_signature', value === 'auto' ? null : value)}
         >
           <SelectTrigger className={cn(compact && "h-8 text-sm")}>
             <SelectValue placeholder="Выбрать тональность" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">Авто</SelectItem>
+            <SelectItem value="auto">Авто</SelectItem>
             {KEY_SIGNATURES.map((key) => (
               <SelectItem key={key} value={key}>
                 {key} {key.includes('m') ? '(минор)' : '(мажор)'}

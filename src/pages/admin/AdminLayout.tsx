@@ -26,7 +26,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 
 const TAB_OPTIONS = [
-  { value: "", label: "Обзор", icon: Activity, path: "/admin" },
+  { value: "overview", label: "Обзор", icon: Activity, path: "/admin" },
   { value: "analytics", label: "Аналитика", icon: TrendingUp, path: "/admin/analytics" },
   { value: "generation-stats", label: "Генерации", icon: Music, path: "/admin/generation-stats" },
   { value: "performance", label: "Перформанс", icon: Activity, path: "/admin/performance" },
@@ -56,7 +56,7 @@ export default function AdminLayout() {
   const activeTab = useMemo(() => {
     const path = location.pathname;
     const tab = TAB_OPTIONS.find(t => t.path === path);
-    return tab?.value ?? "";
+    return tab?.value ?? "overview";
   }, [location.pathname]);
 
   const handleTabChange = (value: string) => {
