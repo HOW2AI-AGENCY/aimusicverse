@@ -498,6 +498,7 @@ export function SectionEditorSheet({
             <>
               <Zap className="w-4 h-4" />
               Заменить
+              <Badge variant="secondary" className="ml-1">5 💎</Badge>
             </>
           )}
         </Button>

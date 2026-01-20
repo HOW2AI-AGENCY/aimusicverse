@@ -33,6 +33,7 @@ const MODES = {
   simple: {
     label: 'Простое разделение',
     description: '2 стема',
+    cost: 10,  // Credits cost synced with sunoapi.org
     stems: [
       { icon: Mic2, label: 'Вокал', color: 'text-pink-500' },
       { icon: Music, label: 'Инструментал', color: 'text-blue-500' },
@@ -42,7 +43,8 @@ const MODES = {
   },
   detailed: {
     label: 'Детальное разделение',
-    description: '6+ стемов',
+    description: '12+ стемов',
+    cost: 50,  // Credits cost synced with sunoapi.org
     stems: [
       { icon: Mic2, label: 'Вокал', color: 'text-pink-500' },
       { icon: Drum, label: 'Ударные', color: 'text-orange-500' },
@@ -148,9 +150,14 @@ export function StemSeparationModeDialog({
                 ))}
               </div>
 
-              <p className="text-xs text-muted-foreground mt-2">
-                Примерное время: {config.time}
-              </p>
+              <div className="flex items-center justify-between mt-2">
+                <p className="text-xs text-muted-foreground">
+                  Примерное время: {config.time}
+                </p>
+                <span className="text-xs font-medium text-primary">
+                  {config.cost} 💎
+                </span>
+              </div>
             </motion.button>
           ))}
         </div>

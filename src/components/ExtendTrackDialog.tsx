@@ -403,7 +403,7 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
               <>
                 <Plus className="w-5 h-5" />
                 Расширить трек
-                <Badge variant="secondary" className="ml-2">1 кредит</Badge>
+                <Badge variant="secondary" className="ml-2">10 💎</Badge>
               </>
             )}
           </Button>

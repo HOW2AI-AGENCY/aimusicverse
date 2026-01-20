@@ -2,6 +2,7 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { getSupabaseClient } from '../_shared/supabase-client.ts';
 import { isSunoSuccessCode } from '../_shared/suno.ts';
 import { corsHeaders } from '../_shared/cors.ts';
+import { getStemSeparationCost } from '../_shared/economy.ts';
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -25,6 +26,35 @@ serve(async (req) => {
 
     if (!taskId || !audioId || !userId) {
       throw new Error('taskId, audioId, and userId are required');
+    }
+
+    // Calculate cost based on mode
+    const cost = getStemSeparationCost(mode as 'simple' | 'detailed');
+    console.log(`💰 Stem separation cost: ${cost} credits (mode: ${mode})`);
+
+    // Check user credits balance
+    const { data: userCredits, error: creditsError } = await supabase
+      .from('user_credits')
+      .select('balance')
+      .eq('user_id', userId)
+      .single();
+
+    if (creditsError || !userCredits) {
+      console.error('❌ Failed to check user credits:', creditsError);
+      throw new Error('Failed to check user credits');
+    }
+
+    if (userCredits.balance < cost) {
+      console.error('❌ Insufficient credits:', { balance: userCredits.balance, required: cost });
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          error: 'Недостаточно кредитов',
+          required: cost,
+          balance: userCredits.balance 
+        }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 402 }
+      );
     }
 
     // Verify track ownership
@@ -100,6 +130,32 @@ serve(async (req) => {
 
     console.log('✅ Separation initiated:', separationTaskId);
 
+    // Deduct credits after successful API call
+    const { error: deductError } = await supabase.rpc('deduct_credits', {
+      p_user_id: userId,
+      p_amount: cost,
+      p_action_type: mode === 'detailed' ? 'stem_separation_detailed' : 'stem_separation_simple',
+      p_description: `Разделение на стемы (${mode === 'detailed' ? 'детальное' : 'простое'})`,
+      p_metadata: { track_id: track.id, mode, separation_task_id: separationTaskId },
+    });
+
+    if (deductError) {
+      console.error('⚠️ Failed to deduct credits:', deductError);
+      // Don't fail the request, but log it
+    } else {
+      console.log(`✅ Deducted ${cost} credits for stem separation (${mode})`);
+    }
+
+    // Log credit transaction
+    await supabase.from('credit_transactions').insert({
+      user_id: userId,
+      amount: -cost,
+      transaction_type: 'debit',
+      action_type: mode === 'detailed' ? 'stem_separation_detailed' : 'stem_separation_simple',
+      description: `Разделение на стемы (${mode === 'detailed' ? 'детальное' : 'простое'})`,
+      metadata: { track_id: track.id, mode, separation_task_id: separationTaskId },
+    });
+
     // Save separation task mapping for callback lookup
     const { error: taskError } = await supabase
       .from('stem_separation_tasks')
@@ -122,7 +178,7 @@ serve(async (req) => {
       user_id: userId,
       change_type: 'vocal_separation_started',
       changed_by: 'suno_api',
-      metadata: { separation_task_id: separationTaskId, mode, api_type: apiType },
+      metadata: { separation_task_id: separationTaskId, mode, api_type: apiType, credits_spent: cost },
     });
 
     return new Response(

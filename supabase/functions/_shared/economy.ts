@@ -34,11 +34,13 @@ export const ECONOMY = {
   // Generation costs
   DEFAULT_GENERATION_COST,
   
-  // Feature costs
-  STEM_SEPARATION_COST: 5,
+  // Feature costs (synced with sunoapi.org prices)
+  STEM_SEPARATION_SIMPLE_COST: 10,    // 10 credits = 2 stems (vocal + instrumental)
+  STEM_SEPARATION_DETAILED_COST: 50,  // 50 credits = 12+ stems
+  REPLACE_SECTION_COST: 5,            // 5 credits = section replacement
   AUDIO_ANALYSIS_COST: 3,
-  COVER_GENERATION_COST: 10,    // Synced: was 15
-  EXTEND_GENERATION_COST: 10,
+  COVER_GENERATION_COST: 10,          // 10 credits = cover
+  EXTEND_GENERATION_COST: 10,         // 10 credits = extend
   MIDI_EXPORT_COST: 3,
   
   // Rewards (BOOSTED - synced with frontend)
@@ -93,12 +95,16 @@ export const ECONOMY = {
 export function calculateGenerationCost(options: {
   modelKey: string;
   withStems?: boolean;
+  stemMode?: 'simple' | 'detailed';
   withAnalysis?: boolean;
 }): number {
   let cost = getGenerationCost(options.modelKey);
   
   if (options.withStems) {
-    cost += ECONOMY.STEM_SEPARATION_COST;
+    // Use detailed cost if stemMode is detailed, otherwise simple
+    cost += options.stemMode === 'detailed' 
+      ? ECONOMY.STEM_SEPARATION_DETAILED_COST 
+      : ECONOMY.STEM_SEPARATION_SIMPLE_COST;
   }
   
   if (options.withAnalysis) {
@@ -106,4 +112,13 @@ export function calculateGenerationCost(options: {
   }
   
   return cost;
+}
+
+/**
+ * Get stem separation cost based on mode
+ */
+export function getStemSeparationCost(mode: 'simple' | 'detailed'): number {
+  return mode === 'detailed' 
+    ? ECONOMY.STEM_SEPARATION_DETAILED_COST 
+    : ECONOMY.STEM_SEPARATION_SIMPLE_COST;
 }

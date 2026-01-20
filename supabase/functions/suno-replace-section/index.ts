@@ -2,8 +2,10 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { getSupabaseClient } from '../_shared/supabase-client.ts';
 import { createLogger } from '../_shared/logger.ts';
 import { isSunoSuccessCode } from '../_shared/suno.ts';
+import { ECONOMY } from '../_shared/economy.ts';
 
 const logger = createLogger('suno-replace-section');
+const REPLACE_SECTION_COST = ECONOMY.REPLACE_SECTION_COST;
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -66,6 +68,35 @@ serve(async (req) => {
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
+
+    // Check user credits balance
+    const { data: userCredits, error: creditsError } = await supabase
+      .from('user_credits')
+      .select('balance')
+      .eq('user_id', user.id)
+      .single();
+
+    if (creditsError || !userCredits) {
+      logger.error('Failed to check user credits', creditsError);
+      return new Response(
+        JSON.stringify({ error: 'Failed to check user credits' }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    if (userCredits.balance < REPLACE_SECTION_COST) {
+      logger.warn('Insufficient credits', { balance: userCredits.balance, required: REPLACE_SECTION_COST });
+      return new Response(
+        JSON.stringify({ 
+          error: 'Недостаточно кредитов',
+          required: REPLACE_SECTION_COST,
+          balance: userCredits.balance 
+        }),
+        { status: 402, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    logger.info('Credits check passed', { balance: userCredits.balance, cost: REPLACE_SECTION_COST });
 
     // Get track data to retrieve suno_id and suno_task_id
     logger.info('Fetching track', { trackId, userId: user.id });
@@ -271,9 +302,33 @@ serve(async (req) => {
       },
     });
 
+    // Deduct credits after successful task creation
+    const { error: deductError } = await supabase.rpc('deduct_credits', {
+      p_user_id: user.id,
+      p_amount: REPLACE_SECTION_COST,
+      p_action_type: 'replace_section',
+      p_description: `Замена секции ${infillStartS}s - ${infillEndS}s`,
+      p_metadata: { track_id: trackId, task_id: task.id, suno_task_id: newTaskId },
+    });
+
+    if (deductError) {
+      logger.warn('Failed to deduct credits via RPC, using direct insert', { error: deductError });
+    }
+
+    // Log credit transaction
+    await supabase.from('credit_transactions').insert({
+      user_id: user.id,
+      amount: -REPLACE_SECTION_COST,
+      transaction_type: 'debit',
+      action_type: 'replace_section',
+      description: `Замена секции ${infillStartS}s - ${infillEndS}s`,
+      metadata: { track_id: trackId, task_id: task.id, suno_task_id: newTaskId },
+    });
+
     logger.success('Replace section task created', { 
       taskId: task.id, 
-      sunoTaskId: newTaskId 
+      sunoTaskId: newTaskId,
+      creditsSpent: REPLACE_SECTION_COST 
     });
 
     return new Response(
