@@ -1,16 +1,41 @@
 /**
  * Shared Supabase Client for Edge Functions
- * Simple singleton pattern without telegram-bot dependencies
+ *
+ * Provides a singleton Supabase client for use across all edge functions.
+ * Uses service role key for full database access (bypasses RLS).
+ *
+ * @module _shared/supabase-client
+ *
+ * @example
+ * ```typescript
+ * import { getSupabaseClient } from '../_shared/supabase-client.ts';
+ *
+ * serve(async (req) => {
+ *   const supabase = getSupabaseClient();
+ *
+ *   const { data, error } = await supabase
+ *     .from('tracks')
+ *     .select('*')
+ *     .limit(10);
+ *
+ *   return new Response(JSON.stringify({ data }));
+ * });
+ * ```
  */
 
 import { createClient, SupabaseClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
-// Singleton instance
+/** Singleton instance of Supabase client */
 let _supabaseClient: SupabaseClient | null = null;
 
 /**
  * Get or create the Supabase client singleton instance
- * Uses service role key for full access
+ *
+ * Uses service role key for full database access.
+ * Session persistence is disabled for edge function environment.
+ *
+ * @returns Supabase client instance
+ * @throws Error if SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY env vars are missing
  */
 export function getSupabaseClient(): SupabaseClient {
   if (_supabaseClient) {

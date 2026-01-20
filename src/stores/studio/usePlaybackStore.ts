@@ -5,6 +5,24 @@
  * Extracted from useUnifiedStudioStore for better maintainability.
  *
  * @module stores/studio/usePlaybackStore
+ *
+ * @example
+ * ```tsx
+ * import { usePlaybackStore } from '@/stores/studio';
+ *
+ * function TransportControls() {
+ *   const { isPlaying, play, pause, seek, currentTime } = usePlaybackStore();
+ *
+ *   return (
+ *     <div>
+ *       <button onClick={isPlaying ? pause : play}>
+ *         {isPlaying ? 'Pause' : 'Play'}
+ *       </button>
+ *       <span>{currentTime}s</span>
+ *     </div>
+ *   );
+ * }
+ * ```
  */
 
 import { create } from 'zustand';
@@ -14,16 +32,24 @@ const playbackLogger = logger.child({ module: 'PlaybackStore' });
 
 // ============ State Interface ============
 
+/**
+ * Playback state and actions
+ */
 interface PlaybackState {
-  // Playback state
+  /** Whether audio is currently playing */
   isPlaying: boolean;
+  /** Current playback position in seconds */
   currentTime: number;
 
-  // Actions
+  /** Start playback */
   play: () => void;
+  /** Pause playback */
   pause: () => void;
+  /** Stop playback and reset to beginning */
   stop: () => void;
+  /** Seek to specific time in seconds */
   seek: (time: number) => void;
+  /** Toggle between play and pause */
   togglePlayback: () => void;
 }
 
