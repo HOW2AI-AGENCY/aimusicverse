@@ -223,14 +223,14 @@ export function GenerationAdvancedSettings({
           <div className="space-y-2">
             <Label className="text-sm">{vocalGenderLabel}</Label>
             <Select 
-              value={settings.vocalGender} 
-              onValueChange={(v) => handleSettingChange('vocalGender', v as 'm' | 'f' | '')}
+              value={settings.vocalGender || 'any'} 
+              onValueChange={(v) => handleSettingChange('vocalGender', v === 'any' ? '' : v as 'm' | 'f')}
             >
               <SelectTrigger>
                 <SelectValue placeholder="Не указано" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Не указано</SelectItem>
+                <SelectItem value="any">Не указано</SelectItem>
                 <SelectItem value="m">Мужской</SelectItem>
                 <SelectItem value="f">Женский</SelectItem>
               </SelectContent>
