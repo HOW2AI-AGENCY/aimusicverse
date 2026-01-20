@@ -9,10 +9,9 @@ import { preloadCriticalRoutes, preloadRoute } from '@/lib/route-preloader';
 
 // Routes to preload based on current location
 const adjacentRoutes: Record<string, string[]> = {
-  '/': ['/library', '/projects', '/generate'],
+  '/': ['/library', '/projects'], // '/generate' removed - redirect handled by GenerateRedirect
   '/library': ['/', '/projects', '/profile'],
-  '/projects': ['/', '/library', '/generate'],
-  '/generate': ['/', '/library'],
+  '/projects': ['/', '/library'], // '/generate' removed
   '/profile': ['/settings', '/library'],
   '/settings': ['/profile'],
 };

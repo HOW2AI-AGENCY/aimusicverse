@@ -28,6 +28,7 @@ import { preloadImages } from "@/lib/imageOptimization";
 import { Clock, Users, Music2, Sparkles } from "lucide-react";
 import { useTelegramMainButton } from "@/hooks/telegram/useTelegramMainButton";
 import { FloatingMainButton } from "@/components/ui/FloatingMainButton";
+import { logger } from "@/lib/logger";
 
 // Core home components
 import { HomeQuickCreate } from "@/components/home/HomeQuickCreate";
@@ -89,13 +90,13 @@ const Index = () => {
     setGenerateSheetOpen(true);
   }, [hapticFeedback]);
 
-  // Telegram MainButton for new users - enables 1-click generation path
+  // Telegram MainButton - enables 1-click generation path for all users
   // Only show on home page when sheet is closed
   const { shouldShowUIButton } = useTelegramMainButton({
     text: '🎵 СОЗДАТЬ МУЗЫКУ',
     onClick: handleCreateRef,
     enabled: true,
-    visible: isNewUser && !generateSheetOpen,
+    visible: !generateSheetOpen, // Removed isNewUser restriction - available for all users
   });
 
   // Single optimized query for all public content (genres, featured, etc.)
@@ -165,6 +166,51 @@ const Index = () => {
       navigate(location.pathname, { replace: true, state: {} });
     }
   }, [location.state, navigate, location.pathname]);
+
+  // Handle URL parameters that were previously processed by Generate.tsx redirect
+  useEffect(() => {
+    const style = searchParams.get('style');
+    const mood = searchParams.get('mood');
+    const tempo = searchParams.get('tempo');
+    const instruments = searchParams.get('instruments');
+    const remix = searchParams.get('remix');
+    const quick = searchParams.get('quick');
+    const mode = searchParams.get('mode');
+    const ref = searchParams.get('ref');
+    const stem = searchParams.get('stem');
+
+    // Check if we have any generation-related parameters
+    const hasGenerationParams = style || mood || tempo || instruments || remix || quick || mode || ref || stem;
+
+    if (hasGenerationParams) {
+      // If preset parameters exist, store them in sessionStorage for GenerateSheet
+      if (style || mood || tempo || instruments) {
+        const presetParams = {
+          style,
+          mood,
+          tempo,
+          instruments: instruments?.split(','),
+        };
+        sessionStorage.setItem('presetParams', JSON.stringify(presetParams));
+        if (quick === 'true') {
+          sessionStorage.setItem('fromQuickCreate', 'true');
+        }
+        logger.info('Index page: Stored preset params from URL', { style, mood, tempo, instruments });
+      }
+
+      // For remix/cover/extend parameters, store them for GenerateSheet
+      if (remix) {
+        sessionStorage.setItem('remixTrackId', remix);
+      }
+      if (mode && ref) {
+        sessionStorage.setItem('audioMode', JSON.stringify({ mode, ref, stem }));
+      }
+
+      // Open the GenerateSheet and clean URL params
+      setGenerateSheetOpen(true);
+      setSearchParams({}, { replace: true });
+    }
+  }, [searchParams, setSearchParams]);
 
   // Handle deep link for recognition
   useEffect(() => {
@@ -408,8 +454,8 @@ const Index = () => {
         </Suspense>
       )}
 
-      {/* Floating MainButton fallback for new users (shown when Telegram MainButton not available) */}
-      {shouldShowUIButton && isNewUser && !generateSheetOpen && (
+      {/* Floating MainButton fallback (shown when Telegram MainButton not available) */}
+      {shouldShowUIButton && !generateSheetOpen && (
         <FloatingMainButton
           visible
           text="🎵 СОЗДАТЬ МУЗЫКУ"

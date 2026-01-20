@@ -76,7 +76,7 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({
           <Button
             onClick={handleCreate}
             className={cn(
-              "flex-1 h-12 min-h-[48px]",
+              "flex-1 h-12 min-h-touch",
               "bg-gradient-to-r from-primary to-generate",
               "text-white font-semibold",
               "shadow-lg shadow-primary/25",
@@ -84,16 +84,19 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({
               "active:scale-95",
               "transition-all duration-200"
             )}
+            aria-label="Создать новый музыкальный трек с помощью AI"
           >
-            <Plus className="w-5 h-5 mr-2" />
+            <Plus className="w-5 h-5 mr-2" aria-hidden="true" />
             Создать трек
           </Button>
 
           {/* Quick expand toggle */}
           <button
             onClick={handleExpand}
+            aria-label={isExpanded ? "Свернуть опции создания" : "Раскрыть опции создания"}
+            aria-pressed={isExpanded}
             className={cn(
-              "w-12 h-12 min-w-[48px] rounded-xl",
+              "w-12 h-12 min-w-touch rounded-xl",
               "bg-card/80 backdrop-blur-sm",
               "border border-border/50",
               "flex items-center justify-center",
@@ -103,7 +106,7 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({
             )}
             style={{ transform: isExpanded ? 'rotate(45deg)' : 'rotate(0deg)' }}
           >
-            <Plus className="w-5 h-5 text-foreground" />
+            <Plus className="w-5 h-5 text-foreground" aria-hidden="true" />
           </button>
         </div>
 
@@ -144,8 +147,9 @@ const QuickCreateOption = memo(function QuickCreateOption({
   return (
     <button
       onClick={handleClick}
+      aria-label={`Создать ${label.toLowerCase()}: ${description}`}
       className={cn(
-        "flex flex-col items-center justify-center",
+        "flex flex-col items-center justify-center min-h-touch min-w-touch",
         "p-3 rounded-xl",
         "bg-card/50",
         "border border-border/40",
@@ -154,7 +158,7 @@ const QuickCreateOption = memo(function QuickCreateOption({
         "transition-colors duration-150"
       )}
     >
-      <span className="text-xl mb-1">{icon}</span>
+      <span className="text-xl mb-1" aria-hidden="true">{icon}</span>
       <span className="text-xs font-medium text-foreground">{label}</span>
       <span className="text-[10px] text-muted-foreground">{description}</span>
     </button>

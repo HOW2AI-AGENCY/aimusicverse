@@ -69,13 +69,19 @@ export function GlobalGenerationIndicator() {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
       className="fixed top-4 left-1/2 -translate-x-1/2 z-[100] max-w-[calc(100vw-2rem)]"
+      role="region"
+      aria-label="Индикатор генерации музыки"
+      aria-live="polite"
+      aria-atomic="true"
     >
       <div className="bg-background/95 backdrop-blur-xl border border-primary/30 rounded-xl shadow-lg shadow-primary/10">
         {/* Main indicator button */}
         <Button
           variant="ghost"
           onClick={() => setExpanded(!expanded)}
-          className="h-auto py-2.5 px-4 gap-2.5 hover:bg-primary/5 rounded-xl w-full justify-between min-h-[44px]"
+          aria-label={expanded ? "Свернуть список генераций" : "Раскрыть список генераций"}
+          aria-expanded={expanded}
+          className="h-auto py-2.5 px-4 gap-2.5 hover:bg-primary/5 rounded-xl w-full justify-between min-h-touch"
         >
           <div className="flex items-center gap-2.5">
             {activeCount > 0 ? (

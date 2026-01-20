@@ -39,7 +39,9 @@ export interface PopupParams {
 }
 
 export interface ShareToStoryOptions {
+  media_url: string;
   text?: string;
+  link?: string;
   widget_link?: { url: string; name?: string };
 }
 

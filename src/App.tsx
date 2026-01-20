@@ -1,9 +1,9 @@
-import { lazy, Suspense, memo } from "react";
+import { lazy, Suspense, memo, useEffect } from "react";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { TooltipProvider as InteractiveTooltipProvider } from "@/components/tooltips";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Outlet, Navigate, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet, Navigate, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { TelegramProvider, DeepLinkHandler } from "@/contexts/TelegramContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { AuthProvider } from "@/contexts/AuthContext";
@@ -23,8 +23,25 @@ import { PageTransition } from "@/components/PageTransition";
 import { ProfileSetupGuard } from "@/components/profile/ProfileSetupGuard";
 import { NavigationProvider } from "@/components/NavigationProvider";
 import { lazyWithRetry } from "@/lib/performance";
+import { LibrarySkeleton } from "@/components/skeletons/LibrarySkeleton";
+import { SettingsSkeleton } from "@/components/skeletons/SettingsSkeleton";
+import { ProjectsSkeleton } from "@/components/skeletons/ProjectsSkeleton";
 
 // Sentry is initialized in main.tsx (avoid double init)
+
+// Helper to add loading skeleton to lazy loaded components
+function withLoadingFallback<P extends object>(
+  Component: React.ComponentType<P>,
+  SkeletonComponent: React.ComponentType
+): React.ComponentType<P> {
+  return function WithLoadingFallback(props: P) {
+    return (
+      <Suspense fallback={<SkeletonComponent />}>
+        <Component {...props} />
+      </Suspense>
+    );
+  };
+}
 
 // Wrapper to use ProfileSetupGuard with Outlet
 function ProfileSetupGuardWrapper({ children }: { children: React.ReactNode }) {
@@ -41,17 +58,41 @@ function RouteWithTransition({ children }: { children: React.ReactNode }) {
     </PageTransition>
   );
 }
+
+// Redirect component for /generate routes - redirects to home with state
+function GenerateRedirect() {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    // Forward all search params to home page
+    const params = searchParams.toString();
+    navigate(params ? `/?${params}` : '/', { replace: true });
+  }, [navigate, searchParams]);
+
+  return null;
+}
 // Lazy load pages - prioritize critical paths with retry
 const Index = lazyWithRetry(() => import("./pages/Index"));
 const Auth = lazyWithRetry(() => import("./pages/Auth")); // Critical: auth flow
-const Library = lazyWithRetry(() => import("./pages/Library")); // Critical: main navigation
+// Generate page removed - redirect functionality moved to Index.tsx
+const Library = lazyWithRetry(() =>
+  import("./pages/Library")
+    .then(m => ({ default: withLoadingFallback(m.default, LibrarySkeleton) }))
+); // Critical: main navigation
 
 // Secondary pages - standard lazy
 const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 const PublicProfilePage = lazy(() => import("./pages/PublicProfilePage"));
-const Settings = lazy(() => import("./pages/Settings"));
-const Generate = lazy(() => import("./pages/Generate"));
-const Projects = lazy(() => import("./pages/Projects"));
+const Settings = lazy(() =>
+  import("./pages/Settings")
+    .then(m => ({ default: withLoadingFallback(m.default, SettingsSkeleton) }))
+);
+// Generate page removed - redirect functionality moved to Index.tsx with GenerateRedirect component
+const Projects = lazy(() =>
+  import("./pages/Projects")
+    .then(m => ({ default: withLoadingFallback(m.default, ProjectsSkeleton) }))
+);
 const ProjectDetail = lazy(() => import("./pages/ProjectDetail"));
 const Artists = lazy(() => import("./pages/Artists"));
 const Playlists = lazy(() => import("./pages/Playlists"));
@@ -171,7 +212,7 @@ const App = () => (
                   <Route path="/profile" element={<ProfilePage />} />
                   <Route path="/profile/:userId" element={<PublicProfilePage />} />
                   <Route path="/settings" element={<Settings />} />
-                  <Route path="/generate" element={<Generate />} />
+                  <Route path="/generate" element={<GenerateRedirect />} />
                   <Route path="/library" element={<Library />} />
                   <Route path="/projects" element={<Projects />} />
                   <Route path="/projects/:id" element={<ProjectDetail />} />

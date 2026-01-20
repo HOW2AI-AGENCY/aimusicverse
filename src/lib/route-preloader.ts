@@ -16,10 +16,10 @@ const routeConfigs: Record<string, RouteConfig> = {
   // Critical - preload immediately after mount
   '/': { importer: () => import('@/pages/Index'), priority: 'critical' },
   '/library': { importer: () => import('@/pages/Library'), priority: 'critical' },
-  
+
   // High - preload during idle time (common navigation)
   '/projects': { importer: () => import('@/pages/Projects'), priority: 'high' },
-  '/generate': { importer: () => import('@/pages/Generate'), priority: 'high' },
+  // '/generate' removed - redirect handled by GenerateRedirect in App.tsx
   '/profile': { importer: () => import('@/pages/ProfilePage'), priority: 'high' },
   
   // Normal - preload on hover or when approaching

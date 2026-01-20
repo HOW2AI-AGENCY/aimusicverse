@@ -31,10 +31,10 @@ const DEEP_LINK_ROUTES: [RegExp | string, (match: RegExpMatchArray | null) => st
   [/^player_(.+)$/, (m) => `/player/${m![1]}`, 'player'],
   [/^listen_(.+)$/, (m) => `/player/${m![1]}`, 'listen'],
   
-  // Generation deep links
-  [/^generate_(.+)$/, (m) => `/generate?style=${m![1]}`, 'generate'],
-  [/^quick_(.+)$/, (m) => `/generate?style=${m![1]}&quick=true`, 'quick'],
-  [/^remix_(.+)$/, (m) => `/generate?remix=${m![1]}`, 'remix'],
+  // Generation deep links - navigate to home with state
+  [/^generate_(.+)$/, (m) => `/?style=${m![1]}`, 'generate'],
+  [/^quick_(.+)$/, (m) => `/?style=${m![1]}&quick=true`, 'quick'],
+  [/^remix_(.+)$/, (m) => `/?remix=${m![1]}`, 'remix'],
   
   // Vocal/Instrumental deep links
   [/^vocals_(.+)$/, (m) => `/library?track=${m![1]}&action=add_vocals`, 'add_vocals'],

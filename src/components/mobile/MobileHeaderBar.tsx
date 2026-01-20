@@ -77,7 +77,7 @@ export const MobileHeaderBar = memo(function MobileHeaderBar({
         paddingTop: sticky ? TELEGRAM_SAFE_AREA.stickyHeaderTop : '0.75rem',
       }}
     >
-      <div className="flex items-center justify-between gap-3 px-3 pb-3 min-h-[44px]">
+      <div className="flex items-center justify-between gap-3 px-3 pb-3 min-h-touch">
         {/* Leading */}
         <div className="flex items-center gap-2 shrink-0">
           {leading || (showBack && onBack && (
@@ -85,7 +85,7 @@ export const MobileHeaderBar = memo(function MobileHeaderBar({
               variant="ghost"
               size="icon"
               onClick={handleBack}
-              className="touch-target-44 h-11 w-11"
+              className="min-h-touch min-w-touch"
               aria-label="Назад"
             >
               <ArrowLeft className="w-5 h-5" />
@@ -118,7 +118,7 @@ export const MobileHeaderBar = memo(function MobileHeaderBar({
               variant="ghost"
               size="icon"
               onClick={handleMore}
-              className="touch-target-44 h-11 w-11"
+              className="min-h-touch min-w-touch"
               aria-label="Дополнительно"
             >
               <MoreVertical className="w-5 h-5" />

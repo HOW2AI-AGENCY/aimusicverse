@@ -145,7 +145,7 @@ export const BottomNavigation = memo(function BottomNavigation() {
                 key={item.path}
                 onClick={handleClick}
               className={cn(
-                  "relative flex flex-col items-center justify-center gap-0.5 px-3 py-2 rounded-xl transition-all min-h-[56px] min-w-[56px] touch-scale-sm touch-manipulation group",
+                  "relative flex flex-col items-center justify-center gap-0.5 px-3 py-2 rounded-xl transition-all min-h-touch min-w-touch touch-scale-sm touch-manipulation group",
                   active
                     ? "text-primary bg-primary/10"
                     : "text-muted-foreground hover:text-foreground"

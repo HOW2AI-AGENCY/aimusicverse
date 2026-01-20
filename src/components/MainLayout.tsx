@@ -9,6 +9,7 @@ import { SkipToContent } from './ui/skip-to-content';
 import { GuestModeBanner } from './GuestModeBanner';
 import { ScreenshotNavigator } from './screenshot/ScreenshotNavigator';
 import { ScreenshotModeBanner } from './screenshot/ScreenshotModeBanner';
+import { OfflineBanner } from './offline/OfflineBanner';
 import { useGuestMode } from '@/contexts/GuestModeContext';
 import { cn } from '@/lib/utils';
 import { setSubscriptionDialogCallback } from '@/hooks/useTrackActions';
@@ -18,8 +19,8 @@ import { useUserJourneyState } from '@/hooks/useUserJourneyState';
 import { useOnboarding } from '@/hooks/useOnboarding';
 import { useGenerationResult } from '@/hooks/generation';
 import { useWelcomeBonusCheck } from '@/hooks/useCreditsLimits';
-
 import { useAdminDailyStats } from '@/hooks/useAdminDailyStats';
+import { TELEGRAM_SAFE_AREA } from '@/constants/safe-area';
 
 // Lazy load heavy dialogs - not needed on initial render
 const TelegramOnboarding = lazy(() => import('./onboarding/TelegramOnboarding').then(m => ({ default: m.TelegramOnboarding })));
@@ -33,7 +34,7 @@ const WelcomeBonusPopup = lazy(() => import('./popups/WelcomeBonusPopup').then(m
 const SIDEBAR_COLLAPSED_KEY = 'sidebar-collapsed';
 
 export const MainLayout = () => {
-  const isDesktop = useMediaQuery('(min-width: 768px)');
+  const isDesktop = useMediaQuery('(min-width: 640px)'); // Matches Tailwind sm: breakpoint
   const { isGuestMode } = useGuestMode();
   const location = useLocation();
   const navigate = useNavigate();
@@ -183,7 +184,10 @@ export const MainLayout = () => {
       {/* Screenshot mode components */}
       <ScreenshotModeBanner />
       <ScreenshotNavigator />
-      
+
+      {/* Offline Banner - shows when network is disconnected */}
+      <OfflineBanner />
+
       {/* Quick Start Overlay for new users */}
       {quickStartOpen && (
         <Suspense fallback={null}>
@@ -244,23 +248,20 @@ export const MainLayout = () => {
         id="main-content"
         className={cn(
           'flex-1 flex flex-col overflow-y-auto relative transition-all duration-300',
-          isDesktop 
-            ? mainMargin 
-            : 'pb-[calc(max(var(--tg-content-safe-area-inset-bottom,60px),var(--tg-safe-area-inset-bottom,34px),env(safe-area-inset-bottom,34px))+4rem)]',
+          isDesktop
+            ? mainMargin
+            : `pb-[calc(${TELEGRAM_SAFE_AREA.bottom}+4rem)]`,
           isGuestMode && 'pt-9'
-          // ВАЖНО: Safe area padding обрабатывается ТОЛЬКО в page headers (HomeHeader, AppHeader)
-          // НЕ добавлять paddingTop здесь - это вызывает двойной отступ!
         )}
         style={{
           minHeight: 'var(--tg-viewport-stable-height, 100vh)',
-          // НЕ добавляем paddingTop - это делают sticky headers на каждой странице
         }}
       >
-        <div 
+        <div
           className={cn(
             'flex-1',
-            isDesktop 
-              ? 'p-6' 
+            isDesktop
+              ? 'p-6'
               : 'px-4 py-3'
           )}
           style={!isDesktop ? {

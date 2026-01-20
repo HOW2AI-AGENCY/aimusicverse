@@ -93,6 +93,8 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
         exit={{ y: 100, opacity: 0 }}
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
         className="fixed bottom-[calc(5rem+max(var(--tg-safe-area-inset-bottom,0px),env(safe-area-inset-bottom,0px),0.5rem))] left-0 right-0 z-player px-3 sm:px-4"
+        role="region"
+        aria-label="Music player"
         {...gestureHandlers}
       >
         <motion.div
@@ -105,9 +107,12 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
           )}
         >
           {/* Row 1: Waveform Timeline (clickable to expand / seekable) */}
-          <div 
+          <div
             onClick={handleExpand}
             className="px-3 pt-3 pb-2 cursor-pointer"
+            role="button"
+            tabIndex={0}
+            aria-label="Expand player"
           >
             <WaveformProgressBar
               audioUrl={track.streaming_url || track.audio_url}
@@ -125,9 +130,12 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
           {/* Row 2: Cover + Info + Actions */}
           <div className="flex items-center gap-2 px-3 pb-3">
             {/* Cover art */}
-            <div 
+            <div
               onClick={handleExpand}
               className="relative flex-shrink-0 cursor-pointer"
+              role="button"
+              tabIndex={0}
+              aria-label={`View track details: ${track.title || 'Untitled Track'}`}
             >
               {track.cover_url ? (
                 <motion.img
@@ -139,16 +147,17 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
                 />
               ) : (
                 <div className="w-11 h-11 rounded-lg bg-gradient-to-br from-primary/30 to-primary/5 flex items-center justify-center ring-1 ring-white/10">
-                  <Music2 className="w-5 h-5 text-primary/60" />
+                  <Music2 className="w-5 h-5 text-primary/60" aria-hidden="true" />
                 </div>
               )}
-              
+
               {/* Playing indicator */}
               {isPlaying && (
                 <motion.div
                   className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 flex gap-0.5"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
+                  aria-hidden="true"
                 >
                   {[0, 1, 2].map((i) => (
                     <motion.div
@@ -170,6 +179,9 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
             <div
               onClick={handleExpand}
               className="flex-1 min-w-0 text-left cursor-pointer"
+              role="button"
+              tabIndex={0}
+              aria-label={`Expand player: ${track.title || 'Untitled Track'} by ${track.style || 'Unknown Style'}`}
             >
               <div className="flex items-center gap-1.5">
                 <p className="font-medium text-sm line-clamp-1">
@@ -189,7 +201,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
                 size="icon"
                 onClick={handleLike}
                 className={cn(
-                  "h-9 w-9 min-h-[44px] min-w-[44px] rounded-full hover:bg-muted/50",
+                  "h-9 w-9 min-h-touch min-w-touch rounded-full hover:bg-muted/50",
                   track.is_liked && "text-red-500"
                 )}
                 aria-label={track.is_liked ? 'Unlike' : 'Like'}
@@ -201,7 +213,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
                 variant="ghost"
                 size="icon"
                 onClick={handleAddToPlaylist}
-                className="h-9 w-9 min-h-[44px] min-w-[44px] rounded-full hover:bg-muted/50"
+                className="h-9 w-9 min-h-touch min-w-touch rounded-full hover:bg-muted/50"
                 aria-label="Add to playlist"
               >
                 <ListPlus className="h-4 w-4" />
@@ -215,7 +227,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
                 variant="ghost"
                 size="icon"
                 onClick={handlePlayPause}
-                className="h-10 w-10 min-h-[44px] min-w-[44px] rounded-full bg-primary/10 hover:bg-primary/20"
+                className="h-10 w-10 min-h-touch min-w-touch rounded-full bg-primary/10 hover:bg-primary/20"
                 aria-label={isPlaying ? 'Pause' : 'Play'}
               >
                 {isPlaying ? (
@@ -230,7 +242,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
                 variant="ghost"
                 size="icon"
                 onClick={handleNextTrack}
-                className="h-9 w-9 min-h-[44px] min-w-[44px] rounded-full hover:bg-muted/50"
+                className="h-9 w-9 min-h-touch min-w-touch rounded-full hover:bg-muted/50"
                 aria-label="Next track"
               >
                 <SkipForward className="h-4 w-4" />
@@ -244,7 +256,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="h-9 w-9 min-h-[44px] min-w-[44px] rounded-full hover:bg-muted/50"
+                      className="h-9 w-9 min-h-touch min-w-touch rounded-full hover:bg-muted/50"
                       aria-label="More options"
                     >
                       <MoreHorizontal className="h-4 w-4" />
@@ -258,7 +270,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
                 variant="ghost"
                 size="icon"
                 onClick={handleClose}
-                className="h-9 w-9 min-h-[44px] min-w-[44px] rounded-full hover:bg-muted/50"
+                className="h-9 w-9 min-h-touch min-w-touch rounded-full hover:bg-muted/50"
                 aria-label="Close player"
               >
                 <X className="h-4 w-4" />
