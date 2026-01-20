@@ -5,14 +5,18 @@
  * This is different from suno-music-extend which extends existing Suno tracks.
  * 
  * CRITICAL: Uses upload-extend endpoint, NOT generic generate endpoint!
+ * 
+ * Cost: 10 credits per extend operation
  */
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { getSupabaseClient } from '../_shared/supabase-client.ts';
 import { isSunoSuccessCode } from '../_shared/suno.ts';
 import { corsHeaders } from '../_shared/cors.ts';
+import { ECONOMY } from '../_shared/economy.ts';
 
 const VALID_MODELS = ['V5', 'V4_5PLUS', 'V4_5', 'V4', 'V3_5'];
 const DEFAULT_MODEL = 'V4_5';
+const EXTEND_COST = ECONOMY.EXTEND_GENERATION_COST; // 10 credits
 
 function getApiModelName(uiKey: string): string {
   if (uiKey === 'V4_5ALL') return 'V4_5';
@@ -44,6 +48,23 @@ serve(async (req) => {
 
     if (userError || !user) {
       throw new Error('Unauthorized');
+    }
+
+    // Check user credit balance
+    const { data: credits, error: creditsError } = await supabase
+      .from('user_credits')
+      .select('balance')
+      .eq('user_id', user.id)
+      .single();
+
+    if (creditsError) {
+      console.error('[suno-extend-audio] Credits check error:', creditsError);
+      throw new Error('Failed to check credit balance');
+    }
+
+    const currentBalance = credits?.balance ?? 0;
+    if (currentBalance < EXTEND_COST) {
+      throw new Error(`Insufficient credits. Need ${EXTEND_COST}, have ${currentBalance}`);
     }
 
     const body = await req.json();
@@ -237,10 +258,36 @@ serve(async (req) => {
       status: 'processing',
     }).eq('id', newTrack.id);
 
+    // Deduct credits after successful API call
+    const { error: deductError } = await supabase.rpc('deduct_credits', {
+      p_user_id: user.id,
+      p_amount: EXTEND_COST,
+      p_action_type: 'extend_generation',
+      p_description: `Extend generation for track: ${effectiveTitle}`,
+    });
+
+    if (deductError) {
+      console.error('[suno-extend-audio] Credit deduction error:', deductError);
+      // Don't fail the request, just log it
+    } else {
+      console.log(`[suno-extend-audio] Deducted ${EXTEND_COST} credits from user ${user.id}`);
+    }
+
+    // Log credit transaction
+    await supabase.from('credit_transactions').insert({
+      user_id: user.id,
+      amount: -EXTEND_COST,
+      transaction_type: 'debit',
+      action_type: 'extend_generation',
+      description: `Extend: ${effectiveTitle}`,
+      metadata: { trackId: newTrack.id, sunoTaskId },
+    });
+
     console.log('[suno-extend-audio] Success:', { 
       trackId: newTrack.id, 
       sunoTaskId,
       continueAt: effectiveContinueAt,
+      creditsDeducted: EXTEND_COST,
     });
 
     return new Response(
