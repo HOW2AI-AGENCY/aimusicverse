@@ -17,8 +17,8 @@ interface Track {
   title: string | null;
   cover_url: string | null;
   creator_username?: string | null;
-  is_public: boolean;
-  status: string;
+  is_public: boolean | null;
+  status: string | null;
 }
 
 interface TracksTabProps {
@@ -143,7 +143,7 @@ function TrackListItem({
           variant={track.status === 'completed' ? 'default' : 'secondary'} 
           className="text-xs"
         >
-          {track.status}
+          {track.status || 'unknown'}
         </Badge>
       </div>
     </div>
