@@ -25,7 +25,9 @@ import { PullToRefreshWrapper } from "@/components/library/PullToRefreshWrapper"
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Skeleton } from "@/components/ui/skeleton";
 import { preloadImages } from "@/lib/imageOptimization";
-import { Clock, Users, Music2 } from "lucide-react";
+import { Clock, Users, Music2, Sparkles } from "lucide-react";
+import { useTelegramMainButton } from "@/hooks/telegram/useTelegramMainButton";
+import { FloatingMainButton } from "@/components/ui/FloatingMainButton";
 
 // Core home components
 import { HomeQuickCreate } from "@/components/home/HomeQuickCreate";
@@ -80,6 +82,21 @@ const Index = () => {
 
   // User journey state for personalized experience
   const { isNewUser } = useUserJourneyState();
+
+  // handleCreate is defined below, so we use a ref pattern for MainButton
+  const handleCreateRef = useCallback(() => {
+    hapticFeedback("medium");
+    setGenerateSheetOpen(true);
+  }, [hapticFeedback]);
+
+  // Telegram MainButton for new users - enables 1-click generation path
+  // Only show on home page when sheet is closed
+  const { shouldShowUIButton } = useTelegramMainButton({
+    text: '🎵 СОЗДАТЬ МУЗЫКУ',
+    onClick: handleCreateRef,
+    enabled: true,
+    visible: isNewUser && !generateSheetOpen,
+  });
 
   // Single optimized query for all public content (genres, featured, etc.)
   const { data: publicContent, isLoading: contentLoading, refetch: refetchContent } = usePublicContentBatch();
@@ -389,6 +406,16 @@ const Index = () => {
             onAudioSelected={() => setAudioDialogOpen(false)}
           />
         </Suspense>
+      )}
+
+      {/* Floating MainButton fallback for new users (shown when Telegram MainButton not available) */}
+      {shouldShowUIButton && isNewUser && !generateSheetOpen && (
+        <FloatingMainButton
+          visible
+          text="🎵 СОЗДАТЬ МУЗЫКУ"
+          onClick={handleCreate}
+          icon={<Sparkles className="w-5 h-5" />}
+        />
       )}
     </PullToRefreshWrapper>
   );

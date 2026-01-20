@@ -29,6 +29,7 @@ interface SystemHealthResponse {
     stuck_tasks: number;
     failed_tracks_24h: number;
     bot_success_rate: number;
+    failure_rate_24h?: number;
   };
 }
 
@@ -64,19 +65,46 @@ serve(async (req) => {
       overall_status = 'degraded';
     }
 
+    // Calculate failure rate from generation stats
+    const failureRate = await calculateFailureRate(supabase);
+    
+    // If failure rate >10%, mark generation_queue as degraded/unhealthy
+    if (failureRate > 10) {
+      const severity = failureRate > 25 ? 'unhealthy' : 'degraded';
+      if (checks.generation_queue.status === 'healthy') {
+        checks.generation_queue.status = severity;
+        checks.generation_queue.message = `${failureRate.toFixed(1)}% failure rate (>${failureRate > 25 ? '25' : '10'}% threshold)`;
+      }
+      // Log alert for high failure rate
+      logger.warn('High generation failure rate detected', { 
+        failure_rate: failureRate,
+        threshold: failureRate > 25 ? 25 : 10,
+        severity 
+      });
+    }
+
     const response: SystemHealthResponse = {
       overall_status,
       timestamp: new Date().toISOString(),
       checks,
-      metrics,
+      metrics: {
+        ...metrics,
+        failure_rate_24h: failureRate,
+      },
     };
 
     const totalLatency = Date.now() - startTime;
     logger.info('Health check completed', { 
       overall_status, 
       latency_ms: totalLatency,
-      metrics 
+      metrics: response.metrics,
+      failure_rate: failureRate,
     });
+
+    // Create alert if status is not healthy
+    if (overall_status !== 'healthy') {
+      await createHealthAlert(supabase, response, checks);
+    }
 
     // Always return 200 - the health status is in the response body
     // Returning 503 causes Supabase client to throw an error before parsing the body
@@ -396,5 +424,55 @@ async function getMetrics(supabase: any): Promise<SystemHealthResponse['metrics'
       failed_tracks_24h: 0,
       bot_success_rate: 0,
     };
+  }
+}
+
+// Calculate generation failure rate from last 24h
+async function calculateFailureRate(supabase: any): Promise<number> {
+  try {
+    const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+    
+    const { count: totalCount } = await supabase
+      .from('generation_tasks')
+      .select('id', { count: 'exact', head: true })
+      .gte('created_at', oneDayAgo);
+    
+    const { count: failedCount } = await supabase
+      .from('generation_tasks')
+      .select('id', { count: 'exact', head: true })
+      .eq('status', 'failed')
+      .gte('created_at', oneDayAgo);
+    
+    if (!totalCount || totalCount === 0) return 0;
+    return ((failedCount || 0) / totalCount) * 100;
+  } catch {
+    return 0;
+  }
+}
+
+// Create health alert record for tracking
+async function createHealthAlert(
+  supabase: any, 
+  response: SystemHealthResponse, 
+  checks: SystemHealthResponse['checks']
+): Promise<void> {
+  try {
+    const unhealthyServices = Object.entries(checks)
+      .filter(([_, c]) => c.status === 'unhealthy')
+      .map(([name]) => name);
+    
+    const degradedServices = Object.entries(checks)
+      .filter(([_, c]) => c.status === 'degraded')
+      .map(([name]) => name);
+
+    await supabase.from('health_alerts').insert({
+      overall_status: response.overall_status,
+      alert_type: 'automated',
+      unhealthy_services: unhealthyServices.length > 0 ? unhealthyServices : null,
+      degraded_services: degradedServices.length > 0 ? degradedServices : null,
+      metrics: response.metrics,
+    });
+  } catch (err) {
+    logger.error('Failed to create health alert', { error: err });
   }
 }
