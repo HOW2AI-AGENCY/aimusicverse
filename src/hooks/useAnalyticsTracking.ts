@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import * as analyticsApi from '@/api/analytics.api';
 import * as analyticsService from '@/services/analytics.service';
 import type { EventType, UserBehaviorStats } from '@/api/analytics.api';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface TrackEventParams {
   eventType: EventType;
@@ -14,9 +15,17 @@ interface TrackEventParams {
 
 export function useAnalyticsTracking() {
   const location = useLocation();
+  const { user } = useAuth();
   const sessionId = useRef(analyticsService.getOrCreateSessionId());
   const lastPagePath = useRef<string | null>(null);
   const userId = useRef<string | undefined>(undefined);
+  
+  // Sync userId with authenticated user
+  useEffect(() => {
+    if (user?.id) {
+      userId.current = user.id;
+    }
+  }, [user?.id]);
 
   // Track event function
   const trackEvent = useCallback(async (params: TrackEventParams) => {
