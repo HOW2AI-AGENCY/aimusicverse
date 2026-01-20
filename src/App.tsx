@@ -30,7 +30,7 @@ import { ProjectsSkeleton } from "@/components/skeletons/ProjectsSkeleton";
 // Sentry is initialized in main.tsx (avoid double init)
 
 // Helper to add loading skeleton to lazy loaded components
-function withLoadingFallback<P extends object>(
+function withLoadingFallback<P extends Record<string, unknown>>(
   Component: React.ComponentType<P>,
   SkeletonComponent: React.ComponentType
 ): React.ComponentType<P> {
@@ -76,23 +76,14 @@ function GenerateRedirect() {
 const Index = lazyWithRetry(() => import("./pages/Index"));
 const Auth = lazyWithRetry(() => import("./pages/Auth")); // Critical: auth flow
 // Generate page removed - redirect functionality moved to Index.tsx
-const Library = lazyWithRetry(() =>
-  import("./pages/Library")
-    .then(m => ({ default: withLoadingFallback(m.default, LibrarySkeleton) }))
-); // Critical: main navigation
+const Library = lazyWithRetry(() => import("./pages/Library")); // Critical: main navigation
 
 // Secondary pages - standard lazy
 const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 const PublicProfilePage = lazy(() => import("./pages/PublicProfilePage"));
-const Settings = lazy(() =>
-  import("./pages/Settings")
-    .then(m => ({ default: withLoadingFallback(m.default, SettingsSkeleton) }))
-);
+const Settings = lazy(() => import("./pages/Settings"));
 // Generate page removed - redirect functionality moved to Index.tsx with GenerateRedirect component
-const Projects = lazy(() =>
-  import("./pages/Projects")
-    .then(m => ({ default: withLoadingFallback(m.default, ProjectsSkeleton) }))
-);
+const Projects = lazy(() => import("./pages/Projects"));
 const ProjectDetail = lazy(() => import("./pages/ProjectDetail"));
 const Artists = lazy(() => import("./pages/Artists"));
 const Playlists = lazy(() => import("./pages/Playlists"));

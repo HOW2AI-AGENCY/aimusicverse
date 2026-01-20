@@ -25,9 +25,7 @@ import { PullToRefreshWrapper } from "@/components/library/PullToRefreshWrapper"
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Skeleton } from "@/components/ui/skeleton";
 import { preloadImages } from "@/lib/imageOptimization";
-import { Clock, Users, Music2, Sparkles } from "lucide-react";
-import { useTelegramMainButton } from "@/hooks/telegram/useTelegramMainButton";
-import { FloatingMainButton } from "@/components/ui/FloatingMainButton";
+import { Clock, Users, Music2 } from "lucide-react";
 import { logger } from "@/lib/logger";
 
 // Core home components
@@ -84,20 +82,11 @@ const Index = () => {
   // User journey state for personalized experience
   const { isNewUser } = useUserJourneyState();
 
-  // handleCreate is defined below, so we use a ref pattern for MainButton
+  // Handler for Create action
   const handleCreateRef = useCallback(() => {
     hapticFeedback("medium");
     setGenerateSheetOpen(true);
   }, [hapticFeedback]);
-
-  // Telegram MainButton - enables 1-click generation path for all users
-  // Only show on home page when sheet is closed
-  const { shouldShowUIButton } = useTelegramMainButton({
-    text: '🎵 СОЗДАТЬ МУЗЫКУ',
-    onClick: handleCreateRef,
-    enabled: true,
-    visible: !generateSheetOpen, // Removed isNewUser restriction - available for all users
-  });
 
   // Single optimized query for all public content (genres, featured, etc.)
   const { data: publicContent, isLoading: contentLoading, refetch: refetchContent } = usePublicContentBatch();
@@ -452,16 +441,6 @@ const Index = () => {
             onAudioSelected={() => setAudioDialogOpen(false)}
           />
         </Suspense>
-      )}
-
-      {/* Floating MainButton fallback (shown when Telegram MainButton not available) */}
-      {shouldShowUIButton && !generateSheetOpen && (
-        <FloatingMainButton
-          visible
-          text="🎵 СОЗДАТЬ МУЗЫКУ"
-          onClick={handleCreate}
-          icon={<Sparkles className="w-5 h-5" />}
-        />
       )}
     </PullToRefreshWrapper>
   );

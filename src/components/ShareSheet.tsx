@@ -108,6 +108,7 @@ export function ShareSheet({ open, onOpenChange, item, itemType = 'track' }: Sha
       // For now, use cover image if available, otherwise skip
       if (item.coverUrl) {
         shareToStory(item.coverUrl, {
+          media_url: item.coverUrl,
           text: `🎵 ${item.title}`,
           widget_link: {
             url: getDeepLink(),
