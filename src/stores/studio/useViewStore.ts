@@ -2,9 +2,25 @@
  * View Store
  *
  * Manages studio view settings (zoom, grid, snap, etc.).
- * Extracted from useUnifiedStudioStore for better maintainability.
+ * Persists settings to localStorage for user preference retention.
  *
  * @module stores/studio/useViewStore
+ *
+ * @example
+ * ```tsx
+ * import { useViewStore } from '@/stores/studio';
+ *
+ * function ZoomControls() {
+ *   const { zoom, setZoom, snapToGrid, setSnapToGrid } = useViewStore();
+ *
+ *   return (
+ *     <div>
+ *       <Slider value={[zoom]} onValueChange={([v]) => setZoom(v)} />
+ *       <Switch checked={snapToGrid} onCheckedChange={setSnapToGrid} />
+ *     </div>
+ *   );
+ * }
+ * ```
  */
 
 import { create } from 'zustand';
@@ -17,18 +33,28 @@ const viewLogger = logger.child({ module: 'ViewStore' });
 
 // ============ State Interface ============
 
+/**
+ * View state and actions
+ */
 interface ViewState {
-  // View settings
+  /** Current zoom level (0-100) */
   zoom: number;
+  /** View mode: timeline, mixer, or compact */
   viewMode: ViewMode;
+  /** Whether to snap clips to grid */
   snapToGrid: boolean;
+  /** Grid subdivision size */
   gridSize: number;
 
-  // Actions
+  /** Set zoom level */
   setZoom: (zoom: number) => void;
+  /** Set view mode */
   setViewMode: (mode: ViewMode) => void;
+  /** Toggle snap to grid */
   setSnapToGrid: (snap: boolean) => void;
+  /** Set grid subdivision size */
   setGridSize: (size: number) => void;
+  /** Reset all view settings to defaults */
   resetView: () => void;
 }
 
