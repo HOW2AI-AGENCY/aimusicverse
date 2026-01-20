@@ -133,6 +133,9 @@ export const StaffNotation = memo(function StaffNotation({
   const [containerWidth, setContainerWidth] = useState(350); // Mobile-friendly default
   const [isRendering, setIsRendering] = useState(false);
 
+  // Mobile detection - must be before useEffect that uses it
+  const isMobile = containerWidth < 500;
+
   // Show loading state for large scores on mobile
   useEffect(() => {
     if (notes.length > 100 && isMobile) {
@@ -161,9 +164,6 @@ export const StaffNotation = memo(function StaffNotation({
 
     return () => resizeObserver.disconnect();
   }, []);
-
-  // Mobile detection - must be before useMemo
-  const isMobile = containerWidth < 500;
 
   const ts = timeSignature ?? { numerator: 4, denominator: 4 };
 
