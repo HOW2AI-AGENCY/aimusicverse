@@ -36,6 +36,7 @@ export function ShareProjectCard({ project, variant = 'button', className }: Sha
       if (isRealMiniApp && project.cover_url) {
         // Share to Telegram Story with cover image
         shareToStory(project.cover_url, {
+          media_url: project.cover_url,
           text: `🎵 ${project.title}${project.genre ? ` • ${project.genre}` : ''}\n\nСлушай в MusicVerse!`,
           widget_link: {
             url: appUrl,

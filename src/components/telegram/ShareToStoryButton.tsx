@@ -11,7 +11,7 @@
  */
 
 import { useState } from 'react';
-import { Story } from 'lucide-react';
+import { Share2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -49,7 +49,7 @@ export function ShareToStoryButton({
   className,
   iconPosition = 'left',
 }: ShareToStoryButtonProps) {
-  const { shareToStory, isOpen } = useTelegram();
+  const { shareToStory } = useTelegram();
   const [isSharing, setIsSharing] = useState(false);
 
   const handleShare = async () => {
@@ -60,7 +60,7 @@ export function ShareToStoryButton({
 
     setIsSharing(true);
     try {
-      await shareToStory({
+      shareToStory(mediaUrl, {
         media_url: mediaUrl,
         text,
         link,
@@ -102,9 +102,9 @@ export function ShareToStoryButton({
           <span className="animate-pulse">...</span>
         ) : (
           <>
-            {iconPosition === 'left' && <Story className="w-4 h-4" aria-hidden="true" />}
+            {iconPosition === 'left' && <Share2 className="w-4 h-4" aria-hidden="true" />}
             {size !== 'icon' && <span className="ml-2">В Stories</span>}
-            {iconPosition === 'right' && <Story className="w-4 h-4" aria-hidden="true" />}
+            {iconPosition === 'right' && <Share2 className="w-4 h-4" aria-hidden="true" />}
           </>
         )}
       </Button>
@@ -122,12 +122,12 @@ export function ShareToStoryButton({
           className={cn('min-h-touch min-w-touch', className)}
           aria-label="Поделиться в Telegram Stories"
         >
-          <Story className="w-4 h-4" aria-hidden="true" />
+          <Share2 className="w-4 h-4" aria-hidden="true" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={handleShare} disabled={isSharing}>
-          <Story className="w-4 h-4 mr-2" />
+          <Share2 className="w-4 h-4 mr-2" />
           <span>В Telegram Stories</span>
         </DropdownMenuItem>
         {link && (

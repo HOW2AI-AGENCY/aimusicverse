@@ -11,8 +11,8 @@
  */
 
 import { useIsMobile } from '@/hooks/use-mobile';
-import { Dialog } from '@/components/dialog/variants/modal';
-import { Sheet } from '@/components/dialog/variants/sheet';
+import { ModalDialog } from '@/components/dialog/variants/modal';
+import { SheetDialog } from '@/components/dialog/variants/sheet';
 
 interface MobileDialogOrSheetProps {
   open: boolean;
@@ -49,17 +49,17 @@ export function MobileDialogOrSheet({
   // On mobile, use Sheet (bottom sheet)
   if (useMobile) {
     return (
-      <Sheet open={open} onOpenChange={onOpenChange}>
+      <SheetDialog open={open} onOpenChange={onOpenChange} title="" variant="sheet">
         {children}
-      </Sheet>
+      </SheetDialog>
     );
   }
 
   // On desktop, use Dialog (modal)
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <ModalDialog open={open} onOpenChange={onOpenChange} title="" variant="modal">
       {children}
-    </Dialog>
+    </ModalDialog>
   );
 }
 
