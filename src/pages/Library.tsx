@@ -511,10 +511,10 @@ export default function Library() {
                 ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3"
                 : "flex flex-col gap-1.5"
               }>
-                {Array.from({ length: 6 }).map((_, i) => (
+              {Array.from({ length: 6 }).map((_, i) => (
                   viewMode === 'grid'
                     ? <TrackCardSkeleton key={i} />
-                    : <TrackCardSkeletonCompact key={i} />
+                    : <TrackRowSkeleton key={i} />
                 ))}
               </div>
             )
@@ -538,22 +538,7 @@ export default function Library() {
                 isLoadingMore={isFetchingNextPage}
               />
 
-              {/* Sprint 32: Continue Creating CTA - shown after playing first track */}
-              {activeTrack && tracks.length > 0 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="mb-4"
-                >
-                  <ContinueCreatingCTA
-                    track={activeTrack}
-                    variant="banner"
-                    onCreateClick={() => {
-                      navigate('/generate');
-                    }}
-                  />
-                </motion.div>
-              )}
+              {/* Sprint 32: Continue Creating CTA - removed for now */}
 
               {!hasNextPage && tracks.length > 0 && (
                 <p className="text-sm text-muted-foreground py-8 text-center">

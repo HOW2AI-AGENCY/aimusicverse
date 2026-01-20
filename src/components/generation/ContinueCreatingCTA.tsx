@@ -6,7 +6,7 @@
  * Prefills form with similar settings
  */
 
-import { memo, useCallback, useEffect, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { Sparkles, ArrowRight, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -15,8 +15,7 @@ import { useTelegram } from '@/contexts/TelegramContext';
 import { useNavigate } from 'react-router-dom';
 import { logger } from '@/lib/logger';
 import { useAnalyticsTracking } from '@/hooks/useAnalyticsTracking';
-import { useGlobalAudioPlayer } from '@/contexts/GlobalAudioContext';
-import type { Track } from '@/integrations/supabase/types/track';
+import type { Track } from '@/types/track';
 
 interface ContinueCreatingCTAProps {
   track: Track;
@@ -26,52 +25,17 @@ interface ContinueCreatingCTAProps {
 }
 
 /**
- * Hook to detect when track finishes playing
- */
-function useTrackFinished(trackId: string | undefined) {
-  const [finished, setFinished] = useState(false);
-  const { currentTrack, isPlaying, progress } = useGlobalAudioPlayer();
-
-  useEffect(() => {
-    if (!currentTrack || !trackId) {
-      setFinished(false);
-      return;
-    }
-
-    // Reset if track changed
-    if (currentTrack.id !== trackId) {
-      setFinished(false);
-      return;
-    }
-
-    // Check if finished (progress >= 95% and not playing)
-    if (progress >= 95 && !isPlaying && !finished) {
-      setFinished(true);
-
-      logger.info('Track finished playing', {
-        trackId,
-        progress,
-      });
-    }
-  }, [currentTrack, trackId, isPlaying, progress, finished]);
-
-  return finished;
-}
-
-/**
  * Generate similar prompt based on track
  */
 function generateSimilarPrompt(track: Track): {
   style: string;
   description: string;
-  mood: string;
 } {
   const style = track.style || 'Pop';
-  const mood = track.mood || 'Energetic';
 
   const descriptions = [
     `Another ${style.toLowerCase()} track similar vibe`,
-    `${style} with ${mood.toLowerCase()} mood like this`,
+    `${style} with energetic mood like this`,
     `Follow up to "${track.title}" in ${style} style`,
     `${style} track with same energy`,
   ];
@@ -79,23 +43,11 @@ function generateSimilarPrompt(track: Track): {
   return {
     style,
     description: descriptions[Math.floor(Math.random() * descriptions.length)],
-    mood,
   };
 }
 
 /**
  * Continue Creating CTA Component
- *
- * Shows after track finishes playing to encourage creating more music
- *
- * @example
- * ```tsx
- * <ContinueCreatingCTA
- *   track={currentTrack}
- *   onDismiss={() => setShowCTA(false)}
- *   variant="banner"
- * />
- * ```
  */
 export const ContinueCreatingCTA = memo(function ContinueCreatingCTA({
   track,
@@ -108,18 +60,15 @@ export const ContinueCreatingCTA = memo(function ContinueCreatingCTA({
   const { trackEvent } = useAnalyticsTracking();
   const [internalDismissed, setInternalDismissed] = useState(false);
 
-  const finished = useTrackFinished(track.id);
-  const shouldShow = finished && !internalDismissed;
-
   const handleCreateSimilar = useCallback(() => {
-    hapticFeedback('medium');
+    hapticFeedback?.('medium');
 
     const prompt = generateSimilarPrompt(track);
 
-    trackEvent('continue_creating_tapped', {
-      fromTrackId: track.id,
-      style: prompt.style,
-      mood: prompt.mood,
+    trackEvent({
+      eventType: 'feature_used',
+      eventName: 'continue_creating_tapped',
+      metadata: { fromTrackId: track.id, style: prompt.style },
     });
 
     logger.info('Continue creating CTA tapped', {
@@ -131,7 +80,6 @@ export const ContinueCreatingCTA = memo(function ContinueCreatingCTA({
     const presetParams = {
       style: prompt.style,
       description: prompt.description,
-      mood: prompt.mood,
       quick: true,
     };
 
@@ -144,12 +92,12 @@ export const ContinueCreatingCTA = memo(function ContinueCreatingCTA({
   }, [hapticFeedback, track, trackEvent, navigate]);
 
   const handleDismiss = useCallback(() => {
-    hapticFeedback('light');
+    hapticFeedback?.('light');
     setInternalDismissed(true);
     onDismiss?.();
   }, [hapticFeedback, onDismiss]);
 
-  if (!shouldShow) {
+  if (internalDismissed) {
     return null;
   }
 
@@ -335,37 +283,4 @@ export const ContinueCreatingCTA = memo(function ContinueCreatingCTA({
   };
 
   return variants[variant];
-});
-
-/**
- * Compact version for small spaces
- */
-export const ContinueCreatingCompact = memo(function ContinueCreatingCompact({
-  track,
-  onCreate,
-}: {
-  track: Track;
-  onCreate?: () => void;
-}) {
-  const { hapticFeedback } = useTelegram();
-  const finished = useTrackFinished(track.id);
-
-  if (!finished) return null;
-
-  const handleCreate = () => {
-    hapticFeedback('medium');
-    onCreate?.();
-  };
-
-  return (
-    <Button
-      onClick={handleCreate}
-      variant="ghost"
-      size="sm"
-      className="gap-1.5 text-xs h-8"
-    >
-      <Sparkles className="w-3 h-3" />
-      Создать похожее
-    </Button>
-  );
 });

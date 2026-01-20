@@ -305,23 +305,7 @@ const Index = () => {
                 <NewUserProgress />
               </motion.section>
             </Suspense>
-            {/* Sprint 32: Personalized Recommendations after first generation */}
-            {firstTrack && (
-              <Suspense fallback={null}>
-                <motion.section className="mb-4" {...lazySectionAnimation}>
-                  <PersonalizedRecommendations
-                    baseTrack={firstTrack}
-                    tracks={publicContent?.allTracks || []}
-                    onCreateSimilar={(params) => {
-                      hapticFeedback("medium");
-                      sessionStorage.setItem('presetParams', JSON.stringify(params));
-                      setGenerateSheetOpen(true);
-                    }}
-                    variant="compact"
-                  />
-                </motion.section>
-              </Suspense>
-            )}
+            {/* Sprint 32: Personalized Recommendations - removed for now */}
           </>
         )}
 
@@ -351,18 +335,7 @@ const Index = () => {
           />
         </motion.section>
 
-        {/* Sprint 32: Continue Creating CTA - shows after first track is ready */}
-        {firstTrack && !isFirstSession && (
-          <Suspense fallback={null}>
-            <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.12 }}>
-              <ContinueCreatingCTA
-                track={firstTrack}
-                onCreateClick={handleCreate}
-                variant="banner"
-              />
-            </motion.section>
-          </Suspense>
-        )}
+        {/* Sprint 32: Continue Creating CTA - removed for now */}
 
         {/* Recent Tracks - for logged in users */}
         {user && (

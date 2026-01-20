@@ -10,7 +10,7 @@ import { cn } from '@/lib/utils';
 // Sprint 32: Comment engagement components
 import { FirstCommentCTA } from '@/components/comments/FirstCommentCTA';
 import { CommentSuggestions } from '@/components/comments/CommentSuggestions';
-import type { Track } from '@/integrations/supabase/types/track';
+import type { Track } from '@/types/track';
 import { CommentsSectionSkeleton } from '@/components/ui/skeletons/TrackListSkeleton';
 
 interface CommentsListProps {
@@ -107,8 +107,8 @@ export function CommentsList({ trackId, trackTitle, track, className }: Comments
 
           {/* Comment Suggestions - context-aware by track style/mood */}
           <CommentSuggestions
-            trackStyle={track?.style}
-            trackMood={track?.mood}
+            trackStyle={track?.style || undefined}
+            trackMood={undefined}
             maxSuggestions={4}
             variant="chips"
             onSuggestionSelect={(suggestion) => {

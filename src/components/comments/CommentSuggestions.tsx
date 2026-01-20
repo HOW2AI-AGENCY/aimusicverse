@@ -184,11 +184,11 @@ export const CommentSuggestions = memo(function CommentSuggestions({
 
   const handleSuggestionClick = useCallback(
     (suggestion: string, index: number) => {
-      hapticFeedback('light');
-      trackEvent('comment_suggestion_used', {
-        suggestion,
-        index,
-        trackStyle,
+      hapticFeedback?.('light');
+      trackEvent({
+        eventType: 'feature_used',
+        eventName: 'comment_suggestion_used',
+        metadata: { suggestion, index, trackStyle },
       });
 
       logger.info('Comment suggestion selected', {

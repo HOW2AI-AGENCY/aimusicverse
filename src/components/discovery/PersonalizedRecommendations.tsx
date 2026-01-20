@@ -7,20 +7,17 @@
 
 import { memo, useCallback, useEffect, useState } from 'react';
 import { motion } from '@/lib/motion';
-import { Sparkles, TrendingUp, RefreshCw } from 'lucide-react';
+import { Sparkles, TrendingUp, Play, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { logger } from '@/lib/logger';
 import { useAnalyticsTracking } from '@/hooks/useAnalyticsTracking';
-import { usePublicContentBatch } from '@/hooks/usePublicContent';
-import { findSimilarTracks, explainSimilarity } from '@/lib/track-similarity';
-import type { Track } from '@/integrations/supabase/types/track';
+import { usePublicContentBatch, type PublicTrackWithCreator } from '@/hooks/usePublicContent';
 import { LazyImage } from '@/components/ui/lazy-image';
-import { Play, Heart } from 'lucide-react';
 
 interface PersonalizedRecommendationsProps {
-  userTrack: Track;
+  userTrack: PublicTrackWithCreator;
   onTrackClick?: (trackId: string) => void;
   onCreateSimilar?: (style: string, mood: string) => void;
   onExploreMore?: () => void;
@@ -29,10 +26,75 @@ interface PersonalizedRecommendationsProps {
 }
 
 /**
+ * Calculate similarity between two tracks
+ */
+function calculateSimilarity(
+  trackA: PublicTrackWithCreator,
+  trackB: PublicTrackWithCreator
+): number {
+  let score = 0;
+
+  // Style match (40% weight)
+  if (trackA.style && trackB.style) {
+    const styleA = trackA.style.toLowerCase();
+    const styleB = trackB.style.toLowerCase();
+    if (styleA === styleB) {
+      score += 0.4;
+    } else if (styleA.includes(styleB) || styleB.includes(styleA)) {
+      score += 0.2;
+    }
+  }
+
+  // Tag overlap (60% weight)
+  const tagsA = new Set(Array.isArray(trackA.tags) ? trackA.tags.map((t: string) => t.toLowerCase()) : []);
+  const tagsB = new Set(Array.isArray(trackB.tags) ? trackB.tags.map((t: string) => t.toLowerCase()) : []);
+
+  if (tagsA.size > 0 && tagsB.size > 0) {
+    const intersection = [...tagsA].filter(t => tagsB.has(t));
+    const union = new Set([...tagsA, ...tagsB]);
+    if (union.size > 0) {
+      const jaccardIndex = intersection.length / union.size;
+      score += jaccardIndex * 0.6;
+    }
+  }
+
+  return Math.min(score, 1);
+}
+
+/**
+ * Explain similarity between two tracks
+ */
+function explainSimilarity(trackA: PublicTrackWithCreator, trackB: PublicTrackWithCreator): string {
+  const reasons: string[] = [];
+
+  if (trackA.style === trackB.style) {
+    reasons.push(`стиль "${trackA.style}"`);
+  }
+
+  const tagsA = new Set(Array.isArray(trackA.tags) ? trackA.tags : []);
+  const tagsB = new Set(Array.isArray(trackB.tags) ? trackB.tags : []);
+  const commonTags = [...tagsA].filter(t => tagsB.has(t));
+
+  if (commonTags.length > 0) {
+    reasons.push(`теги: ${commonTags.slice(0, 3).join(', ')}`);
+  }
+
+  if (reasons.length === 0) {
+    return 'Похожий трек';
+  }
+
+  return `Похоже по ${reasons.join(', ')}`;
+}
+
+interface SimilarTrack extends PublicTrackWithCreator {
+  similarity: number;
+}
+
+/**
  * Hook to get personalized recommendations
  */
-function usePersonalizedRecommendations(userTrack: Track, limit: number = 8) {
-  const [recommendations, setRecommendations] = useState<Track[]>([]);
+function usePersonalizedRecommendations(userTrack: PublicTrackWithCreator, limit: number = 8) {
+  const [recommendations, setRecommendations] = useState<SimilarTrack[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { data: publicContent } = usePublicContentBatch();
 
@@ -48,16 +110,25 @@ function usePersonalizedRecommendations(userTrack: Track, limit: number = 8) {
       ...(publicContent.allTracks || []),
     ];
 
-    // Remove duplicates and user's track
-    const uniqueTracks = Array.from(
-      new Map(allPublicTracks.map(t => [t.id, t]).entries())
-    ).filter(t => t.id !== userTrack.id);
+    // Remove duplicates
+    const uniqueTracksMap = new Map<string, PublicTrackWithCreator>();
+    allPublicTracks.forEach(t => {
+      if (t.id !== userTrack.id) {
+        uniqueTracksMap.set(t.id, t);
+      }
+    });
+
+    const uniqueTracks = Array.from(uniqueTracksMap.values());
 
     // Find similar tracks
-    const similar = findSimilarTracks(userTrack, uniqueTracks, {
-      minSimilarity: 0.2,
-      maxResults: limit,
-    });
+    const similar: SimilarTrack[] = uniqueTracks
+      .map(track => ({
+        ...track,
+        similarity: calculateSimilarity(userTrack, track),
+      }))
+      .filter(track => track.similarity >= 0.2)
+      .sort((a, b) => b.similarity - a.similarity)
+      .slice(0, limit);
 
     setRecommendations(similar);
     setIsLoading(false);
@@ -73,17 +144,6 @@ function usePersonalizedRecommendations(userTrack: Track, limit: number = 8) {
 
 /**
  * Personalized Recommendations Component
- *
- * Shows recommendations based on user's first track with similarity explanations
- *
- * @example
- * ```tsx
- * <PersonalizedRecommendations
- *   userTrack={firstTrack}
- *   onTrackClick={(trackId) => navigate(`/track/${trackId}`)}
- *   onCreateSimilar={(style, mood) => startGeneration({ style, mood })}
- * />
- * ```
  */
 export const PersonalizedRecommendations = memo(function PersonalizedRecommendations({
   userTrack,
@@ -101,12 +161,12 @@ export const PersonalizedRecommendations = memo(function PersonalizedRecommendat
   );
 
   const handleTrackClick = useCallback(
-    (track: Track) => {
-      hapticFeedback('light');
-      trackEvent('recommendation_clicked', {
-        trackId: track.id,
-        similarity: track.similarity,
-        source: 'personalized',
+    (track: SimilarTrack) => {
+      hapticFeedback?.('light');
+      trackEvent({
+        eventType: 'feature_used',
+        eventName: 'recommendation_clicked',
+        metadata: { trackId: track.id, similarity: track.similarity, source: 'personalized' },
       });
       onTrackClick?.(track.id);
     },
@@ -114,21 +174,25 @@ export const PersonalizedRecommendations = memo(function PersonalizedRecommendat
   );
 
   const handleCreateSimilar = useCallback(
-    (track: Track) => {
-      hapticFeedback('medium');
-      trackEvent('create_similar_tapped', {
-        fromTrackId: track.id,
-        style: track.style,
-        mood: track.mood,
+    (track: SimilarTrack) => {
+      hapticFeedback?.('medium');
+      trackEvent({
+        eventType: 'feature_used',
+        eventName: 'create_similar_tapped',
+        metadata: { fromTrackId: track.id, style: track.style },
       });
-      onCreateSimilar?.(track.style || '', track.mood || '');
+      onCreateSimilar?.(track.style || '', '');
     },
     [hapticFeedback, trackEvent, onCreateSimilar]
   );
 
   const handleExploreMore = useCallback(() => {
-    hapticFeedback('light');
-    trackEvent('explore_more_tapped', { source: 'personalized' });
+    hapticFeedback?.('light');
+    trackEvent({
+      eventType: 'feature_used',
+      eventName: 'explore_more_tapped',
+      metadata: { source: 'personalized' },
+    });
     onExploreMore?.();
   }, [hapticFeedback, trackEvent, onExploreMore]);
 
@@ -176,7 +240,7 @@ export const PersonalizedRecommendations = memo(function PersonalizedRecommendat
 
       {/* Description */}
       <p className="text-sm text-muted-foreground">
-        Треки похожие на &quot;{userTrack.title}&quot; по стилю и настроению
+        Треки похожие на &quot;{userTrack.title}&quot; по стилю
       </p>
 
       {/* Recommendations Grid */}
@@ -202,7 +266,7 @@ export const PersonalizedRecommendations = memo(function PersonalizedRecommendat
               {/* Cover image */}
               <LazyImage
                 src={track.cover_url || ''}
-                alt={track.title}
+                alt={track.title || 'Track'}
                 className="w-full h-full object-cover"
               />
 
@@ -260,54 +324,5 @@ export const PersonalizedRecommendations = memo(function PersonalizedRecommendat
         ))}
       </div>
     </section>
-  );
-});
-
-/**
- * Compact version for smaller spaces
- */
-export const PersonalizedRecommendationsCompact = memo(function PersonalizedRecommendationsCompact({
-  userTrack,
-  onTrackClick,
-  onCreateSimilar,
-  className,
-}: {
-  userTrack: Track;
-  onTrackClick?: (trackId: string) => void;
-  onCreateSimilar?: (style: string, mood: string) => void;
-  className?: string;
-}) {
-  const { recommendations } = usePersonalizedRecommendations(userTrack, 4);
-
-  if (recommendations.length === 0) return null;
-
-  return (
-    <div className={cn('space-y-2', className)}>
-      <h4 className="text-sm font-medium flex items-center gap-1.5">
-        <Sparkles className="w-4 h-4 text-primary" />
-        Похожие треки
-      </h4>
-
-      <div className="flex gap-2 overflow-x-auto pb-2">
-        {recommendations.map((track) => (
-          <div
-            key={track.id}
-            className="shrink-0 w-20 space-y-1"
-          >
-            <div
-              className="aspect-square rounded-lg overflow-hidden bg-muted cursor-pointer"
-              onClick={() => onTrackClick?.(track.id)}
-            >
-              <LazyImage
-                src={track.cover_url || ''}
-                alt={track.title}
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <p className="text-xs text-center line-clamp-1">{track.title}</p>
-          </div>
-        ))}
-      </div>
-    </div>
   );
 });
