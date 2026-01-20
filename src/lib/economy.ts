@@ -19,12 +19,14 @@ export const ECONOMY = {
   CREDITS_PER_STAR: 2,
   
   // Action costs (GENERATION_COST is now model-specific, see MODEL_COSTS)
-  DEFAULT_GENERATION_COST: 12,  // Default for new models
-  STEM_SEPARATION_COST: 5,      // 5 credits = $0.05
-  MIDI_EXPORT_COST: 3,          // 3 credits = $0.03
-  COVER_GENERATION_COST: 10,    // 10 credits = $0.10 (synced with edge functions)
-  EXTEND_GENERATION_COST: 10,   // 10 credits = $0.10
-  AUDIO_ANALYSIS_COST: 3,       // 3 credits = $0.03
+  DEFAULT_GENERATION_COST: 12,        // Default for new models
+  STEM_SEPARATION_SIMPLE_COST: 10,    // 10 credits = $0.10 (2 stems: vocal + instrumental)
+  STEM_SEPARATION_DETAILED_COST: 50,  // 50 credits = $0.50 (12+ stems)
+  REPLACE_SECTION_COST: 5,            // 5 credits = $0.05
+  MIDI_EXPORT_COST: 3,                // 3 credits = $0.03
+  COVER_GENERATION_COST: 10,          // 10 credits = $0.10
+  EXTEND_GENERATION_COST: 10,         // 10 credits = $0.10
+  AUDIO_ANALYSIS_COST: 3,             // 3 credits = $0.03
   
   // Rewards (BOOSTED for faster progression - Sprint 012)
   DAILY_CHECKIN: {
