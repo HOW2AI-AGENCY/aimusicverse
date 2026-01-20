@@ -7,21 +7,13 @@ import { useComments, useAddComment, useDeleteComment, type Comment as CommentTy
 import { Skeleton } from '@/components/ui/skeleton';
 import { MessageSquare } from 'lucide-react';
 import { cn } from '@/lib/utils';
-// Sprint 32: Comment engagement components
-import { FirstCommentCTA } from '@/components/comments/FirstCommentCTA';
-import { CommentSuggestions } from '@/components/comments/CommentSuggestions';
-import type { Track } from '@/integrations/supabase/types/track';
-import { CommentsSectionSkeleton } from '@/components/ui/skeletons/TrackListSkeleton';
 
 interface CommentsListProps {
   trackId: string;
-  trackTitle?: string;
-  track?: Track; // Add track prop for context-aware suggestions
   className?: string;
 }
 
-export function CommentsList({ trackId, trackTitle, track, className }: CommentsListProps) {
-  const title = track?.title || trackTitle;
+export function CommentsList({ trackId, className }: CommentsListProps) {
   const { data: comments = [], isLoading } = useComments(trackId);
   const addComment = useAddComment();
   const deleteComment = useDeleteComment();
@@ -83,50 +75,23 @@ export function CommentsList({ trackId, trackTitle, track, className }: Comments
   if (isLoading) {
     return (
       <div className={cn('space-y-4', className)}>
-        <CommentsSectionSkeleton count={3} />
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="flex gap-3">
+            <Skeleton className="h-8 w-8 rounded-full" />
+            <div className="flex-1 space-y-2">
+              <Skeleton className="h-4 w-32" />
+              <Skeleton className="h-12 w-full" />
+            </div>
+          </div>
+        ))}
       </div>
     );
   }
 
   return (
     <div className={cn('space-y-6', className)}>
-      {/* Sprint 32: Comment Suggestions - shown before form */}
-      {mappedComments.length === 0 && (
-        <>
-          {/* First Comment CTA - shown when no comments yet */}
-          <div className="mb-4">
-            <FirstCommentCTA
-              trackId={trackId}
-              trackTitle={title || 'этот трек'}
-              variant="card"
-              onOpenComments={() => {
-                document.getElementById('comment-form')?.scrollIntoView({ behavior: 'smooth' });
-              }}
-            />
-          </div>
-
-          {/* Comment Suggestions - context-aware by track style/mood */}
-          <CommentSuggestions
-            trackStyle={track?.style}
-            trackMood={track?.mood}
-            maxSuggestions={4}
-            variant="chips"
-            onSuggestionSelect={(suggestion) => {
-              const formInput = document.querySelector('#comment-form textarea') as HTMLTextAreaElement;
-              if (formInput) {
-                formInput.value = suggestion;
-                formInput.focus();
-                formInput.dispatchEvent(new Event('input', { bubbles: true }));
-              }
-            }}
-            className="mb-3"
-          />
-        </>
-      )}
-
       {/* Comment Form */}
       <CommentForm
-        id="comment-form"
         trackId={trackId}
         parentId={replyTo?.id}
         replyToUsername={replyTo?.username}

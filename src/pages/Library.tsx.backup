@@ -13,14 +13,8 @@ import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { ErrorBoundaryWrapper } from "@/components/ErrorBoundaryWrapper";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useDebounce } from "use-debounce";
+import { TrackCardSkeleton, TrackCardSkeletonCompact } from "@/components/ui/skeleton-components";
 import { GeneratingTrackSkeleton } from "@/components/library/GeneratingTrackSkeleton";
-// Sprint 32: Enhanced skeleton components
-import {
-  TrackCardSkeleton,
-  TrackGridSkeleton,
-  TrackListSkeleton,
-  TrackRowSkeleton,
-} from "@/components/ui/skeletons/TrackListSkeleton";
 import { useSyncStaleTasks, useActiveGenerations } from "@/hooks/generation";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { MobileListSkeleton, MobileGridSkeleton } from "@/components/mobile/MobileSkeletons";
@@ -42,9 +36,6 @@ import { ExtendTrackDialog } from "@/components/ExtendTrackDialog";
 import { AudioCoverDialog } from "@/components/AudioCoverDialog";
 import { DesktopLibrarySidebar } from "@/components/library/DesktopLibrarySidebar";
 import { DesktopLibraryLayout } from "@/components/library/DesktopLibraryLayout";
-// Sprint 32: Engagement components
-import { ContinueCreatingCTA } from "@/components/generation/ContinueCreatingCTA";
-import { FirstCommentCTA } from '@/components/comments/FirstCommentCTA';
 
 const log = logger.child({ module: 'Library' });
 
@@ -537,24 +528,7 @@ export default function Library() {
                 hasMore={hasNextPage || false}
                 isLoadingMore={isFetchingNextPage}
               />
-
-              {/* Sprint 32: Continue Creating CTA - shown after playing first track */}
-              {activeTrack && tracks.length > 0 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="mb-4"
-                >
-                  <ContinueCreatingCTA
-                    track={activeTrack}
-                    variant="banner"
-                    onCreateClick={() => {
-                      navigate('/generate');
-                    }}
-                  />
-                </motion.div>
-              )}
-
+              
               {!hasNextPage && tracks.length > 0 && (
                 <p className="text-sm text-muted-foreground py-8 text-center">
                   Все треки загружены

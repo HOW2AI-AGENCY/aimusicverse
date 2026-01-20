@@ -5,7 +5,9 @@
       "Bash(npx tsc:*)",
       "Bash(npm run build:*)",
       "Bash(npm run size:*)",
-      "Bash(git fetch:*)"
+      "Bash(git fetch:*)",
+      "Bash(cd:*)",
+      "Bash(tree:*)"
     ]
   }
 }

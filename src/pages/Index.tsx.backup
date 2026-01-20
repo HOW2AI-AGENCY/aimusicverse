@@ -24,7 +24,6 @@ import { SEOHead, SEO_PRESETS } from "@/components/SEOHead";
 import { PullToRefreshWrapper } from "@/components/library/PullToRefreshWrapper";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Skeleton } from "@/components/ui/skeleton";
-import { HeroSkeleton } from "@/components/ui/skeletons/TrackListSkeleton";
 import { preloadImages } from "@/lib/imageOptimization";
 import { Clock, Users, Music2 } from "lucide-react";
 import { logger } from "@/lib/logger";
@@ -43,11 +42,6 @@ import { PopularCreatorsSection } from "@/components/home/PopularCreatorsSection
 import { InviteFriendsCard } from "@/components/gamification/InviteFriendsCard";
 import { ContinueDraftCard } from "@/components/home/ContinueDraftCard";
 
-// Sprint 32: Engagement components
-import { PersonalizedRecommendations } from "@/components/discovery/PersonalizedRecommendations";
-import { ContinueCreatingCTA } from "@/components/generation/ContinueCreatingCTA";
-import { useFirstGeneratedTrack } from "@/hooks/useFirstGeneratedTrack";
-
 // Lazy loaded components
 const GamificationBar = lazy(() => import("@/components/gamification/GamificationBar").then(m => ({ default: m.GamificationBar })));
 const RecentTracksSection = lazy(() => import("@/components/home/RecentTracksSection").then(m => ({ default: m.RecentTracksSection })));
@@ -56,6 +50,21 @@ const RecentTracksSection = lazy(() => import("@/components/home/RecentTracksSec
 const GenerateSheet = lazy(() => import("@/components/GenerateSheet").then(m => ({ default: m.GenerateSheet })));
 const MusicRecognitionDialog = lazy(() => import("@/components/music-recognition/MusicRecognitionDialog").then(m => ({ default: m.MusicRecognitionDialog })));
 const AudioActionDialog = lazy(() => import("@/components/generate-form/AudioActionDialog").then(m => ({ default: m.AudioActionDialog })));
+
+// Skeleton for hero section
+const HeroSkeleton = () => (
+  <div className="rounded-2xl bg-gradient-to-br from-primary/10 to-background p-6 animate-pulse">
+    <div className="flex flex-col items-center gap-4">
+      <Skeleton className="h-6 w-48" />
+      <Skeleton className="h-8 w-64" />
+      <Skeleton className="h-4 w-56" />
+      <div className="flex gap-2 mt-4">
+        <Skeleton className="h-12 w-28" />
+        <Skeleton className="h-12 w-28" />
+      </div>
+    </div>
+  </div>
+);
 
 const Index = () => {
   const { user } = useAuth();
@@ -72,9 +81,6 @@ const Index = () => {
 
   // User journey state for personalized experience
   const { isNewUser } = useUserJourneyState();
-
-  // Sprint 32: Get first generated track for personalized recommendations
-  const { firstTrack, isFirstSession } = useFirstGeneratedTrack();
 
   // Handler for Create action
   const handleCreateRef = useCallback(() => {
@@ -305,23 +311,6 @@ const Index = () => {
                 <NewUserProgress />
               </motion.section>
             </Suspense>
-            {/* Sprint 32: Personalized Recommendations after first generation */}
-            {firstTrack && (
-              <Suspense fallback={null}>
-                <motion.section className="mb-4" {...lazySectionAnimation}>
-                  <PersonalizedRecommendations
-                    baseTrack={firstTrack}
-                    tracks={publicContent?.allTracks || []}
-                    onCreateSimilar={(params) => {
-                      hapticFeedback("medium");
-                      sessionStorage.setItem('presetParams', JSON.stringify(params));
-                      setGenerateSheetOpen(true);
-                    }}
-                    variant="compact"
-                  />
-                </motion.section>
-              </Suspense>
-            )}
           </>
         )}
 
@@ -350,19 +339,6 @@ const Index = () => {
             onLoadMore={fetchMorePopular}
           />
         </motion.section>
-
-        {/* Sprint 32: Continue Creating CTA - shows after first track is ready */}
-        {firstTrack && !isFirstSession && (
-          <Suspense fallback={null}>
-            <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.12 }}>
-              <ContinueCreatingCTA
-                track={firstTrack}
-                onCreateClick={handleCreate}
-                variant="banner"
-              />
-            </motion.section>
-          </Suspense>
-        )}
 
         {/* Recent Tracks - for logged in users */}
         {user && (

@@ -17,6 +17,7 @@ interface CommentFormProps {
   className?: string;
   userDisplayName?: string;
   userAvatarUrl?: string | null;
+  id?: string; // Sprint 32: Add id for anchoring from FirstCommentCTA
 }
 
 export function CommentForm({
@@ -29,6 +30,7 @@ export function CommentForm({
   className,
   userDisplayName = 'Вы',
   userAvatarUrl,
+  id,
 }: CommentFormProps) {
   const { user } = useAuth();
   const [content, setContent] = useState('');
@@ -52,7 +54,7 @@ export function CommentForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className={cn('space-y-3', className)}>
+    <form id={id} onSubmit={handleSubmit} className={cn('space-y-3', className)}>
       {replyToUsername && (
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <span>Ответ для @{replyToUsername}</span>
