@@ -1,120 +1,39 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "@/hooks/useAuth";
-import { useTelegram } from "@/contexts/TelegramContext";
-import { useProfile, useUpdateProfile, ProfileUpdate } from "@/hooks/useProfile";
-import { useNotificationSettings } from "@/hooks/useNotificationSettings";
-import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
-import { useKeyboardAware } from "@/hooks/useKeyboardAware";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
-import { Separator } from "@/components/ui/separator";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+/**
+ * Settings Page
+ * 
+ * User settings management with modular tab components.
+ * Business logic delegated to useSettingsPage hook.
+ * 
+ * @see src/hooks/useSettingsPage.ts
+ */
+
+import { Loader2 } from "lucide-react";
 import { 
-  Bell, 
-  User, 
-  Shield, 
-  Moon,
-  Sun,
-  Clock,
-  Music,
-  Loader2,
-  CheckCircle2,
-  Send,
-  UserX,
-  Lightbulb,
-  Palette,
-  Settings as SettingsIcon,
-  BarChart3,
-  CreditCard
+  User, Bell, Shield, Palette, Music, Send, Lightbulb, BarChart3, CreditCard,
+  Settings as SettingsIcon
 } from "lucide-react";
-import { toast } from "sonner";
-import { notify } from "@/lib/notifications";
-import { TelegramBotSetup } from "@/components/TelegramBotSetup";
-import { AddToHomeScreen } from "@/components/telegram/AddToHomeScreen";
-import { AvatarUpload } from "@/components/settings/AvatarUpload";
-import { MidiSettingsSection } from "@/components/settings/MidiSettingsSection";
-import { PrivacySettings } from "@/components/settings/PrivacySettings";
-import { HintsSettings } from "@/components/settings/HintsSettings";
-import { ThemeSettings } from "@/components/settings/ThemeSettings";
-import { ProfileEmojiPicker } from "@/components/settings/ProfileEmojiPicker";
-import { UserStatsSection } from "@/components/settings/UserStatsSection";
-import { SubscriptionManagement } from "@/components/payments/SubscriptionManagement";
-import { InviteFriendsCard } from "@/components/gamification/InviteFriendsCard";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion } from '@/lib/motion';
+import { Button } from "@/components/ui/button";
 import { AppHeader } from "@/components/layout/AppHeader";
 import { NotificationBadge } from "@/components/NotificationBadge";
+import { useSettingsPage } from "@/hooks/useSettingsPage";
+
+// Tab components
+import { ProfileTab, NotificationsTab, PrivacyTab, TelegramTab } from "@/components/settings/tabs";
+
+// Existing components for simple tabs
+import { SubscriptionManagement } from "@/components/payments/SubscriptionManagement";
+import { InviteFriendsCard } from "@/components/gamification/InviteFriendsCard";
+import { UserStatsSection } from "@/components/settings/UserStatsSection";
+import { ThemeSettings } from "@/components/settings/ThemeSettings";
+import { HintsSettings } from "@/components/settings/HintsSettings";
+import { MidiSettingsSection } from "@/components/settings/MidiSettingsSection";
 
 export default function Settings() {
-  const navigate = useNavigate();
-  const { hapticFeedback } = useTelegram();
-  const { data: profile, isLoading: profileLoading } = useProfile();
-  const updateProfile = useUpdateProfile();
-  const { settings, updateSettings, isLoading: settingsLoading, isUpdating } = useNotificationSettings();
-  
-  // Keyboard-aware behavior для адаптации под клавиатуру iOS
-  const { createFocusHandler, getContainerStyle } = useKeyboardAware();
+  const settings = useSettingsPage();
 
-  // Telegram BackButton
-  const { shouldShowUIButton } = useTelegramBackButton({
-    visible: true,
-    fallbackPath: '/',
-  });
-
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [isPublic, setIsPublic] = useState(false);
-  const [isInitialized, setIsInitialized] = useState(false);
-
-  // Initialize form when profile loads
-  useEffect(() => {
-    let mounted = true;
-    
-    const initializeForm = () => {
-      if (profile && !isInitialized && mounted) {
-        setFirstName(profile.first_name || "");
-        setLastName(profile.last_name || "");
-        setIsPublic(profile.is_public || false);
-        setIsInitialized(true);
-      }
-    };
-    
-    initializeForm();
-    
-    return () => {
-      mounted = false;
-    };
-  }, [profile, isInitialized]);
-
-  const handleSaveProfile = async () => {
-    hapticFeedback('light');
-    try {
-      await updateProfile.mutateAsync({
-        first_name: firstName,
-        last_name: lastName || undefined,
-        is_public: isPublic,
-      });
-      notify.success('Профиль сохранён');
-    } catch (error) {
-      notify.error('Ошибка сохранения');
-    }
-  };
-
-  const handleNotificationToggle = (key: string, value: boolean) => {
-    hapticFeedback('light');
-    updateSettings({ [key]: value });
-  };
-
-  const handlePrivacyToggle = (value: boolean) => {
-    hapticFeedback('light');
-    setIsPublic(value);
-    updateProfile.mutate({ is_public: value });
-  };
-
-  if (profileLoading) {
+  if (settings.profileLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5">
         <Loader2 className="w-8 h-8 animate-spin text-primary" />
@@ -125,10 +44,9 @@ export default function Settings() {
   return (
     <div 
       className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5"
-      style={getContainerStyle(96)} // 96px = 24 * 4 (pb-24 equivalent)
+      style={settings.getContainerStyle(96)}
     >
       <div className="container max-w-2xl mx-auto px-4">
-        {/* Unified Header with centered logo */}
         <AppHeader
           title="Настройки"
           subtitle="Управление аккаунтом"
@@ -178,85 +96,25 @@ export default function Settings() {
 
           {/* Profile Tab */}
           <TabsContent value="profile" className="space-y-4">
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <User className="w-5 h-5" />
-                    Личные данные
-                  </CardTitle>
-                  <CardDescription>
-                    Информация отображаемая в вашем профиле
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <AvatarUpload
-                    currentUrl={profile?.photo_url}
-                    firstName={firstName}
-                    onUpload={(url) => {
-                      updateProfile.mutate({ photo_url: url || null });
-                    }}
-                  />
-
-                  <Separator />
-
-                  <div className="space-y-2">
-                    <Label htmlFor="firstName">Имя</Label>
-                    <Input
-                      id="firstName"
-                      value={firstName}
-                      onChange={(e) => setFirstName(e.target.value)}
-                      onFocus={createFocusHandler()}
-                      placeholder="Введите имя"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="lastName">Фамилия</Label>
-                    <Input
-                      id="lastName"
-                      value={lastName}
-                      onChange={(e) => setLastName(e.target.value)}
-                      onFocus={createFocusHandler()}
-                      placeholder="Введите фамилию"
-                    />
-                  </div>
-
-                  <Button 
-                    onClick={handleSaveProfile} 
-                    className="w-full"
-                    disabled={updateProfile.isPending}
-                  >
-                    {updateProfile.isPending ? (
-                      <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                    ) : (
-                      <CheckCircle2 className="w-4 h-4 mr-2" />
-                    )}
-                    Сохранить изменения
-                  </Button>
-                </CardContent>
-              </Card>
-            </motion.div>
+            <ProfileTab
+              profile={settings.profile}
+              firstName={settings.firstName}
+              lastName={settings.lastName}
+              onFirstNameChange={settings.setFirstName}
+              onLastNameChange={settings.setLastName}
+              onAvatarUpload={settings.updateAvatar}
+              onSave={settings.saveProfile}
+              isSaving={settings.isSaving}
+              createFocusHandler={settings.createFocusHandler}
+            />
           </TabsContent>
 
           {/* Subscription Tab */}
           <TabsContent value="subscription" className="space-y-4">
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
               <SubscriptionManagement />
             </motion.div>
-
-            {/* Referral Section */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-            >
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
               <InviteFriendsCard />
             </motion.div>
           </TabsContent>
@@ -273,216 +131,18 @@ export default function Settings() {
 
           {/* Privacy Tab */}
           <TabsContent value="privacy" className="space-y-4">
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              <PrivacySettings />
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-            >
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <UserX className="w-5 h-5" />
-                    Заблокированные пользователи
-                  </CardTitle>
-                  <CardDescription>
-                    Управление списком заблокированных пользователей
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Button 
-                    variant="outline" 
-                    className="w-full"
-                    onClick={() => navigate('/settings/blocked-users')}
-                  >
-                    <UserX className="w-4 h-4 mr-2" />
-                    Управление заблокированными
-                  </Button>
-                </CardContent>
-              </Card>
-            </motion.div>
+            <PrivacyTab onNavigate={settings.navigateTo} />
           </TabsContent>
 
           {/* Notifications Tab */}
           <TabsContent value="notifications" className="space-y-4">
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Music className="w-5 h-5" />
-                    Уведомления о генерации
-                  </CardTitle>
-                  <CardDescription>
-                    Настройте какие уведомления вы хотите получать
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-0.5">
-                      <Label className="text-base">Завершение генерации</Label>
-                      <p className="text-sm text-muted-foreground">
-                        Уведомлять когда трек готов
-                      </p>
-                    </div>
-                    <Switch
-                      checked={settings?.notify_completed ?? true}
-                      onCheckedChange={(v) => handleNotificationToggle('notify_completed', v)}
-                      disabled={isUpdating}
-                    />
-                  </div>
-
-                  <Separator />
-
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-0.5">
-                      <Label className="text-base">Ошибки генерации</Label>
-                      <p className="text-sm text-muted-foreground">
-                        Уведомлять при неудачной генерации
-                      </p>
-                    </div>
-                    <Switch
-                      checked={settings?.notify_failed ?? true}
-                      onCheckedChange={(v) => handleNotificationToggle('notify_failed', v)}
-                      disabled={isUpdating}
-                    />
-                  </div>
-
-                  <Separator />
-
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-0.5">
-                      <Label className="text-base">Прогресс генерации</Label>
-                      <p className="text-sm text-muted-foreground">
-                        Уведомлять о промежуточных этапах
-                      </p>
-                    </div>
-                    <Switch
-                      checked={settings?.notify_progress ?? false}
-                      onCheckedChange={(v) => handleNotificationToggle('notify_progress', v)}
-                      disabled={isUpdating}
-                    />
-                  </div>
-
-                  <Separator />
-
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-0.5">
-                      <Label className="text-base">Готовность стемов</Label>
-                      <p className="text-sm text-muted-foreground">
-                        Уведомлять когда разделение завершено
-                      </p>
-                    </div>
-                    <Switch
-                      checked={settings?.notify_stem_ready ?? true}
-                      onCheckedChange={(v) => handleNotificationToggle('notify_stem_ready', v)}
-                      disabled={isUpdating}
-                    />
-                  </div>
-
-                  <Separator />
-
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-0.5">
-                      <Label className="text-base">Новые лайки</Label>
-                      <p className="text-sm text-muted-foreground">
-                        Уведомлять когда кто-то лайкнул ваш трек
-                      </p>
-                    </div>
-                    <Switch
-                      checked={settings?.notify_likes ?? true}
-                      onCheckedChange={(v) => handleNotificationToggle('notify_likes', v)}
-                      disabled={isUpdating}
-                    />
-                  </div>
-
-                  <Separator />
-
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-0.5">
-                      <Label className="text-base">Достижения</Label>
-                      <p className="text-sm text-muted-foreground">
-                        Уведомлять о полученных достижениях
-                      </p>
-                    </div>
-                    <Switch
-                      checked={settings?.notify_achievements ?? true}
-                      onCheckedChange={(v) => handleNotificationToggle('notify_achievements', v)}
-                      disabled={isUpdating}
-                    />
-                  </div>
-
-                  <Separator />
-
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-0.5">
-                      <Label className="text-base">Ежедневное напоминание</Label>
-                      <p className="text-sm text-muted-foreground">
-                        Напоминать о ежедневном чекине
-                      </p>
-                    </div>
-                    <Switch
-                      checked={settings?.notify_daily_reminder ?? false}
-                      onCheckedChange={(v) => handleNotificationToggle('notify_daily_reminder', v)}
-                      disabled={isUpdating}
-                    />
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-            >
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Clock className="w-5 h-5" />
-                    Тихие часы
-                  </CardTitle>
-                  <CardDescription>
-                    Период когда уведомления не отправляются
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label>Начало</Label>
-                      <Input
-                        type="time"
-                        value={settings?.quiet_hours_start || ""}
-                        onChange={(e) => updateSettings({ quiet_hours_start: e.target.value || null })}
-                        onFocus={createFocusHandler()}
-                        disabled={isUpdating}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label>Конец</Label>
-                      <Input
-                        type="time"
-                        value={settings?.quiet_hours_end || ""}
-                        onChange={(e) => updateSettings({ quiet_hours_end: e.target.value || null })}
-                        onFocus={createFocusHandler()}
-                        disabled={isUpdating}
-                      />
-                    </div>
-                  </div>
-                  <p className="text-xs text-muted-foreground">
-                    Оставьте пустым чтобы отключить тихие часы
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
+            <NotificationsTab
+              settings={settings.notificationSettings}
+              isUpdating={settings.isUpdating}
+              onToggle={settings.toggleNotification}
+              onUpdateSettings={settings.updateSettings}
+              createFocusHandler={settings.createFocusHandler}
+            />
           </TabsContent>
 
           {/* Hints Tab */}
@@ -492,102 +152,18 @@ export default function Settings() {
 
           {/* MIDI Tab */}
           <TabsContent value="midi" className="space-y-4">
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
               <MidiSettingsSection />
             </motion.div>
           </TabsContent>
 
           {/* Telegram Tab */}
           <TabsContent value="telegram" className="space-y-4">
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              <TelegramBotSetup />
-            </motion.div>
-
-            {/* Profile Emoji Picker - for Telegram Premium users */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.05 }}
-            >
-              <ProfileEmojiPicker />
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-            >
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Send className="w-5 h-5" />
-                    Быстрый доступ
-                  </CardTitle>
-                  <CardDescription>
-                    Добавьте приложение на главный экран
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <AddToHomeScreen />
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-            >
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Send className="w-5 h-5" />
-                    Telegram интеграция
-                  </CardTitle>
-                  <CardDescription>
-                    Возможности бота @AIMusicVerseBot
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-3 text-sm">
-                    <li className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                      <span>Уведомления о готовых треках с аудио</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                      <span>Быстрый доступ к библиотеке через deep-links</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                      <span>Шеринг треков и плейлистов в чаты</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                      <span>Inline-режим для поиска треков</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                      <span>Голосовые сообщения с транскрипцией</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                      <span>Публикация в Stories</span>
-                    </li>
-                  </ul>
-                </CardContent>
-              </Card>
-            </motion.div>
+            <TelegramTab />
           </TabsContent>
         </Tabs>
 
-        {/* Footer with legal links */}
+        {/* Footer */}
         <motion.div
           className="mt-6 text-center text-sm text-muted-foreground"
           initial={{ opacity: 0 }}
@@ -598,10 +174,7 @@ export default function Settings() {
             <Button
               variant="link"
               className="h-auto p-0 text-muted-foreground hover:text-primary"
-              onClick={() => {
-                hapticFeedback('light');
-                navigate('/terms');
-              }}
+              onClick={() => settings.navigateTo('/terms')}
             >
               Условия использования
             </Button>
@@ -609,10 +182,7 @@ export default function Settings() {
             <Button
               variant="link"
               className="h-auto p-0 text-muted-foreground hover:text-primary"
-              onClick={() => {
-                hapticFeedback('light');
-                navigate('/privacy');
-              }}
+              onClick={() => settings.navigateTo('/privacy')}
             >
               Конфиденциальность
             </Button>
