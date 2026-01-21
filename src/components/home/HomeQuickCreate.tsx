@@ -11,6 +11,7 @@ import { Sparkles, Plus } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { Button } from '@/components/ui/button';
+import { OnboardingTooltip } from '@/components/onboarding';
 
 
 interface HomeQuickCreateProps {
@@ -73,22 +74,33 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({
 
         {/* FAB - Primary action */}
         <div className="flex items-center gap-3">
-          <Button
-            onClick={handleCreate}
-            className={cn(
-              "flex-1 h-12 min-h-touch",
-              "bg-gradient-to-r from-primary to-generate",
-              "text-white font-semibold",
-              "shadow-lg shadow-primary/25",
-              "hover:shadow-xl hover:shadow-primary/30",
-              "active:scale-95",
-              "transition-all duration-200"
-            )}
-            aria-label="Создать новый музыкальный трек с помощью AI"
+          <OnboardingTooltip
+            id="quick-create-first"
+            title="Создайте первый трек"
+            content="Нажмите кнопку, опишите музыку словами — AI создаст трек за минуту. Это бесплатно!"
+            actionLabel="Попробовать"
+            onAction={handleCreate}
+            position="top"
+            delay={1000}
+            autoHideAfter={15000}
           >
-            <Plus className="w-5 h-5 mr-2" aria-hidden="true" />
-            Создать трек
-          </Button>
+            <Button
+              onClick={handleCreate}
+              className={cn(
+                "flex-1 h-12 min-h-touch",
+                "bg-gradient-to-r from-primary to-generate",
+                "text-white font-semibold",
+                "shadow-lg shadow-primary/25",
+                "hover:shadow-xl hover:shadow-primary/30",
+                "active:scale-95",
+                "transition-all duration-200"
+              )}
+              aria-label="Создать новый музыкальный трек с помощью AI"
+            >
+              <Plus className="w-5 h-5 mr-2" aria-hidden="true" />
+              Создать трек
+            </Button>
+          </OnboardingTooltip>
 
           {/* Quick expand toggle */}
           <button
