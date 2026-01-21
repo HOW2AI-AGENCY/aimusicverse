@@ -66,6 +66,9 @@ import { BroadcastPanel } from '@/components/admin/BroadcastPanel';
 import { EconomyConfigEditor } from '@/components/admin/economy';
 import { FeatureFlagsEditor } from '@/components/admin/features';
 import { SubscriptionTiersManager } from '@/components/admin/SubscriptionTiersManager';
+import { MonitoringHub } from '@/components/admin/MonitoringHub';
+import { SystemStatusCard } from '@/components/admin/SystemStatusCard';
+import { AnomalyDetectionPanel } from '@/components/admin/AnomalyDetectionPanel';
 
 // Dialogs
 import { AdminUserCreditsDialog } from '@/components/admin/AdminUserCreditsDialog';
@@ -135,7 +138,7 @@ export default function AdminDashboard() {
       {/* Tab Content */}
       <div className="space-y-4">
         {dashboard.activeTab === 'overview' && (
-          <OverviewTab stats={dashboard.stats} />
+          <MonitoringHub onNavigateToTab={(tab) => dashboard.setActiveTab(tab)} />
         )}
         
         {dashboard.activeTab === 'analytics' && (
@@ -151,9 +154,15 @@ export default function AdminDashboard() {
         )}
         
         {dashboard.activeTab === 'alerts' && (
-          <div className="space-y-6">
-            <AlertAnalyticsPanel />
-            <AlertHistoryPanel />
+          <div className="space-y-4 sm:space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+              <SystemStatusCard />
+              <AnomalyDetectionPanel />
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+              <AlertHistoryPanel />
+              <AlertAnalyticsPanel />
+            </div>
           </div>
         )}
         
