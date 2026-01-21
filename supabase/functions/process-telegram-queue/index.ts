@@ -209,6 +209,58 @@ async function sendTelegramAudio(
   }
 }
 
+// Escape special characters for MarkdownV2
+function escapeMarkdown(text: string): string {
+  return text.replace(/[_*[\]()~`>#+=|{}.!-]/g, '\\$&');
+}
+
+// Format social notification message with proper Telegram formatting
+function formatSocialNotification(
+  notificationType: string,
+  payload: Record<string, unknown>
+): { text: string; replyMarkup?: unknown } {
+  const title = payload.title as string || '';
+  const message = payload.message as string || '';
+  const actionUrl = payload.action_url as string;
+  const trackTitle = payload.track_title as string;
+  const actorName = payload.actor_name as string;
+
+  let formattedText = '';
+  let replyMarkup = payload.replyMarkup;
+
+  switch (notificationType) {
+    case 'like':
+      formattedText = `❤️ *${escapeMarkdown(title)}*\n\n${escapeMarkdown(message)}`;
+      break;
+    case 'comment':
+      formattedText = `💬 *${escapeMarkdown(title)}*\n\n${escapeMarkdown(message)}`;
+      break;
+    case 'follow':
+      formattedText = `👤 *${escapeMarkdown(title)}*\n\n${escapeMarkdown(message)}`;
+      break;
+    case 'mention':
+      formattedText = `🔔 *${escapeMarkdown(title)}*\n\n${escapeMarkdown(message)}`;
+      break;
+    case 'achievement':
+      formattedText = `🏆 *${escapeMarkdown(title)}*\n\n${escapeMarkdown(message)}`;
+      break;
+    default:
+      formattedText = title ? `*${escapeMarkdown(title)}*\n\n${escapeMarkdown(message)}` : escapeMarkdown(message);
+  }
+
+  // Add inline keyboard button if action URL exists
+  if (actionUrl && !replyMarkup) {
+    const miniAppUrl = Deno.env.get('MINI_APP_URL') || 'https://t.me/AIMusicVerseBot/app';
+    replyMarkup = {
+      inline_keyboard: [[
+        { text: '🎵 Открыть', url: `${miniAppUrl}?startapp=${encodeURIComponent(actionUrl)}` }
+      ]]
+    };
+  }
+
+  return { text: formattedText, replyMarkup };
+}
+
 // deno-lint-ignore no-explicit-any
 async function processQueueItem(
   supabase: AnySupabaseClient,
@@ -231,11 +283,18 @@ async function processQueueItem(
       replyMarkup: payload.replyMarkup,
     });
   } else {
-    result = await sendTelegramMessage(
-      chat_id,
-      (payload.message as string) || (payload.title as string) || 'Уведомление',
-      payload.replyMarkup
-    );
+    // Format social notifications with proper styling
+    const socialTypes = ['like', 'comment', 'follow', 'mention', 'achievement'];
+    if (socialTypes.includes(notification_type)) {
+      const formatted = formatSocialNotification(notification_type, payload);
+      result = await sendTelegramMessage(chat_id, formatted.text, formatted.replyMarkup);
+    } else {
+      result = await sendTelegramMessage(
+        chat_id,
+        (payload.message as string) || (payload.title as string) || 'Уведомление',
+        payload.replyMarkup
+      );
+    }
   }
 
   if (result.ok) {
