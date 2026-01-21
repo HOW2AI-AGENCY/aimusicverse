@@ -30,6 +30,7 @@ import {
 } from "@/hooks/useEnhancedAnalytics";
 import { GenerationAnalyticsPanel } from "./GenerationAnalyticsPanel";
 import { RetentionHeatmap } from "./RetentionHeatmap";
+import { FunnelVisualization } from "./FunnelVisualization";
 
 const MODE_LABELS: Record<string, string> = {
   standard: 'Стандарт',
@@ -59,7 +60,7 @@ export function EnhancedAnalyticsPanel() {
 
   return (
     <Tabs defaultValue="overview" className="space-y-3">
-      <TabsList className="grid w-full grid-cols-3 h-9">
+      <TabsList className="grid w-full grid-cols-4 h-9">
         <TabsTrigger value="overview" className="gap-1.5 text-xs">
           <BarChart3 className="w-3.5 h-3.5" />
           Обзор
@@ -67,6 +68,10 @@ export function EnhancedAnalyticsPanel() {
         <TabsTrigger value="generation" className="gap-1.5 text-xs">
           <Music className="w-3.5 h-3.5" />
           Генерация
+        </TabsTrigger>
+        <TabsTrigger value="funnel" className="gap-1.5 text-xs">
+          <TrendingUp className="w-3.5 h-3.5" />
+          Воронка
         </TabsTrigger>
         <TabsTrigger value="retention" className="gap-1.5 text-xs">
           <Users className="w-3.5 h-3.5" />
@@ -311,6 +316,10 @@ export function EnhancedAnalyticsPanel() {
 
       <TabsContent value="generation">
         <GenerationAnalyticsPanel />
+      </TabsContent>
+
+      <TabsContent value="funnel">
+        <FunnelVisualization />
       </TabsContent>
 
       <TabsContent value="retention">

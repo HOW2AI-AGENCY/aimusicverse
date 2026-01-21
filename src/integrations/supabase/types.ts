@@ -5922,6 +5922,16 @@ export type Database = {
           user_id: string
         }[]
       }
+      get_funnel_analytics: {
+        Args: { p_end_date?: string; p_start_date?: string }
+        Returns: {
+          conversion_rate: number
+          dropoff_rate: number
+          step_name: string
+          step_order: number
+          users_count: number
+        }[]
+      }
       get_funnel_dropoff_stats: {
         Args: { _days_back?: number; _funnel_name: string }
         Returns: {
