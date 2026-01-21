@@ -114,6 +114,7 @@
     "vite": "^5.0.0",
     "wavesurfer.js": "^7.8.8",
     "web-audio-beat-detector": "^8.2.32",
+    "web-vitals": "^4.2.4",
     "zod": "^4.1.13",
     "zustand": "^5.0.9"
   },
