@@ -2913,6 +2913,42 @@ export type Database = {
           },
         ]
       }
+      referrals: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          id: string
+          referral_code: string
+          referred_id: string
+          referrer_id: string
+          reward_amount: number | null
+          reward_granted: boolean
+          status: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          referral_code: string
+          referred_id: string
+          referrer_id: string
+          reward_amount?: number | null
+          reward_granted?: boolean
+          status?: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          referral_code?: string
+          referred_id?: string
+          referrer_id?: string
+          reward_amount?: number | null
+          reward_granted?: boolean
+          status?: string
+        }
+        Relationships: []
+      }
       rum_metrics: {
         Row: {
           cls: number | null
@@ -5516,6 +5552,39 @@ export type Database = {
         }
         Relationships: []
       }
+      user_streaks: {
+        Row: {
+          created_at: string
+          current_streak: number
+          id: string
+          last_activity_date: string | null
+          max_streak: number
+          total_active_days: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          current_streak?: number
+          id?: string
+          last_activity_date?: string | null
+          max_streak?: number
+          total_active_days?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          current_streak?: number
+          id?: string
+          last_activity_date?: string | null
+          max_streak?: number
+          total_active_days?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_tag_preferences: {
         Row: {
           created_at: string
@@ -6321,6 +6390,7 @@ export type Database = {
       }
       reset_daily_earnings: { Args: never; Returns: undefined }
       run_log_archival: { Args: never; Returns: Json }
+      update_user_streak: { Args: { p_user_id: string }; Returns: undefined }
       upsert_notification: {
         Args: {
           p_action_url?: string

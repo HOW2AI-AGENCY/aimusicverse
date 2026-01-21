@@ -86,6 +86,32 @@ export const ARTIST_REPLACEMENTS: ArtistReplacement[] = [
   { pattern: /\bchika\b/i, artist: 'Chika', suggestion: 'conscious hip-hop, spoken word, empowering lyrics', genre: 'hip-hop' },
   { pattern: /\bpoli\b/i, artist: 'Poli', suggestion: 'alternative indie, experimental sounds, artistic vocals', genre: 'indie' },
   { pattern: /\btena\b/i, artist: 'Tena', suggestion: 'Balkan pop, Mediterranean vibes, emotional vocals', genre: 'pop' },
+  
+  // Additional blocked artists (from Suno API rejections)
+  { pattern: /\bmisha\b/i, artist: 'Misha', suggestion: 'Russian pop-rock, melodic vocals, emotional ballads', genre: 'pop-rock' },
+  { pattern: /\bмиша\b/i, artist: 'Миша', suggestion: 'Russian pop-rock, melodic vocals, emotional ballads', genre: 'pop-rock' },
+  { pattern: /\bania\b/i, artist: 'Ania', suggestion: 'Eastern European pop, soulful vocals, radio-friendly', genre: 'pop' },
+  { pattern: /\bаня\b/i, artist: 'Аня', suggestion: 'Eastern European pop, soulful vocals, radio-friendly', genre: 'pop' },
+  { pattern: /\bklass\b/i, artist: 'Klass', suggestion: 'Russian chanson, emotional storytelling, acoustic guitar', genre: 'chanson' },
+  { pattern: /\bкласс\b/i, artist: 'Класс', suggestion: 'Russian chanson, emotional storytelling, acoustic guitar', genre: 'chanson' },
+  { pattern: /\bmaksim\b/i, artist: 'Maksim', suggestion: 'Russian pop ballads, powerful female vocals, emotional lyrics', genre: 'pop' },
+  { pattern: /\bмаксим\b/i, artist: 'Максим', suggestion: 'Russian pop ballads, powerful female vocals, emotional lyrics', genre: 'pop' },
+  { pattern: /\bmirami\b/i, artist: 'Mirami', suggestion: 'dance pop, eurodance, catchy hooks', genre: 'dance-pop' },
+  { pattern: /\bмирами\b/i, artist: 'Мирами', suggestion: 'dance pop, eurodance, catchy hooks', genre: 'dance-pop' },
+  
+  // Russian pop stars (commonly referenced)
+  { pattern: /\bленинград\b/i, artist: 'Ленинград', suggestion: 'Russian ska-punk, satirical lyrics, brass section, party vibes', genre: 'ska-punk' },
+  { pattern: /\bleningrad\b/i, artist: 'Leningrad', suggestion: 'Russian ska-punk, satirical lyrics, brass section, party vibes', genre: 'ska-punk' },
+  { pattern: /\bземфира\b/i, artist: 'Земфира', suggestion: 'Russian alternative rock, introspective lyrics, unique vocals', genre: 'alternative rock' },
+  { pattern: /\bzemfira\b/i, artist: 'Zemfira', suggestion: 'Russian alternative rock, introspective lyrics, unique vocals', genre: 'alternative rock' },
+  { pattern: /\bмонеточка\b/i, artist: 'Монеточка', suggestion: 'indie pop, youthful vocals, nostalgic synths, lo-fi production', genre: 'indie-pop' },
+  { pattern: /\bmonetochka\b/i, artist: 'Monetochka', suggestion: 'indie pop, youthful vocals, nostalgic synths, lo-fi production', genre: 'indie-pop' },
+  { pattern: /\bslava\s*marlow\b/i, artist: 'Slava Marlow', suggestion: 'hyperpop, autotune, experimental beats, viral energy', genre: 'hyperpop' },
+  { pattern: /\bслава\s*марлоу\b/i, artist: 'Слава Марлоу', suggestion: 'hyperpop, autotune, experimental beats, viral energy', genre: 'hyperpop' },
+  { pattern: /\bbig\s*baby\s*tape\b/i, artist: 'Big Baby Tape', suggestion: 'aggressive trap, hard 808s, braggadocious flow', genre: 'trap' },
+  { pattern: /\bбиг\s*бейби\s*тейп\b/i, artist: 'Биг Бейби Тейп', suggestion: 'aggressive trap, hard 808s, braggadocious flow', genre: 'trap' },
+  { pattern: /\bkizaru\b/i, artist: 'Kizaru', suggestion: 'cloud rap, dreamy beats, melodic flow, atmospheric', genre: 'cloud rap' },
+  { pattern: /\bкизару\b/i, artist: 'Кизару', suggestion: 'cloud rap, dreamy beats, melodic flow, atmospheric', genre: 'cloud rap' },
 ];
 
 /**
