@@ -8,10 +8,9 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
-import { Upload, Loader2, Music, Mic, Plus, X, ChevronDown, ChevronUp, AlertTriangle } from 'lucide-react';
+import { Upload, Loader2, Mic, ChevronDown, ChevronUp, ArrowRight } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { Alert, AlertDescription } from '@/components/ui/alert';
 import { SUNO_MODELS, getAvailableModels } from '@/constants/sunoModels';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useAuth } from '@/hooks/useAuth';
@@ -20,6 +19,7 @@ import { logger } from '@/lib/logger';
 import { validatePromptForGeneration, showGenerationError } from '@/lib/errorHandling';
 import { formatDuration } from '@/lib/player-utils';
 import { PromptValidationAlert } from '@/components/generate-form/PromptValidationAlert';
+import { AudioReferencePreview } from '@/components/audio/AudioReferencePreview';
 
 interface AudioExtendDialogProps {
   open: boolean;
@@ -245,28 +245,15 @@ export const AudioExtendDialog = ({
       <div>
         <Label className="text-sm font-medium">Аудиофайл *</Label>
         {audioFile ? (
-          <div className="mt-2 p-3 rounded-lg bg-muted/50 border border-border">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded bg-primary/20 flex items-center justify-center">
-                <Music className="w-5 h-5 text-primary" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="font-medium text-sm truncate">{audioFile.name}</p>
-                {audioDuration && (
-                  <p className="text-xs text-muted-foreground">{formatDuration(audioDuration)}</p>
-                )}
-              </div>
-              <Button variant="ghost" size="icon" onClick={clearAudio}>
-                <X className="w-4 h-4" />
-              </Button>
-            </div>
-            {durationError && (
-              <Alert variant="destructive" className="mt-2">
-                <AlertTriangle className="w-4 h-4" />
-                <AlertDescription className="text-xs">{durationError}</AlertDescription>
-              </Alert>
-            )}
-          </div>
+          <AudioReferencePreview
+            file={audioFile}
+            audioUrl={audioPreviewUrl}
+            duration={audioDuration}
+            onRemove={clearAudio}
+            error={durationError}
+            modelLimit={MODEL_LIMITS[model]}
+            className="mt-2"
+          />
         ) : (
           <Button
             variant="outline"
@@ -449,7 +436,7 @@ export const AudioExtendDialog = ({
           </>
         ) : (
           <>
-            <Plus className="w-4 h-4 mr-2" />
+            <ArrowRight className="w-4 h-4 mr-2" />
             Расширить трек
           </>
         )}
@@ -463,7 +450,7 @@ export const AudioExtendDialog = ({
         <DrawerContent className="max-h-[90vh]">
           <DrawerHeader className="text-left">
             <DrawerTitle className="flex items-center gap-2">
-              <Plus className="w-5 h-5 text-primary" />
+              <ArrowRight className="w-5 h-5 text-primary" />
               Расширить трек
             </DrawerTitle>
             <DrawerDescription>
@@ -483,7 +470,7 @@ export const AudioExtendDialog = ({
       <DialogContent className="max-w-md max-h-[85vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Plus className="w-5 h-5 text-primary" />
+            <ArrowRight className="w-5 h-5 text-primary" />
             Расширить трек
           </DialogTitle>
           <DialogDescription>
