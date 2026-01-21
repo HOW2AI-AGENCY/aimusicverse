@@ -63,6 +63,29 @@ export const ARTIST_REPLACEMENTS: ArtistReplacement[] = [
   { pattern: /\bbts\b/i, artist: 'BTS', suggestion: 'dynamic K-pop, synchronized choreography vibes, catchy hooks', genre: 'K-pop' },
   { pattern: /\bblackpink\b/i, artist: 'Blackpink', suggestion: 'girl crush K-pop, trap influences, powerful drops', genre: 'K-pop' },
   { pattern: /\btwice\b/i, artist: 'Twice', suggestion: 'bubbly K-pop, cute concept, catchy melodies', genre: 'K-pop' },
+  { pattern: /\bkarina\b/i, artist: 'Karina', suggestion: 'ethereal K-pop, futuristic beats, powerful vocals', genre: 'K-pop' },
+  
+  // Electronic / EDM
+  { pattern: /\bskrillex\b/i, artist: 'Skrillex', suggestion: 'aggressive dubstep, heavy bass drops, glitchy synths', genre: 'dubstep' },
+  { pattern: /\bdeadmau5\b/i, artist: 'Deadmau5', suggestion: 'progressive house, melodic synths, hypnotic beats', genre: 'house' },
+  { pattern: /\bdaft\s*punk\b/i, artist: 'Daft Punk', suggestion: 'french house, vocoder vocals, funky grooves', genre: 'house' },
+  { pattern: /\bmarshmello\b/i, artist: 'Marshmello', suggestion: 'future bass, euphoric drops, uplifting melodies', genre: 'EDM' },
+  
+  // Russian Rock / Alternative
+  { pattern: /\bсектор\s*газ(а|у|ом)?\b/i, artist: 'Сектор Газа', suggestion: 'punk rock русский, гаражный звук, провокационные тексты', genre: 'punk-rock' },
+  { pattern: /\bsektor\s*gaza\b/i, artist: 'Sektor Gaza', suggestion: 'Russian punk rock, garage sound, provocative lyrics', genre: 'punk-rock' },
+  { pattern: /\bдевочка\b/i, artist: 'Devochka', suggestion: 'indie pop, dreamy vocals, atmospheric synths', genre: 'indie-pop' },
+  { pattern: /\bdevochka\b/i, artist: 'Devochka', suggestion: 'indie pop, dreamy vocals, atmospheric synths', genre: 'indie-pop' },
+  
+  // African Artists (from real errors)
+  { pattern: /\bteni\b/i, artist: 'Teni', suggestion: 'afrobeats, Nigerian pop, tropical rhythms', genre: 'afrobeats' },
+  { pattern: /\bmejja\b/i, artist: 'Mejja', suggestion: 'genge, Kenyan hip-hop, danceable beats', genre: 'afrobeats' },
+  
+  // Latin / Other International
+  { pattern: /\blany\b/i, artist: 'Lany', suggestion: 'indie synth-pop, dreamy production, romantic lyrics', genre: 'synth-pop' },
+  { pattern: /\bchika\b/i, artist: 'Chika', suggestion: 'conscious hip-hop, spoken word, empowering lyrics', genre: 'hip-hop' },
+  { pattern: /\bpoli\b/i, artist: 'Poli', suggestion: 'alternative indie, experimental sounds, artistic vocals', genre: 'indie' },
+  { pattern: /\btena\b/i, artist: 'Tena', suggestion: 'Balkan pop, Mediterranean vibes, emotional vocals', genre: 'pop' },
 ];
 
 /**
@@ -125,6 +148,7 @@ export function getGenreSuggestions(artist: ArtistReplacement): string[] {
       suggestions.push('808 bass, hi-hats, dark melody', 'hard-hitting beats, aggressive flow');
       break;
     case 'rap':
+    case 'hip-hop':
       suggestions.push('boom bap, old school hip-hop', 'lyrical rap, conscious hip-hop');
       break;
     case 'pop':
@@ -135,6 +159,24 @@ export function getGenreSuggestions(artist: ArtistReplacement): string[] {
       break;
     case 'K-pop':
       suggestions.push('energetic pop, dance track', 'Asian pop influences, electronic');
+      break;
+    case 'dubstep':
+      suggestions.push('heavy bass, wobble synths', 'electronic drops, aggressive EDM');
+      break;
+    case 'house':
+    case 'EDM':
+      suggestions.push('four-on-the-floor, synth melodies', 'dance music, electronic beats');
+      break;
+    case 'punk-rock':
+      suggestions.push('fast guitars, raw energy', 'rebellious rock, garage sound');
+      break;
+    case 'afrobeats':
+      suggestions.push('tropical percussion, danceable groove', 'African rhythms, party vibes');
+      break;
+    case 'synth-pop':
+    case 'indie-pop':
+    case 'indie':
+      suggestions.push('dreamy synths, atmospheric', 'indie vibes, alternative sound');
       break;
   }
   
