@@ -154,6 +154,23 @@ export function UnifiedTrackSheet({
               )}
 
               <ActionGridContainer>
+                {/* Studio actions - FIRST for quick access */}
+                <ActionGroup title="Студия">
+                  {showStudio && (
+                    <IconGridButton icon={Layers} label="Студия" color="blue" badge={actionState.stemCount > 0 ? actionState.stemCount : undefined} onClick={() => executeAction('open_studio')} />
+                  )}
+                  {showReplaceSection && (
+                    <IconGridButton icon={RefreshCw} label="Секция" color="amber" onClick={() => executeAction('replace_section')} />
+                  )}
+                  {/* Unified stems button with mode selector */}
+                  {(showStemsSimple || showStemsDetailed) && (
+                    <StemsActionButton
+                      onAction={executeAction}
+                      isProcessing={isProcessing}
+                    />
+                  )}
+                </ActionGroup>
+
                 {/* Create actions */}
                 <ActionGroup title="Создать">
                   {showGenerateCover && (
@@ -171,23 +188,6 @@ export function UnifiedTrackSheet({
                   <IconGridButton icon={Video} label="Видео" color="blue" onClick={() => executeAction('generate_video')} disabled={isProcessing} />
                   {showAddVocals && (
                     <IconGridButton icon={Mic2} label="Вокал" color="cyan" onClick={() => executeAction('add_vocals')} disabled={isProcessing} />
-                  )}
-                </ActionGroup>
-
-                {/* Studio actions */}
-                <ActionGroup title="Студия">
-                  {showStudio && (
-                    <IconGridButton icon={Layers} label="Студия" color="blue" badge={actionState.stemCount > 0 ? actionState.stemCount : undefined} onClick={() => executeAction('open_studio')} />
-                  )}
-                  {showReplaceSection && (
-                    <IconGridButton icon={RefreshCw} label="Секция" color="amber" onClick={() => executeAction('replace_section')} />
-                  )}
-                  {/* Unified stems button with mode selector */}
-                  {(showStemsSimple || showStemsDetailed) && (
-                    <StemsActionButton
-                      onAction={executeAction}
-                      isProcessing={isProcessing}
-                    />
                   )}
                 </ActionGroup>
 
