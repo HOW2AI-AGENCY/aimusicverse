@@ -9,7 +9,7 @@ import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 import { MobileHeaderBar } from '@/components/mobile/MobileHeaderBar';
 import { safeAreaClasses } from '@/hooks/useTelegramSafeArea';
 
-const VALID_TABS = ['artists', 'projects', 'lyrics', 'cloud'];
+const VALID_TABS = ['projects', 'lyrics'];
 
 export default function Projects() {
   const { isAuthenticated, loading: authLoading } = useAuth();

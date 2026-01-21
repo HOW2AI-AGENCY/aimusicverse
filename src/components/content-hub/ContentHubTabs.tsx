@@ -1,14 +1,21 @@
 import { useState, useEffect, lazy, Suspense } from 'react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { Users, FolderOpen, FileText, Cloud, Loader2 } from 'lucide-react';
+import { FolderOpen, FileText, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 
+/**
+ * ContentHubTabs - Simplified to 2 essential tabs
+ * Phase 1 UX Improvement: Reduced cognitive load
+ * - Projects: Music projects management
+ * - Lyrics: Saved lyrics and templates
+ * 
+ * Artists and Cloud moved to Profile section
+ */
+
 // Lazy load tabs to prevent circular dependencies and improve initial load
-const ArtistsTab = lazy(() => import('./tabs/ArtistsTab').then(m => ({ default: m.ArtistsTab })));
 const ProjectsTab = lazy(() => import('./tabs/ProjectsTab').then(m => ({ default: m.ProjectsTab })));
 const LyricsTab = lazy(() => import('./tabs/LyricsTab').then(m => ({ default: m.LyricsTab })));
-const CloudTab = lazy(() => import('./tabs/CloudTab').then(m => ({ default: m.CloudTab })));
 
 interface ContentHubTabsProps {
   defaultTab?: string;
@@ -16,10 +23,8 @@ interface ContentHubTabsProps {
 }
 
 const tabs = [
-  { id: 'projects', label: 'Проекты', shortLabel: 'Проекты', icon: FolderOpen },
-  { id: 'artists', label: 'Артисты', shortLabel: 'Артисты', icon: Users },
-  { id: 'lyrics', label: 'Тексты', shortLabel: 'Тексты', icon: FileText },
-  { id: 'cloud', label: 'Облако', shortLabel: 'Облако', icon: Cloud },
+  { id: 'projects', label: 'Проекты', icon: FolderOpen },
+  { id: 'lyrics', label: 'Тексты', icon: FileText },
 ];
 
 const TabLoader = () => (
@@ -40,7 +45,7 @@ export function ContentHubTabs({ defaultTab = 'projects', onTabChange }: Content
     <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
       <TabsList className={cn(
         "w-full grid bg-muted/50 border border-border/30 rounded-xl p-1",
-        "grid-cols-4"
+        "grid-cols-2"
       )}>
         {tabs.map((tab) => (
           <TabsTrigger
@@ -50,13 +55,13 @@ export function ContentHubTabs({ defaultTab = 'projects', onTabChange }: Content
               "flex items-center justify-center rounded-lg font-medium transition-all",
               "data-[state=active]:bg-background data-[state=active]:shadow-sm",
               isMobile 
-                ? "flex-col gap-0.5 py-2 px-1 text-[11px]" 
-                : "gap-1.5 py-2 px-3 text-xs"
+                ? "flex-col gap-0.5 py-2.5 px-2 text-xs" 
+                : "gap-2 py-2.5 px-4 text-sm"
             )}
           >
-            <tab.icon className={cn("shrink-0", isMobile ? "w-4 h-4" : "w-4 h-4")} />
-            <span className="leading-tight truncate">
-              {isMobile ? tab.shortLabel : tab.label}
+            <tab.icon className="shrink-0 w-4 h-4" />
+            <span className="leading-tight">
+              {tab.label}
             </span>
           </TabsTrigger>
         ))}
@@ -67,16 +72,8 @@ export function ContentHubTabs({ defaultTab = 'projects', onTabChange }: Content
           <ProjectsTab />
         </TabsContent>
 
-        <TabsContent value="artists" className="mt-3 focus-visible:outline-none">
-          <ArtistsTab />
-        </TabsContent>
-
         <TabsContent value="lyrics" className="mt-3 focus-visible:outline-none">
           <LyricsTab />
-        </TabsContent>
-
-        <TabsContent value="cloud" className="mt-3 focus-visible:outline-none">
-          <CloudTab />
         </TabsContent>
       </Suspense>
     </Tabs>
