@@ -20,6 +20,7 @@ import {
   UserPlus,
   Music,
   DollarSign,
+  Gauge,
 } from "lucide-react";
 import {
   useModelUsageStats,
@@ -33,6 +34,7 @@ import { GenerationAnalyticsPanel } from "./GenerationAnalyticsPanel";
 import { RetentionHeatmap } from "./RetentionHeatmap";
 import { FunnelVisualization } from "./FunnelVisualization";
 import { RevenueAnalytics } from "./RevenueAnalytics";
+import { PerformanceDashboard } from "./PerformanceDashboard";
 
 const MODE_LABELS: Record<string, string> = {
   standard: 'Стандарт',
@@ -64,7 +66,7 @@ export function EnhancedAnalyticsPanel() {
     <Tabs defaultValue="overview" className="space-y-2 sm:space-y-3">
       {/* Scrollable tabs for mobile */}
       <div className="overflow-x-auto -mx-1 px-1 pb-1">
-        <TabsList className="inline-flex w-auto min-w-full sm:grid sm:w-full sm:grid-cols-5 h-8 sm:h-9">
+        <TabsList className="inline-flex w-auto min-w-full sm:grid sm:w-full sm:grid-cols-6 h-8 sm:h-9">
           <TabsTrigger value="overview" className="gap-1 sm:gap-1.5 text-[10px] sm:text-xs px-2 sm:px-3 shrink-0">
             <BarChart3 className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
             <span className="hidden xs:inline sm:inline">Обзор</span>
@@ -84,6 +86,10 @@ export function EnhancedAnalyticsPanel() {
           <TabsTrigger value="retention" className="gap-1 sm:gap-1.5 text-[10px] sm:text-xs px-2 sm:px-3 shrink-0">
             <Users className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
             <span className="hidden xs:inline sm:inline">Retention</span>
+          </TabsTrigger>
+          <TabsTrigger value="performance" className="gap-1 sm:gap-1.5 text-[10px] sm:text-xs px-2 sm:px-3 shrink-0">
+            <Gauge className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+            <span className="hidden xs:inline sm:inline">Perf</span>
           </TabsTrigger>
         </TabsList>
       </div>
@@ -337,6 +343,10 @@ export function EnhancedAnalyticsPanel() {
 
       <TabsContent value="retention">
         <RetentionHeatmap />
+      </TabsContent>
+
+      <TabsContent value="performance">
+        <PerformanceDashboard />
       </TabsContent>
     </Tabs>
   );
