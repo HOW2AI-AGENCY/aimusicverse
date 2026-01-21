@@ -424,10 +424,11 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
             {shouldShowUIButton && (
               <Button
                 onClick={handleGenerate}
-                disabled={form.loading}
+                disabled={form.loading || !form.canGenerate}
                 className={cn(
                   "h-12 text-sm font-semibold gap-2 bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 rounded-xl disabled:opacity-50",
-                  shouldShowSecondaryUIButton ? "flex-1" : "w-full"
+                  shouldShowSecondaryUIButton ? "flex-1" : "w-full",
+                  !form.canGenerate && !form.loading && "bg-muted text-muted-foreground hover:bg-muted"
                 )}
               >
                 {form.loading ? (
