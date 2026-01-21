@@ -17,104 +17,179 @@ import {
 } from './errors/AppError';
 
 /**
- * Error codes from backend with user-friendly messages
+ * Enhanced error info with hints and examples
  */
-const ERROR_CODE_MESSAGES: Record<string, { title: string; description: string; canRetry: boolean }> = {
+export interface ErrorCodeInfo {
+  title: string;
+  description: string;
+  canRetry: boolean;
+  hint?: string;
+  examples?: string[];
+  retryDelayMs?: number;
+}
+
+/**
+ * Error codes from backend with user-friendly messages, hints, and examples
+ */
+export const ERROR_CODE_MESSAGES: Record<string, ErrorCodeInfo> = {
   RATE_LIMIT: {
     title: 'Слишком много запросов',
     description: 'Подождите минуту и попробуйте снова',
     canRetry: true,
+    hint: 'Сервер обрабатывает много запросов. Подождите 1-2 минуты.',
+    retryDelayMs: 60000,
   },
   INSUFFICIENT_CREDITS: {
     title: 'Недостаточно кредитов',
     description: 'Пополните баланс для продолжения генерации',
     canRetry: false,
+    hint: 'Получите бесплатные кредиты за ежедневный вход, лайки и комментарии.',
   },
   ARTIST_NAME_NOT_ALLOWED: {
     title: 'Имя артиста запрещено',
-    description: 'Нельзя использовать имена известных артистов. Измените описание.',
+    description: 'Нельзя использовать имена известных артистов.',
     canRetry: false,
+    hint: 'Опишите желаемый стиль своими словами вместо упоминания артистов.',
+    examples: [
+      'Вместо "как Oxxxymiron" → "агрессивный рэп с быстрым флоу"',
+      'Вместо "в стиле Скриптонит" → "атмосферный хип-хоп с трэп-битом"',
+      'Вместо "голос как Adele" → "мощный женский вокал с соулом"',
+    ],
   },
   COPYRIGHTED_CONTENT: {
     title: 'Защищённый контент',
-    description: 'Текст содержит защищённый материал. Измените слова.',
+    description: 'Текст содержит защищённый материал.',
     canRetry: false,
+    hint: 'Перефразируйте текст своими словами или напишите оригинальный.',
+    examples: [
+      'Используйте собственные метафоры и образы',
+      'Опишите идею песни, а не копируйте существующие тексты',
+    ],
   },
   MALFORMED_LYRICS: {
     title: 'Проблема с текстом',
-    description: 'Проверьте структуру текста (куплеты, припевы). Добавьте метки [Verse], [Chorus].',
+    description: 'Проверьте структуру текста.',
     canRetry: false,
+    hint: 'Добавьте разделители секций и убедитесь, что текст не слишком короткий.',
+    examples: [
+      '[Verse]\nПервый куплет...',
+      '[Chorus]\nПрипев...',
+      '[Bridge]\nБридж (переход)...',
+    ],
   },
   GENERATION_FAILED: {
     title: 'Ошибка генерации',
-    description: 'Попробуйте изменить описание или выбрать другую модель',
+    description: 'Не удалось создать трек.',
     canRetry: true,
+    hint: 'Попробуйте упростить описание или выбрать другую модель.',
+    examples: [
+      'Сократите описание до 2-3 ключевых характеристик',
+      'Уберите противоречивые теги (например, "быстрый медленный")',
+    ],
+    retryDelayMs: 3000,
   },
   MODEL_ERROR: {
     title: 'Ошибка модели AI',
-    description: 'Система автоматически попробует другую модель',
+    description: 'Модель не смогла обработать запрос.',
     canRetry: true,
+    hint: 'Попробуйте модель V4 — она стабильнее для сложных промптов.',
+    retryDelayMs: 2000,
   },
   PROMPT_TOO_LONG: {
     title: 'Описание слишком длинное',
-    description: 'Сократите описание до 500 символов или используйте режим Custom',
+    description: 'Сократите описание до 500 символов.',
     canRetry: false,
+    hint: 'В режиме Custom можно вынести детали в поле "Стиль".',
+    examples: [
+      'Краткое описание: "Энергичный поп-рок с женским вокалом"',
+      'Детали в стиль: "электрогитары, мощные барабаны, позитивное настроение"',
+    ],
   },
   NETWORK_ERROR: {
     title: 'Ошибка сети',
-    description: 'Проверьте подключение к интернету и попробуйте снова',
+    description: 'Проверьте подключение к интернету.',
     canRetry: true,
+    hint: 'Попробуйте переключиться с Wi-Fi на мобильные данные или наоборот.',
+    retryDelayMs: 2000,
   },
   UNAUTHORIZED: {
     title: 'Требуется авторизация',
     description: 'Войдите в аккаунт для продолжения',
     canRetry: false,
+    hint: 'Обновите страницу и войдите заново через Telegram.',
   },
   TIMEOUT: {
     title: 'Превышено время ожидания',
-    description: 'Сервер не ответил вовремя. Попробуйте ещё раз.',
+    description: 'Сервер не ответил вовремя.',
     canRetry: true,
+    hint: 'Проверьте библиотеку через минуту — трек мог быть создан в фоне.',
+    retryDelayMs: 5000,
   },
   API_ERROR: {
     title: 'Ошибка сервиса',
-    description: 'Сервис генерации временно недоступен. Попробуйте позже.',
+    description: 'Сервис генерации временно недоступен.',
     canRetry: true,
+    hint: 'Обычно проблема решается в течение 5-10 минут.',
+    retryDelayMs: 10000,
   },
-  // New error codes based on real error logs
   AUDIO_GENERATION_FAILED: {
     title: 'Ошибка генерации аудио',
-    description: 'Не удалось создать аудио. Попробуйте другой промпт или модель.',
+    description: 'Не удалось создать аудио.',
     canRetry: true,
+    hint: 'Попробуйте другую модель или упростите промпт.',
+    examples: [
+      'Модель V4 лучше для сложных текстов',
+      'V5 даёт лучшее качество для инструментальных треков',
+    ],
+    retryDelayMs: 3000,
   },
   INTERNAL_ERROR: {
     title: 'Внутренняя ошибка',
-    description: 'Временная проблема на сервере. Попробуйте через несколько минут.',
+    description: 'Временная проблема на сервере.',
     canRetry: true,
+    hint: 'Подождите 2-3 минуты и попробуйте снова.',
+    retryDelayMs: 5000,
   },
   AUDIO_FETCH_FAILED: {
     title: 'Не удалось загрузить аудио',
-    description: 'Проверьте, что файл доступен и не повреждён. Попробуйте загрузить другой файл.',
+    description: 'Файл недоступен или повреждён.',
     canRetry: false,
+    hint: 'Проверьте, что файл открывается в плеере, и попробуйте загрузить другой.',
   },
   AUDIO_PARSE_FAILED: {
     title: 'Не удалось обработать аудио',
-    description: 'Файл повреждён или в неподдерживаемом формате. Используйте MP3 или WAV.',
+    description: 'Файл повреждён или в неподдерживаемом формате.',
     canRetry: false,
+    hint: 'Используйте MP3 или WAV формат. Попробуйте конвертировать файл онлайн.',
   },
   EXTEND_LYRICS_EMPTY: {
     title: 'Отсутствует текст для продолжения',
-    description: 'Добавьте текст для продолжения трека или используйте инструментальный режим.',
+    description: 'Добавьте текст или используйте инструментальный режим.',
     canRetry: false,
+    hint: 'Добавьте хотя бы 4-8 строк текста для продолжения трека.',
+    examples: [
+      '[Continue]\nПродолжение истории...',
+      'Или включите "Инструментал" для трека без слов',
+    ],
   },
   EXISTING_WORK_MATCHED: {
     title: 'Защищённый контент',
-    description: 'Загруженное аудио соответствует существующему произведению. Используйте другой файл.',
+    description: 'Аудио соответствует существующему произведению.',
     canRetry: false,
+    hint: 'Загрузите оригинальную запись или используйте другой референс.',
   },
   COVER_PROTECTED_CONTENT: {
     title: 'Аудио защищено авторским правом',
-    description: 'Этот файл содержит защищённую музыку. Попробуйте загрузить оригинальную запись.',
+    description: 'Файл содержит защищённую музыку.',
     canRetry: false,
+    hint: 'Для кавера используйте собственную запись мелодии или минус.',
+  },
+  SERVER_OVERLOADED: {
+    title: 'Сервер перегружен',
+    description: 'Слишком много запросов от всех пользователей.',
+    canRetry: true,
+    hint: 'Лучшее время для генерации: утро (6-10 МСК) или поздний вечер (22-02 МСК).',
+    retryDelayMs: 30000,
   },
 };
 
@@ -133,27 +208,9 @@ export interface GenerationErrorResponse {
 }
 
 /**
- * Display a standardized error toast for generation failures
- * Enhanced with structured error codes from backend
+ * Detect error code from error message
  */
-export function showGenerationError(error: unknown): void {
-  const appError = toAppError(error);
-  logger.error('Generation error', appError.toJSON());
-
-  // Check if error contains structured error code
-  const errorContext = appError.context as GenerationErrorResponse | undefined;
-  const errorCode = errorContext?.errorCode;
-  
-  // Check for error code in message as fallback
-  const errorMessage = appError.message?.toLowerCase() || '';
-  
-  if (errorCode && ERROR_CODE_MESSAGES[errorCode]) {
-    const { title, description } = ERROR_CODE_MESSAGES[errorCode];
-    toast.error(title, { description });
-    return;
-  }
-
-  // Pattern matching for common errors from real error logs
+function detectErrorCodeFromMessage(message: string): string | null {
   const patterns: Array<{ match: (msg: string) => boolean; code: string }> = [
     { match: (msg) => msg.includes('prompt too long') || msg.includes('слишком длинн'), code: 'PROMPT_TOO_LONG' },
     { match: (msg) => msg.includes('model error'), code: 'MODEL_ERROR' },
@@ -166,16 +223,63 @@ export function showGenerationError(error: unknown): void {
     { match: (msg) => msg.includes('artist name') || msg.includes("don't reference specific artists"), code: 'ARTIST_NAME_NOT_ALLOWED' },
     { match: (msg) => msg.includes('matches existing work') || msg.includes('existing work of art'), code: 'EXISTING_WORK_MATCHED' },
     { match: (msg) => msg.includes('uploaded audio') && msg.includes('protected'), code: 'COVER_PROTECTED_CONTENT' },
+    { match: (msg) => msg.includes('server') && (msg.includes('overload') || msg.includes('busy') || msg.includes('500')), code: 'SERVER_OVERLOADED' },
+    { match: (msg) => msg.includes('timeout') || msg.includes('timed out'), code: 'TIMEOUT' },
+    { match: (msg) => msg.includes('network') || msg.includes('fetch failed'), code: 'NETWORK_ERROR' },
   ];
 
   for (const pattern of patterns) {
-    if (pattern.match(errorMessage)) {
-      const info = ERROR_CODE_MESSAGES[pattern.code];
-      if (info) {
-        toast.error(info.title, { description: info.description });
-        return;
-      }
+    if (pattern.match(message)) {
+      return pattern.code;
     }
+  }
+  return null;
+}
+
+/**
+ * Get error info with hints and examples
+ */
+export function getEnhancedErrorInfo(error: unknown): ErrorCodeInfo | null {
+  const appError = toAppError(error);
+  const errorContext = appError.context as GenerationErrorResponse | undefined;
+  const errorCode = errorContext?.errorCode;
+  const errorMessage = appError.message?.toLowerCase() || '';
+  
+  // Check explicit error code first
+  if (errorCode && ERROR_CODE_MESSAGES[errorCode]) {
+    return ERROR_CODE_MESSAGES[errorCode];
+  }
+  
+  // Pattern match from message
+  const detectedCode = detectErrorCodeFromMessage(errorMessage);
+  if (detectedCode && ERROR_CODE_MESSAGES[detectedCode]) {
+    return ERROR_CODE_MESSAGES[detectedCode];
+  }
+  
+  return null;
+}
+
+/**
+ * Display a standardized error toast for generation failures
+ * Enhanced with structured error codes, hints, and examples
+ */
+export function showGenerationError(error: unknown): void {
+  const appError = toAppError(error);
+  logger.error('Generation error', appError.toJSON());
+
+  const errorInfo = getEnhancedErrorInfo(error);
+  
+  if (errorInfo) {
+    // Show error with hint
+    const description = errorInfo.hint 
+      ? `${errorInfo.description} ${errorInfo.hint}`
+      : errorInfo.description;
+    
+    toast.error(errorInfo.title, { 
+      description,
+      duration: errorInfo.canRetry ? 8000 : 10000,
+    });
+    return;
   }
 
   // Use type-specific error messages
@@ -185,15 +289,15 @@ export function showGenerationError(error: unknown): void {
     });
   } else if (appError instanceof NetworkError) {
     toast.error('Ошибка сети', {
-      description: appError.toUserMessage(),
+      description: appError.toUserMessage() + ' Попробуйте переключиться с Wi-Fi на мобильные данные.',
     });
   } else if (appError instanceof GenerationError) {
     toast.error('Ошибка генерации', {
-      description: appError.toUserMessage(),
+      description: appError.toUserMessage() + ' Попробуйте упростить описание.',
     });
   } else {
     toast.error('Ошибка генерации', {
-      description: appError.toUserMessage() || 'Попробуйте еще раз',
+      description: appError.toUserMessage() || 'Попробуйте изменить описание или повторить позже.',
     });
   }
 }
@@ -209,21 +313,32 @@ export function isRetriableError(error: unknown): boolean {
     return true;
   }
   
-  // Fallback to error code lookup
-  const errorContext = appError.context as GenerationErrorResponse | undefined;
-  const errorCode = errorContext?.errorCode;
-  
-  if (errorCode && ERROR_CODE_MESSAGES[errorCode]) {
-    return ERROR_CODE_MESSAGES[errorCode].canRetry;
+  // Use enhanced error info lookup
+  const errorInfo = getEnhancedErrorInfo(error);
+  if (errorInfo) {
+    return errorInfo.canRetry;
   }
   
   return false;
 }
 
 /**
+ * Get retry delay for an error (with backoff support)
+ */
+export function getRetryDelayForError(error: unknown, attempt: number = 0): number {
+  const errorInfo = getEnhancedErrorInfo(error);
+  
+  // Use error-specific delay if available
+  const baseDelay = errorInfo?.retryDelayMs ?? 2000;
+  
+  // Apply exponential backoff: baseDelay * 2^attempt
+  return Math.min(baseDelay * Math.pow(2, attempt), 60000);
+}
+
+/**
  * Get error code information
  */
-export function getErrorCodeInfo(errorCode: string): { title: string; description: string; canRetry: boolean } | null {
+export function getErrorCodeInfo(errorCode: string): ErrorCodeInfo | null {
   return ERROR_CODE_MESSAGES[errorCode] || null;
 }
 
