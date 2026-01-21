@@ -123,7 +123,7 @@ export function CreateActions({ track, state, onAction, variant, isProcessing }:
         <IconGridButton
           icon={Wand2}
           label="Похожий"
-          color="primary"
+          color="purple"
           onClick={() => onAction('generate_similar')}
           disabled={isProcessing}
         />

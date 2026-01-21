@@ -21,7 +21,7 @@ export type ActionId =
   // Quality
   | 'upscale' | 'upscale_hd' | 'remove_watermark'
   // Create
-  | 'generate_cover' | 'cover' | 'extend' | 'remix' | 'create_artist_persona' | 'add_vocals' | 'add_instrumental'
+  | 'generate_cover' | 'cover' | 'extend' | 'remix' | 'generate_similar' | 'create_artist_persona' | 'add_vocals' | 'add_instrumental'
   // Delete
   | 'delete' | 'delete_version' | 'delete_all';
 
@@ -312,6 +312,14 @@ export const TRACK_ACTIONS: Record<ActionId, TrackAction> = {
     category: 'create',
     priority: 44,
     requiresSunoId: true,
+  },
+  generate_similar: {
+    id: 'generate_similar',
+    label: 'Создать похожий',
+    icon: Wand2,
+    category: 'create',
+    priority: 45,
+    requiresCompleted: true,
   },
   create_artist_persona: {
     id: 'create_artist_persona',

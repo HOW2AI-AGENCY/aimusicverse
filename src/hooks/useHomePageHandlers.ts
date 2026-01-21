@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { useAuth } from "@/hooks/useAuth";
 import type { QuickStartPreset } from "@/components/home/QuickStartCards";
+import type { QuickPreset } from "@/components/home/QuickGenrePresets";
 
 interface UseHomePageHandlersOptions {
   onOpenGenerateSheet: () => void;
@@ -63,11 +64,24 @@ export function useHomePageHandlers({
     }
   }, [hapticFeedback, onOpenGenerateSheet, onOpenAudioDialog]);
 
+  // Handler for Quick Genre Presets - opens generation with preset applied
+  const handleQuickGenrePreset = useCallback((preset: QuickPreset) => {
+    hapticFeedback("medium");
+    // Store preset in sessionStorage for useGenerateForm to pick up
+    sessionStorage.setItem('quickGenrePreset', JSON.stringify({
+      description: preset.description,
+      hasVocals: preset.hasVocals,
+      presetId: preset.id,
+    }));
+    onOpenGenerateSheet();
+  }, [hapticFeedback, onOpenGenerateSheet]);
+
   return {
     goToProfile,
     handleCreate,
     handleRemix,
     handleTrackClick,
     handleQuickStartPreset,
+    handleQuickGenrePreset,
   };
 }

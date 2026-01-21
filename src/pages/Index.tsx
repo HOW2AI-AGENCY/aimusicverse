@@ -31,6 +31,7 @@ import { Clock } from "lucide-react";
 import { HomeQuickCreate } from "@/components/home/HomeQuickCreate";
 import { FeaturedSection } from "@/components/home/FeaturedSection";
 import { QuickStartCards } from "@/components/home/QuickStartCards";
+import { QuickGenrePresets } from "@/components/home/QuickGenrePresets";
 import { BotContextBanner } from "@/components/home/BotContextBanner";
 import { TracksGridSection } from "@/components/home/TracksGridSection";
 import { FirstTimeHeroCard } from "@/components/home/FirstTimeHeroCard";
@@ -82,6 +83,7 @@ const Index = () => {
     handleRemix,
     handleTrackClick,
     handleQuickStartPreset,
+    handleQuickGenrePreset,
   } = useHomePageHandlers({
     onOpenGenerateSheet: () => setGenerateSheetOpen(true),
     onOpenAudioDialog: () => setAudioDialogOpen(true),
@@ -177,6 +179,11 @@ const Index = () => {
             </motion.section>
           </>
         )}
+
+        {/* Quick Genre Presets - one-tap generation */}
+        <motion.section className="mb-3" {...fadeInUp} transition={{ delay: 0.08 }}>
+          <QuickGenrePresets onSelectPreset={handleQuickGenrePreset} />
+        </motion.section>
 
         {/* Featured Tracks - horizontal scroll with load more */}
         <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.1 }}>
