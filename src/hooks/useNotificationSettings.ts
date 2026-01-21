@@ -8,14 +8,20 @@ export interface NotificationSettings {
   id: string;
   user_id: string;
   telegram_chat_id: number | null;
+  // Generation notifications
   notify_completed: boolean;
   notify_failed: boolean;
   notify_progress: boolean;
   notify_stem_ready: boolean;
+  // Social notifications
   notify_likes: boolean;
+  notify_comments: boolean;
+  notify_followers: boolean;
+  notify_mentions: boolean;
+  // Gamification
   notify_achievements: boolean;
   notify_daily_reminder: boolean;
-  notify_comments: boolean;
+  // Quiet hours
   quiet_hours_start: string | null;
   quiet_hours_end: string | null;
   // MIDI settings
@@ -48,14 +54,20 @@ export function useNotificationSettings() {
         id: data.id,
         user_id: data.user_id,
         telegram_chat_id: data.telegram_chat_id,
+        // Generation
         notify_completed: data.notify_completed ?? true,
         notify_failed: data.notify_failed ?? true,
         notify_progress: data.notify_progress ?? false,
         notify_stem_ready: data.notify_stem_ready ?? true,
+        // Social
         notify_likes: data.notify_likes ?? true,
+        notify_comments: data.notify_comments ?? true,
+        notify_followers: (data as any).notify_followers ?? true,
+        notify_mentions: (data as any).notify_mentions ?? true,
+        // Gamification
         notify_achievements: data.notify_achievements ?? true,
         notify_daily_reminder: data.notify_daily_reminder ?? false,
-        notify_comments: data.notify_comments ?? true,
+        // Quiet hours
         quiet_hours_start: data.quiet_hours_start,
         quiet_hours_end: data.quiet_hours_end,
         // MIDI settings
