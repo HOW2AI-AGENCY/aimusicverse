@@ -338,6 +338,107 @@ export async function sendAudio(
 }
 
 /**
+ * Send a document (file) to a Telegram chat
+ * Supports sending by URL or file_id
+ */
+export async function sendDocument(
+  chatId: number,
+  documentSource: string, // URL or file_id
+  options: {
+    caption?: string;
+    filename?: string;
+    replyMarkup?: {
+      inline_keyboard?: InlineKeyboardButton[][];
+    };
+  } = {}
+) {
+  const startTime = Date.now();
+  const formData = new FormData();
+  formData.append('chat_id', chatId.toString());
+  
+  // Sanitize filename
+  const sanitizeFilename = (name: string) => {
+    return name
+      .replace(/[<>:"/\\|?*]/g, '')
+      .replace(/\s+/g, '_')
+      .substring(0, 60);
+  };
+  
+  // If it's a URL, try to download and send as blob for proper filename
+  if (documentSource.startsWith('http')) {
+    try {
+      console.log('Downloading document from URL...');
+      const docResponse = await fetch(documentSource);
+      if (docResponse.ok) {
+        const docBlob = await docResponse.blob();
+        const filename = options.filename || 'document';
+        formData.append('document', docBlob, sanitizeFilename(filename));
+      } else {
+        // Fallback to URL if download fails
+        formData.append('document', documentSource);
+      }
+    } catch (e) {
+      console.warn('Failed to download document, using URL:', e);
+      formData.append('document', documentSource);
+    }
+  } else {
+    // file_id - send as string
+    formData.append('document', documentSource);
+  }
+  
+  if (options.caption) formData.append('caption', options.caption);
+  formData.append('parse_mode', 'MarkdownV2');
+  
+  if (options.replyMarkup) {
+    formData.append('reply_markup', JSON.stringify(options.replyMarkup));
+  }
+  
+  try {
+    const response = await fetch(`${TELEGRAM_API}/sendDocument`, {
+      method: 'POST',
+      body: formData,
+    });
+
+    const result = await response.json();
+    const responseTimeMs = Date.now() - startTime;
+    
+    if (!result.ok) {
+      console.error('sendDocument error:', result);
+      trackMetric({
+        eventType: 'document_failed' as MetricEventType,
+        success: false,
+        telegramChatId: chatId,
+        errorMessage: JSON.stringify(result),
+        responseTimeMs,
+        metadata: { filename: options.filename },
+      });
+      throw new Error(`Telegram API error: ${JSON.stringify(result)}`);
+    }
+
+    trackMetric({
+      eventType: 'document_sent' as MetricEventType,
+      success: true,
+      telegramChatId: chatId,
+      responseTimeMs,
+      metadata: { filename: options.filename },
+    });
+
+    return result;
+  } catch (error) {
+    const responseTimeMs = Date.now() - startTime;
+    trackMetric({
+      eventType: 'document_failed' as MetricEventType,
+      success: false,
+      telegramChatId: chatId,
+      errorMessage: error instanceof Error ? error.message : String(error),
+      responseTimeMs,
+      metadata: { filename: options.filename },
+    });
+    throw error;
+  }
+}
+
+/**
  * Answer pre-checkout query (for Telegram payments)
  */
 export async function answerPreCheckoutQuery(

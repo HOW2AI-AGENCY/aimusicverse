@@ -3,7 +3,7 @@
  * Handles voice/audio recording and analyzes guitar playing
  */
 
-import { sendMessage, editMessageText } from '../telegram-api.ts';
+import { sendMessage, editMessageText, sendDocument } from '../telegram-api.ts';
 import { BOT_CONFIG } from '../config.ts';
 import { logger, escapeMarkdown, trackMetric } from '../utils/index.ts';
 import { getSupabaseClient } from '../core/supabase-client.ts';
@@ -306,26 +306,6 @@ Be precise with chord names including extensions.`
       }
     }
 
-    // Add buttons
-    const buttons: any[][] = [];
-
-    // Download buttons
-    const downloadRow: any[] = [];
-    if (midiUrl) {
-      downloadRow.push({ text: '📥 MIDI', url: midiUrl });
-    }
-    if (klangioT?.files?.gp5) {
-      downloadRow.push({ text: '🎸 Guitar Pro', url: klangioT.files.gp5 });
-    }
-    if (downloadRow.length > 0) {
-      buttons.push(downloadRow);
-    }
-
-    buttons.push([
-      { text: '🔄 Записать ещё', callback_data: 'guitar_again' },
-      { text: '📱 Открыть в приложении', web_app: { url: `${BOT_CONFIG.miniAppUrl}?startapp=guitar` } }
-    ]);
-
     // Generate TAB visualization if we have MIDI data
     if (midi && midi.notes && midi.notes.length > 0) {
       const tabText = generateGuitarTab(midi.notes, beats?.bpm || 120);
@@ -335,7 +315,63 @@ Be precise with chord names including extensions.`
       }
     }
 
-    await sendMessage(chatId, message, { inline_keyboard: buttons });
+    // Send main message first
+    await sendMessage(chatId, message, { 
+      inline_keyboard: [
+        [
+          { text: '🔄 Записать ещё', callback_data: 'guitar_again' },
+          { text: '📱 Открыть в приложении', web_app: { url: `${BOT_CONFIG.miniAppUrl}?startapp=guitar` } }
+        ]
+      ] 
+    });
+
+    // Send files directly to chat (not just as URL buttons)
+    const filesToSend: Array<{ url: string; filename: string; caption: string }> = [];
+    
+    if (midiUrl) {
+      filesToSend.push({ 
+        url: midiUrl, 
+        filename: 'guitar_transcription.mid',
+        caption: '🎹 MIDI\\-файл для импорта в DAW'
+      });
+    }
+    
+    if (klangioT?.files?.gp5) {
+      filesToSend.push({ 
+        url: klangioT.files.gp5, 
+        filename: 'guitar_tabs.gp5',
+        caption: '🎸 Guitar Pro файл с табулатурой'
+      });
+    }
+    
+    if (klangioT?.files?.pdf) {
+      filesToSend.push({ 
+        url: klangioT.files.pdf, 
+        filename: 'guitar_sheet_music.pdf',
+        caption: '📄 Ноты в формате PDF'
+      });
+    }
+    
+    if (klangioT?.files?.mxml) {
+      filesToSend.push({ 
+        url: klangioT.files.mxml, 
+        filename: 'guitar_score.musicxml',
+        caption: '🎼 MusicXML для нотных редакторов'
+      });
+    }
+
+    // Send each file
+    for (const file of filesToSend) {
+      try {
+        await sendDocument(chatId, file.url, {
+          filename: file.filename,
+          caption: file.caption,
+        });
+      } catch (docError) {
+        logger.warn('Failed to send document', { filename: file.filename, error: docError });
+        // Continue with other files even if one fails
+      }
+    }
 
     trackMetric({
       eventType: 'audio_sent',

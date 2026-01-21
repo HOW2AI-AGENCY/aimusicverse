@@ -1,4 +1,4 @@
-import { sendMessage, editMessageText, answerCallbackQuery } from '../telegram-api.ts';
+import { sendMessage, editMessageText, answerCallbackQuery, sendDocument } from '../telegram-api.ts';
 import { BOT_CONFIG } from '../config.ts';
 import { logger } from '../utils/index.ts';
 import { getSupabaseClient } from '../core/supabase-client.ts';
@@ -349,7 +349,7 @@ async function startMidiConversion(
       throw new Error(result.error || 'Unknown error');
     }
 
-    // Send success message with download button
+    // Send success message
     const outputType = modelType === 'pop2piano' ? 'фортепианная аранжировка' : 'MIDI файл';
     const successMsg = `✅ *${outputType === 'MIDI файл' ? 'MIDI готов!' : 'Фортепианная версия готова!'}*
 
@@ -360,7 +360,6 @@ ${modelType !== 'pop2piano' ? '📁 Формат: MIDI' : '📁 Формат: MP
     await sendMessage(chatId, successMsg, {
       inline_keyboard: [
         [
-          { text: `📥 Скачать ${modelType === 'pop2piano' ? 'MP3' : 'MIDI'}`, url: result.output_url },
           { text: '📱 Открыть в студии', web_app: { url: `${BOT_CONFIG.miniAppUrl}?startapp=studio_${trackId}` } }
         ],
         [
@@ -369,6 +368,26 @@ ${modelType !== 'pop2piano' ? '📁 Формат: MIDI' : '📁 Формат: MP
         ]
       ]
     });
+
+    // Send the file directly to chat
+    const fileExt = modelType === 'pop2piano' ? 'mp3' : 'mid';
+    const filename = `${(track.title || 'track').replace(/[^a-zA-Zа-яА-Я0-9]/g, '_')}_${modelType}.${fileExt}`;
+    const caption = modelType === 'pop2piano' 
+      ? '🎹 Фортепианная аранжировка'
+      : '🎹 MIDI\\-файл для импорта в DAW';
+
+    try {
+      await sendDocument(chatId, result.output_url, {
+        filename,
+        caption,
+      });
+    } catch (docError) {
+      console.warn('Failed to send MIDI document:', docError);
+      // Fallback: send URL button if document sending fails
+      await sendMessage(chatId, `📥 [Скачать файл](${escapeMarkdown(result.output_url)})`, {
+        inline_keyboard: [[{ text: '📥 Скачать', url: result.output_url }]]
+      });
+    }
 
   } catch (error) {
     logger.error('startMidiConversion', error);
