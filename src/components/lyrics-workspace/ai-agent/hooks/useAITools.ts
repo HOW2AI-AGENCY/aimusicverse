@@ -231,13 +231,13 @@ export function useAITools({ context, onLyricsGenerated, onTagsGenerated, onStyl
         };
         responseType = 'hooks';
       }
-      // Handle vocal map response (Phase 2)
-      else if (data.sections && toolId === 'vocal_map') {
+      // Handle vocal map response (legacy - now merged into producer)
+      else if (data.sections && (data as any).vocalType) {
         responseData.vocalMap = data.sections;
         responseType = 'vocal_map';
       }
-      // Handle paraphrase response (Phase 2)
-      else if (data.variants && toolId === 'paraphrase') {
+      // Handle paraphrase response (legacy - now merged into style_convert)
+      else if (data.variants) {
         responseData.paraphraseVariants = data.variants;
         responseType = 'paraphrase';
       }

@@ -21,10 +21,8 @@ import { useTelegramMainButton } from '@/hooks/telegram/useTelegramMainButton';
 import { useAITools } from './hooks/useAITools';
 import { useWorkflowEngine } from './hooks/useWorkflowEngine';
 import { 
-  WriteToolPanel, AnalyzeToolPanel, ProducerToolPanel, OptimizeToolPanel, RhymeToolPanel, TagsToolPanel,
-  ContinueToolPanel, StructureToolPanel, RhythmToolPanel,
-  StyleConvertToolPanel, ParaphraseToolPanel, HookGeneratorToolPanel, VocalMapToolPanel, TranslateToolPanel,
-  DrillBuilderToolPanel, EpicBuilderToolPanel, ValidateSunoV5ToolPanel
+  WriteToolPanel, AnalyzeToolPanel, ProducerToolPanel, OptimizeToolPanel, RhymeToolPanel,
+  ContinueToolPanel, StructureToolPanel, StyleConvertToolPanel, TranslateToolPanel
 } from './tools';
 import { 
   HookResultCard, VocalMapResultCard, ParaphraseResultCard, TranslateResultCard 
@@ -238,22 +236,14 @@ export function MobileAIAgentPanel({
 
     switch (openToolPanel) {
       case 'write': return <WriteToolPanel {...panelProps} />;
+      case 'continue': return <ContinueToolPanel {...panelProps} />;
       case 'analyze': return <AnalyzeToolPanel {...panelProps} />;
       case 'producer': return <ProducerToolPanel {...panelProps} />;
       case 'optimize': return <OptimizeToolPanel {...panelProps} />;
       case 'rhyme': return <RhymeToolPanel {...panelProps} />;
-      case 'tags': return <TagsToolPanel {...panelProps} />;
-      case 'continue': return <ContinueToolPanel {...panelProps} />;
       case 'structure': return <StructureToolPanel {...panelProps} />;
-      case 'rhythm': return <RhythmToolPanel {...panelProps} />;
       case 'style_convert': return <StyleConvertToolPanel {...panelProps} />;
-      case 'paraphrase': return <ParaphraseToolPanel {...panelProps} />;
-      case 'hook_generator': return <HookGeneratorToolPanel {...panelProps} />;
-      case 'vocal_map': return <VocalMapToolPanel {...panelProps} />;
       case 'translate': return <TranslateToolPanel {...panelProps} />;
-      case 'drill_builder': return <DrillBuilderToolPanel {...panelProps} />;
-      case 'epic_builder': return <EpicBuilderToolPanel {...panelProps} />;
-      case 'validate_v5': return <ValidateSunoV5ToolPanel {...panelProps} />;
       default: return null;
     }
   };
