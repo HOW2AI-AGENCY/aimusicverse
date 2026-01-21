@@ -14,7 +14,8 @@ import {
   ListMusic,
   BarChart3,
   TrendingUp,
-  Sparkles
+  Sparkles,
+  Gift
 } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { useTelegram } from '@/contexts/TelegramContext';
@@ -26,6 +27,7 @@ import { useUserStats } from '@/hooks/useUserStats';
 import { motion } from '@/lib/motion';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
+import { InviteFriendsCard } from '@/components/gamification/InviteFriendsCard';
 
 export const ProfilePage = () => {
   const navigate = useNavigate();
@@ -245,11 +247,21 @@ export const ProfilePage = () => {
         ))}
       </motion.div>
 
-      {/* Onboarding Button */}
+      {/* Invite Friends */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
+        className="mb-4"
+      >
+        <InviteFriendsCard variant="banner" />
+      </motion.div>
+
+      {/* Onboarding Button */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.35 }}
       >
         <Card
           onClick={handleStartOnboarding}
@@ -272,7 +284,7 @@ export const ProfilePage = () => {
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.35 }}
+        transition={{ delay: 0.4 }}
       >
         <Card
           onClick={handleLogout}
