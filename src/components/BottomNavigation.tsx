@@ -1,26 +1,32 @@
 import { useState, lazy, Suspense, memo, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Home, Plus, Library, Grid3X3, FolderOpen } from 'lucide-react';
+import { Home, Plus, Library, Layers, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { useAuth } from '@/hooks/useAuth';
 import { useActiveGenerations } from '@/hooks/generation/useActiveGenerations';
-import { MoreMenuSheet } from './navigation/MoreMenuSheet';
 import { Badge } from '@/components/ui/badge';
 import { preloadRoute } from '@/lib/route-preloader';
 
 // Lazy load heavy sheet component
 const GenerateSheet = lazy(() => import('./GenerateSheet').then(m => ({ default: m.GenerateSheet })));
 
-// Optimized navigation - 5 items with FAB in center
-// Profile moved to MoreMenu, replaced with "More" button
+/**
+ * Optimized navigation - 5 items with FAB in center
+ * Phase 1 UX Improvement: Simplified navigation
+ * - Home: Main page
+ * - Library: Tracks & Projects (combined)
+ * - Create (+): Generation FAB
+ * - Studio: Direct access to studio
+ * - Profile: User profile with settings
+ */
 const navItems = [
   { path: '/', icon: Home, label: 'Главная', isCenter: false },
-  { path: '/library', icon: Library, label: 'Треки', isCenter: false },
+  { path: '/library', icon: Library, label: 'Библиотека', isCenter: false },
   { path: '__generate__', icon: Plus, label: 'Создать', isCenter: true },
-  { path: '/projects', icon: FolderOpen, label: 'Проекты', isCenter: false },
-  { path: '__more__', icon: Grid3X3, label: 'Ещё', isCenter: false },
+  { path: '/studio-v2', icon: Layers, label: 'Студия', isCenter: false },
+  { path: '/profile', icon: User, label: 'Профиль', isCenter: false },
 ];
 
 export const BottomNavigation = memo(function BottomNavigation() {
@@ -29,23 +35,22 @@ export const BottomNavigation = memo(function BottomNavigation() {
   const { hapticFeedback } = useTelegram();
   const { user } = useAuth();
   const [generateOpen, setGenerateOpen] = useState(false);
-  const [moreMenuOpen, setMoreMenuOpen] = useState(false);
   const { data: activeGenerations = [] } = useActiveGenerations();
   const activeGenCount = activeGenerations.length;
 
   const handleNavigate = useCallback((path: string) => {
     hapticFeedback('light');
-    navigate(path);
-  }, [hapticFeedback, navigate]);
+    // Handle profile with user ID
+    if (path === '/profile' && user?.id) {
+      navigate(`/profile/${user.id}`);
+    } else {
+      navigate(path);
+    }
+  }, [hapticFeedback, navigate, user?.id]);
 
   const handleGenerateClick = useCallback(() => {
     hapticFeedback('medium');
     setGenerateOpen(true);
-  }, [hapticFeedback]);
-
-  const handleMoreClick = useCallback(() => {
-    hapticFeedback('light');
-    setMoreMenuOpen(true);
   }, [hapticFeedback]);
 
   // Preload route on hover/touch start for faster navigation
@@ -132,13 +137,8 @@ export const BottomNavigation = memo(function BottomNavigation() {
               );
             }
 
-            const handleClick = item.path === '__more__'
-              ? handleMoreClick
-              : () => handleNavigate(item.path);
-
-            const active = item.path === '__more__'
-              ? moreMenuOpen
-              : isActive(item.path);
+            const handleClick = () => handleNavigate(item.path);
+            const active = isActive(item.path);
 
             return (
               <motion.button
@@ -201,9 +201,6 @@ export const BottomNavigation = memo(function BottomNavigation() {
           <GenerateSheet open={generateOpen} onOpenChange={setGenerateOpen} />
         </Suspense>
       )}
-
-      {/* More menu sheet */}
-      <MoreMenuSheet open={moreMenuOpen} onOpenChange={setMoreMenuOpen} />
     </>
   );
 });
