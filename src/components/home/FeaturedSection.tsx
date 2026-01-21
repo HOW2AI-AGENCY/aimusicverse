@@ -130,8 +130,9 @@ export const FeaturedSection = memo(function FeaturedSection({
           >
             <UnifiedTrackCard
               track={track}
-              variant="minimal"
+              variant="grid"
               onPlay={() => handleTrackClick(track.id)}
+              showActions={false}
               className="h-full"
             />
           </div>
