@@ -2913,6 +2913,85 @@ export type Database = {
           },
         ]
       }
+      rum_metrics: {
+        Row: {
+          cls: number | null
+          connection_type: string | null
+          created_at: string
+          device_type: string | null
+          fcp_ms: number | null
+          fid_ms: number | null
+          id: string
+          inp_ms: number | null
+          lcp_ms: number | null
+          page_path: string | null
+          session_id: string
+          ttfb_ms: number | null
+          user_agent: string | null
+          user_id: string | null
+          viewport_height: number | null
+          viewport_width: number | null
+        }
+        Insert: {
+          cls?: number | null
+          connection_type?: string | null
+          created_at?: string
+          device_type?: string | null
+          fcp_ms?: number | null
+          fid_ms?: number | null
+          id?: string
+          inp_ms?: number | null
+          lcp_ms?: number | null
+          page_path?: string | null
+          session_id: string
+          ttfb_ms?: number | null
+          user_agent?: string | null
+          user_id?: string | null
+          viewport_height?: number | null
+          viewport_width?: number | null
+        }
+        Update: {
+          cls?: number | null
+          connection_type?: string | null
+          created_at?: string
+          device_type?: string | null
+          fcp_ms?: number | null
+          fid_ms?: number | null
+          id?: string
+          inp_ms?: number | null
+          lcp_ms?: number | null
+          page_path?: string | null
+          session_id?: string
+          ttfb_ms?: number | null
+          user_agent?: string | null
+          user_id?: string | null
+          viewport_height?: number | null
+          viewport_width?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rum_metrics_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "rum_metrics_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "public_profile_view"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "rum_metrics_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "safe_public_profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       stars_products: {
         Row: {
           created_at: string | null
