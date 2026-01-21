@@ -36,14 +36,15 @@ interface UseWorkflowEngineOptions {
   onError?: (error: string) => void;
 }
 
+// Phase 4: Streamlined workflows with fewer steps
 export const WORKFLOWS: Workflow[] = [
   {
     id: 'quick_start',
     name: 'Быстрый старт',
-    description: 'Генерация + автоматические теги',
+    description: 'Генерация + Suno оптимизация',
     steps: [
       { toolId: 'write', label: 'Генерация текста', autoApply: true },
-      { toolId: 'tags', label: 'Добавление тегов', autoApply: true },
+      { toolId: 'optimize', label: 'Suno оптимизация', autoApply: true },
     ],
   },
   {
@@ -58,7 +59,6 @@ export const WORKFLOWS: Workflow[] = [
         condition: (prev) => prev?.qualityScore !== undefined ? prev.qualityScore < 85 : true,
         autoApply: true 
       },
-      { toolId: 'tags', label: 'Финальные теги', autoApply: true },
     ],
   },
   {
@@ -71,23 +71,10 @@ export const WORKFLOWS: Workflow[] = [
       { toolId: 'producer', label: 'Продюсерский разбор' },
       { 
         toolId: 'optimize', 
-        label: 'Оптимизация',
+        label: 'Suno оптимизация',
         condition: (prev) => prev?.producerReview?.overallScore < 80,
         autoApply: true 
       },
-      { toolId: 'validate_v5', label: 'V5 проверка' },
-      { toolId: 'tags', label: 'Финальные теги', autoApply: true },
-    ],
-  },
-  {
-    id: 'drill_track',
-    name: 'Drill трек',
-    description: 'UK Drill с полной подготовкой',
-    steps: [
-      { toolId: 'drill_builder', label: 'Drill генерация', autoApply: true },
-      { toolId: 'validate_v5', label: 'V5 проверка' },
-      { toolId: 'vocal_map', label: 'Вокальная карта' },
-      { toolId: 'tags', label: 'Drill теги', autoApply: true },
     ],
   },
   {
@@ -97,20 +84,10 @@ export const WORKFLOWS: Workflow[] = [
     steps: [
       { toolId: 'translate', label: 'Перевод' },
       { 
-        toolId: 'paraphrase', 
-        label: 'Адаптация',
+        toolId: 'style_convert', 
+        label: 'Адаптация стиля',
         transform: (prev) => ({ lyrics: prev?.translation?.translatedLyrics || prev?.lyrics })
       },
-      { toolId: 'tags', label: 'Теги', autoApply: true },
-    ],
-  },
-  {
-    id: 'full_check',
-    name: 'Полная проверка',
-    description: 'V5 валидация + рекомендации',
-    steps: [
-      { toolId: 'validate_v5', label: 'V5 синтаксис' },
-      { toolId: 'rhythm', label: 'Анализ ритма' },
     ],
   },
 ];

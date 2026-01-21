@@ -37,6 +37,7 @@ interface WorkflowAction {
   steps: AIToolId[];
 }
 
+// Phase 4: Streamlined actions with fewer tools
 const SMART_ACTIONS = [
   {
     id: 'quick',
@@ -45,9 +46,8 @@ const SMART_ACTIONS = [
     color: 'text-amber-400',
     bgColor: 'bg-amber-500/10 hover:bg-amber-500/20 border-amber-500/30',
     workflows: [
-      { id: 'quick_start', label: 'Написать → Теги', description: 'Генерация + авто-теги', steps: ['write', 'tags'] as AIToolId[] },
+      { id: 'quick_start', label: 'Написать → Suno', description: 'Генерация + оптимизация', steps: ['write', 'optimize'] as AIToolId[] },
       { id: 'improve', label: 'Анализ → Улучшить', description: 'Оценка + оптимизация', steps: ['analyze', 'optimize'] as AIToolId[] },
-      { id: 'full_check', label: 'V5 Валидация', description: 'Проверка синтаксиса', steps: ['validate_v5'] as AIToolId[] },
     ],
   },
   {
@@ -59,7 +59,6 @@ const SMART_ACTIONS = [
     tools: [
       { id: 'write' as AIToolId, label: 'Написать', icon: PenLine },
       { id: 'continue' as AIToolId, label: 'Продолжить', icon: CornerDownRight },
-      { id: 'hook_generator' as AIToolId, label: 'Хуки', icon: Zap },
       { id: 'structure' as AIToolId, label: 'Структура', icon: LayoutGrid },
     ],
   },
@@ -72,8 +71,7 @@ const SMART_ACTIONS = [
     tools: [
       { id: 'analyze' as AIToolId, label: 'Полный анализ', icon: BarChart3 },
       { id: 'producer' as AIToolId, label: 'Продюсер', icon: Headphones },
-      { id: 'rhythm' as AIToolId, label: 'Ритм', icon: Activity },
-      { id: 'validate_v5' as AIToolId, label: 'V5 Check', icon: Target },
+      { id: 'rhyme' as AIToolId, label: 'Рифмы', icon: Quote },
     ],
   },
   {
@@ -83,12 +81,9 @@ const SMART_ACTIONS = [
     color: 'text-emerald-400',
     bgColor: 'bg-emerald-500/10 hover:bg-emerald-500/20 border-emerald-500/30',
     tools: [
-      { id: 'tags' as AIToolId, label: 'Теги', icon: Tag },
       { id: 'optimize' as AIToolId, label: 'Suno', icon: Sparkles },
       { id: 'style_convert' as AIToolId, label: 'Конверт', icon: Shuffle },
-      { id: 'paraphrase' as AIToolId, label: 'Вариации', icon: RefreshCw },
       { id: 'translate' as AIToolId, label: 'Перевод', icon: Languages },
-      { id: 'vocal_map' as AIToolId, label: 'Вокал', icon: Mic2 },
     ],
   },
 ];
@@ -204,7 +199,7 @@ export function SmartToolbar({
               <div className="grid grid-cols-3 gap-2">
                 {SMART_ACTIONS.find(a => a.id === openPopup)?.tools?.map((tool) => {
                   const ToolIcon = tool.icon;
-                  const needsLyrics = ['analyze', 'producer', 'rhythm', 'validate_v5', 'optimize', 'tags', 'style_convert', 'paraphrase', 'vocal_map'].includes(tool.id);
+                  const needsLyrics = ['analyze', 'producer', 'optimize', 'style_convert'].includes(tool.id);
                   const isDisabled = needsLyrics && !hasLyrics;
                   
                   return (

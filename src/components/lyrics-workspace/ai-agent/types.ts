@@ -4,27 +4,17 @@
 
 import { LucideIcon } from 'lucide-react';
 
+// Phase 4: Streamlined from 17 to 9 core tool IDs
 export type AIToolId = 
   | 'write' 
+  | 'continue'
   | 'analyze'
-  | 'deep_analyze'
   | 'producer'
   | 'optimize'
   | 'rhyme'
-  | 'tags'
-  | 'continue'
   | 'structure'
-  | 'rhythm'
-  // Phase 2 tools
   | 'style_convert'
-  | 'paraphrase'
-  | 'hook_generator'
-  | 'vocal_map'
-  | 'translate'
-  // Phase 3 V5 tools
-  | 'drill_builder'
-  | 'epic_builder'
-  | 'validate_v5';
+  | 'translate';
 
 export type BackendAction = 
   | 'generate'

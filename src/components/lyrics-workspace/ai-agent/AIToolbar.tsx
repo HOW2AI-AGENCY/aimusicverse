@@ -28,10 +28,10 @@ interface ToolButtonProps {
   compact?: boolean;
 }
 
-// Primary tools shown by default (most used)
-const PRIMARY_TOOL_IDS: AIToolId[] = ['write', 'analyze', 'producer', 'optimize', 'tags', 'rhyme'];
+// Primary tools shown by default (streamlined for UX)
+const PRIMARY_TOOL_IDS: AIToolId[] = ['write', 'continue', 'analyze', 'producer', 'optimize'];
 // Secondary tools shown when expanded
-const SECONDARY_TOOL_IDS: AIToolId[] = ['continue', 'structure', 'rhythm', 'style_convert', 'paraphrase', 'hook_generator', 'vocal_map', 'translate', 'drill_builder', 'epic_builder', 'validate_v5'];
+const SECONDARY_TOOL_IDS: AIToolId[] = ['rhyme', 'structure', 'style_convert', 'translate'];
 
 export function AIToolbar({ 
   activeTool, 
