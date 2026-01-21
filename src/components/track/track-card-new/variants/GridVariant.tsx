@@ -11,7 +11,7 @@
 
 import { memo, useState, useCallback } from 'react';
 import { motion, PanInfo } from '@/lib/motion';
-import { Heart, Trash2, Play, Pause, MoreHorizontal, Wand2 } from 'lucide-react';
+import { Heart, Trash2, Play, Pause, MoreHorizontal, Wand2, Layers } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -229,6 +229,30 @@ export const GridVariant = memo(function GridVariant({
                   size="sm"
                   variant="minimal"
                 />
+                
+                {/* Quick Studio Button - visible on hover (desktop) or always (mobile with stems) */}
+                {showActions && (stemCount > 0 || !isMobile) && (
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    className={cn(
+                      "w-10 h-10 sm:w-8 sm:h-8 min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex-shrink-0 transition-opacity",
+                      isMobile 
+                        ? (stemCount > 0 ? "opacity-100" : "opacity-0") 
+                        : "opacity-0 group-hover:opacity-100"
+                    )}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      hapticImpact('medium');
+                      // Navigate to studio
+                      window.location.href = `/studio-v2/track/${track.id}`;
+                    }}
+                    aria-label="Открыть в студии"
+                    title="Открыть в студии"
+                  >
+                    <Layers className="w-5 h-5 sm:w-4 sm:h-4 text-primary" />
+                  </Button>
+                )}
                 
                 {showActions && (
                   <Button
