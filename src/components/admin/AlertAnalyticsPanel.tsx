@@ -169,34 +169,35 @@ export function AlertAnalyticsPanel() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3 sm:space-y-4">
       {/* Trends Chart */}
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle className="text-lg flex items-center gap-2">
-            <TrendingUp className="h-5 w-5" />
+          <CardTitle className="text-base sm:text-lg flex items-center gap-2">
+            <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5" />
             Тренд инцидентов (30 дней)
           </CardTitle>
         </CardHeader>
-        <CardContent>
-          <ResponsiveContainer width="100%" height={250}>
+        <CardContent className="p-2 sm:p-6">
+          <ResponsiveContainer width="100%" height={180} className="sm:!h-[250px]">
             <AreaChart data={dailyTrends}>
               <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
               <XAxis 
                 dataKey="date" 
-                tick={{ fontSize: 11 }}
+                tick={{ fontSize: 9 }}
                 tickLine={false}
                 interval="preserveStartEnd"
               />
-              <YAxis tick={{ fontSize: 11 }} tickLine={false} />
+              <YAxis tick={{ fontSize: 9 }} tickLine={false} width={25} />
               <Tooltip 
                 contentStyle={{ 
                   backgroundColor: 'hsl(var(--card))', 
                   border: '1px solid hsl(var(--border))',
-                  borderRadius: '8px'
+                  borderRadius: '8px',
+                  fontSize: '12px'
                 }}
               />
-              <Legend />
+              <Legend wrapperStyle={{ fontSize: '10px' }} />
               <Area
                 type="monotone"
                 dataKey="unhealthy"
@@ -220,34 +221,32 @@ export function AlertAnalyticsPanel() {
         </CardContent>
       </Card>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
         {/* Service Breakdown */}
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-lg flex items-center gap-2">
-              <PieChartIcon className="h-5 w-5" />
+            <CardTitle className="text-sm sm:text-lg flex items-center gap-2">
+              <PieChartIcon className="h-4 w-4 sm:h-5 sm:w-5" />
               Проблемные сервисы
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-2 sm:p-6">
             {serviceBreakdown.length === 0 ? (
-              <div className="h-[200px] flex items-center justify-center text-muted-foreground">
+              <div className="h-[150px] sm:h-[200px] flex items-center justify-center text-muted-foreground text-sm">
                 Нет данных
               </div>
             ) : (
-              <ResponsiveContainer width="100%" height={200}>
+              <ResponsiveContainer width="100%" height={150} className="sm:!h-[200px]">
                 <PieChart>
                   <Pie
                     data={serviceBreakdown}
                     cx="50%"
                     cy="50%"
-                    innerRadius={40}
-                    outerRadius={80}
+                    innerRadius={30}
+                    outerRadius={55}
                     paddingAngle={2}
                     dataKey="value"
-                    label={({ name, percent }) => 
-                      `${name} ${((percent ?? 0) * 100).toFixed(0)}%`
-                    }
+                    label={({ percent }) => `${((percent ?? 0) * 100).toFixed(0)}%`}
                     labelLine={false}
                   >
                     {serviceBreakdown.map((_, index) => (
@@ -257,7 +256,7 @@ export function AlertAnalyticsPanel() {
                       />
                     ))}
                   </Pie>
-                  <Tooltip />
+                  <Tooltip contentStyle={{ fontSize: '12px' }} />
                 </PieChart>
               </ResponsiveContainer>
             )}
@@ -267,27 +266,28 @@ export function AlertAnalyticsPanel() {
         {/* Hourly Distribution */}
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-lg flex items-center gap-2">
-              <Clock className="h-5 w-5" />
-              Распределение по часам
+            <CardTitle className="text-sm sm:text-lg flex items-center gap-2">
+              <Clock className="h-4 w-4 sm:h-5 sm:w-5" />
+              По часам
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={200}>
+          <CardContent className="p-2 sm:p-6">
+            <ResponsiveContainer width="100%" height={150} className="sm:!h-[200px]">
               <BarChart data={hourlyDistribution}>
                 <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
                 <XAxis 
                   dataKey="hour" 
-                  tick={{ fontSize: 10 }}
+                  tick={{ fontSize: 8 }}
                   tickLine={false}
-                  interval={2}
+                  interval={3}
                 />
-                <YAxis tick={{ fontSize: 11 }} tickLine={false} />
+                <YAxis tick={{ fontSize: 9 }} tickLine={false} width={20} />
                 <Tooltip 
                   contentStyle={{ 
                     backgroundColor: 'hsl(var(--card))', 
                     border: '1px solid hsl(var(--border))',
-                    borderRadius: '8px'
+                    borderRadius: '8px',
+                    fontSize: '12px'
                   }}
                 />
                 <Bar 
@@ -304,22 +304,23 @@ export function AlertAnalyticsPanel() {
         {/* Weekly Pattern */}
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-lg flex items-center gap-2">
-              <BarChart3 className="h-5 w-5" />
-              Паттерн по дням недели
+            <CardTitle className="text-sm sm:text-lg flex items-center gap-2">
+              <BarChart3 className="h-4 w-4 sm:h-5 sm:w-5" />
+              По дням недели
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={200}>
+          <CardContent className="p-2 sm:p-6">
+            <ResponsiveContainer width="100%" height={150} className="sm:!h-[200px]">
               <BarChart data={weeklyPattern}>
                 <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                <XAxis dataKey="name" tick={{ fontSize: 12 }} tickLine={false} />
-                <YAxis tick={{ fontSize: 11 }} tickLine={false} />
+                <XAxis dataKey="name" tick={{ fontSize: 10 }} tickLine={false} />
+                <YAxis tick={{ fontSize: 9 }} tickLine={false} width={20} />
                 <Tooltip 
                   contentStyle={{ 
                     backgroundColor: 'hsl(var(--card))', 
                     border: '1px solid hsl(var(--border))',
-                    borderRadius: '8px'
+                    borderRadius: '8px',
+                    fontSize: '12px'
                   }}
                 />
                 <Bar 
@@ -336,46 +337,47 @@ export function AlertAnalyticsPanel() {
         {/* Resolution Time */}
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-lg flex items-center gap-2">
-              <AlertTriangle className="h-5 w-5" />
+            <CardTitle className="text-sm sm:text-lg flex items-center gap-2">
+              <AlertTriangle className="h-4 w-4 sm:h-5 sm:w-5" />
               Время решения
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-2 sm:p-6">
             {resolutionStats.data.length === 0 ? (
-              <div className="h-[200px] flex items-center justify-center text-muted-foreground">
+              <div className="h-[150px] sm:h-[200px] flex items-center justify-center text-muted-foreground text-sm">
                 Нет решённых инцидентов
               </div>
             ) : (
               <>
-                <div className="flex justify-around mb-4 text-center">
+                <div className="flex justify-around mb-3 sm:mb-4 text-center">
                   <div>
-                    <div className="text-2xl font-bold">{resolutionStats.avg}</div>
-                    <div className="text-xs text-muted-foreground">Среднее (мин)</div>
+                    <div className="text-lg sm:text-2xl font-bold">{resolutionStats.avg}</div>
+                    <div className="text-[10px] sm:text-xs text-muted-foreground">Среднее</div>
                   </div>
                   <div>
-                    <div className="text-2xl font-bold text-green-500">{resolutionStats.min}</div>
-                    <div className="text-xs text-muted-foreground">Мин (мин)</div>
+                    <div className="text-lg sm:text-2xl font-bold text-green-500">{resolutionStats.min}</div>
+                    <div className="text-[10px] sm:text-xs text-muted-foreground">Мин</div>
                   </div>
                   <div>
-                    <div className="text-2xl font-bold text-red-500">{resolutionStats.max}</div>
-                    <div className="text-xs text-muted-foreground">Макс (мин)</div>
+                    <div className="text-lg sm:text-2xl font-bold text-red-500">{resolutionStats.max}</div>
+                    <div className="text-[10px] sm:text-xs text-muted-foreground">Макс</div>
                   </div>
                 </div>
-                <ResponsiveContainer width="100%" height={130}>
+                <ResponsiveContainer width="100%" height={100} className="sm:!h-[130px]">
                   <BarChart data={resolutionStats.data} layout="vertical">
-                    <XAxis type="number" tick={{ fontSize: 11 }} />
+                    <XAxis type="number" tick={{ fontSize: 9 }} />
                     <YAxis 
                       type="category" 
                       dataKey="label" 
-                      tick={{ fontSize: 11 }} 
-                      width={70}
+                      tick={{ fontSize: 9 }} 
+                      width={50}
                     />
                     <Tooltip 
                       contentStyle={{ 
                         backgroundColor: 'hsl(var(--card))', 
                         border: '1px solid hsl(var(--border))',
-                        borderRadius: '8px'
+                        borderRadius: '8px',
+                        fontSize: '12px'
                       }}
                     />
                     <Bar 
