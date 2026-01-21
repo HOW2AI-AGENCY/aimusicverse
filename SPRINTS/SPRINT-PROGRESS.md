@@ -1,193 +1,80 @@
 # Sprint Progress Tracker
 
-**Последнее обновление**: 2026-01-19 (Roadmap V4 Active)
+**Последнее обновление**: 2026-01-21
 
 ## 📊 Общий статус
 
-| Sprint | Статус | Прогресс | Дата |
-|--------|--------|----------|------|
-| Sprint 011-029 | ✅ ЗАВЕРШЕНЫ | 100% | Dec 2025 - Jan 2026 |
-| Sprint 030: Unified Studio Mobile | ✅ ЗАКРЫТ | 65% | Jan 4-5, 2026 |
-| Sprint 012: Audit Improvements | ✅ ЗАВЕРШЕН | 100% | Jan 16, 2026 |
-| UI/UX Roadmap V3 | ✅ ЗАВЕРШЕН | 100% | Jan 19, 2026 |
-| **Roadmap V4** | 🔄 АКТИВЕН | Priority 1 | Jan 19, 2026 |
+| Sprint | Статус | Прогресс |
+|--------|--------|----------|
+| Sprint 001-029 | ✅ ЗАВЕРШЕНЫ | 100% |
+| Sprint 030-032 | ✅ ЗАВЕРШЕНЫ | 100% |
+| Q1 2026 Plan | 🔄 АКТИВЕН | Phase 1-4 Complete |
 
 ---
 
-## 🔄 ТЕКУЩИЙ: Roadmap V4 (January 19, 2026)
+## 🔄 ТЕКУЩИЙ: Q1 2026 Development Plan
 
-### Priority 1: Критические улучшения (Week 1-2)
+### Phase 1: Critical Business Metrics ✅ COMPLETE
 
-#### 1.1 UI/UX Roadmap V3 — ✅ COMPLETE
-- [x] PromptValidationAlert — валидация имён артистов
-- [x] CreditBalanceWarning — предупреждение о балансе
-- [x] QuickLikeButton — лайк одним тапом
-- [x] TrackCardSkeleton — skeleton loaders
-- [x] ContentSkeleton — loading states
-- [x] artistReplacements.ts — маппинг артистов
-- [x] StatusFilter в библиотеке
+#### 1.1 Failure Rate Reduction
+- [x] Artist pre-validation (18+ artists added)
+- [x] Enhanced error messages with hints
+- [x] Client-side retry with exponential backoff
+- [x] Error-specific retry delays
 
-#### 1.2 Popup/Notification Unification — ✅ COMPLETE ✨ NEW
-- [x] UnifiedRewardNotification — консолидация gamification уведомлений
-- [x] RewardNotificationContext — глобальный провайдер
-- [x] ConfirmationDialog → UnifiedDialog alert
-- [x] AlertDialog с haptic feedback
-- [x] Удалены deprecated: LevelUpNotification, AchievementUnlockNotification, RewardCelebration
-- [x] DailyCheckin и GamificationBar используют unified notifications
+#### 1.2 Social Activation
+- [x] FirstCommentCTA component
+- [x] CommentSuggestions (10 genres, 60+ phrases)
+- [x] Integration in CommentsList
 
-#### 1.3 ResponsiveModal → UnifiedDialog Migration — ✅ COMPLETE ✨ NEW
-- [x] CreatePlaylistDialog → UnifiedDialog variant="sheet"
-- [x] LibraryFilterModal → UnifiedDialog variant="sheet"
-- [x] ComingSoonModal → UnifiedDialog variant="modal"
-- [x] CreateArtistFromTrackDialog → UnifiedDialog variant="sheet"
-- [x] ResponsiveModal удалён из проекта
-- [x] UnifiedDialog с Telegram safe area поддержкой
-- [x] Haptic feedback интеграция
-- [x] 44px touch targets для header actions
+### Phase 2: Monetization ✅ COMPLETE
 
-#### 1.4 Toast/Error System Audit — ✅ COMPLETE ✨ NEW
-- [x] Radix Toast удалён (use-toast.ts, toast.tsx)
-- [x] Sonner как единственная система уведомлений
-- [x] Централизованное позиционирование (toast-position.ts)
-- [x] Дедупликация через notify service (notifications.ts)
-- [x] Error display через displayError/showErrorWithRecovery
-- [x] Telegram-aware offsets в Toaster
+- [x] Tinkoff Payment Integration
+- [x] Edge functions (tinkoff-create-payment, tinkoff-webhook)
+- [x] Frontend service and hook
+- [x] Referral program with leaderboard
+- [x] Credit packages with discounts
 
-#### 1.5 Снижение Bounce Rate — 📋 PLANNED
-- [ ] Показывать популярные треки без авторизации
-- [ ] Упростить путь до первой генерации (2 клика)
-- [ ] CTA "Попробовать бесплатно"
-- [ ] Персонализированные рекомендации
+### Phase 3: Telegram Integration ✅ COMPLETE
 
-#### 1.4 Социальная активность — 📋 PLANNED
-- [ ] CTA "Оставить первый комментарий"
-- [ ] Предложение создать плейлист после 3 лайков
-- [ ] Push-уведомления о новых треках
+- [x] Mini App SDK 2.0
+- [x] Deep linking support
+- [x] Bot notifications
+- [x] Inline mode
 
-### Priority 2: Монетизация (Week 2-3)
-- [ ] Tinkoff Payment
-- [ ] Показывать остаток кредитов при генерации
-- [ ] Реферальная программа
+### Phase 4: Retention & Engagement ✅ COMPLETE
 
-### Priority 3: Mobile-first (Week 3-4)
-- [ ] Touch targets 48-56px
-- [ ] Telegram Stories
-- [ ] Voice message generation
+- [x] Streak system (StreakBadge, StreakCalendar)
+- [x] Daily check-in with progressive bonuses
+- [x] Push notifications via Telegram Bot
+- [x] Notification settings UI
 
-### Priority 4: Quality (Week 4-5)
-- [ ] Мониторинг и алертинг
-- [ ] Bundle optimization
+### Phase 5: Performance Optimization 📋 PLANNED
+
+- [ ] Vendor bundle optimization (<150 KB)
 - [ ] Service Worker
+- [ ] Image optimization (WebP, srcset)
 
-### Priority 5: New Features (Week 5+)
-- [ ] Collaborative features
-- [ ] Export integrations
+### Phase 6: Specs Implementation 📋 PLANNED
 
----
-
-## ✅ UI/UX Roadmap V3 (Завершён)
-
-**Completed**: 2026-01-19 (100%)
-
-### Phase 1: Failure Rate Reduction ✅
-- [x] PromptValidationAlert в GenerateFormSimple
-- [x] PromptValidationAlert в StyleSection
-- [x] CreditBalanceWarning в GenerateSheet
-- [x] artistReplacements.ts library
-
-### Phase 2: Engagement Increase ✅
-- [x] QuickLikeButton в GridVariant
-- [x] One-tap like functionality
-
-### Phase 3: Performance ✅
-- [x] TrackCardSkeleton (grid, list, compact variants)
-- [x] ContentSkeleton (hero, stats, header, horizontal variants)
-
-### Phase 4: UX Enhancements ✅
-- [x] StatusFilter в CompactFilterBar
-- [x] StatusFilter в LibraryFilterModal
-- [x] Draft saving (already implemented via useGenerateDraft)
-
-### Files Created
-```
-src/lib/artistReplacements.ts
-src/components/track/TrackCardSkeleton.tsx
-src/components/ui/ContentSkeleton.tsx
-src/components/gamification/UnifiedRewardNotification.tsx
-src/hooks/useRewardNotification.ts
-src/contexts/RewardNotificationContext.tsx
-```
-
-### Files Modified
-```
-src/components/GenerateSheet.tsx
-src/components/generate-form/GenerateFormSimple.tsx
-src/components/generate-form/sections/StyleSection.tsx
-src/components/track/track-card-new/variants/GridVariant.tsx
-src/components/library/CompactFilterBar.tsx
-src/components/library/LibraryFilterModal.tsx
-src/pages/Library.tsx
-src/components/ConfirmationDialog.tsx
-src/components/dialog/variants/alert.tsx
-src/components/gamification/DailyCheckin.tsx
-src/components/gamification/GamificationBar.tsx
-src/contexts/GamificationContext.tsx
-src/App.tsx
-```
-
-### Files Deleted (Deprecated)
-```
-src/components/gamification/LevelUpNotification.tsx
-src/components/gamification/AchievementUnlockNotification.tsx
-src/components/gamification/RewardCelebration.tsx
-src/components/ui/responsive-modal.tsx
-```
-
-### Files Modified (ResponsiveModal Migration)
-```
-src/components/playlist/CreatePlaylistDialog.tsx
-src/components/library/LibraryFilterModal.tsx
-src/components/beta/ComingSoonModal.tsx
-src/components/artist/CreateArtistFromTrackDialog.tsx
-src/components/dialog/variants/sheet.tsx
-src/components/dialog/variants/modal.tsx
-src/components/dialog/unified-dialog.types.ts
-```
+- [ ] Spec 032: Professional UI
+- [ ] Spec 031: Mobile Studio V2
 
 ---
 
-## ✅ Sprint 012: Audit Improvements (Завершён)
+## ✅ Completed Sprints Archive
 
-**Completed**: 2026-01-16 (100%)
+All sprints 001-032 are completed and archived in `SPRINTS/completed/`.
 
-### Completed Tasks
-- [x] safe_public_profiles view
-- [x] DELETE RLS policy for generation_tasks
-- [x] XP rewards boost (100-200%)
-- [x] Daily missions simplified
-- [x] InviteFriendsCard component
-- [x] LevelProgressCard component
-- [x] NotificationSettingsSection
+### Key Milestones
 
----
-
-## ✅ Sprint 030: Unified Studio Mobile (Закрыт)
-
-**Status**: ✅ ЗАКРЫТ (65% complete - Core objectives achieved)
-**Closed**: January 5, 2026
-
-### Completed
-- Core infrastructure and specification
-- Library optimization (DurationBadge, PlayOverlay, TrackBadges)
-- Accessibility baseline (20+ aria-labels)
-- InlineVersionToggle optimization
-- Generation form UI polish
-
-### Deferred to Backlog
-- DAW Timeline Integration
-- Full Store Unification
-- Advanced Touch Gestures
-- E2E Testing Suite
+| Date | Milestone |
+|------|-----------|
+| Dec 2025 | Core platform launch |
+| Jan 2026 | Tinkoff payment integration |
+| Jan 2026 | Referral program |
+| Jan 2026 | Streak system |
+| Jan 2026 | UI/UX unification |
 
 ---
 
@@ -195,20 +82,19 @@ src/components/dialog/unified-dialog.types.ts
 
 | Метрика | Текущее | Цель |
 |---------|---------|------|
-| Bounce Rate | 72% | <50% |
-| Generation Failure | 16% | <8% |
-| Лайки/неделя | 14 | 100+ |
-| Mobile users | 29% | 40%+ |
-| Session Duration | 4.3 min | 6+ min |
+| Users | 199 | 500+ |
+| Tracks | 1,800+ | 5,000+ |
+| Success Rate | ~86% | >92% |
+| DAU | ~15 | 50+ |
 
 ---
 
 ## 📚 Документация
 
 - [PROJECT_STATUS.md](../PROJECT_STATUS.md) — Статус проекта
-- [docs/ROADMAP_V4.md](../docs/ROADMAP_V4.md) — Текущий роадмап
+- [ROADMAP.md](../ROADMAP.md) — Дорожная карта
 - [KNOWLEDGE_BASE.md](../KNOWLEDGE_BASE.md) — База знаний
 
 ---
 
-*Обновляется после каждого изменения*
+*Обновлено: 2026-01-21*

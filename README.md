@@ -34,10 +34,10 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Sprint-Roadmap_V4-blue?style=flat-square" alt="Current Sprint" />
+  <img src="https://img.shields.io/badge/Status-Production_Ready-success?style=flat-square" alt="Production Ready" />
   <img src="https://img.shields.io/badge/Progress-99%25-success?style=flat-square" alt="Progress" />
-  <img src="https://img.shields.io/badge/Health_Score-99%2F100-brightgreen?style=flat-square" alt="Health" />
-  <img src="https://img.shields.io/badge/Components-165+-orange?style=flat-square" alt="Components" />
+  <img src="https://img.shields.io/badge/Users-199+-blue?style=flat-square" alt="Users" />
+  <img src="https://img.shields.io/badge/Tracks-1800+-orange?style=flat-square" alt="Tracks" />
 </p>
 
 </div>
@@ -81,18 +81,18 @@
 
 ## 📍 Быстрая навигация
 
-> 🎯 **Текущий статус:** Roadmap V4 - 🟢 Active (Priority 1)
+> 🎯 **Статус:** Production Ready (99% complete)
 > 
 > 📊 **Статус проекта:** [PROJECT_STATUS.md](PROJECT_STATUS.md)
 >
 > 🗺️ **Планы развития:**
-> - [docs/ROADMAP_V4.md](docs/ROADMAP_V4.md) - Текущий роадмап
-> - [SPRINTS/SPRINT-PROGRESS.md](SPRINTS/SPRINT-PROGRESS.md) - Прогресс спринтов
+> - [ROADMAP.md](ROADMAP.md) — Дорожная карта
+> - [SPRINTS/SPRINT-PROGRESS.md](SPRINTS/SPRINT-PROGRESS.md) — Прогресс спринтов
 >
 > 📚 **Ключевая документация:**
-> - [KNOWLEDGE_BASE.md](KNOWLEDGE_BASE.md) - База знаний проекта
-> - [ADR/](ADR/) - Архитектурные решения
-> - [specs/](specs/) - Технические спецификации
+> - [KNOWLEDGE_BASE.md](KNOWLEDGE_BASE.md) — База знаний проекта
+> - [ADR/](ADR/) — Архитектурные решения
+> - [specs/](specs/) — Технические спецификации
 
 ---
 
