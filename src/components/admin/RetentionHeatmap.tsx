@@ -96,11 +96,11 @@ function AverageCard({ label, value, trend = 'neutral' }: AverageCardProps) {
   const trendColor = trend === 'up' ? 'text-green-500' : trend === 'down' ? 'text-red-500' : 'text-muted-foreground';
   
   return (
-    <div className="flex flex-col items-center p-2 bg-muted/30 rounded-lg">
-      <span className="text-xs text-muted-foreground">{label}</span>
-      <div className="flex items-center gap-1">
-        <span className="text-lg font-bold">{value}%</span>
-        <TrendIcon className={cn('w-3 h-3', trendColor)} />
+    <div className="flex flex-col items-center p-1.5 sm:p-2 bg-muted/30 rounded-lg">
+      <span className="text-[10px] sm:text-xs text-muted-foreground">{label}</span>
+      <div className="flex items-center gap-0.5 sm:gap-1">
+        <span className="text-sm sm:text-lg font-bold">{value}%</span>
+        <TrendIcon className={cn('w-2.5 h-2.5 sm:w-3 sm:h-3', trendColor)} />
       </div>
     </div>
   );
@@ -144,23 +144,23 @@ export function RetentionHeatmap() {
 
   return (
     <Card>
-      <CardHeader className="pb-3">
-        <div className="flex items-start justify-between gap-4 flex-wrap">
+      <CardHeader className="pb-3 px-3 pt-3 sm:px-6 sm:pt-6">
+        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2 sm:gap-4">
           <div>
-            <CardTitle className="flex items-center gap-2 text-base">
+            <CardTitle className="flex items-center gap-2 text-sm sm:text-base">
               <Users className="h-4 w-4" />
               Retention по когортам
             </CardTitle>
-            <CardDescription className="text-xs mt-1">
+            <CardDescription className="text-[10px] sm:text-xs mt-1 hidden sm:block">
               Удержание пользователей по дате регистрации
             </CardDescription>
           </div>
           <Select value={timeRange} onValueChange={(v) => setTimeRange(v as TimeRange)}>
-            <SelectTrigger className="w-[120px] h-8 text-xs">
+            <SelectTrigger className="w-[100px] sm:w-[120px] h-7 sm:h-8 text-xs">
               <Calendar className="w-3 h-3 mr-1" />
               <SelectValue />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="z-50 bg-popover">
               {TIME_RANGE_OPTIONS.map(option => (
                 <SelectItem key={option.value} value={option.value} className="text-xs">
                   {option.label}
@@ -171,21 +171,21 @@ export function RetentionHeatmap() {
         </div>
       </CardHeader>
       
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-3 sm:space-y-4 px-3 pb-3 sm:px-6 sm:pb-6">
         {/* Average Stats */}
         {averages && (
-          <div className="grid grid-cols-4 gap-2">
-            <AverageCard label="D1 avg" value={averages.d1} trend={averages.d1 >= 30 ? 'up' : 'down'} />
-            <AverageCard label="D7 avg" value={averages.d7} trend={averages.d7 >= 20 ? 'up' : 'down'} />
-            <AverageCard label="D14 avg" value={averages.d14} trend={averages.d14 >= 15 ? 'up' : 'down'} />
-            <AverageCard label="D30 avg" value={averages.d30} trend={averages.d30 >= 10 ? 'up' : 'down'} />
+          <div className="grid grid-cols-4 gap-1.5 sm:gap-2">
+            <AverageCard label="D1" value={averages.d1} trend={averages.d1 >= 30 ? 'up' : 'down'} />
+            <AverageCard label="D7" value={averages.d7} trend={averages.d7 >= 20 ? 'up' : 'down'} />
+            <AverageCard label="D14" value={averages.d14} trend={averages.d14 >= 15 ? 'up' : 'down'} />
+            <AverageCard label="D30" value={averages.d30} trend={averages.d30 >= 10 ? 'up' : 'down'} />
           </div>
         )}
 
         {/* Summary Badge */}
-        <div className="flex items-center gap-2 text-xs text-muted-foreground">
-          <Badge variant="secondary" className="text-xs">
-            {totalUsers} новых пользователей
+        <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs text-muted-foreground flex-wrap">
+          <Badge variant="secondary" className="text-[10px] sm:text-xs h-5">
+            {totalUsers} пользователей
           </Badge>
           <span>за {TIME_RANGE_OPTIONS.find(o => o.value === timeRange)?.label}</span>
         </div>
@@ -270,27 +270,27 @@ export function RetentionHeatmap() {
           </div>
         )}
 
-        {/* Legend */}
-        <div className="flex items-center gap-2 flex-wrap text-xs text-muted-foreground pt-2 border-t">
+        {/* Legend - hidden on mobile, simplified */}
+        <div className="hidden sm:flex items-center gap-2 flex-wrap text-xs text-muted-foreground pt-2 border-t">
           <span>Шкала:</span>
           <div className="flex items-center gap-1">
-            <div className="w-4 h-4 rounded bg-red-400/50" />
+            <div className="w-3 h-3 rounded bg-red-400/50" />
             <span>&lt;10%</span>
           </div>
           <div className="flex items-center gap-1">
-            <div className="w-4 h-4 rounded bg-orange-400/60" />
+            <div className="w-3 h-3 rounded bg-orange-400/60" />
             <span>10-20%</span>
           </div>
           <div className="flex items-center gap-1">
-            <div className="w-4 h-4 rounded bg-yellow-400/60" />
+            <div className="w-3 h-3 rounded bg-yellow-400/60" />
             <span>20-30%</span>
           </div>
           <div className="flex items-center gap-1">
-            <div className="w-4 h-4 rounded bg-green-400/60" />
+            <div className="w-3 h-3 rounded bg-green-400/60" />
             <span>30-50%</span>
           </div>
           <div className="flex items-center gap-1">
-            <div className="w-4 h-4 rounded bg-green-500/80" />
+            <div className="w-3 h-3 rounded bg-green-500/80" />
             <span>&gt;50%</span>
           </div>
         </div>
