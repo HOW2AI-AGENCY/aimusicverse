@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -16,14 +16,7 @@ import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { useHapticFeedback } from '@/lib/mobile-utils';
 import { logger } from '@/lib/logger';
-
-interface Playlist {
-  id: string;
-  name: string;
-  description?: string;
-  track_count?: number;
-  cover_url?: string;
-}
+import { usePlaylists } from '@/hooks/usePlaylists';
 
 interface AddToPlaylistDialogProps {
   open: boolean;
@@ -34,39 +27,47 @@ interface AddToPlaylistDialogProps {
 export function AddToPlaylistDialog({ open, onOpenChange, track }: AddToPlaylistDialogProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedPlaylistId, setSelectedPlaylistId] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
   const [creatingNew, setCreatingNew] = useState(false);
   const [newPlaylistName, setNewPlaylistName] = useState('');
   
   const triggerSuccessHaptic = useHapticFeedback('success');
   const triggerSelectionHaptic = useHapticFeedback('selection');
 
-  // Playlists feature coming soon - tables not yet created
-  const playlists: Playlist[] = [];
-  const playlistsLoading = false;
+  // Real playlists data from Supabase
+  const { 
+    playlists, 
+    isLoading: playlistsLoading, 
+    createPlaylist, 
+    addTrackToPlaylist,
+    isCreating,
+    isAdding,
+  } = usePlaylists();
+
+  const loading = isCreating || isAdding;
 
   // Filter playlists by search query
   const filteredPlaylists = playlists.filter(playlist =>
-    playlist.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    playlist.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     playlist.description?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const handleAddToPlaylist = async () => {
+  const handleAddToPlaylist = useCallback(async () => {
     if (!selectedPlaylistId) {
-      toast.error('Please select a playlist');
+      toast.error('Выберите плейлист');
       return;
     }
 
-    setLoading(true);
-
     try {
       triggerSelectionHaptic();
-      // Playlists feature coming soon
-      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      await addTrackToPlaylist({ 
+        playlistId: selectedPlaylistId, 
+        trackId: track.id 
+      });
 
       const playlist = playlists.find(p => p.id === selectedPlaylistId);
       triggerSuccessHaptic();
-      toast.success(`Added to "${playlist?.name}"`);
+      // Toast is already shown by the hook
       onOpenChange(false);
       
       // Reset selection
@@ -74,27 +75,33 @@ export function AddToPlaylistDialog({ open, onOpenChange, track }: AddToPlaylist
       setSearchQuery('');
     } catch (error) {
       logger.error('Failed to add track to playlist', error);
-      toast.error('Failed to add track. Please try again.');
-    } finally {
-      setLoading(false);
+      // Error toast is already shown by the hook
     }
-  };
+  }, [selectedPlaylistId, track.id, playlists, addTrackToPlaylist, triggerSelectionHaptic, triggerSuccessHaptic, onOpenChange]);
 
-  const handleCreateNewPlaylist = async () => {
+  const handleCreateNewPlaylist = useCallback(async () => {
     if (!newPlaylistName.trim()) {
-      toast.error('Please enter a playlist name');
+      toast.error('Введите название плейлиста');
       return;
     }
 
-    setLoading(true);
-
     try {
       triggerSelectionHaptic();
-      // Playlists feature coming soon
-      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      // Create playlist and add track in one flow
+      const newPlaylist = await createPlaylist({
+        title: newPlaylistName.trim(),
+        is_public: false,
+      });
+      
+      // Add track to the newly created playlist
+      await addTrackToPlaylist({
+        playlistId: newPlaylist.id,
+        trackId: track.id,
+      });
 
       triggerSuccessHaptic();
-      toast.success(`Playlist "${newPlaylistName}" created and track added`);
+      toast.success(`Плейлист "${newPlaylistName}" создан и трек добавлен`);
       onOpenChange(false);
       
       // Reset form
@@ -103,13 +110,11 @@ export function AddToPlaylistDialog({ open, onOpenChange, track }: AddToPlaylist
       setSearchQuery('');
     } catch (error) {
       logger.error('Failed to create playlist', error);
-      toast.error('Failed to create playlist. Please try again.');
-    } finally {
-      setLoading(false);
+      // Error toast is already shown by the hook
     }
-  };
+  }, [newPlaylistName, track.id, createPlaylist, addTrackToPlaylist, triggerSelectionHaptic, triggerSuccessHaptic, onOpenChange]);
 
-  const handleOpenChange = (open: boolean) => {
+  const handleOpenChange = useCallback((open: boolean) => {
     if (!loading) {
       onOpenChange(open);
       if (!open) {
@@ -119,7 +124,7 @@ export function AddToPlaylistDialog({ open, onOpenChange, track }: AddToPlaylist
         setSelectedPlaylistId(null);
       }
     }
-  };
+  }, [loading, onOpenChange]);
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
@@ -127,10 +132,10 @@ export function AddToPlaylistDialog({ open, onOpenChange, track }: AddToPlaylist
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <ListMusic className="h-5 w-5 text-primary" />
-            Add to Playlist
+            Добавить в плейлист
           </DialogTitle>
           <DialogDescription>
-            Add "{track.title}" to a playlist
+            Добавить «{track.title}» в плейлист
           </DialogDescription>
         </DialogHeader>
 
@@ -141,7 +146,7 @@ export function AddToPlaylistDialog({ open, onOpenChange, track }: AddToPlaylist
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
-                  placeholder="Search playlists..."
+                  placeholder="Поиск плейлистов..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="pl-9"
@@ -175,7 +180,7 @@ export function AddToPlaylistDialog({ open, onOpenChange, track }: AddToPlaylist
                           {playlist.cover_url ? (
                             <img 
                               src={playlist.cover_url} 
-                              alt={playlist.name}
+                              alt={playlist.title}
                               className="w-full h-full object-cover rounded"
                             />
                           ) : (
@@ -183,10 +188,11 @@ export function AddToPlaylistDialog({ open, onOpenChange, track }: AddToPlaylist
                           )}
                         </div>
                         <div className="flex-1 text-left min-w-0">
-                          <p className="font-medium truncate">{playlist.name}</p>
-                          {playlist.track_count !== undefined && (
+                          <p className="font-medium truncate">{playlist.title}</p>
+                          {playlist.track_count !== undefined && playlist.track_count !== null && (
                             <p className="text-xs text-muted-foreground">
-                              {playlist.track_count} tracks
+                              {playlist.track_count} {playlist.track_count === 1 ? 'трек' : 
+                                playlist.track_count < 5 ? 'трека' : 'треков'}
                             </p>
                           )}
                         </div>
@@ -200,7 +206,7 @@ export function AddToPlaylistDialog({ open, onOpenChange, track }: AddToPlaylist
                   <div className="flex flex-col items-center justify-center h-full p-8 text-center">
                     <ListMusic className="h-12 w-12 text-muted-foreground mb-4" />
                     <p className="text-sm text-muted-foreground mb-2">
-                      {searchQuery ? 'No playlists found' : 'No playlists yet'}
+                      {searchQuery ? 'Плейлисты не найдены' : 'У вас пока нет плейлистов'}
                     </p>
                     <Button
                       variant="outline"
@@ -209,7 +215,7 @@ export function AddToPlaylistDialog({ open, onOpenChange, track }: AddToPlaylist
                       className="gap-2"
                     >
                       <Plus className="h-4 w-4" />
-                      Create New Playlist
+                      Создать плейлист
                     </Button>
                   </div>
                 )}
@@ -224,7 +230,7 @@ export function AddToPlaylistDialog({ open, onOpenChange, track }: AddToPlaylist
                   disabled={loading}
                 >
                   <Plus className="h-4 w-4" />
-                  Create New Playlist
+                  Создать новый плейлист
                 </Button>
               )}
             </>
@@ -234,7 +240,7 @@ export function AddToPlaylistDialog({ open, onOpenChange, track }: AddToPlaylist
               <div className="space-y-4">
                 <div>
                   <Input
-                    placeholder="Playlist name"
+                    placeholder="Название плейлиста"
                     value={newPlaylistName}
                     onChange={(e) => setNewPlaylistName(e.target.value)}
                     disabled={loading}
@@ -248,7 +254,7 @@ export function AddToPlaylistDialog({ open, onOpenChange, track }: AddToPlaylist
                   className="w-full"
                   disabled={loading}
                 >
-                  Back to Playlists
+                  Назад к плейлистам
                 </Button>
               </div>
             </>
@@ -261,7 +267,7 @@ export function AddToPlaylistDialog({ open, onOpenChange, track }: AddToPlaylist
             onClick={() => handleOpenChange(false)}
             disabled={loading}
           >
-            Cancel
+            Отмена
           </Button>
           <Button
             onClick={creatingNew ? handleCreateNewPlaylist : handleAddToPlaylist}
@@ -271,12 +277,12 @@ export function AddToPlaylistDialog({ open, onOpenChange, track }: AddToPlaylist
             {loading ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin" />
-                {creatingNew ? 'Creating...' : 'Adding...'}
+                {creatingNew ? 'Создание...' : 'Добавление...'}
               </>
             ) : (
               <>
                 <Check className="h-4 w-4" />
-                {creatingNew ? 'Create & Add' : 'Add to Playlist'}
+                {creatingNew ? 'Создать и добавить' : 'Добавить'}
               </>
             )}
           </Button>
