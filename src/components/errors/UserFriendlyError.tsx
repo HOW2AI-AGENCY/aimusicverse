@@ -5,11 +5,12 @@
  * Displays errors in a user-friendly format with actionable next steps
  */
 
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
-import { AlertTriangle, RefreshCw, X, Info, ExternalLink } from 'lucide-react';
+import { AlertTriangle, RefreshCw, X, Info, ExternalLink, Lightbulb, ChevronDown, MessageCircle, HelpCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { useNavigate } from 'react-router-dom';
 import type { UserFriendlyError } from '@/lib/suno-error-mapper';
 
 interface UserFriendlyErrorProps {
@@ -45,10 +46,20 @@ export const UserFriendlyErrorDisplay = memo(function UserFriendlyErrorDisplay({
     onDismiss?.();
   }, [onDismiss]);
 
+  const navigate = useNavigate();
+  const [showExamples, setShowExamples] = useState(false);
+
   const handleContactSupport = useCallback(() => {
-    // Open support chat or email
-    window.location.href = 'mailto:support@musicverse.ai?subject=Generation Error';
+    // Open Telegram support or email
+    const telegramSupport = 'https://t.me/musicverse_support';
+    window.open(telegramSupport, '_blank');
   }, []);
+
+  const handleFaqClick = useCallback(() => {
+    if (error.faqLink) {
+      navigate(error.faqLink);
+    }
+  }, [error.faqLink, navigate]);
 
   return (
     <AnimatePresence>
@@ -79,9 +90,41 @@ export const UserFriendlyErrorDisplay = memo(function UserFriendlyErrorDisplay({
             </h3>
 
             {/* Message */}
-            <p className="text-sm text-red-700 dark:text-red-300 mb-3">
+            <p className="text-sm text-red-700 dark:text-red-300 mb-2">
               {error.message}
             </p>
+
+            {/* Hint */}
+            {error.hint && (
+              <div className="flex items-start gap-2 p-2 mb-3 rounded-md bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/50">
+                <Lightbulb className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+                <p className="text-xs text-amber-800 dark:text-amber-200">
+                  {error.hint}
+                </p>
+              </div>
+            )}
+
+            {/* Examples (for content policy errors) */}
+            {error.examples && error.examples.length > 0 && (
+              <div className="mb-3">
+                <button
+                  onClick={() => setShowExamples(!showExamples)}
+                  className="flex items-center gap-1.5 text-xs text-red-600 dark:text-red-400 hover:underline"
+                >
+                  <ChevronDown className={cn("w-3.5 h-3.5 transition-transform", showExamples && "rotate-180")} />
+                  {showExamples ? 'Скрыть примеры' : 'Показать примеры исправления'}
+                </button>
+                {showExamples && (
+                  <ul className="mt-2 space-y-1 pl-4">
+                    {error.examples.map((example, idx) => (
+                      <li key={idx} className="text-xs text-red-700 dark:text-red-300 list-disc">
+                        {example}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            )}
 
             {/* Actions */}
             <div className="flex flex-wrap gap-2">
@@ -97,6 +140,18 @@ export const UserFriendlyErrorDisplay = memo(function UserFriendlyErrorDisplay({
                 </Button>
               )}
 
+              {error.faqLink && (
+                <Button
+                  onClick={handleFaqClick}
+                  size="sm"
+                  variant="ghost"
+                  className="h-8 gap-1.5 text-xs text-red-700 hover:bg-red-100 dark:text-red-300 dark:hover:bg-red-900/30"
+                >
+                  <HelpCircle className="w-3.5 h-3.5" />
+                  Подробнее
+                </Button>
+              )}
+
               {!error.retryable && (
                 <Button
                   onClick={handleContactSupport}
@@ -104,8 +159,8 @@ export const UserFriendlyErrorDisplay = memo(function UserFriendlyErrorDisplay({
                   variant="ghost"
                   className="h-8 gap-1.5 text-xs text-red-700 hover:bg-red-100 dark:text-red-300 dark:hover:bg-red-900/30"
                 >
-                  <ExternalLink className="w-3.5 h-3.5" />
-                  Связаться с поддержкой
+                  <MessageCircle className="w-3.5 h-3.5" />
+                  Написать в поддержку
                 </Button>
               )}
 
@@ -170,6 +225,12 @@ export const ErrorToast = memo(function ErrorToast({
         <p className="text-sm text-red-700 dark:text-red-300 mt-0.5">
           {error.message}
         </p>
+        {error.hint && (
+          <p className="text-xs text-amber-700 dark:text-amber-300 mt-1.5 flex items-start gap-1.5">
+            <Lightbulb className="w-3.5 h-3.5 shrink-0 mt-0.5" />
+            {error.hint}
+          </p>
+        )}
         {error.retryable && onRetry && (
           <button
             onClick={onRetry}
