@@ -6133,6 +6133,21 @@ export type Database = {
           username: string
         }[]
       }
+      get_retention_cohorts: {
+        Args: { end_date?: string; start_date?: string }
+        Returns: {
+          cohort_date: string
+          cohort_size: number
+          d1_rate: number
+          d1_retained: number
+          d14_rate: number
+          d14_retained: number
+          d30_rate: number
+          d30_retained: number
+          d7_rate: number
+          d7_retained: number
+        }[]
+      }
       get_safe_public_profile: {
         Args: { profile_user_id: string }
         Returns: {
