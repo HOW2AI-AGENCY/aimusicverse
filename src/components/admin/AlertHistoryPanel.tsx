@@ -56,38 +56,38 @@ export function AlertHistoryPanel() {
 
   return (
     <div className="space-y-4">
-      {/* Stats Cards */}
-      <div className="grid grid-cols-3 gap-4">
+      {/* Stats Cards - Mobile optimized grid */}
+      <div className="grid grid-cols-3 gap-2 sm:gap-4">
         <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="text-2xl font-bold">{stats?.alerts24h || 0}</div>
-                <div className="text-xs text-muted-foreground">Алертов за 24ч</div>
+          <CardContent className="p-2 sm:p-4">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+              <div className="min-w-0">
+                <div className="text-xl sm:text-2xl font-bold">{stats?.alerts24h || 0}</div>
+                <div className="text-[10px] sm:text-xs text-muted-foreground truncate">За 24ч</div>
               </div>
-              <Bell className="h-8 w-8 text-muted-foreground/30" />
+              <Bell className="hidden sm:block h-8 w-8 text-muted-foreground/30" />
             </div>
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="text-2xl font-bold">{stats?.alertsWeek || 0}</div>
-                <div className="text-xs text-muted-foreground">Алертов за неделю</div>
+          <CardContent className="p-2 sm:p-4">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+              <div className="min-w-0">
+                <div className="text-xl sm:text-2xl font-bold">{stats?.alertsWeek || 0}</div>
+                <div className="text-[10px] sm:text-xs text-muted-foreground truncate">За неделю</div>
               </div>
-              <History className="h-8 w-8 text-muted-foreground/30" />
+              <History className="hidden sm:block h-8 w-8 text-muted-foreground/30" />
             </div>
           </CardContent>
         </Card>
         <Card className={stats?.unresolved ? 'border-red-500/50' : ''}>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="text-2xl font-bold">{stats?.unresolved || 0}</div>
-                <div className="text-xs text-muted-foreground">Нерешённых</div>
+          <CardContent className="p-2 sm:p-4">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+              <div className="min-w-0">
+                <div className="text-xl sm:text-2xl font-bold">{stats?.unresolved || 0}</div>
+                <div className="text-[10px] sm:text-xs text-muted-foreground truncate">Нерешённых</div>
               </div>
-              <AlertOctagon className={`h-8 w-8 ${stats?.unresolved ? 'text-red-500' : 'text-muted-foreground/30'}`} />
+              <AlertOctagon className={`hidden sm:block h-8 w-8 ${stats?.unresolved ? 'text-red-500' : 'text-muted-foreground/30'}`} />
             </div>
           </CardContent>
         </Card>
@@ -114,8 +114,8 @@ export function AlertHistoryPanel() {
               Нет алертов
             </div>
           ) : (
-            <ScrollArea className="h-[400px]">
-              <div className="space-y-3">
+            <ScrollArea className="h-[300px] sm:h-[400px]">
+              <div className="space-y-2 sm:space-y-3">
                 {alerts.map((alert) => {
                   const config = statusConfig[alert.overall_status as keyof typeof statusConfig] || statusConfig.healthy;
                   const StatusIcon = config.icon;
@@ -124,56 +124,56 @@ export function AlertHistoryPanel() {
                   return (
                     <div
                       key={alert.id}
-                      className={`p-3 rounded-lg border ${config.bg} ${isResolved ? 'opacity-60' : ''}`}
+                      className={`p-2 sm:p-3 rounded-lg border ${config.bg} ${isResolved ? 'opacity-60' : ''}`}
                     >
-                      <div className="flex items-start justify-between gap-3">
-                        <div className="flex items-start gap-3">
-                          <StatusIcon className={`h-5 w-5 mt-0.5 ${config.color}`} />
-                          <div className="space-y-1">
-                            <div className="flex items-center gap-2">
-                              <span className="font-medium">
+                      <div className="flex items-start justify-between gap-2 sm:gap-3">
+                        <div className="flex items-start gap-2 sm:gap-3 min-w-0 flex-1">
+                          <StatusIcon className={`h-4 w-4 sm:h-5 sm:w-5 mt-0.5 flex-shrink-0 ${config.color}`} />
+                          <div className="space-y-1 min-w-0">
+                            <div className="flex flex-wrap items-center gap-1 sm:gap-2">
+                              <span className="font-medium text-sm sm:text-base">
                                 {config.label}
                               </span>
                               {alert.is_test && (
-                                <Badge variant="outline" className="text-xs">
-                                  <TestTube className="h-3 w-3 mr-1" />
+                                <Badge variant="outline" className="text-[10px] sm:text-xs px-1 sm:px-2">
+                                  <TestTube className="h-2.5 w-2.5 sm:h-3 sm:w-3 mr-0.5 sm:mr-1" />
                                   Test
                                 </Badge>
                               )}
-                              <Badge variant="secondary" className="text-xs">
+                              <Badge variant="secondary" className="text-[10px] sm:text-xs px-1 sm:px-2">
                                 {alert.alert_type}
                               </Badge>
                               {isResolved && (
-                                <Badge variant="default" className="text-xs bg-green-500">
-                                  <CheckCircle2 className="h-3 w-3 mr-1" />
-                                  Resolved
+                                <Badge variant="default" className="text-[10px] sm:text-xs px-1 sm:px-2 bg-green-500">
+                                  <CheckCircle2 className="h-2.5 w-2.5 sm:h-3 sm:w-3 mr-0.5 sm:mr-1" />
+                                  OK
                                 </Badge>
                               )}
                             </div>
                             
                             {(alert.unhealthy_services?.length ?? 0) > 0 && (
-                              <div className="text-sm text-red-500">
+                              <div className="text-xs sm:text-sm text-red-500 truncate">
                                 ❌ {alert.unhealthy_services?.join(', ')}
                               </div>
                             )}
                             {(alert.degraded_services?.length ?? 0) > 0 && (
-                              <div className="text-sm text-yellow-500">
+                              <div className="text-xs sm:text-sm text-yellow-500 truncate">
                                 ⚠️ {alert.degraded_services?.join(', ')}
                               </div>
                             )}
                             
-                            <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                            <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-[10px] sm:text-xs text-muted-foreground">
                               <span className="flex items-center gap-1">
-                                <Clock className="h-3 w-3" />
+                                <Clock className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
                                 {formatDistanceToNow(new Date(alert.created_at), { addSuffix: true, locale: ru })}
                               </span>
-                              <span>
+                              <span className="hidden sm:inline">
                                 📨 {alert.recipients_count} получателей
                               </span>
                             </div>
                             
                             {alert.resolution_note && (
-                              <div className="text-xs text-green-600 mt-1">
+                              <div className="text-[10px] sm:text-xs text-green-600 mt-1 truncate">
                                 ✅ {alert.resolution_note}
                               </div>
                             )}
@@ -188,8 +188,10 @@ export function AlertHistoryPanel() {
                               setSelectedAlertId(alert.id);
                               setResolveDialogOpen(true);
                             }}
+                            className="flex-shrink-0 h-7 sm:h-8 px-2 sm:px-3 text-xs"
                           >
-                            Решён
+                            <span className="hidden sm:inline">Решён</span>
+                            <CheckCircle2 className="h-3 w-3 sm:hidden" />
                           </Button>
                         )}
                       </div>
