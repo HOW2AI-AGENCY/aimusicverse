@@ -26,7 +26,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { Skeleton } from "@/components/ui/skeleton";
 import { HeroSkeleton } from "@/components/ui/skeletons/TrackListSkeleton";
 import { preloadImages } from "@/lib/imageOptimization";
-import { Clock, Users, Music2 } from "lucide-react";
+import { Clock } from "lucide-react";
 import { logger } from "@/lib/logger";
 
 // Core home components
@@ -37,10 +37,6 @@ import { BotContextBanner } from "@/components/home/BotContextBanner";
 import { TracksGridSection } from "@/components/home/TracksGridSection";
 import { FirstTimeHeroCard } from "@/components/home/FirstTimeHeroCard";
 import { NewUserProgress } from "@/components/home/NewUserProgress";
-import { CollapsibleSection } from "@/components/home/CollapsibleSection";
-import { GenreTabsSection } from "@/components/home/GenreTabsSection";
-import { PopularCreatorsSection } from "@/components/home/PopularCreatorsSection";
-import { InviteFriendsCard } from "@/components/gamification/InviteFriendsCard";
 import { ContinueDraftCard } from "@/components/home/ContinueDraftCard";
 
 // Sprint 32: Engagement components
@@ -376,47 +372,6 @@ const Index = () => {
           </motion.div>
         </LazySection>
 
-        {/* Genre Tabs */}
-        {(publicContent?.tracksByGenre && Object.keys(publicContent.tracksByGenre).length > 0) && (
-          <LazySection className="mb-4" minHeight="200px" skipSuspense>
-            <motion.div {...lazySectionAnimation}>
-              <CollapsibleSection
-                storageKey="home-genre-tabs"
-                title="По жанрам"
-                icon={<Music2 className="w-3.5 h-3.5 text-primary" />}
-                defaultCollapsed={false}
-              >
-                <GenreTabsSection
-                  tracks={publicContent.allTracks}
-                  tracksByGenre={publicContent.tracksByGenre}
-                  isLoading={showSkeleton}
-                  onRemix={handleRemix}
-                />
-              </CollapsibleSection>
-            </motion.div>
-          </LazySection>
-        )}
-
-        {/* Popular Creators - collapsible */}
-        <LazySection className="mb-4" minHeight="80px" skipSuspense>
-          <motion.div {...lazySectionAnimation}>
-            <CollapsibleSection
-              storageKey="home-creators"
-              title="Популярные авторы"
-              icon={<Users className="w-3.5 h-3.5 text-primary" />}
-              defaultCollapsed={true}
-            >
-              <PopularCreatorsSection maxCreators={6} />
-            </CollapsibleSection>
-          </motion.div>
-        </LazySection>
-
-        {/* Invite Friends Banner */}
-        {user && !isNewUser && (
-          <motion.section className="mb-4" {...lazySectionAnimation}>
-            <InviteFriendsCard variant="banner" />
-          </motion.section>
-        )}
       </div>
 
       {/* Dialogs - lazy loaded on demand */}
