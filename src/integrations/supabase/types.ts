@@ -5323,7 +5323,9 @@ export type Database = {
           notify_completed: boolean | null
           notify_daily_reminder: boolean | null
           notify_failed: boolean | null
+          notify_followers: boolean | null
           notify_likes: boolean | null
+          notify_mentions: boolean | null
           notify_progress: boolean | null
           notify_stem_ready: boolean | null
           quiet_hours_end: string | null
@@ -5343,7 +5345,9 @@ export type Database = {
           notify_completed?: boolean | null
           notify_daily_reminder?: boolean | null
           notify_failed?: boolean | null
+          notify_followers?: boolean | null
           notify_likes?: boolean | null
+          notify_mentions?: boolean | null
           notify_progress?: boolean | null
           notify_stem_ready?: boolean | null
           quiet_hours_end?: string | null
@@ -5363,7 +5367,9 @@ export type Database = {
           notify_completed?: boolean | null
           notify_daily_reminder?: boolean | null
           notify_failed?: boolean | null
+          notify_followers?: boolean | null
           notify_likes?: boolean | null
+          notify_mentions?: boolean | null
           notify_progress?: boolean | null
           notify_stem_ready?: boolean | null
           quiet_hours_end?: string | null
