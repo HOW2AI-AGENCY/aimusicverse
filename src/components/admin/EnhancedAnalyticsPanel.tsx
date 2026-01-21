@@ -61,38 +61,41 @@ export function EnhancedAnalyticsPanel() {
   const { data: sourceStats } = useSourceDistribution(timeRange);
 
   return (
-    <Tabs defaultValue="overview" className="space-y-3">
-      <TabsList className="grid w-full grid-cols-5 h-9">
-        <TabsTrigger value="overview" className="gap-1.5 text-xs">
-          <BarChart3 className="w-3.5 h-3.5" />
-          Обзор
-        </TabsTrigger>
-        <TabsTrigger value="generation" className="gap-1.5 text-xs">
-          <Music className="w-3.5 h-3.5" />
-          Генерация
-        </TabsTrigger>
-        <TabsTrigger value="revenue" className="gap-1.5 text-xs">
-          <DollarSign className="w-3.5 h-3.5" />
-          Доходы
-        </TabsTrigger>
-        <TabsTrigger value="funnel" className="gap-1.5 text-xs">
-          <TrendingUp className="w-3.5 h-3.5" />
-          Воронка
-        </TabsTrigger>
-        <TabsTrigger value="retention" className="gap-1.5 text-xs">
-          <Users className="w-3.5 h-3.5" />
-          Retention
-        </TabsTrigger>
-      </TabsList>
+    <Tabs defaultValue="overview" className="space-y-2 sm:space-y-3">
+      {/* Scrollable tabs for mobile */}
+      <div className="overflow-x-auto -mx-1 px-1 pb-1">
+        <TabsList className="inline-flex w-auto min-w-full sm:grid sm:w-full sm:grid-cols-5 h-8 sm:h-9">
+          <TabsTrigger value="overview" className="gap-1 sm:gap-1.5 text-[10px] sm:text-xs px-2 sm:px-3 shrink-0">
+            <BarChart3 className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+            <span className="hidden xs:inline sm:inline">Обзор</span>
+          </TabsTrigger>
+          <TabsTrigger value="generation" className="gap-1 sm:gap-1.5 text-[10px] sm:text-xs px-2 sm:px-3 shrink-0">
+            <Music className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+            <span className="hidden xs:inline sm:inline">Генерация</span>
+          </TabsTrigger>
+          <TabsTrigger value="revenue" className="gap-1 sm:gap-1.5 text-[10px] sm:text-xs px-2 sm:px-3 shrink-0">
+            <DollarSign className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+            <span>Доходы</span>
+          </TabsTrigger>
+          <TabsTrigger value="funnel" className="gap-1 sm:gap-1.5 text-[10px] sm:text-xs px-2 sm:px-3 shrink-0">
+            <TrendingUp className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+            <span>Воронка</span>
+          </TabsTrigger>
+          <TabsTrigger value="retention" className="gap-1 sm:gap-1.5 text-[10px] sm:text-xs px-2 sm:px-3 shrink-0">
+            <Users className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+            <span className="hidden xs:inline sm:inline">Retention</span>
+          </TabsTrigger>
+        </TabsList>
+      </div>
 
-      <TabsContent value="overview" className="space-y-3">
+      <TabsContent value="overview" className="space-y-2 sm:space-y-3">
         {/* Time Range Selector */}
         <div className="flex justify-end">
           <Select value={timeRange} onValueChange={(v) => setTimeRange(v as typeof timeRange)}>
-            <SelectTrigger className="w-[120px] h-8 text-xs">
+            <SelectTrigger className="w-[100px] sm:w-[120px] h-7 sm:h-8 text-xs">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="z-50 bg-popover">
               <SelectItem value="24h">24 часа</SelectItem>
               <SelectItem value="7d">7 дней</SelectItem>
               <SelectItem value="30d">30 дней</SelectItem>

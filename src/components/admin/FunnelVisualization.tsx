@@ -60,26 +60,26 @@ function FunnelBar({ step, maxUsers, isFirst, isLast, isBiggestDropoff }: Funnel
   return (
     <div className="relative">
       {/* Step header */}
-      <div className="flex items-center justify-between mb-2">
-        <div className="flex items-center gap-2">
-          <span className="text-muted-foreground">
-            {STEP_ICONS[step.step_name] || <Users className="h-4 w-4" />}
+      <div className="flex items-center justify-between mb-1.5 sm:mb-2 gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2 min-w-0 flex-1">
+          <span className="text-muted-foreground shrink-0">
+            {STEP_ICONS[step.step_name] || <Users className="h-3.5 w-3.5 sm:h-4 sm:w-4" />}
           </span>
-          <span className="font-medium text-sm">{step.step_name}</span>
+          <span className="font-medium text-xs sm:text-sm truncate">{step.step_name}</span>
           {isBiggestDropoff && !isFirst && (
-            <Badge variant="destructive" className="text-xs">
-              <AlertTriangle className="h-3 w-3 mr-1" />
+            <Badge variant="destructive" className="text-[10px] sm:text-xs px-1 py-0 h-4 sm:h-5 shrink-0 hidden sm:flex">
+              <AlertTriangle className="h-2.5 w-2.5 sm:h-3 sm:w-3 mr-0.5 sm:mr-1" />
               Макс. отток
             </Badge>
           )}
         </div>
-        <div className="flex items-center gap-3 text-sm">
+        <div className="flex items-center gap-1.5 sm:gap-3 text-xs sm:text-sm shrink-0">
           <span className="font-semibold">{step.users_count.toLocaleString()}</span>
           {!isFirst && (
             <Badge 
               variant={step.conversion_rate >= 50 ? 'default' : 'secondary'}
               className={cn(
-                'text-xs',
+                'text-[10px] sm:text-xs px-1 py-0 h-4 sm:h-5',
                 step.conversion_rate >= 70 && 'bg-green-500/20 text-green-700 dark:text-green-400',
                 step.conversion_rate < 30 && 'bg-red-500/20 text-red-700 dark:text-red-400'
               )}
@@ -91,7 +91,7 @@ function FunnelBar({ step, maxUsers, isFirst, isLast, isBiggestDropoff }: Funnel
       </div>
       
       {/* Funnel bar */}
-      <div className="relative h-10 bg-muted/30 rounded-lg overflow-hidden">
+      <div className="relative h-8 sm:h-10 bg-muted/30 rounded-lg overflow-hidden">
         <div 
           className={cn(
             'h-full transition-all duration-500 rounded-lg',
@@ -111,12 +111,12 @@ function FunnelBar({ step, maxUsers, isFirst, isLast, isBiggestDropoff }: Funnel
       
       {/* Dropoff indicator */}
       {!isLast && step.dropoff_rate > 0 && (
-        <div className="flex items-center justify-center my-2 text-xs text-muted-foreground">
-          <ArrowDown className="h-3 w-3 mr-1" />
+        <div className="flex items-center justify-center my-1 sm:my-2 text-[10px] sm:text-xs text-muted-foreground">
+          <ArrowDown className="h-2.5 w-2.5 sm:h-3 sm:w-3 mr-0.5 sm:mr-1" />
           <span className={cn(
             step.dropoff_rate > 50 && 'text-red-500 font-medium'
           )}>
-            -{step.dropoff_rate}% отток
+            -{step.dropoff_rate}%
           </span>
         </div>
       )}
@@ -163,24 +163,25 @@ export function FunnelVisualization() {
 
   return (
     <Card>
-      <CardHeader>
-        <div className="flex items-center justify-between">
+      <CardHeader className="pb-3 px-3 pt-3 sm:px-6 sm:pt-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <CardTitle className="flex items-center gap-2">
-              <TrendingDown className="h-5 w-5" />
+            <CardTitle className="flex items-center gap-2 text-sm sm:text-base">
+              <TrendingDown className="h-4 w-4 sm:h-5 sm:w-5" />
               Воронка конверсии
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-xs mt-1 hidden sm:block">
               Путь пользователя: от посещения до платежа
             </CardDescription>
           </div>
           
-          <div className="flex gap-1">
+          <div className="flex gap-1 overflow-x-auto pb-1 -mx-1 px-1">
             {TIME_RANGES.map(range => (
               <Button
                 key={range.days}
                 variant={selectedRange === range.days ? 'default' : 'outline'}
                 size="sm"
+                className="h-7 px-2 text-xs min-w-[40px] shrink-0"
                 onClick={() => setSelectedRange(range.days)}
               >
                 {range.label}
@@ -190,51 +191,51 @@ export function FunnelVisualization() {
         </div>
       </CardHeader>
       
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-4 sm:space-y-6 px-3 pb-3 sm:px-6 sm:pb-6">
         {/* Summary metrics */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="bg-muted/30 rounded-lg p-3 text-center">
-            <div className="text-2xl font-bold">
-              {isLoading ? <Skeleton className="h-8 w-16 mx-auto" /> : metrics.totalVisitors.toLocaleString()}
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-4">
+          <div className="bg-muted/30 rounded-lg p-2 sm:p-3 text-center">
+            <div className="text-lg sm:text-2xl font-bold">
+              {isLoading ? <Skeleton className="h-6 sm:h-8 w-12 sm:w-16 mx-auto" /> : metrics.totalVisitors.toLocaleString()}
             </div>
-            <div className="text-xs text-muted-foreground">Посетителей</div>
+            <div className="text-[10px] sm:text-xs text-muted-foreground">Посетителей</div>
           </div>
           
-          <div className="bg-muted/30 rounded-lg p-3 text-center">
-            <div className="text-2xl font-bold">
-              {isLoading ? <Skeleton className="h-8 w-16 mx-auto" /> : metrics.totalConverted.toLocaleString()}
+          <div className="bg-muted/30 rounded-lg p-2 sm:p-3 text-center">
+            <div className="text-lg sm:text-2xl font-bold">
+              {isLoading ? <Skeleton className="h-6 sm:h-8 w-12 sm:w-16 mx-auto" /> : metrics.totalConverted.toLocaleString()}
             </div>
-            <div className="text-xs text-muted-foreground">Платящих</div>
+            <div className="text-[10px] sm:text-xs text-muted-foreground">Платящих</div>
           </div>
           
-          <div className="bg-muted/30 rounded-lg p-3 text-center">
+          <div className="bg-muted/30 rounded-lg p-2 sm:p-3 text-center">
             <div className={cn(
-              'text-2xl font-bold',
+              'text-lg sm:text-2xl font-bold',
               metrics.overallConversion >= 5 ? 'text-green-500' : 'text-orange-500'
             )}>
-              {isLoading ? <Skeleton className="h-8 w-16 mx-auto" /> : `${metrics.overallConversion}%`}
+              {isLoading ? <Skeleton className="h-6 sm:h-8 w-12 sm:w-16 mx-auto" /> : `${metrics.overallConversion}%`}
             </div>
-            <div className="text-xs text-muted-foreground">Общая конверсия</div>
+            <div className="text-[10px] sm:text-xs text-muted-foreground">Конверсия</div>
           </div>
           
-          <div className="bg-muted/30 rounded-lg p-3 text-center">
+          <div className="bg-muted/30 rounded-lg p-2 sm:p-3 text-center">
             {isLoading ? (
-              <Skeleton className="h-8 w-24 mx-auto" />
+              <Skeleton className="h-6 sm:h-8 w-16 sm:w-24 mx-auto" />
             ) : metrics.biggestDropoff ? (
               <>
-                <div className="text-2xl font-bold text-red-500">
+                <div className="text-lg sm:text-2xl font-bold text-red-500">
                   {metrics.biggestDropoff.rate}%
                 </div>
-                <div className="text-xs text-muted-foreground truncate">
+                <div className="text-[10px] sm:text-xs text-muted-foreground truncate max-w-[80px] sm:max-w-none mx-auto">
                   {metrics.biggestDropoff.step}
                 </div>
               </>
             ) : (
               <>
-                <div className="text-2xl font-bold text-green-500">
-                  <TrendingUp className="h-6 w-6 mx-auto" />
+                <div className="text-lg sm:text-2xl font-bold text-green-500">
+                  <TrendingUp className="h-5 w-5 sm:h-6 sm:w-6 mx-auto" />
                 </div>
-                <div className="text-xs text-muted-foreground">Нет данных</div>
+                <div className="text-[10px] sm:text-xs text-muted-foreground">Нет данных</div>
               </>
             )}
           </div>
