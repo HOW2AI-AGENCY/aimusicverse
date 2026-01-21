@@ -9,14 +9,14 @@
  * 4. QuickStart - Quick action cards
  */
 
-import { useState, useEffect, useMemo, lazy, Suspense, useCallback } from "react";
+import { useState, useMemo, lazy, Suspense } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useTelegram } from "@/contexts/TelegramContext";
-import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import { useProfile } from "@/hooks/useProfile.tsx";
-import { usePublicContentBatch } from "@/hooks/usePublicContent";
-import { useInfinitePublicTracks, flattenInfiniteTracksPages } from "@/hooks/useInfinitePublicTracks";
 import { useUserJourneyState } from "@/hooks/useUserJourneyState";
+import { useHomePageData } from "@/hooks/useHomePageData";
+import { useHomePageHandlers } from "@/hooks/useHomePageHandlers";
+import { useHomePageEffects } from "@/hooks/useHomePageEffects";
 import { HomeHeader } from "@/components/home/HomeHeader";
 import { LazySection } from "@/components/lazy/LazySection";
 import { motion, useReducedMotion } from '@/lib/motion';
@@ -25,24 +25,17 @@ import { PullToRefreshWrapper } from "@/components/library/PullToRefreshWrapper"
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Skeleton } from "@/components/ui/skeleton";
 import { HeroSkeleton } from "@/components/ui/skeletons/TrackListSkeleton";
-import { preloadImages } from "@/lib/imageOptimization";
 import { Clock } from "lucide-react";
-import { logger } from "@/lib/logger";
 
 // Core home components
 import { HomeQuickCreate } from "@/components/home/HomeQuickCreate";
 import { FeaturedSection } from "@/components/home/FeaturedSection";
-import { QuickStartCards, type QuickStartPreset } from "@/components/home/QuickStartCards";
+import { QuickStartCards } from "@/components/home/QuickStartCards";
 import { BotContextBanner } from "@/components/home/BotContextBanner";
 import { TracksGridSection } from "@/components/home/TracksGridSection";
 import { FirstTimeHeroCard } from "@/components/home/FirstTimeHeroCard";
 import { NewUserProgress } from "@/components/home/NewUserProgress";
 import { ContinueDraftCard } from "@/components/home/ContinueDraftCard";
-
-// Sprint 32: Engagement components
-import { PersonalizedRecommendations } from "@/components/discovery/PersonalizedRecommendations";
-import { ContinueCreatingCTA } from "@/components/generation/ContinueCreatingCTA";
-import { useFirstGeneratedTrack } from "@/hooks/useFirstGeneratedTrack";
 
 // Lazy loaded components
 const GamificationBar = lazy(() => import("@/components/gamification/GamificationBar").then(m => ({ default: m.GamificationBar })));
@@ -55,182 +48,53 @@ const AudioActionDialog = lazy(() => import("@/components/generate-form/AudioAct
 
 const Index = () => {
   const { user } = useAuth();
-  const { hapticFeedback, user: telegramUser } = useTelegram();
+  const { user: telegramUser } = useTelegram();
   const { data: profile } = useProfile();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const prefersReducedMotion = useReducedMotion();
+  const isMobile = useIsMobile();
+
+  // Dialog states
   const [generateSheetOpen, setGenerateSheetOpen] = useState(false);
   const [recognitionDialogOpen, setRecognitionDialogOpen] = useState(false);
   const [audioDialogOpen, setAudioDialogOpen] = useState(false);
-  const prefersReducedMotion = useReducedMotion();
-  const isMobile = useIsMobile();
 
   // User journey state for personalized experience
   const { isNewUser } = useUserJourneyState();
 
-  // Sprint 32: Get first generated track for personalized recommendations
-  const { firstTrack, isFirstSession } = useFirstGeneratedTrack();
-
-  // Handler for Create action
-  const handleCreateRef = useCallback(() => {
-    hapticFeedback("medium");
-    setGenerateSheetOpen(true);
-  }, [hapticFeedback]);
-
-  // Single optimized query for all public content (genres, featured, etc.)
-  const { data: publicContent, isLoading: contentLoading, refetch: refetchContent } = usePublicContentBatch();
-
-  // Infinite scroll for "New Tracks" section
-  // Uses batch data as initial page to avoid duplicate requests
+  // Consolidated data hook
   const {
-    data: infiniteRecentData,
-    fetchNextPage: fetchMoreRecent,
-    hasNextPage: hasMoreRecent,
-    isFetchingNextPage: isLoadingMoreRecent,
-  } = useInfinitePublicTracks({
-    sortBy: 'recent',
-    pageSize: 20,
-    enabled: !contentLoading, // Wait for batch query to complete
+    recentTracks,
+    popularTracks,
+    isLoading,
+    hasMoreRecent,
+    isLoadingMoreRecent,
+    fetchMoreRecent,
+    hasMorePopular,
+    isLoadingMorePopular,
+    fetchMorePopular,
+    refresh,
+  } = useHomePageData();
+
+  // Consolidated handlers
+  const {
+    goToProfile,
+    handleCreate,
+    handleRemix,
+    handleTrackClick,
+    handleQuickStartPreset,
+  } = useHomePageHandlers({
+    onOpenGenerateSheet: () => setGenerateSheetOpen(true),
+    onOpenAudioDialog: () => setAudioDialogOpen(true),
   });
 
-  // Infinite scroll for "Popular Tracks" section
-  const {
-    data: infinitePopularData,
-    fetchNextPage: fetchMorePopular,
-    hasNextPage: hasMorePopular,
-    isFetchingNextPage: isLoadingMorePopular,
-  } = useInfinitePublicTracks({
-    sortBy: 'popular',
-    pageSize: 20,
-    enabled: !contentLoading,
+  // URL effects and deep linking
+  useHomePageEffects({
+    onOpenGenerateSheet: () => setGenerateSheetOpen(true),
+    onOpenRecognitionDialog: () => setRecognitionDialogOpen(true),
   });
-
-  // Flatten infinite pages into single arrays, with batch data as fallback
-  const recentTracksInfinite = useMemo(() => {
-    const infiniteTracks = flattenInfiniteTracksPages(infiniteRecentData?.pages);
-    // Use infinite data if available, otherwise use batch data
-    return infiniteTracks.length > 0 ? infiniteTracks : (publicContent?.recentTracks || []);
-  }, [infiniteRecentData?.pages, publicContent?.recentTracks]);
-
-  const popularTracksInfinite = useMemo(() => {
-    const infiniteTracks = flattenInfiniteTracksPages(infinitePopularData?.pages);
-    return infiniteTracks.length > 0 ? infiniteTracks : (publicContent?.popularTracks || []);
-  }, [infinitePopularData?.pages, publicContent?.popularTracks]);
-
-  // Show skeleton only on initial batch load
-  const showSkeleton = contentLoading && !publicContent;
-
-  // Preload first 4 track cover images
-  useEffect(() => {
-    if (publicContent?.popularTracks?.length) {
-      const firstCovers = publicContent.popularTracks
-        .slice(0, 4)
-        .map(t => t.cover_url)
-        .filter(Boolean) as string[];
-
-      if (firstCovers.length) {
-        preloadImages(firstCovers, true).catch(() => {});
-      }
-    }
-  }, [publicContent?.popularTracks]);
 
   // Use profile data from DB if available, fallback to Telegram context
   const displayUser = profile || telegramUser;
-
-  // Handle navigation state for opening GenerateSheet
-  useEffect(() => {
-    if (location.state?.openGenerate) {
-      setGenerateSheetOpen(true);
-      navigate(location.pathname, { replace: true, state: {} });
-    }
-  }, [location.state, navigate, location.pathname]);
-
-  // Handle URL parameters that were previously processed by Generate.tsx redirect
-  useEffect(() => {
-    const style = searchParams.get('style');
-    const mood = searchParams.get('mood');
-    const tempo = searchParams.get('tempo');
-    const instruments = searchParams.get('instruments');
-    const remix = searchParams.get('remix');
-    const quick = searchParams.get('quick');
-    const mode = searchParams.get('mode');
-    const ref = searchParams.get('ref');
-    const stem = searchParams.get('stem');
-
-    // Check if we have any generation-related parameters
-    const hasGenerationParams = style || mood || tempo || instruments || remix || quick || mode || ref || stem;
-
-    if (hasGenerationParams) {
-      // If preset parameters exist, store them in sessionStorage for GenerateSheet
-      if (style || mood || tempo || instruments) {
-        const presetParams = {
-          style,
-          mood,
-          tempo,
-          instruments: instruments?.split(','),
-        };
-        sessionStorage.setItem('presetParams', JSON.stringify(presetParams));
-        if (quick === 'true') {
-          sessionStorage.setItem('fromQuickCreate', 'true');
-        }
-        logger.info('Index page: Stored preset params from URL', { style, mood, tempo, instruments });
-      }
-
-      // For remix/cover/extend parameters, store them for GenerateSheet
-      if (remix) {
-        sessionStorage.setItem('remixTrackId', remix);
-      }
-      if (mode && ref) {
-        sessionStorage.setItem('audioMode', JSON.stringify({ mode, ref, stem }));
-      }
-
-      // Open the GenerateSheet and clean URL params
-      setGenerateSheetOpen(true);
-      setSearchParams({}, { replace: true });
-    }
-  }, [searchParams, setSearchParams]);
-
-  // Handle deep link for recognition
-  useEffect(() => {
-    if (searchParams.get('recognize') === 'true') {
-      setRecognitionDialogOpen(true);
-      setSearchParams({}, { replace: true });
-    }
-  }, [searchParams, setSearchParams]);
-
-  const goToProfile = useCallback(() => {
-    hapticFeedback("light");
-    navigate(user?.id ? `/profile/${user.id}` : "/profile");
-  }, [hapticFeedback, navigate, user?.id]);
-
-  const handleRemix = useCallback((trackId: string) => {
-    hapticFeedback("light");
-    navigate(`/generate?remix=${trackId}`);
-  }, [hapticFeedback, navigate]);
-
-  const handleRefresh = useCallback(async () => {
-    await refetchContent();
-  }, [refetchContent]);
-
-  const handleCreate = useCallback(() => {
-    hapticFeedback("medium");
-    setGenerateSheetOpen(true);
-  }, [hapticFeedback]);
-
-  // Handler for Quick Start preset cards
-  const handleQuickStartPreset = useCallback((preset: QuickStartPreset) => {
-    hapticFeedback("medium");
-    switch (preset) {
-      case 'track':
-      case 'riff':
-        setGenerateSheetOpen(true);
-        break;
-      case 'cover':
-        setAudioDialogOpen(true);
-        break;
-    }
-  }, [hapticFeedback]);
 
   // Animation props - simplified for faster rendering
   const fadeInUp = useMemo(() => prefersReducedMotion
@@ -252,12 +116,12 @@ const Index = () => {
 
   return (
     <PullToRefreshWrapper
-      onRefresh={handleRefresh}
+      onRefresh={refresh}
       disabled={!isMobile}
       className="min-h-screen bg-background pb-24 relative"
     >
       {/* Background gradient - lazy rendered */}
-      {!prefersReducedMotion && !showSkeleton && (
+      {!prefersReducedMotion && !isLoading && (
         <div className="fixed inset-0 pointer-events-none opacity-15">
           <div className="absolute top-0 left-1/4 w-48 h-48 bg-primary/10 rounded-full blur-3xl" />
         </div>
@@ -301,7 +165,6 @@ const Index = () => {
                 <NewUserProgress />
               </motion.section>
             </Suspense>
-            {/* Sprint 32: Personalized Recommendations - removed for now */}
           </>
         )}
 
@@ -318,20 +181,15 @@ const Index = () => {
         {/* Featured Tracks - horizontal scroll with load more */}
         <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.1 }}>
           <FeaturedSection
-            tracks={popularTracksInfinite}
-            isLoading={showSkeleton}
-            onTrackClick={(trackId) => {
-              hapticFeedback("light");
-              navigate(`/track/${trackId}`);
-            }}
+            tracks={popularTracks}
+            isLoading={isLoading}
+            onTrackClick={handleTrackClick}
             onRemix={handleRemix}
             hasMore={hasMorePopular}
             isLoadingMore={isLoadingMorePopular}
             onLoadMore={fetchMorePopular}
           />
         </motion.section>
-
-        {/* Sprint 32: Continue Creating CTA - removed for now */}
 
         {/* Recent Tracks - for logged in users */}
         {user && (
@@ -360,8 +218,8 @@ const Index = () => {
               icon={Clock}
               iconColor="text-orange-400"
               iconGradient="from-orange-500/20 to-amber-500/10"
-              tracks={recentTracksInfinite}
-              isLoading={showSkeleton}
+              tracks={recentTracks}
+              isLoading={isLoading}
               maxTracks={100}
               columns={isMobile ? 2 : 4}
               onRemix={handleRemix}
@@ -371,7 +229,6 @@ const Index = () => {
             />
           </motion.div>
         </LazySection>
-
       </div>
 
       {/* Dialogs - lazy loaded on demand */}
