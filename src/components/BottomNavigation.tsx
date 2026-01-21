@@ -1,6 +1,6 @@
 import { useState, lazy, Suspense, memo, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Home, Plus, Library, Layers, User } from 'lucide-react';
+import { Home, Plus, Library, FolderOpen, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { motion, AnimatePresence } from '@/lib/motion';
@@ -18,14 +18,14 @@ const GenerateSheet = lazy(() => import('./GenerateSheet').then(m => ({ default:
  * - Home: Main page
  * - Library: Tracks & Projects (combined)
  * - Create (+): Generation FAB
- * - Studio: Direct access to studio
+ * - Projects: Music projects and lyrics
  * - Profile: User profile with settings
  */
 const navItems = [
   { path: '/', icon: Home, label: 'Главная', isCenter: false },
   { path: '/library', icon: Library, label: 'Библиотека', isCenter: false },
   { path: '__generate__', icon: Plus, label: 'Создать', isCenter: true },
-  { path: '/studio-v2', icon: Layers, label: 'Студия', isCenter: false },
+  { path: '/projects', icon: FolderOpen, label: 'Проекты', isCenter: false },
   { path: '/profile', icon: User, label: 'Профиль', isCenter: false },
 ];
 
