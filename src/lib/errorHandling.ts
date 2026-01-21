@@ -297,9 +297,11 @@ export function getRecoveryAction(error: unknown): {
  */
 const BLOCKED_ARTIST_PATTERNS = [
   // English artists
-  /\b(taylor swift|ed sheeran|drake|beyonce|eminem|kanye|ariana grande|billie eilish|rihanna|justin bieber|lady gaga|katy perry|bruno mars|post malone|dua lipa|the weeknd|adele|coldplay|maroon 5|imagine dragons|bts|blackpink|twice|red velvet)\b/i,
+  /\b(taylor swift|ed sheeran|drake|beyonce|eminem|kanye|ariana grande|billie eilish|rihanna|justin bieber|lady gaga|katy perry|bruno mars|post malone|dua lipa|the weeknd|adele|coldplay|maroon 5|imagine dragons|bts|blackpink|twice|red velvet|karina|lany|chika)\b/i,
   // Russian artists  
-  /\b(моргенштерн|morgenshtern|тимати|timati|баста|basta|oxxxymiron|оксимирон|егор крид|егоркрид|egor creed|хаски|husky|скриптонит|scriptonite|фейс|pharaoh|фараон|miyagi|мияги|джизус|jah khalib|джах халиб|matrang|макс корж|max korzh|noize mc|нойз мс)\b/i,
+  /\b(моргенштерн|morgenshtern|тимати|timati|баста|basta|oxxxymiron|оксимирон|егор крид|егоркрид|egor creed|хаски|husky|скриптонит|scriptonite|фейс|pharaoh|фараон|miyagi|мияги|джизус|jah khalib|джах халиб|matrang|макс корж|max korzh|noize mc|нойз мс|сектор газа|sektor gaza|девочка|devochka)\b/i,
+  // African and other international artists (from real errors)
+  /\b(teni|mejja|poli|tena|skrillex|deadmau5|marshmello|daft punk)\b/i,
 ];
 
 /**
