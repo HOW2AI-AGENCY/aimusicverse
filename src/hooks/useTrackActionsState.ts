@@ -250,6 +250,17 @@ export function useTrackActionsState({
         await handleRemix(track);
         onClose?.();
         break;
+      case 'generate_similar':
+        // Store track data in sessionStorage and navigate to generation
+        sessionStorage.setItem('similarTrackParams', JSON.stringify({
+          style: track.style,
+          prompt: track.prompt,
+          tags: track.tags,
+          title: track.title,
+        }));
+        navigate('/?open=generate');
+        onClose?.();
+        break;
       case 'create_artist_persona':
         openDialog('createArtist');
         break;

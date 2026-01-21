@@ -278,6 +278,71 @@ export function useGenerateForm({
     }
   }, [open]);
 
+  // Apply "Generate Similar" parameters from track action
+  useEffect(() => {
+    if (open) {
+      try {
+        const similarParamsStr = sessionStorage.getItem('similarTrackParams');
+        if (similarParamsStr) {
+          const params = JSON.parse(similarParamsStr);
+          
+          logger.info('Loading Similar Track params', { style: params.style });
+          
+          // Set mode to simple for quick generation
+          setMode('simple');
+          
+          // Build description from track data
+          const descParts: string[] = [];
+          if (params.style) descParts.push(params.style);
+          if (params.prompt) descParts.push(`similar to: ${params.prompt.slice(0, 100)}`);
+          
+          if (descParts.length > 0) {
+            setDescription(descParts.join(' • '));
+          }
+          
+          toast.success('Создание похожего трека', {
+            description: 'Форма заполнена на основе выбранного трека',
+          });
+          
+          // Clear from sessionStorage after applying
+          sessionStorage.removeItem('similarTrackParams');
+        }
+      } catch (error) {
+        logger.error('Failed to load similar track params', error instanceof Error ? error : new Error(String(error)));
+      }
+    }
+  }, [open]);
+
+  // Apply Quick Genre Preset from homepage
+  useEffect(() => {
+    if (open) {
+      try {
+        const presetStr = sessionStorage.getItem('quickGenrePreset');
+        if (presetStr) {
+          const preset = JSON.parse(presetStr);
+          
+          logger.info('Loading Quick Genre preset', { presetId: preset.presetId });
+          
+          // Set mode to simple for quick generation
+          setMode('simple');
+          
+          // Apply preset values
+          if (preset.description) {
+            setDescription(preset.description);
+          }
+          if (typeof preset.hasVocals === 'boolean') {
+            setHasVocals(preset.hasVocals);
+          }
+          
+          // Clear from sessionStorage after applying
+          sessionStorage.removeItem('quickGenrePreset');
+        }
+      } catch (error) {
+        logger.error('Failed to load quick genre preset', error instanceof Error ? error : new Error(String(error)));
+      }
+    }
+  }, [open]);
+
   // Fetch API credits (for display purposes)
   useEffect(() => {
     const fetchApiCredits = async () => {
