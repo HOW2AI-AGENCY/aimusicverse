@@ -1,20 +1,24 @@
-// Phase 4: Streamlined tool exports (9 core tools)
+/**
+ * AI Agent Tool Panels - Streamlined to 9 core tools (Phase 4)
+ * 
+ * Consolidated from 18 legacy tools:
+ * - Write: создание текста
+ * - Continue: продолжение строки/секции
+ * - Analyze: полный анализ (включает rhythm analysis)
+ * - Producer: продюсерский обзор (включает hooks + vocal map)
+ * - Optimize: оптимизация для Suno (включает tags + validation)
+ * - Rhyme: поиск рифм
+ * - Structure: работа со структурой
+ * - StyleConvert: конверт стиля (включает paraphrase)
+ * - Translate: перевод с адаптацией
+ */
+
 export { WriteToolPanel } from './WriteToolPanel';
+export { ContinueToolPanel } from './ContinueToolPanel';
 export { AnalyzeToolPanel } from './AnalyzeToolPanel';
 export { ProducerToolPanel } from './ProducerToolPanel';
 export { OptimizeToolPanel } from './OptimizeToolPanel';
 export { RhymeToolPanel } from './RhymeToolPanel';
-export { ContinueToolPanel } from './ContinueToolPanel';
 export { StructureToolPanel } from './StructureToolPanel';
 export { StyleConvertToolPanel } from './StyleConvertToolPanel';
 export { TranslateToolPanel } from './TranslateToolPanel';
-
-// Legacy exports for backwards compatibility (deprecated)
-export { TagsToolPanel } from './TagsToolPanel';
-export { RhythmToolPanel } from './RhythmToolPanel';
-export { ParaphraseToolPanel } from './ParaphraseToolPanel';
-export { HookGeneratorToolPanel } from './HookGeneratorToolPanel';
-export { VocalMapToolPanel } from './VocalMapToolPanel';
-export { DrillBuilderToolPanel } from './DrillBuilderToolPanel';
-export { EpicBuilderToolPanel } from './EpicBuilderToolPanel';
-export { ValidateSunoV5ToolPanel } from './ValidateSunoV5ToolPanel';
