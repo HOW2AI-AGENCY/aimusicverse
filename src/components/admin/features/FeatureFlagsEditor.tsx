@@ -36,8 +36,7 @@ import {
   getFlagsByCategory,
   type FeatureFlag,
 } from "@/hooks/admin/useFeatureFlags";
-import { formatDistanceToNow } from "date-fns";
-import { ru } from "date-fns/locale";
+import { formatDistanceToNow, ru } from "@/lib/date-utils";
 
 // Single feature flag item
 function FeatureFlagItem({ 

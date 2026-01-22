@@ -8,8 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Loader2, Download, TrendingUp, Users, DollarSign, Star } from 'lucide-react';
-import { format } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { format, ru } from '@/lib/date-utils';
 
 interface Transaction {
   id: string;
