@@ -236,7 +236,6 @@ export default function ProjectDetail() {
         <TabsContent value="tracks" className="mt-0 pt-3">
           <TracksTabContent
             projectId={projectId!}
-            project={project}
             tracks={tracks}
             tracksLoading={tracksLoading}
             isGenerating={isGenerating}
@@ -507,7 +506,6 @@ function QuickActionsBar({ project, isMobile, isGenerating, totalTracks, tracksW
 
 interface TracksTabContentProps {
   projectId: string;
-  project: NonNullable<ReturnType<typeof useProjectDetailData>['project']>;
   tracks: ReturnType<typeof useProjectDetailData>['tracks'];
   tracksLoading: boolean;
   isGenerating: boolean;
@@ -520,7 +518,7 @@ interface TracksTabContentProps {
   onGenerateTracklist: () => void;
 }
 
-function TracksTabContent({ projectId, project, tracks, tracksLoading, isGenerating, isMobile, onDragEnd, onGenerate, onOpenLyrics, onOpenLyricsWizard, onAddTrack, onGenerateTracklist }: TracksTabContentProps) {
+function TracksTabContent({ projectId, tracks, tracksLoading, isGenerating, isMobile, onDragEnd, onGenerate, onOpenLyrics, onOpenLyricsWizard, onAddTrack, onGenerateTracklist }: TracksTabContentProps) {
   return (
     <div className={cn(isMobile ? "px-3" : "px-4")}>
       {tracksLoading ? (
