@@ -3,7 +3,7 @@
  */
 
 import { useRef, useState } from 'react';
-import { format } from 'date-fns';
+import { format } from '@/lib/date-utils';
 import { Mic, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {

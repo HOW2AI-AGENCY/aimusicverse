@@ -8,8 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { ArrowLeft, MessageSquare, Bug, Lightbulb, Star, Send, CheckCircle, Clock, XCircle, ChevronLeft, RefreshCw } from "lucide-react";
-import { format } from "date-fns";
-import { ru } from "date-fns/locale";
+import { format, ru } from "@/lib/date-utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { 

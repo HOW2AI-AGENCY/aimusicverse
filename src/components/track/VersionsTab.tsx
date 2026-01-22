@@ -35,7 +35,7 @@ import { Crown, Play, Pause, Download, Check } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { format } from 'date-fns';
+import { format } from '@/lib/date-utils';
 import { logger } from '@/lib/logger';
 import { Skeleton } from '@/components/ui/skeleton';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';

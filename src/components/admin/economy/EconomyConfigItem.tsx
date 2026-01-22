@@ -8,8 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Check, X, Edit2, RotateCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CONFIG_LABELS } from "@/hooks/admin/useEconomyConfig";
-import { formatDistanceToNow } from "date-fns";
-import { ru } from "date-fns/locale";
+import { formatDistanceToNow, ru } from "@/lib/date-utils";
 
 interface EconomyConfigItemProps {
   configKey: string;

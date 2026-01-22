@@ -3,8 +3,7 @@
  */
 
 import { useState } from 'react';
-import { format } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { format, ru } from '@/lib/date-utils';
 import { 
   Play, Pause, Trash2, Edit, Check, X, Loader2,
   Sparkles, FileText, Mic, Music, Disc, ArrowRight, Mic2, Guitar

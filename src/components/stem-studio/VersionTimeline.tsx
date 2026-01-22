@@ -19,8 +19,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { prefetchAudio, shouldPrefetch } from '@/lib/audioCache';
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
-import { format } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { format, ru } from '@/lib/date-utils';
 
 interface VersionTimelineProps {
   trackId: string;
