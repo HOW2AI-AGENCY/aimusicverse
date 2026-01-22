@@ -10,12 +10,15 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { logger } from '@/lib/logger';
 import { usePlanTrackStore } from '@/stores/planTrackStore';
+import { useTelegram } from '@/contexts/TelegramContext';
 import type { ProjectTrack } from '@/hooks/useProjectTracks';
 
 interface UseProjectDetailHandlersProps {
   projectId?: string;
   project?: {
     id: string;
+    title: string;
+    cover_url?: string | null;
     genre?: string | null;
     mood?: string | null;
     language?: string | null;
@@ -37,6 +40,9 @@ export function useProjectDetailHandlers({
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { setPlanTrackContext } = usePlanTrackStore();
+  const { shareToStory, shareURL, platform, isDevelopmentMode, hapticFeedback } = useTelegram();
+  
+  const isRealMiniApp = platform && platform !== 'web' && platform !== '' && !isDevelopmentMode;
 
   // Apply project updates
   const handleApplyUpdates = useCallback(async (
@@ -147,6 +153,41 @@ export function useProjectDetailHandlers({
     }
   }, [projectId, queryClient]);
 
+  // Share project to Telegram
+  const handleShare = useCallback(async () => {
+    if (!project) return;
+    
+    hapticFeedback('medium');
+
+    try {
+      const appUrl = `https://t.me/musicverse_ai_bot/app?startapp=project_${project.id}`;
+      
+      if (isRealMiniApp && project.cover_url) {
+        // Share to Telegram Story with cover image
+        shareToStory(project.cover_url, {
+          media_url: project.cover_url,
+          text: `🎵 ${project.title}${project.genre ? ` • ${project.genre}` : ''}\n\nСлушай в MusicVerse!`,
+          widget_link: {
+            url: appUrl,
+            name: 'Открыть проект',
+          },
+        });
+        toast.success('Открыта публикация в Stories');
+      } else if (isRealMiniApp) {
+        // Share URL if no cover
+        shareURL(appUrl, `🎵 ${project.title} - послушай мой проект в MusicVerse!`);
+        toast.success('Ссылка скопирована');
+      } else {
+        // Fallback for web - copy link
+        await navigator.clipboard.writeText(appUrl);
+        toast.success('Ссылка скопирована в буфер обмена');
+      }
+    } catch (error) {
+      logger.error('Share error', error);
+      toast.error('Не удалось поделиться');
+    }
+  }, [project, isRealMiniApp, hapticFeedback, shareToStory, shareURL]);
+
   return {
     handleApplyUpdates,
     handleDragEnd,
@@ -155,5 +196,6 @@ export function useProjectDetailHandlers({
     handleSaveLyrics,
     handleSaveNotes,
     handleLyricsGenerated,
+    handleShare,
   };
 }
