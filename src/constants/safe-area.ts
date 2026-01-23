@@ -1,7 +1,26 @@
 /**
  * Telegram Mini App Safe Area Constants
  * Unified formulas for consistent header/content positioning
+ * 
+ * USAGE GUIDE:
+ * 
+ * 1. For page containers, use PageContainer component:
+ *    import { PageContainer } from '@/components/layout';
+ *    <PageContainer withBottomNav>{children}</PageContainer>
+ * 
+ * 2. For inline styles, use SAFE_STYLES or build functions:
+ *    import { SAFE_STYLES, getSafeAreaTop } from '@/constants/safe-area';
+ *    <div style={SAFE_STYLES.headerTop} />
+ *    <div style={{ paddingTop: getSafeAreaTop(16) }} />
+ * 
+ * 3. For headers, use PageHeader or SafeHeader:
+ *    import { PageHeader } from '@/components/layout';
+ *    <PageHeader>{headerContent}</PageHeader>
  */
+
+// ============================================================================
+// CSS FORMULAS - Use in calc() or as CSS property values
+// ============================================================================
 
 /**
  * Safe area CSS formulas for Telegram Mini App
@@ -49,11 +68,20 @@ export const TELEGRAM_SAFE_AREA = {
   /**
    * Bottom for navigation bar (includes nav height)
    */
-  bottomNav: `calc(max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)) + 4rem)`,
+  bottomNav: `calc(max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)) + 5rem)`,
 } as const;
+
+// ============================================================================
+// BUILDER FUNCTIONS - For dynamic safe area calculations
+// ============================================================================
 
 /**
  * Get safe area value with custom additional padding
+ * @param extraPx - Extra pixels to add after safe area
+ * @returns CSS calc() string
+ * 
+ * @example
+ * getSafeAreaTop(16) // "calc(max(...) + 16px)"
  */
 export function getSafeAreaTop(extraPx: number = 12): string {
   const extra = extraPx > 0 ? ` + ${extraPx}px` : '';
@@ -62,6 +90,11 @@ export function getSafeAreaTop(extraPx: number = 12): string {
 
 /**
  * Get safe area bottom with custom additional padding
+ * @param extraPx - Extra pixels (includes nav height if needed)
+ * @returns CSS calc() string
+ * 
+ * @example
+ * getSafeAreaBottom(80) // "calc(max(...) + 80px)" - with bottom nav
  */
 export function getSafeAreaBottom(extraPx: number = 0): string {
   const extra = extraPx > 0 ? ` + ${extraPx}px` : '';
@@ -69,23 +102,62 @@ export function getSafeAreaBottom(extraPx: number = 0): string {
 }
 
 /**
+ * Get minimal safe area (no extra padding)
+ */
+export function getMinimalSafeAreaTop(): string {
+  return `max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))`;
+}
+
+/**
+ * Get minimal bottom safe area
+ */
+export function getMinimalSafeAreaBottom(): string {
+  return `max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px))`;
+}
+
+// ============================================================================
+// STYLE OBJECTS - Ready-to-use CSSProperties
+// ============================================================================
+
+/**
  * Safe area inline style objects for common patterns
  * Usage: <div style={SAFE_STYLES.headerTop} />
  */
 export const SAFE_STYLES = {
+  // Headers
   headerTop: { paddingTop: TELEGRAM_SAFE_AREA.headerTop },
   stickyHeader: { paddingTop: TELEGRAM_SAFE_AREA.stickyHeaderTop },
   homeHeader: { paddingTop: TELEGRAM_SAFE_AREA.homeHeaderTop },
   minimalTop: { paddingTop: TELEGRAM_SAFE_AREA.minimalTop },
   overlayTop: { paddingTop: TELEGRAM_SAFE_AREA.overlayTop },
+
+  // Bottom
   bottom: { paddingBottom: TELEGRAM_SAFE_AREA.bottom },
   bottomWithPadding: { paddingBottom: TELEGRAM_SAFE_AREA.bottomWithPadding },
   bottomNav: { paddingBottom: TELEGRAM_SAFE_AREA.bottomNav },
 
-  // Combined styles
-  full: {
-    paddingTop: TELEGRAM_SAFE_AREA.headerTop,
-    paddingBottom: TELEGRAM_SAFE_AREA.bottomWithPadding,
+  // Combined styles for common patterns
+  pageWithNav: {
+    paddingTop: getSafeAreaTop(12),
+    paddingBottom: getSafeAreaBottom(80),
+    minHeight: 'var(--tg-viewport-stable-height, 100vh)',
+  },
+  pageNoNav: {
+    paddingTop: getSafeAreaTop(12),
+    paddingBottom: getSafeAreaBottom(16),
+    minHeight: 'var(--tg-viewport-stable-height, 100vh)',
+  },
+  fullscreen: {
+    paddingTop: getMinimalSafeAreaTop(),
+    paddingBottom: getMinimalSafeAreaBottom(),
+    minHeight: 'var(--tg-viewport-stable-height, 100vh)',
+  },
+  centeredOverlay: {
+    paddingTop: getMinimalSafeAreaTop(),
+    paddingBottom: getMinimalSafeAreaBottom(),
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   // For player controls
@@ -96,6 +168,37 @@ export const SAFE_STYLES = {
   sheetTop: { paddingTop: TELEGRAM_SAFE_AREA.minimalTop },
   sheetBottom: { paddingBottom: TELEGRAM_SAFE_AREA.bottom },
 } as const;
+
+// ============================================================================
+// LAYOUT CONSTANTS
+// ============================================================================
+
+/**
+ * Fixed element heights for layout calculations
+ */
+export const LAYOUT_HEIGHTS = {
+  bottomNav: 80,
+  miniPlayer: 64,
+  header: 56,
+  touchTarget: 44,
+  mainButton: 60,
+} as const;
+
+/**
+ * Standard spacing values
+ */
+export const LAYOUT_SPACING = {
+  pageX: 16,
+  pageXSm: 12,
+  pageXLg: 24,
+  sectionGap: 24,
+  cardGap: 12,
+  itemGap: 8,
+} as const;
+
+// ============================================================================
+// CSS CLASS HELPERS (for Tailwind integration)
+// ============================================================================
 
 /**
  * CSS class names for safe areas (to be used with cn() utility)

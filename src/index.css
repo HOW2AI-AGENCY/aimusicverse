@@ -466,57 +466,128 @@ All colors MUST be HSL.
     border-top: 1px solid hsl(var(--border) / 0.3);
   }
 
-  /* Safe Area utility classes для адаптации UI компонентов */
-  .safe-area-top {
-    padding-top: max(
-      calc(var(--tg-safe-area-inset-top, 0px) + var(--tg-content-safe-area-inset-top, 0px)), 
-      calc(var(--safe-area-top, 0px) + 0.5rem)
+  /* =========================================================================
+   * SAFE AREA UTILITY CLASSES
+   * Unified Telegram Mini App + iOS safe area handling
+   * 
+   * Usage:
+   *   .safe-top         - Standard top padding with safe area
+   *   .safe-top-compact - Minimal top padding
+   *   .safe-top-spacious- Extra top padding for home screens
+   *   .safe-bottom      - Standard bottom safe area
+   *   .safe-bottom-nav  - Bottom with navigation height (80px)
+   *   .safe-page        - Full page container with both safe areas
+   * ========================================================================= */
+  
+  /* Top Safe Areas */
+  .safe-top {
+    padding-top: calc(
+      max(
+        var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
+        env(safe-area-inset-top, 0px)
+      ) + 0.75rem
     );
   }
 
-  .safe-area-bottom {
-    padding-bottom: max(var(--tg-safe-area-inset-bottom, 0px), var(--safe-area-bottom, 0px));
-  }
-
-  .safe-area-left {
-    padding-left: max(var(--tg-safe-area-inset-left, 0px), var(--safe-area-left, 0px));
-  }
-
-  .safe-area-right {
-    padding-right: max(var(--tg-safe-area-inset-right, 0px), var(--safe-area-right, 0px));
-  }
-
-  .safe-area-inset {
-    padding-top: max(
-      calc(var(--tg-safe-area-inset-top, 0px) + var(--tg-content-safe-area-inset-top, 0px)), 
-      calc(var(--safe-area-top, 0px) + 0.5rem)
-    );
-    padding-bottom: max(var(--tg-safe-area-inset-bottom, 0px), var(--safe-area-bottom, 0px));
-    padding-left: max(var(--tg-safe-area-inset-left, 0px), var(--safe-area-left, 0px));
-    padding-right: max(var(--tg-safe-area-inset-right, 0px), var(--safe-area-right, 0px));
-  }
-
-  /* Header с safe area (для fixed/sticky headers) */
-  .header-safe {
-    padding-top: max(
-      calc(var(--tg-safe-area-inset-top, 0px) + var(--tg-content-safe-area-inset-top, 0px)), 
-      calc(var(--safe-area-top, 0px) + 0.75rem)
+  .safe-top-compact {
+    padding-top: calc(
+      max(
+        var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
+        env(safe-area-inset-top, 0px)
+      ) + 0.5rem
     );
   }
 
-  /* Content с отступом от header и bottom navigation */
-  .content-safe {
-    padding-top: max(
-      calc(var(--tg-safe-area-inset-top, 0px) + var(--tg-content-safe-area-inset-top, 0px)), 
-      calc(var(--safe-area-top, 0px) + 1rem)
+  .safe-top-spacious {
+    padding-top: calc(
+      max(
+        var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
+        env(safe-area-inset-top, 0px)
+      ) + 1rem
     );
-    padding-bottom: max(var(--tg-safe-area-inset-bottom, 0px), calc(var(--safe-area-bottom, 0px) + 1rem));
   }
 
-  /* Bottom navigation с safe area */
-  .bottom-nav-safe {
-    padding-bottom: max(var(--safe-area-bottom), 16px);
+  .safe-top-minimal {
+    padding-top: max(
+      var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
+      env(safe-area-inset-top, 0px)
+    );
   }
+
+  /* Bottom Safe Areas */
+  .safe-bottom {
+    padding-bottom: max(
+      var(--tg-safe-area-inset-bottom, 0px),
+      env(safe-area-inset-bottom, 0px)
+    );
+  }
+
+  .safe-bottom-nav {
+    padding-bottom: calc(
+      max(
+        var(--tg-safe-area-inset-bottom, 0px),
+        env(safe-area-inset-bottom, 0px)
+      ) + 5rem
+    );
+  }
+
+  .safe-bottom-player {
+    padding-bottom: calc(
+      max(
+        var(--tg-safe-area-inset-bottom, 0px),
+        env(safe-area-inset-bottom, 0px)
+      ) + 9rem
+    );
+  }
+
+  /* Page Container Classes */
+  .safe-page {
+    min-height: var(--tg-viewport-stable-height, 100vh);
+    padding-top: calc(
+      max(
+        var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
+        env(safe-area-inset-top, 0px)
+      ) + 0.75rem
+    );
+    padding-bottom: calc(
+      max(
+        var(--tg-safe-area-inset-bottom, 0px),
+        env(safe-area-inset-bottom, 0px)
+      ) + 5rem
+    );
+  }
+
+  .safe-page-fullscreen {
+    min-height: var(--tg-viewport-stable-height, 100vh);
+    padding-top: max(
+      var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
+      env(safe-area-inset-top, 0px)
+    );
+    padding-bottom: max(
+      var(--tg-safe-area-inset-bottom, 0px),
+      env(safe-area-inset-bottom, 0px)
+    );
+  }
+
+  /* Header Classes */
+  .safe-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    padding-top: calc(
+      max(
+        var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
+        env(safe-area-inset-top, 0px)
+      ) + 0.5rem
+    );
+  }
+
+  /* Legacy compatibility aliases */
+  .safe-area-top { @apply safe-top; }
+  .safe-area-bottom { @apply safe-bottom; }
+  .header-safe { @apply safe-header; }
+  .content-safe { @apply safe-top safe-bottom; }
+  .bottom-nav-safe { @apply safe-bottom; }
 
   /* Touch feedback utilities - Mobile optimized */
   .touch-manipulation {
