@@ -36,11 +36,56 @@ export type NotificationType =
   | 'achievement_unlocked'
   | 'feature_announcement';
 
+// Rate limiting cooldowns for each notification type (in milliseconds)
+const NOTIFICATION_COOLDOWNS: Record<NotificationType, number> = {
+  track_completed: 0,              // No cooldown - always send
+  track_added_to_project: 60_000,  // 1 minute
+  project_status_changed: 60_000,  // 1 minute
+  project_completed: 0,            // No cooldown
+  new_follower: 10 * 60_000,       // 10 minutes
+  track_liked: 5 * 60_000,         // 5 minutes (digest instead)
+  comment_received: 5 * 60_000,    // 5 minutes
+  credits_earned: 30_000,          // 30 seconds
+  achievement_unlocked: 0,         // No cooldown
+  feature_announcement: 0,         // No cooldown
+};
+
+// In-memory cooldown cache (per-user, per-type)
+const cooldownCache = new Map<string, number>();
+
+/**
+ * Check if notification can be sent (rate limiting)
+ */
+function canSendNotification(userId: string, type: NotificationType): boolean {
+  const cooldown = NOTIFICATION_COOLDOWNS[type];
+  if (cooldown === 0) return true;
+  
+  const cacheKey = `${userId}:${type}`;
+  const lastSent = cooldownCache.get(cacheKey);
+  
+  if (!lastSent) return true;
+  return Date.now() - lastSent > cooldown;
+}
+
+/**
+ * Mark notification as sent (for rate limiting)
+ */
+function markNotificationSent(userId: string, type: NotificationType): void {
+  const cacheKey = `${userId}:${type}`;
+  cooldownCache.set(cacheKey, Date.now());
+}
+
 /**
  * Send notification to user via Telegram
  */
 export async function sendNotification(payload: NotificationPayload): Promise<boolean> {
   try {
+    // Check rate limiting
+    if (!canSendNotification(payload.userId, payload.type)) {
+      logger.info('Notification rate limited', { userId: payload.userId, type: payload.type });
+      return false;
+    }
+
     // Get user's telegram chat id
     const { data: profile, error: profileError } = await supabase
       .from('profiles')
@@ -61,6 +106,9 @@ export async function sendNotification(payload: NotificationPayload): Promise<bo
     }
 
     await sendMessage(chatId, message.text, message.keyboard);
+    
+    // Mark as sent for rate limiting
+    markNotificationSent(payload.userId, payload.type);
     
     logger.info('Notification sent', { userId: payload.userId, type: payload.type });
     return true;

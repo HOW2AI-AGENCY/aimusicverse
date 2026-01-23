@@ -6,9 +6,10 @@ import { useTelegram } from '@/contexts/TelegramContext';
 import { useAuth } from '@/hooks/useAuth';
 import { useUserRole } from '@/hooks/useUserRole';
 import { PricingCard, type StarsProduct } from '@/components/payment/PricingCard';
+import { TierComparisonCard } from '@/components/premium/TierComparisonCard';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from 'sonner';
-import { Loader2, Star, Crown } from 'lucide-react';
+import { Loader2, Coins, Crown } from 'lucide-react';
 import { motion } from '@/lib/motion';
 import { logger } from '@/lib/logger';
 
@@ -184,7 +185,7 @@ export default function Pricing() {
       <Tabs defaultValue="credits" className="w-full max-w-6xl mx-auto">
         <TabsList className="grid w-full grid-cols-2 mb-8">
           <TabsTrigger value="credits" className="gap-2">
-            <Star className="w-4 h-4" />
+            <Coins className="w-4 h-4" />
             Кредиты
           </TabsTrigger>
           <TabsTrigger value="subscriptions" className="gap-2">
@@ -234,20 +235,37 @@ export default function Pricing() {
         </TabsContent>
       </Tabs>
 
-      {/* Info Section */}
+      {/* Info Section - Payment Methods */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3 }}
         className="mt-12 p-6 bg-card rounded-lg border max-w-2xl mx-auto"
       >
-        <h3 className="font-semibold mb-3">💡 О Telegram Stars</h3>
+        <h3 className="font-semibold mb-3">💳 Способы оплаты</h3>
         <ul className="space-y-2 text-sm text-muted-foreground">
-          <li>• Telegram Stars - внутренняя валюта Telegram</li>
-          <li>• Безопасные платежи без комиссий</li>
+          <li>• Банковские карты (Visa, Mastercard, МИР)</li>
+          <li>• СБП (Система быстрых платежей)</li>
+          <li>• Tinkoff Pay</li>
           <li>• Моментальное зачисление кредитов</li>
-          <li>• Поддержка всех способов оплаты Telegram</li>
         </ul>
+        <div className="mt-4 pt-4 border-t border-border/50">
+          <p className="text-xs text-muted-foreground">
+            Все платежи защищены шифрованием и обрабатываются через Tinkoff — 
+            один из крупнейших банков России. Мы не храним данные ваших карт.
+          </p>
+        </div>
+      </motion.div>
+
+      {/* Tier Comparison */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4 }}
+        className="mt-8 p-6 bg-card rounded-lg border max-w-4xl mx-auto"
+      >
+        <h3 className="font-semibold mb-4 text-center">📊 Сравнение тарифов</h3>
+        <TierComparisonCard highlightTier="pro" />
       </motion.div>
     </div>
   );
