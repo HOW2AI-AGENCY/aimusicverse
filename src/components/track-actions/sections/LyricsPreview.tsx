@@ -13,6 +13,7 @@ import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { hapticImpact } from '@/lib/haptic';
 import { LyricsParser, type LyricsSection } from '@/lib/lyrics/LyricsParser';
+import { sectionColors, getSectionColor } from '@/lib/design-colors';
 
 interface LyricsPreviewProps {
   lyrics: string | null | undefined;
@@ -20,17 +21,17 @@ interface LyricsPreviewProps {
   className?: string;
 }
 
-// Section type to color mapping
+// Section type to color mapping using design tokens
 const SECTION_COLORS: Record<LyricsSection['type'], string> = {
-  intro: 'bg-sky-500/15 text-sky-600 dark:text-sky-400',
-  verse: 'bg-blue-500/15 text-blue-600 dark:text-blue-400',
-  'pre-chorus': 'bg-violet-500/15 text-violet-600 dark:text-violet-400',
-  chorus: 'bg-pink-500/15 text-pink-600 dark:text-pink-400',
-  bridge: 'bg-amber-500/15 text-amber-600 dark:text-amber-400',
-  outro: 'bg-orange-500/15 text-orange-600 dark:text-orange-400',
-  instrumental: 'bg-green-500/15 text-green-600 dark:text-green-400',
-  solo: 'bg-purple-500/15 text-purple-600 dark:text-purple-400',
-  other: 'bg-muted text-muted-foreground',
+  intro: `${sectionColors.intro.bg} ${sectionColors.intro.text}`,
+  verse: `${sectionColors.verse.bg} ${sectionColors.verse.text}`,
+  'pre-chorus': `${sectionColors['pre-chorus'].bg} ${sectionColors['pre-chorus'].text}`,
+  chorus: `${sectionColors.chorus.bg} ${sectionColors.chorus.text}`,
+  bridge: `${sectionColors.bridge.bg} ${sectionColors.bridge.text}`,
+  outro: `${sectionColors.outro.bg} ${sectionColors.outro.text}`,
+  instrumental: `${sectionColors.instrumental.bg} ${sectionColors.instrumental.text}`,
+  solo: `${sectionColors.solo.bg} ${sectionColors.solo.text}`,
+  other: `${sectionColors.other.bg} ${sectionColors.other.text}`,
 };
 
 export const LyricsPreview = memo(function LyricsPreview({

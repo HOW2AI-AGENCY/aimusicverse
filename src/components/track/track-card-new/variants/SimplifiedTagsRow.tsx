@@ -8,6 +8,7 @@
 import { memo, useMemo } from 'react';
 import { cn } from '@/lib/utils';
 import { getDisplayTags, TagCategory } from '@/lib/styleTagParser';
+import { tagColors } from '@/lib/design-colors';
 
 interface SimplifiedTagsRowProps {
   style?: string | null;
@@ -18,12 +19,12 @@ interface SimplifiedTagsRowProps {
 }
 
 const CATEGORY_COLORS: Record<TagCategory, string> = {
-  genre: 'bg-primary/15 text-primary',
-  mood: 'bg-orange-500/15 text-orange-600 dark:text-orange-400',
-  instrument: 'bg-blue-500/15 text-blue-600 dark:text-blue-400',
-  vocal: 'bg-pink-500/15 text-pink-600 dark:text-pink-400',
-  tempo: 'bg-green-500/15 text-green-600 dark:text-green-400',
-  structure: 'bg-purple-500/15 text-purple-600 dark:text-purple-400',
+  genre: `${tagColors.genre.bg} ${tagColors.genre.text}`,
+  mood: `${tagColors.mood.bg} ${tagColors.mood.text}`,
+  instrument: `${tagColors.instrument.bg} ${tagColors.instrument.text}`,
+  vocal: `${tagColors.vocal.bg} ${tagColors.vocal.text}`,
+  tempo: `${tagColors.tempo.bg} ${tagColors.tempo.text}`,
+  structure: `${tagColors.structure.bg} ${tagColors.structure.text}`,
 };
 
 export const SimplifiedTagsRow = memo(function SimplifiedTagsRow({ 
