@@ -1,58 +1,59 @@
 /**
- * StatsHighlightBanner - Quick stats banner showing platform metrics
- * Builds social proof and engagement
+ * StatsHighlightBanner - Quick stats banner showing real platform metrics
+ * Builds social proof and engagement with live data
  */
 
 import { memo } from 'react';
 import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { Music, Users, Sparkles, Headphones } from 'lucide-react';
+import { usePlatformStats } from '@/hooks/usePlatformStats';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface StatsHighlightBannerProps {
   className?: string;
-  tracksCount?: number;
-  usersCount?: number;
-  generationsToday?: number;
 }
-
-const STATS = [
-  { 
-    id: 'tracks', 
-    label: 'Треков', 
-    value: '12K+',
-    icon: Music,
-    color: 'text-primary',
-    bg: 'bg-primary/10'
-  },
-  { 
-    id: 'users', 
-    label: 'Авторов', 
-    value: '2.5K+',
-    icon: Users,
-    color: 'text-emerald-400',
-    bg: 'bg-emerald-500/10'
-  },
-  { 
-    id: 'ai', 
-    label: 'Генераций', 
-    value: '50K+',
-    icon: Sparkles,
-    color: 'text-amber-400',
-    bg: 'bg-amber-500/10'
-  },
-  { 
-    id: 'plays', 
-    label: 'Прослушиваний', 
-    value: '100K+',
-    icon: Headphones,
-    color: 'text-purple-400',
-    bg: 'bg-purple-500/10'
-  },
-];
 
 export const StatsHighlightBanner = memo(function StatsHighlightBanner({
   className,
 }: StatsHighlightBannerProps) {
+  const { formatted, isLoading } = usePlatformStats();
+
+  const stats = [
+    { 
+      id: 'tracks', 
+      label: 'Треков', 
+      value: formatted.tracks,
+      icon: Music,
+      color: 'text-primary',
+      bg: 'bg-primary/10'
+    },
+    { 
+      id: 'users', 
+      label: 'Авторов', 
+      value: formatted.users,
+      icon: Users,
+      color: 'text-emerald-400',
+      bg: 'bg-emerald-500/10'
+    },
+    { 
+      id: 'ai', 
+      label: 'Генераций', 
+      value: formatted.generations,
+      icon: Sparkles,
+      color: 'text-amber-400',
+      bg: 'bg-amber-500/10'
+    },
+    { 
+      id: 'plays', 
+      label: 'Прослушиваний', 
+      value: formatted.plays,
+      icon: Headphones,
+      color: 'text-purple-400',
+      bg: 'bg-purple-500/10'
+    },
+  ];
+
   return (
     <motion.div
       className={cn(
@@ -63,7 +64,7 @@ export const StatsHighlightBanner = memo(function StatsHighlightBanner({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: 0.1 }}
     >
-      {STATS.map((stat, index) => {
+      {stats.map((stat, index) => {
         const Icon = stat.icon;
         return (
           <motion.div
@@ -84,12 +85,21 @@ export const StatsHighlightBanner = memo(function StatsHighlightBanner({
               <Icon className={cn("w-3.5 h-3.5", stat.color)} />
             </div>
             <div className="flex flex-col">
-              <span className="text-xs font-bold text-foreground leading-tight">
-                {stat.value}
-              </span>
-              <span className="text-[9px] text-muted-foreground leading-tight">
-                {stat.label}
-              </span>
+              {isLoading ? (
+                <>
+                  <Skeleton className="h-3.5 w-10 mb-0.5" />
+                  <Skeleton className="h-2.5 w-12" />
+                </>
+              ) : (
+                <>
+                  <span className="text-xs font-bold text-foreground leading-tight">
+                    {stat.value}
+                  </span>
+                  <span className="text-[9px] text-muted-foreground leading-tight">
+                    {stat.label}
+                  </span>
+                </>
+              )}
             </div>
           </motion.div>
         );

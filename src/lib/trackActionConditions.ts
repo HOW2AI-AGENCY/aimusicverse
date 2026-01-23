@@ -68,6 +68,11 @@ export function isActionAvailable(
       // Available for tracks with vocals (either has vocal stem from separation, or is not instrumental)
       return isCompleted && hasAudio && (state.hasVocalStem || !state.isInstrumentalTrack);
 
+    case 'transcribe_midi':
+    case 'transcribe_notes':
+      // MIDI/Notes transcription requires stems to be generated first
+      return state.stemCount > 0;
+
     default:
       return true;
   }
@@ -176,6 +181,11 @@ export function getDisabledTooltip(
       return null;
 
     case 'download_stems':
+      if (state.stemCount === 0) return 'Сначала разделите трек на стемы';
+      return null;
+
+    case 'transcribe_midi':
+    case 'transcribe_notes':
       if (state.stemCount === 0) return 'Сначала разделите трек на стемы';
       return null;
 
