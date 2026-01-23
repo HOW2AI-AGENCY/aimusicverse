@@ -12,7 +12,7 @@ import { motion } from '@/lib/motion';
 import { Music2, Guitar, Mic2, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTelegram } from '@/contexts/TelegramContext';
-
+import { typographyClass, spacingClass, textBalance } from '@/lib/design-tokens';
 export type QuickStartPreset = 'track' | 'riff' | 'cover';
 
 interface QuickStartCardProps {
@@ -57,10 +57,10 @@ const QuickStartCard = memo(function QuickStartCard({
       </div>
 
       {/* Title */}
-      <h3 className="text-xs sm:text-sm font-bold text-foreground mb-0.5 text-balance">{title}</h3>
+      <h3 className={cn(typographyClass.body.sm, "font-bold text-foreground mb-0.5", textBalance.balance)}>{title}</h3>
       
       {/* Description - hidden on very small screens */}
-      <p className="text-[9px] sm:text-xs text-muted-foreground text-center leading-tight px-0.5 hidden xs:block truncate-2">
+      <p className={cn(typographyClass.caption, "text-center px-0.5 hidden xs:block line-clamp-2")}>
         {description}
       </p>
 
@@ -127,7 +127,7 @@ export const QuickStartCards = memo(function QuickStartCards({
         <div className="flex items-center justify-center w-6 h-6 rounded-md bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/20">
           <Sparkles className="w-3.5 h-3.5 text-primary" />
         </div>
-        <h2 className="text-sm font-semibold text-foreground">Быстрый старт</h2>
+        <h2 className={cn(typographyClass.body.md, "font-semibold text-foreground")}>Быстрый старт</h2>
       </motion.div>
 
       {/* Cards grid */}

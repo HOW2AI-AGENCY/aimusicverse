@@ -21,6 +21,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
+import { typographyClass, touchTargetClass } from '@/lib/design-tokens';
 
 interface GamificationBarProps {
   className?: string;
@@ -133,7 +134,7 @@ export const GamificationBar = memo(function GamificationBar({ className }: Gami
                 />
               </motion.button>
             </TooltipTrigger>
-            <TooltipContent side="bottom" className="text-xs">
+            <TooltipContent side="bottom" className={typographyClass.caption}>
               <p className="font-semibold">Уровень {level}</p>
               <p className="text-muted-foreground">{currentXP} / {nextLevelXP} XP</p>
             </TooltipContent>

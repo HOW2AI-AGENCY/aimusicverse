@@ -8,7 +8,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useActiveGenerations } from '@/hooks/generation/useActiveGenerations';
 import { Badge } from '@/components/ui/badge';
 import { preloadRoute } from '@/lib/route-preloader';
-
+import { typographyClass, touchTargetClass } from '@/lib/design-tokens';
 // Lazy load heavy sheet component
 const GenerateSheet = lazy(() => import('./GenerateSheet').then(m => ({ default: m.GenerateSheet })));
 
@@ -171,7 +171,8 @@ export const BottomNavigation = memo(function BottomNavigation() {
                   <item.icon className="w-4.5 h-4.5" />
                 </motion.div>
                 <motion.span
-                  className="text-[9px] font-medium"
+                  className={cn("text-[9px] font-medium", typographyClass.caption)}
+                  style={{ fontSize: '9px' }}
                   initial={false}
                   animate={active ? { fontWeight: 600 } : { fontWeight: 500 }}
                 >
