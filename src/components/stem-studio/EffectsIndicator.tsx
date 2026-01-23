@@ -9,12 +9,20 @@ import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { StemEffects } from '@/hooks/studio/stemEffectsConfig';
 import { cn } from '@/lib/utils';
+import { effectColors } from '@/lib/design-colors';
 
 interface EffectsIndicatorProps {
   effects: StemEffects;
   compact?: boolean;
   showDetails?: boolean;
 }
+
+// Effect color mapping using design tokens
+const EFFECT_COLOR_MAP: Record<string, string> = {
+  blue: effectColors.eq,
+  orange: effectColors.compressor,
+  purple: effectColors.reverb,
+};
 
 export function EffectsIndicator({ 
   effects, 
@@ -90,9 +98,7 @@ export function EffectsIndicator({
                   key={effect.name}
                   className={cn(
                     "w-1.5 h-1.5 rounded-full animate-pulse",
-                    effect.color === 'blue' && "bg-blue-500",
-                    effect.color === 'orange' && "bg-orange-500",
-                    effect.color === 'purple' && "bg-purple-500"
+                    EFFECT_COLOR_MAP[effect.color] || effectColors.eq
                   )}
                 />
               ))}

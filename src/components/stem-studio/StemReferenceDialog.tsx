@@ -14,6 +14,8 @@ import { TrackStem } from '@/hooks/useTrackStems';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { ReferenceManager } from '@/services/audio-reference';
+import { getStemLabel } from '@/lib/stemLabels';
+import { getStemColor as getDesignStemColor } from '@/lib/design-colors';
 
 interface StemReferenceDialogProps {
   stems: TrackStem[];
@@ -24,52 +26,9 @@ interface StemReferenceDialogProps {
   trackTags?: string | null;
 }
 
-const stemLabels: Record<string, string> = {
-  vocals: 'Вокал',
-  vocal: 'Вокал',
-  backing_vocals: 'Бэк-вокал',
-  drums: 'Ударные',
-  bass: 'Бас',
-  guitar: 'Гитара',
-  keyboard: 'Клавишные',
-  piano: 'Пианино',
-  strings: 'Струнные',
-  brass: 'Духовые',
-  woodwinds: 'Дер. духовые',
-  percussion: 'Перкуссия',
-  synth: 'Синтезатор',
-  fx: 'Эффекты',
-  atmosphere: 'Атмосфера',
-  instrumental: 'Инструментал',
-  other: 'Другое',
-};
-
-const stemColors: Record<string, string> = {
-  vocals: 'bg-blue-500/10 border-blue-500/30 text-blue-500',
-  vocal: 'bg-blue-500/10 border-blue-500/30 text-blue-500',
-  backing_vocals: 'bg-cyan-500/10 border-cyan-500/30 text-cyan-500',
-  drums: 'bg-orange-500/10 border-orange-500/30 text-orange-500',
-  bass: 'bg-purple-500/10 border-purple-500/30 text-purple-500',
-  guitar: 'bg-amber-500/10 border-amber-500/30 text-amber-500',
-  keyboard: 'bg-pink-500/10 border-pink-500/30 text-pink-500',
-  piano: 'bg-pink-500/10 border-pink-500/30 text-pink-500',
-  strings: 'bg-emerald-500/10 border-emerald-500/30 text-emerald-500',
-  brass: 'bg-yellow-500/10 border-yellow-500/30 text-yellow-500',
-  woodwinds: 'bg-lime-500/10 border-lime-500/30 text-lime-500',
-  percussion: 'bg-red-500/10 border-red-500/30 text-red-500',
-  synth: 'bg-violet-500/10 border-violet-500/30 text-violet-500',
-  fx: 'bg-teal-500/10 border-teal-500/30 text-teal-500',
-  atmosphere: 'bg-sky-500/10 border-sky-500/30 text-sky-500',
-  instrumental: 'bg-green-500/10 border-green-500/30 text-green-500',
-  other: 'bg-gray-500/10 border-gray-500/30 text-gray-500',
-};
-
-const getStemLabel = (stemType: string): string => {
-  return stemLabels[stemType.toLowerCase()] || stemType;
-};
-
-const getStemColor = (stemType: string): string => {
-  return stemColors[stemType.toLowerCase()] || stemColors.other;
+// Use centralized stem colors from design tokens
+const getStemColorClass = (stemType: string): string => {
+  return getDesignStemColor(stemType).combined;
 };
 
 export const StemReferenceDialog = ({ 
@@ -135,7 +94,7 @@ export const StemReferenceDialog = ({
               onClick={() => setSelectedStem(stem)}
               className={cn(
                 "flex items-center gap-3 p-3 rounded-lg border transition-all text-left",
-                getStemColor(stem.stem_type),
+                getStemColorClass(stem.stem_type),
                 selectedStem?.id === stem.id 
                   ? "ring-2 ring-primary border-primary" 
                   : "hover:bg-accent/50"
