@@ -122,9 +122,10 @@ export function UnifiedSplashScreen({
   };
 
   // Safe area padding for fixed overlays (accounts for Telegram header/footer)
+  // IMPORTANT: during the very first paint, Telegram CSS vars may not be set yet.
+  // Use a safe fallback (44px) so content (logo) doesn't get clipped under the native header.
   const safeAreaStyle = (variant === 'splash' || variant === 'loading' || variant === 'overlay') ? {
-    // Centering should be computed within the safe area
-    paddingTop: getSafeAreaTop(0),
+    paddingTop: `calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 44px), env(safe-area-inset-top, 44px)) + 12px)`,
     paddingBottom: getSafeAreaBottom(0),
   } : {};
 
