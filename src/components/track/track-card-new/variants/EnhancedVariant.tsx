@@ -136,9 +136,8 @@ export const EnhancedVariant = memo(function EnhancedVariant({
         className="h-full"
       >
         <motion.div
-          whileHover={{ y: -3, scale: 1.01 }}
           whileTap={{ scale: 0.98 }}
-          transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+          transition={{ type: 'spring', stiffness: 400, damping: 30 }}
           onHoverStart={() => setIsHovered(true)}
           onHoverEnd={() => setIsHovered(false)}
           className="h-full"
@@ -146,27 +145,25 @@ export const EnhancedVariant = memo(function EnhancedVariant({
           <Card
             className={cn(
               'group relative overflow-hidden border-0 bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-sm h-full',
-              'shadow-md transition-all duration-300 cursor-pointer',
+              'shadow-sm hover:shadow-md transition-shadow duration-200 cursor-pointer',
               isCurrentTrack && 'ring-2 ring-primary ring-offset-1 ring-offset-background',
-              isHovered && 'shadow-lg shadow-primary/10',
               className
             )}
           >
             {/* Cover Image */}
             <div className="relative overflow-hidden rounded-t-lg aspect-square">
               {coverUrl ? (
-                <motion.img
+                <img
                   src={coverUrl}
                   alt={track.title || 'Track cover'}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-105"
                   onError={() => setImageError(true)}
                   loading="lazy"
-                  animate={{ scale: isHovered ? 1.05 : 1 }}
-                  transition={{ duration: 0.3 }}
+                  decoding="async"
                 />
               ) : (
                 <div className="w-full h-full bg-gradient-to-br from-primary/30 via-secondary/20 to-accent/10 flex items-center justify-center">
-                  <Music2 className="w-8 h-8 text-primary/40" />
+                  <Music2 className="w-6 h-6 sm:w-8 sm:h-8 text-primary/40" />
                 </div>
               )}
 
