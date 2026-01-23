@@ -1,14 +1,14 @@
 /**
- * UnifiedSplashScreen - Single unified splash/loading screen for the entire app
- * Replaces: SplashScreen.tsx, LoadingScreen, BrandedLoader
+ * UnifiedSplashScreen - Optimized splash/loading screen
+ * GPU-accelerated CSS animations for fast first paint
  */
-import { useEffect, useState } from "react";
-import { motion, AnimatePresence, useReducedMotion } from '@/lib/motion';
-import { Loader2, Music2, Disc3 } from 'lucide-react';
+import { useEffect, useState, memo } from "react";
+import { AnimatePresence, useReducedMotion } from '@/lib/motion';
+import { Loader2 } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import logo from "@/assets/logo.png";
 import { APP_CONFIG } from '@/config/app.config';
-import { getSafeAreaTop, getSafeAreaBottom } from '@/constants/safe-area';
+import { getSafeAreaBottom } from '@/constants/safe-area';
 
 export type SplashVariant = 'splash' | 'loading' | 'overlay' | 'inline' | 'minimal';
 
@@ -22,71 +22,29 @@ interface UnifiedSplashScreenProps {
   className?: string;
 }
 
-// Musical equalizer bar with smooth animation
-const EqualizerBar = ({ delay = 0, maxHeight = 20, color = 'primary' }: { 
-  delay?: number; 
-  maxHeight?: number;
-  color?: 'primary' | 'generate';
-}) => (
-  <motion.div
-    className={cn(
-      "w-1 rounded-full",
-      color === 'primary' 
-        ? "bg-gradient-to-t from-primary via-primary/80 to-primary/50" 
-        : "bg-gradient-to-t from-generate via-generate/80 to-generate/50"
-    )}
-    initial={{ height: 4 }}
-    animate={{ height: [4, maxHeight, 4] }}
-    transition={{
-      duration: 0.7,
-      repeat: Infinity,
-      delay,
-      ease: 'easeInOut',
-    }}
-  />
-);
-
-// Floating music notes effect
-const FloatingNote = ({ delay = 0, x = 0 }: { delay?: number; x?: number }) => (
-  <motion.div
-    className="absolute text-primary/30"
-    style={{ left: `${50 + x}%` }}
-    initial={{ y: 100, opacity: 0, scale: 0.5 }}
-    animate={{ 
-      y: [-20, -60, -100],
-      opacity: [0, 0.6, 0],
-      scale: [0.5, 1, 0.8],
-      rotate: [0, 15, -10],
-    }}
-    transition={{
-      duration: 3,
-      repeat: Infinity,
-      delay,
-      ease: 'easeOut',
-    }}
-  >
-    <Music2 className="w-4 h-4" />
-  </motion.div>
-);
-
-// Spinning vinyl effect
-const VinylDisc = ({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) => {
-  const sizeClasses = {
-    sm: 'w-8 h-8',
-    md: 'w-12 h-12',
-    lg: 'w-16 h-16',
-  };
-
-  return (
-    <motion.div
-      className={cn("relative", sizeClasses[size])}
-      animate={{ rotate: 360 }}
-      transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-    >
-      <Disc3 className="w-full h-full text-primary/60" />
-    </motion.div>
-  );
-};
+// CSS-based equalizer for GPU acceleration (no JS animation overhead)
+const CSSEqualizer = memo(() => (
+  <div className="flex items-end justify-center gap-1 h-8" aria-hidden="true">
+    {[0, 1, 2, 3, 4].map((i) => (
+      <div
+        key={i}
+        className="w-1 rounded-full bg-gradient-to-t from-primary to-primary/50 will-change-transform"
+        style={{
+          animation: `equalizer 0.6s ease-in-out infinite`,
+          animationDelay: `${i * 0.1}s`,
+          height: '4px',
+        }}
+      />
+    ))}
+    <style>{`
+      @keyframes equalizer {
+        0%, 100% { transform: scaleY(1); }
+        50% { transform: scaleY(4); }
+      }
+    `}</style>
+  </div>
+));
+CSSEqualizer.displayName = 'CSSEqualizer';
 
 export function UnifiedSplashScreen({
   variant = 'splash',
@@ -94,42 +52,38 @@ export function UnifiedSplashScreen({
   progress,
   showLogo = true,
   onComplete,
-  duration = 1200,
+  duration = 1000, // Reduced from 1200ms for snappier feel
   className,
 }: UnifiedSplashScreenProps) {
   const shouldReduceMotion = useReducedMotion();
   const [isVisible, setIsVisible] = useState(true);
 
-  // Auto-complete for splash variant
+  // Auto-complete for splash variant - faster transition
   useEffect(() => {
     if (variant === 'splash' && onComplete) {
       const timer = setTimeout(() => {
         setIsVisible(false);
-        setTimeout(onComplete, 300); // Wait for exit animation
+        setTimeout(onComplete, 150); // Reduced exit delay
       }, duration);
       return () => clearTimeout(timer);
     }
   }, [variant, onComplete, duration]);
 
-  // Container styles based on variant - using safe area aware centering
+  // Container styles - optimized with will-change for GPU compositing
   const containerClasses: Record<SplashVariant, string> = {
-    // Use Telegram stable viewport height to prevent layout shift in Mini App
-    splash: 'fixed left-0 right-0 top-0 h-[var(--tg-viewport-stable-height,100vh)] flex flex-col items-center justify-center bg-background z-system',
-    loading: 'fixed left-0 right-0 top-0 h-[var(--tg-viewport-stable-height,100vh)] flex flex-col items-center justify-center bg-background z-fullscreen',
-    overlay: 'fixed left-0 right-0 top-0 h-[var(--tg-viewport-stable-height,100vh)] flex flex-col items-center justify-center bg-background/90 backdrop-blur-xl z-fullscreen',
-    inline: 'flex items-center justify-center py-16',
+    splash: 'fixed left-0 right-0 top-0 h-[var(--tg-viewport-stable-height,100vh)] flex flex-col items-center justify-center bg-background z-system will-change-opacity',
+    loading: 'fixed left-0 right-0 top-0 h-[var(--tg-viewport-stable-height,100vh)] flex flex-col items-center justify-center bg-background z-fullscreen will-change-opacity',
+    overlay: 'fixed left-0 right-0 top-0 h-[var(--tg-viewport-stable-height,100vh)] flex flex-col items-center justify-center bg-background/90 backdrop-blur-sm z-fullscreen will-change-opacity',
+    inline: 'flex items-center justify-center py-12',
     minimal: 'flex items-center justify-center p-4',
   };
 
-  // Safe area padding for fixed overlays (accounts for Telegram header/footer)
-  // IMPORTANT: during the very first paint, Telegram CSS vars may not be set yet.
-  // Use a safe fallback (44px) so content (logo) doesn't get clipped under the native header.
+  // Safe area with fallback for first paint
   const safeAreaStyle = (variant === 'splash' || variant === 'loading' || variant === 'overlay') ? {
     paddingTop: `calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 44px), env(safe-area-inset-top, 44px)) + 12px)`,
     paddingBottom: getSafeAreaBottom(0),
   } : {};
 
-  // Get default message based on variant
   const defaultMessage = {
     splash: '',
     loading: 'Загрузка...',
@@ -140,226 +94,142 @@ export function UnifiedSplashScreen({
 
   const displayMessage = message ?? defaultMessage[variant];
 
+  // Use CSS transitions instead of framer-motion for faster paint
+  if (!isVisible) return null;
+
   return (
-    <AnimatePresence mode="wait">
-      {isVisible && (
-        <motion.div
-          className={cn(containerClasses[variant], className)}
-          style={safeAreaStyle}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: shouldReduceMotion ? 0 : 0.3 }}
-          role="status"
-          aria-live="polite"
-          aria-busy="true"
+    <div
+      className={cn(
+        containerClasses[variant],
+        'animate-fade-in',
+        className
+      )}
+      style={safeAreaStyle}
+      role="status"
+      aria-live="polite"
+      aria-busy="true"
+    >
+      {/* Simplified background - single CSS gradient, no JS animation */}
+      {(variant === 'splash' || variant === 'loading') && !shouldReduceMotion && (
+        <div 
+          className="absolute inset-0 overflow-hidden pointer-events-none"
+          aria-hidden="true"
         >
-          {/* Animated background for splash/loading variants */}
-          {(variant === 'splash' || variant === 'loading') && !shouldReduceMotion && (
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              {/* Primary gradient blob */}
-              <motion.div
-                className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-primary/8 rounded-full blur-3xl"
-                animate={{
-                  x: [0, 60, 0],
-                  y: [0, 40, 0],
-                  scale: [1, 1.2, 1],
-                }}
-                transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+          <div 
+            className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[300px] h-[300px] rounded-full blur-3xl opacity-20"
+            style={{
+              background: 'radial-gradient(circle, hsl(var(--primary)) 0%, transparent 70%)',
+              animation: 'pulse 3s ease-in-out infinite',
+            }}
+          />
+        </div>
+      )}
+
+      {/* Main content - no JS animation, pure CSS */}
+      <div className="relative z-10 flex flex-col items-center gap-4">
+        {/* Logo - static with CSS glow */}
+        {showLogo && (variant === 'splash' || variant === 'loading') && (
+          <div className="relative mb-2">
+            {/* Simple CSS glow */}
+            {!shouldReduceMotion && (
+              <div 
+                className="absolute -inset-4 rounded-3xl bg-primary/25 blur-xl"
+                style={{ animation: 'pulse 2s ease-in-out infinite' }}
               />
-              {/* Secondary gradient blob */}
-              <motion.div
-                className="absolute bottom-1/4 right-1/4 w-[350px] h-[350px] bg-generate/6 rounded-full blur-3xl"
-                animate={{
-                  x: [0, -50, 0],
-                  y: [0, -30, 0],
-                  scale: [1, 1.15, 1],
-                }}
-                transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+            )}
+            
+            {/* Logo container */}
+            <div className="relative p-3 rounded-3xl bg-card/80 backdrop-blur-sm border border-primary/20 shadow-xl">
+              <img 
+                src={logo} 
+                alt="MusicVerse AI" 
+                className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl" 
+                loading="eager"
+                decoding="async"
               />
-              {/* Center pulse */}
-              <motion.div
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[250px] h-[250px] bg-primary/5 rounded-full blur-2xl"
-                animate={{
-                  scale: [1, 1.4, 1],
-                  opacity: [0.3, 0.6, 0.3],
-                }}
-                transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-              />
-              
-              {/* Floating music notes (splash only) */}
-              {variant === 'splash' && (
-                <>
-                  <FloatingNote delay={0} x={-20} />
-                  <FloatingNote delay={0.7} x={15} />
-                  <FloatingNote delay={1.4} x={-10} />
-                  <FloatingNote delay={2.1} x={25} />
-                </>
+            </div>
+          </div>
+        )}
+
+        {/* App name for splash variant */}
+        {variant === 'splash' && (
+          <div className="text-center">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gradient mb-1">
+              MusicVerse AI
+            </h1>
+            <div className="flex items-center justify-center gap-2">
+              <p className="text-sm text-muted-foreground">
+                Генерация музыки с AI
+              </p>
+              {APP_CONFIG.beta.enabled && (
+                <span className="text-xs px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-500 font-medium">
+                  {APP_CONFIG.versionName}
+                </span>
               )}
             </div>
-          )}
+          </div>
+        )}
 
-          {/* Main content */}
-          <motion.div
-            className="relative z-10 flex flex-col items-center gap-5"
-            initial={{ opacity: 0, scale: 0.9, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
-          >
-            {/* Logo with glow effect */}
-            {showLogo && (variant === 'splash' || variant === 'loading') && (
-              <motion.div
-                className="relative mb-2"
-                animate={!shouldReduceMotion ? { scale: [1, 1.02, 1] } : undefined}
-                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-              >
-                {/* Outer glow */}
-                {!shouldReduceMotion && (
-                  <motion.div
-                    className="absolute -inset-6 rounded-[2rem] bg-primary/20 blur-2xl"
-                    animate={{
-                      scale: [1, 1.25, 1],
-                      opacity: [0.4, 0.7, 0.4],
-                    }}
-                    transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                  />
-                )}
-                
-                {/* Inner glow */}
-                {!shouldReduceMotion && (
-                  <motion.div
-                    className="absolute -inset-3 rounded-3xl bg-primary/30 blur-xl"
-                    animate={{
-                      scale: [1, 1.1, 1],
-                      opacity: [0.5, 0.8, 0.5],
-                    }}
-                    transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-                  />
-                )}
+        {/* CSS Equalizer - GPU accelerated */}
+        {!shouldReduceMotion && variant !== 'minimal' && <CSSEqualizer />}
 
-                {/* Logo container */}
-                <div className="relative p-3 rounded-3xl bg-card/80 backdrop-blur-sm border border-primary/20 shadow-2xl">
-                  <img 
-                    src={logo} 
-                    alt="MusicVerse AI" 
-                    className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl" 
-                  />
-                </div>
-              </motion.div>
-            )}
+        {/* Minimal variant - simple spinner */}
+        {variant === 'minimal' && (
+          <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+        )}
 
-            {/* App name for splash variant */}
-            {variant === 'splash' && (
-              <motion.div
-                className="text-center"
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.25, duration: 0.4 }}
-              >
-                <h1 className="text-3xl sm:text-4xl font-bold text-gradient mb-1">
-                  MusicVerse AI
-                </h1>
-                <div className="flex items-center justify-center gap-2">
-                  <p className="text-sm text-muted-foreground">
-                    Генерация музыки с AI
-                  </p>
-                  {APP_CONFIG.beta.enabled && (
-                    <span className="text-xs px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-500 font-medium">
-                      {APP_CONFIG.versionName} v{APP_CONFIG.version}
-                    </span>
-                  )}
-                </div>
-              </motion.div>
-            )}
+        {/* Reduced motion fallback */}
+        {shouldReduceMotion && (
+          <Loader2 className="h-6 w-6 animate-spin text-primary" />
+        )}
 
-            {/* Equalizer animation */}
-            {!shouldReduceMotion && variant !== 'minimal' && (
-              <motion.div
-                className="flex items-end justify-center gap-1 h-8"
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: variant === 'splash' ? 0.5 : 0.2 }}
-              >
-                {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-                  <EqualizerBar 
-                    key={i} 
-                    delay={i * 0.08} 
-                    maxHeight={10 + Math.sin(i * 0.6) * 8 + 6}
-                    color={i % 3 === 0 ? 'generate' : 'primary'}
-                  />
-                ))}
-              </motion.div>
-            )}
-
-            {/* Minimal variant uses spinning vinyl */}
-            {variant === 'minimal' && !shouldReduceMotion && (
-              <VinylDisc size="sm" />
-            )}
-
-            {/* Reduced motion fallback */}
-            {shouldReduceMotion && (
-              <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            )}
-
-            {/* Progress indicator */}
-            {progress !== undefined && (
-              <div className="w-48">
-                <div 
-                  className="h-1.5 bg-muted/50 rounded-full overflow-hidden"
-                  role="progressbar"
-                  aria-valuenow={progress}
-                  aria-valuemin={0}
-                  aria-valuemax={100}
-                >
-                  <motion.div 
-                    className="h-full bg-gradient-to-r from-primary via-primary to-generate rounded-full"
-                    initial={{ width: 0 }}
-                    animate={{ width: `${progress}%` }}
-                    transition={{ duration: 0.3, ease: 'easeOut' }}
-                  />
-                </div>
-                <p className="text-xs text-muted-foreground text-center mt-1.5">
-                  {Math.round(progress)}%
-                </p>
-              </div>
-            )}
-
-            {/* Message */}
-            {displayMessage && (
-              <motion.p
-                className="text-sm text-muted-foreground text-center max-w-xs"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: variant === 'splash' ? 0.6 : 0.3 }}
-              >
-                {displayMessage}
-              </motion.p>
-            )}
-          </motion.div>
-
-          {/* Bottom decorative progress line (splash only) */}
-          {variant === 'splash' && !shouldReduceMotion && (
-            <motion.div
-              className="absolute bottom-12 left-1/2 -translate-x-1/2 w-32 h-0.5 rounded-full overflow-hidden bg-border/50"
-              initial={{ opacity: 0, scaleX: 0 }}
-              animate={{ opacity: 1, scaleX: 1 }}
-              transition={{ delay: 0.7, duration: 0.5 }}
+        {/* Progress indicator - CSS transition */}
+        {progress !== undefined && (
+          <div className="w-40">
+            <div 
+              className="h-1 bg-muted/50 rounded-full overflow-hidden"
+              role="progressbar"
+              aria-valuenow={progress}
+              aria-valuemin={0}
+              aria-valuemax={100}
             >
-              <motion.div
-                className="h-full bg-gradient-to-r from-transparent via-primary to-transparent"
-                initial={{ x: '-100%' }}
-                animate={{ x: '100%' }}
-                transition={{
-                  duration: 1,
-                  repeat: Infinity,
-                  ease: 'linear',
-                }}
+              <div 
+                className="h-full bg-primary rounded-full transition-all duration-200 ease-out"
+                style={{ width: `${progress}%` }}
               />
-            </motion.div>
-          )}
-        </motion.div>
+            </div>
+            <p className="text-xs text-muted-foreground text-center mt-1 tabular-nums">
+              {Math.round(progress)}%
+            </p>
+          </div>
+        )}
+
+        {/* Message */}
+        {displayMessage && (
+          <p className="text-sm text-muted-foreground text-center max-w-xs">
+            {displayMessage}
+          </p>
+        )}
+      </div>
+
+      {/* Bottom progress line - pure CSS */}
+      {variant === 'splash' && !shouldReduceMotion && (
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-24 h-0.5 rounded-full overflow-hidden bg-border/30">
+          <div 
+            className="h-full w-1/2 bg-primary/60 rounded-full"
+            style={{
+              animation: 'shimmer 1s linear infinite',
+            }}
+          />
+          <style>{`
+            @keyframes shimmer {
+              0% { transform: translateX(-100%); }
+              100% { transform: translateX(300%); }
+            }
+          `}</style>
+        </div>
       )}
-    </AnimatePresence>
+    </div>
   );
 }
 
@@ -371,7 +241,7 @@ export const SplashScreen = ({ onComplete }: { onComplete: () => void }) => (
   <UnifiedSplashScreen variant="splash" onComplete={onComplete} />
 );
 
-export const LoadingScreen = ({ 
+export const LoadingScreen = memo(({ 
   message, 
   progress,
   variant = 'loading',
@@ -387,13 +257,13 @@ export const LoadingScreen = ({
   const [dismissed, setDismissed] = useState(false);
   
   useEffect(() => {
-    // Track loading time for progress indication - faster updates
+    // Faster progress updates for perceived speed
     const interval = setInterval(() => {
-      setLoadingTime(prev => prev + 0.5);
-    }, 500);
+      setLoadingTime(prev => prev + 0.3);
+    }, 300);
     
-    // Show retry button after 15 seconds (reduced for better UX)
-    const retryTimer = setTimeout(() => setShowRetry(true), 15000);
+    // Show retry after 12 seconds
+    const retryTimer = setTimeout(() => setShowRetry(true), 12000);
     
     return () => {
       clearInterval(interval);
@@ -401,35 +271,31 @@ export const LoadingScreen = ({
     };
   }, []);
 
-  // Calculate simulated progress based on time - faster progression
-  const simulatedProgress = progress ?? Math.min(loadingTime * 15, 95);
+  // Faster simulated progress curve
+  const simulatedProgress = progress ?? Math.min(loadingTime * 20, 95);
 
-  // If dismissed, just show minimal loader
   if (dismissed) {
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-background/80 z-50">
-        <div className="animate-spin w-6 h-6 border-2 border-primary border-t-transparent rounded-full" />
+        <div className="animate-spin w-5 h-5 border-2 border-primary border-t-transparent rounded-full" />
       </div>
     );
   }
 
   if (showRetry) {
     return (
-      <div className="fixed inset-0 flex flex-col items-center justify-center bg-background z-50 gap-4">
-        <p className="text-muted-foreground">Загрузка занимает слишком долго</p>
-        <p className="text-xs text-muted-foreground/70 text-center px-4">
-          Попробуйте обновить страницу или подождите ещё немного
-        </p>
-        <div className="flex gap-3">
+      <div className="fixed inset-0 flex flex-col items-center justify-center bg-background z-50 gap-3 px-6">
+        <p className="text-muted-foreground text-center">Загрузка занимает дольше обычного</p>
+        <div className="flex gap-2">
           <button 
             onClick={() => setDismissed(true)}
-            className="px-4 py-2 bg-muted text-muted-foreground rounded-lg hover:bg-muted/80 transition-colors"
+            className="px-4 py-2.5 bg-muted text-muted-foreground rounded-lg active:scale-95 transition-transform min-h-[44px]"
           >
             Подождать
           </button>
           <button 
             onClick={() => window.location.reload()}
-            className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+            className="px-4 py-2.5 bg-primary text-primary-foreground rounded-lg active:scale-95 transition-transform min-h-[44px]"
           >
             Обновить
           </button>
@@ -441,11 +307,12 @@ export const LoadingScreen = ({
   return (
     <UnifiedSplashScreen 
       variant={variant === 'loading' ? 'loading' : variant === 'inline' ? 'inline' : 'overlay'} 
-      message={message ?? (loadingTime > 4 ? 'Почти готово...' : undefined)}
+      message={message ?? (loadingTime > 3 ? 'Почти готово...' : undefined)}
       progress={simulatedProgress}
       className={className}
     />
   );
-};
+});
+LoadingScreen.displayName = 'LoadingScreen';
 
 export default UnifiedSplashScreen;
