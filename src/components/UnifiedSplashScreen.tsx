@@ -110,14 +110,20 @@ export function UnifiedSplashScreen({
     }
   }, [variant, onComplete, duration]);
 
-  // Container styles based on variant
+  // Container styles based on variant - using safe area aware centering
   const containerClasses: Record<SplashVariant, string> = {
-    splash: 'fixed inset-0 flex items-center justify-center bg-background z-system',
-    loading: 'fixed inset-0 flex items-center justify-center bg-background z-fullscreen',
-    overlay: 'fixed inset-0 flex items-center justify-center bg-background/90 backdrop-blur-xl z-fullscreen',
+    splash: 'fixed inset-0 flex flex-col items-center justify-center bg-background z-system',
+    loading: 'fixed inset-0 flex flex-col items-center justify-center bg-background z-fullscreen',
+    overlay: 'fixed inset-0 flex flex-col items-center justify-center bg-background/90 backdrop-blur-xl z-fullscreen',
     inline: 'flex items-center justify-center py-16',
     minimal: 'flex items-center justify-center p-4',
   };
+
+  // Safe area padding for fixed overlays (accounts for Telegram header/footer)
+  const safeAreaStyle = (variant === 'splash' || variant === 'loading' || variant === 'overlay') ? {
+    paddingTop: 'max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))',
+    paddingBottom: 'max(var(--tg-content-safe-area-inset-bottom, 0px) + var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px))',
+  } : {};
 
   // Get default message based on variant
   const defaultMessage = {
@@ -135,6 +141,7 @@ export function UnifiedSplashScreen({
       {isVisible && (
         <motion.div
           className={cn(containerClasses[variant], className)}
+          style={safeAreaStyle}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
