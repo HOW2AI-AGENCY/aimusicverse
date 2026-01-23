@@ -30,14 +30,17 @@ interface FeaturedSectionProps {
 
 const SKELETON_COUNT = 4;
 
-// Lightweight skeleton component
+// Lightweight skeleton component - optimized for scroll performance
 const TrackSkeleton = memo(function TrackSkeleton() {
   return (
-    <div className="flex-shrink-0 w-[140px]">
-      <div className="aspect-square rounded-xl bg-muted/20 animate-pulse" />
+    <div 
+      className="flex-shrink-0 w-[140px]"
+      style={{ contain: 'layout paint' }}
+    >
+      <div className="aspect-square rounded-xl bg-muted/20" />
       <div className="mt-2 space-y-1">
-        <div className="h-3 w-4/5 bg-muted/15 rounded animate-pulse" />
-        <div className="h-2.5 w-1/2 bg-muted/10 rounded animate-pulse" />
+        <div className="h-3 w-4/5 bg-muted/15 rounded" />
+        <div className="h-2.5 w-1/2 bg-muted/10 rounded" />
       </div>
     </div>
   );
@@ -70,17 +73,24 @@ export const FeaturedSection = memo(function FeaturedSection({
   }, [hapticFeedback, onLoadMore]);
 
   // Show lightweight skeleton only when truly loading with no data
+  // No animations on skeleton to prevent scroll jank
   if (isLoading && displayTracks.length === 0) {
     return (
-      <section className={cn("space-y-3", className)}>
+      <section 
+        className={cn("space-y-3", className)}
+        style={{ contain: 'layout' }}
+      >
         <div className="flex items-center gap-2 px-1">
-          <div className="w-8 h-8 rounded-lg bg-muted/20 animate-pulse" />
+          <div className="w-8 h-8 rounded-lg bg-muted/20" />
           <div className="space-y-1">
-            <div className="h-4 w-24 bg-muted/20 rounded animate-pulse" />
-            <div className="h-3 w-36 bg-muted/15 rounded animate-pulse" />
+            <div className="h-4 w-24 bg-muted/20 rounded" />
+            <div className="h-3 w-36 bg-muted/15 rounded" />
           </div>
         </div>
-        <div className="flex gap-3 overflow-x-auto pb-2 scroll-smooth touch-pan-x">
+        <div 
+          className="flex gap-3 overflow-x-auto pb-2 scroll-smooth touch-pan-x"
+          style={{ WebkitOverflowScrolling: 'touch' }}
+        >
           {Array.from({ length: SKELETON_COUNT }).map((_, i) => (
             <TrackSkeleton key={i} />
           ))}
