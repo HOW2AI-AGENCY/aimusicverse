@@ -1052,10 +1052,21 @@ All colors MUST be HSL.
       hsl(var(--foreground) / 0.03) 50%,
       transparent 100%
     );
-    /* Slower animation with GPU hint - reduces CPU usage during scroll */
-    animation: shimmer 2.5s infinite ease-in-out;
+    /* Faster animation for snappier feel, GPU accelerated */
+    animation: shimmer 1.8s infinite ease-in-out;
     will-change: transform;
     backface-visibility: hidden;
+  }
+
+  /* CSS-only pulse scale animation for LoadingSpinner music variant */
+  @keyframes css-pulse-scale {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+  
+  .css-pulse-scale {
+    animation: css-pulse-scale 1.5s ease-in-out infinite;
+    will-change: transform;
   }
 
   /* Disable shimmer animation during scroll for better performance */
@@ -1064,6 +1075,10 @@ All colors MUST be HSL.
     .skeleton-shimmer-optimized::after {
       animation: none;
       background: hsl(var(--foreground) / 0.05);
+    }
+    
+    .css-pulse-scale {
+      animation: none;
     }
   }
 

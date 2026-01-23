@@ -1,9 +1,12 @@
 /**
  * Unified loading spinner component for consistent loading states
+ * 
+ * OPTIMIZED: Uses pure CSS animations instead of framer-motion
+ * for faster initial paint and reduced JS bundle.
  */
+import { memo } from 'react';
 import { cn } from '@/lib/utils';
-import { motion } from '@/lib/motion';
-import { Music2, Loader2 } from 'lucide-react';
+import { Music2 } from 'lucide-react';
 
 interface LoadingSpinnerProps {
   size?: 'sm' | 'md' | 'lg' | 'xl';
@@ -26,51 +29,51 @@ const containerSizes = {
   xl: 'p-6',
 };
 
-export function LoadingSpinner({
+export const LoadingSpinner = memo(function LoadingSpinner({
   size = 'md',
   variant = 'default',
   text,
   className,
 }: LoadingSpinnerProps) {
+  // Minimal variant - pure CSS spinner
   if (variant === 'minimal') {
     return (
-      <Loader2 
+      <div 
         className={cn(
           sizeClasses[size],
-          'animate-spin text-primary',
+          'animate-spin rounded-full border-2 border-primary border-t-transparent',
           className
         )} 
+        role="status"
+        aria-label="Loading"
       />
     );
   }
 
+  // Music variant - CSS pulse animation instead of framer-motion
   if (variant === 'music') {
     return (
       <div className={cn('flex flex-col items-center gap-3', className)}>
-        <motion.div
+        <div
           className={cn(
-            'rounded-full bg-primary/10 flex items-center justify-center',
+            'rounded-full bg-primary/10 flex items-center justify-center css-pulse-scale',
             containerSizes[size]
           )}
-          animate={{ scale: [1, 1.1, 1] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+          role="status"
+          aria-label="Loading music"
         >
           <Music2 className={cn(sizeClasses[size], 'text-primary')} />
-        </motion.div>
+        </div>
         {text && (
-          <motion.p
-            className="text-sm text-muted-foreground"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-          >
+          <p className="text-sm text-muted-foreground animate-fade-in">
             {text}
-          </motion.p>
+          </p>
         )}
       </div>
     );
   }
 
+  // Default variant - simple CSS spinner
   return (
     <div className={cn('flex flex-col items-center gap-3', className)}>
       <div
@@ -78,13 +81,15 @@ export function LoadingSpinner({
           sizeClasses[size],
           'animate-spin rounded-full border-2 border-primary border-t-transparent'
         )}
+        role="status"
+        aria-label="Loading"
       />
       {text && (
         <p className="text-sm text-muted-foreground">{text}</p>
       )}
     </div>
   );
-}
+});
 
 // Full page loading state
 interface PageLoadingProps {
