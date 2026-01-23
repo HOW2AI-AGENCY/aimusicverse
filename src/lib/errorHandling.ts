@@ -408,31 +408,92 @@ export function getRecoveryAction(error: unknown): {
 
 /**
  * Common artist names that Suno API blocks
- * This is a subset - the API may block more
+ * IMPORTANT: Only include names that are ACTUAL artists
+ * Do NOT include common Russian words/names that cause false positives:
+ * - "magazin", "lenka", "karina", "chika", "poli", "девочка", "миша", "аня", "класс", "максим"
  */
 const BLOCKED_ARTIST_PATTERNS = [
-  // English artists (expanded based on Suno API rejections)
-  /\b(taylor swift|ed sheeran|drake|beyonce|eminem|kanye|ariana grande|billie eilish|rihanna|justin bieber|lady gaga|katy perry|bruno mars|post malone|dua lipa|the weeknd|adele|coldplay|maroon 5|imagine dragons|bts|blackpink|twice|red velvet|karina|lany|chika|misha|ania|klass|maksim|mirami|akon|shakira|pitbull|nicki minaj|cardi b|travis scott|kendrick lamar|j cole|lil wayne|future|metro boomin|weeknd|bad bunny|ozuna|daddy yankee|maluma|j balvin|rosalia|doja cat|megan thee stallion|lizzo|harry styles|olivia rodrigo|demi lovato|selena gomez|miley cyrus|nick jonas|shawn mendes|camila cabello|charlie puth|zayn|one direction|twenty one pilots|panic at the disco|fall out boy|my chemical romance|green day|blink 182|linkin park|nirvana|queen|beatles|rolling stones|pink floyd|led zeppelin|metallica|ac dc|guns n roses|bon jovi|aerosmith)\b/i,
-  // Russian artists (expanded from real API errors)
-  /\b(моргенштерн|morgenshtern|тимати|timati|баста|basta|oxxxymiron|оксимирон|егор крид|егоркрид|egor creed|хаски|husky|скриптонит|scriptonite|фейс|pharaoh|фараон|miyagi|мияги|джизус|jah khalib|джах халиб|matrang|макс корж|max korzh|noize mc|нойз мс|сектор газа|sektor gaza|девочка|devochka|миша|misha|аня|ания|ania|класс|klass|максим|maksim|мирами|mirami|ленинград|leningrad|земфира|zemfira|алла пугачёва|alla pugacheva|филипп киркоров|kirkorov|дима билан|dima bilan|полина гагарина|polina gagarina|григорий лепс|leps|валерий меладзе|meladze|лобода|loboda|монеточка|monetochka|нервы|nervy|мот|mot|элджей|yelzey|face|фэйс|slava marlow|слава марлоу|mayot|clipz|big baby tape|биг бейби тейп|gone fludd|boulevarddepo|бульвар депо|thomas mraz|томас мраз|kizaru|кизару|платина|platina)\b/i,
-  // K-Pop artists (commonly blocked)
-  /\b(gidle|g-idle|aespa|newjeans|stray kids|itzy|le sserafim|ive|nmixx|txt|enhypen|seventeen|exo|nct|shinee|super junior|girls generation|snsd|2ne1|bigbang|psy)\b/i,
-  // African and other international artists (from real errors)
-  /\b(teni|mejja|poli|tena|wizkid|davido|burna boy|rema|asake|ckay|fireboy dml|ayra starr|joeboy|omah lay|skrillex|deadmau5|marshmello|daft punk|david guetta|calvin harris|tiesto|avicii|martin garrix|kygo|alan walker|zedd|steve aoki|diplo|major lazer|afrojack|hardwell|armin van buuren|karol g|becky g|anuel|rauw alejandro|feid|mora|jhay cortez)\b/i,
+  // English artists - ONLY well-known artists, no common words
+  /\b(taylor swift|ed sheeran|beyonce|eminem|kanye west|ariana grande|billie eilish|rihanna|justin bieber|lady gaga|katy perry|bruno mars|post malone|dua lipa|the weeknd|adele|coldplay|maroon 5|imagine dragons|bts|blackpink|twice|red velvet|akon|shakira|pitbull|nicki minaj|cardi b|travis scott|kendrick lamar|j cole|lil wayne|metro boomin|bad bunny|ozuna|daddy yankee|maluma|j balvin|rosalia|doja cat|megan thee stallion|lizzo|harry styles|olivia rodrigo|demi lovato|selena gomez|miley cyrus|nick jonas|shawn mendes|camila cabello|charlie puth|one direction|twenty one pilots|panic at the disco|fall out boy|my chemical romance|green day|blink 182|linkin park|nirvana|pink floyd|led zeppelin|metallica|guns n roses|bon jovi|aerosmith)\b/i,
+  // Russian artists - only real confirmed blocked artists, NO common words
+  /\b(моргенштерн|morgenshtern|тимати|timati|баста|oxxxymiron|оксимирон|егор крид|егоркрид|egor creed|скриптонит|scriptonite|pharaoh|фараон|miyagi|мияги|jah khalib|джах халиб|matrang|макс корж|max korzh|noize mc|нойз мс|ленинград|leningrad|земфира|zemfira|алла пугачёва|alla pugacheva|филипп киркоров|kirkorov|дима билан|dima bilan|полина гагарина|polina gagarina|григорий лепс|валерий меладзе|meladze|лобода|loboda|монеточка|monetochka|slava marlow|слава марлоу|big baby tape|биг бейби тейп|gone fludd|boulevarddepo|бульвар депо|kizaru|кизару)\b/i,
+  // K-Pop artists - only group names that are distinctive
+  /\b(g-idle|aespa|newjeans|stray kids|le sserafim|nmixx|enhypen|shinee|super junior|girls generation|snsd|2ne1|bigbang)\b/i,
+  // African and EDM artists - only distinctive names
+  /\b(wizkid|davido|burna boy|asake|ckay|fireboy dml|ayra starr|joeboy|omah lay|skrillex|deadmau5|marshmello|daft punk|david guetta|calvin harris|tiesto|avicii|martin garrix|kygo|alan walker|zedd|steve aoki|diplo|major lazer|afrojack|hardwell|armin van buuren|karol g|becky g|rauw alejandro|jhay cortez)\b/i,
+];
+
+/**
+ * Words to EXCLUDE from artist detection (common Russian words/names)
+ * These cause false positives because they match artist regex but are regular words
+ */
+const FALSE_POSITIVE_WORDS = [
+  'magazin', 'магазин', 'магазина', 'магазине', 'магазину',
+  'lenka', 'ленка', 'ленке', 'ленку', 'ленки',
+  'karina', 'карина', 'карине', 'карину', 'карины',
+  'chika', 'девочка', 'девочки', 'девочке', 'девочку',
+  'poli', 'поли',
+  'миша', 'мише', 'мишу', 'миши', 'misha',
+  'аня', 'ане', 'аню', 'ани', 'ania',
+  'класс', 'классе', 'классу', 'класса', 'klass',
+  'максим', 'максима', 'максиму', 'максиме', 'maksim',
+  'queen', 'королева', // "queen" is too common
+  'drake', // common word for "дракон" context
+  'future', 'будущее', // too common
+  'teni', 'тени', // shadows in Russian
+  'mejja',
+  'ive', // too short, matches "I've"
+  'seventeen', 'семнадцать', // number
+  'exo', 'nct', 'txt', 'psy', // too short
+  'itzy', 'gidle',
+  'lany', 'mirami', 'мирами',
+  'rema', 'mora', 'feid', 'anuel',
+  'tena', 'хаски', 'husky', // husky is a dog breed
+  'nervy', 'нервы', // common word "nerves"
+  'mot', 'мот', // can be common word
+  'face', 'фэйс', 'фейс', // common word
+  'элджей', 'yelzey', 'mayot', 'clipz', 'платина', 'platina',
+  'thomas mraz', 'томас мраз',
+  'сектор газа', 'sektor gaza', // only block if explicitly "in style of"
 ];
 
 /**
  * Check if prompt contains blocked artist names
  * Returns the matched artist name or null
+ * Now with false positive filtering
  */
 export function checkForBlockedArtists(text: string): string | null {
   if (!text) return null;
   
   const lowerText = text.toLowerCase();
   
+  // Check if text contains context indicating artist reference
+  const artistContextPatterns = [
+    /в стиле\s+/i,
+    /как у\s+/i,
+    /похоже на\s+/i,
+    /типа\s+/i,
+    /like\s+/i,
+    /similar to\s+/i,
+    /style of\s+/i,
+    /звучит как\s+/i,
+    /голосом\s+/i,
+  ];
+  
+  const hasArtistContext = artistContextPatterns.some(p => p.test(lowerText));
+  
   for (const pattern of BLOCKED_ARTIST_PATTERNS) {
     const match = lowerText.match(pattern);
     if (match) {
+      const matchedWord = match[0].toLowerCase();
+      
+      // Skip if it's a known false positive word and no artist context
+      if (!hasArtistContext && FALSE_POSITIVE_WORDS.some(fp => 
+        matchedWord === fp.toLowerCase() || matchedWord.includes(fp.toLowerCase())
+      )) {
+        continue;
+      }
+      
       return match[0];
     }
   }
