@@ -38,6 +38,8 @@ interface MobileTrackActionSheetProps {
   actionState: TrackActionState;
   isProcessing: boolean;
   onAction: (actionId: ActionId) => void;
+  /** If false, delete actions will be hidden (for non-owners viewing public tracks) */
+  isOwner?: boolean;
 }
 
 export function MobileTrackActionSheet({
@@ -49,6 +51,7 @@ export function MobileTrackActionSheet({
   actionState,
   isProcessing,
   onAction,
+  isOwner = true,
 }: MobileTrackActionSheetProps) {
   const actions = useMemo(() => {
     const groups: Array<{
@@ -222,39 +225,41 @@ export function MobileTrackActionSheet({
       groups.push({ title: 'Качество', actions: qualityActions });
     }
 
-    // Delete Actions Group
-    const deleteActions = [];
-    const hasMultipleVersions = (actionState?.versionCount || 0) > 1;
-    
-    if (hasMultipleVersions) {
-      deleteActions.push({
-        label: 'Удалить версию',
-        icon: <Trash2 className="w-5 h-5" />,
-        onClick: () => onAction('delete_version'),
-        variant: 'destructive' as const,
-      });
+    // Delete Actions Group - only for owners
+    if (isOwner) {
+      const deleteActions = [];
+      const hasMultipleVersions = (actionState?.versionCount || 0) > 1;
       
-      deleteActions.push({
-        label: `Удалить все версии (${actionState?.versionCount})`,
-        icon: <Trash2 className="w-5 h-5" />,
-        onClick: () => onAction('delete_all'),
-        variant: 'destructive' as const,
-      });
-    } else {
-      deleteActions.push({
-        label: 'Удалить трек',
-        icon: <Trash2 className="w-5 h-5" />,
-        onClick: () => onAction('delete'),
-        variant: 'destructive' as const,
-      });
-    }
+      if (hasMultipleVersions) {
+        deleteActions.push({
+          label: 'Удалить версию',
+          icon: <Trash2 className="w-5 h-5" />,
+          onClick: () => onAction('delete_version'),
+          variant: 'destructive' as const,
+        });
+        
+        deleteActions.push({
+          label: `Удалить все версии (${actionState?.versionCount})`,
+          icon: <Trash2 className="w-5 h-5" />,
+          onClick: () => onAction('delete_all'),
+          variant: 'destructive' as const,
+        });
+      } else {
+        deleteActions.push({
+          label: 'Удалить трек',
+          icon: <Trash2 className="w-5 h-5" />,
+          onClick: () => onAction('delete'),
+          variant: 'destructive' as const,
+        });
+      }
 
-    if (deleteActions.length > 0) {
-      groups.push({ actions: deleteActions });
+      if (deleteActions.length > 0) {
+        groups.push({ actions: deleteActions });
+      }
     }
 
     return groups;
-  }, [track, actionState, isProcessing, onAction]);
+  }, [track, actionState, isProcessing, onAction, isOwner]);
 
   return (
     <MobileActionSheet

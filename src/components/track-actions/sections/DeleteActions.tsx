@@ -13,11 +13,18 @@ interface DeleteActionsProps {
   state?: TrackActionState;
   onAction: (actionId: ActionId) => void;
   variant: 'dropdown' | 'sheet';
+  /** If false, delete actions will be hidden (for non-owners viewing public tracks) */
+  isOwner?: boolean;
 }
 
-export function DeleteActions({ track, state, onAction, variant }: DeleteActionsProps) {
+export function DeleteActions({ track, state, onAction, variant, isOwner = true }: DeleteActionsProps) {
   const [isOpen, setIsOpen] = useState(false);
   const hasMultipleVersions = (state?.versionCount || 0) > 1;
+
+  // Don't show delete options if not the owner
+  if (!isOwner) {
+    return null;
+  }
 
   if (variant === 'dropdown') {
     if (hasMultipleVersions) {
