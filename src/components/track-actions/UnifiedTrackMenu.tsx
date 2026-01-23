@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { MoreVertical } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useTrackActionsState } from '@/hooks/useTrackActionsState';
+import { useAuth } from '@/hooks/useAuth';
 import { InfoActions } from './sections/InfoActions';
 import { DownloadActions } from './sections/DownloadActions';
 import { ShareActions } from './sections/ShareActions';
@@ -44,6 +45,10 @@ export function UnifiedTrackMenu({
 }: UnifiedTrackMenuProps) {
   const isMobile = useIsMobile();
   const [mobileSheetOpen, setMobileSheetOpen] = useState(false);
+  const { user } = useAuth();
+  
+  // Check if current user is the owner of this track
+  const isOwner = user?.id === track.user_id;
   
   const {
     actionState,
@@ -82,6 +87,7 @@ export function UnifiedTrackMenu({
           actionState={actionState}
           isProcessing={isProcessing}
           onAction={executeAction}
+          isOwner={isOwner}
         />
 
         {/* Dialogs Portal */}
@@ -181,12 +187,13 @@ export function UnifiedTrackMenu({
 
           <DropdownMenuSeparator />
 
-          {/* Delete Actions */}
+          {/* Delete Actions - only for owners */}
           <DeleteActions
             track={track}
             state={actionState}
             onAction={executeAction}
             variant="dropdown"
+            isOwner={isOwner}
           />
         </DropdownMenuContent>
       </DropdownMenu>
