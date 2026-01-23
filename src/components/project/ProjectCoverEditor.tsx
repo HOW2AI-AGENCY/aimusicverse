@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -15,6 +15,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { CoverPromptSuggester } from '@/components/cover/CoverPromptSuggester';
 
 interface ProjectCoverEditorProps {
   projectId: string;
@@ -244,11 +245,21 @@ export function ProjectCoverEditor({
           {/* AI Generation Section */}
           <div className="space-y-3">
             <Label htmlFor="prompt">Сгенерировать с помощью AI</Label>
+            
+            {/* MusicVerse branded prompt suggestions */}
+            <CoverPromptSuggester
+              genre={projectGenre || undefined}
+              mood={projectMood || undefined}
+              onSelectPrompt={(prompt) => setGenerationPrompt(prompt)}
+              autoRotate={true}
+              rotationInterval={6000}
+            />
+            
             <Textarea
               id="prompt"
               value={generationPrompt}
               onChange={(e) => setGenerationPrompt(e.target.value)}
-              placeholder="Опишите обложку..."
+              placeholder="Опишите обложку или выберите идею выше..."
               rows={3}
               disabled={generating}
             />
@@ -270,7 +281,7 @@ export function ProjectCoverEditor({
               )}
             </Button>
             <p className="text-xs text-muted-foreground">
-              AI создаст уникальную обложку на основе вашего описания
+              AI создаст уникальную обложку на основе вашего описания с фирменным стилем MusicVerse
             </p>
           </div>
         </div>
