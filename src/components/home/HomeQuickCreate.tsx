@@ -72,14 +72,12 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({
               </p>
             </div>
           </div>
-          {/* Free credits badge - enhanced */}
-          <motion.span 
-            className="px-2.5 py-1 text-[10px] sm:text-xs font-bold bg-gradient-to-r from-green-500/25 to-emerald-500/20 text-green-400 rounded-full border border-green-500/40 whitespace-nowrap shadow-sm"
-            animate={{ scale: [1, 1.03, 1] }}
-            transition={{ duration: 2.5, repeat: Infinity }}
+          {/* Credits cost badge */}
+          <span 
+            className="px-2.5 py-1 text-[10px] sm:text-xs font-bold bg-gradient-to-r from-primary/20 to-generate/15 text-primary rounded-full border border-primary/30 whitespace-nowrap shadow-sm"
           >
-            ✨ БЕСПЛАТНО
-          </motion.span>
+            🎵 10-12 кредитов
+          </span>
         </div>
 
         {/* FAB - Primary action */}
@@ -87,7 +85,7 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({
           <OnboardingTooltip
             id="quick-create-first"
             title="Создайте первый трек"
-            content="Нажмите кнопку, опишите музыку словами — AI создаст трек за минуту. Это бесплатно!"
+            content="Нажмите кнопку, опишите музыку словами — AI создаст трек за минуту. Стоимость: 10-12 кредитов."
             actionLabel="Попробовать"
             onAction={handleCreate}
             position="top"
