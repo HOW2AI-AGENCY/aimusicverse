@@ -275,14 +275,18 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           />
         </div>
 
-        {/* Loading Overlay */}
+        {/* Loading Overlay - with proper safe area centering */}
         <AnimatePresence>
           {form.loading && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-background/90 backdrop-blur-sm z-50 flex items-center justify-center"
+              className="absolute inset-0 bg-background/90 backdrop-blur-sm z-50 flex flex-col items-center justify-center"
+              style={{
+                paddingTop: 'max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))',
+                paddingBottom: 'max(var(--tg-content-safe-area-inset-bottom, 0px) + var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px))',
+              }}
             >
               <GenerationLoadingState
                 stage="processing"
