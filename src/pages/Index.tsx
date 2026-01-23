@@ -37,6 +37,7 @@ import { TracksGridSection } from "@/components/home/TracksGridSection";
 import { FirstTimeHeroCard } from "@/components/home/FirstTimeHeroCard";
 import { NewUserProgress } from "@/components/home/NewUserProgress";
 import { ContinueDraftCard } from "@/components/home/ContinueDraftCard";
+import { CreativePresetsSection } from "@/components/home/CreativePresetsSection";
 
 // Lazy loaded components
 const GamificationBar = lazy(() => import("@/components/gamification/GamificationBar").then(m => ({ default: m.GamificationBar })));
@@ -183,6 +184,11 @@ const Index = () => {
         {/* Quick Genre Presets - one-tap generation */}
         <motion.section className="mb-3" {...fadeInUp}>
           <QuickGenrePresets onSelectPreset={handleQuickGenrePreset} />
+        </motion.section>
+
+        {/* Creative Presets Section - Projects & Lyrics */}
+        <motion.section className="mb-4" {...fadeInUp}>
+          <CreativePresetsSection />
         </motion.section>
 
         {/* Featured Tracks - horizontal scroll with load more */}

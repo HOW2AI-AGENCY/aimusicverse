@@ -12,6 +12,7 @@ import { useUnreadCount } from '@/hooks/useNotifications';
 import { useTelegram } from '@/contexts/TelegramContext';
 import logo from '@/assets/logo.png';
 import { TELEGRAM_SAFE_AREA } from '@/constants/safe-area';
+import { AdminQuickAccess } from './AdminQuickAccess';
 
 // Use the same menu as bottom navigation "More" button
 const MoreMenuSheet = lazy(() => import('@/components/navigation/MoreMenuSheet').then(m => ({ default: m.MoreMenuSheet })));
@@ -156,8 +157,11 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
           </div>
         </div>
 
-        {/* Actions: Menu + Avatar (notifications moved to menu) */}
+        {/* Actions: Admin + Menu + Avatar */}
         <div className="flex items-center gap-2">
+          {/* Admin Quick Access - only for admins */}
+          <AdminQuickAccess />
+          
           {/* Menu Button with notification badge - 44px touch target */}
           <div className="relative overflow-visible">
             <motion.button
