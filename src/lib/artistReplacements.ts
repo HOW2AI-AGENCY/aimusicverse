@@ -59,11 +59,19 @@ export const ARTIST_REPLACEMENTS: ArtistReplacement[] = [
   { pattern: /\bcoldplay\b/i, artist: 'Coldplay', suggestion: 'atmospheric rock, anthemic choruses, layered synths', genre: 'alternative rock' },
   { pattern: /\bimagine\s*dragons\b/i, artist: 'Imagine Dragons', suggestion: 'epic rock, powerful drums, anthemic vocals', genre: 'pop-rock' },
   
-  // K-Pop
+  // K-Pop (expanded from API errors)
   { pattern: /\bbts\b/i, artist: 'BTS', suggestion: 'dynamic K-pop, synchronized choreography vibes, catchy hooks', genre: 'K-pop' },
   { pattern: /\bblackpink\b/i, artist: 'Blackpink', suggestion: 'girl crush K-pop, trap influences, powerful drops', genre: 'K-pop' },
   { pattern: /\btwice\b/i, artist: 'Twice', suggestion: 'bubbly K-pop, cute concept, catchy melodies', genre: 'K-pop' },
   { pattern: /\bkarina\b/i, artist: 'Karina', suggestion: 'ethereal K-pop, futuristic beats, powerful vocals', genre: 'K-pop' },
+  { pattern: /\bitzy\b/i, artist: 'Itzy', suggestion: 'confident K-pop, girl crush concept, energetic dance', genre: 'K-pop' },
+  { pattern: /\ble\s*sserafim\b/i, artist: 'Le Sserafim', suggestion: 'bold K-pop, empowering lyrics, modern beats', genre: 'K-pop' },
+  { pattern: /\bive\b/i, artist: 'IVE', suggestion: 'elegant K-pop, catchy hooks, powerful choruses', genre: 'K-pop' },
+  { pattern: /\bseventeen\b/i, artist: 'Seventeen', suggestion: 'synchronized K-pop, diverse genres, dynamic performance', genre: 'K-pop' },
+  { pattern: /\bexo\b/i, artist: 'EXO', suggestion: 'powerful vocals, R&B influenced K-pop, harmonies', genre: 'K-pop' },
+  { pattern: /\bnct\b/i, artist: 'NCT', suggestion: 'experimental K-pop, hip-hop fusion, bold concepts', genre: 'K-pop' },
+  { pattern: /\benhypen\b/i, artist: 'Enhypen', suggestion: 'dark K-pop concept, powerful choreography, modern beats', genre: 'K-pop' },
+  { pattern: /\btxt\b/i, artist: 'TXT', suggestion: 'alternative K-pop, rock influences, emotional melodies', genre: 'K-pop' },
   
   // Electronic / EDM
   { pattern: /\bskrillex\b/i, artist: 'Skrillex', suggestion: 'aggressive dubstep, heavy bass drops, glitchy synths', genre: 'dubstep' },
@@ -80,12 +88,25 @@ export const ARTIST_REPLACEMENTS: ArtistReplacement[] = [
   // African Artists (from real errors)
   { pattern: /\bteni\b/i, artist: 'Teni', suggestion: 'afrobeats, Nigerian pop, tropical rhythms', genre: 'afrobeats' },
   { pattern: /\bmejja\b/i, artist: 'Mejja', suggestion: 'genge, Kenyan hip-hop, danceable beats', genre: 'afrobeats' },
+  { pattern: /\bwizkid\b/i, artist: 'Wizkid', suggestion: 'afrobeats, Nigerian pop, dancehall influence', genre: 'afrobeats' },
+  { pattern: /\bdavido\b/i, artist: 'Davido', suggestion: 'afrobeats, high-energy, party anthems', genre: 'afrobeats' },
+  { pattern: /\bburna\s*boy\b/i, artist: 'Burna Boy', suggestion: 'afrofusion, dancehall, reggae vibes', genre: 'afrobeats' },
+  
+  // K-Pop additional (from errors)
+  { pattern: /\bgidle\b/i, artist: 'G-IDLE', suggestion: 'girl crush K-pop, powerful vocals, EDM drops', genre: 'K-pop' },
+  { pattern: /\bg-idle\b/i, artist: 'G-IDLE', suggestion: 'girl crush K-pop, powerful vocals, EDM drops', genre: 'K-pop' },
+  { pattern: /\baespa\b/i, artist: 'Aespa', suggestion: 'futuristic K-pop, electronic, powerful vocals', genre: 'K-pop' },
+  { pattern: /\bnewjeans\b/i, artist: 'NewJeans', suggestion: 'Y2K pop, nostalgic R&B, fresh K-pop sound', genre: 'K-pop' },
+  { pattern: /\bstray\s*kids\b/i, artist: 'Stray Kids', suggestion: 'intense K-pop, hip-hop influence, powerful beats', genre: 'K-pop' },
   
   // Latin / Other International
   { pattern: /\blany\b/i, artist: 'Lany', suggestion: 'indie synth-pop, dreamy production, romantic lyrics', genre: 'synth-pop' },
   { pattern: /\bchika\b/i, artist: 'Chika', suggestion: 'conscious hip-hop, spoken word, empowering lyrics', genre: 'hip-hop' },
   { pattern: /\bpoli\b/i, artist: 'Poli', suggestion: 'alternative indie, experimental sounds, artistic vocals', genre: 'indie' },
   { pattern: /\btena\b/i, artist: 'Tena', suggestion: 'Balkan pop, Mediterranean vibes, emotional vocals', genre: 'pop' },
+  { pattern: /\bbad\s*bunny\b/i, artist: 'Bad Bunny', suggestion: 'reggaeton, Latin trap, party vibes', genre: 'reggaeton' },
+  { pattern: /\bj\s*balvin\b/i, artist: 'J Balvin', suggestion: 'reggaeton, Latin pop, danceable rhythms', genre: 'reggaeton' },
+  { pattern: /\bkarol\s*g\b/i, artist: 'Karol G', suggestion: 'reggaeton, Latin urban, empowering lyrics', genre: 'reggaeton' },
   
   // Additional blocked artists (from Suno API rejections)
   { pattern: /\bmisha\b/i, artist: 'Misha', suggestion: 'Russian pop-rock, melodic vocals, emotional ballads', genre: 'pop-rock' },
