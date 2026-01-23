@@ -8,11 +8,12 @@ import { buildMessage, createSection, createKeyValue } from '../utils/message-fo
 import { ButtonBuilder, mediaPlayerKeyboard, paginationKeyboard } from '../utils/button-builder.ts';
 import { trackMessage, messageManager } from '../utils/message-manager.ts';
 import { escapeMarkdownV2 } from '../utils/text-processor.ts';
-import { navigateTo, getPreviousRoute, canGoBack, getBreadcrumb, clearNavigationState } from '../core/navigation-state.ts';
+import { navigateTo, getPreviousRoute, canGoBack, getBreadcrumb, clearNavigationState, getNavigationState } from '../core/navigation-state.ts';
 import { BOT_CONFIG } from '../config.ts';
 import { deleteActiveMenu, setActiveMenuMessageId, deleteAndSendNewMenuPhoto } from '../core/active-menu-manager.ts';
 import { getMenuImage } from '../keyboards/menu-images.ts';
 import { handleSubmenu } from './dynamic-menu.ts';
+import { createLocationIndicator, appendNavigationContext } from '../utils/breadcrumb-builder.ts';
 
 /**
  * Handle navigation to main menu
@@ -273,6 +274,9 @@ export async function handleNavigationProjects(
 export async function handleNavigationGenerate(chatId: number, userId: number, messageId?: number) {
   navigateTo(userId, 'generate', messageId);
   
+  // Build caption with location indicator
+  const locationHeader = createLocationIndicator('generate');
+  
   const caption = buildMessage({
     title: 'Генератор музыки',
     emoji: '🎼',
@@ -281,14 +285,15 @@ export async function handleNavigationGenerate(chatId: number, userId: number, m
       {
         title: 'Способы генерации',
         content: [
-          '/generate <описание> - текстовый промпт',
-          '/cover - создать кавер из аудио',
-          '/extend - расширить существующий трек'
+          '/generate <описание> \\- текстовый промпт',
+          '/cover \\- создать кавер из аудио',
+          '/extend \\- расширить существующий трек'
         ],
         emoji: '💡',
         style: 'list'
       }
-    ]
+    ],
+    footer: '🏠 Главное меню'
   });
   
   const keyboard = new ButtonBuilder()
@@ -357,15 +362,16 @@ export async function handleNavigationAnalyze(chatId: number, userId: number, me
       {
         title: 'Доступные функции',
         content: [
-          '🎹 MIDI - конвертация в MIDI',
-          '🎸 Гитара - анализ гитарной партии',
-          '🔍 Распознавание - определить песню',
-          '📊 Полный анализ - BPM, тональность, аккорды'
+          '🎹 MIDI \\- конвертация в MIDI',
+          '🎸 Гитара \\- анализ гитарной партии',
+          '🔍 Распознавание \\- определить песню',
+          '📊 Полный анализ \\- BPM, тональность, аккорды'
         ],
         emoji: '🛠️',
         style: 'list'
       }
-    ]
+    ],
+    footer: '🏠 Главное меню'
   });
   
   const keyboard = new ButtonBuilder()
@@ -424,7 +430,8 @@ export async function handleNavigationSettings(chatId: number, userId: number, m
   const caption = buildMessage({
     title: 'Настройки',
     emoji: '⚙️',
-    description: 'Управление аккаунтом и настройками'
+    description: 'Управление аккаунтом и настройками',
+    footer: '🏠 Главное меню'
   });
   
   const keyboard = new ButtonBuilder()
