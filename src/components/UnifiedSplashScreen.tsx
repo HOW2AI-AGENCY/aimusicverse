@@ -8,6 +8,7 @@ import { Loader2, Music2, Disc3 } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import logo from "@/assets/logo.png";
 import { APP_CONFIG } from '@/config/app.config';
+import { getSafeAreaTop, getSafeAreaBottom } from '@/constants/safe-area';
 
 export type SplashVariant = 'splash' | 'loading' | 'overlay' | 'inline' | 'minimal';
 
@@ -112,17 +113,19 @@ export function UnifiedSplashScreen({
 
   // Container styles based on variant - using safe area aware centering
   const containerClasses: Record<SplashVariant, string> = {
-    splash: 'fixed inset-0 flex flex-col items-center justify-center bg-background z-system',
-    loading: 'fixed inset-0 flex flex-col items-center justify-center bg-background z-fullscreen',
-    overlay: 'fixed inset-0 flex flex-col items-center justify-center bg-background/90 backdrop-blur-xl z-fullscreen',
+    // Use Telegram stable viewport height to prevent layout shift in Mini App
+    splash: 'fixed left-0 right-0 top-0 h-[var(--tg-viewport-stable-height,100vh)] flex flex-col items-center justify-center bg-background z-system',
+    loading: 'fixed left-0 right-0 top-0 h-[var(--tg-viewport-stable-height,100vh)] flex flex-col items-center justify-center bg-background z-fullscreen',
+    overlay: 'fixed left-0 right-0 top-0 h-[var(--tg-viewport-stable-height,100vh)] flex flex-col items-center justify-center bg-background/90 backdrop-blur-xl z-fullscreen',
     inline: 'flex items-center justify-center py-16',
     minimal: 'flex items-center justify-center p-4',
   };
 
   // Safe area padding for fixed overlays (accounts for Telegram header/footer)
   const safeAreaStyle = (variant === 'splash' || variant === 'loading' || variant === 'overlay') ? {
-    paddingTop: 'max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))',
-    paddingBottom: 'max(var(--tg-content-safe-area-inset-bottom, 0px) + var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px))',
+    // Centering should be computed within the safe area
+    paddingTop: getSafeAreaTop(0),
+    paddingBottom: getSafeAreaBottom(0),
   } : {};
 
   // Get default message based on variant
