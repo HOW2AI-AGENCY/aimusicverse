@@ -38,6 +38,8 @@ import { FirstTimeHeroCard } from "@/components/home/FirstTimeHeroCard";
 import { NewUserProgress } from "@/components/home/NewUserProgress";
 import { ContinueDraftCard } from "@/components/home/ContinueDraftCard";
 import { CreativePresetsSection } from "@/components/home/CreativePresetsSection";
+import { StatsHighlightBanner } from "@/components/home/StatsHighlightBanner";
+import { DailyTipCard } from "@/components/home/DailyTipCard";
 
 // Lazy loaded components
 const GamificationBar = lazy(() => import("@/components/gamification/GamificationBar").then(m => ({ default: m.GamificationBar })));
@@ -184,10 +186,15 @@ const Index = () => {
           </>
         )}
 
+        {/* Stats Banner - social proof */}
+        <motion.section className="mb-3" {...fadeInUp}>
+          <StatsHighlightBanner />
+        </motion.section>
+
         {/* Creative Presets Section - Tracks, Lyrics & Projects */}
         <motion.section className="mb-4" {...fadeInUp}>
           <CreativePresetsSection 
-            onTrackPresetSelect={handleQuickGenrePreset as (preset: TrackPreset) => void} 
+            onTrackPresetSelect={handleQuickGenrePreset} 
           />
         </motion.section>
 
@@ -203,6 +210,13 @@ const Index = () => {
             onLoadMore={fetchMorePopular}
           />
         </motion.section>
+
+        {/* Daily Tip - feature discovery */}
+        {!isNewUser && (
+          <motion.section className="mb-3" {...fadeInUp}>
+            <DailyTipCard />
+          </motion.section>
+        )}
 
         {/* Recent Tracks - for logged in users */}
         {user && (
