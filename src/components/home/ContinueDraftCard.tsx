@@ -72,40 +72,41 @@ export const ContinueDraftCard = memo(function ContinueDraftCard({
 
   return (
     <motion.section
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.15 }}
       className={cn(
         "relative rounded-xl overflow-hidden",
         "bg-gradient-to-r from-primary/10 via-primary/5 to-transparent",
         "border border-primary/20",
-        "p-3",
+        "p-2.5 sm:p-3",
         className
       )}
     >
       {/* Dismiss button */}
       <button
         onClick={handleDismiss}
-        className="absolute top-2 right-2 p-1.5 rounded-full hover:bg-muted/50 transition-colors"
+        className="absolute top-1.5 right-1.5 p-1.5 rounded-full hover:bg-muted/50 transition-colors min-w-[36px] min-h-[36px] flex items-center justify-center"
         aria-label="Закрыть"
       >
         <X className="w-3.5 h-3.5 text-muted-foreground" />
       </button>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2 sm:gap-3 pr-8">
         {/* Icon */}
-        <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center flex-shrink-0">
-          <Sparkles className="w-5 h-5 text-primary" />
+        <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-primary/20 flex items-center justify-center flex-shrink-0">
+          <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
         </div>
 
         {/* Content */}
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium text-foreground">
+          <p className="text-xs sm:text-sm font-medium text-foreground">
             Продолжить создание?
           </p>
-          <p className="text-xs text-muted-foreground truncate">
+          <p className="text-[10px] sm:text-xs text-muted-foreground truncate">
             {truncatedPreview}
-            <span className="opacity-60"> • {timeAgo} мин назад</span>
+            <span className="opacity-60"> • {timeAgo}м</span>
           </p>
         </div>
 
@@ -113,9 +114,9 @@ export const ContinueDraftCard = memo(function ContinueDraftCard({
         <Button
           onClick={handleContinue}
           size="sm"
-          className="h-9 gap-1.5 bg-primary/90 hover:bg-primary shadow-sm"
+          className="h-8 sm:h-9 px-2.5 sm:px-3 gap-1 text-xs sm:text-sm bg-primary/90 hover:bg-primary shadow-sm flex-shrink-0"
         >
-          Продолжить
+          <span className="hidden xs:inline">Продолжить</span>
           <ArrowRight className="w-3.5 h-3.5" />
         </Button>
       </div>
