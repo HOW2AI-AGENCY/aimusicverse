@@ -1,17 +1,16 @@
 /**
- * GridVariant - Standard grid card with cover
+ * GridVariant - Simplified grid card (Phase 2 Redesign)
  * 
- * Features:
- * - Square cover with hover effects
- * - Title + style
- * - Badges (type, stem count, version)
- * - Swipe gestures on mobile
- * - Like/delete on swipe
+ * Simplified design:
+ * - Square cover with hover scale(1.02)
+ * - Title (1 line) + 2 tags max
+ * - Minimal badges (stems only when available)
+ * - Swipe gestures preserved
  */
 
 import { memo, useState, useCallback } from 'react';
 import { motion, PanInfo } from '@/lib/motion';
-import { Heart, Trash2, Play, Pause, MoreHorizontal, Wand2, Layers } from 'lucide-react';
+import { Heart, Trash2, Play, Pause, MoreHorizontal, Layers } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -19,13 +18,11 @@ import { cn } from '@/lib/utils';
 import { hapticImpact, hapticNotification } from '@/lib/haptic';
 import { notify } from '@/lib/notifications';
 import { LazyImage } from '@/components/ui/lazy-image';
-import { TrackBadges, DurationBadge, PlayOverlay } from '@/components/library/shared';
-import { UnifiedVersionSelector } from '@/components/shared/UnifiedVersionSelector';
-import { TrackTypeIcons } from '@/components/library/TrackTypeIcons';
-import { ScrollableTagsRow } from '@/components/library/ScrollableTagsRow';
+import { PlayOverlay } from '@/components/library/shared';
 import { UnifiedTrackSheet } from '@/components/track-actions';
 import { QuickLikeButton } from '@/components/track/QuickLikeButton';
 import { useTrackCardState } from '../hooks/useTrackCardState';
+import { SimplifiedTagsRow } from './SimplifiedTagsRow';
 import type { StandardTrackCardProps } from '../types';
 import {
   AlertDialog,
@@ -45,9 +42,7 @@ export const GridVariant = memo(function GridVariant({
   onDownload,
   onToggleLike,
   onTagClick,
-  versionCount = 0,
   stemCount = 0,
-  midiStatus,
   isPlaying: isPlayingProp,
   className,
   showActions = true,
@@ -115,6 +110,8 @@ export const GridVariant = memo(function GridVariant({
         onDrag={handleDrag}
         onDragEnd={handleDragEnd}
         className="relative"
+        whileHover={!isMobile ? { scale: 1.02 } : undefined}
+        transition={{ duration: 0.2 }}
       >
         {/* Swipe action indicators */}
         {isMobile && (
@@ -141,24 +138,23 @@ export const GridVariant = memo(function GridVariant({
 
         <Card
           className={cn(
-            'group overflow-hidden cursor-pointer touch-manipulation transition-all duration-300 rounded-2xl border-transparent',
-            !isMobile && 'hover:shadow-xl hover:shadow-primary/10 hover:border-primary/30 hover:-translate-y-1',
-            isMobile && 'active:scale-[0.98] active:shadow-md',
-            isCurrentlyPlaying &&
-              'ring-2 ring-primary shadow-glow relative before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-r before:from-primary/10 before:via-generate/10 before:to-primary/10 before:animate-pulse before:-z-10',
+            'group overflow-hidden cursor-pointer touch-manipulation transition-all duration-200 rounded-2xl border-transparent',
+            'hover:ring-2 hover:ring-primary/20 hover:shadow-lg hover:shadow-primary/5',
+            isMobile && 'active:scale-[0.98]',
+            isCurrentlyPlaying && 'ring-2 ring-primary shadow-glow',
             className
           )}
           onClick={handleCardClick}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
-          {/* Cover Image */}
+          {/* Cover Image - clean, no badges except stem indicator */}
           <div className="relative aspect-square overflow-hidden" data-play-button>
             <LazyImage
               src={track.cover_url || ''}
               alt={track.title || 'Track cover'}
               className={cn(
-                'w-full h-full object-cover cursor-pointer transition-transform duration-500',
+                'w-full h-full object-cover transition-transform duration-300',
                 !isMobile && 'group-hover:scale-105'
               )}
               containerClassName="w-full h-full"
@@ -174,9 +170,6 @@ export const GridVariant = memo(function GridVariant({
               }
             />
 
-            {/* Duration Badge */}
-            <DurationBadge seconds={track.duration_seconds} className="absolute bottom-2 right-2" />
-
             {/* Play Overlay */}
             <PlayOverlay
               isPlaying={isCurrentlyPlaying}
@@ -184,45 +177,27 @@ export const GridVariant = memo(function GridVariant({
               onPlay={handlePlay}
             />
 
-            {/* Top badges */}
-            <div className="absolute top-1.5 left-1.5 right-1.5 flex justify-between items-start">
-              {/* Type icons */}
-              <TrackTypeIcons
-                track={track as any}
-                compact
-                hasMidi={midiStatus?.hasMidi}
-                hasPdf={midiStatus?.hasPdf}
-                hasGp5={midiStatus?.hasGp5}
-              />
-
-              {/* Version toggle - using UnifiedVersionSelector */}
-              {versionCount > 1 && (
-                <UnifiedVersionSelector
-                  trackId={track.id}
-                  variant="inline"
-                  showLabels={false}
-                />
-              )}
-            </div>
-
-            {/* Stem count badge */}
+            {/* Stem badge - only when stems available */}
             {stemCount > 0 && (
               <Badge
-                variant="outline"
-                className="absolute top-1.5 right-1.5 text-[9px] px-1 py-0 bg-background/80 backdrop-blur-sm border-primary/50"
+                variant="secondary"
+                className="absolute top-2 right-2 text-[10px] px-1.5 py-0.5 bg-background/90 backdrop-blur-sm border-0 gap-1"
               >
-                🎛️ {stemCount}
+                <Layers className="w-3 h-3" />
+                {stemCount}
               </Badge>
             )}
           </div>
 
-          {/* Content - increased padding for mobile touch */}
-          <div className="p-3 sm:p-2.5 space-y-1.5">
+          {/* Content - simplified */}
+          <div className="p-3 space-y-1.5">
             <div className="flex items-center justify-between gap-2">
-              <h3 className="font-semibold text-sm sm:text-xs truncate flex-1">{track.title || 'Без названия'}</h3>
+              <h3 className="font-semibold text-sm truncate flex-1">
+                {track.title || 'Без названия'}
+              </h3>
 
-              <div className="flex items-center gap-1">
-                {/* Quick Like Button - one tap */}
+              <div className="flex items-center gap-0.5 flex-shrink-0">
+                {/* Quick Like */}
                 <QuickLikeButton
                   trackId={track.id}
                   isLiked={(track as any).is_liked}
@@ -230,36 +205,13 @@ export const GridVariant = memo(function GridVariant({
                   variant="minimal"
                 />
                 
-                {/* Quick Studio Button - visible on hover (desktop) or always (mobile with stems) */}
-                {showActions && (stemCount > 0 || !isMobile) && (
-                  <Button
-                    size="icon"
-                    variant="ghost"
-                    className={cn(
-                      "w-10 h-10 sm:w-8 sm:h-8 min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex-shrink-0 transition-opacity",
-                      isMobile 
-                        ? (stemCount > 0 ? "opacity-100" : "opacity-0") 
-                        : "opacity-0 group-hover:opacity-100"
-                    )}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      hapticImpact('medium');
-                      // Navigate to studio
-                      window.location.href = `/studio-v2/track/${track.id}`;
-                    }}
-                    aria-label="Открыть в студии"
-                    title="Открыть в студии"
-                  >
-                    <Layers className="w-5 h-5 sm:w-4 sm:h-4 text-primary" />
-                  </Button>
-                )}
-                
+                {/* More menu - visible on hover (desktop) or always (mobile) */}
                 {showActions && (
                   <Button
                     size="icon"
                     variant="ghost"
                     className={cn(
-                      "w-10 h-10 sm:w-8 sm:h-8 min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex-shrink-0 transition-opacity",
+                      "w-9 h-9 min-w-[44px] min-h-[44px] flex-shrink-0 transition-opacity rounded-full",
                       isMobile ? "opacity-100" : "opacity-0 group-hover:opacity-100"
                     )}
                     onClick={(e) => {
@@ -268,14 +220,19 @@ export const GridVariant = memo(function GridVariant({
                     }}
                     aria-label="Дополнительные действия"
                   >
-                    <MoreHorizontal className="w-5 h-5 sm:w-4 sm:h-4" />
+                    <MoreHorizontal className="w-4 h-4" />
                   </Button>
                 )}
               </div>
             </div>
 
-            {/* Tags */}
-            <ScrollableTagsRow style={track.style} tags={track.tags} onClick={onTagClick} />
+            {/* Tags - max 2 visible */}
+            <SimplifiedTagsRow 
+              style={track.style} 
+              tags={track.tags} 
+              onClick={onTagClick}
+              maxTags={2}
+            />
           </div>
         </Card>
       </motion.div>
