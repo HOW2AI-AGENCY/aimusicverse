@@ -37,13 +37,18 @@ export const PullToRefreshWrapper = memo(function PullToRefreshWrapper({
         progress={progress}
       />
 
-      {/* Content with pull offset - no overflow restrictions */}
+      {/* Content with pull offset - optimized for scroll performance */}
       <div
         ref={containerRef}
         className="min-h-full"
         style={{
+          // Only apply transform when actively pulling to avoid layout thrash
           transform: isPulling ? `translateY(${pullDistance * 0.5}px)` : undefined,
-          transition: !isPulling ? 'transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)' : 'none'
+          transition: !isPulling ? 'transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)' : 'none',
+          // GPU acceleration - only when pulling to save resources
+          willChange: isPulling ? 'transform' : 'auto',
+          // Prevent scroll anchoring issues during pull
+          overflowAnchor: 'none',
         }}
       >
         {children}

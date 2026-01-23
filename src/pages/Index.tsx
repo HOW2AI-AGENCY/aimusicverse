@@ -99,23 +99,26 @@ const Index = () => {
   // Use profile data from DB if available, fallback to Telegram context
   const displayUser = profile || telegramUser;
 
-  // Animation props - simplified for faster rendering
-  const fadeInUp = useMemo(() => prefersReducedMotion
-    ? {}
-    : { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: 0.15 } },
-    [prefersReducedMotion]
-  );
+  // Animation props - simplified for better scroll performance
+  // Disable animations during loading to prevent scroll jank
+  const fadeInUp = useMemo(() => {
+    if (prefersReducedMotion || isLoading) return {};
+    return { 
+      initial: { opacity: 0 }, 
+      animate: { opacity: 1 }, 
+      transition: { duration: 0.15 } 
+    };
+  }, [prefersReducedMotion, isLoading]);
 
-  const lazySectionAnimation = useMemo(() => prefersReducedMotion
-    ? {}
-    : {
-        initial: { opacity: 0 },
-        animate: { opacity: 1 },
-        transition: { duration: 0.2 },
-        viewport: { once: true, margin: "-30px" }
-      },
-    [prefersReducedMotion]
-  );
+  const lazySectionAnimation = useMemo(() => {
+    if (prefersReducedMotion || isLoading) return {};
+    return {
+      initial: { opacity: 0 },
+      animate: { opacity: 1 },
+      transition: { duration: 0.2 },
+      viewport: { once: true, margin: "-30px" }
+    };
+  }, [prefersReducedMotion, isLoading]);
 
   return (
     <PullToRefreshWrapper

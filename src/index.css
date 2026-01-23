@@ -241,6 +241,8 @@ All colors MUST be HSL.
 
   html {
     scroll-behavior: smooth;
+    /* Prevent layout thrashing during scroll */
+    overflow-anchor: auto;
   }
 
   body {
@@ -251,6 +253,9 @@ All colors MUST be HSL.
     /* Скрытие нативных скроллбаров на мобильных */
     -ms-overflow-style: none;
     scrollbar-width: none;
+    /* GPU acceleration hint for smooth scrolling */
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
   }
 
   body::-webkit-scrollbar {
@@ -265,6 +270,14 @@ All colors MUST be HSL.
     }
     *::-webkit-scrollbar {
       display: none;
+    }
+    
+    /* Optimize touch scrolling performance */
+    .overflow-x-auto,
+    .overflow-y-auto,
+    .overflow-auto {
+      -webkit-overflow-scrolling: touch;
+      will-change: scroll-position;
     }
   }
 
@@ -925,7 +938,7 @@ All colors MUST be HSL.
   [data-stagger-index="5"] { animation-delay: 250ms; }
   [data-stagger-index="6"] { animation-delay: 300ms; }
 
-  /* NEW: Skeleton shimmer effect */
+  /* NEW: Skeleton shimmer effect - GPU accelerated */
   @keyframes shimmer {
     0% { transform: translateX(-100%); }
     100% { transform: translateX(100%); }
@@ -949,6 +962,38 @@ All colors MUST be HSL.
       transparent 100%
     );
     animation: shimmer 1.5s infinite;
+  }
+
+  /* Optimized shimmer - reduced motion for better scroll performance */
+  .skeleton-shimmer-optimized {
+    position: relative;
+    overflow: hidden;
+    contain: layout paint;
+  }
+
+  .skeleton-shimmer-optimized::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      hsl(var(--foreground) / 0.03) 50%,
+      transparent 100%
+    );
+    /* Slower animation with GPU hint - reduces CPU usage during scroll */
+    animation: shimmer 2.5s infinite ease-in-out;
+    will-change: transform;
+    backface-visibility: hidden;
+  }
+
+  /* Disable shimmer animation during scroll for better performance */
+  @media (prefers-reduced-motion: reduce) {
+    .skeleton-shimmer::after,
+    .skeleton-shimmer-optimized::after {
+      animation: none;
+      background: hsl(var(--foreground) / 0.05);
+    }
   }
 
   /* NEW: Slow spin for version switch icon */

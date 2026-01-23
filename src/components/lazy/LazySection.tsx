@@ -110,13 +110,13 @@ export const LazySection = memo(function LazySection({
     return () => observer.disconnect();
   }, [rootMargin, threshold, eager, hasBeenVisible]);
 
-  // Default skeleton fallback - minimal
+  // Default skeleton fallback - optimized for scroll performance
   const defaultFallback = (
-    <div className="space-y-3 animate-pulse">
-      <Skeleton className="h-5 w-32" />
+    <div className="space-y-3" style={{ contain: 'layout paint' }}>
+      <Skeleton className="h-5 w-32" shimmer={false} />
       <div className="flex gap-3 overflow-hidden">
-        <Skeleton className="h-32 w-32 rounded-xl shrink-0" />
-        <Skeleton className="h-32 w-32 rounded-xl shrink-0" />
+        <Skeleton className="h-32 w-32 rounded-xl shrink-0" shimmer={false} />
+        <Skeleton className="h-32 w-32 rounded-xl shrink-0" shimmer={false} />
       </div>
     </div>
   );
