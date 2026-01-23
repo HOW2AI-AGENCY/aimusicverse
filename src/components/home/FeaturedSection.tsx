@@ -107,22 +107,33 @@ export const FeaturedSection = memo(function FeaturedSection({
   return (
     <motion.section
       className={cn("space-y-3", className)}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.25 }}
     >
-      {/* Header - responsive sizing */}
+      {/* Header - responsive sizing with trending indicator */}
       <div className="flex items-center justify-between px-1">
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center shrink-0">
+          <motion.div 
+            className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br from-emerald-500/30 to-emerald-600/20 flex items-center justify-center shrink-0 relative"
+            animate={{ scale: [1, 1.05, 1] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          >
             <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400" />
-          </div>
+            {/* Live indicator */}
+            <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+          </motion.div>
           <div className="min-w-0">
-            <h3 className="text-sm sm:text-base font-bold text-foreground leading-tight">
-              Популярное
-            </h3>
+            <div className="flex items-center gap-2">
+              <h3 className="text-sm sm:text-base font-bold text-foreground leading-tight">
+                Популярное
+              </h3>
+              <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 font-medium">
+                LIVE
+              </span>
+            </div>
             <p className="text-[11px] sm:text-xs text-muted-foreground truncate">
-              Треки, которые слушают сейчас
+              Треки, которые слушают прямо сейчас
             </p>
           </div>
         </div>
