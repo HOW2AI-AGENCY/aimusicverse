@@ -31,7 +31,7 @@ import { Clock } from "lucide-react";
 import { HomeQuickCreate } from "@/components/home/HomeQuickCreate";
 import { FeaturedSection } from "@/components/home/FeaturedSection";
 import { QuickStartCards } from "@/components/home/QuickStartCards";
-import { QuickGenrePresets } from "@/components/home/QuickGenrePresets";
+import { type TrackPreset } from "@/components/home/TrackPresetsRow";
 import { BotContextBanner } from "@/components/home/BotContextBanner";
 import { TracksGridSection } from "@/components/home/TracksGridSection";
 import { FirstTimeHeroCard } from "@/components/home/FirstTimeHeroCard";
@@ -184,14 +184,11 @@ const Index = () => {
           </>
         )}
 
-        {/* Quick Genre Presets - one-tap generation */}
-        <motion.section className="mb-3" {...fadeInUp}>
-          <QuickGenrePresets onSelectPreset={handleQuickGenrePreset} />
-        </motion.section>
-
-        {/* Creative Presets Section - Projects & Lyrics */}
+        {/* Creative Presets Section - Tracks, Lyrics & Projects */}
         <motion.section className="mb-4" {...fadeInUp}>
-          <CreativePresetsSection />
+          <CreativePresetsSection 
+            onTrackPresetSelect={handleQuickGenrePreset as (preset: TrackPreset) => void} 
+          />
         </motion.section>
 
         {/* Featured Tracks - horizontal scroll with load more */}

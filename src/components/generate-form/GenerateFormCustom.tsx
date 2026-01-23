@@ -1,5 +1,5 @@
 import { motion } from '@/lib/motion';
-import { TitleSection, StyleSection, VocalsToggle, LyricsSection, PrivacyToggle } from './sections';
+import { TitleSection, StyleSection, VocalsToggle, LyricsSectionAdvanced, PrivacyToggle } from './sections';
 import { AdvancedSettings } from './AdvancedSettings';
 import { FormSection, FormDivider } from './FormSection';
 
@@ -112,7 +112,7 @@ export function GenerateFormCustom({
         <>
           <FormDivider />
           <FormSection>
-            <LyricsSection
+            <LyricsSectionAdvanced
               lyrics={lyrics}
               onLyricsChange={onLyricsChange}
               onStyleChange={onStyleChange}

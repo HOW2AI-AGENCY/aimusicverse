@@ -122,28 +122,6 @@ export const LyricsPresetsRow = memo(function LyricsPresetsRow({
 
   return (
     <div className={cn("space-y-2", className)}>
-      {/* Section header */}
-      <div className="flex items-center justify-between px-1">
-        <div className="flex items-center gap-2">
-          <div className="w-6 h-6 rounded-lg bg-secondary/50 flex items-center justify-center">
-            <PenTool className="w-3.5 h-3.5 text-primary" />
-          </div>
-          <span className="text-sm font-medium">Тексты с AI</span>
-          <Sparkles className="w-3 h-3 text-primary animate-pulse" />
-        </div>
-        <motion.button
-          onClick={() => {
-            hapticFeedback('light');
-            navigate('/lyrics-studio');
-          }}
-          className="text-xs text-muted-foreground hover:text-primary flex items-center gap-1"
-          whileTap={{ scale: 0.95 }}
-        >
-          Студия
-          <ArrowRight className="w-3 h-3" />
-        </motion.button>
-      </div>
-
       {/* Presets row */}
       <div className="relative -mx-4 px-4">
         <div className="flex gap-2 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-1">
