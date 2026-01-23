@@ -89,7 +89,13 @@ export default function MobilePlayerPage() {
   // Loading state
   if (isLoading) {
     return (
-      <div className="fixed inset-0 bg-background flex flex-col items-center justify-center z-50">
+      <div 
+        className="fixed inset-0 bg-background flex flex-col items-center justify-center z-50"
+        style={{
+          paddingTop: 'max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))',
+          paddingBottom: 'max(var(--tg-content-safe-area-inset-bottom, 0px) + var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px))',
+        }}
+      >
         <div className="flex flex-col items-center gap-4">
           <div className="relative">
             <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center">
@@ -106,7 +112,13 @@ export default function MobilePlayerPage() {
   // Error state
   if (error || !track) {
     return (
-      <div className="fixed inset-0 bg-background flex flex-col items-center justify-center z-50 p-6">
+      <div 
+        className="fixed inset-0 bg-background flex flex-col items-center justify-center z-50 p-6"
+        style={{
+          paddingTop: 'max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px) + 1.5rem, env(safe-area-inset-top, 0px) + 1.5rem)',
+          paddingBottom: 'max(var(--tg-content-safe-area-inset-bottom, 0px) + var(--tg-safe-area-inset-bottom, 0px) + 1.5rem, env(safe-area-inset-bottom, 0px) + 1.5rem)',
+        }}
+      >
         <div className="flex flex-col items-center gap-4 text-center max-w-sm">
           <div className="w-20 h-20 rounded-full bg-destructive/10 flex items-center justify-center">
             <Music2 className="w-10 h-10 text-destructive" />

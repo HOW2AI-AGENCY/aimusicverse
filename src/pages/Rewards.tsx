@@ -89,13 +89,15 @@ export default function Rewards() {
     fallbackPath: '/',
   });
 
-  // Dynamic top padding for Telegram mini app
-  const topPadding = isTelegramApp ? 'pt-14 sm:pt-6' : 'pt-6';
-
   return (
     <TooltipProvider>
-      <div className="min-h-screen pb-24">
-        <div className={`container max-w-lg mx-auto px-3 sm:px-4 ${topPadding}`}>
+      <div 
+        className="min-h-screen pb-24"
+        style={{
+          paddingTop: 'max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))',
+        }}
+      >
+        <div className="container max-w-lg mx-auto px-3 sm:px-4 pt-2">
           {/* Header with gradient */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
