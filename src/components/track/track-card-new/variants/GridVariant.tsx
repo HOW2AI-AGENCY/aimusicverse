@@ -190,8 +190,8 @@ export const GridVariant = memo(function GridVariant({
 
           {/* Content - simplified */}
           <div className="p-3 space-y-1.5">
-            <div className="flex items-center justify-between gap-2">
-              <h3 className="font-semibold text-sm truncate flex-1">
+            <div className="flex items-center justify-between gap-1.5 sm:gap-2">
+              <h3 className="font-semibold text-xs sm:text-sm truncate flex-1 leading-tight">
                 {track.title || 'Без названия'}
               </h3>
 

@@ -101,17 +101,17 @@ export const FeaturedSection = memo(function FeaturedSection({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
     >
-      {/* Header */}
+      {/* Header - responsive sizing */}
       <div className="flex items-center justify-between px-1">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center">
-            <TrendingUp className="w-4 h-4 text-emerald-400" />
+          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center shrink-0">
+            <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400" />
           </div>
-          <div>
-            <h3 className="text-base font-bold text-foreground">
+          <div className="min-w-0">
+            <h3 className="text-sm sm:text-base font-bold text-foreground leading-tight">
               Популярное
             </h3>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-[11px] sm:text-xs text-muted-foreground truncate">
               Треки, которые слушают сейчас
             </p>
           </div>

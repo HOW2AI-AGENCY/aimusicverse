@@ -54,9 +54,9 @@ interface SectionHeaderProps {
 }
 
 const ICON_SIZES = {
-  default: { container: 'w-10 h-10 rounded-xl', icon: 'w-5 h-5' },
-  compact: { container: 'w-8 h-8 rounded-lg', icon: 'w-4 h-4' },
-  large: { container: 'w-12 h-12 rounded-2xl', icon: 'w-6 h-6' },
+  default: { container: 'w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl', icon: 'w-4 h-4 sm:w-5 sm:h-5' },
+  compact: { container: 'w-7 h-7 sm:w-8 sm:h-8 rounded-lg', icon: 'w-3.5 h-3.5 sm:w-4 sm:h-4' },
+  large: { container: 'w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl', icon: 'w-5 h-5 sm:w-6 sm:h-6' },
 };
 
 export const SectionHeader = memo(function SectionHeader({
@@ -121,9 +121,9 @@ export const SectionHeader = memo(function SectionHeader({
           {iconWrapper}
         </motion.div>
 
-        <div className="min-w-0">
-          <div className="flex items-center gap-2">
-            <Heading level={headingLevel} className="truncate">
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <Heading level={headingLevel} className="truncate text-sm sm:text-base">
               {title}
             </Heading>
             {badge && (

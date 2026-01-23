@@ -58,16 +58,16 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({
               <Sparkles className="w-4 h-4 text-primary" />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-foreground">
+              <h2 className="text-base sm:text-lg font-bold text-foreground leading-tight">
                 Создать музыку
               </h2>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-[11px] sm:text-xs text-muted-foreground leading-snug">
                 С помощью AI за несколько секунд
               </p>
             </div>
           </div>
-          {/* Free credits badge */}
-          <span className="px-2 py-1 text-[10px] font-semibold bg-green-500/15 text-green-500 rounded-full border border-green-500/20">
+          {/* Free credits badge - responsive sizing */}
+          <span className="px-1.5 sm:px-2 py-0.5 sm:py-1 text-[9px] sm:text-[10px] font-semibold bg-green-500/15 text-green-500 rounded-full border border-green-500/20 whitespace-nowrap">
             5 бесплатных
           </span>
         </div>
