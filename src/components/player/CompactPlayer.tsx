@@ -26,7 +26,7 @@ interface CompactPlayerProps {
 }
 
 export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: CompactPlayerProps) {
-  const { isPlaying, playTrack, pauseTrack, nextTrack, queue, closePlayer } = usePlayerStore();
+  const { isPlaying, playTrack, pauseTrack, nextTrack, queue } = usePlayerStore();
   const { currentTime, duration, buffered, seek } = useAudioTime();
   const [showExpandHint, setShowExpandHint] = useState(false);
 
