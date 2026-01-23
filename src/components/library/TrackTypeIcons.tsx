@@ -8,6 +8,7 @@ import {
 import type { Track } from '@/types/track';
 import { cn } from '@/lib/utils';
 import { ModelBadge } from './ModelBadge';
+import { trackTypeColors } from '@/lib/design-colors';
 
 interface TrackTypeIconsProps {
   track: Track;
@@ -62,8 +63,8 @@ export function TrackTypeIcons({
         {isCover && (
           <Tooltip>
             <TooltipTrigger asChild>
-              <div className="cursor-help p-0.5 rounded bg-purple-500/10">
-                <Copy className={cn(iconSize, "text-purple-500")} />
+              <div className={cn("cursor-help p-0.5 rounded", trackTypeColors.cover.bg)}>
+                <Copy className={cn(iconSize, trackTypeColors.cover.text)} />
               </div>
             </TooltipTrigger>
             <TooltipContent side="top" className="text-xs">
@@ -76,8 +77,8 @@ export function TrackTypeIcons({
         {isExtend && (
           <Tooltip>
             <TooltipTrigger asChild>
-              <div className="cursor-help p-0.5 rounded bg-cyan-500/10">
-                <ArrowRight className={cn(iconSize, "text-cyan-500")} />
+              <div className={cn("cursor-help p-0.5 rounded", trackTypeColors.extend.bg)}>
+                <ArrowRight className={cn(iconSize, trackTypeColors.extend.text)} />
               </div>
             </TooltipTrigger>
             <TooltipContent side="top" className="text-xs">
@@ -89,8 +90,8 @@ export function TrackTypeIcons({
         {hasVocals && (
           <Tooltip>
             <TooltipTrigger asChild>
-              <div className="cursor-help p-0.5 rounded bg-blue-500/10">
-                <Mic2 className={cn(iconSize, "text-blue-500")} />
+              <div className={cn("cursor-help p-0.5 rounded", trackTypeColors.vocals.bg)}>
+                <Mic2 className={cn(iconSize, trackTypeColors.vocals.text)} />
               </div>
             </TooltipTrigger>
             <TooltipContent side="top" className="text-xs">
@@ -102,8 +103,8 @@ export function TrackTypeIcons({
         {isInstrumental && (
           <Tooltip>
             <TooltipTrigger asChild>
-              <div className="cursor-help p-0.5 rounded bg-green-500/10">
-                <Guitar className={cn(iconSize, "text-green-500")} />
+              <div className={cn("cursor-help p-0.5 rounded", trackTypeColors.instrumental.bg)}>
+                <Guitar className={cn(iconSize, trackTypeColors.instrumental.text)} />
               </div>
             </TooltipTrigger>
             <TooltipContent side="top" className="text-xs">
@@ -115,8 +116,8 @@ export function TrackTypeIcons({
         {hasStems && (
           <Tooltip>
             <TooltipTrigger asChild>
-              <div className="cursor-help p-0.5 rounded bg-purple-500/10">
-                <Layers className={cn(iconSize, "text-purple-500")} />
+              <div className={cn("cursor-help p-0.5 rounded", trackTypeColors.stems.bg)}>
+                <Layers className={cn(iconSize, trackTypeColors.stems.text)} />
               </div>
             </TooltipTrigger>
             <TooltipContent side="top" className="text-xs">
@@ -128,8 +129,8 @@ export function TrackTypeIcons({
         {hasMidi && (
           <Tooltip>
             <TooltipTrigger asChild>
-              <div className="cursor-help p-0.5 rounded bg-primary/10">
-                <Music2 className={cn(iconSize, "text-primary")} />
+              <div className={cn("cursor-help p-0.5 rounded", trackTypeColors.midi.bg)}>
+                <Music2 className={cn(iconSize, trackTypeColors.midi.text)} />
               </div>
             </TooltipTrigger>
             <TooltipContent side="top" className="text-xs">
@@ -141,8 +142,8 @@ export function TrackTypeIcons({
         {hasPdf && (
           <Tooltip>
             <TooltipTrigger asChild>
-              <div className="cursor-help p-0.5 rounded bg-amber-500/10">
-                <FileText className={cn(iconSize, "text-amber-500")} />
+              <div className={cn("cursor-help p-0.5 rounded", trackTypeColors.pdf.bg)}>
+                <FileText className={cn(iconSize, trackTypeColors.pdf.text)} />
               </div>
             </TooltipTrigger>
             <TooltipContent side="top" className="text-xs">
@@ -154,8 +155,8 @@ export function TrackTypeIcons({
         {hasGp5 && (
           <Tooltip>
             <TooltipTrigger asChild>
-              <div className="cursor-help p-0.5 rounded bg-orange-500/10">
-                <FileMusic className={cn(iconSize, "text-orange-500")} />
+              <div className={cn("cursor-help p-0.5 rounded", trackTypeColors.gp5.bg)}>
+                <FileMusic className={cn(iconSize, trackTypeColors.gp5.text)} />
               </div>
             </TooltipTrigger>
             <TooltipContent side="top" className="text-xs">

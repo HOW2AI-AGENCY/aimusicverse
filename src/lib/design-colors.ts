@@ -338,6 +338,162 @@ export function getRankColor(rank: number): string {
 }
 
 // ============================================================================
+// TIER/LEVEL COLORS
+// ============================================================================
+
+/**
+ * Color tokens for user level tiers
+ * Used in: LevelProgressCard, UserLevel
+ */
+export const tierColors = {
+  legend: {
+    gradient: 'from-yellow-400 to-amber-600',
+    bg: 'bg-yellow-500/10',
+    border: 'border-yellow-500/30',
+    text: 'text-yellow-500',
+    name: 'Легенда',
+    icon: '👑',
+  },
+  master: {
+    gradient: 'from-purple-400 to-pink-600',
+    bg: 'bg-purple-500/10',
+    border: 'border-purple-500/30',
+    text: 'text-purple-500',
+    name: 'Мастер',
+    icon: '💎',
+  },
+  pro: {
+    gradient: 'from-blue-400 to-cyan-600',
+    bg: 'bg-blue-500/10',
+    border: 'border-blue-500/30',
+    text: 'text-blue-500',
+    name: 'Профи',
+    icon: '⭐',
+  },
+  experienced: {
+    gradient: 'from-green-400 to-emerald-600',
+    bg: 'bg-green-500/10',
+    border: 'border-green-500/30',
+    text: 'text-green-500',
+    name: 'Опытный',
+    icon: '🎵',
+  },
+  novice: {
+    gradient: 'from-gray-400 to-slate-600',
+    bg: 'bg-muted',
+    border: 'border-border',
+    text: 'text-muted-foreground',
+    name: 'Новичок',
+    icon: '🎼',
+  },
+} as const;
+
+export type TierKey = keyof typeof tierColors;
+
+export function getTierInfo(level: number) {
+  if (level >= 20) return tierColors.legend;
+  if (level >= 15) return tierColors.master;
+  if (level >= 10) return tierColors.pro;
+  if (level >= 5) return tierColors.experienced;
+  return tierColors.novice;
+}
+
+// ============================================================================
+// TRACK TYPE ICON COLORS
+// ============================================================================
+
+/**
+ * Color tokens for track type icons
+ * Used in: TrackTypeIcons
+ */
+export const trackTypeColors = {
+  cover: {
+    bg: 'bg-purple-500/10',
+    text: 'text-purple-500',
+  },
+  extend: {
+    bg: 'bg-cyan-500/10',
+    text: 'text-cyan-500',
+  },
+  vocals: {
+    bg: 'bg-blue-500/10',
+    text: 'text-blue-500',
+  },
+  instrumental: {
+    bg: 'bg-green-500/10',
+    text: 'text-green-500',
+  },
+  stems: {
+    bg: 'bg-purple-500/10',
+    text: 'text-purple-500',
+  },
+  midi: {
+    bg: 'bg-primary/10',
+    text: 'text-primary',
+  },
+  pdf: {
+    bg: 'bg-amber-500/10',
+    text: 'text-amber-500',
+  },
+  gp5: {
+    bg: 'bg-orange-500/10',
+    text: 'text-orange-500',
+  },
+} as const;
+
+// ============================================================================
+// STREAK/GAMIFICATION COLORS
+// ============================================================================
+
+/**
+ * Color tokens for streak calendar and gamification
+ * Used in: StreakCalendar, StreakBadge
+ */
+export const streakColors = {
+  active: {
+    gradient: 'bg-gradient-to-br from-orange-500 to-red-500',
+    shadow: 'shadow-lg shadow-orange-500/30',
+    text: 'text-white',
+  },
+  today: {
+    bg: 'bg-primary/20',
+    border: 'border-2 border-dashed border-primary',
+    text: 'text-primary',
+  },
+  inactive: {
+    bg: 'bg-muted',
+    text: 'text-muted-foreground',
+  },
+} as const;
+
+// ============================================================================
+// ERROR CODE COLORS
+// ============================================================================
+
+/**
+ * Color tokens for error codes
+ * Used in: GenerationErrorCard
+ */
+export const errorCodeColors: Record<string, string> = {
+  ARTIST_NAME_NOT_ALLOWED: 'text-amber-500',
+  COPYRIGHTED_CONTENT: 'text-destructive',
+  MALFORMED_LYRICS: 'text-amber-500',
+  RATE_LIMIT: 'text-amber-500',
+  INSUFFICIENT_CREDITS: 'text-destructive',
+  GENERATION_FAILED: 'text-destructive',
+  AUDIO_GENERATION_FAILED: 'text-destructive',
+  INTERNAL_ERROR: 'text-amber-500',
+  AUDIO_FETCH_FAILED: 'text-destructive',
+  AUDIO_PARSE_FAILED: 'text-destructive',
+  EXTEND_LYRICS_EMPTY: 'text-amber-500',
+} as const;
+
+export function getErrorColor(code?: string): string {
+  if (!code) return 'text-destructive';
+  return errorCodeColors[code] || 'text-destructive';
+}
+
+// ============================================================================
 // OVERLAY/GLASS COLORS
 // ============================================================================
 

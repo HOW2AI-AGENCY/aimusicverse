@@ -9,6 +9,7 @@ import { Star, Zap, TrendingUp } from 'lucide-react';
 import { motion } from '@/lib/motion';
 import { getLevelProgress, getExperienceForLevel } from '@/services/credits.service';
 import { cn } from '@/lib/utils';
+import { getTierInfo } from '@/lib/design-colors';
 
 interface LevelProgressCardProps {
   experience: number;
@@ -24,45 +25,7 @@ export function LevelProgressCard({
   const { level, current, next, progress } = getLevelProgress(experience);
   const xpToNext = next - experience;
   
-  // Level tier colors
-  const getTierInfo = (lvl: number) => {
-    if (lvl >= 20) return { 
-      name: 'Легенда', 
-      color: 'from-yellow-400 to-amber-600',
-      bgColor: 'bg-yellow-500/10',
-      borderColor: 'border-yellow-500/30',
-      icon: '👑'
-    };
-    if (lvl >= 15) return { 
-      name: 'Мастер', 
-      color: 'from-purple-400 to-pink-600',
-      bgColor: 'bg-purple-500/10',
-      borderColor: 'border-purple-500/30',
-      icon: '💎'
-    };
-    if (lvl >= 10) return { 
-      name: 'Профи', 
-      color: 'from-blue-400 to-cyan-600',
-      bgColor: 'bg-blue-500/10',
-      borderColor: 'border-blue-500/30',
-      icon: '⭐'
-    };
-    if (lvl >= 5) return { 
-      name: 'Опытный', 
-      color: 'from-green-400 to-emerald-600',
-      bgColor: 'bg-green-500/10',
-      borderColor: 'border-green-500/30',
-      icon: '🎵'
-    };
-    return { 
-      name: 'Новичок', 
-      color: 'from-gray-400 to-slate-600',
-      bgColor: 'bg-muted',
-      borderColor: 'border-border',
-      icon: '🎼'
-    };
-  };
-  
+  // Use design tokens for tier info
   const tierInfo = getTierInfo(level);
 
   if (variant === 'compact') {
@@ -70,7 +33,7 @@ export function LevelProgressCard({
       <div className={cn('flex items-center gap-2', className)}>
         <div className={cn(
           'w-8 h-8 rounded-full flex items-center justify-center text-sm',
-          `bg-gradient-to-br ${tierInfo.color} text-white font-bold`
+          `bg-gradient-to-br ${tierInfo.gradient} text-white font-bold`
         )}>
           {level}
         </div>
@@ -86,7 +49,7 @@ export function LevelProgressCard({
   }
 
   return (
-    <Card className={cn(tierInfo.bgColor, tierInfo.borderColor, 'border', className)}>
+    <Card className={cn(tierInfo.bg, tierInfo.border, 'border', className)}>
       <CardContent className="p-4">
         <div className="flex items-start gap-4">
           {/* Level badge */}
@@ -95,7 +58,7 @@ export function LevelProgressCard({
             animate={{ scale: 1, opacity: 1 }}
             className={cn(
               'w-14 h-14 rounded-xl flex flex-col items-center justify-center',
-              `bg-gradient-to-br ${tierInfo.color} text-white shadow-lg`
+              `bg-gradient-to-br ${tierInfo.gradient} text-white shadow-lg`
             )}
           >
             <span className="text-lg font-bold">{level}</span>

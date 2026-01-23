@@ -7,6 +7,7 @@ import { AlertCircle, RefreshCw, XCircle, Edit3 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
+import { getErrorColor } from '@/lib/design-colors';
 
 interface GenerationErrorCardProps {
   title?: string;
@@ -30,20 +31,6 @@ const ERROR_ICONS: Record<string, typeof AlertCircle> = {
   EXTEND_LYRICS_EMPTY: Edit3,
 };
 
-const ERROR_COLORS: Record<string, string> = {
-  ARTIST_NAME_NOT_ALLOWED: 'text-amber-500',
-  COPYRIGHTED_CONTENT: 'text-red-500',
-  MALFORMED_LYRICS: 'text-amber-500',
-  RATE_LIMIT: 'text-amber-500',
-  INSUFFICIENT_CREDITS: 'text-red-500',
-  GENERATION_FAILED: 'text-red-500',
-  AUDIO_GENERATION_FAILED: 'text-red-500',
-  INTERNAL_ERROR: 'text-amber-500',
-  AUDIO_FETCH_FAILED: 'text-red-500',
-  AUDIO_PARSE_FAILED: 'text-red-500',
-  EXTEND_LYRICS_EMPTY: 'text-amber-500',
-};
-
 export function GenerationErrorCard({
   title = 'Ошибка генерации',
   errorMessage,
@@ -55,7 +42,7 @@ export function GenerationErrorCard({
   className,
 }: GenerationErrorCardProps) {
   const IconComponent = (errorCode && ERROR_ICONS[errorCode]) || AlertCircle;
-  const iconColor = (errorCode && ERROR_COLORS[errorCode]) || 'text-destructive';
+  const iconColor = getErrorColor(errorCode);
 
   const needsEdit = errorCode === 'ARTIST_NAME_NOT_ALLOWED' || 
                     errorCode === 'COPYRIGHTED_CONTENT' || 

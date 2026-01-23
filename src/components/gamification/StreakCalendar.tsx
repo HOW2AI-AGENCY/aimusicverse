@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Flame, Calendar } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { streakColors } from '@/lib/design-colors';
 
 interface CheckinDay {
   checkin_date: string;
@@ -91,10 +92,10 @@ export function StreakCalendar() {
                   className={cn(
                     "w-9 h-9 rounded-lg flex items-center justify-center text-xs font-medium transition-all",
                     isCheckedIn 
-                      ? "bg-gradient-to-br from-orange-500 to-red-500 text-white shadow-lg shadow-orange-500/30" 
+                      ? cn(streakColors.active.gradient, streakColors.active.text, streakColors.active.shadow)
                       : isToday
-                        ? "bg-primary/20 border-2 border-dashed border-primary text-primary"
-                        : "bg-muted text-muted-foreground"
+                        ? cn(streakColors.today.bg, streakColors.today.border, streakColors.today.text)
+                        : cn(streakColors.inactive.bg, streakColors.inactive.text)
                   )}
                 >
                   {isCheckedIn ? (

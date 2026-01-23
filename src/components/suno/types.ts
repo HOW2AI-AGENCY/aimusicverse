@@ -1,4 +1,5 @@
 // Suno Builder Types
+import { sectionColors, getSectionColor } from '@/lib/design-colors';
 
 export enum SectionType {
   INTRO = 'intro',
@@ -63,17 +64,18 @@ export const UI_TRANSLATIONS: Record<string, string> = {
 };
 
 // Section Type Labels
+// Use design tokens for section colors
 export const SECTION_LABELS: Record<SectionType, { ru: string; en: string; color: string }> = {
-  [SectionType.INTRO]: { ru: 'Вступление', en: 'Intro', color: 'bg-blue-500/10 text-blue-500' },
-  [SectionType.VERSE]: { ru: 'Куплет', en: 'Verse', color: 'bg-indigo-500/10 text-indigo-500' },
-  [SectionType.PRE_CHORUS]: { ru: 'Предприпев', en: 'Pre-Chorus', color: 'bg-pink-500/10 text-pink-500' },
-  [SectionType.CHORUS]: { ru: 'Припев', en: 'Chorus', color: 'bg-purple-500/10 text-purple-500' },
-  [SectionType.HOOK]: { ru: 'Хук', en: 'Hook', color: 'bg-orange-500/10 text-orange-500' },
-  [SectionType.BRIDGE]: { ru: 'Бридж', en: 'Bridge', color: 'bg-green-500/10 text-green-500' },
-  [SectionType.INTERLUDE]: { ru: 'Интерлюдия', en: 'Interlude', color: 'bg-teal-500/10 text-teal-500' },
-  [SectionType.SOLO]: { ru: 'Соло', en: 'Solo', color: 'bg-yellow-500/10 text-yellow-500' },
-  [SectionType.OUTRO]: { ru: 'Концовка', en: 'Outro', color: 'bg-red-500/10 text-red-500' },
-  [SectionType.DROP]: { ru: 'Дроп', en: 'Drop', color: 'bg-violet-500/10 text-violet-500' },
+  [SectionType.INTRO]: { ru: 'Вступление', en: 'Intro', color: sectionColors.intro.combined },
+  [SectionType.VERSE]: { ru: 'Куплет', en: 'Verse', color: sectionColors.verse.combined },
+  [SectionType.PRE_CHORUS]: { ru: 'Предприпев', en: 'Pre-Chorus', color: sectionColors.prechorus.combined },
+  [SectionType.CHORUS]: { ru: 'Припев', en: 'Chorus', color: sectionColors.chorus.combined },
+  [SectionType.HOOK]: { ru: 'Хук', en: 'Hook', color: sectionColors.hook.combined },
+  [SectionType.BRIDGE]: { ru: 'Бридж', en: 'Bridge', color: sectionColors.bridge.combined },
+  [SectionType.INTERLUDE]: { ru: 'Интерлюдия', en: 'Interlude', color: sectionColors.interlude.combined },
+  [SectionType.SOLO]: { ru: 'Соло', en: 'Solo', color: sectionColors.solo.combined },
+  [SectionType.OUTRO]: { ru: 'Концовка', en: 'Outro', color: sectionColors.outro.combined },
+  [SectionType.DROP]: { ru: 'Дроп', en: 'Drop', color: getSectionColor('breakdown').combined },
 };
 
 // Tag Configurations
