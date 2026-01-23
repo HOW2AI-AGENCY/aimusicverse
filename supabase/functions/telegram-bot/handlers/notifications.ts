@@ -1,6 +1,7 @@
 /**
  * Notification handlers for Telegram bot
  * Sends notifications about project events, track status, etc.
+ * Now with digest support for batching similar notifications
  */
 
 import { sendMessage, sendPhoto } from '../telegram-api.ts';
@@ -8,6 +9,14 @@ import { getSupabaseClient } from '../core/supabase-client.ts';
 import { escapeMarkdownV2, truncateText } from '../utils/text-processor.ts';
 import { getProjectDeepLink, getTrackDeepLink, getTelegramConfig } from '../../_shared/telegram-config.ts';
 import { createLogger } from '../../_shared/logger.ts';
+import { 
+  addToPendingDigest, 
+  shouldSendDigest, 
+  sendLikeDigest, 
+  sendCommentDigest, 
+  sendFollowerDigest 
+} from '../utils/notification-digest.ts';
+import { SmartLinks } from '../utils/smart-deep-links.ts';
 
 const logger = createLogger('notifications');
 
@@ -77,6 +86,7 @@ function markNotificationSent(userId: string, type: NotificationType): void {
 
 /**
  * Send notification to user via Telegram
+ * Uses digest for likes, comments, followers to prevent spam
  */
 export async function sendNotification(payload: NotificationPayload): Promise<boolean> {
   try {
@@ -99,6 +109,37 @@ export async function sendNotification(payload: NotificationPayload): Promise<bo
     }
 
     const chatId = profile.telegram_chat_id;
+    
+    // Use digest for social notifications
+    if (payload.type === 'track_liked') {
+      addToPendingDigest(payload.userId, 'like', payload.data);
+      
+      // Check if we should send digest now
+      if (shouldSendDigest(payload.userId, 'like')) {
+        await sendLikeDigest(chatId, payload.userId, profile.first_name);
+      }
+      return true;
+    }
+    
+    if (payload.type === 'comment_received') {
+      addToPendingDigest(payload.userId, 'comment', payload.data);
+      
+      if (shouldSendDigest(payload.userId, 'comment')) {
+        await sendCommentDigest(chatId, payload.userId, profile.first_name);
+      }
+      return true;
+    }
+    
+    if (payload.type === 'new_follower') {
+      addToPendingDigest(payload.userId, 'follow', payload.data);
+      
+      if (shouldSendDigest(payload.userId, 'follow')) {
+        await sendFollowerDigest(chatId, payload.userId, profile.first_name);
+      }
+      return true;
+    }
+    
+    // For other types, send immediately
     const message = await formatNotificationMessage(payload.type, payload.data, profile.first_name);
     
     if (!message) {
