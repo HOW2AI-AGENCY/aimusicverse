@@ -1,9 +1,10 @@
 /**
  * Generation Task Error Component
  * Shows failed generation with retry/delete options
+ * Enhanced with special handling for artist name errors
  */
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { AlertCircle, RefreshCw, Trash2, ChevronDown, ChevronUp, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -11,6 +12,7 @@ import { cn } from '@/lib/utils';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { ArtistNameErrorAlert } from './ArtistNameErrorAlert';
 
 interface GenerationTaskErrorProps {
   taskId: string;
@@ -37,6 +39,15 @@ const ERROR_MESSAGES: Record<string, string> = {
   'API_ERROR': 'Ошибка API. Попробуйте позже.',
   'TIMEOUT': 'Превышено время ожидания. Попробуйте снова.',
 };
+
+/** Check if error is artist name related (from provider or internal) */
+function isArtistNameError(errorMessage: string, errorCode?: string): boolean {
+  if (errorCode === 'ARTIST_NAME_NOT_ALLOWED') return true;
+  const lowerMsg = errorMessage.toLowerCase();
+  return lowerMsg.includes('artist name') || 
+         lowerMsg.includes('имя артиста') ||
+         lowerMsg.includes("don't reference specific artists");
+}
 
 export function GenerationTaskError({
   taskId,
@@ -117,6 +128,20 @@ export function GenerationTaskError({
       setIsRetrying(false);
     }
   };
+
+  // Show special artist name error alert
+  const showArtistError = isArtistNameError(errorMessage, errorCode);
+  
+  if (showArtistError) {
+    return (
+      <ArtistNameErrorAlert
+        errorMessage={errorMessage}
+        onEdit={onRetry}
+        onDismiss={onDismiss}
+        className={className}
+      />
+    );
+  }
 
   return (
     <Card className={cn('border-destructive/50 bg-destructive/5', className)}>
