@@ -339,7 +339,7 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
             </Button>
           )}
 
-          {/* Navigation buttons */}
+          {/* Navigation buttons - Studio is primary CTA */}
           <div className="flex gap-2">
             <Button
               variant="outline"
@@ -351,13 +351,18 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
             </Button>
             <Button
               variant="default"
-              className="flex-1"
+              className="flex-1 bg-gradient-to-r from-primary to-primary/80 shadow-lg"
               onClick={handleGoToStudio}
             >
               <Sliders className="w-4 h-4 mr-2" />
-              Открыть студию
+              Студия
             </Button>
           </div>
+          
+          {/* Hint about studio */}
+          <p className="text-xs text-center text-muted-foreground">
+            В студии можно редактировать стемы, добавлять эффекты и создавать ремиксы
+          </p>
         </div>
       </SheetContent>
     </Sheet>
