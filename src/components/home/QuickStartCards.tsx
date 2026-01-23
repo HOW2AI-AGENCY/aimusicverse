@@ -9,7 +9,7 @@
 
 import { memo, useCallback } from 'react';
 import { motion } from '@/lib/motion';
-import { Music2, Guitar, Mic2, Sparkles, ArrowRight } from 'lucide-react';
+import { Music2, Guitar, Mic2, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTelegram } from '@/contexts/TelegramContext';
 
@@ -38,60 +38,34 @@ const QuickStartCard = memo(function QuickStartCard({
     <motion.button
       onClick={onClick}
       className={cn(
-        "relative flex flex-col items-center justify-center p-3 sm:p-4 rounded-2xl",
-        "min-h-[100px] sm:min-h-[120px]",
+        "relative flex flex-col items-center justify-center p-2.5 sm:p-4 rounded-xl sm:rounded-2xl",
+        "min-h-[85px] sm:min-h-[110px]",
         "border border-border/50 shadow-sm",
-        "transition-all duration-300 touch-manipulation",
-        "hover:shadow-lg hover:border-primary/30 active:scale-95",
+        "transition-all duration-200 touch-manipulation",
+        "hover:shadow-md hover:border-primary/30 active:scale-95",
         "bg-gradient-to-br",
         gradient
       )}
-      initial={{ opacity: 0, y: 20, scale: 0.95 }}
+      initial={{ opacity: 0, y: 10, scale: 0.98 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ delay: delay * 0.1, duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
-      whileHover={{ scale: 1.02, y: -2 }}
+      transition={{ delay: delay * 0.05, duration: 0.2 }}
       whileTap={{ scale: 0.95 }}
     >
       {/* Icon */}
-      <motion.div
-        className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-background/80 backdrop-blur-sm flex items-center justify-center shadow-inner mb-2"
-        animate={{
-          boxShadow: [
-            '0 0 0 0 rgba(var(--primary), 0)',
-            '0 0 10px 2px rgba(var(--primary), 0.15)',
-            '0 0 0 0 rgba(var(--primary), 0)',
-          ],
-        }}
-        transition={{ duration: 2, repeat: Infinity, delay: delay * 0.3 }}
-      >
+      <div className="w-8 h-8 sm:w-11 sm:h-11 rounded-lg sm:rounded-xl bg-background/80 backdrop-blur-sm flex items-center justify-center shadow-inner mb-1.5 sm:mb-2">
         {icon}
-      </motion.div>
+      </div>
 
       {/* Title */}
-      <h3 className="text-sm sm:text-base font-bold text-foreground mb-0.5">{title}</h3>
+      <h3 className="text-xs sm:text-sm font-bold text-foreground mb-0.5 text-balance">{title}</h3>
       
-      {/* Description */}
-      <p className="text-[10px] sm:text-xs text-muted-foreground text-center leading-tight px-1">
+      {/* Description - hidden on very small screens */}
+      <p className="text-[9px] sm:text-xs text-muted-foreground text-center leading-tight px-0.5 hidden xs:block truncate-2">
         {description}
       </p>
 
-      {/* Hover arrow indicator */}
-      <motion.div
-        className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100"
-        initial={{ opacity: 0, x: -5 }}
-        whileHover={{ opacity: 1, x: 0 }}
-      >
-        <ArrowRight className="w-3.5 h-3.5 text-primary" />
-      </motion.div>
-
-      {/* Sparkle decoration */}
-      <motion.div
-        className="absolute top-2 right-2"
-        animate={{ rotate: [0, 15, -15, 0], scale: [1, 1.1, 1] }}
-        transition={{ duration: 3, repeat: Infinity, delay: delay * 0.5 }}
-      >
-        <Sparkles className="w-3 h-3 text-primary/60" />
-      </motion.div>
+      {/* Sparkle decoration - simplified */}
+      <Sparkles className="absolute top-1.5 right-1.5 w-2.5 h-2.5 sm:w-3 sm:h-3 text-primary/50" />
     </motion.button>
   );
 });
@@ -116,22 +90,22 @@ export const QuickStartCards = memo(function QuickStartCards({
     {
       preset: 'track',
       title: 'Трек',
-      description: 'Полноценный трек с текстом',
-      icon: <Music2 className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />,
+      description: 'Полноценный трек',
+      icon: <Music2 className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />,
       gradient: 'from-primary/10 via-primary/5 to-background',
     },
     {
       preset: 'riff',
       title: 'Рифф',
-      description: 'Инструментальный рифф',
-      icon: <Guitar className="w-5 h-5 sm:w-6 sm:h-6 text-generate" />,
+      description: 'Инструментал',
+      icon: <Guitar className="w-4 h-4 sm:w-5 sm:h-5 text-generate" />,
       gradient: 'from-generate/10 via-generate/5 to-background',
     },
     {
       preset: 'cover',
       title: 'Cover',
-      description: 'AI-кавер на ваше аудио',
-      icon: <Mic2 className="w-5 h-5 sm:w-6 sm:h-6 text-studio" />,
+      description: 'AI-кавер',
+      icon: <Mic2 className="w-4 h-4 sm:w-5 sm:h-5 text-studio" />,
       gradient: 'from-studio/10 via-studio/5 to-background',
     },
   ];

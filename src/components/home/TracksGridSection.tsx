@@ -70,7 +70,7 @@ export const TracksGridSection = memo(function TracksGridSection({
   }
 
   return (
-    <section className={cn("space-y-4", className)}>
+    <section className={cn("space-y-3 sm:space-y-4", className)}>
       {!hideHeader && (
         <SectionHeader
           icon={icon}
@@ -92,7 +92,7 @@ export const TracksGridSection = memo(function TracksGridSection({
         />
       ) : (
         <>
-          <ResponsiveGrid columns={columns} gap={3}>
+          <ResponsiveGrid columns={columns} gap={2}>
             {displayTracks.map((track) => (
               <UnifiedTrackCard
                 key={track.id}
@@ -105,21 +105,21 @@ export const TracksGridSection = memo(function TracksGridSection({
           
           {/* Load More Button */}
           {hasMore && onLoadMore && (
-            <div className="flex justify-center pt-4">
+            <div className="flex justify-center pt-3 sm:pt-4">
               <Button
                 variant="outline"
-                size="lg"
+                size="default"
                 onClick={onLoadMore}
                 disabled={isLoadingMore}
-                className="min-w-[200px]"
+                className="min-w-[160px] sm:min-w-[200px] text-sm"
               >
                 {isLoadingMore ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Загрузка...
+                    <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+                    <span className="text-xs sm:text-sm">Загрузка...</span>
                   </>
                 ) : (
-                  'Загрузить ещё'
+                  <span className="text-xs sm:text-sm">Загрузить ещё</span>
                 )}
               </Button>
             </div>
