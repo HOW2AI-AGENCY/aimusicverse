@@ -1,381 +1,203 @@
 
-# План улучшения интерфейса и пользовательского опыта
+# План дальнейших работ MusicVerse AI
 
-## Обзор текущего состояния
+**Дата составления**: 23 января 2026
+**Период планирования**: Q1-Q2 2026
+
+---
+
+## Текущий статус
 
 ### Аналитика (16-23 января 2026)
-- **800 посетителей** со средней сессией 7.3 мин
-- **Bounce rate снизился с 82% до 17%** за неделю — отличный прогресс
-- **43% мобильных пользователей** — критически важно для Telegram Mini App
-- **Топ-5 страниц**: Главная (12%), Библиотека (4.4%), Авторизация (2%), Проекты (1.8%), Генерация (1.7%)
+| Метрика | Значение | Тренд |
+|---------|----------|-------|
+| Посетители | 800 за неделю | стабильно |
+| Просмотры страниц | 4,761 | ↗ |
+| Страниц за визит | 5.95 → 18.25 | ↗↗↗ |
+| Время сессии | 4 мин → 16 мин | ↗↗↗ |
+| Bounce rate | 82% → 17% | ↗↗↗ (отлично!) |
+| Устройства | 57% desktop, 43% mobile | — |
+| Регион | 91% Россия | — |
 
-### Текущие проблемы
-1. **Bundle size >150KB** (цель) — текущий vendor-other ~184KB
-2. **Несогласованность визуальных стилей** между компонентами
-3. **Русский текст не помещается** на некоторых мобильных экранах
-4. **Z-index проблемы с бейджами** — частично исправлено
-5. **Тяжёлые анимации** на слабых устройствах
+### Завершённые фазы
+- Phase 1-4: Business Metrics, Monetization, Telegram, Retention
+- Sprints A-D: Performance, Mobile UX, Design System, User Journey
 
----
-
-## Фаза 1: Критические оптимизации производительности
-
-### 1.1 Bundle Size Reduction (Приоритет: ВЫСОКИЙ)
-
-**Текущее состояние:**
-- vendor-other: 184.28 KB (цель: <150 KB)
-- Уже проделано: dayjs вместо date-fns, lazy loading
-
-**Действия:**
-```
-1. Анализ bundle с помощью rollup-plugin-visualizer
-2. Lazy loading для тяжёлых компонентов:
-   - Recharts → динамический импорт только на странице Analytics
-   - opensheetmusicdisplay → только в MIDI viewer
-   - wavesurfer.js → только при открытии полноэкранного плеера
-3. Tree-shaking проверка:
-   - Убедиться что @/lib/motion импортирует только нужное
-   - Проверить lucide-react на tree-shaking
-4. Код-сплитинг по роутам (уже частично сделано)
-```
-
-**Файлы для изменения:**
-- `vite.config.ts` — добавить chunk splitting
-- `src/lib/lazy-charts.ts` — создать lazy wrapper для Recharts
-- Компоненты с тяжёлыми зависимостями
-
-### 1.2 Критические CSS оптимизации
-
-**Действия:**
-```
-1. Удалить неиспользуемые CSS классы
-2. Оптимизировать @font-face загрузку (уже в process)
-3. Purge unused Tailwind classes в production
-4. Critical CSS инлайнинг для FCP
-```
-
-**Файлы:**
-- `tailwind.config.ts` — safelist только нужных классов
-- `index.html` — проверить preload/prefetch
+### Незавершённые задачи
+1. Bundle size 184 KB → цель <150 KB
+2. Spec 031: Mobile Studio V2 (42 требования)
+3. Spec 032: Professional UI (22 требования)
+4. Service Worker для offline
 
 ---
 
-## Фаза 2: Mobile-First UX Improvements
+## План работ
 
-### 2.1 Адаптивный текст для русского языка (Приоритет: ВЫСОКИЙ)
+### Фаза 1: Performance Optimization (Приоритет: КРИТИЧЕСКИЙ)
+**Срок: 3-5 дней**
 
-**Проблема:** Русский текст длиннее английского на 15-30%, что ломает макеты.
+Цель: Снизить vendor-other bundle с 184 KB до <150 KB
 
-**Решение:**
-```css
-/* Уже добавлено, но нужно расширить применение */
-.text-balance { text-wrap: balance; }
-.break-words-safe { 
-  word-break: break-word;
-  overflow-wrap: break-word;
-  hyphens: auto;
-}
-```
+| # | Задача | Файлы | Ожидаемый эффект |
+|---|--------|-------|------------------|
+| 1.1 | Lazy loading для recharts | `src/lib/lazy-charts.ts` | -15 KB |
+| 1.2 | Lazy loading для opensheetmusicdisplay | MIDI viewer | -20 KB |
+| 1.3 | Dynamic import для wavesurfer.js | Player components | -25 KB |
+| 1.4 | Tree-shaking audit для lucide-react | Все компоненты с иконками | -5 KB |
+| 1.5 | Service Worker implementation | `public/sw.js`, регистрация | Offline support |
+| 1.6 | Image optimization (WebP, srcset) | Все изображения | Быстрее загрузка |
 
-**Компоненты для обновления:**
-- `src/components/home/QuickStartCards.tsx` — уменьшить описания
-- `src/components/gamification/GamificationBar.tsx` — responsive text
-- `src/components/generate-form/` — все лейблы форм
-- `src/components/BottomNavigation.tsx` — навигационные лейблы
-
-### 2.2 Улучшение Touch Targets
-
-**Стандарт:** Минимум 44x44px для всех интерактивных элементов
-
-**Проверка и исправление:**
-```
-1. Все кнопки в плеере: ✓ (уже 44px)
-2. Навигационные элементы: ✓ (min-h-touch)
-3. Карточки треков — проверить actions
-4. Формы — увеличить tap targets для inputs
-5. Модальные окна — кнопки закрытия
-```
-
-**Файлы для аудита:**
-- `src/components/track/track-card-new/variants/*.tsx`
-- `src/components/generate-form/*.tsx`
-- `src/components/player/*.tsx`
-
-### 2.3 Telegram Safe Area Integration
-
-**Текущее состояние:** Хорошая реализация в `src/constants/safe-area.ts`
-
-**Улучшения:**
-```
-1. Проверить все Drawer/Sheet компоненты на safe-area
-2. Убедиться что клавиатура не перекрывает inputs (iOS)
-3. Проверить Bottom Navigation на всех iPhone моделях
-4. Добавить env(safe-area-inset-*) fallbacks везде
-```
+**Критерии успеха:**
+- vendor-other ≤ 150 KB
+- First Contentful Paint < 1.5s
+- Lighthouse Performance ≥ 90
 
 ---
 
-## Фаза 3: Visual Design System Improvements
+### Фаза 2: Mobile Studio V2 (Spec 031)
+**Срок: 2-3 недели**
 
-### 3.1 Typography System (Приоритет: СРЕДНИЙ)
+Цель: Перенести функционал legacy studio в StudioShell
 
-**Текущие проблемы:**
-- Несогласованные размеры шрифтов между компонентами
-- Разный line-height в разных местах
+#### 2.1 P1 - Lyrics Studio Integration (Критический)
+| Задача | Описание |
+|--------|----------|
+| Панель редактирования лирики | Полный CRUD для текстов в unified studio |
+| AI-помощник для лирики | Интеграция существующего AI assistant |
+| Section notes | Аннотации к секциям |
+| Version history | История изменений с восстановлением |
 
-**Решение — Создать Design Tokens:**
-```typescript
-// src/lib/design-tokens.ts
-export const typography = {
-  heading: {
-    h1: 'text-2xl sm:text-3xl font-bold leading-tight',
-    h2: 'text-xl sm:text-2xl font-semibold leading-snug',
-    h3: 'text-lg sm:text-xl font-semibold leading-snug',
-    h4: 'text-base sm:text-lg font-medium leading-normal',
-  },
-  body: {
-    lg: 'text-base sm:text-lg leading-relaxed',
-    md: 'text-sm sm:text-base leading-relaxed',
-    sm: 'text-xs sm:text-sm leading-normal',
-    xs: 'text-[11px] sm:text-xs leading-normal',
-  },
-  label: 'text-xs sm:text-sm font-medium text-muted-foreground',
-  caption: 'text-[10px] sm:text-[11px] text-muted-foreground',
-};
-```
+#### 2.2 P2 - MusicLab Creative Workspace
+| Задача | Описание |
+|--------|----------|
+| Vocal recording | Запись вокала с визуализацией |
+| Guitar recording | Детекция и запись гитары |
+| Chord detection | Анализ аккордов |
+| PromptDJ (PRO) | DJ микширование |
 
-### 3.2 Spacing System (Приоритет: СРЕДНИЙ)
+#### 2.3 P2 - Advanced Stem Processing
+| Задача | Описание |
+|--------|----------|
+| Batch transcription | Транскрипция нескольких стемов |
+| Stem modes | none, simple, detailed |
+| Progress indication | Прогресс батч-операций |
 
-**Стандартизация:**
-```typescript
-export const spacing = {
-  section: 'mb-4 sm:mb-6',      // Между секциями
-  card: 'p-3 sm:p-4',           // Внутри карточек
-  gap: 'gap-2 sm:gap-3',        // Между элементами
-  inline: 'gap-1.5 sm:gap-2',   // Между inline элементами
-};
-```
+#### 2.4 P3 - Professional Features
+| Задача | Описание |
+|--------|----------|
+| Professional dashboard | Статистика и метрики |
+| Preset management | CRUD для пресетов |
+| Replacement history | История замен секций |
+| MIDI file support | Импорт и воспроизведение MIDI |
+| Keyboard shortcuts | Шорткаты для desktop |
 
-### 3.3 Animation Performance (Приоритет: НИЗКИЙ)
-
-**Уже улучшено:**
-- Убраны infinite анимации с GamificationBar
-- Упрощены hover эффекты в EnhancedVariant
-
-**Дополнительно:**
-```
-1. Использовать CSS transitions вместо motion где возможно
-2. Добавить will-change: transform для анимируемых элементов
-3. Проверить prefersReducedMotion везде
-4. Упростить анимации на мобильных (сократить duration)
-```
+**Критерии успеха:**
+- 100% P1-P2 требований реализовано
+- Lyric editing workflow < 3 мин
+- Touch targets 100% ≥ 44px
 
 ---
 
-## Фаза 4: User Journey Optimization
+### Фаза 3: Professional UI (Spec 032)
+**Срок: 1-2 недели**
 
-### 4.1 Onboarding Flow (Приоритет: ВЫСОКИЙ)
+Цель: Улучшить визуальное качество до профессионального уровня
 
-**Текущее состояние:**
-- `QuickStartOverlay` для новых пользователей
-- `WelcomeBonusPopup` для приветственного бонуса
-- `NewUserProgress` для отслеживания прогресса
+#### 3.1 Typography & Spacing (P1)
+| Задача | Описание |
+|--------|----------|
+| Apply typographyClass | Унифицировать шрифты |
+| Apply spacingClass | Унифицировать отступы |
+| Russian text balancing | text-balance везде |
 
-**Улучшения:**
+#### 3.2 Color & Gradients (P1)
+| Задача | Описание |
+|--------|----------|
+| Refined color palette | Проверить WCAG AA |
+| Subtle gradients | FAB, player bar, кнопки |
+| Dark mode polish | Улучшить контраст |
+
+#### 3.3 Animations (P2)
+| Задача | Описание |
+|--------|----------|
+| CSS transitions | Заменить motion где возможно |
+| Haptic feedback | Все интерактивные элементы |
+| prefersReducedMotion | Проверить везде |
+
+#### 3.4 Component Polish (P2)
+| Задача | Описание |
+|--------|----------|
+| Card design | Тени, скругления, padding |
+| Icon consistency | Одинаковые размеры, стили |
+| Loading states | Skeleton screens |
+| Empty states | Иллюстрации, CTA |
+
+**Критерии успеха:**
+- WCAG AA 95%+
+- Visual polish rating +40%
+- User perceived professionalism 85%+
+
+---
+
+### Фаза 4: Testing & Quality (Параллельно)
+**Срок: Ongoing**
+
+| Задача | Описание |
+|--------|----------|
+| E2E tests | Playwright для критических путей |
+| Accessibility audit | axe-core, screen reader testing |
+| Performance monitoring | Lighthouse CI |
+| Error tracking | Sentry улучшения |
+
+**Критерии успеха:**
+- Test coverage > 80%
+- Zero accessibility violations
+- Error rate < 0.1%
+
+---
+
+### Фаза 5: Documentation Update
+**Срок: 1-2 дня (по завершении каждой фазы)**
+
+| Файл | Обновления |
+|------|------------|
+| `PROJECT_STATUS.md` | Текущий статус, метрики |
+| `KNOWN_ISSUES.md` | Закрытые/новые проблемы |
+| `KNOWLEDGE_BASE.md` | Новые паттерны |
+| `SPRINTS/SPRINT-PROGRESS.md` | Прогресс спринтов |
+| JSDoc | Ключевые компоненты |
+
+---
+
+## Приоритезация
+
 ```
-1. Сократить QuickStartOverlay до 2 экранов (сейчас 3)
-2. Добавить skip-to-create кнопку на первом экране
-3. Показывать FirstTimeHeroCard с более чётким CTA
-4. Улучшить пустые состояния в Library с CTA
-```
-
-### 4.2 First-Time User Experience
-
-**Метрики цели:**
-- Время до первого трека: <60 секунд
-- Конверсия новых → генерация: >50%
-
-**Действия:**
-```
-1. Auto-focus на поле ввода в GenerateSheet
-2. Предзаполнение genre presets для быстрого старта
-3. Показать примеры промптов в placeholder
-4. Упростить форму генерации для новых пользователей
-```
-
-### 4.3 Return User Experience
-
-**Действия:**
-```
-1. ContinueDraftCard уже реализован — проверить видимость
-2. Показывать последний созданный трек prominent
-3. Quick actions для "Создать похожий" трек
-4. Streak reminder в header если streak активен
+Критический путь:
+┌─────────────────────────────────────────────────────────────────┐
+│  Фаза 1: Performance   →   Фаза 2: Studio V2   →   Фаза 3: UI  │
+│     (3-5 дней)              (2-3 недели)          (1-2 недели) │
+└─────────────────────────────────────────────────────────────────┘
+                              ↓
+                    Фаза 4: Testing (параллельно)
+                              ↓
+                    Фаза 5: Documentation
 ```
 
 ---
 
-## Фаза 5: Component Architecture Cleanup
+## Метрики успеха проекта
 
-### 5.1 Унификация компонентов
-
-**Track Card Variants:**
-Сейчас 6 вариантов в UnifiedTrackCard — это правильно, но проверить:
-```
-1. Консистентность стилей между вариантами
-2. Единый API для всех вариантов
-3. Оптимизация ре-рендеров с memo
-```
-
-### 5.2 Dialog/Sheet System
-
-**Текущее состояние:** UnifiedDialog уже реализован
-
-**Проверить:**
-```
-1. Все модалы используют UnifiedDialog
-2. Все sheet используют правильные safe-areas
-3. Haptic feedback на open/close
-```
-
-### 5.3 Skeleton/Loading States
-
-**Создать единый barrel export:**
-```typescript
-// src/components/ui/skeletons/index.ts
-export { TrackCardSkeleton, TrackRowSkeleton } from './TrackListSkeleton';
-export { HeroSkeleton } from './TrackListSkeleton';
-export { MobileListSkeleton, MobileGridSkeleton } from '@/components/mobile/MobileSkeletons';
-```
-
----
-
-## Фаза 6: Documentation & Code Quality
-
-### 6.1 Обновление документации
-
-**Файлы для обновления:**
-```
-1. PROJECT_STATUS.md — добавить UI improvements
-2. KNOWN_ISSUES.md — обновить статусы
-3. docs/ARCHITECTURE.md — добавить Design System section
-4. KNOWLEDGE_BASE.md — добавить UI patterns
-```
-
-### 6.2 Component Documentation
-
-**Добавить JSDoc к ключевым компонентам:**
-```typescript
-/**
- * UnifiedTrackCard - Single unified track card with 7 variants
- * @param variant - 'grid' | 'list' | 'compact' | 'minimal' | 'professional' | 'enhanced'
- * @example
- * 
- */
-```
-
----
-
-## План реализации по спринтам
-
-### Sprint A: Performance Critical (2-3 дня)
-- [ ] Bundle analysis и optimization
-- [ ] Lazy loading тяжёлых компонентов
-- [ ] CSS optimization
-
-### Sprint B: Mobile UX (2-3 дня)
-- [ ] Адаптивный текст для русского
-- [ ] Touch targets аудит
-- [ ] Telegram safe area проверка
-
-### Sprint C: Design System (2-3 дня)
-- [ ] Design tokens файл
-- [ ] Typography унификация
-- [ ] Spacing стандартизация
-
-### Sprint D: User Journey (1-2 дня)
-- [ ] Onboarding improvements
-- [ ] Empty states улучшение
-- [ ] Return user experience
-
-### Sprint E: Documentation (1 день)
-- [ ] Обновление документации
-- [ ] JSDoc для компонентов
-- [ ] README update
-
----
-
-## Метрики успеха
-
-| Метрика | Текущее | Цель |
-|---------|---------|------|
-| Bundle size (vendor) | 184 KB | <150 KB |
-| Bounce rate | 53% | <40% |
-| Time to First Track | ? | <60 сек |
-| Mobile touch targets | ~90% | 100% |
-| Typography consistency | ~70% | 95% |
-| WCAG AA compliance | ~85% | 95% |
-
----
-
-## Технические детали реализации
-
-### Lazy Loading Pattern
-```typescript
-// src/lib/lazy-charts.ts
-import { lazy } from 'react';
-
-export const LazyRecharts = lazy(() => 
-  import('recharts').then(m => ({ 
-    default: m.ResponsiveContainer 
-  }))
-);
-
-export const LazyAreaChart = lazy(() => 
-  import('recharts').then(m => ({ 
-    default: m.AreaChart 
-  }))
-);
-```
-
-### Design Tokens Implementation
-```typescript
-// src/lib/design-tokens.ts
-export const tokens = {
-  colors: {
-    generate: 'hsl(var(--generate))',
-    library: 'hsl(var(--library))',
-    projects: 'hsl(var(--projects))',
-  },
-  shadows: {
-    sm: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
-    md: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
-    lg: '0 10px 15px -3px rgb(0 0 0 / 0.1)',
-  },
-  radius: {
-    sm: '0.25rem',
-    md: '0.5rem',
-    lg: '0.75rem',
-    xl: '1rem',
-  },
-  animation: {
-    fast: '150ms',
-    normal: '200ms',
-    slow: '300ms',
-  },
-};
-```
-
-### Safe Area Validation
-```typescript
-// Проверка что все компоненты используют TELEGRAM_SAFE_AREA
-// Файлы для аудита:
-// - src/components/GenerateSheet.tsx ✓
-// - src/components/MainLayout.tsx ✓
-// - src/components/BottomNavigation.tsx ✓
-// - src/components/player/MobileFullscreenPlayer.tsx ✓
-// - src/components/home/HomeHeader.tsx ✓
-```
+| Метрика | Текущее | Q1 Цель | Q2 Цель |
+|---------|---------|---------|---------|
+| Bundle size (vendor) | 184 KB | <150 KB | <120 KB |
+| Users | 199 | 300+ | 500+ |
+| Tracks | 1,800+ | 3,000+ | 5,000+ |
+| Generation success | 86% | 90% | 92%+ |
+| DAU | 15 | 30+ | 50+ |
+| Bounce rate | 17% | <15% | <10% |
+| Session duration | 16 min | 15+ min | 20+ min |
+| WCAG AA compliance | ~85% | 95% | 100% |
+| Test coverage | ~40% | 60% | 80%+ |
 
 ---
 
@@ -383,7 +205,51 @@ export const tokens = {
 
 | Риск | Вероятность | Митигация |
 |------|-------------|-----------|
-| Breaking changes в UI | Средняя | Постепенные изменения, тестирование на preview |
-| Регрессия производительности | Низкая | Lighthouse тесты после каждого изменения |
-| Несовместимость с iOS Safari | Средняя | Тестирование на реальных устройствах |
-| Увеличение bundle size | Низкая | Мониторинг размера при каждом PR |
+| Breaking changes в Studio V2 | Средняя | Feature flags, постепенный rollout |
+| Performance regression | Низкая | Lighthouse CI, bundle analysis |
+| iOS Safari compatibility | Средняя | Тестирование на реальных устройствах |
+| Сложность миграции legacy studio | Высокая | Поэтапная миграция по user stories |
+
+---
+
+## Ближайшие действия (Эта неделя)
+
+1. **Сегодня**: Завершить Sprint E (Documentation)
+2. **День 2-3**: Фаза 1.1-1.4 (Bundle optimization)
+3. **День 4-5**: Фаза 1.5-1.6 (Service Worker, Images)
+4. **Неделя 2**: Начать Фаза 2.1 (Lyrics Studio)
+
+---
+
+## Технические заметки
+
+### Bundle Optimization Strategy
+```typescript
+// Lazy loading pattern для тяжёлых компонентов
+const MidiViewer = lazy(() => import('./MidiViewer'));
+const StudioAnalytics = lazy(() => import('./StudioAnalytics'));
+
+// Conditional import для recharts
+const useRecharts = () => import('recharts').then(m => m);
+```
+
+### Service Worker Scope
+```javascript
+// Cache-first для статики
+// Network-first для API
+// Stale-while-revalidate для аудио
+```
+
+### Studio V2 Architecture
+```
+StudioShell (unified container)
+├── StudioHeader
+├── StudioTimeline (waveform + sections)
+├── StudioTabs
+│   ├── StemsPanel (existing)
+│   ├── LyricsPanel (NEW from legacy)
+│   ├── MusicLabPanel (NEW from legacy)
+│   └── AnalysisPanel (existing)
+├── StudioTransportBar
+└── StudioDialogs
+```
