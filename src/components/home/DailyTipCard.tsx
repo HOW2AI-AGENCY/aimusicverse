@@ -120,15 +120,14 @@ export const DailyTipCard = memo(function DailyTipCard({
         exit={{ opacity: 0, y: -10, scale: 0.98 }}
         transition={{ duration: 0.25 }}
       >
-        {/* Dismiss button */}
-        <Button
-          variant="ghost"
-          size="icon"
-          className="absolute top-1.5 right-1.5 w-6 h-6 text-muted-foreground hover:text-foreground opacity-60 hover:opacity-100"
+        {/* Dismiss button - 44px touch target, positioned right */}
+        <button
           onClick={handleDismiss}
+          className="absolute top-1 right-1 w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full text-muted-foreground hover:text-foreground hover:bg-accent/50 active:bg-accent/70 opacity-70 hover:opacity-100 transition-all touch-manipulation"
+          aria-label="Скрыть подсказку"
         >
-          <X className="w-3 h-3" />
-        </Button>
+          <X className="w-4 h-4" />
+        </button>
 
         <div className="flex items-start gap-3 pr-8">
           {/* Icon */}
