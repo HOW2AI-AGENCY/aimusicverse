@@ -82,30 +82,38 @@ const TrackCard = memo(function TrackCard({
     <motion.button
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
-      transition={{ delay: index * 0.05, duration: 0.2 }}
+      transition={{ delay: index * 0.04, duration: 0.2 }}
       onClick={onClick}
       className={cn(
-        "flex-shrink-0 w-[110px] p-2.5 rounded-xl text-left",
-        "border border-border/50 hover:border-primary/40",
-        "bg-card hover:bg-primary/5",
+        "flex-shrink-0 w-[115px] p-3 rounded-xl text-left relative overflow-hidden",
+        "border border-border/50 hover:border-primary/50",
+        "bg-gradient-to-br from-card to-card/50 hover:from-primary/5 hover:to-card/80",
         "transition-all duration-200 touch-manipulation",
-        "snap-start"
+        "snap-start group"
       )}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
+      whileTap={{ scale: 0.97 }}
     >
-      <div className="flex items-center gap-2 mb-1.5">
-        <span className="text-xl">{preset.emoji}</span>
-        {preset.hasVocals && (
-          <span className="text-[8px] px-1 py-0.5 rounded bg-primary/20 text-primary">
-            Вокал
-          </span>
-        )}
+      {/* Subtle glow on hover */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/0 to-primary/0 group-hover:from-primary/5 group-hover:to-transparent transition-all duration-300 rounded-xl" />
+      
+      <div className="relative z-10">
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-2xl drop-shadow-sm">{preset.emoji}</span>
+          {preset.hasVocals ? (
+            <span className="text-[8px] px-1.5 py-0.5 rounded-full bg-primary/20 text-primary font-medium border border-primary/30">
+              🎤
+            </span>
+          ) : (
+            <span className="text-[8px] px-1.5 py-0.5 rounded-full bg-muted/50 text-muted-foreground font-medium">
+              🎵
+            </span>
+          )}
+        </div>
+        <h4 className="text-sm font-semibold truncate mb-0.5">{preset.label}</h4>
+        <p className="text-[10px] text-muted-foreground line-clamp-2 leading-tight">
+          {preset.description.split(',').slice(0, 2).join(', ')}
+        </p>
       </div>
-      <h4 className="text-xs font-medium truncate mb-0.5">{preset.label}</h4>
-      <p className="text-[9px] text-muted-foreground line-clamp-2">
-        {preset.description.split(',').slice(0, 2).join(', ')}
-      </p>
     </motion.button>
   );
 });

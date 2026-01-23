@@ -61,14 +61,16 @@ export const CreativePresetsSection = memo(function CreativePresetsSection({
   return (
     <div className={cn("space-y-3", className)}>
       {/* Section header with tabs */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Sparkles className="w-4 h-4 text-primary" />
-          <span className="text-sm font-semibold">Быстрый старт</span>
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center gap-2 shrink-0">
+          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center">
+            <Sparkles className="w-3.5 h-3.5 text-primary" />
+          </div>
+          <span className="text-sm font-bold">Быстрый старт</span>
         </div>
         
-        {/* Tab switcher - 3 tabs */}
-        <div className="flex items-center gap-0.5 p-0.5 rounded-lg bg-muted/50 border border-border/30">
+        {/* Tab switcher - 3 tabs with improved styling */}
+        <div className="flex items-center gap-0.5 p-0.5 rounded-xl bg-muted/60 border border-border/40">
           {TABS.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -78,20 +80,20 @@ export const CreativePresetsSection = memo(function CreativePresetsSection({
                 key={tab.id}
                 onClick={() => handleTabChange(tab.id)}
                 className={cn(
-                  "relative px-2 sm:px-2.5 py-1.5 rounded-md text-xs font-medium",
-                  "flex items-center gap-1 sm:gap-1.5 transition-colors",
-                  "touch-manipulation min-h-[32px]",
+                  "relative px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-medium",
+                  "flex items-center gap-1.5 transition-colors",
+                  "touch-manipulation min-h-[34px]",
                   isActive 
-                    ? "text-primary" 
-                    : "text-muted-foreground hover:text-foreground"
+                    ? "text-foreground" 
+                    : "text-muted-foreground hover:text-foreground/80"
                 )}
                 whileTap={{ scale: 0.95 }}
               >
                 {isActive && (
                   <motion.div
                     layoutId="creativeActiveTab"
-                    className="absolute inset-0 bg-background rounded-md shadow-sm border border-border/50"
-                    transition={{ type: "spring", duration: 0.3 }}
+                    className="absolute inset-0 bg-background rounded-lg shadow-sm border border-border/60"
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 )}
                 <Icon className="w-3.5 h-3.5 relative z-10" />

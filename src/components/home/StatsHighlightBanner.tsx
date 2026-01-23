@@ -1,12 +1,13 @@
 /**
  * StatsHighlightBanner - Quick stats banner showing real platform metrics
  * Builds social proof and engagement with live data
+ * Updated with improved visual design and design tokens
  */
 
 import { memo } from 'react';
 import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
-import { Music, Users, Sparkles, Headphones } from 'lucide-react';
+import { Music, Users, Sparkles, Headphones, TrendingUp } from 'lucide-react';
 import { usePlatformStats } from '@/hooks/usePlatformStats';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -26,7 +27,8 @@ export const StatsHighlightBanner = memo(function StatsHighlightBanner({
       value: formatted.tracks,
       icon: Music,
       color: 'text-primary',
-      bg: 'bg-primary/10'
+      bg: 'bg-primary/15',
+      border: 'border-primary/20',
     },
     { 
       id: 'users', 
@@ -34,15 +36,17 @@ export const StatsHighlightBanner = memo(function StatsHighlightBanner({
       value: formatted.users,
       icon: Users,
       color: 'text-emerald-400',
-      bg: 'bg-emerald-500/10'
+      bg: 'bg-emerald-500/15',
+      border: 'border-emerald-500/20',
     },
     { 
       id: 'ai', 
-      label: 'Генераций', 
+      label: 'AI генераций', 
       value: formatted.generations,
       icon: Sparkles,
       color: 'text-amber-400',
-      bg: 'bg-amber-500/10'
+      bg: 'bg-amber-500/15',
+      border: 'border-amber-500/20',
     },
     { 
       id: 'plays', 
@@ -50,7 +54,8 @@ export const StatsHighlightBanner = memo(function StatsHighlightBanner({
       value: formatted.plays,
       icon: Headphones,
       color: 'text-purple-400',
-      bg: 'bg-purple-500/10'
+      bg: 'bg-purple-500/15',
+      border: 'border-purple-500/20',
     },
   ];
 
@@ -70,32 +75,35 @@ export const StatsHighlightBanner = memo(function StatsHighlightBanner({
           <motion.div
             key={stat.id}
             className={cn(
-              "flex-shrink-0 flex items-center gap-2 px-3 py-2 rounded-xl",
-              "bg-card/60 border border-border/40",
-              "min-w-[100px]"
+              "flex-shrink-0 flex items-center gap-2.5 px-3 py-2.5 rounded-xl",
+              "bg-card/70 backdrop-blur-sm",
+              "border",
+              stat.border,
+              "min-w-[105px]",
+              "hover:bg-card/90 transition-colors duration-200"
             )}
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: index * 0.05 + 0.1 }}
           >
             <div className={cn(
-              "w-7 h-7 rounded-lg flex items-center justify-center",
+              "w-8 h-8 rounded-lg flex items-center justify-center shrink-0",
               stat.bg
             )}>
-              <Icon className={cn("w-3.5 h-3.5", stat.color)} />
+              <Icon className={cn("w-4 h-4", stat.color)} />
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col min-w-0">
               {isLoading ? (
                 <>
-                  <Skeleton className="h-3.5 w-10 mb-0.5" />
-                  <Skeleton className="h-2.5 w-12" />
+                  <Skeleton className="h-4 w-10 mb-0.5" />
+                  <Skeleton className="h-3 w-14" />
                 </>
               ) : (
                 <>
-                  <span className="text-xs font-bold text-foreground leading-tight">
+                  <span className="text-sm font-bold text-foreground leading-tight tabular-nums">
                     {stat.value}
                   </span>
-                  <span className="text-[9px] text-muted-foreground leading-tight">
+                  <span className="text-[10px] text-muted-foreground leading-tight truncate">
                     {stat.label}
                   </span>
                 </>
