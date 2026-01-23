@@ -158,12 +158,12 @@ const Index = () => {
         {isNewUser && (
           <>
             <Suspense fallback={<HeroSkeleton />}>
-              <motion.section className="mb-4" {...fadeInUp}>
+              <motion.section className="mb-3" {...fadeInUp}>
                 <FirstTimeHeroCard onCreateClick={handleCreate} />
               </motion.section>
             </Suspense>
             <Suspense fallback={null}>
-              <motion.section className="mb-4" {...lazySectionAnimation}>
+              <motion.section className="mb-3" {...lazySectionAnimation}>
                 <NewUserProgress />
               </motion.section>
             </Suspense>
@@ -174,19 +174,19 @@ const Index = () => {
         {!isNewUser && (
           <>
             <ContinueDraftCard onContinue={handleCreate} className="mb-3" />
-            <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.05 }}>
+            <motion.section className="mb-3" {...fadeInUp}>
               <HomeQuickCreate onCreateClick={handleCreate} />
             </motion.section>
           </>
         )}
 
         {/* Quick Genre Presets - one-tap generation */}
-        <motion.section className="mb-3" {...fadeInUp} transition={{ delay: 0.08 }}>
+        <motion.section className="mb-3" {...fadeInUp}>
           <QuickGenrePresets onSelectPreset={handleQuickGenrePreset} />
         </motion.section>
 
         {/* Featured Tracks - horizontal scroll with load more */}
-        <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.1 }}>
+        <motion.section className="mb-3" {...fadeInUp}>
           <FeaturedSection
             tracks={popularTracks}
             isLoading={isLoading}
@@ -200,8 +200,8 @@ const Index = () => {
 
         {/* Recent Tracks - for logged in users */}
         {user && (
-          <Suspense fallback={<Skeleton className="h-40 rounded-xl" />}>
-            <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.15 }}>
+          <Suspense fallback={<Skeleton className="h-32 rounded-xl" />}>
+            <motion.section className="mb-3" {...fadeInUp}>
               <RecentTracksSection maxTracks={5} />
             </motion.section>
           </Suspense>
@@ -209,7 +209,7 @@ const Index = () => {
 
         {/* QuickStart Cards - for returning users */}
         {!isNewUser && (
-          <motion.section className="mb-4" {...fadeInUp} transition={{ delay: 0.2 }}>
+          <motion.section className="mb-3" {...fadeInUp}>
             <QuickStartCards onPresetSelect={handleQuickStartPreset} />
           </motion.section>
         )}
@@ -217,7 +217,7 @@ const Index = () => {
         {/* ============== SECONDARY SECTIONS ============== */}
 
         {/* New Tracks - with infinite scroll */}
-        <LazySection className="mb-4" minHeight="120px" skipSuspense>
+        <LazySection className="mb-3" minHeight="120px" skipSuspense>
           <motion.div {...lazySectionAnimation}>
             <TracksGridSection
               title="✨ Новинки"
