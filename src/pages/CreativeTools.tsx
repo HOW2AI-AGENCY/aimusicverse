@@ -33,8 +33,13 @@ export default function CreativeTools() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 pb-24">
-      <div className="container max-w-4xl mx-auto px-4 py-6">
+    <div 
+      className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 pb-24"
+      style={{
+        paddingTop: 'max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))',
+      }}
+    >
+      <div className="container max-w-4xl mx-auto px-4 py-4">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}

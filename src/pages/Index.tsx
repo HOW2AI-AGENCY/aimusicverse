@@ -123,21 +123,27 @@ const Index = () => {
   }, [prefersReducedMotion, isLoading]);
 
   return (
-    <PullToRefreshWrapper
-      onRefresh={refresh}
-      disabled={!isMobile}
-      className="min-h-screen bg-background pb-24 relative"
+    <div 
+      className="min-h-screen bg-background"
+      style={{
+        paddingTop: 'max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))',
+      }}
     >
-      {/* Background gradient - lazy rendered */}
-      {!prefersReducedMotion && !isLoading && (
-        <div className="fixed inset-0 pointer-events-none opacity-15">
-          <div className="absolute top-0 left-1/4 w-48 h-48 bg-primary/10 rounded-full blur-3xl" />
-        </div>
-      )}
+      <PullToRefreshWrapper
+        onRefresh={refresh}
+        disabled={!isMobile}
+        className="pb-24 relative"
+      >
+        {/* Background gradient - lazy rendered */}
+        {!prefersReducedMotion && !isLoading && (
+          <div className="fixed inset-0 pointer-events-none opacity-15">
+            <div className="absolute top-0 left-1/4 w-48 h-48 bg-primary/10 rounded-full blur-3xl" />
+          </div>
+        )}
 
-      {/* Main content */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 pb-4 sm:py-6 relative z-10">
-        <SEOHead {...SEO_PRESETS.home} />
+        {/* Main content */}
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 pb-4 sm:py-6 relative z-10">
+          <SEOHead {...SEO_PRESETS.home} />
 
         {/* Header */}
         <HomeHeader
@@ -278,7 +284,8 @@ const Index = () => {
           />
         </Suspense>
       )}
-    </PullToRefreshWrapper>
+      </PullToRefreshWrapper>
+    </div>
   );
 };
 

@@ -166,7 +166,12 @@ export default function Pricing() {
   }
 
   return (
-    <div className="min-h-screen pb-20 px-4">
+    <div 
+      className="min-h-screen pb-20 px-4"
+      style={{
+        paddingTop: 'max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))',
+      }}
+    >
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}

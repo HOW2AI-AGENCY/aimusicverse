@@ -199,7 +199,12 @@ export default function Library() {
   return (
     <ErrorBoundaryWrapper>
       <SEOHead {...SEO_PRESETS.library} />
-      <div className="min-h-screen pb-20 flex">
+      <div 
+        className="min-h-screen pb-20 flex"
+        style={{
+          paddingTop: 'max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))',
+        }}
+      >
         {/* Desktop Generate Sidebar */}
         {!isMobile && (
           <DesktopLibrarySidebar

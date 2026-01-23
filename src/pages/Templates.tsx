@@ -142,9 +142,14 @@ const Templates = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-24">
+    <div 
+      className="min-h-screen bg-background pb-24"
+      style={{
+        paddingTop: 'max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))',
+      }}
+    >
       {/* Header */}
-      <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border/50 px-4 py-4 safe-area-top">
+      <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border/50 px-4 py-4">
         <div className="flex items-center gap-3 mb-4">
           <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
             <BookOpen className="w-5 h-5 text-primary" />
