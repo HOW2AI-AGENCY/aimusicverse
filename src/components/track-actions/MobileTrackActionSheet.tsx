@@ -1,6 +1,7 @@
 /**
  * MobileTrackActionSheet - Mobile-optimized action sheet for track menu
  * Uses MobileActionSheet pattern with proper touch targets and haptic feedback
+ * Includes premium feature gating for studio actions
  */
 
 import { useMemo } from 'react';
@@ -8,6 +9,8 @@ import { MobileActionSheet } from '@/components/mobile/MobileActionSheet';
 import type { Track } from '@/types/track';
 import { ActionId } from '@/config/trackActionsConfig';
 import { TrackActionState, isActionAvailable } from '@/lib/trackActionConditions';
+import { useFeatureAccess } from '@/hooks/useFeatureAccess';
+import { getTranscriptionConfig } from '@/lib/transcription-utils';
 import {
   Info,
   Globe,
@@ -27,7 +30,20 @@ import {
   Trash2,
   Crown,
   Droplet,
+  Layers,
+  RefreshCw,
+  Music2,
+  Mic2,
+  Drum,
+  Guitar,
+  Piano,
 } from 'lucide-react';
+
+interface StemInfo {
+  id: string;
+  stem_type: string;
+  audio_url: string;
+}
 
 interface MobileTrackActionSheetProps {
   open: boolean;
@@ -36,10 +52,33 @@ interface MobileTrackActionSheetProps {
   trackList?: Track[];
   trackIndex?: number;
   actionState: TrackActionState;
+  stems?: StemInfo[];
   isProcessing: boolean;
-  onAction: (actionId: ActionId) => void;
+  onAction: (actionId: ActionId, stemId?: string, stemType?: string) => void;
   /** If false, delete actions will be hidden (for non-owners viewing public tracks) */
   isOwner?: boolean;
+}
+
+// Icon mapping for stem types
+function getStemIcon(stemType: string) {
+  const type = stemType.toLowerCase();
+  if (type.includes('vocal')) return Mic2;
+  if (type.includes('drum')) return Drum;
+  if (type.includes('bass') || type.includes('guitar')) return Guitar;
+  if (type.includes('piano') || type.includes('keys')) return Piano;
+  return Music2;
+}
+
+// Label mapping for stem types
+function getStemLabel(stemType: string): string {
+  const type = stemType.toLowerCase();
+  if (type.includes('vocal')) return 'Вокал';
+  if (type.includes('drum')) return 'Ударные';
+  if (type.includes('bass')) return 'Бас';
+  if (type.includes('guitar')) return 'Гитара';
+  if (type.includes('piano')) return 'Фортепиано';
+  if (type.includes('keys')) return 'Клавишные';
+  return stemType;
 }
 
 export function MobileTrackActionSheet({
@@ -49,10 +88,16 @@ export function MobileTrackActionSheet({
   trackList,
   trackIndex,
   actionState,
+  stems = [],
   isProcessing,
   onAction,
   isOwner = true,
 }: MobileTrackActionSheetProps) {
+  // Feature access checks
+  const { hasAccess: canReplaceSection, requiredTier: replaceTier } = useFeatureAccess('section_replace');
+  const { hasAccess: canStemDetailed, requiredTier: stemDetailedTier } = useFeatureAccess('stem_separation_detailed');
+  const { hasAccess: canMidi, requiredTier: midiTier } = useFeatureAccess('midi_transcription');
+
   const actions = useMemo(() => {
     const groups: Array<{
       title?: string;
@@ -150,10 +195,60 @@ export function MobileTrackActionSheet({
     
     if (isActionAvailable('open_studio', track, actionState)) {
       studioActions.push({
-        label: 'Открыть в студии',
-        icon: <Wand2 className="w-5 h-5" />,
+        label: actionState.stemCount > 0 
+          ? `Открыть в студии (${actionState.stemCount} стемов)` 
+          : 'Открыть в студии',
+        icon: <Layers className="w-5 h-5" />,
         onClick: () => onAction('open_studio'),
       });
+    }
+
+    // Section Replace - Premium gated
+    if (isActionAvailable('replace_section', track, actionState)) {
+      if (canReplaceSection) {
+        studioActions.push({
+          label: 'Замена секции',
+          icon: <RefreshCw className="w-5 h-5" />,
+          onClick: () => onAction('replace_section'),
+        });
+      } else {
+        studioActions.push({
+          label: `Замена секции [${replaceTier?.toUpperCase()}]`,
+          icon: <Lock className="w-5 h-5" />,
+          onClick: () => onAction('replace_section'),
+          variant: 'muted' as const,
+          disabled: true,
+        });
+      }
+    }
+
+    // Stems - Basic (free) and Detailed (premium)
+    if (isActionAvailable('stems_simple', track, actionState)) {
+      studioActions.push({
+        label: 'Стемы (2 дорожки) — FREE',
+        icon: <Scissors className="w-5 h-5" />,
+        onClick: () => onAction('stems_simple'),
+        disabled: isProcessing,
+      });
+    }
+
+    if (isActionAvailable('stems_detailed', track, actionState)) {
+      if (canStemDetailed) {
+        studioActions.push({
+          label: 'Стемы (6+ дорожек)',
+          icon: <Wand2 className="w-5 h-5" />,
+          onClick: () => onAction('stems_detailed'),
+          disabled: isProcessing,
+        });
+      } else {
+        studioActions.push({
+          label: `Стемы (6+ дорожек) [${stemDetailedTier?.toUpperCase()}]`,
+          icon: <Lock className="w-5 h-5" />,
+          onClick: () => onAction('stems_detailed'),
+          variant: 'muted' as const,
+          disabled: true,
+        });
+      }
     }
 
     if (isActionAvailable('add_vocals', track, actionState)) {
@@ -188,17 +283,50 @@ export function MobileTrackActionSheet({
       });
     }
 
-    if (isActionAvailable('stems', track, actionState)) {
-      studioActions.push({
-        label: 'Разделить на стемы',
-        icon: <Scissors className="w-5 h-5" />,
-        onClick: () => onAction('stems'),
-        disabled: isProcessing,
-      });
-    }
-
     if (studioActions.length > 0) {
       groups.push({ title: 'Студия', actions: studioActions });
+    }
+
+    // MIDI Transcription Group - Only show after stems generated
+    if (actionState.stemCount > 0) {
+      const midiActions = [];
+      
+      if (canMidi) {
+        // Add action for each stem
+        for (const stem of stems) {
+          const StemIcon = getStemIcon(stem.stem_type);
+          const label = getStemLabel(stem.stem_type);
+          const config = getTranscriptionConfig(stem.stem_type);
+          
+          midiActions.push({
+            label: `${label} → MIDI (${config.model})`,
+            icon: <StemIcon className="w-5 h-5" />,
+            onClick: () => onAction('transcribe_midi', stem.id, stem.stem_type),
+            disabled: isProcessing,
+          });
+        }
+        
+        // All stems to notes
+        midiActions.push({
+          label: 'Все стемы → Ноты',
+          icon: <Music2 className="w-5 h-5" />,
+          onClick: () => onAction('transcribe_notes'),
+          disabled: isProcessing,
+        });
+      } else {
+        // Locked MIDI transcription
+        midiActions.push({
+          label: `MIDI транскрипция [${midiTier?.toUpperCase()}]`,
+          icon: <Lock className="w-5 h-5" />,
+          onClick: () => onAction('transcribe_midi'),
+          variant: 'muted' as const,
+          disabled: true,
+        });
+      }
+      
+      if (midiActions.length > 0) {
+        groups.push({ title: 'MIDI транскрипция', actions: midiActions });
+      }
     }
 
     // Quality Actions Group
@@ -259,7 +387,7 @@ export function MobileTrackActionSheet({
     }
 
     return groups;
-  }, [track, actionState, isProcessing, onAction, isOwner]);
+  }, [track, actionState, stems, isProcessing, onAction, isOwner, canReplaceSection, replaceTier, canStemDetailed, stemDetailedTier, canMidi, midiTier]);
 
   return (
     <MobileActionSheet
