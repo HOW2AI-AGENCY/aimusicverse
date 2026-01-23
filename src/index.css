@@ -733,6 +733,47 @@ All colors MUST be HSL.
     font-size: clamp(1.25rem, 4vw, 1.5rem);
   }
 
+  /* Text balance for Russian text - improves word wrapping */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Safe text truncation with ellipsis */
+  .truncate-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .truncate-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Prevent word break in the middle of Russian words */
+  .break-words-safe {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+  }
+
+  /* Mobile text optimization for longer Russian labels */
+  @media (max-width: 360px) {
+    .mobile-text-xs {
+      font-size: 0.65rem;
+      line-height: 1.3;
+    }
+    
+    .mobile-text-sm {
+      font-size: 0.75rem;
+      line-height: 1.4;
+    }
+  }
+
   /* Image optimization utilities */
   .lazy-image {
     content-visibility: auto;
