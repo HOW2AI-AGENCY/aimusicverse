@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+import { chordColors, getChordColor as getDesignChordColor } from '@/lib/design-colors';
 
 interface ChordData {
   chord: string;
@@ -16,19 +17,9 @@ interface ChordProgressionDisplayProps {
   showTimeline?: boolean;
 }
 
-const CHORD_COLORS: Record<string, string> = {
-  'C': 'bg-red-500/20 border-red-500/50 text-red-200',
-  'D': 'bg-orange-500/20 border-orange-500/50 text-orange-200',
-  'E': 'bg-yellow-500/20 border-yellow-500/50 text-yellow-200',
-  'F': 'bg-green-500/20 border-green-500/50 text-green-200',
-  'G': 'bg-teal-500/20 border-teal-500/50 text-teal-200',
-  'A': 'bg-blue-500/20 border-blue-500/50 text-blue-200',
-  'B': 'bg-purple-500/20 border-purple-500/50 text-purple-200',
-};
-
+// Use centralized chord colors from design tokens
 function getChordColor(chord: string): string {
-  const root = chord.charAt(0).toUpperCase();
-  return CHORD_COLORS[root] || 'bg-muted border-border text-muted-foreground';
+  return getDesignChordColor(chord);
 }
 
 export function ChordProgressionDisplay({

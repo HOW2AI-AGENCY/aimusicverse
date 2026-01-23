@@ -1,6 +1,7 @@
 import { Card } from '@/components/ui/card';
 import { AudioAnalysis } from '@/hooks/useAudioAnalysis';
 import { Activity, TrendingUp } from 'lucide-react';
+import { emotionalColors } from '@/lib/design-colors';
 
 interface EmotionalMapProps {
   analysis: AudioAnalysis;
@@ -18,18 +19,18 @@ export function EmotionalMap({ analysis }: EmotionalMapProps) {
   const xPos = valencePercent;
   const yPos = 100 - arousalPercent; // Invert Y axis so high arousal is at top
 
-  // Determine quadrant and color
+  // Determine quadrant and color using design tokens
   const getQuadrantInfo = () => {
     if (arousal >= 0.5 && valence >= 0.5) {
-      return { label: 'Радостный', color: 'bg-green-500', textColor: 'text-green-700' };
+      return { label: 'Радостный', color: emotionalColors.happy.bg, textColor: emotionalColors.happy.text };
     }
     if (arousal >= 0.5 && valence < 0.5) {
-      return { label: 'Напряжённый', color: 'bg-red-500', textColor: 'text-red-700' };
+      return { label: 'Напряжённый', color: emotionalColors.tense.bg, textColor: emotionalColors.tense.text };
     }
     if (arousal < 0.5 && valence >= 0.5) {
-      return { label: 'Спокойный', color: 'bg-blue-500', textColor: 'text-blue-700' };
+      return { label: 'Спокойный', color: emotionalColors.calm.bg, textColor: emotionalColors.calm.text };
     }
-    return { label: 'Грустный', color: 'bg-purple-500', textColor: 'text-purple-700' };
+    return { label: 'Грустный', color: emotionalColors.sad.bg, textColor: emotionalColors.sad.text };
   };
 
   const quadrant = getQuadrantInfo();

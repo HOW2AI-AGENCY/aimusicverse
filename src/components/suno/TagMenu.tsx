@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tag, X } from 'lucide-react';
 import { TAG_CONFIGS, TagConfig } from './types';
+import { tagColors } from '@/lib/design-colors';
 
 interface TagMenuProps {
   isOpen: boolean;
@@ -34,11 +35,12 @@ export const TagMenu = ({ isOpen, onClose, onSelectTag, anchorPosition }: TagMen
 
   if (!isOpen) return null;
 
+  // Use design tokens for tag category colors
   const categories = {
-    VOCAL: { label: 'Вокал', color: 'bg-purple-500/10 text-purple-500' },
-    INSTRUMENT: { label: 'Инструменты', color: 'bg-blue-500/10 text-blue-500' },
-    MOOD: { label: 'Настроение', color: 'bg-green-500/10 text-green-500' },
-    TECH: { label: 'Эффекты', color: 'bg-orange-500/10 text-orange-500' },
+    VOCAL: { label: 'Вокал', color: `${tagColors.vocal.bg} ${tagColors.vocal.text}` },
+    INSTRUMENT: { label: 'Инструменты', color: `${tagColors.instrument.bg} ${tagColors.instrument.text}` },
+    MOOD: { label: 'Настроение', color: `${tagColors.mood.bg} ${tagColors.mood.text}` },
+    TECH: { label: 'Эффекты', color: `${tagColors.structure.bg} ${tagColors.structure.text}` },
   };
 
   const filteredTags = selectedCategory

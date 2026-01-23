@@ -34,6 +34,7 @@ import { hapticImpact } from '@/lib/haptic';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { TagBadge } from '@/components/lyrics/shared/TagBadge';
 import { SectionTagSelector } from '@/components/lyrics/shared/SectionTagSelector';
+import { sectionColors } from '@/lib/design-colors';
 
 export interface LyricsSection {
   id: string;
@@ -51,14 +52,14 @@ export interface LyricsSection {
 }
 
 const SECTION_TYPES = [
-  { value: 'verse', label: 'Куплет', color: 'bg-blue-500' },
-  { value: 'chorus', label: 'Припев', color: 'bg-purple-500' },
-  { value: 'bridge', label: 'Бридж', color: 'bg-amber-500' },
-  { value: 'intro', label: 'Интро', color: 'bg-green-500' },
-  { value: 'outro', label: 'Аутро', color: 'bg-red-500' },
-  { value: 'hook', label: 'Хук', color: 'bg-pink-500' },
-  { value: 'prechorus', label: 'Пре-припев', color: 'bg-indigo-500' },
-  { value: 'breakdown', label: 'Брейкдаун', color: 'bg-orange-500' },
+  { value: 'verse', label: 'Куплет', color: sectionColors.verse.dot },
+  { value: 'chorus', label: 'Припев', color: sectionColors.chorus.dot },
+  { value: 'bridge', label: 'Бридж', color: sectionColors.bridge.dot },
+  { value: 'intro', label: 'Интро', color: sectionColors.intro.dot },
+  { value: 'outro', label: 'Аутро', color: sectionColors.outro.dot },
+  { value: 'hook', label: 'Хук', color: sectionColors.hook.dot },
+  { value: 'prechorus', label: 'Пре-припев', color: sectionColors['pre-chorus'].dot },
+  { value: 'breakdown', label: 'Брейкдаун', color: sectionColors.breakdown.dot },
 ] as const;
 
 interface LyricsWorkspaceProps {
