@@ -23,15 +23,20 @@
     <!-- DNS Prefetch & Preconnect for faster loading -->
     <link rel="dns-prefetch" href="https://ygmvthybdrqymfsqifmj.supabase.co">
     <link rel="preconnect" href="https://ygmvthybdrqymfsqifmj.supabase.co" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.supabase.co">
+    <link rel="preconnect" href="https://cdn.supabase.co" crossorigin>
+    <link rel="dns-prefetch" href="https://storage.googleapis.com">
+    <link rel="preconnect" href="https://storage.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
-    <!-- Critical font with display:swap for faster FCP -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Critical font with display:swap and reduced weight range for faster loading -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
     
     <!-- Preload critical script -->
     <link rel="preload" href="https://telegram.org/js/telegram-web-app.js" as="script">
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js" defer></script>
     
     <!-- Early theme detection script - runs before React -->
     <script>
@@ -73,33 +78,40 @@
   
   
   
-  <!-- Fallback loading styles (shown before React loads) -->
+  <!-- Critical CSS for faster FCP - inlined to avoid FOUC -->
   <style>
+    /* Critical reset for immediate rendering */
+    *,*::before,*::after{box-sizing:border-box}
+    html{-webkit-text-size-adjust:100%;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+    body{margin:0;font-family:'Inter',system-ui,-apple-system,sans-serif}
+    
+    /* Fallback loading styles */
     #loading-fallback {
       min-height: 100vh;
+      min-height: 100dvh;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(180deg, hsl(220, 20%, 7%) 0%, hsl(220, 18%, 10%) 100%);
+      background: hsl(220, 20%, 7%);
       color: #fff;
       font-family: 'Inter', system-ui, sans-serif;
     }
     .light #loading-fallback {
-      background: linear-gradient(180deg, hsl(220, 20%, 98%) 0%, hsl(220, 15%, 94%) 100%);
+      background: hsl(220, 20%, 98%);
       color: hsl(220, 25%, 10%);
     }
     #loading-fallback .content {
       text-align: center;
-      animation: fadeIn 0.3s ease-out;
+      animation: fadeIn 0.2s ease-out;
     }
     #loading-fallback .spinner {
-      width: 48px;
-      height: 48px;
-      border: 3px solid rgba(59, 130, 246, 0.2);
+      width: 40px;
+      height: 40px;
+      border: 2px solid rgba(59, 130, 246, 0.2);
       border-top-color: hsl(207, 90%, 54%);
       border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin: 0 auto 16px;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 12px;
     }
     #loading-fallback p {
       font-size: 14px;
