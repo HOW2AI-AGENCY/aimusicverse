@@ -29,6 +29,33 @@ export const spacing = {
 export type SpacingValue = typeof spacing[keyof typeof spacing];
 
 // ============================================================================
+// TAILWIND SPACING CLASSES
+// ============================================================================
+
+/**
+ * Tailwind spacing class tokens for consistent margins/paddings
+ * Usage: className={spacingClass.section}
+ */
+export const spacingClass = {
+  /** Between major page sections */
+  section: 'mb-4 sm:mb-6',
+  sectionY: 'my-4 sm:my-6',
+  /** Inside card components */
+  card: 'p-3 sm:p-4',
+  cardCompact: 'p-2.5 sm:p-3',
+  cardLarge: 'p-4 sm:p-6',
+  /** Gap between flex/grid items */
+  gap: 'gap-2 sm:gap-3',
+  gapSm: 'gap-1.5 sm:gap-2',
+  gapLg: 'gap-3 sm:gap-4',
+  /** Inline spacing */
+  inline: 'gap-1.5 sm:gap-2',
+  /** Page padding */
+  page: 'px-3 sm:px-4 md:px-6',
+  pageY: 'py-3 sm:py-4',
+} as const;
+
+// ============================================================================
 // TYPOGRAPHY SCALE (3-Level System)
 // ============================================================================
 
@@ -73,6 +100,53 @@ export const typography = {
 } as const;
 
 export type TypographyLevel = keyof typeof typography;
+
+// ============================================================================
+// TAILWIND TYPOGRAPHY CLASSES
+// ============================================================================
+
+/**
+ * Tailwind typography class tokens for consistent text styling
+ * Usage: className={typographyClass.heading.h1}
+ */
+export const typographyClass = {
+  /** Page and section headings */
+  heading: {
+    h1: 'text-2xl sm:text-3xl font-bold leading-tight tracking-tight',
+    h2: 'text-xl sm:text-2xl font-semibold leading-snug',
+    h3: 'text-lg sm:text-xl font-semibold leading-snug',
+    h4: 'text-base sm:text-lg font-medium leading-normal',
+    h5: 'text-sm sm:text-base font-medium leading-normal',
+  },
+  /** Body text variations */
+  body: {
+    lg: 'text-base sm:text-lg leading-relaxed',
+    md: 'text-sm sm:text-base leading-relaxed',
+    sm: 'text-xs sm:text-sm leading-normal',
+    xs: 'text-[11px] sm:text-xs leading-normal',
+  },
+  /** Form labels and metadata */
+  label: 'text-xs sm:text-sm font-medium text-muted-foreground',
+  /** Small captions and timestamps */
+  caption: 'text-[10px] sm:text-[11px] text-muted-foreground leading-tight',
+  /** Interactive text */
+  interactive: 'text-sm font-medium hover:underline underline-offset-2',
+  /** Monospace */
+  mono: 'font-mono text-xs sm:text-sm',
+} as const;
+
+/**
+ * Russian text handling - Prevents layout breaks with longer text
+ * Usage: className={textBalance.ru}
+ */
+export const textBalance = {
+  /** Balanced text wrapping */
+  balance: 'text-balance',
+  /** Safe word breaking for Russian */
+  breakSafe: 'break-words [overflow-wrap:anywhere] hyphens-auto',
+  /** Combined for long Russian text */
+  ru: 'text-balance break-words hyphens-auto',
+} as const;
 
 // ============================================================================
 // BORDER RADIUS
@@ -283,3 +357,46 @@ export const isTouchDevice = (): boolean => {
 export const getTouchTargetSize = (): number => {
   return isTouchDevice() ? touchTargets.min : 32; // 32px for desktop
 };
+
+// ============================================================================
+// COMPONENT PATTERN CLASSES
+// ============================================================================
+
+/**
+ * Common component pattern classes
+ * Usage: className={patterns.glassCard}
+ */
+export const patterns = {
+  /** Glass morphism card */
+  glassCard: 'glass-card rounded-xl border border-border/50 backdrop-blur-sm',
+  /** Interactive card with hover */
+  interactiveCard: 'glass-card rounded-xl border border-border/50 transition-all duration-200 hover:border-primary/30 hover:shadow-md',
+  /** Muted background section */
+  mutedSection: 'bg-muted/30 rounded-lg p-3 sm:p-4',
+  /** Gradient text (primary color) */
+  gradientText: 'bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent',
+  /** Truncated single-line text */
+  truncate: 'truncate overflow-hidden text-ellipsis',
+  /** Multi-line clamped text */
+  lineClamp2: 'line-clamp-2',
+  lineClamp3: 'line-clamp-3',
+} as const;
+
+/**
+ * Touch target classes for buttons and interactive elements
+ * Usage: className={touchTargetClass.icon}
+ */
+export const touchTargetClass = {
+  /** Standard icon button (44x44px) */
+  icon: 'h-11 w-11 min-h-[44px] min-w-[44px]',
+  /** Smaller icon that still meets touch target */
+  iconSm: 'h-10 w-10 min-h-[44px] min-w-[44px]',
+  /** Standard button height */
+  button: 'h-11 min-h-[44px]',
+  /** Larger comfortable button (48px) */
+  buttonLg: 'h-12 min-h-[48px]',
+  /** List item minimum height */
+  listItem: 'min-h-[48px] py-2',
+  /** Navigation item */
+  nav: 'min-h-[44px] py-2',
+} as const;
