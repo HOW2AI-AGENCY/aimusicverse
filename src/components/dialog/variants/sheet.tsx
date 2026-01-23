@@ -22,11 +22,12 @@
 import { useRef, useState, useCallback } from 'react';
 import { motion, useMotionValue, useTransform, PanInfo } from '@/lib/motion';
 import { cn } from '@/lib/utils';
-import { ChevronDown } from 'lucide-react';
+import { X } from 'lucide-react';
 import { DialogBackdrop } from '../unified-dialog';
 import { DIALOG_CONFIG } from '../unified-dialog.config';
 import type { SheetDialogProps } from '../unified-dialog.types';
 import { useHaptic } from '@/hooks/useHaptic';
+import { DialogHeader } from '../DialogHeader';
 import type { ReactNode } from 'react';
 
 const DRAG_CLOSE_THRESHOLD = 100;
@@ -116,20 +117,16 @@ export function SheetDialog({
         aria-labelledby="sheet-title"
       >
         {/* Drag Handle - Touch-friendly */}
-        <div className="flex justify-center py-3 flex-shrink-0 cursor-grab active:cursor-grabbing">
+        <div className="flex justify-center py-2 flex-shrink-0 cursor-grab active:cursor-grabbing">
           <div className="w-10 h-1 bg-muted-foreground/30 rounded-full" />
         </div>
 
-        <div className="flex items-center justify-between px-4 pb-3 border-b flex-shrink-0">
-          <div id="sheet-title" className="text-lg font-semibold flex-1">{title}</div>
-          <button
-            onClick={handleClose}
-            className="w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full hover:bg-accent active:bg-accent/80 transition-colors touch-manipulation"
-            aria-label="Закрыть"
-          >
-            <ChevronDown className="w-5 h-5" />
-          </button>
-        </div>
+        {/* Header with X on right */}
+        <DialogHeader
+          title={title}
+          onClose={handleClose}
+          className="border-b-0 pt-0"
+        />
 
         {/* Content with scroll */}
         <div 

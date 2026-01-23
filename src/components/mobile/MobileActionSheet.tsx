@@ -92,15 +92,24 @@ export const MobileActionSheet = memo(function MobileActionSheet({
           >
             {/* Main Content */}
             <div className="bg-card rounded-2xl overflow-hidden shadow-2xl">
-              {/* Header */}
+              {/* Header with close button on RIGHT */}
               {(title || description) && (
-                <div className="px-4 py-3 border-b border-border/50 text-center">
-                  {title && (
-                    <p className="text-sm font-semibold">{title}</p>
-                  )}
-                  {description && (
-                    <p className="text-xs text-muted-foreground mt-0.5">{description}</p>
-                  )}
+                <div className="relative flex items-center px-4 py-3 border-b border-border/50">
+                  <div className="flex-1 min-w-0 pr-10">
+                    {title && (
+                      <p className="text-sm font-semibold">{title}</p>
+                    )}
+                    {description && (
+                      <p className="text-xs text-muted-foreground mt-0.5">{description}</p>
+                    )}
+                  </div>
+                  <button
+                    onClick={handleClose}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center rounded-full hover:bg-accent active:bg-accent/80 transition-colors touch-manipulation"
+                    aria-label="Закрыть"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
                 </div>
               )}
               

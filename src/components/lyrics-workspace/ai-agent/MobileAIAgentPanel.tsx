@@ -1,6 +1,6 @@
 /**
- * MobileAIAgentPanel - Minimalist mobile AI agent for lyrics
- * Redesigned with smart toolbar, workflow engine, and clean UX
+ * MobileAIAgentPanel - Enhanced mobile AI agent with tab-based navigation
+ * Features: Tabs, Quick Actions, Improved UX
  */
 
 import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
@@ -29,9 +29,11 @@ import {
 } from './results';
 import { StructuredLyricsDisplay } from './results/StructuredLyricsDisplay';
 import { AIProgressIndicator } from './AIProgressIndicator';
-import { SmartToolbar } from './SmartToolbar';
+import { AIAgentTabs, AITabId } from './AIAgentTabs';
+import { QuickActionChips } from './QuickActionChips';
 import { WorkflowProgress } from './WorkflowProgress';
 import { AnalysisDashboard } from './AnalysisDashboard';
+import { DialogHeader } from '@/components/dialog/DialogHeader';
 import { AIToolId, AIAgentContext, SectionNote, AIMessage } from './types';
 
 interface MobileAIAgentPanelProps {
@@ -98,6 +100,7 @@ export function MobileAIAgentPanel({
 }: MobileAIAgentPanelProps) {
   const [input, setInput] = useState('');
   const [openToolPanel, setOpenToolPanel] = useState<AIToolId | null>(null);
+  const [activeTab, setActiveTab] = useState<AITabId>('create');
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const context: AIAgentContext = {
@@ -163,10 +166,21 @@ export function MobileAIAgentPanel({
     return messages.some(m => m.role === 'assistant' && m.data?.lyrics);
   }, [messages]);
 
+  const hasAnalysisResults = useMemo(() => {
+    return messages.some(m => m.role === 'assistant' && (m.data?.fullAnalysis || m.data?.producerReview));
+  }, [messages]);
+
   const latestLyrics = useMemo(() => {
     const lyricsMessages = messages.filter(m => m.role === 'assistant' && m.data?.lyrics);
     return lyricsMessages.length > 0 ? lyricsMessages[lyricsMessages.length - 1].data?.lyrics : null;
   }, [messages]);
+
+  // Tab-based tool mapping
+  const TAB_TOOLS: Record<AITabId, AIToolId[]> = {
+    create: ['write', 'continue', 'structure', 'rhyme'],
+    analyze: ['analyze', 'producer'],
+    optimize: ['optimize', 'style_convert', 'translate'],
+  };
 
   // Telegram main button
   useTelegramMainButton({
@@ -205,6 +219,14 @@ export function MobileAIAgentPanel({
     hapticImpact('medium');
     startWorkflow(workflowId);
   }, [startWorkflow]);
+
+  const handleQuickAction = useCallback((action: { toolId?: AIToolId; workflowId?: string }) => {
+    if (action.workflowId) {
+      handleStartWorkflow(action.workflowId);
+    } else if (action.toolId) {
+      handleToolSelect(action.toolId);
+    }
+  }, [handleStartWorkflow, handleToolSelect]);
 
   const handleSend = useCallback(() => {
     if (!input.trim() || isLoading) return;
@@ -384,43 +406,49 @@ export function MobileAIAgentPanel({
       transition={{ type: 'spring', damping: 25, stiffness: 300 }}
       className="fixed inset-0 z-[100] bg-background flex flex-col"
       style={{ 
-        paddingTop: 'max(env(safe-area-inset-top, 0px), 44px)',
+        paddingTop: 'max(env(safe-area-inset-top, 0px), 12px)',
         paddingBottom: 'env(safe-area-inset-bottom, 0px)',
       }}
     >
-      {/* Compact Header */}
-      <div className="flex items-center justify-between px-4 py-2 border-b border-border/30 shrink-0">
-        <div className="flex items-center gap-2">
-          <div className="p-1.5 rounded-lg bg-primary/10">
-            <Bot className="w-4 h-4 text-primary" />
-          </div>
-          <div className="flex items-center gap-2 text-sm">
-            <span className="font-medium">AI Lyrics</span>
+      {/* Header with close on RIGHT */}
+      <DialogHeader
+        title={
+          <div className="flex items-center gap-2">
+            <div className="p-1 rounded-lg bg-primary/10">
+              <Bot className="w-4 h-4 text-primary" />
+            </div>
+            <span>AI Lyrics</span>
             {existingLyrics && (
-              <span className="text-xs text-muted-foreground">
+              <span className="text-xs text-muted-foreground font-normal">
                 {existingLyrics.length} симв
               </span>
             )}
-            {(genre || projectContext?.genre) && (
-              <Badge variant="secondary" className="text-[10px] h-5">
-                {genre || projectContext?.genre}
-              </Badge>
-            )}
           </div>
-        </div>
-        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={onClose}>
-          <X className="w-4 h-4" />
-        </Button>
+        }
+        subtitle={(genre || projectContext?.genre) ? `${genre || projectContext?.genre}` : undefined}
+        onClose={onClose}
+        className="border-b-0"
+      />
+
+      {/* Tab Navigation */}
+      <div className="px-3 pb-2">
+        <AIAgentTabs
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+          hasLyrics={!!existingLyrics}
+          disabled={isLoading || isWorkflowRunning}
+        />
       </div>
 
-      {/* Smart Toolbar - 4 main buttons */}
-      <SmartToolbar
-        activeTool={activeTool}
-        onSelectTool={handleToolSelect}
-        onStartWorkflow={handleStartWorkflow}
-        isLoading={isLoading || isWorkflowRunning}
-        hasLyrics={!!existingLyrics}
-      />
+      {/* Quick Action Chips */}
+      <div className="px-3 pb-2">
+        <QuickActionChips
+          hasLyrics={!!existingLyrics}
+          hasAnalysis={hasAnalysisResults}
+          onAction={handleQuickAction}
+          disabled={isLoading || isWorkflowRunning}
+        />
+      </div>
 
       {/* Tool panel */}
       <AnimatePresence mode="wait">{renderToolPanel()}</AnimatePresence>

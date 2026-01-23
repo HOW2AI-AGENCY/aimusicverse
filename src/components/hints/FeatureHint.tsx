@@ -63,30 +63,24 @@ export function FeatureHint({
             )} 
           />
           
-          {/* Content */}
+          {/* Content - close button on RIGHT */}
           <div className="flex items-start gap-2">
             {hint.icon && (
               <span className="text-lg flex-shrink-0">{hint.icon}</span>
             )}
-            <div className="flex-1 min-w-0">
+            <div className="flex-1 min-w-0 pr-6">
               <h4 className="font-semibold text-sm mb-0.5">{hint.title}</h4>
               <p className="text-xs opacity-90 leading-relaxed">{hint.description}</p>
             </div>
-            <button
-              onClick={onDismiss}
-              className="flex-shrink-0 p-1 rounded-full hover:bg-primary-foreground/20 transition-colors"
-              aria-label="Закрыть подсказку"
-            >
-              <X className="w-3.5 h-3.5" />
-            </button>
           </div>
           
-          {/* Dismiss button */}
+          {/* Close button - positioned top-right, 44px touch target */}
           <button
             onClick={onDismiss}
-            className="mt-2 w-full py-1.5 text-xs font-medium rounded-lg bg-primary-foreground/20 hover:bg-primary-foreground/30 transition-colors"
+            className="absolute top-1 right-1 w-8 h-8 min-w-[32px] flex items-center justify-center rounded-full hover:bg-primary-foreground/20 transition-colors touch-manipulation"
+            aria-label="Закрыть подсказку"
           >
-            Понятно
+            <X className="w-4 h-4" />
           </button>
         </motion.div>
       )}
