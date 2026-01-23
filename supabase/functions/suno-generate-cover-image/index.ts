@@ -127,7 +127,7 @@ serve(async (req) => {
   }
 });
 
-// Build dynamic prompt with variety based on track details
+// Build dynamic prompt with variety and MusicVerse branding
 function buildDynamicPrompt(track: any, style?: string): string {
   const title = track.title || 'Music';
   const trackStyle = track.style || style || 'abstract music';
@@ -135,83 +135,83 @@ function buildDynamicPrompt(track: any, style?: string): string {
   // Hash for consistent but varied selection
   const hash = simpleHash(title + trackStyle + (track.id || ''));
   
-  // Art styles variety
+  // MusicVerse branded art styles
   const artStyles = [
-    'digital 3D render',
-    'abstract expressionist painting',
-    'surrealist artwork',
-    'minimalist design',
-    'neon cyberpunk',
-    'vintage photograph style',
-    'watercolor illustration',
-    'geometric abstract',
-    'photorealistic',
-    'pop art',
-    'anime-inspired',
-    'oil painting',
-    'glitch art',
-    'collage mixed media',
-    'vector illustration',
+    'sleek MusicVerse-style 3D render',
+    'abstract expressionist with MV signature gradients',
+    'surrealist artwork with MusicVerse aesthetic',
+    'minimalist MusicVerse design',
+    'neon cyberpunk with MV purple-blue accents',
+    'vintage photograph with MusicVerse touch',
+    'watercolor illustration MusicVerse edition',
+    'geometric abstract with MV color palette',
+    'photorealistic MusicVerse production',
+    'pop art with MusicVerse branding elements',
+    'anime-inspired MV style',
+    'oil painting with MusicVerse signature',
+    'glitch art with MV digital aesthetic',
+    'collage mixed media MusicVerse style',
+    'vector illustration with MV gradients',
   ];
   
-  // Color palettes
+  // MusicVerse signature color palettes (purple-blue as signature)
   const colorPalettes = [
-    'vibrant neon colors with electric blue and hot pink',
-    'warm sunset tones with orange, gold, and magenta',
-    'cool ocean hues with teal, navy, and seafoam',
-    'dark moody palette with deep purple and crimson',
-    'pastel dreamscape with soft pink, lavender, and mint',
-    'high contrast black and white with red accent',
-    'earthy natural tones with forest green and terracotta',
-    'cosmic palette with deep space purple and starlight gold',
-    'candy colors with bright pink, yellow, and turquoise',
-    'monochromatic blue variations from navy to sky',
-    'autumn warmth with rust, amber, and burgundy',
-    'icy cool tones with silver, ice blue, and white',
-    'retro 80s with neon pink, cyan, and yellow',
-    'golden hour with warm amber, coral, and champagne',
-    'midnight palette with indigo, violet, and silver',
+    'MusicVerse signature purple-blue gradient with neon accents',
+    'warm sunset tones with MV purple undertones',
+    'cool ocean hues transitioning to MV violet',
+    'dark moody palette with MusicVerse deep purple and crimson',
+    'pastel dreamscape with MV soft lavender accent',
+    'high contrast with MusicVerse purple accent stripe',
+    'cosmic palette with MV deep space purple and starlight',
+    'MusicVerse neon: electric blue fading to hot pink',
+    'monochromatic MV purple variations from deep violet to lilac',
+    'icy cool tones with MusicVerse indigo glow',
+    'retro 80s with MusicVerse cyan-magenta gradient',
+    'golden hour warmth with MV purple shadow',
+    'midnight palette with MusicVerse violet aurora',
+    'MV premium: black and gold with purple accent',
+    'holographic MusicVerse spectrum effect',
   ];
   
   // Compositions
   const compositions = [
-    'centered focal point with radial symmetry',
-    'dramatic diagonal composition',
-    'minimalist with lots of negative space',
-    'layered depth with foreground and background',
-    'extreme close-up abstract detail',
-    'panoramic wide view',
-    'symmetrical mirror reflection',
-    'chaotic but balanced arrangement',
-    'spiral golden ratio composition',
-    'split screen contrast',
+    'centered focal point with MusicVerse radial glow',
+    'dramatic diagonal with MV color sweep',
+    'minimalist with MusicVerse subtle branding',
+    'layered depth with MV gradient overlay',
+    'extreme close-up with MusicVerse light refraction',
+    'panoramic with MV horizon accent',
+    'symmetrical with MusicVerse mirror effect',
+    'dynamic arrangement with MV energy lines',
+    'spiral composition with MusicVerse color flow',
+    'split contrast with MV gradient bridge',
   ];
   
   // Visual themes based on style
   const getVisualTheme = (s: string): string => {
     const styleLower = s.toLowerCase();
     if (styleLower.includes('rock') || styleLower.includes('metal')) {
-      return 'dramatic flames, lightning, or shattered elements';
+      return 'dramatic flames and lightning with MusicVerse purple glow';
     }
     if (styleLower.includes('electronic') || styleLower.includes('edm')) {
-      return 'futuristic cityscapes, digital particles, or holographic surfaces';
+      return 'futuristic cityscape with MusicVerse holographic overlays';
     }
     if (styleLower.includes('jazz') || styleLower.includes('soul')) {
-      return 'smoky atmosphere, musical instruments, or vintage club scene';
+      return 'smoky atmosphere with MusicVerse warm purple lighting';
     }
     if (styleLower.includes('hip') || styleLower.includes('rap')) {
-      return 'urban street scene, luxury elements, or bold graphic shapes';
+      return 'urban scene with MusicVerse neon signs and purple accents';
     }
     if (styleLower.includes('pop')) {
-      return 'colorful bubbles, glossy surfaces, or playful shapes';
+      return 'colorful bubbles with MusicVerse gradient reflections';
     }
     if (styleLower.includes('ambient') || styleLower.includes('chill')) {
-      return 'serene landscapes, misty mountains, or calm water';
+      return 'serene landscape with MusicVerse aurora borealis';
     }
     if (styleLower.includes('classical')) {
-      return 'elegant baroque flourishes, marble sculpture, or concert hall';
+      return 'elegant baroque with MusicVerse purple velvet accents';
     }
-    return 'abstract shapes and dynamic movement';
+    return 'abstract soundwaves with MusicVerse signature purple-blue energy';
   };
   
   const selectedArtStyle = artStyles[hash % artStyles.length];
@@ -224,9 +224,10 @@ Music style: ${trackStyle}.
 Color palette: ${selectedPalette}.
 Composition: ${selectedComposition}.
 Visual theme: ${visualTheme}.
+MusicVerse aesthetic: modern, premium, distinctive.
 Professional quality, suitable for streaming platforms.
 NO text, NO watermarks, NO logos, NO words, NO letters.
-Square format, high resolution, distinctive and memorable.`;
+Square format, high resolution, memorable and shareable.`;
 }
 
 // Simple string hash for consistent randomization

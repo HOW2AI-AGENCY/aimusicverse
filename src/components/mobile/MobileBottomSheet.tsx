@@ -7,6 +7,7 @@ import { memo, useRef, useCallback, useState, ReactNode } from 'react';
 import { motion, AnimatePresence, useMotionValue, useTransform, type PanInfo } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { useHaptic } from '@/hooks/useHaptic';
+import { X } from 'lucide-react';
 
 interface MobileBottomSheetProps {
   open: boolean;
@@ -16,6 +17,8 @@ interface MobileBottomSheetProps {
   defaultSnapPoint?: number;
   className?: string;
   showHandle?: boolean;
+  showCloseButton?: boolean;
+  title?: string;
   onSnapChange?: (snapIndex: number) => void;
 }
 
@@ -30,6 +33,8 @@ export const MobileBottomSheet = memo(function MobileBottomSheet({
   defaultSnapPoint = 0,
   className,
   showHandle = true,
+  showCloseButton = false,
+  title,
   onSnapChange,
 }: MobileBottomSheetProps) {
   const { patterns } = useHaptic();
@@ -120,8 +125,27 @@ export const MobileBottomSheet = memo(function MobileBottomSheet({
           >
             {/* Drag Handle */}
             {showHandle && (
-              <div className="flex justify-center py-3 flex-shrink-0 cursor-grab active:cursor-grabbing">
+              <div className="flex justify-center py-2 flex-shrink-0 cursor-grab active:cursor-grabbing">
                 <div className="w-10 h-1 bg-muted-foreground/30 rounded-full" />
+              </div>
+            )}
+
+            {/* Header with title and close button */}
+            {(title || showCloseButton) && (
+              <div className="flex items-center justify-between px-4 py-2 border-b border-border/30 shrink-0">
+                {title && (
+                  <h3 className="text-base font-semibold">{title}</h3>
+                )}
+                {!title && <div />}
+                {showCloseButton && (
+                  <button
+                    onClick={handleBackdropClick}
+                    className="w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full hover:bg-accent active:bg-accent/80 transition-colors touch-manipulation -mr-2"
+                    aria-label="Закрыть"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                )}
               </div>
             )}
 
