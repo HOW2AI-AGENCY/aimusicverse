@@ -85,16 +85,19 @@
     html{-webkit-text-size-adjust:100%;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
     body{margin:0;font-family:'Inter',system-ui,-apple-system,sans-serif}
     
-    /* Fallback loading styles */
+    /* Fallback loading styles - properly centered with safe areas */
     #loading-fallback {
-      min-height: 100vh;
-      min-height: 100dvh;
+      position: fixed;
+      inset: 0;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       background: hsl(220, 20%, 7%);
       color: #fff;
       font-family: 'Inter', system-ui, sans-serif;
+      padding-top: max(env(safe-area-inset-top, 0px), var(--tg-safe-area-inset-top, 0px));
+      padding-bottom: max(env(safe-area-inset-bottom, 0px), var(--tg-safe-area-inset-bottom, 0px));
     }
     .light #loading-fallback {
       background: hsl(220, 20%, 98%);
@@ -102,23 +105,72 @@
     }
     #loading-fallback .content {
       text-align: center;
-      animation: fadeIn 0.2s ease-out;
+      animation: fadeIn 0.3s ease-out;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
     }
-    #loading-fallback .spinner {
-      width: 40px;
-      height: 40px;
-      border: 2px solid rgba(59, 130, 246, 0.2);
-      border-top-color: hsl(207, 90%, 54%);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 0 auto 12px;
+    #loading-fallback .logo-container {
+      width: 96px;
+      height: 96px;
+      padding: 12px;
+      background: rgba(59, 130, 246, 0.1);
+      border-radius: 24px;
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      box-shadow: 0 0 40px rgba(59, 130, 246, 0.15);
+      animation: pulse 2s ease-in-out infinite;
     }
-    #loading-fallback p {
-      font-size: 14px;
-      color: rgba(255, 255, 255, 0.7);
+    #loading-fallback .logo-container img {
+      width: 100%;
+      height: 100%;
+      border-radius: 16px;
+      object-fit: cover;
+    }
+    #loading-fallback .app-name {
+      font-size: 24px;
+      font-weight: 700;
+      background: linear-gradient(135deg, hsl(207, 90%, 54%), hsl(250, 85%, 65%));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
       margin: 0;
     }
-    .light #loading-fallback p {
+    #loading-fallback .tagline {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.6);
+      margin: 0;
+    }
+    .light #loading-fallback .tagline {
+      color: rgba(0, 0, 0, 0.5);
+    }
+    #loading-fallback .equalizer {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 3px;
+      height: 24px;
+      margin-top: 8px;
+    }
+    #loading-fallback .equalizer .bar {
+      width: 3px;
+      background: linear-gradient(to top, hsl(207, 90%, 54%), hsl(250, 85%, 65%));
+      border-radius: 2px;
+      animation: equalizer 0.6s ease-in-out infinite alternate;
+    }
+    #loading-fallback .equalizer .bar:nth-child(1) { animation-delay: 0s; height: 8px; }
+    #loading-fallback .equalizer .bar:nth-child(2) { animation-delay: 0.1s; height: 16px; }
+    #loading-fallback .equalizer .bar:nth-child(3) { animation-delay: 0.2s; height: 12px; }
+    #loading-fallback .equalizer .bar:nth-child(4) { animation-delay: 0.15s; height: 20px; }
+    #loading-fallback .equalizer .bar:nth-child(5) { animation-delay: 0.05s; height: 14px; }
+    #loading-fallback .equalizer .bar:nth-child(6) { animation-delay: 0.25s; height: 10px; }
+    #loading-fallback .equalizer .bar:nth-child(7) { animation-delay: 0.12s; height: 18px; }
+    #loading-fallback p.status {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+      margin: 8px 0 0 0;
+    }
+    .light #loading-fallback p.status {
       color: rgba(0, 0, 0, 0.6);
     }
     #error-display {
@@ -146,8 +198,16 @@
       to { transform: rotate(360deg); }
     }
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.02); opacity: 0.9; }
+    }
+    @keyframes equalizer {
+      0% { transform: scaleY(0.3); }
+      100% { transform: scaleY(1); }
     }
     /* Fallback is removed automatically once React renders (root content replaced). */
   </style>
@@ -178,8 +238,24 @@
       <!-- Fallback loading UI shown before React hydrates -->
       <div id="loading-fallback">
         <div class="content">
-          <div class="spinner"></div>
-          <p id="loading-status">Загрузка MusicVerse...</p>
+          <!-- Logo -->
+          <div class="logo-container">
+            <img src="https://storage.googleapis.com/gpt-engineer-file-uploads/m2hrG8MCkeTjXpdUtXsnQBBuQRJ2/uploads/1766346193151-weavy-GPT Image 1.5-2025-12-21 at 20.42.07.png" alt="MusicVerse AI" />
+          </div>
+          <!-- App name -->
+          <h1 class="app-name">MusicVerse AI</h1>
+          <p class="tagline">Генерация музыки с AI</p>
+          <!-- Equalizer animation -->
+          <div class="equalizer">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+          </div>
+          <p class="status" id="loading-status">Загрузка...</p>
           <div id="error-display"></div>
         </div>
       </div>

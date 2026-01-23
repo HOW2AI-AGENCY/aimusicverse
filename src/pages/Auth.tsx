@@ -6,7 +6,7 @@ import { useGuestMode } from '@/contexts/GuestModeContext';
 import { Loader2, Music, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { SplashScreen } from '@/components/UnifiedSplashScreen';
+import { SplashScreen, LoadingScreen } from '@/components/UnifiedSplashScreen';
 import logo from '@/assets/logo.png';
 import { logger } from '@/lib/logger';
 
@@ -65,13 +65,9 @@ const Auth = () => {
     return <SplashScreen onComplete={handleSplashComplete} />;
   }
 
-  // Show loading while initializing
+  // Show loading while initializing - use branded loader instead of basic spinner
   if (!isInitialized || loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" />
-      </div>
-    );
+    return <LoadingScreen message="Инициализация..." />;
   }
 
   // In development mode, always show test user login option
