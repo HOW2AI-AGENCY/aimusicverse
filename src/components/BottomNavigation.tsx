@@ -80,50 +80,51 @@ export const BottomNavigation = memo(function BottomNavigation() {
           {navItems.map((item, index) => {
             if (item.isCenter) {
               return (
-                <motion.button
-                  key={item.path}
-                  onClick={handleGenerateClick}
-                  className={cn(
-                    "relative flex items-center justify-center w-14 h-14 -my-2 rounded-full bg-gradient-to-br from-primary to-generate shadow-md shadow-primary/25 fab touch-scale-md touch-manipulation group",
-                    activeGenCount > 0 && "ring-2 ring-primary/50 ring-offset-2 ring-offset-background"
-                  )}
-                  whileTap={{ scale: 0.92 }}
-                  whileHover={{ scale: 1.05 }}
-                  aria-label={item.label}
-                  title={item.label}
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ delay: 0.1 + index * 0.05 }}
-                >
-                  {/* Pulsing ring when generations are active */}
-                  <AnimatePresence>
-                    {activeGenCount > 0 && (
-                      <motion.div
-                        className="absolute inset-0 rounded-full bg-primary/30"
-                        initial={{ scale: 1, opacity: 0.5 }}
-                        animate={{ 
-                          scale: [1, 1.4, 1.4],
-                          opacity: [0.5, 0, 0]
-                        }}
-                        transition={{
-                          duration: 1.5,
-                          repeat: Infinity,
-                          ease: 'easeOut'
-                        }}
-                      />
+                <div key={item.path} className="relative overflow-visible">
+                  <motion.button
+                    onClick={handleGenerateClick}
+                    className={cn(
+                      "relative flex items-center justify-center w-14 h-14 -my-2 rounded-full bg-gradient-to-br from-primary to-generate shadow-md shadow-primary/25 fab touch-scale-md touch-manipulation group",
+                      activeGenCount > 0 && "ring-2 ring-primary/50 ring-offset-2 ring-offset-background"
                     )}
-                  </AnimatePresence>
+                    whileTap={{ scale: 0.92 }}
+                    whileHover={{ scale: 1.05 }}
+                    aria-label={item.label}
+                    title={item.label}
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 0.1 + index * 0.05 }}
+                  >
+                    {/* Pulsing ring when generations are active */}
+                    <AnimatePresence>
+                      {activeGenCount > 0 && (
+                        <motion.div
+                          className="absolute inset-0 rounded-full bg-primary/30"
+                          initial={{ scale: 1, opacity: 0.5 }}
+                          animate={{ 
+                            scale: [1, 1.4, 1.4],
+                            opacity: [0.5, 0, 0]
+                          }}
+                          transition={{
+                            duration: 1.5,
+                            repeat: Infinity,
+                            ease: 'easeOut'
+                          }}
+                        />
+                      )}
+                    </AnimatePresence>
 
-                  <Plus className="w-4.5 h-4.5 text-primary-foreground relative z-10" />
+                    <Plus className="w-4.5 h-4.5 text-primary-foreground relative z-10" />
+                  </motion.button>
                   
-                  {/* Active generations badge */}
+                  {/* Active generations badge - positioned outside button */}
                   <AnimatePresence>
                     {activeGenCount > 0 && (
                       <motion.div
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
                         exit={{ scale: 0 }}
-                        className="absolute -top-1 -right-1 z-20"
+                        className="absolute -top-1.5 -right-1.5 z-20"
                       >
                         <Badge 
                           className="h-5 min-w-5 px-1 text-[10px] bg-destructive text-destructive-foreground border-2 border-background shadow-sm"
@@ -133,7 +134,7 @@ export const BottomNavigation = memo(function BottomNavigation() {
                       </motion.div>
                     )}
                   </AnimatePresence>
-                </motion.button>
+                </div>
               );
             }
 
