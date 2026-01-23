@@ -15,6 +15,7 @@ import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/formatters';
+import { sectionColors } from '@/lib/design-colors';
 import type { DetectedSection } from '@/hooks/useSectionDetection';
 
 interface ReplacedRange {
@@ -33,33 +34,33 @@ interface MobileSectionsViewProps {
   onPlayPause: () => void;
 }
 
-// Section type colors - improved contrast for dark mode
+// Section type colors from design tokens
 const SECTION_COLORS: Record<DetectedSection['type'], string> = {
-  'verse': 'bg-blue-500',
-  'chorus': 'bg-purple-500',
-  'bridge': 'bg-amber-500',
-  'intro': 'bg-green-500',
-  'outro': 'bg-rose-500',
-  'pre-chorus': 'bg-cyan-500',
-  'hook': 'bg-pink-500',
-  'instrumental': 'bg-indigo-500',
-  'interlude': 'bg-teal-500',
-  'breakdown': 'bg-orange-600',
+  'verse': sectionColors.verse.dot,
+  'chorus': sectionColors.chorus.dot,
+  'bridge': sectionColors.bridge.dot,
+  'intro': sectionColors.intro.dot,
+  'outro': sectionColors.outro.dot,
+  'pre-chorus': sectionColors['pre-chorus'].dot,
+  'hook': sectionColors.hook.dot,
+  'instrumental': sectionColors.instrumental.dot,
+  'interlude': sectionColors.interlude.dot,
+  'breakdown': sectionColors.breakdown.dot,
   'drop': 'bg-red-500',
   'unknown': 'bg-neutral-400',
 };
 
 const SECTION_BG: Record<DetectedSection['type'], string> = {
-  'verse': 'bg-blue-500/15 hover:bg-blue-500/25',
-  'chorus': 'bg-purple-500/15 hover:bg-purple-500/25',
-  'bridge': 'bg-amber-500/15 hover:bg-amber-500/25',
-  'intro': 'bg-green-500/15 hover:bg-green-500/25',
-  'outro': 'bg-rose-500/15 hover:bg-rose-500/25',
-  'pre-chorus': 'bg-cyan-500/15 hover:bg-cyan-500/25',
-  'hook': 'bg-pink-500/15 hover:bg-pink-500/25',
-  'instrumental': 'bg-indigo-500/15 hover:bg-indigo-500/25',
-  'interlude': 'bg-teal-500/15 hover:bg-teal-500/25',
-  'breakdown': 'bg-orange-600/15 hover:bg-orange-600/25',
+  'verse': `${sectionColors.verse.bg} hover:bg-blue-500/25`,
+  'chorus': `${sectionColors.chorus.bg} hover:bg-purple-500/25`,
+  'bridge': `${sectionColors.bridge.bg} hover:bg-amber-500/25`,
+  'intro': `${sectionColors.intro.bg} hover:bg-cyan-500/25`,
+  'outro': `${sectionColors.outro.bg} hover:bg-rose-500/25`,
+  'pre-chorus': `${sectionColors['pre-chorus'].bg} hover:bg-indigo-500/25`,
+  'hook': `${sectionColors.hook.bg} hover:bg-pink-500/25`,
+  'instrumental': `${sectionColors.instrumental.bg} hover:bg-teal-500/25`,
+  'interlude': `${sectionColors.interlude.bg} hover:bg-emerald-500/25`,
+  'breakdown': `${sectionColors.breakdown.bg} hover:bg-orange-500/25`,
   'drop': 'bg-red-500/15 hover:bg-red-500/25',
   'unknown': 'bg-neutral-500/25 hover:bg-neutral-500/35',
 };

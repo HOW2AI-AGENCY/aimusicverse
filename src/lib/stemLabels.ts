@@ -3,6 +3,8 @@
  * Single source of truth for stem type to label mapping
  */
 
+import { stemColors, getStemColor as getDesignStemColor } from '@/lib/design-colors';
+
 // Comprehensive stem labels mapping (Russian)
 const STEM_LABELS: Record<string, string> = {
   // Standard stems
@@ -46,33 +48,36 @@ const STEM_LABELS: Record<string, string> = {
   generated_pad: 'Пэд',
 };
 
-// Stem colors for UI (Tailwind classes) - enhanced palette
+/**
+ * @deprecated Use stemColors from @/lib/design-colors instead
+ * Keeping for backward compatibility
+ */
 export const STEM_COLORS: Record<string, string> = {
-  vocals: 'bg-blue-500/10 border-blue-500/30 text-blue-500',
-  vocal: 'bg-blue-500/10 border-blue-500/30 text-blue-500',
+  vocals: stemColors.vocals.combined,
+  vocal: stemColors.vocals.combined,
   backing_vocals: 'bg-cyan-500/10 border-cyan-500/30 text-cyan-500',
-  drums: 'bg-orange-500/10 border-orange-500/30 text-orange-500',
-  bass: 'bg-purple-500/10 border-purple-500/30 text-purple-500',
-  guitar: 'bg-amber-500/10 border-amber-500/30 text-amber-500',
-  piano: 'bg-emerald-500/10 border-emerald-500/30 text-emerald-500',
-  keys: 'bg-emerald-500/10 border-emerald-500/30 text-emerald-500',
-  keyboard: 'bg-emerald-500/10 border-emerald-500/30 text-emerald-500',
-  strings: 'bg-rose-500/10 border-rose-500/30 text-rose-500',
+  drums: stemColors.drums.combined,
+  bass: stemColors.bass.combined,
+  guitar: stemColors.guitar.combined,
+  piano: stemColors.piano.combined,
+  keys: stemColors.piano.combined,
+  keyboard: stemColors.piano.combined,
+  strings: stemColors.strings.combined,
   brass: 'bg-yellow-500/10 border-yellow-500/30 text-yellow-500',
   wind: 'bg-yellow-500/10 border-yellow-500/30 text-yellow-500',
   woodwinds: 'bg-lime-500/10 border-lime-500/30 text-lime-500',
   percussion: 'bg-red-500/10 border-red-500/30 text-red-500',
-  synth: 'bg-indigo-500/10 border-indigo-500/30 text-indigo-500',
-  pad: 'bg-violet-500/10 border-violet-500/30 text-violet-500',
-  lead: 'bg-pink-500/10 border-pink-500/30 text-pink-500',
-  melody: 'bg-pink-500/10 border-pink-500/30 text-pink-500',
-  fx: 'bg-fuchsia-500/10 border-fuchsia-500/30 text-fuchsia-500',
-  sfx: 'bg-fuchsia-500/10 border-fuchsia-500/30 text-fuchsia-500',
-  atmosphere: 'bg-sky-500/10 border-sky-500/30 text-sky-500',
-  instrumental: 'bg-green-500/10 border-green-500/30 text-green-500',
+  synth: stemColors.synth.combined,
+  pad: stemColors.bass.combined,
+  lead: stemColors.melody.combined,
+  melody: stemColors.melody.combined,
+  fx: stemColors.fx.combined,
+  sfx: stemColors.fx.combined,
+  atmosphere: stemColors.atmosphere.combined,
+  instrumental: stemColors.instrumental.combined,
   backing: 'bg-teal-500/10 border-teal-500/30 text-teal-500',
   accompaniment: 'bg-teal-500/10 border-teal-500/30 text-teal-500',
-  other: 'bg-gray-500/10 border-gray-500/30 text-gray-500',
+  other: stemColors.other.combined,
 };
 
 // Stem emojis for compact display

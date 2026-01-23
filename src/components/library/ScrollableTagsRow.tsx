@@ -1,6 +1,7 @@
 import { memo, useMemo, useRef, useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { getDisplayTags, TagCategory } from '@/lib/styleTagParser';
+import { tagColors } from '@/lib/design-colors';
 
 /**
  * ScrollableTagsRow - Horizontal scrollable tags with animation hint
@@ -20,12 +21,12 @@ interface ScrollableTagsRowProps {
 }
 
 const CATEGORY_COLORS: Record<TagCategory, string> = {
-  genre: 'bg-primary/15 text-primary hover:bg-primary/25',
-  mood: 'bg-orange-500/15 text-orange-600 dark:text-orange-400 hover:bg-orange-500/25',
-  instrument: 'bg-blue-500/15 text-blue-600 dark:text-blue-400 hover:bg-blue-500/25',
-  vocal: 'bg-pink-500/15 text-pink-600 dark:text-pink-400 hover:bg-pink-500/25',
-  tempo: 'bg-green-500/15 text-green-600 dark:text-green-400 hover:bg-green-500/25',
-  structure: 'bg-purple-500/15 text-purple-600 dark:text-purple-400 hover:bg-purple-500/25',
+  genre: tagColors.genre.combined,
+  mood: tagColors.mood.combined,
+  instrument: tagColors.instrument.combined,
+  vocal: tagColors.vocal.combined,
+  tempo: tagColors.tempo.combined,
+  structure: tagColors.structure.combined,
 };
 
 export const ScrollableTagsRow = memo(function ScrollableTagsRow({ 

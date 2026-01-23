@@ -12,6 +12,7 @@ import { useContextualHints, CONTEXTUAL_HINTS } from '@/hooks/useContextualHints
 import { Lightbulb, RotateCcw, Eye, EyeOff, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
 import { motion } from '@/lib/motion';
+import { hintColors } from '@/lib/design-colors';
 
 const categoryLabels = {
   model: 'Модели AI',
@@ -23,15 +24,7 @@ const categoryLabels = {
   tip: 'Советы',
 };
 
-const categoryColors = {
-  model: 'bg-blue-500/10 text-blue-600 dark:text-blue-400',
-  'ai-feature': 'bg-purple-500/10 text-purple-600 dark:text-purple-400',
-  project: 'bg-green-500/10 text-green-600 dark:text-green-400',
-  artist: 'bg-pink-500/10 text-pink-600 dark:text-pink-400',
-  social: 'bg-orange-500/10 text-orange-600 dark:text-orange-400',
-  advanced: 'bg-yellow-500/10 text-yellow-600 dark:text-yellow-400',
-  tip: 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400',
-};
+const categoryColors = hintColors;
 
 export function HintsSettings() {
   const { availableHints, visitCount, resetAllHints, canShowHint, getNextHint } = useContextualHints();
