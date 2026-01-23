@@ -1,8 +1,10 @@
 /**
  * StudioActions - Studio-related actions menu section
  * Includes: Studio, Section Replace, Stems, MIDI Transcription
+ * With inline premium badges for gated features
  */
 
+import { useState } from 'react';
 import { 
   DropdownMenuItem, 
   DropdownMenuSub, 
@@ -18,6 +20,9 @@ import { IconGridButton } from '../IconGridButton';
 import { StemsActionButton } from './StemsActionButton';
 import { MidiTranscriptionActions } from './MidiTranscriptionActions';
 import { useFeatureAccess } from '@/hooks/useFeatureAccess';
+import { PremiumBadge } from '@/components/premium/PremiumBadge';
+import { SubscriptionUpgradePopup } from '@/components/popups/SubscriptionUpgradePopup';
+import { useTelegram } from '@/contexts/TelegramContext';
 
 interface StemInfo {
   id: string;
@@ -35,6 +40,10 @@ interface StudioActionsProps {
 }
 
 export function StudioActions({ track, state, stems = [], onAction, variant, isProcessing }: StudioActionsProps) {
+  const { hapticFeedback } = useTelegram();
+  const [upgradePopupOpen, setUpgradePopupOpen] = useState(false);
+  const [lockedFeature, setLockedFeature] = useState<string>('');
+
   const showStudio = isActionAvailable('open_studio', track, state);
   const showReplaceSection = isActionAvailable('replace_section', track, state);
   const showStemsSimple = isActionAvailable('stems_simple', track, state);
@@ -52,6 +61,13 @@ export function StudioActions({ track, state, stems = [], onAction, variant, isP
 
   const hasAnyAction = showStudio || showReplaceSection || showStems || showMidi;
   if (!hasAnyAction) return null;
+
+  // Handle locked feature click - show popup instead of doing nothing
+  const handleLockedClick = (featureName: string, tier: string) => {
+    hapticFeedback?.('warning');
+    setLockedFeature(featureName);
+    setUpgradePopupOpen(true);
+  };
 
   if (variant === 'dropdown') {
     return (
@@ -72,7 +88,7 @@ export function StudioActions({ track, state, stems = [], onAction, variant, isP
             </DropdownMenuItem>
           )}
           
-          {/* Section Replace - Premium gated */}
+          {/* Section Replace - Premium gated with badge */}
           {showReplaceSection && (
             canReplaceSection ? (
               <DropdownMenuItem onClick={() => onAction('replace_section')}>
@@ -80,10 +96,13 @@ export function StudioActions({ track, state, stems = [], onAction, variant, isP
                 Замена секции
               </DropdownMenuItem>
             ) : (
-              <DropdownMenuItem disabled className="text-muted-foreground">
-                <Lock className="w-4 h-4 mr-2" />
+              <DropdownMenuItem 
+                onClick={() => handleLockedClick('Замена секции', replaceTier || 'pro')}
+                className="text-muted-foreground cursor-pointer"
+              >
+                <Lock className="w-4 h-4 mr-2 text-amber-500/70" />
                 Замена секции
-                <span className="ml-auto text-xs opacity-60">{replaceTier?.toUpperCase()}</span>
+                <PremiumBadge tier={replaceTier || 'PRO'} size="xs" className="ml-auto" animate={false} />
               </DropdownMenuItem>
             )
           )}
@@ -95,7 +114,7 @@ export function StudioActions({ track, state, stems = [], onAction, variant, isP
             <DropdownMenuItem onClick={() => onAction('stems_simple')} disabled={isProcessing}>
               <Scissors className="w-4 h-4 mr-2" />
               Стемы (2 дорожки)
-              <span className="ml-auto text-xs text-muted-foreground">FREE</span>
+              <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-500 font-medium">FREE</span>
             </DropdownMenuItem>
           )}
           {showStemsDetailed && (
@@ -105,10 +124,13 @@ export function StudioActions({ track, state, stems = [], onAction, variant, isP
                 Стемы (6+ дорожек)
               </DropdownMenuItem>
             ) : (
-              <DropdownMenuItem disabled className="text-muted-foreground">
-                <Lock className="w-4 h-4 mr-2" />
+              <DropdownMenuItem 
+                onClick={() => handleLockedClick('Детальные стемы', stemDetailedTier || 'pro')}
+                className="text-muted-foreground cursor-pointer"
+              >
+                <Lock className="w-4 h-4 mr-2 text-amber-500/70" />
                 Стемы (6+ дорожек)
-                <span className="ml-auto text-xs opacity-60">{stemDetailedTier?.toUpperCase()}</span>
+                <PremiumBadge tier={stemDetailedTier || 'PRO'} size="xs" className="ml-auto" animate={false} />
               </DropdownMenuItem>
             )
           )}
@@ -144,7 +166,7 @@ export function StudioActions({ track, state, stems = [], onAction, variant, isP
         />
       )}
       
-      {/* Section Replace - Premium gated */}
+      {/* Section Replace - Premium gated with visual feedback */}
       {showReplaceSection && (
         canReplaceSection ? (
           <IconGridButton
@@ -154,13 +176,20 @@ export function StudioActions({ track, state, stems = [], onAction, variant, isP
             onClick={() => onAction('replace_section')}
           />
         ) : (
-          <IconGridButton
-            icon={Lock}
-            label="Секция"
-            color="muted"
-            onClick={() => onAction('replace_section')}
-            disabled
-          />
+          <div className="relative">
+            <IconGridButton
+              icon={RefreshCw}
+              label="Секция"
+              color="muted"
+              onClick={() => handleLockedClick('Замена секции', replaceTier || 'pro')}
+            />
+            <PremiumBadge 
+              tier={replaceTier || 'PRO'} 
+              size="xs" 
+              className="absolute -top-1 -right-1" 
+              showLock 
+            />
+          </div>
         )
       )}
       
@@ -182,6 +211,13 @@ export function StudioActions({ track, state, stems = [], onAction, variant, isP
           isProcessing={isProcessing}
         />
       )}
+
+      {/* Subscription Upgrade Popup */}
+      <SubscriptionUpgradePopup
+        open={upgradePopupOpen}
+        onClose={() => setUpgradePopupOpen(false)}
+        reason="feature_locked"
+      />
     </div>
   );
 }
