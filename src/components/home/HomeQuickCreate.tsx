@@ -41,27 +41,27 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({
     <section
       className={cn(
         "relative overflow-hidden rounded-2xl",
-        "bg-gradient-to-br from-primary/15 via-primary/5 to-transparent",
-        "border border-primary/20",
+        "bg-gradient-to-br from-primary/12 via-primary/5 to-transparent",
+        "border border-primary/25",
         "p-4 sm:p-5",
         className
       )}
     >
       {/* Background decoration - simplified */}
-      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-primary/15 to-transparent rounded-full blur-2xl pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-generate/10 to-transparent rounded-full blur-xl pointer-events-none" />
+      <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-bl from-primary/10 to-transparent rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-generate/8 to-transparent rounded-full blur-2xl pointer-events-none" />
 
       {/* Content */}
       <div className="relative z-10">
         {/* Header with improved visual hierarchy */}
-        <div className="flex items-start justify-between mb-4">
+        <div className="flex items-start justify-between mb-4 gap-3">
           <div className="flex items-center gap-3">
             <motion.div 
-              className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-primary/30 to-primary/10 flex items-center justify-center shadow-lg shadow-primary/20"
-              animate={{ rotate: [0, 5, -5, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-primary/40 to-primary/15 flex items-center justify-center shadow-lg shadow-primary/20 border border-primary/30"
+              animate={{ rotate: [0, 4, -4, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
             >
-              <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
+              <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-primary drop-shadow-sm" />
             </motion.div>
             <div>
               <h2 className="text-lg sm:text-xl font-bold text-foreground leading-tight">
@@ -74,11 +74,11 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({
           </div>
           {/* Free credits badge - enhanced */}
           <motion.span 
-            className="px-2 py-1 text-[10px] sm:text-xs font-bold bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-green-400 rounded-full border border-green-500/30 whitespace-nowrap"
-            animate={{ scale: [1, 1.05, 1] }}
-            transition={{ duration: 2, repeat: Infinity }}
+            className="px-2.5 py-1 text-[10px] sm:text-xs font-bold bg-gradient-to-r from-green-500/25 to-emerald-500/20 text-green-400 rounded-full border border-green-500/40 whitespace-nowrap shadow-sm"
+            animate={{ scale: [1, 1.03, 1] }}
+            transition={{ duration: 2.5, repeat: Infinity }}
           >
-            ✨ 5 бесплатных
+            ✨ БЕСПЛАТНО
           </motion.span>
         </div>
 

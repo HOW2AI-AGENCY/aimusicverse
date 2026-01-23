@@ -113,22 +113,28 @@ export const FeaturedSection = memo(function FeaturedSection({
     >
       {/* Header - responsive sizing with trending indicator */}
       <div className="flex items-center justify-between px-1">
-        <div className="flex items-center gap-2">
-          <motion.div 
-            className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br from-emerald-500/30 to-emerald-600/20 flex items-center justify-center shrink-0 relative"
-            animate={{ scale: [1, 1.05, 1] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400" />
+        <div className="flex items-center gap-2.5">
+          <div className="relative">
+            <motion.div 
+              className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-br from-emerald-500/30 to-emerald-600/15 flex items-center justify-center shrink-0 border border-emerald-500/20"
+              animate={{ scale: [1, 1.03, 1] }}
+              transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <TrendingUp className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-emerald-400" />
+            </motion.div>
             {/* Live indicator */}
-            <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-          </motion.div>
+            <motion.span 
+              className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-background"
+              animate={{ opacity: [1, 0.5, 1] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+            />
+          </div>
           <div className="min-w-0">
             <div className="flex items-center gap-2">
               <h3 className="text-sm sm:text-base font-bold text-foreground leading-tight">
                 Популярное
               </h3>
-              <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 font-medium">
+              <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 font-semibold border border-emerald-500/30">
                 LIVE
               </span>
             </div>
