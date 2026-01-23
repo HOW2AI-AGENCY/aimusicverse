@@ -128,18 +128,20 @@ export const FirstTimeHeroCard = memo(function FirstTimeHeroCard({
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
         >
-          <Button
-            onClick={onCreateClick}
-            size="lg"
-            className="w-full h-12 sm:h-11 rounded-xl bg-gradient-to-r from-primary to-generate hover:from-primary/90 hover:to-generate/90 text-white gap-2 shadow-lg text-sm sm:text-base relative overflow-hidden group"
-          >
-            {/* Free badge */}
-            <span className="absolute -top-0.5 -right-0.5 px-1.5 py-0.5 text-[9px] font-bold bg-green-500 text-white rounded-bl-lg rounded-tr-xl">
+          <div className="relative overflow-visible">
+            <Button
+              onClick={onCreateClick}
+              size="lg"
+              className="w-full h-12 sm:h-11 rounded-xl bg-gradient-to-r from-primary to-generate hover:from-primary/90 hover:to-generate/90 text-white gap-2 shadow-lg text-sm sm:text-base"
+            >
+              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
+              Создать первый трек
+            </Button>
+            {/* Free badge - positioned outside button to prevent clipping */}
+            <span className="absolute -top-1.5 -right-1.5 px-1.5 py-0.5 text-[9px] font-bold bg-green-500 text-white rounded-md shadow-sm z-10">
               БЕСПЛАТНО
             </span>
-            <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
-            Создать первый трек
-          </Button>
+          </div>
         </motion.div>
 
         {/* Tip - hidden on very small screens */}

@@ -159,21 +159,23 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
         {/* Actions: Menu + Avatar (notifications moved to menu) */}
         <div className="flex items-center gap-2">
           {/* Menu Button with notification badge - 44px touch target */}
-          <motion.button
-            onClick={handleMenuClick}
-            className={cn(
-              "relative w-11 h-11 min-w-[44px] min-h-[44px] rounded-xl flex items-center justify-center",
-              "bg-muted/60 hover:bg-muted transition-all duration-200 touch-manipulation",
-              "hover:shadow-md"
-            )}
-            whileHover={{ scale: 1.08, rotate: 3 }}
-            whileTap={{ scale: 0.92 }}
-            aria-label="Меню"
-          >
-            <Menu className="w-5 h-5" />
+          <div className="relative overflow-visible">
+            <motion.button
+              onClick={handleMenuClick}
+              className={cn(
+                "relative w-11 h-11 min-w-[44px] min-h-[44px] rounded-xl flex items-center justify-center",
+                "bg-muted/60 hover:bg-muted transition-all duration-200 touch-manipulation",
+                "hover:shadow-md"
+              )}
+              whileHover={{ scale: 1.08, rotate: 3 }}
+              whileTap={{ scale: 0.92 }}
+              aria-label="Меню"
+            >
+              <Menu className="w-5 h-5" />
+            </motion.button>
             {unreadCount > 0 && (
               <motion.span 
-                className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-destructive text-[10px] font-bold text-destructive-foreground shadow-lg"
+                className="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-destructive text-[10px] font-bold text-destructive-foreground shadow-lg z-10"
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ type: "spring", stiffness: 400 }}
@@ -181,7 +183,7 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
                 {unreadCount > 9 ? '9+' : unreadCount}
               </motion.span>
             )}
-          </motion.button>
+          </div>
           
           {/* Avatar with glow effect - 44px touch target */}
           <motion.button
