@@ -1,120 +1,129 @@
 /**
  * MobilePageTransition - Smooth page transitions for mobile
- * Provides native-feeling navigation animations
+ * OPTIMIZED: Uses CSS animations for native-feeling performance
  */
 
-import { memo, ReactNode } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
+import { memo, ReactNode, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { cn } from '@/lib/utils';
 
 interface MobilePageTransitionProps {
   children: ReactNode;
   className?: string;
 }
 
-// Animation variants for different transition types
-const pageVariants = {
-  initial: {
-    opacity: 0,
-    y: 20,
-    scale: 0.98,
-  },
-  animate: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-  },
-  exit: {
-    opacity: 0,
-    y: -10,
-    scale: 0.98,
-  },
-};
-
-const pageTransition = {
-  type: 'spring' as const,
-  stiffness: 300,
-  damping: 30,
-  mass: 0.8,
-};
-
 export const MobilePageTransition = memo(function MobilePageTransition({
   children,
   className,
 }: MobilePageTransitionProps) {
   const location = useLocation();
+  const [isVisible, setIsVisible] = useState(false);
+  const [key, setKey] = useState(location.pathname);
+
+  useEffect(() => {
+    // Reset and trigger animation on route change
+    setIsVisible(false);
+    setKey(location.pathname);
+    
+    const id = requestAnimationFrame(() => {
+      requestAnimationFrame(() => setIsVisible(true));
+    });
+    
+    return () => cancelAnimationFrame(id);
+  }, [location.pathname]);
 
   return (
-    <AnimatePresence mode="wait" initial={false}>
-      <motion.div
-        key={location.pathname}
-        variants={pageVariants}
-        initial="initial"
-        animate="animate"
-        exit="exit"
-        transition={pageTransition}
-        className={className}
-      >
-        {children}
-      </motion.div>
-    </AnimatePresence>
+    <div
+      key={key}
+      className={cn(
+        "mobile-page-transition",
+        isVisible && "mobile-page-visible",
+        className
+      )}
+    >
+      {children}
+    </div>
   );
 });
 
 // Simpler fade transition for overlays/modals
+interface MobileFadeTransitionProps {
+  children: ReactNode;
+  className?: string;
+  isVisible: boolean;
+}
+
 export const MobileFadeTransition = memo(function MobileFadeTransition({
   children,
   className,
   isVisible,
-}: {
-  children: ReactNode;
-  className?: string;
-  isVisible: boolean;
-}) {
+}: MobileFadeTransitionProps) {
+  const [shouldRender, setShouldRender] = useState(isVisible);
+  const [animating, setAnimating] = useState(false);
+
+  useEffect(() => {
+    if (isVisible) {
+      setShouldRender(true);
+      requestAnimationFrame(() => setAnimating(true));
+    } else {
+      setAnimating(false);
+      const timer = setTimeout(() => setShouldRender(false), 200);
+      return () => clearTimeout(timer);
+    }
+  }, [isVisible]);
+
+  if (!shouldRender) return null;
+
   return (
-    <AnimatePresence>
-      {isVisible && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
-          className={className}
-        >
-          {children}
-        </motion.div>
+    <div
+      className={cn(
+        "mobile-fade-transition",
+        animating && "mobile-fade-visible",
+        className
       )}
-    </AnimatePresence>
+    >
+      {children}
+    </div>
   );
 });
 
 // Slide up transition for bottom sheets
+interface MobileSlideUpTransitionProps {
+  children: ReactNode;
+  className?: string;
+  isVisible: boolean;
+}
+
 export const MobileSlideUpTransition = memo(function MobileSlideUpTransition({
   children,
   className,
   isVisible,
-}: {
-  children: ReactNode;
-  className?: string;
-  isVisible: boolean;
-}) {
+}: MobileSlideUpTransitionProps) {
+  const [shouldRender, setShouldRender] = useState(isVisible);
+  const [animating, setAnimating] = useState(false);
+
+  useEffect(() => {
+    if (isVisible) {
+      setShouldRender(true);
+      requestAnimationFrame(() => setAnimating(true));
+    } else {
+      setAnimating(false);
+      const timer = setTimeout(() => setShouldRender(false), 250);
+      return () => clearTimeout(timer);
+    }
+  }, [isVisible]);
+
+  if (!shouldRender) return null;
+
   return (
-    <AnimatePresence>
-      {isVisible && (
-        <motion.div
-          initial={{ y: '100%', opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: '100%', opacity: 0 }}
-          transition={{ 
-            type: 'spring',
-            stiffness: 400,
-            damping: 35,
-          }}
-          className={className}
-        >
-          {children}
-        </motion.div>
+    <div
+      className={cn(
+        "mobile-slide-up-transition",
+        animating && "mobile-slide-visible",
+        className
       )}
-    </AnimatePresence>
+    >
+      {children}
+    </div>
   );
 });

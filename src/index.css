@@ -1649,3 +1649,199 @@ select:focus-visible,
 .mb-safe-bottom {
   margin-bottom: max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px));
 }
+
+/* ========================================
+ * Navigation & Page Transition Animations
+ * GPU-accelerated CSS for optimal performance
+ * ======================================== */
+
+/* Navigation slide up animation */
+@keyframes nav-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(100%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.nav-slide-up {
+  opacity: 0;
+  transform: translateY(100%) scale(0.95);
+  will-change: opacity, transform;
+}
+
+.nav-slide-up.nav-visible {
+  animation: nav-slide-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Nav item staggered entry */
+@keyframes nav-item-enter {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.nav-item-enter {
+  animation: nav-item-enter 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* FAB pulse animation for active generations */
+@keyframes fab-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+.fab-pulse {
+  animation: fab-pulse 1.5s ease-out infinite;
+  will-change: transform, opacity;
+}
+
+/* Badge pop-in */
+@keyframes badge-pop {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.badge-pop {
+  animation: badge-pop 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Page transition animations */
+.page-fade {
+  opacity: 0;
+  transition: opacity var(--page-duration, 200ms) ease-out;
+}
+
+.page-fade.page-visible {
+  opacity: 1;
+}
+
+.page-slide-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity var(--page-duration, 200ms) ease-out,
+              transform var(--page-duration, 200ms) ease-out;
+}
+
+.page-slide-up.page-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.page-slide-left {
+  opacity: 0;
+  transform: translateX(20px);
+  transition: opacity var(--page-duration, 200ms) ease-out,
+              transform var(--page-duration, 200ms) ease-out;
+}
+
+.page-slide-left.page-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.page-scale {
+  opacity: 0;
+  transform: scale(0.96);
+  transition: opacity var(--page-duration, 200ms) ease-out,
+              transform var(--page-duration, 200ms) ease-out;
+}
+
+.page-scale.page-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Mobile page transitions */
+.mobile-page-transition {
+  opacity: 0;
+  transform: translateY(20px) scale(0.98);
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.mobile-page-transition.mobile-page-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Mobile fade transition */
+.mobile-fade-transition {
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
+}
+
+.mobile-fade-transition.mobile-fade-visible {
+  opacity: 1;
+}
+
+/* Mobile slide up transition */
+.mobile-slide-up-transition {
+  opacity: 0;
+  transform: translateY(100%);
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+.mobile-slide-up-transition.mobile-slide-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger container animations */
+.stagger-container .stagger-item {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: stagger-fade-in 0.2s ease-out forwards;
+}
+
+@keyframes stagger-fade-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Reduce motion support for navigation animations */
+@media (prefers-reduced-motion: reduce) {
+  .nav-slide-up,
+  .nav-item-enter,
+  .page-fade,
+  .page-slide-up,
+  .page-slide-left,
+  .page-scale,
+  .mobile-page-transition,
+  .mobile-fade-transition,
+  .mobile-slide-up-transition,
+  .stagger-container .stagger-item {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  
+  .fab-pulse,
+  .badge-pop {
+    animation: none !important;
+  }
+}
