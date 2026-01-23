@@ -95,7 +95,7 @@ export function StemsActionButton({
               <div className="flex-1 min-w-0">
                 <div className="font-semibold text-foreground">Быстрый (2 дорожки)</div>
                 <div className="text-sm text-muted-foreground mt-0.5">
-                  Вокал + инструментал. Быстро и бесплатно.
+                  Вокал + инструментал • 10 кредитов
                 </div>
               </div>
             </button>

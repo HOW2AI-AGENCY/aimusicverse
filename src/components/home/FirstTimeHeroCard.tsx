@@ -141,9 +141,9 @@ export const FirstTimeHeroCard = memo(function FirstTimeHeroCard({
               <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
               Создать первый трек
             </Button>
-            {/* Free badge - positioned outside button to prevent clipping */}
-            <span className="absolute -top-1.5 -right-1.5 px-1.5 py-0.5 text-[9px] font-bold bg-green-500 text-white rounded-md shadow-sm z-10">
-              БЕСПЛАТНО
+            {/* Cost badge - honest pricing */}
+            <span className="absolute -top-1.5 -right-1.5 px-1.5 py-0.5 text-[9px] font-bold bg-primary text-primary-foreground rounded-md shadow-sm z-10">
+              10-12 💎
             </span>
           </div>
         </motion.div>
