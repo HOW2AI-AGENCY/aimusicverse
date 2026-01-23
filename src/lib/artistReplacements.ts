@@ -59,19 +59,15 @@ export const ARTIST_REPLACEMENTS: ArtistReplacement[] = [
   { pattern: /\bcoldplay\b/i, artist: 'Coldplay', suggestion: 'atmospheric rock, anthemic choruses, layered synths', genre: 'alternative rock' },
   { pattern: /\bimagine\s*dragons\b/i, artist: 'Imagine Dragons', suggestion: 'epic rock, powerful drums, anthemic vocals', genre: 'pop-rock' },
   
-  // K-Pop (expanded from API errors)
+  // K-Pop - only distinctive group names (removed short/common words like ive, exo, nct, txt)
   { pattern: /\bbts\b/i, artist: 'BTS', suggestion: 'dynamic K-pop, synchronized choreography vibes, catchy hooks', genre: 'K-pop' },
   { pattern: /\bblackpink\b/i, artist: 'Blackpink', suggestion: 'girl crush K-pop, trap influences, powerful drops', genre: 'K-pop' },
   { pattern: /\btwice\b/i, artist: 'Twice', suggestion: 'bubbly K-pop, cute concept, catchy melodies', genre: 'K-pop' },
-  { pattern: /\bkarina\b/i, artist: 'Karina', suggestion: 'ethereal K-pop, futuristic beats, powerful vocals', genre: 'K-pop' },
-  { pattern: /\bitzy\b/i, artist: 'Itzy', suggestion: 'confident K-pop, girl crush concept, energetic dance', genre: 'K-pop' },
+  // Removed: karina - common Russian name "Карина"
+  // Removed: itzy, ive, exo, nct, txt - too short, cause false positives
   { pattern: /\ble\s*sserafim\b/i, artist: 'Le Sserafim', suggestion: 'bold K-pop, empowering lyrics, modern beats', genre: 'K-pop' },
-  { pattern: /\bive\b/i, artist: 'IVE', suggestion: 'elegant K-pop, catchy hooks, powerful choruses', genre: 'K-pop' },
   { pattern: /\bseventeen\b/i, artist: 'Seventeen', suggestion: 'synchronized K-pop, diverse genres, dynamic performance', genre: 'K-pop' },
-  { pattern: /\bexo\b/i, artist: 'EXO', suggestion: 'powerful vocals, R&B influenced K-pop, harmonies', genre: 'K-pop' },
-  { pattern: /\bnct\b/i, artist: 'NCT', suggestion: 'experimental K-pop, hip-hop fusion, bold concepts', genre: 'K-pop' },
   { pattern: /\benhypen\b/i, artist: 'Enhypen', suggestion: 'dark K-pop concept, powerful choreography, modern beats', genre: 'K-pop' },
-  { pattern: /\btxt\b/i, artist: 'TXT', suggestion: 'alternative K-pop, rock influences, emotional melodies', genre: 'K-pop' },
   
   // Electronic / EDM
   { pattern: /\bskrillex\b/i, artist: 'Skrillex', suggestion: 'aggressive dubstep, heavy bass drops, glitchy synths', genre: 'dubstep' },
@@ -80,45 +76,32 @@ export const ARTIST_REPLACEMENTS: ArtistReplacement[] = [
   { pattern: /\bmarshmello\b/i, artist: 'Marshmello', suggestion: 'future bass, euphoric drops, uplifting melodies', genre: 'EDM' },
   
   // Russian Rock / Alternative
-  { pattern: /\bсектор\s*газ(а|у|ом)?\b/i, artist: 'Сектор Газа', suggestion: 'punk rock русский, гаражный звук, провокационные тексты', genre: 'punk-rock' },
-  { pattern: /\bsektor\s*gaza\b/i, artist: 'Sektor Gaza', suggestion: 'Russian punk rock, garage sound, provocative lyrics', genre: 'punk-rock' },
-  { pattern: /\bдевочка\b/i, artist: 'Devochka', suggestion: 'indie pop, dreamy vocals, atmospheric synths', genre: 'indie-pop' },
-  { pattern: /\bdevochka\b/i, artist: 'Devochka', suggestion: 'indie pop, dreamy vocals, atmospheric synths', genre: 'indie-pop' },
+  // Removed: девочка/devochka - common Russian word "girl"
+  // Removed: сектор газа - too many false positives with "сектор" or "газ"
   
-  // African Artists (from real errors)
-  { pattern: /\bteni\b/i, artist: 'Teni', suggestion: 'afrobeats, Nigerian pop, tropical rhythms', genre: 'afrobeats' },
-  { pattern: /\bmejja\b/i, artist: 'Mejja', suggestion: 'genge, Kenyan hip-hop, danceable beats', genre: 'afrobeats' },
+  // African Artists - only distinctive names (removed teni=shadows, mejja)
   { pattern: /\bwizkid\b/i, artist: 'Wizkid', suggestion: 'afrobeats, Nigerian pop, dancehall influence', genre: 'afrobeats' },
   { pattern: /\bdavido\b/i, artist: 'Davido', suggestion: 'afrobeats, high-energy, party anthems', genre: 'afrobeats' },
   { pattern: /\bburna\s*boy\b/i, artist: 'Burna Boy', suggestion: 'afrofusion, dancehall, reggae vibes', genre: 'afrobeats' },
   
-  // K-Pop additional (from errors)
-  { pattern: /\bgidle\b/i, artist: 'G-IDLE', suggestion: 'girl crush K-pop, powerful vocals, EDM drops', genre: 'K-pop' },
+  // K-Pop additional - only distinctive names
   { pattern: /\bg-idle\b/i, artist: 'G-IDLE', suggestion: 'girl crush K-pop, powerful vocals, EDM drops', genre: 'K-pop' },
   { pattern: /\baespa\b/i, artist: 'Aespa', suggestion: 'futuristic K-pop, electronic, powerful vocals', genre: 'K-pop' },
   { pattern: /\bnewjeans\b/i, artist: 'NewJeans', suggestion: 'Y2K pop, nostalgic R&B, fresh K-pop sound', genre: 'K-pop' },
   { pattern: /\bstray\s*kids\b/i, artist: 'Stray Kids', suggestion: 'intense K-pop, hip-hop influence, powerful beats', genre: 'K-pop' },
   
-  // Latin / Other International
-  { pattern: /\blany\b/i, artist: 'Lany', suggestion: 'indie synth-pop, dreamy production, romantic lyrics', genre: 'synth-pop' },
-  { pattern: /\bchika\b/i, artist: 'Chika', suggestion: 'conscious hip-hop, spoken word, empowering lyrics', genre: 'hip-hop' },
-  { pattern: /\bpoli\b/i, artist: 'Poli', suggestion: 'alternative indie, experimental sounds, artistic vocals', genre: 'indie' },
-  { pattern: /\btena\b/i, artist: 'Tena', suggestion: 'Balkan pop, Mediterranean vibes, emotional vocals', genre: 'pop' },
+  // Latin - only distinctive multi-word names
+  // Removed: lany, chika, poli, tena - too short/common
   { pattern: /\bbad\s*bunny\b/i, artist: 'Bad Bunny', suggestion: 'reggaeton, Latin trap, party vibes', genre: 'reggaeton' },
   { pattern: /\bj\s*balvin\b/i, artist: 'J Balvin', suggestion: 'reggaeton, Latin pop, danceable rhythms', genre: 'reggaeton' },
   { pattern: /\bkarol\s*g\b/i, artist: 'Karol G', suggestion: 'reggaeton, Latin urban, empowering lyrics', genre: 'reggaeton' },
   
-  // Additional blocked artists (from Suno API rejections)
-  { pattern: /\bmisha\b/i, artist: 'Misha', suggestion: 'Russian pop-rock, melodic vocals, emotional ballads', genre: 'pop-rock' },
-  { pattern: /\bмиша\b/i, artist: 'Миша', suggestion: 'Russian pop-rock, melodic vocals, emotional ballads', genre: 'pop-rock' },
-  { pattern: /\bania\b/i, artist: 'Ania', suggestion: 'Eastern European pop, soulful vocals, radio-friendly', genre: 'pop' },
-  { pattern: /\bаня\b/i, artist: 'Аня', suggestion: 'Eastern European pop, soulful vocals, radio-friendly', genre: 'pop' },
-  { pattern: /\bklass\b/i, artist: 'Klass', suggestion: 'Russian chanson, emotional storytelling, acoustic guitar', genre: 'chanson' },
-  { pattern: /\bкласс\b/i, artist: 'Класс', suggestion: 'Russian chanson, emotional storytelling, acoustic guitar', genre: 'chanson' },
-  { pattern: /\bmaksim\b/i, artist: 'Maksim', suggestion: 'Russian pop ballads, powerful female vocals, emotional lyrics', genre: 'pop' },
-  { pattern: /\bмаксим\b/i, artist: 'Максим', suggestion: 'Russian pop ballads, powerful female vocals, emotional lyrics', genre: 'pop' },
-  { pattern: /\bmirami\b/i, artist: 'Mirami', suggestion: 'dance pop, eurodance, catchy hooks', genre: 'dance-pop' },
-  { pattern: /\bмирами\b/i, artist: 'Мирами', suggestion: 'dance pop, eurodance, catchy hooks', genre: 'dance-pop' },
+  // Removed common Russian names that cause false positives:
+  // - миша/misha (common name Misha)
+  // - аня/ania (common name Anya)  
+  // - класс/klass (common word "class")
+  // - максим/maksim (common name Maxim)
+  // - мирами/mirami (uncommon, low risk)
   
   // Russian pop stars (commonly referenced)
   { pattern: /\bленинград\b/i, artist: 'Ленинград', suggestion: 'Russian ska-punk, satirical lyrics, brass section, party vibes', genre: 'ska-punk' },
