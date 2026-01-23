@@ -151,23 +151,24 @@ export function StylePresetSelector({
                   key={preset.id}
                   onClick={() => handleQuickMixSelect(preset)}
                   className={cn(
-                    "p-3 rounded-xl border text-left transition-all",
+                    "p-3 rounded-xl border text-left transition-all min-h-[56px]",
                     "hover:border-primary/50 hover:bg-accent/50",
-                    "focus:outline-none focus:ring-2 focus:ring-primary/50"
+                    "focus:outline-none focus:ring-2 focus:ring-primary/50",
+                    "touch-manipulation active:scale-[0.98]"
                   )}
                 >
                   <div className="flex items-center gap-2 mb-1.5">
-                    <span className="text-lg">{preset.emoji}</span>
-                    <span className="text-sm font-medium">{preset.label}</span>
+                    <span className="text-lg flex-shrink-0">{preset.emoji}</span>
+                    <span className="text-sm font-medium truncate">{preset.label}</span>
                   </div>
                   <div className="flex items-center gap-1 flex-wrap">
                     {preset.bpm && (
-                      <Badge variant="outline" className="text-[10px] h-4">
+                      <Badge variant="outline" className="text-[10px] h-4 flex-shrink-0">
                         {preset.bpm} BPM
                       </Badge>
                     )}
                     {preset.mood && (
-                      <Badge variant="secondary" className="text-[10px] h-4">
+                      <Badge variant="secondary" className="text-[10px] h-4 truncate max-w-[80px]">
                         {MOOD_PRESETS.find(m => m.id === preset.mood)?.label || preset.mood}
                       </Badge>
                     )}
@@ -184,14 +185,15 @@ export function StylePresetSelector({
                   key={genre.id}
                   onClick={() => handleGenreSelect(genre)}
                   className={cn(
-                    "p-2.5 rounded-xl border text-center transition-all",
+                    "p-2.5 rounded-xl border text-center transition-all min-h-[44px]",
                     "hover:border-primary/50 hover:bg-accent/50",
                     "focus:outline-none focus:ring-2 focus:ring-primary/50",
+                    "touch-manipulation active:scale-[0.98]",
                     currentStyle?.toLowerCase().includes(genre.label.toLowerCase()) &&
                       "border-primary bg-primary/10"
                   )}
                 >
-                  <p className="text-xs font-medium">{genre.label}</p>
+                  <p className="text-xs font-medium truncate">{genre.label}</p>
                 </button>
               ))}
             </div>

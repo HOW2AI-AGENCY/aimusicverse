@@ -216,10 +216,10 @@ export function TagBuilderPanel({ onTagsGenerated, genre, mood, className }: Tag
                 {cat.tags.map(tag => (
                   <motion.button
                     key={tag}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    whileTap={{ scale: 0.95 }}
                     className={cn(
-                      'px-2.5 py-1 rounded-full text-xs font-medium transition-all',
+                      'px-2.5 py-1.5 rounded-full text-xs font-medium transition-all min-h-[32px]',
+                      'touch-manipulation active:scale-95',
                       selectedTags.includes(tag)
                         ? 'bg-primary text-primary-foreground'
                         : 'bg-muted/50 hover:bg-muted text-foreground'
@@ -245,10 +245,10 @@ export function TagBuilderPanel({ onTagsGenerated, genre, mood, className }: Tag
           {BACK_VOCAL_EFFECTS.map(effect => (
             <motion.button
               key={effect}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              whileTap={{ scale: 0.95 }}
               className={cn(
-                'px-2 py-0.5 rounded-full text-xs transition-all border',
+                'px-2.5 py-1 rounded-full text-xs transition-all border min-h-[28px]',
+                'touch-manipulation active:scale-95',
                 backVocals.includes(effect)
                   ? 'bg-primary/20 border-primary text-primary'
                   : 'bg-transparent border-border hover:border-primary/50 text-muted-foreground'
