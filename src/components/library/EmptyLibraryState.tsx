@@ -3,6 +3,7 @@ import { Sparkles, Music2, Wand2, Upload, ArrowRight, Zap, Star } from 'lucide-r
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+import { typographyClass, spacingClass, textBalance, touchTargetClass } from '@/lib/design-tokens';
 
 interface EmptyLibraryStateProps {
   searchQuery?: string;
@@ -38,8 +39,8 @@ export function EmptyLibraryState({ searchQuery, className, navigate }: EmptyLib
         >
           <Music2 className="w-10 h-10 text-muted-foreground/50" />
         </motion.div>
-        <h3 className="text-xl font-bold mb-2">Ничего не найдено</h3>
-        <p className="text-sm text-muted-foreground max-w-sm">
+        <h3 className={cn(typographyClass.heading.h3, "mb-2")}>Ничего не найдено</h3>
+        <p className={cn(typographyClass.body.md, "text-muted-foreground max-w-sm", textBalance.ru)}>
           Попробуйте изменить поисковый запрос или проверьте фильтры
         </p>
       </motion.div>
@@ -119,10 +120,10 @@ export function EmptyLibraryState({ searchQuery, className, navigate }: EmptyLib
         transition={{ delay: 0.2 }}
         className="space-y-3 mb-8 relative"
       >
-        <h3 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+        <h3 className={cn(typographyClass.heading.h2, "bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent", textBalance.balance)}>
           Создайте свой первый трек
         </h3>
-        <p className="text-sm sm:text-base text-muted-foreground max-w-md mx-auto">
+        <p className={cn(typographyClass.body.md, "text-muted-foreground max-w-md mx-auto", textBalance.ru)}>
           Опишите музыку вашей мечты, и AI создаст уникальный трек за минуту
         </p>
         <div className="flex items-center justify-center gap-2 pt-2">
@@ -144,21 +145,21 @@ export function EmptyLibraryState({ searchQuery, className, navigate }: EmptyLib
         transition={{ delay: 0.3 }}
         className="flex flex-col sm:flex-row gap-3 w-full max-w-md relative"
       >
-        <motion.div className="flex-1" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+        <motion.div className="flex-1" whileTap={{ scale: 0.98 }}>
           <Button
             onClick={() => handleNavigate('/', { state: { openGenerate: true } })}
-            className="w-full h-14 gap-2 bg-gradient-to-r from-primary via-primary to-generate hover:from-primary/90 hover:to-generate/90 shadow-xl shadow-primary/25 text-base font-semibold rounded-2xl"
+            className={cn("w-full h-14 gap-2 bg-gradient-to-r from-primary via-primary to-generate hover:from-primary/90 hover:to-generate/90 shadow-xl shadow-primary/25 font-semibold rounded-2xl", typographyClass.body.lg, touchTargetClass.button)}
           >
             <Wand2 className="w-5 h-5" />
             Создать трек
             <ArrowRight className="w-5 h-5" />
           </Button>
         </motion.div>
-        <motion.div className="flex-1 sm:flex-none" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+        <motion.div className="flex-1 sm:flex-none" whileTap={{ scale: 0.98 }}>
           <Button
             variant="outline"
             onClick={() => handleNavigate('/', { state: { openGenerate: true, mode: 'upload' } })}
-            className="w-full sm:w-auto h-14 gap-2 text-base rounded-2xl border-border/50 hover:border-primary/50 hover:bg-primary/5"
+            className={cn("w-full sm:w-auto h-14 gap-2 rounded-2xl border-border/50 hover:border-primary/50 hover:bg-primary/5", typographyClass.body.lg, touchTargetClass.button)}
           >
             <Upload className="w-5 h-5" />
             Загрузить

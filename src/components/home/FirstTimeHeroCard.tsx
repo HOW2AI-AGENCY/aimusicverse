@@ -5,9 +5,10 @@
 
 import { memo } from 'react';
 import { motion } from '@/lib/motion';
-import { Sparkles, Music2, Headphones, CheckCircle2 } from 'lucide-react';
+import { Sparkles, Music2, Headphones } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { typographyClass, textBalance, touchTargetClass } from '@/lib/design-tokens';
 
 interface FirstTimeHeroCardProps {
   onCreateClick: () => void;
@@ -73,7 +74,7 @@ export const FirstTimeHeroCard = memo(function FirstTimeHeroCard({
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="text-lg sm:text-2xl font-bold text-center mb-1.5 sm:mb-2"
+          className={cn(typographyClass.heading.h2, "text-center mb-1.5 sm:mb-2", textBalance.balance)}
         >
           Создай свой первый трек
         </motion.h2>
@@ -82,7 +83,7 @@ export const FirstTimeHeroCard = memo(function FirstTimeHeroCard({
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
-          className="text-xs sm:text-sm text-muted-foreground text-center mb-4 sm:mb-5"
+          className={cn(typographyClass.body.md, "text-muted-foreground text-center mb-4 sm:mb-5", textBalance.ru)}
         >
           Три простых шага до профессионального звучания
         </motion.p>
@@ -111,10 +112,10 @@ export const FirstTimeHeroCard = memo(function FirstTimeHeroCard({
                     Шаг {step.number}
                   </span>
                 </div>
-                <h3 className="font-medium text-foreground text-sm leading-tight">
+                <h3 className={cn(typographyClass.body.md, "font-medium text-foreground leading-tight")}>
                   {step.title}
                 </h3>
-                <p className="text-[11px] sm:text-xs text-muted-foreground">
+                <p className={cn(typographyClass.caption, "text-muted-foreground")}>
                   {step.description}
                 </p>
               </div>
@@ -132,7 +133,10 @@ export const FirstTimeHeroCard = memo(function FirstTimeHeroCard({
             <Button
               onClick={onCreateClick}
               size="lg"
-              className="w-full h-12 sm:h-11 rounded-xl bg-gradient-to-r from-primary to-generate hover:from-primary/90 hover:to-generate/90 text-white gap-2 shadow-lg text-sm sm:text-base"
+              className={cn(
+                "w-full h-12 sm:h-11 rounded-xl bg-gradient-to-r from-primary to-generate hover:from-primary/90 hover:to-generate/90 text-white gap-2 shadow-lg",
+                typographyClass.body.md, touchTargetClass.button
+              )}
             >
               <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
               Создать первый трек
