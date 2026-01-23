@@ -1,31 +1,20 @@
 /**
  * Engagement Chart
  * Area chart showing likes and plays over time
+ * Uses lazy-loaded Recharts via useRecharts hook for bundle optimization
  */
 
-import { useEffect, useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { motion } from '@/lib/motion';
 import { useAnalyticsData } from '@/hooks/useAnalyticsData';
 import { Skeleton } from '@/components/ui/skeleton';
-
-type RechartsModule = typeof import('recharts');
+import { useRecharts } from '@/lib/recharts-lazy';
 
 export function EngagementChart() {
   const { data, isLoading } = useAnalyticsData();
-  const [recharts, setRecharts] = useState<RechartsModule | null>(null);
+  const { recharts, isLoading: rechartsLoading } = useRecharts();
 
-  useEffect(() => {
-    let mounted = true;
-    import('recharts').then((mod) => {
-      if (mounted) setRecharts(mod as RechartsModule);
-    });
-    return () => {
-      mounted = false;
-    };
-  }, []);
-
-  if (isLoading || !recharts) {
+  if (isLoading || rechartsLoading || !recharts) {
     return (
       <Card className="p-4 glass-card border-border/50">
         <Skeleton className="h-[200px] w-full" />

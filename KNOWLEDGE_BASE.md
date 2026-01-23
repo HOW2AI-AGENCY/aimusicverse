@@ -419,6 +419,46 @@ getComputedStyle(document.documentElement).getPropertyValue('--tg-safe-area-inse
 
 ---
 
+## 🎨 Design System (January 2026)
+
+### Design Tokens
+Файл: `src/lib/design-tokens.ts`
+
+**Tailwind Typography Classes:**
+```typescript
+import { typographyClass } from '@/lib/design-tokens';
+
+<h1 className={typographyClass.heading.h1}>Заголовок</h1>
+<p className={typographyClass.body.md}>Текст</p>
+<span className={typographyClass.caption}>Дата</span>
+```
+
+**Spacing Classes:**
+```typescript
+import { spacingClass } from '@/lib/design-tokens';
+
+<div className={spacingClass.card}>Карточка</div>
+<section className={spacingClass.section}>Секция</section>
+```
+
+**Russian Text Handling:**
+```typescript
+import { textBalance } from '@/lib/design-tokens';
+
+// Предотвращает переполнение русского текста
+<p className={textBalance.ru}>Длинный русский текст</p>
+```
+
+**Touch Targets:**
+```typescript
+import { touchTargetClass } from '@/lib/design-tokens';
+
+<button className={touchTargetClass.icon}>Icon</button>
+<button className={touchTargetClass.button}>Button</button>
+```
+
+---
+
 ## 📚 Документация
 
 | Файл | Описание |
@@ -433,4 +473,4 @@ getComputedStyle(document.documentElement).getPropertyValue('--tg-safe-area-inse
 
 ---
 
-*Обновлено: 2026-01-19*
+*Обновлено: 2026-01-23*
