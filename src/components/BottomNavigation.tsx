@@ -3,18 +3,19 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Home, Plus, Library, FolderOpen, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTelegram } from '@/contexts/TelegramContext';
-import { motion, AnimatePresence } from '@/lib/motion';
 import { useAuth } from '@/hooks/useAuth';
 import { useActiveGenerations } from '@/hooks/generation/useActiveGenerations';
 import { Badge } from '@/components/ui/badge';
 import { preloadRoute } from '@/lib/route-preloader';
-import { typographyClass, touchTargetClass } from '@/lib/design-tokens';
+import { typographyClass } from '@/lib/design-tokens';
+
 // Lazy load heavy sheet component
 const GenerateSheet = lazy(() => import('./GenerateSheet').then(m => ({ default: m.GenerateSheet })));
 
 /**
  * Optimized navigation - 5 items with FAB in center
- * Phase 1 UX Improvement: Simplified navigation
+ * OPTIMIZED: Uses CSS animations instead of framer-motion for better performance
+ * 
  * - Home: Main page
  * - Library: Tracks & Projects (combined)
  * - Create (+): Generation FAB
@@ -35,12 +36,17 @@ export const BottomNavigation = memo(function BottomNavigation() {
   const { hapticFeedback } = useTelegram();
   const { user } = useAuth();
   const [generateOpen, setGenerateOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const { data: activeGenerations = [] } = useActiveGenerations();
   const activeGenCount = activeGenerations.length;
 
+  // Trigger CSS animation on mount
+  useState(() => {
+    requestAnimationFrame(() => setIsVisible(true));
+  });
+
   const handleNavigate = useCallback((path: string) => {
     hapticFeedback('light');
-    // Handle profile with user ID
     if (path === '/profile' && user?.id) {
       navigate(`/profile/${user.id}`);
     } else {
@@ -53,9 +59,8 @@ export const BottomNavigation = memo(function BottomNavigation() {
     setGenerateOpen(true);
   }, [hapticFeedback]);
 
-  // Preload route on hover/touch start for faster navigation
   const handlePreload = useCallback((path: string) => {
-    if (path.startsWith('__')) return; // Skip special paths
+    if (path.startsWith('__')) return;
     preloadRoute(path);
   }, []);
 
@@ -63,16 +68,11 @@ export const BottomNavigation = memo(function BottomNavigation() {
 
   return (
     <>
-      <motion.nav
-        className="island-nav z-navigation"
-        initial={{ y: 100, opacity: 0, scale: 0.95 }}
-        animate={{ y: 0, opacity: 1, scale: 1 }}
-        transition={{
-          type: 'spring',
-          stiffness: 300,
-          damping: 25,
-          opacity: { duration: 0.3 }
-        }}
+      <nav
+        className={cn(
+          "island-nav z-navigation nav-slide-up",
+          isVisible && "nav-visible"
+        )}
         role="navigation"
         aria-label="Главная навигация"
       >
@@ -81,59 +81,35 @@ export const BottomNavigation = memo(function BottomNavigation() {
             if (item.isCenter) {
               return (
                 <div key={item.path} className="relative overflow-visible">
-                  <motion.button
+                  <button
                     onClick={handleGenerateClick}
                     className={cn(
-                      "relative flex items-center justify-center w-14 h-14 -my-2 rounded-full bg-gradient-to-br from-primary to-generate shadow-md shadow-primary/25 fab touch-scale-md touch-manipulation group",
+                      "relative flex items-center justify-center w-14 h-14 -my-2 rounded-full",
+                      "bg-gradient-to-br from-primary to-generate shadow-md shadow-primary/25",
+                      "fab nav-item-enter active:scale-92 hover:scale-105 transition-transform duration-150",
                       activeGenCount > 0 && "ring-2 ring-primary/50 ring-offset-2 ring-offset-background"
                     )}
-                    whileTap={{ scale: 0.92 }}
-                    whileHover={{ scale: 1.05 }}
+                    style={{ animationDelay: `${50 + index * 30}ms` }}
                     aria-label={item.label}
                     title={item.label}
-                    initial={{ scale: 0.8, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ delay: 0.1 + index * 0.05 }}
                   >
-                    {/* Pulsing ring when generations are active */}
-                    <AnimatePresence>
-                      {activeGenCount > 0 && (
-                        <motion.div
-                          className="absolute inset-0 rounded-full bg-primary/30"
-                          initial={{ scale: 1, opacity: 0.5 }}
-                          animate={{ 
-                            scale: [1, 1.4, 1.4],
-                            opacity: [0.5, 0, 0]
-                          }}
-                          transition={{
-                            duration: 1.5,
-                            repeat: Infinity,
-                            ease: 'easeOut'
-                          }}
-                        />
-                      )}
-                    </AnimatePresence>
-
-                    <Plus className="w-4.5 h-4.5 text-primary-foreground relative z-10" />
-                  </motion.button>
-                  
-                  {/* Active generations badge - positioned outside button */}
-                  <AnimatePresence>
+                    {/* Pulsing ring when generations are active - CSS animation */}
                     {activeGenCount > 0 && (
-                      <motion.div
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        exit={{ scale: 0 }}
-                        className="absolute -top-1.5 -right-1.5 z-20"
-                      >
-                        <Badge 
-                          className="h-5 min-w-5 px-1 text-[10px] bg-destructive text-destructive-foreground border-2 border-background shadow-sm"
-                        >
-                          {activeGenCount > 9 ? '9+' : activeGenCount}
-                        </Badge>
-                      </motion.div>
+                      <span className="absolute inset-0 rounded-full bg-primary/30 fab-pulse" />
                     )}
-                  </AnimatePresence>
+                    <Plus className="w-4.5 h-4.5 text-primary-foreground relative z-10" />
+                  </button>
+                  
+                  {/* Active generations badge */}
+                  {activeGenCount > 0 && (
+                    <div className="absolute -top-1.5 -right-1.5 z-20 badge-pop">
+                      <Badge 
+                        className="h-5 min-w-5 px-1 text-[10px] bg-destructive text-destructive-foreground border-2 border-background shadow-sm"
+                      >
+                        {activeGenCount > 9 ? '9+' : activeGenCount}
+                      </Badge>
+                    </div>
+                  )}
                 </div>
               );
             }
@@ -142,60 +118,52 @@ export const BottomNavigation = memo(function BottomNavigation() {
             const active = isActive(item.path);
 
             return (
-              <motion.button
+              <button
                 key={item.path}
                 onClick={handleClick}
-              className={cn(
-                  "relative flex flex-col items-center justify-center gap-0.5 px-3 py-2 rounded-xl transition-all min-h-touch min-w-touch touch-scale-sm touch-manipulation group",
+                className={cn(
+                  "relative flex flex-col items-center justify-center gap-0.5 px-3 py-2 rounded-xl",
+                  "min-h-touch min-w-touch nav-item-enter active:scale-92 hover:scale-105 transition-transform duration-150",
                   active
                     ? "text-primary bg-primary/10"
                     : "text-muted-foreground hover:text-foreground"
                 )}
-                whileTap={{ scale: 0.92 }}
-                whileHover={{ scale: 1.05 }}
+                style={{ animationDelay: `${50 + index * 30}ms` }}
                 onMouseEnter={() => handlePreload(item.path)}
                 onTouchStart={() => handlePreload(item.path)}
                 aria-label={item.label}
                 aria-current={active ? 'page' : undefined}
                 title={item.label}
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.1 + index * 0.05 }}
               >
-                <motion.div
-                  initial={false}
-                  animate={active ? { scale: 1.1, y: -1 } : { scale: 1, y: 0 }}
-                  transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-                  className="relative"
-                >
+                <div className={cn(
+                  "relative transition-transform duration-200",
+                  active && "scale-110 -translate-y-0.5"
+                )}>
                   <item.icon className="w-4.5 h-4.5" />
-                </motion.div>
-                <motion.span
-                  className={cn("text-[9px] font-medium", typographyClass.caption)}
+                </div>
+                <span
+                  className={cn(
+                    "text-[9px] transition-all duration-200",
+                    typographyClass.caption,
+                    active ? "font-semibold" : "font-medium"
+                  )}
                   style={{ fontSize: '9px' }}
-                  initial={false}
-                  animate={active ? { fontWeight: 600 } : { fontWeight: 500 }}
                 >
                   {item.label}
-                </motion.span>
+                </span>
 
-                {/* Active indicator - Modern pill */}
-                <AnimatePresence>
-                  {active && (
-                    <motion.div
-                      className="absolute inset-0 rounded-xl bg-primary/5 border border-primary/20"
-                      initial={{ scale: 0.8, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      exit={{ scale: 0.8, opacity: 0 }}
-                      transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-                    />
+                {/* Active indicator - CSS transition */}
+                <div
+                  className={cn(
+                    "absolute inset-0 rounded-xl bg-primary/5 border border-primary/20 transition-all duration-200",
+                    active ? "opacity-100 scale-100" : "opacity-0 scale-90"
                   )}
-                </AnimatePresence>
-              </motion.button>
+                />
+              </button>
             );
           })}
         </div>
-      </motion.nav>
+      </nav>
 
       {/* Lazy load GenerateSheet only when opened */}
       {generateOpen && (

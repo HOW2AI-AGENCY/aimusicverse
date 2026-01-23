@@ -1,10 +1,9 @@
 /**
  * PageTransition - Animated wrapper for page transitions
- * Provides smooth fade/slide animations when navigating between pages
+ * OPTIMIZED: Uses CSS animations for better performance
  */
 
-import { ReactNode } from 'react';
-import { motion } from '@/lib/motion';
+import { memo, ReactNode, useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 
 interface PageTransitionProps {
@@ -12,60 +11,52 @@ interface PageTransitionProps {
   className?: string;
   /** Animation variant */
   variant?: 'fade' | 'slide-up' | 'slide-left' | 'scale';
-  /** Animation duration in seconds */
+  /** Animation duration in ms */
   duration?: number;
 }
 
-const variants = {
-  fade: {
-    initial: { opacity: 0 },
-    animate: { opacity: 1 },
-    exit: { opacity: 0 },
-  },
-  'slide-up': {
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: -10 },
-  },
-  'slide-left': {
-    initial: { opacity: 0, x: 20 },
-    animate: { opacity: 1, x: 0 },
-    exit: { opacity: 0, x: -20 },
-  },
-  scale: {
-    initial: { opacity: 0, scale: 0.96 },
-    animate: { opacity: 1, scale: 1 },
-    exit: { opacity: 0, scale: 0.98 },
-  },
+const variantClasses = {
+  fade: 'page-fade',
+  'slide-up': 'page-slide-up',
+  'slide-left': 'page-slide-left',
+  scale: 'page-scale',
 };
 
-export function PageTransition({
+export const PageTransition = memo(function PageTransition({
   children,
   className,
   variant = 'fade',
-  duration = 0.2,
+  duration = 200,
 }: PageTransitionProps) {
-  const animationVariant = variants[variant];
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    // Trigger animation on next frame for smooth entry
+    const id = requestAnimationFrame(() => setIsVisible(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
 
   return (
-    <motion.div
-      initial={animationVariant.initial}
-      animate={animationVariant.animate}
-      exit={animationVariant.exit}
-      transition={{
-        duration,
-        ease: [0.4, 0, 0.2, 1], // ease-out
-      }}
-      className={cn("w-full", className)}
+    <div
+      className={cn(
+        "w-full",
+        variantClasses[variant],
+        isVisible && "page-visible",
+        className
+      )}
+      style={{ 
+        '--page-duration': `${duration}ms`,
+        willChange: 'opacity, transform',
+      } as React.CSSProperties}
     >
       {children}
-    </motion.div>
+    </div>
   );
-}
+});
 
 /**
  * Staggered children animation wrapper
- * Animates children with a staggered delay
+ * Uses CSS stagger delays for performance
  */
 interface StaggerContainerProps {
   children: ReactNode;
@@ -73,30 +64,20 @@ interface StaggerContainerProps {
   staggerDelay?: number;
 }
 
-export function StaggerContainer({
+export const StaggerContainer = memo(function StaggerContainer({
   children,
   className,
-  staggerDelay = 0.05,
+  staggerDelay = 50,
 }: StaggerContainerProps) {
   return (
-    <motion.div
-      initial="hidden"
-      animate="visible"
-      variants={{
-        hidden: { opacity: 0 },
-        visible: {
-          opacity: 1,
-          transition: {
-            staggerChildren: staggerDelay,
-          },
-        },
-      }}
-      className={className}
+    <div 
+      className={cn("stagger-container", className)}
+      style={{ '--stagger-delay': `${staggerDelay}ms` } as React.CSSProperties}
     >
       {children}
-    </motion.div>
+    </div>
   );
-}
+});
 
 /**
  * Stagger item - use inside StaggerContainer
@@ -104,19 +85,22 @@ export function StaggerContainer({
 interface StaggerItemProps {
   children: ReactNode;
   className?: string;
+  index?: number;
 }
 
-export function StaggerItem({ children, className }: StaggerItemProps) {
+export const StaggerItem = memo(function StaggerItem({ 
+  children, 
+  className,
+  index = 0,
+}: StaggerItemProps) {
   return (
-    <motion.div
-      variants={{
-        hidden: { opacity: 0, y: 10 },
-        visible: { opacity: 1, y: 0 },
+    <div
+      className={cn("stagger-item", className)}
+      style={{ 
+        animationDelay: `calc(var(--stagger-delay, 50ms) * ${index})`,
       }}
-      transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
-      className={className}
     >
       {children}
-    </motion.div>
+    </div>
   );
-}
+});
