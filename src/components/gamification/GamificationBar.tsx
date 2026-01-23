@@ -63,38 +63,24 @@ export const GamificationBar = memo(function GamificationBar({ className }: Gami
   return (
     <TooltipProvider delayDuration={300}>
       <motion.div
-        initial={{ opacity: 0, y: -10, scale: 0.98 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.3, ease: 'easeOut' }}
+        initial={{ opacity: 0, y: -5 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.2 }}
         className={cn(
-          "relative overflow-hidden rounded-2xl",
+          "relative overflow-hidden rounded-xl sm:rounded-2xl",
           "bg-gradient-to-r from-card/80 via-card/60 to-card/80",
-          "backdrop-blur-xl border border-border/30",
-          "shadow-lg shadow-black/5",
+          "backdrop-blur-lg border border-border/30",
+          "shadow-sm",
           className
         )}
       >
-        {/* Animated background glow */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <motion.div
-            className="absolute -top-10 -left-10 w-24 sm:w-32 h-24 sm:h-32 bg-primary/10 rounded-full blur-3xl"
-            animate={{ 
-              scale: [1, 1.2, 1],
-              opacity: [0.3, 0.5, 0.3]
-            }}
-            transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-          />
-          <motion.div
-            className="absolute -bottom-10 -right-10 w-20 sm:w-28 h-20 sm:h-28 bg-accent/10 rounded-full blur-3xl"
-            animate={{ 
-              scale: [1.2, 1, 1.2],
-              opacity: [0.3, 0.5, 0.3]
-            }}
-            transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-          />
+        {/* Simplified background - no animation on mobile */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden hidden sm:block">
+          <div className="absolute -top-10 -left-10 w-24 h-24 bg-primary/5 rounded-full blur-3xl" />
+          <div className="absolute -bottom-10 -right-10 w-20 h-20 bg-accent/5 rounded-full blur-3xl" />
         </div>
 
-        <div className="relative p-2 sm:p-3 flex items-center gap-2 sm:gap-3">
+        <div className="relative p-2 sm:p-3 flex items-center gap-1.5 sm:gap-3">
           {/* Level Badge with Progress Ring */}
           <Tooltip>
             <TooltipTrigger asChild>
@@ -137,13 +123,9 @@ export const GamificationBar = memo(function GamificationBar({ className }: Gami
                   </defs>
                 </svg>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <motion.span 
-                    className="text-[10px] sm:text-xs font-bold bg-gradient-to-br from-primary to-accent bg-clip-text text-transparent"
-                    animate={{ scale: [1, 1.1, 1] }}
-                    transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                  >
+                  <span className="text-[10px] sm:text-xs font-bold bg-gradient-to-br from-primary to-accent bg-clip-text text-transparent">
                     {level}
-                  </motion.span>
+                  </span>
                 </div>
                 {/* Level up glow effect */}
                 <motion.div
@@ -316,39 +298,23 @@ const StatPill = memo(function StatPill({
   const content = (
     <motion.button
       onClick={onClick}
-      whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       className={cn(
-        "relative flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg sm:rounded-xl",
+        "relative flex items-center gap-1 px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg",
         "text-[10px] sm:text-xs font-semibold whitespace-nowrap",
         "border backdrop-blur-sm",
-        "transition-all duration-200",
+        "transition-colors duration-150",
         colorStyles[color],
         onClick && "cursor-pointer hover:brightness-110",
-        glow && "shadow-lg shadow-orange-500/20"
+        glow && "shadow-md shadow-orange-500/20"
       )}
     >
-      <motion.div
-        animate={glow ? { 
-          scale: [1, 1.2, 1],
-          rotate: [0, 5, -5, 0]
-        } : {}}
-        transition={{ duration: 1, repeat: Infinity, ease: 'easeInOut' }}
-      >
-        {icon}
-      </motion.div>
+      <span className="flex-shrink-0">{icon}</span>
       <span className="tabular-nums">{value}</span>
       
-      {/* Pulse animation for low balance */}
+      {/* Pulse animation for low balance - simplified */}
       {pulse && (
-        <motion.span
-          className="absolute inset-0 rounded-lg sm:rounded-xl border-2 border-amber-400"
-          animate={{ 
-            scale: [1, 1.1, 1],
-            opacity: [0.5, 0, 0.5]
-          }}
-          transition={{ duration: 2, repeat: Infinity }}
-        />
+        <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
       )}
     </motion.button>
   );
