@@ -1,6 +1,6 @@
 # Sprint Progress Tracker
 
-**Последнее обновление**: 2026-01-21
+**Последнее обновление**: 2026-01-23
 
 ## 📊 Общий статус
 
@@ -8,7 +8,7 @@
 |--------|--------|----------|
 | Sprint 001-029 | ✅ ЗАВЕРШЕНЫ | 100% |
 | Sprint 030-032 | ✅ ЗАВЕРШЕНЫ | 100% |
-| Q1 2026 Plan | 🔄 АКТИВЕН | Phase 1-4 Complete |
+| Q1 2026 Plan | 🔄 АКТИВЕН | Phase 1-4 Complete, Sprints A-E Complete |
 
 ---
 
@@ -49,16 +49,48 @@
 - [x] Push notifications via Telegram Bot
 - [x] Notification settings UI
 
-### Phase 5: Performance Optimization 📋 PLANNED
+### Phase 5: UI/UX Optimization ✅ COMPLETE (Sprints A-E)
 
-- [ ] Vendor bundle optimization (<150 KB)
-- [ ] Service Worker
+#### Sprint A: Performance Foundation ✅
+- [x] Replace date-fns with dayjs (`src/lib/date-utils.ts`)
+- [x] Lazy loading for recharts (`useRecharts` hook)
+- [x] DNS-prefetch/preconnect hints
+- [x] Deferred font loading
+- [x] Inlined critical CSS
+
+#### Sprint B: Mobile UX Improvements ✅
+- [x] Touch targets standardization (≥44px)
+- [x] Russian text overflow fixes
+- [x] Telegram safe area handling
+- [x] Haptic feedback patterns
+
+#### Sprint C: Design System Integration ✅
+- [x] Design tokens (`typographyClass`, `spacingClass`, `textBalance`)
+- [x] Applied to QuickStartCards, GamificationBar, BottomNavigation
+- [x] Touch target classes (`touchTargetClass`)
+
+#### Sprint D: User Journey Optimization ✅
+- [x] EmptyLibraryState with design tokens
+- [x] FirstTimeHeroCard with "FREE" badges
+- [x] Simplified mobile animations (whileTap priority)
+- [x] Russian text balancing
+
+#### Sprint E: Documentation ✅
+- [x] PROJECT_STATUS.md updated
+- [x] KNOWN_ISSUES.md updated
+- [x] KNOWLEDGE_BASE.md updated
+- [x] SPRINT-PROGRESS.md updated
+
+### Phase 6: Performance Optimization 📋 NEXT
+
+- [ ] Bundle size optimization (<150 KB vendor)
+- [ ] Service Worker implementation
 - [ ] Image optimization (WebP, srcset)
 
-### Phase 6: Specs Implementation 📋 PLANNED
+### Phase 7: Specs Implementation 📋 PLANNED
 
-- [ ] Spec 032: Professional UI
-- [ ] Spec 031: Mobile Studio V2
+- [ ] Spec 032: Professional UI (22 requirements)
+- [ ] Spec 031: Mobile Studio V2 (42 requirements)
 
 ---
 

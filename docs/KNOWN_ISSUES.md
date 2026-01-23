@@ -58,17 +58,21 @@
 
 ## Средние
 
-### 5. Bundle Size > 800KB
-**Статус**: 🔄 В процессе (Sprint 022)
+### 5. Bundle Size Optimization
+**Статус**: 🔄 В процессе (Phase 6)
 
-**Симптомы**: Медленная загрузка на слабых устройствах.
+**Симптомы**: vendor-other bundle 184 KB, цель <150 KB.
 
-**Текущий размер**: ~1.16MB
+**Текущие оптимизации (Sprint A):**
+- ✅ Заменён date-fns на dayjs (`src/lib/date-utils.ts`)
+- ✅ Lazy loading для recharts (`useRecharts` hook)
+- ✅ DNS-prefetch/preconnect hints
 
-**План**:
-- Lazy loading тяжёлых компонентов
-- Tree-shaking framer-motion через @/lib/motion
-- Code splitting по routes
+**План (Phase 6):**
+- [ ] Lazy loading для opensheetmusicdisplay (-20 KB)
+- [ ] Dynamic import для wavesurfer.js (-25 KB)
+- [ ] Tree-shaking audit для lucide-react (-5 KB)
+- [ ] Service Worker implementation
 
 ---
 
@@ -141,7 +145,9 @@
 | track_versions constraint | Critical | ✅ Fixed | 029 |
 | Add Vocals/Instrumental | Critical | ✅ Fixed | 029 |
 | Player Deep Links | High | ✅ Fixed | 029 |
-| Bundle Size | Medium | 🔄 In Progress | 022 |
+| Bundle Size | Medium | 🔄 In Progress | Phase 6 |
+| Design System | Medium | ✅ Fixed | Sprint C |
+| User Journey | Medium | ✅ Fixed | Sprint D |
 | Audio Context | Medium | ✅ Fixed | 021 |
 | Realtime Leak | Medium | ✅ Fixed | 020 |
 | iOS Autoplay | Low | ⚠️ Workaround | - |
@@ -245,6 +251,22 @@
 2. Собрать информацию: платформа, версия TG, шаги воспроизведения
 3. Создать issue с тегом `bug` и приоритетом
 4. Приложить console logs если возможно
+
+---
+
+---
+
+### 15. Design Token Inconsistency
+**Статус**: ✅ Исправлено (Sprint C)
+
+**Симптомы**: Разные размеры шрифтов, отступов и touch targets по приложению.
+
+**Решение**:
+- Создан `src/lib/design-tokens.ts` с унифицированными классами
+- `typographyClass` для шрифтов
+- `spacingClass` для отступов
+- `touchTargetClass` для интерактивных элементов
+- `textBalance` для русского текста
 
 ---
 
