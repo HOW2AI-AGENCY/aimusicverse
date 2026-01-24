@@ -1,4 +1,4 @@
-import { useState, lazy, Suspense, memo, useCallback } from 'react';
+import { useState, lazy, Suspense, memo, useCallback, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Home, Plus, Library, FolderOpen, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -40,10 +40,11 @@ export const BottomNavigation = memo(function BottomNavigation() {
   const { data: activeGenerations = [] } = useActiveGenerations();
   const activeGenCount = activeGenerations.length;
 
-  // Trigger CSS animation on mount
-  useState(() => {
-    requestAnimationFrame(() => setIsVisible(true));
-  });
+  // Trigger CSS animation on mount - properly using useEffect
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => setIsVisible(true));
+    return () => cancelAnimationFrame(frame);
+  }, []);
 
   const handleNavigate = useCallback((path: string) => {
     hapticFeedback('light');
