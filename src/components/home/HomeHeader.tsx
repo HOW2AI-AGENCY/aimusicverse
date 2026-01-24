@@ -10,7 +10,7 @@ import { User, Sun, Moon, Sunrise, Sunset, Menu } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useUnreadCount } from '@/hooks/useNotifications';
 import { useTelegram } from '@/contexts/TelegramContext';
-import logo from '@/assets/logo.png';
+import { AppLogo } from '@/components/branding/AppLogo';
 import { TELEGRAM_SAFE_AREA } from '@/constants/safe-area';
 import { AdminQuickAccess } from './AdminQuickAccess';
 
@@ -102,11 +102,7 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
             }}
             transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
           >
-            <img 
-              src={logo} 
-              alt="MusicVerse AI" 
-              className="h-8 w-8 sm:h-10 sm:w-10 rounded-xl shadow-md" 
-            />
+            <AppLogo size="md" variant="default" />
           </motion.div>
           <h1 className="text-[10px] sm:text-xs font-bold text-gradient leading-tight mt-1">
             MusicVerse AI

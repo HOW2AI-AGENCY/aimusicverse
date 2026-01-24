@@ -5,7 +5,7 @@
 
 import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
-import logo from '@/assets/logo.png';
+import { AppLogo } from '@/components/branding/AppLogo';
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
 
 interface BreadcrumbItem {
@@ -45,7 +45,7 @@ export function AppHeader({
     <motion.header 
       className={cn(
         "sticky top-0 z-20 -mx-4 px-3",
-        // Telegram content safe area for native buttons - reduced base padding
+        // Telegram content safe area for native buttons
         "pt-[max(calc(var(--tg-content-safe-area-inset-top,0px)+0.5rem),calc(env(safe-area-inset-top,0px)+0.5rem))] pb-2",
         "backdrop-blur-xl bg-background/90 border-b border-border/50",
         className
@@ -78,11 +78,7 @@ export function AppHeader({
               }}
               transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
             >
-              <img 
-                src={logo} 
-                alt="MusicVerse AI" 
-                className="h-10 w-10 rounded-xl shadow-md" 
-              />
+              <AppLogo size="md" variant="default" />
             </motion.div>
             <h1 className="text-xs font-bold text-gradient leading-tight mt-1">
               MusicVerse AI
@@ -103,9 +99,8 @@ export function AppHeader({
           {leftAction}
         </div>
 
-        {/* Title section with optional breadcrumbs - center */}
+        {/* Title section with optional breadcrumbs */}
         <div className="flex flex-col items-center flex-1 min-w-0">
-          {/* Breadcrumbs - shown above title on nested pages */}
           {(breadcrumbs || showBreadcrumbs) && (
             <Breadcrumbs 
               items={breadcrumbs} 
@@ -113,7 +108,6 @@ export function AppHeader({
               showHome={true}
             />
           )}
-          {/* Title with icon */}
           <div className="flex items-center gap-2 justify-center">
             {icon && (
               <motion.div 
