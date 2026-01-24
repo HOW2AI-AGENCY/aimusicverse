@@ -1,6 +1,10 @@
-import { memo, useState, useCallback, ReactNode } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { useIntersectionObserver, useReducedMotion } from '@/hooks/usePerformanceOptimization';
+/**
+ * Optimized Animation Components v2
+ * Pure CSS animations with JS fallback for complex cases
+ */
+
+import { memo, ReactNode, useRef, useEffect, useState } from 'react';
+import { useReducedMotion } from '@/hooks/usePerformanceOptimization';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -9,50 +13,51 @@ interface LazyComponentProps {
   fallback?: ReactNode;
   className?: string;
   rootMargin?: string;
-  animate?: boolean;
 }
 
 /**
- * Lazy load component when it enters viewport
+ * Lazy load component using Intersection Observer + CSS animation
  */
 export const LazyComponent = memo(function LazyComponent({
   children,
   fallback,
   className,
   rootMargin = '100px',
-  animate = true,
 }: LazyComponentProps) {
-  const [ref, isVisible] = useIntersectionObserver({ 
-    rootMargin, 
-    triggerOnce: true 
-  });
-  const { shouldAnimate } = useReducedMotion();
+  const ref = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
-  const defaultFallback = (
-    <div className={cn("w-full h-32", className)}>
-      <Skeleton className="w-full h-full" />
-    </div>
-  );
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [rootMargin]);
 
   if (!isVisible) {
-    return <div ref={ref}>{fallback || defaultFallback}</div>;
-  }
-
-  if (animate && shouldAnimate) {
     return (
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-        className={className}
-      >
-        {children}
-      </motion.div>
+      <div ref={ref} className={cn("w-full", className)}>
+        {fallback || <Skeleton className="w-full h-32" />}
+      </div>
     );
   }
 
-  return <div ref={ref} className={className}>{children}</div>;
+  return (
+    <div ref={ref} className={cn("lazy-visible", className)}>
+      {children}
+    </div>
+  );
 });
 
 interface AnimatedListProps<T> {
@@ -61,12 +66,11 @@ interface AnimatedListProps<T> {
   keyExtractor: (item: T) => string;
   className?: string;
   itemClassName?: string;
-  staggerDelay?: number;
   emptyState?: ReactNode;
 }
 
 /**
- * Optimized animated list with staggered animations
+ * CSS-animated list with stagger effect
  */
 export function AnimatedList<T>({
   items,
@@ -74,7 +78,6 @@ export function AnimatedList<T>({
   keyExtractor,
   className,
   itemClassName,
-  staggerDelay = 0.05,
   emptyState,
 }: AnimatedListProps<T>) {
   const { shouldAnimate } = useReducedMotion();
@@ -83,34 +86,17 @@ export function AnimatedList<T>({
     return <>{emptyState}</>;
   }
 
-  if (!shouldAnimate) {
-    return (
-      <div className={className}>
-        {items.map((item, index) => (
-          <div key={keyExtractor(item)} className={itemClassName}>
-            {renderItem(item, index)}
-          </div>
-        ))}
-      </div>
-    );
-  }
-
   return (
-    <div className={className}>
-      <AnimatePresence mode="popLayout">
-        {items.map((item, index) => (
-          <motion.div
-            key={keyExtractor(item)}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ delay: index * staggerDelay }}
-            className={itemClassName}
-          >
-            {renderItem(item, index)}
-          </motion.div>
-        ))}
-      </AnimatePresence>
+    <div className={cn(shouldAnimate && "stagger-container", className)}>
+      {items.map((item, index) => (
+        <div 
+          key={keyExtractor(item)} 
+          className={cn(shouldAnimate && "stagger-item", itemClassName)}
+          style={shouldAnimate ? { animationDelay: `${index * 50}ms` } : undefined}
+        >
+          {renderItem(item, index)}
+        </div>
+      ))}
     </div>
   );
 }
@@ -118,34 +104,26 @@ export function AnimatedList<T>({
 interface FadeInProps {
   children: ReactNode;
   delay?: number;
-  duration?: number;
   className?: string;
 }
 
 /**
- * Simple fade-in wrapper respecting reduced motion
+ * Simple CSS fade-in
  */
 export const FadeIn = memo(function FadeIn({
   children,
   delay = 0,
-  duration = 0.3,
   className,
 }: FadeInProps) {
   const { shouldAnimate } = useReducedMotion();
 
-  if (!shouldAnimate) {
-    return <div className={className}>{children}</div>;
-  }
-
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay, duration }}
-      className={className}
+    <div 
+      className={cn(shouldAnimate && "animate-fade-in", className)}
+      style={delay ? { animationDelay: `${delay * 1000}ms` } : undefined}
     >
       {children}
-    </motion.div>
+    </div>
   );
 });
 
@@ -156,7 +134,7 @@ interface ScaleInProps {
 }
 
 /**
- * Scale-in animation wrapper
+ * CSS scale-in animation
  */
 export const ScaleIn = memo(function ScaleIn({
   children,
@@ -165,19 +143,13 @@ export const ScaleIn = memo(function ScaleIn({
 }: ScaleInProps) {
   const { shouldAnimate } = useReducedMotion();
 
-  if (!shouldAnimate) {
-    return <div className={className}>{children}</div>;
-  }
-
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay, type: 'spring', stiffness: 200, damping: 20 }}
-      className={className}
+    <div 
+      className={cn(shouldAnimate && "animate-scale-in", className)}
+      style={delay ? { animationDelay: `${delay * 1000}ms` } : undefined}
     >
       {children}
-    </motion.div>
+    </div>
   );
 });
 
@@ -188,8 +160,15 @@ interface SlideInProps {
   className?: string;
 }
 
+const slideClasses = {
+  left: 'animate-slide-left',
+  right: 'animate-slide-right',
+  up: 'animate-slide-up',
+  down: 'animate-slide-down',
+};
+
 /**
- * Slide-in animation wrapper
+ * CSS slide-in animation
  */
 export const SlideIn = memo(function SlideIn({
   children,
@@ -199,25 +178,12 @@ export const SlideIn = memo(function SlideIn({
 }: SlideInProps) {
   const { shouldAnimate } = useReducedMotion();
 
-  const offsets = {
-    left: { x: -20, y: 0 },
-    right: { x: 20, y: 0 },
-    up: { x: 0, y: 20 },
-    down: { x: 0, y: -20 },
-  };
-
-  if (!shouldAnimate) {
-    return <div className={className}>{children}</div>;
-  }
-
   return (
-    <motion.div
-      initial={{ opacity: 0, ...offsets[direction] }}
-      animate={{ opacity: 1, x: 0, y: 0 }}
-      transition={{ delay, duration: 0.3 }}
-      className={className}
+    <div 
+      className={cn(shouldAnimate && slideClasses[direction], className)}
+      style={delay ? { animationDelay: `${delay * 1000}ms` } : undefined}
     >
       {children}
-    </motion.div>
+    </div>
   );
 });
