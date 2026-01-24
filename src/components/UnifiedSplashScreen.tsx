@@ -320,6 +320,7 @@ export const LoadingScreen = memo(({
       variant={variant === 'loading' ? 'loading' : variant === 'inline' ? 'inline' : 'overlay'} 
       message={message ?? (loadingTime > 3 ? 'Почти готово...' : undefined)}
       progress={simulatedProgress}
+      showLogo={false}
       className={className}
     />
   );
