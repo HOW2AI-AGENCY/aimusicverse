@@ -5,7 +5,7 @@
 
 import { memo, CSSProperties } from 'react';
 import { cn } from '@/lib/utils';
-import logoNew from '@/assets/logo-new.png';
+import logo from '@/assets/logo.png';
 
 export type LogoSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'hero';
 export type LogoVariant = 'default' | 'glow' | 'minimal';
@@ -67,7 +67,7 @@ export const AppLogo = memo(function AppLogo({
         )}
         
         <img 
-          src={logoNew}
+          src={logo}
           alt="MusicVerse AI"
           className={cn(sizes.logo, variantStyles[variant], 'relative z-10')}
           loading="eager"
@@ -119,7 +119,7 @@ export const AnimatedLogo = memo(function AnimatedLogo({
       {/* Logo container */}
       <div className="relative p-3 rounded-3xl bg-card/80 backdrop-blur-sm border border-primary/20 shadow-xl">
         <img 
-          src={logoNew}
+          src={logo}
           alt="MusicVerse AI"
           className={cn(sizes.logo, 'rounded-2xl')}
           loading="eager"
