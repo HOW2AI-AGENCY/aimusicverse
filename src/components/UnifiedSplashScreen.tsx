@@ -235,12 +235,9 @@ export function UnifiedSplashScreen({
 }
 
 /**
- * Simplified splash screen for initial app load
- * Used in Auth.tsx for first-time load animation
+ * LoadingScreen - Main loading component with timeout handling
+ * Used as Suspense fallback and during initialization
  */
-export const SplashScreen = ({ onComplete }: { onComplete: () => void }) => (
-  <UnifiedSplashScreen variant="splash" onComplete={onComplete} />
-);
 
 export const LoadingScreen = memo(({ 
   message, 
