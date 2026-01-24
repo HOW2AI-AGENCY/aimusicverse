@@ -6,7 +6,7 @@ import { useGuestMode } from '@/contexts/GuestModeContext';
 import { Loader2, Music, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { SplashScreen, LoadingScreen } from '@/components/UnifiedSplashScreen';
+import { LoadingScreen } from '@/components/UnifiedSplashScreen';
 import logo from '@/assets/logo.png';
 import { logger } from '@/lib/logger';
 
@@ -15,7 +15,7 @@ const Auth = () => {
   const { isAuthenticated, loading, authenticateWithTelegram } = useAuth();
   const { webApp, user, isInitialized, isDevelopmentMode } = useTelegram();
   const { enableGuestMode } = useGuestMode();
-  const [showSplash, setShowSplash] = useState(true);
+  // Removed showSplash - splash is handled by index.html fallback + Suspense
   const [isAuthenticating, setIsAuthenticating] = useState(false);
 
   const handleAuth = async () => {
@@ -40,32 +40,18 @@ const Auth = () => {
     }
   }, [isAuthenticated, navigate]);
 
-  // Hard failsafe: never let splash block auth screen
-  useEffect(() => {
-    if (!showSplash) return;
-    const t = window.setTimeout(() => setShowSplash(false), 2000);
-    return () => window.clearTimeout(t);
-  }, [showSplash]);
+  // Splash logic removed - handled by index.html + Suspense fallback
 
   // Auto-authenticate in development mode
   useEffect(() => {
-    if (isDevelopmentMode && !isAuthenticated && !loading && !showSplash && !isAuthenticating) {
+    if (isDevelopmentMode && !isAuthenticated && !loading && !isAuthenticating) {
       logger.debug('Auto-authenticating in dev mode...');
       handleAuth();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isDevelopmentMode, isAuthenticated, loading, showSplash, isAuthenticating]);
+  }, [isDevelopmentMode, isAuthenticated, loading, isAuthenticating]);
 
-  const handleSplashComplete = () => {
-    setShowSplash(false);
-  };
-
-  // Show splash screen on first load
-  if (showSplash) {
-    return <SplashScreen onComplete={handleSplashComplete} />;
-  }
-
-  // Show loading while initializing - use branded loader instead of basic spinner
+  // Show loading while initializing
   if (!isInitialized || loading) {
     return <LoadingScreen message="Инициализация..." />;
   }
