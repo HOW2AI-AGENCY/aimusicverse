@@ -20,7 +20,6 @@ export {
 // Fixed overlay components
 export { 
   FixedOverlay, 
-  CenteredLoader, 
   BottomSheetContainer 
 } from './FixedOverlay';
 

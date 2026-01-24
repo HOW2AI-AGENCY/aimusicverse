@@ -91,19 +91,6 @@ export const LoadingSpinner = memo(function LoadingSpinner({
   );
 });
 
-// Full page loading state
-interface PageLoadingProps {
-  text?: string;
-}
-
-export function PageLoading({ text = 'Загрузка...' }: PageLoadingProps) {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <LoadingSpinner size="lg" variant="music" text={text} />
-    </div>
-  );
-}
-
 // Section loading placeholder
 interface SectionLoadingProps {
   height?: string;

@@ -96,34 +96,6 @@ export function FixedOverlay({
     </div>
   );
 }
-
-/**
- * CenteredLoader - Centered loading indicator with safe areas
- */
-interface CenteredLoaderProps {
-  children: ReactNode;
-  className?: string;
-  /** Show backdrop */
-  backdrop?: boolean;
-}
-
-export function CenteredLoader({
-  children,
-  className,
-  backdrop = true,
-}: CenteredLoaderProps) {
-  return (
-    <FixedOverlay
-      center
-      background={backdrop ? 'blur' : 'none'}
-      zIndex="fullscreen"
-      className={className}
-    >
-      {children}
-    </FixedOverlay>
-  );
-}
-
 /**
  * BottomSheet - Fixed bottom container with safe area
  */
