@@ -7,7 +7,7 @@ import { useReducedMotion } from '@/lib/motion';
 import { Loader2 } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import { APP_CONFIG } from '@/config/app.config';
-import { getSafeAreaBottom } from '@/constants/safe-area';
+import { getSafeAreaBottom, getSafeAreaTop } from '@/constants/safe-area';
 import { FixedOverlay } from '@/components/layout/FixedOverlay';
 import { AppLogo, AnimatedLogo } from '@/components/branding/AppLogo';
 import { CSSEqualizer } from '@/components/loading/CSSEqualizer';
@@ -49,18 +49,13 @@ export function UnifiedSplashScreen({
 
   // Container styles
   const containerClasses: Record<SplashVariant, string> = {
-    splash: 'fixed left-0 right-0 top-0 h-[var(--tg-viewport-stable-height,100vh)] flex flex-col items-center justify-center bg-background z-system will-change-opacity',
-    loading: 'fixed left-0 right-0 top-0 h-[var(--tg-viewport-stable-height,100vh)] flex flex-col items-center justify-center bg-background z-fullscreen will-change-opacity',
-    overlay: 'fixed left-0 right-0 top-0 h-[var(--tg-viewport-stable-height,100vh)] flex flex-col items-center justify-center bg-background/90 backdrop-blur-sm z-fullscreen will-change-opacity',
+    // Fullscreen variants are rendered via FixedOverlay below
+    splash: '',
+    loading: '',
+    overlay: '',
     inline: 'flex items-center justify-center py-12',
     minimal: 'flex items-center justify-center p-4',
   };
-
-  // Safe area with fallback
-  const safeAreaStyle = (variant === 'splash' || variant === 'loading' || variant === 'overlay') ? {
-    paddingTop: `calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 44px), env(safe-area-inset-top, 44px)) + 12px)`,
-    paddingBottom: getSafeAreaBottom(0),
-  } : {};
 
   const defaultMessage = {
     splash: '',
@@ -74,6 +69,119 @@ export function UnifiedSplashScreen({
 
   if (!isVisible) return null;
 
+  // Fullscreen variants: single source of truth for safe-area + stable viewport height
+  if (variant === 'splash' || variant === 'loading' || variant === 'overlay') {
+    const background = variant === 'overlay' ? 'blur' : 'solid';
+    const zIndex = variant === 'splash' ? 'base' : 'fullscreen';
+
+    return (
+      <FixedOverlay
+        center
+        background={background}
+        zIndex={zIndex}
+        className={cn('relative', 'animate-fade-in', className)}
+        style={{
+          height: 'var(--tg-viewport-stable-height, 100vh)',
+          minHeight: 'var(--tg-viewport-stable-height, 100vh)',
+          // Make splash spacing consistent everywhere (including Telegram first paint)
+          paddingTop: getSafeAreaTop(12),
+          paddingBottom: getSafeAreaBottom(0),
+        }}
+      >
+        <div className="relative w-full flex flex-col items-center justify-center">
+          {/* Background glow */}
+          {(variant === 'splash' || variant === 'loading') && !shouldReduceMotion && (
+            <div
+              className="absolute inset-0 overflow-hidden pointer-events-none"
+              aria-hidden="true"
+            >
+              <div
+                className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[300px] h-[300px] rounded-full blur-3xl opacity-20"
+                style={{
+                  background: 'radial-gradient(circle, hsl(var(--primary)) 0%, transparent 70%)',
+                  animation: 'pulse 3s ease-in-out infinite',
+                }}
+              />
+            </div>
+          )}
+
+          {/* Main content */}
+          <div className="relative z-10 flex flex-col items-center gap-4">
+            {showLogo && (variant === 'splash' || variant === 'loading') && (
+              <div className="mb-2">
+                <AnimatedLogo size="xl" />
+              </div>
+            )}
+
+            {variant === 'splash' && (
+              <div className="text-center">
+                <h1 className="text-2xl sm:text-3xl font-bold text-gradient mb-1">
+                  MusicVerse AI
+                </h1>
+                <div className="flex items-center justify-center gap-2">
+                  <p className="text-sm text-muted-foreground">
+                    Генерация музыки с AI
+                  </p>
+                  {APP_CONFIG.beta.enabled && (
+                    <span className="text-xs px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-500 font-medium">
+                      {APP_CONFIG.versionName}
+                    </span>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {!shouldReduceMotion && <CSSEqualizer size="md" />}
+            {shouldReduceMotion && (
+              <Loader2 className="h-6 w-6 animate-spin text-primary" />
+            )}
+
+            {progress !== undefined && (
+              <div className="w-40">
+                <div
+                  className="h-1 bg-muted/50 rounded-full overflow-hidden"
+                  role="progressbar"
+                  aria-valuenow={progress}
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                >
+                  <div
+                    className="h-full bg-primary rounded-full transition-all duration-200 ease-out"
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
+                <p className="text-xs text-muted-foreground text-center mt-1 tabular-nums">
+                  {Math.round(progress)}%
+                </p>
+              </div>
+            )}
+
+            {displayMessage && (
+              <p className="text-sm text-muted-foreground text-center max-w-xs">
+                {displayMessage}
+              </p>
+            )}
+          </div>
+
+          {variant === 'splash' && !shouldReduceMotion && (
+            <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-24 h-0.5 rounded-full overflow-hidden bg-border/30">
+              <div
+                className="h-full w-1/2 bg-primary/60 rounded-full"
+                style={{ animation: 'shimmer 1s linear infinite' }}
+              />
+              <style>{`
+                @keyframes shimmer {
+                  0% { transform: translateX(-100%); }
+                  100% { transform: translateX(300%); }
+                }
+              `}</style>
+            </div>
+          )}
+        </div>
+      </FixedOverlay>
+    );
+  }
+
   return (
     <div
       className={cn(
@@ -81,111 +189,12 @@ export function UnifiedSplashScreen({
         'animate-fade-in',
         className
       )}
-      style={safeAreaStyle}
       role="status"
       aria-live="polite"
       aria-busy="true"
     >
-      {/* Background glow */}
-      {(variant === 'splash' || variant === 'loading') && !shouldReduceMotion && (
-        <div 
-          className="absolute inset-0 overflow-hidden pointer-events-none"
-          aria-hidden="true"
-        >
-          <div 
-            className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[300px] h-[300px] rounded-full blur-3xl opacity-20"
-            style={{
-              background: 'radial-gradient(circle, hsl(var(--primary)) 0%, transparent 70%)',
-              animation: 'pulse 3s ease-in-out infinite',
-            }}
-          />
-        </div>
-      )}
-
-      {/* Main content */}
-      <div className="relative z-10 flex flex-col items-center gap-4">
-        {/* Logo - using unified component */}
-        {showLogo && (variant === 'splash' || variant === 'loading') && (
-          <div className="mb-2">
-            <AnimatedLogo size="xl" />
-          </div>
-        )}
-
-        {/* App name for splash variant */}
-        {variant === 'splash' && (
-          <div className="text-center">
-            <h1 className="text-2xl sm:text-3xl font-bold text-gradient mb-1">
-              MusicVerse AI
-            </h1>
-            <div className="flex items-center justify-center gap-2">
-              <p className="text-sm text-muted-foreground">
-                Генерация музыки с AI
-              </p>
-              {APP_CONFIG.beta.enabled && (
-                <span className="text-xs px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-500 font-medium">
-                  {APP_CONFIG.versionName}
-                </span>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* CSS Equalizer */}
-        {!shouldReduceMotion && variant !== 'minimal' && <CSSEqualizer size="md" />}
-
-        {/* Minimal variant - simple spinner */}
-        {variant === 'minimal' && (
-          <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-        )}
-
-        {/* Reduced motion fallback */}
-        {shouldReduceMotion && (
-          <Loader2 className="h-6 w-6 animate-spin text-primary" />
-        )}
-
-        {/* Progress indicator */}
-        {progress !== undefined && (
-          <div className="w-40">
-            <div 
-              className="h-1 bg-muted/50 rounded-full overflow-hidden"
-              role="progressbar"
-              aria-valuenow={progress}
-              aria-valuemin={0}
-              aria-valuemax={100}
-            >
-              <div 
-                className="h-full bg-primary rounded-full transition-all duration-200 ease-out"
-                style={{ width: `${progress}%` }}
-              />
-            </div>
-            <p className="text-xs text-muted-foreground text-center mt-1 tabular-nums">
-              {Math.round(progress)}%
-            </p>
-          </div>
-        )}
-
-        {/* Message */}
-        {displayMessage && (
-          <p className="text-sm text-muted-foreground text-center max-w-xs">
-            {displayMessage}
-          </p>
-        )}
-      </div>
-
-      {/* Bottom progress line for splash */}
-      {variant === 'splash' && !shouldReduceMotion && (
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-24 h-0.5 rounded-full overflow-hidden bg-border/30">
-          <div 
-            className="h-full w-1/2 bg-primary/60 rounded-full"
-            style={{ animation: 'shimmer 1s linear infinite' }}
-          />
-          <style>{`
-            @keyframes shimmer {
-              0% { transform: translateX(-100%); }
-              100% { transform: translateX(300%); }
-            }
-          `}</style>
-        </div>
+      {variant === 'minimal' && (
+        <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin" />
       )}
     </div>
   );
