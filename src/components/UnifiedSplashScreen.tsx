@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import logo from "@/assets/logo.png";
 import { APP_CONFIG } from '@/config/app.config';
 import { getSafeAreaBottom } from '@/constants/safe-area';
+import { FixedOverlay } from '@/components/layout/FixedOverlay';
 
 export type SplashVariant = 'splash' | 'loading' | 'overlay' | 'inline' | 'minimal';
 
@@ -276,31 +277,44 @@ export const LoadingScreen = memo(({
 
   if (dismissed) {
     return (
-      <div className="fixed inset-0 flex items-center justify-center bg-background/80 z-50">
+      <FixedOverlay
+        center
+        background="blur"
+        zIndex="fullscreen"
+        style={{ minHeight: 'var(--tg-viewport-stable-height, 100vh)' }}
+      >
         <div className="animate-spin w-5 h-5 border-2 border-primary border-t-transparent rounded-full" />
-      </div>
+      </FixedOverlay>
     );
   }
 
   if (showRetry) {
     return (
-      <div className="fixed inset-0 flex flex-col items-center justify-center bg-background z-50 gap-3 px-6">
-        <p className="text-muted-foreground text-center">Загрузка занимает дольше обычного</p>
-        <div className="flex gap-2">
-          <button 
-            onClick={() => setDismissed(true)}
-            className="px-4 py-2.5 bg-muted text-muted-foreground rounded-lg active:scale-95 transition-transform min-h-[44px]"
-          >
-            Подождать
-          </button>
-          <button 
-            onClick={() => window.location.reload()}
-            className="px-4 py-2.5 bg-primary text-primary-foreground rounded-lg active:scale-95 transition-transform min-h-[44px]"
-          >
-            Обновить
-          </button>
+      <FixedOverlay
+        center
+        background="solid"
+        zIndex="fullscreen"
+        className="px-6"
+        style={{ minHeight: 'var(--tg-viewport-stable-height, 100vh)' }}
+      >
+        <div className="flex flex-col items-center justify-center gap-3">
+          <p className="text-muted-foreground text-center">Загрузка занимает дольше обычного</p>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setDismissed(true)}
+              className="px-4 py-2.5 bg-muted text-muted-foreground rounded-lg active:scale-95 transition-transform min-h-[44px]"
+            >
+              Подождать
+            </button>
+            <button
+              onClick={() => window.location.reload()}
+              className="px-4 py-2.5 bg-primary text-primary-foreground rounded-lg active:scale-95 transition-transform min-h-[44px]"
+            >
+              Обновить
+            </button>
+          </div>
         </div>
-      </div>
+      </FixedOverlay>
     );
   }
 
