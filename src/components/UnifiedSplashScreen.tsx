@@ -7,7 +7,6 @@ import { useReducedMotion } from '@/lib/motion';
 import { Loader2 } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import { APP_CONFIG } from '@/config/app.config';
-import { getSafeAreaBottom, getSafeAreaTop } from '@/constants/safe-area';
 import { FixedOverlay } from '@/components/layout/FixedOverlay';
 import { AppLogo, AnimatedLogo } from '@/components/branding/AppLogo';
 import { CSSEqualizer } from '@/components/loading/CSSEqualizer';
@@ -79,16 +78,9 @@ export function UnifiedSplashScreen({
         center
         background={background}
         zIndex={zIndex}
-        className={cn('relative', 'animate-fade-in', className)}
-        style={{
-          height: 'var(--tg-viewport-stable-height, 100vh)',
-          minHeight: 'var(--tg-viewport-stable-height, 100vh)',
-          // Make splash spacing consistent everywhere (including Telegram first paint)
-          paddingTop: getSafeAreaTop(12),
-          paddingBottom: getSafeAreaBottom(0),
-        }}
+        className={cn('animate-fade-in', className)}
       >
-        <div className="relative w-full flex flex-col items-center justify-center">
+        <div className="relative flex flex-col items-center justify-center">
           {/* Background glow */}
           {(variant === 'splash' || variant === 'loading') && !shouldReduceMotion && (
             <div
@@ -239,7 +231,6 @@ export const LoadingScreen = memo(({
         center
         background="blur"
         zIndex="fullscreen"
-        style={{ minHeight: 'var(--tg-viewport-stable-height, 100vh)' }}
       >
         <div className="animate-spin w-5 h-5 border-2 border-primary border-t-transparent rounded-full" />
       </FixedOverlay>
@@ -253,7 +244,6 @@ export const LoadingScreen = memo(({
         background="solid"
         zIndex="fullscreen"
         className="px-6"
-        style={{ minHeight: 'var(--tg-viewport-stable-height, 100vh)' }}
       >
         <div className="flex flex-col items-center justify-center gap-3">
           <p className="text-muted-foreground text-center">Загрузка занимает дольше обычного</p>

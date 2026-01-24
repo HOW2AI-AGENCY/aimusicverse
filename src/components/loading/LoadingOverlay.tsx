@@ -54,7 +54,6 @@ export const LoadingOverlay = memo(function LoadingOverlay({
       background={variant === 'blur' ? 'blur' : 'solid'}
       zIndex="fullscreen"
       className={className}
-      style={{ minHeight: 'var(--tg-viewport-stable-height, 100vh)' }}
     >
       <div className="flex flex-col items-center justify-center gap-4">
         {showEqualizer ? (
