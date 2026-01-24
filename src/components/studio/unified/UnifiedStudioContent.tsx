@@ -48,6 +48,7 @@ import {
   StemActionSheet,
   useStudioTrackState,
 } from '@/components/studio';
+import { AppLogo } from '@/components/branding/AppLogo';
 import { IntegratedStemTracks } from './IntegratedStemTracks';
 import { SectionVariantOverlay } from './SectionVariantOverlay';
 import { StemTrackSkeleton } from '@/components/studio/StemTrackSkeleton';
@@ -897,14 +898,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
         {/* Centered Logo - only on mobile */}
         {isMobile && (
           <div className="flex justify-center py-1.5">
-            <div className="flex items-center gap-2">
-              <img 
-                src="/lovable-uploads/e2a6a5f1-c3e6-42bc-95c6-fd65dcb9defe.png" 
-                alt="MusicVerse AI" 
-                className="h-8 w-8 rounded-lg shadow-sm" 
-              />
-              <span className="text-xs font-bold text-gradient">MusicVerse AI</span>
-            </div>
+            <AppLogo size="sm" variant="default" showName />
           </div>
         )}
         

@@ -9,7 +9,7 @@ import { Sparkles, Loader2 } from 'lucide-react';
 import { notify } from '@/lib/notifications';
 import { useProjects } from '@/hooks/useProjects';
 import { useArtists } from '@/hooks/useArtists';
-import logo from '@/assets/logo.png';
+import { AppLogo } from '@/components/branding/AppLogo';
 import { useTracks } from '@/hooks/useTracks';
 import { useGenerateForm, useAudioReference } from '@/hooks/generation';
 import { useTelegram } from '@/contexts/TelegramContext';

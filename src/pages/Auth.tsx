@@ -7,7 +7,7 @@ import { Loader2, Music, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { LoadingScreen } from '@/components/UnifiedSplashScreen';
-import logo from '@/assets/logo.png';
+import { AppLogo } from '@/components/branding/AppLogo';
 import { logger } from '@/lib/logger';
 
 const Auth = () => {
@@ -64,7 +64,7 @@ const Auth = () => {
           <div className="p-8 text-center">
             <div className="mb-6">
               <div className="mb-4 flex justify-center">
-                <img src={logo} alt="MusicVerse" className="w-24 h-24 rounded-2xl" />
+                <AppLogo size="lg" variant="default" />
               </div>
               <h1 className="text-2xl font-bold mb-2 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
                 Режим разработки
@@ -122,7 +122,7 @@ const Auth = () => {
         <Card className="max-w-md w-full glass-card border-primary/20">
           <div className="p-8 text-center">
             <div className="mb-4 flex justify-center">
-              <img src={logo} alt="MusicVerse" className="w-24 h-24 rounded-2xl" />
+              <AppLogo size="lg" variant="default" />
             </div>
             <h1 className="text-2xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
               Требуется Telegram
@@ -161,7 +161,7 @@ const Auth = () => {
         <div className="p-8">
           <div className="text-center mb-6">
             <div className="mb-4 flex justify-center">
-              <img src={logo} alt="MusicVerse" className="w-24 h-24 rounded-2xl" />
+              <AppLogo size="lg" variant="default" />
             </div>
             <h1 className="text-2xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
               Добро пожаловать в MusicVerse!
