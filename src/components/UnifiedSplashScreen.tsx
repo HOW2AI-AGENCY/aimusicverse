@@ -80,18 +80,18 @@ export function UnifiedSplashScreen({
         zIndex={zIndex}
         className={cn('animate-fade-in', className)}
       >
-        <div className="relative flex flex-col items-center justify-center">
-          {/* Background glow */}
+        {/* Single centered container - prevents duplicates */}
+        <div className="relative flex flex-col items-center justify-center w-full max-w-xs mx-auto px-4">
+          {/* Background glow - single instance, centered */}
           {(variant === 'splash' || variant === 'loading') && !shouldReduceMotion && (
             <div
-              className="absolute inset-0 overflow-hidden pointer-events-none"
+              className="absolute inset-0 -z-10 pointer-events-none"
               aria-hidden="true"
             >
               <div
-                className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[300px] h-[300px] rounded-full blur-3xl opacity-20"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full blur-3xl opacity-15"
                 style={{
                   background: 'radial-gradient(circle, hsl(var(--primary)) 0%, transparent 70%)',
-                  animation: 'pulse 3s ease-in-out infinite',
                 }}
               />
             </div>

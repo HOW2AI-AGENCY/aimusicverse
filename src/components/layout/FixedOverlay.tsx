@@ -68,11 +68,12 @@ export function FixedOverlay({
   const actualPosition = center ? 'center' : position;
 
   // For centered overlays, don't add safe area padding - it breaks flex centering
-  // Instead, use minHeight and let the content be truly centered
+  // Instead, use fixed height with overflow protection to prevent visual glitches
   const safeAreaStyle: CSSProperties = center 
     ? {
-        minHeight: 'var(--tg-viewport-stable-height, 100vh)',
         height: 'var(--tg-viewport-stable-height, 100vh)',
+        maxHeight: 'var(--tg-viewport-stable-height, 100vh)',
+        overflow: 'hidden',
         ...style,
       }
     : {
