@@ -112,19 +112,26 @@ export function useTelegramInit(): UseTelegramInitResult {
       try { tg.expand(); bootLog('tg.expand() called'); } 
       catch (e) { bootLog(`tg.expand() error: ${e}`); }
 
-      // Disable vertical swipes
-      if (typeof (tg as any).disableVerticalSwipes === 'function') {
+      // Disable vertical swipes (requires SDK 7.7+)
+      if (tg.isVersionAtLeast?.('7.7') && typeof (tg as any).disableVerticalSwipes === 'function') {
         try { (tg as any).disableVerticalSwipes(); bootLog('Vertical swipes disabled'); } 
         catch (e) { bootLog(`disableVerticalSwipes error: ${e}`); }
       }
 
-      // Lock orientation
-      if (typeof (tg as any).lockOrientation === 'function') {
+      // Lock orientation (requires SDK 8.0+)
+      if (tg.isVersionAtLeast?.('8.0') && typeof (tg as any).lockOrientation === 'function') {
         try { (tg as any).lockOrientation(); bootLog('Orientation locked'); } 
         catch (e) { bootLog(`lockOrientation error: ${e}`); }
       }
 
-      // Request fullscreen (Mini App 2.0+)
+      // Disable closing confirmation (requires SDK 6.2+)
+      // Phase 1.2: Added version check to prevent "not supported in version 6.0" warning
+      if (tg.isVersionAtLeast?.('6.2') && typeof (tg as any).disableClosingConfirmation === 'function') {
+        try { (tg as any).disableClosingConfirmation(); bootLog('Closing confirmation disabled'); } 
+        catch (e) { bootLog(`disableClosingConfirmation error: ${e}`); }
+      }
+
+      // Request fullscreen (Mini App 8.0+)
       if (tg.isVersionAtLeast?.('8.0') && typeof (tg as any).requestFullscreen === 'function') {
         try { (tg as any).requestFullscreen(); bootLog('Fullscreen requested'); } 
         catch (e) { bootLog(`Fullscreen error: ${e}`); }

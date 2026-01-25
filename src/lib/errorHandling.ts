@@ -426,21 +426,42 @@ const BLOCKED_ARTIST_PATTERNS = [
 /**
  * Words to EXCLUDE from artist detection (common Russian words/names)
  * These cause false positives because they match artist regex but are regular words
+ * Phase 1.1: Extended based on error log analysis (magazin, misha, karina, chika, lenka)
  */
 const FALSE_POSITIVE_WORDS = [
-  'magazin', 'магазин', 'магазина', 'магазине', 'магазину',
-  'lenka', 'ленка', 'ленке', 'ленку', 'ленки',
-  'karina', 'карина', 'карине', 'карину', 'карины',
-  'chika', 'девочка', 'девочки', 'девочке', 'девочку',
-  'poli', 'поли',
-  'миша', 'мише', 'мишу', 'миши', 'misha',
-  'аня', 'ане', 'аню', 'ани', 'ania',
-  'класс', 'классе', 'классу', 'класса', 'klass',
-  'максим', 'максима', 'максиму', 'максиме', 'maksim',
-  'queen', 'королева', // "queen" is too common
-  'drake', // common word for "дракон" context
-  'future', 'будущее', // too common
-  'teni', 'тени', // shadows in Russian
+  // Common Russian words that cause most false positives (from error logs)
+  'magazin', 'магазин', 'магазина', 'магазине', 'магазину', 'магазины', 'магазинов',
+  'lenka', 'ленка', 'ленке', 'ленку', 'ленки', 'лена', 'лене', 'лену', 'лены',
+  'karina', 'карина', 'карине', 'карину', 'карины', 'каринка', 'каринке',
+  'chika', 'девочка', 'девочки', 'девочке', 'девочку', 'девчонка', 'девчонки',
+  'poli', 'поли', 'polina', 'полина', 'полине', 'полину', 'полины',
+  
+  // Common Russian names (extended)
+  'миша', 'мише', 'мишу', 'миши', 'misha', 'мишка', 'мишке', 'михаил', 'михаила',
+  'аня', 'ане', 'аню', 'ани', 'ania', 'anna', 'анна', 'анне', 'анну',
+  'катя', 'кате', 'катю', 'кати', 'katya', 'катька', 'екатерина',
+  'даша', 'даше', 'дашу', 'даши', 'dasha', 'дарья', 'дарье',
+  'саша', 'саше', 'сашу', 'саши', 'sasha', 'александр', 'александра',
+  'максим', 'максима', 'максиму', 'максиме', 'maksim', 'макс', 'максу',
+  'никита', 'никите', 'никиту', 'никиты', 'nikita',
+  'андрей', 'андрею', 'андрея', 'andrey',
+  'алексей', 'алексею', 'алексея', 'aleksey', 'лёша', 'лёше',
+  'дима', 'диме', 'диму', 'димы', 'dima', 'дмитрий',
+  'ваня', 'ване', 'ваню', 'вани', 'vanya', 'иван', 'ивану',
+  'настя', 'насте', 'настю', 'насти', 'nastya', 'анастасия',
+  'оля', 'оле', 'олю', 'оли', 'olya', 'ольга', 'ольге',
+  'юля', 'юле', 'юлю', 'юли', 'julia', 'юлия', 'юлии',
+  'маша', 'маше', 'машу', 'маши', 'masha', 'мария', 'марии',
+  'вика', 'вике', 'вику', 'вики', 'vika', 'виктория',
+  'лиза', 'лизе', 'лизу', 'лизы', 'liza', 'елизавета',
+  'таня', 'тане', 'таню', 'тани', 'tanya', 'татьяна',
+  
+  // Common Russian words
+  'класс', 'классе', 'классу', 'класса', 'klass', 'классный', 'классно',
+  'queen', 'королева', 'королеве', 'королеву', // "queen" is too common
+  'drake', 'дракон', 'драконе', // common word for "дракон" context
+  'future', 'будущее', 'будущего', // too common
+  'teni', 'тени', 'тень', 'теней', // shadows in Russian
   'mejja',
   'ive', // too short, matches "I've"
   'seventeen', 'семнадцать', // number
@@ -449,12 +470,22 @@ const FALSE_POSITIVE_WORDS = [
   'lany', 'mirami', 'мирами',
   'rema', 'mora', 'feid', 'anuel',
   'tena', 'хаски', 'husky', // husky is a dog breed
-  'nervy', 'нервы', // common word "nerves"
-  'mot', 'мот', // can be common word
-  'face', 'фэйс', 'фейс', // common word
+  'nervy', 'нервы', 'нерв', // common word "nerves"
+  'mot', 'мот', 'мотор', // can be common word
+  'face', 'фэйс', 'фейс', 'лицо', // common word
   'элджей', 'yelzey', 'mayot', 'clipz', 'платина', 'platina',
   'thomas mraz', 'томас мраз',
   'сектор газа', 'sektor gaza', // only block if explicitly "in style of"
+  
+  // Extended from recent error logs
+  'марина', 'марине', 'марину', 'марины', 'marina',
+  'света', 'свете', 'свету', 'светы', 'svetlana', 'светлана',
+  'natasha', 'наташа', 'наташе', 'наташу',
+  'sasha', 'паша', 'паше', 'пашу', 'pasha',
+  'серёжа', 'сереже', 'серёжу', 'sergey', 'сергей',
+  'костя', 'косте', 'костю', 'kostya', 'константин',
+  'петя', 'пете', 'петю', 'petya', 'пётр',
+  'gena', 'гена', 'гене', 'гену', 'геннадий',
 ];
 
 /**
