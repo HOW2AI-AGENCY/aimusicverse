@@ -147,8 +147,8 @@ const App = () => (
     <ErrorBoundary>
       <CoreProviders>
         <FeatureProviders>
-          <UIProviders>
-            <BrowserRouter>
+          <BrowserRouter>
+            <UIProviders>
               <NavigationProvider>
                 <DeepLinkHandler />
                 <Suspense fallback={<LoadingScreen />}>
@@ -275,8 +275,8 @@ const App = () => (
                   </RouteWithTransition>
                 </Suspense>
               </NavigationProvider>
-            </BrowserRouter>
-          </UIProviders>
+            </UIProviders>
+          </BrowserRouter>
         </FeatureProviders>
       </CoreProviders>
     </ErrorBoundary>
