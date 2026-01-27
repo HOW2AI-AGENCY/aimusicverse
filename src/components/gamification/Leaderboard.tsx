@@ -8,31 +8,24 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Crown, Medal, Award, Flame, Star, Music, Share2, Heart, Headphones } from 'lucide-react';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import { getRankColor } from '@/lib/design-colors';
 
 const getRankIcon = (rank: number) => {
+  const colors = getRankColor(rank);
   switch (rank) {
     case 1:
-      return <Crown className="w-5 h-5 text-yellow-500" />;
+      return <Crown className={`w-5 h-5 ${colors.icon}`} />;
     case 2:
-      return <Medal className="w-5 h-5 text-gray-400" />;
+      return <Medal className={`w-5 h-5 ${colors.icon}`} />;
     case 3:
-      return <Award className="w-5 h-5 text-amber-600" />;
+      return <Award className={`w-5 h-5 ${colors.icon}`} />;
     default:
       return null;
   }
 };
 
 const getRankBg = (rank: number) => {
-  switch (rank) {
-    case 1:
-      return 'bg-gradient-to-r from-yellow-500/20 to-yellow-600/10 border-yellow-500/30';
-    case 2:
-      return 'bg-gradient-to-r from-gray-400/20 to-gray-500/10 border-gray-400/30';
-    case 3:
-      return 'bg-gradient-to-r from-amber-500/20 to-amber-600/10 border-amber-500/30';
-    default:
-      return '';
-  }
+  return getRankColor(rank).combined;
 };
 
 const getCategoryIcon = (category: LeaderboardCategory) => {

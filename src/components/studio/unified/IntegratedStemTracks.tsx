@@ -38,6 +38,7 @@ import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import { StemTranscription } from '@/hooks/useStemTranscription';
 import { preloadRouteComponents } from '@/components/lazy';
 import { useSimulatedStemLevels } from '@/hooks/audio/useSimulatedStemLevels';
+import { getStemColor } from '@/lib/design-colors';
 
 interface StemState {
   muted: boolean;
@@ -184,8 +185,8 @@ const stemConfig: Record<string, {
     icon: Music, 
     label: 'Другое', 
     shortLabel: 'OTH',
-    gradient: 'from-gray-500/20 to-gray-600/5',
-    accent: 'text-gray-400 bg-gray-500/20 border-gray-500/30'
+    gradient: getStemColor('other').gradient,
+    accent: `${getStemColor('other').text} ${getStemColor('other').bg} ${getStemColor('other').border}`
   },
 };
 

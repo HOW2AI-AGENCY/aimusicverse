@@ -26,6 +26,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { Skeleton } from "@/components/ui/skeleton";
 import { HeroSkeleton } from "@/components/ui/skeletons/TrackListSkeleton";
 import { Clock } from "lucide-react";
+import { homeSectionColors } from "@/lib/design-colors";
 
 // Core home components
 import { HomeQuickCreate } from "@/components/home/HomeQuickCreate";
@@ -249,8 +250,8 @@ const Index = () => {
               title="✨ Новинки"
               subtitle="Свежие треки от авторов сообщества"
               icon={Clock}
-              iconColor="text-orange-400"
-              iconGradient="from-orange-500/20 to-amber-500/10"
+              iconColor={homeSectionColors.newItems.icon}
+              iconGradient={homeSectionColors.newItems.gradient}
               tracks={recentTracks}
               isLoading={isLoading}
               maxTracks={100}
