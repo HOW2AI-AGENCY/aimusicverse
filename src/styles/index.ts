@@ -12,6 +12,7 @@ import './typography.css';
 import './animations.css';
 import './focus.css';
 import './touch-targets.css';
+import './interactions.css';
 
 // Re-export for programmatic access
 export * from './style-utils';
