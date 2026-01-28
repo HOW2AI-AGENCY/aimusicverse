@@ -209,25 +209,66 @@ export const spacingStyles = {
 // ============================================================================
 
 export const cardStyles = {
-  base: 'rounded-lg border bg-card text-card-foreground shadow-sm',
-  interactive: 'rounded-lg border bg-card text-card-foreground shadow-sm hover:border-primary/50 transition-colors cursor-pointer',
-  selected: 'rounded-lg border-2 border-primary bg-card text-card-foreground shadow-sm',
+  base: 'rounded-lg border bg-card text-card-foreground shadow-elevation-1',
+  interactive: 'rounded-lg border bg-card text-card-foreground shadow-elevation-1 hover:shadow-elevation-2 hover:border-primary/50 transition-all duration-200 cursor-pointer active:scale-[0.99]',
+  selected: 'rounded-lg border-2 border-primary bg-card text-card-foreground shadow-elevation-2',
   glass: 'glass-card rounded-xl border border-border/50 backdrop-blur-sm',
   enhanced: 'card-enhanced',
+  elevated: 'rounded-xl border bg-card text-card-foreground shadow-elevation-3',
+  floating: 'rounded-2xl border bg-card text-card-foreground shadow-elevation-4',
 } as const;
 
 export type CardStyle = keyof typeof cardStyles;
+
+// ============================================================================
+// ELEVATION UTILITIES (Design System Shadows)
+// ============================================================================
+
+export const elevationStyles = {
+  0: 'shadow-elevation-0',
+  1: 'shadow-elevation-1',
+  2: 'shadow-elevation-2',
+  3: 'shadow-elevation-3',
+  4: 'shadow-elevation-4',
+  5: 'shadow-elevation-5',
+} as const;
+
+export type ElevationLevel = keyof typeof elevationStyles;
+
+/**
+ * Get elevation shadow class
+ */
+export function getElevation(level: ElevationLevel): string {
+  return elevationStyles[level];
+}
+
+// ============================================================================
+// BORDER RADIUS UTILITIES (Consistent Corners)
+// ============================================================================
+
+export const radiusStyles = {
+  none: 'rounded-none',
+  sm: 'rounded-sm',      // 4px
+  md: 'rounded-md',      // 6px
+  lg: 'rounded-lg',      // 8px
+  xl: 'rounded-xl',      // 12px
+  '2xl': 'rounded-2xl',  // 16px
+  '3xl': 'rounded-3xl',  // 24px
+  full: 'rounded-full',
+} as const;
+
+export type RadiusStyle = keyof typeof radiusStyles;
 
 // ============================================================================
 // LOADING STATE UTILITIES
 // ============================================================================
 
 export const loadingStyles = {
-  skeleton: 'animate-pulse bg-muted rounded',
-  skeletonCard: 'animate-pulse bg-muted rounded-lg',
-  skeletonCircle: 'animate-pulse bg-muted rounded-full',
-  skeletonLine: 'animate-pulse bg-muted rounded h-4 w-full',
-  skeletonShort: 'animate-pulse bg-muted rounded h-4 w-2/3',
+  skeleton: 'skeleton',
+  skeletonText: 'skeleton skeleton-text',
+  skeletonCard: 'skeleton skeleton-card',
+  skeletonAvatar: 'skeleton skeleton-avatar',
+  skeletonPulse: 'skeleton-pulse',
   disabled: 'opacity-50 pointer-events-none',
   overlay: 'absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center z-50',
 } as const;
@@ -237,8 +278,73 @@ export const loadingStyles = {
 // ============================================================================
 
 export const interactiveStyles = {
-  hoverScale: 'hover:scale-105 active:scale-95 transition-transform duration-150',
-  hoverBg: 'hover:bg-accent transition-colors duration-150',
-  pressed: 'active:scale-[0.98] transition-transform duration-100',
-  disabled: 'disabled:opacity-50 disabled:pointer-events-none',
+  // Hover effects (only on devices that support hover)
+  hoverLift: 'hover-lift',
+  hoverScale: 'hover-scale',
+  hoverGlow: 'hover-glow',
+  hoverBg: 'hover-bg',
+  hoverBorder: 'hover-border',
+  
+  // Press/Active effects
+  pressScale: 'press-scale',
+  pressOpacity: 'press-opacity',
+  pressDepth: 'press-depth',
+  
+  // Combined effects
+  interactive: 'interactive',
+  interactiveCard: 'interactive-card',
+  ripple: 'ripple',
+  
+  // State classes
+  disabled: 'disabled-state',
+  disabledMuted: 'disabled-muted',
+  selected: 'selected-ring',
+  selectedBorder: 'selected-border',
+  selectedBg: 'selected-bg',
 } as const;
+
+export type InteractiveStyle = keyof typeof interactiveStyles;
+
+/**
+ * Get combined interactive styles for a clickable element
+ */
+export function getInteractiveClasses(
+  options: {
+    hover?: 'lift' | 'scale' | 'glow' | 'bg' | 'border';
+    press?: 'scale' | 'opacity' | 'depth';
+    selected?: boolean;
+    disabled?: boolean;
+  } = {}
+): string {
+  const classes: string[] = ['interactive'];
+  
+  if (options.hover) {
+    const hoverMap = {
+      lift: 'hover-lift',
+      scale: 'hover-scale',
+      glow: 'hover-glow',
+      bg: 'hover-bg',
+      border: 'hover-border',
+    };
+    classes.push(hoverMap[options.hover]);
+  }
+  
+  if (options.press) {
+    const pressMap = {
+      scale: 'press-scale',
+      opacity: 'press-opacity',
+      depth: 'press-depth',
+    };
+    classes.push(pressMap[options.press]);
+  }
+  
+  if (options.selected) {
+    classes.push('selected-ring');
+  }
+  
+  if (options.disabled) {
+    classes.push('disabled-state');
+  }
+  
+  return cn(classes);
+}
