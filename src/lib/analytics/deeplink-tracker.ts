@@ -533,6 +533,81 @@ export async function fetchDeeplinkAnalyticsSummary(
 }
 
 // ==========================================
+// Context Management
+// ==========================================
+
+let currentContext: DeeplinkContext | null = null;
+
+export function getDeeplinkContext(): DeeplinkContext | null {
+  return currentContext;
+}
+
+export function setDeeplinkContext(context: DeeplinkContext): void {
+  currentContext = context;
+}
+
+// ==========================================
+// Initialization
+// ==========================================
+
+export interface InitializeOptions {
+  startParam?: string;
+  referrer?: string;
+  isTelegram?: boolean;
+  telegramId?: number | string;
+  pathname?: string;
+  search?: string;
+}
+
+export async function initializeDeeplinkTracker(options: InitializeOptions): Promise<DeeplinkContext> {
+  const utmParams = parseUTMParams(options.search);
+  const firstVisit = isFirstVisit();
+  const deviceInfo = collectDeviceInfo();
+
+  // Determine source
+  let source: DeeplinkSource = detectSource(options.referrer, utmParams);
+  if (options.isTelegram) {
+    source = 'telegram_miniapp';
+  }
+
+  // Parse start param for type and value
+  let type = 'direct';
+  let value: string | undefined;
+  let referralCode: string | undefined;
+
+  if (options.startParam) {
+    const parts = options.startParam.split('_');
+    type = parts[0] || 'direct';
+    value = parts.slice(1).join('_') || undefined;
+
+    // Check if it's a referral
+    if (type === 'ref') {
+      referralCode = value;
+      addToReferralChain(value!);
+    }
+  }
+
+  const context: DeeplinkContext = {
+    type,
+    value,
+    source,
+    utmParams: hasUTMParams(utmParams) ? utmParams : undefined,
+    referrer: options.referrer,
+    landingPath: options.pathname,
+    referralCode,
+    isFirstVisit: firstVisit,
+    deviceInfo,
+  };
+
+  setDeeplinkContext(context);
+  
+  // Track the visit
+  await trackDeeplinkVisit(context);
+
+  return context;
+}
+
+// ==========================================
 // Utility: Build Deep Link URL
 // ==========================================
 
