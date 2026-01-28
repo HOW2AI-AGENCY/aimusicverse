@@ -23,6 +23,7 @@ import {
   ArrowLeft,
   FileText,
   FlaskConical,
+  Layers,
 } from 'lucide-react';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 
@@ -43,6 +44,8 @@ interface StudioActionsSheetProps {
   onOpenMusicLab?: () => void;
   /** Open Lyrics editor (unified interface) */
   onOpenLyrics?: () => void;
+  /** Open Batch Processing panel */
+  onOpenBatchProcessing?: () => void;
 }
 
 interface ActionItemProps {
@@ -114,6 +117,7 @@ export const StudioActionsSheet = memo(function StudioActionsSheet({
   onBack,
   onOpenMusicLab,
   onOpenLyrics,
+  onOpenBatchProcessing,
 }: StudioActionsSheetProps) {
   const handleAction = (action: () => void) => {
     action();
@@ -188,6 +192,14 @@ export const StudioActionsSheet = memo(function StudioActionsSheet({
               description="MIDI, ноты, табулатура"
               onClick={() => handleAction(onOpenTranscription)}
             />
+            {onOpenBatchProcessing && (
+              <ActionItem
+                icon={<Layers className="w-5 h-5" />}
+                label="Пакетная обработка"
+                description="Массовая транскрипция и разделение"
+                onClick={() => handleAction(onOpenBatchProcessing)}
+              />
+            )}
             <ActionItem
               icon={<Share2 className="w-5 h-5" />}
               label="Экспорт микса"
