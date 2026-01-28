@@ -43,8 +43,11 @@ export function useStudioShellState() {
   // Instrumental result state
   const [instrumentalResultData, setInstrumentalResultData] = useState<InstrumentalResultData | null>(null);
 
-  // Mobile tab state
-  const [mobileTab, setMobileTab] = useState<'tracks' | 'lyrics'>('tracks');
+  // MusicLab sheet state (unified interface - no tabs)
+  const [showMusicLabSheet, setShowMusicLabSheet] = useState(false);
+  
+  // Lyrics sheet state (unified interface - no tabs)
+  const [showLyricsSheet, setShowLyricsSheet] = useState(false);
 
   // Pending generation context
   const pendingGenerationContextRef = useRef<Map<string, { type: 'replace_instrumental'; existingId?: string }>>(new Map());
@@ -123,8 +126,9 @@ export function useStudioShellState() {
     // Instrumental result
     instrumentalResultData, setInstrumentalResultData,
 
-    // Mobile tab
-    mobileTab, setMobileTab,
+    // Sheet states (unified interface - no tabs)
+    showMusicLabSheet, setShowMusicLabSheet,
+    showLyricsSheet, setShowLyricsSheet,
 
     // Generation context
     pendingGenerationContextRef,
