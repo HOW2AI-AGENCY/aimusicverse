@@ -10,6 +10,8 @@ import { toast } from 'sonner';
 import { createInvoice } from '@/services/starsPaymentService';
 import type { StarsProduct } from '@/services/starsPaymentService';
 import type { CreateInvoiceRequest } from '@/types/starsPayment';
+import { trackConversionStage } from '@/lib/analytics/deeplink-tracker';
+import { trackButtonClick, trackFeatureUsed } from '@/services/analytics';
 
 // Payment flow state
 interface PaymentFlowState {
@@ -59,6 +61,13 @@ export function useStarsPayment() {
    */
   const initiatePayment = useCallback(
     async (product: StarsProduct, userId: string) => {
+      // Track payment initiation
+      trackButtonClick('payment_initiate', {
+        product_code: product.product_code,
+        product_type: product.product_type,
+        price_stars: product.price_stars,
+      }).catch(() => {});
+
       // Reset flow state
       setFlowState({
         step: 'select',
@@ -116,6 +125,22 @@ export function useStarsPayment() {
         step: 'success',
       }));
 
+      // Track payment conversion
+      trackConversionStage('payment', {
+        product_code: product.product_code,
+        product_type: product.product_type,
+        price_stars: product.price_stars,
+        credits_amount: product.credits_amount,
+        subscription_tier: product.subscription_tier,
+        payment_method: 'telegram_stars',
+      }).catch(() => {});
+
+      // Track feature usage
+      trackFeatureUsed('payment_completed', {
+        product_type: product.product_type,
+        amount: product.price_stars,
+      }).catch(() => {});
+
       // Optimistically update credits or subscription status
       if (product.product_type === 'credits' && product.credits_amount) {
         queryClient.invalidateQueries({ queryKey: CREDITS_QUERY_KEY });
@@ -152,6 +177,12 @@ export function useStarsPayment() {
         },
       }));
 
+      // Track payment failure
+      trackFeatureUsed('payment_failed', {
+        error_message: message,
+        payment_method: 'telegram_stars',
+      }).catch(() => {});
+
       toast.error('Payment Failed', {
         description: message,
       });
@@ -164,6 +195,11 @@ export function useStarsPayment() {
    */
   const handlePaymentCancelled = useCallback(() => {
     setFlowState({ step: 'select' });
+
+    // Track cancellation
+    trackFeatureUsed('payment_cancelled', {
+      payment_method: 'telegram_stars',
+    }).catch(() => {});
 
     toast.info('Payment Cancelled', {
       description: 'You can try again anytime.',
