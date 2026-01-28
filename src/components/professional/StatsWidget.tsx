@@ -1,18 +1,19 @@
 /**
  * StatsWidget - Professional statistics display
- * Shows key metrics for professional users
+ * Shows key metrics for professional users with real data
  */
 
 import { motion } from '@/lib/motion';
 import { 
   Music, Scissors, FileMusic, Clock, 
-  TrendingUp, Activity, Zap, ArrowUpRight
+  TrendingUp, Activity, Zap, ArrowUpRight, ArrowDownRight
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+import { useUserStudioStats, formatStudioTime, getChangeIndicator } from '@/hooks/useUserStudioStats';
 
-interface Stat {
+export interface Stat {
   id: string;
   label: string;
   value: string | number;
@@ -29,59 +30,109 @@ interface StatsWidgetProps {
   showTrend?: boolean;
   animated?: boolean;
   className?: string;
+  useRealData?: boolean;
+}
+
+/**
+ * Convert real stats to display format
+ */
+function useRealStats(): Stat[] {
+  const { data: stats } = useUserStudioStats();
+  
+  if (!stats) return [];
+  
+  const tracksChange = getChangeIndicator(stats.weeklyChange.tracks);
+  const stemsChange = getChangeIndicator(stats.weeklyChange.stems);
+  
+  return [
+    {
+      id: 'tracks',
+      label: 'Треков создано',
+      value: stats.totalTracks,
+      icon: Music,
+      color: 'text-pink-400',
+      bgColor: 'bg-pink-500/10',
+      change: tracksChange.sign,
+      trend: tracksChange.trend,
+    },
+    {
+      id: 'stems',
+      label: 'Стемов разделено',
+      value: stats.totalStems,
+      icon: Scissors,
+      color: 'text-cyan-400',
+      bgColor: 'bg-cyan-500/10',
+      change: stemsChange.sign,
+      trend: stemsChange.trend,
+    },
+    {
+      id: 'midi',
+      label: 'MIDI файлов',
+      value: stats.totalMidiFiles,
+      icon: FileMusic,
+      color: 'text-green-400',
+      bgColor: 'bg-green-500/10',
+    },
+    {
+      id: 'time',
+      label: 'Времени в студии',
+      value: formatStudioTime(stats.totalStudioTime),
+      icon: Clock,
+      color: 'text-amber-400',
+      bgColor: 'bg-amber-500/10',
+    },
+  ];
 }
 
 const defaultStats: Stat[] = [
   {
     id: 'tracks',
     label: 'Треков создано',
-    value: 24,
+    value: 0,
     icon: Music,
     color: 'text-pink-400',
     bgColor: 'bg-pink-500/10',
-    change: '+3',
-    trend: 'up',
   },
   {
     id: 'stems',
     label: 'Стемов разделено',
-    value: 156,
+    value: 0,
     icon: Scissors,
     color: 'text-cyan-400',
     bgColor: 'bg-cyan-500/10',
-    change: '+12',
-    trend: 'up',
   },
   {
     id: 'midi',
     label: 'MIDI файлов',
-    value: 18,
+    value: 0,
     icon: FileMusic,
     color: 'text-green-400',
     bgColor: 'bg-green-500/10',
-    change: '+2',
-    trend: 'up',
   },
   {
     id: 'time',
     label: 'Времени в студии',
-    value: '12ч',
+    value: '0м',
     icon: Clock,
     color: 'text-amber-400',
     bgColor: 'bg-amber-500/10',
-    change: '+2ч',
-    trend: 'up',
   },
 ];
-
 export function StatsWidget({
-  stats = defaultStats,
+  stats: propStats,
   variant = 'grid',
   showTrend = true,
   animated = true,
   className,
+  useRealData = true,
 }: StatsWidgetProps) {
+  const realStats = useRealStats();
   const isGrid = variant === 'grid';
+  
+  // Use real data if enabled and available, otherwise fall back to props or defaults
+  const stats = useRealData && realStats.length > 0 
+    ? realStats 
+    : (propStats || defaultStats);
 
   return (
     <div
@@ -171,14 +222,22 @@ export function StatsWidget({
   );
 }
 
-// Summary card with all stats
+// Summary card with all stats - uses real data
 export function StatsSummaryCard({
-  stats = defaultStats,
+  stats: propStats,
   className,
+  useRealData = true,
 }: {
   stats?: Stat[];
   className?: string;
+  useRealData?: boolean;
 }) {
+  const realStats = useRealStats();
+  const { data: studioStats } = useUserStudioStats();
+  
+  const stats = useRealData && realStats.length > 0 ? realStats : (propStats || defaultStats);
+  const productivityScore = studioStats?.productivityScore || 0;
+  
   const totalTracks = stats.find(s => s.id === 'tracks')?.value || 0;
   const totalStems = stats.find(s => s.id === 'stems')?.value || 0;
   const totalMidi = stats.find(s => s.id === 'midi')?.value || 0;
@@ -233,13 +292,13 @@ export function StatsSummaryCard({
         <div className="pt-3 border-t border-border">
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs text-muted-foreground">Productivity Score</span>
-            <span className="text-xs font-semibold">85/100</span>
+            <span className="text-xs font-semibold">{productivityScore}/100</span>
           </div>
           <div className="relative h-2 bg-muted rounded-full overflow-hidden">
             <motion.div
               className="absolute inset-y-0 left-0 bg-gradient-to-r from-primary to-purple-500 rounded-full"
               initial={{ width: 0 }}
-              animate={{ width: '85%' }}
+              animate={{ width: `${productivityScore}%` }}
               transition={{ duration: 1, ease: 'easeOut' }}
             />
           </div>
