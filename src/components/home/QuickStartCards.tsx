@@ -1,18 +1,21 @@
 /**
  * QuickStartCards - Quick preset cards for fast music generation
- * 
- * Three main presets:
- * 1. 🎵 Трек - Create a full track with lyrics
- * 2. 🎸 Рифф - Create an instrumental riff
- * 3. 🎤 Cover - Create a cover version
+ * Opens tutorial dialogs to explain each feature before action
  */
 
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useState, lazy, Suspense } from 'react';
 import { motion } from '@/lib/motion';
 import { Music2, Guitar, Mic2, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTelegram } from '@/contexts/TelegramContext';
-import { typographyClass, spacingClass, textBalance } from '@/lib/design-tokens';
+import { typographyClass, textBalance } from '@/lib/design-tokens';
+import type { TutorialType } from './FeatureTutorialDialog';
+
+// Lazy load the dialog
+const FeatureTutorialDialog = lazy(() => 
+  import('./FeatureTutorialDialog').then(m => ({ default: m.FeatureTutorialDialog }))
+);
+
 export type QuickStartPreset = 'track' | 'riff' | 'cover';
 
 interface QuickStartCardProps {
@@ -80,11 +83,25 @@ export const QuickStartCards = memo(function QuickStartCards({
   className,
 }: QuickStartCardsProps) {
   const { hapticFeedback } = useTelegram();
+  const [tutorialOpen, setTutorialOpen] = useState(false);
+  const [selectedTutorial, setSelectedTutorial] = useState<TutorialType>('track');
+  const [pendingPreset, setPendingPreset] = useState<QuickStartPreset | null>(null);
 
   const handleCardClick = useCallback((preset: QuickStartPreset) => {
     hapticFeedback('light');
-    onPresetSelect(preset);
-  }, [hapticFeedback, onPresetSelect]);
+    // Map preset to tutorial type
+    const tutorialType: TutorialType = preset;
+    setSelectedTutorial(tutorialType);
+    setPendingPreset(preset);
+    setTutorialOpen(true);
+  }, [hapticFeedback]);
+
+  const handleTutorialAction = useCallback(() => {
+    if (pendingPreset) {
+      onPresetSelect(pendingPreset);
+    }
+    setPendingPreset(null);
+  }, [pendingPreset, onPresetSelect]);
 
   const presets: Omit<QuickStartCardProps, 'onClick' | 'delay'>[] = [
     {
@@ -111,36 +128,50 @@ export const QuickStartCards = memo(function QuickStartCards({
   ];
 
   return (
-    <motion.section
-      className={cn("space-y-3", className)}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay: 0.2 }}
-    >
-      {/* Section header */}
-      <motion.div
-        className="flex items-center gap-2"
-        initial={{ opacity: 0, x: -10 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.1 }}
+    <>
+      <motion.section
+        className={cn("space-y-3", className)}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.2 }}
       >
-        <div className="flex items-center justify-center w-6 h-6 rounded-md bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/20">
-          <Sparkles className="w-3.5 h-3.5 text-primary" />
-        </div>
-        <h2 className={cn(typographyClass.body.md, "font-semibold text-foreground")}>Быстрый старт</h2>
-      </motion.div>
+        {/* Section header */}
+        <motion.div
+          className="flex items-center gap-2"
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.1 }}
+        >
+          <div className="flex items-center justify-center w-6 h-6 rounded-md bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/20">
+            <Sparkles className="w-3.5 h-3.5 text-primary" />
+          </div>
+          <h2 className={cn(typographyClass.body.md, "font-semibold text-foreground")}>Быстрый старт</h2>
+        </motion.div>
 
-      {/* Cards grid */}
-      <div className="grid grid-cols-3 gap-2 sm:gap-3">
-        {presets.map((preset, index) => (
-          <QuickStartCard
-            key={preset.preset}
-            {...preset}
-            onClick={() => handleCardClick(preset.preset)}
-            delay={index + 1}
+        {/* Cards grid */}
+        <div className="grid grid-cols-3 gap-2 sm:gap-3">
+          {presets.map((preset, index) => (
+            <QuickStartCard
+              key={preset.preset}
+              {...preset}
+              onClick={() => handleCardClick(preset.preset)}
+              delay={index + 1}
+            />
+          ))}
+        </div>
+      </motion.section>
+
+      {/* Tutorial Dialog */}
+      {tutorialOpen && (
+        <Suspense fallback={null}>
+          <FeatureTutorialDialog
+            open={tutorialOpen}
+            onOpenChange={setTutorialOpen}
+            type={selectedTutorial}
+            onAction={handleTutorialAction}
           />
-        ))}
-      </div>
-    </motion.section>
+        </Suspense>
+      )}
+    </>
   );
 });
