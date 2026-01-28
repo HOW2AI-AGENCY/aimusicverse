@@ -33,6 +33,8 @@ import {
 import { GenerationAnalyticsPanel } from "./GenerationAnalyticsPanel";
 import { RetentionHeatmap } from "./RetentionHeatmap";
 import { FunnelVisualization } from "./FunnelVisualization";
+import { FunnelCohortAnalysis } from "./FunnelCohortAnalysis";
+import { UserJourneyTimeline } from "./UserJourneyTimeline";
 import { RevenueAnalytics } from "./RevenueAnalytics";
 import { PerformanceDashboard } from "./PerformanceDashboard";
 import { PaymentCohortAnalysis } from "./PaymentCohortAnalysis";
@@ -343,8 +345,12 @@ export function EnhancedAnalyticsPanel() {
         </div>
       </TabsContent>
 
-      <TabsContent value="funnel">
+      <TabsContent value="funnel" className="space-y-4">
         <FunnelVisualization />
+        <div className="grid gap-4 lg:grid-cols-2">
+          <FunnelCohortAnalysis />
+          <UserJourneyTimeline />
+        </div>
       </TabsContent>
 
       <TabsContent value="retention">
