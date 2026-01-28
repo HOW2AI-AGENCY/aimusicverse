@@ -163,3 +163,14 @@ export function useLyricsSync({
 }
 
 export default useLyricsSync;
+
+// Re-export useLyricsStudio from same directory
+export { useLyricsStudio } from './useLyricsStudio';
+export type { 
+  LyricsSection, 
+  LyricsVersion, 
+  SectionNote, 
+  LyricsStats,
+  AITool,
+  UseLyricsStudioReturn,
+} from './useLyricsStudio';

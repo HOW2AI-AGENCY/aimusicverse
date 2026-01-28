@@ -47,6 +47,7 @@ import { ExtendTrackDialog } from '@/components/ExtendTrackDialog';
 import { SectionEditorSheet } from '@/components/studio/editor/SectionEditorSheet';
 import { AutoSaveIndicator } from './AutoSaveIndicator';
 import { LyricsPanel } from './LyricsPanel';
+import { StudioLyricsSheet } from './StudioLyricsSheet';
 import { MusicLabPanel } from './MusicLabPanel';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -1409,40 +1410,16 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
         </SheetContent>
       </Sheet>
 
-      {/* Lyrics Sheet - unified interface, no tabs */}
-      <Sheet open={showLyricsSheet} onOpenChange={setShowLyricsSheet}>
-        <SheetContent side="bottom" className="h-[80vh] p-0">
-          <SheetHeader className="px-4 py-3 border-b">
-            <SheetTitle className="flex items-center gap-2">
-              <FileText className="h-5 w-5" />
-              Редактор текста
-            </SheetTitle>
-          </SheetHeader>
-          <div className="h-full overflow-y-auto p-3">
-            {sourceTrackId ? (
-              <LyricsPanel
-                trackId={sourceTrackId}
-                initialLyrics={sourceTrack?.lyrics ?? undefined}
-                isOpen={true}
-                onClose={() => setShowLyricsSheet(false)}
-                onLyricsSaved={(content) => {
-                  logger.info('Lyrics saved', { trackId: sourceTrackId, contentLength: content.length });
-                }}
-              />
-            ) : (
-              <div className="flex flex-col items-center justify-center h-full text-center">
-                <FileText className="h-12 w-12 text-muted-foreground/50 mb-3" />
-                <p className="text-sm text-muted-foreground">
-                  Нет текста для редактирования
-                </p>
-                <p className="text-xs text-muted-foreground mt-1">
-                  Текст недоступен для этого проекта
-                </p>
-              </div>
-            )}
-          </div>
-        </SheetContent>
-      </Sheet>
+      {/* Lyrics Studio Sheet - V2 with CRUD, AI, versions, notes */}
+      <StudioLyricsSheet
+        isOpen={showLyricsSheet}
+        onClose={() => setShowLyricsSheet(false)}
+        trackId={sourceTrackId || undefined}
+        initialLyrics={sourceTrack?.lyrics ?? ''}
+        onLyricsSaved={(content: string) => {
+          logger.info('Lyrics saved', { trackId: sourceTrackId, contentLength: content.length });
+        }}
+      />
 
       {/* Add Track Dialog */}
       <AddTrackDialog
