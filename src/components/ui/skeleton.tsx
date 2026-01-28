@@ -1,27 +1,49 @@
 import { cn } from "@/lib/utils";
+import { cva, type VariantProps } from "class-variance-authority";
 
-interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Use shimmer animation (default: true, set false for simpler pulse) */
-  shimmer?: boolean;
-}
+const skeletonVariants = cva(
+  "rounded-md bg-muted/50 relative overflow-hidden",
+  {
+    variants: {
+      animation: {
+        shimmer: "skeleton-shimmer-optimized",
+        pulse: "animate-pulse",
+        none: "opacity-60",
+      },
+      shape: {
+        default: "rounded-md",
+        circle: "rounded-full",
+        card: "rounded-lg",
+        pill: "rounded-full",
+      },
+    },
+    defaultVariants: {
+      animation: "shimmer",
+      shape: "default",
+    },
+  }
+);
+
+interface SkeletonProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof skeletonVariants> {}
 
 /**
  * Skeleton - Loading placeholder with optimized animation
  * 
  * Uses CSS-only animation for better scroll performance.
  * The shimmer effect is GPU-accelerated via translateX.
+ * 
+ * @example
+ * <Skeleton className="h-4 w-full" />
+ * <Skeleton shape="circle" className="h-10 w-10" />
+ * <Skeleton animation="pulse" className="h-20 w-full" />
  */
-function Skeleton({ className, shimmer = true, ...props }: SkeletonProps) {
+function Skeleton({ className, animation, shape, ...props }: SkeletonProps) {
   return (
     <div 
-      className={cn(
-        "rounded-md bg-muted/50 relative overflow-hidden",
-        // Use simpler animation on mobile for better scroll performance
-        shimmer ? "skeleton-shimmer-optimized" : "opacity-60",
-        className
-      )} 
+      className={cn(skeletonVariants({ animation, shape }), className)} 
       style={{
-        // GPU acceleration hint - prevents repaints during scroll
         willChange: 'auto',
         contain: 'layout paint',
       }}
@@ -30,4 +52,4 @@ function Skeleton({ className, shimmer = true, ...props }: SkeletonProps) {
   );
 }
 
-export { Skeleton };
+export { Skeleton, skeletonVariants };
