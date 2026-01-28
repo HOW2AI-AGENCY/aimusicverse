@@ -1,13 +1,18 @@
 /**
  * Analytics Provider
  * 
- * Centralized analytics initialization and context for the app.
- * Handles deeplink tracking, session management, and conversion tracking.
+ * Lightweight analytics wrapper that doesn't depend on Router.
+ * Actual tracking initialization happens in MainLayout (inside Router context).
  */
 
-import { ReactNode, memo, useEffect } from 'react';
-import { useAnalyticsProvider } from '@/hooks/analytics/useAnalyticsProvider';
-import { useAnalyticsTracking } from '@/hooks/useAnalyticsTracking';
+import { ReactNode, memo, useEffect, useRef } from 'react';
+import { useTelegram } from '@/contexts/TelegramContext';
+import { useAuth } from '@/contexts/AuthContext';
+import { 
+  initializeDeeplinkTracker,
+  getDeeplinkContext,
+} from '@/lib/analytics/deeplink-tracker';
+import { getOrCreateSessionId } from '@/services/analytics';
 import { logger } from '@/lib/logger';
 
 interface AnalyticsProviderProps {
@@ -15,41 +20,44 @@ interface AnalyticsProviderProps {
 }
 
 /**
- * Internal component that initializes analytics hooks
- * Separated to ensure hooks are called inside the provider tree
- */
-function AnalyticsInitializer() {
-  // Initialize main analytics provider (deeplinks, conversions)
-  const { sessionId, deeplinkContext } = useAnalyticsProvider();
-  
-  // Initialize event tracking (page views, sessions)
-  useAnalyticsTracking();
-
-  // Log analytics initialization in dev
-  useEffect(() => {
-    logger.debug('Analytics initialized', {
-      sessionId,
-      hasDeeplinkContext: !!deeplinkContext,
-      source: deeplinkContext?.source,
-    });
-  }, [sessionId, deeplinkContext]);
-
-  return null;
-}
-
-/**
  * Analytics Provider Component
  * 
- * Wraps the app to provide analytics context and initialization.
- * Should be placed after AuthProvider and TelegramProvider but before feature providers.
+ * Initializes deeplink tracking based on Telegram context.
+ * Router-dependent tracking (page views) is handled separately in MainLayout.
  */
 export const AnalyticsProvider = memo(function AnalyticsProvider({ 
   children 
 }: AnalyticsProviderProps) {
-  return (
-    <>
-      <AnalyticsInitializer />
-      {children}
-    </>
-  );
+  const { webApp, isInitialized } = useTelegram();
+  const { user } = useAuth();
+  const initialized = useRef(false);
+
+  const isTelegram = isInitialized && !!webApp;
+  const telegramId = webApp?.initDataUnsafe?.user?.id;
+
+  // Initialize deeplink tracker on mount (doesn't need Router)
+  useEffect(() => {
+    if (initialized.current) return;
+    initialized.current = true;
+
+    const startParam = webApp?.initDataUnsafe?.start_param;
+    
+    // Initialize without pathname/search (those will be tracked in MainLayout)
+    initializeDeeplinkTracker({
+      startParam,
+      referrer: document.referrer,
+      isTelegram,
+      telegramId,
+      pathname: window.location.pathname,
+      search: window.location.search,
+    });
+
+    logger.debug('Analytics provider initialized', {
+      sessionId: getOrCreateSessionId(),
+      hasDeeplinkContext: !!getDeeplinkContext(),
+      isTelegram,
+    });
+  }, [isTelegram, telegramId, webApp]);
+
+  return <>{children}</>;
 });
