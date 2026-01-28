@@ -37,6 +37,10 @@ export {
   cardStyles,
   loadingStyles,
   interactiveStyles,
+  elevationStyles,
+  getElevation,
+  radiusStyles,
+  getInteractiveClasses,
 } from '@/styles/style-utils';
 
 // Type exports
@@ -46,4 +50,7 @@ export type {
   TouchTargetStyle,
   FocusStyle,
   CardStyle,
+  ElevationLevel,
+  RadiusStyle,
+  InteractiveStyle,
 } from '@/styles/style-utils';
