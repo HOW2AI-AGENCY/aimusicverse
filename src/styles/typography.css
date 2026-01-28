@@ -2,76 +2,187 @@
  * Typography System
  * Feature: 032-professional-ui
  * 
- * Consistent typography scale for mobile-first Telegram Mini App
- * Based on Apple HIG and Material Design 3 guidelines
+ * Consistent typography scale for mobile-first design
+ * Based on design-tokens.ts specifications
  */
 
-/* Headings */
+/* ========== Base Typography ========== */
+
 .text-h1 {
-  font-size: 1.75rem; /* 28px */
+  font-size: 1.75rem;    /* 28px */
   font-weight: 700;
   line-height: 1.2;
   letter-spacing: -0.02em;
 }
 
 .text-h2 {
-  font-size: 1.5rem; /* 24px */
+  font-size: 1.5rem;     /* 24px */
   font-weight: 600;
   line-height: 1.3;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
 }
 
 .text-h3 {
-  font-size: 1.25rem; /* 20px */
+  font-size: 1.25rem;    /* 20px */
   font-weight: 600;
   line-height: 1.3;
 }
 
 .text-h4 {
-  font-size: 1.125rem; /* 18px */
+  font-size: 1.125rem;   /* 18px */
   font-weight: 500;
   line-height: 1.4;
 }
 
-/* Body Text */
-.text-body-large {
-  font-size: 1rem; /* 16px */
+.text-body {
+  font-size: 1rem;       /* 16px */
   font-weight: 400;
   line-height: 1.5;
 }
 
-.text-body {
-  font-size: 0.875rem; /* 14px */
+.text-body-sm {
+  font-size: 0.875rem;   /* 14px */
   font-weight: 400;
   line-height: 1.5;
 }
 
 .text-caption {
-  font-size: 0.75rem; /* 12px */
+  font-size: 0.75rem;    /* 12px */
   font-weight: 400;
   line-height: 1.4;
+  color: hsl(var(--muted-foreground));
 }
 
-/* Font Weights */
-.font-regular {
+.text-tiny {
+  font-size: 0.625rem;   /* 10px */
   font-weight: 400;
+  line-height: 1.4;
+  color: hsl(var(--muted-foreground));
 }
 
-.font-medium {
-  font-weight: 500;
-}
+/* ========== Responsive Typography ========== */
 
-.font-semibold {
-  font-weight: 600;
-}
-
-.font-bold {
-  font-weight: 700;
-}
-
-/* Responsive adjustments */
-@media (min-width: 768px) {
+@media (min-width: 640px) {
   .text-h1 {
-    font-size: 2rem; /* 32px on tablet+ */
+    font-size: 2rem;       /* 32px */
   }
+  
+  .text-h2 {
+    font-size: 1.75rem;    /* 28px */
+  }
+  
+  .text-h3 {
+    font-size: 1.5rem;     /* 24px */
+  }
+  
+  .text-h4 {
+    font-size: 1.25rem;    /* 20px */
+  }
+}
+
+/* ========== Text Utilities ========== */
+
+.text-gradient {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-generate {
+  background: var(--gradient-generate);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-success {
+  background: var(--gradient-success);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ========== Text Balance ========== */
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.text-pretty {
+  text-wrap: pretty;
+}
+
+/* Russian text optimization */
+.text-ru {
+  text-wrap: balance;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+
+/* ========== Truncation ========== */
+
+.truncate-1 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.truncate-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.truncate-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ========== Selection ========== */
+
+::selection {
+  background-color: hsl(var(--primary) / 0.3);
+  color: inherit;
+}
+
+/* ========== Focus Typography ========== */
+
+.prose-focus {
+  max-width: 65ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ========== Monospace ========== */
+
+.text-mono {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.875em;
+}
+
+/* ========== Uppercase Labels ========== */
+
+.text-label {
+  font-size: 0.6875rem;  /* 11px */
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+}
+
+/* ========== Number Formatting ========== */
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.oldstyle-nums {
+  font-variant-numeric: oldstyle-nums;
 }
