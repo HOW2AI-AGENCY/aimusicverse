@@ -48,7 +48,7 @@ import { SectionEditorSheet } from '@/components/studio/editor/SectionEditorShee
 import { AutoSaveIndicator } from './AutoSaveIndicator';
 import { LyricsPanel } from './LyricsPanel';
 import { StudioLyricsSheet } from './StudioLyricsSheet';
-import { MusicLabPanel } from './MusicLabPanel';
+import { StudioMusicLabSheet } from './StudioMusicLabSheet';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -1378,37 +1378,40 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
         </SheetContent>
       </Sheet>
 
-      {/* MusicLab Sheet - unified interface, no tabs */}
-      <Sheet open={showMusicLabSheet} onOpenChange={setShowMusicLabSheet}>
-        <SheetContent side="bottom" className="h-[75vh] p-0">
-          <SheetHeader className="px-4 py-3 border-b">
-            <SheetTitle className="flex items-center gap-2">
-              <Mic2 className="h-5 w-5" />
-              MusicLab
-            </SheetTitle>
-          </SheetHeader>
-          <MusicLabPanel
-            projectId={project.id}
-            onRecordingComplete={(recordedTrack) => {
-              // Add recorded track to project
-              addTrack({
-                name: recordedTrack.name,
-                type: recordedTrack.type === 'vocal' ? 'vocal' : recordedTrack.type === 'guitar' ? 'other' : 'other',
-                audioUrl: recordedTrack.audioUrl,
-                volume: 0.85,
-                pan: 0,
-                muted: false,
-                solo: false,
-                color: TRACK_COLORS[recordedTrack.type === 'vocal' ? 'vocal' : 'other'] || TRACK_COLORS.other,
-              });
-              // Close sheet after adding track
-              setShowMusicLabSheet(false);
-              toast.success('Запись добавлена');
-            }}
-            className="h-full"
-          />
-        </SheetContent>
-      </Sheet>
+      {/* MusicLab Sheet - full integration with recording, chords, PromptDJ */}
+      <StudioMusicLabSheet
+        open={showMusicLabSheet}
+        onOpenChange={setShowMusicLabSheet}
+        projectId={project.id}
+        onRecordingComplete={(recordedTrack) => {
+          // Add recorded track to project
+          addTrack({
+            name: recordedTrack.name,
+            type: recordedTrack.type === 'vocal' ? 'vocal' : recordedTrack.type === 'guitar' ? 'other' : 'other',
+            audioUrl: recordedTrack.audioUrl,
+            volume: 0.85,
+            pan: 0,
+            muted: false,
+            solo: false,
+            color: TRACK_COLORS[recordedTrack.type === 'vocal' ? 'vocal' : 'other'] || TRACK_COLORS.other,
+          });
+          toast.success('Запись добавлена в проект');
+        }}
+        onDJTrackComplete={(audioUrl) => {
+          // Add DJ generated track to project
+          addTrack({
+            name: 'PromptDJ Track',
+            type: 'other',
+            audioUrl,
+            volume: 0.85,
+            pan: 0,
+            muted: false,
+            solo: false,
+            color: TRACK_COLORS.other,
+          });
+          toast.success('DJ трек добавлен в проект');
+        }}
+      />
 
       {/* Lyrics Studio Sheet - V2 with CRUD, AI, versions, notes */}
       <StudioLyricsSheet
