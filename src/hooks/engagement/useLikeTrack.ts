@@ -4,6 +4,8 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
+import { trackButtonClick } from '@/services/analytics';
+import { trackConversionStage, hasReachedStage } from '@/lib/analytics/deeplink-tracker';
 
 export function useLikeTrack(trackId: string, initialLiked?: boolean) {
   const { user } = useAuth();
@@ -54,6 +56,19 @@ export function useLikeTrack(trackId: string, initialLiked?: boolean) {
       queryClient.invalidateQueries({ queryKey: ['track-like', trackId] });
       queryClient.invalidateQueries({ queryKey: ['tracks'] });
       queryClient.invalidateQueries({ queryKey: ['public-content'] });
+
+      // Track analytics
+      trackButtonClick(result.action === 'like' ? 'track_like' : 'track_unlike', {
+        track_id: trackId,
+      }).catch(() => {});
+
+      // Track first action conversion if this is user's first like
+      if (result.action === 'like' && !hasReachedStage('first_action')) {
+        trackConversionStage('first_action', {
+          action_type: 'like',
+          track_id: trackId,
+        }).catch(() => {});
+      }
     },
     onError: (error) => {
       console.error('Error toggling like:', error);
