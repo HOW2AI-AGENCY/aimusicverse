@@ -41,6 +41,7 @@ export { PianoRoll } from './PianoRoll';
 export type { MidiNote } from './PianoRoll';
 export { RecordTrackDrawer } from './RecordTrackDrawer';
 export type { RecordingType } from './RecordTrackDrawer';
+export { MusicLabPanel } from './MusicLabPanel';
 export { NotationDrawer } from './NotationDrawer';
 export type { NotationDrawerProps } from './NotationDrawer';
 export { ChordOverlay } from './ChordOverlay';
