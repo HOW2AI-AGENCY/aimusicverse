@@ -111,6 +111,7 @@ const BlockedUsersPage = lazy(() => import("./pages/settings/BlockedUsersPage"))
 const Templates = lazy(() => import("./pages/Templates"));
 const MusicGraph = lazy(() => import("./pages/MusicGraph"));
 const CreativeTools = lazy(() => import("./pages/CreativeTools"));
+const ProfessionalDashboardPage = lazy(() => import("./pages/ProfessionalDashboard"));
 
 const GuitarStudio = lazy(() => import("./pages/GuitarStudio"));
 const MusicLab = lazy(() => import("./pages/MusicLab"));
@@ -210,7 +211,7 @@ const App = () => (
                         <Route path="/templates" element={<Templates />} />
                         <Route path="/music-graph" element={<MusicGraph />} />
                         <Route path="/creative-tools" element={<Navigate to="/music-lab" replace />} />
-                        <Route path="/professional-studio" element={<Navigate to="/studio-v2" replace />} />
+                        <Route path="/professional-studio" element={<ProfessionalDashboardPage />} />
                         <Route path="/guitar-studio" element={<GuitarStudio />} />
                         <Route path="/music-lab" element={<MusicLab />} />
                         <Route path="/lyrics-studio" element={<LyricsStudio />} />
