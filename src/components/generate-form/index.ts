@@ -15,3 +15,17 @@ export { CreditBalanceIndicator } from './CreditBalanceIndicator';
 export { SmartPromptSuggestions } from './SmartPromptSuggestions';
 export { FormSection, FormDivider } from './FormSection';
 export { SectionLabel, SECTION_HINTS } from './SectionLabel';
+
+// Smart Assistant exports
+export {
+  SmartAssistantPanel,
+  SmartAssistantInline,
+  SmartSuggestionCard,
+} from './smart-assistant';
+export type {
+  SmartSuggestion,
+  SmartAssistantState,
+  SmartAssistantMode,
+  UserGenerationContext,
+  ProjectGenerationContext,
+} from './smart-assistant';
