@@ -6,6 +6,8 @@
 import { supabase } from '@/integrations/supabase/client';
 import type { CreatePaymentResponse, PaymentTransaction } from '@/types/payment';
 import { logger } from '@/lib/logger';
+import { trackConversionStage } from '@/lib/analytics/deeplink-tracker';
+import { trackButtonClick, trackFeatureUsed } from '@/services/analytics';
 
 export interface CreateTinkoffPaymentParams {
   productCode: string;
@@ -47,6 +49,11 @@ export async function createTinkoffPayment(
 ): Promise<CreatePaymentResponse> {
   const timer = logger.startTimer('tinkoff:createPayment');
   
+  // Track payment initiation
+  trackButtonClick('tinkoff_payment_initiate', {
+    product_code: params.productCode,
+  }).catch(() => {});
+
   try {
     logger.info('Creating Tinkoff payment', { productCode: params.productCode });
 
@@ -62,6 +69,13 @@ export async function createTinkoffPayment(
 
     if (error) {
       logger.error('Tinkoff payment creation failed', error, { productCode: params.productCode });
+      
+      // Track failure
+      trackFeatureUsed('tinkoff_payment_error', {
+        product_code: params.productCode,
+        error: error.message,
+      }).catch(() => {});
+
       return {
         success: false,
         error: error.message || 'Failed to create payment',
@@ -74,6 +88,14 @@ export async function createTinkoffPayment(
         error: data.error,
         errorCode: data.errorCode,
       });
+
+      // Track rejection
+      trackFeatureUsed('tinkoff_payment_rejected', {
+        product_code: params.productCode,
+        error: data.error,
+        error_code: data.errorCode,
+      }).catch(() => {});
+
       return {
         success: false,
         error: data.error || 'Payment initialization failed',
@@ -87,6 +109,14 @@ export async function createTinkoffPayment(
       amount: data.amount,
     });
 
+    // Track successful payment creation
+    trackFeatureUsed('tinkoff_payment_created', {
+      transaction_id: data.transactionId,
+      order_id: data.orderId,
+      amount: data.amount,
+      currency: data.currency,
+    }).catch(() => {});
+
     return {
       success: true,
       transactionId: data.transactionId,
@@ -98,6 +128,12 @@ export async function createTinkoffPayment(
   } catch (error) {
     timer();
     logger.error('Tinkoff payment error', error as Error);
+
+    trackFeatureUsed('tinkoff_payment_exception', {
+      product_code: params.productCode,
+      error: (error as Error).message,
+    }).catch(() => {});
+
     return {
       success: false,
       error: (error as Error).message || 'Unknown error',
@@ -265,6 +301,35 @@ export function redirectToPayment(paymentUrl: string): void {
   // Store current URL for return
   sessionStorage.setItem('payment_return_url', window.location.href);
   
+  // Track redirect
+  trackFeatureUsed('tinkoff_payment_redirect', {
+    destination: 'tinkoff',
+  }).catch(() => {});
+  
   // Redirect to Tinkoff payment page
   window.location.href = paymentUrl;
+}
+
+/**
+ * Track successful Tinkoff payment (call from success page)
+ */
+export async function trackTinkoffPaymentSuccess(
+  transactionId: string,
+  amount: number,
+  productCode: string
+): Promise<void> {
+  // Track payment conversion
+  await trackConversionStage('payment', {
+    transaction_id: transactionId,
+    amount,
+    product_code: productCode,
+    payment_method: 'tinkoff_card',
+  });
+
+  // Track feature usage
+  await trackFeatureUsed('tinkoff_payment_completed', {
+    transaction_id: transactionId,
+    amount,
+    product_code: productCode,
+  });
 }
