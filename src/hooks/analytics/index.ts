@@ -25,6 +25,21 @@ export {
 // Utility hook for quick conversion events
 export { useQuickConversions } from './useQuickConversions';
 
+// Feature usage tracking
+export { 
+  useFeatureUsageTracking,
+  FeatureEvents,
+  type FeatureCategory,
+  type FeatureUsageEvent,
+} from './useFeatureUsageTracking';
+
+// Performance tracking
+export {
+  usePerformanceTracking,
+  useWebVitalsReporter,
+  type PerformanceMetric,
+} from './usePerformanceTracking';
+
 // Deeplink analytics data hooks
 export { 
   useDeeplinkAnalytics,
