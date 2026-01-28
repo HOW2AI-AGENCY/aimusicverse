@@ -6,7 +6,7 @@
  */
 
 import { useEffect, useCallback, useRef } from 'react';
-import { useTelegram } from '@/contexts/telegram/TelegramProvider';
+import { useTelegram } from '@/contexts/TelegramContext';
 import {
   trackDeeplinkVisit,
   trackConversionStage,
