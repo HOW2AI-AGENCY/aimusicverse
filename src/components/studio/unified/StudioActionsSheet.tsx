@@ -2,6 +2,8 @@
  * Studio Actions Sheet
  * Bottom sheet with studio actions for mobile
  * Contains: Download, Transcription, Export, Save, Settings
+ * 
+ * Unified interface - MusicLab and Lyrics open as sheets, not tabs
  */
 
 import { memo } from 'react';
@@ -19,6 +21,8 @@ import {
   Sparkles,
   Upload,
   ArrowLeft,
+  FileText,
+  FlaskConical,
 } from 'lucide-react';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 
@@ -35,6 +39,10 @@ interface StudioActionsSheetProps {
   onGenerate: () => void;
   onImport: () => void;
   onBack: () => void;
+  /** Open MusicLab (unified interface) */
+  onOpenMusicLab?: () => void;
+  /** Open Lyrics editor (unified interface) */
+  onOpenLyrics?: () => void;
 }
 
 interface ActionItemProps {
@@ -104,6 +112,8 @@ export const StudioActionsSheet = memo(function StudioActionsSheet({
   onGenerate,
   onImport,
   onBack,
+  onOpenMusicLab,
+  onOpenLyrics,
 }: StudioActionsSheetProps) {
   const handleAction = (action: () => void) => {
     action();
@@ -118,6 +128,29 @@ export const StudioActionsSheet = memo(function StudioActionsSheet({
         </SheetHeader>
 
         <div className="space-y-1">
+          {/* Creative tools - MusicLab and Lyrics (unified interface) */}
+          {(onOpenMusicLab || onOpenLyrics) && (
+            <div className="space-y-1 pb-3 border-b border-border/50">
+              {onOpenMusicLab && (
+                <ActionItem
+                  icon={<FlaskConical className="w-5 h-5" />}
+                  label="Лаборатория"
+                  description="Запись, аккорды, PromptDJ"
+                  onClick={() => handleAction(onOpenMusicLab)}
+                  variant="primary"
+                />
+              )}
+              {onOpenLyrics && (
+                <ActionItem
+                  icon={<FileText className="w-5 h-5" />}
+                  label="Редактор текста"
+                  description="AI помощник, версии"
+                  onClick={() => handleAction(onOpenLyrics)}
+                />
+              )}
+            </div>
+          )}
+
           {/* Primary actions */}
           <div className="space-y-1 pb-3 border-b border-border/50">
             <ActionItem
