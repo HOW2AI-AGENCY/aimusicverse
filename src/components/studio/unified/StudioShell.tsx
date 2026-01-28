@@ -47,6 +47,7 @@ import { ExtendTrackDialog } from '@/components/ExtendTrackDialog';
 import { SectionEditorSheet } from '@/components/studio/editor/SectionEditorSheet';
 import { AutoSaveIndicator } from './AutoSaveIndicator';
 import { LyricsPanel } from './LyricsPanel';
+import { MusicLabPanel } from './MusicLabPanel';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
@@ -222,8 +223,9 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
    * Controls which tab is active on mobile devices
    * - 'tracks': Shows the track list (default)
    * - 'lyrics': Shows the lyrics editing panel
+   * - 'musiclab': Shows the MusicLab creative workspace
    */
-  const [mobileTab, setMobileTab] = useState<'tracks' | 'lyrics'>('tracks');
+  const [mobileTab, setMobileTab] = useState<'tracks' | 'lyrics' | 'musiclab'>('tracks');
 
   // Section editor store
   const {
@@ -1012,7 +1014,7 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
 
       {/* Center: Mobile Tab Switcher (mobile only) */}
       {isMobile && (
-        <Tabs value={mobileTab} onValueChange={(v) => setMobileTab(v as 'tracks' | 'lyrics')} className="w-auto">
+        <Tabs value={mobileTab} onValueChange={(v) => setMobileTab(v as 'tracks' | 'lyrics' | 'musiclab')} className="w-auto">
           <TabsList className="h-8">
             <TabsTrigger value="tracks" className="h-7 px-2 gap-1">
               <Layers className="h-4 w-4" />
@@ -1021,6 +1023,10 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
             <TabsTrigger value="lyrics" className="h-7 px-2 gap-1">
               <FileText className="h-4 w-4" />
               <span className="text-xs">Текст</span>
+            </TabsTrigger>
+            <TabsTrigger value="musiclab" className="h-7 px-2 gap-1">
+              <Mic2 className="h-4 w-4" />
+              <span className="text-xs">Лаб</span>
             </TabsTrigger>
           </TabsList>
         </Tabs>
@@ -1306,6 +1312,28 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
                 </div>
               )}
             </div>
+          </TabsContent>
+
+          <TabsContent value="musiclab" className="mt-0 h-full">
+            <MusicLabPanel
+              projectId={project.id}
+              onRecordingComplete={(recordedTrack) => {
+                // Add recorded track to project
+                addTrack({
+                  name: recordedTrack.name,
+                  type: recordedTrack.type === 'vocal' ? 'vocal' : recordedTrack.type === 'guitar' ? 'other' : 'other',
+                  audioUrl: recordedTrack.audioUrl,
+                  volume: 0.85,
+                  pan: 0,
+                  muted: false,
+                  solo: false,
+                  color: TRACK_COLORS[recordedTrack.type === 'vocal' ? 'vocal' : 'other'] || TRACK_COLORS.other,
+                });
+                // Switch to tracks tab to show the new track
+                setMobileTab('tracks');
+              }}
+              className="h-full"
+            />
           </TabsContent>
         </Tabs>
       </ScrollArea>
