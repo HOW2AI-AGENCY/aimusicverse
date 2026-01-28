@@ -12,9 +12,11 @@ export * from './artists.service';
 export * from './studio.service';
 export * from './audio-reference';
 export * from './admin.service';
-export * from './analytics.service';
 export * from './generation.service';
 export * from './analysis.service';
+
+// Analytics services (modular)
+export * from './analytics';
 
 // Payment services
 export * from './starsPaymentService';
