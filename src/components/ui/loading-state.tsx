@@ -7,7 +7,7 @@ import { memo, ReactNode } from 'react';
 import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { loadingStates } from '@/lib/design-tokens';
-import { Loader2 } from 'lucide-react';
+import { Loader2 } from '@/lib/icons';
 import { CSSEqualizer } from '@/components/loading/CSSEqualizer';
 
 type LoadingVariant = 'spinner' | 'equalizer' | 'skeleton' | 'dots';
