@@ -7,6 +7,7 @@
  * - Telegram
  * - Auth
  * - GuestMode
+ * - Analytics (session, deeplinks, conversions)
  * 
  * This reduces the nesting depth and improves readability.
  */
@@ -17,6 +18,7 @@ import { ThemeProvider } from '@/contexts/ThemeContext';
 import { TelegramProvider } from '@/contexts/TelegramContext';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { GuestModeProvider } from '@/contexts/GuestModeContext';
+import { AnalyticsProvider } from './AnalyticsProvider';
 
 // Optimized QueryClient configuration for faster perceived loading
 const queryClient = new QueryClient({
@@ -39,7 +41,8 @@ interface CoreProvidersProps {
 
 /**
  * Core infrastructure providers - always initialized at app start
- * Order matters: Theme → Telegram → Auth → GuestMode
+ * Order: Theme → Telegram → Auth → GuestMode → Analytics
+ * Analytics is last as it depends on Auth and Telegram context
  */
 export const CoreProviders = memo(function CoreProviders({ children }: CoreProvidersProps) {
   return (
@@ -48,7 +51,9 @@ export const CoreProviders = memo(function CoreProviders({ children }: CoreProvi
         <TelegramProvider>
           <AuthProvider>
             <GuestModeProvider>
-              {children}
+              <AnalyticsProvider>
+                {children}
+              </AnalyticsProvider>
             </GuestModeProvider>
           </AuthProvider>
         </TelegramProvider>

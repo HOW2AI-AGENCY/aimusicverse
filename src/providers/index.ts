@@ -7,3 +7,4 @@
 export { CoreProviders } from './CoreProviders';
 export { UIProviders } from './UIProviders';
 export { FeatureProviders } from './FeatureProviders';
+export { AnalyticsProvider } from './AnalyticsProvider';
