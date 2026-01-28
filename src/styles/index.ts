@@ -13,6 +13,7 @@ import './animations.css';
 import './focus.css';
 import './touch-targets.css';
 import './interactions.css';
+import './accessibility.css'; // NEW: WCAG AA compliance
 
 // Re-export for programmatic access
 export * from './style-utils';

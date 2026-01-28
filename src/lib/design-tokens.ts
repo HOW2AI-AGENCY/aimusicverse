@@ -508,7 +508,30 @@ export const focusStyles = {
   ring: 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
   /** Focus ring without offset */
   ringNoOffset: 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+  /** Inset focus ring (for buttons) */
+  ringInset: 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset',
+  /** Glow focus (for primary actions) */
+  glow: 'focus-visible:outline-none focus-visible:shadow-[0_0_0_3px_hsl(var(--primary)/0.4)]',
 } as const;
+
+// ============================================================================
+// ACCESSIBILITY HELPERS
+// ============================================================================
+
+export const a11y = {
+  /** Screen reader only text */
+  srOnly: 'sr-only',
+  /** Skip to content link */
+  skipLink: 'skip-to-content',
+  /** Ensure touch target size */
+  touchTarget: 'touch-target',
+  /** High contrast text */
+  highContrast: 'text-muted-high-contrast',
+} as const;
+
+// ============================================================================
+// UTILITY FUNCTIONS
+// ============================================================================
 
 /**
  * Check if reduced motion is preferred
@@ -516,4 +539,28 @@ export const focusStyles = {
 export function prefersReducedMotion(): boolean {
   if (typeof window === 'undefined') return false;
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+/**
+ * Check if high contrast is preferred
+ */
+export function prefersHighContrast(): boolean {
+  if (typeof window === 'undefined') return false;
+  return window.matchMedia('(prefers-contrast: high)').matches;
+}
+
+/**
+ * Get appropriate animation duration based on user preferences
+ */
+export function getAnimationDuration(baseDuration: number): number {
+  if (prefersReducedMotion()) return 0;
+  return baseDuration;
+}
+
+/**
+ * Generate CSS class for minimum contrast ratio
+ * @param ratio - WCAG contrast ratio (AA = 4.5, AAA = 7)
+ */
+export function getContrastClass(ratio: 'AA' | 'AAA' = 'AA'): string {
+  return ratio === 'AAA' ? 'text-muted-high-contrast' : 'text-muted-foreground';
 }
