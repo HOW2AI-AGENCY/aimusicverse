@@ -1,0 +1,269 @@
+/**
+ * Accessibility Styles
+ * Feature: 032-professional-ui
+ * 
+ * WCAG AA compliant accessibility utilities
+ * Ensures minimum contrast ratios and readable text
+ */
+
+/* ========== Screen Reader Only ========== */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.sr-only-focusable:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: inherit;
+  margin: inherit;
+  overflow: visible;
+  clip: auto;
+  white-space: inherit;
+}
+
+/* ========== Not Screen Reader (hide from AT) ========== */
+
+.not-sr {
+  speak: none;
+}
+
+[aria-hidden="true"] {
+  speak: none;
+}
+
+/* ========== Focus Visible Improvements ========== */
+
+/* Consistent focus across browsers */
+:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+}
+
+/* Remove default focus for mouse users */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Enhanced focus for interactive elements */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[role="button"]:focus-visible,
+[tabindex="0"]:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+  border-radius: inherit;
+}
+
+/* ========== High Contrast Mode ========== */
+
+@media (prefers-contrast: high) {
+  :root {
+    --border: 0 0% 30%;
+    --muted-foreground: 0 0% 35%;
+  }
+  
+  .dark {
+    --border: 0 0% 70%;
+    --muted-foreground: 0 0% 70%;
+  }
+  
+  /* Ensure all text has minimum contrast */
+  .text-muted-foreground {
+    color: hsl(0 0% 40%);
+  }
+  
+  .dark .text-muted-foreground {
+    color: hsl(0 0% 65%);
+  }
+}
+
+/* ========== Motion Preferences ========== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  /* Keep essential loading indicators visible */
+  .animate-spin {
+    animation-duration: 1s !important;
+    animation-iteration-count: infinite !important;
+  }
+}
+
+/* ========== Minimum Touch Targets ========== */
+
+/* iOS HIG: 44x44px minimum */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Material Design: 48x48px comfortable */
+.touch-target-lg {
+  min-height: 48px;
+  min-width: 48px;
+}
+
+/* Ensure clickable area extends beyond visual */
+.touch-target-extended {
+  position: relative;
+}
+
+.touch-target-extended::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+}
+
+/* ========== Text Accessibility ========== */
+
+/* Minimum readable font size on mobile */
+@media (max-width: 640px) {
+  input,
+  textarea,
+  select {
+    font-size: 16px !important; /* Prevents iOS zoom on focus */
+  }
+}
+
+/* Ensure sufficient line height for readability */
+.readable {
+  line-height: 1.5;
+}
+
+.readable-relaxed {
+  line-height: 1.75;
+}
+
+/* ========== Color Blind Safe ========== */
+
+/* Don't rely solely on color for meaning */
+.status-success {
+  color: hsl(var(--success));
+}
+
+.status-success::before {
+  content: '✓ ';
+}
+
+.status-error {
+  color: hsl(var(--destructive));
+}
+
+.status-error::before {
+  content: '✕ ';
+}
+
+.status-warning {
+  color: hsl(var(--warning));
+}
+
+.status-warning::before {
+  content: '⚠ ';
+}
+
+/* ========== Links ========== */
+
+/* Ensure links are distinguishable from text */
+a:not([class]) {
+  color: hsl(var(--primary));
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+a:not([class]):hover {
+  text-decoration-thickness: 2px;
+}
+
+/* ========== Skip Navigation ========== */
+
+.skip-to-content {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  z-index: 9999;
+}
+
+.skip-to-content:focus {
+  position: fixed;
+  left: 16px;
+  top: 16px;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  padding: 12px 24px;
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  font-weight: 600;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px hsl(0 0% 0% / 0.3);
+}
+
+/* ========== Live Regions ========== */
+
+[aria-live="polite"],
+[aria-live="assertive"] {
+  position: relative;
+}
+
+/* ========== Form Accessibility ========== */
+
+/* Required field indicator */
+[aria-required="true"]::after {
+  content: ' *';
+  color: hsl(var(--destructive));
+}
+
+/* Error state */
+[aria-invalid="true"] {
+  border-color: hsl(var(--destructive)) !important;
+}
+
+[aria-invalid="true"]:focus-visible {
+  outline-color: hsl(var(--destructive));
+}
+
+/* Disabled state */
+[aria-disabled="true"],
+[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ========== Loading States ========== */
+
+[aria-busy="true"] {
+  position: relative;
+  pointer-events: none;
+}
+
+[aria-busy="true"]::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: hsl(var(--background) / 0.7);
+  backdrop-filter: blur(2px);
+}

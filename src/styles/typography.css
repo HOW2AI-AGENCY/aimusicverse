@@ -1,86 +1,184 @@
 /**
- * Typography System
+ * Typography System v2
  * Feature: 032-professional-ui
  * 
- * Consistent typography scale for mobile-first design
- * Based on design-tokens.ts specifications
+ * Professional typography scale with WCAG AA compliance
+ * Optimized for mobile-first design and Russian text
  */
 
-/* ========== Base Typography ========== */
+/* ========== CSS Variables for Typography ========== */
+
+:root {
+  /* Font Families */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'Roboto Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, monospace;
+  --font-display: 'Inter', var(--font-sans);
+  
+  /* Font Weights */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  
+  /* Line Heights */
+  --leading-none: 1;
+  --leading-tight: 1.2;
+  --leading-snug: 1.35;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  --leading-loose: 1.75;
+  
+  /* Letter Spacing */
+  --tracking-tighter: -0.025em;
+  --tracking-tight: -0.015em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.025em;
+  --tracking-wider: 0.05em;
+}
+
+/* ========== Heading Styles ========== */
+
+.text-display-1 {
+  font-family: var(--font-display);
+  font-size: 2.5rem;      /* 40px */
+  font-weight: var(--font-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tighter);
+}
+
+.text-display-2 {
+  font-family: var(--font-display);
+  font-size: 2rem;        /* 32px */
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+}
 
 .text-h1 {
-  font-size: 1.75rem;    /* 28px */
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
+  font-family: var(--font-sans);
+  font-size: 1.75rem;     /* 28px */
+  font-weight: var(--font-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
 }
 
 .text-h2 {
-  font-size: 1.5rem;     /* 24px */
-  font-weight: 600;
-  line-height: 1.3;
-  letter-spacing: -0.015em;
+  font-family: var(--font-sans);
+  font-size: 1.5rem;      /* 24px */
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-tight);
 }
 
 .text-h3 {
-  font-size: 1.25rem;    /* 20px */
-  font-weight: 600;
-  line-height: 1.3;
+  font-family: var(--font-sans);
+  font-size: 1.25rem;     /* 20px */
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-snug);
 }
 
 .text-h4 {
-  font-size: 1.125rem;   /* 18px */
-  font-weight: 500;
-  line-height: 1.4;
+  font-family: var(--font-sans);
+  font-size: 1.125rem;    /* 18px */
+  font-weight: var(--font-medium);
+  line-height: var(--leading-normal);
+}
+
+.text-h5 {
+  font-family: var(--font-sans);
+  font-size: 1rem;        /* 16px */
+  font-weight: var(--font-medium);
+  line-height: var(--leading-normal);
+}
+
+/* ========== Body Text Styles ========== */
+
+.text-body-lg {
+  font-family: var(--font-sans);
+  font-size: 1rem;        /* 16px */
+  font-weight: var(--font-normal);
+  line-height: var(--leading-relaxed);
 }
 
 .text-body {
-  font-size: 1rem;       /* 16px */
-  font-weight: 400;
-  line-height: 1.5;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;    /* 14px */
+  font-weight: var(--font-normal);
+  line-height: var(--leading-normal);
 }
 
 .text-body-sm {
-  font-size: 0.875rem;   /* 14px */
-  font-weight: 400;
-  line-height: 1.5;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;   /* 13px */
+  font-weight: var(--font-normal);
+  line-height: var(--leading-normal);
 }
 
+/* ========== Caption & Label Styles ========== */
+
 .text-caption {
-  font-size: 0.75rem;    /* 12px */
-  font-weight: 400;
-  line-height: 1.4;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;     /* 12px */
+  font-weight: var(--font-normal);
+  line-height: var(--leading-normal);
+  color: hsl(var(--muted-foreground));
+}
+
+.text-caption-sm {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;   /* 11px */
+  font-weight: var(--font-normal);
+  line-height: var(--leading-snug);
   color: hsl(var(--muted-foreground));
 }
 
 .text-tiny {
-  font-size: 0.625rem;   /* 10px */
-  font-weight: 400;
-  line-height: 1.4;
+  font-family: var(--font-sans);
+  font-size: 0.625rem;    /* 10px */
+  font-weight: var(--font-normal);
+  line-height: var(--leading-snug);
+  color: hsl(var(--muted-foreground));
+}
+
+.text-label {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;   /* 11px */
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
   color: hsl(var(--muted-foreground));
 }
 
 /* ========== Responsive Typography ========== */
 
 @media (min-width: 640px) {
+  .text-display-1 {
+    font-size: 3rem;        /* 48px */
+  }
+  
+  .text-display-2 {
+    font-size: 2.5rem;      /* 40px */
+  }
+  
   .text-h1 {
-    font-size: 2rem;       /* 32px */
+    font-size: 2rem;        /* 32px */
   }
   
   .text-h2 {
-    font-size: 1.75rem;    /* 28px */
+    font-size: 1.75rem;     /* 28px */
   }
   
   .text-h3 {
-    font-size: 1.5rem;     /* 24px */
+    font-size: 1.5rem;      /* 24px */
   }
   
   .text-h4 {
-    font-size: 1.25rem;    /* 20px */
+    font-size: 1.25rem;     /* 20px */
   }
 }
 
-/* ========== Text Utilities ========== */
+/* ========== Gradient Text ========== */
 
 .text-gradient {
   background: var(--gradient-primary);
@@ -103,7 +201,7 @@
   background-clip: text;
 }
 
-/* ========== Text Balance ========== */
+/* ========== Text Balance & Wrapping ========== */
 
 .text-balance {
   text-wrap: balance;
@@ -113,12 +211,13 @@
   text-wrap: pretty;
 }
 
-/* Russian text optimization */
+/* Russian text optimization - prevents awkward line breaks */
 .text-ru {
   text-wrap: balance;
   word-break: break-word;
   overflow-wrap: anywhere;
   hyphens: auto;
+  -webkit-hyphens: auto;
 }
 
 /* ========== Truncation ========== */
@@ -145,6 +244,14 @@
   overflow: hidden;
 }
 
+.truncate-4 {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 /* ========== Selection ========== */
 
 ::selection {
@@ -152,7 +259,7 @@
   color: inherit;
 }
 
-/* ========== Focus Typography ========== */
+/* ========== Prose / Long-form Content ========== */
 
 .prose-focus {
   max-width: 65ch;
@@ -160,21 +267,23 @@
   margin-right: auto;
 }
 
+.prose-focus > * + * {
+  margin-top: 1.25em;
+}
+
+.prose-focus h1,
+.prose-focus h2,
+.prose-focus h3 {
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+}
+
 /* ========== Monospace ========== */
 
 .text-mono {
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-family: var(--font-mono);
   font-size: 0.875em;
-}
-
-/* ========== Uppercase Labels ========== */
-
-.text-label {
-  font-size: 0.6875rem;  /* 11px */
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: hsl(var(--muted-foreground));
+  font-variant-ligatures: none;
 }
 
 /* ========== Number Formatting ========== */
@@ -185,4 +294,42 @@
 
 .oldstyle-nums {
   font-variant-numeric: oldstyle-nums;
+}
+
+.lining-nums {
+  font-variant-numeric: lining-nums;
+}
+
+/* ========== Contrast Helpers ========== */
+
+/* Ensure sufficient contrast for muted text */
+.text-muted-safe {
+  color: hsl(var(--muted-foreground));
+}
+
+/* Higher contrast muted text for smaller sizes */
+.text-muted-high-contrast {
+  color: hsl(220 10% 50%);
+}
+
+.dark .text-muted-high-contrast {
+  color: hsl(220 10% 60%);
+}
+
+/* ========== Semantic Text Colors ========== */
+
+.text-success {
+  color: hsl(var(--success));
+}
+
+.text-warning {
+  color: hsl(var(--warning));
+}
+
+.text-error {
+  color: hsl(var(--destructive));
+}
+
+.text-info {
+  color: hsl(var(--primary));
 }
