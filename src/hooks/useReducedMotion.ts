@@ -126,4 +126,45 @@ export function useMotionDuration(duration: number): number {
   return prefersReducedMotion ? 0 : duration;
 }
 
+// ============================================================================
+// CSS ANIMATION UTILITIES
+// ============================================================================
+
+/**
+ * CSS classes with built-in reduced motion support
+ */
+export const safeAnimationClasses = {
+  fadeIn: 'animate-fade-in motion-reduce:animate-none motion-reduce:opacity-100',
+  fadeOut: 'animate-fade-out motion-reduce:animate-none',
+  slideUp: 'animate-slide-up motion-reduce:animate-none motion-reduce:opacity-100',
+  slideDown: 'animate-slide-down motion-reduce:animate-none motion-reduce:opacity-100',
+  slideLeft: 'animate-slide-left motion-reduce:animate-none motion-reduce:opacity-100',
+  slideRight: 'animate-slide-right motion-reduce:animate-none motion-reduce:opacity-100',
+  scaleIn: 'animate-scale-in motion-reduce:animate-none motion-reduce:opacity-100',
+  spin: 'animate-spin motion-reduce:animate-none',
+  pulse: 'animate-pulse-subtle motion-reduce:animate-none',
+  shimmer: 'animate-shimmer motion-reduce:animate-none',
+} as const;
+
+/**
+ * Get CSS stagger delay style
+ * Returns empty object for reduced motion users
+ */
+export function getStaggerStyle(
+  index: number,
+  prefersReducedMotion: boolean = false,
+  baseDelay: number = 50
+): React.CSSProperties {
+  if (prefersReducedMotion) return {};
+  return { animationDelay: `${index * baseDelay}ms` };
+}
+
+/**
+ * Hook to get stagger delay for CSS animations
+ */
+export function useStaggerDelay(index: number, baseDelay: number = 50): React.CSSProperties {
+  const prefersReducedMotion = useReducedMotion();
+  return getStaggerStyle(index, prefersReducedMotion, baseDelay);
+}
+
 export default useReducedMotion;
