@@ -167,6 +167,10 @@ export default defineConfig(({ mode }) => ({
             if (id.includes("audiomotion")) {
               return "vendor-audiomotion";
             }
+            // Sheet music display - very heavy, always lazy loaded
+            if (id.includes("opensheetmusicdisplay")) {
+              return "vendor-osmd";
+            }
             // TanStack Query - MUST include both react-query AND query-core
             // query-core utilities must be with react-query to prevent circular dependencies
             if (id.includes("@tanstack/react-query") || id.includes("@tanstack/query-core")) {
@@ -180,6 +184,7 @@ export default defineConfig(({ mode }) => ({
                 id.includes("use-sidecar") || id.includes("detect-node-es")) {
               return "vendor-radix";
             }
+            // Icons - separate chunk for tree-shaking optimization
             if (id.includes("lucide-react")) {
               return "vendor-icons";
             }
