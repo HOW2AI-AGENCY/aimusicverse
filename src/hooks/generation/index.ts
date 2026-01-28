@@ -28,3 +28,6 @@ export type { RetryState, UseAutomaticRetryOptions } from '../useAutomaticRetry'
 
 // First generated track for recommendations (Sprint 32)
 export { useFirstGeneratedTrack, saveFirstGeneratedTrack, clearFirstGeneratedTrack } from '../useFirstGeneratedTrack';
+
+// Smart Generation Assistant (Sprint 010)
+export { useSmartAssistant } from './useSmartAssistant';
