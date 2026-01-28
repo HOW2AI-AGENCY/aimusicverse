@@ -400,3 +400,120 @@ export const touchTargetClass = {
   /** Navigation item */
   nav: 'min-h-[44px] py-2',
 } as const;
+
+// ============================================================================
+// ANIMATION CLASSES (prefers-reduced-motion aware)
+// ============================================================================
+
+export const animations = {
+  /** Fade in with subtle upward motion */
+  fadeIn: 'animate-fade-in motion-reduce:animate-none',
+  /** Fade out with subtle downward motion */
+  fadeOut: 'animate-fade-out motion-reduce:animate-none',
+  /** Scale in for modals/popups */
+  scaleIn: 'animate-scale-in motion-reduce:animate-none',
+  /** Pulse for attention/loading */
+  pulse: 'animate-pulse motion-reduce:animate-none',
+  /** Spin for loading indicators */
+  spin: 'animate-spin motion-reduce:animate-none',
+} as const;
+
+// ============================================================================
+// TRANSITION CLASSES (GPU-accelerated)
+// ============================================================================
+
+export const transitions = {
+  /** Default transition for most elements */
+  default: 'transition-all duration-200 ease-out',
+  /** Fast transition for hover effects */
+  fast: 'transition-all duration-150 ease-out',
+  /** Slow transition for complex animations */
+  slow: 'transition-all duration-300 ease-out',
+  /** Transform-only for performance */
+  transform: 'transition-transform duration-200 ease-out',
+  /** GPU-optimized with will-change */
+  gpu: 'transition-transform duration-200 ease-out will-change-transform',
+} as const;
+
+// ============================================================================
+// LOADING STATE CLASSES
+// ============================================================================
+
+export const loadingStates = {
+  /** Skeleton shimmer effect */
+  skeleton: 'animate-pulse bg-muted rounded',
+  /** Skeleton with rounded corners */
+  skeletonCard: 'animate-pulse bg-muted rounded-lg',
+  /** Skeleton circle for avatars */
+  skeletonCircle: 'animate-pulse bg-muted rounded-full',
+  /** Skeleton text line */
+  skeletonLine: 'animate-pulse bg-muted rounded h-4 w-full',
+  /** Skeleton short text */
+  skeletonShort: 'animate-pulse bg-muted rounded h-4 w-2/3',
+  /** Disabled state during loading */
+  disabled: 'opacity-50 pointer-events-none',
+  /** Loading overlay */
+  overlay: 'absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center z-50',
+} as const;
+
+// ============================================================================
+// EMPTY STATE PATTERNS
+// ============================================================================
+
+export const emptyStates = {
+  /** Container for empty state */
+  container: 'flex flex-col items-center justify-center py-12 px-4 text-center',
+  /** Icon wrapper */
+  icon: 'w-16 h-16 rounded-full bg-muted flex items-center justify-center mb-4',
+  /** Title text */
+  title: 'text-lg font-medium text-foreground mb-2',
+  /** Description text */
+  description: 'text-sm text-muted-foreground mb-6 max-w-sm',
+} as const;
+
+// ============================================================================
+// INTERACTIVE STATE PATTERNS
+// ============================================================================
+
+export const interactiveStates = {
+  /** Hover scale effect */
+  hoverScale: 'hover:scale-105 active:scale-95 transition-transform duration-150',
+  /** Hover with background */
+  hoverBg: 'hover:bg-accent transition-colors duration-150',
+  /** Pressed state */
+  pressed: 'active:scale-[0.98] transition-transform duration-100',
+  /** Disabled state */
+  disabled: 'disabled:opacity-50 disabled:pointer-events-none',
+} as const;
+
+// ============================================================================
+// CARD PATTERNS
+// ============================================================================
+
+export const cardPatterns = {
+  /** Base card */
+  base: 'rounded-lg border bg-card text-card-foreground shadow-sm',
+  /** Interactive card */
+  interactive: 'rounded-lg border bg-card text-card-foreground shadow-sm hover:border-primary/50 transition-colors cursor-pointer',
+  /** Selected card */
+  selected: 'rounded-lg border-2 border-primary bg-card text-card-foreground shadow-sm',
+} as const;
+
+// ============================================================================
+// FOCUS STYLES (Accessibility)
+// ============================================================================
+
+export const focusStyles = {
+  /** Default focus ring */
+  ring: 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+  /** Focus ring without offset */
+  ringNoOffset: 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+} as const;
+
+/**
+ * Check if reduced motion is preferred
+ */
+export function prefersReducedMotion(): boolean {
+  if (typeof window === 'undefined') return false;
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
