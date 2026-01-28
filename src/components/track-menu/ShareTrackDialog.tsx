@@ -18,6 +18,8 @@ import { canShareToStory, getTrackDeepLink, shareTrackURL, shareTrackToStory, do
 import { logger } from '@/lib/logger';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { useRewardShare } from '@/hooks/useGamification';
+import { trackFeatureUsed } from '@/services/analytics';
+import { trackConversionStage, hasReachedStage } from '@/lib/analytics/deeplink-tracker';
 
 interface ShareTrackDialogProps {
   open: boolean;
@@ -45,7 +47,22 @@ export function ShareTrackDialog({ open, onOpenChange, track }: ShareTrackDialog
     }
   }, [open, track.id]);
 
-  const handleRewardShare = async () => {
+  const handleRewardShare = async (method: 'copy' | 'telegram' | 'story' | 'native' | 'twitter' | 'whatsapp') => {
+    // Track share analytics
+    trackFeatureUsed('track_share', {
+      track_id: track.id,
+      share_method: method,
+    }).catch(() => {});
+
+    // Track engagement conversion if not yet engaged
+    if (!hasReachedStage('engaged')) {
+      trackConversionStage('engaged', {
+        trigger: 'share',
+        track_id: track.id,
+        method,
+      }).catch(() => {});
+    }
+
     if (rewardedRef.current) return;
     rewardedRef.current = true;
     setRewarded(true);
@@ -81,7 +98,7 @@ export function ShareTrackDialog({ open, onOpenChange, track }: ShareTrackDialog
       setTimeout(() => setCopied(false), 2000);
       
       // Reward for sharing
-      await handleRewardShare();
+      await handleRewardShare('copy');
     } catch (error) {
       toast.error('Не удалось скопировать');
     }
@@ -92,7 +109,7 @@ export function ShareTrackDialog({ open, onOpenChange, track }: ShareTrackDialog
     const success = shareTrackURL(track);
     if (success) {
       hapticNotification('success');
-      await handleRewardShare();
+      await handleRewardShare('telegram');
     } else {
       // Fallback to Web Share API
       if (navigator.share) {
@@ -102,7 +119,7 @@ export function ShareTrackDialog({ open, onOpenChange, track }: ShareTrackDialog
             text: `Listen to "${track.title}" on MusicVerse AI`,
             url: shareUrl,
           });
-          await handleRewardShare();
+          await handleRewardShare('native');
         } catch (error) {
           if ((error as Error).name !== 'AbortError') {
             handleCopy();
@@ -123,6 +140,7 @@ export function ShareTrackDialog({ open, onOpenChange, track }: ShareTrackDialog
     const success = shareTrackToStory(track);
     if (success) {
       toast.success('Открыта Stories');
+      handleRewardShare('story');
     } else {
       toast.error('Stories не поддерживаются');
     }
@@ -270,6 +288,7 @@ export function ShareTrackDialog({ open, onOpenChange, track }: ShareTrackDialog
                 onClick={() => {
                   const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(`Check out "${track.title}"`)}`;
                   window.open(telegramUrl, '_blank');
+                  handleRewardShare('telegram');
                 }}
                 disabled={loading || !shareUrl}
               >
@@ -285,6 +304,7 @@ export function ShareTrackDialog({ open, onOpenChange, track }: ShareTrackDialog
                 onClick={() => {
                   const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`Check out "${track.title}"`)}&url=${encodeURIComponent(shareUrl)}`;
                   window.open(twitterUrl, '_blank');
+                  handleRewardShare('twitter');
                 }}
                 disabled={loading || !shareUrl}
               >
@@ -300,6 +320,7 @@ export function ShareTrackDialog({ open, onOpenChange, track }: ShareTrackDialog
                 onClick={() => {
                   const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(`Check out "${track.title}": ${shareUrl}`)}`;
                   window.open(whatsappUrl, '_blank');
+                  handleRewardShare('whatsapp');
                 }}
                 disabled={loading || !shareUrl}
               >

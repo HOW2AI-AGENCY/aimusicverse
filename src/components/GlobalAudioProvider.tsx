@@ -48,6 +48,7 @@ import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { setGlobalAudioRef } from '@/hooks/audio/useAudioTime';
 import { useOptimizedAudioPlayer } from '@/hooks/audio/useOptimizedAudioPlayer';
 import { usePlaybackPosition } from '@/hooks/audio/usePlaybackPosition';
+import { usePlayerAnalytics } from '@/hooks/audio/usePlayerAnalytics';
 import { logger } from '@/lib/logger';
 import { toast } from 'sonner';
 import { playerAnalytics, recordError } from '@/lib/telemetry';
@@ -94,6 +95,9 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
 
   // Use playback position persistence
   usePlaybackPosition();
+
+  // Use player analytics tracking
+  usePlayerAnalytics();
 
   // Initialize audio element once and clean up invalid tracks from localStorage
   useEffect(() => {
