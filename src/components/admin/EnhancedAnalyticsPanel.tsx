@@ -35,6 +35,8 @@ import { RetentionHeatmap } from "./RetentionHeatmap";
 import { FunnelVisualization } from "./FunnelVisualization";
 import { RevenueAnalytics } from "./RevenueAnalytics";
 import { PerformanceDashboard } from "./PerformanceDashboard";
+import { PaymentCohortAnalysis } from "./PaymentCohortAnalysis";
+import { RevenueForecast } from "./RevenueForecast";
 
 const MODE_LABELS: Record<string, string> = {
   standard: 'Стандарт',
@@ -333,8 +335,12 @@ export function EnhancedAnalyticsPanel() {
         <GenerationAnalyticsPanel />
       </TabsContent>
 
-      <TabsContent value="revenue">
+      <TabsContent value="revenue" className="space-y-4">
         <RevenueAnalytics />
+        <div className="grid gap-4 lg:grid-cols-2">
+          <PaymentCohortAnalysis />
+          <RevenueForecast />
+        </div>
       </TabsContent>
 
       <TabsContent value="funnel">
