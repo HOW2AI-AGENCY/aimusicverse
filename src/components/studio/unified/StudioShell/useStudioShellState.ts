@@ -27,6 +27,7 @@ export function useStudioShellState() {
   const [showInstrumentalResult, setShowInstrumentalResult] = useState(false);
   const [showActionsSheet, setShowActionsSheet] = useState(false);
   const [showStemSeparationDialog, setShowStemSeparationDialog] = useState(false);
+  const [showBatchProcessingPanel, setShowBatchProcessingPanel] = useState(false);
 
   // Selected track states
   const [selectedEffectsTrack, setSelectedEffectsTrack] = useState<StudioTrack | null>(null);
@@ -106,6 +107,7 @@ export function useStudioShellState() {
     showInstrumentalResult, setShowInstrumentalResult,
     showActionsSheet, setShowActionsSheet,
     showStemSeparationDialog, setShowStemSeparationDialog,
+    showBatchProcessingPanel, setShowBatchProcessingPanel,
 
     // Selected track states
     selectedEffectsTrack, setSelectedEffectsTrack,
