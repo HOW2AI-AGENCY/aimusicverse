@@ -19,6 +19,7 @@ import { hapticImpact } from '@/lib/haptic';
 import { GlassCard } from '@/components/ui/glass-card';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { logger } from '@/lib/logger';
+import { useFeatureUsageTracking, FeatureEvents } from '@/hooks/analytics';
 
 interface ExpandedPlayerProps {
   track: Track;
@@ -32,6 +33,16 @@ export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerPro
   const [isLiking, setIsLiking] = useState(false);
   const { isPlaying, queue, preservedTime, clearPreservedTime, volume, nextTrack, previousTrack } = usePlayerStore();
   const lastTapRef = useRef<number>(0);
+  const { trackFeature, trackAction } = useFeatureUsageTracking();
+  const hasTrackedExpand = useRef(false);
+
+  // Track player expand once
+  useEffect(() => {
+    if (!hasTrackedExpand.current) {
+      hasTrackedExpand.current = true;
+      trackFeature(FeatureEvents.PLAYER_EXPANDED());
+    }
+  }, [trackFeature]);
 
   const { currentTime, duration, buffered, seek } = useAudioTime();
   
@@ -83,6 +94,7 @@ export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerPro
   const handleLike = async () => {
     setIsLiking(true);
     hapticImpact('light');
+    trackFeature(FeatureEvents.TRACK_LIKED());
     await toggleLike({
       trackId: track.id,
       isLiked: track.is_liked || false,

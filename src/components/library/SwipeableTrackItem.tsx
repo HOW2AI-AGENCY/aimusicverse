@@ -1,9 +1,10 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { motion, useMotionValue, useTransform, AnimatePresence } from '@/lib/motion';
 import type { PanInfo } from '@/lib/motion';
 import { ListPlus, RefreshCw, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { hapticImpact } from '@/lib/haptic';
+import { useFeatureUsageTracking, FeatureEvents } from '@/hooks/analytics';
 
 interface SwipeableTrackItemProps {
   children: React.ReactNode;
@@ -29,6 +30,7 @@ export function SwipeableTrackItem({
   const [actionTriggered, setActionTriggered] = useState<'queue' | 'version' | null>(null);
   const x = useMotionValue(0);
   const dragDirectionRef = useRef<'x' | 'y' | null>(null);
+  const { trackFeature } = useFeatureUsageTracking();
   
   // Transform for action button opacity, scale and glow
   const leftOpacity = useTransform(x, [-ACTION_WIDTH, -20, 0], [1, 0.5, 0]);
@@ -93,13 +95,17 @@ export function SwipeableTrackItem({
     }
   };
 
-  const handleActionClick = (action: 'queue' | 'version') => {
+  const handleActionClick = useCallback((action: 'queue' | 'version') => {
     hapticImpact('medium');
     setActionTriggered(action);
     
+    // Track swipe action
     if (action === 'queue') {
+      trackFeature(FeatureEvents.SWIPE_ACTION('add_to_queue'));
+      trackFeature(FeatureEvents.QUEUE_MODIFIED('add'));
       onAddToQueue?.();
     } else if (action === 'version') {
+      trackFeature(FeatureEvents.SWIPE_ACTION('switch_version'));
       onSwitchVersion?.();
     }
     
@@ -109,7 +115,7 @@ export function SwipeableTrackItem({
       setIsOpen(null);
       x.set(0);
     }, 400);
-  };
+  }, [onAddToQueue, onSwitchVersion, trackFeature, x]);
 
   const closeSwipe = () => {
     setIsOpen(null);
