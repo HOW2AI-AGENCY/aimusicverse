@@ -5,7 +5,7 @@
  * Actual tracking initialization happens in MainLayout (inside Router context).
  */
 
-import { ReactNode, memo, useEffect, useRef } from 'react';
+import { ReactNode, memo, useEffect, useRef, lazy, Suspense } from 'react';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { 
@@ -14,6 +14,11 @@ import {
 } from '@/lib/analytics/deeplink-tracker';
 import { getOrCreateSessionId } from '@/services/analytics';
 import { logger } from '@/lib/logger';
+
+// Lazy load WebVitalsReporter - it's not critical for initial render
+const WebVitalsReporter = lazy(() => 
+  import('@/components/analytics/WebVitalsReporter').then(m => ({ default: m.WebVitalsReporter }))
+);
 
 interface AnalyticsProviderProps {
   children: ReactNode;
@@ -59,5 +64,13 @@ export const AnalyticsProvider = memo(function AnalyticsProvider({
     });
   }, [isTelegram, telegramId, webApp]);
 
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      {/* Mount Web Vitals Reporter for performance tracking */}
+      <Suspense fallback={null}>
+        <WebVitalsReporter debug={import.meta.env.DEV} />
+      </Suspense>
+    </>
+  );
 });
