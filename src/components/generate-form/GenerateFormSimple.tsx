@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { motion } from '@/lib/motion';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
@@ -13,6 +13,7 @@ import { PromptValidationAlert } from './PromptValidationAlert';
 import { cn } from '@/lib/utils';
 import { notify } from '@/lib/notifications';
 import { useTelegram } from '@/contexts/TelegramContext';
+import { useFeatureUsageTracking, FeatureEvents } from '@/hooks/analytics';
 
 interface GenerateFormSimpleProps {
   description: string;
@@ -38,6 +39,21 @@ export function GenerateFormSimple({
   onOpenStyles,
 }: GenerateFormSimpleProps) {
   const { hapticFeedback } = useTelegram();
+  const { trackFeature, trackAction } = useFeatureUsageTracking();
+  const hasTrackedView = useRef(false);
+
+  // Track form view once on mount
+  useEffect(() => {
+    if (!hasTrackedView.current) {
+      hasTrackedView.current = true;
+      trackFeature({
+        feature: 'generation_form',
+        category: 'generation',
+        action: 'view',
+        metadata: { mode: 'simple' },
+      });
+    }
+  }, [trackFeature]);
 
   const handleCopy = useCallback(async () => {
     if (description) {
@@ -60,14 +76,16 @@ export function GenerateFormSimple({
   // Haptic feedback for boost style (T045)
   const handleBoostStyle = useCallback(() => {
     hapticFeedback('medium');
+    trackAction('ai_boost', 'generation', 'click', { hasDescription: !!description });
     onBoostStyle();
-  }, [hapticFeedback, onBoostStyle]);
+  }, [hapticFeedback, onBoostStyle, trackAction, description]);
 
   // Haptic feedback for open styles (T045)
   const handleOpenStyles = useCallback(() => {
     hapticFeedback('light');
+    trackAction('style_selector', 'generation', 'click');
     onOpenStyles?.();
-  }, [hapticFeedback, onOpenStyles]);
+  }, [hapticFeedback, onOpenStyles, trackAction]);
 
   // Validation messages - now pass text for artist checking
   const descriptionValidation = validation.description.getMessage(description.length, description);
