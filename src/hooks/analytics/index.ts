@@ -40,6 +40,12 @@ export {
   type PerformanceMetric,
 } from './usePerformanceTracking';
 
+// A/B Testing / Experiments
+export {
+  useExperiment,
+  useExperimentEnabled,
+} from '../useExperiment';
+
 // Deeplink analytics data hooks
 export { 
   useDeeplinkAnalytics,
