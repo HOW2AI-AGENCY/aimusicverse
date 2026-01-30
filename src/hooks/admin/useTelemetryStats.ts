@@ -64,7 +64,7 @@ export function useTelemetryStats(timePeriod: string = '24 hours') {
 
       // RPC returns array, get first row
       const row = Array.isArray(data) ? data[0] : data;
-      return row as TelemetryStats;
+      return row as unknown as TelemetryStats;
     },
     staleTime: 30000, // 30 seconds
     refetchInterval: 60000, // 1 minute
@@ -85,7 +85,7 @@ export function useErrorTrends(timePeriod: string = '7 days') {
       }
 
       const row = Array.isArray(data) ? data[0] : data;
-      return row as ErrorTrends;
+      return row as unknown as ErrorTrends;
     },
     staleTime: 60000, // 1 minute
     refetchInterval: 120000, // 2 minutes
