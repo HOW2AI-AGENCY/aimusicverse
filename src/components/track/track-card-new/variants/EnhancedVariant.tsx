@@ -145,7 +145,7 @@ export const EnhancedVariant = memo(function EnhancedVariant({
           <Card
             className={cn(
               'group relative overflow-hidden border-0 bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-sm h-full',
-              'shadow-sm hover:shadow-md transition-shadow duration-200 cursor-pointer',
+              'shadow-sm hover:shadow-lg hover:ring-1 hover:ring-primary/20 transition-all duration-200 cursor-pointer',
               isCurrentTrack && 'ring-2 ring-primary ring-offset-1 ring-offset-background',
               className
             )}
