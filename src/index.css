@@ -1527,6 +1527,21 @@ select:focus-visible,
 /* =========================================
    Z-Index Utilities
    Consistent z-index values across the app
+   Hierarchy (lowest to highest):
+   - base: 0 (regular content)
+   - raised: 10 (elevated cards)
+   - sticky: 20 (sticky headers)
+   - floating: 30 (FABs, floating elements)
+   - overlay: 40 (subtle overlays)
+   - navigation: 50 (bottom nav, sidebar)
+   - player: 60 (mini player)
+   - contextual: 70 (tooltips, hints)
+   - dialog: 140 (modal dialogs)
+   - sheet: 150 (bottom sheets)
+   - fullscreen: 160 (fullscreen overlays)
+   - dropdown: 200 (select, popover, dropdown)
+   - toast: 300 (system notifications)
+   - max: 9999 (critical alerts, context menus)
    ========================================= */
 
 .z-base { z-index: 0; }
@@ -1537,17 +1552,16 @@ select:focus-visible,
 .z-navigation { z-index: 50; }
 .z-player { z-index: 60; }
 .z-contextual { z-index: 70; }
-.z-dialog { z-index: 80; }
-.z-fullscreen { z-index: 90; }
-.z-system { z-index: 100; }
+.z-dialog { z-index: 140; }
+.z-sheet-backdrop { z-index: 150; }
+.z-sheet-content { z-index: 151; }
+.z-fullscreen { z-index: 160; }
 .z-dropdown { z-index: 200; }
-
-/* Specific component z-index helpers */
-.z-sheet-backdrop { z-index: 80; }
-.z-sheet-content { z-index: 81; }
-.z-player-overlay { z-index: 61; }
-.z-toast { z-index: 70; }
-.z-hint { z-index: 70; }
+.z-popover { z-index: 200; }
+.z-tooltip { z-index: 250; }
+.z-toast { z-index: 300; }
+.z-notification { z-index: 300; }
+.z-max { z-index: 9999; }
 
 /* =========================================
    Centering & Alignment Utilities

@@ -188,6 +188,7 @@ export default {
         'elevation-5': shadows.level5,
       },
       zIndex: {
+        // Semantic z-index tokens (from lowest to highest)
         'base': '0',
         'raised': '10',
         'sticky': '20',
@@ -199,13 +200,16 @@ export default {
         'dialog': '80',
         'fullscreen': '90',
         'system': '100',
+        // High-priority overlays (modals, sheets, dropdowns)
+        'sheet-backdrop': '150',
+        'sheet-content': '151',
         'dropdown': '200',
-        // Specific component helpers
-        'sheet-backdrop': '80',
-        'sheet-content': '81',
-        'player-overlay': '61',
-        'toast': '70',
-        'hint': '70',
+        'popover': '200',
+        'tooltip': '250',
+        'toast': '300',
+        'notification': '300',
+        // Maximum priority (critical alerts, debugging)
+        'max': '9999',
       },
       keyframes: {
         "accordion-down": {
