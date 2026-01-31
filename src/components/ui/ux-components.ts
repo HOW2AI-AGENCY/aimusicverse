@@ -13,12 +13,15 @@
 // TOUCH & INTERACTION
 // ============================================================================
 export { TouchFeedback, PressableCard, IconTouchButton } from './TouchFeedback';
+export { SwipeableListItem } from './SwipeableListItem';
+export { PullToRefresh } from './PullToRefresh';
 
 // ============================================================================
 // ANIMATIONS
 // ============================================================================
 export { AnimatedList, AnimatedGrid } from './AnimatedList';
 export { PageTransition, AnimatedSection, FadeIn, ScaleIn } from './PageTransition';
+export { AnimatedCounter } from './AnimatedCounter';
 
 // ============================================================================
 // LOADING STATES
@@ -101,6 +104,21 @@ export { Shimmer, ShimmerBlock, ShimmerText, ShimmerAvatar } from './Shimmer';
 export { showToast, toast } from './FeedbackToast';
 
 // ============================================================================
-// ANIMATED COUNTER
+// BADGES & INDICATORS
 // ============================================================================
-export { AnimatedCounter } from './AnimatedCounter';
+export { NotificationBadge, StatusIndicator, LabelBadge } from './NotificationBadge';
+
+// ============================================================================
+// FORM COMPONENTS
+// ============================================================================
+export { FloatingInput, FloatingTextarea } from './FloatingInput';
+
+// ============================================================================
+// HOOKS RE-EXPORTS
+// ============================================================================
+export { useScrollReveal, useStaggeredReveal } from '@/hooks/useScrollReveal';
+export { useSmoothCounter } from '@/hooks/useSmoothCounter';
+export { useOptimistic, useOptimisticList } from '@/hooks/useOptimistic';
+export { usePullToRefresh } from '@/hooks/usePullToRefresh';
+export { useSwipeActions } from '@/hooks/useSwipeActions';
+export { useKeyboardShortcuts, usePlayerShortcuts, commonShortcuts } from '@/hooks/useKeyboardShortcuts';
