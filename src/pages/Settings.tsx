@@ -2,11 +2,13 @@
  * Settings Page
  * 
  * User settings management with modular tab components.
- * Business logic delegated to useSettingsPage hook.
+ * Desktop: vertical sidebar navigation
+ * Mobile: horizontal tabs
  * 
  * @see src/hooks/useSettingsPage.ts
  */
 
+import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { 
   User, Bell, Shield, Palette, Music, Send, Lightbulb, BarChart3, CreditCard,
@@ -18,6 +20,9 @@ import { Button } from "@/components/ui/button";
 import { AppHeader } from "@/components/layout/AppHeader";
 import { NotificationBadge } from "@/components/NotificationBadge";
 import { useSettingsPage } from "@/hooks/useSettingsPage";
+import { useIsMobile } from "@/hooks/use-is-mobile";
+import { SettingsSidebar } from "@/components/settings/SettingsSidebar";
+import { cn } from "@/lib/utils";
 
 // Tab components
 import { ProfileTab, NotificationsTab, PrivacyTab, TelegramTab } from "@/components/settings/tabs";
@@ -32,6 +37,8 @@ import { MidiSettingsSection } from "@/components/settings/MidiSettingsSection";
 
 export default function Settings() {
   const settings = useSettingsPage();
+  const isMobile = useIsMobile();
+  const [activeTab, setActiveTab] = useState("profile");
 
   if (settings.profileLoading) {
     return (
@@ -41,12 +48,74 @@ export default function Settings() {
     );
   }
 
+  // Content renderer for both mobile tabs and desktop sidebar
+  const renderContent = (tab: string) => {
+    switch (tab) {
+      case 'profile':
+        return (
+          <ProfileTab
+            profile={settings.profile}
+            firstName={settings.firstName}
+            lastName={settings.lastName}
+            onFirstNameChange={settings.setFirstName}
+            onLastNameChange={settings.setLastName}
+            onAvatarUpload={settings.updateAvatar}
+            onSave={settings.saveProfile}
+            isSaving={settings.isSaving}
+            createFocusHandler={settings.createFocusHandler}
+          />
+        );
+      case 'subscription':
+        return (
+          <>
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+              <SubscriptionManagement />
+            </motion.div>
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+              <InviteFriendsCard />
+            </motion.div>
+          </>
+        );
+      case 'stats':
+        return <UserStatsSection />;
+      case 'appearance':
+        return <ThemeSettings />;
+      case 'privacy':
+        return <PrivacyTab onNavigate={settings.navigateTo} />;
+      case 'notifications':
+        return (
+          <NotificationsTab
+            settings={settings.notificationSettings}
+            isUpdating={settings.isUpdating}
+            onToggle={settings.toggleNotification}
+            onUpdateSettings={settings.updateSettings}
+            createFocusHandler={settings.createFocusHandler}
+          />
+        );
+      case 'hints':
+        return <HintsSettings />;
+      case 'midi':
+        return (
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+            <MidiSettingsSection />
+          </motion.div>
+        );
+      case 'telegram':
+        return <TelegramTab />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <div 
       className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5"
       style={settings.getContainerStyle(96)}
     >
-      <div className="container max-w-2xl mx-auto px-4">
+      <div className={cn(
+        "container mx-auto px-4",
+        isMobile ? "max-w-2xl" : "max-w-5xl"
+      )}>
         <AppHeader
           title="Настройки"
           subtitle="Управление аккаунтом"
@@ -54,114 +123,98 @@ export default function Settings() {
           rightAction={<NotificationBadge />}
         />
 
-        <Tabs defaultValue="profile" className="w-full">
-          <TabsList className="grid w-full mb-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(55px, 1fr))' }}>
-            <TabsTrigger value="profile" className="gap-1 px-1">
-              <User className="w-4 h-4" />
-              <span className="hidden sm:inline text-xs">Профиль</span>
-            </TabsTrigger>
-            <TabsTrigger value="subscription" className="gap-1 px-1">
-              <CreditCard className="w-4 h-4" />
-              <span className="hidden sm:inline text-xs">Подписка</span>
-            </TabsTrigger>
-            <TabsTrigger value="stats" className="gap-1 px-1">
-              <BarChart3 className="w-4 h-4" />
-              <span className="hidden sm:inline text-xs">Статистика</span>
-            </TabsTrigger>
-            <TabsTrigger value="appearance" className="gap-1 px-1">
-              <Palette className="w-4 h-4" />
-              <span className="hidden sm:inline text-xs">Тема</span>
-            </TabsTrigger>
-            <TabsTrigger value="privacy" className="gap-1 px-1">
-              <Shield className="w-4 h-4" />
-              <span className="hidden sm:inline text-xs">Приватность</span>
-            </TabsTrigger>
-            <TabsTrigger value="notifications" className="gap-1 px-1">
-              <Bell className="w-4 h-4" />
-              <span className="hidden sm:inline text-xs">Уведомления</span>
-            </TabsTrigger>
-            <TabsTrigger value="hints" className="gap-1 px-1">
-              <Lightbulb className="w-4 h-4" />
-              <span className="hidden sm:inline text-xs">Подсказки</span>
-            </TabsTrigger>
-            <TabsTrigger value="midi" className="gap-1 px-1">
-              <Music className="w-4 h-4" />
-              <span className="hidden sm:inline text-xs">MIDI</span>
-            </TabsTrigger>
-            <TabsTrigger value="telegram" className="gap-1 px-1">
-              <Send className="w-4 h-4" />
-              <span className="hidden sm:inline text-xs">Telegram</span>
-            </TabsTrigger>
-          </TabsList>
+        {/* Desktop: Sidebar + Content */}
+        {!isMobile ? (
+          <div className="flex gap-6 mt-4">
+            <aside className="w-64 flex-shrink-0">
+              <SettingsSidebar 
+                activeTab={activeTab} 
+                onTabChange={setActiveTab} 
+              />
+            </aside>
+            <main className="flex-1 min-w-0">
+              <motion.div
+                key={activeTab}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.2 }}
+                className="space-y-4"
+              >
+                {renderContent(activeTab)}
+              </motion.div>
+            </main>
+          </div>
+        ) : (
+          /* Mobile: Horizontal Tabs */
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <TabsList className="grid w-full mb-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(55px, 1fr))' }}>
+              <TabsTrigger value="profile" className="gap-1 px-1">
+                <User className="w-4 h-4" />
+                <span className="hidden sm:inline text-xs">Профиль</span>
+              </TabsTrigger>
+              <TabsTrigger value="subscription" className="gap-1 px-1">
+                <CreditCard className="w-4 h-4" />
+                <span className="hidden sm:inline text-xs">Подписка</span>
+              </TabsTrigger>
+              <TabsTrigger value="stats" className="gap-1 px-1">
+                <BarChart3 className="w-4 h-4" />
+                <span className="hidden sm:inline text-xs">Статистика</span>
+              </TabsTrigger>
+              <TabsTrigger value="appearance" className="gap-1 px-1">
+                <Palette className="w-4 h-4" />
+                <span className="hidden sm:inline text-xs">Тема</span>
+              </TabsTrigger>
+              <TabsTrigger value="privacy" className="gap-1 px-1">
+                <Shield className="w-4 h-4" />
+                <span className="hidden sm:inline text-xs">Приватность</span>
+              </TabsTrigger>
+              <TabsTrigger value="notifications" className="gap-1 px-1">
+                <Bell className="w-4 h-4" />
+                <span className="hidden sm:inline text-xs">Уведомления</span>
+              </TabsTrigger>
+              <TabsTrigger value="hints" className="gap-1 px-1">
+                <Lightbulb className="w-4 h-4" />
+                <span className="hidden sm:inline text-xs">Подсказки</span>
+              </TabsTrigger>
+              <TabsTrigger value="midi" className="gap-1 px-1">
+                <Music className="w-4 h-4" />
+                <span className="hidden sm:inline text-xs">MIDI</span>
+              </TabsTrigger>
+              <TabsTrigger value="telegram" className="gap-1 px-1">
+                <Send className="w-4 h-4" />
+                <span className="hidden sm:inline text-xs">Telegram</span>
+              </TabsTrigger>
+            </TabsList>
 
-          {/* Profile Tab */}
-          <TabsContent value="profile" className="space-y-4">
-            <ProfileTab
-              profile={settings.profile}
-              firstName={settings.firstName}
-              lastName={settings.lastName}
-              onFirstNameChange={settings.setFirstName}
-              onLastNameChange={settings.setLastName}
-              onAvatarUpload={settings.updateAvatar}
-              onSave={settings.saveProfile}
-              isSaving={settings.isSaving}
-              createFocusHandler={settings.createFocusHandler}
-            />
-          </TabsContent>
-
-          {/* Subscription Tab */}
-          <TabsContent value="subscription" className="space-y-4">
-            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-              <SubscriptionManagement />
-            </motion.div>
-            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-              <InviteFriendsCard />
-            </motion.div>
-          </TabsContent>
-
-          {/* Stats Tab */}
-          <TabsContent value="stats" className="space-y-4">
-            <UserStatsSection />
-          </TabsContent>
-
-          {/* Appearance Tab */}
-          <TabsContent value="appearance" className="space-y-4">
-            <ThemeSettings />
-          </TabsContent>
-
-          {/* Privacy Tab */}
-          <TabsContent value="privacy" className="space-y-4">
-            <PrivacyTab onNavigate={settings.navigateTo} />
-          </TabsContent>
-
-          {/* Notifications Tab */}
-          <TabsContent value="notifications" className="space-y-4">
-            <NotificationsTab
-              settings={settings.notificationSettings}
-              isUpdating={settings.isUpdating}
-              onToggle={settings.toggleNotification}
-              onUpdateSettings={settings.updateSettings}
-              createFocusHandler={settings.createFocusHandler}
-            />
-          </TabsContent>
-
-          {/* Hints Tab */}
-          <TabsContent value="hints" className="space-y-4">
-            <HintsSettings />
-          </TabsContent>
-
-          {/* MIDI Tab */}
-          <TabsContent value="midi" className="space-y-4">
-            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-              <MidiSettingsSection />
-            </motion.div>
-          </TabsContent>
-
-          {/* Telegram Tab */}
-          <TabsContent value="telegram" className="space-y-4">
-            <TelegramTab />
-          </TabsContent>
-        </Tabs>
+            <TabsContent value="profile" className="space-y-4">
+              {renderContent('profile')}
+            </TabsContent>
+            <TabsContent value="subscription" className="space-y-4">
+              {renderContent('subscription')}
+            </TabsContent>
+            <TabsContent value="stats" className="space-y-4">
+              {renderContent('stats')}
+            </TabsContent>
+            <TabsContent value="appearance" className="space-y-4">
+              {renderContent('appearance')}
+            </TabsContent>
+            <TabsContent value="privacy" className="space-y-4">
+              {renderContent('privacy')}
+            </TabsContent>
+            <TabsContent value="notifications" className="space-y-4">
+              {renderContent('notifications')}
+            </TabsContent>
+            <TabsContent value="hints" className="space-y-4">
+              {renderContent('hints')}
+            </TabsContent>
+            <TabsContent value="midi" className="space-y-4">
+              {renderContent('midi')}
+            </TabsContent>
+            <TabsContent value="telegram" className="space-y-4">
+              {renderContent('telegram')}
+            </TabsContent>
+          </Tabs>
+        )}
 
         {/* Footer */}
         <motion.div
