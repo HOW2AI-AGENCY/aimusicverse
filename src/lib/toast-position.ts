@@ -58,13 +58,15 @@ export const Z_INDEX = {
   base: 10,           // Regular page content
   sidebar: 40,        // Background UI elements
   navigation: 50,     // Bottom navigation bar
-  floatingButton: 60, // Floating action buttons
-  tooltips: 70,       // Smart hints, tooltips
-  dialogs: 80,        // Modal dialogs, sheets
-  fullscreen: 90,     // Major fullscreen experiences
-  system: 100,        // System notifications
-  critical: 110,      // Critical alerts
-  dropdown: 9999,     // Temporary floating menus
+  player: 60,         // Mini player
+  floatingButton: 70, // Floating action buttons
+  tooltips: 80,       // Smart hints, tooltips
+  dialogs: 140,       // Modal dialogs
+  sheet: 150,         // Bottom sheets
+  fullscreen: 160,    // Major fullscreen experiences
+  dropdown: 200,      // Select, popover, dropdown menus
+  system: 300,        // System notifications (toasts)
+  critical: 9999,     // Critical alerts, context menus
 } as const;
 /**
  * Get safe area padding styles for fullscreen overlays

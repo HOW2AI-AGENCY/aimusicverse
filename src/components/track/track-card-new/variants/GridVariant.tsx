@@ -143,10 +143,12 @@ export const GridVariant = memo(function GridVariant({
 
         <Card
           className={cn(
-            'group overflow-hidden cursor-pointer touch-manipulation transition-all duration-200 rounded-2xl border-transparent',
-            'hover:ring-2 hover:ring-primary/20 hover:shadow-lg hover:shadow-primary/5',
+            'group overflow-hidden cursor-pointer touch-manipulation transition-all duration-200 rounded-2xl',
+            'bg-card/80 backdrop-blur-sm border-border/40',
+            'hover:ring-2 hover:ring-primary/20 hover:shadow-lg hover:shadow-primary/5 hover:border-primary/30',
             isMobile && 'active:scale-[0.98]',
-            isCurrentlyPlaying && 'ring-2 ring-primary shadow-glow',
+            !isMobile && 'hover:bg-card/95',
+            isCurrentlyPlaying && 'ring-2 ring-primary shadow-glow bg-primary/5',
             className
           )}
           onClick={handleCardClick}
