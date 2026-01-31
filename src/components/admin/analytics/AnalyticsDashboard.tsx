@@ -17,8 +17,15 @@ import { PerformanceMetricsPanel } from './PerformanceMetricsPanel';
 import { DeeplinkAnalyticsPanel } from './DeeplinkAnalyticsPanel';
 import { ExperimentsPanel } from './ExperimentsPanel';
 import { RetentionPanel } from './RetentionPanel';
+import { RevenueAnalyticsPanel } from './RevenueAnalyticsPanel';
+import { ContentAnalyticsPanel } from './ContentAnalyticsPanel';
+import { UserActivityHeatmap } from './UserActivityHeatmap';
+import { RealTimeMetrics } from './RealTimeMetrics';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Activity, AlertTriangle, Music, Gauge, Link2, FlaskConical, Users, Download } from 'lucide-react';
+import { 
+  Activity, AlertTriangle, Music, Gauge, Link2, FlaskConical, 
+  Users, Download, DollarSign, BarChart3, Clock 
+} from 'lucide-react';
 import { exportAnalytics, formatTelemetryForExport } from '@/lib/analytics/exportUtils';
 import { toast } from 'sonner';
 
@@ -79,6 +86,9 @@ export function AnalyticsDashboard() {
         </div>
       </div>
 
+      {/* Real-time Metrics */}
+      <RealTimeMetrics />
+
       {/* Quick Stats */}
       {isLoading ? (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -138,6 +148,18 @@ export function AnalyticsDashboard() {
             <Music className="h-4 w-4" />
             <span className="hidden sm:inline">Генерация</span>
           </TabsTrigger>
+          <TabsTrigger value="content" className="gap-2">
+            <BarChart3 className="h-4 w-4" />
+            <span className="hidden sm:inline">Контент</span>
+          </TabsTrigger>
+          <TabsTrigger value="revenue" className="gap-2">
+            <DollarSign className="h-4 w-4" />
+            <span className="hidden sm:inline">Доходы</span>
+          </TabsTrigger>
+          <TabsTrigger value="activity" className="gap-2">
+            <Clock className="h-4 w-4" />
+            <span className="hidden sm:inline">Активность</span>
+          </TabsTrigger>
           <TabsTrigger value="performance" className="gap-2">
             <Gauge className="h-4 w-4" />
             <span className="hidden sm:inline">Перформанс</span>
@@ -166,6 +188,18 @@ export function AnalyticsDashboard() {
 
         <TabsContent value="generation">
           <GenerationStatsPanel data={generationStats} isLoading={generationLoading} />
+        </TabsContent>
+
+        <TabsContent value="content">
+          <ContentAnalyticsPanel timePeriod={timePeriod} />
+        </TabsContent>
+
+        <TabsContent value="revenue">
+          <RevenueAnalyticsPanel timePeriod={timePeriod} />
+        </TabsContent>
+
+        <TabsContent value="activity">
+          <UserActivityHeatmap timePeriod={timePeriod} />
         </TabsContent>
 
         <TabsContent value="performance">

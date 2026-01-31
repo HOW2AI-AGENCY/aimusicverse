@@ -14,3 +14,7 @@ export { DeeplinkTrendsChart } from './DeeplinkTrendsChart';
 export { SourcesHeatmap } from './SourcesHeatmap';
 export { CampaignPerformance } from './CampaignPerformance';
 export { ConversionFunnelStages } from './ConversionFunnelStages';
+export { RevenueAnalyticsPanel } from './RevenueAnalyticsPanel';
+export { ContentAnalyticsPanel } from './ContentAnalyticsPanel';
+export { UserActivityHeatmap } from './UserActivityHeatmap';
+export { RealTimeMetrics } from './RealTimeMetrics';
