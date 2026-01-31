@@ -135,6 +135,14 @@ export { Collapsible as CollapsibleSection, Accordion, ExpandableText } from './
 export { ChipInput, ChipSelector } from './ChipInput';
 
 // ============================================================================
+// REFINED COMPONENTS
+// ============================================================================
+export { RefinedButton, IconButton, ButtonGroup } from './RefinedButton';
+export { RefinedCard, CardHeader, CardContent, CardFooter, FeatureCard, StatCard } from './RefinedCard';
+export { EnhancedTooltip, Shortcut, TooltipWithShortcut } from './EnhancedTooltip';
+export { LoadingOverlay, ProgressOverlay, SkeletonOverlay } from './LoadingOverlay';
+
+// ============================================================================
 // HOOKS RE-EXPORTS
 // ============================================================================
 export { useScrollReveal, useStaggeredReveal } from '@/hooks/useScrollReveal';

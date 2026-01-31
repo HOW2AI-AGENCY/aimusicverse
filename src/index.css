@@ -1845,3 +1845,10 @@ select:focus-visible,
     animation: none !important;
   }
 }
+
+/* ============================================================================
+ * ADDITIONAL STYLE IMPORTS
+ * Feature: 032-professional-ui
+ * ============================================================================ */
+
+@import './styles/micro-animations.css';
