@@ -27,6 +27,7 @@ const queryClient = new QueryClient({
       staleTime: 1000 * 60 * 5, // 5 minutes - data stays fresh
       gcTime: 1000 * 60 * 15, // 15 minutes garbage collection
       retry: 1, // Single retry to fail fast
+      retryDelay: 500, // Fast retry
       refetchOnWindowFocus: false, // Prevent refetch on tab focus
       refetchOnReconnect: 'always',
       refetchOnMount: false, // Don't refetch if data exists
