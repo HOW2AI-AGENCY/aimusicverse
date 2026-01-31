@@ -58,22 +58,22 @@ export function AnalyticsDashboard() {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
+    <div className="space-y-4 sm:space-y-6">
+      {/* Header - Mobile optimized */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold">Аналитика</h1>
-          <p className="text-muted-foreground">Мониторинг телеметрии и производительности</p>
+          <h1 className="text-xl sm:text-2xl font-bold">Аналитика</h1>
+          <p className="text-sm text-muted-foreground hidden sm:block">Мониторинг телеметрии и производительности</p>
         </div>
         
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" onClick={handleExport} className="gap-2">
+          <Button variant="outline" size="sm" onClick={handleExport} className="gap-1.5 h-8 px-2 sm:px-3">
             <Download className="h-4 w-4" />
-            Экспорт
+            <span className="hidden xs:inline">Экспорт</span>
           </Button>
           
           <Select value={timePeriod} onValueChange={(v) => setTimePeriod(v as TimePeriod)}>
-            <SelectTrigger className="w-[140px]">
+            <SelectTrigger className="w-[100px] sm:w-[140px] h-8">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -89,19 +89,19 @@ export function AnalyticsDashboard() {
       {/* Real-time Metrics */}
       <RealTimeMetrics />
 
-      {/* Quick Stats */}
+      {/* Quick Stats - Scrollable on mobile */}
       {isLoading ? (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
           {[...Array(4)].map((_, i) => (
             <Card key={i}>
-              <CardContent className="p-4">
-                <Skeleton className="h-16 w-full" />
+              <CardContent className="p-3 sm:p-4">
+                <Skeleton className="h-14 sm:h-16 w-full" />
               </CardContent>
             </Card>
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
           <QuickStatCard
             icon={Activity}
             label="События"
@@ -113,70 +113,72 @@ export function AnalyticsDashboard() {
             icon={AlertTriangle}
             label="Ошибки"
             value={errorTrends?.total_errors ?? 0}
-            subtext={`${errorTrends?.critical_errors ?? 0} критических`}
+            subtext={`${errorTrends?.critical_errors ?? 0} крит.`}
             iconColor="text-red-500"
           />
           <QuickStatCard
             icon={Music}
             label="Генерации"
             value={generationStats?.total_generations ?? 0}
-            subtext={`${generationStats?.successful_generations ?? 0} успешных`}
+            subtext={`${generationStats?.successful_generations ?? 0} ок`}
             iconColor="text-green-500"
           />
           <QuickStatCard
             icon={Gauge}
-            label="Avg время генерации"
+            label="Avg время"
             value={`${(generationStats?.avg_generation_time_seconds ?? 0).toFixed(1)}с`}
-            subtext={`${(generationStats?.total_generation_time_minutes ?? 0).toFixed(0)} мин всего`}
+            subtext={`${(generationStats?.total_generation_time_minutes ?? 0).toFixed(0)} мин`}
             iconColor="text-purple-500"
           />
         </div>
       )}
 
-      {/* Tabs */}
+      {/* Tabs - Horizontally scrollable on mobile */}
       <Tabs defaultValue="telemetry" className="space-y-4">
-        <TabsList className="flex flex-wrap gap-1">
-          <TabsTrigger value="telemetry" className="gap-2">
-            <Activity className="h-4 w-4" />
-            <span className="hidden sm:inline">Телеметрия</span>
-          </TabsTrigger>
-          <TabsTrigger value="errors" className="gap-2">
-            <AlertTriangle className="h-4 w-4" />
-            <span className="hidden sm:inline">Ошибки</span>
-          </TabsTrigger>
-          <TabsTrigger value="generation" className="gap-2">
-            <Music className="h-4 w-4" />
-            <span className="hidden sm:inline">Генерация</span>
-          </TabsTrigger>
-          <TabsTrigger value="content" className="gap-2">
-            <BarChart3 className="h-4 w-4" />
-            <span className="hidden sm:inline">Контент</span>
-          </TabsTrigger>
-          <TabsTrigger value="revenue" className="gap-2">
-            <DollarSign className="h-4 w-4" />
-            <span className="hidden sm:inline">Доходы</span>
-          </TabsTrigger>
-          <TabsTrigger value="activity" className="gap-2">
-            <Clock className="h-4 w-4" />
-            <span className="hidden sm:inline">Активность</span>
-          </TabsTrigger>
-          <TabsTrigger value="performance" className="gap-2">
-            <Gauge className="h-4 w-4" />
-            <span className="hidden sm:inline">Перформанс</span>
-          </TabsTrigger>
-          <TabsTrigger value="deeplinks" className="gap-2">
-            <Link2 className="h-4 w-4" />
-            <span className="hidden sm:inline">Диплинки</span>
-          </TabsTrigger>
-          <TabsTrigger value="retention" className="gap-2">
-            <Users className="h-4 w-4" />
-            <span className="hidden sm:inline">Удержание</span>
-          </TabsTrigger>
-          <TabsTrigger value="experiments" className="gap-2">
-            <FlaskConical className="h-4 w-4" />
-            <span className="hidden sm:inline">A/B Тесты</span>
-          </TabsTrigger>
-        </TabsList>
+        <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
+          <TabsList className="inline-flex w-auto min-w-full sm:w-full sm:flex-wrap gap-1 h-auto p-1">
+            <TabsTrigger value="telemetry" className="gap-1.5 text-xs sm:text-sm px-2 sm:px-3 py-1.5">
+              <Activity className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              <span className="hidden xs:inline">Телеметрия</span>
+            </TabsTrigger>
+            <TabsTrigger value="errors" className="gap-1.5 text-xs sm:text-sm px-2 sm:px-3 py-1.5">
+              <AlertTriangle className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              <span className="hidden xs:inline">Ошибки</span>
+            </TabsTrigger>
+            <TabsTrigger value="generation" className="gap-1.5 text-xs sm:text-sm px-2 sm:px-3 py-1.5">
+              <Music className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              <span className="hidden xs:inline">Генерация</span>
+            </TabsTrigger>
+            <TabsTrigger value="content" className="gap-1.5 text-xs sm:text-sm px-2 sm:px-3 py-1.5">
+              <BarChart3 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              <span className="hidden xs:inline">Контент</span>
+            </TabsTrigger>
+            <TabsTrigger value="revenue" className="gap-1.5 text-xs sm:text-sm px-2 sm:px-3 py-1.5">
+              <DollarSign className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              <span className="hidden xs:inline">Доходы</span>
+            </TabsTrigger>
+            <TabsTrigger value="activity" className="gap-1.5 text-xs sm:text-sm px-2 sm:px-3 py-1.5">
+              <Clock className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              <span className="hidden xs:inline">Активность</span>
+            </TabsTrigger>
+            <TabsTrigger value="performance" className="gap-1.5 text-xs sm:text-sm px-2 sm:px-3 py-1.5">
+              <Gauge className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              <span className="hidden xs:inline">Перформанс</span>
+            </TabsTrigger>
+            <TabsTrigger value="deeplinks" className="gap-1.5 text-xs sm:text-sm px-2 sm:px-3 py-1.5">
+              <Link2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              <span className="hidden xs:inline">Диплинки</span>
+            </TabsTrigger>
+            <TabsTrigger value="retention" className="gap-1.5 text-xs sm:text-sm px-2 sm:px-3 py-1.5">
+              <Users className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              <span className="hidden xs:inline">Удержание</span>
+            </TabsTrigger>
+            <TabsTrigger value="experiments" className="gap-1.5 text-xs sm:text-sm px-2 sm:px-3 py-1.5">
+              <FlaskConical className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              <span className="hidden xs:inline">A/B</span>
+            </TabsTrigger>
+          </TabsList>
+        </div>
 
         <TabsContent value="telemetry">
           <TelemetryOverview data={telemetry} isLoading={telemetryLoading} />
@@ -233,14 +235,16 @@ interface QuickStatCardProps {
 function QuickStatCard({ icon: Icon, label, value, subtext, iconColor }: QuickStatCardProps) {
   return (
     <Card>
-      <CardContent className="p-4">
-        <div className="flex items-start justify-between">
-          <div>
-            <p className="text-sm text-muted-foreground">{label}</p>
-            <p className="text-2xl font-bold mt-1">{typeof value === 'number' ? value.toLocaleString() : value}</p>
-            <p className="text-xs text-muted-foreground mt-1">{subtext}</p>
+      <CardContent className="p-3 sm:p-4">
+        <div className="flex items-start justify-between gap-1">
+          <div className="min-w-0 flex-1">
+            <p className="text-xs sm:text-sm text-muted-foreground truncate">{label}</p>
+            <p className="text-lg sm:text-2xl font-bold mt-0.5 sm:mt-1 truncate">
+              {typeof value === 'number' ? value.toLocaleString() : value}
+            </p>
+            <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 sm:mt-1 truncate">{subtext}</p>
           </div>
-          <Icon className={`h-5 w-5 ${iconColor}`} />
+          <Icon className={`h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0 ${iconColor}`} />
         </div>
       </CardContent>
     </Card>

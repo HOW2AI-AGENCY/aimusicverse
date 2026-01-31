@@ -137,25 +137,25 @@ export function RealTimeMetrics() {
   return (
     <Card className="relative overflow-hidden">
       {/* Live indicator */}
-      <div className="absolute top-4 right-4 flex items-center gap-2">
+      <div className="absolute top-3 sm:top-4 right-3 sm:right-4 flex items-center gap-1.5">
         <motion.div
           animate={{ scale: pulse ? [1, 1.2, 1] : 1 }}
           transition={{ duration: 0.3 }}
         >
           <Circle className={`h-2 w-2 fill-green-500 ${pulse ? 'animate-pulse' : ''}`} />
         </motion.div>
-        <span className="text-xs text-green-500 font-medium">LIVE</span>
+        <span className="text-[10px] sm:text-xs text-green-500 font-medium">LIVE</span>
       </div>
 
-      <CardHeader className="pb-2">
-        <CardTitle className="text-base flex items-center gap-2">
-          <Radio className="h-4 w-4 text-primary" />
-          Метрики в реальном времени
+      <CardHeader className="pb-2 pt-3 sm:pt-6 px-3 sm:px-6">
+        <CardTitle className="text-sm sm:text-base flex items-center gap-2">
+          <Radio className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-primary" />
+          <span className="truncate">Метрики в реальном времени</span>
         </CardTitle>
       </CardHeader>
 
-      <CardContent>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
           {/* Active Users */}
           <RealTimeMetricCard
             icon={Users}
@@ -192,19 +192,19 @@ export function RealTimeMetrics() {
             icon={TrendingUp}
             label="Сегодня"
             value={data?.newTracksToday || 0}
-            subtext={`треков • ${data?.newUsersToday || 0} юзеров`}
+            subtext={`${data?.newUsersToday || 0} юзеров`}
             iconColor="text-green-500"
             isLoading={isLoading}
           />
         </div>
 
         {/* Activity indicator bar */}
-        <div className="mt-4 pt-4 border-t">
-          <div className="flex items-center justify-between text-xs text-muted-foreground mb-2">
-            <span>Активность за последнюю минуту</span>
-            <span>{data?.eventsPerMinute || 0} событий</span>
+        <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t">
+          <div className="flex items-center justify-between text-[10px] sm:text-xs text-muted-foreground mb-1.5 sm:mb-2">
+            <span>Активность за минуту</span>
+            <span>{data?.eventsPerMinute || 0}</span>
           </div>
-          <div className="h-2 bg-muted rounded-full overflow-hidden">
+          <div className="h-1.5 sm:h-2 bg-muted rounded-full overflow-hidden">
             <motion.div
               className="h-full bg-primary rounded-full"
               initial={{ width: 0 }}
@@ -216,9 +216,9 @@ export function RealTimeMetrics() {
           </div>
         </div>
 
-        {/* Recent activity feed preview */}
+        {/* Recent activity feed preview - hidden on very small screens */}
         {data && data.recentEvents > 0 && (
-          <div className="mt-4 pt-4 border-t">
+          <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t hidden xs:block">
             <div className="flex items-center gap-2">
               <AnimatePresence mode="wait">
                 <motion.div
@@ -226,11 +226,11 @@ export function RealTimeMetrics() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
-                  className="flex items-center gap-2 text-sm"
+                  className="flex items-center gap-2 text-xs sm:text-sm"
                 >
-                  <ArrowUpRight className="h-4 w-4 text-green-500" />
+                  <ArrowUpRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-green-500" />
                   <span className="text-muted-foreground">
-                    {data.recentEvents} событий за последнюю минуту
+                    {data.recentEvents} событий за минуту
                   </span>
                 </motion.div>
               </AnimatePresence>
@@ -262,20 +262,20 @@ function RealTimeMetricCard({
   pulse 
 }: RealTimeMetricCardProps) {
   return (
-    <div className="p-3 rounded-lg bg-muted/50">
-      <div className="flex items-center gap-2 mb-1">
-        <Icon className={`h-4 w-4 ${iconColor}`} />
-        <span className="text-xs text-muted-foreground">{label}</span>
+    <div className="p-2 sm:p-3 rounded-lg bg-muted/50">
+      <div className="flex items-center gap-1.5 sm:gap-2 mb-0.5 sm:mb-1">
+        <Icon className={`h-3.5 w-3.5 sm:h-4 sm:w-4 ${iconColor}`} />
+        <span className="text-[10px] sm:text-xs text-muted-foreground truncate">{label}</span>
       </div>
       <motion.div
         animate={{ scale: pulse ? [1, 1.1, 1] : 1 }}
         transition={{ duration: 0.2 }}
       >
-        <p className="text-xl font-bold">
+        <p className="text-base sm:text-xl font-bold">
           {isLoading ? '...' : value.toLocaleString()}
         </p>
       </motion.div>
-      <p className="text-xs text-muted-foreground">{subtext}</p>
+      <p className="text-[10px] sm:text-xs text-muted-foreground truncate">{subtext}</p>
     </div>
   );
 }

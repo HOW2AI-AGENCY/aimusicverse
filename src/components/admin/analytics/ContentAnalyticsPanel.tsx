@@ -159,9 +159,9 @@ export function ContentAnalyticsPanel({ timePeriod }: ContentAnalyticsPanelProps
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Overview Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
         <ContentStatCard
           icon={Music}
           label="Всего треков"
@@ -172,12 +172,12 @@ export function ContentAnalyticsPanel({ timePeriod }: ContentAnalyticsPanelProps
           icon={TrendingUp}
           label="Публичных"
           value={data.public_tracks.toLocaleString()}
-          subtext={`${data.total_tracks > 0 ? ((data.public_tracks / data.total_tracks) * 100).toFixed(1) : 0}%`}
+          subtext={`${data.total_tracks > 0 ? ((data.public_tracks / data.total_tracks) * 100).toFixed(0) : 0}%`}
           iconColor="text-green-500"
         />
         <ContentStatCard
           icon={Disc3}
-          label="Средняя длина"
+          label="Ср. длина"
           value={formatDuration(data.avg_duration_sec)}
           iconColor="text-purple-500"
         />
@@ -185,38 +185,39 @@ export function ContentAnalyticsPanel({ timePeriod }: ContentAnalyticsPanelProps
           icon={Mic2}
           label="С текстом"
           value={`${data.with_lyrics_ratio.toFixed(0)}%`}
-          subtext={`Инструментал: ${data.instrumental_ratio.toFixed(0)}%`}
+          subtext={`Инстр: ${data.instrumental_ratio.toFixed(0)}%`}
           iconColor="text-orange-500"
         />
       </div>
 
-      <div className="grid md:grid-cols-2 gap-4">
+      <div className="grid lg:grid-cols-2 gap-4">
         {/* Genres */}
         <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base flex items-center gap-2">
-              <Disc3 className="h-4 w-4" />
+          <CardHeader className="pb-2 px-3 sm:px-6">
+            <CardTitle className="text-sm sm:text-base flex items-center gap-2">
+              <Disc3 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
               Популярные жанры
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-2 sm:px-6">
             {data.genres.length > 0 ? (
-              <div className="h-[250px]">
+              <div className="h-[180px] sm:h-[250px]">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={data.genres.slice(0, 8)} layout="vertical">
+                  <BarChart data={data.genres.slice(0, 6)} layout="vertical">
                     <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                    <XAxis type="number" tick={{ fontSize: 11 }} />
+                    <XAxis type="number" tick={{ fontSize: 10 }} />
                     <YAxis 
                       type="category" 
                       dataKey="name" 
-                      tick={{ fontSize: 11 }}
-                      width={80}
+                      tick={{ fontSize: 10 }}
+                      width={60}
                     />
                     <Tooltip
                       formatter={(value: number) => [value, 'Треков']}
                       contentStyle={{ 
                         backgroundColor: 'hsl(var(--card))', 
-                        border: '1px solid hsl(var(--border))' 
+                        border: '1px solid hsl(var(--border))',
+                        fontSize: '12px',
                       }}
                     />
                     <Bar dataKey="count" fill="hsl(var(--primary))" radius={[0, 4, 4, 0]} />
@@ -224,8 +225,8 @@ export function ContentAnalyticsPanel({ timePeriod }: ContentAnalyticsPanelProps
                 </ResponsiveContainer>
               </div>
             ) : (
-              <div className="h-[250px] flex items-center justify-center text-muted-foreground">
-                Нет данных о жанрах
+              <div className="h-[180px] sm:h-[250px] flex items-center justify-center text-muted-foreground text-sm">
+                Нет данных
               </div>
             )}
           </CardContent>
@@ -233,15 +234,15 @@ export function ContentAnalyticsPanel({ timePeriod }: ContentAnalyticsPanelProps
 
         {/* Moods */}
         <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base flex items-center gap-2">
-              <Palette className="h-4 w-4" />
+          <CardHeader className="pb-2 px-3 sm:px-6">
+            <CardTitle className="text-sm sm:text-base flex items-center gap-2">
+              <Palette className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
               Настроения
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-2 sm:px-6">
             {data.moods.length > 0 ? (
-              <div className="h-[250px]">
+              <div className="h-[180px] sm:h-[250px]">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <Pie
@@ -250,7 +251,7 @@ export function ContentAnalyticsPanel({ timePeriod }: ContentAnalyticsPanelProps
                       nameKey="name"
                       cx="50%"
                       cy="50%"
-                      outerRadius={80}
+                      outerRadius={60}
                       label={({ name, percent }) => `${name} ${((percent ?? 0) * 100).toFixed(0)}%`}
                       labelLine={false}
                     >
@@ -262,42 +263,43 @@ export function ContentAnalyticsPanel({ timePeriod }: ContentAnalyticsPanelProps
                       formatter={(value: number) => [value, 'Треков']}
                       contentStyle={{ 
                         backgroundColor: 'hsl(var(--card))', 
-                        border: '1px solid hsl(var(--border))' 
+                        border: '1px solid hsl(var(--border))',
+                        fontSize: '12px',
                       }}
                     />
                   </PieChart>
                 </ResponsiveContainer>
               </div>
             ) : (
-              <div className="h-[250px] flex items-center justify-center text-muted-foreground">
-                Нет данных о настроениях
+              <div className="h-[180px] sm:h-[250px] flex items-center justify-center text-muted-foreground text-sm">
+                Нет данных
               </div>
             )}
           </CardContent>
         </Card>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-4">
+      <div className="grid lg:grid-cols-2 gap-4">
         {/* Languages */}
         <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base">Языки</CardTitle>
+          <CardHeader className="pb-2 px-3 sm:px-6">
+            <CardTitle className="text-sm sm:text-base">Языки</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-3 sm:px-6">
             {data.languages.length > 0 ? (
-              <div className="space-y-2">
+              <div className="space-y-1.5 sm:space-y-2">
                 {data.languages.slice(0, 6).map((lang, i) => (
                   <div key={lang.name} className="flex items-center gap-2">
                     <div 
-                      className="h-2 rounded-full" 
+                      className="h-1.5 sm:h-2 rounded-full" 
                       style={{ 
                         width: `${(lang.count / data.languages[0].count) * 100}%`,
                         backgroundColor: COLORS[i % COLORS.length],
-                        minWidth: '20px',
+                        minWidth: '16px',
                       }}
                     />
-                    <span className="text-sm font-medium min-w-[60px]">{formatLanguage(lang.name)}</span>
-                    <span className="text-sm text-muted-foreground">{lang.count}</span>
+                    <span className="text-xs sm:text-sm font-medium min-w-[50px]">{formatLanguage(lang.name)}</span>
+                    <span className="text-xs sm:text-sm text-muted-foreground">{lang.count}</span>
                   </div>
                 ))}
               </div>
@@ -407,14 +409,14 @@ interface ContentStatCardProps {
 function ContentStatCard({ icon: Icon, label, value, subtext, iconColor }: ContentStatCardProps) {
   return (
     <Card>
-      <CardContent className="p-4">
-        <div className="flex items-start justify-between">
-          <div className="space-y-1">
-            <p className="text-sm text-muted-foreground">{label}</p>
-            <p className="text-2xl font-bold">{value}</p>
-            {subtext && <p className="text-xs text-muted-foreground">{subtext}</p>}
+      <CardContent className="p-3 sm:p-4">
+        <div className="flex items-start justify-between gap-1">
+          <div className="space-y-0.5 sm:space-y-1 min-w-0 flex-1">
+            <p className="text-xs sm:text-sm text-muted-foreground truncate">{label}</p>
+            <p className="text-lg sm:text-2xl font-bold truncate">{value}</p>
+            {subtext && <p className="text-[10px] sm:text-xs text-muted-foreground truncate">{subtext}</p>}
           </div>
-          <Icon className={`h-5 w-5 ${iconColor}`} />
+          <Icon className={`h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0 ${iconColor}`} />
         </div>
       </CardContent>
     </Card>
@@ -423,21 +425,21 @@ function ContentStatCard({ icon: Icon, label, value, subtext, iconColor }: Conte
 
 function ContentAnalyticsSkeleton() {
   return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div className="space-y-4 sm:space-y-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
         {[...Array(4)].map((_, i) => (
           <Card key={i}>
-            <CardContent className="p-4">
-              <Skeleton className="h-16 w-full" />
+            <CardContent className="p-3 sm:p-4">
+              <Skeleton className="h-14 sm:h-16 w-full" />
             </CardContent>
           </Card>
         ))}
       </div>
-      <div className="grid md:grid-cols-2 gap-4">
+      <div className="grid lg:grid-cols-2 gap-4">
         {[...Array(2)].map((_, i) => (
           <Card key={i}>
-            <CardContent className="p-4">
-              <Skeleton className="h-[250px] w-full" />
+            <CardContent className="p-3 sm:p-4">
+              <Skeleton className="h-[180px] sm:h-[250px] w-full" />
             </CardContent>
           </Card>
         ))}
