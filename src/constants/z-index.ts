@@ -42,12 +42,10 @@ export const Z_INDEX = {
   stickyHeader: 20,
   stickyFooter: 20,
 
-  // Floating elements - tooltips, popovers, small overlays
+  // Floating elements - small overlays
   floating: 30,
-  tooltip: 30,
-  popover: 30,
 
-  // Overlays - backdrops for modals, sheets
+  // Overlays - backdrops for modals
   overlay: 40,
   backdrop: 40,
 
@@ -63,18 +61,9 @@ export const Z_INDEX = {
   expandedPlayer: 60,
   playerOverlay: 61,
 
-  // Contextual UI - hints, toasts, notifications
+  // Contextual UI - hints
   contextual: 70,
-  toast: 70,
   hint: 70,
-  notification: 70,
-
-  // Dialogs - modals, sheets, dialogs
-  dialog: 80,
-  modal: 80,
-  sheet: 80,
-  sheetBackdrop: 80,
-  sheetContent: 81,
 
   // Fullscreen - fullscreen player, studio, immersive views
   fullscreen: 90,
@@ -82,19 +71,35 @@ export const Z_INDEX = {
   studio: 90,
   immersive: 90,
 
-  // System - achievement notifications, alerts, critical prompts
-  system: 100,
-  achievement: 100,
-  levelUp: 100,
-  alert: 100,
-  systemNotification: 100,
+  // Dialogs - modals, sheets (above fullscreen)
+  dialog: 140,
+  modal: 140,
 
-  // Dropdowns - select dropdowns, menus (must be above everything)
+  // Sheets - bottom sheets, side sheets
+  sheet: 150,
+  sheetBackdrop: 150,
+  sheetContent: 151,
+
+  // Dropdowns/Popovers - floating menus (above sheets)
   dropdown: 200,
+  popover: 200,
   selectDropdown: 200,
   contextMenu: 200,
 
-  // Debug - development tools (highest priority)
+  // Tooltips - above dropdowns
+  tooltip: 250,
+
+  // Toasts/Notifications - system level
+  toast: 300,
+  notification: 300,
+  system: 300,
+  achievement: 300,
+  levelUp: 300,
+  alert: 300,
+  systemNotification: 300,
+
+  // Maximum - debug, critical UI
+  max: 9999,
   debug: 9999,
 } as const;
 

@@ -89,7 +89,7 @@ export function ContextualOnboardingTip({
         <motion.div
           ref={tipRef}
           className={cn(
-            "absolute z-[60] w-72 max-w-[90vw]",
+            "absolute z-contextual w-72 max-w-[90vw]",
             "rounded-xl shadow-xl overflow-hidden",
             "bg-accent text-accent-foreground",
             "border border-border/50",
