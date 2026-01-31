@@ -54,8 +54,8 @@ export const CompactVariant = memo(function CompactVariant({
           className={cn(
             'group flex items-center gap-2.5 p-2 transition-all cursor-pointer touch-manipulation duration-200',
             'hover:bg-muted/60 active:bg-muted rounded-xl border-0 bg-card/40 backdrop-blur-sm',
-            'hover:shadow-sm hover:scale-[1.01]',
-            isCurrentlyPlaying && 'bg-primary/5 ring-1 ring-primary/20',
+            'hover:shadow-sm hover:scale-[1.01] hover:ring-1 hover:ring-primary/20',
+            isCurrentlyPlaying && 'bg-primary/5 ring-1 ring-primary/30',
             className
           )}
           onClick={handleCardClick}
