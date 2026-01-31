@@ -12,6 +12,12 @@ export * from './design-tokens';
 // Semantic color utilities
 export * from './design-colors';
 
+// Glassmorphism utilities
+export * from './glass';
+
+// Interaction utilities
+export * from './interactions';
+
 // Contrast utilities for runtime checks
 export {
   getContrastRatio,
