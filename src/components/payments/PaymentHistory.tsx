@@ -1,142 +1,41 @@
 /**
  * PaymentHistory Component
- * Displays transaction history with infinite scroll using react-virtuoso
+ * Displays transaction history with infinite scroll and professional styling
+ * Feature: professional-payment-flow
  */
 
 import { Virtuoso } from 'react-virtuoso';
-import { Calendar, CheckCircle2, Clock, XCircle, RefreshCw, Ban, Sparkles } from 'lucide-react';
+import { motion } from '@/lib/motion';
+import { Sparkles, Receipt, RefreshCw } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { glass } from '@/lib/glass';
 import { usePaymentHistory } from '@/hooks/usePaymentHistory';
-import type { PaymentTransaction } from '@/services/starsPaymentService';
+import { PaymentHistoryItem } from './PaymentHistoryItem';
 
 interface PaymentHistoryProps {
   userId: string;
   height?: number;
   language?: 'en' | 'ru';
-}
-
-type TransactionStatus = 'completed' | 'pending' | 'processing' | 'failed' | 'cancelled' | 'refunded';
-
-// Status configuration
-const STATUS_CONFIG: Record<
-  TransactionStatus,
-  {
-    icon: React.ReactNode;
-    label: string;
-    color: string;
-    bgColor: string;
-  }
-> = {
-  completed: {
-    icon: <CheckCircle2 className="h-4 w-4" />,
-    label: 'Completed',
-    color: 'text-success',
-    bgColor: 'bg-success/10',
-  },
-  pending: {
-    icon: <Clock className="h-4 w-4" />,
-    label: 'Pending',
-    color: 'text-warning',
-    bgColor: 'bg-warning/10',
-  },
-  processing: {
-    icon: <RefreshCw className="h-4 w-4 animate-spin" />,
-    label: 'Processing',
-    color: 'text-info',
-    bgColor: 'bg-info/10',
-  },
-  failed: {
-    icon: <XCircle className="h-4 w-4" />,
-    label: 'Failed',
-    color: 'text-destructive',
-    bgColor: 'bg-destructive/10',
-  },
-  cancelled: {
-    icon: <Ban className="h-4 w-4" />,
-    label: 'Cancelled',
-    color: 'text-muted-foreground',
-    bgColor: 'bg-muted',
-  },
-  refunded: {
-    icon: <RefreshCw className="h-4 w-4" />,
-    label: 'Refunded',
-    color: 'text-info',
-    bgColor: 'bg-info/10',
-  },
-};
-
-function TransactionRow({ transaction, language }: { transaction: PaymentTransaction; language: 'en' | 'ru' }) {
-  const status = STATUS_CONFIG[transaction.status as TransactionStatus] || STATUS_CONFIG.pending;
-  const date = new Date(transaction.created_at);
-
-  return (
-    <Card className="mb-2 hover:shadow-md transition-shadow">
-      <CardContent className="p-4">
-        <div className="flex items-start justify-between gap-4">
-          {/* Left: Product Info */}
-          <div className="flex-1 min-w-0">
-            <h4 className="font-semibold text-sm truncate">
-              {transaction.product_code}
-            </h4>
-            <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground">
-              <Calendar className="h-3 w-3" aria-hidden="true" />
-              <time dateTime={transaction.created_at}>
-                {date.toLocaleDateString(language === 'ru' ? 'ru-RU' : 'en-US', {
-                  year: 'numeric',
-                  month: 'short',
-                  day: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit',
-                })}
-              </time>
-            </div>
-          </div>
-
-          {/* Right: Amount & Status */}
-          <div className="flex flex-col items-end gap-2">
-            <div className="flex items-center gap-1 font-semibold">
-              <Sparkles className="h-4 w-4 text-primary" aria-hidden="true" />
-              <span>{transaction.stars_amount}</span>
-            </div>
-            <Badge
-              variant="outline"
-              className={cn(
-                'text-xs',
-                status.bgColor,
-                status.color
-              )}
-            >
-              <span className="mr-1" aria-hidden="true">{status.icon}</span>
-              {status.label}
-            </Badge>
-          </div>
-        </div>
-
-        {/* Credits granted info */}
-        {transaction.credits_granted && (
-          <p className="mt-2 text-xs text-muted-foreground">
-            +{transaction.credits_granted} credits
-          </p>
-        )}
-      </CardContent>
-    </Card>
-  );
+  showHeader?: boolean;
 }
 
 function LoadingSkeleton() {
   return (
-    <Card className="mb-2">
+    <Card className={cn('mb-3', glass.card)}>
       <CardContent className="p-4">
         <div className="flex items-start justify-between gap-4">
-          <div className="flex-1 space-y-2">
-            <Skeleton className="h-4 w-3/4" />
-            <Skeleton className="h-3 w-1/2" />
+          <div className="flex items-start gap-3 flex-1">
+            <Skeleton className="h-10 w-10 rounded-xl flex-shrink-0" />
+            <div className="flex-1 space-y-2">
+              <Skeleton className="h-4 w-3/4" />
+              <Skeleton className="h-3 w-1/2" />
+            </div>
           </div>
-          <div className="space-y-2">
-            <Skeleton className="h-5 w-16" />
+          <div className="space-y-2 flex-shrink-0">
+            <Skeleton className="h-5 w-16 ml-auto" />
             <Skeleton className="h-5 w-20" />
           </div>
         </div>
@@ -145,15 +44,34 @@ function LoadingSkeleton() {
   );
 }
 
-export function PaymentHistory({ userId, height = 600, language = 'en' }: PaymentHistoryProps) {
-  const { transactions, isLoading, hasMore, loadMore, isLoadingMore } = usePaymentHistory({
+export function PaymentHistory({ 
+  userId, 
+  height = 600, 
+  language = 'ru',
+  showHeader = true 
+}: PaymentHistoryProps) {
+  const { 
+    transactions, 
+    isLoading, 
+    hasMore, 
+    loadMore, 
+    isLoadingMore,
+    refetch,
+    isRefetching
+  } = usePaymentHistory({
     userId,
     pageSize: 20,
   });
 
   if (isLoading) {
     return (
-      <div className="space-y-2">
+      <div className="space-y-3">
+        {showHeader && (
+          <div className="flex items-center justify-between mb-4">
+            <Skeleton className="h-6 w-40" />
+            <Skeleton className="h-8 w-8 rounded-lg" />
+          </div>
+        )}
         {Array.from({ length: 5 }).map((_, i) => (
           <LoadingSkeleton key={i} />
         ))}
@@ -163,41 +81,95 @@ export function PaymentHistory({ userId, height = 600, language = 'en' }: Paymen
 
   if (transactions.length === 0) {
     return (
-      <Card>
-        <CardContent className="p-8 text-center">
-          <Sparkles className="mx-auto h-12 w-12 text-muted-foreground/50" aria-hidden="true" />
-          <p className="mt-4 text-muted-foreground">
-            {language === 'ru' ? 'Нет истории транзакций' : 'No payment history yet'}
-          </p>
-        </CardContent>
-      </Card>
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+      >
+        <Card className={cn('overflow-hidden', glass.card)}>
+          <CardContent className="p-12 text-center">
+            <div className="mx-auto w-16 h-16 rounded-2xl bg-muted/50 flex items-center justify-center mb-4">
+              <Receipt className="h-8 w-8 text-muted-foreground/50" aria-hidden="true" />
+            </div>
+            <h3 className="font-semibold mb-1">
+              {language === 'ru' ? 'Нет транзакций' : 'No transactions yet'}
+            </h3>
+            <p className="text-sm text-muted-foreground">
+              {language === 'ru' 
+                ? 'Ваша история платежей появится здесь после первой покупки'
+                : 'Your payment history will appear here after your first purchase'
+              }
+            </p>
+          </CardContent>
+        </Card>
+      </motion.div>
     );
   }
 
   return (
-    <Virtuoso
-      style={{ height }}
-      data={transactions}
-      endReached={() => {
-        if (hasMore && !isLoadingMore) {
-          loadMore();
-        }
-      }}
-      itemContent={(index, transaction) => (
-        <TransactionRow
-          key={transaction.id}
-          transaction={transaction}
-          language={language}
-        />
+    <div>
+      {showHeader && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex items-center justify-between mb-4"
+        >
+          <div className="flex items-center gap-2">
+            <Sparkles className="h-5 w-5 text-primary" />
+            <h3 className="font-semibold">
+              {language === 'ru' ? 'История платежей' : 'Payment History'}
+            </h3>
+            <span className="text-sm text-muted-foreground">
+              ({transactions.length})
+            </span>
+          </div>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => refetch()}
+            disabled={isRefetching}
+            className="h-8 w-8"
+          >
+            <RefreshCw className={cn(
+              'h-4 w-4',
+              isRefetching && 'animate-spin'
+            )} />
+          </Button>
+        </motion.div>
       )}
-      components={{
-        Footer: () =>
-          isLoadingMore ? (
-            <div className="py-4">
-              <LoadingSkeleton />
-            </div>
-          ) : null,
-      }}
-    />
+
+      <Virtuoso
+        style={{ height }}
+        data={transactions}
+        endReached={() => {
+          if (hasMore && !isLoadingMore) {
+            loadMore();
+          }
+        }}
+        itemContent={(index, transaction) => (
+          <PaymentHistoryItem
+            key={transaction.id}
+            transaction={transaction}
+            language={language}
+            index={index}
+          />
+        )}
+        components={{
+          Footer: () =>
+            isLoadingMore ? (
+              <div className="py-4">
+                <LoadingSkeleton />
+              </div>
+            ) : hasMore ? null : transactions.length > 5 ? (
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="py-4 text-center text-xs text-muted-foreground"
+              >
+                {language === 'ru' ? 'Вся история загружена' : 'All history loaded'}
+              </motion.p>
+            ) : null,
+        }}
+      />
+    </div>
   );
 }
