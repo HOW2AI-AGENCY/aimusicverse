@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, lazy, Suspense } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useStudioProject } from '@/hooks/studio/useStudioProject';
 import { useUnifiedStudioStore } from '@/stores/useUnifiedStudioStore';
@@ -6,6 +6,9 @@ import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 import { StudioShell } from '@/components/studio/unified/StudioShell';
 import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+
+// Lazy load onboarding overlay
+const ContextualTipOverlay = lazy(() => import('@/components/onboarding/ContextualTipOverlay'));
 
 export default function UnifiedStudioPage() {
   const { projectId, trackId } = useParams<{ projectId?: string; trackId?: string }>();
@@ -73,5 +76,13 @@ export default function UnifiedStudioPage() {
     );
   }
 
-  return <StudioShell />;
+  return (
+    <>
+      <StudioShell />
+      {/* Contextual onboarding tips for studio - Phase 4 */}
+      <Suspense fallback={null}>
+        <ContextualTipOverlay context="studio" delay={3500} />
+      </Suspense>
+    </>
+  );
 }
