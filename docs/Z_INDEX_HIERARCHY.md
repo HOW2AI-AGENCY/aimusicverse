@@ -4,6 +4,8 @@
 
 This document defines the z-index hierarchy used across the MusicVerse AI application to ensure proper stacking and visibility of UI elements, especially on mobile devices.
 
+**Last Audit**: 2026-01-31
+
 ### Z-Index Layers (Updated 2026-01-31)
 
 | Layer | Z-Index | Tailwind Class | Component Types | Examples |
@@ -22,7 +24,7 @@ This document defines the z-index hierarchy used across the MusicVerse AI applic
 | **Dropdowns/Popovers** | 200 | `z-dropdown` | Floating menus | `DropdownMenu`, `PopoverContent` |
 | **Tooltips** | 250 | `z-tooltip` | Tooltips | `TooltipContent` |
 | **Toasts/System** | 300 | `z-toast` | Notifications | `Sonner`, system alerts |
-| **Context Menu** | 9999 | `z-max` | Context menus | `ContextMenuContent`, `SelectContent` |
+| **Context Menu/Select** | 9999 | `z-max` | Context menus | `ContextMenuContent`, `SelectContent` |
 
 ### Implementation Details
 
