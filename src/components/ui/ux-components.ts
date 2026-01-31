@@ -99,3 +99,8 @@ export { Shimmer, ShimmerBlock, ShimmerText, ShimmerAvatar } from './Shimmer';
 // FEEDBACK & NOTIFICATIONS
 // ============================================================================
 export { showToast, toast } from './FeedbackToast';
+
+// ============================================================================
+// ANIMATED COUNTER
+// ============================================================================
+export { AnimatedCounter } from './AnimatedCounter';

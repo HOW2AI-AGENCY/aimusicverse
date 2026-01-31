@@ -40,3 +40,8 @@ export { hapticImpact, hapticNotification, hapticSelectionChanged } from './hapt
 
 // Motion (centralized framer-motion)
 export { motion, AnimatePresence, useAnimation, useInView } from './motion';
+
+// UX Hooks
+export { useScrollReveal, useStaggeredReveal } from '@/hooks/useScrollReveal';
+export { useSmoothCounter } from '@/hooks/useSmoothCounter';
+export { useOptimistic, useOptimisticList } from '@/hooks/useOptimistic';

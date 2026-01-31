@@ -30,11 +30,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
-    <!-- Critical font with display:swap and reduced weight range for faster loading -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+    <!-- Suno API preconnect for faster generation -->
+    <link rel="dns-prefetch" href="https://apibox.erweima.ai">
+    <link rel="preconnect" href="https://apibox.erweima.ai" crossorigin>
     
-    <!-- Preload critical script -->
+    <!-- Critical font with display:swap and reduced weight range for faster loading -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
+    
+    <!-- Preload critical assets -->
     <link rel="preload" href="https://telegram.org/js/telegram-web-app.js" as="script">
     <script src="https://telegram.org/js/telegram-web-app.js" defer></script>
     
