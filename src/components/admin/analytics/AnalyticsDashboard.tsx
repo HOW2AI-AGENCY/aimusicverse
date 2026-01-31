@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Button } from '@/components/ui/button';
 import { useTelemetryStats, useErrorTrends } from '@/hooks/admin/useTelemetryStats';
 import { useGenerationAnalytics } from '@/hooks/useGenerationAnalytics';
 import { TelemetryOverview } from './TelemetryOverview';
@@ -15,8 +16,11 @@ import { GenerationStatsPanel } from './GenerationStatsPanel';
 import { PerformanceMetricsPanel } from './PerformanceMetricsPanel';
 import { DeeplinkAnalyticsPanel } from './DeeplinkAnalyticsPanel';
 import { ExperimentsPanel } from './ExperimentsPanel';
+import { RetentionPanel } from './RetentionPanel';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Activity, AlertTriangle, Music, Gauge, Link2, FlaskConical } from 'lucide-react';
+import { Activity, AlertTriangle, Music, Gauge, Link2, FlaskConical, Users, Download } from 'lucide-react';
+import { exportAnalytics, formatTelemetryForExport } from '@/lib/analytics/exportUtils';
+import { toast } from 'sonner';
 
 type TimePeriod = '24 hours' | '7 days' | '30 days' | '90 days';
 
@@ -35,6 +39,17 @@ export function AnalyticsDashboard() {
   const deeplinkTimeRange = timePeriod === '24 hours' ? '24h' : 
                            timePeriod === '7 days' ? '7d' : '30d';
 
+  const handleExport = () => {
+    if (telemetry) {
+      exportAnalytics({
+        format: 'csv',
+        filename: `analytics_${timePeriod.replace(' ', '_')}_${new Date().toISOString().split('T')[0]}`,
+        data: formatTelemetryForExport(telemetry as unknown as Record<string, unknown>),
+      });
+      toast.success('Данные экспортированы');
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -44,17 +59,24 @@ export function AnalyticsDashboard() {
           <p className="text-muted-foreground">Мониторинг телеметрии и производительности</p>
         </div>
         
-        <Select value={timePeriod} onValueChange={(v) => setTimePeriod(v as TimePeriod)}>
-          <SelectTrigger className="w-[140px]">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="24 hours">24 часа</SelectItem>
-            <SelectItem value="7 days">7 дней</SelectItem>
-            <SelectItem value="30 days">30 дней</SelectItem>
-            <SelectItem value="90 days">90 дней</SelectItem>
-          </SelectContent>
-        </Select>
+        <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm" onClick={handleExport} className="gap-2">
+            <Download className="h-4 w-4" />
+            Экспорт
+          </Button>
+          
+          <Select value={timePeriod} onValueChange={(v) => setTimePeriod(v as TimePeriod)}>
+            <SelectTrigger className="w-[140px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="24 hours">24 часа</SelectItem>
+              <SelectItem value="7 days">7 дней</SelectItem>
+              <SelectItem value="30 days">30 дней</SelectItem>
+              <SelectItem value="90 days">90 дней</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
       {/* Quick Stats */}
@@ -103,7 +125,7 @@ export function AnalyticsDashboard() {
 
       {/* Tabs */}
       <Tabs defaultValue="telemetry" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-6">
+        <TabsList className="flex flex-wrap gap-1">
           <TabsTrigger value="telemetry" className="gap-2">
             <Activity className="h-4 w-4" />
             <span className="hidden sm:inline">Телеметрия</span>
@@ -123,6 +145,10 @@ export function AnalyticsDashboard() {
           <TabsTrigger value="deeplinks" className="gap-2">
             <Link2 className="h-4 w-4" />
             <span className="hidden sm:inline">Диплинки</span>
+          </TabsTrigger>
+          <TabsTrigger value="retention" className="gap-2">
+            <Users className="h-4 w-4" />
+            <span className="hidden sm:inline">Удержание</span>
           </TabsTrigger>
           <TabsTrigger value="experiments" className="gap-2">
             <FlaskConical className="h-4 w-4" />
@@ -148,6 +174,10 @@ export function AnalyticsDashboard() {
 
         <TabsContent value="deeplinks">
           <DeeplinkAnalyticsPanel timeRange={deeplinkTimeRange as '24h' | '7d' | '30d'} />
+        </TabsContent>
+
+        <TabsContent value="retention">
+          <RetentionPanel timePeriod={timePeriod} />
         </TabsContent>
 
         <TabsContent value="experiments">
