@@ -24,7 +24,7 @@ import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
-import { useNavigate } from 'react-router-dom';
+import { navigateTo, getGlobalNavigate } from '@/hooks/useAppNavigate';
 import type { PaywallTriggerReason } from '@/hooks/usePaywallTrigger';
 import { trackEvent } from '@/services/analytics';
 
@@ -103,9 +103,18 @@ export const SmartPaywallDialog = memo(function SmartPaywallDialog({
   onPaywallShown,
 }: SmartPaywallDialogProps) {
   const { user } = useAuth();
-  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [showTrial, setShowTrial] = useState(true);
+  
+  // Use global navigate since this component renders outside Router context
+  const navigate = (path: string) => {
+    const globalNav = getGlobalNavigate();
+    if (globalNav) {
+      globalNav(path);
+    } else {
+      navigateTo(path);
+    }
+  };
 
   const messaging = MESSAGING[reason] || MESSAGING.soft_upsell;
   const Icon = messaging.icon;
