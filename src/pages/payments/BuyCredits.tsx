@@ -108,14 +108,14 @@ export default function BuyCredits() {
       {/* Conversion Rate Banner */}
       <div className="mb-6 p-4 rounded-xl bg-gradient-to-r from-primary/10 via-primary/5 to-transparent border border-primary/20">
         <div className="flex items-center gap-3">
-          <div className="p-2 rounded-lg bg-primary/20">
+          <div className="p-2 rounded-lg bg-primary/20 shrink-0">
             <Zap className="w-5 h-5 text-primary" />
           </div>
-          <div>
+          <div className="min-w-0">
             <p className="font-medium">Как работают кредиты?</p>
             <p className="text-sm text-muted-foreground">
-              <strong>3 кредита</strong> = 1 сгенерированный трек • 
-              <strong> 1 кредит</strong> = разделение на стемы
+              <strong>12 кредитов</strong> = 1 трек • 
+              <strong> 10 кредитов</strong> = stem-разделение
             </p>
           </div>
         </div>
@@ -196,7 +196,7 @@ export default function BuyCredits() {
                     {selectedProduct.credits_amount ?? 0} кредитов
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    ≈ {Math.floor((selectedProduct.credits_amount ?? 0) / 3)} треков
+                    ≈ {Math.floor((selectedProduct.credits_amount ?? 0) / 12)} треков
                   </p>
                 </div>
                 {getPriceDisplay()}
