@@ -116,6 +116,15 @@ export const ARTIST_REPLACEMENTS: ArtistReplacement[] = [
   { pattern: /\bбиг\s*бейби\s*тейп\b/i, artist: 'Биг Бейби Тейп', suggestion: 'aggressive trap, hard 808s, braggadocious flow', genre: 'trap' },
   { pattern: /\bkizaru\b/i, artist: 'Kizaru', suggestion: 'cloud rap, dreamy beats, melodic flow, atmospheric', genre: 'cloud rap' },
   { pattern: /\bкизару\b/i, artist: 'Кизару', suggestion: 'cloud rap, dreamy beats, melodic flow, atmospheric', genre: 'cloud rap' },
+  { pattern: /\binstasamka\b/i, artist: 'Instasamka', suggestion: 'aggressive female rap, bold lyrics, club-ready beats', genre: 'rap' },
+  { pattern: /\bинстасамка\b/i, artist: 'Инстасамка', suggestion: 'aggressive female rap, bold lyrics, club-ready beats', genre: 'rap' },
+  
+  // Rock/Metal - commonly blocked
+  { pattern: /\bbad\s*omens\b/i, artist: 'Bad Omens', suggestion: 'metalcore, dark atmosphere, heavy breakdowns, emotional vocals', genre: 'metalcore' },
+  { pattern: /\bbring\s*me\s*the\s*horizon\b/i, artist: 'Bring Me The Horizon', suggestion: 'alternative metal, electronic elements, aggressive vocals', genre: 'alternative metal' },
+  { pattern: /\bbmth\b/i, artist: 'BMTH', suggestion: 'alternative metal, electronic elements, aggressive vocals', genre: 'alternative metal' },
+  { pattern: /\bslipknot\b/i, artist: 'Slipknot', suggestion: 'nu-metal, aggressive percussion, heavy riffs, intense vocals', genre: 'nu-metal' },
+  { pattern: /\brammstein\b/i, artist: 'Rammstein', suggestion: 'industrial metal, German influences, powerful guitar riffs', genre: 'industrial metal' },
 ];
 
 /**
@@ -207,6 +216,12 @@ export function getGenreSuggestions(artist: ArtistReplacement): string[] {
     case 'indie-pop':
     case 'indie':
       suggestions.push('dreamy synths, atmospheric', 'indie vibes, alternative sound');
+      break;
+    case 'metalcore':
+    case 'alternative metal':
+    case 'nu-metal':
+    case 'industrial metal':
+      suggestions.push('heavy guitar riffs, powerful drums', 'aggressive vocals, intense energy');
       break;
   }
   

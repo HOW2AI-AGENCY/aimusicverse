@@ -59,11 +59,11 @@ import {
 } from '@/lib/audioFormatUtils';
 
 // Audio error messages by error code
-const AUDIO_ERROR_MESSAGES: Record<number, { ru: string; action?: string }> = {
-  1: { ru: 'Загрузка аудио прервана', action: 'Попробуйте еще раз' },
-  2: { ru: 'Сетевая ошибка при загрузке', action: 'Проверьте подключение' },
-  3: { ru: 'Ошибка декодирования аудио', action: 'Файл может быть поврежден' },
-  4: { ru: 'Формат аудио не поддерживается', action: 'Попробуйте другой трек' },
+const AUDIO_ERROR_MESSAGES: Record<number, { ru: string; action?: string; retryable?: boolean }> = {
+  1: { ru: 'Загрузка аудио прервана', action: 'Попробуйте еще раз', retryable: true },
+  2: { ru: 'Сетевая ошибка при загрузке', action: 'Проверьте подключение', retryable: true },
+  3: { ru: 'Ошибка декодирования аудио', action: 'Файл может быть поврежден', retryable: false },
+  4: { ru: 'Формат аудио не поддерживается', action: 'Попробуйте другой трек', retryable: true },
 };
 
 export function GlobalAudioProvider({ children }: { children: React.ReactNode }) {
@@ -564,13 +564,18 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
       }
     };
 
-    // Track retry attempts for failed loads
-    let retryCount = 0;
-    const MAX_RETRIES = 3;
+    // Track retry attempts for failed loads - separate counters for different error types
+    let networkRetryCount = 0;
+    let formatRetryCount = 0;
+    const MAX_NETWORK_RETRIES = 3;
+    const MAX_FORMAT_RETRIES = 2;
     let retryTimeoutId: NodeJS.Timeout | null = null;
 
     // Track if we've attempted blob recovery to prevent loops
     let hasAttemptedBlobRecovery = false;
+    
+    // Track attempted URLs to avoid retry loops
+    const attemptedUrls = new Set<string>();
     
     const handleError = () => {
       // Ignore errors when src is empty or not set (prevents "Empty src attribute" spam)
@@ -600,7 +605,8 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
         title: activeTrack?.title,
         source: audio.src?.substring(0, 100),
         isBlobSource,
-        retryCount,
+        networkRetryCount,
+        formatRetryCount,
         isMobile: isMobileBrowser,
         browser: mobileBrowserInfo.current.browserName,
         os: mobileBrowserInfo.current.osName,
@@ -608,10 +614,103 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
         networkState: audio.networkState,
       };
       
+      // During startup, suppress toasts to avoid stale data errors
+      const suppressToast = inStartupPeriod;
+      
+      // Phase 2.1: Enhanced network error handling (code 2) with cache-busting retry
+      // PIPELINE_ERROR_READ and similar network errors should try alternative URLs
+      if (errorCode === 2 && networkRetryCount < MAX_NETWORK_RETRIES) {
+        networkRetryCount++;
+        
+        // Build fallback chain for network errors
+        const allAudioUrls = [
+          activeTrack?.streaming_url,
+          activeTrack?.audio_url,
+          activeTrack?.local_audio_url,
+        ].filter(url => url && !attemptedUrls.has(url));
+        
+        // If we have untried URLs, try them
+        if (allAudioUrls.length > 0) {
+          const fallbackUrl = allAudioUrls[0]!;
+          attemptedUrls.add(fallbackUrl);
+          
+          logger.info('Network error (code 2), trying alternative URL', {
+            ...errorContext,
+            fallbackUrl: fallbackUrl.substring(0, 60),
+            attempt: networkRetryCount,
+            maxRetries: MAX_NETWORK_RETRIES,
+          });
+          
+          const currentTime = audio.currentTime;
+          const wasPlaying = isPlaying;
+          
+          audio.src = fallbackUrl;
+          audio.load();
+          
+          audio.addEventListener('canplay', async function onCanPlay() {
+            audio.removeEventListener('canplay', onCanPlay);
+            
+            if (currentTime > 0 && !isNaN(currentTime)) {
+              audio.currentTime = currentTime;
+            }
+            
+            if (wasPlaying) {
+              try {
+                await audio.play();
+                logger.info('✅ Playback recovered after network error with alternative URL', {
+                  trackId: activeTrack?.id,
+                  fallbackUrl: fallbackUrl.substring(0, 60),
+                });
+              } catch (playErr) {
+                logger.warn('Recovery play after network error failed', { error: playErr instanceof Error ? playErr.message : String(playErr) });
+              }
+            }
+          }, { once: true });
+          
+          return;
+        }
+        
+        // No alternative URLs, try cache-busting retry
+        const currentUrl = audio.src;
+        if (currentUrl && !currentUrl.includes('retry=')) {
+          const urlSeparator = currentUrl.includes('?') ? '&' : '?';
+          const cacheBustingUrl = `${currentUrl}${urlSeparator}retry=${Date.now()}`;
+          
+          logger.info('Network error (code 2), retrying with cache-busting', {
+            ...errorContext,
+            attempt: networkRetryCount,
+            maxRetries: MAX_NETWORK_RETRIES,
+          });
+          
+          // Exponential backoff: 1s, 2s, 4s
+          const retryDelay = Math.pow(2, networkRetryCount - 1) * 1000;
+          
+          retryTimeoutId = setTimeout(() => {
+            audio.src = cacheBustingUrl;
+            audio.load();
+            
+            if (isPlaying) {
+              audio.play().catch((playErr) => {
+                logger.warn('Cache-busting retry play failed', playErr);
+              });
+            }
+            
+            if (!suppressToast) {
+              toast.info('Повторная попытка загрузки...', {
+                description: `Попытка ${networkRetryCount} из ${MAX_NETWORK_RETRIES}`,
+              });
+            }
+          }, retryDelay);
+          
+          return;
+        }
+      }
+      
       // CRITICAL: Handle format error (code 4) with automatic recovery using fallback chain
       // DO NOT log to Sentry until all recovery attempts fail
-      if (errorCode === 4 && !hasAttemptedBlobRecovery) {
+      if (errorCode === 4 && !hasAttemptedBlobRecovery && formatRetryCount < MAX_FORMAT_RETRIES) {
         hasAttemptedBlobRecovery = true;
+        formatRetryCount++;
         
         // Build fallback chain with all available audio URLs
         // Step 1: Collect all possible URLs (including local_audio_url)
@@ -619,7 +718,7 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
           activeTrack?.streaming_url,
           activeTrack?.audio_url,
           activeTrack?.local_audio_url,
-        ].filter(url => url); // Remove null/undefined
+        ].filter(url => url && !attemptedUrls.has(url)); // Remove null/undefined and already tried URLs
         
         // Step 2: Deduplicate URLs to avoid redundant retry attempts
         const uniqueUrls = Array.from(new Set(allAudioUrls));
@@ -648,7 +747,8 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
         }
         
         if (fallbackChain.length > 0) {
-          const fallbackUrl = fallbackChain[0];
+          const fallbackUrl = fallbackChain[0]!;
+          attemptedUrls.add(fallbackUrl);
           
           // Log recovery attempt (info level, not error)
           logger.info('Format error (code 4), attempting fallback to next URL in chain', {
@@ -665,7 +765,7 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
           const currentTime = audio.currentTime;
           const wasPlaying = isPlaying;
           
-          audio.src = fallbackUrl!;
+          audio.src = fallbackUrl;
           audio.load();
           
           // Restore position and resume playback when ready
@@ -719,37 +819,6 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
       if (!inStartupPeriod) {
         // Use only one telemetry call to avoid duplicate entries
         recordError(`audio:${errorCode}`, audio.error?.message || 'Unknown audio error', errorContext);
-      }
-      
-      // During startup, suppress toasts to avoid stale data errors
-      const suppressToast = inStartupPeriod;
-      
-      // Retry logic for network errors (code 2)
-      if (errorCode === 2 && retryCount < MAX_RETRIES) {
-        retryCount++;
-        logger.debug(`Retrying audio load (attempt ${retryCount}/${MAX_RETRIES})`);
-        
-        // Exponential backoff: 1s, 2s, 4s
-        const retryDelay = Math.pow(2, retryCount - 1) * 1000;
-        
-        retryTimeoutId = setTimeout(() => {
-          audio.load();
-          
-          // Attempt to resume playback if it was playing
-          if (isPlaying) {
-            audio.play().catch((playErr) => {
-              logger.warn('Retry play failed', playErr);
-            });
-          }
-          
-          if (!suppressToast) {
-            toast.info('Повторная попытка загрузки...', {
-              description: `Попытка ${retryCount} из ${MAX_RETRIES}`,
-            });
-          }
-        }, retryDelay);
-        
-        return;
       }
       
       // Max retries reached or non-retryable error

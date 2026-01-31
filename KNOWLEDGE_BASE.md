@@ -1,8 +1,66 @@
 # 📚 БАЗА ЗНАНИЙ ПРОЕКТА MusicVerse AI
 
-> **Последнее обновление:** 2026-01-31 (UI/UX Audit Complete)  
-> **Версия проекта:** 2.0.0 (Production Ready)  
-> **Статус:** 100% Complete
+> **Последнее обновление:** 2026-01-31 (Optimization Sprint Complete)  
+> **Версия проекта:** 2.1.0 (Production Optimized)  
+> **Статус:** 100% Complete + Optimization Sprint
+
+---
+
+## 🆕 НОВОЕ: Optimization Sprint (January 31, 2026)
+
+### Phase 1: RLS & Analytics Fix ✅
+**Проблема:** user_analytics_events требовала авторизацию для INSERT, блокируя анонимных пользователей
+
+**Решение:**
+```sql
+-- Новая политика разрешает INSERT для анонимных (user_id IS NULL)
+CREATE POLICY "Allow analytics insert for all users"
+ON public.user_analytics_events 
+FOR INSERT 
+TO public
+WITH CHECK (user_id IS NULL OR auth.uid() = user_id);
+```
+
+### Phase 2: Artist Blocklist Expansion ✅
+**Добавлены новые блокируемые артисты (из анализа логов ошибок):**
+- Instasamka, Bad Omens, BMTH, Slipknot, Rammstein
+
+**FALSE_POSITIVE_WORDS расширен:**
+- ruka/рука (hand), stiv/стив (Steve), mili/мили (common word)
+
+**Файлы:**
+- `src/lib/errorHandling.ts` — BLOCKED_ARTIST_PATTERNS
+- `src/lib/artistReplacements.ts` — замены для metal/rock жанров
+
+### Phase 3: Audio Error Recovery ✅
+**Улучшения GlobalAudioProvider:**
+```typescript
+// Отдельные счётчики retry для разных типов ошибок
+let networkRetryCount = 0;  // PIPELINE_ERROR_READ (code 2)
+let formatRetryCount = 0;   // Format errors (code 4)
+
+// Новая логика для network errors:
+// 1. Попытка альтернативного URL
+// 2. Cache-busting retry
+// 3. Exponential backoff (1s, 2s, 4s)
+
+// attemptedUrls Set предотвращает retry loops
+const attemptedUrls = new Set<string>();
+```
+
+### Phase 4: Onboarding System ✅
+**Новый хук useAutoShowTip:**
+```typescript
+// Автопоказ подсказок при первом посещении страницы
+import { useAutoShowTip } from '@/hooks/useFeatureTips';
+
+function LibraryPage() {
+  const { currentTip, dismissCurrentTip } = useAutoShowTip('library', 2000);
+  // Показывает первую непросмотренную подсказку через 2 секунды
+}
+```
+
+**Контексты подсказок:** library, player, studio, generation, social
 
 ---
 

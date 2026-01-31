@@ -416,11 +416,14 @@ const BLOCKED_ARTIST_PATTERNS = [
   // English artists - ONLY well-known artists, no common words
   /\b(taylor swift|ed sheeran|beyonce|eminem|kanye west|ariana grande|billie eilish|rihanna|justin bieber|lady gaga|katy perry|bruno mars|post malone|dua lipa|the weeknd|adele|coldplay|maroon 5|imagine dragons|bts|blackpink|twice|red velvet|akon|shakira|pitbull|nicki minaj|cardi b|travis scott|kendrick lamar|j cole|lil wayne|metro boomin|bad bunny|ozuna|daddy yankee|maluma|j balvin|rosalia|doja cat|megan thee stallion|lizzo|harry styles|olivia rodrigo|demi lovato|selena gomez|miley cyrus|nick jonas|shawn mendes|camila cabello|charlie puth|one direction|twenty one pilots|panic at the disco|fall out boy|my chemical romance|green day|blink 182|linkin park|nirvana|pink floyd|led zeppelin|metallica|guns n roses|bon jovi|aerosmith)\b/i,
   // Russian artists - only real confirmed blocked artists, NO common words
-  /\b(моргенштерн|morgenshtern|тимати|timati|баста|oxxxymiron|оксимирон|егор крид|егоркрид|egor creed|скриптонит|scriptonite|pharaoh|фараон|miyagi|мияги|jah khalib|джах халиб|matrang|макс корж|max korzh|noize mc|нойз мс|ленинград|leningrad|земфира|zemfira|алла пугачёва|alla pugacheva|филипп киркоров|kirkorov|дима билан|dima bilan|полина гагарина|polina gagarina|григорий лепс|валерий меладзе|meladze|лобода|loboda|монеточка|monetochka|slava marlow|слава марлоу|big baby tape|биг бейби тейп|gone fludd|boulevarddepo|бульвар депо|kizaru|кизару)\b/i,
+  // Phase 1.2: Added ruka, stiv, mili, porshi, instasamka based on error log analysis
+  /\b(моргенштерн|morgenshtern|тимати|timati|баста|oxxxymiron|оксимирон|егор крид|егоркрид|egor creed|скриптонит|scriptonite|pharaoh|фараон|miyagi|мияги|jah khalib|джах халиб|matrang|макс корж|max korzh|noize mc|нойз мс|ленинград|leningrad|земфира|zemfira|алла пугачёва|alla pugacheva|филипп киркоров|kirkorov|дима билан|dima bilan|полина гагарина|polina gagarina|григорий лепс|валерий меладзе|meladze|лобода|loboda|монеточка|monetochka|slava marlow|слава марлоу|big baby tape|биг бейби тейп|gone fludd|boulevarddepo|бульвар депо|kizaru|кизару|instasamka|инстасамка|porshi|порши|ruka|рука|stiv|стив|mili|мили)\b/i,
   // K-Pop artists - only group names that are distinctive
   /\b(g-idle|aespa|newjeans|stray kids|le sserafim|nmixx|enhypen|shinee|super junior|girls generation|snsd|2ne1|bigbang)\b/i,
   // African and EDM artists - only distinctive names
   /\b(wizkid|davido|burna boy|asake|ckay|fireboy dml|ayra starr|joeboy|omah lay|skrillex|deadmau5|marshmello|daft punk|david guetta|calvin harris|tiesto|avicii|martin garrix|kygo|alan walker|zedd|steve aoki|diplo|major lazer|afrojack|hardwell|armin van buuren|karol g|becky g|rauw alejandro|jhay cortez)\b/i,
+  // Rock/Metal bands that are commonly blocked  
+  /\b(bad omens|bring me the horizon|bmth|slipknot|korn|system of a down|soad|rammstein|tool|deftones|a7x|avenged sevenfold|three days grace|breaking benjamin|disturbed|godsmack|five finger death punch|ffdp)\b/i,
 ];
 
 /**
@@ -486,6 +489,13 @@ const FALSE_POSITIVE_WORDS = [
   'костя', 'косте', 'костю', 'kostya', 'константин',
   'петя', 'пете', 'петю', 'petya', 'пётр',
   'gena', 'гена', 'гене', 'гену', 'геннадий',
+  
+  // Phase 1.2: Extended false positives for commonly misdetected words
+  // "ruka" means "hand" in Russian, "stiv" is Steve, "mili" is a common word
+  'ruka', 'рука', 'руке', 'руку', 'руки', 'рукой', 'руками',
+  'stiv', 'стив', 'стиве', 'стиву', 'steve',
+  'mili', 'мили', 'милый', 'милая', 'милые', 'миля', 'милях',
+  'omens', 'знамения', 'предзнаменования', // common word "omens"
 ];
 
 /**

@@ -1,11 +1,13 @@
 /**
  * useFeatureTips - Unified hook for managing feature discovery tips
  * 
- * Combines hint tracking with tutorial dialogs
- * Provides centralized tip management across the app
+ * Phase 4: Onboarding integration
+ * - Combines hint tracking with tutorial dialogs
+ * - Provides centralized tip management across the app
+ * - Auto-shows tips on first page visit (library, studio, generation)
  */
 
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import { useHintTracking, HINT_IDS } from '@/hooks/useHintTracking';
 
 export type FeatureTipId = 
@@ -289,6 +291,33 @@ export function useTutorialDialog() {
     tutorialType,
     openTutorial,
     closeTutorial,
+  };
+}
+
+/**
+ * Hook for auto-showing tips on first page visit
+ * Use this in pages to trigger onboarding automatically
+ */
+export function useAutoShowTip(context: FeatureTip['context'], delayMs: number = 2000) {
+  const { currentTip, showNextTip, dismissCurrentTip, unseenCount } = useContextTips(context);
+  const [hasTriggered, setHasTriggered] = useState(false);
+  
+  // Auto-show tip after delay on first visit
+  useEffect(() => {
+    if (hasTriggered || unseenCount === 0) return;
+    
+    const timer = setTimeout(() => {
+      showNextTip();
+      setHasTriggered(true);
+    }, delayMs);
+    
+    return () => clearTimeout(timer);
+  }, [hasTriggered, unseenCount, showNextTip, delayMs]);
+  
+  return {
+    currentTip,
+    dismissCurrentTip,
+    hasUnseen: unseenCount > 0,
   };
 }
 
