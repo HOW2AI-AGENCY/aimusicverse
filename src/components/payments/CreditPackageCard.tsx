@@ -30,8 +30,8 @@ export function CreditPackageCard({
     ? (product.description as Record<string, string>)?.ru || (product.description as Record<string, string>)?.en
     : product.description;
 
-  const tracksCount = Math.floor((product.credits_amount ?? 0) / 3);
-  const pricePerTrack = product.price_rub_cents && product.credits_amount 
+  const tracksCount = Math.floor((product.credits_amount ?? 0) / 12);
+  const pricePerTrack = product.price_rub_cents && tracksCount > 0
     ? Math.round((product.price_rub_cents / 100) / tracksCount) 
     : null;
 
