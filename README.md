@@ -29,15 +29,15 @@
   <img src="https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript 5.9" />
   <img src="https://img.shields.io/badge/Telegram-Mini_App-26A5E4?style=flat-square&logo=telegram&logoColor=white" alt="Telegram" />
   <img src="https://img.shields.io/badge/Vite-5.0-646CFF?style=flat-square&logo=vite&logoColor=white" alt="Vite" />
-  <img src="https://img.shields.io/badge/Supabase-Backend-3ECF8E?style=flat-square&logo=supabase&logoColor=white" alt="Supabase" />
+  <img src="https://img.shields.io/badge/Lovable_Cloud-Backend-3ECF8E?style=flat-square&logo=supabase&logoColor=white" alt="Lovable Cloud" />
   <img src="https://img.shields.io/badge/Suno_AI-v5-e74c3c?style=flat-square" alt="Suno AI" />
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Status-Production_Ready-success?style=flat-square" alt="Production Ready" />
-  <img src="https://img.shields.io/badge/Progress-99%25-success?style=flat-square" alt="Progress" />
-  <img src="https://img.shields.io/badge/Users-199+-blue?style=flat-square" alt="Users" />
-  <img src="https://img.shields.io/badge/Tracks-1800+-orange?style=flat-square" alt="Tracks" />
+  <img src="https://img.shields.io/badge/Progress-100%25-success?style=flat-square" alt="Progress" />
+  <img src="https://img.shields.io/badge/Users-574+-blue?style=flat-square" alt="Users" />
+  <img src="https://img.shields.io/badge/Tracks-1666+-orange?style=flat-square" alt="Tracks" />
 </p>
 
 </div>
@@ -81,7 +81,7 @@
 
 ## 📍 Быстрая навигация
 
-> 🎯 **Статус:** Production Ready (99% complete)
+> 🎯 **Статус:** Production Ready (100% complete)
 > 
 > 📊 **Статус проекта:** [PROJECT_STATUS.md](PROJECT_STATUS.md)
 >
@@ -93,6 +93,7 @@
 > - [KNOWLEDGE_BASE.md](KNOWLEDGE_BASE.md) — База знаний проекта
 > - [ADR/](ADR/) — Архитектурные решения
 > - [specs/](specs/) — Технические спецификации
+> - [docs/](docs/) — 65+ файлов документации
 
 ---
 
