@@ -1,59 +1,69 @@
 /**
  * Payment Fail Page
- * Shown after failed payment via Tinkoff
- * Includes error handling and retry options
+ * Enhanced with glassmorphism and empathetic UX
  */
 
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { XCircle, RefreshCw, ArrowLeft, HelpCircle, MessageCircle, ExternalLink } from 'lucide-react';
+import { XCircle, RefreshCw, ArrowLeft, HelpCircle, MessageCircle, ExternalLink, CreditCard, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { logger } from '@/lib/logger';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { useTelegram } from '@/contexts/TelegramContext';
+import { cn } from '@/lib/utils';
+import { glass, gradientGlass } from '@/lib/glass';
 
 // Common Tinkoff error codes with user-friendly messages
-const ERROR_MESSAGES: Record<string, { title: string; description: string }> = {
+const ERROR_MESSAGES: Record<string, { title: string; description: string; icon?: string }> = {
   '0': { 
     title: 'Операция отменена', 
-    description: 'Вы отменили платёж. Деньги не были списаны.' 
+    description: 'Вы отменили платёж. Деньги не были списаны.',
+    icon: '🚫'
   },
   '99': { 
     title: 'Платёж отклонён банком', 
-    description: 'Попробуйте использовать другую карту или обратитесь в банк.' 
+    description: 'Попробуйте использовать другую карту или обратитесь в банк.',
+    icon: '🏦'
   },
   '100': { 
     title: 'Недостаточно средств', 
-    description: 'На карте недостаточно средств для оплаты.' 
+    description: 'На карте недостаточно средств для оплаты.',
+    icon: '💳'
   },
   '101': { 
     title: 'Карта заблокирована', 
-    description: 'Карта заблокирована. Обратитесь в банк.' 
+    description: 'Карта заблокирована. Обратитесь в банк.',
+    icon: '🔒'
   },
   '102': { 
     title: 'Превышен лимит', 
-    description: 'Превышен лимит на операции по карте.' 
+    description: 'Превышен лимит на операции по карте.',
+    icon: '📊'
   },
   '103': { 
     title: 'Срок действия карты истёк', 
-    description: 'Используйте другую карту с действующим сроком.' 
+    description: 'Используйте другую карту с действующим сроком.',
+    icon: '📅'
   },
   '119': { 
     title: 'Превышены попытки ввода PIN', 
-    description: 'Попробуйте позже или обратитесь в банк.' 
+    description: 'Попробуйте позже или обратитесь в банк.',
+    icon: '🔢'
   },
   '191': { 
     title: 'Некорректная сумма', 
-    description: 'Произошла техническая ошибка. Попробуйте снова.' 
+    description: 'Произошла техническая ошибка. Попробуйте снова.',
+    icon: '⚠️'
   },
   '1006': { 
     title: 'Ошибка 3D-Secure', 
-    description: 'Проблема с подтверждением платежа. Попробуйте снова.' 
+    description: 'Проблема с подтверждением платежа. Попробуйте снова.',
+    icon: '🔐'
   },
   '1051': { 
     title: 'Недостаточно средств', 
-    description: 'На карте недостаточно средств для оплаты.' 
+    description: 'На карте недостаточно средств для оплаты.',
+    icon: '💸'
   },
 };
 
@@ -88,7 +98,6 @@ export default function PaymentFail() {
   };
 
   const handleGoBack = () => {
-    // Try to get saved return URL
     const returnUrl = sessionStorage.getItem('payment_return_url');
     if (returnUrl) {
       sessionStorage.removeItem('payment_return_url');
@@ -103,7 +112,6 @@ export default function PaymentFail() {
   };
 
   const handleContactSupport = () => {
-    // Open support chat in Telegram
     const supportUrl = 'https://t.me/aimusicverse_support';
     window.open(supportUrl, '_blank');
   };
@@ -116,63 +124,111 @@ export default function PaymentFail() {
     return {
       title: 'Платёж не был завершён',
       description: message || 'Произошла ошибка при обработке платежа. Попробуйте ещё раз.',
+      icon: '😔'
     };
   };
 
   const errorInfo = getErrorInfo();
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-b from-background via-background to-destructive/5">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-b from-background via-background to-destructive/5 relative overflow-hidden">
+      {/* Background decorative elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <motion.div 
+          className="absolute top-20 left-10 w-32 h-32 bg-destructive/10 rounded-full blur-3xl"
+          animate={{ 
+            scale: [1, 1.2, 1],
+            opacity: [0.2, 0.3, 0.2],
+          }}
+          transition={{ duration: 5, repeat: Infinity }}
+        />
+        <motion.div 
+          className="absolute bottom-20 right-10 w-40 h-40 bg-orange-500/10 rounded-full blur-3xl"
+          animate={{ 
+            scale: [1.2, 1, 1.2],
+            opacity: [0.2, 0.3, 0.2],
+          }}
+          transition={{ duration: 6, repeat: Infinity }}
+        />
+      </div>
+
       <AnimatePresence>
         {showContent && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            initial={{ opacity: 0, y: 30, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ 
               type: 'spring', 
               stiffness: 300, 
-              damping: 30,
+              damping: 25,
               delay: 0.1,
             }}
-            className="w-full max-w-md"
+            className="w-full max-w-md relative z-10"
           >
-            <Card className="overflow-hidden border-destructive/20 shadow-xl shadow-destructive/10">
-              <CardContent className="pt-8 pb-6 px-6 text-center space-y-6">
+            <div className={cn(
+              "overflow-hidden rounded-3xl border border-destructive/20",
+              glass.card,
+              "shadow-2xl shadow-destructive/10"
+            )}>
+              <div className="pt-10 pb-8 px-6 text-center space-y-6">
                 {/* Error Icon with Shake */}
                 <motion.div 
-                  className="relative mx-auto w-24 h-24"
-                  initial={{ scale: 0, rotate: -10 }}
+                  className="relative mx-auto w-28 h-28"
+                  initial={{ scale: 0, rotate: -20 }}
                   animate={{ scale: 1, rotate: 0 }}
                   transition={{ 
                     type: 'spring', 
-                    stiffness: 400, 
+                    stiffness: 300, 
                     damping: 15,
                     delay: 0.2,
                   }}
                 >
+                  {/* Pulse rings */}
                   <motion.div 
                     className="absolute inset-0 bg-destructive/20 rounded-full"
                     animate={{ 
-                      scale: [1, 1.1, 1],
-                      opacity: [0.5, 0.2, 0.5],
+                      scale: [1, 1.2, 1],
+                      opacity: [0.4, 0.1, 0.4],
                     }}
-                    transition={{ 
-                      duration: 3,
-                      repeat: Infinity,
-                      ease: 'easeInOut',
-                    }}
+                    transition={{ duration: 3, repeat: Infinity }}
                   />
-                  <div className="relative flex items-center justify-center w-24 h-24 bg-destructive/10 rounded-full">
-                    <XCircle className="w-12 h-12 text-destructive" />
-                  </div>
+                  <motion.div 
+                    className="absolute inset-3 bg-destructive/15 rounded-full"
+                    animate={{ 
+                      scale: [1, 1.15, 1],
+                      opacity: [0.6, 0.2, 0.6],
+                    }}
+                    transition={{ duration: 3, repeat: Infinity, delay: 0.3 }}
+                  />
+                  
+                  {/* Main icon */}
+                  <motion.div 
+                    className="relative flex items-center justify-center w-28 h-28 bg-gradient-to-br from-destructive/80 to-destructive rounded-full shadow-xl shadow-destructive/30"
+                    animate={{ 
+                      rotate: [0, -3, 3, 0],
+                    }}
+                    transition={{ duration: 0.5, delay: 0.5 }}
+                  >
+                    <XCircle className="w-14 h-14 text-white" />
+                  </motion.div>
+                  
+                  {/* Error emoji */}
+                  <motion.div
+                    className="absolute -top-2 -right-2 text-2xl"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ delay: 0.6, type: 'spring' }}
+                  >
+                    {errorInfo.icon}
+                  </motion.div>
                 </motion.div>
 
                 {/* Title & Description */}
                 <motion.div 
-                  className="space-y-2"
-                  initial={{ opacity: 0, y: 10 }}
+                  className="space-y-3"
+                  initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
+                  transition={{ delay: 0.4 }}
                 >
                   <h1 className="text-2xl font-bold text-foreground">
                     {errorInfo.title}
@@ -185,54 +241,72 @@ export default function PaymentFail() {
                 {/* Order ID */}
                 {orderId && (
                   <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.4 }}
-                    className="text-sm text-muted-foreground bg-muted/50 rounded-lg p-3"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.5 }}
+                    className={cn(
+                      "text-sm rounded-xl p-3",
+                      glass.card
+                    )}
                   >
-                    Номер заказа: <span className="font-mono text-foreground">{orderId}</span>
+                    <div className="text-muted-foreground">
+                      Заказ: <span className="font-mono text-foreground">{orderId}</span>
+                    </div>
                     {errorCode && (
-                      <span className="block mt-1 text-xs opacity-70">
+                      <div className="text-xs opacity-70 mt-1">
                         Код ошибки: {errorCode}
-                      </span>
+                      </div>
                     )}
                   </motion.div>
                 )}
 
-                {/* Help text */}
+                {/* Reassurance message */}
                 <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.45 }}
-                  className="flex items-start gap-2 text-left text-sm text-muted-foreground bg-amber-500/10 border border-amber-500/20 rounded-lg p-3"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.55 }}
+                  className={cn(
+                    "flex items-start gap-3 text-left text-sm rounded-xl p-4",
+                    gradientGlass.warning
+                  )}
                 >
-                  <HelpCircle className="w-4 h-4 mt-0.5 flex-shrink-0 text-amber-500" />
-                  <p>
-                    Деньги не были списаны с вашей карты. 
-                    Попробуйте ещё раз или используйте другой способ оплаты.
-                  </p>
+                  <Shield className="w-5 h-5 mt-0.5 flex-shrink-0 text-amber-500" />
+                  <div>
+                    <p className="font-medium text-foreground mb-1">Не волнуйтесь!</p>
+                    <p className="text-muted-foreground">
+                      Деньги не были списаны с вашей карты. 
+                      Попробуйте ещё раз или используйте другую карту.
+                    </p>
+                  </div>
                 </motion.div>
 
                 {/* Actions */}
                 <motion.div 
                   className="space-y-3 pt-2"
-                  initial={{ opacity: 0, y: 10 }}
+                  initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5 }}
+                  transition={{ delay: 0.6 }}
                 >
-                  <Button 
-                    onClick={handleRetry}
-                    className="w-full gap-2"
-                    size="lg"
-                  >
-                    <RefreshCw className="w-4 h-4" />
-                    Попробовать снова
-                  </Button>
+                  <motion.div whileTap={{ scale: 0.98 }}>
+                    <Button 
+                      onClick={handleRetry}
+                      className={cn(
+                        "w-full gap-2 h-12 text-base font-semibold",
+                        "bg-gradient-to-r from-primary via-primary to-primary/90",
+                        "hover:shadow-xl hover:shadow-primary/30",
+                        "transition-all duration-300"
+                      )}
+                      size="lg"
+                    >
+                      <RefreshCw className="w-5 h-5" />
+                      Попробовать снова
+                    </Button>
+                  </motion.div>
                   
                   <Button 
                     onClick={handleGoBack}
                     variant="outline"
-                    className="w-full gap-2"
+                    className="w-full gap-2 h-11"
                   >
                     <ArrowLeft className="w-4 h-4" />
                     Вернуться назад
@@ -252,8 +326,8 @@ export default function PaymentFail() {
                     Связаться с поддержкой
                   </Button>
                 </motion.div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

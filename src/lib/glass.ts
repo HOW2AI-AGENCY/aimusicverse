@@ -126,6 +126,21 @@ export const gradientGlass = {
     'backdrop-blur-lg',
     'border border-white/20'
   ),
+  success: cn(
+    'bg-gradient-to-br from-green-500/20 via-emerald-500/10 to-transparent',
+    'backdrop-blur-lg',
+    'border border-green-500/20'
+  ),
+  warning: cn(
+    'bg-gradient-to-br from-amber-500/20 via-orange-500/10 to-transparent',
+    'backdrop-blur-lg',
+    'border border-amber-500/20'
+  ),
+  destructive: cn(
+    'bg-gradient-to-br from-destructive/20 via-red-500/10 to-transparent',
+    'backdrop-blur-lg',
+    'border border-destructive/20'
+  ),
 };
 
 /**
