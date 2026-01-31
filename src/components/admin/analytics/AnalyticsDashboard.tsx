@@ -21,10 +21,12 @@ import { RevenueAnalyticsPanel } from './RevenueAnalyticsPanel';
 import { ContentAnalyticsPanel } from './ContentAnalyticsPanel';
 import { UserActivityHeatmap } from './UserActivityHeatmap';
 import { RealTimeMetrics } from './RealTimeMetrics';
+import { ComparisonPanel } from './ComparisonPanel';
+import { AlertsPanel } from './AlertsPanel';
 import { Skeleton } from '@/components/ui/skeleton';
 import { 
   Activity, AlertTriangle, Music, Gauge, Link2, FlaskConical, 
-  Users, Download, DollarSign, BarChart3, Clock 
+  Users, Download, DollarSign, BarChart3, Clock, GitCompare
 } from 'lucide-react';
 import { exportAnalytics, formatTelemetryForExport } from '@/lib/analytics/exportUtils';
 import { toast } from 'sonner';
@@ -85,6 +87,12 @@ export function AnalyticsDashboard() {
           </Select>
         </div>
       </div>
+
+      {/* Alerts Panel */}
+      <AlertsPanel />
+
+      {/* Comparison Panel */}
+      <ComparisonPanel timePeriod={timePeriod} />
 
       {/* Real-time Metrics */}
       <RealTimeMetrics />

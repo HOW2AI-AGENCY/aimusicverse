@@ -124,8 +124,16 @@ export function subDays(date: Date | string | number, amount: number): Date {
   return dayjs(date).subtract(amount, 'day').toDate();
 }
 
+export function subHours(date: Date | string | number, amount: number): Date {
+  return dayjs(date).subtract(amount, 'hour').toDate();
+}
+
 export function addDays(date: Date | string | number, amount: number): Date {
   return dayjs(date).add(amount, 'day').toDate();
+}
+
+export function addHours(date: Date | string | number, amount: number): Date {
+  return dayjs(date).add(amount, 'hour').toDate();
 }
 
 export function addMonths(date: Date | string | number, amount: number): Date {

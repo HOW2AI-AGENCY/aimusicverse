@@ -18,3 +18,5 @@ export { RevenueAnalyticsPanel } from './RevenueAnalyticsPanel';
 export { ContentAnalyticsPanel } from './ContentAnalyticsPanel';
 export { UserActivityHeatmap } from './UserActivityHeatmap';
 export { RealTimeMetrics } from './RealTimeMetrics';
+export { ComparisonPanel } from './ComparisonPanel';
+export { AlertsPanel } from './AlertsPanel';
