@@ -1,315 +1,257 @@
 
-# План дальнейших работ MusicVerse AI
-
-**Дата**: 2026-01-31
-**Текущий статус**: Production Ready (100%)
-**Горизонт планирования**: Q1-Q2 2026
-**Последнее обновление**: 2026-01-31
+# План доработки интерфейса MusicVerse AI
+## Включая десктопную версию
 
 ---
 
-## Текущие метрики
+## 1. Анализ текущего состояния
 
-| Метрика | Значение | Динамика |
-|---------|----------|----------|
-| Всего пользователей | 574 | +90 за неделю |
-| Треков за месяц | 1,098 | +40/день |
-| Success rate генерации | 91.2% (14 дней) | ↑ улучшение |
-| Ошибки аудио (7 дней) | 31 | ↓ после оптимизации |
-| Ошибки генерации | 9 | ↓ после blocklist |
-| Платные подписки | 0 | Требует внимания |
+### Что реализовано:
+- **MainLayout**: Адаптивный layout с Sidebar для десктопа и BottomNavigation для мобильных
+- **Library**: Master-detail layout с боковой панелью генерации и панелью деталей трека
+- **Index (Home)**: Mobile-first с hero-карточками, секциями треков, gamification bar
+- **ProfilePage**: Статистика, меню навигации, адаптивная сетка
+- **Rewards**: Анимированные миссии, достижения (нет desktop-оптимизации)
+- **Studio V2**: Отдельные страницы для хаба, проекта, редактора
+- **LyricsStudio**: Сложный редактор с AI-помощником, версионированием
+- **MusicLab**: Табы с вокалом, гитарой, лирикой, PromptDJ, аккордами
+- **Settings**: 9 табов (профиль, подписка, тема, приватность, уведомления и др.)
+- **Pricing**: Табы кредиты/подписки, сравнение тарифов
 
----
+### Проблемы десктопной версии:
+1. **Rewards** - нет двухколоночного layout (DesktopRewardsLayout существует, но не используется)
+2. **Settings** - 9 табов в одну линию, неудобно на десктопе (есть SettingsSidebar, не подключен)
+3. **ProfilePage** - max-w-4xl, на широких экранах пустое пространство
+4. **MusicLab** - max-w-4xl, могла бы использовать больше пространства
+5. **LyricsStudio** - нет desktop-оптимизированного layout с панелями
+6. **Studio V2** - хаб простой, нужны карточки проектов с превью
+7. **Pricing** - карточки в столбец на больших экранах
+8. **Projects** - ContentHubTabs без desktop-оптимизации
+9. **HomeHeader** - на десктопе дублирует функционал Sidebar
 
-## Фаза 1: Монетизация и Конверсия (Февраль 2026)
-
-### 1.1 Активация подписок (Критический приоритет) ✅ В ПРОЦЕССЕ
-
-**Проблема**: 0 платных подписчиков при 574 пользователях
-
-**Выполнено (2026-01-31)**:
-- ✅ Smart paywall triggers (src/hooks/usePaywallTrigger.ts)
-  - Триггер после 3-й генерации (soft upsell)
-  - Триггер после 7-й генерации (hard upsell)
-  - 24-часовой cooldown между показами
-  - Аналитика всех paywall событий
-- ✅ SmartPaywallDialog с контекстным сообщением
-- ✅ PaywallProvider для глобального управления
-- ✅ 3-дневный trial для PRO (src/hooks/useTrialEligibility.ts)
-- ✅ TrialBanner компонент
-- ✅ ProOnboardingDialog — показ PRO функций (4 шага)
-
-**Осталось**:
-- [ ] Push-уведомления о преимуществах подписки через Telegram
-- [ ] A/B тестирование paywall вариантов
-
-**Новые компоненты**:
-```
-src/hooks/usePaywallTrigger.ts
-src/hooks/useTrialEligibility.ts
-src/components/premium/SmartPaywallDialog.tsx
-src/components/premium/PaywallProvider.tsx
-src/components/premium/TrialBanner.tsx
-src/components/premium/ProOnboardingDialog.tsx
-```
-
-**Ожидаемый результат**: 2-5% конверсия в платные подписки
-
-### 1.2 Улучшение Retention
-
-**Текущее состояние**: ~29 DAU, retention D7 63-100%
-
-**Задачи**:
-- [ ] Добавить еженедельные челленджи с призами (кредиты)
-- [ ] Создать систему рекомендаций "Похожие треки"
-- [ ] Улучшить push-уведомления через Telegram Bot
-- [ ] Добавить email дайджест для неактивных пользователей
-
-**Файлы для изменения**:
-- telegram-bot edge function
-- Notifications система
-- Recommendations engine
+### Отсутствующие пути/функционал:
+1. Нет прямого доступа к покупке кредитов из BottomNav или Sidebar
+2. Нет быстрого доступа к Rewards из основной навигации
+3. Нет уведомлений о завершении генерации на десктопе
+4. Нет клавиатурных сокращений на всех страницах
+5. Нет breadcrumbs на вложенных страницах
 
 ---
 
-## Фаза 2: Spec 032 - Professional UI (Февраль-Март 2026)
+## 2. Приоритетные задачи
 
-### 2.1 Система дизайн-токенов
+### P0 - Критические (влияют на UX)
 
-**Задачи**:
-- [ ] Унифицировать типографику (H1-H6, body, caption)
-- [ ] Создать spacing scale (4, 8, 12, 16, 24, 32px)
-- [ ] Оптимизировать цветовую палитру с WCAG AA
-- [ ] Добавить elevation system (shadows 0-5)
+#### 2.1 Desktop Layout для Settings
+Подключить SettingsSidebar для вертикальной навигации на десктопе.
 
-**Новые файлы**:
-```
-src/styles/
-├── typography.css
-├── spacing.css
-├── colors.css
-└── elevation.css
-```
+**Изменения:**
+- Settings.tsx: добавить условие `!isMobile && <SettingsSidebar />`
+- Сетка: sidebar слева (w-64), контент справа
+- Сохранить табы для мобильной версии
 
-### 2.2 Анимации и микро-взаимодействия
+#### 2.2 Desktop Layout для Rewards
+Подключить DesktopRewardsLayout для двухколоночной раскладки.
 
-**Задачи**:
-- [ ] Создать библиотеку motion variants (framer-motion)
-- [ ] Добавить skeleton loaders для всех loading states
-- [ ] Оптимизировать transitions (200-300ms с easing)
-- [ ] Поддержка prefers-reduced-motion
+**Изменения:**
+- Rewards.tsx: условие `useIsMobile()` и переключение layouts
+- Левая колонка: Level, Checkin, Streak, Missions
+- Правая колонка: Stats, Achievements/Leaderboard
 
-**Файлы**:
-```
-src/lib/motion-variants.ts
-src/components/ui/skeleton-variants.tsx
-```
+#### 2.3 Унификация Header на десктопе
+На десктопе HomeHeader избыточен (есть Sidebar).
 
-### 2.3 Компоненты
+**Изменения:**
+- Index.tsx: на десктопе показывать упрощённый header
+- Убрать дублирование меню и аватара
+- Оставить только приветствие и уведомления
 
-**Задачи**:
-- [ ] Рефакторинг card компонентов (shadows, radius 8-16px)
-- [ ] Унификация icon sizes (20-24px)
-- [ ] Улучшение empty states с иллюстрациями
-- [ ] Touch targets аудит (все >=44px)
+### P1 - Важные (улучшают UX)
 
-**Критерии успеха**:
-- 95% WCAG AA compliance
-- 60fps для всех анимаций
-- User satisfaction +40%
+#### 2.4 Быстрый доступ к Credits/Shop
+Добавить кнопку покупки в Sidebar и profile menu.
+
+**Изменения:**
+- Sidebar.tsx: добавить пункт "Магазин" (CreditCard icon) в accountNavItems
+- CreditsBalance.tsx: сделать кликабельным с переходом на /pricing
+- BottomNavigation: добавить в MoreMenuSheet
+
+#### 2.5 Desktop Layout для LyricsStudio
+Трёхпанельный layout для редактора текста.
+
+**Изменения:**
+- Левая панель: список шаблонов/версий (w-64)
+- Центр: редактор (flex-1)
+- Правая панель: AI-помощник (w-80)
+- На мобильных - сохранить текущие Sheet/Drawer
+
+#### 2.6 Улучшенные карточки Studio Hub
+Превью треков в карточках проектов.
+
+**Изменения:**
+- StudioHubPage.tsx: добавить waveform preview
+- Показывать статус (playing, stems ready)
+- Индикатор последних изменений
+
+#### 2.7 Desktop Layout для MusicLab
+Расширенная сетка для творческих инструментов.
+
+**Изменения:**
+- Убрать max-w-4xl на десктопе
+- Grid layout для инструментов вместо табов
+- Каждый инструмент в отдельной карточке
+
+### P2 - Улучшения (полировка)
+
+#### 2.8 Keyboard Shortcuts
+Глобальные клавиатурные сокращения.
+
+**Сочетания:**
+- Space: Play/Pause
+- Ctrl/Cmd+G: Открыть генерацию
+- Ctrl/Cmd+L: Библиотека
+- Ctrl/Cmd+S: Сохранить (в редакторах)
+- Escape: Закрыть панели
+- 1-5: Навигация по табам
+
+**Реализация:**
+- Создать useKeyboardShortcuts hook
+- Подключить в MainLayout
+- Показывать hints в Sidebar tooltips
+
+#### 2.9 Breadcrumbs на вложенных страницах
+Навигационные хлебные крошки.
+
+**Страницы:**
+- /projects/:id → "Проекты / [Название]"
+- /lyrics-studio?projectId=X → "Проект / [Трек] / Редактор"
+- /studio-v2/project/:id → "Студия / [Проект]"
+- /album/:id → "Библиотека / [Альбом]"
+
+**Реализация:**
+- Использовать существующий Breadcrumbs компонент
+- Добавить showBreadcrumbs в AppHeader
+
+#### 2.10 Desktop Notification Center
+Выпадающая панель уведомлений в Sidebar.
+
+**Изменения:**
+- Sidebar.tsx: заменить NotificationCenter на полноценную панель
+- При клике открывать dropdown с историей
+- Показывать уведомления о генерации
+
+#### 2.11 Profile Desktop Layout
+Расширенный профиль на широких экранах.
+
+**Изменения:**
+- ProfilePage.tsx: увеличить max-w на lg/xl
+- Двухколоночный layout: stats слева, меню справа
+- Добавить activity feed
+
+#### 2.12 Pricing Desktop Optimization
+Горизонтальная сетка для карточек.
+
+**Изменения:**
+- Pricing.tsx: grid-cols-4 для кредитов на xl
+- Highlight популярного пакета
+- Сравнительная таблица без скролла
 
 ---
 
-## Фаза 3: Spec 031 - Mobile Studio V2 (Март 2026)
+## 3. Техническая реализация
 
-### 3.1 Lyrics Studio Integration (P1)
+### Новые компоненты
 
-**Задачи**:
-- [ ] Перенести lyrics editing panel в StudioShell
-- [ ] Интегрировать 9 AI-инструментов для лирики
-- [ ] Добавить section notes и tag enrichment
-- [ ] Реализовать version history с restore
-
-**Компоненты из legacy**:
-- LyricsEditorPanel
-- AILyricsAssistant
-- VersionHistoryDrawer
-
-### 3.2 MusicLab Creative Workspace (P2)
-
-**Задачи**:
-- [ ] Vocal recording с real-time visualization
-- [ ] Guitar input detection
-- [ ] Chord detection (AI-powered)
-- [ ] PromptDJ для PRO пользователей
-
-**Новые компоненты**:
 ```
-src/components/studio-v2/musiclab/
-├── VocalRecorder.tsx
-├── GuitarInput.tsx
-├── ChordDetector.tsx
-└── PromptDJMixer.tsx
-```
+src/components/layout/
+├── DesktopSettingsLayout.tsx    # Sidebar + content для настроек
+├── DesktopLyricsLayout.tsx      # Три панели для LyricsStudio
+├── DesktopMusicLabLayout.tsx    # Grid инструментов
 
-### 3.3 Advanced Stem Processing (P2)
+src/components/navigation/
+├── KeyboardShortcutsProvider.tsx # Глобальные хоткеи
+├── ShortcutsHelp.tsx            # Справка по сочетаниям
 
-**Задачи**:
-- [ ] Batch transcription для множества stems
-- [ ] Stem separation modes (none, simple, detailed)
-- [ ] Progress indication для batch операций
-- [ ] Error handling для частичных failures
-
-### 3.4 Professional Dashboard (P3)
-
-**Задачи**:
-- [ ] Project statistics widget
-- [ ] Preset management (create, apply, delete)
-- [ ] Workflow visualization
-- [ ] Keyboard shortcuts system
-
----
-
-## Фаза 4: Platform Integration (Q2 2026)
-
-### 4.1 Export в стриминговые сервисы
-
-**Задачи**:
-- [ ] Spotify for Artists integration
-- [ ] Apple Music for Artists
-- [ ] YouTube Music upload
-- [ ] SoundCloud distribution
-
-**Edge functions**:
-```
-supabase/functions/
-├── spotify-export/
-├── apple-music-export/
-├── youtube-upload/
-└── soundcloud-export/
+src/hooks/
+├── useKeyboardShortcuts.ts      # Hook для регистрации сочетаний
 ```
 
-### 4.2 Public API v1.0
+### Модифицируемые файлы
 
-**Задачи**:
-- [ ] RESTful API endpoints
-- [ ] OAuth 2.0 authentication
-- [ ] Rate limiting
-- [ ] API key management
-- [ ] Interactive documentation (Swagger/Redoc)
+| Файл | Изменения |
+|------|-----------|
+| src/pages/Settings.tsx | Desktop sidebar layout |
+| src/pages/Rewards.tsx | Desktop two-column layout |
+| src/pages/Index.tsx | Упрощённый header на десктопе |
+| src/pages/LyricsStudio.tsx | Three-panel layout |
+| src/pages/MusicLab.tsx | Grid layout на десктопе |
+| src/pages/ProfilePage.tsx | Extended layout |
+| src/pages/Pricing.tsx | Grid optimization |
+| src/pages/studio-v2/StudioHubPage.tsx | Enhanced cards |
+| src/components/Sidebar.tsx | Shop link, shortcuts hints |
 
-### 4.3 SDKs
+### Паттерн адаптивности
 
-**Задачи**:
-- [ ] JavaScript/TypeScript SDK
-- [ ] Python SDK
-- [ ] Webhook events system
+```typescript
+// Стандартный паттерн для всех страниц
+const isMobile = useIsMobile();
 
----
-
-## Фаза 5: Quality & Testing (Ongoing)
-
-### 5.1 Test Coverage
-
-**Текущее состояние**: ~40% coverage
-
-**Цель**: >80% coverage
-
-**Задачи**:
-- [ ] Unit tests для критических hooks (audio, generation)
-- [ ] Integration tests для Edge functions
-- [ ] E2E tests с Playwright (основные user flows)
-
-### 5.2 Performance
-
-**Задачи**:
-- [ ] Lighthouse scores >90
-- [ ] Bundle size <150KB (vendor-other)
-- [ ] Lazy loading для opensheetmusicdisplay
-- [ ] Service Worker для offline support
-
-### 5.3 Security
-
-**Задачи**:
-- [ ] Security audit всех Edge functions
-- [ ] RLS policies review
-- [ ] API rate limiting
-- [ ] Input sanitization audit
+return isMobile ? (
+  <MobileLayout>...</MobileLayout>
+) : (
+  <DesktopLayout>...</DesktopLayout>
+);
+```
 
 ---
 
-## Фаза 6: Infrastructure (Q2 2026)
+## 4. Порядок выполнения
 
-### 6.1 Monitoring
+### Фаза 1: Критические layouts (2 задачи)
+1. Settings desktop layout (SettingsSidebar)
+2. Rewards desktop layout (DesktopRewardsLayout)
 
-**Задачи**:
-- [ ] Sentry integration для error tracking
-- [ ] Custom dashboards для бизнес-метрик
-- [ ] Alerting на критические ошибки
-- [ ] Performance monitoring
+### Фаза 2: Навигация и доступность (3 задачи)
+3. Shop/Credits в навигации
+4. Header оптимизация для десктопа
+5. Keyboard shortcuts
 
-### 6.2 Backend Cleanup
+### Фаза 3: Продуктовые страницы (4 задачи)
+6. LyricsStudio desktop layout
+7. MusicLab grid layout
+8. StudioHub enhanced cards
+9. ProfilePage extended
 
-**Задачи**:
-- [ ] Удаление deprecated Edge functions
-- [ ] Consolidation повторяющегося кода
-- [ ] Database indexes optimization
-- [ ] Query performance audit
-
----
-
-## Приоритизация
-
-| Приоритет | Фаза | Задачи | Оценка | Статус |
-|-----------|------|--------|--------|--------|
-| P0 | 1.1 | Активация подписок | 2 недели | 🔄 В работе |
-| P0 | 1.2 | Retention improvements | 1 неделя | ⏳ Ожидает |
-| P1 | 2.1-2.3 | Professional UI | 3 недели | ⏳ Ожидает |
-| P1 | 3.1 | Lyrics Studio | 1 неделя | ⏳ Ожидает |
-| P2 | 3.2-3.4 | MusicLab + Advanced | 2 недели | ⏳ Ожидает |
-| P2 | 5.1-5.3 | Quality & Testing | 2 недели | ⏳ Ожидает |
-| P3 | 4.1-4.3 | Platform Integration | 4 недели | ⏳ Ожидает |
-| P3 | 6.1-6.2 | Infrastructure | 2 недели | ⏳ Ожидает |
-
-**Общая оценка**: 17 недель (Q1-Q2 2026)
+### Фаза 4: Финальная полировка (3 задачи)
+10. Breadcrumbs на вложенных страницах
+11. Pricing grid optimization
+12. Notification center desktop
 
 ---
 
-## KPIs и Success Metrics
+## 5. Метрики успеха
 
-### Q1 2026 (до конца Февраля)
-- [ ] Конверсия в подписки: 2-5%
-- [ ] DAU: 50+ (сейчас ~25-29)
-- [ ] Success rate генерации: >95%
-- [ ] Audio errors: <10/неделю
-
-### Q2 2026 (до конца Июня)
-- [ ] Пользователи: 1,500+
-- [ ] Платные подписки: 50+
-- [ ] Public API v1.0 launched
-- [ ] Platform integrations: 2+
-- [ ] Test coverage: >80%
+- **Desktop usage**: +20% времени в приложении
+- **Feature discovery**: +30% использование MusicLab, LyricsStudio
+- **Navigation efficiency**: -40% кликов до целевого действия
+- **Keyboard shortcuts adoption**: 15% power users
 
 ---
 
-## Зависимости и риски
+## 6. Зависимости
 
-### Зависимости
-- Suno API стабильность для генерации
-- Tinkoff API для платежей
-- Telegram Mini App SDK обновления
-
-### Риски
-1. **Конверсия подписок** — может потребовать A/B тестирования разных подходов
-2. **Platform integrations** — требуют API ключей от Spotify/Apple
-3. **Performance** — bundle size требует тщательной оптимизации
+- DesktopRewardsLayout уже существует (не подключен)
+- SettingsSidebar уже существует (не подключен)
+- Breadcrumbs компонент существует
+- AppHeader поддерживает breadcrumbs prop
+- useIsMobile hook везде доступен
 
 ---
 
-## Следующие шаги
+## 7. Риски
 
-1. ✅ **Выполнено**: Smart paywall система с триггерами
-2. ✅ **Выполнено**: 3-дневный trial для PRO
-3. ✅ **Выполнено**: PRO onboarding flow
-4. **Следующее**: Push-уведомления через Telegram Bot
-5. **Далее**: Начало работ по Spec 032 (design tokens)
+| Риск | Митигация |
+|------|-----------|
+| Ломается мобильная версия | Обязательное тестирование на всех breakpoints |
+| Увеличение bundle size | Lazy loading для desktop layouts |
+| Keyboard shortcuts конфликты | Проверка с браузерными сочетаниями |
