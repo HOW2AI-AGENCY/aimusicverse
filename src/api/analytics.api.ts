@@ -13,13 +13,17 @@ export type EventType =
   | 'page_view'
   | 'generation_started'
   | 'generation_completed'
+  | 'generation_failed'
+  | 'generation_metrics'
   | 'track_played'
   | 'track_liked'
   | 'track_shared'
   | 'feature_used'
   | 'button_clicked'
   | 'session_started'
-  | 'session_ended';
+  | 'session_ended'
+  | 'onboarding_step'
+  | 'error_logged';
 
 export interface AnalyticsEvent {
   eventType: EventType;

@@ -19,6 +19,8 @@ export {
   trackEvent,
   trackPageView,
   trackGeneration,
+  trackGenerationMetrics,
+  trackOnboardingStep,
   trackFeatureUsed,
   trackButtonClick,
   trackTrackPlayed,

@@ -1,12 +1,67 @@
 # 📚 БАЗА ЗНАНИЙ ПРОЕКТА MusicVerse AI
 
-> **Последнее обновление:** 2026-01-31 (Optimization Sprint Complete)  
-> **Версия проекта:** 2.1.0 (Production Optimized)  
-> **Статус:** 100% Complete + Optimization Sprint
+> **Последнее обновление:** 2026-01-31 (Optimization Sprint v2)  
+> **Версия проекта:** 2.2.0 (Production Optimized + Onboarding)  
+> **Статус:** 100% Complete + Full Optimization Sprint
 
 ---
 
-## 🆕 НОВОЕ: Optimization Sprint (January 31, 2026)
+## 🆕 НОВОЕ: Optimization Sprint v2 (January 31, 2026)
+
+### Phase 4.2: ContextualTipOverlay Component ✅
+**Новый компонент для контекстных подсказок:**
+```typescript
+// src/components/onboarding/ContextualTipOverlay.tsx
+import { ContextualTipOverlay } from '@/components/onboarding';
+
+// Интегрирован в Library, Studio, Index
+<ContextualTipOverlay context="library" delay={3000} />
+<ContextualTipOverlay context="studio" delay={3500} />
+<ContextualTipOverlay context="generation" delay={4000} />
+```
+
+### Phase 5.1: Enhanced Generation Telemetry ✅
+**Новые функции трекинга:**
+```typescript
+// src/services/analytics/events.service.ts
+trackGenerationMetrics({
+  mode: 'simple' | 'custom' | 'wizard',
+  status: 'success' | 'error',
+  duration_ms: 5000,
+  error_type: 'artist_blocked',
+  has_reference: true,
+  has_lyrics: true,
+  model: 'chirp-v4',
+});
+
+trackOnboardingStep('studio-first-open', true);
+```
+
+### Phase 3.2: Enhanced ValidationMessage ✅
+**ValidationMessage теперь показывает:**
+- Подсказки (suggestion) с иконкой лампочки
+- Раскрывающийся список примеров правильных промптов
+- Маппинг артистов на стилевые описания
+
+### Phase 2.2: Audio URL Validator ✅
+**Проактивная валидация URL перед воспроизведением:**
+```typescript
+// src/lib/audio/urlValidator.ts
+import { validateAudioUrl, findAccessibleUrl } from '@/lib/audioFormatUtils';
+
+const result = await validateAudioUrl(url);
+// { isValid, isAccessible, status, contentType, error }
+
+const bestUrl = await findAccessibleUrl([
+  track.streaming_url,
+  track.audio_url,
+  track.local_audio_url,
+]);
+```
+
+---
+
+## 🆕 Optimization Sprint v1 (January 31, 2026)
 
 ### Phase 1: RLS & Analytics Fix ✅
 **Проблема:** user_analytics_events требовала авторизацию для INSERT, блокируя анонимных пользователей

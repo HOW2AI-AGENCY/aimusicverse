@@ -51,6 +51,9 @@ const GenerateSheet = lazy(() => import("@/components/GenerateSheet").then(m => 
 const MusicRecognitionDialog = lazy(() => import("@/components/music-recognition/MusicRecognitionDialog").then(m => ({ default: m.MusicRecognitionDialog })));
 const AudioActionDialog = lazy(() => import("@/components/generate-form/AudioActionDialog").then(m => ({ default: m.AudioActionDialog })));
 
+// Lazy load onboarding overlay (Phase 4)
+const ContextualTipOverlay = lazy(() => import("@/components/onboarding/ContextualTipOverlay"));
+
 const Index = () => {
   const { user } = useAuth();
   const { user: telegramUser } = useTelegram();
@@ -285,6 +288,11 @@ const Index = () => {
           />
         </Suspense>
       )}
+      
+      {/* Contextual onboarding tips for generation - Phase 4 */}
+      <Suspense fallback={null}>
+        <ContextualTipOverlay context="generation" delay={4000} />
+      </Suspense>
       </PullToRefreshWrapper>
     </div>
   );
