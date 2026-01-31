@@ -1,11 +1,13 @@
 /**
  * Payment Method Selector Component
- * Card payment via Tinkoff only
+ * Enhanced with glassmorphism and animations
  */
 
 import React from 'react';
 import { cn } from '@/lib/utils';
-import { CreditCard, Check } from 'lucide-react';
+import { CreditCard, Check, ShieldCheck } from 'lucide-react';
+import { motion } from '@/lib/motion';
+import { glass } from '@/lib/glass';
 import { formatRubles } from '@/types/payment';
 
 interface PaymentMethodSelectorProps {
@@ -20,37 +22,56 @@ export function PaymentMethodSelector({
   // Only Tinkoff card payment is available
   return (
     <div className={cn('space-y-2', className)}>
-      <div className="flex items-center gap-3 p-3 rounded-lg border border-primary bg-primary/5 ring-1 ring-primary/20">
-        {/* Icon */}
-        <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10">
+      <motion.div 
+        initial={{ opacity: 0, y: 5 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+        className={cn(
+          'flex items-center gap-3 p-3 rounded-xl',
+          'border border-primary/30 bg-primary/5',
+          'ring-1 ring-primary/20'
+        )}
+      >
+        {/* Icon with animation */}
+        <motion.div 
+          className="flex items-center justify-center w-11 h-11 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10"
+          whileHover={{ scale: 1.05 }}
+        >
           <CreditCard className="w-5 h-5 text-primary" />
-        </div>
+        </motion.div>
         
         {/* Info */}
-        <div className="flex-1">
-          <div className="flex items-center gap-2">
-            <span className="font-medium">Банковская карта</span>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="font-medium text-sm">Банковская карта</span>
             <span className="px-1.5 py-0.5 text-[10px] font-medium bg-primary/20 text-primary rounded">
               Tinkoff
             </span>
           </div>
-          <p className="text-xs text-muted-foreground">
-            Visa, Mastercard, МИР
-          </p>
+          <div className="flex items-center gap-3 mt-0.5">
+            <p className="text-xs text-muted-foreground">
+              Visa, Mastercard, МИР
+            </p>
+          </div>
         </div>
 
-        {/* Price */}
+        {/* Price (if provided) */}
         {priceRubCents && (
-          <div className="text-right">
+          <div className="text-right shrink-0">
             <span className="font-semibold">{formatRubles(priceRubCents)}</span>
           </div>
         )}
 
         {/* Selected indicator */}
-        <div className="flex items-center justify-center w-5 h-5 rounded-full bg-primary text-primary-foreground">
-          <Check className="w-3 h-3" />
-        </div>
-      </div>
+        <motion.div 
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ type: 'spring', stiffness: 500, delay: 0.2 }}
+          className="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-primary-foreground shrink-0"
+        >
+          <Check className="w-3.5 h-3.5" />
+        </motion.div>
+      </motion.div>
     </div>
   );
 }
