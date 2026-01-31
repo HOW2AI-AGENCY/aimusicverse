@@ -8,20 +8,21 @@ This document defines the z-index hierarchy used across the MusicVerse AI applic
 
 | Layer | Z-Index | Tailwind Class | Component Types | Examples |
 |-------|---------|----------------|-----------------|----------|
-| **Base Content** | 0-10 | `z-base`, `z-raised` | Regular page content, cards | Track cards, content grids |
-| **Sticky Elements** | 20 | `z-sticky` | Headers, footers | Sticky headers |
-| **Floating** | 30 | `z-floating` | Small overlays | - |
+| **Base Content** | 0 | `z-base` | Regular page content | Page backgrounds |
+| **Raised Content** | 10 | `z-raised` | Cards, panels | Track cards, content cards |
+| **Sticky Elements** | 20 | `z-sticky` | Headers, footers | `PageHeader`, sticky headers |
+| **Floating** | 30 | `z-floating` | Small overlays | Floating buttons |
 | **Overlay** | 40 | `z-overlay` | Backdrops | Sidebar backdrop |
-| **Navigation** | 50 | `z-navigation` | Bottom nav, sidebar | `BottomNavigation` (island-nav), `Sidebar` |
-| **Player** | 60 | `z-player` | Music player | `CompactPlayer`, `ExpandedPlayer` |
+| **Navigation** | 50 | `z-navigation` | Bottom nav, sidebar | `BottomNavigation`, `Sidebar` |
+| **Player** | 60-61 | `z-player` | Music player | `CompactPlayer`, `ExpandedPlayer` |
 | **Contextual Hints** | 70 | `z-contextual` | Smart hints | `ContextualHint` |
-| **Fullscreen Overlays** | 90 | `z-fullscreen` | Major fullscreen UIs | `MobileFullscreenPlayer`, `SectionEditorMobile` |
+| **Fullscreen Overlays** | 90 | `z-fullscreen` | Major fullscreen UIs | `MobileFullscreenPlayer` |
 | **Dialogs** | 140 | `z-dialog` | Modal dialogs | `Dialog`, `AlertDialog` |
-| **Sheets** | 150-151 | `z-[150]`, `z-[151]` | Bottom sheets | `Sheet`, `MobileBottomSheet` |
-| **Dropdowns/Popovers** | 200 | `z-dropdown`, `z-popover` | Floating menus | `DropdownMenuContent`, `PopoverContent` |
+| **Sheets** | 150-151 | `z-sheet-*` | Bottom sheets | `Sheet`, `Drawer`, `MobileBottomSheet` |
+| **Dropdowns/Popovers** | 200 | `z-dropdown` | Floating menus | `DropdownMenu`, `PopoverContent` |
 | **Tooltips** | 250 | `z-tooltip` | Tooltips | `TooltipContent` |
-| **Toasts/System** | 300 | `z-toast`, `z-notification` | Critical notifications | `Sonner`, `Toast` |
-| **Maximum** | 9999 | `z-max` | Debug, critical alerts | Context menus (legacy) |
+| **Toasts/System** | 300 | `z-toast` | Notifications | `Sonner`, system alerts |
+| **Context Menu** | 9999 | `z-max` | Context menus | `ContextMenuContent`, `SelectContent` |
 
 ### Implementation Details
 
@@ -39,9 +40,8 @@ zIndex: {
   'navigation': '50',
   'player': '60',
   'contextual': '70',
-  'dialog': '80',       // Legacy, prefer 140 for actual dialogs
   'fullscreen': '90',
-  'system': '100',
+  'dialog': '140',
   'sheet-backdrop': '150',
   'sheet-content': '151',
   'dropdown': '200',

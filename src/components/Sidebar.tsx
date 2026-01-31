@@ -210,7 +210,7 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
     <TooltipProvider>
       <aside 
         className={cn(
-          "h-full flex flex-col bg-sidebar text-sidebar-foreground border-r border-sidebar-border transition-all duration-300",
+          "h-full flex flex-col bg-sidebar text-sidebar-foreground border-r border-sidebar-border transition-all duration-300 z-navigation",
           isCollapsed ? "w-16" : "w-64"
         )}
       >
