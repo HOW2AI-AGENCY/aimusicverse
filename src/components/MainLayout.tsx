@@ -237,7 +237,7 @@ export const MainLayout = () => {
       )}
       
       {isDesktop && (
-        <div className={cn("fixed inset-y-0 z-50 transition-all duration-300", sidebarWidth)}>
+        <div className={cn("fixed inset-y-0 z-navigation transition-all duration-300", sidebarWidth)}>
           <Sidebar 
             collapsed={sidebarCollapsed} 
             onCollapsedChange={handleSidebarCollapsedChange} 
@@ -248,13 +248,15 @@ export const MainLayout = () => {
         id="main-content"
         className={cn(
           'flex-1 flex flex-col overflow-y-auto relative transition-all duration-300',
-          isDesktop
-            ? mainMargin
-            : `pb-[calc(${TELEGRAM_SAFE_AREA.bottom}+4rem)]`,
+          isDesktop && mainMargin,
           isGuestMode && 'pt-9'
         )}
         style={{
           minHeight: 'var(--tg-viewport-stable-height, 100vh)',
+          // Mobile: add bottom padding for nav + safe area
+          ...(!isDesktop && {
+            paddingBottom: `calc(max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)) + 5rem)`,
+          }),
         }}
       >
         <div
