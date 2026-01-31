@@ -35,14 +35,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const { initData, isDevelopmentMode } = useTelegram();
 
   useEffect(() => {
-    // Safety timeout to prevent infinite loading - only log once
+    // Faster safety timeout to prevent infinite loading - only log once
     const loadingTimeout = setTimeout(() => {
       if (!timeoutWarningLogged) {
         authLogger.warn('Auth loading timeout - forcing loading complete');
         timeoutWarningLogged = true;
       }
       setLoading(false);
-    }, 5000);
+    }, 2000); // Reduced from 5s to 2s for faster fallback
 
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
