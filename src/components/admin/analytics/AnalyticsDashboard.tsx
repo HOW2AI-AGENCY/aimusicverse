@@ -4,7 +4,7 @@
  */
 
 import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useTelemetryStats, useErrorTrends } from '@/hooks/admin/useTelemetryStats';
@@ -13,8 +13,9 @@ import { TelemetryOverview } from './TelemetryOverview';
 import { ErrorTrendsPanel } from './ErrorTrendsPanel';
 import { GenerationStatsPanel } from './GenerationStatsPanel';
 import { PerformanceMetricsPanel } from './PerformanceMetricsPanel';
+import { DeeplinkAnalyticsPanel } from './DeeplinkAnalyticsPanel';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Activity, AlertTriangle, Music, Gauge } from 'lucide-react';
+import { Activity, AlertTriangle, Music, Gauge, Link2 } from 'lucide-react';
 
 type TimePeriod = '24 hours' | '7 days' | '30 days' | '90 days';
 
@@ -28,6 +29,10 @@ export function AnalyticsDashboard() {
   );
 
   const isLoading = telemetryLoading || errorsLoading || generationLoading;
+
+  // Map time period to deeplink format
+  const deeplinkTimeRange = timePeriod === '24 hours' ? '24h' : 
+                           timePeriod === '7 days' ? '7d' : '30d';
 
   return (
     <div className="space-y-6">
@@ -97,7 +102,7 @@ export function AnalyticsDashboard() {
 
       {/* Tabs */}
       <Tabs defaultValue="telemetry" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="telemetry" className="gap-2">
             <Activity className="h-4 w-4" />
             <span className="hidden sm:inline">Телеметрия</span>
@@ -113,6 +118,10 @@ export function AnalyticsDashboard() {
           <TabsTrigger value="performance" className="gap-2">
             <Gauge className="h-4 w-4" />
             <span className="hidden sm:inline">Перформанс</span>
+          </TabsTrigger>
+          <TabsTrigger value="deeplinks" className="gap-2">
+            <Link2 className="h-4 w-4" />
+            <span className="hidden sm:inline">Диплинки</span>
           </TabsTrigger>
         </TabsList>
 
@@ -130,6 +139,10 @@ export function AnalyticsDashboard() {
 
         <TabsContent value="performance">
           <PerformanceMetricsPanel timePeriod={timePeriod} />
+        </TabsContent>
+
+        <TabsContent value="deeplinks">
+          <DeeplinkAnalyticsPanel timeRange={deeplinkTimeRange as '24h' | '7d' | '30d'} />
         </TabsContent>
       </Tabs>
     </div>
@@ -151,7 +164,7 @@ function QuickStatCard({ icon: Icon, label, value, subtext, iconColor }: QuickSt
         <div className="flex items-start justify-between">
           <div>
             <p className="text-sm text-muted-foreground">{label}</p>
-            <p className="text-2xl font-bold mt-1">{value.toLocaleString()}</p>
+            <p className="text-2xl font-bold mt-1">{typeof value === 'number' ? value.toLocaleString() : value}</p>
             <p className="text-xs text-muted-foreground mt-1">{subtext}</p>
           </div>
           <Icon className={`h-5 w-5 ${iconColor}`} />
