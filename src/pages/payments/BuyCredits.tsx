@@ -257,20 +257,37 @@ export default function BuyCredits() {
             exit={{ opacity: 0 }}
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
           >
-            {displayProducts.map((product, index) => (
-              <motion.div
-                key={product.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
-              >
-                <CreditPackageCard
-                  product={product}
-                  isSelected={selectedProduct?.id === product.id}
-                  onClick={handleProductClick}
-                />
-              </motion.div>
-            ))}
+            {displayProducts.map((product, index) => {
+              // Calculate best value
+              const tracksCount = Math.floor((product.credits_amount ?? 0) / 12);
+              const pricePerTrack = product.price_rub_cents && tracksCount > 0
+                ? (product.price_rub_cents / 100) / tracksCount
+                : Infinity;
+              
+              const isBestValue = displayProducts.every(p => {
+                const pTracks = Math.floor((p.credits_amount ?? 0) / 12);
+                const pPrice = p.price_rub_cents && pTracks > 0
+                  ? (p.price_rub_cents / 100) / pTracks
+                  : Infinity;
+                return pricePerTrack <= pPrice;
+              });
+              
+              return (
+                <motion.div
+                  key={product.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                >
+                  <CreditPackageCard
+                    product={product}
+                    isSelected={selectedProduct?.id === product.id}
+                    onClick={handleProductClick}
+                    isBestValue={isBestValue && !product.is_featured}
+                  />
+                </motion.div>
+              );
+            })}
           </motion.div>
         )}
       </AnimatePresence>

@@ -1,11 +1,11 @@
 /**
  * PaymentSuccessModal Component
- * Success modal with celebration animation using Framer Motion
+ * Enhanced with glassmorphism, premium animations and celebration effects
  */
 
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
-import { CheckCircle2, Sparkles, X } from 'lucide-react';
+import { CheckCircle2, Sparkles, X, Star, Zap, Music, Crown } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -14,7 +14,10 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import { glass, gradientGlass } from '@/lib/glass';
 import type { StarsProduct } from '@/services/starsPaymentService';
+import confetti from 'canvas-confetti';
 
 interface PaymentSuccessModalProps {
   isOpen: boolean;
@@ -23,33 +26,63 @@ interface PaymentSuccessModalProps {
   language?: 'en' | 'ru';
 }
 
-// Confetti particle component
-function ConfettiParticle({ delay }: { delay: number }) {
-  const colors = ['#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4'];
-  const randomColor = colors[Math.floor(Math.random() * colors.length)];
-  const randomX = Math.random() * 400 - 200; // -200 to 200
-  const randomRotate = Math.random() * 720 - 360; // -360 to 360
+// Enhanced confetti particle
+function ConfettiParticle({ delay, index }: { delay: number; index: number }) {
+  const colors = ['#10b981', '#34d399', '#6ee7b7', '#fbbf24', '#f59e0b', '#8b5cf6', '#ec4899'];
+  const randomColor = colors[index % colors.length];
+  const randomX = Math.random() * 300 - 150;
+  const randomRotate = Math.random() * 720 - 360;
+  const size = Math.random() * 6 + 4;
 
   return (
     <motion.div
-      className="absolute top-0 left-1/2"
-      initial={{ opacity: 1, x: 0, y: 0, rotate: 0 }}
+      className="absolute top-1/4 left-1/2"
+      initial={{ opacity: 1, x: 0, y: 0, rotate: 0, scale: 1 }}
       animate={{
         opacity: 0,
         x: randomX,
-        y: 400,
+        y: 300,
         rotate: randomRotate,
+        scale: 0.5,
       }}
       transition={{
-        duration: 2,
+        duration: 2.5,
         delay,
         ease: 'easeOut',
       }}
     >
       <div
-        className="w-2 h-2 rounded-sm"
-        style={{ backgroundColor: randomColor }}
+        className="rounded-sm"
+        style={{ 
+          backgroundColor: randomColor,
+          width: size,
+          height: size,
+        }}
       />
+    </motion.div>
+  );
+}
+
+// Floating star animation
+function FloatingStar({ delay, x, y }: { delay: number; x: string; y: string }) {
+  return (
+    <motion.div
+      className="absolute pointer-events-none"
+      style={{ left: x, top: y }}
+      initial={{ opacity: 0, scale: 0 }}
+      animate={{ 
+        opacity: [0, 1, 0],
+        scale: [0.5, 1.2, 0.5],
+        rotate: [0, 180, 360],
+      }}
+      transition={{
+        duration: 2,
+        delay,
+        repeat: Infinity,
+        repeatDelay: 3,
+      }}
+    >
+      <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
     </motion.div>
   );
 }
@@ -58,13 +91,24 @@ export function PaymentSuccessModal({
   isOpen,
   onClose,
   product,
-  language = 'en',
+  language = 'ru',
 }: PaymentSuccessModalProps) {
   const [showConfetti, setShowConfetti] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
       setShowConfetti(true);
+      
+      // Launch canvas-confetti burst
+      setTimeout(() => {
+        confetti({
+          particleCount: 80,
+          spread: 70,
+          origin: { y: 0.6, x: 0.5 },
+          colors: ['#10b981', '#34d399', '#fbbf24', '#8b5cf6'],
+        });
+      }, 200);
+      
       const timer = setTimeout(() => setShowConfetti(false), 3000);
       return () => clearTimeout(timer);
     }
@@ -73,23 +117,29 @@ export function PaymentSuccessModal({
   const getText = () => {
     if (language === 'ru') {
       return {
-        title: 'Оплата успешна! 🎉',
+        title: 'Оплата успешна!',
         creditsAdded: 'Кредиты добавлены',
         subscriptionActivated: 'Подписка активирована',
         description: product?.product_type === 'credits'
           ? `${product.credits_amount} кредитов добавлено на ваш счет`
           : `Подписка ${product?.subscription_tier} активирована`,
-        close: 'Закрыть',
+        close: 'Отлично!',
+        tracksInfo: product?.product_type === 'credits' && product?.credits_amount
+          ? `≈ ${Math.floor(product.credits_amount / 12)} AI-треков`
+          : null,
       };
     }
     return {
-      title: 'Payment Successful! 🎉',
+      title: 'Payment Successful!',
       creditsAdded: 'Credits Added',
       subscriptionActivated: 'Subscription Activated',
       description: product?.product_type === 'credits'
         ? `${product.credits_amount} credits added to your account`
         : `${product?.subscription_tier} subscription activated`,
-      close: 'Close',
+      close: 'Awesome!',
+      tracksInfo: product?.product_type === 'credits' && product?.credits_amount
+        ? `≈ ${Math.floor(product.credits_amount / 12)} AI tracks`
+        : null,
     };
   };
 
@@ -97,13 +147,26 @@ export function PaymentSuccessModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md relative overflow-hidden">
+      <DialogContent className={cn(
+        "sm:max-w-md relative overflow-hidden border-0",
+        "bg-background/95 backdrop-blur-2xl",
+        "shadow-2xl shadow-success/20"
+      )}>
+        {/* Background gradient */}
+        <div className="absolute inset-0 bg-gradient-to-b from-success/10 via-transparent to-transparent pointer-events-none" />
+        
+        {/* Floating stars */}
+        <FloatingStar delay={0.5} x="15%" y="10%" />
+        <FloatingStar delay={0.8} x="80%" y="15%" />
+        <FloatingStar delay={1.1} x="25%" y="60%" />
+        <FloatingStar delay={1.4} x="75%" y="55%" />
+        
         {/* Confetti Animation */}
         <AnimatePresence>
           {showConfetti && (
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
-              {Array.from({ length: 30 }).map((_, i) => (
-                <ConfettiParticle key={i} delay={i * 0.05} />
+              {Array.from({ length: 40 }).map((_, i) => (
+                <ConfettiParticle key={i} delay={i * 0.03} index={i} />
               ))}
             </div>
           )}
@@ -112,75 +175,146 @@ export function PaymentSuccessModal({
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none"
+          className="absolute right-4 top-4 z-10 rounded-full p-1.5 bg-muted/50 opacity-70 ring-offset-background transition-all hover:opacity-100 hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none"
           aria-label={text.close}
         >
           <X className="h-4 w-4" />
         </button>
 
-        <DialogHeader className="text-center space-y-4">
-          {/* Success Icon with Animation */}
+        <DialogHeader className="text-center space-y-4 relative z-10">
+          {/* Success Icon with Enhanced Animation */}
           <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
+            initial={{ scale: 0, rotate: -180 }}
+            animate={{ scale: 1, rotate: 0 }}
             transition={{
               type: 'spring',
-              stiffness: 260,
-              damping: 20,
+              stiffness: 200,
+              damping: 15,
               delay: 0.1,
             }}
             className="mx-auto"
           >
             <div className="relative inline-block">
+              {/* Pulse rings */}
               <motion.div
+                className="absolute inset-0 bg-success/30 rounded-full"
                 animate={{
-                  scale: [1, 1.2, 1],
-                  rotate: [0, 10, -10, 0],
+                  scale: [1, 1.5, 1],
+                  opacity: [0.6, 0, 0.6],
                 }}
-                transition={{
-                  duration: 0.5,
-                  delay: 0.3,
-                  repeat: 2,
+                transition={{ duration: 2, repeat: Infinity }}
+              />
+              <motion.div
+                className="absolute inset-2 bg-success/20 rounded-full"
+                animate={{
+                  scale: [1, 1.3, 1],
+                  opacity: [0.8, 0.2, 0.8],
                 }}
+                transition={{ duration: 2, repeat: Infinity, delay: 0.3 }}
+              />
+              
+              {/* Main icon */}
+              <motion.div
+                className="relative flex items-center justify-center w-24 h-24 bg-gradient-to-br from-success to-emerald-600 rounded-full shadow-xl shadow-success/40"
+                whileHover={{ scale: 1.05 }}
+                animate={{
+                  boxShadow: [
+                    '0 10px 40px -10px rgba(16, 185, 129, 0.4)',
+                    '0 10px 60px -10px rgba(16, 185, 129, 0.6)',
+                    '0 10px 40px -10px rgba(16, 185, 129, 0.4)',
+                  ],
+                }}
+                transition={{ duration: 2, repeat: Infinity }}
               >
-                <CheckCircle2 className="h-20 w-20 text-success" aria-hidden="true" />
+                <CheckCircle2 className="h-12 w-12 text-white" aria-hidden="true" />
               </motion.div>
 
-              {/* Sparkles */}
+              {/* Sparkles decoration */}
               <motion.div
                 className="absolute -top-2 -right-2"
                 animate={{
-                  opacity: [0, 1, 0],
-                  scale: [0.8, 1.2, 0.8],
+                  rotate: 360,
                 }}
                 transition={{
-                  duration: 1.5,
+                  duration: 8,
                   repeat: Infinity,
+                  ease: 'linear',
                 }}
               >
-                <Sparkles className="h-6 w-6 text-primary" aria-hidden="true" />
+                <Sparkles className="h-6 w-6 text-amber-400" aria-hidden="true" />
+              </motion.div>
+              
+              <motion.div
+                className="absolute -bottom-1 -left-1"
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.5, type: 'spring' }}
+              >
+                <motion.div
+                  animate={{ y: [0, -3, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                >
+                  <Crown className="h-5 w-5 text-amber-500" />
+                </motion.div>
               </motion.div>
             </div>
           </motion.div>
 
-          <DialogTitle className="text-2xl font-bold">
-            {text.title}
+          <DialogTitle className="text-2xl font-bold relative">
+            <motion.span
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="flex items-center justify-center gap-2"
+            >
+              <span>🎉</span>
+              {text.title}
+              <span>🎉</span>
+            </motion.span>
           </DialogTitle>
 
-          <DialogDescription className="text-base">
+          <DialogDescription className="text-base relative">
             {product && (
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
-                className="space-y-2"
+                className="space-y-3"
               >
-                <p className="font-semibold text-foreground">
-                  {product.product_type === 'credits'
-                    ? text.creditsAdded
-                    : text.subscriptionActivated}
-                </p>
-                <p>{text.description}</p>
+                {/* Credits/Subscription badge */}
+                <motion.div
+                  className={cn(
+                    "inline-flex items-center gap-2 px-4 py-2 rounded-xl font-semibold",
+                    gradientGlass.success
+                  )}
+                  whileHover={{ scale: 1.02 }}
+                >
+                  {product.product_type === 'credits' ? (
+                    <>
+                      <Zap className="w-5 h-5 text-success" />
+                      <span className="text-lg text-foreground">+{product.credits_amount}</span>
+                      <span className="text-muted-foreground">кредитов</span>
+                    </>
+                  ) : (
+                    <>
+                      <Crown className="w-5 h-5 text-amber-500" />
+                      <span className="text-lg text-foreground">{product.subscription_tier}</span>
+                    </>
+                  )}
+                </motion.div>
+                
+                {/* Additional info */}
+                {text.tracksInfo && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.5 }}
+                    className="flex items-center justify-center gap-2 text-sm text-muted-foreground"
+                  >
+                    <Music className="w-4 h-4" />
+                    <span>{text.tracksInfo}</span>
+                  </motion.div>
+                )}
               </motion.div>
             )}
           </DialogDescription>
@@ -188,19 +322,28 @@ export function PaymentSuccessModal({
 
         {/* Action Button */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="mt-6"
+          className="mt-6 relative z-10"
         >
-          <Button
-            onClick={onClose}
-            variant="default"
-            size="lg"
-            className="w-full"
-          >
-            {text.close}
-          </Button>
+          <motion.div whileTap={{ scale: 0.98 }}>
+            <Button
+              onClick={onClose}
+              variant="default"
+              size="lg"
+              className={cn(
+                "w-full h-12 text-base font-semibold gap-2",
+                "bg-gradient-to-r from-success to-emerald-600",
+                "hover:from-success/90 hover:to-emerald-600/90",
+                "shadow-lg shadow-success/30",
+                "transition-all duration-300"
+              )}
+            >
+              <Sparkles className="w-4 h-4" />
+              {text.close}
+            </Button>
+          </motion.div>
         </motion.div>
       </DialogContent>
     </Dialog>
