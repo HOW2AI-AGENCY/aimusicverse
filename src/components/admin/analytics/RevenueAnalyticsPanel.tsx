@@ -147,9 +147,9 @@ export function RevenueAnalyticsPanel({ timePeriod }: RevenueAnalyticsPanelProps
   const COLORS = ['hsl(var(--primary))', 'hsl(var(--secondary))', 'hsl(142, 76%, 36%)', 'hsl(38, 92%, 50%)', 'hsl(280, 87%, 65%)'];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Revenue Stats Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
         <RevenueStatCard
           icon={Star}
           label="Доход (Stars)"
@@ -166,40 +166,41 @@ export function RevenueAnalyticsPanel({ timePeriod }: RevenueAnalyticsPanelProps
         />
         <RevenueStatCard
           icon={Coins}
-          label="Уникальных плательщиков"
+          label="Плательщиков"
           value={data.unique_payers.toLocaleString()}
-          subtext={`${data.conversion_rate.toFixed(1)}% конверсия`}
+          subtext={`${data.conversion_rate.toFixed(1)}% CR`}
           iconColor="text-green-500"
         />
         <RevenueStatCard
           icon={DollarSign}
           label="Средний чек"
           value={`${data.avg_transaction_stars.toFixed(0)} ⭐`}
-          subtext={`ARPU: ${data.arpu.toFixed(0)} ⭐`}
+          subtext={`ARPU: ${data.arpu.toFixed(0)}`}
           iconColor="text-purple-500"
         />
       </div>
 
-      <div className="grid md:grid-cols-3 gap-4">
+      <div className="grid lg:grid-cols-3 gap-4">
         {/* Revenue Trend */}
-        <Card className="md:col-span-2">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base flex items-center gap-2">
-              <TrendingUp className="h-4 w-4" />
+        <Card className="lg:col-span-2">
+          <CardHeader className="pb-2 px-3 sm:px-6">
+            <CardTitle className="text-sm sm:text-base flex items-center gap-2">
+              <TrendingUp className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
               Динамика доходов
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="h-[300px]">
+          <CardContent className="px-2 sm:px-6">
+            <div className="h-[200px] sm:h-[300px]">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={data.revenue_trend}>
                   <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
                   <XAxis 
                     dataKey="date" 
-                    tick={{ fontSize: 11 }}
+                    tick={{ fontSize: 10 }}
                     tickFormatter={(v) => new Date(v).toLocaleDateString('ru', { day: 'numeric', month: 'short' })}
+                    interval="preserveStartEnd"
                   />
-                  <YAxis tick={{ fontSize: 11 }} />
+                  <YAxis tick={{ fontSize: 10 }} width={40} />
                   <Tooltip
                     formatter={(value: number, name: string) => [
                       value.toLocaleString(),
@@ -208,7 +209,8 @@ export function RevenueAnalyticsPanel({ timePeriod }: RevenueAnalyticsPanelProps
                     labelFormatter={(label) => new Date(label).toLocaleDateString('ru')}
                     contentStyle={{ 
                       backgroundColor: 'hsl(var(--card))', 
-                      border: '1px solid hsl(var(--border))' 
+                      border: '1px solid hsl(var(--border))',
+                      fontSize: '12px',
                     }}
                   />
                   <Area
@@ -227,12 +229,12 @@ export function RevenueAnalyticsPanel({ timePeriod }: RevenueAnalyticsPanelProps
 
         {/* Top Products */}
         <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base">Продукты</CardTitle>
+          <CardHeader className="pb-2 px-3 sm:px-6">
+            <CardTitle className="text-sm sm:text-base">Продукты</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-2 sm:px-6">
             {data.top_products.length > 0 ? (
-              <div className="h-[300px]">
+              <div className="h-[200px] sm:h-[300px]">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <Pie
@@ -241,7 +243,7 @@ export function RevenueAnalyticsPanel({ timePeriod }: RevenueAnalyticsPanelProps
                       nameKey="product_type"
                       cx="50%"
                       cy="50%"
-                      outerRadius={80}
+                      outerRadius={60}
                       label={({ name, percent }) => 
                         `${formatProductType(String(name || 'unknown'))} ${((percent ?? 0) * 100).toFixed(0)}%`
                       }
@@ -255,44 +257,46 @@ export function RevenueAnalyticsPanel({ timePeriod }: RevenueAnalyticsPanelProps
                       formatter={(value: number) => [`${value.toLocaleString()} ⭐`, 'Stars']}
                       contentStyle={{ 
                         backgroundColor: 'hsl(var(--card))', 
-                        border: '1px solid hsl(var(--border))' 
+                        border: '1px solid hsl(var(--border))',
+                        fontSize: '12px',
                       }}
                     />
                   </PieChart>
                 </ResponsiveContainer>
               </div>
             ) : (
-              <div className="h-[300px] flex items-center justify-center text-muted-foreground">
-                Нет данных о продуктах
+              <div className="h-[200px] sm:h-[300px] flex items-center justify-center text-muted-foreground text-sm">
+                Нет данных
               </div>
             )}
           </CardContent>
         </Card>
       </div>
 
-      {/* Transactions by product */}
+      {/* Transactions by product - Horizontally scrollable on mobile */}
       <Card>
-        <CardHeader className="pb-2">
-          <CardTitle className="text-base">Доход по типам продуктов</CardTitle>
+        <CardHeader className="pb-2 px-3 sm:px-6">
+          <CardTitle className="text-sm sm:text-base">Доход по типам продуктов</CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="h-[200px]">
+        <CardContent className="px-2 sm:px-6">
+          <div className="h-[150px] sm:h-[200px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={data.top_products} layout="vertical">
                 <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                <XAxis type="number" tick={{ fontSize: 11 }} />
+                <XAxis type="number" tick={{ fontSize: 10 }} />
                 <YAxis 
                   type="category" 
                   dataKey="product_type" 
-                  tick={{ fontSize: 11 }}
+                  tick={{ fontSize: 10 }}
                   tickFormatter={formatProductType}
-                  width={100}
+                  width={70}
                 />
                 <Tooltip
                   formatter={(value: number) => [`${value.toLocaleString()} ⭐`, 'Stars']}
                   contentStyle={{ 
                     backgroundColor: 'hsl(var(--card))', 
-                    border: '1px solid hsl(var(--border))' 
+                    border: '1px solid hsl(var(--border))',
+                    fontSize: '12px',
                   }}
                 />
                 <Bar dataKey="total_stars" fill="hsl(var(--primary))" radius={[0, 4, 4, 0]} />
@@ -331,20 +335,20 @@ interface RevenueStatCardProps {
 function RevenueStatCard({ icon: Icon, label, value, change, isPositive, subtext, iconColor }: RevenueStatCardProps) {
   return (
     <Card>
-      <CardContent className="p-4">
-        <div className="flex items-start justify-between">
-          <div className="space-y-1">
-            <p className="text-sm text-muted-foreground">{label}</p>
-            <p className="text-2xl font-bold">{value}</p>
+      <CardContent className="p-3 sm:p-4">
+        <div className="flex items-start justify-between gap-1">
+          <div className="space-y-0.5 sm:space-y-1 min-w-0 flex-1">
+            <p className="text-xs sm:text-sm text-muted-foreground truncate">{label}</p>
+            <p className="text-lg sm:text-2xl font-bold truncate">{value}</p>
             {change !== undefined && (
-              <div className={`flex items-center gap-1 text-xs ${isPositive ? 'text-green-500' : 'text-red-500'}`}>
+              <div className={`flex items-center gap-0.5 text-[10px] sm:text-xs ${isPositive ? 'text-green-500' : 'text-red-500'}`}>
                 {isPositive ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
                 {Math.abs(change).toFixed(1)}%
               </div>
             )}
-            {subtext && <p className="text-xs text-muted-foreground">{subtext}</p>}
+            {subtext && <p className="text-[10px] sm:text-xs text-muted-foreground truncate">{subtext}</p>}
           </div>
-          <Icon className={`h-5 w-5 ${iconColor}`} />
+          <Icon className={`h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0 ${iconColor}`} />
         </div>
       </CardContent>
     </Card>
@@ -353,25 +357,25 @@ function RevenueStatCard({ icon: Icon, label, value, change, isPositive, subtext
 
 function RevenueAnalyticsSkeleton() {
   return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div className="space-y-4 sm:space-y-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
         {[...Array(4)].map((_, i) => (
           <Card key={i}>
-            <CardContent className="p-4">
-              <Skeleton className="h-20 w-full" />
+            <CardContent className="p-3 sm:p-4">
+              <Skeleton className="h-16 sm:h-20 w-full" />
             </CardContent>
           </Card>
         ))}
       </div>
-      <div className="grid md:grid-cols-3 gap-4">
-        <Card className="md:col-span-2">
-          <CardContent className="p-4">
-            <Skeleton className="h-[300px] w-full" />
+      <div className="grid lg:grid-cols-3 gap-4">
+        <Card className="lg:col-span-2">
+          <CardContent className="p-3 sm:p-4">
+            <Skeleton className="h-[200px] sm:h-[300px] w-full" />
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-4">
-            <Skeleton className="h-[300px] w-full" />
+          <CardContent className="p-3 sm:p-4">
+            <Skeleton className="h-[200px] sm:h-[300px] w-full" />
           </CardContent>
         </Card>
       </div>
