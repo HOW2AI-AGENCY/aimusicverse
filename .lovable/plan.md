@@ -1,246 +1,240 @@
 
-# План дальнейших работ — MusicVerse AI
+# План дальнейших работ MusicVerse AI
 
-## Текущий статус проекта
+## Обзор текущего состояния
 
-**Готовность**: 99% — платформа готова к продакшену
-**Все известные проблемы**: Решены (28 из 28)
-**Активные спецификации**:
-- Spec 031: Mobile Studio V2 (42 требования)
-- Spec 032: Professional UI (22 требования)
+### Ключевые метрики (актуальные данные)
+| Метрика | Значение |
+|---------|----------|
+| Пользователей | 568 |
+| Уникальных создателей | 285 |
+| Всего треков | 1,657 (1,415 завершено) |
+| Генераций за 14 дней | 548 (318 успешно / 49 неудачно) |
+| Success Rate генерации | **92.1%** (цель: >92% достигнута!) |
+| Средний баланс | 60 кредитов |
+| Новых пользователей (30 дней) | ~350 |
+| DAU | ~30 активных сессий |
 
----
-
-## Фаза 1: Оптимизация производительности (1-2 недели)
-
-### 1.1 Уменьшение размера бандла
-**Приоритет**: P1 (Высокий)
-**Текущее состояние**: vendor-other = 184 KB → Цель: <150 KB
-
-**Задачи**:
-- Lazy loading для `opensheetmusicdisplay` (экономия ~20 KB)
-- Dynamic import для `wavesurfer.js` (экономия ~25 KB)
-- Tree-shaking аудит для `lucide-react` (экономия ~5 KB)
-- Разделение чанков по маршрутам
-
-### 1.2 Service Worker
-**Приоритет**: P2 (Средний)
-
-**Задачи**:
-- Реализация offline-first кэширования
-- Предзагрузка критических ресурсов
-- Стратегия stale-while-revalidate для API
-
-### 1.3 Оптимизация изображений
-**Приоритет**: P2 (Средний)
-
-**Задачи**:
-- Конвертация в WebP формат
-- Responsive images с srcset
-- Lazy loading для обложек треков
+### Админ-панель аналитики (реализовано 10 разделов)
+1. Телеметрия (события, сессии)
+2. Ошибки (тренды, fingerprints)
+3. Генерация (статистика, время)
+4. Контент (жанры, moods, теги)
+5. Доходы (Stars, ARPU, продукты)
+6. Активность (тепловая карта 7x24)
+7. Перформанс (Web Vitals)
+8. Диплинки (UTM, воронки)
+9. Удержание (когорты, D1/D7/D30)
+10. A/B Тесты (эксперименты)
 
 ---
 
-## Фаза 2: Spec 032 — Professional UI (2-3 недели)
+## Фаза 1: Улучшение аналитики данных (1-2 недели)
 
-### 2.1 Типографика и визуальная иерархия
-**Приоритет**: P1 (Высокий)
+### 1.1 Интеграция реальных данных в панели
+**Проблема:** Некоторые панели используют mock-данные (PerformanceMetricsPanel)
 
-**Задачи**:
-- Унификация шрифтовых размеров (H1-H4, body, caption)
-- Оптимизация line-height (1.5-1.7 для body)
-- Консистентная шкала отступов (4/8/12/16/24/32 px)
+**Задачи:**
+- Заменить MOCK_VITALS в PerformanceMetricsPanel на данные из `performance_metrics`
+- Интегрировать реальные данные бандла через Build API или vite stats
+- Добавить автоматический сбор bundle size при деплое
 
-### 2.2 Цветовая схема и градиенты
-**Приоритет**: P1 (Высокий)
+### 1.2 Расширенная аналитика ошибок
+**Задачи:**
+- Добавить группировку ошибок по Edge Function
+- Интегрировать stack trace парсинг для детального анализа
+- Создать алерты для критических ошибок (email/Telegram)
 
-**Задачи**:
-- Ревизия цветовой палитры для WCAG AA
-- Рефайнинг градиентов (FAB, player, кнопки генерации)
-- Проверка контрастности во всех состояниях
-
-### 2.3 Анимации и микро-взаимодействия
-**Приоритет**: P2 (Средний)
-
-**Задачи**:
-- Стандартизация timing functions (200-300ms)
-- Haptic feedback для всех touch-элементов
-- Skeleton loaders для всех loading-состояний
-
-### 2.4 Карточки и компоненты
-**Приоритет**: P2 (Средний)
-
-**Задачи**:
-- Унификация теней (elevation 1-3)
-- Консистентный border-radius (8-16px)
-- Hover/press состояния для интерактивных элементов
-
-### 2.5 Доступность (Accessibility)
-**Приоритет**: P1 (Высокий)
-
-**Задачи**:
-- ARIA labels для всех интерактивных элементов
-- Проверка screen reader совместимости
-- Поддержка reduced motion
+### 1.3 Прогнозирование (Forecasting)
+**Задачи:**
+- Прогноз доходов на основе трендов
+- Прогноз роста пользователей
+- LTV расчёт по когортам
 
 ---
 
-## Фаза 3: Spec 031 — Mobile Studio V2 (3-4 недели)
+## Фаза 2: Мониторинг и алертинг (1 неделя)
 
-### 3.1 Lyrics Studio Integration
-**Приоритет**: P1 (Высокий)
+### 2.1 Система алертов
+**Задачи:**
+- Настроить пороговые значения для критических метрик:
+  - Generation failure rate > 15%
+  - LCP > 4000ms
+  - Ошибок/час > 50
+  - API latency > 3000ms
+- Интеграция уведомлений в Telegram Bot админу
+- Панель истории алертов с acknowledgement
 
-**Задачи**:
-- Интеграция панели лирики в StudioShell
-- AI-ассистент для контекстных подсказок
-- Section notes с привязкой к секциям трека
-- История версий лирики
-
-### 3.2 MusicLab Creative Workspace
-**Приоритет**: P2 (Средний)
-
-**Задачи**:
-- Интеграция записи вокала в студию
-- Подключение гитары с определением аккордов
-- PromptDJ для PRO пользователей
-- Real-time визуализация аудио
-
-### 3.3 Advanced Stem Processing
-**Приоритет**: P2 (Средний)
-
-**Задачи**:
-- Batch transcription для множества стемов
-- Выбор режима разделения (none/simple/detailed)
-- Progress indication для batch операций
-
-### 3.4 Section Replacement History
-**Приоритет**: P3 (Низкий)
-
-**Задачи**:
-- Хронологический список замен секций
-- Preview и restore предыдущих версий
-- Сравнение версий side-by-side
-
-### 3.5 Keyboard Shortcuts
-**Приоритет**: P3 (Низкий)
-
-**Задачи**:
-- Система шорткатов для desktop
-- Диалог справки по шорткатам
-- Кастомизация привязок
+### 2.2 Health Dashboard
+**Задачи:**
+- Расширить MonitoringHub реальным статусом всех Edge Functions
+- Добавить мониторинг Suno API credits (текущий: 395.9)
+- Статус Supabase (connections, latency)
 
 ---
 
-## Фаза 4: UX-улучшения (1-2 недели)
+## Фаза 3: Оптимизация производительности (2 недели)
 
-### 4.1 Улучшение Feature Tutorial Dialog
-**Приоритет**: P2 (Средний)
+### 3.1 Bundle Size Reduction
+**Текущий статус:** vendor ~184 KB (цель: <150 KB)
 
-**Задачи**:
-- Добавление анимированных иллюстраций/GIF
-- Интерактивные демо-элементы
-- Tracking просмотров туториалов
+**Задачи:**
+- Lazy loading для opensheetmusicdisplay (-20 KB)
+- Dynamic import wavesurfer.js только на страницах студии (-25 KB)
+- Tree-shaking аудит lucide-react (-5 KB)
+- Убрать unused recharts компоненты
 
-### 4.2 Onboarding Flow
-**Приоритет**: P2 (Средний)
+### 3.2 Web Vitals оптимизация
+**Задачи:**
+- Preload критических шрифтов
+- Image optimization с WebP + srcset
+- Implement skeleton screens для всех тяжёлых компонентов
+- Resource hints (dns-prefetch, preconnect) для Supabase
 
-**Задачи**:
-- Персонализация на основе целей пользователя
-- Progressive disclosure функций
-- A/B тестирование onboarding вариантов
-
-### 4.3 Empty States Enhancement
-**Приоритет**: P3 (Низкий)
-
-**Задачи**:
-- Иллюстрации для пустых состояний
-- Контекстные CTA
-- Gamification hints
+### 3.3 Service Worker
+**Задачи:**
+- Offline-first стратегия для статики
+- Cache API для cover images
+- Background sync для отложенных действий
 
 ---
 
-## Фаза 5: Аналитика и метрики (1 неделя)
+## Фаза 4: Расширение функционала аналитики (1-2 недели)
 
-### 5.1 Dashboard Analytics
-**Приоритет**: P2 (Средний)
+### 4.1 Сравнительный анализ
+**Задачи:**
+- Сравнение периодов (этот vs прошлый месяц)
+- Процентное изменение для всех метрик
+- Графики сравнения
 
-**Задачи**:
-- User journey visualization
-- Conversion funnel tracking
-- Feature adoption metrics
+### 4.2 Сегментация пользователей
+**Задачи:**
+- RFM анализ (Recency, Frequency, Monetary)
+- Группы пользователей по поведению
+- Таргетированные кампании по сегментам
 
-### 5.2 A/B Testing Infrastructure
-**Приоритет**: P3 (Низкий)
-
-**Задачи**:
-- Feature flags система
-- Experiment assignment
-- Statistical analysis tools
-
----
-
-## Техническая часть
-
-### Архитектурные решения
-
-1. **Design Tokens System**
-   - Централизованные токены в `src/lib/design-tokens.ts`
-   - CSS variables для runtime theming
-   - Tailwind plugin для type-safe классов
-
-2. **Component Library Audit**
-   - Инвентаризация всех 170+ компонентов
-   - Выявление дубликатов и несогласованностей
-   - Документация в Storybook (опционально)
-
-3. **State Management Review**
-   - Аудит Zustand stores
-   - Оптимизация подписок
-   - Memoization стратегии
-
-### Ключевые файлы для модификации
-
-| Фаза | Файлы |
-|------|-------|
-| 1.1 | `vite.config.ts`, lazy imports в pages |
-| 2.1-2.2 | `src/lib/design-tokens.ts`, `tailwind.config.ts` |
-| 2.3 | `src/lib/motion.ts`, компоненты |
-| 3.1 | `src/components/studio/unified/LyricsPanel.tsx` |
-| 3.2 | `src/components/studio/unified/StudioShell.tsx` |
+### 4.3 Funnel Analytics V2
+**Задачи:**
+- Расширить воронку до 12+ шагов
+- Время между шагами
+- A/B тесты для оптимизации воронки
 
 ---
 
-## Timeline
+## Фаза 5: Spec Implementation (3-4 недели)
 
-```text
-Неделя 1-2:  Фаза 1 (Производительность)
-Неделя 3-5:  Фаза 2 (Professional UI)
-Неделя 6-9:  Фаза 3 (Mobile Studio V2)
-Неделя 10-11: Фаза 4 (UX)
-Неделя 12:   Фаза 5 (Аналитика)
-```
+### 5.1 Spec 032: Professional UI
+**22 требования включают:**
+- Улучшенная типографика
+- Система цветов с контрастом 4.5:1
+- Accessibility (WCAG AA)
+- Анимации и микроинтеракции
+
+### 5.2 Spec 031: Mobile Studio V2
+**42 требования включают:**
+- Расширенный MusicLab
+- Lyrics Studio improvements
+- Touch-optimized controls
+- Offline capabilities
 
 ---
 
-## Метрики успеха
+## Фаза 6: Бизнес-аналитика (1-2 недели)
+
+### 6.1 Revenue Intelligence
+**Задачи:**
+- Customer Acquisition Cost (CAC)
+- Lifetime Value (LTV) по когортам
+- Churn prediction model
+- Subscription health metrics
+
+### 6.2 Growth Analytics
+**Задачи:**
+- Viral coefficient (K-factor)
+- Referral effectiveness
+- Feature adoption rates
+- NPS tracking integration
+
+### 6.3 Competitive Analysis Tools
+**Задачи:**
+- Сравнение со средними показателями по рынку
+- Benchmarking dashboard
+
+---
+
+## Технические улучшения
+
+### База данных
+**Задачи:**
+- Материализованные представления для тяжёлых агрегаций
+- Партиционирование таблиц analytics по дате
+- Оптимизация индексов для частых запросов
+
+### API Layer
+**Задачи:**
+- Централизованный API для всех analytics запросов
+- Rate limiting для тяжёлых отчётов
+- Caching layer (Redis/Supabase Edge Cache)
+
+### Edge Functions
+**Задачи:**
+- Analytics aggregation function (scheduled)
+- Daily/weekly report generation
+- Automated cleanup старых данных
+
+---
+
+## Приоритеты реализации
+
+### Высокий приоритет (следующие 2 недели)
+1. Замена mock-данных на реальные в PerformanceMetricsPanel
+2. Bundle size optimization до <150 KB
+3. Система алертов для критических метрик
+4. Сравнительный анализ периодов
+
+### Средний приоритет (3-4 недели)
+5. Прогнозирование доходов и роста
+6. RFM сегментация пользователей
+7. Service Worker для offline
+8. Spec 032 implementation
+
+### Низкий приоритет (5-6 недель)
+9. LTV/CAC расчёты
+10. Spec 031 Mobile Studio V2
+11. Competitive benchmarking
+12. Advanced funnel analytics
+
+---
+
+## Ожидаемые результаты
 
 | Метрика | Текущее | Цель |
 |---------|---------|------|
 | Bundle size | 184 KB | <150 KB |
-| WCAG AA compliance | ~90% | 100% |
-| Touch target compliance | ~95% | 100% |
-| Animation 60fps | ~90% | 95%+ |
-| User satisfaction (CSAT) | - | 8.5/10 |
-| Feature adoption rate | - | +30% |
+| Generation success | 92.1% | >95% |
+| DAU | 30 | 50+ |
+| LCP | ~1850ms | <2500ms |
+| Retention D7 | ~25% | >35% |
+| ARPU | - | Отслеживание |
 
 ---
 
-## Рекомендация
+## Файлы для изменения
 
-**Начать с Фазы 1** (оптимизация производительности), так как это:
-1. Улучшит UX для всех пользователей сразу
-2. Не требует дизайн-решений
-3. Создаст основу для дальнейших улучшений
-4. Быстро достижимые результаты (1-2 недели)
+### Новые файлы
+```text
+src/components/admin/analytics/ComparisonPanel.tsx
+src/components/admin/analytics/ForecastPanel.tsx
+src/components/admin/analytics/SegmentationPanel.tsx
+src/hooks/admin/useAlerts.ts
+src/hooks/admin/useForecast.ts
+supabase/functions/analytics-aggregator/
+supabase/functions/alert-dispatcher/
+```
 
-Затем перейти к **Фазе 2** (Spec 032: Professional UI) параллельно с **Фазой 3** (Spec 031: Mobile Studio V2), выполняя P1 задачи в первую очередь.
+### Модификация существующих
+```text
+src/components/admin/analytics/PerformanceMetricsPanel.tsx (mock → real data)
+src/components/admin/analytics/AnalyticsDashboard.tsx (новые табы)
+src/components/admin/MonitoringHub.tsx (расширенный health check)
+```
