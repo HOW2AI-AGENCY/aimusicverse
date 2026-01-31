@@ -4,7 +4,7 @@
 
 import { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User, Settings, Gift, Bell } from 'lucide-react';
+import { User, Settings, Gift, Bell, CreditCard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/hooks/useAuth';
@@ -40,6 +40,12 @@ export const QuickActionsBar = memo(function QuickActionsBar({ onClose }: QuickA
       label: 'Профиль',
       path: user?.id ? `/profile/${user.id}` : '/profile',
       primary: true,
+    },
+    {
+      id: 'shop',
+      icon: CreditCard,
+      label: 'Магазин',
+      path: '/pricing',
     },
     {
       id: 'rewards',

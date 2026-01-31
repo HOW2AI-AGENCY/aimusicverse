@@ -21,6 +21,7 @@ import { useGenerationResult } from '@/hooks/generation';
 import { useWelcomeBonusCheck } from '@/hooks/useCreditsLimits';
 import { useAdminDailyStats } from '@/hooks/useAdminDailyStats';
 import { TELEGRAM_SAFE_AREA } from '@/constants/safe-area';
+import { KeyboardShortcutsProvider } from './navigation/KeyboardShortcutsProvider';
 
 // Lazy load heavy dialogs - not needed on initial render
 const TelegramOnboarding = lazy(() => import('./onboarding/TelegramOnboarding').then(m => ({ default: m.TelegramOnboarding })));
@@ -173,6 +174,7 @@ export const MainLayout = () => {
 
   return (
     <SmartAlertProvider>
+    <KeyboardShortcutsProvider onOpenGenerateSheet={() => setGenerateSheetOpen(true)}>
     <div className="flex flex-col h-screen bg-background">
       <div className="flex flex-1 min-h-0 overflow-hidden">
       {/* Skip to content for keyboard navigation */}
@@ -299,6 +301,7 @@ export const MainLayout = () => {
       )}
     </div>
     </div>
+    </KeyboardShortcutsProvider>
     </SmartAlertProvider>
   );
 };
