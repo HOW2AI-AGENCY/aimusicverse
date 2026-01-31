@@ -40,10 +40,11 @@ export const QuickLikeButton = memo(function QuickLikeButton({
   const [isAnimating, setIsAnimating] = useState(false);
   const { trackLike } = useLikeSessionTracker();
   
-  const { isLiked, isLoading, toggleLike } = useLikeTrack(trackId);
+  // Use hook with initialLiked to enable optimistic updates from parent
+  const { isLiked: hookIsLiked, isLoading, toggleLike } = useLikeTrack(trackId, initialIsLiked);
   
-  // Use controlled value if provided, otherwise use hook value
-  const currentIsLiked = initialIsLiked || isLiked;
+  // Hook value takes precedence (it has optimistic updates)
+  const currentIsLiked = hookIsLiked;
   
   const handleClick = useCallback(async (e: React.MouseEvent) => {
     e.stopPropagation();

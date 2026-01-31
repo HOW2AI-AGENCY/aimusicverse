@@ -26,6 +26,7 @@ export function LikeButton({
   initialLiked
 }: LikeButtonProps) {
   const { user } = useAuth();
+  // Pass initialLiked to enable optimistic updates with proper initial state
   const { isLiked, isLoading, toggleLike } = useLikeTrack(trackId, initialLiked);
 
   const handleClick = (e: React.MouseEvent) => {
