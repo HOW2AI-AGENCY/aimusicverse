@@ -8,6 +8,7 @@ export { ErrorTrendsPanel } from './ErrorTrendsPanel';
 export { GenerationStatsPanel } from './GenerationStatsPanel';
 export { PerformanceMetricsPanel } from './PerformanceMetricsPanel';
 export { DeeplinkAnalyticsPanel } from './DeeplinkAnalyticsPanel';
+export { ExperimentsPanel } from './ExperimentsPanel';
 export { DeeplinkTrendsChart } from './DeeplinkTrendsChart';
 export { SourcesHeatmap } from './SourcesHeatmap';
 export { CampaignPerformance } from './CampaignPerformance';

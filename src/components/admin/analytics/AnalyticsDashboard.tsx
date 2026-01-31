@@ -14,8 +14,9 @@ import { ErrorTrendsPanel } from './ErrorTrendsPanel';
 import { GenerationStatsPanel } from './GenerationStatsPanel';
 import { PerformanceMetricsPanel } from './PerformanceMetricsPanel';
 import { DeeplinkAnalyticsPanel } from './DeeplinkAnalyticsPanel';
+import { ExperimentsPanel } from './ExperimentsPanel';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Activity, AlertTriangle, Music, Gauge, Link2 } from 'lucide-react';
+import { Activity, AlertTriangle, Music, Gauge, Link2, FlaskConical } from 'lucide-react';
 
 type TimePeriod = '24 hours' | '7 days' | '30 days' | '90 days';
 
@@ -102,7 +103,7 @@ export function AnalyticsDashboard() {
 
       {/* Tabs */}
       <Tabs defaultValue="telemetry" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full grid-cols-6">
           <TabsTrigger value="telemetry" className="gap-2">
             <Activity className="h-4 w-4" />
             <span className="hidden sm:inline">Телеметрия</span>
@@ -122,6 +123,10 @@ export function AnalyticsDashboard() {
           <TabsTrigger value="deeplinks" className="gap-2">
             <Link2 className="h-4 w-4" />
             <span className="hidden sm:inline">Диплинки</span>
+          </TabsTrigger>
+          <TabsTrigger value="experiments" className="gap-2">
+            <FlaskConical className="h-4 w-4" />
+            <span className="hidden sm:inline">A/B Тесты</span>
           </TabsTrigger>
         </TabsList>
 
@@ -143,6 +148,10 @@ export function AnalyticsDashboard() {
 
         <TabsContent value="deeplinks">
           <DeeplinkAnalyticsPanel timeRange={deeplinkTimeRange as '24h' | '7d' | '30d'} />
+        </TabsContent>
+
+        <TabsContent value="experiments">
+          <ExperimentsPanel />
         </TabsContent>
       </Tabs>
     </div>
