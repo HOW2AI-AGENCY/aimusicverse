@@ -1,257 +1,307 @@
 
-# План доработки интерфейса MusicVerse AI
-## Включая десктопную версию
-
----
+# План улучшения функционала записи, загрузки и анализа аудио
 
 ## 1. Анализ текущего состояния
 
-### Что реализовано:
-- **MainLayout**: Адаптивный layout с Sidebar для десктопа и BottomNavigation для мобильных
-- **Library**: Master-detail layout с боковой панелью генерации и панелью деталей трека
-- **Index (Home)**: Mobile-first с hero-карточками, секциями треков, gamification bar
-- **ProfilePage**: Статистика, меню навигации, адаптивная сетка
-- **Rewards**: Анимированные миссии, достижения (нет desktop-оптимизации)
-- **Studio V2**: Отдельные страницы для хаба, проекта, редактора
-- **LyricsStudio**: Сложный редактор с AI-помощником, версионированием
-- **MusicLab**: Табы с вокалом, гитарой, лирикой, PromptDJ, аккордами
-- **Settings**: 9 табов (профиль, подписка, тема, приватность, уведомления и др.)
-- **Pricing**: Табы кредиты/подписки, сравнение тарифов
+### Компоненты записи (выявлено 7+ дублирований)
 
-### Проблемы десктопной версии:
-1. **Rewards** - нет двухколоночного layout (DesktopRewardsLayout существует, но не используется)
-2. **Settings** - 9 табов в одну линию, неудобно на десктопе (есть SettingsSidebar, не подключен)
-3. **ProfilePage** - max-w-4xl, на широких экранах пустое пространство
-4. **MusicLab** - max-w-4xl, могла бы использовать больше пространства
-5. **LyricsStudio** - нет desktop-оптимизированного layout с панелями
-6. **Studio V2** - хаб простой, нужны карточки проектов с превью
-7. **Pricing** - карточки в столбец на больших экранах
-8. **Projects** - ContentHubTabs без desktop-оптимизации
-9. **HomeHeader** - на десктопе дублирует функционал Sidebar
+| Компонент | Назначение | Особенности |
+|-----------|------------|-------------|
+| `AudioRecordDialog` | Запись вокала | Облачное хранение, auto-save, actions (instrumental/vocals/cover/extend) |
+| `AudioReferenceRecorder` | Запись для LyricsStudio | Vocal/Guitar режимы, анализ |
+| `RecordTrackDrawer` | Запись в студийный проект | Chord detection для гитары, VU-meter |
+| `GuitarRecordDialog` | Guitar Studio | Klangio анализ, сохранение записей |
+| `GuitarRecordingStudio` | Полноценная гитарная студия | Realtime chords, tuner, BPM |
+| `AudioReferenceUpload` | Загрузка референса | Auto-analyze, кэширование |
+| `UploadDialog` (cloud) | Загрузка в облако | Simple upload/record |
 
-### Отсутствующие пути/функционал:
-1. Нет прямого доступа к покупке кредитов из BottomNav или Sidebar
-2. Нет быстрого доступа к Rewards из основной навигации
-3. Нет уведомлений о завершении генерации на десктопе
-4. Нет клавиатурных сокращений на всех страницах
-5. Нет breadcrumbs на вложенных страницах
+### Хуки (дублирование логики MediaRecorder)
 
----
+| Хук | Назначение |
+|-----|------------|
+| `useAudioRecording` | Базовый (70 строк) - минимальный |
+| `useMelodyAnalysis` | Запись + анализ мелодии |
+| `useGuitarAnalysis` | Запись + Klangio анализ |
+| `useRealtimeChordDetection` | Realtime chord detection |
 
-## 2. Приоритетные задачи
+### Edge Functions для анализа
 
-### P0 - Критические (влияют на UX)
-
-#### 2.1 Desktop Layout для Settings
-Подключить SettingsSidebar для вертикальной навигации на десктопе.
-
-**Изменения:**
-- Settings.tsx: добавить условие `!isMobile && <SettingsSidebar />`
-- Сетка: sidebar слева (w-64), контент справа
-- Сохранить табы для мобильной версии
-
-#### 2.2 Desktop Layout для Rewards
-Подключить DesktopRewardsLayout для двухколоночной раскладки.
-
-**Изменения:**
-- Rewards.tsx: условие `useIsMobile()` и переключение layouts
-- Левая колонка: Level, Checkin, Streak, Missions
-- Правая колонка: Stats, Achievements/Leaderboard
-
-#### 2.3 Унификация Header на десктопе
-На десктопе HomeHeader избыточен (есть Sidebar).
-
-**Изменения:**
-- Index.tsx: на десктопе показывать упрощённый header
-- Убрать дублирование меню и аватара
-- Оставить только приветствие и уведомления
-
-### P1 - Важные (улучшают UX)
-
-#### 2.4 Быстрый доступ к Credits/Shop
-Добавить кнопку покупки в Sidebar и profile menu.
-
-**Изменения:**
-- Sidebar.tsx: добавить пункт "Магазин" (CreditCard icon) в accountNavItems
-- CreditsBalance.tsx: сделать кликабельным с переходом на /pricing
-- BottomNavigation: добавить в MoreMenuSheet
-
-#### 2.5 Desktop Layout для LyricsStudio
-Трёхпанельный layout для редактора текста.
-
-**Изменения:**
-- Левая панель: список шаблонов/версий (w-64)
-- Центр: редактор (flex-1)
-- Правая панель: AI-помощник (w-80)
-- На мобильных - сохранить текущие Sheet/Drawer
-
-#### 2.6 Улучшенные карточки Studio Hub
-Превью треков в карточках проектов.
-
-**Изменения:**
-- StudioHubPage.tsx: добавить waveform preview
-- Показывать статус (playing, stems ready)
-- Индикатор последних изменений
-
-#### 2.7 Desktop Layout для MusicLab
-Расширенная сетка для творческих инструментов.
-
-**Изменения:**
-- Убрать max-w-4xl на десктопе
-- Grid layout для инструментов вместо табов
-- Каждый инструмент в отдельной карточке
-
-### P2 - Улучшения (полировка)
-
-#### 2.8 Keyboard Shortcuts
-Глобальные клавиатурные сокращения.
-
-**Сочетания:**
-- Space: Play/Pause
-- Ctrl/Cmd+G: Открыть генерацию
-- Ctrl/Cmd+L: Библиотека
-- Ctrl/Cmd+S: Сохранить (в редакторах)
-- Escape: Закрыть панели
-- 1-5: Навигация по табам
-
-**Реализация:**
-- Создать useKeyboardShortcuts hook
-- Подключить в MainLayout
-- Показывать hints в Sidebar tooltips
-
-#### 2.9 Breadcrumbs на вложенных страницах
-Навигационные хлебные крошки.
-
-**Страницы:**
-- /projects/:id → "Проекты / [Название]"
-- /lyrics-studio?projectId=X → "Проект / [Трек] / Редактор"
-- /studio-v2/project/:id → "Студия / [Проект]"
-- /album/:id → "Библиотека / [Альбом]"
-
-**Реализация:**
-- Использовать существующий Breadcrumbs компонент
-- Добавить showBreadcrumbs в AppHeader
-
-#### 2.10 Desktop Notification Center
-Выпадающая панель уведомлений в Sidebar.
-
-**Изменения:**
-- Sidebar.tsx: заменить NotificationCenter на полноценную панель
-- При клике открывать dropdown с историей
-- Показывать уведомления о генерации
-
-#### 2.11 Profile Desktop Layout
-Расширенный профиль на широких экранах.
-
-**Изменения:**
-- ProfilePage.tsx: увеличить max-w на lg/xl
-- Двухколоночный layout: stats слева, меню справа
-- Добавить activity feed
-
-#### 2.12 Pricing Desktop Optimization
-Горизонтальная сетка для карточек.
-
-**Изменения:**
-- Pricing.tsx: grid-cols-4 для кредитов на xl
-- Highlight популярного пакета
-- Сравнительная таблица без скролла
+| Функция | Назначение |
+|---------|------------|
+| `analyze-audio-flamingo` | AI анализ стиля, настроения |
+| `analyze-reference-audio` | Анализ референса |
+| `klangio-analyze` | Beat tracking, chord recognition, transcription |
+| `transcribe-midi` | MIDI транскрипция |
+| `transcribe-lyrics` | Распознавание текста |
+| `speech-to-text` | Голос в текст |
+| `recognize-music` | Shazam-style распознавание |
 
 ---
 
-## 3. Техническая реализация
+## 2. Выявленные проблемы
 
-### Новые компоненты
+### P0 - Критические
+
+1. **Дублирование кода записи** - 7 компонентов с почти идентичной логикой MediaRecorder
+2. **Фрагментация анализа** - 5+ edge functions без унифицированного API
+3. **Отсутствие единой точки входа** - пользователь не понимает, где записывать
+
+### P1 - Важные
+
+4. **Нет audio waveform во время записи** - только timer или VU-meter
+5. **Нет визуализации результатов анализа в едином формате**
+6. **Нет batch-режима для анализа нескольких файлов**
+7. **Отсутствует прогресс загрузки с детализацией этапов**
+
+### P2 - Улучшения
+
+8. **Нет drag-and-drop для загрузки**
+9. **Отсутствует автодетекция типа записи (вокал/гитара/инструмент)**
+10. **Нет истории записей с поиском и фильтрацией**
+11. **Отсутствует экспорт результатов анализа (JSON, CSV)**
+
+---
+
+## 3. План решения
+
+### Фаза 1: Унифицированный Recording Hook
+
+**Создать `useUnifiedRecording`** - единый хук для всей логики записи:
 
 ```
-src/components/layout/
-├── DesktopSettingsLayout.tsx    # Sidebar + content для настроек
-├── DesktopLyricsLayout.tsx      # Три панели для LyricsStudio
-├── DesktopMusicLabLayout.tsx    # Grid инструментов
+src/hooks/audio/useUnifiedRecording.ts
+```
 
-src/components/navigation/
-├── KeyboardShortcutsProvider.tsx # Глобальные хоткеи
-├── ShortcutsHelp.tsx            # Справка по сочетаниям
+Возможности:
+- Поддержка режимов: vocal, guitar, instrument
+- Audio level monitoring (VU-meter)
+- Recording duration tracking
+- Auto-detect optimal audio settings по режиму
+- Pause/Resume recording
+- Callback hooks: onStart, onStop, onData
+- Waveform data accumulation для визуализации
 
-src/hooks/
-├── useKeyboardShortcuts.ts      # Hook для регистрации сочетаний
+### Фаза 2: Единый Recording Component
+
+**Создать `UnifiedRecorder`** - переиспользуемый компонент:
+
+```
+src/components/recording/
+├── UnifiedRecorder.tsx       # Главный компонент
+├── RecordingVisualizer.tsx   # VU-meter + waveform
+├── RecordingControls.tsx     # Start/Stop/Pause
+├── RecordingTypeSelector.tsx # Vocal/Guitar/Instrument
+├── RecordingPreview.tsx      # Playback preview
+└── index.ts
+```
+
+Особенности:
+- Адаптивный UI (dialog/drawer/inline)
+- Real-time waveform visualization
+- Audio level bars (как в RecordTrackDrawer)
+- Chord detection indicator для гитары
+- Touch-friendly controls (44px+)
+
+### Фаза 3: Унифицированный Analysis Service
+
+**Создать `AudioAnalysisService`**:
+
+```
+src/services/audio-analysis/
+├── AudioAnalysisService.ts   # Unified API
+├── types.ts                  # Common types
+├── analyzers/
+│   ├── styleAnalyzer.ts      # Flamingo
+│   ├── beatAnalyzer.ts       # Klangio beats
+│   ├── chordAnalyzer.ts      # Klangio chords
+│   ├── transcriptionAnalyzer.ts # MIDI
+│   └── lyricsAnalyzer.ts     # Speech-to-text
+└── index.ts
+```
+
+Единый интерфейс:
+```typescript
+interface AnalysisRequest {
+  audioUrl: string;
+  types: ('style' | 'beats' | 'chords' | 'midi' | 'lyrics')[];
+  options?: AnalysisOptions;
+}
+
+interface AnalysisResult {
+  style?: StyleAnalysis;
+  beats?: BeatAnalysis;
+  chords?: ChordAnalysis;
+  midi?: MidiData;
+  lyrics?: LyricsData;
+  processingTime: number;
+}
+```
+
+### Фаза 4: Analysis Results UI
+
+**Создать `AnalysisResultsPanel`**:
+
+```
+src/components/analysis/
+├── AnalysisResultsPanel.tsx  # Main container
+├── StyleCard.tsx             # Genre, mood, energy
+├── BeatCard.tsx              # BPM, time signature
+├── ChordProgressionCard.tsx  # Chord chart
+├── LyricsCard.tsx            # Transcribed text
+├── ExportButton.tsx          # JSON/CSV export
+└── index.ts
+```
+
+### Фаза 5: Audio Hub Page
+
+**Создать единую точку входа `/audio-hub`**:
+
+```
+Tabs:
+├── Запись (UnifiedRecorder)
+├── Загрузка (Drag & Drop)
+├── Облако (reference_audio list)
+├── Анализ (Batch analysis)
+└── История (Recordings history)
+```
+
+---
+
+## 4. Рефакторинг существующих компонентов
+
+### Компоненты для замены на UnifiedRecorder:
+
+| Компонент | Действие |
+|-----------|----------|
+| `AudioRecordDialog` | Использовать `UnifiedRecorder` + actions panel |
+| `AudioReferenceRecorder` | Заменить на `UnifiedRecorder` |
+| `RecordTrackDrawer` | Использовать `UnifiedRecorder` в drawer |
+| `UploadDialog` | Объединить с Audio Hub |
+
+### Компоненты для сохранения (специализированные):
+
+| Компонент | Причина |
+|-----------|---------|
+| `GuitarRecordDialog` | Специфичная логика Klangio + saved recordings |
+| `GuitarRecordingStudio` | Полноценная студия с tuner, realtime chords |
+
+---
+
+## 5. Техническая реализация
+
+### Новые файлы
+
+```
+src/hooks/audio/
+├── useUnifiedRecording.ts      # 150 lines
+
+src/components/recording/
+├── UnifiedRecorder.tsx         # 200 lines
+├── RecordingVisualizer.tsx     # 80 lines
+├── RecordingControls.tsx       # 60 lines
+├── RecordingTypeSelector.tsx   # 50 lines
+├── RecordingPreview.tsx        # 70 lines
+└── index.ts                    # exports
+
+src/services/audio-analysis/
+├── AudioAnalysisService.ts     # 150 lines
+├── types.ts                    # 80 lines
+└── index.ts                    # exports
+
+src/components/analysis/
+├── AnalysisResultsPanel.tsx    # 120 lines
+├── StyleCard.tsx               # 50 lines
+├── BeatCard.tsx                # 40 lines
+├── ChordProgressionCard.tsx    # 60 lines
+├── LyricsCard.tsx              # 50 lines
+└── index.ts                    # exports
+
+src/pages/
+├── AudioHub.tsx                # 200 lines (новая страница)
 ```
 
 ### Модифицируемые файлы
 
 | Файл | Изменения |
 |------|-----------|
-| src/pages/Settings.tsx | Desktop sidebar layout |
-| src/pages/Rewards.tsx | Desktop two-column layout |
-| src/pages/Index.tsx | Упрощённый header на десктопе |
-| src/pages/LyricsStudio.tsx | Three-panel layout |
-| src/pages/MusicLab.tsx | Grid layout на десктопе |
-| src/pages/ProfilePage.tsx | Extended layout |
-| src/pages/Pricing.tsx | Grid optimization |
-| src/pages/studio-v2/StudioHubPage.tsx | Enhanced cards |
-| src/components/Sidebar.tsx | Shop link, shortcuts hints |
-
-### Паттерн адаптивности
-
-```typescript
-// Стандартный паттерн для всех страниц
-const isMobile = useIsMobile();
-
-return isMobile ? (
-  <MobileLayout>...</MobileLayout>
-) : (
-  <DesktopLayout>...</DesktopLayout>
-);
-```
+| `AudioRecordDialog.tsx` | Использовать UnifiedRecorder |
+| `AudioReferenceRecorder.tsx` | Делегировать к UnifiedRecorder |
+| `RecordTrackDrawer.tsx` | Использовать UnifiedRecorder |
+| `UploadDialog.tsx` | Добавить drag-and-drop |
+| `MusicLab.tsx` | Ссылка на Audio Hub |
+| Routing | Добавить /audio-hub |
 
 ---
 
-## 4. Порядок выполнения
+## 6. UI/UX улучшения
 
-### Фаза 1: Критические layouts (2 задачи)
-1. Settings desktop layout (SettingsSidebar)
-2. Rewards desktop layout (DesktopRewardsLayout)
+### Recording Visualizer
+- Real-time waveform (не только после записи)
+- Animated VU-meter bars (12-20 штук)
+- Color-coded audio levels (green → yellow → red)
+- Recording time display (MM:SS)
 
-### Фаза 2: Навигация и доступность (3 задачи)
-3. Shop/Credits в навигации
-4. Header оптимизация для десктопа
-5. Keyboard shortcuts
+### Drag-and-Drop Upload
+- Visual drop zone с анимацией
+- File type validation
+- Progress indicator
+- Multi-file support
 
-### Фаза 3: Продуктовые страницы (4 задачи)
-6. LyricsStudio desktop layout
-7. MusicLab grid layout
-8. StudioHub enhanced cards
-9. ProfilePage extended
+### Analysis Progress
+- Step-by-step progress (Upload → Analyze → Complete)
+- Estimated time remaining
+- Cancel button
 
-### Фаза 4: Финальная полировка (3 задачи)
-10. Breadcrumbs на вложенных страницах
-11. Pricing grid optimization
-12. Notification center desktop
-
----
-
-## 5. Метрики успеха
-
-- **Desktop usage**: +20% времени в приложении
-- **Feature discovery**: +30% использование MusicLab, LyricsStudio
-- **Navigation efficiency**: -40% кликов до целевого действия
-- **Keyboard shortcuts adoption**: 15% power users
+### Results Export
+- Copy to clipboard (tags)
+- Export as JSON
+- Export as CSV
 
 ---
 
-## 6. Зависимости
+## 7. Порядок выполнения
 
-- DesktopRewardsLayout уже существует (не подключен)
-- SettingsSidebar уже существует (не подключен)
-- Breadcrumbs компонент существует
-- AppHeader поддерживает breadcrumbs prop
-- useIsMobile hook везде доступен
+### Фаза 1 (Core - 2 задачи)
+1. `useUnifiedRecording` hook
+2. `UnifiedRecorder` component
+
+### Фаза 2 (Analysis - 2 задачи)
+3. `AudioAnalysisService`
+4. `AnalysisResultsPanel`
+
+### Фаза 3 (Integration - 3 задачи)
+5. Рефакторинг `AudioRecordDialog`
+6. Drag-and-drop в `UploadDialog`
+7. Audio Hub page
+
+### Фаза 4 (Polish - 2 задачи)
+8. Batch analysis support
+9. Export functionality
 
 ---
 
-## 7. Риски
+## 8. Метрики успеха
+
+- **Сокращение кода**: -40% дублирования в recording логике
+- **Улучшение UX**: +50% completion rate для записи
+- **Скорость разработки**: Новые recording features за 50% времени
+- **Пользовательское понимание**: Единая точка входа для всех аудио операций
+
+---
+
+## 9. Зависимости
+
+- `UnifiedRecorder` требует `useUnifiedRecording`
+- `AnalysisResultsPanel` требует `AudioAnalysisService`
+- Audio Hub требует все вышеперечисленные компоненты
+- Существующие компоненты продолжают работать до рефакторинга
+
+---
+
+## 10. Риски и митигация
 
 | Риск | Митигация |
 |------|-----------|
-| Ломается мобильная версия | Обязательное тестирование на всех breakpoints |
-| Увеличение bundle size | Lazy loading для desktop layouts |
-| Keyboard shortcuts конфликты | Проверка с браузерными сочетаниями |
+| Регрессии в существующих диалогах | Постепенная миграция, сохранение старых компонентов |
+| Производительность waveform в реальном времени | Canvas rendering, requestAnimationFrame |
+| Большой bundle size нового кода | Lazy loading для Audio Hub |
