@@ -1,247 +1,299 @@
 
-# План работ по оптимизации MusicVerse AI
+# План дальнейших работ MusicVerse AI
 
 **Дата**: 2026-01-31
-**Статус проекта**: Production Ready (100%)
-**Цель**: Стабилизация, оптимизация производительности и улучшение UX
+**Текущий статус**: Production Ready (100%)
+**Горизонт планирования**: Q1-Q2 2026
 
 ---
 
-## Выявленные проблемы
+## Текущие метрики
 
-### Критические (P0)
-| Проблема | Влияние | Данные |
-|----------|---------|--------|
-| RLS политика `user_analytics_events` требует авторизации для INSERT | Сбои аналитики для анонимных пользователей | INSERT политика: `auth.uid() = user_id OR user_id IS NULL` не работает для неавторизованных |
-
-### Высокий приоритет (P1)
-| Проблема | Влияние | Данные |
-|----------|---------|--------|
-| Ошибки аудио `PIPELINE_ERROR_READ` | 23+ ошибок за неделю | Истёкшие URL, сетевые сбои |
-| Блокировка генерации по именам артистов | ~25 неудачных генераций | "ruka", "stiv", "karina", "mili", "bad omens" |
-| Success rate 69-83% в некоторые дни | Негативный UX | 23.01: 69.4%, 29.01: 82.9% |
-
-### Средний приоритет (P2)
-| Проблема | Влияние | Данные |
-|----------|---------|--------|
-| Onboarding для новых пользователей | Низкая конверсия | Есть компоненты, но не интегрированы в главный флоу |
-| Документация не синхронизирована | Затруднённая поддержка | Нужно обновить KNOWLEDGE_BASE.md |
+| Метрика | Значение | Динамика |
+|---------|----------|----------|
+| Всего пользователей | 574 | +90 за неделю |
+| Треков за месяц | 1,098 | +40/день |
+| Success rate генерации | 91.2% (14 дней) | ↑ улучшение |
+| Ошибки аудио (7 дней) | 31 | ↓ после оптимизации |
+| Ошибки генерации | 9 | ↓ после blocklist |
+| Платные подписки | 0 | Требует внимания |
 
 ---
 
-## Фаза 1: Критические исправления (1-2 дня)
+## Фаза 1: Монетизация и Конверсия (Февраль 2026)
 
-### 1.1 Исправление RLS для аналитики
+### 1.1 Активация подписок (Критический приоритет)
 
-**Проблема**: Текущая INSERT политика требует `auth.uid()`, что блокирует анонимных пользователей.
+**Проблема**: 0 платных подписчиков при 574 пользователях
 
-**Решение**:
-```text
-┌─────────────────────────────────────────────────────────────┐
-│  Новая RLS политика для user_analytics_events               │
-├─────────────────────────────────────────────────────────────┤
-│  DROP POLICY IF EXISTS "Users can insert own analytics"     │
-│                                                              │
-│  CREATE POLICY "Allow analytics insert"                      │
-│  ON user_analytics_events FOR INSERT                         │
-│  WITH CHECK (                                                │
-│    user_id IS NULL                                           │
-│    OR auth.uid() = user_id                                   │
-│  )                                                           │
-└─────────────────────────────────────────────────────────────┘
+**Задачи**:
+- Провести A/B тестирование paywall моментов (после 3й генерации, при использовании PRO фич)
+- Добавить trial период для PRO (3 дня бесплатно)
+- Создать onboarding для PRO функций (stems, MIDI, advanced styles)
+- Интегрировать push-уведомления о преимуществах подписки
+
+**Компоненты для изменения**:
+- Paywall экраны
+- Subscription management
+- Feature gating система
+
+**Ожидаемый результат**: 2-5% конверсия в платные подписки
+
+### 1.2 Улучшение Retention
+
+**Текущее состояние**: ~29 DAU, retention D7 63-100%
+
+**Задачи**:
+- Добавить еженедельные челленджи с призами (кредиты)
+- Создать систему рекомендаций "Похожие треки"
+- Улучшить push-уведомления через Telegram Bot
+- Добавить email дайджест для неактивных пользователей
+
+**Файлы для изменения**:
+- telegram-bot edge function
+- Notifications система
+- Recommendations engine
+
+---
+
+## Фаза 2: Spec 032 - Professional UI (Февраль-Март 2026)
+
+### 2.1 Система дизайн-токенов
+
+**Задачи**:
+- Унифицировать типографику (H1-H6, body, caption)
+- Создать spacing scale (4, 8, 12, 16, 24, 32px)
+- Оптимизировать цветовую палитру с WCAG AA
+- Добавить elevation system (shadows 0-5)
+
+**Новые файлы**:
+```
+src/styles/
+├── typography.css
+├── spacing.css
+├── colors.css
+└── elevation.css
 ```
 
-**Файлы**: SQL миграция через Lovable Cloud
+### 2.2 Анимации и микро-взаимодействия
 
-### 1.2 Расширение списка блокируемых артистов
-
-**Добавить в `src/lib/errorHandling.ts`**:
-- "ruka" (9 ошибок)
-- "stiv" (3 ошибки)  
-- "mili" (3 ошибки)
-- "bad omens" (2 ошибки)
-- "porshi", "instasamka"
-
-**Также добавить в FALSE_POSITIVE_WORDS**:
-- "karina" уже есть, но нужно проверить контекст
-
----
-
-## Фаза 2: Улучшение надёжности аудио (2-3 дня)
-
-### 2.1 Retry механизм для PIPELINE_ERROR_READ
-
-**Текущее состояние**: GlobalAudioProvider имеет retry для format errors (code 4), но не для сетевых ошибок.
-
-**Решение**:
-```text
-┌──────────────────────────────────────────────────────────────┐
-│  handleError в GlobalAudioProvider.tsx                        │
-├──────────────────────────────────────────────────────────────┤
-│  1. Добавить retry для network errors (code 2)                │
-│  2. Реализовать cache-busting retry                           │
-│  3. Автоматическое переключение на backup URL                 │
-│  4. Показывать user-friendly toast с кнопкой "Повторить"      │
-└──────────────────────────────────────────────────────────────┘
-```
+**Задачи**:
+- Создать библиотеку motion variants (framer-motion)
+- Добавить skeleton loaders для всех loading states
+- Оптимизировать transitions (200-300ms с easing)
+- Поддержка prefers-reduced-motion
 
 **Файлы**:
-- `src/components/GlobalAudioProvider.tsx` — добавить retry для network errors
-- `src/lib/audioFormatUtils.ts` — добавить проверку доступности URL
-
-### 2.2 Проактивная валидация audio URL
-
-**Добавить**:
-- Проверку доступности URL перед воспроизведением
-- Автоматическое обновление истёкших URL через API
-
----
-
-## Фаза 3: Улучшение UX генерации (2 дня)
-
-### 3.1 Клиентская валидация имён артистов в реальном времени
-
-**Текущее состояние**: `PromptValidationAlert.tsx` и `ValidationMessage.tsx` уже существуют.
-
-**Улучшения**:
-```text
-┌──────────────────────────────────────────────────────────────┐
-│  Расширенная валидация в форме генерации                      │
-├──────────────────────────────────────────────────────────────┤
-│  • Подсказки с альтернативными описаниями стиля               │
-│  • Автозамена имён на описания жанра (опционально)            │
-│  • Блокировка кнопки "Создать" при обнаружении артиста        │
-│  • Интеграция с AI для генерации альтернатив                  │
-└──────────────────────────────────────────────────────────────┘
+```
+src/lib/motion-variants.ts
+src/components/ui/skeleton-variants.tsx
 ```
 
-**Файлы**:
-- `src/components/generate-form/PromptValidationAlert.tsx`
-- `src/components/generate-form/ValidationMessage.tsx`
-- `src/hooks/generation/useGenerateForm.ts`
+### 2.3 Компоненты
 
-### 3.2 Улучшение сообщений об ошибках
+**Задачи**:
+- Рефакторинг card компонентов (shadows, radius 8-16px)
+- Унификация icon sizes (20-24px)
+- Улучшение empty states с иллюстрациями
+- Touch targets аудит (все >=44px)
 
-**Добавить**:
-- Конкретные подсказки что исправить
-- Примеры правильных промптов
-- Ссылки на документацию по стилям
+**Критерии успеха**:
+- 95% WCAG AA compliance
+- 60fps для всех анимаций
+- User satisfaction +40%
 
 ---
 
-## Фаза 4: Onboarding и туториалы (2-3 дня)
+## Фаза 3: Spec 031 - Mobile Studio V2 (Март 2026)
 
-### 4.1 Интеграция существующего onboarding
+### 3.1 Lyrics Studio Integration (P1)
 
-**Компоненты уже есть**:
-- `FeatureTutorialDialog` — туториалы по фичам
-- `GraphOnboarding` — onboarding для графа
-- `SwipeOnboardingTooltip` — подсказки по свайпам
+**Задачи**:
+- Перенести lyrics editing panel в StudioShell
+- Интегрировать 9 AI-инструментов для лирики
+- Добавить section notes и tag enrichment
+- Реализовать version history с restore
 
-**Нужно**:
-```text
-┌──────────────────────────────────────────────────────────────┐
-│  Интеграция onboarding в главный флоу                         │
-├──────────────────────────────────────────────────────────────┤
-│  1. Показывать FeatureTutorialDialog('style') при первом      │
-│     посещении страницы генерации                              │
-│  2. Показывать подсказки по library при первом переходе       │
-│  3. Интегрировать QuickTipToast для контекстных подсказок     │
-│  4. Добавить прогресс-бар "Изучено 3/7 функций"               │
-└──────────────────────────────────────────────────────────────┘
+**Компоненты из legacy**:
+- LyricsEditorPanel
+- AILyricsAssistant
+- VersionHistoryDrawer
+
+### 3.2 MusicLab Creative Workspace (P2)
+
+**Задачи**:
+- Vocal recording с real-time visualization
+- Guitar input detection
+- Chord detection (AI-powered)
+- PromptDJ для PRO пользователей
+
+**Новые компоненты**:
+```
+src/components/studio-v2/musiclab/
+├── VocalRecorder.tsx
+├── GuitarInput.tsx
+├── ChordDetector.tsx
+└── PromptDJMixer.tsx
 ```
 
-**Файлы**:
-- `src/hooks/useFeatureTips.ts` — управление показом туториалов
-- `src/pages/GeneratePage.tsx` или аналог — интеграция
-- `src/pages/LibraryPage.tsx` — интеграция
+### 3.3 Advanced Stem Processing (P2)
 
-### 4.2 Контекстные подсказки
+**Задачи**:
+- Batch transcription для множества stems
+- Stem separation modes (none, simple, detailed)
+- Progress indication для batch операций
+- Error handling для частичных failures
 
-**Добавить**:
-- Подсказку после первой успешной генерации
-- Подсказку по использованию стемов
-- Подсказку по расширению треков
+### 3.4 Professional Dashboard (P3)
 
----
-
-## Фаза 5: Мониторинг и документация (1 день)
-
-### 5.1 Улучшение телеметрии
-
-**Добавить метрики**:
-- Success rate по типам генерации
-- Время до первого воспроизведения
-- Bounce rate по страницам
-- Конверсия onboarding
-
-### 5.2 Обновление документации
-
-**Файлы**:
-- `KNOWLEDGE_BASE.md` — добавить новые паттерны
-- `docs/TROUBLESHOOTING.md` — добавить решения частых проблем
-- `README.md` — обновить метрики
+**Задачи**:
+- Project statistics widget
+- Preset management (create, apply, delete)
+- Workflow visualization
+- Keyboard shortcuts system
 
 ---
 
-## Итоговый чек-лист
+## Фаза 4: Platform Integration (Q2 2026)
 
-| Фаза | Задача | Приоритет | Оценка |
-|------|--------|-----------|--------|
-| 1.1 | RLS политика для аналитики | P0 | 1ч |
-| 1.2 | Расширение blocklist артистов | P1 | 2ч |
-| 2.1 | Retry для аудио ошибок | P1 | 4ч |
-| 2.2 | Валидация audio URL | P1 | 3ч |
-| 3.1 | Клиентская валидация артистов | P1 | 3ч |
-| 3.2 | Улучшение сообщений об ошибках | P2 | 2ч |
-| 4.1 | Интеграция onboarding | P2 | 4ч |
-| 4.2 | Контекстные подсказки | P2 | 3ч |
-| 5.1 | Телеметрия | P2 | 2ч |
-| 5.2 | Документация | P2 | 2ч |
+### 4.1 Export в стриминговые сервисы
 
-**Общая оценка**: 26 часов (5-7 рабочих дней)
+**Задачи**:
+- Spotify for Artists integration
+- Apple Music for Artists
+- YouTube Music upload
+- SoundCloud distribution
 
----
-
-## Ожидаемые результаты
-
-| Метрика | Текущее | Цель |
-|---------|---------|------|
-| Success rate генерации | ~90% | >95% |
-| Ошибки аудио плеера | 23+/неделю | <5/неделю |
-| Аналитика анонимных | Не работает | 100% |
-| Onboarding completion | Не измеряется | >60% |
-
----
-
-## Технические детали
-
-### Архитектура изменений
-
-```text
-┌─────────────────────────────────────────────────────────────────────┐
-│                         Фронтенд                                     │
-├─────────────────────────────────────────────────────────────────────┤
-│  GenerateForm  ──→  ValidationMessage  ──→  PromptValidationAlert   │
-│       ↓                    ↓                        ↓                │
-│  useGenerateForm  ──→  checkForBlockedArtists  (errorHandling.ts)   │
-├─────────────────────────────────────────────────────────────────────┤
-│  GlobalAudioProvider                                                 │
-│       ↓                                                              │
-│  handleError  ──→  retry logic  ──→  fallback URL chain             │
-│       ↓                                                              │
-│  recordError (telemetry)  ──→  error_logs (БД)                      │
-├─────────────────────────────────────────────────────────────────────┤
-│                         Бэкенд                                       │
-├─────────────────────────────────────────────────────────────────────┤
-│  RLS Policy (user_analytics_events)  ──→  Allow anonymous INSERT    │
-└─────────────────────────────────────────────────────────────────────┘
+**Edge functions**:
 ```
+supabase/functions/
+├── spotify-export/
+├── apple-music-export/
+├── youtube-upload/
+└── soundcloud-export/
+```
+
+### 4.2 Public API v1.0
+
+**Задачи**:
+- RESTful API endpoints
+- OAuth 2.0 authentication
+- Rate limiting
+- API key management
+- Interactive documentation (Swagger/Redoc)
+
+### 4.3 SDKs
+
+**Задачи**:
+- JavaScript/TypeScript SDK
+- Python SDK
+- Webhook events system
+
+---
+
+## Фаза 5: Quality & Testing (Ongoing)
+
+### 5.1 Test Coverage
+
+**Текущее состояние**: ~40% coverage
+
+**Цель**: >80% coverage
+
+**Задачи**:
+- Unit tests для критических hooks (audio, generation)
+- Integration tests для Edge functions
+- E2E tests с Playwright (основные user flows)
+
+### 5.2 Performance
+
+**Задачи**:
+- Lighthouse scores >90
+- Bundle size <150KB (vendor-other)
+- Lazy loading для opensheetmusicdisplay
+- Service Worker для offline support
+
+### 5.3 Security
+
+**Задачи**:
+- Security audit всех Edge functions
+- RLS policies review
+- API rate limiting
+- Input sanitization audit
+
+---
+
+## Фаза 6: Infrastructure (Q2 2026)
+
+### 6.1 Monitoring
+
+**Задачи**:
+- Sentry integration для error tracking
+- Custom dashboards для бизнес-метрик
+- Alerting на критические ошибки
+- Performance monitoring
+
+### 6.2 Backend Cleanup
+
+**Задачи**:
+- Удаление deprecated Edge functions
+- Consolidation повторяющегося кода
+- Database indexes optimization
+- Query performance audit
+
+---
+
+## Приоритизация
+
+| Приоритет | Фаза | Задачи | Оценка |
+|-----------|------|--------|--------|
+| P0 | 1.1 | Активация подписок | 2 недели |
+| P0 | 1.2 | Retention improvements | 1 неделя |
+| P1 | 2.1-2.3 | Professional UI | 3 недели |
+| P1 | 3.1 | Lyrics Studio | 1 неделя |
+| P2 | 3.2-3.4 | MusicLab + Advanced | 2 недели |
+| P2 | 5.1-5.3 | Quality & Testing | 2 недели |
+| P3 | 4.1-4.3 | Platform Integration | 4 недели |
+| P3 | 6.1-6.2 | Infrastructure | 2 недели |
+
+**Общая оценка**: 17 недель (Q1-Q2 2026)
+
+---
+
+## KPIs и Success Metrics
+
+### Q1 2026 (до конца Февраля)
+- [ ] Конверсия в подписки: 2-5%
+- [ ] DAU: 50+ (сейчас ~25-29)
+- [ ] Success rate генерации: >95%
+- [ ] Audio errors: <10/неделю
+
+### Q2 2026 (до конца Июня)
+- [ ] Пользователи: 1,500+
+- [ ] Платные подписки: 50+
+- [ ] Public API v1.0 launched
+- [ ] Platform integrations: 2+
+- [ ] Test coverage: >80%
+
+---
+
+## Зависимости и риски
 
 ### Зависимости
+- Suno API стабильность для генерации
+- Tinkoff API для платежей
+- Telegram Mini App SDK обновления
 
-- Фаза 1 не зависит от других
-- Фаза 2 может выполняться параллельно с Фазой 1
-- Фаза 3 зависит от Фазы 1.2 (blocklist)
-- Фаза 4 может выполняться параллельно
-- Фаза 5 выполняется после всех остальных
+### Риски
+1. **Конверсия подписок** — может потребовать A/B тестирования разных подходов
+2. **Platform integrations** — требуют API ключей от Spotify/Apple
+3. **Performance** — bundle size требует тщательной оптимизации
+
+---
+
+## Следующие шаги
+
+1. **Немедленно**: Анализ причин 0 подписок, создание paywall стратегии
+2. **Эта неделя**: Начало работ по Spec 032 (design tokens)
+3. **Следующая неделя**: Интеграция Lyrics Studio в StudioShell
+4. **Февраль**: Полная реализация Professional UI
+
