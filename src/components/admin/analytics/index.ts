@@ -20,3 +20,4 @@ export { UserActivityHeatmap } from './UserActivityHeatmap';
 export { RealTimeMetrics } from './RealTimeMetrics';
 export { ComparisonPanel } from './ComparisonPanel';
 export { AlertsPanel } from './AlertsPanel';
+export { ForecastPanel } from './ForecastPanel';
