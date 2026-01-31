@@ -1,7 +1,10 @@
 /**
  * Accessibility utilities and helpers
  * WCAG 2.1 AA compliance helpers
+ * Feature: UX Improvements
  */
+
+import { useCallback, useEffect, useRef, type KeyboardEvent } from 'react';
 
 /**
  * Minimum touch target size per WCAG (44x44px)
@@ -11,6 +14,173 @@ export const TOUCH_TARGET = {
   comfortable: 48,
   large: 56,
 } as const;
+
+/**
+ * Hook for keyboard navigation in lists/grids
+ */
+export function useKeyboardNavigation<T extends HTMLElement = HTMLElement>({
+  itemCount,
+  currentIndex,
+  onIndexChange,
+  columns = 1,
+  wrap = true,
+}: {
+  itemCount: number;
+  currentIndex: number;
+  onIndexChange: (index: number) => void;
+  columns?: number;
+  wrap?: boolean;
+}) {
+  const handleKeyDown = useCallback((e: KeyboardEvent<T>) => {
+    let newIndex = currentIndex;
+
+    switch (e.key) {
+      case 'ArrowUp':
+        e.preventDefault();
+        newIndex = currentIndex - columns;
+        if (newIndex < 0) {
+          newIndex = wrap ? itemCount - 1 : 0;
+        }
+        break;
+        
+      case 'ArrowDown':
+        e.preventDefault();
+        newIndex = currentIndex + columns;
+        if (newIndex >= itemCount) {
+          newIndex = wrap ? 0 : itemCount - 1;
+        }
+        break;
+        
+      case 'ArrowLeft':
+        e.preventDefault();
+        newIndex = currentIndex - 1;
+        if (newIndex < 0) {
+          newIndex = wrap ? itemCount - 1 : 0;
+        }
+        break;
+        
+      case 'ArrowRight':
+        e.preventDefault();
+        newIndex = currentIndex + 1;
+        if (newIndex >= itemCount) {
+          newIndex = wrap ? 0 : itemCount - 1;
+        }
+        break;
+        
+      case 'Home':
+        e.preventDefault();
+        newIndex = 0;
+        break;
+        
+      case 'End':
+        e.preventDefault();
+        newIndex = itemCount - 1;
+        break;
+        
+      default:
+        return;
+    }
+
+    if (newIndex !== currentIndex) {
+      onIndexChange(newIndex);
+    }
+  }, [currentIndex, itemCount, columns, wrap, onIndexChange]);
+
+  return { handleKeyDown };
+}
+
+/**
+ * Hook for focus trap in modals/dialogs
+ */
+export function useFocusTrap(isActive: boolean) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const previousActiveElement = useRef<Element | null>(null);
+
+  useEffect(() => {
+    if (!isActive) return;
+
+    previousActiveElement.current = document.activeElement;
+    
+    const container = containerRef.current;
+    if (!container) return;
+
+    const focusableElements = container.querySelectorAll(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    
+    const firstElement = focusableElements[0] as HTMLElement;
+    const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
+
+    // Focus first element
+    firstElement?.focus();
+
+    const handleKeyDown = (e: globalThis.KeyboardEvent) => {
+      if (e.key !== 'Tab') return;
+
+      if (e.shiftKey) {
+        if (document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement?.focus();
+        }
+      } else {
+        if (document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement?.focus();
+        }
+      }
+    };
+
+    container.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      container.removeEventListener('keydown', handleKeyDown);
+      (previousActiveElement.current as HTMLElement)?.focus();
+    };
+  }, [isActive]);
+
+  return containerRef;
+}
+
+/**
+ * Hook for live region announcements
+ */
+export function useLiveAnnounce() {
+  const regionRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    // Create live region if not exists
+    if (!regionRef.current) {
+      const region = document.createElement('div');
+      region.setAttribute('role', 'status');
+      region.setAttribute('aria-live', 'polite');
+      region.setAttribute('aria-atomic', 'true');
+      region.className = 'sr-only';
+      document.body.appendChild(region);
+      regionRef.current = region;
+    }
+
+    return () => {
+      regionRef.current?.remove();
+      regionRef.current = null;
+    };
+  }, []);
+
+  const announce = useCallback((message: string, priority: 'polite' | 'assertive' = 'polite') => {
+    if (!regionRef.current) return;
+    
+    regionRef.current.setAttribute('aria-live', priority);
+    regionRef.current.textContent = message;
+    
+    // Clear after announcement
+    setTimeout(() => {
+      if (regionRef.current) {
+        regionRef.current.textContent = '';
+      }
+    }, 1000);
+  }, []);
+
+  return { announce };
+}
 
 /**
  * Focus management utilities
@@ -26,7 +196,7 @@ export const focusUtils = {
     const firstFocusable = focusableElements[0];
     const lastFocusable = focusableElements[focusableElements.length - 1];
 
-    const handleKeyDown = (e: KeyboardEvent) => {
+    const handleKeyDown = (e: globalThis.KeyboardEvent) => {
       if (e.key !== 'Tab') return;
 
       if (e.shiftKey) {
@@ -198,7 +368,46 @@ export const ariaUtils = {
       ...(isLoading && label && { 'aria-label': label }),
     };
   },
+
+  /**
+   * Generate ARIA props for listbox items
+   */
+  getListItemProps({
+    index,
+    isSelected,
+    isDisabled,
+    total,
+  }: {
+    index: number;
+    isSelected?: boolean;
+    isDisabled?: boolean;
+    total: number;
+  }) {
+    return {
+      role: 'option',
+      'aria-selected': isSelected,
+      'aria-disabled': isDisabled,
+      'aria-posinset': index + 1,
+      'aria-setsize': total,
+      tabIndex: isSelected ? 0 : -1,
+    };
+  },
 };
+
+/**
+ * Skip link props generator for keyboard users
+ * Use in JSX: <a {...getSkipLinkProps()} />
+ */
+export function getSkipLinkProps(
+  href = '#main-content',
+  text = 'Перейти к основному контенту'
+) {
+  return {
+    href,
+    className: 'skip-to-content',
+    children: text,
+  };
+}
 
 export default {
   TOUCH_TARGET,
@@ -207,4 +416,8 @@ export default {
   contrastUtils,
   keyboardUtils,
   ariaUtils,
+  useKeyboardNavigation,
+  useFocusTrap,
+  useLiveAnnounce,
+  getSkipLinkProps,
 };
