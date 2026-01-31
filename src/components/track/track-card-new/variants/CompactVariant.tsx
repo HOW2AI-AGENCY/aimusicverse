@@ -52,9 +52,10 @@ export const CompactVariant = memo(function CompactVariant({
       >
         <Card
           className={cn(
-            'group flex items-center gap-2.5 p-2 transition-all cursor-pointer touch-manipulation',
-            'hover:bg-muted/50 active:bg-muted rounded-xl border-0 bg-transparent',
-            isCurrentlyPlaying && 'bg-primary/5 border-primary/20',
+            'group flex items-center gap-2.5 p-2 transition-all cursor-pointer touch-manipulation duration-200',
+            'hover:bg-muted/60 active:bg-muted rounded-xl border-0 bg-card/40 backdrop-blur-sm',
+            'hover:shadow-sm hover:scale-[1.01]',
+            isCurrentlyPlaying && 'bg-primary/5 ring-1 ring-primary/20',
             className
           )}
           onClick={handleCardClick}
