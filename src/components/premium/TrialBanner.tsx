@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils';
 import { useTrialEligibility, activateTrial } from '@/hooks/useTrialEligibility';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
-import { useNavigate } from 'react-router-dom';
+import { navigateTo, getGlobalNavigate } from '@/hooks/useAppNavigate';
 import { useQueryClient } from '@tanstack/react-query';
 import { trackEvent } from '@/services/analytics';
 
@@ -27,9 +27,18 @@ export const TrialBanner = memo(function TrialBanner({
   onClose,
 }: TrialBannerProps) {
   const { user } = useAuth();
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { isEligible, trialDays, isLoading } = useTrialEligibility();
+  
+  // Use global navigate since this may render outside Router context
+  const navigate = (path: string) => {
+    const globalNav = getGlobalNavigate();
+    if (globalNav) {
+      globalNav(path);
+    } else {
+      navigateTo(path);
+    }
+  };
   const [isActivating, setIsActivating] = useState(false);
   const [isDismissed, setIsDismissed] = useState(false);
 
