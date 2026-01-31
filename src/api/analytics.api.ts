@@ -23,7 +23,12 @@ export type EventType =
   | 'session_started'
   | 'session_ended'
   | 'onboarding_step'
-  | 'error_logged';
+  | 'error_logged'
+  // Paywall events
+  | 'paywall_view'
+  | 'paywall_trial_click'
+  | 'paywall_subscribe_click'
+  | 'paywall_dismiss';
 
 export interface AnalyticsEvent {
   eventType: EventType;

@@ -5,7 +5,7 @@
  */
 
 import { useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useSearchParams } from 'react-router-dom';
 import { Crown, Calendar, AlertCircle, Loader2 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useUserRole } from '@/hooks/useUserRole';
@@ -14,6 +14,7 @@ import { useProductsByType } from '@/hooks/useStarsProducts';
 import { useSubscriptionStatus } from '@/hooks/useSubscriptionStatus';
 import { SubscriptionCard } from '@/components/payments/SubscriptionCard';
 import { PaymentSuccessModal } from '@/components/payments/PaymentSuccessModal';
+import { TrialBanner } from '@/components/premium/TrialBanner';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -34,6 +35,8 @@ function LoadingState() {
 export default function Subscription() {
   const { user } = useAuth();
   const { isAdmin, isLoading: roleLoading } = useUserRole();
+  const [searchParams] = useSearchParams();
+  const showTrialHighlight = searchParams.get('trial') === 'true';
   const [selectedProduct, setSelectedProduct] = useState<StarsProduct | null>(null);
 
   const {
@@ -86,14 +89,17 @@ export default function Subscription() {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl">
+      {/* Trial Banner - shown at top for eligible users */}
+      <TrialBanner className="mb-6" />
+
       {/* Header */}
       <div className="mb-8 text-center space-y-4">
         <div className="flex items-center justify-center gap-2">
           <Crown className="h-8 w-8 text-primary" aria-hidden="true" />
-          <h1 className="text-3xl font-bold">Subscription Plans</h1>
+          <h1 className="text-3xl font-bold">Тарифные планы</h1>
         </div>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          Unlock unlimited music generation and advanced features with a subscription plan.
+          Открой неограниченную генерацию музыки и продвинутые функции с подпиской.
         </p>
       </div>
 
