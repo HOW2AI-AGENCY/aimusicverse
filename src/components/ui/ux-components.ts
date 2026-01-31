@@ -114,6 +114,27 @@ export { NotificationBadge, StatusIndicator, LabelBadge } from './NotificationBa
 export { FloatingInput, FloatingTextarea } from './FloatingInput';
 
 // ============================================================================
+// SHEETS & OVERLAYS
+// ============================================================================
+export { BottomSheet } from './BottomSheet';
+export { ActionSheet } from './ActionSheet';
+
+// ============================================================================
+// PROGRESS & STEPS
+// ============================================================================
+export { ProgressSteps, ProgressBarSteps } from './ProgressSteps';
+
+// ============================================================================
+// COLLAPSIBLE SECTIONS
+// ============================================================================
+export { Collapsible as CollapsibleSection, Accordion, ExpandableText } from './CollapsibleSection';
+
+// ============================================================================
+// CHIPS & TAGS
+// ============================================================================
+export { ChipInput, ChipSelector } from './ChipInput';
+
+// ============================================================================
 // HOOKS RE-EXPORTS
 // ============================================================================
 export { useScrollReveal, useStaggeredReveal } from '@/hooks/useScrollReveal';
