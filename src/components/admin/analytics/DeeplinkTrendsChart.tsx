@@ -99,17 +99,17 @@ export function DeeplinkTrendsChart({
 
   return (
     <Card>
-      <CardHeader className="pb-2">
+      <CardHeader className="pb-2 sm:pb-4">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-base">Динамика переходов</CardTitle>
-          <div className={`flex items-center gap-1 text-sm ${trendColor}`}>
-            <TrendIcon className="h-4 w-4" />
+          <CardTitle className="text-sm sm:text-base">Динамика переходов</CardTitle>
+          <div className={`flex items-center gap-1 text-xs sm:text-sm ${trendColor}`}>
+            <TrendIcon className="h-3 w-3 sm:h-4 sm:w-4" />
             <span>{trend.percentage}%</span>
           </div>
         </div>
       </CardHeader>
-      <CardContent>
-        <div className="h-[300px]">
+      <CardContent className="px-2 sm:px-6">
+        <div className="h-[200px] sm:h-[300px]">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
               <defs>
@@ -125,21 +125,22 @@ export function DeeplinkTrendsChart({
               <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
               <XAxis 
                 dataKey="dateFormatted" 
-                tick={{ fontSize: 12 }}
+                tick={{ fontSize: 10 }}
                 tickLine={false}
                 axisLine={false}
               />
               <YAxis 
-                tick={{ fontSize: 12 }}
+                tick={{ fontSize: 10 }}
                 tickLine={false}
                 axisLine={false}
-                width={40}
+                width={35}
               />
               <Tooltip
                 contentStyle={{
                   backgroundColor: 'hsl(var(--popover))',
                   border: '1px solid hsl(var(--border))',
                   borderRadius: '8px',
+                  fontSize: '12px',
                 }}
                 labelStyle={{ color: 'hsl(var(--popover-foreground))' }}
                 formatter={(value: number, name: string) => {
@@ -152,6 +153,7 @@ export function DeeplinkTrendsChart({
                 }}
               />
               <Legend 
+                wrapperStyle={{ fontSize: '10px' }}
                 formatter={(value: string) => {
                   const labels: Record<string, string> = {
                     visits: 'Визиты',

@@ -132,9 +132,9 @@ export function DeeplinkAnalyticsPanel({ timeRange = '7d' }: DeeplinkAnalyticsPa
   }, [events]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Quick stats row */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 gap-2 sm:gap-4">
         <QuickStatCard
           icon={Link2}
           label="Переходы"
@@ -169,7 +169,7 @@ export function DeeplinkAnalyticsPanel({ timeRange = '7d' }: DeeplinkAnalyticsPa
       />
 
       {/* Two column layout */}
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="grid gap-4 sm:gap-6 grid-cols-1 md:grid-cols-2">
         <SourcesHeatmap data={heatmapData} isLoading={isLoading} />
         <CampaignPerformance campaigns={campaignData} isLoading={isLoading} />
       </div>
@@ -190,15 +190,15 @@ interface QuickStatCardProps {
 function QuickStatCard({ icon: Icon, label, value, iconColor }: QuickStatCardProps) {
   return (
     <Card>
-      <CardContent className="p-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm text-muted-foreground">{label}</p>
-            <p className="text-2xl font-bold mt-1">
+      <CardContent className="p-2.5 sm:p-4">
+        <div className="flex items-center justify-between gap-1">
+          <div className="min-w-0 flex-1">
+            <p className="text-[10px] sm:text-sm text-muted-foreground truncate">{label}</p>
+            <p className="text-lg sm:text-2xl font-bold mt-0.5 sm:mt-1">
               {typeof value === 'number' ? value.toLocaleString() : value}
             </p>
           </div>
-          <Icon className={`h-5 w-5 ${iconColor}`} />
+          <Icon className={`h-4 w-4 sm:h-5 sm:w-5 shrink-0 ${iconColor}`} />
         </div>
       </CardContent>
     </Card>

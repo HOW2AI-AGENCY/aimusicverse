@@ -64,50 +64,51 @@ export function TelemetryOverview({ data, isLoading }: TelemetryOverviewProps) {
     .map(([name, value]) => ({ name: formatPlatformName(name), value }));
 
   return (
-    <div className="grid gap-4 md:grid-cols-2">
+    <div className="grid gap-3 sm:gap-4 grid-cols-1 md:grid-cols-2">
       {/* Events by Type */}
       <Card className="md:col-span-2">
-        <CardHeader>
-          <CardTitle className="text-base">События по типам</CardTitle>
+        <CardHeader className="pb-2 sm:pb-4">
+          <CardTitle className="text-sm sm:text-base">События по типам</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="px-2 sm:px-6">
           {eventsByTypeData.length > 0 ? (
-            <ResponsiveContainer width="100%" height={250}>
+            <ResponsiveContainer width="100%" height={180} className="sm:h-[250px]">
               <BarChart data={eventsByTypeData} layout="vertical">
-                <XAxis type="number" />
-                <YAxis type="category" dataKey="name" width={120} fontSize={12} />
+                <XAxis type="number" fontSize={10} />
+                <YAxis type="category" dataKey="name" width={80} fontSize={9} className="sm:text-[12px]" />
                 <Tooltip 
                   formatter={(value: number) => [value.toLocaleString(), 'Событий']}
                   contentStyle={{ 
                     backgroundColor: 'hsl(var(--popover))',
                     border: '1px solid hsl(var(--border))',
-                    borderRadius: '8px'
+                    borderRadius: '8px',
+                    fontSize: '12px',
                   }}
                 />
                 <Bar dataKey="count" fill="hsl(var(--primary))" radius={[0, 4, 4, 0]} />
               </BarChart>
             </ResponsiveContainer>
           ) : (
-            <p className="text-center text-muted-foreground py-8">Нет данных</p>
+            <p className="text-center text-muted-foreground py-6 text-sm">Нет данных</p>
           )}
         </CardContent>
       </Card>
 
       {/* Platform Distribution */}
       <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Платформы</CardTitle>
+        <CardHeader className="pb-2 sm:pb-4">
+          <CardTitle className="text-sm sm:text-base">Платформы</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="px-2 sm:px-6">
           {platformData.length > 0 ? (
-            <ResponsiveContainer width="100%" height={200}>
+            <ResponsiveContainer width="100%" height={150} className="sm:h-[200px]">
               <PieChart>
                 <Pie
                   data={platformData}
                   cx="50%"
                   cy="50%"
-                  innerRadius={40}
-                  outerRadius={80}
+                  innerRadius={30}
+                  outerRadius={60}
                   paddingAngle={2}
                   dataKey="value"
                   label={({ name, percent }) => 
@@ -123,27 +124,27 @@ export function TelemetryOverview({ data, isLoading }: TelemetryOverviewProps) {
               </PieChart>
             </ResponsiveContainer>
           ) : (
-            <p className="text-center text-muted-foreground py-8">Нет данных</p>
+            <p className="text-center text-muted-foreground py-6 text-sm">Нет данных</p>
           )}
         </CardContent>
       </Card>
 
       {/* Top Events Table */}
       <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Топ событий</CardTitle>
+        <CardHeader className="pb-2 sm:pb-4">
+          <CardTitle className="text-sm sm:text-base">Топ событий</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-2">
+          <div className="space-y-1.5 sm:space-y-2">
             {data.top_events?.slice(0, 6).map((event, i) => (
-              <div key={i} className="flex items-center justify-between py-2 border-b border-border/50 last:border-0">
-                <span className="text-sm truncate max-w-[150px]">
+              <div key={i} className="flex items-center justify-between py-1.5 sm:py-2 border-b border-border/50 last:border-0">
+                <span className="text-xs sm:text-sm truncate max-w-[100px] sm:max-w-[150px]">
                   {formatEventName(event.event_name)}
                 </span>
                 <div className="text-right">
-                  <span className="text-sm font-medium">{event.count.toLocaleString()}</span>
+                  <span className="text-xs sm:text-sm font-medium">{event.count.toLocaleString()}</span>
                   {event.avg_duration_ms && (
-                    <span className="text-xs text-muted-foreground ml-2">
+                    <span className="text-[10px] sm:text-xs text-muted-foreground ml-1 sm:ml-2">
                       {event.avg_duration_ms.toFixed(0)}ms
                     </span>
                   )}
@@ -156,26 +157,26 @@ export function TelemetryOverview({ data, isLoading }: TelemetryOverviewProps) {
 
       {/* Session Stats */}
       <Card className="md:col-span-2">
-        <CardHeader>
-          <CardTitle className="text-base">Статистика сессий</CardTitle>
+        <CardHeader className="pb-2 sm:pb-4">
+          <CardTitle className="text-sm sm:text-base">Статистика сессий</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-3 gap-4 text-center">
+          <div className="grid grid-cols-3 gap-2 sm:gap-4 text-center">
             <div>
-              <p className="text-2xl font-bold">{data.unique_users.toLocaleString()}</p>
-              <p className="text-sm text-muted-foreground">Уникальных пользователей</p>
+              <p className="text-lg sm:text-2xl font-bold">{data.unique_users.toLocaleString()}</p>
+              <p className="text-[10px] sm:text-sm text-muted-foreground">Уникальных</p>
             </div>
             <div>
-              <p className="text-2xl font-bold">{data.unique_sessions.toLocaleString()}</p>
-              <p className="text-sm text-muted-foreground">Сессий</p>
+              <p className="text-lg sm:text-2xl font-bold">{data.unique_sessions.toLocaleString()}</p>
+              <p className="text-[10px] sm:text-sm text-muted-foreground">Сессий</p>
             </div>
             <div>
-              <p className="text-2xl font-bold">
+              <p className="text-lg sm:text-2xl font-bold">
                 {data.avg_session_duration_sec 
                   ? formatDuration(data.avg_session_duration_sec)
                   : '—'}
               </p>
-              <p className="text-sm text-muted-foreground">Ср. длительность</p>
+              <p className="text-[10px] sm:text-sm text-muted-foreground">Ср. длит.</p>
             </div>
           </div>
         </CardContent>

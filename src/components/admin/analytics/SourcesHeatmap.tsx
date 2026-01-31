@@ -87,18 +87,18 @@ export function SourcesHeatmap({ data, isLoading }: SourcesHeatmapProps) {
 
   return (
     <Card>
-      <CardHeader className="pb-2">
-        <CardTitle className="text-base">Активность по источникам</CardTitle>
+      <CardHeader className="pb-2 sm:pb-4">
+        <CardTitle className="text-sm sm:text-base">Активность по источникам</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="px-2 sm:px-6">
         <ScrollArea className="w-full">
-          <div className="min-w-[600px]">
+          <div className="min-w-[400px] sm:min-w-[600px]">
             {/* Hour labels */}
-            <div className="flex gap-0.5 mb-2 ml-24">
-              {HOURS.filter((_, i) => i % 3 === 0).map(hour => (
+            <div className="flex gap-0.5 mb-1.5 sm:mb-2 ml-16 sm:ml-24">
+              {HOURS.filter((_, i) => i % 4 === 0).map(hour => (
                 <div 
                   key={hour} 
-                  className="text-[10px] text-muted-foreground w-[calc((100%-0px)/8)]"
+                  className="text-[8px] sm:text-[10px] text-muted-foreground w-[calc((100%-0px)/6)]"
                 >
                   {hour.toString().padStart(2, '0')}
                 </div>
@@ -107,10 +107,10 @@ export function SourcesHeatmap({ data, isLoading }: SourcesHeatmapProps) {
 
             {/* Heatmap rows */}
             <TooltipProvider delayDuration={100}>
-              <div className="space-y-1">
+              <div className="space-y-0.5 sm:space-y-1">
                 {sortedData.map(source => (
-                  <div key={source.source} className="flex items-center gap-2">
-                    <div className="w-20 text-xs text-muted-foreground truncate text-right">
+                  <div key={source.source} className="flex items-center gap-1 sm:gap-2">
+                    <div className="w-14 sm:w-20 text-[10px] sm:text-xs text-muted-foreground truncate text-right">
                       {source.source}
                     </div>
                     <div className="flex gap-0.5 flex-1">
@@ -119,7 +119,7 @@ export function SourcesHeatmap({ data, isLoading }: SourcesHeatmapProps) {
                           <TooltipTrigger asChild>
                             <div
                               className={cn(
-                                'flex-1 h-6 rounded-sm cursor-pointer transition-opacity hover:opacity-80',
+                                'flex-1 h-4 sm:h-6 rounded-sm cursor-pointer transition-opacity hover:opacity-80',
                                 getIntensityClass(value, maxValue)
                               )}
                             />
@@ -133,7 +133,7 @@ export function SourcesHeatmap({ data, isLoading }: SourcesHeatmapProps) {
                         </Tooltip>
                       ))}
                     </div>
-                    <div className="w-12 text-xs text-right text-muted-foreground">
+                    <div className="w-8 sm:w-12 text-[10px] sm:text-xs text-right text-muted-foreground">
                       {source.total}
                     </div>
                   </div>
@@ -142,17 +142,17 @@ export function SourcesHeatmap({ data, isLoading }: SourcesHeatmapProps) {
             </TooltipProvider>
 
             {/* Legend */}
-            <div className="flex items-center justify-end gap-2 mt-4">
-              <span className="text-xs text-muted-foreground">Меньше</span>
+            <div className="flex items-center justify-end gap-1.5 sm:gap-2 mt-3 sm:mt-4">
+              <span className="text-[9px] sm:text-xs text-muted-foreground">Меньше</span>
               <div className="flex gap-0.5">
-                <div className="w-4 h-4 rounded-sm bg-muted/30" />
-                <div className="w-4 h-4 rounded-sm bg-primary/20" />
-                <div className="w-4 h-4 rounded-sm bg-primary/40" />
-                <div className="w-4 h-4 rounded-sm bg-primary/60" />
-                <div className="w-4 h-4 rounded-sm bg-primary/80" />
-                <div className="w-4 h-4 rounded-sm bg-primary" />
+                <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-sm bg-muted/30" />
+                <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-sm bg-primary/20" />
+                <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-sm bg-primary/40" />
+                <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-sm bg-primary/60" />
+                <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-sm bg-primary/80" />
+                <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-sm bg-primary" />
               </div>
-              <span className="text-xs text-muted-foreground">Больше</span>
+              <span className="text-[9px] sm:text-xs text-muted-foreground">Больше</span>
             </div>
           </div>
         </ScrollArea>
