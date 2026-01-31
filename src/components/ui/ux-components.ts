@@ -1,18 +1,28 @@
 /**
  * UX Components Index
- * Feature: UX Improvements
+ * Feature: 032-professional-ui
  * 
- * Central export for all UX enhancement components
+ * Central export for all UX enhancement components.
+ * Import from this file for consistent UX patterns across the app.
+ * 
+ * @example
+ * import { TouchFeedback, AnimatedList, EmptyState } from '@/components/ui/ux-components';
  */
 
-// Touch and interaction
+// ============================================================================
+// TOUCH & INTERACTION
+// ============================================================================
 export { TouchFeedback, PressableCard, IconTouchButton } from './TouchFeedback';
 
-// Animations
+// ============================================================================
+// ANIMATIONS
+// ============================================================================
 export { AnimatedList, AnimatedGrid } from './AnimatedList';
 export { PageTransition, AnimatedSection, FadeIn, ScaleIn } from './PageTransition';
 
-// Loading states
+// ============================================================================
+// LOADING STATES
+// ============================================================================
 export { 
   LoadingSpinner, 
   FullPageLoading, 
@@ -22,31 +32,70 @@ export {
   SectionLoading,
 } from './LoadingSpinner';
 
-// Images
+// ============================================================================
+// IMAGES
+// ============================================================================
 export { ProgressiveImage, AvatarImage } from './ProgressiveImage';
 
-// Empty states
+// ============================================================================
+// EMPTY STATES
+// ============================================================================
 export { EmptyState, InlineEmpty } from './EmptyState';
 
-// Skeletons (re-export from skeleton-components)
+// ============================================================================
+// SKELETONS - Complete skeleton library for loading states
+// ============================================================================
 export {
+  // Track components
   TrackCardSkeleton,
   TrackCardSkeletonCompact,
+  TrackRowSkeleton,
+  
+  // Player
   PlayerSkeleton,
+  
+  // Lists & Grids
   ListItemSkeleton,
   GridSkeleton,
+  
+  // Horizontal scroll
   CarouselSkeleton,
   HorizontalScrollSkeleton,
+  
+  // Sections
   SectionSkeleton,
   SectionHeaderSkeleton,
+  
+  // Forms
   FormSkeleton,
+  
+  // Stats & Widgets
   StatsWidgetSkeleton,
+  
+  // Profile
   ProfileHeaderSkeleton,
+  
+  // Specialized
   WaveformSkeleton,
   PlaylistCoverSkeleton,
   ArtistCardSkeleton,
   TextSkeleton,
 } from './skeleton-components';
 
-// Skeleton base
+// Base skeleton (for custom compositions)
 export { Skeleton } from './skeleton';
+
+// ============================================================================
+// INTERACTIVE COMPONENTS
+// ============================================================================
+export { InteractiveCard, InteractiveListItem, InteractiveButton } from './InteractiveCard';
+
+// ============================================================================
+// SHIMMER EFFECTS
+// ============================================================================
+export { Shimmer, ShimmerBlock, ShimmerText, ShimmerAvatar } from './Shimmer';
+
+// ============================================================================
+// FEEDBACK & NOTIFICATIONS
+// ============================================================================
+export { showToast, toast } from './FeedbackToast';

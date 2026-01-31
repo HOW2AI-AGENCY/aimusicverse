@@ -557,3 +557,6 @@ export function MixerPanelSkeleton({ className }: { className?: string }) {
     </div>
   );
 }
+
+// Re-export Skeleton for convenience
+export { Skeleton } from './skeleton';
