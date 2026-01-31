@@ -79,9 +79,9 @@ export function ExperimentsPanel() {
   }), [experiments]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Header Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 gap-2 sm:gap-4">
         <StatCard
           icon={FlaskConical}
           label="Всего экспериментов"
@@ -110,30 +110,30 @@ export function ExperimentsPanel() {
 
       {/* Experiments List */}
       <Card>
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <div>
-              <CardTitle className="flex items-center gap-2">
-                <FlaskConical className="h-5 w-5" />
-                A/B Эксперименты
+        <CardHeader className="pb-2 sm:pb-4">
+          <div className="flex items-center justify-between gap-2">
+            <div className="min-w-0 flex-1">
+              <CardTitle className="flex items-center gap-2 text-sm sm:text-base">
+                <FlaskConical className="h-4 w-4 sm:h-5 sm:w-5 shrink-0" />
+                <span className="truncate">A/B Эксперименты</span>
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-xs sm:text-sm hidden xs:block">
                 Управление и мониторинг экспериментов
               </CardDescription>
             </div>
-            <Button variant="outline" size="sm" className="gap-2">
-              <RefreshCw className="h-4 w-4" />
-              Обновить
+            <Button variant="outline" size="sm" className="gap-1 sm:gap-2 shrink-0 text-xs sm:text-sm">
+              <RefreshCw className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden xs:inline">Обновить</span>
             </Button>
           </div>
         </CardHeader>
         <CardContent>
-          <Tabs defaultValue="all" className="space-y-4">
-            <TabsList>
-              <TabsTrigger value="all">Все</TabsTrigger>
-              <TabsTrigger value="running">Активные</TabsTrigger>
-              <TabsTrigger value="draft">Черновики</TabsTrigger>
-              <TabsTrigger value="completed">Завершённые</TabsTrigger>
+          <Tabs defaultValue="all" className="space-y-3 sm:space-y-4">
+            <TabsList className="w-full justify-start overflow-x-auto flex-nowrap">
+              <TabsTrigger value="all" className="text-xs sm:text-sm">Все</TabsTrigger>
+              <TabsTrigger value="running" className="text-xs sm:text-sm">Активные</TabsTrigger>
+              <TabsTrigger value="draft" className="text-xs sm:text-sm">Черновики</TabsTrigger>
+              <TabsTrigger value="completed" className="text-xs sm:text-sm">Завершённые</TabsTrigger>
             </TabsList>
 
             {['all', 'running', 'draft', 'completed'].map(tab => (
@@ -355,13 +355,13 @@ interface StatCardProps {
 function StatCard({ icon: Icon, label, value, iconColor }: StatCardProps) {
   return (
     <Card>
-      <CardContent className="p-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm text-muted-foreground">{label}</p>
-            <p className="text-2xl font-bold mt-1">{value}</p>
+      <CardContent className="p-2.5 sm:p-4">
+        <div className="flex items-center justify-between gap-1">
+          <div className="min-w-0 flex-1">
+            <p className="text-[10px] sm:text-sm text-muted-foreground truncate">{label}</p>
+            <p className="text-lg sm:text-2xl font-bold mt-0.5 sm:mt-1">{value}</p>
           </div>
-          <Icon className={`h-5 w-5 ${iconColor}`} />
+          <Icon className={`h-4 w-4 sm:h-5 sm:w-5 shrink-0 ${iconColor}`} />
         </div>
       </CardContent>
     </Card>

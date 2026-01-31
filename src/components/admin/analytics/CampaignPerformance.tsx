@@ -100,75 +100,76 @@ export function CampaignPerformance({ campaigns, isLoading }: CampaignPerformanc
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3 sm:space-y-4">
       {/* Summary Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 gap-2 sm:gap-3">
         <Card>
-          <CardContent className="p-3">
-            <div className="flex items-center gap-2">
-              <Target className="h-4 w-4 text-muted-foreground" />
-              <span className="text-sm text-muted-foreground">Кампаний</span>
+          <CardContent className="p-2 sm:p-3">
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <Target className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground shrink-0" />
+              <span className="text-[10px] sm:text-sm text-muted-foreground truncate">Кампаний</span>
             </div>
-            <div className="text-2xl font-bold mt-1">{summary.totalCampaigns}</div>
+            <div className="text-lg sm:text-2xl font-bold mt-0.5 sm:mt-1">{summary.totalCampaigns}</div>
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-3">
-            <div className="flex items-center gap-2">
-              <MousePointerClick className="h-4 w-4 text-muted-foreground" />
-              <span className="text-sm text-muted-foreground">Визитов</span>
+          <CardContent className="p-2 sm:p-3">
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <MousePointerClick className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground shrink-0" />
+              <span className="text-[10px] sm:text-sm text-muted-foreground truncate">Визитов</span>
             </div>
-            <div className="text-2xl font-bold mt-1">{summary.totalVisits}</div>
+            <div className="text-lg sm:text-2xl font-bold mt-0.5 sm:mt-1">{summary.totalVisits}</div>
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-3">
-            <div className="flex items-center gap-2">
-              <Users className="h-4 w-4 text-muted-foreground" />
-              <span className="text-sm text-muted-foreground">Конверсий</span>
+          <CardContent className="p-2 sm:p-3">
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <Users className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground shrink-0" />
+              <span className="text-[10px] sm:text-sm text-muted-foreground truncate">Конверсий</span>
             </div>
-            <div className="text-2xl font-bold mt-1">{summary.totalConversions}</div>
+            <div className="text-lg sm:text-2xl font-bold mt-0.5 sm:mt-1">{summary.totalConversions}</div>
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-3">
-            <div className="flex items-center gap-2">
-              <TrendingUp className="h-4 w-4 text-muted-foreground" />
-              <span className="text-sm text-muted-foreground">Ср. конверсия</span>
+          <CardContent className="p-2 sm:p-3">
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground shrink-0" />
+              <span className="text-[10px] sm:text-sm text-muted-foreground truncate">Ср. конв.</span>
             </div>
-            <div className="text-2xl font-bold mt-1">{summary.avgConversionRate}%</div>
+            <div className="text-lg sm:text-2xl font-bold mt-0.5 sm:mt-1">{summary.avgConversionRate}%</div>
           </CardContent>
         </Card>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-4">
+      <div className="grid gap-3 sm:gap-4 grid-cols-1 md:grid-cols-2">
         {/* Chart */}
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-base">Топ кампаний</CardTitle>
+            <CardTitle className="text-sm sm:text-base">Топ кампаний</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-2 sm:px-6">
             {chartData.length === 0 ? (
-              <div className="h-[200px] flex items-center justify-center text-muted-foreground">
+              <div className="h-[150px] sm:h-[200px] flex items-center justify-center text-muted-foreground text-sm">
                 Нет данных
               </div>
             ) : (
-              <div className="h-[200px]">
+              <div className="h-[150px] sm:h-[200px]">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={chartData} layout="vertical" margin={{ left: 0, right: 20 }}>
+                  <BarChart data={chartData} layout="vertical" margin={{ left: 0, right: 10 }}>
                     <CartesianGrid strokeDasharray="3 3" className="stroke-muted" horizontal={false} />
-                    <XAxis type="number" tick={{ fontSize: 12 }} />
+                    <XAxis type="number" tick={{ fontSize: 10 }} />
                     <YAxis 
                       type="category" 
                       dataKey="name" 
-                      tick={{ fontSize: 11 }} 
-                      width={80}
+                      tick={{ fontSize: 9 }} 
+                      width={60}
                     />
                     <Tooltip
                       contentStyle={{
                         backgroundColor: 'hsl(var(--popover))',
                         border: '1px solid hsl(var(--border))',
                         borderRadius: '8px',
+                        fontSize: '12px',
                       }}
                       formatter={(value: number, name: string) => {
                         const labels: Record<string, string> = {
@@ -193,35 +194,35 @@ export function CampaignPerformance({ campaigns, isLoading }: CampaignPerformanc
         {/* Campaign List */}
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-base">Детали кампаний</CardTitle>
+            <CardTitle className="text-sm sm:text-base">Детали кампаний</CardTitle>
           </CardHeader>
           <CardContent>
-            <ScrollArea className="h-[200px]">
+            <ScrollArea className="h-[150px] sm:h-[200px]">
               {sortedCampaigns.length === 0 ? (
-                <div className="flex items-center justify-center h-full text-muted-foreground">
+                <div className="flex items-center justify-center h-full text-muted-foreground text-sm">
                   Нет данных
                 </div>
               ) : (
-                <div className="space-y-3">
+                <div className="space-y-2 sm:space-y-3">
                   {sortedCampaigns.map((campaign, index) => (
-                    <div key={index} className="space-y-1.5">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm font-medium truncate max-w-[120px]">
+                    <div key={index} className="space-y-1">
+                      <div className="flex items-center justify-between gap-1">
+                        <div className="flex items-center gap-1 sm:gap-2 min-w-0 flex-1">
+                          <span className="text-xs sm:text-sm font-medium truncate max-w-[80px] sm:max-w-[120px]">
                             {campaign.name}
                           </span>
-                          <Badge variant="outline" className="text-[10px]">
+                          <Badge variant="outline" className="text-[8px] sm:text-[10px] shrink-0">
                             {campaign.source}
                           </Badge>
                         </div>
-                        <div className="flex items-center gap-1 text-sm">
+                        <div className="flex items-center gap-0.5 sm:gap-1 text-xs sm:text-sm shrink-0">
                           <span className="font-medium">{campaign.conversionRate.toFixed(1)}%</span>
                           {campaign.trend !== 0 && (
                             <span className={cn(
-                              'flex items-center text-xs',
+                              'flex items-center text-[10px] sm:text-xs',
                               campaign.trend > 0 ? 'text-green-500' : 'text-red-500'
                             )}>
-                              {campaign.trend > 0 ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
+                              {campaign.trend > 0 ? <ChevronUp className="h-2.5 w-2.5 sm:h-3 sm:w-3" /> : <ChevronDown className="h-2.5 w-2.5 sm:h-3 sm:w-3" />}
                               {Math.abs(campaign.trend)}%
                             </span>
                           )}
@@ -229,11 +230,11 @@ export function CampaignPerformance({ campaigns, isLoading }: CampaignPerformanc
                       </div>
                       <Progress 
                         value={campaign.conversionRate} 
-                        className="h-1.5"
+                        className="h-1 sm:h-1.5"
                       />
-                      <div className="flex justify-between text-xs text-muted-foreground">
+                      <div className="flex justify-between text-[10px] sm:text-xs text-muted-foreground">
                         <span>{campaign.visits} визитов</span>
-                        <span>{campaign.conversions} конверсий</span>
+                        <span>{campaign.conversions} конв.</span>
                       </div>
                     </div>
                   ))}

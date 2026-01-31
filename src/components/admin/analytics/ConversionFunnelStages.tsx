@@ -109,31 +109,31 @@ export function ConversionFunnelStages({ data, isLoading }: ConversionFunnelStag
 
   return (
     <Card>
-      <CardHeader className="pb-2">
-        <div className="flex items-center justify-between">
+      <CardHeader className="pb-2 sm:pb-4">
+        <div className="flex flex-col xs:flex-row xs:items-center justify-between gap-2">
           <div>
-            <CardTitle className="text-base">Воронка конверсии диплинков</CardTitle>
-            <CardDescription>От визита до оплаты</CardDescription>
+            <CardTitle className="text-sm sm:text-base">Воронка конверсии диплинков</CardTitle>
+            <CardDescription className="text-xs sm:text-sm">От визита до оплаты</CardDescription>
           </div>
-          <Badge variant="outline" className="text-sm">
-            Общая конверсия: {overallConversion}%
+          <Badge variant="outline" className="text-[10px] sm:text-sm w-fit">
+            Общая конв.: {overallConversion}%
           </Badge>
         </div>
       </CardHeader>
-      <CardContent>
-        <div className="space-y-3">
+      <CardContent className="px-2 sm:px-6">
+        <div className="space-y-2 sm:space-y-3">
           {stages.map((stage, index) => {
             const Icon = stage.icon;
             const widthPercent = Math.max(10, (stage.count / maxCount) * 100);
             const conversionRate = index > 0 ? conversionRates[index - 1]?.rate : null;
 
             return (
-              <div key={stage.stage} className="space-y-1">
+              <div key={stage.stage} className="space-y-0.5 sm:space-y-1">
                 {/* Conversion rate indicator */}
                 {conversionRate !== null && (
                   <div className="flex justify-center">
                     <div className={cn(
-                      'text-xs px-2 py-0.5 rounded-full',
+                      'text-[9px] sm:text-xs px-1.5 sm:px-2 py-0.5 rounded-full',
                       conversionRate >= 50 ? 'bg-green-500/10 text-green-500' :
                       conversionRate >= 25 ? 'bg-amber-500/10 text-amber-500' :
                       'bg-red-500/10 text-red-500'
@@ -149,16 +149,16 @@ export function ConversionFunnelStages({ data, isLoading }: ConversionFunnelStag
                   animate={{ width: `${widthPercent}%` }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   className={cn(
-                    'flex items-center justify-between p-3 rounded-lg mx-auto',
+                    'flex items-center justify-between p-2 sm:p-3 rounded-lg mx-auto',
                     stage.color
                   )}
-                  style={{ minWidth: '200px' }}
+                  style={{ minWidth: '140px' }}
                 >
-                  <div className="flex items-center gap-2 text-white">
-                    <Icon className="h-4 w-4" />
-                    <span className="text-sm font-medium">{stage.label}</span>
+                  <div className="flex items-center gap-1.5 sm:gap-2 text-white">
+                    <Icon className="h-3 w-3 sm:h-4 sm:w-4" />
+                    <span className="text-[10px] sm:text-sm font-medium">{stage.label}</span>
                   </div>
-                  <span className="text-white font-bold">{stage.count.toLocaleString()}</span>
+                  <span className="text-white font-bold text-xs sm:text-base">{stage.count.toLocaleString()}</span>
                 </motion.div>
               </div>
             );
@@ -166,24 +166,24 @@ export function ConversionFunnelStages({ data, isLoading }: ConversionFunnelStag
         </div>
 
         {/* Key metrics */}
-        <div className="grid grid-cols-3 gap-3 mt-6 pt-4 border-t">
+        <div className="grid grid-cols-3 gap-2 sm:gap-3 mt-4 sm:mt-6 pt-3 sm:pt-4 border-t">
           <div className="text-center">
-            <div className="text-2xl font-bold text-primary">
+            <div className="text-lg sm:text-2xl font-bold text-primary">
               {conversionRates[1]?.rate || 0}%
             </div>
-            <div className="text-xs text-muted-foreground">Engaged → Registered</div>
+            <div className="text-[9px] sm:text-xs text-muted-foreground">Engaged → Reg</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-primary">
+            <div className="text-lg sm:text-2xl font-bold text-primary">
               {conversionRates[4]?.rate || 0}%
             </div>
-            <div className="text-xs text-muted-foreground">Generation → Completed</div>
+            <div className="text-[9px] sm:text-xs text-muted-foreground">Gen → Complete</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-primary">
+            <div className="text-lg sm:text-2xl font-bold text-primary">
               {conversionRates[5]?.rate || 0}%
             </div>
-            <div className="text-xs text-muted-foreground">Completed → Payment</div>
+            <div className="text-[9px] sm:text-xs text-muted-foreground">Complete → Pay</div>
           </div>
         </div>
       </CardContent>

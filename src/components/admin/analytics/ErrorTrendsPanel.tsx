@@ -74,23 +74,24 @@ export function ErrorTrendsPanel({ data, isLoading }: ErrorTrendsPanelProps) {
     .slice(0, 6);
 
   return (
-    <div className="grid gap-4 md:grid-cols-2">
+    <div className="grid gap-3 sm:gap-4 grid-cols-1 md:grid-cols-2">
       {/* Errors Over Time */}
       <Card className="md:col-span-2">
-        <CardHeader>
-          <CardTitle className="text-base">Ошибки по дням</CardTitle>
+        <CardHeader className="pb-2 sm:pb-4">
+          <CardTitle className="text-sm sm:text-base">Ошибки по дням</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="px-2 sm:px-6">
           {errorsByDayData.length > 0 ? (
-            <ResponsiveContainer width="100%" height={200}>
+            <ResponsiveContainer width="100%" height={150} className="sm:h-[200px]">
               <LineChart data={errorsByDayData}>
-                <XAxis dataKey="day" fontSize={12} />
-                <YAxis fontSize={12} />
+                <XAxis dataKey="day" fontSize={10} tickLine={false} />
+                <YAxis fontSize={10} tickLine={false} width={30} />
                 <Tooltip
                   contentStyle={{
                     backgroundColor: 'hsl(var(--popover))',
                     border: '1px solid hsl(var(--border))',
-                    borderRadius: '8px'
+                    borderRadius: '8px',
+                    fontSize: '12px',
                   }}
                 />
                 <Line 
@@ -112,52 +113,53 @@ export function ErrorTrendsPanel({ data, isLoading }: ErrorTrendsPanelProps) {
               </LineChart>
             </ResponsiveContainer>
           ) : (
-            <p className="text-center text-muted-foreground py-8">Нет данных</p>
+            <p className="text-center text-muted-foreground py-6 text-sm">Нет данных</p>
           )}
         </CardContent>
       </Card>
 
       {/* Errors by Type */}
       <Card>
-        <CardHeader>
-          <CardTitle className="text-base">По типам</CardTitle>
+        <CardHeader className="pb-2 sm:pb-4">
+          <CardTitle className="text-sm sm:text-base">По типам</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="px-2 sm:px-6">
           {errorsByTypeData.length > 0 ? (
-            <ResponsiveContainer width="100%" height={180}>
+            <ResponsiveContainer width="100%" height={140} className="sm:h-[180px]">
               <BarChart data={errorsByTypeData} layout="vertical">
-                <XAxis type="number" fontSize={12} />
-                <YAxis type="category" dataKey="name" width={100} fontSize={11} />
+                <XAxis type="number" fontSize={10} />
+                <YAxis type="category" dataKey="name" width={70} fontSize={9} className="sm:text-[11px]" />
                 <Tooltip
                   contentStyle={{
                     backgroundColor: 'hsl(var(--popover))',
                     border: '1px solid hsl(var(--border))',
-                    borderRadius: '8px'
+                    borderRadius: '8px',
+                    fontSize: '12px',
                   }}
                 />
                 <Bar dataKey="count" fill="#ef4444" radius={[0, 4, 4, 0]} />
               </BarChart>
             </ResponsiveContainer>
           ) : (
-            <p className="text-center text-muted-foreground py-8">Нет ошибок</p>
+            <p className="text-center text-muted-foreground py-6 text-sm">Нет ошибок</p>
           )}
         </CardContent>
       </Card>
 
       {/* Errors by Severity */}
       <Card>
-        <CardHeader>
-          <CardTitle className="text-base">По серьёзности</CardTitle>
+        <CardHeader className="pb-2 sm:pb-4">
+          <CardTitle className="text-sm sm:text-base">По серьёзности</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-3">
+          <div className="space-y-2 sm:space-y-3">
             {Object.entries(data.errors_by_severity || {}).map(([severity, count]) => (
               <div key={severity} className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5 sm:gap-2">
                   <SeverityIcon severity={severity} />
-                  <span className="text-sm capitalize">{formatSeverity(severity)}</span>
+                  <span className="text-xs sm:text-sm capitalize">{formatSeverity(severity)}</span>
                 </div>
-                <Badge variant={getSeverityVariant(severity)}>
+                <Badge variant={getSeverityVariant(severity)} className="text-xs">
                   {count}
                 </Badge>
               </div>
@@ -168,31 +170,31 @@ export function ErrorTrendsPanel({ data, isLoading }: ErrorTrendsPanelProps) {
 
       {/* Top Error Fingerprints */}
       <Card className="md:col-span-2">
-        <CardHeader>
-          <CardTitle className="text-base">Частые ошибки</CardTitle>
+        <CardHeader className="pb-2 sm:pb-4">
+          <CardTitle className="text-sm sm:text-base">Частые ошибки</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-3">
+          <div className="space-y-2 sm:space-y-3">
             {data.top_error_fingerprints?.slice(0, 5).map((error, i) => (
               <div 
                 key={i} 
-                className="p-3 rounded-lg bg-muted/50 border border-border/50"
+                className="p-2 sm:p-3 rounded-lg bg-muted/50 border border-border/50"
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium truncate">{error.error_type}</p>
-                    <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
+                    <p className="text-xs sm:text-sm font-medium truncate">{error.error_type}</p>
+                    <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 sm:mt-1 line-clamp-2">
                       {error.error_message}
                     </p>
                   </div>
                   <div className="text-right shrink-0">
-                    <Badge variant="destructive">{error.occurrences}×</Badge>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      {error.affected_users} пользователей
+                    <Badge variant="destructive" className="text-[10px] sm:text-xs">{error.occurrences}×</Badge>
+                    <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 sm:mt-1">
+                      {error.affected_users} польз.
                     </p>
                   </div>
                 </div>
-                <p className="text-xs text-muted-foreground mt-2">
+                <p className="text-[10px] sm:text-xs text-muted-foreground mt-1.5 sm:mt-2">
                   Последняя: {new Date(error.last_seen).toLocaleString('ru-RU')}
                 </p>
               </div>

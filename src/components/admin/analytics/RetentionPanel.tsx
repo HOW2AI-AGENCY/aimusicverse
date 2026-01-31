@@ -99,9 +99,9 @@ export function RetentionPanel({ timePeriod, isLoading }: RetentionPanelProps) {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Summary Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 gap-2 sm:gap-4">
         <StatCard
           icon={Users}
           label="Новых пользователей"
@@ -132,17 +132,17 @@ export function RetentionPanel({ timePeriod, isLoading }: RetentionPanelProps) {
 
       {/* Retention Trend Chart */}
       <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <TrendingUp className="h-5 w-5" />
+        <CardHeader className="pb-2 sm:pb-4">
+          <CardTitle className="flex items-center gap-2 text-sm sm:text-base">
+            <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5" />
             Динамика удержания
           </CardTitle>
-          <CardDescription>
+          <CardDescription className="text-xs sm:text-sm">
             Процент пользователей, вернувшихся через N дней
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <div className="h-[300px]">
+        <CardContent className="px-2 sm:px-6">
+          <div className="h-[200px] sm:h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={MOCK_RETENTION_TREND}>
                 <defs>
@@ -158,21 +158,23 @@ export function RetentionPanel({ timePeriod, isLoading }: RetentionPanelProps) {
                 <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
                 <XAxis 
                   dataKey="day" 
-                  tick={{ fontSize: 12 }}
+                  tick={{ fontSize: 10 }}
                   tickLine={false}
                   axisLine={false}
                 />
                 <YAxis 
-                  tick={{ fontSize: 12 }}
+                  tick={{ fontSize: 10 }}
                   tickLine={false}
                   axisLine={false}
                   tickFormatter={(v) => `${v}%`}
+                  width={35}
                 />
                 <Tooltip
                   contentStyle={{
                     backgroundColor: 'hsl(var(--popover))',
                     border: '1px solid hsl(var(--border))',
                     borderRadius: '8px',
+                    fontSize: '12px',
                   }}
                   formatter={(value: number, name: string) => {
                     const labels: Record<string, string> = {
@@ -208,45 +210,45 @@ export function RetentionPanel({ timePeriod, isLoading }: RetentionPanelProps) {
 
       {/* Cohort Table */}
       <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Calendar className="h-5 w-5" />
+        <CardHeader className="pb-2 sm:pb-4">
+          <CardTitle className="flex items-center gap-2 text-sm sm:text-base">
+            <Calendar className="h-4 w-4 sm:h-5 sm:w-5" />
             Когортный анализ
           </CardTitle>
-          <CardDescription>
+          <CardDescription className="text-xs sm:text-sm">
             Удержание по неделям регистрации
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+        <CardContent className="px-2 sm:px-6">
+          <div className="overflow-x-auto -mx-2 sm:mx-0 touch-pan-x">
+            <table className="w-full text-xs sm:text-sm min-w-[400px]">
               <thead>
                 <tr className="border-b">
-                  <th className="text-left py-3 px-2 font-medium">Когорта</th>
-                  <th className="text-right py-3 px-2 font-medium">Юзеров</th>
-                  <th className="text-right py-3 px-2 font-medium">D1</th>
-                  <th className="text-right py-3 px-2 font-medium">D7</th>
-                  <th className="text-right py-3 px-2 font-medium">D14</th>
-                  <th className="text-right py-3 px-2 font-medium">D30</th>
+                  <th className="text-left py-2 sm:py-3 px-1.5 sm:px-2 font-medium">Когорта</th>
+                  <th className="text-right py-2 sm:py-3 px-1.5 sm:px-2 font-medium">Юзеров</th>
+                  <th className="text-right py-2 sm:py-3 px-1.5 sm:px-2 font-medium">D1</th>
+                  <th className="text-right py-2 sm:py-3 px-1.5 sm:px-2 font-medium">D7</th>
+                  <th className="text-right py-2 sm:py-3 px-1.5 sm:px-2 font-medium hidden xs:table-cell">D14</th>
+                  <th className="text-right py-2 sm:py-3 px-1.5 sm:px-2 font-medium hidden sm:table-cell">D30</th>
                 </tr>
               </thead>
               <tbody>
                 {MOCK_COHORTS.map((cohort) => (
                   <tr key={cohort.cohort} className="border-b last:border-0">
-                    <td className="py-3 px-2 font-medium">{cohort.cohort}</td>
-                    <td className="py-3 px-2 text-right text-muted-foreground">
+                    <td className="py-2 sm:py-3 px-1.5 sm:px-2 font-medium text-xs sm:text-sm">{cohort.cohort}</td>
+                    <td className="py-2 sm:py-3 px-1.5 sm:px-2 text-right text-muted-foreground">
                       {cohort.users.toLocaleString()}
                     </td>
-                    <td className="py-3 px-2 text-right">
+                    <td className="py-2 sm:py-3 px-1.5 sm:px-2 text-right">
                       <RetentionCell value={cohort.d1} />
                     </td>
-                    <td className="py-3 px-2 text-right">
+                    <td className="py-2 sm:py-3 px-1.5 sm:px-2 text-right">
                       <RetentionCell value={cohort.d7} />
                     </td>
-                    <td className="py-3 px-2 text-right">
+                    <td className="py-2 sm:py-3 px-1.5 sm:px-2 text-right hidden xs:table-cell">
                       <RetentionCell value={cohort.d14} />
                     </td>
-                    <td className="py-3 px-2 text-right">
+                    <td className="py-2 sm:py-3 px-1.5 sm:px-2 text-right hidden sm:table-cell">
                       <RetentionCell value={cohort.d30} />
                     </td>
                   </tr>
@@ -290,16 +292,16 @@ interface StatCardProps {
 function StatCard({ icon: Icon, label, value, subtext, iconColor }: StatCardProps) {
   return (
     <Card>
-      <CardContent className="p-4">
-        <div className="flex items-start justify-between">
-          <div>
-            <p className="text-sm text-muted-foreground">{label}</p>
-            <p className="text-2xl font-bold mt-1">{value}</p>
+      <CardContent className="p-2.5 sm:p-4">
+        <div className="flex items-start justify-between gap-1">
+          <div className="min-w-0 flex-1">
+            <p className="text-[10px] sm:text-sm text-muted-foreground truncate">{label}</p>
+            <p className="text-lg sm:text-2xl font-bold mt-0.5 sm:mt-1">{value}</p>
             {subtext && (
-              <p className="text-xs text-muted-foreground mt-1">{subtext}</p>
+              <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 sm:mt-1 truncate">{subtext}</p>
             )}
           </div>
-          <Icon className={`h-5 w-5 ${iconColor}`} />
+          <Icon className={`h-4 w-4 sm:h-5 sm:w-5 shrink-0 ${iconColor}`} />
         </div>
       </CardContent>
     </Card>
