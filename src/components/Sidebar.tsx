@@ -22,6 +22,7 @@ import {
   PanelLeft,
   Shield,
   Layers,
+  CreditCard,
 } from 'lucide-react';
 import { useUserRole } from '@/hooks/useUserRole';
 import { cn } from '@/lib/utils';
@@ -66,6 +67,7 @@ const studioNavItems = [
 const accountNavItems = [
   { path: '/profile', label: 'Профиль', icon: User },
   { path: '/rewards', label: 'Награды', icon: Gift },
+  { path: '/pricing', label: 'Магазин', icon: CreditCard, description: 'Кредиты и подписки' },
   { path: '/analytics', label: 'Аналитика', icon: BarChart2 },
   { path: '/settings', label: 'Настройки', icon: Settings },
 ];

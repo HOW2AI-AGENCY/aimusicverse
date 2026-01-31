@@ -2,6 +2,9 @@
  * HomeHeader - Unified header component for home page
  * Combines logo, welcome greeting, notifications, menu and avatar in a clean layout
  * Supports Telegram fullscreen safe area
+ * 
+ * On desktop: Shows simplified greeting (no menu/avatar - handled by Sidebar)
+ * On mobile: Full header with menu, avatar, notifications
  */
 
 import { useState, lazy, Suspense } from 'react';
@@ -13,6 +16,7 @@ import { useTelegram } from '@/contexts/TelegramContext';
 import { AppLogo } from '@/components/branding/AppLogo';
 import { TELEGRAM_SAFE_AREA } from '@/constants/safe-area';
 import { AdminQuickAccess } from './AdminQuickAccess';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 // Use the same menu as bottom navigation "More" button
 const MoreMenuSheet = lazy(() => import('@/components/navigation/MoreMenuSheet').then(m => ({ default: m.MoreMenuSheet })));
@@ -59,11 +63,64 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
   const [menuOpen, setMenuOpen] = useState(false);
   const unreadCount = useUnreadCount();
   const { hapticFeedback } = useTelegram();
+  const isMobile = useIsMobile();
 
   const handleMenuClick = () => {
     hapticFeedback('light');
     setMenuOpen(true);
   };
+
+  // Desktop: simplified header without duplicating Sidebar functionality
+  if (!isMobile) {
+    return (
+      <motion.header 
+        className={cn(
+          "mb-6",
+          className
+        )}
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+      >
+        {/* Greeting row only */}
+        <div className="flex items-center gap-3">
+          <motion.div 
+            className={cn(
+              "flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center",
+              "bg-gradient-to-br shadow-sm",
+              gradient
+            )}
+            animate={{ rotate: [0, 5, -5, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <span className="text-white">{icon}</span>
+          </motion.div>
+          
+          <div className="flex-1 min-w-0">
+            <h2 className="text-xl font-semibold">
+              {text}
+              {userName && (
+                <span className="text-primary">, {userName}</span>
+              )}
+              <motion.span 
+                className="inline-block ml-2"
+                animate={{ rotate: [0, 15, -15, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 3 }}
+              >
+                👋
+              </motion.span>
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              Добро пожаловать в MusicVerse AI
+            </p>
+          </div>
+          
+          {/* Admin Quick Access - only for admins */}
+          <AdminQuickAccess />
+        </div>
+      </motion.header>
+    );
+  }
 
   return (
     <motion.header 
