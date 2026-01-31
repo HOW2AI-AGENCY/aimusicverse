@@ -1,12 +1,15 @@
 /**
  * ValidationMessage - Inline validation message component
  * Provides WCAG AA compliant error/warning messages with proper contrast
+ * 
+ * Phase 3.2: Enhanced error messages with actionable suggestions
  */
 
-import { memo } from 'react';
-import { AlertCircle, AlertTriangle, Info } from 'lucide-react';
+import { memo, useState } from 'react';
+import { AlertCircle, AlertTriangle, Info, ChevronDown, ChevronUp, Lightbulb } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { checkForBlockedArtists } from '@/lib/errorHandling';
+import { Button } from '@/components/ui/button';
 
 export type ValidationLevel = 'error' | 'warning' | 'info';
 
@@ -15,6 +18,10 @@ interface ValidationMessageProps {
   level?: ValidationLevel;
   fieldId?: string;
   className?: string;
+  /** Optional suggestion text */
+  suggestion?: string;
+  /** Optional examples to show */
+  examples?: string[];
 }
 
 const levelConfig: Record<ValidationLevel, {
@@ -48,9 +55,13 @@ export const ValidationMessage = memo(function ValidationMessage({
   level = 'error',
   fieldId,
   className,
+  suggestion,
+  examples,
 }: ValidationMessageProps) {
   const config = levelConfig[level];
   const Icon = config.icon;
+  const [showExamples, setShowExamples] = useState(false);
+  const hasExtras = suggestion || (examples && examples.length > 0);
 
   return (
     <div
@@ -58,15 +69,61 @@ export const ValidationMessage = memo(function ValidationMessage({
       role="alert"
       aria-live="polite"
       className={cn(
-        'flex items-start gap-2 p-2.5 rounded-lg border text-xs',
-        config.color,
+        'rounded-lg border text-xs overflow-hidden',
         config.bgColor,
         config.borderColor,
         className
       )}
     >
-      <Icon className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" aria-hidden="true" />
-      <span className="flex-1 leading-tight">{message}</span>
+      <div className={cn('flex items-start gap-2 p-2.5', config.color)}>
+        <Icon className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" aria-hidden="true" />
+        <div className="flex-1 min-w-0">
+          <span className="leading-tight block">{message}</span>
+          
+          {/* Inline suggestion */}
+          {suggestion && (
+            <div className="flex items-start gap-1.5 mt-1.5 text-muted-foreground">
+              <Lightbulb className="w-3 h-3 flex-shrink-0 mt-0.5 text-amber-500" />
+              <span className="text-[11px] leading-tight">{suggestion}</span>
+            </div>
+          )}
+        </div>
+        
+        {/* Expand button for examples */}
+        {examples && examples.length > 0 && (
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            onClick={() => setShowExamples(!showExamples)}
+            className="h-5 px-1.5 text-[10px] gap-0.5"
+          >
+            Примеры
+            {showExamples ? (
+              <ChevronUp className="w-3 h-3" />
+            ) : (
+              <ChevronDown className="w-3 h-3" />
+            )}
+          </Button>
+        )}
+      </div>
+      
+      {/* Expandable examples section */}
+      {showExamples && examples && examples.length > 0 && (
+        <div className="px-2.5 pb-2.5 pt-0 border-t border-border/20">
+          <p className="text-[10px] text-muted-foreground mb-1.5">Попробуйте вместо этого:</p>
+          <div className="flex flex-wrap gap-1">
+            {examples.map((example, idx) => (
+              <span
+                key={idx}
+                className="inline-block px-2 py-0.5 bg-background/80 rounded text-[10px] text-foreground/80"
+              >
+                {example}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 });
@@ -76,21 +133,72 @@ export const ValidationMessage = memo(function ValidationMessage({
  */
 /**
  * Check for blocked artist names in text
- * Returns validation result if artist found
+ * Returns validation result if artist found with helpful suggestions
  */
-export function checkArtistValidation(text: string): { message: string; level: ValidationLevel; suggestion?: string } | null {
+export function checkArtistValidation(text: string): { 
+  message: string; 
+  level: ValidationLevel; 
+  suggestion?: string;
+  examples?: string[];
+} | null {
   if (!text) return null;
   
   const blockedArtist = checkForBlockedArtists(text);
   if (blockedArtist) {
+    // Get style suggestions based on common artists
+    const styleSuggestions = getStyleSuggestionsForArtist(blockedArtist);
+    
     return {
       message: `Нельзя использовать имя "${blockedArtist}". Опишите стиль без упоминания артистов.`,
       level: 'error',
-      suggestion: 'Например: "мелодичный рэп" вместо имени артиста',
+      suggestion: 'Опишите жанр, настроение и инструменты вместо имени артиста',
+      examples: styleSuggestions,
     };
   }
   
   return null;
+}
+
+/**
+ * Get style suggestions based on blocked artist
+ * Maps common artists to style descriptions
+ */
+function getStyleSuggestionsForArtist(artist: string): string[] {
+  const lower = artist.toLowerCase();
+  
+  // Mapping of artists to style suggestions
+  const artistStyles: Record<string, string[]> = {
+    // Russian hip-hop / rap
+    'morgenshtern': ['энергичный русский рэп', 'трэп с басами', 'party rap'],
+    'oxxxymiron': ['интеллектуальный рэп', 'лирический хип-хоп', 'storytelling rap'],
+    'face': ['агрессивный русский рэп', 'hard trap', 'street rap'],
+    'скриптонит': ['dark atmospheric rap', 'экспериментальный хип-хоп'],
+    'баста': ['мелодичный русский рэп', 'хип-хоп с душой'],
+    'instasamka': ['женский рэп', 'pop-rap', 'party music'],
+    
+    // Rock / Metal
+    'rammstein': ['industrial metal', 'немецкий индастриал-рок'],
+    'metallica': ['thrash metal', 'heavy metal'],
+    'linkin park': ['nu-metal', 'alternative rock'],
+    'bad omens': ['metalcore', 'post-hardcore'],
+    
+    // Pop
+    'дора': ['инди-поп', 'мечтательный поп'],
+    'anna asti': ['русский поп', 'dance pop'],
+    'zivert': ['электро-поп', 'современный поп'],
+    
+    // Default suggestions
+    'default': ['мелодичный', 'энергичный', 'атмосферный'],
+  };
+  
+  // Find matching suggestions
+  for (const [key, suggestions] of Object.entries(artistStyles)) {
+    if (lower.includes(key)) {
+      return suggestions;
+    }
+  }
+  
+  return artistStyles['default'];
 }
 
 export const validation = {

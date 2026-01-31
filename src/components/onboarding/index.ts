@@ -24,6 +24,8 @@ export type { OnboardingTipConfig } from './ContextualOnboardingTip';
 // Quick tips
 export { QuickTipToast, useQuickTip } from './QuickTipToast';
 
+// Contextual tip overlay (Phase 4)
+export { ContextualTipOverlay, useContextualTips } from './ContextualTipOverlay';
 // Step cards and tooltips
 export { OnboardingStepCard } from './OnboardingStepCard';
 export { OnboardingTooltip, useOnboardingStatus, resetOnboarding } from './OnboardingTooltip';

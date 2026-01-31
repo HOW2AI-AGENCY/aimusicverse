@@ -9,6 +9,16 @@
 
 import { logger } from '@/lib/logger';
 
+// Re-export URL validator utilities
+export {
+  validateAudioUrl,
+  findAccessibleUrl,
+  clearValidationCache,
+  invalidateCachedUrl,
+  getValidationCacheStats,
+  type UrlValidationResult,
+} from './audio/urlValidator';
+
 /**
  * Mobile browser detection result
  */

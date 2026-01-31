@@ -7,9 +7,10 @@
  * - Active generation tracking
  * - Deep link support for track details and actions
  * - Desktop: Master-detail layout with track detail panel
+ * - Contextual onboarding tips (Phase 4)
  */
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, lazy, Suspense } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { Navigate, useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
@@ -40,6 +41,9 @@ import { useLibraryData, type SortOption } from "@/hooks/useLibraryData";
 import { useLibraryHandlers } from "@/hooks/useLibraryHandlers";
 import { useLibraryDeepLinks } from "@/hooks/useLibraryDeepLinks";
 import { LibraryDialogs } from "@/components/library/LibraryDialogs";
+
+// Lazy load onboarding overlay
+const ContextualTipOverlay = lazy(() => import('@/components/onboarding/ContextualTipOverlay'));
 
 export default function Library() {
   const { isAuthenticated, loading: authLoading } = useAuth();
@@ -453,6 +457,11 @@ export default function Library() {
         deepLinkDialogType={deepLinkDialogType}
         onCloseDeepLinkDialog={closeDeepLinkDialog}
       />
+      
+      {/* Contextual onboarding tips - Phase 4 */}
+      <Suspense fallback={null}>
+        <ContextualTipOverlay context="library" delay={3000} />
+      </Suspense>
     </ErrorBoundaryWrapper>
   );
 }
