@@ -1,7 +1,7 @@
 /**
  * Music Lab Hub - Unified Creative Workspace
  * 
- * Tabs: Вокал, Гитара, Лирика+AI, PromptDJ (PRO), Аккорды
+ * Tabs: Вокал, Гитара, Лирика+AI, PromptDJ (PRO), Аккорды, Hub
  */
 
 import { useState, Suspense, lazy } from 'react';
@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { MusicLabAudioProvider } from '@/contexts/MusicLabAudioContext';
 import { toast } from 'sonner';
-import { Mic, Guitar, PenLine, Disc3, Music, ArrowLeft, Crown } from 'lucide-react';
+import { Mic, Guitar, PenLine, Disc3, Music, ArrowLeft, AudioWaveform } from 'lucide-react';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 import { FeatureGate, PremiumBadge } from '@/components/premium';
 import { useFeatureAccess } from '@/hooks/useFeatureAccess';
@@ -22,6 +22,10 @@ const GuitarRecordDialog = lazy(() => import('@/components/generate-form/GuitarR
 const LyricsAIChatAgent = lazy(() => import('@/components/lyrics-workspace/LyricsAIChatAgent').then(m => ({ default: m.LyricsAIChatAgent })));
 const PromptDJMixer = lazy(() => import('@/components/prompt-dj').then(m => ({ default: m.PromptDJMixer })));
 const RealtimeChordVisualizer = lazy(() => import('@/components/chord-detection/RealtimeChordVisualizer').then(m => ({ default: m.RealtimeChordVisualizer })));
+
+// Audio Hub components
+const AudioHubRecorder = lazy(() => import('@/components/audio-hub/AudioHubRecorder').then(m => ({ default: m.AudioHubRecorder })));
+const AudioHubUploader = lazy(() => import('@/components/audio-hub/AudioHubUploader').then(m => ({ default: m.AudioHubUploader })));
 
 function TabLoadingSkeleton() {
   return (
@@ -35,7 +39,7 @@ function TabLoadingSkeleton() {
 
 export default function MusicLab() {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('vocal');
+  const [activeTab, setActiveTab] = useState('hub');
   const [vocalDialogOpen, setVocalDialogOpen] = useState(false);
   const [guitarDialogOpen, setGuitarDialogOpen] = useState(false);
   
@@ -61,7 +65,11 @@ export default function MusicLab() {
           </div>
 
           <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="grid grid-cols-5 w-full mb-4">
+            <TabsList className="grid grid-cols-6 w-full mb-4">
+              <TabsTrigger value="hub" className="gap-1 text-xs px-1">
+                <AudioWaveform className="h-4 w-4" />
+                <span className="hidden sm:inline">Hub</span>
+              </TabsTrigger>
               <TabsTrigger value="vocal" className="gap-1 text-xs px-1">
                 <Mic className="h-4 w-4" />
                 <span className="hidden sm:inline">Вокал</span>
@@ -85,6 +93,16 @@ export default function MusicLab() {
                 <span className="hidden sm:inline">Аккорды</span>
               </TabsTrigger>
             </TabsList>
+
+            {/* Audio Hub - Recording & Upload */}
+            <TabsContent value="hub" className="mt-0">
+              <Suspense fallback={<TabLoadingSkeleton />}>
+                <div className="space-y-6">
+                  <AudioHubRecorder />
+                  <AudioHubUploader />
+                </div>
+              </Suspense>
+            </TabsContent>
 
             {/* Vocal Recording */}
             <TabsContent value="vocal" className="mt-0">
