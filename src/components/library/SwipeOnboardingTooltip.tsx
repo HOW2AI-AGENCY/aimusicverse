@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { ChevronLeft, ChevronRight, X, Lightbulb } from 'lucide-react';
 import { Z_INDEX } from '@/lib/toast-position';
 
 const STORAGE_KEY = 'swipe-onboarding-shown';
+// Session key to prevent multiple tooltips in the same render cycle
+const SESSION_KEY = 'swipe-onboarding-session-shown';
 
 interface SwipeOnboardingTooltipProps {
   children: React.ReactNode;
@@ -18,16 +20,26 @@ export function SwipeOnboardingTooltip({
   const [showTooltip, setShowTooltip] = useState(false);
   const [targetRect, setTargetRect] = useState<DOMRect | null>(null);
   const [containerRef, setContainerRef] = useState<HTMLDivElement | null>(null);
+  const hasInitialized = useRef(false);
 
   useEffect(() => {
     if (!isFirstSwipeableItem) return;
     
+    // Check if already shown in this session or permanently dismissed
     const hasSeenOnboarding = localStorage.getItem(STORAGE_KEY);
-    if (!hasSeenOnboarding) {
-      // Delay showing tooltip for better UX
-      const timer = setTimeout(() => setShowTooltip(true), 1500);
-      return () => clearTimeout(timer);
+    const sessionShown = sessionStorage.getItem(SESSION_KEY);
+    
+    if (hasSeenOnboarding || sessionShown || hasInitialized.current) {
+      return;
     }
+    
+    hasInitialized.current = true;
+    // Mark as shown in session to prevent other instances from showing
+    sessionStorage.setItem(SESSION_KEY, 'true');
+    
+    // Delay showing tooltip for better UX
+    const timer = setTimeout(() => setShowTooltip(true), 1500);
+    return () => clearTimeout(timer);
   }, [isFirstSwipeableItem]);
 
   // Update position when tooltip should show
