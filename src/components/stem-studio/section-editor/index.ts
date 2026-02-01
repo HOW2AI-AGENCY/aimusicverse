@@ -5,3 +5,7 @@ export { SectionLyricsEditor } from './SectionLyricsEditor';
 export { SectionValidation } from './SectionValidation';
 export { SectionActions } from './SectionActions';
 export { SectionQuickPicker } from './SectionQuickPicker';
+
+// Enhanced components
+export { EnhancedSectionWaveform, type ReplacedSection } from './EnhancedSectionWaveform';
+export { ABCompareOverlay } from './ABCompareOverlay';
