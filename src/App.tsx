@@ -118,7 +118,7 @@ const MusicLab = lazy(() => import("./pages/MusicLab"));
 const AlbumView = lazy(() => import("./pages/AlbumView"));
 const LyricsStudio = lazy(() => import("./pages/LyricsStudio"));
 const ReferenceAudioDetail = lazy(() => import("./pages/ReferenceAudioDetail"));
-
+const AudioHub = lazy(() => import("./pages/AudioHub"));
 const MobilePlayerPage = lazy(() => import("./pages/MobilePlayerPage"));
 
 // Legacy Studio Hub - now redirects to Studio V2
@@ -216,6 +216,7 @@ const App = () => (
                         <Route path="/music-lab" element={<MusicLab />} />
                         <Route path="/lyrics-studio" element={<LyricsStudio />} />
                         <Route path="/album/:id" element={<AlbumView />} />
+                        <Route path="/audio-hub" element={<AudioHub />} />
                         <Route path="/reference/:id" element={<ReferenceAudioDetail />} />
 
                         <Route path="/terms" element={<Terms />} />
