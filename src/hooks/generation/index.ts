@@ -31,3 +31,29 @@ export { useFirstGeneratedTrack, saveFirstGeneratedTrack, clearFirstGeneratedTra
 
 // Smart Generation Assistant (Sprint 010)
 export { useSmartAssistant } from './useSmartAssistant';
+
+// ==========================================
+// Unified Audio Processing (NEW)
+// ==========================================
+
+export { useAudioProcessing } from './useAudioProcessing';
+export type {
+  AudioProcessingOperation,
+  ProcessingStatus,
+  ProcessingState,
+  ExtendedProcessingState,
+  CompletedTrack,
+  ExtendParams,
+  CoverParams,
+  AddVocalsParams,
+  AddInstrumentalParams,
+  OperationResult,
+  UseAudioProcessingReturn,
+} from './audioProcessing';
+
+// Re-export constants for external use
+export {
+  STATUS_MESSAGES,
+  STATUS_PROGRESS,
+  OPERATION_ENDPOINTS,
+} from './audioProcessing';
