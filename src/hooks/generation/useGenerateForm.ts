@@ -601,10 +601,11 @@ export function useGenerateForm({
       return;
     }
 
-    // Pre-generation credit validation - check user's personal balance
+    // Pre-generation credit validation - check user's personal balance (admins bypass)
     if (!canGenerate) {
+      const displayBalance = isAdmin ? (apiBalance ?? 0) : userBalance;
       toast.error('Недостаточно кредитов', {
-        description: `Ваш баланс: ${userBalance}. Требуется: ${generationCost}`,
+        description: `Ваш баланс: ${displayBalance}. Требуется: ${generationCost}`,
       });
       return;
     }
