@@ -1,5 +1,19 @@
 /**
  * useAddInstrumentalProgress - Track add instrumental task status with realtime updates
+ * 
+ * @deprecated Use useAudioProcessing().addInstrumentalProgress instead
+ * This hook is kept for backward compatibility and will be removed in a future version.
+ * 
+ * Migration:
+ * ```tsx
+ * // Old way
+ * const { status, startTracking, ... } = useAddInstrumentalProgress();
+ * 
+ * // New way
+ * const { addInstrumental, addInstrumentalProgress } = useAudioProcessing();
+ * const result = await addInstrumental(params);
+ * // Progress is tracked automatically
+ * ```
  */
 
 import { useState, useEffect, useCallback } from 'react';
