@@ -5,21 +5,20 @@
  * - GlobalAudio (audio playback)
  * - Notifications (realtime updates)
  * - Announcements (system messages)
- * - Gamification + Rewards (achievements, rewards - already coupled)
+ * - Gamification + Rewards (achievements, rewards)
  * - Paywall (subscription triggers)
  * 
- * Performance: Heavy providers are deferred to not block initial render
+ * Note: RewardNotificationProvider MUST be synchronous (not lazy)
+ * because GamificationBar depends on it during initial render
  */
 
 import { ReactNode, memo, lazy, Suspense, useState, useEffect } from 'react';
 import { GlobalAudioProvider } from '@/components/GlobalAudioProvider';
 import { NotificationProvider } from '@/contexts/NotificationContext';
 import { AnnouncementProvider } from '@/contexts/AnnouncementContext';
+import { RewardNotificationProvider } from '@/contexts/RewardNotificationContext';
 
-// Lazy load heavy providers to not block initial render
-const RewardNotificationProvider = lazy(() => 
-  import('@/contexts/RewardNotificationContext').then(m => ({ default: m.RewardNotificationProvider }))
-);
+// Lazy load heavy providers that are NOT used in initial render
 const GamificationProvider = lazy(() => 
   import('@/contexts/GamificationContext').then(m => ({ default: m.GamificationProvider }))
 );
@@ -60,31 +59,32 @@ function DeferredProviders({ children }: { children: ReactNode }) {
 
   return (
     <Suspense fallback={<>{children}</>}>
-      <RewardNotificationProvider>
-        <GamificationProvider>
-          <PaywallProvider>
-            {children}
-          </PaywallProvider>
-        </GamificationProvider>
-      </RewardNotificationProvider>
+      <GamificationProvider>
+        <PaywallProvider>
+          {children}
+        </PaywallProvider>
+      </GamificationProvider>
     </Suspense>
   );
 }
 
 /**
  * Feature providers for audio, notifications, and gamification
- * Order: Audio → Notifications → Announcements → [Deferred: Rewards → Gamification → Paywall]
+ * Order: Audio → Notifications → Announcements → Rewards (sync) → [Deferred: Gamification → Paywall]
  * 
- * Note: Heavy providers are deferred to improve TTI
+ * CRITICAL: RewardNotificationProvider is synchronous because components
+ * like GamificationBar call useRewardNotificationContext() during initial render
  */
 export const FeatureProviders = memo(function FeatureProviders({ children }: FeatureProvidersProps) {
   return (
     <GlobalAudioProvider>
       <NotificationProvider>
         <AnnouncementProvider>
-          <DeferredProviders>
-            {children}
-          </DeferredProviders>
+          <RewardNotificationProvider>
+            <DeferredProviders>
+              {children}
+            </DeferredProviders>
+          </RewardNotificationProvider>
         </AnnouncementProvider>
       </NotificationProvider>
     </GlobalAudioProvider>
