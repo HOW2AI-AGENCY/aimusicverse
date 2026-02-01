@@ -5,33 +5,16 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { ErrorBoundaryWrapper } from "@/components/ErrorBoundaryWrapper";
 import { MainLayout } from "@/components/MainLayout";
-import { LoadingScreen } from "@/components/UnifiedSplashScreen";
+import { PageSkeleton } from "@/components/skeletons/PageSkeleton";
 import { PageTransition } from "@/components/PageTransition";
 import { ProfileSetupGuard } from "@/components/profile/ProfileSetupGuard";
 import { NavigationProvider } from "@/components/NavigationProvider";
 import { lazyWithRetry } from "@/lib/performance";
-import { LibrarySkeleton } from "@/components/skeletons/LibrarySkeleton";
-import { SettingsSkeleton } from "@/components/skeletons/SettingsSkeleton";
-import { ProjectsSkeleton } from "@/components/skeletons/ProjectsSkeleton";
 
 // Consolidated providers for cleaner architecture
 import { CoreProviders, UIProviders, FeatureProviders } from "@/providers";
 
 // Sentry is initialized in main.tsx (avoid double init)
-
-// Helper to add loading skeleton to lazy loaded components
-function withLoadingFallback<P extends Record<string, unknown>>(
-  Component: React.ComponentType<P>,
-  SkeletonComponent: React.ComponentType
-): React.ComponentType<P> {
-  return function WithLoadingFallback(props: P) {
-    return (
-      <Suspense fallback={<SkeletonComponent />}>
-        <Component {...props} />
-      </Suspense>
-    );
-  };
-}
 
 // Wrapper to use ProfileSetupGuard with Outlet
 function ProfileSetupGuardWrapper({ children }: { children: React.ReactNode }) {
@@ -43,7 +26,7 @@ function RouteWithTransition({ children }: { children: React.ReactNode }) {
   const location = useLocation();
 
   return (
-    <PageTransition key={location.pathname} variant="fade" duration={0.2}>
+    <PageTransition key={location.pathname} variant="fade" duration={0.15}>
       {children}
     </PageTransition>
   );
@@ -152,7 +135,7 @@ const App = () => (
             <UIProviders>
               <NavigationProvider>
                 <DeepLinkHandler />
-                <Suspense fallback={<LoadingScreen />}>
+                <Suspense fallback={<PageSkeleton variant="default" />}>
                   <RouteWithTransition>
                     <Routes>
                       <Route path="/auth" element={<Auth />} />

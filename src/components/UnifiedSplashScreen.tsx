@@ -1,6 +1,9 @@
 /**
  * UnifiedSplashScreen - Optimized splash/loading screen
  * GPU-accelerated CSS animations for fast first paint
+ * 
+ * IMPORTANT: For page loading states, use PageSkeleton instead
+ * This component is for initial app splash and overlay loading only
  */
 import { useEffect, useState, memo } from "react";
 import { useReducedMotion } from '@/lib/motion';
@@ -8,7 +11,7 @@ import { Loader2 } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import { APP_CONFIG } from '@/config/app.config';
 import { FixedOverlay } from '@/components/layout/FixedOverlay';
-import { AppLogo, AnimatedLogo } from '@/components/branding/AppLogo';
+import { AnimatedLogo } from '@/components/branding/AppLogo';
 import { CSSEqualizer } from '@/components/loading/CSSEqualizer';
 
 export type SplashVariant = 'splash' | 'loading' | 'overlay' | 'inline' | 'minimal';
@@ -23,24 +26,29 @@ interface UnifiedSplashScreenProps {
   className?: string;
 }
 
+/**
+ * UnifiedSplashScreen - Use for initial app splash only
+ * For page loading states, use PageSkeleton from @/components/skeletons
+ */
 export function UnifiedSplashScreen({
   variant = 'splash',
   message,
   progress,
   showLogo = true,
   onComplete,
-  duration = 1000,
+  duration = 800, // Reduced from 1000ms for faster perceived loading
   className,
 }: UnifiedSplashScreenProps) {
   const shouldReduceMotion = useReducedMotion();
   const [isVisible, setIsVisible] = useState(true);
 
-  // Auto-complete for splash variant
+  // Auto-complete for splash variant - faster transition
   useEffect(() => {
     if (variant === 'splash' && onComplete) {
       const timer = setTimeout(() => {
         setIsVisible(false);
-        setTimeout(onComplete, 150);
+        // Faster fade out
+        setTimeout(onComplete, 100);
       }, duration);
       return () => clearTimeout(timer);
     }
@@ -193,7 +201,10 @@ export function UnifiedSplashScreen({
 }
 
 /**
- * LoadingScreen - Main loading component with timeout handling
+ * LoadingScreen - Overlay loading component with timeout handling
+ * 
+ * IMPORTANT: For page-level loading, use PageSkeleton instead
+ * This is for overlay/blocking loading states only
  */
 export const LoadingScreen = memo(({ 
   message, 
@@ -212,10 +223,11 @@ export const LoadingScreen = memo(({
   
   useEffect(() => {
     const interval = setInterval(() => {
-      setLoadingTime(prev => prev + 0.3);
-    }, 300);
+      setLoadingTime(prev => prev + 0.25);
+    }, 250); // Faster updates for smoother progress
     
-    const retryTimer = setTimeout(() => setShowRetry(true), 12000);
+    // Reduced timeout from 12s to 8s for faster feedback
+    const retryTimer = setTimeout(() => setShowRetry(true), 8000);
     
     return () => {
       clearInterval(interval);

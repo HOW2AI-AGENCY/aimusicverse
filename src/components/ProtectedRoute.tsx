@@ -1,8 +1,8 @@
-import { ReactNode } from 'react';
+import { ReactNode, memo } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { useGuestMode } from '@/contexts/GuestModeContext';
-import { Loader2 } from 'lucide-react';
+import { PageSkeleton } from '@/components/skeletons/PageSkeleton';
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -26,23 +26,20 @@ const isDevEnvironment = () => {
   return (isLovableDomain || isLocalhost || hasDevParam) && !hasTelegramWebApp;
 };
 
-export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+/**
+ * ProtectedRoute - Guards routes requiring authentication
+ * Uses unified PageSkeleton to prevent layout shifts during loading
+ */
+export const ProtectedRoute = memo(function ProtectedRoute({ children }: ProtectedRouteProps) {
   const { isAuthenticated, loading } = useAuth();
   const { isGuestMode } = useGuestMode();
   
   // In dev environment, always allow access (guest mode is auto-enabled)
   const isDevMode = isDevEnvironment();
 
-  // Short loading state - max 2 seconds then proceed
+  // Use PageSkeleton for consistent loading state - matches MainLayout structure
   if (loading && !isDevMode) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="text-center">
-          <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-primary" />
-          <p className="text-muted-foreground">Loading...</p>
-        </div>
-      </div>
-    );
+    return <PageSkeleton variant="default" />;
   }
 
   // Allow access if: authenticated, guest mode, or dev environment
@@ -51,4 +48,4 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   }
 
   return <>{children}</>;
-};
+});
