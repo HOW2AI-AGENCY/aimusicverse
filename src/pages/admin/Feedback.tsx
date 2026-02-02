@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { ArrowLeft, MessageSquare, Bug, Lightbulb, Star, Send, CheckCircle, Clock, XCircle, ChevronLeft, RefreshCw } from "lucide-react";
+import { logger } from "@/lib/logger";
 import { format, ru } from "@/lib/date-utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -111,7 +112,7 @@ export default function AdminFeedback() {
     
     if (error) {
       toast.error("Ошибка загрузки");
-      console.error(error);
+      logger.error('Failed to load feedback', error);
     } else {
       const userIds = (data?.filter(f => f.user_id).map(f => f.user_id) || []).filter((id): id is string => id !== null);
       
@@ -170,8 +171,8 @@ export default function AdminFeedback() {
       setSelectedFeedback(null);
       setDetailSheetOpen(false);
       fetchFeedback();
-    } catch (error) {
-      console.error(error);
+    } catch (error: unknown) {
+      logger.error('Failed to send feedback reply', error instanceof Error ? error : new Error(String(error)));
       toast.error("Ошибка отправки");
     } finally {
       setSending(false);

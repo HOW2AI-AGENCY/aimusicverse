@@ -6,6 +6,7 @@
  */
 
 import { supabase } from '@/integrations/supabase/client';
+import { logger } from '@/lib/logger';
 
 // ==========================================
 // Types
@@ -140,7 +141,7 @@ export async function uploadMidiFile(
     });
 
     if (error) {
-      console.error('[midi.api] Upload error:', error);
+      logger.error('[midi.api] Upload error', error);
       return {
         success: false,
         error: error.message || 'Failed to upload MIDI file',
@@ -159,8 +160,8 @@ export async function uploadMidiFile(
       success: true,
       data: data as MidiFileMetadata,
     };
-  } catch (err) {
-    console.error('[midi.api] Upload exception:', err);
+  } catch (err: unknown) {
+    logger.error('[midi.api] Upload exception', err instanceof Error ? err : new Error(String(err)));
     return {
       success: false,
       error: err instanceof Error ? err.message : 'Unexpected error during upload',
@@ -203,7 +204,7 @@ export async function getMidiMetadata(
     });
 
     if (error) {
-      console.error('[midi.api] Get metadata error:', error);
+      logger.error('[midi.api] Get metadata error', error);
       return {
         success: false,
         error: error.message || 'Failed to get MIDI metadata',
@@ -221,8 +222,8 @@ export async function getMidiMetadata(
       success: true,
       data: data as MidiFileRecord,
     };
-  } catch (err) {
-    console.error('[midi.api] Get metadata exception:', err);
+  } catch (err: unknown) {
+    logger.error('[midi.api] Get metadata exception', err instanceof Error ? err : new Error(String(err)));
     return {
       success: false,
       error: err instanceof Error ? err.message : 'Unexpected error fetching metadata',
@@ -286,8 +287,8 @@ export async function downloadMidiFile(
       data: blob,
       filename: metadataResult.data.fileName,
     };
-  } catch (err) {
-    console.error('[midi.api] Download exception:', err);
+  } catch (err: unknown) {
+    logger.error('[midi.api] Download exception', err instanceof Error ? err : new Error(String(err)));
     return {
       success: false,
       error: err instanceof Error ? err.message : 'Unexpected error downloading file',
@@ -315,8 +316,8 @@ export async function getMidiPublicUrl(
   try {
     const result = await getMidiMetadata(midiId);
     return result.success && result.data ? result.data.fileUrl : null;
-  } catch (err) {
-    console.error('[midi.api] Get public URL exception:', err);
+  } catch (err: unknown) {
+    logger.error('[midi.api] Get public URL exception', err instanceof Error ? err : new Error(String(err)));
     return null;
   }
 }
@@ -354,7 +355,7 @@ export async function deleteMidiFile(
     });
 
     if (error) {
-      console.error('[midi.api] Delete error:', error);
+      logger.error('[midi.api] Delete error', error);
       return {
         success: false,
         error: error.message || 'Failed to delete MIDI file',
@@ -369,8 +370,8 @@ export async function deleteMidiFile(
     }
 
     return { success: true };
-  } catch (err) {
-    console.error('[midi.api] Delete exception:', err);
+  } catch (err: unknown) {
+    logger.error('[midi.api] Delete exception', err instanceof Error ? err : new Error(String(err)));
     return {
       success: false,
       error: err instanceof Error ? err.message : 'Unexpected error during deletion',
@@ -411,7 +412,7 @@ export async function listMidiFilesForTrack(
     });
 
     if (error) {
-      console.error('[midi.api] List error:', error);
+      logger.error('[midi.api] List error', error);
       return {
         success: false,
         error: error.message || 'Failed to list MIDI files',
@@ -429,8 +430,8 @@ export async function listMidiFilesForTrack(
       success: true,
       data: data as MidiFileRecord[],
     };
-  } catch (err) {
-    console.error('[midi.api] List exception:', err);
+  } catch (err: unknown) {
+    logger.error('[midi.api] List exception', err instanceof Error ? err : new Error(String(err)));
     return {
       success: false,
       error: err instanceof Error ? err.message : 'Unexpected error listing files',

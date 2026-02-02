@@ -28,6 +28,7 @@ import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
+import { logger } from '@/lib/logger';
 import { cn } from '@/lib/utils';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { 
@@ -121,8 +122,8 @@ export function CloudAudioPicker({
 
       if (error) throw error;
       setAudioList(data || []);
-    } catch (error) {
-      console.error('Failed to fetch audio list:', error);
+    } catch (error: unknown) {
+      logger.error('Failed to fetch audio list', error instanceof Error ? error : new Error(String(error)));
     } finally {
       setIsLoading(false);
     }
@@ -146,10 +147,10 @@ export function CloudAudioPicker({
     newAudio.onended = () => setPlayingId(null);
     newAudio.onerror = () => {
       setPlayingId(null);
-      console.error('Failed to load audio:', audio.file_url);
+      logger.warn('Failed to load audio', { url: audio.file_url });
     };
-    newAudio.play().catch((err) => {
-      console.error('Audio play error:', err);
+    newAudio.play().catch((err: unknown) => {
+      logger.error('Audio play error', err instanceof Error ? err : new Error(String(err)));
       setPlayingId(null);
     });
     audioRef.current = newAudio;

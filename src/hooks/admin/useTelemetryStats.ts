@@ -6,6 +6,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { logger } from '@/lib/logger';
 
 interface TelemetryStats {
   total_events: number;
@@ -58,7 +59,7 @@ export function useTelemetryStats(timePeriod: string = '24 hours') {
       });
 
       if (error) {
-        console.error('Failed to fetch telemetry stats:', error);
+        logger.error('Failed to fetch telemetry stats', error);
         return null;
       }
 
@@ -80,7 +81,7 @@ export function useErrorTrends(timePeriod: string = '7 days') {
       });
 
       if (error) {
-        console.error('Failed to fetch error trends:', error);
+        logger.error('Failed to fetch error trends', error);
         return null;
       }
 

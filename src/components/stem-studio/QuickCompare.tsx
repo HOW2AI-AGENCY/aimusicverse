@@ -19,6 +19,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { useStudioAudio, registerStudioAudio, unregisterStudioAudio } from '@/hooks/studio/useStudioAudio';
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
+import { logger } from '@/lib/logger';
 
 type VersionType = 'original' | 'variantA' | 'variantB';
 type SaveMode = 'apply' | 'newVersion' | 'newTrack';
@@ -181,13 +182,13 @@ export function QuickCompare({
             setActiveVersion('variantA');
             setCurrentTime(0);
           } catch (e) {
-            console.warn('[QuickCompare] Autoplay blocked:', e);
+            // Autoplay blocked - expected on some browsers
           }
         }
       })
-      .catch((error) => {
-        console.error('[QuickCompare] Audio load error:', error);
-        setLoadError(error.message);
+      .catch((error: unknown) => {
+        logger.error('[QuickCompare] Audio load error', error instanceof Error ? error : new Error(String(error)));
+        setLoadError(error instanceof Error ? error.message : 'Audio load failed');
         setIsLoading(false);
       });
 
@@ -322,8 +323,8 @@ export function QuickCompare({
       await Promise.all([original.play(), variant.play()]);
       setIsPlaying(true);
       animationRef.current = requestAnimationFrame(updateCrossfadeProgress);
-    } catch (error) {
-      console.error('[QuickCompare] Crossfade playback failed:', error);
+    } catch (error: unknown) {
+      logger.error('[QuickCompare] Crossfade playback failed', error instanceof Error ? error : new Error(String(error)));
     }
   }, [sectionStart, selectedVariant, pauseAllVersions, pauseAllAudio, updateCrossfadeProgress]);
 
@@ -355,7 +356,7 @@ export function QuickCompare({
     const audioRef = getAudioRef(activeVersion);
     const audio = audioRef.current;
     if (!audio) {
-      console.error('[QuickCompare] No audio element for version:', activeVersion);
+      logger.error('[QuickCompare] No audio element for version', new Error(`Version: ${activeVersion}`));
       return;
     }
 
@@ -371,8 +372,8 @@ export function QuickCompare({
     try {
       await audio.play();
       setIsPlaying(true);
-    } catch (error) {
-      console.error('[QuickCompare] Playback failed', error);
+    } catch (error: unknown) {
+      logger.error('[QuickCompare] Playback failed', error instanceof Error ? error : new Error(String(error)));
     }
   };
 

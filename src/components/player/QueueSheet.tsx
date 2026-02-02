@@ -23,6 +23,7 @@ import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useRadioMode } from '@/hooks/audio/useRadioMode';
+import { logger } from '@/lib/logger';
 
 interface QueueSheetProps {
   open: boolean;
@@ -159,8 +160,8 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
       toast.success('Плейлист создан', {
         description: `${queue.length} треков сохранено`,
       });
-    } catch (error) {
-      console.error('Failed to save playlist:', error);
+    } catch (error: unknown) {
+      logger.error('Failed to save playlist', error instanceof Error ? error : new Error(String(error)));
       toast.error('Не удалось сохранить плейлист');
     } finally {
       setIsSaving(false);

@@ -7,6 +7,7 @@
  */
 
 import { supabase } from '@/integrations/supabase/client';
+import { logger } from '@/lib/logger';
 
 // ============= Type Definitions =============
 
@@ -572,9 +573,9 @@ export async function incrementPresetUsage(presetId: string): Promise<void> {
           .eq('id', presetId);
       }
     }
-  } catch (error) {
+  } catch (error: unknown) {
     // Log error but don't throw - usage count is not critical
-    console.warn('Failed to increment preset usage:', error);
+    logger.warn('Failed to increment preset usage', error instanceof Error ? error : new Error(String(error)));
   }
 }
 

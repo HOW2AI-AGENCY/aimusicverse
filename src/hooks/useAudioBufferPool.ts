@@ -93,7 +93,7 @@ class AudioBufferPool {
       this.set(key, buffer);
       return true;
     } catch (e) {
-      console.warn('Preload failed:', e);
+      // Silent fail - non-critical preload
       return false;
     }
   }

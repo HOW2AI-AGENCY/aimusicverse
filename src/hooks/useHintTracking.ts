@@ -23,6 +23,7 @@
  */
 
 import { useState, useCallback } from 'react';
+import { logger } from '@/lib/logger';
 
 const HINT_PREFIX = 'hint_seen_';
 const HINTS_RESET_KEY = 'hints_reset_timestamp';
@@ -65,8 +66,8 @@ export function useHintTracking(hintId: string) {
   const [hasSeenHint, setHasSeenHint] = useState(() => {
     try {
       return localStorage.getItem(storageKey) === 'true';
-    } catch (error) {
-      console.warn('Failed to read hint state from localStorage:', error);
+    } catch (error: unknown) {
+      logger.warn('Failed to read hint state from localStorage', { error: error instanceof Error ? error.message : String(error) });
       return false;
     }
   });
@@ -78,8 +79,8 @@ export function useHintTracking(hintId: string) {
     try {
       localStorage.setItem(storageKey, 'true');
       setHasSeenHint(true);
-    } catch (error) {
-      console.warn('Failed to save hint state to localStorage:', error);
+    } catch (error: unknown) {
+      logger.warn('Failed to save hint state to localStorage', { error: error instanceof Error ? error.message : String(error) });
     }
   }, [storageKey]);
 
@@ -90,8 +91,8 @@ export function useHintTracking(hintId: string) {
     try {
       localStorage.removeItem(storageKey);
       setHasSeenHint(false);
-    } catch (error) {
-      console.warn('Failed to reset hint state:', error);
+    } catch (error: unknown) {
+      logger.warn('Failed to reset hint state', { error: error instanceof Error ? error.message : String(error) });
     }
   }, [storageKey]);
 
@@ -131,8 +132,8 @@ export function useMultipleHints(hintIds: string[]) {
     try {
       localStorage.setItem(`${HINT_PREFIX}${hintId}`, 'true');
       setSeenHints(prev => ({ ...prev, [hintId]: true }));
-    } catch (error) {
-      console.warn('Failed to save hint state:', error);
+    } catch (error: unknown) {
+      logger.warn('Failed to save multi-hint state', { error: error instanceof Error ? error.message : String(error) });
     }
   }, []);
 

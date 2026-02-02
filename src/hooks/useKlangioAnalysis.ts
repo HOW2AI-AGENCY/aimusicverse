@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 
 export type KlangioMode = 'transcription' | 'chord-recognition' | 'chord-recognition-extended' | 'beat-tracking';
 export type TranscriptionModel = 'guitar' | 'piano' | 'drums' | 'vocal' | 'bass' | 'universal' | 'lead';
@@ -170,8 +171,8 @@ export function useKlangioAnalysis() {
       clearInterval(progressInterval);
 
       if (error) {
-        console.error('[klangio] Transcription error:', error);
-        setTranscription({ 
+        logger.error('[klangio] Transcription error', error);
+        setTranscription({
           status: 'error', 
           progress: 0, 
           error: error.message || 'Ошибка транскрипции' 
@@ -200,8 +201,8 @@ export function useKlangioAnalysis() {
       });
       
       return data;
-    } catch (error) {
-      console.error('[klangio] Transcription error:', error);
+    } catch (error: unknown) {
+      logger.error('[klangio] Transcription error', error instanceof Error ? error : new Error(String(error)));
       const errorMsg = error instanceof Error ? error.message : 'Неизвестная ошибка';
       setTranscription({ status: 'error', progress: 0, error: errorMsg });
       toast.error('Ошибка транскрипции', { description: errorMsg });
@@ -259,8 +260,8 @@ export function useKlangioAnalysis() {
       });
       
       return data;
-    } catch (error) {
-      console.error('[klangio] Chord detection error:', error);
+    } catch (error: unknown) {
+      logger.error('[klangio] Chord detection error', error instanceof Error ? error : new Error(String(error)));
       const errorMsg = error instanceof Error ? error.message : 'Неизвестная ошибка';
       setChords({ status: 'error', progress: 0, error: errorMsg });
       toast.error('Ошибка распознавания', { description: errorMsg });
@@ -316,8 +317,8 @@ export function useKlangioAnalysis() {
       });
       
       return data;
-    } catch (error) {
-      console.error('[klangio] Beat detection error:', error);
+    } catch (error: unknown) {
+      logger.error('[klangio] Beat detection error', error instanceof Error ? error : new Error(String(error)));
       const errorMsg = error instanceof Error ? error.message : 'Неизвестная ошибка';
       setBeats({ status: 'error', progress: 0, error: errorMsg });
       toast.error('Ошибка определения ритма', { description: errorMsg });
