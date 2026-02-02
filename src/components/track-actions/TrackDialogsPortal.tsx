@@ -13,6 +13,7 @@ import { AddVocalsDialog } from '@/components/AddVocalsDialog';
 import { AddInstrumentalDialog } from '@/components/AddInstrumentalDialog';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useState, useEffect } from 'react';
+import { logger } from '@/lib/logger';
 
 // Simplified stem type for dialogs - only needs what's essential
 interface SimpleStem {
@@ -65,8 +66,8 @@ export function TrackDialogsPortal({
           const fileName = `${track.title || 'track'}.mp3`;
           const file = new File([blob], fileName, { type: 'audio/mpeg' });
           setCoverAudioFile(file);
-        } catch (error) {
-          console.error('Failed to load track audio:', error);
+        } catch (error: unknown) {
+          logger.warn('Failed to load track audio for cover dialog', { error });
         }
       };
       loadAudio();

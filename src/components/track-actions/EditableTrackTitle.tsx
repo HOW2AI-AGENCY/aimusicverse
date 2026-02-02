@@ -9,6 +9,7 @@ import { toast } from 'sonner';
 import { hapticImpact } from '@/lib/haptic';
 import { cn } from '@/lib/utils';
 import { Pencil } from 'lucide-react';
+import { logger } from '@/lib/logger';
 
 interface EditableTrackTitleProps {
   trackId: string;
@@ -74,8 +75,8 @@ export const EditableTrackTitle = memo(function EditableTrackTitle({
 
       onTitleChange?.(trimmedValue);
       toast.success('Название изменено');
-    } catch (error) {
-      console.error('Error updating title:', error);
+    } catch (error: unknown) {
+      logger.error('Error updating title', error instanceof Error ? error : new Error(String(error)));
       toast.error('Ошибка сохранения');
       setEditValue(title);
     } finally {

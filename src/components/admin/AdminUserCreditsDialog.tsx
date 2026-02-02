@@ -8,6 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Coins, Plus, Minus } from "lucide-react";
+import { logger } from "@/lib/logger";
 
 interface AdminUserCreditsDialogProps {
   open: boolean;
@@ -90,8 +91,8 @@ export function AdminUserCreditsDialog({
       setReason("");
       onOpenChange(false);
       onSuccess();
-    } catch (error) {
-      console.error("Credit adjustment error:", error);
+    } catch (error: unknown) {
+      logger.error("Credit adjustment error", error instanceof Error ? error : new Error(String(error)));
       toast.error("Ошибка при изменении баланса");
     } finally {
       setIsLoading(false);

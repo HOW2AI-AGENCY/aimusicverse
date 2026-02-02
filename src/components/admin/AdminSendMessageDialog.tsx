@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { Send, MessageSquare, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { logger } from "@/lib/logger";
 
 interface User {
   user_id: string;
@@ -79,8 +80,8 @@ export function AdminSendMessageDialog({
       setMessage("");
       onOpenChange(false);
       onClearSelection();
-    } catch (error) {
-      console.error("Send message error:", error);
+    } catch (error: unknown) {
+      logger.error("Send message error", error instanceof Error ? error : new Error(String(error)));
       toast.error("Ошибка при отправке сообщения");
     } finally {
       setIsLoading(false);

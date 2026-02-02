@@ -9,6 +9,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { AlertTriangle, Flag, Loader2 } from 'lucide-react';
+import { logger } from '@/lib/logger';
 
 const REPORT_REASONS = [
   { value: 'harassment', label: 'Оскорбления или травля' },
@@ -69,8 +70,8 @@ export function ReportCommentDialog({
       onOpenChange(false);
       setReason('');
       setDetails('');
-    } catch (error: any) {
-      console.error('Report error:', error);
+    } catch (error: unknown) {
+      logger.error('Report comment error', error instanceof Error ? error : new Error(String(error)));
       toast.error('Не удалось отправить жалобу');
     } finally {
       setIsSubmitting(false);
