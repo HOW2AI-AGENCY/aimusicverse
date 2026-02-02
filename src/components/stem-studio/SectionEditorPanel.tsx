@@ -141,17 +141,19 @@ function SectionEditorPanelInner({
     loadHistory();
   }, [trackId]);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     reset();
     clearSelection();
     onClose();
-  };
+  }, [reset, clearSelection, onClose]);
 
   const handleApplyComparison = useCallback(() => {
     // Apply the comparison result
     setLatestCompletion(null);
-    handleClose();
-  }, [setLatestCompletion, handleClose]);
+    reset();
+    clearSelection();
+    onClose();
+  }, [setLatestCompletion, reset, clearSelection, onClose]);
 
   const handleDiscardComparison = useCallback(() => {
     setLatestCompletion(null);

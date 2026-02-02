@@ -80,8 +80,18 @@ export const ABCompareOverlay = memo(function ABCompareOverlay({
     }),
   []);
 
-  // Initialize audio elements
+  // Initialize audio elements - only recreate when URLs change
   useEffect(() => {
+    // Cleanup previous audio elements
+    if (originalRef.current) {
+      originalRef.current.pause();
+      originalRef.current.src = '';
+    }
+    if (newRef.current) {
+      newRef.current.pause();
+      newRef.current.src = '';
+    }
+    
     originalRef.current = new Audio(originalAudioUrl);
     newRef.current = new Audio(currentNewUrl);
 
@@ -90,11 +100,19 @@ export const ABCompareOverlay = memo(function ABCompareOverlay({
     newRef.current.volume = effectiveVolume;
 
     return () => {
-      originalRef.current?.pause();
-      newRef.current?.pause();
+      if (originalRef.current) {
+        originalRef.current.pause();
+        originalRef.current.src = '';
+        originalRef.current = null;
+      }
+      if (newRef.current) {
+        newRef.current.pause();
+        newRef.current.src = '';
+        newRef.current = null;
+      }
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
     };
-  }, [originalAudioUrl, currentNewUrl, volume, isMuted]);
+  }, [originalAudioUrl, currentNewUrl]); // Only recreate on URL change
 
   // Update volume
   useEffect(() => {
