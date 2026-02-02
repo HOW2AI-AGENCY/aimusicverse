@@ -146,8 +146,8 @@ export function UploadDialog({ open, onOpenChange }: UploadDialogProps) {
       } catch (analysisError) {
         logger.error('Auto analysis failed', analysisError);
       }
-    } catch (error) {
-      console.error('Upload error:', error);
+    } catch (error: unknown) {
+      logger.error('Upload error', error instanceof Error ? error : new Error(String(error)));
       toast.error('Ошибка загрузки');
     } finally {
       setUploading(false);

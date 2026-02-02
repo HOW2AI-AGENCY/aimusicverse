@@ -12,6 +12,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
+import { logger } from '@/lib/logger';
 
 interface ProjectMediaGeneratorProps {
   open: boolean;
@@ -200,9 +201,9 @@ export function ProjectMediaGenerator({
         setActiveTab('result');
         toast.success('Изображение сгенерировано');
       }
-    } catch (err: any) {
-      console.error('Error generating media:', err);
-      toast.error(err.message || 'Ошибка генерации');
+    } catch (err: unknown) {
+      logger.error('Error generating media', err instanceof Error ? err : new Error(String(err)));
+      toast.error(err instanceof Error ? err.message : 'Ошибка генерации');
     } finally {
       setIsGenerating(false);
     }
@@ -235,8 +236,8 @@ export function ProjectMediaGenerator({
 
       onCoverGenerated?.(generatedUrl);
       onOpenChange(false);
-    } catch (err: any) {
-      console.error('Error applying cover:', err);
+    } catch (err: unknown) {
+      logger.error('Error applying cover', err instanceof Error ? err : new Error(String(err)));
       toast.error('Ошибка сохранения');
     }
   };

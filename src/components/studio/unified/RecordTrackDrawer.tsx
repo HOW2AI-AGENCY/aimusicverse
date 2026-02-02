@@ -163,8 +163,8 @@ export const RecordTrackDrawer = memo(function RecordTrackDrawer({
       };
       
       updateLevel();
-    } catch (error) {
-      console.error('Audio level monitoring failed:', error);
+    } catch (error: unknown) {
+      // Non-critical - audio visualization may fail on some devices
     }
   }, []);
   
@@ -257,8 +257,7 @@ export const RecordTrackDrawer = memo(function RecordTrackDrawer({
         setRecordingDuration((Date.now() - startTimeRef.current) / 1000);
       }, 100);
       
-    } catch (error) {
-      console.error('Failed to start recording:', error);
+    } catch (error: unknown) {
       toast.error('Не удалось начать запись');
       patterns.error();
     }
@@ -342,8 +341,7 @@ export const RecordTrackDrawer = memo(function RecordTrackDrawer({
           onRecordingComplete?.(track);
           onOpenChange(false);
           
-        } catch (error) {
-          console.error('Upload failed:', error);
+        } catch (error: unknown) {
           toast.error('Ошибка загрузки записи');
           patterns.error();
         } finally {
