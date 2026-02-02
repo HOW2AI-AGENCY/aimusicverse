@@ -3,6 +3,8 @@
  * Use these instead of generic Error for better type safety and user messages
  */
 
+import { logger } from '@/lib/logger';
+
 export class AppError extends Error {
   constructor(
     message: string,
@@ -173,7 +175,7 @@ export function logError(
     message: error instanceof Error ? error.message : String(error),
   };
 
-  console.error('[Error]', {
+  logger.error('Error logged', error instanceof Error ? error : new Error(String(error)), {
     ...errorInfo,
     context,
     timestamp: new Date().toISOString(),

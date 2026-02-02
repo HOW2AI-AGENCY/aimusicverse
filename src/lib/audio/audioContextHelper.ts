@@ -5,6 +5,8 @@
  * Eliminates need for (window as any).webkitAudioContext casts.
  */
 
+import { logger } from '@/lib/logger';
+
 // Extend Window interface to include webkit prefix
 declare global {
   interface Window {
@@ -88,7 +90,7 @@ export async function safeCloseAudioContext(ctx: AudioContext | null): Promise<v
     }
   } catch (e) {
     // Ignore errors during cleanup
-    console.warn('Error closing AudioContext:', e);
+    logger.debug('Error closing AudioContext', { error: e instanceof Error ? e.message : String(e) });
   }
 }
 

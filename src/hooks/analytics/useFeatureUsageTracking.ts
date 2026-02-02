@@ -8,6 +8,7 @@
 import { useCallback, useRef, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { trackFeatureUsed, trackEvent } from '@/services/analytics';
+import { logger } from '@/lib/logger';
 
 export type FeatureCategory = 
   | 'generation'
@@ -52,9 +53,7 @@ export function useFeatureUsageTracking() {
       }, user?.id);
     } catch (error) {
       // Silent fail - analytics shouldn't break the app
-      if (import.meta.env.DEV) {
-        console.warn('[FeatureTracking] Error:', error);
-      }
+      logger.debug('[FeatureTracking] Error', { error: error instanceof Error ? error.message : String(error) });
     }
   }, [user?.id]);
 

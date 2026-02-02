@@ -279,7 +279,7 @@ export function StemMidiDrawer({
             toast.error('Не удалось сохранить транскрипцию');
           }
         } else {
-          console.warn('[StemMidiDrawer] No files or notes from transcription result');
+          logger.warn('[StemMidiDrawer] No files or notes from transcription result');
           toast.info('Не удалось распознать ноты');
         }
       }

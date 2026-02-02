@@ -179,7 +179,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
             const elapsed = now - createdAt;
             // Skip tasks older than 10 minutes - they're likely stuck
             if (elapsed > STALE_THRESHOLD_MS) {
-              console.warn('[NotificationContext] Skipping stale task:', task.id, 'age:', Math.round(elapsed / 60000), 'min');
+              log.warn('Skipping stale task', { taskId: task.id, ageMinutes: Math.round(elapsed / 60000) });
               return false;
             }
             return true;

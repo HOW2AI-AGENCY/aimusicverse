@@ -3,6 +3,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { RealtimeChannel } from '@supabase/supabase-js';
+import { logger } from '@/lib/logger';
 
 export interface RealtimeMetrics {
   connectionState: 'connected' | 'connecting' | 'disconnected' | 'error';
@@ -219,7 +220,7 @@ class RealtimeMonitor {
     // Log to console in development
     if (process.env.NODE_ENV === 'development') {
       const emoji = alert.severity === 'critical' ? '🔴' : alert.severity === 'error' ? '🟠' : '🟡';
-      console.warn(`${emoji} Realtime Alert [${alert.type}]:`, alert.message);
+      logger.debug(`${emoji} Realtime Alert [${alert.type}]: ${alert.message}`);
     }
   }
 

@@ -9,6 +9,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '@/contexts/AuthContext';
+import { logger } from '@/lib/logger';
 
 // Import from modular services
 import {
@@ -58,9 +59,7 @@ export function useAnalyticsTracking() {
       }, user?.id);
     } catch (error) {
       // Silent fail - analytics should never break the app
-      if (import.meta.env.DEV) {
-        console.warn('[Analytics] Tracking error:', error);
-      }
+      logger.debug('[Analytics] Tracking error', { error: error instanceof Error ? error.message : String(error) });
     }
   }, [location.pathname, user?.id]);
 

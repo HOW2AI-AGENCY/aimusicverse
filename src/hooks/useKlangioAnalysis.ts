@@ -109,7 +109,7 @@ export function useKlangioAnalysis() {
       
       const contentType = response.headers.get('content-type');
       if (contentType && !SUPPORTED_FORMATS.some(f => contentType.includes(f.split('/')[1]))) {
-        console.warn(`[klangio] Unexpected content-type: ${contentType}, proceeding anyway`);
+        logger.debug(`[klangio] Unexpected content-type: ${contentType}, proceeding anyway`);
       }
       
       return true;
@@ -117,7 +117,7 @@ export function useKlangioAnalysis() {
       if (error instanceof Error && error.message.includes('Файл')) {
         throw error;
       }
-      console.warn('[klangio] Validation warning:', error);
+      logger.debug('[klangio] Validation warning', { error: error instanceof Error ? error.message : String(error) });
       return true; // Proceed anyway for URLs we can't validate
     }
   }, []);
