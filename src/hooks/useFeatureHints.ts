@@ -4,6 +4,7 @@
  */
 
 import { useState, useCallback, useEffect } from 'react';
+import { logger } from '@/lib/logger';
 
 const STORAGE_KEY = 'musicverse_feature_hints';
 
@@ -39,7 +40,7 @@ export function useFeatureHints() {
         setSeenHints(JSON.parse(stored));
       }
     } catch (e) {
-      console.error('Failed to load feature hints:', e);
+      logger.warn('Failed to load feature hints', { error: e });
     }
   }, []);
 
@@ -48,7 +49,7 @@ export function useFeatureHints() {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(hints));
     } catch (e) {
-      console.error('Failed to save feature hints:', e);
+      logger.warn('Failed to save feature hints', { error: e });
     }
   }, []);
 

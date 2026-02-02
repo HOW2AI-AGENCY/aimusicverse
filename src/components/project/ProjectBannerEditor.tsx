@@ -17,6 +17,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from '@/lib/motion';
+import { logger } from '@/lib/logger';
 
 interface ProjectBannerEditorProps {
   open: boolean;
@@ -122,9 +123,9 @@ export function ProjectBannerEditor({
         setActiveTab('crop');
         toast.success('Баннер сгенерирован');
       }
-    } catch (err: any) {
-      console.error('Error generating banner:', err);
-      toast.error(err.message || 'Ошибка генерации');
+    } catch (err: unknown) {
+      logger.error('Error generating banner', err instanceof Error ? err : new Error(String(err)));
+      toast.error(err instanceof Error ? err.message : 'Ошибка генерации');
     } finally {
       setIsGenerating(false);
     }
@@ -264,8 +265,8 @@ export function ProjectBannerEditor({
       onBannerUpdate(publicUrl);
       toast.success('Баннер сохранён');
       onOpenChange(false);
-    } catch (err: any) {
-      console.error('Error saving banner:', err);
+    } catch (err: unknown) {
+      logger.error('Error saving banner', err instanceof Error ? err : new Error(String(err)));
       toast.error('Ошибка сохранения');
     } finally {
       setIsUploading(false);

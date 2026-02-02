@@ -4,6 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
+import { logger } from '@/lib/logger';
 import { trackButtonClick } from '@/services/analytics';
 import { trackConversionStage, hasReachedStage } from '@/lib/analytics/deeplink-tracker';
 
@@ -73,7 +74,7 @@ export function useLikeTrack(trackId: string, initialLiked?: boolean) {
       if (context?.previousLiked !== undefined) {
         queryClient.setQueryData(['track-like', trackId, user?.id], context.previousLiked);
       }
-      console.error('Error toggling like:', error);
+      logger.error('Error toggling like', error instanceof Error ? error : new Error(String(error)));
       toast.error('Не удалось обновить лайк');
     },
     onSuccess: (result) => {

@@ -14,6 +14,7 @@ import { cn } from '@/lib/utils';
 import { TranscriptionFiles } from '@/hooks/useReplicateMidiTranscription';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 
 interface FileFormat {
   key: keyof TranscriptionFiles;
@@ -129,7 +130,7 @@ export function MidiFilesCard({ files, className, title, trackTitle }: MidiFiles
 
       toast.success(`${format.label} отправлен в Telegram`);
     } catch (error: unknown) {
-      console.error('Send to Telegram error:', error);
+      logger.error('Send to Telegram error', error instanceof Error ? error : new Error(String(error)));
       const errorMessage = error instanceof Error ? error.message : 'Ошибка отправки';
       toast.error(errorMessage);
     } finally {
