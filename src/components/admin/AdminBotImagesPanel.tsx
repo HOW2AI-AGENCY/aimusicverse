@@ -14,6 +14,7 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
+import { logger } from "@/lib/logger";
 
 interface MenuImageConfig {
   key: string;
@@ -207,8 +208,8 @@ export function AdminBotImagesPanel() {
       await saveConfigMutation.mutateAsync(newConfig);
 
       toast.success(`Изображение "${key}" загружено`);
-    } catch (error) {
-      console.error("Upload error:", error);
+    } catch (error: unknown) {
+      logger.error("Upload error", error instanceof Error ? error : new Error(String(error)));
       toast.error("Ошибка загрузки: " + (error as Error).message);
     } finally {
       setUploadingKey(null);

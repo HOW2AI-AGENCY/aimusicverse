@@ -5,6 +5,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { logger } from '@/lib/logger';
 
 export interface RetentionCohort {
   cohort_date: string;
@@ -41,7 +42,7 @@ export function useRetentionCohorts(options: UseRetentionCohortsOptions = {}) {
       });
 
       if (error) {
-        console.error('Failed to fetch retention cohorts:', error);
+        logger.error('Failed to fetch retention cohorts', error);
         throw error;
       }
 

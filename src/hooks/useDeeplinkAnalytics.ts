@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import * as analyticsApi from '@/api/analytics.api';
 import type { DeeplinkStats, DeeplinkEvent } from '@/api/analytics.api';
+import { logger } from '@/lib/logger';
 
 interface UseDeeplinkAnalyticsOptions {
   timeRange?: '1h' | '24h' | '7d' | '30d';
@@ -89,16 +90,16 @@ export function useTrackDeeplink() {
         sessionId,
         referrer: params.referrer || document.referrer || undefined,
       });
-    } catch (error) {
-      console.error('Failed to track deeplink:', error);
+    } catch (error: unknown) {
+      logger.warn('Failed to track deeplink', { error: error instanceof Error ? error.message : String(error) });
     }
   };
 
   const markConversion = async (sessionId: string, conversionType: string) => {
     try {
       await analyticsApi.markDeeplinkConversion(sessionId, conversionType);
-    } catch (error) {
-      console.error('Failed to mark conversion:', error);
+    } catch (error: unknown) {
+      logger.warn('Failed to mark conversion', { error: error instanceof Error ? error.message : String(error) });
     }
   };
 

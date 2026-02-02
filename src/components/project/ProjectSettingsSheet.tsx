@@ -15,6 +15,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { supabase } from '@/integrations/supabase/client';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { logger } from '@/lib/logger';
 
 interface ProjectSettingsSheetProps {
   open: boolean;
@@ -74,8 +75,8 @@ export const ProjectSettingsSheet = ({ open, onOpenChange, project }: ProjectSet
       
       queryClient.invalidateQueries({ queryKey: ['projects'] });
       toast.success('Визуальный стиль сохранен');
-    } catch (error) {
-      console.error('Error saving visual style:', error);
+    } catch (error: unknown) {
+      logger.error('Error saving visual style', error instanceof Error ? error : new Error(String(error)));
       toast.error('Ошибка сохранения');
     } finally {
       setIsSavingStyle(false);

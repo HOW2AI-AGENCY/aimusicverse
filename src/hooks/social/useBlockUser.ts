@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 
 export function useBlockUser(targetUserId?: string) {
   const { user } = useAuth();
@@ -55,8 +56,8 @@ export function useBlockUser(targetUserId?: string) {
       queryClient.invalidateQueries({ queryKey: ['blocked-users'] });
       toast.success(result.action === 'block' ? 'Пользователь заблокирован' : 'Пользователь разблокирован');
     },
-    onError: (error) => {
-      console.error('Error toggling block:', error);
+    onError: (error: unknown) => {
+      logger.error('Error toggling block', error instanceof Error ? error : new Error(String(error)));
       toast.error('Не удалось выполнить действие');
     },
   });

@@ -6,6 +6,7 @@ import { Share2, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 
 interface ShareProjectCardProps {
   project: {
@@ -53,8 +54,8 @@ export function ShareProjectCard({ project, variant = 'button', className }: Sha
         await navigator.clipboard.writeText(appUrl);
         toast.success('Ссылка скопирована в буфер обмена');
       }
-    } catch (error) {
-      console.error('Share error:', error);
+    } catch (error: unknown) {
+      logger.error('Share error', error instanceof Error ? error : new Error(String(error)));
       toast.error('Не удалось поделиться');
     } finally {
       setIsSharing(false);
