@@ -14,6 +14,8 @@ import { logger } from '@/lib/logger';
 // Import from modular services
 import {
   getOrCreateSessionId,
+  hasSessionStartedBeenTracked,
+  markSessionStartedAsTracked,
   trackEvent as trackAnalyticsEvent,
   trackPageView,
   trackGeneration as trackGenerationEvent,
@@ -75,10 +77,18 @@ export function useAnalyticsTracking() {
     }
   }, [location, user?.id]);
 
-  // Track session start on mount (once)
+  // Track session start on mount (once per session, with deduplication)
   useEffect(() => {
     if (hasTrackedSession.current) return;
+    
+    // P1 Fix: Check if session_started was already tracked in this session
+    if (hasSessionStartedBeenTracked()) {
+      hasTrackedSession.current = true;
+      return;
+    }
+    
     hasTrackedSession.current = true;
+    markSessionStartedAsTracked(); // Mark as tracked to prevent duplicates
 
     trackEvent({
       eventType: 'session_started',
