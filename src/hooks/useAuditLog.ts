@@ -103,7 +103,7 @@ export function useAuditLog() {
   const logAction = async (entry: Omit<AuditLogEntry, 'userId'> & { userId?: string }) => {
     const userId = entry.userId || user?.id;
     if (!userId) {
-      console.warn('[useAuditLog] No user ID available for logging');
+      logger.warn('[useAuditLog] No user ID available for logging');
       return null;
     }
 

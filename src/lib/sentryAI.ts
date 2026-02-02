@@ -13,6 +13,7 @@
  */
 
 import { Sentry, isSentryEnabled } from './sentry';
+import { logger } from '@/lib/logger';
 
 // ==========================================
 // Types
@@ -456,7 +457,7 @@ export function setAIAttributes(attributes: Record<string, string | number | boo
 
   const span = Sentry.getActiveSpan();
   if (!span) {
-    console.warn('[Sentry AI] No active span to set attributes on');
+    logger.debug('[Sentry AI] No active span to set attributes on');
     return;
   }
 

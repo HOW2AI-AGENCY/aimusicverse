@@ -2,6 +2,7 @@
  * AI Response Parser - Reliable JSON extraction and validation
  */
 
+import { logger } from '@/lib/logger';
 import { 
   FullAnalysisData, 
   ProducerReviewData, 
@@ -72,7 +73,7 @@ export function extractJSON<T>(content: string): T | null {
         
         return JSON.parse(cleaned) as T;
       } catch (e) {
-        console.warn('JSON parse attempt failed:', e);
+        logger.debug('JSON parse attempt failed', { error: e instanceof Error ? e.message : String(e) });
         continue;
       }
     }
@@ -82,7 +83,7 @@ export function extractJSON<T>(content: string): T | null {
   try {
     return JSON.parse(content) as T;
   } catch {
-    console.warn('Failed to extract JSON from content');
+    logger.debug('Failed to extract JSON from content');
     return null;
   }
 }

@@ -126,7 +126,7 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
 
       // NO FALLBACK - if we can't find the correct stem, don't use a random one
       // This prevents saving transcriptions to wrong stems
-      console.warn('[StudioTranscriptionPanel] Could not resolve stem for', { trackId, normalizedStemType });
+      logger.warn('[StudioTranscriptionPanel] Could not resolve stem for', { trackId, normalizedStemType });
       return null;
     },
     enabled: !!(propStemId || (trackId && normalizedStemType)),
