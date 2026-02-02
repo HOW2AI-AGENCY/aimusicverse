@@ -6,6 +6,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
+import { logger } from '@/lib/logger';
 
 const TRIAL_DURATION_DAYS = 3;
 
@@ -34,7 +35,7 @@ export function useTrialEligibility() {
         .limit(1);
 
       if (subError) {
-        console.error('Error checking subscription history:', subError);
+        logger.warn('Error checking subscription history', { error: subError });
         return { isEligible: false, reason: 'has_subscription', trialDays: TRIAL_DURATION_DAYS };
       }
 
@@ -107,7 +108,7 @@ export async function activateTrial(userId: string): Promise<{ success: boolean;
 
     return { success: true };
   } catch (error) {
-    console.error('Trial activation error:', error);
+    logger.error('Trial activation error', error instanceof Error ? error : new Error(String(error)));
     return { success: false, error: 'Unexpected error' };
   }
 }

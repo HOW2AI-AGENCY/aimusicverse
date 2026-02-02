@@ -8,6 +8,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import type { StudioTrackVersion } from '@/stores/useUnifiedStudioStore';
+import { logger } from '@/lib/logger';
 
 interface DBTrackVersion {
   id: string;
@@ -120,7 +121,7 @@ export function useVersionSync({ trackId, enabled = true }: UseVersionSyncOption
       queryClient.invalidateQueries({ queryKey: ['track-versions', trackId] });
     },
     onError: (error) => {
-      console.error('Failed to save version:', error);
+      logger.error('Failed to save version', error instanceof Error ? error : new Error(String(error)));
       toast.error('Ошибка сохранения версии');
     },
   });
@@ -142,7 +143,7 @@ export function useVersionSync({ trackId, enabled = true }: UseVersionSyncOption
       toast.success('Транскрипция привязана к версии');
     },
     onError: (error) => {
-      console.error('Failed to link transcription:', error);
+      logger.error('Failed to link transcription', error instanceof Error ? error : new Error(String(error)));
       toast.error('Ошибка привязки транскрипции');
     },
   });

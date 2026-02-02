@@ -5,6 +5,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { logger } from '@/lib/logger';
 
 interface TranscriptionStatus {
   [trackId: string]: boolean;
@@ -27,7 +28,7 @@ export function useTrackTranscriptionStatus(trackIds: string[]) {
         .in('track_id', trackIds);
       
       if (error) {
-        console.error('Error fetching transcription status:', error);
+        logger.warn('Error fetching transcription status', { error });
         return {};
       }
       

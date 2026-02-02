@@ -5,6 +5,7 @@
 
 import { useCallback, useRef, useEffect, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
+import { logger } from '@/lib/logger';
 
 interface UseReliableGenerationOptions {
   /** Minimum time between generation attempts in ms */
@@ -82,7 +83,7 @@ export function useReliableGeneration({
       setGenerationCount(c => c + 1);
       
     } catch (error) {
-      console.error('Generation failed:', error);
+      logger.warn('Generation failed', { error });
       stateRef.current.failureCount++;
       
       // Retry with exponential backoff (max 3 retries)

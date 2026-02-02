@@ -12,6 +12,7 @@ import {
   unregisterStudioAudio, 
   pauseAllStudioAudio 
 } from '@/hooks/studio/useStudioAudio';
+import { logger } from '@/lib/logger';
 
 export interface Stem {
   id: string;
@@ -107,7 +108,7 @@ export function useReferenceStemPlayback(stems: Stem[]): UseReferenceStemPlaybac
       });
       
       audio.addEventListener('error', (e) => {
-        console.error(`Error loading stem ${stem.type}:`, e);
+        logger.warn(`Error loading stem ${stem.type}`, { error: e });
         loadedCount++;
         if (loadedCount === stems.length) {
           setIsLoading(false);
@@ -191,7 +192,7 @@ export function useReferenceStemPlayback(stems: Stem[]): UseReferenceStemPlaybac
       const targetTime = currentTime;
       audioRefs.current.forEach(audio => {
         audio.currentTime = targetTime;
-        audio.play().catch(console.error);
+        audio.play().catch(err => logger.warn('Audio play failed', { error: err }));
       });
     }
     setIsPlaying(!isPlaying);

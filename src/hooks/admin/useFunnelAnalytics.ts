@@ -5,6 +5,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { logger } from '@/lib/logger';
 
 export interface FunnelStep {
   step_name: string;
@@ -36,7 +37,7 @@ export function useFunnelAnalytics(options: UseFunnelAnalyticsOptions = {}) {
       });
 
       if (error) {
-        console.error('Failed to fetch funnel analytics:', error);
+        logger.warn('Failed to fetch funnel analytics', { error });
         throw error;
       }
 

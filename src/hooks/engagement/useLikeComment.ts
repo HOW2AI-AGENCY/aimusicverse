@@ -4,6 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
+import { logger } from '@/lib/logger';
 
 interface LikeCommentParams {
   commentId: string;
@@ -43,7 +44,7 @@ export function useLikeComment() {
       queryClient.invalidateQueries({ queryKey: ['comments', trackId] });
     },
     onError: (error) => {
-      console.error('Error toggling comment like:', error);
+      logger.error('Error toggling comment like', error instanceof Error ? error : new Error(String(error)));
       toast.error('Не удалось обновить лайк');
     },
   });
