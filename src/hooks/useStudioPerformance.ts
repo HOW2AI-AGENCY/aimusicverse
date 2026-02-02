@@ -3,7 +3,7 @@
  * Tracks memory usage, render counts, and provides optimization utilities
  */
 
-import { useEffect, useRef, useCallback, useMemo } from 'react';
+import { useEffect, useRef, useCallback, useMemo, useState } from 'react';
 import { logger } from '@/lib/logger';
 
 interface PerformanceMetrics {
@@ -60,11 +60,19 @@ export function useStudioPerformance(componentName: string): UseStudioPerformanc
   }, []);
 
   // Calculate average render time
+  // Track render count changes via state for proper memoization
+  const [renderCountState, setRenderCountState] = useState(0);
+  
+  // Update state when renderCount changes
+  useEffect(() => {
+    setRenderCountState(renderCount.current);
+  }, [renderCount.current]);
+
   const averageRenderTime = useMemo(() => {
     if (renderTimes.current.length === 0) return 0;
     const sum = renderTimes.current.reduce((a, b) => a + b, 0);
     return sum / renderTimes.current.length;
-  }, [renderCount.current]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [renderCountState]);
 
   const memoryUsageMB = getMemoryUsage();
   const isMemoryWarning = memoryUsageMB !== null && memoryUsageMB > MEMORY_WARNING_THRESHOLD_MB;

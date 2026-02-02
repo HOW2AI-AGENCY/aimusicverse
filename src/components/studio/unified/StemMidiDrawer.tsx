@@ -9,6 +9,7 @@
 
 import { useState, useCallback, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
+import { logger } from '@/lib/logger';
 import { 
   Music2, Download, Loader2, 
   Piano, Mic2, Drum, Guitar, FileAudio,
@@ -274,7 +275,7 @@ export function StemMidiDrawer({
               toast.success(`Распознано ${transcriptionResult.notes?.length} нот`);
             }
           } catch (saveError) {
-            console.error('[StemMidiDrawer] Failed to save transcription:', saveError);
+            logger.error('[StemMidiDrawer] Failed to save transcription', saveError as Error);
             toast.error('Не удалось сохранить транскрипцию');
           }
         } else {
@@ -283,7 +284,7 @@ export function StemMidiDrawer({
         }
       }
     } catch (error) {
-      console.error('Transcription error:', error);
+      logger.error('Transcription error', error as Error);
       toast.error('Ошибка транскрипции');
     }
   }, [stem, selectedModel, selectedOutputs, transcribe, trackId, saveTranscription]);
@@ -331,7 +332,7 @@ export function StemMidiDrawer({
 
       toast.success('MIDI экспортирован');
     } catch (error) {
-      console.error('Export MIDI error:', error);
+      logger.error('Export MIDI error', error as Error);
       toast.error('Ошибка экспорта MIDI');
     } finally {
       setIsExportingMidi(false);
