@@ -14,6 +14,7 @@ import { toast } from 'sonner';
 import { navigateTo, getGlobalNavigate } from '@/hooks/useAppNavigate';
 import { useQueryClient } from '@tanstack/react-query';
 import { trackEvent } from '@/services/analytics';
+import { logger } from '@/lib/logger';
 
 interface TrialBannerProps {
   className?: string;
@@ -83,9 +84,9 @@ export const TrialBanner = memo(function TrialBanner({
           metadata: { error: result.error },
         });
       }
-    } catch (error) {
+    } catch (error: unknown) {
       toast.error('Произошла ошибка');
-      console.error('Trial activation error:', error);
+      logger.error('Trial activation error', error instanceof Error ? error : new Error(String(error)));
     } finally {
       setIsActivating(false);
     }

@@ -4,6 +4,7 @@
  */
 
 import { useCallback } from 'react';
+import { logger } from '@/lib/logger';
 
 export interface ReferenceAnalysisData {
   id: string;
@@ -40,8 +41,8 @@ export function useReferenceAnalysisData() {
         ...data,
         savedAt: Date.now(),
       }));
-    } catch (error) {
-      console.error('Failed to save reference analysis data:', error);
+    } catch (error: unknown) {
+      logger.warn('Failed to save reference analysis data', { error: error instanceof Error ? error.message : String(error) });
     }
   }, []);
 
@@ -62,8 +63,8 @@ export function useReferenceAnalysisData() {
       }
 
       return data as ReferenceAnalysisData;
-    } catch (error) {
-      console.error('Failed to load reference analysis data:', error);
+    } catch (error: unknown) {
+      logger.warn('Failed to load reference analysis data', { error: error instanceof Error ? error.message : String(error) });
       return null;
     }
   }, []);

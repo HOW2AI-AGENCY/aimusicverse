@@ -18,6 +18,7 @@ import { PromptKnob } from './PromptKnob';
 import { LiveVisualizer } from './LiveVisualizer';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
+import { logger } from '@/lib/logger';
 import { ReferenceManager } from '@/services/audio-reference';
 import { useIsMobile } from '@/hooks/use-mobile';
 import {
@@ -131,8 +132,8 @@ export const PromptDJClean = memo(function PromptDJClean() {
         if (bpm) updateGlobalSettings({ bpm });
         toast.success('Паттерн из драм-машины загружен');
         sessionStorage.removeItem('drumPatternForDJ');
-      } catch (e) {
-        console.error('Failed to parse drum pattern:', e);
+      } catch (e: unknown) {
+        logger.warn('Failed to parse drum pattern', { error: e instanceof Error ? e.message : String(e) });
       }
     }
   }, [channels, updateChannel, updateGlobalSettings]);

@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
+import { logger } from '@/lib/logger';
 
 interface CrossfadePreviewProps {
   originalAudioUrl: string;
@@ -162,8 +163,8 @@ export function CrossfadePreview({
       await Promise.all([original.play(), replacement.play()]);
       setIsPlaying(true);
       animationRef.current = requestAnimationFrame(updatePlayback);
-    } catch (error) {
-      console.error('Playback error:', error);
+    } catch (error: unknown) {
+      logger.warn('Playback error', { error: error instanceof Error ? error.message : String(error) });
     }
   }, [sectionStart, updatePlayback]);
 
