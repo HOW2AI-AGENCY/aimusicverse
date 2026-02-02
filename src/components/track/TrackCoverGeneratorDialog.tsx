@@ -7,6 +7,7 @@ import { Sparkles, Loader2, Wand2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
+import { logger } from '@/lib/logger';
 
 interface TrackCoverGeneratorDialogProps {
   open: boolean;
@@ -55,9 +56,9 @@ export function TrackCoverGeneratorDialog({
       toast.success('Обложка сгенерирована! 🎨');
       onGenerated?.();
       onOpenChange(false);
-    } catch (error: any) {
-      console.error('Cover generation error:', error);
-      toast.error(error.message || 'Ошибка генерации обложки');
+    } catch (error: unknown) {
+      logger.error('Cover generation error', error instanceof Error ? error : new Error(String(error)));
+      toast.error(error instanceof Error ? error.message : 'Ошибка генерации обложки');
     } finally {
       setIsGenerating(false);
     }

@@ -4,6 +4,7 @@
  */
 
 import { memo, useCallback, useMemo } from 'react';
+import { logger } from '@/lib/logger';
 import {
   DndContext,
   closestCenter,
@@ -229,7 +230,7 @@ export const SortableTrackList = memo(function SortableTrackList({
         .in('stem_id', stemIds);
 
       if (transError) {
-        console.error('[SortableTrackList] Error fetching transcriptions:', transError);
+        logger.warn('[SortableTrackList] Error fetching transcriptions', { error: transError });
         return result;
       }
       
