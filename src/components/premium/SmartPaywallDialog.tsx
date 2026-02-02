@@ -21,6 +21,7 @@ import {
   X
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { logger } from '@/lib/logger';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
@@ -148,7 +149,7 @@ export const SmartPaywallDialog = memo(function SmartPaywallDialog({
       navigate('/subscription?trial=true');
       onClose();
     } catch (error) {
-      console.error('Trial error:', error);
+      logger.error('Trial navigation error', error as Error);
       toast.error('Произошла ошибка');
     } finally {
       setIsLoading(false);

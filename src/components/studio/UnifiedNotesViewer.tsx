@@ -12,6 +12,7 @@
 
 import { memo, useState, useMemo, useCallback, useEffect } from 'react';
 import { motion } from '@/lib/motion';
+import { logger } from '@/lib/logger';
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/formatters';
 import { 
@@ -452,7 +453,7 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
       if (error) throw error;
       toast.success(`Файл отправлен в Telegram`);
     } catch (error: unknown) {
-      console.error('Send to Telegram error:', error);
+      logger.error('Send to Telegram error', error as Error);
       const msg = error instanceof Error ? error.message : 'Ошибка отправки';
       toast.error(msg);
     } finally {

@@ -17,6 +17,7 @@ import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+import { logger } from '@/lib/logger';
 import { toast } from 'sonner';
 import type { StudioTrack } from '@/stores/useUnifiedStudioStore';
 
@@ -111,7 +112,7 @@ export const StudioDownloadPanel = memo(function StudioDownloadPanel({
       setDownloadedTracks(prev => new Set([...prev, track.id]));
       toast.success(`${track.name} скачан`);
     } catch (error) {
-      console.error('Download error:', error);
+      logger.error('Download track error', error as Error);
       toast.error('Ошибка скачивания');
     } finally {
       setDownloadingTrackId(null);
@@ -166,7 +167,7 @@ export const StudioDownloadPanel = memo(function StudioDownloadPanel({
       toast.success('Архив со стемами скачан');
       onClose?.();
     } catch (error) {
-      console.error('ZIP error:', error);
+      logger.error('ZIP creation error', error as Error);
       toast.error('Ошибка создания архива');
     } finally {
       setIsDownloading(false);

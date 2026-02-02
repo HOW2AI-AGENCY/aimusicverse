@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
+import { logger } from '@/lib/logger';
 import { toast } from 'sonner';
 
 export interface LyricsTemplate {
@@ -78,7 +79,7 @@ export function useLyricsTemplates() {
       toast.success('Шаблон сохранён');
     },
     onError: (error) => {
-      console.error('Error saving template:', error);
+      logger.error('Error saving template', error as Error);
       toast.error('Ошибка сохранения шаблона');
     },
   });
