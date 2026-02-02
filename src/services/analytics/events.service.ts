@@ -150,6 +150,23 @@ export async function trackTrackPlayed(
 }
 
 /**
+ * Track track liked/unliked
+ * P0 Fix: Explicitly track like events for analytics
+ */
+export async function trackTrackLiked(
+  trackId: string,
+  action: 'like' | 'unlike',
+  metadata?: Record<string, unknown>,
+  userId?: string
+): Promise<void> {
+  await trackEvent({
+    eventType: 'track_liked',
+    eventName: action,
+    metadata: { track_id: trackId, action, ...metadata },
+  }, userId);
+}
+
+/**
  * Track track shared
  */
 export async function trackTrackShared(

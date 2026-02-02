@@ -82,24 +82,54 @@ export type ConversionStage =
 // Storage keys
 const STORAGE_KEYS = {
   SESSION_ID: 'deeplink_session_id',
+  PERSISTENT_SESSION_ID: 'deeplink_persistent_session_id', // localStorage fallback
   FIRST_VISIT: 'deeplink_first_visit',
   LAST_DEEPLINK: 'deeplink_last_type',
   CONVERSION_STAGES: 'deeplink_conversion_stages',
+  PERSISTENT_CONVERSION_STAGES: 'deeplink_persistent_stages', // localStorage fallback
   REFERRAL_CHAIN: 'deeplink_referral_chain',
   EXPERIMENT_ASSIGNMENTS: 'deeplink_experiments',
 } as const;
 
 // ==========================================
-// Session Management
+// Session Management (Enhanced with persistence)
 // ==========================================
 
+/**
+ * Get or create a session ID with localStorage fallback for conversion tracking
+ * This ensures conversions can be tracked even after tab close
+ */
 export function getOrCreateSessionId(): string {
+  // Try sessionStorage first (for current session tracking)
   let sessionId = sessionStorage.getItem(STORAGE_KEYS.SESSION_ID);
+  
   if (!sessionId) {
-    sessionId = `sess_${Date.now()}_${crypto.randomUUID().slice(0, 8)}`;
+    // Check localStorage for persistent session (for returning users)
+    const persistentId = localStorage.getItem(STORAGE_KEYS.PERSISTENT_SESSION_ID);
+    
+    if (persistentId) {
+      // Reuse persistent session for conversion continuity
+      sessionId = persistentId;
+    } else {
+      // Create new session
+      sessionId = `sess_${Date.now()}_${crypto.randomUUID().slice(0, 8)}`;
+      // Store in localStorage for persistence
+      localStorage.setItem(STORAGE_KEYS.PERSISTENT_SESSION_ID, sessionId);
+    }
+    
+    // Always store in sessionStorage for fast access
     sessionStorage.setItem(STORAGE_KEYS.SESSION_ID, sessionId);
   }
+  
   return sessionId;
+}
+
+/**
+ * Get the persistent session ID (from localStorage)
+ * Used for conversion tracking across browser sessions
+ */
+export function getPersistentSessionId(): string | null {
+  return localStorage.getItem(STORAGE_KEYS.PERSISTENT_SESSION_ID);
 }
 
 export function isFirstVisit(): boolean {
@@ -234,10 +264,23 @@ export function getReferralChain(): string[] {
 // Conversion Funnel Tracking
 // ==========================================
 
+/**
+ * Get conversion stages from both sessionStorage and localStorage
+ * Merges both to ensure persistence across sessions
+ */
 export function getConversionStages(): ConversionStage[] {
   try {
-    const stored = sessionStorage.getItem(STORAGE_KEYS.CONVERSION_STAGES);
-    return stored ? JSON.parse(stored) : [];
+    // Get from sessionStorage (current session)
+    const sessionStages = sessionStorage.getItem(STORAGE_KEYS.CONVERSION_STAGES);
+    const sessionList: ConversionStage[] = sessionStages ? JSON.parse(sessionStages) : [];
+    
+    // Get from localStorage (persistent across sessions)
+    const persistentStages = localStorage.getItem(STORAGE_KEYS.PERSISTENT_CONVERSION_STAGES);
+    const persistentList: ConversionStage[] = persistentStages ? JSON.parse(persistentStages) : [];
+    
+    // Merge unique stages
+    const merged = [...new Set([...persistentList, ...sessionList])];
+    return merged;
   } catch {
     return [];
   }
@@ -247,11 +290,18 @@ export function hasReachedStage(stage: ConversionStage): boolean {
   return getConversionStages().includes(stage);
 }
 
+/**
+ * Track conversion stage with enhanced persistence
+ * - Uses localStorage for persistence across browser sessions
+ * - Uses user_id when available for cross-device tracking
+ * - Falls back to session_id for anonymous users
+ */
 export async function trackConversionStage(
   stage: ConversionStage,
   metadata?: Record<string, unknown>
 ): Promise<void> {
   const sessionId = getOrCreateSessionId();
+  const persistentSessionId = getPersistentSessionId();
   const stages = getConversionStages();
   
   // Already tracked this stage
@@ -260,23 +310,70 @@ export async function trackConversionStage(
     return;
   }
 
-  // Add to local stages
+  // Add to local stages (both storages for redundancy)
   stages.push(stage);
   sessionStorage.setItem(STORAGE_KEYS.CONVERSION_STAGES, JSON.stringify(stages));
+  localStorage.setItem(STORAGE_KEYS.PERSISTENT_CONVERSION_STAGES, JSON.stringify(stages));
 
   // Track to database
   try {
     const { data: { user } } = await supabase.auth.getUser();
     
-    await supabase.from('deeplink_analytics').update({
+    const updatePayload = {
       conversion_type: stage,
       converted: stage !== 'visit',
+      user_id: user?.id || null, // Link conversion to user if authenticated
       metadata: {
         ...(metadata || {}),
         stages_reached: stages,
         stage_timestamp: new Date().toISOString(),
       },
-    }).eq('session_id', sessionId);
+    };
+
+    // Try to update by user_id first (for returning authenticated users)
+    if (user?.id) {
+      const { data: userUpdate, error: userError } = await supabase
+        .from('deeplink_analytics')
+        .update(updatePayload)
+        .eq('user_id', user.id)
+        .is('converted', false) // Only update unconverted entries
+        .select('id')
+        .maybeSingle();
+      
+      if (userUpdate) {
+        deeplinkLogger.info('Conversion tracked via user_id', { stage, userId: user.id });
+        return;
+      }
+      
+      if (userError) {
+        deeplinkLogger.debug('User-based update failed, trying session fallback', { error: String(userError) });
+      }
+    }
+
+    // Fallback: Update by persistent session ID
+    const sessionToUse = persistentSessionId || sessionId;
+    const { error } = await supabase
+      .from('deeplink_analytics')
+      .update(updatePayload)
+      .eq('session_id', sessionToUse);
+
+    if (error) {
+      // If no existing record, create new one for this conversion
+      deeplinkLogger.debug('No existing session found, creating new analytics entry');
+      await supabase.from('deeplink_analytics').insert([{
+        user_id: user?.id || null,
+        session_id: sessionId,
+        deeplink_type: 'return_visit',
+        conversion_type: stage,
+        converted: stage !== 'visit',
+        metadata: {
+          ...(metadata || {}),
+          stages_reached: stages,
+          stage_timestamp: new Date().toISOString(),
+          is_conversion_only: true,
+        },
+      }]);
+    }
 
     deeplinkLogger.info('Conversion stage tracked', { stage, sessionId });
   } catch (error) {

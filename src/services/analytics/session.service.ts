@@ -1,10 +1,13 @@
 /**
  * Session Management Service
  * Handles analytics session creation and management
+ * 
+ * P1 Fix: Added deduplication to prevent duplicate session_started events
  */
 
 const SESSION_KEY = 'analytics_session_id';
 const JOURNEY_SESSION_KEY = 'journey_session_id';
+const SESSION_STARTED_KEY = 'analytics_session_started'; // Deduplication flag
 const SESSION_EXPIRY = 30 * 60 * 1000; // 30 minutes
 
 /**
@@ -69,9 +72,31 @@ export function getCurrentSessionId(): string | null {
 }
 
 /**
+ * Check if session_started event has already been sent for this session
+ * P1 Fix: Prevents duplicate session_started events
+ */
+export function hasSessionStartedBeenTracked(): boolean {
+  const sessionId = getCurrentSessionId();
+  if (!sessionId) return false;
+  
+  const trackedSession = sessionStorage.getItem(SESSION_STARTED_KEY);
+  return trackedSession === sessionId;
+}
+
+/**
+ * Mark session_started as tracked for this session
+ * P1 Fix: Deduplication mechanism
+ */
+export function markSessionStartedAsTracked(): void {
+  const sessionId = getOrCreateSessionId();
+  sessionStorage.setItem(SESSION_STARTED_KEY, sessionId);
+}
+
+/**
  * Clear session data
  */
 export function clearSession(): void {
   sessionStorage.removeItem(SESSION_KEY);
   sessionStorage.removeItem(JOURNEY_SESSION_KEY);
+  sessionStorage.removeItem(SESSION_STARTED_KEY);
 }

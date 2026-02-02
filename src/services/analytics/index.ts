@@ -12,6 +12,8 @@ export {
   refreshJourneySession,
   getCurrentSessionId,
   clearSession,
+  hasSessionStartedBeenTracked,
+  markSessionStartedAsTracked,
 } from './session.service';
 
 // Event tracking
@@ -24,6 +26,7 @@ export {
   trackFeatureUsed,
   trackButtonClick,
   trackTrackPlayed,
+  trackTrackLiked,
   trackTrackShared,
 } from './events.service';
 

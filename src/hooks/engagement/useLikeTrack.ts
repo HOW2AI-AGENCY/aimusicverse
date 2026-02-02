@@ -1,11 +1,11 @@
-// useLikeTrack hook - Sprint 011 - Fixed with optimistic updates
+// useLikeTrack hook - Sprint 011 - Fixed with optimistic updates + P0 analytics fix
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import { logger } from '@/lib/logger';
-import { trackButtonClick } from '@/services/analytics';
+import { trackButtonClick, trackTrackLiked } from '@/services/analytics';
 import { trackConversionStage, hasReachedStage } from '@/lib/analytics/deeplink-tracker';
 
 export function useLikeTrack(trackId: string, initialLiked?: boolean) {
@@ -83,7 +83,12 @@ export function useLikeTrack(trackId: string, initialLiked?: boolean) {
       queryClient.invalidateQueries({ queryKey: ['public-content'] });
       queryClient.invalidateQueries({ queryKey: ['home-data'] });
 
-      // Track analytics
+      // P0 Fix: Track proper track_liked event for analytics
+      trackTrackLiked(trackId, result.action, {
+        source: 'library',
+      }).catch(() => {});
+
+      // Also track as button click for backwards compatibility
       trackButtonClick(result.action === 'like' ? 'track_like' : 'track_unlike', {
         track_id: trackId,
       }).catch(() => {});
