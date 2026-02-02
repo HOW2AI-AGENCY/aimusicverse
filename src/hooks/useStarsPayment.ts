@@ -12,6 +12,7 @@ import type { StarsProduct } from '@/services/starsPaymentService';
 import type { CreateInvoiceRequest } from '@/types/starsPayment';
 import { trackConversionStage } from '@/lib/analytics/deeplink-tracker';
 import { trackButtonClick, trackFeatureUsed } from '@/services/analytics';
+import { logger } from '@/lib/logger';
 
 // Payment flow state
 interface PaymentFlowState {
@@ -109,7 +110,7 @@ export function useStarsPayment() {
           });
         }
       } catch (error) {
-        console.error('Payment initiation error:', error);
+        logger.warn('Payment initiation error', { error });
       }
     },
     [createInvoiceMutation]

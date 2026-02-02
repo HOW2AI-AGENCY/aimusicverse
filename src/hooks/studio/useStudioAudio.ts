@@ -13,6 +13,7 @@
 
 import { useCallback, useRef, useEffect } from 'react';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { logger } from '@/lib/logger';
 
 interface AudioSource {
   id: string;
@@ -133,7 +134,7 @@ export function useStudioAudio(sourceId: string) {
       emitAudioStateChange(sourceId, true);
       return true;
     } catch (error) {
-      console.error('Playback failed:', error);
+      logger.warn('Playback failed', { error });
       isPlayingRef.current = false;
       return false;
     }
