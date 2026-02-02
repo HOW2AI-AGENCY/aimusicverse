@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { supabase } from '@/integrations/supabase/client';
+import { logger } from '@/lib/logger';
 import { toast } from 'sonner';
 import type { Track } from '@/types/track';
 import { AlertTriangle, Flag, Loader2 } from 'lucide-react';
@@ -62,8 +63,8 @@ export function ReportTrackDialog({ open, onOpenChange, track }: ReportTrackDial
       onOpenChange(false);
       setReason('');
       setDetails('');
-    } catch (error: any) {
-      console.error('Report error:', error);
+    } catch (error: unknown) {
+      logger.error('Report track error', error as Error);
       toast.error('Не удалось отправить жалобу');
     } finally {
       setIsSubmitting(false);
