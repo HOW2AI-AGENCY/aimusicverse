@@ -12,6 +12,7 @@ import { formatTime } from '@/lib/player-utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { DetectedSection } from '@/hooks/useSectionDetection';
 import { createAudioContext } from '@/lib/audio/audioContextHelper';
+import { logger } from '@/lib/logger';
 
 // Section colors by type
 const SECTION_COLORS: Record<string, { bg: string; border: string; text: string }> = {
@@ -103,8 +104,8 @@ export function ProfessionalWaveformTimeline({
         setWaveformData(normalized);
         setIsLoading(false);
       })
-      .catch(err => {
-        console.error('Waveform generation error:', err);
+      .catch((err: unknown) => {
+        logger.warn('Waveform generation error', { error: err instanceof Error ? err.message : String(err) });
         // Generate placeholder waveform
         const placeholder = Array.from({ length: isMobile ? 100 : 200 }, () => 
           0.3 + Math.random() * 0.4

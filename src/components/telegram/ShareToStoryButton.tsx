@@ -22,6 +22,7 @@ import {
 import { useTelegram } from '@/contexts/telegram';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
+import { logger } from '@/lib/logger';
 
 interface ShareToStoryButtonProps {
   /** URL of the media to share (audio, video, or image) */
@@ -66,8 +67,8 @@ export function ShareToStoryButton({
         link,
       });
       toast.success('Открыт редактор Telegram Stories');
-    } catch (error) {
-      console.error('Share to story failed:', error);
+    } catch (error: unknown) {
+      logger.error('Share to story failed', error instanceof Error ? error : new Error(String(error)));
       toast.error('Не удалось поделиться. Попробуйте позже.');
     } finally {
       setIsSharing(false);

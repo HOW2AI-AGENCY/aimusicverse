@@ -8,6 +8,7 @@ import { Sparkles, Wand2, Crop, RotateCcw, Check, Loader2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
+import { logger } from '@/lib/logger';
 
 interface ImageGeneratorDialogProps {
   open: boolean;
@@ -75,8 +76,8 @@ export function ImageGeneratorDialog({
 
       setGeneratedImage(data.imageUrl);
       toast.success('Изображение сгенерировано!');
-    } catch (error) {
-      console.error('Generation error:', error);
+    } catch (error: unknown) {
+      logger.error('Generation error', error instanceof Error ? error : new Error(String(error)));
       toast.error('Ошибка генерации изображения');
     } finally {
       setIsGenerating(false);

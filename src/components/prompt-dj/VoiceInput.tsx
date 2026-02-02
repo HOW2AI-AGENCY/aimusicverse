@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Mic, MicOff, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 
 // Web Speech API types
 interface SpeechRecognitionEvent extends Event {
@@ -103,7 +104,7 @@ export function VoiceInput({ onTranscript, disabled, className }: VoiceInputProp
     };
 
     recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
-      console.error('Speech recognition error:', event.error);
+      logger.error('Speech recognition error', new Error(event.error));
       if (event.error !== 'no-speech') {
         toast.error('Ошибка распознавания речи');
       }

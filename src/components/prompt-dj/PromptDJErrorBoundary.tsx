@@ -68,9 +68,7 @@ export class PromptDJErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('[PromptDJ Error]', {
-      error: error.message,
-      stack: error.stack,
+    log.error('[PromptDJ Error]', error, {
       componentStack: errorInfo.componentStack,
       type: this.state.errorType,
     });
@@ -94,7 +92,7 @@ export class PromptDJErrorBoundary extends Component<Props, State> {
   private handleUnhandledRejection = (event: PromiseRejectionEvent) => {
     const reason = event.reason?.message || String(event.reason);
     if (reason.includes('audio') || reason.includes('context')) {
-      console.warn('[PromptDJ] Audio-related unhandled rejection:', reason);
+      log.warn('[PromptDJ] Audio-related unhandled rejection', { reason });
       this.attemptAudioRecovery();
     }
   };

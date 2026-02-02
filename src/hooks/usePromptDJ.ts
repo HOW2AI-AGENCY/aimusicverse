@@ -2,6 +2,7 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 import { buildPromptFromChannels } from '@/lib/prompt-dj-presets';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 
 // Tone.js types - loaded dynamically to prevent "Cannot access 'e' before initialization" error
 type ToneType = typeof import('tone');
@@ -189,8 +190,8 @@ export function usePromptDJ(): UsePromptDJReturn {
         // Auto-play the new track
         playTrack(newTrack);
       }
-    } catch (error) {
-      console.error('Generation error:', error);
+    } catch (error: unknown) {
+      logger.error('Generation error', error instanceof Error ? error : new Error(String(error)));
       toast.error('Ошибка генерации. Попробуйте снова.');
     } finally {
       setIsGenerating(false);
@@ -229,8 +230,8 @@ export function usePromptDJ(): UsePromptDJReturn {
       player.onstop = () => {
         setIsPlaying(false);
       };
-    } catch (error) {
-      console.error('Playback error:', error);
+    } catch (error: unknown) {
+      logger.error('Playback error', error instanceof Error ? error : new Error(String(error)));
       toast.error('Ошибка воспроизведения');
     }
   }, []);
@@ -322,8 +323,8 @@ export function usePromptDJ(): UsePromptDJReturn {
       setTimeout(() => {
         stopPreview();
       }, 8000);
-    } catch (error) {
-      console.error('Preview error:', error);
+    } catch (error: unknown) {
+      logger.error('Preview error', error instanceof Error ? error : new Error(String(error)));
     }
   }, [globalSettings]);
 

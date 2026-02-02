@@ -146,8 +146,8 @@ export const StudioDownloadPanel = memo(function StudioDownloadPanel({
           const blob = await response.blob();
           const filename = `${track.name.replace(/[^a-zA-Zа-яА-ЯёЁ0-9\s-]/g, '')}.${format}`;
           zip.file(filename, blob);
-        } catch (err) {
-          console.warn(`Failed to fetch ${track.name}:`, err);
+        } catch (err: unknown) {
+          logger.warn(`Failed to fetch ${track.name}`, { error: err instanceof Error ? err.message : String(err) });
         }
 
         setDownloadProgress(Math.round(((i + 1) / downloadableTracks.length) * 100));

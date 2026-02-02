@@ -28,6 +28,7 @@ import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { usePredictiveGeneration } from '@/hooks/usePredictiveGeneration';
+import { logger } from '@/lib/logger';
 import { useTelegramMainButton } from '@/hooks/telegram';
 import {
   Sheet,
@@ -236,8 +237,8 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
       
       if (error) throw error;
       toast.success('Трек сохранён в облако');
-    } catch (error) {
-      console.error('Save error:', error);
+    } catch (error: unknown) {
+      logger.error('Save error', error instanceof Error ? error : new Error(String(error)));
       toast.error('Ошибка сохранения');
     } finally {
       setSavingTrackId(null);

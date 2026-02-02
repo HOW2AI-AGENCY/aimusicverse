@@ -24,6 +24,7 @@ import { cn } from '@/lib/utils';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { toast } from 'sonner';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
+import { logger } from '@/lib/logger';
 
 // Dynamic QR code generation
 function QRCodeDisplay({ value, size = 200 }: { value: string; size?: number }) {
@@ -48,8 +49,8 @@ function QRCodeDisplay({ value, size = 200 }: { value: string; size?: number }) 
           setQrDataUrl(url);
           setLoading(false);
         }
-      } catch (err) {
-        console.error('QR generation failed:', err);
+      } catch (err: unknown) {
+        logger.warn('QR generation failed', { error: err instanceof Error ? err.message : String(err) });
         if (!cancelled) setLoading(false);
       }
     };
