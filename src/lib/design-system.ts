@@ -33,6 +33,25 @@ export {
   contrastSafeColors,
 } from './contrast-utils';
 
+// Accessibility utilities
+export {
+  generateA11yId,
+  prefersReducedMotion,
+  prefersDarkMode,
+  announceToScreenReader,
+  trapFocus,
+  getIconA11yLabel,
+  meetsWcagAA,
+  meetsWcagAAA,
+  handleKeyboardNavigation,
+  useLiveAnnounce,
+  usePrefersReducedMotion,
+  useFocusTrap,
+  useRovingFocus,
+  useFocusVisible,
+  focusRingClasses,
+} from './a11y-utils';
+
 // Style utilities (CSS class generators)
 export {
   textStyles,
@@ -66,3 +85,5 @@ export type {
   RadiusStyle,
   InteractiveStyle,
 } from '@/styles/style-utils';
+
+export type { KeyboardHandlers } from './a11y-utils';
