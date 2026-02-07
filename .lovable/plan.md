@@ -110,6 +110,12 @@
 - Страница Projects уже использует ContentHubTabs с двумя вкладками
 - Расширена до max-w-6xl для десктопа
 
+**Задача 3.3: Artists с Master-Detail** ✅
+- Создан `ArtistDetailPreview.tsx` - превью артиста с аватаром, bio, жанрами
+- Desktop: 60/40 split (список/детали) с sticky detail panel
+- Выделение выбранного элемента (ring-2 ring-primary)
+- Быстрые действия: генерация, редактирование
+
 ### Фаза 4: Оптимизация Index (Home) ✅ DONE
 
 **Задача 4.1: Desktop Home Layout** ✅
@@ -117,6 +123,25 @@
 - Левая колонка: QuickCreate, Presets, Featured, New Tracks Grid (4 cols)
 - Правая колонка: Stats, Gamification, Daily Tip, Recent, QuickStart
 - Расширен container до max-w-7xl
+
+### Фаза 5: Keyboard Shortcuts & Sidebar ✅ DONE
+
+**Задача 5.1: Keyboard shortcuts indicator** ✅
+- Добавлены глобальные shortcuts: ⌘1-4, ⌘G, ⌘,
+- Показываются hotkey hints при наведении на пункты меню
+- Platform-aware (⌘ для Mac, Ctrl+ для Windows/Linux)
+
+### Фаза 6: Дополнительные страницы ✅ DONE
+
+**Задача 6.1: CreativeTools Desktop Layout** ✅
+- Sidebar с выбором инструментов (Drums, DJ, Chords, Tabs)
+- Main content area с анимированными переходами
+- Расширен container до max-w-7xl на десктопе
+
+**Задача 6.2: Referral Two-Column Layout** ✅
+- Desktop: QR/Share слева + Leaderboard справа
+- Mobile: стеком (share section + leaderboard)
+- Расширен container до max-w-5xl
 
 ### Фаза 5: Улучшение Sidebar (1 час)
 

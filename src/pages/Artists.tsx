@@ -1,25 +1,28 @@
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { Navigate, useSearchParams } from "react-router-dom";
-import { Users, Search, Plus, User, Sparkles, Star, TrendingUp, Music2, Mic2 } from "lucide-react";
+import { Users, Search, Plus, User, Sparkles, TrendingUp, Music2, Mic2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { usePublicArtists } from "@/hooks/usePublicArtists";
 import { useArtists, type Artist } from "@/hooks/useArtists";
 import { ActorCard } from "@/components/actors/ActorCard";
 import { CreateArtistFromTrackDialog } from "@/components/artist/CreateArtistFromTrackDialog";
 import { ArtistDetailsPanel } from "@/components/artist/ArtistDetailsPanel";
+import { ArtistDetailPreview } from "@/components/artist/ArtistDetailPreview";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const GENRES = ["Pop", "Rock", "Hip-Hop", "Electronic", "R&B", "Jazz", "Classical", "Folk"];
 
 export default function Artists() {
   const { isAuthenticated, loading: authLoading } = useAuth();
+  const isMobile = useIsMobile();
   const [searchParams, setSearchParams] = useSearchParams();
   const activeTab = searchParams.get('tab') || 'my';
   
@@ -61,6 +64,7 @@ export default function Artists() {
     setSearchParams({ tab: value });
     setSearchQuery("");
     setSelectedGenre(null);
+    setSelectedArtist(null);
   };
 
   // Filter artists based on search and genre
@@ -77,12 +81,195 @@ export default function Artists() {
   const isLoading = activeTab === 'my' ? myLoading : publicLoading;
   const currentArtists = activeTab === 'my' ? filteredMyArtists : filteredPublicArtists;
 
+  const handleArtistClick = (artist: Artist) => {
+    setSelectedArtist(artist);
+    if (isMobile) {
+      setDetailsPanelOpen(true);
+    }
+  };
+
+  // Artist list renderer
+  const renderArtistList = () => (
+    <AnimatePresence mode="wait">
+      {isLoading ? (
+        <motion.div 
+          key="loading"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className={cn(
+            "grid gap-4",
+            isMobile ? "sm:grid-cols-2 lg:grid-cols-3" : "grid-cols-1 lg:grid-cols-2"
+          )}
+        >
+          {[1, 2, 3, 4, 5, 6].map((i) => (
+            <motion.div 
+              key={i} 
+              className="h-28 rounded-2xl bg-gradient-to-br from-muted/60 to-muted/30 animate-pulse"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1 }}
+            />
+          ))}
+        </motion.div>
+      ) : currentArtists.length > 0 ? (
+        <motion.div 
+          key="artists"
+          className={cn(
+            "grid gap-4",
+            isMobile ? "sm:grid-cols-2 lg:grid-cols-3" : "grid-cols-1 lg:grid-cols-2"
+          )}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          {activeTab === 'my' ? (
+            // My Artists - enhanced Card layout
+            currentArtists.map((artist, index) => (
+              <motion.div
+                key={artist.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+                whileHover={{ y: -4 }}
+              >
+                <Card 
+                  className={cn(
+                    "p-5 glass-card border-primary/20 hover:border-primary/40 hover:shadow-xl transition-all cursor-pointer group relative overflow-hidden",
+                    !isMobile && selectedArtist?.id === artist.id && "ring-2 ring-primary border-primary/50"
+                  )}
+                  onClick={() => handleArtistClick(artist)}
+                >
+                  {/* Hover glow */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  
+                  <div className="flex items-start gap-4 relative">
+                    <motion.div 
+                      className="relative"
+                      whileHover={{ scale: 1.05 }}
+                    >
+                      <div className="w-16 h-16 rounded-2xl overflow-hidden bg-gradient-to-br from-primary/20 to-primary/10 flex-shrink-0 border-2 border-primary/20 group-hover:border-primary/40 transition-all shadow-lg">
+                        {artist.avatar_url ? (
+                          <img src={artist.avatar_url} alt={artist.name} className="w-full h-full object-cover" />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <Users className="w-7 h-7 text-primary/50" />
+                          </div>
+                        )}
+                      </div>
+                      {artist.is_ai_generated && (
+                        <div className="absolute -top-1 -right-1 p-1 rounded-full bg-primary shadow-md">
+                          <Sparkles className="w-3 h-3 text-primary-foreground" />
+                        </div>
+                      )}
+                    </motion.div>
+
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between gap-2">
+                        <h3 className="font-semibold text-foreground truncate group-hover:text-primary transition-colors">
+                          {artist.name}
+                        </h3>
+                      </div>
+
+                      {artist.bio && (
+                        <p className="text-sm text-muted-foreground mt-1 line-clamp-2">{artist.bio}</p>
+                      )}
+
+                      {artist.genre_tags && artist.genre_tags.length > 0 && (
+                        <div className="flex flex-wrap gap-1.5 mt-3">
+                          {artist.genre_tags.slice(0, 3).map((tag: string) => (
+                            <Badge key={tag} variant="secondary" className="text-xs gap-1 bg-primary/10 text-primary border-0">
+                              <Music2 className="w-2.5 h-2.5" />
+                              {tag}
+                            </Badge>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </Card>
+              </motion.div>
+            ))
+          ) : (
+            // Community Artists - use ActorCard
+            currentArtists.map((artist, index) => (
+              <motion.div
+                key={artist.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+                onClick={() => handleArtistClick(artist)}
+                className={cn(
+                  "cursor-pointer",
+                  !isMobile && selectedArtist?.id === artist.id && "ring-2 ring-primary rounded-2xl"
+                )}
+              >
+                <ActorCard artist={artist} />
+              </motion.div>
+            ))
+          )}
+        </motion.div>
+      ) : (
+        <motion.div
+          key="empty"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+        >
+          <Card className="p-12 glass-card border-primary/20 text-center relative overflow-hidden">
+            {/* Decorative elements */}
+            <motion.div 
+              className="absolute top-4 right-4 w-20 h-20 rounded-full bg-primary/5 blur-2xl"
+              animate={{ scale: [1, 1.3, 1] }}
+              transition={{ duration: 3, repeat: Infinity }}
+            />
+            
+            <motion.div
+              animate={{ y: [0, -8, 0] }}
+              transition={{ duration: 2.5, repeat: Infinity }}
+            >
+              <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-muted/80 to-muted/40 flex items-center justify-center mx-auto mb-5 shadow-lg">
+                <Users className="w-10 h-10 text-muted-foreground/50" />
+              </div>
+            </motion.div>
+            
+            <h3 className="text-lg font-semibold mb-2">
+              {searchQuery || selectedGenre 
+                ? "Артисты не найдены" 
+                : activeTab === 'my' 
+                  ? "Создайте вашего первого артиста"
+                  : "Нет публичных артистов"}
+            </h3>
+            <p className="text-sm text-muted-foreground mb-6 max-w-sm mx-auto">
+              {searchQuery || selectedGenre
+                ? "Попробуйте изменить фильтры поиска"
+                : activeTab === 'my'
+                  ? "AI артисты помогут вам создавать музыку в определенном стиле"
+                  : "Станьте первым, кто создаст публичного AI-артиста!"}
+            </p>
+            {activeTab === 'my' && !searchQuery && !selectedGenre && (
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button onClick={() => setCreateDialogOpen(true)} className="gap-2 shadow-lg">
+                  <Plus className="w-4 h-4" />
+                  Создать артиста
+                </Button>
+              </motion.div>
+            )}
+          </Card>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+
   return (
     <div className="min-h-screen bg-background pb-24">
       {/* Compact Header */}
       <div className="relative overflow-hidden border-b border-border/30 bg-gradient-to-b from-primary/5 to-background">
         <div 
-          className="container max-w-6xl mx-auto px-4 pb-4 relative"
+          className={cn(
+            "container mx-auto px-4 pb-4 relative",
+            isMobile ? "max-w-6xl" : "max-w-7xl"
+          )}
           style={{ paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.5rem), calc(env(safe-area-inset-top, 0px) + 0.5rem))' }}
         >
           <motion.div
@@ -119,7 +306,10 @@ export default function Artists() {
         </div>
       </div>
 
-      <div className="container max-w-6xl mx-auto px-4 py-4">
+      <div className={cn(
+        "container mx-auto px-4 py-4",
+        isMobile ? "max-w-6xl" : "max-w-7xl"
+      )}>
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={handleTabChange} className="mb-3">
           <TabsList className="grid w-full grid-cols-2 p-0.5 bg-muted/50 rounded-lg h-9">
@@ -170,165 +360,55 @@ export default function Artists() {
           ))}
         </div>
 
-        {/* Artists Grid */}
-        <AnimatePresence mode="wait">
-          {isLoading ? (
-            <motion.div 
-              key="loading"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
-            >
-              {[1, 2, 3, 4, 5, 6].map((i) => (
-                <motion.div 
-                  key={i} 
-                  className="h-28 rounded-2xl bg-gradient-to-br from-muted/60 to-muted/30 animate-pulse"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                />
-              ))}
-            </motion.div>
-          ) : currentArtists.length > 0 ? (
-            <motion.div 
-              key="artists"
-              className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              {activeTab === 'my' ? (
-                // My Artists - enhanced Card layout
-                currentArtists.map((artist, index) => (
-                  <motion.div
-                    key={artist.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                    whileHover={{ y: -4 }}
-                  >
-                    <Card 
-                      className="p-5 glass-card border-primary/20 hover:border-primary/40 hover:shadow-xl transition-all cursor-pointer group relative overflow-hidden"
-                      onClick={() => {
-                        setSelectedArtist(artist);
-                        setDetailsPanelOpen(true);
+        {/* Desktop: Master-Detail Layout | Mobile: List only */}
+        {isMobile ? (
+          renderArtistList()
+        ) : (
+          <div className="flex gap-6 min-h-[calc(100vh-300px)]">
+            {/* Master List */}
+            <div className={cn(
+              "transition-all duration-300",
+              selectedArtist ? "w-[60%]" : "w-full"
+            )}>
+              {renderArtistList()}
+            </div>
+
+            {/* Detail Panel */}
+            {selectedArtist && (
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                className="w-[40%] shrink-0"
+              >
+                <div className="sticky top-4">
+                  <Card className="p-6 bg-card/50 backdrop-blur-sm border-border/50">
+                    <ArtistDetailPreview
+                      artist={selectedArtist}
+                      isOwner={activeTab === 'my'}
+                      onEdit={() => setDetailsPanelOpen(true)}
+                      onGenerate={() => {
+                        // TODO: Navigate to generate with artist context
                       }}
-                    >
-                      {/* Hover glow */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                      
-                      <div className="flex items-start gap-4 relative">
-                        <motion.div 
-                          className="relative"
-                          whileHover={{ scale: 1.05 }}
-                        >
-                          <div className="w-16 h-16 rounded-2xl overflow-hidden bg-gradient-to-br from-primary/20 to-primary/10 flex-shrink-0 border-2 border-primary/20 group-hover:border-primary/40 transition-all shadow-lg">
-                            {artist.avatar_url ? (
-                              <img src={artist.avatar_url} alt={artist.name} className="w-full h-full object-cover" />
-                            ) : (
-                              <div className="w-full h-full flex items-center justify-center">
-                                <Users className="w-7 h-7 text-primary/50" />
-                              </div>
-                            )}
-                          </div>
-                          {artist.is_ai_generated && (
-                            <div className="absolute -top-1 -right-1 p-1 rounded-full bg-primary shadow-md">
-                              <Sparkles className="w-3 h-3 text-primary-foreground" />
-                            </div>
-                          )}
-                        </motion.div>
+                    />
+                  </Card>
+                </div>
+              </motion.div>
+            )}
 
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-start justify-between gap-2">
-                            <h3 className="font-semibold text-foreground truncate group-hover:text-primary transition-colors">
-                              {artist.name}
-                            </h3>
-                          </div>
-
-                          {artist.bio && (
-                            <p className="text-sm text-muted-foreground mt-1 line-clamp-2">{artist.bio}</p>
-                          )}
-
-                          {artist.genre_tags && artist.genre_tags.length > 0 && (
-                            <div className="flex flex-wrap gap-1.5 mt-3">
-                              {artist.genre_tags.slice(0, 3).map((tag: string) => (
-                                <Badge key={tag} variant="secondary" className="text-xs gap-1 bg-primary/10 text-primary border-0">
-                                  <Music2 className="w-2.5 h-2.5" />
-                                  {tag}
-                                </Badge>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </Card>
-                  </motion.div>
-                ))
-              ) : (
-                // Community Artists - use ActorCard
-                currentArtists.map((artist, index) => (
-                  <motion.div
-                    key={artist.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                  >
-                    <ActorCard artist={artist} />
-                  </motion.div>
-                ))
-              )}
-            </motion.div>
-          ) : (
-            <motion.div
-              key="empty"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-            >
-              <Card className="p-12 glass-card border-primary/20 text-center relative overflow-hidden">
-                {/* Decorative elements */}
-                <motion.div 
-                  className="absolute top-4 right-4 w-20 h-20 rounded-full bg-primary/5 blur-2xl"
-                  animate={{ scale: [1, 1.3, 1] }}
-                  transition={{ duration: 3, repeat: Infinity }}
-                />
-                
-                <motion.div
-                  animate={{ y: [0, -8, 0] }}
-                  transition={{ duration: 2.5, repeat: Infinity }}
-                >
-                  <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-muted/80 to-muted/40 flex items-center justify-center mx-auto mb-5 shadow-lg">
-                    <Users className="w-10 h-10 text-muted-foreground/50" />
-                  </div>
-                </motion.div>
-                
-                <h3 className="text-lg font-semibold mb-2">
-                  {searchQuery || selectedGenre 
-                    ? "Артисты не найдены" 
-                    : activeTab === 'my' 
-                      ? "Создайте вашего первого артиста"
-                      : "Нет публичных артистов"}
-                </h3>
-                <p className="text-sm text-muted-foreground mb-6 max-w-sm mx-auto">
-                  {searchQuery || selectedGenre
-                    ? "Попробуйте изменить фильтры поиска"
-                    : activeTab === 'my'
-                      ? "AI артисты помогут вам создавать музыку в определенном стиле"
-                      : "Станьте первым, кто создаст публичного AI-артиста!"}
-                </p>
-                {activeTab === 'my' && !searchQuery && !selectedGenre && (
-                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                    <Button onClick={() => setCreateDialogOpen(true)} className="gap-2 shadow-lg">
-                      <Plus className="w-4 h-4" />
-                      Создать артиста
-                    </Button>
-                  </motion.div>
-                )}
-              </Card>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            {/* Empty state when nothing selected on desktop */}
+            {!selectedArtist && currentArtists.length > 0 && (
+              <div className="hidden lg:flex w-[40%] items-center justify-center border-l border-border/30 pl-6">
+                <div className="text-center p-6">
+                  <Users className="w-12 h-12 mx-auto mb-3 text-muted-foreground/50" />
+                  <p className="text-muted-foreground">
+                    Выберите артиста для просмотра
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       <CreateArtistFromTrackDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
