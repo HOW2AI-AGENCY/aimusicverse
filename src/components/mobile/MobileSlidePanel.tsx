@@ -118,7 +118,8 @@ export const MobileSlidePanel = memo(function MobileSlidePanel({
               <div
                 className="flex items-center justify-between gap-3 p-4 border-b border-border/50 shrink-0"
                 style={{
-                  paddingTop: 'max(1rem, env(safe-area-inset-top))',
+                  // Telegram Mini App + iOS safe area
+                  paddingTop: 'max(1rem, var(--tg-content-safe-area-inset-top, 0px), var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))',
                 }}
               >
                 {title && (

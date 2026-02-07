@@ -115,6 +115,8 @@ export const MobileBottomSheet = memo(function MobileBottomSheet({
             style={{
               y,
               height: `${snapPoints[currentSnap] * 100}vh`,
+              // Telegram Mini App safe area bottom padding
+              paddingBottom: 'max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px))',
             }}
             className={cn(
               "fixed bottom-0 left-0 right-0 z-[151]",

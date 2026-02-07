@@ -88,7 +88,8 @@ export const MobileActionSheet = memo(function MobileActionSheet({
             }}
             className="fixed bottom-0 left-0 right-0 z-50 p-3"
             style={{
-              paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))',
+              // Telegram Mini App + iOS safe area
+              paddingBottom: 'max(0.75rem, var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px))',
             }}
           >
             {/* Main Content */}
