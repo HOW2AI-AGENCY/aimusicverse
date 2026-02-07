@@ -2,6 +2,7 @@ import { memo } from 'react';
 import { Play, Pause } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { triggerHapticFeedback } from '@/lib/mobile-utils';
+import { surface } from '@/lib/overlay-colors';
 
 interface PlayOverlayProps {
   isPlaying?: boolean;
@@ -45,9 +46,11 @@ export const PlayOverlay = memo(function PlayOverlay({
     <div
       className={cn(
         "absolute inset-0 flex items-center justify-center cursor-pointer transition-all",
-        !isMobile && !isPlaying && "opacity-0 group-hover:opacity-100 bg-black/30",
+        !isMobile && !isPlaying && "opacity-0 group-hover:opacity-100",
+        !isMobile && !isPlaying && surface.light,
         isMobile && !isPlaying && "opacity-0",
-        isPlaying && "opacity-100 bg-black/40",
+        isPlaying && "opacity-100",
+        isPlaying && surface.imageDark,
         className
       )}
       onClick={handleClick}

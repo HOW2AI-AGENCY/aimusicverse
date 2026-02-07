@@ -117,6 +117,21 @@ export const media = {
 } as const;
 
 /**
+ * Hardware/Studio UI styles (drum machines, mixers, etc.)
+ * These maintain dark aesthetics regardless of theme
+ */
+export const hardware = {
+  /** LED display panel background */
+  ledPanel: 'bg-black/40 border border-white/10',
+  /** Status badge (mute/solo/etc) */
+  statusBadge: 'bg-black/60',
+  /** VU meter background */
+  meterBg: 'bg-black/30',
+  /** Step indicator */
+  stepIndicator: 'bg-black/30 border border-white/5',
+} as const;
+
+/**
  * Get backdrop class for a given opacity level
  */
 export function getBackdrop(opacity: 40 | 50 | 60 | 80 = 50): string {
@@ -148,6 +163,7 @@ export default {
   interactive,
   pill,
   media,
+  hardware,
   getBackdrop,
   imageOverlay,
 };

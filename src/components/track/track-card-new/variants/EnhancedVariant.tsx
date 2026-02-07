@@ -27,6 +27,7 @@ import { PublicTrackDetailSheet } from '@/components/home/PublicTrackDetailSheet
 import { AddToPlaylistSheet } from '@/components/home/AddToPlaylistSheet';
 import type { EnhancedTrackCardProps } from '../types';
 import type { Track } from '@/types/track';
+import { pill } from '@/lib/overlay-colors';
 
 export const EnhancedVariant = memo(function EnhancedVariant({
   track,
@@ -253,7 +254,7 @@ export const EnhancedVariant = memo(function EnhancedVariant({
                   <Button
                     size="icon"
                     variant="secondary"
-                    className="h-11 w-11 min-w-[44px] min-h-[44px] sm:h-7 sm:w-7 sm:min-w-0 sm:min-h-0 rounded-full bg-black/50 hover:bg-black/70 border-0"
+                    className={cn("h-11 w-11 min-w-[44px] min-h-[44px] sm:h-7 sm:w-7 sm:min-w-0 sm:min-h-0 rounded-full border-0", pill.glassDark)}
                     onClick={handleAddToPlaylist}
                     aria-label="Добавить в плейлист"
                   >
@@ -266,7 +267,7 @@ export const EnhancedVariant = memo(function EnhancedVariant({
                   <Button
                     size="icon"
                     variant="secondary"
-                    className="h-11 w-11 min-w-[44px] min-h-[44px] sm:h-7 sm:w-7 sm:min-w-0 sm:min-h-0 rounded-full bg-black/50 hover:bg-black/70 border-0"
+                    className={cn("h-11 w-11 min-w-[44px] min-h-[44px] sm:h-7 sm:w-7 sm:min-w-0 sm:min-h-0 rounded-full border-0", pill.glassDark)}
                     onClick={handleFollow}
                     disabled={isFollowLoading}
                     aria-label="Подписаться на автора"
@@ -279,7 +280,7 @@ export const EnhancedVariant = memo(function EnhancedVariant({
                 <Button
                   size="icon"
                   variant="secondary"
-                  className="h-11 w-11 min-w-[44px] min-h-[44px] sm:h-7 sm:w-7 sm:min-w-0 sm:min-h-0 rounded-full bg-black/50 hover:bg-black/70 border-0 ml-auto"
+                  className={cn("h-11 w-11 min-w-[44px] min-h-[44px] sm:h-7 sm:w-7 sm:min-w-0 sm:min-h-0 rounded-full border-0 ml-auto", pill.glassDark)}
                   onClick={handleShare}
                   aria-label="Поделиться"
                 >
