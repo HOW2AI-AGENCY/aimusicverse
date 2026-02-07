@@ -855,9 +855,24 @@ export function useGenerateForm({
       showGenerationError(error);
       clearAudioReference(); // Cleanup on error
       
-      // Track generation error with telemetry
-      const errorCode = error instanceof Error ? error.message : 'unknown';
-      generationAnalytics.trackError(mode, errorCode);
+      // Track generation error with full context for error_logs
+      const errorMessage = error instanceof Error ? error.message : 'unknown';
+      // Extract error code from message or use generic
+      const errorCode = errorMessage.includes('Edge Function') 
+        ? 'EDGE_FUNCTION_ERROR'
+        : errorMessage.includes('network') || errorMessage.includes('fetch')
+          ? 'NETWORK_ERROR'
+          : errorMessage.includes('timeout')
+            ? 'TIMEOUT'
+            : 'GENERATION_FAILED';
+      generationAnalytics.trackError(mode, errorCode, {
+        originalError: errorMessage,
+        hasVocals,
+        model: finalModel,
+        hasAudioFile: !!audioFile,
+        hasReference: !!activeReference,
+        projectId: selectedProjectId || initialProjectId,
+      });
       logger.error('Generation failed', error, { mode, hasVocals, model: finalModel });
     } finally {
       setLoading(false);

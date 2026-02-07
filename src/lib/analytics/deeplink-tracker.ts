@@ -321,7 +321,7 @@ export async function trackConversionStage(
     
     const updatePayload = {
       conversion_type: stage,
-      converted: stage !== 'visit',
+      converted: true, // FIX: Always set converted to true for any non-visit stage
       user_id: user?.id || null, // Link conversion to user if authenticated
       metadata: {
         ...(metadata || {}),
@@ -336,7 +336,8 @@ export async function trackConversionStage(
         .from('deeplink_analytics')
         .update(updatePayload)
         .eq('user_id', user.id)
-        .is('converted', false) // Only update unconverted entries
+        .order('created_at', { ascending: false })
+        .limit(1)
         .select('id')
         .maybeSingle();
       
@@ -352,20 +353,30 @@ export async function trackConversionStage(
 
     // Fallback: Update by persistent session ID
     const sessionToUse = persistentSessionId || sessionId;
-    const { error } = await supabase
+    const { data: sessionUpdate, error } = await supabase
       .from('deeplink_analytics')
       .update(updatePayload)
-      .eq('session_id', sessionToUse);
+      .eq('session_id', sessionToUse)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .select('id')
+      .maybeSingle();
 
-    if (error) {
+    if (sessionUpdate) {
+      deeplinkLogger.info('Conversion stage tracked via session', { stage, sessionId: sessionToUse });
+      return;
+    }
+
+    if (error || !sessionUpdate) {
       // If no existing record, create new one for this conversion
-      deeplinkLogger.debug('No existing session found, creating new analytics entry');
+      deeplinkLogger.info('No existing session found, creating new analytics entry for conversion', { stage });
       await supabase.from('deeplink_analytics').insert([{
         user_id: user?.id || null,
         session_id: sessionId,
-        deeplink_type: 'return_visit',
+        deeplink_type: 'conversion_event',
         conversion_type: stage,
-        converted: stage !== 'visit',
+        converted: true, // FIX: Mark as converted
+        source: 'organic',
         metadata: {
           ...(metadata || {}),
           stages_reached: stages,
@@ -373,9 +384,8 @@ export async function trackConversionStage(
           is_conversion_only: true,
         },
       }]);
+      deeplinkLogger.info('New conversion entry created', { stage, sessionId });
     }
-
-    deeplinkLogger.info('Conversion stage tracked', { stage, sessionId });
   } catch (error) {
     deeplinkLogger.warn('Failed to track conversion stage', { error: String(error) });
   }
