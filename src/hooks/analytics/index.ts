@@ -62,6 +62,13 @@ export {
   type UserJourneyData,
 } from './useUserJourneyAnalytics';
 
+// Churn prediction
+export {
+  useChurnPrediction,
+  type ChurnRiskUser,
+  type ChurnPredictionOptions,
+} from './useChurnPrediction';
+
 // Re-export types
 export type { 
   ConversionStage,
