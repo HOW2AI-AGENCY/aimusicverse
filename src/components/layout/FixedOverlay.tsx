@@ -47,8 +47,8 @@ const zIndexMap = {
 
 const backgroundMap = {
   none: '',
-  blur: 'bg-background/80 backdrop-blur-md',
-  dim: 'bg-black/50',
+  blur: 'bg-background/80 dark:bg-black/80 backdrop-blur-md',
+  dim: 'bg-background/50 dark:bg-black/50',
   solid: 'bg-background',
 };
 
