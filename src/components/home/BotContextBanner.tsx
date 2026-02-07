@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { X, Sparkles, Music, Mic, Layers } from 'lucide-react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 interface BotContext {
   type: 'generate' | 'cover' | 'extend' | 'stems' | 'track' | 'library' | null;
@@ -112,7 +113,7 @@ export function BotContextBanner() {
         initial={{ opacity: 0, y: -20, height: 0 }}
         animate={{ opacity: 1, y: 0, height: 'auto' }}
         exit={{ opacity: 0, y: -20, height: 0 }}
-        className={`relative overflow-hidden rounded-xl bg-gradient-to-r ${config.color} border border-white/10 mb-4`}
+        className={cn("relative overflow-hidden rounded-xl bg-gradient-to-r border border-border/50 mb-4", config.color)}
       >
         <div className="flex items-center gap-3 p-3">
           <div className={`p-2 rounded-lg bg-background/50 ${config.iconColor}`}>

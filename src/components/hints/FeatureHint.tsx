@@ -8,6 +8,7 @@ import { X, Sparkles, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { FEATURE_HINTS, FeatureHintId } from '@/hooks/useFeatureHints';
 import { Button } from '@/components/ui/button';
+import { surface } from '@/lib/overlay-colors';
 
 interface FeatureHintProps {
   hintId: FeatureHintId;
@@ -135,7 +136,7 @@ export function FeatureHint({
             
             {/* Action buttons */}
             {(onAction || actionLabel) && (
-              <div className="flex items-center justify-end gap-2 mt-3 pt-2 border-t border-white/10">
+              <div className={cn("flex items-center justify-end gap-2 mt-3 pt-2 border-t", surface.light)}>
                 <Button
                   variant="ghost"
                   size="sm"
