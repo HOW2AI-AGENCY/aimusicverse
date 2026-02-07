@@ -1,6 +1,9 @@
 /**
  * NewUserProgress - Progress indicator for new users
+ * Feature: 032-professional-ui
+ * 
  * Shows onboarding completion steps
+ * Uses design system glass tokens
  */
 
 import { memo, useMemo } from 'react';
@@ -8,6 +11,7 @@ import { motion } from '@/lib/motion';
 import { CheckCircle2, Circle, ChevronRight } from 'lucide-react';
 import { useUserJourneyStore } from '@/hooks/useUserJourneyState';
 import { cn } from '@/lib/utils';
+import { glass } from '@/lib/glass';
 
 interface ProgressStep {
   id: string;
@@ -55,7 +59,7 @@ export const NewUserProgress = memo(function NewUserProgress() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.2 }}
-      className="rounded-xl bg-muted/30 border border-border/50 p-2.5 sm:p-4"
+      className={cn("rounded-xl p-2.5 sm:p-4", glass.subtle)}
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-2">
