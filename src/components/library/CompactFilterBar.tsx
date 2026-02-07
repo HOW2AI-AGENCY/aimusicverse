@@ -11,6 +11,7 @@ import { motion, AnimatePresence } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { LibraryFilterModal } from './LibraryFilterModal';
+import { surface } from '@/lib/overlay-colors';
 
 type FilterOption = 'all' | 'vocals' | 'instrumental' | 'stems';
 type SortOption = 'recent' | 'popular' | 'liked';
@@ -200,7 +201,7 @@ export const CompactFilterBar = memo(function CompactFilterBar({
               {count !== undefined && count > 0 && (
                 <span className={cn(
                   "text-[10px] px-1 rounded-full min-w-[16px] text-center tabular-nums",
-                  isActive ? "bg-white/20" : "bg-muted"
+                  isActive ? surface.medium : "bg-muted"
                 )}>
                   {count > 99 ? '99+' : count}
                 </span>
@@ -235,7 +236,7 @@ export const CompactFilterBar = memo(function CompactFilterBar({
               {count !== undefined && count > 0 && (
                 <span className={cn(
                   "text-[10px] px-1 rounded-full min-w-[16px] text-center tabular-nums",
-                  isActive ? "bg-white/20" : "bg-destructive/20 text-destructive"
+                  isActive ? surface.medium : "bg-destructive/20 text-destructive"
                 )}>
                   {count > 99 ? '99+' : count}
                 </span>
