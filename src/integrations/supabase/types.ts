@@ -5897,6 +5897,14 @@ export type Database = {
       cleanup_expired_notifications: { Args: never; Returns: number }
       cleanup_expired_wizard_states: { Args: never; Returns: undefined }
       cleanup_failed_telegram_notifications: { Args: never; Returns: number }
+      cleanup_old_track_versions: {
+        Args: { p_max_free?: number; p_max_pro?: number; p_track_id?: string }
+        Returns: {
+          deleted_count: number
+          kept_count: number
+          track_id: string
+        }[]
+      }
       cleanup_stuck_generation_tasks: {
         Args: never
         Returns: {

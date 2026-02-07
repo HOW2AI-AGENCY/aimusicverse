@@ -1,7 +1,7 @@
 
 # План доработки систем аналитики, лайков, версионирования и логирования
 
-## ✅ Статус: Phase 2 Complete (P0 + P1 + P2)
+## ✅ Статус: Phase 3 Complete (P0 + P1 + P2 + P3)
 
 ### Выполненные задачи:
 
@@ -14,6 +14,9 @@
 | P2 | ✅ Optimistic updates для комментариев | Done |
 | P2 | ✅ Интегрировать дедупликацию в tracking | Done |
 | P2 | ✅ Улучшенный трекинг плеера (milestones) | Done |
+| P2 | ✅ User Journey visualization (Sankey) | Done |
+| P3 | ✅ Auto-cleanup versions (tier-based) | Done |
+| P3 | ✅ Enhanced generation error diagnostics | Done |
 
 ---
 
@@ -85,9 +88,12 @@
 - Auto-refetch при INSERT/UPDATE/DELETE
 - Proper cleanup при unmount
 
-### 4.2 Автоматическая очистка версий (TODO)
+### 4.2 Автоматическая очистка версий ✅
+**Решение реализовано:**
+- RPC функция `cleanup_old_track_versions(p_track_id, p_max_free, p_max_pro)`
+- Триггер `tr_auto_cleanup_versions` при INSERT на track_versions
 - Политика хранения: max 10 версий на трек для Free, 50 для Pro
-- CRON-задача для архивации старых версий
+- Интегрировано в cleanup-orphaned-data edge function
 
 ### 4.3 Diff между версиями (TODO)
 - UI компонент VersionDiffViewer
@@ -134,11 +140,14 @@ src/services/analytics/index.ts - New exports
 src/hooks/engagement/useLikeTrack.ts - Track_liked event
 src/hooks/engagement/useLikeComment.ts - Optimistic updates
 src/hooks/studio/useVersionSync.ts - Realtime sync
+src/hooks/analytics/useUserJourneyAnalytics.ts - User journey data aggregation
+src/components/admin/analytics/UserJourneyPanel.tsx - Sankey visualization
+supabase/functions/cleanup-orphaned-data/index.ts - Version cleanup integration
 ```
 
 ---
 
-## Следующие шаги (P3):
+## Следующие шаги (P4):
 
 | Приоритет | Задача | Сложность | Влияние |
 |-----------|--------|-----------|---------|
