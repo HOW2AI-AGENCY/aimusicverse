@@ -1,266 +1,290 @@
 
-# План доработки дизайна интерфейса MusicVerse AI
+# План доработки и полировки MusicVerse AI
 
-## Резюме анализа
+## Обзор проекта
 
-Проведён аудит дизайн-системы, выявлены ключевые области для улучшения:
+MusicVerse AI — профессиональная платформа создания музыки на базе AI (Telegram Mini App), реализованная на React 19 + TypeScript + Tailwind CSS с бэкендом на Lovable Cloud (Supabase). Проект находится в продакшене с 100% завершённостью основного функционала.
 
-- **Дизайн-система (Spec 032)** — реализована на 85%, требуется унификация применения
-- **Компоненты UI** — 90+ компонентов, но применение glassmorphism и стилей неоднородно
-- **Десктоп оптимизация** — недавно реализована, но есть пробелы в визуальном polish
-- **Анимации и микро-взаимодействия** — базовые реализованы, но не везде применяются
-- **Доступность (A11y)** — WCAG AA частично соблюдается, требуется аудит
-
----
-
-## 1. ОБЛАСТЬ: Консистентность применения дизайн-токенов
-
-### Проблема
-Дизайн-токены определены в `src/lib/design-tokens.ts` и `src/styles/`, но применяются неравномерно:
-- Некоторые компоненты используют inline значения (`text-sm`, `p-4`) вместо токенов
-- glassmorphism применяется по-разному: `glass-card`, `bg-card/80`, `backdrop-blur-xl` и т.д.
-- Тени (elevation) определены, но редко используются систематически
-
-### Решение
-| Задача | Описание |
-|--------|----------|
-| 1.1 | Аудит использования токенов в 15 ключевых страницах |
-| 1.2 | Создать `StyleLint` правила для проверки использования дизайн-токенов |
-| 1.3 | Унифицировать glassmorphism через `src/lib/glass.ts` (заменить inline стили) |
-| 1.4 | Применить `elevationStyles` к всем карточкам (`shadow-elevation-1..5`) |
-
-### Файлы
-- Редактировать: `src/components/analytics/*.tsx`, `src/components/home/*.tsx`
-- Использовать: `src/lib/glass.ts`, `src/styles/style-utils.ts`
+**Текущее состояние:**
+- 180+ React компонентов, 180+ кастомных хуков, 110+ Edge Functions
+- 574 пользователей, 1666+ сгенерированных треков
+- Полная интеграция с Telegram Mini App SDK 2.0 и Telegram Bot
 
 ---
 
-## 2. ОБЛАСТЬ: Визуальный polish и микро-анимации
+## Часть 1: Дизайн и визуальная полировка
 
-### Проблема
-- Hover/press эффекты реализованы в `src/lib/interactions.ts`, но применяются не везде
-- Transitions иногда отсутствуют или имеют разную длительность
-- Иконки не всегда анимируются при взаимодействии
+### 1.1 Завершение миграции на Design System
 
-### Решение
-| Задача | Описание |
-|--------|----------|
-| 2.1 | Применить `hoverLift`, `pressScale` ко всем интерактивным элементам |
-| 2.2 | Унифицировать durations: fast (150ms), normal (200ms), slow (300ms) |
-| 2.3 | Добавить `AnimatedIcon` компонент для hover-анимаций иконок |
-| 2.4 | Реализовать stagger-анимации для списков (`AnimatedList` из `ux-components.ts`) |
+**Проблема:** Несмотря на миграцию overlay-colors, в проекте остаются разрозненные стили.
 
-### Файлы
-- Создать: `src/components/ui/AnimatedIcon.tsx` (расширенная версия)
-- Редактировать: `src/components/track/`, `src/components/playlist/`
+**Задачи:**
+- Аудит оставшихся TODO/FIXME в коде (найдено 392 совпадения в 37 файлах)
+- Унификация всех `bg-black/X` и `bg-white/X` на токены из `overlay-colors.ts`
+- Приведение всех заголовков к использованию `<Heading />` компонента
+- Замена ручных карточек на `<RefinedCard />` и `<InteractiveCard />`
 
----
+### 1.2 Улучшение типографики для русского языка
 
-## 3. ОБЛАСТЬ: Темизация и цветовая схема
+**Проблема:** Русский текст на 15-30% длиннее английского, что вызывает проблемы с обрезкой.
 
-### Проблема
-- Light mode менее проработан чем dark mode
-- Некоторые цвета жёстко закодированы: `bg-black/40`, `text-white/70`
-- Градиенты определены, но не везде согласованы с темой
+**Задачи:**
+- Применить `textBalance.ru` из design-tokens ко всем критичным элементам
+- Добавить `hyphens: auto` для длинных заголовков
+- Улучшить truncation логику с tooltip при hover/long-press
+- Увеличить max-width для русскоязычных лейблов
 
-### Решение
-| Задача | Описание |
-|--------|----------|
-| 3.1 | Аудит цветов в light mode: контраст, читаемость |
-| 3.2 | Заменить hardcoded colors на CSS переменные (`--muted-foreground`) |
-| 3.3 | Создать `theme-aware` gradient utilities |
-| 3.4 | Улучшить preview в ThemeToggle с демонстрацией цветов |
+### 1.3 Микро-анимации и визуальные эффекты
 
-### Файлы
-- Редактировать: `src/index.css` (light theme variables)
-- Редактировать: `src/components/theme/ThemeToggle.tsx`
+**Задачи:**
+- Добавить `AnimatedIcon` для всех иконок в интерактивных элементах
+- Применить `hoverLift` и `pressScale` из interactions.ts
+- Улучшить loading states с shimmer эффектом
+- Добавить skeleton-анимации точно соответствующие размерам контента (CLS prevention)
+
+### 1.4 Glassmorphism консистентность
+
+**Задачи:**
+- Унифицировать blur-эффекты через `glass.ts` пресеты
+- Проверить контраст текста на стеклянных поверхностях (WCAG AA)
+- Добавить адаптивность стеклянных эффектов для light/dark тем
 
 ---
 
-## 4. ОБЛАСТЬ: Типографика и читаемость
+## Часть 2: Адаптивность и мобильная оптимизация
 
-### Проблема
-- Заголовки используют разные стили: `text-xl font-semibold`, `text-lg font-bold`
-- Русский текст иногда переполняет контейнеры
-- Line-height и letter-spacing не везде оптимальны
+### 2.1 Safe Area улучшения
 
-### Решение
-| Задача | Описание |
-|--------|----------|
-| 4.1 | Заменить inline typography на классы из `src/styles/typography.css` |
-| 4.2 | Применить `text-ru` к русскоязычным блокам (balance, hyphens) |
-| 4.3 | Создать компонент `<Heading level={1..5}>` для консистентности |
-| 4.4 | Аудит line-clamp и truncation применения |
+**Текущее состояние:** Стандартизирован паттерн `max(var(--tg-*), env(safe-area-inset-*))`.
 
-### Файлы
-- Создать: `src/components/ui/Heading.tsx`
-- Редактировать: page headers во всех `src/pages/*.tsx`
+**Задачи:**
+- Аудит всех компонентов на корректность safe area padding
+- Улучшить обработку клавиатуры в формах и чатах
+- Добавить поддержку горизонтальных safe areas для устройств с notch
 
----
+### 2.2 Touch Target оптимизация
 
-## 5. ОБЛАСТЬ: Скелетоны и состояния загрузки
+**Требования:** Минимум 44x44px согласно iOS HIG.
 
-### Проблема
-- Скелетоны есть, но не всегда соответствуют финальному контенту
-- Shimmer эффект не везде применяется одинаково
-- Empty states визуально разнородны
+**Задачи:**
+- Применить `touchTargetClass` ко всем интерактивным элементам
+- Увеличить кликабельные зоны для мелких кнопок
+- Добавить visual feedback для touch событий
 
-### Решение
-| Задача | Описание |
-|--------|----------|
-| 5.1 | Унифицировать скелетоны через `src/components/ui/skeleton/` |
-| 5.2 | Применить shimmer эффект (`animate-shimmer`) ко всем скелетонам |
-| 5.3 | Стандартизировать Empty States через `UnifiedEmptyState` |
-| 5.4 | Добавить skeleton matching: высота = финальный контент |
+### 2.3 Responsive Layout улучшения
 
-### Файлы
-- Редактировать: `src/components/ui/skeleton/`, `src/components/ui/unified-empty-state.tsx`
+**Текущее состояние:** 297 компонентов используют responsive паттерны.
 
----
+**Задачи:**
+- Унифицировать использование `useIsMobile` хука
+- Улучшить grid layouts для планшетов (768-1024px)
+- Добавить специальные layouts для ultra-wide экранов
 
-## 6. ОБЛАСТЬ: Улучшение карточек
+### 2.4 Плеер: полировка мобильной версии
 
-### Проблема
-- `RefinedCard` существует, но не везде используется
-- Hover states карточек отличаются: некоторые с `ring`, некоторые с `border`
-- Selected states не всегда очевидны
+**Компоненты:** CompactPlayer, MobileFullscreenPlayer, DesktopFullscreenPlayer.
 
-### Решение
-| Задача | Описание |
-|--------|----------|
-| 6.1 | Заменить базовые `Card` на `RefinedCard` в ключевых местах |
-| 6.2 | Унифицировать hover: `ring-1 ring-primary/20` + `scale-[1.01]` |
-| 6.3 | Унифицировать selected: `ring-2 ring-primary ring-offset-2` |
-| 6.4 | Добавить `glow` эффект для featured/premium карточек |
-
-### Файлы
-- Редактировать: `src/components/home/*.tsx`, `src/components/analytics/*.tsx`
+**Задачи:**
+- Улучшить swipe-gestures в compact player
+- Добавить haptic feedback при seek
+- Оптимизировать waveform rendering для низкопроизводительных устройств
+- Добавить picture-in-picture режим
 
 ---
 
-## 7. ОБЛАСТЬ: Мобильный UX polish
+## Часть 3: Telegram Mini App интеграция
 
-### Проблема
-- Haptic feedback не везде срабатывает
-- Swipe gestures иногда конфликтуют с scroll
-- Bottom sheets не всегда имеют drag indicator
+### 3.1 Telegram SDK полировка
 
-### Решение
-| Задача | Описание |
-|--------|----------|
-| 7.1 | Аудит haptic triggers: все кнопки, переключатели, tabs |
-| 7.2 | Добавить drag indicator ко всем `Sheet`/`Drawer` |
-| 7.3 | Оптимизировать pull-to-refresh анимацию |
-| 7.4 | Улучшить safe area padding для iOS notch/Dynamic Island |
+**Текущее состояние:** SDK 2.0 полностью интегрирован.
 
-### Файлы
-- Редактировать: `src/components/ui/sheet.tsx`, `src/components/ui/drawer.tsx`
+**Задачи:**
+- Добавить поддержку новых методов SDK 8.0+ (requestFullscreen, lockOrientation)
+- Улучшить theme synchronization с Telegram themeParams
+- Добавить Settings Button контекстные действия
+- Улучшить MainButton интеграцию в формах
 
----
+### 3.2 Deep Link расширения
 
-## 8. ОБЛАСТЬ: Focus states и A11y
+**Текущие паттерны:** `track_`, `project_`, `generate_`, `play_`, `player_`.
 
-### Проблема
-- Focus ring не везде виден (особенно на тёмных элементах)
-- Skip-to-content существует, но редко используется
-- ARIA labels не везде полные
+**Задачи:**
+- Добавить deep links для Lyrics Studio
+- Добавить deep links для Stem Studio
+- Добавить UTM-tracking для аналитики conversion
 
-### Решение
-| Задача | Описание |
-|--------|----------|
-| 8.1 | Применить `focus-ring` из `src/styles/focus.css` ко всем интерактивным |
-| 8.2 | Добавить `aria-label` к иконкам без текста |
-| 8.3 | Реализовать keyboard navigation для всех custom components |
-| 8.4 | Тестировать с VoiceOver/TalkBack |
+### 3.3 Telegram Bot улучшения
 
-### Файлы
-- Редактировать: `src/components/ui/button.tsx`, `src/components/player/*.tsx`
+**Текущее состояние:** Полноценный бот с inline mode и 8 категориями.
+
+**Задачи:**
+- Добавить webhook signature verification (обнаружено отсутствие в production)
+- Улучшить error messages в боте (русский язык)
+- Добавить inline keyboard для быстрых действий
+- Оптимизировать метрики и алерты
 
 ---
 
-## 9. ОБЛАСТЬ: Десктоп визуальные улучшения
+## Часть 4: Логирование и обработка ошибок
 
-### Проблема
-- Master-detail layouts реализованы, но визуально простоваты
-- Sidebar не имеет hover highlights для активного пункта
-- Tooltips на десктопе не везде есть
+### 4.1 Error Handling улучшения
 
-### Решение
-| Задача | Описание |
-|--------|----------|
-| 9.1 | Добавить subtle background к selected sidebar item |
-| 9.2 | Улучшить detail panel: добавить header с breadcrumbs |
-| 9.3 | Применить tooltips к icon-only buttons |
-| 9.4 | Добавить keyboard shortcut hints в меню |
+**Текущее состояние:** Централизованная система с `AppError`, `tryCatch`, Sentry.
 
-### Файлы
-- Редактировать: `src/components/Sidebar.tsx`, `src/components/layout/desktop/*.tsx`
+**Задачи:**
+- Добавить error recovery UI компоненты
+- Улучшить user-friendly сообщения об ошибках
+- Добавить offline-first error handling
+- Улучшить retry логику с визуальным feedback
+
+### 4.2 Logging консистентность
+
+**Задачи:**
+- Аудит всех `console.error`/`console.warn` на миграцию к `logger`
+- Добавить structured logging context во все Edge Functions
+- Улучшить performance timing для критичных операций
+
+### 4.3 Sentry интеграция
+
+**Задачи:**
+- Добавить source maps для production debugging
+- Настроить release tracking
+- Добавить custom breadcrumbs для user journey
+- Улучшить error grouping rules
+
+---
+
+## Часть 5: Производительность
+
+### 5.1 Bundle Size оптимизация
+
+**Текущее состояние:** vendor-other 184KB (цель: <150KB).
+
+**Задачи:**
+- Lazy loading для opensheetmusicdisplay (-20KB)
+- Dynamic import для wavesurfer.js (-25KB)
+- Tree-shaking audit для lucide-react (-5KB)
+- Добавить Service Worker для caching
+
+### 5.2 Rendering оптимизация
+
+**Задачи:**
+- Аудит re-renders с React DevTools Profiler
+- Добавить `useMemo`/`useCallback` где необходимо
+- Улучшить virtualization для длинных списков
+- Оптимизировать animation frames
+
+### 5.3 Network оптимизация
+
+**Задачи:**
+- Добавить request deduplication
+- Улучшить prefetching стратегию
+- Добавить stale-while-revalidate для статических данных
+
+---
+
+## Часть 6: Безопасность
+
+### 6.1 RLS Policies аудит
+
+**Обнаруженные проблемы:**
+- WARN: RLS Policy Always True (overly permissive)
+- WARN: Leaked Password Protection Disabled
+
+**Задачи:**
+- Аудит всех RLS policies на принцип least privilege
+- Включить leaked password protection
+- Добавить rate limiting на sensitive endpoints
+
+### 6.2 API Security
+
+**Задачи:**
+- Добавить TELEGRAM_WEBHOOK_SECRET verification (критично для production)
+- Аудит API keys exposure
+- Добавить request validation в Edge Functions
+
+---
+
+## Часть 7: UX полировка
+
+### 7.1 Empty States
+
+**Задачи:**
+- Добавить иллюстрации для всех empty states
+- Улучшить CTA тексты
+- Добавить onboarding hints
+
+### 7.2 Loading States
+
+**Задачи:**
+- Унифицировать skeleton размеры с финальным контентом
+- Добавить progressive loading для изображений
+- Улучшить loading indicators для длинных операций
+
+### 7.3 Error States
+
+**Задачи:**
+- Добавить retry buttons везде где возможно
+- Улучшить error illustrations
+- Добавить contextual help links
 
 ---
 
 ## Приоритизация
 
-| Приоритет | Область | Влияние | Сложность |
-|-----------|---------|---------|-----------|
-| P0 | 1. Консистентность токенов | Высокое | Средняя |
-| P0 | 6. Улучшение карточек | Высокое | Низкая |
-| P1 | 2. Микро-анимации | Среднее | Средняя |
-| P1 | 4. Типографика | Среднее | Низкая |
-| P1 | 7. Мобильный UX | Высокое | Средняя |
-| P2 | 3. Темизация | Среднее | Средняя |
-| P2 | 5. Скелетоны | Среднее | Низкая |
-| P2 | 8. Focus/A11y | Высокое | Средняя |
-| P3 | 9. Десктоп polish | Среднее | Низкая |
+### P0: Критичные (1-2 дня)
+1. Webhook signature verification для Telegram Bot
+2. RLS policies аудит и исправление
+3. Leaked password protection
+
+### P1: Высокий приоритет (3-5 дней)
+1. Touch targets унификация
+2. Safe area полировка
+3. Error handling UI components
+4. Bundle size оптимизация
+
+### P2: Средний приоритет (1-2 недели)
+1. Design system миграция завершение
+2. Микро-анимации
+3. Responsive layouts для планшетов
+4. Deep links расширение
+
+### P3: Низкий приоритет (backlog)
+1. Picture-in-picture режим
+2. Ultra-wide экраны
+3. Advanced analytics
+4. A/B testing framework
 
 ---
 
-## Метрики успеха
+## Технические детали
 
-- **Консистентность**: 95% компонентов используют дизайн-токены
-- **WCAG AA**: 100% текста соответствует контрасту 4.5:1
-- **Touch targets**: 100% ≥44px на мобильных
-- **Анимации**: 60fps на mid-range устройствах
-- **Bundle impact**: <5KB дополнительно
+### Файлы для редактирования
 
----
+**Дизайн система:**
+- `src/lib/design-tokens.ts` — добавление новых токенов
+- `src/lib/overlay-colors.ts` — расширение пресетов
+- `src/styles/` — CSS улучшения
 
-## Технические заметки
+**Адаптивность:**
+- `src/components/layout/SafeLayout.tsx` — safe area улучшения
+- `src/components/BottomNavigation.tsx` — touch feedback
+- `src/components/player/` — плеер полировка
 
-### Ключевые файлы дизайн-системы
-```
-src/lib/
-├── design-system.ts      # Центральный экспорт
-├── design-tokens.ts      # Числовые значения и утилиты
-├── design-colors.ts      # Семантические цвета
-├── glass.ts              # Glassmorphism presets
-├── interactions.ts       # Hover/press эффекты
-└── contrast-utils.ts     # WCAG проверки
+**Telegram:**
+- `src/contexts/telegram/` — SDK расширения
+- `supabase/functions/telegram-bot/` — security и UX
 
-src/styles/
-├── typography.css        # Типографика
-├── animations.css        # Keyframes
-├── focus.css             # Focus states
-├── touch-targets.css     # Touch targets
-└── style-utils.ts        # CSS class generators
-```
+**Безопасность:**
+- Supabase RLS policies через миграции
+- `supabase/functions/telegram-bot/index.ts` — webhook verification
 
-### Паттерн применения
-```typescript
-// Вместо inline стилей
-<Card className="bg-card/80 backdrop-blur-xl border border-border/50">
+### Метрики успеха
 
-// Использовать дизайн-систему
-import { glass } from '@/lib/glass';
-<Card className={glass.card}>
-```
-
----
-
-## Ожидаемый результат
-
-После выполнения плана:
-1. Единообразный визуальный стиль по всему приложению
-2. Профессиональный polish с микро-анимациями
-3. Улучшенная читаемость и типографика
-4. Полная WCAG AA совместимость
-5. Оптимизированный мобильный и десктопный UX
+| Метрика | Текущее | Цель |
+|---------|---------|------|
+| Lighthouse Performance | ~85 | >90 |
+| Bundle Size | 184KB | <150KB |
+| Touch Target Compliance | ~90% | 100% |
+| WCAG AA Compliance | ~95% | 100% |
+| Generation Success Rate | 88% | >92% |
