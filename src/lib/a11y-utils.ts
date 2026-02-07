@@ -4,7 +4,16 @@
  *
  * Helper functions for WCAG AA compliance and screen reader support.
  * Ensures the UI is accessible to all users.
+ * 
+ * Includes:
+ * - ID generation for ARIA
+ * - Screen reader announcements
+ * - Focus management
+ * - Keyboard navigation helpers
+ * - React hooks for a11y
  */
+
+import { useEffect, useRef, useCallback, useState } from 'react';
 
 /**
  * Generate unique ID for accessibility attributes
@@ -257,6 +266,142 @@ export const handleKeyboardNavigation = (handlers: KeyboardHandlers) => {
   };
 };
 
+// ============= React Hooks =============
+
+/**
+ * Hook for making screen reader announcements
+ */
+export function useLiveAnnounce() {
+  return useCallback((message: string, priority: 'polite' | 'assertive' = 'polite') => {
+    announceToScreenReader(message, priority);
+  }, []);
+}
+
+/**
+ * Hook to detect if user prefers reduced motion
+ */
+export function usePrefersReducedMotion(): boolean {
+  const [prefers, setPrefers] = useState(() => prefersReducedMotion());
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setPrefers(mediaQuery.matches);
+
+    const handleChange = (e: MediaQueryListEvent) => setPrefers(e.matches);
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
+
+  return prefers;
+}
+
+/**
+ * Focus trap hook for modals and dialogs
+ */
+export function useFocusTrap(active: boolean = true) {
+  const containerRef = useRef<HTMLElement>(null);
+  const previousFocusRef = useRef<Element | null>(null);
+
+  useEffect(() => {
+    if (!active || !containerRef.current) return;
+
+    previousFocusRef.current = document.activeElement;
+    const cleanup = trapFocus(containerRef.current);
+
+    return () => {
+      cleanup();
+      if (previousFocusRef.current instanceof HTMLElement) {
+        previousFocusRef.current.focus();
+      }
+    };
+  }, [active]);
+
+  return containerRef;
+}
+
+/**
+ * Hook for roving focus in lists/toolbars
+ */
+export function useRovingFocus<T extends HTMLElement>() {
+  const containerRef = useRef<T>(null);
+  const [focusedIndex, setFocusedIndex] = useState(0);
+
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (!containerRef.current) return;
+
+    const focusables = containerRef.current.querySelectorAll<HTMLElement>(
+      'button:not([disabled]), [role="option"], [role="menuitem"], [role="tab"]'
+    );
+    
+    if (focusables.length === 0) return;
+
+    let newIndex = focusedIndex;
+
+    switch (e.key) {
+      case 'ArrowDown':
+      case 'ArrowRight':
+        e.preventDefault();
+        newIndex = (focusedIndex + 1) % focusables.length;
+        break;
+      case 'ArrowUp':
+      case 'ArrowLeft':
+        e.preventDefault();
+        newIndex = (focusedIndex - 1 + focusables.length) % focusables.length;
+        break;
+      case 'Home':
+        e.preventDefault();
+        newIndex = 0;
+        break;
+      case 'End':
+        e.preventDefault();
+        newIndex = focusables.length - 1;
+        break;
+      default:
+        return;
+    }
+
+    setFocusedIndex(newIndex);
+    focusables[newIndex].focus();
+  }, [focusedIndex]);
+
+  return { containerRef, focusedIndex, setFocusedIndex, onKeyDown: handleKeyDown };
+}
+
+/**
+ * Hook to detect keyboard navigation
+ */
+export function useFocusVisible() {
+  const [isKeyboardNav, setIsKeyboardNav] = useState(false);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Tab') setIsKeyboardNav(true);
+    };
+    const handleMouseDown = () => setIsKeyboardNav(false);
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('mousedown', handleMouseDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('mousedown', handleMouseDown);
+    };
+  }, []);
+
+  return isKeyboardNav;
+}
+
+/**
+ * Focus ring class presets for consistent styling
+ */
+export const focusRingClasses = {
+  default: 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+  inset: 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset',
+  light: 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2',
+  tight: 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+  glow: 'focus-visible:outline-none focus-visible:shadow-[0_0_0_3px_hsl(var(--primary)/0.4)]',
+};
+
 export default {
   generateA11yId,
   prefersReducedMotion,
@@ -268,4 +413,10 @@ export default {
   meetsWcagAA,
   meetsWcagAAA,
   handleKeyboardNavigation,
+  useLiveAnnounce,
+  usePrefersReducedMotion,
+  useFocusTrap,
+  useRovingFocus,
+  useFocusVisible,
+  focusRingClasses,
 };

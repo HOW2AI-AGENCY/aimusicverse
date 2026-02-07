@@ -186,22 +186,37 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
       <Button
         variant={active ? 'secondary' : 'ghost'}
         className={cn(
-          "w-full gap-3 h-10 relative group",
+          "w-full gap-3 h-10 relative group transition-all duration-200",
           isCollapsed ? "justify-center px-2" : "justify-start",
-          active && "bg-primary/10 text-primary border-l-2 border-primary rounded-l-none"
+          // Active state with left accent and subtle glow
+          active && [
+            "bg-primary/10 text-primary",
+            "border-l-2 border-primary rounded-l-none",
+            "shadow-[inset_0_0_12px_hsl(var(--primary)/0.15)]"
+          ],
+          // Hover state with subtle highlight
+          !active && "hover:bg-accent/60 hover:text-accent-foreground",
+          // Focus visible state
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1"
         )}
         onClick={() => navigate(path)}
         onMouseEnter={handleMouseEnter}
         onFocus={handleMouseEnter}
+        aria-label={isCollapsed ? label : undefined}
+        aria-current={active ? 'page' : undefined}
         title={isCollapsed ? label : description}
       >
-        <Icon className="w-4 h-4 flex-shrink-0" />
+        <Icon className={cn(
+          "w-4 h-4 flex-shrink-0 transition-transform duration-200",
+          active && "text-primary",
+          !isCollapsed && "group-hover:scale-110"
+        )} />
         {!isCollapsed && (
           <>
             <span className="flex-1 text-left truncate">{label}</span>
 
             {isNumericBadge && (
-              <Badge variant="secondary" className="h-5 px-1.5 text-xs">
+              <Badge variant="secondary" className="h-5 px-1.5 text-xs tabular-nums">
                 {badge}
               </Badge>
             )}
@@ -223,7 +238,7 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
                 className={cn(
                   "h-5 px-1.5 text-[10px] font-bold",
                   "bg-gradient-to-r from-emerald-500 to-teal-500",
-                  "text-white border-0 shadow-sm"
+                  "text-white border-0 shadow-sm animate-pulse"
                 )}
               >
                 NEW
