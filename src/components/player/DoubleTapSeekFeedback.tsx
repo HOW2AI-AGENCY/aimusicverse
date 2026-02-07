@@ -32,9 +32,10 @@ export const DoubleTapSeekFeedback = memo(function DoubleTapSeekFeedback({
         side === 'left' ? 'left-12' : 'right-12'
       )}
     >
-      <div className="bg-black/60 backdrop-blur-md rounded-full p-5 flex flex-col items-center shadow-lg">
+      {/* Theme-aware seek feedback - always dark for visibility on video/waveform */}
+      <div className="bg-black/60 dark:bg-black/70 backdrop-blur-md rounded-full p-5 flex flex-col items-center shadow-lg border border-white/10">
         <Icon className="w-8 h-8 text-white" />
-        <span className="text-white text-sm font-semibold mt-1">{seekAmount}</span>
+        <span className="text-white text-sm font-semibold mt-1">{seekAmount}с</span>
       </div>
     </motion.div>
   );

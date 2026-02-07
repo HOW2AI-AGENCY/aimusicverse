@@ -1058,6 +1058,27 @@ All colors MUST be HSL.
     backface-visibility: hidden;
   }
 
+  /* Skeleton wave animation - subtle left-to-right sweep */
+  @keyframes skeleton-wave {
+    0% { 
+      background-position: -200% 0;
+    }
+    100% { 
+      background-position: 200% 0;
+    }
+  }
+
+  .skeleton-wave {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--muted)) 0%,
+      hsl(var(--muted-foreground) / 0.1) 50%,
+      hsl(var(--muted)) 100%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-wave 2s linear infinite;
+  }
+
   /* CSS-only pulse scale animation for LoadingSpinner music variant */
   @keyframes css-pulse-scale {
     0%, 100% { transform: scale(1); }
@@ -1075,6 +1096,10 @@ All colors MUST be HSL.
     .skeleton-shimmer-optimized::after {
       animation: none;
       background: hsl(var(--foreground) / 0.05);
+    }
+    
+    .skeleton-wave {
+      animation: none;
     }
     
     .css-pulse-scale {

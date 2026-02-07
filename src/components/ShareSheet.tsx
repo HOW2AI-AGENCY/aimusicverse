@@ -276,11 +276,14 @@ export function ShareSheet({ open, onOpenChange, item, itemType = 'track' }: Sha
           cancelLabel="Отмена"
         />
 
-        {/* QR Code Modal for Mobile */}
+        {/* QR Code Modal for Mobile - theme-aware backdrop */}
         {showQR && qrCode && (
-          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-dialog flex items-center justify-center p-4" onClick={() => setShowQR(false)}>
+          <div 
+            className="fixed inset-0 bg-background/60 dark:bg-black/60 backdrop-blur-sm z-dialog flex items-center justify-center p-4" 
+            onClick={() => setShowQR(false)}
+          >
             <div 
-              className="bg-card rounded-2xl p-6 max-w-sm w-full space-y-4"
+              className="bg-card rounded-2xl p-6 max-w-sm w-full space-y-4 shadow-xl border border-border"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="text-center">
@@ -292,7 +295,7 @@ export function ShareSheet({ open, onOpenChange, item, itemType = 'track' }: Sha
                 <img 
                   src={qrCode} 
                   alt="QR Code" 
-                  className="w-64 h-64 bg-white p-3 rounded-lg"
+                  className="w-64 h-64 bg-white dark:bg-gray-100 p-3 rounded-lg"
                 />
                 <p className="text-xs text-center text-muted-foreground">
                   Отсканируйте для быстрого доступа

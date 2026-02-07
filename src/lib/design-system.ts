@@ -18,6 +18,12 @@ export * from './glass';
 // Interaction utilities
 export * from './interactions';
 
+// Theme-aware overlay utilities
+export * from './overlay-colors';
+
+// Haptic feedback
+export { hapticImpact, hapticNotification, smartHaptic, HAPTIC_GUIDE } from './haptic';
+
 // Contrast utilities for runtime checks
 export {
   getContrastRatio,
