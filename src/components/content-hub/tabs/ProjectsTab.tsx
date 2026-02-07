@@ -37,8 +37,12 @@ const typeLabels: Record<string, string> = {
   compilation: 'Сборник',
 };
 
+interface ProjectsTabProps {
+  onProjectSelect?: (projectId: string | null) => void;
+  selectedProjectId?: string | null;
+}
 
-export function ProjectsTab() {
+export function ProjectsTab({ onProjectSelect, selectedProjectId }: ProjectsTabProps) {
   const isMobile = useIsMobile();
   const { projects, isLoading, deleteProject, isDeleting } = useProjects();
   const [searchQuery, setSearchQuery] = useState('');
@@ -187,6 +191,8 @@ export function ProjectsTab() {
           onDelete={setDeleteConfirmId}
           statusLabels={statusLabels}
           typeLabels={typeLabels}
+          onProjectSelect={onProjectSelect}
+          selectedProjectId={selectedProjectId}
         />
       ) : (
         <EmptyState
