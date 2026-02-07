@@ -963,7 +963,7 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
 
         {/* Controls Section with enhanced glass effect - Telegram safe area */}
         <motion.div 
-          className="bg-background/50 backdrop-blur-xl border-t border-white/10 p-4 space-y-4"
+          className={cn("p-4 space-y-4", glass.player)}
           style={{
             paddingBottom: 'calc(max(var(--tg-safe-area-inset-bottom, 0px) + 1rem, env(safe-area-inset-bottom, 0px) + 1rem))'
           }}
