@@ -13,6 +13,7 @@ import { KaraokeWord } from '@/components/lyrics/KaraokeWord';
 import { cn } from '@/lib/utils';
 import { hapticImpact } from '@/lib/haptic';
 import { glassButton } from '@/lib/glass';
+import { surface } from '@/lib/overlay-colors';
 
 interface AlignedWord {
   word: string;
@@ -106,7 +107,7 @@ export function KaraokeView({
             hapticImpact('light');
             onClose();
           }}
-          className={cn("h-10 w-10 rounded-full", glassButton.default, "hover:bg-white/20")}
+          className={cn("h-10 w-10 rounded-full", glassButton.default, surface.light)}
         >
           <X className="h-5 w-5 text-white" />
         </Button>

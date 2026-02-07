@@ -119,7 +119,7 @@ export function FeatureHint({
             {/* Header with icon */}
             <div className="flex items-start gap-2.5">
               {hint.icon && (
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+                <div className={cn("flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center", surface.medium)}>
                   <span className="text-base">{hint.icon}</span>
                 </div>
               )}
@@ -136,12 +136,12 @@ export function FeatureHint({
             
             {/* Action buttons */}
             {(onAction || actionLabel) && (
-              <div className={cn("flex items-center justify-end gap-2 mt-3 pt-2 border-t", surface.light)}>
+              <div className={cn("flex items-center justify-end gap-2 mt-3 pt-2 border-t", surface.subtle)}>
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={onDismiss}
-                  className="h-7 text-xs text-inherit hover:bg-white/10"
+                  className={cn("h-7 text-xs text-inherit", surface.light)}
                 >
                   Пропустить
                 </Button>
@@ -149,7 +149,7 @@ export function FeatureHint({
                   variant="secondary"
                   size="sm"
                   onClick={onAction || onDismiss}
-                  className="h-7 text-xs gap-1 bg-white/20 hover:bg-white/30 text-inherit"
+                  className={cn("h-7 text-xs gap-1 text-inherit", surface.medium)}
                 >
                   {actionLabel || 'Попробовать'}
                   <ChevronRight className="w-3 h-3" />
@@ -165,7 +165,7 @@ export function FeatureHint({
               "absolute top-0.5 right-0.5",
               "w-11 h-11 min-w-[44px] min-h-[44px]",
               "flex items-center justify-center rounded-full",
-              "hover:bg-white/20 active:bg-white/30",
+              surface.medium,
               "transition-colors touch-manipulation"
             )}
             aria-label="Закрыть подсказку"

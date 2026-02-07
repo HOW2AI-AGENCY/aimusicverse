@@ -9,6 +9,7 @@ import { memo, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { ImageOff } from 'lucide-react';
+import { interactive } from '@/lib/overlay-colors';
 
 interface ProgressiveImageProps {
   src: string | null | undefined;
@@ -151,7 +152,7 @@ export const ProgressiveImage = memo(function ProgressiveImage({
 
       {/* Hover overlay for clickable images */}
       {onClick && hoverZoom && (
-        <div className="absolute inset-0 bg-black/0 hover:bg-black/10 transition-colors duration-200" />
+        <div className={cn("absolute inset-0 transition-colors duration-200", interactive.hover)} />
       )}
     </div>
   );
