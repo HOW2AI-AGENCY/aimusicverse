@@ -95,10 +95,11 @@ export const QuickLikeButton = memo(function QuickLikeButton({
         : "bg-muted/60 text-muted-foreground hover:text-red-400 hover:bg-muted"
     ),
     overlay: cn(
-      "rounded-full bg-black/40 backdrop-blur-sm transition-all active:scale-90",
+      // Theme-aware overlay variant - dark glass for image overlays
+      "rounded-full bg-black/40 dark:bg-black/50 backdrop-blur-sm border border-white/10 transition-all active:scale-90",
       currentIsLiked 
         ? "text-red-500" 
-        : "text-white/80 hover:text-red-400"
+        : "text-white/90 hover:text-red-400"
     ),
     minimal: cn(
       "rounded-full transition-all active:scale-90",
