@@ -20,6 +20,7 @@ import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { useProjectGeneratedTracks, ProjectGeneratedTrack } from '@/hooks/useProjectGeneratedTracks';
 import { ProjectTrack } from '@/hooks/useProjectTracks';
 import { cn } from '@/lib/utils';
+import { surface } from '@/lib/overlay-colors';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { formatTime } from '@/lib/formatters';
 import {
@@ -100,7 +101,8 @@ export function UnlinkedTracksSection({ projectId, projectTracks }: UnlinkedTrac
           
           {/* Play overlay */}
           <div className={cn(
-            "absolute inset-0 bg-black/40 flex items-center justify-center transition-opacity",
+            "absolute inset-0 flex items-center justify-center transition-opacity",
+            surface.imageDark,
             isTrackPlaying ? "opacity-100" : "opacity-0 group-hover:opacity-100"
           )}>
             {isTrackPlaying ? (
