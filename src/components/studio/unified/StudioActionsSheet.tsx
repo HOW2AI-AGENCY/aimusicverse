@@ -2,6 +2,7 @@
  * Studio Actions Sheet
  * Bottom sheet with studio actions for mobile
  * Contains: Download, Transcription, Export, Save, Settings
+ * Uses design system tokens (Spec 032)
  * 
  * Unified interface - MusicLab and Lyrics open as sheets, not tabs
  */
@@ -26,6 +27,7 @@ import {
   Layers,
 } from 'lucide-react';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
+import { glass } from '@/lib/glass';
 
 interface StudioActionsSheetProps {
   open: boolean;
@@ -77,16 +79,17 @@ const ActionItem = memo(function ActionItem({
       onClick={handleClick}
       disabled={disabled}
       className={cn(
-        "flex items-center gap-3 w-full p-3 rounded-xl transition-colors touch-manipulation",
-        "hover:bg-muted/50 active:bg-muted",
-        variant === 'primary' && "bg-primary/10 hover:bg-primary/20",
-        variant === 'destructive' && "text-destructive hover:bg-destructive/10",
+        "flex items-center gap-3 w-full p-3 rounded-xl transition-all touch-manipulation",
+        glass.subtle,
+        "hover:ring-1 hover:ring-primary/20 active:scale-[0.98]",
+        variant === 'primary' && "ring-1 ring-primary/30",
+        variant === 'destructive' && "text-destructive",
         disabled && "opacity-50 cursor-not-allowed"
       )}
     >
       <div className={cn(
         "w-10 h-10 rounded-xl flex items-center justify-center shrink-0",
-        variant === 'default' && "bg-muted",
+        variant === 'default' && glass.subtle,
         variant === 'primary' && "bg-primary text-primary-foreground",
         variant === 'destructive' && "bg-destructive/10 text-destructive"
       )}>
@@ -126,7 +129,7 @@ export const StudioActionsSheet = memo(function StudioActionsSheet({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="bottom" className="px-4 pb-8">
+      <SheetContent side="bottom" className={cn("px-4 pb-8", glass.overlay)}>
         <SheetHeader className="pb-2">
           <SheetTitle>Действия</SheetTitle>
         </SheetHeader>

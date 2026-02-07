@@ -1,6 +1,7 @@
 /**
  * MobileStudioHeader - Optimized header for mobile studio
  * Compact controls with essential actions
+ * Uses design system tokens (Spec 032)
  */
 
 import { memo, useCallback } from 'react';
@@ -26,6 +27,7 @@ import {
 
 import { cn } from '@/lib/utils';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
+import { glass } from '@/lib/glass';
 
 interface MobileStudioHeaderProps {
   title: string;
@@ -88,7 +90,7 @@ export const MobileStudioHeader = memo(function MobileStudioHeader({
       animate={{ opacity: 1, y: 0 }}
       className={cn(
         'sticky top-0 z-40 px-2 py-2',
-        'bg-background/80 backdrop-blur-xl border-b border-border/50',
+        glass.nav,
         'safe-area-top',
         className
       )}

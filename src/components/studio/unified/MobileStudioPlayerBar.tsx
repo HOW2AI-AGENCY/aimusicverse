@@ -2,6 +2,7 @@
  * Mobile Studio Player Bar
  * Fixed player bar at the bottom of the screen for mobile studio
  * Provides play/pause, skip, time display and actions menu
+ * Uses design system tokens (Spec 032)
  */
 
 import { memo } from 'react';
@@ -19,6 +20,7 @@ import {
   VolumeX,
 } from 'lucide-react';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
+import { glass } from '@/lib/glass';
 
 interface MobileStudioPlayerBarProps {
   isPlaying: boolean;
@@ -86,7 +88,7 @@ export const MobileStudioPlayerBar = memo(function MobileStudioPlayerBar({
       transition={{ type: 'spring', damping: 25, stiffness: 400 }}
       className={cn(
         "fixed bottom-0 left-0 right-0 z-50",
-        "bg-card/95 backdrop-blur-xl border-t border-border/50",
+        glass.player,
         "pb-[calc(max(var(--tg-safe-area-inset-bottom,0px),env(safe-area-inset-bottom,0px))+0.75rem)]",
         className
       )}
