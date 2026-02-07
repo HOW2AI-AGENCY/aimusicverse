@@ -113,7 +113,7 @@ export const GenreCrossfader = memo(function GenreCrossfader({
         </div>
 
         {/* Center marker */}
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-0.5 h-4 bg-foreground/30 dark:bg-white/30 rounded-full z-10" />
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-0.5 h-4 bg-foreground/30 rounded-full z-10" />
 
         {/* Slider */}
         <Slider

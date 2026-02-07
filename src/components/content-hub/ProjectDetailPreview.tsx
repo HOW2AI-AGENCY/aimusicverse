@@ -75,7 +75,7 @@ export const ProjectDetailPreview = memo(function ProjectDetailPreview({
               surface.imageDark
             )}
           >
-            <div className="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center shadow-xl">
+            <div className="w-16 h-16 rounded-full bg-background/90 flex items-center justify-center shadow-xl">
               <Play className="w-7 h-7 text-primary fill-primary ml-1" />
             </div>
           </button>

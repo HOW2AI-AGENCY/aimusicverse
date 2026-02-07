@@ -58,12 +58,12 @@ export const PlayOverlay = memo(function PlayOverlay({
       <div className={cn(
         config.button,
         "rounded-full flex items-center justify-center transition-transform backdrop-blur-sm",
-        isPlaying ? "bg-primary/90 scale-100" : "bg-white/80 scale-90 group-hover:scale-100"
+        isPlaying ? "bg-primary/90 scale-100" : "bg-background/80 scale-90 group-hover:scale-100"
       )}>
         {isPlaying ? (
           <Pause className={cn(config.icon, "text-white")} aria-hidden="true" />
         ) : (
-          <Play className={cn(config.icon, "ml-0.5 text-black/70")} aria-hidden="true" />
+          <Play className={cn(config.icon, "ml-0.5 text-foreground/70")} aria-hidden="true" />
         )}
       </div>
     </div>

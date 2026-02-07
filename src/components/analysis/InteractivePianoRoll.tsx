@@ -390,8 +390,8 @@ export const InteractivePianoRoll = memo(function InteractivePianoRoll({
                   className={cn(
                     "absolute left-0 right-0 border-b",
                     isBlack 
-                      ? "bg-zinc-800/80 dark:bg-zinc-800/80 border-zinc-700" 
-                      : "bg-background/90 dark:bg-white/90 border-zinc-200",
+                      ? "bg-zinc-800/80 border-zinc-700" 
+                      : "bg-background/90 border-zinc-200 dark:border-zinc-600",
                     isC && "border-b-2 border-b-primary/30"
                   )}
                   style={{ 

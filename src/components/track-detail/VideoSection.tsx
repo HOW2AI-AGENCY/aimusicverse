@@ -208,7 +208,7 @@ export function VideoSection({ track, onGenerateVideo }: VideoSectionProps) {
             variant="ghost"
             size="icon"
             onClick={handlePlayPause}
-            className={cn("h-16 w-16 rounded-full hover:bg-white/30", glassButton.default)}
+            className={cn("h-16 w-16 rounded-full hover:bg-foreground/30", glassButton.default)}
           >
             {isPlaying ? (
               <Pause className="h-8 w-8 text-white" />

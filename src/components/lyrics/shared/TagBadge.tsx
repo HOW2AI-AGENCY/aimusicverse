@@ -57,7 +57,7 @@ export function TagBadge({ tag, category, onRemove, className, size = 'sm' }: Ta
           size="icon"
           className={cn(
             "rounded-full ml-0.5",
-            surface.medium, "hover:bg-foreground/30 dark:hover:bg-white/30",
+            surface.medium, "hover:bg-foreground/30",
             size === 'sm' ? "h-4 w-4" : "h-5 w-5"
           )}
           onClick={(e) => {

@@ -120,7 +120,7 @@ export const TrackCover = memo(function TrackCover({
             variant="ghost"
             className={cn(
               config.playButton,
-              'rounded-full text-white hover:bg-white/20',
+              'rounded-full text-white hover:bg-foreground/20 dark:hover:bg-white/20',
               isPlaying && 'bg-primary hover:bg-primary/90'
             )}
             onClick={onPlay}
