@@ -1,15 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Plus, Music2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { usePlaylists } from '@/hooks/usePlaylists';
 import { PlaylistCard } from '@/components/playlist/PlaylistCard';
+import { PlaylistDetailPreview } from '@/components/playlist/PlaylistDetailPreview';
 import { CreatePlaylistDialog } from '@/components/playlist/CreatePlaylistDialog';
 import { EditPlaylistDialog } from '@/components/playlist/EditPlaylistDialog';
 import { SharePlaylistDialog } from '@/components/playlist/SharePlaylistDialog';
+import { DesktopMasterDetailLayout } from '@/components/layout/desktop';
 import type { Playlist } from '@/hooks/usePlaylists';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 import { UnifiedEmptyState } from '@/components/ui/unified-empty-state';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export default function Playlists() {
   // Telegram BackButton
@@ -23,10 +26,15 @@ export default function Playlists() {
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [editingPlaylist, setEditingPlaylist] = useState<Playlist | null>(null);
   const [sharingPlaylist, setSharingPlaylist] = useState<Playlist | null>(null);
+  const [selectedPlaylist, setSelectedPlaylist] = useState<Playlist | null>(null);
+  const isMobile = useIsMobile();
 
   const handleDelete = async (playlist: Playlist) => {
     if (confirm(`Удалить плейлист "${playlist.title}"?`)) {
       await deletePlaylist(playlist.id);
+      if (selectedPlaylist?.id === playlist.id) {
+        setSelectedPlaylist(null);
+      }
     }
   };
 
@@ -39,58 +47,63 @@ export default function Playlists() {
     return `${minutes} мин`;
   };
 
-  return (
-    <div className="min-h-screen bg-background pb-24">
-      {/* Header */}
-      <div 
-        className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border px-4 pb-3"
-        style={{ paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.5rem), calc(env(safe-area-inset-top, 0px) + 0.5rem))' }}
-      >
-        <div className="flex items-center justify-between">
-          <h1 className="text-xl font-bold">Плейлисты</h1>
-          <Button size="sm" onClick={() => setCreateDialogOpen(true)}>
-            <Plus className="h-4 w-4 mr-1" />
-            Создать
-          </Button>
+  // Header component
+  const Header = (
+    <div className="flex items-center justify-between">
+      <h1 className="text-xl font-bold">Плейлисты</h1>
+      <Button size="sm" onClick={() => setCreateDialogOpen(true)}>
+        <Plus className="h-4 w-4 mr-1" />
+        Создать
+      </Button>
+    </div>
+  );
+
+  // Playlist grid/list content
+  const PlaylistsContent = isLoading ? (
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      {[1, 2, 3].map((i) => (
+        <div key={i} className="bg-card rounded-lg p-4 animate-pulse">
+          <div className="aspect-square bg-muted rounded-md mb-3" />
+          <div className="h-4 bg-muted rounded w-3/4 mb-2" />
+          <div className="h-3 bg-muted rounded w-1/2" />
         </div>
-      </div>
-
-      {/* Content */}
-      <div className="p-4">
-        {isLoading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="bg-card rounded-lg p-4 animate-pulse">
-                <div className="aspect-square bg-muted rounded-md mb-3" />
-                <div className="h-4 bg-muted rounded w-3/4 mb-2" />
-                <div className="h-3 bg-muted rounded w-1/2" />
-              </div>
-            ))}
-          </div>
-        ) : playlists.length === 0 ? (
-          <UnifiedEmptyState
-            type="playlists"
-            actionLabel="Создать плейлист"
-            onAction={() => setCreateDialogOpen(true)}
+      ))}
+    </div>
+  ) : playlists.length === 0 ? (
+    <UnifiedEmptyState
+      type="playlists"
+      actionLabel="Создать плейлист"
+      onAction={() => setCreateDialogOpen(true)}
+    />
+  ) : (
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      {playlists.map((playlist) => (
+        <div
+          key={playlist.id}
+          className={!isMobile && selectedPlaylist?.id === playlist.id ? 'ring-2 ring-primary rounded-lg' : ''}
+        >
+          <PlaylistCard
+            playlist={playlist}
+            formatDuration={formatDuration}
+            onOpen={() => {
+              if (isMobile) {
+                setEditingPlaylist(playlist);
+              } else {
+                setSelectedPlaylist(playlist);
+              }
+            }}
+            onEdit={() => setEditingPlaylist(playlist)}
+            onDelete={() => handleDelete(playlist)}
+            onShare={() => setSharingPlaylist(playlist)}
           />
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {playlists.map((playlist) => (
-              <PlaylistCard
-                key={playlist.id}
-                playlist={playlist}
-                formatDuration={formatDuration}
-                onOpen={() => setEditingPlaylist(playlist)}
-                onEdit={() => setEditingPlaylist(playlist)}
-                onDelete={() => handleDelete(playlist)}
-                onShare={() => setSharingPlaylist(playlist)}
-              />
-            ))}
-          </div>
-        )}
-      </div>
+        </div>
+      ))}
+    </div>
+  );
 
-      {/* Dialogs */}
+  // Dialogs
+  const Dialogs = (
+    <>
       <CreatePlaylistDialog
         open={createDialogOpen}
         onOpenChange={setCreateDialogOpen}
@@ -107,6 +120,61 @@ export default function Playlists() {
         open={!!sharingPlaylist}
         onOpenChange={(open: boolean) => !open && setSharingPlaylist(null)}
       />
+    </>
+  );
+
+  // Desktop: Master-Detail layout
+  if (!isMobile) {
+    return (
+      <div className="min-h-screen bg-background pb-24">
+        <DesktopMasterDetailLayout
+          header={Header}
+          masterContent={PlaylistsContent}
+          detailContent={
+            selectedPlaylist && (
+              <PlaylistDetailPreview
+                playlist={selectedPlaylist}
+                onEdit={() => setEditingPlaylist(selectedPlaylist)}
+                onDelete={() => handleDelete(selectedPlaylist)}
+                onShare={() => setSharingPlaylist(selectedPlaylist)}
+              />
+            )
+          }
+          hasSelection={!!selectedPlaylist}
+          onCloseDetail={() => setSelectedPlaylist(null)}
+          detailTitle={selectedPlaylist?.title}
+          emptyDetailState={
+            <div className="text-center space-y-2">
+              <Music2 className="h-12 w-12 mx-auto text-muted-foreground/50" />
+              <p className="text-muted-foreground">
+                Выберите плейлист для просмотра
+              </p>
+            </div>
+          }
+          ratio="default"
+        />
+        {Dialogs}
+      </div>
+    );
+  }
+
+  // Mobile: Original layout
+  return (
+    <div className="min-h-screen bg-background pb-24">
+      {/* Header */}
+      <div 
+        className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border px-4 pb-3"
+        style={{ paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.5rem), calc(env(safe-area-inset-top, 0px) + 0.5rem))' }}
+      >
+        {Header}
+      </div>
+
+      {/* Content */}
+      <div className="p-4">
+        {PlaylistsContent}
+      </div>
+
+      {Dialogs}
     </div>
   );
 }
