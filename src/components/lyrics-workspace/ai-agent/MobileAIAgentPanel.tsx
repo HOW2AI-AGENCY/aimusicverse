@@ -406,8 +406,9 @@ export function MobileAIAgentPanel({
       transition={{ type: 'spring', damping: 25, stiffness: 300 }}
       className="fixed inset-0 z-[100] bg-background flex flex-col"
       style={{ 
-        paddingTop: 'max(env(safe-area-inset-top, 0px), 12px)',
-        paddingBottom: 'env(safe-area-inset-bottom, 0px)',
+        // Telegram Mini App + iOS safe area
+        paddingTop: 'max(var(--tg-content-safe-area-inset-top, 0px), var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px), 12px)',
+        paddingBottom: 'max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px))',
       }}
     >
       {/* Header with close on RIGHT */}

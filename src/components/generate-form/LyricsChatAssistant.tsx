@@ -551,8 +551,8 @@ export function LyricsChatAssistant({
           <DrawerHeader 
             className="pb-2 border-b border-border/50 shrink-0 flex items-center justify-between"
             style={{
-              // Extra padding for header on iOS + Telegram
-              paddingTop: 'max(0.5rem, var(--tg-content-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))',
+              // Extra padding for header on iOS + Telegram (both safe area vars)
+              paddingTop: 'max(0.5rem, calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px)), env(safe-area-inset-top, 0px))',
             }}
           >
             <DrawerTitle className="flex items-center gap-2 text-base">

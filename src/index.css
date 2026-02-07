@@ -1365,9 +1365,13 @@ html {
     overflow-anchor: none;
   }
   
-  /* Ensure content doesn't get hidden behind keyboard */
+  /* Ensure content doesn't get hidden behind keyboard (Telegram + iOS) */
   .pb-safe {
-    padding-bottom: max(env(safe-area-inset-bottom, 0px), var(--keyboard-height, 0px));
+    padding-bottom: max(
+      var(--tg-safe-area-inset-bottom, 0px),
+      env(safe-area-inset-bottom, 0px),
+      var(--keyboard-height, 0px)
+    );
   }
 }
 
