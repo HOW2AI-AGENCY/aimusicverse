@@ -58,12 +58,37 @@ import {
   logAudioDiagnostics 
 } from '@/lib/audioFormatUtils';
 
-// Audio error messages by error code
-const AUDIO_ERROR_MESSAGES: Record<number, { ru: string; action?: string; retryable?: boolean }> = {
-  1: { ru: 'Загрузка аудио прервана', action: 'Попробуйте еще раз', retryable: true },
-  2: { ru: 'Сетевая ошибка при загрузке', action: 'Проверьте подключение', retryable: true },
-  3: { ru: 'Ошибка декодирования аудио', action: 'Файл может быть поврежден', retryable: false },
-  4: { ru: 'Формат аудио не поддерживается', action: 'Попробуйте другой трек', retryable: true },
+// Audio error messages by error code with detailed recovery info
+const AUDIO_ERROR_MESSAGES: Record<number, { 
+  ru: string; 
+  action?: string; 
+  retryable?: boolean;
+  errorType: string;
+}> = {
+  1: { 
+    ru: 'Загрузка аудио прервана', 
+    action: 'Попробуйте еще раз', 
+    retryable: true,
+    errorType: 'MEDIA_ERR_ABORTED',
+  },
+  2: { 
+    ru: 'Сетевая ошибка при загрузке', 
+    action: 'Проверьте подключение', 
+    retryable: true,
+    errorType: 'MEDIA_ERR_NETWORK', // Includes PIPELINE_ERROR_READ
+  },
+  3: { 
+    ru: 'Ошибка декодирования аудио', 
+    action: 'Файл может быть поврежден', 
+    retryable: false,
+    errorType: 'MEDIA_ERR_DECODE',
+  },
+  4: { 
+    ru: 'Формат аудио не поддерживается', 
+    action: 'Попробуйте другой трек', 
+    retryable: true,
+    errorType: 'MEDIA_ERR_SRC_NOT_SUPPORTED',
+  },
 };
 
 export function GlobalAudioProvider({ children }: { children: React.ReactNode }) {
@@ -597,14 +622,23 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
       const isBlobSource = audio.src?.startsWith('blob:');
       const canonicalUrl = activeTrack?.streaming_url || activeTrack?.audio_url;
       
-      // Enhanced error context with mobile browser info
+      // Determine if this is a PIPELINE_ERROR_READ (common FFmpeg/Chromium error)
+      const isPipelineError = audio.error?.message?.includes('PIPELINE_ERROR_READ') ||
+                              audio.error?.message?.includes('FFmpegDemuxer');
+      
+      // Enhanced error context with comprehensive debugging info
       const errorContext = {
         errorCode,
+        errorType: errorInfo.errorType,
         errorMessage: audio.error?.message,
+        isPipelineError,
         trackId: activeTrack?.id,
         title: activeTrack?.title,
         source: audio.src?.substring(0, 100),
         isBlobSource,
+        hasStreamingUrl: !!activeTrack?.streaming_url,
+        hasAudioUrl: !!activeTrack?.audio_url,
+        hasLocalAudioUrl: !!activeTrack?.local_audio_url,
         networkRetryCount,
         formatRetryCount,
         isMobile: isMobileBrowser,
@@ -612,6 +646,9 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
         os: mobileBrowserInfo.current.osName,
         readyState: audio.readyState,
         networkState: audio.networkState,
+        bufferedRanges: audio.buffered.length,
+        duration: audio.duration,
+        currentTime: audio.currentTime,
       };
       
       // During startup, suppress toasts to avoid stale data errors
