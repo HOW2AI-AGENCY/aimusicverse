@@ -14,7 +14,7 @@ import { cn } from '@/lib/utils';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { logger } from '@/lib/logger';
 import { useAnalyticsTracking } from '@/hooks/useAnalyticsTracking';
-import { interactive } from '@/lib/overlay-colors';
+import { interactive, surface } from '@/lib/overlay-colors';
 
 interface FirstCommentCTAProps {
   trackId: string;
@@ -208,7 +208,7 @@ export const FirstCommentCTA = memo(function FirstCommentCTA({
           {/* Dismiss button */}
           <button
             onClick={handleDismiss}
-            className="shrink-0 p-1 rounded-md hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+            className={cn("shrink-0 p-1 rounded-md transition-colors", interactive.hover)}
             aria-label="Dismiss"
           >
             <X className="w-4 h-4 text-purple-600 dark:text-purple-400" />
@@ -233,7 +233,7 @@ export const FirstCommentCTA = memo(function FirstCommentCTA({
         {/* Close button */}
         <button
           onClick={handleDismiss}
-          className="absolute top-2 right-2 p-1 rounded-md bg-black/10 hover:bg-black/20 transition-colors"
+          className={cn("absolute top-2 right-2 p-1 rounded-md transition-colors", surface.light)}
           aria-label="Dismiss"
         >
           <X className="w-4 h-4 text-white/80" />

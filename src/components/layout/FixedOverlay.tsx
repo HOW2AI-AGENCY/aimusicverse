@@ -16,6 +16,7 @@
 
 import { ReactNode, CSSProperties } from 'react';
 import { cn } from '@/lib/utils';
+import { backdrop } from '@/lib/overlay-colors';
 import { TELEGRAM_SAFE_AREA, getSafeAreaTop, getSafeAreaBottom } from '@/constants/safe-area';
 
 type OverlayPosition = 'center' | 'top' | 'bottom' | 'fill';
@@ -47,8 +48,8 @@ const zIndexMap = {
 
 const backgroundMap = {
   none: '',
-  blur: 'bg-background/80 dark:bg-black/80 backdrop-blur-md',
-  dim: 'bg-background/50 dark:bg-black/50',
+  blur: backdrop.dark + ' backdrop-blur-md',
+  dim: backdrop.medium,
   solid: 'bg-background',
 };
 

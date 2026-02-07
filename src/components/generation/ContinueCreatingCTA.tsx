@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import { logger } from '@/lib/logger';
 import { useAnalyticsTracking } from '@/hooks/useAnalyticsTracking';
 import type { Track } from '@/types/track';
-import { interactive } from '@/lib/overlay-colors';
+import { interactive, surface } from '@/lib/overlay-colors';
 
 interface ContinueCreatingCTAProps {
   track: Track;
@@ -137,7 +137,7 @@ export const ContinueCreatingCTA = memo(function ContinueCreatingCTA({
           {/* Close button */}
           <button
             onClick={handleDismiss}
-            className="absolute top-2 right-2 p-1 rounded-md hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+            className={cn("absolute top-2 right-2 p-1 rounded-md transition-colors", interactive.hover)}
             aria-label="Dismiss"
           >
             <X className="w-4 h-4 text-muted-foreground" />
@@ -202,7 +202,7 @@ export const ContinueCreatingCTA = memo(function ContinueCreatingCTA({
           {/* Close button */}
           <button
             onClick={handleDismiss}
-            className="absolute top-2 right-2 p-1 rounded-md bg-black/10 hover:bg-black/20 transition-colors"
+            className={cn("absolute top-2 right-2 p-1 rounded-md transition-colors", surface.light)}
             aria-label="Dismiss"
           >
             <X className="w-4 h-4 text-white/80" />
@@ -274,7 +274,7 @@ export const ContinueCreatingCTA = memo(function ContinueCreatingCTA({
           </Button>
           <button
             onClick={handleDismiss}
-            className="shrink-0 p-1 rounded hover:bg-black/5"
+            className={cn("shrink-0 p-1 rounded", interactive.hover)}
           >
             <X className="w-3 h-3 text-muted-foreground" />
           </button>
