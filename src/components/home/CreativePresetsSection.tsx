@@ -1,8 +1,10 @@
 /**
  * CreativePresetsSection - Unified section for all creative presets
+ * Feature: 032-professional-ui
  * 
  * Three tabs: ТЕКСТ (Lyrics), ТРЕКИ (Tracks), ПРОЕКТЫ (Projects)
  * Mobile-optimized with smooth tab switching
+ * Uses design system glass tokens
  */
 
 import { memo, useState, useCallback } from 'react';
@@ -13,6 +15,7 @@ import { ProjectPresetsCarousel } from './ProjectPresetsCarousel';
 import { LyricsPresetsRow } from './LyricsPresetsRow';
 import { TrackPresetsRow, type TrackPreset } from './TrackPresetsRow';
 import { useTelegram } from '@/contexts/TelegramContext';
+import { glass } from '@/lib/glass';
 
 interface CreativePresetsSectionProps {
   className?: string;
@@ -63,14 +66,17 @@ export const CreativePresetsSection = memo(function CreativePresetsSection({
       {/* Section header with tabs */}
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2 shrink-0">
-          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center">
+          <div className={cn(
+            "w-7 h-7 rounded-lg flex items-center justify-center",
+            "bg-gradient-to-br from-primary/20 to-primary/10"
+          )}>
             <Sparkles className="w-3.5 h-3.5 text-primary" />
           </div>
-          <span className="text-sm font-bold">Быстрый старт</span>
+          <span className="text-sm font-bold text-foreground">Быстрый старт</span>
         </div>
         
-        {/* Tab switcher - 3 tabs with improved styling */}
-        <div className="flex items-center gap-0.5 p-0.5 rounded-xl bg-muted/60 border border-border/40">
+        {/* Tab switcher - 3 tabs with glass styling */}
+        <div className={cn("flex items-center gap-0.5 p-0.5 rounded-xl", glass.subtle)}>
           {TABS.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;

@@ -1,9 +1,17 @@
+/**
+ * EmptyLibraryState - Empty state for library view
+ * Feature: 032-professional-ui
+ * 
+ * Uses design system glass tokens
+ */
+
 import { motion } from '@/lib/motion';
 import { Sparkles, Music2, Wand2, Upload, ArrowRight, Zap, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { typographyClass, spacingClass, textBalance, touchTargetClass } from '@/lib/design-tokens';
+import { glass } from '@/lib/glass';
 
 interface EmptyLibraryStateProps {
   searchQuery?: string;
@@ -33,13 +41,17 @@ export function EmptyLibraryState({ searchQuery, className, navigate }: EmptyLib
         )}
       >
         <motion.div 
-          className="w-20 h-20 rounded-2xl bg-gradient-to-br from-muted/80 to-muted/40 flex items-center justify-center mb-5 shadow-lg"
+          className={cn(
+            "w-20 h-20 rounded-2xl flex items-center justify-center mb-5 shadow-lg",
+            glass.card,
+            "bg-gradient-to-br from-muted/80 to-muted/40"
+          )}
           animate={{ y: [0, -8, 0] }}
           transition={{ duration: 2.5, repeat: Infinity }}
         >
           <Music2 className="w-10 h-10 text-muted-foreground/50" />
         </motion.div>
-        <h3 className={cn(typographyClass.heading.h3, "mb-2")}>Ничего не найдено</h3>
+        <h3 className={cn(typographyClass.heading.h3, "mb-2 text-foreground")}>Ничего не найдено</h3>
         <p className={cn(typographyClass.body.md, "text-muted-foreground max-w-sm", textBalance.ru)}>
           Попробуйте изменить поисковый запрос или проверьте фильтры
         </p>
@@ -55,6 +67,7 @@ export function EmptyLibraryState({ searchQuery, className, navigate }: EmptyLib
         "flex flex-col items-center justify-center text-center p-8 sm:p-12 rounded-3xl relative overflow-hidden",
         "bg-gradient-to-br from-primary/5 via-generate/5 to-background",
         "border border-dashed border-primary/30",
+        glass.subtle,
         className
       )}
     >
@@ -80,7 +93,11 @@ export function EmptyLibraryState({ searchQuery, className, navigate }: EmptyLib
         className="relative mb-8"
       >
         <motion.div 
-          className="w-24 h-24 rounded-3xl bg-gradient-to-br from-primary/30 to-generate/20 flex items-center justify-center shadow-2xl border border-primary/20"
+          className={cn(
+            "w-24 h-24 rounded-3xl flex items-center justify-center shadow-2xl border border-primary/20",
+            glass.card,
+            "bg-gradient-to-br from-primary/30 to-generate/20"
+          )}
           animate={{ rotate: [0, 5, -5, 0] }}
           transition={{ duration: 4, repeat: Infinity }}
         >
@@ -184,7 +201,11 @@ export function EmptyLibraryState({ searchQuery, className, navigate }: EmptyLib
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => handleNavigate('/', { state: { openGenerate: true, prompt: tag.replace(/[^\w\s]/g, '').trim() } })}
-            className="px-4 py-2 rounded-full text-sm bg-card hover:bg-primary/10 text-muted-foreground hover:text-foreground transition-all border border-border/50 hover:border-primary/30 shadow-sm"
+            className={cn(
+              "px-4 py-2 rounded-full text-sm text-muted-foreground shadow-sm",
+              glass.subtle,
+              "hover:bg-primary/10 hover:text-foreground hover:border-primary/30 transition-all"
+            )}
           >
             {tag}
           </motion.button>
