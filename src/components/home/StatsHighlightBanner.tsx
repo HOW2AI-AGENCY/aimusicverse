@@ -1,19 +1,43 @@
 /**
  * StatsHighlightBanner - Quick stats banner showing real platform metrics
  * Builds social proof and engagement with live data
- * Updated with improved visual design and design tokens
+ * Updated with unified glassmorphism and design tokens
  */
 
 import { memo } from 'react';
 import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
-import { Music, Users, Sparkles, Headphones, TrendingUp } from 'lucide-react';
+import { Music, Users, Sparkles, Headphones } from 'lucide-react';
 import { usePlatformStats } from '@/hooks/usePlatformStats';
 import { Skeleton } from '@/components/ui/skeleton';
+import { glass } from '@/lib/glass';
 
 interface StatsHighlightBannerProps {
   className?: string;
 }
+
+const statColors = {
+  tracks: {
+    text: 'text-primary',
+    bg: 'bg-primary/15',
+    border: 'border-primary/20',
+  },
+  users: {
+    text: 'text-emerald-400',
+    bg: 'bg-emerald-500/15',
+    border: 'border-emerald-500/20',
+  },
+  ai: {
+    text: 'text-amber-400',
+    bg: 'bg-amber-500/15',
+    border: 'border-amber-500/20',
+  },
+  plays: {
+    text: 'text-purple-400',
+    bg: 'bg-purple-500/15',
+    border: 'border-purple-500/20',
+  },
+} as const;
 
 export const StatsHighlightBanner = memo(function StatsHighlightBanner({
   className,
@@ -22,40 +46,28 @@ export const StatsHighlightBanner = memo(function StatsHighlightBanner({
 
   const stats = [
     { 
-      id: 'tracks', 
+      id: 'tracks' as const, 
       label: 'Треков', 
       value: formatted.tracks,
       icon: Music,
-      color: 'text-primary',
-      bg: 'bg-primary/15',
-      border: 'border-primary/20',
     },
     { 
-      id: 'users', 
+      id: 'users' as const, 
       label: 'Авторов', 
       value: formatted.users,
       icon: Users,
-      color: 'text-emerald-400',
-      bg: 'bg-emerald-500/15',
-      border: 'border-emerald-500/20',
     },
     { 
-      id: 'ai', 
+      id: 'ai' as const, 
       label: 'AI генераций', 
       value: formatted.generations,
       icon: Sparkles,
-      color: 'text-amber-400',
-      bg: 'bg-amber-500/15',
-      border: 'border-amber-500/20',
     },
     { 
-      id: 'plays', 
+      id: 'plays' as const, 
       label: 'Прослушиваний', 
       value: formatted.plays,
       icon: Headphones,
-      color: 'text-purple-400',
-      bg: 'bg-purple-500/15',
-      border: 'border-purple-500/20',
     },
   ];
 
@@ -71,26 +83,28 @@ export const StatsHighlightBanner = memo(function StatsHighlightBanner({
     >
       {stats.map((stat, index) => {
         const Icon = stat.icon;
+        const colors = statColors[stat.id];
+        
         return (
           <motion.div
             key={stat.id}
             className={cn(
               "flex-shrink-0 flex items-center gap-2.5 px-3 py-2.5 rounded-xl",
-              "bg-card/70 backdrop-blur-sm",
+              glass.subtle,
               "border",
-              stat.border,
+              colors.border,
               "min-w-[105px]",
-              "hover:bg-card/90 transition-colors duration-200"
+              "hover:bg-card/70 transition-colors duration-200"
             )}
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: index * 0.05 + 0.1 }}
           >
             <div className={cn(
               "w-8 h-8 rounded-lg flex items-center justify-center shrink-0",
-              stat.bg
+              colors.bg
             )}>
-              <Icon className={cn("w-4 h-4", stat.color)} />
+              <Icon className={cn("w-4 h-4", colors.text)} />
             </div>
             <div className="flex flex-col min-w-0">
               {isLoading ? (
@@ -100,10 +114,10 @@ export const StatsHighlightBanner = memo(function StatsHighlightBanner({
                 </>
               ) : (
                 <>
-                  <span className="text-sm font-bold text-foreground leading-tight tabular-nums">
+                  <span className="text-body-sm font-bold text-foreground leading-tight tabular-nums">
                     {stat.value}
                   </span>
-                  <span className="text-[10px] text-muted-foreground leading-tight truncate">
+                  <span className="text-tiny text-muted-foreground leading-tight truncate">
                     {stat.label}
                   </span>
                 </>

@@ -63,6 +63,7 @@ const SheetContent = React.forwardRef<React.ElementRef<typeof SheetPrimitive.Con
   ({ side = "right", className, children, hideTitle = false, accessibleTitle = "Боковая панель", hideCloseButton = false, ...props }, ref) => {
     // Check if this is a fullscreen sheet (has h-full, h-screen, or h-[100dvh] in className)
     const isFullscreen = className?.includes('h-full') || className?.includes('h-screen') || className?.includes('h-[100dvh]') || className?.includes('h-[100vh]');
+    const isBottomSheet = side === 'bottom';
     
     return (
       <SheetPortal>
