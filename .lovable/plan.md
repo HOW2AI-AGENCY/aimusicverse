@@ -98,37 +98,25 @@
 - Side-by-side панели на десктопе (Record/Upload + History)
 - Табы только на мобильных
 
-### Фаза 3: Master-Detail страницы (3 часа)
+### Фаза 3: Master-Detail страницы ✅ DONE
 
-**Задача 3.1: Projects с Detail Panel**
-- Левая панель: список проектов/текстов
-- Правая панель: превью выбранного элемента
-- Keyboard navigation (↑↓ для навигации, Enter для открытия)
+**Задача 3.1: Playlists с Detail Panel** ✅
+- Создан `PlaylistDetailPreview.tsx` - превью плейлиста
+- Desktop: master-detail layout с preview panel
+- Mobile: стандартный список с диалогами
+- Выделение выбранного элемента (ring-2 ring-primary)
 
-**Задача 3.2: Playlists с Detail Panel**
-- Левая панель: список плейлистов
-- Правая панель: треки выбранного плейлиста
-- Drag-and-drop между плейлистами
+**Задача 3.2: Projects с ContentHubTabs** ✅
+- Страница Projects уже использует ContentHubTabs с двумя вкладками
+- Расширена до max-w-6xl для десктопа
 
-**Задача 3.3: Artists с Detail Panel**
-- Левая панель: список AI-артистов
-- Правая панель: профиль артиста с его треками
+### Фаза 4: Оптимизация Index (Home) ✅ DONE
 
-### Фаза 4: Оптимизация Index (Home) (2 часа)
-
-**Задача 4.1: Desktop Home Layout**
-```
-┌─────────────────────────────────────────────────────┐
-│                 Header + Greeting                   │
-├──────────────────────┬──────────────────────────────┤
-│   QuickCreate +      │   Featured Tracks           │
-│   Creative Presets   │   (horizontal scroll)       │
-├──────────────────────┼──────────────────────────────┤
-│   Stats Banner       │   Daily Tip                 │
-├──────────────────────┴──────────────────────────────┤
-│              New Tracks Grid (4-6 cols)             │
-└─────────────────────────────────────────────────────┘
-```
+**Задача 4.1: Desktop Home Layout** ✅
+- Трёхколоночная сетка: 2/3 основной контент + 1/3 сайдбар
+- Левая колонка: QuickCreate, Presets, Featured, New Tracks Grid (4 cols)
+- Правая колонка: Stats, Gamification, Daily Tip, Recent, QuickStart
+- Расширен container до max-w-7xl
 
 ### Фаза 5: Улучшение Sidebar (1 час)
 

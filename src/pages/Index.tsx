@@ -126,6 +126,230 @@ const Index = () => {
     };
   }, [prefersReducedMotion, isLoading]);
 
+  // Desktop two-column layout
+  const renderDesktopLayout = () => (
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      {/* Left column - Main content (2/3 width) */}
+      <div className="lg:col-span-2 space-y-4">
+        {/* New Users: Hero + Progress */}
+        {isNewUser && (
+          <>
+            <Suspense fallback={<HeroSkeleton />}>
+              <motion.section {...fadeInUp}>
+                <FirstTimeHeroCard onCreateClick={handleCreate} />
+              </motion.section>
+            </Suspense>
+            <Suspense fallback={null}>
+              <motion.section {...lazySectionAnimation}>
+                <NewUserProgress />
+              </motion.section>
+            </Suspense>
+          </>
+        )}
+
+        {/* Returning Users: Continue Draft or QuickCreate */}
+        {!isNewUser && (
+          <>
+            <ContinueDraftCard onContinue={handleCreate} />
+            <motion.section {...fadeInUp}>
+              <HomeQuickCreate onCreateClick={handleCreate} />
+            </motion.section>
+          </>
+        )}
+
+        {/* Creative Presets Section */}
+        <motion.section {...fadeInUp}>
+          <CreativePresetsSection 
+            onTrackPresetSelect={handleQuickGenrePreset} 
+          />
+        </motion.section>
+
+        {/* Featured Tracks */}
+        <motion.section {...fadeInUp}>
+          <FeaturedSection
+            tracks={popularTracks}
+            isLoading={isLoading}
+            onTrackClick={handleTrackClick}
+            onRemix={handleRemix}
+            hasMore={hasMorePopular}
+            isLoadingMore={isLoadingMorePopular}
+            onLoadMore={fetchMorePopular}
+          />
+        </motion.section>
+
+        {/* New Tracks Grid - wider on desktop */}
+        <LazySection minHeight="120px" skipSuspense>
+          <motion.div {...lazySectionAnimation}>
+            <TracksGridSection
+              title="✨ Новинки"
+              subtitle="Свежие треки от авторов сообщества"
+              icon={Clock}
+              iconColor={homeSectionColors.newItems.icon}
+              iconGradient={homeSectionColors.newItems.gradient}
+              tracks={recentTracks}
+              isLoading={isLoading}
+              maxTracks={100}
+              columns={4}
+              onRemix={handleRemix}
+              hasMore={hasMoreRecent}
+              isLoadingMore={isLoadingMoreRecent}
+              onLoadMore={fetchMoreRecent}
+            />
+          </motion.div>
+        </LazySection>
+      </div>
+
+      {/* Right column - Sidebar content (1/3 width) */}
+      <div className="space-y-4">
+        {/* Stats Banner */}
+        <motion.section {...fadeInUp}>
+          <StatsHighlightBanner />
+        </motion.section>
+
+        {/* Gamification Bar */}
+        {user && (
+          <Suspense fallback={null}>
+            <motion.div {...fadeInUp}>
+              <GamificationBar />
+            </motion.div>
+          </Suspense>
+        )}
+
+        {/* Daily Tip */}
+        {!isNewUser && (
+          <motion.section {...fadeInUp}>
+            <DailyTipCard />
+          </motion.section>
+        )}
+
+        {/* Recent Tracks */}
+        {user && (
+          <Suspense fallback={<Skeleton className="h-32 rounded-xl" />}>
+            <motion.section {...fadeInUp}>
+              <RecentTracksSection maxTracks={5} />
+            </motion.section>
+          </Suspense>
+        )}
+
+        {/* QuickStart Cards */}
+        {!isNewUser && (
+          <motion.section {...fadeInUp}>
+            <QuickStartCards onPresetSelect={handleQuickStartPreset} />
+          </motion.section>
+        )}
+      </div>
+    </div>
+  );
+
+  // Mobile single-column layout
+  const renderMobileLayout = () => (
+    <>
+      {/* Gamification Bar - for logged in users */}
+      {user && (
+        <Suspense fallback={null}>
+          <motion.div className="mb-4" {...fadeInUp}>
+            <GamificationBar />
+          </motion.div>
+        </Suspense>
+      )}
+
+      {/* New Users: Hero + Progress */}
+      {isNewUser && (
+        <>
+          <Suspense fallback={<HeroSkeleton />}>
+            <motion.section className="mb-3" {...fadeInUp}>
+              <FirstTimeHeroCard onCreateClick={handleCreate} />
+            </motion.section>
+          </Suspense>
+          <Suspense fallback={null}>
+            <motion.section className="mb-3" {...lazySectionAnimation}>
+              <NewUserProgress />
+            </motion.section>
+          </Suspense>
+        </>
+      )}
+
+      {/* Returning Users: Continue Draft or QuickCreate */}
+      {!isNewUser && (
+        <>
+          <ContinueDraftCard onContinue={handleCreate} className="mb-3" />
+          <motion.section className="mb-3" {...fadeInUp}>
+            <HomeQuickCreate onCreateClick={handleCreate} />
+          </motion.section>
+        </>
+      )}
+
+      {/* Stats Banner */}
+      <motion.section className="mb-3" {...fadeInUp}>
+        <StatsHighlightBanner />
+      </motion.section>
+
+      {/* Creative Presets Section */}
+      <motion.section className="mb-4" {...fadeInUp}>
+        <CreativePresetsSection 
+          onTrackPresetSelect={handleQuickGenrePreset} 
+        />
+      </motion.section>
+
+      {/* Featured Tracks */}
+      <motion.section className="mb-3" {...fadeInUp}>
+        <FeaturedSection
+          tracks={popularTracks}
+          isLoading={isLoading}
+          onTrackClick={handleTrackClick}
+          onRemix={handleRemix}
+          hasMore={hasMorePopular}
+          isLoadingMore={isLoadingMorePopular}
+          onLoadMore={fetchMorePopular}
+        />
+      </motion.section>
+
+      {/* Daily Tip */}
+      {!isNewUser && (
+        <motion.section className="mb-3" {...fadeInUp}>
+          <DailyTipCard />
+        </motion.section>
+      )}
+
+      {/* Recent Tracks */}
+      {user && (
+        <Suspense fallback={<Skeleton className="h-32 rounded-xl" />}>
+          <motion.section className="mb-3" {...fadeInUp}>
+            <RecentTracksSection maxTracks={5} />
+          </motion.section>
+        </Suspense>
+      )}
+
+      {/* QuickStart Cards */}
+      {!isNewUser && (
+        <motion.section className="mb-3" {...fadeInUp}>
+          <QuickStartCards onPresetSelect={handleQuickStartPreset} />
+        </motion.section>
+      )}
+
+      {/* New Tracks Grid */}
+      <LazySection className="mb-3" minHeight="120px" skipSuspense>
+        <motion.div {...lazySectionAnimation}>
+          <TracksGridSection
+            title="✨ Новинки"
+            subtitle="Свежие треки от авторов сообщества"
+            icon={Clock}
+            iconColor={homeSectionColors.newItems.icon}
+            iconGradient={homeSectionColors.newItems.gradient}
+            tracks={recentTracks}
+            isLoading={isLoading}
+            maxTracks={100}
+            columns={2}
+            onRemix={handleRemix}
+            hasMore={hasMoreRecent}
+            isLoadingMore={isLoadingMoreRecent}
+            onLoadMore={fetchMoreRecent}
+          />
+        </motion.div>
+      </LazySection>
+    </>
+  );
+
   return (
     <div 
       className="min-h-screen bg-background"
@@ -146,127 +370,22 @@ const Index = () => {
         )}
 
         {/* Main content */}
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 pb-4 sm:py-6 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-4 sm:py-6 relative z-10">
           <SEOHead {...SEO_PRESETS.home} />
 
-        {/* Header */}
-        <HomeHeader
-          userName={displayUser?.first_name || displayUser?.username?.split('@')[0]}
-          userPhotoUrl={displayUser?.photo_url}
-          onProfileClick={goToProfile}
-        />
-
-        {/* Bot Context Banner */}
-        <BotContextBanner />
-
-        {/* Gamification Bar - for logged in users */}
-        {user && (
-          <Suspense fallback={null}>
-            <motion.div className="mb-4" {...fadeInUp}>
-              <GamificationBar />
-            </motion.div>
-          </Suspense>
-        )}
-
-        {/* ============== MAIN SECTIONS ============== */}
-
-        {/* New Users: Hero + Progress */}
-        {isNewUser && (
-          <>
-            <Suspense fallback={<HeroSkeleton />}>
-              <motion.section className="mb-3" {...fadeInUp}>
-                <FirstTimeHeroCard onCreateClick={handleCreate} />
-              </motion.section>
-            </Suspense>
-            <Suspense fallback={null}>
-              <motion.section className="mb-3" {...lazySectionAnimation}>
-                <NewUserProgress />
-              </motion.section>
-            </Suspense>
-          </>
-        )}
-
-        {/* Returning Users: Continue Draft or QuickCreate */}
-        {!isNewUser && (
-          <>
-            <ContinueDraftCard onContinue={handleCreate} className="mb-3" />
-            <motion.section className="mb-3" {...fadeInUp}>
-              <HomeQuickCreate onCreateClick={handleCreate} />
-            </motion.section>
-          </>
-        )}
-
-        {/* Stats Banner - social proof */}
-        <motion.section className="mb-3" {...fadeInUp}>
-          <StatsHighlightBanner />
-        </motion.section>
-
-        {/* Creative Presets Section - Tracks, Lyrics & Projects */}
-        <motion.section className="mb-4" {...fadeInUp}>
-          <CreativePresetsSection 
-            onTrackPresetSelect={handleQuickGenrePreset} 
+          {/* Header */}
+          <HomeHeader
+            userName={displayUser?.first_name || displayUser?.username?.split('@')[0]}
+            userPhotoUrl={displayUser?.photo_url}
+            onProfileClick={goToProfile}
           />
-        </motion.section>
 
-        {/* Featured Tracks - horizontal scroll with load more */}
-        <motion.section className="mb-3" {...fadeInUp}>
-          <FeaturedSection
-            tracks={popularTracks}
-            isLoading={isLoading}
-            onTrackClick={handleTrackClick}
-            onRemix={handleRemix}
-            hasMore={hasMorePopular}
-            isLoadingMore={isLoadingMorePopular}
-            onLoadMore={fetchMorePopular}
-          />
-        </motion.section>
+          {/* Bot Context Banner */}
+          <BotContextBanner />
 
-        {/* Daily Tip - feature discovery */}
-        {!isNewUser && (
-          <motion.section className="mb-3" {...fadeInUp}>
-            <DailyTipCard />
-          </motion.section>
-        )}
-
-        {/* Recent Tracks - for logged in users */}
-        {user && (
-          <Suspense fallback={<Skeleton className="h-32 rounded-xl" />}>
-            <motion.section className="mb-3" {...fadeInUp}>
-              <RecentTracksSection maxTracks={5} />
-            </motion.section>
-          </Suspense>
-        )}
-
-        {/* QuickStart Cards - for returning users */}
-        {!isNewUser && (
-          <motion.section className="mb-3" {...fadeInUp}>
-            <QuickStartCards onPresetSelect={handleQuickStartPreset} />
-          </motion.section>
-        )}
-
-        {/* ============== SECONDARY SECTIONS ============== */}
-
-        {/* New Tracks - with infinite scroll */}
-        <LazySection className="mb-3" minHeight="120px" skipSuspense>
-          <motion.div {...lazySectionAnimation}>
-            <TracksGridSection
-              title="✨ Новинки"
-              subtitle="Свежие треки от авторов сообщества"
-              icon={Clock}
-              iconColor={homeSectionColors.newItems.icon}
-              iconGradient={homeSectionColors.newItems.gradient}
-              tracks={recentTracks}
-              isLoading={isLoading}
-              maxTracks={100}
-              columns={isMobile ? 2 : 4}
-              onRemix={handleRemix}
-              hasMore={hasMoreRecent}
-              isLoadingMore={isLoadingMoreRecent}
-              onLoadMore={fetchMoreRecent}
-            />
-          </motion.div>
-        </LazySection>
-      </div>
+          {/* Responsive Layout */}
+          {isMobile ? renderMobileLayout() : renderDesktopLayout()}
+        </div>
 
       {/* Dialogs - lazy loaded on demand */}
       {generateSheetOpen && (
