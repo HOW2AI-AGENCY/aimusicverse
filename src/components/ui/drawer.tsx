@@ -53,9 +53,12 @@ const DrawerContent = React.forwardRef<
         } : undefined}
         {...props}
       >
-        {/* Only show handle for non-fullscreen drawers */}
+        {/* Drag indicator handle - visible for non-fullscreen drawers */}
         {!isFullscreen && (
-          <div className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted" />
+          <div className="mx-auto mt-3 flex flex-col items-center gap-1">
+            <div className="h-1.5 w-12 rounded-full bg-muted-foreground/30" />
+            <span className="sr-only">Потяните для закрытия</span>
+          </div>
         )}
         {/* Accessible title for screen readers when no visible title exists */}
         {hideTitle && (
