@@ -15,6 +15,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { touchTarget } from '@/lib/touch-target';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { surface } from '@/lib/overlay-colors';
 
 export interface RowBadge {
   id: string;
@@ -149,7 +150,8 @@ export const UnifiedListRow = memo(function UnifiedListRow({
         {/* Status indicator overlay */}
         {status && StatusIcon && (
           <div className={cn(
-            'absolute inset-0 flex items-center justify-center bg-black/40',
+            'absolute inset-0 flex items-center justify-center',
+            surface.imageDark,
             status.pulse && 'animate-pulse'
           )}>
             <StatusIcon className={cn('w-4 h-4', status.color)} />

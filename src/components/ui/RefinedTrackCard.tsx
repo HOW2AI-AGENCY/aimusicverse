@@ -16,6 +16,7 @@ import { cn } from '@/lib/utils';
 import { hapticImpact } from '@/lib/haptic';
 import { Button } from './button';
 import { Badge } from './badge';
+import { pill, interactive } from '@/lib/overlay-colors';
 
 interface RefinedTrackCardProps {
   id: string;
@@ -207,7 +208,7 @@ export const RefinedTrackCard = memo(function RefinedTrackCard({
                 'w-8 h-8 rounded-full flex items-center justify-center',
                 'transition-colors',
                 isCompact 
-                  ? 'hover:bg-muted' 
+                  ? interactive.hover 
                   : 'hover:bg-white/20',
                 localLiked && 'text-red-500'
               )}
@@ -239,7 +240,7 @@ export const RefinedTrackCard = memo(function RefinedTrackCard({
                 className={cn(
                   'w-8 h-8 rounded-full flex items-center justify-center',
                   'transition-colors',
-                  isCompact ? 'hover:bg-muted' : 'hover:bg-white/20 text-white'
+                  isCompact ? interactive.hover : 'hover:bg-white/20 text-white'
                 )}
                 onClick={handleOptions}
                 whileTap={{ scale: 0.85 }}
@@ -256,14 +257,14 @@ export const RefinedTrackCard = memo(function RefinedTrackCard({
         <div className="absolute top-2 left-2 right-2 flex items-center justify-between">
           {/* Duration */}
           {duration && (
-            <Badge variant="secondary" className="bg-black/50 text-white border-0 text-[10px]">
+            <Badge variant="secondary" className={cn("border-0 text-[10px]", pill.glassDark)}>
               {formatDuration(duration)}
             </Badge>
           )}
 
           {/* Stems */}
           {stemCount > 0 && (
-            <Badge variant="secondary" className="bg-black/50 text-white border-0 text-[10px] gap-1">
+            <Badge variant="secondary" className={cn("border-0 text-[10px] gap-1", pill.glassDark)}>
               <Layers className="w-3 h-3" />
               {stemCount}
             </Badge>

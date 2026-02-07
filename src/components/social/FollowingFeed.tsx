@@ -14,6 +14,7 @@ import { formatRelative } from '@/lib/date-utils';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from '@/lib/motion';
+import { surface } from '@/lib/overlay-colors';
 
 type FeedFilter = 'all' | 'following' | 'liked_creators';
 
@@ -213,7 +214,10 @@ function FeedTrackItem({ track }: FeedTrackItemProps) {
                 </div>
               )}
             </div>
-            <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 hover:opacity-100 transition-opacity rounded-lg">
+            <div className={cn(
+              "absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity rounded-lg",
+              surface.imageDark
+            )}>
               <Play className="w-6 h-6 text-white fill-white" />
             </div>
           </div>
