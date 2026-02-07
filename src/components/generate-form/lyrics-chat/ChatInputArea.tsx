@@ -2,6 +2,7 @@ import { memo, useRef, useEffect, useCallback } from 'react';
 import { motion } from '@/lib/motion';
 import { Send, Sparkles, Mic, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { glass } from '@/lib/glass';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 
@@ -63,7 +64,8 @@ export const ChatInputArea = memo(({
 
   return (
     <div className={cn(
-      'border-t border-border/50 bg-background/80 backdrop-blur-sm p-3',
+      'border-t border-border/50 p-3',
+      glass.card,
       className
     )}>
       <div className="flex items-end gap-2">

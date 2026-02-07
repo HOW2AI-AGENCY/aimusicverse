@@ -2,6 +2,7 @@ import { memo } from 'react';
 import { motion } from '@/lib/motion';
 import { Loader2, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { glass } from '@/lib/glass';
 import { buttonVariants } from '@/lib/lyrics/constants';
 import type { ChatMessage, QuickOption } from './types';
 
@@ -22,7 +23,7 @@ export const ChatMessageBubble = memo(({ message, onOptionClick }: ChatMessageBu
         className={cn(
           'max-w-[90%] sm:max-w-[85%] rounded-2xl px-4 py-3',
           isAssistant 
-            ? 'bg-muted rounded-bl-md' 
+            ? cn(glass.subtle, 'rounded-bl-md')
             : 'bg-primary text-primary-foreground rounded-br-md'
         )}
       >
@@ -72,7 +73,7 @@ export const LoadingIndicator = memo(() => {
       exit={{ opacity: 0, y: -10 }}
       className="flex justify-start"
     >
-      <div className="bg-muted rounded-2xl rounded-bl-md px-4 py-3">
+      <div className={cn(glass.subtle, "rounded-2xl rounded-bl-md px-4 py-3")}>
         <div className="flex items-center gap-3">
           <Loader2 className="h-4 w-4 animate-spin text-primary" />
           <motion.div className="flex gap-1.5">
@@ -112,7 +113,7 @@ export const SkeletonMessage = memo(() => {
       animate={{ opacity: 1 }}
       className="flex justify-start"
     >
-      <div className="bg-muted rounded-2xl rounded-bl-md px-4 py-3 w-3/4">
+      <div className={cn(glass.subtle, "rounded-2xl rounded-bl-md px-4 py-3 w-3/4")}>
         <div className="space-y-2">
           <div className="h-3 bg-muted-foreground/20 rounded animate-pulse w-full" />
           <div className="h-3 bg-muted-foreground/20 rounded animate-pulse w-4/5" />
