@@ -1,6 +1,7 @@
 /**
  * Tag Builder Panel
  * Interactive builder for Suno V4.5+ compound tags
+ * Uses design system tokens (Spec 032)
  */
 
 import { useState, useCallback } from 'react';
@@ -12,6 +13,7 @@ import { Copy, Plus, X, Sparkles, Music, Mic2, Zap, Settings2 } from 'lucide-rea
 import { motion, AnimatePresence } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import { glass } from '@/lib/glass';
 
 interface TagBuilderPanelProps {
   onTagsGenerated: (tags: string) => void;
@@ -117,7 +119,7 @@ export function TagBuilderPanel({ onTagsGenerated, genre, mood, className }: Tag
   return (
     <div className={cn('space-y-4', className)}>
       {/* Selected Tags Preview */}
-      <div className="p-3 rounded-xl bg-muted/30 border border-border/50">
+      <div className={cn("p-3 rounded-xl", glass.subtle)}>
         <div className="flex items-center justify-between mb-2">
           <span className="text-xs font-medium text-muted-foreground">Выбранные теги:</span>
           <div className="flex gap-1">

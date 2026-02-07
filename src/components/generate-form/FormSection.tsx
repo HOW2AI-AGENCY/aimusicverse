@@ -1,10 +1,12 @@
 /**
  * FormSection - Visual container for form sections
  * Provides consistent spacing, background, and grouping
+ * Uses design system tokens (Spec 032)
  */
 
 import { memo, ReactNode } from 'react';
 import { cn } from '@/lib/utils';
+import { glass } from '@/lib/glass';
 
 interface FormSectionProps {
   children: ReactNode;
@@ -22,7 +24,7 @@ export const FormSection = memo(function FormSection({
     <div 
       className={cn(
         "space-y-3",
-        elevated && "p-3 rounded-xl bg-muted/30 border border-border/50",
+        elevated && cn("p-3 rounded-xl", glass.subtle),
         className
       )}
     >

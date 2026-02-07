@@ -1,6 +1,7 @@
 /**
  * Unified Studio Actions Panel
  * Organized actions by category for both studio modes
+ * Uses design system tokens (Spec 032)
  */
 
 import { useState } from 'react';
@@ -20,6 +21,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 import type { Track } from '@/types/track';
+import { glass } from '@/lib/glass';
 
 interface ActionItem {
   id: string;
@@ -226,7 +228,7 @@ export function StudioActionsPanel({
     return (
       <div className={cn(
         "px-4 sm:px-6 py-2 border-b border-border/30",
-        "bg-gradient-to-r from-primary/5 via-transparent to-primary/5",
+        glass.subtle,
         className
       )}>
         <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide">

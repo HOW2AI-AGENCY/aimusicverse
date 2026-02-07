@@ -3,6 +3,7 @@
  * 
  * Shows generation results with A/B version selection after track creation.
  * Provides immediate access to versions without navigating to library first.
+ * Uses design system tokens (Spec 032)
  */
 
 import { memo, useCallback, useState, useEffect } from 'react';
@@ -28,6 +29,7 @@ import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { logger } from '@/lib/logger';
+import { glass } from '@/lib/glass';
 
 interface TrackVersion {
   id: string;
@@ -196,14 +198,14 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent 
         side="bottom" 
-        className="h-auto max-h-[80dvh] flex flex-col frost-sheet p-0"
+        className={cn("h-auto max-h-[80dvh] flex flex-col p-0", glass.overlay)}
         hideCloseButton={false}
       >
         <SheetTitle className="sr-only">Результат генерации</SheetTitle>
         
         {/* Header */}
         <div className="flex items-center gap-3 p-4 border-b border-border/50">
-          <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+          <div className={cn("w-10 h-10 rounded-lg flex items-center justify-center", glass.subtle)}>
             <Sparkles className="w-5 h-5 text-primary" />
           </div>
           <div className="flex-1 min-w-0">
@@ -320,7 +322,7 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
         </div>
 
         {/* Actions */}
-        <div className="p-4 border-t border-border/50 space-y-3 bg-background/80 backdrop-blur-sm">
+        <div className={cn("p-4 border-t border-border/50 space-y-3", glass.card)}>
           {/* Set primary button - only show if selection differs from current primary */}
           {hasMultipleVersions && selectedVersionData && !selectedVersionData.isPrimary && (
             <Button

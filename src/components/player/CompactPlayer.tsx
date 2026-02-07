@@ -17,6 +17,7 @@ import type { Track } from '@/types/track';
 import { cn } from '@/lib/utils';
 import { motion } from '@/lib/motion';
 import { hapticImpact } from '@/lib/haptic';
+import { glass } from '@/lib/glass';
 import { UnifiedTrackMenu } from '@/components/track-actions/UnifiedTrackMenu';
 import { WaveformProgressBar } from './WaveformProgressBar';
 
@@ -85,7 +86,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
       <motion.div
         className={cn(
           "w-full max-w-2xl mx-auto",
-          "bg-card/95 backdrop-blur-xl border border-border/50 rounded-2xl",
+          glass.card,
           "shadow-lg shadow-black/10",
           "flex flex-col overflow-hidden",
           "touch-manipulation"

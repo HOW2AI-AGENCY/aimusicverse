@@ -1,5 +1,6 @@
 /**
  * Style Preset Selector - Quick access to saved style presets (aromas)
+ * Uses design system tokens (Spec 032)
  */
 
 import { useState, useMemo } from 'react';
@@ -13,6 +14,7 @@ import { EmptyState } from '@/components/common/EmptyState';
 import { cn } from '@/lib/utils';
 import { useSavedStylePresets } from '@/hooks/usePromptHistorySync';
 import { QUICK_MIX_PRESETS, GENRE_PRESETS, MOOD_PRESETS } from '@/lib/prompt-dj-presets';
+import { glass } from '@/lib/glass';
 
 interface StylePresetSelectorProps {
   open: boolean;
@@ -87,7 +89,7 @@ export function StylePresetSelector({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="bottom" className="h-[75vh] flex flex-col">
+      <SheetContent side="bottom" className={cn("h-[75vh] flex flex-col", glass.overlay)}>
         <SheetHeader className="shrink-0">
           <SheetTitle className="flex items-center gap-2">
             <Palette className="w-5 h-5 text-primary" />
@@ -147,15 +149,16 @@ export function StylePresetSelector({
           {activeTab === 'quick' && (
             <div className="grid grid-cols-2 gap-2 pb-4">
               {filteredQuickMixes.map((preset) => (
-                <button
-                  key={preset.id}
-                  onClick={() => handleQuickMixSelect(preset)}
-                  className={cn(
-                    "p-3 rounded-xl border text-left transition-all min-h-[56px]",
-                    "hover:border-primary/50 hover:bg-accent/50",
-                    "focus:outline-none focus:ring-2 focus:ring-primary/50",
-                    "touch-manipulation active:scale-[0.98]"
-                  )}
+                  <button
+                    key={preset.id}
+                    onClick={() => handleQuickMixSelect(preset)}
+                    className={cn(
+                      "p-3 rounded-xl text-left transition-all min-h-[56px]",
+                      glass.subtle,
+                      "hover:ring-1 hover:ring-primary/30 hover:scale-[1.01]",
+                      "focus:outline-none focus:ring-2 focus:ring-primary/50",
+                      "touch-manipulation active:scale-[0.98]"
+                    )}
                 >
                   <div className="flex items-center gap-2 mb-1.5">
                     <span className="text-lg flex-shrink-0">{preset.emoji}</span>
@@ -185,12 +188,13 @@ export function StylePresetSelector({
                   key={genre.id}
                   onClick={() => handleGenreSelect(genre)}
                   className={cn(
-                    "p-2.5 rounded-xl border text-center transition-all min-h-[44px]",
-                    "hover:border-primary/50 hover:bg-accent/50",
+                    "p-2.5 rounded-xl text-center transition-all min-h-[44px]",
+                    glass.subtle,
+                    "hover:ring-1 hover:ring-primary/30",
                     "focus:outline-none focus:ring-2 focus:ring-primary/50",
                     "touch-manipulation active:scale-[0.98]",
                     currentStyle?.toLowerCase().includes(genre.label.toLowerCase()) &&
-                      "border-primary bg-primary/10"
+                      "ring-1 ring-primary bg-primary/10"
                   )}
                 >
                   <p className="text-xs font-medium truncate">{genre.label}</p>
@@ -219,8 +223,9 @@ export function StylePresetSelector({
                     key={preset.id}
                     onClick={() => handleSavedSelect(preset)}
                     className={cn(
-                      "w-full p-3 rounded-xl border text-left transition-all",
-                      "hover:border-primary/50 hover:bg-accent/50"
+                      "w-full p-3 rounded-xl text-left transition-all",
+                      glass.subtle,
+                      "hover:ring-1 hover:ring-primary/30"
                     )}
                   >
                     <div className="flex items-start justify-between gap-2">

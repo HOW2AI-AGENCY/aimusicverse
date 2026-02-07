@@ -1,6 +1,7 @@
 /**
  * Studio Mixer Panel
  * Vertical fader-style mixer for multi-track control
+ * Uses design system tokens (Spec 032)
  */
 
 import { memo, useCallback } from 'react';
@@ -21,6 +22,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { glass } from '@/lib/glass';
 
 interface StudioMixerPanelProps {
   className?: string;
@@ -52,7 +54,8 @@ export const StudioMixerPanel = memo(function StudioMixerPanel({
 
   return (
     <div className={cn(
-      'flex gap-2 p-3 bg-card/30 overflow-x-auto',
+      'flex gap-2 p-3 overflow-x-auto',
+      glass.subtle,
       compact ? 'flex-row items-end' : 'flex-row items-stretch',
       className
     )}>
