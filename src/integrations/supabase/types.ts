@@ -5759,13 +5759,13 @@ export type Database = {
           bio: string | null
           created_at: string | null
           display_name: string | null
-          first_name: string | null
           followers_count: number | null
           following_count: number | null
           is_public: boolean | null
-          last_name: string | null
           photo_url: string | null
-          social_links: Json | null
+          subscription_tier:
+            | Database["public"]["Enums"]["subscription_tier"]
+            | null
           user_id: string | null
           username: string | null
         }
@@ -5774,13 +5774,13 @@ export type Database = {
           bio?: string | null
           created_at?: string | null
           display_name?: string | null
-          first_name?: string | null
           followers_count?: number | null
           following_count?: number | null
           is_public?: boolean | null
-          last_name?: string | null
           photo_url?: string | null
-          social_links?: Json | null
+          subscription_tier?:
+            | Database["public"]["Enums"]["subscription_tier"]
+            | null
           user_id?: string | null
           username?: string | null
         }
@@ -5789,13 +5789,13 @@ export type Database = {
           bio?: string | null
           created_at?: string | null
           display_name?: string | null
-          first_name?: string | null
           followers_count?: number | null
           following_count?: number | null
           is_public?: boolean | null
-          last_name?: string | null
           photo_url?: string | null
-          social_links?: Json | null
+          subscription_tier?:
+            | Database["public"]["Enums"]["subscription_tier"]
+            | null
           user_id?: string | null
           username?: string | null
         }
@@ -6399,6 +6399,15 @@ export type Database = {
       }
       reset_daily_earnings: { Args: never; Returns: undefined }
       run_log_archival: { Args: never; Returns: Json }
+      secure_credit_update: {
+        Args: {
+          _action_type: string
+          _amount: number
+          _description?: string
+          _user_id: string
+        }
+        Returns: boolean
+      }
       update_user_streak: { Args: { p_user_id: string }; Returns: undefined }
       upsert_notification: {
         Args: {

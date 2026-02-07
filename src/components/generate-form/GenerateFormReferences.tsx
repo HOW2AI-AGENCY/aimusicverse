@@ -1,7 +1,8 @@
 import { Button } from '@/components/ui/button';
-import { FileAudio, User, FolderOpen, Music2, Loader2 } from 'lucide-react';
+import { FileAudio, User, FolderOpen, Music2, Loader2, X } from 'lucide-react';
 import { InlineReferencePreview } from '@/components/audio-reference';
 import { useAudioReference } from '@/hooks/useAudioReference';
+import { touchTargetClass } from '@/lib/design-tokens';
 
 interface GenerateFormReferencesProps {
   planTrackId?: string;
@@ -79,11 +80,12 @@ export function GenerateFormReferences({
           <Button
             type="button"
             variant="ghost"
-            size="sm"
-            className="h-6 w-6 p-0"
+            size="icon"
+            className={touchTargetClass.iconSm}
             onClick={onRemoveAudioFile}
+            aria-label="Удалить аудио файл"
           >
-            <span className="text-xs">✕</span>
+            <X className="w-4 h-4" />
           </Button>
         </div>
       )}
@@ -97,11 +99,12 @@ export function GenerateFormReferences({
           <Button
             type="button"
             variant="ghost"
-            size="sm"
-            className="h-6 w-6 p-0"
+            size="icon"
+            className={touchTargetClass.iconSm}
             onClick={onRemoveArtist}
+            aria-label="Удалить артиста"
           >
-            <span className="text-xs">✕</span>
+            <X className="w-4 h-4" />
           </Button>
         </div>
       )}
@@ -115,11 +118,12 @@ export function GenerateFormReferences({
           <Button
             type="button"
             variant="ghost"
-            size="sm"
-            className="h-6 w-6 p-0"
+            size="icon"
+            className={touchTargetClass.iconSm}
             onClick={onRemoveProject}
+            aria-label="Удалить проект"
           >
-            <span className="text-xs">✕</span>
+            <X className="w-4 h-4" />
           </Button>
         </div>
       )}

@@ -23,6 +23,7 @@ import type { Track } from '@/types/track';
 import { hapticImpact } from '@/lib/haptic';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
+import { touchTargetClass } from '@/lib/design-tokens';
 
 interface QuickQueueActionsProps {
   track: Track;
@@ -82,7 +83,8 @@ export function QuickQueueActions({
           size="icon"
           variant="ghost"
           onClick={handlePlayNow}
-          className={cn('h-9 w-9', iconClassName)}
+          className={cn(touchTargetClass.icon, iconClassName)}
+          aria-label="Играть сейчас"
         >
           <Play className="h-4 w-4" />
         </Button>
@@ -90,7 +92,8 @@ export function QuickQueueActions({
           size="icon"
           variant="ghost"
           onClick={handleAddToQueue}
-          className={cn('h-9 w-9', iconClassName)}
+          className={cn(touchTargetClass.icon, iconClassName)}
+          aria-label="Добавить в очередь"
         >
           <ListPlus className="h-4 w-4" />
         </Button>
