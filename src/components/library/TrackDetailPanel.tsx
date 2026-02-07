@@ -1,6 +1,9 @@
 /**
  * TrackDetailPanel - Desktop track detail view
+ * Feature: 032-professional-ui
+ * 
  * Shows track info, waveform, lyrics, versions, and actions
+ * Uses design system tokens
  */
 
 import { useState } from 'react';
@@ -32,6 +35,7 @@ import { TrackAnalysisTab } from '@/components/track-detail/TrackAnalysisTab';
 import { LyricsView } from '@/components/track-detail/LyricsView';
 import { cn } from '@/lib/utils';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { glass } from '@/lib/glass';
 
 // Helper to format duration
 const formatDuration = (seconds: number): string => {
@@ -71,7 +75,10 @@ export function TrackDetailPanel({ track, onPlay, onClose }: TrackDetailPanelPro
         {/* Cover and Info */}
         <div className="flex gap-4">
           {/* Cover */}
-          <div className="relative w-32 h-32 flex-shrink-0 rounded-lg overflow-hidden bg-muted">
+          <div className={cn(
+            "relative w-32 h-32 flex-shrink-0 rounded-lg overflow-hidden",
+            glass.subtle
+          )}>
             {track.cover_url ? (
               <img 
                 src={track.cover_url} 
@@ -99,7 +106,7 @@ export function TrackDetailPanel({ track, onPlay, onClose }: TrackDetailPanelPro
 
           {/* Info */}
           <div className="flex-1 min-w-0 space-y-2">
-            <h2 className="text-lg font-semibold truncate">{track.title}</h2>
+            <h2 className="text-lg font-semibold truncate text-foreground">{track.title}</h2>
             
             <div className="flex flex-wrap gap-1.5 items-center">
               <TrackStyleTags 

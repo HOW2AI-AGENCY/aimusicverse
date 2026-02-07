@@ -1,6 +1,9 @@
 /**
  * FeatureTutorialDialog - Modal tutorial for feature discovery
+ * Feature: 032-professional-ui
+ * 
  * Shows slide-based tutorials for different features
+ * Uses design system tokens
  */
 
 import { memo, useState, useCallback } from 'react';
@@ -29,6 +32,7 @@ import {
 } from 'lucide-react';
 import { typographyClass } from '@/lib/design-tokens';
 import { useTelegram } from '@/contexts/TelegramContext';
+import { glass } from '@/lib/glass';
 
 export type TutorialType = 
   | 'style' 
@@ -262,15 +266,21 @@ export const FeatureTutorialDialog = memo(function FeatureTutorialDialog({
 
   return (
     <Dialog open={open} onOpenChange={(v) => { if (!v) handleClose(); else onOpenChange(v); }}>
-      <DialogContent className="sm:max-w-md p-0 gap-0 overflow-hidden bg-card border-border/50">
+      <DialogContent className={cn(
+        "sm:max-w-md p-0 gap-0 overflow-hidden",
+        glass.card
+      )}>
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-border/30">
-          <DialogTitle className={cn(typographyClass.body.md, "font-semibold")}>
+          <DialogTitle className={cn(typographyClass.body.md, "font-semibold text-foreground")}>
             {tutorial.title}
           </DialogTitle>
           <button
             onClick={handleClose}
-            className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-accent transition-colors"
+            className={cn(
+              "w-8 h-8 rounded-full flex items-center justify-center",
+              "hover:bg-accent transition-colors touch-manipulation"
+            )}
           >
             <X className="w-4 h-4 text-muted-foreground" />
           </button>
@@ -292,7 +302,10 @@ export const FeatureTutorialDialog = memo(function FeatureTutorialDialog({
             >
               {/* Icon */}
               <motion.div 
-                className="w-16 h-16 rounded-2xl bg-accent/50 flex items-center justify-center mb-4"
+                className={cn(
+                  "w-16 h-16 rounded-2xl flex items-center justify-center mb-4",
+                  glass.subtle
+                )}
                 animate={{ scale: [1, 1.05, 1] }}
                 transition={{ duration: 2, repeat: Infinity }}
               >
@@ -311,7 +324,7 @@ export const FeatureTutorialDialog = memo(function FeatureTutorialDialog({
 
               {/* Tip */}
               {currentSlideData.tip && (
-                <div className="bg-accent/30 rounded-lg px-4 py-2 border border-border/30">
+                <div className={cn("rounded-lg px-4 py-2", glass.subtle)}>
                   <p className={cn(typographyClass.caption, "italic text-muted-foreground")}>
                     {currentSlideData.tip}
                   </p>

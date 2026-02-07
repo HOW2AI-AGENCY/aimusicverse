@@ -1,5 +1,7 @@
 /**
  * Genre Tabs Section
+ * Feature: 032-professional-ui
+ * 
  * Displays tracks by genre with tab navigation
  * Personalizes order based on user preferences
  * Mobile-optimized with scroll fade indicators
@@ -15,6 +17,7 @@ import { useInfiniteGenreTracks, flattenGenreTracksPages } from '@/hooks/useInfi
 import type { PublicTrackWithCreator } from '@/hooks/usePublicContent';
 import { cn } from '@/lib/utils';
 import { Music2, Disc3, Guitar, Waves, Leaf } from 'lucide-react';
+import { glass } from '@/lib/glass';
 
 interface GenreConfig {
   id: string;
@@ -188,8 +191,9 @@ export function GenreTabsSection({ tracks, tracksByGenre: preloadedByGenre, isLo
                     'text-sm font-medium transition-all',
                     'border border-transparent',
                     'data-[state=active]:border-primary/30 data-[state=active]:bg-primary/10',
-                    'data-[state=inactive]:bg-muted/50 data-[state=inactive]:text-muted-foreground',
-                    'hover:bg-muted active:scale-[0.98]',
+                    glass.subtle,
+                    'data-[state=inactive]:text-muted-foreground',
+                    'hover:bg-card/70 active:scale-[0.98]',
                     'whitespace-nowrap'
                   )}
                 >
