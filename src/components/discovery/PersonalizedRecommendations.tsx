@@ -15,6 +15,8 @@ import { logger } from '@/lib/logger';
 import { useAnalyticsTracking } from '@/hooks/useAnalyticsTracking';
 import { usePublicContentBatch, type PublicTrackWithCreator } from '@/hooks/usePublicContent';
 import { LazyImage } from '@/components/ui/lazy-image';
+import { glassButton, glass } from '@/lib/glass';
+import { pill } from '@/lib/overlay-colors';
 
 interface PersonalizedRecommendationsProps {
   userTrack: PublicTrackWithCreator;
@@ -279,7 +281,7 @@ export const PersonalizedRecommendations = memo(function PersonalizedRecommendat
                       e.stopPropagation();
                       handleTrackClick(track);
                     }}
-                    className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center mb-2 hover:bg-white/30 transition-colors"
+                    className={cn("w-10 h-10 rounded-full flex items-center justify-center mb-2 transition-colors", glassButton.default, "hover:bg-white/30")}
                   >
                     <Play className="w-5 h-5 text-white fill-white" />
                   </button>
@@ -303,7 +305,7 @@ export const PersonalizedRecommendations = memo(function PersonalizedRecommendat
                     e.stopPropagation();
                     // Handle like
                   }}
-                  className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                  className={cn("w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity", pill.glassDark)}
                 >
                   <Heart className="w-4 h-4 text-white" />
                 </button>

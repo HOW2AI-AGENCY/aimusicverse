@@ -13,6 +13,7 @@ import { useLikeTrack } from '@/hooks/engagement/useLikeTrack';
 import { useLikeSessionTracker } from '@/hooks/engagement/useLikeSessionTracker';
 import { useAuth } from '@/hooks/useAuth';
 import { notify } from '@/lib/notifications';
+import { pill } from '@/lib/overlay-colors';
 
 interface QuickLikeButtonProps {
   trackId: string;
@@ -96,7 +97,8 @@ export const QuickLikeButton = memo(function QuickLikeButton({
     ),
     overlay: cn(
       // Theme-aware overlay variant - dark glass for image overlays
-      "rounded-full bg-black/40 dark:bg-black/50 backdrop-blur-sm border border-white/10 transition-all active:scale-90",
+      "rounded-full transition-all active:scale-90",
+      pill.glassDark,
       currentIsLiked 
         ? "text-red-500" 
         : "text-white/90 hover:text-red-400"

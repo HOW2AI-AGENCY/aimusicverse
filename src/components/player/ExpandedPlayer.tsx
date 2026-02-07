@@ -20,6 +20,7 @@ import { GlassCard } from '@/components/ui/glass-card';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { logger } from '@/lib/logger';
 import { useFeatureUsageTracking, FeatureEvents } from '@/hooks/analytics';
+import { pill } from '@/lib/overlay-colors';
 
 interface ExpandedPlayerProps {
   track: Track;
@@ -346,7 +347,7 @@ export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerPro
               
               {/* Double tap hint */}
               <motion.div
-                className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-black/50 backdrop-blur-sm px-2 py-0.5 rounded-full"
+                className={cn("absolute bottom-2 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full", pill.glassDark)}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 0.7 }}
                 transition={{ delay: 2 }}

@@ -12,6 +12,8 @@ import {
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { useTelegram } from '@/contexts/TelegramContext';
+import { glassButton } from '@/lib/glass';
+import { cn } from '@/lib/utils';
 
 const STORAGE_KEY = 'gamification-onboarding-completed';
 
@@ -162,7 +164,7 @@ export function GamificationOnboarding({ open, show, onComplete }: GamificationO
                   initial={{ scale: 0, rotate: -180 }}
                   animate={{ scale: 1, rotate: 0 }}
                   transition={{ type: 'spring', delay: 0.2 }}
-                  className="w-20 h-20 mx-auto rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center"
+                  className={cn("w-20 h-20 mx-auto rounded-2xl flex items-center justify-center", glassButton.default)}
                 >
                   <StepIcon className="w-10 h-10 text-white" />
                 </motion.div>

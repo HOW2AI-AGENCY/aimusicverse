@@ -9,6 +9,7 @@ import React, { ReactNode } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { triggerHapticFeedback } from '@/lib/mobile-utils';
+import { backdrop } from '@/lib/overlay-colors';
 import { LucideIcon } from 'lucide-react';
 
 interface ActionItem {
@@ -62,7 +63,7 @@ export function ActionSheet({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-background/50 dark:bg-black/50 backdrop-blur-sm z-50"
+            className={cn("fixed inset-0 backdrop-blur-sm z-50", backdrop.medium)}
             onClick={handleCancel}
           />
 
