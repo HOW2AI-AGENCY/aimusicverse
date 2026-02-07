@@ -1,6 +1,7 @@
 import React, { memo, useCallback, useState } from 'react';
 import { cn } from '@/lib/utils';
 import type { DrumSound } from '@/lib/drum-kits';
+import { hardware } from '@/lib/overlay-colors';
 
 interface DrumPadsProProps {
   sounds: DrumSound[];
@@ -119,12 +120,12 @@ const Pad = memo(function Pad({
       {/* Status indicators */}
       <div className="absolute bottom-2 left-2 right-2 flex justify-between">
         {isMuted && (
-          <div className="px-1.5 py-0.5 rounded-md bg-black/60 text-[9px] font-bold text-destructive border border-destructive/50">
+          <div className={cn("px-1.5 py-0.5 rounded-md text-[9px] font-bold text-destructive border border-destructive/50", hardware.statusBadge)}>
             MUTE
           </div>
         )}
         {isSolo && (
-          <div className="px-1.5 py-0.5 rounded-md bg-black/60 text-[9px] font-bold text-primary border border-primary/50">
+          <div className={cn("px-1.5 py-0.5 rounded-md text-[9px] font-bold text-primary border border-primary/50", hardware.statusBadge)}>
             SOLO
           </div>
         )}
