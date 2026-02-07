@@ -1,6 +1,9 @@
 /**
  * QuickStartCards - Quick preset cards for fast music generation
+ * Feature: 032-professional-ui
+ * 
  * Opens tutorial dialogs to explain each feature before action
+ * Uses design system tokens for consistent styling
  */
 
 import { memo, useCallback, useState, lazy, Suspense } from 'react';
@@ -8,7 +11,8 @@ import { motion } from '@/lib/motion';
 import { Music2, Guitar, Mic2, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTelegram } from '@/contexts/TelegramContext';
-import { typographyClass, textBalance } from '@/lib/design-tokens';
+import { SectionHeading } from '@/components/ui/Heading';
+import { glass } from '@/lib/glass';
 import type { TutorialType } from './FeatureTutorialDialog';
 
 // Lazy load the dialog
@@ -43,9 +47,10 @@ const QuickStartCard = memo(function QuickStartCard({
       className={cn(
         "relative flex flex-col items-center justify-center p-2.5 sm:p-4 rounded-xl sm:rounded-2xl",
         "min-h-[85px] sm:min-h-[110px]",
-        "border border-border/50 shadow-sm",
+        glass.card,
         "transition-all duration-200 touch-manipulation",
-        "hover:shadow-md hover:border-primary/30 active:scale-95",
+        "hover:shadow-md hover:border-primary/30 hover:scale-[1.02]",
+        "active:scale-95",
         "bg-gradient-to-br",
         gradient
       )}
@@ -55,15 +60,18 @@ const QuickStartCard = memo(function QuickStartCard({
       whileTap={{ scale: 0.95 }}
     >
       {/* Icon */}
-      <div className="w-8 h-8 sm:w-11 sm:h-11 rounded-lg sm:rounded-xl bg-background/80 backdrop-blur-sm flex items-center justify-center shadow-inner mb-1.5 sm:mb-2">
+      <div className={cn(
+        "w-8 h-8 sm:w-11 sm:h-11 rounded-lg sm:rounded-xl flex items-center justify-center mb-1.5 sm:mb-2",
+        glass.subtle
+      )}>
         {icon}
       </div>
 
       {/* Title */}
-      <h3 className={cn(typographyClass.body.sm, "font-bold text-foreground mb-0.5", textBalance.balance)}>{title}</h3>
+      <h3 className="text-sm font-bold text-foreground mb-0.5 text-balance">{title}</h3>
       
       {/* Description - hidden on very small screens */}
-      <p className={cn(typographyClass.caption, "text-center px-0.5 hidden xs:block line-clamp-2")}>
+      <p className="text-[11px] text-muted-foreground text-center px-0.5 hidden xs:block line-clamp-2">
         {description}
       </p>
 
@@ -135,18 +143,12 @@ export const QuickStartCards = memo(function QuickStartCards({
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2 }}
       >
-        {/* Section header */}
-        <motion.div
-          className="flex items-center gap-2"
-          initial={{ opacity: 0, x: -10 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.1 }}
+        {/* Section header - using design system */}
+        <SectionHeading
+          icon={<Sparkles className="w-3.5 h-3.5 text-primary" />}
         >
-          <div className="flex items-center justify-center w-6 h-6 rounded-md bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/20">
-            <Sparkles className="w-3.5 h-3.5 text-primary" />
-          </div>
-          <h2 className={cn(typographyClass.body.md, "font-semibold text-foreground")}>Быстрый старт</h2>
-        </motion.div>
+          Быстрый старт
+        </SectionHeading>
 
         {/* Cards grid */}
         <div className="grid grid-cols-3 gap-2 sm:gap-3">

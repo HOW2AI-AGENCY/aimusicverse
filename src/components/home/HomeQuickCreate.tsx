@@ -1,9 +1,10 @@
 /**
  * HomeQuickCreate - Simplified quick create section with FAB trigger
- * Feature: 001-mobile-ui-redesign
+ * Feature: 001-mobile-ui-redesign, 032-professional-ui
  *
  * A minimalist quick create section that provides the primary "Create" action
  * accessible within one tap via the FAB, with an optional expanded prompt input.
+ * Uses design system tokens for consistent styling.
  */
 
 import { memo, useCallback, useState } from 'react';
@@ -13,6 +14,7 @@ import { cn } from '@/lib/utils';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { Button } from '@/components/ui/button';
 import { OnboardingTooltip } from '@/components/onboarding';
+import { glass } from '@/lib/glass';
 
 
 interface HomeQuickCreateProps {
@@ -43,6 +45,7 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({
         "relative overflow-hidden rounded-2xl",
         "bg-gradient-to-br from-primary/12 via-primary/5 to-transparent",
         "border border-primary/25",
+        glass.subtle,
         "p-4 sm:p-5",
         className
       )}
