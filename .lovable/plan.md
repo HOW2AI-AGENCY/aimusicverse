@@ -138,11 +138,11 @@ src/hooks/studio/useVersionSync.ts - Realtime sync
 
 ---
 
-## Следующие шаги (P2-P3):
+## Следующие шаги (P3):
 
 | Приоритет | Задача | Сложность | Влияние |
 |-----------|--------|-----------|---------|
-| P2 | User Journey visualization | Высокая | Высокое |
-| P2 | Enhanced playback tracking | Средняя | Среднее |
+| P2 | ✅ User Journey visualization | Высокая | Высокое |
+| P2 | ✅ Enhanced playback tracking | Средняя | Среднее |
 | P3 | Predictive churn | Высокая | Среднее |
 | P3 | Auto-cleanup versions | Средняя | Среднее |
