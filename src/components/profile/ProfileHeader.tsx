@@ -6,6 +6,8 @@ import { Card } from '@/components/ui/card';
 import { VerificationBadge } from './VerificationBadge';
 import type { ProfileExtended } from '@/types/profile';
 import { LazyImage } from '@/components/ui/lazy-image';
+import { cn } from '@/lib/utils';
+import { glass } from '@/lib/glass';
 
 interface ProfileHeaderProps {
   profile: ProfileExtended;
@@ -46,7 +48,10 @@ export function ProfileHeader({
         {isOwnProfile && onEditClick && (
           <button
             onClick={onEditClick}
-            className="absolute right-3 top-3 rounded-lg bg-background/80 px-3 py-1.5 text-xs font-medium backdrop-blur-sm transition-colors hover:bg-background min-h-[36px]"
+            className={cn(
+              "absolute right-3 top-3 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors hover:bg-background min-h-[36px]",
+              glass.light
+            )}
             aria-label="Edit profile"
           >
             Edit Profile

@@ -19,6 +19,9 @@ import { useState } from 'react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
 import { MobileActionSheet } from '@/components/mobile/MobileActionSheet';
 import { Button } from '@/components/ui/button';
+import { backdrop } from '@/lib/overlay-colors';
+import { glass } from '@/lib/glass';
+import { cn } from '@/lib/utils';
 import { 
   MessageCircle, 
   Sparkles, 
@@ -31,7 +34,6 @@ import {
 import { notify } from '@/lib/notifications';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { logger } from '@/lib/logger';
-import { cn } from '@/lib/utils';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 
 interface ShareSheetProps {
@@ -279,11 +281,11 @@ export function ShareSheet({ open, onOpenChange, item, itemType = 'track' }: Sha
         {/* QR Code Modal for Mobile - theme-aware backdrop */}
         {showQR && qrCode && (
           <div 
-            className="fixed inset-0 bg-background/60 dark:bg-black/60 backdrop-blur-sm z-dialog flex items-center justify-center p-4" 
+            className={cn("fixed inset-0 z-dialog flex items-center justify-center p-4 backdrop-blur-sm", backdrop.medium)} 
             onClick={() => setShowQR(false)}
           >
             <div 
-              className="bg-card rounded-2xl p-6 max-w-sm w-full space-y-4 shadow-xl border border-border"
+              className={cn("rounded-2xl p-6 max-w-sm w-full space-y-4 shadow-xl", glass.overlay)}
               onClick={(e) => e.stopPropagation()}
             >
               <div className="text-center">

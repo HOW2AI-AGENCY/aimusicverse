@@ -5,6 +5,7 @@
 
 import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
+import { glass } from '@/lib/glass';
 import { AppLogo } from '@/components/branding/AppLogo';
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
 
@@ -47,7 +48,7 @@ export function AppHeader({
         "sticky top-0 z-20 -mx-4 px-3",
         // Telegram content safe area for native buttons
         "pt-[max(calc(var(--tg-content-safe-area-inset-top,0px)+0.5rem),calc(env(safe-area-inset-top,0px)+0.5rem))] pb-2",
-        "backdrop-blur-xl bg-background/90 border-b border-border/50",
+        glass.nav,
         className
       )}
       initial={{ opacity: 0, y: -20 }}

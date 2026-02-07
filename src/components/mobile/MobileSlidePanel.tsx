@@ -6,6 +6,7 @@
 import { memo, ReactNode, useCallback } from 'react';
 import { X } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { backdrop } from '@/lib/overlay-colors';
 import { useHaptic } from '@/hooks/useHaptic';
 import { motion, AnimatePresence, useMotionValue, type PanInfo } from '@/lib/motion';
 import { Button } from '@/components/ui/button';
@@ -76,7 +77,7 @@ export const MobileSlidePanel = memo(function MobileSlidePanel({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
+            className={cn("fixed inset-0 z-40 backdrop-blur-sm", backdrop.heavy)}
             onClick={handleBackdropClick}
           />
 
