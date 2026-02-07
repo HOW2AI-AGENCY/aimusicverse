@@ -22,6 +22,7 @@
 import { useRef, useState, useCallback } from 'react';
 import { motion, useMotionValue, useTransform, PanInfo } from '@/lib/motion';
 import { cn } from '@/lib/utils';
+import { backdrop } from '@/lib/overlay-colors';
 import { X } from 'lucide-react';
 import { DialogBackdrop } from '../unified-dialog';
 import { DIALOG_CONFIG } from '../unified-dialog.config';
@@ -78,7 +79,7 @@ export function SheetDialog({
     <div className="fixed inset-0 z-50 flex items-end justify-center">
       {/* Backdrop with opacity transform */}
       <motion.div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        className={cn("absolute inset-0 backdrop-blur-sm", backdrop.heavy)}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}

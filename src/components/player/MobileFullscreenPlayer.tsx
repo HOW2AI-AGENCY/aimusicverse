@@ -34,6 +34,7 @@ import { PlayerActionsBar } from './PlayerActionsBar';
 import { KaraokeView } from './KaraokeView';
 import { DoubleTapSeekFeedback } from './DoubleTapSeekFeedback';
 import { cn } from '@/lib/utils';
+import { glass, glassButton } from '@/lib/glass';
 import { motion, AnimatePresence, PanInfo } from '@/lib/motion';
 import { hapticImpact } from '@/lib/haptic';
 import { logger } from '@/lib/logger';
@@ -667,7 +668,10 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
                 hapticImpact('light');
                 onClose();
               }}
-              className="h-11 w-11 rounded-full bg-background/40 backdrop-blur-md border border-white/10 touch-manipulation hover:bg-background/60 transition-colors"
+              className={cn(
+                "h-11 w-11 rounded-full touch-manipulation transition-colors",
+                glassButton.default
+              )}
               aria-label="Закрыть плеер"
             >
               <X className="h-5 w-5" />
@@ -702,7 +706,8 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
                   setShowVisualizer(prev => !prev);
                 }}
                 className={cn(
-                  'h-11 w-11 rounded-full bg-background/40 backdrop-blur-md border border-white/10 touch-manipulation hover:bg-background/60 transition-colors',
+                  'h-11 w-11 rounded-full touch-manipulation transition-colors',
+                  glassButton.default,
                   showVisualizer && 'bg-primary/20 border-primary/30'
                 )}
                 aria-label={showVisualizer ? "Скрыть визуализацию" : "Показать визуализацию"}
@@ -721,7 +726,10 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
                     hapticImpact('light');
                     setKaraokeMode(true);
                   }}
-                  className="h-11 w-11 rounded-full bg-background/40 backdrop-blur-md border border-white/10 touch-manipulation hover:bg-background/60 transition-colors"
+                  className={cn(
+                    "h-11 w-11 rounded-full touch-manipulation transition-colors",
+                    glassButton.default
+                  )}
                   aria-label="Режим караоке"
                 >
                   <Mic2 className="h-5 w-5" />
@@ -738,7 +746,10 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
                   hapticImpact('light');
                   setQueueOpen(true);
                 }}
-                className="h-11 w-11 rounded-full bg-background/40 backdrop-blur-md border border-white/10 touch-manipulation hover:bg-background/60 transition-colors"
+                className={cn(
+                  "h-11 w-11 rounded-full touch-manipulation transition-colors",
+                  glassButton.default
+                )}
                 aria-label="Открыть очередь"
               >
                 <ListMusic className="h-5 w-5" />

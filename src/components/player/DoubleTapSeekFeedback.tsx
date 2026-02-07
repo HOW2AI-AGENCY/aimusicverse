@@ -9,6 +9,7 @@ import { memo } from 'react';
 import { motion } from '@/lib/motion';
 import { RotateCcw, RotateCw } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { media } from '@/lib/overlay-colors';
 
 interface DoubleTapSeekFeedbackProps {
   side: 'left' | 'right';
@@ -33,7 +34,7 @@ export const DoubleTapSeekFeedback = memo(function DoubleTapSeekFeedback({
       )}
     >
       {/* Theme-aware seek feedback - always dark for visibility on video/waveform */}
-      <div className="bg-black/60 dark:bg-black/70 backdrop-blur-md rounded-full p-5 flex flex-col items-center shadow-lg border border-white/10">
+      <div className={cn(media.seekFeedback, "p-5 flex flex-col items-center border border-white/10")}>
         <Icon className="w-8 h-8 text-white" />
         <span className="text-white text-sm font-semibold mt-1">{seekAmount}с</span>
       </div>

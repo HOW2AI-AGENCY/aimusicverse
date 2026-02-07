@@ -6,6 +6,7 @@
 import { memo, useRef, useCallback, useState, ReactNode } from 'react';
 import { motion, AnimatePresence, useMotionValue, useTransform, type PanInfo } from '@/lib/motion';
 import { cn } from '@/lib/utils';
+import { backdrop } from '@/lib/overlay-colors';
 import { useHaptic } from '@/hooks/useHaptic';
 import { X } from 'lucide-react';
 
@@ -92,7 +93,7 @@ export const MobileBottomSheet = memo(function MobileBottomSheet({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             style={{ opacity: backdropOpacity }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[150]"
+            className={cn("fixed inset-0 z-[150] backdrop-blur-sm", backdrop.heavy)}
             onClick={handleBackdropClick}
           />
 

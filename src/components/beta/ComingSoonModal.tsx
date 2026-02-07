@@ -6,6 +6,7 @@ import { Clock, Bell, Sparkles, ArrowRight, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { UnifiedDialog } from '@/components/dialog';
 import { cn } from '@/lib/utils';
+import { glass } from '@/lib/glass';
 import { FEATURE_METADATA, type FeatureKey } from '@/config/app.config';
 import { toast } from 'sonner';
 
@@ -92,7 +93,7 @@ export function ComingSoonModal({
             variant="ghost"
             size="icon"
             onClick={() => onOpenChange(false)}
-            className="absolute top-3 right-3 h-8 w-8 rounded-full bg-background/50 backdrop-blur-sm hover:bg-background/80"
+            className={cn("absolute top-3 right-3 h-8 w-8 rounded-full hover:bg-background/80", glass.subtle)}
           >
             <X className="w-4 h-4" />
           </Button>

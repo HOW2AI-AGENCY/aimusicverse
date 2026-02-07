@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { FolderOpen, MoreVertical, Trash2, Music, Calendar, ChevronRight, Globe, Disc } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { pill } from '@/lib/overlay-colors';
 import { format, ru } from '@/lib/date-utils';
 import { motion } from '@/lib/motion';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -229,7 +230,7 @@ const GridCard = memo(function GridCard({
 
         {/* Type badge */}
         <div className="absolute top-2 left-2">
-          <Badge className="bg-black/60 backdrop-blur-sm text-white border-0 text-[10px] h-5 px-2 shadow-lg">
+          <Badge className={cn(pill.glassDark, "text-[10px] h-5 px-2 shadow-lg")}>
             {projectType}
           </Badge>
         </div>
