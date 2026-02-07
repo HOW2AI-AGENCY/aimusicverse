@@ -16,7 +16,7 @@ import { cn } from '@/lib/utils';
 import { hapticImpact } from '@/lib/haptic';
 import { Button } from './button';
 import { Badge } from './badge';
-import { pill, interactive } from '@/lib/overlay-colors';
+import { pill, interactive, surface } from '@/lib/overlay-colors';
 
 interface RefinedTrackCardProps {
   id: string;
@@ -209,7 +209,7 @@ export const RefinedTrackCard = memo(function RefinedTrackCard({
                 'transition-colors',
                 isCompact 
                   ? interactive.hover 
-                  : 'hover:bg-white/20',
+                  : surface.medium,
                 localLiked && 'text-red-500'
               )}
               onClick={handleLike}
@@ -240,7 +240,7 @@ export const RefinedTrackCard = memo(function RefinedTrackCard({
                 className={cn(
                   'w-8 h-8 rounded-full flex items-center justify-center',
                   'transition-colors',
-                  isCompact ? interactive.hover : 'hover:bg-white/20 text-white'
+                  isCompact ? interactive.hover : cn(surface.medium, 'text-white')
                 )}
                 onClick={handleOptions}
                 whileTap={{ scale: 0.85 }}

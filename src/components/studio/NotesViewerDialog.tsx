@@ -302,7 +302,7 @@ export function NotesViewerDialog({
                 {isMobile ? (
                   // Mobile: Show preview card with direct open button (iframe doesn't work in Telegram)
                   <div className="rounded-lg overflow-hidden border bg-gradient-to-br from-muted/30 to-muted/10 p-6 flex flex-col items-center justify-center gap-4" style={{ minHeight: 280 }}>
-                    <div className="w-20 h-28 rounded-lg bg-white/90 dark:bg-white/10 border-2 border-primary/20 flex items-center justify-center shadow-lg">
+                    <div className="w-20 h-28 rounded-lg bg-card/90 dark:bg-foreground/10 border-2 border-primary/20 flex items-center justify-center shadow-lg">
                       <FileText className="w-10 h-10 text-primary" />
                     </div>
                     <div className="text-center space-y-1">

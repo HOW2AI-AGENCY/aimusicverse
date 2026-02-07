@@ -390,8 +390,8 @@ export const InteractivePianoRoll = memo(function InteractivePianoRoll({
                   className={cn(
                     "absolute left-0 right-0 border-b",
                     isBlack 
-                      ? "bg-zinc-800/80 border-zinc-700" 
-                      : "bg-white/90 border-zinc-200",
+                      ? "bg-zinc-800/80 dark:bg-zinc-800/80 border-zinc-700" 
+                      : "bg-background/90 dark:bg-white/90 border-zinc-200",
                     isC && "border-b-2 border-b-primary/30"
                   )}
                   style={{ 
@@ -551,7 +551,7 @@ export const InteractivePianoRoll = memo(function InteractivePianoRoll({
                   {/* Velocity indicator bar */}
                   {showVelocity && noteWidth > 20 && (
                     <div 
-                      className="absolute bottom-0 left-0 right-0 bg-black/20 rounded-b-sm"
+                      className="absolute bottom-0 left-0 right-0 bg-foreground/20 rounded-b-sm"
                       style={{ height: `${100 - (note.velocity / 127) * 100}%` }}
                     />
                   )}

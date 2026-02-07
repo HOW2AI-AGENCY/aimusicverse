@@ -6,6 +6,7 @@
 import { memo, useRef, useCallback, useState, useEffect } from 'react';
 import { motion, useMotionValue, useTransform, useSpring } from '@/lib/motion';
 import { cn } from '@/lib/utils';
+import { interactive } from '@/lib/overlay-colors';
 
 interface RealisticKnobProps {
   value: number; // 0-1
@@ -358,7 +359,8 @@ export const RealisticKnob = memo(function RealisticKnob({
       <button
         className={cn(
           'text-center truncate transition-all rounded-lg px-2 py-1',
-          'hover:bg-white/5 active:scale-95',
+          interactive.hover,
+          'active:scale-95',
           sizeConfig.labelWidth,
           sizeConfig.fontSize,
           !enabled && 'opacity-50'

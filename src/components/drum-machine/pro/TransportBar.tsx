@@ -180,7 +180,7 @@ export const TransportBar = memo(function TransportBar({
             </div>
           </div>
 
-          <div className="h-10 w-px bg-white/10" />
+          <div className="h-10 w-px bg-foreground/10 dark:bg-white/10" />
 
           {/* BPM Display */}
           <div className="flex flex-col items-center">

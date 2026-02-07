@@ -281,7 +281,7 @@ export const PersonalizedRecommendations = memo(function PersonalizedRecommendat
                       e.stopPropagation();
                       handleTrackClick(track);
                     }}
-                    className={cn("w-10 h-10 rounded-full flex items-center justify-center mb-2 transition-colors", glassButton.default, "hover:bg-white/30")}
+                    className={cn("w-10 h-10 rounded-full flex items-center justify-center mb-2 transition-colors", glassButton.default, "hover:bg-foreground/30 dark:hover:bg-white/30")}
                   >
                     <Play className="w-5 h-5 text-white fill-white" />
                   </button>

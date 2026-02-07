@@ -358,7 +358,7 @@ export function ErrorTrendsPanel({ data, isLoading }: ErrorTrendsPanelProps) {
                       </Button>
                       
                       {isExpanded && (
-                        <pre className="mt-2 p-2 bg-black/50 rounded text-[9px] text-green-400 overflow-x-auto max-h-32 font-mono">
+                        <pre className="mt-2 p-2 bg-zinc-900/90 dark:bg-black/50 rounded text-[9px] text-green-400 overflow-x-auto max-h-32 font-mono">
                           {error.error_stack}
                         </pre>
                       )}

@@ -12,6 +12,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { TAG_CATEGORIES, getTagDefinition, type TagCategory } from '@/lib/lyrics/constants';
+import { surface } from '@/lib/overlay-colors';
 
 // Icon map for categories
 const CATEGORY_ICONS: Record<TagCategory, React.ElementType> = {
@@ -55,7 +56,8 @@ export function TagBadge({ tag, category, onRemove, className, size = 'sm' }: Ta
           variant="ghost"
           size="icon"
           className={cn(
-            "rounded-full bg-white/20 hover:bg-white/30 ml-0.5",
+            "rounded-full ml-0.5",
+            surface.medium, "hover:bg-foreground/30 dark:hover:bg-white/30",
             size === 'sm' ? "h-4 w-4" : "h-5 w-5"
           )}
           onClick={(e) => {

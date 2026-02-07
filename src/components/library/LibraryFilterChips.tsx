@@ -2,6 +2,7 @@ import { cn } from '@/lib/utils';
 import { Music2, Mic, Volume2, Layers, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { Badge } from '@/components/ui/badge';
+import { surface } from '@/lib/overlay-colors';
 
 type FilterOption = 'all' | 'vocals' | 'instrumental' | 'stems';
 
@@ -59,7 +60,7 @@ export function LibraryFilterChips({ activeFilter, onFilterChange, counts }: Lib
                   exit={{ scale: 0 }}
                   className={cn(
                     "text-[9px] px-1 rounded-full tabular-nums font-semibold min-w-[16px] text-center",
-                    isActive ? "bg-white/20 text-primary-foreground" : "bg-muted text-muted-foreground"
+                    isActive ? cn(surface.medium, "text-primary-foreground") : "bg-muted text-muted-foreground"
                   )}
                 >
                   {count > 99 ? '99+' : count}
