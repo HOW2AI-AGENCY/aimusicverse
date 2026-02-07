@@ -167,4 +167,62 @@ export const SectionHeading = memo(forwardRef<HTMLHeadingElement, SectionHeading
 
 SectionHeading.displayName = 'SectionHeading';
 
+/**
+ * SectionHeader - Full section header with icon, title, subtitle and badge
+ * For use in content sections (Featured, Trending, etc.)
+ */
+interface SectionHeaderProps {
+  title: string;
+  subtitle?: string;
+  icon?: React.ComponentType<{ className?: string }>;
+  iconColor?: string;
+  badge?: React.ReactNode;
+  action?: React.ReactNode;
+  className?: string;
+}
+
+export const SectionHeader = memo(function SectionHeader({
+  title,
+  subtitle,
+  icon: Icon,
+  iconColor,
+  badge,
+  action,
+  className,
+}: SectionHeaderProps) {
+  return (
+    <div className={cn("flex items-center justify-between px-1", className)}>
+      <div className="flex items-center gap-2.5">
+        {Icon && (
+          <div className="relative">
+            <motion.div 
+              className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center shrink-0 border bg-gradient-to-br from-primary/15 to-transparent border-primary/20"
+              animate={{ scale: [1, 1.03, 1] }}
+              transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <Icon className={cn("w-4 h-4 sm:w-4.5 sm:h-4.5", iconColor || "text-primary")} />
+            </motion.div>
+          </div>
+        )}
+        <div className="min-w-0">
+          <div className="flex items-center gap-2">
+            <h3 className="text-sm sm:text-base font-bold text-foreground leading-tight">
+              {title}
+            </h3>
+            {badge}
+          </div>
+          {subtitle && (
+            <p className="text-[11px] sm:text-xs text-muted-foreground truncate">
+              {subtitle}
+            </p>
+          )}
+        </div>
+      </div>
+      {action && <div className="shrink-0">{action}</div>}
+    </div>
+  );
+});
+
+SectionHeader.displayName = 'SectionHeader';
+
 export default Heading;
