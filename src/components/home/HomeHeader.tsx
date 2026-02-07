@@ -5,6 +5,8 @@
  * 
  * On desktop: Shows simplified greeting (no menu/avatar - handled by Sidebar)
  * On mobile: Full header with menu, avatar, notifications
+ * 
+ * Feature: 032-professional-ui - Uses design system tokens
  */
 
 import { useState, lazy, Suspense } from 'react';
@@ -17,6 +19,8 @@ import { AppLogo } from '@/components/branding/AppLogo';
 import { TELEGRAM_SAFE_AREA } from '@/constants/safe-area';
 import { AdminQuickAccess } from './AdminQuickAccess';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { glass } from '@/lib/glass';
+import { Heading } from '@/components/ui/Heading';
 
 // Use the same menu as bottom navigation "More" button
 const MoreMenuSheet = lazy(() => import('@/components/navigation/MoreMenuSheet').then(m => ({ default: m.MoreMenuSheet })));
@@ -126,7 +130,8 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
     <motion.header 
       className={cn(
         "sticky top-0 z-20 -mx-4 px-3 pb-2",
-        "backdrop-blur-xl bg-background/90 border-b border-border/50",
+        glass.nav,
+        "border-b border-border/50",
         className
       )}
       style={{
