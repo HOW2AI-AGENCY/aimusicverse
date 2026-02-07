@@ -31,6 +31,9 @@ export type EmptyStateType =
   | 'notifications'
   | 'likes'
   | 'stems'
+  | 'lyrics'
+  | 'lyrics_studio'
+  | 'stem_studio'
   | 'custom';
 
 interface EmptyStateConfig {
@@ -96,6 +99,24 @@ const emptyStateConfigs: Record<Exclude<EmptyStateType, 'custom'>, EmptyStateCon
     title: 'Нет стемов',
     description: 'Разделите трек на вокал и инструменты',
     actionLabel: 'Разделить трек',
+  },
+  lyrics: {
+    icon: Mic2,
+    title: 'Нет текстов',
+    description: 'Создайте или сохраните текст песни',
+    actionLabel: 'Создать текст',
+  },
+  lyrics_studio: {
+    icon: Mic2,
+    title: 'Добро пожаловать в Lyrics Studio',
+    description: 'Создавайте, редактируйте и улучшайте тексты песен с помощью AI',
+    actionLabel: 'Создать первый текст',
+  },
+  stem_studio: {
+    icon: Sparkles,
+    title: 'Добро пожаловать в Stem Studio',
+    description: 'Разделяйте треки на вокал, ударные, бас и другие инструменты',
+    actionLabel: 'Загрузить трек',
   },
 };
 
