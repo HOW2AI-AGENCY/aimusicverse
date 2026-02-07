@@ -1,6 +1,9 @@
 /**
  * FirstTimeHeroCard - Hero section for new users
+ * Feature: 032-professional-ui
+ * 
  * Shows step-by-step guide and primary CTA
+ * Uses design system glass tokens
  */
 
 import { memo } from 'react';
@@ -8,7 +11,7 @@ import { motion } from '@/lib/motion';
 import { Sparkles, Music2, Headphones } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { typographyClass, textBalance, touchTargetClass } from '@/lib/design-tokens';
+import { glass, gradientGlass } from '@/lib/glass';
 
 interface FirstTimeHeroCardProps {
   onCreateClick: () => void;
@@ -74,7 +77,7 @@ export const FirstTimeHeroCard = memo(function FirstTimeHeroCard({
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className={cn(typographyClass.heading.h2, "text-center mb-1.5 sm:mb-2", textBalance.balance)}
+          className="text-xl sm:text-2xl font-bold text-foreground text-center mb-1.5 sm:mb-2 text-balance"
         >
           Создай свой первый трек
         </motion.h2>
@@ -83,7 +86,7 @@ export const FirstTimeHeroCard = memo(function FirstTimeHeroCard({
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
-          className={cn(typographyClass.body.md, "text-muted-foreground text-center mb-4 sm:mb-5", textBalance.ru)}
+          className="text-sm text-muted-foreground text-center mb-4 sm:mb-5 text-balance"
         >
           Три простых шага до профессионального звучания
         </motion.p>
@@ -101,7 +104,7 @@ export const FirstTimeHeroCard = memo(function FirstTimeHeroCard({
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.25 + i * 0.1 }}
-              className="flex items-center gap-2.5 sm:gap-3 p-2.5 sm:p-3 rounded-xl bg-background/60 backdrop-blur-sm border border-border/50"
+              className={cn("flex items-center gap-2.5 sm:gap-3 p-2.5 sm:p-3 rounded-xl", glass.subtle)}
             >
               <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
                 <step.icon className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
@@ -112,10 +115,10 @@ export const FirstTimeHeroCard = memo(function FirstTimeHeroCard({
                     Шаг {step.number}
                   </span>
                 </div>
-                <h3 className={cn(typographyClass.body.md, "font-medium text-foreground leading-tight")}>
+                <h3 className="text-sm font-medium text-foreground leading-tight">
                   {step.title}
                 </h3>
-                <p className={cn(typographyClass.caption, "text-muted-foreground")}>
+                <p className="text-xs text-muted-foreground">
                   {step.description}
                 </p>
               </div>
@@ -133,10 +136,7 @@ export const FirstTimeHeroCard = memo(function FirstTimeHeroCard({
             <Button
               onClick={onCreateClick}
               size="lg"
-              className={cn(
-                "w-full h-12 sm:h-11 rounded-xl bg-gradient-to-r from-primary to-generate hover:from-primary/90 hover:to-generate/90 text-white gap-2 shadow-lg",
-                typographyClass.body.md, touchTargetClass.button
-              )}
+              className="w-full h-12 sm:h-11 rounded-xl bg-gradient-to-r from-primary to-generate hover:from-primary/90 hover:to-generate/90 text-white gap-2 shadow-lg text-sm touch-manipulation"
             >
               <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
               Создать первый трек

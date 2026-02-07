@@ -1,12 +1,14 @@
 /**
  * Popular Creators Section - Shows top music creators on homepage
+ * Feature: 032-professional-ui
+ * 
+ * Uses design system glass tokens
  */
 
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { Crown, Music2, Heart, Users, UserPlus, Check, Loader2 } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
@@ -17,6 +19,7 @@ import { useFollow } from '@/hooks/social/useFollow';
 import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { SectionHeader } from '@/components/common/SectionHeader';
+import { glass, gradientGlass } from '@/lib/glass';
 
 interface PopularCreator {
   user_id: string;
@@ -212,7 +215,8 @@ function CreatorCard({
       aria-label={`Профиль ${displayName}`}
     >
       <div className={cn(
-        "relative p-4 rounded-2xl bg-card/80 border border-border/50 backdrop-blur-sm h-full min-h-[200px] flex flex-col",
+        "relative p-4 rounded-2xl h-full min-h-[200px] flex flex-col",
+        glass.card,
         "hover:border-primary/30 hover:shadow-lg transition-all",
         rankConfig && `bg-gradient-to-br ${rankConfig.bg}`
       )}>
