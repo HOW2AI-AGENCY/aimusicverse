@@ -69,3 +69,6 @@ export { KeyboardShortcutsDialog } from './KeyboardShortcutsDialog';
 
 // Undo/Redo
 export { UndoRedoControls } from './UndoRedoControls';
+
+// Version Diff Viewer
+export { VersionDiffViewer } from './VersionDiffViewer';

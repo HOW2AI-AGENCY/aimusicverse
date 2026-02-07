@@ -1,7 +1,7 @@
 
 # План доработки систем аналитики, лайков, версионирования и логирования
 
-## ✅ Статус: Phase 3 Complete (P0 + P1 + P2 + P3)
+## ✅ Статус: Phase 4 Complete (P0 + P1 + P2 + P3 + P4)
 
 ### Выполненные задачи:
 
@@ -17,6 +17,8 @@
 | P2 | ✅ User Journey visualization (Sankey) | Done |
 | P3 | ✅ Auto-cleanup versions (tier-based) | Done |
 | P3 | ✅ Enhanced generation error diagnostics | Done |
+| P4 | ✅ Predictive Churn Model | Done |
+| P4 | ✅ Version Diff Viewer | Done |
 
 ---
 
