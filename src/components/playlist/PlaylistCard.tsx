@@ -8,6 +8,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { LazyImage } from '@/components/ui/lazy-image';
+import { surface, pill } from '@/lib/overlay-colors';
+import { cn } from '@/lib/utils';
 import type { Playlist } from '@/hooks/usePlaylists';
 
 interface PlaylistCardProps {
@@ -42,7 +44,7 @@ export function PlaylistCard({ playlist, formatDuration, onOpen, onEdit, onDelet
         )}
         
         {/* Play overlay */}
-        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+        <div className={cn("absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center", surface.imageDark)}>
           <Button size="icon" variant="secondary" className="h-12 w-12 rounded-full" aria-label="Воспроизвести плейлист">
             <Play className="h-6 w-6" />
           </Button>
@@ -51,11 +53,11 @@ export function PlaylistCard({ playlist, formatDuration, onOpen, onEdit, onDelet
         {/* Public/Private badge */}
         <div className="absolute top-2 right-2">
           {playlist.is_public ? (
-            <div className="bg-black/60 rounded-full p-1.5" title="Публичный">
+            <div className={cn("rounded-full p-1.5", pill.glassDark)} title="Публичный">
               <Globe className="h-3.5 w-3.5 text-white" />
             </div>
           ) : (
-            <div className="bg-black/60 rounded-full p-1.5" title="Приватный">
+            <div className={cn("rounded-full p-1.5", pill.glassDark)} title="Приватный">
               <Lock className="h-3.5 w-3.5 text-white" />
             </div>
           )}

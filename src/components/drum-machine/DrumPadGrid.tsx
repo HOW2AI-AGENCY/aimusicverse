@@ -51,7 +51,7 @@ const DrumPad = memo(function DrumPad({ sound, isActive, onTrigger }: DrumPadPro
       {/* Hit flash effect */}
       <div 
         className={cn(
-          'absolute inset-0 rounded-lg bg-white/30 transition-opacity duration-75',
+          'absolute inset-0 rounded-lg bg-white/30 dark:bg-white/30 transition-opacity duration-75',
           isActive ? 'opacity-100' : 'opacity-0'
         )}
       />
