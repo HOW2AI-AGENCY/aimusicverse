@@ -7,6 +7,7 @@ import { memo, useState } from 'react';
 import { Track } from '@/types/track';
 import { Play, Pause, Heart, Share2, ListPlus, Music2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { pill } from '@/lib/overlay-colors';
 import { Badge } from '@/components/ui/badge';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { useTracks } from '@/hooks/useTracks';
@@ -111,7 +112,7 @@ export const CompactSheetHeader = memo(function CompactSheetHeader({
         
         {/* Duration badge */}
         {duration && (
-          <div className="absolute bottom-0 right-0 bg-black/70 text-white text-[8px] px-0.5 py-0 rounded text-center min-w-[24px]">
+          <div className={cn("absolute bottom-0 right-0 text-[8px] px-0.5 py-0 rounded text-center min-w-[24px]", pill.glassDark)}>
             {duration}
           </div>
         )}

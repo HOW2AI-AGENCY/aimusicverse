@@ -25,11 +25,12 @@ import {
   Download,
   ExternalLink
 } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { surface } from '@/lib/overlay-colors';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { useProjectGeneratedTracks, ProjectGeneratedTrack } from '@/hooks/useProjectGeneratedTracks';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { formatDuration } from '@/lib/formatters';
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/components/ui/tooltip';
@@ -332,7 +333,8 @@ export const TrackVersionsPanel = memo(function TrackVersionsPanel({
           
           {/* Play overlay */}
           <div className={cn(
-            "absolute inset-0 bg-black/40 flex items-center justify-center transition-opacity",
+            "absolute inset-0 flex items-center justify-center transition-opacity",
+            surface.imageDark,
             isTrackPlaying ? "opacity-100" : "opacity-0 group-hover:opacity-100"
           )}>
             {isTrackPlaying ? (

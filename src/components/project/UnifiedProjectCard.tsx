@@ -346,8 +346,8 @@ const ListCard = memo(function ListCard({
               <Disc className="w-6 h-6 text-primary/50" />
             </div>
           )}
-          <div className="absolute bottom-0 left-0 right-0 bg-black/60 px-1 py-0.5">
-            <span className="text-[8px] text-white/90 font-medium uppercase tracking-wide">
+          <div className={cn("absolute bottom-0 left-0 right-0 px-1 py-0.5", pill.glassDark)}>
+            <span className="text-[8px] font-medium uppercase tracking-wide">
               {projectType}
             </span>
           </div>

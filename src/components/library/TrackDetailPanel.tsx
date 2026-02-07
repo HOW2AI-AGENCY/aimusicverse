@@ -34,6 +34,7 @@ import { TrackStemsTab } from '@/components/track-detail/TrackStemsTab';
 import { TrackAnalysisTab } from '@/components/track-detail/TrackAnalysisTab';
 import { LyricsView } from '@/components/track-detail/LyricsView';
 import { cn } from '@/lib/utils';
+import { surface } from '@/lib/overlay-colors';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { glass } from '@/lib/glass';
 
@@ -94,7 +95,7 @@ export function TrackDetailPanel({ track, onPlay, onClose }: TrackDetailPanelPro
             {/* Play overlay */}
             <button
               onClick={handlePlayClick}
-              className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 hover:opacity-100 transition-opacity"
+              className={cn("absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity", surface.imageDark)}
             >
               {isCurrentlyPlaying ? (
                 <Pause className="w-10 h-10 text-white" />
