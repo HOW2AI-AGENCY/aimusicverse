@@ -25,13 +25,18 @@ interface ResponsiveGridProps {
   minItemWidth?: number;
 }
 
+/**
+ * Grid column configurations with improved tablet support
+ * md: 768px (tablet portrait)
+ * lg: 1024px (tablet landscape/small desktop)
+ */
 const GRID_COLS: Record<GridColumns, string> = {
   1: 'grid-cols-1',
   2: 'grid-cols-2',
-  3: 'grid-cols-2 sm:grid-cols-3',
-  4: 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4',
-  5: 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5',
-  6: 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6',
+  3: 'grid-cols-2 md:grid-cols-3',
+  4: 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4',
+  5: 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5',
+  6: 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6',
   auto: '', // Handled separately with minItemWidth
 };
 
@@ -91,14 +96,23 @@ export const ResponsiveGrid = memo(function ResponsiveGrid({
 
 /**
  * Preset grid configurations for common use cases
+ * Optimized for tablet breakpoints (768px-1024px)
  */
 export const GRID_PRESETS = {
-  /** Track cards in library */
-  tracks: { columns: 2 as const, gap: 3 as const },
-  /** Project cards */
+  /** Track cards in library - 2 mobile, 3 tablet, 4+ desktop */
+  tracks: { columns: 4 as const, gap: 3 as const },
+  /** Project cards - balanced density */
   projects: { columns: 3 as const, gap: 4 as const },
-  /** User avatars */
+  /** User avatars - compact grid */
   users: { columns: 4 as const, gap: 3 as const },
   /** Small badges/tags */
   tags: { columns: 'auto' as const, gap: 2 as const, minItemWidth: 80 },
+  /** Dashboard stats - 2 mobile, 4 tablet+ */
+  stats: { columns: 4 as const, gap: 3 as const },
+  /** Feature cards - larger items */
+  features: { columns: 3 as const, gap: 4 as const },
+  /** Compact cards for dense layouts */
+  compact: { columns: 6 as const, gap: 2 as const },
 } as const;
+
+export type GridPreset = keyof typeof GRID_PRESETS;

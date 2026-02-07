@@ -25,25 +25,38 @@ export const BREAKPOINTS = {
 /**
  * Standard grid column configurations for different page types
  * Use these for consistent responsive grid layouts
+ * 
+ * Breakpoint strategy:
+ * - Mobile (< 640px): 1-2 columns
+ * - Tablet Portrait (640-768px): 2-3 columns
+ * - Tablet Landscape (768-1024px): 3-4 columns
+ * - Desktop (1024-1280px): 4-5 columns
+ * - Large Desktop (> 1280px): 5-6 columns
  */
 export const GRID_COLS = {
   /** Dashboard stats and cards - 2 columns on desktop */
-  dashboard: 'grid-cols-1 lg:grid-cols-2 gap-6',
+  dashboard: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6',
   
   /** Card grids - progressive columns based on viewport */
-  cards: 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4',
+  cards: 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4',
   
   /** Tool/feature grids - balanced for readability */
-  tools: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4',
+  tools: 'grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4',
   
-  /** Stats/metrics row - 2 on mobile, 4 on desktop */
-  stats: 'grid-cols-2 sm:grid-cols-4 gap-3',
+  /** Stats/metrics row - 2 on mobile, 3 tablet, 4 on desktop */
+  stats: 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3',
   
   /** Menu items grid - 3 columns on large screens */
-  menu: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3',
+  menu: 'grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3',
   
   /** Compact cards - more density */
-  compact: 'grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-2',
+  compact: 'grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2',
+  
+  /** Track cards in library */
+  tracks: 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3',
+  
+  /** Project cards - balanced density */
+  projects: 'grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4',
 } as const;
 
 // ============ Container Widths ============

@@ -45,6 +45,11 @@ const DEEP_LINK_ROUTES: [RegExp | string, (match: RegExpMatchArray | null) => st
   // Studio deep links
   [/^studio_ref_(.+)$/, (m) => `/content-hub?tab=cloud&ref=${m![1]}`, 'studio_ref'],
   [/^studio_(.+)$/, (m) => `/studio-v2/track/${m![1]}`, 'studio'],
+  [/^stems_(.+)$/, (m) => `/studio-v2/track/${m![1]}?tab=stems`, 'stems'],
+  
+  // Lyrics Studio deep links
+  [/^lyrics_studio_(.+)$/, (m) => `/projects?tab=lyrics&template=${m![1]}`, 'lyrics_studio'],
+  [/^lyrics_edit_(.+)$/, (m) => `/projects?tab=lyrics&edit=${m![1]}`, 'lyrics_edit'],
   
   // Track views
   [/^lyrics_(.+)$/, (m) => `/library?track=${m![1]}&view=lyrics`, 'lyrics'],
@@ -89,6 +94,9 @@ const DEEP_LINK_ROUTES: [RegExp | string, (match: RegExpMatchArray | null) => st
   ['content-hub', () => '/projects', 'content_hub'],
   ['cloud', () => '/projects?tab=cloud', 'cloud'],
   ['lyrics', () => '/projects?tab=lyrics', 'lyrics'],
+  ['lyricsstudio', () => '/projects?tab=lyrics', 'lyricsstudio'],
+  ['stems', () => '/library', 'stems'],
+  ['stemstudio', () => '/library', 'stemstudio'],
   ['templates', () => '/templates', 'templates'],
   ['pricing', () => '/pricing', 'pricing'],
   ['tariffs', () => '/pricing', 'tariffs'],
@@ -115,7 +123,12 @@ const DEEP_LINK_DESCRIPTIONS: Record<string, string> = {
   extend: 'Расширение трека',
   cover: 'Создание кавера',
   studio: 'Открываем студию',
+  stems: 'Открываем Stem Studio',
+  stemstudio: 'Разделение на стемы',
   lyrics: 'Просмотр текста',
+  lyrics_studio: 'Открываем Lyrics Studio',
+  lyrics_edit: 'Редактирование текста',
+  lyricsstudio: 'Открываем Lyrics Studio',
   stats: 'Просмотр статистики',
   share: 'Просмотр трека',
   profile: 'Открываем профиль',
