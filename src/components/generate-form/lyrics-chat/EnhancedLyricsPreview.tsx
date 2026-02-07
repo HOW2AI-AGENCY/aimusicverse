@@ -6,6 +6,7 @@ import {
   ChevronDown, ChevronUp, Sparkles
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { glass } from '@/lib/glass';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -13,7 +14,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { StructuredLyricsDisplay } from '@/components/lyrics/StructuredLyricsDisplay';
 import { buttonVariants } from '@/lib/lyrics/constants';
-
 interface EnhancedLyricsPreviewProps {
   lyrics: string;
   title?: string | null;
@@ -104,13 +104,13 @@ export function EnhancedLyricsPreview({
     >
       {/* Title & Style Section */}
       <motion.div
-        className="rounded-xl border border-border/50 bg-card/50 overflow-hidden"
+        className={cn("rounded-xl overflow-hidden", glass.card)}
         initial={{ scale: 0.98 }}
         animate={{ scale: 1 }}
         transition={{ type: 'spring', stiffness: 300, damping: 20 }}
       >
         {/* Header with title */}
-        <div className="px-3 py-2.5 border-b border-border/30 bg-muted/30">
+        <div className={cn("px-3 py-2.5 border-b border-border/30", glass.subtle)}>
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2 flex-1 min-w-0">
               <Music2 className="h-4 w-4 text-primary shrink-0" />

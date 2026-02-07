@@ -4,6 +4,8 @@ import { Slider } from '@/components/ui/slider';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Button } from '@/components/ui/button';
 import { ChevronDown } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { glass } from '@/lib/glass';
 
 /**
  * Get audio weight label based on reference type
@@ -74,7 +76,7 @@ export function AdvancedSettings({
         </Button>
       </CollapsibleTrigger>
 
-      <CollapsibleContent className="space-y-4 pt-4">
+      <CollapsibleContent className={cn("space-y-4 pt-4 p-4 mt-2 rounded-xl", glass.subtle)}>
         <div>
           <Label htmlFor="negative-tags">Нежелательные теги</Label>
           <Input
