@@ -263,7 +263,13 @@ export function LyricsAIChatAgent({
         </div>
       </ScrollArea>
 
-      <div className="border-t border-border/50 p-3 pb-[calc(env(safe-area-inset-bottom,0px)+0.75rem)]">
+      <div 
+        className="border-t border-border/50 p-3"
+        style={{
+          // Telegram Mini App + iOS safe area
+          paddingBottom: 'calc(max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)) + 0.75rem)',
+        }}
+      >
         <div className="flex gap-2">
           <Button variant="ghost" size="icon" className="h-9 w-9 shrink-0" onClick={clearMessages}>
             <Trash2 className="w-4 h-4 text-muted-foreground" />
