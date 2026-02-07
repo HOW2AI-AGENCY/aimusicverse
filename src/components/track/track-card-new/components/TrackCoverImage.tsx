@@ -8,6 +8,7 @@ import { Play, Pause, Disc3 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { LazyImage } from '@/components/ui/lazy-image';
 import { cn } from '@/lib/utils';
+import { surface } from '@/lib/overlay-colors';
 import { PlayingIndicator } from './PlayingIndicator';
 
 type CoverSize = 'xs' | 'sm' | 'md' | 'lg';
@@ -79,8 +80,8 @@ export const TrackCoverImage = memo(function TrackCoverImage({
         className={cn(
           'absolute inset-0 flex items-center justify-center cursor-pointer',
           isGridSize
-            ? 'bg-gradient-to-t from-black/70 via-black/20 to-transparent'
-            : 'bg-black/50',
+            ? surface.imageGradient
+            : surface.imageDark,
           !showOverlay && 'opacity-0'
         )}
         animate={{ opacity: showOverlay ? 1 : 0 }}

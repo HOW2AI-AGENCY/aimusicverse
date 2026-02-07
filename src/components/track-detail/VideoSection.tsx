@@ -12,6 +12,7 @@ import { triggerHapticFeedback } from '@/lib/mobile-utils';
 import { Track } from '@/types/track';
 import { cn } from '@/lib/utils';
 import { glassButton } from '@/lib/glass';
+import { surface } from '@/lib/overlay-colors';
 
 interface VideoSectionProps {
   track: Track;
@@ -202,7 +203,7 @@ export function VideoSection({ track, onGenerateVideo }: VideoSectionProps) {
         />
         
         {/* Overlay controls */}
-        <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 hover:opacity-100 transition-opacity">
+        <div className={cn("absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity", surface.medium)}>
           <Button
             variant="ghost"
             size="icon"

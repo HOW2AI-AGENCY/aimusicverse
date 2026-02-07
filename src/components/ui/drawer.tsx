@@ -2,6 +2,7 @@ import * as React from "react";
 import { Drawer as DrawerPrimitive } from "vaul";
 
 import { cn } from "@/lib/utils";
+import { backdrop } from "@/lib/overlay-colors";
 import { VisuallyHidden } from "./visually-hidden";
 
 const Drawer = ({ shouldScaleBackground = true, ...props }: React.ComponentProps<typeof DrawerPrimitive.Root>) => (
@@ -23,8 +24,7 @@ const DrawerOverlay = React.forwardRef<
     ref={ref} 
     className={cn(
       "fixed inset-0 z-[150]",
-      // Theme-aware backdrop - darker in dark mode, lighter in light mode
-      "bg-background/80 dark:bg-black/80",
+      backdrop.dark,
       "backdrop-blur-sm",
       className
     )} 
