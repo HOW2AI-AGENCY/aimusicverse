@@ -21,6 +21,7 @@ import { useNavigate } from 'react-router-dom';
 import { logger } from '@/lib/logger';
 import { ReferenceManager } from '@/services/audio-reference';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { glass } from '@/lib/glass';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -175,7 +176,7 @@ export const PromptDJClean = memo(function PromptDJClean() {
           </div>
 
           {/* Prompt preview */}
-          <div className="px-3 py-2 rounded-xl bg-black/20 backdrop-blur-sm">
+          <div className={cn("px-3 py-2 rounded-xl", glass.subtle)}>
             <p className="text-xs text-muted-foreground mb-0.5">Промпт:</p>
             <p className="text-sm font-medium line-clamp-2 min-h-[2.5rem]">
               {currentPrompt || 'Вращайте ручки для создания микса...'}

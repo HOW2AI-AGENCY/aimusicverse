@@ -5,6 +5,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { motion } from '@/lib/motion';
+import { glassButton } from '@/lib/glass';
 
 interface LikeButtonProps {
   trackId: string;
@@ -56,7 +57,7 @@ export function LikeButton({
       disabled={isLoading}
       className={cn(
         "relative transition-all",
-        isGlass && "bg-black/40 backdrop-blur-sm hover:bg-black/60 border-0",
+        isGlass && cn(glassButton.default, "border-0"),
         isLiked && "text-red-500 hover:text-red-600",
         className
       )}

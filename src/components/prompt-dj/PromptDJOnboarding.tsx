@@ -12,6 +12,8 @@ import {
   X
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { backdrop } from '@/lib/overlay-colors';
+import { cn } from '@/lib/utils';
 
 interface OnboardingStep {
   id: string;
@@ -101,7 +103,7 @@ export function PromptDJOnboarding({ onComplete, onSkip }: PromptDJOnboardingPro
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+      className={cn("fixed inset-0 z-50 flex items-center justify-center p-4", backdrop.dark, "backdrop-blur-sm")}
     >
       <motion.div
         initial={{ scale: 0.9, opacity: 0 }}

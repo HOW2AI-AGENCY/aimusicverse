@@ -10,6 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Edit3, Check, X, Copy, Wand2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import { glass } from '@/lib/glass';
 
 interface EditablePromptPreviewProps {
   prompt: string;
@@ -67,7 +68,7 @@ export const EditablePromptPreview = memo(function EditablePromptPreview({
     .slice(0, 6);
 
   return (
-    <div className={cn('rounded-xl bg-black/20 backdrop-blur-sm overflow-hidden', className)}>
+    <div className={cn('rounded-xl overflow-hidden', glass.subtle, className)}>
       <AnimatePresence mode="wait">
         {isEditing ? (
           <motion.div
