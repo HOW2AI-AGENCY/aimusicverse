@@ -1,11 +1,18 @@
+/**
+ * RecentTracksSection - Shows user's recent tracks
+ * Feature: 032-professional-ui
+ * 
+ * Uses design system glass tokens for consistent styling
+ */
+
 import { useMemo, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Clock, Play, Music2, Disc3 } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
 import { useTracks } from '@/hooks/useTracks';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { cn } from '@/lib/utils';
 import { SectionHeader } from '@/components/common/SectionHeader';
+import { glass } from '@/lib/glass';
 
 interface RecentTracksSectionProps {
   className?: string;
@@ -90,10 +97,10 @@ export const RecentTracksSection = memo(function RecentTracksSection({ className
               key={track.id}
               onClick={() => handlePlay(track)}
               className={cn(
-                "group flex items-center gap-3 p-3 rounded-xl text-left transition-colors",
-                "bg-card/60 backdrop-blur-sm",
-                "border border-border/40 hover:border-primary/40",
-                isCurrentTrack && "border-primary/50 bg-primary/5"
+                "group flex items-center gap-3 p-3 rounded-xl text-left transition-all duration-200",
+                glass.subtle,
+                "hover:border-primary/40 hover:scale-[1.01]",
+                isCurrentTrack && "border-primary/50 bg-primary/5 ring-1 ring-primary/20"
               )}
             >
               {/* Cover */}

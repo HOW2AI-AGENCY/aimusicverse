@@ -1,14 +1,17 @@
 /**
  * DailyTipCard - Shows a rotating tip for users
+ * Feature: 032-professional-ui
+ * 
  * Helps with feature discovery and engagement
  * Opens tutorial dialog on click instead of navigation
+ * Uses design system glass tokens
  */
 
 import { memo, useMemo, useState, useCallback, lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { cn } from '@/lib/utils';
-import { Lightbulb, X, ChevronRight, Sparkles, Music2, Scissors, Wand2, PenTool } from 'lucide-react';
-import { typographyClass } from '@/lib/design-tokens';
+import { X, ChevronRight, Sparkles, Music2, Scissors, Wand2, PenTool } from 'lucide-react';
+import { glass, gradientGlass } from '@/lib/glass';
 import { useTelegram } from '@/contexts/TelegramContext';
 import type { TutorialType } from './FeatureTutorialDialog';
 
@@ -149,10 +152,10 @@ export const DailyTipCard = memo(function DailyTipCard({
             
             {/* Content */}
             <div className="flex-1 min-w-0">
-              <p className={cn(typographyClass.body.sm, "font-medium text-foreground mb-0.5")}>
+              <p className="text-sm font-medium text-foreground mb-0.5">
                 {todaysTip.tip}
               </p>
-              <p className={cn(typographyClass.caption, "italic mb-2")}>
+              <p className="text-xs text-muted-foreground italic mb-2">
                 {todaysTip.example}
               </p>
               
