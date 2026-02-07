@@ -123,4 +123,47 @@ export const safeAreaClasses = {
   
   /** Full height using stable viewport */
   fullHeight: 'min-h-[var(--tg-viewport-stable-height,100vh)]',
+  
+  /** Horizontal safe areas for landscape mode (notch devices) */
+  safeHorizontal: 'pl-[max(var(--tg-safe-area-inset-left,0px),env(safe-area-inset-left,0px))] pr-[max(var(--tg-safe-area-inset-right,0px),env(safe-area-inset-right,0px))]',
+  
+  /** All safe areas combined */
+  safeAll: 'pt-[calc(max(var(--tg-content-safe-area-inset-top,0px)+var(--tg-safe-area-inset-top,44px),env(safe-area-inset-top,44px)))] pb-[max(var(--tg-safe-area-inset-bottom,34px),env(safe-area-inset-bottom,34px))] pl-[max(var(--tg-safe-area-inset-left,0px),env(safe-area-inset-left,0px))] pr-[max(var(--tg-safe-area-inset-right,0px),env(safe-area-inset-right,0px))]',
 };
+
+/**
+ * Keyboard-aware safe area hook
+ * Adjusts bottom padding when virtual keyboard is open
+ */
+export interface UseKeyboardSafeAreaOptions {
+  /** Whether this component should respond to keyboard */
+  enabled?: boolean;
+  /** Extra padding above keyboard */
+  extraPadding?: number;
+}
+
+export function useKeyboardSafeArea(options: UseKeyboardSafeAreaOptions = {}) {
+  const { enabled = true, extraPadding = 12 } = options;
+  
+  // Check if visualViewport API is available (modern browsers)
+  const getKeyboardStyles = useMemo(() => {
+    if (!enabled) {
+      return {
+        paddingBottom: 'env(safe-area-inset-bottom, 0px)',
+        isKeyboardOpen: false,
+      };
+    }
+    
+    // Return dynamic styles that use CSS viewport units
+    // The actual keyboard detection happens via CSS viewport-fit and visual viewport
+    return {
+      // This uses the viewport difference to detect keyboard
+      // When keyboard is open, viewport height shrinks
+      paddingBottom: `calc(100svh - 100dvh + env(safe-area-inset-bottom, 0px) + ${extraPadding}px)`,
+      // Alternative: fixed bottom that responds to viewport
+      keyboardOffset: `max(0px, calc(100svh - 100dvh))`,
+    };
+  }, [enabled, extraPadding]);
+  
+  return getKeyboardStyles;
+}
