@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from '@/lib/motion';
 import { CreditCard, Loader2, Lock, Check, ArrowRight, Sparkles, ShieldCheck } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { glass } from '@/lib/glass';
+import { surface } from '@/lib/overlay-colors';
 
 interface PaymentButtonProps {
   onClick: () => void;
@@ -42,7 +43,7 @@ export function PaymentButton({
           className="flex items-center gap-3"
         >
           <motion.div
-            className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center"
+            className={cn("w-8 h-8 rounded-full flex items-center justify-center", surface.medium)}
             animate={{ rotate: [0, 360] }}
             transition={{ duration: 0.5 }}
           >
@@ -83,13 +84,13 @@ export function PaymentButton({
         className="flex items-center gap-3"
       >
         <motion.div
-          className="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center"
+          className={cn("w-8 h-8 rounded-full flex items-center justify-center", surface.light)}
           whileHover={{ scale: 1.1, rotate: 5 }}
         >
           <CreditCard className="w-4 h-4" />
         </motion.div>
         <span className="font-bold">Оплатить</span>
-        <span className="px-2 py-0.5 rounded-full bg-white/20 text-sm font-semibold">
+        <span className={cn("px-2 py-0.5 rounded-full text-sm font-semibold", surface.medium)}>
           {price}
         </span>
         <motion.div
