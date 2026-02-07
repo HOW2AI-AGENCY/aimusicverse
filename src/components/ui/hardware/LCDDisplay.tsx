@@ -39,7 +39,7 @@ const variantStyles = {
     bg: 'bg-gradient-to-b from-zinc-900 via-zinc-800 to-zinc-900',
     text: 'text-zinc-100',
     glow: 'drop-shadow-[0_0_2px_rgba(255,255,255,0.6)]',
-    scanline: 'bg-white/3',
+    scanline: 'bg-foreground/[0.03]',
   },
 };
 

@@ -211,7 +211,7 @@ export const ContinueCreatingCTA = memo(function ContinueCreatingCTA({
           {/* Content */}
           <div className="flex items-center gap-3">
             <motion.div
-              className="w-14 h-14 rounded-full bg-white/20 flex items-center justify-center shrink-0"
+              className="w-14 h-14 rounded-full bg-foreground/20 flex items-center justify-center shrink-0"
               animate={{
                 scale: [1, 1.15, 1],
                 rotate: [0, 10, -10, 0],
@@ -237,7 +237,7 @@ export const ContinueCreatingCTA = memo(function ContinueCreatingCTA({
             <Button
               onClick={handleCreateSimilar}
               size="lg"
-              className="shrink-0 bg-white text-primary hover:bg-white/90 border-0 gap-2"
+              className="shrink-0 bg-background text-primary hover:bg-background/90 border-0 gap-2"
             >
               <Sparkles className="w-4 h-4" />
               Создать

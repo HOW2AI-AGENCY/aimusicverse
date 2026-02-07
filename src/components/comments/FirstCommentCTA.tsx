@@ -242,7 +242,7 @@ export const FirstCommentCTA = memo(function FirstCommentCTA({
         {/* Content */}
         <div className="flex items-center gap-3">
           <motion.div
-            className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center shrink-0"
+            className="w-12 h-12 rounded-full bg-foreground/20 flex items-center justify-center shrink-0"
             animate={{
               scale: [1, 1.15, 1],
               rotate: [0, 10, -10, 0],
@@ -269,7 +269,7 @@ export const FirstCommentCTA = memo(function FirstCommentCTA({
           <Button
             onClick={handleCommentClick}
             size="lg"
-            className="shrink-0 bg-white text-purple-600 hover:bg-white/90 border-0"
+            className="shrink-0 bg-background text-purple-600 hover:bg-background/90 border-0"
           >
             Написать
           </Button>
