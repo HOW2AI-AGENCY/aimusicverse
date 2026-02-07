@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import { logger } from '@/lib/logger';
 import { useAnalyticsTracking } from '@/hooks/useAnalyticsTracking';
 import type { Track } from '@/types/track';
+import { interactive } from '@/lib/overlay-colors';
 
 interface ContinueCreatingCTAProps {
   track: Track;

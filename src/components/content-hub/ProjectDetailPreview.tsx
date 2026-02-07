@@ -20,6 +20,7 @@ import { ProjectCover } from '@/components/project/ProjectCover';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
+import { surface } from '@/lib/overlay-colors';
 
 interface Project {
   id: string;
@@ -69,7 +70,10 @@ export const ProjectDetailPreview = memo(function ProjectDetailPreview({
           {/* Play button overlay */}
           <button 
             onClick={handleOpenProject}
-            className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 hover:opacity-100 transition-opacity"
+            className={cn(
+              "absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity",
+              surface.imageDark
+            )}
           >
             <div className="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center shadow-xl">
               <Play className="w-7 h-7 text-primary fill-primary ml-1" />

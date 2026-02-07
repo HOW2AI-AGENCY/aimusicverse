@@ -13,6 +13,7 @@ import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { cn } from '@/lib/utils';
 import { SectionHeader } from '@/components/common/SectionHeader';
 import { glass } from '@/lib/glass';
+import { surface } from '@/lib/overlay-colors';
 
 interface RecentTracksSectionProps {
   className?: string;
@@ -120,7 +121,8 @@ export const RecentTracksSection = memo(function RecentTracksSection({ className
                 
                 {/* Play overlay */}
                 <div className={cn(
-                  "absolute inset-0 flex items-center justify-center bg-black/40 transition-opacity",
+                  "absolute inset-0 flex items-center justify-center transition-opacity",
+                  surface.imageDark,
                   isCurrentTrack ? "opacity-100" : "opacity-0 group-hover:opacity-100"
                 )}>
                   {isTrackPlaying ? (

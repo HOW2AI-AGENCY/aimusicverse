@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils';
 import { logger } from '@/lib/logger';
 import { ImageGeneratorDialog } from '../ImageGeneratorDialog';
 import type { ProfileSetupData } from './EnhancedProfileSetup';
+import { surface } from '@/lib/overlay-colors';
 
 interface ProfileSetupStep4BannerProps {
   data: ProfileSetupData;
@@ -86,7 +87,7 @@ export function ProfileSetupStep4Banner({ data, onUpdate, userId }: ProfileSetup
               alt="Баннер профиля"
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-black/40 flex items-center justify-center gap-2 opacity-0 hover:opacity-100 transition-opacity">
+            <div className={cn("absolute inset-0 flex items-center justify-center gap-2 opacity-0 hover:opacity-100 transition-opacity", surface.imageDark)}>
               <label htmlFor="banner-upload" className="cursor-pointer">
                 <Button variant="secondary" size="sm" asChild>
                   <span>

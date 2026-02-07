@@ -14,6 +14,7 @@ import { cn } from '@/lib/utils';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { logger } from '@/lib/logger';
 import { useAnalyticsTracking } from '@/hooks/useAnalyticsTracking';
+import { interactive } from '@/lib/overlay-colors';
 
 interface FirstCommentCTAProps {
   trackId: string;
