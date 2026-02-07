@@ -23,10 +23,11 @@ import { UserActivityHeatmap } from './UserActivityHeatmap';
 import { RealTimeMetrics } from './RealTimeMetrics';
 import { ComparisonPanel } from './ComparisonPanel';
 import { AlertsPanel } from './AlertsPanel';
+import { UserJourneyPanel } from './UserJourneyPanel';
 import { Skeleton } from '@/components/ui/skeleton';
 import { 
   Activity, AlertTriangle, Music, Gauge, Link2, FlaskConical, 
-  Users, Download, DollarSign, BarChart3, Clock, GitCompare
+  Users, Download, DollarSign, BarChart3, Clock, GitCompare, Route
 } from 'lucide-react';
 import { exportAnalytics, formatTelemetryForExport } from '@/lib/analytics/exportUtils';
 import { toast } from 'sonner';
@@ -185,6 +186,10 @@ export function AnalyticsDashboard() {
               <FlaskConical className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
               <span className="hidden xs:inline">A/B</span>
             </TabsTrigger>
+            <TabsTrigger value="journey" className="gap-1.5 text-xs sm:text-sm px-2 sm:px-3 py-1.5">
+              <Route className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              <span className="hidden xs:inline">Путь</span>
+            </TabsTrigger>
           </TabsList>
         </div>
 
@@ -226,6 +231,10 @@ export function AnalyticsDashboard() {
 
         <TabsContent value="experiments">
           <ExperimentsPanel />
+        </TabsContent>
+
+        <TabsContent value="journey">
+          <UserJourneyPanel timePeriod={timePeriod} />
         </TabsContent>
       </Tabs>
     </div>

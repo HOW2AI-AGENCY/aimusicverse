@@ -54,6 +54,14 @@ export {
   useTrackDeeplink,
 } from '../useDeeplinkAnalytics';
 
+// User Journey analytics
+export {
+  useUserJourneyAnalytics,
+  type PageTransition,
+  type JourneyNode,
+  type UserJourneyData,
+} from './useUserJourneyAnalytics';
+
 // Re-export types
 export type { 
   ConversionStage,
