@@ -22,7 +22,7 @@ export async function handleChannel(chatId: number): Promise<void> {
 
   const keyboard = {
     inline_keyboard: [
-      [{ text: '📢 Перейти на канал @AIMusiicVerse', url: CHANNEL_URL }],
+      [{ text: `📢 Перейти на канал @${CHANNEL_USERNAME}`, url: CHANNEL_URL }],
       [{ text: '🏠 Главное меню', callback_data: 'nav_main' }]
     ]
   };

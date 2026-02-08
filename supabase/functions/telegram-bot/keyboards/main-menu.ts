@@ -3,9 +3,8 @@ import type { InlineKeyboardButton } from '../telegram-api.ts';
 import { getMenuImage } from './menu-images.ts';
 import { buildDynamicKeyboard, loadMenuItems, getMenuItem } from '../handlers/dynamic-menu.ts';
 
-// Channel configuration
-export const CHANNEL_USERNAME = 'AIMusicVerse';
-export const CHANNEL_URL = `https://t.me/${CHANNEL_USERNAME}`;
+// Re-export channel config from centralized location
+export { CHANNEL_USERNAME, CHANNEL_URL } from '../config.ts';
 
 /**
  * Create main menu keyboard from database

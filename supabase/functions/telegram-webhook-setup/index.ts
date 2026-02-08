@@ -1,3 +1,6 @@
+// Import centralized channel config
+const CHANNEL_USERNAME = Deno.env.get('TELEGRAM_CHANNEL_USERNAME') || 'AIMusiicVerse';
+
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
@@ -86,7 +89,7 @@ Deno.serve(async (req) => {
         { command: 'start', description: '🚀 Начать работу' },
         { command: 'help', description: '📚 Справка по командам' },
         { command: 'app', description: '📱 Открыть приложение' },
-        { command: 'channel', description: '📢 Канал @AIMusiicVerse' },
+        { command: 'channel', description: `📢 Канал @${CHANNEL_USERNAME}` },
         { command: 'news', description: '📰 Новости платформы' },
         { command: 'generate', description: '🎼 Создать трек' },
         { command: 'cover', description: '🎤 Создать кавер' },
