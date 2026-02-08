@@ -6,6 +6,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { ArrowLeft, Shield } from "lucide-react";
 import { motion } from '@/lib/motion';
 import { useEffect } from "react";
+import { getBotMention } from "@/lib/telegram";
 
 export default function Privacy() {
   const navigate = useNavigate();
@@ -222,7 +223,7 @@ export default function Privacy() {
                       <li><strong>Отзыв согласия:</strong> отозвать согласие на обработку данных</li>
                     </ul>
                     <p className="text-muted-foreground leading-relaxed mt-2">
-                      Для реализации этих прав обратитесь к нам через @AIMusicVerseBot или 
+                      Для реализации этих прав обратитесь к нам через {getBotMention()} или 
                       support@musicverse.ai
                     </p>
                   </section>
@@ -290,7 +291,7 @@ export default function Privacy() {
                       По вопросам конфиденциальности и защиты данных:
                     </p>
                     <ul className="list-none mt-2 space-y-1 text-muted-foreground">
-                      <li>• Telegram: @AIMusicVerseBot</li>
+                      <li>• Telegram: {getBotMention()}</li>
                       <li>• Email: privacy@musicverse.ai</li>
                       <li>• Email поддержки: support@musicverse.ai</li>
                     </ul>
