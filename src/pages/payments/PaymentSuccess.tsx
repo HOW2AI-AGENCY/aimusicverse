@@ -15,6 +15,7 @@ import { useTelegram } from '@/contexts/TelegramContext';
 import { SubscriptionSuccessPopup } from '@/components/popups/SubscriptionSuccessPopup';
 import { cn } from '@/lib/utils';
 import { glass, gradientGlass } from '@/lib/glass';
+import { getGenerateDeepLink } from '@/lib/telegram';
 
 export default function PaymentSuccess() {
   const navigate = useNavigate();
@@ -142,8 +143,7 @@ export default function PaymentSuccess() {
   };
 
   const handleOpenInTelegram = () => {
-    const botUsername = 'aimusicversebot';
-    const telegramUrl = `https://t.me/${botUsername}?startapp=generate`;
+    const telegramUrl = getGenerateDeepLink();
     window.open(telegramUrl, '_blank');
   };
 

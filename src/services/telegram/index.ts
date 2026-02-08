@@ -5,6 +5,8 @@
  * - Authentication
  * - Sharing (tracks, playlists, stories)
  * - Notifications via Telegram Bot
+ * 
+ * Note: For constants and deep link utilities, import from '@/lib/telegram'
  */
 
 // Authentication
@@ -12,7 +14,7 @@ export { authenticateWithTelegram } from './auth';
 
 // Sharing
 export {
-  // Deep links
+  // Deep links - prefer importing from @/lib/telegram
   getTrackDeepLink,
   getPlaylistDeepLink,
   getRecognizeDeepLink,
@@ -50,3 +52,12 @@ export {
   notifyAchievement as telegramNotifyAchievement,
   sendCustomMessage,
 } from './notifications';
+
+// Re-export constants from lib for convenience
+export {
+  TELEGRAM_BOT_USERNAME,
+  TELEGRAM_APP_SHORT_NAME,
+  TELEGRAM_MINI_APP_BASE_URL,
+  getBotMention,
+  getMiniAppDeepLink,
+} from '@/lib/telegram';

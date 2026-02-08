@@ -10,6 +10,7 @@ import { motion } from '@/lib/motion';
 import { TelegramBotSetup } from '@/components/TelegramBotSetup';
 import { AddToHomeScreen } from '@/components/telegram/AddToHomeScreen';
 import { ProfileEmojiPicker } from '@/components/settings/ProfileEmojiPicker';
+import { getBotMention } from '@/lib/telegram';
 
 const TELEGRAM_FEATURES = [
   'Уведомления о готовых треках с аудио',
@@ -71,7 +72,7 @@ export function TelegramTab() {
               Telegram интеграция
             </CardTitle>
             <CardDescription>
-              Возможности бота @AIMusicVerseBot
+              Возможности бота {getBotMention()}
             </CardDescription>
           </CardHeader>
           <CardContent>

@@ -4,6 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { notify } from '@/lib/notifications';
 import { logger } from '@/lib/logger';
+import { TELEGRAM_BOT_USERNAME, getTrackDeepLink } from '@/lib/telegram';
 
 const log = logger.child({ module: 'TelegramIntegration' });
 
@@ -121,8 +122,7 @@ export function useTelegramIntegration(): UseTelegramIntegrationReturn {
     }
 
     // Use Telegram's share
-    const botUsername = 'AIMusicVerseBot';
-    const deepLink = `https://t.me/${botUsername}?start=track_${trackId}`;
+    const deepLink = getTrackDeepLink(trackId);
     
     if ((webApp as any).shareURL) {
       (webApp as any).shareURL(deepLink, `Послушай мой трек "${trackTitle}"!`);
@@ -141,7 +141,7 @@ export function useTelegramIntegration(): UseTelegramIntegrationReturn {
       (webApp as any).shareToStory(coverUrl, {
         text: 'Создано в MusicVerse 🎵',
         widget_link: {
-          url: `https://t.me/AIMusicVerseBot?start=track_${trackId}`,
+          url: getTrackDeepLink(trackId),
           name: 'Послушать трек'
         }
       });

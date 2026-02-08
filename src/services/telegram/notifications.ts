@@ -5,6 +5,7 @@
 
 import { supabase } from '@/integrations/supabase/client';
 import { logger } from '@/lib/logger';
+import { getTrackDeepLink } from '@/lib/telegram';
 
 const log = logger.child({ module: 'TelegramNotifications' });
 
@@ -142,7 +143,7 @@ export function notifyGenerationComplete(
 ): string {
   return queueNotification({
     chatId,
-    text: `🎵 <b>Трек готов!</b>\n\n${trackTitle}\n\n<a href="https://t.me/AIMusicVerseBot/app?startapp=track_${trackId}">Открыть трек</a>`,
+    text: `🎵 <b>Трек готов!</b>\n\n${trackTitle}\n\n<a href="${getTrackDeepLink(trackId)}">Открыть трек</a>`,
     parseMode: 'HTML',
   });
 }
