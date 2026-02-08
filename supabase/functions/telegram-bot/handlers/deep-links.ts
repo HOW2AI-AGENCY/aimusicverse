@@ -7,7 +7,7 @@ import { getSupabaseClient } from '../core/supabase-client.ts';
 import { sendMessage, sendPhoto, sendAudio } from '../telegram-api.ts';
 import { ButtonBuilder } from '../utils/button-builder.ts';
 import { buildMessage, createProgressBar } from '../utils/message-formatter.ts';
-import { BOT_CONFIG } from '../config.ts';
+import { BOT_CONFIG, SUPPORT_URL, NEWS_CHANNEL_URL } from '../config.ts';
 import { trackMessage } from '../utils/message-manager.ts';
 import { getMenuImage } from '../keyboards/menu-images.ts';
 import { logger } from '../utils/index.ts';
@@ -1241,7 +1241,7 @@ export async function handleDeepLink(
           .addButton({
             text: 'Написать в поддержку',
             emoji: '💬',
-            action: { type: 'url', url: 'https://t.me/MusicVerseSupport' }
+            action: { type: 'url', url: SUPPORT_URL }
           })
           .addButton({
             text: 'Главное меню',
@@ -1305,7 +1305,7 @@ export async function handleDeepLink(
           })
           .addRow(
             { text: 'Новости', emoji: '📰', action: { type: 'callback', data: 'nav_news' } },
-            { text: 'Канал', emoji: '📢', action: { type: 'url', url: 'https://t.me/MusicVerseAI' } }
+            { text: 'Канал', emoji: '📢', action: { type: 'url', url: NEWS_CHANNEL_URL } }
           )
           .addButton({
             text: 'Главное меню',
