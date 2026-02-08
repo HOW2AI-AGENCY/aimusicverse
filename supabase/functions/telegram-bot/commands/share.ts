@@ -2,6 +2,7 @@ import { getSupabaseClient } from '../core/supabase-client.ts';
 import { BOT_CONFIG } from '../config.ts';
 import { sendMessage, editMessageText, sendAudio } from '../telegram-api.ts';
 import { createShareTrackKeyboard, createTrackDetailsKeyboard } from '../keyboards/share-menu.ts';
+import { getBotMention } from '../../_shared/telegram-config.ts';
 
 const supabase = getSupabaseClient();
 
@@ -145,7 +146,7 @@ function buildTrackCaption(track: any, performer: string, deepLink: string): str
   
   // Bot link with @ for clickability
   lines.push('');
-  lines.push(`✨ _Создано в_ @AIMusicVerseBot ✨`);
+  lines.push(`✨ _Создано в_ ${getBotMention()} ✨`);
   
   // Deep link
   lines.push(`\n🔗 [Открыть трек](${deepLink})`);

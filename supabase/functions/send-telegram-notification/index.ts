@@ -1,7 +1,10 @@
 import { getSupabaseClient } from '../_shared/supabase-client.ts';
-import { getTelegramConfig, getTrackDeepLink } from '../_shared/telegram-config.ts';
+import { getTelegramConfig, getTrackDeepLink, getBotMention } from '../_shared/telegram-config.ts';
 import { escapeMarkdown } from '../_shared/telegram-utils.ts';
 import { createLogger } from '../_shared/logger.ts';
+
+// Get bot mention once at module level
+const BOT_MENTION = getBotMention();
 
 const logger = createLogger('send-telegram-notification');
 
@@ -609,7 +612,7 @@ Deno.serve(async (req) => {
       const progressPercent = payload.progress || 50;
       
       const progressBar = '▓'.repeat(Math.floor(progressPercent / 10)) + '░'.repeat(10 - Math.floor(progressPercent / 10));
-      const message = `🎵 *${progressTitle}*\n\n${progressBar} ${progressPercent}%\n${progressText}\n\n🤖 _@AIMusicVerseBot_`;
+      const message = `🎵 *${progressTitle}*\n\n${progressBar} ${progressPercent}%\n${progressText}\n\n🤖 _${BOT_MENTION}_`;
       
       logger.info('Updating progress message', { messageId: payload.messageId, progress: progressPercent });
       await editTelegramMessage(finalChatId, payload.messageId, message);
@@ -623,7 +626,7 @@ Deno.serve(async (req) => {
     // Handle error_update - edit progress message to show error
     if (type === 'error_update' && payload.messageId) {
       const escapedError = escapeMarkdown(payload.error_message || 'Произошла ошибка');
-      const message = `❌ *Ошибка генерации*\n\n${escapedError}\n\n💡 Попробуйте позже или измените параметры\n\n🤖 _@AIMusicVerseBot_`;
+      const message = `❌ *Ошибка генерации*\n\n${escapedError}\n\n💡 Попробуйте позже или измените параметры\n\n🤖 _${BOT_MENTION}_`;
       
       logger.info('Updating progress message with error', { messageId: payload.messageId });
       await editTelegramMessage(finalChatId, payload.messageId, message, {
@@ -646,7 +649,7 @@ Deno.serve(async (req) => {
       const progressPercent = payload.progress || 50;
       
       const progressBar = '▓'.repeat(Math.floor(progressPercent / 10)) + '░'.repeat(10 - Math.floor(progressPercent / 10));
-      const message = `🎵 *${progressTitle}*\n\n${progressBar} ${progressPercent}%\n${progressText}\n\n🤖 _@AIMusicVerseBot_`;
+      const message = `🎵 *${progressTitle}*\n\n${progressBar} ${progressPercent}%\n${progressText}\n\n🤖 _${BOT_MENTION}_`;
       
       const result = await sendTelegramMessage(finalChatId, message);
       
@@ -689,7 +692,7 @@ Deno.serve(async (req) => {
         const trackTitle = escapeMarkdown(title || 'Новый трек');
         const styleText = style ? escapeMarkdown(style.split(',')[0].trim()) : '';
         
-        const caption = `🎵 *${trackTitle}* — ${clip.versionLabel}\n${styleText ? `🎸 ${styleText} • ` : ''}⏱️ ${durationFormatted}${lyricsText}\n\n🤖 _@AIMusicVerseBot_`;
+        const caption = `🎵 *${trackTitle}* — ${clip.versionLabel}\n${styleText ? `🎸 ${styleText} • ` : ''}⏱️ ${durationFormatted}${lyricsText}\n\n🤖 _${BOT_MENTION}_`;
         
         // Use clip-specific cover or fallback to main cover
         const clipCoverUrl = clip.coverUrl || coverUrl;
@@ -750,7 +753,7 @@ Deno.serve(async (req) => {
       const styleText = style ? escapeMarkdown(style.split(',')[0].trim()) : '';
       const versionInfo = versionLabel ? ` — ${versionLabel}` : '';
       
-      const caption = `${modeEmoji} *${trackTitle}*${versionInfo}\n${styleText ? `🎸 ${styleText} • ` : ''}⏱️ ${durationFormatted}\n\n🤖 _@AIMusicVerseBot_`;
+      const caption = `${modeEmoji} *${trackTitle}*${versionInfo}\n${styleText ? `🎸 ${styleText} • ` : ''}⏱️ ${durationFormatted}\n\n🤖 _${BOT_MENTION}_`;
       
       await sendTelegramAudio(finalChatId, audioUrl, {
         caption,
@@ -801,7 +804,7 @@ Deno.serve(async (req) => {
         const trackTitle = escapeMarkdown(title || trackData?.title || 'Видео клип');
         const trackStyle = trackData?.style ? escapeMarkdown(trackData.style.split(',')[0]) : '';
         
-        const caption = `🎬 *${trackTitle}*${trackStyle ? `\n🎸 ${trackStyle}` : ''}\n\n🤖 _@AIMusicVerseBot_`;
+        const caption = `🎬 *${trackTitle}*${trackStyle ? `\n🎸 ${trackStyle}` : ''}\n\n🤖 _${BOT_MENTION}_`;
         
         await sendTelegramVideo(finalChatId, finalVideoUrl, {
           caption,
@@ -832,7 +835,7 @@ Deno.serve(async (req) => {
       const trackTitle = escapeMarkdown(title || 'Секция заменена');
       const versionText = versionLabel ? escapeMarkdown(` (версия ${versionLabel})`) : '';
       
-      const caption = `✂️ *${trackTitle}*${versionText}\n\n🎵 Секция трека успешно заменена\\!\n\n🤖 _@AIMusicVerseBot_`;
+      const caption = `✂️ *${trackTitle}*${versionText}\n\n🎵 Секция трека успешно заменена\\!\n\n🤖 _${BOT_MENTION}_`;
       
       await sendTelegramAudio(finalChatId, audioUrl, {
         caption,
@@ -870,7 +873,7 @@ Deno.serve(async (req) => {
         .map((s: { type: string; label: string }) => `• ${s.label}`)
         .join('\n');
       
-      const caption = `🎛️ *Стемы готовы\\!*\n\n🎵 *${trackTitle}*\n\nРазделено на ${stemsCount} дорожек:\n${escapeMarkdown(stemsList)}\n\n🤖 _@AIMusicVerseBot_`;
+      const caption = `🎛️ *Стемы готовы\\!*\n\n🎵 *${trackTitle}*\n\nРазделено на ${stemsCount} дорожек:\n${escapeMarkdown(stemsList)}\n\n🤖 _${BOT_MENTION}_`;
       
       await sendTelegramMessage(finalChatId, caption, {
         inline_keyboard: [
@@ -892,7 +895,7 @@ Deno.serve(async (req) => {
       
       const stemTitle = escapeMarkdown(title || 'Стем');
       
-      const caption = `🎛️ *${stemTitle}*\n\n✨ Стем готов для использования\\!\n\n🤖 _@AIMusicVerseBot_`;
+      const caption = `🎛️ *${stemTitle}*\n\n✨ Стем готов для использования\\!\n\n🤖 _${BOT_MENTION}_`;
       
       await sendTelegramAudio(finalChatId, audioUrl, {
         caption,
@@ -941,7 +944,7 @@ Deno.serve(async (req) => {
         const trackTitle = escapeMarkdown(track.title || 'Новый трек');
         const styleText = track.style ? escapeMarkdown(track.style.split(',')[0]) : '';
         
-        const caption = `🎵 *${trackTitle}*\n${styleText ? `🎸 ${styleText} • ` : ''}⏱️ ${durationFormatted}\n\n🤖 _@AIMusicVerseBot_`;
+        const caption = `🎵 *${trackTitle}*\n${styleText ? `🎸 ${styleText} • ` : ''}⏱️ ${durationFormatted}\n\n🤖 _${BOT_MENTION}_`;
         
         await sendTelegramAudio(finalChatId, track.audio_url, {
           caption,
@@ -989,7 +992,7 @@ Deno.serve(async (req) => {
 
       const typeLabel = docTypeLabels[document_type] || '📎 Файл';
       const trackName = escapeMarkdown(track_title || 'Трек');
-      const caption = `${typeLabel}\n🎵 *${trackName}*\n\n🤖 _@AIMusicVerseBot_`;
+      const caption = `${typeLabel}\n🎵 *${trackName}*\n\n🤖 _${BOT_MENTION}_`;
 
       await sendTelegramDocument(finalChatId, document_url, {
         caption,
@@ -1038,7 +1041,7 @@ Deno.serve(async (req) => {
           }
         }
         
-        const caption = `🎵 *${trackTitle}*\n${styleText ? `🎸 ${styleText} • ` : ''}⏱️ ${durationFormatted}${lyricsText}\n\n🤖 _@AIMusicVerseBot_`;
+        const caption = `🎵 *${trackTitle}*\n${styleText ? `🎸 ${styleText} • ` : ''}⏱️ ${durationFormatted}${lyricsText}\n\n🤖 _${BOT_MENTION}_`;
         
         await sendTelegramAudio(finalChatId, track.audio_url, {
           caption,
@@ -1059,7 +1062,7 @@ Deno.serve(async (req) => {
       } else {
         const trackTitle = escapeMarkdown(track?.title || 'Новый трек');
         const trackStyle = track?.style ? escapeMarkdown(track.style) : '';
-        const message = `🎵 *${trackTitle}*${trackStyle ? `\n🎸 ${trackStyle}` : ''}\n\n🤖 _@AIMusicVerseBot_`;
+        const message = `🎵 *${trackTitle}*${trackStyle ? `\n🎸 ${trackStyle}` : ''}\n\n🤖 _${BOT_MENTION}_`;
         
         await sendTelegramMessage(finalChatId, message, {
           inline_keyboard: [
