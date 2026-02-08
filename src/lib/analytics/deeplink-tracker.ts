@@ -332,43 +332,55 @@ export async function trackConversionStage(
 
     // Try to update by user_id first (for returning authenticated users)
     if (user?.id) {
-      const { data: userUpdate, error: userError } = await supabase
+      // First find the most recent record
+      const { data: existingRecord } = await supabase
         .from('deeplink_analytics')
-        .update(updatePayload)
+        .select('id')
         .eq('user_id', user.id)
         .order('created_at', { ascending: false })
         .limit(1)
-        .select('id')
         .maybeSingle();
       
-      if (userUpdate) {
-        deeplinkLogger.info('Conversion tracked via user_id', { stage, userId: user.id });
-        return;
-      }
-      
-      if (userError) {
-        deeplinkLogger.debug('User-based update failed, trying session fallback', { error: String(userError) });
+      if (existingRecord?.id) {
+        const { error: updateError } = await supabase
+          .from('deeplink_analytics')
+          .update(updatePayload)
+          .eq('id', existingRecord.id);
+        
+        if (!updateError) {
+          deeplinkLogger.info('Conversion tracked via user_id', { stage, userId: user.id });
+          return;
+        }
+        deeplinkLogger.debug('User-based update failed, trying session fallback', { error: String(updateError) });
       }
     }
 
     // Fallback: Update by persistent session ID
     const sessionToUse = persistentSessionId || sessionId;
-    const { data: sessionUpdate, error } = await supabase
+    
+    // First find the most recent record by session
+    const { data: sessionRecord } = await supabase
       .from('deeplink_analytics')
-      .update(updatePayload)
+      .select('id')
       .eq('session_id', sessionToUse)
       .order('created_at', { ascending: false })
       .limit(1)
-      .select('id')
       .maybeSingle();
 
-    if (sessionUpdate) {
-      deeplinkLogger.info('Conversion stage tracked via session', { stage, sessionId: sessionToUse });
-      return;
+    if (sessionRecord?.id) {
+      const { error } = await supabase
+        .from('deeplink_analytics')
+        .update(updatePayload)
+        .eq('id', sessionRecord.id);
+
+      if (!error) {
+        deeplinkLogger.info('Conversion stage tracked via session', { stage, sessionId: sessionToUse });
+        return;
+      }
     }
 
-    if (error || !sessionUpdate) {
-      // If no existing record, create new one for this conversion
+    // If no existing record found, create new one for this conversion
+    if (!sessionRecord?.id) {
       deeplinkLogger.info('No existing session found, creating new analytics entry for conversion', { stage });
       await supabase.from('deeplink_analytics').insert([{
         user_id: user?.id || null,
