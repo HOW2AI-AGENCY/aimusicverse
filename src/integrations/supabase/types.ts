@@ -4365,6 +4365,13 @@ export type Database = {
             referencedRelation: "payment_transactions"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "tinkoff_subscriptions_last_payment_id_fkey"
+            columns: ["last_payment_id"]
+            isOneToOne: false
+            referencedRelation: "safe_payment_transactions"
+            referencedColumns: ["id"]
+          },
         ]
       }
       track_analytics: {
@@ -5753,6 +5760,65 @@ export type Database = {
         }
         Relationships: []
       }
+      safe_payment_transactions: {
+        Row: {
+          amount_cents: number | null
+          completed_at: string | null
+          created_at: string | null
+          credits_granted: number | null
+          currency: string | null
+          gateway: Database["public"]["Enums"]["payment_gateway"] | null
+          id: string | null
+          is_recurrent: boolean | null
+          product_code: string | null
+          status: Database["public"]["Enums"]["payment_status"] | null
+          subscription_granted: string | null
+          subscription_id: string | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          amount_cents?: number | null
+          completed_at?: string | null
+          created_at?: string | null
+          credits_granted?: number | null
+          currency?: string | null
+          gateway?: Database["public"]["Enums"]["payment_gateway"] | null
+          id?: string | null
+          is_recurrent?: boolean | null
+          product_code?: string | null
+          status?: Database["public"]["Enums"]["payment_status"] | null
+          subscription_granted?: string | null
+          subscription_id?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          amount_cents?: number | null
+          completed_at?: string | null
+          created_at?: string | null
+          credits_granted?: number | null
+          currency?: string | null
+          gateway?: Database["public"]["Enums"]["payment_gateway"] | null
+          id?: string | null
+          is_recurrent?: boolean | null
+          product_code?: string | null
+          status?: Database["public"]["Enums"]["payment_status"] | null
+          subscription_granted?: string | null
+          subscription_id?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payment_transactions_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "tinkoff_subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       safe_public_profiles: {
         Row: {
           banner_url: string | null
@@ -5798,6 +5864,40 @@ export type Database = {
             | null
           user_id?: string | null
           username?: string | null
+        }
+        Relationships: []
+      }
+      safe_subscription_history: {
+        Row: {
+          action: string | null
+          created_at: string | null
+          expires_at: string | null
+          id: string | null
+          previous_tier: Database["public"]["Enums"]["subscription_tier"] | null
+          tier: Database["public"]["Enums"]["subscription_tier"] | null
+          user_id: string | null
+        }
+        Insert: {
+          action?: string | null
+          created_at?: string | null
+          expires_at?: string | null
+          id?: string | null
+          previous_tier?:
+            | Database["public"]["Enums"]["subscription_tier"]
+            | null
+          tier?: Database["public"]["Enums"]["subscription_tier"] | null
+          user_id?: string | null
+        }
+        Update: {
+          action?: string | null
+          created_at?: string | null
+          expires_at?: string | null
+          id?: string | null
+          previous_tier?:
+            | Database["public"]["Enums"]["subscription_tier"]
+            | null
+          tier?: Database["public"]["Enums"]["subscription_tier"] | null
+          user_id?: string | null
         }
         Relationships: []
       }
