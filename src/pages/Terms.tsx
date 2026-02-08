@@ -6,6 +6,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { ArrowLeft, FileText } from "lucide-react";
 import { motion } from '@/lib/motion';
 import { useEffect } from "react";
+import { getBotMention } from "@/lib/telegram";
 
 export default function Terms() {
   const navigate = useNavigate();
@@ -237,7 +238,7 @@ export default function Terms() {
                       связаться с нами:
                     </p>
                     <ul className="list-none mt-2 space-y-1 text-muted-foreground">
-                      <li>• Telegram: @AIMusicVerseBot</li>
+                      <li>• Telegram: {getBotMention()}</li>
                       <li>• Email: support@musicverse.ai</li>
                     </ul>
                   </section>
