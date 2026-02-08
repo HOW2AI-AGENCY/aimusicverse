@@ -1,4 +1,4 @@
-import { BOT_CONFIG } from '../config.ts';
+import { BOT_CONFIG, SUPPORT_URL } from '../config.ts';
 import { sendPhoto, sendMessage } from '../telegram-api.ts';
 import { buildMessage } from '../utils/message-formatter.ts';
 import { ButtonBuilder } from '../utils/button-builder.ts';
@@ -83,7 +83,7 @@ export async function handleHelp(chatId: number) {
       {
         text: 'Поддержка',
         emoji: '💬',
-        action: { type: 'url', url: 'https://t.me/MusicVerseSupport' }
+        action: { type: 'url', url: SUPPORT_URL }
       }
     )
     // Row 5: All commands

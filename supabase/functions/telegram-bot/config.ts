@@ -30,8 +30,16 @@ export const BOT_CONFIG = {
 };
 
 // Channel configuration
-export const CHANNEL_USERNAME = 'AIMusiicVerse';
+export const CHANNEL_USERNAME = Deno.env.get('TELEGRAM_CHANNEL_USERNAME') || 'AIMusiicVerse';
 export const CHANNEL_URL = `https://t.me/${CHANNEL_USERNAME}`;
+
+// Support configuration
+export const SUPPORT_USERNAME = Deno.env.get('TELEGRAM_SUPPORT_USERNAME') || 'MusicVerseSupport';
+export const SUPPORT_URL = `https://t.me/${SUPPORT_USERNAME}`;
+
+// News channel
+export const NEWS_CHANNEL_USERNAME = Deno.env.get('TELEGRAM_NEWS_CHANNEL') || 'MusicVerseAI';
+export const NEWS_CHANNEL_URL = `https://t.me/${NEWS_CHANNEL_USERNAME}`;
 
 // Default messages - will be overridden by database config
 const DEFAULT_MESSAGES = {
