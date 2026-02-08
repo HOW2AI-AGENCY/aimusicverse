@@ -1,4 +1,5 @@
 import { getSupabaseClient } from '../_shared/supabase-client.ts';
+import { getBotMention, getMiniAppUrl } from '../_shared/telegram-config.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -71,14 +72,15 @@ Deno.serve(async (req) => {
     };
 
     // Build message - simpler format for image messages
+    const botMention = getBotMention();
     const textMessage = imageUrl 
-      ? `${message}\n\n🤖 @AIMusicVerseBot`
-      : `📢 *${escapeMarkdown(title)}*\n\n${escapeMarkdown(message)}\n\n🤖 _@AIMusicVerseBot_`;
+      ? `${message}\n\n🤖 ${botMention}`
+      : `📢 *${escapeMarkdown(title)}*\n\n${escapeMarkdown(message)}\n\n🤖 _${botMention}_`;
     
     const inlineKeyboard: { text: string; callback_data?: string; url?: string }[][] = [];
     
     if (blogPostId) {
-      const miniAppUrl = Deno.env.get('MINI_APP_URL') || 'https://t.me/AIMusicVerseBot/app';
+      const miniAppUrl = getMiniAppUrl();
       inlineKeyboard.push([
         { text: '📖 Читать статью', url: `${miniAppUrl}?startapp=blog_${blogPostId}` }
       ]);

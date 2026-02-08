@@ -7,8 +7,10 @@ import { BOT_CONFIG } from '../config.ts';
 import { sendMessage, editMessageText, deleteMessage } from '../telegram-api.ts';
 import { setPendingUpload, cancelPendingUpload, hasPendingUpload } from '../core/db-session-store.ts';
 import { escapeMarkdown } from '../utils/index.ts';
+import { getBotMention } from '../../_shared/telegram-config.ts';
 
 const supabase = getSupabaseClient();
+const BOT_MENTION = getBotMention();
 
 /**
  * /cover command - initiate cover creation from audio
@@ -647,7 +649,7 @@ async function processGenerationWithReference(
   const modeEmoji = isExtend ? '⏩' : '🎤';
   
   // Send initial progress message
-  await editMessageText(chatId, messageId, `${modeEmoji} *Создание ${modeText}*\n\n▓░░░░░░░░░ 10%\n⏳ Загружаем на сервер\\.\\.\\.\n\n🤖 _@AIMusicVerseBot_`);
+  await editMessageText(chatId, messageId, `${modeEmoji} *Создание ${modeText}*\n\n▓░░░░░░░░░ 10%\n⏳ Загружаем на сервер\\.\\.\\.\n\n🤖 _${BOT_MENTION}_`);
   
   // Use the current messageId as the progress message ID
   const progressMessageId = messageId;
@@ -688,7 +690,7 @@ async function processGenerationWithReference(
     }
 
     // Update progress message with task started status
-    await editMessageText(chatId, messageId, `${modeEmoji} *Создание ${modeText}*\n\n▓▓░░░░░░░░ 20%\n🚀 Генерация запущена\\.\\.\\.\n\n⏳ Обычно 2\\-4 минуты\n\n🤖 _@AIMusicVerseBot_`);
+    await editMessageText(chatId, messageId, `${modeEmoji} *Создание ${modeText}*\n\n▓▓░░░░░░░░ 20%\n🚀 Генерация запущена\\.\\.\\.\n\n⏳ Обычно 2\\-4 минуты\n\n🤖 _${BOT_MENTION}_`);
 
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
@@ -701,7 +703,7 @@ ${escapeMarkdown(errorMessage)}
 • Использовать файл меньшего размера
 • Попробовать позже
 
-🤖 _@AIMusicVerseBot_`, {
+🤖 _${BOT_MENTION}_`, {
       inline_keyboard: [
         [{ text: '🔄 Попробовать снова', callback_data: `audio_action_${action}` }],
         [{ text: '🏠 Меню', callback_data: 'nav_main' }]
@@ -736,7 +738,7 @@ async function processAddVocalsInstrumental(
   const modeEmoji = isAddVocals ? '🎤' : '🎸';
   
   // Send initial progress message
-  await editMessageText(chatId, messageId, `${modeEmoji} *Добавление ${modeText}*\n\n▓░░░░░░░░░ 10%\n⏳ Отправляем на обработку\\.\\.\\.\n\n🤖 _@AIMusicVerseBot_`);
+  await editMessageText(chatId, messageId, `${modeEmoji} *Добавление ${modeText}*\n\n▓░░░░░░░░░ 10%\n⏳ Отправляем на обработку\\.\\.\\.\n\n🤖 _${BOT_MENTION}_`);
 
   // Build style prompt from analysis
   const stylePrompt = refAudio.style_description || 
@@ -778,7 +780,7 @@ async function processAddVocalsInstrumental(
     }
 
     // Update progress message with task started status
-    await editMessageText(chatId, messageId, `${modeEmoji} *Добавление ${modeText}*\n\n▓▓░░░░░░░░ 20%\n🚀 Генерация запущена\\.\\.\\.\n\n⏳ Обычно 2\\-4 минуты\n\n🤖 _@AIMusicVerseBot_`);
+    await editMessageText(chatId, messageId, `${modeEmoji} *Добавление ${modeText}*\n\n▓▓░░░░░░░░ 20%\n🚀 Генерация запущена\\.\\.\\.\n\n⏳ Обычно 2\\-4 минуты\n\n🤖 _${BOT_MENTION}_`);
 
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
@@ -791,7 +793,7 @@ ${escapeMarkdown(errorMessage)}
 • Использовать файл меньшего размера
 • Попробовать позже
 
-🤖 _@AIMusicVerseBot_`, {
+🤖 _${BOT_MENTION}_`, {
       inline_keyboard: [
         [{ text: '🔄 Попробовать снова', callback_data: `audio_action_${action}` }],
         [{ text: '🏠 Меню', callback_data: 'nav_main' }]

@@ -9,6 +9,7 @@ import { handleSubmenu, handleMenuAction, getMenuItem, handleMenuBack, loadMenuI
 import { logBotAction } from '../utils/bot-logger.ts';
 import { logger } from '../utils/index.ts';
 import { escapeMarkdownV2 } from '../utils/text-processor.ts';
+import { getBotMention } from '../../_shared/telegram-config.ts';
 
 /**
  * Handle dynamic menu callbacks (menu_*)
@@ -78,7 +79,7 @@ export async function handleDynamicMenuCallback(
         // Switch to inline mode with prefilled query
         // This action type is handled client-side via switch_inline_query_current_chat
         // But if callback comes through, show hint
-        await answerCallbackQuery(queryId, `💡 Используйте @AIMusicVerseBot ${menuItem.action_data || ''}`);
+        await answerCallbackQuery(queryId, `💡 Используйте ${getBotMention()} ${menuItem.action_data || ''}`);
         return true;
       
       case 'webapp':

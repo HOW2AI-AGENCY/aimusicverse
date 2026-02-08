@@ -7,6 +7,7 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { getSupabaseClient } from '../_shared/supabase-client.ts';
 import { createLogger } from '../_shared/logger.ts';
+import { getMiniAppUrl } from '../_shared/telegram-config.ts';
 
 // Type alias for supabase client
 type AnySupabaseClient = ReturnType<typeof getSupabaseClient>;
@@ -250,7 +251,7 @@ function formatSocialNotification(
 
   // Add inline keyboard button if action URL exists
   if (actionUrl && !replyMarkup) {
-    const miniAppUrl = Deno.env.get('MINI_APP_URL') || 'https://t.me/AIMusicVerseBot/app';
+    const miniAppUrl = getMiniAppUrl();
     replyMarkup = {
       inline_keyboard: [[
         { text: '🎵 Открыть', url: `${miniAppUrl}?startapp=${encodeURIComponent(actionUrl)}` }

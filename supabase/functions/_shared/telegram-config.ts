@@ -88,3 +88,18 @@ export const getInviteDeepLink = (userId: string): string => {
 export const getPaymentDeepLink = (type: 'buy' | 'credits' | 'subscribe' = 'buy'): string => {
   return generateDeepLink(type);
 };
+
+/**
+ * Get bot mention string (@BotUsername)
+ */
+export const getBotMention = (): string => {
+  const config = getTelegramConfig();
+  return `@${config.botUsername}`;
+};
+
+/**
+ * Get Mini App URL
+ */
+export const getMiniAppUrl = (): string => {
+  return getTelegramConfig().miniAppUrl;
+};

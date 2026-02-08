@@ -7,6 +7,7 @@ import { getSupabaseClient } from '../core/supabase-client.ts';
 import { BOT_CONFIG } from '../config.ts';
 import { logger, escapeMarkdown } from '../utils/index.ts';
 import { editInlineMessage } from './inline-chosen.ts';
+import { getBotMention } from '../../_shared/telegram-config.ts';
 
 const supabase = getSupabaseClient();
 
@@ -215,7 +216,7 @@ export function getGenerationHints(): Array<{
       title: '🎵 Быстрая генерация',
       description: 'Введите "gen:" для создания музыки',
       input_message_content: {
-        message_text: '💡 Введите @AIMusicVerseBot gen: для генерации музыки',
+        message_text: `💡 Введите ${getBotMention()} gen: для генерации музыки`,
       },
     },
   ];

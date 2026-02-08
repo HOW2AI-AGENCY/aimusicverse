@@ -4,6 +4,7 @@
 
 import { sendMessage, editMessageText } from '../telegram-api.ts';
 import { CHANNEL_URL, CHANNEL_USERNAME } from '../config.ts';
+import { getMiniAppUrl } from '../../_shared/telegram-config.ts';
 
 export async function handleNews(
   chatId: number,
@@ -30,13 +31,15 @@ export async function handleNews(
 
 Не пропустите важные новости\\!`;
 
+  const miniAppUrl = getMiniAppUrl();
+  
   const keyboard = {
     inline_keyboard: [
       [
         { text: `📢 Канал @${CHANNEL_USERNAME}`, url: CHANNEL_URL }
       ],
       [
-        { text: '📱 Открыть приложение', url: 'https://t.me/AIMusicVerseBot/app' }
+        { text: '📱 Открыть приложение', url: miniAppUrl }
       ],
       [
         { text: '🔙 Главное меню', callback_data: 'nav_main' }

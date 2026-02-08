@@ -11,6 +11,9 @@ import {
   type InlineQueryContext,
 } from './inline-types.ts';
 import { createGenerationResults, GENERATION_PRESETS } from '../handlers/inline-generation.ts';
+import { getBotMention } from '../../_shared/telegram-config.ts';
+
+const BOT_MENTION = getBotMention();
 
 const supabase = createClient(
   BOT_CONFIG.supabaseUrl,
@@ -188,7 +191,7 @@ function getCategoryHints(isLoggedIn: boolean): InlineQueryResult[] {
       title: '🎵 Быстрая генерация',
       description: 'Введите "gen:" для создания музыки',
       input_message_content: {
-        message_text: '🎵 Используйте @AIMusicVerseBot gen: для быстрой генерации',
+        message_text: `🎵 Используйте ${BOT_MENTION} gen: для быстрой генерации`,
       },
       reply_markup: {
         inline_keyboard: [[
@@ -202,7 +205,7 @@ function getCategoryHints(isLoggedIn: boolean): InlineQueryResult[] {
       title: '🔥 Тренды',
       description: 'Популярные треки прямо сейчас',
       input_message_content: {
-        message_text: '🔥 Смотрите тренды в @AIMusicVerseBot',
+        message_text: `🔥 Смотрите тренды в ${BOT_MENTION}`,
       },
       reply_markup: {
         inline_keyboard: [[
@@ -216,7 +219,7 @@ function getCategoryHints(isLoggedIn: boolean): InlineQueryResult[] {
       title: '⭐ Новое',
       description: 'Свежие релизы за последние 24 часа',
       input_message_content: {
-        message_text: '⭐ Новые треки в @AIMusicVerseBot',
+        message_text: `⭐ Новые треки в ${BOT_MENTION}`,
       },
       reply_markup: {
         inline_keyboard: [[
@@ -234,7 +237,7 @@ function getCategoryHints(isLoggedIn: boolean): InlineQueryResult[] {
       title: '🎵 Мои треки',
       description: 'Поиск среди ваших треков',
       input_message_content: {
-        message_text: '🎵 Мои треки в @AIMusicVerseBot',
+        message_text: `🎵 Мои треки в ${BOT_MENTION}`,
       },
       reply_markup: {
         inline_keyboard: [[
@@ -353,7 +356,7 @@ function createTrackResult(
   category?: InlineCategory
 ): InlineQueryResult {
   const deepLink = `${BOT_CONFIG.deepLinkBase}?startapp=track_${track.id}`;
-  const performer = username ? `@${username}` : track.creator_username ? `@${track.creator_username}` : '@AIMusicVerseBot';
+  const performer = username ? `@${username}` : track.creator_username ? `@${track.creator_username}` : BOT_MENTION;
   
   // Build caption with category context
   const categoryEmoji = category ? getCategoryEmoji(category) : '🎵';
