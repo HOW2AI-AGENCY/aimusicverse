@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Home, ArrowLeft, RefreshCw, AlertTriangle } from "lucide-react";
 import { motion } from '@/lib/motion';
+import { getBotMention } from '@/lib/telegram';
 
 interface ErrorPageProps {
   error?: Error | null;
@@ -159,7 +160,7 @@ export default function ErrorPage({ error, statusCode = 500 }: ErrorPageProps) {
               transition={{ delay: 0.8 }}
               className="mt-6 text-xs text-muted-foreground"
             >
-              Если ошибка повторяется, сообщите о ней в поддержку через @AIMusicVerseBot
+              Если ошибка повторяется, сообщите о ней в поддержку через {getBotMention()}
             </motion.p>
           </CardContent>
         </Card>

@@ -35,6 +35,7 @@ import { notify } from '@/lib/notifications';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { logger } from '@/lib/logger';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
+import { getMiniAppDeepLink } from '@/lib/telegram';
 
 interface ShareSheetProps {
   open: boolean;
@@ -58,8 +59,7 @@ export function ShareSheet({ open, onOpenChange, item, itemType = 'track' }: Sha
 
   // Generate deep link
   const getDeepLink = () => {
-    const baseUrl = 'https://t.me/AIMusicVerseBot/app?startapp=';
-    return `${baseUrl}${itemType}_${item.id}`;
+    return getMiniAppDeepLink(`${itemType}_${item.id}`);
   };
 
   // Generate share text

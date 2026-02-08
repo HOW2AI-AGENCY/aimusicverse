@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { logger } from '@/lib/logger';
 import { isAppError, getUserErrorMessage, logError } from '@/lib/errors';
+import { getBotMention } from '@/lib/telegram';
 
 interface Props {
   children: ReactNode;
@@ -139,7 +140,7 @@ export class ErrorBoundary extends Component<Props, State> {
               </div>
               
               <p className="mt-6 text-xs text-muted-foreground">
-                Если ошибка повторяется, сообщите в @AIMusicVerseBot
+                Если ошибка повторяется, сообщите в {getBotMention()}
               </p>
             </div>
           </Card>
