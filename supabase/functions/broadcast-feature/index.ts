@@ -6,9 +6,10 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { successResponse, errorResponse, optionsResponse } from '../_shared/response-utils.ts';
 import { getSupabaseClient } from '../_shared/supabase-client.ts';
+import { getTelegramConfig } from '../_shared/telegram-config.ts';
 
 const TELEGRAM_BOT_TOKEN = Deno.env.get('TELEGRAM_BOT_TOKEN')!;
-const MINI_APP_URL = Deno.env.get('MINI_APP_URL') || 'https://t.me/PhuketMusicBot/app';
+const { miniAppUrl: MINI_APP_URL } = getTelegramConfig();
 
 interface BroadcastRequest {
   type: 'subscriptions_feature' | 'custom';

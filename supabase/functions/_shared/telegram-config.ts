@@ -10,14 +10,16 @@
 export const getTelegramConfig = () => {
   const botUsername = Deno.env.get('TELEGRAM_BOT_USERNAME') || 'AIMusicVerseBot';
   const appShortName = Deno.env.get('TELEGRAM_APP_SHORT_NAME') || 'app';
-  const miniAppUrl = Deno.env.get('MINI_APP_URL') || 'https://t.me/AIMusicVerseBot/app';
+  // Build default Mini App URL dynamically from bot username and app name
+  const defaultMiniAppUrl = `https://t.me/${botUsername}/${appShortName}`;
+  const miniAppUrl = Deno.env.get('MINI_APP_URL') || defaultMiniAppUrl;
   
   return {
     botUsername,
     appShortName,
     miniAppUrl,
     // Base deep link URL (without ?startapp parameter)
-    deepLinkBase: `https://t.me/${botUsername}/${appShortName}`,
+    deepLinkBase: defaultMiniAppUrl,
   };
 };
 

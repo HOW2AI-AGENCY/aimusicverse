@@ -22,10 +22,10 @@ const logger = createLogger('notifications');
 
 const supabase = getSupabaseClient();
 
+import { CHANNEL_URL, CHANNEL_USERNAME } from '../config.ts';
+
 const telegramConfig = getTelegramConfig();
 const MINI_APP_URL = telegramConfig.miniAppUrl;
-const CHANNEL_URL = 'https://t.me/AIMusiicVerse';
-const CHANNEL_USERNAME = 'AIMusiicVerse';
 
 export interface NotificationPayload {
   userId: string;

@@ -4,6 +4,7 @@
 
 import { setMyCommands } from '../telegram-api.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { CHANNEL_USERNAME } from '../config.ts';
 
 export interface BotCommand {
   command: string;
@@ -12,40 +13,45 @@ export interface BotCommand {
   enabled: boolean;
 }
 
-// Default bot commands
-export const DEFAULT_COMMANDS: BotCommand[] = [
-  // Main commands
-  { command: 'start', description: '🚀 Начать работу', category: 'main', enabled: true },
-  { command: 'help', description: '📚 Справка по командам', category: 'main', enabled: true },
-  { command: 'app', description: '📱 Открыть приложение', category: 'main', enabled: true },
-  { command: 'channel', description: '📢 Канал @AIMusiicVerse', category: 'main', enabled: true },
-  { command: 'news', description: '📰 Новости платформы', category: 'main', enabled: true },
-  
-  // Generation commands
-  { command: 'generate', description: '🎼 Создать трек', category: 'generation', enabled: true },
-  { command: 'cover', description: '🎤 Создать кавер (аудио)', category: 'generation', enabled: true },
-  { command: 'extend', description: '➕ Расширить трек (аудио)', category: 'generation', enabled: true },
-  { command: 'status', description: '📊 Статус генерации', category: 'generation', enabled: true },
-  
-  // Analysis commands
-  { command: 'analyze', description: '🔬 Меню анализа аудио', category: 'analysis', enabled: true },
-  { command: 'midi', description: '🎹 Конвертация в MIDI', category: 'analysis', enabled: true },
-  { command: 'piano', description: '🎹 Фортепианная аранжировка', category: 'analysis', enabled: true },
-  { command: 'guitar', description: '🎸 Анализ гитарной партии', category: 'analysis', enabled: true },
-  { command: 'recognize', description: '🔍 Распознать музыку', category: 'analysis', enabled: true },
-  
-  // Library commands
-  { command: 'library', description: '📚 Мои треки', category: 'library', enabled: true },
-  { command: 'projects', description: '📁 Мои проекты', category: 'library', enabled: true },
-  { command: 'upload', description: '📤 Загрузить аудио', category: 'library', enabled: true },
-  { command: 'uploads', description: '📂 Мои загрузки', category: 'library', enabled: true },
-  
-  // Settings commands
-  { command: 'buy', description: '💎 Купить кредиты', category: 'settings', enabled: true },
-  { command: 'cancel', description: '❌ Отменить загрузку', category: 'settings', enabled: true },
-  { command: 'terms', description: '📜 Пользовательское соглашение', category: 'settings', enabled: true },
-  { command: 'privacy', description: '🔒 Политика конфиденциальности', category: 'settings', enabled: true },
-];
+// Build default commands dynamically
+function buildDefaultCommands(): BotCommand[] {
+  return [
+    // Main commands
+    { command: 'start', description: '🚀 Начать работу', category: 'main', enabled: true },
+    { command: 'help', description: '📚 Справка по командам', category: 'main', enabled: true },
+    { command: 'app', description: '📱 Открыть приложение', category: 'main', enabled: true },
+    { command: 'channel', description: `📢 Канал @${CHANNEL_USERNAME}`, category: 'main', enabled: true },
+    { command: 'news', description: '📰 Новости платформы', category: 'main', enabled: true },
+    
+    // Generation commands
+    { command: 'generate', description: '🎼 Создать трек', category: 'generation', enabled: true },
+    { command: 'cover', description: '🎤 Создать кавер (аудио)', category: 'generation', enabled: true },
+    { command: 'extend', description: '➕ Расширить трек (аудио)', category: 'generation', enabled: true },
+    { command: 'status', description: '📊 Статус генерации', category: 'generation', enabled: true },
+    
+    // Analysis commands
+    { command: 'analyze', description: '🔬 Меню анализа аудио', category: 'analysis', enabled: true },
+    { command: 'midi', description: '🎹 Конвертация в MIDI', category: 'analysis', enabled: true },
+    { command: 'piano', description: '🎹 Фортепианная аранжировка', category: 'analysis', enabled: true },
+    { command: 'guitar', description: '🎸 Анализ гитарной партии', category: 'analysis', enabled: true },
+    { command: 'recognize', description: '🔍 Распознать музыку', category: 'analysis', enabled: true },
+    
+    // Library commands
+    { command: 'library', description: '📚 Мои треки', category: 'library', enabled: true },
+    { command: 'projects', description: '📁 Мои проекты', category: 'library', enabled: true },
+    { command: 'upload', description: '📤 Загрузить аудио', category: 'library', enabled: true },
+    { command: 'uploads', description: '📂 Мои загрузки', category: 'library', enabled: true },
+    
+    // Settings commands
+    { command: 'buy', description: '💎 Купить кредиты', category: 'settings', enabled: true },
+    { command: 'cancel', description: '❌ Отменить загрузку', category: 'settings', enabled: true },
+    { command: 'terms', description: '📜 Пользовательское соглашение', category: 'settings', enabled: true },
+    { command: 'privacy', description: '🔒 Политика конфиденциальности', category: 'settings', enabled: true },
+  ];
+}
+
+// Default bot commands (lazily initialized to use dynamic config)
+export const DEFAULT_COMMANDS: BotCommand[] = buildDefaultCommands();
 
 /**
  * Get commands from database or use defaults
