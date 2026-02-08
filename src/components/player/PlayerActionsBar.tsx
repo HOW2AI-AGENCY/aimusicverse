@@ -12,7 +12,8 @@ import {
   Download, 
   Share2, 
   Layers, 
-  MoreHorizontal 
+  MoreHorizontal,
+  PictureInPicture2,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -20,6 +21,8 @@ import { useTracks } from '@/hooks/useTracks';
 import { useTrackActions } from '@/hooks/useTrackActions';
 import { UnifiedTrackMenu } from '@/components/track-actions/UnifiedTrackMenu';
 import { AddToPlaylistDialog } from '@/components/track/AddToPlaylistDialog';
+import { usePictureInPicture } from '@/hooks/audio/usePictureInPicture';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import type { Track } from '@/types/track';
 import { cn } from '@/lib/utils';
 import { hapticImpact } from '@/lib/haptic';
@@ -51,6 +54,24 @@ export const PlayerActionsBar = memo(function PlayerActionsBar({
   const { toggleLike, downloadTrack } = useTracks();
   const { handleShare } = useTrackActions();
   const [playlistDialogOpen, setPlaylistDialogOpen] = useState(false);
+  
+  // Player state for PiP
+  const isPlaying = usePlayerStore(s => s.isPlaying);
+  const playTrack = usePlayerStore(s => s.playTrack);
+  const pauseTrack = usePlayerStore(s => s.pauseTrack);
+  const nextTrack = usePlayerStore(s => s.nextTrack);
+  const previousTrack = usePlayerStore(s => s.previousTrack);
+  
+  // Picture-in-Picture hook
+  const { isSupported: isPiPSupported, isActive: isPiPActive, togglePiP } = usePictureInPicture({
+    track,
+    isPlaying,
+    coverUrl: track.cover_url || undefined,
+    onPlay: () => playTrack(track),
+    onPause: pauseTrack,
+    onNext: nextTrack,
+    onPrevious: previousTrack,
+  });
   
   const config = sizeConfig[size];
 
@@ -85,6 +106,11 @@ export const PlayerActionsBar = memo(function PlayerActionsBar({
     hapticImpact('light');
     navigate(`/studio-v2/track/${track.id}`);
   }, [track.id, navigate]);
+
+  const handlePiPToggle = useCallback(() => {
+    hapticImpact('light');
+    togglePiP();
+  }, [togglePiP]);
 
   const isVertical = variant === 'vertical';
   const audioUrl = track.streaming_url || track.audio_url;
@@ -123,6 +149,15 @@ export const PlayerActionsBar = memo(function PlayerActionsBar({
       icon: Layers,
       label: 'Open in Studio',
       onClick: handleOpenStudio,
+    }] : []),
+    // Picture-in-Picture button (only if supported)
+    ...(isPiPSupported ? [{
+      id: 'pip',
+      icon: PictureInPicture2,
+      label: isPiPActive ? 'Exit Mini Player' : 'Mini Player',
+      onClick: handlePiPToggle,
+      active: isPiPActive,
+      activeClass: 'text-primary',
     }] : []),
   ];
 

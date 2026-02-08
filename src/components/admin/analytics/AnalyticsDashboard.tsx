@@ -25,11 +25,12 @@ import { ComparisonPanel } from './ComparisonPanel';
 import { AlertsPanel } from './AlertsPanel';
 import { UserJourneyPanel } from './UserJourneyPanel';
 import { ChurnPredictionPanel } from './ChurnPredictionPanel';
+import { ConversionFunnelPanel } from './ConversionFunnelPanel';
 import { Skeleton } from '@/components/ui/skeleton';
 import { 
   Activity, AlertTriangle, Music, Gauge, Link2, FlaskConical, 
   Users, Download, DollarSign, BarChart3, Clock, GitCompare, Route,
-  TrendingDown
+  TrendingDown, Filter
 } from 'lucide-react';
 import { exportAnalytics, formatTelemetryForExport } from '@/lib/analytics/exportUtils';
 import { toast } from 'sonner';
@@ -196,6 +197,10 @@ export function AnalyticsDashboard() {
               <TrendingDown className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
               <span className="hidden xs:inline">Отток</span>
             </TabsTrigger>
+            <TabsTrigger value="funnel" className="gap-1.5 text-xs sm:text-sm px-2 sm:px-3 py-1.5">
+              <Filter className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              <span className="hidden xs:inline">Воронка</span>
+            </TabsTrigger>
           </TabsList>
         </div>
 
@@ -245,6 +250,10 @@ export function AnalyticsDashboard() {
 
         <TabsContent value="churn">
           <ChurnPredictionPanel />
+        </TabsContent>
+
+        <TabsContent value="funnel">
+          <ConversionFunnelPanel timePeriod={timePeriod} />
         </TabsContent>
       </Tabs>
     </div>
