@@ -33,6 +33,10 @@ export default {
       'lg': '1024px',
       'xl': '1280px',
       '2xl': '1536px',
+      // Ultra-wide breakpoints (P3 feature)
+      '3xl': '1920px',
+      '4xl': '2560px',
+      'ultrawide': '3440px',
     },
     extend: {
       fontFamily: {
