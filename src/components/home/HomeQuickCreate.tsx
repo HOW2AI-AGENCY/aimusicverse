@@ -42,49 +42,50 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({
   return (
     <section
       className={cn(
-        "relative overflow-hidden rounded-2xl",
+        "relative overflow-hidden rounded-2xl lg:rounded-3xl",
         "bg-gradient-to-br from-primary/12 via-primary/5 to-transparent",
         "border border-primary/25",
         glass.subtle,
-        "p-4 sm:p-5",
+        "p-4 sm:p-5 lg:p-6",
+        "group",
         className
       )}
     >
       {/* Background decoration - simplified */}
-      <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-bl from-primary/10 to-transparent rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-generate/8 to-transparent rounded-full blur-2xl pointer-events-none" />
+      <div className="absolute top-0 right-0 w-40 h-40 lg:w-56 lg:h-56 bg-gradient-to-bl from-primary/10 to-transparent rounded-full blur-3xl pointer-events-none group-hover:from-primary/15 transition-all duration-500" />
+      <div className="absolute bottom-0 left-0 w-32 h-32 lg:w-44 lg:h-44 bg-gradient-to-tr from-generate/8 to-transparent rounded-full blur-2xl pointer-events-none" />
 
       {/* Content */}
       <div className="relative z-10">
         {/* Header with improved visual hierarchy */}
-        <div className="flex items-start justify-between mb-4 gap-3">
-          <div className="flex items-center gap-3">
+        <div className="flex items-start justify-between mb-4 lg:mb-5 gap-3">
+          <div className="flex items-center gap-3 lg:gap-4">
             <motion.div 
-              className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-primary/40 to-primary/15 flex items-center justify-center shadow-lg shadow-primary/20 border border-primary/30"
+              className="w-11 h-11 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-xl lg:rounded-2xl bg-gradient-to-br from-primary/40 to-primary/15 flex items-center justify-center shadow-lg shadow-primary/20 border border-primary/30"
               animate={{ rotate: [0, 4, -4, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
             >
-              <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-primary drop-shadow-sm" />
+              <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 text-primary drop-shadow-sm" />
             </motion.div>
             <div>
-              <h2 className="text-lg sm:text-xl font-bold text-foreground leading-tight">
+              <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-foreground leading-tight">
                 Создать музыку
               </h2>
-              <p className="text-xs sm:text-sm text-muted-foreground leading-snug">
+              <p className="text-xs sm:text-sm lg:text-base text-muted-foreground leading-snug">
                 AI сгенерирует трек за минуту
               </p>
             </div>
           </div>
           {/* Credits cost badge */}
           <span 
-            className="px-2.5 py-1 text-[10px] sm:text-xs font-bold bg-gradient-to-r from-primary/20 to-generate/15 text-primary rounded-full border border-primary/30 whitespace-nowrap shadow-sm"
+            className="px-2.5 py-1 lg:px-3 lg:py-1.5 text-[10px] sm:text-xs lg:text-sm font-bold bg-gradient-to-r from-primary/20 to-generate/15 text-primary rounded-full border border-primary/30 whitespace-nowrap shadow-sm"
           >
             🎵 10-12 кредитов
           </span>
         </div>
 
         {/* FAB - Primary action */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 lg:gap-4">
           <OnboardingTooltip
             id="quick-create-first"
             title="Создайте первый трек"
@@ -98,17 +99,17 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({
             <Button
               onClick={handleCreate}
               className={cn(
-                "flex-1 h-12 min-h-touch",
+                "flex-1 h-12 lg:h-14 min-h-touch",
                 "bg-gradient-to-r from-primary to-generate",
-                "text-white font-semibold",
+                "text-white font-semibold lg:text-lg",
                 "shadow-lg shadow-primary/25",
-                "hover:shadow-xl hover:shadow-primary/30",
+                "hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5",
                 "active:scale-95",
                 "transition-all duration-200"
               )}
               aria-label="Создать новый музыкальный трек с помощью AI"
             >
-              <Plus className="w-5 h-5 mr-2" aria-hidden="true" />
+              <Plus className="w-5 h-5 lg:w-6 lg:h-6 mr-2" aria-hidden="true" />
               Создать трек
             </Button>
           </OnboardingTooltip>
@@ -119,23 +120,23 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({
             aria-label={isExpanded ? "Свернуть опции создания" : "Раскрыть опции создания"}
             aria-pressed={isExpanded}
             className={cn(
-              "w-12 h-12 min-w-touch rounded-xl",
+              "w-12 h-12 lg:w-14 lg:h-14 min-w-touch rounded-xl lg:rounded-2xl",
               "bg-card/80 backdrop-blur-sm",
               "border border-border/50",
               "flex items-center justify-center",
-              "hover:bg-card hover:border-primary/30",
+              "hover:bg-card hover:border-primary/30 hover:shadow-md",
               "active:scale-95",
               "transition-all duration-150"
             )}
             style={{ transform: isExpanded ? 'rotate(45deg)' : 'rotate(0deg)' }}
           >
-            <Plus className="w-5 h-5 text-foreground" aria-hidden="true" />
+            <Plus className="w-5 h-5 lg:w-6 lg:h-6 text-foreground" aria-hidden="true" />
           </button>
         </div>
 
         {/* Expanded options */}
         {isExpanded && (
-          <div className="mt-3 grid grid-cols-2 gap-2">
+          <div className="mt-3 lg:mt-4 grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-3">
             <QuickCreateOption icon="🎵" label="Трек" description="Полный трек" onClick={handleCreate} />
             <QuickCreateOption icon="🎸" label="Рифф" description="Инструментал" onClick={handleCreate} />
             <QuickCreateOption icon="🎤" label="Кавер" description="Переделка" onClick={handleCreate} />
@@ -173,17 +174,18 @@ const QuickCreateOption = memo(function QuickCreateOption({
       aria-label={`Создать ${label.toLowerCase()}: ${description}`}
       className={cn(
         "flex flex-col items-center justify-center min-h-touch min-w-touch",
-        "p-3 rounded-xl",
+        "p-3 lg:p-4 rounded-xl lg:rounded-2xl",
         "bg-card/50",
         "border border-border/40",
-        "hover:bg-card hover:border-primary/30",
+        "hover:bg-card hover:border-primary/30 hover:shadow-md hover:-translate-y-0.5",
         "active:scale-95",
-        "transition-colors duration-150"
+        "transition-all duration-150",
+        "group"
       )}
     >
-      <span className="text-xl mb-1" aria-hidden="true">{icon}</span>
-      <span className="text-xs font-medium text-foreground">{label}</span>
-      <span className="text-[10px] text-muted-foreground">{description}</span>
+      <span className="text-xl lg:text-2xl mb-1 lg:mb-2 group-hover:scale-110 transition-transform" aria-hidden="true">{icon}</span>
+      <span className="text-xs lg:text-sm font-medium text-foreground">{label}</span>
+      <span className="text-[10px] lg:text-xs text-muted-foreground">{description}</span>
     </button>
   );
 });

@@ -45,38 +45,41 @@ const QuickStartCard = memo(function QuickStartCard({
     <motion.button
       onClick={onClick}
       className={cn(
-        "relative flex flex-col items-center justify-center p-2.5 sm:p-4 rounded-xl sm:rounded-2xl",
-        "min-h-[85px] sm:min-h-[110px]",
+        "relative flex flex-col items-center justify-center p-2.5 sm:p-4 lg:p-5 rounded-xl sm:rounded-2xl",
+        "min-h-[85px] sm:min-h-[110px] lg:min-h-[130px]",
         glass.card,
         "transition-all duration-200 touch-manipulation",
-        "hover:shadow-md hover:border-primary/30 hover:scale-[1.02]",
+        "hover:shadow-lg hover:shadow-primary/10 hover:border-primary/30 hover:-translate-y-1",
         "active:scale-95",
         "bg-gradient-to-br",
-        gradient
+        gradient,
+        "group"
       )}
       initial={{ opacity: 0, y: 10, scale: 0.98 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ delay: delay * 0.05, duration: 0.2 }}
       whileTap={{ scale: 0.95 }}
+      whileHover={{ scale: 1.02 }}
     >
       {/* Icon */}
       <div className={cn(
-        "w-8 h-8 sm:w-11 sm:h-11 rounded-lg sm:rounded-xl flex items-center justify-center mb-1.5 sm:mb-2",
-        glass.subtle
+        "w-8 h-8 sm:w-11 sm:h-11 lg:w-12 lg:h-12 rounded-lg sm:rounded-xl flex items-center justify-center mb-1.5 sm:mb-2 lg:mb-3",
+        glass.subtle,
+        "group-hover:scale-110 transition-transform duration-200"
       )}>
         {icon}
       </div>
 
       {/* Title */}
-      <h3 className="text-sm font-bold text-foreground mb-0.5 text-balance">{title}</h3>
+      <h3 className="text-sm lg:text-base font-bold text-foreground mb-0.5 text-balance">{title}</h3>
       
-      {/* Description - hidden on very small screens */}
-      <p className="text-[11px] text-muted-foreground text-center px-0.5 hidden xs:block line-clamp-2">
+      {/* Description - visible on larger screens */}
+      <p className="text-[11px] lg:text-xs text-muted-foreground text-center px-0.5 hidden xs:block lg:block line-clamp-2">
         {description}
       </p>
 
       {/* Sparkle decoration - simplified */}
-      <Sparkles className="absolute top-1.5 right-1.5 w-2.5 h-2.5 sm:w-3 sm:h-3 text-primary/50" />
+      <Sparkles className="absolute top-1.5 right-1.5 lg:top-2.5 lg:right-2.5 w-2.5 h-2.5 sm:w-3 sm:h-3 lg:w-4 lg:h-4 text-primary/50 group-hover:text-primary/80 transition-colors" />
     </motion.button>
   );
 });
@@ -115,22 +118,22 @@ export const QuickStartCards = memo(function QuickStartCards({
     {
       preset: 'track',
       title: 'Трек',
-      description: 'Полноценный трек',
-      icon: <Music2 className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />,
+      description: 'Полноценный трек с вокалом',
+      icon: <Music2 className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-primary" />,
       gradient: 'from-primary/10 via-primary/5 to-background',
     },
     {
       preset: 'riff',
       title: 'Рифф',
-      description: 'Инструментал',
-      icon: <Guitar className="w-4 h-4 sm:w-5 sm:h-5 text-generate" />,
+      description: 'Инструментальная композиция',
+      icon: <Guitar className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-generate" />,
       gradient: 'from-generate/10 via-generate/5 to-background',
     },
     {
       preset: 'cover',
       title: 'Cover',
-      description: 'AI-кавер',
-      icon: <Mic2 className="w-4 h-4 sm:w-5 sm:h-5 text-studio" />,
+      description: 'AI-кавер в новом стиле',
+      icon: <Mic2 className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-studio" />,
       gradient: 'from-studio/10 via-studio/5 to-background',
     },
   ];
@@ -150,8 +153,8 @@ export const QuickStartCards = memo(function QuickStartCards({
           Быстрый старт
         </SectionHeading>
 
-        {/* Cards grid */}
-        <div className="grid grid-cols-3 gap-2 sm:gap-3">
+        {/* Cards grid - responsive */}
+        <div className="grid grid-cols-3 gap-2 sm:gap-3 lg:gap-4">
           {presets.map((preset, index) => (
             <QuickStartCard
               key={preset.preset}
