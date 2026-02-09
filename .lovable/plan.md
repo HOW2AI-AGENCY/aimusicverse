@@ -1,294 +1,125 @@
 
-# План доработки и полировки MusicVerse AI
+# План полировки и доработки MusicVerse AI
 
-## Обзор проекта
+## Обзор текущего состояния
 
-MusicVerse AI — профессиональная платформа создания музыки на базе AI (Telegram Mini App), реализованная на React 19 + TypeScript + Tailwind CSS с бэкендом на Lovable Cloud (Supabase). Проект находится в продакшене с 100% завершённостью основного функционала.
-
-**Текущее состояние:**
-- 180+ React компонентов, 180+ кастомных хуков, 110+ Edge Functions
-- 574 пользователей, 1666+ сгенерированных треков
-- Полная интеграция с Telegram Mini App SDK 2.0 и Telegram Bot
+Проект находится в стадии **100% готовности к production**. Все основные функции работают, дизайн-система внедрена, документация обновлена. Однако в ходе аудита выявлены области для улучшения.
 
 ---
 
-## Часть 1: Дизайн и визуальная полировка
+## Выявленные проблемы
 
-### 1.1 Завершение миграции на Design System
+### Критические (P0)
 
-**Проблема:** Несмотря на миграцию overlay-colors, в проекте остаются разрозненные стили.
+**1. RLS-политика для deeplink_analytics блокирует анонимных пользователей**
+- **Симптом**: Ошибки 401 при INSERT в `deeplink_analytics` для неаутентифицированных пользователей
+- **Причина**: Политика требует `authenticated` роль, но трекинг должен работать и для гостей
+- **Влияние**: Теряется аналитика посещений до регистрации
 
-**Задачи:**
-- Аудит оставшихся TODO/FIXME в коде (найдено 392 совпадения в 37 файлах)
-- Унификация всех `bg-black/X` и `bg-white/X` на токены из `overlay-colors.ts`
-- Приведение всех заголовков к использованию `<Heading />` компонента
-- Замена ручных карточек на `<RefinedCard />` и `<InteractiveCard />`
+### Средние (P1)
 
-### 1.2 Улучшение типографики для русского языка
+**2. PostMessage warnings в консоли**
+- **Симптом**: Предупреждения о несовпадении origin для postMessage
+- **Причина**: Попытки связи с разными доменами Lovable (beta, gptengineer.app, localhost)
+- **Влияние**: Засоряет консоль, не влияет на функциональность
 
-**Проблема:** Русский текст на 15-30% длиннее английского, что вызывает проблемы с обрезкой.
-
-**Задачи:**
-- Применить `textBalance.ru` из design-tokens ко всем критичным элементам
-- Добавить `hyphens: auto` для длинных заголовков
-- Улучшить truncation логику с tooltip при hover/long-press
-- Увеличить max-width для русскоязычных лейблов
-
-### 1.3 Микро-анимации и визуальные эффекты
-
-**Задачи:**
-- Добавить `AnimatedIcon` для всех иконок в интерактивных элементах
-- Применить `hoverLift` и `pressScale` из interactions.ts
-- Улучшить loading states с shimmer эффектом
-- Добавить skeleton-анимации точно соответствующие размерам контента (CLS prevention)
-
-### 1.4 Glassmorphism консистентность
-
-**Задачи:**
-- Унифицировать blur-эффекты через `glass.ts` пресеты
-- Проверить контраст текста на стеклянных поверхностях (WCAG AA)
-- Добавить адаптивность стеклянных эффектов для light/dark тем
+**3. Tailwind CDN warning в dev-mode**
+- **Симптом**: Предупреждение "cdn.tailwindcss.com should not be used in production"
+- **Причина**: Dev-mode включает CDN fallback
+- **Влияние**: Только в dev-mode, production не затронут
 
 ---
 
-## Часть 2: Адаптивность и мобильная оптимизация
+## План доработки
 
-### 2.1 Safe Area улучшения
+### Фаза 1: Исправление аналитики (P0)
 
-**Текущее состояние:** Стандартизирован паттерн `max(var(--tg-*), env(safe-area-inset-*))`.
+#### 1.1 Добавить INSERT политику для анонимных пользователей
+```sql
+CREATE POLICY "Allow anonymous deeplink tracking"
+ON public.deeplink_analytics FOR INSERT
+TO anon
+WITH CHECK (user_id IS NULL);
+```
 
-**Задачи:**
-- Аудит всех компонентов на корректность safe area padding
-- Улучшить обработку клавиатуры в формах и чатах
-- Добавить поддержку горизонтальных safe areas для устройств с notch
+#### 1.2 Обновить deeplink-tracker.ts
+- Добавить graceful fallback при ошибках INSERT
+- Использовать localStorage буферизацию для retry после авторизации
+- Подавить non-critical ошибки в production
 
-### 2.2 Touch Target оптимизация
+### Фаза 2: Улучшения UX (P1)
 
-**Требования:** Минимум 44x44px согласно iOS HIG.
+#### 2.1 Подавление нерелевантных console warnings
+- Обернуть postMessage вызовы в try-catch с проверкой origin
+- Фильтровать известные безопасные ошибки в TelegramContext
 
-**Задачи:**
-- Применить `touchTargetClass` ко всем интерактивным элементам
-- Увеличить кликабельные зоны для мелких кнопок
-- Добавить visual feedback для touch событий
+#### 2.2 Улучшения дизайн-системы (из spec 032)
+- **Типографика**: Проверить и унифицировать использование `<Heading />` компонента
+- **Интерактивность**: Добавить микро-анимации для кнопок через `AnimatedIcon`
+- **Скелетоны**: Унифицировать размеры skeleton loaders с финальным контентом
 
-### 2.3 Responsive Layout улучшения
+### Фаза 3: Оптимизация производительности (P2)
 
-**Текущее состояние:** 297 компонентов используют responsive паттерны.
+#### 3.1 Bundle Size Audit
+- Проверить lazy loading для тяжёлых компонентов (recharts, wavesurfer)
+- Аудит tree-shaking для lucide-react
 
-**Задачи:**
-- Унифицировать использование `useIsMobile` хука
-- Улучшить grid layouts для планшетов (768-1024px)
-- Добавить специальные layouts для ultra-wide экранов
+#### 3.2 Network Optimization
+- Добавить preconnect для Supabase endpoints
+- Оптимизировать критические запросы (profiles, tracks)
 
-### 2.4 Плеер: полировка мобильной версии
+### Фаза 4: Качество кода (P3)
 
-**Компоненты:** CompactPlayer, MobileFullscreenPlayer, DesktopFullscreenPlayer.
+#### 4.1 Консистентность логирования
+- Проверить использование централизованного logger во всех модулях
+- Убедиться что все `catch` блоки используют `logger.error()`
 
-**Задачи:**
-- Улучшить swipe-gestures в compact player
-- Добавить haptic feedback при seek
-- Оптимизировать waveform rendering для низкопроизводительных устройств
-- Добавить picture-in-picture режим
-
----
-
-## Часть 3: Telegram Mini App интеграция
-
-### 3.1 Telegram SDK полировка
-
-**Текущее состояние:** SDK 2.0 полностью интегрирован.
-
-**Задачи:**
-- Добавить поддержку новых методов SDK 8.0+ (requestFullscreen, lockOrientation)
-- Улучшить theme synchronization с Telegram themeParams
-- Добавить Settings Button контекстные действия
-- Улучшить MainButton интеграцию в формах
-
-### 3.2 Deep Link расширения
-
-**Текущие паттерны:** `track_`, `project_`, `generate_`, `play_`, `player_`.
-
-**Задачи:**
-- Добавить deep links для Lyrics Studio
-- Добавить deep links для Stem Studio
-- Добавить UTM-tracking для аналитики conversion
-
-### 3.3 Telegram Bot улучшения
-
-**Текущее состояние:** Полноценный бот с inline mode и 8 категориями.
-
-**Задачи:**
-- Добавить webhook signature verification (обнаружено отсутствие в production)
-- Улучшить error messages в боте (русский язык)
-- Добавить inline keyboard для быстрых действий
-- Оптимизировать метрики и алерты
+#### 4.2 Документация
+- Обновить KNOWLEDGE_BASE.md с новыми паттернами
+- Добавить примеры использования дизайн-системы
 
 ---
-
-## Часть 4: Логирование и обработка ошибок
-
-### 4.1 Error Handling улучшения
-
-**Текущее состояние:** Централизованная система с `AppError`, `tryCatch`, Sentry.
-
-**Задачи:**
-- Добавить error recovery UI компоненты
-- Улучшить user-friendly сообщения об ошибках
-- Добавить offline-first error handling
-- Улучшить retry логику с визуальным feedback
-
-### 4.2 Logging консистентность
-
-**Задачи:**
-- Аудит всех `console.error`/`console.warn` на миграцию к `logger`
-- Добавить structured logging context во все Edge Functions
-- Улучшить performance timing для критичных операций
-
-### 4.3 Sentry интеграция
-
-**Задачи:**
-- Добавить source maps для production debugging
-- Настроить release tracking
-- Добавить custom breadcrumbs для user journey
-- Улучшить error grouping rules
-
----
-
-## Часть 5: Производительность
-
-### 5.1 Bundle Size оптимизация
-
-**Текущее состояние:** vendor-other 184KB (цель: <150KB).
-
-**Задачи:**
-- Lazy loading для opensheetmusicdisplay (-20KB)
-- Dynamic import для wavesurfer.js (-25KB)
-- Tree-shaking audit для lucide-react (-5KB)
-- Добавить Service Worker для caching
-
-### 5.2 Rendering оптимизация
-
-**Задачи:**
-- Аудит re-renders с React DevTools Profiler
-- Добавить `useMemo`/`useCallback` где необходимо
-- Улучшить virtualization для длинных списков
-- Оптимизировать animation frames
-
-### 5.3 Network оптимизация
-
-**Задачи:**
-- Добавить request deduplication
-- Улучшить prefetching стратегию
-- Добавить stale-while-revalidate для статических данных
-
----
-
-## Часть 6: Безопасность
-
-### 6.1 RLS Policies аудит
-
-**Обнаруженные проблемы:**
-- WARN: RLS Policy Always True (overly permissive)
-- WARN: Leaked Password Protection Disabled
-
-**Задачи:**
-- Аудит всех RLS policies на принцип least privilege
-- Включить leaked password protection
-- Добавить rate limiting на sensitive endpoints
-
-### 6.2 API Security
-
-**Задачи:**
-- Добавить TELEGRAM_WEBHOOK_SECRET verification (критично для production)
-- Аудит API keys exposure
-- Добавить request validation в Edge Functions
-
----
-
-## Часть 7: UX полировка
-
-### 7.1 Empty States
-
-**Задачи:**
-- Добавить иллюстрации для всех empty states
-- Улучшить CTA тексты
-- Добавить onboarding hints
-
-### 7.2 Loading States
-
-**Задачи:**
-- Унифицировать skeleton размеры с финальным контентом
-- Добавить progressive loading для изображений
-- Улучшить loading indicators для длинных операций
-
-### 7.3 Error States
-
-**Задачи:**
-- Добавить retry buttons везде где возможно
-- Улучшить error illustrations
-- Добавить contextual help links
-
----
-
-## Прогресс выполнения
-
-### ✅ P0: Критичные — ВЫПОЛНЕНО
-1. ✅ Webhook signature verification — уже реализовано в telegram-bot
-2. ✅ RLS policies — добавлена secure_credit_update функция, safe_public_profiles view
-3. ✅ Leaked password protection — аудит проведён
-
-### ✅ P1: Высокий приоритет — ВЫПОЛНЕНО
-1. ✅ Touch targets унификация — добавлены IconButton, CompactIconButton, CloseButton, TouchableListItem в touch-target.tsx
-2. ✅ Safe area полировка — добавлена поддержка горизонтальных safe areas и useKeyboardSafeArea
-3. ✅ Bundle size — подтверждено что тяжёлые зависимости уже используют lazy loading
-
-### ✅ P2: Средний приоритет — ВЫПОЛНЕНО
-1. ✅ Design system миграция — overlay-colors полностью мигрированы на семантические токены
-2. ✅ Микро-анимации — AnimatedIcon, AnimatedIconButton, InteractiveCard с hoverLift/pressScale уже реализованы
-3. ✅ Responsive layouts для планшетов — улучшены GRID_COLS в breakpoints.ts и ResponsiveGrid с md: breakpoint
-4. ✅ Deep links расширение — добавлены stems_{id}, lyrics_studio_{id}, lyrics_edit_{id}, stemstudio, lyricsstudio
-5. ✅ Empty states — добавлены новые типы: lyrics, lyrics_studio, stem_studio
-
-### ✅ P3: Низкий приоритет — ВЫПОЛНЕНО
-1. ✅ Picture-in-picture режим — добавлен usePictureInPicture хук с Media Session API и canvas-based PiP
-2. ✅ Ultra-wide экраны — добавлены breakpoints 3xl/4xl/ultrawide и UltraWideLayout/UltraWideGrid компоненты
-3. ✅ Advanced analytics — добавлена ConversionFunnelPanel для визуализации воронки конверсии
-4. ⏳ A/B testing framework — запланировано на следующую итерацию
-
----
-
-## 🎉 ПЛАН ВЫПОЛНЕН НА 100%
-
-Все критические (P0), высокоприоритетные (P1), среднеприоритетные (P2) и низкоприоритетные (P3) задачи выполнены.
 
 ## Технические детали
 
-### Файлы для редактирования
+### Изменения базы данных
 
-**Дизайн система:**
-- `src/lib/design-tokens.ts` — добавление новых токенов
-- `src/lib/overlay-colors.ts` — расширение пресетов
-- `src/styles/` — CSS улучшения
+```text
+Таблица: deeplink_analytics
+├── Текущие политики:
+│   ├── SELECT: Users can view own (auth.uid() = user_id)
+│   ├── SELECT: Admins can view all
+│   └── INSERT: authenticated only (проблема!)
+└── Новая политика:
+    └── INSERT: anon с user_id IS NULL
+```
 
-**Адаптивность:**
-- `src/components/layout/SafeLayout.tsx` — safe area улучшения
-- `src/components/BottomNavigation.tsx` — touch feedback
-- `src/components/player/` — плеер полировка
+### Файлы для изменения
 
-**Telegram:**
-- `src/contexts/telegram/` — SDK расширения
-- `supabase/functions/telegram-bot/` — security и UX
+| Файл | Тип изменения | Приоритет |
+|------|---------------|-----------|
+| `supabase/migrations/new_migration.sql` | Новая RLS политика | P0 |
+| `src/lib/analytics/deeplink-tracker.ts` | Graceful error handling | P0 |
+| `src/contexts/TelegramContext.tsx` | Подавление warnings | P1 |
+| `src/components/ui/skeletons/` | Унификация размеров | P2 |
 
-**Безопасность:**
-- Supabase RLS policies через миграции
-- `supabase/functions/telegram-bot/index.ts` — webhook verification
+---
 
-### Метрики успеха
+## Критерии успеха
 
-| Метрика | Текущее | Цель |
-|---------|---------|------|
-| Lighthouse Performance | ~85 | >90 |
-| Bundle Size | 184KB | <150KB |
-| Touch Target Compliance | ~90% | 100% |
-| WCAG AA Compliance | ~95% | 100% |
-| Generation Success Rate | 88% | >92% |
+- Нет ошибок 401 для deeplink_analytics в консоли
+- Чистая консоль без нерелевантных warnings
+- Все skeleton loaders соответствуют размерам финального контента
+- 100% coverage дизайн-токенов в компонентах
+
+---
+
+## Оценка времени
+
+| Фаза | Задачи | Время |
+|------|--------|-------|
+| Фаза 1 | RLS + Error handling | 15 мин |
+| Фаза 2 | UX улучшения | 20 мин |
+| Фаза 3 | Оптимизация | 15 мин |
+| Фаза 4 | Качество кода | 10 мин |
+| **Итого** | | **~60 мин** |
