@@ -468,8 +468,14 @@ export function assignToExperiment(
 // Main Tracking Function
 // ==========================================
 
+/**
+ * Track deeplink visit with graceful error handling
+ * - Works for both anonymous and authenticated users
+ * - Falls back to localStorage buffer on failure for retry after auth
+ */
 export async function trackDeeplinkVisit(context: DeeplinkContext): Promise<void> {
   const sessionId = getOrCreateSessionId();
+  const BUFFER_KEY = 'deeplink_pending_tracks';
 
   try {
     const { data: { user } } = await supabase.auth.getUser();
@@ -504,7 +510,25 @@ export async function trackDeeplinkVisit(context: DeeplinkContext): Promise<void
       } as Record<string, string | number | boolean | null>,
     };
 
-    await supabase.from('deeplink_analytics').insert([payload]);
+    const { error } = await supabase.from('deeplink_analytics').insert([payload]);
+    
+    if (error) {
+      // Buffer failed insert for retry after auth (RLS may block if unexpected)
+      deeplinkLogger.debug('Deeplink insert failed, buffering for retry', { 
+        error: error.message,
+        code: error.code 
+      });
+      
+      try {
+        const pending = JSON.parse(localStorage.getItem(BUFFER_KEY) || '[]');
+        pending.push({ ...payload, buffered_at: new Date().toISOString() });
+        // Keep only last 10 buffered entries to prevent storage bloat
+        localStorage.setItem(BUFFER_KEY, JSON.stringify(pending.slice(-10)));
+      } catch {
+        // Silently fail localStorage operations in production
+      }
+      return;
+    }
 
     // Track initial visit stage
     await trackConversionStage('visit');
@@ -514,8 +538,49 @@ export async function trackDeeplinkVisit(context: DeeplinkContext): Promise<void
       source: context.source,
       sessionId 
     });
+    
+    // Clear any pending buffered entries after successful insert
+    localStorage.removeItem(BUFFER_KEY);
   } catch (error) {
-    deeplinkLogger.error('Failed to track deeplink visit', { error: String(error) });
+    // Graceful fallback - don't break app for analytics failures
+    if (import.meta.env.DEV) {
+      deeplinkLogger.warn('Failed to track deeplink visit', { error: String(error) });
+    }
+  }
+}
+
+/**
+ * Flush buffered deeplink tracks after user authentication
+ * Call this after successful login/signup
+ */
+export async function flushBufferedDeeplinkTracks(): Promise<void> {
+  const BUFFER_KEY = 'deeplink_pending_tracks';
+  
+  try {
+    const pending = JSON.parse(localStorage.getItem(BUFFER_KEY) || '[]');
+    if (pending.length === 0) return;
+    
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+    
+    // Update buffered entries with user_id and insert
+    for (const entry of pending) {
+      const { buffered_at, ...payload } = entry;
+      await supabase.from('deeplink_analytics').insert([{
+        ...payload,
+        user_id: user.id,
+        metadata: {
+          ...payload.metadata,
+          originally_buffered_at: buffered_at,
+          flushed_after_auth: true,
+        }
+      }]);
+    }
+    
+    localStorage.removeItem(BUFFER_KEY);
+    deeplinkLogger.info('Flushed buffered deeplink tracks', { count: pending.length });
+  } catch (error) {
+    deeplinkLogger.debug('Failed to flush buffered tracks', { error: String(error) });
   }
 }
 
