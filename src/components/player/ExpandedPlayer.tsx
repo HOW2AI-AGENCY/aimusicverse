@@ -170,7 +170,7 @@ export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerPro
         )}
 
         <GlassCard 
-          className="p-4 sm:p-6 shadow-2xl rounded-2xl max-w-2xl mx-auto border-primary/20 relative overflow-hidden"
+          className="p-4 sm:p-6 lg:p-8 shadow-2xl rounded-2xl lg:rounded-3xl max-w-2xl lg:max-w-3xl mx-auto border-primary/20 relative overflow-hidden"
           {...gestureHandlers}
         >
           {/* Animated particles */}
@@ -274,7 +274,7 @@ export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerPro
           </div>
 
           {/* Cover Art with enhanced glow effect - double tap to maximize */}
-          <div className="flex justify-center mb-6">
+          <div className="flex justify-center mb-6 lg:mb-8">
             <motion.button
               onClick={handleCoverDoubleTap}
               className="relative group cursor-pointer"
@@ -286,7 +286,7 @@ export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerPro
                 <>
                   {/* Animated glow effect behind cover */}
                   <motion.div 
-                    className="absolute inset-0 blur-2xl scale-125 rounded-xl"
+                    className="absolute inset-0 blur-2xl lg:blur-3xl scale-125 rounded-xl lg:rounded-2xl"
                     style={{ 
                       backgroundImage: `url(${track.cover_url})`,
                       backgroundSize: 'cover',
@@ -305,7 +305,7 @@ export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerPro
                   <motion.img
                     src={track.cover_url}
                     alt={track.title || 'Track cover'}
-                    className="relative w-40 h-40 sm:w-48 sm:h-48 rounded-xl shadow-lg object-cover ring-2 ring-white/10"
+                    className="relative w-40 h-40 sm:w-48 sm:h-48 lg:w-56 lg:h-56 rounded-xl lg:rounded-2xl shadow-lg lg:shadow-xl object-cover ring-2 ring-white/10"
                     animate={{
                       rotate: isPlaying ? [0, 1, 0, -1, 0] : 0,
                     }}
@@ -317,9 +317,9 @@ export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerPro
                   />
                 </>
               ) : (
-                <div className="w-40 h-40 sm:w-48 sm:h-48 rounded-xl shadow-lg bg-gradient-to-br from-primary/30 to-primary/5 flex items-center justify-center ring-2 ring-white/10">
+                <div className="w-40 h-40 sm:w-48 sm:h-48 lg:w-56 lg:h-56 rounded-xl lg:rounded-2xl shadow-lg lg:shadow-xl bg-gradient-to-br from-primary/30 to-primary/5 flex items-center justify-center ring-2 ring-white/10">
                   <motion.div 
-                    className="text-4xl font-bold text-primary/40"
+                    className="text-4xl lg:text-5xl font-bold text-primary/40"
                     animate={{ rotate: [0, 5, -5, 0] }}
                     transition={{ duration: 2, repeat: Infinity }}
                   >
@@ -328,31 +328,31 @@ export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerPro
                 </div>
               )}
               <motion.div 
-                className="absolute inset-0 rounded-xl transition-colors hover:bg-foreground/10"
+                className="absolute inset-0 rounded-xl lg:rounded-2xl transition-colors hover:bg-foreground/10"
               />
               
               {/* Playing indicator sparkle */}
               <AnimatePresence>
                 {isPlaying && (
                   <motion.div
-                    className="absolute -top-2 -right-2"
+                    className="absolute -top-2 -right-2 lg:-top-3 lg:-right-3"
                     initial={{ scale: 0, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     exit={{ scale: 0, opacity: 0 }}
                   >
-                    <Sparkles className="w-5 h-5 text-primary drop-shadow-glow" />
+                    <Sparkles className="w-5 h-5 lg:w-6 lg:h-6 text-primary drop-shadow-glow" />
                   </motion.div>
                 )}
               </AnimatePresence>
               
               {/* Double tap hint */}
               <motion.div
-                className={cn("absolute bottom-2 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full", pill.glassDark)}
+                className={cn("absolute bottom-2 lg:bottom-3 left-1/2 -translate-x-1/2 px-2 lg:px-3 py-0.5 lg:py-1 rounded-full", pill.glassDark)}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 0.7 }}
                 transition={{ delay: 2 }}
               >
-                <span className="text-[9px] text-white/80">2x tap → fullscreen</span>
+                <span className="text-[9px] lg:text-[10px] text-white/80">2x tap → fullscreen</span>
               </motion.div>
             </motion.button>
           </div>

@@ -13,6 +13,7 @@ import type { Playlist } from '@/hooks/usePlaylists';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 import { UnifiedEmptyState } from '@/components/ui/unified-empty-state';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { cn } from '@/lib/utils';
 
 export default function Playlists() {
   // Telegram BackButton
@@ -50,9 +51,20 @@ export default function Playlists() {
   // Header component
   const Header = (
     <div className="flex items-center justify-between">
-      <h1 className="text-xl font-bold">Плейлисты</h1>
-      <Button size="sm" onClick={() => setCreateDialogOpen(true)}>
-        <Plus className="h-4 w-4 mr-1" />
+      <div>
+        <h1 className="text-xl lg:text-2xl font-bold">Плейлисты</h1>
+        {playlists.length > 0 && (
+          <p className="text-xs lg:text-sm text-muted-foreground mt-0.5">
+            {playlists.length} {playlists.length === 1 ? 'плейлист' : playlists.length < 5 ? 'плейлиста' : 'плейлистов'}
+          </p>
+        )}
+      </div>
+      <Button 
+        size="sm" 
+        onClick={() => setCreateDialogOpen(true)}
+        className="lg:h-10 lg:px-4 lg:text-sm hover:scale-[1.02] active:scale-[0.98] transition-transform"
+      >
+        <Plus className="h-4 w-4 mr-1 lg:mr-2" />
         Создать
       </Button>
     </div>
@@ -60,10 +72,10 @@ export default function Playlists() {
 
   // Playlist grid/list content
   const PlaylistsContent = isLoading ? (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      {[1, 2, 3].map((i) => (
-        <div key={i} className="bg-card rounded-lg p-4 animate-pulse">
-          <div className="aspect-square bg-muted rounded-md mb-3" />
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 lg:gap-4">
+      {[1, 2, 3, 4].map((i) => (
+        <div key={i} className="bg-card rounded-xl lg:rounded-2xl p-3 lg:p-4 animate-pulse">
+          <div className="aspect-square bg-muted rounded-lg lg:rounded-xl mb-3" />
           <div className="h-4 bg-muted rounded w-3/4 mb-2" />
           <div className="h-3 bg-muted rounded w-1/2" />
         </div>
@@ -76,11 +88,16 @@ export default function Playlists() {
       onAction={() => setCreateDialogOpen(true)}
     />
   ) : (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4">
       {playlists.map((playlist) => (
         <div
           key={playlist.id}
-          className={!isMobile && selectedPlaylist?.id === playlist.id ? 'ring-2 ring-primary rounded-lg' : ''}
+          className={cn(
+            "transition-all duration-200",
+            !isMobile && selectedPlaylist?.id === playlist.id 
+              ? 'ring-2 ring-primary rounded-xl shadow-lg scale-[1.01]' 
+              : 'hover:scale-[1.01] hover:shadow-md'
+          )}
         >
           <PlaylistCard
             playlist={playlist}
