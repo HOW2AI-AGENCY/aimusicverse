@@ -74,34 +74,35 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
     setMenuOpen(true);
   };
 
-  // Desktop: simplified header without duplicating Sidebar functionality
+  // Desktop: enhanced header with better visual hierarchy
   if (!isMobile) {
     return (
       <motion.header 
         className={cn(
-          "mb-6",
+          "mb-6 lg:mb-8",
           className
         )}
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
       >
-        {/* Greeting row only */}
-        <div className="flex items-center gap-3">
+        {/* Greeting row with improved styling */}
+        <div className="flex items-center gap-4 lg:gap-5">
           <motion.div 
             className={cn(
-              "flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center",
-              "bg-gradient-to-br shadow-sm",
+              "flex-shrink-0 w-12 h-12 lg:w-14 lg:h-14 rounded-xl lg:rounded-2xl flex items-center justify-center",
+              "bg-gradient-to-br shadow-lg shadow-primary/20",
               gradient
             )}
             animate={{ rotate: [0, 5, -5, 0] }}
             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            whileHover={{ scale: 1.1 }}
           >
             <span className="text-white">{icon}</span>
           </motion.div>
           
           <div className="flex-1 min-w-0">
-            <h2 className="text-xl font-semibold">
+            <h2 className="text-xl lg:text-2xl xl:text-3xl font-bold leading-tight">
               {text}
               {userName && (
                 <span className="text-primary">, {userName}</span>
@@ -114,8 +115,8 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
                 👋
               </motion.span>
             </h2>
-            <p className="text-sm text-muted-foreground">
-              Добро пожаловать в MusicVerse AI
+            <p className="text-sm lg:text-base text-muted-foreground mt-0.5 lg:mt-1">
+              Добро пожаловать в MusicVerse AI — создавайте музыку с помощью AI
             </p>
           </div>
           

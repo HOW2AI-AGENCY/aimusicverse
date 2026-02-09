@@ -121,9 +121,11 @@ export const DailyTipCard = memo(function DailyTipCard({
       <AnimatePresence>
         <motion.div
           className={cn(
-            "relative p-3 rounded-xl overflow-hidden",
+            "relative p-3 lg:p-4 rounded-xl lg:rounded-2xl overflow-hidden",
             `bg-gradient-to-r ${styles.bg} to-transparent`,
             `border ${styles.border}`,
+            "hover:shadow-md transition-shadow duration-200",
+            "group",
             className
           )}
           initial={{ opacity: 0, y: 10, scale: 0.98 }}
@@ -134,28 +136,32 @@ export const DailyTipCard = memo(function DailyTipCard({
           {/* Dismiss button - 44px touch target, positioned right */}
           <button
             onClick={handleDismiss}
-            className="absolute top-1 right-1 w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full text-muted-foreground hover:text-foreground hover:bg-accent/50 active:bg-accent/70 opacity-70 hover:opacity-100 transition-all touch-manipulation"
+            className="absolute top-1 right-1 lg:top-2 lg:right-2 w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full text-muted-foreground hover:text-foreground hover:bg-accent/50 active:bg-accent/70 opacity-70 hover:opacity-100 transition-all touch-manipulation"
             aria-label="Скрыть подсказку"
           >
             <X className="w-4 h-4" />
           </button>
 
-          <div className="flex items-start gap-3 pr-8">
+          <div className="flex items-start gap-3 lg:gap-4 pr-8 lg:pr-10">
             {/* Icon */}
             <motion.div 
-              className={cn("w-9 h-9 rounded-xl flex items-center justify-center shrink-0", styles.iconBg)}
+              className={cn(
+                "w-9 h-9 lg:w-11 lg:h-11 rounded-xl lg:rounded-2xl flex items-center justify-center shrink-0",
+                styles.iconBg,
+                "group-hover:scale-110 transition-transform duration-200"
+              )}
               animate={{ rotate: [0, 3, -3, 0] }}
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
             >
-              <Icon className={cn("w-4.5 h-4.5", styles.text)} />
+              <Icon className={cn("w-4.5 h-4.5 lg:w-5 lg:h-5", styles.text)} />
             </motion.div>
             
             {/* Content */}
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-foreground mb-0.5">
+              <p className="text-sm lg:text-base font-medium text-foreground mb-0.5 lg:mb-1">
                 {todaysTip.tip}
               </p>
-              <p className="text-xs text-muted-foreground italic mb-2">
+              <p className="text-xs lg:text-sm text-muted-foreground italic mb-2 lg:mb-3">
                 {todaysTip.example}
               </p>
               
@@ -163,13 +169,14 @@ export const DailyTipCard = memo(function DailyTipCard({
               <button
                 onClick={handleAction}
                 className={cn(
-                  "inline-flex items-center gap-1 text-xs font-medium",
+                  "inline-flex items-center gap-1 lg:gap-1.5 text-xs lg:text-sm font-medium",
                   styles.text,
-                  "hover:underline underline-offset-2 transition-colors"
+                  "hover:underline underline-offset-2 transition-colors",
+                  "hover:gap-2 transition-all duration-200"
                 )}
               >
                 {todaysTip.action}
-                <ChevronRight className="w-3 h-3" />
+                <ChevronRight className="w-3 h-3 lg:w-4 lg:h-4" />
               </button>
             </div>
           </div>

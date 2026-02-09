@@ -77,7 +77,7 @@ export const BottomNavigation = memo(function BottomNavigation() {
         role="navigation"
         aria-label="Главная навигация"
       >
-        <div className="flex items-center justify-around h-14">
+        <div className="flex items-center justify-around h-14 lg:h-16">
           {navItems.map((item, index) => {
             if (item.isCenter) {
               return (
@@ -85,9 +85,9 @@ export const BottomNavigation = memo(function BottomNavigation() {
                   <button
                     onClick={handleGenerateClick}
                     className={cn(
-                      "relative flex items-center justify-center w-14 h-14 -my-2 rounded-full",
+                      "relative flex items-center justify-center w-14 h-14 lg:w-16 lg:h-16 -my-2 lg:-my-3 rounded-full",
                       "bg-gradient-to-br from-primary to-generate shadow-md shadow-primary/25",
-                      "fab nav-item-enter active:scale-92 hover:scale-105 transition-transform duration-150",
+                      "fab nav-item-enter active:scale-92 hover:scale-105 hover:shadow-lg hover:shadow-primary/35 transition-all duration-150",
                       activeGenCount > 0 && "ring-2 ring-primary/50 ring-offset-2 ring-offset-background"
                     )}
                     style={{ animationDelay: `${50 + index * 30}ms` }}
@@ -98,7 +98,7 @@ export const BottomNavigation = memo(function BottomNavigation() {
                     {activeGenCount > 0 && (
                       <span className="absolute inset-0 rounded-full bg-primary/30 fab-pulse" />
                     )}
-                    <Plus className="w-4.5 h-4.5 text-primary-foreground relative z-10" />
+                    <Plus className="w-4.5 h-4.5 lg:w-5 lg:h-5 text-primary-foreground relative z-10" />
                   </button>
                   
                   {/* Active generations badge */}
@@ -123,11 +123,11 @@ export const BottomNavigation = memo(function BottomNavigation() {
                 key={item.path}
                 onClick={handleClick}
                 className={cn(
-                  "relative flex flex-col items-center justify-center gap-0.5 px-3 py-2 rounded-xl",
-                  "min-h-touch min-w-touch nav-item-enter active:scale-92 hover:scale-105 transition-transform duration-150",
+                  "relative flex flex-col items-center justify-center gap-0.5 lg:gap-1 px-3 lg:px-4 py-2 rounded-xl lg:rounded-2xl",
+                  "min-h-touch min-w-touch nav-item-enter active:scale-92 hover:scale-105 transition-all duration-150",
                   active
                     ? "text-primary bg-primary/10"
-                    : "text-muted-foreground hover:text-foreground"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                 )}
                 style={{ animationDelay: `${50 + index * 30}ms` }}
                 onMouseEnter={() => handlePreload(item.path)}
@@ -140,15 +140,15 @@ export const BottomNavigation = memo(function BottomNavigation() {
                   "relative transition-transform duration-200",
                   active && "scale-110 -translate-y-0.5"
                 )}>
-                  <item.icon className="w-4.5 h-4.5" />
+                  <item.icon className="w-4.5 h-4.5 lg:w-5 lg:h-5" />
                 </div>
                 <span
                   className={cn(
-                    "text-[9px] transition-all duration-200",
+                    "text-[9px] lg:text-[10px] transition-all duration-200",
                     typographyClass.caption,
                     active ? "font-semibold" : "font-medium"
                   )}
-                  style={{ fontSize: '9px' }}
+                  style={{ fontSize: undefined }}
                 >
                   {item.label}
                 </span>
@@ -156,7 +156,7 @@ export const BottomNavigation = memo(function BottomNavigation() {
                 {/* Active indicator - CSS transition */}
                 <div
                   className={cn(
-                    "absolute inset-0 rounded-xl bg-primary/5 border border-primary/20 transition-all duration-200",
+                    "absolute inset-0 rounded-xl lg:rounded-2xl bg-primary/5 border border-primary/20 transition-all duration-200",
                     active ? "opacity-100 scale-100" : "opacity-0 scale-90"
                   )}
                 />

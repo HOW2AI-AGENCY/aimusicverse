@@ -74,7 +74,9 @@ export const StatsHighlightBanner = memo(function StatsHighlightBanner({
   return (
     <motion.div
       className={cn(
-        "flex gap-2 overflow-x-auto scrollbar-hide pb-1 -mx-1 px-1",
+        // Mobile: horizontal scroll | Desktop: grid
+        "grid grid-cols-2 gap-2 sm:flex sm:gap-2 sm:overflow-x-auto sm:scrollbar-hide sm:pb-1 sm:-mx-1 sm:px-1",
+        "lg:grid lg:grid-cols-4 lg:gap-3 lg:overflow-visible",
         className
       )}
       initial={{ opacity: 0, y: 10 }}
@@ -89,22 +91,28 @@ export const StatsHighlightBanner = memo(function StatsHighlightBanner({
           <motion.div
             key={stat.id}
             className={cn(
-              "flex-shrink-0 flex items-center gap-2.5 px-3 py-2.5 rounded-xl",
+              "flex items-center gap-2.5 px-3 py-2.5 rounded-xl",
               glass.subtle,
               "border",
               colors.border,
-              "min-w-[105px]",
-              "hover:bg-card/70 transition-colors duration-200"
+              // Mobile: equal width in grid | Desktop: flex shrink
+              "sm:flex-shrink-0 sm:min-w-[105px]",
+              "lg:flex-1",
+              // Hover effects
+              "hover:bg-card/70 hover:shadow-sm hover:border-opacity-50 transition-all duration-200",
+              "group cursor-default"
             )}
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: index * 0.05 + 0.1 }}
+            whileHover={{ scale: 1.02 }}
           >
             <div className={cn(
-              "w-8 h-8 rounded-lg flex items-center justify-center shrink-0",
-              colors.bg
+              "w-8 h-8 lg:w-9 lg:h-9 rounded-lg flex items-center justify-center shrink-0",
+              colors.bg,
+              "group-hover:scale-110 transition-transform duration-200"
             )}>
-              <Icon className={cn("w-4 h-4", colors.text)} />
+              <Icon className={cn("w-4 h-4 lg:w-4.5 lg:h-4.5", colors.text)} />
             </div>
             <div className="flex flex-col min-w-0">
               {isLoading ? (
@@ -114,10 +122,10 @@ export const StatsHighlightBanner = memo(function StatsHighlightBanner({
                 </>
               ) : (
                 <>
-                  <span className="text-body-sm font-bold text-foreground leading-tight tabular-nums">
+                  <span className="text-body-sm lg:text-sm font-bold text-foreground leading-tight tabular-nums">
                     {stat.value}
                   </span>
-                  <span className="text-tiny text-muted-foreground leading-tight truncate">
+                  <span className="text-tiny lg:text-xs text-muted-foreground leading-tight truncate">
                     {stat.label}
                   </span>
                 </>

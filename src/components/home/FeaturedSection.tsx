@@ -36,13 +36,13 @@ const SKELETON_COUNT = 4;
 const TrackSkeleton = memo(function TrackSkeleton() {
   return (
     <div 
-      className="flex-shrink-0 w-[140px]"
+      className="flex-shrink-0 w-[140px] sm:w-[160px] lg:w-[180px] xl:w-[200px]"
       style={{ contain: 'layout paint' }}
     >
-      <div className="aspect-square rounded-xl bg-muted/20" />
-      <div className="mt-2 space-y-1">
-        <div className="h-3 w-4/5 bg-muted/15 rounded" />
-        <div className="h-2.5 w-1/2 bg-muted/10 rounded" />
+      <div className="aspect-square rounded-xl bg-muted/20 animate-pulse" />
+      <div className="mt-2 space-y-1.5">
+        <div className="h-3.5 w-4/5 bg-muted/15 rounded animate-pulse" />
+        <div className="h-3 w-1/2 bg-muted/10 rounded animate-pulse" />
       </div>
     </div>
   );
@@ -130,22 +130,22 @@ export const FeaturedSection = memo(function FeaturedSection({
         }
       />
 
-      {/* Horizontal scroll container - fixed scroll issues */}
+      {/* Horizontal scroll container - responsive sizes */}
       <div 
-        className="flex gap-3 overflow-x-auto pb-2 scroll-smooth touch-pan-x scrollbar-hide"
+        className="flex gap-3 lg:gap-4 overflow-x-auto pb-2 scroll-smooth touch-pan-x scrollbar-hide"
         style={{ WebkitOverflowScrolling: 'touch' }}
       >
         {displayTracks.map((track) => (
           <div
             key={track.id}
-            className="flex-shrink-0 w-[140px]"
+            className="flex-shrink-0 w-[140px] sm:w-[160px] lg:w-[180px] xl:w-[200px] group"
           >
             <UnifiedTrackCard
               track={track}
               variant="grid"
               onPlay={() => handleTrackClick(track.id)}
               showActions={false}
-              className="h-full"
+              className="h-full transition-all duration-200 group-hover:shadow-lg group-hover:shadow-primary/10 group-hover:-translate-y-1"
             />
           </div>
         ))}
