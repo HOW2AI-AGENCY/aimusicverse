@@ -125,13 +125,13 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
         </div>
 
         {/* Row 2: Cover + Info + Play/Next */}
-        <div className="flex items-center gap-3 px-3 pb-3">
+        <div className="flex items-center gap-3 lg:gap-4 px-3 lg:px-4 pb-3 lg:pb-4">
           {/* Cover art with long-press menu */}
           <UnifiedTrackMenu
             track={track}
             trigger={
               <div
-                className="relative flex-shrink-0 cursor-pointer"
+                className="relative flex-shrink-0 cursor-pointer group"
                 role="button"
                 tabIndex={0}
                 aria-label={`Track options: ${track.title || 'Untitled Track'}`}
@@ -140,13 +140,13 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
                   <motion.img
                     src={track.cover_url}
                     alt={track.title || 'Track cover'}
-                    className="w-12 h-12 rounded-xl object-cover ring-1 ring-white/10"
+                    className="w-12 h-12 lg:w-14 lg:h-14 rounded-xl lg:rounded-2xl object-cover ring-1 ring-white/10 group-hover:ring-primary/30 transition-all"
                     animate={isPlaying ? { scale: [1, 1.02, 1] } : { scale: 1 }}
                     transition={{ duration: 2, repeat: Infinity }}
                   />
                 ) : (
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/30 to-primary/5 flex items-center justify-center ring-1 ring-white/10">
-                    <Music2 className="w-5 h-5 text-primary/60" aria-hidden="true" />
+                  <div className="w-12 h-12 lg:w-14 lg:h-14 rounded-xl lg:rounded-2xl bg-gradient-to-br from-primary/30 to-primary/5 flex items-center justify-center ring-1 ring-white/10 group-hover:ring-primary/30 transition-all">
+                    <Music2 className="w-5 h-5 lg:w-6 lg:h-6 text-primary/60" aria-hidden="true" />
                   </div>
                 )}
 
@@ -179,33 +179,33 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
           {/* Track info - tap to expand */}
           <div
             onClick={handleExpand}
-            className="flex-1 min-w-0 text-left cursor-pointer py-1"
+            className="flex-1 min-w-0 text-left cursor-pointer py-1 lg:py-2"
             role="button"
             tabIndex={0}
             aria-label={`Expand player: ${track.title || 'Untitled Track'}`}
           >
-            <p className="font-medium text-sm line-clamp-1">
+            <p className="font-medium text-sm lg:text-base line-clamp-1">
               {track.title || 'Untitled Track'}
             </p>
-            <p className="text-xs text-muted-foreground line-clamp-1">
+            <p className="text-xs lg:text-sm text-muted-foreground line-clamp-1">
               {track.style || 'Unknown Style'}
             </p>
           </div>
 
           {/* Playback controls - minimal set */}
-          <div className="flex items-center gap-1 flex-shrink-0">
+          <div className="flex items-center gap-1 lg:gap-2 flex-shrink-0">
             {/* Play/Pause - primary action, larger */}
             <Button
               variant="ghost"
               size="icon"
               onClick={handlePlayPause}
-              className="h-11 w-11 min-h-[44px] min-w-[44px] rounded-full bg-primary/10 hover:bg-primary/20"
+              className="h-11 w-11 lg:h-12 lg:w-12 min-h-[44px] min-w-[44px] rounded-full bg-primary/10 hover:bg-primary/20 hover:scale-105 active:scale-95 transition-all"
               aria-label={isPlaying ? 'Pause' : 'Play'}
             >
               {isPlaying ? (
-                <Pause className="h-5 w-5" fill="currentColor" />
+                <Pause className="h-5 w-5 lg:h-6 lg:w-6" fill="currentColor" />
               ) : (
-                <Play className="h-5 w-5 ml-0.5" fill="currentColor" />
+                <Play className="h-5 w-5 lg:h-6 lg:w-6 ml-0.5" fill="currentColor" />
               )}
             </Button>
 
@@ -216,12 +216,12 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
               onClick={handleNextTrack}
               disabled={!hasNextTrack}
               className={cn(
-                "h-10 w-10 min-h-[44px] min-w-[44px] rounded-full hover:bg-muted/50",
+                "h-10 w-10 lg:h-11 lg:w-11 min-h-[44px] min-w-[44px] rounded-full hover:bg-muted/50 hover:scale-105 active:scale-95 transition-all",
                 !hasNextTrack && "opacity-40"
               )}
               aria-label="Next track"
             >
-              <SkipForward className="h-4 w-4" />
+              <SkipForward className="h-4 w-4 lg:h-5 lg:w-5" />
             </Button>
           </div>
         </div>
