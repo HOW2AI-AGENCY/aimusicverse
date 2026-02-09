@@ -114,31 +114,32 @@ export default function Settings() {
     >
       <div className={cn(
         "container mx-auto px-4",
-        isMobile ? "max-w-2xl" : "max-w-5xl"
+        isMobile ? "max-w-2xl" : "max-w-6xl"
       )}>
         <AppHeader
           title="Настройки"
           subtitle="Управление аккаунтом"
-          icon={<SettingsIcon className="w-3.5 h-3.5 text-primary" />}
+          icon={<SettingsIcon className="w-3.5 h-3.5 lg:w-4 lg:h-4 text-primary" />}
           rightAction={<NotificationBadge />}
+          className="lg:py-4"
         />
 
         {/* Desktop: Sidebar + Content */}
         {!isMobile ? (
-          <div className="flex gap-6 mt-4">
-            <aside className="w-64 flex-shrink-0">
+          <div className="flex gap-6 lg:gap-8 mt-4 lg:mt-6">
+            <aside className="w-64 lg:w-72 flex-shrink-0 sticky top-20 self-start">
               <SettingsSidebar 
                 activeTab={activeTab} 
                 onTabChange={setActiveTab} 
               />
             </aside>
-            <main className="flex-1 min-w-0">
+            <main className="flex-1 min-w-0 max-w-3xl">
               <motion.div
                 key={activeTab}
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.2 }}
-                className="space-y-4"
+                className="space-y-4 lg:space-y-6"
               >
                 {renderContent(activeTab)}
               </motion.div>
@@ -218,15 +219,15 @@ export default function Settings() {
 
         {/* Footer */}
         <motion.div
-          className="mt-6 text-center text-sm text-muted-foreground"
+          className="mt-6 lg:mt-8 text-center text-sm text-muted-foreground pb-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
         >
-          <div className="flex items-center justify-center gap-4">
+          <div className="flex items-center justify-center gap-4 lg:gap-6">
             <Button
               variant="link"
-              className="h-auto p-0 text-muted-foreground hover:text-primary"
+              className="h-auto p-0 text-muted-foreground hover:text-primary transition-colors lg:text-base"
               onClick={() => settings.navigateTo('/terms')}
             >
               Условия использования
@@ -234,13 +235,13 @@ export default function Settings() {
             <span>•</span>
             <Button
               variant="link"
-              className="h-auto p-0 text-muted-foreground hover:text-primary"
+              className="h-auto p-0 text-muted-foreground hover:text-primary transition-colors lg:text-base"
               onClick={() => settings.navigateTo('/privacy')}
             >
               Конфиденциальность
             </Button>
           </div>
-          <p className="mt-2 text-xs">
+          <p className="mt-2 text-xs lg:text-sm">
             MusicVerse AI © 2025
           </p>
         </motion.div>
