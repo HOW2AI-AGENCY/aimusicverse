@@ -4,6 +4,7 @@ import { User, Session } from '@supabase/supabase-js';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { toast } from 'sonner';
 import { logger } from '@/lib/logger';
+import { flushBufferedDeeplinkTracks } from '@/lib/analytics/deeplink-tracker';
 
 export interface AuthResult {
   user: User | null;
@@ -52,6 +53,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUser(session?.user ?? null);
         setLoading(false);
         clearTimeout(loadingTimeout);
+        
+        // Flush any buffered deeplink tracks after successful auth
+        if (event === 'SIGNED_IN' && session?.user) {
+          flushBufferedDeeplinkTracks().catch(() => {
+            // Silently ignore flush errors - non-critical
+          });
+        }
       }
     );
 
