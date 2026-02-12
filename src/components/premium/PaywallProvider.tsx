@@ -3,7 +3,7 @@
  * Wraps app to provide paywall context
  */
 
-import { createContext, useContext, useState, useCallback, ReactNode, useEffect } from 'react';
+import { createContext, useContext, useState, useCallback, ReactNode, useEffect, useRef } from 'react';
 import { SmartPaywallDialog } from './SmartPaywallDialog';
 import { usePaywallTrigger, PaywallTriggerReason } from '@/hooks/usePaywallTrigger';
 
@@ -25,6 +25,9 @@ export function usePaywall() {
   return context;
 }
 
+// Session-level guard: only auto-show once per browser session
+const SESSION_KEY = 'paywall_shown_this_session';
+
 interface PaywallProviderProps {
   children: ReactNode;
 }
@@ -32,6 +35,7 @@ interface PaywallProviderProps {
 export function PaywallProvider({ children }: PaywallProviderProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [currentReason, setCurrentReason] = useState<PaywallTriggerReason>('soft_upsell');
+  const hasAutoShownRef = useRef(false);
   
   const {
     shouldShow: shouldAutoShow,
@@ -42,14 +46,20 @@ export function PaywallProvider({ children }: PaywallProviderProps) {
     isInCooldown,
   } = usePaywallTrigger();
 
-  // Auto-show paywall based on triggers (with cooldown)
+  // Auto-show paywall based on triggers (with cooldown + session guard)
   useEffect(() => {
+    // Don't auto-show if already shown this session or this component lifecycle
+    const shownThisSession = sessionStorage.getItem(SESSION_KEY) === 'true';
+    if (shownThisSession || hasAutoShownRef.current) return;
+
     if (shouldAutoShow && autoReason && !isInCooldown && !isOpen) {
-      // Delay slightly to not interrupt user flow
+      // Longer delay (8s) to let user engage with content first
       const timeout = setTimeout(() => {
+        hasAutoShownRef.current = true;
+        sessionStorage.setItem(SESSION_KEY, 'true');
         setCurrentReason(autoReason);
         setIsOpen(true);
-      }, 2000);
+      }, 8000);
 
       return () => clearTimeout(timeout);
     }
