@@ -64,7 +64,7 @@ export const ContextualTipOverlay = memo(function ContextualTipOverlay({
           transition={{ type: 'spring', damping: 25, stiffness: 300 }}
           className={cn(
             "fixed left-4 right-4 z-40 mx-auto max-w-md",
-            position === 'bottom' ? 'bottom-24' : 'top-20',
+            position === 'bottom' ? 'bottom-[calc(5rem+env(safe-area-inset-bottom,0px))]' : 'top-20',
             className
           )}
         >
