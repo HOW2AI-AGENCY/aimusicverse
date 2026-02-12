@@ -1,16 +1,25 @@
 /**
  * Hook for haptic feedback using Telegram Mini App or native Vibration API
+ * Includes version guard to prevent warnings on older Telegram versions (< 6.1)
  */
 
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 type HapticStyle = 'light' | 'medium' | 'heavy' | 'rigid' | 'soft';
 type NotificationStyle = 'error' | 'success' | 'warning';
 
+const MIN_HAPTIC_VERSION = 6.1;
+
 export function useHapticFeedback() {
-  const haptic = typeof window !== 'undefined' 
-    ? (window as any).Telegram?.WebApp?.HapticFeedback 
-    : null;
+  const haptic = useMemo(() => {
+    if (typeof window === 'undefined') return null;
+    const webApp = (window as any).Telegram?.WebApp;
+    if (!webApp?.HapticFeedback) return null;
+    // Version guard: HapticFeedback requires 6.1+
+    const version = parseFloat(webApp.version || '0');
+    if (version < MIN_HAPTIC_VERSION) return null;
+    return webApp.HapticFeedback;
+  }, []);
 
   const vibrate = useCallback((pattern: number | number[]) => {
     if ('vibrate' in navigator) {
