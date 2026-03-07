@@ -6055,7 +6055,7 @@ export type Database = {
         }[]
       }
       get_deeplink_stats: {
-        Args: { _time_period?: unknown }
+        Args: { _time_period?: string }
         Returns: {
           conversion_rate: number
           conversions: number
@@ -6067,7 +6067,7 @@ export type Database = {
       }
       get_error_trends:
         | {
-            Args: { _time_period?: unknown }
+            Args: { _time_period?: string }
             Returns: {
               error: true
             } & "Could not choose the best candidate function between: public.get_error_trends(_time_period => text), public.get_error_trends(_time_period => interval). Try renaming the parameters or the function itself in the database so function overloading can be resolved"[]
@@ -6122,7 +6122,7 @@ export type Database = {
         }[]
       }
       get_gamification_analytics: {
-        Args: { _time_period?: unknown }
+        Args: { _time_period?: string }
         Returns: {
           achievement_popularity: Json
           active_users: number
@@ -6138,7 +6138,7 @@ export type Database = {
         }[]
       }
       get_generation_analytics: {
-        Args: { _time_period?: unknown }
+        Args: { _time_period?: string }
         Returns: {
           avg_cost_per_generation: number
           avg_generation_time_seconds: number
@@ -6158,7 +6158,7 @@ export type Database = {
         }[]
       }
       get_generation_stats: {
-        Args: { _time_period?: unknown }
+        Args: { _time_period?: string }
         Returns: {
           avg_duration_seconds: number
           completed: number
@@ -6211,7 +6211,7 @@ export type Database = {
         Returns: string
       }
       get_payment_analytics: {
-        Args: { _time_period?: unknown }
+        Args: { _time_period?: string }
         Returns: {
           avg_transaction_stars: number
           completed_transactions: number
@@ -6378,7 +6378,7 @@ export type Database = {
       }
       get_subscription_status: { Args: { p_user_id: string }; Returns: Json }
       get_telegram_bot_metrics: {
-        Args: { _time_period?: unknown }
+        Args: { _time_period?: string }
         Returns: {
           avg_response_time_ms: number
           events_by_type: Json
@@ -6390,7 +6390,7 @@ export type Database = {
       }
       get_telemetry_stats:
         | {
-            Args: { _time_period?: unknown }
+            Args: { _time_period?: string }
             Returns: {
               error: true
             } & "Could not choose the best candidate function between: public.get_telemetry_stats(_time_period => text), public.get_telemetry_stats(_time_period => interval). Try renaming the parameters or the function itself in the database so function overloading can be resolved"[]
@@ -6410,7 +6410,7 @@ export type Database = {
         }[]
       }
       get_track_analytics_summary: {
-        Args: { _time_period?: unknown; _track_id: string }
+        Args: { _time_period?: string; _track_id: string }
         Returns: {
           plays_by_day: Json
           total_downloads: number
@@ -6433,7 +6433,7 @@ export type Database = {
         }[]
       }
       get_user_behavior_stats: {
-        Args: { _time_period?: unknown }
+        Args: { _time_period?: string }
         Returns: {
           events_by_type: Json
           hourly_distribution: Json
