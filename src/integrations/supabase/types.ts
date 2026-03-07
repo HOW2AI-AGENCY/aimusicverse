@@ -6301,6 +6301,7 @@ export type Database = {
           isSetofReturn: true
         }
       }
+      get_platform_stats: { Args: never; Returns: Json }
       get_public_profile_info: {
         Args: { profile_user_id: string }
         Returns: {

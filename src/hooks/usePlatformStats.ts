@@ -37,39 +37,30 @@ function formatCount(num: number): string {
  * Fetch platform statistics from database
  */
 async function fetchPlatformStats(): Promise<PlatformStats> {
-  // Run all queries in parallel
-  const [tracksResult, usersResult, generationsResult, playsResult] = await Promise.all([
-    // Count completed tracks
-    supabase
+  // Use SECURITY DEFINER function to bypass RLS for anonymous users
+  const { data, error } = await supabase.rpc('get_platform_stats');
+
+  if (error || !data) {
+    // Fallback: query only publicly accessible tables
+    const { count: tracksCount } = await supabase
       .from('tracks')
       .select('id', { count: 'exact', head: true })
-      .eq('status', 'completed'),
-    
-    // Count active users (profiles)
-    supabase
-      .from('profiles')
-      .select('user_id', { count: 'exact', head: true }),
-    
-    // Count generation tasks
-    supabase
-      .from('generation_tasks')
-      .select('id', { count: 'exact', head: true }),
-    
-    // Sum all play counts
-    supabase
-      .from('tracks')
-      .select('play_count')
-      .eq('status', 'completed')
-  ]);
+      .eq('status', 'completed');
 
-  // Calculate total plays
-  const totalPlays = playsResult.data?.reduce((acc, track) => acc + (track.play_count || 0), 0) || 0;
+    return {
+      tracksCount: tracksCount || 0,
+      usersCount: 0,
+      generationsCount: 0,
+      totalPlays: 0,
+    };
+  }
 
+  const stats = data as Record<string, number>;
   return {
-    tracksCount: tracksResult.count || 0,
-    usersCount: usersResult.count || 0,
-    generationsCount: generationsResult.count || 0,
-    totalPlays,
+    tracksCount: stats.tracks_count || 0,
+    usersCount: stats.users_count || 0,
+    generationsCount: stats.generations_count || 0,
+    totalPlays: stats.total_plays || 0,
   };
 }
 
