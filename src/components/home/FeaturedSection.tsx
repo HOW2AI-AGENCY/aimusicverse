@@ -36,7 +36,7 @@ const SKELETON_COUNT = 4;
 const TrackSkeleton = memo(function TrackSkeleton() {
   return (
     <div 
-      className="flex-shrink-0 w-[140px] sm:w-[160px] lg:w-[180px] xl:w-[200px]"
+      className="flex-shrink-0 w-[155px] sm:w-[170px] lg:w-[190px] xl:w-[210px]"
       style={{ contain: 'layout paint' }}
     >
       <div className="aspect-square rounded-xl bg-muted/20 animate-pulse" />
