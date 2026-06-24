@@ -154,7 +154,7 @@ const App = () => (
                         <Route path="/profile/:userId" element={<PublicProfilePage />} />
                         <Route path="/settings" element={<Settings />} />
                         <Route path="/generate" element={<GenerateRedirect />} />
-                        <Route path="/library" element={<Library />} />
+                        <Route path="/library" element={<ErrorBoundary><Library /></ErrorBoundary>} />
                         <Route path="/projects" element={<Projects />} />
                         <Route path="/projects/:id" element={<ProjectDetail />} />
                         <Route path="/artists" element={<Artists />} />

@@ -41,6 +41,12 @@ export const MainLayout = () => {
   //   - desktop (≥1280px) → Sidebar full / user-controlled
   const isDesktop = useMediaQuery('(min-width: 1024px)');
   const isCompactDesktop = useMediaQuery('(min-width: 1024px) and (max-width: 1279px)');
+  // Mobile landscape edge-rail: short viewports in landscape orientation get a
+  // narrow icon-only sidebar instead of BottomNavigation, so floating UI
+  // (UnifiedNotesViewer, sheets) doesn't get overlapped by the bottom bar.
+  const isMobileLandscape = useMediaQuery(
+    '(max-width: 1023px) and (orientation: landscape) and (max-height: 500px)'
+  );
   const { isGuestMode } = useGuestMode();
   const location = useLocation();
   const navigate = useNavigate();
@@ -258,10 +264,23 @@ export const MainLayout = () => {
       
       {isDesktop && (
         <div className={cn("fixed inset-y-0 z-navigation transition-all duration-300", sidebarWidth)}>
+
           <Sidebar 
             collapsed={sidebarCollapsed} 
             onCollapsedChange={handleSidebarCollapsedChange} 
           />
+        </div>
+      )}
+      {/* Mobile landscape edge-rail */}
+      {!isDesktop && isMobileLandscape && (
+        <div
+          data-testid="edge-rail"
+          className="fixed inset-y-0 left-0 z-navigation w-14"
+          style={{
+            paddingLeft: 'max(env(safe-area-inset-left, 0px), var(--tg-safe-area-inset-left, 0px))',
+          }}
+        >
+          <Sidebar collapsed onCollapsedChange={() => {}} />
         </div>
       )}
       <main
@@ -269,12 +288,13 @@ export const MainLayout = () => {
         className={cn(
           'flex-1 flex flex-col overflow-y-auto relative transition-all duration-300',
           isDesktop && mainMargin,
+          !isDesktop && isMobileLandscape && 'ml-14',
           isGuestMode && 'pt-9'
         )}
         style={{
           minHeight: 'var(--tg-viewport-stable-height, 100vh)',
-          // Mobile: add bottom padding for nav + safe area
-          ...(!isDesktop && {
+          // Mobile portrait: add bottom padding for nav + safe area
+          ...(!isDesktop && !isMobileLandscape && {
             paddingBottom: `calc(max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)) + 5rem)`,
           }),
         }}
@@ -287,12 +307,10 @@ export const MainLayout = () => {
               : 'px-4 py-3'
           )}
           style={!isDesktop ? {
-            // Enhanced horizontal safe area handling for notched/curved edge devices
             paddingLeft: 'max(1rem, var(--tg-safe-area-inset-left, 0px), env(safe-area-inset-left, 0px))',
             paddingRight: 'max(1rem, var(--tg-safe-area-inset-right, 0px), env(safe-area-inset-right, 0px))',
           } : undefined}
         >
-          {/* Ultra-wide containment so card grids don't sprawl past ~1536px */}
           <div className="mx-auto w-full max-w-screen-2xl">
             <Outlet />
           </div>
@@ -300,7 +318,7 @@ export const MainLayout = () => {
         </div>
         <ResizablePlayer />
       </main>
-      {!isDesktop && !hasOwnBottomNav && <BottomNavigation />}
+      {!isDesktop && !isMobileLandscape && !hasOwnBottomNav && <BottomNavigation />}
       
       {/* Generate Sheet - triggered from Quick Start */}
       {generateSheetOpen && (

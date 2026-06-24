@@ -307,18 +307,18 @@ All colors MUST be HSL.
 /* Glassmorphism utility classes */
 @layer utilities {
   .glass {
-    background: var(--glass-bg);
+    background: hsla(var(--glass-bg));
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid var(--glass-border);
+    border: 1px solid hsl(var(--glass-border));
     box-shadow: var(--glass-shadow);
   }
 
   .glass-card {
-    background: var(--glass-bg);
+    background: hsla(var(--glass-bg));
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--glass-border);
+    border: 1px solid hsl(var(--glass-border));
     box-shadow: var(--shadow-glass);
     transition: var(--transition-smooth);
   }
