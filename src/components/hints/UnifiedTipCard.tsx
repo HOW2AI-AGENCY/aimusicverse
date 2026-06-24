@@ -58,20 +58,13 @@ export function UnifiedTipCard({
   force = false,
 }: UnifiedTipCardProps) {
   const isMobile = useIsMobile();
-  const { request, release, markSeen, isActive, hasSeen, overlayOpen } =
-    useHintRegistry().request === undefined
-      ? ({} as never)
-      : (() => {
-          const reg = useHintRegistry();
-          return {
-            request: () => reg.request(id),
-            release: () => reg.release(id),
-            markSeen: () => reg.markSeen(id),
-            isActive: reg.activeId === id,
-            hasSeen: reg.hasSeen(id),
-            overlayOpen: reg.overlayOpen,
-          };
-        })();
+  const reg = useHintRegistry();
+  const isActive = reg.activeId === id;
+  const hasSeen = reg.hasSeen(id);
+  const overlayOpen = reg.overlayOpen;
+  const request = () => reg.request(id);
+  const release = () => reg.release(id);
+  const markSeen = () => reg.markSeen(id);
 
   // Try to claim the visible slot after `delay`, unless already seen.
   useEffect(() => {
