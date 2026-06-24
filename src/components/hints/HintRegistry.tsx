@@ -254,6 +254,13 @@ export function HintRegistryProvider({ children }: { children: ReactNode }) {
     [hasSeen, markSeen, resetAll, request, release, activeId, overlayOpen]
   );
 
+  // Dev-only test hook so Playwright can drive the registry directly.
+  useEffect(() => {
+    if (!import.meta.env.DEV || typeof window === 'undefined') return;
+    (window as unknown as { __hintRegistry?: HintContextValue }).__hintRegistry =
+      value;
+  }, [value]);
+
   return <HintContext.Provider value={value}>{children}</HintContext.Provider>;
 }
 
