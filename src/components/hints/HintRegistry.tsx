@@ -150,7 +150,7 @@ interface HintContextValue {
 const HintContext = createContext<HintContextValue | null>(null);
 
 /** Cooldown (ms) after a hint is shown/closed before it can be re-requested. */
-const REQUEST_COOLDOWN_MS = 1500;
+export const REQUEST_COOLDOWN_MS = 1500;
 
 export function HintRegistryProvider({ children }: { children: ReactNode }) {
   const seenRef = useRef<Set<string>>(new Set());
@@ -253,6 +253,13 @@ export function HintRegistryProvider({ children }: { children: ReactNode }) {
     }),
     [hasSeen, markSeen, resetAll, request, release, activeId, overlayOpen]
   );
+
+  // Dev-only test hook so Playwright can drive the registry directly.
+  useEffect(() => {
+    if (!import.meta.env.DEV || typeof window === 'undefined') return;
+    (window as unknown as { __hintRegistry?: HintContextValue }).__hintRegistry =
+      value;
+  }, [value]);
 
   return <HintContext.Provider value={value}>{children}</HintContext.Provider>;
 }
