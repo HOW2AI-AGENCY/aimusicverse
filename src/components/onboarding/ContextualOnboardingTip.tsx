@@ -231,56 +231,48 @@ export function useContextualTip(tipId: string) {
   };
 }
 
-// Predefined contextual tips
-export const CONTEXTUAL_TIPS: Record<string, OnboardingTipConfig> = {
-  studio_first_open: {
-    id: 'studio_first_open',
-    title: 'Добро пожаловать в Студию!',
-    description: 'Здесь вы можете редактировать стемы, микшировать треки и экспортировать в разные форматы.',
-    icon: '🎛️',
-    position: 'bottom',
-    priority: 1
-  },
-  cover_action: {
-    id: 'cover_action',
-    title: 'Создайте кавер',
-    description: 'Загрузите аудио-референс, и AI создаст новую версию в выбранном стиле.',
-    icon: '🎤',
-    position: 'left',
-    priority: 2
-  },
-  extend_action: {
-    id: 'extend_action',
-    title: 'Расширьте трек',
-    description: 'AI продолжит вашу композицию, добавив новые музыкальные части.',
-    icon: '➕',
-    position: 'left',
-    priority: 2
-  },
-  midi_export: {
-    id: 'midi_export',
-    title: 'Экспорт в MIDI',
-    description: 'Конвертируйте аудио в MIDI для использования в DAW.',
-    icon: '🎹',
-    position: 'top',
-    priority: 3
-  },
-  stem_mixer: {
-    id: 'stem_mixer',
-    title: 'Микшер стемов',
-    description: 'Регулируйте громкость каждого стема отдельно для идеального микса.',
-    icon: '🎚️',
-    position: 'bottom',
-    priority: 2
-  },
-  quick_preset: {
-    id: 'quick_preset',
-    title: 'Быстрые пресеты',
-    description: 'Выберите готовый стиль для мгновенного старта генерации.',
-    icon: '⚡',
-    position: 'bottom',
-    priority: 1
-  }
-};
+// Predefined contextual tips.
+//
+// DEPRECATED: texts now live in `src/components/hints/registry.ts`.
+// This object is kept as a thin adapter so existing call sites that read
+// `CONTEXTUAL_TIPS[id]` continue to work, but every new hint MUST be added
+// to the canonical registry — never here.
+import { HINT_REGISTRY, HINT_ALIASES, type HintId } from '@/components/hints/registry';
+
+function toOnboardingTip(canonicalId: HintId, legacyId: string, position: OnboardingTipConfig['position'], priority: number): OnboardingTipConfig {
+  const entry = HINT_REGISTRY[canonicalId];
+  return {
+    id: legacyId,
+    title: entry.title,
+    description: entry.message,
+    icon: entry.emoji,
+    position,
+    priority,
+  };
+}
+
+export const CONTEXTUAL_TIPS: Record<string, OnboardingTipConfig> = Object.fromEntries(
+  Object.entries(HINT_ALIASES).map(([legacyId, canonicalId]) => {
+    // Best-effort position/priority defaults; legacy callers don't actually
+    // rely on these for positioning since UnifiedTipCard handles layout.
+    const positionMap: Record<string, OnboardingTipConfig['position']> = {
+      studio_first_open: 'bottom',
+      cover_action: 'left',
+      extend_action: 'left',
+      midi_export: 'top',
+      stem_mixer: 'bottom',
+      quick_preset: 'bottom',
+    };
+    return [
+      legacyId,
+      toOnboardingTip(
+        canonicalId,
+        legacyId,
+        positionMap[legacyId] ?? 'bottom',
+        HINT_REGISTRY[canonicalId].priority,
+      ),
+    ];
+  }),
+);
 
 export default ContextualOnboardingTip;

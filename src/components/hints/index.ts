@@ -5,3 +5,10 @@ export {
 } from './HintRegistry';
 export { UnifiedTipCard } from './UnifiedTipCard';
 export type { UnifiedTipCardProps } from './UnifiedTipCard';
+export {
+  HINT_REGISTRY,
+  HINT_ALIASES,
+  resolveHint,
+  getHintsByContext,
+} from './registry';
+export type { HintEntry, HintId, HintContext } from './registry';
