@@ -373,7 +373,7 @@ const Index = () => {
         )}
 
         {/* Main content */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-4 sm:py-6 relative z-10">
+        <div className="w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 pb-4 sm:py-6 relative z-10">
           <SEOHead {...SEO_PRESETS.home} />
 
           {/* Header */}
