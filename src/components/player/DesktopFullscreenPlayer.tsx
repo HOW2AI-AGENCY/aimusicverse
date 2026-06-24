@@ -314,16 +314,18 @@ export function DesktopFullscreenPlayer({
             {/* Controls Card */}
             <Card className="w-full max-w-md glass-card border-primary/20 p-6 space-y-4">
               {/* Waveform Progress Bar */}
-              <WaveformProgressBar
-                audioUrl={audioUrl}
-                trackId={track.id}
-                currentTime={currentTime}
-                duration={duration}
-                buffered={buffered}
-                onSeek={seek}
-                mode="detailed"
-                showBeatGrid={true}
-              />
+              <div data-testid="player-timeline">
+                <WaveformProgressBar
+                  audioUrl={audioUrl}
+                  trackId={track.id}
+                  currentTime={currentTime}
+                  duration={duration}
+                  buffered={buffered}
+                  onSeek={seek}
+                  mode="detailed"
+                  showBeatGrid={true}
+                />
+              </div>
 
               {/* Action Buttons - PlayerActionsBar + Queue */}
               <div className="flex items-center justify-between">
@@ -349,14 +351,16 @@ export function DesktopFullscreenPlayer({
               </div>
 
               {/* Playback Controls with Seek Buttons */}
-              <UnifiedPlayerControls 
-                variant="fullscreen" 
-                size="lg" 
-                showVolume={true}
-                showShuffleRepeat={true}
-                showSeekButtons={true}
-                seekSeconds={10}
-              />
+              <div data-testid="player-transport">
+                <UnifiedPlayerControls
+                  variant="fullscreen"
+                  size="lg"
+                  showVolume={true}
+                  showShuffleRepeat={true}
+                  showSeekButtons={true}
+                  seekSeconds={10}
+                />
+              </div>
             </Card>
           </div>
 

@@ -573,6 +573,7 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
       exit={{ opacity: 0, y: '100%' }}
       transition={{ type: 'spring', damping: 30, stiffness: 300 }}
       className="fixed inset-0 z-fullscreen flex flex-col bg-background overflow-hidden"
+      data-testid="mobile-fullscreen-player"
     >
       {/* Drag Handle Indicator - visual swipe-to-close zone */}
       <motion.div 
@@ -980,27 +981,31 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
           transition={{ delay: 0.2, duration: 0.3 }}
         >
           {/* Waveform Timeline */}
-          <WaveformProgressBar
-            audioUrl={audioUrl}
-            trackId={track.id}
-            currentTime={currentTime}
-            duration={duration}
-            onSeek={(time) => seek(time)}
-            mode="standard"
-            showBeatGrid={true}
-            showLabels={true}
-            className="px-2"
-          />
+          <div data-testid="player-timeline">
+            <WaveformProgressBar
+              audioUrl={audioUrl}
+              trackId={track.id}
+              currentTime={currentTime}
+              duration={duration}
+              onSeek={(time) => seek(time)}
+              mode="standard"
+              showBeatGrid={true}
+              showLabels={true}
+              className="px-2"
+            />
+          </div>
 
           {/* Main Controls - UnifiedPlayerControls */}
-          <UnifiedPlayerControls 
-            variant="fullscreen" 
-            size="lg"
-            showVolume={false}
-            showShuffleRepeat={true}
-            showSeekButtons={true}
-            seekSeconds={10}
-          />
+          <div data-testid="player-transport">
+            <UnifiedPlayerControls
+              variant="fullscreen"
+              size="lg"
+              showVolume={false}
+              showShuffleRepeat={true}
+              showSeekButtons={true}
+              seekSeconds={10}
+            />
+          </div>
 
           {/* Secondary Actions - PlayerActionsBar */}
           <PlayerActionsBar 
