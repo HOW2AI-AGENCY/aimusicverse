@@ -165,6 +165,15 @@ export const HINT_REGISTRY = {
     priority: 2,
     context: 'generation',
   },
+  'quick-create-first': {
+    id: 'quick-create-first',
+    title: 'Создайте первый трек',
+    message:
+      'Нажмите «Создать трек», опишите музыку словами — AI создаст трек за минуту. Стоимость: 10–12 кредитов.',
+    emoji: '✨',
+    priority: 0,
+    context: 'generation',
+  },
 
   // ─── social ──────────────────────────────────────────────────────────
   'share-options': {
