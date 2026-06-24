@@ -316,8 +316,11 @@ export const MainLayout = () => {
           </div>
           
         </div>
-        <ResizablePlayer />
       </main>
+      {/* ResizablePlayer is rendered OUTSIDE <main> because #main-content has
+          `contain: layout style` which would create a containing block for
+          position:fixed descendants and break the bottom dock on mobile/tablet. */}
+      <ResizablePlayer />
       {!isDesktop && !isMobileLandscape && !hasOwnBottomNav && <BottomNavigation />}
       
       {/* Generate Sheet - triggered from Quick Start */}
