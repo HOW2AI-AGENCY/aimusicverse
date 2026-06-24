@@ -18,6 +18,8 @@ interface HomeSectionProps {
   /** Disable motion (e.g. during loading). */
   animation?: Record<string, unknown>;
   as?: "section" | "div";
+  /** Stable identifier used by e2e tests & sticky anchor navigation. */
+  sectionId?: string;
 }
 
 export const HomeSection = ({
@@ -26,11 +28,17 @@ export const HomeSection = ({
   fallback,
   animation,
   as = "section",
+  sectionId,
 }: HomeSectionProps) => {
   const Tag = as === "div" ? motion.div : motion.section;
   const content = fallback ? <Suspense fallback={fallback}>{children}</Suspense> : children;
   return (
-    <Tag className={cn(className)} {...(animation ?? {})}>
+    <Tag
+      className={cn(className)}
+      data-section-id={sectionId}
+      id={sectionId ? `section-${sectionId}` : undefined}
+      {...(animation ?? {})}
+    >
       {content}
     </Tag>
   );
