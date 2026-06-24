@@ -92,14 +92,10 @@ export const StatsHighlightBanner = memo(function StatsHighlightBanner({
           <motion.div
             key={stat.id}
             className={cn(
-              "flex items-center gap-2.5 px-3 py-2.5 rounded-xl",
+              "flex items-center gap-2.5 px-3 py-2.5 rounded-xl min-w-0",
               glass.subtle,
               "border",
               colors.border,
-              // Mobile: equal width in grid | Desktop: flex shrink
-              "sm:flex-shrink-0 sm:min-w-[105px]",
-              "lg:flex-1",
-              // Hover effects
               "hover:bg-card/70 hover:shadow-sm hover:border-opacity-50 transition-all duration-200",
               "group cursor-default"
             )}
