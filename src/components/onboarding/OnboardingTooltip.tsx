@@ -7,12 +7,13 @@
  * @module components/onboarding/OnboardingTooltip
  */
 
-import { memo, useState, useEffect, useCallback } from 'react';
+import { memo, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { X, Sparkles, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useTelegram } from '@/contexts/TelegramContext';
+import { useHintRegistry } from '@/components/hints';
 
 interface OnboardingTooltipProps {
   /** Unique ID for persistence */
