@@ -150,7 +150,7 @@ interface HintContextValue {
 const HintContext = createContext<HintContextValue | null>(null);
 
 /** Cooldown (ms) after a hint is shown/closed before it can be re-requested. */
-const REQUEST_COOLDOWN_MS = 1500;
+export const REQUEST_COOLDOWN_MS = 1500;
 
 export function HintRegistryProvider({ children }: { children: ReactNode }) {
   const seenRef = useRef<Set<string>>(new Set());
