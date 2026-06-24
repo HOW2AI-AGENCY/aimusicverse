@@ -40,7 +40,20 @@ export function SectionReplacementProgress({
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  // Hard cleanup on unmount to release iOS audio slot
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.src = '';
+        audioRef.current.load();
+        audioRef.current = null;
+      }
+    };
+  }, []);
+
   if (status === 'idle') return null;
+
 
   const isActive = status !== 'completed' && status !== 'error';
   const isCompleted = status === 'completed';
