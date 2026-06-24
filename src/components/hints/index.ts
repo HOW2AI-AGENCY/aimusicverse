@@ -5,6 +5,7 @@ export {
 } from './HintRegistry';
 export { UnifiedTipCard } from './UnifiedTipCard';
 export type { UnifiedTipCardProps } from './UnifiedTipCard';
+export { ContextHints } from './ContextHints';
 export {
   HINT_REGISTRY,
   HINT_ALIASES,
