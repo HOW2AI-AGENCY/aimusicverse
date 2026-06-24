@@ -146,7 +146,9 @@ serve(async (req) => {
       }
 
       if (body.action === 'generate_proof') {
-        // Generate proof of creation document
+        const denied = await ensureEntityOwner(body.entityType, body.entityId);
+        if (denied) return denied;
+
         const { data: auditData, error: auditError } = await supabase
           .from('content_audit_log')
           .select('*')
