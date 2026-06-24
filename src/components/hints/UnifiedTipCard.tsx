@@ -15,6 +15,7 @@ import { X, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useHintRegistry } from './HintRegistry';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 
 export interface UnifiedTipCardProps {
   id: string;
