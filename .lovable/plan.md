@@ -1,65 +1,58 @@
-# Большой проход: плеер + главная + навигация + безопасность
+## План дальнейших работ
 
-## 1. Подсветка лирики в полноэкранном плеере
-**Проблема:** `KaraokeView`/`LyricsPanel` не показывают синхронизированный текст в fullscreen.
+Опираясь на уже выполненные итерации (унификация FullscreenPlayer, фикс лирики, рефакторинг главной через HomeSection, исправление "Быстрый старт", регрессионные тесты CompactPlayer/QuickStart), предлагаю продолжить четырьмя приоритетными блоками.
 
-**Действия:**
-- В `src/components/player/KaraokeView.tsx`: подключить активную версию через `useActiveVersion(trackId)`, читать `lyrics` + `timestamped_lyrics` из неё (а не из `activeTrack` напрямую).
-- Использовать `useAudioTime()` для текущего времени, скролл активной строки через `scrollIntoView({ block: 'center', behavior: 'smooth' })`.
-- Fallback: если нет таймкодов — выровненный текст без подсветки + сообщение «Тайминги недоступны».
-- Поддержка LRC/JSON тегов через существующий `src/lib/lyricsTiming.ts` (если есть) или inline парсер.
+---
 
-## 2. Унификация fullscreen-плеера
-**Сейчас:** `MobileFullscreenPlayer.tsx` (1025 строк), `DesktopFullscreenPlayer.tsx` (384), `ExpandedPlayer.tsx` (456) — дубли логики.
+### Блок 1. Полноэкранный плеер — финальный редизайн (P0)
 
-**Действия:**
-- Создать `src/components/player/FullscreenPlayer.tsx` (≤450 строк) — единый компонент с тремя layout-вариантами через `useMediaQuery`:
-  - **mobile (<768px):** вертикальный stack — cover (60vh) → title/artist → waveform+таймлайн → controls (prev/play/next, size 56) → secondary row (like, queue, lyrics toggle, ×).
-  - **tablet (768–1279):** split — cover слева 45%, lyrics/controls справа.
-  - **desktop (≥1280):** широкая палитра — cover слева 40%, в центре waveform + transport, справа lyrics panel; close ×, queue, like в header.
-- Подкомпоненты вынести в `src/components/player/fullscreen/`: `FullscreenHeader.tsx`, `FullscreenCover.tsx`, `FullscreenTimeline.tsx` (waveform + currentTime/duration), `FullscreenControls.tsx`, `FullscreenLyrics.tsx` (обёртка над `KaraokeView`).
-- Таймлайн: waveform высотой 56px на desktop / 40px на mobile, времена `mm:ss` слева/справа, прогресс синхронизирован с `useAudioTime`.
-- Удалить `MobileFullscreenPlayer.tsx`, `DesktopFullscreenPlayer.tsx`, `ExpandedPlayer.tsx` после миграции всех импортов (поиск через rg).
-- Кнопка × — `min-h-11 min-w-11`, `aria-label="Закрыть плеер"`, `stopPropagation`, всегда в правом верхнем углу с учётом safe-area.
+Цель: единый визуальный язык, корректные отступы таймлайна и волны, удаление дубликатов.
 
-## 3. Главная страница + навигация
-**Действия в `src/pages/Index.tsx`:**
-- Перекомпоновать секции в чёткую иерархию: Hero/StatsHighlight → Quick Actions (Generate/Library/Studio CTA) → Featured tracks → New releases → Popular → AutoPlaylists → Community.
-- Унифицировать обёртку секций через новый `src/components/home/HomeSection.tsx` с консистентными `py-8 md:py-12`, заголовком + действием справа.
-- Desktop: max-w-7xl container, 12-колоночный grid; убрать произвольные ширины и `gap`-конфликты.
-- Mobile: 1 колонка, горизонтальные scroll-ленты для карусели.
+- Удалить устаревший `ExpandedPlayer.tsx` после миграции preload-логики в `FullscreenPlayer`.
+- В `MobileFullscreenPlayer` и `DesktopFullscreenPlayer` выделить общие подкомпоненты:
+  - `PlayerArtwork` (обложка + vinyl-spin)
+  - `PlayerMeta` (заголовок/исполнитель/badges)
+  - `PlayerTimeline` (waveform + scrub + time labels, единые отступы `px-4 md:px-6`, `gap-2`)
+  - `PlayerTransport` (prev/play/next + shuffle/repeat, touch target 44px)
+  - `PlayerSecondaryActions` (like, queue, share, lyrics)
+- Выровнять waveform высоту: mobile 56px, desktop 80px; убрать двойные паддинги между waveform и таймкодами.
+- Привести KaraokeView к токенам (без `bg-black`), вынести строки лирики в `LyricsLine` с единой логикой подсветки.
 
-**Навигация:**
-- `Sidebar.tsx`: проверить z-index (`z-40`), edge-rail mode (`w-14`) для md+, full mode (`w-64`) для xl+; на mobile — sheet.
-- `BottomNav.tsx`: только mobile/tablet portrait; убрать пересечения с CompactPlayer (отступ снизу = высота плеера через CSS var `--compact-player-height`).
-- В `MainLayout` пробросить `--compact-player-height` из `ResizablePlayer` через `useEffect` + `ResizeObserver`.
+### Блок 2. Главная страница — навигация и компоновка (P1)
 
-## 4. Тесты
-- Уже добавлен `tests/e2e/player.compact.fullscreen.spec.ts`.
-- Добавить `tests/e2e/player.lyrics.spec.ts`: открыть fullscreen, переключить вкладку «Текст», убедиться что активная строка имеет `data-active="true"` и видна.
-- Добавить `tests/e2e/home.layout.spec.ts`: 390/820/1440 — нет overflow, секции не пересекаются с Sidebar/BottomNav.
+- Переупорядочить секции в едином `sections` reg-е: Hero → QuickStart → Continue → Featured → New → Popular → AutoPlaylists → Community.
+- Удалить дубликаты каруселей и `StatsHighlight` (оставить один экземпляр над Featured).
+- Добавить sticky-навигацию по якорям секций для desktop (`md+`), на мобильных — горизонтальный chip-scroller под Hero.
+- Привести все секции к единым отступам через `HomeSection` (`mb-3 md:mb-6`, заголовок + действие справа).
+- Проверить, что `paddingBottom` MainLayout не «прыгает» при появлении CompactPlayer (плавный transition `200ms`).
 
-## 5. Security findings (обязательно)
-- `credit_transactions`: удалить клиентскую INSERT-политику; инсерты только через `secure_credit_update` RPC / service_role.
-- `user_credits`: удалить «Admins can update user credits»; админ-изменения только через server-side функцию.
-- `stars_transactions`: удалить клиентскую INSERT-политику; вставки только из webhook через service_role.
-- Миграция SQL + `manage_security_finding` mark_as_fixed + обновить `security memory`.
+### Блок 3. Sidebar / BottomNav / CompactPlayer (P1)
 
-## Технические детали
-- Все цвета — semantic токены (`bg-background`, `text-foreground`, `border-border`), без `text-white`/`bg-black`.
-- Импорты иконок — `@/lib/icons`.
-- Логгер — `@/lib/logger`, без `console.*`.
-- Haptic — `hapticImpact('light')` на основных действиях.
-- Bundle: проверить `npm run size` после удаления 3 плееров (ожидаем минус ~15–20KB gzip).
+- Вынести высоту плеера в CSS-переменную `--player-h`, использовать её и в `MainLayout`, и в `BottomNav`.
+- BottomNav: добавить активный индикатор, haptic на tap, корректный z-index слой (по memory: `z-nav`).
+- Sidebar (desktop): collapsible с persist в localStorage, иконки из `@/lib/icons`.
 
-## Порядок коммитов
-1. Security миграция + memory.
-2. KaraokeView fix + тест лирики.
-3. FullscreenPlayer unified + подкомпоненты + миграция импортов + удаление старых файлов.
-4. Home layout + HomeSection + sidebar/bottomnav z-index + CSS var.
-5. E2E тесты home.layout.spec.ts.
+### Блок 4. Регрессионные тесты (P2)
 
-## Риски
-- Удаление `MobileFullscreenPlayer` затронет ~5–10 импортов — поиск через rg обязателен.
-- Изменение RLS на `stars_transactions` сломает текущие клиентские вставки — нужно убедиться что вебхук пишет от service_role (проверить `supabase/functions/telegram-payment-webhook/`).
-- `secure_credit_update` RPC должна существовать; иначе создать.
+- `tests/e2e/player.fullscreen.layout.spec.ts` — таймлайн/волна не перекрывают transport на 390/768/1440, портрет/ландшафт.
+- `tests/e2e/home.navigation.spec.ts` — порядок секций, отсутствие дублирующихся каруселей, sticky-навигация работает.
+- `tests/e2e/layout.player-offset.spec.ts` — BottomNav и CompactPlayer не перекрывают последнюю секцию при скролле.
+
+---
+
+### Технические детали
+
+- Все новые подкомпоненты плеера — в `src/components/player/parts/`.
+- Состояние плеера — только через `usePlayerStore` / `useGlobalAudioPlayer`, новых `<audio>` не создаём.
+- Стили — токены `src/lib/design-tokens.ts` + `glass.ts`, без hardcoded цветов.
+- Иконки — `@/lib/icons`, motion — `@/lib/motion`.
+- Логирование — `logger.*`, без console.
+
+### Порядок выполнения
+
+1. Блок 1 (плеер) — наиболее заметная регрессия для пользователя.
+2. Блок 2 (главная) — улучшает первое впечатление.
+3. Блок 3 (навигация) — закрывает overlap-проблемы окончательно.
+4. Блок 4 (тесты) — фиксирует достигнутое.
+
+Каждый блок — отдельный PR-подобный заход с проверкой `npm run lint` и соответствующих e2e.
