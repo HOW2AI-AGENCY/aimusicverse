@@ -362,7 +362,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
   );
 
   // ---- Layout per variant -----------------------------------------------
-  let body: JSX.Element;
+  let body: React.ReactNode;
   let maxWidth = 'max-w-2xl';
 
   if (variant === 'mobile') {
