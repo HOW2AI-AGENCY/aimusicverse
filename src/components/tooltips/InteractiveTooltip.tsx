@@ -1,10 +1,11 @@
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useEffect, useRef, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { X, ChevronRight, Lightbulb } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { getTelegramSafeAreaInsets } from '@/lib/telegramSafeArea';
+import { useHintRegistry } from '@/components/hints';
 
 export interface TooltipConfig {
   id: string;
@@ -31,11 +32,20 @@ export function InteractiveTooltip({
   hasNext,
   className
 }: InteractiveTooltipProps) {
-  const [isVisible, setIsVisible] = useState(true);
+  const reg = useHintRegistry();
+  const isVisible = reg.activeId === config.id;
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
   const tooltipRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const requestedPosition = config.position || 'bottom';
+
+  // Claim the global hint slot once.
+  useEffect(() => {
+    if (reg.hasSeen(config.id)) return;
+    reg.request(config.id);
+    return () => reg.release(config.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [config.id]);
 
   // Calculate safe position based on Telegram safe areas
   const safePosition = useMemo(() => {
@@ -119,12 +129,14 @@ export function InteractiveTooltip({
   }, [safePosition, isVisible]);
 
   const handleDismiss = () => {
-    setIsVisible(false);
+    reg.markSeen(config.id);
+    reg.release(config.id);
     onDismiss?.();
   };
 
   const handleNext = () => {
-    setIsVisible(false);
+    reg.markSeen(config.id);
+    reg.release(config.id);
     onNext?.();
   };
 

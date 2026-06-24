@@ -175,23 +175,22 @@ interface SpotlightProps {
 }
 
 export function Spotlight({ id, children, title, description, showOnce = true }: SpotlightProps) {
-  const [active, setActive] = useState(false);
+  const reg = useHintRegistry();
+  const active = reg.activeId === id;
 
   useEffect(() => {
-    const shown = JSON.parse(localStorage.getItem('mvai_spotlights') || '[]');
-    if (showOnce && shown.includes(id)) return;
-    
-    const timer = setTimeout(() => setActive(true), 1000);
-    return () => clearTimeout(timer);
+    if (showOnce && reg.hasSeen(id)) return;
+    const timer = setTimeout(() => reg.request(id), 1000);
+    return () => {
+      clearTimeout(timer);
+      reg.release(id);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, showOnce]);
 
   const handleDismiss = () => {
-    setActive(false);
-    const shown = JSON.parse(localStorage.getItem('mvai_spotlights') || '[]');
-    if (!shown.includes(id)) {
-      shown.push(id);
-      localStorage.setItem('mvai_spotlights', JSON.stringify(shown));
-    }
+    if (showOnce) reg.markSeen(id);
+    reg.release(id);
   };
 
   return (

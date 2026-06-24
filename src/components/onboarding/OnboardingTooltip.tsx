@@ -7,12 +7,13 @@
  * @module components/onboarding/OnboardingTooltip
  */
 
-import { memo, useState, useEffect, useCallback } from 'react';
+import { memo, useEffect, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { X, Sparkles, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useTelegram } from '@/contexts/TelegramContext';
+import { useHintRegistry } from '@/components/hints';
 
 interface OnboardingTooltipProps {
   /** Unique ID for persistence */
@@ -73,28 +74,31 @@ export const OnboardingTooltip = memo(function OnboardingTooltip({
   newUsersOnly = true,
   children,
 }: OnboardingTooltipProps) {
-  const [isVisible, setIsVisible] = useState(false);
+  const reg = useHintRegistry();
+  const isVisible = reg.activeId === id;
   const { hapticFeedback } = useTelegram();
 
-  // Check if already dismissed
+  // Request the global hint slot once.
   useEffect(() => {
+    if (reg.hasSeen(id)) return;
     const dismissed = getDismissedTooltips();
-    if (dismissed.has(id)) return;
+    if (dismissed.has(id)) {
+      reg.markSeen(id);
+      return;
+    }
 
-    // Check new user condition
     if (newUsersOnly) {
       const hasGeneratedTrack = localStorage.getItem('first-generated-track-id');
       if (hasGeneratedTrack) return;
     }
 
-    // Show with delay
-    const showTimer = setTimeout(() => setIsVisible(true), delay);
+    const showTimer = setTimeout(() => reg.request(id), delay);
 
-    // Auto-hide
-    let hideTimer: ReturnType<typeof setTimeout>;
+    let hideTimer: ReturnType<typeof setTimeout> | undefined;
     if (autoHideAfter > 0) {
       hideTimer = setTimeout(() => {
-        setIsVisible(false);
+        reg.release(id);
+        reg.markSeen(id);
         dismissTooltip(id);
       }, delay + autoHideAfter);
     }
@@ -102,21 +106,25 @@ export const OnboardingTooltip = memo(function OnboardingTooltip({
     return () => {
       clearTimeout(showTimer);
       if (hideTimer) clearTimeout(hideTimer);
+      reg.release(id);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, delay, autoHideAfter, newUsersOnly]);
 
   const handleDismiss = useCallback(() => {
     hapticFeedback('light');
-    setIsVisible(false);
+    reg.markSeen(id);
+    reg.release(id);
     dismissTooltip(id);
-  }, [id, hapticFeedback]);
+  }, [id, hapticFeedback, reg]);
 
   const handleAction = useCallback(() => {
     hapticFeedback('medium');
     onAction?.();
-    setIsVisible(false);
+    reg.markSeen(id);
+    reg.release(id);
     dismissTooltip(id);
-  }, [id, hapticFeedback, onAction]);
+  }, [id, hapticFeedback, onAction, reg]);
 
   // Position styles
   const positionStyles = {
