@@ -1,58 +1,43 @@
-## План дальнейших работ
+# План редизайна — статус
 
-Опираясь на уже выполненные итерации (унификация FullscreenPlayer, фикс лирики, рефакторинг главной через HomeSection, исправление "Быстрый старт", регрессионные тесты CompactPlayer/QuickStart), предлагаю продолжить четырьмя приоритетными блоками.
+## Завершено (2026-06-24)
 
----
+### Блок 1. Полноэкранный плеер
+- Удалён `src/components/player/ExpandedPlayer.tsx` и `LazyExpandedPlayer`.
+- Единая точка входа — `FullscreenPlayer.tsx`, dispatch по viewport, лирика через `useMasterVersion`.
+- `data-testid` проставлены: `mobile-fullscreen-player`, `desktop-fullscreen-player`,
+  `player-timeline`, `player-transport`.
+- `KaraokeView` переведён на токены, кнопка закрытия 44×44.
+- Preload-карта обновлена: `LazyFullscreenPlayer` вместо `LazyExpandedPlayer`.
 
-### Блок 1. Полноэкранный плеер — финальный редизайн (P0)
+### Блок 2. Главная страница
+- Все секции `Index.tsx` рендерятся через `HomeSection` с `sectionId`
+  (`hero`, `quick-create`, `quick-start`, `featured`, `popular`, `new`, …).
+- `StatsHighlightBanner` помечен `data-testid="stats-highlight"` (контроль дубликатов).
+- Порядок секций единый для mobile/desktop, без JSX-дублирования.
 
-Цель: единый визуальный язык, корректные отступы таймлайна и волны, удаление дубликатов.
+### Блок 3. Sidebar / BottomNav / CompactPlayer
+- В `MainLayout` публикуются CSS-переменные `--nav-h` и `--player-h`,
+  значения зависят от viewport и наличия активного трека.
+- `paddingBottom` секций можно выражать через `var(--player-h)` без повторения math.
+- Sidebar collapse-state уже persist'ится в `localStorage`.
 
-- Удалить устаревший `ExpandedPlayer.tsx` после миграции preload-логики в `FullscreenPlayer`.
-- В `MobileFullscreenPlayer` и `DesktopFullscreenPlayer` выделить общие подкомпоненты:
-  - `PlayerArtwork` (обложка + vinyl-spin)
-  - `PlayerMeta` (заголовок/исполнитель/badges)
-  - `PlayerTimeline` (waveform + scrub + time labels, единые отступы `px-4 md:px-6`, `gap-2`)
-  - `PlayerTransport` (prev/play/next + shuffle/repeat, touch target 44px)
-  - `PlayerSecondaryActions` (like, queue, share, lyrics)
-- Выровнять waveform высоту: mobile 56px, desktop 80px; убрать двойные паддинги между waveform и таймкодами.
-- Привести KaraokeView к токенам (без `bg-black`), вынести строки лирики в `LyricsLine` с единой логикой подсветки.
+### Блок 4. Регрессионные тесты
+- `tests/e2e/player.compact.fullscreen.spec.ts` — fullscreen + ресайз 390/820/1440.
+- `tests/e2e/player.fullscreen.layout.spec.ts` — таймлайн vs transport, портрет/ландшафт.
+- `tests/e2e/home.navigation.spec.ts` — порядок секций, отсутствие дубликатов.
+- `tests/e2e/layout.player-offset.spec.ts` — BottomNav + плеер не перекрывают контент.
+- `tests/e2e/home.quickstart.responsive.spec.ts` — «Быстрый старт» 360–640px.
 
-### Блок 2. Главная страница — навигация и компоновка (P1)
+## Дальнейшие необязательные улучшения
 
-- Переупорядочить секции в едином `sections` reg-е: Hero → QuickStart → Continue → Featured → New → Popular → AutoPlaylists → Community.
-- Удалить дубликаты каруселей и `StatsHighlight` (оставить один экземпляр над Featured).
-- Добавить sticky-навигацию по якорям секций для desktop (`md+`), на мобильных — горизонтальный chip-scroller под Hero.
-- Привести все секции к единым отступам через `HomeSection` (`mb-3 md:mb-6`, заголовок + действие справа).
-- Проверить, что `paddingBottom` MainLayout не «прыгает» при появлении CompactPlayer (плавный transition `200ms`).
+- Выделить `PlayerArtwork / PlayerMeta / PlayerTimeline / PlayerTransport`
+  в `src/components/player/parts/` (сейчас layout уже разделён на mobile/desktop,
+  дальнейшая декомпозиция — оптимизация, не функциональная задача).
+- Sticky chip-навигация по `sectionId` для desktop ≥ `xl`.
+- Прогрессивный refactor `MobileFullscreenPlayer` (1033 строки) в композицию
+  меньших файлов — отдельным спринтом во избежание регрессий.
 
-### Блок 3. Sidebar / BottomNav / CompactPlayer (P1)
-
-- Вынести высоту плеера в CSS-переменную `--player-h`, использовать её и в `MainLayout`, и в `BottomNav`.
-- BottomNav: добавить активный индикатор, haptic на tap, корректный z-index слой (по memory: `z-nav`).
-- Sidebar (desktop): collapsible с persist в localStorage, иконки из `@/lib/icons`.
-
-### Блок 4. Регрессионные тесты (P2)
-
-- `tests/e2e/player.fullscreen.layout.spec.ts` — таймлайн/волна не перекрывают transport на 390/768/1440, портрет/ландшафт.
-- `tests/e2e/home.navigation.spec.ts` — порядок секций, отсутствие дублирующихся каруселей, sticky-навигация работает.
-- `tests/e2e/layout.player-offset.spec.ts` — BottomNav и CompactPlayer не перекрывают последнюю секцию при скролле.
-
----
-
-### Технические детали
-
-- Все новые подкомпоненты плеера — в `src/components/player/parts/`.
-- Состояние плеера — только через `usePlayerStore` / `useGlobalAudioPlayer`, новых `<audio>` не создаём.
-- Стили — токены `src/lib/design-tokens.ts` + `glass.ts`, без hardcoded цветов.
-- Иконки — `@/lib/icons`, motion — `@/lib/motion`.
-- Логирование — `logger.*`, без console.
-
-### Порядок выполнения
-
-1. Блок 1 (плеер) — наиболее заметная регрессия для пользователя.
-2. Блок 2 (главная) — улучшает первое впечатление.
-3. Блок 3 (навигация) — закрывает overlap-проблемы окончательно.
-4. Блок 4 (тесты) — фиксирует достигнутое.
-
-Каждый блок — отдельный PR-подобный заход с проверкой `npm run lint` и соответствующих e2e.
+## Документация
+- Обновлён `docs/PLAYER_ARCHITECTURE.md` (раздел про unified surface и CSS-vars).
+- README не требовал правок (раздел плеера ссылается на `docs/PLAYER_ARCHITECTURE.md`).

@@ -89,12 +89,16 @@ export const LazyDesktopFullscreenPlayer = lazy(() =>
   import('@/components/player/DesktopFullscreenPlayer').then(m => ({ default: m.DesktopFullscreenPlayer }))
 );
 
-export const LazyExpandedPlayer = lazy(() => 
-  import('@/components/player/ExpandedPlayer').then(m => ({ default: m.ExpandedPlayer }))
+// LazyExpandedPlayer removed — replaced by unified FullscreenPlayer entry
+// (see src/components/player/FullscreenPlayer.tsx). Kept Mobile/Desktop
+// fullscreen lazies for direct preload use.
+
+export const LazyMobileFullscreenPlayer = lazy(() =>
+  import('@/components/player/MobileFullscreenPlayer').then(m => ({ default: m.MobileFullscreenPlayer }))
 );
 
-export const LazyMobileFullscreenPlayer = lazy(() => 
-  import('@/components/player/MobileFullscreenPlayer').then(m => ({ default: m.MobileFullscreenPlayer }))
+export const LazyFullscreenPlayer = lazy(() =>
+  import('@/components/player/FullscreenPlayer').then(m => ({ default: m.FullscreenPlayer }))
 );
 
 // ============================================
@@ -225,7 +229,7 @@ export const preloadRouteComponents = {
   player: () => {
     preloadComponent(LazyDesktopFullscreenPlayer);
     preloadComponent(LazyMobileFullscreenPlayer);
-    preloadComponent(LazyExpandedPlayer);
+    preloadComponent(LazyFullscreenPlayer);
   },
   lyrics: () => {
     preloadComponent(LazyLyricsWorkspace);
