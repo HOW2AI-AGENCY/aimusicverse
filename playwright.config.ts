@@ -21,13 +21,24 @@ export default defineConfig({
   /* Opt out of parallel tests on CI */
   workers: process.env.CI ? 1 : undefined,
 
-  /* Reporter to use */
-  reporter: [["html"], ["list"], ["json", { outputFile: "test-results/results.json" }]],
+  /* Resolve base URL once so every project + the dev server agree on host/port. */
+  /* Priority: PLAYWRIGHT_BASE_URL → E2E_DEV_HOST/PORT → localhost:5173 */
+  /* (Exported as a const below so webServer.url stays in sync.) */
+
+  /* Reporter to use — HTML report is always emitted so CI can publish it as an artifact. */
+  reporter: [
+    ["html", { outputFolder: "playwright-report", open: "never" }],
+    ["list"],
+    ["json", { outputFile: "test-results/results.json" }],
+    ...(process.env.CI ? [["github"] as ["github"]] : []),
+  ],
 
   /* Shared settings for all the projects below */
   use: {
     /* Base URL to use in actions like `await page.goto('/')` */
-    baseURL: process.env.PLAYWRIGHT_BASE_URL || "http://localhost:5173",
+    baseURL:
+      process.env.PLAYWRIGHT_BASE_URL ||
+      `http://${process.env.E2E_DEV_HOST || "127.0.0.1"}:${process.env.E2E_DEV_PORT || "5173"}`,
 
     /* Collect trace when retrying the failed test */
     trace: "on-first-retry",
@@ -96,8 +107,10 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: "npm run dev",
-    url: "http://localhost:5173",
+    command: `npm run dev -- --host ${process.env.E2E_DEV_HOST || "127.0.0.1"} --port ${process.env.E2E_DEV_PORT || "5173"} --strictPort`,
+    url:
+      process.env.PLAYWRIGHT_BASE_URL ||
+      `http://${process.env.E2E_DEV_HOST || "127.0.0.1"}:${process.env.E2E_DEV_PORT || "5173"}`,
     reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000,
   },
