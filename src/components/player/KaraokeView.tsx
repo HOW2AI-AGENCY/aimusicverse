@@ -118,7 +118,8 @@ export function KaraokeView({
             hapticImpact('light');
             onClose();
           }}
-          className={cn("h-10 w-10 rounded-full", glassButton.default, surface.light)}
+          aria-label="Закрыть караоке"
+          className={cn("h-11 w-11 min-h-11 min-w-11 rounded-full", glassButton.default, surface.light)}
         >
           <X className="h-5 w-5 text-white" />
         </Button>
