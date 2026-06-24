@@ -1,0 +1,179 @@
+{
+  "nodes": [
+    {
+      "id": "archive-2026-01-readme",
+      "type": "document",
+      "title": "Archive - January 2026",
+      "properties": {
+        "path": "docs/archive/2026-01/README.md",
+        "archived_date": "2026-01-04",
+        "reason": "Repository cleanup and reorganization",
+        "superseded_by": ["PROJECT_STATUS.md", "DOCUMENTATION_INDEX.md"],
+        "documents_contained": [
+          "CURRENT_STATE_ANALYSIS_2025-12-21.md",
+          "DOCUMENTATION_UPDATE_2026-01-04.md"
+        ]
+      }
+    },
+    {
+      "id": "readme-documentation-update",
+      "type": "document",
+      "title": "README_DOCUMENTATION_UPDATE.md",
+      "properties": {
+        "path": "docs/archive/2026-01/README_DOCUMENTATION_UPDATE.md",
+        "created_date": "2025-12-21",
+        "purpose": "Documentation update and optimization plan",
+        "key_documents": [
+          "CURRENT_STATE_ANALYSIS_2025-12-21.md",
+          "OPTIMIZATION_PLAN_2026.md"
+        ],
+        "completion_rate": 68
+      }
+    },
+    {
+      "id": "repository-cleanup-summary",
+      "type": "event",
+      "title": "Repository Cleanup Summary - December 13, 2025",
+      "properties": {
+        "date": "2025-12-13",
+        "files_moved": 96,
+        "root_directory_reduction": "81%",
+        "new_structure": ["audits", "sprint-reports", "implementation-reports", "session-summaries"]
+      }
+    },
+    {
+      "id": "sprint-011-completion-report",
+      "type": "report",
+      "title": "Sprint 011 Completion Report",
+      "properties": {
+        "date": "2026-01-04",
+        "completion_rate": 91,
+        "tasks_complete": 130,
+        "tasks_total": 143,
+        "key_features": [
+          "User profiles with verification",
+          "Following system with real-time updates",
+          "Comments with threading",
+          "Likes on tracks and comments",
+          "Activity feed",
+          "Notifications system",
+          "Privacy controls and moderation"
+        ]
+      }
+    },
+    {
+      "id": "sprint-028-ui-ux-optimization",
+      "type": "sprint",
+      "title": "Sprint 028: UI/UX Optimization",
+      "properties": {
+        "completion_date": "2025-12-22",
+        "duration": "1 day",
+        "completion_rate": 90,
+        "key_improvements": [
+          "iOS Safari audio element pooling",
+          "Keyboard-aware forms",
+          "Enhanced sharing with QR codes",
+          "Contextual tooltips system",
+          "Comprehensive gesture system"
+        ]
+      }
+    },
+    {
+      "id": "mobile-interface-optimization-plan",
+      "type": "plan",
+      "title": "Mobile Interface Optimization Plan",
+      "properties": {
+        "created_date": "2025-12-22",
+        "target_completion": 4,
+        "components_current": 29,
+        "components_target": 18,
+        "performance_targets": {
+          "bundle_size": "500KB → <450KB",
+          "tti_4g": "~4.5s → <3s",
+          "list_fps": "45 → >58 FPS",
+          "lighthouse": "TBD → >90"
+        }
+      }
+    },
+    {
+      "id": "unified-studio-analysis",
+      "type": "analysis",
+      "title": "Unified Studio Analysis and Plan",
+      "properties": {
+        "date": "2025-12-30",
+        "studios_identified": 2,
+        "mobile_ui_status": "Not integrated",
+        "key_components": [
+          "UnifiedStudioContent",
+          "StudioShell",
+          "MobileStudioLayout"
+        ]
+      }
+    },
+    {
+      "id": "sprint-027-implementation",
+      "type": "sprint",
+      "title": "Sprint 027: User Experience & Analytics",
+      "properties": {
+        "completion_date": "2025-12-13",
+        "features": [
+          "AI lyrics progress notifications",
+          "System announcement banner",
+          "Credit cap system",
+          "Enhanced analytics tracking",
+          "Admin analytics dashboard"
+        ]
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "from": "archive-2026-01-readme",
+      "to": "readme-documentation-update",
+      "type": "contains",
+      "properties": {
+        "relationship": "archived_document"
+      }
+    },
+    {
+      "from": "readme-documentation-update",
+      "to": "repository-cleanup-summary",
+      "type": "references",
+      "properties": {
+        "relationship": "cleanup_event"
+      }
+    },
+    {
+      "from": "sprint-011-completion-report",
+      "to": "readme-documentation-update",
+      "type": "follows",
+      "properties": {
+        "relationship": "post_sprint_analysis"
+      }
+    },
+    {
+      "from": "sprint-028-ui-ux-optimization",
+      "to": "mobile-interface-optimization-plan",
+      "type": "implements",
+      "properties": {
+        "relationship": "mobile_optimization_implementation"
+      }
+    },
+    {
+      "from": "sprint-027-implementation",
+      "to": "sprint-028-ui-ux-optimization",
+      "type": "precedes",
+      "properties": {
+        "relationship": "sprint_sequence"
+      }
+    },
+    {
+      "from": "unified-studio-analysis",
+      "to": "mobile-interface-optimization-plan",
+      "type": "informs",
+      "properties": {
+        "relationship": "studio_mobile_requirements"
+      }
+    }
+  ]
+}

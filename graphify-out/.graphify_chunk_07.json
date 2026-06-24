@@ -1,0 +1,1117 @@
+{
+  "nodes": [
+    {
+      "id": "audit_system_doc",
+      "type": "DOCUMENTATION",
+      "label": "Audit System Documentation",
+      "properties": {
+        "path": "docs/AUDIT_SYSTEM.md",
+        "purpose": "Comprehensive audit logging for copyright protection and content provenance",
+        "tables": ["content_audit_log", "content_deposits"],
+        "tracked_actions": ["track_generation", "track_approval", "artist_creation", "lyrics_generation", "cover_generation"],
+        "integrations": ["useAuditLog", "audit-log edge function"],
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "content_audit_log_table",
+      "type": "DATABASE_TABLE",
+      "label": "content_audit_log",
+      "properties": {
+        "columns": ["id", "entity_type", "entity_id", "version_id", "user_id", "actor_type", "ai_model_used", "action_type", "action_category", "content_hash", "prompt_hash", "input_data_hash", "prompt_used", "input_metadata", "output_metadata", "parent_audit_id", "chain_id", "created_at"],
+        "entity_types": ["track", "project", "artist", "lyrics", "cover", "reference_audio"],
+        "actor_types": ["user", "ai", "system"],
+        "hash_algorithm": "SHA-256",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "content_deposits_table",
+      "type": "DATABASE_TABLE",
+      "label": "content_deposits",
+      "properties": {
+        "purpose": "Proof-of-creation document storage",
+        "statuses": ["pending", "submitted", "confirmed"],
+        "external_integration": true,
+        "blockchain_anchoring": true,
+        "confidence": 0.90
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "bundle_optimization_doc",
+      "type": "DOCUMENTATION",
+      "label": "Bundle Optimization Guide",
+      "properties": {
+        "path": "docs/BUNDLE_OPTIMIZATION.md",
+        "target_bundle_size": "<800 KB",
+        "optimization_strategies": ["framer-motion tree-shaking", "lucide-react centralization", "lazy loading", "vendor chunks", "compression"],
+        "vendor_chunks": ["vendor-react", "vendor-framer", "vendor-radix", "vendor-query", "vendor-supabase", "vendor-wavesurfer", "vendor-tone", "vendor-icons", "vendor-date", "vendor-charts", "vendor-dnd", "vendor-forms"],
+        "metrics": {"vendor-other_target": "<150 KB", "total_bundle_target": "<800 KB"},
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "motion_wrapper",
+      "type": "UTILITY",
+      "label": "Framer Motion Wrapper",
+      "properties": {
+        "path": "@/lib/motion",
+        "purpose": "Tree-shakeable framer-motion exports",
+        "exports": ["motion", "AnimatePresence", "useAnimation", "presets", "transitions"],
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "icons_wrapper",
+      "type": "UTILITY",
+      "label": "Lucide React Icons Wrapper",
+      "properties": {
+        "path": "@/lib/icons",
+        "purpose": "Centralized icon imports for tree-shaking",
+        "categories": ["Navigation", "Media", "Actions", "Status", "Content", "Social", "Studio"],
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "comprehensive_architecture_doc",
+      "type": "DOCUMENTATION",
+      "label": "Comprehensive Architecture Documentation",
+      "properties": {
+        "path": "docs/COMPREHENSIVE_ARCHITECTURE.md",
+        "version": "2.0",
+        "metrics": {
+          "components": 828,
+          "hooks": 263,
+          "hook_lines": 48812,
+          "edge_functions": 100,
+          "database_tables": 30,
+          "bundle_size": "~500 KB (Brotli)"
+        },
+        "architecture_layers": ["Frontend (React 19)", "API Gateway (Edge Functions)", "Database (PostgreSQL)", "External Services (Suno AI, Telegram)"],
+        "confidence": 0.98
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "component_hierarchy",
+      "type": "ARCHITECTURE_PATTERN",
+      "label": "Component Hierarchy",
+      "properties": {
+        "root": "App (Router + Providers)",
+        "global_providers": ["ErrorBoundary", "QueryClientProvider", "ThemeProvider", "TelegramProvider", "AuthProvider", "GuestModeProvider", "GlobalAudioProvider", "NotificationProvider", "AnnouncementProvider", "GamificationProvider"],
+        "patterns": ["lazy loading", "compound components", "render props"],
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "state_management_architecture",
+      "type": "ARCHITECTURE_PATTERN",
+      "label": "State Management Architecture",
+      "properties": {
+        "global_ui_state": "Zustand stores",
+        "server_state": "TanStack Query with caching",
+        "form_state": "React Hook Form + Zod",
+        "component_state": "React hooks",
+        "stores": ["playerStore", "useUnifiedStudioStore", "useLyricsHistoryStore", "useMixerHistoryStore"],
+        "cache_settings": {"staleTime": "30s", "gcTime": "10min"},
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "audio_architecture",
+      "type": "ARCHITECTURE_PATTERN",
+      "label": "Audio Architecture",
+      "properties": {
+        "pattern": "Single Audio Source",
+        "provider": "GlobalAudioProvider",
+        "hook": "usePlayerStore()",
+        "pool": "audioElementPool",
+        "cache": "audioCache",
+        "modes": ["Compact", "Expanded", "Fullscreen"],
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "contextual_hints_doc",
+      "type": "DOCUMENTATION",
+      "label": "Contextual Hints System",
+      "properties": {
+        "path": "docs/CONTEXTUAL_HINTS_SYSTEM.md",
+        "purpose": "Periodic popup hints based on user context and behavior",
+        "components": ["useContextualHints", "ContextualHint", "HintsSettings", "MainLayout"],
+        "hint_categories": ["model", "ai-feature", "project", "artist", "social", "advanced", "tip"],
+        "show_conditions": ["showOnRoutes", "minVisits", "cooldownHours", "maxShows", "priority"],
+        "storage": "localStorage",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "creative_tools_doc",
+      "type": "DOCUMENTATION",
+      "label": "Creative Tools Documentation",
+      "properties": {
+        "path": "docs/CREATIVE_TOOLS.md",
+        "tools": ["Realtime Chord Detection", "Guitar Tab Editor", "Melody Mixer"],
+        "technologies": ["Web Audio API", "Pitch Class Profile", "Chord Templates", "Tone.js"],
+        "path": "/creative-tools",
+        "confidence": 0.90
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "chord_detection",
+      "type": "FEATURE",
+      "label": "Realtime Chord Detection",
+      "properties": {
+        "hook": "useRealtimeChordDetection",
+        "component": "RealtimeChordVisualizer",
+        "algorithm": "FFT analysis + Chromagram + Chord Templates",
+        "fft_size": 8192,
+        "update_interval": "50ms",
+        "min_confidence": 0.6,
+        "supported_chords": ["Major", "Minor", "Diminished", "Augmented", "Seventh"],
+        "confidence": 0.90
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "tab_editor",
+      "type": "FEATURE",
+      "label": "Guitar Tab Editor",
+      "properties": {
+        "hook": "useTabEditor",
+        "component": "GuitarTabEditor",
+        "features": ["6 string tablature", "hammer-on/pull-off/slide/bend", "undo/redo", "MIDI playback", "export GP5/PDF/MIDI"],
+        "state_management": "history-based",
+        "synthesis": "Tone.js Sampler",
+        "confidence": 0.90
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "melody_mixer",
+      "type": "FEATURE",
+      "label": "Melody Mixer",
+      "properties": {
+        "hook": "useMelodyMixer",
+        "component": "MelodyMixer",
+        "pattern": "DJ-style interface with style mixing",
+        "slots": 8,
+        "controls": ["BPM", "Key", "Scale"],
+        "synthesis": "Tone.js",
+        "styles": ["Acoustic Guitar", "Electric Clean", "Fingerpicking", "Power Chords", "Jazz Chords", "Blues Riffs", "Classical", "Funk Rhythm"],
+        "confidence": 0.90
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "critical_files_doc",
+      "type": "DOCUMENTATION",
+      "label": "Critical System Files",
+      "properties": {
+        "path": "docs/CRITICAL_FILES.md",
+        "highest_priority": "telegram-auth edge function",
+        "client_side_critical": "useAuth.tsx",
+        "protected_tables": ["profiles", "user_roles"],
+        "security_principles": ["server-side validation", "RLS policies", "security definer functions"],
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "telegram_auth_edge_function",
+      "type": "EDGE_FUNCTION",
+      "label": "telegram-auth",
+      "properties": {
+        "status": "LOCKED",
+        "purpose": "Telegram Mini App authentication flow",
+        "validations": ["user data integrity", "cryptographic signatures", "session management", "profile creation"],
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "database_doc",
+      "type": "DOCUMENTATION",
+      "label": "Database Schema Documentation",
+      "properties": {
+        "path": "docs/DATABASE.md",
+        "version": "2.1",
+        "database": "PostgreSQL",
+        "key_metrics": {"tables": 30, "rls_policies": 50, "indexes": 60, "triggers": 15, "edge_functions": 45},
+        "features": ["A/B versioning", "denormalized counters", "graph-based tags", "trigger-based updates"],
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "track_versions_system",
+      "type": "DATABASE_PATTERN",
+      "label": "Track Versioning System",
+      "properties": {
+        "tables": ["tracks", "track_versions", "track_change_log"],
+        "version_count": 2,
+        "labels": ["A", "B"],
+        "clip_indices": [0, 1],
+        "atomic_update": ["is_primary", "active_version_id"],
+        "changelog": "track_change_log",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "suno_meta_tags_system",
+      "type": "DATABASE_PATTERN",
+      "label": "Suno Meta Tags System",
+      "properties": {
+        "tables": ["suno_meta_tags", "tag_relationships", "style_tag_mappings", "user_tag_preferences"],
+        "meta_tags_count": 174,
+        "music_styles_count": 277,
+        "tag_relationships_count": 500,
+        "tag_categories": ["structure", "vocal", "instrument", "genre_style", "mood_energy", "production_texture", "effect_processing", "special_effects", "transition_dynamics", "format"],
+        "relationship_types": ["complements", "conflicts", "enhances", "requires"],
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "demo_mode_doc",
+      "type": "DOCUMENTATION",
+      "label": "Demo Mode Documentation",
+      "properties": {
+        "path": "docs/DEMO_MODE.md",
+        "purpose": "Guest mode for viewing interface without Telegram authorization",
+        "components": ["GuestModeContext", "GuestModeBanner", "useGuestAccess", "ProtectedRoute"],
+        "available_features": ["interface viewing", "navigation", "public content", "playback"],
+        "restricted_features": ["content creation", "editing", "likes", "comments", "personal library", "file downloads"],
+        "indicator": "blue banner at top",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "design_system_doc",
+      "type": "DOCUMENTATION",
+      "label": "Design System Comprehensive",
+      "properties": {
+        "path": "docs/DESIGN_SYSTEM_COMPREHENSIVE.md",
+        "version": "2.0",
+        "status": "Production Ready",
+        "principles": ["mobile-first", "accessibility (WCAG AA)", "performance", "semantic tokens"],
+        "technologies": ["Tailwind CSS 3.4", "CSS variables", "mobile-first approach"],
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "typography_system",
+      "type": "DESIGN_TOKEN",
+      "label": "Typography System",
+      "properties": {
+        "scale": ["text-display-1", "text-display-2", "text-heading-1", "text-heading-2", "text-heading-3", "text-body-lg", "text-body", "text-body-sm", "text-caption", "text-caption-sm"],
+        "font_family": "Inter (primary), Roboto Mono (monospace)",
+        "responsive": true,
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "color_system",
+      "type": "DESIGN_TOKEN",
+      "label": "Color System",
+      "properties": {
+        "light_mode_colors": ["Primary", "Secondary", "Accent", "Success", "Warning", "Destructive"],
+        "dark_mode_support": true,
+        "section_accents": ["generate", "library", "projects", "community"],
+        "css_variables": true,
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "spacing_system",
+      "type": "DESIGN_TOKEN",
+      "label": "Spacing System",
+      "properties": {
+        "base_unit": "4px grid",
+        "tokens": ["--space-1" to "--space-12"],
+        "touch_targets": ["min: 44×44px", "comfortable: 48×48px", "large: 56×56px"],
+        "responsive_spacing": true,
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "z_index_system",
+      "type": "DESIGN_TOKEN",
+      "label": "Z-Index System",
+      "properties": {
+        "levels": ["base: 0", "raised: 10", "sticky: 20", "floating: 30", "overlay: 40", "navigation: 50", "player: 60", "contextual: 70", "dialog: 140", "sheet: 150-151", "dropdown: 200", "tooltip: 250", "toast: 300", "max: 9999"],
+        "semantic_classes": true,
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "safe_areas_system",
+      "type": "DESIGN_TOKEN",
+      "label": "Safe Areas System",
+      "properties": {
+        "platform": "Telegram Mini App",
+        "devices": ["iPhone 15 Pro", "iPhone SE", "Android notch", "Android no notch"],
+        "css_variables": ["--tg-safe-area-inset-top", "--tg-safe-area-inset-bottom"],
+        "utility_classes": [".safe-top", ".safe-bottom", ".safe-vertical", ".safe-all"],
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "motion_system",
+      "type": "DESIGN_TOKEN",
+      "label": "Motion & Animation System",
+      "properties": {
+        "duration_tokens": ["instant", "fast", "normal", "slow", "slower", "slowest"],
+        "easing_functions": ["default", "in", "out", "bounce", "spring"],
+        "custom_animations": ["pulse-glow", "shimmer", "float", "slide-up", "vinyl-spin", "pulse-ring"],
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "developer_guide_doc",
+      "type": "DOCUMENTATION",
+      "label": "Developer Guide",
+      "properties": {
+        "path": "docs/DEVELOPER_GUIDE.md",
+        "target_audience": "Developers joining the project",
+        "prerequisites": ["Node.js 18+", "npm 9+", "Git", "VS Code", "Telegram"],
+        "project_structure": {
+          "docs": "architecture, guides, integrations",
+          "specs": "technical specifications",
+          "sprints": "sprint planning",
+          "src": "application source",
+          "supabase": "backend code"
+        },
+        "testing": ["Jest (unit)", "Playwright (E2E)"],
+        "workflow": ["GitFlow", "code review", "CI/CD"],
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "development_workflow_doc",
+      "type": "DOCUMENTATION",
+      "label": "Development Workflow",
+      "properties": {
+        "path": "docs/DEVELOPMENT_WORKFLOW.md",
+        "workflow": "GitFlow",
+        "branches": ["main (production)", "develop (integration)", "feature/*", "bugfix/*", "hotfix/*"],
+        "code_review": "minimum 1 reviewer",
+        "ci_cd": "automated on main/develop push",
+        "commit_format": "Conventional Commits",
+        "confidence": 0.90
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "error_handling_infrastructure_doc",
+      "type": "DOCUMENTATION",
+      "label": "Error Handling Infrastructure",
+      "properties": {
+        "path": "docs/ERROR_HANDLING_INFRASTRUCTURE.md",
+        "status": "Implemented (T1.4 - Phase 1)",
+        "components": ["Structured Error Types", "Retry Logic", "Enhanced ErrorBoundary"],
+        "error_types": ["ValidationError", "NetworkError", "AuthError", "NotFoundError", "PermissionError", "RateLimitError", "ServiceUnavailableError"],
+        "retry_strategy": "exponential backoff",
+        "user_messages": "Russian",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "app_error_class",
+      "type": "CODE_PATTERN",
+      "label": "AppError Base Class",
+      "properties": {
+        "path": "src/lib/errors.ts",
+        "properties": ["message", "code", "statusCode", "userMessage", "metadata"],
+        "specialized_classes": 8,
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "retry_logic",
+      "type": "CODE_PATTERN",
+      "label": "Retry with Backoff",
+      "properties": {
+        "path": "src/lib/retry.ts",
+        "strategy": "exponential backoff",
+        "max_retries": 3,
+        "initial_delay": "1000ms",
+        "max_delay": "10000ms",
+        "backoff_factor": 2,
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "generation_system_doc",
+      "type": "DOCUMENTATION",
+      "label": "Generation System",
+      "properties": {
+        "path": "docs/GENERATION_SYSTEM.md",
+        "provider": "Suno AI v5",
+        "features": ["A/B versioning", "Streaming preview", "Custom mode", "Audio reference", "Section replacement"],
+        "modes": ["Simple Mode", "Custom Mode"],
+        "limits": {"prompt": "500 chars", "style": "500 chars", "title": "80 chars", "lyrics": "3000 chars"},
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "ab_versioning",
+      "type": "FEATURE_PATTERN",
+      "label": "A/B Versioning",
+      "properties": {
+        "versions_per_generation": 2,
+        "version_labels": ["A", "B"],
+        "clip_indices": [0, 1],
+        "primary_flag": "is_primary",
+        "active_version_reference": "active_version_id",
+        "atomic_update": true,
+        "changelog": "track_change_log",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "streaming_preview",
+      "type": "FEATURE",
+      "label": "Streaming Preview",
+      "properties": {
+        "availability": "during generation",
+        "update_method": "realtime via Supabase",
+        "storage": "tracks.streaming_url",
+        "subscription": "postgres_changes",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "hooks_reference_doc",
+      "type": "DOCUMENTATION",
+      "label": "Hooks Reference",
+      "properties": {
+        "path": "docs/HOOKS_REFERENCE.md",
+        "total_hooks": 263,
+        "total_lines": 48812,
+        "categories": 13,
+        "category_counts": {
+          "audio_system": 25,
+          "studio_production": 28,
+          "generation": 8,
+          "social_engagement": 8
+        },
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "usePlayerStore",
+      "type": "HOOK",
+      "label": "usePlayerStore",
+      "properties": {
+        "path": "src/hooks/audio/usePlayerState.ts",
+        "type": "Zustand Store",
+        "lines": ~200,
+        "state": ["activeTrack", "isPlaying", "currentTime", "duration", "queue", "currentIndex", "shuffle", "repeat", "volume"],
+        "actions": ["playTrack", "pauseTrack", "nextTrack", "previousTrack", "seekTo", "setVolume", "addToQueue"],
+        "persistence": "localStorage",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "useStemAudioEngine",
+      "type": "HOOK",
+      "label": "useStemAudioEngine",
+      "properties": {
+        "path": "src/hooks/studio/useStemAudioEngine.ts",
+        "lines": ~320,
+        "features": ["multi-track sync", "drift detection", "individual volume control", "mute/solo"],
+        "drift_threshold": "0.1s",
+        "sync_interval": "100ms",
+        "confidence": 0.90
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "useGenerateForm",
+      "type": "HOOK",
+      "label": "useGenerateForm",
+      "properties": {
+        "path": "src/hooks/generation/useGenerateForm.ts",
+        "lines": ~180,
+        "purpose": "Music generation form state",
+        "validation": true,
+        "auto_save": true,
+        "confidence": 0.90
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "documentation_index_doc",
+      "type": "DOCUMENTATION",
+      "label": "Documentation Index",
+      "properties": {
+        "path": "docs/INDEX.md",
+        "sections": ["Getting Started", "Architecture", "API", "UI/UX", "References"],
+        "last_updated": "2026-01-21",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "klang_io_doc",
+      "type": "DOCUMENTATION",
+      "label": "Klang.io API Documentation",
+      "properties": {
+        "path": "docs/KLANG_IO.md",
+        "purpose": "Music transcription and format conversion",
+        "formats": ["MIDI", "MusicXML", "GP5", "PDF", "TAB"],
+        "instruments": ["piano", "guitar", "flute", "violin", "trumpet", "bass"],
+        "api_base": "https://api.klang.io",
+        "confidence": 0.90
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "klang_io_transcription",
+      "type": "EXTERNAL_SERVICE",
+      "label": "Klang.io Transcription Service",
+      "properties": {
+        "endpoint": "/api/v1/transcribe",
+        "method": "POST",
+        "authentication": ["X-API-KEY", "X-API-SECRET"],
+        "input_formats": ["WAV", "MP3", "FLAC", "OGG", "M4A", "YouTube"],
+        "output_formats": ["MIDI", "MusicXML", "GP5", "PDF"],
+        "processing": "asynchronous (webhook)",
+        "confidence": 0.90
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "known_issues_doc",
+      "type": "DOCUMENTATION",
+      "label": "Known Issues",
+      "properties": {
+        "path": "docs/KNOWN_ISSUES.md",
+        "critical_issues": ["Telegram Mini App Black Screen", "Waveform Height Inconsistency", "Waveform Black Color", "Waveform Regeneration"],
+        "medium_issues": ["Bundle Size Optimization", "MIDI Transcription Model Errors"],
+        "low_issues": ["iOS Safari Audio Autoplay", "Telegram Desktop Limited API"],
+        "tracking": true,
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "languages_doc",
+      "type": "DOCUMENTATION",
+      "label": "Supported Languages",
+      "properties": {
+        "path": "docs/LANGUAGES.md",
+        "provider": "Suno AI v5",
+        "language_count": 75,
+        "primary_languages": ["Russian", "English", "Spanish", "Japanese", "German", "French", "Korean"],
+        "russian_quality": "Excellent",
+        "recommendations": ["short phrases for Russian", "bilingual support", "no translit"],
+        "confidence": 0.90
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "layout_system_doc",
+      "type": "DOCUMENTATION",
+      "label": "Layout System",
+      "properties": {
+        "path": "docs/LAYOUT_SYSTEM.md",
+        "components": ["z-index hierarchy", "safe area handling", "spacing", "positioning utilities"],
+        "z_index_levels": 12,
+        "safe_area_support": true,
+        "spacing_base": "4px grid",
+        "touch_targets": ["44px min", "48px comfortable", "56px large"],
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "id": "meta_tags_doc",
+      "type": "DOCUMENTATION",
+      "label": "Suno Meta Tags",
+      "properties": {
+        "path": "docs/META_TAGS.md",
+        "purpose": "Control track structure, vocals, and accents",
+        "categories": ["Structural tags", "Vocal directives", "Instrumental cues"],
+        "structural_tags": ["[Verse]", "[Chorus]", "[Pre-Chorus]", "[Bridge]", "[Intro]", "[Outro]", "[Solo]"],
+        "vocal_tags": ["[Spoken Word]", "[Whisper]", "[Scream]", "[Chant]", "[Rap]", "[Ad-lib]", "[Duet]"],
+        "instrumental_tags": ["[Drop]", "[Build-up]", "[Beat switch]", "[Acoustic Interlude]", "[Silence]"],
+        "language": "English recommended",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    }
+  ],
+  "edges": [
+    {
+      "source": "audit_system_doc",
+      "target": "content_audit_log_table",
+      "label": "tracks",
+      "properties": {
+        "relationship": "documents",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "audit_system_doc",
+      "target": "content_deposits_table",
+      "label": "stores proof documents",
+      "properties": {
+        "relationship": "documents",
+        "confidence": 0.90
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "bundle_optimization_doc",
+      "target": "motion_wrapper",
+      "label": "optimizes",
+      "properties": {
+        "relationship": "optimizes",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "bundle_optimization_doc",
+      "target": "icons_wrapper",
+      "label": "optimizes",
+      "properties": {
+        "relationship": "optimizes",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "comprehensive_architecture_doc",
+      "target": "component_hierarchy",
+      "label": "documents",
+      "properties": {
+        "relationship": "documents",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "comprehensive_architecture_doc",
+      "target": "state_management_architecture",
+      "label": "documents",
+      "properties": {
+        "relationship": "documents",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "comprehensive_architecture_doc",
+      "target": "audio_architecture",
+      "label": "documents",
+      "properties": {
+        "relationship": "documents",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "component_hierarchy",
+      "target": "audio_architecture",
+      "label": "includes",
+      "properties": {
+        "relationship": "includes",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "state_management_architecture",
+      "target": "usePlayerStore",
+      "label": "implements",
+      "properties": {
+        "relationship": "implements",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "audio_architecture",
+      "target": "usePlayerStore",
+      "label": "uses",
+      "properties": {
+        "relationship": "uses",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "contextual_hints_doc",
+      "target": "useGenerateForm",
+      "label": "provides hints for",
+      "properties": {
+        "relationship": "supports",
+        "confidence": 0.85
+      },
+      "extraction": "INFERRED"
+    },
+    {
+      "source": "creative_tools_doc",
+      "target": "chord_detection",
+      "label": "documents",
+      "properties": {
+        "relationship": "documents",
+        "confidence": 0.90
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "creative_tools_doc",
+      "target": "tab_editor",
+      "label": "documents",
+      "properties": {
+        "relationship": "documents",
+        "confidence": 0.90
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "creative_tools_doc",
+      "target": "melody_mixer",
+      "label": "documents",
+      "properties": {
+        "relationship": "documents",
+        "confidence": 0.90
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "melody_mixer",
+      "target": "useGenerateForm",
+      "label": "provides reference for",
+      "properties": {
+        "relationship": "integrates_with",
+        "confidence": 0.85
+      },
+      "extraction": "INFERRED"
+    },
+    {
+      "source": "critical_files_doc",
+      "target": "telegram_auth_edge_function",
+      "label": "documents",
+      "properties": {
+        "relationship": "documents",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "database_doc",
+      "target": "track_versions_system",
+      "label": "documents",
+      "properties": {
+        "relationship": "documents",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "database_doc",
+      "target": "suno_meta_tags_system",
+      "label": "documents",
+      "properties": {
+        "relationship": "documents",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "track_versions_system",
+      "target": "generation_system_doc",
+      "label": "implements",
+      "properties": {
+        "relationship": "implements",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "suno_meta_tags_system",
+      "target": "meta_tags_doc",
+      "label": "implements",
+      "properties": {
+        "relationship": "implements",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "demo_mode_doc",
+      "target": "telegram_auth_edge_function",
+      "label": "bypasses",
+      "properties": {
+        "relationship": "bypasses",
+        "confidence": 0.90
+      },
+      "extraction": "INFERRED"
+    },
+    {
+      "source": "design_system_doc",
+      "target": "typography_system",
+      "label": "defines",
+      "properties": {
+        "relationship": "defines",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "design_system_doc",
+      "target": "color_system",
+      "label": "defines",
+      "properties": {
+        "relationship": "defines",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "design_system_doc",
+      "target": "spacing_system",
+      "label": "defines",
+      "properties": {
+        "relationship": "defines",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "design_system_doc",
+      "target": "z_index_system",
+      "label": "defines",
+      "properties": {
+        "relationship": "defines",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "design_system_doc",
+      "target": "safe_areas_system",
+      "label": "defines",
+      "properties": {
+        "relationship": "defines",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "design_system_doc",
+      "target": "motion_system",
+      "label": "defines",
+      "properties": {
+        "relationship": "defines",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "layout_system_doc",
+      "target": "z_index_system",
+      "label": "documents",
+      "properties": {
+        "relationship": "documents",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "layout_system_doc",
+      "target": "safe_areas_system",
+      "label": "documents",
+      "properties": {
+        "relationship": "documents",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "layout_system_doc",
+      "target": "spacing_system",
+      "label": "documents",
+      "properties": {
+        "relationship": "documents",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "developer_guide_doc",
+      "target": "development_workflow_doc",
+      "label": "includes",
+      "properties": {
+        "relationship": "includes",
+        "confidence": 0.90
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "error_handling_infrastructure_doc",
+      "target": "app_error_class",
+      "label": "documents",
+      "properties": {
+        "relationship": "documents",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "error_handling_infrastructure_doc",
+      "target": "retry_logic",
+      "label": "documents",
+      "properties": {
+        "relationship": "documents",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "generation_system_doc",
+      "target": "ab_versioning",
+      "label": "documents",
+      "properties": {
+        "relationship": "documents",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "generation_system_doc",
+      "target": "streaming_preview",
+      "label": "documents",
+      "properties": {
+        "relationship": "documents",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "generation_system_doc",
+      "target": "useGenerateForm",
+      "label": "documents",
+      "properties": {
+        "relationship": "documents",
+        "confidence": 0.90
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "hooks_reference_doc",
+      "target": "usePlayerStore",
+      "label": "documents",
+      "properties": {
+        "relationship": "documents",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "hooks_reference_doc",
+      "target": "useStemAudioEngine",
+      "label": "documents",
+      "properties": {
+        "relationship": "documents",
+        "confidence": 0.90
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "hooks_reference_doc",
+      "target": "useGenerateForm",
+      "label": "documents",
+      "properties": {
+        "relationship": "documents",
+        "confidence": 0.90
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "klang_io_doc",
+      "target": "klang_io_transcription",
+      "label": "documents",
+      "properties": {
+        "relationship": "documents",
+        "confidence": 0.90
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "known_issues_doc",
+      "target": "telegram_auth_edge_function",
+      "label": "tracks issues with",
+      "properties": {
+        "relationship": "tracks",
+        "confidence": 0.95
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "known_issues_doc",
+      "target": "usePlayerStore",
+      "label": "tracks issues with",
+      "properties": {
+        "relationship": "tracks",
+        "confidence": 0.85
+      },
+      "extraction": "INFERRED"
+    },
+    {
+      "source": "languages_doc",
+      "target": "generation_system_doc",
+      "label": "applies to",
+      "properties": {
+        "relationship": "applies_to",
+        "confidence": 0.90
+      },
+      "extraction": "EXTRACTED"
+    },
+    {
+      "source": "languages_doc",
+      "target": "meta_tags_doc",
+      "label": "relates to",
+      "properties": {
+        "relationship": "relates_to",
+        "confidence": 0.85
+      },
+      "extraction": "INFERRED"
+    }
+  ]
+}

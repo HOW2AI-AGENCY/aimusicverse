@@ -1,0 +1,103 @@
+{
+  "nodes": [
+    {"id": "SPRINT_032", "type": "sprint", "label": "Sprint 032: UX Improvements & Engagement", "properties": {"date": "2026-01-20", "status": "Phase 1 Complete", "progress": "6/10 User Stories"}},
+    {"id": "US_001", "type": "user_story", "label": "US-001: Quick Start Button", "properties": {"story_points": 5, "status": "✅ Complete", "purpose": "One-click music generation"}},
+    {"id": "US_003", "type": "user_story", "label": "US-003: User-Friendly Error Messages", "properties": {"story_points": 5, "status": "✅ Complete", "purpose": "Comprehensive error mapping"}},
+    {"id": "US_004", "type": "user_story", "label": "US-004: Automatic Retry", "properties": {"story_points": 3, "status": "✅ Complete", "purpose": "Exponential backoff system"}},
+    {"id": "US_005", "type": "user_story", "label": "US-005: First Comment CTA", "properties": {"story_points": 3, "status": "✅ Complete", "purpose": "Engaging comment prompts"}},
+    {"id": "US_006", "type": "user_story", "label": "US-006: Comment Suggestions", "properties": {"story_points": 2, "status": "✅ Complete", "purpose": "Context-aware suggestions"}},
+    {"id": "US_007", "type": "user_story", "label": "US-007: Personalized Recommendations", "properties": {"story_points": 5, "status": "✅ Complete", "purpose": "Similarity algorithm"}},
+    {"id": "US_002", "type": "user_story", "label": "US-002: Simplified Generation Form", "properties": {"story_points": 3, "status": "🔄 Not started"}},
+    {"id": "US_008", "type": "user_story", "label": "US-008: Continue Creating CTA", "properties": {"story_points": 2, "status": "🔄 Not started"}},
+    {"id": "US_009", "type": "user_story", "label": "US-009: Loading State Improvements", "properties": {"story_points": 2, "status": "🔄 Not started"}},
+    {"id": "US_010", "type": "user_story", "label": "US-010: Analytics Integration", "properties": {"story_points": 3, "status": "🔄 Partial"}},
+
+    {"id": "QuickStartButton", "type": "component", "label": "QuickStartButton", "properties": {"file": "src/components/onboarding/QuickStartButton.tsx", "lines": 190, "features": ["One-tap generation", "4 presets", "Animated glow", "Haptic feedback"]}},
+    {"id": "UserFriendlyErrorDisplay", "type": "component", "label": "UserFriendlyErrorDisplay", "properties": {"file": "src/components/errors/UserFriendlyError.tsx", "lines": 180, "features": ["20+ error codes", "Actionable steps", "Context-aware"]}},
+    {"id": "FirstCommentCTA", "type": "component", "label": "FirstCommentCTA", "properties": {"file": "src/components/comments/FirstCommentCTA.tsx", "lines": 240, "features": ["Gradient banner", "3 variants", "7-day memory"]}},
+    {"id": "CommentSuggestions", "type": "component", "label": "CommentSuggestions", "properties": {"file": "src/components/comments/CommentSuggestions.tsx", "lines": 200, "features": ["10+ genres", "Context-aware", "Tap-to-insert"]}},
+    {"id": "PersonalizedRecommendations", "type": "component", "label": "PersonalizedRecommendations", "properties": {"file": "src/components/discovery/PersonalizedRecommendations.tsx", "lines": 220, "features": ["Similarity algorithm", "Create similar", "Explain similarity"]}},
+    {"id": "suno-error-mapper", "type": "utility", "label": "suno-error-mapper", "properties": {"file": "src/lib/suno-error-mapper.ts", "lines": 280, "purpose": "Error mapping logic"}},
+    {"id": "track-similarity", "type": "utility", "label": "track-similarity", "properties": {"file": "src/lib/track-similarity.ts", "lines": 180, "purpose": "Similarity algorithm"}},
+    {"id": "useAutomaticRetry", "type": "hook", "label": "useAutomaticRetry", "properties": {"file": "src/hooks/useAutomaticRetry.ts", "lines": 170, "features": ["Exponential backoff", "Configurable retries", "Countdown display"]}},
+
+    {"id": "ErrorHandling", "type": "feature", "label": "Error Handling System", "properties": {"components": ["UserFriendlyErrorDisplay", "useAutomaticRetry", "suno-error-mapper"]}},
+    {"id": "UserEngagement", "type": "feature", "label": "User Engagement Features", "properties": {"components": ["FirstCommentCTA", "CommentSuggestions", "PersonalizedRecommendations"]}},
+    {"id": "QuickStart", "type": "feature", "label": "Quick Start System", "properties": {"components": ["QuickStartButton"]}},
+
+    {"id": "Phase1", "type": "phase", "label": "Phase 1: Quick Wins", "properties": {"status": "Complete", "user_stories": 6, "duration": "Days 1-3"}},
+    {"id": "Phase2", "type": "phase", "label": "Phase 2: Integration", "properties": {"status": "Not started", "user_stories": 4, "duration": "Days 4-7"}},
+
+    {"id": "Analytics", "type": "system", "label": "Analytics System", "properties": {"events": ["quick_start_tapped", "comment_cta_shown", "generation_retry_attempt"], "purpose": "Track user behavior"}},
+    {"id": "Testing", "type": "activity", "label": "Testing Strategy", "properties": {"types": ["Unit", "Integration", "E2E"], "status": "Pending"}},
+    {"id": "Deployment", "type": "activity", "label": "Deployment Process", "properties": {"steps": ["Code Review", "Testing", "Staging", "Production"], "status": "Pending"}}
+  ],
+  "edges": [
+    {"source": "SPRINT_032", "target": "US_001", "label": "implements", "type": "implements"},
+    {"source": "SPRINT_032", "target": "US_003", "label": "implements", "type": "implements"},
+    {"source": "SPRINT_032", "target": "US_004", "label": "implements", "type": "implements"},
+    {"source": "SPRINT_032", "target": "US_005", "label": "implements", "type": "implements"},
+    {"source": "SPRINT_032", "target": "US_006", "label": "implements", "type": "implements"},
+    {"source": "SPRINT_032", "target": "US_007", "label": "implements", "type": "implements"},
+    {"source": "SPRINT_032", "target": "US_002", "label": "implements", "type": "implements"},
+    {"source": "SPRINT_032", "target": "US_008", "label": "implements", "type": "implements"},
+    {"source": "SPRINT_032", "target": "US_009", "label": "implements", "type": "implements"},
+    {"source": "SPRINT_032", "target": "US_010", "label": "implements", "type": "implements"},
+
+    {"source": "US_001", "target": "QuickStartButton", "label": "implemented_by", "type": "implemented_by"},
+    {"source": "US_003", "target": "UserFriendlyErrorDisplay", "label": "implemented_by", "type": "implemented_by"},
+    {"source": "US_004", "target": "useAutomaticRetry", "label": "implemented_by", "type": "implemented_by"},
+    {"source": "US_005", "target": "FirstCommentCTA", "label": "implemented_by", "type": "implemented_by"},
+    {"source": "US_006", "target": "CommentSuggestions", "label": "implemented_by", "type": "implemented_by"},
+    {"source": "US_007", "target": "PersonalizedRecommendations", "label": "implemented_by", "type": "implemented_by"},
+
+    {"source": "UserFriendlyErrorDisplay", "target": "suno-error-mapper", "label": "uses", "type": "uses"},
+    {"source": "useAutomaticRetry", "target": "suno-error-mapper", "label": "uses", "type": "uses"},
+    {"source": "PersonalizedRecommendations", "target": "track-similarity", "label": "uses", "type": "uses"},
+
+    {"source": "UserFriendlyErrorDisplay", "target": "ErrorHandling", "label": "part_of", "type": "part_of"},
+    {"source": "useAutomaticRetry", "target": "ErrorHandling", "label": "part_of", "type": "part_of"},
+    {"source": "suno-error-mapper", "target": "ErrorHandling", "label": "part_of", "type": "part_of"},
+
+    {"source": "FirstCommentCTA", "target": "UserEngagement", "label": "part_of", "type": "part_of"},
+    {"source": "CommentSuggestions", "target": "UserEngagement", "label": "part_of", "type": "part_of"},
+    {"source": "PersonalizedRecommendations", "target": "UserEngagement", "label": "part_of", "type": "part_of"},
+
+    {"source": "QuickStartButton", "target": "QuickStart", "label": "part_of", "type": "part_of"},
+
+    {"source": "US_001", "target": "Phase1", "label": "belongs_to", "type": "belongs_to"},
+    {"source": "US_003", "target": "Phase1", "label": "belongs_to", "type": "belongs_to"},
+    {"source": "US_004", "target": "Phase1", "label": "belongs_to", "type": "belongs_to"},
+    {"source": "US_005", "target": "Phase1", "label": "belongs_to", "type": "belongs_to"},
+    {"source": "US_006", "target": "Phase1", "label": "belongs_to", "type": "belongs_to"},
+    {"source": "US_007", "target": "Phase1", "label": "belongs_to", "type": "belongs_to"},
+
+    {"source": "US_002", "target": "Phase2", "label": "belongs_to", "type": "belongs_to"},
+    {"source": "US_008", "target": "Phase2", "label": "belongs_to", "type": "belongs_to"},
+    {"source": "US_009", "target": "Phase2", "label": "belongs_to", "type": "belongs_to"},
+    {"source": "US_010", "target": "Phase2", "label": "belongs_to", "type": "belongs_to"},
+
+    {"source": "QuickStartButton", "target": "Analytics", "label": "tracks_events", "type": "tracks"},
+    {"source": "FirstCommentCTA", "target": "Analytics", "label": "tracks_events", "type": "tracks"},
+    {"source": "CommentSuggestions", "target": "Analytics", "label": "tracks_events", "type": "tracks"},
+    {"source": "useAutomaticRetry", "target": "Analytics", "label": "tracks_events", "type": "tracks"},
+
+    {"source": "QuickStartButton", "target": "Testing", "label": "requires_testing", "type": "requires"},
+    {"source": "UserFriendlyErrorDisplay", "target": "Testing", "label": "requires_testing", "type": "requires"},
+    {"source": "useAutomaticRetry", "target": "Testing", "label": "requires_testing", "type": "requires"},
+    {"source": "track-similarity", "target": "Testing", "label": "requires_testing", "type": "requires"},
+
+    {"source": "SPRINT_032", "target": "Deployment", "label": "requires", "type": "requires"},
+    {"source": "Testing", "target": "Deployment", "label": "must_complete_before", "type": "prerequisite"}
+  ],
+  "hyperedges": [
+    {"id": "UX_IMPROVEMENTS", "type": "feature_group", "members": ["US_001", "US_002", "US_008"], "label": "UX Improvements"},
+    {"id": "ERROR_HANDLING_GROUP", "type": "feature_group", "members": ["US_003", "US_004"], "label": "Error Handling"},
+    {"id": "ENGAGEMENT_FEATURES", "type": "feature_group", "members": ["US_005", "US_006", "US_007"], "label": "Engagement Features"},
+    {"id": "PHASE1_STORIES", "type": "phase_group", "members": ["US_001", "US_003", "US_004", "US_005", "US_006", "US_007"], "label": "Phase 1 User Stories"},
+    {"id": "PHASE2_STORIES", "type": "phase_group", "members": ["US_002", "US_008", "US_009", "US_010"], "label": "Phase 2 User Stories"},
+    {"id": "ANALYTICS_EVENTS", "type": "event_group", "members": ["QuickStartButton", "FirstCommentCTA", "CommentSuggestions", "useAutomaticRetry"], "label": "Analytics Tracking Components"}
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

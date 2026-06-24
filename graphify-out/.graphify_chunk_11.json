@@ -1,0 +1,405 @@
+{
+  "nodes": [
+    {
+      "id": "n_chunk_11_1",
+      "type": "improvement_plan",
+      "properties": {
+        "name": "Комплексный план улучшения MusicVerse AI",
+        "date": "2025-12-09",
+        "version": "2.0",
+        "status": "READY_FOR_EXECUTION",
+        "overall_score": 9.0,
+        "total_checks": 309,
+        "traceability": 0.89,
+        "focus_areas": ["UX & Mobile", "Performance & Integration", "Architecture & Code Quality", "Data & API"]
+      },
+      "confidence": 1.0
+    },
+    {
+      "id": "n_chunk_11_2",
+      "type": "technical_fix",
+      "properties": {
+        "name": "React Hooks Undefined Error Fix",
+        "date": "2025-12-09",
+        "issue": "useSyncExternalStore undefined",
+        "root_cause": "Circular dependency between @tanstack/query-core and @tanstack/react-query",
+        "solution": "Colocate both packages in vendor-query chunk",
+        "bundle_impact": "+40KB vendor-query, -40KB vendor-other"
+      },
+      "confidence": 0.95
+    },
+    {
+      "id": "n_chunk_11_3",
+      "type": "critical_fix",
+      "properties": {
+        "name": "Application Startup Crash Fix",
+        "date": "2025-12-10",
+        "issue": "Supabase import path errors",
+        "root_cause": "Incorrect import path @/lib/supabase",
+        "solution": "Correct to @/integrations/supabase/client",
+        "files_changed": 2
+      },
+      "confidence": 1.0
+    },
+    {
+      "id": "n_chunk_11_4",
+      "type": "dependency_fix",
+      "properties": {
+        "name": "Dependency Conflicts Resolution",
+        "date": "2025-12-09",
+        "branch": "copilot/fix-dependency-conflicts-audit",
+        "issues_fixed": 16,
+        "lint_errors_resolved": 28,
+        "patterns": ["React Effect setState", "Math.random() purity", "Explicit any types", "Missing dependencies"]
+      },
+      "confidence": 0.92
+    },
+    {
+      "id": "n_chunk_11_5",
+      "type": "optimization_session",
+      "properties": {
+        "name": "Project Optimization Session",
+        "date": "2025-12-09",
+        "branch": "copilot/optimize-project-interface-again",
+        "commits": 4,
+        "focus": "P1 критические улучшения, security fixes, code quality",
+        "tasks_completed": 4,
+        "security_vulnerabilities_fixed": 1
+      },
+      "confidence": 0.9
+    },
+    {
+      "id": "n_chunk_11_6",
+      "type": "fix_summary",
+      "properties": {
+        "name": "React Module Loading Fix #4",
+        "date": "2025-12-09",
+        "issue": "useSyncExternalStore undefined (TanStack Query)",
+        "solution": "Colocate @tanstack/react-query and @tanstack/query-core in vendor-query",
+        "bundle_change": "+40KB vendor-query, -40KB vendor-other"
+      },
+      "confidence": 0.95
+    },
+    {
+      "id": "n_chunk_11_7",
+      "type": "audit_report",
+      "properties": {
+        "name": "Player System Audit",
+        "date": "2025-12-10",
+        "bugs_fixed": 6,
+        "features_added": 6,
+        "files_modified": 8,
+        "files_created": 4,
+        "total_lines": 862
+      },
+      "confidence": 0.88
+    },
+    {
+      "id": "n_chunk_11_8",
+      "type": "improvement_implementation",
+      "properties": {
+        "name": "Professional Interface Improvements",
+        "date": "2025-12-09",
+        "components_created": 6,
+        "pages_created": 1,
+        "overall_rating": 9.8,
+        "uiux_improvement": 150
+      },
+      "confidence": 0.85
+    },
+    {
+      "id": "n_chunk_11_9",
+      "type": "platform_audit",
+      "properties": {
+        "name": "Professional Platform Audit",
+        "date": "2025-12-09",
+        "completeness_score": 5,
+        "professional_tools_rating": 5,
+        "functionality_rating": 4
+      },
+      "confidence": 0.87
+    },
+    {
+      "id": "n_chunk_11_10",
+      "type": "stem_studio_audit",
+      "properties": {
+        "name": "Stem Studio Audit",
+        "date": "2025-12-09",
+        "component_size": 1105,
+        "code_lines": 18862,
+        "issues_identified": 5,
+        "recommendations": 9
+      },
+      "confidence": 0.83
+    },
+    {
+      "id": "n_chunk_11_11",
+      "type": "stem_studio_improvements",
+      "properties": {
+        "name": "Stem Studio Improvements Phase 1",
+        "date": "2025-12-09",
+        "hooks_created": 3,
+        "core_components": 4,
+        "ui_components": 2,
+        "re_render_reduction": 40
+      },
+      "confidence": 0.86
+    },
+    {
+      "id": "n_chunk_11_12",
+      "type": "mobile_enhancement",
+      "properties": {
+        "name": "Stem Studio Mobile Enhancements",
+        "date": "2025-12-09",
+        "components_created": 3,
+        "features": ["Stem-as-reference workflows", "Section editing auto-save", "MIDI transcription UI"],
+        "touch_targets_compliant": true
+      },
+      "confidence": 0.84
+    },
+    {
+      "id": "n_chunk_11_13",
+      "type": "telegram_integration_audit",
+      "properties": {
+        "name": "Telegram Integration System Audit",
+        "date": "2025-12-09",
+        "version": 3.0,
+        "pages_created": 3,
+        "bot_commands_added": 3,
+        "admin_panels": 2,
+        "api_methods_added": 8
+      },
+      "confidence": 0.89
+    },
+    {
+      "id": "n_chunk_11_14",
+      "type": "player_improvements",
+      "properties": {
+        "name": "Audio Player System Improvements",
+        "date": "2025-12-09",
+        "completion": 85,
+        "files_created": 13,
+        "bundle_reduction": 28,
+        "cache_hit_rate": 80
+      },
+      "confidence": 0.87
+    },
+    {
+      "id": "n_chunk_11_15",
+      "type": "current_state_analysis",
+      "properties": {
+        "name": "MusicVerse AI Current State Analysis",
+        "date": "2025-12-21",
+        "progress": 80,
+        "health_score": 97,
+        "components": 150,
+        "edge_functions": 94
+      },
+      "confidence": 0.91
+    },
+    {
+      "id": "n_chunk_11_16",
+      "type": "documentation_update",
+      "properties": {
+        "name": "Documentation Synchronization",
+        "date": "2026-01-04",
+        "files_updated": 4,
+        "metrics_synchronized": true,
+        "edge_functions_count": 99,
+        "component_files": 888
+      },
+      "confidence": 0.93
+    },
+    {
+      "id": "n_chunk_11_17",
+      "type": "implementation_roadmap",
+      "properties": {
+        "name": "Implementation Roadmap 2026",
+        "created": "2026-01-04",
+        "horizon": "Q1-Q2 2026",
+        "sprints_planned": 5,
+        "focus_areas": ["Mobile Performance", "Database Optimization", "Mobile UX", "Data Caching", "Bug Fixes"]
+      },
+      "confidence": 0.88
+    },
+    {
+      "id": "n_chunk_11_18",
+      "type": "optimization_plan",
+      "properties": {
+        "name": "MusicVerse AI Optimization Plan 2026",
+        "created": "2025-12-21",
+        "period": "January - June 2026",
+        "critical_tasks": 5,
+        "sprints": ["Sprint 027: Consolidation", "Sprint 028: Mobile Polish"]
+      },
+      "confidence": 0.86
+    },
+    {
+      "id": "n_chunk_11_19",
+      "type": "optimization_progress",
+      "properties": {
+        "name": "Optimization Progress Tracking",
+        "date": "2025-12-21",
+        "overall_progress": 47,
+        "tasks_completed": 2.33,
+        "total_tasks": 5,
+        "status": "In Progress"
+      },
+      "confidence": 0.82
+    }
+  ],
+  "edges": [
+    {
+      "source": "n_chunk_11_1",
+      "target": "n_chunk_11_2",
+      "type": "includes",
+      "properties": {
+        "relationship": "part of critical fixes in comprehensive plan"
+      },
+      "confidence": 0.85
+    },
+    {
+      "source": "n_chunk_11_1",
+      "target": "n_chunk_11_4",
+      "type": "addresses",
+      "properties": {
+        "relationship": "dependency conflicts identified in audit"
+      },
+      "confidence": 0.82
+    },
+    {
+      "source": "n_chunk_11_2",
+      "target": "n_chunk_11_6",
+      "type": "follows_pattern",
+      "properties": {
+        "relationship": "fourth fix in React module loading series"
+      },
+      "confidence": 0.9
+    },
+    {
+      "source": "n_chunk_11_4",
+      "target": "n_chunk_11_3",
+      "type": "includes_fix_for",
+      "properties": {
+        "relationship": "fixes compilation errors preventing startup"
+      },
+      "confidence": 0.88
+    },
+    {
+      "source": "n_chunk_11_5",
+      "target": "n_chunk_11_1",
+      "type": "implements",
+      "properties": {
+        "relationship": "executes P1 improvements from plan"
+      },
+      "confidence": 0.87
+    },
+    {
+      "source": "n_chunk_11_7",
+      "target": "n_chunk_11_14",
+      "type": "overlaps_with",
+      "properties": {
+        "relationship": "both address player system improvements"
+      },
+      "confidence": 0.8
+    },
+    {
+      "source": "n_chunk_11_8",
+      "target": "n_chunk_11_9",
+      "type": "responds_to",
+      "properties": {
+        "relationship": "implements improvements identified in audit"
+      },
+      "confidence": 0.86
+    },
+    {
+      "source": "n_chunk_11_10",
+      "target": "n_chunk_11_11",
+      "type": "leads_to",
+      "properties": {
+        "relationship": "audit identifies areas, improvements implement them"
+      },
+      "confidence": 0.91
+    },
+    {
+      "source": "n_chunk_11_11",
+      "target": "n_chunk_11_12",
+      "type": "includes",
+      "properties": {
+        "relationship": "mobile enhancements part of improvements"
+      },
+      "confidence": 0.83
+    },
+    {
+      "source": "n_chunk_11_13",
+      "target": "n_chunk_11_8",
+      "type": "integrates_with",
+      "properties": {
+        "relationship": "Telegram integration supports professional features"
+      },
+      "confidence": 0.79
+    },
+    {
+      "source": "n_chunk_11_15",
+      "target": "n_chunk_11_18",
+      "type": "informs",
+      "properties": {
+        "relationship": "current state analysis informs optimization plan"
+      },
+      "confidence": 0.92
+    },
+    {
+      "source": "n_chunk_11_16",
+      "target": "n_chunk_11_15",
+      "type": "updates",
+      "properties": {
+        "relationship": "documentation update reflects current state analysis"
+      },
+      "confidence": 0.88
+    },
+    {
+      "source": "n_chunk_11_17",
+      "target": "n_chunk_11_18",
+      "type": "elaborates",
+      "properties": {
+        "relationship": "roadmap provides detailed implementation of plan"
+      },
+      "confidence": 0.9
+    },
+    {
+      "source": "n_chunk_11_18",
+      "target": "n_chunk_11_19",
+      "type": "tracks_progress",
+      "properties": {
+        "relationship": "progress document tracks optimization plan execution"
+      },
+      "confidence": 0.87
+    },
+    {
+      "source": "n_chunk_11_10",
+      "target": "n_chunk_11_15",
+      "type": "analyzed_in",
+      "properties": {
+        "relationship": "stem studio analyzed in current state"
+      },
+      "confidence": 0.85
+    }
+  ],
+  "metadata": {
+    "chunk_id": 11,
+    "chunk_range": "2025-12 optimization session through 2026-01 documentation updates",
+    "total_nodes": 19,
+    "total_edges": 15,
+    "extraction_method": "comprehensive_file_analysis",
+    "confidence_threshold": 0.75,
+    "source_documents": 21,
+    "date_range": "2025-12-09 to 2026-01-04",
+    "themes": [
+      "optimization_planning",
+      "technical_fixes",
+      "audit_reports",
+      "improvement_implementation",
+      "documentation_updates"
+    ]
+  }
+}

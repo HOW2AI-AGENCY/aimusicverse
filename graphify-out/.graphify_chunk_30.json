@@ -1,0 +1,161 @@
+{
+  "nodes": [
+    {
+      "id": "telegram_bot_profile_interface",
+      "label": "Telegram Bot Profile Interface",
+      "type": "UI_COMPONENT",
+      "source_file": "public/images/bot/profile.jpg",
+      "line_number": 1,
+      "description": "User profile interface within the MusicVerse AI Telegram bot showing account information, statistics, and settings access",
+      "confidence": 0.95
+    },
+    {
+      "id": "user_profile_display",
+      "label": "User Profile Display",
+      "type": "UI_PATTERN",
+      "source_file": "public/images/bot/profile.jpg",
+      "line_number": 1,
+      "description": "Visual display of user profile information including username, avatar, and account details within Telegram bot interface",
+      "confidence": 0.9
+    },
+    {
+      "id": "account_statistics_section",
+      "label": "Account Statistics Section",
+      "type": "UI_COMPONENT",
+      "source_file": "public/images/bot/profile.jpg",
+      "line_number": 1,
+      "description": "Section showing user account metrics such as tracks generated, storage used, and account level",
+      "confidence": 0.85
+    },
+    {
+      "id": "settings_access_button",
+      "label": "Settings Access Button",
+      "type": "INTERACTIVE_ELEMENT",
+      "source_file": "public/images/bot/profile.jpg",
+      "line_number": 1,
+      "description": "Interactive button element that provides access to user settings and preferences configuration",
+      "confidence": 0.9
+    },
+    {
+      "id": "telegram_inline_keyboard",
+      "label": "Telegram Inline Keyboard",
+      "type": "UI_PATTERN",
+      "source_file": "public/images/bot/profile.jpg",
+      "line_number": 1,
+      "description": "Telegram's inline keyboard pattern providing button-based navigation and actions within bot conversations",
+      "confidence": 0.95
+    },
+    {
+      "id": "user_account_data_model",
+      "label": "User Account Data Model",
+      "type": "DATA_STRUCTURE",
+      "source_file": "public/images/bot/profile.jpg",
+      "line_number": 1,
+      "description": "Underlying data structure representing user account information including profile details, statistics, and preferences stored in Supabase profiles table",
+      "confidence": 0.85
+    },
+    {
+      "id": "bot_command_handler",
+      "label": "Bot Command Handler",
+      "type": "COMPONENT",
+      "source_file": "public/images/bot/profile.jpg",
+      "line_number": 1,
+      "description": "Telegram bot command handler that processes profile-related requests and fetches user data from database",
+      "confidence": 0.85
+    },
+    {
+      "id": "profile_image_800x544",
+      "label": "Profile Interface Screenshot",
+      "type": "VISUAL_ASSET",
+      "source_file": "public/images/bot/profile.jpg",
+      "line_number": 1,
+      "description": "JPEG image (800x544 pixels) documenting the visual state of Telegram bot profile interface for reference and documentation purposes",
+      "confidence": 1.0
+    }
+  ],
+  "edges": [
+    {
+      "source": "telegram_bot_profile_interface",
+      "target": "user_profile_display",
+      "relationship": "CONTAINS",
+      "confidence": 0.95,
+      "source_file": "public/images/bot/profile.jpg"
+    },
+    {
+      "source": "telegram_bot_profile_interface",
+      "target": "account_statistics_section",
+      "relationship": "CONTAINS",
+      "confidence": 0.9,
+      "source_file": "public/images/bot/profile.jpg"
+    },
+    {
+      "source": "telegram_bot_profile_interface",
+      "target": "settings_access_button",
+      "relationship": "CONTAINS",
+      "confidence": 0.9,
+      "source_file": "public/images/bot/profile.jpg"
+    },
+    {
+      "source": "telegram_bot_profile_interface",
+      "target": "telegram_inline_keyboard",
+      "relationship": "USES_PATTERN",
+      "confidence": 0.9,
+      "source_file": "public/images/bot/profile.jpg"
+    },
+    {
+      "source": "user_profile_display",
+      "target": "user_account_data_model",
+      "relationship": "RENDERS_DATA_FROM",
+      "confidence": 0.85,
+      "source_file": "public/images/bot/profile.jpg"
+    },
+    {
+      "source": "account_statistics_section",
+      "target": "user_account_data_model",
+      "relationship": "AGGREGATES_DATA_FROM",
+      "confidence": 0.85,
+      "source_file": "public/images/bot/profile.jpg"
+    },
+    {
+      "source": "settings_access_button",
+      "target": "bot_command_handler",
+      "relationship": "TRIGGERS",
+      "confidence": 0.8,
+      "source_file": "public/images/bot/profile.jpg"
+    },
+    {
+      "source": "bot_command_handler",
+      "target": "user_account_data_model",
+      "relationship": "QUERIES",
+      "confidence": 0.9,
+      "source_file": "public/images/bot/profile.jpg"
+    },
+    {
+      "source": "profile_image_800x544",
+      "target": "telegram_bot_profile_interface",
+      "relationship": "DOCUMENTS",
+      "confidence": 0.95,
+      "source_file": "public/images/bot/profile.jpg"
+    }
+  ],
+  "hyperedges": [
+    {
+      "id": "telegram_profile_system",
+      "type": "SYSTEM",
+      "description": "Complete Telegram bot profile system including UI components, data models, command handlers, and interactive elements",
+      "members": [
+        "telegram_bot_profile_interface",
+        "user_profile_display",
+        "account_statistics_section",
+        "settings_access_button",
+        "telegram_inline_keyboard",
+        "user_account_data_model",
+        "bot_command_handler"
+      ],
+      "confidence": 0.85,
+      "source_file": "public/images/bot/profile.jpg"
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}
