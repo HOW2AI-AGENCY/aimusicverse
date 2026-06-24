@@ -1,95 +1,65 @@
-## Цель
+# Большой проход: плеер + главная + навигация + безопасность
 
-Редизайн нижней «мини-панели» плеера (`CompactPlayer`) так, чтобы она:
+## 1. Подсветка лирики в полноэкранном плеере
+**Проблема:** `KaraokeView`/`LyricsPanel` не показывают синхронизированный текст в fullscreen.
 
-- одинаково корректно жила на mobile portrait, mobile landscape, tablet и desktop;
-- всегда имела доступную кнопку закрытия (×);
-- по клику на тело/обложку/название разворачивалась во весь экран;
-- содержала полный набор управляющих кнопок там, где есть место;
-- имела выверенные отступы и размер визуализатора волны.
+**Действия:**
+- В `src/components/player/KaraokeView.tsx`: подключить активную версию через `useActiveVersion(trackId)`, читать `lyrics` + `timestamped_lyrics` из неё (а не из `activeTrack` напрямую).
+- Использовать `useAudioTime()` для текущего времени, скролл активной строки через `scrollIntoView({ block: 'center', behavior: 'smooth' })`.
+- Fallback: если нет таймкодов — выровненный текст без подсветки + сообщение «Тайминги недоступны».
+- Поддержка LRC/JSON тегов через существующий `src/lib/lyricsTiming.ts` (если есть) или inline парсер.
 
-Fullscreen-плееры (`MobileFullscreenPlayer`, `DesktopFullscreenPlayer`) и логика смены режимов в `ResizablePlayer` не трогаются — там кнопка закрытия уже есть и работает корректно.
+## 2. Унификация fullscreen-плеера
+**Сейчас:** `MobileFullscreenPlayer.tsx` (1025 строк), `DesktopFullscreenPlayer.tsx` (384), `ExpandedPlayer.tsx` (456) — дубли логики.
 
-## Что меняется
+**Действия:**
+- Создать `src/components/player/FullscreenPlayer.tsx` (≤450 строк) — единый компонент с тремя layout-вариантами через `useMediaQuery`:
+  - **mobile (<768px):** вертикальный stack — cover (60vh) → title/artist → waveform+таймлайн → controls (prev/play/next, size 56) → secondary row (like, queue, lyrics toggle, ×).
+  - **tablet (768–1279):** split — cover слева 45%, lyrics/controls справа.
+  - **desktop (≥1280):** широкая палитра — cover слева 40%, в центре waveform + transport, справа lyrics panel; close ×, queue, like в header.
+- Подкомпоненты вынести в `src/components/player/fullscreen/`: `FullscreenHeader.tsx`, `FullscreenCover.tsx`, `FullscreenTimeline.tsx` (waveform + currentTime/duration), `FullscreenControls.tsx`, `FullscreenLyrics.tsx` (обёртка над `KaraokeView`).
+- Таймлайн: waveform высотой 56px на desktop / 40px на mobile, времена `mm:ss` слева/справа, прогресс синхронизирован с `useAudioTime`.
+- Удалить `MobileFullscreenPlayer.tsx`, `DesktopFullscreenPlayer.tsx`, `ExpandedPlayer.tsx` после миграции всех импортов (поиск через rg).
+- Кнопка × — `min-h-11 min-w-11`, `aria-label="Закрыть плеер"`, `stopPropagation`, всегда в правом верхнем углу с учётом safe-area.
 
-### 1. `src/components/player/CompactPlayer.tsx` — адаптивная компоновка
+## 3. Главная страница + навигация
+**Действия в `src/pages/Index.tsx`:**
+- Перекомпоновать секции в чёткую иерархию: Hero/StatsHighlight → Quick Actions (Generate/Library/Studio CTA) → Featured tracks → New releases → Popular → AutoPlaylists → Community.
+- Унифицировать обёртку секций через новый `src/components/home/HomeSection.tsx` с консистентными `py-8 md:py-12`, заголовком + действием справа.
+- Desktop: max-w-7xl container, 12-колоночный grid; убрать произвольные ширины и `gap`-конфликты.
+- Mobile: 1 колонка, горизонтальные scroll-ленты для карусели.
 
-Делаем один компонент с тремя вариантами layout, выбираемыми по media-query (`useMediaQuery`):
+**Навигация:**
+- `Sidebar.tsx`: проверить z-index (`z-40`), edge-rail mode (`w-14`) для md+, full mode (`w-64`) для xl+; на mobile — sheet.
+- `BottomNav.tsx`: только mobile/tablet portrait; убрать пересечения с CompactPlayer (отступ снизу = высота плеера через CSS var `--compact-player-height`).
+- В `MainLayout` пробросить `--compact-player-height` из `ResizablePlayer` через `useEffect` + `ResizeObserver`.
 
-- **mobile (<640px)** — текущая 2-рядная сетка:
-  - Row 1: тонкая waveform-полоса (24–28px) + chevron-up;
-  - Row 2: обложка 48×48 → название/стиль → play (44×44) → next (40×40) → **новая × кнопка 36×36**;
-  - Tap по обложке/тексту/волне → expand. × не разворачивает, а вызывает `closePlayer()`.
-- **mobile landscape / tablet (≥640px, <1024px)** — однорядная компоновка:
-  - обложка 44×44 → название/стиль → waveform (растёт во flex-1, высота 22px) → play/next → ×.
-- **desktop (≥1024px)** — расширенный dock:
-  - max-width растёт до `max-w-5xl`;
-  - порядок: обложка 56×56 → title/style → **prev (40×40)** → play (48×48) → next (40×40) → текущее время / общая длительность (tabular-nums) → waveform во flex-1 (высота 32px) → like → volume (popover-слайдер) → expand-chevron → ×;
-  - hover state добавляет ring/тень, без скейла.
+## 4. Тесты
+- Уже добавлен `tests/e2e/player.compact.fullscreen.spec.ts`.
+- Добавить `tests/e2e/player.lyrics.spec.ts`: открыть fullscreen, переключить вкладку «Текст», убедиться что активная строка имеет `data-active="true"` и видна.
+- Добавить `tests/e2e/home.layout.spec.ts`: 390/820/1440 — нет overflow, секции не пересекаются с Sidebar/BottomNav.
 
-Контракт сохраняется: первый `onExpand()` сценарий — клик/тап по любой нефункциональной зоне (обложка, текст, waveform-зона). × — единственный элемент, который вызывает `closePlayer` из `usePlayerStore`. Свайпы (вверх=expand, влево=next, вправо=−10с) остаются.
-
-### 2. Кнопка закрытия
-
-- Подключаем `closePlayer` из `usePlayerStore` (уже экспортируется).
-- Кнопка `<Button variant="ghost" size="icon" aria-label="Закрыть плеер">` с иконкой `X`, `min-h-touch min-w-touch` (44×44 hit-area через padding) — соответствует Touch Target Standards.
-- `e.stopPropagation()` чтобы клик по × не триггерил expand-обработчики обёртки.
-- Лёгкий `hapticImpact('light')`.
-
-### 3. Корректный bottom-offset
-
-Сейчас зашит `5rem` под BottomNavigation. Меняем на динамику:
-
-- В portrait mobile / mobile с BottomNav остаётся `calc(5rem + safe-area)`.
-- На desktop (sidebar) и в mobile-landscape (edge-rail, без BottomNav) — `calc(1rem + safe-area)`, чтобы плеер не висел в воздухе. Берём то же media-query, что и в `MainLayout` (`min-width: 1024px`) + флаг для landscape rail.
-- Применяем горизонтальные safe-area-inset на левом отступе, когда есть edge-rail, чтобы dock не уезжал под рейл.
-
-### 4. Размер и отступы визуализации
-
-`WaveformProgressBar` уже умеет `mode="minimal"`. Подбираем высоту через враппер:
-
-- mobile portrait — 24px (тач-зона 44px за счёт padding);
-- tablet/landscape — 22px;
-- desktop — 32px, с показом `currentTime / duration` слева/справа.
-
-Уменьшаем вертикальные отступы карточки на desktop (`py-2.5`) — сейчас на desktop карточка визуально «толстая».
-
-### 5. Доступность и интеракции
-
-- На карточке `role="region" aria-label="Музыкальный плеер"` уже есть — оставляем.
-- × получает `aria-label="Закрыть плеер"`, expand-зоны `aria-label="Развернуть плеер"`.
-- `keydown Enter/Space` на expand-зонах (сейчас только `role=button tabIndex=0` без обработчика клавы) — добавляем единый обработчик.
-- Фокус-кольцо через `focus-visible:ring-2 ring-primary/40`.
-
-### 6. Регресс-тесты (Playwright)
-
-Добавляем `tests/e2e/player.compact.spec.ts`:
-
-1. На 390×844 (mobile portrait) — × кнопка видна, клик закрывает плеер; клик по обложке открывает fullscreen.
-2. На 844×390 (mobile landscape) — × видна, dock не уезжает под edge-rail (`x ≥ 56px`).
-3. На 1440×900 (desktop) — видны prev/play/next/like/volume/×, max-width ≤ `1024px`, нет horizontal overflow.
-
-Используем уже существующий бутстрап теста и data-testid: добавим `data-testid="compact-player"`, `compact-player-close`, `compact-player-expand`.
+## 5. Security findings (обязательно)
+- `credit_transactions`: удалить клиентскую INSERT-политику; инсерты только через `secure_credit_update` RPC / service_role.
+- `user_credits`: удалить «Admins can update user credits»; админ-изменения только через server-side функцию.
+- `stars_transactions`: удалить клиентскую INSERT-политику; вставки только из webhook через service_role.
+- Миграция SQL + `manage_security_finding` mark_as_fixed + обновить `security memory`.
 
 ## Технические детали
+- Все цвета — semantic токены (`bg-background`, `text-foreground`, `border-border`), без `text-white`/`bg-black`.
+- Импорты иконок — `@/lib/icons`.
+- Логгер — `@/lib/logger`, без `console.*`.
+- Haptic — `hapticImpact('light')` на основных действиях.
+- Bundle: проверить `npm run size` после удаления 3 плееров (ожидаем минус ~15–20KB gzip).
 
-- Хук определения варианта:
-  ```ts
-  const isMobile = useMediaQuery('(max-width: 639px)');
-  const isMidRange = useMediaQuery('(min-width: 640px) and (max-width: 1023px)');
-  const variant = isMobile ? 'mobile' : isMidRange ? 'mid' : 'desktop';
-  ```
-- Bottom-offset:
-  ```ts
-  const bottomBase = variant === 'desktop' ? '1rem' : '5rem';
-  style={{ bottom: `calc(${bottomBase} + max(var(--tg-safe-area-inset-bottom,0px), env(safe-area-inset-bottom,0px), 0.5rem))` }}
-  ```
-- Volume — переиспользуем `VolumeControl` из `src/components/player/VolumeControl.tsx` внутри `Popover` (shadcn) на desktop.
-- Like — `toggleLike` из `useTracks` (как в `ExpandedPlayer`).
-- Никаких изменений в Zustand-сторах, edge-функциях, БД.
+## Порядок коммитов
+1. Security миграция + memory.
+2. KaraokeView fix + тест лирики.
+3. FullscreenPlayer unified + подкомпоненты + миграция импортов + удаление старых файлов.
+4. Home layout + HomeSection + sidebar/bottomnav z-index + CSS var.
+5. E2E тесты home.layout.spec.ts.
 
-## Что НЕ делается
-
-- Fullscreen-плееры (`MobileFullscreenPlayer`, `DesktopFullscreenPlayer`) — без изменений.
-- Логика версий A/B, очереди, текстов — без изменений.
-- Глобальные дизайн-токены не трогаем (выровнено в предыдущем этапе).
+## Риски
+- Удаление `MobileFullscreenPlayer` затронет ~5–10 импортов — поиск через rg обязателен.
+- Изменение RLS на `stars_transactions` сломает текущие клиентские вставки — нужно убедиться что вебхук пишет от service_role (проверить `supabase/functions/telegram-payment-webhook/`).
+- `secure_credit_update` RPC должна существовать; иначе создать.
