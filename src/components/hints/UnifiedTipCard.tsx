@@ -59,6 +59,7 @@ export function UnifiedTipCard({
   force = false,
 }: UnifiedTipCardProps) {
   const isMobile = useIsMobile();
+  const hasMiniPlayer = usePlayerStore((s) => !!s.activeTrack);
   const reg = useHintRegistry();
   const isActive = reg.activeId === id;
   const hasSeen = reg.hasSeen(id);
@@ -94,14 +95,17 @@ export function UnifiedTipCard({
     onNext?.();
   };
 
-  const positionClass = useMemo(
-    () =>
-      isMobile
-        ? // Sit above mini-player (z-60) and bottom-nav, below sheets (z-150).
-          'fixed left-3 right-3 bottom-[calc(5.5rem+env(safe-area-inset-bottom,0px))] mx-auto max-w-md z-[95]'
-        : 'fixed right-6 bottom-6 w-[360px] max-w-[calc(100vw-3rem)] z-[95]',
-    [isMobile]
-  );
+  const positionClass = useMemo(() => {
+    if (!isMobile) {
+      return 'fixed right-6 bottom-6 w-[360px] max-w-[calc(100vw-3rem)] z-[95]';
+    }
+    // Mobile: must clear bottom-nav (~80px) + mini-player (~72px) + safe-area.
+    // Honor Telegram safe-area var when present.
+    const bottom = hasMiniPlayer
+      ? 'bottom-[calc(10rem+max(var(--tg-safe-area-inset-bottom,0px),env(safe-area-inset-bottom,0px)))]'
+      : 'bottom-[calc(5.5rem+max(var(--tg-safe-area-inset-bottom,0px),env(safe-area-inset-bottom,0px)))]';
+    return cn('fixed left-3 right-3 mx-auto max-w-md z-[95]', bottom);
+  }, [isMobile, hasMiniPlayer]);
 
   return (
     <AnimatePresence>
