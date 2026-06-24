@@ -8,6 +8,8 @@ import { flushMetrics, checkAlerts } from './utils/metrics.ts';
 import { getSupabaseClient } from './core/supabase-client.ts';
 import { createLogger } from '../_shared/logger.ts';
 import { corsHeaders } from '../_shared/cors.ts';
+import { authorize } from '../_shared/auth.ts';
+
 
 const logger = createLogger('telegram-bot');
 
