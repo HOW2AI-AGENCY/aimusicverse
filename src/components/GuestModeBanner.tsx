@@ -19,7 +19,9 @@ export const GuestModeBanner = () => {
   const [isVisible, setIsVisible] = useState(true);
   const navigate = useNavigate();
   const { disableGuestMode } = useGuestMode();
-  const { isTelegram } = useTelegram();
+  const { platform } = useTelegram();
+  const isTelegram = Boolean(platform) && platform !== 'unknown';
+
   const isDesktop = useMediaQuery('(min-width: 1024px)');
 
   if (!isVisible) return null;
