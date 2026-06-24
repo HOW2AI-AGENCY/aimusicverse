@@ -1,20 +1,15 @@
 import React, { useCallback, useEffect } from 'react';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { useMasterVersion } from '@/hooks/useTrackVersions';
 import { getGlobalAudioRef } from '@/hooks/audio/useAudioTime';
 import { AnimatePresence } from '@/lib/motion';
-import { useIsMobile } from '@/hooks/use-mobile';
 import { logger } from '@/lib/logger';
 
-// Lazy load fullscreen components
-const CompactPlayer = React.lazy(() => 
+// Lazy load player surfaces
+const CompactPlayer = React.lazy(() =>
   import('./player/CompactPlayer').then(m => ({ default: m.CompactPlayer }))
 );
-const MobileFullscreenPlayer = React.lazy(() => 
-  import('./player/MobileFullscreenPlayer').then(m => ({ default: m.MobileFullscreenPlayer }))
-);
-const DesktopFullscreenPlayer = React.lazy(() => 
-  import('./player/DesktopFullscreenPlayer').then(m => ({ default: m.DesktopFullscreenPlayer }))
+const FullscreenPlayer = React.lazy(() =>
+  import('./player/FullscreenPlayer').then(m => ({ default: m.FullscreenPlayer }))
 );
 
 export const ResizablePlayer = () => {
