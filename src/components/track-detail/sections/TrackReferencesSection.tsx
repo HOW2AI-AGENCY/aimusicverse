@@ -62,7 +62,7 @@ export const TrackReferencesSection = memo(function TrackReferencesSection({
           <div className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-r from-blue-500/10 to-blue-500/5 border border-blue-500/20">
             <div className="w-12 h-12 rounded-full overflow-hidden bg-muted flex-shrink-0">
               {artist.avatar_url ? (
-                <img src={artist.avatar_url} alt={artist.name} className="w-full h-full object-cover" />
+                <img loading="lazy" decoding="async" src={artist.avatar_url} alt={artist.name} className="w-full h-full object-cover" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center">
                   <User className="w-6 h-6 text-muted-foreground" />
@@ -84,7 +84,7 @@ export const TrackReferencesSection = memo(function TrackReferencesSection({
           <div className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-r from-purple-500/10 to-purple-500/5 border border-purple-500/20">
             <div className="w-12 h-12 rounded-lg overflow-hidden bg-muted flex-shrink-0">
               {project.cover_url ? (
-                <img src={project.cover_url} alt={project.title} className="w-full h-full object-cover" />
+                <img loading="lazy" decoding="async" src={project.cover_url} alt={project.title} className="w-full h-full object-cover" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center">
                   <FolderOpen className="w-6 h-6 text-muted-foreground" />

@@ -103,7 +103,7 @@ export function EditPlaylistDialog({ playlist, open, onOpenChange }: EditPlaylis
             <div className="flex gap-3 items-center">
               <div className="w-20 h-20 rounded-lg overflow-hidden bg-muted shrink-0">
                 {coverUrl ? (
-                  <img src={coverUrl} alt="Cover" className="w-full h-full object-cover" />
+                  <img loading="lazy" decoding="async" src={coverUrl} alt="Cover" className="w-full h-full object-cover" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-muted-foreground">
                     <ImagePlus className="h-8 w-8" />

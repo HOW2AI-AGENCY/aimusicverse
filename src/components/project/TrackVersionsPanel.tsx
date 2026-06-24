@@ -320,7 +320,7 @@ export const TrackVersionsPanel = memo(function TrackVersionsPanel({
           onClick={() => isTrackPlaying ? pauseTrack() : playTrack(version as unknown as Parameters<typeof playTrack>[0])}
         >
           {version.cover_url || version.local_cover_url ? (
-            <img 
+            <img loading="lazy" decoding="async" 
               src={version.local_cover_url || version.cover_url || ''} 
               alt={version.title || ''} 
               className="w-full h-full object-cover"
