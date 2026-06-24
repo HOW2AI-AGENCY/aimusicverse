@@ -225,6 +225,7 @@ export function DesktopFullscreenPlayer({
         'fixed inset-0 z-50 bg-background/95 backdrop-blur-xl',
         isMaximized ? 'p-0' : 'p-4 md:p-8'
       )}
+      data-testid="desktop-fullscreen-player"
     >
       <div 
         className="h-full flex flex-col max-w-7xl mx-auto"
