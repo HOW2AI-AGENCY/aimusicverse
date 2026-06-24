@@ -1,0 +1,1 @@
+{"nodes": [{"id": "sprint_readiness_assessment_usetrackchangelog_tsx", "label": "useTrackChangelog Hook", "file_type": "code", "source_file": "src/hooks/useTrackChangelog.tsx", "source_location": null, "source_url": null, "captured_at": null, "author": "GitHub Copilot Agent", "contributor": null}], "edges": [], "hyperedges": []}
