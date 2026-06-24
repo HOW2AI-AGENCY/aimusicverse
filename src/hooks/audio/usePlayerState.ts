@@ -503,3 +503,10 @@ export const usePlayerStore = create<PlayerState>()(
     }
   )
 );
+
+// Dev-only test hook: lets Playwright drive playback state without spinning
+// up real audio. Inert in production builds.
+if (import.meta.env.DEV && typeof window !== 'undefined') {
+  (window as unknown as { __playerStore?: typeof usePlayerStore }).__playerStore =
+    usePlayerStore;
+}
