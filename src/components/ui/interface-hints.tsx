@@ -24,7 +24,8 @@ interface HintProps {
   delay?: number;
 }
 
-const HINTS_STORAGE_KEY = 'mvai_hints_shown';
+// Legacy key — kept for reference only; storage is now unified via HintRegistry.
+// const HINTS_STORAGE_KEY = 'mvai_hints_shown';
 
 export function Hint({
   id,
