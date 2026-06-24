@@ -14267,7 +14267,7 @@
   "docs/archive/2026-01/REPOSITORY_CLEANUP_SUMMARY.md": {
     "mtime": 1782297265.2576764,
     "ast_hash": "d9995259afba9dba7a5ec467881e5ca2",
-    "semantic_hash": ""
+    "semantic_hash": "d9995259afba9dba7a5ec467881e5ca2"
   },
   "docs/archive/2026-01/REPOSITORY_CLEANUP_SUMMARY_2026-01.md": {
     "mtime": 1782297265.2576764,
@@ -14277,7 +14277,7 @@
   "docs/archive/2026-01/SESSION_REPORT_2026-01-04.md": {
     "mtime": 1782297265.2576764,
     "ast_hash": "0b53a700f9b91f829a1724c621586eba",
-    "semantic_hash": ""
+    "semantic_hash": "0b53a700f9b91f829a1724c621586eba"
   },
   "docs/archive/2026-01/SPRINT_DOCS_README.md": {
     "mtime": 1782297265.2576764,
@@ -15533,5 +15533,15 @@
     "mtime": 1782297265.9232113,
     "ast_hash": "42e8d9907ff8affc79bc8562059b4638",
     "semantic_hash": "42e8d9907ff8affc79bc8562059b4638"
+  },
+  ".kilo/kilo.json": {
+    "mtime": 1782341757.5515301,
+    "ast_hash": "4c0b641761751a6033ad3acef131b694",
+    "semantic_hash": "4c0b641761751a6033ad3acef131b694"
+  },
+  ".kilo/plugins/graphify.js": {
+    "mtime": 1782341757.5504673,
+    "ast_hash": "bc04cfb00d18a5796ab01efd44595781",
+    "semantic_hash": "bc04cfb00d18a5796ab01efd44595781"
   }
 }
