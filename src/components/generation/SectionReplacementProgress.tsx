@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Loader2, CheckCircle2, XCircle, Play, Pause, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from '@/lib/motion';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { SectionVariant } from '@/hooks/generation/useReplaceSectionProgress';
 
 interface SectionReplacementProgressProps {
