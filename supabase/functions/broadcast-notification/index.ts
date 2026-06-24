@@ -1,5 +1,7 @@
 import { getSupabaseClient } from '../_shared/supabase-client.ts';
 import { getBotMention, getMiniAppUrl } from '../_shared/telegram-config.ts';
+import { authorize } from '../_shared/auth.ts';
+
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
