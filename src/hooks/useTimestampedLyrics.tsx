@@ -46,7 +46,14 @@ export function useTimestampedLyrics(taskId: string | null, audioId: string | nu
       );
 
       if (functionError) {
-        throw functionError;
+        logger.warn('Timestamped lyrics unavailable', { taskId, audioId, error: functionError.message });
+        return null;
+      }
+
+      // Edge function may return { unavailable: true } when Suno has no credits / lyrics not ready
+      if (responseData && (responseData.unavailable || responseData.error)) {
+        logger.warn('Timestamped lyrics not available', { taskId, audioId, reason: responseData.error });
+        return null;
       }
 
       // Cache the response (non-blocking, errors are logged but don't fail the fetch)
@@ -54,7 +61,6 @@ export function useTimestampedLyrics(taskId: string | null, audioId: string | nu
         try {
           await setCachedLyrics(taskId, audioId, responseData);
         } catch (cacheError) {
-          // Log cache error but don't fail the entire operation
           logger.warn('Failed to cache lyrics, continuing with response data', {
             error: cacheError instanceof Error ? cacheError.message : String(cacheError),
             taskId,
@@ -66,8 +72,8 @@ export function useTimestampedLyrics(taskId: string | null, audioId: string | nu
       return responseData;
     },
     enabled: !!taskId && !!audioId,
-    staleTime: 30 * 60 * 1000, // 30 minutes - lyrics don't change often
-    gcTime: 60 * 60 * 1000, // 1 hour - keep in cache for a while
-    retry: 2, // Retry failed requests twice
+    staleTime: 30 * 60 * 1000,
+    gcTime: 60 * 60 * 1000,
+    retry: false,
   });
 }
