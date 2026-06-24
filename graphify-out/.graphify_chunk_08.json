@@ -1,0 +1,374 @@
+{
+  "nodes": [
+    {
+      "id": "musicverse_description",
+      "type": "concept",
+      "properties": {
+        "name": "MusicVerse AI Platform",
+        "description": "Professional AI music creation studio in Telegram, integrating Suno AI v5 for music generation with comprehensive editing, mixing, and collaboration features",
+        "technologies": ["React 19.2", "TypeScript 5.9", "Vite 5.0", "Supabase", "Tone.js 14.9", "Telegram Mini App SDK 8.0.2"],
+        "ai_integrations": ["Suno AI v5", "Audio Flamingo 3", "HTDemucs", "Whisper", "Klang.io", "Stability AI", "Lovable AI"],
+        "status": "Production-ready platform with 98/100 health score"
+      }
+    },
+    {
+      "id": "navigation_system",
+      "type": "concept",
+      "properties": {
+        "name": "Navigation and Documentation System",
+        "description": "Comprehensive navigation infrastructure for 100+ documentation files with cross-references, visual maps, and learning paths",
+        "components": ["README.md", "DOCUMENTATION_INDEX.md", "NAVIGATION.md", "NAVIGATION_INDEX.md"],
+        "documentation_categories": ["Getting Started", "Architecture", "Development", "Project Management", "Reference"],
+        "total_files": "100+ documentation files"
+      }
+    },
+    {
+      "id": "onboarding_system",
+      "type": "process",
+      "properties": {
+        "name": "Developer Onboarding Process",
+        "description": "Structured 4-step onboarding workflow for new developers to understand product, setup environment, and learn processes",
+        "steps": ["Understand product and architecture", "Setup working environment", "Learn development processes", "Start contributing"],
+        "requirements": ["Node.js >= 18.0.0", "npm >= 9.0.0"],
+        "key_documents": ["README.md", "ONBOARDING.md", "DEVELOPMENT_WORKFLOW.md"]
+      }
+    },
+    {
+      "id": "performance_monitoring",
+      "type": "system",
+      "properties": {
+        "name": "Performance Monitoring Infrastructure",
+        "description": "Automated performance tracking system with Lighthouse CI, bundle size monitoring, and quality gates",
+        "tools": ["Lighthouse CI", "size-limit", "rollup-plugin-visualizer"],
+        "budgets": {
+          "bundle_size": "950 KB (gzip)",
+          "performance_score": "≥75%",
+          "fcp": "≤1.8s",
+          "tti": "≤3.5s",
+          "lcp": "≤2.5s"
+        },
+        "phase_targets": {
+          "phase_1": "<950 KB",
+          "phase_3": "<800 KB"
+        }
+      }
+    },
+    {
+      "id": "performance_optimization",
+      "type": "strategy",
+      "properties": {
+        "name": "Performance Optimization Strategy",
+        "description": "Comprehensive optimization approach addressing critical performance issues through state management, memoization, and architectural improvements",
+        "critical_issues": [
+          "Zustand selector usage (0% → 100% target)",
+          "React.memo coverage (11% → 50%+ target)",
+          "Context memoization (0% → 100%)"
+        ],
+        "expected_improvements": {
+          "performance": "+60-80%",
+          "re-renders": "-60%",
+          "user_retention": "+15-20%",
+          "crash_rate": "-40%"
+        }
+      }
+    },
+    {
+      "id": "player_architecture",
+      "type": "system",
+      "properties": {
+        "name": "Audio Player Architecture",
+        "description": "Comprehensive audio playback system with global state management, queue persistence, and multiple player modes",
+        "layers": ["UI Layer", "Component Layer", "Hook Layer", "State Layer", "Storage Layer"],
+        "key_components": ["usePlayerState.ts", "useAudioPlayer.tsx", "usePlaybackQueue.ts"],
+        "features": ["Global audio provider", "Queue management", "Streaming support", "Persistent state", "Version playback"],
+        "player_modes": ["Minimized", "Compact", "Fullscreen"]
+      }
+    },
+    {
+      "id": "project_management",
+      "type": "process",
+      "properties": {
+        "name": "Project Management System",
+        "description": "Scrum-based agile development methodology with defined roles, events, and artifacts",
+        "methodology": "Scrum",
+        "roles": ["Product Owner", "Scrum Master", "Development Team"],
+        "events": ["Sprint Planning", "Daily Standup", "Sprint Review", "Retrospective"],
+        "artifacts": ["Product Backlog", "Sprint Backlog", "Increment"]
+      }
+    },
+    {
+      "id": "project_specification",
+      "type": "document",
+      "properties": {
+        "name": "Platform Technical Specification",
+        "description": "Comprehensive specification of MusicVerse AI platform features, architecture, and technical requirements",
+        "version": "2.1",
+        "status": "Active / Production",
+        "core_features": [
+          "Music Generation (P1)",
+          "Track Library (P1)",
+          "Audio Player (P1)",
+          "Telegram Integration (P1)",
+          "Social Features (P1)",
+          "Playlist System (P2)",
+          "AI Artist System (P2)",
+          "Stem Separation Studio (P2)"
+        ],
+        "success_metrics": {
+          "page_load": "<2s on 4G",
+          "audio_start": "<500ms",
+          "generation_submit": "95% success"
+        }
+      }
+    },
+    {
+      "id": "quality_gates",
+      "type": "system",
+      "properties": {
+        "name": "Quality Gates System",
+        "description": "Multi-stage quality assurance system with pre-commit, CI/CD, and production monitoring gates",
+        "stages": ["Pre-Commit", "Pre-Merge", "Post-Merge", "Production"],
+        "key_gates": [
+          "Build Artifacts Validation",
+          "Bundle Size Check",
+          "Code Linting",
+          "Unit Test Coverage (70%)",
+          "Lighthouse Performance Scores",
+          "E2E Tests"
+        ],
+        "security_gates": ["Dependency Scanning", "Secret Scanning", "SAST"],
+        "accessibility_gates": ["Automated Testing", "WCAG 2.1 AA Compliance"]
+      }
+    },
+    {
+      "id": "quick_reference",
+      "type": "document",
+      "properties": {
+        "name": "Developer Quick Reference Guide",
+        "description": "Comprehensive quick reference for common development tasks, code patterns, and debugging",
+        "sections": ["Quick Navigation", "Frequent Tasks", "Code Search", "Data Operations", "UI/Styles", "Testing", "Debugging"],
+        "common_tasks": [
+          "Add new feature",
+          "Fix bug",
+          "Add UI component",
+          "Add new page",
+          "Create custom hook",
+          "Add Edge Function"
+        ]
+      }
+    },
+    {
+      "id": "quick_start",
+      "type": "guide",
+      "properties": {
+        "name": "Quick Start Guide",
+        "description": "Step-by-step guide to get started with MusicVerse AI development in 5 minutes",
+        "steps": ["Installation", "Configuration", "Running", "Creating First Track"],
+        "requirements": ["Node.js >= 18.0.0", "npm >= 9.0.0", "Git >= 2.30.0"],
+        "features": ["Mock mode for development", "Telegram Mini App integration", "AI music generation"]
+      }
+    },
+    {
+      "id": "safe_area_guidelines",
+      "type": "standard",
+      "properties": {
+        "name": "Safe Area Guidelines",
+        "description": "Official style guide for applying safe area insets to avoid double padding and ensure consistent UI across devices",
+        "core_principle": "Safe area insets MUST be applied ONLY at the TOP LEVEL of the visual hierarchy",
+        "platforms": ["iOS Telegram Mini App", "Android"],
+        "safe_areas": ["iPhone Notch/Dynamic Island", "iPhone Home Indicator", "Android Punch-hole cameras", "Telegram native buttons"],
+        "patterns": ["Sticky Headers", "Full-Screen Modals", "Fixed Bottom Navigation", "Page Layout"]
+      }
+    },
+    {
+      "id": "security_summary",
+      "type": "document",
+      "properties": {
+        "name": "Security Summary",
+        "description": "Comprehensive security overview and implementation status for MusicVerse AI platform",
+        "security_measures": ["RLS policies", "Input validation", "Telegram auth validation", "Content moderation"],
+        "status": "Security hardened with active monitoring"
+      }
+    },
+    {
+      "id": "stem_studio",
+      "type": "feature",
+      "properties": {
+        "name": "Stem Separation Studio",
+        "description": "Advanced stem separation and mixing interface for extracting and manipulating individual instrument tracks",
+        "modes": ["Simple (vocal/instrumental)", "Detailed (multi-stem)"],
+        "capabilities": [
+          "Stem separation",
+          "Per-stem volume/mute controls",
+          "Stem download (MP3/WAV)",
+          "Use stem as generation reference"
+        ],
+        "integrations": ["HTDemucs for separation", "Klang.io for MIDI transcription"]
+      }
+    },
+    {
+      "id": "styles_catalog",
+      "type": "reference",
+      "properties": {
+        "name": "Music Styles Catalog",
+        "description": "Comprehensive catalog of 277+ music styles available for AI music generation",
+        "total_styles": "277+",
+        "usage": "Style selection for music generation prompts"
+      }
+    },
+    {
+      "id": "suno_api",
+      "type": "integration",
+      "properties": {
+        "name": "Suno AI API Integration",
+        "description": "Complete integration with Suno AI v5 for AI music generation with advanced features",
+        "capabilities": [
+          "Text prompt to music generation",
+          "A/B versioning",
+          "Streaming preview",
+          "Custom mode with lyrics control",
+          "Model selection (V5, V4.5+, V4.5ALL, V4.5, V4AUK, V4)",
+          "Stem separation"
+        ],
+        "limits": {
+          "prompt_limit": "500 characters (non-custom mode)",
+          "style_boost": "450 characters (Russian)"
+        }
+      }
+    },
+    {
+      "id": "progress_tracker",
+      "type": "monitor",
+      "properties": {
+        "name": "Project Progress Tracker",
+        "description": "Comprehensive progress tracking system showing 100% completion with 35 sprints finished",
+        "health_score": "98/100",
+        "sprints_completed": "35",
+        "users": "574+",
+        "tracks_created": "1,666+",
+        "completion_status": {
+          "core_platform": "100%",
+          "mobile_optimization": "95%",
+          "testing_infrastructure": "90%",
+          "documentation": "100%",
+          "security": "100%",
+          "performance": "95%"
+        }
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "from": "musicverse_description",
+      "to": "player_architecture",
+      "type": "includes",
+      "properties": {
+        "description": "Platform includes comprehensive audio player system"
+      }
+    },
+    {
+      "from": "musicverse_description",
+      "to": "suno_api",
+      "type": "integrates",
+      "properties": {
+        "description": "Core integration with Suno AI v5 for music generation"
+      }
+    },
+    {
+      "from": "navigation_system",
+      "to": "onboarding_system",
+      "type": "guides",
+      "properties": {
+        "description": "Navigation system includes onboarding documentation"
+      }
+    },
+    {
+      "from": "performance_monitoring",
+      "to": "quality_gates",
+      "type": "implements",
+      "properties": {
+        "description": "Performance monitoring is part of quality gates system"
+      }
+    },
+    {
+      "from": "performance_optimization",
+      "to": "player_architecture",
+      "type": "optimizes",
+      "properties": {
+        "description": "Performance optimization targets player architecture"
+      }
+    },
+    {
+      "from": "project_management",
+      "to": "progress_tracker",
+      "type": "tracks",
+      "properties": {
+        "description": "Project management system tracks sprint progress"
+      }
+    },
+    {
+      "from": "project_specification",
+      "to": "musicverse_description",
+      "type": "defines",
+      "properties": {
+        "description": "Technical specification defines platform requirements"
+      }
+    },
+    {
+      "from": "quality_gates",
+      "to": "performance_monitoring",
+      "type": "includes",
+      "properties": {
+        "description": "Quality gates include performance monitoring gates"
+      }
+    },
+    {
+      "from": "quick_reference",
+      "to": "navigation_system",
+      "type": "part_of",
+      "properties": {
+        "description": "Quick reference is part of navigation documentation"
+      }
+    },
+    {
+      "from": "quick_start",
+      "to": "onboarding_system",
+      "type": "implements",
+      "properties": {
+        "description": "Quick start guide implements onboarding process"
+      }
+    },
+    {
+      "from": "safe_area_guidelines",
+      "to": "musicverse_description",
+      "type": "applies_to",
+      "properties": {
+        "description": "Safe area guidelines apply to all UI components"
+      }
+    },
+    {
+      "from": "stem_studio",
+      "to": "musicverse_description",
+      "type": "feature_of",
+      "properties": {
+        "description": "Stem Studio is a core feature of the platform"
+      }
+    },
+    {
+      "from": "styles_catalog",
+      "to": "suno_api",
+      "type": "supports",
+      "properties": {
+        "description": "Styles catalog supports music generation API"
+      }
+    },
+    {
+      "from": "progress_tracker",
+      "to": "project_management",
+      "type": "monitors",
+      "properties": {
+        "description": "Progress tracker monitors overall project completion"
+      }
+    }
+  ]
+}

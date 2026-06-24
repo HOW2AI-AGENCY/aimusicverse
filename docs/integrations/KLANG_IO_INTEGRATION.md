@@ -814,11 +814,8 @@ Enhanced user interface with new components:
 ## References
 
 ### Documentation
-- [Diagnostic Logging Enhancement](./KLANG_IO_DIAGNOSTIC_LOGGING_2025-12-11.md) - **NEW**
-- [MIME Type Fixes](./KLANG_IO_MIME_TYPE_FIX_2025-12-11.md)
-- [Transcription UI Improvements](./KLANG_IO_TRANSCRIPTION_IMPROVEMENTS_2025-12-10.md)
-- [Implementation Summary](./KLANG_IO_IMPLEMENTATION_SUMMARY.md)
-- [Полное руководство по интеграции Klang.io API](docs/KLANG_IO_API_GUIDE_RU.md)
+- [KLANG.io Integration Overview](./KLANG_IO_INTEGRATION.md) - This document
+- [Russian API Guide](../KLANG_IO_API_GUIDE_RU.md) - Полное руководство по интеграции Klang.io API
 
 ### External APIs
 - [klang.io API Documentation](https://api.klang.io/docs)

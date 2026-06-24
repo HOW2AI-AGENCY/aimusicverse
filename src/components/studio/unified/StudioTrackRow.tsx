@@ -20,6 +20,7 @@ import { StemActionSheet } from './StemActionSheet';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import { StemTranscriptionData } from '@/hooks/studio/useStemTypeTranscriptionStatus';
+import { getStemColor } from '@/lib/design-colors';
 
 // Mini MIDI Notes Preview component
 interface MidiNotesPreviewProps {
@@ -223,8 +224,8 @@ const trackConfig: Record<string, {
     icon: Music, 
     label: 'Другое', 
     shortLabel: 'OTH',
-    gradient: 'from-gray-500/20 to-gray-600/5',
-    accent: 'text-gray-400 bg-gray-500/20 border-gray-500/30'
+    gradient: getStemColor('other').gradient,
+    accent: getStemColor('other').combined.replace('bg-', 'bg-').replace('border-', 'border-').replace('text-', 'text-')
   },
 };
 

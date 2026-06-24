@@ -163,68 +163,70 @@ export function useGenerateForm({
     }
   }, [open, planTrackContext, clearPlanTrackContext]);
 
-  // Apply guitar analysis parameters from sessionStorage
+  // Apply guitar analysis parameters from sessionStorage - optimized
   useEffect(() => {
-    if (open) {
+    if (!open) return;
+    
+    queueMicrotask(() => {
       try {
         const paramsStr = sessionStorage.getItem('generationParams');
-        if (paramsStr) {
-          const params = JSON.parse(paramsStr);
-          
-          // Set mode to custom to show all fields
-          setMode('custom');
-          
-          // Apply prompt if provided
-          if (params.prompt) {
-            setDescription(params.prompt);
-          }
-          
-          // Build style from analysis
-          const styleComponents: string[] = [];
-          
-          if (params.key) {
-            styleComponents.push(`Key: ${params.key}`);
-          }
-          
-          if (params.bpm) {
-            styleComponents.push(`${params.bpm} BPM`);
-          }
-          
-          if (params.timeSignature) {
-            styleComponents.push(`${params.timeSignature} time`);
-          }
-          
-          if (params.chordProgression) {
-            styleComponents.push(`Chords: ${params.chordProgression}`);
-          }
-          
-          // Add style description
-          if (params.style) {
-            if (params.style.genre) styleComponents.push(params.style.genre);
-            if (params.style.mood) styleComponents.push(params.style.mood);
-            if (params.style.technique) styleComponents.push(params.style.technique);
-          }
-          
-          // Add tags
-          if (params.tags && Array.isArray(params.tags)) {
-            styleComponents.push(params.tags.slice(0, 5).join(', '));
-          }
-          
-          if (styleComponents.length > 0) {
-            setStyle(styleComponents.join(' • '));
-          }
-          
-          toast.success('Параметры из Guitar Studio загружены', {
-            description: 'Форма заполнена данными анализа гитары',
-          });
-          
-          // Clear from sessionStorage after applying
-          sessionStorage.removeItem('generationParams');
+        if (!paramsStr) return;
+        
+        const params = JSON.parse(paramsStr);
+        
+        // Set mode to custom to show all fields
+        setMode('custom');
+        
+        // Apply prompt if provided
+        if (params.prompt) {
+          setDescription(params.prompt);
         }
+        
+        // Build style from analysis
+        const styleComponents: string[] = [];
+        
+        if (params.key) {
+          styleComponents.push(`Key: ${params.key}`);
+        }
+        
+        if (params.bpm) {
+          styleComponents.push(`${params.bpm} BPM`);
+        }
+        
+        if (params.timeSignature) {
+          styleComponents.push(`${params.timeSignature} time`);
+        }
+        
+        if (params.chordProgression) {
+          styleComponents.push(`Chords: ${params.chordProgression}`);
+        }
+        
+        // Add style description
+        if (params.style) {
+          if (params.style.genre) styleComponents.push(params.style.genre);
+          if (params.style.mood) styleComponents.push(params.style.mood);
+          if (params.style.technique) styleComponents.push(params.style.technique);
+        }
+        
+        // Add tags
+        if (params.tags && Array.isArray(params.tags)) {
+          styleComponents.push(params.tags.slice(0, 5).join(', '));
+        }
+        
+        if (styleComponents.length > 0) {
+          setStyle(styleComponents.join(' • '));
+        }
+        
+        toast.success('Параметры из Guitar Studio загружены', {
+          description: 'Форма заполнена данными анализа гитары',
+        });
+        
+        // Clear from sessionStorage after applying
+        sessionStorage.removeItem('generationParams');
       } catch (error) {
         logger.error('Failed to load generation params from sessionStorage', error);
       }
-    }
+    });
   }, [open]);
 
   // Apply preset parameters from Quick Create
@@ -313,9 +315,12 @@ export function useGenerateForm({
     }
   }, [open]);
 
-  // Apply Quick Genre Preset from homepage
+  // Apply Quick Genre Preset from homepage - optimized for fast application
   useEffect(() => {
-    if (open) {
+    if (!open) return;
+    
+    // Use microtask to apply preset immediately without blocking render
+    queueMicrotask(() => {
       try {
         const presetStr = sessionStorage.getItem('quickGenrePreset');
         if (presetStr) {
@@ -326,7 +331,7 @@ export function useGenerateForm({
           // Set mode to simple for quick generation
           setMode('simple');
           
-          // Apply preset values
+          // Apply preset values immediately
           if (preset.description) {
             setDescription(preset.description);
           }
@@ -340,7 +345,7 @@ export function useGenerateForm({
       } catch (error) {
         logger.error('Failed to load quick genre preset', error instanceof Error ? error : new Error(String(error)));
       }
-    }
+    });
   }, [open]);
 
   // Fetch API credits (for display purposes)
@@ -596,10 +601,11 @@ export function useGenerateForm({
       return;
     }
 
-    // Pre-generation credit validation - check user's personal balance
+    // Pre-generation credit validation - check user's personal balance (admins bypass)
     if (!canGenerate) {
+      const displayBalance = isAdmin ? (apiBalance ?? 0) : userBalance;
       toast.error('Недостаточно кредитов', {
-        description: `Ваш баланс: ${userBalance}. Требуется: ${generationCost}`,
+        description: `Ваш баланс: ${displayBalance}. Требуется: ${generationCost}`,
       });
       return;
     }
@@ -849,9 +855,24 @@ export function useGenerateForm({
       showGenerationError(error);
       clearAudioReference(); // Cleanup on error
       
-      // Track generation error with telemetry
-      const errorCode = error instanceof Error ? error.message : 'unknown';
-      generationAnalytics.trackError(mode, errorCode);
+      // Track generation error with full context for error_logs
+      const errorMessage = error instanceof Error ? error.message : 'unknown';
+      // Extract error code from message or use generic
+      const errorCode = errorMessage.includes('Edge Function') 
+        ? 'EDGE_FUNCTION_ERROR'
+        : errorMessage.includes('network') || errorMessage.includes('fetch')
+          ? 'NETWORK_ERROR'
+          : errorMessage.includes('timeout')
+            ? 'TIMEOUT'
+            : 'GENERATION_FAILED';
+      generationAnalytics.trackError(mode, errorCode, {
+        originalError: errorMessage,
+        hasVocals,
+        model: finalModel,
+        hasAudioFile: !!audioFile,
+        hasReference: !!activeReference,
+        projectId: selectedProjectId || initialProjectId,
+      });
       logger.error('Generation failed', error, { mode, hasVocals, model: finalModel });
     } finally {
       setLoading(false);

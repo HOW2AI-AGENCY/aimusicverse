@@ -2,6 +2,7 @@ import * as React from "react";
 import { Drawer as DrawerPrimitive } from "vaul";
 
 import { cn } from "@/lib/utils";
+import { backdrop } from "@/lib/overlay-colors";
 import { VisuallyHidden } from "./visually-hidden";
 
 const Drawer = ({ shouldScaleBackground = true, ...props }: React.ComponentProps<typeof DrawerPrimitive.Root>) => (
@@ -19,7 +20,16 @@ const DrawerOverlay = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Overlay>
 >(({ className, ...props }, ref) => (
-  <DrawerPrimitive.Overlay ref={ref} className={cn("fixed inset-0 z-[80] bg-black/80", className)} {...props} />
+  <DrawerPrimitive.Overlay 
+    ref={ref} 
+    className={cn(
+      "fixed inset-0 z-[150]",
+      backdrop.dark,
+      "backdrop-blur-sm",
+      className
+    )} 
+    {...props} 
+  />
 ));
 DrawerOverlay.displayName = DrawerPrimitive.Overlay.displayName;
 
@@ -43,8 +53,8 @@ const DrawerContent = React.forwardRef<
       <DrawerPrimitive.Content
         ref={ref}
         className={cn(
-          // z-[80] per Z_INDEX_HIERARCHY.md for dialogs/sheets/drawers
-          "fixed inset-x-0 bottom-0 z-[80] mt-24 flex h-auto flex-col rounded-t-[10px] border bg-background",
+          // z-[151] for sheet content - above backdrop (150) per Z_INDEX_HIERARCHY.md
+          "fixed inset-x-0 bottom-0 z-[151] mt-24 flex h-auto flex-col rounded-t-[10px] border bg-background",
           className,
         )}
         style={isFullscreen ? {
@@ -53,9 +63,12 @@ const DrawerContent = React.forwardRef<
         } : undefined}
         {...props}
       >
-        {/* Only show handle for non-fullscreen drawers */}
+        {/* Drag indicator handle - visible for non-fullscreen drawers */}
         {!isFullscreen && (
-          <div className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted" />
+          <div className="mx-auto mt-3 flex flex-col items-center gap-1">
+            <div className="h-1.5 w-12 rounded-full bg-muted-foreground/30" />
+            <span className="sr-only">Потяните для закрытия</span>
+          </div>
         )}
         {/* Accessible title for screen readers when no visible title exists */}
         {hideTitle && (

@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Home, ArrowLeft, Music2, Search, Radio, Disc3, HeadphonesIcon, FolderOpen, ListMusic, User, Mic2 } from "lucide-react";
 import { motion, AnimatePresence } from '@/lib/motion';
 import { cn } from "@/lib/utils";
+import { getBotMention } from '@/lib/telegram';
 
 // Content type configuration based on URL path
 interface NotFoundContent {
@@ -421,7 +422,7 @@ const NotFound = () => {
             transition={{ delay: 0.9 }}
             className="mt-8 text-xs text-muted-foreground/60 text-center"
           >
-            Нужна помощь? Напишите @AIMusicVerseBot
+            Нужна помощь? Напишите {getBotMention()}
           </motion.p>
         </div>
       </motion.div>

@@ -24,6 +24,7 @@ import {
 import { motion } from '@/lib/motion';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
+import { logger } from '@/lib/logger';
 import { useAuth } from '@/contexts/AuthContext';
 
 interface ReferenceMidiSheetProps {
@@ -133,8 +134,8 @@ export function ReferenceMidiSheet({ reference, onClose }: ReferenceMidiSheetPro
 
       setResult(transcriptionResult);
       toast.success('Транскрипция завершена!');
-    } catch (err) {
-      console.error('Transcription error:', err);
+    } catch (err: unknown) {
+      logger.error('Transcription error', err instanceof Error ? err : new Error(String(err)));
       setError(err instanceof Error ? err.message : 'Ошибка транскрипции');
       toast.error('Ошибка транскрипции');
     } finally {

@@ -370,7 +370,7 @@ export const UnifiedWaveformTimeline = memo(({
               {/* Active pulse effect */}
               {isActive && (
                 <motion.div
-                  className="absolute inset-0 bg-white/10"
+                  className="absolute inset-0 bg-foreground/10"
                   animate={{ opacity: [0.1, 0.3, 0.1] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 />

@@ -1,7 +1,121 @@
 # 📚 БАЗА ЗНАНИЙ ПРОЕКТА MusicVerse AI
 
-> **Последнее обновление:** 2026-01-23 (UI/UX Sprints A-E Complete)  
-> **Версия проекта:** 1.9.0 (Design System + Documentation)
+> **Последнее обновление:** 2026-01-31 (Optimization Sprint v2)  
+> **Версия проекта:** 2.2.0 (Production Optimized + Onboarding)  
+> **Статус:** 100% Complete + Full Optimization Sprint
+
+---
+
+## 🆕 НОВОЕ: Optimization Sprint v2 (January 31, 2026)
+
+### Phase 4.2: ContextualTipOverlay Component ✅
+**Новый компонент для контекстных подсказок:**
+```typescript
+// src/components/onboarding/ContextualTipOverlay.tsx
+import { ContextualTipOverlay } from '@/components/onboarding';
+
+// Интегрирован в Library, Studio, Index
+<ContextualTipOverlay context="library" delay={3000} />
+<ContextualTipOverlay context="studio" delay={3500} />
+<ContextualTipOverlay context="generation" delay={4000} />
+```
+
+### Phase 5.1: Enhanced Generation Telemetry ✅
+**Новые функции трекинга:**
+```typescript
+// src/services/analytics/events.service.ts
+trackGenerationMetrics({
+  mode: 'simple' | 'custom' | 'wizard',
+  status: 'success' | 'error',
+  duration_ms: 5000,
+  error_type: 'artist_blocked',
+  has_reference: true,
+  has_lyrics: true,
+  model: 'chirp-v4',
+});
+
+trackOnboardingStep('studio-first-open', true);
+```
+
+### Phase 3.2: Enhanced ValidationMessage ✅
+**ValidationMessage теперь показывает:**
+- Подсказки (suggestion) с иконкой лампочки
+- Раскрывающийся список примеров правильных промптов
+- Маппинг артистов на стилевые описания
+
+### Phase 2.2: Audio URL Validator ✅
+**Проактивная валидация URL перед воспроизведением:**
+```typescript
+// src/lib/audio/urlValidator.ts
+import { validateAudioUrl, findAccessibleUrl } from '@/lib/audioFormatUtils';
+
+const result = await validateAudioUrl(url);
+// { isValid, isAccessible, status, contentType, error }
+
+const bestUrl = await findAccessibleUrl([
+  track.streaming_url,
+  track.audio_url,
+  track.local_audio_url,
+]);
+```
+
+---
+
+## 🆕 Optimization Sprint v1 (January 31, 2026)
+
+### Phase 1: RLS & Analytics Fix ✅
+**Проблема:** user_analytics_events требовала авторизацию для INSERT, блокируя анонимных пользователей
+
+**Решение:**
+```sql
+-- Новая политика разрешает INSERT для анонимных (user_id IS NULL)
+CREATE POLICY "Allow analytics insert for all users"
+ON public.user_analytics_events 
+FOR INSERT 
+TO public
+WITH CHECK (user_id IS NULL OR auth.uid() = user_id);
+```
+
+### Phase 2: Artist Blocklist Expansion ✅
+**Добавлены новые блокируемые артисты (из анализа логов ошибок):**
+- Instasamka, Bad Omens, BMTH, Slipknot, Rammstein
+
+**FALSE_POSITIVE_WORDS расширен:**
+- ruka/рука (hand), stiv/стив (Steve), mili/мили (common word)
+
+**Файлы:**
+- `src/lib/errorHandling.ts` — BLOCKED_ARTIST_PATTERNS
+- `src/lib/artistReplacements.ts` — замены для metal/rock жанров
+
+### Phase 3: Audio Error Recovery ✅
+**Улучшения GlobalAudioProvider:**
+```typescript
+// Отдельные счётчики retry для разных типов ошибок
+let networkRetryCount = 0;  // PIPELINE_ERROR_READ (code 2)
+let formatRetryCount = 0;   // Format errors (code 4)
+
+// Новая логика для network errors:
+// 1. Попытка альтернативного URL
+// 2. Cache-busting retry
+// 3. Exponential backoff (1s, 2s, 4s)
+
+// attemptedUrls Set предотвращает retry loops
+const attemptedUrls = new Set<string>();
+```
+
+### Phase 4: Onboarding System ✅
+**Новый хук useAutoShowTip:**
+```typescript
+// Автопоказ подсказок при первом посещении страницы
+import { useAutoShowTip } from '@/hooks/useFeatureTips';
+
+function LibraryPage() {
+  const { currentTip, dismissCurrentTip } = useAutoShowTip('library', 2000);
+  // Показывает первую непросмотренную подсказку через 2 секунды
+}
+```
+
+**Контексты подсказок:** library, player, studio, generation, social
 
 ---
 

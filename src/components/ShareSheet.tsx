@@ -19,6 +19,9 @@ import { useState } from 'react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
 import { MobileActionSheet } from '@/components/mobile/MobileActionSheet';
 import { Button } from '@/components/ui/button';
+import { backdrop } from '@/lib/overlay-colors';
+import { glass } from '@/lib/glass';
+import { cn } from '@/lib/utils';
 import { 
   MessageCircle, 
   Sparkles, 
@@ -31,8 +34,8 @@ import {
 import { notify } from '@/lib/notifications';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { logger } from '@/lib/logger';
-import { cn } from '@/lib/utils';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
+import { getMiniAppDeepLink } from '@/lib/telegram';
 
 interface ShareSheetProps {
   open: boolean;
@@ -56,8 +59,7 @@ export function ShareSheet({ open, onOpenChange, item, itemType = 'track' }: Sha
 
   // Generate deep link
   const getDeepLink = () => {
-    const baseUrl = 'https://t.me/AIMusicVerseBot/app?startapp=';
-    return `${baseUrl}${itemType}_${item.id}`;
+    return getMiniAppDeepLink(`${itemType}_${item.id}`);
   };
 
   // Generate share text
@@ -276,11 +278,14 @@ export function ShareSheet({ open, onOpenChange, item, itemType = 'track' }: Sha
           cancelLabel="Отмена"
         />
 
-        {/* QR Code Modal for Mobile */}
+        {/* QR Code Modal for Mobile - theme-aware backdrop */}
         {showQR && qrCode && (
-          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-dialog flex items-center justify-center p-4" onClick={() => setShowQR(false)}>
+          <div 
+            className={cn("fixed inset-0 z-dialog flex items-center justify-center p-4 backdrop-blur-sm", backdrop.medium)} 
+            onClick={() => setShowQR(false)}
+          >
             <div 
-              className="bg-card rounded-2xl p-6 max-w-sm w-full space-y-4"
+              className={cn("rounded-2xl p-6 max-w-sm w-full space-y-4 shadow-xl", glass.overlay)}
               onClick={(e) => e.stopPropagation()}
             >
               <div className="text-center">
@@ -292,7 +297,7 @@ export function ShareSheet({ open, onOpenChange, item, itemType = 'track' }: Sha
                 <img 
                   src={qrCode} 
                   alt="QR Code" 
-                  className="w-64 h-64 bg-white p-3 rounded-lg"
+                  className="w-64 h-64 bg-white dark:bg-gray-100 p-3 rounded-lg"
                 />
                 <p className="text-xs text-center text-muted-foreground">
                   Отсканируйте для быстрого доступа

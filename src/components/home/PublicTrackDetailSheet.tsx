@@ -24,6 +24,8 @@ import type { Track } from '@/types/track';
 import { useNavigate } from 'react-router-dom';
 import { formatTime } from '@/lib/formatters';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
+import { cn } from '@/lib/utils';
+import { surface } from '@/lib/overlay-colors';
 
 interface PublicTrackDetailSheetProps {
   open: boolean;
@@ -158,7 +160,10 @@ export function PublicTrackDetailSheet({ open, onOpenChange, track }: PublicTrac
                 
                 {/* Play Overlay */}
                 <motion.button
-                  className="absolute inset-0 flex items-center justify-center rounded-2xl bg-black/40 opacity-0 hover:opacity-100 transition-opacity"
+                  className={cn(
+                    "absolute inset-0 flex items-center justify-center rounded-2xl opacity-0 hover:opacity-100 transition-opacity",
+                    surface.imageDark
+                  )}
                   onClick={handlePlay}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}

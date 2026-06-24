@@ -11,6 +11,7 @@ import { cn } from '@/lib/utils';
 import { useNavigate } from 'react-router-dom';
 import { triggerHapticFeedback } from '@/lib/mobile-utils';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 
 interface Mission {
   id: string;
@@ -125,8 +126,8 @@ export function DailyMissions() {
       queryClient.invalidateQueries({ queryKey: ['daily-activity'] });
       queryClient.invalidateQueries({ queryKey: ['user-credits'] });
     },
-    onError: (error) => {
-      console.error('Failed to claim mission:', error);
+    onError: (error: unknown) => {
+      logger.error('Failed to claim mission', error instanceof Error ? error : new Error(String(error)));
       toast.error('Не удалось получить награду');
     },
   });

@@ -1,11 +1,13 @@
 /**
  * CollapsibleSection - Collapsible content section with animation
+ * Feature: 032-professional-ui
  * 
  * Features:
  * - Smooth expand/collapse animation
  * - Persists state to localStorage
  * - Haptic feedback on toggle
  * - Accessibility support
+ * - Design system glass tokens
  */
 
 import { memo, useState, useCallback, useEffect, useId } from 'react';
@@ -13,6 +15,7 @@ import { motion, AnimatePresence } from '@/lib/motion';
 import { ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTelegram } from '@/contexts/TelegramContext';
+import { glass } from '@/lib/glass';
 
 interface CollapsibleSectionProps {
   /** Unique key for localStorage persistence */
@@ -99,7 +102,11 @@ export const CollapsibleSection = memo(function CollapsibleSection({
       >
         <div className="flex items-center gap-2 min-w-0">
           {icon && (
-            <div className="flex-shrink-0 w-6 h-6 rounded-md bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/20 flex items-center justify-center">
+            <div className={cn(
+              "flex-shrink-0 w-6 h-6 rounded-md flex items-center justify-center",
+              "bg-gradient-to-br from-primary/20 to-primary/5",
+              glass.subtle
+            )}>
               {icon}
             </div>
           )}

@@ -325,16 +325,50 @@ export const hintColors = {
  * Used in: Leaderboard, LeaderboardWidget, Referral page
  */
 export const rankColors = {
-  gold: 'text-yellow-500',
-  silver: 'text-muted-foreground',
-  bronze: 'text-amber-600',
+  gold: {
+    text: 'text-yellow-500',
+    icon: 'text-yellow-500',
+    bg: 'bg-gradient-to-r from-yellow-500/20 to-yellow-600/10',
+    border: 'border-yellow-500/30',
+    combined: 'bg-gradient-to-r from-yellow-500/20 to-yellow-600/10 border-yellow-500/30',
+  },
+  silver: {
+    text: 'text-muted-foreground',
+    icon: 'text-muted-foreground',
+    bg: 'bg-gradient-to-r from-muted/40 to-muted/20',
+    border: 'border-muted-foreground/30',
+    combined: 'bg-gradient-to-r from-muted/40 to-muted/20 border-muted-foreground/30',
+  },
+  bronze: {
+    text: 'text-amber-600',
+    icon: 'text-amber-600',
+    bg: 'bg-gradient-to-r from-amber-500/20 to-amber-600/10',
+    border: 'border-amber-500/30',
+    combined: 'bg-gradient-to-r from-amber-500/20 to-amber-600/10 border-amber-500/30',
+  },
 } as const;
 
-export function getRankColor(rank: number): string {
+export type RankColorKey = keyof typeof rankColors;
+
+interface RankColorValue {
+  text: string;
+  icon: string;
+  bg: string;
+  border: string;
+  combined: string;
+}
+
+export function getRankColor(rank: number): RankColorValue {
   if (rank === 1) return rankColors.gold;
   if (rank === 2) return rankColors.silver;
   if (rank === 3) return rankColors.bronze;
-  return 'text-muted-foreground';
+  return {
+    text: 'text-muted-foreground',
+    icon: 'text-muted-foreground',
+    bg: '',
+    border: '',
+    combined: '',
+  };
 }
 
 // ============================================================================
@@ -653,3 +687,43 @@ export function getChordColor(chord: string): string {
   const root = chord.charAt(0).toUpperCase();
   return chordColors[root] || 'bg-muted/50 border-border text-muted-foreground';
 }
+
+// ============================================================================
+// HOMEPAGE SECTION COLORS
+// ============================================================================
+
+/**
+ * Color tokens for homepage sections (trending, new, etc.)
+ * Used in: FeaturedSection, TracksGridSection, Index page
+ */
+export const homeSectionColors = {
+  trending: {
+    text: 'text-emerald-400',
+    bg: 'bg-gradient-to-br from-emerald-500/30 to-emerald-600/15',
+    border: 'border-emerald-500/20',
+    solid: 'bg-emerald-500',
+    badge: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30',
+    combined: 'bg-gradient-to-br from-emerald-500/30 to-emerald-600/15 border-emerald-500/20',
+  },
+  newItems: {
+    text: 'text-amber-400',
+    bg: 'from-amber-500/20 to-orange-500/10',
+    gradient: 'from-orange-500/20 to-amber-500/10',
+    icon: 'text-orange-400',
+    combined: 'from-orange-500/20 to-amber-500/10',
+  },
+  community: {
+    text: 'text-pink-400',
+    bg: 'from-pink-500/20 to-rose-500/10',
+    gradient: 'from-pink-500/20 to-rose-500/10',
+    icon: 'text-pink-400',
+    combined: 'from-pink-500/20 to-rose-500/10',
+  },
+  featured: {
+    text: 'text-primary',
+    bg: 'from-primary/20 to-primary/5',
+    gradient: 'from-primary/20 to-primary/5',
+    icon: 'text-primary',
+    combined: 'from-primary/20 to-primary/5',
+  },
+} as const;

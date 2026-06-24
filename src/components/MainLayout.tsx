@@ -4,6 +4,7 @@ import { BottomNavigation } from './BottomNavigation';
 import { Sidebar } from './Sidebar';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { ResizablePlayer } from './ResizablePlayer';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { usePlaybackTracking } from '@/hooks/usePlaybackTracking';
 import { SkipToContent } from './ui/skip-to-content';
 import { GuestModeBanner } from './GuestModeBanner';
@@ -21,6 +22,7 @@ import { useGenerationResult } from '@/hooks/generation';
 import { useWelcomeBonusCheck } from '@/hooks/useCreditsLimits';
 import { useAdminDailyStats } from '@/hooks/useAdminDailyStats';
 import { TELEGRAM_SAFE_AREA } from '@/constants/safe-area';
+import { KeyboardShortcutsProvider } from './navigation/KeyboardShortcutsProvider';
 
 // Lazy load heavy dialogs - not needed on initial render
 const TelegramOnboarding = lazy(() => import('./onboarding/TelegramOnboarding').then(m => ({ default: m.TelegramOnboarding })));
@@ -34,7 +36,18 @@ const WelcomeBonusPopup = lazy(() => import('./popups/WelcomeBonusPopup').then(m
 const SIDEBAR_COLLAPSED_KEY = 'sidebar-collapsed';
 
 export const MainLayout = () => {
-  const isDesktop = useMediaQuery('(min-width: 640px)'); // Matches Tailwind sm: breakpoint
+  // Adaptive sidebar/bottom-nav switching (UI audit Stage 2):
+  //   - mobile/tablet-portrait (<1024px) → BottomNavigation, no fixed Sidebar
+  //   - tablet-landscape / small desktop (1024–1279px) → Sidebar collapsed to icon-only
+  //   - desktop (≥1280px) → Sidebar full / user-controlled
+  const isDesktop = useMediaQuery('(min-width: 1024px)');
+  const isCompactDesktop = useMediaQuery('(min-width: 1024px) and (max-width: 1279px)');
+  // Mobile landscape edge-rail: short viewports in landscape orientation get a
+  // narrow icon-only sidebar instead of BottomNavigation, so floating UI
+  // (UnifiedNotesViewer, sheets) doesn't get overlapped by the bottom bar.
+  const isMobileLandscape = useMediaQuery(
+    '(max-width: 1023px) and (orientation: landscape) and (max-height: 500px)'
+  );
   const { isGuestMode } = useGuestMode();
   const location = useLocation();
   const navigate = useNavigate();
@@ -43,6 +56,30 @@ export const MainLayout = () => {
   const [quickStartOpen, setQuickStartOpen] = useState(false);
   const [generateSheetOpen, setGenerateSheetOpen] = useState(false);
   const [welcomeBonusOpen, setWelcomeBonusOpen] = useState(false);
+  const hasActiveTrack = usePlayerStore((s) => Boolean(s.activeTrack));
+
+  // Pages that have their own bottom navigation/tabs - don't show global BottomNavigation
+  const hasOwnBottomNav = useMemo(() => {
+    const p = location.pathname;
+    return p.startsWith('/studio') ||
+           p.startsWith('/stem-studio') ||
+           (p.startsWith('/project/') && p.includes('/studio'));
+  }, [location.pathname]);
+
+  // Expose player + bottom-nav heights as CSS variables so any section can
+  // align without re-computing the math (Block 3 of redesign plan).
+  useEffect(() => {
+    const root = document.documentElement;
+    const showBottomNav = !isDesktop && !isMobileLandscape && !hasOwnBottomNav;
+    const navH = showBottomNav ? 64 : 0; // BottomNav ~64px (safe-area added in padding calc)
+    const playerH = hasActiveTrack ? (isDesktop ? 96 : 72) : 0;
+    root.style.setProperty('--nav-h', `${navH}px`);
+    root.style.setProperty('--player-h', `${playerH}px`);
+    return () => {
+      root.style.removeProperty('--nav-h');
+      root.style.removeProperty('--player-h');
+    };
+  }, [hasActiveTrack, isDesktop, isMobileLandscape, hasOwnBottomNav]);
   
   // Welcome bonus check
   const { shouldShowWelcomeBonus, markWelcomeBonusShown } = useWelcomeBonusCheck();
@@ -59,13 +96,26 @@ export const MainLayout = () => {
   const { shouldShowQuickStart, isNewUser, completedOnboarding } = useUserJourneyState();
   const { isActive: isOldOnboardingActive, completeOnboarding: completeOldOnboarding } = useOnboarding();
   
-  // Sidebar collapse state
+  // Sidebar collapse state — auto-collapsed on compact desktop unless user
+  // explicitly expanded it.
   const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem(SIDEBAR_COLLAPSED_KEY) === 'true';
+      const stored = localStorage.getItem(SIDEBAR_COLLAPSED_KEY);
+      if (stored !== null) return stored === 'true';
+      // default: collapsed on narrow desktop
+      return window.matchMedia('(max-width: 1279px)').matches;
     }
     return false;
   });
+
+  // When viewport shrinks to compact-desktop range, auto-collapse unless the
+  // user has explicitly chosen the expanded state.
+  useEffect(() => {
+    if (isCompactDesktop && localStorage.getItem(SIDEBAR_COLLAPSED_KEY) === null) {
+      setSidebarCollapsed(true);
+    }
+  }, [isCompactDesktop]);
+
   
   // Track play counts when tracks are played
   usePlaybackTracking();
@@ -76,12 +126,6 @@ export const MainLayout = () => {
   // Memoize pathname to prevent unnecessary re-renders
   const pathname = useMemo(() => location.pathname, [location.pathname]);
   
-  // Pages that have their own bottom navigation/tabs - don't show global BottomNavigation
-  const hasOwnBottomNav = useMemo(() => {
-    return pathname.startsWith('/studio') || 
-           pathname.startsWith('/stem-studio') ||
-           pathname.startsWith('/project/') && pathname.includes('/studio');
-  }, [pathname]);
   
   // Show Telegram Settings Button on all pages except /settings
   const showSettingsButton = pathname !== '/settings';
@@ -173,8 +217,9 @@ export const MainLayout = () => {
 
   return (
     <SmartAlertProvider>
-    <div className="flex flex-col h-screen bg-background overflow-hidden">
-      <div className="flex flex-1 min-h-0">
+    <KeyboardShortcutsProvider onOpenGenerateSheet={() => setGenerateSheetOpen(true)}>
+    <div className="flex flex-col h-screen bg-background">
+      <div className="flex flex-1 min-h-0 overflow-hidden">
       {/* Skip to content for keyboard navigation */}
       <SkipToContent />
       
@@ -237,24 +282,42 @@ export const MainLayout = () => {
       )}
       
       {isDesktop && (
-        <div className={cn("fixed inset-y-0 z-50 transition-all duration-300", sidebarWidth)}>
+        <div className={cn("fixed inset-y-0 z-navigation transition-all duration-300", sidebarWidth)}>
+
           <Sidebar 
             collapsed={sidebarCollapsed} 
             onCollapsedChange={handleSidebarCollapsedChange} 
           />
         </div>
       )}
+      {/* Mobile landscape edge-rail */}
+      {!isDesktop && isMobileLandscape && (
+        <div
+          data-testid="edge-rail"
+          className="fixed inset-y-0 left-0 z-navigation w-14"
+          style={{
+            paddingLeft: 'max(env(safe-area-inset-left, 0px), var(--tg-safe-area-inset-left, 0px))',
+          }}
+        >
+          <Sidebar collapsed onCollapsedChange={() => {}} />
+        </div>
+      )}
       <main
         id="main-content"
         className={cn(
           'flex-1 flex flex-col overflow-y-auto relative transition-all duration-300',
-          isDesktop
-            ? mainMargin
-            : `pb-[calc(${TELEGRAM_SAFE_AREA.bottom}+4rem)]`,
+          isDesktop && mainMargin,
+          !isDesktop && isMobileLandscape && 'ml-14',
           isGuestMode && 'pt-9'
         )}
         style={{
           minHeight: 'var(--tg-viewport-stable-height, 100vh)',
+          // Use the same --nav-h / --player-h CSS vars set above so padding
+          // always tracks real chrome heights (BottomNav + CompactPlayer +
+          // safe-area). Prevents the bottom of the page being hidden under
+          // the dock on mobile/tablet, and matches landscape/desktop too.
+          paddingBottom:
+            'calc(var(--nav-h, 0px) + var(--player-h, 0px) + max(env(safe-area-inset-bottom, 0px), var(--tg-safe-area-inset-bottom, 0px)) + 0.75rem)',
         }}
       >
         <div
@@ -265,17 +328,21 @@ export const MainLayout = () => {
               : 'px-4 py-3'
           )}
           style={!isDesktop ? {
-            // Enhanced horizontal safe area handling for notched/curved edge devices
             paddingLeft: 'max(1rem, var(--tg-safe-area-inset-left, 0px), env(safe-area-inset-left, 0px))',
             paddingRight: 'max(1rem, var(--tg-safe-area-inset-right, 0px), env(safe-area-inset-right, 0px))',
           } : undefined}
         >
-          <Outlet />
+          <div className="mx-auto w-full max-w-screen-2xl">
+            <Outlet />
+          </div>
           
         </div>
-        <ResizablePlayer />
       </main>
-      {!isDesktop && !hasOwnBottomNav && <BottomNavigation />}
+      {/* ResizablePlayer is rendered OUTSIDE <main> because #main-content has
+          `contain: layout style` which would create a containing block for
+          position:fixed descendants and break the bottom dock on mobile/tablet. */}
+      <ResizablePlayer />
+      {!isDesktop && !isMobileLandscape && !hasOwnBottomNav && <BottomNavigation />}
       
       {/* Generate Sheet - triggered from Quick Start */}
       {generateSheetOpen && (
@@ -283,6 +350,7 @@ export const MainLayout = () => {
           <GenerateSheet open={generateSheetOpen} onOpenChange={setGenerateSheetOpen} />
         </Suspense>
       )}
+
       
       {/* Generation Result Sheet - shows A/B versions after track creation */}
       {resultOpen && resultTrackId && (
@@ -297,6 +365,7 @@ export const MainLayout = () => {
       )}
     </div>
     </div>
+    </KeyboardShortcutsProvider>
     </SmartAlertProvider>
   );
 };

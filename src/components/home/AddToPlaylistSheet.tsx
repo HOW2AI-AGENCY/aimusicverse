@@ -240,7 +240,7 @@ export function AddToPlaylistSheet({ open, onOpenChange, trackId, trackTitle }: 
                     {/* Playlist cover */}
                     <div className="w-12 h-12 rounded-lg bg-muted/50 overflow-hidden flex items-center justify-center">
                       {playlist.cover_url ? (
-                        <img src={playlist.cover_url} alt="" className="w-full h-full object-cover" />
+                        <img loading="lazy" decoding="async" src={playlist.cover_url} alt="" className="w-full h-full object-cover" />
                       ) : (
                         <Music2 className="w-5 h-5 text-muted-foreground" />
                       )}

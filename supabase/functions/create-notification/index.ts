@@ -1,5 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { getSupabaseClient } from "../_shared/supabase-client.ts";
+import { authorize } from "../_shared/auth.ts";
+
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -24,10 +26,32 @@ serve(async (req) => {
   }
 
   try {
+    // Require service-role call or an authenticated user; non-admin callers may
+    // only create notifications for themselves.
+    const auth = await authorize(req);
+    if (!auth.ok) {
+      return new Response(JSON.stringify({ error: auth.error }), {
+        status: auth.status,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
     const supabase = getSupabaseClient();
 
     const payload: NotificationPayload | NotificationPayload[] = await req.json();
     const notifications = Array.isArray(payload) ? payload : [payload];
+
+    if (!auth.isService && !auth.isAdmin) {
+      const callerId = auth.user!.id;
+      const foreign = notifications.find((n) => n.userId && n.userId !== callerId);
+      if (foreign) {
+        return new Response(JSON.stringify({ error: 'Forbidden: cannot create notifications for other users' }), {
+          status: 403,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
+    }
+
 
     console.log(`Creating ${notifications.length} notification(s)`);
 

@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { Track } from '@/types/track';
 import { Clock, Music2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { pill } from '@/lib/overlay-colors';
 import { Badge } from '@/components/ui/badge';
 import { TrackTypeIcons } from '@/components/library/TrackTypeIcons';
 import { ScrollableTagsRow } from '@/components/library/ScrollableTagsRow';
@@ -77,7 +78,7 @@ export const TrackSheetHeader = memo(function TrackSheetHeader({
         
         {/* Duration badge on cover */}
         {duration && (
-          <div className="absolute bottom-0.5 right-0.5 bg-black/70 text-white text-[9px] px-1 py-0.5 rounded font-medium">
+          <div className={cn("absolute bottom-0.5 right-0.5 text-[9px] px-1 py-0.5 rounded font-medium", pill.glassDark)}>
             {duration}
           </div>
         )}

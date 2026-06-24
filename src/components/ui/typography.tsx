@@ -2,127 +2,188 @@
  * Typography Utility Component
  * Feature: 032-professional-ui
  *
- * Provides consistent typography components that follow the design system.
- * All components map to design tokens and support responsive design.
+ * Provides consistent typography components following the design system.
+ * Uses CSS classes from src/styles/typography.css for consistency.
  */
 
 import React from 'react';
 import { cn } from '@/lib/utils';
 
-// Heading variants mapped to design tokens
+// ============================================================================
+// TYPES
+// ============================================================================
+
 export type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4';
-export type TextVariant = 'bodyLarge' | 'body' | 'caption';
+export type TextVariant = 'body' | 'bodySm' | 'caption' | 'tiny' | 'label' | 'mono';
 
-export interface TypographyProps {
-  variant?: HeadingLevel | TextVariant | 'p';
-  className?: string;
-  children: React.ReactNode;
-}
+// ============================================================================
+// HEADING COMPONENT
+// ============================================================================
 
-/**
- * Heading Component
- *
- * Usage:
- *   <Heading level="h1">Page Title</Heading>
- *   <Heading level="h2">Section Header</Heading>
- */
-export interface HeadingProps {
+export interface HeadingProps extends React.HTMLAttributes<HTMLHeadingElement> {
   level: HeadingLevel;
-  className?: string;
-  children: React.ReactNode;
+  /** Apply gradient text effect */
+  gradient?: boolean;
+  /** Truncate to single line */
+  truncate?: boolean;
 }
 
-export const Heading: React.FC<HeadingProps> = ({ level, className, children }) => {
-  const baseStyles = 'font-semibold tracking-tight';
-
-  const levelStyles = {
-    h1: 'text-3xl font-bold leading-tight',      // 28px, tight
-    h2: 'text-2xl font-semibold leading-normal',  // 24px, normal
-    h3: 'text-xl font-semibold leading-normal',   // 20px, normal
-    h4: 'text-lg font-medium leading-comfortable', // 18px, comfortable
-  };
-
-  const Tag = level;
-
-  return (
-    <Tag className={cn(baseStyles, levelStyles[level], className)}>
-      {children}
-    </Tag>
-  );
-};
-
 /**
- * Text Component
+ * Heading Component - Maps to CSS typography classes
  *
- * Usage:
- *   <Text variant="bodyLarge">Primary content</Text>
- *   <Text variant="body">Standard text</Text>
- *   <Text variant="caption">Metadata</Text>
+ * @example
+ * <Heading level="h1">Page Title</Heading>
+ * <Heading level="h2" gradient>Gradient Header</Heading>
  */
-export interface TextProps {
+export const Heading = React.forwardRef<HTMLHeadingElement, HeadingProps>(
+  ({ level, gradient, truncate, className, children, ...props }, ref) => {
+    const Tag = level;
+    
+    return (
+      <Tag
+        ref={ref}
+        className={cn(
+          `text-${level}`,
+          gradient && 'text-gradient',
+          truncate && 'truncate-1',
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </Tag>
+    );
+  }
+);
+Heading.displayName = 'Heading';
+
+// ============================================================================
+// TEXT COMPONENT
+// ============================================================================
+
+export interface TextProps extends React.HTMLAttributes<HTMLParagraphElement> {
   variant?: TextVariant;
-  className?: string;
-  children: React.ReactNode;
+  /** Apply muted foreground color */
+  muted?: boolean;
+  /** Apply gradient text effect */
+  gradient?: boolean;
+  /** Truncate lines (1, 2, or 3) */
+  truncate?: 1 | 2 | 3;
+  /** Use span instead of p */
+  as?: 'p' | 'span' | 'div';
 }
 
-export const Text: React.FC<TextProps> = ({ variant = 'body', className, children }) => {
-  const baseStyles = 'text-foreground';
-
-  const variantStyles = {
-    bodyLarge: 'text-base leading-comfortable',   // 16px
-    body: 'text-sm leading-comfortable',          // 14px
-    caption: 'text-xs leading-normal text-secondary-foreground', // 12px
-  };
-
-  return (
-    <p className={cn(baseStyles, variantStyles[variant], className)}>
-      {children}
-    </p>
-  );
+const variantClasses: Record<TextVariant, string> = {
+  body: 'text-body',
+  bodySm: 'text-body-sm',
+  caption: 'text-caption',
+  tiny: 'text-tiny',
+  label: 'text-label',
+  mono: 'text-mono',
 };
 
 /**
- * Label Component (for form labels, buttons, etc.)
+ * Text Component - Flexible typography for body content
  *
- * Usage:
- *   <Label>Field Label</Label>
+ * @example
+ * <Text>Standard body text</Text>
+ * <Text variant="caption" muted>Metadata</Text>
+ * <Text variant="label">FORM LABEL</Text>
  */
-export interface LabelProps {
-  className?: string;
-  children: React.ReactNode;
-}
+export const Text = React.forwardRef<HTMLParagraphElement, TextProps>(
+  ({ variant = 'body', muted, gradient, truncate, as = 'p', className, children, ...props }, ref) => {
+    const Tag = as;
+    
+    return (
+      <Tag
+        ref={ref as React.Ref<HTMLParagraphElement>}
+        className={cn(
+          variantClasses[variant],
+          muted && 'text-muted-foreground',
+          gradient && 'text-gradient',
+          truncate && `truncate-${truncate}`,
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </Tag>
+    );
+  }
+);
+Text.displayName = 'Text';
 
-export const Label: React.FC<LabelProps> = ({ className, children }) => {
-  return (
-    <label className={cn('text-sm font-medium text-foreground', className)}>
-      {children}
-    </label>
-  );
-};
+// ============================================================================
+// DISPLAY COMPONENT
+// ============================================================================
+
+export interface DisplayProps extends React.HTMLAttributes<HTMLHeadingElement> {
+  /** Apply gradient text effect */
+  gradient?: boolean;
+}
 
 /**
- * Display Typography Component (hero, large titles)
+ * Display Component - For hero sections and large titles
  *
- * Usage:
- *   <Display>Hero Title</Display>
+ * @example
+ * <Display>Hero Title</Display>
+ * <Display gradient>Gradient Hero</Display>
  */
-export interface DisplayProps {
-  className?: string;
-  children: React.ReactNode;
+export const Display = React.forwardRef<HTMLHeadingElement, DisplayProps>(
+  ({ gradient, className, children, ...props }, ref) => {
+    return (
+      <h1
+        ref={ref}
+        className={cn(
+          'text-4xl sm:text-5xl font-bold leading-tight tracking-tight',
+          gradient && 'text-gradient',
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </h1>
+    );
+  }
+);
+Display.displayName = 'Display';
+
+// ============================================================================
+// PROSE COMPONENT
+// ============================================================================
+
+export interface ProseProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Limit width for readability */
+  focus?: boolean;
 }
 
-export const Display: React.FC<DisplayProps> = ({ className, children }) => {
-  return (
-    <h1 className={cn('text-4xl font-bold leading-tight tracking-tight', className)}>
-      {children}
-    </h1>
-  );
-};
+/**
+ * Prose Component - For long-form content
+ *
+ * @example
+ * <Prose focus>{longContent}</Prose>
+ */
+export const Prose = React.forwardRef<HTMLDivElement, ProseProps>(
+  ({ focus, className, children, ...props }, ref) => {
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          'text-body leading-relaxed space-y-4',
+          focus && 'prose-focus',
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </div>
+    );
+  }
+);
+Prose.displayName = 'Prose';
 
-// Export all components
-export default {
-  Heading,
-  Text,
-  Label,
-  Display,
-};
+// ============================================================================
+// EXPORTS
+// ============================================================================
+
+export default { Heading, Text, Display, Prose };

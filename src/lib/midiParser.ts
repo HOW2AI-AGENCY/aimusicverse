@@ -3,6 +3,7 @@
  */
 
 import { Midi } from '@tonejs/midi';
+import { logger } from '@/lib/logger';
 
 export interface ParsedNote {
   pitch: number;
@@ -48,7 +49,7 @@ export async function parseMidiFromUrl(url: string): Promise<ParsedMidi | null> 
       bpm: midi.header.tempos[0]?.bpm,
     };
   } catch (error) {
-    console.error('Failed to parse MIDI:', error);
+    logger.warn('Failed to parse MIDI', { url, error });
     return null;
   }
 }

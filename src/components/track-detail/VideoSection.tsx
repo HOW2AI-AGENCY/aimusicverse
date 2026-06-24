@@ -10,6 +10,9 @@ import { logger } from '@/lib/logger';
 import { useVideoGenerationStatus } from '@/hooks/useVideoGenerationStatus';
 import { triggerHapticFeedback } from '@/lib/mobile-utils';
 import { Track } from '@/types/track';
+import { cn } from '@/lib/utils';
+import { glassButton } from '@/lib/glass';
+import { surface } from '@/lib/overlay-colors';
 
 interface VideoSectionProps {
   track: Track;
@@ -200,12 +203,12 @@ export function VideoSection({ track, onGenerateVideo }: VideoSectionProps) {
         />
         
         {/* Overlay controls */}
-        <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 hover:opacity-100 transition-opacity">
+        <div className={cn("absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity", surface.medium)}>
           <Button
             variant="ghost"
             size="icon"
             onClick={handlePlayPause}
-            className="h-16 w-16 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30"
+            className={cn("h-16 w-16 rounded-full hover:bg-foreground/30", glassButton.default)}
           >
             {isPlaying ? (
               <Pause className="h-8 w-8 text-white" />

@@ -6,6 +6,7 @@
 
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
+import { logger } from '@/lib/logger';
 
 export type EntityType = 'track' | 'project' | 'artist' | 'lyrics' | 'cover' | 'reference_audio';
 export type ActorType = 'user' | 'ai' | 'system';
@@ -102,7 +103,7 @@ export function useAuditLog() {
   const logAction = async (entry: Omit<AuditLogEntry, 'userId'> & { userId?: string }) => {
     const userId = entry.userId || user?.id;
     if (!userId) {
-      console.warn('[useAuditLog] No user ID available for logging');
+      logger.warn('[useAuditLog] No user ID available for logging');
       return null;
     }
 
@@ -117,7 +118,7 @@ export function useAuditLog() {
       if (error) throw error;
       return data?.auditId || null;
     } catch (error) {
-      console.error('[useAuditLog] Error logging action:', error);
+      logger.warn('[useAuditLog] Error logging action', { error });
       return null;
     }
   };
@@ -138,7 +139,7 @@ export function useAuditLog() {
       if (error) throw error;
       return data?.history || [];
     } catch (error) {
-      console.error('[useAuditLog] Error getting history:', error);
+      logger.warn('[useAuditLog] Error getting history', { error });
       return [];
     }
   };
@@ -170,7 +171,7 @@ export function useAuditLog() {
         document: data.document,
       };
     } catch (error) {
-      console.error('[useAuditLog] Error generating proof:', error);
+      logger.error('[useAuditLog] Error generating proof', error instanceof Error ? error : new Error(String(error)));
       return null;
     }
   };
@@ -190,7 +191,7 @@ export function useAuditLog() {
       if (error && error.code !== 'PGRST116') throw error;
       return data as ContentDeposit | null;
     } catch (error) {
-      console.error('[useAuditLog] Error getting deposit:', error);
+      logger.warn('[useAuditLog] Error getting deposit', { error });
       return null;
     }
   };

@@ -20,6 +20,7 @@ import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 import { 
   Guitar, 
   Wand2, 
@@ -117,8 +118,8 @@ export function StudioArrangementDialog({
       } else {
         throw new Error('Не получен taskId');
       }
-    } catch (err) {
-      console.error('Arrangement generation error:', err);
+    } catch (err: unknown) {
+      logger.error('Arrangement generation error', err instanceof Error ? err : new Error(String(err)));
       toast.error('Ошибка генерации', {
         description: err instanceof Error ? err.message : 'Попробуйте ещё раз',
       });

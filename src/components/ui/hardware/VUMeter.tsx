@@ -5,6 +5,7 @@
 
 import React, { memo, useMemo } from 'react';
 import { cn } from '@/lib/utils';
+import { hardware } from '@/lib/overlay-colors';
 
 export interface VUMeterProps {
   value: number; // 0 to 1, where 1 = 0dB
@@ -114,7 +115,7 @@ const LEDBar = memo(function LEDBar({
     <div className="flex flex-col items-center gap-0.5">
       {label && <span className="text-[8px] text-muted-foreground">{label}</span>}
       <div 
-        className="flex flex-col rounded-sm overflow-hidden bg-black/40 p-0.5"
+        className={cn("flex flex-col rounded-sm overflow-hidden p-0.5", hardware.statusBadge)}
         style={{ gap: config.gap }}
       >
         {leds.map((led, i) => (
@@ -268,7 +269,7 @@ const HorizontalMeter = memo(function HorizontalMeter({
     <div className={cn('flex items-center gap-2', className)}>
       {label && <span className="text-[9px] text-muted-foreground font-medium w-4">{label}</span>}
       
-      <div className="flex-1 flex gap-px h-3 bg-black/30 rounded-sm p-0.5">
+      <div className={cn("flex-1 flex gap-px h-3 rounded-sm p-0.5", hardware.meterBg)}>
         {Array.from({ length: segments }, (_, i) => {
           const segmentValue = (i + 1) / segments;
           const isActive = value >= segmentValue - 0.02;

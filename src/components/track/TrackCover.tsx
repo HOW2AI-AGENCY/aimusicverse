@@ -15,6 +15,7 @@ import { Button } from '@/components/ui/button';
 import { LazyImage } from '@/components/ui/lazy-image';
 import { cn } from '@/lib/utils';
 import { formatDuration } from '@/lib/player-utils';
+import { surface, pill } from '@/lib/overlay-colors';
 
 interface TrackCoverProps {
   coverUrl?: string | null;
@@ -109,7 +110,7 @@ export const TrackCover = memo(function TrackCover({
       {/* Play/Pause Overlay */}
       {onPlay && (
         <motion.div
-          className="absolute inset-0 bg-black/60 flex items-center justify-center"
+          className={cn("absolute inset-0 flex items-center justify-center", surface.heavy)}
           initial={false}
           animate={{ opacity: showOverlay ? 1 : 0 }}
           transition={{ duration: 0.15 }}
@@ -119,7 +120,7 @@ export const TrackCover = memo(function TrackCover({
             variant="ghost"
             className={cn(
               config.playButton,
-              'rounded-full text-white hover:bg-white/20',
+              'rounded-full text-white hover:bg-foreground/20 dark:hover:bg-white/20',
               isPlaying && 'bg-primary hover:bg-primary/90'
             )}
             onClick={onPlay}
@@ -138,7 +139,8 @@ export const TrackCover = memo(function TrackCover({
       {/* Duration Badge */}
       {showDuration && duration && (
         <span className={cn(
-          'absolute bottom-1 right-1 text-white/80 bg-black/40 rounded-full',
+          'absolute bottom-1 right-1 text-white/80 rounded-full',
+          pill.glassDark,
           config.duration
         )}>
           {formatDuration(duration)}

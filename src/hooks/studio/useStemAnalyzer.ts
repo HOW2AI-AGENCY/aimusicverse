@@ -11,6 +11,7 @@
 
 import { useRef, useState, useCallback, useEffect } from 'react';
 import { getStudioContext } from '@/lib/audio/audioContextHelper';
+import { logger } from '@/lib/logger';
 
 interface StemLevels {
   rms: number;
@@ -114,8 +115,8 @@ export function useStemAnalyzer(
       dataArrayRef.current = new Uint8Array(analyser.frequencyBinCount);
       
       setIsAnalyzing(true);
-    } catch (error) {
-      console.warn('Failed to connect stem analyzer:', error);
+    } catch (error: unknown) {
+      logger.warn('Failed to connect stem analyzer', { error: error instanceof Error ? error.message : String(error) });
     }
   }, [cleanup, opts.fftSize, opts.smoothingTimeConstant]);
 

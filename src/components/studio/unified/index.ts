@@ -41,6 +41,8 @@ export { PianoRoll } from './PianoRoll';
 export type { MidiNote } from './PianoRoll';
 export { RecordTrackDrawer } from './RecordTrackDrawer';
 export type { RecordingType } from './RecordTrackDrawer';
+export { MusicLabPanel } from './MusicLabPanel';
+export { StudioMusicLabSheet } from './StudioMusicLabSheet';
 export { NotationDrawer } from './NotationDrawer';
 export type { NotationDrawerProps } from './NotationDrawer';
 export { ChordOverlay } from './ChordOverlay';
@@ -51,6 +53,7 @@ export { AddInstrumentalDrawer } from './AddInstrumentalDrawer';
 export type { AddInstrumentalDrawerProps } from './AddInstrumentalDrawer';
 export { AudioUpscaleButton } from '../AudioUpscaleButton';
 export { UnifiedSectionEditor } from './UnifiedSectionEditor';
+export { StudioLyricsSheet } from './StudioLyricsSheet';
 
 // DAW Canvas Components (ADR-011 - unified interface)
 export { AIActionsFAB } from './AIActionsFAB';

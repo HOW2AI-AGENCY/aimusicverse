@@ -477,10 +477,10 @@ export function LyricsChatAssistant({
         <div 
           className="border-t border-border/50 p-3 bg-background/80 backdrop-blur-sm shrink-0"
           style={{
-            // Применяем padding для клавиатуры + safe-area
+            // Применяем padding для клавиатуры + safe-area (Telegram + iOS)
             paddingBottom: isKeyboardOpen
               ? `${keyboardHeight + 12}px`
-              : 'max(0.75rem, env(safe-area-inset-bottom))',
+              : 'max(0.75rem, var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px))',
             transition: 'padding-bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
           }}
         >
@@ -551,8 +551,8 @@ export function LyricsChatAssistant({
           <DrawerHeader 
             className="pb-2 border-b border-border/50 shrink-0 flex items-center justify-between"
             style={{
-              // Extra padding for header on iOS
-              paddingTop: 'max(0.5rem, env(safe-area-inset-top, 0px))',
+              // Extra padding for header on iOS + Telegram (both safe area vars)
+              paddingTop: 'max(0.5rem, calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px)), env(safe-area-inset-top, 0px))',
             }}
           >
             <DrawerTitle className="flex items-center gap-2 text-base">

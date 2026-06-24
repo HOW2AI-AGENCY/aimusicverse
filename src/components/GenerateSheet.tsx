@@ -387,10 +387,10 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         <div 
           className="p-4 border-t bg-background/95 backdrop-blur"
           style={{
-            // Применяем padding для клавиатуры + safe-area
+            // Применяем padding для клавиатуры + safe-area (Telegram + iOS)
             paddingBottom: isKeyboardOpen
               ? `${keyboardHeight + 16}px`
-              : 'max(1rem, env(safe-area-inset-bottom))',
+              : 'max(1rem, var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px))',
             transition: 'padding-bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
           }}
         >

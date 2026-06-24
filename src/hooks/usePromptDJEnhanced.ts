@@ -8,6 +8,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { useDebouncedCallback } from 'use-debounce';
 import { useAudioBufferPool } from './useAudioBufferPool';
+import { logger } from '@/lib/logger';
 
 // Tone.js types - loaded dynamically to prevent "Cannot access 't' before initialization" error
 type ToneType = typeof import('tone');
@@ -424,7 +425,7 @@ export function usePromptDJEnhanced() {
         playTrack(newTrack);
       }
     } catch (error) {
-      console.error('Generation error:', error);
+      logger.error('Generation error', error instanceof Error ? error : new Error(String(error)));
       toast.error('Ошибка генерации');
     } finally {
       setIsGenerating(false);
@@ -478,7 +479,7 @@ export function usePromptDJEnhanced() {
         setIsPlaying(false);
       };
     } catch (error) {
-      console.error('Playback error:', error);
+      logger.error('Playback error', error instanceof Error ? error : new Error(String(error)));
       toast.error('Ошибка воспроизведения');
     }
   }, [getBuffer, setBuffer]);
@@ -598,7 +599,7 @@ export function usePromptDJEnhanced() {
       setIsPreviewPlaying(true);
 
     } catch (error) {
-      console.error('Preview error:', error);
+      logger.error('Preview error', error instanceof Error ? error : new Error(String(error)));
       toast.error('Ошибка запуска превью');
     }
   }, [globalSettings, channels, computeScaleNotes]);
@@ -680,7 +681,7 @@ export function usePromptDJEnhanced() {
       }
       return null;
     } catch (error) {
-      console.error('Live generation error:', error);
+      logger.warn('Live generation error', { error });
       return null;
     }
   }, [globalSettings.duration]);
@@ -753,7 +754,7 @@ export function usePromptDJEnhanced() {
       }, fadeTime * 1000 + 100);
 
     } catch (error) {
-      console.error('Crossfade error:', error);
+      logger.warn('Crossfade error', { error });
       setLiveStatus('playing');
     }
   }, []);
@@ -829,7 +830,7 @@ export function usePromptDJEnhanced() {
       toast.success('🎵 Live сессия запущена! Меняйте настройки для нового звучания');
       
     } catch (error) {
-      console.error('Start live error:', error);
+      logger.error('Start live error', error instanceof Error ? error : new Error(String(error)));
       toast.error('Ошибка запуска Live режима');
       setIsLiveMode(false);
       setLiveStatus('idle');
@@ -919,7 +920,7 @@ export function usePromptDJEnhanced() {
           setLiveStatus('playing');
         }
       } catch (error) {
-        console.error('Live generation error:', error);
+        logger.warn('Live generation error', { error });
         setLiveStatus('playing');
       } finally {
         isGeneratingLiveRef.current = false;
@@ -972,7 +973,7 @@ export function usePromptDJEnhanced() {
         setLiveStatus('playing');
       }
     } catch (error) {
-      console.error('Force live generation error:', error);
+      logger.warn('Force live generation error', { error });
       setLiveStatus('playing');
     } finally {
       isGeneratingLiveRef.current = false;

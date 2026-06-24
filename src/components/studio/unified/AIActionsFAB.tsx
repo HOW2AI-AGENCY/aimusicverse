@@ -33,6 +33,8 @@ import {
   Save,
   Lock,
   Guitar,
+  FileText,
+  FlaskConical,
 } from 'lucide-react';
 
 interface AIActionsFABProps {
@@ -46,6 +48,10 @@ interface AIActionsFABProps {
   onRecord?: () => void;
   /** Add instrumental AI-generated */
   onAddInstrumental?: () => void;
+  /** Open MusicLab (unified interface - no tabs) */
+  onOpenMusicLab?: () => void;
+  /** Open Lyrics editor (unified interface - no tabs) */
+  onOpenLyrics?: () => void;
   
   /** Operations that are currently disabled */
   disabledOperations?: StudioOperation[];
@@ -76,6 +82,8 @@ export const AIActionsFAB = memo(function AIActionsFAB({
   onSaveAsVersion,
   onRecord,
   onAddInstrumental,
+  onOpenMusicLab,
+  onOpenLyrics,
   disabledOperations = [],
   getDisabledReason,
   canSaveAsNewVersion = false,
@@ -91,7 +99,25 @@ export const AIActionsFAB = memo(function AIActionsFAB({
 
   const actions: ActionItem[] = useMemo(() => {
     const baseActions: ActionItem[] = [
-      // Record action - always first for quick access
+      // MusicLab - quick access to recording/chords/PromptDJ
+      ...(onOpenMusicLab ? [{
+        id: 'musiclab' as StudioOperation,
+        label: 'Лаборатория',
+        icon: <FlaskConical className="w-5 h-5" />,
+        onClick: onOpenMusicLab,
+        color: 'bg-cyan-500 text-white',
+        disabledColor: 'bg-muted text-muted-foreground',
+      }] : []),
+      // Lyrics editor - quick access
+      ...(onOpenLyrics ? [{
+        id: 'lyrics' as StudioOperation,
+        label: 'Текст',
+        icon: <FileText className="w-5 h-5" />,
+        onClick: onOpenLyrics,
+        color: 'bg-indigo-500 text-white',
+        disabledColor: 'bg-muted text-muted-foreground',
+      }] : []),
+      // Record action
       ...(onRecord ? [{
         id: 'record' as StudioOperation,
         label: 'Записать',
@@ -165,7 +191,7 @@ export const AIActionsFAB = memo(function AIActionsFAB({
 
     // Filter out actions without callbacks
     return baseActions.filter(action => action.onClick);
-  }, [onGenerate, onExtend, onCover, onAddVocals, onSeparateStems, onSaveAsVersion, onRecord, onAddInstrumental, canSaveAsNewVersion]);
+  }, [onGenerate, onExtend, onCover, onAddVocals, onSeparateStems, onSaveAsVersion, onRecord, onAddInstrumental, onOpenMusicLab, onOpenLyrics, canSaveAsNewVersion]);
 
   const toggleOpen = useCallback(() => {
     haptic.tap();

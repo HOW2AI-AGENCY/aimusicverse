@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef } from 'react';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 
 type LameModule = typeof import('lamejs');
 
@@ -364,7 +365,7 @@ export function useMixExport() {
       if ((error as Error).message === 'Cancelled') {
         toast.info('Экспорт отменён');
       } else {
-        console.error('Export error:', error);
+        logger.error('Export error', error instanceof Error ? error : new Error(String(error)));
         toast.error('Ошибка при экспорте');
       }
       return null;

@@ -1,0 +1,216 @@
+name: E2E — Hint System
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/components/hints/**"
+      - "src/hooks/audio/usePlayerState.ts"
+      - "tests/e2e/hints*.spec.ts"
+      - "playwright.config.ts"
+      - ".github/workflows/e2e-hints.yml"
+  pull_request:
+    paths:
+      - "src/components/hints/**"
+      - "src/hooks/audio/usePlayerState.ts"
+      - "tests/e2e/hints*.spec.ts"
+      - "playwright.config.ts"
+  workflow_dispatch:
+    inputs:
+      update_snapshots:
+        description: "Run baseline snapshot job (--update-snapshots)"
+        type: boolean
+        default: false
+
+env:
+  # Single source of truth for dev-server coordinates. Override via repo/job vars.
+  E2E_DEV_HOST: ${{ vars.E2E_DEV_HOST || '127.0.0.1' }}
+  E2E_DEV_PORT: ${{ vars.E2E_DEV_PORT || '5173' }}
+  E2E_DEV_TIMEOUT: "180000"
+
+jobs:
+  smoke:
+    name: Hints smoke (chromium, no snapshot update)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      CI: "true"
+      PLAYWRIGHT_BASE_URL: http://127.0.0.1:${{ vars.E2E_DEV_PORT || '5173' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+
+      - name: Start Vite dev server
+        run: |
+          nohup npx vite --host "${E2E_DEV_HOST}" --port "${E2E_DEV_PORT}" --strictPort \
+            > vite-dev-server.log 2>&1 &
+          echo $! > vite.pid
+
+      - name: Wait for dev server
+        run: npm run e2e:wait-server
+
+      - name: Run smoke (no snapshot updates, single retry)
+        run: npx playwright test tests/e2e/hints.spec.ts --project=chromium --retries=1 --reporter=html,list,github
+
+      - name: Stop Vite dev server
+        if: always()
+        run: if [ -f vite.pid ]; then kill "$(cat vite.pid)" 2>/dev/null || true; fi
+
+      - name: Upload smoke HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-smoke
+          path: playwright-report/
+          retention-days: 14
+          if-no-files-found: ignore
+
+      - name: Upload smoke dev-server log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vite-dev-log-smoke
+          path: vite-dev-server.log
+          retention-days: 7
+          if-no-files-found: ignore
+
+  e2e-hints:
+    name: Hints E2E (${{ matrix.project }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    strategy:
+      fail-fast: false
+      matrix:
+        project:
+          - chromium
+          - "Mobile Chrome"
+          - "Mobile Safari"
+
+    env:
+      CI: "true"
+      PW_RETRIES: "2"
+      PLAYWRIGHT_BASE_URL: http://127.0.0.1:${{ vars.E2E_DEV_PORT || '5173' }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps ${{ matrix.project == 'Mobile Safari' && 'webkit' || 'chromium' }}
+
+      - name: Start Vite dev server (port ${{ env.E2E_DEV_PORT }})
+        run: |
+          echo "[ci] starting vite on ${E2E_DEV_HOST}:${E2E_DEV_PORT}"
+          nohup npx vite --host "${E2E_DEV_HOST}" --port "${E2E_DEV_PORT}" --strictPort \
+            > vite-dev-server.log 2>&1 &
+          echo $! > vite.pid
+
+      - name: Wait for dev server
+        run: npm run e2e:wait-server
+
+      - name: Run hint-system E2E (auto-retry + trace on every retry)
+        run: npx playwright test tests/e2e/hints*.spec.ts --project="${{ matrix.project }}" --retries=${{ env.PW_RETRIES }} --trace=on-all-retries --screenshot=only-on-failure --video=retain-on-failure --reporter=html,list,github
+
+      - name: Stop Vite dev server
+        if: always()
+        run: |
+          if [ -f vite.pid ]; then kill "$(cat vite.pid)" 2>/dev/null || true; fi
+
+      - name: Upload Vite dev-server log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vite-dev-log-${{ matrix.project }}
+          path: vite-dev-server.log
+          retention-days: 7
+          if-no-files-found: ignore
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-${{ matrix.project }}
+          path: playwright-report/
+          retention-days: 14
+
+      - name: Upload failure traces & screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-failures-${{ matrix.project }}
+          path: |
+            test-results/**/trace.zip
+            test-results/**/*.png
+            test-results/**/video.webm
+          retention-days: 14
+          if-no-files-found: ignore
+
+  baseline-snapshots:
+    name: Generate baseline snapshots
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.update_snapshots == true }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    env:
+      CI: "true"
+      PLAYWRIGHT_BASE_URL: http://127.0.0.1:${{ vars.E2E_DEV_PORT || '5173' }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium webkit
+
+      - name: Start Vite dev server (port ${{ env.E2E_DEV_PORT }})
+        run: |
+          nohup npx vite --host "${E2E_DEV_HOST}" --port "${E2E_DEV_PORT}" --strictPort \
+            > vite-dev-server.log 2>&1 &
+          echo $! > vite.pid
+
+      - name: Wait for dev server
+        run: npm run e2e:wait-server
+
+      - name: Update Playwright snapshots
+        run: npx playwright test tests/e2e/hints*.spec.ts --update-snapshots --reporter=list
+
+      - name: Stop Vite dev server
+        if: always()
+        run: |
+          if [ -f vite.pid ]; then kill "$(cat vite.pid)" 2>/dev/null || true; fi
+
+      - name: Upload updated snapshots (commit these to the repo)
+        uses: actions/upload-artifact@v4
+        with:
+          name: updated-snapshots
+          path: |
+            tests/e2e/**/*-snapshots/**
+            tests/e2e/**/__screenshots__/**
+          retention-days: 30
+          if-no-files-found: warn
+
+      - name: Upload dev-server log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vite-dev-log-baseline
+          path: vite-dev-server.log
+          retention-days: 7
+          if-no-files-found: ignore

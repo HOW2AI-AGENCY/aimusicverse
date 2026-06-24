@@ -44,6 +44,7 @@
 import React, { Suspense, useEffect } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { cn } from '@/lib/utils';
+import { backdrop } from '@/lib/overlay-colors';
 import type { UnifiedDialogProps } from './unified-dialog.types';
 import { DIALOG_CONFIG } from './unified-dialog.config';
 import { isModalDialogProps, isSheetDialogProps, isAlertDialogProps } from '@/lib/type-guards';
@@ -152,7 +153,7 @@ export function UnifiedDialog(props: UnifiedDialogProps) {
 function DialogFallback() {
   return (
     <motion.div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+      className={cn("fixed inset-0 z-50 flex items-center justify-center", backdrop.medium)}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}

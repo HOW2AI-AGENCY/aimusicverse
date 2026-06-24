@@ -16,6 +16,7 @@ import { toast } from 'sonner';
 import { ReferenceManager } from '@/services/audio-reference';
 import { getStemLabel } from '@/lib/stemLabels';
 import { getStemColor as getDesignStemColor } from '@/lib/design-colors';
+import { logger } from '@/lib/logger';
 
 interface StemReferenceDialogProps {
   stems: TrackStem[];
@@ -63,8 +64,8 @@ export const StemReferenceDialog = ({
       
       // Navigate to home with flag to open generate sheet
       navigate('/', { state: { openGenerate: true, fromStemReference: true } });
-    } catch (error) {
-      console.error('Error setting reference', error);
+    } catch (error: unknown) {
+      logger.error('Error setting reference', error instanceof Error ? error : new Error(String(error)));
       toast.error('Ошибка при установке референса');
     } finally {
       setIsLoading(false);

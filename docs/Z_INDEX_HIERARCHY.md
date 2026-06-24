@@ -4,78 +4,138 @@
 
 This document defines the z-index hierarchy used across the MusicVerse AI application to ensure proper stacking and visibility of UI elements, especially on mobile devices.
 
-### Z-Index Layers
+**Last Audit**: 2026-01-31
 
-| Layer | Z-Index | Component Types | Examples |
-|-------|---------|-----------------|----------|
-| **Base Content** | z-10 | Regular page content, cards, lists | Track cards, content grids |
-| **Sidebar/Background** | z-40 | Background UI elements | Sidebar, persistent navigation |
-| **Navigation** | z-50 | Bottom navigation bar | `BottomNavigation` (island-nav) |
-| **Contextual Hints** | z-[70] | Smart hints, tooltips | `ContextualHint`, `TooltipContent`, `InteractiveTooltip` |
-| **Dialogs/Sheets** | z-[80] | Modal dialogs, bottom sheets | `Dialog`, `Sheet`, `AlertDialog` overlays and content |
-| **Fullscreen Overlays** | z-[90] | Major fullscreen experiences | `MobileFullscreenPlayer`, `SectionEditorMobile` |
-| **System Notifications** | z-[100] | Critical system messages | `Sonner` toasts, `GamificationOnboarding`, `OnboardingOverlay`, `TelegramOnboarding`, `UnifiedAnnouncement` |
-| **Dropdown/Popover Menus** | z-[9999] | Temporary floating menus | `DropdownMenuContent`, `ContextMenuContent`, `SelectContent`, `PopoverContent` |
+### Z-Index Layers (Updated 2026-01-31)
+
+| Layer | Z-Index | Tailwind Class | Component Types | Examples |
+|-------|---------|----------------|-----------------|----------|
+| **Base Content** | 0 | `z-base` | Regular page content | Page backgrounds |
+| **Raised Content** | 10 | `z-raised` | Cards, panels | Track cards, content cards |
+| **Sticky Elements** | 20 | `z-sticky` | Headers, footers | `PageHeader`, sticky headers |
+| **Floating** | 30 | `z-floating` | Small overlays | Floating buttons |
+| **Overlay** | 40 | `z-overlay` | Backdrops | Sidebar backdrop |
+| **Navigation** | 50 | `z-navigation` | Bottom nav, sidebar | `BottomNavigation`, `Sidebar` |
+| **Player** | 60-61 | `z-player` | Music player | `CompactPlayer`, `ExpandedPlayer` |
+| **Contextual Hints** | 70 | `z-contextual` | Smart hints | `ContextualHint` |
+| **Fullscreen Overlays** | 90 | `z-fullscreen` | Major fullscreen UIs | `MobileFullscreenPlayer` |
+| **Dialogs** | 140 | `z-dialog` | Modal dialogs | `Dialog`, `AlertDialog` |
+| **Sheets** | 150-151 | `z-sheet-*` | Bottom sheets | `Sheet`, `Drawer`, `MobileBottomSheet` |
+| **Dropdowns/Popovers** | 200 | `z-dropdown` | Floating menus | `DropdownMenu`, `PopoverContent` |
+| **Tooltips** | 250 | `z-tooltip` | Tooltips | `TooltipContent` |
+| **Toasts/System** | 300 | `z-toast` | Notifications | `Sonner`, system alerts |
+| **Context Menu/Select** | 9999 | `z-max` | Context menus | `ContextMenuContent`, `SelectContent` |
 
 ### Implementation Details
 
-#### Contextual Hints (z-[70])
+#### Tailwind Config (tailwind.config.ts)
+
+All z-index values are defined as semantic tokens:
+
+```typescript
+zIndex: {
+  'base': '0',
+  'raised': '10',
+  'sticky': '20',
+  'floating': '30',
+  'overlay': '40',
+  'navigation': '50',
+  'player': '60',
+  'contextual': '70',
+  'fullscreen': '90',
+  'dialog': '140',
+  'sheet-backdrop': '150',
+  'sheet-content': '151',
+  'dropdown': '200',
+  'popover': '200',
+  'tooltip': '250',
+  'toast': '300',
+  'notification': '300',
+  'max': '9999',
+}
+```
+
+#### Constants File (src/constants/z-index.ts)
+
+Use `Z_INDEX` object for programmatic access in JavaScript/TypeScript:
+
+```typescript
+import { Z_INDEX } from '@/constants/z-index';
+
+// Usage
+<div style={{ zIndex: Z_INDEX.player }}>...</div>
+```
+
+### Component-Specific Details
+
+#### Navigation (z-50)
+- **File**: `src/components/BottomNavigation.tsx`
+- **Class**: `z-navigation` or `z-50`
+- **Notes**: Island-style floating nav with blur backdrop
+
+#### Compact Player (z-60)
+- **File**: `src/components/player/CompactPlayer.tsx`
+- **Class**: `z-player`
+- **Notes**: Fixed bottom, above navigation
+
+#### Contextual Hints (z-70)
 - **File**: `src/components/hints/ContextualHint.tsx`
-- **Purpose**: Display smart contextual tips that appear above navigation but below fullscreen overlays
-- **Position**: Fixed, centered horizontally with `left-0 right-0 mx-auto` + safe-area CSS variables
-- **Mobile Bottom Position**: `bottom-[6.5rem]` (accounts for island-nav height + safe area)
-- **Desktop Bottom Position**: `md:bottom-24`
-- **Width**: `w-[calc(100%-1.5rem)]` on mobile, `md:w-[calc(100%-2rem)]` on desktop
+- **Class**: `z-[70]`
+- **Notes**: Above player, below fullscreen
 
-#### Mobile Fullscreen Player (z-[90])
+#### Fullscreen Player (z-90)
 - **File**: `src/components/player/MobileFullscreenPlayer.tsx`
-- **Purpose**: Fullscreen music player experience
-- **Position**: Fixed, covering entire viewport (`inset-0`)
-- **Z-Index Rationale**: Must appear above hints and navigation, but below system notifications
+- **Class**: `z-fullscreen`
+- **Notes**: Covers entire viewport
 
-#### Section Editor Mobile (z-[90])
-- **File**: `src/components/stem-studio/mobile/SectionEditorMobile.tsx`
-- **Purpose**: Fullscreen section editing interface
-- **Position**: Fixed, covering entire viewport (`inset-0`)
-- **Z-Index Rationale**: Major overlay, same level as fullscreen player
+#### Sheets (z-150/151)
+- **Files**: `src/components/ui/sheet.tsx`, `src/components/mobile/MobileBottomSheet.tsx`
+- **Backdrop**: `z-[150]`
+- **Content**: `z-[151]`
+- **Notes**: Above fullscreen but below dropdowns
+
+#### Dropdowns/Popovers (z-200)
+- **Files**: `src/components/ui/dropdown-menu.tsx`, `src/components/ui/popover.tsx`
+- **Class**: `z-dropdown` or `z-[200]`
+- **Notes**: Must appear above all content including sheets
+
+#### Context Menu (z-9999)
+- **File**: `src/components/ui/context-menu.tsx`
+- **Class**: `z-[9999]`
+- **Notes**: Legacy high z-index for guaranteed visibility
+
+#### Toasts (z-300)
+- **File**: `src/components/ui/sonner.tsx`
+- **Class**: `z-toast` or `z-[300]`
+- **Notes**: System-level notifications
 
 ### Mobile Positioning Considerations
 
-1. **Bottom Navigation Height**: Island navigation is approximately 4rem in height plus safe-area-inset-bottom
-2. **Safe Areas**: All mobile positioning should account for `env(safe-area-inset-bottom)` on devices with notches/gesture bars
-3. **Centering**: Use `left-0 right-0 mx-auto` for reliable horizontal centering. Avoid `left-1/2 -translate-x-1/2` when combined with calc() widths as it can cause alignment issues
-4. **Width**: Use `calc(100% - [margin])` to ensure proper spacing from edges
-
-### Historical Issues Fixed
-
-**2025-12-14 (Z-Index)**: Fixed z-index conflicts where:
-- `ContextualHint` was at z-[60], causing conflicts with `MobileFullscreenPlayer` (also z-[60])
-- Hints could appear behind the bottom navigation (z-50)
-- Solution: Moved `ContextualHint` to z-[70], moved fullscreen overlays to z-[90]
-
-**2025-12-14 (Positioning)**: Fixed mobile horizontal alignment issue where:
-- Hints appeared shifted to the right on mobile screens
-- Using `left-1/2 -translate-x-1/2` with calc() width caused centering issues
-- Solution: Changed to `left-0 right-0 mx-auto` for more reliable centering, added safe-area CSS variables
+1. **Bottom Navigation Height**: Island navigation is ~4rem + safe-area-inset-bottom
+2. **Safe Areas**: Use CSS variables for Telegram Mini App:
+   - `var(--tg-safe-area-inset-bottom)`
+   - `var(--tg-safe-area-inset-top)`
+   - `env(safe-area-inset-bottom)` as fallback
+3. **Centering**: Use `left-0 right-0 mx-auto` for horizontal centering
+4. **Width**: Use `calc(100% - [margin])` for edge spacing
 
 ### Best Practices
 
-1. **Avoid arbitrary z-index values**: Use the documented layers
-2. **Test on mobile**: Always verify z-index changes on mobile viewports
-3. **Consider touch targets**: Ensure interactive elements aren't obscured
-4. **Document changes**: Update this file when adding new z-index values
-5. **Use semantic layering**: Group related components at the same z-index level
+1. **Use semantic Tailwind classes**: Prefer `z-player` over `z-60`
+2. **Import constants for JS**: Use `Z_INDEX.player` for programmatic values
+3. **Test on mobile**: Verify z-index changes on actual devices
+4. **Document changes**: Update this file when adding new z-index levels
+5. **Avoid arbitrary values**: Don't use random numbers like `z-[123]`
 
 ### Related Files
 
-- `src/components/hints/ContextualHint.tsx` - Contextual hints system
-- `src/components/player/MobileFullscreenPlayer.tsx` - Fullscreen music player
-- `src/components/stem-studio/mobile/SectionEditorMobile.tsx` - Section editor
-- `src/components/BottomNavigation.tsx` - Mobile navigation bar
-- `src/components/layout/UnifiedAnnouncement.tsx` - Unified announcement system (z-[100])
-- `src/index.css` - Island navigation styles (`.island-nav`)
-
-### References
-
-- [Mobile UI Component Memory](/docs/mobile-ui-components.md)
-- [Telegram Safe Areas](/docs/telegram-safe-areas.md)
+- `tailwind.config.ts` - Tailwind z-index tokens
+- `src/constants/z-index.ts` - JS constants for z-index
+- `src/components/BottomNavigation.tsx` - Mobile navigation
+- `src/components/player/CompactPlayer.tsx` - Compact player
+- `src/components/player/MobileFullscreenPlayer.tsx` - Fullscreen player
+- `src/components/ui/sheet.tsx` - Sheet component
+- `src/components/mobile/MobileBottomSheet.tsx` - Mobile bottom sheet
+- `src/components/ui/dropdown-menu.tsx` - Dropdown menus
+- `src/components/ui/sonner.tsx` - Toast notifications
+- `src/index.css` - CSS utilities and island-nav styles

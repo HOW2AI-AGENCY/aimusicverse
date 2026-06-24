@@ -19,6 +19,18 @@
       "Bash(powershell:*)",
       "Bash(findstr:*)",
       "Read(//c/**)"
+      "Bash(npm run *)",
+      "Bash(npm list *)",
+      "Bash(mkdir -p .husky)",
+      "Bash(chmod +x .husky/pre-commit)",
+      "Bash(mkdir -p .husky/_)",
+      "Bash(python -c \"import graphify; print\\('graphify is installed'\\)\")",
+      "Bash(python -c \"import sys; open\\('graphify-out/.graphify_python', 'w', encoding='utf-8'\\).write\\(sys.executable\\)\")",
+      "Bash(python -c \"import sys; open\\('graphify-out/.graphify_root', 'w', encoding='utf-8'\\).write\\(sys.stdin.read\\(\\).strip\\(\\)\\)\")"
+    ],
+    "additionalDirectories": [
+      "D:\\.MUSICVERSE\\aimusicverse",
+      "D:\\.MUSICVERSE\\aimusicverse\\.husky"
     ]
   }
 }

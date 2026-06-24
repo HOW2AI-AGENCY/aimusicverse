@@ -14,6 +14,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { logger } from '@/lib/logger';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
+import { surface } from '@/lib/overlay-colors';
 
 interface TrackData {
   title?: string | null;
@@ -71,6 +72,19 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
       setIsPlaying(false);
     }
   }, [open]);
+
+  // Hard cleanup on unmount to release iOS audio slot
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.src = '';
+        audioRef.current.load();
+        audioRef.current = null;
+      }
+    };
+  }, []);
+
 
   const { createArtist, isCreating } = useArtists();
 
@@ -183,7 +197,10 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
             {fromTrack.audio_url && (
               <button
                 onClick={togglePlayback}
-                className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-lg opacity-0 hover:opacity-100 transition-opacity"
+                className={cn(
+                  "absolute inset-0 flex items-center justify-center rounded-lg opacity-0 hover:opacity-100 transition-opacity",
+                  surface.imageDark
+                )}
               >
                 {isPlaying ? (
                   <Pause className="w-6 h-6 text-white" />

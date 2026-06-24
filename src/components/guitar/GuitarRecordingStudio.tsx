@@ -26,6 +26,7 @@ import { ChordDiagram } from '@/components/guitar/ChordDiagram';
 import { LiveChordDisplay } from '@/components/guitar/LiveChordDisplay';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from '@/lib/motion';
+import { logger } from '@/lib/logger';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { notifyTranscriptionComplete } from '@/services/notificationManager';
@@ -185,7 +186,7 @@ export function GuitarRecordingStudio({ onComplete, compact = false }: GuitarRec
       toast.success('Запись началась — играйте!');
       
     } catch (error) {
-      console.error('Microphone error:', error);
+      logger.error('Microphone access error', error as Error);
       toast.error('Не удалось получить доступ к микрофону');
     }
   };
@@ -352,7 +353,7 @@ export function GuitarRecordingStudio({ onComplete, compact = false }: GuitarRec
       }
       
     } catch (error) {
-      console.error('Transcription error:', error);
+      logger.error('Transcription error', error as Error);
       toast.error('Ошибка транскрипции');
     } finally {
       setIsTranscribing(false);
@@ -437,7 +438,7 @@ export function GuitarRecordingStudio({ onComplete, compact = false }: GuitarRec
       });
       
     } catch (error) {
-      console.error('Save error:', error);
+      logger.error('Save recording error', error as Error);
       toast.error('Ошибка сохранения');
     } finally {
       setIsSaving(false);

@@ -47,9 +47,11 @@ import { ExtendTrackDialog } from '@/components/ExtendTrackDialog';
 import { SectionEditorSheet } from '@/components/studio/editor/SectionEditorSheet';
 import { AutoSaveIndicator } from './AutoSaveIndicator';
 import { LyricsPanel } from './LyricsPanel';
+import { StudioLyricsSheet } from './StudioLyricsSheet';
+import { StudioMusicLabSheet } from './StudioMusicLabSheet';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
@@ -85,8 +87,8 @@ import {
   SkipForward,
   Mic2,
   Sparkles,
-  Layers,
   FileText,
+  FlaskConical,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
@@ -216,14 +218,11 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
   // Stem separation state
   const [showStemSeparationDialog, setShowStemSeparationDialog] = useState(false);
   const { separate: separateStems, isSeparating } = useStemSeparation();
-
-  /**
-   * Mobile tab state
-   * Controls which tab is active on mobile devices
-   * - 'tracks': Shows the track list (default)
-   * - 'lyrics': Shows the lyrics editing panel
-   */
-  const [mobileTab, setMobileTab] = useState<'tracks' | 'lyrics'>('tracks');
+  // MusicLab sheet state (opens as overlay, not tab)
+  const [showMusicLabSheet, setShowMusicLabSheet] = useState(false);
+  
+  // Lyrics sheet state (opens as overlay, not tab)
+  const [showLyricsSheet, setShowLyricsSheet] = useState(false);
 
   // Section editor store
   const {
@@ -1010,20 +1009,19 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
         </Tabs>
       )}
 
-      {/* Center: Mobile Tab Switcher (mobile only) */}
+      {/* Center: Quick actions for mobile - no tabs, unified interface */}
       {isMobile && (
-        <Tabs value={mobileTab} onValueChange={(v) => setMobileTab(v as 'tracks' | 'lyrics')} className="w-auto">
-          <TabsList className="h-8">
-            <TabsTrigger value="tracks" className="h-7 px-2 gap-1">
-              <Layers className="h-4 w-4" />
-              <span className="text-xs">Дорожки</span>
-            </TabsTrigger>
-            <TabsTrigger value="lyrics" className="h-7 px-2 gap-1">
-              <FileText className="h-4 w-4" />
-              <span className="text-xs">Текст</span>
-            </TabsTrigger>
-          </TabsList>
-        </Tabs>
+        <div className="flex items-center gap-1">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8"
+            onClick={() => setShowMixerSheet(true)}
+            title="Микшер"
+          >
+            <Sliders className="h-4 w-4" />
+          </Button>
+        </div>
       )}
 
       {/* Right: Actions */}
@@ -1241,73 +1239,42 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
         </div>
       )}
 
-      {/* Tracks list - vertical scroll */}
+      {/* Unified Tracks List - always visible, no tabs */}
       <ScrollArea className="flex-1">
-        <Tabs value={mobileTab} className="h-full">
-          <TabsContent value="tracks" className="mt-0 h-full">
-            <div className={cn(
-              "p-3 space-y-2",
-              isMobile && "pb-4"
-            )}>
-              <SortableTrackList
-                tracks={displayTracks}
-                isPlaying={isPlaying}
-                currentTime={audioEngine.isReady ? audioEngine.currentTime : currentTime}
-                duration={duration}
-                hasSoloTracks={hasSoloTracks}
-                sourceTrackId={sourceTrackId}
-                stemsExist={hasStems}
-                onReorder={reorderTracks}
-                onToggleMute={toggleTrackMute}
-                onToggleSolo={toggleTrackSolo}
-                onVolumeChange={setTrackVolume}
-                onSeek={handleSeek}
-                onRemove={removeTrack}
-                onVersionChange={setTrackActiveVersion}
-                onAction={handleMobileTrackAction}
-              />
+        <div className={cn(
+          "p-3 space-y-2",
+          isMobile && "pb-4"
+        )}>
+          <SortableTrackList
+            tracks={displayTracks}
+            isPlaying={isPlaying}
+            currentTime={audioEngine.isReady ? audioEngine.currentTime : currentTime}
+            duration={duration}
+            hasSoloTracks={hasSoloTracks}
+            sourceTrackId={sourceTrackId}
+            stemsExist={hasStems}
+            onReorder={reorderTracks}
+            onToggleMute={toggleTrackMute}
+            onToggleSolo={toggleTrackSolo}
+            onVolumeChange={setTrackVolume}
+            onSeek={handleSeek}
+            onRemove={removeTrack}
+            onVersionChange={setTrackActiveVersion}
+            onAction={handleMobileTrackAction}
+          />
 
-              {project.tracks.length === 0 && (
-                <div className="flex flex-col items-center justify-center py-12 text-center">
-                  <p className="text-muted-foreground mb-4">
-                    Нет дорожек в проекте
-                  </p>
-                  <Button onClick={() => setShowAddTrackDialog(true)}>
-                    <Plus className="h-4 w-4 mr-2" />
-                    Добавить дорожку
-                  </Button>
-                </div>
-              )}
+          {project.tracks.length === 0 && (
+            <div className="flex flex-col items-center justify-center py-12 text-center">
+              <p className="text-muted-foreground mb-4">
+                Нет дорожек в проекте
+              </p>
+              <Button onClick={() => setShowAddTrackDialog(true)}>
+                <Plus className="h-4 w-4 mr-2" />
+                Добавить дорожку
+              </Button>
             </div>
-          </TabsContent>
-
-          <TabsContent value="lyrics" className="mt-0 h-full">
-            <div className="p-3 h-full">
-              {sourceTrackId ? (
-                <LyricsPanel
-                  trackId={sourceTrackId}
-                  initialLyrics={sourceTrack?.lyrics ?? undefined}
-                  isOpen={true}
-                  onClose={() => setMobileTab('tracks')}
-                  onLyricsSaved={(content) => {
-                    // Update lyrics in source track if needed
-                    logger.info('Lyrics saved', { trackId: sourceTrackId, contentLength: content.length });
-                  }}
-                />
-              ) : (
-                <div className="flex flex-col items-center justify-center h-full text-center">
-                  <FileText className="h-12 w-12 text-muted-foreground/50 mb-3" />
-                  <p className="text-sm text-muted-foreground">
-                    Нет текста для редактирования
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Текст недоступен для этого проекта
-                  </p>
-                </div>
-              )}
-            </div>
-          </TabsContent>
-        </Tabs>
+          )}
+        </div>
       </ScrollArea>
 
       {/* AI Actions FAB - Mobile only */}
@@ -1345,6 +1312,8 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
               setShowArrangementDialog(true);
             }
           }}
+          onOpenMusicLab={() => setShowMusicLabSheet(true)}
+          onOpenLyrics={() => setShowLyricsSheet(true)}
           disabledOperations={operationLock.blockedOperations}
           getDisabledReason={operationLock.getBlockReason}
           canSaveAsNewVersion={operationLock.canSaveAsNewVersion}
@@ -1389,6 +1358,8 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
         onGenerate={() => setShowGenerateSheet(true)}
         onImport={() => setShowImportDialog(true)}
         onBack={handleBack}
+        onOpenMusicLab={() => setShowMusicLabSheet(true)}
+        onOpenLyrics={() => setShowLyricsSheet(true)}
       />
 
       {/* Mobile Mixer Sheet */}
@@ -1406,6 +1377,52 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
           />
         </SheetContent>
       </Sheet>
+
+      {/* MusicLab Sheet - full integration with recording, chords, PromptDJ */}
+      <StudioMusicLabSheet
+        open={showMusicLabSheet}
+        onOpenChange={setShowMusicLabSheet}
+        projectId={project.id}
+        onRecordingComplete={(recordedTrack) => {
+          // Add recorded track to project
+          addTrack({
+            name: recordedTrack.name,
+            type: recordedTrack.type === 'vocal' ? 'vocal' : recordedTrack.type === 'guitar' ? 'other' : 'other',
+            audioUrl: recordedTrack.audioUrl,
+            volume: 0.85,
+            pan: 0,
+            muted: false,
+            solo: false,
+            color: TRACK_COLORS[recordedTrack.type === 'vocal' ? 'vocal' : 'other'] || TRACK_COLORS.other,
+          });
+          toast.success('Запись добавлена в проект');
+        }}
+        onDJTrackComplete={(audioUrl) => {
+          // Add DJ generated track to project
+          addTrack({
+            name: 'PromptDJ Track',
+            type: 'other',
+            audioUrl,
+            volume: 0.85,
+            pan: 0,
+            muted: false,
+            solo: false,
+            color: TRACK_COLORS.other,
+          });
+          toast.success('DJ трек добавлен в проект');
+        }}
+      />
+
+      {/* Lyrics Studio Sheet - V2 with CRUD, AI, versions, notes */}
+      <StudioLyricsSheet
+        isOpen={showLyricsSheet}
+        onClose={() => setShowLyricsSheet(false)}
+        trackId={sourceTrackId || undefined}
+        initialLyrics={sourceTrack?.lyrics ?? ''}
+        onLyricsSaved={(content: string) => {
+          logger.info('Lyrics saved', { trackId: sourceTrackId, contentLength: content.length });
+        }}
+      />
 
       {/* Add Track Dialog */}
       <AddTrackDialog

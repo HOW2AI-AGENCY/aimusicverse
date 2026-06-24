@@ -29,6 +29,7 @@ serve(async (req) => {
       staleTasks: 0,
       orphanedVersions: 0,
       staleRateLimits: 0,
+      cleanedVersions: 0,
     };
 
     // 1. Delete failed generation tasks older than 7 days
@@ -148,6 +149,24 @@ serve(async (req) => {
       if (results.staleRateLimits > 0) {
         console.log(`✅ Cleaned up ${results.staleRateLimits} stale rate limit entries`);
       }
+    }
+
+    // 7. Run tier-based version cleanup for all tracks
+    try {
+      const { data: versionCleanup, error: versionCleanupError } = await supabase
+        .rpc('cleanup_old_track_versions');
+      
+      if (versionCleanupError) {
+        console.error('❌ Error cleaning old versions:', versionCleanupError);
+      } else if (versionCleanup && versionCleanup.length > 0) {
+        results.cleanedVersions = versionCleanup.reduce(
+          (sum: number, r: { deleted_count: number }) => sum + (r.deleted_count || 0), 
+          0
+        );
+        console.log(`✅ Cleaned up ${results.cleanedVersions} old track versions across ${versionCleanup.length} tracks`);
+      }
+    } catch (e) {
+      console.error('❌ Version cleanup failed:', e);
     }
 
     const totalCleaned = Object.values(results).reduce((a, b) => a + b, 0);

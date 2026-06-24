@@ -12,6 +12,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { hardware } from '@/lib/overlay-colors';
 
 interface TransportBarProps {
   isPlaying: boolean;
@@ -168,7 +169,7 @@ export const TransportBar = memo(function TransportBar({
         </div>
 
         {/* LED Display Panel */}
-        <div className="flex items-center gap-4 px-4 py-2 rounded-xl bg-black/40 border border-white/10">
+        <div className={cn("flex items-center gap-4 px-4 py-2 rounded-xl", hardware.ledPanel)}>
           {/* Time Display */}
           <div className="flex flex-col items-center">
             <div className="font-mono text-3xl font-bold tracking-tight text-emerald-400 drop-shadow-[0_0_10px_rgba(52,211,153,0.5)]">
@@ -179,7 +180,7 @@ export const TransportBar = memo(function TransportBar({
             </div>
           </div>
 
-          <div className="h-10 w-px bg-white/10" />
+          <div className="h-10 w-px bg-foreground/10" />
 
           {/* BPM Display */}
           <div className="flex flex-col items-center">
@@ -240,7 +241,7 @@ export const TransportBar = memo(function TransportBar({
         <div className="flex-1 min-w-4" />
 
         {/* Step LED Indicator - Desktop */}
-        <div className="hidden lg:flex items-center gap-1 px-3 py-2 rounded-xl bg-black/30 border border-white/5">
+        <div className={cn("hidden lg:flex items-center gap-1 px-3 py-2 rounded-xl", hardware.stepIndicator)}>
           {Array.from({ length: Math.min(stepLength, 16) }, (_, i) => (
             <div
               key={i}

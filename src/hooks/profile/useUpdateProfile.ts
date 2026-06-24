@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import type { ProfileUpdateInput } from '@/types/profile';
+import { logger } from '@/lib/logger';
 import type { Json } from '@/integrations/supabase/types';
 
 interface UpdateProfileParams {
@@ -88,7 +89,7 @@ export function useUpdateProfile() {
       toast.success('Профиль обновлен');
     },
     onError: (error) => {
-      console.error('Error updating profile:', error);
+      logger.error('Error updating profile', error instanceof Error ? error : new Error(String(error)));
       toast.error('Не удалось обновить профиль');
     },
   });

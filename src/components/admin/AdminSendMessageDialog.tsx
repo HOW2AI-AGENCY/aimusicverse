@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { Send, MessageSquare, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { logger } from "@/lib/logger";
 
 interface User {
   user_id: string;
@@ -50,23 +51,12 @@ export function AdminSendMessageDialog({
 
     setIsLoading(true);
     try {
-      // Get profiles with telegram_chat_id for selected users
-      const { data: profiles } = await supabase
-        .from("profiles")
-        .select("user_id, telegram_chat_id")
-        .in("user_id", selectedUsers.map(u => u.user_id));
-
-      const usersWithChat = profiles?.filter(p => p.telegram_chat_id) || [];
-      
-      if (usersWithChat.length === 0) {
-        toast.error("У выбранных пользователей нет Telegram chat_id");
-        return;
-      }
-
-      // Send messages via edge function
-      const { error } = await supabase.functions.invoke("send-admin-message", {
+      // Send messages via edge function — the function resolves
+      // telegram_chat_id server-side using service role; the client never
+      // touches that sensitive column.
+      const { data, error } = await supabase.functions.invoke("send-admin-message", {
         body: {
-          chat_ids: usersWithChat.map(p => p.telegram_chat_id),
+          user_ids: selectedUsers.map((u) => u.user_id),
           title: title.trim() || undefined,
           message: message.trim(),
         },
@@ -74,13 +64,14 @@ export function AdminSendMessageDialog({
 
       if (error) throw error;
 
-      toast.success(`Сообщение отправлено ${usersWithChat.length} пользователям`);
+      const sent = (data as { sent?: number } | null)?.sent ?? selectedUsers.length;
+      toast.success(`Сообщение отправлено ${sent} пользователям`);
       setTitle("");
       setMessage("");
       onOpenChange(false);
       onClearSelection();
-    } catch (error) {
-      console.error("Send message error:", error);
+    } catch (error: unknown) {
+      logger.error("Send message error", error instanceof Error ? error : new Error(String(error)));
       toast.error("Ошибка при отправке сообщения");
     } finally {
       setIsLoading(false);

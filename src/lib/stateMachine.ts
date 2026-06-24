@@ -3,6 +3,8 @@
  * Phase 4: IMP027 - Type-safe state transitions without XState dependency
  */
 
+import { logger } from '@/lib/logger';
+
 /**
  * State configuration for a state machine
  */
@@ -77,7 +79,7 @@ export function createMachine<
       const nextState = stateConfig.on?.[event] as TState | undefined;
 
       if (!nextState) {
-        console.warn(`Invalid transition: ${currentState} + ${event}`);
+        logger.warn(`Invalid transition: ${currentState} + ${event}`);
         return;
       }
 

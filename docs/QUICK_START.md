@@ -353,7 +353,7 @@ npm run build
 - 📖 [Полная документация](INDEX.md)
 - 🏗️ [Архитектура](ARCHITECTURE.md)
 - 📡 [API Reference](API.md)
-- 🐛 [Troubleshooting](TROUBLESHOOTING.md)
+- 🐛 [Troubleshooting](PLAYER_TROUBLESHOOTING.md)
 
 ### Сообщество
 - 💬 [GitHub Discussions](https://github.com/HOW2AI-AGENCY/aimusicverse/discussions)

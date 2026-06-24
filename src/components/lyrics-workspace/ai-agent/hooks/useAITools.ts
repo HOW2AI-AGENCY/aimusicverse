@@ -9,6 +9,7 @@ import { hapticImpact } from '@/lib/haptic';
 import { AITool, AIMessage, AIAgentContext, AIToolId, OutputType } from '../types';
 import { AI_TOOLS } from '../constants';
 import { parseAIResponse } from '@/lib/ai/aiResponseParser';
+import { logger } from '@/lib/logger';
 
 /**
  * Clean lyrics from syllable counts that AI sometimes adds
@@ -293,8 +294,8 @@ export function useAITools({ context, onLyricsGenerated, onTagsGenerated, onStyl
       hapticImpact('medium');
       return { data: responseData, content: responseContent };
 
-    } catch (error) {
-      console.error('AI Tool error:', error);
+    } catch (error: unknown) {
+      logger.error('AI Tool error', error instanceof Error ? error : new Error(String(error)));
       updateLastMessage({ content: 'Произошла ошибка. Попробуйте ещё раз.', isLoading: false });
       toast.error('Ошибка выполнения');
       return null;
@@ -377,8 +378,8 @@ export function useAITools({ context, onLyricsGenerated, onTagsGenerated, onStyl
       });
 
       hapticImpact('medium');
-    } catch (error) {
-      console.error('Chat error:', error);
+    } catch (error: unknown) {
+      logger.error('Chat error', error instanceof Error ? error : new Error(String(error)));
       updateLastMessage({ content: 'Произошла ошибка. Попробуйте ещё раз.', isLoading: false });
       toast.error('Ошибка чата');
     } finally {

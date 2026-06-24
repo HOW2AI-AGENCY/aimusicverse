@@ -31,6 +31,9 @@ export type EmptyStateType =
   | 'notifications'
   | 'likes'
   | 'stems'
+  | 'lyrics'
+  | 'lyrics_studio'
+  | 'stem_studio'
   | 'custom';
 
 interface EmptyStateConfig {
@@ -97,6 +100,24 @@ const emptyStateConfigs: Record<Exclude<EmptyStateType, 'custom'>, EmptyStateCon
     description: 'Разделите трек на вокал и инструменты',
     actionLabel: 'Разделить трек',
   },
+  lyrics: {
+    icon: Mic2,
+    title: 'Нет текстов',
+    description: 'Создайте или сохраните текст песни',
+    actionLabel: 'Создать текст',
+  },
+  lyrics_studio: {
+    icon: Mic2,
+    title: 'Добро пожаловать в Lyrics Studio',
+    description: 'Создавайте, редактируйте и улучшайте тексты песен с помощью AI',
+    actionLabel: 'Создать первый текст',
+  },
+  stem_studio: {
+    icon: Sparkles,
+    title: 'Добро пожаловать в Stem Studio',
+    description: 'Разделяйте треки на вокал, ударные, бас и другие инструменты',
+    actionLabel: 'Загрузить трек',
+  },
 };
 
 interface UnifiedEmptyStateProps {
@@ -136,20 +157,21 @@ export function UnifiedEmptyState({
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
       className={cn(
         "flex flex-col items-center justify-center text-center",
         compact ? "py-8 px-4" : "py-16 px-6",
         className
       )}
     >
-      {/* Icon with animated background */}
+      {/* Icon with animated background - theme-aware */}
       <motion.div
-        initial={{ scale: 0.8 }}
-        animate={{ scale: 1 }}
-        transition={{ delay: 0.1, type: "spring", stiffness: 200 }}
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ delay: 0.1, type: "spring", stiffness: 200, damping: 15 }}
         className={cn(
-          "relative rounded-full bg-muted/50 flex items-center justify-center",
+          "relative rounded-full flex items-center justify-center",
+          "bg-muted/60 dark:bg-muted/40",
           compact ? "w-12 h-12 mb-3" : "w-16 h-16 mb-4"
         )}
       >
@@ -158,10 +180,10 @@ export function UnifiedEmptyState({
           compact ? "w-6 h-6" : "w-8 h-8"
         )} />
         
-        {/* Subtle pulse effect */}
+        {/* Subtle pulse effect - reduced motion respects */}
         <motion.div
-          className="absolute inset-0 rounded-full bg-primary/5"
-          animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0, 0.5] }}
+          className="absolute inset-0 rounded-full bg-primary/5 dark:bg-primary/10"
+          animate={{ scale: [1, 1.15, 1], opacity: [0.4, 0, 0.4] }}
           transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
         />
       </motion.div>

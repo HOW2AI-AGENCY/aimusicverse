@@ -11,6 +11,7 @@ import { memo } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Music, Calendar, Globe } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { pill } from '@/lib/overlay-colors';
 import { format, ru } from '@/lib/date-utils';
 
 interface ProjectMetaProps {
@@ -135,7 +136,8 @@ export const ProjectTypeBadge = memo(function ProjectTypeBadge({
   if (variant === 'overlay') {
     return (
       <Badge className={cn(
-        "bg-black/60 backdrop-blur-sm text-white border-0 text-[10px] h-5 px-2 shadow-lg",
+        pill.glassDark,
+        "text-[10px] h-5 px-2 shadow-lg",
         className
       )}>
         {typeLabel}

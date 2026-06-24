@@ -1,6 +1,8 @@
 /**
  * StudioHeader - Header component for StudioShell
  * Extracted from StudioShell for better maintainability
+ * 
+ * Unified interface - no tabs for mobile, MusicLab/Lyrics accessed via sheets
  */
 
 import { memo } from 'react';
@@ -21,8 +23,6 @@ import {
   Cloud,
   CloudOff,
   Sparkles,
-  Layers,
-  FileText,
 } from 'lucide-react';
 import type { ViewMode } from '@/stores/useUnifiedStudioStore';
 
@@ -31,7 +31,6 @@ interface StudioHeaderProps {
   trackCount: number;
   isMobile: boolean;
   viewMode: ViewMode;
-  mobileTab: 'tracks' | 'lyrics';
   hasUnsavedChanges: boolean;
   isSaving: boolean;
   canUndo: boolean;
@@ -48,7 +47,8 @@ interface StudioHeaderProps {
   onUndo: () => void;
   onRedo: () => void;
   onViewModeChange: (mode: ViewMode) => void;
-  onMobileTabChange: (tab: 'tracks' | 'lyrics') => void;
+  /** Open mixer sheet on mobile */
+  onOpenMixer?: () => void;
 }
 
 export const StudioHeader = memo(function StudioHeader({
@@ -56,7 +56,6 @@ export const StudioHeader = memo(function StudioHeader({
   trackCount,
   isMobile,
   viewMode,
-  mobileTab,
   hasUnsavedChanges,
   isSaving,
   canUndo,
@@ -73,7 +72,7 @@ export const StudioHeader = memo(function StudioHeader({
   onUndo,
   onRedo,
   onViewModeChange,
-  onMobileTabChange,
+  onOpenMixer,
 }: StudioHeaderProps) {
   return (
     <header className={cn(
@@ -122,24 +121,19 @@ export const StudioHeader = memo(function StudioHeader({
         </Tabs>
       )}
 
-      {/* Center: Mobile Tab Switcher (mobile only) */}
-      {isMobile && (
-        <Tabs 
-          value={mobileTab} 
-          onValueChange={(v) => onMobileTabChange(v as 'tracks' | 'lyrics')} 
-          className="w-auto"
-        >
-          <TabsList className="h-8">
-            <TabsTrigger value="tracks" className="h-7 px-2 gap-1">
-              <Layers className="h-4 w-4" />
-              <span className="text-xs">Дорожки</span>
-            </TabsTrigger>
-            <TabsTrigger value="lyrics" className="h-7 px-2 gap-1">
-              <FileText className="h-4 w-4" />
-              <span className="text-xs">Текст</span>
-            </TabsTrigger>
-          </TabsList>
-        </Tabs>
+      {/* Center: Mobile quick access - unified interface, no tabs */}
+      {isMobile && onOpenMixer && (
+        <div className="flex items-center gap-1">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8"
+            onClick={onOpenMixer}
+            title="Микшер"
+          >
+            <Sliders className="h-4 w-4" />
+          </Button>
+        </div>
       )}
 
       {/* Right: Actions */}

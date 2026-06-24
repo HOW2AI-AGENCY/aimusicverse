@@ -269,7 +269,8 @@ export function useTelegramActions(webApp: TelegramWebApp | null) {
   };
 
   const enableClosingConfirmation = () => {
-    if (webApp?.enableClosingConfirmation) {
+    // Requires SDK 6.2+
+    if (webApp?.isVersionAtLeast?.('6.2') && webApp?.enableClosingConfirmation) {
       try {
         webApp.enableClosingConfirmation();
       } catch (error) {
@@ -281,7 +282,8 @@ export function useTelegramActions(webApp: TelegramWebApp | null) {
   };
 
   const disableClosingConfirmation = () => {
-    if (webApp?.disableClosingConfirmation) {
+    // Requires SDK 6.2+
+    if (webApp?.isVersionAtLeast?.('6.2') && webApp?.disableClosingConfirmation) {
       try {
         webApp.disableClosingConfirmation();
       } catch (error) {

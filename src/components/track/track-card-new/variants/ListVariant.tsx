@@ -24,7 +24,7 @@ import { TrackTypeIcons } from '@/components/library/TrackTypeIcons';
 import { ScrollableTagsRow } from '@/components/library/ScrollableTagsRow';
 import { MarqueeTitle } from '@/components/library/MarqueeTitle';
 import { SwipeableTrackItem } from '@/components/library/SwipeableTrackItem';
-import { SwipeOnboardingTooltip } from '@/components/library/SwipeOnboardingTooltip';
+import { UnifiedTipCard } from '@/components/hints';
 import { UnifiedTrackMenu, UnifiedTrackSheet } from '@/components/track-actions';
 import { useTrackCardState } from '../hooks/useTrackCardState';
 import type { StandardTrackCardProps } from '../types';
@@ -65,12 +65,17 @@ export const ListVariant = memo(function ListVariant({
     onVersionSwitch('next');
   }, [versionCount, onVersionSwitch]);
 
+  // Check if user owns this track
+  const { isOwnTrack } = useTrackCardState({ track, onPlay, isPlaying: isPlayingProp });
+
   const listContent = (
     <Card
       className={cn(
         'group grid grid-cols-[64px_1fr_44px] items-center gap-3 p-2.5 sm:p-3 transition-all touch-manipulation rounded-xl min-h-[80px]',
-        !isMobile && 'hover:bg-muted/50',
+        'bg-card/60 backdrop-blur-sm border-border/40',
+        !isMobile && 'hover:bg-muted/60 hover:shadow-md hover:scale-[1.01] hover:ring-1 hover:ring-primary/20',
         isMobile && 'active:bg-muted/70 active:scale-[0.99]',
+        isCurrentlyPlaying && 'ring-1 ring-primary/30 bg-primary/5',
         className
       )}
       onClick={handleCardClick}
@@ -182,18 +187,26 @@ export const ListVariant = memo(function ListVariant({
 
   return (
     <>
-      {isMobile ? (
-        <SwipeOnboardingTooltip isFirstSwipeableItem={isFirstSwipeableItem}>
-          <SwipeableTrackItem
-            onAddToQueue={handleSwipeAddToQueue}
-            onSwitchVersion={handleSwipeSwitchVersion}
-            hasMultipleVersions={versionCount > 1}
-          >
-            {listContent}
-          </SwipeableTrackItem>
-        </SwipeOnboardingTooltip>
+      {isMobile && isOwnTrack ? (
+        <SwipeableTrackItem
+          onAddToQueue={handleSwipeAddToQueue}
+          onSwitchVersion={handleSwipeSwitchVersion}
+          hasMultipleVersions={versionCount > 1}
+        >
+          {listContent}
+        </SwipeableTrackItem>
       ) : (
         listContent
+      )}
+      {isMobile && isOwnTrack && isFirstSwipeableItem && (
+        <UnifiedTipCard
+          id="swipe-gesture"
+          title="Жесты свайпа"
+          message="Свайпните трек влево для добавления в очередь, вправо — для смены версии"
+          emoji="👆"
+          delay={1500}
+          onDismiss={() => {}}
+        />
       )}
       <UnifiedTrackSheet
         track={track as any}

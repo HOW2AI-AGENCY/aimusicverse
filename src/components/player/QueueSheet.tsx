@@ -23,6 +23,8 @@ import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useRadioMode } from '@/hooks/audio/useRadioMode';
+import { logger } from '@/lib/logger';
+import { glass } from '@/lib/glass';
 
 interface QueueSheetProps {
   open: boolean;
@@ -159,8 +161,8 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
       toast.success('Плейлист создан', {
         description: `${queue.length} треков сохранено`,
       });
-    } catch (error) {
-      console.error('Failed to save playlist:', error);
+    } catch (error: unknown) {
+      logger.error('Failed to save playlist', error instanceof Error ? error : new Error(String(error)));
       toast.error('Не удалось сохранить плейлист');
     } finally {
       setIsSaving(false);
@@ -184,15 +186,15 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent 
         side="bottom" 
-        className="h-[75vh] rounded-t-3xl border-t border-border/50 bg-background/98 backdrop-blur-xl p-0"
+        className={cn("h-[75vh] rounded-t-3xl p-0", glass.overlay)}
       >
         {/* Header */}
-        <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-xl border-b border-border/30 p-4 pb-3">
+        <div className={cn("sticky top-0 z-10 border-b border-border/30 p-4 pb-3", glass.card)}>
           <SheetHeader className="space-y-0">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <motion.div 
-                  className="p-2.5 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 shadow-soft"
+                  className={cn("p-2.5 rounded-xl shadow-soft", glass.subtle)}
                   animate={{ rotate: [0, 5, -5, 0] }}
                   transition={{ duration: 3, repeat: Infinity, repeatDelay: 4 }}
                 >
@@ -328,7 +330,7 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
                   className="flex flex-col items-center justify-center text-center py-16"
                 >
                   <motion.div
-                    className="p-5 rounded-2xl bg-gradient-to-br from-muted/80 to-muted/40 mb-5 shadow-soft"
+                    className={cn("p-5 rounded-2xl mb-5 shadow-soft", glass.subtle)}
                     animate={{ y: [0, -8, 0] }}
                     transition={{ duration: 2.5, repeat: Infinity }}
                   >

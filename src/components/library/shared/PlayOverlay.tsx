@@ -2,6 +2,7 @@ import { memo } from 'react';
 import { Play, Pause } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { triggerHapticFeedback } from '@/lib/mobile-utils';
+import { surface } from '@/lib/overlay-colors';
 
 interface PlayOverlayProps {
   isPlaying?: boolean;
@@ -45,9 +46,11 @@ export const PlayOverlay = memo(function PlayOverlay({
     <div
       className={cn(
         "absolute inset-0 flex items-center justify-center cursor-pointer transition-all",
-        !isMobile && !isPlaying && "opacity-0 group-hover:opacity-100 bg-black/30",
+        !isMobile && !isPlaying && "opacity-0 group-hover:opacity-100",
+        !isMobile && !isPlaying && surface.light,
         isMobile && !isPlaying && "opacity-0",
-        isPlaying && "opacity-100 bg-black/40",
+        isPlaying && "opacity-100",
+        isPlaying && surface.imageDark,
         className
       )}
       onClick={handleClick}
@@ -55,12 +58,12 @@ export const PlayOverlay = memo(function PlayOverlay({
       <div className={cn(
         config.button,
         "rounded-full flex items-center justify-center transition-transform backdrop-blur-sm",
-        isPlaying ? "bg-primary/90 scale-100" : "bg-white/80 scale-90 group-hover:scale-100"
+        isPlaying ? "bg-primary/90 scale-100" : "bg-background/80 scale-90 group-hover:scale-100"
       )}>
         {isPlaying ? (
           <Pause className={cn(config.icon, "text-white")} aria-hidden="true" />
         ) : (
-          <Play className={cn(config.icon, "ml-0.5 text-black/70")} aria-hidden="true" />
+          <Play className={cn(config.icon, "ml-0.5 text-foreground/70")} aria-hidden="true" />
         )}
       </div>
     </div>

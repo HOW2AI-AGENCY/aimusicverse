@@ -2,6 +2,11 @@
  * HomeHeader - Unified header component for home page
  * Combines logo, welcome greeting, notifications, menu and avatar in a clean layout
  * Supports Telegram fullscreen safe area
+ * 
+ * On desktop: Shows simplified greeting (no menu/avatar - handled by Sidebar)
+ * On mobile: Full header with menu, avatar, notifications
+ * 
+ * Feature: 032-professional-ui - Uses design system tokens
  */
 
 import { useState, lazy, Suspense } from 'react';
@@ -13,6 +18,9 @@ import { useTelegram } from '@/contexts/TelegramContext';
 import { AppLogo } from '@/components/branding/AppLogo';
 import { TELEGRAM_SAFE_AREA } from '@/constants/safe-area';
 import { AdminQuickAccess } from './AdminQuickAccess';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { glass } from '@/lib/glass';
+import { Heading } from '@/components/ui/Heading';
 
 // Use the same menu as bottom navigation "More" button
 const MoreMenuSheet = lazy(() => import('@/components/navigation/MoreMenuSheet').then(m => ({ default: m.MoreMenuSheet })));
@@ -59,17 +67,72 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
   const [menuOpen, setMenuOpen] = useState(false);
   const unreadCount = useUnreadCount();
   const { hapticFeedback } = useTelegram();
+  const isMobile = useIsMobile();
 
   const handleMenuClick = () => {
     hapticFeedback('light');
     setMenuOpen(true);
   };
 
+  // Desktop: enhanced header with better visual hierarchy
+  if (!isMobile) {
+    return (
+      <motion.header 
+        className={cn(
+          "mb-6 lg:mb-8",
+          className
+        )}
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+      >
+        {/* Greeting row with improved styling */}
+        <div className="flex items-center gap-4 lg:gap-5">
+          <motion.div 
+            className={cn(
+              "flex-shrink-0 w-12 h-12 lg:w-14 lg:h-14 rounded-xl lg:rounded-2xl flex items-center justify-center",
+              "bg-gradient-to-br shadow-lg shadow-primary/20",
+              gradient
+            )}
+            animate={{ rotate: [0, 5, -5, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            whileHover={{ scale: 1.1 }}
+          >
+            <span className="text-white">{icon}</span>
+          </motion.div>
+          
+          <div className="flex-1 min-w-0">
+            <h2 className="text-xl lg:text-2xl xl:text-3xl font-bold leading-tight">
+              {text}
+              {userName && (
+                <span className="text-primary">, {userName}</span>
+              )}
+              <motion.span 
+                className="inline-block ml-2"
+                animate={{ rotate: [0, 15, -15, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 3 }}
+              >
+                👋
+              </motion.span>
+            </h2>
+            <p className="text-sm lg:text-base text-muted-foreground mt-0.5 lg:mt-1">
+              Добро пожаловать в MusicVerse AI — создавайте музыку с помощью AI
+            </p>
+          </div>
+          
+          {/* Admin Quick Access - only for admins */}
+          <AdminQuickAccess />
+        </div>
+      </motion.header>
+    );
+  }
+
   return (
     <motion.header 
       className={cn(
         "sticky top-0 z-20 -mx-4 px-3 pb-2",
-        "backdrop-blur-xl bg-background/90 border-b border-border/50",
+        glass.nav,
+        "border-b border-border/50",
         className
       )}
       style={{
@@ -79,43 +142,12 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
     >
-      {/* Centered Logo - compact version for mobile */}
-      <motion.div 
-        className="flex justify-center mb-2"
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.1, duration: 0.3 }}
-      >
-        <motion.div
-          className="flex flex-col items-center"
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-        >
-          <motion.div
-            className="relative"
-            animate={{ 
-              boxShadow: [
-                '0 0 15px hsl(207 90% 54% / 0.2)',
-                '0 0 25px hsl(207 90% 54% / 0.3)',
-                '0 0 15px hsl(207 90% 54% / 0.2)'
-              ]
-            }}
-            transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-          >
-            <AppLogo size="md" variant="default" />
-          </motion.div>
-          <h1 className="text-[10px] sm:text-xs font-bold text-gradient leading-tight mt-1">
-            MusicVerse AI
-          </h1>
-        </motion.div>
-      </motion.div>
-
-      {/* Greeting row with avatar and notifications */}
+      {/* Greeting row with logo, avatar and notifications */}
       <motion.div 
         className="flex items-center justify-between gap-2"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.15, duration: 0.3 }}
+        transition={{ delay: 0.1, duration: 0.3 }}
       >
         {/* Greeting with time icon */}
         <div className="flex items-center gap-2 flex-1 min-w-0">

@@ -6,7 +6,21 @@ import { cn } from "@/lib/utils";
 import { hapticImpact } from "@/lib/haptic";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.96] [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 btn-enhanced",
+  [
+    "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-medium",
+    "ring-offset-background transition-all duration-200",
+    // Enhanced focus states for WCAG AA
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+    // Disabled state
+    "disabled:pointer-events-none disabled:opacity-50",
+    // Active press feedback
+    "active:scale-[0.96]",
+    // Icon sizing
+    "[&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+    // Touch optimization
+    "touch-manipulation",
+    "btn-enhanced"
+  ].join(" "),
   {
     variants: {
       variant: {

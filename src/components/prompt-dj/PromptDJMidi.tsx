@@ -10,6 +10,7 @@ import { LiveVisualizer } from './LiveVisualizer';
 import { VoiceInput } from './VoiceInput';
 import { QuickPresets } from './QuickPresets';
 import { cn } from '@/lib/utils';
+import { logger } from '@/lib/logger';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { ReferenceManager } from '@/services/audio-reference';
@@ -109,7 +110,7 @@ export function PromptDJMidi() {
         });
         sessionStorage.removeItem('drumPatternForDJ');
       } catch (e) {
-        console.error('Failed to parse drum pattern:', e);
+        logger.warn('Failed to parse drum pattern from sessionStorage', { error: e });
       }
     }
   }, [updateChannel, updateGlobalSettings]);

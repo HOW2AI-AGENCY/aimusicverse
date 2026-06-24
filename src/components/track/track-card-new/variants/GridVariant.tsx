@@ -60,7 +60,11 @@ export const GridVariant = memo(function GridVariant({
     handleMouseEnter,
     handleMouseLeave,
     openSheet,
+    isOwnTrack,
   } = useTrackCardState({ track, onPlay, isPlaying: isPlayingProp });
+
+  // Only enable delete swipe for own tracks
+  const canDelete = isOwnTrack && onDelete;
 
   // Swipe handlers
   const handleDragEnd = useCallback(
@@ -76,14 +80,14 @@ export const GridVariant = memo(function GridVariant({
           hapticImpact('medium');
           onToggleLike?.();
           notify.trackLiked(!(track as any).is_liked);
-        } else if (offset > threshold) {
-          // Swipe right: Delete (with confirmation)
+        } else if (offset > threshold && canDelete) {
+          // Swipe right: Delete (with confirmation) - ONLY for own tracks
           hapticImpact('heavy');
           setDeleteDialogOpen(true);
         }
       }
     },
-    [onToggleLike, track]
+    [onToggleLike, track, canDelete]
   );
 
   const handleDrag = useCallback(
@@ -124,23 +128,27 @@ export const GridVariant = memo(function GridVariant({
               <Heart className="w-6 h-6 text-red-500" />
             </motion.div>
 
-            {/* Right swipe indicator (Delete) */}
-            <motion.div
-              className="absolute right-0 top-0 bottom-0 w-16 bg-destructive/20 flex items-center justify-center rounded-r-2xl"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: swipeOffset > 20 ? 1 : 0 }}
-            >
-              <Trash2 className="w-6 h-6 text-destructive" />
-            </motion.div>
+            {/* Right swipe indicator (Delete) - only for own tracks */}
+            {canDelete && (
+              <motion.div
+                className="absolute right-0 top-0 bottom-0 w-16 bg-destructive/20 flex items-center justify-center rounded-r-2xl"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: swipeOffset > 20 ? 1 : 0 }}
+              >
+                <Trash2 className="w-6 h-6 text-destructive" />
+              </motion.div>
+            )}
           </>
         )}
 
         <Card
           className={cn(
-            'group overflow-hidden cursor-pointer touch-manipulation transition-all duration-200 rounded-2xl border-transparent',
-            'hover:ring-2 hover:ring-primary/20 hover:shadow-lg hover:shadow-primary/5',
+            'group overflow-hidden cursor-pointer touch-manipulation transition-all duration-200 rounded-2xl',
+            'bg-card/80 backdrop-blur-sm border-border/40',
+            'hover:ring-2 hover:ring-primary/20 hover:shadow-lg hover:shadow-primary/5 hover:border-primary/30',
             isMobile && 'active:scale-[0.98]',
-            isCurrentlyPlaying && 'ring-2 ring-primary shadow-glow',
+            !isMobile && 'hover:bg-card/95',
+            isCurrentlyPlaying && 'ring-2 ring-primary shadow-glow bg-primary/5',
             className
           )}
           onClick={handleCardClick}

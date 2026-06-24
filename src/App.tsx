@@ -1,47 +1,20 @@
 import { lazy, Suspense, memo, useEffect } from "react";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { TooltipProvider as InteractiveTooltipProvider } from "@/components/tooltips";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Outlet, Navigate, useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { TelegramProvider, DeepLinkHandler } from "@/contexts/TelegramContext";
-import { ThemeProvider } from "@/contexts/ThemeContext";
-import { AuthProvider } from "@/contexts/AuthContext";
-import { GamificationProvider } from "@/contexts/GamificationContext";
-import { RewardNotificationProvider } from "@/contexts/RewardNotificationContext";
-import { NotificationProvider } from "@/contexts/NotificationContext";
-import { AnnouncementProvider } from "@/contexts/AnnouncementContext";
-import { GuestModeProvider } from "@/contexts/GuestModeContext";
+import { DeepLinkHandler } from "@/contexts/TelegramContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { ErrorBoundaryWrapper } from "@/components/ErrorBoundaryWrapper";
 import { MainLayout } from "@/components/MainLayout";
-import { GlobalAudioProvider } from "@/components/GlobalAudioProvider";
-import { LoadingScreen } from "@/components/UnifiedSplashScreen";
+import { PageSkeleton } from "@/components/skeletons/PageSkeleton";
 import { PageTransition } from "@/components/PageTransition";
-// InitializationGuard removed - handled by UnifiedSplashScreen
 import { ProfileSetupGuard } from "@/components/profile/ProfileSetupGuard";
 import { NavigationProvider } from "@/components/NavigationProvider";
 import { lazyWithRetry } from "@/lib/performance";
-import { LibrarySkeleton } from "@/components/skeletons/LibrarySkeleton";
-import { SettingsSkeleton } from "@/components/skeletons/SettingsSkeleton";
-import { ProjectsSkeleton } from "@/components/skeletons/ProjectsSkeleton";
+
+// Consolidated providers for cleaner architecture
+import { CoreProviders, UIProviders, FeatureProviders } from "@/providers";
 
 // Sentry is initialized in main.tsx (avoid double init)
-
-// Helper to add loading skeleton to lazy loaded components
-function withLoadingFallback<P extends Record<string, unknown>>(
-  Component: React.ComponentType<P>,
-  SkeletonComponent: React.ComponentType
-): React.ComponentType<P> {
-  return function WithLoadingFallback(props: P) {
-    return (
-      <Suspense fallback={<SkeletonComponent />}>
-        <Component {...props} />
-      </Suspense>
-    );
-  };
-}
 
 // Wrapper to use ProfileSetupGuard with Outlet
 function ProfileSetupGuardWrapper({ children }: { children: React.ReactNode }) {
@@ -53,7 +26,7 @@ function RouteWithTransition({ children }: { children: React.ReactNode }) {
   const location = useLocation();
 
   return (
-    <PageTransition key={location.pathname} variant="fade" duration={0.2}>
+    <PageTransition key={location.pathname} variant="fade" duration={0.15}>
       {children}
     </PageTransition>
   );
@@ -121,13 +94,14 @@ const BlockedUsersPage = lazy(() => import("./pages/settings/BlockedUsersPage"))
 const Templates = lazy(() => import("./pages/Templates"));
 const MusicGraph = lazy(() => import("./pages/MusicGraph"));
 const CreativeTools = lazy(() => import("./pages/CreativeTools"));
+const ProfessionalDashboardPage = lazy(() => import("./pages/ProfessionalDashboard"));
 
 const GuitarStudio = lazy(() => import("./pages/GuitarStudio"));
 const MusicLab = lazy(() => import("./pages/MusicLab"));
 const AlbumView = lazy(() => import("./pages/AlbumView"));
 const LyricsStudio = lazy(() => import("./pages/LyricsStudio"));
 const ReferenceAudioDetail = lazy(() => import("./pages/ReferenceAudioDetail"));
-
+const AudioHub = lazy(() => import("./pages/AudioHub"));
 const MobilePlayerPage = lazy(() => import("./pages/MobilePlayerPage"));
 
 // Legacy Studio Hub - now redirects to Studio V2
@@ -150,189 +124,146 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 const ErrorPage = lazy(() => import("./pages/ErrorPage"));
 
 
-// Optimized QueryClient configuration for faster perceived loading
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 1000 * 60 * 5, // 5 minutes - data stays fresh
-      gcTime: 1000 * 60 * 15, // 15 minutes garbage collection (increased for better caching)
-      retry: 1, // Single retry to fail fast
-      refetchOnWindowFocus: false, // Prevent refetch on tab focus for faster UX
-      refetchOnReconnect: 'always',
-      refetchOnMount: false, // Don't refetch if data exists - critical for speed
-      networkMode: 'offlineFirst', // Use cache first, then network
-    },
-  },
-});
-
+// QueryClient is now initialized in CoreProviders
 
 const App = () => (
   <ErrorBoundaryWrapper>
     <ErrorBoundary>
-      <QueryClientProvider client={queryClient}>
-        <ThemeProvider>
-          <TelegramProvider>
-            <AuthProvider>
-                <GuestModeProvider>
-                <GlobalAudioProvider>
-                  <NotificationProvider>
-                    <AnnouncementProvider>
-                    <RewardNotificationProvider>
-                    <GamificationProvider>
-                      <TooltipProvider>
-                        <Sonner />
-                      <BrowserRouter>
-                      <NavigationProvider>
-                      <InteractiveTooltipProvider>
-                        <DeepLinkHandler />
-                      <Suspense fallback={<LoadingScreen />}>
-                      <RouteWithTransition>
-                      <Routes>
-                  <Route path="/auth" element={<Auth />} />
+      <CoreProviders>
+        <FeatureProviders>
+          <BrowserRouter>
+            <UIProviders>
+              <NavigationProvider>
+                <DeepLinkHandler />
+                <Suspense fallback={<PageSkeleton variant="default" />}>
+                  <RouteWithTransition>
+                    <Routes>
+                      <Route path="/auth" element={<Auth />} />
 
-                  {/* Routes with BottomNavigation */}
-                <Route element={
-                  <ProtectedRoute>
-                    <ProfileSetupGuardWrapper>
-                      <MainLayout />
-                    </ProfileSetupGuardWrapper>
-                  </ProtectedRoute>
-                }>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/studio" element={<Navigate to="/studio-v2" replace />} />
-                  <Route path="/profile" element={<ProfilePage />} />
-                  <Route path="/profile/:userId" element={<PublicProfilePage />} />
-                  <Route path="/settings" element={<Settings />} />
-                  <Route path="/generate" element={<GenerateRedirect />} />
-                  <Route path="/library" element={<Library />} />
-                  <Route path="/projects" element={<Projects />} />
-                  <Route path="/projects/:id" element={<ProjectDetail />} />
-                <Route path="/artists" element={<Artists />} />
-                <Route path="/actors" element={<Navigate to="/artists?tab=community" replace />} />
-                <Route path="/playlists" element={<Playlists />} />
-                <Route path="/blog" element={<Blog />} />
-                <Route path="/community" element={<Community />} />
-                <Route path="/onboarding" element={<Onboarding />} />
-                <Route path="/rewards" element={<Rewards />} />
-                <Route path="/referral" element={<Referral />} />
-                <Route path="/analytics" element={<Analytics />} />
-                
-                {/* 
-                 * Modular Admin Routes with nested layout
-                 * Each sub-route lazy-loads its component
-                 * AdminLayout provides shared navigation and auth check
-                 * TODO: Add more admin sections as needed
-                 * TODO: Consider role-based access for specific routes
-                 */}
-                <Route path="/admin" element={<AdminLayout />}>
-                  <Route index element={<AdminOverview />} />
-                  <Route path="overview" element={<AdminOverview />} />
-                  <Route path="analytics" element={<AnalyticsDashboard />} />
-                  <Route path="generation-stats" element={<GenerationStatsPanel />} />
-                  <Route path="performance" element={<PerformanceDashboard />} />
-                  <Route path="economy" element={<AdminEconomy />} />
-                  <Route path="users" element={<AdminUsers />} />
-                  <Route path="balances" element={<UserBalancesPanel />} />
-                  <Route path="tracks" element={<AdminTracks />} />
-                  <Route path="moderation" element={<ModerationDashboard />} />
-                  <Route path="feedback" element={<AdminFeedback />} />
-                  <Route path="tariffs" element={<AdminTariffs />} />
-                  <Route path="bot" element={<AdminBot />} />
-                  <Route path="telegram" element={<AdminTelegram />} />
-                  <Route path="payments" element={<StarsPaymentsPanel />} />
-                  <Route path="logs" element={<GenerationLogsPanel />} />
-                  <Route path="deeplinks" element={<DeeplinkAnalyticsPanel />} />
-                  <Route path="alerts" element={<AdminAlerts />} />
-                  <Route path="broadcast" element={<AdminBroadcast />} />
-                </Route>
-                
-                {/* Legacy admin route redirect for backward compatibility */}
-                {/* TODO: Remove after full migration verified */}
-                <Route path="/settings/blocked-users" element={<BlockedUsersPage />} />
-                <Route path="/templates" element={<Templates />} />
-                <Route path="/music-graph" element={<MusicGraph />} />
-                <Route path="/creative-tools" element={<Navigate to="/music-lab" replace />} />
-                <Route path="/professional-studio" element={<Navigate to="/studio-v2" replace />} />
-                <Route path="/guitar-studio" element={<GuitarStudio />} />
-                <Route path="/music-lab" element={<MusicLab />} />
-                <Route path="/lyrics-studio" element={<LyricsStudio />} />
-                <Route path="/album/:id" element={<AlbumView />} />
-                <Route path="/reference/:id" element={<ReferenceAudioDetail />} />
+                      {/* Routes with BottomNavigation */}
+                      <Route element={
+                        <ProtectedRoute>
+                          <ProfileSetupGuardWrapper>
+                            <MainLayout />
+                          </ProfileSetupGuardWrapper>
+                        </ProtectedRoute>
+                      }>
+                        <Route path="/" element={<Index />} />
+                        <Route path="/studio" element={<Navigate to="/studio-v2" replace />} />
+                        <Route path="/profile" element={<ProfilePage />} />
+                        <Route path="/profile/:userId" element={<PublicProfilePage />} />
+                        <Route path="/settings" element={<Settings />} />
+                        <Route path="/generate" element={<GenerateRedirect />} />
+                        <Route path="/library" element={<ErrorBoundary><Library /></ErrorBoundary>} />
+                        <Route path="/projects" element={<Projects />} />
+                        <Route path="/projects/:id" element={<ProjectDetail />} />
+                        <Route path="/artists" element={<Artists />} />
+                        <Route path="/actors" element={<Navigate to="/artists?tab=community" replace />} />
+                        <Route path="/playlists" element={<Playlists />} />
+                        <Route path="/blog" element={<Blog />} />
+                        <Route path="/community" element={<Community />} />
+                        <Route path="/onboarding" element={<Onboarding />} />
+                        <Route path="/rewards" element={<Rewards />} />
+                        <Route path="/referral" element={<Referral />} />
+                        <Route path="/analytics" element={<Analytics />} />
+                        
+                        {/* Admin Routes */}
+                        <Route path="/admin" element={<AdminLayout />}>
+                          <Route index element={<AdminOverview />} />
+                          <Route path="overview" element={<AdminOverview />} />
+                          <Route path="analytics" element={<AnalyticsDashboard />} />
+                          <Route path="generation-stats" element={<GenerationStatsPanel />} />
+                          <Route path="performance" element={<PerformanceDashboard />} />
+                          <Route path="economy" element={<AdminEconomy />} />
+                          <Route path="users" element={<AdminUsers />} />
+                          <Route path="balances" element={<UserBalancesPanel />} />
+                          <Route path="tracks" element={<AdminTracks />} />
+                          <Route path="moderation" element={<ModerationDashboard />} />
+                          <Route path="feedback" element={<AdminFeedback />} />
+                          <Route path="tariffs" element={<AdminTariffs />} />
+                          <Route path="bot" element={<AdminBot />} />
+                          <Route path="telegram" element={<AdminTelegram />} />
+                          <Route path="payments" element={<StarsPaymentsPanel />} />
+                          <Route path="logs" element={<GenerationLogsPanel />} />
+                          <Route path="deeplinks" element={<DeeplinkAnalyticsPanel />} />
+                          <Route path="alerts" element={<AdminAlerts />} />
+                          <Route path="broadcast" element={<AdminBroadcast />} />
+                        </Route>
+                        
+                        <Route path="/settings/blocked-users" element={<BlockedUsersPage />} />
+                        <Route path="/templates" element={<Templates />} />
+                        <Route path="/music-graph" element={<MusicGraph />} />
+                        <Route path="/creative-tools" element={<Navigate to="/music-lab" replace />} />
+                        <Route path="/professional-studio" element={<ProfessionalDashboardPage />} />
+                        <Route path="/guitar-studio" element={<GuitarStudio />} />
+                        <Route path="/music-lab" element={<MusicLab />} />
+                        <Route path="/lyrics-studio" element={<LyricsStudio />} />
+                        <Route path="/album/:id" element={<AlbumView />} />
+                        <Route path="/audio-hub" element={<AudioHub />} />
+                        <Route path="/reference/:id" element={<ReferenceAudioDetail />} />
 
-                <Route path="/terms" element={<Terms />} />
-                <Route path="/privacy" element={<Privacy />} />
-                <Route path="/pricing" element={<Pricing />} />
-                <Route path="/shop" element={<Pricing />} />
-                <Route path="/cloud" element={<Navigate to="/projects?tab=cloud" replace />} />
-                <Route path="/buy-credits" element={<BuyCredits />} />
-                <Route path="/payments/buy-credits" element={<Navigate to="/buy-credits" replace />} />
-                <Route path="/subscription" element={<Subscription />} />
-                <Route path="/payments/subscription" element={<Navigate to="/subscription" replace />} />
-                </Route>
+                        <Route path="/terms" element={<Terms />} />
+                        <Route path="/privacy" element={<Privacy />} />
+                        <Route path="/pricing" element={<Pricing />} />
+                        <Route path="/shop" element={<Pricing />} />
+                        <Route path="/cloud" element={<Navigate to="/projects?tab=cloud" replace />} />
+                        <Route path="/buy-credits" element={<BuyCredits />} />
+                        <Route path="/payments/buy-credits" element={<Navigate to="/buy-credits" replace />} />
+                        <Route path="/subscription" element={<Subscription />} />
+                        <Route path="/payments/subscription" element={<Navigate to="/subscription" replace />} />
+                      </Route>
 
-                {/* Routes without BottomNavigation */}
-                {/* Redirect legacy studio to unified version */}
-                <Route path="/studio/:trackId" element={
-                  <Navigate to="/studio-v2" replace />
-                } />
+                      {/* Routes without BottomNavigation */}
+                      <Route path="/studio/:trackId" element={<Navigate to="/studio-v2" replace />} />
 
-                {/* Studio V2 - isolated new studio implementation */}
-                <Route path="/studio-v2" element={
-                  <ProtectedRoute>
-                    <StudioHubPage />
-                  </ProtectedRoute>
-                } />
-                <Route path="/studio-v2/new" element={
-                  <ProtectedRoute>
-                    <NewStudioProjectPage />
-                  </ProtectedRoute>
-                } />
-                <Route path="/studio-v2/project/:projectId" element={
-                  <ProtectedRoute>
-                    <UnifiedStudioPage />
-                  </ProtectedRoute>
-                } />
-                <Route path="/studio-v2/track/:trackId" element={
-                  <ProtectedRoute>
-                    <UnifiedStudioPage />
-                  </ProtectedRoute>
-                } />
+                      {/* Studio V2 */}
+                      <Route path="/studio-v2" element={
+                        <ProtectedRoute>
+                          <StudioHubPage />
+                        </ProtectedRoute>
+                      } />
+                      <Route path="/studio-v2/new" element={
+                        <ProtectedRoute>
+                          <NewStudioProjectPage />
+                        </ProtectedRoute>
+                      } />
+                      <Route path="/studio-v2/project/:projectId" element={
+                        <ProtectedRoute>
+                          <UnifiedStudioPage />
+                        </ProtectedRoute>
+                      } />
+                      <Route path="/studio-v2/track/:trackId" element={
+                        <ProtectedRoute>
+                          <UnifiedStudioPage />
+                        </ProtectedRoute>
+                      } />
 
-                {/* Mobile fullscreen player - deep link route */}
-                <Route path="/player/:trackId" element={
-                  <ProtectedRoute>
-                    <MobilePlayerPage />
-                  </ProtectedRoute>
-                } />
+                      {/* Mobile fullscreen player */}
+                      <Route path="/player/:trackId" element={
+                        <ProtectedRoute>
+                          <MobilePlayerPage />
+                        </ProtectedRoute>
+                      } />
 
-                {/* Payment pages */}
-                <Route path="/payment" element={<MobilePaymentScreen />} />
-                <Route path="/payment/buy" element={<MobilePaymentScreen />} />
-                <Route path="/payment/success" element={<PaymentSuccess />} />
-                <Route path="/payment/fail" element={<PaymentFail />} />
+                      {/* Payment pages */}
+                      <Route path="/payment" element={<MobilePaymentScreen />} />
+                      <Route path="/payment/buy" element={<MobilePaymentScreen />} />
+                      <Route path="/payment/success" element={<PaymentSuccess />} />
+                      <Route path="/payment/fail" element={<PaymentFail />} />
 
-                {/* Error route */}
-                <Route path="/error" element={<ErrorPage />} />
+                      {/* Error route */}
+                      <Route path="/error" element={<ErrorPage />} />
 
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-                      </Routes>
-                      </RouteWithTransition>
-                      </Suspense>
-                        </InteractiveTooltipProvider>
-                      </NavigationProvider>
-                      </BrowserRouter>
-                    </TooltipProvider>
-                  </GamificationProvider>
-                    </RewardNotificationProvider>
-                    </AnnouncementProvider>
-                </NotificationProvider>
-                </GlobalAudioProvider>
-                </GuestModeProvider>
-            </AuthProvider>
-          </TelegramProvider>
-        </ThemeProvider>
-      </QueryClientProvider>
+                      {/* Catch-all */}
+                      <Route path="*" element={<NotFound />} />
+                    </Routes>
+                  </RouteWithTransition>
+                </Suspense>
+              </NavigationProvider>
+            </UIProviders>
+          </BrowserRouter>
+        </FeatureProviders>
+      </CoreProviders>
     </ErrorBoundary>
   </ErrorBoundaryWrapper>
 );

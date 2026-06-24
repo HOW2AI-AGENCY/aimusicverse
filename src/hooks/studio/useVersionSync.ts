@@ -1,13 +1,16 @@
 /**
  * useVersionSync
  * Hook to sync studio track versions with database track_versions table
+ * 
+ * P1 Enhancement: Added Realtime sync for multi-client collaboration
  */
 
-import { useCallback } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import type { StudioTrackVersion } from '@/stores/useUnifiedStudioStore';
+import { logger } from '@/lib/logger';
 
 interface DBTrackVersion {
   id: string;
@@ -36,10 +39,16 @@ interface DBTrackVersion {
 interface UseVersionSyncOptions {
   trackId?: string;
   enabled?: boolean;
+  enableRealtime?: boolean; // P1: Option to enable/disable Realtime sync
 }
 
-export function useVersionSync({ trackId, enabled = true }: UseVersionSyncOptions) {
+export function useVersionSync({ 
+  trackId, 
+  enabled = true,
+  enableRealtime = true,
+}: UseVersionSyncOptions) {
   const queryClient = useQueryClient();
+  const channelRef = useRef<ReturnType<typeof supabase.channel> | null>(null);
 
   // Fetch versions from database
   const { 
@@ -63,6 +72,56 @@ export function useVersionSync({ trackId, enabled = true }: UseVersionSyncOption
     },
     enabled: enabled && !!trackId,
   });
+
+  // P1 Enhancement: Realtime sync for version changes
+  useEffect(() => {
+    if (!trackId || !enabled || !enableRealtime) return;
+
+    // Clean up existing channel
+    if (channelRef.current) {
+      supabase.removeChannel(channelRef.current);
+    }
+
+    // Subscribe to version changes for this track
+    const channel = supabase
+      .channel(`track-versions-${trackId}`)
+      .on(
+        'postgres_changes',
+        {
+          event: '*', // INSERT, UPDATE, DELETE
+          schema: 'public',
+          table: 'track_versions',
+          filter: `track_id=eq.${trackId}`,
+        },
+        (payload) => {
+          logger.debug('Version Realtime update received', { 
+            event: payload.eventType,
+            trackId,
+            versionId: (payload.new as DBTrackVersion)?.id || (payload.old as { id?: string })?.id,
+          });
+          
+          // Invalidate query to refetch latest data
+          queryClient.invalidateQueries({ queryKey: ['track-versions', trackId] });
+        }
+      )
+      .subscribe((status) => {
+        if (status === 'SUBSCRIBED') {
+          logger.debug('Subscribed to version Realtime channel', { trackId });
+        } else if (status === 'CHANNEL_ERROR') {
+          logger.warn('Version Realtime channel error', { trackId });
+        }
+      });
+
+    channelRef.current = channel;
+
+    // Cleanup on unmount or trackId change
+    return () => {
+      if (channelRef.current) {
+        supabase.removeChannel(channelRef.current);
+        channelRef.current = null;
+      }
+    };
+  }, [trackId, enabled, enableRealtime, queryClient]);
 
   // Convert DB versions to Studio format
   const studioVersions: StudioTrackVersion[] = (dbVersions || []).map(v => ({
@@ -120,7 +179,7 @@ export function useVersionSync({ trackId, enabled = true }: UseVersionSyncOption
       queryClient.invalidateQueries({ queryKey: ['track-versions', trackId] });
     },
     onError: (error) => {
-      console.error('Failed to save version:', error);
+      logger.error('Failed to save version', error instanceof Error ? error : new Error(String(error)));
       toast.error('Ошибка сохранения версии');
     },
   });
@@ -142,7 +201,7 @@ export function useVersionSync({ trackId, enabled = true }: UseVersionSyncOption
       toast.success('Транскрипция привязана к версии');
     },
     onError: (error) => {
-      console.error('Failed to link transcription:', error);
+      logger.error('Failed to link transcription', error instanceof Error ? error : new Error(String(error)));
       toast.error('Ошибка привязки транскрипции');
     },
   });

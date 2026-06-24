@@ -8,6 +8,7 @@ import { ChevronRight, MoreVertical } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useHaptic } from '@/hooks/useHaptic';
 import { Button } from '@/components/ui/button';
+import { touchTargetClass } from '@/lib/design-tokens';
 
 interface MobileListItemProps {
   /** Main title text */
@@ -118,7 +119,8 @@ export const MobileListItem = memo(forwardRef<HTMLDivElement, MobileListItemProp
               size="icon"
               onClick={handleMoreClick}
               disabled={disabled}
-              className="h-9 w-9 shrink-0"
+              className={cn(touchTargetClass.icon, 'shrink-0')}
+              aria-label="Ещё"
             >
               <MoreVertical className="w-4 h-4" />
             </Button>

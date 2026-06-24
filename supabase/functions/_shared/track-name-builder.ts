@@ -77,7 +77,11 @@ const STEM_NAMES: Record<string, string> = {
  * App name for metadata
  */
 export const APP_NAME = 'MusicVerse AI';
-export const APP_HANDLE = '@AIMusicVerseBot';
+// Re-export getBotMention for convenience
+export { getBotMention } from './telegram-config.ts';
+// Legacy constant - use getBotMention() for dynamic value
+// Kept for backward compatibility only
+export const APP_HANDLE = getBotMention();
 
 /**
  * Build track names from context

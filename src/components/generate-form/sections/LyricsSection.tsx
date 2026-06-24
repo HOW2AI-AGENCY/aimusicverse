@@ -9,6 +9,7 @@ import { SectionLabel, SECTION_HINTS } from '../SectionLabel';
 import { ValidationMessage, checkArtistValidation } from '../ValidationMessage';
 import { useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
+import { glass } from '@/lib/glass';
 import { LayoutGrid, AlignLeft } from 'lucide-react';
 
 interface LyricsSectionProps {
@@ -53,7 +54,7 @@ export const LyricsSection = memo(function LyricsSection({
           />
           
           {/* View toggle */}
-          <div className="flex items-center gap-0.5 p-0.5 rounded-lg bg-muted/50">
+          <div className={cn("flex items-center gap-0.5 p-0.5 rounded-lg", glass.subtle)}>
             <Button 
               variant={!showVisualEditor ? 'default' : 'ghost'}
               size="icon"
@@ -88,7 +89,7 @@ export const LyricsSection = memo(function LyricsSection({
               rows={8}
               className={cn(
                 "text-sm min-h-[180px] max-h-[300px] overflow-y-auto whitespace-pre-wrap pb-9 rounded-xl",
-                "bg-muted/30 border-muted-foreground/20 focus:border-primary/50 focus:ring-primary/20",
+                glass.subtle,
                 (lyrics.length > 2800 || hasError) && "border-destructive focus:border-destructive focus-visible:ring-destructive"
               )}
               aria-invalid={hasError || lyrics.length > 3000}
@@ -99,7 +100,8 @@ export const LyricsSection = memo(function LyricsSection({
             <div className="absolute bottom-1.5 left-2 right-2 flex items-center justify-between">
               {/* Character count */}
               <span className={cn(
-                "text-[10px] px-1.5 py-0.5 rounded-md bg-background/60 backdrop-blur-sm",
+                "text-[10px] px-1.5 py-0.5 rounded-md",
+                glass.subtle,
                 lyrics.length > 2800 ? "text-destructive font-medium" : 
                 lyrics.length > 2500 ? "text-yellow-500" : "text-muted-foreground"
               )}>
@@ -107,7 +109,7 @@ export const LyricsSection = memo(function LyricsSection({
               </span>
               
               {/* Toolbar */}
-              <div className="flex items-center bg-background/60 backdrop-blur-sm rounded-md">
+              <div className={cn("flex items-center rounded-md", glass.subtle)}>
                 <FormFieldActions
                   value={lyrics}
                   onClear={() => onLyricsChange('')}

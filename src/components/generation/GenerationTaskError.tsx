@@ -11,6 +11,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { ArtistNameErrorAlert } from './ArtistNameErrorAlert';
 
@@ -90,14 +91,14 @@ export function GenerationTaskError({
           .eq('id', trackId);
 
         if (trackError) {
-          console.warn('Could not delete track:', trackError);
+          logger.warn('Could not delete track', { error: trackError.message });
         }
       }
 
       toast.success('Задача удалена');
       onDelete?.();
-    } catch (error) {
-      console.error('Delete error:', error);
+    } catch (error: unknown) {
+      logger.error('Delete error', error instanceof Error ? error : new Error(String(error)));
       toast.error('Не удалось удалить задачу');
     } finally {
       setIsDeleting(false);
@@ -121,8 +122,8 @@ export function GenerationTaskError({
       // Call the retry callback
       onRetry?.();
       toast.success('Повторная генерация запущена');
-    } catch (error) {
-      console.error('Retry error:', error);
+    } catch (error: unknown) {
+      logger.error('Retry error', error instanceof Error ? error : new Error(String(error)));
       toast.error('Не удалось запустить повторную генерацию');
     } finally {
       setIsRetrying(false);

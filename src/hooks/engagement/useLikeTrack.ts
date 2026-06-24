@@ -1,16 +1,19 @@
-// useLikeTrack hook - Sprint 011
+// useLikeTrack hook - Sprint 011 - Fixed with optimistic updates + P0 analytics fix
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
+import { logger } from '@/lib/logger';
+import { trackButtonClick, trackTrackLiked } from '@/services/analytics';
+import { trackConversionStage, hasReachedStage } from '@/lib/analytics/deeplink-tracker';
 
 export function useLikeTrack(trackId: string, initialLiked?: boolean) {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const haptic = useHapticFeedback();
 
-  // If initialLiked is provided, use it and skip the query
+  // Query for like status
   const { data: isLiked, isLoading: isCheckingLike } = useQuery({
     queryKey: ['track-like', trackId, user?.id],
     queryFn: async () => {
@@ -25,13 +28,16 @@ export function useLikeTrack(trackId: string, initialLiked?: boolean) {
     },
     enabled: !!user?.id && !!trackId && initialLiked === undefined,
     initialData: initialLiked,
+    staleTime: 30000, // Cache for 30 seconds
   });
 
   const likeMutation = useMutation({
     mutationFn: async () => {
       if (!user?.id) throw new Error('Не авторизован');
 
-      if (isLiked) {
+      const currentlyLiked = isLiked;
+      
+      if (currentlyLiked) {
         const { error } = await supabase
           .from('track_likes')
           .delete()
@@ -47,17 +53,57 @@ export function useLikeTrack(trackId: string, initialLiked?: boolean) {
         return { action: 'like' as const };
       }
     },
-    onMutate: () => {
+    // Optimistic update
+    onMutate: async () => {
       haptic.impact('light');
+      
+      // Cancel any outgoing refetches
+      await queryClient.cancelQueries({ queryKey: ['track-like', trackId, user?.id] });
+      
+      // Snapshot the previous value
+      const previousLiked = queryClient.getQueryData(['track-like', trackId, user?.id]);
+      
+      // Optimistically update to the new value
+      queryClient.setQueryData(['track-like', trackId, user?.id], !isLiked);
+      
+      // Return context with the previous value
+      return { previousLiked };
+    },
+    onError: (error, _variables, context) => {
+      // Rollback on error
+      if (context?.previousLiked !== undefined) {
+        queryClient.setQueryData(['track-like', trackId, user?.id], context.previousLiked);
+      }
+      logger.error('Error toggling like', error instanceof Error ? error : new Error(String(error)));
+      toast.error('Не удалось обновить лайк');
     },
     onSuccess: (result) => {
-      queryClient.invalidateQueries({ queryKey: ['track-like', trackId] });
+      // Invalidate related queries to sync like counts
       queryClient.invalidateQueries({ queryKey: ['tracks'] });
       queryClient.invalidateQueries({ queryKey: ['public-content'] });
+      queryClient.invalidateQueries({ queryKey: ['home-data'] });
+
+      // P0 Fix: Track proper track_liked event for analytics
+      trackTrackLiked(trackId, result.action, {
+        source: 'library',
+      }).catch(() => {});
+
+      // Also track as button click for backwards compatibility
+      trackButtonClick(result.action === 'like' ? 'track_like' : 'track_unlike', {
+        track_id: trackId,
+      }).catch(() => {});
+
+      // Track first action conversion if this is user's first like
+      if (result.action === 'like' && !hasReachedStage('first_action')) {
+        trackConversionStage('first_action', {
+          action_type: 'like',
+          track_id: trackId,
+        }).catch(() => {});
+      }
     },
-    onError: (error) => {
-      console.error('Error toggling like:', error);
-      toast.error('Не удалось обновить лайк');
+    onSettled: () => {
+      // Always refetch after mutation settles
+      queryClient.invalidateQueries({ queryKey: ['track-like', trackId, user?.id] });
     },
   });
 

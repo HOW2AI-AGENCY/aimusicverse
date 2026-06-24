@@ -32,6 +32,7 @@ import {
 import confetti from 'canvas-confetti';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { backdrop, pill } from '@/lib/overlay-colors';
 
 // ============= Types =============
 
@@ -285,7 +286,7 @@ export const UnifiedRewardNotification = memo(function UnifiedRewardNotification
           className={cn(
             "fixed inset-0 z-[100] flex items-center justify-center",
             data.requireDismiss 
-              ? "bg-black/50 backdrop-blur-sm" 
+              ? cn(backdrop.medium, "backdrop-blur-sm")
               : "pointer-events-none"
           )}
           onClick={data.requireDismiss ? handleClose : undefined}

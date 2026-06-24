@@ -7,9 +7,10 @@
  * - Active generation tracking
  * - Deep link support for track details and actions
  * - Desktop: Master-detail layout with track detail panel
+ * - Contextual onboarding tips (Phase 4)
  */
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, lazy, Suspense } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { Navigate, useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
@@ -40,6 +41,8 @@ import { useLibraryData, type SortOption } from "@/hooks/useLibraryData";
 import { useLibraryHandlers } from "@/hooks/useLibraryHandlers";
 import { useLibraryDeepLinks } from "@/hooks/useLibraryDeepLinks";
 import { LibraryDialogs } from "@/components/library/LibraryDialogs";
+
+import { ContextHints } from '@/components/hints';
 
 export default function Library() {
   const { isAuthenticated, loading: authLoading } = useAuth();
@@ -230,19 +233,19 @@ export default function Library() {
                 ? `${activeGenerations.length} в работе • ${tracks?.length || 0}/${totalCount}` 
                 : `${tracks?.length || 0}/${totalCount} треков`
               }
-              icon={<LibraryIcon className="w-3.5 h-3.5 text-library" />}
+              icon={<LibraryIcon className="w-3.5 h-3.5 lg:w-4 lg:h-4 text-library" />}
               rightAction={
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1 lg:gap-2">
                   <NotificationBadge />
                   {filteredTracks.length > 0 && (
                     <Button
                       variant="default"
                       size="icon"
                       onClick={handlePlayAll}
-                      className="h-8 w-8 rounded-md bg-gradient-to-br from-primary to-primary/80 shadow-sm"
+                      className="h-8 w-8 lg:h-9 lg:w-9 rounded-md lg:rounded-lg bg-gradient-to-br from-primary to-primary/80 shadow-sm hover:shadow-md transition-shadow"
                       aria-label="Воспроизвести все"
                     >
-                      <Play className="w-3.5 h-3.5" />
+                      <Play className="w-3.5 h-3.5 lg:w-4 lg:h-4" />
                     </Button>
                   )}
                   {filteredTracks.length > 0 && !isMobile && (
@@ -250,31 +253,37 @@ export default function Library() {
                       variant="ghost"
                       size="icon"
                       onClick={handleShuffleAll}
-                      className="h-8 w-8 rounded-md"
+                      className="h-8 w-8 lg:h-9 lg:w-9 rounded-md lg:rounded-lg hover:bg-muted/80 transition-colors"
                       aria-label="Перемешать"
                     >
-                      <Shuffle className="w-3.5 h-3.5" />
+                      <Shuffle className="w-3.5 h-3.5 lg:w-4 lg:h-4" />
                     </Button>
                   )}
                   {/* View mode toggle */}
-                  <div className="flex items-center bg-muted/50 rounded-md p-0.5 border border-border/30">
+                  <div className="flex items-center bg-muted/50 rounded-md lg:rounded-lg p-0.5 lg:p-1 border border-border/30">
                     <Button
                       variant={viewMode === "grid" ? "default" : "ghost"}
                       size="icon"
                       onClick={() => setViewMode("grid")}
-                      className={cn("h-6 w-6 rounded", viewMode === "grid" && "shadow-sm")}
+                      className={cn(
+                        "h-6 w-6 lg:h-7 lg:w-7 rounded lg:rounded-md transition-all", 
+                        viewMode === "grid" && "shadow-sm"
+                      )}
                       aria-label="Сетка"
                     >
-                      <Grid3x3 className="w-3 h-3" />
+                      <Grid3x3 className="w-3 h-3 lg:w-3.5 lg:h-3.5" />
                     </Button>
                     <Button
                       variant={viewMode === "list" ? "default" : "ghost"}
                       size="icon"
                       onClick={() => setViewMode("list")}
-                      className={cn("h-6 w-6 rounded", viewMode === "list" && "shadow-sm")}
+                      className={cn(
+                        "h-6 w-6 lg:h-7 lg:w-7 rounded lg:rounded-md transition-all", 
+                        viewMode === "list" && "shadow-sm"
+                      )}
                       aria-label="Список"
                     >
-                      <List className="w-3 h-3" />
+                      <List className="w-3 h-3 lg:w-3.5 lg:h-3.5" />
                     </Button>
                   </div>
                 </div>
@@ -453,6 +462,10 @@ export default function Library() {
         deepLinkDialogType={deepLinkDialogType}
         onCloseDeepLinkDialog={closeDeepLinkDialog}
       />
+      
+
+      {/* Contextual hints — single canonical overlay */}
+      <ContextHints context="library" delay={3000} />
     </ErrorBoundaryWrapper>
   );
 }

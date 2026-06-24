@@ -10,6 +10,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { LyricsSection } from '@/components/lyrics-workspace/LyricsWorkspace';
 import { toast } from 'sonner';
 import { Json } from '@/integrations/supabase/types';
+import { logger } from '@/lib/logger';
 
 export type ChangeType = 
   | 'manual_edit' 
@@ -110,7 +111,7 @@ export function useLyricsVersioning(options: UseLyricsVersioningOptions) {
       const current = parsedVersions.find(v => v.is_current);
       setCurrentVersion(current || null);
     } catch (error) {
-      console.error('Error loading versions:', error);
+      logger.warn('Error loading versions', { error });
     } finally {
       setIsLoading(false);
     }
@@ -175,7 +176,7 @@ export function useLyricsVersioning(options: UseLyricsVersioningOptions) {
       
       return newVersion;
     } catch (error) {
-      console.error('Error saving version:', error);
+      logger.error('Error saving version', error instanceof Error ? error : new Error(String(error)));
       toast.error('Ошибка сохранения версии');
       return null;
     } finally {
@@ -222,7 +223,7 @@ export function useLyricsVersioning(options: UseLyricsVersioningOptions) {
       toast.success('Версия удалена');
       return true;
     } catch (error) {
-      console.error('Error deleting version:', error);
+      logger.error('Error deleting version', error instanceof Error ? error : new Error(String(error)));
       toast.error('Ошибка удаления версии');
       return false;
     }

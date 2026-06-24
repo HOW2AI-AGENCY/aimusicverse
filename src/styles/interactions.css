@@ -1,0 +1,227 @@
+/**
+ * Interaction States CSS
+ * Feature: 032-professional-ui
+ * 
+ * Unified hover, press, and disabled states
+ * GPU-accelerated for 60fps on mobile
+ */
+
+/* ========== Hover States ========== */
+
+.hover-lift {
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (hover: hover) {
+  .hover-lift:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.hover-lift:active {
+  transform: translateY(0);
+}
+
+.hover-scale {
+  transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (hover: hover) {
+  .hover-scale:hover {
+    transform: scale(1.02);
+  }
+}
+
+.hover-scale:active {
+  transform: scale(0.98);
+}
+
+.hover-glow {
+  transition: box-shadow 0.2s ease;
+}
+
+@media (hover: hover) {
+  .hover-glow:hover {
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
+  }
+}
+
+.hover-bg {
+  transition: background-color 0.15s ease;
+}
+
+@media (hover: hover) {
+  .hover-bg:hover {
+    background-color: hsl(var(--accent));
+  }
+}
+
+.hover-border {
+  transition: border-color 0.15s ease;
+}
+
+@media (hover: hover) {
+  .hover-border:hover {
+    border-color: hsl(var(--primary) / 0.5);
+  }
+}
+
+/* ========== Press States ========== */
+
+.press-scale {
+  transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.press-scale:active {
+  transform: scale(0.97);
+}
+
+.press-opacity {
+  transition: opacity 0.1s ease;
+}
+
+.press-opacity:active {
+  opacity: 0.7;
+}
+
+.press-depth {
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.press-depth:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+/* ========== Disabled States ========== */
+
+.disabled-state {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.disabled-muted {
+  opacity: 0.4;
+  filter: grayscale(0.5);
+  pointer-events: none;
+}
+
+/* ========== Loading States ========== */
+
+.loading-state {
+  position: relative;
+  pointer-events: none;
+}
+
+.loading-state::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: hsl(var(--background) / 0.7);
+  backdrop-filter: blur(2px);
+  border-radius: inherit;
+}
+
+/* ========== Selected States ========== */
+
+.selected-ring {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+}
+
+.selected-border {
+  border-color: hsl(var(--primary));
+  border-width: 2px;
+}
+
+.selected-bg {
+  background-color: hsl(var(--primary) / 0.1);
+}
+
+/* ========== Interactive Feedback ========== */
+
+.interactive {
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.interactive-card {
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+@media (hover: hover) {
+  .interactive-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px -5px hsl(220 40% 10% / 0.1);
+    border-color: hsl(var(--primary) / 0.3);
+  }
+}
+
+.interactive-card:active {
+  transform: scale(0.99);
+  transition-duration: 0.05s;
+}
+
+/* ========== Ripple Effect (Optional) ========== */
+
+.ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: hsl(var(--foreground) / 0.1);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.4s ease, height 0.4s ease;
+}
+
+.ripple:active::before {
+  width: 200%;
+  height: 200%;
+}
+
+/* ========== Reduced Motion ========== */
+
+@media (prefers-reduced-motion: reduce) {
+  .hover-lift,
+  .hover-scale,
+  .hover-glow,
+  .hover-bg,
+  .hover-border,
+  .press-scale,
+  .press-opacity,
+  .press-depth,
+  .interactive-card {
+    transition: none !important;
+  }
+  
+  .hover-lift:hover,
+  .hover-scale:hover,
+  .hover-lift:active,
+  .hover-scale:active,
+  .press-scale:active,
+  .press-depth:active,
+  .interactive-card:hover,
+  .interactive-card:active {
+    transform: none !important;
+  }
+  
+  .ripple::before {
+    display: none;
+  }
+}

@@ -5,6 +5,8 @@ import { QuickCreatePreset } from '@/constants/quickCreatePresets';
 import { useNavigate } from 'react-router-dom';
 import { logger } from '@/lib/logger';
 import { CheckCircle, Circle } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { glass } from '@/lib/glass';
 
 interface QuickCreateProps {
   onPresetSelect?: (preset: QuickCreatePreset) => void;
@@ -84,7 +86,7 @@ export function QuickCreate({ onPresetSelect }: QuickCreateProps) {
       <PresetBrowser onSelectPreset={handlePresetSelect} />
 
       {selectedPreset && (
-        <div className="sticky bottom-0 left-0 right-0 p-4 glass-mobile rounded-lg border border-white/10">
+        <div className={cn("sticky bottom-0 left-0 right-0 p-4 rounded-lg", glass.card)}>
           <div className="flex items-center justify-between gap-4">
             <div className="flex-1 min-w-0">
               <p className="font-semibold truncate">

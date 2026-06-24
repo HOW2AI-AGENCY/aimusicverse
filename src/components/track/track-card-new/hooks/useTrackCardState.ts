@@ -7,11 +7,13 @@
  * - Sheet/menu state
  * - Play handler
  * - Card click handler
+ * - Ownership detection
  */
 
 import { useState, useCallback, useMemo } from 'react';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useAuth } from '@/hooks/useAuth';
 import { hapticImpact } from '@/lib/haptic';
 import type { TrackData } from '../types';
 import type { Track } from '@/types/track';
@@ -26,6 +28,13 @@ export function useTrackCardState({ track, onPlay, isPlaying: isPlayingProp }: U
   const [sheetOpen, setSheetOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const isMobile = useIsMobile();
+  const { user } = useAuth();
+
+  // Check if current user owns this track
+  const isOwnTrack = useMemo(() => {
+    if (!user?.id) return false;
+    return user.id === track.user_id;
+  }, [user?.id, track.user_id]);
 
   // Player state
   const { activeTrack, isPlaying: storeIsPlaying, playTrack, pauseTrack } = usePlayerStore();
@@ -110,6 +119,7 @@ export function useTrackCardState({ track, onPlay, isPlaying: isPlayingProp }: U
     isCurrentTrack,
     isCurrentlyPlaying,
     trackForPlayer,
+    isOwnTrack,
 
     // Handlers
     handlePlay,

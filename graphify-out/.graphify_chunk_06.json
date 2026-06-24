@@ -1,0 +1,1176 @@
+{
+  "nodes": [
+    {
+      "id": "sprints_sprint_025_optimization",
+      "label": "Sprint 025: Optimization Sprint",
+      "file_type": "document",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-025-OPTIMIZATION.md",
+      "source_location": "lines 1-157",
+      "rationale": {
+        "purpose": "Performance baseline establishment, Music Lab Hub creation, list virtualization, and bundle optimization to <900KB",
+        "key_outcomes": [
+          "Lighthouse CI workflow established",
+          "Framer-motion centralized via @/lib/motion",
+          "Generation analytics SQL function created",
+          "P0 critical fixes for generation error handling and auth security completed"
+        ]
+      }
+    },
+    {
+      "id": "sprints_sprint_026_ux_unification",
+      "label": "Sprint 026: UX Unification",
+      "file_type": "document",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-026-UX-UNIFICATION.md",
+      "source_location": "lines 1-171",
+      "rationale": {
+        "purpose": "Simplify creation flow from 9 steps to 4 steps, add quick create presets, and implement guided workflows for new users",
+        "key_goals": [
+          "Reduce creation steps from 9 to 4",
+          "Add 6+ ready-to-use presets",
+          "Implement step-by-step workflow guidance",
+          "Improve onboarding integration"
+        ]
+      }
+    },
+    {
+      "id": "sprints_sprint_027_ai_lyrics_tools",
+      "label": "Sprint 027: AI Lyrics Agent Tools",
+      "file_type": "document",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-027-AI-LYRICS-TOOLS.md",
+      "source_location": "lines 1-163",
+      "rationale": {
+        "purpose": "Expand AI Lyrics Assistant with 10+ professional tools for lyrics creation and editing",
+        "deliverables": [
+          "8 tool panels (Continue, Structure, Rhythm, StyleConvert, Paraphrase, HookGenerator, VocalMap, Translate)",
+          "4 result cards",
+          "Minimalist interface with SmartToolbar and WorkflowEngine"
+        ]
+      }
+    },
+    {
+      "id": "sprints_sprint_029_telegram_mobile",
+      "label": "Sprint 029: Telegram Mini App Mobile Optimization",
+      "file_type": "document",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-029-TELEGRAM-MOBILE-OPTIMIZATION.md",
+      "source_location": "lines 1-503",
+      "rationale": {
+        "purpose": "Optimize mobile interface for Telegram Mini App with focus on touch targets, SDK integration, and performance",
+        "kpis": [
+          "Bundle size: 500KB → 450KB (-10%)",
+          "FCP: 1.2s → 1.1s (-8%)",
+          "Touch targets: 100% compliance with 44×44px",
+          "Telegram SDK integration: 90%+ functions",
+          "Mobile navigation: 30% improvement"
+        ]
+      }
+    },
+    {
+      "id": "sprints_sprint_030_unified_studio_mobile",
+      "label": "Sprint 030: Unified Studio Mobile Integration",
+      "file_type": "document",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-030-UNIFIED-STUDIO-MOBILE.md",
+      "source_location": "lines 1-598",
+      "rationale": {
+        "purpose": "Unify two parallel studio interfaces (UnifiedStudioContent and StudioShell) into single window with mobile-optimized design",
+        "critical_requirement": "Single Window Studio Interface - all functions accessible via tabs within one window",
+        "status": "65% complete (core deliverables done, remaining work moved to backlog)"
+      }
+    },
+    {
+      "id": "sprints_sprint_031_data_model",
+      "label": "Sprint 031: Data Model",
+      "file_type": "document",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-DATA-MODEL.md",
+      "source_location": "lines 1-503",
+      "rationale": {
+        "purpose": "Define data entities for Sprint 031 optimization features with TypeScript interfaces, validation rules, and state transitions",
+        "entities": [
+          "UnifiedStudioStore (Zustand store)",
+          "StemState (mixer channel)",
+          "LyricsLineData (lyrics display)",
+          "WaveformCacheEntry (IndexedDB)",
+          "BPMResult (audio analysis)",
+          "TimelineMarker (timeline display)"
+        ]
+      }
+    },
+    {
+      "id": "sprints_sprint_031_optimization_phase2",
+      "label": "Sprint 031: Optimization Phase 2",
+      "file_type": "document",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-OPTIMIZATION-PHASE2.md",
+      "source_location": "lines 1-169",
+      "rationale": {
+        "purpose": "Continue studio optimization with component integration, store unification, and additional component optimizations",
+        "goals": [
+          "Store unification (Zustand + TanStack Query hybrid)",
+          "Component optimizations with React.memo",
+          "DAW timeline improvements with BPM snap-to-grid",
+          "60 FPS scroll on mid-range devices"
+        ]
+      }
+    },
+    {
+      "id": "sprints_sprint_031_plan",
+      "label": "Sprint 031: Implementation Plan",
+      "file_type": "document",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-PLAN.md",
+      "source_location": "lines 1-427",
+      "rationale": {
+        "purpose": "Comprehensive implementation plan for Sprint 031 optimization with 5-phase approach (Research, Design, Tasks, Implementation, Validation)",
+        "phases": [
+          "Phase 0: Research & Technical Decisions",
+          "Phase 1: Design Artifacts",
+          "Phase 2: Store Unification",
+          "Phase 3: Component Optimizations",
+          "Phase 4: DAW Timeline Improvements",
+          "Phase 5: Testing & Validation",
+          "Phase 6: Cleanup & Documentation"
+        ]
+      }
+    },
+    {
+      "id": "sprints_sprint_031_quickstart",
+      "label": "Sprint 031: Quickstart Guide",
+      "file_type": "document",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-QUICKSTART.md",
+      "source_location": "lines 1-693",
+      "rationale": {
+        "purpose": "Quick reference for implementing Sprint 031 optimization features with API signatures, usage examples, and integration points"
+      }
+    },
+    {
+      "id": "sprints_sprint_031_research",
+      "label": "Sprint 031: Research & Technical Decisions",
+      "file_type": "document",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-RESEARCH.md",
+      "source_location": "lines 1-347",
+      "rationale": {
+        "purpose": "Research findings for 5 critical areas: Zustand store slicing, React.memo strategies, BPM detection, IndexedDB caching, and RAF throttling",
+        "decisions": [
+          "Multi-slice Zustand architecture with type-safe composition",
+          "Component-specific React.memo strategies",
+          "web-audio-beat-detector + Tone.js with seconds fallback",
+          "7-day TTL + LRU + Uint8Array compression for caching",
+          "Native RAF without artificial throttling"
+        ]
+      }
+    },
+    {
+      "id": "sprints_sprint_031_tasks",
+      "label": "Sprint 031: Tasks",
+      "file_type": "document",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-TASKS.md",
+      "source_location": "lines 1-370",
+      "rationale": {
+        "purpose": "Detailed task breakdown with 101 tasks across 6 phases for Sprint 031 optimization implementation",
+        "total_tasks": 101,
+        "organization": "Grouped by sprint phase for independent implementation and validation"
+      }
+    },
+    {
+      "id": "sprints_sprint_031_validation_report",
+      "label": "Sprint 031: Validation Report",
+      "file_type": "document",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-VALIDATION-REPORT.md",
+      "source_location": "lines 1-332",
+      "rationale": {
+        "purpose": "Comprehensive validation of Sprint 031 implementation with 81/101 tasks complete (80%)",
+        "status": "Phase 1-5 COMPLETE, Phase 6 (cleanup/documentation) pending",
+        "key_achievements": [
+          "State unification complete",
+          "Component optimization complete",
+          "BPM detection and snap-to-grid complete",
+          "Performance benchmarks established",
+          "Unit and E2E tests created"
+        ]
+      }
+    },
+    {
+      "id": "sprints_sprint_032_final_summary",
+      "label": "Sprint 032: Final Implementation Summary",
+      "file_type": "document",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-032-FINAL-SUMMARY.md",
+      "source_location": "lines 1-285",
+      "rationale": {
+        "purpose": "Phase 1 completion of Sprint 032 - UX improvements for new users with 7/10 user stories implemented",
+        "components": [
+          "QuickStartButton for one-tap generation",
+          "UserFriendlyError for error mapping",
+          "useAutomaticRetry for exponential backoff",
+          "FirstCommentCTA for engagement",
+          "CommentSuggestions for context-aware prompts",
+          "PersonalizedRecommendations with similarity algorithm",
+          "ContinueCreatingCTA for post-track completion"
+        ]
+      }
+    },
+    {
+      "id": "sprints_sprint_032_implementation_summary",
+      "label": "Sprint 032: Implementation Summary",
+      "file_type": "document",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-032-IMPLEMENTATION-SUMMARY.md",
+      "source_location": "lines 1-436",
+      "rationale": {
+        "purpose": "Detailed implementation summary of Sprint 032 Phase 1 with 6 user stories complete",
+        "files_created": 8,
+        "lines_of_code": "1,660+ lines of production code"
+      }
+    },
+    {
+      "id": "sprints_sprint_closure_report",
+      "label": "Sprint Closure Report - January 5, 2026",
+      "file_type": "document",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT_CLOSURE_REPORT_2026-01-05.md",
+      "source_location": "lines 1-369",
+      "rationale": {
+        "purpose": "Comprehensive closure of all active sprints as of January 5, 2026",
+        "sprints_closed": [
+          "Sprint 029: 100% complete",
+          "Sprint 030: 65% complete (core objectives achieved)"
+        ],
+        "planned_sprints_documented": 9
+      }
+    },
+    {
+      "id": "docs_ai_lyrics_assistant",
+      "label": "AI Lyrics Assistant Documentation",
+      "file_type": "document",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\docs\\AI_LYRICS_ASSISTANT.md",
+      "source_location": "lines 1-163",
+      "rationale": {
+        "purpose": "Comprehensive system for creating and editing song lyrics with AI tools",
+        "architecture": "Chat interface + AI Agent Toolbar with 10+ tools",
+        "modes": "generate, rewrite, improve, translate + 8 AI agent tools"
+      }
+    },
+    {
+      "id": "docs_api",
+      "label": "Component API Reference",
+      "file_type": "document",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\docs\\API.md",
+      "source_location": "lines 1-318",
+      "rationale": {
+        "purpose": "API reference for core components, hooks, and utility functions",
+        "categories": [
+          "Error handling",
+          "UI components (LoadingScreen, OptimizedImage, TouchIconButton)",
+          "Hooks (useStateMachine, useErrorRecovery, useLazyImage)",
+          "Utilities (debounce, throttle, retryWithBackoff)"
+        ]
+      }
+    },
+    {
+      "id": "docs_architecture",
+      "label": "Architecture Documentation",
+      "file_type": "document",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\docs\\ARCHITECTURE.md",
+      "source_location": "lines 1-300",
+      "rationale": {
+        "purpose": "Modular architecture documentation with clear separation of concerns",
+        "core_modules": [
+          "Error handling (src/lib/errors/)",
+          "State machine (src/lib/stateMachine.ts)",
+          "Performance utilities (src/lib/performance.ts)",
+          "Image optimization (src/lib/imageOptimization.ts)",
+          "Touch-friendly components",
+          "Accessibility (src/lib/a11y.tsx)"
+        ]
+      }
+    },
+    {
+      "id": "docs_architecture_diagrams",
+      "label": "Architecture Diagrams",
+      "file_type": "document",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\docs\\ARCHITECTURE_DIAGRAMS.md",
+      "source_location": "lines 1-803",
+      "rationale": {
+        "purpose": "Visual architecture documentation with Mermaid diagrams",
+        "diagrams": [
+          "System context",
+          "Technology stack",
+          "Component hierarchy",
+          "State management architecture",
+          "Player state machine",
+          "Database architecture",
+          "Edge functions architecture",
+          "RLS security model",
+          "Data flows (generation, version switching, playlist creation)"
+        ]
+      }
+    },
+    {
+      "id": "docs_archive",
+      "label": "Archive Index",
+      "file_type": "document",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\docs\\ARCHIVE.md",
+      "source_location": "lines 1-266",
+      "rationale": {
+        "purpose": "Reference guide for archived documentation moved to /docs/archive/",
+        "archived_categories": [
+          "Audits (~16 documents)",
+          "Session summaries (~8 documents)",
+          "Implementation reports (~35 documents)",
+          "Sprint reports (~24 documents)"
+        ],
+        "total_archived": "~83 documents"
+      }
+    },
+    {
+      "id": "docs_audio_architecture_diagram",
+      "label": "Audio Architecture Diagram",
+      "file_type": "document",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\docs\\AUDIO_ARCHITECTURE_DIAGRAM.md",
+      "source_location": "lines 1-343",
+      "rationale": {
+        "purpose": "Audio architecture documentation showing before/after fix for AudioContext conflicts",
+        "problem_solved": "Multiple AudioContext instances causing silent playback",
+        "solution": "Centralized audioContextManager.ts with single AudioContext instance",
+        "benefits": ["100% reliable audio playback", "Zero conflicts", "Graceful error handling", "25 comprehensive tests"]
+      }
+    },
+    {
+      "id": "concept_unified_studio_mobile",
+      "label": "Unified Studio Mobile Interface",
+      "file_type": "concept",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-030-UNIFIED-STUDIO-MOBILE.md",
+      "source_location": "lines 43-96",
+      "rationale": {
+        "requirement": "Single Window Studio Interface - all studio functions accessible via tabs within one window",
+        "replaces": "UnifiedStudioContent and StudioShell (40% code duplication)",
+        "tabs": ["Player", "Sections", "Vocals", "Stems", "MIDI", "Mixer", "Actions"]
+      }
+    },
+    {
+      "id": "concept_hybrid_state_management",
+      "label": "Hybrid State Management Strategy",
+      "file_type": "rationale",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-RESEARCH.md",
+      "source_location": "lines 16-61",
+      "rationale": {
+        "approach": "Zustand for ephemeral UI state + TanStack Query for server state",
+        "benefits": [
+          "Separation of concerns",
+          "TanStack Query caching and invalidation benefits",
+          "Zustand handles client-side playback/mixer state"
+        ]
+      }
+    },
+    {
+      "id": "concept_react_memo_strategies",
+      "label": "React.memo Component Optimization",
+      "file_type": "rationale",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-RESEARCH.md",
+      "source_location": "lines 69-103",
+      "rationale": {
+        "strategies": [
+          "OptimizedLyricsLine: custom comparison for 100+ lines rendering 30x/second",
+          "OptimizedPlaylistItem: shallow comparison for virtualized lists",
+          "OptimizedMixerChannel: focus on frequently-changing props (volume, muted, solo)"
+        ],
+        "key_insight": "Profile before optimizing - comparison cost should be <10% of render cost"
+      }
+    },
+    {
+      "id": "concept_bpm_detection_snap_to_grid",
+      "label": "BPM Detection and Snap-to-Grid",
+      "file_type": "concept",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-RESEARCH.md",
+      "source_location": "lines 107-155",
+      "rationale": {
+        "solution": "web-audio-beat-detector + Tone.js with seconds-based fallback",
+        "bundle_impact": "+15KB (1.6% of 950KB budget)",
+        "performance": "100-500ms for 3-minute track, O(1) real-time snap",
+        "fallback": "Snap to seconds (0.5s or 1s grid) when BPM unknown"
+      }
+    },
+    {
+      "id": "concept_indexed_caching_strategy",
+      "label": "IndexedDB Caching Strategy",
+      "file_type": "rationale",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-RESEARCH.md",
+      "source_location": "lines 158-203",
+      "rationale": {
+        "strategy": "7-day TTL + LRU eviction + Uint8Array compression (87.5% size reduction)",
+        "mobile_limits": {
+          "ios_safari": "~50MB per origin (most restrictive)",
+          "chrome_android": "Up to 80% of free disk space",
+          "firefox_mobile": "2GB per origin"
+        },
+        "compression": "number[] → Uint8Array (144KB → 18KB for 18,000 samples)"
+      }
+    },
+    {
+      "id": "concept_raf_throttling",
+      "label": "RAF Throttling Pattern",
+      "file_type": "rationale",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-RESEARCH.md",
+      "source_location": "lines 206-260",
+      "rationale": {
+        "approach": "Native RAF without artificial throttling - already self-throttling by display refresh rate",
+        "use_case_strategies": [
+          "Playhead drag: Native RAF (~16.67ms at 60fps)",
+          "Pinch-zoom: Skip if scale delta <1%",
+          "Real-time playback: Hybrid RAF + debounced approach (250ms state updates)"
+        ],
+        "frame_budget": "16.67ms per frame at 60fps - code should complete in <5ms"
+      }
+    },
+    {
+      "id": "component_unifiedstudiomobile",
+      "label": "UnifiedStudioMobile Component",
+      "file_type": "code",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-030-UNIFIED-STUDIO-MOBILE.md",
+      "source_location": "lines 163-203",
+      "rationale": {
+        "purpose": "Single unified studio component replacing UnifiedStudioContent and StudioShell",
+        "interface": "mode: 'track' | 'project', trackId?, projectId?",
+        "features": ["Tab-based navigation", "Dynamic lazy loading", "State persistence", "Telegram safe area support"]
+      }
+    },
+    {
+      "id": "store_unifiedstudiostore",
+      "label": "UnifiedStudioStore (Zustand)",
+      "file_type": "code",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-DATA-MODEL.md",
+      "source_location": "lines 16-70",
+      "rationale": {
+        "purpose": "Centralized Zustand store for unified studio interface combining playback, mixer, project, and history state",
+        "slices": ["PlaybackSlice", "StemMixerSlice", "HistorySlice", "ProjectSlice", "LyricsSlice"],
+        "selectors": ["getEffectiveVolume", "getIsMuted", "getActiveStems"]
+      }
+    },
+    {
+      "id": "entity_stemstate",
+      "label": "StemState Entity",
+      "file_type": "code",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-DATA-MODEL.md",
+      "source_location": "lines 86-130",
+      "rationale": {
+        "purpose": "Individual audio stem with volume, pan, effects state",
+        "fields": ["id", "name", "shortName", "icon", "color", "url", "volume", "pan", "muted", "solo", "isPlaying", "hasEffects", "waveform", "duration"],
+        "computed": ["effectiveVolume", "isAudible", "panPosition"]
+      }
+    },
+    {
+      "id": "entity_lyricslinedata",
+      "label": "LyricsLineData Entity",
+      "file_type": "code",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-DATA-MODEL.md",
+      "source_location": "lines 132-168",
+      "rationale": {
+        "purpose": "Single line of lyrics with timing and word-level sync",
+        "fields": ["id", "text", "startTime", "endTime", "words[]", "section", "isActive", "isNext", "isPast"],
+        "validation": "startTime < endTime, words[].startTime >= line.startTime"
+      }
+    },
+    {
+      "id": "entity_waveformcacheentry",
+      "label": "WaveformCacheEntry Entity",
+      "file_type": "code",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-DATA-MODEL.md",
+      "source_location": "lines 170-212",
+      "rationale": {
+        "purpose": "Cached waveform data with metadata for IndexedDB persistence",
+        "fields": ["trackId", "url", "data (Uint8Array)", "max", "peaks[]", "duration", "sampleRate", "createdAt", "lastAccessed", "accessCount", "expiresAt", "size"],
+        "ttl": "7 days",
+        "compression": "Uint8Array (87.5% size reduction vs number[])"
+      }
+    },
+    {
+      "id": "entity_bpmresult",
+      "label": "BPMResult Entity",
+      "file_type": "code",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-DATA-MODEL.md",
+      "source_location": "lines 214-247",
+      "rationale": {
+        "purpose": "BPM detection result with beat positions for snap-to-grid",
+        "fields": ["bpm (number|null)", "confidence", "beatPositions[]", "duration", "timeSignature", "analyzedAt"],
+        "fallback": "If bpm === null or confidence <0.3, use seconds-based grid"
+      }
+    },
+    {
+      "id": "tool_continue",
+      "label": "Continue Tool (AI Lyrics)",
+      "file_type": "code",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\docs\\AI_LYRICS_ASSISTANT.md",
+      "source_location": "lines 74-78",
+      "rationale": {
+        "action": "continue_line",
+        "purpose": "Continue lyrics in 4 styles (natural, dramatic, contrast, climax)",
+        "output": "lyrics"
+      }
+    },
+    {
+      "id": "tool_structure",
+      "label": "Structure Tool (AI Lyrics)",
+      "file_type": "code",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\docs\\AI_LYRICS_ASSISTANT.md",
+      "source_location": "lines 74-78",
+      "rationale": {
+        "action": "fit_structure",
+        "purpose": "Restructure lyrics to template (verse-chorus, full-song, hip-hop)",
+        "output": "lyrics"
+      }
+    },
+    {
+      "id": "tool_hook_generator",
+      "label": "Hook Generator Tool (AI Lyrics)",
+      "file_type": "code",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\docs\\AI_LYRICS_ASSISTANT.md",
+      "source_location": "lines 74-78",
+      "rationale": {
+        "action": "hook_generator",
+        "purpose": "Analyze hooks and generate variants",
+        "output": "hooks"
+      }
+    },
+    {
+      "id": "tool_vocal_map",
+      "label": "Vocal Map Tool (AI Lyrics)",
+      "file_type": "code",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\docs\\AI_LYRICS_ASSISTANT.md",
+      "source_location": "lines 74-78",
+      "rationale": {
+        "action": "vocal_map",
+        "purpose": "Create vocal production map by sections",
+        "output": "vocal_map"
+      }
+    },
+    {
+      "id": "hook_useautomaticretry",
+      "label": "useAutomaticRetry Hook",
+      "file_type": "code",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-032-IMPLEMENTATION-SUMMARY.md",
+      "source_location": "lines 109-148",
+      "rationale": {
+        "purpose": "Automatic retry with exponential backoff for retryable errors",
+        "features": ["Exponential backoff: 1s, 2s, 4s, 8s", "Configurable maxRetries", "Countdown display", "AbortSignal support", "Analytics tracking"]
+      }
+    },
+    {
+      "id": "utility_suno_error_mapper",
+      "label": "Suno Error Mapper",
+      "file_type": "code",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-032-FINAL-SUMMARY.md",
+      "source_location": "lines 73-78",
+      "rationale": {
+        "purpose": "Map Suno API errors to user-friendly messages",
+        "coverage": "20+ error codes",
+        "features": ["User-friendly title/message/action", "Retryable vs non-retryable", "Context-aware (credits, files)"]
+      }
+    },
+    {
+      "id": "utility_track_similarity",
+      "label": "Track Similarity Algorithm",
+      "file_type": "code",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-032-FINAL-SUMMARY.md",
+      "source_location": "lines 116-121",
+      "rationale": {
+        "purpose": "Calculate similarity between user track and public tracks for recommendations",
+        "algorithm": "Score = 0.4 * style_match + 0.3 * mood_match + 0.3 * tag_overlap",
+        "min_similarity": "0.3 (30%)"
+      }
+    },
+    {
+      "id": "component_quickstartbutton",
+      "label": "QuickStartButton Component",
+      "file_type": "code",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-032-IMPLEMENTATION-SUMMARY.md",
+      "source_location": "lines 36-61",
+      "rationale": {
+        "purpose": "One-tap music generation with sensible defaults",
+        "presets": ["Pop", "Rock", "Lo-Fi", "EDM"],
+        "features": ["Animated glow effect", "Haptic feedback", "Loading state with progress", "Analytics tracking"]
+      }
+    },
+    {
+      "id": "component_firstcommentcta",
+      "label": "FirstCommentCTA Component",
+      "file_type": "code",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-032-FINAL-SUMMARY.md",
+      "source_location": "lines 96-107",
+      "rationale": {
+        "purpose": "Engaging call-to-action for first comment on track",
+        "variants": ["banner", "card", "compact"],
+        "features": ["Animated gradient design", "7-day dismissal memory", "Haptic feedback"]
+      }
+    },
+    {
+      "id": "component_personalizedrecommendations",
+      "label": "PersonalizedRecommendations Component",
+      "file_type": "code",
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-032-FINAL-SUMMARY.md",
+      "source_location": "lines 147-163",
+      "rationale": {
+        "purpose": "Display similar public tracks based on user's first track",
+        "features": ["Similarity algorithm (40% style, 30% mood, 30% tags)", "Create similar action", "Explain similarity", "Compact variant"]
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "sprints_sprint_025_optimization",
+      "target": "sprints_sprint_026_ux_unification",
+      "relation": "enables",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-025-OPTIMIZATION.md",
+      "source_location": "lines 115-116"
+    },
+    {
+      "source": "sprints_sprint_026_ux_unification",
+      "target": "concept_unified_studio_mobile",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-030-UNIFIED-STUDIO-MOBILE.md",
+      "source_location": "lines 43-96"
+    },
+    {
+      "source": "sprints_sprint_027_ai_lyrics_tools",
+      "target": "tool_continue",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\docs\\AI_LYRICS_ASSISTANT.md",
+      "source_location": "lines 74-78"
+    },
+    {
+      "source": "sprints_sprint_027_ai_lyrics_tools",
+      "target": "tool_structure",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\docs\\AI_LYRICS_ASSISTANT.md",
+      "source_location": "lines 74-78"
+    },
+    {
+      "source": "sprints_sprint_027_ai_lyrics_tools",
+      "target": "tool_hook_generator",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\docs\\AI_LYRICS_ASSISTANT.md",
+      "source_location": "lines 74-78"
+    },
+    {
+      "source": "sprints_sprint_027_ai_lyrics_tools",
+      "target": "tool_vocal_map",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\docs\\AI_LYRICS_ASSISTANT.md",
+      "source_location": "lines 74-78"
+    },
+    {
+      "source": "sprints_sprint_029_telegram_mobile",
+      "target": "docs_audio_architecture_diagram",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\docs\\AUDIO_ARCHITECTURE_DIAGRAM.md",
+      "source_location": "lines 1-343"
+    },
+    {
+      "source": "sprints_sprint_030_unified_studio_mobile",
+      "target": "component_unifiedstudiomobile",
+      "relation": "creates",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-030-UNIFIED-STUDIO-MOBILE.md",
+      "source_location": "lines 163-203"
+    },
+    {
+      "source": "sprints_sprint_031_data_model",
+      "target": "store_unifiedstudiostore",
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-DATA-MODEL.md",
+      "source_location": "lines 16-70"
+    },
+    {
+      "source": "sprints_sprint_031_data_model",
+      "target": "entity_stemstate",
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-DATA-MODEL.md",
+      "source_location": "lines 86-130"
+    },
+    {
+      "source": "sprints_sprint_031_data_model",
+      "target": "entity_lyricslinedata",
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-DATA-MODEL.md",
+      "source_location": "lines 132-168"
+    },
+    {
+      "source": "sprints_sprint_031_data_model",
+      "target": "entity_waveformcacheentry",
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-DATA-MODEL.md",
+      "source_location": "lines 170-212"
+    },
+    {
+      "source": "sprints_sprint_031_data_model",
+      "target": "entity_bpmresult",
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-DATA-MODEL.md",
+      "source_location": "lines 214-247"
+    },
+    {
+      "source": "sprints_sprint_031_optimization_phase2",
+      "target": "concept_hybrid_state_management",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-RESEARCH.md",
+      "source_location": "lines 16-61"
+    },
+    {
+      "source": "sprints_sprint_031_optimization_phase2",
+      "target": "concept_react_memo_strategies",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-RESEARCH.md",
+      "source_location": "lines 69-103"
+    },
+    {
+      "source": "sprints_sprint_031_optimization_phase2",
+      "target": "concept_bpm_detection_snap_to_grid",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-RESEARCH.md",
+      "source_location": "lines 107-155"
+    },
+    {
+      "source": "sprints_sprint_031_optimization_phase2",
+      "target": "concept_indexed_caching_strategy",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-RESEARCH.md",
+      "source_location": "lines 158-203"
+    },
+    {
+      "source": "sprints_sprint_031_optimization_phase2",
+      "target": "concept_raf_throttling",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-RESEARCH.md",
+      "source_location": "lines 206-260"
+    },
+    {
+      "source": "sprints_sprint_031_plan",
+      "target": "sprints_sprint_031_research",
+      "relation": "requires",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-PLAN.md",
+      "source_location": "lines 246-283"
+    },
+    {
+      "source": "sprints_sprint_031_plan",
+      "target": "sprints_sprint_031_data_model",
+      "relation": "generates",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-PLAN.md",
+      "source_location": "lines 289-316"
+    },
+    {
+      "source": "sprints_sprint_031_plan",
+      "target": "sprints_sprint_031_quickstart",
+      "relation": "generates",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-PLAN.md",
+      "source_location": "lines 318-322"
+    },
+    {
+      "source": "sprints_sprint_031_plan",
+      "target": "sprints_sprint_031_tasks",
+      "relation": "generates",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-PLAN.md",
+      "source_location": "lines 334-339"
+    },
+    {
+      "source": "sprints_sprint_031_research",
+      "target": "concept_hybrid_state_management",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-RESEARCH.md",
+      "source_location": "lines 16-61"
+    },
+    {
+      "source": "sprints_sprint_031_research",
+      "target": "concept_react_memo_strategies",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-RESEARCH.md",
+      "source_location": "lines 69-103"
+    },
+    {
+      "source": "sprints_sprint_031_research",
+      "target": "concept_bpm_detection_snap_to_grid",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-RESEARCH.md",
+      "source_location": "lines 107-155"
+    },
+    {
+      "source": "sprints_sprint_031_research",
+      "target": "concept_indexed_caching_strategy",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-RESEARCH.md",
+      "source_location": "lines 158-203"
+    },
+    {
+      "source": "sprints_sprint_031_research",
+      "target": "concept_raf_throttling",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-RESEARCH.md",
+      "source_location": "lines 206-260"
+    },
+    {
+      "source": "sprints_sprint_031_validation_report",
+      "target": "sprints_sprint_031_optimization_phase2",
+      "relation": "validates",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-VALIDATION-REPORT.md",
+      "source_location": "lines 1-10"
+    },
+    {
+      "source": "sprints_sprint_031_validation_report",
+      "target": "store_unifiedstudiostore",
+      "relation": "validates",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-VALIDATION-REPORT.md",
+      "source_location": "lines 20-30"
+    },
+    {
+      "source": "sprints_sprint_032_final_summary",
+      "target": "component_quickstartbutton",
+      "relation": "creates",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-032-FINAL-SUMMARY.md",
+      "source_location": "lines 33-39"
+    },
+    {
+      "source": "sprints_sprint_032_final_summary",
+      "target": "component_firstcommentcta",
+      "relation": "creates",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-032-FINAL-SUMMARY.md",
+      "source_location": "lines 33-39"
+    },
+    {
+      "source": "sprints_sprint_032_final_summary",
+      "target": "component_personalizedrecommendations",
+      "relation": "creates",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-032-FINAL-SUMMARY.md",
+      "source_location": "lines 33-39"
+    },
+    {
+      "source": "sprints_sprint_032_final_summary",
+      "target": "utility_suno_error_mapper",
+      "relation": "creates",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-032-FINAL-SUMMARY.md",
+      "source_location": "lines 33-39"
+    },
+    {
+      "source": "sprints_sprint_032_final_summary",
+      "target": "hook_useautomaticretry",
+      "relation": "creates",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-032-FINAL-SUMMARY.md",
+      "source_location": "lines 33-39"
+    },
+    {
+      "source": "sprints_sprint_032_final_summary",
+      "target": "utility_track_similarity",
+      "relation": "creates",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-032-FINAL-SUMMARY.md",
+      "source_location": "lines 33-39"
+    },
+    {
+      "source": "sprints_sprint_032_implementation_summary",
+      "target": "sprints_sprint_032_final_summary",
+      "relation": "summarizes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-032-IMPLEMENTATION-SUMMARY.md",
+      "source_location": "lines 1-20"
+    },
+    {
+      "source": "sprints_sprint_closure_report",
+      "target": "sprints_sprint_029_telegram_mobile",
+      "relation": "closes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT_CLOSURE_REPORT_2026-01-05.md",
+      "source_location": "lines 34-56"
+    },
+    {
+      "source": "sprints_sprint_closure_report",
+      "target": "sprints_sprint_030_unified_studio_mobile",
+      "relation": "closes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT_CLOSURE_REPORT_2026-01-05.md",
+      "source_location": "lines 59-93"
+    },
+    {
+      "source": "docs_ai_lyrics_assistant",
+      "target": "tool_continue",
+      "relation": "documents",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\docs\\AI_LYRICS_ASSISTANT.md",
+      "source_location": "lines 74-78"
+    },
+    {
+      "source": "docs_ai_lyrics_assistant",
+      "target": "tool_structure",
+      "relation": "documents",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\docs\\AI_LYRICS_ASSISTANT.md",
+      "source_location": "lines 74-78"
+    },
+    {
+      "source": "docs_ai_lyrics_assistant",
+      "target": "tool_hook_generator",
+      "relation": "documents",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\docs\\AI_LYRICS_ASSISTANT.md",
+      "source_location": "lines 74-78"
+    },
+    {
+      "source": "docs_ai_lyrics_assistant",
+      "target": "tool_vocal_map",
+      "relation": "documents",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\docs\\AI_LYRICS_ASSISTANT.md",
+      "source_location": "lines 74-78"
+    },
+    {
+      "source": "docs_architecture",
+      "target": "docs_architecture_diagrams",
+      "relation": "complements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\docs\\ARCHITECTURE.md",
+      "source_location": "lines 1-300"
+    },
+    {
+      "source": "docs_architecture_diagrams",
+      "target": "docs_audio_architecture_diagram",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\docs\\ARCHITECTURE_DIAGRAMS.md",
+      "source_location": "lines 792-797"
+    },
+    {
+      "source": "docs_audio_architecture_diagram",
+      "target": "store_unifiedstudiostore",
+      "relation": "semantically_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\docs\\AUDIO_ARCHITECTURE_DIAGRAM.md",
+      "source_location": "lines 96-131"
+    },
+    {
+      "source": "concept_hybrid_state_management",
+      "target": "store_unifiedstudiostore",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-RESEARCH.md",
+      "source_location": "lines 35-59"
+    },
+    {
+      "source": "concept_react_memo_strategies",
+      "target": "component_firstcommentcta",
+      "relation": "optimization_pattern_for",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-RESEARCH.md",
+      "source_location": "lines 69-103"
+    },
+    {
+      "source": "concept_react_memo_strategies",
+      "target": "component_personalizedrecommendations",
+      "relation": "optimization_pattern_for",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-RESEARCH.md",
+      "source_location": "lines 69-103"
+    },
+    {
+      "source": "concept_bpm_detection_snap_to_grid",
+      "target": "entity_bpmresult",
+      "relation": "generates",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-DATA-MODEL.md",
+      "source_location": "lines 214-247"
+    },
+    {
+      "source": "concept_indexed_caching_strategy",
+      "target": "entity_waveformcacheentry",
+      "relation": "manages",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-DATA-MODEL.md",
+      "source_location": "lines 170-212"
+    },
+    {
+      "source": "store_unifiedstudiostore",
+      "target": "entity_stemstate",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-DATA-MODEL.md",
+      "source_location": "lines 286-305"
+    },
+    {
+      "source": "store_unifiedstudiostore",
+      "target": "entity_lyricslinedata",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-DATA-MODEL.md",
+      "source_location": "lines 286-305"
+    },
+    {
+      "source": "entity_stemstate",
+      "target": "entity_waveformcacheentry",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-DATA-MODEL.md",
+      "source_location": "lines 294-296"
+    },
+    {
+      "source": "entity_lyricslinedata",
+      "target": "entity_bpmresult",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-DATA-MODEL.md",
+      "source_location": "lines 297-299"
+    },
+    {
+      "source": "component_unifiedstudiomobile",
+      "target": "store_unifiedstudiostore",
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-030-UNIFIED-STUDIO-MOBILE.md",
+      "source_location": "lines 163-203"
+    },
+    {
+      "source": "component_personalizedrecommendations",
+      "target": "utility_track_similarity",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-032-FINAL-SUMMARY.md",
+      "source_location": "lines 116-121"
+    },
+    {
+      "source": "hook_useautomaticretry",
+      "target": "utility_suno_error_mapper",
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-032-IMPLEMENTATION-SUMMARY.md",
+      "source_location": "lines 109-148"
+    }
+  ],
+  "hyperedges": [
+    {
+      "id": "sprint_031_optimization_phases",
+      "label": "Sprint 031 Optimization Phases",
+      "nodes": [
+        "sprints_sprint_031_plan",
+        "sprints_sprint_031_research",
+        "sprints_sprint_031_data_model",
+        "sprints_sprint_031_quickstart",
+        "sprints_sprint_031_tasks",
+        "sprints_sprint_031_validation_report"
+      ],
+      "relation": "form",
+      "confidence": "EXTRACTED",
+      "confidence_score": 0.9,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-031-PLAN.md"
+    },
+    {
+      "id": "ai_lyrics_tools_suite",
+      "label": "AI Lyrics Tools Suite",
+      "nodes": [
+        "tool_continue",
+        "tool_structure",
+        "tool_hook_generator",
+        "tool_vocal_map"
+      ],
+      "relation": "participate_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 0.95,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\docs\\AI_LYRICS_ASSISTANT.md"
+    },
+    {
+      "id": "sprint_032_ux_components",
+      "label": "Sprint 032 UX Improvement Components",
+      "nodes": [
+        "component_quickstartbutton",
+        "component_firstcommentcta",
+        "component_personalizedrecommendations",
+        "utility_suno_error_mapper",
+        "utility_track_similarity",
+        "hook_useautomaticretry"
+      ],
+      "relation": "implement",
+      "confidence": "EXTRACTED",
+      "confidence_score": 0.9,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\completed\\SPRINT-032-FINAL-SUMMARY.md"
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

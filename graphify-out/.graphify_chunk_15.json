@@ -1,0 +1,742 @@
+{
+  "nodes": [
+    {
+      "id": "file:TELEGRAM_INTEGRATION_IMPROVEMENT_PLAN.md",
+      "type": "Documentation",
+      "subtype": "Improvement Plan",
+      "title": "Telegram Integration Improvement Plan",
+      "path": "docs/archive/audits-2025-12/TELEGRAM_INTEGRATION_IMPROVEMENT_PLAN.md",
+      "content_summary": "Comprehensive 3-week improvement plan for Telegram integration spanning Sprint 9-10. Covers code quality (lint errors), bot-to-mini-app bridge, enhanced notifications, voice message integration, performance optimization, and documentation consolidation.",
+      "key_topics": ["telegram", "bot", "mini-app", "notifications", "voice-integration", "performance", "documentation"],
+      "related_epics": ["E009", "E010"],
+      "priority": "P0",
+      "status": "approved",
+      "timeline": "Dec 15, 2025 - Jan 5, 2026",
+      "story_points": 34,
+      "metadata": {
+        "lint_errors_target": 0,
+        "test_coverage_target": "80%",
+        "bundle_size_target": "<800 KB",
+        "notification_types_target": "10+"
+      }
+    },
+    {
+      "id": "file:UI_UX_AUDIT.md",
+      "type": "Documentation",
+      "subtype": "Audit Report",
+      "title": "UI/UX Audit Report",
+      "path": "docs/archive/audits-2025-12/UI_UX_AUDIT.md",
+      "content_summary": "Comprehensive UI/UX audit identifying critical issues in generation wizard, track library, and global components. Prioritizes mobile-first improvements, accessibility compliance, and user experience enhancements.",
+      "key_topics": ["ui-ux", "mobile-first", "accessibility", "user-experience", "touch-targets", "performance"],
+      "issues_identified": 15,
+      "priority_levels": {
+        "critical": 2,
+        "high": 5,
+        "medium": 6,
+        "low": 2
+      },
+      "main_pain_points": [
+        "No progress indicator in 4-step generation wizard",
+        "Data loss when leaving generation page",
+        "Client-side filtering in library",
+        "Two notification systems (Toaster vs Sonner)",
+        "Missing accessibility features"
+      ]
+    },
+    {
+      "id": "file:UI_UX_IMPLEMENTATION_PLAN.md",
+      "type": "Documentation",
+      "subtype": "Implementation Plan",
+      "title": "UI/UX Implementation Plan",
+      "path": "docs/archive/audits-2025-12/UI_UX_IMPLEMENTATION_PLAN.md",
+      "content_summary": "5-week mobile-first UI/UX redesign plan with 105 tasks organized into 6 user stories. Covers homepage discovery, generation modes, library redesign, track details, actions menu, and player optimization.",
+      "key_topics": ["mobile-first", "ui-redesign", "touch-friendly", "accessibility", "performance"],
+      "epic_id": "E007",
+      "total_tasks": 105,
+      "timeline": "Dec 1, 2025 - Feb 2, 2026",
+      "sprints": ["007", "008", "009", "010", "011"],
+      "user_stories": [
+        "US1: Library Mobile Redesign",
+        "US2: Player Optimization",
+        "US3: Track Details Panel",
+        "US4: Track Actions Menu",
+        "US5: Homepage Discovery",
+        "US6: AI Assistant Mode"
+      ],
+      "success_metrics": {
+        "lighthouse_mobile": ">90",
+        "fcp_3g": "<2s",
+        "test_coverage": ">80%",
+        "touch_targets": "≥44×44px"
+      }
+    },
+    {
+      "id": "file:UI_UX_IMPROVEMENTS_COMPLETED.md",
+      "type": "Documentation",
+      "subtype": "Completion Report",
+      "title": "UI/UX Improvements Completed",
+      "path": "docs/archive/audits-2025-12/UI_UX_IMPROVEMENTS_COMPLETED.md",
+      "content_summary": "Phase 1 completion report documenting GenerateHub enhancements, SimpleMode/ProMode improvements, Index page optimization, and comprehensive accessibility improvements including ARIA support and keyboard navigation.",
+      "key_topics": ["micro-animations", "framer-motion", "accessibility", "responsive-design", "touch-targets"],
+      "phase": 1,
+      "status": "complete",
+      "components_enhanced": [
+        "GenerateHub",
+        "SimpleMode",
+        "ProMode",
+        "Index (Homepage)"
+      ],
+      "improvements": {
+        "color_coding": "Mode-specific gradients",
+        "animations": "Framer Motion micro-interactions",
+        "touch_targets": "Minimum 44×44px",
+        "accessibility": "Full ARIA support",
+        "keyboard": "Enter/Space navigation"
+      }
+    },
+    {
+      "id": "file:UI_UX_IMPROVEMENT_PLAN.md",
+      "type": "Documentation",
+      "subtype": "Improvement Plan",
+      "title": "UI/UX Improvement Plan v2",
+      "path": "docs/archive/audits-2025-12/UI_UX_IMPROVEMENT_PLAN.md",
+      "content_summary": "Implementation status of 6 completed phases including public profile pages, track privacy features, interactive tooltips, gamification onboarding, and MainLayout integration with subscription dialogs.",
+      "key_topics": ["public-profile", "privacy", "gamification", "onboarding", "subscription"],
+      "phases_completed": 6,
+      "status": "fully_implemented",
+      "key_features": [
+        "PublicProfilePage with tabs",
+        "SubscriptionRequiredDialog",
+        "GamificationOnboarding 5-step tour",
+        "Interactive tooltip fixes",
+        "LocalStorage triggers"
+      ],
+      "new_routes": ["/profile/:userId"]
+    },
+    {
+      "id": "file:VERSIONING_TELEGRAM_AUDIT_2025-12-03.md",
+      "type": "Documentation",
+      "subtype": "Audit Report",
+      "title": "Versioning and Telegram Audit",
+      "path": "docs/archive/audits-2025-12/VERSIONING_TELEGRAM_AUDIT_2025-12-03.md",
+      "content_summary": "Detailed audit of track versioning system and Telegram integration. Fixed is_master vs is_primary conflict, documented share/download functionality with fallback chains, and provided comprehensive testing recommendations.",
+      "key_topics": ["versioning", "telegram", "share", "download", "deep-links", "changelog"],
+      "issues_fixed": [
+        "Version count display bug (3 vs 2 versions)",
+        "is_master field references removed",
+        "Comprehensive code documentation added"
+      ],
+      "telegram_features": [
+        "shareURL() with 3-level fallback",
+        "shareToStory() for Telegram 7.6+",
+        "downloadFile() with native + browser fallback",
+        "getTrackDeepLink() for navigation"
+      ],
+      "testing_status": "8/10 - Working with limitations",
+      "recommendations": {
+        "short_term": ["Test on real devices", "Configure CORS", "Add error tracking"],
+        "medium_term": ["Expand notifications", "Improve inline bot", "Fix 159 lint errors"],
+        "long_term": ["Voice integration", "Advanced bot features", "Performance optimization"]
+      }
+    },
+    {
+      "id": "file:WORK_COMPLETED_SUMMARY.md",
+      "type": "Documentation",
+      "subtype": "Summary Report",
+      "title": "Work Completed Summary",
+      "path": "docs/archive/audits-2025-12/WORK_COMPLETED_SUMMARY.md",
+      "content_summary": "Comprehensive summary of Sprint 006 UI/UX audit and planning work. Created 14 documentation files (~150KB), 105 tasks across 5 weeks, API contracts, sprint updates, and implementation roadmap.",
+      "key_topics": ["audit", "planning", "documentation", "tasks", "sprints"],
+      "sprint": "006",
+      "status": "completed",
+      "documentation_created": {
+        "total_files": 14,
+        "total_size": "150KB",
+        "specifications": 5,
+        "api_contracts": 4,
+        "sprint_files": 3
+      },
+      "tasks_defined": 105,
+      "parallel_opportunities": 56,
+      "deliverables": {
+        "product": ["Complete specification", "5-week roadmap", "Success metrics"],
+        "development": ["Technical plan", "DB schema", "Type definitions", "105 tasks"],
+        "design": ["Mobile-first principles", "Touch targets", "Breakpoint system"],
+        "qa": ["Testing strategy", "Acceptance criteria", "Performance targets"]
+      }
+    },
+    {
+      "id": "concept:TelegramIntegration",
+      "type": "Concept",
+      "title": "Telegram Bot and Mini App Integration",
+      "description": "Comprehensive integration between Telegram bot (@AIMusicVerseBot) and MusicVerse AI Mini App including deep links, share functionality, download features, and voice message support.",
+      "key_components": [
+        "telegram-bot (Edge Functions)",
+        "TelegramContext (Mini App)",
+        "TelegramShareService",
+        "ShareTrackDialog",
+        "voice message handler",
+        "notification system"
+      ],
+      "features": {
+        "share": ["shareURL", "shareToStory", "share to chat/group/channel"],
+        "download": ["Native API", "Browser fallback"],
+        "deep_links": ["track navigation", "project links", "generate shortcuts"],
+        "voice": ["Whisper transcription", "GPT-4 enhancement", "music generation"]
+      },
+      "api_compatibility": {
+        "shareURL": "Telegram 8.0+",
+        "shareToStory": "Telegram 7.6+",
+        "downloadFile": "Telegram 8.0+"
+      },
+      "fallback_chains": 3,
+      "testing_status": "8/10"
+    },
+    {
+      "id": "concept:MobileFirstDesign",
+      "type": "Concept",
+      "title": "Mobile-First Design Principles",
+      "description": "Design approach prioritizing mobile viewport (375px) with progressive enhancement for larger screens. Emphasizes touch-friendly interactions, accessibility compliance, and performance optimization.",
+      "principles": [
+        "Start with mobile viewport (375px)",
+        "Touch targets ≥44×44px",
+        "Progressive enhancement",
+        "Works without JavaScript (where possible)",
+        "Lighthouse Score >90",
+        "WCAG 2.1 AA compliance"
+      ],
+      "breakpoints": {
+        "mobile": "375px+",
+        "sm": "640px+",
+        "md": "768px+",
+        "lg": "1024px+",
+        "xl": "1280px+"
+      },
+      "performance_targets": {
+        "fcp_3g": "<2s",
+        "tti": "<5s",
+        "cls": "<0.1",
+        "lighthouse_mobile": ">90"
+      },
+      "accessibility": {
+        "aria_support": "Full",
+        "keyboard_navigation": "Complete",
+        "screen_reader": "Supported",
+        "color_contrast": "WCAG AA"
+      }
+    },
+    {
+      "id": "concept:TrackVersioning",
+      "type": "Concept",
+      "title": "Track Versioning System",
+      "description": "Git-like version management for music tracks with A/B versions, primary version switching, change logging, and optimistic updates for user experience.",
+      "architecture": "Track → TrackVersions (A/B/C)",
+      "database_fields": {
+        "is_primary": "boolean - Main version flag (CORRECT)",
+        "version_label": "string - User label (A, B, C)",
+        "version_type": "string - Type (initial, extended, remix)",
+        "clip_index": "number - 0 or 1"
+      },
+      "constraints": [
+        "Only one primary version per track",
+        "Unique index on is_primary",
+        "Changelog mandatory for changes"
+      ],
+      "utilities": [
+        "getVersionIndex()",
+        "setPrimaryVersionOptimistic()",
+        "formatVersionLabel()",
+        "compareVersions()",
+        "getPrimaryVersion()",
+        "isPrimaryVersion()",
+        "getVersionCount()"
+      ],
+      "ui_components": [
+        "VersionsTab",
+        "VersionPicker",
+        "VersionBadge",
+        "VersionSwitcher"
+      ],
+      "issues_fixed": [
+        "is_master vs is_primary conflict",
+        "Version count display bug",
+        "Missing documentation"
+      ]
+    },
+    {
+      "id": "epic:E007",
+      "type": "Epic",
+      "title": "Mobile-First UI/UX Redesign",
+      "status": "in_progress",
+      "sprints": ["007", "008", "009", "010", "011"],
+      "timeline": "Dec 1, 2025 - Feb 2, 2026",
+      "total_tasks": 105,
+      "user_stories": [
+        {
+          "id": "US1",
+          "title": "Library Mobile Redesign",
+          "tasks": 10,
+          "sprint": "008"
+        },
+        {
+          "id": "US2",
+          "title": "Player Optimization",
+          "tasks": 12,
+          "sprint": "008"
+        },
+        {
+          "id": "US3",
+          "title": "Track Details Panel",
+          "tasks": 11,
+          "sprint": "009"
+        },
+        {
+          "id": "US4",
+          "title": "Track Actions Menu",
+          "tasks": 8,
+          "sprint": "009"
+        },
+        {
+          "id": "US5",
+          "title": "Homepage Discovery",
+          "tasks": 10,
+          "sprint": "010"
+        },
+        {
+          "id": "US6",
+          "title": "AI Assistant Mode",
+          "tasks": 15,
+          "sprint": "010"
+        }
+      ],
+      "phases": [
+        "Setup & Infrastructure (24 tasks)",
+        "Library & Player MVP (22 tasks)",
+        "Track Details & Actions (19 tasks)",
+        "Homepage & Assistant (25 tasks)",
+        "Polish & Testing (15 tasks)"
+      ],
+      "success_metrics": {
+        "lighthouse_mobile": ">90",
+        "session_duration": "+30%",
+        "mobile_retention": "+50%",
+        "bounce_rate": "-40%",
+        "generation_completion": "+60%"
+      }
+    },
+    {
+      "id": "epic:E009",
+      "type": "Epic",
+      "title": "Telegram Integration Enhancement",
+      "status": "planned",
+      "sprint": "009",
+      "timeline": "Dec 15 - Dec 29, 2025",
+      "story_points": 21,
+      "sub_epics": [
+        {
+          "id": "E009-E1",
+          "title": "Code Quality & Type Safety",
+          "tasks": 2,
+          "sp": 5
+        },
+        {
+          "id": "E009-E2",
+          "title": "Bot ↔ Mini App Bridge",
+          "tasks": 2,
+          "sp": 8
+        },
+        {
+          "id": "E009-E3",
+          "title": "Enhanced Notification System",
+          "tasks": 2,
+          "sp": 5
+        },
+        {
+          "id": "E009-E4",
+          "title": "Voice Message Integration",
+          "tasks": 1,
+          "sp": 3
+        }
+      ],
+      "success_criteria": {
+        "lint_errors": 0,
+        "test_coverage": "80%+",
+        "notification_types": "10+"
+      }
+    },
+    {
+      "id": "epic:E010",
+      "type": "Epic",
+      "title": "Performance & Documentation",
+      "status": "planned",
+      "sprint": "010",
+      "timeline": "Dec 29, 2025 - Jan 5, 2026",
+      "story_points": 13,
+      "sub_epics": [
+        {
+          "id": "E010-E5",
+          "title": "Performance Optimization",
+          "tasks": 2,
+          "sp": 8
+        },
+        {
+          "id": "E010-E6",
+          "title": "Documentation",
+          "tasks": 2,
+          "sp": 5
+        }
+      ],
+      "targets": {
+        "bundle_size": "<800 KB",
+        "initial_load": "<250 KB",
+        "load_time": "<2.5s"
+      }
+    },
+    {
+      "id": "component:GenerateHub",
+      "type": "Component",
+      "subtype": "UI Component",
+      "title": "GenerateHub Component",
+      "file": "src/components/generate/GenerateHub.tsx",
+      "description": "Main generation mode selection hub with Simple, Pro, and AI Assistant modes. Features color-coded mode indicators, micro-animations, and responsive design.",
+      "enhancements": [
+        "Color-coded mode indicators (blue/purple/primary gradients)",
+        "Framer Motion micro-animations (scale 1.02/0.98)",
+        "Icon rotation on hover",
+        "ARIA labels and keyboard navigation",
+        "Mobile-first responsive design"
+      ],
+      "touch_targets": "80px height",
+      "accessibility": "Full ARIA support"
+    },
+    {
+      "id": "component:ShareTrackDialog",
+      "type": "Component",
+      "subtype": "UI Component",
+      "title": "ShareTrackDialog Component",
+      "file": "src/components/track-menu/ShareTrackDialog.tsx",
+      "description": "Dialog for sharing tracks to Telegram with deep link generation, error handling, and fallback scenarios.",
+      "features": [
+        "Deep link generation",
+        "Share to chat/group/channel",
+        "Share to Stories",
+        "Telegram native share",
+        "Browser fallback"
+      ]
+    },
+    {
+      "id": "service:TelegramShareService",
+      "type": "Service",
+      "title": "Telegram Share Service",
+      "file": "src/services/telegram-share.ts",
+      "description": "Comprehensive Telegram sharing service with 3-level fallback chains for maximum compatibility.",
+      "methods": [
+        {
+          "name": "shareURL",
+          "description": "Share track URL",
+          "fallbacks": 3,
+          "compatibility": "Telegram 8.0+"
+        },
+        {
+          "name": "shareToStory",
+          "description": "Share to Telegram Stories",
+          "requirements": "Telegram 7.6+, cover_url",
+          "limitations": "iOS/Android only, no desktop"
+        },
+        {
+          "name": "downloadFile",
+          "description": "Download track file",
+          "methods": ["Native API", "Browser fallback"],
+          "issues": ["CORS", "popup blockers"]
+        },
+        {
+          "name": "getTrackDeepLink",
+          "description": "Generate deep link",
+          "format": "t.me/AIMusicVerseBot/app?startapp=track_UUID"
+        }
+      ],
+      "documentation_status": "Comprehensive"
+    },
+    {
+      "id": "task:T009-001",
+      "type": "Task",
+      "title": "Fix All Lint Errors",
+      "epic": "E009",
+      "sub_epic": "E009-E1",
+      "priority": "P0",
+      "story_points": 3,
+      "status": "in_progress",
+      "progress": "13/146 fixed",
+      "breakdown": [
+        "Supabase Functions (130 errors) - 2 SP",
+        "Source Files (13 errors) - 0.5 SP",
+        "Verification - 0.5 SP"
+      ],
+      "acceptance_criteria": [
+        "npm run lint returns 0 errors",
+        "All any types replaced",
+        "JSDoc comments added",
+        "CI/CD check passes"
+      ]
+    },
+    {
+      "id": "task:T009-003",
+      "type": "Task",
+      "title": "Create TelegramBridge Service",
+      "epic": "E009",
+      "sub_epic": "E009-E2",
+      "priority": "P0",
+      "story_points": 5,
+      "status": "planned",
+      "description": "Create unified service for bidirectional Bot ↔ Mini App communication with event queue, state manager, and state sync.",
+      "features": [
+        "sendToBot() - Send event from Mini App",
+        "listenFromBot() - Listen for commands",
+        "syncState() - Synchronize via CloudStorage",
+        "requestAction() - Request Mini App action"
+      ],
+      "event_types": [
+        "track_played",
+        "project_created",
+        "generation_started"
+      ]
+    },
+    {
+      "id": "task:T009-007",
+      "type": "Task",
+      "title": "Voice Message Handler",
+      "epic": "E009",
+      "sub_epic": "E009-E4",
+      "priority": "P1",
+      "story_points": 3,
+      "status": "planned",
+      "description": "End-to-end voice-to-music pipeline with Whisper transcription, GPT-4 prompt enhancement, and Suno generation.",
+      "pipeline": [
+        "User voice message",
+        "Download audio file",
+        "Transcribe with Whisper API",
+        "Enhance prompt with GPT-4",
+        "Create generation task",
+        "Generate with Suno AI",
+        "Notify user"
+      ],
+      "database": "voice_transcriptions table"
+    },
+    {
+      "id": "sprint:006",
+      "type": "Sprint",
+      "title": "UI/UX Audit & Planning",
+      "status": "completed",
+      "dates": "2025-12-01 - 2025-12-08",
+      "deliverables": [
+        "Comprehensive audit",
+        "Feature specification (6 User Stories)",
+        "Implementation plan (105 tasks)",
+        "Mobile research",
+        "Data model design",
+        "API contracts",
+        "Quickstart guide"
+      ],
+      "artifacts": 9,
+      "documentation_size": "150KB",
+      "next_sprint": "007"
+    },
+    {
+      "id": "sprint:007",
+      "type": "Sprint",
+      "title": "Setup & Infrastructure",
+      "status": "in_progress",
+      "dates": "2025-12-08 - 2025-12-15",
+      "epic": "E007",
+      "tasks": 24,
+      "focus_areas": [
+        "Database migrations (6 tasks)",
+        "TypeScript types (7 tasks)",
+        "Core hooks (11 tasks)"
+      ],
+      "acceptance_criteria": [
+        "Migrations applied successfully",
+        "TypeScript types valid",
+        "Hooks have unit tests",
+        "Backend API faster than client filtering"
+      ]
+    },
+    {
+      "id": "sprint:008",
+      "type": "Sprint",
+      "title": "Library & Player MVP",
+      "status": "planned",
+      "dates": "2025-12-15 - 2025-12-29",
+      "epic": "E007",
+      "user_stories": ["US1", "US2"],
+      "tasks": 22,
+      "deliverables": [
+        "Library mobile redesign",
+        "Player 3-state implementation",
+        "Version management UI",
+        "Queue management"
+      ],
+      "acceptance_criteria": [
+        "Touch targets ≥44×44px",
+        "Swipe with haptic feedback",
+        "Versions display and switch",
+        "Lighthouse Mobile >90",
+        "WCAG 2.1 AA compliance"
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "from": "epic:E007",
+      "to": "sprint:006",
+      "type": "planned_in",
+      "description": "Epic planning and audit completed in Sprint 006"
+    },
+    {
+      "from": "epic:E007",
+      "to": "sprint:007",
+      "type": "executed_in",
+      "description": "Setup & Infrastructure phase"
+    },
+    {
+      "from": "epic:E007",
+      "to": "sprint:008",
+      "type": "executed_in",
+      "description": "Library & Player MVP phase"
+    },
+    {
+      "from": "epic:E009",
+      "to": "sprint:009",
+      "type": "scheduled_in",
+      "description": "Telegram Integration Enhancement sprint"
+    },
+    {
+      "from": "epic:E010",
+      "to": "sprint:010",
+      "type": "scheduled_in",
+      "description": "Performance & Documentation sprint"
+    },
+    {
+      "from": "concept:TelegramIntegration",
+      "to": "service:TelegramShareService",
+      "type": "implemented_by",
+      "description": "Share functionality service"
+    },
+    {
+      "from": "concept:TelegramIntegration",
+      "to": "component:ShareTrackDialog",
+      "type": "exposes_ui",
+      "description": "Share dialog UI component"
+    },
+    {
+      "from": "concept:TrackVersioning",
+      "to": "file:VERSIONING_TELEGRAM_AUDIT_2025-12-03.md",
+      "type": "audited_in",
+      "description": "Versioning system audited and documented"
+    },
+    {
+      "from": "concept:MobileFirstDesign",
+      "to": "epic:E007",
+      "type": "guides",
+      "description": "Mobile-first principles guide E007 epic"
+    },
+    {
+      "from": "component:GenerateHub",
+      "to": "file:UI_UX_IMPROVEMENTS_COMPLETED.md",
+      "type": "documented_in",
+      "description": "Enhancements documented in completion report"
+    },
+    {
+      "from": "file:TELEGRAM_INTEGRATION_IMPROVEMENT_PLAN.md",
+      "to": "epic:E009",
+      "type": "defines",
+      "description": "Plan defines E009 epic structure"
+    },
+    {
+      "from": "file:TELEGRAM_INTEGRATION_IMPROVEMENT_PLAN.md",
+      "to": "epic:E010",
+      "type": "defines",
+      "description": "Plan defines E010 epic structure"
+    },
+    {
+      "from": "file:UI_UX_IMPLEMENTATION_PLAN.md",
+      "to": "epic:E007",
+      "type": "details",
+      "description": "Implementation plan details E007 epic"
+    },
+    {
+      "from": "file:UI_UX_AUDIT.md",
+      "to": "file:UI_UX_IMPLEMENTATION_PLAN.md",
+      "type": "informs",
+      "description": "Audit findings inform implementation plan"
+    },
+    {
+      "from": "file:WORK_COMPLETED_SUMMARY.md",
+      "to": "sprint:006",
+      "type": "summarizes",
+      "description": "Summary of Sprint 006 work"
+    },
+    {
+      "from": "task:T009-001",
+      "to": "epic:E009",
+      "type": "part_of",
+      "description": "Lint fixing task part of E009"
+    },
+    {
+      "from": "task:T009-003",
+      "to": "epic:E009",
+      "type": "part_of",
+      "description": "TelegramBridge task part of E009"
+    },
+    {
+      "from": "task:T009-007",
+      "to": "epic:E009",
+      "type": "part_of",
+      "description": "Voice handler task part of E009"
+    },
+    {
+      "from": "sprint:006",
+      "to": "sprint:007",
+      "type": "precedes",
+      "description": "Sprint 006 work enables Sprint 007"
+    },
+    {
+      "from": "sprint:007",
+      "to": "sprint:008",
+      "type": "precedes",
+      "description": "Sprint 007 infrastructure enables Sprint 007"
+    }
+  ],
+  "metadata": {
+    "chunk": 15,
+    "total_chunks": 41,
+    "extraction_date": "2025-06-25",
+    "source_files": 7,
+    "nodes_created": 20,
+    "relationships_created": 20,
+    "key_themes": [
+      "Telegram Integration",
+      "Mobile-First Design",
+      "Track Versioning",
+      "UI/UX Improvements",
+      "Performance Optimization",
+      "Documentation Consolidation"
+    ],
+    "priority_projects": [
+      "E007: Mobile-First UI/UX Redesign",
+      "E009: Telegram Integration Enhancement",
+      "E010: Performance & Documentation"
+    ],
+    "missing_files": [
+      "docs/archive/design/COMPONENT_LIBRARY.md",
+      "docs/archive/design/Mobile_UI_UX_Principles.md",
+      "docs/archive/design/TOUCH_INTERACTION_PATTERNS.md",
+      "docs/archive/design/UI_PATTERNS_LIBRARY.md",
+      "docs/archive/development/CLAUDE_PROMPT_LIBRARY.md",
+      "docs/archive/development/CODE_REVIEW_GUIDELINES.md",
+      "docs/archive/performance/OPTIMIZATION_PRIORITIES.md",
+      "docs/archive/sprints/SPRINT_ARCHITECTURE.md"
+    ],
+    "notes": "Several files listed in chunk 15 do not exist in the repository - they appear to be planned or aspirational documentation. Only 7 of 15 listed files were actually found and processed."
+  }
+}

@@ -1,5 +1,19 @@
 /**
  * useExtendProgress - Track extend audio task status with realtime updates
+ * 
+ * @deprecated Use useAudioProcessing().extendProgress instead
+ * This hook is kept for backward compatibility and will be removed in a future version.
+ * 
+ * Migration:
+ * ```tsx
+ * // Old way
+ * const { status, startTracking, ... } = useExtendProgress();
+ * 
+ * // New way
+ * const { extend, extendProgress } = useAudioProcessing();
+ * const result = await extend(params);
+ * // Progress is tracked automatically
+ * ```
  */
 
 import { useState, useEffect, useCallback } from 'react';

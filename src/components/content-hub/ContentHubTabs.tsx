@@ -20,6 +20,8 @@ const LyricsTab = lazy(() => import('./tabs/LyricsTab').then(m => ({ default: m.
 interface ContentHubTabsProps {
   defaultTab?: string;
   onTabChange?: (tabId: string) => void;
+  onProjectSelect?: (projectId: string | null) => void;
+  selectedProjectId?: string | null;
 }
 
 const tabs = [
@@ -33,13 +35,22 @@ const TabLoader = () => (
   </div>
 );
 
-export function ContentHubTabs({ defaultTab = 'projects', onTabChange }: ContentHubTabsProps) {
+export function ContentHubTabs({ 
+  defaultTab = 'projects', 
+  onTabChange,
+  onProjectSelect,
+  selectedProjectId,
+}: ContentHubTabsProps) {
   const [activeTab, setActiveTab] = useState(defaultTab);
   const isMobile = useIsMobile();
 
   useEffect(() => {
     onTabChange?.(activeTab);
-  }, [activeTab, onTabChange]);
+    // Clear selection when switching tabs
+    if (activeTab !== 'projects') {
+      onProjectSelect?.(null);
+    }
+  }, [activeTab, onTabChange, onProjectSelect]);
 
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -69,7 +80,10 @@ export function ContentHubTabs({ defaultTab = 'projects', onTabChange }: Content
 
       <Suspense fallback={<TabLoader />}>
         <TabsContent value="projects" className="mt-3 focus-visible:outline-none">
-          <ProjectsTab />
+          <ProjectsTab 
+            onProjectSelect={onProjectSelect}
+            selectedProjectId={selectedProjectId}
+          />
         </TabsContent>
 
         <TabsContent value="lyrics" className="mt-3 focus-visible:outline-none">
@@ -79,3 +93,4 @@ export function ContentHubTabs({ defaultTab = 'projects', onTabChange }: Content
     </Tabs>
   );
 }
+

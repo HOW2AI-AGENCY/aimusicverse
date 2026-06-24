@@ -6,6 +6,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { logger } from '@/lib/logger';
 
 interface TelemetryStats {
   total_events: number;
@@ -58,13 +59,13 @@ export function useTelemetryStats(timePeriod: string = '24 hours') {
       });
 
       if (error) {
-        console.error('Failed to fetch telemetry stats:', error);
+        logger.error('Failed to fetch telemetry stats', error);
         return null;
       }
 
       // RPC returns array, get first row
       const row = Array.isArray(data) ? data[0] : data;
-      return row as TelemetryStats;
+      return row as unknown as TelemetryStats;
     },
     staleTime: 30000, // 30 seconds
     refetchInterval: 60000, // 1 minute
@@ -80,12 +81,12 @@ export function useErrorTrends(timePeriod: string = '7 days') {
       });
 
       if (error) {
-        console.error('Failed to fetch error trends:', error);
+        logger.error('Failed to fetch error trends', error);
         return null;
       }
 
       const row = Array.isArray(data) ? data[0] : data;
-      return row as ErrorTrends;
+      return row as unknown as ErrorTrends;
     },
     staleTime: 60000, // 1 minute
     refetchInterval: 120000, // 2 minutes

@@ -357,9 +357,18 @@ export const generationAnalytics = {
     recordMetric('generation:credits', creditsUsed, 'count', { mode });
   },
   
-  trackError: (mode: string, errorCode: string) => {
+  trackError: (mode: string, errorCode: string, context?: Record<string, unknown>) => {
     trackFeature('generation', 'error', { mode, errorCode });
-    recordError(`generation:${errorCode}`, `Generation failed: ${errorCode}`, { mode });
+    // Record error with full context for proper error_logs persistence
+    const errorMessage = context?.originalError 
+      ? String(context.originalError) 
+      : `Generation failed: ${errorCode}`;
+    recordError(`generation:${errorCode}`, errorMessage, { 
+      mode,
+      ...context,
+      // Severity based on error type
+      severity: errorCode.includes('NETWORK') || errorCode.includes('TIMEOUT') ? 'warning' : 'error',
+    });
   },
 };
 

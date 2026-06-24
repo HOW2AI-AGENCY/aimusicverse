@@ -4,6 +4,7 @@
  */
 
 import { useState, useCallback, useEffect, useMemo } from 'react';
+import { logger } from '@/lib/logger';
 import { detectBPMFromUrl, type BPMDetectionResult } from '@/lib/audio/bpmDetection';
 import {
   snapToGrid,
@@ -164,7 +165,7 @@ export function useBPMGrid(options: UseBPMGridOptions): UseBPMGridReturn {
           setBpmResult(result);
         }
       } catch (error) {
-        console.error('BPM detection failed:', error);
+        logger.warn('BPM detection failed', { error });
       } finally {
         if (!aborted) {
           setIsDetectingBPM(false);

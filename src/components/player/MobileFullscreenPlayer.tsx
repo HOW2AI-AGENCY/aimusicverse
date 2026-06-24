@@ -34,6 +34,7 @@ import { PlayerActionsBar } from './PlayerActionsBar';
 import { KaraokeView } from './KaraokeView';
 import { DoubleTapSeekFeedback } from './DoubleTapSeekFeedback';
 import { cn } from '@/lib/utils';
+import { glass, glassButton } from '@/lib/glass';
 import { motion, AnimatePresence, PanInfo } from '@/lib/motion';
 import { hapticImpact } from '@/lib/haptic';
 import { logger } from '@/lib/logger';
@@ -52,6 +53,12 @@ const SEEK_AMOUNT = 10; // seconds to seek
 interface MobileFullscreenPlayerProps {
   track: Track;
   onClose: () => void;
+  /** Optional master/active version used to source lyrics & suno IDs for correct sync. */
+  currentVersion?: {
+    suno_task_id?: string | null;
+    suno_id?: string | null;
+    lyrics?: string | null;
+  } | null;
 }
 
 interface AlignedWord {
@@ -60,7 +67,7 @@ interface AlignedWord {
   endS: number;
 }
 
-export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlayerProps) {
+export function MobileFullscreenPlayer({ track, onClose, currentVersion }: MobileFullscreenPlayerProps) {
   const navigate = useNavigate();
   const [queueOpen, setQueueOpen] = useState(false);
   const [userScrolling, setUserScrolling] = useState(false);
@@ -220,10 +227,12 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
   // Audio visualizer data
   const visualizerData = useAudioVisualizer(audioElement, isPlaying, { barCount: 48, smoothing: 0.75 });
 
-  const { data: lyricsData } = useTimestampedLyrics(
-    track.suno_task_id || null,
-    track.suno_id || null
-  );
+  // Prefer master/active version's suno IDs and lyrics when provided (correct A/B sync)
+  const sunoTaskId = currentVersion?.suno_task_id ?? track.suno_task_id ?? null;
+  const sunoId = currentVersion?.suno_id ?? track.suno_id ?? null;
+  const trackLyrics = currentVersion?.lyrics ?? track.lyrics ?? null;
+
+  const { data: lyricsData } = useTimestampedLyrics(sunoTaskId, sunoId);
 
   // Parse lyrics and group into lines with robust error handling
   const { lyricsLines, plainLyrics, parseError } = useMemo(() => {
@@ -261,11 +270,11 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
         words = (lyricsData.alignedWords as unknown[])
           .filter(isValidAlignedWord)
           .filter(w => !isStructuralTag(w.word));
-      } else if (track.lyrics) {
+      } else if (trackLyrics) {
         // Try to parse lyrics from track if no API data
         try {
-          if (track.lyrics.trim().startsWith('{') || track.lyrics.trim().startsWith('[')) {
-            const parsed = JSON.parse(track.lyrics);
+          if (trackLyrics.trim().startsWith('{') || trackLyrics.trim().startsWith('[')) {
+            const parsed = JSON.parse(trackLyrics);
             if (parsed?.alignedWords && Array.isArray(parsed.alignedWords)) {
               words = (parsed.alignedWords as unknown[])
                 .filter(isValidAlignedWord)
@@ -275,12 +284,12 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
         } catch (jsonErr) {
           // Not JSON or invalid JSON, treat as plain text
           logger.debug('Lyrics not JSON, using as plain text', { error: jsonErr });
-          return { lyricsLines: null, plainLyrics: cleanLyrics(track.lyrics), parseError: false };
+          return { lyricsLines: null, plainLyrics: cleanLyrics(trackLyrics), parseError: false };
         }
         
         if (words.length === 0) {
           // No valid aligned words found, use plain text
-          return { lyricsLines: null, plainLyrics: cleanLyrics(track.lyrics), parseError: false };
+          return { lyricsLines: null, plainLyrics: cleanLyrics(trackLyrics), parseError: false };
         }
       }
       
@@ -331,10 +340,10 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
     } catch (err) {
       logger.error('Error parsing lyrics', err);
       // Fallback to plain text on any error
-      const fallbackText = track.lyrics ? cleanLyrics(track.lyrics) : null;
+      const fallbackText = trackLyrics ? cleanLyrics(trackLyrics) : null;
       return { lyricsLines: null, plainLyrics: fallbackText, parseError: true };
     }
-  }, [lyricsData, track.lyrics]);
+  }, [lyricsData, trackLyrics]);
 
   // Flatten words from parsed lines for synchronization hook
   const flattenedWords = useMemo(() => {
@@ -564,6 +573,7 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
       exit={{ opacity: 0, y: '100%' }}
       transition={{ type: 'spring', damping: 30, stiffness: 300 }}
       className="fixed inset-0 z-fullscreen flex flex-col bg-background overflow-hidden"
+      data-testid="mobile-fullscreen-player"
     >
       {/* Drag Handle Indicator - visual swipe-to-close zone */}
       <motion.div 
@@ -667,7 +677,10 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
                 hapticImpact('light');
                 onClose();
               }}
-              className="h-11 w-11 rounded-full bg-background/40 backdrop-blur-md border border-white/10 touch-manipulation hover:bg-background/60 transition-colors"
+              className={cn(
+                "h-11 w-11 rounded-full touch-manipulation transition-colors",
+                glassButton.default
+              )}
               aria-label="Закрыть плеер"
             >
               <X className="h-5 w-5" />
@@ -702,7 +715,8 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
                   setShowVisualizer(prev => !prev);
                 }}
                 className={cn(
-                  'h-11 w-11 rounded-full bg-background/40 backdrop-blur-md border border-white/10 touch-manipulation hover:bg-background/60 transition-colors',
+                  'h-11 w-11 rounded-full touch-manipulation transition-colors',
+                  glassButton.default,
                   showVisualizer && 'bg-primary/20 border-primary/30'
                 )}
                 aria-label={showVisualizer ? "Скрыть визуализацию" : "Показать визуализацию"}
@@ -721,7 +735,10 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
                     hapticImpact('light');
                     setKaraokeMode(true);
                   }}
-                  className="h-11 w-11 rounded-full bg-background/40 backdrop-blur-md border border-white/10 touch-manipulation hover:bg-background/60 transition-colors"
+                  className={cn(
+                    "h-11 w-11 rounded-full touch-manipulation transition-colors",
+                    glassButton.default
+                  )}
                   aria-label="Режим караоке"
                 >
                   <Mic2 className="h-5 w-5" />
@@ -738,7 +755,10 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
                   hapticImpact('light');
                   setQueueOpen(true);
                 }}
-                className="h-11 w-11 rounded-full bg-background/40 backdrop-blur-md border border-white/10 touch-manipulation hover:bg-background/60 transition-colors"
+                className={cn(
+                  "h-11 w-11 rounded-full touch-manipulation transition-colors",
+                  glassButton.default
+                )}
                 aria-label="Открыть очередь"
               >
                 <ListMusic className="h-5 w-5" />
@@ -952,7 +972,7 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
 
         {/* Controls Section with enhanced glass effect - Telegram safe area */}
         <motion.div 
-          className="bg-background/50 backdrop-blur-xl border-t border-white/10 p-4 space-y-4"
+          className={cn("p-4 space-y-4", glass.player)}
           style={{
             paddingBottom: 'calc(max(var(--tg-safe-area-inset-bottom, 0px) + 1rem, env(safe-area-inset-bottom, 0px) + 1rem))'
           }}
@@ -961,27 +981,31 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
           transition={{ delay: 0.2, duration: 0.3 }}
         >
           {/* Waveform Timeline */}
-          <WaveformProgressBar
-            audioUrl={audioUrl}
-            trackId={track.id}
-            currentTime={currentTime}
-            duration={duration}
-            onSeek={(time) => seek(time)}
-            mode="standard"
-            showBeatGrid={true}
-            showLabels={true}
-            className="px-2"
-          />
+          <div data-testid="player-timeline">
+            <WaveformProgressBar
+              audioUrl={audioUrl}
+              trackId={track.id}
+              currentTime={currentTime}
+              duration={duration}
+              onSeek={(time) => seek(time)}
+              mode="standard"
+              showBeatGrid={true}
+              showLabels={true}
+              className="px-2"
+            />
+          </div>
 
           {/* Main Controls - UnifiedPlayerControls */}
-          <UnifiedPlayerControls 
-            variant="fullscreen" 
-            size="lg"
-            showVolume={false}
-            showShuffleRepeat={true}
-            showSeekButtons={true}
-            seekSeconds={10}
-          />
+          <div data-testid="player-transport">
+            <UnifiedPlayerControls
+              variant="fullscreen"
+              size="lg"
+              showVolume={false}
+              showShuffleRepeat={true}
+              showSeekButtons={true}
+              seekSeconds={10}
+            />
+          </div>
 
           {/* Secondary Actions - PlayerActionsBar */}
           <PlayerActionsBar 

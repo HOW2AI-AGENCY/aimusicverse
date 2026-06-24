@@ -14,3 +14,4 @@ export { useTelegramMainButton } from './useTelegramMainButton';
 export { useTelegramSecondaryButton } from './useTelegramSecondaryButton';
 export { useTelegramBackButton } from './useTelegramBackButton';
 export { useTelegramSettingsButton } from './useTelegramSettingsButton';
+export { useMobileHaptic } from './useMobileHaptic';

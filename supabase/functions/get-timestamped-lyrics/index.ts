@@ -53,9 +53,15 @@ serve(async (req) => {
 
     if (data.code !== 200) {
       console.error('Suno API returned error:', data);
+      const isInsufficientCredits = data.code === 429 || /credits/i.test(data.msg || '');
       return new Response(
-        JSON.stringify({ error: data.msg || 'Failed to fetch lyrics' }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        JSON.stringify({
+          error: data.msg || 'Failed to fetch lyrics',
+          code: data.code,
+          unavailable: true,
+          insufficientCredits: isInsufficientCredits,
+        }),
+        { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 

@@ -1,9 +1,11 @@
 /**
  * Waveform Worker
- * 
+ *
  * Web Worker for generating waveform peaks from audio data.
  * Offloads CPU-intensive work from the main thread.
  */
+
+/* global self */
 
 /**
  * Generate peaks from audio data

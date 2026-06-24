@@ -106,7 +106,7 @@ export function ModalDialog({
 
   return (
     <div 
-      className="fixed inset-0 z-[80] flex items-center justify-center"
+      className="fixed inset-0 z-dialog flex items-center justify-center"
       style={{
         // Telegram Mini App safe area support
         padding: 'max(1rem, max(var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))) 1rem max(1rem, max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px))) 1rem',

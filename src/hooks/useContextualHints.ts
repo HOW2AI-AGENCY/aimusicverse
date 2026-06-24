@@ -10,6 +10,7 @@
  */
 
 import { useState, useEffect, useCallback, useMemo } from "react";
+import { logger } from '@/lib/logger';
 
 export type HintCategory =
   | "model" // Напоминание о моделях AI
@@ -346,8 +347,8 @@ export function useContextualHints(currentRoute?: string) {
         localStorage.setItem(VISITS_KEY, newCount.toString());
         localStorage.setItem(lastVisitKey, now.toString());
       }
-    } catch (e) {
-      console.error("Failed to load hint states:", e);
+    } catch (e: unknown) {
+      logger.warn("Failed to load hint states", { error: e instanceof Error ? e.message : String(e) });
     }
   }, []);
 
@@ -355,8 +356,8 @@ export function useContextualHints(currentRoute?: string) {
   const saveState = useCallback((states: Record<string, HintState>) => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(states));
-    } catch (e) {
-      console.error("Failed to save hint states:", e);
+    } catch (e: unknown) {
+      logger.warn("Failed to save hint states", { error: e instanceof Error ? e.message : String(e) });
     }
   }, []);
 

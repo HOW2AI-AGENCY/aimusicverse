@@ -193,7 +193,7 @@ export const HardwareFader = memo(function HardwareFader({
             {/* Handle grip lines */}
             <div className="absolute inset-x-2 top-1/2 -translate-y-1/2 flex flex-col gap-1">
               {[0, 1, 2].map(i => (
-                <div key={i} className="h-px bg-black/20" />
+                <div key={i} className="h-px bg-foreground/20" />
               ))}
             </div>
 

@@ -6,6 +6,7 @@
 import { memo, useRef, useCallback, useState, useEffect } from 'react';
 import { motion } from '@/lib/motion';
 import { cn } from '@/lib/utils';
+import { interactive } from '@/lib/overlay-colors';
 
 interface PromptKnobEnhancedProps {
   value: number; // 0-1
@@ -251,7 +252,8 @@ export const PromptKnobEnhanced = memo(function PromptKnobEnhanced({
       <button
         className={cn(
           'text-center truncate transition-all rounded-lg px-1.5 py-0.5',
-          'hover:bg-white/5 active:scale-95',
+          interactive.hover,
+          'active:scale-95',
           sizeConfig.labelWidth,
           sizeConfig.fontSize,
           !enabled && 'opacity-50'

@@ -296,9 +296,8 @@ When moving files:
 ## 📚 Related Documents
 
 - [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md) - Complete documentation map
-- [NAVIGATION.md](NAVIGATION.md) - Repository navigation
+- [docs/NAVIGATION_INDEX.md](docs/NAVIGATION_INDEX.md) - Repository navigation
 - [CONTRIBUTING.md](CONTRIBUTING.md) - Contribution guidelines
-- [REPOSITORY_AUDIT_2025-12-10.md](REPOSITORY_AUDIT_2025-12-10.md) - Latest audit
 
 ---
 

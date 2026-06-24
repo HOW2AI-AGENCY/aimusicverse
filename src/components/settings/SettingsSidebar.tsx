@@ -11,7 +11,9 @@ import {
   Bell, 
   Lightbulb, 
   Music, 
-  Send 
+  Send,
+  CreditCard,
+  BarChart3
 } from 'lucide-react';
 
 interface SettingsSidebarProps {
@@ -22,6 +24,8 @@ interface SettingsSidebarProps {
 
 const settingsTabs = [
   { id: 'profile', label: 'Профиль', icon: User, description: 'Личные данные и аватар' },
+  { id: 'subscription', label: 'Подписка', icon: CreditCard, description: 'Тарифы и оплата' },
+  { id: 'stats', label: 'Статистика', icon: BarChart3, description: 'Ваша активность' },
   { id: 'appearance', label: 'Тема', icon: Palette, description: 'Внешний вид приложения' },
   { id: 'privacy', label: 'Приватность', icon: Shield, description: 'Настройки доступа' },
   { id: 'notifications', label: 'Уведомления', icon: Bell, description: 'Каналы и типы уведомлений' },

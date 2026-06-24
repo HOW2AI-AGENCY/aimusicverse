@@ -1,5 +1,7 @@
 import { memo, forwardRef } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
+import { cn } from '@/lib/utils';
+import { glass } from '@/lib/glass';
 import type { ChatMessage, QuickOption } from './types';
 import { LoadingIndicator, ChatMessageBubble } from './ChatMessageBubble';
 import { GenrePicker } from '@/components/lyrics/shared/GenrePicker';

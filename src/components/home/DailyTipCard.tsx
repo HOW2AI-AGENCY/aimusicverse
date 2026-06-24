@@ -1,31 +1,44 @@
 /**
  * DailyTipCard - Shows a rotating tip for users
+ * Feature: 032-professional-ui
+ * 
  * Helps with feature discovery and engagement
- * Updated with design tokens for consistency
+ * Opens tutorial dialog on click instead of navigation
+ * Uses design system glass tokens
  */
 
-import { memo, useMemo, useState, useCallback } from 'react';
+import { memo, useMemo, useState, useCallback, lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { cn } from '@/lib/utils';
-import { Lightbulb, X, ChevronRight, Sparkles, Music2, Scissors, Wand2, PenTool } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { typographyClass, spacingClass } from '@/lib/design-tokens';
-import { useNavigate } from 'react-router-dom';
+import { X, ChevronRight, Sparkles, Music2, Scissors, Wand2, PenTool } from 'lucide-react';
+import { glass, gradientGlass } from '@/lib/glass';
 import { useTelegram } from '@/contexts/TelegramContext';
+import type { TutorialType } from './FeatureTutorialDialog';
+
+// Lazy load the dialog
+const FeatureTutorialDialog = lazy(() => 
+  import('./FeatureTutorialDialog').then(m => ({ default: m.FeatureTutorialDialog }))
+);
 
 interface DailyTipCardProps {
   className?: string;
   onDismiss?: () => void;
 }
 
-const TIPS = [
+const TIPS: Array<{
+  id: TutorialType;
+  icon: React.ComponentType<{ className?: string }>;
+  tip: string;
+  example: string;
+  action: string;
+  color: string;
+}> = [
   {
     id: 'style',
     icon: Sparkles,
     tip: 'Детальные описания дают точный результат',
     example: '"energetic pop with synth arpeggios"',
-    action: 'Попробовать',
-    route: '/generate',
+    action: 'Узнать больше',
     color: 'primary',
   },
   {
@@ -34,7 +47,6 @@ const TIPS = [
     tip: 'Расширьте трек до полноценной песни',
     example: 'Добавьте новые куплеты и инструменталы',
     action: 'Как это?',
-    route: '/library',
     color: 'emerald',
   },
   {
@@ -42,8 +54,7 @@ const TIPS = [
     icon: Wand2,
     tip: 'AI-кавер меняет жанр любой песни',
     example: 'Рок-хит → джазовая баллада',
-    action: 'Создать',
-    route: '/library',
+    action: 'Подробнее',
     color: 'purple',
   },
   {
@@ -52,7 +63,6 @@ const TIPS = [
     tip: 'Разделяйте треки для ремиксов',
     example: 'Вокал, барабаны, бас — отдельно',
     action: 'Узнать',
-    route: '/library',
     color: 'amber',
   },
   {
@@ -60,8 +70,7 @@ const TIPS = [
     icon: PenTool,
     tip: 'AI напишет текст под любой жанр',
     example: 'От лирики до рэп-баттлов',
-    action: 'Создать',
-    route: '/lyrics',
+    action: 'Подробнее',
     color: 'pink',
   },
 ];
@@ -78,7 +87,6 @@ export const DailyTipCard = memo(function DailyTipCard({
   className,
   onDismiss,
 }: DailyTipCardProps) {
-  const navigate = useNavigate();
   const { hapticFeedback } = useTelegram();
   
   // Get today's tip based on day of year
@@ -90,13 +98,15 @@ export const DailyTipCard = memo(function DailyTipCard({
   }, []);
 
   const [isVisible, setIsVisible] = useState(true);
+  const [tutorialOpen, setTutorialOpen] = useState(false);
+  
   const styles = colorStyles[todaysTip.color as keyof typeof colorStyles];
   const Icon = todaysTip.icon;
 
   const handleAction = useCallback(() => {
     hapticFeedback('light');
-    navigate(todaysTip.route);
-  }, [hapticFeedback, navigate, todaysTip.route]);
+    setTutorialOpen(true);
+  }, [hapticFeedback]);
 
   const handleDismiss = useCallback(() => {
     hapticFeedback('light');
@@ -107,62 +117,82 @@ export const DailyTipCard = memo(function DailyTipCard({
   if (!isVisible) return null;
 
   return (
-    <AnimatePresence>
-      <motion.div
-        className={cn(
-          "relative p-3 rounded-xl overflow-hidden",
-          `bg-gradient-to-r ${styles.bg} to-transparent`,
-          `border ${styles.border}`,
-          className
-        )}
-        initial={{ opacity: 0, y: 10, scale: 0.98 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: -10, scale: 0.98 }}
-        transition={{ duration: 0.25 }}
-      >
-        {/* Dismiss button - 44px touch target, positioned right */}
-        <button
-          onClick={handleDismiss}
-          className="absolute top-1 right-1 w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full text-muted-foreground hover:text-foreground hover:bg-accent/50 active:bg-accent/70 opacity-70 hover:opacity-100 transition-all touch-manipulation"
-          aria-label="Скрыть подсказку"
+    <>
+      <AnimatePresence>
+        <motion.div
+          className={cn(
+            "relative p-3 lg:p-4 rounded-xl lg:rounded-2xl overflow-hidden",
+            `bg-gradient-to-r ${styles.bg} to-transparent`,
+            `border ${styles.border}`,
+            "hover:shadow-md transition-shadow duration-200",
+            "group",
+            className
+          )}
+          initial={{ opacity: 0, y: 10, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -10, scale: 0.98 }}
+          transition={{ duration: 0.25 }}
         >
-          <X className="w-4 h-4" />
-        </button>
-
-        <div className="flex items-start gap-3 pr-8">
-          {/* Icon */}
-          <motion.div 
-            className={cn("w-9 h-9 rounded-xl flex items-center justify-center shrink-0", styles.iconBg)}
-            animate={{ rotate: [0, 3, -3, 0] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+          {/* Dismiss button - 44px touch target, positioned right */}
+          <button
+            onClick={handleDismiss}
+            className="absolute top-1 right-1 lg:top-2 lg:right-2 w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full text-muted-foreground hover:text-foreground hover:bg-accent/50 active:bg-accent/70 opacity-70 hover:opacity-100 transition-all touch-manipulation"
+            aria-label="Скрыть подсказку"
           >
-            <Icon className={cn("w-4.5 h-4.5", styles.text)} />
-          </motion.div>
-          
-          {/* Content */}
-          <div className="flex-1 min-w-0">
-            <p className={cn(typographyClass.body.sm, "font-medium text-foreground mb-0.5")}>
-              {todaysTip.tip}
-            </p>
-            <p className={cn(typographyClass.caption, "italic mb-2")}>
-              {todaysTip.example}
-            </p>
-            
-            {/* Action button */}
-            <button
-              onClick={handleAction}
+            <X className="w-4 h-4" />
+          </button>
+
+          <div className="flex items-start gap-3 lg:gap-4 pr-8 lg:pr-10">
+            {/* Icon */}
+            <motion.div 
               className={cn(
-                "inline-flex items-center gap-1 text-xs font-medium",
-                styles.text,
-                "hover:underline underline-offset-2 transition-colors"
+                "w-9 h-9 lg:w-11 lg:h-11 rounded-xl lg:rounded-2xl flex items-center justify-center shrink-0",
+                styles.iconBg,
+                "group-hover:scale-110 transition-transform duration-200"
               )}
+              animate={{ rotate: [0, 3, -3, 0] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
             >
-              {todaysTip.action}
-              <ChevronRight className="w-3 h-3" />
-            </button>
+              <Icon className={cn("w-4.5 h-4.5 lg:w-5 lg:h-5", styles.text)} />
+            </motion.div>
+            
+            {/* Content */}
+            <div className="flex-1 min-w-0">
+              <p className="text-sm lg:text-base font-medium text-foreground mb-0.5 lg:mb-1">
+                {todaysTip.tip}
+              </p>
+              <p className="text-xs lg:text-sm text-muted-foreground italic mb-2 lg:mb-3">
+                {todaysTip.example}
+              </p>
+              
+              {/* Action button - opens tutorial dialog */}
+              <button
+                onClick={handleAction}
+                className={cn(
+                  "inline-flex items-center gap-1 lg:gap-1.5 text-xs lg:text-sm font-medium",
+                  styles.text,
+                  "hover:underline underline-offset-2 transition-colors",
+                  "hover:gap-2 transition-all duration-200"
+                )}
+              >
+                {todaysTip.action}
+                <ChevronRight className="w-3 h-3 lg:w-4 lg:h-4" />
+              </button>
+            </div>
           </div>
-        </div>
-      </motion.div>
-    </AnimatePresence>
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Tutorial Dialog */}
+      {tutorialOpen && (
+        <Suspense fallback={null}>
+          <FeatureTutorialDialog
+            open={tutorialOpen}
+            onOpenChange={setTutorialOpen}
+            type={todaysTip.id}
+          />
+        </Suspense>
+      )}
+    </>
   );
 });

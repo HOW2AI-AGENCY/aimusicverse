@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 
 interface BlockedUser {
   blocked_id: string;
@@ -110,7 +111,7 @@ export function useBlockUser() {
       toast.success('Пользователь заблокирован');
     },
     onError: (error: Error) => {
-      console.error('Block user error:', error);
+      logger.error('Block user error', error);
       toast.error('Не удалось заблокировать пользователя');
     },
   });
@@ -143,7 +144,7 @@ export function useUnblockUser() {
       toast.success('Пользователь разблокирован');
     },
     onError: (error: Error) => {
-      console.error('Unblock user error:', error);
+      logger.error('Unblock user error', error);
       toast.error('Не удалось разблокировать пользователя');
     },
   });

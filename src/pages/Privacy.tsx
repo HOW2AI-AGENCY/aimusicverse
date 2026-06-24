@@ -6,6 +6,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { ArrowLeft, Shield } from "lucide-react";
 import { motion } from '@/lib/motion';
 import { useEffect } from "react";
+import { getBotMention } from "@/lib/telegram";
 
 export default function Privacy() {
   const navigate = useNavigate();
@@ -145,8 +146,8 @@ export default function Privacy() {
                     
                     <h3 className="font-semibold mt-3 mb-1">4.1. Где хранятся данные</h3>
                     <p className="text-muted-foreground leading-relaxed">
-                      Ваши данные хранятся на защищенных серверах Supabase (на базе PostgreSQL) 
-                      с резервным копированием. Аудио-файлы хранятся в Supabase Storage с 
+                      Ваши данные хранятся на защищенных облачных серверах (на базе PostgreSQL) 
+                      с резервным копированием. Аудио-файлы хранятся в облачном хранилище с 
                       шифрованием при передаче и хранении.
                     </p>
 
@@ -180,7 +181,7 @@ export default function Privacy() {
                       Мы передаем данные следующим сервисам для работы платформы:
                     </p>
                     <ul className="list-disc list-inside mt-2 space-y-1 text-muted-foreground">
-                      <li><strong>Supabase:</strong> хранение данных и аутентификация</li>
+                      <li><strong>Lovable Cloud:</strong> хранение данных и аутентификация</li>
                       <li><strong>Suno AI:</strong> генерация музыки (передаются только промпты и аудио-референсы)</li>
                       <li><strong>Telegram:</strong> отправка уведомлений и взаимодействие через бот</li>
                     </ul>
@@ -222,7 +223,7 @@ export default function Privacy() {
                       <li><strong>Отзыв согласия:</strong> отозвать согласие на обработку данных</li>
                     </ul>
                     <p className="text-muted-foreground leading-relaxed mt-2">
-                      Для реализации этих прав обратитесь к нам через @AIMusicVerseBot или 
+                      Для реализации этих прав обратитесь к нам через {getBotMention()} или 
                       support@musicverse.ai
                     </p>
                   </section>
@@ -290,7 +291,7 @@ export default function Privacy() {
                       По вопросам конфиденциальности и защиты данных:
                     </p>
                     <ul className="list-none mt-2 space-y-1 text-muted-foreground">
-                      <li>• Telegram: @AIMusicVerseBot</li>
+                      <li>• Telegram: {getBotMention()}</li>
                       <li>• Email: privacy@musicverse.ai</li>
                       <li>• Email поддержки: support@musicverse.ai</li>
                     </ul>

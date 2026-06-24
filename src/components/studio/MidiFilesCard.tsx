@@ -14,6 +14,7 @@ import { cn } from '@/lib/utils';
 import { TranscriptionFiles } from '@/hooks/useReplicateMidiTranscription';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 
 interface FileFormat {
   key: keyof TranscriptionFiles;
@@ -99,17 +100,11 @@ export function MidiFilesCard({ files, className, title, trackTitle }: MidiFiles
   const handleSendToTelegram = async (url: string, format: FileFormat) => {
     setSendingFile(format.key);
     try {
-      // Get user's telegram_id
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('Не авторизован');
+      // Telegram chat id is fetched via secure RPC (column REVOKEd from authenticated).
+      const { getOwnTelegramIds } = await import('@/lib/telegram/getOwnTelegramIds');
+      const ids = await getOwnTelegramIds();
 
-      const { data: profile, error: profileError } = await supabase
-        .from('profiles')
-        .select('telegram_id')
-        .eq('user_id', user.id)
-        .single();
-
-      if (profileError || !profile?.telegram_id) {
+      if (!ids?.telegram_id) {
         toast.error('Telegram не подключен');
         return;
       }
@@ -117,11 +112,12 @@ export function MidiFilesCard({ files, className, title, trackTitle }: MidiFiles
       const { error } = await supabase.functions.invoke('send-telegram-notification', {
         body: {
           type: 'document_share',
-          chat_id: profile.telegram_id,
+          chat_id: ids.telegram_id,
           document_url: url,
           document_type: format.key,
           filename: `${trackTitle || 'transcription'}${format.extension}`,
           track_title: trackTitle,
+
         },
       });
 
@@ -129,7 +125,7 @@ export function MidiFilesCard({ files, className, title, trackTitle }: MidiFiles
 
       toast.success(`${format.label} отправлен в Telegram`);
     } catch (error: unknown) {
-      console.error('Send to Telegram error:', error);
+      logger.error('Send to Telegram error', error instanceof Error ? error : new Error(String(error)));
       const errorMessage = error instanceof Error ? error.message : 'Ошибка отправки';
       toast.error(errorMessage);
     } finally {

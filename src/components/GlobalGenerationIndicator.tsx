@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 import { useActiveGenerations } from '@/hooks/generation';
 import { useFailedGenerations } from '@/hooks/generation/useFailedGenerations';
 import { supabase } from '@/integrations/supabase/client';
+import { logger } from '@/lib/logger';
 import { toast } from 'sonner';
 
 export function GlobalGenerationIndicator() {
@@ -38,7 +39,7 @@ export function GlobalGenerationIndicator() {
       toast.success('Задача удалена');
       refetchFailed();
     } catch (error) {
-      console.error('Delete failed task error:', error);
+      logger.error('Delete failed task error', error as Error);
       toast.error('Не удалось удалить задачу');
     } finally {
       setDeletingIds(prev => {
@@ -57,7 +58,7 @@ export function GlobalGenerationIndicator() {
         .eq('id', taskId);
       refetchFailed();
     } catch (error) {
-      console.error('Dismiss error:', error);
+      logger.warn('Dismiss generation task error', { taskId, error });
     }
   };
 

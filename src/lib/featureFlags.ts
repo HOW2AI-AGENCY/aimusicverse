@@ -15,6 +15,7 @@
  */
 
 import { useState, useEffect } from 'react';
+import { logger } from '@/lib/logger';
 
 export type FeatureFlagName =
   // Sprint 1: Core Infrastructure
@@ -214,7 +215,7 @@ export function isFeatureEnabled(flagName: FeatureFlagName): boolean {
   const flag = flags[flagName];
   
   if (!flag) {
-    console.warn(`Feature flag "${flagName}" not found, defaulting to false`);
+    logger.warn(`Feature flag "${flagName}" not found, defaulting to false`);
     return false;
   }
   

@@ -1,4 +1,7 @@
 import { getSupabaseClient } from '../_shared/supabase-client.ts';
+import { getBotMention, getMiniAppUrl } from '../_shared/telegram-config.ts';
+import { authorize } from '../_shared/auth.ts';
+
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -14,6 +17,15 @@ Deno.serve(async (req) => {
   }
 
   try {
+    // Enforce admin/service-role auth before any business logic
+    const auth = await authorize(req, { requireAdmin: true });
+    if (!auth.ok) {
+      return new Response(JSON.stringify({ error: auth.error }), {
+        status: auth.status,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
     const supabase = getSupabaseClient();
 
     const { title, message, targetType = 'all', blogPostId, imageUrl, saveAsTemplate, templateName } = await req.json();
@@ -25,13 +37,8 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Get auth user for logging and template saving
-    const authHeader = req.headers.get('Authorization');
-    let senderId = null;
-    if (authHeader) {
-      const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-      senderId = user?.id;
-    }
+    const senderId = auth.user?.id ?? null;
+
 
     // Save as template if requested
     if (saveAsTemplate && templateName) {
@@ -71,14 +78,15 @@ Deno.serve(async (req) => {
     };
 
     // Build message - simpler format for image messages
+    const botMention = getBotMention();
     const textMessage = imageUrl 
-      ? `${message}\n\n🤖 @AIMusicVerseBot`
-      : `📢 *${escapeMarkdown(title)}*\n\n${escapeMarkdown(message)}\n\n🤖 _@AIMusicVerseBot_`;
+      ? `${message}\n\n🤖 ${botMention}`
+      : `📢 *${escapeMarkdown(title)}*\n\n${escapeMarkdown(message)}\n\n🤖 _${botMention}_`;
     
     const inlineKeyboard: { text: string; callback_data?: string; url?: string }[][] = [];
     
     if (blogPostId) {
-      const miniAppUrl = Deno.env.get('MINI_APP_URL') || 'https://t.me/AIMusicVerseBot/app';
+      const miniAppUrl = getMiniAppUrl();
       inlineKeyboard.push([
         { text: '📖 Читать статью', url: `${miniAppUrl}?startapp=blog_${blogPostId}` }
       ]);

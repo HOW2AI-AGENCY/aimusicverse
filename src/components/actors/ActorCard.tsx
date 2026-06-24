@@ -49,7 +49,7 @@ export function ActorCard({ artist, rank }: ActorCardProps) {
               (!rank || rank > 3) && "border-border/50 group-hover:border-primary/50"
             )}>
               {artist.avatar_url ? (
-                <img src={artist.avatar_url} alt={artist.name} className="w-full h-full object-cover" />
+                <img loading="lazy" decoding="async" src={artist.avatar_url} alt={artist.name} className="w-full h-full object-cover" />
               ) : (
                 <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
                   <Users className="w-5 h-5 text-primary/40" />

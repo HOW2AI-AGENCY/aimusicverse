@@ -1,9 +1,10 @@
 import * as SheetPrimitive from "@radix-ui/react-dialog";
 import { cva, type VariantProps } from "class-variance-authority";
-import { X } from "lucide-react";
+import { X } from "@/lib/icons";
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
+import { backdrop } from "@/lib/overlay-colors";
 import { VisuallyHidden } from "./visually-hidden";
 
 const Sheet = SheetPrimitive.Root;
@@ -20,7 +21,8 @@ const SheetOverlay = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SheetPrimitive.Overlay
     className={cn(
-      "fixed inset-0 z-sheet-backdrop bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+      "fixed inset-0 z-[150] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+      backdrop.dark,
       className,
     )}
     {...props}
@@ -30,7 +32,7 @@ const SheetOverlay = React.forwardRef<
 SheetOverlay.displayName = SheetPrimitive.Overlay.displayName;
 
 const sheetVariants = cva(
-  "fixed z-sheet-content gap-4 bg-background p-6 shadow-lg transition ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:duration-500",
+  "fixed z-[151] gap-4 bg-background p-6 shadow-lg transition ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:duration-500",
   {
     variants: {
       side: {
@@ -63,6 +65,7 @@ const SheetContent = React.forwardRef<React.ElementRef<typeof SheetPrimitive.Con
   ({ side = "right", className, children, hideTitle = false, accessibleTitle = "Боковая панель", hideCloseButton = false, ...props }, ref) => {
     // Check if this is a fullscreen sheet (has h-full, h-screen, or h-[100dvh] in className)
     const isFullscreen = className?.includes('h-full') || className?.includes('h-screen') || className?.includes('h-[100dvh]') || className?.includes('h-[100vh]');
+    const isBottomSheet = side === 'bottom';
     
     return (
       <SheetPortal>

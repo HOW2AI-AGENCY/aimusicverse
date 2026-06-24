@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { ReferenceManager } from '@/services/audio-reference';
+import { hardware, surface } from '@/lib/overlay-colors';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -214,7 +215,7 @@ export const DrumMachineClean = memo(function DrumMachineClean() {
         </Button>
 
         {/* BPM */}
-        <div className="flex items-center gap-1 bg-black/20 rounded-lg px-2 py-1">
+        <div className={cn("flex items-center gap-1 rounded-lg px-2 py-1", hardware.meterBg)}>
           <button
             className="text-base sm:text-lg font-bold hover:text-primary transition-colors px-1"
             onClick={(e) => { e.stopPropagation(); setBpm(Math.max(40, bpm - 5)); }}
@@ -243,7 +244,7 @@ export const DrumMachineClean = memo(function DrumMachineClean() {
       </div>
 
       {/* Sequencer Grid */}
-      <div className="flex flex-col gap-1 rounded-xl bg-black/20 p-3 overflow-x-auto">
+      <div className={cn("flex flex-col gap-1 rounded-xl p-3 overflow-x-auto", surface.medium)}>
         {/* Step numbers */}
         <div className="flex items-center gap-1 mb-2">
           <div className="w-16 shrink-0" />

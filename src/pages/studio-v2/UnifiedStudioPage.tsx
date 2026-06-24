@@ -4,8 +4,10 @@ import { useStudioProject } from '@/hooks/studio/useStudioProject';
 import { useUnifiedStudioStore } from '@/stores/useUnifiedStudioStore';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
 import { StudioShell } from '@/components/studio/unified/StudioShell';
+import { ContextHints } from '@/components/hints';
 import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+
 
 export default function UnifiedStudioPage() {
   const { projectId, trackId } = useParams<{ projectId?: string; trackId?: string }>();
@@ -73,5 +75,11 @@ export default function UnifiedStudioPage() {
     );
   }
 
-  return <StudioShell />;
+  return (
+    <>
+      <StudioShell />
+      {/* Contextual hints — single canonical overlay */}
+      <ContextHints context="studio" delay={3500} />
+    </>
+  );
 }

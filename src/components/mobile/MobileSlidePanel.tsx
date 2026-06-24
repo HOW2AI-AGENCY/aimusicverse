@@ -6,6 +6,7 @@
 import { memo, ReactNode, useCallback } from 'react';
 import { X } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { backdrop } from '@/lib/overlay-colors';
 import { useHaptic } from '@/hooks/useHaptic';
 import { motion, AnimatePresence, useMotionValue, type PanInfo } from '@/lib/motion';
 import { Button } from '@/components/ui/button';
@@ -76,7 +77,7 @@ export const MobileSlidePanel = memo(function MobileSlidePanel({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
+            className={cn("fixed inset-0 z-40 backdrop-blur-sm", backdrop.heavy)}
             onClick={handleBackdropClick}
           />
 
@@ -117,7 +118,8 @@ export const MobileSlidePanel = memo(function MobileSlidePanel({
               <div
                 className="flex items-center justify-between gap-3 p-4 border-b border-border/50 shrink-0"
                 style={{
-                  paddingTop: 'max(1rem, env(safe-area-inset-top))',
+                  // Telegram Mini App + iOS safe area
+                  paddingTop: 'max(1rem, var(--tg-content-safe-area-inset-top, 0px), var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))',
                 }}
               >
                 {title && (

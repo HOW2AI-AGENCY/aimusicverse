@@ -16,6 +16,8 @@ import { UnifiedTrackSheet } from './UnifiedTrackSheet';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { triggerHapticFeedback } from '@/lib/mobile-utils';
 import { cn } from '@/lib/utils';
+import { glass } from '@/lib/glass';
+import { surface } from '@/lib/overlay-colors';
 import type { Track } from '@/types/track';
 import type { PublicTrackWithCreator } from '@/hooks/usePublicContent';
 
@@ -61,9 +63,9 @@ export const TrackActionTrigger = memo(function TrackActionTrigger({
   };
 
   const variantClasses = {
-    default: 'bg-background/80 backdrop-blur-sm hover:bg-background',
+    default: cn(glass.light, 'hover:bg-background'),
     ghost: 'hover:bg-muted/50',
-    overlay: 'bg-black/50 hover:bg-black/70 text-white border-0',
+    overlay: cn(glass.pill, surface.heavy, 'text-white'),
   };
 
   const defaultTrigger = (

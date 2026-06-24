@@ -1,0 +1,399 @@
+{
+  "nodes": [
+    {
+      "id": "telegram_bot_architecture",
+      "type": "documentation",
+      "title": "Telegram Bot Architecture",
+      "description": "Native Telegram API reactive interface bot architecture with SPA-like UX, seamless auth, and native audio player",
+      "file_path": "docs/TELEGRAM_BOT_ARCHITECTURE.md",
+      "last_updated": "2025-12-05",
+      "version": "2.1",
+      "technologies": ["grammY 1.x", "TypeScript 5.x", "Supabase", "Docker"],
+      "key_features": ["reactive interface", "editMessageMedia", "deep linking", "native audio player"]
+    },
+    {
+      "id": "telegram_bot_commands",
+      "type": "reference",
+      "title": "Telegram Bot Commands Reference",
+      "description": "Comprehensive reference for all Telegram bot commands, inline queries, and callback handlers",
+      "file_path": "docs/TELEGRAM_BOT_COMMANDS_REFERENCE.md",
+      "last_updated": "2025-12-16",
+      "commands": {
+        "core": ["/start", "/help", "/app", "/generate", "/status", "/check_task"],
+        "library": ["/library", "/playlist"],
+        "track_actions": ["/lyrics", "/stats", "/remix", "/stems"],
+        "audio": ["/upload", "/recognize", "/analyze", "/guitar", "/midi"],
+        "studio": ["/studio"],
+        "settings": ["/settings"],
+        "info": ["/news", "/legal", "/projects"]
+      },
+      "inline_queries": ["default search", "my:tracks", "trending:", "new:", "featured:", "genre:", "mood:", "popular"]
+    },
+    {
+      "id": "telegram_bot_developer_guide",
+      "type": "guide",
+      "title": "Telegram Bot Developer Guide",
+      "description": "Developer guide for adding new commands to the Telegram bot",
+      "file_path": "docs/TELEGRAM_BOT_DEVELOPER_GUIDE.md",
+      "last_updated": "2025-12-16",
+      "patterns": ["query command", "action command", "settings command", "navigation command"]
+    },
+    {
+      "id": "telegram_bot_monitoring",
+      "type": "monitoring",
+      "title": "Telegram Bot Monitoring & Alerts",
+      "description": "Comprehensive monitoring system tracking delivery rate, error rate, response time, and rate limiting",
+      "file_path": "docs/TELEGRAM_BOT_MONITORING.md",
+      "metrics_table": "telegram_bot_metrics",
+      "alert_thresholds": {
+        "error_rate": "> 10%",
+        "error_count": "> 50/hour",
+        "avg_response_time": "> 5000ms"
+      }
+    },
+    {
+      "id": "telegram_bot_utilities",
+      "type": "utilities",
+      "title": "Telegram Bot Utilities",
+      "description": "Advanced utilities for building rich bot interfaces with message formatting, button building, and text processing",
+      "file_path": "docs/TELEGRAM_BOT_UTILITIES.md",
+      "utilities": ["message-formatter", "button-builder", "message-manager", "text-processor"]
+    },
+    {
+      "id": "telegram_mini_app_advanced",
+      "type": "features",
+      "title": "Telegram Mini App Advanced Features",
+      "description": "Advanced Telegram Mini App features including Bot API 9.x and Mini App 2.0 features",
+      "file_path": "docs/TELEGRAM_MINI_APP_ADVANCED_FEATURES.md",
+      "last_updated": "2025-12-10",
+      "hooks": ["useTelegramSensors", "useTelegramFullscreen", "useTelegramBiometric", "useTelegramQRScanner", "useTelegramStorage"],
+      "platform_support": {
+        "ios": ["Accelerometer", "Gyroscope", "Biometric Auth", "QR Scanner", "Fullscreen", "CloudStorage"],
+        "android": ["Accelerometer", "Gyroscope", "Biometric Auth", "QR Scanner", "Fullscreen", "CloudStorage"],
+        "desktop": ["QR Scanner", "Fullscreen", "CloudStorage"]
+      }
+    },
+    {
+      "id": "telegram_mini_app_features",
+      "type": "features",
+      "title": "Telegram Mini App Features 2024-2025",
+      "description": "Latest Telegram Mini App features including Music on Profiles, Custom Emoji Status, and Mini Apps 2.0",
+      "file_path": "docs/TELEGRAM_MINI_APP_FEATURES.md",
+      "features": ["Music on Profiles", "Custom Emoji Status", "Mini Apps 2.0", "Bot API 9.x Updates"]
+    },
+    {
+      "id": "telegram_payments",
+      "type": "integration",
+      "title": "Telegram Payments Integration",
+      "description": "Telegram Payments API integration for monetization through credit packages and subscriptions",
+      "file_path": "docs/TELEGRAM_PAYMENTS.md",
+      "products": {
+        "credit_packages": ["credits_50", "credits_100", "credits_300", "credits_1000"],
+        "subscriptions": ["sub_pro", "sub_premium"]
+      }
+    },
+    {
+      "id": "telegram_bot_user_guide",
+      "type": "documentation",
+      "title": "Telegram Bot User Guide (Russian)",
+      "description": "Comprehensive user guide for Telegram bot in Russian",
+      "file_path": "docs/TELEGRAM_BOT_USER_GUIDE_RU.md",
+      "version": "3.0",
+      "last_updated": "2025-12-11"
+    },
+    {
+      "id": "telegram_bot_features",
+      "type": "features",
+      "title": "Telegram Bot Features Integration",
+      "description": "Deep integration features including track generation, library management, notifications, and sharing",
+      "file_path": "docs/TELEGRAM_MINI_APP/TELEGRAM_BOT_FEATURES.md",
+      "features": ["track generation", "library", "projects", "status checking", "track sending", "sharing", "notifications", "emoji status"]
+    },
+    {
+      "id": "telegram_bot_implementation",
+      "type": "implementation",
+      "title": "Telegram Bot Implementation",
+      "description": "Complete Telegram bot implementation with glassmorphism design system and reactive navigation",
+      "file_path": "docs/TELEGRAM_MINI_APP/TELEGRAM_BOT_IMPLEMENTATION.md",
+      "version": "1.0",
+      "design_system": {
+        "background": "#0e0e0e",
+        "cards": "#1e1e1e",
+        "borders": "#2a2a2a",
+        "primary": "#3390ec"
+      }
+    },
+    {
+      "id": "telegram_bot_complete",
+      "type": "status",
+      "title": "Telegram Bot Integration Complete",
+      "description": "Production-ready Telegram bot with reactive interface, seamless authentication, and native app style",
+      "file_path": "docs/TELEGRAM_MINI_APP/TELEGRAM_BOT_INTEGRATION_COMPLETE.md",
+      "version": "2.0",
+      "status": "production_ready"
+    },
+    {
+      "id": "telegram_integration",
+      "type": "integration",
+      "title": "Telegram OAuth Integration Guide",
+      "description": "Complete OAuth flow for secure authentication through Telegram Mini App with Supabase Auth",
+      "file_path": "docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION.md",
+      "oauth_flow": ["initData", "validation", "user lookup", "JWT generation", "session storage"]
+    },
+    {
+      "id": "telegram_integration_checklist",
+      "type": "checklist",
+      "title": "Telegram Integration Checklist",
+      "description": "Quick checklist for tracking Telegram integration progress across 4 sprints",
+      "file_path": "docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_CHECKLIST.md",
+      "sprints": {
+        "sprint_1": "Bot Core + Notifications (21 SP)",
+        "sprint_2": "Mini App Advanced (18 SP)",
+        "sprint_3": "Integration + Payments (24 SP)",
+        "sprint_4": "Advanced + Polish (15 SP)"
+      },
+      "total_points": 78
+    },
+    {
+      "id": "telegram_integration_quickstart",
+      "type": "guide",
+      "title": "Telegram Integration Quick Start Guide",
+      "description": "Quick start guide for beginning Telegram integration work",
+      "file_path": "docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_QUICKSTART.md"
+    },
+    {
+      "id": "telegram_integration_sprint",
+      "type": "plan",
+      "title": "Telegram Integration Sprint Plan",
+      "description": "Detailed sprint plan for Telegram integration with technical requirements and acceptance criteria",
+      "file_path": "docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT.md",
+      "created": "2025-11-29",
+      "team": "Full-stack development",
+      "duration": "4 sprints × 1 week"
+    },
+    {
+      "id": "telegram_integration_sprint_3_4",
+      "type": "plan",
+      "title": "Telegram Integration Sprint 3-4",
+      "description": "Continuation of Telegram integration plan covering bot-app integration and payments",
+      "file_path": "docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT_3_4.md"
+    },
+    {
+      "id": "telegram_integration_sprint_5_6",
+      "type": "plan",
+      "title": "Telegram Integration Sprint 5-6",
+      "description": "Native App Interface and Advanced Features with grammY migration and inline mode",
+      "file_path": "docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT_5_6.md",
+      "sprint_5": "Native App Interface (grammY Migration)",
+      "sprint_6": "Advanced Features"
+    },
+    {
+      "id": "telegram_integration_summary",
+      "type": "summary",
+      "title": "Telegram Integration Executive Summary",
+      "description": "Executive summary of Telegram integration plan with ROI analysis and expected results",
+      "file_path": "docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SUMMARY.md",
+      "expected_results": {
+        "engagement": "+50%",
+        "retention": "+30%",
+        "virality": "+100%",
+        "revenue": "+200%",
+        "dau": "+70%"
+      },
+      "roi": ">500% in first year"
+    },
+    {
+      "id": "testing_infrastructure",
+      "type": "documentation",
+      "title": "Testing Infrastructure Documentation",
+      "description": "Comprehensive testing infrastructure including unit tests, E2E tests, API integration tests, and accessibility testing",
+      "file_path": "docs/TESTING_INFRASTRUCTURE.md",
+      "last_updated": "2026-06-24",
+      "test_coverage": {
+        "unit_tests": "27+ files, 70%+ coverage",
+        "e2e_tests": "62+ tests, 7 browser profiles",
+        "integration_tests": "12+ API endpoints",
+        "accessibility": "WCAG AA compliance"
+      }
+    },
+    {
+      "id": "z_index_hierarchy",
+      "type": "documentation",
+      "title": "Z-Index Hierarchy Documentation",
+      "description": "Mobile interface z-index layering system for proper stacking and visibility of UI elements",
+      "file_path": "docs/Z_INDEX_HIERARCHY.md",
+      "last_audited": "2026-01-31",
+      "layers": {
+        "base": 0,
+        "raised": 10,
+        "sticky": 20,
+        "floating": 30,
+        "overlay": 40,
+        "navigation": 50,
+        "player": 60,
+        "contextual": 70,
+        "fullscreen": 90,
+        "dialog": 140,
+        "sheet": 150,
+        "dropdown": 200,
+        "tooltip": 250,
+        "toast": 300,
+        "max": 9999
+      }
+    },
+    {
+      "id": "ios_fixes",
+      "type": "documentation",
+      "title": "iOS/Telegram Mini App Fixes",
+      "description": "iOS-specific fixes for Telegram Mini App including input zoom prevention, keyboard tracking, and touch targets",
+      "file_path": "docs/iOS_FIXES.md",
+      "last_updated": "2026-01-19",
+      "fixes": ["input zoom prevention", "vertical swipe prevention", "keyboard height tracking", "momentum scrolling", "touch target size", "input mode optimization", "context menu prevention", "100vh height issue", "backdrop filter support", "unified dialog optimization"]
+    }
+  ],
+  "edges": [
+    {
+      "source": "telegram_bot_architecture",
+      "target": "telegram_bot_commands",
+      "relationship": "implements",
+      "description": "Bot architecture implements the command system"
+    },
+    {
+      "source": "telegram_bot_architecture",
+      "target": "telegram_bot_developer_guide",
+      "relationship": "documented_by",
+      "description": "Architecture documented in developer guide"
+    },
+    {
+      "source": "telegram_bot_architecture",
+      "target": "telegram_bot_monitoring",
+      "relationship": "monitored_by",
+      "description": "Bot performance monitored by monitoring system"
+    },
+    {
+      "source": "telegram_bot_architecture",
+      "target": "telegram_bot_utilities",
+      "relationship": "uses",
+      "description": "Bot uses utility functions for interfaces"
+    },
+    {
+      "source": "telegram_bot_commands",
+      "target": "telegram_bot_developer_guide",
+      "relationship": "guided_by",
+      "description": "Commands follow developer guide patterns"
+    },
+    {
+      "source": "telegram_bot_commands",
+      "target": "telegram_bot_user_guide",
+      "relationship": "documented_for",
+      "description": "Commands documented for end users"
+    },
+    {
+      "source": "telegram_mini_app_advanced",
+      "target": "telegram_mini_app_features",
+      "relationship": "extends",
+      "description": "Advanced features extend basic Mini App features"
+    },
+    {
+      "source": "telegram_bot_features",
+      "target": "telegram_bot_implementation",
+      "relationship": "implemented_in",
+      "description": "Features implemented in bot"
+    },
+    {
+      "source": "telegram_bot_implementation",
+      "target": "telegram_bot_complete",
+      "relationship": "results_in",
+      "description": "Implementation results in complete integration"
+    },
+    {
+      "source": "telegram_integration",
+      "target": "telegram_integration_checklist",
+      "relationship": "tracked_by",
+      "description": "Integration progress tracked by checklist"
+    },
+    {
+      "source": "telegram_integration_checklist",
+      "target": "telegram_integration_quickstart",
+      "relationship": "guided_by",
+      "description": "Checklist items follow quick start guide"
+    },
+    {
+      "source": "telegram_integration_quickstart",
+      "target": "telegram_integration_sprint",
+      "relationship": "starts",
+      "description": "Quick start leads to sprint plan"
+    },
+    {
+      "source": "telegram_integration_sprint",
+      "target": "telegram_integration_sprint_3_4",
+      "relationship": "continues_as",
+      "description": "Sprint plan continues in sprints 3-4"
+    },
+    {
+      "source": "telegram_integration_sprint_3_4",
+      "target": "telegram_integration_sprint_5_6",
+      "relationship": "continues_as",
+      "description": "Sprint plan continues in sprints 5-6"
+    },
+    {
+      "source": "telegram_integration_sprint_5_6",
+      "target": "telegram_integration_summary",
+      "relationship": "summarized_in",
+      "description": "All sprints summarized in executive summary"
+    },
+    {
+      "source": "telegram_payments",
+      "target": "telegram_integration_sprint_3_4",
+      "relationship": "part_of",
+      "description": "Payments part of sprint 3-4"
+    },
+    {
+      "source": "testing_infrastructure",
+      "target": "telegram_bot_implementation",
+      "relationship": "tests",
+      "description": "Testing infrastructure validates bot implementation"
+    },
+    {
+      "source": "z_index_hierarchy",
+      "target": "telegram_mini_app_advanced",
+      "relationship": "applies_to",
+      "description": "Z-index hierarchy applies to Mini App UI"
+    },
+    {
+      "source": "ios_fixes",
+      "target": "telegram_mini_app_advanced",
+      "relationship": "fixes",
+      "description": "iOS fixes ensure Mini App works on iOS"
+    },
+    {
+      "source": "telegram_bot_monitoring",
+      "target": "telegram_integration_summary",
+      "relationship": "tracked_in",
+      "description": "Monitoring metrics part of summary"
+    },
+    {
+      "source": "telegram_bot_user_guide",
+      "target": "telegram_bot_complete",
+      "relationship": "for",
+      "description": "User guide for complete bot"
+    },
+    {
+      "source": "telegram_bot_utilities",
+      "target": "telegram_bot_implementation",
+      "relationship": "used_in",
+      "description": "Utilities used in bot implementation"
+    }
+  ],
+  "metadata": {
+    "chunk": 9,
+    "total_chunks": 41,
+    "extraction_date": "2026-06-25",
+    "focus_area": "Telegram Bot Integration & Documentation",
+    "key_technologies": ["grammY", "Telegram Bot API", "Supabase", "Telegram Mini App SDK", "Telegram Payments"],
+    "project": "MusicVerse AI Telegram Integration",
+    "documentation_files": 21,
+    "total_nodes": 18,
+    "total_edges": 18
+  }
+}

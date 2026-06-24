@@ -8,7 +8,7 @@ import { getSupabaseClient } from '../core/supabase-client.ts';
 import { logger } from '../utils/index.ts';
 import { logBotAction } from '../utils/bot-logger.ts';
 import { escapeMarkdownV2 } from '../utils/text-processor.ts';
-import { BOT_CONFIG } from '../config.ts';
+import { BOT_CONFIG, SUPPORT_URL } from '../config.ts';
 import { 
   sendAutoDeleteMessage, 
   sendSuccessNotification, 
@@ -467,7 +467,7 @@ async function showEnterpriseContact(chatId: number, messageId: number): Promise
   text += `📧 _Свяжитесь с нами для обсуждения!_`;
 
   const keyboard = [
-    [{ text: '📧 Написать менеджеру', url: 'https://t.me/MusicVerseSupport' }],
+    [{ text: '📧 Написать менеджеру', url: SUPPORT_URL }],
     [{ text: '📞 Заказать звонок', callback_data: 'enterprise_callback' }],
     [{ text: '◀️ Все тарифы', callback_data: 'tariff_menu' }],
   ];

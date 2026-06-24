@@ -523,7 +523,7 @@ MusicVerse AI is a Telegram Mini App with **19 mobile-specific components** and 
 ## 📚 Related Documents
 
 - [Russian Improvement Plan](../ru/improvement-plan.md) - Detailed technical improvements (Russian)
-- [Mobile Optimization Summary](../../MOBILE_OPTIMIZATION_SUMMARY.md) - Sprint 028 achievements
+- [Mobile Components Overview](../MOBILE_COMPONENTS.md) - Mobile component system
 - [Performance Optimization](../PERFORMANCE_OPTIMIZATION.md) - General performance guide
 - [PROJECT_STATUS.md](../../PROJECT_STATUS.md) - Current project status
 

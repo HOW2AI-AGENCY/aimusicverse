@@ -2,6 +2,9 @@
  * Studio Actions Sheet
  * Bottom sheet with studio actions for mobile
  * Contains: Download, Transcription, Export, Save, Settings
+ * Uses design system tokens (Spec 032)
+ * 
+ * Unified interface - MusicLab and Lyrics open as sheets, not tabs
  */
 
 import { memo } from 'react';
@@ -19,8 +22,12 @@ import {
   Sparkles,
   Upload,
   ArrowLeft,
+  FileText,
+  FlaskConical,
+  Layers,
 } from 'lucide-react';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
+import { glass } from '@/lib/glass';
 
 interface StudioActionsSheetProps {
   open: boolean;
@@ -35,6 +42,12 @@ interface StudioActionsSheetProps {
   onGenerate: () => void;
   onImport: () => void;
   onBack: () => void;
+  /** Open MusicLab (unified interface) */
+  onOpenMusicLab?: () => void;
+  /** Open Lyrics editor (unified interface) */
+  onOpenLyrics?: () => void;
+  /** Open Batch Processing panel */
+  onOpenBatchProcessing?: () => void;
 }
 
 interface ActionItemProps {
@@ -66,16 +79,17 @@ const ActionItem = memo(function ActionItem({
       onClick={handleClick}
       disabled={disabled}
       className={cn(
-        "flex items-center gap-3 w-full p-3 rounded-xl transition-colors touch-manipulation",
-        "hover:bg-muted/50 active:bg-muted",
-        variant === 'primary' && "bg-primary/10 hover:bg-primary/20",
-        variant === 'destructive' && "text-destructive hover:bg-destructive/10",
+        "flex items-center gap-3 w-full p-3 rounded-xl transition-all touch-manipulation",
+        glass.subtle,
+        "hover:ring-1 hover:ring-primary/20 active:scale-[0.98]",
+        variant === 'primary' && "ring-1 ring-primary/30",
+        variant === 'destructive' && "text-destructive",
         disabled && "opacity-50 cursor-not-allowed"
       )}
     >
       <div className={cn(
         "w-10 h-10 rounded-xl flex items-center justify-center shrink-0",
-        variant === 'default' && "bg-muted",
+        variant === 'default' && glass.subtle,
         variant === 'primary' && "bg-primary text-primary-foreground",
         variant === 'destructive' && "bg-destructive/10 text-destructive"
       )}>
@@ -104,6 +118,9 @@ export const StudioActionsSheet = memo(function StudioActionsSheet({
   onGenerate,
   onImport,
   onBack,
+  onOpenMusicLab,
+  onOpenLyrics,
+  onOpenBatchProcessing,
 }: StudioActionsSheetProps) {
   const handleAction = (action: () => void) => {
     action();
@@ -112,12 +129,35 @@ export const StudioActionsSheet = memo(function StudioActionsSheet({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="bottom" className="px-4 pb-8">
+      <SheetContent side="bottom" className={cn("px-4 pb-8", glass.overlay)}>
         <SheetHeader className="pb-2">
           <SheetTitle>Действия</SheetTitle>
         </SheetHeader>
 
         <div className="space-y-1">
+          {/* Creative tools - MusicLab and Lyrics (unified interface) */}
+          {(onOpenMusicLab || onOpenLyrics) && (
+            <div className="space-y-1 pb-3 border-b border-border/50">
+              {onOpenMusicLab && (
+                <ActionItem
+                  icon={<FlaskConical className="w-5 h-5" />}
+                  label="Лаборатория"
+                  description="Запись, аккорды, PromptDJ"
+                  onClick={() => handleAction(onOpenMusicLab)}
+                  variant="primary"
+                />
+              )}
+              {onOpenLyrics && (
+                <ActionItem
+                  icon={<FileText className="w-5 h-5" />}
+                  label="Редактор текста"
+                  description="AI помощник, версии"
+                  onClick={() => handleAction(onOpenLyrics)}
+                />
+              )}
+            </div>
+          )}
+
           {/* Primary actions */}
           <div className="space-y-1 pb-3 border-b border-border/50">
             <ActionItem
@@ -155,6 +195,14 @@ export const StudioActionsSheet = memo(function StudioActionsSheet({
               description="MIDI, ноты, табулатура"
               onClick={() => handleAction(onOpenTranscription)}
             />
+            {onOpenBatchProcessing && (
+              <ActionItem
+                icon={<Layers className="w-5 h-5" />}
+                label="Пакетная обработка"
+                description="Массовая транскрипция и разделение"
+                onClick={() => handleAction(onOpenBatchProcessing)}
+              />
+            )}
             <ActionItem
               icon={<Share2 className="w-5 h-5" />}
               label="Экспорт микса"

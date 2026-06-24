@@ -1,8 +1,10 @@
 /**
  * CreativePresetsSection - Unified section for all creative presets
+ * Feature: 032-professional-ui
  * 
  * Three tabs: ТЕКСТ (Lyrics), ТРЕКИ (Tracks), ПРОЕКТЫ (Projects)
  * Mobile-optimized with smooth tab switching
+ * Uses design system glass tokens
  */
 
 import { memo, useState, useCallback } from 'react';
@@ -13,6 +15,7 @@ import { ProjectPresetsCarousel } from './ProjectPresetsCarousel';
 import { LyricsPresetsRow } from './LyricsPresetsRow';
 import { TrackPresetsRow, type TrackPreset } from './TrackPresetsRow';
 import { useTelegram } from '@/contexts/TelegramContext';
+import { glass } from '@/lib/glass';
 
 interface CreativePresetsSectionProps {
   className?: string;
@@ -59,46 +62,67 @@ export const CreativePresetsSection = memo(function CreativePresetsSection({
   }, [onTrackPresetSelect]);
 
   return (
-    <div className={cn("space-y-3", className)}>
-      {/* Section header with tabs */}
-      <div className="flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2 shrink-0">
-          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center">
-            <Sparkles className="w-3.5 h-3.5 text-primary" />
+    <div className={cn("space-y-3 lg:space-y-4", className)}>
+      {/* Section header with tabs — stacked on mobile, inline on sm+ */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-3 lg:gap-4">
+        <div className="flex items-center gap-2 lg:gap-3 min-w-0">
+          <div className={cn(
+            "w-7 h-7 lg:w-9 lg:h-9 rounded-lg lg:rounded-xl flex items-center justify-center shrink-0",
+            "bg-gradient-to-br from-primary/20 to-primary/10",
+            "shadow-sm"
+          )}>
+            <Sparkles className="w-3.5 h-3.5 lg:w-4 lg:h-4 text-primary" />
           </div>
-          <span className="text-sm font-bold">Быстрый старт</span>
+          <div className="flex flex-col min-w-0">
+            <span className="text-sm lg:text-base font-bold text-foreground leading-tight">Быстрый старт</span>
+            <span className="text-[11px] sm:text-xs text-muted-foreground leading-tight line-clamp-2">
+              Выберите шаблон для создания
+            </span>
+          </div>
         </div>
-        
-        {/* Tab switcher - 3 tabs with improved styling */}
-        <div className="flex items-center gap-0.5 p-0.5 rounded-xl bg-muted/60 border border-border/40">
+
+        {/* Tab switcher — full width on mobile so 3 tabs share the row equally */}
+        <div
+          role="tablist"
+          aria-label="Категории шаблонов"
+          className={cn(
+            "flex items-center gap-0.5 lg:gap-1 p-0.5 lg:p-1 rounded-xl lg:rounded-2xl",
+            "w-full sm:w-auto",
+            glass.subtle
+          )}
+        >
           {TABS.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
-            
+
             return (
               <motion.button
                 key={tab.id}
+                role="tab"
+                aria-selected={isActive}
+                aria-label={tab.label}
                 onClick={() => handleTabChange(tab.id)}
                 className={cn(
-                  "relative px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-medium",
-                  "flex items-center gap-1.5 transition-colors",
-                  "touch-manipulation min-h-[34px]",
-                  isActive 
-                    ? "text-foreground" 
+                  "relative flex-1 sm:flex-initial px-1.5 sm:px-3 lg:px-4 py-1.5 lg:py-2 min-w-0",
+                  "rounded-lg lg:rounded-xl text-xs lg:text-sm font-medium",
+                  "flex items-center justify-center gap-1 lg:gap-2 transition-colors",
+                  "touch-manipulation min-h-[36px] lg:min-h-[40px]",
+                  isActive
+                    ? "text-foreground"
                     : "text-muted-foreground hover:text-foreground/80"
                 )}
-                whileTap={{ scale: 0.95 }}
+                whileTap={{ scale: 0.96 }}
               >
                 {isActive && (
                   <motion.div
                     layoutId="creativeActiveTab"
-                    className="absolute inset-0 bg-background rounded-lg shadow-sm border border-border/60"
+                    className="absolute inset-0 bg-background rounded-lg lg:rounded-xl shadow-sm border border-border/60"
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 )}
-                <Icon className="w-3.5 h-3.5 relative z-10" />
-                <span className="relative z-10 hidden sm:inline">{tab.label}</span>
-                <span className="relative z-10 sm:hidden">{tab.shortLabel}</span>
+                <Icon className="hidden xs:inline-flex w-3.5 h-3.5 lg:w-4 lg:h-4 relative z-10 shrink-0" />
+                <span className="relative z-10 whitespace-nowrap sm:hidden">{tab.shortLabel}</span>
+                <span className="relative z-10 whitespace-nowrap hidden sm:inline">{tab.label}</span>
               </motion.button>
             );
           })}

@@ -1,0 +1,110 @@
+/**
+ * Focus State System
+ * Feature: 032-professional-ui
+ * 
+ * Accessible focus states for keyboard navigation
+ * WCAG AA compliant focus indicators
+ */
+
+/* ========== Base Focus Ring ========== */
+
+.focus-ring {
+  outline: none;
+}
+
+.focus-ring:focus-visible {
+  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, hsl(var(--primary)));
+  outline-offset: var(--focus-ring-offset, 2px);
+}
+
+/* ========== Focus Variants ========== */
+
+/* Inset focus ring (for buttons) */
+.focus-ring-inset:focus-visible {
+  outline-offset: -2px;
+}
+
+/* No offset (for cards) */
+.focus-ring-tight:focus-visible {
+  outline-offset: 0;
+}
+
+/* Larger offset (for icons) */
+.focus-ring-loose:focus-visible {
+  outline-offset: 4px;
+}
+
+/* ========== Focus Within ========== */
+
+.focus-within-ring:focus-within {
+  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, hsl(var(--primary)));
+  outline-offset: var(--focus-ring-offset, 2px);
+}
+
+/* ========== Keyboard-Only Focus ========== */
+
+/* Hide focus for mouse users, show for keyboard */
+.keyboard-focus:focus:not(:focus-visible) {
+  outline: none;
+  box-shadow: none;
+}
+
+.keyboard-focus:focus-visible {
+  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, hsl(var(--primary)));
+  outline-offset: var(--focus-ring-offset, 2px);
+}
+
+/* ========== Custom Focus Styles ========== */
+
+/* Subtle focus (for nav items) */
+.focus-subtle:focus-visible {
+  background-color: hsl(var(--accent));
+  outline: none;
+}
+
+/* Glow focus (for primary buttons) */
+.focus-glow:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px hsl(var(--primary) / 0.4);
+}
+
+/* ========== Input Focus ========== */
+
+.input-focus {
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.input-focus:focus {
+  border-color: hsl(var(--primary));
+  box-shadow: 0 0 0 3px hsl(var(--primary) / 0.15);
+  outline: none;
+}
+
+/* ========== Skip Link ========== */
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  z-index: 9999;
+  padding: 0.75rem 1rem;
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 0.5rem;
+}
+
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+}
+
+/* ========== Reduced Motion ========== */
+
+@media (prefers-reduced-motion: reduce) {
+  .focus-ring:focus-visible,
+  .focus-within-ring:focus-within,
+  .keyboard-focus:focus-visible {
+    transition: none;
+  }
+}

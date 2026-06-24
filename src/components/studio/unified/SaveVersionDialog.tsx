@@ -26,6 +26,7 @@ import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import type { StudioTrack } from '@/stores/useUnifiedStudioStore';
+import { logger } from '@/lib/logger';
 
 interface SaveVersionDialogProps {
   open: boolean;
@@ -195,8 +196,8 @@ export const SaveVersionDialog = memo(function SaveVersionDialog({
         onOpenChange(false);
       }
 
-    } catch (err) {
-      console.error('Save version error:', err);
+    } catch (err: unknown) {
+      logger.error('Save version error', err instanceof Error ? err : new Error(String(err)));
       const message = err instanceof Error ? err.message : 'Ошибка сохранения';
       setError(message);
       toast.error(message);

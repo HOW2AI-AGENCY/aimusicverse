@@ -1,273 +1,94 @@
+# План оптимизации и улучшения MusicVerse AI
 
-# План: Комплексный аудит UI/UX и улучшение интерфейса
-
-## 📊 Результаты аудита
-
-### 1. Состояние системы подписок и покупок
-
-| Компонент | Статус | Проблемы |
-|-----------|--------|----------|
-| `SubscriptionUpgradePopup` | ✅ Работает | Открывается только при достижении лимитов |
-| `WelcomeBonusPopup` | ✅ Работает | Показывается только новым пользователям |
-| `UpgradePrompt` | ✅ Работает | Используется в FeatureGate |
-| `CreditBalanceWarning` | ✅ Работает | Интегрирован в генерацию |
-| Страница `/pricing` | ⚠️ Частично | Нет быстрого доступа с главной, упоминает Stars вместо RUB |
-
-### 2. Выявленные UX-проблемы
-
-**A. Монетизация и подписки:**
-- Нет видимой кнопки "Купить кредиты" на главной/в навигации
-- `SubscriptionUpgradePopup` триггерится только при лимитах, нет проактивного предложения
-- На странице Pricing упоминаются "Telegram Stars" хотя оплата только RUB
-- Нет floating CTA для подписки при низком балансе
-
-**B. Онбординг:**
-- `QuickStartOverlay` и `OnboardingOverlay` существуют раздельно — нужна унификация
-- `FirstTimeHeroCard` хорошо структурирован, но не связан с онбординг-потоком
-- Отсутствует персонализированный онбординг по типам пользователей
-
-**C. Подсказки и hints:**
-- `FeatureHint` — 6 подсказок (generate_prompt, library_swipe, stem_studio, quick_presets, ab_versions, lyrics_tags)
-- Нет контекстных подсказок для премиум-функций
-- Нет подсказки при первом открытии студии
-
-**D. Уведомления и anti-spam:**
-- `SmartAlertProvider` — хорошая система с cooldowns и приоритетами
-- `useAntiSpam` — лимиты на сессию (3 алерта) и минимальный интервал (30 сек)
-- Тихие часы в настройках уведомлений
-
-**E. Telegram бот:**
-- `navigation.ts` — полная система навигации с меню и подменю
-- `notifications.ts` — 10 типов уведомлений (track_completed, new_follower, etc.)
-- `payments.ts` — обработчики buy_credits, buy_product
-- Потенциальная проблема: нет дедупликации уведомлений при быстрых действиях
+На основе аудита: 40+ страниц, 890+ компонентов, 200+ хуков, 80+ Edge Functions, Sprint 030 (98/100). Ниже — приоритизированный план работ.
 
 ---
 
-## 🎯 План улучшений
+## ЭТАП 1. Производительность и бандл (P0, 1–2 недели)
 
-### Фаза 1: Улучшение монетизации (приоритет: высокий)
+**Цель:** удержать бандл ≤ 950 KB, поднять LCP/INP на мобильных.
 
-#### 1.1 Быстрый доступ к покупкам
-**Создать:** `src/components/premium/QuickBuyButton.tsx`
-- Floating кнопка "Кредиты" в правом нижнем углу при балансе < 30
-- Показывает текущий баланс
-- Один клик → открывает `SubscriptionUpgradePopup`
+- Анализ `npm run size:why`, выделить топ-10 тяжёлых чанков.
+- Перевести оставшиеся `framer-motion` импорты на `@/lib/motion`; запретить прямой импорт через ESLint-правило.
+- Lazy-load для тяжёлых страниц: `studio-v2`, `LyricsStudio`, `GuitarStudio`, `Analytics`, `AdminDashboard`.
+- Виртуализация всех списков > 50 элементов (`Library`, `Playlists`, `Community`, `Artists`) через `react-virtuoso`.
+- Заменить `<img>` на `LazyImage` везде (audit-скрипт).
+- Удалить `Index.tsx.backup` и прочие мёртвые файлы.
+- Добавить preconnect/preload для критичных доменов (Supabase, CDN обложек).
 
-#### 1.2 Проактивный upsell
-**Создать:** `src/components/premium/ProactiveUpsellBanner.tsx`
-- Показывается после 3 успешных генераций у free-пользователей
-- "Вам понравилось? Получите PRO для неограниченного доступа"
-- Cooldown: 1 раз в сессию
-
-#### 1.3 Исправление страницы Pricing
-**Изменить:** `src/pages/Pricing.tsx`
-- Убрать упоминание "Telegram Stars" (оплата только RUB)
-- Добавить сравнение тарифов (Free vs PRO vs PREMIUM)
-- Улучшить визуальное выделение PREMIUM
+**Метрики приёмки:** bundle ≤ 900 KB, LCP < 2.5s на 4G, INP < 200ms.
 
 ---
 
-### Фаза 2: Унификация онбординга (приоритет: высокий)
+## ЭТАП 2. Аудио-система и плеер (P0, 1 неделя)
 
-#### 2.1 Консолидация онбординг-потока
-**Изменить:** `src/components/onboarding/QuickStartOverlay.tsx`
-- Добавить шаг "Выбор интересов" (жанры, настроение)
-- Персонализация первого промпта на основе выбора
-- Связать с `OnboardingOverlay` для полного тура
+**Цель:** убрать iOS-краши и рассинхрон версий A/B.
 
-#### 2.2 Контекстные onboarding tooltips
-**Создать:** `src/components/onboarding/ContextualOnboardingTip.tsx`
-- Показывается при первом использовании каждой ключевой функции
-- Анимированная стрелка указывает на элемент
-- "Понятно" или "Подробнее"
-
-#### 2.3 Расширение FEATURE_HINTS
-**Изменить:** `src/hooks/useFeatureHints.ts`
-- Добавить hints: `first_studio`, `cover_action`, `extend_action`, `midi_export`, `subscription_benefits`
-- Связать с премиум-функциями для мягкого upsell
+- Аудит всех `new Audio()` в коде — оставить только `GlobalAudioProvider` + `audioElementPool`.
+- Гарантировать cleanup (`pause()` + `src=''`) при unmount компонентов с превью.
+- Атомарное переключение версий: транзакция `is_primary` + `active_version_id` через RPC.
+- Кеш waveform в IndexedDB по `trackId` (проверить попадания).
+- Тесты: Playwright-сценарии play/pause/switch/seek на Mobile Safari.
 
 ---
 
-### Фаза 3: Предупреждения о доступе (приоритет: средний)
+## ЭТАП 3. Мобильная UX и Telegram (P1, 1–2 недели)
 
-#### 3.1 Inline предупреждения в меню
-**Изменить:** `src/components/track-actions/sections/StudioActions.tsx`
-- Для locked features: иконка 🔒 + "PRO" badge
-- При клике: мягкий popup вместо редиректа
-- "Эта функция доступна в PRO. Попробовать бесплатно?"
-
-#### 3.2 Subscription Required Modal (улучшение)
-**Изменить:** `src/components/dialogs/SubscriptionRequiredDialog.tsx`
-- Добавить анимированное сравнение "Free vs PRO"
-- Показать конкретные преимущества для текущей функции
-- "Попробовать 3 дня бесплатно" CTA (если будет trial)
-
-#### 3.3 Balance-aware UI
-**Создать:** `src/components/premium/BalanceIndicator.tsx`
-- Показывается в header при авторизации
-- Цветовая индикация: зелёный (>50), жёлтый (20-50), красный (<20)
-- Клик → быстрый popup докупки
+- Унификация safe-area: `--tg-content-safe-area-inset-*` + `env(safe-area-inset-*)` через util-класс.
+- Заменить оставшиеся `<Dialog>` на `MobileBottomSheet` (vaul) на мобильных.
+- Touch targets ≥ 44×44 (axe + ручной чек на главных экранах).
+- Haptic feedback на ключевых действиях (play, like, generate, switch version).
+- Back Button и Main Button proxy hooks применить во всех вложенных экранах.
+- E2E на ширинах 360/390/414/640/768 px для главной, библиотеки, студии, плеера.
 
 ---
 
-### Фаза 4: Telegram бот оптимизация (приоритет: средний)
+## ЭТАП 4. Архитектура и качество кода (P1, 2 недели)
 
-#### 4.1 Дедупликация уведомлений
-**Изменить:** `supabase/functions/telegram-bot/handlers/notifications.ts`
-- Добавить rate limiting: max 1 уведомление на тип в 5 минут
-- Групировать лайки/комментарии в digest
-- "У вас 5 новых лайков" вместо 5 отдельных сообщений
-
-#### 4.2 Улучшение навигации
-**Изменить:** `supabase/functions/telegram-bot/handlers/navigation.ts`
-- Добавить breadcrumbs в сообщения
-- "Вы здесь: Главная > Библиотека > Трек"
-- Кнопка "🏠 На главную" на каждом экране
-
-#### 4.3 Smart deep links
-**Изменить:** `supabase/functions/telegram-bot/handlers/deep-links.ts`
-- Добавить контекстные deep links с предзаполнением
-- `?startapp=generate_rock` → открыть генератор с промптом "рок"
-- `?startapp=buy_pro` → сразу на страницу подписки
-
-#### 4.4 Notification cooldowns в БД
-**Создать:** таблица `telegram_notification_cooldowns`
-- user_id, notification_type, last_sent_at
-- Проверка перед отправкой каждого уведомления
+- Разбить «крупные» сторы/компоненты > 500 строк: `useUnifiedStudioStore` (38KB) → domain slices (playback, mixer, sections, stems).
+- Заменить оставшиеся `console.*` на `logger` (ESLint-правило `no-console`).
+- Привести API↔Service↔Hook слои к единому шаблону; удалить дубли (`useTracks` vs прямые запросы).
+- Удалить дублирующие version-селекторы — оставить только `UnifiedVersionSelector`.
+- Включить `strict` + `noUncheckedIndexedAccess` в `tsconfig`, починить ошибки.
+- Покрытие unit-тестами критичных хуков (player, versioning, credits) до 70%.
 
 ---
 
-### Фаза 5: Улучшение дизайна подсказок (приоритет: средний)
+## ЭТАП 5. Backend, безопасность, наблюдаемость (P1, 1 неделя)
 
-#### 5.1 Обновление FeatureHint дизайна
-**Изменить:** `src/components/hints/FeatureHint.tsx`
-- Использовать DialogHeader для консистентности
-- Добавить анимированные иллюстрации
-- Улучшить позиционирование arrow
-
-#### 5.2 Smart Alerts иллюстрации
-**Изменить:** `src/components/notifications/smart-alerts/AlertIllustrations.tsx`
-- Добавить иллюстрации: `subscription-upgrade`, `low-balance`, `feature-locked`
-- Анимированные SVG вместо статических
-
-#### 5.3 Toast стилизация
-**Изменить:** Глобальные toast стили
-- Добавить иконки типов (success, error, warning)
-- Улучшить touch targets для mobile
-- Swipe to dismiss
+- Линтер БД: `supabase linter` + фикс warning'ов.
+- Аудит RLS на новых таблицах; e2e-тест «чужой пользователь не видит чужое».
+- Привести все Edge Functions к общему скелету `_shared/auth.ts` + структурированному логу.
+- Sentry: проверить sourcemaps, добавить release health, алерты по ошибкам плеера и генерации.
+- Архивирование `api_usage_logs` / `error_logs` старше 30 дней (cron).
 
 ---
 
-## 📁 Файлы для создания/изменения
+## ЭТАП 6. Доступность и SEO (P2, 3–5 дней)
 
-### Новые файлы
-
-| Файл | Описание |
-|------|----------|
-| `src/components/premium/QuickBuyButton.tsx` | Floating кнопка покупки |
-| `src/components/premium/ProactiveUpsellBanner.tsx` | Banner после генераций |
-| `src/components/premium/BalanceIndicator.tsx` | Индикатор баланса в header |
-| `src/components/onboarding/ContextualOnboardingTip.tsx` | Контекстные подсказки |
-
-### Модификации
-
-| Файл | Изменения |
-|------|-----------|
-| `src/pages/Pricing.tsx` | Убрать Stars, добавить сравнение тарифов |
-| `src/hooks/useFeatureHints.ts` | Добавить новые hints |
-| `src/components/onboarding/QuickStartOverlay.tsx` | Шаг персонализации |
-| `src/components/track-actions/sections/StudioActions.tsx` | Inline lock badges |
-| `src/components/dialogs/SubscriptionRequiredDialog.tsx` | Сравнение тарифов |
-| `src/components/hints/FeatureHint.tsx` | Улучшенный дизайн |
-| `supabase/functions/telegram-bot/handlers/notifications.ts` | Rate limiting |
-| `supabase/functions/telegram-bot/handlers/navigation.ts` | Breadcrumbs |
+- WCAG AA: focus-visible ring везде, контрасты, aria-label у иконочных кнопок.
+- Семантика: один H1 на страницу, корректные landmark'и.
+- SEO: meta description, OG/Twitter, JSON-LD (MusicGroup/MusicRecording) для публичных страниц трека и артиста.
+- Canonical + sitemap.xml для публичных маршрутов.
 
 ---
 
-## 📐 Технические решения
+## ЭТАП 7. Документация и DX (P2, постоянно)
 
-### Rate limiting уведомлений (Telegram)
+- Обновить `KNOWLEDGE_BASE.md`, `PROJECT_STATUS.md`, `docs/PLAYER_ARCHITECTURE.md`.
+- Storybook для базовых UI + плеера + версии-селектора.
+- CI gate: `npm run lint && size && test && test:e2e:mobile` обязательны.
 
-```typescript
-// В notifications.ts
-const NOTIFICATION_COOLDOWNS: Record<NotificationType, number> = {
-  track_liked: 5 * 60 * 1000,      // 5 минут
-  comment_received: 5 * 60 * 1000,
-  new_follower: 10 * 60 * 1000,    // 10 минут
-  track_completed: 0,              // Без cooldown
-  credits_earned: 30 * 1000,       // 30 секунд
-};
+---
 
-async function canSendNotification(userId: string, type: NotificationType): Promise<boolean> {
-  const cooldown = NOTIFICATION_COOLDOWNS[type];
-  if (cooldown === 0) return true;
-  
-  const { data } = await supabase
-    .from('telegram_notification_cooldowns')
-    .select('last_sent_at')
-    .eq('user_id', userId)
-    .eq('notification_type', type)
-    .single();
-  
-  if (!data) return true;
-  return Date.now() - new Date(data.last_sent_at).getTime() > cooldown;
-}
+## Порядок выполнения
+
+```text
+Неделя 1: ЭТАП 1 + ЭТАП 2 (perf + audio)
+Неделя 2: ЭТАП 3 (mobile/Telegram UX)
+Неделя 3: ЭТАП 4 (refactor + types)
+Неделя 4: ЭТАП 5 + ЭТАП 6 (backend/sec + a11y/seo)
+Параллельно: ЭТАП 7
 ```
 
-### Digest уведомлений
-
-```typescript
-// Вместо отдельных уведомлений о лайках
-async function sendLikeDigest(userId: string) {
-  const { count } = await supabase
-    .from('notification_queue')
-    .select('*', { count: 'exact' })
-    .eq('user_id', userId)
-    .eq('type', 'track_liked')
-    .eq('sent', false);
-  
-  if (count > 0) {
-    await sendMessage(chatId, `❤️ *${count} новых лайков* на ваши треки!`);
-    // Пометить как отправленные
-  }
-}
-```
-
----
-
-## 📊 Метрики успеха
-
-| Метрика | Текущее | Цель |
-|---------|---------|------|
-| Конверсия в подписку | ~2% | 5% |
-| Завершение онбординга | ~60% | 85% |
-| Клики на buy_credits (бот) | ~50/день | 150/день |
-| Жалобы на спам уведомлений | N/A | 0 |
-| Time to first generation | ~5 мин | 2 мин |
-
----
-
-## 🔄 Порядок реализации
-
-```
-Спринт 1 (2-3 дня):
-├── QuickBuyButton + BalanceIndicator
-├── Фикс Pricing.tsx (убрать Stars)
-└── Rate limiting в Telegram боте
-
-Спринт 2 (2-3 дня):
-├── ProactiveUpsellBanner
-├── Расширение FEATURE_HINTS
-└── Inline lock badges в StudioActions
-
-Спринт 3 (2-3 дня):
-├── ContextualOnboardingTip
-├── Breadcrumbs в Telegram навигации
-└── Улучшение FeatureHint дизайна
-
-Спринт 4 (1-2 дня):
-├── Digest уведомлений
-├── Smart deep links
-└── Финальное тестирование
-```
+После твоего «ок» начну с ЭТАПА 1 (perf-аудит и lazy-loading) — или скажи, с какого этапа стартовать.

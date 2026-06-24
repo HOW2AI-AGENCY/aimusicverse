@@ -4,6 +4,7 @@ import { User, Session } from '@supabase/supabase-js';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { toast } from 'sonner';
 import { logger } from '@/lib/logger';
+import { flushBufferedDeeplinkTracks } from '@/lib/analytics/deeplink-tracker';
 
 export interface AuthResult {
   user: User | null;
@@ -35,14 +36,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const { initData, isDevelopmentMode } = useTelegram();
 
   useEffect(() => {
-    // Safety timeout to prevent infinite loading - only log once
+    // Faster safety timeout to prevent infinite loading - only log once
     const loadingTimeout = setTimeout(() => {
       if (!timeoutWarningLogged) {
         authLogger.warn('Auth loading timeout - forcing loading complete');
         timeoutWarningLogged = true;
       }
       setLoading(false);
-    }, 5000);
+    }, 2000); // Reduced from 5s to 2s for faster fallback
 
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
@@ -52,6 +53,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUser(session?.user ?? null);
         setLoading(false);
         clearTimeout(loadingTimeout);
+        
+        // Flush any buffered deeplink tracks after successful auth
+        if (event === 'SIGNED_IN' && session?.user) {
+          flushBufferedDeeplinkTracks().catch(() => {
+            // Silently ignore flush errors - non-critical
+          });
+        }
       }
     );
 

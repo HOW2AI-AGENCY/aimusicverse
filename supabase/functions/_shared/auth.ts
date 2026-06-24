@@ -130,3 +130,51 @@ export async function requireAdmin(
 
   return result.user;
 }
+
+/**
+ * Check if the provided bearer token matches the service-role key
+ * (used for internal edge-function-to-edge-function calls).
+ */
+export function isServiceRoleToken(req: Request): boolean {
+  const authHeader = req.headers.get('authorization') || req.headers.get('Authorization');
+  if (!authHeader) return false;
+  const token = authHeader.replace(/^Bearer\s+/i, '').trim();
+  const serviceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+  return !!serviceKey && token === serviceKey;
+}
+
+/**
+ * Authorize a request as either:
+ *  - an internal service-role call, OR
+ *  - an authenticated user (optionally requiring admin role).
+ *
+ * Returns { ok: true, user, isAdmin, isService } on success,
+ * or { ok: false, status, error } on failure.
+ */
+export async function authorize(
+  req: Request,
+  opts: { requireAdmin?: boolean } = {}
+): Promise<
+  | { ok: true; user: User | null; isAdmin: boolean; isService: boolean }
+  | { ok: false; status: number; error: string }
+> {
+  if (isServiceRoleToken(req)) {
+    return { ok: true, user: null, isAdmin: true, isService: true };
+  }
+
+  const supabaseUrl = Deno.env.get('SUPABASE_URL');
+  const serviceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+  if (!supabaseUrl || !serviceKey) {
+    return { ok: false, status: 500, error: 'Server misconfigured' };
+  }
+
+  const result = await validateRequest(req, supabaseUrl, serviceKey);
+  if (!result.user) {
+    return { ok: false, status: 401, error: result.error || 'Unauthorized' };
+  }
+  if (opts.requireAdmin && !result.isAdmin) {
+    return { ok: false, status: 403, error: 'Admin access required' };
+  }
+  return { ok: true, user: result.user, isAdmin: result.isAdmin, isService: false };
+}
+

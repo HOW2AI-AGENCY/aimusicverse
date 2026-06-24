@@ -429,4 +429,4 @@ import { MobileTabBar } from '@/components/mobile/navigation';
 
 ---
 
-**Next:** Review [MOBILE_INTERFACE_OPTIMIZATION_PLAN.md](../../MOBILE_INTERFACE_OPTIMIZATION_PLAN.md) for detailed implementation plan.
+**Next:** Review [MOBILE_COMPONENTS.md](../MOBILE_COMPONENTS.md) for mobile component documentation.

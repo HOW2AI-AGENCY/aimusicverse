@@ -1,6 +1,7 @@
 import React, { memo, useCallback } from 'react';
 import { cn } from '@/lib/utils';
 import type { DrumSound } from '@/lib/drum-kits';
+import { surface } from '@/lib/overlay-colors';
 
 interface DrumPadGridProps {
   sounds: DrumSound[];
@@ -51,7 +52,8 @@ const DrumPad = memo(function DrumPad({ sound, isActive, onTrigger }: DrumPadPro
       {/* Hit flash effect */}
       <div 
         className={cn(
-          'absolute inset-0 rounded-lg bg-white/30 transition-opacity duration-75',
+          'absolute inset-0 rounded-lg transition-opacity duration-75',
+          surface.heavy,
           isActive ? 'opacity-100' : 'opacity-0'
         )}
       />

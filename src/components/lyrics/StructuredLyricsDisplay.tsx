@@ -15,6 +15,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { getSectionColor, tagColors } from '@/lib/design-colors';
 
 interface StructuredLyricsDisplayProps {
   lyrics: string;
@@ -24,27 +25,22 @@ interface StructuredLyricsDisplayProps {
   className?: string;
 }
 
+// Tag type colors using design tokens
 const TAG_TYPE_COLORS: Record<string, string> = {
-  structural: 'bg-blue-500/10 text-blue-500 border-blue-500/20',
-  vocal: 'bg-purple-500/10 text-purple-500 border-purple-500/20',
-  dynamic: 'bg-orange-500/10 text-orange-500 border-orange-500/20',
-  instrumental: 'bg-green-500/10 text-green-500 border-green-500/20',
-  emotional: 'bg-pink-500/10 text-pink-500 border-pink-500/20',
-  compound: 'bg-cyan-500/10 text-cyan-500 border-cyan-500/20',
-  transform: 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20',
-  effect: 'bg-indigo-500/10 text-indigo-500 border-indigo-500/20',
+  structural: tagColors.structure.combined,
+  vocal: tagColors.vocal.combined,
+  dynamic: tagColors.mood.combined,
+  instrumental: tagColors.instrument.combined,
+  emotional: 'bg-pink-500/10 text-pink-600 dark:text-pink-400 border-pink-500/20',
+  compound: 'bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border-cyan-500/20',
+  transform: 'bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border-yellow-500/20',
+  effect: 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20',
 };
 
-const SECTION_TYPE_COLORS: Record<string, string> = {
-  intro: 'bg-emerald-500/10 text-emerald-500 border-emerald-500/30',
-  verse: 'bg-blue-500/10 text-blue-500 border-blue-500/30',
-  'pre-chorus': 'bg-yellow-500/10 text-yellow-500 border-yellow-500/30',
-  chorus: 'bg-purple-500/10 text-purple-500 border-purple-500/30',
-  bridge: 'bg-orange-500/10 text-orange-500 border-orange-500/30',
-  outro: 'bg-red-500/10 text-red-500 border-red-500/30',
-  instrumental: 'bg-teal-500/10 text-teal-500 border-teal-500/30',
-  solo: 'bg-amber-500/10 text-amber-500 border-amber-500/30',
-  other: 'bg-gray-500/10 text-gray-500 border-gray-500/30',
+// Section type colors using centralized design tokens
+const getSectionTypeColor = (type: string): string => {
+  const colors = getSectionColor(type);
+  return colors.combined;
 };
 
 const TAG_TYPE_INFO: Record<string, { icon: typeof List; description: string; examples: string }> = {
@@ -169,7 +165,7 @@ export function StructuredLyricsDisplay({
           variant="outline"
           className={cn(
             'mb-2 px-3 py-1 text-sm font-medium',
-            SECTION_TYPE_COLORS[section.type]
+            getSectionTypeColor(section.type)
           )}
         >
           {section.name}

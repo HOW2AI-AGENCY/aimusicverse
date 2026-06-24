@@ -28,3 +28,32 @@ export type { RetryState, UseAutomaticRetryOptions } from '../useAutomaticRetry'
 
 // First generated track for recommendations (Sprint 32)
 export { useFirstGeneratedTrack, saveFirstGeneratedTrack, clearFirstGeneratedTrack } from '../useFirstGeneratedTrack';
+
+// Smart Generation Assistant (Sprint 010)
+export { useSmartAssistant } from './useSmartAssistant';
+
+// ==========================================
+// Unified Audio Processing (NEW)
+// ==========================================
+
+export { useAudioProcessing } from './useAudioProcessing';
+export type {
+  AudioProcessingOperation,
+  ProcessingStatus,
+  ProcessingState,
+  ExtendedProcessingState,
+  CompletedTrack,
+  ExtendParams,
+  CoverParams,
+  AddVocalsParams,
+  AddInstrumentalParams,
+  OperationResult,
+  UseAudioProcessingReturn,
+} from './audioProcessing';
+
+// Re-export constants for external use
+export {
+  STATUS_MESSAGES,
+  STATUS_PROGRESS,
+  OPERATION_ENDPOINTS,
+} from './audioProcessing';

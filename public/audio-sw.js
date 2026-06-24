@@ -1,9 +1,11 @@
 /**
  * Audio Service Worker
- * 
+ *
  * Provides offline audio caching with stale-while-revalidate strategy.
  * Optimized for music playback continuity.
  */
+
+/* global self, caches, Headers, Response, fetch, Request, console */
 
 const CACHE_NAME = 'audio-cache-v1';
 const MAX_CACHE_SIZE_MB = 500;
@@ -126,7 +128,7 @@ async function cacheResponse(request, response) {
 }
 
 // Install event - precache any static audio assets
-self.addEventListener('install', (event) => {
+self.addEventListener('install', () => {
   self.skipWaiting();
 });
 
@@ -177,6 +179,8 @@ self.addEventListener('fetch', (event) => {
         return networkResponse;
       } catch (error) {
         // Network failed and no cache - return error
+        // eslint-disable-next-line no-unused-vars
+        console.error('Audio fetch failed:', error);
         return new Response('Audio not available offline', {
           status: 503,
           statusText: 'Service Unavailable',

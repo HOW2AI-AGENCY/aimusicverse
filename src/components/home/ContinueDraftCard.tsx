@@ -1,6 +1,9 @@
 /**
  * ContinueDraftCard - Shows saved draft on homepage
+ * Feature: 032-professional-ui
+ * 
  * Prompts user to continue where they left off
+ * Uses design system glass tokens
  */
 
 import { memo, useEffect, useState } from 'react';
@@ -9,6 +12,7 @@ import { Sparkles, ArrowRight, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useTelegram } from '@/contexts/TelegramContext';
+import { glass, gradientGlass } from '@/lib/glass';
 
 interface DraftData {
   mode: string;
@@ -77,17 +81,15 @@ export const ContinueDraftCard = memo(function ContinueDraftCard({
       exit={{ opacity: 0 }}
       transition={{ duration: 0.15 }}
       className={cn(
-        "relative rounded-xl overflow-hidden",
-        "bg-gradient-to-r from-primary/10 via-primary/5 to-transparent",
-        "border border-primary/20",
-        "p-2.5 sm:p-3",
+        "relative rounded-xl overflow-hidden p-2.5 sm:p-3",
+        gradientGlass.primary,
         className
       )}
     >
       {/* Dismiss button */}
       <button
         onClick={handleDismiss}
-        className="absolute top-1.5 right-1.5 p-1.5 rounded-full hover:bg-muted/50 transition-colors min-w-[36px] min-h-[36px] flex items-center justify-center"
+        className="absolute top-1.5 right-1.5 p-1.5 rounded-full hover:bg-muted/50 transition-colors min-w-[36px] min-h-[36px] flex items-center justify-center touch-manipulation"
         aria-label="Закрыть"
       >
         <X className="w-3.5 h-3.5 text-muted-foreground" />

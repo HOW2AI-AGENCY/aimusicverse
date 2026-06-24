@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
 import { DetectedSection } from '@/hooks/useSectionDetection';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-
+import { surface } from '@/lib/overlay-colors';
 // Animation variants
 const sectionVariants: Variants = {
   initial: { opacity: 0, scaleY: 0 },
@@ -125,7 +125,7 @@ export function SectionTimelineVisualization({
                     {/* Active pulse indicator */}
                     {isActive && (
                       <motion.div 
-                        className="absolute inset-0 bg-white/20"
+                        className={cn("absolute inset-0", surface.medium)}
                         variants={pulseVariants}
                         animate="animate"
                       />

@@ -4,6 +4,7 @@
  */
 
 import * as artistsApi from '@/api/artists.api';
+import { logger } from '@/lib/logger';
 
 export type { ArtistRow } from '@/api/artists.api';
 
@@ -32,9 +33,9 @@ export async function createArtistWithPortrait(
         options.styleDescription
       );
       avatarUrl = imageUrl;
-    } catch (error) {
+    } catch (error: unknown) {
       // Continue without portrait if generation fails
-      console.warn('Portrait generation failed:', error);
+      logger.warn('Portrait generation failed', { error: error instanceof Error ? error.message : String(error) });
     }
   }
   

@@ -1,28 +1,20 @@
 import React, { useCallback, useEffect } from 'react';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { useMasterVersion } from '@/hooks/useTrackVersions';
 import { getGlobalAudioRef } from '@/hooks/audio/useAudioTime';
 import { AnimatePresence } from '@/lib/motion';
-import { useIsMobile } from '@/hooks/use-mobile';
 import { logger } from '@/lib/logger';
 
-// Lazy load fullscreen components
-const CompactPlayer = React.lazy(() => 
+// Lazy load player surfaces
+const CompactPlayer = React.lazy(() =>
   import('./player/CompactPlayer').then(m => ({ default: m.CompactPlayer }))
 );
-const MobileFullscreenPlayer = React.lazy(() => 
-  import('./player/MobileFullscreenPlayer').then(m => ({ default: m.MobileFullscreenPlayer }))
-);
-const DesktopFullscreenPlayer = React.lazy(() => 
-  import('./player/DesktopFullscreenPlayer').then(m => ({ default: m.DesktopFullscreenPlayer }))
+const FullscreenPlayer = React.lazy(() =>
+  import('./player/FullscreenPlayer').then(m => ({ default: m.FullscreenPlayer }))
 );
 
 export const ResizablePlayer = () => {
-  const isMobile = useIsMobile();
   const { activeTrack, closePlayer, playerMode, setPlayerMode, preserveTime, volume, isPlaying } = usePlayerStore();
-  
-  // Fetch the primary version for correct lyrics synchronization
-  const { data: currentVersion } = useMasterVersion(activeTrack?.id);
+
 
   // Preserve current time before mode switch to avoid audio restart
   const preserveCurrentTime = useCallback(() => {
@@ -106,22 +98,13 @@ export const ResizablePlayer = () => {
           />
         )}
         
-        {/* Fullscreen mode - render appropriate component based on device */}
+        {/* Fullscreen mode - unified entry, dispatches to mobile/desktop layout internally */}
         {playerMode === 'fullscreen' && (
-          isMobile ? (
-            <MobileFullscreenPlayer
-              key="mobile-fullscreen"
-              track={activeTrack}
-              onClose={handleMinimize}
-            />
-          ) : (
-            <DesktopFullscreenPlayer
-              key="desktop-fullscreen"
-              track={activeTrack}
-              currentVersion={currentVersion as any}
-              onClose={handleMinimize}
-            />
-          )
+          <FullscreenPlayer
+            key="fullscreen"
+            track={activeTrack}
+            onClose={handleMinimize}
+          />
         )}
       </AnimatePresence>
     </React.Suspense>

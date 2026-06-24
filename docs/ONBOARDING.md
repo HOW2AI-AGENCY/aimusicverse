@@ -4,11 +4,11 @@
 
 ## Шаг 1: Поймите продукт и архитектуру
 
-- **Что мы создаем?** Ознакомьтесь с главным документом проекта: [README.md](README.md)
-- **Куда мы движемся?** Изучите нашу [Дорожную карту (ROADMAP.md)](ROADMAP.md)
+- **Что мы создаем?** Ознакомьтесь с главным документом проекта: [README.md](../README.md)
+- **Куда мы движемся?** Изучите нашу [Дорожную карту (ROADMAP.md)](../ROADMAP.md)
 - **Как это устроено?** Прочтите наши архитектурные решения:
-  - [Выбор технологического стека (ADR-001)](ADR/ADR-001-TECHNOLOGY-STACK-CHOICE.md)
-  - [Архитектура фронтенда (ADR-002)](ADR/ADR-002-Frontend-Architecture-And-Stack.md)
+  - [Выбор технологического стека (ADR-001)](../ADR/ADR-001-TECHNOLOGY-STACK-CHOICE.md)
+  - [Архитектура фронтенда (ADR-002)](../ADR/ADR-002-Frontend-Architecture-And-Stack.md)
 
 ## Шаг 2: Настройте свое рабочее окружение
 
@@ -20,6 +20,7 @@
 ```bash
 # 1. Клонируйте репозиторий
 git clone https://github.com/HOW2AI-AGENCY/aimusicverse.git
+git checkout develop
 cd aimusicverse
 
 # 2. Установите зависимости
@@ -47,12 +48,12 @@ npm run dev
 ## Шаг 3: Изучите наши процессы
 
 - **Рабочий процесс с кодом:** [DEVELOPMENT_WORKFLOW.md](DEVELOPMENT_WORKFLOW.md)
-- **Стиль кода и коммитов:** [CONTRIBUTING.md](CONTRIBUTING.md)
+- **Стиль кода и коммитов:** [../CONTRIBUTING.md](../CONTRIBUTING.md)
 - **Управление задачами:** [PROJECT_MANAGEMENT.md](PROJECT_MANAGEMENT.md)
 
 ## Шаг 4: Начните работу
 
-- **Найдите свою первую задачу:** Загляните в [Бэклог (BACKLOG.md)](SPRINTS/BACKLOG.md)
-- **Узнайте текущие цели:** Ознакомьтесь с текущим спринтом в директории [SPRINTS/](SPRINTS/)
+- **Найдите свою первую задачу:** Загляните в [Бэклог (BACKLOG.md)](../SPRINTS/BACKLOG.md)
+- **Узнайте текущие цели:** Ознакомьтесь с текущим спринтом в директории [SPRINTS/](../SPRINTS/)
 
 Если у вас есть вопросы, не стесняйтесь задавать их в нашем командном чате!

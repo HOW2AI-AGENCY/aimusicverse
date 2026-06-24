@@ -12,9 +12,21 @@ export * from './artists.service';
 export * from './studio.service';
 export * from './audio-reference';
 export * from './admin.service';
-export * from './analytics.service';
 export * from './generation.service';
 export * from './analysis.service';
+// Unified analysis - explicit exports to avoid naming conflicts
+export { audioAnalysisService } from './unified-analysis';
+export type { 
+  UnifiedAnalysisResult,
+  AnalysisRequest,
+  AnalysisState,
+  AnalysisStatus,
+  AnalysisType,
+  AnalysisProvider,
+} from './unified-analysis';
+
+// Analytics services (modular)
+export * from './analytics';
 
 // Payment services
 export * from './starsPaymentService';

@@ -33,8 +33,12 @@ import {
 import { GenerationAnalyticsPanel } from "./GenerationAnalyticsPanel";
 import { RetentionHeatmap } from "./RetentionHeatmap";
 import { FunnelVisualization } from "./FunnelVisualization";
+import { FunnelCohortAnalysis } from "./FunnelCohortAnalysis";
+import { UserJourneyTimeline } from "./UserJourneyTimeline";
 import { RevenueAnalytics } from "./RevenueAnalytics";
 import { PerformanceDashboard } from "./PerformanceDashboard";
+import { PaymentCohortAnalysis } from "./PaymentCohortAnalysis";
+import { RevenueForecast } from "./RevenueForecast";
 
 const MODE_LABELS: Record<string, string> = {
   standard: 'Стандарт',
@@ -333,12 +337,20 @@ export function EnhancedAnalyticsPanel() {
         <GenerationAnalyticsPanel />
       </TabsContent>
 
-      <TabsContent value="revenue">
+      <TabsContent value="revenue" className="space-y-4">
         <RevenueAnalytics />
+        <div className="grid gap-4 lg:grid-cols-2">
+          <PaymentCohortAnalysis />
+          <RevenueForecast />
+        </div>
       </TabsContent>
 
-      <TabsContent value="funnel">
+      <TabsContent value="funnel" className="space-y-4">
         <FunnelVisualization />
+        <div className="grid gap-4 lg:grid-cols-2">
+          <FunnelCohortAnalysis />
+          <UserJourneyTimeline />
+        </div>
       </TabsContent>
 
       <TabsContent value="retention">

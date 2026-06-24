@@ -30,16 +30,25 @@ export const BOT_CONFIG = {
 };
 
 // Channel configuration
-export const CHANNEL_USERNAME = 'AIMusiicVerse';
+export const CHANNEL_USERNAME = Deno.env.get('TELEGRAM_CHANNEL_USERNAME') || 'AIMusiicVerse';
 export const CHANNEL_URL = `https://t.me/${CHANNEL_USERNAME}`;
 
+// Support configuration
+export const SUPPORT_USERNAME = Deno.env.get('TELEGRAM_SUPPORT_USERNAME') || 'MusicVerseSupport';
+export const SUPPORT_URL = `https://t.me/${SUPPORT_USERNAME}`;
+
+// News channel
+export const NEWS_CHANNEL_USERNAME = Deno.env.get('TELEGRAM_NEWS_CHANNEL') || 'MusicVerseAI';
+export const NEWS_CHANNEL_URL = `https://t.me/${NEWS_CHANNEL_USERNAME}`;
+
 // Default messages - will be overridden by database config
+// Uses dynamic channel username from environment
 const DEFAULT_MESSAGES = {
   welcome: `🎵 *Добро пожаловать в MusicVerse\\!*
 
 Создавайте профессиональную музыку с помощью AI прямо в Telegram\\! 🚀
 
-📢 *Подпишитесь на канал:* @AIMusiicVerse
+📢 *Подпишитесь на канал:* @${CHANNEL_USERNAME}
 • Новости и обновления
 • Примеры треков
 • Советы по генерации
@@ -67,7 +76,7 @@ const DEFAULT_MESSAGES = {
 /projects \\- Мои проекты
 /status \\- Статус генерации
 /app \\- Открыть приложение
-/channel \\- Канал @AIMusiicVerse
+/channel \\- Канал @${CHANNEL_USERNAME}
 
 🔬 *Анализ аудио:*
 /analyze \\- Меню анализа аудио
@@ -94,7 +103,7 @@ const DEFAULT_MESSAGES = {
 \\-\\-model v5 \\- Версия модели
 
 📢 *Полезные ссылки:*
-• @AIMusiicVerse \\- Новости и обновления
+• @${NEWS_CHANNEL_USERNAME} \\- Новости и обновления
 • /channel \\- Перейти на канал
 
 💡 *Подсказка:* Чем детальнее описание, тем лучше результат\\!`,

@@ -21,6 +21,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import type { StudioTrack } from '@/stores/useUnifiedStudioStore';
 import { useSaveTranscription } from '@/hooks/useStemTranscription';
+import { logger } from '@/lib/logger';
 
 interface StudioTranscriptionPanelProps {
   track: StudioTrack;
@@ -125,7 +126,7 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
 
       // NO FALLBACK - if we can't find the correct stem, don't use a random one
       // This prevents saving transcriptions to wrong stems
-      console.warn('[StudioTranscriptionPanel] Could not resolve stem for', { trackId, normalizedStemType });
+      logger.warn('[StudioTranscriptionPanel] Could not resolve stem for', { trackId, normalizedStemType });
       return null;
     },
     enabled: !!(propStemId || (trackId && normalizedStemType)),
@@ -219,9 +220,9 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
             notesCount: typeof notesCount === 'number' ? notesCount : null,
           });
         }
-      } catch (e) {
+      } catch (e: unknown) {
         // Saving is required for the UI, but transcription itself succeeded
-        console.error('Failed to persist transcription:', e);
+        logger.warn('Failed to persist transcription', { error: e });
       }
 
       toast.success('Транскрипция завершена');
@@ -235,8 +236,8 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
       }
       queryClient.invalidateQueries({ queryKey: ['tracks-midi-status'] });
       onComplete?.();
-    } catch (err) {
-      console.error('Basic Pitch error:', err);
+    } catch (err: unknown) {
+      logger.error('Basic Pitch error', err instanceof Error ? err : new Error(String(err)));
       toast.error(err instanceof Error ? err.message : 'Ошибка транскрипции');
     } finally {
       setIsTranscribing(false);
@@ -318,8 +319,8 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
             notesCount: normalized.notesCount,
           });
         }
-      } catch (e) {
-        console.error('Failed to persist transcription:', e);
+      } catch (e: unknown) {
+        logger.warn('Failed to persist transcription', { error: e });
       }
 
       toast.success('Транскрипция завершена');
@@ -333,8 +334,8 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
       }
       queryClient.invalidateQueries({ queryKey: ['tracks-midi-status'] });
       onComplete?.();
-    } catch (err) {
-      console.error('Klangio error:', err);
+    } catch (err: unknown) {
+      logger.error('Klangio error', err instanceof Error ? err : new Error(String(err)));
       toast.error(err instanceof Error ? err.message : 'Ошибка транскрипции');
     } finally {
       setIsTranscribing(false);

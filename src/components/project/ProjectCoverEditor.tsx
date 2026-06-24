@@ -8,6 +8,8 @@ import { Upload, Wand2, Loader2, X, Image as ImageIcon } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { logger } from '@/lib/logger';
+import { cn } from '@/lib/utils';
+import { surface } from '@/lib/overlay-colors';
 import {
   Dialog,
   DialogContent,
@@ -166,7 +168,7 @@ export function ProjectCoverEditor({
                 alt="Project cover"
                 className="w-full aspect-square object-cover rounded-lg"
               />
-              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center gap-2">
+              <div className={cn("absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center gap-2", surface.heavy)}>
                 <DialogTrigger asChild>
                   <Button size="sm" variant="secondary">
                     <Upload className="w-4 h-4 mr-2" />

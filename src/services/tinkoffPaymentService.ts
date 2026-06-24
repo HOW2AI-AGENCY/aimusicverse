@@ -6,6 +6,8 @@
 import { supabase } from '@/integrations/supabase/client';
 import type { CreatePaymentResponse, PaymentTransaction } from '@/types/payment';
 import { logger } from '@/lib/logger';
+import { trackConversionStage } from '@/lib/analytics/deeplink-tracker';
+import { trackButtonClick, trackFeatureUsed } from '@/services/analytics';
 
 export interface CreateTinkoffPaymentParams {
   productCode: string;
@@ -47,6 +49,11 @@ export async function createTinkoffPayment(
 ): Promise<CreatePaymentResponse> {
   const timer = logger.startTimer('tinkoff:createPayment');
   
+  // Track payment initiation
+  trackButtonClick('tinkoff_payment_initiate', {
+    product_code: params.productCode,
+  }).catch(() => {});
+
   try {
     logger.info('Creating Tinkoff payment', { productCode: params.productCode });
 
@@ -62,6 +69,13 @@ export async function createTinkoffPayment(
 
     if (error) {
       logger.error('Tinkoff payment creation failed', error, { productCode: params.productCode });
+      
+      // Track failure
+      trackFeatureUsed('tinkoff_payment_error', {
+        product_code: params.productCode,
+        error: error.message,
+      }).catch(() => {});
+
       return {
         success: false,
         error: error.message || 'Failed to create payment',
@@ -74,6 +88,14 @@ export async function createTinkoffPayment(
         error: data.error,
         errorCode: data.errorCode,
       });
+
+      // Track rejection
+      trackFeatureUsed('tinkoff_payment_rejected', {
+        product_code: params.productCode,
+        error: data.error,
+        error_code: data.errorCode,
+      }).catch(() => {});
+
       return {
         success: false,
         error: data.error || 'Payment initialization failed',
@@ -87,6 +109,14 @@ export async function createTinkoffPayment(
       amount: data.amount,
     });
 
+    // Track successful payment creation
+    trackFeatureUsed('tinkoff_payment_created', {
+      transaction_id: data.transactionId,
+      order_id: data.orderId,
+      amount: data.amount,
+      currency: data.currency,
+    }).catch(() => {});
+
     return {
       success: true,
       transactionId: data.transactionId,
@@ -98,12 +128,45 @@ export async function createTinkoffPayment(
   } catch (error) {
     timer();
     logger.error('Tinkoff payment error', error as Error);
+
+    trackFeatureUsed('tinkoff_payment_exception', {
+      product_code: params.productCode,
+      error: (error as Error).message,
+    }).catch(() => {});
+
     return {
       success: false,
       error: (error as Error).message || 'Unknown error',
     };
   }
 }
+
+/**
+ * Safe column list for client-side payment_transactions reads.
+ * Excludes ip_address / user_agent — those are restricted to service_role
+ * (column-level SELECT revoked from authenticated/anon for privacy).
+ */
+const SAFE_PAYMENT_COLUMNS = [
+  'id',
+  'user_id',
+  'gateway',
+  'product_code',
+  'amount_cents',
+  'currency',
+  'status',
+  'gateway_transaction_id',
+  'gateway_payment_url',
+  'gateway_order_id',
+  'credits_granted',
+  'subscription_granted',
+  'metadata',
+  'error_message',
+  'created_at',
+  'updated_at',
+  'completed_at',
+  'subscription_id',
+  'is_recurrent',
+].join(', ');
 
 /**
  * Get payment transaction by ID
@@ -114,7 +177,7 @@ export async function getPaymentTransaction(
   try {
     const { data, error } = await supabase
       .from('payment_transactions')
-      .select('*')
+      .select(SAFE_PAYMENT_COLUMNS)
       .eq('id', transactionId)
       .single();
 
@@ -139,7 +202,7 @@ export async function getUserPaymentTransactions(
   try {
     const { data, error } = await supabase
       .from('payment_transactions')
-      .select('*')
+      .select(SAFE_PAYMENT_COLUMNS)
       .order('created_at', { ascending: false })
       .limit(limit);
 
@@ -156,13 +219,36 @@ export async function getUserPaymentTransactions(
 }
 
 /**
+ * Safe column list for client-side subscription reads.
+ * Excludes card_pan / card_exp_date — those are restricted to service_role
+ * (see migration: tinkoff_subscriptions_hide_card_data).
+ */
+const SAFE_SUBSCRIPTION_COLUMNS = [
+  'id',
+  'user_id',
+  'product_code',
+  'rebill_id',
+  'status',
+  'amount_cents',
+  'currency',
+  'billing_cycle_days',
+  'next_billing_date',
+  'last_payment_date',
+  'last_payment_id',
+  'failed_attempts',
+  'metadata',
+  'created_at',
+  'updated_at',
+].join(', ');
+
+/**
  * Get user's active Tinkoff subscriptions
  */
 export async function getUserTinkoffSubscriptions(): Promise<TinkoffSubscription[]> {
   try {
     const { data, error } = await supabase
       .from('tinkoff_subscriptions')
-      .select('*')
+      .select(SAFE_SUBSCRIPTION_COLUMNS)
       .order('created_at', { ascending: false });
 
     if (error) {
@@ -184,7 +270,7 @@ export async function getActiveSubscription(): Promise<TinkoffSubscription | nul
   try {
     const { data, error } = await supabase
       .from('tinkoff_subscriptions')
-      .select('*')
+      .select(SAFE_SUBSCRIPTION_COLUMNS)
       .eq('status', 'active')
       .order('created_at', { ascending: false })
       .limit(1)
@@ -201,6 +287,7 @@ export async function getActiveSubscription(): Promise<TinkoffSubscription | nul
     return null;
   }
 }
+
 
 /**
  * Cancel a Tinkoff subscription
@@ -265,6 +352,35 @@ export function redirectToPayment(paymentUrl: string): void {
   // Store current URL for return
   sessionStorage.setItem('payment_return_url', window.location.href);
   
+  // Track redirect
+  trackFeatureUsed('tinkoff_payment_redirect', {
+    destination: 'tinkoff',
+  }).catch(() => {});
+  
   // Redirect to Tinkoff payment page
   window.location.href = paymentUrl;
+}
+
+/**
+ * Track successful Tinkoff payment (call from success page)
+ */
+export async function trackTinkoffPaymentSuccess(
+  transactionId: string,
+  amount: number,
+  productCode: string
+): Promise<void> {
+  // Track payment conversion
+  await trackConversionStage('payment', {
+    transaction_id: transactionId,
+    amount,
+    product_code: productCode,
+    payment_method: 'tinkoff_card',
+  });
+
+  // Track feature usage
+  await trackFeatureUsed('tinkoff_payment_completed', {
+    transaction_id: transactionId,
+    amount,
+    product_code: productCode,
+  });
 }

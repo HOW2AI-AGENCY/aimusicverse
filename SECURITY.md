@@ -140,7 +140,7 @@
 
 ### Для разработчиков
 
-- 📖 [Руководство по безопасной разработке](docs/SECURITY_GUIDELINES.md)
+- 📖 [Руководство по безопасной разработке](docs/SECURITY_SUMMARY.md)
 - 🔐 [Аутентификация и авторизация](docs/TELEGRAM_BOT_ARCHITECTURE.md)
 - 🏗️ [Архитектура безопасности](docs/ARCHITECTURE.md)
 - 🎯 [Best Practices](CONTRIBUTING.md#security-and-privacy)

@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 import { ViewModeToggle } from "@/components/library/shared";
 import { VirtuosoGrid } from "react-virtuoso";
 import { triggerHapticFeedback } from "@/lib/mobile-utils";
+import { logger } from "@/lib/logger";
 
 const GENRES = ["Pop", "Rock", "Hip-Hop", "Electronic", "R&B", "Jazz", "Indie", "Lo-Fi"];
 
@@ -199,8 +200,8 @@ export default function Community() {
       
       try {
         await refetchTracks();
-      } catch (error) {
-        console.error('Failed to refresh tracks:', error);
+      } catch (error: unknown) {
+        logger.warn('Failed to refresh tracks', { error: error instanceof Error ? error.message : String(error) });
       } finally {
         setPullDistance(0);
         setTimeout(() => setIsRefreshing(false), 500);

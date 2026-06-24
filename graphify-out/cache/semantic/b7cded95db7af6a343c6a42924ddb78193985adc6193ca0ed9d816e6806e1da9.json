@@ -1,0 +1,1 @@
+{"nodes": [{"id": "fixes_summary_telegram_bot_commands_generate", "label": "telegram-bot/commands/generate.ts", "file_type": "code", "source_file": "supabase/functions/telegram-bot/commands/generate.ts", "source_location": 103, "source_url": null, "captured_at": null, "author": null, "contributor": null}], "edges": [], "hyperedges": []}

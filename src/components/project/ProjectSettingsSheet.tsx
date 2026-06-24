@@ -15,6 +15,9 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { supabase } from '@/integrations/supabase/client';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { logger } from '@/lib/logger';
+import { cn } from '@/lib/utils';
+import { surface } from '@/lib/overlay-colors';
 
 interface ProjectSettingsSheetProps {
   open: boolean;
@@ -74,8 +77,8 @@ export const ProjectSettingsSheet = ({ open, onOpenChange, project }: ProjectSet
       
       queryClient.invalidateQueries({ queryKey: ['projects'] });
       toast.success('Визуальный стиль сохранен');
-    } catch (error) {
-      console.error('Error saving visual style:', error);
+    } catch (error: unknown) {
+      logger.error('Error saving visual style', error instanceof Error ? error : new Error(String(error)));
       toast.error('Ошибка сохранения');
     } finally {
       setIsSavingStyle(false);
@@ -256,7 +259,7 @@ export const ProjectSettingsSheet = ({ open, onOpenChange, project }: ProjectSet
                     alt="Banner"
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                  <div className={cn("absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity", surface.imageDark)}>
                     <Button onClick={() => setBannerEditorOpen(true)} variant="secondary" className="gap-2">
                       <ImageIcon className="w-4 h-4" />
                       Изменить баннер

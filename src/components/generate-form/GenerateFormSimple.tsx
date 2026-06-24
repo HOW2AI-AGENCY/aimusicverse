@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { motion } from '@/lib/motion';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
@@ -13,6 +13,7 @@ import { PromptValidationAlert } from './PromptValidationAlert';
 import { cn } from '@/lib/utils';
 import { notify } from '@/lib/notifications';
 import { useTelegram } from '@/contexts/TelegramContext';
+import { useFeatureUsageTracking, FeatureEvents } from '@/hooks/analytics';
 
 interface GenerateFormSimpleProps {
   description: string;
@@ -38,6 +39,21 @@ export function GenerateFormSimple({
   onOpenStyles,
 }: GenerateFormSimpleProps) {
   const { hapticFeedback } = useTelegram();
+  const { trackFeature, trackAction } = useFeatureUsageTracking();
+  const hasTrackedView = useRef(false);
+
+  // Track form view once on mount
+  useEffect(() => {
+    if (!hasTrackedView.current) {
+      hasTrackedView.current = true;
+      trackFeature({
+        feature: 'generation_form',
+        category: 'generation',
+        action: 'view',
+        metadata: { mode: 'simple' },
+      });
+    }
+  }, [trackFeature]);
 
   const handleCopy = useCallback(async () => {
     if (description) {
@@ -60,14 +76,16 @@ export function GenerateFormSimple({
   // Haptic feedback for boost style (T045)
   const handleBoostStyle = useCallback(() => {
     hapticFeedback('medium');
+    trackAction('ai_boost', 'generation', 'click', { hasDescription: !!description });
     onBoostStyle();
-  }, [hapticFeedback, onBoostStyle]);
+  }, [hapticFeedback, onBoostStyle, trackAction, description]);
 
   // Haptic feedback for open styles (T045)
   const handleOpenStyles = useCallback(() => {
     hapticFeedback('light');
+    trackAction('style_selector', 'generation', 'click');
     onOpenStyles?.();
-  }, [hapticFeedback, onOpenStyles]);
+  }, [hapticFeedback, onOpenStyles, trackAction]);
 
   // Validation messages - now pass text for artist checking
   const descriptionValidation = validation.description.getMessage(description.length, description);
@@ -80,28 +98,28 @@ export function GenerateFormSimple({
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: 20 }}
       transition={{ duration: 0.2, ease: "easeInOut" }}
-      className="space-y-4 w-full max-w-full min-w-0 overflow-x-hidden"
+      className="space-y-4 lg:space-y-5 w-full max-w-full min-w-0 overflow-x-hidden"
     >
       {/* ========== TRACK TYPE SECTION ========== */}
       <FormSection>
-        <div className="space-y-2">
+        <div className="space-y-2 lg:space-y-3">
           <SectionLabel 
             label="Тип трека"
             hint={SECTION_HINTS.trackType}
           />
-          <div className="flex p-1 bg-muted/50 rounded-xl" role="group" aria-label="Тип трека">
+          <div className="flex p-1 lg:p-1.5 bg-muted/50 rounded-xl lg:rounded-2xl" role="group" aria-label="Тип трека">
             <button
               type="button"
               onClick={() => handleVocalsToggle(true)}
               aria-pressed={hasVocals}
               className={cn(
-                "flex-1 flex items-center justify-center gap-2 min-h-[44px] px-3 rounded-lg text-sm font-medium transition-all duration-200",
+                "flex-1 flex items-center justify-center gap-2 min-h-[44px] lg:min-h-[52px] px-3 lg:px-4 rounded-lg lg:rounded-xl text-sm lg:text-base font-medium transition-all duration-200",
                 hasVocals 
                   ? "bg-primary text-primary-foreground shadow-sm" 
                   : "text-muted-foreground hover:text-foreground hover:bg-muted"
               )}
             >
-              <Mic className="w-4 h-4" aria-hidden="true" />
+              <Mic className="w-4 h-4 lg:w-5 lg:h-5" aria-hidden="true" />
               <span>Вокал</span>
             </button>
             <button
@@ -109,13 +127,13 @@ export function GenerateFormSimple({
               onClick={() => handleVocalsToggle(false)}
               aria-pressed={!hasVocals}
               className={cn(
-                "flex-1 flex items-center justify-center gap-2 min-h-[44px] px-3 rounded-lg text-sm font-medium transition-all duration-200",
+                "flex-1 flex items-center justify-center gap-2 min-h-[44px] lg:min-h-[52px] px-3 lg:px-4 rounded-lg lg:rounded-xl text-sm lg:text-base font-medium transition-all duration-200",
                 !hasVocals 
                   ? "bg-primary text-primary-foreground shadow-sm" 
                   : "text-muted-foreground hover:text-foreground hover:bg-muted"
               )}
             >
-              <Music2 className="w-4 h-4" aria-hidden="true" />
+              <Music2 className="w-4 h-4 lg:w-5 lg:h-5" aria-hidden="true" />
               <span>Инструментал</span>
             </button>
           </div>
@@ -126,24 +144,24 @@ export function GenerateFormSimple({
 
       {/* ========== DESCRIPTION SECTION ========== */}
       <FormSection>
-        <div className="space-y-2">
+        <div className="space-y-2 lg:space-y-3">
           {/* Header row */}
           <div className="flex items-center justify-between">
             <SectionLabel 
               label={hasVocals ? 'Опишите песню' : 'Опишите музыку'}
               hint={SECTION_HINTS.description}
             />
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1 lg:gap-2">
               {onOpenStyles && (
                 <Button
                   type="button"
                   variant="ghost"
                   size="icon"
-                  className="h-11 w-11 min-w-[44px] p-0 text-primary hover:text-primary/80"
+                  className="h-11 w-11 lg:h-12 lg:w-12 min-w-[44px] p-0 text-primary hover:text-primary/80 hover:scale-105 transition-transform"
                   onClick={handleOpenStyles}
                   aria-label="Выбрать стиль музыки"
                 >
-                  <Palette className="w-4 h-4" />
+                  <Palette className="w-4 h-4 lg:w-5 lg:h-5" />
                 </Button>
               )}
               <Button
@@ -152,15 +170,15 @@ export function GenerateFormSimple({
                 size="sm"
                 onClick={handleBoostStyle}
                 disabled={boostLoading || !description}
-                className="h-11 px-3 gap-1.5 text-primary hover:text-primary/80"
+                className="h-11 lg:h-12 px-3 lg:px-4 gap-1.5 text-primary hover:text-primary/80 hover:scale-105 transition-transform"
                 aria-label="Улучшить описание с помощью AI"
               >
                 {boostLoading ? (
-                  <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
+                  <Loader2 className="w-4 h-4 lg:w-5 lg:h-5 animate-spin" aria-hidden="true" />
                 ) : (
-                  <Sparkles className="w-4 h-4" aria-hidden="true" />
+                  <Sparkles className="w-4 h-4 lg:w-5 lg:h-5" aria-hidden="true" />
                 )}
-                <span className="text-xs">AI</span>
+                <span className="text-xs lg:text-sm">AI</span>
               </Button>
             </div>
           </div>
@@ -177,8 +195,8 @@ export function GenerateFormSimple({
               onChange={(e) => onDescriptionChange(e.target.value)}
               rows={3}
               className={cn(
-                "resize-none text-sm pb-10 rounded-xl bg-muted/30 border-muted-foreground/20",
-                "focus:border-primary/50 focus:ring-primary/20 transition-colors",
+                "resize-none text-sm lg:text-base pb-10 lg:pb-12 rounded-xl lg:rounded-2xl bg-muted/30 border-muted-foreground/20",
+                "focus:border-primary/50 focus:ring-primary/20 transition-colors lg:min-h-[120px]",
                 description.length > 500 && "border-destructive focus-visible:ring-destructive"
               )}
               aria-invalid={description.length > 500}
@@ -263,7 +281,7 @@ export function GenerateFormSimple({
 
       {/* ========== TITLE SECTION ========== */}
       <FormSection>
-        <div className="space-y-2">
+        <div className="space-y-2 lg:space-y-3">
           <SectionLabel 
             label="Название"
             htmlFor="simple-title"
@@ -275,7 +293,7 @@ export function GenerateFormSimple({
             placeholder="Автогенерация если пусто"
             value={title}
             onChange={(e) => onTitleChange(e.target.value)}
-            className="min-h-[44px] text-sm rounded-xl bg-muted/30 border-muted-foreground/20 focus:border-primary/50 focus:ring-primary/20"
+            className="min-h-[44px] lg:min-h-[52px] text-sm lg:text-base rounded-xl lg:rounded-2xl bg-muted/30 border-muted-foreground/20 focus:border-primary/50 focus:ring-primary/20"
             aria-invalid={title.length > validation.title.maxLength}
             aria-describedby={titleValidation ? "simple-title-error" : undefined}
           />

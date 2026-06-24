@@ -25,6 +25,7 @@ import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import type { GuitarAnalysisResult } from '@/hooks/useGuitarAnalysis';
 import { ReferenceManager } from '@/services/audio-reference';
+import { surface } from '@/lib/overlay-colors';
 
 interface TranscriptionToGenerationBridgeProps {
   analysisResult: GuitarAnalysisResult;
@@ -195,7 +196,7 @@ export function TranscriptionToGenerationBridge({
                 key={metric.label}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="p-4 rounded-lg bg-white/50 dark:bg-black/20 border border-border text-center"
+                className={cn("p-4 rounded-lg border border-border text-center", surface.light)}
               >
                 <Icon
                   className={cn('w-5 h-5 mx-auto mb-2', `text-${metric.color}-400`)}

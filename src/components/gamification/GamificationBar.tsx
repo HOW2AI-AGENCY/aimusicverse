@@ -22,6 +22,7 @@ import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 import { typographyClass, touchTargetClass } from '@/lib/design-tokens';
+import { interactive } from '@/lib/overlay-colors';
 
 interface GamificationBarProps {
   className?: string;
@@ -249,7 +250,7 @@ export const GamificationBar = memo(function GamificationBar({ className }: Gami
             onClick={() => navigate('/rewards')}
             whileHover={{ x: 2 }}
             whileTap={{ scale: 0.9 }}
-            className="p-1 sm:p-1.5 rounded-lg hover:bg-white/5 transition-colors"
+            className={cn("p-1 sm:p-1.5 rounded-lg transition-colors", interactive.hover)}
           >
             <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground" />
           </motion.button>

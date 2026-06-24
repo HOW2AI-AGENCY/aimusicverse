@@ -307,18 +307,18 @@ All colors MUST be HSL.
 /* Glassmorphism utility classes */
 @layer utilities {
   .glass {
-    background: var(--glass-bg);
+    background: hsla(var(--glass-bg));
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid var(--glass-border);
+    border: 1px solid hsl(var(--glass-border));
     box-shadow: var(--glass-shadow);
   }
 
   .glass-card {
-    background: var(--glass-bg);
+    background: hsla(var(--glass-bg));
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--glass-border);
+    border: 1px solid hsl(var(--glass-border));
     box-shadow: var(--shadow-glass);
     transition: var(--transition-smooth);
   }
@@ -1058,6 +1058,27 @@ All colors MUST be HSL.
     backface-visibility: hidden;
   }
 
+  /* Skeleton wave animation - subtle left-to-right sweep */
+  @keyframes skeleton-wave {
+    0% { 
+      background-position: -200% 0;
+    }
+    100% { 
+      background-position: 200% 0;
+    }
+  }
+
+  .skeleton-wave {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--muted)) 0%,
+      hsl(var(--muted-foreground) / 0.1) 50%,
+      hsl(var(--muted)) 100%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-wave 2s linear infinite;
+  }
+
   /* CSS-only pulse scale animation for LoadingSpinner music variant */
   @keyframes css-pulse-scale {
     0%, 100% { transform: scale(1); }
@@ -1075,6 +1096,10 @@ All colors MUST be HSL.
     .skeleton-shimmer-optimized::after {
       animation: none;
       background: hsl(var(--foreground) / 0.05);
+    }
+    
+    .skeleton-wave {
+      animation: none;
     }
     
     .css-pulse-scale {
@@ -1340,9 +1365,13 @@ html {
     overflow-anchor: none;
   }
   
-  /* Ensure content doesn't get hidden behind keyboard */
+  /* Ensure content doesn't get hidden behind keyboard (Telegram + iOS) */
   .pb-safe {
-    padding-bottom: max(env(safe-area-inset-bottom, 0px), var(--keyboard-height, 0px));
+    padding-bottom: max(
+      var(--tg-safe-area-inset-bottom, 0px),
+      env(safe-area-inset-bottom, 0px),
+      var(--keyboard-height, 0px)
+    );
   }
 }
 
@@ -1527,6 +1556,21 @@ select:focus-visible,
 /* =========================================
    Z-Index Utilities
    Consistent z-index values across the app
+   Hierarchy (lowest to highest):
+   - base: 0 (regular content)
+   - raised: 10 (elevated cards)
+   - sticky: 20 (sticky headers)
+   - floating: 30 (FABs, floating elements)
+   - overlay: 40 (subtle overlays)
+   - navigation: 50 (bottom nav, sidebar)
+   - player: 60 (mini player)
+   - contextual: 70 (tooltips, hints)
+   - dialog: 140 (modal dialogs)
+   - sheet: 150 (bottom sheets)
+   - fullscreen: 160 (fullscreen overlays)
+   - dropdown: 200 (select, popover, dropdown)
+   - toast: 300 (system notifications)
+   - max: 9999 (critical alerts, context menus)
    ========================================= */
 
 .z-base { z-index: 0; }
@@ -1537,17 +1581,16 @@ select:focus-visible,
 .z-navigation { z-index: 50; }
 .z-player { z-index: 60; }
 .z-contextual { z-index: 70; }
-.z-dialog { z-index: 80; }
-.z-fullscreen { z-index: 90; }
-.z-system { z-index: 100; }
+.z-dialog { z-index: 140; }
+.z-sheet-backdrop { z-index: 150; }
+.z-sheet-content { z-index: 151; }
+.z-fullscreen { z-index: 160; }
 .z-dropdown { z-index: 200; }
-
-/* Specific component z-index helpers */
-.z-sheet-backdrop { z-index: 80; }
-.z-sheet-content { z-index: 81; }
-.z-player-overlay { z-index: 61; }
-.z-toast { z-index: 70; }
-.z-hint { z-index: 70; }
+.z-popover { z-index: 200; }
+.z-tooltip { z-index: 250; }
+.z-toast { z-index: 300; }
+.z-notification { z-index: 300; }
+.z-max { z-index: 9999; }
 
 /* =========================================
    Centering & Alignment Utilities
@@ -1845,3 +1888,10 @@ select:focus-visible,
     animation: none !important;
   }
 }
+
+/* ============================================================================
+ * ADDITIONAL STYLE IMPORTS
+ * Feature: 032-professional-ui
+ * ============================================================================ */
+
+@import './styles/micro-animations.css';

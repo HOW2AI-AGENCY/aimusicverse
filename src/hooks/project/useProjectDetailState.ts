@@ -8,6 +8,7 @@ import { useState, useCallback } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 
 export interface ProjectTrack {
   id: string;
@@ -104,7 +105,7 @@ export function useProjectDetailState(): UseProjectDetailStateReturn {
       queryClient.invalidateQueries({ queryKey: ['project-tracks'] });
       toast.success('Текст сохранён');
     } catch (error) {
-      console.error('Error saving lyrics:', error);
+      logger.error('Error saving lyrics', error instanceof Error ? error : new Error(String(error)));
       toast.error('Ошибка сохранения текста');
     }
   }, [selectedTrackForLyrics, queryClient]);
@@ -127,7 +128,7 @@ export function useProjectDetailState(): UseProjectDetailStateReturn {
       queryClient.invalidateQueries({ queryKey: ['project-tracks'] });
       toast.success('Заметки сохранены');
     } catch (error) {
-      console.error('Error saving notes:', error);
+      logger.error('Error saving notes', error instanceof Error ? error : new Error(String(error)));
       toast.error('Ошибка сохранения заметок');
     }
   }, [selectedTrackForLyrics, queryClient]);

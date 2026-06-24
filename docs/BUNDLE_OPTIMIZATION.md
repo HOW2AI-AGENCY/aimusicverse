@@ -52,7 +52,35 @@ import { motion, AnimatePresence, fadeIn, slideUp } from '@/lib/motion';
 - `smoothTransition` - плавный переход
 - `quickTransition` - быстрый переход
 
-## 2. Lazy Loading компонентов
+## 2. Оптимизация lucide-react
+
+### Проблема
+`lucide-react` содержит 1000+ иконок. Импорт напрямую может приводить к включению неиспользуемых иконок.
+
+### Решение
+Используйте централизованные импорты из `@/lib/icons`:
+
+```typescript
+// ❌ Плохо - прямой импорт
+import { Heart, Play, Pause } from 'lucide-react';
+
+// ✅ Хорошо - централизованный импорт
+import { Heart, Play, Pause } from '@/lib/icons';
+```
+
+### Категории иконок
+
+| Категория | Примеры |
+|-----------|---------|
+| Navigation | Home, Menu, ChevronDown, ArrowLeft |
+| Media | Play, Pause, Volume, Music, Mic |
+| Actions | Plus, Edit, Trash, Save, Download |
+| Status | Loader2, CheckCircle, AlertTriangle |
+| Content | FileText, Folder, Tag, Image |
+| Social | MessageSquare, Users, Globe |
+| Studio | Piano, Guitar, Sliders, Waves |
+
+## 3. Lazy Loading компонентов
 
 Тяжёлые компоненты загружаются лениво через `@/components/lazy`:
 
@@ -64,7 +92,6 @@ import {
   LazyAudioVisualizer,
   LazyMusicGraph,
   LazyOnboardingSlider,
-  LazyTrackAnalytics
 } from '@/components/lazy';
 
 // Использование с Suspense
@@ -73,7 +100,7 @@ import {
 </Suspense>
 ```
 
-## 3. Vendor Chunks
+## 4. Vendor Chunks
 
 Vite разбивает node_modules на отдельные чанки:
 
@@ -84,15 +111,16 @@ Vite разбивает node_modules на отдельные чанки:
 | vendor-radix | Radix UI, shadcn/ui |
 | vendor-query | TanStack Query |
 | vendor-supabase | Supabase client |
-| vendor-audio | wavesurfer.js |
+| vendor-wavesurfer | wavesurfer.js |
+| vendor-tone | Tone.js |
+| vendor-osmd | opensheetmusicdisplay |
 | vendor-icons | lucide-react |
-| vendor-date | date-fns core |
-| vendor-date-locale | date-fns locales |
+| vendor-date | dayjs |
 | vendor-charts | recharts |
 | vendor-dnd | @dnd-kit, @hello-pangea/dnd |
 | vendor-forms | react-hook-form, zod |
 
-## 4. Bundle Analyzer
+## 5. Bundle Analyzer
 
 После сборки (`npm run build`) отчёт доступен в `dist/stats.html`:
 
@@ -100,24 +128,38 @@ Vite разбивает node_modules на отдельные чанки:
 - gzip и brotli размеры
 - Дерево зависимостей
 
-## 5. Compression
+## 6. Compression
 
 Production сборка создаёт сжатые версии:
 - `.gz` - gzip (для большинства CDN)
 - `.br` - brotli (лучшее сжатие)
 
+## 7. Dynamic Imports для тяжёлых библиотек
+
+Библиотеки, которые используют dynamic import:
+- `opensheetmusicdisplay` - загружается только в нотном view
+- `wavesurfer.js` - загружается только при работе с waveform
+
+```typescript
+// Пример из useMusicXML.ts
+const mod = await import('opensheetmusicdisplay');
+const OpenSheetMusicDisplay = mod.OpenSheetMusicDisplay;
+```
+
 ## Метрики
 
-| Метрика | До оптимизации | После | Цель |
-|---------|----------------|-------|------|
-| Bundle size | 1.16 MB | TBD | <800 KB |
+| Метрика | Phase 0 | Phase 1 | Цель |
+|---------|---------|---------|------|
+| vendor-other | 184 KB | TBD | <150 KB |
+| Total bundle | ~1.16 MB | TBD | <800 KB |
 | LCP | TBD | TBD | <2.5s |
 | TTI | TBD | TBD | <3.5s |
 
 ## Чеклист для новых компонентов
 
 - [ ] Использовать `@/lib/motion` вместо `framer-motion`
+- [ ] Использовать `@/lib/icons` вместо `lucide-react`
 - [ ] Добавить lazy loading для компонентов >50KB
-- [ ] Использовать именованные импорты для lucide-react
+- [ ] Использовать именованные импорты
 - [ ] Избегать barrel imports где возможно
 - [ ] Проверять bundle analyzer после добавления зависимостей

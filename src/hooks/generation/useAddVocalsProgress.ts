@@ -1,5 +1,19 @@
 /**
  * useAddVocalsProgress - Track add vocals task status with realtime updates
+ * 
+ * @deprecated Use useAudioProcessing().addVocalsProgress instead
+ * This hook is kept for backward compatibility and will be removed in a future version.
+ * 
+ * Migration:
+ * ```tsx
+ * // Old way
+ * const { status, startTracking, ... } = useAddVocalsProgress();
+ * 
+ * // New way
+ * const { addVocals, addVocalsProgress } = useAudioProcessing();
+ * const result = await addVocals(params);
+ * // Progress is tracked automatically
+ * ```
  */
 
 import { useState, useEffect, useCallback } from 'react';

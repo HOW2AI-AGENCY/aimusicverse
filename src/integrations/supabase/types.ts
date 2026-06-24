@@ -2171,6 +2171,13 @@ export type Database = {
             foreignKeyName: "payment_transactions_subscription_id_fkey"
             columns: ["subscription_id"]
             isOneToOne: false
+            referencedRelation: "my_tinkoff_subscriptions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payment_transactions_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
             referencedRelation: "tinkoff_subscriptions"
             referencedColumns: ["id"]
           },
@@ -4365,6 +4372,13 @@ export type Database = {
             referencedRelation: "payment_transactions"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "tinkoff_subscriptions_last_payment_id_fkey"
+            columns: ["last_payment_id"]
+            isOneToOne: false
+            referencedRelation: "safe_payment_transactions"
+            referencedColumns: ["id"]
+          },
         ]
       }
       track_analytics: {
@@ -5726,6 +5740,51 @@ export type Database = {
       }
     }
     Views: {
+      my_tinkoff_subscriptions: {
+        Row: {
+          amount_cents: number | null
+          billing_cycle_days: number | null
+          created_at: string | null
+          currency: string | null
+          id: string | null
+          last_payment_date: string | null
+          next_billing_date: string | null
+          product_code: string | null
+          rebill_id: string | null
+          status: string | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          amount_cents?: number | null
+          billing_cycle_days?: number | null
+          created_at?: string | null
+          currency?: string | null
+          id?: string | null
+          last_payment_date?: string | null
+          next_billing_date?: string | null
+          product_code?: string | null
+          rebill_id?: string | null
+          status?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          amount_cents?: number | null
+          billing_cycle_days?: number | null
+          created_at?: string | null
+          currency?: string | null
+          id?: string | null
+          last_payment_date?: string | null
+          next_billing_date?: string | null
+          product_code?: string | null
+          rebill_id?: string | null
+          status?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       public_profile_view: {
         Row: {
           first_name: string | null
@@ -5753,19 +5812,85 @@ export type Database = {
         }
         Relationships: []
       }
+      safe_payment_transactions: {
+        Row: {
+          amount_cents: number | null
+          completed_at: string | null
+          created_at: string | null
+          credits_granted: number | null
+          currency: string | null
+          gateway: Database["public"]["Enums"]["payment_gateway"] | null
+          id: string | null
+          is_recurrent: boolean | null
+          product_code: string | null
+          status: Database["public"]["Enums"]["payment_status"] | null
+          subscription_granted: string | null
+          subscription_id: string | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          amount_cents?: number | null
+          completed_at?: string | null
+          created_at?: string | null
+          credits_granted?: number | null
+          currency?: string | null
+          gateway?: Database["public"]["Enums"]["payment_gateway"] | null
+          id?: string | null
+          is_recurrent?: boolean | null
+          product_code?: string | null
+          status?: Database["public"]["Enums"]["payment_status"] | null
+          subscription_granted?: string | null
+          subscription_id?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          amount_cents?: number | null
+          completed_at?: string | null
+          created_at?: string | null
+          credits_granted?: number | null
+          currency?: string | null
+          gateway?: Database["public"]["Enums"]["payment_gateway"] | null
+          id?: string | null
+          is_recurrent?: boolean | null
+          product_code?: string | null
+          status?: Database["public"]["Enums"]["payment_status"] | null
+          subscription_granted?: string | null
+          subscription_id?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payment_transactions_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "my_tinkoff_subscriptions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payment_transactions_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "tinkoff_subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       safe_public_profiles: {
         Row: {
           banner_url: string | null
           bio: string | null
           created_at: string | null
           display_name: string | null
-          first_name: string | null
           followers_count: number | null
           following_count: number | null
           is_public: boolean | null
-          last_name: string | null
           photo_url: string | null
-          social_links: Json | null
+          subscription_tier:
+            | Database["public"]["Enums"]["subscription_tier"]
+            | null
           user_id: string | null
           username: string | null
         }
@@ -5774,13 +5899,13 @@ export type Database = {
           bio?: string | null
           created_at?: string | null
           display_name?: string | null
-          first_name?: string | null
           followers_count?: number | null
           following_count?: number | null
           is_public?: boolean | null
-          last_name?: string | null
           photo_url?: string | null
-          social_links?: Json | null
+          subscription_tier?:
+            | Database["public"]["Enums"]["subscription_tier"]
+            | null
           user_id?: string | null
           username?: string | null
         }
@@ -5789,15 +5914,49 @@ export type Database = {
           bio?: string | null
           created_at?: string | null
           display_name?: string | null
-          first_name?: string | null
           followers_count?: number | null
           following_count?: number | null
           is_public?: boolean | null
-          last_name?: string | null
           photo_url?: string | null
-          social_links?: Json | null
+          subscription_tier?:
+            | Database["public"]["Enums"]["subscription_tier"]
+            | null
           user_id?: string | null
           username?: string | null
+        }
+        Relationships: []
+      }
+      safe_subscription_history: {
+        Row: {
+          action: string | null
+          created_at: string | null
+          expires_at: string | null
+          id: string | null
+          previous_tier: Database["public"]["Enums"]["subscription_tier"] | null
+          tier: Database["public"]["Enums"]["subscription_tier"] | null
+          user_id: string | null
+        }
+        Insert: {
+          action?: string | null
+          created_at?: string | null
+          expires_at?: string | null
+          id?: string | null
+          previous_tier?:
+            | Database["public"]["Enums"]["subscription_tier"]
+            | null
+          tier?: Database["public"]["Enums"]["subscription_tier"] | null
+          user_id?: string | null
+        }
+        Update: {
+          action?: string | null
+          created_at?: string | null
+          expires_at?: string | null
+          id?: string | null
+          previous_tier?:
+            | Database["public"]["Enums"]["subscription_tier"]
+            | null
+          tier?: Database["public"]["Enums"]["subscription_tier"] | null
+          user_id?: string | null
         }
         Relationships: []
       }
@@ -5897,6 +6056,14 @@ export type Database = {
       cleanup_expired_notifications: { Args: never; Returns: number }
       cleanup_expired_wizard_states: { Args: never; Returns: undefined }
       cleanup_failed_telegram_notifications: { Args: never; Returns: number }
+      cleanup_old_track_versions: {
+        Args: { p_max_free?: number; p_max_pro?: number; p_track_id?: string }
+        Returns: {
+          deleted_count: number
+          kept_count: number
+          track_id: string
+        }[]
+      }
       cleanup_stuck_generation_tasks: {
         Args: never
         Returns: {
@@ -5947,7 +6114,7 @@ export type Database = {
         }[]
       }
       get_deeplink_stats: {
-        Args: { _time_period?: unknown }
+        Args: { _time_period?: string }
         Returns: {
           conversion_rate: number
           conversions: number
@@ -5957,18 +6124,19 @@ export type Database = {
           unique_users: number
         }[]
       }
-      get_error_trends: {
-        Args: { _time_period?: unknown }
-        Returns: {
-          critical_errors: number
-          errors_by_day: Json
-          errors_by_severity: Json
-          errors_by_type: Json
-          top_error_fingerprints: Json
-          total_errors: number
-          unique_fingerprints: number
-        }[]
-      }
+      get_error_trends:
+        | {
+            Args: { _time_period?: string }
+            Returns: {
+              error: true
+            } & "Could not choose the best candidate function between: public.get_error_trends(_time_period => text), public.get_error_trends(_time_period => interval). Try renaming the parameters or the function itself in the database so function overloading can be resolved"[]
+          }
+        | {
+            Args: { _time_period?: string }
+            Returns: {
+              error: true
+            } & "Could not choose the best candidate function between: public.get_error_trends(_time_period => text), public.get_error_trends(_time_period => interval). Try renaming the parameters or the function itself in the database so function overloading can be resolved"[]
+          }
       get_experience_for_level: { Args: { _level: number }; Returns: number }
       get_featured_tracks: {
         Args: { limit_count?: number; offset_count?: number }
@@ -6013,7 +6181,7 @@ export type Database = {
         }[]
       }
       get_gamification_analytics: {
-        Args: { _time_period?: unknown }
+        Args: { _time_period?: string }
         Returns: {
           achievement_popularity: Json
           active_users: number
@@ -6029,7 +6197,7 @@ export type Database = {
         }[]
       }
       get_generation_analytics: {
-        Args: { _time_period?: unknown }
+        Args: { _time_period?: string }
         Returns: {
           avg_cost_per_generation: number
           avg_generation_time_seconds: number
@@ -6049,7 +6217,7 @@ export type Database = {
         }[]
       }
       get_generation_stats: {
-        Args: { _time_period?: unknown }
+        Args: { _time_period?: string }
         Returns: {
           avg_duration_seconds: number
           completed: number
@@ -6101,8 +6269,16 @@ export type Database = {
         Args: { p_size?: string; p_track_id: string }
         Returns: string
       }
+      get_own_telegram_chat_id: { Args: never; Returns: string }
+      get_own_telegram_ids: {
+        Args: never
+        Returns: {
+          telegram_chat_id: string
+          telegram_id: number
+        }[]
+      }
       get_payment_analytics: {
-        Args: { _time_period?: unknown }
+        Args: { _time_period?: string }
         Returns: {
           avg_transaction_stars: number
           completed_transactions: number
@@ -6192,6 +6368,7 @@ export type Database = {
           isSetofReturn: true
         }
       }
+      get_platform_stats: { Args: never; Returns: Json }
       get_public_profile_info: {
         Args: { profile_user_id: string }
         Returns: {
@@ -6269,7 +6446,7 @@ export type Database = {
       }
       get_subscription_status: { Args: { p_user_id: string }; Returns: Json }
       get_telegram_bot_metrics: {
-        Args: { _time_period?: unknown }
+        Args: { _time_period?: string }
         Returns: {
           avg_response_time_ms: number
           events_by_type: Json
@@ -6279,19 +6456,19 @@ export type Database = {
           total_events: number
         }[]
       }
-      get_telemetry_stats: {
-        Args: { _time_period?: unknown }
-        Returns: {
-          avg_session_duration_sec: number
-          error_summary: Json
-          events_by_type: Json
-          platform_distribution: Json
-          top_events: Json
-          total_events: number
-          unique_sessions: number
-          unique_users: number
-        }[]
-      }
+      get_telemetry_stats:
+        | {
+            Args: { _time_period?: string }
+            Returns: {
+              error: true
+            } & "Could not choose the best candidate function between: public.get_telemetry_stats(_time_period => text), public.get_telemetry_stats(_time_period => interval). Try renaming the parameters or the function itself in the database so function overloading can be resolved"[]
+          }
+        | {
+            Args: { _time_period?: string }
+            Returns: {
+              error: true
+            } & "Could not choose the best candidate function between: public.get_telemetry_stats(_time_period => text), public.get_telemetry_stats(_time_period => interval). Try renaming the parameters or the function itself in the database so function overloading can be resolved"[]
+          }
       get_track_active_audio: {
         Args: { p_track_id: string }
         Returns: {
@@ -6301,7 +6478,7 @@ export type Database = {
         }[]
       }
       get_track_analytics_summary: {
-        Args: { _time_period?: unknown; _track_id: string }
+        Args: { _time_period?: string; _track_id: string }
         Returns: {
           plays_by_day: Json
           total_downloads: number
@@ -6324,7 +6501,7 @@ export type Database = {
         }[]
       }
       get_user_behavior_stats: {
-        Args: { _time_period?: unknown }
+        Args: { _time_period?: string }
         Returns: {
           events_by_type: Json
           hourly_distribution: Json
@@ -6390,6 +6567,15 @@ export type Database = {
       }
       reset_daily_earnings: { Args: never; Returns: undefined }
       run_log_archival: { Args: never; Returns: Json }
+      secure_credit_update: {
+        Args: {
+          _action_type: string
+          _amount: number
+          _description?: string
+          _user_id: string
+        }
+        Returns: boolean
+      }
       update_user_streak: { Args: { p_user_id: string }; Returns: undefined }
       upsert_notification: {
         Args: {

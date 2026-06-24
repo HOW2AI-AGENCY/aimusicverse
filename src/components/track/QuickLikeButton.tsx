@@ -13,6 +13,7 @@ import { useLikeTrack } from '@/hooks/engagement/useLikeTrack';
 import { useLikeSessionTracker } from '@/hooks/engagement/useLikeSessionTracker';
 import { useAuth } from '@/hooks/useAuth';
 import { notify } from '@/lib/notifications';
+import { pill } from '@/lib/overlay-colors';
 
 interface QuickLikeButtonProps {
   trackId: string;
@@ -40,10 +41,11 @@ export const QuickLikeButton = memo(function QuickLikeButton({
   const [isAnimating, setIsAnimating] = useState(false);
   const { trackLike } = useLikeSessionTracker();
   
-  const { isLiked, isLoading, toggleLike } = useLikeTrack(trackId);
+  // Use hook with initialLiked to enable optimistic updates from parent
+  const { isLiked: hookIsLiked, isLoading, toggleLike } = useLikeTrack(trackId, initialIsLiked);
   
-  // Use controlled value if provided, otherwise use hook value
-  const currentIsLiked = initialIsLiked || isLiked;
+  // Hook value takes precedence (it has optimistic updates)
+  const currentIsLiked = hookIsLiked;
   
   const handleClick = useCallback(async (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -94,10 +96,12 @@ export const QuickLikeButton = memo(function QuickLikeButton({
         : "bg-muted/60 text-muted-foreground hover:text-red-400 hover:bg-muted"
     ),
     overlay: cn(
-      "rounded-full bg-black/40 backdrop-blur-sm transition-all active:scale-90",
+      // Theme-aware overlay variant - dark glass for image overlays
+      "rounded-full transition-all active:scale-90",
+      pill.glassDark,
       currentIsLiked 
         ? "text-red-500" 
-        : "text-white/80 hover:text-red-400"
+        : "text-white/90 hover:text-red-400"
     ),
     minimal: cn(
       "rounded-full transition-all active:scale-90",

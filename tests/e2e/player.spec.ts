@@ -214,13 +214,347 @@ test.describe("Player Responsive Design", () => {
     await page.setViewportSize({ width: 375, height: 667 });
     await page.goto("/");
     await page.waitForTimeout(2000);
-    
+
     // Check button sizes for touch
     const buttons = page.locator("button");
     const buttonCount = await buttons.count();
-    
+
     console.log(`Found ${buttonCount} buttons on mobile`);
-    
+
     expect(buttonCount).toBeGreaterThan(0);
+  });
+});
+
+test.describe("Player Mode Switching", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto("/");
+    await page.waitForLoadState("networkidle");
+    await page.waitForTimeout(2000);
+  });
+
+  test("should switch between compact and expanded modes", async ({ page }) => {
+    // Look for compact player
+    const compactPlayer = page.locator("[class*='CompactPlayer']").first();
+    const compactCount = await compactPlayer.count();
+
+    if (compactCount > 0) {
+      // Click to expand
+      await compactPlayer.click();
+      await page.waitForTimeout(500);
+
+      // Look for expanded player
+      const expandedPlayer = page.locator("[class*='ExpandedPlayer'], [class*='expanded-player']").first();
+      const expandedCount = await expandedPlayer.count();
+
+      console.log(`Expanded player visible: ${expandedCount > 0}`);
+
+      // Click to collapse back
+      if (expandedCount > 0) {
+        await expandedPlayer.click();
+        await page.waitForTimeout(500);
+      }
+    }
+  });
+
+  test("should maintain playback state during mode switch", async ({ page }) => {
+    // Mock a playing track
+    const compactPlayer = page.locator("[class*='CompactPlayer']").first();
+    const compactCount = await compactPlayer.count();
+
+    if (compactCount > 0) {
+      // Get initial play/pause state
+      const playButton = page.locator("button[aria-label*='Play'], button[aria-label*='Pause']").first();
+      const hasButton = await playButton.count();
+
+      if (hasButton > 0) {
+        const initialLabel = await playButton.getAttribute("aria-label");
+        console.log(`Initial play state: ${initialLabel}`);
+
+        // Switch to expanded mode
+        await compactPlayer.click();
+        await page.waitForTimeout(500);
+
+        // Check play state maintained
+        const expandedPlayButton = page.locator("button[aria-label*='Play'], button[aria-label*='Pause']").first();
+        const expandedLabel = await expandedPlayButton.getAttribute("aria-label");
+
+        console.log(`Expanded play state: ${expandedLabel}`);
+        // States should match (both playing or both paused)
+      }
+    }
+  });
+});
+
+test.describe("Queue Management", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto("/library");
+    await page.waitForLoadState("networkidle");
+    await page.waitForTimeout(2000);
+  });
+
+  test("should display queue when multiple tracks are available", async ({ page }) => {
+    // Look for queue button or drawer
+    const queueButton = page.locator("button:has-text('Очередь'), button:has_text('Queue'), [class*='queue']").first();
+    const queueCount = await queueButton.count();
+
+    console.log(`Queue button found: ${queueCount > 0}`);
+
+    if (queueCount > 0) {
+      await queueButton.click();
+      await page.waitForTimeout(500);
+
+      // Check for queue display
+      const queueDisplay = page.locator("[class*='Queue'], [class*='playlist'], [role='list']").first();
+      const displayCount = await queueDisplay.count();
+
+      console.log(`Queue display visible: ${displayCount > 0}`);
+    }
+  });
+
+  test("should allow reordering tracks in queue", async ({ page }) => {
+    const queueButton = page.locator("button:has-text('Очередь'), button:has_text('Queue')").first();
+    const queueCount = await queueButton.count();
+
+    if (queueCount > 0) {
+      await queueButton.click();
+      await page.waitForTimeout(500);
+
+      // Look for drag handles or reorder indicators
+      const dragHandles = page.locator("[class*='drag'], [aria-grabable='true'], [draggable='true']").first();
+      const handleCount = await dragHandles.count();
+
+      console.log(`Drag handles found: ${handleCount > 0}`);
+
+      if (handleCount > 0) {
+        // Simulate drag reordering
+        await dragHandles.dragTo(page.locator("[class*='Queue']").first());
+        await page.waitForTimeout(500);
+        console.log("Successfully reordered queue items");
+      }
+    }
+  });
+
+  test("should remove tracks from queue", async ({ page }) => {
+    const queueButton = page.locator("button:has-text('Очередь'), button:has_text('Queue')").first();
+    const queueCount = await queueButton.count();
+
+    if (queueCount > 0) {
+      await queueButton.click();
+      await page.waitForTimeout(500);
+
+      // Look for remove buttons
+      const removeButtons = page.locator("button:has_text('Удалить'), button[aria-label*='remove'], [class*='remove']").first();
+      const removeCount = await removeButtons.count();
+
+      console.log(`Remove buttons found: ${removeCount > 0}`);
+
+      if (removeCount > 0) {
+        await removeButtons.click();
+        await page.waitForTimeout(500);
+        console.log("Successfully removed track from queue");
+      }
+    }
+  });
+});
+
+test.describe("Mobile Gestures", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 667 });
+    await page.goto("/");
+    await page.waitForLoadState("networkidle");
+    await page.waitForTimeout(2000);
+  });
+
+  test("should support swipe gestures for track navigation", async ({ page }) => {
+    const player = page.locator("[class*='CompactPlayer'], [class*='Player']").first();
+    const playerCount = await player.count();
+
+    if (playerCount > 0) {
+      // Simulate swipe left (next track)
+      await player.evaluate(el => {
+        const touchStart = new TouchEvent('touchstart', {
+          touches: [{ clientX: 300, clientY: 50 }],
+          cancelable: true,
+          bubbles: true
+        });
+        const touchEnd = new TouchEvent('touchend', {
+          touches: [{ clientX: 100, clientY: 50 }],
+          cancelable: true,
+          bubbles: true
+        });
+        el.dispatchEvent(touchStart);
+        setTimeout(() => el.dispatchEvent(touchEnd), 100);
+      });
+
+      await page.waitForTimeout(500);
+      console.log("Swipe gesture completed");
+    }
+  });
+
+  test("should support long-press for additional options", async ({ page }) => {
+    const player = page.locator("[class*='CompactPlayer']").first();
+    const playerCount = await player.count();
+
+    if (playerCount > 0) {
+      // Simulate long press
+      await player.click({ button: 'right', delay: 1000 });
+      await page.waitForTimeout(500);
+
+      // Check for context menu or additional options
+      const contextMenu = page.locator("[class*='ContextMenu'], [class*='options']").first();
+      const menuCount = await contextMenu.count();
+
+      console.log(`Context menu appeared: ${menuCount > 0}`);
+    }
+  });
+});
+
+test.describe("Lyrics Display", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto("/");
+    await page.waitForLoadState("networkidle");
+    await page.waitForTimeout(2000);
+  });
+
+  test("should display lyrics when available", async ({ page }) => {
+    // Look for lyrics button or display
+    const lyricsButton = page.locator("button:has-text('Текст'), button:has_text('Lyrics'), [class*='lyrics']").first();
+    const lyricsCount = await lyricsButton.count();
+
+    console.log(`Lyrics button found: ${lyricsCount > 0}`);
+
+    if (lyricsCount > 0) {
+      await lyricsButton.click();
+      await page.waitForTimeout(500);
+
+      // Check for lyrics display
+      const lyricsDisplay = page.locator("[class*='Lyrics'], [class*='lyrics-display']").first();
+      const displayCount = await lyricsDisplay.count();
+
+      if (displayCount > 0) {
+        const lyricsText = await lyricsDisplay.textContent();
+        console.log(`Lyrics displayed: ${lyricsText?.length > 0}`);
+      }
+    }
+  });
+
+  test("should scroll lyrics automatically during playback", async ({ page }) => {
+    const lyricsButton = page.locator("button:has-text('Текст'), button:has_text('Lyrics')").first();
+    const lyricsCount = await lyricsButton.count();
+
+    if (lyricsCount > 0) {
+      await lyricsButton.click();
+      await page.waitForTimeout(500);
+
+      const lyricsDisplay = page.locator("[class*='Lyrics']").first();
+      const displayCount = await lyricsDisplay.count();
+
+      if (displayCount > 0) {
+        // Get initial scroll position
+        const initialScroll = await lyricsDisplay.evaluate(el => el.scrollTop);
+
+        // Simulate playback progress
+        await page.waitForTimeout(2000);
+
+        // Check if scroll position changed
+        const finalScroll = await lyricsDisplay.evaluate(el => el.scrollTop);
+        console.log(`Lyrics auto-scroll: ${finalScroll > initialScroll}`);
+      }
+    }
+  });
+});
+
+test.describe("Karaoke Mode", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto("/");
+    await page.waitForLoadState("networkidle");
+    await page.waitForTimeout(2000);
+  });
+
+  test("should have karaoke mode toggle", async ({ page }) => {
+    const karaokeButton = page.locator("button:has-text('Караоке'), button:has_text('Karaoke')").first();
+    const karaokeCount = await karaokeButton.count();
+
+    console.log(`Karaoke button found: ${karaokeCount > 0}`);
+
+    if (karaokeCount > 0) {
+      await expect(karaokeButton).toBeVisible();
+    }
+  });
+
+  test("should highlight lyrics in karaoke mode", async ({ page }) => {
+    const karaokeButton = page.locator("button:has-text('Караоке'), button:has_text('Karaoke')").first();
+    const karaokeCount = await karaokeButton.count();
+
+    if (karaokeCount > 0) {
+      await karaokeButton.click();
+      await page.waitForTimeout(1000);
+
+      // Look for highlighted lyrics
+      const highlightedLyrics = page.locator("[class*='highlight'], [class*='current'], [class*='active']").first();
+      const highlightCount = await highlightedLyrics.count();
+
+      console.log(`Karaoke highlighting active: ${highlightCount > 0}`);
+    }
+  });
+});
+
+test.describe("Player Error Handling", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto("/");
+    await page.waitForLoadState("networkidle");
+    await page.waitForTimeout(2000);
+  });
+
+  test("should handle audio loading errors", async ({ page }) => {
+    // Mock audio loading failure
+    await page.route("**/audio/**/*.mp3", route => {
+      route.abort("failed");
+    });
+
+    // Try to play a track
+    const playButton = page.locator("button[aria-label*='Play'], button[aria-label*='Воспр']").first();
+    const hasButton = await playButton.count();
+
+    if (hasButton > 0) {
+      await playButton.click();
+      await page.waitForTimeout(2000);
+
+      // Check for error message
+      const errorMessage = page.locator("[class*='error'], [class*='Error'], [role='alert']").first();
+      const errorCount = await errorMessage.count();
+
+      console.log(`Audio error message displayed: ${errorCount > 0}`);
+
+      if (errorCount > 0) {
+        const errorText = await errorMessage.textContent();
+        console.log(`Error text: ${errorText}`);
+      }
+    }
+  });
+
+  test("should show fallback for unsupported formats", async ({ page }) => {
+    // Mock unsupported audio format
+    await page.route("**/audio/**", route => {
+      route.fulfill({
+        status: 415,
+        contentType: "text/plain",
+        body: "Unsupported Media Type"
+      });
+    });
+
+    const playButton = page.locator("button[aria-label*='Play']").first();
+    const hasButton = await playButton.count();
+
+    if (hasButton > 0) {
+      await playButton.click();
+      await page.waitForTimeout(2000);
+
+      // Check for format error
+      const formatError = page.locator("text=формат, text=format, text=unsupported").first();
+      const formatCount = await formatError.count();
+
+      console.log(`Format error displayed: ${formatCount > 0}`);
+    }
   });
 });

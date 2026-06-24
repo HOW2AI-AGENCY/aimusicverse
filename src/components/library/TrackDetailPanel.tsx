@@ -1,6 +1,9 @@
 /**
  * TrackDetailPanel - Desktop track detail view
+ * Feature: 032-professional-ui
+ * 
  * Shows track info, waveform, lyrics, versions, and actions
+ * Uses design system tokens
  */
 
 import { useState } from 'react';
@@ -31,7 +34,9 @@ import { TrackStemsTab } from '@/components/track-detail/TrackStemsTab';
 import { TrackAnalysisTab } from '@/components/track-detail/TrackAnalysisTab';
 import { LyricsView } from '@/components/track-detail/LyricsView';
 import { cn } from '@/lib/utils';
+import { surface } from '@/lib/overlay-colors';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { glass } from '@/lib/glass';
 
 // Helper to format duration
 const formatDuration = (seconds: number): string => {
@@ -71,9 +76,12 @@ export function TrackDetailPanel({ track, onPlay, onClose }: TrackDetailPanelPro
         {/* Cover and Info */}
         <div className="flex gap-4">
           {/* Cover */}
-          <div className="relative w-32 h-32 flex-shrink-0 rounded-lg overflow-hidden bg-muted">
+          <div className={cn(
+            "relative w-32 h-32 flex-shrink-0 rounded-lg overflow-hidden",
+            glass.subtle
+          )}>
             {track.cover_url ? (
-              <img 
+              <img loading="lazy" decoding="async" 
                 src={track.cover_url} 
                 alt={track.title || 'Track cover'}
                 className="w-full h-full object-cover"
@@ -87,7 +95,7 @@ export function TrackDetailPanel({ track, onPlay, onClose }: TrackDetailPanelPro
             {/* Play overlay */}
             <button
               onClick={handlePlayClick}
-              className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 hover:opacity-100 transition-opacity"
+              className={cn("absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity", surface.imageDark)}
             >
               {isCurrentlyPlaying ? (
                 <Pause className="w-10 h-10 text-white" />
@@ -99,7 +107,7 @@ export function TrackDetailPanel({ track, onPlay, onClose }: TrackDetailPanelPro
 
           {/* Info */}
           <div className="flex-1 min-w-0 space-y-2">
-            <h2 className="text-lg font-semibold truncate">{track.title}</h2>
+            <h2 className="text-lg font-semibold truncate text-foreground">{track.title}</h2>
             
             <div className="flex flex-wrap gap-1.5 items-center">
               <TrackStyleTags 

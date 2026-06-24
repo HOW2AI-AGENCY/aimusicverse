@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { TrackStem } from '@/hooks/useTrackStems';
+import { touchTargetClass } from '@/lib/design-tokens';
 
 interface MobileAudioWarningProps {
   show: boolean;
@@ -61,11 +62,12 @@ export const MobileAudioWarning = memo(({
             </AlertDescription>
             <Button
               variant="ghost"
-              size="sm"
+              size="icon"
               onClick={onDismiss}
-              className="absolute top-2 right-2 h-6 w-6 p-0 hover:bg-amber-500/20"
+              className={`absolute top-1 right-1 ${touchTargetClass.iconSm} hover:bg-amber-500/20`}
+              aria-label="Закрыть предупреждение"
             >
-              <X className="w-3 h-3" />
+              <X className="w-4 h-4" />
             </Button>
           </Alert>
         </motion.div>

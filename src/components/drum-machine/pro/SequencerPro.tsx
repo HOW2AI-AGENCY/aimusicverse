@@ -3,6 +3,7 @@ import { cn } from '@/lib/utils';
 import { Volume2, VolumeX } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
+import { hardware, surface } from '@/lib/overlay-colors';
 import type { DrumSound } from '@/lib/drum-kits';
 import type { TrackEffects } from '@/hooks/useDrumMachine';
 
@@ -185,7 +186,7 @@ export const SequencerPro = memo(function SequencerPro({
       className
     )}>
       {/* Header with step numbers */}
-      <div className="flex items-center gap-2 px-3 py-3 border-b border-border/20 bg-black/20">
+      <div className={cn("flex items-center gap-2 px-3 py-3 border-b border-border/20", surface.medium)}>
         <div className="w-32 shrink-0 text-xs font-medium text-muted-foreground pl-2">
           TRACKS
         </div>
@@ -234,7 +235,7 @@ export const SequencerPro = memo(function SequencerPro({
       </div>
 
       {/* Playhead indicator at bottom */}
-      <div className="flex items-center gap-2 px-3 py-2.5 border-t border-border/20 bg-black/10">
+      <div className={cn("flex items-center gap-2 px-3 py-2.5 border-t border-border/20", surface.subtle)}>
         <div className="w-32 shrink-0" />
         {onVolumeChange && <div className="w-20 shrink-0" />}
         <div className="flex gap-1.5 flex-1">

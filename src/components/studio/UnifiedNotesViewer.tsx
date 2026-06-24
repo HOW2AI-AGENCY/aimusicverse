@@ -12,6 +12,7 @@
 
 import { memo, useState, useMemo, useCallback, useEffect } from 'react';
 import { motion } from '@/lib/motion';
+import { logger } from '@/lib/logger';
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/formatters';
 import { 
@@ -424,16 +425,11 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
   const handleSendToTelegram = useCallback(async (url: string, type: string, extension: string) => {
     setSendingFile(type);
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('Не авторизован');
+      // Telegram chat id is fetched via secure RPC (column REVOKEd from authenticated).
+      const { getOwnTelegramIds } = await import('@/lib/telegram/getOwnTelegramIds');
+      const ids = await getOwnTelegramIds();
 
-      const { data: profile, error: profileError } = await supabase
-        .from('profiles')
-        .select('telegram_id')
-        .eq('user_id', user.id)
-        .single();
-
-      if (profileError || !profile?.telegram_id) {
+      if (!ids?.telegram_id) {
         toast.error('Telegram не подключен');
         return;
       }
@@ -441,18 +437,19 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
       const { error } = await supabase.functions.invoke('send-telegram-notification', {
         body: {
           type: 'document_share',
-          chat_id: profile.telegram_id,
+          chat_id: ids.telegram_id,
           document_url: url,
           document_type: type,
           filename: `${trackTitle || 'transcription'}${extension}`,
           track_title: trackTitle,
         },
+
       });
 
       if (error) throw error;
       toast.success(`Файл отправлен в Telegram`);
     } catch (error: unknown) {
-      console.error('Send to Telegram error:', error);
+      logger.error('Send to Telegram error', error as Error);
       const msg = error instanceof Error ? error.message : 'Ошибка отправки';
       toast.error(msg);
     } finally {

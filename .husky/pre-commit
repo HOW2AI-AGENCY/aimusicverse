@@ -1,0 +1,36 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# Pre-commit hook for MusicVerse AI
+# This hook ensures bundle size checks run with a valid build
+
+echo "🔧 Running pre-commit checks..."
+
+# Check if build artifacts exist and are recent
+if [ -d "dist/assets" ]; then
+  # Check if any JavaScript files exist in dist
+  if ls dist/assets/*.js 1> /dev/null 2>&1; then
+    echo "✅ Build artifacts found, skipping build..."
+  else
+    echo "📦 No build artifacts found, running build..."
+    timeout 120s npm run build || {
+      echo "❌ Build failed or timed out after 120s"
+      exit 1
+    }
+  fi
+else
+  echo "📦 No dist directory found, running build..."
+  timeout 120s npm run build || {
+    echo "❌ Build failed or timed out after 120s"
+    exit 1
+  }
+fi
+
+# Run bundle size check
+echo "📏 Checking bundle size..."
+npm run size || {
+  echo "❌ Bundle size check failed"
+  exit 1
+}
+
+echo "✅ Pre-commit checks passed!"

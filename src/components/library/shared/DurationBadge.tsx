@@ -1,5 +1,6 @@
 import { memo } from 'react';
 import { cn } from '@/lib/utils';
+import { pill } from '@/lib/overlay-colors';
 
 interface DurationBadgeProps {
   seconds: number | null | undefined;
@@ -32,7 +33,8 @@ export const DurationBadge = memo(function DurationBadge({
     return (
       <div 
         className={cn(
-          "absolute bottom-0.5 right-0.5 bg-black/70 text-white text-[9px] px-1 py-0.5 rounded font-medium z-10",
+          "absolute bottom-0.5 right-0.5 text-[9px] px-1 py-0.5 rounded font-medium z-10",
+          pill.glassDark,
           className
         )}
       >

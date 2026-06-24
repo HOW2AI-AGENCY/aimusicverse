@@ -16,6 +16,7 @@
 
 import { ReactNode, CSSProperties } from 'react';
 import { cn } from '@/lib/utils';
+import { backdrop } from '@/lib/overlay-colors';
 import { TELEGRAM_SAFE_AREA, getSafeAreaTop, getSafeAreaBottom } from '@/constants/safe-area';
 
 type OverlayPosition = 'center' | 'top' | 'bottom' | 'fill';
@@ -47,8 +48,8 @@ const zIndexMap = {
 
 const backgroundMap = {
   none: '',
-  blur: 'bg-background/80 backdrop-blur-md',
-  dim: 'bg-black/50',
+  blur: backdrop.dark + ' backdrop-blur-md',
+  dim: backdrop.medium,
   solid: 'bg-background',
 };
 
@@ -68,11 +69,12 @@ export function FixedOverlay({
   const actualPosition = center ? 'center' : position;
 
   // For centered overlays, don't add safe area padding - it breaks flex centering
-  // Instead, use minHeight and let the content be truly centered
+  // Instead, use fixed height with overflow protection to prevent visual glitches
   const safeAreaStyle: CSSProperties = center 
     ? {
-        minHeight: 'var(--tg-viewport-stable-height, 100vh)',
         height: 'var(--tg-viewport-stable-height, 100vh)',
+        maxHeight: 'var(--tg-viewport-stable-height, 100vh)',
+        overflow: 'hidden',
         ...style,
       }
     : {

@@ -1,99 +1,117 @@
 /**
- * Color System
+ * Color System V2
  * Feature: 032-professional-ui
  * 
- * Premium color palette with Indigo/Violet theme for music/art aesthetic
- * WCAG AA compliant contrast ratios
+ * WCAG AA compliant color palette with semantic tokens.
+ * All colors reference CSS variables from index.css for consistent theming.
+ * 
+ * Contrast Ratios (verified):
+ * - Primary on background: 4.5:1+ (AA compliant)
+ * - Foreground on background: 15:1+ (AAA compliant)
+ * - Muted-foreground on background: 4.5:1+ (AA compliant)
  */
 
-:root {
-  /* Primary Colors (Indigo) */
-  --color-primary: #6366f1;
-  --color-primary-hover: #4f46e5;
-  --color-primary-light: rgba(99, 102, 241, 0.1);
+/* ============================================================================
+ * SEMANTIC COLOR UTILITIES
+ * These classes use HSL variables from the design system
+ * ============================================================================ */
 
-  /* Secondary Colors (Violet) */
-  --color-secondary: #8b5cf6;
-  --color-secondary-hover: #7c3aed;
-  --color-secondary-light: rgba(139, 92, 246, 0.1);
-
-  /* Semantic Colors */
-  --color-success: #10b981;
-  --color-success-hover: #059669;
-  --color-success-light: rgba(16, 185, 129, 0.1);
-
-  --color-warning: #f59e0b;
-  --color-warning-hover: #d97706;
-  --color-warning-light: rgba(245, 158, 11, 0.1);
-
-  --color-error: #ef4444;
-  --color-error-hover: #dc2626;
-  --color-error-light: rgba(239, 68, 68, 0.1);
-
-  /* Neutral Colors - Light Mode */
-  --color-bg-primary: #ffffff;
-  --color-bg-secondary: #f9fafb;
-  --color-bg-tertiary: #f3f4f6;
-  
-  --color-text-primary: #111827;
-  --color-text-secondary: #6b7280;
-  --color-text-tertiary: #9ca3af;
-  
-  --color-border: #e5e7eb;
-  --color-border-light: #f3f4f6;
+/* Status Colors - WCAG AA compliant */
+.color-success {
+  color: hsl(var(--success));
 }
 
-/* Dark Mode */
-.dark {
-  --color-primary: #818cf8;
-  --color-primary-hover: #6366f1;
-  --color-primary-light: rgba(129, 140, 248, 0.1);
-
-  --color-secondary: #a78bfa;
-  --color-secondary-hover: #8b5cf6;
-  --color-secondary-light: rgba(167, 139, 250, 0.1);
-
-  --color-success: #34d399;
-  --color-success-hover: #10b981;
-  --color-success-light: rgba(52, 211, 153, 0.1);
-
-  --color-warning: #fbbf24;
-  --color-warning-hover: #f59e0b;
-  --color-warning-light: rgba(251, 191, 36, 0.1);
-
-  --color-error: #f87171;
-  --color-error-hover: #ef4444;
-  --color-error-light: rgba(248, 113, 113, 0.1);
-
-  /* Neutral Colors - Dark Mode */
-  --color-bg-primary: #111827;
-  --color-bg-secondary: #1f2937;
-  --color-bg-tertiary: #374151;
-  
-  --color-text-primary: #f9fafb;
-  --color-text-secondary: #d1d5db;
-  --color-text-tertiary: #9ca3af;
-  
-  --color-border: #374151;
-  --color-border-light: #4b5563;
+.color-warning {
+  color: hsl(var(--warning));
 }
 
-/* Gradients */
+.color-error {
+  color: hsl(var(--destructive));
+}
+
+.bg-success-subtle {
+  background-color: hsl(var(--success) / 0.1);
+}
+
+.bg-warning-subtle {
+  background-color: hsl(var(--warning) / 0.1);
+}
+
+.bg-error-subtle {
+  background-color: hsl(var(--destructive) / 0.1);
+}
+
+/* ============================================================================
+ * GRADIENT UTILITIES
+ * Premium gradients for buttons, cards, and decorative elements
+ * ============================================================================ */
+
 .bg-gradient-primary {
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  background: var(--gradient-primary);
+}
+
+.bg-gradient-generate {
+  background: var(--gradient-generate);
 }
 
 .bg-gradient-success {
-  background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+  background: var(--gradient-success);
 }
 
 .bg-gradient-player {
-  background: linear-gradient(180deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+  background: linear-gradient(
+    180deg, 
+    hsl(var(--primary) / 0.08) 0%, 
+    hsl(var(--generate) / 0.08) 100%
+  );
 }
 
-/* Text Gradients */
+.bg-gradient-card-hover {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--card)) 0%,
+    hsl(var(--primary) / 0.05) 100%
+  );
+}
+
+/* Hero/Section Gradients */
+.bg-gradient-hero-top {
+  background: linear-gradient(
+    180deg,
+    hsl(var(--primary) / 0.1) 0%,
+    transparent 100%
+  );
+}
+
+.bg-gradient-hero-radial {
+  background: radial-gradient(
+    ellipse at center top,
+    hsl(var(--primary) / 0.15) 0%,
+    transparent 70%
+  );
+}
+
+/* ============================================================================
+ * TEXT GRADIENTS
+ * Clipped gradient text for headings and emphasis
+ * ============================================================================ */
+
 .text-gradient {
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-generate {
+  background: var(--gradient-generate);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-success {
+  background: var(--gradient-success);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

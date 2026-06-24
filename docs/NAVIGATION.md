@@ -1,409 +1,466 @@
-# 🗺️ Путеводитель по проекту MusicVerse
+# 📚 Полное руководство по навигации и перекрёстным ссылкам
 
-Добро пожаловать в MusicVerse AI! Этот документ — ваша карта по репозиторию.
-
-**Last Updated:** 2025-12-10
-
-> 💡 **Новое:** Полная карта документации доступна в [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md)  
-> 🎯 **Текущий спринт:** Sprint 013 - Advanced Audio Features (🟢 In Progress)  
-> 📊 **Статус проекта:** [SPRINT_STATUS.md](SPRINT_STATUS.md)
+**Последнее обновление:** 2024-06-24  
+**Статус:** ✅ Комплексный | **Файлов:** 100+ взаимосвязанных
 
 ---
 
-## 📑 Содержание
+## 🔗 Центр навигации
 
-- [🚀 Ключевые документы](#-ключевые-документы)
-- [📊 Новое: Система документации](#-новое-система-документации)
-- [🗂️ Карта документации](#️-карта-документации)
-- [📂 Структура репозитория](#-структура-репозитория)
-- [🎯 Навигация по задачам](#-навигация-по-задачам)
-- [🔑 Ключевые компоненты](#-ключевые-компоненты)
-- [🚦 Путь пользователя](#-путь-пользователя)
-- [❓ Как...](#-как)
+Этот документ служит центральным узлом навигации для всей экосистемы документации MusicVerse AI. Используйте его для быстрого поиска любого документа, понимания связей между файлами и обнаружения связанных ресурсов.
 
 ---
 
-## 🗂️ Карта документации
+## 🗺️ Обзор экосистемы документации
+
+<div align="center">
 
 ```mermaid
 graph TB
-    A[README.md<br/>Начните здесь] --> B[NAVIGATION.md<br/>Вы здесь]
+    subgraph "Основная документация"
+        A[README.md<br/>Главная точка входа]
+        B[DOCUMENTATION_INDEX.md<br/>Полная карта]
+        C[PROJECT_STATUS.md<br/>Текущий статус]
+        D[NAVIGATION.md<br/>Этот файл]
+    end
     
-    A --> C[Quick Start]
-    C --> D[ONBOARDING.md]
-    C --> E[DEVELOPMENT_WORKFLOW.md]
+    subgraph "Архитектура и дизайн"
+        E[docs/ARCHITECTURE_DIAGRAMS.md]
+        F[docs/DATABASE.md]
+        G[docs/PLAYER_ARCHITECTURE.md]
+        H[docs/TELEGRAM_BOT_ARCHITECTURE.md]
+    end
     
-    A --> F[Architecture]
-    F --> G[docs/PROJECT_SPECIFICATION.md]
-    F --> H[docs/DATABASE.md]
-    F --> I[docs/PLAYER_ARCHITECTURE.md]
-    F --> J[docs/TELEGRAM_BOT_ARCHITECTURE.md]
-    F --> K[docs/SUNO_API.md]
+    subgraph "Разработка и тестирование"
+        I[docs/TESTING_INFRASTRUCTURE.md]
+        J[docs/QUALITY_GATES.md]
+        K[CONTRIBUTING.md]
+        L[docs/DEVELOPMENT_WORKFLOW.md]
+    end
     
-    A --> L[Contributing]
-    L --> M[CONTRIBUTING.md]
-    L --> N[constitution.md]
-    L --> O[CODE_OF_CONDUCT.md]
+    subgraph "Функции и руководства"
+        M[docs/SUNO_API.md]
+        N[docs/STEM_STUDIO.md]
+        O[docs/DEMO_MODE.md]
+        P[docs/SAFE_AREA_GUIDELINES.md]
+    end
     
-    A --> P[Project Management]
-    P --> Q[SPRINTS/]
-    P --> R[ROADMAP.md]
-    P --> S[CHANGELOG.md]
+    subgraph "Планирование и отслеживание"
+        Q[ROADMAP.md]
+        R[SPRINTS/SPRINT-PROGRESS.md]
+        S[CHANGELOG.md]
+        T[KNOWLEDGE_BASE.md]
+    end
     
-    style A fill:#61DAFB,stroke:#333,stroke-width:4px
-    style B fill:#FFD700,stroke:#333,stroke-width:4px
+    A --> B
+    A --> C
+    A --> D
+    B --> E
+    B --> F
+    B --> G
+    B --> H
+    B --> I
+    B --> J
+    B --> K
+    B --> L
+    C --> R
+    C --> Q
+    D --> B
+    
+    style A fill:#26A5E4
+    style B fill:#336791
+    style C fill:#e74c3c
+    style I fill:#90EE90
+    style J fill:#FFD700
+```
+
+</div>
+
+---
+
+## 📂 Навигация по категориям
+
+### 🏠 Файлы корневого уровня
+
+| Документ | Назначение | Статус | Связи |
+|----------|-----------|--------|------|
+| **[README.md](../README.md)** | Главная точка входа проекта | ✅ Актуален | Все доки |
+| **[DOCUMENTATION_INDEX.md](../DOCUMENTATION_INDEX.md)** | Полная карта документации | ✅ Обновлён | Все доки |
+| **[CLAUDE.md](../CLAUDE.md)** | Инструкции для Claude Code | ✅ Актуален | Разработка |
+| **[CHANGELOG.md](../CHANGELOG.md)** | История версий | ✅ Активен | Все изменения |
+| **[CONTRIBUTING.md](../CONTRIBUTING.md)** | Руководство по контрибуции | ✅ Активен | Разработка |
+| **[LICENSE](../LICENSE)** | Лицензия MIT | ✅ Стабилен | Юридические |
+| **[PROJECT_STATUS.md](../PROJECT_STATUS.md)** | Текущий статус проекта | ✅ Обновлён | Планирование |
+| **[ROADMAP.md](../ROADMAP.md)** | Дорожная карта развития | ✅ Активен | Планирование |
+
+---
+
+### 📊 Статус и планирование
+
+| Документ | Описание | Статус | Последнее обновление |
+|----------|-------------|--------|-------------------|
+| **[PROJECT_STATUS.md](../PROJECT_STATUS.md)** | 🎯 **Комплексный статус проекта** | ✅ Обновлён | 2024-06-24 |
+| **[docs/PROGRESS.md](docs/PROGRESS.md)** | Трекер прогресса проекта | ✅ **НОВЫЙ** | 2024-06-24 |
+| **[ROADMAP.md](../ROADMAP.md)** | Дорожная карта | ✅ Активен | 2024-06-24 |
+| **[SPRINTS/SPRINT-PROGRESS.md](../SPRINTS/SPRINT-PROGRESS.md)** | Прогресс спринтов (35 завершено) | ✅ Завершён | 2024-06-24 |
+| **[SPRINTS/BACKLOG.md](../SPRINTS/BACKLOG.md)** | Бэклог продукта | ✅ Активен | 2024-06-24 |
+| **[SPRINTS/FUTURE_WORK_PLAN_2026.md](../SPRINTS/FUTURE_WORK_PLAN_2026.md)** | Планы на Q2 2026 | ✅ Активен | 2024-06-24 |
+| **[SPRINTS/IMPROVEMENT_PLAN_2026.md](../SPRINTS/IMPROVEMENT_PLAN_2026.md)** | Приоритеты улучшений | ✅ Активен | 2024-06-24 |
+
+---
+
+### 🏗️ Архитектура системы
+
+| Документ | Описание | Статус | Связи |
+|----------|-------------|--------|------|
+| **[docs/ARCHITECTURE_DIAGRAMS.md](docs/ARCHITECTURE_DIAGRAMS.md)** | Визуальные системные диаграммы | ✅ Комплексный | Вся архитектура |
+| **[docs/DATABASE.md](docs/DATABASE.md)** | Схема базы данных и ERD | ✅ Детальный | Backend |
+| **[docs/PLAYER_ARCHITECTURE.md](docs/PLAYER_ARCHITECTURE.md)** | Архитектура аудио плеера | ✅ Полный | Аудио |
+| **[docs/TELEGRAM_BOT_ARCHITECTURE.md](docs/TELEGRAM_BOT_ARCHITECTURE.md)** | Архитектура бота | ✅ Актуален | Telegram |
+| **[docs/PROJECT_SPECIFICATION.md](docs/PROJECT_SPECIFICATION.md)** | Спецификация проекта | ✅ Детальный | Планирование |
+| **[docs/SUNO_API.md](docs/SUNO_API.md)** | Интеграция Suno AI | ✅ Актуален | API |
+
+---
+
+### 🧪 Тестирование и качество
+
+| Документ | Описание | Статус | Связи |
+|----------|-------------|--------|------|
+| **[docs/TESTING_INFRASTRUCTURE.md](docs/TESTING_INFRASTRUCTURE.md)** | Полная настройка тестирования | ✅ **НОВЫЙ** | Качество |
+| **[docs/QUALITY_GATES.md](docs/QUALITY_GATES.md)** | Стандарты качества | ✅ **НОВЫЙ** | Quality |
+| **[docs/PERFORMANCE.md](docs/PERFORMANCE.md)** | Отслеживание производительности | ✅ Активен | Мониторинг |
+| **[tests/e2e/](../tests/e2e/)** | 62+ E2E тестов | ✅ Комплексное | Тестирование |
+| **[tests/integration/](../tests/integration/)** | API integration тесты | ✅ Хорошее | Тестирование |
+
+---
+
+### 📱 Мобильная и Telegram документация
+
+| Документ | Описание | Статус | Связи |
+|----------|-------------|--------|------|
+| **[docs/SAFE_AREA_GUIDELINES.md](docs/SAFE_AREA_GUIDELINES.md)** | Руководство по безопасным зонам | ✅ Mobile-optimized | Mobile |
+| **[docs/TELEGRAM_MINI_APP_FEATURES.md](docs/TELEGRAM_MINI_APP_FEATURES.md)** | Функции Mini App | ✅ Актуален | Telegram |
+| **[docs/mobile/OPTIMIZATION_ROADMAP_2026.md](docs/mobile/OPTIMIZATION_ROADMAP_2026.md)** | План оптимизации мобильных | ✅ Активен | Mobile |
+| **[SPRINTS/completed/SPRINT-029-TELEGRAM-MOBILE-OPTIMIZATION.md](../SPRINTS/completed/SPRINT-029-TELEGRAM-MOBILE-OPTIMIZATION.md)** | Mobile оптимизация спринт | ✅ Завершён | Mobile |
+
+---
+
+### 🎵 Документация функций
+
+| Документ | Описание | Статус | Связи |
+|----------|-------------|--------|------|
+| **[docs/STEM_STUDIO.md](docs/STEM_STUDIO.md)** | Функции Stem Studio | ✅ Обновлён | Функции |
+| **[docs/DEMO_MODE.md](docs/DEMO_MODE.md)** | Документация гостевого режима | ✅ Актуален | Функции |
+| **[docs/KNOWN_ISSUES.md](docs/KNOWN_ISSUES.md)** | Известные проблемы и обходные пути | ✅ Архив | Поддержка |
+
+---
+
+### 🛠️ Рабочий процесс
+
+| Документ | Описание | Статус | Связи |
+|----------|-------------|--------|------|
+| **[CONTRIBUTING.md](../CONTRIBUTING.md)** | Руководство по контрибуции | ✅ Активен | Разработка |
+| **[docs/DEVELOPMENT_WORKFLOW.md](docs/DEVELOPMENT_WORKFLOW.md)** | Рабочий процесс | ✅ Комплексный | Разработка |
+| **[docs/ONBOARDING.md](docs/ONBOARDING.md)** | Гайд для новых разработчиков | ✅ Актуален | Обучение |
+| **[CLAUDE.md](../CLAUDE.md)** | Инструкции Claude Code | ✅ Актуален | Разработка |
+
+---
+
+### 🗺️ Records архитектурных решений
+
+| Record | Тема | Статус | Связи |
+|--------|-------|--------|------|
+| **[ADR-001: Technology Stack](../ADR/ADR-001-technology-stack.md)** | Выбор технологий | ✅ Принято | Архитектура |
+| **[ADR-002: Frontend Architecture](../ADR/ADR-002-frontend-architecture.md)** | Frontend архитектура | ✅ Принято | Frontend |
+| **[ADR-003: Performance Optimization](../ADR/ADR-003-performance-optimization.md)** | Оптимизация производительности | ✅ Принято | Производительность |
+| **[ADR-004: Error Handling](../ADR/ADR-004-error-handling.md)** | Архитектура обработки ошибок | ✅ Принято | Ошибки |
+| **[ADR-005: State Machine](../ADR/ADR-005-state-machine.md)** | Архитектура состояний | ✅ Принято | State |
+| **[ADR-006: Audio Context](../ADR/ADR-006-audio-context.md)** | Type-safe аудио контекст | ✅ Принято | Аудио |
+| **[ADR-011: Unified Studio](../ADR/ADR-011-unified-studio.md)** | Архитектура unified студии | ✅ Принято | Studio |
+
+---
+
+### 📋 Технические спецификации
+
+| Спецификация | Описание | Статус | Связи |
+|---------------|-------------|--------|------|
+| **[specs/001-mobile-ui-redesign/](../specs/001-mobile-ui-redesign/)** | Mobile UI редизайн | ✅ Завершён | Mobile |
+| **[specs/031-mobile-studio-v2](../specs/031-mobile-studio-v2/)** | Mobile студия V2 | ✅ Активен | Studio |
+| **[specs/032-professional-ui/](../specs/032-professional-ui/)** | Professional UI | ✅ Активен | UI |
+
+---
+
+## 🔄 Матрица перекрёстных ссылок
+
+### По типу документа
+
+| Тип | Документы | Ключевые файлы |
+|-----|----------|---------------|
+| **📖 Руководства** | 15+ | README.md, CONTRIBUTING.md, ONBOARDING.md |
+| **🏗️ Архитектура** | 12+ | ARCHITECTURE_DIAGRAMS.md, DATABASE.md, ADR/* |
+| **📊 Статус** | 8+ | PROJECT_STATUS.md, ROADMAP.md, SPRINT-PROGRESS.md |
+| **🧪 Тестирование** | 6+ | TESTING_INFRASTRUCTURE.md, QUALITY_GATES.md |
+| **📱 Мобильное** | 10+ | SAFE_AREA_GUIDELINES.md, MOBILE/* |
+| **🎵 Функции** | 8+ | SUNO_API.md, STEM_STUDIO.md, DEMO_MODE.md |
+
+### По технологическому фокусу
+
+| Фокус | Основные доки | Связанные доки |
+|-------|-------------|---------------|
+| **React/TypeScript** | CLAUDE.md, DEVELOPMENT_WORKFLOW.md | ADR-002, ADR-006 |
+| **Аудио** | PLAYER_ARCHITECTURE.md, SUNO_API.md | ADR-006, STEM_STUDIO.md |
+| **Мобильное** | SAFE_AREA_GUIDELINES.md, mobile/* | specs/031, ADR-011 |
+| **База данных** | DATABASE.md | ADR-001 |
+| **Тестирование** | TESTING_INFRASTRUCTURE.md, QUALITY_GATES.md | tests/* |
+| **Telegram** | TELEGRAM_BOT_ARCHITECTURE.md, TELEGRAM_MINI_APP_FEATURES.md | ADR-001 |
+
+---
+
+## 🔍 Поиск и открытие
+
+### Найти документы по...
+
+#### ...теме
+- **Архитектура** → Секция "Архитектура системы"
+- **Тестирование** → Секция "Тестирование и качество"
+- **Мобильное** → Секция "Мобильная и Telegram"
+- **Функции** → Секция "Документация функций"
+
+#### ...статусу
+- **✅ Актуальный/Активный** → Последние обновлённые файлы
+- **🔄 В разработке** → specs/, SPRINTS/ директории
+- **📜 Архив** → KNOWN_ISSUES.md, SPRINTS/completed/
+
+#### ...формату
+- **📊 Прогресс** → docs/PROGRESS.md
+- **🗺️ Навигация** → docs/NAVIGATION.md (этот файл)
+- **📖 Руководства** -> DEVELOPMENT_WORKFLOW.md, ONBOARDING.md
+- **🧪 Тестирование** -> docs/TESTING_INFRASTRUCTURE.md, QUALITY_GATES.md
+
+---
+
+## 🎯 Паттерны быстрого доступа
+
+### Общие пути навигации
+
+**1. Онбординг нового разработчика**
+```
+README.md 
+  → CONTRIBUTING.md 
+  → docs/ONBOARDING.md 
+  → docs/DEVELOPMENT_WORKFLOW.md
+```
+
+**2. Понимание архитектуры**
+```
+DOCUMENTATION_INDEX.md 
+  → docs/ARCHITECTURE_DIAGRAMS.md 
+  → docs/DATABASE.md 
+  → ADR/* (relevant ADRs)
+```
+
+**3. Мобильная разработка**
+```
+docs/SAFE_AREA_GUIDELINES.md 
+  → docs/mobile/OPTIMIZATION_ROADMAP_2026.md
+  → SPRINTS/completed/SPRINT-029-*
+  → specs/031-mobile-studio-v2/
+```
+
+**4. Реализация тестирования**
+```
+docs/TESTING_INFRASTRUCTURE.md
+  → docs/QUALITY_GATES.md
+  → tests/e2e/*.spec.ts (примеры)
+  → README.md (секция запуска тестов)
+```
+
+**5. Разработка функций**
+```
+ROADMAP.md 
+  → SPRINTS/SPRINT-PROGRESS.md
+  → specs/* (соответствующая спецификация)
+  → docs/DEVELOPMENT_WORKFLOW.md
 ```
 
 ---
 
-## 🚀 Ключевые документы
+## 🔗 Внешние ссылки
 
-| Файл | Описание | Приоритет |
-|------|----------|-----------|
-| [**README.md**](README.md) | **Начните отсюда.** Обзор проекта и возможностей | 🔴 Critical |
-| [**DOCUMENTATION_INDEX.md**](DOCUMENTATION_INDEX.md) | **Полная карта документации** | 🔴 Critical |
-| [**SPRINT_STATUS.md**](SPRINT_STATUS.md) | **Текущий статус спринтов** | 🔴 Critical |
-| [**RECENT_IMPROVEMENTS.md**](RECENT_IMPROVEMENTS.md) | **Улучшения декабря 2025** | 🟡 High |
-| [**CONTRIBUTING.md**](CONTRIBUTING.md) | Правила контрибуции | 🟡 High |
-| [**DEVELOPMENT_WORKFLOW.md**](DEVELOPMENT_WORKFLOW.md) | Рабочий процесс, GitFlow, стандарты | 🟡 High |
-| [**ONBOARDING.md**](ONBOARDING.md) | Настройка окружения для новых разработчиков | 🟡 High |
-| [**CHANGELOG.md**](CHANGELOG.md) | История изменений | 🟢 Medium |
+### GitHub ресурсы
+- **🏠 Репозиторий:** [github.com/HOW2AI-AGENCY/aimusicverse](https://github.com/HOW2AI-AGENCY/aimusicverse)
+- **🐛 Issues:** [GitHub Issues](https://github.com/HOW2AI-AGENCY/aimusicverse/issues)
+- **💡 Discussions:** [GitHub Discussions](https://github.com/HOW2AI-AGENCY/aimusicverse/discussions)
+- **🔄 Pull Requests:** [GitHub PRs](https://github.com/HOW2AI-AGENCY/aimusicverse/pulls)
+- **🎯 Actions:** [GitHub Actions](https://github.com/HOW2AI-AGENCY/aimusicverse/actions)
 
----
-
-## 📊 Новое: Система документации
-
-### Главные индексы
-1. **[DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md)** - Полная карта всей документации
-2. **[SPRINT_STATUS.md](SPRINT_STATUS.md)** - Статус всех спринтов (7 completed, 1 active, 16 planned)
-3. **[RECENT_IMPROVEMENTS.md](RECENT_IMPROVEMENTS.md)** - Сводка улучшений за декабрь 2025
-4. **[REPOSITORY_AUDIT_2025-12-10.md](REPOSITORY_AUDIT_2025-12-10.md)** - Полный аудит репозитория
-
-### Архивы
-- **[docs/archive/2025-12/](docs/archive/2025-12/)** - Архив аудитов декабря 2025
-- **[SPRINTS/completed/](SPRINTS/completed/)** - Завершённые спринты (001-006, 021)
-
-### Навигация по спринтам
-- **[SPRINTS/README.md](SPRINTS/README.md)** - Обзор системы спринтов
-- **[SPRINTS/BACKLOG.md](SPRINTS/BACKLOG.md)** - Бэклог продукта
+### Внешние сервисы
+- **🤖 Telegram Bot:** [t.me/AIMusicVerseBot](https://t.me/AIMusicVerseBot)
+- **📢 Новости:** [t.me/AIMusicVerse](https://t.me/AIMusicVerse)
+- **🎵 Suno AI:** [suno.ai](https://suno.ai/)
+- **🗄️ Supabase:** [supabase.com](https://supabase.com/)
 
 ---
 
-## 📂 Структура репозитория
+## 📝 Организация файлов
 
+### Структура директорий
 ```
-/
-├── 📄 Root Documentation (Обновлено 2025-12-10)
-│   ├── README.md                          # Главная страница проекта
-│   ├── DOCUMENTATION_INDEX.md             # 🆕 Полная карта документации
-│   ├── SPRINT_STATUS.md                   # 🆕 Статус спринтов
-│   ├── RECENT_IMPROVEMENTS.md             # 🆕 Улучшения декабря 2025
-│   ├── REPOSITORY_AUDIT_2025-12-10.md     # 🆕 Аудит репозитория
-│   ├── NAVIGATION.md                      # Этот файл
-│   ├── CHANGELOG.md                       # История изменений
-│   ├── CONTRIBUTING.md                    # Правила контрибуции
-│   ├── DEVELOPMENT_WORKFLOW.md            # Рабочий процесс
-│   ├── ONBOARDING.md                      # Онбординг
-│   └── ...
+aimusicverse/
+├── README.md                          # Главная точка входа
+├── CLAUDE.md                          # Инструкции Claude Code
+├── DOCUMENTATION_INDEX.md             # Полная карта docs
+├── PROJECT_STATUS.md                  # Текущий статус
+├── docs/PROGRESS.md                   # Трекер прогресса
+├── ROADMAP.md                         # Планы развития
+├── CHANGELOG.md                       # История версий
+├── CONTRIBUTING.md                    # Руководство по контрибуции
 │
-├── src/                      # 🎯 Исходный код фронтенда
-│   ├── components/           # React компоненты (150+)
-│   │   ├── ui/              # Базовые UI (shadcn + custom)
-│   │   ├── player/          # Плеер (Compact/Expanded/Fullscreen)
-│   │   ├── library/         # Библиотека треков
-│   │   ├── playlist/        # Плейлисты
-│   │   ├── stem-studio/     # Stem Studio (модульная архитектура)
-│   │   │   └── core/        # 🆕 Core components (4 new)
-│   │   ├── generate-form/   # Форма генерации
-│   │   │   └── lyrics-chat/ # AI Lyrics Assistant (модули)
-│   │   ├── track-detail/    # Детали трека (Analysis, Versions)
-│   │   ├── track-actions/   # Унифицированные меню действий
-│   │   ├── professional/    # 🆕 Professional components (6 new)
-│   │   ├── gamification/    # Награды, достижения, лидерборд
-│   │   ├── admin/           # Admin Dashboard
-│   │   ├── lazy/            # 🆕 Lazy-loaded heavy components
-│   │   └── home/            # Секции главной страницы
-│   │
-│   ├── hooks/               # Кастомные хуки (60+)
-│   │   ├── audio/           # 🆕 Аудио хуки (оптимизированы)
-│   │   │   ├── useOptimizedAudioPlayer.ts
-│   │   │   ├── useDebouncedAudioTime.ts
-│   │   │   ├── usePlaybackPosition.ts    # 🆕
-│   │   │   ├── useBufferMonitor.ts       # 🆕
-│   │   │   ├── useQueueHistory.ts        # 🆕
-│   │   │   └── useSmartQueue.ts          # 🆕
-│   │   ├── studio/          # 🆕 Stem Studio хуки
-│   │   │   ├── useStemAudioSync.ts       # 🆕
-│   │   │   ├── useStemControls.ts        # 🆕
-│   │   │   └── useStudioKeyboardShortcuts.ts  # 🆕
-│   │   └── ...
-│   │
-│   ├── stores/              # Zustand stores
-│   │   ├── playerStore.ts   # Состояние плеера
-│   │   ├── queueStore.ts    # Очередь воспроизведения
-│   │   └── planTrackStore.ts
-│   │
-│   ├── lib/                 # Утилиты
-│   │   ├── audioCache.ts    # 🆕 IndexedDB audio caching
-│   │   ├── motion.ts        # 🆕 Optimized framer-motion
-│   │   ├── logger.ts        # Structured logging
-│   │   └── ...
-│   │
-│   └── pages/               # Страницы приложения
-│       ├── Index.tsx        # Главная (discovery)
-│       ├── Library.tsx      # Библиотека
-│       ├── ProfessionalStudio.tsx  # 🆕 Professional tools
-│       └── ...
+├── docs/                              # 100+ файлов документации
+│   ├── NAVIGATION.md                  # Этот файл
+│   ├── ARCHITECTURE_DIAGRAMS.md      # Системные диаграммы
+│   ├── DATABASE.md                    # Схема БД
+│   ├── TESTING_INFRASTRUCTURE.md     # Настройка тестирования
+│   ├── QUALITY_GATES.md              # Стандарты качества
+│   └── ...                           # Другая документация
 │
-├── supabase/                # 🔧 Backend
-│   └── functions/           # Edge Functions (45+)
+├── ADR/                              # Architecture Decision Records
+│   ├── ADR-001-technology-stack.md
+│   ├── ADR-002-frontend-architecture.md
+│   └── ...                           # 7 ADRs всего
 │
-├── docs/                    # 📚 Документация
-│   ├── NAVIGATION_INDEX.md  # Индекс документации
-│   ├── PROJECT_SPECIFICATION.md
-│   ├── DATABASE.md
-│   ├── PLAYER_ARCHITECTURE.md
-│   ├── TELEGRAM_BOT_ARCHITECTURE.md
-│   ├── archive/             # 📦 Архивы
-│   │   └── 2025-12/         # 🆕 Аудиты декабря 2025 (20+ файлов)
-│   └── ...
+├── specs/                            # Технические спецификации
+│   ├── 001-mobile-ui-redesign/
+│   ├── 031-mobile-studio-v2/
+│   └── 032-professional-ui/
 │
-├── ADR/                     # 🏛️ Architectural Decision Records (3 ADRs)
+├── SPRINTS/                          # Документация спринтов
+│   ├── SPRINT-PROGRESS.md            # Трекинг спринтов
+│   ├── BACKLOG.md                    # Бэклог продукта
+│   ├── FUTURE_WORK_PLAN_2026.md      # Планы Q2 2026
+│   └── completed/                    # 35 завершённых спринтов
 │
-├── SPRINTS/                 # 📋 Sprint management (ОБНОВЛЕНО)
-│   ├── README.md            # 🆕 Обзор системы спринтов
-│   ├── BACKLOG.md           # Бэклог продукта
-│   ├── completed/           # 🆕 Завершённые спринты
-│   │   ├── SPRINT-001-SETUP.md
-│   │   ├── SPRINT-002-AUDIT-IMPROVEMENTS.md
-│   │   ├── SPRINT-003-AUTOMATION.md
-│   │   ├── SPRINT-004-OPTIMIZATION.md
-│   │   ├── SPRINT-005-PRODUCTION-HARDENING.md
-│   │   ├── SPRINT-006-UI-UX-IMPROVEMENTS.md
-│   │   └── SPRINT-021-API-MODEL-UPDATE.md
-│   ├── SPRINT-013-OUTLINE.md         # 🟢 Active
-│   ├── SPRINT-008 to SPRINT-024/     # ⏳ Planned
-│   └── ...
-│
-└── tests/                   # 🧪 Тесты
+└── tests/                            # Тестовые файлы
+    ├── e2e/                         # 62+ E2E тестов
+    ├── unit/                        # 27+ unit тестов
+    └── integration/                 # API integration тесты
 ```
 
 ---
 
-## 🎯 Навигация по задачам
+## 🎯 Стандарты документации
 
-### Frontend-разработка
+### Заголовок шаблон
+Все файлы документации должны включать:
+- Заголовок с соответствующим emoji
+- Дата последнего обновления
+- Status badge
+- Быстрые навигационные ссылки
+- Таблица связанных документов
 
-| Задача | Где искать |
-|--------|------------|
-| UI компоненты | `src/components/ui/` |
-| Дизайн-система | `tailwind.config.ts`, `src/index.css` |
-| Плеер | `src/components/player/`, `src/hooks/usePlayerStore.ts` |
-| Библиотека | `src/components/library/`, `src/pages/Library.tsx` |
-| Плейлисты | `src/components/playlist/` |
-| Генерация | `src/components/GenerateSheet.tsx`, `src/components/generate-form/` |
-| AI Lyrics | `src/components/generate-form/lyrics-chat/` |
-| Анализ аудио | `src/components/track-detail/TrackAnalysisTab.tsx` |
-| Stem Studio | `src/components/stem-studio/` |
-| Gamification | `src/components/gamification/` |
-| Admin | `src/components/admin/` |
+### Footer шаблон
+Все файлы документации должны включать:
+- Секция дополнительных ресурсов
+- Ссылки на сообщество и поддержку
+- Ресурсы для разработчиков
+- Секция быстрых ссылок
+- Ссылка "В начало" (back to top)
 
-### Backend-разработка
-
-| Задача | Где искать |
-|--------|------------|
-| Генерация музыки | `supabase/functions/suno-*` |
-| Telegram бот | `supabase/functions/telegram-*` |
-| AI ассистенты | `supabase/functions/ai-*` |
-| Анализ аудио | `supabase/functions/analyze-*` |
-| Схема БД | `supabase/migrations/` |
+### Руководство по перекрёстным ссылкам
+- Используйте относительные пути для внутренних ссылок
+- Используйте абсолютные URL для внешних ссылок
+- Включайте таблицу связанных документов в заголовки
+- Добавляйте секции "Смотрите также" для связанных тем
+- Используйте согласованные соглашения об именовании
 
 ---
 
-## 🔑 Ключевые компоненты
+## 📊 Метрики документации
 
-### Плеер
-```
-GlobalAudioProvider (src/components/GlobalAudioProvider.tsx)
-├── CompactPlayer (src/components/CompactPlayer.tsx)
-├── ExpandedPlayer (src/components/player/ExpandedPlayer.tsx)
-└── MobileFullscreenPlayer (src/components/player/MobileFullscreenPlayer.tsx)
-```
+<div align="center">
 
-### Форма генерации (рефакторинг)
-```
-GenerateSheet.tsx (~250 строк)
-├── hooks/useGenerateForm.ts (логика)
-├── generate-form/GenerateFormSimple.tsx
-├── generate-form/GenerateFormCustom.tsx
-├── generate-form/GenerateFormHeader.tsx
-├── generate-form/GenerateFormReferences.tsx
-└── generate-form/GenerateFormActions.tsx
-```
+| Метрика | Значение | Статус |
+|---------|----------|--------|
+| **Всего файлов документации** | 100+ | ✅ Комплексный |
+| **Архитектурные доки** | 12+ | ✅ Хорошо задокументировано |
+| **Доки тестирования** | 6+ | ✅ Хорошее покрытие |
+| **Мобильные доки** | 10+ | ✅ Mobile-focused |
+| **Доки функций** | 8+ | ✅ Полный |
+| **ADR records** | 7 | ✅ Решения отслеживаются |
+| **Технические спецификации** | 3 | ✅ Активны |
+| **Sprint доки** | 35+ | ✅ Комплексный |
+| **Перекрёстные ссылки** | 200+ | ✅ Хорошо связано |
 
-### AI Lyrics Assistant (рефакторинг)
-```
-LyricsChatAssistant.tsx (~200 строк)
-└── lyrics-chat/
-    ├── types.ts
-    ├── constants.ts
-    ├── useLyricsChat.ts (логика)
-    ├── ChatComponents.tsx (GenreSelector, MoodSelector, etc.)
-    └── index.ts
-```
-
-### Анализ аудио
-```
-TrackAnalysisTab.tsx
-├── AnalysisQuickStats.tsx (BPM, Key, Genre cards)
-├── EmotionalMap.tsx (arousal/valence)
-├── BeatsVisualization.tsx
-└── AdvancedMusicAnalytics.tsx
-```
+</div>
 
 ---
 
-## 🚦 Путь пользователя
+## 🔧 Руководство по поддержке
 
-### User Journey Map
+### Регулярные обновления
+- **Еженедельно:** Обновлять прогресс спринтов, статус проекта
+- **Ежемесячно:** Обзор и обновление roadmap, changelog
+- **Ежеквартально:** Комплексный аудит документации
+- **По необходимости:** Обновлять документацию функций, архитектуры
 
-```mermaid
-journey
-    title Путь пользователя в MusicVerse AI
-    section Знакомство
-      Открывает Telegram бота: 5: User
-      Запускает Mini App: 5: User
-      Проходит онбординг: 4: User
-    section Создание музыки
-      Открывает форму генерации: 5: User
-      Вводит prompt или использует AI Lyrics: 4: User, AI
-      Ожидает генерацию: 3: User
-      Получает уведомление: 5: User, Bot
-    section Прослушивание
-      Открывает библиотеку: 5: User
-      Выбирает трек: 5: User
-      Переключает версии A/B: 4: User
-      Слушает в fullscreen: 5: User
-    section Организация
-      Создает плейлист: 4: User
-      Добавляет треки: 5: User
-      Делится через Telegram: 5: User, Bot
-    section Продвинутое
-      Разделяет на стемы: 4: User, AI
-      Микширует стемы: 4: User
-      Использует стем для генерации: 3: User, AI
-```
-
-### Навигация по приложению
-
-```mermaid
-graph LR
-    A[Главная] --> B[Библиотека]
-    A --> C[Создать]
-    A --> D[Проекты]
-    A --> E[Артисты]
-    A --> F[Плейлисты]
-    A --> G[Сообщество]
-    A --> H[Профиль]
-    
-    B --> I[Детали трека]
-    I --> J[Анализ аудио]
-    I --> K[Версии A/B]
-    I --> L[Stem Studio]
-    
-    C --> M[Simple Mode]
-    C --> N[Custom Mode]
-    N --> O[AI Lyrics Chat]
-    
-    D --> P[Plan Tracks]
-    P --> C
-    
-    E --> Q[My Artists]
-    E --> R[Community Artists]
-    
-    F --> S[My Playlists]
-    F --> T[Auto Playlists]
-    
-    H --> U[Settings]
-    H --> V[Achievements]
-    H --> W[Leaderboard]
-    
-    style A fill:#61DAFB
-    style C fill:#90EE90
-    style I fill:#FFB6C1
-```
+### Критерии качества
+- ✅ Все ссылки работают
+- ✅ Перекрёстные ссылки точны
+- ✅ Status бейджи актуальны
+- ✅ Даты обновлены
+- ✅ Форматирование согласовано
+- ✅ Таблицы правильно отформатированы
 
 ---
 
-## ❓ Как...
+## 🎓 Пути обучения
 
-### ...добавить новую команду в бот?
-1. Создайте handler в `supabase/functions/telegram-bot/handlers/`
-2. Зарегистрируйте в `supabase/functions/telegram-bot/index.ts`
-3. Добавьте документацию в `docs/TELEGRAM_BOT_ARCHITECTURE.md`
+### Для новых разработчиков
+1. Начните с [README.md](../README.md)
+2. Прочитайте [CONTRIBUTING.md](../CONTRIBUTING.md)
+3. Изучите [docs/ONBOARDING.md](docs/ONBOARDING.md)
+4. Ознакомьтесь с [docs/DEVELOPMENT_WORKFLOW.md](docs/DEVELOPMENT_WORKFLOW.md)
+5. Изучите [docs/ARCHITECTURE_DIAGRAMS.md](docs/ARCHITECTURE_DIAGRAMS.md)
 
-### ...внести изменения в базу данных?
-1. Используйте Lovable migration tool (supabase--migration)
-2. Миграции применяются автоматически после одобрения
-3. Обновите `docs/DATABASE.md`
+### Для мобильных разработчиков
+1. Изучите [docs/SAFE_AREA_GUIDELINES.md](docs/SAFE_AREA_GUIDELINES.md)
+2. Изучите [docs/mobile/OPTIMIZATION_ROADMAP_2026.md](docs/mobile/OPTIMIZATION_ROADMAP_2026.md)
+3. Ознакомьтесь с [specs/031-mobile-studio-v2/](specs/031-mobile-studio-v2/)
+4. Изучите [SPRINTS/completed/SPRINT-029-*](../SPRINTS/completed/)
 
-### ...создать новый экран?
-1. Создайте страницу в `src/pages/`
-2. Добавьте маршрут в `src/App.tsx`
-3. При необходимости добавьте в навигацию (`BottomNavigation.tsx` или `NavigationMenuSheet.tsx`)
-
-### ...добавить новый UI компонент?
-1. Для базовых — `src/components/ui/`
-2. Для feature-specific — соответствующая папка в `src/components/`
-3. Используйте дизайн-токены из `tailwind.config.ts`
-
-### ...рефакторить большой компонент?
-1. Выделите типы в отдельный файл `types.ts`
-2. Константы в `constants.ts`
-3. Логику в кастомный хук `use*.ts`
-4. UI подкомпоненты в отдельные файлы
-5. Создайте `index.ts` для экспортов
+### Для QA инженеров
+1. Прочитайте [docs/TESTING_INFRASTRUCTURE.md](docs/TESTING_INFRASTRUCTURE.md)
+2. Изучите [docs/QUALITY_GATES.md](docs/QUALITY_GATES.md)
+3. Изучите примеры в [tests/e2e/](../tests/e2e/)
+4. Прочитайте [CONTRIBUTING.md](../CONTRIBUTING.md) секцию тестирования
 
 ---
 
-## 📋 Чеклисты
+## 📞 Поддержка документации
 
-### Перед PR
-- [ ] Типы TypeScript корректны
-- [ ] Нет console.log (используйте logger)
-- [ ] Используются дизайн-токены (не прямые цвета)
-- [ ] Компонент не превышает 300 строк
-- [ ] Добавлена документация для новых функций
-
-### После рефакторинга
-- [ ] Функциональность сохранена
-- [ ] Удалён мёртвый код
-- [ ] Обновлена документация
-- [ ] Проверены импорты во всех местах использования
+### Нужна помощь?
+- 📖 **Не можете найти что-то?** Проверьте [DOCUMENTATION_INDEX.md](../DOCUMENTATION_INDEX.md)
+- 🐛 **Нашли ошибку?** [Сообщите о проблеме](https://github.com/HOW2AI-AGENCY/aimusicverse/issues/new?template=documentation)
+- 💡 **Есть идея?** [Запрос функции](https://github.com/HOW2AI-AGENCY/aimusicverse/issues/new?template=feature_request)
+- 📧 **Прямой контакт:** [docs@musicverse.ai](mailto:docs@musicverse.ai)
 
 ---
 
-## 🔄 Последние обновления (2025-12-10)
+<div align="center">
 
-### Новая документация
-- ✅ DOCUMENTATION_INDEX.md - Полная карта документации
-- ✅ SPRINT_STATUS.md - Dashboard спринтов
-- ✅ RECENT_IMPROVEMENTS.md - Сводка улучшений декабря
-- ✅ REPOSITORY_AUDIT_2025-12-10.md - Аудит репозитория
-- ✅ SPRINTS/README.md - Навигация по спринтам
+## 🔗 Быстрые ссылки
 
-### Архивирование
-- ✅ 7 завершённых спринтов → SPRINTS/completed/
-- ✅ 20+ аудитов декабря → docs/archive/2025-12/
-- ✅ Упорядочена структура документации
+| Ресурс | Ссылка |
+|----------|------|
+| **🏠 Домашняя страница** | [README.md](../README.md) |
+| **📚 Индекс docs** | [DOCUMENTATION_INDEX.md](../DOCUMENTATION_INDEX.md) |
+| **📊 Статус проекта** | [PROJECT_STATUS.md](../PROJECT_STATUS.md) |
+| **🗺️ Дорожная карта** | [ROADMAP.md](../ROADMAP.md) |
+| **🧪 Тестирование** | [docs/TESTING_INFRASTRUCTURE.md](docs/TESTING_INFRASTRUCTURE.md) |
+| **✅ Качество** | [docs/QUALITY_GATES.md](docs/QUALITY_GATES.md) |
 
-### Улучшения навигации
-- ✅ Обновлён README.md с текущим статусом
-- ✅ Добавлены приоритеты документов
-- ✅ Улучшена структура репозитория
+**Сделано с ❤️ командой MusicVerse AI Team**
 
----
+*Последнее обновление: 2024-06-24*
 
-*Этот документ — живой. Если вы заметили неточность, пожалуйста, обновите его.*
-
-*Last Updated: 2025-12-10*
+</div>

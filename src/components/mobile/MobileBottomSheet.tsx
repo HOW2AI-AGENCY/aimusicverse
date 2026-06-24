@@ -6,6 +6,7 @@
 import { memo, useRef, useCallback, useState, ReactNode } from 'react';
 import { motion, AnimatePresence, useMotionValue, useTransform, type PanInfo } from '@/lib/motion';
 import { cn } from '@/lib/utils';
+import { backdrop } from '@/lib/overlay-colors';
 import { useHaptic } from '@/hooks/useHaptic';
 import { X } from 'lucide-react';
 
@@ -92,7 +93,7 @@ export const MobileBottomSheet = memo(function MobileBottomSheet({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             style={{ opacity: backdropOpacity }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-sheet-backdrop"
+            className={cn("fixed inset-0 z-[150] backdrop-blur-sm", backdrop.heavy)}
             onClick={handleBackdropClick}
           />
 
@@ -114,11 +115,13 @@ export const MobileBottomSheet = memo(function MobileBottomSheet({
             style={{
               y,
               height: `${snapPoints[currentSnap] * 100}vh`,
+              // Telegram Mini App safe area bottom padding
+              paddingBottom: 'max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px))',
             }}
             className={cn(
-              "fixed bottom-0 left-0 right-0 z-sheet-content",
+              "fixed bottom-0 left-0 right-0 z-[151]",
               "bg-background rounded-t-3xl",
-              "shadow-2xl",
+              "shadow-2xl shadow-black/20",
               "flex flex-col overflow-hidden",
               className
             )}

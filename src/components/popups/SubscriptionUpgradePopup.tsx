@@ -23,6 +23,7 @@ import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
+import { logger } from '@/lib/logger';
 
 interface SubscriptionUpgradePopupProps {
   open: boolean;
@@ -135,7 +136,7 @@ export const SubscriptionUpgradePopup = memo(function SubscriptionUpgradePopup({
 
       window.location.href = result.paymentUrl;
     } catch (error) {
-      console.error('Subscription error:', error);
+      logger.error('Subscription error', error instanceof Error ? error : new Error(String(error)));
       toast.error('Ошибка при создании платежа', {
         description: error instanceof Error ? error.message : 'Попробуйте позже',
       });

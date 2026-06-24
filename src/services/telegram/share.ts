@@ -5,11 +5,17 @@
 
 import { hapticNotification } from '@/lib/haptic';
 import { logger } from '@/lib/logger';
+import { 
+  TELEGRAM_BOT_USERNAME,
+  getTrackDeepLink as getTrackDeepLinkUtil,
+  getPlaylistDeepLink as getPlaylistDeepLinkUtil,
+  getRecognizeDeepLink as getRecognizeDeepLinkUtil,
+} from '@/lib/telegram';
 
 const log = logger.child({ module: 'TelegramShare' });
 
-// Bot username for deep links
-const BOT_USERNAME = 'AIMusicVerseBot';
+// Re-export for backward compatibility (deprecated - use from @/lib/telegram directly)
+const BOT_USERNAME = TELEGRAM_BOT_USERNAME;
 
 interface ShareableTrack {
   id: string;

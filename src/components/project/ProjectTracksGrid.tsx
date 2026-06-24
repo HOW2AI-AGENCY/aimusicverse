@@ -19,6 +19,7 @@ import {
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { ProjectGeneratedTrack, useProjectGeneratedTracks } from '@/hooks/useProjectGeneratedTracks';
 import { cn } from '@/lib/utils';
+import { surface } from '@/lib/overlay-colors';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { formatTime } from '@/lib/formatters';
 import { motion, AnimatePresence } from '@/lib/motion';
@@ -114,7 +115,7 @@ export function ProjectTracksGrid({
                         onClick={() => isTrackPlaying ? pauseTrack() : playTrack(track as unknown as Parameters<typeof playTrack>[0])}
                       >
                         {track.cover_url || track.local_cover_url ? (
-                          <img 
+                          <img loading="lazy" decoding="async" 
                             src={track.local_cover_url || track.cover_url || ''} 
                             alt={track.title || ''} 
                             className="w-full h-full object-cover"
@@ -127,7 +128,8 @@ export function ProjectTracksGrid({
                         
                         {/* Play overlay */}
                         <div className={cn(
-                          "absolute inset-0 bg-black/40 flex items-center justify-center transition-opacity",
+                          "absolute inset-0 flex items-center justify-center transition-opacity",
+                          surface.imageDark,
                           isTrackPlaying ? "opacity-100" : "opacity-0 group-hover:opacity-100"
                         )}>
                           {isTrackPlaying ? (
