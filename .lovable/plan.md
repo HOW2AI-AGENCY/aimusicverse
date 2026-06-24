@@ -1,70 +1,126 @@
-# План полировки и доработки MusicVerse AI
 
-## Обзор текущего состояния
+## Проблема
 
-Проект находится в стадии **100% готовности к production**. Все основные функции работают, дизайн-система внедрена, документация обновлена.
+В проекте сосуществуют **5+ независимых систем подсказок**, часто дублирующих друг друга и конфликтующих по z-index и позиционированию:
 
----
+| Система | Файл | Назначение | Проблема |
+|---|---|---|---|
+| Radix Tooltip | `ui/tooltip.tsx` | hover-подсказки на десктопе | нет touch-fallback на mobile |
+| InteractiveTooltip | `tooltips/InteractiveTooltip.tsx` | кликабельные подсказки с «Понятно» | дублирует ContextualOnboardingTip |
+| ContextualOnboardingTip | `onboarding/ContextualOnboardingTip.tsx` | контекстные tip-карточки | свой стор, своё позиционирование |
+| ContextualTipOverlay | `onboarding/ContextualTipOverlay.tsx` | overlay-подсказки | пересекается с FAB/плеером на mobile |
+| OnboardingTooltip + FeatureHighlight | `onboarding/` | подсветка фич | свой z-index, перекрывает sheet/drawer |
+| interface-hints.tsx | `ui/interface-hints.tsx` | inline-«🎯 ...» блоки | hardcoded позиции, наезжают на контент |
+| QuickTipToast / TipsPanel | разное | tip-тосты, панели | разная анимация и стиль |
 
-## Статус выполнения
+Симптомы, которые видит пользователь:
+- одинаковая подсказка показывается двумя способами одновременно
+- на mobile (390px) карточки «🎯 Референсное аудио» и подобные **наслаиваются на форму и плеер**, кнопка «Понятно» уезжает за safe-area
+- z-index гонка: tooltip оказывается под Sheet/Drawer или над модалом
+- разные стили (стекло / непрозрачная карточка / тост) для одинаковой роли
 
-### ✅ Фаза 1: Исправление аналитики (P0) — ЗАВЕРШЕНО
+## Цель
 
-- [x] **1.1** Добавлена RLS-политика для анонимных пользователей
-  - `CREATE POLICY "Allow anonymous deeplink insert" TO anon WITH CHECK (user_id IS NULL)`
-- [x] **1.2** Graceful error handling в `deeplink-tracker.ts`
-  - Добавлена localStorage буферизация при ошибках INSERT
-  - Функция `flushBufferedDeeplinkTracks()` для retry после авторизации
-  - Подавление non-critical ошибок в production
-- [x] **1.3** Интеграция с AuthContext
-  - Автоматический flush буферизованных треков при `SIGNED_IN`
+Один публичный API подсказок, одна визуальная система, корректные `z-index`-слои и адаптивное поведение mobile/desktop.
 
-### ✅ Фаза 2: Улучшения UX (P1) — ЗАВЕРШЕНО
+## Решение
 
-- [x] **2.1** Подавление нерелевантных console warnings
-  - PostMessage warnings отсутствуют (уже исправлено ранее)
-  - Tailwind CDN warning — только в dev-mode, production не затронут
-- [x] **2.2** Консоль чистая — нет ошибок 401/403
+### 1. Единый модуль `src/components/hints/`
 
-### ✅ Фаза 3: Оптимизация производительности (P2) — ЗАВЕРШЕНО
+```text
+src/components/hints/
+  HintProvider.tsx       // глобальный контекст: реестр показанных id, очередь
+  Hint.tsx               // главный компонент-обёртка (variant + trigger)
+  HintBubble.tsx         // визуал: glass-карточка с заголовком/текстом/CTA
+  HintBeacon.tsx         // пульсирующая точка-якорь для onboarding
+  useHint.ts             // программный API: show/dismiss/reset
+  hints.registry.ts      // единый каталог всех подсказок (id → конфиг)
+  index.ts
+```
 
-- [x] **3.1** Bundle Size Audit
-  - Recharts lazy loading уже реализован (`src/lib/recharts-lazy.ts`)
-  - Lucide-react централизован через `src/lib/icons.ts`
-  - Vite manual chunks настроены для vendor splitting
-- [x] **3.2** Network Optimization
-  - Preconnect/DNS-prefetch уже настроены в `index.html` для:
-    - Supabase API и CDN
-    - Google Fonts с `display=swap`
-    - Suno API (`apibox.erweima.ai`)
-  - Telegram Web App скрипт preloaded + deferred
+Публичный API — ровно три формы:
 
-### ✅ Фаза 4: Качество кода (P3) — ЗАВЕРШЕНО
+```tsx
+// 1. Hover/long-press подсказка над элементом (замена Radix Tooltip)
+<Hint id="generate.style" label="Стиль трека">
+  <Button>…</Button>
+</Hint>
 
-- [x] **4.1** Консистентность логирования
-  - Централизованный logger используется во всех модулях
-  - Edge functions используют `createLogger()` из `_shared/logger.ts`
-- [x] **4.2** Обновление документации
-  - KNOWLEDGE_BASE.md актуализирован (custom knowledge)
-  - План полировки задокументирован в `.lovable/plan.md`
+// 2. Onboarding-карточка с «Понятно», показывается 1 раз
+<Hint id="generate.referenceAudio" variant="coachmark" anchor="auto">
+  <ReferenceAudioField />
+</Hint>
 
----
+// 3. Программный показ (после действия, из хука)
+const hint = useHint();
+hint.show('studio.firstStem');
+```
 
-## Критерии успеха
+Все тексты — в `hints.registry.ts`, чтобы исключить дубли и упростить локализацию.
 
-- ✅ Нет ошибок 401 для deeplink_analytics (RLS исправлен)
-- ✅ Чистая консоль без нерелевантных warnings (только Tailwind CDN в dev)
-- ✅ Skeleton loaders соответствуют размерам финального контента (`TrackCardSkeleton`)
-- ✅ Дизайн-токены централизованы в design system
+### 2. Дедупликация
 
----
+- Один `id` → одна подсказка. `HintProvider` хранит `Set<shownIds>` в `localStorage` (`mv:hints:v1`) + in-memory очередь, не даёт показать второй экземпляр.
+- Миграция старых ключей `onboarding_*`, `tip_*`, `coachmark_*` → новый namespace, чтобы пользователи не увидели повторно уже закрытые подсказки.
 
-## Итог
+### 3. Z-index и позиционирование
 
-**Статус: 100% ЗАВЕРШЕНО**
+В `index.css` фиксируем семантические слои (расширение существующих токенов):
 
-Все 4 фазы плана полировки выполнены:
-1. ✅ Аналитика: RLS + graceful fallback + буферизация
-2. ✅ UX: Консоль чистая, warnings подавлены
-3. ✅ Производительность: Preconnect, lazy loading, bundle splitting
-4. ✅ Качество кода: Централизованное логирование, документация
+```css
+--z-hint-tooltip: 70;   /* hover-подсказка */
+--z-hint-coachmark: 80; /* onboarding-карточка */
+--z-hint-overlay: 85;   /* подсветка + бэкдроп */
+/* < player(90) < sheet/drawer(100) < modal(110) < toast(120) */
+```
+
+- `HintBubble` использует Radix Popper (`@radix-ui/react-popper`) с `collisionPadding`, учитывающим safe-area и высоту mini-плеера/нижней навигации.
+- На mobile (`<768px`) `variant="coachmark"` рендерится как **bottom-sheet-карточка** через `vaul` вместо плавающей карточки — никаких наездов на FAB/плеер.
+- На desktop — плавающая карточка рядом с якорем со стрелкой.
+
+### 4. Адаптивное поведение триггера
+
+| Устройство | Hover-tooltip | Coachmark |
+|---|---|---|
+| Desktop (hover: hover) | при `mouseenter`, задержка 400 мс | автопоказ при появлении якоря в viewport |
+| Mobile/Touch | long-press 500 мс (haptic) | автопоказ как bottom-sheet |
+
+Определение через `matchMedia('(hover: hover)')`, без user-agent сниффинга.
+
+### 5. Миграция существующего кода
+
+Шаги в порядке выполнения:
+
+1. Добавить новый модуль `hints/` и подключить `<HintProvider>` в `UIProviders.tsx` рядом с существующим `TooltipProvider`.
+2. Перенести все строки из `interface-hints.tsx`, `ContextualOnboardingTip.CONTEXTUAL_TIPS`, `InteractiveTooltip` конфигов, `OnboardingTooltip` в `hints.registry.ts` (одна запись на смысловой id, дубли схлопываются).
+3. Заменить вызовы:
+   - `<Tooltip>…</Tooltip>` (Radix) → `<Hint variant="tooltip">` где это пользовательская подсказка (в `ui/` оставить Radix как низкоуровневый примитив).
+   - `<InteractiveTooltip>` / `<ContextualOnboardingTip>` / `<OnboardingTooltip>` / inline `🎯`-блоки из `interface-hints.tsx` → `<Hint variant="coachmark">`.
+   - `ContextualTipOverlay` → `<Hint variant="coachmark" anchor="...">` (overlay убирается, перекрытий не остаётся).
+4. Удалить старые файлы после миграции call-site'ов: `tooltips/InteractiveTooltip.tsx`, `onboarding/ContextualOnboardingTip.tsx`, `onboarding/ContextualTipOverlay.tsx`, `onboarding/OnboardingTooltip.tsx`, `ui/interface-hints.tsx`. `FeatureTutorialDialog` / `QuickStartOverlay` / `TelegramOnboarding` остаются (это многошаговые туры, не подсказки).
+5. Прогнать `rg` по проекту, чтобы убедиться, что нет orphan-импортов.
+
+### 6. Проверка
+
+- Mobile 390×844: открыть форму генерации, Studio, Lyrics-workspace — убедиться, что подсказки не пересекаются с плеером, FAB и нижней навигацией.
+- Desktop 1280+: подсказки корректно якорятся, не выезжают за viewport.
+- Сброс через debug-хук `hint.resetAll()` для повторной проверки.
+
+## Технические детали
+
+- **Зависимости:** уже есть `@radix-ui/react-popper`, `vaul`, `framer-motion` (через `@/lib/motion`). Новые пакеты не нужны.
+- **Стиль:** `glass` токены из `src/lib/glass.ts`, цвета из `src/lib/design-tokens.ts` — никаких хардкодов.
+- **Логи:** `logger.info('hint:shown', { id })`, без `console.*`.
+- **Хранилище:** `localStorage` ключ `mv:hints:v1` = `{ shown: string[], version: 1 }`; миграция читает старые ключи `onboarding_*`, `tip_*`, `interface_hint_*` и переносит в новый формат один раз.
+- **A11y:** `role="tooltip"` / `role="dialog"` в зависимости от варианта, `aria-describedby` на якоре, фокус-trap только для coachmark с CTA.
+- **Тесты:** unit на `hints.registry` (нет дублей id), e2e Playwright — открыть страницу генерации на mobile-viewport и проверить, что подсказка не перекрывает кнопку «Сгенерировать».
+
+## Что НЕ входит
+
+- Не переписываем многошаговые туры (`FeatureTutorialDialog`, `TelegramOnboarding`, `QuickStartOverlay`) — это отдельный слой onboarding.
+- Не трогаем `sonner`-тосты и системные уведомления.
+- Не меняем тексты подсказок по существу — только устраняем дубли.
+
+## Объём
+
+~15 новых/изменённых файлов в `src/components/hints/`, удаление 5 устаревших модулей, точечные правки в ~30–40 call-site'ах. Делается одним PR, миграция вызовов — пачками по разделам (generate-form → studio → lyrics → library → player).

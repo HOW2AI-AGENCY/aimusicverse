@@ -1,5 +1,10 @@
 /**
  * Interface Hints - Contextual tooltips and hints throughout the app
+ *
+ * NOTE: Now routes through the unified HintRegistry so that:
+ *  - the same hint id is never displayed twice across systems;
+ *  - only one hint is visible at a time globally;
+ *  - hints don't appear over open modals/sheets/drawers.
  */
 
 import { useState, useEffect } from 'react';
@@ -8,6 +13,7 @@ import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { backdrop } from '@/lib/overlay-colors';
+import { useHintRegistry } from '@/components/hints';
 
 interface HintProps {
   id: string;
@@ -18,47 +24,39 @@ interface HintProps {
   delay?: number;
 }
 
-const HINTS_STORAGE_KEY = 'mvai_hints_shown';
+// Legacy key — kept for reference only; storage is now unified via HintRegistry.
+// const HINTS_STORAGE_KEY = 'mvai_hints_shown';
 
-export function Hint({ 
-  id, 
-  children, 
-  hint, 
+export function Hint({
+  id,
+  children,
+  hint,
   position = 'top',
   showOnce = true,
-  delay = 2000
+  delay = 2000,
 }: HintProps) {
-  const [showHint, setShowHint] = useState(false);
-  const [dismissed, setDismissed] = useState(false);
+  const reg = useHintRegistry();
+  const isActive = reg.activeId === id;
+  const dismissed = showOnce && reg.hasSeen(id);
 
   useEffect(() => {
-    if (showOnce) {
-      const shown = JSON.parse(localStorage.getItem(HINTS_STORAGE_KEY) || '[]');
-      if (shown.includes(id)) {
-        setDismissed(true);
-        return;
-      }
-    }
-
+    if (dismissed) return;
     const timer = setTimeout(() => {
-      setShowHint(true);
+      reg.request(id);
     }, delay);
-
-    return () => clearTimeout(timer);
-  }, [id, showOnce, delay]);
+    return () => {
+      clearTimeout(timer);
+      reg.release(id);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, dismissed, delay]);
 
   const handleDismiss = () => {
-    setShowHint(false);
-    setDismissed(true);
-    
-    if (showOnce) {
-      const shown = JSON.parse(localStorage.getItem(HINTS_STORAGE_KEY) || '[]');
-      if (!shown.includes(id)) {
-        shown.push(id);
-        localStorage.setItem(HINTS_STORAGE_KEY, JSON.stringify(shown));
-      }
-    }
+    if (showOnce) reg.markSeen(id);
+    reg.release(id);
   };
+
+  const showHint = isActive && !dismissed;
 
   const positionClasses = {
     top: 'bottom-full mb-2 left-1/2 -translate-x-1/2',
