@@ -10,8 +10,8 @@
  * - Feature chunks: 150-200 KB each
  */
 
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
-import { join } from 'path';
+import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync, statSync } from 'fs';
+import { join, extname } from 'path';
 
 const RESULTS_FILE = '.bundle-size-results.json';
 const HISTORY_FILE = '.bundle-size-history.json';
@@ -48,28 +48,86 @@ function getSizeLimit(type, name) {
   return null;
 }
 
+function getBundleFiles(bundleDir) {
+  if (!existsSync(bundleDir)) {
+    console.error(`❌ Bundle directory not found: ${bundleDir}`);
+    console.error('Please run "npm run build" first to generate bundle files.');
+    process.exit(1);
+  }
+
+  const files = readdirSync(bundleDir);
+  const jsFiles = files.filter(file => extname(file) === '.js');
+
+  if (jsFiles.length === 0) {
+    console.error(`❌ No JavaScript files found in ${bundleDir}`);
+    console.error('Please run "npm run build" first to generate bundle files.');
+    process.exit(1);
+  }
+
+  return jsFiles;
+}
+
 function analyzeBundleSizes() {
   console.log('📦 Analyzing bundle sizes...\n');
 
-  // In a real implementation, this would read the actual dist/assets files
-  // For now, we'll create a stub that demonstrates the monitoring structure
+  const bundleDir = BUNDLE_DIR;
+  const jsFiles = getBundleFiles(bundleDir);
 
-  const mockData = {
+  const chunks = [];
+  let totalSize = 0;
+
+  // Analyze each bundle file
+  jsFiles.forEach(file => {
+    const filePath = join(bundleDir, file);
+    const stats = statSync(filePath);
+    const sizeKB = stats.size / 1024;
+
+    // Determine chunk type and limit
+    let type = 'other';
+    let limit = null;
+
+    if (file.startsWith('vendor-')) {
+      type = 'vendor';
+      const name = file.replace('vendor-', '').replace('.js', '');
+      limit = LIMITS.vendors[name] || null;
+    } else if (file.startsWith('feature-')) {
+      type = 'feature';
+      const name = file.replace('feature-', '').replace('.js', '');
+      limit = LIMITS.features[name] || null;
+    } else if (file.match(/^index\.[a-f0-9]+\.js$/)) {
+      type = 'main';
+      limit = LIMITS.total; // Main entry point
+    }
+
+    totalSize += sizeKB;
+
+    chunks.push({
+      name: file.replace('.js', ''),
+      size: sizeKB,
+      limit: limit,
+      type: type,
+    });
+  });
+
+  // Sort chunks by size (descending)
+  chunks.sort((a, b) => b.size - a.size);
+
+  const resultData = {
     timestamp: new Date().toISOString(),
-    total: 850, // KB
-    chunks: [
-      { name: 'vendor-react', size: 180, limit: 200, type: 'vendor' },
-      { name: 'vendor-framer', size: 85, limit: 100, type: 'vendor' },
-      { name: 'vendor-tone', size: 140, limit: 150, type: 'vendor' },
-      { name: 'feature-studio', size: 175, limit: 200, type: 'feature' },
-    ],
+    total: totalSize,
+    chunks: chunks,
   };
 
-  console.log(`Total Bundle: ${formatSize(mockData.total * 1024)} / ${LIMITS.total} KB\n`);
+  console.log(`Total Bundle: ${formatSize(totalSize * 1024)} / ${LIMITS.total} KB\n`);
 
   let hasWarning = false;
 
-  mockData.chunks.forEach(chunk => {
+  resultData.chunks.forEach(chunk => {
+    if (!chunk.limit) {
+      console.log(`ℹ️  ${chunk.name}: ${formatSize(chunk.size * 1024)} (no limit set)`);
+      return;
+    }
+
     const usage = ((chunk.size / chunk.limit) * 100).toFixed(1);
     const status = chunk.size > chunk.limit * 0.9 ? '⚠️' : '✅';
 
@@ -89,7 +147,7 @@ function analyzeBundleSizes() {
   });
 
   // Save results
-  writeFileSync(RESULTS_FILE, JSON.stringify(mockData, null, 2));
+  writeFileSync(RESULTS_FILE, JSON.stringify(resultData, null, 2));
 
   // Update history
   let history = [];
@@ -97,8 +155,8 @@ function analyzeBundleSizes() {
     history = JSON.parse(readFileSync(HISTORY_FILE, 'utf-8'));
   }
   history.push({
-    timestamp: mockData.timestamp,
-    total: mockData.total,
+    timestamp: resultData.timestamp,
+    total: resultData.total,
   });
   // Keep only last 30 entries
   if (history.length > 30) {
@@ -107,11 +165,21 @@ function analyzeBundleSizes() {
   writeFileSync(HISTORY_FILE, JSON.stringify(history, null, 2));
 
   console.log(`\n📊 Results saved to ${RESULTS_FILE}`);
-  console.log(`📜 History saved to ${HISTORY_FILE}\n`);
+  console.log(`📜 History saved to ${HISTORY_FILE}`);
 
-  if (mockData.total > LIMITS.total) {
+  // Calculate trend
+  if (history.length >= 2) {
+    const prev = history[history.length - 2];
+    const change = resultData.total - prev.total;
+    const trend = change > 0 ? '📈' : change < 0 ? '📉' : '➡️';
+    console.log(`${trend} Trend: ${change > 0 ? '+' : ''}${formatSize(change * 1024)} vs previous build`);
+  }
+
+  console.log('');
+
+  if (resultData.total > LIMITS.total) {
     console.error(
-      `❌ TOTAL BUNDLE EXCEEDS ${LIMITS.total} KB LIMIT by ${formatSize((mockData.total - LIMITS.total) * 1024)}`
+      `❌ TOTAL BUNDLE EXCEEDS ${LIMITS.total} KB LIMIT by ${formatSize((resultData.total - LIMITS.total) * 1024)}`
     );
     process.exit(1);
   } else if (hasWarning) {

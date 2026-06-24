@@ -127,6 +127,7 @@
     "@babel/preset-typescript": "^7.28.5",
     "@chromatic-com/storybook": "^1.5.0",
     "@emotion/babel-plugin": "^11.13.5",
+    "@playwright/test": "^1.61.1",
     "@size-limit/file": "^12.0.0",
     "@size-limit/preset-app": "^12.0.0",
     "@storybook/addon-a11y": "^8.1.0",
@@ -164,62 +165,62 @@
     {
       "name": "Total Bundle",
       "path": "dist/assets/*.js",
-      "limit": "965 KB",
-      "gzip": false
+      "limit": "950 KB",
+      "gzip": true
     },
     {
       "name": "React Vendor",
       "path": "dist/assets/vendor-react*.js",
       "limit": "200 KB",
-      "gzip": false
+      "gzip": true
     },
     {
       "name": "Framer Motion Vendor",
       "path": "dist/assets/vendor-framer*.js",
       "limit": "100 KB",
-      "gzip": false
+      "gzip": true
     },
     {
       "name": "Tone.js Vendor",
       "path": "dist/assets/vendor-tone*.js",
       "limit": "150 KB",
-      "gzip": false
+      "gzip": true
     },
     {
       "name": "Wavesurfer Vendor",
       "path": "dist/assets/vendor-wavesurfer*.js",
       "limit": "100 KB",
-      "gzip": false
+      "gzip": true
     },
     {
       "name": "TanStack Query Vendor",
       "path": "dist/assets/vendor-query*.js",
       "limit": "50 KB",
-      "gzip": false
+      "gzip": true
     },
     {
       "name": "Radix UI Vendor",
       "path": "dist/assets/vendor-radix*.js",
       "limit": "80 KB",
-      "gzip": false
+      "gzip": true
     },
     {
       "name": "Studio Feature",
       "path": "dist/assets/feature-studio*.js",
       "limit": "200 KB",
-      "gzip": false
+      "gzip": true
     },
     {
       "name": "Lyrics Feature",
       "path": "dist/assets/feature-lyrics*.js",
       "limit": "150 KB",
-      "gzip": false
+      "gzip": true
     },
     {
       "name": "Generation Feature",
       "path": "dist/assets/feature-generation*.js",
       "limit": "180 KB",
-      "gzip": false
+      "gzip": true
     }
   ]
 }

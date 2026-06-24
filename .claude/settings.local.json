@@ -7,7 +7,16 @@
       "Bash(npm run size:*)",
       "Bash(git fetch:*)",
       "Bash(cd:*)",
-      "Bash(tree:*)"
+      "Bash(tree:*)",
+      "Bash(npm run *)",
+      "Bash(npm list *)",
+      "Bash(mkdir -p .husky)",
+      "Bash(chmod +x .husky/pre-commit)",
+      "Bash(mkdir -p .husky/_)"
+    ],
+    "additionalDirectories": [
+      "D:\\.MUSICVERSE\\aimusicverse",
+      "D:\\.MUSICVERSE\\aimusicverse\\.husky"
     ]
   }
 }
