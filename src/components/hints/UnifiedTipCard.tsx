@@ -17,6 +17,21 @@ import { cn } from '@/lib/utils';
 import { useHintRegistry } from './HintRegistry';
 import { useTipPosition } from './useTipPosition';
 
+export interface UnifiedTipCardProps {
+  id: string;
+  title: string;
+  message: string;
+  emoji?: string;
+  /** Show "Next" button when more tips are queued. */
+  hasNext?: boolean;
+  onDismiss: () => void;
+  onNext?: () => void;
+  /** Auto-show after this delay (ms). Default 1500ms. */
+  delay?: number;
+  /** Force re-show even if already seen. Default false. */
+  force?: boolean;
+}
+
 export function UnifiedTipCard({
   id,
   title,
@@ -28,8 +43,7 @@ export function UnifiedTipCard({
   delay = 1500,
   force = false,
 }: UnifiedTipCardProps) {
-  const isMobile = useIsMobile();
-  const hasMiniPlayer = usePlayerStore((s) => !!s.activeTrack);
+  const { isMobile, className: positionClass } = useTipPosition();
   const reg = useHintRegistry();
   const isActive = reg.activeId === id;
   const hasSeen = reg.hasSeen(id);
@@ -64,18 +78,6 @@ export function UnifiedTipCard({
     release();
     onNext?.();
   };
-
-  const positionClass = useMemo(() => {
-    if (!isMobile) {
-      return 'fixed right-6 bottom-6 w-[360px] max-w-[calc(100vw-3rem)] z-[95]';
-    }
-    // Mobile: must clear bottom-nav (~80px) + mini-player (~72px) + safe-area.
-    // Honor Telegram safe-area var when present.
-    const bottom = hasMiniPlayer
-      ? 'bottom-[calc(10rem+max(var(--tg-safe-area-inset-bottom,0px),env(safe-area-inset-bottom,0px)))]'
-      : 'bottom-[calc(5.5rem+max(var(--tg-safe-area-inset-bottom,0px),env(safe-area-inset-bottom,0px)))]';
-    return cn('fixed left-3 right-3 mx-auto max-w-md z-[95]', bottom);
-  }, [isMobile, hasMiniPlayer]);
 
   return (
     <AnimatePresence>
