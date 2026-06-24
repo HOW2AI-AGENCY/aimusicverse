@@ -3,14 +3,30 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from './ui/button';
 import { useGuestMode } from '@/contexts/GuestModeContext';
+import { useTelegram } from '@/contexts/TelegramContext';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { motion, AnimatePresence } from '@/lib/motion';
 
+/**
+ * Guest mode banner.
+ * Visibility rules (see UI audit Stage 1, fix C3):
+ * - Hidden on desktop ≥1024px when NOT inside Telegram (the Sidebar already
+ *   carries an explicit "Войти" CTA and the banner used to overlap the logo).
+ * - On mobile / inside Telegram: rendered as a compact inline strip above the
+ *   main content, not as a full-width fixed overlay across the Sidebar.
+ */
 export const GuestModeBanner = () => {
   const [isVisible, setIsVisible] = useState(true);
   const navigate = useNavigate();
   const { disableGuestMode } = useGuestMode();
+  const { platform } = useTelegram();
+  const isTelegram = Boolean(platform) && platform !== 'unknown';
+
+  const isDesktop = useMediaQuery('(min-width: 1024px)');
 
   if (!isVisible) return null;
+  // On desktop outside Telegram, the Sidebar already shows the auth CTA.
+  if (isDesktop && !isTelegram) return null;
 
   const handleSignIn = () => {
     disableGuestMode();
@@ -19,16 +35,18 @@ export const GuestModeBanner = () => {
 
   return (
     <AnimatePresence>
-      <motion.div 
-        initial={{ opacity: 0, y: -20 }}
+      <motion.div
+        initial={{ opacity: 0, y: -12 }}
         animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -20 }}
-        className="fixed top-0 left-0 right-0 z-50 bg-muted/95 backdrop-blur-md border-b border-border/50"
+        exit={{ opacity: 0, y: -12 }}
+        role="region"
+        aria-label="Гостевой режим"
+        className="fixed top-0 left-0 right-0 z-navigation bg-muted/95 backdrop-blur-md border-b border-border/50"
         style={{
           paddingTop: 'max(env(safe-area-inset-top, 0px), var(--tg-safe-area-inset-top, 0px))',
         }}
       >
-        <div className="container mx-auto px-3 py-2 flex items-center justify-between gap-2">
+        <div className="mx-auto px-3 py-2 flex items-center justify-between gap-2 max-w-screen-md">
           <p className="text-xs text-muted-foreground flex-1 truncate">
             Гостевой режим
           </p>
@@ -37,15 +55,17 @@ export const GuestModeBanner = () => {
               variant="ghost"
               size="sm"
               onClick={handleSignIn}
-              className="h-7 text-xs gap-1 px-2"
+              className="h-8 min-h-touch text-xs gap-1 px-2"
+              aria-label="Войти в аккаунт"
             >
-              <LogIn className="w-3 h-3" />
+              <LogIn className="w-3.5 h-3.5" />
               Войти
             </Button>
             <button
+              type="button"
               onClick={() => setIsVisible(false)}
-              className="p-1 hover:bg-muted rounded touch-manipulation"
-              aria-label="Закрыть"
+              className="p-2 min-h-touch min-w-touch -mr-1 hover:bg-muted rounded touch-manipulation"
+              aria-label="Скрыть баннер гостевого режима"
             >
               <X className="w-3.5 h-3.5 text-muted-foreground" />
             </button>
@@ -55,3 +75,4 @@ export const GuestModeBanner = () => {
     </AnimatePresence>
   );
 };
+
