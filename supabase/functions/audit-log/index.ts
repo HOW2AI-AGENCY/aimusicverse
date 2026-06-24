@@ -286,6 +286,16 @@ serve(async (req) => {
     // Default: Log new audit entry
     const entry = body as AuditLogEntry;
 
+    // Prevent forged userId: only service/admin may write entries for other users
+    if (!isPrivileged) {
+      if (!callerId || entry.userId !== callerId) {
+        return new Response(JSON.stringify({ success: false, error: 'Forbidden: cannot write audit entries for other users' }), {
+          status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
+    }
+
+
     // Calculate hashes
     let contentHash: string | null = null;
     let promptHash: string | null = null;
