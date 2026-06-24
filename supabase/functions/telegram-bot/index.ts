@@ -8,6 +8,8 @@ import { flushMetrics, checkAlerts } from './utils/metrics.ts';
 import { getSupabaseClient } from './core/supabase-client.ts';
 import { createLogger } from '../_shared/logger.ts';
 import { corsHeaders } from '../_shared/cors.ts';
+import { authorize } from '../_shared/auth.ts';
+
 
 const logger = createLogger('telegram-bot');
 
@@ -125,17 +127,30 @@ Deno.serve(async (req) => {
     // Handle webhook updates
     if (req.method === 'POST') {
       const body = await req.json();
-      
-      // Handle internal API actions (from admin panel)
+
+      // Determine whether the request carries a valid Telegram webhook secret.
+      const receivedToken = req.headers.get('X-Telegram-Bot-Api-Secret-Token');
+      const hasValidWebhookSecret = !!WEBHOOK_SECRET && receivedToken === WEBHOOK_SECRET;
+
+      // Handle internal API actions (from admin panel) — require admin/service auth.
+      // These bypass Telegram's webhook secret because they are not Telegram
+      // updates, so they must be authenticated separately.
       if (body.action) {
+        const auth = await authorize(req, { requireAdmin: true });
+        if (!auth.ok) {
+          return new Response(JSON.stringify({ error: auth.error }), {
+            status: auth.status,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          });
+        }
         return await handleInternalAction(body);
       }
-      
+
       // SECURITY: Verify webhook secret token - MANDATORY in production
       if (!WEBHOOK_SECRET) {
         if (IS_PRODUCTION) {
           logger.error('TELEGRAM_WEBHOOK_SECRET not configured in production - rejecting all requests');
-          return new Response(JSON.stringify({ 
+          return new Response(JSON.stringify({
             error: 'Webhook not configured',
             message: 'TELEGRAM_WEBHOOK_SECRET must be set in production'
           }), {
@@ -143,23 +158,19 @@ Deno.serve(async (req) => {
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
           });
         } else {
-          // Only warn in development
           logger.warn('TELEGRAM_WEBHOOK_SECRET not configured - webhook is not protected (development mode)');
         }
-      } else {
-        // Verify the secret token
-        const receivedToken = req.headers.get('X-Telegram-Bot-Api-Secret-Token');
-        if (receivedToken !== WEBHOOK_SECRET) {
-          logger.warn('Unauthorized webhook request', {
-            hasToken: !!receivedToken,
-            ip: req.headers.get('CF-Connecting-IP') || req.headers.get('X-Forwarded-For') || 'unknown'
-          });
-          return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-            status: 403,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          });
-        }
+      } else if (!hasValidWebhookSecret) {
+        logger.warn('Unauthorized webhook request', {
+          hasToken: !!receivedToken,
+          ip: req.headers.get('CF-Connecting-IP') || req.headers.get('X-Forwarded-For') || 'unknown'
+        });
+        return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+          status: 403,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
       }
+
 
       const update: TelegramUpdate = body;
 

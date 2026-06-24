@@ -1,6 +1,8 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { getSupabaseClient } from '../_shared/supabase-client.ts';
 import { ECONOMY } from '../_shared/economy.ts';
+import { authorize } from '../_shared/auth.ts';
+
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -30,15 +32,26 @@ serve(async (req) => {
   }
 
   try {
+    // Auth: allow internal service-role calls and authenticated users (only
+    // rewarding themselves, unless admin). Custom credit/XP overrides are
+    // restricted to service-role / admin to prevent economy abuse.
+    const auth = await authorize(req);
+    if (!auth.ok) {
+      return new Response(JSON.stringify({ error: auth.error }), {
+        status: auth.status,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
     const supabase = getSupabaseClient();
 
-    const { 
-      userId, 
-      actionType, 
-      customCredits, 
-      customExperience, 
+    const {
+      userId,
+      actionType,
+      customCredits,
+      customExperience,
       description: customDescription,
-      metadata 
+      metadata
     } = await req.json();
 
     if (!userId || !actionType) {
@@ -47,6 +60,21 @@ serve(async (req) => {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
+
+    const isPrivileged = auth.isService || auth.isAdmin;
+    if (!isPrivileged && auth.user!.id !== userId) {
+      return new Response(JSON.stringify({ error: 'Forbidden: cannot reward another user' }), {
+        status: 403,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+    if (!isPrivileged && (customCredits !== undefined || customExperience !== undefined)) {
+      return new Response(JSON.stringify({ error: 'Forbidden: custom rewards not allowed' }), {
+        status: 403,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
 
     const reward = ACTION_REWARDS[actionType as keyof typeof ACTION_REWARDS];
     if (!reward && customCredits === undefined && customExperience === undefined) {
