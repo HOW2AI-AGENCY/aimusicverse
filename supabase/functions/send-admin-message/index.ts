@@ -48,8 +48,17 @@ serve(async (req) => {
 
     const { chat_ids, title, message } = await req.json();
 
-    if (!chat_ids || !Array.isArray(chat_ids) || chat_ids.length === 0) {
-      return new Response(JSON.stringify({ error: "chat_ids required" }), {
+    const body = await req.json();
+    const { user_ids, title, message } = body as {
+      user_ids?: string[];
+      title?: string;
+      message?: string;
+    };
+    // Back-compat: callers may still send pre-resolved chat_ids.
+    const legacyChatIds: string[] = Array.isArray(body.chat_ids) ? body.chat_ids : [];
+
+    if ((!user_ids || user_ids.length === 0) && legacyChatIds.length === 0) {
+      return new Response(JSON.stringify({ error: "user_ids required" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
@@ -60,6 +69,27 @@ serve(async (req) => {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
+    }
+
+    // Resolve telegram_chat_id server-side via service-role; the client
+    // never reads telegram_chat_id directly anymore.
+    let chat_ids: string[] = legacyChatIds;
+    if (user_ids && user_ids.length > 0) {
+      const { data: rows, error: lookupErr } = await supabase
+        .from("profiles")
+        .select("telegram_chat_id")
+        .in("user_id", user_ids);
+      if (lookupErr) throw lookupErr;
+      chat_ids = (rows ?? [])
+        .map((r: { telegram_chat_id: string | null }) => r.telegram_chat_id)
+        .filter((id: string | null): id is string => Boolean(id));
+    }
+
+    if (chat_ids.length === 0) {
+      return new Response(
+        JSON.stringify({ error: "No recipients with telegram_chat_id" }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
     }
 
     const TELEGRAM_BOT_TOKEN = Deno.env.get("TELEGRAM_BOT_TOKEN");
