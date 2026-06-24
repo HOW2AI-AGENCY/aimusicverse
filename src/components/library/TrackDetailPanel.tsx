@@ -81,7 +81,7 @@ export function TrackDetailPanel({ track, onPlay, onClose }: TrackDetailPanelPro
             glass.subtle
           )}>
             {track.cover_url ? (
-              <img 
+              <img loading="lazy" decoding="async" 
                 src={track.cover_url} 
                 alt={track.title || 'Track cover'}
                 className="w-full h-full object-cover"

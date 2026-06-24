@@ -73,6 +73,19 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
     }
   }, [open]);
 
+  // Hard cleanup on unmount to release iOS audio slot
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.src = '';
+        audioRef.current.load();
+        audioRef.current = null;
+      }
+    };
+  }, []);
+
+
   const { createArtist, isCreating } = useArtists();
 
   const togglePlayback = () => {

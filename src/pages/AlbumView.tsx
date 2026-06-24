@@ -230,7 +230,7 @@ export default function AlbumView() {
             {/* Cover */}
             <div className="w-48 h-48 sm:w-56 sm:h-56 rounded-xl overflow-hidden shadow-2xl shrink-0 bg-secondary">
               {album.cover_url ? (
-                <img src={album.cover_url} alt={album.title} className="w-full h-full object-cover" />
+                <img loading="lazy" decoding="async" src={album.cover_url} alt={album.title} className="w-full h-full object-cover" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center">
                   <Music className="w-16 h-16 text-muted-foreground/40" />
@@ -249,7 +249,7 @@ export default function AlbumView() {
                 onClick={() => navigate(`/profile/${album.user_id}`)}
               >
                 {album.profiles?.photo_url ? (
-                  <img 
+                  <img loading="lazy" decoding="async" 
                     src={album.profiles.photo_url} 
                     alt={creatorName}
                     className="w-6 h-6 rounded-full object-cover"
@@ -331,9 +331,9 @@ export default function AlbumView() {
               {/* Cover */}
               <div className="w-10 h-10 rounded-md overflow-hidden bg-secondary shrink-0">
                 {track.cover_url ? (
-                  <img src={track.cover_url} alt="" className="w-full h-full object-cover" />
+                  <img loading="lazy" decoding="async" src={track.cover_url} alt="" className="w-full h-full object-cover" />
                 ) : album.cover_url ? (
-                  <img src={album.cover_url} alt="" className="w-full h-full object-cover" />
+                  <img loading="lazy" decoding="async" src={album.cover_url} alt="" className="w-full h-full object-cover" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
                     <Music className="w-4 h-4 text-muted-foreground/50" />

@@ -269,7 +269,7 @@ export default function PublicProfilePage() {
       <div className="relative">
         {profile.banner_url ? (
           <div className="h-32 sm:h-48 overflow-hidden">
-            <img 
+            <img loading="lazy" decoding="async" 
               src={profile.banner_url} 
               alt="Banner" 
               className="w-full h-full object-cover"
@@ -482,7 +482,7 @@ export default function PublicProfilePage() {
                 >
                   <div className="flex items-start gap-3">
                     {project.cover_url ? (
-                      <img 
+                      <img loading="lazy" decoding="async" 
                         src={project.cover_url} 
                         alt={project.title}
                         className="w-16 h-16 rounded-lg object-cover"
@@ -564,7 +564,7 @@ export default function PublicProfilePage() {
                   whileTap={{ scale: 0.98 }}
                 >
                   {playlist.cover_url ? (
-                    <img 
+                    <img loading="lazy" decoding="async" 
                       src={playlist.cover_url}
                       alt={playlist.title}
                       className="w-12 h-12 rounded-lg object-cover"

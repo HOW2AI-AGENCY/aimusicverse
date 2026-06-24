@@ -150,7 +150,7 @@ export default function Artists() {
                     >
                       <div className="w-16 h-16 rounded-2xl overflow-hidden bg-gradient-to-br from-primary/20 to-primary/10 flex-shrink-0 border-2 border-primary/20 group-hover:border-primary/40 transition-all shadow-lg">
                         {artist.avatar_url ? (
-                          <img src={artist.avatar_url} alt={artist.name} className="w-full h-full object-cover" />
+                          <img loading="lazy" decoding="async" src={artist.avatar_url} alt={artist.name} className="w-full h-full object-cover" />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center">
                             <Users className="w-7 h-7 text-primary/50" />

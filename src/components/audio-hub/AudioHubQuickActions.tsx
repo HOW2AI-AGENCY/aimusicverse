@@ -3,7 +3,7 @@
  */
 
 import React, { memo } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { 
   Mic, Guitar, Music, Wand2, FileAudio, 
   ArrowRight, Sparkles, Radio

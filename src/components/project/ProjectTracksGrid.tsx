@@ -115,7 +115,7 @@ export function ProjectTracksGrid({
                         onClick={() => isTrackPlaying ? pauseTrack() : playTrack(track as unknown as Parameters<typeof playTrack>[0])}
                       >
                         {track.cover_url || track.local_cover_url ? (
-                          <img 
+                          <img loading="lazy" decoding="async" 
                             src={track.local_cover_url || track.cover_url || ''} 
                             alt={track.title || ''} 
                             className="w-full h-full object-cover"

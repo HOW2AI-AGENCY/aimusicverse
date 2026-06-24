@@ -50,8 +50,15 @@ export function SectionComparePanel({
 
     return () => {
       origAudio.pause();
+      origAudio.src = '';
+      origAudio.load();
       replAudio.pause();
+      replAudio.src = '';
+      replAudio.load();
+      originalRef.current = null;
+      replacedRef.current = null;
     };
+
   }, [originalUrl, replacedUrl]);
 
   useEffect(() => {

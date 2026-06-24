@@ -1,53 +1,94 @@
-# План: фикс перекрытия секций BottomNav/плеером + e2e «Быстрый старт»
+# План оптимизации и улучшения MusicVerse AI
 
-## Цели
-1. На мобильных и планшетах (≤1023px portrait) BottomNavigation и фиксированный CompactPlayer не перекрывают секции главной при ресайзе и скролле.
-2. Блок «Быстрый старт» в `CreativePresetsSection` и переключатель `Тексты/Треки/Проекты` всегда корректно укладываются в 2 строки на 360–640px без обрезки.
+На основе аудита: 40+ страниц, 890+ компонентов, 200+ хуков, 80+ Edge Functions, Sprint 030 (98/100). Ниже — приоритизированный план работ.
 
-## Аудит проблем
+---
 
-**MainLayout.tsx** уже выставляет `--nav-h`/`--player-h` и paddingBottom в `<main>`, но:
-- `paddingBottom` использует жёстко зашитые `5rem`/`9.5rem` вместо тех же CSS-переменных `--nav-h`/`--player-h`, поэтому при пересчёте высот (например, переход в landscape, появление трека) реальная высота BottomNav (используется `safe-bottom`, может быть >64px) расходится с padding'ом → секции снизу перекрываются.
-- На tablet portrait (768–1023px) логика `!isDesktop && !isMobileLandscape` справедлива, но padding одинаковый с мобильным — ок, но `--nav-h=64` не учитывает safe-area-inset-bottom внутри самого BottomNavigation.
+## ЭТАП 1. Производительность и бандл (P0, 1–2 недели)
 
-**CreativePresetsSection.tsx**:
-- На узких ширинах (360–420px) tab-кнопки имеют `gap-1.5` + иконка + `truncate label`, при которых русское «Проекты» обрезается до «Прое…». Нужно: использовать `shortLabel` на ≤sm, скрывать иконку при <380px, либо разрешать перенос.
-- Заголовок и описание ("Выберите шаблон для создания") в одной flex-колонке с `truncate` — обрезается. Должны оставаться в 2 видимые строки (заголовок + подпись), без `truncate` на подписи (использовать `line-clamp-1` только при крайней нужде или убрать).
-- Структура «два ряда»: ряд 1 = заголовок «Быстрый старт» + подпись; ряд 2 = переключатель табов. Уже `flex-col sm:flex-row`, ок. Нужно гарантировать видимость обоих рядов и неотсечение табов.
+**Цель:** удержать бандл ≤ 950 KB, поднять LCP/INP на мобильных.
 
-## Изменения
+- Анализ `npm run size:why`, выделить топ-10 тяжёлых чанков.
+- Перевести оставшиеся `framer-motion` импорты на `@/lib/motion`; запретить прямой импорт через ESLint-правило.
+- Lazy-load для тяжёлых страниц: `studio-v2`, `LyricsStudio`, `GuitarStudio`, `Analytics`, `AdminDashboard`.
+- Виртуализация всех списков > 50 элементов (`Library`, `Playlists`, `Community`, `Artists`) через `react-virtuoso`.
+- Заменить `<img>` на `LazyImage` везде (audit-скрипт).
+- Удалить `Index.tsx.backup` и прочие мёртвые файлы.
+- Добавить preconnect/preload для критичных доменов (Supabase, CDN обложек).
 
-### 1. `src/components/MainLayout.tsx`
-- Заменить hardcoded paddingBottom на `calc(var(--nav-h, 0px) + var(--player-h, 0px) + max(env(safe-area-inset-bottom,0px), var(--tg-safe-area-inset-bottom,0px)) + 0.75rem)`.
-- В блоке `useEffect` добавлять к `--nav-h` запас 16px (визуальный отступ) и не сбрасывать на 0 при наличии `hasOwnBottomNav` — учесть его.
+**Метрики приёмки:** bundle ≤ 900 KB, LCP < 2.5s на 4G, INP < 200ms.
 
-### 2. `src/components/home/CreativePresetsSection.tsx`
-- Подпись «Выберите шаблон…»: убрать `truncate`, оставить `line-clamp-2`, не схлопывать высоту.
-- Табы: 
-  - `px-1.5` на мобиле, `gap-1` базово.
-  - Использовать `shortLabel` на <sm: `<span className="sm:hidden">{tab.shortLabel}</span><span className="hidden sm:inline">{tab.label}</span>`.
-  - Иконку скрывать на <xs (`hidden xs:inline-flex`), чтобы освободить место для русского текста.
-  - Убрать `truncate` со span текста; вместо этого `whitespace-nowrap` + min-w-0 контейнер — буквы не режутся, табы делят ширину поровну (`flex-1`).
-- Гарантировать `flex-wrap`/двухрядность всего блока на <sm уже за счёт `flex-col`.
+---
 
-### 3. Новый e2e тест `tests/e2e/home.quickstart.responsive.spec.ts`
-Прогон на ширинах 360, 390, 414, 480, 540, 640 (height=844):
-- Перейти на `/`.
-- Проверить наличие «Быстрый старт» (текст), его `clientHeight > 0` и что текст полностью видим (boundingBox.width >= scrollWidth).
-- Для каждого таба «Тексты»/«Треки»/«Проекты»: bounding box виден внутри viewport, текст не обрезан (`scrollWidth <= clientWidth + 1` или содержит ожидаемую подпись `Текст|Треки|Проект`).
-- Проверить, что блок занимает ровно 2 ряда: y координат заголовка и tablist различаются (>= высота заголовка), и нет третьего ряда (tablist в одном ряду).
+## ЭТАП 2. Аудио-система и плеер (P0, 1 неделя)
 
-### 4. Новый e2e `tests/e2e/layout.bottomnav-overlap.spec.ts`
-- На 390×844 и 768×1024 (portrait): открыть `/`, проскроллить в самый низ, проверить что последняя секция home (футер контента) полностью видна над `[data-testid="bottom-navigation"]` (или селектор `nav[aria-label*="навигация"]`) — `section.bottom <= nav.top + 1`.
-- Повторить с активным треком (программно установить через `localStorage` `playerStore` или вызвать play на первом треке): убедиться, что секция не перекрыта CompactPlayer'ом.
+**Цель:** убрать iOS-краши и рассинхрон версий A/B.
 
-## Технические детали
-- Тесты Playwright, использовать существующий конфиг `playwright.config.ts`.
-- Селекторы: `getByRole('tablist', { name: 'Категории шаблонов' })`, `getByRole('tab', { name: 'Тексты'|'Треки'|'Проекты' })`, `getByText('Быстрый старт')`.
-- Проверка обрезки: сравнивать `el.scrollWidth` vs `el.clientWidth` через `evaluate`.
+- Аудит всех `new Audio()` в коде — оставить только `GlobalAudioProvider` + `audioElementPool`.
+- Гарантировать cleanup (`pause()` + `src=''`) при unmount компонентов с превью.
+- Атомарное переключение версий: транзакция `is_primary` + `active_version_id` через RPC.
+- Кеш waveform в IndexedDB по `trackId` (проверить попадания).
+- Тесты: Playwright-сценарии play/pause/switch/seek на Mobile Safari.
 
-## Файлы
-- edit `src/components/MainLayout.tsx`
-- edit `src/components/home/CreativePresetsSection.tsx`
-- create `tests/e2e/home.quickstart.responsive.spec.ts`
-- create `tests/e2e/layout.bottomnav-overlap.spec.ts`
+---
+
+## ЭТАП 3. Мобильная UX и Telegram (P1, 1–2 недели)
+
+- Унификация safe-area: `--tg-content-safe-area-inset-*` + `env(safe-area-inset-*)` через util-класс.
+- Заменить оставшиеся `<Dialog>` на `MobileBottomSheet` (vaul) на мобильных.
+- Touch targets ≥ 44×44 (axe + ручной чек на главных экранах).
+- Haptic feedback на ключевых действиях (play, like, generate, switch version).
+- Back Button и Main Button proxy hooks применить во всех вложенных экранах.
+- E2E на ширинах 360/390/414/640/768 px для главной, библиотеки, студии, плеера.
+
+---
+
+## ЭТАП 4. Архитектура и качество кода (P1, 2 недели)
+
+- Разбить «крупные» сторы/компоненты > 500 строк: `useUnifiedStudioStore` (38KB) → domain slices (playback, mixer, sections, stems).
+- Заменить оставшиеся `console.*` на `logger` (ESLint-правило `no-console`).
+- Привести API↔Service↔Hook слои к единому шаблону; удалить дубли (`useTracks` vs прямые запросы).
+- Удалить дублирующие version-селекторы — оставить только `UnifiedVersionSelector`.
+- Включить `strict` + `noUncheckedIndexedAccess` в `tsconfig`, починить ошибки.
+- Покрытие unit-тестами критичных хуков (player, versioning, credits) до 70%.
+
+---
+
+## ЭТАП 5. Backend, безопасность, наблюдаемость (P1, 1 неделя)
+
+- Линтер БД: `supabase linter` + фикс warning'ов.
+- Аудит RLS на новых таблицах; e2e-тест «чужой пользователь не видит чужое».
+- Привести все Edge Functions к общему скелету `_shared/auth.ts` + структурированному логу.
+- Sentry: проверить sourcemaps, добавить release health, алерты по ошибкам плеера и генерации.
+- Архивирование `api_usage_logs` / `error_logs` старше 30 дней (cron).
+
+---
+
+## ЭТАП 6. Доступность и SEO (P2, 3–5 дней)
+
+- WCAG AA: focus-visible ring везде, контрасты, aria-label у иконочных кнопок.
+- Семантика: один H1 на страницу, корректные landmark'и.
+- SEO: meta description, OG/Twitter, JSON-LD (MusicGroup/MusicRecording) для публичных страниц трека и артиста.
+- Canonical + sitemap.xml для публичных маршрутов.
+
+---
+
+## ЭТАП 7. Документация и DX (P2, постоянно)
+
+- Обновить `KNOWLEDGE_BASE.md`, `PROJECT_STATUS.md`, `docs/PLAYER_ARCHITECTURE.md`.
+- Storybook для базовых UI + плеера + версии-селектора.
+- CI gate: `npm run lint && size && test && test:e2e:mobile` обязательны.
+
+---
+
+## Порядок выполнения
+
+```text
+Неделя 1: ЭТАП 1 + ЭТАП 2 (perf + audio)
+Неделя 2: ЭТАП 3 (mobile/Telegram UX)
+Неделя 3: ЭТАП 4 (refactor + types)
+Неделя 4: ЭТАП 5 + ЭТАП 6 (backend/sec + a11y/seo)
+Параллельно: ЭТАП 7
+```
+
+После твоего «ок» начну с ЭТАПА 1 (perf-аудит и lazy-loading) — или скажи, с какого этапа стартовать.

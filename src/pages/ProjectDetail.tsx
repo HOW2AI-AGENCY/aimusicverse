@@ -295,7 +295,7 @@ function ProjectHeroSection({
       <div className="relative">
         <div className="relative w-full aspect-[3/2]">
           {project.cover_url ? (
-            <img src={project.cover_url} alt={project.title} className="w-full h-full object-cover" />
+            <img loading="lazy" decoding="async" src={project.cover_url} alt={project.title} className="w-full h-full object-cover" />
           ) : (
             <div className="w-full h-full bg-gradient-to-br from-primary/30 via-secondary to-muted flex items-center justify-center">
               <Music className="w-14 h-14 text-muted-foreground/40" />
@@ -356,7 +356,7 @@ function ProjectHeroSection({
         <div className="relative group">
           <div className="w-44 h-44 rounded-xl overflow-hidden shadow-xl bg-gradient-to-br from-secondary to-muted ring-1 ring-white/10 transition-transform group-hover:scale-[1.02]">
             {project.cover_url ? (
-              <img src={project.cover_url} alt={project.title} className="w-full h-full object-cover" />
+              <img loading="lazy" decoding="async" src={project.cover_url} alt={project.title} className="w-full h-full object-cover" />
             ) : (
               <div className="w-full h-full flex items-center justify-center">
                 <Music className="w-12 h-12 text-muted-foreground/40" />

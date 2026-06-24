@@ -6,7 +6,7 @@
  */
 
 import React, { ReactNode } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { triggerHapticFeedback } from '@/lib/mobile-utils';
 import { backdrop } from '@/lib/overlay-colors';
