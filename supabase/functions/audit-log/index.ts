@@ -128,7 +128,9 @@ serve(async (req) => {
     // Handle different actions
     if ('action' in body) {
       if (body.action === 'get_history') {
-        // Get audit history for an entity
+        const denied = await ensureEntityOwner(body.entityType, body.entityId);
+        if (denied) return denied;
+
         const { data, error } = await supabase
           .from('content_audit_log')
           .select('*')
