@@ -53,6 +53,12 @@ const SEEK_AMOUNT = 10; // seconds to seek
 interface MobileFullscreenPlayerProps {
   track: Track;
   onClose: () => void;
+  /** Optional master/active version used to source lyrics & suno IDs for correct sync. */
+  currentVersion?: {
+    suno_task_id?: string | null;
+    suno_id?: string | null;
+    lyrics?: string | null;
+  } | null;
 }
 
 interface AlignedWord {
@@ -61,7 +67,7 @@ interface AlignedWord {
   endS: number;
 }
 
-export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlayerProps) {
+export function MobileFullscreenPlayer({ track, onClose, currentVersion }: MobileFullscreenPlayerProps) {
   const navigate = useNavigate();
   const [queueOpen, setQueueOpen] = useState(false);
   const [userScrolling, setUserScrolling] = useState(false);
@@ -221,10 +227,12 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
   // Audio visualizer data
   const visualizerData = useAudioVisualizer(audioElement, isPlaying, { barCount: 48, smoothing: 0.75 });
 
-  const { data: lyricsData } = useTimestampedLyrics(
-    track.suno_task_id || null,
-    track.suno_id || null
-  );
+  // Prefer master/active version's suno IDs and lyrics when provided (correct A/B sync)
+  const sunoTaskId = currentVersion?.suno_task_id ?? track.suno_task_id ?? null;
+  const sunoId = currentVersion?.suno_id ?? track.suno_id ?? null;
+  const trackLyrics = currentVersion?.lyrics ?? track.lyrics ?? null;
+
+  const { data: lyricsData } = useTimestampedLyrics(sunoTaskId, sunoId);
 
   // Parse lyrics and group into lines with robust error handling
   const { lyricsLines, plainLyrics, parseError } = useMemo(() => {
@@ -262,11 +270,11 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
         words = (lyricsData.alignedWords as unknown[])
           .filter(isValidAlignedWord)
           .filter(w => !isStructuralTag(w.word));
-      } else if (track.lyrics) {
+      } else if (trackLyrics) {
         // Try to parse lyrics from track if no API data
         try {
-          if (track.lyrics.trim().startsWith('{') || track.lyrics.trim().startsWith('[')) {
-            const parsed = JSON.parse(track.lyrics);
+          if (trackLyrics.trim().startsWith('{') || trackLyrics.trim().startsWith('[')) {
+            const parsed = JSON.parse(trackLyrics);
             if (parsed?.alignedWords && Array.isArray(parsed.alignedWords)) {
               words = (parsed.alignedWords as unknown[])
                 .filter(isValidAlignedWord)
@@ -276,12 +284,12 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
         } catch (jsonErr) {
           // Not JSON or invalid JSON, treat as plain text
           logger.debug('Lyrics not JSON, using as plain text', { error: jsonErr });
-          return { lyricsLines: null, plainLyrics: cleanLyrics(track.lyrics), parseError: false };
+          return { lyricsLines: null, plainLyrics: cleanLyrics(trackLyrics), parseError: false };
         }
         
         if (words.length === 0) {
           // No valid aligned words found, use plain text
-          return { lyricsLines: null, plainLyrics: cleanLyrics(track.lyrics), parseError: false };
+          return { lyricsLines: null, plainLyrics: cleanLyrics(trackLyrics), parseError: false };
         }
       }
       
@@ -332,10 +340,10 @@ export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlaye
     } catch (err) {
       logger.error('Error parsing lyrics', err);
       // Fallback to plain text on any error
-      const fallbackText = track.lyrics ? cleanLyrics(track.lyrics) : null;
+      const fallbackText = trackLyrics ? cleanLyrics(trackLyrics) : null;
       return { lyricsLines: null, plainLyrics: fallbackText, parseError: true };
     }
-  }, [lyricsData, track.lyrics]);
+  }, [lyricsData, trackLyrics]);
 
   // Flatten words from parsed lines for synchronization hook
   const flattenedWords = useMemo(() => {
