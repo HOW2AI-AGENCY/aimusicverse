@@ -264,8 +264,7 @@ export const MainLayout = () => {
       
       {isDesktop && (
         <div className={cn("fixed inset-y-0 z-navigation transition-all duration-300", sidebarWidth)}>
-      {isDesktop && (
-        <div className={cn("fixed inset-y-0 z-navigation transition-all duration-300", sidebarWidth)}>
+
           <Sidebar 
             collapsed={sidebarCollapsed} 
             onCollapsedChange={handleSidebarCollapsedChange} 
