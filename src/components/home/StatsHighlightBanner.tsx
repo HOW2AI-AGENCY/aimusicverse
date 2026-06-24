@@ -74,9 +74,10 @@ export const StatsHighlightBanner = memo(function StatsHighlightBanner({
   return (
     <motion.div
       className={cn(
-        // Mobile: horizontal scroll | Desktop: grid
-        "grid grid-cols-2 gap-2 sm:flex sm:gap-2 sm:overflow-x-auto sm:scrollbar-hide sm:pb-1 sm:-mx-1 sm:px-1",
-        "lg:grid lg:grid-cols-4 lg:gap-3 lg:overflow-visible",
+        // 2x2 grid at every size — fits both rail (≈380px) and full-width
+        // mobile cleanly. Previous lg:grid-cols-4 caused clipped labels when
+        // rendered inside the right rail.
+        "grid grid-cols-2 gap-2 sm:gap-3",
         className
       )}
       initial={{ opacity: 0, y: 10 }}
@@ -91,14 +92,10 @@ export const StatsHighlightBanner = memo(function StatsHighlightBanner({
           <motion.div
             key={stat.id}
             className={cn(
-              "flex items-center gap-2.5 px-3 py-2.5 rounded-xl",
+              "flex items-center gap-2.5 px-3 py-2.5 rounded-xl min-w-0",
               glass.subtle,
               "border",
               colors.border,
-              // Mobile: equal width in grid | Desktop: flex shrink
-              "sm:flex-shrink-0 sm:min-w-[105px]",
-              "lg:flex-1",
-              // Hover effects
               "hover:bg-card/70 hover:shadow-sm hover:border-opacity-50 transition-all duration-200",
               "group cursor-default"
             )}
