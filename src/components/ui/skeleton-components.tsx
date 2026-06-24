@@ -10,6 +10,11 @@
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 
+// Pre-computed waveform bar heights to keep render pure
+const WAVEFORM_HEIGHTS = Array.from({ length: 50 }, (_, i) =>
+  `${20 + Math.sin(i * 0.2) * 30 + Math.sin(i * 0.7) * 10}%`
+);
+
 /**
  * Track Card Skeleton
  * Used in: Library, Home sections, Playlists
@@ -429,13 +434,11 @@ export function ProfileHeaderSkeleton({ className }: { className?: string }) {
 export function WaveformSkeleton({ className }: { className?: string }) {
   return (
     <div className={cn("flex items-end gap-0.5 h-16 animate-in fade-in-50 duration-300", className)}>
-      {Array.from({ length: 50 }).map((_, i) => (
+      {WAVEFORM_HEIGHTS.map((height, i) => (
         <Skeleton
           key={i}
           className="flex-1 rounded-sm"
-          style={{
-            height: `${20 + Math.sin(i * 0.2) * 30 + Math.random() * 20}%`,
-          }}
+          style={{ height }}
         />
       ))}
     </div>
