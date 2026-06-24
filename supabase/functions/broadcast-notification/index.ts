@@ -17,6 +17,15 @@ Deno.serve(async (req) => {
   }
 
   try {
+    // Enforce admin/service-role auth before any business logic
+    const auth = await authorize(req, { requireAdmin: true });
+    if (!auth.ok) {
+      return new Response(JSON.stringify({ error: auth.error }), {
+        status: auth.status,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
     const supabase = getSupabaseClient();
 
     const { title, message, targetType = 'all', blogPostId, imageUrl, saveAsTemplate, templateName } = await req.json();
@@ -28,13 +37,8 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Get auth user for logging and template saving
-    const authHeader = req.headers.get('Authorization');
-    let senderId = null;
-    if (authHeader) {
-      const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-      senderId = user?.id;
-    }
+    const senderId = auth.user?.id ?? null;
+
 
     // Save as template if requested
     if (saveAsTemplate && templateName) {
