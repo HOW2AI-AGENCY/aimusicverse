@@ -7,7 +7,7 @@
  * @module components/onboarding/OnboardingTooltip
  */
 
-import { memo, useEffect, useCallback } from 'react';
+import { memo, useEffect, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { X, Sparkles, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
