@@ -16,8 +16,7 @@ export { TutorialStep } from './TutorialStep';
 export { FeatureTutorialDialog, TUTORIAL_SLIDES } from './FeatureTutorialDialog';
 export type { TutorialSlide } from './FeatureTutorialDialog';
 
-// Quick tips
-export { QuickTipToast, useQuickTip } from './QuickTipToast';
+// Quick tips → use `@/components/hints` (UnifiedTipCard / ContextHints)
 
 // Step cards
 export { OnboardingStepCard } from './OnboardingStepCard';
