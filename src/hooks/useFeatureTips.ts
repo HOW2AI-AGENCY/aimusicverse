@@ -65,7 +65,7 @@ export function useContextTips(context: FeatureTip['context']) {
   const showNextTip = useCallback(() => {
     const unseen = getUnseenTips();
     if (unseen.length > 0) {
-      setShownTipId(unseen[0].id);
+      setShownTipId(unseen[0].id as FeatureTipId);
       return unseen[0];
     }
     return null;
@@ -83,7 +83,7 @@ export function useContextTips(context: FeatureTip['context']) {
     
     if (showNext) {
       const unseen = getUnseenTips().filter(t => t.id !== shownTipId);
-      setShownTipId(unseen.length > 0 ? unseen[0].id : null);
+      setShownTipId(unseen.length > 0 ? (unseen[0].id as FeatureTipId) : null);
     } else {
       setShownTipId(null);
     }
