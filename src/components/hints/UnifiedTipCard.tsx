@@ -9,43 +9,13 @@
  * Always exclusive — only one card is visible thanks to HintRegistry.
  */
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect } from 'react';
 import { AnimatePresence, motion } from '@/lib/motion';
 import { X, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useHintRegistry } from './HintRegistry';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-
-export interface UnifiedTipCardProps {
-  id: string;
-  title: string;
-  message: string;
-  emoji?: string;
-  /** Show "Next" button when more tips are queued. */
-  hasNext?: boolean;
-  onDismiss: () => void;
-  onNext?: () => void;
-  /** Auto-show after this delay (ms). Default 1500ms. */
-  delay?: number;
-  /** Force re-show even if already seen. Default false. */
-  force?: boolean;
-}
-
-function useIsMobile(): boolean {
-  const [isMobile, setIsMobile] = useState(() => {
-    if (typeof window === 'undefined') return false;
-    return window.matchMedia('(max-width: 767px)').matches;
-  });
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const mq = window.matchMedia('(max-width: 767px)');
-    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
-    mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
-  }, []);
-  return isMobile;
-}
+import { useTipPosition } from './useTipPosition';
 
 export function UnifiedTipCard({
   id,
