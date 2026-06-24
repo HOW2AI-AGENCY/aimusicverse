@@ -53,6 +53,12 @@ const SEEK_AMOUNT = 10; // seconds to seek
 interface MobileFullscreenPlayerProps {
   track: Track;
   onClose: () => void;
+  /** Optional master/active version used to source lyrics & suno IDs for correct sync. */
+  currentVersion?: {
+    suno_task_id?: string | null;
+    suno_id?: string | null;
+    lyrics?: string | null;
+  } | null;
 }
 
 interface AlignedWord {
@@ -61,7 +67,7 @@ interface AlignedWord {
   endS: number;
 }
 
-export function MobileFullscreenPlayer({ track, onClose }: MobileFullscreenPlayerProps) {
+export function MobileFullscreenPlayer({ track, onClose, currentVersion }: MobileFullscreenPlayerProps) {
   const navigate = useNavigate();
   const [queueOpen, setQueueOpen] = useState(false);
   const [userScrolling, setUserScrolling] = useState(false);
