@@ -63,42 +63,55 @@ export const CreativePresetsSection = memo(function CreativePresetsSection({
 
   return (
     <div className={cn("space-y-3 lg:space-y-4", className)}>
-      {/* Section header with tabs */}
-      <div className="flex items-center justify-between gap-2 lg:gap-4">
-        <div className="flex items-center gap-2 lg:gap-3 shrink-0">
+      {/* Section header with tabs — stacked on mobile, inline on sm+ */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-3 lg:gap-4">
+        <div className="flex items-center gap-2 lg:gap-3 min-w-0">
           <div className={cn(
-            "w-7 h-7 lg:w-9 lg:h-9 rounded-lg lg:rounded-xl flex items-center justify-center",
+            "w-7 h-7 lg:w-9 lg:h-9 rounded-lg lg:rounded-xl flex items-center justify-center shrink-0",
             "bg-gradient-to-br from-primary/20 to-primary/10",
             "shadow-sm"
           )}>
-            <Sparkles className="w-3.5 h-3.5 lg:w-4.5 lg:h-4.5 text-primary" />
+            <Sparkles className="w-3.5 h-3.5 lg:w-4 lg:h-4 text-primary" />
           </div>
-          <div className="flex flex-col">
-            <span className="text-sm lg:text-base font-bold text-foreground">Быстрый старт</span>
-            <span className="hidden lg:block text-xs text-muted-foreground">Выберите шаблон для создания</span>
+          <div className="flex flex-col min-w-0">
+            <span className="text-sm lg:text-base font-bold text-foreground leading-tight">Быстрый старт</span>
+            <span className="text-[11px] sm:text-xs text-muted-foreground leading-tight truncate">
+              Выберите шаблон для создания
+            </span>
           </div>
         </div>
-        
-        {/* Tab switcher - 3 tabs with glass styling */}
-        <div className={cn("flex items-center gap-0.5 lg:gap-1 p-0.5 lg:p-1 rounded-xl lg:rounded-2xl", glass.subtle)}>
+
+        {/* Tab switcher — full width on mobile so 3 tabs share the row equally */}
+        <div
+          role="tablist"
+          aria-label="Категории шаблонов"
+          className={cn(
+            "flex items-center gap-0.5 lg:gap-1 p-0.5 lg:p-1 rounded-xl lg:rounded-2xl",
+            "w-full sm:w-auto",
+            glass.subtle
+          )}
+        >
           {TABS.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
-            
+
             return (
               <motion.button
                 key={tab.id}
+                role="tab"
+                aria-selected={isActive}
+                aria-label={tab.label}
                 onClick={() => handleTabChange(tab.id)}
                 className={cn(
-                  "relative px-2.5 sm:px-3 lg:px-4 py-1.5 lg:py-2 rounded-lg lg:rounded-xl text-xs lg:text-sm font-medium",
-                  "flex items-center gap-1.5 lg:gap-2 transition-colors",
-                  "touch-manipulation min-h-[34px] lg:min-h-[40px]",
-                  isActive 
-                    ? "text-foreground" 
+                  "relative flex-1 sm:flex-initial px-2 sm:px-3 lg:px-4 py-1.5 lg:py-2",
+                  "rounded-lg lg:rounded-xl text-xs lg:text-sm font-medium",
+                  "flex items-center justify-center gap-1.5 lg:gap-2 transition-colors",
+                  "touch-manipulation min-h-[36px] lg:min-h-[40px]",
+                  isActive
+                    ? "text-foreground"
                     : "text-muted-foreground hover:text-foreground/80"
                 )}
-                whileTap={{ scale: 0.95 }}
-                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.96 }}
               >
                 {isActive && (
                   <motion.div
@@ -107,9 +120,8 @@ export const CreativePresetsSection = memo(function CreativePresetsSection({
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 )}
-                <Icon className="w-3.5 h-3.5 lg:w-4 lg:h-4 relative z-10" />
-                <span className="relative z-10 hidden sm:inline">{tab.label}</span>
-                <span className="relative z-10 sm:hidden">{tab.shortLabel}</span>
+                <Icon className="w-3.5 h-3.5 lg:w-4 lg:h-4 relative z-10 shrink-0" />
+                <span className="relative z-10 truncate">{tab.label}</span>
               </motion.button>
             );
           })}
