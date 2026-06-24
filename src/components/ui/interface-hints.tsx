@@ -26,48 +26,36 @@ interface HintProps {
 
 const HINTS_STORAGE_KEY = 'mvai_hints_shown';
 
-export function Hint({ 
-  id, 
-  children, 
-  hint, 
+export function Hint({
+  id,
+  children,
+  hint,
   position = 'top',
   showOnce = true,
-  delay = 2000
+  delay = 2000,
 }: HintProps) {
-  const [showHint, setShowHint] = useState(false);
-  const [dismissed, setDismissed] = useState(false);
+  const reg = useHintRegistry();
+  const isActive = reg.activeId === id;
+  const dismissed = showOnce && reg.hasSeen(id);
 
   useEffect(() => {
-    if (showOnce) {
-      const shown = JSON.parse(localStorage.getItem(HINTS_STORAGE_KEY) || '[]');
-      if (shown.includes(id)) {
-        setDismissed(true);
-        return;
-      }
-    }
-
+    if (dismissed) return;
     const timer = setTimeout(() => {
-      setShowHint(true);
+      reg.request(id);
     }, delay);
-
-    return () => clearTimeout(timer);
-  }, [id, showOnce, delay]);
+    return () => {
+      clearTimeout(timer);
+      reg.release(id);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, dismissed, delay]);
 
   const handleDismiss = () => {
-    setShowHint(false);
-    setDismissed(true);
-    
-    if (showOnce) {
-      const shown = JSON.parse(localStorage.getItem(HINTS_STORAGE_KEY) || '[]');
-      if (!shown.includes(id)) {
-        shown.push(id);
-        localStorage.setItem(HINTS_STORAGE_KEY, JSON.stringify(shown));
-      }
-    }
+    if (showOnce) reg.markSeen(id);
+    reg.release(id);
   };
 
-  const positionClasses = {
-    top: 'bottom-full mb-2 left-1/2 -translate-x-1/2',
+  const showHint = isActive && !dismissed;
     bottom: 'top-full mt-2 left-1/2 -translate-x-1/2',
     left: 'right-full mr-2 top-1/2 -translate-y-1/2',
     right: 'left-full ml-2 top-1/2 -translate-y-1/2',
