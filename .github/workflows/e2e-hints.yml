@@ -1,0 +1,76 @@
+name: E2E — Hint System
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/components/hints/**"
+      - "src/hooks/audio/usePlayerState.ts"
+      - "tests/e2e/hints*.spec.ts"
+      - "playwright.config.ts"
+      - ".github/workflows/e2e-hints.yml"
+  pull_request:
+    paths:
+      - "src/components/hints/**"
+      - "src/hooks/audio/usePlayerState.ts"
+      - "tests/e2e/hints*.spec.ts"
+      - "playwright.config.ts"
+  workflow_dispatch:
+
+jobs:
+  e2e-hints:
+    name: Hints E2E (${{ matrix.project }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    strategy:
+      fail-fast: false
+      matrix:
+        project:
+          - chromium
+          - "Mobile Chrome"
+          - "Mobile Safari"
+
+    env:
+      CI: "true"
+      # Two extra retries for flaky animation timing.
+      PW_RETRIES: "2"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps ${{ matrix.project == 'Mobile Safari' && 'webkit' || matrix.project == 'Mobile Chrome' && 'chromium' || 'chromium' }}
+
+      - name: Run hint-system E2E (with auto-retry on flake)
+        run: npx playwright test tests/e2e/hints*.spec.ts --project="${{ matrix.project }}" --retries=${{ env.PW_RETRIES }} --reporter=html,list,github
+        env:
+          PLAYWRIGHT_BASE_URL: http://localhost:5173
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-${{ matrix.project }}
+          path: playwright-report/
+          retention-days: 14
+
+      - name: Upload failure traces & screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-failures-${{ matrix.project }}
+          path: |
+            test-results/**/trace.zip
+            test-results/**/*.png
+            test-results/**/video.webm
+          retention-days: 14
+          if-no-files-found: ignore
