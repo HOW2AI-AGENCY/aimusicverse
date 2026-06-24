@@ -13,11 +13,8 @@ const FullscreenPlayer = React.lazy(() =>
 );
 
 export const ResizablePlayer = () => {
-  const isMobile = useIsMobile();
   const { activeTrack, closePlayer, playerMode, setPlayerMode, preserveTime, volume, isPlaying } = usePlayerStore();
-  
-  // Fetch the primary version for correct lyrics synchronization
-  const { data: currentVersion } = useMasterVersion(activeTrack?.id);
+
 
   // Preserve current time before mode switch to avoid audio restart
   const preserveCurrentTime = useCallback(() => {
