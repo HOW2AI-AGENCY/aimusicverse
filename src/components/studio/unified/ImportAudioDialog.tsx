@@ -118,12 +118,17 @@ export function ImportAudioDialog({
     setAudioUrl(url);
     setTrackName(selectedFile.name.replace(/\.[^/.]+$/, '')); // Remove extension
 
-    // Get duration from audio element
+    // Get duration from audio element (one-shot, release after metadata)
     const audio = new Audio(url);
-    audio.addEventListener('loadedmetadata', () => {
+    const onMeta = () => {
       setDuration(audio.duration);
-    });
+      audio.removeEventListener('loadedmetadata', onMeta);
+      audio.src = '';
+      audio.load();
+    };
+    audio.addEventListener('loadedmetadata', onMeta);
   }, [audioUrl]);
+
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();

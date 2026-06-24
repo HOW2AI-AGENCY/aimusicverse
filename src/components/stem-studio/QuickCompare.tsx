@@ -200,9 +200,15 @@ export function QuickCompare({
     }
 
     return () => {
-      originalRef.current?.pause();
-      variantARef.current?.pause();
-      variantBRef.current?.pause();
+      const refs = [originalRef, variantARef, variantBRef];
+      refs.forEach((ref) => {
+        if (ref.current) {
+          ref.current.pause();
+          ref.current.src = '';
+          ref.current.load();
+          ref.current = null;
+        }
+      });
       unregisterStudioAudio('compare-original');
       unregisterStudioAudio('compare-variantA');
       unregisterStudioAudio('compare-variantB');
@@ -210,6 +216,7 @@ export function QuickCompare({
         cancelAnimationFrame(animationRef.current);
       }
     };
+
   }, [originalAudioUrl, variantAUrl, variantBUrl, isMobile, open, pauseAllAudio, volume, isMuted]);
 
   // Update volume

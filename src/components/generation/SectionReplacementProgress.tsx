@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Loader2, CheckCircle2, XCircle, Play, Pause, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from '@/lib/motion';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { SectionVariant } from '@/hooks/generation/useReplaceSectionProgress';
 
 interface SectionReplacementProgressProps {
@@ -40,7 +40,20 @@ export function SectionReplacementProgress({
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  // Hard cleanup on unmount to release iOS audio slot
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.src = '';
+        audioRef.current.load();
+        audioRef.current = null;
+      }
+    };
+  }, []);
+
   if (status === 'idle') return null;
+
 
   const isActive = status !== 'completed' && status !== 'error';
   const isCompleted = status === 'completed';

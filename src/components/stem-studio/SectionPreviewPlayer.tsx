@@ -79,9 +79,12 @@ export function SectionPreviewPlayer({
       audio.removeEventListener('canplay', handleCanPlay);
       audio.removeEventListener('ended', handleEnded);
       audio.pause();
+      audio.src = '';
+      audio.load();
       unregisterStudioAudio(`section-preview-${sourceId}`);
       audioRef.current = null;
     };
+
   }, [audioUrl, sourceId]);
 
   // Pause when global player starts
