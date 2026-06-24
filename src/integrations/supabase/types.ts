@@ -6210,6 +6210,7 @@ export type Database = {
         Args: { p_size?: string; p_track_id: string }
         Returns: string
       }
+      get_own_telegram_chat_id: { Args: never; Returns: string }
       get_payment_analytics: {
         Args: { _time_period?: string }
         Returns: {
