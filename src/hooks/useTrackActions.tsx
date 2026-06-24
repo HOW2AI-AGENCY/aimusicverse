@@ -243,17 +243,13 @@ export function useTrackActions() {
 
     setIsProcessing(true);
     try {
-      // Get telegram_id from profiles table
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('Не авторизован');
+      // Get telegram_id for the current user via SECURITY DEFINER RPC.
+      // Direct column reads on profiles.telegram_id were revoked for
+      // authenticated as part of the profiles security hardening.
+      const { getOwnTelegramIds } = await import('@/lib/telegram/getOwnTelegramIds');
+      const ids = await getOwnTelegramIds();
 
-      const { data: profile, error: profileError } = await supabase
-        .from('profiles')
-        .select('telegram_id')
-        .eq('user_id', user.id)
-        .single();
-
-      if (profileError || !profile?.telegram_id) {
+      if (!ids?.telegram_id) {
         toast.error('Telegram не подключен');
         return;
       }
@@ -262,13 +258,14 @@ export function useTrackActions() {
         body: {
           type: 'track_share',
           track_id: track.id,
-          chat_id: profile.telegram_id,
+          chat_id: ids.telegram_id,
         },
       });
 
       if (error) throw error;
 
       toast.success('Трек отправлен в Telegram!');
+
     } catch (error: any) {
       logger.error('Send to Telegram error', error);
       toast.error(error.message || 'Ошибка отправки в Telegram');

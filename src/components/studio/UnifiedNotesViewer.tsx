@@ -425,16 +425,11 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
   const handleSendToTelegram = useCallback(async (url: string, type: string, extension: string) => {
     setSendingFile(type);
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('Не авторизован');
+      // Telegram chat id is fetched via secure RPC (column REVOKEd from authenticated).
+      const { getOwnTelegramIds } = await import('@/lib/telegram/getOwnTelegramIds');
+      const ids = await getOwnTelegramIds();
 
-      const { data: profile, error: profileError } = await supabase
-        .from('profiles')
-        .select('telegram_id')
-        .eq('user_id', user.id)
-        .single();
-
-      if (profileError || !profile?.telegram_id) {
+      if (!ids?.telegram_id) {
         toast.error('Telegram не подключен');
         return;
       }
@@ -442,12 +437,13 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
       const { error } = await supabase.functions.invoke('send-telegram-notification', {
         body: {
           type: 'document_share',
-          chat_id: profile.telegram_id,
+          chat_id: ids.telegram_id,
           document_url: url,
           document_type: type,
           filename: `${trackTitle || 'transcription'}${extension}`,
           track_title: trackTitle,
         },
+
       });
 
       if (error) throw error;
