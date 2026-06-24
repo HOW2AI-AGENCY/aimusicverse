@@ -142,6 +142,33 @@ export async function createTinkoffPayment(
 }
 
 /**
+ * Safe column list for client-side payment_transactions reads.
+ * Excludes ip_address / user_agent — those are restricted to service_role
+ * (column-level SELECT revoked from authenticated/anon for privacy).
+ */
+const SAFE_PAYMENT_COLUMNS = [
+  'id',
+  'user_id',
+  'gateway',
+  'product_code',
+  'amount_cents',
+  'currency',
+  'status',
+  'gateway_transaction_id',
+  'gateway_payment_url',
+  'gateway_order_id',
+  'credits_granted',
+  'subscription_granted',
+  'metadata',
+  'error_message',
+  'created_at',
+  'updated_at',
+  'completed_at',
+  'subscription_id',
+  'is_recurrent',
+].join(', ');
+
+/**
  * Get payment transaction by ID
  */
 export async function getPaymentTransaction(
@@ -150,7 +177,7 @@ export async function getPaymentTransaction(
   try {
     const { data, error } = await supabase
       .from('payment_transactions')
-      .select('*')
+      .select(SAFE_PAYMENT_COLUMNS)
       .eq('id', transactionId)
       .single();
 
@@ -175,7 +202,7 @@ export async function getUserPaymentTransactions(
   try {
     const { data, error } = await supabase
       .from('payment_transactions')
-      .select('*')
+      .select(SAFE_PAYMENT_COLUMNS)
       .order('created_at', { ascending: false })
       .limit(limit);
 
