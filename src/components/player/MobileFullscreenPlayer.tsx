@@ -227,10 +227,12 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
   // Audio visualizer data
   const visualizerData = useAudioVisualizer(audioElement, isPlaying, { barCount: 48, smoothing: 0.75 });
 
-  const { data: lyricsData } = useTimestampedLyrics(
-    track.suno_task_id || null,
-    track.suno_id || null
-  );
+  // Prefer master/active version's suno IDs and lyrics when provided (correct A/B sync)
+  const sunoTaskId = currentVersion?.suno_task_id ?? track.suno_task_id ?? null;
+  const sunoId = currentVersion?.suno_id ?? track.suno_id ?? null;
+  const trackLyrics = currentVersion?.lyrics ?? track.lyrics ?? null;
+
+  const { data: lyricsData } = useTimestampedLyrics(sunoTaskId, sunoId);
 
   // Parse lyrics and group into lines with robust error handling
   const { lyricsLines, plainLyrics, parseError } = useMemo(() => {
