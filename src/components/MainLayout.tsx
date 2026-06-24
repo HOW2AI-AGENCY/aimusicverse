@@ -41,6 +41,12 @@ export const MainLayout = () => {
   //   - desktop (≥1280px) → Sidebar full / user-controlled
   const isDesktop = useMediaQuery('(min-width: 1024px)');
   const isCompactDesktop = useMediaQuery('(min-width: 1024px) and (max-width: 1279px)');
+  // Mobile landscape edge-rail: short viewports in landscape orientation get a
+  // narrow icon-only sidebar instead of BottomNavigation, so floating UI
+  // (UnifiedNotesViewer, sheets) doesn't get overlapped by the bottom bar.
+  const isMobileLandscape = useMediaQuery(
+    '(max-width: 1023px) and (orientation: landscape) and (max-height: 500px)'
+  );
   const { isGuestMode } = useGuestMode();
   const location = useLocation();
   const navigate = useNavigate();
