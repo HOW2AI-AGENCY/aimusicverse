@@ -12847,67 +12847,67 @@
   ".claude/agents/codebase-analyzer.md": {
     "mtime": 1782297265.1546774,
     "ast_hash": "3e448a930b49477ab76b94c17226fd57",
-    "semantic_hash": ""
+    "semantic_hash": "3e448a930b49477ab76b94c17226fd57"
   },
   ".claude/agents/github-repo-auditor.md": {
     "mtime": 1782297265.1546774,
     "ast_hash": "56c41142eb030bedeac69db3062576ac",
-    "semantic_hash": ""
+    "semantic_hash": "56c41142eb030bedeac69db3062576ac"
   },
   ".claude/agents/spec-driven-developer.md": {
     "mtime": 1782297265.1546774,
     "ast_hash": "14dbcf7d2c9a7c1fdab9a16b79990f14",
-    "semantic_hash": ""
+    "semantic_hash": "14dbcf7d2c9a7c1fdab9a16b79990f14"
   },
   ".claude/agents/ux-ui-mobile-designer.md": {
     "mtime": 1782297265.1556787,
     "ast_hash": "fd721b962a6dc6783a00ad28062b252b",
-    "semantic_hash": ""
+    "semantic_hash": "fd721b962a6dc6783a00ad28062b252b"
   },
   ".claude/commands/speckit.analyze.md": {
     "mtime": 1782297265.1556787,
     "ast_hash": "87af8c602db5002f4e458a78bb0cc7c6",
-    "semantic_hash": ""
+    "semantic_hash": "87af8c602db5002f4e458a78bb0cc7c6"
   },
   ".claude/commands/speckit.checklist.md": {
     "mtime": 1782297265.1556787,
     "ast_hash": "1e666d965724a7f085260bc8fafc60d0",
-    "semantic_hash": ""
+    "semantic_hash": "1e666d965724a7f085260bc8fafc60d0"
   },
   ".claude/commands/speckit.clarify.md": {
     "mtime": 1782297265.1566775,
     "ast_hash": "0d375f666a1ebc6989d3bfdfbf54dec5",
-    "semantic_hash": ""
+    "semantic_hash": "0d375f666a1ebc6989d3bfdfbf54dec5"
   },
   ".claude/commands/speckit.constitution.md": {
     "mtime": 1782297265.1566775,
     "ast_hash": "47790b759cc00ffffd483366ced6231e",
-    "semantic_hash": ""
+    "semantic_hash": "47790b759cc00ffffd483366ced6231e"
   },
   ".claude/commands/speckit.implement.md": {
     "mtime": 1782297265.1566775,
     "ast_hash": "f890f3ab28f037b8faeb935e4b700821",
-    "semantic_hash": ""
+    "semantic_hash": "f890f3ab28f037b8faeb935e4b700821"
   },
   ".claude/commands/speckit.plan.md": {
     "mtime": 1782297265.1576781,
     "ast_hash": "b7f81b568ec4b9f6ecdbdd20842579f9",
-    "semantic_hash": ""
+    "semantic_hash": "b7f81b568ec4b9f6ecdbdd20842579f9"
   },
   ".claude/commands/speckit.specify.md": {
     "mtime": 1782297265.1576781,
     "ast_hash": "bf1496ab0386c1fc7bdbfcfb5168168c",
-    "semantic_hash": ""
+    "semantic_hash": "bf1496ab0386c1fc7bdbfcfb5168168c"
   },
   ".claude/commands/speckit.tasks.md": {
     "mtime": 1782297265.1576781,
     "ast_hash": "ef3ef06cc0bc61b1ea39d5c3830edea4",
-    "semantic_hash": ""
+    "semantic_hash": "ef3ef06cc0bc61b1ea39d5c3830edea4"
   },
   ".claude/commands/speckit.taskstoissues.md": {
     "mtime": 1782297265.1586761,
     "ast_hash": "4f7eaa31f63536a2aa6f8df970ba908d",
-    "semantic_hash": ""
+    "semantic_hash": "4f7eaa31f63536a2aa6f8df970ba908d"
   },
   ".github/ISSUE_TEMPLATE/bug_report.md": {
     "mtime": 1782297265.1596773,
@@ -12932,7 +12932,7 @@
   ".github/PULL_REQUEST_TEMPLATE.md": {
     "mtime": 1782297265.1606796,
     "ast_hash": "6fef832651122d7febe8f1ea0582766f",
-    "semantic_hash": ""
+    "semantic_hash": "6fef832651122d7febe8f1ea0582766f"
   },
   ".github/agents/README.md": {
     "mtime": 1782297265.1606796,
@@ -12957,12 +12957,12 @@
   ".github/agents/backend.agent.md": {
     "mtime": 1782297265.1626768,
     "ast_hash": "d1fb789757b3b81d4fde55ad3612518c",
-    "semantic_hash": ""
+    "semantic_hash": "d1fb789757b3b81d4fde55ad3612518c"
   },
   ".github/agents/copilot-instructions.md": {
     "mtime": 1782297265.1626768,
     "ast_hash": "5dad954a200dfb7c7fc402c8c23c0165",
-    "semantic_hash": ""
+    "semantic_hash": "5dad954a200dfb7c7fc402c8c23c0165"
   },
   ".github/agents/error-debugger.md": {
     "mtime": 1782297265.1626768,
@@ -12987,7 +12987,7 @@
   ".github/agents/speckit.analyze.agent.md": {
     "mtime": 1782297265.1636765,
     "ast_hash": "87af8c602db5002f4e458a78bb0cc7c6",
-    "semantic_hash": ""
+    "semantic_hash": "87af8c602db5002f4e458a78bb0cc7c6"
   },
   ".github/agents/speckit.checklist.agent.md": {
     "mtime": 1782297265.1636765,
@@ -13037,7 +13037,7 @@
   ".github/api-agent.agent.md": {
     "mtime": 1782297265.1666777,
     "ast_hash": "ac09d69aa7f2d56d7602729924b7c18b",
-    "semantic_hash": ""
+    "semantic_hash": "ac09d69aa7f2d56d7602729924b7c18b"
   },
   ".github/copilot-instructions.md": {
     "mtime": 1782297265.1666777,
@@ -13177,47 +13177,47 @@
   ".roo/commands/speckit.analyze.md": {
     "mtime": 1782297265.175679,
     "ast_hash": "87af8c602db5002f4e458a78bb0cc7c6",
-    "semantic_hash": ""
+    "semantic_hash": "87af8c602db5002f4e458a78bb0cc7c6"
   },
   ".roo/commands/speckit.checklist.md": {
     "mtime": 1782297265.175679,
     "ast_hash": "1e666d965724a7f085260bc8fafc60d0",
-    "semantic_hash": ""
+    "semantic_hash": "1e666d965724a7f085260bc8fafc60d0"
   },
   ".roo/commands/speckit.clarify.md": {
     "mtime": 1782297265.176678,
     "ast_hash": "0d375f666a1ebc6989d3bfdfbf54dec5",
-    "semantic_hash": ""
+    "semantic_hash": "0d375f666a1ebc6989d3bfdfbf54dec5"
   },
   ".roo/commands/speckit.constitution.md": {
     "mtime": 1782297265.176678,
     "ast_hash": "47790b759cc00ffffd483366ced6231e",
-    "semantic_hash": ""
+    "semantic_hash": "47790b759cc00ffffd483366ced6231e"
   },
   ".roo/commands/speckit.implement.md": {
     "mtime": 1782297265.1776783,
     "ast_hash": "f890f3ab28f037b8faeb935e4b700821",
-    "semantic_hash": ""
+    "semantic_hash": "f890f3ab28f037b8faeb935e4b700821"
   },
   ".roo/commands/speckit.plan.md": {
     "mtime": 1782297265.1776783,
     "ast_hash": "d65bbfd7f1ad1085877818abfce02f3a",
-    "semantic_hash": ""
+    "semantic_hash": "d65bbfd7f1ad1085877818abfce02f3a"
   },
   ".roo/commands/speckit.specify.md": {
     "mtime": 1782297265.1776783,
     "ast_hash": "bf1496ab0386c1fc7bdbfcfb5168168c",
-    "semantic_hash": ""
+    "semantic_hash": "bf1496ab0386c1fc7bdbfcfb5168168c"
   },
   ".roo/commands/speckit.tasks.md": {
     "mtime": 1782297265.1786778,
     "ast_hash": "ef3ef06cc0bc61b1ea39d5c3830edea4",
-    "semantic_hash": ""
+    "semantic_hash": "ef3ef06cc0bc61b1ea39d5c3830edea4"
   },
   ".roo/commands/speckit.taskstoissues.md": {
     "mtime": 1782297265.1786778,
     "ast_hash": "4f7eaa31f63536a2aa6f8df970ba908d",
-    "semantic_hash": ""
+    "semantic_hash": "4f7eaa31f63536a2aa6f8df970ba908d"
   },
   ".specify/memory/constitution.md": {
     "mtime": 1782297265.1796782,
@@ -13227,32 +13227,32 @@
   ".specify/templates/agent-file-template.md": {
     "mtime": 1782297265.183678,
     "ast_hash": "287b949aba1e2ae3a27ea2445a938fff",
-    "semantic_hash": ""
+    "semantic_hash": "287b949aba1e2ae3a27ea2445a938fff"
   },
   ".specify/templates/checklist-template.md": {
     "mtime": 1782297265.183678,
     "ast_hash": "517d9d536c1a96322637cb0082cfc18b",
-    "semantic_hash": ""
+    "semantic_hash": "517d9d536c1a96322637cb0082cfc18b"
   },
   ".specify/templates/plan-template.md": {
     "mtime": 1782297265.183678,
     "ast_hash": "97d7dafab4184b6840c814cfbcf4767b",
-    "semantic_hash": ""
+    "semantic_hash": "97d7dafab4184b6840c814cfbcf4767b"
   },
   ".specify/templates/spec-template-api.md": {
     "mtime": 1782297265.184678,
     "ast_hash": "f1cefd62da513f6df5b3d659e2e272e5",
-    "semantic_hash": ""
+    "semantic_hash": "f1cefd62da513f6df5b3d659e2e272e5"
   },
   ".specify/templates/spec-template.md": {
     "mtime": 1782297265.184678,
     "ast_hash": "1d8a6bb5e0601a372cfeacd556f7ed91",
-    "semantic_hash": ""
+    "semantic_hash": "1d8a6bb5e0601a372cfeacd556f7ed91"
   },
   ".specify/templates/tasks-template.md": {
     "mtime": 1782297265.185678,
     "ast_hash": "6cf82db9787092a7225b44ec0aecc773",
-    "semantic_hash": ""
+    "semantic_hash": "6cf82db9787092a7225b44ec0aecc773"
   },
   "ADR/ADR-001-TECHNOLOGY-STACK-CHOICE.md": {
     "mtime": 1782297265.185678,
@@ -13302,7 +13302,7 @@
   "ADR/ADR_TEMPLATE.md": {
     "mtime": 1782297265.188677,
     "ast_hash": "f211d1c9547465eec9419b3279a1de1c",
-    "semantic_hash": ""
+    "semantic_hash": "f211d1c9547465eec9419b3279a1de1c"
   },
   "CHANGELOG.md": {
     "mtime": 1782297265.1896784,
@@ -13427,12 +13427,12 @@
   "SPRINTS/README.md": {
     "mtime": 1782297265.1946783,
     "ast_hash": "f1eccf8b362590f36c201b54943e84ec",
-    "semantic_hash": ""
+    "semantic_hash": "f1eccf8b362590f36c201b54943e84ec"
   },
   "SPRINTS/SPRINT-PROGRESS.md": {
     "mtime": 1782307496.1518364,
     "ast_hash": "4a86796a5a41261b8055373125c4dc97",
-    "semantic_hash": ""
+    "semantic_hash": "4a86796a5a41261b8055373125c4dc97"
   },
   "SPRINTS/SPRINT_TEMPLATE.md": {
     "mtime": 1782297265.1946783,
@@ -13477,7 +13477,7 @@
   "SPRINTS/completed/SPRINT-007-TASK-LIST.md": {
     "mtime": 1782297265.1966772,
     "ast_hash": "215d0f6839062c197446fa69ed45b964",
-    "semantic_hash": ""
+    "semantic_hash": "215d0f6839062c197446fa69ed45b964"
   },
   "SPRINTS/completed/SPRINT-008-LIBRARY-PLAYER-MVP.md": {
     "mtime": 1782297265.1966772,
@@ -13487,12 +13487,12 @@
   "SPRINTS/completed/SPRINT-008-TASK-LIST.md": {
     "mtime": 1782297265.1976793,
     "ast_hash": "ae1a2df09b9b1d80312e5675a1eff8bb",
-    "semantic_hash": ""
+    "semantic_hash": "ae1a2df09b9b1d80312e5675a1eff8bb"
   },
   "SPRINTS/completed/SPRINT-009-TASK-LIST.md": {
     "mtime": 1782297265.1976793,
     "ast_hash": "0e121d5af57e58373318ac5cd963ead7",
-    "semantic_hash": ""
+    "semantic_hash": "0e121d5af57e58373318ac5cd963ead7"
   },
   "SPRINTS/completed/SPRINT-009-TRACK-DETAILS-ACTIONS.md": {
     "mtime": 1782297265.1976793,
@@ -13507,7 +13507,7 @@
   "SPRINTS/completed/SPRINT-012-AUDIT-IMPROVEMENTS.md": {
     "mtime": 1782297265.1986773,
     "ast_hash": "ef5ae4ecd0f8df65713f221db6dc151d",
-    "semantic_hash": ""
+    "semantic_hash": "ef5ae4ecd0f8df65713f221db6dc151d"
   },
   "SPRINTS/completed/SPRINT-013-OUTLINE.md": {
     "mtime": 1782297265.1986773,
@@ -13677,7 +13677,7 @@
   "docs/CRITICAL_FILES.md": {
     "mtime": 1782297265.2206771,
     "ast_hash": "385ac72eb2ef7fb157702432ff51b868",
-    "semantic_hash": ""
+    "semantic_hash": "385ac72eb2ef7fb157702432ff51b868"
   },
   "docs/DATABASE.md": {
     "mtime": 1782297265.2206771,
@@ -13687,47 +13687,47 @@
   "docs/DEMO_MODE.md": {
     "mtime": 1782297265.2206771,
     "ast_hash": "cbc77f95d87117489ea3bb295909284a",
-    "semantic_hash": ""
+    "semantic_hash": "cbc77f95d87117489ea3bb295909284a"
   },
   "docs/DESIGN_SYSTEM_COMPREHENSIVE.md": {
     "mtime": 1782311703.1695724,
     "ast_hash": "2869e2e37f668493aaf446c26e026a6c",
-    "semantic_hash": ""
+    "semantic_hash": "2869e2e37f668493aaf446c26e026a6c"
   },
   "docs/DEVELOPER_GUIDE.md": {
     "mtime": 1782297265.2216785,
     "ast_hash": "4a6db6cb0ba9f2d5ce19eda0475929ed",
-    "semantic_hash": ""
+    "semantic_hash": "4a6db6cb0ba9f2d5ce19eda0475929ed"
   },
   "docs/DEVELOPMENT_WORKFLOW.md": {
     "mtime": 1782297265.2216785,
     "ast_hash": "f044b753a1db146b61cbd23d66f2c588",
-    "semantic_hash": ""
+    "semantic_hash": "f044b753a1db146b61cbd23d66f2c588"
   },
   "docs/ERROR_HANDLING_INFRASTRUCTURE.md": {
     "mtime": 1782297265.2216785,
     "ast_hash": "bd6a9d151a00c994c40823d9068ff7fa",
-    "semantic_hash": ""
+    "semantic_hash": "bd6a9d151a00c994c40823d9068ff7fa"
   },
   "docs/GENERATION_SYSTEM.md": {
     "mtime": 1782297265.2216785,
     "ast_hash": "f66f00f1895f71c2ee036315642944b9",
-    "semantic_hash": ""
+    "semantic_hash": "f66f00f1895f71c2ee036315642944b9"
   },
   "docs/HOOKS_REFERENCE.md": {
     "mtime": 1782297265.2226818,
     "ast_hash": "28731bb0721c63e43eed031dee1b100f",
-    "semantic_hash": ""
+    "semantic_hash": "28731bb0721c63e43eed031dee1b100f"
   },
   "docs/INDEX.md": {
     "mtime": 1782298848.2621944,
     "ast_hash": "411926e95654c9d798067a1c8d3614f8",
-    "semantic_hash": ""
+    "semantic_hash": "411926e95654c9d798067a1c8d3614f8"
   },
   "docs/KLANG_IO.md": {
     "mtime": 1782297265.2236812,
     "ast_hash": "c384924630f51132ba02f3b5c930dc99",
-    "semantic_hash": ""
+    "semantic_hash": "c384924630f51132ba02f3b5c930dc99"
   },
   "docs/KLANG_IO_API_GUIDE_RU.md": {
     "mtime": 1782297265.2236812,
@@ -13742,7 +13742,7 @@
   "docs/LANGUAGES.md": {
     "mtime": 1782298996.9156854,
     "ast_hash": "978738c2926a767bc89326b80f4de685",
-    "semantic_hash": ""
+    "semantic_hash": "978738c2926a767bc89326b80f4de685"
   },
   "docs/LAYOUT_SYSTEM.md": {
     "mtime": 1782297265.224679,
@@ -13752,7 +13752,7 @@
   "docs/META_TAGS.md": {
     "mtime": 1782298982.899791,
     "ast_hash": "fe4b3aa3b43205f275794aa8635683d1",
-    "semantic_hash": ""
+    "semantic_hash": "fe4b3aa3b43205f275794aa8635683d1"
   },
   "docs/MOBILE_COMPONENTS.md": {
     "mtime": 1782297265.224679,
@@ -14132,27 +14132,27 @@
   "docs/archive/2025-12/PROFESSIONAL_INTERFACE_IMPROVEMENTS_2025-12-09.md": {
     "mtime": 1782297265.2486815,
     "ast_hash": "820a850130835f1aac63cbdabb1c4a34",
-    "semantic_hash": ""
+    "semantic_hash": "820a850130835f1aac63cbdabb1c4a34"
   },
   "docs/archive/2025-12/PROFESSIONAL_PLATFORM_AUDIT_2025-12-09.md": {
     "mtime": 1782297265.2486815,
     "ast_hash": "8a270c394cdbb3f7a23e068d5afce783",
-    "semantic_hash": ""
+    "semantic_hash": "8a270c394cdbb3f7a23e068d5afce783"
   },
   "docs/archive/2025-12/STEM_STUDIO_AUDIT_2025-12-09.md": {
     "mtime": 1782297265.249682,
     "ast_hash": "235b935d8a40dd36931d032f99317235",
-    "semantic_hash": ""
+    "semantic_hash": "235b935d8a40dd36931d032f99317235"
   },
   "docs/archive/2025-12/STEM_STUDIO_IMPROVEMENTS_2025-12-09.md": {
     "mtime": 1782297265.249682,
     "ast_hash": "d6b73e607c2c434102adb35cf32737ba",
-    "semantic_hash": ""
+    "semantic_hash": "d6b73e607c2c434102adb35cf32737ba"
   },
   "docs/archive/2025-12/STEM_STUDIO_MOBILE_ENHANCEMENTS.md": {
     "mtime": 1782297265.249682,
     "ast_hash": "53dd7f6c19555d28c1f23b512ad7ec6b",
-    "semantic_hash": ""
+    "semantic_hash": "53dd7f6c19555d28c1f23b512ad7ec6b"
   },
   "docs/archive/2025-12/TELEGRAM_INTEGRATION_AUDIT_2025-12-09.md": {
     "mtime": 1782297265.249682,
@@ -14167,12 +14167,12 @@
   "docs/archive/2026-01-04-cleanup/LIBRARY_AUDIT_REPORT.md": {
     "mtime": 1782297265.2506824,
     "ast_hash": "f057918aa6569401b843b2d510ad12c4",
-    "semantic_hash": ""
+    "semantic_hash": "f057918aa6569401b843b2d510ad12c4"
   },
   "docs/archive/2026-01-04-cleanup/MOBILE_INTERFACE_FIX_SUMMARY.md": {
     "mtime": 1782297265.2516801,
     "ast_hash": "aacbb77799711ab10e228969d2affcd1",
-    "semantic_hash": ""
+    "semantic_hash": "aacbb77799711ab10e228969d2affcd1"
   },
   "docs/archive/2026-01-04-cleanup/MOBILE_INTERFACE_OPTIMIZATION_PLAN.md": {
     "mtime": 1782297265.2516801,
@@ -14297,12 +14297,12 @@
   "docs/archive/2026-01/SPRINT_ROADMAP_2026.md": {
     "mtime": 1782297265.2596788,
     "ast_hash": "4f1c73e2f46aff0b30b767535fdac0b5",
-    "semantic_hash": ""
+    "semantic_hash": "4f1c73e2f46aff0b30b767535fdac0b5"
   },
   "docs/archive/2026-01/SPRINT_STATUS.md": {
     "mtime": 1782297265.2596788,
     "ast_hash": "7a1f7f23ae59743d3646fac2a4d8a4a4",
-    "semantic_hash": ""
+    "semantic_hash": "7a1f7f23ae59743d3646fac2a4d8a4a4"
   },
   "docs/archive/README.md": {
     "mtime": 1782297265.2596788,
@@ -14422,22 +14422,22 @@
   "docs/archive/audits-2025-12/SPRINT_EXECUTION_SUMMARY_2025-12-03.md": {
     "mtime": 1782297265.2656796,
     "ast_hash": "f2468f9a7601a3c5ff720ae89613a47c",
-    "semantic_hash": ""
+    "semantic_hash": "f2468f9a7601a3c5ff720ae89613a47c"
   },
   "docs/archive/audits-2025-12/SPRINT_READINESS_ASSESSMENT.md": {
     "mtime": 1782297265.2666795,
     "ast_hash": "a29ad0f4dd300cad1fd83c01c995fd47",
-    "semantic_hash": ""
+    "semantic_hash": "a29ad0f4dd300cad1fd83c01c995fd47"
   },
   "docs/archive/audits-2025-12/TELEGRAM_INTEGRATION_AUDIT_2025-12-02.md": {
     "mtime": 1782297265.2666795,
     "ast_hash": "97bc99318d61a5d6a438ce5d5367046c",
-    "semantic_hash": ""
+    "semantic_hash": "97bc99318d61a5d6a438ce5d5367046c"
   },
   "docs/archive/audits-2025-12/TELEGRAM_INTEGRATION_IMPROVEMENT_PLAN.md": {
     "mtime": 1782297265.2666795,
     "ast_hash": "efd1a796b06658b86eb00c8069617b72",
-    "semantic_hash": ""
+    "semantic_hash": "efd1a796b06658b86eb00c8069617b72"
   },
   "docs/archive/audits-2025-12/UI_UX_AUDIT.md": {
     "mtime": 1782297265.2676778,
@@ -14452,17 +14452,17 @@
   "docs/archive/audits-2025-12/UI_UX_IMPROVEMENTS_COMPLETED.md": {
     "mtime": 1782297265.2676778,
     "ast_hash": "56fa8f96a74d12a6bed3ed4b6a84c30f",
-    "semantic_hash": ""
+    "semantic_hash": "56fa8f96a74d12a6bed3ed4b6a84c30f"
   },
   "docs/archive/audits-2025-12/UI_UX_IMPROVEMENT_PLAN.md": {
     "mtime": 1782297265.2676778,
     "ast_hash": "b8d568d1010ec20be150d57c188d2d47",
-    "semantic_hash": ""
+    "semantic_hash": "b8d568d1010ec20be150d57c188d2d47"
   },
   "docs/archive/audits-2025-12/VERSIONING_TELEGRAM_AUDIT_2025-12-03.md": {
     "mtime": 1782297265.268676,
     "ast_hash": "726e08b4e2bdf6cb67f6464433a4ef41",
-    "semantic_hash": ""
+    "semantic_hash": "726e08b4e2bdf6cb67f6464433a4ef41"
   },
   "docs/archive/audits-2025-12/WORK_COMPLETED_SUMMARY.md": {
     "mtime": 1782297265.268676,
@@ -14477,7 +14477,7 @@
   "docs/archive/audits/AUDIT_AND_CONTINUATION_SUMMARY_2025-12-12.md": {
     "mtime": 1782297265.2696776,
     "ast_hash": "f6616fff234c385e235df3487c1f174c",
-    "semantic_hash": ""
+    "semantic_hash": "f6616fff234c385e235df3487c1f174c"
   },
   "docs/archive/audits/AUDIT_INDEX.md": {
     "mtime": 1782297265.2696776,
@@ -14562,7 +14562,7 @@
   "docs/archive/implementation-reports/BUG_FIXES_2025-12-10.md": {
     "mtime": 1782297265.274676,
     "ast_hash": "3b29ebcfb51462ba1fe454054efcaf05",
-    "semantic_hash": ""
+    "semantic_hash": "3b29ebcfb51462ba1fe454054efcaf05"
   },
   "docs/archive/implementation-reports/CONSOLE_LOG_CLEANUP_TRACKER.md": {
     "mtime": 1782297265.274676,
@@ -14572,17 +14572,17 @@
   "docs/archive/implementation-reports/CRITICAL_FIXES_TELEGRAM_INTEGRATION.md": {
     "mtime": 1782297265.274676,
     "ast_hash": "5183be681373df1eebf0a7f47a789a1d",
-    "semantic_hash": ""
+    "semantic_hash": "5183be681373df1eebf0a7f47a789a1d"
   },
   "docs/archive/implementation-reports/DOCUMENTATION_UPDATE_SUMMARY.md": {
     "mtime": 1782297265.2756782,
     "ast_hash": "1f688683ef291e6d92cd807338116750",
-    "semantic_hash": ""
+    "semantic_hash": "1f688683ef291e6d92cd807338116750"
   },
   "docs/archive/implementation-reports/FIXES_SUMMARY_2025-12-12.md": {
     "mtime": 1782297265.2756782,
     "ast_hash": "812d0c19b605ca8eb009c400b288f478",
-    "semantic_hash": ""
+    "semantic_hash": "812d0c19b605ca8eb009c400b288f478"
   },
   "docs/archive/implementation-reports/GUITAR_STUDIO_IMPLEMENTATION.md": {
     "mtime": 1782297265.2766802,
@@ -14917,67 +14917,67 @@
   "docs/archive/sprint-reports/SPRINT_COMPLETION_SUMMARY_PHASE5.md": {
     "mtime": 1782297265.295684,
     "ast_hash": "bb87eced0121aa3484a83b88088e27ef",
-    "semantic_hash": ""
+    "semantic_hash": "bb87eced0121aa3484a83b88088e27ef"
   },
   "docs/archive/sprint-reports/SPRINT_CONTINUATION_SUMMARY_2025-12-12.md": {
     "mtime": 1782297265.2966816,
     "ast_hash": "4a75307b4ea56e3ab4cb78f427a4c506",
-    "semantic_hash": ""
+    "semantic_hash": "4a75307b4ea56e3ab4cb78f427a4c506"
   },
   "docs/archive/sprint-reports/SPRINT_EXECUTION_SUMMARY_2025-12-12.md": {
     "mtime": 1782297265.2966816,
     "ast_hash": "48437fdfcbec86562e7579a88195f590",
-    "semantic_hash": ""
+    "semantic_hash": "48437fdfcbec86562e7579a88195f590"
   },
   "docs/archive/sprint-reports/SPRINT_IMPLEMENTATION_SUMMARY_2025-12-12.md": {
     "mtime": 1782297265.2966816,
     "ast_hash": "0439fdfad82f0f6b53748b2165d86483",
-    "semantic_hash": ""
+    "semantic_hash": "0439fdfad82f0f6b53748b2165d86483"
   },
   "docs/archive/sprint-reports/SPRINT_PLANNING_WORK_SUMMARY_2025-12-12.md": {
     "mtime": 1782297265.2966816,
     "ast_hash": "c4748f895b1e30159152af0fe9fc2eb0",
-    "semantic_hash": ""
+    "semantic_hash": "c4748f895b1e30159152af0fe9fc2eb0"
   },
   "docs/archive/sprint-reports/\u0418\u0422\u041e\u0413\u041e\u0412\u042b\u0419_\u041e\u0422\u0427\u0415\u0422_\u0410\u0423\u0414\u0418\u0422_2025-12-12.md": {
     "mtime": 1782297265.2966816,
     "ast_hash": "f838d6d5c102c1bee78864fc8bfbb64a",
-    "semantic_hash": ""
+    "semantic_hash": "f838d6d5c102c1bee78864fc8bfbb64a"
   },
   "docs/archive/sprint-reports/\u0418\u0422\u041e\u0413\u041e\u0412\u042b\u0419_\u041e\u0422\u0427\u0415\u0422_\u0417\u0410\u041a\u0420\u042b\u0422\u0418\u0415_\u0421\u041f\u0420\u0418\u041d\u0422\u041e\u0412_2025-12-12.md": {
     "mtime": 1782297265.2976823,
     "ast_hash": "1013e0070c3f0ba0bf9e884b42659672",
-    "semantic_hash": ""
+    "semantic_hash": "1013e0070c3f0ba0bf9e884b42659672"
   },
   "docs/checklists/requirements_quality.md": {
     "mtime": 1782297265.2976823,
     "ast_hash": "6c699bf82f0045f856d1ddf5db0c928f",
-    "semantic_hash": ""
+    "semantic_hash": "6c699bf82f0045f856d1ddf5db0c928f"
   },
   "docs/checklists/sprint-management.md": {
     "mtime": 1782297265.2976823,
     "ast_hash": "f56b5b484ce41c85157b83437cd7aa78",
-    "semantic_hash": ""
+    "semantic_hash": "f56b5b484ce41c85157b83437cd7aa78"
   },
   "docs/features/GUITAR_RECORDING_KLANG_INTEGRATION.md": {
     "mtime": 1782297265.298681,
     "ast_hash": "2dd67a335da5fb75bd82e2937d298ecc",
-    "semantic_hash": ""
+    "semantic_hash": "2dd67a335da5fb75bd82e2937d298ecc"
   },
   "docs/guides/PLAYER_NO_SOUND_FIX.md": {
     "mtime": 1782297265.298681,
     "ast_hash": "02e7ab1361d3d7fcbefb9155567e72d6",
-    "semantic_hash": ""
+    "semantic_hash": "02e7ab1361d3d7fcbefb9155567e72d6"
   },
   "docs/guides/PROFESSIONAL_STUDIO_ENHANCEMENT_GUIDE_EN.md": {
     "mtime": 1782297265.298681,
     "ast_hash": "df423718e541b5a7b800f07ee6f10777",
-    "semantic_hash": ""
+    "semantic_hash": "df423718e541b5a7b800f07ee6f10777"
   },
   "docs/guides/TELEGRAM_BOT_TESTING_GUIDE.md": {
     "mtime": 1782297265.298681,
     "ast_hash": "6a38f1a2b973153598d5cae20344612a",
-    "semantic_hash": ""
+    "semantic_hash": "6a38f1a2b973153598d5cae20344612a"
   },
   "docs/iOS_FIXES.md": {
     "mtime": 1782297265.298681,
@@ -14987,12 +14987,12 @@
   "docs/images/README.md": {
     "mtime": 1782297265.3001852,
     "ast_hash": "a7d0565a220e88c5370a160fc18e0da4",
-    "semantic_hash": ""
+    "semantic_hash": "a7d0565a220e88c5370a160fc18e0da4"
   },
   "docs/integrations/KLANG_IO_INTEGRATION.md": {
     "mtime": 1782299647.9854193,
     "ast_hash": "f4a6f822e3ee01c1e2693d2b601f56c7",
-    "semantic_hash": ""
+    "semantic_hash": "f4a6f822e3ee01c1e2693d2b601f56c7"
   },
   "docs/mobile/COMPONENT_CONSOLIDATION_MATRIX.md": {
     "mtime": 1782299657.3493488,
@@ -15002,47 +15002,47 @@
   "docs/mobile/OPTIMIZATION_ROADMAP_2026.md": {
     "mtime": 1782299666.037754,
     "ast_hash": "24d8d3ceb40511db4f64e79a449a6e59",
-    "semantic_hash": ""
+    "semantic_hash": "24d8d3ceb40511db4f64e79a449a6e59"
   },
   "docs/mobile/README.md": {
     "mtime": 1782297265.30119,
     "ast_hash": "dfe8fc7e7f355d4c546b01bcd68c1fb8",
-    "semantic_hash": ""
+    "semantic_hash": "dfe8fc7e7f355d4c546b01bcd68c1fb8"
   },
   "docs/mobile/VISUAL_ARCHITECTURE.md": {
     "mtime": 1782299674.5547981,
     "ast_hash": "df6c03dac9e2f2ce794e6a753ad796b1",
-    "semantic_hash": ""
+    "semantic_hash": "df6c03dac9e2f2ce794e6a753ad796b1"
   },
   "docs/ru/README.md": {
     "mtime": 1782297265.30119,
     "ast_hash": "ab8b1863c14f2affd5e6d3cff82947bb",
-    "semantic_hash": ""
+    "semantic_hash": "ab8b1863c14f2affd5e6d3cff82947bb"
   },
   "docs/ru/analysis-report.md": {
     "mtime": 1782297265.30119,
     "ast_hash": "7de3bb9dd728f0c43ed491ad39457804",
-    "semantic_hash": ""
+    "semantic_hash": "7de3bb9dd728f0c43ed491ad39457804"
   },
   "docs/ru/improvement-plan.md": {
     "mtime": 1782297265.3026943,
     "ast_hash": "3cd91b1041b0292fa6545aa269ca7d88",
-    "semantic_hash": ""
+    "semantic_hash": "3cd91b1041b0292fa6545aa269ca7d88"
   },
   "docs/ru/lyrics-assistant-improvements.md": {
     "mtime": 1782297265.3026943,
     "ast_hash": "7289b6f302dfe843a54f40eb5a2d0e5b",
-    "semantic_hash": ""
+    "semantic_hash": "7289b6f302dfe843a54f40eb5a2d0e5b"
   },
   "docs/ru/project-analysis.md": {
     "mtime": 1782297265.3026943,
     "ast_hash": "ed68c0d8fd11ba85ade6aad728197d59",
-    "semantic_hash": ""
+    "semantic_hash": "ed68c0d8fd11ba85ade6aad728197d59"
   },
   "docs/ru/studio-development-plan.md": {
     "mtime": 1782297265.3037002,
     "ast_hash": "bca8fd5cfa42254ddf1df3e2b5497b0f",
-    "semantic_hash": ""
+    "semantic_hash": "bca8fd5cfa42254ddf1df3e2b5497b0f"
   },
   "docs/ru/user-scenarios.md": {
     "mtime": 1782297265.3037002,
@@ -15227,12 +15227,12 @@
   "specs/001-unified-interface/WORK-SUMMARY-2026-01-05.md": {
     "mtime": 1782297265.3327005,
     "ast_hash": "56a3fdf12c4c639df21d663d72bcfe6b",
-    "semantic_hash": ""
+    "semantic_hash": "56a3fdf12c4c639df21d663d72bcfe6b"
   },
   "specs/001-unified-interface/bundle-baseline.md": {
     "mtime": 1782297265.3337014,
     "ast_hash": "e6d70059f3405d95277acaf57cfbd3ab",
-    "semantic_hash": ""
+    "semantic_hash": "e6d70059f3405d95277acaf57cfbd3ab"
   },
   "specs/001-unified-interface/checklists/requirements.md": {
     "mtime": 1782297265.3337014,
@@ -15297,7 +15297,7 @@
   "specs/002-ui-component-unification/checklists/requirements.md": {
     "mtime": 1782297265.340701,
     "ast_hash": "fd06b9eb2a0829558b43b91a1a1e2924",
-    "semantic_hash": ""
+    "semantic_hash": "fd06b9eb2a0829558b43b91a1a1e2924"
   },
   "specs/002-ui-component-unification/data-model.md": {
     "mtime": 1782297265.3427017,
@@ -15332,12 +15332,12 @@
   "specs/031-mobile-studio-v2/checklists/requirements.md": {
     "mtime": 1782297265.3467007,
     "ast_hash": "ade50275a9209a1d957ca1edcd3ed4ab",
-    "semantic_hash": ""
+    "semantic_hash": "ade50275a9209a1d957ca1edcd3ed4ab"
   },
   "specs/031-mobile-studio-v2/contracts/api-contracts.md": {
     "mtime": 1782297265.3467007,
     "ast_hash": "6ec78927b9ef8790beb8b1f8a254b27c",
-    "semantic_hash": ""
+    "semantic_hash": "6ec78927b9ef8790beb8b1f8a254b27c"
   },
   "specs/031-mobile-studio-v2/data-model.md": {
     "mtime": 1782297265.3467007,
@@ -15372,7 +15372,7 @@
   "specs/032-professional-ui/checklists/requirements.md": {
     "mtime": 1782297265.349701,
     "ast_hash": "1677d865a66a361cc31f42df03b3345c",
-    "semantic_hash": ""
+    "semantic_hash": "1677d865a66a361cc31f42df03b3345c"
   },
   "specs/032-professional-ui/contracts/animation-contract.md": {
     "mtime": 1782297265.349701,

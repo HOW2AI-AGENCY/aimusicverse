@@ -13042,7 +13042,7 @@
   ".github/copilot-instructions.md": {
     "mtime": 1782297265.1666777,
     "ast_hash": "ce920c9dc10ddc97131e883b7a3565bd",
-    "semantic_hash": ""
+    "semantic_hash": "ce920c9dc10ddc97131e883b7a3565bd"
   },
   ".github/prompts/speckit.analyze.prompt.md": {
     "mtime": 1782297265.1676793,
@@ -13437,37 +13437,37 @@
   "SPRINTS/SPRINT_TEMPLATE.md": {
     "mtime": 1782297265.1946783,
     "ast_hash": "fd091885c0be9a63dcf85226cf6fafe2",
-    "semantic_hash": ""
+    "semantic_hash": "fd091885c0be9a63dcf85226cf6fafe2"
   },
   "SPRINTS/completed/SPRINT-001-SETUP.md": {
     "mtime": 1782297265.1946783,
     "ast_hash": "d8c0523eb616cfca6d0f01b1c1b28e0a",
-    "semantic_hash": ""
+    "semantic_hash": "d8c0523eb616cfca6d0f01b1c1b28e0a"
   },
   "SPRINTS/completed/SPRINT-002-AUDIT-IMPROVEMENTS.md": {
     "mtime": 1782297265.1956782,
     "ast_hash": "bdea55b0744cde1dbfacd1d94434b9f3",
-    "semantic_hash": ""
+    "semantic_hash": "bdea55b0744cde1dbfacd1d94434b9f3"
   },
   "SPRINTS/completed/SPRINT-003-AUTOMATION.md": {
     "mtime": 1782297265.1956782,
     "ast_hash": "84c48ff5852d39f20ba97d7e6c0cffe2",
-    "semantic_hash": ""
+    "semantic_hash": "84c48ff5852d39f20ba97d7e6c0cffe2"
   },
   "SPRINTS/completed/SPRINT-004-OPTIMIZATION.md": {
     "mtime": 1782297265.1956782,
     "ast_hash": "14bf941d726fde39de0fdc980a468cd3",
-    "semantic_hash": ""
+    "semantic_hash": "14bf941d726fde39de0fdc980a468cd3"
   },
   "SPRINTS/completed/SPRINT-005-PRODUCTION-HARDENING.md": {
     "mtime": 1782297265.1956782,
     "ast_hash": "8e89edc0a00e565560fef2f12fb4bda3",
-    "semantic_hash": ""
+    "semantic_hash": "8e89edc0a00e565560fef2f12fb4bda3"
   },
   "SPRINTS/completed/SPRINT-006-UI-UX-IMPROVEMENTS.md": {
     "mtime": 1782297265.1956782,
     "ast_hash": "7292f70808a7d0a8df524238e60f728a",
-    "semantic_hash": ""
+    "semantic_hash": "7292f70808a7d0a8df524238e60f728a"
   },
   "SPRINTS/completed/SPRINT-007-MOBILE-FIRST-IMPLEMENTATION.md": {
     "mtime": 1782297265.1966772,
@@ -14157,12 +14157,12 @@
   "docs/archive/2025-12/TELEGRAM_INTEGRATION_AUDIT_2025-12-09.md": {
     "mtime": 1782297265.249682,
     "ast_hash": "2ebb48aa79564bf621bf2a0c2fe9ee22",
-    "semantic_hash": ""
+    "semantic_hash": "2ebb48aa79564bf621bf2a0c2fe9ee22"
   },
   "docs/archive/2025-12/\u0418\u0422\u041e\u0413\u0418_\u0423\u041b\u0423\u0427\u0428\u0415\u041d\u0418\u0419_\u041f\u041b\u0415\u0415\u0420\u0410_2025-12-09.md": {
     "mtime": 1782297265.2506824,
     "ast_hash": "deb3fb6b5d7d594add6431a43e28ab23",
-    "semantic_hash": ""
+    "semantic_hash": "deb3fb6b5d7d594add6431a43e28ab23"
   },
   "docs/archive/2026-01-04-cleanup/LIBRARY_AUDIT_REPORT.md": {
     "mtime": 1782297265.2506824,
@@ -14187,7 +14187,7 @@
   "docs/archive/2026-01-04-cleanup/README.md": {
     "mtime": 1782297265.2526772,
     "ast_hash": "715bf7956e7a87fb6603b8a1ec677973",
-    "semantic_hash": ""
+    "semantic_hash": "715bf7956e7a87fb6603b8a1ec677973"
   },
   "docs/archive/2026-01-04-cleanup/SPRINT_011_COMPLETION_REPORT.md": {
     "mtime": 1782297265.2526772,
@@ -14232,17 +14232,17 @@
   "docs/archive/2026-01/CURRENT_STATE_ANALYSIS_2025-12-21.md": {
     "mtime": 1782297265.2556758,
     "ast_hash": "ccf9b76f3b8279b3890946e1a54bc035",
-    "semantic_hash": ""
+    "semantic_hash": "ccf9b76f3b8279b3890946e1a54bc035"
   },
   "docs/archive/2026-01/DOCUMENTATION_UPDATE_2026-01-04.md": {
     "mtime": 1782297265.2556758,
     "ast_hash": "de8d280b85f94e65d35af6915d3201e2",
-    "semantic_hash": ""
+    "semantic_hash": "de8d280b85f94e65d35af6915d3201e2"
   },
   "docs/archive/2026-01/IMPLEMENTATION_ROADMAP_2026.md": {
     "mtime": 1782297265.2556758,
     "ast_hash": "4a4869e05a2e3c5f18b72886e2c319cc",
-    "semantic_hash": ""
+    "semantic_hash": "4a4869e05a2e3c5f18b72886e2c319cc"
   },
   "docs/archive/2026-01/OPTIMIZATION_PLAN_2026.md": {
     "mtime": 1782297265.2566762,
@@ -14252,17 +14252,17 @@
   "docs/archive/2026-01/OPTIMIZATION_PROGRESS.md": {
     "mtime": 1782297265.2566762,
     "ast_hash": "44e4add09e6e01119ba3d73cd2e1becf",
-    "semantic_hash": ""
+    "semantic_hash": "44e4add09e6e01119ba3d73cd2e1becf"
   },
   "docs/archive/2026-01/README.md": {
     "mtime": 1782297265.2566762,
     "ast_hash": "4abd900ffe32649d2968644cc4e6e212",
-    "semantic_hash": ""
+    "semantic_hash": "4abd900ffe32649d2968644cc4e6e212"
   },
   "docs/archive/2026-01/README_DOCUMENTATION_UPDATE.md": {
     "mtime": 1782297265.2566762,
     "ast_hash": "c2be19f8c92452c0210f33db4cfcdb50",
-    "semantic_hash": ""
+    "semantic_hash": "c2be19f8c92452c0210f33db4cfcdb50"
   },
   "docs/archive/2026-01/REPOSITORY_CLEANUP_SUMMARY.md": {
     "mtime": 1782297265.2576764,
@@ -14272,7 +14272,7 @@
   "docs/archive/2026-01/REPOSITORY_CLEANUP_SUMMARY_2026-01.md": {
     "mtime": 1782297265.2576764,
     "ast_hash": "eeb7294b9f8fb5fd5a5452c975cf4946",
-    "semantic_hash": ""
+    "semantic_hash": "eeb7294b9f8fb5fd5a5452c975cf4946"
   },
   "docs/archive/2026-01/SESSION_REPORT_2026-01-04.md": {
     "mtime": 1782297265.2576764,
@@ -14282,17 +14282,17 @@
   "docs/archive/2026-01/SPRINT_DOCS_README.md": {
     "mtime": 1782297265.2576764,
     "ast_hash": "8f92a0650362901a5ec6150ad8bac019",
-    "semantic_hash": ""
+    "semantic_hash": "8f92a0650362901a5ec6150ad8bac019"
   },
   "docs/archive/2026-01/SPRINT_IMPLEMENTATION_GUIDE.md": {
     "mtime": 1782297265.2586768,
     "ast_hash": "c13178b7f105502128177350df1fc5f3",
-    "semantic_hash": ""
+    "semantic_hash": "c13178b7f105502128177350df1fc5f3"
   },
   "docs/archive/2026-01/SPRINT_MANAGEMENT.md": {
     "mtime": 1782297265.2586768,
     "ast_hash": "1a7273fe90e1544f700c51d22463d3fb",
-    "semantic_hash": ""
+    "semantic_hash": "1a7273fe90e1544f700c51d22463d3fb"
   },
   "docs/archive/2026-01/SPRINT_ROADMAP_2026.md": {
     "mtime": 1782297265.2596788,
@@ -14467,7 +14467,7 @@
   "docs/archive/audits-2025-12/WORK_COMPLETED_SUMMARY.md": {
     "mtime": 1782297265.268676,
     "ast_hash": "514fbae3b5d313b859dc289cdb641a51",
-    "semantic_hash": ""
+    "semantic_hash": "514fbae3b5d313b859dc289cdb641a51"
   },
   "docs/archive/audits/AUDIO_ARCHITECTURE_ANALYSIS_RU.md": {
     "mtime": 1782297265.268676,
@@ -14587,12 +14587,12 @@
   "docs/archive/implementation-reports/GUITAR_STUDIO_IMPLEMENTATION.md": {
     "mtime": 1782297265.2766802,
     "ast_hash": "1b7961d690e296d2b4b77cd07764caf1",
-    "semantic_hash": ""
+    "semantic_hash": "1b7961d690e296d2b4b77cd07764caf1"
   },
   "docs/archive/implementation-reports/IMMEDIATE_IMPROVEMENTS_CHECKLIST.md": {
     "mtime": 1782297265.2766802,
     "ast_hash": "55abae36df2bee3349be46127510b882",
-    "semantic_hash": ""
+    "semantic_hash": "55abae36df2bee3349be46127510b882"
   },
   "docs/archive/implementation-reports/IMPLEMENTATION_PLAN_EXECUTION_SUMMARY_2025-12-11.md": {
     "mtime": 1782297265.2766802,
@@ -14602,77 +14602,77 @@
   "docs/archive/implementation-reports/IMPLEMENTATION_PROGRESS_STARS_PAYMENT.md": {
     "mtime": 1782297265.2776775,
     "ast_hash": "4275eb7df0cb6948758e3bbf502579c7",
-    "semantic_hash": ""
+    "semantic_hash": "4275eb7df0cb6948758e3bbf502579c7"
   },
   "docs/archive/implementation-reports/IMPLEMENTATION_PROGRESS_STARS_PAYMENT_PHASE3.md": {
     "mtime": 1782297265.2786784,
     "ast_hash": "92a14c0a52e0bc2cf30823cb26e734ae",
-    "semantic_hash": ""
+    "semantic_hash": "92a14c0a52e0bc2cf30823cb26e734ae"
   },
   "docs/archive/implementation-reports/IMPLEMENTATION_PROGRESS_STARS_PAYMENT_PHASE4.md": {
     "mtime": 1782297265.2786784,
     "ast_hash": "b4e2242ce322550064a8bfb8b0dee95e",
-    "semantic_hash": ""
+    "semantic_hash": "b4e2242ce322550064a8bfb8b0dee95e"
   },
   "docs/archive/implementation-reports/IMPLEMENTATION_PROGRESS_STARS_PAYMENT_PHASE5.md": {
     "mtime": 1782297265.2786784,
     "ast_hash": "68e228345207d463aa6b61075243dc6c",
-    "semantic_hash": ""
+    "semantic_hash": "68e228345207d463aa6b61075243dc6c"
   },
   "docs/archive/implementation-reports/IMPLEMENTATION_ROADMAP.md": {
     "mtime": 1782297265.2796793,
     "ast_hash": "21647357ca3330f411e0d0ef50f85c33",
-    "semantic_hash": ""
+    "semantic_hash": "21647357ca3330f411e0d0ef50f85c33"
   },
   "docs/archive/implementation-reports/IMPLEMENTATION_SUMMARY_TELEGRAM_FIXES.md": {
     "mtime": 1782297265.2796793,
     "ast_hash": "e7c87582589211d6f9e166842706533c",
-    "semantic_hash": ""
+    "semantic_hash": "e7c87582589211d6f9e166842706533c"
   },
   "docs/archive/implementation-reports/INTERFACE_WORK_SUMMARY_2025-12-10.md": {
     "mtime": 1782297265.280679,
     "ast_hash": "55bd0dc2dcb06db06a403c5fe6106dbb",
-    "semantic_hash": ""
+    "semantic_hash": "55bd0dc2dcb06db06a403c5fe6106dbb"
   },
   "docs/archive/implementation-reports/KLANG_IO_DIAGNOSTIC_LOGGING_2025-12-11.md": {
     "mtime": 1782297265.280679,
     "ast_hash": "dccb28da24ca4c0e3b1053d772a015c0",
-    "semantic_hash": ""
+    "semantic_hash": "dccb28da24ca4c0e3b1053d772a015c0"
   },
   "docs/archive/implementation-reports/KLANG_IO_IMPLEMENTATION_SUMMARY.md": {
     "mtime": 1782297265.280679,
     "ast_hash": "d88ae70d23587387bc4e498fd481373f",
-    "semantic_hash": ""
+    "semantic_hash": "d88ae70d23587387bc4e498fd481373f"
   },
   "docs/archive/implementation-reports/KLANG_IO_MIME_TYPE_FIX_2025-12-11.md": {
     "mtime": 1782297265.2816782,
     "ast_hash": "8d9514c4ab184696751fdf27ca024bc7",
-    "semantic_hash": ""
+    "semantic_hash": "8d9514c4ab184696751fdf27ca024bc7"
   },
   "docs/archive/implementation-reports/KLANG_IO_TRANSCRIPTION_IMPROVEMENTS_2025-12-10.md": {
     "mtime": 1782297265.2816782,
     "ast_hash": "924f1f351063b1478c6e3d956422b973",
-    "semantic_hash": ""
+    "semantic_hash": "924f1f351063b1478c6e3d956422b973"
   },
   "docs/archive/implementation-reports/LYRICS_INTERFACE_IMPROVEMENTS_RU.md": {
     "mtime": 1782297265.2826772,
     "ast_hash": "db1bebe1dbcf8d003935824b98b4a1f8",
-    "semantic_hash": ""
+    "semantic_hash": "db1bebe1dbcf8d003935824b98b4a1f8"
   },
   "docs/archive/implementation-reports/MOBILE_OPTIMIZATION_SUMMARY.md": {
     "mtime": 1782297265.2826772,
     "ast_hash": "ea5d0a49417166247ff4bde7d25732e2",
-    "semantic_hash": ""
+    "semantic_hash": "ea5d0a49417166247ff4bde7d25732e2"
   },
   "docs/archive/implementation-reports/OPTIMIZATION_SUMMARY_2025-12-10.md": {
     "mtime": 1782297265.2826772,
     "ast_hash": "bd106741917ce249fb15d7dfe37fa728",
-    "semantic_hash": ""
+    "semantic_hash": "bd106741917ce249fb15d7dfe37fa728"
   },
   "docs/archive/implementation-reports/PLAYER_COMPREHENSIVE_AUDIT_2025-12-10.md": {
     "mtime": 1782297265.2826772,
     "ast_hash": "cc07726f64580538f708b845df908f80",
-    "semantic_hash": ""
+    "semantic_hash": "cc07726f64580538f708b845df908f80"
   },
   "docs/archive/implementation-reports/PLAYER_FIXES_2025-12-10.md": {
     "mtime": 1782297265.2836776,
@@ -14682,7 +14682,7 @@
   "docs/archive/implementation-reports/PLAYER_FIXES_SUMMARY_RU.md": {
     "mtime": 1782297265.2836776,
     "ast_hash": "2bfa4538e4cd2c479a439dc59bfd791e",
-    "semantic_hash": ""
+    "semantic_hash": "2bfa4538e4cd2c479a439dc59bfd791e"
   },
   "docs/archive/implementation-reports/PROFESSIONAL_STUDIO_ENHANCEMENT_GUIDE_RU.md": {
     "mtime": 1782297265.2836776,
@@ -14802,7 +14802,7 @@
   "docs/archive/sprint-reports/SPRINT_010_AND_013_FINAL_CLOSURE.md": {
     "mtime": 1782297265.2896812,
     "ast_hash": "46af904ca30333fe286c0bea95935fc7",
-    "semantic_hash": ""
+    "semantic_hash": "46af904ca30333fe286c0bea95935fc7"
   },
   "docs/archive/sprint-reports/SPRINT_010_COMPLETION_DOCUMENTATION.md": {
     "mtime": 1782297265.2896812,
@@ -14812,47 +14812,47 @@
   "docs/archive/sprint-reports/SPRINT_010_COMPLETION_REPORT.md": {
     "mtime": 1782297265.2896812,
     "ast_hash": "86a49e843f49172fae31d9166085884f",
-    "semantic_hash": ""
+    "semantic_hash": "86a49e843f49172fae31d9166085884f"
   },
   "docs/archive/sprint-reports/SPRINT_010_STATUS_UPDATE_2025-12-12.md": {
     "mtime": 1782297265.2906804,
     "ast_hash": "fa8c27f7aeeea3fcafe7b79f0dfb4943",
-    "semantic_hash": ""
+    "semantic_hash": "fa8c27f7aeeea3fcafe7b79f0dfb4943"
   },
   "docs/archive/sprint-reports/SPRINT_011_ACCURATE_STATUS_2025-12-13.md": {
     "mtime": 1782297265.2906804,
     "ast_hash": "ab4e825415c8a5275a5b889376046950",
-    "semantic_hash": ""
+    "semantic_hash": "ab4e825415c8a5275a5b889376046950"
   },
   "docs/archive/sprint-reports/SPRINT_011_CONTINUATION_PLAN_2025-12-13.md": {
     "mtime": 1782297265.2906804,
     "ast_hash": "e24ad8f729972acd5fca157bb8f05b7e",
-    "semantic_hash": ""
+    "semantic_hash": "e24ad8f729972acd5fca157bb8f05b7e"
   },
   "docs/archive/sprint-reports/SPRINT_011_CONTINUATION_REPORT_2025-12-13.md": {
     "mtime": 1782297265.2906804,
     "ast_hash": "5500ce77ed1bde4b218c5e5efdb94a9c",
-    "semantic_hash": ""
+    "semantic_hash": "5500ce77ed1bde4b218c5e5efdb94a9c"
   },
   "docs/archive/sprint-reports/SPRINT_011_EXECUTION_STATUS.md": {
     "mtime": 1782297265.2916815,
     "ast_hash": "acda8de6d11b15b08328fdf4c2124ab7",
-    "semantic_hash": ""
+    "semantic_hash": "acda8de6d11b15b08328fdf4c2124ab7"
   },
   "docs/archive/sprint-reports/SPRINT_011_FINAL_SUMMARY_2025-12-13.md": {
     "mtime": 1782297265.2916815,
     "ast_hash": "00c187d381d15e7a8ca5d71b743995e3",
-    "semantic_hash": ""
+    "semantic_hash": "00c187d381d15e7a8ca5d71b743995e3"
   },
   "docs/archive/sprint-reports/SPRINT_011_IMPLEMENTATION_COMPLETE.md": {
     "mtime": 1782297265.2916815,
     "ast_hash": "fef3fffa7e669c5d42eaff77fada6d67",
-    "semantic_hash": ""
+    "semantic_hash": "fef3fffa7e669c5d42eaff77fada6d67"
   },
   "docs/archive/sprint-reports/SPRINT_011_IMPLEMENTATION_GUIDE.md": {
     "mtime": 1782297265.2926838,
     "ast_hash": "bee210a4fb953bb9d2df25b7f52da7c5",
-    "semantic_hash": ""
+    "semantic_hash": "bee210a4fb953bb9d2df25b7f52da7c5"
   },
   "docs/archive/sprint-reports/SPRINT_011_PHASE9_SUMMARY.md": {
     "mtime": 1782297265.2926838,
@@ -14872,17 +14872,17 @@
   "docs/archive/sprint-reports/SPRINT_025_EXECUTION.md": {
     "mtime": 1782297265.2936838,
     "ast_hash": "4bb1f6209f5004cb42ceac5d120127d9",
-    "semantic_hash": ""
+    "semantic_hash": "4bb1f6209f5004cb42ceac5d120127d9"
   },
   "docs/archive/sprint-reports/SPRINT_025_FINAL_REPORT.md": {
     "mtime": 1782297265.2936838,
     "ast_hash": "88068d79a95299ec3ba7f460da6250e3",
-    "semantic_hash": ""
+    "semantic_hash": "88068d79a95299ec3ba7f460da6250e3"
   },
   "docs/archive/sprint-reports/SPRINT_025_STATUS.md": {
     "mtime": 1782297265.2936838,
     "ast_hash": "9eecad9787bce214d3a17adb26eb1244",
-    "semantic_hash": ""
+    "semantic_hash": "9eecad9787bce214d3a17adb26eb1244"
   },
   "docs/archive/sprint-reports/SPRINT_026_EXECUTION.md": {
     "mtime": 1782297265.2946818,
@@ -14892,27 +14892,27 @@
   "docs/archive/sprint-reports/SPRINT_026_FINAL_REPORT.md": {
     "mtime": 1782297265.2946818,
     "ast_hash": "eb71f29262f0b4951eb2bb8ebc93385e",
-    "semantic_hash": ""
+    "semantic_hash": "eb71f29262f0b4951eb2bb8ebc93385e"
   },
   "docs/archive/sprint-reports/SPRINT_027_AUDIT.md": {
     "mtime": 1782297265.2946818,
     "ast_hash": "231f4dfa0abfac4b2ce5bb73463e1945",
-    "semantic_hash": ""
+    "semantic_hash": "231f4dfa0abfac4b2ce5bb73463e1945"
   },
   "docs/archive/sprint-reports/SPRINT_ANALYSIS_SUMMARY.md": {
     "mtime": 1782297265.2946818,
     "ast_hash": "d8a8a969567ce18abb5c1e4c63198763",
-    "semantic_hash": ""
+    "semantic_hash": "d8a8a969567ce18abb5c1e4c63198763"
   },
   "docs/archive/sprint-reports/SPRINT_COMPLETION_REPORT_2025-12-12.md": {
     "mtime": 1782297265.295684,
     "ast_hash": "14e3dae0136295bffa649007b6af15cb",
-    "semantic_hash": ""
+    "semantic_hash": "14e3dae0136295bffa649007b6af15cb"
   },
   "docs/archive/sprint-reports/SPRINT_COMPLETION_SUMMARY.md": {
     "mtime": 1782297265.295684,
     "ast_hash": "3fd89d7a76cd0c368fe937d2bd2ad8a1",
-    "semantic_hash": ""
+    "semantic_hash": "3fd89d7a76cd0c368fe937d2bd2ad8a1"
   },
   "docs/archive/sprint-reports/SPRINT_COMPLETION_SUMMARY_PHASE5.md": {
     "mtime": 1782297265.295684,
