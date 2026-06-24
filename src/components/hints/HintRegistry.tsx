@@ -149,8 +149,13 @@ interface HintContextValue {
 
 const HintContext = createContext<HintContextValue | null>(null);
 
+/** Cooldown (ms) after a hint is shown/closed before it can be re-requested. */
+const REQUEST_COOLDOWN_MS = 1500;
+
 export function HintRegistryProvider({ children }: { children: ReactNode }) {
   const seenRef = useRef<Set<string>>(new Set());
+  const recentRef = useRef<Map<string, number>>(new Map());
+  const activeIdRef = useRef<string | null>(null);
   const [, force] = useState(0);
   const [activeId, setActiveId] = useState<string | null>(null);
   const overlayOpen = useOverlayOpen();
@@ -178,6 +183,7 @@ export function HintRegistryProvider({ children }: { children: ReactNode }) {
 
   const resetAll = useCallback(() => {
     seenRef.current = new Set();
+    recentRef.current = new Map();
     writeSeen(seenRef.current);
     try {
       const toRemove: string[] = [];
@@ -191,32 +197,48 @@ export function HintRegistryProvider({ children }: { children: ReactNode }) {
     } catch {
       /* ignore */
     }
+    activeIdRef.current = null;
     setActiveId(null);
     force((n) => n + 1);
   }, []);
 
   const request = useCallback(
     (id: string) => {
+      // Hard dedup: no requests while an overlay is open.
       if (overlayOpen) return false;
+      // Hard dedup: already-seen tips cannot reappear.
       if (seenRef.current.has(id)) return false;
-      let granted = false;
-      setActiveId((prev) => {
-        if (prev && prev !== id) return prev;
-        granted = true;
-        return id;
-      });
-      return granted;
+      // Hard dedup: another tip currently owns the slot — even the same id.
+      if (activeIdRef.current && activeIdRef.current !== id) return false;
+      if (activeIdRef.current === id) return true;
+      // Cooldown: prevent rapid re-show of the same id after release.
+      const last = recentRef.current.get(id) ?? 0;
+      if (Date.now() - last < REQUEST_COOLDOWN_MS) return false;
+
+      activeIdRef.current = id;
+      recentRef.current.set(id, Date.now());
+      setActiveId(id);
+      return true;
     },
     [overlayOpen]
   );
 
   const release = useCallback((id: string) => {
-    setActiveId((prev) => (prev === id ? null : prev));
+    if (activeIdRef.current !== id) return;
+    activeIdRef.current = null;
+    recentRef.current.set(id, Date.now());
+    setActiveId(null);
   }, []);
 
-  // If an overlay opens while a hint is showing, drop it.
+  // If an overlay opens while a hint is showing, drop it. The card stays
+  // unseen in storage, so ContextHints will re-surface it after release.
   useEffect(() => {
-    if (overlayOpen) setActiveId(null);
+    if (overlayOpen && activeIdRef.current) {
+      const id = activeIdRef.current;
+      activeIdRef.current = null;
+      recentRef.current.set(id, Date.now());
+      setActiveId(null);
+    }
   }, [overlayOpen]);
 
   const value = useMemo<HintContextValue>(

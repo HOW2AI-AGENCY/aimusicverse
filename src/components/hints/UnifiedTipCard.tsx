@@ -9,13 +9,13 @@
  * Always exclusive — only one card is visible thanks to HintRegistry.
  */
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect } from 'react';
 import { AnimatePresence, motion } from '@/lib/motion';
 import { X, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useHintRegistry } from './HintRegistry';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { useTipPosition } from './useTipPosition';
 
 export interface UnifiedTipCardProps {
   id: string;
@@ -32,21 +32,6 @@ export interface UnifiedTipCardProps {
   force?: boolean;
 }
 
-function useIsMobile(): boolean {
-  const [isMobile, setIsMobile] = useState(() => {
-    if (typeof window === 'undefined') return false;
-    return window.matchMedia('(max-width: 767px)').matches;
-  });
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const mq = window.matchMedia('(max-width: 767px)');
-    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
-    mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
-  }, []);
-  return isMobile;
-}
-
 export function UnifiedTipCard({
   id,
   title,
@@ -58,8 +43,7 @@ export function UnifiedTipCard({
   delay = 1500,
   force = false,
 }: UnifiedTipCardProps) {
-  const isMobile = useIsMobile();
-  const hasMiniPlayer = usePlayerStore((s) => !!s.activeTrack);
+  const { isMobile, className: positionClass } = useTipPosition();
   const reg = useHintRegistry();
   const isActive = reg.activeId === id;
   const hasSeen = reg.hasSeen(id);
@@ -95,24 +79,14 @@ export function UnifiedTipCard({
     onNext?.();
   };
 
-  const positionClass = useMemo(() => {
-    if (!isMobile) {
-      return 'fixed right-6 bottom-6 w-[360px] max-w-[calc(100vw-3rem)] z-[95]';
-    }
-    // Mobile: must clear bottom-nav (~80px) + mini-player (~72px) + safe-area.
-    // Honor Telegram safe-area var when present.
-    const bottom = hasMiniPlayer
-      ? 'bottom-[calc(10rem+max(var(--tg-safe-area-inset-bottom,0px),env(safe-area-inset-bottom,0px)))]'
-      : 'bottom-[calc(5.5rem+max(var(--tg-safe-area-inset-bottom,0px),env(safe-area-inset-bottom,0px)))]';
-    return cn('fixed left-3 right-3 mx-auto max-w-md z-[95]', bottom);
-  }, [isMobile, hasMiniPlayer]);
-
   return (
     <AnimatePresence>
       {isActive && (
         <motion.div
           role="status"
           aria-live="polite"
+          data-hint-id={id}
+          data-testid="unified-tip-card"
           initial={{ opacity: 0, y: isMobile ? 16 : 12, scale: 0.98 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: isMobile ? 16 : 12, scale: 0.98 }}
