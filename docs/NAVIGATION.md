@@ -4,9 +4,9 @@
 
 **Last Updated:** 2025-12-10
 
-> 💡 **Новое:** Полная карта документации доступна в [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md)  
+> 💡 **Новое:** Полная карта документации доступна в [DOCUMENTATION_INDEX.md](../DOCUMENTATION_INDEX.md)  
 > 🎯 **Текущий спринт:** Sprint 013 - Advanced Audio Features (🟢 In Progress)  
-> 📊 **Статус проекта:** [SPRINT_STATUS.md](SPRINT_STATUS.md)
+> 📊 **Статус проекта:** [PROJECT_STATUS](../PROJECT_STATUS.md)
 
 ---
 
@@ -60,32 +60,28 @@ graph TB
 
 | Файл | Описание | Приоритет |
 |------|----------|-----------|
-| [**README.md**](README.md) | **Начните отсюда.** Обзор проекта и возможностей | 🔴 Critical |
-| [**DOCUMENTATION_INDEX.md**](DOCUMENTATION_INDEX.md) | **Полная карта документации** | 🔴 Critical |
-| [**SPRINT_STATUS.md**](SPRINT_STATUS.md) | **Текущий статус спринтов** | 🔴 Critical |
-| [**RECENT_IMPROVEMENTS.md**](RECENT_IMPROVEMENTS.md) | **Улучшения декабря 2025** | 🟡 High |
-| [**CONTRIBUTING.md**](CONTRIBUTING.md) | Правила контрибуции | 🟡 High |
-| [**DEVELOPMENT_WORKFLOW.md**](DEVELOPMENT_WORKFLOW.md) | Рабочий процесс, GitFlow, стандарты | 🟡 High |
-| [**ONBOARDING.md**](ONBOARDING.md) | Настройка окружения для новых разработчиков | 🟡 High |
-| [**CHANGELOG.md**](CHANGELOG.md) | История изменений | 🟢 Medium |
+| [**README.md**](../README.md) | **Начните отсюда.** Обзор проекта и возможностей | 🔴 Critical |
+| [**DOCUMENTATION_INDEX.md**](../DOCUMENTATION_INDEX.md) | **Полная карта документации** | 🔴 Critical |
+| [**ROADMAP.md**](../ROADMAP.md) | **Дорожная карта проекта** | 🔴 Critical |
+| [**KNOWN_ISSUES.md**](./KNOWN_ISSUES.md) | **Известные проблемы** | 🟡 High |
+| [**CONTRIBUTING.md**](../CONTRIBUTING.md) | Правила контрибуции | 🟡 High |
+| [**DEVELOPMENT_WORKFLOW.md**](./DEVELOPMENT_WORKFLOW.md) | Рабочий процесс, GitFlow, стандарты | 🟡 High |
+| [**ONBOARDING.md**](./ONBOARDING.md) | Настройка окружения для новых разработчиков | 🟡 High |
+| [**CHANGELOG.md**](../CHANGELOG.md) | История изменений | 🟢 Medium |
 
 ---
 
 ## 📊 Новое: Система документации
 
 ### Главные индексы
-1. **[DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md)** - Полная карта всей документации
-2. **[SPRINT_STATUS.md](SPRINT_STATUS.md)** - Статус всех спринтов (7 completed, 1 active, 16 planned)
-3. **[RECENT_IMPROVEMENTS.md](RECENT_IMPROVEMENTS.md)** - Сводка улучшений за декабрь 2025
-4. **[REPOSITORY_AUDIT_2025-12-10.md](REPOSITORY_AUDIT_2025-12-10.md)** - Полный аудит репозитория
+1. **[DOCUMENTATION_INDEX.md](../DOCUMENTATION_INDEX.md)** - Полная карта всей документации
+2. **[ROADMAP.md](../ROADMAP.md)** - Дорожная карта и планы развития
+3. **[KNOWN_ISSUES.md](./KNOWN_ISSUES.md)** - Известные проблемы
+4. **[MAINTENANCE.md](../MAINTENANCE.md)** - Руководство по обслуживанию
 
-### Архивы
-- **[docs/archive/2025-12/](docs/archive/2025-12/)** - Архив аудитов декабря 2025
-- **[SPRINTS/completed/](SPRINTS/completed/)** - Завершённые спринты (001-006, 021)
-
-### Навигация по спринтам
-- **[SPRINTS/README.md](SPRINTS/README.md)** - Обзор системы спринтов
-- **[SPRINTS/BACKLOG.md](SPRINTS/BACKLOG.md)** - Бэклог продукта
+### Навигация
+- **[INDEX.md](./INDEX.md)** - Индекс документации
+- **[NAVIGATION_INDEX.md](./NAVIGATION_INDEX.md)** - Навигационный индекс
 
 ---
 

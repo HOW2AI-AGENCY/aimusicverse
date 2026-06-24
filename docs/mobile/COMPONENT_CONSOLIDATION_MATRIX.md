@@ -374,10 +374,9 @@ For each component being consolidated:
 
 ## 🔗 Related Documentation
 
-- [MOBILE_INTERFACE_OPTIMIZATION_PLAN.md](../../MOBILE_INTERFACE_OPTIMIZATION_PLAN.md)
-- [Component Architecture](./COMPONENT_ARCHITECTURE.md)
-- [Migration Guide](./MIGRATION_GUIDE.md)
-- [Testing Strategy](./TESTING_STRATEGY.md)
+- [Mobile Components Overview](../MOBILE_COMPONENTS.md)
+- [Performance Optimization](../PERFORMANCE_OPTIMIZATION.md)
+- [Performance Monitoring](../PERFORMANCE_MONITORING_SETUP.md)
 
 ---
 

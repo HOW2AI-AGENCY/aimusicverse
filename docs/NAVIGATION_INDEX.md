@@ -62,8 +62,8 @@ flowchart LR
 
 **Документы:**
 1. [README.md](../README.md) - Обзор проекта
-2. [ONBOARDING.md](../ONBOARDING.md) - Настройка окружения
-3. [DEVELOPMENT_WORKFLOW.md](../DEVELOPMENT_WORKFLOW.md) - Процесс разработки
+2. [ONBOARDING.md](./ONBOARDING.md) - Настройка окружения
+3. [DEVELOPMENT_WORKFLOW.md](./DEVELOPMENT_WORKFLOW.md) - Процесс разработки
 4. [QUICK_REFERENCE.md](./QUICK_REFERENCE.md) - Быстрый справочник
 
 ### 🏗️ Хочу понять архитектуру
@@ -91,7 +91,7 @@ flowchart TB
 1. [ARCHITECTURE_DIAGRAMS.md](./ARCHITECTURE_DIAGRAMS.md) - Визуальные схемы
 2. [DATABASE.md](./DATABASE.md) - Схема БД
 3. [PLAYER_ARCHITECTURE.md](./PLAYER_ARCHITECTURE.md) - Плеер
-4. [SECTION_REPLACEMENT.md](./SECTION_REPLACEMENT.md) - Замена секций
+4. [PROJECT_MANAGEMENT.md](./PROJECT_MANAGEMENT.md) - Управление проектом
 5. [TELEGRAM_BOT_ARCHITECTURE.md](./TELEGRAM_BOT_ARCHITECTURE.md) - Telegram бот
 6. [SUNO_API.md](./SUNO_API.md) - Suno интеграция
 
@@ -117,8 +117,8 @@ flowchart LR
 **Документы:**
 1. [QUICK_REFERENCE.md](./QUICK_REFERENCE.md) - Быстрые рецепты
 2. [CONTRIBUTING.md](../CONTRIBUTING.md) - Гайд по контрибуции
-3. [constitution.md](../constitution.md) - Стандарты кода
-4. [NAVIGATION.md](../NAVIGATION.md) - Где что находится
+3. [CONTRIBUTING.md](../CONTRIBUTING.md) - Стандарты кода
+4. [NAVIGATION.md](./NAVIGATION.md) - Где что находится
 
 ### 📋 Хочу управлять проектом
 
@@ -134,11 +134,9 @@ flowchart TB
 ```
 
 **Документы:**
-1. [PROJECT_MANAGEMENT.md](../PROJECT_MANAGEMENT.md) - Управление
-2. [SPRINT_MANAGEMENT.md](../SPRINT_MANAGEMENT.md) - Спринты
-3. [SPRINTS/](../SPRINTS/) - Задачи спринтов
-4. [ROADMAP.md](../ROADMAP.md) - Дорожная карта
-5. [CHANGELOG.md](../CHANGELOG.md) - История изменений
+1. [PROJECT_MANAGEMENT.md](./PROJECT_MANAGEMENT.md) - Управление
+2. [ROADMAP.md](../ROADMAP.md) - Дорожная карта
+3. [CHANGELOG.md](../CHANGELOG.md) - История изменений
 
 ---
 
@@ -199,7 +197,7 @@ graph TB
 | Документ | Что внутри |
 |----------|------------|
 | [ARCHITECTURE_DIAGRAMS.md § Frontend](./ARCHITECTURE_DIAGRAMS.md#frontend-архитектура) | Component hierarchy, State management |
-| [NAVIGATION.md § Components](../NAVIGATION.md#-ключевые-компоненты) | Component organization |
+| [NAVIGATION.md § Components](./NAVIGATION.md#-ключевые-компоненты) | Component organization |
 | [QUICK_REFERENCE.md § UI](./QUICK_REFERENCE.md#-стили-и-ui) | UI patterns, styles |
 
 ### Backend (PostgreSQL + Edge Functions)
@@ -310,7 +308,7 @@ graph TB
 
 1. Начните с [README.md](../README.md)
 2. Используйте [QUICK_REFERENCE.md](./QUICK_REFERENCE.md) для частых задач
-3. Смотрите [NAVIGATION.md](../NAVIGATION.md) для навигации по коду
+3. Смотрите [NAVIGATION.md](./NAVIGATION.md) для навигации по коду
 4. Проверьте [ARCHITECTURE_DIAGRAMS.md](./ARCHITECTURE_DIAGRAMS.md) для визуализации
 
 ### Хочу понять как работает X
@@ -388,7 +386,7 @@ journey
 
 1. [README.md](../README.md) - Возможности и метрики
 2. [ROADMAP.md](../ROADMAP.md) - Планы развития
-3. [PROJECT_MANAGEMENT.md](../PROJECT_MANAGEMENT.md) - Процессы
+3. [PROJECT_MANAGEMENT.md](./PROJECT_MANAGEMENT.md) - Процессы
 4. [CHANGELOG.md](../CHANGELOG.md) - История
 
 ---

@@ -11,7 +11,7 @@
 
 **Причина**: Circular dependencies в Tone.js и useSyncExternalStore при tree-shaking.
 
-**Решение**: См. [TELEGRAM_MINI_APP_CRITICAL_FIXES.md](./TELEGRAM_MINI_APP_CRITICAL_FIXES.md)
+**Решение**: См. [TELEGRAM_MINI_APP_FEATURES.md](./TELEGRAM_MINI_APP_FEATURES.md) и [TELEGRAM_MINI_APP_ADVANCED_FEATURES.md](./TELEGRAM_MINI_APP_ADVANCED_FEATURES.md)
 
 ---
 
