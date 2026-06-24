@@ -24,7 +24,7 @@ import { TrackTypeIcons } from '@/components/library/TrackTypeIcons';
 import { ScrollableTagsRow } from '@/components/library/ScrollableTagsRow';
 import { MarqueeTitle } from '@/components/library/MarqueeTitle';
 import { SwipeableTrackItem } from '@/components/library/SwipeableTrackItem';
-import { SwipeOnboardingTooltip } from '@/components/library/SwipeOnboardingTooltip';
+import { UnifiedTipCard } from '@/components/hints';
 import { UnifiedTrackMenu, UnifiedTrackSheet } from '@/components/track-actions';
 import { useTrackCardState } from '../hooks/useTrackCardState';
 import type { StandardTrackCardProps } from '../types';
@@ -188,19 +188,25 @@ export const ListVariant = memo(function ListVariant({
   return (
     <>
       {isMobile && isOwnTrack ? (
-        <SwipeOnboardingTooltip isFirstSwipeableItem={isFirstSwipeableItem}>
-          <SwipeableTrackItem
-            onAddToQueue={handleSwipeAddToQueue}
-            onSwitchVersion={handleSwipeSwitchVersion}
-            hasMultipleVersions={versionCount > 1}
-          >
-            {listContent}
-          </SwipeableTrackItem>
-        </SwipeOnboardingTooltip>
-      ) : isMobile ? (
-        listContent
+        <SwipeableTrackItem
+          onAddToQueue={handleSwipeAddToQueue}
+          onSwitchVersion={handleSwipeSwitchVersion}
+          hasMultipleVersions={versionCount > 1}
+        >
+          {listContent}
+        </SwipeableTrackItem>
       ) : (
         listContent
+      )}
+      {isMobile && isOwnTrack && isFirstSwipeableItem && (
+        <UnifiedTipCard
+          id="swipe-gesture"
+          title="Жесты свайпа"
+          message="Свайпните трек влево для добавления в очередь, вправо — для смены версии"
+          emoji="👆"
+          delay={1500}
+          onDismiss={() => {}}
+        />
       )}
       <UnifiedTrackSheet
         track={track as any}
