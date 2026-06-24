@@ -139,7 +139,7 @@ export default function MobilePlayerPage() {
   // Render fullscreen player
   return (
     <div className="fixed inset-0 z-50">
-      <MobileFullscreenPlayer 
+      <FullscreenPlayer 
         track={track}
         onClose={handleCloseFullscreen}
       />
