@@ -58,11 +58,20 @@ export const MainLayout = () => {
   const [welcomeBonusOpen, setWelcomeBonusOpen] = useState(false);
   const hasActiveTrack = usePlayerStore((s) => Boolean(s.activeTrack));
 
+  // Pages that have their own bottom navigation/tabs - don't show global BottomNavigation
+  const hasOwnBottomNav = useMemo(() => {
+    const p = location.pathname;
+    return p.startsWith('/studio') ||
+           p.startsWith('/stem-studio') ||
+           (p.startsWith('/project/') && p.includes('/studio'));
+  }, [location.pathname]);
+
   // Expose player + bottom-nav heights as CSS variables so any section can
   // align without re-computing the math (Block 3 of redesign plan).
   useEffect(() => {
     const root = document.documentElement;
-    const navH = !isDesktop && !isMobileLandscape ? 64 : 0; // BottomNav ~64px
+    const showBottomNav = !isDesktop && !isMobileLandscape && !hasOwnBottomNav;
+    const navH = showBottomNav ? 64 : 0; // BottomNav ~64px (safe-area added in padding calc)
     const playerH = hasActiveTrack ? (isDesktop ? 96 : 72) : 0;
     root.style.setProperty('--nav-h', `${navH}px`);
     root.style.setProperty('--player-h', `${playerH}px`);
@@ -70,7 +79,7 @@ export const MainLayout = () => {
       root.style.removeProperty('--nav-h');
       root.style.removeProperty('--player-h');
     };
-  }, [hasActiveTrack, isDesktop, isMobileLandscape]);
+  }, [hasActiveTrack, isDesktop, isMobileLandscape, hasOwnBottomNav]);
   
   // Welcome bonus check
   const { shouldShowWelcomeBonus, markWelcomeBonusShown } = useWelcomeBonusCheck();
@@ -117,12 +126,6 @@ export const MainLayout = () => {
   // Memoize pathname to prevent unnecessary re-renders
   const pathname = useMemo(() => location.pathname, [location.pathname]);
   
-  // Pages that have their own bottom navigation/tabs - don't show global BottomNavigation
-  const hasOwnBottomNav = useMemo(() => {
-    return pathname.startsWith('/studio') || 
-           pathname.startsWith('/stem-studio') ||
-           pathname.startsWith('/project/') && pathname.includes('/studio');
-  }, [pathname]);
   
   // Show Telegram Settings Button on all pages except /settings
   const showSettingsButton = pathname !== '/settings';
@@ -309,14 +312,12 @@ export const MainLayout = () => {
         )}
         style={{
           minHeight: 'var(--tg-viewport-stable-height, 100vh)',
-          // Mobile portrait: pad for BottomNav (~5rem) + CompactPlayer (~4.5rem when active) + safe area.
-          ...(!isDesktop && !isMobileLandscape && {
-            paddingBottom: `calc(max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)) + ${hasActiveTrack ? '9.5rem' : '5rem'})`,
-          }),
-          // Desktop: leave room for floating CompactPlayer when active.
-          ...(isDesktop && hasActiveTrack && {
-            paddingBottom: '6rem',
-          }),
+          // Use the same --nav-h / --player-h CSS vars set above so padding
+          // always tracks real chrome heights (BottomNav + CompactPlayer +
+          // safe-area). Prevents the bottom of the page being hidden under
+          // the dock on mobile/tablet, and matches landscape/desktop too.
+          paddingBottom:
+            'calc(var(--nav-h, 0px) + var(--player-h, 0px) + max(env(safe-area-inset-bottom, 0px), var(--tg-safe-area-inset-bottom, 0px)) + 0.75rem)',
         }}
       >
         <div

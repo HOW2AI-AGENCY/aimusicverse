@@ -75,7 +75,7 @@ export const CreativePresetsSection = memo(function CreativePresetsSection({
           </div>
           <div className="flex flex-col min-w-0">
             <span className="text-sm lg:text-base font-bold text-foreground leading-tight">Быстрый старт</span>
-            <span className="text-[11px] sm:text-xs text-muted-foreground leading-tight truncate">
+            <span className="text-[11px] sm:text-xs text-muted-foreground leading-tight line-clamp-2">
               Выберите шаблон для создания
             </span>
           </div>
@@ -103,9 +103,9 @@ export const CreativePresetsSection = memo(function CreativePresetsSection({
                 aria-label={tab.label}
                 onClick={() => handleTabChange(tab.id)}
                 className={cn(
-                  "relative flex-1 sm:flex-initial px-2 sm:px-3 lg:px-4 py-1.5 lg:py-2",
+                  "relative flex-1 sm:flex-initial px-1.5 sm:px-3 lg:px-4 py-1.5 lg:py-2 min-w-0",
                   "rounded-lg lg:rounded-xl text-xs lg:text-sm font-medium",
-                  "flex items-center justify-center gap-1.5 lg:gap-2 transition-colors",
+                  "flex items-center justify-center gap-1 lg:gap-2 transition-colors",
                   "touch-manipulation min-h-[36px] lg:min-h-[40px]",
                   isActive
                     ? "text-foreground"
@@ -120,8 +120,9 @@ export const CreativePresetsSection = memo(function CreativePresetsSection({
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 )}
-                <Icon className="w-3.5 h-3.5 lg:w-4 lg:h-4 relative z-10 shrink-0" />
-                <span className="relative z-10 truncate">{tab.label}</span>
+                <Icon className="hidden xs:inline-flex w-3.5 h-3.5 lg:w-4 lg:h-4 relative z-10 shrink-0" />
+                <span className="relative z-10 whitespace-nowrap sm:hidden">{tab.shortLabel}</span>
+                <span className="relative z-10 whitespace-nowrap hidden sm:inline">{tab.label}</span>
               </motion.button>
             );
           })}
