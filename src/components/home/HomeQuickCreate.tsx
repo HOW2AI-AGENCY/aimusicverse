@@ -13,7 +13,7 @@ import { Sparkles, Plus } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTelegram } from '@/contexts/TelegramContext';
 import { Button } from '@/components/ui/button';
-import { OnboardingTooltip } from '@/components/onboarding';
+import { UnifiedTipCard } from '@/components/hints';
 import { glass } from '@/lib/glass';
 
 
@@ -86,33 +86,30 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({
 
         {/* FAB - Primary action */}
         <div className="flex items-center gap-3 lg:gap-4">
-          <OnboardingTooltip
+          <Button
+            onClick={handleCreate}
+            className={cn(
+              "flex-1 h-12 lg:h-14 min-h-touch",
+              "bg-gradient-to-r from-primary to-generate",
+              "text-white font-semibold lg:text-lg",
+              "shadow-lg shadow-primary/25",
+              "hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5",
+              "active:scale-95",
+              "transition-all duration-200"
+            )}
+            aria-label="Создать новый музыкальный трек с помощью AI"
+          >
+            <Plus className="w-5 h-5 lg:w-6 lg:h-6 mr-2" aria-hidden="true" />
+            Создать трек
+          </Button>
+          <UnifiedTipCard
             id="quick-create-first"
             title="Создайте первый трек"
-            content="Нажмите кнопку, опишите музыку словами — AI создаст трек за минуту. Стоимость: 10-12 кредитов."
-            actionLabel="Попробовать"
-            onAction={handleCreate}
-            position="top"
-            delay={1000}
-            autoHideAfter={15000}
-          >
-            <Button
-              onClick={handleCreate}
-              className={cn(
-                "flex-1 h-12 lg:h-14 min-h-touch",
-                "bg-gradient-to-r from-primary to-generate",
-                "text-white font-semibold lg:text-lg",
-                "shadow-lg shadow-primary/25",
-                "hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5",
-                "active:scale-95",
-                "transition-all duration-200"
-              )}
-              aria-label="Создать новый музыкальный трек с помощью AI"
-            >
-              <Plus className="w-5 h-5 lg:w-6 lg:h-6 mr-2" aria-hidden="true" />
-              Создать трек
-            </Button>
-          </OnboardingTooltip>
+            message="Нажмите кнопку, опишите музыку словами — AI создаст трек за минуту. Стоимость: 10–12 кредитов."
+            emoji="✨"
+            delay={1500}
+            onDismiss={() => {}}
+          />
 
           {/* Quick expand toggle */}
           <button

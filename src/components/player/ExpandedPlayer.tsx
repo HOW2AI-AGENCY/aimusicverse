@@ -11,7 +11,7 @@ import { VersionBadge } from './VersionBadge';
 import { useTracks } from '@/hooks/useTracks';
 import { useGestures } from '@/hooks/useGestures';
 import type { Track } from '@/types/track';
-import { TooltipWrapper } from '@/components/tooltips';
+
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from '@/lib/motion';
 import type { PanInfo } from '@/lib/motion';
@@ -233,29 +233,27 @@ export function ExpandedPlayer({ track, onClose, onMaximize }: ExpandedPlayerPro
             </motion.div>
             
             <div className="flex items-center gap-2">
-              <TooltipWrapper tooltipId="player-queue">
-                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => {
-                      hapticImpact('light');
-                      setQueueOpen(true);
-                    }}
-                    className="h-11 w-11 touch-manipulation hover:bg-primary/10 relative"
-                    aria-label="Queue"
-                  >
-                    <ListMusic className="h-5 w-5" />
-                    {queue.length > 0 && (
-                      <Badge 
-                        className="absolute -top-1 -right-1 h-5 min-w-5 px-1 text-[10px] bg-primary text-primary-foreground border-0"
-                      >
-                        {queue.length > 9 ? '9+' : queue.length}
-                      </Badge>
-                    )}
-                  </Button>
-                </motion.div>
-              </TooltipWrapper>
+              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => {
+                    hapticImpact('light');
+                    setQueueOpen(true);
+                  }}
+                  className="h-11 w-11 touch-manipulation hover:bg-primary/10 relative"
+                  aria-label="Queue"
+                >
+                  <ListMusic className="h-5 w-5" />
+                  {queue.length > 0 && (
+                    <Badge
+                      className="absolute -top-1 -right-1 h-5 min-w-5 px-1 text-[10px] bg-primary text-primary-foreground border-0"
+                    >
+                      {queue.length > 9 ? '9+' : queue.length}
+                    </Badge>
+                  )}
+                </Button>
+              </motion.div>
               <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                 <Button
                   variant="ghost"

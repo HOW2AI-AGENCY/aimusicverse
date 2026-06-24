@@ -42,8 +42,7 @@ import { useLibraryHandlers } from "@/hooks/useLibraryHandlers";
 import { useLibraryDeepLinks } from "@/hooks/useLibraryDeepLinks";
 import { LibraryDialogs } from "@/components/library/LibraryDialogs";
 
-// Lazy load onboarding overlay
-const ContextualTipOverlay = lazy(() => import('@/components/onboarding/ContextualTipOverlay'));
+import { ContextHints } from '@/components/hints';
 
 export default function Library() {
   const { isAuthenticated, loading: authLoading } = useAuth();
@@ -464,10 +463,9 @@ export default function Library() {
         onCloseDeepLinkDialog={closeDeepLinkDialog}
       />
       
-      {/* Contextual onboarding tips - Phase 4 */}
-      <Suspense fallback={null}>
-        <ContextualTipOverlay context="library" delay={3000} />
-      </Suspense>
+
+      {/* Contextual hints — single canonical overlay */}
+      <ContextHints context="library" delay={3000} />
     </ErrorBoundaryWrapper>
   );
 }

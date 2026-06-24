@@ -1,6 +1,9 @@
 /**
  * Onboarding Components Barrel Export
- * 
+ *
+ * Hint/tooltip exports have moved to `@/components/hints`
+ * (HintRegistry, useHint, UnifiedTipCard, ContextHints).
+ *
  * @module components/onboarding
  */
 
@@ -13,22 +16,11 @@ export { TutorialStep } from './TutorialStep';
 export { FeatureTutorialDialog, TUTORIAL_SLIDES } from './FeatureTutorialDialog';
 export type { TutorialSlide } from './FeatureTutorialDialog';
 
-// Contextual tips
-export { 
-  ContextualOnboardingTip, 
-  useContextualTip, 
-  CONTEXTUAL_TIPS 
-} from './ContextualOnboardingTip';
-export type { OnboardingTipConfig } from './ContextualOnboardingTip';
-
 // Quick tips
 export { QuickTipToast, useQuickTip } from './QuickTipToast';
 
-// Contextual tip overlay (Phase 4)
-export { ContextualTipOverlay, useContextualTips } from './ContextualTipOverlay';
-// Step cards and tooltips
+// Step cards
 export { OnboardingStepCard } from './OnboardingStepCard';
-export { OnboardingTooltip, useOnboardingStatus, resetOnboarding } from './OnboardingTooltip';
 export { OnboardingTrigger } from './OnboardingTrigger';
 export { FeatureHighlight } from './FeatureHighlight';
 
