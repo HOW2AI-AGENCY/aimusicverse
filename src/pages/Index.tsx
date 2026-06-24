@@ -125,11 +125,15 @@ const Index = () => {
     };
   }, [prefersReducedMotion, isLoading]);
 
-  // Desktop two-column layout
+  // Desktop layout
+  //   - md / lg (768–1279px): single column, full-width sections (sidebar in
+  //     MainLayout is already icon-only or bottom-nav, so no extra column here
+  //     prevents the cramped overlap reported on selected viewport ~1259px)
+  //   - xl (≥1280px): 12-col grid, 8/4 split, sticky right rail
   const renderDesktopLayout = () => (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      {/* Left column - Main content (2/3 width) */}
-      <div className="lg:col-span-2 space-y-4">
+    <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 xl:gap-8 items-start">
+      {/* Main column */}
+      <div className="xl:col-span-8 min-w-0 space-y-4 xl:space-y-6">
         {/* New Users: Hero + Progress */}
         {isNewUser && (
           <>
@@ -176,7 +180,7 @@ const Index = () => {
           />
         </motion.section>
 
-        {/* New Tracks Grid - wider on desktop */}
+        {/* New Tracks Grid */}
         <LazySection minHeight="120px" skipSuspense>
           <motion.div {...lazySectionAnimation}>
             <TracksGridSection
@@ -188,7 +192,7 @@ const Index = () => {
               tracks={recentTracks}
               isLoading={isLoading}
               maxTracks={100}
-              columns={4}
+              columns={3}
               onRemix={handleRemix}
               hasMore={hasMoreRecent}
               isLoadingMore={isLoadingMoreRecent}
@@ -198,8 +202,8 @@ const Index = () => {
         </LazySection>
       </div>
 
-      {/* Right column - Sidebar content (1/3 width) */}
-      <div className="space-y-4">
+      {/* Right rail — sticky so it doesn't leave a huge empty column */}
+      <aside className="xl:col-span-4 min-w-0 xl:sticky xl:top-6 space-y-4">
         {/* Stats Banner */}
         <motion.section {...fadeInUp}>
           <StatsHighlightBanner />
@@ -236,7 +240,7 @@ const Index = () => {
             <QuickStartCards onPresetSelect={handleQuickStartPreset} />
           </motion.section>
         )}
-      </div>
+      </aside>
     </div>
   );
 
@@ -369,7 +373,7 @@ const Index = () => {
         )}
 
         {/* Main content */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-4 sm:py-6 relative z-10">
+        <div className="w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 pb-4 sm:py-6 relative z-10">
           <SEOHead {...SEO_PRESETS.home} />
 
           {/* Header */}
