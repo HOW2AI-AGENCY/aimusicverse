@@ -2171,6 +2171,13 @@ export type Database = {
             foreignKeyName: "payment_transactions_subscription_id_fkey"
             columns: ["subscription_id"]
             isOneToOne: false
+            referencedRelation: "my_tinkoff_subscriptions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payment_transactions_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
             referencedRelation: "tinkoff_subscriptions"
             referencedColumns: ["id"]
           },
@@ -5733,6 +5740,51 @@ export type Database = {
       }
     }
     Views: {
+      my_tinkoff_subscriptions: {
+        Row: {
+          amount_cents: number | null
+          billing_cycle_days: number | null
+          created_at: string | null
+          currency: string | null
+          id: string | null
+          last_payment_date: string | null
+          next_billing_date: string | null
+          product_code: string | null
+          rebill_id: string | null
+          status: string | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          amount_cents?: number | null
+          billing_cycle_days?: number | null
+          created_at?: string | null
+          currency?: string | null
+          id?: string | null
+          last_payment_date?: string | null
+          next_billing_date?: string | null
+          product_code?: string | null
+          rebill_id?: string | null
+          status?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          amount_cents?: number | null
+          billing_cycle_days?: number | null
+          created_at?: string | null
+          currency?: string | null
+          id?: string | null
+          last_payment_date?: string | null
+          next_billing_date?: string | null
+          product_code?: string | null
+          rebill_id?: string | null
+          status?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       public_profile_view: {
         Row: {
           first_name: string | null
@@ -5810,6 +5862,13 @@ export type Database = {
           user_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "payment_transactions_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "my_tinkoff_subscriptions"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "payment_transactions_subscription_id_fkey"
             columns: ["subscription_id"]
