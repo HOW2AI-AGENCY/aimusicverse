@@ -35,7 +35,12 @@ const WelcomeBonusPopup = lazy(() => import('./popups/WelcomeBonusPopup').then(m
 const SIDEBAR_COLLAPSED_KEY = 'sidebar-collapsed';
 
 export const MainLayout = () => {
-  const isDesktop = useMediaQuery('(min-width: 640px)'); // Matches Tailwind sm: breakpoint
+  // Adaptive sidebar/bottom-nav switching (UI audit Stage 2):
+  //   - mobile/tablet-portrait (<1024px) → BottomNavigation, no fixed Sidebar
+  //   - tablet-landscape / small desktop (1024–1279px) → Sidebar collapsed to icon-only
+  //   - desktop (≥1280px) → Sidebar full / user-controlled
+  const isDesktop = useMediaQuery('(min-width: 1024px)');
+  const isCompactDesktop = useMediaQuery('(min-width: 1024px) and (max-width: 1279px)');
   const { isGuestMode } = useGuestMode();
   const location = useLocation();
   const navigate = useNavigate();
@@ -60,13 +65,26 @@ export const MainLayout = () => {
   const { shouldShowQuickStart, isNewUser, completedOnboarding } = useUserJourneyState();
   const { isActive: isOldOnboardingActive, completeOnboarding: completeOldOnboarding } = useOnboarding();
   
-  // Sidebar collapse state
+  // Sidebar collapse state — auto-collapsed on compact desktop unless user
+  // explicitly expanded it.
   const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem(SIDEBAR_COLLAPSED_KEY) === 'true';
+      const stored = localStorage.getItem(SIDEBAR_COLLAPSED_KEY);
+      if (stored !== null) return stored === 'true';
+      // default: collapsed on narrow desktop
+      return window.matchMedia('(max-width: 1279px)').matches;
     }
     return false;
   });
+
+  // When viewport shrinks to compact-desktop range, auto-collapse unless the
+  // user has explicitly chosen the expanded state.
+  useEffect(() => {
+    if (isCompactDesktop && localStorage.getItem(SIDEBAR_COLLAPSED_KEY) === null) {
+      setSidebarCollapsed(true);
+    }
+  }, [isCompactDesktop]);
+
   
   // Track play counts when tracks are played
   usePlaybackTracking();
@@ -274,7 +292,10 @@ export const MainLayout = () => {
             paddingRight: 'max(1rem, var(--tg-safe-area-inset-right, 0px), env(safe-area-inset-right, 0px))',
           } : undefined}
         >
-          <Outlet />
+          {/* Ultra-wide containment so card grids don't sprawl past ~1536px */}
+          <div className="mx-auto w-full max-w-screen-2xl">
+            <Outlet />
+          </div>
           
         </div>
         <ResizablePlayer />
@@ -287,6 +308,7 @@ export const MainLayout = () => {
           <GenerateSheet open={generateSheetOpen} onOpenChange={setGenerateSheetOpen} />
         </Suspense>
       )}
+
       
       {/* Generation Result Sheet - shows A/B versions after track creation */}
       {resultOpen && resultTrackId && (
