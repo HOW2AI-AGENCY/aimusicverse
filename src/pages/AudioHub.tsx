@@ -9,7 +9,7 @@
  */
 
 import React, { useState, memo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { 
   Mic, Upload, AudioWaveform, Clock
 } from 'lucide-react';

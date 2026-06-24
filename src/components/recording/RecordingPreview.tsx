@@ -3,7 +3,7 @@
  */
 
 import React, { memo, useRef, useState, useEffect, useCallback } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { Play, Pause, RotateCcw, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';

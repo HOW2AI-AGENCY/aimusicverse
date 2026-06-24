@@ -3,7 +3,7 @@
  */
 
 import React, { memo, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { 
   Clock, Mic, Upload, Play, MoreVertical, 
   Trash2, Download, Share2, Sparkles, FileAudio

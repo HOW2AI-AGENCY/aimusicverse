@@ -12,7 +12,7 @@ import {
   Activity, Users, Music, Zap, Radio, 
   TrendingUp, Circle, ArrowUpRight 
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 
 interface RealTimeStats {
   activeUsers: number;

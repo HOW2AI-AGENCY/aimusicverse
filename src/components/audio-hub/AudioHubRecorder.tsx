@@ -3,7 +3,7 @@
  */
 
 import React, { useState, useCallback, memo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { Mic, Settings2, Sparkles, Loader2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
