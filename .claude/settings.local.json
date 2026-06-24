@@ -7,7 +7,18 @@
       "Bash(npm run size:*)",
       "Bash(git fetch:*)",
       "Bash(cd:*)",
-      "Bash(tree:*)"
+      "Bash(tree:*)",
+      "Bash(grep:*)",
+      "Bash(find:*)",
+      "Bash(ls:*)",
+      "Bash(powershell.exe:*)",
+      "Bash(git checkout:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(\"c:\\\\Users\\\\oat70\\\\Documents\\\\[ALBERT]MUSICVERSE\\\\FINAL\\\\vs\\\\tma\\\\aimusicverse\\\\specs\\\\001-ui-improvements\\\\plan.md\")",
+      "Bash(powershell:*)",
+      "Bash(findstr:*)",
+      "Read(//c/**)"
     ]
   }
 }
