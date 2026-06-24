@@ -4,6 +4,27 @@
 
 MusicVerse AI's music player is a comprehensive audio playback system built with React, TypeScript, and Zustand. It provides advanced features including queue management, multiple playback modes, streaming support, and persistent state.
 
+> **2026-06-24 update — unified fullscreen surface.**
+> `MobileFullscreenPlayer`, `DesktopFullscreenPlayer` and the legacy
+> `ExpandedPlayer` are no longer mounted directly. `ResizablePlayer` mounts a
+> single entry point — `src/components/player/FullscreenPlayer.tsx` — which
+> dispatches to the correct viewport-specific layout and resolves the active
+> A/B version via `useMasterVersion` so karaoke lyrics stay in sync.
+> The `ExpandedPlayer` file has been removed.
+>
+> Two new CSS variables are published from `MainLayout`:
+> `--nav-h` (BottomNav height) and `--player-h` (CompactPlayer height when an
+> active track exists). Any component that needs to clear the bottom dock
+> should prefer these vars over hard-coded `rem` values.
+>
+> Regression coverage:
+> `tests/e2e/player.compact.fullscreen.spec.ts`,
+> `tests/e2e/player.fullscreen.layout.spec.ts`,
+> `tests/e2e/home.navigation.spec.ts`,
+> `tests/e2e/layout.player-offset.spec.ts`,
+> `tests/e2e/home.quickstart.responsive.spec.ts`.
+
+
 ## Architecture Diagram
 
 ```
