@@ -122,6 +122,7 @@ const Index = () => {
     gamification: user ? (
       <HomeSection
         key="gamification"
+        sectionId="gamification"
         as="div"
         className={isMobile ? "mb-4" : undefined}
         animation={fadeInUp}
@@ -134,6 +135,7 @@ const Index = () => {
     newUserHero: isNewUser ? (
       <HomeSection
         key="newUserHero"
+        sectionId="hero"
         className={isMobile ? "mb-3" : undefined}
         animation={fadeInUp}
         fallback={<HeroSkeleton />}
@@ -145,6 +147,7 @@ const Index = () => {
     newUserProgress: isNewUser ? (
       <HomeSection
         key="newUserProgress"
+        sectionId="new-user-progress"
         className={isMobile ? "mb-3" : undefined}
         animation={lazySectionAnimation}
         fallback={null}
@@ -162,20 +165,33 @@ const Index = () => {
     ) : null,
 
     quickCreate: !isNewUser ? (
-      <HomeSection key="quickCreate" className={isMobile ? "mb-3" : undefined} animation={fadeInUp}>
+      <HomeSection
+        key="quickCreate"
+        sectionId="quick-create"
+        className={isMobile ? "mb-3" : undefined}
+        animation={fadeInUp}
+      >
         <HomeQuickCreate onCreateClick={handleCreate} />
       </HomeSection>
     ) : null,
 
     stats: (
-      <HomeSection key="stats" className={isMobile ? "mb-3" : undefined} animation={fadeInUp}>
-        <StatsHighlightBanner />
+      <HomeSection
+        key="stats"
+        sectionId="stats"
+        className={isMobile ? "mb-3" : undefined}
+        animation={fadeInUp}
+      >
+        <div data-testid="stats-highlight">
+          <StatsHighlightBanner />
+        </div>
       </HomeSection>
     ),
 
     creativePresets: (
       <HomeSection
         key="creativePresets"
+        sectionId="quick-start"
         className={isMobile ? "mb-4" : undefined}
         animation={fadeInUp}
       >
@@ -184,7 +200,12 @@ const Index = () => {
     ),
 
     featured: (
-      <HomeSection key="featured" className={isMobile ? "mb-3" : undefined} animation={fadeInUp}>
+      <HomeSection
+        key="featured"
+        sectionId="featured"
+        className={isMobile ? "mb-3" : undefined}
+        animation={fadeInUp}
+      >
         <FeaturedSection
           tracks={popularTracks}
           isLoading={isLoading}
@@ -198,7 +219,12 @@ const Index = () => {
     ),
 
     dailyTip: !isNewUser ? (
-      <HomeSection key="dailyTip" className={isMobile ? "mb-3" : undefined} animation={fadeInUp}>
+      <HomeSection
+        key="dailyTip"
+        sectionId="daily-tip"
+        className={isMobile ? "mb-3" : undefined}
+        animation={fadeInUp}
+      >
         <DailyTipCard />
       </HomeSection>
     ) : null,
@@ -206,6 +232,7 @@ const Index = () => {
     recent: user ? (
       <HomeSection
         key="recent"
+        sectionId="popular"
         className={isMobile ? "mb-3" : undefined}
         animation={fadeInUp}
         fallback={<Skeleton className="h-32 rounded-xl" />}
@@ -215,14 +242,19 @@ const Index = () => {
     ) : null,
 
     quickStart: !isNewUser ? (
-      <HomeSection key="quickStart" className={isMobile ? "mb-3" : undefined} animation={fadeInUp}>
+      <HomeSection
+        key="quickStart"
+        sectionId="quick-start-cards"
+        className={isMobile ? "mb-3" : undefined}
+        animation={fadeInUp}
+      >
         <QuickStartCards onPresetSelect={handleQuickStartPreset} />
       </HomeSection>
     ) : null,
 
     newTracksGrid: (
       <LazySection key="newTracksGrid" className={isMobile ? "mb-3" : undefined} minHeight="120px" skipSuspense>
-        <HomeSection as="div" animation={lazySectionAnimation}>
+        <HomeSection as="div" sectionId="new" animation={lazySectionAnimation}>
           <TracksGridSection
             title="✨ Новинки"
             subtitle="Свежие треки от авторов сообщества"
