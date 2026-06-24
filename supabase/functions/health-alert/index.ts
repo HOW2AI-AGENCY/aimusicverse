@@ -1,6 +1,8 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { getSupabaseClient } from '../_shared/supabase-client.ts';
 import { createLogger } from "../_shared/logger.ts";
+import { authorize } from "../_shared/auth.ts";
+
 
 const logger = createLogger('health-alert');
 
