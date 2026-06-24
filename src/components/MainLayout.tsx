@@ -56,6 +56,7 @@ export const MainLayout = () => {
   const [quickStartOpen, setQuickStartOpen] = useState(false);
   const [generateSheetOpen, setGenerateSheetOpen] = useState(false);
   const [welcomeBonusOpen, setWelcomeBonusOpen] = useState(false);
+  const hasActiveTrack = usePlayerStore((s) => Boolean(s.activeTrack));
   
   // Welcome bonus check
   const { shouldShowWelcomeBonus, markWelcomeBonusShown } = useWelcomeBonusCheck();
