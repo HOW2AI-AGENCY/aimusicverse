@@ -318,14 +318,12 @@ export const MainLayout = () => {
         )}
         style={{
           minHeight: 'var(--tg-viewport-stable-height, 100vh)',
-          // Mobile portrait: pad for BottomNav (~5rem) + CompactPlayer (~4.5rem when active) + safe area.
-          ...(!isDesktop && !isMobileLandscape && {
-            paddingBottom: `calc(max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)) + ${hasActiveTrack ? '9.5rem' : '5rem'})`,
-          }),
-          // Desktop: leave room for floating CompactPlayer when active.
-          ...(isDesktop && hasActiveTrack && {
-            paddingBottom: '6rem',
-          }),
+          // Use the same --nav-h / --player-h CSS vars set above so padding
+          // always tracks real chrome heights (BottomNav + CompactPlayer +
+          // safe-area). Prevents the bottom of the page being hidden under
+          // the dock on mobile/tablet, and matches landscape/desktop too.
+          paddingBottom:
+            'calc(var(--nav-h, 0px) + var(--player-h, 0px) + max(env(safe-area-inset-bottom, 0px), var(--tg-safe-area-inset-bottom, 0px)) + 0.75rem)',
         }}
       >
         <div
