@@ -13,7 +13,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { MobileFullscreenPlayer } from '@/components/player/MobileFullscreenPlayer';
+import { FullscreenPlayer } from '@/components/player/FullscreenPlayer';
 import { Loader2, ChevronLeft, Music2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { Track } from '@/types/track';
