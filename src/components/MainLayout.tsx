@@ -58,11 +58,20 @@ export const MainLayout = () => {
   const [welcomeBonusOpen, setWelcomeBonusOpen] = useState(false);
   const hasActiveTrack = usePlayerStore((s) => Boolean(s.activeTrack));
 
+  // Pages that have their own bottom navigation/tabs - don't show global BottomNavigation
+  const pathnameForNav = location.pathname;
+  const hasOwnBottomNavEarly = useMemo(() => {
+    return pathnameForNav.startsWith('/studio') ||
+           pathnameForNav.startsWith('/stem-studio') ||
+           (pathnameForNav.startsWith('/project/') && pathnameForNav.includes('/studio'));
+  }, [pathnameForNav]);
+
   // Expose player + bottom-nav heights as CSS variables so any section can
   // align without re-computing the math (Block 3 of redesign plan).
   useEffect(() => {
     const root = document.documentElement;
-    const navH = !isDesktop && !isMobileLandscape ? 64 : 0; // BottomNav ~64px
+    const showBottomNav = !isDesktop && !isMobileLandscape && !hasOwnBottomNavEarly;
+    const navH = showBottomNav ? 64 : 0; // BottomNav ~64px (visual height, safe-area added below)
     const playerH = hasActiveTrack ? (isDesktop ? 96 : 72) : 0;
     root.style.setProperty('--nav-h', `${navH}px`);
     root.style.setProperty('--player-h', `${playerH}px`);
@@ -70,7 +79,7 @@ export const MainLayout = () => {
       root.style.removeProperty('--nav-h');
       root.style.removeProperty('--player-h');
     };
-  }, [hasActiveTrack, isDesktop, isMobileLandscape]);
+  }, [hasActiveTrack, isDesktop, isMobileLandscape, hasOwnBottomNavEarly]);
   
   // Welcome bonus check
   const { shouldShowWelcomeBonus, markWelcomeBonusShown } = useWelcomeBonusCheck();

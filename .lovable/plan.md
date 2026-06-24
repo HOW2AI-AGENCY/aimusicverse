@@ -1,62 +1,53 @@
-# План: «Всё время» в админ-аналитике + проверка Telegram-бота
+# План: фикс перекрытия секций BottomNav/плеером + e2e «Быстрый старт»
 
-## 1. Аналитика «За всё время»
+## Цели
+1. На мобильных и планшетах (≤1023px portrait) BottomNavigation и фиксированный CompactPlayer не перекрывают секции главной при ресайзе и скролле.
+2. Блок «Быстрый старт» в `CreativePresetsSection` и переключатель `Тексты/Треки/Проекты` всегда корректно укладываются в 2 строки на 360–640px без обрезки.
 
-**Проблема.** На `/admin/analytics` в селекторе периода доступны только `24 часа / 7 / 30 / 90 дней`. RPC-функции (`get_telemetry_stats`, `get_error_trends`, `get_generation_analytics`) принимают строку Postgres `interval`, поэтому опции «всё время» нет, и часть карточек выглядит пустой у новых установок без свежих событий.
+## Аудит проблем
 
-**Что меняем (frontend-only, без правок RPC):**
+**MainLayout.tsx** уже выставляет `--nav-h`/`--player-h` и paddingBottom в `<main>`, но:
+- `paddingBottom` использует жёстко зашитые `5rem`/`9.5rem` вместо тех же CSS-переменных `--nav-h`/`--player-h`, поэтому при пересчёте высот (например, переход в landscape, появление трека) реальная высота BottomNav (используется `safe-bottom`, может быть >64px) расходится с padding'ом → секции снизу перекрываются.
+- На tablet portrait (768–1023px) логика `!isDesktop && !isMobileLandscape` справедлива, но padding одинаковый с мобильным — ок, но `--nav-h=64` не учитывает safe-area-inset-bottom внутри самого BottomNavigation.
 
-- `src/components/admin/analytics/AnalyticsDashboard.tsx`
-  - Расширить тип `TimePeriod` значением `'all'`.
-  - Добавить `<SelectItem value="all">Всё время</SelectItem>` (после «90 дней»).
-  - При передаче в хуки маппить `'all' → '100 years'` (валидный Postgres `interval`, фактически = «всё время»). Для `deeplinkTimeRange` использовать `'30d'` как fallback (компонент принимает только `24h|7d|30d`) и в подписи показывать «Всё время».
-  - В `ComparisonPanel` / экспорт CSV пробрасывать читаемое название `"all_time"`.
+**CreativePresetsSection.tsx**:
+- На узких ширинах (360–420px) tab-кнопки имеют `gap-1.5` + иконка + `truncate label`, при которых русское «Проекты» обрезается до «Прое…». Нужно: использовать `shortLabel` на ≤sm, скрывать иконку при <380px, либо разрешать перенос.
+- Заголовок и описание ("Выберите шаблон для создания") в одной flex-колонке с `truncate` — обрезается. Должны оставаться в 2 видимые строки (заголовок + подпись), без `truncate` на подписи (использовать `line-clamp-1` только при крайней нужде или убрать).
+- Структура «два ряда»: ряд 1 = заголовок «Быстрый старт» + подпись; ряд 2 = переключатель табов. Уже `flex-col sm:flex-row`, ок. Нужно гарантировать видимость обоих рядов и неотсечение табов.
 
-- `src/components/admin/analytics/ComparisonPanel.tsx` (если завязан на `TimePeriod`) — расширить тип и скрыть блок «сравнение с предыдущим периодом» при `all`, т.к. сравнивать не с чем.
+## Изменения
 
-- Дополнительно убедиться, что `AdminOverview` (`StatGrid` с пользователями/треками/проектами) уже показывает all-time агрегаты через `useAdminStats` — править не нужно.
+### 1. `src/components/MainLayout.tsx`
+- Заменить hardcoded paddingBottom на `calc(var(--nav-h, 0px) + var(--player-h, 0px) + max(env(safe-area-inset-bottom,0px), var(--tg-safe-area-inset-bottom,0px)) + 0.75rem)`.
+- В блоке `useEffect` добавлять к `--nav-h` запас 16px (визуальный отступ) и не сбрасывать на 0 при наличии `hasOwnBottomNav` — учесть его.
 
-**Acceptance.** В селекторе появляется «Всё время»; графики/таблицы заполняются данными за весь период; экспорт CSV содержит `all_time` в имени файла; ошибок в консоли нет.
+### 2. `src/components/home/CreativePresetsSection.tsx`
+- Подпись «Выберите шаблон…»: убрать `truncate`, оставить `line-clamp-2`, не схлопывать высоту.
+- Табы: 
+  - `px-1.5` на мобиле, `gap-1` базово.
+  - Использовать `shortLabel` на <sm: `<span className="sm:hidden">{tab.shortLabel}</span><span className="hidden sm:inline">{tab.label}</span>`.
+  - Иконку скрывать на <xs (`hidden xs:inline-flex`), чтобы освободить место для русского текста.
+  - Убрать `truncate` со span текста; вместо этого `whitespace-nowrap` + min-w-0 контейнер — буквы не режутся, табы делят ширину поровну (`flex-1`).
+- Гарантировать `flex-wrap`/двухрядность всего блока на <sm уже за счёт `flex-col`.
 
-## 2. Интеграция с Telegram-ботом
+### 3. Новый e2e тест `tests/e2e/home.quickstart.responsive.spec.ts`
+Прогон на ширинах 360, 390, 414, 480, 540, 640 (height=844):
+- Перейти на `/`.
+- Проверить наличие «Быстрый старт» (текст), его `clientHeight > 0` и что текст полностью видим (boundingBox.width >= scrollWidth).
+- Для каждого таба «Тексты»/«Треки»/«Проекты»: bounding box виден внутри viewport, текст не обрезан (`scrollWidth <= clientWidth + 1` или содержит ожидаемую подпись `Текст|Треки|Проект`).
+- Проверить, что блок занимает ровно 2 ряда: y координат заголовка и tablist различаются (>= высота заголовка), и нет третьего ряда (tablist в одном ряду).
 
-**Текущее состояние.**
-- В воркспейсе есть подключение **MUSICVERSE TG BOT** (connector `telegram`, gateway), но **оно не привязано к проекту** (`is linked to project: no`).
-- 20+ edge-функций (`telegram-bot`, `send-telegram-notification`, `stars-webhook`, `suno-send-audio`, `bot-api`, …) читают **`TELEGRAM_BOT_TOKEN`** напрямую (не через gateway). То есть для текущего кода нужна не привязка коннектора, а наличие секрета `TELEGRAM_BOT_TOKEN`.
-
-**Что делаем:**
-
-1. **Привязать коннектор MUSICVERSE TG BOT к проекту** через `standard_connectors--connect` (connector_id: `telegram`). Это даст переменные `TELEGRAM_API_KEY` + `LOVABLE_API_KEY` для gateway-вызовов и снимет вопрос «настроена ли интеграция» на уровне Lovable.
-2. **Проверить наличие секрета `TELEGRAM_BOT_TOKEN`** (`secrets--fetch_secrets`). Если его нет — запросить у пользователя через `secrets--add_secret` (нужен для всех уже задеплоенных функций бота).
-3. **Проверить webhook бота**: вызвать через gateway `POST https://connector-gateway.lovable.dev/telegram/getWebhookInfo` и убедиться, что `url` указывает на `https://<project>.functions.supabase.co/telegram-webhook` и `pending_update_count` в норме. Если webhook не настроен / указывает не туда — выполнить `setWebhook` (есть готовая функция `telegram-webhook-setup`).
-4. Сообщить пользователю итог: статус подключения, наличие токена, корректность webhook.
-
-**Никаких новых таблиц, миграций и переписывания существующих функций бота не делаем** — только привязка коннектора, проверка секрета и webhook.
+### 4. Новый e2e `tests/e2e/layout.bottomnav-overlap.spec.ts`
+- На 390×844 и 768×1024 (portrait): открыть `/`, проскроллить в самый низ, проверить что последняя секция home (футер контента) полностью видна над `[data-testid="bottom-navigation"]` (или селектор `nav[aria-label*="навигация"]`) — `section.bottom <= nav.top + 1`.
+- Повторить с активным треком (программно установить через `localStorage` `playerStore` или вызвать play на первом треке): убедиться, что секция не перекрыта CompactPlayer'ом.
 
 ## Технические детали
-
-```text
-AnalyticsDashboard
-  timePeriod: '24 hours' | '7 days' | '30 days' | '90 days' | 'all'
-  ↓ map
-  rpcPeriod = timePeriod === 'all' ? '100 years' : timePeriod
-  ↓
-  useTelemetryStats(rpcPeriod)
-  useErrorTrends(rpcPeriod)
-  useGenerationAnalytics(rpcPeriod === '100 years' ? '90 days' : rpcPeriod)
-```
-
-Telegram-проверка (sandbox, build mode):
-
-```bash
-curl -sS https://connector-gateway.lovable.dev/telegram/getWebhookInfo \
-  -H "Authorization: Bearer $LOVABLE_API_KEY" \
-  -H "X-Connection-Api-Key: $TELEGRAM_API_KEY" \
-  -H 'Content-Type: application/json' -d '{}'
-```
+- Тесты Playwright, использовать существующий конфиг `playwright.config.ts`.
+- Селекторы: `getByRole('tablist', { name: 'Категории шаблонов' })`, `getByRole('tab', { name: 'Тексты'|'Треки'|'Проекты' })`, `getByText('Быстрый старт')`.
+- Проверка обрезки: сравнивать `el.scrollWidth` vs `el.clientWidth` через `evaluate`.
 
 ## Файлы
-
-- edit: `src/components/admin/analytics/AnalyticsDashboard.tsx`
-- edit (если нужно): `src/components/admin/analytics/ComparisonPanel.tsx`
-- ops: `standard_connectors--connect` (telegram), `secrets--fetch_secrets`, gateway-вызов `getWebhookInfo`
+- edit `src/components/MainLayout.tsx`
+- edit `src/components/home/CreativePresetsSection.tsx`
+- create `tests/e2e/home.quickstart.responsive.spec.ts`
+- create `tests/e2e/layout.bottomnav-overlap.spec.ts`
