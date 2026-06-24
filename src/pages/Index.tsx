@@ -203,7 +203,7 @@ const Index = () => {
       </div>
 
       {/* Right rail — sticky so it doesn't leave a huge empty column */}
-      <aside className="xl:col-span-4 min-w-0 xl:sticky xl:top-6 space-y-4">
+      <aside className="xl:col-span-4 min-w-0 overflow-hidden xl:sticky xl:top-6 space-y-4">
         {/* Stats Banner */}
         <motion.section {...fadeInUp}>
           <StatsHighlightBanner />
