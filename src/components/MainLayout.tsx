@@ -295,9 +295,13 @@ export const MainLayout = () => {
         )}
         style={{
           minHeight: 'var(--tg-viewport-stable-height, 100vh)',
-          // Mobile portrait: add bottom padding for nav + safe area
+          // Mobile portrait: pad for BottomNav (~5rem) + CompactPlayer (~4.5rem when active) + safe area.
           ...(!isDesktop && !isMobileLandscape && {
-            paddingBottom: `calc(max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)) + 5rem)`,
+            paddingBottom: `calc(max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)) + ${hasActiveTrack ? '9.5rem' : '5rem'})`,
+          }),
+          // Desktop: leave room for floating CompactPlayer when active.
+          ...(isDesktop && hasActiveTrack && {
+            paddingBottom: '6rem',
           }),
         }}
       >
