@@ -61,15 +61,22 @@ export function KaraokeView({
     // Content is centered, no need to scroll
   }, [activeLineIndex]);
 
-  if (!lyricsLines) {
+  if (!lyricsLines || lyricsLines.length === 0) {
     return (
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-[100] bg-black flex items-center justify-center"
+        className="fixed inset-0 z-[100] bg-background flex flex-col items-center justify-center gap-3 px-6 text-center"
+        data-testid="karaoke-view-empty"
       >
-        <p className="text-white/50">Текст песни недоступен</p>
+        <Mic2 className="w-10 h-10 text-muted-foreground/60" aria-hidden />
+        <p className="text-foreground/80 text-base font-medium">
+          Синхронизированный текст недоступен
+        </p>
+        <p className="text-muted-foreground text-sm max-w-xs">
+          Для этого трека ещё не сгенерированы тайминги. Откройте обычный режим текста.
+        </p>
         <Button
           variant="ghost"
           size="icon"
@@ -77,9 +84,13 @@ export function KaraokeView({
             hapticImpact('light');
             onClose();
           }}
-          className={cn("absolute top-4 right-4 h-10 w-10 rounded-full", glassButton.default)}
+          aria-label="Закрыть караоке"
+          className={cn(
+            "absolute top-4 right-4 h-11 w-11 min-h-11 min-w-11 rounded-full",
+            glassButton.default
+          )}
         >
-          <X className="h-5 w-5 text-white" />
+          <X className="h-5 w-5 text-foreground" />
         </Button>
       </motion.div>
     );
