@@ -51,25 +51,13 @@ export default function Pricing() {
   const userId = user?.id;
   const [purchasingProduct, setPurchasingProduct] = useState<string | null>(null);
 
-  // Admin users don't need to purchase - redirect to home
-  if (roleLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" />
-      </div>
-    );
-  }
-
-  if (isAdmin) {
-    return <Navigate to="/" replace />;
-  }
+  // Telegram BackButton — must be declared BEFORE any conditional return
+  // to keep hooks order stable (was the cause of blank /pricing on mobile).
   useEffect(() => {
     if (webApp) {
       webApp.BackButton.show();
-      webApp.BackButton.onClick(() => {
-        window.history.back();
-      });
-
+      const handler = () => window.history.back();
+      webApp.BackButton.onClick(handler);
       return () => {
         webApp.BackButton.hide();
       };
@@ -90,6 +78,21 @@ export default function Pricing() {
       return ((data || []) as DBProduct[]).map(mapToStarsProduct);
     },
   });
+
+  // Admin users don't need to purchase - redirect to home (after hooks)
+  if (roleLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (isAdmin) {
+    return <Navigate to="/" replace />;
+  }
+
+
 
   // Filter products by type
   const creditPackages = products?.filter(p => p.product_type === 'credit_package') || [];
