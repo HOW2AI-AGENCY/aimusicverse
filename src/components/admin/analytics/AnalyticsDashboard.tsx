@@ -35,21 +35,26 @@ import {
 import { exportAnalytics, formatTelemetryForExport } from '@/lib/analytics/exportUtils';
 import { toast } from 'sonner';
 
-type TimePeriod = '24 hours' | '7 days' | '30 days' | '90 days';
+type TimePeriod = '24 hours' | '7 days' | '30 days' | '90 days' | 'all';
+
+// '100 years' is a valid Postgres interval that effectively means "all time"
+const ALL_TIME_INTERVAL = '100 years';
 
 export function AnalyticsDashboard() {
   const [timePeriod, setTimePeriod] = useState<TimePeriod>('7 days');
-  
-  const { data: telemetry, isLoading: telemetryLoading } = useTelemetryStats(timePeriod);
-  const { data: errorTrends, isLoading: errorsLoading } = useErrorTrends(timePeriod);
+
+  const rpcPeriod = timePeriod === 'all' ? ALL_TIME_INTERVAL : timePeriod;
+
+  const { data: telemetry, isLoading: telemetryLoading } = useTelemetryStats(rpcPeriod);
+  const { data: errorTrends, isLoading: errorsLoading } = useErrorTrends(rpcPeriod);
   const { data: generationStats, isLoading: generationLoading } = useGenerationAnalytics(
-    timePeriod === '24 hours' ? '7 days' : timePeriod as any
+    (timePeriod === '24 hours' ? '7 days' : timePeriod === 'all' ? ALL_TIME_INTERVAL : timePeriod) as any
   );
 
   const isLoading = telemetryLoading || errorsLoading || generationLoading;
 
-  // Map time period to deeplink format
-  const deeplinkTimeRange = timePeriod === '24 hours' ? '24h' : 
+  // Map time period to deeplink format (deeplink panel only supports 24h/7d/30d)
+  const deeplinkTimeRange = timePeriod === '24 hours' ? '24h' :
                            timePeriod === '7 days' ? '7d' : '30d';
 
   const handleExport = () => {
@@ -87,6 +92,7 @@ export function AnalyticsDashboard() {
               <SelectItem value="7 days">7 дней</SelectItem>
               <SelectItem value="30 days">30 дней</SelectItem>
               <SelectItem value="90 days">90 дней</SelectItem>
+              <SelectItem value="all">Всё время</SelectItem>
             </SelectContent>
           </Select>
         </div>
