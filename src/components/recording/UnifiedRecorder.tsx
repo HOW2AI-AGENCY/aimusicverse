@@ -6,7 +6,7 @@
  */
 
 import React, { memo, useState, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { Clock, AlertCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useUnifiedRecording, RecordingMode } from '@/hooks/audio/useUnifiedRecording';
