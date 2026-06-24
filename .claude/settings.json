@@ -7,7 +7,9 @@
   "permissions": {
     "allow": [
       "Bash(python -c ' *)",
-      "Read(//c/Users/oat70/.claude/skills/graphify/references/**)"
+      "Read(//c/Users/oat70/.claude/skills/graphify/references/**)",
+      "Bash(tee \"D:\\\\.MUSICVERSE\\\\aimusicverse\\\\graphify-out\\\\.graphify_chunk_10.json\")",
+      "Bash(printf '{\"nodes\":[{\"id\":\"safe_area_safe_area_insets\",\"type\":\"concept\",\"name\":\"safe_area_insets\",\"file_type\":\"rationale\",\"confidence_score\":0.95,\"description\":\"Portions of screen not obscured by device-specific UI elements\",\"source_file\":\"D:\\\\\\\\\\\\\\\\.MUSICVERSE\\\\\\\\\\\\\\\\aimusicverse\\\\\\\\\\\\\\\\docs\\\\\\\\\\\\\\\\SAFE_AREA_GUIDELINES.md\",\"citations\":[\"SAFE_AREA_GUIDELINES.md lines 13-20\"]},{\"id\":\"safe_area_single_application_principle\",\"type\":\"concept\",\"name\":\"single_application_principle\",\"file_type\":\"rationale\",\"confidence_score\":0.92,\"description\":\"Safe area insets must be applied ONLY at the TOP LEVEL of visual hierarchy\",\"source_file\":\"D:\\\\\\\\\\\\\\\\.MUSICVERSE\\\\\\\\\\\\\\\\aimusicverse\\\\\\\\\\\\\\\\docs\\\\\\\\\\\\\\\\SAFE_AREA_GUIDELINES.md\",\"citations\":[\"SAFE_AREA_GUIDELINES.md lines 23-26\"]},{\"id\":\"safe_area_telegram_variables\",\"type\":\"concept\",\"name\":\"telegram_safe_area_variables\",\"file_type\":\"rationale\",\"confidence_score\":0.93,\"description\":\"Telegram Mini App specific safe area CSS variables\",\"source_file\":\"D:\\\\\\\\\\\\\\\\.MUSICVERSE\\\\\\\\\\\\\\\\aimusicverse\\\\\\\\\\\\\\\\docs\\\\\\\\\\\\\\\\SAFE_AREA_GUIDELINES.md\",\"citations\":[\"SAFE_AREA_GUIDELINES.md lines 169-175\"]}]}')"
     ]
   }
 }

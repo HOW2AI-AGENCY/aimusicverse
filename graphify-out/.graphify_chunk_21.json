@@ -1,0 +1,334 @@
+{
+  "nodes": [
+    {
+      "id": "specification_002-ui-component-unification",
+      "type": "specification",
+      "labels": ["specification", "ui-unification", "component-consolidation"],
+      "properties": {
+        "name": "UI Component Unification Phase 2",
+        "branch": "002-ui-component-unification",
+        "status": "draft",
+        "created": "2026-01-06",
+        "phase": "2",
+        "file_type": "document",
+        "scope": "consolidate duplicate component patterns (dialogs, skeletons, forms, menus)",
+        "target_bundle_size": "≤950 KB",
+        "touch_target_requirement": "44×44px minimum"
+      },
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\specs\\002-ui-component-unification\\spec.md"
+    },
+    {
+      "id": "implementation_plan_002-ui-component-unification",
+      "type": "plan",
+      "labels": ["plan", "implementation", "ui-unification"],
+      "properties": {
+        "name": "Implementation Plan: UI Component Unification Phase 2",
+        "branch": "002-ui-component-unification",
+        "created": "2026-01-06",
+        "phases": 7,
+        "total_tasks": 161,
+        "estimated_duration": "2-3 sprints (3-4 weeks)",
+        "mvp_status": "complete (50% - 83/161 tasks)",
+        "file_type": "document"
+      },
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\specs\\002-ui-component-unification\\plan.md"
+    },
+    {
+      "id": "tasks_002-ui-component-unification",
+      "type": "tasks",
+      "labels": ["tasks", "implementation", "ui-unification"],
+      "properties": {
+        "name": "Tasks: UI Component Unification Phase 2",
+        "total_tasks": 161,
+        "mvp_complete": true,
+        "tasks_completed": "83/161 (51.6%)",
+        "component_families_delivered": 3,
+        "phases": ["Setup & Audit", "Foundational Components", "User Story 1", "User Story 2", "User Story 3", "Testing & Documentation", "Migration & Validation"],
+        "file_type": "document"
+      },
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\specs\\002-ui-component-unification\\tasks.md"
+    },
+    {
+      "id": "contract_unified-dialog-types",
+      "type": "contract",
+      "labels": ["contract", "typescript", "dialog", "component-types"],
+      "properties": {
+        "name": "Unified Dialog Component Family - Type Definitions",
+        "component": "UnifiedDialog",
+        "variants": ["modal", "sheet", "alert"],
+        "purpose": "Single entry point for all dialog/sheet/modal patterns",
+        "file_type": "code",
+        "language": "typescript"
+      },
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\specs\\002-ui-component-unification\\contracts\\unified-dialog.types.ts"
+    },
+    {
+      "id": "contract_unified-skeleton-types",
+      "type": "contract",
+      "labels": ["contract", "typescript", "skeleton", "component-types"],
+      "properties": {
+        "name": "Unified Skeleton Component Family - Type Definitions",
+        "component": "UnifiedSkeleton",
+        "variants": ["text", "card", "list", "image"],
+        "purpose": "Consistent loading states with shimmer animations",
+        "file_type": "code",
+        "language": "typescript"
+      },
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\specs\\002-ui-component-unification\\contracts\\unified-skeleton.types.ts"
+    },
+    {
+      "id": "contract_unified-form-types",
+      "type": "contract",
+      "labels": ["contract", "typescript", "form", "component-types"],
+      "properties": {
+        "name": "Unified Form Input Component Family - Type Definitions",
+        "component": "UnifiedFormInput",
+        "variants": ["text", "number", "select", "checkbox", "radio"],
+        "purpose": "Consistent form inputs with unified validation and error handling",
+        "file_type": "code",
+        "language": "typescript"
+      },
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\specs\\002-ui-component-unification\\contracts\\unified-form.types.ts"
+    },
+    {
+      "id": "specification_003-performance-optimization",
+      "type": "specification",
+      "labels": ["specification", "performance", "optimization"],
+      "properties": {
+        "name": "Performance Optimization",
+        "file_type": "document",
+        "status": "planned"
+      },
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\specs\\003-performance-optimization\\spec.md"
+    },
+    {
+      "id": "sprint_progress_tracker",
+      "type": "sprint-tracking",
+      "labels": ["sprint", "tracking", "progress"],
+      "properties": {
+        "name": "Sprint Progress Tracker",
+        "last_updated": "2026-06-24",
+        "current_focus": "Q1 2026 Development Plan",
+        "completed_sprints": 32,
+        "active_phase": "Phase 6: Performance Optimization",
+        "file_type": "document"
+      },
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\SPRINT-PROGRESS.md"
+    },
+    {
+      "id": "sprint_documentation_readme",
+      "type": "documentation",
+      "labels": ["documentation", "sprint", "management"],
+      "properties": {
+        "name": "Sprint Documentation README",
+        "last_updated": "2026-01-21",
+        "completed_sprints": 32,
+        "current_status": "All active sprints closed as of January 5, 2026",
+        "file_type": "document"
+      },
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\SPRINTS\\README.md"
+    },
+    {
+      "id": "e2e_test_auth",
+      "type": "test",
+      "labels": ["test", "e2e", "authentication", "playwright"],
+      "properties": {
+        "name": "E2E Tests for Authentication Flow",
+        "file_type": "code",
+        "language": "typescript",
+        "framework": "playwright",
+        "test_coverage": ["login/logout flows", "protected routes", "session persistence", "error handling"]
+      },
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\tests\\e2e\\auth.spec.ts"
+    },
+    {
+      "id": "e2e_test_generation",
+      "type": "test",
+      "labels": ["test", "e2e", "generation", "playwright"],
+      "properties": {
+        "name": "E2E Tests for Music Generation Flow",
+        "file_type": "code",
+        "language": "typescript",
+        "framework": "playwright",
+        "test_coverage": ["form display and validation", "input handling", "mode switching", "error states", "A/B version switching", "track extension", "instrumental creation"]
+      },
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\tests\\e2e\\generation.spec.ts"
+    },
+    {
+      "id": "e2e_test_library",
+      "type": "test",
+      "labels": ["test", "e2e", "library", "playwright"],
+      "properties": {
+        "name": "E2E Tests for Library Page",
+        "file_type": "code",
+        "language": "typescript",
+        "framework": "playwright",
+        "test_coverage": ["track list display", "search and filtering", "sort options", "track interactions", "pagination", "responsive design"]
+      },
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\tests\\e2e\\library.spec.ts"
+    },
+    {
+      "id": "e2e_test_player",
+      "type": "test",
+      "labels": ["test", "e2e", "player", "playwright"],
+      "properties": {
+        "name": "E2E Tests for Audio Player",
+        "file_type": "code",
+        "language": "typescript",
+        "framework": "playwright",
+        "test_coverage": ["player display", "controls interaction", "volume control", "progress bar", "full screen player", "accessibility", "responsive design", "mode switching", "queue management", "mobile gestures", "lyrics display", "karaoke mode", "error handling"]
+      },
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\tests\\e2e\\player.spec.ts"
+    },
+    {
+      "id": "e2e_test_documentation",
+      "type": "documentation",
+      "labels": ["documentation", "testing", "e2e", "playwright"],
+      "properties": {
+        "name": "E2E Browser Tests Documentation",
+        "file_type": "document",
+        "browser_coverage": ["Chromium", "Firefox", "WebKit", "Mobile Chrome", "Mobile Safari", "Microsoft Edge", "Google Chrome"],
+        "test_areas": ["Storage Infrastructure", "CDN Integration", "Browser Compatibility"]
+      },
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\tests\\e2e\\README.md"
+    }
+  ],
+  "edges": [
+    {
+      "from": "specification_002-ui-component-unification",
+      "to": "implementation_plan_002-ui-component-unification",
+      "label": "specifies",
+      "properties": {
+        "relationship": "spec_to_plan",
+        "confidence_score": 1.0
+      }
+    },
+    {
+      "from": "implementation_plan_002-ui-component-unification",
+      "to": "tasks_002-ui-component-unification",
+      "label": "detailed_in",
+      "properties": {
+        "relationship": "plan_to_tasks",
+        "confidence_score": 1.0
+      }
+    },
+    {
+      "from": "specification_002-ui-component-unification",
+      "to": "contract_unified-dialog-types",
+      "label": "defines_contract",
+      "properties": {
+        "relationship": "spec_to_contract",
+        "confidence_score": 0.95
+      }
+    },
+    {
+      "from": "specification_002-ui-component-unification",
+      "to": "contract_unified-skeleton-types",
+      "label": "defines_contract",
+      "properties": {
+        "relationship": "spec_to_contract",
+        "confidence_score": 0.95
+      }
+    },
+    {
+      "from": "specification_002-ui-component-unification",
+      "to": "contract_unified-form-types",
+      "label": "defines_contract",
+      "properties": {
+        "relationship": "spec_to_contract",
+        "confidence_score": 0.95
+      }
+    },
+    {
+      "from": "tasks_002-ui-component-unification",
+      "to": "contract_unified-dialog-types",
+      "label": "implements",
+      "properties": {
+        "relationship": "task_to_contract",
+        "confidence_score": 0.9
+      }
+    },
+    {
+      "from": "tasks_002-ui-component-unification",
+      "to": "contract_unified-skeleton-types",
+      "label": "implements",
+      "properties": {
+        "relationship": "task_to_contract",
+        "confidence_score": 0.9
+      }
+    },
+    {
+      "from": "tasks_002-ui-component-unification",
+      "to": "contract_unified-form-types",
+      "label": "implements",
+      "properties": {
+        "relationship": "task_to_contract",
+        "confidence_score": 0.9
+      }
+    },
+    {
+      "from": "sprint_progress_tracker",
+      "to": "sprint_documentation_readme",
+      "label": "detailed_in",
+      "properties": {
+        "relationship": "tracking_to_docs",
+        "confidence_score": 0.85
+      }
+    },
+    {
+      "from": "e2e_test_documentation",
+      "to": "e2e_test_auth",
+      "label": "documents",
+      "properties": {
+        "relationship": "docs_to_test",
+        "confidence_score": 0.9
+      }
+    },
+    {
+      "from": "e2e_test_documentation",
+      "to": "e2e_test_generation",
+      "label": "documents",
+      "properties": {
+        "relationship": "docs_to_test",
+        "confidence_score": 0.9
+      }
+    },
+    {
+      "from": "e2e_test_documentation",
+      "to": "e2e_test_library",
+      "label": "documents",
+      "properties": {
+        "relationship": "docs_to_test",
+        "confidence_score": 0.9
+      }
+    },
+    {
+      "from": "e2e_test_documentation",
+      "to": "e2e_test_player",
+      "label": "documents",
+      "properties": {
+        "relationship": "docs_to_test",
+        "confidence_score": 0.9
+      }
+    },
+    {
+      "from": "specification_002-ui-component-unification",
+      "to": "specification_003-performance-optimization",
+      "label": "related_to",
+      "properties": {
+        "relationship": "spec_to_spec",
+        "confidence_score": 0.7
+      }
+    }
+  ],
+  "metadata": {
+    "extraction_method": "EXTRACTED",
+    "chunk": 21,
+    "total_chunks": 23,
+    "extraction_date": "2026-06-25",
+    "confidence_score": 0.92,
+    "deep_mode": false,
+    "source_files": 12,
+    "extraction_type": "specification_contracts_tests"
+  }
+}

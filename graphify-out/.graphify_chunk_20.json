@@ -1,0 +1,363 @@
+{
+  "nodes": [
+    {
+      "id": "spec_001_ui_improvements",
+      "type": "FeatureSpecification",
+      "properties": {
+        "title": "UI Improvement System",
+        "branch": "001-ui-improvements",
+        "created": "2026-01-24",
+        "total_tasks": 47,
+        "estimated_duration": "8 weeks",
+        "file_type": "document"
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "plan_001_ui_improvements",
+      "type": "ImplementationPlan",
+      "properties": {
+        "title": "UI Improvement System Implementation Plan",
+        "branch": "001-ui-improvements",
+        "created": "2026-01-24",
+        "constitution_compliance": "verified",
+        "components_to_refactor": ["StudioShell", "UnifiedStudioContent", "QuickCompare"],
+        "bundle_impact": "+19KB",
+        "phases": 4,
+        "file_type": "document"
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "contract_ui_improvements",
+      "type": "ContractCollection",
+      "properties": {
+        "title": "UI System Contracts",
+        "branch": "001-ui-improvements",
+        "components": ["TouchTarget", "SafeArea", "ResponsiveContainer", "Skeleton", "GestureManager", "Field"],
+        "file_type": "document"
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "spec_001_ui_refactor",
+      "type": "FeatureSpecification",
+      "properties": {
+        "title": "UI Architecture Refactoring & Optimization",
+        "branch": "001-ui-refactor",
+        "created": "2026-01-06",
+        "status": "draft",
+        "current_components": 952,
+        "duplicate_track_cards": 5,
+        "skeleton_files": 3,
+        "dialog_components": 98,
+        "components_with_logic": 37,
+        "file_type": "document"
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "plan_001_ui_refactor",
+      "type": "ImplementationPlan",
+      "properties": {
+        "title": "UI Architecture Refactoring Implementation Plan",
+        "branch": "001-ui-refactor",
+        "date": "2026-01-06",
+        "language": "TypeScript 5.9",
+        "framework": "React 19.2",
+        "bundle_target": "<950KB",
+        "reduction_target": "~3,000 lines",
+        "phases": ["Setup", "Foundational", "User Stories"],
+        "file_type": "document"
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "contract_unified_track_card",
+      "type": "ComponentContract",
+      "properties": {
+        "title": "UnifiedTrackCard Component",
+        "branch": "001-ui-refactor",
+        "variants": ["grid", "list", "compact", "minimal", "default", "enhanced", "professional"],
+        "replaces": ["TrackCard", "MinimalTrackCard", "PublicTrackCard", "TrackCardEnhanced"],
+        "file_type": "code",
+        "source_file": "D:\\.MUSICVERSE\\aimusicverse\\specs\\001-ui-refactor\\contracts\\UnifiedTrackCard.contract.ts"
+      },
+      "confidence_score": 0.98
+    },
+    {
+      "id": "contract_use_realtime_track_updates",
+      "type": "HookContract",
+      "properties": {
+        "title": "useRealtimeTrackUpdates Hook",
+        "branch": "001-ui-refactor",
+        "purpose": "Real-time subscription hook for track updates",
+        "subscribed_events": ["INSERT", "UPDATE", "DELETE"],
+        "lifecycle": "auto-reconnect",
+        "file_type": "code",
+        "source_file": "D:\\.MUSICVERSE\\aimusicverse\\specs\\001-ui-refactor\\contracts\\useRealtimeTrackUpdates.contract.ts"
+      },
+      "confidence_score": 0.98
+    },
+    {
+      "id": "contract_use_track_actions",
+      "type": "HookContract",
+      "properties": {
+        "title": "useTrackActions Hook",
+        "branch": "001-ui-refactor",
+        "purpose": "Action hook for track operations",
+        "mutations": ["likeTrack", "unlikeTrack", "shareTrack", "deleteTrack", "addToPlaylist"],
+        "optimistic_updates": true,
+        "file_type": "code",
+        "source_file": "D:\\.MUSICVERSE\\aimusicverse\\specs\\001-ui-refactor\\contracts\\useTrackActions.contract.ts"
+      },
+      "confidence_score": 0.98
+    },
+    {
+      "id": "contract_use_track_data",
+      "type": "HookContract",
+      "properties": {
+        "title": "useTrackData Hook",
+        "branch": "001-ui-refactor",
+        "purpose": "Data fetching hook with TanStack Query",
+        "stale_time": 30,
+        "gc_time": 600,
+        "file_type": "code",
+        "source_file": "D:\\.MUSICVERSE\\aimusicverse\\specs\\001-ui-refactor\\contracts\\useTrackData.contract.ts"
+      },
+      "confidence_score": 0.98
+    },
+    {
+      "id": "contract_use_track_version_switcher",
+      "type": "HookContract",
+      "properties": {
+        "title": "useTrackVersionSwitcher Hook",
+        "branch": "001-ui-refactor",
+        "purpose": "Hook for switching between A/B versions",
+        "atomic_update": true,
+        "changelog_required": true,
+        "file_type": "code",
+        "source_file": "D:\\.MUSICVERSE\\aimusicverse\\specs\\001-ui-refactor\\contracts\\useTrackVersionSwitcher.contract.ts"
+      },
+      "confidence_score": 0.98
+    },
+    {
+      "id": "spec_001_unified_interface",
+      "type": "FeatureSpecification",
+      "properties": {
+        "title": "Unified Interface Application",
+        "branch": "001-unified-interface",
+        "created": "2026-01-05",
+        "status": "Phase 2 Implementation",
+        "total_components": 991,
+        "unified_components": 13,
+        "bundle_target": "<950KB",
+        "current_bundle": "1748KB",
+        "file_type": "document"
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "plan_001_unified_interface",
+      "type": "ImplementationPlan",
+      "properties": {
+        "title": "Unified Interface Implementation Plan",
+        "branch": "001-unified-interface",
+        "date": "2026-01-05",
+        "total_tasks": 66,
+        "estimated_duration": "27-30 days",
+        "team_size": "2-3 developers",
+        "phases": 5,
+        "constitution_compliance": "conditional_pass",
+        "file_type": "document"
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "contract_mobile_header_bar",
+      "type": "ComponentContract",
+      "properties": {
+        "title": "MobileHeaderBar Component",
+        "branch": "001-unified-interface",
+        "touch_targets": "44x44px minimum",
+        "safe_areas": "auto",
+        "telegram_integration": true,
+        "file_type": "code",
+        "source_file": "D:\\.MUSICVERSE\\aimusicverse\\specs\\001-unified-interface\\contracts\\MobileHeaderBar.contract.ts"
+      },
+      "confidence_score": 0.98
+    },
+    {
+      "id": "contract_mobile_bottom_sheet",
+      "type": "ComponentContract",
+      "properties": {
+        "title": "MobileBottomSheet Component",
+        "branch": "001-unified-interface",
+        "snap_points": "0.5, 0.9",
+        "swipe_to_dismiss": true,
+        "touch_targets": "44px minimum",
+        "file_type": "code",
+        "source_file": "D:\\.MUSICVERSE\\aimusicverse\\specs\\001-unified-interface\\contracts\\MobileBottomSheet.contract.ts"
+      },
+      "confidence_score": 0.98
+    },
+    {
+      "id": "contract_virtualized_track_list",
+      "type": "ComponentContract",
+      "properties": {
+        "title": "VirtualizedTrackList Component",
+        "branch": "001-unified-interface",
+        "virtualization": "react-virtuoso",
+        "performance_target": "60 FPS",
+        "item_threshold": ">50 items",
+        "memory_target": "<100MB",
+        "file_type": "code",
+        "source_file": "D:\\.MUSICVERSE\\aimusicverse\\specs\\001-unified-interface\\contracts\\VirtualizedTrackList.contract.ts"
+      },
+      "confidence_score": 0.98
+    },
+    {
+      "id": "contract_unified_screen_layout",
+      "type": "ComponentContract",
+      "properties": {
+        "title": "UnifiedScreenLayout Component",
+        "branch": "001-unified-interface",
+        "composition": ["MainLayout", "MobileHeaderBar", "BottomNavigation"],
+        "features": ["pull_to_refresh", "telegram_main_button", "error_boundary"],
+        "file_type": "code",
+        "source_file": "D:\\.MUSICVERSE\\aimusicverse\\specs\\001-unified-interface\\contracts\\UnifiedScreenLayout.contract.ts"
+      },
+      "confidence_score": 0.98
+    }
+  ],
+  "edges": [
+    {
+      "from": "spec_001_ui_improvements",
+      "to": "plan_001_ui_improvements",
+      "label": "specifies",
+      "properties": {
+        "relationship": "specification_to_plan"
+      }
+    },
+    {
+      "from": "plan_001_ui_improvements",
+      "to": "contract_ui_improvements",
+      "label": "generates",
+      "properties": {
+        "relationship": "plan_to_contracts"
+      }
+    },
+    {
+      "from": "spec_001_ui_refactor",
+      "to": "plan_001_ui_refactor",
+      "label": "specifies",
+      "properties": {
+        "relationship": "specification_to_plan"
+      }
+    },
+    {
+      "from": "plan_001_ui_refactor",
+      "to": "contract_unified_track_card",
+      "label": "generates",
+      "properties": {
+        "relationship": "plan_to_component_contract"
+      }
+    },
+    {
+      "from": "plan_001_ui_refactor",
+      "to": "contract_use_realtime_track_updates",
+      "label": "generates",
+      "properties": {
+        "relationship": "plan_to_hook_contract"
+      }
+    },
+    {
+      "from": "plan_001_ui_refactor",
+      "to": "contract_use_track_actions",
+      "label": "generates",
+      "properties": {
+        "relationship": "plan_to_hook_contract"
+      }
+    },
+    {
+      "from": "plan_001_ui_refactor",
+      "to": "contract_use_track_data",
+      "label": "generates",
+      "properties": {
+        "relationship": "plan_to_hook_contract"
+      }
+    },
+    {
+      "from": "plan_001_ui_refactor",
+      "to": "contract_use_track_version_switcher",
+      "label": "generates",
+      "properties": {
+        "relationship": "plan_to_hook_contract"
+      }
+    },
+    {
+      "from": "spec_001_unified_interface",
+      "to": "plan_001_unified_interface",
+      "label": "specifies",
+      "properties": {
+        "relationship": "specification_to_plan"
+      }
+    },
+    {
+      "from": "plan_001_unified_interface",
+      "to": "contract_mobile_header_bar",
+      "label": "generates",
+      "properties": {
+        "relationship": "plan_to_component_contract"
+      }
+    },
+    {
+      "from": "plan_001_unified_interface",
+      "to": "contract_mobile_bottom_sheet",
+      "label": "generates",
+      "properties": {
+        "relationship": "plan_to_component_contract"
+      }
+    },
+    {
+      "from": "plan_001_unified_interface",
+      "to": "contract_virtualized_track_list",
+      "label": "generates",
+      "properties": {
+        "relationship": "plan_to_component_contract"
+      }
+    },
+    {
+      "from": "plan_001_unified_interface",
+      "to": "contract_unified_screen_layout",
+      "label": "generates",
+      "properties": {
+        "relationship": "plan_to_component_contract"
+      }
+    },
+    {
+      "from": "contract_unified_screen_layout",
+      "to": "contract_mobile_header_bar",
+      "label": "composes",
+      "properties": {
+        "relationship": "composition"
+      }
+    },
+    {
+      "from": "contract_use_track_data",
+      "to": "contract_unified_track_card",
+      "label": "powers",
+      "properties": {
+        "relationship": "hook_to_component"
+      }
+    },
+    {
+      "from": "contract_use_track_actions",
+      "to": "contract_unified_track_card",
+      "label": "powers",
+      "properties": {
+        "relationship": "hook_to_component"
+      }
+    }
+  ]
+}

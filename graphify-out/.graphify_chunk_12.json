@@ -1,179 +1,695 @@
 {
   "nodes": [
     {
-      "id": "archive-2026-01-readme",
-      "type": "document",
-      "title": "Archive - January 2026",
+      "id": "migration_add_master_version",
+      "label": "Add master_version_id to tracks table",
+      "type": "migration",
+      "file_type": "code",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251202112919_add_master_version.sql",
       "properties": {
-        "path": "docs/archive/2026-01/README.md",
-        "archived_date": "2026-01-04",
-        "reason": "Repository cleanup and reorganization",
-        "superseded_by": ["PROJECT_STATUS.md", "DOCUMENTATION_INDEX.md"],
-        "documents_contained": [
-          "CURRENT_STATE_ANALYSIS_2025-12-21.md",
-          "DOCUMENTATION_UPDATE_2026-01-04.md"
-        ]
+        "migration_type": "schema_change",
+        "table_affected": "tracks",
+        "change_type": "add_column",
+        "column_name": "master_version_id",
+        "column_type": "UUID",
+        "references": "track_versions(id)",
+        "on_delete": "SET NULL",
+        "task_reference": "T001"
       }
     },
     {
-      "id": "readme-documentation-update",
-      "type": "document",
-      "title": "README_DOCUMENTATION_UPDATE.md",
+      "id": "migration_add_version_fields",
+      "label": "Add version_number and is_master fields to track_versions",
+      "type": "migration",
+      "file_type": "code",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251202112920_add_version_fields.sql",
       "properties": {
-        "path": "docs/archive/2026-01/README_DOCUMENTATION_UPDATE.md",
-        "created_date": "2025-12-21",
-        "purpose": "Documentation update and optimization plan",
-        "key_documents": [
-          "CURRENT_STATE_ANALYSIS_2025-12-21.md",
-          "OPTIMIZATION_PLAN_2026.md"
-        ],
-        "completion_rate": 68
+        "migration_type": "schema_change",
+        "table_affected": "track_versions",
+        "change_type": "add_columns",
+        "columns": ["version_number", "is_master"],
+        "task_reference": "T002",
+        "constraints": ["unique_version_number_per_track", "one_master_per_track"]
       }
     },
     {
-      "id": "repository-cleanup-summary",
-      "type": "event",
-      "title": "Repository Cleanup Summary - December 13, 2025",
+      "id": "migration_track_changelog",
+      "label": "Create track_changelog table",
+      "type": "migration",
+      "file_type": "code",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251202112921_create_changelog_table.sql",
       "properties": {
-        "date": "2025-12-13",
-        "files_moved": 96,
-        "root_directory_reduction": "81%",
-        "new_structure": ["audits", "sprint-reports", "implementation-reports", "session-summaries"]
+        "migration_type": "table_creation",
+        "table_name": "track_changelog",
+        "purpose": "audit_log",
+        "change_types": ["version_created", "master_changed", "metadata_updated", "stem_generated", "cover_updated", "lyrics_updated"],
+        "task_reference": "T003",
+        "rls_enabled": true
       }
     },
     {
-      "id": "sprint-011-completion-report",
-      "type": "report",
-      "title": "Sprint 011 Completion Report",
+      "id": "migration_playlists",
+      "label": "Create playlists and playlist_tracks tables",
+      "type": "migration",
+      "file_type": "code",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251202112922_create_playlists_tables.sql",
       "properties": {
-        "date": "2026-01-04",
-        "completion_rate": 91,
-        "tasks_complete": 130,
-        "tasks_total": 143,
-        "key_features": [
-          "User profiles with verification",
-          "Following system with real-time updates",
-          "Comments with threading",
-          "Likes on tracks and comments",
-          "Activity feed",
-          "Notifications system",
-          "Privacy controls and moderation"
-        ]
+        "migration_type": "table_creation",
+        "tables": ["playlists", "playlist_tracks"],
+        "task_reference": "T004",
+        "relationship": "many_to_many",
+        "rls_enabled": true,
+        "features": ["user_playlists", "track_organization", "public_private_playlists"]
       }
     },
     {
-      "id": "sprint-028-ui-ux-optimization",
-      "type": "sprint",
-      "title": "Sprint 028: UI/UX Optimization",
+      "id": "migration_public_content",
+      "label": "Add public content support for Homepage Discovery",
+      "type": "migration",
+      "file_type": "code",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251202155000_add_public_content_support.sql",
       "properties": {
-        "completion_date": "2025-12-22",
-        "duration": "1 day",
-        "completion_rate": 90,
-        "key_improvements": [
-          "iOS Safari audio element pooling",
-          "Keyboard-aware forms",
-          "Enhanced sharing with QR codes",
-          "Contextual tooltips system",
-          "Comprehensive gesture system"
-        ]
+        "migration_type": "feature_addition",
+        "sprint": "010",
+        "features": ["public_tracks", "featured_tracks", "likes_system", "play_tracking"],
+        "new_columns": ["is_public", "is_featured", "likes_count", "plays_count", "views_count"],
+        "new_table": "track_likes",
+        "trigger_function": "update_track_likes_count"
       }
     },
     {
-      "id": "mobile-interface-optimization-plan",
-      "type": "plan",
-      "title": "Mobile Interface Optimization Plan",
+      "id": "migration_ai_assistant",
+      "label": "Add AI Assistant support for guided music generation",
+      "type": "migration",
+      "file_type": "code",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251202155001_add_ai_assistant_support.sql",
       "properties": {
-        "created_date": "2025-12-22",
-        "target_completion": 4,
-        "components_current": 29,
-        "components_target": 18,
-        "performance_targets": {
-          "bundle_size": "500KB → <450KB",
-          "tti_4g": "~4.5s → <3s",
-          "list_fps": "45 → >58 FPS",
-          "lighthouse": "TBD → >90"
+        "migration_type": "feature_addition",
+        "sprint": "010",
+        "tables": ["prompt_suggestions", "user_generation_history"],
+        "features": ["ai_suggestions", "generation_tracking", "prompt_templates"],
+        "categories": ["style", "mood", "instrument", "genre", "prompt_template"],
+        "rls_enabled": true
+      }
+    },
+    {
+      "id": "migration_storage_buckets",
+      "label": "Create Storage Buckets for Media Assets",
+      "type": "migration",
+      "file_type": "code",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251203020000_create_storage_buckets.sql",
+      "properties": {
+        "migration_type": "infrastructure",
+        "sprint": "010",
+        "buckets": ["tracks", "covers", "stems", "uploads", "avatars", "banners", "temp"],
+        "storage_policies": true,
+        "file_size_limits": {
+          "tracks": 52428800,
+          "covers": 5242880,
+          "stems": 104857600,
+          "uploads": 52428800,
+          "avatars": 2097152,
+          "banners": 5242880,
+          "temp": 104857600
         }
       }
     },
     {
-      "id": "unified-studio-analysis",
-      "type": "analysis",
-      "title": "Unified Studio Analysis and Plan",
+      "id": "migration_storage_management",
+      "label": "Create Storage Management Tables",
+      "type": "migration",
+      "file_type": "code",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251203020001_create_storage_management.sql",
       "properties": {
-        "date": "2025-12-30",
-        "studios_identified": 2,
-        "mobile_ui_status": "Not integrated",
-        "key_components": [
-          "UnifiedStudioContent",
-          "StudioShell",
-          "MobileStudioLayout"
-        ]
+        "migration_type": "table_creation",
+        "sprint": "010",
+        "tables": ["storage_usage", "file_registry"],
+        "features": ["quota_management", "file_tracking", "audit_trail"],
+        "functions": ["update_storage_usage", "check_storage_quota", "get_storage_usage_percentage"],
+        "triggers": ["file_registry_storage_trigger"],
+        "rls_enabled": true
       }
     },
     {
-      "id": "sprint-027-implementation",
-      "type": "sprint",
-      "title": "Sprint 027: User Experience & Analytics",
+      "id": "migration_social_profiles",
+      "label": "Extend profiles table for social features",
+      "type": "migration",
+      "file_type": "code",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251212200000_extend_profiles_social.sql",
       "properties": {
-        "completion_date": "2025-12-13",
-        "features": [
-          "AI lyrics progress notifications",
-          "System announcement banner",
-          "Credit cap system",
-          "Enhanced analytics tracking",
-          "Admin analytics dashboard"
-        ]
+        "migration_type": "schema_change",
+        "sprint": "011",
+        "task_reference": "T001",
+        "table_affected": "profiles",
+        "features": ["social_profiles", "user_verification", "privacy_levels"],
+        "new_columns": ["display_name", "bio", "avatar_url", "banner_url", "is_verified", "is_public", "privacy_level", "social_links", "stats_followers", "stats_following", "stats_tracks", "stats_likes_received"]
+      }
+    },
+    {
+      "id": "migration_follows",
+      "label": "Create user_follows table",
+      "type": "migration",
+      "file_type": "code",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251212200001_create_follows.sql",
+      "properties": {
+        "migration_type": "table_creation",
+        "sprint": "011",
+        "task_reference": "T002",
+        "table_name": "user_follows",
+        "features": ["user_following", "social_graph"],
+        "constraints": ["unique_follow", "no_self_follow"],
+        "rls_enabled": true
+      }
+    },
+    {
+      "id": "migration_comments",
+      "label": "Create comments table with threading support",
+      "type": "migration",
+      "file_type": "code",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251212200002_create_comments.sql",
+      "properties": {
+        "migration_type": "table_creation",
+        "sprint": "011",
+        "task_reference": "T003",
+        "table_name": "comments",
+        "features": ["track_comments", "threaded_replies", "moderation"],
+        "max_depth": 5,
+        "content_length": 2000,
+        "rls_enabled": true
+      }
+    },
+    {
+      "id": "migration_likes",
+      "label": "Create likes tables (track_likes and comment_likes)",
+      "type": "migration",
+      "file_type": "code",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251212200003_create_likes.sql",
+      "properties": {
+        "migration_type": "table_creation",
+        "sprint": "011",
+        "task_reference": "T004",
+        "tables": ["track_likes", "comment_likes"],
+        "features": ["track_liking", "comment_liking"],
+        "constraints": ["unique_track_like", "unique_comment_like"],
+        "rls_enabled": true
+      }
+    },
+    {
+      "id": "migration_activities",
+      "label": "Create activities table for activity feed",
+      "type": "migration",
+      "file_type": "code",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251212200004_create_activities.sql",
+      "properties": {
+        "migration_type": "table_creation",
+        "sprint": "011",
+        "task_reference": "T005",
+        "table_name": "activities",
+        "enums": ["activity_type", "entity_type"],
+        "activity_types": ["track_created", "track_liked", "comment_posted", "user_followed", "playlist_created", "track_added_to_playlist"],
+        "entity_types": ["track", "comment", "user", "playlist"],
+        "features": ["activity_feed", "social_timeline"],
+        "rls_enabled": true
+      }
+    },
+    {
+      "id": "migration_notifications",
+      "label": "Create notifications table",
+      "type": "migration",
+      "file_type": "code",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251212200005_create_notifications.sql",
+      "properties": {
+        "migration_type": "table_creation",
+        "sprint": "011",
+        "task_reference": "T006",
+        "table_name": "notifications",
+        "enums": ["notification_type"],
+        "notification_types": ["new_follower", "track_liked", "track_commented", "comment_liked", "comment_reply", "mention", "track_shared"],
+        "features": ["user_notifications", "telegram_integration"],
+        "rls_enabled": true
+      }
+    },
+    {
+      "id": "migration_blocked_users",
+      "label": "Create blocked_users table",
+      "type": "migration",
+      "file_type": "code",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251212200008_create_blocked_users.sql",
+      "properties": {
+        "migration_type": "table_creation",
+        "sprint": "011",
+        "task_reference": "T010",
+        "table_name": "blocked_users",
+        "features": ["user_blocking", "privacy_control", "moderation"],
+        "functions": ["is_user_blocked"],
+        "constraints": ["unique_block", "no_self_block"],
+        "rls_enabled": true
+      }
+    },
+    {
+      "id": "migration_telegram_stars",
+      "label": "Telegram Stars Payment System",
+      "type": "migration",
+      "file_type": "code",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251209224300_telegram_stars_payments.sql",
+      "properties": {
+        "migration_type": "feature_addition",
+        "feature": "payment_system",
+        "tables": ["stars_products", "stars_transactions", "subscription_history"],
+        "enums": ["stars_product_type", "stars_product_status", "stars_transaction_status", "subscription_status"],
+        "product_types": ["credit_package", "subscription"],
+        "functions": ["process_stars_payment", "get_subscription_status", "get_stars_payment_stats"],
+        "integrations": ["telegram_payments", "credit_system", "subscription_management"],
+        "rls_enabled": true
+      }
+    },
+    {
+      "id": "migration_telegram_bot",
+      "label": "Telegram Bot Enhanced Features",
+      "type": "migration",
+      "file_type": "code",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251211043500_telegram_bot_enhanced_features.sql",
+      "properties": {
+        "migration_type": "feature_addition",
+        "feature": "telegram_bot",
+        "tables": ["telegram_menu_state", "telegram_wizard_state", "telegram_notification_queue", "telegram_bot_analytics"],
+        "features": ["menu_navigation", "wizard_workflows", "notification_queue", "bot_analytics"],
+        "functions": ["cleanup_expired_wizard_states", "cleanup_old_menu_states", "get_pending_telegram_notifications", "mark_telegram_notification_sent", "mark_telegram_notification_failed", "track_telegram_bot_event"],
+        "priority_levels": [1, 2, 3, 4],
+        "rls_enabled": true
+      }
+    },
+    {
+      "id": "migration_atomic_credits",
+      "label": "Atomic Credit Deduction Function",
+      "type": "migration",
+      "file_type": "code",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251212000000_atomic_credit_deduction.sql",
+      "properties": {
+        "migration_type": "function_creation",
+        "purpose": "race_condition_fix",
+        "function": "deduct_generation_credits",
+        "parameters": ["user_id", "cost", "description", "metadata"],
+        "returns": ["new_balance", "success", "message"],
+        "security": "SECURITY DEFINER",
+        "locking": "row_level_locking",
+        "issue_reference": "Issue #7 from Track Generation Audit 2025-12-12"
+      }
+    },
+    {
+      "id": "migration_activities_archive",
+      "label": "Create activities_archive table",
+      "type": "migration",
+      "file_type": "code",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251213050000_create_activities_archive.sql",
+      "properties": {
+        "migration_type": "table_creation",
+        "sprint": "011",
+        "task_reference": "T100",
+        "table_name": "activities_archive",
+        "purpose": "performance_maintenance",
+        "archive_policy": "30_days",
+        "structure": "same_as_activities"
+      }
+    },
+    {
+      "id": "migration_system_announcements",
+      "label": "Add system announcement support",
+      "type": "migration",
+      "file_type": "code",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251213130000_add_system_announcements.sql",
+      "properties": {
+        "migration_type": "feature_addition",
+        "table_name": "system_announcements",
+        "features": ["admin_announcements", "broadcast_notifications"],
+        "functions": ["broadcast_system_announcement"],
+        "notification_type": "system_announcement",
+        "announcement_types": ["info", "warning", "feature"],
+        "rls_enabled": true
+      }
+    },
+    {
+      "id": "table_tracks_versioning",
+      "label": "Tracks table versioning fields",
+      "type": "database_entity",
+      "file_type": "code",
+      "confidence_score": 0.95,
+      "inferred": true,
+      "source_files": [
+        "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251202112919_add_master_version.sql",
+        "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251202112920_add_version_fields.sql"
+      ],
+      "properties": {
+        "table": "tracks",
+        "versioning_columns": ["master_version_id"],
+        "related_table": "track_versions",
+        "versioning_strategy": "master_version_reference"
+      }
+    },
+    {
+      "id": "table_track_versions",
+      "label": "Track versions table",
+      "type": "database_entity",
+      "file_type": "code",
+      "confidence_score": 0.95,
+      "inferred": true,
+      "source_files": [
+        "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251202112920_add_version_fields.sql"
+      ],
+      "properties": {
+        "table": "track_versions",
+        "versioning_fields": ["version_number", "is_master"],
+        "constraints": ["sequential_versioning", "single_master"],
+        "indexes": ["idx_unique_version_number_per_track", "idx_one_master_per_track", "idx_track_versions_master"]
+      }
+    },
+    {
+      "id": "table_playlists",
+      "label": "Playlists table",
+      "type": "database_entity",
+      "file_type": "code",
+      "confidence_score": 0.95,
+      "inferred": true,
+      "source_files": [
+        "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251202112922_create_playlists_tables.sql"
+      ],
+      "properties": {
+        "table": "playlists",
+        "columns": ["id", "user_id", "title", "description", "cover_url", "is_public", "created_at", "updated_at"],
+        "relationships": ["user_profiles", "playlist_tracks"],
+        "features": ["public_private", "covers", "timestamps"]
+      }
+    },
+    {
+      "id": "table_track_likes",
+      "label": "Track likes table",
+      "type": "database_entity",
+      "file_type": "code",
+      "confidence_score": 0.95,
+      "inferred": true,
+      "source_files": [
+        "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251212200003_create_likes.sql",
+        "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251202155000_add_public_content_support.sql"
+      ],
+      "properties": {
+        "table": "track_likes",
+        "purpose": "user_engagement",
+        "relationships": ["tracks", "users"],
+        "features": ["unique_constraint", "counter_updates"],
+        "trigger": "update_track_likes_count"
+      }
+    },
+    {
+      "id": "table_profiles_social",
+      "label": "Profiles table with social features",
+      "type": "database_entity",
+      "file_type": "code",
+      "confidence_score": 0.95,
+      "inferred": true,
+      "source_files": [
+        "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251212200000_extend_profiles_social.sql",
+        "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251209224300_telegram_stars_payments.sql"
+      ],
+      "properties": {
+        "table": "profiles",
+        "social_columns": ["display_name", "bio", "avatar_url", "banner_url", "is_verified", "is_public", "privacy_level", "social_links", "stats_followers", "stats_following", "stats_tracks", "stats_likes_received"],
+        "subscription_columns": ["active_subscription_id", "subscription_expires_at"],
+        "features": ["social_profiles", "subscription_tracking"]
+      }
+    },
+    {
+      "id": "function_deduct_credits",
+      "label": "Atomic credit deduction function",
+      "type": "database_function",
+      "file_type": "code",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251212000000_atomic_credit_deduction.sql",
+      "properties": {
+        "function_name": "deduct_generation_credits",
+        "language": "plpgsql",
+        "security": "SECURITY DEFINER",
+        "purpose": "prevent_race_conditions",
+        "locking_mechanism": "FOR UPDATE",
+        "returns": "TABLE(new_balance INTEGER, success BOOLEAN, message TEXT)",
+        "error_handling": true,
+        "transaction_logging": true
+      }
+    },
+    {
+      "id": "function_process_stars_payment",
+      "label": "Stars payment processing function",
+      "type": "database_function",
+      "file_type": "code",
+      "confidence_score": 1.0,
+      "source_file": "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251209224300_telegram_stars_payments.sql",
+      "properties": {
+        "function_name": "process_stars_payment",
+        "language": "plpgsql",
+        "security": "SECURITY DEFINER",
+        "purpose": "process_telegram_payments",
+        "parameters": ["transaction_id", "telegram_payment_charge_id", "metadata"],
+        "returns": "JSONB",
+        "product_types": ["credit_package", "subscription"],
+        "idempotency": true,
+        "error_handling": true
+      }
+    },
+    {
+      "id": "enum_notification_types",
+      "label": "Notification types enum",
+      "type": "database_enum",
+      "file_type": "code",
+      "confidence_score": 0.9,
+      "inferred": true,
+      "source_files": [
+        "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251212200005_create_notifications.sql",
+        "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251213130000_add_system_announcements.sql"
+      ],
+      "properties": {
+        "enum_name": "notification_type",
+        "values": ["new_follower", "track_liked", "track_commented", "comment_liked", "comment_reply", "mention", "track_shared", "system_announcement"],
+        "purpose": "notification_categorization",
+        "extensible": true
+      }
+    },
+    {
+      "id": "enum_activity_types",
+      "label": "Activity types enum",
+      "type": "database_enum",
+      "file_type": "code",
+      "confidence_score": 0.9,
+      "inferred": true,
+      "source_files": [
+        "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251212200004_create_activities.sql"
+      ],
+      "properties": {
+        "enum_name": "activity_type",
+        "values": ["track_created", "track_liked", "comment_posted", "user_followed", "playlist_created", "track_added_to_playlist"],
+        "purpose": "activity_feed_categorization",
+        "extensible": true
+      }
+    },
+    {
+      "id": "enum_stars_transaction_status",
+      "label": "Stars transaction status enum",
+      "type": "database_enum",
+      "file_type": "code",
+      "confidence_score": 0.9,
+      "inferred": true,
+      "source_files": [
+        "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251209224300_telegram_stars_payments.sql"
+      ],
+      "properties": {
+        "enum_name": "stars_transaction_status",
+        "values": ["pending", "processing", "completed", "failed", "cancelled", "refunded"],
+        "purpose": "payment_transaction_states",
+        "payment_flow": true
+      }
+    },
+    {
+      "id": "rls_policy_pattern",
+      "label": "Row Level Security policy pattern",
+      "type": "security_pattern",
+      "file_type": "code",
+      "confidence_score": 0.85,
+      "inferred": true,
+      "source_files": [
+        "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251212200002_create_comments.sql",
+        "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251212200003_create_likes.sql"
+      ],
+      "properties": {
+        "pattern": "user_isolation",
+        "policies": ["users_view_own", "authenticated_insert", "users_update_own", "users_delete_own"],
+        "public_access": "for_public_entities",
+        "service_role": "full_access"
+      }
+    },
+    {
+      "id": "trigger_pattern_counter",
+      "label": "Counter update trigger pattern",
+      "type": "database_pattern",
+      "file_type": "code",
+      "confidence_score": 0.85,
+      "inferred": true,
+      "source_files": [
+        "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251202155000_add_public_content_support.sql",
+        "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251203020001_create_storage_management.sql"
+      ],
+      "properties": {
+        "pattern": "counter_maintenance",
+        "purpose": "denormalized_performance",
+        "tables": ["tracks", "storage_usage"],
+        "counters": ["likes_count", "plays_count", "total_bytes"],
+        "trigger_type": "AFTER_INSERT_OR_DELETE"
+      }
+    },
+    {
+      "id": "storage_system",
+      "label": "Supabase Storage system",
+      "type": "infrastructure",
+      "file_type": "code",
+      "confidence_score": 0.9,
+      "inferred": true,
+      "source_files": [
+        "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251203020000_create_storage_buckets.sql",
+        "D:\\.MUSICVERSE\\aimusicverse\\supabase\\migrations\\20251203020001_create_storage_management.sql"
+      ],
+      "properties": {
+        "components": ["storage_buckets", "file_registry", "storage_usage"],
+        "buckets": ["tracks", "covers", "stems", "uploads", "avatars", "banners", "temp"],
+        "features": ["quota_management", "file_tracking", "lifecycle_management"],
+        "policies": ["user_isolation", "public_access", "premium_features"]
       }
     }
   ],
-  "relationships": [
+  "edges": [
     {
-      "from": "archive-2026-01-readme",
-      "to": "readme-documentation-update",
-      "type": "contains",
-      "properties": {
-        "relationship": "archived_document"
-      }
+      "from": "migration_add_master_version",
+      "to": "table_tracks_versioning",
+      "label": "implements",
+      "relationship": "implements"
     },
     {
-      "from": "readme-documentation-update",
-      "to": "repository-cleanup-summary",
-      "type": "references",
-      "properties": {
-        "relationship": "cleanup_event"
-      }
+      "from": "migration_add_version_fields",
+      "to": "table_track_versions",
+      "label": "defines",
+      "relationship": "defines"
     },
     {
-      "from": "sprint-011-completion-report",
-      "to": "readme-documentation-update",
-      "type": "follows",
-      "properties": {
-        "relationship": "post_sprint_analysis"
-      }
+      "from": "migration_playlists",
+      "to": "table_playlists",
+      "label": "creates",
+      "relationship": "creates"
     },
     {
-      "from": "sprint-028-ui-ux-optimization",
-      "to": "mobile-interface-optimization-plan",
-      "type": "implements",
-      "properties": {
-        "relationship": "mobile_optimization_implementation"
-      }
+      "from": "migration_public_content",
+      "to": "table_track_likes",
+      "label": "creates",
+      "relationship": "creates"
     },
     {
-      "from": "sprint-027-implementation",
-      "to": "sprint-028-ui-ux-optimization",
-      "type": "precedes",
-      "properties": {
-        "relationship": "sprint_sequence"
-      }
+      "from": "migration_social_profiles",
+      "to": "table_profiles_social",
+      "label": "extends",
+      "relationship": "extends"
     },
     {
-      "from": "unified-studio-analysis",
-      "to": "mobile-interface-optimization-plan",
-      "type": "informs",
-      "properties": {
-        "relationship": "studio_mobile_requirements"
-      }
+      "from": "migration_atomic_credits",
+      "to": "function_deduct_credits",
+      "label": "defines",
+      "relationship": "defines"
+    },
+    {
+      "from": "migration_telegram_stars",
+      "to": "function_process_stars_payment",
+      "label": "defines",
+      "relationship": "defines"
+    },
+    {
+      "from": "migration_telegram_stars",
+      "to": "enum_stars_transaction_status",
+      "label": "defines",
+      "relationship": "defines"
+    },
+    {
+      "from": "migration_notifications",
+      "to": "enum_notification_types",
+      "label": "defines",
+      "relationship": "defines"
+    },
+    {
+      "from": "migration_activities",
+      "to": "enum_activity_types",
+      "label": "defines",
+      "relationship": "defines"
+    },
+    {
+      "from": "table_track_likes",
+      "to": "trigger_pattern_counter",
+      "label": "uses",
+      "relationship": "uses"
+    },
+    {
+      "from": "storage_system",
+      "to": "migration_storage_buckets",
+      "label": "implemented_by",
+      "relationship": "implemented_by"
+    },
+    {
+      "from": "storage_system",
+      "to": "migration_storage_management",
+      "label": "managed_by",
+      "relationship": "managed_by"
+    },
+    {
+      "from": "function_deduct_credits",
+      "to": "rls_policy_pattern",
+      "label": "secured_by",
+      "relationship": "secured_by"
+    },
+    {
+      "from": "table_playlists",
+      "to": "rls_policy_pattern",
+      "label": "protected_by",
+      "relationship": "protected_by"
+    },
+    {
+      "from": "table_profiles_social",
+      "to": "migration_telegram_stars",
+      "label": "extended_by",
+      "relationship": "extended_by"
+    },
+    {
+      "from": "migration_system_announcements",
+      "to": "enum_notification_types",
+      "label": "extends",
+      "relationship": "extends"
+    },
+    {
+      "from": "migration_activities_archive",
+      "to": "migration_activities",
+      "label": "archives",
+      "relationship": "archives"
     }
   ]
 }
