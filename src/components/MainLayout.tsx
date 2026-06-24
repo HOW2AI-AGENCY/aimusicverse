@@ -4,6 +4,7 @@ import { BottomNavigation } from './BottomNavigation';
 import { Sidebar } from './Sidebar';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { ResizablePlayer } from './ResizablePlayer';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { usePlaybackTracking } from '@/hooks/usePlaybackTracking';
 import { SkipToContent } from './ui/skip-to-content';
 import { GuestModeBanner } from './GuestModeBanner';
