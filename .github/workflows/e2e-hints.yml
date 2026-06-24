@@ -50,8 +50,11 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps ${{ matrix.project == 'Mobile Safari' && 'webkit' || matrix.project == 'Mobile Chrome' && 'chromium' || 'chromium' }}
 
-      - name: Run hint-system E2E (with auto-retry on flake)
-        run: npx playwright test tests/e2e/hints*.spec.ts --project="${{ matrix.project }}" --retries=${{ env.PW_RETRIES }} --reporter=html,list,github
+      - name: Run hint-system E2E (auto-retry + trace on every retry)
+        # --trace=on-all-retries captures a Playwright trace for BOTH the
+        # first retry and the second retry, so flaky failures always come
+        # with full timeline + screenshots + DOM snapshots in artifacts.
+        run: npx playwright test tests/e2e/hints*.spec.ts --project="${{ matrix.project }}" --retries=${{ env.PW_RETRIES }} --trace=on-all-retries --screenshot=only-on-failure --video=retain-on-failure --reporter=html,list,github
         env:
           PLAYWRIGHT_BASE_URL: http://localhost:5173
 
