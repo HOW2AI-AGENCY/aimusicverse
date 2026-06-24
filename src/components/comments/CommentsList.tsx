@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils';
 import { FirstCommentCTA } from '@/components/comments/FirstCommentCTA';
 import { CommentSuggestions } from '@/components/comments/CommentSuggestions';
 import type { Track } from '@/types/track';
-import { CommentsSectionSkeleton } from '@/components/ui/skeletons/TrackListSkeleton';
+import { CommentsSectionSkeleton } from '@/components/ui/skeleton-components';
 
 interface CommentsListProps {
   trackId: string;
@@ -25,7 +25,7 @@ export function CommentsList({ trackId, trackTitle, track, className }: Comments
   const { data: comments = [], isLoading } = useComments(trackId);
   const addComment = useAddComment();
   const deleteComment = useDeleteComment();
-  
+
   const [replyTo, setReplyTo] = useState<{ id: string; username: string } | null>(null);
   const [reportTarget, setReportTarget] = useState<{
     commentId: string;

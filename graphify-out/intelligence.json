@@ -1,0 +1,36 @@
+{
+  "hotspots": [
+    {
+      "label": "useGenerateForm()",
+      "risk": 0.602,
+      "type": "FUNCTION"
+    },
+    {
+      "label": "usePromptDJEnhanced()",
+      "risk": 0.542,
+      "type": "FUNCTION"
+    },
+    {
+      "label": "LyricsParser",
+      "risk": 0.511,
+      "type": "CLASS"
+    },
+    {
+      "label": "GlobalAudioProvider()",
+      "risk": 0.496,
+      "type": "FUNCTION"
+    },
+    {
+      "label": "useLyricsChat()",
+      "risk": 0.479,
+      "type": "FUNCTION"
+    }
+  ],
+  "blast_radius": {
+    "error": 530,
+    "from": 450,
+    "Select": 319,
+    "map": 268,
+    "now": 229
+  }
+}

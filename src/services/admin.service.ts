@@ -77,19 +77,35 @@ export async function isCurrentUserAdmin(): Promise<boolean> {
 // ==========================================
 
 /**
+ * Get users filtered by balance criteria
+ * Single source of truth for balance-based user queries
+ */
+export async function getUsersByBalance(
+  min: number,
+  max: number,
+  options?: { excludeZero?: boolean }
+): Promise<UserWithBalance[]> {
+  const users = await adminApi.fetchUsersWithBalances({ limit: 500, orderBy: 'balance' });
+  return users.filter(u => {
+    if (options?.excludeZero && u.balance === 0) return false;
+    return u.balance >= min && u.balance <= max;
+  });
+}
+
+/**
  * Get users with low balance for potential campaigns
+ * @deprecated Use getUsersByBalance(0, threshold, { excludeZero: true }) instead
  */
 export async function getLowBalanceUsers(threshold: number = 10): Promise<UserWithBalance[]> {
-  const users = await adminApi.fetchUsersWithBalances({ limit: 500, orderBy: 'balance' });
-  return users.filter(u => u.balance > 0 && u.balance < threshold);
+  return getUsersByBalance(0, threshold, { excludeZero: true });
 }
 
 /**
  * Get users with zero balance
+ * @deprecated Use getUsersByBalance(0, 0) instead
  */
 export async function getZeroBalanceUsers(): Promise<UserWithBalance[]> {
-  const users = await adminApi.fetchUsersWithBalances({ limit: 500, orderBy: 'balance' });
-  return users.filter(u => u.balance === 0);
+  return getUsersByBalance(0, 0);
 }
 
 /**
@@ -100,12 +116,12 @@ export function calculateChurnRisk(user: UserWithBalance): 'low' | 'medium' | 'h
   if (user.balance <= 5 && user.current_streak === 0) {
     return 'high';
   }
-  
+
   // Low balance but has streak = medium risk
   if (user.balance <= 10) {
     return 'medium';
   }
-  
+
   return 'low';
 }
 
@@ -121,28 +137,28 @@ export function analyzeBotHealth(metrics: BotMetrics): {
   issues: string[];
 } {
   const issues: string[] = [];
-  
+
   if (metrics.success_rate < 95) {
     issues.push(`Low success rate: ${metrics.success_rate.toFixed(1)}%`);
   }
-  
+
   if (metrics.avg_response_time_ms > 5000) {
     issues.push(`High response time: ${metrics.avg_response_time_ms}ms`);
   }
-  
+
   if (metrics.failed_events > metrics.successful_events * 0.1) {
     issues.push('High failure rate detected');
   }
-  
+
   let status: 'healthy' | 'degraded' | 'critical' = 'healthy';
   if (issues.length > 0) status = 'degraded';
   if (issues.length > 2 || metrics.success_rate < 80) status = 'critical';
-  
+
   return { status, issues };
 }
 
 // Re-export API functions for convenience
-export { 
+export {
   checkAdminRole,
   getCurrentUserAdminStatus,
   fetchUserBalanceSummary,

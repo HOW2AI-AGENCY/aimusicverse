@@ -13,30 +13,112 @@ import { cn } from '@/lib/utils';
 /**
  * Track Card Skeleton
  * Used in: Library, Home sections, Playlists
- * 
+ *
  * @example
  * ```tsx
  * {isLoading && (
  *   <div className="grid grid-cols-2 gap-3">
  *     {Array.from({ length: 6 }).map((_, i) => (
- *       <TrackCardSkeleton key={i} />
+ *       <TrackCardSkeleton key={i} index={i} />
  *     ))}
  *   </div>
  * )}
  * ```
  */
-export function TrackCardSkeleton({ className }: { className?: string }) {
+export function TrackCardSkeleton({
+  variant = 'default',
+  className,
+  index = 0
+}: {
+  variant?: 'default' | 'compact' | 'list' | 'professional';
+  className?: string;
+  index?: number;
+}) {
+  // Stagger animation delay for smoother loading experience
+  const staggerDelay = index * 50;
+  const style = staggerDelay > 0 ? { animationDelay: `${staggerDelay}ms` } : undefined;
+
+  // Compact variant for lists
+  if (variant === 'compact') {
+    return (
+      <div
+        className={cn("flex items-center gap-3 p-2", className)}
+        style={style}
+      >
+        <Skeleton className="w-10 h-10 rounded-lg shrink-0" />
+        <div className="flex-1 min-w-0 space-y-1.5">
+          <Skeleton className="h-3.5 w-3/4" />
+          <Skeleton className="h-2.5 w-1/2" />
+        </div>
+        <Skeleton className="w-8 h-8 rounded-full shrink-0" />
+      </div>
+    );
+  }
+
+  // List variant for horizontal lists
+  if (variant === 'list') {
+    return (
+      <div
+        className={cn("flex items-center gap-3 p-3 border-b border-border/30", className)}
+        style={style}
+      >
+        <Skeleton className="w-12 h-12 rounded-lg shrink-0" />
+        <div className="flex-1 min-w-0 space-y-2">
+          <Skeleton className="h-4 w-2/3" />
+          <Skeleton className="h-3 w-1/2" />
+        </div>
+        <Skeleton className="w-8 h-8 rounded-full shrink-0" />
+      </div>
+    );
+  }
+
+  // Professional variant with enhanced styling
+  if (variant === 'professional') {
+    return (
+      <div
+        className={cn("rounded-xl border border-border/50 bg-card overflow-hidden", className)}
+        style={style}
+      >
+        {/* Cover with overlay skeleton */}
+        <div className="relative aspect-square">
+          <Skeleton className="w-full h-full" />
+          {/* Play button skeleton */}
+          <div className="absolute bottom-2 right-2">
+            <Skeleton className="w-10 h-10 rounded-full" />
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="p-3 space-y-2">
+          <Skeleton className="h-4 w-4/5" />
+          <div className="flex items-center gap-2">
+            <Skeleton className="w-6 h-6 rounded-full" />
+            <Skeleton className="h-3 w-20" />
+          </div>
+          <div className="flex items-center justify-between pt-1">
+            <div className="flex items-center gap-3">
+              <Skeleton className="h-3 w-12" />
+              <Skeleton className="h-3 w-10" />
+            </div>
+            <Skeleton className="w-8 h-8 rounded-lg" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Default card variant (grid)
   return (
-    <div className={cn("space-y-3 animate-in fade-in-50 duration-300", className)}>
+    <div className={cn("space-y-3 animate-in fade-in-50 duration-300", className)} style={style}>
       {/* Cover art */}
       <Skeleton className="aspect-square rounded-xl" />
-      
+
       {/* Title */}
       <div className="space-y-2">
         <Skeleton className="h-4 w-3/4" />
         <Skeleton className="h-3 w-1/2" />
       </div>
-      
+
       {/* Metadata */}
       <div className="flex items-center gap-2">
         <Skeleton className="h-3 w-12" />
@@ -48,23 +130,10 @@ export function TrackCardSkeleton({ className }: { className?: string }) {
 
 /**
  * Track Card Skeleton - Compact variant for lists
+ * @deprecated Use TrackCardSkeleton with variant="compact" instead
  */
-export function TrackCardSkeletonCompact({ className }: { className?: string }) {
-  return (
-    <div className={cn("flex items-center gap-3 p-3 animate-in fade-in-50 duration-300", className)}>
-      {/* Cover thumbnail */}
-      <Skeleton className="w-12 h-12 rounded-lg flex-shrink-0" />
-      
-      {/* Content */}
-      <div className="flex-1 space-y-2">
-        <Skeleton className="h-4 w-3/4" />
-        <Skeleton className="h-3 w-1/2" />
-      </div>
-      
-      {/* Action button */}
-      <Skeleton className="w-8 h-8 rounded-full flex-shrink-0" />
-    </div>
-  );
+export function TrackCardSkeletonCompact({ className, index = 0 }: { className?: string; index?: number }) {
+  return <TrackCardSkeleton variant="compact" className={className} index={index} />;
 }
 
 /**
@@ -100,16 +169,16 @@ export function PlayerSkeleton({ compact = false }: { compact?: boolean }) {
     <div className="space-y-4 p-4 animate-in fade-in-50 duration-300">
       {/* Cover art */}
       <Skeleton className="aspect-square w-full rounded-2xl" />
-      
+
       {/* Track info */}
       <div className="space-y-3 text-center">
         <Skeleton className="h-6 w-3/4 mx-auto" />
         <Skeleton className="h-4 w-1/2 mx-auto" />
       </div>
-      
+
       {/* Progress bar */}
       <Skeleton className="h-2 w-full mt-4" />
-      
+
       {/* Controls */}
       <div className="flex items-center justify-center gap-4 mt-6">
         <Skeleton className="w-10 h-10 rounded-full" />
@@ -219,8 +288,8 @@ export function HorizontalScrollSkeleton({
   return (
     <div className={cn("flex gap-3 overflow-x-auto pb-2 -mx-3 px-3", className)}>
       {Array.from({ length: count }).map((_, i) => (
-        <div 
-          key={i} 
+        <div
+          key={i}
           className="flex-shrink-0 space-y-2"
           style={{ width: itemWidth }}
         >
@@ -253,15 +322,15 @@ export function SectionSkeleton({
   return (
     <div className={cn("space-y-4 animate-in fade-in-50 duration-300", className)}>
       <SectionHeaderSkeleton />
-      
+
       {contentType === 'grid' && (
         <GridSkeleton count={gridCount} columns={gridColumns} />
       )}
-      
+
       {contentType === 'carousel' && (
         <CarouselSkeleton count={4} />
       )}
-      
+
       {contentType === 'list' && (
         <div className="space-y-2">
           {Array.from({ length: gridCount }).map((_, i) => (
@@ -333,13 +402,13 @@ export function ProfileHeaderSkeleton({ className }: { className?: string }) {
     <div className={cn("space-y-4 animate-in fade-in-50 duration-300", className)}>
       {/* Avatar */}
       <Skeleton className="w-24 h-24 rounded-full mx-auto" />
-      
+
       {/* Name and bio */}
       <div className="text-center space-y-2">
         <Skeleton className="h-6 w-32 mx-auto" />
         <Skeleton className="h-4 w-48 mx-auto" />
       </div>
-      
+
       {/* Stats */}
       <div className="flex justify-center gap-6">
         {Array.from({ length: 3 }).map((_, i) => (
@@ -368,6 +437,38 @@ export function WaveformSkeleton({ className }: { className?: string }) {
             height: `${20 + Math.sin(i * 0.2) * 30 + Math.random() * 20}%`,
           }}
         />
+      ))}
+    </div>
+  );
+}
+
+/**
+ * Comments Section Skeleton
+ * For loading comments
+ */
+export function CommentsSectionSkeleton({ count = 3, className }: { count?: number; className?: string }) {
+  return (
+    <div className={cn("space-y-3 animate-in fade-in-50 duration-300", className)}>
+      <div className="flex items-center justify-between">
+        <Skeleton className="h-5 w-24 rounded" />
+        <Skeleton className="h-8 w-20 rounded" />
+      </div>
+
+      {Array.from({ length: count }).map((_, i) => (
+        <div key={i} className="flex gap-3 p-3 rounded-lg bg-muted/30">
+          {/* Avatar */}
+          <Skeleton className="h-8 w-8 rounded-full shrink-0" />
+
+          {/* Content */}
+          <div className="flex-1 space-y-2">
+            <div className="flex items-center gap-2">
+              <Skeleton className="h-3.5 w-24 rounded" />
+              <Skeleton className="h-3 w-16 rounded" />
+            </div>
+            <Skeleton className="h-4 w-full rounded" />
+            <Skeleton className="h-4 w-3/4 rounded" />
+          </div>
+        </div>
       ))}
     </div>
   );
@@ -403,17 +504,17 @@ export function ArtistCardSkeleton({ className }: { className?: string }) {
 /**
  * Text Skeleton - Single line text placeholder
  */
-export function TextSkeleton({ 
-  width = '100%', 
+export function TextSkeleton({
+  width = '100%',
   height = '1rem',
-  className 
-}: { 
-  width?: string; 
+  className
+}: {
+  width?: string;
   height?: string;
   className?: string;
 }) {
   return (
-    <Skeleton 
+    <Skeleton
       className={cn('rounded', className)}
       style={{ width, height }}
     />
@@ -429,7 +530,7 @@ export function TextSkeleton({
  */
 export function TrackRowSkeleton({ className }: { className?: string }) {
   return (
-    <div 
+    <div
       className={cn(
         "flex items-center gap-3 h-14 rounded-lg border border-border/30 bg-card/50 px-3 animate-in fade-in-50 duration-300",
         className
@@ -558,5 +659,5 @@ export function MixerPanelSkeleton({ className }: { className?: string }) {
   );
 }
 
-// Re-export Skeleton for convenience
+// Re-export base Skeleton component
 export { Skeleton } from './skeleton';

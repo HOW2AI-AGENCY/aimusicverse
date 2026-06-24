@@ -22,7 +22,7 @@ import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { ErrorBoundaryWrapper } from "@/components/ErrorBoundaryWrapper";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { GeneratingTrackSkeleton } from "@/components/library/GeneratingTrackSkeleton";
-import { TrackCardSkeleton, TrackRowSkeleton } from "@/components/ui/skeletons/TrackListSkeleton";
+import { TrackCardSkeleton, TrackRowSkeleton } from "@/components/ui/skeleton-components";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { MobileListSkeleton, MobileGridSkeleton } from "@/components/mobile/MobileSkeletons";
 import { LibraryFilterChips } from "@/components/library/LibraryFilterChips";
@@ -49,10 +49,10 @@ export default function Library() {
   const isMobile = useIsMobile();
   const navigate = useNavigate();
   const { playTrack, pauseTrack, isPlaying } = usePlayerStore();
-  
+
   // Desktop sidebar state
   const [generateSidebarCollapsed, setGenerateSidebarCollapsed] = useState(false);
-  
+
   // Desktop: Selected track for detail panel
   const [selectedTrackId, setSelectedTrackId] = useState<string | null>(null);
 
@@ -114,8 +114,8 @@ export default function Library() {
   });
 
   // Get selected track data for detail panel
-  const selectedTrack = selectedTrackId 
-    ? filteredTracks.find(t => t.id === selectedTrackId) 
+  const selectedTrack = selectedTrackId
+    ? filteredTracks.find(t => t.id === selectedTrackId)
     : null;
 
   // Keyboard shortcuts for desktop
@@ -141,17 +141,17 @@ export default function Library() {
       // Arrow Up/Down: Navigate tracks
       if (e.code === 'ArrowDown' || e.code === 'ArrowUp') {
         e.preventDefault();
-        const currentIndex = selectedTrackId 
+        const currentIndex = selectedTrackId
           ? filteredTracks.findIndex(t => t.id === selectedTrackId)
           : -1;
-        
+
         let newIndex: number;
         if (e.code === 'ArrowDown') {
           newIndex = currentIndex < filteredTracks.length - 1 ? currentIndex + 1 : 0;
         } else {
           newIndex = currentIndex > 0 ? currentIndex - 1 : filteredTracks.length - 1;
         }
-        
+
         if (filteredTracks[newIndex]) {
           setSelectedTrackId(filteredTracks[newIndex].id);
         }
@@ -202,7 +202,7 @@ export default function Library() {
   return (
     <ErrorBoundaryWrapper>
       <SEOHead {...SEO_PRESETS.library} />
-      <div 
+      <div
         className="min-h-screen pb-20 flex"
         style={{
           paddingTop: 'max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))',
@@ -215,7 +215,7 @@ export default function Library() {
             onToggleCollapse={() => setGenerateSidebarCollapsed(!generateSidebarCollapsed)}
           />
         )}
-        
+
         {/* Main Content - with master-detail layout on desktop */}
         <div className={cn(
           "flex-1 min-w-0 flex",
@@ -229,8 +229,8 @@ export default function Library() {
             {/* Unified Header */}
             <AppHeader
               title="Библиотека"
-              subtitle={hasActiveGenerations 
-                ? `${activeGenerations.length} в работе • ${tracks?.length || 0}/${totalCount}` 
+              subtitle={hasActiveGenerations
+                ? `${activeGenerations.length} в работе • ${tracks?.length || 0}/${totalCount}`
                 : `${tracks?.length || 0}/${totalCount} треков`
               }
               icon={<LibraryIcon className="w-3.5 h-3.5 lg:w-4 lg:h-4 text-library" />}
@@ -266,7 +266,7 @@ export default function Library() {
                       size="icon"
                       onClick={() => setViewMode("grid")}
                       className={cn(
-                        "h-6 w-6 lg:h-7 lg:w-7 rounded lg:rounded-md transition-all", 
+                        "h-6 w-6 lg:h-7 lg:w-7 rounded lg:rounded-md transition-all",
                         viewMode === "grid" && "shadow-sm"
                       )}
                       aria-label="Сетка"
@@ -278,7 +278,7 @@ export default function Library() {
                       size="icon"
                       onClick={() => setViewMode("list")}
                       className={cn(
-                        "h-6 w-6 lg:h-7 lg:w-7 rounded lg:rounded-md transition-all", 
+                        "h-6 w-6 lg:h-7 lg:w-7 rounded lg:rounded-md transition-all",
                         viewMode === "list" && "shadow-sm"
                       )}
                       aria-label="Список"
@@ -328,8 +328,8 @@ export default function Library() {
                       </SelectContent>
                     </Select>
                   </div>
-                  <LibraryFilterChips 
-                    activeFilter={typeFilter} 
+                  <LibraryFilterChips
+                    activeFilter={typeFilter}
                     onFilterChange={setTypeFilter}
                     counts={filterCounts}
                   />
@@ -347,7 +347,7 @@ export default function Library() {
 
               {/* Active Tag Filter Indicator */}
               {tagFilter && (
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="flex items-center gap-2 px-4 py-2.5 mb-3 mx-4 bg-primary/10 border border-primary/20 rounded-xl"
@@ -453,7 +453,7 @@ export default function Library() {
           )}
         </div>
       </div>
-      
+
       {/* Dialogs */}
       <LibraryDialogs
         selectedTrackForDetail={selectedTrackForDetail}
@@ -462,7 +462,7 @@ export default function Library() {
         deepLinkDialogType={deepLinkDialogType}
         onCloseDeepLinkDialog={closeDeepLinkDialog}
       />
-      
+
 
       {/* Contextual hints — single canonical overlay */}
       <ContextHints context="library" delay={3000} />
