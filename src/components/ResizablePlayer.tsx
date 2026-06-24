@@ -98,22 +98,13 @@ export const ResizablePlayer = () => {
           />
         )}
         
-        {/* Fullscreen mode - render appropriate component based on device */}
+        {/* Fullscreen mode - unified entry, dispatches to mobile/desktop layout internally */}
         {playerMode === 'fullscreen' && (
-          isMobile ? (
-            <MobileFullscreenPlayer
-              key="mobile-fullscreen"
-              track={activeTrack}
-              onClose={handleMinimize}
-            />
-          ) : (
-            <DesktopFullscreenPlayer
-              key="desktop-fullscreen"
-              track={activeTrack}
-              currentVersion={currentVersion as any}
-              onClose={handleMinimize}
-            />
-          )
+          <FullscreenPlayer
+            key="fullscreen"
+            track={activeTrack}
+            onClose={handleMinimize}
+          />
         )}
       </AnimatePresence>
     </React.Suspense>
