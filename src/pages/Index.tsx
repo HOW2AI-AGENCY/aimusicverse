@@ -133,7 +133,7 @@ const Index = () => {
   const renderDesktopLayout = () => (
     <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 xl:gap-8 items-start">
       {/* Main column */}
-      <div className="xl:col-span-8 min-w-0 space-y-4 xl:space-y-6">
+      <div className="xl:col-span-8 min-w-0 overflow-hidden space-y-4 xl:space-y-6">
         {/* New Users: Hero + Progress */}
         {isNewUser && (
           <>
