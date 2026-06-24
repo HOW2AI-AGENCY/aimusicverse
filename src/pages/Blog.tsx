@@ -79,7 +79,7 @@ export default function Blog() {
               transition={{ duration: 0.5 }}
               className="relative rounded-2xl overflow-hidden mb-8"
             >
-              <img 
+              <img loading="lazy" decoding="async" 
                 src={selectedPost.cover_url} 
                 alt={selectedPost.title}
                 className="w-full h-48 sm:h-64 md:h-80 object-cover"
