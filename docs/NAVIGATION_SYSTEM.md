@@ -71,19 +71,18 @@ supabase/functions/              # Безсерверные функции
 ### Документация для разработчиков
 | Категория | Документ | Описание |
 |----------|----------|----------|
-| **Архитектура** | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Обзор системной архитектуры |
-| **Справка по API** | [`docs/API.md`](docs/API.md) | Полные спецификации API |
-| **Схема базы данных** | [`docs/DATABASE.md`](docs/DATABASE.md) | Структура базы данных и отношения |
-| **Мета-теги** | [`docs/META_TAGS.md`](docs/META_TAGS.md) | Все 174+ управляющих тегов |
-| **Стили музыки** | [`docs/STYLES.md`](docs/STYLES.md) | Полный каталог стилей |
+| **Архитектура** | [`ARCHITECTURE.md`](ARCHITECTURE.md) | Обзор системной архитектуры |
+| **Справка по API** | [`API.md`](API.md) | Полные спецификации API |
+| **Схема базы данных** | [`DATABASE.md`](DATABASE.md) | Структура базы данных и отношения |
+| **Мета-теги** | [`META_TAGS.md`](META_TAGS.md) | Все 174+ управляющих тегов |
+| **Стили музыки** | [`STYLES.md`](STYLES.md) | Полный каталог стилей |
 
 ### Документация по интеграции
 | Категория | Документ | Описание |
 |----------|----------|----------|
-| **Telegram бот** | [`docs/TELEGRAM_BOT_INTEGRATION.md`](docs/TELEGRAM_BOT_INTEGRATION.md) | Настройка бота и команды |
-| **Мини-приложение Telegram** | [`docs/TELEGRAM_MINI_APP_INTEGRATION.md`](docs/TELEGRAM_MINI_APP_INTEGRATION.md) | Конфигурация мини-приложения |
-| **Suno API** | [`docs/SUNO_API.md`](docs/SUNO_API.md) | Интеграция Suno AI |
-| **Вебхуки** | [`docs/WEBHOOKS.md`](docs/WEBHOOKS.md) | Конфигурация вебхуков |
+| **Telegram бот** | [`TELEGRAM_BOT_ARCHITECTURE.md`](TELEGRAM_BOT_ARCHITECTURE.md) | Настройка бота и команды |
+| **Мини-приложение Telegram** | [`TELEGRAM_MINI_APP_FEATURES.md`](TELEGRAM_MINI_APP_FEATURES.md) | Конфигурация мини-приложения |
+| **Suno API** | [`SUNO_API.md`](SUNO_API.md) | Интеграция Suno AI |
 
 ## 🔍 Навигация по функциям
 
@@ -283,15 +282,15 @@ npm run deploy:cloudflare
 ## 🎯 Быстрый старт к навигации
 
 ### Для новых участников
-1. Начните с [`README.md`](README.md)
-2. Ознакомьтесь с [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md)  
+1. Начните с [`README.md`](../README.md)
+2. Ознакомьтесь с [`CONTRIBUTING.md`](../CONTRIBUTING.md)  
 3. Настройте [локальную разработку](#настройка-разработки)
 4. Изучите [планирование спринта](#планирование-спринта)
 5. Проверьте [ярлыки проблем](https://github.com/yourusername/musicverse/labels)
 
 ### Для опытных разработчиков
-1. Перейдите к [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
-2. Ознакомьтесь с [спецификациями API](docs/API.md)
+1. Перейдите к [`ARCHITECTURE.md`](ARCHITECTURE.md)
+2. Ознакомьтесь с [спецификациями API](API.md)
 3. Проверьте [процесс разработки](#процесс-разработки)
 4. Присоединяйтесь к [рецензиям спринта](#рецензиям-спринта)
 

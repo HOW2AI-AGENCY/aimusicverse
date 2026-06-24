@@ -491,7 +491,6 @@ Opens app or changes context.
 
 - [Telegram Bot API Documentation](https://core.telegram.org/bots/api)
 - [Bot Commands Reference](./TELEGRAM_BOT_COMMANDS_REFERENCE.md)
-- [Inline Mode Implementation](./TELEGRAM_BOT_INLINE_MODE_IMPLEMENTATION.md)
 
 ---
 

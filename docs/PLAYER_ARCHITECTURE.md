@@ -443,5 +443,5 @@ See inline JSDoc comments in source files for detailed API documentation:
 
 - [Project README](../README.md)
 - [Contributing Guide](../CONTRIBUTING.md)
-- [Database Schema](./database-schema.md)
-- [Suno API Integration](./suno-api.md)
+- [Database Schema](./DATABASE.md)
+- [Suno API Integration](./SUNO_API.md)

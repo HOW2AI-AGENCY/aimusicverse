@@ -593,9 +593,8 @@ npm run dev
 | Категория | Документ | Описание |
 |-----------|----------|----------|
 | **📚 Навигация** | [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md) | 🗺️ **Полная карта документации** |
-| | [NAVIGATION.md](NAVIGATION.md) | Путеводитель по репозиторию |
-| **📊 Статус** | [SPRINT_STATUS.md](SPRINT_STATUS.md) | 🎯 **Текущий статус спринтов** |
-| | [RECENT_IMPROVEMENTS.md](RECENT_IMPROVEMENTS.md) | 🚀 **Недавние улучшения (Декабрь 2025)** |
+| | [docs/NAVIGATION_INDEX.md](docs/NAVIGATION_INDEX.md) | Путеводитель по репозиторию |
+| **📊 Статус** | [PROJECT_STATUS.md](PROJECT_STATUS.md) | 🎯 **Текущий статус проекта** |
 | | [CHANGELOG.md](CHANGELOG.md) | История изменений |
 | **🏗️ Архитектура** | [docs/ARCHITECTURE_DIAGRAMS.md](docs/ARCHITECTURE_DIAGRAMS.md) | Визуальные диаграммы |
 | | [docs/PROJECT_SPECIFICATION.md](docs/PROJECT_SPECIFICATION.md) | Спецификация проекта |
@@ -604,12 +603,11 @@ npm run dev
 | | [docs/TELEGRAM_BOT_ARCHITECTURE.md](docs/TELEGRAM_BOT_ARCHITECTURE.md) | Архитектура бота |
 | **🎵 Функции** | [docs/SUNO_API.md](docs/SUNO_API.md) | Интеграция Suno AI |
 | | [docs/STEM_STUDIO.md](docs/STEM_STUDIO.md) | Stem Studio функции |
-| | [docs/SECTION_REPLACEMENT.md](docs/SECTION_REPLACEMENT.md) | Замена секций |
 | | [docs/DEMO_MODE.md](docs/DEMO_MODE.md) | Гостевой режим |
-| **🎨 UX/Design** | [UX_AUDIT_MOBILE_STUDIO_DESIGN.md](UX_AUDIT_MOBILE_STUDIO_DESIGN.md) | 🆕 Профессиональный мобильный UX аудит |
+| **🎨 UX/Design** | [docs/SAFE_AREA_GUIDELINES.md](docs/SAFE_AREA_GUIDELINES.md) | Руководство по безопасным зонам |
 | **🛠️ Разработка** | [CONTRIBUTING.md](CONTRIBUTING.md) | Правила контрибуции |
-| | [DEVELOPMENT_WORKFLOW.md](DEVELOPMENT_WORKFLOW.md) | Рабочий процесс |
-| | [ONBOARDING.md](ONBOARDING.md) | Onboarding новых разработчиков |
+| | [docs/DEVELOPMENT_WORKFLOW.md](docs/DEVELOPMENT_WORKFLOW.md) | Рабочий процесс |
+| | [docs/ONBOARDING.md](docs/ONBOARDING.md) | Onboarding новых разработчиков |
 
 ---
 
@@ -686,12 +684,10 @@ src/components/
 
 #### Планы и Roadmaps
 - **[Mobile Optimization Roadmap 2026](docs/mobile/OPTIMIZATION_ROADMAP_2026.md)** - Комплексный план оптимизации (4 фазы, 16 недель)
-- **[Sprint 029: Telegram Mobile Optimization](SPRINTS/SPRINT-029-TELEGRAM-MOBILE-OPTIMIZATION.md)** - Telegram SDK интеграция, haptics, CloudStorage
-- **[Sprint 030: Unified Studio Mobile](SPRINTS/SPRINT-030-UNIFIED-STUDIO-MOBILE.md)** - Унификация студии для мобильных
+- **[Sprint 029: Telegram Mobile Optimization](SPRINTS/completed/SPRINT-029-TELEGRAM-MOBILE-OPTIMIZATION.md)** - Telegram SDK интеграция, haptics, CloudStorage
+- **[Sprint 030: Unified Studio Mobile](SPRINTS/completed/SPRINT-030-UNIFIED-STUDIO-MOBILE.md)** - Унификация студии для мобильных
 
 #### Технические руководства
-- **[Mobile UI Audit](docs/MOBILE_UI_AUDIT_2025_12.md)** - Аудит мобильного интерфейса
-- **[Mobile Optimization Summary](MOBILE_OPTIMIZATION_SUMMARY.md)** - Итоги Sprint 028
 - **[Safe Area Guidelines](docs/SAFE_AREA_GUIDELINES.md)** - Руководство по безопасным зонам
 - **[Telegram Mini App Features](docs/TELEGRAM_MINI_APP_FEATURES.md)** - Функции Telegram Mini App
 - **[Telegram Bot Architecture](docs/TELEGRAM_BOT_ARCHITECTURE.md)** - Архитектура бота
@@ -734,7 +730,7 @@ src/components/
 
 ## 🛠️ Недавние улучшения
 
-> 📄 **Полный отчёт:** [RECENT_IMPROVEMENTS.md](RECENT_IMPROVEMENTS.md) - Все улучшения декабря 2025
+> 📄 **Полный отчёт:** [CHANGELOG.md](CHANGELOG.md) - История изменений и релизов
 
 ### Январь 2026 (Roadmap V4)
 
@@ -828,6 +824,6 @@ src/components/
 
 *Last Updated: 2026-01-19 (Roadmap V4 - Popup/Notification Unification)*
 
-📋 [План улучшений интерфейса](docs/UI_IMPROVEMENT_PLAN_2026-01.md)
+🗺️ [Дорожная карта развития проекта](ROADMAP.md)
 
 </div>

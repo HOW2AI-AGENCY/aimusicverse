@@ -287,8 +287,8 @@ const isValid = await validateTelegramAuth(initData, botToken);
 
 ## 📚 Дополнительные ресурсы
 
-- [Telegram Bot Architecture](docs/TELEGRAM_BOT_ARCHITECTURE.md) - Полная спецификация
-- [Navigation Guide](NAVIGATION.md) - Навигация по проекту
+- [Telegram Bot Architecture](../TELEGRAM_BOT_ARCHITECTURE.md) - Полная спецификация
+- [Navigation Guide](../NAVIGATION_INDEX.md) - Навигация по проекту
 - [Sprint 5-6](TELEGRAM_INTEGRATION_SPRINT_5_6.md) - Текущие задачи
 - [Telegram Bot API](https://core.telegram.org/bots/api) - Официальная документация
 

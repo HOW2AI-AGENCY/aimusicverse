@@ -10,14 +10,12 @@
 
 ### Я хочу...
 
-| Задача | Куда идти |
-|--------|-----------|
-| **Начать работу с проектом** | [README.md](../README.md) → [ONBOARDING.md](../ONBOARDING.md) |
+| **Начать работу с проектом** | [README.md](../README.md) → [ONBOARDING.md](ONBOARDING.md) |
 | **Понять архитектуру** | [ARCHITECTURE_DIAGRAMS.md](./ARCHITECTURE_DIAGRAMS.md) |
 | **Изучить схему БД** | [DATABASE.md](./DATABASE.md) |
-| **Настроить окружение** | [DEVELOPMENT_WORKFLOW.md](../DEVELOPMENT_WORKFLOW.md) |
+| **Настроить окружение** | [DEVELOPMENT_WORKFLOW.md](DEVELOPMENT_WORKFLOW.md) |
 | **Внести изменения** | [CONTRIBUTING.md](../CONTRIBUTING.md) |
-| **Понять навигацию по коду** | [NAVIGATION.md](../NAVIGATION.md) |
+| **Понять навигацию по коду** | [NAVIGATION_SYSTEM.md](NAVIGATION_SYSTEM.md) |
 
 ---
 
@@ -36,7 +34,7 @@ flowchart LR
 
 **Чеклист:**
 - [ ] Создана ветка `feature/название-фичи`
-- [ ] Код соответствует стандартам (см. [constitution.md](../constitution.md))
+- [ ] Код соответствует стандартам (см. [constitution.md](../.specify/memory/constitution.md))
 - [ ] Добавлены TypeScript типы
 - [ ] Написаны тесты (coverage > 80%)
 - [ ] Обновлена документация
@@ -429,10 +427,10 @@ git push origin feature/my-feature   # Push
 ## 🔗 Связанные документы
 
 - [README.md](../README.md) - Главная страница
-- [NAVIGATION.md](../NAVIGATION.md) - Полная навигация
+- [NAVIGATION_SYSTEM.md](NAVIGATION_SYSTEM.md) - Полная навигация
 - [ARCHITECTURE_DIAGRAMS.md](./ARCHITECTURE_DIAGRAMS.md) - Визуальные схемы
 - [CONTRIBUTING.md](../CONTRIBUTING.md) - Гайд по контрибуции
-- [constitution.md](../constitution.md) - Стандарты проекта
+- [constitution.md](../.specify/memory/constitution.md) - Стандарты проекта
 
 ---
 

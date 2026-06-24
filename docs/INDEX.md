@@ -80,6 +80,7 @@ docs/
 |----------|----------|
 | [README.md](../README.md) | Главная страница проекта |
 | [PROJECT_STATUS.md](../PROJECT_STATUS.md) | Текущий статус |
+| [PROJECT_MANAGEMENT.md](PROJECT_MANAGEMENT.md) | Управление проектом |
 | [ROADMAP.md](../ROADMAP.md) | Дорожная карта |
 | [KNOWLEDGE_BASE.md](../KNOWLEDGE_BASE.md) | База знаний |
 | [ADR/](../ADR/) | Архитектурные решения |
