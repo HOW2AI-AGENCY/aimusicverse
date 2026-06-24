@@ -92,6 +92,7 @@ export function AnalyticsDashboard() {
               <SelectItem value="7 days">7 дней</SelectItem>
               <SelectItem value="30 days">30 дней</SelectItem>
               <SelectItem value="90 days">90 дней</SelectItem>
+              <SelectItem value="all">Всё время</SelectItem>
             </SelectContent>
           </Select>
         </div>
