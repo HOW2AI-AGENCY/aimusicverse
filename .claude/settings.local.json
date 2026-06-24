@@ -18,7 +18,7 @@
       "Bash(\"c:\\\\Users\\\\oat70\\\\Documents\\\\[ALBERT]MUSICVERSE\\\\FINAL\\\\vs\\\\tma\\\\aimusicverse\\\\specs\\\\001-ui-improvements\\\\plan.md\")",
       "Bash(powershell:*)",
       "Bash(findstr:*)",
-      "Read(//c/**)"
+      "Read(//c/**)",
       "Bash(npm run *)",
       "Bash(npm list *)",
       "Bash(mkdir -p .husky)",
