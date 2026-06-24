@@ -4,6 +4,7 @@ import { BottomNavigation } from './BottomNavigation';
 import { Sidebar } from './Sidebar';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { ResizablePlayer } from './ResizablePlayer';
+import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { usePlaybackTracking } from '@/hooks/usePlaybackTracking';
 import { SkipToContent } from './ui/skip-to-content';
 import { GuestModeBanner } from './GuestModeBanner';
@@ -55,6 +56,7 @@ export const MainLayout = () => {
   const [quickStartOpen, setQuickStartOpen] = useState(false);
   const [generateSheetOpen, setGenerateSheetOpen] = useState(false);
   const [welcomeBonusOpen, setWelcomeBonusOpen] = useState(false);
+  const hasActiveTrack = usePlayerStore((s) => Boolean(s.activeTrack));
   
   // Welcome bonus check
   const { shouldShowWelcomeBonus, markWelcomeBonusShown } = useWelcomeBonusCheck();
@@ -293,9 +295,13 @@ export const MainLayout = () => {
         )}
         style={{
           minHeight: 'var(--tg-viewport-stable-height, 100vh)',
-          // Mobile portrait: add bottom padding for nav + safe area
+          // Mobile portrait: pad for BottomNav (~5rem) + CompactPlayer (~4.5rem when active) + safe area.
           ...(!isDesktop && !isMobileLandscape && {
-            paddingBottom: `calc(max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)) + 5rem)`,
+            paddingBottom: `calc(max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)) + ${hasActiveTrack ? '9.5rem' : '5rem'})`,
+          }),
+          // Desktop: leave room for floating CompactPlayer when active.
+          ...(isDesktop && hasActiveTrack && {
+            paddingBottom: '6rem',
           }),
         }}
       >
