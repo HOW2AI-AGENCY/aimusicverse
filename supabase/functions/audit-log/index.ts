@@ -73,9 +73,57 @@ serve(async (req) => {
   }
 
   try {
+    // Require authentication. Service-role/admin callers may act on any entity;
+    // regular users may only read/write audit entries that belong to them.
+    const auth = await authorize(req);
+    if (!auth.ok) {
+      return new Response(JSON.stringify({ success: false, error: auth.error }), {
+        status: auth.status,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+    const isPrivileged = auth.isService || auth.isAdmin;
+    const callerId = auth.user?.id ?? null;
+
     const supabase = getSupabaseClient();
 
     const body: RequestBody = await req.json();
+
+    // Helper: confirm caller owns the entity referenced by a read request
+    const ensureEntityOwner = async (
+      entityType: string,
+      entityId: string,
+    ): Promise<Response | null> => {
+      if (isPrivileged) return null;
+      if (!callerId) {
+        return new Response(JSON.stringify({ success: false, error: 'Unauthorized' }), {
+          status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
+      const tableMap: Record<string, string> = {
+        track: 'tracks',
+        project: 'music_projects',
+        artist: 'artists',
+        lyrics: 'lyrics_versions',
+        cover: 'cover_thumbnails',
+        reference_audio: 'reference_audio',
+      };
+      const table = tableMap[entityType];
+      if (!table) {
+        return new Response(JSON.stringify({ success: false, error: 'Unknown entity type' }), {
+          status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
+      const { data, error } = await supabase
+        .from(table).select('user_id').eq('id', entityId).maybeSingle();
+      if (error || !data || data.user_id !== callerId) {
+        return new Response(JSON.stringify({ success: false, error: 'Forbidden' }), {
+          status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
+      return null;
+    };
+
 
     // Handle different actions
     if ('action' in body) {
