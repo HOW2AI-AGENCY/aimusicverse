@@ -57,6 +57,20 @@ export const MainLayout = () => {
   const [generateSheetOpen, setGenerateSheetOpen] = useState(false);
   const [welcomeBonusOpen, setWelcomeBonusOpen] = useState(false);
   const hasActiveTrack = usePlayerStore((s) => Boolean(s.activeTrack));
+
+  // Expose player + bottom-nav heights as CSS variables so any section can
+  // align without re-computing the math (Block 3 of redesign plan).
+  useEffect(() => {
+    const root = document.documentElement;
+    const navH = !isDesktop && !isMobileLandscape ? 64 : 0; // BottomNav ~64px
+    const playerH = hasActiveTrack ? (isDesktop ? 96 : 72) : 0;
+    root.style.setProperty('--nav-h', `${navH}px`);
+    root.style.setProperty('--player-h', `${playerH}px`);
+    return () => {
+      root.style.removeProperty('--nav-h');
+      root.style.removeProperty('--player-h');
+    };
+  }, [hasActiveTrack, isDesktop, isMobileLandscape]);
   
   // Welcome bonus check
   const { shouldShowWelcomeBonus, markWelcomeBonusShown } = useWelcomeBonusCheck();
