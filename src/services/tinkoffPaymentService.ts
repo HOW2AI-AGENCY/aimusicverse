@@ -192,13 +192,36 @@ export async function getUserPaymentTransactions(
 }
 
 /**
+ * Safe column list for client-side subscription reads.
+ * Excludes card_pan / card_exp_date — those are restricted to service_role
+ * (see migration: tinkoff_subscriptions_hide_card_data).
+ */
+const SAFE_SUBSCRIPTION_COLUMNS = [
+  'id',
+  'user_id',
+  'product_code',
+  'rebill_id',
+  'status',
+  'amount_cents',
+  'currency',
+  'billing_cycle_days',
+  'next_billing_date',
+  'last_payment_date',
+  'last_payment_id',
+  'failed_attempts',
+  'metadata',
+  'created_at',
+  'updated_at',
+].join(', ');
+
+/**
  * Get user's active Tinkoff subscriptions
  */
 export async function getUserTinkoffSubscriptions(): Promise<TinkoffSubscription[]> {
   try {
     const { data, error } = await supabase
       .from('tinkoff_subscriptions')
-      .select('*')
+      .select(SAFE_SUBSCRIPTION_COLUMNS)
       .order('created_at', { ascending: false });
 
     if (error) {
@@ -220,7 +243,7 @@ export async function getActiveSubscription(): Promise<TinkoffSubscription | nul
   try {
     const { data, error } = await supabase
       .from('tinkoff_subscriptions')
-      .select('*')
+      .select(SAFE_SUBSCRIPTION_COLUMNS)
       .eq('status', 'active')
       .order('created_at', { ascending: false })
       .limit(1)
@@ -237,6 +260,7 @@ export async function getActiveSubscription(): Promise<TinkoffSubscription | nul
     return null;
   }
 }
+
 
 /**
  * Cancel a Tinkoff subscription
