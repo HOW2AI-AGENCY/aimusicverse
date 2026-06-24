@@ -270,11 +270,11 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
         words = (lyricsData.alignedWords as unknown[])
           .filter(isValidAlignedWord)
           .filter(w => !isStructuralTag(w.word));
-      } else if (track.lyrics) {
+      } else if (trackLyrics) {
         // Try to parse lyrics from track if no API data
         try {
-          if (track.lyrics.trim().startsWith('{') || track.lyrics.trim().startsWith('[')) {
-            const parsed = JSON.parse(track.lyrics);
+          if (trackLyrics.trim().startsWith('{') || trackLyrics.trim().startsWith('[')) {
+            const parsed = JSON.parse(trackLyrics);
             if (parsed?.alignedWords && Array.isArray(parsed.alignedWords)) {
               words = (parsed.alignedWords as unknown[])
                 .filter(isValidAlignedWord)
@@ -284,12 +284,12 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
         } catch (jsonErr) {
           // Not JSON or invalid JSON, treat as plain text
           logger.debug('Lyrics not JSON, using as plain text', { error: jsonErr });
-          return { lyricsLines: null, plainLyrics: cleanLyrics(track.lyrics), parseError: false };
+          return { lyricsLines: null, plainLyrics: cleanLyrics(trackLyrics), parseError: false };
         }
         
         if (words.length === 0) {
           // No valid aligned words found, use plain text
-          return { lyricsLines: null, plainLyrics: cleanLyrics(track.lyrics), parseError: false };
+          return { lyricsLines: null, plainLyrics: cleanLyrics(trackLyrics), parseError: false };
         }
       }
       
@@ -340,10 +340,10 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
     } catch (err) {
       logger.error('Error parsing lyrics', err);
       // Fallback to plain text on any error
-      const fallbackText = track.lyrics ? cleanLyrics(track.lyrics) : null;
+      const fallbackText = trackLyrics ? cleanLyrics(trackLyrics) : null;
       return { lyricsLines: null, plainLyrics: fallbackText, parseError: true };
     }
-  }, [lyricsData, track.lyrics]);
+  }, [lyricsData, trackLyrics]);
 
   // Flatten words from parsed lines for synchronization hook
   const flattenedWords = useMemo(() => {
