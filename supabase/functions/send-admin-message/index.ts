@@ -46,8 +46,6 @@ serve(async (req) => {
       });
     }
 
-    const { chat_ids, title, message } = await req.json();
-
     const body = await req.json();
     const { user_ids, title, message } = body as {
       user_ids?: string[];
