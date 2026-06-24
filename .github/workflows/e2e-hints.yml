@@ -29,6 +29,56 @@ env:
   E2E_DEV_TIMEOUT: "180000"
 
 jobs:
+  smoke:
+    name: Hints smoke (chromium, no snapshot update)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      CI: "true"
+      PLAYWRIGHT_BASE_URL: http://127.0.0.1:${{ vars.E2E_DEV_PORT || '5173' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+
+      - name: Start Vite dev server
+        run: |
+          nohup npx vite --host "${E2E_DEV_HOST}" --port "${E2E_DEV_PORT}" --strictPort \
+            > vite-dev-server.log 2>&1 &
+          echo $! > vite.pid
+
+      - name: Wait for dev server
+        run: npm run e2e:wait-server
+
+      - name: Run smoke (no snapshot updates, single retry)
+        run: npx playwright test tests/e2e/hints.spec.ts --project=chromium --retries=1 --reporter=html,list,github
+
+      - name: Stop Vite dev server
+        if: always()
+        run: if [ -f vite.pid ]; then kill "$(cat vite.pid)" 2>/dev/null || true; fi
+
+      - name: Upload smoke HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-smoke
+          path: playwright-report/
+          retention-days: 14
+          if-no-files-found: ignore
+
+      - name: Upload smoke dev-server log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vite-dev-log-smoke
+          path: vite-dev-server.log
+          retention-days: 7
+          if-no-files-found: ignore
+
   e2e-hints:
     name: Hints E2E (${{ matrix.project }})
     runs-on: ubuntu-latest
