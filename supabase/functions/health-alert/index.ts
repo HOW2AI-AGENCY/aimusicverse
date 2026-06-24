@@ -33,8 +33,23 @@ serve(async (req) => {
   }
 
   try {
+    // Allow scheduled invocations carrying CRON_SECRET, otherwise require admin/service-role.
+    const cronSecret = Deno.env.get('CRON_SECRET');
+    const providedCron = req.headers.get('x-cron-secret');
+    const isCron = !!cronSecret && providedCron === cronSecret;
+    if (!isCron) {
+      const auth = await authorize(req, { requireAdmin: true });
+      if (!auth.ok) {
+        return new Response(JSON.stringify({ error: auth.error }), {
+          status: auth.status,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
+    }
+
     const payload: AlertPayload = await req.json().catch(() => ({}));
     const { test = false, force = false } = payload;
+
 
     logger.info('Health alert triggered', { test, force });
 
