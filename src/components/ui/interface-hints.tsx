@@ -1,5 +1,10 @@
 /**
  * Interface Hints - Contextual tooltips and hints throughout the app
+ *
+ * NOTE: Now routes through the unified HintRegistry so that:
+ *  - the same hint id is never displayed twice across systems;
+ *  - only one hint is visible at a time globally;
+ *  - hints don't appear over open modals/sheets/drawers.
  */
 
 import { useState, useEffect } from 'react';
@@ -8,6 +13,7 @@ import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { backdrop } from '@/lib/overlay-colors';
+import { useHintRegistry } from '@/components/hints';
 
 interface HintProps {
   id: string;
