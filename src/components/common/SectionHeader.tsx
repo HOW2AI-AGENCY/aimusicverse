@@ -102,9 +102,10 @@ export const SectionHeader = memo(function SectionHeader({
   const shouldShowMoreButton = showShowMore && (showMoreLink || onShowMore);
   const ArrowIcon = variant === 'compact' ? ChevronRight : ArrowRight;
 
-  const iconElement = customIcon || (
+  const iconElement = customIcon || (Icon ? (
     <Icon className={cn(sizes.icon, iconColor)} />
-  );
+  ) : null);
+
 
   const iconWrapper = iconAnimation === 'rotate' ? (
     <motion.div
