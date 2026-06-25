@@ -1,22 +1,15 @@
 /**
  * Keyboard Shortcuts Dialog Component
  *
- * Displays available keyboard shortcuts for Stem Studio
- * Helps users discover and learn shortcuts
+ * Displays available keyboard shortcuts for Stem Studio.
+ * Migrated to UnifiedDialog (Phase 6 - Dialog unification).
  */
 
-import { memo } from "react";
+import { memo, useState } from "react";
 import { Keyboard } from "@/lib/icons";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { UnifiedDialog } from "@/components/dialog";
 import { KeyboardShortcut, formatShortcut } from "@/hooks/studio/useStudioKeyboardShortcuts";
 
 interface KeyboardShortcutsDialogProps {
@@ -24,26 +17,34 @@ interface KeyboardShortcutsDialogProps {
 }
 
 export const KeyboardShortcutsDialog = memo(({ shortcuts }: KeyboardShortcutsDialogProps) => {
+  const [open, setOpen] = useState(false);
+
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="ghost" size="sm" className="h-9 gap-1.5" title="Горячие клавиши">
-          <Keyboard className="w-4 h-4" />
-          <span className="hidden sm:inline">Shortcuts</span>
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[500px]">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <Keyboard className="w-5 h-5" />
-            Горячие клавиши
-          </DialogTitle>
-          <DialogDescription>Используйте эти сочетания клавиш для быстрой работы в Stem Studio</DialogDescription>
-        </DialogHeader>
+    <>
+      <Button
+        variant="ghost"
+        size="sm"
+        className="h-9 gap-1.5"
+        title="Горячие клавиши"
+        aria-label="Открыть список горячих клавиш"
+        onClick={() => setOpen(true)}
+      >
+        <Keyboard className="w-4 h-4" aria-hidden="true" />
+        <span className="hidden sm:inline">Shortcuts</span>
+      </Button>
+
+      <UnifiedDialog
+        variant="modal"
+        open={open}
+        onOpenChange={setOpen}
+        title="Горячие клавиши"
+        description="Используйте эти сочетания клавиш для быстрой работы в Stem Studio"
+        size="md"
+      >
         <ScrollArea className="max-h-[400px] pr-4">
-          <div className="space-y-3">
+          <ul className="space-y-3" aria-label="Список горячих клавиш">
             {shortcuts.map((shortcut, index) => (
-              <div
+              <li
                 key={index}
                 className="flex items-center justify-between py-2 border-b border-border/50 last:border-0"
               >
@@ -51,12 +52,12 @@ export const KeyboardShortcutsDialog = memo(({ shortcuts }: KeyboardShortcutsDia
                 <kbd className="px-2.5 py-1 text-xs font-semibold rounded bg-muted border border-border">
                   {formatShortcut(shortcut)}
                 </kbd>
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
         </ScrollArea>
-      </DialogContent>
-    </Dialog>
+      </UnifiedDialog>
+    </>
   );
 });
 
