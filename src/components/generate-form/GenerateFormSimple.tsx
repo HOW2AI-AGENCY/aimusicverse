@@ -339,6 +339,7 @@ export function GenerateFormSimple({
           )}
         </div>
       </FormSection>
+      </motion.div>
     </motion.div>
   );
 }
