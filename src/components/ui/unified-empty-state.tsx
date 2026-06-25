@@ -121,64 +121,55 @@ const emptyStateConfigs: Record<Exclude<EmptyStateType, 'custom'>, EmptyStateCon
 };
 
 interface UnifiedEmptyStateProps {
-  type: EmptyStateType;
+  type?: EmptyStateType;
   // Custom overrides
-  icon?: LucideIcon;
+  icon?: LucideIcon | ReactNode;
   title?: string;
   description?: string;
   actionLabel?: string;
   onAction?: () => void;
+  /** Alternative action object API (shim-friendly) */
+  action?: { label: string; onClick: () => void; icon?: LucideIcon };
+  secondaryAction?: { label: string; onClick: () => void };
   // Styling
   className?: string;
   compact?: boolean;
+  /** Size alias: 'sm' → compact, 'md' | 'lg' → default. */
+  size?: 'sm' | 'md' | 'lg';
   // Custom content
   children?: ReactNode;
 }
 
+function isLucideIcon(value: unknown): value is LucideIcon {
+  return typeof value === 'function';
+}
+
 export function UnifiedEmptyState({
-  type,
+  type = 'custom',
   icon: customIcon,
   title: customTitle,
   description: customDescription,
   actionLabel: customActionLabel,
   onAction,
+  action,
+  secondaryAction,
   className,
-  compact = false,
+  compact: compactProp,
+  size,
   children,
 }: UnifiedEmptyStateProps) {
   const config = type !== 'custom' ? emptyStateConfigs[type] : null;
-  
-  const Icon = customIcon || config?.icon || Sparkles;
+
+  const compact = compactProp ?? size === 'sm';
+
+  const iconCandidate = customIcon ?? config?.icon ?? Sparkles;
+  const Icon = isLucideIcon(iconCandidate) ? iconCandidate : null;
+  const iconNode = !Icon ? (iconCandidate as ReactNode) : null;
   const title = customTitle || config?.title || 'Пусто';
   const description = customDescription || config?.description || '';
-  const actionLabel = customActionLabel || config?.actionLabel;
+  const actionLabel = customActionLabel || action?.label || config?.actionLabel;
+  const handleAction = onAction || action?.onClick;
 
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-      className={cn(
-        "flex flex-col items-center justify-center text-center",
-        compact ? "py-8 px-4" : "py-16 px-6",
-        className
-      )}
-    >
-      {/* Icon with animated background - theme-aware */}
-      <motion.div
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ delay: 0.1, type: "spring", stiffness: 200, damping: 15 }}
-        className={cn(
-          "relative rounded-full flex items-center justify-center",
-          "bg-muted/60 dark:bg-muted/40",
-          compact ? "w-12 h-12 mb-3" : "w-16 h-16 mb-4"
-        )}
-      >
-        <Icon className={cn(
-          "text-muted-foreground",
-          compact ? "w-6 h-6" : "w-8 h-8"
-        )} />
         
         {/* Subtle pulse effect - reduced motion respects */}
         <motion.div
