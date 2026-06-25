@@ -35,8 +35,10 @@ export function LikeButton({
         toggleLike();
       }}
       disabled={isLoading}
+      aria-label={isLiked ? "Убрать лайк" : "Поставить лайк"}
+      aria-pressed={isLiked}
     >
-      <Heart className={cn(iconSize, "transition-all", isLiked && "fill-current")} />
+      <Heart className={cn(iconSize, "transition-all", isLiked && "fill-current")} aria-hidden="true" />
       {showCount && <span className="text-sm font-medium">{likesCount + (isLiked ? 1 : 0)}</span>}
     </Button>
   );

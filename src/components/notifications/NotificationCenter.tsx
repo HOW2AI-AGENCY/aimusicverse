@@ -160,14 +160,20 @@ export function NotificationCenter() {
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button variant="ghost" size="icon" className="relative">
-          <Bell className="w-5 h-5" />
+        <Button
+          variant="ghost"
+          size="icon"
+          className="relative"
+          aria-label={unreadCount > 0 ? `Уведомления, ${unreadCount} непрочитанных` : "Уведомления"}
+        >
+          <Bell className="w-5 h-5" aria-hidden="true" />
           <AnimatePresence>
             {unreadCount > 0 && (
               <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}>
                 <Badge
                   variant="destructive"
                   className="absolute -top-1 -right-1 h-5 min-w-5 flex items-center justify-center p-0 text-xs"
+                  aria-hidden="true"
                 >
                   {unreadCount > 9 ? "9+" : unreadCount}
                 </Badge>

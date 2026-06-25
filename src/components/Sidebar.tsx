@@ -319,8 +319,19 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
             {!isCollapsed && <NotificationCenter />}
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" onClick={toggleCollapsed} className="h-8 w-8">
-                  {isCollapsed ? <PanelLeft className="w-4 h-4" /> : <PanelLeftClose className="w-4 h-4" />}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={toggleCollapsed}
+                  className="h-8 w-8"
+                  aria-label={isCollapsed ? "Развернуть боковую панель" : "Свернуть боковую панель"}
+                  aria-expanded={!isCollapsed}
+                >
+                  {isCollapsed ? (
+                    <PanelLeft className="w-4 h-4" aria-hidden="true" />
+                  ) : (
+                    <PanelLeftClose className="w-4 h-4" aria-hidden="true" />
+                  )}
                 </Button>
               </TooltipTrigger>
               <TooltipContent side={isCollapsed ? "right" : "bottom"}>
