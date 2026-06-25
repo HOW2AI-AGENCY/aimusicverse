@@ -52,12 +52,32 @@ const Toaster = ({ ...props }: ToasterProps) => {
         zIndex: Z_INDEX.system, // 300 - above sheets/dialogs but below context menus
       }}
       toastOptions={{
+        unstyled: false,
         classNames: {
-          toast:
-            "group toast group-[.toaster]:bg-background group-[.toaster]:text-foreground group-[.toaster]:border-border group-[.toaster]:shadow-lg group-[.toaster]:min-w-[200px] group-[.toaster]:p-3 sm:group-[.toaster]:p-4",
-          description: "group-[.toast]:text-muted-foreground group-[.toast]:text-sm",
-          actionButton: "group-[.toast]:bg-primary group-[.toast]:text-primary-foreground group-[.toast]:px-3 group-[.toast]:py-2",
-          cancelButton: "group-[.toast]:bg-muted group-[.toast]:text-muted-foreground group-[.toast]:px-3 group-[.toast]:py-2",
+          toast: cn(
+            "group toast",
+            "group-[.toaster]:rounded-2xl group-[.toaster]:border group-[.toaster]:border-border/60",
+            "group-[.toaster]:bg-popover/95 group-[.toaster]:text-popover-foreground",
+            "group-[.toaster]:backdrop-blur-xl group-[.toaster]:backdrop-saturate-150",
+            "group-[.toaster]:shadow-[0_10px_30px_-12px_hsl(240_60%_2%/0.55),0_0_0_1px_hsl(var(--primary)/0.08)_inset]",
+            "group-[.toaster]:min-h-[52px] group-[.toaster]:min-w-[260px] group-[.toaster]:max-w-full",
+            "group-[.toaster]:px-3.5 group-[.toaster]:py-3 sm:group-[.toaster]:px-4",
+            "group-[.toaster]:gap-2.5",
+            "group-[.toaster]:text-[13.5px] group-[.toaster]:font-medium group-[.toaster]:leading-tight",
+          ),
+          title: "group-[.toast]:font-semibold group-[.toast]:tracking-tight",
+          description: "group-[.toast]:text-muted-foreground group-[.toast]:text-[12.5px] group-[.toast]:leading-snug group-[.toast]:mt-0.5",
+          actionButton:
+            "group-[.toast]:bg-primary group-[.toast]:text-primary-foreground group-[.toast]:rounded-lg group-[.toast]:h-8 group-[.toast]:px-3 group-[.toast]:text-xs group-[.toast]:font-semibold",
+          cancelButton:
+            "group-[.toast]:bg-muted/60 group-[.toast]:text-muted-foreground group-[.toast]:rounded-lg group-[.toast]:h-8 group-[.toast]:px-3 group-[.toast]:text-xs group-[.toast]:font-medium",
+          closeButton:
+            "group-[.toast]:bg-background/80 group-[.toast]:border group-[.toast]:border-border/60 group-[.toast]:text-muted-foreground hover:group-[.toast]:text-foreground",
+          icon: "group-[.toast]:shrink-0",
+          success: "group-[.toaster]:!border-emerald-500/30",
+          error: "group-[.toaster]:!border-destructive/40",
+          warning: "group-[.toaster]:!border-amber-500/30",
+          info: "group-[.toaster]:!border-primary/30",
         },
       }}
       {...props}
