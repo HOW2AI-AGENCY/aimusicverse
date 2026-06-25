@@ -169,8 +169,9 @@ export function BotMenuPreview({ items }: BotMenuPreviewProps) {
               {/* Caption */}
               <div 
                 className="bg-[#2a2a4a] px-3 py-2 text-sm text-white"
-                dangerouslySetInnerHTML={{ __html: renderCaption(getCaption()) }}
+                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(renderCaption(getCaption()), { ALLOWED_TAGS: ['strong','em','br','b','i','u','s','code'], ALLOWED_ATTR: [] }) }}
               />
+
               
               {/* Buttons */}
               <div className="bg-[#2a2a4a] rounded-b-xl overflow-hidden">
