@@ -806,20 +806,24 @@ serve(async (req) => {
           console.log(`[klangio] Generated MIDI blob size: ${midiBlob.size} bytes from ${notes.length} notes`);
           
           const fileName = `${user_id || 'anonymous'}/klangio/${jobId}_midi_generated.mid`;
-          
+
           const { error: uploadError } = await supabase.storage
-            .from("project-assets")
+            .from("project-assets-private")
             .upload(fileName, midiBlob, {
               contentType: 'audio/midi',
               upsert: true,
             });
-          
+
           if (!uploadError) {
-            const { data: { publicUrl } } = supabase.storage
-              .from("project-assets")
-              .getPublicUrl(fileName);
-            files['midi'] = publicUrl;
-            console.log(`[klangio] ✅ Generated MIDI uploaded: ${publicUrl} (${midiBlob.size} bytes)`);
+            const { data: signed, error: signError } = await supabase.storage
+              .from("project-assets-private")
+              .createSignedUrl(fileName, 60 * 60 * 24 * 365);
+            if (signed?.signedUrl) {
+              files['midi'] = signed.signedUrl;
+              console.log(`[klangio] ✅ Generated MIDI uploaded and signed (${midiBlob.size} bytes)`);
+            } else {
+              console.error(`[klangio] ❌ Failed to sign generated MIDI URL:`, signError);
+            }
           } else {
             console.error(`[klangio] ❌ Failed to upload generated MIDI:`, uploadError);
           }
