@@ -34,13 +34,16 @@ interface SectionHeaderProps {
   onShowMore?: () => void;
   /** Whether to show the "See All" button */
   showShowMore?: boolean;
-  /** Badge to display next to title */
-  badge?: {
-    label: string | number;
-    icon?: LucideIcon;
-    variant?: "default" | "secondary" | "outline";
-    className?: string;
-  };
+  /** Badge to display next to title. Either an object descriptor or any ReactNode. */
+  badge?:
+    | {
+        label: string | number;
+        icon?: LucideIcon;
+        variant?: "default" | "secondary" | "outline";
+        className?: string;
+      }
+    | ReactNode;
+
   /** Custom right slot content */
   rightSlot?: ReactNode;
   /** Size variant */
