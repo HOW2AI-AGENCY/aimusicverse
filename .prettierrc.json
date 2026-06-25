@@ -4,11 +4,6 @@
   "singleQuote": false,
   "printWidth": 120,
   "tabWidth": 2,
-  "markdown": {
-    "printWidth": 120,
-    "proseWrap": "preserve",
-    "enableExperimentalTrickyMarkdown": true
-  },
   "overrides": [
     {
       "files": "*.md",
