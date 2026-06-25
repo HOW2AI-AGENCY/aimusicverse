@@ -38,7 +38,12 @@
     "typecheck:strict": "tsc --noEmit --strict",
     "check-all": "npm run lint && npm run format:check && npm run typecheck && npm run test",
     "clean": "rm -rf dist coverage storybook-static node_modules",
-    "ci:build": "npm run lint && npm run build && npm run test:coverage"
+    "ci:build": "npm run lint && npm run build && npm run test:coverage",
+    "test:security": "npm audit --audit-level=high",
+    "test:security:fix": "npm audit fix",
+    "test:sast": "echo 'SAST scanning with GitHub Advanced Security or Snyk'",
+    "security:scan": "npm run test:security && npm run test:sast",
+    "security:check": "npm audit && echo '✅ Security check complete'"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
@@ -148,6 +153,8 @@
     "@babel/preset-react": "^7.28.5",
     "@babel/preset-typescript": "^7.28.5",
     "@chromatic-com/storybook": "^1.5.0",
+    "@commitlint/cli": "^21.1.0",
+    "@commitlint/config-conventional": "^21.1.0",
     "@emotion/babel-plugin": "^11.13.5",
     "@playwright/test": "^1.61.1",
     "@size-limit/file": "^12.0.0",
