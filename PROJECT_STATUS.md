@@ -74,6 +74,12 @@
 - [x] Удалено 5 подтверждённых дубликатов (~1,350 строк)
 - [x] Очищены index.ts реэкспорты
 
+### Sprint 9B: Deprecated Compat Layers ✅ COMPLETE (2026-06-25)
+- [x] Удалён lyrics.service.ts (1,079 строк) — deprecated re-export layer ([PR #285](https://github.com/HOW2AI-AGENCY/aimusicverse/pull/285))
+- [x] Удалён analytics.service.ts (16 строк) — deprecated re-export layer
+- [x] Обновлён импорт LyricsPanel.tsx на модульный путь
+- [x] Аудит 24 файлов с @deprecated маркерами
+
 ---
 
 ## 📊 Ключевые метрики
@@ -129,8 +135,8 @@
 
 | Метрика | Значение |
 |---------|----------|
-| Файлов .ts/.tsx | 1,783 |
-| Строк кода | ~380,000 |
+| Файлов .ts/.tsx | 1,781 |
+| Строк кода | ~379,000 |
 | React Components | 935+ |
 | Custom Hooks | 340+ |
 | Pages | 57+ |

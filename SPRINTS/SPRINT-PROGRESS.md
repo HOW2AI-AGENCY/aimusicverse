@@ -11,7 +11,8 @@
 | Q1 2026 Plan | 🔄 АКТИВЕН | Phase 1-4 Complete, Sprints A-E Complete |
 | Phase 8: Dead Code Removal | ✅ ЗАВЕРШЁН | 196 файлов, 45K строк |
 | Sprint 9A: Deduplication | ✅ ЗАВЕРШЁН | 5 дубликатов, 1.35K строк |
-| Sprint 9B-E: Refactor | 📋 ЗАПЛАНИРОВАН | 0% |
+| Sprint 9B: Deprecated Compat Layers | ✅ ЗАВЕРШЁН | 1,095 строк удалено |
+| Sprint 9C-E: Refactor | 📋 ЗАПЛАНИРОВАН | 0% |
 
 ---
 
@@ -124,7 +125,7 @@ All sprints 001-032 are completed and archived in `SPRINTS/completed/`.
 |---------|---------|------|
 | Users | 574+ | 1,000+ |
 | Tracks | 1,800+ | 5,000+ |
-| Files .ts/.tsx | 1,783 | — |
+| Files .ts/.tsx | 1,781 | — |
 | Components | 935+ | — |
 | Hooks | 340+ | — |
 | Pages | 57+ | — |
