@@ -34,15 +34,19 @@ interface SectionHeaderProps {
   onShowMore?: () => void;
   /** Whether to show the "See All" button */
   showShowMore?: boolean;
-  /** Badge to display next to title */
-  badge?: {
-    label: string | number;
-    icon?: LucideIcon;
-    variant?: 'default' | 'secondary' | 'outline';
-    className?: string;
-  };
+  /** Badge to display next to title. Either an object spec or a pre-built ReactNode. */
+  badge?:
+    | ReactNode
+    | {
+        label: string | number;
+        icon?: LucideIcon;
+        variant?: 'default' | 'secondary' | 'outline';
+        className?: string;
+      };
   /** Custom right slot content */
   rightSlot?: ReactNode;
+  /** Alias for `rightSlot` (legacy `ui/Heading` SectionHeader API). */
+  action?: ReactNode;
   /** Size variant */
   variant?: 'default' | 'compact' | 'large';
   /** Animation variant for icon */
@@ -52,6 +56,13 @@ interface SectionHeaderProps {
   /** Additional className */
   className?: string;
 }
+
+function isBadgeSpec(
+  b: SectionHeaderProps['badge']
+): b is { label: string | number; icon?: LucideIcon; variant?: 'default' | 'secondary' | 'outline'; className?: string } {
+  return !!b && typeof b === 'object' && 'label' in (b as object);
+}
+
 
 const ICON_SIZES = {
   default: { container: 'w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl', icon: 'w-4 h-4 sm:w-5 sm:h-5' },
