@@ -170,7 +170,7 @@ export function QuickCompare({
     Promise.all(loadPromises)
       .then(async () => {
         setIsLoading(false);
-        console.log('[QuickCompare] All audio loaded successfully, starting autoplay');
+        logger.info('[QuickCompare] All audio loaded successfully, starting autoplay');
         
         // Autoplay variant A after loading
         const audio = variantARef.current;

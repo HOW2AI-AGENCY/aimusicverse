@@ -1,74 +1,40 @@
-# План дальнейшей работы над MusicVerse AI
+# Следующий батч (продолжение плана)
 
-Опираясь на завершённые Этапы 1–2 (motion tree-shaking, lazy images, audio cleanup, ESLint guard, SEO на 6 страницах, фикс динамических импортов), ниже — структурированный план следующих итераций.
+Этап 3 пп.1–2 завершены (console→logger в 6 файлах, skeleton-экспорты починены, типы зелёные). Дальше — компактные подшаги, каждый автономен.
 
-## Этап 3 — Стабильность и качество кода (приоритет: высокий)
+## Батч A — Этап 3 п.3: ESLint guards (быстро)
 
-1. **Полная миграция `console.*` → `logger`** (~33 файла)
-   - Группы: `src/lib/*`, `src/services/*`, `src/components/admin/*`, `src/hooks/*`
-   - Сохранение сигнатур: `console.error(msg, err)` → `logger.error(msg, err, ctx?)`
-   - Отдельный проход по edge-функциям (`supabase/functions/*`) пропускаем — там свой logger
-2. **Фикс существующих ошибок типизации**
-   - `TrackCardSkeleton`, `TrackListSkeleton` — устранить TS-ошибки (обнаружены ранее)
-   - Запустить `tsgo` глобально, собрать список и закрыть пакетами по 5–10 файлов
-3. **ESLint расширение**
-   - Запретить прямой `from "lucide-react"` (заставлять `@/lib/icons`)
-   - Запретить `console.*` (warn-уровень) кроме `src/lib/logger.ts`
+1. `eslint.config.js` — добавить правила:
+   - `no-restricted-imports` для `lucide-react` → требовать `@/lib/icons`
+     - Исключение: сам `src/lib/icons.ts`
+   - `no-console` (warn) с `allow: ['warn','error']` отключить — оставить полный запрет
+     - Исключения: `src/lib/logger.ts`, `src/lib/sentry.ts`, `src/lib/debug/**`, `supabase/functions/**`
+   - `no-restricted-syntax` против `supabase.from(` в `src/components/**` и `src/pages/**` (warn-уровень — фиксим постепенно)
 
-## Этап 4 — Производительность (приоритет: высокий)
+## Батч B — Этап 4 п.5: Audio Element Pool полная миграция
 
-4. **Bundle audit**
-   - Запустить `npm run size:why`, выявить топ-5 чанков-перевесов
-   - Кандидаты на разделение: `feature-studio` (UnifiedStudioStore 38KB), `vendor-tone`, `vendor-wavesurfer`
-   - Lazy-load Tone.js/Wavesurfer только в Studio-маршрутах
-5. **Audio Element Pool — полная миграция**
-   - Перевести оставшиеся `new Audio()` в `ABCompareOverlay`, `QuickCompare`, `SectionVariantOverlay` на `audioElementPool.acquire/release`
-   - Критично для iOS Safari (>10 элементов = краш)
-6. **Image optimization pipeline**
-   - Подключить `vite-imagetools` для AVIF/WebP вариантов hero/cover изображений
-   - Preload LCP-изображения на `Index`, `Pricing`, `AlbumView`
+2. Перевести `ABCompareOverlay.tsx`, `QuickCompare.tsx`, `SectionVariantOverlay.tsx` (если есть) с `new Audio()` на `audioElementPool.acquire()/release()`:
+   - При unmount — обязательный `release()`
+   - Проверить, что `usePlayerStore` не конфликтует (превью-плееры изолированы)
+3. Аудит: `rg "new Audio\("` по `src/components` — список оставшихся точек и краткий отчёт.
 
-## Этап 5 — UX и мобильный опыт (приоритет: средний)
+## Батч C — Этап 5 п.9: SEOHead на динамические страницы
 
-7. **Telegram Mini App полировка**
-   - Аудит safe-area на всех страницах (особенно модалки/sheets)
-   - Унификация `BackButton` через `useTelegramBackButton` (см. mem://infrastructure/telegram/back-button-navigation)
-   - `MainButton` для ключевых CTA (генерация, публикация)
-8. **Haptic feedback**
-   - Применить стандарт `impact()` ко всем интерактивам по ТЗ из mem://ux/standardized-haptic-feedback
-9. **SEOHead — расширение покрытия**
-   - Добавить на остальные 30 публичных страниц (динамические: ProjectDetail, TrackDetail)
-   - JSON-LD `MusicRecording`, `MusicAlbum`, `Person` для богатых сниппетов
+4. Добавить `SEOHead` с динамическим title/description/canonical + JSON-LD:
+   - `ProjectDetail.tsx` → `MusicAlbum` schema
+   - `TrackDetailPage` (если есть отдельная route) → `MusicRecording` schema
+   - `PlaylistDetail` (если есть) → `MusicPlaylist`
+5. Проверить, что `canonical` и `og:url` указывают на текущий маршрут (не на homepage).
 
-## Этап 6 — Архитектурный рефакторинг (приоритет: средний)
+## Что НЕ трогаем в этом батче
 
-10. **Разделение крупных файлов**
-    - `useUnifiedStudioStore` (38KB) → доменные slices: playback, sections, stems, history
-    - `GlobalAudioProvider` (625 строк) → выделить хуки: `useAudioElement`, `useMediaSession`, `usePlaybackQueue`
-11. **API/Service layer консистентность**
-    - Аудит: все компоненты обращаются к Supabase ТОЛЬКО через `src/api/*` или `src/services/*`
-    - Запрет прямого `supabase.from()` в компонентах через ESLint-правило
-
-## Этап 7 — Тесты и CI (приоритет: ниже)
-
-12. **Unit-coverage критичных модулей**
-    - `audioElementPool`, `logger`, `secure_credit_update`, `useVersionSwitcher` — цель 80%
-13. **E2E Playwright smoke**
-    - Сценарии: генерация → A/B → публикация; стем-сепарация; шаринг в Telegram
-14. **Bundle-size gate в CI** (если ещё нет) — fail > 950 KB
+- Bundle audit (`size:why`) — выполняется командой пользователя, отдельным шагом после батча B
+- Разделение `useUnifiedStudioStore` и `GlobalAudioProvider` — крупный рефакторинг, отдельная сессия
+- Telegram polish (BackButton/MainButton/haptics) — большой объём, после батчей A–C
 
 ## Технические заметки
 
-- Все изменения — инкрементальными PR (3–5 файлов за раз), без переноса бизнес-логики
-- Перед каждым этапом — `tsgo` и `npm run size`
-- Логирование изменений — в `.lovable/plan.md` для трассируемости
+- После каждого батча — `tsgo --noEmit` для проверки
+- ESLint правила добавляем как `warn`, не `error` — чтобы не сломать сборку при наличии текущих нарушений; постепенно поднимем до `error`
 
-## Что НЕ делаем сейчас
-
-- Большой UI-редизайн (нет запроса от пользователя)
-- Миграция на React Server Components / Next.js (стек зафиксирован)
-- Замена Zustand на Redux/Jotai (текущий стек стабилен)
-
----
-
-**Вопрос перед стартом:** с какого этапа начинаем? Рекомендую **Этап 3 (п.1 — console→logger по группам) + п.4 (bundle audit)** параллельно, так как они независимы и дают быстрый измеримый эффект.
+**Стартуем с батча A → B → C по порядку?**

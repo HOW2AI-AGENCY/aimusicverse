@@ -7,7 +7,7 @@
  * - Visual difference highlighting
  */
 
-import { memo, useState, useRef, useEffect, useCallback, useMemo } from 'react';
+import { memo, useId, useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
@@ -19,6 +19,7 @@ import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Badge } from '@/components/ui/badge';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
+import { audioElementPool, AudioPriority } from '@/lib/audioElementPool';
 
 type VersionType = 'original' | 'new';
 
@@ -54,6 +55,9 @@ export const ABCompareOverlay = memo(function ABCompareOverlay({
   const [splitPosition, setSplitPosition] = useState(50); // Split view position
   const [viewMode, setViewMode] = useState<'toggle' | 'split'>('toggle');
   const haptic = useHapticFeedback();
+  const instanceId = useId();
+  const originalPoolId = `ab-compare-original-${instanceId}`;
+  const newPoolId = `ab-compare-new-${instanceId}`;
 
   const originalRef = useRef<HTMLAudioElement | null>(null);
   const newRef = useRef<HTMLAudioElement | null>(null);
@@ -91,28 +95,39 @@ export const ABCompareOverlay = memo(function ABCompareOverlay({
       newRef.current.pause();
       newRef.current.src = '';
     }
-    
-    originalRef.current = new Audio(originalAudioUrl);
-    newRef.current = new Audio(currentNewUrl);
+
+    const originalEl = audioElementPool.acquire(originalPoolId, AudioPriority.HIGH);
+    const newEl = audioElementPool.acquire(newPoolId, AudioPriority.HIGH);
+
+    if (originalEl) {
+      originalEl.src = originalAudioUrl;
+      originalEl.load();
+    }
+    if (newEl) {
+      newEl.src = currentNewUrl;
+      newEl.load();
+    }
+    originalRef.current = originalEl;
+    newRef.current = newEl;
 
     const effectiveVolume = isMuted ? 0 : volume;
-    originalRef.current.volume = effectiveVolume;
-    newRef.current.volume = effectiveVolume;
+    if (originalRef.current) originalRef.current.volume = effectiveVolume;
+    if (newRef.current) newRef.current.volume = effectiveVolume;
 
     return () => {
       if (originalRef.current) {
         originalRef.current.pause();
-        originalRef.current.src = '';
-        originalRef.current = null;
       }
       if (newRef.current) {
         newRef.current.pause();
-        newRef.current.src = '';
-        newRef.current = null;
       }
+      audioElementPool.release(originalPoolId);
+      audioElementPool.release(newPoolId);
+      originalRef.current = null;
+      newRef.current = null;
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
     };
-  }, [originalAudioUrl, currentNewUrl]); // Only recreate on URL change
+  }, [originalAudioUrl, currentNewUrl, originalPoolId, newPoolId]); // Only recreate on URL change
 
   // Update volume
   useEffect(() => {
@@ -186,10 +201,11 @@ export const ABCompareOverlay = memo(function ABCompareOverlay({
     setSelectedVariant(newVariant);
     onSwitchVariant?.(newVariant);
     
-    // Reload new audio
+    // Reload new audio (reuse pooled element)
     if (newRef.current) {
       newRef.current.pause();
-      newRef.current = new Audio(newVariant === 'B' && variantBUrl ? variantBUrl : newAudioUrl);
+      newRef.current.src = newVariant === 'B' && variantBUrl ? variantBUrl : newAudioUrl;
+      newRef.current.load();
       newRef.current.volume = isMuted ? 0 : volume;
     }
     setCurrentTime(0);

@@ -24,6 +24,7 @@ import { cn } from '@/lib/utils';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { useTelegramMainButton } from '@/hooks/telegram/useTelegramMainButton';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
+import { SEOHead } from '@/components/SEOHead';
 import { 
   useProjectDetailData, 
   useProjectDetailDialogs, 
@@ -135,6 +136,12 @@ export default function ProjectDetail() {
     );
   }
 
+  const projectUrl = `https://aimusicverse.lovable.app/projects/${project.id}`;
+  const projectTitle = project.title || 'Музыкальный проект';
+  const projectDescription =
+    project.concept ||
+    `Музыкальный проект «${projectTitle}» — ${totalTracks} ${totalTracks === 1 ? 'трек' : 'треков'} на MusicVerse AI.`;
+
   return (
     <div 
       className="pb-24"
@@ -143,6 +150,24 @@ export default function ProjectDetail() {
         paddingBottom: 'calc(max(var(--tg-content-safe-area-inset-bottom, 60px), var(--tg-safe-area-inset-bottom, 34px)) + 4rem)'
       }}
     >
+      <SEOHead
+        title={projectTitle}
+        description={projectDescription}
+        canonical={projectUrl}
+        ogType="music.album"
+        ogImage={project.cover_url || undefined}
+        noIndex={!isPublished}
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'MusicAlbum',
+          name: projectTitle,
+          description: projectDescription,
+          url: projectUrl,
+          image: project.cover_url || undefined,
+          numTracks: totalTracks,
+          genre: project.genre || undefined,
+        }}
+      />
       {/* Hero Section */}
       <ProjectHeroSection
         project={project}

@@ -5,7 +5,7 @@
  * Allows quick selection and preview without opening a modal.
  */
 
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback, useId } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { Play, Pause, Check, X, RotateCcw, Loader2, Volume2, SkipBack } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -14,6 +14,7 @@ import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { formatTime } from '@/lib/player-utils';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
+import { audioElementPool, AudioPriority } from '@/lib/audioElementPool';
 
 interface SectionVariantOverlayProps {
   open: boolean;
@@ -66,6 +67,8 @@ export function SectionVariantOverlay({
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const animationRef = useRef<number | undefined>(undefined);
   const haptic = useHapticFeedback();
+  const instanceId = useId();
+  const poolId = `section-variant-${instanceId}`;
 
   const sectionDuration = sectionEnd - sectionStart;
   const availableVariants = variants.filter(v => 
@@ -88,17 +91,20 @@ export function SectionVariantOverlay({
   useEffect(() => {
     if (!open) return;
 
-    const audio = new Audio(getCurrentUrl(activeVariant));
+    const audio = audioElementPool.acquire(poolId, AudioPriority.HIGH);
+    if (!audio) return;
+    audio.src = getCurrentUrl(activeVariant);
+    audio.load();
     audio.currentTime = sectionStart;
     audio.volume = volume;
     audioRef.current = audio;
 
     const updateTime = () => {
       if (!audioRef.current) return;
-      
+
       const time = audioRef.current.currentTime - sectionStart;
       setCurrentTime(Math.max(0, Math.min(time, sectionDuration)));
-      
+
       // Stop at section end
       if (audioRef.current.currentTime >= sectionEnd) {
         audioRef.current.pause();
@@ -112,24 +118,28 @@ export function SectionVariantOverlay({
       }
     };
 
-    audio.addEventListener('play', () => {
+    const onPlay = () => {
       animationRef.current = requestAnimationFrame(updateTime);
-    });
-
-    audio.addEventListener('pause', () => {
+    };
+    const onPause = () => {
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
-    });
+    };
+    audio.addEventListener('play', onPlay);
+    audio.addEventListener('pause', onPause);
 
     return () => {
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
+      audio.removeEventListener('play', onPlay);
+      audio.removeEventListener('pause', onPause);
       audio.pause();
-      audio.src = '';
+      audioElementPool.release(poolId);
+      audioRef.current = null;
     };
-  }, [open, sectionStart, sectionEnd, sectionDuration, getCurrentUrl, activeVariant, volume, isPlaying]);
+  }, [open, sectionStart, sectionEnd, sectionDuration, getCurrentUrl, activeVariant, volume, isPlaying, poolId]);
 
   // Update audio source when variant changes
   useEffect(() => {
