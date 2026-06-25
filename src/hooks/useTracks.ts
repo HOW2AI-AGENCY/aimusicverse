@@ -113,7 +113,7 @@ export function useTracks(params: UseTracksParams = {}) {
     if (!user?.id) return;
 
     const channel = supabase
-      .channel(`tracks_${user.id}`)
+      .channel(`tracks_${user.id}_${Math.random().toString(36).slice(2)}`)
       .on(
         'postgres_changes',
         {
