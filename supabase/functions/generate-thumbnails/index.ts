@@ -168,10 +168,27 @@ async function generateThumbnails(
   coverUrl: string
 ): Promise<ThumbnailResult> {
   try {
+    // SSRF guard: only fetch from trusted origins
+    const supabaseUrl = Deno.env.get('SUPABASE_URL') || '';
+    const allowedHosts = [
+      new URL(supabaseUrl).host,
+      'cdn1.suno.ai',
+      'cdn2.suno.ai',
+      'cdn.suno.ai',
+      'replicate.delivery',
+    ];
+    let parsedUrl: URL;
+    try { parsedUrl = new URL(coverUrl); } catch {
+      throw new Error('Invalid cover_url');
+    }
+    if (parsedUrl.protocol !== 'https:' || !allowedHosts.some(h => parsedUrl.host === h || parsedUrl.host.endsWith('.' + h))) {
+      throw new Error('cover_url host not allowed');
+    }
     // Download original image
     const response = await fetch(coverUrl, {
       headers: { 'Accept': 'image/*' },
     });
+
     if (!response.ok) {
       throw new Error(`Failed to fetch cover: ${response.status}`);
     }
