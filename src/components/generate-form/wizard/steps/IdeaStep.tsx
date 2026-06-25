@@ -2,22 +2,22 @@
  * IdeaStep - First step: describe your music idea with AI assistance
  */
 
-import { useState, useCallback } from 'react';
-import { motion } from '@/lib/motion';
-import { Lightbulb, Sparkles, Loader2, ArrowRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
-import { useGenerationWizardStore } from '@/stores/generationWizardStore';
+import { useState, useCallback } from "react";
+import { motion } from "@/lib/motion";
+import { Lightbulb, Sparkles, Loader2, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+import { useGenerationWizardStore } from "@/stores/generationWizardStore";
 
 const QUICK_IDEAS = [
-  { emoji: '🎸', label: 'Рок-баллада', prompt: 'Эмоциональная рок-баллада о потерянной любви' },
-  { emoji: '🎹', label: 'Электронный бит', prompt: 'Энергичный электронный трек для вечеринки' },
-  { emoji: '🎤', label: 'Поп-хит', prompt: 'Запоминающийся поп-трек с ярким припевом' },
-  { emoji: '🎻', label: 'Кинематограф', prompt: 'Эпическая оркестровая музыка для фильма' },
-  { emoji: '🎷', label: 'Джаз', prompt: 'Расслабляющий джазовый трек для кафе' },
-  { emoji: '🔥', label: 'Рэп/Хип-хоп', prompt: 'Мощный рэп-трек с глубоким битом' },
+  { emoji: "🎸", label: "Рок-баллада", prompt: "Эмоциональная рок-баллада о потерянной любви" },
+  { emoji: "🎹", label: "Электронный бит", prompt: "Энергичный электронный трек для вечеринки" },
+  { emoji: "🎤", label: "Поп-хит", prompt: "Запоминающийся поп-трек с ярким припевом" },
+  { emoji: "🎻", label: "Кинематограф", prompt: "Эпическая оркестровая музыка для фильма" },
+  { emoji: "🎷", label: "Джаз", prompt: "Расслабляющий джазовый трек для кафе" },
+  { emoji: "🔥", label: "Рэп/Хип-хоп", prompt: "Мощный рэп-трек с глубоким битом" },
 ];
 
 interface IdeaStepProps {
@@ -28,26 +28,32 @@ export function IdeaStep({ onNext }: IdeaStepProps) {
   const { data, updateData, isAiProcessing, setAiProcessing } = useGenerationWizardStore();
   const [localIdea, setLocalIdea] = useState(data.ideaDescription);
 
-  const handleQuickIdea = useCallback((prompt: string) => {
-    setLocalIdea(prompt);
-    updateData({ ideaDescription: prompt });
-  }, [updateData]);
+  const handleQuickIdea = useCallback(
+    (prompt: string) => {
+      setLocalIdea(prompt);
+      updateData({ ideaDescription: prompt });
+    },
+    [updateData],
+  );
 
-  const handleIdeaChange = useCallback((value: string) => {
-    setLocalIdea(value);
-    updateData({ ideaDescription: value });
-  }, [updateData]);
+  const handleIdeaChange = useCallback(
+    (value: string) => {
+      setLocalIdea(value);
+      updateData({ ideaDescription: value });
+    },
+    [updateData],
+  );
 
   const handleAiSuggest = useCallback(async () => {
     if (!localIdea.trim()) return;
-    
+
     setAiProcessing(true);
     // TODO: Call AI to get genre suggestions based on idea
     // For now, simulate with timeout
-    await new Promise(r => setTimeout(r, 1000));
-    
+    await new Promise((r) => setTimeout(r, 1000));
+
     updateData({
-      suggestedGenres: ['Pop', 'Rock', 'Electronic'],
+      suggestedGenres: ["Pop", "Rock", "Electronic"],
     });
     setAiProcessing(false);
     onNext();
@@ -69,9 +75,7 @@ export function IdeaStep({ onNext }: IdeaStepProps) {
         </div>
         <div>
           <h3 className="font-semibold">Опишите вашу идею</h3>
-          <p className="text-sm text-muted-foreground">
-            Что вы хотите создать? AI поможет уточнить детали
-          </p>
+          <p className="text-sm text-muted-foreground">Что вы хотите создать? AI поможет уточнить детали</p>
         </div>
       </div>
 
@@ -85,7 +89,7 @@ export function IdeaStep({ onNext }: IdeaStepProps) {
               variant="outline"
               className={cn(
                 "cursor-pointer transition-all hover:bg-primary/10 hover:border-primary",
-                localIdea === idea.prompt && "bg-primary/10 border-primary"
+                localIdea === idea.prompt && "bg-primary/10 border-primary",
               )}
               onClick={() => handleQuickIdea(idea.prompt)}
             >
@@ -107,9 +111,7 @@ export function IdeaStep({ onNext }: IdeaStepProps) {
         />
         <div className="flex justify-between items-center text-xs text-muted-foreground">
           <span>{localIdea.length}/500</span>
-          {localIdea.length < 5 && (
-            <span className="text-destructive">Минимум 5 символов</span>
-          )}
+          {localIdea.length < 5 && <span className="text-destructive">Минимум 5 символов</span>}
         </div>
       </div>
 
@@ -121,18 +123,10 @@ export function IdeaStep({ onNext }: IdeaStepProps) {
           onClick={handleAiSuggest}
           disabled={!canProceed || isAiProcessing}
         >
-          {isAiProcessing ? (
-            <Loader2 className="w-4 h-4 animate-spin" />
-          ) : (
-            <Sparkles className="w-4 h-4" />
-          )}
+          {isAiProcessing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
           AI подскажет стиль
         </Button>
-        <Button
-          className="flex-1 gap-2"
-          onClick={onNext}
-          disabled={!canProceed}
-        >
+        <Button className="flex-1 gap-2" onClick={onNext} disabled={!canProceed}>
           Далее
           <ArrowRight className="w-4 h-4" />
         </Button>

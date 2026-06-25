@@ -3,24 +3,15 @@
  * Compact panel with touch-friendly controls, real-time level meter, and recording status
  */
 
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { 
-  Mic, 
-  Square, 
-  Play, 
-  Pause, 
-  RotateCcw,
-  Zap,
-  Clock,
-  Activity,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { cn } from '@/lib/utils';
-import { formatTime } from '@/lib/player-utils';
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Mic, Square, Play, Pause, RotateCcw, Zap, Clock, Activity } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { cn } from "@/lib/utils";
+import { formatTime } from "@/lib/player-utils";
 
 interface GuitarRecordingPanelProps {
   isRecording: boolean;
@@ -55,12 +46,14 @@ export function GuitarRecordingPanel({
   const canAnalyze = hasRecording && !isAnalyzing;
 
   return (
-    <Card className={cn(
-      "relative overflow-hidden",
-      "bg-gradient-to-br from-orange-500/5 via-red-500/5 to-pink-500/5",
-      "border-orange-500/20",
-      className
-    )}>
+    <Card
+      className={cn(
+        "relative overflow-hidden",
+        "bg-gradient-to-br from-orange-500/5 via-red-500/5 to-pink-500/5",
+        "border-orange-500/20",
+        className,
+      )}
+    >
       {/* Recording pulse effect */}
       {isRecording && (
         <motion.div
@@ -78,17 +71,14 @@ export function GuitarRecordingPanel({
               animate={isRecording ? { scale: [1, 1.2, 1] } : {}}
               transition={{ duration: 1, repeat: Infinity }}
             >
-              <Mic className={cn(
-                "w-5 h-5",
-                isRecording ? "text-red-500" : "text-orange-400"
-              )} />
+              <Mic className={cn("w-5 h-5", isRecording ? "text-red-500" : "text-orange-400")} />
             </motion.div>
             <div>
               <h3 className="text-sm font-semibold">
-                {isRecording ? 'Запись...' : hasRecording ? 'Готово' : 'Гитара'}
+                {isRecording ? "Запись..." : hasRecording ? "Готово" : "Гитара"}
               </h3>
               <p className="text-xs text-muted-foreground">
-                {isRecording ? 'Играйте' : hasRecording ? 'Записано' : 'Готов к записи'}
+                {isRecording ? "Играйте" : hasRecording ? "Записано" : "Готов к записи"}
               </p>
             </div>
           </div>
@@ -113,28 +103,26 @@ export function GuitarRecordingPanel({
           {isRecording && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
+              animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               className="space-y-2"
             >
               <div className="flex items-center justify-between text-xs">
                 <span className="text-muted-foreground">Уровень входа</span>
-                <span className={cn(
-                  "font-medium tabular-nums",
-                  audioLevel > 80 ? "text-red-500" :
-                  audioLevel > 50 ? "text-green-500" :
-                  "text-muted-foreground"
-                )}>
+                <span
+                  className={cn(
+                    "font-medium tabular-nums",
+                    audioLevel > 80 ? "text-red-500" : audioLevel > 50 ? "text-green-500" : "text-muted-foreground",
+                  )}
+                >
                   {audioLevel}%
                 </span>
               </div>
-              <Progress 
-                value={audioLevel} 
+              <Progress
+                value={audioLevel}
                 className={cn(
                   "h-2",
-                  audioLevel > 90 ? "[&>*]:bg-red-500" :
-                  audioLevel > 80 ? "[&>*]:bg-orange-500" :
-                  "[&>*]:bg-green-500"
+                  audioLevel > 90 ? "[&>*]:bg-red-500" : audioLevel > 80 ? "[&>*]:bg-orange-500" : "[&>*]:bg-green-500",
                 )}
               />
             </motion.div>
@@ -144,14 +132,10 @@ export function GuitarRecordingPanel({
         {/* Audio Preview (when has recording) */}
         <AnimatePresence>
           {hasRecording && !isRecording && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 10 }}
-            >
-              <audio 
-                src={recordedAudioUrl} 
-                controls 
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }}>
+              <audio
+                src={recordedAudioUrl}
+                controls
                 className="w-full h-10 rounded-md"
                 onPlay={() => setAudioPreviewPlaying(true)}
                 onPause={() => setAudioPreviewPlaying(false)}
@@ -198,7 +182,7 @@ export function GuitarRecordingPanel({
                   <>
                     <motion.div
                       animate={{ rotate: 360 }}
-                      transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                     >
                       <Zap className="w-4 h-4 mr-2" />
                     </motion.div>

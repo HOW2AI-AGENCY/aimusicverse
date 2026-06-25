@@ -3,13 +3,13 @@
  * Click to activate edit mode, enter/blur to save
  */
 
-import { useState, useRef, useEffect, useCallback, memo } from 'react';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-import { hapticImpact } from '@/lib/haptic';
-import { cn } from '@/lib/utils';
-import { Pencil } from 'lucide-react';
-import { logger } from '@/lib/logger';
+import { useState, useRef, useEffect, useCallback, memo } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { hapticImpact } from "@/lib/haptic";
+import { cn } from "@/lib/utils";
+import { Pencil } from "lucide-react";
+import { logger } from "@/lib/logger";
 
 interface EditableTrackTitleProps {
   trackId: string;
@@ -46,13 +46,13 @@ export const EditableTrackTitle = memo(function EditableTrackTitle({
 
   const handleClick = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
-    hapticImpact('light');
+    hapticImpact("light");
     setIsEditing(true);
   }, []);
 
   const handleSave = useCallback(async () => {
     const trimmedValue = editValue.trim();
-    
+
     if (!trimmedValue) {
       setEditValue(title);
       setIsEditing(false);
@@ -66,18 +66,15 @@ export const EditableTrackTitle = memo(function EditableTrackTitle({
 
     setIsSaving(true);
     try {
-      const { error } = await supabase
-        .from('tracks')
-        .update({ title: trimmedValue })
-        .eq('id', trackId);
+      const { error } = await supabase.from("tracks").update({ title: trimmedValue }).eq("id", trackId);
 
       if (error) throw error;
 
       onTitleChange?.(trimmedValue);
-      toast.success('Название изменено');
+      toast.success("Название изменено");
     } catch (error: unknown) {
-      logger.error('Error updating title', error instanceof Error ? error : new Error(String(error)));
-      toast.error('Ошибка сохранения');
+      logger.error("Error updating title", error instanceof Error ? error : new Error(String(error)));
+      toast.error("Ошибка сохранения");
       setEditValue(title);
     } finally {
       setIsSaving(false);
@@ -85,16 +82,19 @@ export const EditableTrackTitle = memo(function EditableTrackTitle({
     }
   }, [editValue, title, trackId, onTitleChange]);
 
-  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      handleSave();
-    } else if (e.key === 'Escape') {
-      e.preventDefault();
-      setEditValue(title);
-      setIsEditing(false);
-    }
-  }, [handleSave, title]);
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        handleSave();
+      } else if (e.key === "Escape") {
+        e.preventDefault();
+        setEditValue(title);
+        setIsEditing(false);
+      }
+    },
+    [handleSave, title],
+  );
 
   const handleBlur = useCallback(() => {
     handleSave();
@@ -115,7 +115,7 @@ export const EditableTrackTitle = memo(function EditableTrackTitle({
           "text-sm font-semibold leading-tight",
           "py-0.5 px-0",
           isSaving && "opacity-50",
-          className
+          className,
         )}
         aria-label="Редактировать название трека"
       />
@@ -128,13 +128,11 @@ export const EditableTrackTitle = memo(function EditableTrackTitle({
       className={cn(
         "group flex items-center gap-1.5 text-left cursor-pointer",
         "hover:text-primary transition-colors",
-        className
+        className,
       )}
       title="Нажмите, чтобы изменить название"
     >
-      <span className="text-sm font-semibold truncate leading-tight">
-        {title || 'Без названия'}
-      </span>
+      <span className="text-sm font-semibold truncate leading-tight">{title || "Без названия"}</span>
       <Pencil className="w-3 h-3 opacity-0 group-hover:opacity-60 transition-opacity flex-shrink-0" />
     </button>
   );

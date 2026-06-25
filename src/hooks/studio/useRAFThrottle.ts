@@ -3,7 +3,7 @@
  * Provides native 60fps throttling without artificial delays
  */
 
-import { useCallback, useEffect, useRef, useMemo } from 'react';
+import { useCallback, useEffect, useRef, useMemo } from "react";
 
 export interface UseRAFThrottleOptions {
   /**
@@ -53,7 +53,7 @@ export interface UseRAFThrottleReturn<T extends (...args: any[]) => void> {
  */
 export function useRAFThrottle<T extends (...args: any[]) => void>(
   callback: T,
-  options: UseRAFThrottleOptions = {}
+  options: UseRAFThrottleOptions = {},
 ): UseRAFThrottleReturn<T> {
   const { enabled = true } = options;
 
@@ -96,7 +96,7 @@ export function useRAFThrottle<T extends (...args: any[]) => void>(
       // If RAF is already pending, new arguments will replace old ones
       // This ensures only the latest call executes
     },
-    [callback, enabled]
+    [callback, enabled],
   ) as T;
 
   // Cancel pending RAF
@@ -138,10 +138,7 @@ export function useRAFThrottle<T extends (...args: any[]) => void>(
  * // Only last value will be set in next RAF frame
  * ```
  */
-export function useRAFThrottledState<T>(
-  initialValue: T,
-  onUpdate?: (value: T) => void
-): [T, (value: T) => void] {
+export function useRAFThrottledState<T>(initialValue: T, onUpdate?: (value: T) => void): [T, (value: T) => void] {
   const valueRef = useRef<T>(initialValue);
   const rafIdRef = useRef<number | null>(null);
 
@@ -153,16 +150,19 @@ export function useRAFThrottledState<T>(
     };
   }, []);
 
-  const setValue = useCallback((newValue: T) => {
-    valueRef.current = newValue;
+  const setValue = useCallback(
+    (newValue: T) => {
+      valueRef.current = newValue;
 
-    if (rafIdRef.current === null) {
-      rafIdRef.current = requestAnimationFrame(() => {
-        rafIdRef.current = null;
-        onUpdate?.(valueRef.current);
-      });
-    }
-  }, [onUpdate]);
+      if (rafIdRef.current === null) {
+        rafIdRef.current = requestAnimationFrame(() => {
+          rafIdRef.current = null;
+          onUpdate?.(valueRef.current);
+        });
+      }
+    },
+    [onUpdate],
+  );
 
   return [valueRef.current, setValue];
 }
@@ -186,9 +186,7 @@ export function useRAFThrottledState<T>(
  * // Both will execute in the same RAF frame
  * ```
  */
-export function useRAFThrottleBatch<T extends Record<string, (...args: any[]) => void>>(
-  callbacks: T
-): T {
+export function useRAFThrottleBatch<T extends Record<string, (...args: any[]) => void>>(callbacks: T): T {
   const rafIdRef = useRef<number | null>(null);
   const pendingCallsRef = useRef<Array<{ key: string; args: any[] }>>([]);
 

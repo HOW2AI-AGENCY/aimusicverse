@@ -4,9 +4,9 @@
  * Uses track_stems -> stem_transcriptions relation
  */
 
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { logger } from '@/lib/logger';
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { logger } from "@/lib/logger";
 
 export type StemTypeTranscriptionStatus = Record<string, boolean>;
 
@@ -24,39 +24,36 @@ export interface StemTranscriptionData {
   durationSeconds: number | null;
 }
 
-export function useStemTypeTranscriptionStatus(params: {
-  sourceTrackId?: string | null;
-  stemTypes: string[];
-}) {
+export function useStemTypeTranscriptionStatus(params: { sourceTrackId?: string | null; stemTypes: string[] }) {
   const sourceTrackId = params.sourceTrackId ?? undefined;
   const stemTypes = params.stemTypes;
 
   return useQuery({
-    queryKey: ['stem-type-transcription-status', sourceTrackId, [...stemTypes].sort().join(',')],
+    queryKey: ["stem-type-transcription-status", sourceTrackId, [...stemTypes].sort().join(",")],
     queryFn: async () => {
       if (!sourceTrackId || stemTypes.length === 0) return {};
 
       // First get stems for this track
       const { data: stems, error: stemsError } = await supabase
-        .from('track_stems')
-        .select('id, stem_type')
-        .eq('track_id', sourceTrackId)
-        .in('stem_type', stemTypes);
+        .from("track_stems")
+        .select("id, stem_type")
+        .eq("track_id", sourceTrackId)
+        .in("stem_type", stemTypes);
 
       if (stemsError || !stems?.length) {
         return {};
       }
 
-      const stemIds = stems.map(s => s.id);
+      const stemIds = stems.map((s) => s.id);
 
       // Then get transcriptions for these stems
       const { data: transcriptions, error: transError } = await supabase
-        .from('stem_transcriptions')
-        .select('stem_id, midi_url, pdf_url, gp5_url, mxml_url')
-        .in('stem_id', stemIds);
+        .from("stem_transcriptions")
+        .select("stem_id, midi_url, pdf_url, gp5_url, mxml_url")
+        .in("stem_id", stemIds);
 
       if (transError) {
-        logger.warn('Error fetching transcriptions', { error: transError });
+        logger.warn("Error fetching transcriptions", { error: transError });
         return {};
       }
 
@@ -68,7 +65,7 @@ export function useStemTypeTranscriptionStatus(params: {
 
       // Map stem_id -> stem_type
       const stemTypeMap = new Map<string, string>();
-      stems.forEach(s => stemTypeMap.set(s.id, s.stem_type));
+      stems.forEach((s) => stemTypeMap.set(s.id, s.stem_type));
 
       transcriptions?.forEach((row: any) => {
         const stemId = row.stem_id;
@@ -88,23 +85,20 @@ export function useStemTypeTranscriptionStatus(params: {
 /**
  * Get full transcription data for a specific stem type
  */
-export function useStemTranscriptionByType(params: {
-  sourceTrackId?: string | null;
-  stemType?: string | null;
-}) {
+export function useStemTranscriptionByType(params: { sourceTrackId?: string | null; stemType?: string | null }) {
   const { sourceTrackId, stemType } = params;
 
   return useQuery({
-    queryKey: ['stem-transcription-by-type', sourceTrackId, stemType],
+    queryKey: ["stem-transcription-by-type", sourceTrackId, stemType],
     queryFn: async (): Promise<StemTranscriptionData | null> => {
       if (!sourceTrackId || !stemType) return null;
 
       // Get stem for this track + type
       const { data: stem, error: stemError } = await supabase
-        .from('track_stems')
-        .select('id')
-        .eq('track_id', sourceTrackId)
-        .eq('stem_type', stemType)
+        .from("track_stems")
+        .select("id")
+        .eq("track_id", sourceTrackId)
+        .eq("stem_type", stemType)
         .maybeSingle();
 
       if (stemError || !stem) {
@@ -113,9 +107,9 @@ export function useStemTranscriptionByType(params: {
 
       // Get transcription for this stem
       const { data: trans, error: transError } = await supabase
-        .from('stem_transcriptions')
-        .select('*')
-        .eq('stem_id', stem.id)
+        .from("stem_transcriptions")
+        .select("*")
+        .eq("stem_id", stem.id)
         .maybeSingle();
 
       if (transError || !trans) {

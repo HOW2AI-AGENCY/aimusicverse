@@ -1,15 +1,15 @@
-import { useState } from 'react';
-import { Track } from '@/types/track';
-import { Badge } from '@/components/ui/badge';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Clock, Calendar, Music, Mic, Volume2, Crown, ChevronDown, ChevronUp } from 'lucide-react';
-import { format } from '@/lib/date-utils';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { motion } from '@/lib/motion';
-import { hapticImpact } from '@/lib/haptic';
-import { cn } from '@/lib/utils';
-import { formatDuration } from '@/lib/player-utils';
+import { useState } from "react";
+import { Track } from "@/types/track";
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Clock, Calendar, Music, Mic, Volume2, Crown, ChevronDown, ChevronUp } from "lucide-react";
+import { format } from "@/lib/date-utils";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { motion } from "@/lib/motion";
+import { hapticImpact } from "@/lib/haptic";
+import { cn } from "@/lib/utils";
+import { formatDuration } from "@/lib/player-utils";
 
 interface TrackDetailsTabProps {
   track: Track;
@@ -21,25 +21,23 @@ export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
   const [isPromptExpanded, setIsPromptExpanded] = useState(false);
   const isMobile = useIsMobile();
 
-
   const formatDate = (dateString: string | null) => {
-    if (!dateString) return 'Unknown';
+    if (!dateString) return "Unknown";
     try {
-      return format(new Date(dateString), 'MMM dd, yyyy');
+      return format(new Date(dateString), "MMM dd, yyyy");
     } catch {
-      return 'Unknown';
+      return "Unknown";
     }
   };
 
   // 📱 Progressive Disclosure для промпта
   const isLongPrompt = (track.prompt?.length || 0) > PROMPT_PREVIEW_LENGTH;
   const shouldCollapsePrompt = isMobile && isLongPrompt;
-  const promptPreview = shouldCollapsePrompt && !isPromptExpanded
-    ? `${track.prompt?.slice(0, PROMPT_PREVIEW_LENGTH)}...`
-    : track.prompt;
+  const promptPreview =
+    shouldCollapsePrompt && !isPromptExpanded ? `${track.prompt?.slice(0, PROMPT_PREVIEW_LENGTH)}...` : track.prompt;
 
   const handleTogglePrompt = () => {
-    hapticImpact('light');
+    hapticImpact("light");
     setIsPromptExpanded(!isPromptExpanded);
   };
 
@@ -48,14 +46,14 @@ export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
       {/* Cover and Title */}
       <div className="flex flex-col md:flex-row gap-6">
         <img
-          src={track.cover_url || '/placeholder-cover.png'}
-          alt={track.title || 'Track cover'}
+          src={track.cover_url || "/placeholder-cover.png"}
+          alt={track.title || "Track cover"}
           className="w-full md:w-48 h-48 object-cover rounded-lg shadow-md"
         />
-        
+
         <div className="flex-1 space-y-4">
           <div>
-            <h2 className="text-2xl font-bold mb-2">{track.title || 'Untitled'}</h2>
+            <h2 className="text-2xl font-bold mb-2">{track.title || "Untitled"}</h2>
             <div className="flex flex-wrap gap-2">
               {track.has_vocals && (
                 <Badge variant="secondary" className="gap-1">
@@ -69,11 +67,7 @@ export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
                   Instrumental
                 </Badge>
               )}
-              {track.suno_model && (
-                <Badge variant="outline">
-                  {track.suno_model}
-                </Badge>
-              )}
+              {track.suno_model && <Badge variant="outline">{track.suno_model}</Badge>}
             </div>
           </div>
         </div>
@@ -86,7 +80,7 @@ export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
             <Music className="w-5 h-5 text-muted-foreground mt-0.5" />
             <div className="flex-1">
               <p className="text-sm text-muted-foreground">Style</p>
-              <p className="font-medium">{track.style || 'Not specified'}</p>
+              <p className="font-medium">{track.style || "Not specified"}</p>
             </div>
           </div>
         </Card>
@@ -96,7 +90,9 @@ export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
             <Clock className="w-5 h-5 text-muted-foreground mt-0.5" />
             <div className="flex-1">
               <p className="text-sm text-muted-foreground">Duration</p>
-              <p className="font-medium">{track.duration_seconds ? formatDuration(track.duration_seconds) : 'Unknown'}</p>
+              <p className="font-medium">
+                {track.duration_seconds ? formatDuration(track.duration_seconds) : "Unknown"}
+              </p>
             </div>
           </div>
         </Card>
@@ -127,7 +123,7 @@ export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
         <Card className="p-4">
           <h3 className="text-sm font-semibold mb-3">Tags</h3>
           <div className="flex flex-wrap gap-2">
-            {track.tags.split(',').map((tag, index) => (
+            {track.tags.split(",").map((tag, index) => (
               <Badge key={index} variant="outline">
                 {tag.trim()}
               </Badge>
@@ -144,11 +140,11 @@ export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
             <motion.p
               className={cn(
                 "text-sm text-muted-foreground whitespace-pre-wrap",
-                shouldCollapsePrompt && !isPromptExpanded && "line-clamp-3"
+                shouldCollapsePrompt && !isPromptExpanded && "line-clamp-3",
               )}
               initial={false}
               animate={{
-                maxHeight: shouldCollapsePrompt && !isPromptExpanded ? '4.5rem' : 'none'
+                maxHeight: shouldCollapsePrompt && !isPromptExpanded ? "4.5rem" : "none",
               }}
               transition={{ duration: 0.3 }}
             >

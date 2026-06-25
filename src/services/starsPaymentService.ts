@@ -3,43 +3,43 @@
  * Handles all API calls related to Telegram Stars payments
  */
 
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from "@/integrations/supabase/client";
 import type {
   CreateInvoiceRequest,
   CreateInvoiceResponse,
   SubscriptionStatusResponse,
   PaymentStatsResponse,
   ErrorResponse,
-} from '@/types/starsPayment';
-import type { Json } from '@/integrations/supabase/types';
+} from "@/types/starsPayment";
+import type { Json } from "@/integrations/supabase/types";
 
 // Default language for localization
-const DEFAULT_LANG = 'ru';
+const DEFAULT_LANG = "ru";
 
 // Parse localized JSON field to string
-function parseLocalizedField(value: unknown, fallback: string = ''): string {
+function parseLocalizedField(value: unknown, fallback: string = ""): string {
   if (!value) return fallback;
-  
+
   // If it's already a plain string, return it
-  if (typeof value === 'string') {
+  if (typeof value === "string") {
     // Try to parse as JSON in case it's a stringified object
     try {
       const parsed = JSON.parse(value);
-      if (typeof parsed === 'object' && parsed !== null) {
-        return parsed[DEFAULT_LANG] || parsed['en'] || fallback;
+      if (typeof parsed === "object" && parsed !== null) {
+        return parsed[DEFAULT_LANG] || parsed["en"] || fallback;
       }
       return value;
     } catch {
       return value;
     }
   }
-  
+
   // If it's an object with language keys
-  if (typeof value === 'object' && value !== null) {
+  if (typeof value === "object" && value !== null) {
     const obj = value as Record<string, string>;
-    return obj[DEFAULT_LANG] || obj['en'] || fallback;
+    return obj[DEFAULT_LANG] || obj["en"] || fallback;
   }
-  
+
   return fallback;
 }
 
@@ -66,7 +66,7 @@ interface DbStarsProduct {
 export interface StarsProduct {
   id: string;
   product_code: string;
-  product_type: 'credits' | 'subscription';
+  product_type: "credits" | "subscription";
   name: string;
   description: string | null;
   stars_price: number;
@@ -97,27 +97,27 @@ function mapDbProduct(db: DbStarsProduct): StarsProduct {
   }
 
   // Normalize product_type: 'credit_package' -> 'credits' for UI consistency
-  const normalizedType = db.product_type === 'credit_package' ? 'credits' : db.product_type;
-  
+  const normalizedType = db.product_type === "credit_package" ? "credits" : db.product_type;
+
   return {
     id: db.id,
     product_code: db.product_code,
-    product_type: normalizedType as 'credits' | 'subscription',
+    product_type: normalizedType as "credits" | "subscription",
     name: parseLocalizedField(db.name, db.product_code),
     description: parseLocalizedField(db.description),
     stars_price: db.stars_price,
     price_stars: db.stars_price, // alias for compatibility
     price_rub_cents: db.price_rub_cents,
     credits_amount: db.credits_amount,
-    subscription_tier: normalizedType === 'subscription' ? db.product_code.replace('sub_', '') : null,
+    subscription_tier: normalizedType === "subscription" ? db.product_code.replace("sub_", "") : null,
     subscription_days: db.subscription_days,
     features,
     is_popular: db.is_popular ?? false,
     is_featured: db.is_popular ?? false, // use is_popular as is_featured
     sort_order: db.sort_order ?? 0,
     display_order: db.sort_order ?? 0, // alias for compatibility
-    is_active: db.status === 'active',
-    status: db.status ?? 'active',
+    is_active: db.status === "active",
+    status: db.status ?? "active",
     created_at: db.created_at ?? new Date().toISOString(),
     updated_at: db.updated_at ?? new Date().toISOString(),
   };
@@ -136,15 +136,13 @@ export interface PaymentTransaction {
 /**
  * Create a Telegram Stars invoice for a product purchase
  */
-export async function createInvoice(
-  request: CreateInvoiceRequest
-): Promise<CreateInvoiceResponse> {
-  const { data, error } = await supabase.functions.invoke('create-stars-invoice', {
+export async function createInvoice(request: CreateInvoiceRequest): Promise<CreateInvoiceResponse> {
+  const { data, error } = await supabase.functions.invoke("create-stars-invoice", {
     body: request,
   });
 
   if (error) {
-    throw new Error(error.message || 'Failed to create invoice');
+    throw new Error(error.message || "Failed to create invoice");
   }
 
   if (!data.success) {
@@ -158,15 +156,13 @@ export async function createInvoice(
 /**
  * Get user's subscription status
  */
-export async function getSubscriptionStatus(
-  userId: string
-): Promise<SubscriptionStatusResponse> {
-  const { data, error } = await supabase.functions.invoke('stars-subscription-check', {
+export async function getSubscriptionStatus(userId: string): Promise<SubscriptionStatusResponse> {
+  const { data, error } = await supabase.functions.invoke("stars-subscription-check", {
     body: { userId },
   });
 
   if (error) {
-    throw new Error(error.message || 'Failed to fetch subscription status');
+    throw new Error(error.message || "Failed to fetch subscription status");
   }
 
   if (!data.success) {
@@ -182,13 +178,13 @@ export async function getSubscriptionStatus(
  */
 export async function getProducts(): Promise<StarsProduct[]> {
   const { data, error } = await supabase
-    .from('stars_products')
-    .select('*')
-    .eq('status', 'active')
-    .order('sort_order', { ascending: true });
+    .from("stars_products")
+    .select("*")
+    .eq("status", "active")
+    .order("sort_order", { ascending: true });
 
   if (error) {
-    throw new Error(error.message || 'Failed to fetch products');
+    throw new Error(error.message || "Failed to fetch products");
   }
 
   return (data || []).map((item) => mapDbProduct(item as unknown as DbStarsProduct));
@@ -197,22 +193,20 @@ export async function getProducts(): Promise<StarsProduct[]> {
 /**
  * Get a specific product by product_code
  */
-export async function getProductByCode(
-  productCode: string
-): Promise<StarsProduct | null> {
+export async function getProductByCode(productCode: string): Promise<StarsProduct | null> {
   const { data, error } = await supabase
-    .from('stars_products')
-    .select('*')
-    .eq('product_code', productCode)
-    .eq('status', 'active')
+    .from("stars_products")
+    .select("*")
+    .eq("product_code", productCode)
+    .eq("status", "active")
     .single();
 
   if (error) {
-    if (error.code === 'PGRST116') {
+    if (error.code === "PGRST116") {
       // Not found
       return null;
     }
-    throw new Error(error.message || 'Failed to fetch product');
+    throw new Error(error.message || "Failed to fetch product");
   }
 
   return data ? mapDbProduct(data as unknown as DbStarsProduct) : null;
@@ -224,7 +218,7 @@ export async function getProductByCode(
 export async function getPaymentHistory(
   userId: string,
   page: number = 0,
-  pageSize: number = 20
+  pageSize: number = 20,
 ): Promise<{
   transactions: PaymentTransaction[];
   hasMore: boolean;
@@ -233,14 +227,14 @@ export async function getPaymentHistory(
   const to = from + pageSize;
 
   const { data, error, count } = await supabase
-    .from('stars_transactions')
-    .select('id, product_code, stars_amount, status, created_at, credits_granted', { count: 'exact' })
-    .eq('user_id', userId)
-    .order('created_at', { ascending: false })
+    .from("stars_transactions")
+    .select("id, product_code, stars_amount, status, created_at, credits_granted", { count: "exact" })
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false })
     .range(from, to - 1);
 
   if (error) {
-    throw new Error(error.message || 'Failed to fetch payment history');
+    throw new Error(error.message || "Failed to fetch payment history");
   }
 
   const transactions: PaymentTransaction[] = (data || []).map((t) => ({
@@ -261,23 +255,17 @@ export async function getPaymentHistory(
 /**
  * Get payment statistics (admin only)
  */
-export async function getPaymentStats(
-  from?: string,
-  to?: string
-): Promise<PaymentStatsResponse> {
+export async function getPaymentStats(from?: string, to?: string): Promise<PaymentStatsResponse> {
   const params = new URLSearchParams();
-  if (from) params.append('from', from);
-  if (to) params.append('to', to);
+  if (from) params.append("from", from);
+  if (to) params.append("to", to);
 
-  const { data, error } = await supabase.functions.invoke(
-    `stars-admin-stats?${params.toString()}`,
-    {
-      method: 'GET',
-    }
-  );
+  const { data, error } = await supabase.functions.invoke(`stars-admin-stats?${params.toString()}`, {
+    method: "GET",
+  });
 
   if (error) {
-    throw new Error(error.message || 'Failed to fetch payment stats');
+    throw new Error(error.message || "Failed to fetch payment stats");
   }
 
   if (!data.success) {
@@ -291,24 +279,22 @@ export async function getPaymentStats(
 /**
  * Check if a transaction is complete
  */
-export async function checkTransactionStatus(
-  transactionId: string
-): Promise<{
+export async function checkTransactionStatus(transactionId: string): Promise<{
   id: string;
   status: string;
   credits_granted: number | null;
 } | null> {
   const { data, error } = await supabase
-    .from('stars_transactions')
-    .select('id, status, credits_granted')
-    .eq('id', transactionId)
+    .from("stars_transactions")
+    .select("id, status, credits_granted")
+    .eq("id", transactionId)
     .single();
 
   if (error) {
-    if (error.code === 'PGRST116') {
+    if (error.code === "PGRST116") {
       return null;
     }
-    throw new Error(error.message || 'Failed to check transaction status');
+    throw new Error(error.message || "Failed to check transaction status");
   }
 
   return data;
@@ -319,14 +305,14 @@ export async function checkTransactionStatus(
  */
 export async function getFeaturedProducts(): Promise<StarsProduct[]> {
   const { data, error } = await supabase
-    .from('stars_products')
-    .select('*')
-    .eq('status', 'active')
-    .eq('is_popular', true)
-    .order('sort_order', { ascending: true });
+    .from("stars_products")
+    .select("*")
+    .eq("status", "active")
+    .eq("is_popular", true)
+    .order("sort_order", { ascending: true });
 
   if (error) {
-    throw new Error(error.message || 'Failed to fetch featured products');
+    throw new Error(error.message || "Failed to fetch featured products");
   }
 
   return (data || []).map((item) => mapDbProduct(item as unknown as DbStarsProduct));
@@ -335,18 +321,16 @@ export async function getFeaturedProducts(): Promise<StarsProduct[]> {
 /**
  * Get products by type
  */
-export async function getProductsByType(
-  type: 'credits' | 'subscription'
-): Promise<StarsProduct[]> {
+export async function getProductsByType(type: "credits" | "subscription"): Promise<StarsProduct[]> {
   const { data, error } = await supabase
-    .from('stars_products')
-    .select('*')
-    .eq('status', 'active')
-    .eq('product_type', type)
-    .order('sort_order', { ascending: true });
+    .from("stars_products")
+    .select("*")
+    .eq("status", "active")
+    .eq("product_type", type)
+    .order("sort_order", { ascending: true });
 
   if (error) {
-    throw new Error(error.message || 'Failed to fetch products');
+    throw new Error(error.message || "Failed to fetch products");
   }
 
   return (data || []).map((item) => mapDbProduct(item as unknown as DbStarsProduct));

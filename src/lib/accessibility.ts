@@ -4,7 +4,7 @@
  * Feature: UX Improvements
  */
 
-import { useCallback, useEffect, useRef, type KeyboardEvent } from 'react';
+import { useCallback, useEffect, useRef, type KeyboardEvent } from "react";
 
 /**
  * Minimum touch target size per WCAG (44x44px)
@@ -31,60 +31,63 @@ export function useKeyboardNavigation<T extends HTMLElement = HTMLElement>({
   columns?: number;
   wrap?: boolean;
 }) {
-  const handleKeyDown = useCallback((e: KeyboardEvent<T>) => {
-    let newIndex = currentIndex;
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent<T>) => {
+      let newIndex = currentIndex;
 
-    switch (e.key) {
-      case 'ArrowUp':
-        e.preventDefault();
-        newIndex = currentIndex - columns;
-        if (newIndex < 0) {
-          newIndex = wrap ? itemCount - 1 : 0;
-        }
-        break;
-        
-      case 'ArrowDown':
-        e.preventDefault();
-        newIndex = currentIndex + columns;
-        if (newIndex >= itemCount) {
-          newIndex = wrap ? 0 : itemCount - 1;
-        }
-        break;
-        
-      case 'ArrowLeft':
-        e.preventDefault();
-        newIndex = currentIndex - 1;
-        if (newIndex < 0) {
-          newIndex = wrap ? itemCount - 1 : 0;
-        }
-        break;
-        
-      case 'ArrowRight':
-        e.preventDefault();
-        newIndex = currentIndex + 1;
-        if (newIndex >= itemCount) {
-          newIndex = wrap ? 0 : itemCount - 1;
-        }
-        break;
-        
-      case 'Home':
-        e.preventDefault();
-        newIndex = 0;
-        break;
-        
-      case 'End':
-        e.preventDefault();
-        newIndex = itemCount - 1;
-        break;
-        
-      default:
-        return;
-    }
+      switch (e.key) {
+        case "ArrowUp":
+          e.preventDefault();
+          newIndex = currentIndex - columns;
+          if (newIndex < 0) {
+            newIndex = wrap ? itemCount - 1 : 0;
+          }
+          break;
 
-    if (newIndex !== currentIndex) {
-      onIndexChange(newIndex);
-    }
-  }, [currentIndex, itemCount, columns, wrap, onIndexChange]);
+        case "ArrowDown":
+          e.preventDefault();
+          newIndex = currentIndex + columns;
+          if (newIndex >= itemCount) {
+            newIndex = wrap ? 0 : itemCount - 1;
+          }
+          break;
+
+        case "ArrowLeft":
+          e.preventDefault();
+          newIndex = currentIndex - 1;
+          if (newIndex < 0) {
+            newIndex = wrap ? itemCount - 1 : 0;
+          }
+          break;
+
+        case "ArrowRight":
+          e.preventDefault();
+          newIndex = currentIndex + 1;
+          if (newIndex >= itemCount) {
+            newIndex = wrap ? 0 : itemCount - 1;
+          }
+          break;
+
+        case "Home":
+          e.preventDefault();
+          newIndex = 0;
+          break;
+
+        case "End":
+          e.preventDefault();
+          newIndex = itemCount - 1;
+          break;
+
+        default:
+          return;
+      }
+
+      if (newIndex !== currentIndex) {
+        onIndexChange(newIndex);
+      }
+    },
+    [currentIndex, itemCount, columns, wrap, onIndexChange],
+  );
 
   return { handleKeyDown };
 }
@@ -100,14 +103,14 @@ export function useFocusTrap(isActive: boolean) {
     if (!isActive) return;
 
     previousActiveElement.current = document.activeElement;
-    
+
     const container = containerRef.current;
     if (!container) return;
 
     const focusableElements = container.querySelectorAll(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
     );
-    
+
     const firstElement = focusableElements[0] as HTMLElement;
     const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
 
@@ -115,7 +118,7 @@ export function useFocusTrap(isActive: boolean) {
     firstElement?.focus();
 
     const handleKeyDown = (e: globalThis.KeyboardEvent) => {
-      if (e.key !== 'Tab') return;
+      if (e.key !== "Tab") return;
 
       if (e.shiftKey) {
         if (document.activeElement === firstElement) {
@@ -130,10 +133,10 @@ export function useFocusTrap(isActive: boolean) {
       }
     };
 
-    container.addEventListener('keydown', handleKeyDown);
+    container.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      container.removeEventListener('keydown', handleKeyDown);
+      container.removeEventListener("keydown", handleKeyDown);
       (previousActiveElement.current as HTMLElement)?.focus();
     };
   }, [isActive]);
@@ -150,11 +153,11 @@ export function useLiveAnnounce() {
   useEffect(() => {
     // Create live region if not exists
     if (!regionRef.current) {
-      const region = document.createElement('div');
-      region.setAttribute('role', 'status');
-      region.setAttribute('aria-live', 'polite');
-      region.setAttribute('aria-atomic', 'true');
-      region.className = 'sr-only';
+      const region = document.createElement("div");
+      region.setAttribute("role", "status");
+      region.setAttribute("aria-live", "polite");
+      region.setAttribute("aria-atomic", "true");
+      region.className = "sr-only";
       document.body.appendChild(region);
       regionRef.current = region;
     }
@@ -165,16 +168,16 @@ export function useLiveAnnounce() {
     };
   }, []);
 
-  const announce = useCallback((message: string, priority: 'polite' | 'assertive' = 'polite') => {
+  const announce = useCallback((message: string, priority: "polite" | "assertive" = "polite") => {
     if (!regionRef.current) return;
-    
-    regionRef.current.setAttribute('aria-live', priority);
+
+    regionRef.current.setAttribute("aria-live", priority);
     regionRef.current.textContent = message;
-    
+
     // Clear after announcement
     setTimeout(() => {
       if (regionRef.current) {
-        regionRef.current.textContent = '';
+        regionRef.current.textContent = "";
       }
     }, 1000);
   }, []);
@@ -191,13 +194,13 @@ export const focusUtils = {
    */
   trapFocus(container: HTMLElement) {
     const focusableElements = container.querySelectorAll<HTMLElement>(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
     );
     const firstFocusable = focusableElements[0];
     const lastFocusable = focusableElements[focusableElements.length - 1];
 
     const handleKeyDown = (e: globalThis.KeyboardEvent) => {
-      if (e.key !== 'Tab') return;
+      if (e.key !== "Tab") return;
 
       if (e.shiftKey) {
         if (document.activeElement === firstFocusable) {
@@ -212,8 +215,8 @@ export const focusUtils = {
       }
     };
 
-    container.addEventListener('keydown', handleKeyDown);
-    return () => container.removeEventListener('keydown', handleKeyDown);
+    container.addEventListener("keydown", handleKeyDown);
+    return () => container.removeEventListener("keydown", handleKeyDown);
   },
 
   /**
@@ -222,7 +225,7 @@ export const focusUtils = {
   skipToMain() {
     const main = document.querySelector('main, [role="main"]') as HTMLElement;
     main?.focus();
-    main?.scrollIntoView({ behavior: 'smooth' });
+    main?.scrollIntoView({ behavior: "smooth" });
   },
 };
 
@@ -233,14 +236,14 @@ export const srUtils = {
   /**
    * Announce message to screen readers
    */
-  announce(message: string, priority: 'polite' | 'assertive' = 'polite') {
-    const announcer = document.createElement('div');
-    announcer.setAttribute('role', 'status');
-    announcer.setAttribute('aria-live', priority);
-    announcer.setAttribute('aria-atomic', 'true');
-    announcer.className = 'sr-only';
+  announce(message: string, priority: "polite" | "assertive" = "polite") {
+    const announcer = document.createElement("div");
+    announcer.setAttribute("role", "status");
+    announcer.setAttribute("aria-live", priority);
+    announcer.setAttribute("aria-atomic", "true");
+    announcer.className = "sr-only";
     announcer.textContent = message;
-    
+
     document.body.appendChild(announcer);
     setTimeout(() => announcer.remove(), 1000);
   },
@@ -248,7 +251,7 @@ export const srUtils = {
   /**
    * Generate unique ID for ARIA relationships
    */
-  generateId(prefix: string = 'a11y'): string {
+  generateId(prefix: string = "a11y"): string {
     return `${prefix}-${Math.random().toString(36).substr(2, 9)}`;
   },
 };
@@ -261,11 +264,9 @@ export const contrastUtils = {
    * Calculate relative luminance of a color
    */
   getLuminance(r: number, g: number, b: number): number {
-    const [rs, gs, bs] = [r, g, b].map(c => {
+    const [rs, gs, bs] = [r, g, b].map((c) => {
       const sRGB = c / 255;
-      return sRGB <= 0.03928 
-        ? sRGB / 12.92 
-        : Math.pow((sRGB + 0.055) / 1.055, 2.4);
+      return sRGB <= 0.03928 ? sRGB / 12.92 : Math.pow((sRGB + 0.055) / 1.055, 2.4);
     });
     return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
   },
@@ -305,29 +306,25 @@ export const keyboardUtils = {
     e: React.KeyboardEvent,
     items: HTMLElement[],
     currentIndex: number,
-    options: { loop?: boolean; orientation?: 'horizontal' | 'vertical' } = {}
+    options: { loop?: boolean; orientation?: "horizontal" | "vertical" } = {},
   ): number {
-    const { loop = true, orientation = 'vertical' } = options;
-    const isVertical = orientation === 'vertical';
-    const prevKey = isVertical ? 'ArrowUp' : 'ArrowLeft';
-    const nextKey = isVertical ? 'ArrowDown' : 'ArrowRight';
+    const { loop = true, orientation = "vertical" } = options;
+    const isVertical = orientation === "vertical";
+    const prevKey = isVertical ? "ArrowUp" : "ArrowLeft";
+    const nextKey = isVertical ? "ArrowDown" : "ArrowRight";
 
     let newIndex = currentIndex;
 
     if (e.key === prevKey) {
       e.preventDefault();
-      newIndex = currentIndex > 0 
-        ? currentIndex - 1 
-        : (loop ? items.length - 1 : 0);
+      newIndex = currentIndex > 0 ? currentIndex - 1 : loop ? items.length - 1 : 0;
     } else if (e.key === nextKey) {
       e.preventDefault();
-      newIndex = currentIndex < items.length - 1 
-        ? currentIndex + 1 
-        : (loop ? 0 : items.length - 1);
-    } else if (e.key === 'Home') {
+      newIndex = currentIndex < items.length - 1 ? currentIndex + 1 : loop ? 0 : items.length - 1;
+    } else if (e.key === "Home") {
       e.preventDefault();
       newIndex = 0;
-    } else if (e.key === 'End') {
+    } else if (e.key === "End") {
       e.preventDefault();
       newIndex = items.length - 1;
     }
@@ -344,18 +341,21 @@ export const ariaUtils = {
   /**
    * Generate common ARIA attributes for interactive elements
    */
-  getButtonProps(label: string, options: { 
-    pressed?: boolean;
-    expanded?: boolean;
-    disabled?: boolean;
-    controls?: string;
-  } = {}) {
+  getButtonProps(
+    label: string,
+    options: {
+      pressed?: boolean;
+      expanded?: boolean;
+      disabled?: boolean;
+      controls?: string;
+    } = {},
+  ) {
     return {
-      'aria-label': label,
-      ...(options.pressed !== undefined && { 'aria-pressed': options.pressed }),
-      ...(options.expanded !== undefined && { 'aria-expanded': options.expanded }),
-      ...(options.disabled && { 'aria-disabled': true }),
-      ...(options.controls && { 'aria-controls': options.controls }),
+      "aria-label": label,
+      ...(options.pressed !== undefined && { "aria-pressed": options.pressed }),
+      ...(options.expanded !== undefined && { "aria-expanded": options.expanded }),
+      ...(options.disabled && { "aria-disabled": true }),
+      ...(options.controls && { "aria-controls": options.controls }),
     };
   },
 
@@ -364,8 +364,8 @@ export const ariaUtils = {
    */
   getLoadingProps(isLoading: boolean, label?: string) {
     return {
-      'aria-busy': isLoading,
-      ...(isLoading && label && { 'aria-label': label }),
+      "aria-busy": isLoading,
+      ...(isLoading && label && { "aria-label": label }),
     };
   },
 
@@ -384,11 +384,11 @@ export const ariaUtils = {
     total: number;
   }) {
     return {
-      role: 'option',
-      'aria-selected': isSelected,
-      'aria-disabled': isDisabled,
-      'aria-posinset': index + 1,
-      'aria-setsize': total,
+      role: "option",
+      "aria-selected": isSelected,
+      "aria-disabled": isDisabled,
+      "aria-posinset": index + 1,
+      "aria-setsize": total,
       tabIndex: isSelected ? 0 : -1,
     };
   },
@@ -398,13 +398,10 @@ export const ariaUtils = {
  * Skip link props generator for keyboard users
  * Use in JSX: <a {...getSkipLinkProps()} />
  */
-export function getSkipLinkProps(
-  href = '#main-content',
-  text = 'Перейти к основному контенту'
-) {
+export function getSkipLinkProps(href = "#main-content", text = "Перейти к основному контенту") {
   return {
     href,
-    className: 'skip-to-content',
+    className: "skip-to-content",
     children: text,
   };
 }

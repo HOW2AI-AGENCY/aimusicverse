@@ -8,19 +8,19 @@ export const DIALOG_CONFIG = {
   animations: {
     open: {
       duration: 300, // milliseconds
-      easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+      easing: "cubic-bezier(0.16, 1, 0.3, 1)",
     },
     close: {
       duration: 200, // milliseconds
-      easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+      easing: "cubic-bezier(0.16, 1, 0.3, 1)",
     },
   },
 
   sizes: {
-    sm: '400px',
-    md: '600px',
-    lg: '800px',
-    xl: '1200px',
+    sm: "400px",
+    md: "600px",
+    lg: "800px",
+    xl: "1200px",
   },
 
   snapPoints: {
@@ -29,7 +29,7 @@ export const DIALOG_CONFIG = {
   },
 
   backdrop: {
-    blur: '4px', // Backdrop blur effect
+    blur: "4px", // Backdrop blur effect
     opacity: 0.5, // Backdrop darkness
   },
 
@@ -47,8 +47,8 @@ export const DIALOG_CONFIG = {
   },
 
   haptic: {
-    onStart: 'light', // Haptic feedback on gesture start
-    onComplete: 'medium', // Haptic feedback on close complete
+    onStart: "light", // Haptic feedback on gesture start
+    onComplete: "medium", // Haptic feedback on close complete
   },
 
   mobile: {
@@ -62,21 +62,21 @@ export const DIALOG_CONFIG = {
  */
 export const DIALOG_PRESETS = {
   modal: {
-    variant: 'modal' as const,
-    size: 'md' as const,
+    variant: "modal" as const,
+    size: "md" as const,
     closeOnOverlayClick: true,
     closeOnEscape: true,
   },
 
   sheet: {
-    variant: 'sheet' as const,
+    variant: "sheet" as const,
     snapPoints: DIALOG_CONFIG.snapPoints.default,
     defaultSnapPoint: DIALOG_CONFIG.snapPoints.defaultSnapIndex,
     closeOnDragDown: true,
   },
 
   alert: {
-    variant: 'alert' as const,
-    severity: 'danger' as const,
+    variant: "alert" as const,
+    severity: "danger" as const,
   },
 } as const;

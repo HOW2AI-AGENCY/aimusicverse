@@ -1,8 +1,8 @@
 /**
  * Hook to check if a track has MIDI or PDF transcriptions
  */
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 interface TrackMidiStatus {
   hasMidi: boolean;
@@ -14,25 +14,25 @@ interface TrackMidiStatus {
 
 export function useTrackMidiStatus(trackId: string | undefined) {
   const { data, isLoading } = useQuery({
-    queryKey: ['track-midi-status', trackId],
+    queryKey: ["track-midi-status", trackId],
     queryFn: async (): Promise<TrackMidiStatus> => {
       if (!trackId) {
         return { hasMidi: false, hasPdf: false, hasGp5: false, hasMusicXml: false, transcriptionCount: 0 };
       }
 
       const { data, error } = await supabase
-        .from('stem_transcriptions')
-        .select('midi_url, pdf_url, gp5_url, mxml_url')
-        .eq('track_id', trackId);
+        .from("stem_transcriptions")
+        .select("midi_url, pdf_url, gp5_url, mxml_url")
+        .eq("track_id", trackId);
 
       if (error || !data) {
         return { hasMidi: false, hasPdf: false, hasGp5: false, hasMusicXml: false, transcriptionCount: 0 };
       }
 
-      const hasMidi = data.some(t => !!t.midi_url);
-      const hasPdf = data.some(t => !!t.pdf_url);
-      const hasGp5 = data.some(t => !!t.gp5_url);
-      const hasMusicXml = data.some(t => !!t.mxml_url);
+      const hasMidi = data.some((t) => !!t.midi_url);
+      const hasPdf = data.some((t) => !!t.pdf_url);
+      const hasGp5 = data.some((t) => !!t.gp5_url);
+      const hasMusicXml = data.some((t) => !!t.mxml_url);
 
       return {
         hasMidi,
@@ -62,26 +62,26 @@ export function useTrackMidiStatus(trackId: string | undefined) {
  */
 export function useTracksMidiStatus(trackIds: string[]) {
   const { data, isLoading } = useQuery({
-    queryKey: ['tracks-midi-status', trackIds.sort().join(',')],
+    queryKey: ["tracks-midi-status", trackIds.sort().join(",")],
     queryFn: async (): Promise<Record<string, TrackMidiStatus>> => {
       if (!trackIds.length) return {};
 
       const { data, error } = await supabase
-        .from('stem_transcriptions')
-        .select('track_id, midi_url, pdf_url, gp5_url, mxml_url')
-        .in('track_id', trackIds);
+        .from("stem_transcriptions")
+        .select("track_id, midi_url, pdf_url, gp5_url, mxml_url")
+        .in("track_id", trackIds);
 
       if (error || !data) return {};
 
       const statusMap: Record<string, TrackMidiStatus> = {};
-      
+
       // Initialize all track IDs with defaults
-      trackIds.forEach(id => {
+      trackIds.forEach((id) => {
         statusMap[id] = { hasMidi: false, hasPdf: false, hasGp5: false, hasMusicXml: false, transcriptionCount: 0 };
       });
 
       // Aggregate by track_id
-      data.forEach(t => {
+      data.forEach((t) => {
         const status = statusMap[t.track_id];
         if (status) {
           if (t.midi_url) status.hasMidi = true;

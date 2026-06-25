@@ -1,9 +1,9 @@
 ---
 name: ⚡ Performance Issue
 about: Сообщить о проблеме производительности
-title: '[PERF] '
-labels: ['performance', 'needs-investigation']
-assignees: ''
+title: "[PERF] "
+labels: ["performance", "needs-investigation"]
+assignees: ""
 ---
 
 ## ⚡ Описание проблемы производительности
@@ -13,12 +13,14 @@ assignees: ''
 ## 📊 Метрики
 
 **Текущая производительность:**
+
 - Время загрузки: [например, 5 секунд]
 - FPS: [например, 30 fps]
 - Размер bundle: [например, 2 MB]
 - Время до интерактивности: [например, 3 секунды]
 
 **Ожидаемая производительность:**
+
 - Время загрузки: [например, 2 секунды]
 - FPS: [например, 60 fps]
 - Размер bundle: [например, 1 MB]
@@ -43,6 +45,7 @@ assignees: ''
 ## 🌐 Окружение
 
 **Устройство:**
+
 - Тип: [например, iPhone 12, Desktop]
 - ОС: [например, iOS 17, Windows 11]
 - Браузер: [например, Safari 17, Chrome 120]
@@ -53,11 +56,13 @@ assignees: ''
 <!-- Если вы провели профилирование, вставьте результаты -->
 
 **Chrome DevTools:**
+
 ```
 Вставьте результаты Performance tab
 ```
 
 **Lighthouse Score:**
+
 - Performance: [0-100]
 - Accessibility: [0-100]
 - Best Practices: [0-100]

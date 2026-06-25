@@ -3,10 +3,10 @@
  * Handles Mini App authentication with Supabase
  */
 
-import { supabase } from '@/integrations/supabase/client';
-import { logger } from '@/lib/logger';
+import { supabase } from "@/integrations/supabase/client";
+import { logger } from "@/lib/logger";
 
-const log = logger.child({ module: 'TelegramAuth' });
+const log = logger.child({ module: "TelegramAuth" });
 
 interface TelegramAuthResponse {
   user: {
@@ -27,12 +27,12 @@ interface TelegramAuthResponse {
  */
 export async function authenticateWithTelegram(initData: string): Promise<TelegramAuthResponse | null> {
   try {
-    const { data, error } = await supabase.functions.invoke('telegram-auth', {
-      body: { initData }
+    const { data, error } = await supabase.functions.invoke("telegram-auth", {
+      body: { initData },
     });
 
     if (error) {
-      log.error('Telegram auth error', error);
+      log.error("Telegram auth error", error);
       return null;
     }
 
@@ -42,7 +42,7 @@ export async function authenticateWithTelegram(initData: string): Promise<Telegr
 
     return data;
   } catch (error) {
-    log.error('Error in Telegram auth', error);
+    log.error("Error in Telegram auth", error);
     return null;
   }
 }
@@ -58,9 +58,9 @@ async function setSession(session: { access_token: string; refresh_token: string
     });
 
     if (error) {
-      log.error('Error setting session', error);
+      log.error("Error setting session", error);
     }
   } catch (error) {
-    log.error('Error setting session', error);
+    log.error("Error setting session", error);
   }
 }

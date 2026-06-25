@@ -20,12 +20,12 @@
 
 ### Ключевые метрики
 
-| Метрика | Текущее | Цель | Прогресс |
-|---------|---------|------|----------|
-| ✅ Success Rate | 88% | >92% | 🔄 В процессе |
-| ❌ Failed Requests | 12% | <8% | 🔄 В процессе |
-| 🔄 Retry Success | N/A | >50% | 🟡 Ожидается |
-| ⏱️ Avg Response Time | ~2s | <3s | ✅ В пределах нормы |
+| Метрика              | Текущее | Цель | Прогресс            |
+| -------------------- | ------- | ---- | ------------------- |
+| ✅ Success Rate      | 88%     | >92% | 🔄 В процессе       |
+| ❌ Failed Requests   | 12%     | <8%  | 🔄 В процессе       |
+| 🔄 Retry Success     | N/A     | >50% | 🟡 Ожидается        |
+| ⏱️ Avg Response Time | ~2s     | <3s  | ✅ В пределах нормы |
 
 ---
 
@@ -47,6 +47,7 @@ Attempt 4: +4s delay (max 8s)
 ```
 
 **Код**:
+
 ```typescript
 const maxRetries = 3;
 const backoffMs = Math.min(1000 * Math.pow(2, retryCount), 8000);
@@ -64,23 +65,25 @@ V5 → V4_5PLUS → V4_5 → V4 → V3_5
 Автоматический переход на следующую модель при ошибках конкретной модели.
 
 **Триггеры для fallback**:
+
 - `model error` — ошибка модели AI
 - `Audio generation failed` — общий сбой генерации
 - `malformed` — некорректный формат текста
 
 **Логирование**:
+
 ```typescript
-logger.warn('Model error, attempting fallback', {
+logger.warn("Model error, attempting fallback", {
   from: currentModel,
   to: fallbackModel,
-  error: lastErrorMsg
+  error: lastErrorMsg,
 });
 ```
 
 ##### 3. Timeout Protection
 
 ```typescript
-signal: AbortSignal.timeout(30000) // 30 секунд
+signal: AbortSignal.timeout(30000); // 30 секунд
 ```
 
 Защита от зависающих запросов, которые могут блокировать ресурсы.
@@ -89,23 +92,23 @@ signal: AbortSignal.timeout(30000) // 30 секунд
 
 Определение временных ошибок для retry:
 
-| Тип | Status Codes | Action |
-|-----|--------------|--------|
-| **Server Errors** | 500, 502, 503, 504 | Retry with backoff |
-| **Rate Limiting** | 429 | Retry after delay |
+| Тип                | Status Codes        | Action             |
+| ------------------ | ------------------- | ------------------ |
+| **Server Errors**  | 500, 502, 503, 504  | Retry with backoff |
+| **Rate Limiting**  | 429                 | Retry after delay  |
 | **Network Errors** | timeout, ECONNRESET | Retry with backoff |
 
 ##### 5. User-Friendly Error Messages
 
 ```typescript
 const ERROR_MESSAGES = {
-  'model error': 'Ошибка модели AI. Пробуем другую модель...',
-  'Audio generation failed': 'Генерация не удалась. Попробуйте изменить описание.',
-  'malformed': 'Проверьте текст песни. Он должен содержать структуру (куплеты, припевы).',
-  'artist name': 'Нельзя использовать имена известных артистов. Измените описание.',
-  'copyrighted': 'Текст содержит защищённый материал. Измените слова.',
-  'rate limit': 'Слишком много запросов. Подождите минуту.',
-  'credits': 'Недостаточно кредитов на балансе.',
+  "model error": "Ошибка модели AI. Пробуем другую модель...",
+  "Audio generation failed": "Генерация не удалась. Попробуйте изменить описание.",
+  malformed: "Проверьте текст песни. Он должен содержать структуру (куплеты, припевы).",
+  "artist name": "Нельзя использовать имена известных артистов. Измените описание.",
+  copyrighted: "Текст содержит защищённый материал. Измените слова.",
+  "rate limit": "Слишком много запросов. Подождите минуту.",
+  credits: "Недостаточно кредитов на балансе.",
 };
 ```
 
@@ -147,7 +150,7 @@ Retry Success: 40-50%
 
 ```sql
 -- 1. Распределение статусов
-SELECT 
+SELECT
   response_status,
   COUNT(*) as count,
   ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER(), 2) as percentage
@@ -159,7 +162,7 @@ GROUP BY response_status
 ORDER BY count DESC;
 
 -- 2. Анализ retry-паттернов
-SELECT 
+SELECT
   (request_body->>'attempt')::int as attempt,
   COUNT(*) as count,
   ROUND(AVG(duration_ms), 2) as avg_duration
@@ -170,7 +173,7 @@ GROUP BY attempt
 ORDER BY attempt;
 
 -- 3. Fallback usage
-SELECT 
+SELECT
   model_used,
   COUNT(*) as count,
   ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER(), 2) as percentage
@@ -195,6 +198,7 @@ ORDER BY count DESC;
   - Вариант C: Использовать `--ignore-optional` флаг
 
 - [ ] **Шаг 2**: Анализ bundle
+
   ```bash
   npm run build
   npm run size:why
@@ -229,6 +233,7 @@ npx tsc --noEmit --strict 2>&1 | tee ts-errors.log
 ```
 
 **Цель**: 100% type coverage для:
+
 - `src/types/**/*.ts`
 - `src/lib/**/*.ts`
 - `supabase/functions/**/*.ts`
@@ -246,12 +251,12 @@ gantt
     Testing           :done, 2026-06-25, 1d
     Documentation     :done, 2026-06-25, 1d
     Deployment        :active, 2026-06-26, 1d
-    
+
     section F1.2 Bundle Optimisation
     npm Issue Resolve  :crit, 2026-06-26, 3d
     Bundle Analysis    :2026-06-29, 2d
     Implementation     :2026-07-01, 3d
-    
+
     section F1.3 TypeScript Strict
     Audit              :2026-06-29, 2d
     Fixes              :2026-07-01, 3d
@@ -259,17 +264,18 @@ gantt
 
 ### Прогресс по задачам
 
-| Задача | Статус | Прогресс |
-|--------|--------|----------|
-| **F1.1**: Generation reliability | ✅ Complete | 100% |
-| **F1.2**: Bundle optimisation | ⏳ Blocked | 0% (зависит от npm) |
-| **F1.3**: TypeScript strict | 📋 Planned | 0% |
+| Задача                           | Статус      | Прогресс            |
+| -------------------------------- | ----------- | ------------------- |
+| **F1.1**: Generation reliability | ✅ Complete | 100%                |
+| **F1.2**: Bundle optimisation    | ⏳ Blocked  | 0% (зависит от npm) |
+| **F1.3**: TypeScript strict      | 📋 Planned  | 0%                  |
 
 ---
 
 ## 🎯 Следующие шаги
 
 ### Немедленно (2026-06-26)
+
 1. **Deploy F1.1** в production
    - Мониторить Sentry для error rate
    - Проверить `api_usage_logs` для success rate
@@ -280,11 +286,13 @@ gantt
    - Если не работает → Document WSL requirement
 
 ### На этой неделе (2026-06-27 to 2026-07-02)
+
 3. **F1.2**: Bundle analysis (после resolve npm issue)
 4. **F1.3**: TypeScript strict mode audit
 5. **F1.2**: Bundle optimization implementation
 
 ### Следующие 2 недели
+
 6. **Testing**: E2E regression testing
 7. **Performance benchmarks**: Lighthouse, React DevTools Profiler
 8. **Documentation**: Final sprint report
@@ -294,11 +302,13 @@ gantt
 ## 📚 Связанные документы
 
 ### Внутри проекта
+
 - [OPTIMIZATION_PLAN.md](../OPTIMIZATION_PLAN.md) — Полный план оптимизации
 - [PROJECT_STATUS.md](../PROJECT_STATUS.md) — Статус проекта
 - [README.md](../README.md) — Обзор проекта
 
 ### Внешние ресурсы
+
 - [npm issue #4828](https://github.com/npm/cli/issues/4828) — Windows native dependencies bug
 - [Rollup Native Documentation](https://rollupjs.org/guide/en/#native-code)
 - [TypeScript Strict Mode](https://www.typescriptlang.org/tsconfig#strict)
@@ -308,18 +318,21 @@ gantt
 ## 🏆 Достижения спринта
 
 ### Код
+
 - ✅ Улучшен `supabase/functions/suno-music-generate/index.ts`
   - +87 lines (retry logic, fallback, timeout)
   - Enhanced error handling
   - Better logging
 
 ### Документация
+
 - ✅ Создан `docs/SPRINT_A_PROGRESS.md` (этот файл)
 - ✅ Обновлён `README.md` (полный перевод на русский)
 - ✅ Обновлён `PROJECT_STATUS.md` (русская версия)
 - ✅ Создан `docs/OPTIMIZATION_PLAN.md` (комплексный план)
 
 ### Git
+
 ```
 [main bbd73090] docs: comprehensive Russian documentation with advanced markdown formatting
 [main 27bdadf6] docs: update README and add Sprint A progress tracking

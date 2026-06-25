@@ -1,17 +1,17 @@
 /**
  * Subscription Tier Card
- * 
+ *
  * Displays a single subscription tier with pricing and features.
  * Purely presentational component.
  */
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
-import { Edit2, Zap, Star } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { SubscriptionTier, getTierIcon, formatPeriod } from '@/hooks/admin/useSubscriptionTiers';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { Edit2, Zap, Star } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { SubscriptionTier, getTierIcon, formatPeriod } from "@/hooks/admin/useSubscriptionTiers";
 
 interface SubscriptionTierCardProps {
   tier: SubscriptionTier;
@@ -20,25 +20,25 @@ interface SubscriptionTierCardProps {
 
 function TierIcon({ code }: { code: string }) {
   const icon = getTierIcon(code);
-  
-  if (icon.type === 'emoji') {
+
+  if (icon.type === "emoji") {
     return <span className="text-xl">{icon.value}</span>;
   }
-  
-  if (icon.value === 'zap') {
+
+  if (icon.value === "zap") {
     return <Zap className="h-5 w-5 text-yellow-500" />;
   }
-  
+
   return <Star className="h-5 w-5" />;
 }
 
 export function SubscriptionTierCard({ tier, onEdit }: SubscriptionTierCardProps) {
   return (
-    <Card 
+    <Card
       className={cn(
         "relative cursor-pointer transition-all hover:shadow-md",
         tier.is_featured && "ring-2 ring-primary",
-        !tier.is_active && "opacity-60"
+        !tier.is_active && "opacity-60",
       )}
       onClick={() => onEdit(tier)}
     >
@@ -46,9 +46,7 @@ export function SubscriptionTierCard({ tier, onEdit }: SubscriptionTierCardProps
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <TierIcon code={tier.code} />
-            <CardTitle className="text-lg">
-              {tier.name.ru || tier.code}
-            </CardTitle>
+            <CardTitle className="text-lg">{tier.name.ru || tier.code}</CardTitle>
           </div>
           <div className="flex items-center gap-2">
             {tier.badge_text && (
@@ -63,11 +61,9 @@ export function SubscriptionTierCard({ tier, onEdit }: SubscriptionTierCardProps
             )}
           </div>
         </div>
-        <CardDescription>
-          {tier.description.ru || tier.description.en}
-        </CardDescription>
+        <CardDescription>{tier.description.ru || tier.description.en}</CardDescription>
       </CardHeader>
-      
+
       <CardContent className="space-y-3">
         {/* Pricing Grid */}
         <div className="grid grid-cols-3 gap-2 text-center">
@@ -102,15 +98,31 @@ export function SubscriptionTierCard({ tier, onEdit }: SubscriptionTierCardProps
 
         {/* Features Badges */}
         <div className="flex flex-wrap gap-1">
-          {tier.has_priority && <Badge variant="outline" className="text-xs">Приоритет</Badge>}
-          {tier.has_stem_separation && <Badge variant="outline" className="text-xs">Стемы</Badge>}
-          {tier.has_mastering && <Badge variant="outline" className="text-xs">Мастеринг</Badge>}
-          {tier.has_api_access && <Badge variant="outline" className="text-xs">API</Badge>}
+          {tier.has_priority && (
+            <Badge variant="outline" className="text-xs">
+              Приоритет
+            </Badge>
+          )}
+          {tier.has_stem_separation && (
+            <Badge variant="outline" className="text-xs">
+              Стемы
+            </Badge>
+          )}
+          {tier.has_mastering && (
+            <Badge variant="outline" className="text-xs">
+              Мастеринг
+            </Badge>
+          )}
+          {tier.has_api_access && (
+            <Badge variant="outline" className="text-xs">
+              API
+            </Badge>
+          )}
         </div>
 
-        <Button 
-          variant="ghost" 
-          size="sm" 
+        <Button
+          variant="ghost"
+          size="sm"
           className="w-full mt-2"
           onClick={(e) => {
             e.stopPropagation();

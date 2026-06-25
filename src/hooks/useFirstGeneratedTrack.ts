@@ -3,14 +3,14 @@
  * Used for personalized recommendations and continue creating CTAs
  */
 
-import { useState, useEffect } from 'react';
-import { useAuth } from '@/hooks/useAuth';
-import { useTracks } from '@/hooks/useTracks';
-import type { Track } from '@/types/track';
-import { logger } from '@/lib/logger';
+import { useState, useEffect } from "react";
+import { useAuth } from "@/hooks/useAuth";
+import { useTracks } from "@/hooks/useTracks";
+import type { Track } from "@/types/track";
+import { logger } from "@/lib/logger";
 
-const FIRST_TRACK_KEY = 'musicverse_first_track_id';
-const FIRST_SESSION_KEY = 'musicverse_first_session';
+const FIRST_TRACK_KEY = "musicverse_first_track_id";
+const FIRST_SESSION_KEY = "musicverse_first_session";
 
 interface FirstGeneratedTrackState {
   firstTrack: Track | null;
@@ -25,7 +25,7 @@ interface FirstGeneratedTrackState {
  */
 export function useFirstGeneratedTrack(): FirstGeneratedTrackState {
   const { user } = useAuth();
-  const [state, setState] = useState<Omit<FirstGeneratedTrackState, 'isLoading'>>({
+  const [state, setState] = useState<Omit<FirstGeneratedTrackState, "isLoading">>({
     firstTrack: null,
     isFirstSession: false,
     hasGeneratedBefore: false,
@@ -34,7 +34,7 @@ export function useFirstGeneratedTrack(): FirstGeneratedTrackState {
 
   // Get user's tracks
   const { tracks, isLoading: tracksLoading } = useTracks({
-    sortBy: 'recent',
+    sortBy: "recent",
     pageSize: 1,
   });
 
@@ -96,7 +96,7 @@ export function useFirstGeneratedTrack(): FirstGeneratedTrackState {
         hasGeneratedBefore: true,
       });
 
-      logger.info('First track detected', {
+      logger.info("First track detected", {
         trackId: firstTrack.id,
         isFirstSession,
       });
@@ -127,7 +127,7 @@ export function saveFirstGeneratedTrack(trackId: string): void {
 
   if (!existingFirstTrack) {
     localStorage.setItem(FIRST_TRACK_KEY, trackId);
-    logger.info('First track saved', { trackId });
+    logger.info("First track saved", { trackId });
   }
 }
 
@@ -137,5 +137,5 @@ export function saveFirstGeneratedTrack(trackId: string): void {
 export function clearFirstGeneratedTrack(): void {
   localStorage.removeItem(FIRST_TRACK_KEY);
   localStorage.removeItem(FIRST_SESSION_KEY);
-  logger.info('First track data cleared');
+  logger.info("First track data cleared");
 }

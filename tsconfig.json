@@ -2,9 +2,7 @@
   "compilerOptions": {
     "allowJs": true,
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     },
     "skipLibCheck": true,
     "strict": true

@@ -3,31 +3,20 @@
  * Shows different messaging based on trigger reason
  */
 
-import { memo, useState, useEffect } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { 
-  Crown, 
-  Zap, 
-  Check, 
-  Sparkles,
-  Music,
-  TrendingUp,
-  Gift,
-  Star,
-  Loader2,
-  X
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { logger } from '@/lib/logger';
-import { toast } from 'sonner';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/hooks/useAuth';
-import { navigateTo, getGlobalNavigate } from '@/hooks/useAppNavigate';
-import type { PaywallTriggerReason } from '@/hooks/usePaywallTrigger';
-import { trackEvent } from '@/services/analytics';
+import { memo, useState, useEffect } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Crown, Zap, Check, Sparkles, Music, TrendingUp, Gift, Star, Loader2, X } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { logger } from "@/lib/logger";
+import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
+import { navigateTo, getGlobalNavigate } from "@/hooks/useAppNavigate";
+import type { PaywallTriggerReason } from "@/hooks/usePaywallTrigger";
+import { trackEvent } from "@/services/analytics";
 
 interface SmartPaywallDialogProps {
   open: boolean;
@@ -38,63 +27,62 @@ interface SmartPaywallDialogProps {
 }
 
 // Messaging variants per reason
-const MESSAGING: Record<PaywallTriggerReason, {
-  title: string;
-  subtitle: string;
-  icon: typeof Sparkles;
-  variant: 'soft' | 'hard';
-}> = {
+const MESSAGING: Record<
+  PaywallTriggerReason,
+  {
+    title: string;
+    subtitle: string;
+    icon: typeof Sparkles;
+    variant: "soft" | "hard";
+  }
+> = {
   soft_upsell: {
-    title: 'Тебе нравится создавать музыку! 🎵',
-    subtitle: 'Открой PRO-функции для ещё лучших треков',
+    title: "Тебе нравится создавать музыку! 🎵",
+    subtitle: "Открой PRO-функции для ещё лучших треков",
     icon: Music,
-    variant: 'soft',
+    variant: "soft",
   },
   hard_upsell: {
-    title: 'Ты настоящий музыкант! 🌟',
-    subtitle: 'Перейди на PRO и получи безлимитные возможности',
+    title: "Ты настоящий музыкант! 🌟",
+    subtitle: "Перейди на PRO и получи безлимитные возможности",
     icon: Crown,
-    variant: 'hard',
+    variant: "hard",
   },
   feature_locked: {
-    title: 'PRO-функция',
-    subtitle: 'Эта функция доступна для подписчиков',
+    title: "PRO-функция",
+    subtitle: "Эта функция доступна для подписчиков",
     icon: Zap,
-    variant: 'hard',
+    variant: "hard",
   },
   balance_limit: {
-    title: 'Достигнут лимит баланса',
-    subtitle: 'PRO-пользователи не имеют лимитов',
+    title: "Достигнут лимит баланса",
+    subtitle: "PRO-пользователи не имеют лимитов",
     icon: TrendingUp,
-    variant: 'hard',
+    variant: "hard",
   },
   daily_limit: {
-    title: 'Дневной лимит исчерпан',
-    subtitle: 'PRO снимает все ограничения',
+    title: "Дневной лимит исчерпан",
+    subtitle: "PRO снимает все ограничения",
     icon: TrendingUp,
-    variant: 'hard',
+    variant: "hard",
   },
   credits_low: {
-    title: 'Кредиты заканчиваются',
-    subtitle: 'Пополни баланс или подключи PRO',
+    title: "Кредиты заканчиваются",
+    subtitle: "Пополни баланс или подключи PRO",
     icon: Gift,
-    variant: 'soft',
+    variant: "soft",
   },
 };
 
 const PRO_BENEFITS = [
-  { icon: '🎵', text: 'HD качество аудио' },
-  { icon: '🎛️', text: 'Stem-сепарация (вокал + инструменты)' },
-  { icon: '🎹', text: 'MIDI экспорт' },
-  { icon: '⚡', text: 'Приоритетная генерация' },
-  { icon: '♾️', text: 'Без лимита баланса' },
+  { icon: "🎵", text: "HD качество аудио" },
+  { icon: "🎛️", text: "Stem-сепарация (вокал + инструменты)" },
+  { icon: "🎹", text: "MIDI экспорт" },
+  { icon: "⚡", text: "Приоритетная генерация" },
+  { icon: "♾️", text: "Без лимита баланса" },
 ];
 
-const TRIAL_FEATURES = [
-  '3 дня бесплатно',
-  'Отмена в любой момент',
-  'Все PRO-функции',
-];
+const TRIAL_FEATURES = ["3 дня бесплатно", "Отмена в любой момент", "Все PRO-функции"];
 
 export const SmartPaywallDialog = memo(function SmartPaywallDialog({
   open,
@@ -106,7 +94,7 @@ export const SmartPaywallDialog = memo(function SmartPaywallDialog({
   const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [showTrial, setShowTrial] = useState(true);
-  
+
   // Use global navigate since this component renders outside Router context
   const navigate = (path: string) => {
     const globalNav = getGlobalNavigate();
@@ -124,7 +112,7 @@ export const SmartPaywallDialog = memo(function SmartPaywallDialog({
   useEffect(() => {
     if (open) {
       trackEvent({
-        eventType: 'paywall_view',
+        eventType: "paywall_view",
         metadata: {
           reason,
           generation_count: generationCount,
@@ -137,20 +125,20 @@ export const SmartPaywallDialog = memo(function SmartPaywallDialog({
 
   const handleStartTrial = async () => {
     if (!user) {
-      toast.error('Необходима авторизация');
+      toast.error("Необходима авторизация");
       return;
     }
 
     setIsLoading(true);
-    trackEvent({ eventType: 'paywall_trial_click', metadata: { reason, generation_count: generationCount } });
+    trackEvent({ eventType: "paywall_trial_click", metadata: { reason, generation_count: generationCount } });
 
     try {
       // Navigate to subscription page with trial param
-      navigate('/subscription?trial=true');
+      navigate("/subscription?trial=true");
       onClose();
     } catch (error) {
-      logger.error('Trial navigation error', error as Error);
-      toast.error('Произошла ошибка');
+      logger.error("Trial navigation error", error as Error);
+      toast.error("Произошла ошибка");
     } finally {
       setIsLoading(false);
     }
@@ -158,17 +146,17 @@ export const SmartPaywallDialog = memo(function SmartPaywallDialog({
 
   const handleSubscribe = async () => {
     if (!user) {
-      toast.error('Необходима авторизация');
+      toast.error("Необходима авторизация");
       return;
     }
 
-    trackEvent({ eventType: 'paywall_subscribe_click', metadata: { reason, generation_count: generationCount } });
-    navigate('/subscription');
+    trackEvent({ eventType: "paywall_subscribe_click", metadata: { reason, generation_count: generationCount } });
+    navigate("/subscription");
     onClose();
   };
 
   const handleDismiss = () => {
-    trackEvent({ eventType: 'paywall_dismiss', metadata: { reason, generation_count: generationCount } });
+    trackEvent({ eventType: "paywall_dismiss", metadata: { reason, generation_count: generationCount } });
     onClose();
   };
 
@@ -179,12 +167,8 @@ export const SmartPaywallDialog = memo(function SmartPaywallDialog({
           <div className="mx-auto mb-4 w-16 h-16 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
             <Icon className="w-8 h-8 text-primary" />
           </div>
-          <DialogTitle className="text-xl text-center">
-            {messaging.title}
-          </DialogTitle>
-          <DialogDescription className="text-center">
-            {messaging.subtitle}
-          </DialogDescription>
+          <DialogTitle className="text-xl text-center">{messaging.title}</DialogTitle>
+          <DialogDescription className="text-center">{messaging.subtitle}</DialogDescription>
         </DialogHeader>
 
         <AnimatePresence mode="wait">
@@ -195,17 +179,17 @@ export const SmartPaywallDialog = memo(function SmartPaywallDialog({
             className="space-y-5 py-4"
           >
             {/* Generation count badge for soft upsell */}
-            {reason === 'soft_upsell' && generationCount > 0 && (
+            {reason === "soft_upsell" && generationCount > 0 && (
               <div className="text-center">
                 <Badge variant="secondary" className="px-3 py-1">
                   <Music className="w-3 h-3 mr-1" />
-                  {generationCount} {generationCount === 1 ? 'трек' : 'треков'} создано
+                  {generationCount} {generationCount === 1 ? "трек" : "треков"} создано
                 </Badge>
               </div>
             )}
 
             {/* Trial offer */}
-            {showTrial && messaging.variant === 'soft' && (
+            {showTrial && messaging.variant === "soft" && (
               <motion.div
                 initial={{ scale: 0.95 }}
                 animate={{ scale: 1 }}
@@ -220,7 +204,7 @@ export const SmartPaywallDialog = memo(function SmartPaywallDialog({
                     <p className="text-xs text-muted-foreground">3 дня полного доступа</p>
                   </div>
                 </div>
-                
+
                 <ul className="space-y-1.5 mb-4">
                   {TRIAL_FEATURES.map((feature, i) => (
                     <li key={i} className="flex items-center gap-2 text-sm">
@@ -247,9 +231,7 @@ export const SmartPaywallDialog = memo(function SmartPaywallDialog({
 
             {/* PRO benefits */}
             <div className="space-y-2">
-              <h4 className="text-sm font-medium text-muted-foreground">
-                Что входит в PRO:
-              </h4>
+              <h4 className="text-sm font-medium text-muted-foreground">Что входит в PRO:</h4>
               <ul className="space-y-2">
                 {PRO_BENEFITS.map((benefit, i) => (
                   <motion.li
@@ -268,7 +250,7 @@ export const SmartPaywallDialog = memo(function SmartPaywallDialog({
 
             {/* CTA buttons */}
             <div className="flex flex-col gap-2 pt-2">
-              {messaging.variant === 'hard' && (
+              {messaging.variant === "hard" && (
                 <Button
                   onClick={handleSubscribe}
                   className="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600"
@@ -277,20 +259,14 @@ export const SmartPaywallDialog = memo(function SmartPaywallDialog({
                   Подключить PRO
                 </Button>
               )}
-              
-              <Button 
-                variant="ghost" 
-                onClick={handleDismiss}
-                className="text-muted-foreground"
-              >
+
+              <Button variant="ghost" onClick={handleDismiss} className="text-muted-foreground">
                 Позже
               </Button>
             </div>
 
             {/* Price info */}
-            <p className="text-xs text-center text-muted-foreground">
-              от 350 ₽/мес • Отмена в любой момент
-            </p>
+            <p className="text-xs text-center text-muted-foreground">от 350 ₽/мес • Отмена в любой момент</p>
           </motion.div>
         </AnimatePresence>
       </DialogContent>

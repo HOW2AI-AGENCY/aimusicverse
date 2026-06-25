@@ -13,13 +13,13 @@
 - [formattedDate](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx#L85) (1 connections)
 - [formattedTime](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx#L90) (1 connections)
 - [[historyOpen, setHistoryOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx#L139) (1 connections)
-- [{ 
-    isActive, 
-    tier, 
-    expiresAt, 
-    daysRemaining, 
-    autoRenew,
-    isLoading: statusLoading 
+- [{
+  isActive,
+  tier,
+  expiresAt,
+  daysRemaining,
+  autoRenew,
+  isLoading: statusLoading
   }](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx#L142) (1 connections)
 - [isCancelled](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx#L201) (1 connections)
 - [isLoading](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx#L166) (1 connections)
@@ -45,4 +45,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

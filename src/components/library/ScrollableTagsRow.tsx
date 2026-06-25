@@ -1,11 +1,11 @@
-import { memo, useMemo, useRef, useState, useEffect } from 'react';
-import { cn } from '@/lib/utils';
-import { getDisplayTags, TagCategory } from '@/lib/styleTagParser';
-import { tagColors } from '@/lib/design-colors';
+import { memo, useMemo, useRef, useState, useEffect } from "react";
+import { cn } from "@/lib/utils";
+import { getDisplayTags, TagCategory } from "@/lib/styleTagParser";
+import { tagColors } from "@/lib/design-colors";
 
 /**
  * ScrollableTagsRow - Horizontal scrollable tags with animation hint
- * 
+ *
  * Features:
  * - Horizontal scroll for overflow content
  * - Subtle "sway" animation to hint at more content
@@ -29,18 +29,18 @@ const CATEGORY_COLORS: Record<TagCategory, string> = {
   structure: tagColors.structure.combined,
 };
 
-export const ScrollableTagsRow = memo(function ScrollableTagsRow({ 
-  style, 
-  tags, 
+export const ScrollableTagsRow = memo(function ScrollableTagsRow({
+  style,
+  tags,
   onClick,
-  className 
+  className,
 }: ScrollableTagsRowProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const [isOverflowing, setIsOverflowing] = useState(false);
-  
+
   const parsedTags = useMemo(() => getDisplayTags(style, tags, 10), [style, tags]);
-  
+
   // Check if content overflows container
   useEffect(() => {
     const checkOverflow = () => {
@@ -48,37 +48,30 @@ export const ScrollableTagsRow = memo(function ScrollableTagsRow({
         setIsOverflowing(contentRef.current.scrollWidth > containerRef.current.clientWidth);
       }
     };
-    
+
     checkOverflow();
-    window.addEventListener('resize', checkOverflow);
-    return () => window.removeEventListener('resize', checkOverflow);
+    window.addEventListener("resize", checkOverflow);
+    return () => window.removeEventListener("resize", checkOverflow);
   }, [parsedTags]);
-  
+
   if (parsedTags.visible.length === 0) {
-    return (
-      <span className={cn("text-[10px] text-muted-foreground/50 italic px-1", className)}>
-        Без стиля
-      </span>
-    );
+    return <span className={cn("text-[10px] text-muted-foreground/50 italic px-1", className)}>Без стиля</span>;
   }
-  
+
   return (
     <div className={cn("relative overflow-hidden min-w-0", className)}>
       {/* Scrollable container */}
-      <div 
+      <div
         ref={containerRef}
         className="overflow-x-auto scrollbar-hide touch-pan-x"
-        style={{ 
-          scrollbarWidth: 'none', 
-          msOverflowStyle: 'none',
-          overscrollBehaviorX: 'contain',
-          WebkitOverflowScrolling: 'touch',
+        style={{
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+          overscrollBehaviorX: "contain",
+          WebkitOverflowScrolling: "touch",
         }}
       >
-        <div 
-          ref={contentRef}
-          className="flex items-center gap-1 w-max py-0.5"
-        >
+        <div ref={contentRef} className="flex items-center gap-1 w-max py-0.5">
           {parsedTags.visible.map((tag, index) => (
             <button
               key={`${tag.normalized}-${index}`}
@@ -89,25 +82,23 @@ export const ScrollableTagsRow = memo(function ScrollableTagsRow({
               className={cn(
                 "flex-shrink-0 px-1.5 py-0.5 rounded text-[10px] font-medium transition-colors",
                 "cursor-pointer active:scale-95",
-                CATEGORY_COLORS[tag.category]
+                CATEGORY_COLORS[tag.category],
               )}
             >
               {tag.value}
             </button>
           ))}
-          
+
           {parsedTags.hiddenCount > 0 && (
-            <span className="flex-shrink-0 text-[9px] text-muted-foreground/50 px-1">
-              +{parsedTags.hiddenCount}
-            </span>
+            <span className="flex-shrink-0 text-[9px] text-muted-foreground/50 px-1">+{parsedTags.hiddenCount}</span>
           )}
         </div>
       </div>
-      
+
       {/* Fade indicator for more content */}
       {isOverflowing && (
-        <div 
-          className="absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-card to-transparent pointer-events-none" 
+        <div
+          className="absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-card to-transparent pointer-events-none"
           aria-hidden="true"
         />
       )}

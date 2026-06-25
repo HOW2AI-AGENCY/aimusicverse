@@ -1,18 +1,18 @@
-import { useAudioAnalysis, useAnalyzeAudio } from '@/hooks/useAudioAnalysis';
-import { useReplicateAnalysis } from '@/hooks/useReplicateAnalysis';
-import type { Track } from '@/types/track';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Loader2, Sparkles, Music, Mic2, Activity, Key, Box, Zap, ChevronDown } from 'lucide-react';
-import { Separator } from '@/components/ui/separator';
-import { AdvancedMusicAnalytics } from './AdvancedMusicAnalytics';
-import { EmotionalMap } from './EmotionalMap';
-import { BeatsVisualization } from './BeatsVisualization';
-import { AnalysisQuickStats } from './AnalysisQuickStats';
-import { useState } from 'react';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { cn } from '@/lib/utils';
+import { useAudioAnalysis, useAnalyzeAudio } from "@/hooks/useAudioAnalysis";
+import { useReplicateAnalysis } from "@/hooks/useReplicateAnalysis";
+import type { Track } from "@/types/track";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Loader2, Sparkles, Music, Mic2, Activity, Key, Box, Zap, ChevronDown } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
+import { AdvancedMusicAnalytics } from "./AdvancedMusicAnalytics";
+import { EmotionalMap } from "./EmotionalMap";
+import { BeatsVisualization } from "./BeatsVisualization";
+import { AnalysisQuickStats } from "./AnalysisQuickStats";
+import { useState } from "react";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { cn } from "@/lib/utils";
 
 interface TrackAnalysisTabProps {
   track: Track;
@@ -34,7 +34,7 @@ export function TrackAnalysisTab({ track }: TrackAnalysisTabProps) {
     analyzeAudio({
       trackId: track.id,
       audioUrl,
-      analysisType: 'manual',
+      analysisType: "manual",
     });
   };
 
@@ -47,7 +47,7 @@ export function TrackAnalysisTab({ track }: TrackAnalysisTabProps) {
     replicateAnalyze({
       trackId: track.id,
       audioUrl,
-      analysisTypes: ['bpm', 'beats', 'emotion', 'approachability'],
+      analysisTypes: ["bpm", "beats", "emotion", "approachability"],
     });
   };
 
@@ -65,12 +65,10 @@ export function TrackAnalysisTab({ track }: TrackAnalysisTabProps) {
         <div className="text-center space-y-2">
           <Sparkles className="w-12 h-12 text-primary mx-auto mb-4" />
           <h3 className="text-lg font-semibold">Анализ трека не выполнен</h3>
-          <p className="text-sm text-muted-foreground max-w-md">
-            Используйте AI для глубокого анализа аудио
-          </p>
+          <p className="text-sm text-muted-foreground max-w-md">Используйте AI для глубокого анализа аудио</p>
         </div>
         <div className="flex gap-2">
-          <Button 
+          <Button
             onClick={handleAnalyze}
             disabled={isPending || !(track.audio_url || track.streaming_url || track.local_audio_url)}
             className="gap-2"
@@ -88,7 +86,7 @@ export function TrackAnalysisTab({ track }: TrackAnalysisTabProps) {
               </>
             )}
           </Button>
-          <Button 
+          <Button
             onClick={handleAdvancedAnalyze}
             disabled={isReplicatePending || !(track.audio_url || track.streaming_url || track.local_audio_url)}
             className="gap-2"
@@ -125,18 +123,8 @@ export function TrackAnalysisTab({ track }: TrackAnalysisTabProps) {
           </Badge>
         </div>
         <div className="flex gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleAnalyze}
-            disabled={isPending}
-            className="gap-1.5"
-          >
-            {isPending ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
-            ) : (
-              <Sparkles className="w-4 h-4" />
-            )}
+          <Button variant="outline" size="sm" onClick={handleAnalyze} disabled={isPending} className="gap-1.5">
+            {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
             <span className="hidden sm:inline">Базовый</span>
           </Button>
           <Button
@@ -146,11 +134,7 @@ export function TrackAnalysisTab({ track }: TrackAnalysisTabProps) {
             disabled={isReplicatePending}
             className="gap-1.5"
           >
-            {isReplicatePending ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
-            ) : (
-              <Zap className="w-4 h-4" />
-            )}
+            {isReplicatePending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}
             <span className="hidden sm:inline">Продвинутый</span>
           </Button>
         </div>
@@ -162,13 +146,11 @@ export function TrackAnalysisTab({ track }: TrackAnalysisTabProps) {
       <Separator />
 
       {/* Emotional Map */}
-      {(analysis.arousal !== null || analysis.valence !== null) && (
-        <EmotionalMap analysis={analysis} />
-      )}
+      {(analysis.arousal !== null || analysis.valence !== null) && <EmotionalMap analysis={analysis} />}
 
       {/* Beats Visualization */}
       {analysis.beats_data && Array.isArray(analysis.beats_data) && analysis.beats_data.length > 0 && (
-        <BeatsVisualization 
+        <BeatsVisualization
           analysis={analysis}
           currentTime={currentTime}
           duration={track.duration_seconds || 0}
@@ -186,10 +168,7 @@ export function TrackAnalysisTab({ track }: TrackAnalysisTabProps) {
         <CollapsibleTrigger asChild>
           <Button variant="ghost" className="w-full justify-between gap-2 h-auto py-3">
             <span className="text-sm font-medium">Подробный анализ</span>
-            <ChevronDown className={cn(
-              "w-4 h-4 transition-transform",
-              showDetails && "rotate-180"
-            )} />
+            <ChevronDown className={cn("w-4 h-4 transition-transform", showDetails && "rotate-180")} />
           </Button>
         </CollapsibleTrigger>
         <CollapsibleContent className="space-y-4 pt-2">
@@ -242,9 +221,7 @@ export function TrackAnalysisTab({ track }: TrackAnalysisTabProps) {
                 Полный ответ AI
               </summary>
               <Card className="p-4 bg-muted/30 border border-border">
-                <pre className="text-xs whitespace-pre-wrap font-mono leading-relaxed">
-                  {analysis.full_response}
-                </pre>
+                <pre className="text-xs whitespace-pre-wrap font-mono leading-relaxed">{analysis.full_response}</pre>
               </Card>
             </details>
           )}

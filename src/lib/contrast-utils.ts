@@ -1,7 +1,7 @@
 /**
  * Contrast Utilities
  * Feature: 032-professional-ui
- * 
+ *
  * Runtime utilities for checking and ensuring WCAG AA contrast compliance.
  * Use sparingly - prefer semantic tokens which are pre-verified.
  */
@@ -26,20 +26,41 @@ export function parseHSL(hslString: string): { h: number; s: number; l: number }
 export function hslToRgb(h: number, s: number, l: number): { r: number; g: number; b: number } {
   s /= 100;
   l /= 100;
-  
+
   const c = (1 - Math.abs(2 * l - 1)) * s;
   const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
   const m = l - c / 2;
-  
-  let r = 0, g = 0, b = 0;
-  
-  if (h < 60) { r = c; g = x; b = 0; }
-  else if (h < 120) { r = x; g = c; b = 0; }
-  else if (h < 180) { r = 0; g = c; b = x; }
-  else if (h < 240) { r = 0; g = x; b = c; }
-  else if (h < 300) { r = x; g = 0; b = c; }
-  else { r = c; g = 0; b = x; }
-  
+
+  let r = 0,
+    g = 0,
+    b = 0;
+
+  if (h < 60) {
+    r = c;
+    g = x;
+    b = 0;
+  } else if (h < 120) {
+    r = x;
+    g = c;
+    b = 0;
+  } else if (h < 180) {
+    r = 0;
+    g = c;
+    b = x;
+  } else if (h < 240) {
+    r = 0;
+    g = x;
+    b = c;
+  } else if (h < 300) {
+    r = x;
+    g = 0;
+    b = c;
+  } else {
+    r = c;
+    g = 0;
+    b = x;
+  }
+
   return {
     r: Math.round((r + m) * 255),
     g: Math.round((g + m) * 255),
@@ -51,7 +72,7 @@ export function hslToRgb(h: number, s: number, l: number): { r: number; g: numbe
  * Calculate relative luminance per WCAG 2.1
  */
 export function getRelativeLuminance(r: number, g: number, b: number): number {
-  const [rs, gs, bs] = [r, g, b].map(c => {
+  const [rs, gs, bs] = [r, g, b].map((c) => {
     c /= 255;
     return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
   });
@@ -64,7 +85,7 @@ export function getRelativeLuminance(r: number, g: number, b: number): number {
  */
 export function getContrastRatio(
   color1: { r: number; g: number; b: number },
-  color2: { r: number; g: number; b: number }
+  color2: { r: number; g: number; b: number },
 ): number {
   const l1 = getRelativeLuminance(color1.r, color1.g, color1.b);
   const l2 = getRelativeLuminance(color2.r, color2.g, color2.b);
@@ -95,15 +116,15 @@ export function meetsContrastAAA(ratio: number, isLargeText = false): boolean {
  * Get accessible foreground color for a background
  * Returns 'light' or 'dark' recommendation
  */
-export function getAccessibleForeground(bgHsl: string): 'light' | 'dark' {
+export function getAccessibleForeground(bgHsl: string): "light" | "dark" {
   const parsed = parseHSL(bgHsl);
-  if (!parsed) return 'dark';
-  
+  if (!parsed) return "dark";
+
   const rgb = hslToRgb(parsed.h, parsed.s, parsed.l);
   const luminance = getRelativeLuminance(rgb.r, rgb.g, rgb.b);
-  
+
   // If background is dark (luminance < 0.5), use light text
-  return luminance < 0.5 ? 'light' : 'dark';
+  return luminance < 0.5 ? "light" : "dark";
 }
 
 /**
@@ -113,37 +134,37 @@ export function getAccessibleForeground(bgHsl: string): 'light' | 'dark' {
 export const contrastSafeColors = {
   // Primary actions - verified 4.5:1+ on both light/dark backgrounds
   primary: {
-    bg: 'bg-primary',
-    text: 'text-primary-foreground',
-    combined: 'bg-primary text-primary-foreground',
+    bg: "bg-primary",
+    text: "text-primary-foreground",
+    combined: "bg-primary text-primary-foreground",
   },
-  
+
   // Secondary/muted content
   muted: {
-    bg: 'bg-muted',
-    text: 'text-muted-foreground',
-    combined: 'bg-muted text-muted-foreground',
+    bg: "bg-muted",
+    text: "text-muted-foreground",
+    combined: "bg-muted text-muted-foreground",
   },
-  
+
   // Destructive/error states
   destructive: {
-    bg: 'bg-destructive',
-    text: 'text-destructive-foreground',
-    combined: 'bg-destructive text-destructive-foreground',
+    bg: "bg-destructive",
+    text: "text-destructive-foreground",
+    combined: "bg-destructive text-destructive-foreground",
   },
-  
+
   // Success states
   success: {
-    bg: 'bg-success-subtle',
-    text: 'color-success',
-    combined: 'bg-success-subtle color-success',
+    bg: "bg-success-subtle",
+    text: "color-success",
+    combined: "bg-success-subtle color-success",
   },
-  
+
   // Warning states
   warning: {
-    bg: 'bg-warning-subtle',
-    text: 'color-warning',
-    combined: 'bg-warning-subtle color-warning',
+    bg: "bg-warning-subtle",
+    text: "color-warning",
+    combined: "bg-warning-subtle color-warning",
   },
 } as const;
 

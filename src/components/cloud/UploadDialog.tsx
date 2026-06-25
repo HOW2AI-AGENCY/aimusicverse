@@ -2,24 +2,19 @@
  * UploadDialog - Dialog for uploading or recording reference audio
  */
 
-import { useRef, useState } from 'react';
-import { format } from '@/lib/date-utils';
-import { Mic, Upload } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
-import { cn } from '@/lib/utils';
-import { formatTime } from '@/lib/player-utils';
-import { toast } from 'sonner';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/hooks/useAuth';
-import { useReferenceAudio } from '@/hooks/useReferenceAudio';
-import { useAudioRecording } from '@/hooks/useAudioRecording';
-import { logger } from '@/lib/logger';
+import { useRef, useState } from "react";
+import { format } from "@/lib/date-utils";
+import { Mic, Upload } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
+import { formatTime } from "@/lib/player-utils";
+import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
+import { useReferenceAudio } from "@/hooks/useReferenceAudio";
+import { useAudioRecording } from "@/hooks/useAudioRecording";
+import { logger } from "@/lib/logger";
 
 interface UploadDialogProps {
   open: boolean;
@@ -35,37 +30,35 @@ export function UploadDialog({ open, onOpenChange }: UploadDialogProps) {
   // Handle recording completion
   const handleRecordingComplete = async (audioBlob: Blob, duration: number) => {
     if (!user) return;
-    
+
     setUploading(true);
     try {
       const timestamp = Date.now();
-      const fileName = `recording_${format(new Date(), 'dd-MM-yyyy_HH-mm')}.webm`;
+      const fileName = `recording_${format(new Date(), "dd-MM-yyyy_HH-mm")}.webm`;
       const path = `${user.id}/recording-${timestamp}.webm`;
-      
-      const { error: uploadError } = await supabase.storage
-        .from('reference-audio')
-        .upload(path, audioBlob);
+
+      const { error: uploadError } = await supabase.storage.from("reference-audio").upload(path, audioBlob);
 
       if (uploadError) throw uploadError;
 
-      const { data: { publicUrl } } = supabase.storage
-        .from('reference-audio')
-        .getPublicUrl(path);
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from("reference-audio").getPublicUrl(path);
 
       await saveAudio({
         fileName,
         fileUrl: publicUrl,
         fileSize: audioBlob.size,
-        mimeType: 'audio/webm',
+        mimeType: "audio/webm",
         durationSeconds: duration,
-        source: 'recording',
+        source: "recording",
       });
 
-      toast.success('Запись сохранена');
+      toast.success("Запись сохранена");
       onOpenChange(false);
     } catch (error) {
-      logger.error('Upload recording error', error);
-      toast.error('Ошибка сохранения записи');
+      logger.error("Upload recording error", error);
+      toast.error("Ошибка сохранения записи");
     } finally {
       setUploading(false);
     }
@@ -82,18 +75,16 @@ export function UploadDialog({ open, onOpenChange }: UploadDialogProps) {
     setUploading(true);
     try {
       const timestamp = Date.now();
-      const sanitizedName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+      const sanitizedName = file.name.replace(/[^a-zA-Z0-9.-]/g, "_");
       const path = `${user.id}/reference-${timestamp}-${sanitizedName}`;
-      
-      const { error: uploadError } = await supabase.storage
-        .from('reference-audio')
-        .upload(path, file);
+
+      const { error: uploadError } = await supabase.storage.from("reference-audio").upload(path, file);
 
       if (uploadError) throw uploadError;
 
-      const { data: { publicUrl } } = supabase.storage
-        .from('reference-audio')
-        .getPublicUrl(path);
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from("reference-audio").getPublicUrl(path);
 
       // Get audio duration
       const audioEl = new Audio();
@@ -111,17 +102,17 @@ export function UploadDialog({ open, onOpenChange }: UploadDialogProps) {
         fileSize: file.size,
         mimeType: file.type,
         durationSeconds: duration ? Math.round(duration) : undefined,
-        source: 'upload',
-        analysisStatus: 'analyzing',
+        source: "upload",
+        analysisStatus: "analyzing",
       });
 
-      toast.success('Файл загружен, запускаем анализ...');
+      toast.success("Файл загружен, запускаем анализ...");
       onOpenChange(false);
 
       // Auto-trigger analysis
       try {
-        const { data, error } = await supabase.functions.invoke('analyze-audio-flamingo', {
-          body: { 
+        const { data, error } = await supabase.functions.invoke("analyze-audio-flamingo", {
+          body: {
             audio_url: publicUrl,
             reference_id: savedAudio.id,
           },
@@ -139,48 +130,43 @@ export function UploadDialog({ open, onOpenChange }: UploadDialogProps) {
             instruments: data.parsed.instruments,
             vocalStyle: data.parsed.vocal_style,
             hasVocals: data.parsed.has_vocals ?? true,
-            analysisStatus: 'completed',
+            analysisStatus: "completed",
           });
-          toast.success('Анализ завершен');
+          toast.success("Анализ завершен");
         }
       } catch (analysisError) {
-        logger.error('Auto analysis failed', analysisError);
+        logger.error("Auto analysis failed", analysisError);
       }
     } catch (error: unknown) {
-      logger.error('Upload error', error instanceof Error ? error : new Error(String(error)));
-      toast.error('Ошибка загрузки');
+      logger.error("Upload error", error instanceof Error ? error : new Error(String(error)));
+      toast.error("Ошибка загрузки");
     } finally {
       setUploading(false);
     }
   };
 
   return (
-    <Dialog open={open} onOpenChange={(o) => {
-      if (isRecording) {
-        stopRecording();
-      }
-      onOpenChange(o);
-    }}>
+    <Dialog
+      open={open}
+      onOpenChange={(o) => {
+        if (isRecording) {
+          stopRecording();
+        }
+        onOpenChange(o);
+      }}
+    >
       <DialogContent className="max-w-sm">
         <DialogHeader>
           <DialogTitle>Добавить аудио</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="audio/*"
-            onChange={handleFileSelect}
-            className="hidden"
-          />
-          
+          <input ref={fileInputRef} type="file" accept="audio/*" onChange={handleFileSelect} className="hidden" />
+
           {/* Record Button */}
-          <div 
+          <div
             className={cn(
               "relative flex flex-col items-center justify-center p-6 rounded-xl border-2 border-dashed transition-all",
-              isRecording 
-                ? "border-red-500 bg-red-500/10" 
-                : "border-primary/30 bg-primary/5 hover:border-primary/50"
+              isRecording ? "border-red-500 bg-red-500/10" : "border-primary/30 bg-primary/5 hover:border-primary/50",
             )}
           >
             {isRecording && (
@@ -189,14 +175,11 @@ export function UploadDialog({ open, onOpenChange }: UploadDialogProps) {
                 <span className="text-xs font-mono text-red-500">{formatTime(recordingTime)}</span>
               </div>
             )}
-            
+
             <Button
               variant={isRecording ? "destructive" : "default"}
               size="lg"
-              className={cn(
-                "w-16 h-16 rounded-full",
-                isRecording && "animate-pulse"
-              )}
+              className={cn("w-16 h-16 rounded-full", isRecording && "animate-pulse")}
               onClick={isRecording ? stopRecording : startRecording}
               disabled={uploading}
             >
@@ -206,13 +189,11 @@ export function UploadDialog({ open, onOpenChange }: UploadDialogProps) {
                 <Mic className="w-6 h-6" />
               )}
             </Button>
-            
+
             <p className="text-sm mt-3 text-center">
-              {isRecording ? 'Нажмите, чтобы остановить' : 'Записать с микрофона'}
+              {isRecording ? "Нажмите, чтобы остановить" : "Записать с микрофона"}
             </p>
-            <p className="text-xs text-muted-foreground mt-1">
-              Гитара, голос, мелодия
-            </p>
+            <p className="text-xs text-muted-foreground mt-1">Гитара, голос, мелодия</p>
           </div>
 
           {/* Divider */}
@@ -235,10 +216,8 @@ export function UploadDialog({ open, onOpenChange }: UploadDialogProps) {
             <Upload className="w-5 h-5" />
             Загрузить файл
           </Button>
-          
-          <p className="text-xs text-muted-foreground text-center">
-            Поддерживаются MP3, WAV, M4A
-          </p>
+
+          <p className="text-xs text-muted-foreground text-center">Поддерживаются MP3, WAV, M4A</p>
         </div>
       </DialogContent>
     </Dialog>

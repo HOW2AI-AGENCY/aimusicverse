@@ -1,6 +1,6 @@
 /**
  * GridVariant - Simplified grid card (Phase 2 Redesign)
- * 
+ *
  * Simplified design:
  * - Square cover with hover scale(1.02)
  * - Title (1 line) + 2 tags max
@@ -8,22 +8,22 @@
  * - Swipe gestures preserved
  */
 
-import { memo, useState, useCallback } from 'react';
-import { motion, PanInfo } from '@/lib/motion';
-import { Heart, Trash2, MoreHorizontal, Layers } from 'lucide-react';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
-import { hapticImpact, hapticNotification } from '@/lib/haptic';
-import { notify } from '@/lib/notifications';
-import { LazyImage } from '@/components/ui/lazy-image';
-import { PlayOverlay } from '@/components/library/shared';
-import { UnifiedTrackSheet } from '@/components/track-actions';
-import { QuickLikeButton } from '@/components/track/QuickLikeButton';
-import { useTrackCardState } from '../hooks/useTrackCardState';
-import { SimplifiedTagsRow } from './SimplifiedTagsRow';
-import type { StandardTrackCardProps } from '../types';
+import { memo, useState, useCallback } from "react";
+import { motion, PanInfo } from "@/lib/motion";
+import { Heart, Trash2, MoreHorizontal, Layers } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+import { hapticImpact, hapticNotification } from "@/lib/haptic";
+import { notify } from "@/lib/notifications";
+import { LazyImage } from "@/components/ui/lazy-image";
+import { PlayOverlay } from "@/components/library/shared";
+import { UnifiedTrackSheet } from "@/components/track-actions";
+import { QuickLikeButton } from "@/components/track/QuickLikeButton";
+import { useTrackCardState } from "../hooks/useTrackCardState";
+import { SimplifiedTagsRow } from "./SimplifiedTagsRow";
+import type { StandardTrackCardProps } from "../types";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -33,7 +33,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
+} from "@/components/ui/alert-dialog";
 
 export const GridVariant = memo(function GridVariant({
   track,
@@ -77,28 +77,25 @@ export const GridVariant = memo(function GridVariant({
       if (Math.abs(offset) >= threshold) {
         if (offset < -threshold) {
           // Swipe left: Like/Unlike
-          hapticImpact('medium');
+          hapticImpact("medium");
           onToggleLike?.();
           notify.trackLiked(!(track as any).is_liked);
         } else if (offset > threshold && canDelete) {
           // Swipe right: Delete (with confirmation) - ONLY for own tracks
-          hapticImpact('heavy');
+          hapticImpact("heavy");
           setDeleteDialogOpen(true);
         }
       }
     },
-    [onToggleLike, track, canDelete]
+    [onToggleLike, track, canDelete],
   );
 
-  const handleDrag = useCallback(
-    (_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-      setSwipeOffset(info.offset.x);
-    },
-    []
-  );
+  const handleDrag = useCallback((_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+    setSwipeOffset(info.offset.x);
+  }, []);
 
   const handleDelete = useCallback(() => {
-    hapticNotification('success');
+    hapticNotification("success");
     onDelete?.();
     setDeleteDialogOpen(false);
     notify.trackDeleted();
@@ -107,7 +104,7 @@ export const GridVariant = memo(function GridVariant({
   return (
     <>
       <motion.div
-        drag={isMobile && !sheetOpen ? 'x' : false}
+        drag={isMobile && !sheetOpen ? "x" : false}
         dragConstraints={{ left: 0, right: 0 }}
         dragElastic={0.2}
         onDrag={handleDrag}
@@ -143,13 +140,13 @@ export const GridVariant = memo(function GridVariant({
 
         <Card
           className={cn(
-            'group overflow-hidden cursor-pointer touch-manipulation transition-all duration-200 rounded-2xl',
-            'bg-card/80 backdrop-blur-sm border-border/40',
-            'hover:ring-2 hover:ring-primary/20 hover:shadow-lg hover:shadow-primary/5 hover:border-primary/30',
-            isMobile && 'active:scale-[0.98]',
-            !isMobile && 'hover:bg-card/95',
-            isCurrentlyPlaying && 'ring-2 ring-primary shadow-glow bg-primary/5',
-            className
+            "group overflow-hidden cursor-pointer touch-manipulation transition-all duration-200 rounded-2xl",
+            "bg-card/80 backdrop-blur-sm border-border/40",
+            "hover:ring-2 hover:ring-primary/20 hover:shadow-lg hover:shadow-primary/5 hover:border-primary/30",
+            isMobile && "active:scale-[0.98]",
+            !isMobile && "hover:bg-card/95",
+            isCurrentlyPlaying && "ring-2 ring-primary shadow-glow bg-primary/5",
+            className,
           )}
           onClick={handleCardClick}
           onMouseEnter={handleMouseEnter}
@@ -158,11 +155,11 @@ export const GridVariant = memo(function GridVariant({
           {/* Cover Image - clean, no badges except stem indicator */}
           <div className="relative aspect-square overflow-hidden" data-play-button>
             <LazyImage
-              src={track.cover_url || ''}
-              alt={track.title || 'Track cover'}
+              src={track.cover_url || ""}
+              alt={track.title || "Track cover"}
               className={cn(
-                'w-full h-full object-cover transition-transform duration-300',
-                !isMobile && 'group-hover:scale-105'
+                "w-full h-full object-cover transition-transform duration-300",
+                !isMobile && "group-hover:scale-105",
               )}
               containerClassName="w-full h-full"
               coverSize="medium"
@@ -172,17 +169,13 @@ export const GridVariant = memo(function GridVariant({
               }}
               fallback={
                 <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-                  <span className="text-4xl">{track.title?.charAt(0) || '♪'}</span>
+                  <span className="text-4xl">{track.title?.charAt(0) || "♪"}</span>
                 </div>
               }
             />
 
             {/* Play Overlay */}
-            <PlayOverlay
-              isPlaying={isCurrentlyPlaying}
-              isMobile={isMobile}
-              onPlay={handlePlay}
-            />
+            <PlayOverlay isPlaying={isCurrentlyPlaying} isMobile={isMobile} onPlay={handlePlay} />
 
             {/* Stem badge - only when stems available */}
             {stemCount > 0 && (
@@ -200,18 +193,13 @@ export const GridVariant = memo(function GridVariant({
           <div className="p-3 space-y-1.5">
             <div className="flex items-center justify-between gap-1.5 sm:gap-2">
               <h3 className="font-semibold text-xs sm:text-sm truncate flex-1 leading-tight">
-                {track.title || 'Без названия'}
+                {track.title || "Без названия"}
               </h3>
 
               <div className="flex items-center gap-0.5 flex-shrink-0">
                 {/* Quick Like */}
-                <QuickLikeButton
-                  trackId={track.id}
-                  isLiked={(track as any).is_liked}
-                  size="sm"
-                  variant="minimal"
-                />
-                
+                <QuickLikeButton trackId={track.id} isLiked={(track as any).is_liked} size="sm" variant="minimal" />
+
                 {/* More menu - visible on hover (desktop) or always (mobile) */}
                 {showActions && (
                   <Button
@@ -219,7 +207,7 @@ export const GridVariant = memo(function GridVariant({
                     variant="ghost"
                     className={cn(
                       "w-9 h-9 min-w-[44px] min-h-[44px] flex-shrink-0 transition-opacity rounded-full",
-                      isMobile ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+                      isMobile ? "opacity-100" : "opacity-0 group-hover:opacity-100",
                     )}
                     onClick={(e) => {
                       e.stopPropagation();
@@ -234,12 +222,7 @@ export const GridVariant = memo(function GridVariant({
             </div>
 
             {/* Tags - max 2 visible */}
-            <SimplifiedTagsRow 
-              style={track.style} 
-              tags={track.tags} 
-              onClick={onTagClick}
-              maxTags={2}
-            />
+            <SimplifiedTagsRow style={track.style} tags={track.tags} onClick={onTagClick} maxTags={2} />
           </div>
         </Card>
       </motion.div>

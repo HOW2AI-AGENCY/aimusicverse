@@ -1,26 +1,20 @@
 /**
  * Admin Users Tab Component
- * 
+ *
  * User list with search, filtering, and bulk actions.
- * 
+ *
  * @module components/admin/dashboard/tabs/UsersTab
  */
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { 
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Search, MessageSquare } from 'lucide-react';
-import { AdminUserCard } from '@/components/admin/AdminUserCard';
-import type { AdminUserWithRoles, UserFilterType } from '@/hooks/admin/useAdminDashboard';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Search, MessageSquare } from "lucide-react";
+import { AdminUserCard } from "@/components/admin/AdminUserCard";
+import type { AdminUserWithRoles, UserFilterType } from "@/hooks/admin/useAdminDashboard";
 
 interface UsersTabProps {
   /** Filtered list of users */
@@ -40,7 +34,7 @@ interface UsersTabProps {
   onOpenCredits: (user: AdminUserWithRoles) => void;
   onOpenSubscription: (user: AdminUserWithRoles) => void;
   onOpenMessage: () => void;
-  onToggleAdmin: (userId: string, action: 'add' | 'remove') => void;
+  onToggleAdmin: (userId: string, action: "add" | "remove") => void;
 }
 
 /**
@@ -66,19 +60,13 @@ export function UsersTab({
       <CardHeader className="pb-3">
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-base md:text-lg">
-              Пользователи ({users?.length || 0})
-            </CardTitle>
-            
+            <CardTitle className="text-base md:text-lg">Пользователи ({users?.length || 0})</CardTitle>
+
             {/* Bulk Actions */}
             {selectedUsers.length > 0 && (
               <div className="flex items-center gap-2">
                 <Badge variant="secondary">{selectedUsers.length}</Badge>
-                <Button
-                  size="sm"
-                  variant="default"
-                  onClick={onOpenMessage}
-                >
+                <Button size="sm" variant="default" onClick={onOpenMessage}>
                   <MessageSquare className="h-4 w-4 mr-1" />
                   Написать
                 </Button>
@@ -90,7 +78,7 @@ export function UsersTab({
           </div>
         </div>
       </CardHeader>
-      
+
       <CardContent className="space-y-3">
         {/* Search and Filter */}
         <div className="flex gap-2">
@@ -114,12 +102,7 @@ export function UsersTab({
               <SelectItem value="free">Бесплатные</SelectItem>
             </SelectContent>
           </Select>
-          <Button 
-            size="sm" 
-            variant="outline" 
-            onClick={onSelectAll} 
-            className="hidden sm:flex"
-          >
+          <Button size="sm" variant="outline" onClick={onSelectAll} className="hidden sm:flex">
             Все
           </Button>
         </div>
@@ -143,9 +126,7 @@ export function UsersTab({
               />
             ))}
             {users?.length === 0 && (
-              <div className="text-center py-8 text-muted-foreground">
-                Пользователи не найдены
-              </div>
+              <div className="text-center py-8 text-muted-foreground">Пользователи не найдены</div>
             )}
           </div>
         </ScrollArea>

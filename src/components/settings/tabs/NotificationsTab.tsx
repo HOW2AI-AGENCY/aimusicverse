@@ -1,17 +1,17 @@
 /**
  * Notifications Tab
- * 
+ *
  * All notification toggles and quiet hours settings.
  * Updated for Phase 8: Social Activity notifications
  */
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
-import { Separator } from '@/components/ui/separator';
-import { Music, Clock, Heart, MessageCircle, Users } from 'lucide-react';
-import { motion } from '@/lib/motion';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { Separator } from "@/components/ui/separator";
+import { Music, Clock, Heart, MessageCircle, Users } from "lucide-react";
+import { motion } from "@/lib/motion";
 
 interface NotificationSetting {
   key: string;
@@ -21,22 +21,67 @@ interface NotificationSetting {
 }
 
 const GENERATION_TOGGLES: NotificationSetting[] = [
-  { key: 'notify_completed', label: 'Завершение генерации', description: 'Уведомлять когда трек готов', defaultValue: true },
-  { key: 'notify_failed', label: 'Ошибки генерации', description: 'Уведомлять при неудачной генерации', defaultValue: true },
-  { key: 'notify_progress', label: 'Прогресс генерации', description: 'Уведомлять о промежуточных этапах', defaultValue: false },
-  { key: 'notify_stem_ready', label: 'Готовность стемов', description: 'Уведомлять когда разделение завершено', defaultValue: true },
+  {
+    key: "notify_completed",
+    label: "Завершение генерации",
+    description: "Уведомлять когда трек готов",
+    defaultValue: true,
+  },
+  {
+    key: "notify_failed",
+    label: "Ошибки генерации",
+    description: "Уведомлять при неудачной генерации",
+    defaultValue: true,
+  },
+  {
+    key: "notify_progress",
+    label: "Прогресс генерации",
+    description: "Уведомлять о промежуточных этапах",
+    defaultValue: false,
+  },
+  {
+    key: "notify_stem_ready",
+    label: "Готовность стемов",
+    description: "Уведомлять когда разделение завершено",
+    defaultValue: true,
+  },
 ];
 
 const SOCIAL_TOGGLES: NotificationSetting[] = [
-  { key: 'notify_likes', label: 'Новые лайки', description: 'Уведомлять когда кто-то лайкнул ваш трек', defaultValue: true },
-  { key: 'notify_comments', label: 'Комментарии', description: 'Уведомлять о новых комментариях к вашим трекам', defaultValue: true },
-  { key: 'notify_followers', label: 'Новые подписчики', description: 'Уведомлять когда кто-то подписался на вас', defaultValue: true },
-  { key: 'notify_mentions', label: 'Упоминания', description: 'Уведомлять когда вас упомянули', defaultValue: true },
+  {
+    key: "notify_likes",
+    label: "Новые лайки",
+    description: "Уведомлять когда кто-то лайкнул ваш трек",
+    defaultValue: true,
+  },
+  {
+    key: "notify_comments",
+    label: "Комментарии",
+    description: "Уведомлять о новых комментариях к вашим трекам",
+    defaultValue: true,
+  },
+  {
+    key: "notify_followers",
+    label: "Новые подписчики",
+    description: "Уведомлять когда кто-то подписался на вас",
+    defaultValue: true,
+  },
+  { key: "notify_mentions", label: "Упоминания", description: "Уведомлять когда вас упомянули", defaultValue: true },
 ];
 
 const GAMIFICATION_TOGGLES: NotificationSetting[] = [
-  { key: 'notify_achievements', label: 'Достижения', description: 'Уведомлять о полученных достижениях', defaultValue: true },
-  { key: 'notify_daily_reminder', label: 'Ежедневное напоминание', description: 'Напоминать о ежедневном чекине', defaultValue: false },
+  {
+    key: "notify_achievements",
+    label: "Достижения",
+    description: "Уведомлять о полученных достижениях",
+    defaultValue: true,
+  },
+  {
+    key: "notify_daily_reminder",
+    label: "Ежедневное напоминание",
+    description: "Напоминать о ежедневном чекине",
+    defaultValue: false,
+  },
 ];
 
 interface NotificationsTabProps {
@@ -66,9 +111,7 @@ function NotificationToggleList({
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label className="text-base">{toggle.label}</Label>
-              <p className="text-sm text-muted-foreground">
-                {toggle.description}
-              </p>
+              <p className="text-sm text-muted-foreground">{toggle.description}</p>
             </div>
             <Switch
               checked={(settings as any)?.[toggle.key] ?? toggle.defaultValue}
@@ -92,19 +135,14 @@ export function NotificationsTab({
   return (
     <>
       {/* Generation Notifications */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-      >
+      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Music className="w-5 h-5" />
               Уведомления о генерации
             </CardTitle>
-            <CardDescription>
-              Настройте уведомления о процессе создания музыки
-            </CardDescription>
+            <CardDescription>Настройте уведомления о процессе создания музыки</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <NotificationToggleList
@@ -118,20 +156,14 @@ export function NotificationsTab({
       </motion.div>
 
       {/* Social Notifications */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
-      >
+      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Heart className="w-5 h-5 text-red-500" />
               Социальная активность
             </CardTitle>
-            <CardDescription>
-              Уведомления о лайках, комментариях и подписчиках
-            </CardDescription>
+            <CardDescription>Уведомления о лайках, комментариях и подписчиках</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <NotificationToggleList
@@ -145,20 +177,14 @@ export function NotificationsTab({
       </motion.div>
 
       {/* Gamification Notifications */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-      >
+      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Users className="w-5 h-5 text-amber-500" />
               Достижения и бонусы
             </CardTitle>
-            <CardDescription>
-              Уведомления о достижениях и напоминания
-            </CardDescription>
+            <CardDescription>Уведомления о достижениях и напоминания</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <NotificationToggleList
@@ -172,20 +198,14 @@ export function NotificationsTab({
       </motion.div>
 
       {/* Quiet Hours */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
-      >
+      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Clock className="w-5 h-5" />
               Тихие часы
             </CardTitle>
-            <CardDescription>
-              Период когда уведомления не отправляются
-            </CardDescription>
+            <CardDescription>Период когда уведомления не отправляются</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
@@ -210,9 +230,7 @@ export function NotificationsTab({
                 />
               </div>
             </div>
-            <p className="text-xs text-muted-foreground">
-              Оставьте пустым чтобы отключить тихие часы
-            </p>
+            <p className="text-xs text-muted-foreground">Оставьте пустым чтобы отключить тихие часы</p>
           </CardContent>
         </Card>
       </motion.div>

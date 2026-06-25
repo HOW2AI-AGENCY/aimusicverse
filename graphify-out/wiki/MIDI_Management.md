@@ -20,10 +20,10 @@
 - [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemMidiDrawer.tsx#L84) (1 connections)
 - [isRecommended](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemMidiDrawer.tsx#L423) (1 connections)
 - [latestMidiUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemMidiDrawer.tsx#L342) (1 connections)
-- [{ 
-    latestTranscription,
-    hasTranscription,
-    isLoading: isLoadingTranscription,
+- [{
+  latestTranscription,
+  hasTranscription,
+  isLoading: isLoadingTranscription,
   }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemMidiDrawer.tsx#L99) (1 connections)
 - [midiNotes](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemMidiDrawer.tsx#L118) (1 connections)
 - [model](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemMidiDrawer.tsx#L422) (1 connections)
@@ -33,7 +33,7 @@
 - [[pianoRollNotes, setPianoRollNotes]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemMidiDrawer.tsx#L89) (1 connections)
 - [{ saveTranscription, isSaving }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemMidiDrawer.tsx#L105) (1 connections)
 - [SELECTABLE_MODELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemMidiDrawer.tsx#L72) (1 connections)
-- *... and 7 more nodes in this community*
+- _... and 7 more nodes in this community_
 
 ## Relationships
 
@@ -51,4 +51,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

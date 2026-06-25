@@ -1,6 +1,6 @@
 /**
  * UnifiedStudioContent - Unified Studio Interface
- * 
+ *
  * Combines section replacement and stem mixing in one interface:
  * 1. Main timeline with sections (click to edit)
  * 2. Section editor panel (inline on desktop, sheet on mobile)
@@ -9,58 +9,64 @@
  * 5. All actions accessible from one screen
  */
 
-import { useState, useEffect, useRef, useCallback, Suspense } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { useUnifiedStudioStore } from '@/stores/useUnifiedStudioStore';
-import { 
-  Scissors, Split, Layers, Sliders, ChevronLeft,
-  Play, Pause, SkipBack, SkipForward, Volume2, VolumeX,
-  MoreVertical, Music2, Mic2
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Slider } from '@/components/ui/slider';
-import { Badge } from '@/components/ui/badge';
+import { useState, useEffect, useRef, useCallback, Suspense } from "react";
+import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useUnifiedStudioStore } from "@/stores/useUnifiedStudioStore";
+import {
+  Scissors,
+  Split,
+  Layers,
+  Sliders,
+  ChevronLeft,
+  Play,
+  Pause,
+  SkipBack,
+  SkipForward,
+  Volume2,
+  VolumeX,
+  MoreVertical,
+  Music2,
+  Mic2,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Slider } from "@/components/ui/slider";
+import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { useTracks } from '@/hooks/useTracks';
-import { useStudioData, TrackStem } from '@/hooks/useStudioData';
-import { useTimestampedLyrics } from '@/hooks/useTimestampedLyrics';
-import { useSectionDetection } from '@/hooks/useSectionDetection';
-import { useReplacedSections } from '@/hooks/useReplacedSections';
-import { useReplaceSectionRealtime } from '@/hooks/useReplaceSectionRealtime';
-import { useVersionSwitcher } from '@/hooks/useVersionSwitcher';
-import { useStemSeparation } from '@/hooks/useStemSeparation';
-import { useStemSeparationRealtime } from '@/hooks/useStemSeparationRealtime';
-import { StudioLyricsPanel } from '@/components/stem-studio/StudioLyricsPanel';
-import { UnifiedWaveformTimeline } from '@/components/stem-studio/UnifiedWaveformTimeline';
-import { VersionTimeline } from '@/components/stem-studio/VersionTimeline';
-import { ReplacementProgressIndicator } from '@/components/stem-studio/ReplacementProgressIndicator';
-import { StemSeparationProgress } from '@/components/stem-studio/StemSeparationProgress';
-import { 
-  SectionEditorSheet,
-  StudioActionsPanel,
-  StemActionSheet,
-  useStudioTrackState,
-} from '@/components/studio';
-import { AppLogo } from '@/components/branding/AppLogo';
-import { IntegratedStemTracks } from './IntegratedStemTracks';
-import { SectionVariantOverlay } from './SectionVariantOverlay';
-import { StemTrackSkeleton } from '@/components/studio/StemTrackSkeleton';
-import { registerStudioAudio, unregisterStudioAudio } from '@/hooks/studio/useStudioAudio';
-import { useStemAudioEngine } from '@/hooks/studio/useStemAudioEngine';
-import { getStemsByPriority } from '@/hooks/studio/useStemAudioCache';
-import { defaultStemEffects } from '@/hooks/studio/stemEffectsConfig';
-import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
-import { useStudioActivityLogger } from '@/hooks/useStudioActivityLogger';
-import { ReferenceManager } from '@/services/audio-reference';
-import { NewArrangementDialog } from '@/components/NewArrangementDialog';
-import { 
+} from "@/components/ui/dropdown-menu";
+import { useTracks } from "@/hooks/useTracks";
+import { useStudioData, TrackStem } from "@/hooks/useStudioData";
+import { useTimestampedLyrics } from "@/hooks/useTimestampedLyrics";
+import { useSectionDetection } from "@/hooks/useSectionDetection";
+import { useReplacedSections } from "@/hooks/useReplacedSections";
+import { useReplaceSectionRealtime } from "@/hooks/useReplaceSectionRealtime";
+import { useVersionSwitcher } from "@/hooks/useVersionSwitcher";
+import { useStemSeparation } from "@/hooks/useStemSeparation";
+import { useStemSeparationRealtime } from "@/hooks/useStemSeparationRealtime";
+import { StudioLyricsPanel } from "@/components/stem-studio/StudioLyricsPanel";
+import { UnifiedWaveformTimeline } from "@/components/stem-studio/UnifiedWaveformTimeline";
+import { VersionTimeline } from "@/components/stem-studio/VersionTimeline";
+import { ReplacementProgressIndicator } from "@/components/stem-studio/ReplacementProgressIndicator";
+import { StemSeparationProgress } from "@/components/stem-studio/StemSeparationProgress";
+import { SectionEditorSheet, StudioActionsPanel, StemActionSheet, useStudioTrackState } from "@/components/studio";
+import { AppLogo } from "@/components/branding/AppLogo";
+import { IntegratedStemTracks } from "./IntegratedStemTracks";
+import { SectionVariantOverlay } from "./SectionVariantOverlay";
+import { StemTrackSkeleton } from "@/components/studio/StemTrackSkeleton";
+import { registerStudioAudio, unregisterStudioAudio } from "@/hooks/studio/useStudioAudio";
+import { useStemAudioEngine } from "@/hooks/studio/useStemAudioEngine";
+import { getStemsByPriority } from "@/hooks/studio/useStemAudioCache";
+import { defaultStemEffects } from "@/hooks/studio/stemEffectsConfig";
+import { useSectionEditorStore } from "@/stores/useSectionEditorStore";
+import { useStudioActivityLogger } from "@/hooks/useStudioActivityLogger";
+import { ReferenceManager } from "@/services/audio-reference";
+import { NewArrangementDialog } from "@/components/NewArrangementDialog";
+import {
   LazyTrimDialog,
   LazyRemixDialog,
   LazyExtendDialog,
@@ -72,13 +78,13 @@ import {
   LazyKlangioAnalysisPanel,
   LazyAddVocalsDrawer,
   preloadRouteComponents,
-} from '@/components/lazy';
-import { NotesViewerDialog } from '@/components/studio/NotesViewerDialog';
-import { toast } from 'sonner';
-import { cn } from '@/lib/utils';
-import { logger } from '@/lib/logger';
-import { formatTime } from '@/lib/player-utils';
-import { useIsMobile } from '@/hooks/use-mobile';
+} from "@/components/lazy";
+import { NotesViewerDialog } from "@/components/studio/NotesViewerDialog";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
+import { logger } from "@/lib/logger";
+import { formatTime } from "@/lib/player-utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface UnifiedStudioContentProps {
   trackId: string;
@@ -95,48 +101,37 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
   const queryClient = useQueryClient();
   const isMobile = useIsMobile();
   const { tracks } = useTracks();
-  const track = tracks?.find(t => t.id === trackId);
-  
+  const track = tracks?.find((t) => t.id === trackId);
+
   // Consolidated studio data fetching (stems + transcriptions in parallel)
-  const { 
-    stems, 
-    sortedStems, 
-    transcriptionsByStem, 
-    stemsLoading 
-  } = useStudioData(trackId);
-  
+  const { stems, sortedStems, transcriptionsByStem, stemsLoading } = useStudioData(trackId);
+
   const { setPrimaryVersionAsync } = useVersionSwitcher();
   const { separate, isSeparating } = useStemSeparation();
 
   // Stem separation realtime progress
-  const { 
-    activeTask: separationTask, 
-    progress: separationProgress, 
-    isProcessing: isSeparationProcessing 
+  const {
+    activeTask: separationTask,
+    progress: separationProgress,
+    isProcessing: isSeparationProcessing,
   } = useStemSeparationRealtime(trackId);
 
   // Stem separation mode dialog
   const [stemModeDialogOpen, setStemModeDialogOpen] = useState(false);
 
   // Track state (raw/simple_stems/detailed_stems)
-  const { 
-    trackState, 
-    vocalStem, 
-    instrumentalStem,
-    hasVocalStem,
-    hasInstrumentalStem,
-  } = useStudioTrackState(trackId);
+  const { trackState, vocalStem, instrumentalStem, hasVocalStem, hasInstrumentalStem } = useStudioTrackState(trackId);
 
   // Activity logging
   const { logActivity, logReplacementApply, logReplacementDiscard } = useStudioActivityLogger(trackId);
 
   // Unified Studio Store - Playback state (migrated from local state)
   // Note: isPlaying and currentTime are now managed by the store
-  const isPlaying = useUnifiedStudioStore(state => state.isPlaying);
-  const currentTime = useUnifiedStudioStore(state => state.currentTime);
-  const storePlay = useUnifiedStudioStore(state => state.play);
-  const storePause = useUnifiedStudioStore(state => state.pause);
-  const storeSeek = useUnifiedStudioStore(state => state.seek);
+  const isPlaying = useUnifiedStudioStore((state) => state.isPlaying);
+  const currentTime = useUnifiedStudioStore((state) => state.currentTime);
+  const storePlay = useUnifiedStudioStore((state) => state.play);
+  const storePause = useUnifiedStudioStore((state) => state.pause);
+  const storeSeek = useUnifiedStudioStore((state) => state.seek);
 
   // Local state for audio coordination (NOT duplicate - store doesn't have these fields)
   // - duration: Store tracks currentTime but not total duration
@@ -163,7 +158,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
   const [selectedStemForAction, setSelectedStemForAction] = useState<TrackStem | null>(null);
   const [showActionsPanel, setShowActionsPanel] = useState(!isMobile);
   const [showVariantComparison, setShowVariantComparison] = useState(false);
-  
+
   // New: MIDI and Effects drawer states
   const [midiDrawerOpen, setMidiDrawerOpen] = useState(false);
   const [effectsDrawerOpen, setEffectsDrawerOpen] = useState(false);
@@ -175,17 +170,17 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
   const [selectedStemForEffects, setSelectedStemForEffects] = useState<TrackStem | null>(null);
   const [selectedStemForArrangement, setSelectedStemForArrangement] = useState<TrackStem | null>(null);
   const [selectedStemForNotes, setSelectedStemForNotes] = useState<TrackStem | null>(null);
-  
+
   // Effects state for the selected stem
   const [stemEffects, setStemEffects] = useState(defaultStemEffects);
-  
+
   // Section Editor State
-  const { 
-    editMode, 
-    selectedSectionIndex, 
+  const {
+    editMode,
+    selectedSectionIndex,
     customRange,
     latestCompletion,
-    selectSection, 
+    selectSection,
     setCustomRange,
     setEditMode,
     setLatestCompletion,
@@ -197,7 +192,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
   const { data: lyricsData } = useTimestampedLyrics(track?.suno_task_id || null, track?.suno_id || null);
   const detectedSections = useSectionDetection(track?.lyrics, lyricsData?.alignedWords, duration);
   const { data: replacedSections } = useReplacedSections(trackId);
-  
+
   // Realtime updates
   useReplaceSectionRealtime(trackId);
 
@@ -210,9 +205,9 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
   // Reset on track change
   useEffect(() => {
     resetSectionEditor();
-    logActivity('studio_open');
+    logActivity("studio_open");
     return () => {
-      logActivity('studio_close');
+      logActivity("studio_close");
     };
   }, [trackId, resetSectionEditor, logActivity]);
 
@@ -224,16 +219,16 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
   // Initialize stem states
   useEffect(() => {
     if (!stems || stems.length === 0) return;
-    
+
     const initialStates: Record<string, StemState> = {};
-    stems.forEach(stem => {
+    stems.forEach((stem) => {
       if (!stemStates[stem.id]) {
         initialStates[stem.id] = { muted: false, solo: false, volume: 0.85 };
       }
     });
-    
+
     if (Object.keys(initialStates).length > 0) {
-      setStemStates(prev => ({ ...prev, ...initialStates }));
+      setStemStates((prev) => ({ ...prev, ...initialStates }));
     }
   }, [stems]);
 
@@ -265,7 +260,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
       setStemsLoadingProgress(Math.round((loadedCount / totalStems) * 100));
       if (loadedCount >= totalStems) {
         setStemsReady(true);
-        logger.info('All stems initialized (metadata ready)', { count: totalStems });
+        logger.info("All stems initialized (metadata ready)", { count: totalStems });
       }
     };
 
@@ -276,37 +271,37 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
     const loadStemAsync = async (stem: TrackStem) => {
       if (!stemAudioRefs.current[stem.id]) {
         const audio = new Audio();
-        audio.preload = 'auto'; // Changed from 'metadata' to 'auto' for faster loading
+        audio.preload = "auto"; // Changed from 'metadata' to 'auto' for faster loading
         audio.volume = 0.85;
-        audio.crossOrigin = 'anonymous';
+        audio.crossOrigin = "anonymous";
 
         const handleLoadedMetadata = () => {
           if (!audio.dataset.counted) {
-            audio.dataset.counted = 'true';
+            audio.dataset.counted = "true";
             loadedCount++;
             stemsLoadingCountRef.current = loadedCount;
-            logger.debug('Stem metadata ready', {
+            logger.debug("Stem metadata ready", {
               stemId: stem.id,
               stemType: stem.stem_type,
               loadedCount,
               totalStems,
-              fromCache: audio.dataset.fromCache === 'true',
+              fromCache: audio.dataset.fromCache === "true",
             });
             checkAllLoaded();
           }
         };
 
         const handleError = (e: Event) => {
-          logger.error('Stem audio load error', { stemId: stem.id, error: e });
+          logger.error("Stem audio load error", { stemId: stem.id, error: e });
           if (!audio.dataset.counted) {
-            audio.dataset.counted = 'true';
+            audio.dataset.counted = "true";
             loadedCount++;
             checkAllLoaded();
           }
         };
 
-        audio.addEventListener('loadedmetadata', handleLoadedMetadata, { once: true });
-        audio.addEventListener('error', handleError, { once: true });
+        audio.addEventListener("loadedmetadata", handleLoadedMetadata, { once: true });
+        audio.addEventListener("error", handleError, { once: true });
 
         // Set audio source directly - waveform prefetching handled by useStudioData
         audio.src = stem.audio_url;
@@ -314,10 +309,10 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
         // Faster fallback timeout - don't wait too long
         setTimeout(() => {
           if (!audio.dataset.counted && audio.readyState < 1) {
-            audio.dataset.counted = 'true';
+            audio.dataset.counted = "true";
             loadedCount++;
             checkAllLoaded();
-            logger.warn('Stem metadata timeout, counting as ready', {
+            logger.warn("Stem metadata timeout, counting as ready", {
               stemId: stem.id,
               readyState: audio.readyState,
             });
@@ -328,20 +323,20 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
       } else {
         const audio = stemAudioRefs.current[stem.id];
         if (audio.readyState >= 1 && !audio.dataset.counted) {
-          audio.dataset.counted = 'true';
+          audio.dataset.counted = "true";
           loadedCount++;
           checkAllLoaded();
         } else if (!audio.dataset.counted) {
           audio.addEventListener(
-            'loadedmetadata',
+            "loadedmetadata",
             () => {
               if (!audio.dataset.counted) {
-                audio.dataset.counted = 'true';
+                audio.dataset.counted = "true";
                 loadedCount++;
                 checkAllLoaded();
               }
             },
-            { once: true }
+            { once: true },
           );
         }
       }
@@ -349,14 +344,14 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
 
     // Load all stems in parallel for faster loading
     // No stagger delay - modern browsers handle parallel connections efficiently
-    Promise.all(prioritizedStems.map(stem => loadStemAsync(stem)));
+    Promise.all(prioritizedStems.map((stem) => loadStemAsync(stem)));
 
     // Cleanup: remove audio elements for stems that no longer exist
     const stemIds = new Set(stems.map((s) => s.id));
     Object.keys(stemAudioRefs.current).forEach((id) => {
       if (!stemIds.has(id)) {
         stemAudioRefs.current[id].pause();
-        stemAudioRefs.current[id].src = '';
+        stemAudioRefs.current[id].src = "";
         delete stemAudioRefs.current[id];
       }
     });
@@ -365,7 +360,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
       // Cleanup all stem audio on unmount
       Object.values(stemAudioRefs.current).forEach((audio) => {
         audio.pause();
-        audio.src = '';
+        audio.src = "";
       });
       stemAudioRefs.current = {};
       setStemsReady(false);
@@ -379,9 +374,9 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
   useEffect(() => {
     if (!stems || stems.length === 0) return;
 
-    const hasSoloedStems = Object.values(stemStates).some(s => s.solo);
+    const hasSoloedStems = Object.values(stemStates).some((s) => s.solo);
 
-    stems.forEach(stem => {
+    stems.forEach((stem) => {
       const audio = stemAudioRefs.current[stem.id];
       if (!audio) return;
 
@@ -408,7 +403,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
         }
       } catch (e) {
         // Ignore volume setting errors during loading
-        logger.warn('Failed to set stem volume', { stemId: stem.id, error: e });
+        logger.warn("Failed to set stem volume", { stemId: stem.id, error: e });
       }
     });
   }, [stems, stemStates, masterVolume, masterMuted]);
@@ -418,26 +413,26 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
     if (!currentAudioUrl) return;
 
     const audio = new Audio(currentAudioUrl);
-    audio.preload = 'auto';
+    audio.preload = "auto";
     audioRef.current = audio;
 
     // Register for audio coordination
-    registerStudioAudio('unified-studio-player', () => {
+    registerStudioAudio("unified-studio-player", () => {
       audio.pause();
       // Also pause all stems
-      Object.values(stemAudioRefs.current).forEach(stemAudio => {
+      Object.values(stemAudioRefs.current).forEach((stemAudio) => {
         stemAudio.pause();
       });
       storePause(); // Use store action
     });
 
-    audio.addEventListener('loadedmetadata', () => {
+    audio.addEventListener("loadedmetadata", () => {
       setDuration(audio.duration);
     });
 
-    audio.addEventListener('ended', () => {
+    audio.addEventListener("ended", () => {
       // Pause all stems when track ends
-      Object.values(stemAudioRefs.current).forEach(stemAudio => {
+      Object.values(stemAudioRefs.current).forEach((stemAudio) => {
         stemAudio.pause();
         stemAudio.currentTime = 0;
       });
@@ -446,9 +441,9 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
     });
 
     return () => {
-      unregisterStudioAudio('unified-studio-player');
+      unregisterStudioAudio("unified-studio-player");
       audio.pause();
-      audio.src = '';
+      audio.src = "";
       audioRef.current = null;
     };
   }, [currentAudioUrl]);
@@ -481,7 +476,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
       audioRef.current?.pause();
 
       // Pause all stem audio
-      Object.values(stemAudioRefs.current).forEach(audio => {
+      Object.values(stemAudioRefs.current).forEach((audio) => {
         audio.pause();
       });
 
@@ -496,78 +491,82 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
           const playPromises: Promise<void>[] = [];
           let playableCount = 0;
           let notReadyCount = 0;
-          
+
           for (const [stemId, audio] of Object.entries(stemAudioRefs.current)) {
             // Sync time before playing
             audio.currentTime = currentTime;
-            
+
             // Try to play if audio has at least some data (readyState >= 2 = HAVE_CURRENT_DATA)
             if (audio.readyState >= 2) {
               playableCount++;
-              playPromises.push(audio.play().catch(e => {
-                logger.warn('Stem play failed', { stemId, error: e });
-              }));
+              playPromises.push(
+                audio.play().catch((e) => {
+                  logger.warn("Stem play failed", { stemId, error: e });
+                }),
+              );
             } else {
               notReadyCount++;
               // Start loading if not already
-              if (audio.preload !== 'auto') {
-                audio.preload = 'auto';
+              if (audio.preload !== "auto") {
+                audio.preload = "auto";
                 audio.load();
               }
-              
+
               // Listen for canplay and then play
               const canPlayHandler = () => {
                 audio.currentTime = audioRef.current?.currentTime || currentTime;
-                audio.play().catch(e => {
-                  logger.warn('Delayed stem play failed', { stemId, error: e });
+                audio.play().catch((e) => {
+                  logger.warn("Delayed stem play failed", { stemId, error: e });
                 });
               };
-              audio.addEventListener('canplay', canPlayHandler, { once: true });
-              
-              logger.debug('Stem loading, will play when ready', { stemId, readyState: audio.readyState });
+              audio.addEventListener("canplay", canPlayHandler, { once: true });
+
+              logger.debug("Stem loading, will play when ready", { stemId, readyState: audio.readyState });
             }
           }
-          
+
           // Show toast only if some stems are still loading
           if (notReadyCount > 0 && playableCount === 0) {
-            toast.info('Загрузка стемов...', { duration: 2000 });
+            toast.info("Загрузка стемов...", { duration: 2000 });
           }
-          
+
           // Also sync and play main audio (muted as reference for seeking/duration)
           if (audioRef.current && audioRef.current.readyState >= 2) {
             audioRef.current.currentTime = currentTime;
             audioRef.current.volume = 0; // Mute main track when playing stems
-            playPromises.push(audioRef.current.play().catch(e => {
-              logger.warn('Main audio play failed', { error: e });
-            }));
+            playPromises.push(
+              audioRef.current.play().catch((e) => {
+                logger.warn("Main audio play failed", { error: e });
+              }),
+            );
           }
-          
+
           await Promise.all(playPromises);
-          logger.info('Stem playback started', { playableCount, notReadyCount, totalStems: stems.length });
+          logger.info("Stem playback started", { playableCount, notReadyCount, totalStems: stems.length });
         } else {
           // No stems - play main audio only
           if (audioRef.current) {
             if (audioRef.current.readyState >= 2) {
               await audioRef.current.play();
             } else {
-              toast.info('Загрузка аудио...', { duration: 2000 });
+              toast.info("Загрузка аудио...", { duration: 2000 });
               // Wait for audio to load
               await new Promise<void>((resolve, reject) => {
                 const audio = audioRef.current!;
                 const onCanPlay = () => {
-                  audio.removeEventListener('canplay', onCanPlay);
-                  audio.removeEventListener('error', onError);
+                  audio.removeEventListener("canplay", onCanPlay);
+                  audio.removeEventListener("error", onError);
                   audio.play().then(resolve).catch(reject);
                 };
                 const onError = (e: Event) => {
-                  audio.removeEventListener('canplay', onCanPlay);
-                  audio.removeEventListener('error', onError);
-                  reject(new Error('Audio load error'));
+                  audio.removeEventListener("canplay", onCanPlay);
+                  audio.removeEventListener("error", onError);
+                  reject(new Error("Audio load error"));
                 };
-                audio.addEventListener('canplay', onCanPlay);
-                audio.addEventListener('error', onError);
+                audio.addEventListener("canplay", onCanPlay);
+                audio.addEventListener("error", onError);
                 // Timeout after 10 seconds
-                setTimeout(() => reject(new Error('Audio load timeout')), 10000);
+                setTimeout(() => reject(new Error("Audio load timeout")), 10000);
               });
             }
           }
@@ -576,61 +575,66 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
         storePlay(); // Use store action
         animationFrameRef.current = requestAnimationFrame(updateTime);
       } catch (error) {
-        logger.error('Error playing audio', error);
-        toast.error('Ошибка воспроизведения');
+        logger.error("Error playing audio", error);
+        toast.error("Ошибка воспроизведения");
       }
     }
   };
 
-  const handleSeek = useCallback((time: number) => {
-    storeSeek(time); // Update store
+  const handleSeek = useCallback(
+    (time: number) => {
+      storeSeek(time); // Update store
 
-    // Seek main audio
-    if (audioRef.current) {
-      audioRef.current.currentTime = time;
-    }
+      // Seek main audio
+      if (audioRef.current) {
+        audioRef.current.currentTime = time;
+      }
 
-    // Seek all stem audio
-    Object.values(stemAudioRefs.current).forEach(audio => {
-      audio.currentTime = time;
-    });
-  }, [storeSeek]);
+      // Seek all stem audio
+      Object.values(stemAudioRefs.current).forEach((audio) => {
+        audio.currentTime = time;
+      });
+    },
+    [storeSeek],
+  );
 
-  const handleSkip = (direction: 'back' | 'forward') => {
+  const handleSkip = (direction: "back" | "forward") => {
     const skipAmount = 10;
-    const newTime = direction === 'back' 
-      ? Math.max(0, currentTime - skipAmount)
-      : Math.min(duration, currentTime + skipAmount);
+    const newTime =
+      direction === "back" ? Math.max(0, currentTime - skipAmount) : Math.min(duration, currentTime + skipAmount);
     handleSeek(newTime);
   };
 
   // Section selection
-  const handleSectionSelect = useCallback((section: typeof detectedSections[0], index: number) => {
-    selectSection(section, index);
-  }, [selectSection]);
+  const handleSectionSelect = useCallback(
+    (section: (typeof detectedSections)[0], index: number) => {
+      selectSection(section, index);
+    },
+    [selectSection],
+  );
 
   // Stem separation
-  const handleStemSeparation = async (mode: 'simple' | 'detailed') => {
+  const handleStemSeparation = async (mode: "simple" | "detailed") => {
     if (!track) return;
     try {
       await separate(track, mode);
-      queryClient.invalidateQueries({ queryKey: ['track-stems', trackId] });
+      queryClient.invalidateQueries({ queryKey: ["track-stems", trackId] });
     } catch (error) {
-      logger.error('Stem separation failed', error);
+      logger.error("Stem separation failed", error);
     }
   };
 
   // Stem controls
-  const handleStemToggle = (stemId: string, type: 'mute' | 'solo') => {
-    setStemStates(prev => {
+  const handleStemToggle = (stemId: string, type: "mute" | "solo") => {
+    setStemStates((prev) => {
       const newStates = { ...prev };
 
-      if (type === 'solo') {
+      if (type === "solo") {
         const wasSolo = prev[stemId]?.solo;
         newStates[stemId] = { ...newStates[stemId], solo: !wasSolo };
-        
+
         if (!wasSolo) {
-          Object.keys(newStates).forEach(id => {
+          Object.keys(newStates).forEach((id) => {
             if (id !== stemId) {
               newStates[id] = { ...newStates[id], solo: false };
             }
@@ -645,48 +649,51 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
   };
 
   const handleStemVolumeChange = (stemId: string, newVolume: number) => {
-    setStemStates(prev => ({
+    setStemStates((prev) => ({
       ...prev,
-      [stemId]: { ...prev[stemId], volume: newVolume }
+      [stemId]: { ...prev[stemId], volume: newVolume },
     }));
   };
 
   // Stem action handler
-  const handleStemAction = async (stem: TrackStem, action: 'midi' | 'reference' | 'download' | 'effects' | 'view-notes' | 'delete' | 'arrangement') => {
+  const handleStemAction = async (
+    stem: TrackStem,
+    action: "midi" | "reference" | "download" | "effects" | "view-notes" | "delete" | "arrangement",
+  ) => {
     switch (action) {
-      case 'reference':
+      case "reference":
         ReferenceManager.createFromStem({
           audioUrl: stem.audio_url,
           stemType: stem.stem_type,
           trackId: trackId,
-          trackTitle: track?.title || 'Стем',
+          trackTitle: track?.title || "Стем",
           lyrics: track?.lyrics || undefined,
           style: track?.style || undefined,
         });
-        toast.success('Референс из студии загружен');
-        navigate('/', { state: { openGenerate: true } });
+        toast.success("Референс из студии загружен");
+        navigate("/", { state: { openGenerate: true } });
         break;
-      case 'midi':
+      case "midi":
         setSelectedStemForMidi(stem);
         setMidiDrawerOpen(true);
         break;
-      case 'effects':
+      case "effects":
         setSelectedStemForEffects(stem);
         setEffectsDrawerOpen(true);
         break;
-      case 'download':
-        window.open(stem.audio_url, '_blank');
+      case "download":
+        window.open(stem.audio_url, "_blank");
         break;
-      case 'view-notes': {
+      case "view-notes": {
         // Check if stem has transcription data to view
         const stemTranscription = transcriptionsByStem?.[stem.id];
-        const hasTranscriptionData = stemTranscription && (
-          stemTranscription.midi_url || 
-          stemTranscription.pdf_url || 
-          stemTranscription.gp5_url || 
-          stemTranscription.mxml_url
-        );
-        
+        const hasTranscriptionData =
+          stemTranscription &&
+          (stemTranscription.midi_url ||
+            stemTranscription.pdf_url ||
+            stemTranscription.gp5_url ||
+            stemTranscription.mxml_url);
+
         if (hasTranscriptionData) {
           // Open viewer for existing transcription
           setSelectedStemForNotes(stem);
@@ -698,19 +705,19 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
         }
         break;
       }
-      case 'arrangement':
+      case "arrangement":
         // Open new arrangement dialog for vocal stems
         if (track) {
           setSelectedStemForArrangement(stem);
           setNewArrangementOpen(true);
         }
         break;
-      case 'delete': {
-        if (!stem.source || stem.source === 'separated') {
-          toast.error('Этот стем нельзя удалить');
+      case "delete": {
+        if (!stem.source || stem.source === "separated") {
+          toast.error("Этот стем нельзя удалить");
           return;
         }
-        const ok = window.confirm('Удалить этот стем? Это действие нельзя отменить.');
+        const ok = window.confirm("Удалить этот стем? Это действие нельзя отменить.");
         if (!ok) return;
 
         try {
@@ -718,30 +725,26 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
           const audio = stemAudioRefs.current[stem.id];
           if (audio) {
             audio.pause();
-            audio.src = '';
+            audio.src = "";
             delete stemAudioRefs.current[stem.id];
           }
 
           // Remove local UI state
-          setStemStates(prev => {
+          setStemStates((prev) => {
             const next = { ...prev };
             delete next[stem.id];
             return next;
           });
 
-          const { error } = await supabase
-            .from('track_stems')
-            .delete()
-            .eq('id', stem.id)
-            .eq('track_id', trackId);
+          const { error } = await supabase.from("track_stems").delete().eq("id", stem.id).eq("track_id", trackId);
 
           if (error) throw error;
 
-          queryClient.invalidateQueries({ queryKey: ['track-stems', trackId] });
-          toast.success('Стем удалён');
+          queryClient.invalidateQueries({ queryKey: ["track-stems", trackId] });
+          toast.success("Стем удалён");
         } catch (e) {
-          logger.error('Failed to delete stem', { stemId: stem.id, error: e });
-          toast.error('Не удалось удалить стем');
+          logger.error("Failed to delete stem", { stemId: stem.id, error: e });
+          toast.error("Не удалось удалить стем");
         }
         break;
       }
@@ -749,83 +752,81 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
   };
 
   // Apply replacement
-  type SaveMode = 'apply' | 'newVersion' | 'newTrack';
-  
-  const handleApplyReplacement = useCallback(async (
-    selectedVariant: 'variantA' | 'variantB' = 'variantA',
-    saveMode: SaveMode = 'apply'
-  ) => {
-    if (!latestCompletion) return;
-    
-    try {
-      const audioUrl = selectedVariant === 'variantB' && latestCompletion.newAudioUrlB
-        ? latestCompletion.newAudioUrlB
-        : latestCompletion.newAudioUrl;
-      
-      if (saveMode === 'apply') {
-        let applied = false;
-        
-        if (latestCompletion.versionId) {
-          await setPrimaryVersionAsync({ 
-            trackId, 
-            versionId: latestCompletion.versionId 
-          });
-          applied = true;
-        } else if (audioUrl) {
-          // Try to find version by task ID
-          const { data: version } = await supabase
-            .from('track_versions')
-            .select('id')
-            .eq('track_id', trackId)
-            .eq('metadata->>original_task_id', latestCompletion.taskId)
-            .single();
-          
-          if (version?.id) {
-            await setPrimaryVersionAsync({ trackId, versionId: version.id });
+  type SaveMode = "apply" | "newVersion" | "newTrack";
+
+  const handleApplyReplacement = useCallback(
+    async (selectedVariant: "variantA" | "variantB" = "variantA", saveMode: SaveMode = "apply") => {
+      if (!latestCompletion) return;
+
+      try {
+        const audioUrl =
+          selectedVariant === "variantB" && latestCompletion.newAudioUrlB
+            ? latestCompletion.newAudioUrlB
+            : latestCompletion.newAudioUrl;
+
+        if (saveMode === "apply") {
+          let applied = false;
+
+          if (latestCompletion.versionId) {
+            await setPrimaryVersionAsync({
+              trackId,
+              versionId: latestCompletion.versionId,
+            });
             applied = true;
-          } else {
-            // No version found - update track's audio_url directly
-            await supabase
-              .from('tracks')
-              .update({ audio_url: audioUrl })
-              .eq('id', trackId);
-            applied = true;
+          } else if (audioUrl) {
+            // Try to find version by task ID
+            const { data: version } = await supabase
+              .from("track_versions")
+              .select("id")
+              .eq("track_id", trackId)
+              .eq("metadata->>original_task_id", latestCompletion.taskId)
+              .single();
+
+            if (version?.id) {
+              await setPrimaryVersionAsync({ trackId, versionId: version.id });
+              applied = true;
+            } else {
+              // No version found - update track's audio_url directly
+              await supabase.from("tracks").update({ audio_url: audioUrl }).eq("id", trackId);
+              applied = true;
+            }
           }
+
+          if (applied && audioRef.current && audioUrl) {
+            audioRef.current.src = audioUrl;
+            audioRef.current.load();
+            setCurrentAudioUrl(audioUrl);
+          }
+
+          toast.success(`Вариант ${selectedVariant === "variantA" ? "A" : "B"} применён`);
         }
-        
-        if (applied && audioRef.current && audioUrl) {
-          audioRef.current.src = audioUrl;
-          audioRef.current.load();
-          setCurrentAudioUrl(audioUrl);
-        }
-        
-        toast.success(`Вариант ${selectedVariant === 'variantA' ? 'A' : 'B'} применён`);
+
+        queryClient.invalidateQueries({ queryKey: ["tracks"] });
+        queryClient.invalidateQueries({ queryKey: ["track-versions", trackId] });
+        queryClient.invalidateQueries({ queryKey: ["replaced-sections", trackId] });
+
+        logReplacementApply(latestCompletion.versionId || "unknown");
+      } catch (error) {
+        logger.error("Failed to apply replacement", error);
+        toast.error("Ошибка при применении замены");
       }
-      
-      queryClient.invalidateQueries({ queryKey: ['tracks'] });
-      queryClient.invalidateQueries({ queryKey: ['track-versions', trackId] });
-      queryClient.invalidateQueries({ queryKey: ['replaced-sections', trackId] });
-      
-      logReplacementApply(latestCompletion.versionId || 'unknown');
-    } catch (error) {
-      logger.error('Failed to apply replacement', error);
-      toast.error('Ошибка при применении замены');
-    }
-    
-    setLatestCompletion(null);
-    setShowVariantComparison(false);
-  }, [latestCompletion, trackId, setPrimaryVersionAsync, queryClient, setLatestCompletion, logReplacementApply]);
+
+      setLatestCompletion(null);
+      setShowVariantComparison(false);
+    },
+    [latestCompletion, trackId, setPrimaryVersionAsync, queryClient, setLatestCompletion, logReplacementApply],
+  );
 
   const handleDiscardReplacement = useCallback(() => {
     logReplacementDiscard();
     setLatestCompletion(null);
     setShowVariantComparison(false);
-    toast.info('Замена отменена');
+    toast.info("Замена отменена");
   }, [setLatestCompletion, logReplacementDiscard]);
 
   // Show comparison when completion arrives
   useEffect(() => {
-    if (latestCompletion?.status === 'completed' && latestCompletion.newAudioUrl) {
+    if (latestCompletion?.status === "completed" && latestCompletion.newAudioUrl) {
       setShowVariantComparison(true);
     }
   }, [latestCompletion]);
@@ -836,35 +837,35 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
         return;
       }
-      
+
       switch (e.code) {
-        case 'Space':
+        case "Space":
           e.preventDefault();
           togglePlay();
           break;
-        case 'ArrowLeft':
-          handleSkip('back');
+        case "ArrowLeft":
+          handleSkip("back");
           break;
-        case 'ArrowRight':
-          handleSkip('forward');
+        case "ArrowRight":
+          handleSkip("forward");
           break;
-        case 'KeyM':
-          setMuted(prev => !prev);
+        case "KeyM":
+          setMuted((prev) => !prev);
           break;
-        case 'Escape':
-          if (editMode !== 'none') {
+        case "Escape":
+          if (editMode !== "none") {
             clearSelection();
           }
           break;
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [togglePlay, editMode, clearSelection]);
 
   const canReplaceSection = track?.suno_id && track?.suno_task_id;
-  const replacedRanges = replacedSections?.map(s => ({ start: s.start, end: s.end })) || [];
+  const replacedRanges = replacedSections?.map((s) => ({ start: s.start, end: s.end })) || [];
 
   if (!track) {
     return (
@@ -876,23 +877,23 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
 
   // Menu items for header dropdown
   const menuItems = [
-    { label: 'Обрезать трек', icon: <Scissors className="w-4 h-4 mr-2" />, onClick: () => setTrimDialogOpen(true) },
+    { label: "Обрезать трек", icon: <Scissors className="w-4 h-4 mr-2" />, onClick: () => setTrimDialogOpen(true) },
   ];
 
   return (
     <div className="h-screen flex flex-col bg-gradient-to-b from-background via-background to-muted/20 overflow-hidden">
       {/* Header with refined desktop design */}
-      <header 
+      <header
         className={cn(
           "flex-shrink-0 border-b border-border/30",
-          isMobile 
-            ? "bg-card/50 backdrop-blur-sm" 
-            : "bg-gradient-to-r from-card/80 via-card/60 to-card/80 backdrop-blur-md"
+          isMobile
+            ? "bg-card/50 backdrop-blur-sm"
+            : "bg-gradient-to-r from-card/80 via-card/60 to-card/80 backdrop-blur-md",
         )}
-        style={{ 
-          paddingTop: isMobile 
-            ? 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.5rem), calc(env(safe-area-inset-top, 0px) + 0.5rem))' 
-            : undefined
+        style={{
+          paddingTop: isMobile
+            ? "max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.5rem), calc(env(safe-area-inset-top, 0px) + 0.5rem))"
+            : undefined,
         }}
       >
         {/* Centered Logo - only on mobile */}
@@ -901,55 +902,55 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
             <AppLogo size="sm" variant="default" showName />
           </div>
         )}
-        
+
         {/* Track header row */}
-        <div className={cn(
-          "flex items-center justify-between",
-          isMobile ? "px-3 py-2" : "px-6 py-3"
-        )}>
+        <div className={cn("flex items-center justify-between", isMobile ? "px-3 py-2" : "px-6 py-3")}>
           <div className="flex items-center gap-3 min-w-0 flex-1">
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => navigate('/library')}
+              onClick={() => navigate("/library")}
               className={cn(
                 "shrink-0 rounded-full hover:bg-muted/50 transition-colors",
-                isMobile ? "h-9 w-9" : "h-10 w-10"
+                isMobile ? "h-9 w-9" : "h-10 w-10",
               )}
             >
               <ChevronLeft className={isMobile ? "h-5 w-5" : "h-6 w-6"} />
             </Button>
-            
+
             <div className="flex items-center gap-3 min-w-0 flex-1">
               {track.cover_url && (
-                <div className={cn(
-                  "rounded-xl overflow-hidden shrink-0 bg-muted shadow-lg ring-1 ring-white/10",
-                  isMobile ? "w-10 h-10" : "w-14 h-14"
-                )}>
+                <div
+                  className={cn(
+                    "rounded-xl overflow-hidden shrink-0 bg-muted shadow-lg ring-1 ring-white/10",
+                    isMobile ? "w-10 h-10" : "w-14 h-14",
+                  )}
+                >
                   <img src={track.cover_url} alt="" className="w-full h-full object-cover" />
                 </div>
               )}
-              
+
               <div className="min-w-0 flex-1">
-                <h1 className={cn(
-                  "font-bold truncate",
-                  isMobile ? "text-sm" : "text-lg"
-                )}>
-                  {track.title || 'Без названия'}
+                <h1 className={cn("font-bold truncate", isMobile ? "text-sm" : "text-lg")}>
+                  {track.title || "Без названия"}
                 </h1>
                 <div className="flex items-center gap-2 mt-0.5">
                   {hasStems && (
-                    <Badge variant="secondary" className={cn(
-                      "font-medium",
-                      isMobile ? "text-[10px] h-4 px-1.5" : "text-xs h-5 px-2"
-                    )}>
+                    <Badge
+                      variant="secondary"
+                      className={cn("font-medium", isMobile ? "text-[10px] h-4 px-1.5" : "text-xs h-5 px-2")}
+                    >
                       <Layers className="w-3 h-3 mr-1" />
                       {stems.length} стемов
                     </Badge>
                   )}
                   {!isMobile && track.tags && (
                     <span className="text-xs text-muted-foreground truncate max-w-[200px]">
-                      {track.tags.split(',').slice(0, 3).map((t: string) => t.trim()).join(' · ')}
+                      {track.tags
+                        .split(",")
+                        .slice(0, 3)
+                        .map((t: string) => t.trim())
+                        .join(" · ")}
                     </span>
                   )}
                 </div>
@@ -958,18 +959,15 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
           </div>
 
           {/* Header actions */}
-          <div className={cn(
-            "flex items-center",
-            isMobile ? "gap-1.5" : "gap-2"
-          )}>
-            <ReplacementProgressIndicator 
+          <div className={cn("flex items-center", isMobile ? "gap-1.5" : "gap-2")}>
+            <ReplacementProgressIndicator
               trackId={trackId}
               onViewResult={(taskId) => {
-                const replaced = replacedSections?.find(s => s.taskId === taskId);
+                const replaced = replacedSections?.find((s) => s.taskId === taskId);
                 if (replaced && track.audio_url) {
                   const variantA = replaced.audioUrl;
                   const variantB = replaced.audioUrlB;
-                  
+
                   if (variantA) {
                     setLatestCompletion({
                       taskId,
@@ -977,22 +975,19 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
                       newAudioUrl: variantA,
                       newAudioUrlB: variantB,
                       section: { start: replaced.start, end: replaced.end },
-                      status: 'completed',
+                      status: "completed",
                     });
                   }
                 }
               }}
             />
 
-            {canReplaceSection && editMode === 'none' && (
+            {canReplaceSection && editMode === "none" && (
               <Button
                 variant={isMobile ? "outline" : "secondary"}
                 size={isMobile ? "sm" : "default"}
-                onClick={() => setEditMode('selecting')}
-                className={cn(
-                  "gap-1.5",
-                  isMobile ? "h-8 text-xs" : "h-9 px-4"
-                )}
+                onClick={() => setEditMode("selecting")}
+                className={cn("gap-1.5", isMobile ? "h-8 text-xs" : "h-9 px-4")}
               >
                 <Scissors className={isMobile ? "w-3.5 h-3.5" : "w-4 h-4"} />
                 <span className={isMobile ? "hidden sm:inline" : ""}>Заменить секцию</span>
@@ -1004,10 +999,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
                 variant={isMobile ? "outline" : "default"}
                 size={isMobile ? "sm" : "default"}
                 onClick={() => setStemModeDialogOpen(true)}
-                className={cn(
-                  "gap-1.5",
-                  isMobile ? "h-8 text-xs" : "h-9 px-4"
-                )}
+                className={cn("gap-1.5", isMobile ? "h-8 text-xs" : "h-9 px-4")}
               >
                 <Split className={isMobile ? "w-3.5 h-3.5" : "w-4 h-4"} />
                 <span className={isMobile ? "hidden sm:inline" : ""}>Разделить на стемы</span>
@@ -1015,28 +1007,20 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
             )}
 
             {(isSeparating || isSeparationProcessing) && (
-              <Badge variant="secondary" className={cn(
-                "gap-1.5",
-                isMobile ? "h-8 text-xs" : "h-9 px-3 text-sm"
-              )}>
-                <div className={cn(
-                  "border-2 border-primary border-t-transparent rounded-full animate-spin",
-                  isMobile ? "w-3 h-3" : "w-4 h-4"
-                )} />
-                <span>{separationProgress > 0 ? `${separationProgress}%` : 'Разделение...'}</span>
+              <Badge variant="secondary" className={cn("gap-1.5", isMobile ? "h-8 text-xs" : "h-9 px-3 text-sm")}>
+                <div
+                  className={cn(
+                    "border-2 border-primary border-t-transparent rounded-full animate-spin",
+                    isMobile ? "w-3 h-3" : "w-4 h-4",
+                  )}
+                />
+                <span>{separationProgress > 0 ? `${separationProgress}%` : "Разделение..."}</span>
               </Badge>
             )}
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
-                  className={cn(
-                    "rounded-full",
-                    isMobile ? "h-8 w-8" : "h-9 w-9"
-                  )}
-                >
+                <Button variant="ghost" size="icon" className={cn("rounded-full", isMobile ? "h-8 w-8" : "h-9 w-9")}>
                   <MoreVertical className={isMobile ? "h-4 w-4" : "h-5 w-5"} />
                 </Button>
               </DropdownMenuTrigger>
@@ -1055,7 +1039,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
 
       {/* Version & Progress indicators */}
       <div className="flex flex-col gap-2 px-3 py-1.5 border-b border-border/30 bg-muted/20">
-        <VersionTimeline 
+        <VersionTimeline
           trackId={trackId}
           onVersionChange={(versionId, audioUrl) => {
             setCurrentAudioUrl(audioUrl);
@@ -1063,17 +1047,12 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
               audioRef.current.src = audioUrl;
               audioRef.current.load();
             }
-            queryClient.invalidateQueries({ queryKey: ['tracks'] });
+            queryClient.invalidateQueries({ queryKey: ["tracks"] });
           }}
         />
-        
+
         {/* Stem Separation Progress */}
-        {separationTask && (
-          <StemSeparationProgress 
-            task={separationTask} 
-            progress={separationProgress} 
-          />
-        )}
+        {separationTask && <StemSeparationProgress task={separationTask} progress={separationProgress} />}
       </div>
 
       {/* Synchronized Lyrics (collapsible) */}
@@ -1084,26 +1063,25 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
         currentTime={currentTime}
         isPlaying={isPlaying}
         onSeek={handleSeek}
-        selectionMode={editMode === 'selecting'}
+        selectionMode={editMode === "selecting"}
         onSectionSelect={(start, end, lyrics) => {
           setCustomRange(start, end);
-          setEditMode('editing');
+          setEditMode("editing");
         }}
         highlightedSection={customRange}
       />
 
       {/* Main Content Area - scrollable on mobile */}
-      <div className={cn(
-        "flex-1 flex flex-col overflow-y-auto overflow-x-hidden",
-        !isMobile && "px-4 py-3"
-      )}>
+      <div className={cn("flex-1 flex flex-col overflow-y-auto overflow-x-hidden", !isMobile && "px-4 py-3")}>
         {/* Waveform Timeline with Sections */}
-        <div className={cn(
-          "border-b border-border/20",
-          isMobile 
-            ? "px-2 py-2 bg-card/30" 
-            : "px-4 py-4 bg-card/40 rounded-xl mb-3 border border-border/30 shadow-sm"
-        )}>
+        <div
+          className={cn(
+            "border-b border-border/20",
+            isMobile
+              ? "px-2 py-2 bg-card/30"
+              : "px-4 py-4 bg-card/40 rounded-xl mb-3 border border-border/30 shadow-sm",
+          )}
+        >
           {currentAudioUrl && (
             <UnifiedWaveformTimeline
               audioUrl={currentAudioUrl}
@@ -1139,11 +1117,11 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
         )}
 
         {/* Section Editor (inline on desktop) */}
-        {!isMobile && editMode === 'editing' && (
+        {!isMobile && editMode === "editing" && (
           <Suspense fallback={<div className="p-4 animate-pulse bg-muted/20 rounded-lg" />}>
             <LazySectionEditorPanel
               trackId={trackId}
-              trackTitle={track.title || 'Трек'}
+              trackTitle={track.title || "Трек"}
               trackTags={track.tags}
               audioUrl={currentAudioUrl}
               duration={duration}
@@ -1176,24 +1154,20 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
         )}
 
         {/* Empty state when no section selected and no stems */}
-        {editMode === 'none' && !hasStems && !showVariantComparison && (
-          <div className={cn(
-            "flex-1 flex flex-col items-center justify-center text-center",
-            isMobile ? "p-6" : "p-12"
-          )}>
-            <div className={cn(
-              "rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center mb-6 shadow-lg shadow-primary/10",
-              isMobile ? "w-16 h-16" : "w-24 h-24"
-            )}>
+        {editMode === "none" && !hasStems && !showVariantComparison && (
+          <div
+            className={cn("flex-1 flex flex-col items-center justify-center text-center", isMobile ? "p-6" : "p-12")}
+          >
+            <div
+              className={cn(
+                "rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center mb-6 shadow-lg shadow-primary/10",
+                isMobile ? "w-16 h-16" : "w-24 h-24",
+              )}
+            >
               <Music2 className={cn("text-primary", isMobile ? "w-8 h-8" : "w-12 h-12")} />
             </div>
-            <h3 className={cn("font-bold mb-3", isMobile ? "text-lg" : "text-2xl")}>
-              Студия трека
-            </h3>
-            <p className={cn(
-              "text-muted-foreground mb-6",
-              isMobile ? "text-sm max-w-sm" : "text-base max-w-md"
-            )}>
+            <h3 className={cn("font-bold mb-3", isMobile ? "text-lg" : "text-2xl")}>Студия трека</h3>
+            <p className={cn("text-muted-foreground mb-6", isMobile ? "text-sm max-w-sm" : "text-base max-w-md")}>
               Выберите секцию на таймлайне для замены или разделите трек на стемы для полного контроля над звучанием
             </p>
             <div className={cn("flex flex-wrap justify-center", isMobile ? "gap-2" : "gap-3")}>
@@ -1213,7 +1187,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
                 <Button
                   variant="outline"
                   size={isMobile ? "sm" : "lg"}
-                  onClick={() => setEditMode('selecting')}
+                  onClick={() => setEditMode("selecting")}
                   className={!isMobile ? "px-6" : ""}
                 >
                   <Scissors className={cn("mr-2", isMobile ? "w-4 h-4" : "w-5 h-5")} />
@@ -1223,7 +1197,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
               <Button
                 variant={track.is_instrumental || track.has_vocals === false ? "outline" : "default"}
                 size={isMobile ? "sm" : "lg"}
-                onClick={() => handleStemSeparation('detailed')}
+                onClick={() => handleStemSeparation("detailed")}
                 disabled={isSeparating}
                 className={!isMobile ? "px-6" : ""}
               >
@@ -1236,19 +1210,19 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
       </div>
 
       {/* Player Bar */}
-      <div className={cn(
-        "flex-shrink-0 border-t border-border/30 backdrop-blur-md",
-        isMobile 
-          ? "bg-card/50 px-4 py-3" 
-          : "bg-gradient-to-r from-card/80 via-card/60 to-card/80 px-6 py-4"
-      )}>
+      <div
+        className={cn(
+          "flex-shrink-0 border-t border-border/30 backdrop-blur-md",
+          isMobile ? "bg-card/50 px-4 py-3" : "bg-gradient-to-r from-card/80 via-card/60 to-card/80 px-6 py-4",
+        )}
+      >
         <div className={cn("flex items-center", isMobile ? "gap-4" : "gap-6")}>
           {/* Transport controls */}
           <div className={cn("flex items-center", isMobile ? "gap-1" : "gap-2")}>
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => handleSkip('back')}
+              onClick={() => handleSkip("back")}
               className={cn("rounded-full hover:bg-muted/50", isMobile ? "h-9 w-9" : "h-10 w-10")}
             >
               <SkipBack className={isMobile ? "w-4 h-4" : "w-5 h-5"} />
@@ -1257,20 +1231,18 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
               variant="default"
               size="icon"
               onClick={togglePlay}
-              className={cn(
-                "rounded-full shadow-lg shadow-primary/20",
-                isMobile ? "h-10 w-10" : "h-12 w-12"
-              )}
+              className={cn("rounded-full shadow-lg shadow-primary/20", isMobile ? "h-10 w-10" : "h-12 w-12")}
             >
-              {isPlaying 
-                ? <Pause className={isMobile ? "w-5 h-5" : "w-6 h-6"} /> 
-                : <Play className={cn(isMobile ? "w-5 h-5" : "w-6 h-6", "ml-0.5")} />
-              }
+              {isPlaying ? (
+                <Pause className={isMobile ? "w-5 h-5" : "w-6 h-6"} />
+              ) : (
+                <Play className={cn(isMobile ? "w-5 h-5" : "w-6 h-6", "ml-0.5")} />
+              )}
             </Button>
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => handleSkip('forward')}
+              onClick={() => handleSkip("forward")}
               className={cn("rounded-full hover:bg-muted/50", isMobile ? "h-9 w-9" : "h-10 w-10")}
             >
               <SkipForward className={isMobile ? "w-4 h-4" : "w-5 h-5"} />
@@ -1278,10 +1250,12 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
           </div>
 
           {/* Time display */}
-          <div className={cn(
-            "flex items-center gap-2 text-muted-foreground tabular-nums font-mono",
-            isMobile ? "text-xs" : "text-sm"
-          )}>
+          <div
+            className={cn(
+              "flex items-center gap-2 text-muted-foreground tabular-nums font-mono",
+              isMobile ? "text-xs" : "text-sm",
+            )}
+          >
             <span className="text-foreground font-medium">{formatTime(currentTime)}</span>
             <span>/</span>
             <span>{formatTime(duration)}</span>
@@ -1296,13 +1270,13 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
               variant="ghost"
               size="icon"
               onClick={() => setMuted(!muted)}
-              className={cn(
-                "rounded-full",
-                isMobile ? "h-8 w-8" : "h-9 w-9",
-                muted && "text-destructive"
-              )}
+              className={cn("rounded-full", isMobile ? "h-8 w-8" : "h-9 w-9", muted && "text-destructive")}
             >
-              {muted ? <VolumeX className={isMobile ? "w-4 h-4" : "w-5 h-5"} /> : <Volume2 className={isMobile ? "w-4 h-4" : "w-5 h-5"} />}
+              {muted ? (
+                <VolumeX className={isMobile ? "w-4 h-4" : "w-5 h-5"} />
+              ) : (
+                <Volume2 className={isMobile ? "w-4 h-4" : "w-5 h-5"} />
+              )}
             </Button>
             <Slider
               value={[volume]}
@@ -1320,10 +1294,10 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
       {/* Section Editor (bottom sheet on mobile) */}
       {isMobile && (
         <SectionEditorSheet
-          open={editMode === 'editing'}
+          open={editMode === "editing"}
           onClose={clearSelection}
           trackId={trackId}
-          trackTitle={track.title || 'Трек'}
+          trackTitle={track.title || "Трек"}
           trackTags={track.tags}
           audioUrl={currentAudioUrl}
           duration={duration}
@@ -1336,7 +1310,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
         open={stemActionSheetOpen}
         onOpenChange={setStemActionSheetOpen}
         stem={selectedStemForAction}
-        trackTitle={track.title || 'Трек'}
+        trackTitle={track.title || "Трек"}
         onUseAsReference={(stem) => {
           navigate(`/create?reference=${encodeURIComponent(stem.audio_url)}&type=${stem.stem_type}`);
         }}
@@ -1344,10 +1318,10 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
           navigate(`/midi/${trackId}?stem=${stem.id}&model=${model}`);
         }}
         onGuitarAnalysis={(stem) => {
-          toast.info('Анализ гитары в разработке');
+          toast.info("Анализ гитары в разработке");
         }}
         onDownload={(stem) => {
-          window.open(stem.audio_url, '_blank');
+          window.open(stem.audio_url, "_blank");
         }}
       />
 
@@ -1358,23 +1332,23 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
           onOpenChange={setMidiDrawerOpen}
           stem={selectedStemForMidi}
           trackId={trackId}
-          trackTitle={track.title || 'Трек'}
+          trackTitle={track.title || "Трек"}
           trackDurationSeconds={track.duration_seconds}
         />
       </Suspense>
 
       {/* Notes Viewer Dialog - for viewing existing transcriptions */}
       {(() => {
-        const selectedTranscription = selectedStemForNotes 
-          ? transcriptionsByStem?.[selectedStemForNotes.id] ?? null 
+        const selectedTranscription = selectedStemForNotes
+          ? (transcriptionsByStem?.[selectedStemForNotes.id] ?? null)
           : null;
-        
+
         return (
           <NotesViewerDialog
             open={notesViewerOpen}
             onOpenChange={setNotesViewerOpen}
             transcription={selectedTranscription}
-            stemType={selectedStemForNotes?.stem_type || 'Стем'}
+            stemType={selectedStemForNotes?.stem_type || "Стем"}
             currentTime={currentTime}
             isPlaying={isPlaying}
           />
@@ -1388,9 +1362,15 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
           onOpenChange={setEffectsDrawerOpen}
           stem={selectedStemForEffects}
           effects={stemEffects}
-          onUpdateEQ={(settings: Partial<typeof stemEffects.eq>) => setStemEffects(prev => ({ ...prev, eq: { ...prev.eq, ...settings } }))}
-          onUpdateCompressor={(settings: Partial<typeof stemEffects.compressor>) => setStemEffects(prev => ({ ...prev, compressor: { ...prev.compressor, ...settings } }))}
-          onUpdateReverb={(settings: Partial<typeof stemEffects.reverb>) => setStemEffects(prev => ({ ...prev, reverb: { ...prev.reverb, ...settings } }))}
+          onUpdateEQ={(settings: Partial<typeof stemEffects.eq>) =>
+            setStemEffects((prev) => ({ ...prev, eq: { ...prev.eq, ...settings } }))
+          }
+          onUpdateCompressor={(settings: Partial<typeof stemEffects.compressor>) =>
+            setStemEffects((prev) => ({ ...prev, compressor: { ...prev.compressor, ...settings } }))
+          }
+          onUpdateReverb={(settings: Partial<typeof stemEffects.reverb>) =>
+            setStemEffects((prev) => ({ ...prev, reverb: { ...prev.reverb, ...settings } }))
+          }
           onReset={() => setStemEffects(defaultStemEffects)}
         />
       </Suspense>
@@ -1401,7 +1381,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
           open={addTrackDrawerOpen}
           onOpenChange={setAddTrackDrawerOpen}
           trackId={trackId}
-          trackUrl={currentAudioUrl || ''}
+          trackUrl={currentAudioUrl || ""}
           trackTitle={track.title || undefined}
         />
       </Suspense>
@@ -1415,21 +1395,13 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
           onTrimComplete={() => {}}
         />
       </Suspense>
-      
+
       <Suspense fallback={null}>
-        <LazyRemixDialog
-          open={remixDialogOpen}
-          onOpenChange={setRemixDialogOpen}
-          track={track}
-        />
+        <LazyRemixDialog open={remixDialogOpen} onOpenChange={setRemixDialogOpen} track={track} />
       </Suspense>
-      
+
       <Suspense fallback={null}>
-        <LazyExtendDialog
-          open={extendDialogOpen}
-          onOpenChange={setExtendDialogOpen}
-          track={track}
-        />
+        <LazyExtendDialog open={extendDialogOpen} onOpenChange={setExtendDialogOpen} track={track} />
       </Suspense>
 
       {/* Stem Separation Mode Dialog */}
@@ -1437,7 +1409,7 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
         <LazyStemSeparationModeDialog
           open={stemModeDialogOpen}
           onOpenChange={setStemModeDialogOpen}
-          onConfirm={(mode: 'simple' | 'detailed') => {
+          onConfirm={(mode: "simple" | "detailed") => {
             setStemModeDialogOpen(false);
             handleStemSeparation(mode);
           }}
@@ -1454,7 +1426,9 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
             if (!open) setSelectedStemForArrangement(null);
           }}
           track={track}
-          vocalStem={selectedStemForArrangement || stems?.find(s => s.stem_type === 'vocal' || s.stem_type === 'vocals')}
+          vocalStem={
+            selectedStemForArrangement || stems?.find((s) => s.stem_type === "vocal" || s.stem_type === "vocals")
+          }
         />
       )}
 
@@ -1466,8 +1440,8 @@ export function UnifiedStudioContent({ trackId }: UnifiedStudioContentProps) {
             onOpenChange={setAddVocalsDrawerOpen}
             track={track}
             onSuccess={(newTrackId) => {
-              queryClient.invalidateQueries({ queryKey: ['user-tracks'] });
-              queryClient.invalidateQueries({ queryKey: ['library'] });
+              queryClient.invalidateQueries({ queryKey: ["user-tracks"] });
+              queryClient.invalidateQueries({ queryKey: ["library"] });
             }}
           />
         </Suspense>

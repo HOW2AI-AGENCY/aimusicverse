@@ -29,7 +29,7 @@
 - [useUserRole()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUserRole.tsx#L14) (6 connections)
 - [MidiTranscriptionActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/MidiTranscriptionActions.tsx#L1) (5 connections)
 - [AuthContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AuthContext.tsx#L1) (5 connections)
-- *... and 427 more nodes in this community*
+- _... and 427 more nodes in this community_
 
 ## Relationships
 
@@ -66,4 +66,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

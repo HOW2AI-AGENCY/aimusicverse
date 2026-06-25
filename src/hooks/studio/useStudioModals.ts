@@ -3,22 +3,22 @@
  * Replaces 10+ individual useState calls with single state
  */
 
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo } from "react";
 
 // All possible modal types
 export type StudioModalType =
-  | 'none'
-  | 'addTrack'
-  | 'export'
-  | 'saveVersion'
-  | 'stemSeparation'
-  | 'extend'
-  | 'remix'
-  | 'addVocals'
-  | 'record'
-  | 'notation'
-  | 'chordSheet'
-  | 'addInstrumental';
+  | "none"
+  | "addTrack"
+  | "export"
+  | "saveVersion"
+  | "stemSeparation"
+  | "extend"
+  | "remix"
+  | "addVocals"
+  | "record"
+  | "notation"
+  | "chordSheet"
+  | "addInstrumental";
 
 interface ModalPayload {
   /** Track selected for notation/chords */
@@ -51,7 +51,7 @@ interface UseStudioModalsResult {
  */
 export function useStudioModals(): UseStudioModalsResult {
   const [state, setState] = useState<ModalState>({
-    type: 'none',
+    type: "none",
     payload: {},
   });
 
@@ -60,24 +60,21 @@ export function useStudioModals(): UseStudioModalsResult {
   }, []);
 
   const close = useCallback(() => {
-    setState({ type: 'none', payload: {} });
+    setState({ type: "none", payload: {} });
   }, []);
 
-  const isOpen = useCallback(
-    (type: StudioModalType) => state.type === type,
-    [state.type]
-  );
+  const isOpen = useCallback((type: StudioModalType) => state.type === type, [state.type]);
 
   // Memoized handler factory - returns stable handler for each modal type
   const getOpenChangeHandler = useCallback(
     (type: StudioModalType) => (isOpen: boolean) => {
       if (isOpen) {
-        setState(prev => ({ type, payload: prev.payload }));
+        setState((prev) => ({ type, payload: prev.payload }));
       } else {
-        setState({ type: 'none', payload: {} });
+        setState({ type: "none", payload: {} });
       }
     },
-    []
+    [],
   );
 
   return {
@@ -93,38 +90,35 @@ export function useStudioModals(): UseStudioModalsResult {
 /**
  * Pre-built modal open handlers for common use cases
  */
-export function useStudioModalHandlers(
-  modals: UseStudioModalsResult,
-  hapticPattern?: () => void
-) {
+export function useStudioModalHandlers(modals: UseStudioModalsResult, hapticPattern?: () => void) {
   const withHaptic = useCallback(
     (fn: () => void) => () => {
       hapticPattern?.();
       fn();
     },
-    [hapticPattern]
+    [hapticPattern],
   );
 
   return useMemo(
     () => ({
-      openAddTrack: withHaptic(() => modals.open('addTrack')),
-      openExport: withHaptic(() => modals.open('export')),
-      openSaveVersion: withHaptic(() => modals.open('saveVersion')),
-      openStemSeparation: withHaptic(() => modals.open('stemSeparation')),
-      openExtend: withHaptic(() => modals.open('extend')),
-      openRemix: withHaptic(() => modals.open('remix')),
-      openAddVocals: withHaptic(() => modals.open('addVocals')),
-      openRecord: withHaptic(() => modals.open('record')),
+      openAddTrack: withHaptic(() => modals.open("addTrack")),
+      openExport: withHaptic(() => modals.open("export")),
+      openSaveVersion: withHaptic(() => modals.open("saveVersion")),
+      openStemSeparation: withHaptic(() => modals.open("stemSeparation")),
+      openExtend: withHaptic(() => modals.open("extend")),
+      openRemix: withHaptic(() => modals.open("remix")),
+      openAddVocals: withHaptic(() => modals.open("addVocals")),
+      openRecord: withHaptic(() => modals.open("record")),
       openNotation: (track: any) => {
         hapticPattern?.();
-        modals.open('notation', { selectedTrack: track });
+        modals.open("notation", { selectedTrack: track });
       },
       openChordSheet: (track: any) => {
         hapticPattern?.();
-        modals.open('chordSheet', { selectedTrack: track });
+        modals.open("chordSheet", { selectedTrack: track });
       },
-      openAddInstrumental: withHaptic(() => modals.open('addInstrumental')),
+      openAddInstrumental: withHaptic(() => modals.open("addInstrumental")),
     }),
-    [modals, hapticPattern, withHaptic]
+    [modals, hapticPattern, withHaptic],
   );
 }

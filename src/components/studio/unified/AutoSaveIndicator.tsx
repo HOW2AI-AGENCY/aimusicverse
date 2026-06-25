@@ -2,11 +2,11 @@
  * AutoSaveIndicator - Visual indicator for auto-save status
  */
 
-import { memo } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { Cloud, CloudOff, Loader2, Check, AlertCircle } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { AutoSaveStatus } from '@/hooks/studio/useAutoSave';
+import { memo } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Cloud, CloudOff, Loader2, Check, AlertCircle } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { AutoSaveStatus } from "@/hooks/studio/useAutoSave";
 
 interface AutoSaveIndicatorProps {
   status: AutoSaveStatus;
@@ -16,10 +16,10 @@ interface AutoSaveIndicatorProps {
 }
 
 function formatTimeSince(seconds: number | null): string {
-  if (seconds === null) return '';
-  
+  if (seconds === null) return "";
+
   if (seconds < 60) {
-    return 'только что';
+    return "только что";
   } else if (seconds < 3600) {
     const minutes = Math.floor(seconds / 60);
     return `${minutes} мин. назад`;
@@ -37,46 +37,46 @@ export const AutoSaveIndicator = memo(function AutoSaveIndicator({
 }: AutoSaveIndicatorProps) {
   const getStatusConfig = () => {
     switch (status) {
-      case 'idle':
+      case "idle":
         return {
           icon: Cloud,
-          text: lastSavedAt ? formatTimeSince(timeSinceLastSave) : 'Синхронизировано',
-          color: 'text-muted-foreground',
+          text: lastSavedAt ? formatTimeSince(timeSinceLastSave) : "Синхронизировано",
+          color: "text-muted-foreground",
           animate: false,
         };
-      case 'pending':
+      case "pending":
         return {
           icon: Cloud,
-          text: 'Есть изменения',
-          color: 'text-amber-500',
+          text: "Есть изменения",
+          color: "text-amber-500",
           animate: false,
         };
-      case 'saving':
+      case "saving":
         return {
           icon: Loader2,
-          text: 'Сохранение...',
-          color: 'text-primary',
+          text: "Сохранение...",
+          color: "text-primary",
           animate: true,
         };
-      case 'saved':
+      case "saved":
         return {
           icon: Check,
-          text: 'Сохранено',
-          color: 'text-green-500',
+          text: "Сохранено",
+          color: "text-green-500",
           animate: false,
         };
-      case 'error':
+      case "error":
         return {
           icon: AlertCircle,
-          text: 'Ошибка',
-          color: 'text-destructive',
+          text: "Ошибка",
+          color: "text-destructive",
           animate: false,
         };
       default:
         return {
           icon: CloudOff,
-          text: 'Офлайн',
-          color: 'text-muted-foreground',
+          text: "Офлайн",
+          color: "text-muted-foreground",
           animate: false,
         };
     }
@@ -96,12 +96,7 @@ export const AutoSaveIndicator = memo(function AutoSaveIndicator({
           transition={{ duration: 0.15 }}
           className="flex items-center gap-1.5"
         >
-          <Icon 
-            className={cn(
-              "h-3.5 w-3.5",
-              config.animate && "animate-spin"
-            )} 
-          />
+          <Icon className={cn("h-3.5 w-3.5", config.animate && "animate-spin")} />
           <span className="hidden sm:inline">{config.text}</span>
         </motion.div>
       </AnimatePresence>

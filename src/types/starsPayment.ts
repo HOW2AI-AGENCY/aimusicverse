@@ -4,26 +4,14 @@
  */
 
 // Product Types
-export type StarsProductType = 'credits' | 'subscription';
-export type StarsProductStatus = 'active' | 'inactive' | 'archived';
-export type SubscriptionTier = 'free' | 'pro' | 'premium' | 'enterprise';
+export type StarsProductType = "credits" | "subscription";
+export type StarsProductStatus = "active" | "inactive" | "archived";
+export type SubscriptionTier = "free" | "pro" | "premium" | "enterprise";
 
 // Transaction Types
-export type StarsTransactionStatus = 
-  | 'pending' 
-  | 'processing' 
-  | 'completed' 
-  | 'failed' 
-  | 'cancelled' 
-  | 'refunded';
+export type StarsTransactionStatus = "pending" | "processing" | "completed" | "failed" | "cancelled" | "refunded";
 
-export type SubscriptionHistoryAction = 
-  | 'activated' 
-  | 'renewed' 
-  | 'cancelled' 
-  | 'expired' 
-  | 'upgraded' 
-  | 'downgraded';
+export type SubscriptionHistoryAction = "activated" | "renewed" | "cancelled" | "expired" | "upgraded" | "downgraded";
 
 // Database Entities
 export interface StarsProduct {
@@ -54,7 +42,7 @@ export interface StarsTransaction {
   amount_stars: number;
   amount_usd?: number;
   status: StarsTransactionStatus;
-  payment_method: 'telegram_stars';
+  payment_method: "telegram_stars";
   telegram_user_id?: number;
   idempotency_key?: string;
   error_message?: string;
@@ -62,7 +50,7 @@ export interface StarsTransaction {
   created_at: string;
   updated_at: string;
   completed_at?: string | null;
-  
+
   // Relations
   product?: StarsProduct;
 }
@@ -94,7 +82,7 @@ export interface CreateInvoiceRequest {
   productCode: string; // product_code
   userId: string;
   metadata?: {
-    source?: 'mini_app' | 'bot' | 'web';
+    source?: "mini_app" | "bot" | "web";
     campaign?: string;
     referrer?: string;
   };
@@ -147,14 +135,14 @@ export interface PaymentStatsResponse {
 }
 
 // Error Types
-export type PaymentErrorCode = 
-  | 'PRODUCT_NOT_FOUND'
-  | 'USER_NOT_FOUND'
-  | 'UNAUTHORIZED'
-  | 'RATE_LIMIT_EXCEEDED'
-  | 'INVALID_REQUEST'
-  | 'INTERNAL_ERROR'
-  | 'PAYMENT_FAILED';
+export type PaymentErrorCode =
+  | "PRODUCT_NOT_FOUND"
+  | "USER_NOT_FOUND"
+  | "UNAUTHORIZED"
+  | "RATE_LIMIT_EXCEEDED"
+  | "INVALID_REQUEST"
+  | "INTERNAL_ERROR"
+  | "PAYMENT_FAILED";
 
 export interface PaymentError {
   code: PaymentErrorCode;
@@ -169,7 +157,7 @@ export interface ErrorResponse {
 
 // UI State Types
 export interface PaymentFlowState {
-  step: 'select' | 'invoice' | 'payment' | 'success' | 'error';
+  step: "select" | "invoice" | "payment" | "success" | "error";
   selectedProduct?: StarsProduct;
   invoiceLink?: string;
   error?: PaymentError;

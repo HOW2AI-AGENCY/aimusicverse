@@ -25,4 +25,4 @@
  */
 
 // Re-export everything from the modular hooks
-export * from './public-content';
+export * from "./public-content";

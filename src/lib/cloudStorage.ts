@@ -3,9 +3,9 @@
  * Provides persistent storage with Telegram CloudStorage API + localStorage fallback
  */
 
-import { logger } from './logger';
+import { logger } from "./logger";
 
-const log = logger.child({ module: 'cloudStorage' });
+const log = logger.child({ module: "cloudStorage" });
 
 // Telegram WebApp CloudStorage interface
 interface TelegramCloudStorage {
@@ -25,13 +25,13 @@ function getTelegramCloudStorage(): TelegramCloudStorage | null {
       return webApp.CloudStorage;
     }
   } catch (e) {
-    log.debug('Telegram CloudStorage not available');
+    log.debug("Telegram CloudStorage not available");
   }
   return null;
 }
 
 // Storage prefix to avoid conflicts
-const STORAGE_PREFIX = 'mvai_';
+const STORAGE_PREFIX = "mvai_";
 
 /**
  * Set item in CloudStorage with localStorage fallback
@@ -39,13 +39,13 @@ const STORAGE_PREFIX = 'mvai_';
 export async function setItem(key: string, value: string): Promise<boolean> {
   const prefixedKey = STORAGE_PREFIX + key;
   const cloudStorage = getTelegramCloudStorage();
-  
+
   if (cloudStorage) {
     return new Promise((resolve) => {
       try {
         cloudStorage.setItem(prefixedKey, value, (error, stored) => {
           if (error) {
-            log.warn('CloudStorage setItem failed, using localStorage', { key, error: error.message });
+            log.warn("CloudStorage setItem failed, using localStorage", { key, error: error.message });
             try {
               localStorage.setItem(prefixedKey, value);
               resolve(true);
@@ -67,7 +67,7 @@ export async function setItem(key: string, value: string): Promise<boolean> {
       }
     });
   }
-  
+
   // Fallback to localStorage
   try {
     localStorage.setItem(prefixedKey, value);
@@ -83,7 +83,7 @@ export async function setItem(key: string, value: string): Promise<boolean> {
 export async function getItem(key: string): Promise<string | null> {
   const prefixedKey = STORAGE_PREFIX + key;
   const cloudStorage = getTelegramCloudStorage();
-  
+
   if (cloudStorage) {
     return new Promise((resolve) => {
       try {
@@ -109,7 +109,7 @@ export async function getItem(key: string): Promise<string | null> {
       }
     });
   }
-  
+
   // Fallback to localStorage
   try {
     return localStorage.getItem(prefixedKey);
@@ -122,9 +122,9 @@ export async function getItem(key: string): Promise<string | null> {
  * Get multiple items at once
  */
 export async function getItems(keys: string[]): Promise<Record<string, string | null>> {
-  const prefixedKeys = keys.map(k => STORAGE_PREFIX + k);
+  const prefixedKeys = keys.map((k) => STORAGE_PREFIX + k);
   const cloudStorage = getTelegramCloudStorage();
-  
+
   if (cloudStorage) {
     return new Promise((resolve) => {
       try {
@@ -132,7 +132,7 @@ export async function getItems(keys: string[]): Promise<Record<string, string | 
           if (error) {
             // Fallback to localStorage
             const result: Record<string, string | null> = {};
-            keys.forEach(key => {
+            keys.forEach((key) => {
               try {
                 result[key] = localStorage.getItem(STORAGE_PREFIX + key);
               } catch {
@@ -143,7 +143,7 @@ export async function getItems(keys: string[]): Promise<Record<string, string | 
           } else {
             // Remap keys without prefix
             const result: Record<string, string | null> = {};
-            keys.forEach(key => {
+            keys.forEach((key) => {
               result[key] = values[STORAGE_PREFIX + key] || null;
             });
             resolve(result);
@@ -152,7 +152,7 @@ export async function getItems(keys: string[]): Promise<Record<string, string | 
       } catch (e) {
         // Fallback to localStorage
         const result: Record<string, string | null> = {};
-        keys.forEach(key => {
+        keys.forEach((key) => {
           try {
             result[key] = localStorage.getItem(STORAGE_PREFIX + key);
           } catch {
@@ -163,10 +163,10 @@ export async function getItems(keys: string[]): Promise<Record<string, string | 
       }
     });
   }
-  
+
   // Fallback to localStorage
   const result: Record<string, string | null> = {};
-  keys.forEach(key => {
+  keys.forEach((key) => {
     try {
       result[key] = localStorage.getItem(STORAGE_PREFIX + key);
     } catch {
@@ -182,7 +182,7 @@ export async function getItems(keys: string[]): Promise<Record<string, string | 
 export async function removeItem(key: string): Promise<boolean> {
   const prefixedKey = STORAGE_PREFIX + key;
   const cloudStorage = getTelegramCloudStorage();
-  
+
   if (cloudStorage) {
     return new Promise((resolve) => {
       try {
@@ -203,7 +203,7 @@ export async function removeItem(key: string): Promise<boolean> {
       }
     });
   }
-  
+
   // Fallback to localStorage
   try {
     localStorage.removeItem(prefixedKey);

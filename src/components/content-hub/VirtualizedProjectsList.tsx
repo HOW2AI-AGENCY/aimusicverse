@@ -1,12 +1,12 @@
 /**
  * VirtualizedProjectsList - Project list with grid/list view modes
- * 
+ *
  * Uses UnifiedProjectCard for rendering
  * Supports selection for desktop master-detail view
  */
 
-import { UnifiedProjectCard } from '@/components/project/UnifiedProjectCard';
-import { cn } from '@/lib/utils';
+import { UnifiedProjectCard } from "@/components/project/UnifiedProjectCard";
+import { cn } from "@/lib/utils";
 
 interface Project {
   id: string;
@@ -20,7 +20,7 @@ interface Project {
 
 interface VirtualizedProjectsListProps {
   projects: Project[];
-  viewMode: 'grid' | 'list';
+  viewMode: "grid" | "list";
   onDelete: (id: string) => void;
   statusLabels: Record<string, { label: string; color: string }>;
   typeLabels: Record<string, string>;
@@ -37,16 +37,16 @@ export function VirtualizedProjectsList({
   onProjectSelect,
   selectedProjectId,
 }: VirtualizedProjectsListProps) {
-  if (viewMode === 'grid') {
+  if (viewMode === "grid") {
     return (
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
         {projects.map((project, index) => (
-          <div 
+          <div
             key={project.id}
             onClick={() => onProjectSelect?.(project.id)}
             className={cn(
               "cursor-pointer rounded-xl transition-all",
-              selectedProjectId === project.id && "ring-2 ring-primary ring-offset-2 ring-offset-background"
+              selectedProjectId === project.id && "ring-2 ring-primary ring-offset-2 ring-offset-background",
             )}
           >
             <UnifiedProjectCard
@@ -66,12 +66,12 @@ export function VirtualizedProjectsList({
   return (
     <div className="space-y-2">
       {projects.map((project, index) => (
-        <div 
+        <div
           key={project.id}
           onClick={() => onProjectSelect?.(project.id)}
           className={cn(
             "cursor-pointer rounded-xl transition-all",
-            selectedProjectId === project.id && "ring-2 ring-primary ring-offset-2 ring-offset-background"
+            selectedProjectId === project.id && "ring-2 ring-primary ring-offset-2 ring-offset-background",
           )}
         >
           <UnifiedProjectCard
@@ -87,4 +87,3 @@ export function VirtualizedProjectsList({
     </div>
   );
 }
-

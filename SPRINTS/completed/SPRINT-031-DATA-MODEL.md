@@ -24,7 +24,7 @@ interface UnifiedStudioStore {
   isPlaying: boolean;
   currentTime: number;
   duration: number;
-  loopMode: 'none' | 'track' | 'region';
+  loopMode: "none" | "track" | "region";
   playbackRate: number;
 
   // ============ Mixer State ============
@@ -47,7 +47,7 @@ interface UnifiedStudioStore {
 
   // ============ View State ============
   zoom: number;
-  viewMode: 'player' | 'sections' | 'vocals' | 'stems' | 'midi' | 'mixer' | 'actions';
+  viewMode: "player" | "sections" | "vocals" | "stems" | "midi" | "mixer" | "actions";
 
   // ============ Actions ============
   play(): void;
@@ -70,12 +70,14 @@ interface UnifiedStudioStore {
 ```
 
 **Validation Rules:**
+
 - `currentTime`: Must be between 0 and `duration`
 - `masterVolume`: Must be between 0 and 1
 - `zoom`: Must be between 0.1 (10%) and 10 (1000%)
 - `projectId`: Must be valid UUID if not null
 
 **State Transitions:**
+
 - `isPlaying: false → true`: User clicks play, calls `play()`
 - `isPlaying: true → false`: User clicks pause, track ends, calls `pause()`
 - `hasSoloStems: false → true`: Any stem solo is enabled
@@ -89,24 +91,25 @@ interface UnifiedStudioStore {
 
 ```typescript
 interface StemState {
-  id: string;                    // Unique stem identifier
-  name: string;                  // Display name (e.g., "Vocals")
-  shortName: string;             // Abbreviated name for compact UI
-  icon: string;                  // Emoji icon (e.g., "🎤")
-  color: string;                 // CSS color for visual identification
-  url: string;                   // Audio file URL
-  volume: number;                // 0 to 1 (linear)
-  pan: number;                   // -1 (left) to 1 (right)
-  muted: boolean;                // Mute toggle
-  solo: boolean;                 // Solo toggle
-  isPlaying: boolean;            // Currently playing
-  hasEffects: boolean;           // Effects chain enabled
-  waveform: number[] | null;     // Cached waveform data
-  duration: number;              // Duration in seconds
+  id: string; // Unique stem identifier
+  name: string; // Display name (e.g., "Vocals")
+  shortName: string; // Abbreviated name for compact UI
+  icon: string; // Emoji icon (e.g., "🎤")
+  color: string; // CSS color for visual identification
+  url: string; // Audio file URL
+  volume: number; // 0 to 1 (linear)
+  pan: number; // -1 (left) to 1 (right)
+  muted: boolean; // Mute toggle
+  solo: boolean; // Solo toggle
+  isPlaying: boolean; // Currently playing
+  hasEffects: boolean; // Effects chain enabled
+  waveform: number[] | null; // Cached waveform data
+  duration: number; // Duration in seconds
 }
 ```
 
 **Validation Rules:**
+
 - `id`: Must be unique across all stems
 - `volume`: Must be between 0 and 1
 - `pan`: Must be between -1 and 1
@@ -114,15 +117,17 @@ interface StemState {
 - `duration`: Must be greater than 0
 
 **Computed Properties:**
+
 ```typescript
 interface StemStateComputed {
-  effectiveVolume: number;       // Actual output (accounts for solo/mute)
-  isAudible: boolean;            // Can be heard in current mix
-  panPosition: number;           // -50% to 50% for UI display
+  effectiveVolume: number; // Actual output (accounts for solo/mute)
+  isAudible: boolean; // Can be heard in current mix
+  panPosition: number; // -50% to 50% for UI display
 }
 ```
 
 **State Transitions:**
+
 - `muted: false → true`: User clicks mute button
 - `solo: false → true`: User clicks solo button (clears other solos)
 - `volume: x → y`: User drags volume slider
@@ -135,25 +140,26 @@ interface StemStateComputed {
 
 ```typescript
 interface LyricsLineData {
-  id: string;                    // Unique line identifier
-  text: string;                  // Full lyrics text
-  startTime: number;             // Start time in seconds
-  endTime: number;               // End time in seconds
-  words: WordSync[];             // Word-level sync data
-  section: 'verse' | 'chorus' | 'bridge' | 'outro' | 'other';
-  isActive: boolean;             // Currently being sung
-  isNext: boolean;               // Next line to sing
-  isPast: boolean;               // Already sung
+  id: string; // Unique line identifier
+  text: string; // Full lyrics text
+  startTime: number; // Start time in seconds
+  endTime: number; // End time in seconds
+  words: WordSync[]; // Word-level sync data
+  section: "verse" | "chorus" | "bridge" | "outro" | "other";
+  isActive: boolean; // Currently being sung
+  isNext: boolean; // Next line to sing
+  isPast: boolean; // Already sung
 }
 
 interface WordSync {
-  word: string;                  // Individual word
-  startTime: number;             // Word start time
-  endTime: number;               // Word end time
+  word: string; // Individual word
+  startTime: number; // Word start time
+  endTime: number; // Word end time
 }
 ```
 
 **Validation Rules:**
+
 - `id`: Must be unique across all lines
 - `text`: Must not be empty (min 1 character)
 - `startTime`: Must be < `endTime`
@@ -162,6 +168,7 @@ interface WordSync {
 - `words[].endTime`: Must be ≤ line `endTime`
 
 **State Transitions:**
+
 - `isActive: false → true`: Current playback time ≥ `startTime`
 - `isNext: false → true`: Previous line became `isActive`
 - `isPast: false → true`: Current playback time > `endTime`
@@ -174,22 +181,23 @@ interface WordSync {
 
 ```typescript
 interface WaveformCacheEntry {
-  trackId: string;               // Track identifier (primary key)
-  url: string;                   // Audio URL (alternate key)
-  data: Uint8Array;              // Compressed waveform peaks (1 byte per sample)
-  max: number;                   // Max amplitude for decompression
-  peaks: number[];               // Decompressed peaks (memory cache only)
-  duration: number;              // Audio duration in seconds
-  sampleRate: number;            // Samples per second (e.g., 60 Hz)
-  createdAt: number;             // Timestamp of cache creation (ms)
-  lastAccessed: number;          // Timestamp of last access (ms)
-  accessCount: number;           // Number of times accessed
-  expiresAt: number;             // Expiration timestamp (7 days TTL)
-  size: number;                  // Size in bytes
+  trackId: string; // Track identifier (primary key)
+  url: string; // Audio URL (alternate key)
+  data: Uint8Array; // Compressed waveform peaks (1 byte per sample)
+  max: number; // Max amplitude for decompression
+  peaks: number[]; // Decompressed peaks (memory cache only)
+  duration: number; // Audio duration in seconds
+  sampleRate: number; // Samples per second (e.g., 60 Hz)
+  createdAt: number; // Timestamp of cache creation (ms)
+  lastAccessed: number; // Timestamp of last access (ms)
+  accessCount: number; // Number of times accessed
+  expiresAt: number; // Expiration timestamp (7 days TTL)
+  size: number; // Size in bytes
 }
 ```
 
 **Validation Rules:**
+
 - `trackId`: Must be valid UUID
 - `url`: Must be valid HTTPS URL
 - `data.length`: Must be > 0
@@ -199,14 +207,16 @@ interface WaveformCacheEntry {
 - `size`: Must be ≤ 50MB (iOS Safari limit)
 
 **State Transitions:**
+
 - `lastAccessed`: Updated on every cache read
 - `accessCount`: Incremented on every cache read
 - Cache expires when `Date.now() > expiresAt`
 
 **Decompression:**
+
 ```typescript
 function decompress(entry: WaveformCacheEntry): number[] {
-  return Array.from(entry.data).map(v => (v / 255) * entry.max);
+  return Array.from(entry.data).map((v) => (v / 255) * entry.max);
 }
 ```
 
@@ -218,31 +228,33 @@ function decompress(entry: WaveformCacheEntry): number[] {
 
 ```typescript
 interface BPMResult {
-  bpm: number | null;            // Detected tempo (null if unknown)
-  confidence: number;            // Detection confidence (0 to 1)
-  beatPositions: number[];       // Beat times in seconds
-  duration: number;              // Audio duration in seconds
-  timeSignature: number;         // Beats per measure (default 4)
-  analyzedAt: number;            // Analysis timestamp (ms)
+  bpm: number | null; // Detected tempo (null if unknown)
+  confidence: number; // Detection confidence (0 to 1)
+  beatPositions: number[]; // Beat times in seconds
+  duration: number; // Audio duration in seconds
+  timeSignature: number; // Beats per measure (default 4)
+  analyzedAt: number; // Analysis timestamp (ms)
 }
 
 interface BPMSnapResult {
-  snappedTime: number;           // Time after snapping
-  gridType: 'beat' | 'seconds';  // Which grid was used
-  distanceToGrid: number;        // How far we snapped (seconds)
-  resolution: SnapResolution;    // Snap resolution used
+  snappedTime: number; // Time after snapping
+  gridType: "beat" | "seconds"; // Which grid was used
+  distanceToGrid: number; // How far we snapped (seconds)
+  resolution: SnapResolution; // Snap resolution used
 }
 
-type SnapResolution = 'bar' | 'beat' | 'half' | 'quarter' | 'eighth' | 'sixteenth';
+type SnapResolution = "bar" | "beat" | "half" | "quarter" | "eighth" | "sixteenth";
 ```
 
 **Validation Rules:**
+
 - `bpm`: Must be > 0 if not null (typical range: 60-200)
 - `confidence`: Must be between 0 and 1
 - `beatPositions`: Must be sorted ascending, no duplicates
 - `beatPositions[i]`: Must be between 0 and `duration`
 
 **Fallback:**
+
 - If `bpm === null` or `confidence < 0.3`, use seconds-based grid (1-second intervals)
 
 ---
@@ -253,29 +265,31 @@ type SnapResolution = 'bar' | 'beat' | 'half' | 'quarter' | 'eighth' | 'sixteent
 
 ```typescript
 interface TimelineMarker {
-  id: string;                    // Unique marker identifier
-  time: number;                  // Time position in seconds
-  label: string;                 // Display label (e.g., "1.1", "Verse")
-  type: 'beat' | 'bar' | 'section' | 'custom';
-  isVisible: boolean;            // Show/hide based on zoom level
-  importance: 'primary' | 'secondary' | 'tertiary';
-  color?: string;                // Optional color override
+  id: string; // Unique marker identifier
+  time: number; // Time position in seconds
+  label: string; // Display label (e.g., "1.1", "Verse")
+  type: "beat" | "bar" | "section" | "custom";
+  isVisible: boolean; // Show/hide based on zoom level
+  importance: "primary" | "secondary" | "tertiary";
+  color?: string; // Optional color override
 }
 
 interface TimelineGrid {
   bpmResult: BPMResult | null;
   markers: TimelineMarker[];
   snapResolution: SnapResolution;
-  zoom: number;                  // Pixels per second
+  zoom: number; // Pixels per second
 }
 ```
 
 **Validation Rules:**
+
 - `time`: Must be ≥ 0
 - `label`: Must not be empty
 - `zoom`: Must be between 10 and 1000 px/sec
 
 **Visibility Logic:**
+
 - Beat markers: Visible when `zoom > 50 px/sec`
 - Bar markers: Visible when `zoom > 20 px/sec`
 - Section markers: Always visible
@@ -342,12 +356,7 @@ toggleSolo(A)                          toggleSolo(A)
 
 ```typescript
 // ============ Unified Studio Store ============
-export interface UnifiedStudioStore extends
-  PlaybackSlice,
-  StemMixerSlice,
-  HistorySlice,
-  ProjectSlice,
-  LyricsSlice {
+export interface UnifiedStudioStore extends PlaybackSlice, StemMixerSlice, HistorySlice, ProjectSlice, LyricsSlice {
   projectId: string | null;
   isLoading: boolean;
   isSaving: boolean;
@@ -391,7 +400,7 @@ export interface WordSync {
   readonly endTime: number;
 }
 
-export type LyricsSection = 'verse' | 'chorus' | 'bridge' | 'outro' | 'other';
+export type LyricsSection = "verse" | "chorus" | "bridge" | "outro" | "other";
 
 // ============ Waveform Cache ============
 export interface WaveformCacheEntry {
@@ -421,18 +430,12 @@ export interface BPMResult {
 
 export interface BPMSnapResult {
   readonly snappedTime: number;
-  readonly gridType: 'beat' | 'seconds';
+  readonly gridType: "beat" | "seconds";
   readonly distanceToGrid: number;
   readonly resolution: SnapResolution;
 }
 
-export type SnapResolution =
-  | 'bar'
-  | 'beat'
-  | 'half'
-  | 'quarter'
-  | 'eighth'
-  | 'sixteenth';
+export type SnapResolution = "bar" | "beat" | "half" | "quarter" | "eighth" | "sixteenth";
 
 // ============ Timeline Markers ============
 export interface TimelineMarker {
@@ -445,8 +448,8 @@ export interface TimelineMarker {
   readonly color?: string;
 }
 
-export type MarkerType = 'beat' | 'bar' | 'section' | 'custom';
-export type MarkerImportance = 'primary' | 'secondary' | 'tertiary';
+export type MarkerType = "beat" | "bar" | "section" | "custom";
+export type MarkerImportance = "primary" | "secondary" | "tertiary";
 ```
 
 ---
@@ -459,8 +462,10 @@ export function validateStemState(stem: StemState): boolean {
   return (
     stem.id.length > 0 &&
     stem.name.length > 0 &&
-    stem.volume >= 0 && stem.volume <= 1 &&
-    stem.pan >= -1 && stem.pan <= 1 &&
+    stem.volume >= 0 &&
+    stem.volume <= 1 &&
+    stem.pan >= -1 &&
+    stem.pan <= 1 &&
     stem.duration > 0
   );
 }
@@ -471,7 +476,7 @@ export function validateLyricsLine(line: LyricsLineData): boolean {
     line.id.length > 0 &&
     line.text.length > 0 &&
     line.startTime < line.endTime &&
-    line.words.every(w => w.startTime >= line.startTime && w.endTime <= line.endTime)
+    line.words.every((w) => w.startTime >= line.startTime && w.endTime <= line.endTime)
   );
 }
 

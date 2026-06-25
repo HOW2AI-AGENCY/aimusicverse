@@ -1,6 +1,6 @@
-import type { Track } from '@/types/track';
-import { ActionId, TRACK_ACTIONS } from '@/config/trackActionsConfig';
-import { Lock, Globe, Loader2, CheckCircle2 } from 'lucide-react';
+import type { Track } from "@/types/track";
+import { ActionId, TRACK_ACTIONS } from "@/config/trackActionsConfig";
+import { Lock, Globe, Loader2, CheckCircle2 } from "lucide-react";
 
 export interface TrackActionState {
   stemCount: number;
@@ -15,15 +15,11 @@ export interface TrackActionState {
 /**
  * Check if an action is available for a given track
  */
-export function isActionAvailable(
-  actionId: ActionId,
-  track: Track,
-  state: TrackActionState
-): boolean {
+export function isActionAvailable(actionId: ActionId, track: Track, state: TrackActionState): boolean {
   const action = TRACK_ACTIONS[actionId];
   if (!action) return false;
 
-  const isCompleted = track.status === 'completed';
+  const isCompleted = track.status === "completed";
   const hasAudio = !!track.audio_url;
 
   // Basic requirements
@@ -36,40 +32,40 @@ export function isActionAvailable(
 
   // Action-specific conditions
   switch (actionId) {
-    case 'open_studio':
+    case "open_studio":
       return isCompleted && hasAudio;
 
-    case 'replace_section':
+    case "replace_section":
       return isCompleted && hasAudio;
 
-    case 'stems_simple':
-    case 'stems_detailed':
+    case "stems_simple":
+    case "stems_detailed":
       return !!track.suno_id && state.stemCount === 0;
 
-    case 'download_stems':
+    case "download_stems":
       return state.stemCount > 0;
 
-    case 'generate_video':
+    case "generate_video":
       return !!track.suno_id && !!track.suno_task_id;
 
-    case 'cover':
+    case "cover":
       return isCompleted && hasAudio;
 
-    case 'extend':
+    case "extend":
       return isCompleted && hasAudio;
 
-    case 'remix':
+    case "remix":
       return !!track.suno_id;
 
-    case 'add_vocals':
+    case "add_vocals":
       return isCompleted && hasAudio && state.isInstrumentalTrack;
 
-    case 'add_instrumental':
+    case "add_instrumental":
       // Available for tracks with vocals (either has vocal stem from separation, or is not instrumental)
       return isCompleted && hasAudio && (state.hasVocalStem || !state.isInstrumentalTrack);
 
-    case 'transcribe_midi':
-    case 'transcribe_notes':
+    case "transcribe_midi":
+    case "transcribe_notes":
       // MIDI/Notes transcription requires stems to be generated first
       return state.stemCount > 0;
 
@@ -81,28 +77,24 @@ export function isActionAvailable(
 /**
  * Get action label with dynamic text
  */
-export function getActionLabel(
-  actionId: ActionId,
-  track: Track,
-  state: TrackActionState
-): string {
+export function getActionLabel(actionId: ActionId, track: Track, state: TrackActionState): string {
   switch (actionId) {
-    case 'toggle_public':
-      return track.is_public ? 'Сделать приватным' : 'Опубликовать';
+    case "toggle_public":
+      return track.is_public ? "Сделать приватным" : "Опубликовать";
 
-    case 'generate_video':
-      if (state.isVideoGenerating) return 'Видео создаётся...';
-      if (state.hasVideo) return 'Видео готово';
-      return 'Создать видео';
+    case "generate_video":
+      if (state.isVideoGenerating) return "Видео создаётся...";
+      if (state.hasVideo) return "Видео готово";
+      return "Создать видео";
 
-    case 'download_stems':
+    case "download_stems":
       return `Архив стемов (${state.stemCount})`;
 
-    case 'delete_all':
-      return state.versionCount > 1 ? `Все версии (${state.versionCount})` : 'Удалить';
+    case "delete_all":
+      return state.versionCount > 1 ? `Все версии (${state.versionCount})` : "Удалить";
 
     default:
-      return TRACK_ACTIONS[actionId]?.label || '';
+      return TRACK_ACTIONS[actionId]?.label || "";
   }
 }
 
@@ -112,25 +104,25 @@ export function getActionLabel(
 export function getActionIcon(
   actionId: ActionId,
   track: Track,
-  state: TrackActionState
+  state: TrackActionState,
 ): { icon: React.ComponentType<any>; className?: string } | null {
   switch (actionId) {
-    case 'toggle_public':
+    case "toggle_public":
       return {
         icon: track.is_public ? Lock : Globe,
       };
 
-    case 'generate_video':
+    case "generate_video":
       if (state.isVideoGenerating) {
         return {
           icon: Loader2,
-          className: 'animate-spin',
+          className: "animate-spin",
         };
       }
       if (state.hasVideo) {
         return {
           icon: CheckCircle2,
-          className: 'text-green-500',
+          className: "text-green-500",
         };
       }
       return null;
@@ -147,12 +139,12 @@ export function isActionDisabled(
   actionId: ActionId,
   track: Track,
   state: TrackActionState,
-  isProcessing: boolean
+  isProcessing: boolean,
 ): boolean {
   if (isProcessing) return true;
 
   switch (actionId) {
-    case 'generate_video':
+    case "generate_video":
       return state.isVideoGenerating || state.hasVideo;
 
     default:
@@ -163,30 +155,26 @@ export function isActionDisabled(
 /**
  * Get tooltip for disabled action
  */
-export function getDisabledTooltip(
-  actionId: ActionId,
-  track: Track,
-  state: TrackActionState
-): string | null {
+export function getDisabledTooltip(actionId: ActionId, track: Track, state: TrackActionState): string | null {
   switch (actionId) {
-    case 'stems_simple':
-    case 'stems_detailed':
-      if (state.stemCount > 0) return 'Стемы уже созданы';
-      if (!track.suno_id) return 'Требуется Suno ID';
+    case "stems_simple":
+    case "stems_detailed":
+      if (state.stemCount > 0) return "Стемы уже созданы";
+      if (!track.suno_id) return "Требуется Suno ID";
       return null;
 
-    case 'generate_video':
-      if (state.hasVideo) return 'Видео уже создано';
-      if (state.isVideoGenerating) return 'Видео создаётся...';
+    case "generate_video":
+      if (state.hasVideo) return "Видео уже создано";
+      if (state.isVideoGenerating) return "Видео создаётся...";
       return null;
 
-    case 'download_stems':
-      if (state.stemCount === 0) return 'Сначала разделите трек на стемы';
+    case "download_stems":
+      if (state.stemCount === 0) return "Сначала разделите трек на стемы";
       return null;
 
-    case 'transcribe_midi':
-    case 'transcribe_notes':
-      if (state.stemCount === 0) return 'Сначала разделите трек на стемы';
+    case "transcribe_midi":
+    case "transcribe_notes":
+      if (state.stemCount === 0) return "Сначала разделите трек на стемы";
       return null;
 
     default:
@@ -197,19 +185,15 @@ export function getDisabledTooltip(
 /**
  * Get visible actions for a track with current state
  */
-export function getVisibleActions(
-  track: Track,
-  state: TrackActionState,
-  category?: string
-): ActionId[] {
+export function getVisibleActions(track: Track, state: TrackActionState, category?: string): ActionId[] {
   const allActions = Object.keys(TRACK_ACTIONS) as ActionId[];
-  
-  return allActions.filter(actionId => {
+
+  return allActions.filter((actionId) => {
     const action = TRACK_ACTIONS[actionId];
-    
+
     // Filter by category if specified
     if (category && action.category !== category) return false;
-    
+
     // Check if action is available
     return isActionAvailable(actionId, track, state);
   });

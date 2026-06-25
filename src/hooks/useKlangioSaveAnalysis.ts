@@ -2,17 +2,17 @@
  * Hook for saving Klangio analysis results to the database
  */
 
-import { useCallback } from 'react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/contexts/AuthContext';
-import { toast } from 'sonner';
-import { ChordResult, BeatResult, TranscriptionResult } from '@/hooks/useKlangioAnalysis';
-import { logger } from '@/lib/logger';
+import { useCallback } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "sonner";
+import { ChordResult, BeatResult, TranscriptionResult } from "@/hooks/useKlangioAnalysis";
+import { logger } from "@/lib/logger";
 
 interface SaveAnalysisParams {
   trackId: string;
-  analysisType: 'transcription' | 'chord-recognition' | 'beat-tracking' | 'full';
+  analysisType: "transcription" | "chord-recognition" | "beat-tracking" | "full";
   chords?: ChordResult;
   beats?: BeatResult;
   transcription?: TranscriptionResult;
@@ -24,7 +24,7 @@ export function useKlangioSaveAnalysis() {
 
   const saveMutation = useMutation({
     mutationFn: async (params: SaveAnalysisParams) => {
-      if (!user?.id) throw new Error('User not authenticated');
+      if (!user?.id) throw new Error("User not authenticated");
 
       const { trackId, analysisType, chords, beats, transcription } = params;
 
@@ -74,54 +74,57 @@ export function useKlangioSaveAnalysis() {
 
       // Check if analysis already exists for this track
       const { data: existing } = await supabase
-        .from('audio_analysis')
-        .select('id')
-        .eq('track_id', trackId)
-        .eq('user_id', user.id)
+        .from("audio_analysis")
+        .select("id")
+        .eq("track_id", trackId)
+        .eq("user_id", user.id)
         .maybeSingle();
 
       let result;
       if (existing) {
         // Update existing
         const { data, error } = await supabase
-          .from('audio_analysis')
+          .from("audio_analysis")
           .update(analysisData as any)
-          .eq('id', existing.id)
+          .eq("id", existing.id)
           .select()
           .single();
 
         if (error) throw error;
         result = data;
-        logger.info('Updated existing audio analysis', { trackId, analysisType });
+        logger.info("Updated existing audio analysis", { trackId, analysisType });
       } else {
         // Insert new
         const { data, error } = await supabase
-          .from('audio_analysis')
+          .from("audio_analysis")
           .insert(analysisData as any)
           .select()
           .single();
 
         if (error) throw error;
         result = data;
-        logger.info('Created new audio analysis', { trackId, analysisType });
+        logger.info("Created new audio analysis", { trackId, analysisType });
       }
 
       return result;
     },
     onSuccess: (_, params) => {
-      queryClient.invalidateQueries({ queryKey: ['audio-analysis', params.trackId] });
-      queryClient.invalidateQueries({ queryKey: ['beat-grid', params.trackId] });
-      toast.success('Анализ сохранён');
+      queryClient.invalidateQueries({ queryKey: ["audio-analysis", params.trackId] });
+      queryClient.invalidateQueries({ queryKey: ["beat-grid", params.trackId] });
+      toast.success("Анализ сохранён");
     },
     onError: (error) => {
-      logger.error('Failed to save analysis', { error });
-      toast.error('Ошибка сохранения анализа');
+      logger.error("Failed to save analysis", { error });
+      toast.error("Ошибка сохранения анализа");
     },
   });
 
-  const saveAnalysis = useCallback((params: SaveAnalysisParams) => {
-    return saveMutation.mutateAsync(params);
-  }, [saveMutation]);
+  const saveAnalysis = useCallback(
+    (params: SaveAnalysisParams) => {
+      return saveMutation.mutateAsync(params);
+    },
+    [saveMutation],
+  );
 
   return {
     saveAnalysis,
@@ -133,5 +136,5 @@ export function useKlangioSaveAnalysis() {
  * Hook for loading saved analysis data
  */
 export function useKlangioLoadAnalysis(trackId: string | null) {
-  return useQueryClient().getQueryData(['audio-analysis', trackId]);
+  return useQueryClient().getQueryData(["audio-analysis", trackId]);
 }

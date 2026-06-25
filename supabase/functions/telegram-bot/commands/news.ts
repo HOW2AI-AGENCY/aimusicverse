@@ -2,14 +2,11 @@
  * /news command - Show news and updates from official channel
  */
 
-import { sendMessage, editMessageText } from '../telegram-api.ts';
-import { CHANNEL_URL, CHANNEL_USERNAME } from '../config.ts';
-import { getMiniAppUrl } from '../../_shared/telegram-config.ts';
+import { sendMessage, editMessageText } from "../telegram-api.ts";
+import { CHANNEL_URL, CHANNEL_USERNAME } from "../config.ts";
+import { getMiniAppUrl } from "../../_shared/telegram-config.ts";
 
-export async function handleNews(
-  chatId: number,
-  messageId?: number
-): Promise<void> {
+export async function handleNews(chatId: number, messageId?: number): Promise<void> {
   const text = `📰 *Новости и Обновления*
 
 📢 Подписывайтесь на официальный канал:
@@ -32,27 +29,21 @@ export async function handleNews(
 Не пропустите важные новости\\!`;
 
   const miniAppUrl = getMiniAppUrl();
-  
+
   const keyboard = {
     inline_keyboard: [
-      [
-        { text: `📢 Канал @${CHANNEL_USERNAME}`, url: CHANNEL_URL }
-      ],
-      [
-        { text: '📱 Открыть приложение', url: miniAppUrl }
-      ],
-      [
-        { text: '🔙 Главное меню', callback_data: 'nav_main' }
-      ]
-    ]
+      [{ text: `📢 Канал @${CHANNEL_USERNAME}`, url: CHANNEL_URL }],
+      [{ text: "📱 Открыть приложение", url: miniAppUrl }],
+      [{ text: "🔙 Главное меню", callback_data: "nav_main" }],
+    ],
   };
 
   if (messageId) {
     const result = await editMessageText(chatId, messageId, text, keyboard);
     if (!result) {
-      await sendMessage(chatId, text, keyboard, 'MarkdownV2');
+      await sendMessage(chatId, text, keyboard, "MarkdownV2");
     }
   } else {
-    await sendMessage(chatId, text, keyboard, 'MarkdownV2');
+    await sendMessage(chatId, text, keyboard, "MarkdownV2");
   }
 }

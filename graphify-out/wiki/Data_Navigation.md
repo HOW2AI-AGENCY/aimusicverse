@@ -18,24 +18,24 @@
 - [left](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L344) (1 connections)
 - [markers](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L409) (1 connections)
 - [{
-    project,
-    currentTime,
-    isPlaying,
-    zoom,
-    snapToGrid,
-    selectedTrackId,
-    selectedClipId,
-    setZoom,
-    setSnapToGrid,
-    selectTrack,
-    selectClip,
-    seek,
+  project,
+  currentTime,
+  isPlaying,
+  zoom,
+  snapToGrid,
+  selectedTrackId,
+  selectedClipId,
+  setZoom,
+  setSnapToGrid,
+  selectTrack,
+  selectClip,
+  seek,
   }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L37) (1 connections)
 - [{
-    setTrackVolume,
-    toggleTrackMute,
-    toggleTrackSolo,
-    removeTrack,
+  setTrackVolume,
+  toggleTrackMute,
+  toggleTrackSolo,
+  removeTrack,
   }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L206) (1 connections)
 - [t](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L417) (1 connections)
 - [timelineWidth](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L53) (1 connections)
@@ -58,4 +58,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

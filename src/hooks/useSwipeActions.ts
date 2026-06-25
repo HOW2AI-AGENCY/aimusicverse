@@ -1,12 +1,12 @@
 /**
  * Swipe Actions Hook
  * Feature: 032-professional-ui
- * 
+ *
  * Horizontal swipe gestures for list items with action reveals
  */
 
-import { useState, useCallback, useRef } from 'react';
-import { triggerHapticFeedback } from '@/lib/mobile-utils';
+import { useState, useCallback, useRef } from "react";
+import { triggerHapticFeedback } from "@/lib/mobile-utils";
 
 interface SwipeAction {
   id: string;
@@ -26,7 +26,7 @@ interface SwipeActionsOptions {
 
 interface SwipeState {
   offset: number;
-  direction: 'left' | 'right' | null;
+  direction: "left" | "right" | null;
   isOpen: boolean;
   activeAction: string | null;
 }
@@ -50,60 +50,66 @@ export function useSwipeActions({
   const isDragging = useRef(false);
   const isHorizontal = useRef<boolean | null>(null);
 
-  const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    if (disabled) return;
-    
-    startX.current = e.touches[0].clientX;
-    startY.current = e.touches[0].clientY;
-    isDragging.current = true;
-    isHorizontal.current = null;
-  }, [disabled]);
+  const handleTouchStart = useCallback(
+    (e: React.TouchEvent) => {
+      if (disabled) return;
 
-  const handleTouchMove = useCallback((e: React.TouchEvent) => {
-    if (!isDragging.current || disabled) return;
+      startX.current = e.touches[0].clientX;
+      startY.current = e.touches[0].clientY;
+      isDragging.current = true;
+      isHorizontal.current = null;
+    },
+    [disabled],
+  );
 
-    const deltaX = e.touches[0].clientX - startX.current;
-    const deltaY = e.touches[0].clientY - startY.current;
+  const handleTouchMove = useCallback(
+    (e: React.TouchEvent) => {
+      if (!isDragging.current || disabled) return;
 
-    // Determine scroll direction on first move
-    if (isHorizontal.current === null) {
-      isHorizontal.current = Math.abs(deltaX) > Math.abs(deltaY);
-      if (!isHorizontal.current) {
-        isDragging.current = false;
-        return;
+      const deltaX = e.touches[0].clientX - startX.current;
+      const deltaY = e.touches[0].clientY - startY.current;
+
+      // Determine scroll direction on first move
+      if (isHorizontal.current === null) {
+        isHorizontal.current = Math.abs(deltaX) > Math.abs(deltaY);
+        if (!isHorizontal.current) {
+          isDragging.current = false;
+          return;
+        }
       }
-    }
 
-    if (!isHorizontal.current) return;
+      if (!isHorizontal.current) return;
 
-    e.preventDefault();
+      e.preventDefault();
 
-    const direction = deltaX > 0 ? 'right' : 'left';
-    const actions = direction === 'right' ? leftActions : rightActions;
-    
-    if (actions.length === 0) return;
+      const direction = deltaX > 0 ? "right" : "left";
+      const actions = direction === "right" ? leftActions : rightActions;
 
-    const maxOffset = Math.min(Math.abs(deltaX), overshootThreshold);
-    const offset = direction === 'right' ? maxOffset : -maxOffset;
+      if (actions.length === 0) return;
 
-    // Determine active action based on offset
-    let activeAction: string | null = null;
-    if (Math.abs(offset) >= threshold && actions.length > 0) {
-      activeAction = actions[0].id;
-      
-      // Haptic at threshold crossing
-      if (!state.activeAction && activeAction) {
-        triggerHapticFeedback('light');
+      const maxOffset = Math.min(Math.abs(deltaX), overshootThreshold);
+      const offset = direction === "right" ? maxOffset : -maxOffset;
+
+      // Determine active action based on offset
+      let activeAction: string | null = null;
+      if (Math.abs(offset) >= threshold && actions.length > 0) {
+        activeAction = actions[0].id;
+
+        // Haptic at threshold crossing
+        if (!state.activeAction && activeAction) {
+          triggerHapticFeedback("light");
+        }
       }
-    }
 
-    setState({
-      offset,
-      direction,
-      isOpen: false,
-      activeAction,
-    });
-  }, [disabled, leftActions, rightActions, threshold, overshootThreshold, state.activeAction]);
+      setState({
+        offset,
+        direction,
+        isOpen: false,
+        activeAction,
+      });
+    },
+    [disabled, leftActions, rightActions, threshold, overshootThreshold, state.activeAction],
+  );
 
   const handleTouchEnd = useCallback(() => {
     if (!isDragging.current || disabled) return;
@@ -113,14 +119,14 @@ export function useSwipeActions({
 
     if (Math.abs(offset) >= overshootThreshold && activeAction) {
       // Execute action immediately on overshoot
-      const actions = direction === 'right' ? leftActions : rightActions;
-      const action = actions.find(a => a.id === activeAction);
-      
+      const actions = direction === "right" ? leftActions : rightActions;
+      const action = actions.find((a) => a.id === activeAction);
+
       if (action) {
-        triggerHapticFeedback('heavy');
+        triggerHapticFeedback("heavy");
         action.onAction();
       }
-      
+
       setState({
         offset: 0,
         direction: null,
@@ -129,13 +135,13 @@ export function useSwipeActions({
       });
     } else if (Math.abs(offset) >= threshold) {
       // Open actions panel
-      const openOffset = direction === 'right' ? threshold : -threshold;
-      setState(prev => ({
+      const openOffset = direction === "right" ? threshold : -threshold;
+      setState((prev) => ({
         ...prev,
         offset: openOffset,
         isOpen: true,
       }));
-      triggerHapticFeedback('medium');
+      triggerHapticFeedback("medium");
     } else {
       // Reset
       setState({
@@ -156,14 +162,17 @@ export function useSwipeActions({
     });
   }, []);
 
-  const executeAction = useCallback((actionId: string) => {
-    const action = [...leftActions, ...rightActions].find(a => a.id === actionId);
-    if (action) {
-      triggerHapticFeedback('medium');
-      action.onAction();
-      close();
-    }
-  }, [leftActions, rightActions, close]);
+  const executeAction = useCallback(
+    (actionId: string) => {
+      const action = [...leftActions, ...rightActions].find((a) => a.id === actionId);
+      if (action) {
+        triggerHapticFeedback("medium");
+        action.onAction();
+        close();
+      }
+    },
+    [leftActions, rightActions, close],
+  );
 
   return {
     ...state,

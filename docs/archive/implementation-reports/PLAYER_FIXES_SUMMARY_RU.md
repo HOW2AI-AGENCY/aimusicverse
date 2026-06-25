@@ -1,37 +1,45 @@
 # Исправление проблем с плеером и воспроизведением треков - 10 декабря 2025
 
 ## Проблема
+
 "вновь проблема с плеером и воспроизведением треков - исправь и убедись что больше эти ошибки не повторятся"
 
 ## Что было сделано
 
 ### 1. Исправлена консистентность логирования ✅
+
 Все вызовы `console.error()`, `console.warn()` и другие были заменены на использование централизованной системы логирования через `logger`:
 
 **Исправленные файлы:**
+
 - `src/components/player/EnhancedVersionSwitcher.tsx`
 - `src/components/track/EnhancedTrackActionMenu.tsx`
 - `src/lib/audioCache.ts`
 
 **Преимущества:**
+
 - Централизованная система логирования
 - Правильная обработка объектов ошибок
 - Единообразное форматирование логов
 - Улучшенные возможности отладки
 
 ### 2. Улучшено управление AudioContext ✅
+
 Добавлена проверка состояния AudioContext и автоматическое восстановление:
 
 **Изменения в `audioContextManager.ts`:**
+
 - Функция `ensureAudioRoutedToDestination()` теперь проверяет состояние AudioContext
 - Автоматическая попытка возобновления при обнаружении приостановленного состояния
 - Неблокирующее восстановление для лучшего UX
 - Детальное логирование для отладки
 
 ### 3. Добавлены диагностические инструменты ✅
+
 Создана новая функция `getAudioSystemDiagnostics()` для быстрой проверки состояния аудиосистемы:
 
 **Что можно узнать:**
+
 ```typescript
 const diagnostics = getAudioSystemDiagnostics();
 // Возвращает:
@@ -44,13 +52,15 @@ const diagnostics = getAudioSystemDiagnostics();
 ```
 
 **Использование для отладки:**
+
 ```javascript
-import { getAudioSystemDiagnostics } from '@/hooks/audio';
+import { getAudioSystemDiagnostics } from "@/hooks/audio";
 const diagnostics = getAudioSystemDiagnostics();
 console.table(diagnostics);
 ```
 
 ### 4. Создана документация ✅
+
 - Полное описание всех изменений
 - Руководство по отладке
 - Контрольный список для предотвращения проблем
@@ -59,6 +69,7 @@ console.table(diagnostics);
 ## Как проверить, что всё работает
 
 ### Базовое воспроизведение
+
 1. Откройте трек
 2. Нажмите Play
 3. Звук должен воспроизводиться сразу
@@ -66,12 +77,14 @@ console.table(diagnostics);
 5. Визуализатор должен показывать волну (если доступен)
 
 ### Проверка состояния AudioContext
+
 1. Откройте консоль браузера
 2. Найдите сообщение "AudioContext resumed successfully"
 3. Не должно быть предупреждений о suspended состоянии
 4. Не должно быть ошибок о MediaElementSource
 
 ### Обработка ошибок
+
 1. Отключите интернет во время воспроизведения
 2. Должны появиться попытки повтора
 3. Аудио должно возобновиться при восстановлении сети
@@ -80,6 +93,7 @@ console.table(diagnostics);
 ## Что сделано для предотвращения повторения проблем
 
 ### 1. Правила для код-ревью
+
 - ❌ Никогда не использовать `console.*` в коде плеера
 - ✅ Всегда использовать `logger.error()`, `logger.warn()`, `logger.debug()`, `logger.info()`
 - ✅ Всегда оборачивать ошибки в объекты Error: `error instanceof Error ? error : new Error(String(error))`
@@ -87,6 +101,7 @@ console.table(diagnostics);
 - ✅ Никогда не вызывать `createMediaElementSource()` дважды для одного элемента
 
 ### 2. Требования к тестированию
+
 - Тестировать плеер после каждого изменения в аудио-коде
 - Проверять состояние AudioContext в консоли
 - Проверять отсутствие ошибок и предупреждений
@@ -94,6 +109,7 @@ console.table(diagnostics);
 - Проверять функциональность громкости и отключения звука
 
 ### 3. Инструменты мониторинга
+
 - Использовать `getAudioSystemDiagnostics()` для быстрой диагностики
 - Проверять логи на наличие проблем с AudioContext
 - Отслеживать частоту ошибок
@@ -102,9 +118,10 @@ console.table(diagnostics);
 ## Диагностика проблем
 
 ### Если нет звука
+
 ```javascript
 // 1. Проверьте диагностику
-import { getAudioSystemDiagnostics } from '@/hooks/audio';
+import { getAudioSystemDiagnostics } from "@/hooks/audio";
 const diagnostics = getAudioSystemDiagnostics();
 console.table(diagnostics);
 
@@ -114,15 +131,18 @@ console.table(diagnostics);
 // - connectedElementSrc должен совпадать с текущим треком
 
 // 3. Если AudioContext приостановлен:
-import { resumeAudioContext } from '@/hooks/audio';
+import { resumeAudioContext } from "@/hooks/audio";
 await resumeAudioContext();
 ```
 
 ### Если визуализатор не работает
+
 Аудио должно воспроизводиться даже если визуализатор не работает. Проверьте логи на ошибки инициализации визуализатора.
 
 ### Если воспроизведение прерывается
+
 Проверьте:
+
 - Статус сети
 - Состояние буфера
 - Загрузку процессора

@@ -1,16 +1,12 @@
-import { useState, useRef, useEffect } from 'react';
-import { useTrackStems } from '@/hooks/useTrackStems';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Play, Pause, Download, Loader2, Mic, Volume2, Music } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import { getStemLabel } from '@/lib/stemLabels';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { 
-  registerStudioAudio, 
-  unregisterStudioAudio, 
-  pauseAllStudioAudio 
-} from '@/hooks/studio/useStudioAudio';
+import { useState, useRef, useEffect } from "react";
+import { useTrackStems } from "@/hooks/useTrackStems";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Play, Pause, Download, Loader2, Mic, Volume2, Music } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { getStemLabel } from "@/lib/stemLabels";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
 
 interface TrackStemsTabProps {
   trackId: string;
@@ -21,7 +17,7 @@ export const TrackStemsTab = ({ trackId }: TrackStemsTabProps) => {
   const [playingId, setPlayingId] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const sourceId = `stems-tab-${trackId}`;
-  
+
   const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
 
   // Register with studio audio coordinator
@@ -70,9 +66,9 @@ export const TrackStemsTab = ({ trackId }: TrackStemsTabProps) => {
 
   const getStemIcon = (stemType: string) => {
     switch (stemType.toLowerCase()) {
-      case 'vocal':
+      case "vocal":
         return <Mic className="w-4 h-4" />;
-      case 'instrumental':
+      case "instrumental":
         return <Volume2 className="w-4 h-4" />;
       default:
         return <Music className="w-4 h-4" />;
@@ -92,9 +88,7 @@ export const TrackStemsTab = ({ trackId }: TrackStemsTabProps) => {
       <div className="text-center py-12">
         <Music className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
         <h3 className="text-lg font-semibold mb-2">Стемы не найдены</h3>
-        <p className="text-muted-foreground text-sm">
-          Разделите трек на стемы через меню действий
-        </p>
+        <p className="text-muted-foreground text-sm">Разделите трек на стемы через меню действий</p>
       </div>
     );
   }
@@ -102,12 +96,10 @@ export const TrackStemsTab = ({ trackId }: TrackStemsTabProps) => {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold">
-          Стемы трека ({stems.length})
-        </h3>
+        <h3 className="text-lg font-semibold">Стемы трека ({stems.length})</h3>
         {stems[0]?.separation_mode && (
           <Badge variant="secondary">
-            {stems[0].separation_mode === 'simple' ? 'Простое разделение' : 'Детальное разделение'}
+            {stems[0].separation_mode === "simple" ? "Простое разделение" : "Детальное разделение"}
           </Badge>
         )}
       </div>
@@ -123,10 +115,10 @@ export const TrackStemsTab = ({ trackId }: TrackStemsTabProps) => {
                 <div className="flex-1">
                   <h4 className="font-semibold">{getStemLabel(stem.stem_type)}</h4>
                   <p className="text-xs text-muted-foreground">
-                    {new Date(stem.created_at || '').toLocaleDateString('ru-RU', {
-                      day: 'numeric',
-                      month: 'short',
-                      year: 'numeric',
+                    {new Date(stem.created_at || "").toLocaleDateString("ru-RU", {
+                      day: "numeric",
+                      month: "short",
+                      year: "numeric",
                     })}
                   </p>
                 </div>
@@ -138,17 +130,13 @@ export const TrackStemsTab = ({ trackId }: TrackStemsTabProps) => {
                   variant={playingId === stem.id ? "default" : "ghost"}
                   onClick={() => handlePlay(stem.id, stem.audio_url)}
                 >
-                  {playingId === stem.id ? (
-                    <Pause className="w-4 h-4" />
-                  ) : (
-                    <Play className="w-4 h-4" />
-                  )}
+                  {playingId === stem.id ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
                 </Button>
                 <Button
                   size="icon"
                   variant="ghost"
                   onClick={() => {
-                    window.open(stem.audio_url, '_blank');
+                    window.open(stem.audio_url, "_blank");
                   }}
                 >
                   <Download className="w-4 h-4" />

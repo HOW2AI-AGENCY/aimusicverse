@@ -2,11 +2,11 @@
  * GenerateButton - Smart generation button with progress and estimation
  */
 
-import { memo, useState, useEffect } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { Button } from '@/components/ui/button';
-import { Sparkles, Loader2, Check, AlertCircle } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { memo, useState, useEffect } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Button } from "@/components/ui/button";
+import { Sparkles, Loader2, Check, AlertCircle } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface GenerateButtonProps {
   onClick: () => void;
@@ -42,7 +42,7 @@ export const GenerateButton = memo(function GenerateButton({
     const interval = setInterval(() => {
       const elapsed = (Date.now() - startTime) / 1000;
       setElapsedTime(Math.floor(elapsed));
-      
+
       // Logarithmic progress that never quite reaches 100%
       const prog = Math.min(95, (1 - Math.exp(-elapsed / (estimatedTime * 0.7))) * 100);
       setProgress(prog);
@@ -58,14 +58,14 @@ export const GenerateButton = memo(function GenerateButton({
       variant="outline"
       size="icon"
       className={cn(
-        'relative h-10 w-10 rounded-full overflow-hidden',
-        'border-purple-500/30 hover:bg-purple-500/20',
-        hasCachedResult && !isGenerating && 'border-green-500/50',
-        className
+        "relative h-10 w-10 rounded-full overflow-hidden",
+        "border-purple-500/30 hover:bg-purple-500/20",
+        hasCachedResult && !isGenerating && "border-green-500/50",
+        className,
       )}
       onClick={onClick}
       disabled={disabled || isGenerating || isLiveMode}
-      title={hasCachedResult ? 'Загрузить из кэша' : 'Сгенерировать трек'}
+      title={hasCachedResult ? "Загрузить из кэша" : "Сгенерировать трек"}
     >
       {/* Progress ring */}
       <AnimatePresence>
@@ -108,9 +108,7 @@ export const GenerateButton = memo(function GenerateButton({
         {isGenerating ? (
           <div className="flex flex-col items-center">
             <Loader2 className="w-4 h-4 animate-spin" />
-            {remainingTime > 0 && (
-              <span className="text-[8px] font-mono mt-0.5">{remainingTime}s</span>
-            )}
+            {remainingTime > 0 && <span className="text-[8px] font-mono mt-0.5">{remainingTime}s</span>}
           </div>
         ) : hasCachedResult ? (
           <Check className="w-4 h-4 text-green-500" />

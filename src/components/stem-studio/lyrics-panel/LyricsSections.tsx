@@ -8,15 +8,15 @@
  * @priority P1 - Split StudioLyricsPanel (624 lines → subcomponents)
  */
 
-import * as React from 'react';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { Scissors, Wand2 } from 'lucide-react';
-import type { LyricLine } from './LyricsRenderer';
+import * as React from "react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { Scissors, Wand2 } from "lucide-react";
+import type { LyricLine } from "./LyricsRenderer";
 
 export interface DetectedSection {
-  type: 'verse' | 'chorus' | 'bridge' | 'intro' | 'outro' | 'unknown';
+  type: "verse" | "chorus" | "bridge" | "intro" | "outro" | "unknown";
   lines: LyricLine[];
   startTime: number;
   endTime: number;
@@ -57,8 +57,8 @@ export function useLyricsSections(lines: LyricLine[]): DetectedSection[] {
       if (shouldSplit && currentSectionLines.length > 0) {
         // Finalize current section
         const sectionText = currentSectionLines
-          .map(l => l.text)
-          .join(' ')
+          .map((l) => l.text)
+          .join(" ")
           .trim();
         const sectionType = detectSectionType(sectionText);
 
@@ -79,7 +79,10 @@ export function useLyricsSections(lines: LyricLine[]): DetectedSection[] {
 
     // Add final section
     if (currentSectionLines.length > 0) {
-      const sectionText = currentSectionLines.map(l => l.text).join(' ').trim();
+      const sectionText = currentSectionLines
+        .map((l) => l.text)
+        .join(" ")
+        .trim();
       const sectionType = detectSectionType(sectionText);
 
       sections.push({
@@ -95,98 +98,84 @@ export function useLyricsSections(lines: LyricLine[]): DetectedSection[] {
   }, [lines]);
 }
 
-function detectSectionType(text: string): DetectedSection['type'] {
+function detectSectionType(text: string): DetectedSection["type"] {
   const lower = text.toLowerCase();
 
   // Simple pattern matching
-  if (lower.includes('chorus') || lower.includes('припев')) return 'chorus';
-  if (lower.includes('verse') || lower.includes('куплет')) return 'verse';
-  if (lower.includes('bridge') || lower.includes('мост')) return 'bridge';
-  if (lower.includes('intro') || lower.includes('вступление')) return 'intro';
-  if (lower.includes('outro') || lower.includes('завершение')) return 'outro';
+  if (lower.includes("chorus") || lower.includes("припев")) return "chorus";
+  if (lower.includes("verse") || lower.includes("куплет")) return "verse";
+  if (lower.includes("bridge") || lower.includes("мост")) return "bridge";
+  if (lower.includes("intro") || lower.includes("вступление")) return "intro";
+  if (lower.includes("outro") || lower.includes("завершение")) return "outro";
 
-  return 'unknown';
+  return "unknown";
 }
 
-export const LyricsSections = React.forwardRef<
-  HTMLDivElement,
-  LyricsSectionsProps
->(({
-  lines,
-  currentTime,
-  highlightedSection,
-  onSectionSelect,
-  selectionMode = false,
-  className,
-}, ref) => {
-  const sections = useLyricsSections(lines);
+export const LyricsSections = React.forwardRef<HTMLDivElement, LyricsSectionsProps>(
+  ({ lines, currentTime, highlightedSection, onSectionSelect, selectionMode = false, className }, ref) => {
+    const sections = useLyricsSections(lines);
 
-  const getSectionVariant = (type: DetectedSection['type']) => {
-    switch (type) {
-      case 'chorus':
-        return 'bg-warning/10 text-warning border-warning/30';
-      case 'verse':
-        return 'bg-primary/10 text-primary border-primary/30';
-      case 'bridge':
-        return 'bg-accent/10 text-accent border-accent/30';
-      default:
-        return 'bg-muted/10 text-muted-foreground border-muted/30';
+    const getSectionVariant = (type: DetectedSection["type"]) => {
+      switch (type) {
+        case "chorus":
+          return "bg-warning/10 text-warning border-warning/30";
+        case "verse":
+          return "bg-primary/10 text-primary border-primary/30";
+        case "bridge":
+          return "bg-accent/10 text-accent border-accent/30";
+        default:
+          return "bg-muted/10 text-muted-foreground border-muted/30";
+      }
+    };
+
+    if (sections.length === 0) {
+      return null;
     }
-  };
 
-  if (sections.length === 0) {
-    return null;
-  }
+    return (
+      <div ref={ref} className={cn("space-y-2", className)}>
+        {selectionMode && <div className="text-xs text-muted-foreground mb-2">Выберите секцию для замены</div>}
+        {sections.map((section, index) => {
+          const isHighlighted = highlightedSection?.startTime === section.startTime;
+          const isActive = currentTime >= section.startTime && currentTime <= section.endTime;
 
-  return (
-    <div ref={ref} className={cn("space-y-2", className)}>
-      {selectionMode && (
-        <div className="text-xs text-muted-foreground mb-2">
-          Выберите секцию для замены
-        </div>
-      )}
-      {sections.map((section, index) => {
-        const isHighlighted = highlightedSection?.startTime === section.startTime;
-        const isActive = currentTime >= section.startTime && currentTime <= section.endTime;
+          return (
+            <div
+              key={`${index}-${section.startTime}`}
+              className={cn(
+                "flex items-center gap-2 px-3 py-2 rounded-lg border transition-all",
+                getSectionVariant(section.type),
+                isActive && "ring-2 ring-ring",
+                isHighlighted && "ring-2 ring-warning",
+              )}
+            >
+              <Badge variant="outline" className="text-[10px] shrink-0">
+                {section.type.toUpperCase()}
+              </Badge>
+              <span className="flex-1 text-sm truncate">{section.text}</span>
+              <span className="text-xs text-muted-foreground shrink-0">{formatTime(section.startTime)}</span>
+              {selectionMode && onSectionSelect && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-6 w-6 shrink-0"
+                  onClick={() => onSectionSelect(section)}
+                >
+                  <Scissors className="h-3 w-3" />
+                </Button>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    );
+  },
+);
 
-        return (
-          <div
-            key={`${index}-${section.startTime}`}
-            className={cn(
-              'flex items-center gap-2 px-3 py-2 rounded-lg border transition-all',
-              getSectionVariant(section.type),
-              isActive && 'ring-2 ring-ring',
-              isHighlighted && 'ring-2 ring-warning'
-            )}
-          >
-            <Badge variant="outline" className="text-[10px] shrink-0">
-              {section.type.toUpperCase()}
-            </Badge>
-            <span className="flex-1 text-sm truncate">{section.text}</span>
-            <span className="text-xs text-muted-foreground shrink-0">
-              {formatTime(section.startTime)}
-            </span>
-            {selectionMode && onSectionSelect && (
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-6 w-6 shrink-0"
-                onClick={() => onSectionSelect(section)}
-              >
-                <Scissors className="h-3 w-3" />
-              </Button>
-            )}
-          </div>
-        );
-      })}
-    </div>
-  );
-});
-
-LyricsSections.displayName = 'LyricsSections';
+LyricsSections.displayName = "LyricsSections";
 
 function formatTime(seconds: number): string {
   const mins = Math.floor(seconds / 60);
   const secs = Math.floor(seconds % 60);
-  return `${mins}:${secs.toString().padStart(2, '0')}`;
+  return `${mins}:${secs.toString().padStart(2, "0")}`;
 }

@@ -3,48 +3,47 @@
  * Simulates how the menu looks in Telegram
  */
 
-import React, { useState, useMemo } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { ChevronLeft, ExternalLink, Smartphone } from 'lucide-react';
-import type { BotMenuItem } from '@/hooks/useBotMenuItems';
-import DOMPurify from 'dompurify';
-
+import React, { useState, useMemo } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { ChevronLeft, ExternalLink, Smartphone } from "lucide-react";
+import type { BotMenuItem } from "@/hooks/useBotMenuItems";
+import DOMPurify from "dompurify";
 
 interface BotMenuPreviewProps {
   items: BotMenuItem[];
 }
 
 export function BotMenuPreview({ items }: BotMenuPreviewProps) {
-  const [currentMenu, setCurrentMenu] = useState<string>('main');
+  const [currentMenu, setCurrentMenu] = useState<string>("main");
   const [navigationStack, setNavigationStack] = useState<string[]>([]);
-  
+
   // Get current menu item
   const currentMenuItem = useMemo(() => {
-    return items.find(i => i.menu_key === currentMenu);
+    return items.find((i) => i.menu_key === currentMenu);
   }, [items, currentMenu]);
-  
+
   // Get items for current menu
   const currentItems = useMemo(() => {
     return items
-      .filter(i => i.parent_key === currentMenu && i.is_enabled && i.show_in_menu)
+      .filter((i) => i.parent_key === currentMenu && i.is_enabled && i.show_in_menu)
       .sort((a, b) => a.sort_order - b.sort_order);
   }, [items, currentMenu]);
-  
+
   // Max characters for buttons to be placed side-by-side
   const MAX_CHARS_FOR_PAIRING = 12;
-  
+
   // Get button text length including emoji
   const getButtonTextLength = (item: BotMenuItem): number => {
     const text = item.icon_emoji ? `${item.icon_emoji} ${item.title}` : item.title;
     return text.length;
   };
-  
+
   // Group items by row with smart layout
   const rows = useMemo(() => {
     const rowMap = new Map<number, BotMenuItem[]>();
-    
+
     for (const item of currentItems) {
       const row = item.row_position;
       if (!rowMap.has(row)) {
@@ -52,24 +51,24 @@ export function BotMenuPreview({ items }: BotMenuPreviewProps) {
       }
       rowMap.get(row)!.push(item);
     }
-    
+
     // Build keyboard with smart layout
     const result: BotMenuItem[][] = [];
     const sortedRows = [...rowMap.entries()].sort((a, b) => a[0] - b[0]);
-    
+
     for (const [, rowItems] of sortedRows) {
       // Sort items within row by sort_order
       rowItems.sort((a, b) => a.sort_order - b.sort_order);
-      
+
       // If only 1 item in row, just add it
       if (rowItems.length === 1) {
         result.push(rowItems);
         continue;
       }
-      
+
       // Check if all items in this row have short enough titles to be paired
-      const allShort = rowItems.every(item => getButtonTextLength(item) <= MAX_CHARS_FOR_PAIRING);
-      
+      const allShort = rowItems.every((item) => getButtonTextLength(item) <= MAX_CHARS_FOR_PAIRING);
+
       if (allShort && rowItems.length <= 3) {
         // All buttons are short enough, place them side by side
         result.push(rowItems);
@@ -80,66 +79,66 @@ export function BotMenuPreview({ items }: BotMenuPreviewProps) {
         }
       }
     }
-    
+
     return result;
   }, [currentItems]);
-  
+
   const handleButtonClick = (item: BotMenuItem) => {
-    if (item.action_type === 'submenu') {
-      setNavigationStack(prev => [...prev, currentMenu]);
+    if (item.action_type === "submenu") {
+      setNavigationStack((prev) => [...prev, currentMenu]);
       setCurrentMenu(item.menu_key);
     }
   };
-  
+
   const handleBack = () => {
     if (navigationStack.length > 0) {
       const prev = navigationStack[navigationStack.length - 1];
-      setNavigationStack(s => s.slice(0, -1));
+      setNavigationStack((s) => s.slice(0, -1));
       setCurrentMenu(prev);
     } else {
-      setCurrentMenu('main');
+      setCurrentMenu("main");
     }
   };
-  
+
   const getImage = () => {
     if (currentMenuItem?.image_url) return currentMenuItem.image_url;
     if (currentMenuItem?.image_fallback) return currentMenuItem.image_fallback;
-    return 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800&q=80';
+    return "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800&q=80";
   };
-  
+
   const getCaption = () => {
     if (currentMenuItem?.caption) return currentMenuItem.caption;
-    if (currentMenu === 'main') {
-      return '*Добро пожаловать в MusicVerse\\!*\n\n💰 100 кредитов \\| Ур\\. 5\n\n🎵 12 треков \\| ❤️ 45 \\| ▶️ 230\n\n👇 *Выберите действие:*';
+    if (currentMenu === "main") {
+      return "*Добро пожаловать в MusicVerse\\!*\n\n💰 100 кредитов \\| Ур\\. 5\n\n🎵 12 треков \\| ❤️ 45 \\| ▶️ 230\n\n👇 *Выберите действие:*";
     }
-    return `*${currentMenuItem?.title || 'Меню'}*\n\n${currentMenuItem?.description || 'Выберите действие'}`;
+    return `*${currentMenuItem?.title || "Меню"}*\n\n${currentMenuItem?.description || "Выберите действие"}`;
   };
-  
+
   // Simple MarkdownV2 to HTML conversion
   const renderCaption = (text: string) => {
     return text
-      .replace(/\\\!/g, '!')
-      .replace(/\\\./g, '.')
-      .replace(/\\\|/g, '|')
-      .replace(/\\\(/g, '(')
-      .replace(/\\\)/g, ')')
-      .replace(/\*([^*]+)\*/g, '<strong>$1</strong>')
-      .replace(/_([^_]+)_/g, '<em>$1</em>')
-      .replace(/\n/g, '<br>');
+      .replace(/\\\!/g, "!")
+      .replace(/\\\./g, ".")
+      .replace(/\\\|/g, "|")
+      .replace(/\\\(/g, "(")
+      .replace(/\\\)/g, ")")
+      .replace(/\*([^*]+)\*/g, "<strong>$1</strong>")
+      .replace(/_([^_]+)_/g, "<em>$1</em>")
+      .replace(/\n/g, "<br>");
   };
-  
+
   return (
     <div className="flex flex-col items-center gap-4">
       <div className="flex items-center gap-2 text-sm text-muted-foreground">
         <Smartphone className="h-4 w-4" />
         Симуляция интерфейса Telegram
       </div>
-      
+
       {/* Phone frame */}
       <div className="relative w-[360px] bg-[#1a1a2e] rounded-[32px] p-3 shadow-xl">
         {/* Notch */}
         <div className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-6 bg-black rounded-full" />
-        
+
         {/* Screen */}
         <div className="bg-[#0f0f1a] rounded-[24px] overflow-hidden mt-6">
           {/* Chat header */}
@@ -152,27 +151,27 @@ export function BotMenuPreview({ items }: BotMenuPreviewProps) {
               <div className="text-xs text-gray-400">бот</div>
             </div>
           </div>
-          
+
           {/* Message area */}
           <div className="p-3 min-h-[400px] flex flex-col justify-end">
             {/* Bot message with photo */}
             <div className="max-w-[280px]">
               {/* Image */}
               <div className="rounded-t-xl overflow-hidden">
-                <img
-                  src={getImage()}
-                  alt="Menu"
-                  className="w-full h-40 object-cover"
-                />
+                <img src={getImage()} alt="Menu" className="w-full h-40 object-cover" />
               </div>
-              
+
               {/* Caption */}
-              <div 
+              <div
                 className="bg-[#2a2a4a] px-3 py-2 text-sm text-white"
-                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(renderCaption(getCaption()), { ALLOWED_TAGS: ['strong','em','br','b','i','u','s','code'], ALLOWED_ATTR: [] }) }}
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(renderCaption(getCaption()), {
+                    ALLOWED_TAGS: ["strong", "em", "br", "b", "i", "u", "s", "code"],
+                    ALLOWED_ATTR: [],
+                  }),
+                }}
               />
 
-              
               {/* Buttons */}
               <div className="bg-[#2a2a4a] rounded-b-xl overflow-hidden">
                 {rows.map((rowItems, rowIndex) => (
@@ -183,7 +182,7 @@ export function BotMenuPreview({ items }: BotMenuPreviewProps) {
                         className={`
                           flex-1 py-2.5 px-2 text-center text-sm text-blue-400 
                           hover:bg-[#3a3a5a] transition-colors
-                          ${itemIndex > 0 ? 'border-l border-[#1a1a2e]' : ''}
+                          ${itemIndex > 0 ? "border-l border-[#1a1a2e]" : ""}
                         `}
                         style={{ flexBasis: `${(item.column_span / 2) * 100}%` }}
                         onClick={() => handleButtonClick(item)}
@@ -191,17 +190,15 @@ export function BotMenuPreview({ items }: BotMenuPreviewProps) {
                         <span className="flex items-center justify-center gap-1.5">
                           {item.icon_emoji && <span>{item.icon_emoji}</span>}
                           <span className="truncate">{item.title}</span>
-                          {item.action_type === 'webapp' && (
-                            <ExternalLink className="h-3 w-3 opacity-50" />
-                          )}
+                          {item.action_type === "webapp" && <ExternalLink className="h-3 w-3 opacity-50" />}
                         </span>
                       </button>
                     ))}
                   </div>
                 ))}
-                
+
                 {/* Back button for submenus */}
-                {currentMenu !== 'main' && (
+                {currentMenu !== "main" && (
                   <div className="flex border-t border-[#1a1a2e]">
                     <button
                       className="flex-1 py-2.5 px-2 text-center text-sm text-blue-400 hover:bg-[#3a3a5a] transition-colors"
@@ -217,20 +214,20 @@ export function BotMenuPreview({ items }: BotMenuPreviewProps) {
               </div>
             </div>
           </div>
-          
+
           {/* Input area */}
           <div className="bg-[#1a1a2e] px-3 py-2 flex items-center gap-2">
-            <div className="flex-1 bg-[#2a2a4a] rounded-full px-4 py-2 text-sm text-gray-400">
-              Сообщение
-            </div>
+            <div className="flex-1 bg-[#2a2a4a] rounded-full px-4 py-2 text-sm text-gray-400">Сообщение</div>
           </div>
         </div>
       </div>
-      
+
       {/* Navigation info */}
       <div className="flex items-center gap-2">
         <Badge variant="outline">
-          {currentMenu === 'main' ? '🏠 Главное меню' : (
+          {currentMenu === "main" ? (
+            "🏠 Главное меню"
+          ) : (
             <>
               {currentMenuItem?.icon_emoji} {currentMenuItem?.title}
             </>

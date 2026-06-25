@@ -103,14 +103,14 @@ export-service:
 
 ### Входные Форматы Аудио
 
-| Формат | Расширение | Кодирование | Поддержка |
-|--------|-----------|-----------|----------|
-| WAV | .wav | PCM | ✅ Full |
-| MP3 | .mp3 | MP3 | ✅ Full |
-| FLAC | .flac | FLAC | ✅ Full |
-| OGG | .ogg | Vorbis | ✅ Full |
-| M4A | .m4a | AAC | ✅ Full |
-| YouTube | URL | Stream | ✅ Via yt-dlp |
+| Формат  | Расширение | Кодирование | Поддержка     |
+| ------- | ---------- | ----------- | ------------- |
+| WAV     | .wav       | PCM         | ✅ Full       |
+| MP3     | .mp3       | MP3         | ✅ Full       |
+| FLAC    | .flac      | FLAC        | ✅ Full       |
+| OGG     | .ogg       | Vorbis      | ✅ Full       |
+| M4A     | .m4a       | AAC         | ✅ Full       |
+| YouTube | URL        | Stream      | ✅ Via yt-dlp |
 
 ### Выходные Форматы Нотации
 
@@ -119,6 +119,7 @@ export-service:
 **Описание**: Стандартный формат для обмена музыкальными данными между устройствами и приложениями.
 
 **Структура**:
+
 ```
 MIDI File Structure:
 ├── Header Chunk (MThd)
@@ -131,6 +132,7 @@ MIDI File Structure:
 ```
 
 **Спецификация**:
+
 - Standard MIDI File Specification 1.1
 - Поддержка всех MIDI каналов (0-15)
 - General MIDI instrument mapping
@@ -144,6 +146,7 @@ MIDI File Structure:
 **Описание**: XML-based формат для представления западной музыкальной нотации (версия 4.0).
 
 **Структура**:
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 4.0 Partwise//EN"
@@ -190,6 +193,7 @@ MIDI File Structure:
 ```
 
 **Элементы MusicXML**:
+
 - Partwise format (по частям) или Timewise (по времени)
 - Note elements с pitch, duration, type
 - Attributes: ключ, размер такта, темп, инструмент
@@ -204,6 +208,7 @@ MIDI File Structure:
 **Описание**: Проприетарный формат для табуляции и нотации Guitar Pro 5.
 
 **Структура бинарного формата**:
+
 ```
 GP5 File Structure:
 ├── Version string ("FICHIER GUITAR PRO v5.xx")
@@ -224,6 +229,7 @@ GP5 File Structure:
 ```
 
 **Особенности GP5**:
+
 - Full tablature support (до 7 струн)
 - Advanced effects (hammer-on, pull-off, slide, bend, vibrato)
 - Playback engine с General MIDI
@@ -232,6 +238,7 @@ GP5 File Structure:
 - Lyrics synchronization
 
 **Структура Track**:
+
 ```
 Track:
 ├── Flags (channel, mute, solo, etc.)
@@ -259,6 +266,7 @@ Track:
 **Описание**: Портативный формат для визуализации полной партитуры с нотами и табуляцией.
 
 **Компоненты PDF**:
+
 - **Staff system**: 5 линий, ключи (скрипичный, басовый)
 - **Notation elements**: ноты, паузы, динамика, артикуляция
 - **Tablature system**: 6 линий с номерами ладов
@@ -266,11 +274,13 @@ Track:
 - **Metadata**: title, artist, composer, key signature
 
 **Процесс генерации**:
+
 ```
 Note Array → Layout Engine → Verovio/LilyPond → SVG → PDF
 ```
 
 **Параметры PDF**:
+
 - Page size: A4 or Letter
 - Margins: 1 inch
 - Font: Standard Music Font (SMuFL compatible)
@@ -347,7 +357,7 @@ MAX_UPLOAD_SIZE=500MB
 
 ```yaml
 # docker-compose.yml
-version: '3.9'
+version: "3.9"
 
 services:
   postgres:
@@ -777,7 +787,7 @@ class TranscriptionClient:
         self.session.headers.update({
             "Authorization": f"Bearer {api_key}"
         })
-    
+
     def transcribe(self, audio_path: str, instrument: str = "piano") -> dict:
         """Транскрибирует аудиофайл в ноты"""
         with open(audio_path, 'rb') as f:
@@ -792,19 +802,19 @@ class TranscriptionClient:
                 files=files,
                 data=data
             )
-        
+
         if response.status_code == 201:
             return response.json()
         else:
             raise Exception(f"Error: {response.status_code} - {response.text}")
-    
+
     def get_result(self, transcription_id: str) -> dict:
         """Получает результаты транскрипции"""
         response = self.session.get(
             f"{self.base_url}/transcribe/{transcription_id}"
         )
         return response.json()
-    
+
     def download(self, transcription_id: str, format: str = "midi") -> bytes:
         """Скачивает результат в выбранном формате"""
         response = self.session.get(
@@ -845,33 +855,33 @@ class MusicConverter:
         """Конвертирует MIDI в MusicXML"""
         score = converter.parse(midi_path)
         score.write('musicxml', fp=output_path)
-    
+
     @staticmethod
     def midi_to_gp5(midi_path: str, output_path: str):
         """Конвертирует MIDI в GP5"""
         # Использование Guitar Pro конвертера
         import guitarpro as gp
-        
+
         # Сначала конвертируем в промежуточный формат
         score = converter.parse(midi_path)
-        
+
         # Экспортируем в GP5
         gp_track = gp.Track()
         gp_track.name = score.metadata.title or "Converted"
-        
+
         # Добавляем меры и ноты
         for measure_idx, measure in enumerate(score.parts[0].flatten().getElementsByClass('Measure')):
             gp_measure = gp.Measure(gp.MeasureHeader())
-            
+
             for note in measure.notesAndRests:
                 if note.isNote:
                     gp_note = gp.Note()
                     gp_note.value = note.pitch.midi % 12
                     gp_note.string = 1
                     gp_note.fret = note.pitch.midi - 60
-            
+
             gp_track.measures.append(gp_measure)
-        
+
         gp_song = gp.Song()
         gp_song.tracks.append(gp_track)
         gp.write(gp_song, output_path, version=(5, 0, 0))
@@ -894,12 +904,12 @@ class PDFGenerator:
     def __init__(self, musicxml_path: str):
         self.musicxml_path = musicxml_path
         self.page_width, self.page_height = A4
-    
+
     def generate_notation_pdf(self, output_path: str):
         """Генерирует PDF с нотной грамотой"""
         # Используем Verovio для рендеринга MusicXML в SVG
         import verovio
-        
+
         vrvToolkit = verovio.toolkit()
         vrvToolkit.setOptions({
             "pageHeight": 2970,
@@ -907,46 +917,46 @@ class PDFGenerator:
             "margins": 50,
             "staffSize": 140
         })
-        
+
         # Загружаем MusicXML
         with open(self.musicxml_path, 'r') as f:
             musicxml_content = f.read()
-        
+
         vrvToolkit.loadData(musicxml_content)
-        
+
         # Экспортируем SVG
         svg = vrvToolkit.renderToSVG()
-        
+
         # Конвертируем SVG в PDF
         self._svg_to_pdf(svg, output_path)
-    
+
     def generate_with_tabs(self, output_path: str, guitar_tabs: list):
         """Генерирует PDF с нотами и табуляцией"""
         from reportlab.pdfgen import canvas
         from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak
         from reportlab.lib.styles import getSampleStyleSheet
-        
+
         doc = SimpleDocTemplate(output_path, pagesize=A4)
         story = []
-        
+
         # Добавляем ноты
         story.append(Paragraph("Sheet Music with Tabs", getSampleStyleSheet()['Heading1']))
         story.append(Spacer(1, 0.5*72))
-        
+
         # Здесь добавляем SVG с нотами
         # и текстовое представление табулатуры
-        
+
         for i, tab_line in enumerate(guitar_tabs):
             story.append(Paragraph(tab_line, getSampleStyleSheet()['Normal']))
-        
+
         doc.build(story)
-    
+
     @staticmethod
     def _svg_to_pdf(svg_content: str, output_path: str):
         """Конвертирует SVG в PDF"""
         from io import BytesIO
         from cairosvg import svg2pdf
-        
+
         svg_bytes = BytesIO(svg_content.encode('utf-8'))
         svg2pdf(bytestring=svg_content, write_to=output_path)
 
@@ -970,64 +980,50 @@ interface TranscriptionOptions {
 class MusicTranscriptionAPI {
   private apiKey: string;
   private baseUrl: string = "https://api.klang.io/v1";
-  
+
   constructor(apiKey: string) {
     this.apiKey = apiKey;
   }
-  
-  async transcribe(
-    file: File,
-    options: TranscriptionOptions
-  ): Promise<{ id: string; status: string }> {
+
+  async transcribe(file: File, options: TranscriptionOptions): Promise<{ id: string; status: string }> {
     const formData = new FormData();
-    formData.append('audio', file);
-    formData.append('instrument', options.instrument);
-    formData.append('confidence_threshold', 
-      (options.confidenceThreshold ?? 0.7).toString());
-    formData.append('include_chords', 
-      (options.includeChords ?? true).toString());
-    
+    formData.append("audio", file);
+    formData.append("instrument", options.instrument);
+    formData.append("confidence_threshold", (options.confidenceThreshold ?? 0.7).toString());
+    formData.append("include_chords", (options.includeChords ?? true).toString());
+
     const response = await fetch(`${this.baseUrl}/transcribe`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Authorization': `Bearer ${this.apiKey}`
+        Authorization: `Bearer ${this.apiKey}`,
       },
-      body: formData
+      body: formData,
     });
-    
+
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}`);
     }
-    
+
     return response.json();
   }
-  
+
   async pollStatus(transcriptionId: string): Promise<any> {
-    const response = await fetch(
-      `${this.baseUrl}/transcribe/${transcriptionId}`,
-      {
-        headers: {
-          'Authorization': `Bearer ${this.apiKey}`
-        }
-      }
-    );
-    
+    const response = await fetch(`${this.baseUrl}/transcribe/${transcriptionId}`, {
+      headers: {
+        Authorization: `Bearer ${this.apiKey}`,
+      },
+    });
+
     return response.json();
   }
-  
-  async downloadFile(
-    transcriptionId: string,
-    format: 'midi' | 'musicxml' | 'gp5' | 'pdf'
-  ): Promise<Blob> {
-    const response = await fetch(
-      `${this.baseUrl}/transcribe/${transcriptionId}/download/${format}`,
-      {
-        headers: {
-          'Authorization': `Bearer ${this.apiKey}`
-        }
-      }
-    );
-    
+
+  async downloadFile(transcriptionId: string, format: "midi" | "musicxml" | "gp5" | "pdf"): Promise<Blob> {
+    const response = await fetch(`${this.baseUrl}/transcribe/${transcriptionId}/download/${format}`, {
+      headers: {
+        Authorization: `Bearer ${this.apiKey}`,
+      },
+    });
+
     return response.blob();
   }
 }
@@ -1037,39 +1033,36 @@ function useTranscription() {
   const [loading, setLoading] = React.useState(false);
   const [progress, setProgress] = React.useState(0);
   const [result, setResult] = React.useState(null);
-  
-  const transcribe = React.useCallback(
-    async (file: File, instrument: string) => {
-      setLoading(true);
-      const api = new MusicTranscriptionAPI('your-api-key');
-      
-      try {
-        // Инициируем транскрипцию
-        const { id } = await api.transcribe(file, { instrument });
-        
-        // Следим за статусом
-        const pollInterval = setInterval(async () => {
-          const status = await api.pollStatus(id);
-          setProgress(status.progress);
-          
-          if (status.status === 'completed') {
-            clearInterval(pollInterval);
-            setResult(status);
-            setLoading(false);
-          } else if (status.status === 'failed') {
-            clearInterval(pollInterval);
-            setLoading(false);
-            throw new Error('Transcription failed');
-          }
-        }, 2000);
-      } catch (error) {
-        setLoading(false);
-        throw error;
-      }
-    },
-    []
-  );
-  
+
+  const transcribe = React.useCallback(async (file: File, instrument: string) => {
+    setLoading(true);
+    const api = new MusicTranscriptionAPI("your-api-key");
+
+    try {
+      // Инициируем транскрипцию
+      const { id } = await api.transcribe(file, { instrument });
+
+      // Следим за статусом
+      const pollInterval = setInterval(async () => {
+        const status = await api.pollStatus(id);
+        setProgress(status.progress);
+
+        if (status.status === "completed") {
+          clearInterval(pollInterval);
+          setResult(status);
+          setLoading(false);
+        } else if (status.status === "failed") {
+          clearInterval(pollInterval);
+          setLoading(false);
+          throw new Error("Transcription failed");
+        }
+      }, 2000);
+    } catch (error) {
+      setLoading(false);
+      throw error;
+    }
+  }, []);
+
   return { transcribe, loading, progress, result };
 }
 ```
@@ -1122,7 +1115,7 @@ class APIClient:
             response.raise_for_status()
         except requests.exceptions.HTTPError as e:
             error_data = response.json()
-            
+
             if response.status_code == 400:
                 raise ValueError(f"Bad Request: {error_data['message']}")
             elif response.status_code == 401:
@@ -1133,7 +1126,7 @@ class APIClient:
                 )
             elif response.status_code == 500:
                 raise ServerError("Internal server error")
-            
+
             raise e
 ```
 
@@ -1173,14 +1166,14 @@ def get_conversion_cached(input_data, from_format, to_format):
     key = hashlib.sha256(
         f"{input_data}{from_format}{to_format}".encode()
     ).hexdigest()
-    
+
     cached = cache.get(key)
     if cached:
         return cached
-    
+
     result = convert_format(input_data, from_format, to_format)
     cache.setex(key, 3600, result)  # Кэш на 1 час
-    
+
     return result
 ```
 
@@ -1193,7 +1186,7 @@ import asyncio
 class BatchProcessor:
     def __init__(self, max_workers: int = 4):
         self.executor = ThreadPoolExecutor(max_workers=max_workers)
-    
+
     async def process_batch(self, items: list) -> list:
         loop = asyncio.get_event_loop()
         tasks = [
@@ -1205,7 +1198,7 @@ class BatchProcessor:
             for item in items
         ]
         return await asyncio.gather(*tasks)
-    
+
     def process_item(self, item):
         # Обработка отдельного элемента
         return transcribe_audio(item)
@@ -1274,17 +1267,17 @@ def transcribe_safe(audio_file: str, instrument: str):
     valid_formats = ['.mp3', '.wav', '.flac', '.ogg', '.m4a']
     if not any(audio_file.endswith(fmt) for fmt in valid_formats):
         raise ValueError(f"Unsupported format: {audio_file}")
-    
+
     # Проверка инструмента
     valid_instruments = ['piano', 'guitar', 'flute', 'violin', 'trumpet', 'bass']
     if instrument not in valid_instruments:
         raise ValueError(f"Unknown instrument: {instrument}")
-    
+
     # Проверка размера файла
     max_size = 500 * 1024 * 1024  # 500MB
     if os.path.getsize(audio_file) > max_size:
         raise ValueError(f"File too large: {audio_file}")
-    
+
     # Продолжаем обработку
     return transcribe(audio_file, instrument)
 ```
@@ -1305,13 +1298,13 @@ logger = logging.getLogger(__name__)
 def transcribe_with_logging(audio_file: str, instrument: str):
     try:
         logger.info(f"Starting transcription: {audio_file} ({instrument})")
-        
+
         result = transcribe(audio_file, instrument)
-        
+
         logger.info(f"Transcription completed: {result['id']}")
         logger.info(f"Notes detected: {result['notes_detected']}")
         logger.info(f"Accuracy: {result['accuracy_score']:.2%}")
-        
+
         return result
     except Exception as e:
         logger.error(f"Transcription failed: {e}", exc_info=True)

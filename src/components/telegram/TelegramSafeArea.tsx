@@ -1,12 +1,12 @@
 /**
  * Telegram Safe Area Container
  * Feature: 032-professional-ui
- * 
+ *
  * Wrapper component that handles Telegram Mini App safe areas
  */
 
-import React, { ReactNode, CSSProperties } from 'react';
-import { cn } from '@/lib/utils';
+import React, { ReactNode, CSSProperties } from "react";
+import { cn } from "@/lib/utils";
 
 interface TelegramSafeAreaProps {
   children: ReactNode;
@@ -29,11 +29,11 @@ interface TelegramSafeAreaProps {
  * Calculates Telegram safe area CSS values
  */
 export function getTelegramSafeAreaTop(): string {
-  return 'calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px)))';
+  return "calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px)))";
 }
 
 export function getTelegramSafeAreaBottom(): string {
-  return 'calc(max(var(--tg-content-safe-area-inset-bottom, 0px) + var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)))';
+  return "calc(max(var(--tg-content-safe-area-inset-bottom, 0px) + var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)))";
 }
 
 export function TelegramSafeArea({
@@ -46,11 +46,9 @@ export function TelegramSafeArea({
 }: TelegramSafeAreaProps) {
   const safeAreaStyle: CSSProperties = {
     ...style,
-    paddingTop: top 
-      ? `calc(${getTelegramSafeAreaTop()} + ${extraPadding?.top || 0}px)` 
-      : extraPadding?.top,
-    paddingBottom: bottom 
-      ? `calc(${getTelegramSafeAreaBottom()} + ${extraPadding?.bottom || 0}px)` 
+    paddingTop: top ? `calc(${getTelegramSafeAreaTop()} + ${extraPadding?.top || 0}px)` : extraPadding?.top,
+    paddingBottom: bottom
+      ? `calc(${getTelegramSafeAreaBottom()} + ${extraPadding?.bottom || 0}px)`
       : extraPadding?.bottom,
     paddingLeft: extraPadding?.left,
     paddingRight: extraPadding?.right,
@@ -87,7 +85,7 @@ export function TelegramContentArea({
       className={cn("flex flex-col min-h-screen", className)}
       style={{
         paddingTop: getTelegramSafeAreaTop(),
-        paddingBottom: hasPlayerBar 
+        paddingBottom: hasPlayerBar
           ? `calc(${getTelegramSafeAreaBottom()} + ${playerBarHeight}px)`
           : getTelegramSafeAreaBottom(),
       }}
@@ -105,8 +103,8 @@ export function useTelegramSafeArea() {
     top: getTelegramSafeAreaTop(),
     bottom: getTelegramSafeAreaBottom(),
     cssVars: {
-      '--safe-area-top': getTelegramSafeAreaTop(),
-      '--safe-area-bottom': getTelegramSafeAreaBottom(),
+      "--safe-area-top": getTelegramSafeAreaTop(),
+      "--safe-area-bottom": getTelegramSafeAreaBottom(),
     } as CSSProperties,
   };
 }

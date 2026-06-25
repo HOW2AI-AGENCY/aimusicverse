@@ -33,10 +33,7 @@ export function useAdminModerationReports(status?: string) {
   return useQuery({
     queryKey: ["admin-moderation-reports", status],
     queryFn: async () => {
-      let query = supabase
-        .from("moderation_reports")
-        .select("*")
-        .order("created_at", { ascending: false });
+      let query = supabase.from("moderation_reports").select("*").order("created_at", { ascending: false });
 
       if (status && status !== "all") {
         query = query.eq("status", status);
@@ -48,27 +45,27 @@ export function useAdminModerationReports(status?: string) {
       // Fetch related profiles and tracks
       if (!data?.length) return [];
 
-      const reporterIds = [...new Set(data.map(r => r.reporter_id))];
-      const reportedUserIds = [...new Set(data.map(r => r.reported_user_id))];
-      const trackIds = data.filter(r => r.entity_type === 'track').map(r => r.entity_id);
+      const reporterIds = [...new Set(data.map((r) => r.reporter_id))];
+      const reportedUserIds = [...new Set(data.map((r) => r.reported_user_id))];
+      const trackIds = data.filter((r) => r.entity_type === "track").map((r) => r.entity_id);
 
       const [reportersRes, reportedUsersRes, tracksRes] = await Promise.all([
         supabase.from("profiles").select("user_id, username, first_name").in("user_id", reporterIds),
         supabase.from("profiles").select("user_id, username, first_name").in("user_id", reportedUserIds),
-        trackIds.length > 0 
+        trackIds.length > 0
           ? supabase.from("tracks").select("id, title, cover_url").in("id", trackIds)
           : Promise.resolve({ data: [] }),
       ]);
 
-      const reportersMap = new Map(reportersRes.data?.map(p => [p.user_id, p]) || []);
-      const reportedUsersMap = new Map(reportedUsersRes.data?.map(p => [p.user_id, p]) || []);
-      const tracksMap = new Map(tracksRes.data?.map(t => [t.id, t]) || []);
+      const reportersMap = new Map(reportersRes.data?.map((p) => [p.user_id, p]) || []);
+      const reportedUsersMap = new Map(reportedUsersRes.data?.map((p) => [p.user_id, p]) || []);
+      const tracksMap = new Map(tracksRes.data?.map((t) => [t.id, t]) || []);
 
-      return data.map(report => ({
+      return data.map((report) => ({
         ...report,
         reporter: reportersMap.get(report.reporter_id),
         reported_user: reportedUsersMap.get(report.reported_user_id),
-        track: report.entity_type === 'track' ? tracksMap.get(report.entity_id) : undefined,
+        track: report.entity_type === "track" ? tracksMap.get(report.entity_id) : undefined,
       })) as ModerationReport[];
     },
   });
@@ -78,14 +75,16 @@ export function useUpdateReportStatus() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ 
-      reportId, 
-      status 
-    }: { 
-      reportId: string; 
-      status: 'pending' | 'reviewed' | 'resolved' | 'dismissed';
+    mutationFn: async ({
+      reportId,
+      status,
+    }: {
+      reportId: string;
+      status: "pending" | "reviewed" | "resolved" | "dismissed";
     }) => {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
       const { error } = await supabase

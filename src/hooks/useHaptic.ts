@@ -1,13 +1,8 @@
-import { useCallback, useMemo } from 'react';
-import { 
-  hapticImpact, 
-  hapticNotification, 
-  hapticSelectionChanged, 
-  isHapticAvailable 
-} from '@/lib/haptic';
+import { useCallback, useMemo } from "react";
+import { hapticImpact, hapticNotification, hapticSelectionChanged, isHapticAvailable } from "@/lib/haptic";
 
-type ImpactStyle = 'light' | 'medium' | 'heavy' | 'rigid' | 'soft';
-type NotificationType = 'error' | 'success' | 'warning';
+type ImpactStyle = "light" | "medium" | "heavy" | "rigid" | "soft";
+type NotificationType = "error" | "success" | "warning";
 
 interface UseHapticReturn {
   /** Check if haptic feedback is available */
@@ -36,11 +31,11 @@ interface UseHapticReturn {
 export function useHaptic(): UseHapticReturn {
   const isAvailable = useMemo(() => isHapticAvailable(), []);
 
-  const impact = useCallback((style: ImpactStyle = 'medium') => {
+  const impact = useCallback((style: ImpactStyle = "medium") => {
     hapticImpact(style);
   }, []);
 
-  const notification = useCallback((type: NotificationType = 'success') => {
+  const notification = useCallback((type: NotificationType = "success") => {
     hapticNotification(type);
   }, []);
 
@@ -49,22 +44,25 @@ export function useHaptic(): UseHapticReturn {
   }, []);
 
   // Pre-defined patterns for common use cases
-  const patterns = useMemo(() => ({
-    // Light tap for buttons
-    tap: () => hapticImpact('light'),
-    // Success notification
-    success: () => hapticNotification('success'),
-    // Error notification
-    error: () => hapticNotification('error'),
-    // Warning notification
-    warning: () => hapticNotification('warning'),
-    // Selection change (e.g., toggle, radio)
-    select: () => hapticSelectionChanged(),
-    // Heavy impact for destructive actions
-    delete: () => hapticImpact('heavy'),
-    // Medium impact for toggles
-    toggle: () => hapticImpact('medium'),
-  }), []);
+  const patterns = useMemo(
+    () => ({
+      // Light tap for buttons
+      tap: () => hapticImpact("light"),
+      // Success notification
+      success: () => hapticNotification("success"),
+      // Error notification
+      error: () => hapticNotification("error"),
+      // Warning notification
+      warning: () => hapticNotification("warning"),
+      // Selection change (e.g., toggle, radio)
+      select: () => hapticSelectionChanged(),
+      // Heavy impact for destructive actions
+      delete: () => hapticImpact("heavy"),
+      // Medium impact for toggles
+      toggle: () => hapticImpact("medium"),
+    }),
+    [],
+  );
 
   return {
     isAvailable,

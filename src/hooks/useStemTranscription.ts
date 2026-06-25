@@ -2,13 +2,13 @@
  * Hook for managing stem transcriptions (MIDI, PDF, MusicXML, etc.)
  * Integrates with stem_transcriptions table
  */
-import { useState, useCallback, useMemo } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { logger } from '@/lib/logger';
-import { toast } from 'sonner';
+import { useState, useCallback, useMemo } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { logger } from "@/lib/logger";
+import { toast } from "sonner";
 
-const log = logger.child({ module: 'StemTranscription' });
+const log = logger.child({ module: "StemTranscription" });
 
 export interface StemTranscription {
   id: string;
@@ -62,15 +62,15 @@ export function useStemTranscription(stemId: string | undefined) {
     error,
     refetch,
   } = useQuery({
-    queryKey: ['stem-transcriptions', stemId],
+    queryKey: ["stem-transcriptions", stemId],
     queryFn: async (): Promise<StemTranscription[]> => {
       if (!stemId) return [];
 
       const { data, error } = await supabase
-        .from('stem_transcriptions')
-        .select('*')
-        .eq('stem_id', stemId)
-        .order('created_at', { ascending: false });
+        .from("stem_transcriptions")
+        .select("*")
+        .eq("stem_id", stemId)
+        .order("created_at", { ascending: false });
 
       if (error) throw error;
       return (data as StemTranscription[]) || [];
@@ -115,15 +115,15 @@ export function useTrackTranscriptions(trackId: string | undefined) {
     error,
     refetch,
   } = useQuery({
-    queryKey: ['track-transcriptions', trackId],
+    queryKey: ["track-transcriptions", trackId],
     queryFn: async (): Promise<StemTranscription[]> => {
       if (!trackId) return [];
 
       const { data, error } = await supabase
-        .from('stem_transcriptions')
-        .select('*')
-        .eq('track_id', trackId)
-        .order('created_at', { ascending: false });
+        .from("stem_transcriptions")
+        .select("*")
+        .eq("track_id", trackId)
+        .order("created_at", { ascending: false });
 
       if (error) throw error;
       return (data as StemTranscription[]) || [];
@@ -160,15 +160,17 @@ export function useSaveTranscription() {
 
   const mutation = useMutation({
     mutationFn: async (params: SaveTranscriptionParams): Promise<StemTranscription> => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('Не авторизован');
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) throw new Error("Не авторизован");
 
       // Check if transcription exists for this stem
       const { data: existing } = await supabase
-        .from('stem_transcriptions')
-        .select('id')
-        .eq('stem_id', params.stemId)
-        .eq('model', params.model)
+        .from("stem_transcriptions")
+        .select("id")
+        .eq("stem_id", params.stemId)
+        .eq("model", params.model)
         .maybeSingle();
 
       const transcriptionData = {
@@ -194,36 +196,32 @@ export function useSaveTranscription() {
       if (existing) {
         // Update existing
         const { data, error } = await supabase
-          .from('stem_transcriptions')
+          .from("stem_transcriptions")
           .update(transcriptionData)
-          .eq('id', existing.id)
+          .eq("id", existing.id)
           .select()
           .single();
 
         if (error) throw error;
-        log.info('Transcription updated', { id: existing.id });
+        log.info("Transcription updated", { id: existing.id });
         return data as StemTranscription;
       } else {
         // Insert new
-        const { data, error } = await supabase
-          .from('stem_transcriptions')
-          .insert(transcriptionData)
-          .select()
-          .single();
+        const { data, error } = await supabase.from("stem_transcriptions").insert(transcriptionData).select().single();
 
         if (error) throw error;
-        log.info('Transcription saved', { stemId: params.stemId });
+        log.info("Transcription saved", { stemId: params.stemId });
         return data as StemTranscription;
       }
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ['stem-transcriptions', data.stem_id] });
-      queryClient.invalidateQueries({ queryKey: ['track-transcriptions', data.track_id] });
-      toast.success('Транскрипция сохранена');
+      queryClient.invalidateQueries({ queryKey: ["stem-transcriptions", data.stem_id] });
+      queryClient.invalidateQueries({ queryKey: ["track-transcriptions", data.track_id] });
+      toast.success("Транскрипция сохранена");
     },
     onError: (error) => {
-      log.error('Failed to save transcription', { error });
-      toast.error('Ошибка сохранения транскрипции');
+      log.error("Failed to save transcription", { error });
+      toast.error("Ошибка сохранения транскрипции");
     },
   });
 
@@ -242,22 +240,19 @@ export function useDeleteTranscription() {
 
   const mutation = useMutation({
     mutationFn: async (transcriptionId: string): Promise<void> => {
-      const { error } = await supabase
-        .from('stem_transcriptions')
-        .delete()
-        .eq('id', transcriptionId);
+      const { error } = await supabase.from("stem_transcriptions").delete().eq("id", transcriptionId);
 
       if (error) throw error;
-      log.info('Transcription deleted', { id: transcriptionId });
+      log.info("Transcription deleted", { id: transcriptionId });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['stem-transcriptions'] });
-      queryClient.invalidateQueries({ queryKey: ['track-transcriptions'] });
-      toast.success('Транскрипция удалена');
+      queryClient.invalidateQueries({ queryKey: ["stem-transcriptions"] });
+      queryClient.invalidateQueries({ queryKey: ["track-transcriptions"] });
+      toast.success("Транскрипция удалена");
     },
     onError: (error) => {
-      log.error('Failed to delete transcription', { error });
-      toast.error('Ошибка удаления');
+      log.error("Failed to delete transcription", { error });
+      toast.error("Ошибка удаления");
     },
   });
 

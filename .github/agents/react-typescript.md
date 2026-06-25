@@ -1,9 +1,11 @@
 # React & TypeScript Agent
 
 ## Role
+
 Специализированный агент для React компонентов, TypeScript типизации и архитектуры фронтенда.
 
 ## Expertise
+
 - React 19 с hooks
 - TypeScript strict mode
 - TanStack Query для data fetching
@@ -12,6 +14,7 @@
 - Radix UI / shadcn/ui компоненты
 
 ## Key Files
+
 - `src/components/` - React компоненты
 - `src/hooks/` - Custom hooks
 - `src/stores/` - Zustand stores
@@ -21,15 +24,16 @@
 ## Component Patterns
 
 ### Functional Component Template
+
 ```tsx
-import { useState, useCallback, useMemo } from 'react';
-import { cn } from '@/lib/utils';
+import { useState, useCallback, useMemo } from "react";
+import { cn } from "@/lib/utils";
 
 interface ComponentProps {
   /** Описание пропа */
   value: string;
   /** Optional prop with default */
-  variant?: 'default' | 'outline';
+  variant?: "default" | "outline";
   /** Callback */
   onChange?: (value: string) => void;
   /** Children */
@@ -38,13 +42,7 @@ interface ComponentProps {
   className?: string;
 }
 
-export function Component({
-  value,
-  variant = 'default',
-  onChange,
-  children,
-  className,
-}: ComponentProps) {
+export function Component({ value, variant = "default", onChange, children, className }: ComponentProps) {
   const [internalState, setInternalState] = useState(false);
 
   const handleClick = useCallback(() => {
@@ -55,20 +53,17 @@ export function Component({
     return value.toUpperCase();
   }, [value]);
 
-  return (
-    <div className={cn('base-styles', className)}>
-      {children}
-    </div>
-  );
+  return <div className={cn("base-styles", className)}>{children}</div>;
 }
 ```
 
 ### Custom Hook Template
+
 ```tsx
-import { useState, useEffect, useCallback } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { logger } from '@/lib/logger';
+import { useState, useEffect, useCallback } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { logger } from "@/lib/logger";
 
 interface UseEntityOptions {
   enabled?: boolean;
@@ -78,13 +73,9 @@ export function useEntity(id: string, options?: UseEntityOptions) {
   const queryClient = useQueryClient();
 
   const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ['entity', id],
+    queryKey: ["entity", id],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('entities')
-        .select('*')
-        .eq('id', id)
-        .single();
+      const { data, error } = await supabase.from("entities").select("*").eq("id", id).single();
 
       if (error) throw error;
       return data;
@@ -95,21 +86,16 @@ export function useEntity(id: string, options?: UseEntityOptions) {
 
   const mutation = useMutation({
     mutationFn: async (updates: Partial<Entity>) => {
-      const { data, error } = await supabase
-        .from('entities')
-        .update(updates)
-        .eq('id', id)
-        .select()
-        .single();
+      const { data, error } = await supabase.from("entities").update(updates).eq("id", id).select().single();
 
       if (error) throw error;
       return data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['entity', id] });
+      queryClient.invalidateQueries({ queryKey: ["entity", id] });
     },
     onError: (error) => {
-      logger.error('Entity update failed', { error, id });
+      logger.error("Entity update failed", { error, id });
     },
   });
 
@@ -125,15 +111,16 @@ export function useEntity(id: string, options?: UseEntityOptions) {
 ```
 
 ### Zustand Store Template
+
 ```tsx
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 interface StoreState {
   // State
   items: Item[];
   selectedId: string | null;
-  
+
   // Actions
   addItem: (item: Item) => void;
   removeItem: (id: string) => void;
@@ -166,19 +153,20 @@ export const useStore = create<StoreState>()(
       reset: () => set(initialState),
     }),
     {
-      name: 'store-name',
+      name: "store-name",
       partialize: (state) => ({
         // Только персистить нужные поля
         selectedId: state.selectedId,
       }),
-    }
-  )
+    },
+  ),
 );
 ```
 
 ## Animation Patterns
 
 ### Framer Motion
+
 ```tsx
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -221,6 +209,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 ## Common Errors
 
 ### Error: "Cannot read properties of undefined"
+
 ```tsx
 // ❌ Неправильно
 const name = user.profile.name;
@@ -229,28 +218,30 @@ const name = user.profile.name;
 const name = user?.profile?.name;
 
 // ✅ Правильно - nullish coalescing
-const name = user?.profile?.name ?? 'Anonymous';
+const name = user?.profile?.name ?? "Anonymous";
 ```
 
 ### Error: "Too many re-renders"
+
 ```tsx
 // ❌ Неправильно - создаёт новый объект каждый рендер
-<Component options={{ value: 1 }} />
+<Component options={{ value: 1 }} />;
 
 // ✅ Правильно - мемоизация
 const options = useMemo(() => ({ value: 1 }), []);
-<Component options={options} />
+<Component options={options} />;
 
 // ❌ Неправильно - вызывает setState в рендере
 if (condition) setCount(count + 1);
 
 // ✅ Правильно - в useEffect
 useEffect(() => {
-  if (condition) setCount(c => c + 1);
+  if (condition) setCount((c) => c + 1);
 }, [condition]);
 ```
 
 ### Error: "Cannot update state on unmounted component"
+
 ```tsx
 useEffect(() => {
   let mounted = true;
@@ -273,26 +264,28 @@ useEffect(() => {
 ## TypeScript Best Practices
 
 ### Discriminated Unions
+
 ```tsx
-type LoadingState = { status: 'loading' };
-type SuccessState<T> = { status: 'success'; data: T };
-type ErrorState = { status: 'error'; error: Error };
+type LoadingState = { status: "loading" };
+type SuccessState<T> = { status: "success"; data: T };
+type ErrorState = { status: "error"; error: Error };
 
 type AsyncState<T> = LoadingState | SuccessState<T> | ErrorState;
 
 function renderState<T>(state: AsyncState<T>) {
   switch (state.status) {
-    case 'loading':
+    case "loading":
       return <Spinner />;
-    case 'success':
+    case "success":
       return <Data data={state.data} />;
-    case 'error':
+    case "error":
       return <Error error={state.error} />;
   }
 }
 ```
 
 ### Generic Components
+
 ```tsx
 interface ListProps<T> {
   items: T[];
@@ -312,6 +305,7 @@ function List<T>({ items, renderItem, keyExtractor }: ListProps<T>) {
 ```
 
 ## Commands
+
 - `/create-component` - создай React компонент
 - `/create-hook` - создай custom hook
 - `/create-store` - создай Zustand store

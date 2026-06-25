@@ -1,28 +1,25 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from './useAuth';
-import { toast } from 'sonner';
-import { logger } from '@/lib/logger';
-import { notifyProjectChange } from '@/services/notificationManager';
-import { useAuditLog } from './useAuditLog';
-import { useEffect, useCallback } from 'react';
-import type { Tables, TablesInsert, TablesUpdate } from '@/integrations/supabase/types';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "./useAuth";
+import { toast } from "sonner";
+import { logger } from "@/lib/logger";
+import { notifyProjectChange } from "@/services/notificationManager";
+import { useAuditLog } from "./useAuditLog";
+import { useEffect, useCallback } from "react";
+import type { Tables, TablesInsert, TablesUpdate } from "@/integrations/supabase/types";
 
 // Use database type directly for consistency
-export type Project = Tables<'music_projects'>;
+export type Project = Tables<"music_projects">;
 
 const RETRY_ATTEMPTS = 3;
 const RETRY_DELAY = 1000;
 
-const retryWithBackoff = async <T,>(
-  fn: () => Promise<T>,
-  attempts = RETRY_ATTEMPTS
-): Promise<T> => {
+const retryWithBackoff = async <T,>(fn: () => Promise<T>, attempts = RETRY_ATTEMPTS): Promise<T> => {
   try {
     return await fn();
   } catch (error) {
     if (attempts <= 1) throw error;
-    await new Promise(resolve => setTimeout(resolve, RETRY_DELAY * (RETRY_ATTEMPTS - attempts + 1)));
+    await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY * (RETRY_ATTEMPTS - attempts + 1)));
     return retryWithBackoff(fn, attempts - 1);
   }
 };
@@ -32,17 +29,21 @@ export const useProjects = () => {
   const queryClient = useQueryClient();
   const { logProjectCreated, logAction } = useAuditLog();
 
-  const { data: projects, isLoading, error } = useQuery({
-    queryKey: ['projects', user?.id],
+  const {
+    data: projects,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["projects", user?.id],
     queryFn: async () => {
       if (!user?.id) return [];
 
       return retryWithBackoff(async () => {
         const { data, error } = await supabase
-          .from('music_projects')
-          .select('*')
-          .eq('user_id', user.id)
-          .order('created_at', { ascending: false });
+          .from("music_projects")
+          .select("*")
+          .eq("user_id", user.id)
+          .order("created_at", { ascending: false });
 
         if (error) throw error;
         return data || [];
@@ -61,11 +62,11 @@ export const useProjects = () => {
     const channel = supabase
       .channel(`projects-${user.id}-${Math.random().toString(36).slice(2)}`)
       .on(
-        'postgres_changes',
+        "postgres_changes",
         {
-          event: '*',
-          schema: 'public',
-          table: 'music_projects',
+          event: "*",
+          schema: "public",
+          table: "music_projects",
           filter: `user_id=eq.${user.id}`,
         },
         (payload) => {
@@ -75,26 +76,26 @@ export const useProjects = () => {
           }
           debounceTimeout = setTimeout(() => {
             // Update cache directly for better UX instead of full refetch
-            if (payload.eventType === 'INSERT' && payload.new) {
-              queryClient.setQueryData(['projects', user.id], (old: Project[] | undefined) => {
+            if (payload.eventType === "INSERT" && payload.new) {
+              queryClient.setQueryData(["projects", user.id], (old: Project[] | undefined) => {
                 if (!old) return [payload.new as Project];
                 // Prevent duplicates
-                if (old.some(p => p.id === (payload.new as Project).id)) return old;
+                if (old.some((p) => p.id === (payload.new as Project).id)) return old;
                 return [payload.new as Project, ...old];
               });
-            } else if (payload.eventType === 'DELETE' && payload.old) {
-              queryClient.setQueryData(['projects', user.id], (old: Project[] | undefined) => {
+            } else if (payload.eventType === "DELETE" && payload.old) {
+              queryClient.setQueryData(["projects", user.id], (old: Project[] | undefined) => {
                 if (!old) return [];
-                return old.filter(p => p.id !== (payload.old as Project).id);
+                return old.filter((p) => p.id !== (payload.old as Project).id);
               });
-            } else if (payload.eventType === 'UPDATE' && payload.new) {
-              queryClient.setQueryData(['projects', user.id], (old: Project[] | undefined) => {
+            } else if (payload.eventType === "UPDATE" && payload.new) {
+              queryClient.setQueryData(["projects", user.id], (old: Project[] | undefined) => {
                 if (!old) return [];
-                return old.map(p => p.id === (payload.new as Project).id ? payload.new as Project : p);
+                return old.map((p) => (p.id === (payload.new as Project).id ? (payload.new as Project) : p));
               });
             }
           }, 100);
-        }
+        },
       )
       .subscribe();
 
@@ -115,25 +116,25 @@ export const useProjects = () => {
     reason?: string;
   }> => {
     if (!user?.id) {
-      return { allowed: false, currentCount: 0, limit: 3, reason: 'Требуется авторизация' };
+      return { allowed: false, currentCount: 0, limit: 3, reason: "Требуется авторизация" };
     }
 
-    const { data, error } = await supabase.rpc('can_create_project', {
-      _user_id: user.id
+    const { data, error } = await supabase.rpc("can_create_project", {
+      _user_id: user.id,
     });
 
     if (error) {
-      logger.error('Error checking project limit', error);
+      logger.error("Error checking project limit", error);
       return { allowed: true, currentCount: 0, limit: null }; // Allow on error
     }
 
     // Cast to proper type since RPC returns Json
-    const result = data as { 
-      allowed?: boolean; 
-      current_count?: number; 
-      limit?: number; 
-      remaining?: number; 
-      reason?: string; 
+    const result = data as {
+      allowed?: boolean;
+      current_count?: number;
+      limit?: number;
+      remaining?: number;
+      reason?: string;
     } | null;
 
     return {
@@ -147,27 +148,29 @@ export const useProjects = () => {
 
   const createProject = useMutation({
     mutationFn: async (projectData: Partial<Project> & { title: string }) => {
-      if (!user?.id) throw new Error('User not authenticated');
+      if (!user?.id) throw new Error("User not authenticated");
 
       return retryWithBackoff(async () => {
         // Check project limit for free users
         const limitCheck = await checkProjectLimit();
         if (!limitCheck.allowed) {
-          throw new Error(limitCheck.reason || 'Достигнут лимит проектов');
+          throw new Error(limitCheck.reason || "Достигнут лимит проектов");
         }
 
         // Check if user is premium or admin to set default is_public
-        const { data: isPremium } = await supabase.rpc('is_premium_or_admin', {
-          _user_id: user.id
+        const { data: isPremium } = await supabase.rpc("is_premium_or_admin", {
+          _user_id: user.id,
         });
 
         const { data, error } = await supabase
-          .from('music_projects')
-          .insert([{
-            user_id: user.id,
-            is_public: isPremium ? false : true, // Free users create public by default
-            ...projectData,
-          }])
+          .from("music_projects")
+          .insert([
+            {
+              user_id: user.id,
+              is_public: isPremium ? false : true, // Free users create public by default
+              ...projectData,
+            },
+          ])
           .select()
           .single();
 
@@ -176,11 +179,11 @@ export const useProjects = () => {
       });
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ['projects', user?.id] });
-      toast.success('Проект создан успешно');
+      queryClient.invalidateQueries({ queryKey: ["projects", user?.id] });
+      toast.success("Проект создан успешно");
       // Send notification
       if (user?.id) {
-        notifyProjectChange(user.id, data.title, 'created', data.id);
+        notifyProjectChange(user.id, data.title, "created", data.id);
         // Log to audit
         logProjectCreated(data.id, data.title, {
           projectType: data.project_type,
@@ -190,10 +193,8 @@ export const useProjects = () => {
       }
     },
     onError: (error: any) => {
-      logger.error('Error creating project', error);
-      const errorMessage = error?.message?.includes('лимит') 
-        ? error.message 
-        : 'Ошибка создания проекта';
+      logger.error("Error creating project", error);
+      const errorMessage = error?.message?.includes("лимит") ? error.message : "Ошибка создания проекта";
       toast.error(errorMessage);
     },
   });
@@ -201,36 +202,31 @@ export const useProjects = () => {
   const updateProject = useMutation({
     mutationFn: async ({ id, updates }: { id: string; updates: Partial<Project> }) => {
       return retryWithBackoff(async () => {
-        const { data, error } = await supabase
-          .from('music_projects')
-          .update(updates)
-          .eq('id', id)
-          .select()
-          .single();
+        const { data, error } = await supabase.from("music_projects").update(updates).eq("id", id).select().single();
 
         if (error) throw error;
         return data;
       });
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ['projects', user?.id] });
-      toast.success('Проект обновлен');
+      queryClient.invalidateQueries({ queryKey: ["projects", user?.id] });
+      toast.success("Проект обновлен");
       // Send notification
       if (user?.id) {
-        notifyProjectChange(user.id, data.title, 'updated', data.id);
+        notifyProjectChange(user.id, data.title, "updated", data.id);
         // Log to audit
         logAction({
-          entityType: 'project',
+          entityType: "project",
           entityId: data.id,
-          actionType: 'updated',
-          actorType: 'user',
+          actionType: "updated",
+          actorType: "user",
           outputMetadata: { title: data.title },
         });
       }
     },
     onError: (error: any) => {
-      logger.error('Error updating project', error);
-      toast.error('Ошибка обновления проекта');
+      logger.error("Error updating project", error);
+      toast.error("Ошибка обновления проекта");
     },
   });
 
@@ -238,32 +234,25 @@ export const useProjects = () => {
     mutationFn: async (projectId: string) => {
       return retryWithBackoff(async () => {
         // Get project title before deletion
-        const { data: project } = await supabase
-          .from('music_projects')
-          .select('title')
-          .eq('id', projectId)
-          .single();
-        
-        const { error } = await supabase
-          .from('music_projects')
-          .delete()
-          .eq('id', projectId);
+        const { data: project } = await supabase.from("music_projects").select("title").eq("id", projectId).single();
+
+        const { error } = await supabase.from("music_projects").delete().eq("id", projectId);
 
         if (error) throw error;
-        return { title: project?.title || 'Проект' };
+        return { title: project?.title || "Проект" };
       });
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ['projects', user?.id] });
-      toast.success('Проект удален');
+      queryClient.invalidateQueries({ queryKey: ["projects", user?.id] });
+      toast.success("Проект удален");
       // Send notification
       if (user?.id) {
-        notifyProjectChange(user.id, data.title, 'deleted');
+        notifyProjectChange(user.id, data.title, "deleted");
       }
     },
     onError: (error: any) => {
-      logger.error('Error deleting project', error);
-      toast.error('Ошибка удаления проекта');
+      logger.error("Error deleting project", error);
+      toast.error("Ошибка удаления проекта");
     },
   });
 
@@ -278,9 +267,9 @@ export const useProjects = () => {
       artistPersona?: string;
     }) => {
       return retryWithBackoff(async () => {
-        const { data, error } = await supabase.functions.invoke('project-ai', {
+        const { data, error } = await supabase.functions.invoke("project-ai", {
           body: {
-            action: 'concept',
+            action: "concept",
             ...params,
           },
         });
@@ -290,11 +279,11 @@ export const useProjects = () => {
       });
     },
     onSuccess: () => {
-      toast.success('Концепция проекта создана');
+      toast.success("Концепция проекта создана");
     },
     onError: (error: any) => {
-      logger.error('Error generating concept', error);
-      toast.error('Ошибка генерации концепции');
+      logger.error("Error generating concept", error);
+      toast.error("Ошибка генерации концепции");
     },
   });
 

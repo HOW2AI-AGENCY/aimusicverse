@@ -29,7 +29,7 @@
 - [positionZoomedOut](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L400) (1 connections)
 - [snapDivision](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L203) (1 connections)
 - [snapPositions](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L324) (1 connections)
-- *... and 3 more nodes in this community*
+- _... and 3 more nodes in this community_
 
 ## Relationships
 
@@ -47,4 +47,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

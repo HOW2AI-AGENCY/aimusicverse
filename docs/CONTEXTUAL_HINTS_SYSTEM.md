@@ -43,27 +43,33 @@
 ### Список подсказок
 
 #### Модели AI (2)
+
 1. **model-v5-available** - Напоминание о новой модели V5
 2. **model-selection-tip** - Как выбрать подходящую модель
 
 #### AI Функции (3)
+
 1. **lyrics-wizard-intro** - Знакомство с AI Lyrics Wizard
 2. **audio-analysis-feature** - AI анализ музыки
 3. **stem-separation-feature** - Разделение на стемы
 
 #### AI Артисты (2)
+
 1. **ai-artists-intro** - Создание AI артистов
 2. **artists-from-track** - Создание артиста из трека
 
 #### Проекты (2)
+
 1. **projects-planning** - Планирование альбома
 2. **project-ai-actions** - AI действия в проекте
 
 #### Социальные функции (2)
+
 1. **social-share** - Публикация и шаринг
 2. **playlists-feature** - Создание плейлистов
 
 #### Советы (3)
+
 1. **advanced-settings** - Продвинутые настройки генерации
 2. **keyboard-shortcuts** - Горячие клавиши
 3. **daily-rewards** - Ежедневные бонусы
@@ -105,11 +111,11 @@ import { ContextualHint } from '@/components/hints/ContextualHint';
 function MyComponent() {
   const location = useLocation();
   const { currentHint, dismissHint } = useContextualHints(location.pathname);
-  
+
   return (
     <>
       {/* Ваш контент */}
-      
+
       {currentHint && (
         <ContextualHint
           hint={currentHint}
@@ -136,6 +142,7 @@ function MyComponent() {
 ### localStorage Keys
 
 - **musicverse-contextual-hints** - Состояние всех подсказок
+
   ```typescript
   {
     [hintId: string]: {
@@ -236,18 +243,18 @@ function MyComponent() {
 ### Тестирование в коде
 
 ```typescript
-const { resetAllHints, getNextHint, canShowHint } = useContextualHints('/');
+const { resetAllHints, getNextHint, canShowHint } = useContextualHints("/");
 
 // Сброс всех подсказок
 resetAllHints();
 
 // Проверка следующей подсказки
 const next = getNextHint();
-console.log('Next hint:', next);
+console.log("Next hint:", next);
 
 // Проверка конкретной подсказки
 const hint = CONTEXTUAL_HINTS[0];
-console.log('Can show:', canShowHint(hint));
+console.log("Can show:", canShowHint(hint));
 ```
 
 ## Метрики

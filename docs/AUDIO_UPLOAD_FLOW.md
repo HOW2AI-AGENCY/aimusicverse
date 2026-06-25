@@ -30,11 +30,13 @@ This document describes the complete data flow for uploading audio files and gen
 ## Web App Flow
 
 ### Step 1: User Interface
+
 1. User opens Generate Sheet
 2. Clicks "Audio" button to upload reference
 3. New `AudioUploadActionDialog` appears
 
 ### Step 2: Audio Upload & Action Selection
+
 ```typescript
 // New improved flow with AudioUploadActionDialog
 ┌─────────────────────────────────────────┐
@@ -76,6 +78,7 @@ This document describes the complete data flow for uploading audio files and gen
 ### Step 3: Edge Function Processing
 
 #### For Cover Generation
+
 **Endpoint:** `/functions/v1/suno-upload-cover`
 
 ```typescript
@@ -101,6 +104,7 @@ This document describes the complete data flow for uploading audio files and gen
 ```
 
 #### For Track Extension
+
 **Endpoint:** `/functions/v1/suno-upload-extend`
 
 ```typescript
@@ -127,21 +131,26 @@ This document describes the complete data flow for uploading audio files and gen
 ```
 
 ### Step 4: Storage Upload
+
 Edge function uploads audio to Supabase Storage:
+
 ```
 Bucket: project-assets
 Path: {userId}/uploads/{timestamp}-{filename}
 ```
 
 ### Step 5: SunoAPI Call
+
 Edge function calls SunoAPI with public URL:
 
 **Upload Methods Supported:**
+
 1. **URL Upload** (currently used):
+
    ```typescript
    POST https://api.sunoapi.org/api/v1/generate/upload-cover
    POST https://api.sunoapi.org/api/v1/generate/upload-extend
-   
+
    {
      uploadUrl: string,
      customMode: boolean,
@@ -163,12 +172,15 @@ Edge function calls SunoAPI with public URL:
    - Inline encoding
 
 ### Step 6: Task Tracking
+
 1. Create `generation_tasks` record with `suno_task_id`
 2. Create placeholder `tracks` record with status='pending'
 3. Return taskId to user
 
 ### Step 7: Callback Processing
+
 When SunoAPI completes:
+
 1. POST to `/functions/v1/suno-music-callback`
 2. Update track record with audio URLs
 3. Send notification to user
@@ -180,14 +192,15 @@ When SunoAPI completes:
 ### Step 1: User Initiates Upload
 
 #### Option A: Command First (Recommended)
+
 ```
 User: /cover --style="indie rock" --instrumental
 Bot: 🎵 Создание кавера
      Отправьте аудиофайл (MP3, WAV, OGG)
-     
+
      📝 Стиль: indie rock
      🎸 Режим: Инструментал
-     
+
      ⏳ Ожидание аудио... (15 минут)
      ❌ Отмена: /cancel
 
@@ -198,15 +211,16 @@ Bot: ⬇️ Загружаю аудиофайл...
 ```
 
 #### Option B: Audio First (New Inline Keyboard)
+
 ```
 User: [sends audio.mp3]
 Bot: 🎵 Аудио получено!
-     
+
      Выберите что хотите сделать:
-     
+
      [🎤 Создать кавер] [➕ Расширить]
      [📤 Загрузить в облако] [🎼 Распознать]
-     
+
      Или используйте команду:
      /cover - создать кавер-версию
      /extend - расширить/продолжить трек
@@ -221,32 +235,32 @@ async function handleAudioMessage(
   chatId: number,
   userId: number,
   audio: TelegramAudio | TelegramVoice | TelegramDocument,
-  type: 'audio' | 'voice' | 'document'
+  type: "audio" | "voice" | "document",
 ) {
   // 1. Check for pending upload
   const pendingUpload = await consumePendingUpload(userId);
-  
+
   if (!pendingUpload) {
     // Show action selection inline keyboard
     await sendInlineKeyboard(chatId);
     return;
   }
-  
+
   // 2. Get file from Telegram
   const fileUrl = await getFileUrl(audio.file_id);
-  
+
   // 3. Download audio
   const audioResponse = await fetch(fileUrl);
   const audioBlob = await audioResponse.blob();
-  
+
   // 4. Convert to base64
   const audioBuffer = await audioBlob.arrayBuffer();
   const base64Audio = btoa(String.fromCharCode(...new Uint8Array(audioBuffer)));
-  
+
   // 5. Upload to Supabase Storage
   const storagePath = `${userId}/telegram-uploads/${Date.now()}-${fileName}`;
-  await supabase.storage.from('project-assets').upload(storagePath, audioBuffer);
-  
+  await supabase.storage.from("project-assets").upload(storagePath, audioBuffer);
+
   // 6. Call SunoAPI
   const result = await processAudioUpload(userId, pendingUpload, audioFile, chatId);
 }
@@ -255,6 +269,7 @@ async function handleAudioMessage(
 ### Step 3: Edge Function Call from Bot
 
 Bot calls edge function with special authentication:
+
 ```typescript
 {
   source: 'telegram_bot',
@@ -277,12 +292,14 @@ Headers: {
 ### Step 4: Storage Paths
 
 **Bot uploads to:**
+
 ```
 Bucket: project-assets
 Path: {userId}/telegram-uploads/{timestamp}-{filename}
 ```
 
 **Alternative: reference-audio bucket**
+
 ```
 Bucket: reference-audio
 Path: {userId}/reference-audio/{timestamp}-{filename}
@@ -294,7 +311,9 @@ Purpose:
 ```
 
 ### Step 5: Notification
+
 When generation completes:
+
 1. Edge function `send-telegram-notification` is called
 2. Bot sends message to user with inline keyboard
 3. User can open Mini App to view/edit track
@@ -306,6 +325,7 @@ When generation completes:
 ### API Endpoints
 
 #### 1. Upload & Cover Audio
+
 **Documentation:** https://docs.sunoapi.org/suno-api/upload-and-cover-audio
 
 ```typescript
@@ -321,7 +341,7 @@ Request:
   title?: string,
   model: string,          // V5, V4_5, V4
   callBackUrl: string,    // Completion webhook
-  
+
   // Optional advanced
   personaId?: string,
   negativeTags?: string,
@@ -346,6 +366,7 @@ Response:
 ```
 
 #### 2. Upload & Extend Audio
+
 **Documentation:** https://docs.sunoapi.org/suno-api/upload-and-extend-audio
 
 ```typescript
@@ -362,7 +383,7 @@ Request:
   continueAt?: number,    // Seconds to continue from (0-480)
   model: string,
   callBackUrl: string,
-  
+
   // Optional advanced
   personaId?: string,
   negativeTags?: string,
@@ -376,11 +397,13 @@ Request:
 ### Alternative Upload Methods
 
 #### Method 1: Direct URL Upload (Current)
+
 **Best for:** Public URLs, Telegram file downloads
 **Pros:** Simple, no additional encoding
 **Cons:** Requires public URL
 
 #### Method 2: File Stream Upload
+
 **Documentation:** https://docs.sunoapi.org/file-upload-api/upload-file-stream
 
 ```typescript
@@ -407,6 +430,7 @@ Response:
 **Cons:** More complex implementation
 
 #### Method 3: Base64 Upload
+
 **Documentation:** https://docs.sunoapi.org/file-upload-api/upload-file-base-64
 
 ```typescript
@@ -428,6 +452,7 @@ POST https://api.sunoapi.org/api/v1/file/upload-base64
 ## Database Schema
 
 ### generation_tasks
+
 ```sql
 {
   id: uuid,
@@ -443,6 +468,7 @@ POST https://api.sunoapi.org/api/v1/file/upload-base64
 ```
 
 ### tracks
+
 ```sql
 {
   id: uuid,
@@ -463,6 +489,7 @@ POST https://api.sunoapi.org/api/v1/file/upload-base64
 ```
 
 ### reference_audio (Bot uploads)
+
 ```sql
 {
   id: uuid,
@@ -509,6 +536,7 @@ POST https://api.sunoapi.org/api/v1/file/upload-base64
 ## Performance Optimization
 
 ### File Upload Optimization
+
 1. **Compress audio before upload** (optional)
 2. **Use appropriate upload method:**
    - Small files (<5MB): Base64
@@ -516,10 +544,10 @@ POST https://api.sunoapi.org/api/v1/file/upload-base64
    - Large files (>20MB): Stream upload
 
 ### Caching Strategy
+
 1. **Telegram file_id caching:**
    - Store in `reference_audio.metadata`
    - Reuse for multiple generations
-   
 2. **Storage optimization:**
    - Clean up old uploads (>30 days)
    - Use lifecycle policies
@@ -529,6 +557,7 @@ POST https://api.sunoapi.org/api/v1/file/upload-base64
 ## Testing Checklist
 
 ### Web App
+
 - [ ] Upload audio file
 - [ ] Record audio
 - [ ] Select cover action
@@ -539,6 +568,7 @@ POST https://api.sunoapi.org/api/v1/file/upload-base64
 - [ ] Check track in library
 
 ### Telegram Bot
+
 - [ ] /cover command with audio
 - [ ] /extend command with audio
 - [ ] Audio first, then action selection

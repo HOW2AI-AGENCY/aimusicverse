@@ -1,20 +1,14 @@
-import React, { memo, useState } from 'react';
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import { Slider } from '@/components/ui/slider';
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
-import { 
-  Sheet, 
-  SheetContent, 
-  SheetHeader, 
-  SheetTitle, 
-  SheetTrigger 
-} from '@/components/ui/sheet';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Settings2, Volume2, Waves, Gauge } from 'lucide-react';
-import type { TrackEffects } from '@/hooks/useDrumMachine';
-import type { DrumSound } from '@/lib/drum-kits';
+import React, { memo, useState } from "react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Slider } from "@/components/ui/slider";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Settings2, Volume2, Waves, Gauge } from "lucide-react";
+import type { TrackEffects } from "@/hooks/useDrumMachine";
+import type { DrumSound } from "@/lib/drum-kits";
 
 interface DrumEffectsProps {
   sounds: DrumSound[];
@@ -29,18 +23,11 @@ interface TrackEffectsPanelProps {
   onSetEffect: (effects: Partial<TrackEffects>) => void;
 }
 
-const TrackEffectsPanel = memo(function TrackEffectsPanel({
-  sound,
-  effects,
-  onSetEffect
-}: TrackEffectsPanelProps) {
+const TrackEffectsPanel = memo(function TrackEffectsPanel({ sound, effects, onSetEffect }: TrackEffectsPanelProps) {
   return (
     <div className="space-y-4 p-3 rounded-lg bg-muted/30">
       <div className="flex items-center gap-2">
-        <div 
-          className="w-3 h-3 rounded-full"
-          style={{ backgroundColor: sound.color }}
-        />
+        <div className="w-3 h-3 rounded-full" style={{ backgroundColor: sound.color }} />
         <span className="font-medium text-sm">{sound.name}</span>
       </div>
 
@@ -90,12 +77,10 @@ const TrackEffectsPanel = memo(function TrackEffectsPanel({
           </Label>
           <Switch
             checked={effects.filter.enabled}
-            onCheckedChange={(enabled) => 
-              onSetEffect({ filter: { ...effects.filter, enabled } })
-            }
+            onCheckedChange={(enabled) => onSetEffect({ filter: { ...effects.filter, enabled } })}
           />
         </div>
-        
+
         {effects.filter.enabled && (
           <div className="grid grid-cols-2 gap-3 pl-2">
             <div className="space-y-1">
@@ -105,9 +90,7 @@ const TrackEffectsPanel = memo(function TrackEffectsPanel({
                 min={100}
                 max={20000}
                 step={100}
-                onValueChange={([v]) => 
-                  onSetEffect({ filter: { ...effects.filter, frequency: v } })
-                }
+                onValueChange={([v]) => onSetEffect({ filter: { ...effects.filter, frequency: v } })}
               />
               <span className="text-[10px] font-mono">{effects.filter.frequency}Hz</span>
             </div>
@@ -118,9 +101,7 @@ const TrackEffectsPanel = memo(function TrackEffectsPanel({
                 min={0}
                 max={20}
                 step={0.5}
-                onValueChange={([v]) => 
-                  onSetEffect({ filter: { ...effects.filter, resonance: v } })
-                }
+                onValueChange={([v]) => onSetEffect({ filter: { ...effects.filter, resonance: v } })}
               />
               <span className="text-[10px] font-mono">Q: {effects.filter.resonance}</span>
             </div>
@@ -137,12 +118,10 @@ const TrackEffectsPanel = memo(function TrackEffectsPanel({
           </Label>
           <Switch
             checked={effects.compressor.enabled}
-            onCheckedChange={(enabled) => 
-              onSetEffect({ compressor: { ...effects.compressor, enabled } })
-            }
+            onCheckedChange={(enabled) => onSetEffect({ compressor: { ...effects.compressor, enabled } })}
           />
         </div>
-        
+
         {effects.compressor.enabled && (
           <div className="grid grid-cols-2 gap-3 pl-2">
             <div className="space-y-1">
@@ -152,9 +131,7 @@ const TrackEffectsPanel = memo(function TrackEffectsPanel({
                 min={-60}
                 max={0}
                 step={1}
-                onValueChange={([v]) => 
-                  onSetEffect({ compressor: { ...effects.compressor, threshold: v } })
-                }
+                onValueChange={([v]) => onSetEffect({ compressor: { ...effects.compressor, threshold: v } })}
               />
               <span className="text-[10px] font-mono">{effects.compressor.threshold}dB</span>
             </div>
@@ -165,9 +142,7 @@ const TrackEffectsPanel = memo(function TrackEffectsPanel({
                 min={1}
                 max={20}
                 step={0.5}
-                onValueChange={([v]) => 
-                  onSetEffect({ compressor: { ...effects.compressor, ratio: v } })
-                }
+                onValueChange={([v]) => onSetEffect({ compressor: { ...effects.compressor, ratio: v } })}
               />
               <span className="text-[10px] font-mono">{effects.compressor.ratio}:1</span>
             </div>
@@ -182,14 +157,14 @@ export const DrumEffects = memo(function DrumEffects({
   sounds,
   trackEffects,
   onSetEffect,
-  className
+  className,
 }: DrumEffectsProps) {
-  const [selectedTrack, setSelectedTrack] = useState<string>(sounds[0]?.id || '');
+  const [selectedTrack, setSelectedTrack] = useState<string>(sounds[0]?.id || "");
 
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline" size="sm" className={cn('h-8 gap-1.5', className)}>
+        <Button variant="outline" size="sm" className={cn("h-8 gap-1.5", className)}>
           <Settings2 className="w-3.5 h-3.5" />
           <span className="text-xs">FX</span>
         </Button>
@@ -209,8 +184,8 @@ export const DrumEffects = memo(function DrumEffects({
                 key={sound.id}
                 value={sound.id}
                 className="h-7 px-2 text-xs data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
-                style={{ 
-                  borderColor: selectedTrack === sound.id ? sound.color : undefined 
+                style={{
+                  borderColor: selectedTrack === sound.id ? sound.color : undefined,
                 }}
               >
                 {sound.shortName}

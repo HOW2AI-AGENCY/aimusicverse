@@ -1,15 +1,15 @@
-import { motion, AnimatePresence } from '@/lib/motion';
-import { cn } from '@/lib/utils';
-import { ChevronRight, X } from 'lucide-react';
-import { MOODS, badgeVariants, buttonVariants, type MoodOption } from '@/lib/lyrics/constants';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Badge } from '@/components/ui/badge';
-import { toast } from 'sonner';
+import { motion, AnimatePresence } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import { ChevronRight, X } from "lucide-react";
+import { MOODS, badgeVariants, buttonVariants, type MoodOption } from "@/lib/lyrics/constants";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
+import { toast } from "sonner";
 
 interface MoodPickerProps {
   value: string[];
   onChange: (moods: string[]) => void;
-  mode?: 'multi' | 'single' | 'select';
+  mode?: "multi" | "single" | "select";
   maxSelections?: number;
   showConfirmButton?: boolean;
   onConfirm?: () => void;
@@ -18,25 +18,25 @@ interface MoodPickerProps {
   placeholder?: string;
 }
 
-export function MoodPicker({ 
-  value, 
-  onChange, 
-  mode = 'multi',
+export function MoodPicker({
+  value,
+  onChange,
+  mode = "multi",
   maxSelections = 3,
   showConfirmButton = true,
   onConfirm,
   className,
   disabled = false,
-  placeholder = 'Выберите настроение'
+  placeholder = "Выберите настроение",
 }: MoodPickerProps) {
   const toggleMood = (moodValue: string) => {
-    if (mode === 'single') {
+    if (mode === "single") {
       onChange([moodValue]);
       return;
     }
-    
+
     if (value.includes(moodValue)) {
-      onChange(value.filter(m => m !== moodValue));
+      onChange(value.filter((m) => m !== moodValue));
     } else if (value.length < maxSelections) {
       onChange([...value, moodValue]);
     } else {
@@ -44,13 +44,9 @@ export function MoodPicker({
     }
   };
 
-  if (mode === 'select') {
+  if (mode === "select") {
     return (
-      <Select 
-        value={value[0] || ''} 
-        onValueChange={(v) => onChange([v])} 
-        disabled={disabled}
-      >
+      <Select value={value[0] || ""} onValueChange={(v) => onChange([v])} disabled={disabled}>
         <SelectTrigger className={className}>
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
@@ -69,7 +65,7 @@ export function MoodPicker({
   }
 
   return (
-    <motion.div 
+    <motion.div
       className={cn("space-y-3", className)}
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
@@ -96,25 +92,23 @@ export function MoodPicker({
                 value.includes(m.value)
                   ? "bg-primary text-primary-foreground"
                   : "bg-secondary/50 hover:bg-secondary text-foreground",
-                disabled && "opacity-50 cursor-not-allowed"
+                disabled && "opacity-50 cursor-not-allowed",
               )}
               onClick={() => toggleMood(m.value)}
             >
               <span>{m.emoji}</span>
               <span>{m.label}</span>
-              {value.includes(m.value) && (
-                <X className="h-3 w-3 ml-0.5" />
-              )}
+              {value.includes(m.value) && <X className="h-3 w-3 ml-0.5" />}
             </motion.button>
           </motion.div>
         ))}
       </div>
-      
+
       <AnimatePresence>
         {showConfirmButton && value.length > 0 && onConfirm && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
+            animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
           >
             <motion.button
@@ -133,7 +127,7 @@ export function MoodPicker({
         )}
       </AnimatePresence>
 
-      {mode === 'multi' && maxSelections > 1 && (
+      {mode === "multi" && maxSelections > 1 && (
         <p className="text-xs text-muted-foreground">
           Выбрано: {value.length}/{maxSelections}
         </p>
@@ -150,15 +144,10 @@ interface MoodBadgePickerProps {
   className?: string;
 }
 
-export function MoodBadgePicker({ 
-  value, 
-  onChange, 
-  maxSelections = 3,
-  className 
-}: MoodBadgePickerProps) {
+export function MoodBadgePicker({ value, onChange, maxSelections = 3, className }: MoodBadgePickerProps) {
   const toggleMood = (moodValue: string) => {
     if (value.includes(moodValue)) {
-      onChange(value.filter(m => m !== moodValue));
+      onChange(value.filter((m) => m !== moodValue));
     } else if (value.length < maxSelections) {
       onChange([...value, moodValue]);
     } else {
@@ -171,14 +160,12 @@ export function MoodBadgePicker({
       {MOODS.map((mood) => (
         <Badge
           key={mood.value}
-          variant={value.includes(mood.value) ? 'default' : 'outline'}
+          variant={value.includes(mood.value) ? "default" : "outline"}
           className="cursor-pointer transition-colors"
           onClick={() => toggleMood(mood.value)}
         >
           {mood.label}
-          {value.includes(mood.value) && (
-            <X className="h-3 w-3 ml-1" />
-          )}
+          {value.includes(mood.value) && <X className="h-3 w-3 ml-1" />}
         </Badge>
       ))}
     </div>

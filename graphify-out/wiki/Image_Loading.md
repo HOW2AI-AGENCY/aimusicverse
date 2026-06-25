@@ -8,15 +8,15 @@
 - [handleMenuClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ProfessionalVariant.tsx#L56) (1 connections)
 - [handlePlayClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ProfessionalVariant.tsx#L50) (1 connections)
 - [{
-    sheetOpen,
-    setSheetOpen,
-    isHovered,
-    isCurrentlyPlaying,
-    handlePlay,
-    handleCardClick,
-    handleMouseEnter,
-    handleMouseLeave,
-    openSheet,
+  sheetOpen,
+  setSheetOpen,
+  isHovered,
+  isCurrentlyPlaying,
+  handlePlay,
+  handleCardClick,
+  handleMouseEnter,
+  handleMouseLeave,
+  openSheet,
   }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ProfessionalVariant.tsx#L38) (1 connections)
 
 ## Relationships
@@ -35,4 +35,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

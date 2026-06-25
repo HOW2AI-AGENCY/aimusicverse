@@ -3,10 +3,10 @@
  * Displays chords arranged in a wheel with animated playhead
  */
 
-import { memo, useMemo, useRef, useEffect, useState } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { getChordColor } from '@/lib/studio-animations';
-import { useHapticFeedback } from '@/hooks/useHapticFeedback';
+import { memo, useMemo, useRef, useEffect, useState } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { getChordColor } from "@/lib/studio-animations";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 
 // Convert hsl() to hsla() with alpha - handles comma-separated format
 const toHsla = (hslColor: string, alpha: number): string => {
@@ -45,9 +45,7 @@ export const InteractiveChordWheel = memo(function InteractiveChordWheel({
 
   // Find current chord
   useEffect(() => {
-    const current = chords.find(
-      c => currentTime >= c.start && currentTime < c.end
-    );
+    const current = chords.find((c) => currentTime >= c.start && currentTime < c.end);
     if (current && current !== activeChord) {
       setActiveChord(current);
       haptic.selectionChanged();
@@ -57,12 +55,12 @@ export const InteractiveChordWheel = memo(function InteractiveChordWheel({
   // Calculate segment data
   const segments = useMemo(() => {
     if (!duration || duration === 0) return [];
-    
+
     return chords.map((chord, index) => {
       const startAngle = (chord.start / duration) * Math.PI * 2 - Math.PI / 2;
       const endAngle = (chord.end / duration) * Math.PI * 2 - Math.PI / 2;
       const midAngle = (startAngle + endAngle) / 2;
-      
+
       return {
         ...chord,
         index,
@@ -79,7 +77,7 @@ export const InteractiveChordWheel = memo(function InteractiveChordWheel({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     const dpr = window.devicePixelRatio || 1;
@@ -97,10 +95,8 @@ export const InteractiveChordWheel = memo(function InteractiveChordWheel({
 
     // Draw segments
     segments.forEach((segment) => {
-      const isActive = activeChord?.chord === segment.chord && 
-                       activeChord?.start === segment.start;
-      const isHovered = hoveredChord?.chord === segment.chord &&
-                        hoveredChord?.start === segment.start;
+      const isActive = activeChord?.chord === segment.chord && activeChord?.start === segment.start;
+      const isHovered = hoveredChord?.chord === segment.chord && hoveredChord?.start === segment.start;
 
       ctx.beginPath();
       ctx.arc(centerX, centerY, outerRadius, segment.startAngle, segment.endAngle);
@@ -108,15 +104,12 @@ export const InteractiveChordWheel = memo(function InteractiveChordWheel({
       ctx.closePath();
 
       // Fill with gradient
-      const gradient = ctx.createRadialGradient(
-        centerX, centerY, innerRadius,
-        centerX, centerY, outerRadius
-      );
-      
+      const gradient = ctx.createRadialGradient(centerX, centerY, innerRadius, centerX, centerY, outerRadius);
+
       const alpha = isActive ? 1 : isHovered ? 0.8 : 0.6;
       gradient.addColorStop(0, toHsla(segment.color, alpha * 0.3));
       gradient.addColorStop(1, toHsla(segment.color, alpha));
-      
+
       ctx.fillStyle = gradient;
       ctx.fill();
 
@@ -131,21 +124,21 @@ export const InteractiveChordWheel = memo(function InteractiveChordWheel({
       const labelRadius = (innerRadius + outerRadius) / 2;
       const labelX = centerX + Math.cos(segment.midAngle) * labelRadius;
       const labelY = centerY + Math.sin(segment.midAngle) * labelRadius;
-      
+
       ctx.save();
       ctx.translate(labelX, labelY);
-      
+
       // Rotate text to be readable
       let rotation = segment.midAngle + Math.PI / 2;
       if (rotation > Math.PI / 2 && rotation < Math.PI * 1.5) {
         rotation += Math.PI;
       }
       ctx.rotate(rotation);
-      
-      ctx.fillStyle = isActive ? '#fff' : 'hsl(var(--foreground) / 0.8)';
-      ctx.font = `${isActive ? 'bold ' : ''}${Math.min(14, size / 20)}px sans-serif`;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
+
+      ctx.fillStyle = isActive ? "#fff" : "hsl(var(--foreground) / 0.8)";
+      ctx.font = `${isActive ? "bold " : ""}${Math.min(14, size / 20)}px sans-serif`;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
       ctx.fillText(segment.chord, 0, 0);
       ctx.restore();
     });
@@ -158,29 +151,29 @@ export const InteractiveChordWheel = memo(function InteractiveChordWheel({
     // Glow effect
     ctx.beginPath();
     ctx.arc(playheadX, playheadY, 8, 0, Math.PI * 2);
-    ctx.fillStyle = 'hsl(var(--primary) / 0.3)';
+    ctx.fillStyle = "hsl(var(--primary) / 0.3)";
     ctx.fill();
 
     // Playhead dot
     ctx.beginPath();
     ctx.arc(playheadX, playheadY, 5, 0, Math.PI * 2);
-    ctx.fillStyle = 'hsl(var(--primary))';
+    ctx.fillStyle = "hsl(var(--primary))";
     ctx.fill();
 
     // Center circle
     ctx.beginPath();
     ctx.arc(centerX, centerY, innerRadius - 5, 0, Math.PI * 2);
-    ctx.fillStyle = 'hsl(var(--background))';
+    ctx.fillStyle = "hsl(var(--background))";
     ctx.fill();
 
     // Center time display
     const minutes = Math.floor(currentTime / 60);
     const seconds = Math.floor(currentTime % 60);
-    ctx.fillStyle = 'hsl(var(--foreground))';
+    ctx.fillStyle = "hsl(var(--foreground))";
     ctx.font = `bold ${size / 12}px sans-serif`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(`${minutes}:${seconds.toString().padStart(2, '0')}`, centerX, centerY - 10);
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(`${minutes}:${seconds.toString().padStart(2, "0")}`, centerX, centerY - 10);
 
     // Current chord
     if (activeChord) {
@@ -188,7 +181,6 @@ export const InteractiveChordWheel = memo(function InteractiveChordWheel({
       ctx.fillStyle = getChordColor(activeChord.chord);
       ctx.fillText(activeChord.chord, centerX, centerY + 20);
     }
-
   }, [segments, size, currentTime, duration, activeChord, hoveredChord]);
 
   // Handle click to seek
@@ -201,15 +193,15 @@ export const InteractiveChordWheel = memo(function InteractiveChordWheel({
     const rect = canvas.getBoundingClientRect();
     const x = e.clientX - rect.left - size / 2;
     const y = e.clientY - rect.top - size / 2;
-    
+
     // Calculate angle from center
     let angle = Math.atan2(y, x) + Math.PI / 2;
     if (angle < 0) angle += Math.PI * 2;
-    
+
     // Convert to time
     const time = (angle / (Math.PI * 2)) * duration;
     onSeek(time);
-    haptic.impact('light');
+    haptic.impact("light");
   };
 
   // Handle hover
@@ -220,12 +212,12 @@ export const InteractiveChordWheel = memo(function InteractiveChordWheel({
     const rect = canvas.getBoundingClientRect();
     const x = e.clientX - rect.left - size / 2;
     const y = e.clientY - rect.top - size / 2;
-    
+
     let angle = Math.atan2(y, x) + Math.PI / 2;
     if (angle < 0) angle += Math.PI * 2;
-    
+
     const time = (angle / (Math.PI * 2)) * duration;
-    const hovered = chords.find(c => time >= c.start && time < c.end);
+    const hovered = chords.find((c) => time >= c.start && time < c.end);
     setHoveredChord(hovered || null);
   };
 
@@ -246,7 +238,7 @@ export const InteractiveChordWheel = memo(function InteractiveChordWheel({
       <motion.div
         className="absolute inset-0 rounded-full pointer-events-none"
         style={{
-          background: `radial-gradient(circle, transparent 60%, ${activeChord ? getChordColor(activeChord.chord).replace(')', ', 0.2)').replace('hsl', 'hsla') : 'transparent'} 100%)`,
+          background: `radial-gradient(circle, transparent 60%, ${activeChord ? getChordColor(activeChord.chord).replace(")", ", 0.2)").replace("hsl", "hsla") : "transparent"} 100%)`,
         }}
         animate={{
           opacity: [0.5, 1, 0.5],
@@ -255,7 +247,7 @@ export const InteractiveChordWheel = memo(function InteractiveChordWheel({
         transition={{
           duration: 2,
           repeat: Infinity,
-          ease: 'easeInOut',
+          ease: "easeInOut",
         }}
       />
 
@@ -273,9 +265,9 @@ export const InteractiveChordWheel = memo(function InteractiveChordWheel({
             <div
               className="px-4 py-2 rounded-full text-lg font-bold shadow-lg"
               style={{
-                backgroundColor: getChordColor(activeChord.chord).replace(')', ', 0.2)').replace('hsl', 'hsla'),
+                backgroundColor: getChordColor(activeChord.chord).replace(")", ", 0.2)").replace("hsl", "hsla"),
                 color: getChordColor(activeChord.chord),
-                boxShadow: `0 4px 20px ${getChordColor(activeChord.chord).replace(')', ', 0.4)').replace('hsl', 'hsla')}`,
+                boxShadow: `0 4px 20px ${getChordColor(activeChord.chord).replace(")", ", 0.4)").replace("hsl", "hsla")}`,
               }}
             >
               {activeChord.chord}

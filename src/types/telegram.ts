@@ -4,8 +4,8 @@
  */
 
 export interface TelegramHapticFeedback {
-  impactOccurred: (style: 'light' | 'medium' | 'heavy' | 'rigid' | 'soft') => void;
-  notificationOccurred: (type: 'error' | 'success' | 'warning') => void;
+  impactOccurred: (style: "light" | "medium" | "heavy" | "rigid" | "soft") => void;
+  notificationOccurred: (type: "error" | "success" | "warning") => void;
   selectionChanged: () => void;
 }
 
@@ -35,14 +35,14 @@ export interface TelegramMainButton {
 }
 
 export interface TelegramSecondaryButton extends TelegramMainButton {
-  position: 'left' | 'right' | 'top' | 'bottom';
+  position: "left" | "right" | "top" | "bottom";
   setParams: (params: {
     text?: string;
     color?: string;
     text_color?: string;
     is_active?: boolean;
     is_visible?: boolean;
-    position?: 'left' | 'right' | 'top' | 'bottom';
+    position?: "left" | "right" | "top" | "bottom";
   }) => void;
 }
 
@@ -108,7 +108,7 @@ export interface TelegramCloudStorage {
 export interface TelegramBiometricManager {
   isInited: boolean;
   isBiometricAvailable: boolean;
-  biometricType: 'finger' | 'face' | 'unknown';
+  biometricType: "finger" | "face" | "unknown";
   isAccessRequested: boolean;
   isAccessGranted: boolean;
   isBiometricTokenSaved: boolean;
@@ -149,10 +149,10 @@ export interface TelegramDeviceOrientation {
 }
 
 export interface HomeScreenStatus {
-  status: 'unsupported' | 'unknown' | 'added' | 'missed';
+  status: "unsupported" | "unknown" | "added" | "missed";
 }
 
-export type InvoiceStatus = 'paid' | 'cancelled' | 'pending' | 'failed';
+export type InvoiceStatus = "paid" | "cancelled" | "pending" | "failed";
 
 export interface PopupParams {
   title?: string;
@@ -162,7 +162,7 @@ export interface PopupParams {
 
 export interface PopupButton {
   id?: string;
-  type?: 'default' | 'ok' | 'close' | 'cancel' | 'destructive';
+  type?: "default" | "ok" | "close" | "cancel" | "destructive";
   text?: string;
 }
 
@@ -175,7 +175,7 @@ export interface TelegramWebApp {
   initDataUnsafe: TelegramWebAppInitData;
   version: string;
   platform: string;
-  colorScheme: 'light' | 'dark';
+  colorScheme: "light" | "dark";
   themeParams: TelegramThemeParams;
   isExpanded: boolean;
   viewportHeight: number;
@@ -184,7 +184,7 @@ export interface TelegramWebApp {
   backgroundColor: string;
   isClosingConfirmationEnabled: boolean;
   isFullscreen?: boolean;
-  
+
   // UI Components
   HapticFeedback: TelegramHapticFeedback;
   MainButton: TelegramMainButton;
@@ -192,13 +192,13 @@ export interface TelegramWebApp {
   BackButton: TelegramBackButton;
   SettingsButton?: TelegramSettingsButton;
   CloudStorage: TelegramCloudStorage;
-  
+
   // Sensors & Biometrics (optional - newer APIs)
   BiometricManager?: TelegramBiometricManager;
   Accelerometer?: TelegramAccelerometer;
   Gyroscope?: TelegramGyroscope;
   DeviceOrientation?: TelegramDeviceOrientation;
-  
+
   // Core Methods
   ready: () => void;
   expand: () => void;
@@ -222,7 +222,7 @@ export interface TelegramWebApp {
   readTextFromClipboard: (callback?: (text: string | null) => void) => void;
   requestWriteAccess: (callback?: (granted: boolean) => void) => void;
   requestContact: (callback?: (shared: boolean) => void) => void;
-  
+
   // Extended Methods (newer API versions)
   lockOrientation?: () => void;
   unlockOrientation?: () => void;
@@ -233,7 +233,7 @@ export interface TelegramWebApp {
   downloadFile?: (params: { url: string; file_name: string }, callback?: (success: boolean) => void) => void;
   checkHomeScreenStatus?: (callback: (result: HomeScreenStatus) => void) => void;
   addToHomeScreen?: () => void;
-  
+
   // Allow additional properties for future API extensions
   [key: string]: unknown;
 }
@@ -249,7 +249,7 @@ declare global {
 
 // Helper to get typed Telegram WebApp
 export function getTelegramWebApp(): TelegramWebApp | null {
-  if (typeof window !== 'undefined' && window.Telegram?.WebApp) {
+  if (typeof window !== "undefined" && window.Telegram?.WebApp) {
     return window.Telegram.WebApp;
   }
   return null;

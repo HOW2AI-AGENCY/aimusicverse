@@ -1,12 +1,12 @@
 /**
  * ContextHelp Component - Sprint 026 US-026-003
- * 
+ *
  * Provides contextual hints and tips based on current workflow step
  */
 
-import { HelpCircle, Lightbulb } from 'lucide-react';
-import { Card } from '@/components/ui/card';
-import { motion, AnimatePresence } from '@/lib/motion';
+import { HelpCircle, Lightbulb } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { motion, AnimatePresence } from "@/lib/motion";
 
 interface ContextHelpProps {
   title: string;
@@ -15,19 +15,14 @@ interface ContextHelpProps {
   visible?: boolean;
 }
 
-export function ContextHelp({ 
-  title, 
-  description, 
-  tips = [], 
-  visible = true 
-}: ContextHelpProps) {
+export function ContextHelp({ title, description, tips = [], visible = true }: ContextHelpProps) {
   if (!visible) return null;
 
   return (
     <AnimatePresence>
       <motion.div
         initial={{ opacity: 0, height: 0 }}
-        animate={{ opacity: 1, height: 'auto' }}
+        animate={{ opacity: 1, height: "auto" }}
         exit={{ opacity: 0, height: 0 }}
         transition={{ duration: 0.2 }}
       >
@@ -37,11 +32,9 @@ export function ContextHelp({
             <div className="flex-1 space-y-2">
               <div>
                 <h4 className="font-semibold text-sm mb-1">{title}</h4>
-                <p className="text-sm text-muted-foreground">
-                  {description}
-                </p>
+                <p className="text-sm text-muted-foreground">{description}</p>
               </div>
-              
+
               {tips.length > 0 && (
                 <div className="space-y-1.5">
                   {tips.map((tip, index) => (

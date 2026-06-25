@@ -3,20 +3,20 @@
  * Displays context-aware actions based on stem type
  */
 
-import { memo, useCallback } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from '@/components/ui/drawer';
-import { cn } from '@/lib/utils';
-import { useHapticFeedback } from '@/hooks/useHapticFeedback';
+import { memo, useCallback } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
+import { cn } from "@/lib/utils";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import {
   getGroupedActions,
   normalizeTrackType,
   CATEGORY_LABELS,
   type StemAction,
   type StemType,
-} from '@/hooks/studio/stemActionsConfig';
+} from "@/hooks/studio/stemActionsConfig";
 
 interface StemActionSheetProps {
   open: boolean;
@@ -37,7 +37,7 @@ export const StemActionSheet = memo(function StemActionSheet({
   trackId,
   trackName,
   trackType,
-  trackColor = 'hsl(var(--primary))',
+  trackColor = "hsl(var(--primary))",
   hasAudio,
   onAction,
   disabledActions = [],
@@ -47,16 +47,19 @@ export const StemActionSheet = memo(function StemActionSheet({
   const stemType = normalizeTrackType(trackType);
   const groupedActions = getGroupedActions(stemType, hasAudio);
 
-  const handleAction = useCallback((action: StemAction) => {
-    if (disabledActions.includes(action.id)) {
-      haptic.error();
-      return;
-    }
-    
-    haptic.select();
-    onAction(action.id);
-    onOpenChange(false);
-  }, [haptic, onAction, onOpenChange, disabledActions]);
+  const handleAction = useCallback(
+    (action: StemAction) => {
+      if (disabledActions.includes(action.id)) {
+        haptic.error();
+        return;
+      }
+
+      haptic.select();
+      onAction(action.id);
+      onOpenChange(false);
+    },
+    [haptic, onAction, onOpenChange, disabledActions],
+  );
 
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
@@ -71,9 +74,7 @@ export const StemActionSheet = memo(function StemActionSheet({
             </div>
             <div className="flex-1 min-w-0">
               <DrawerTitle className="text-left truncate">{trackName}</DrawerTitle>
-              <p className="text-xs text-muted-foreground mt-0.5">
-                {getTrackTypeLabel(stemType)}
-              </p>
+              <p className="text-xs text-muted-foreground mt-0.5">{getTrackTypeLabel(stemType)}</p>
             </div>
           </div>
         </DrawerHeader>
@@ -164,21 +165,17 @@ const ActionGroup = memo(function ActionGroup({
   onAction,
   disabledActions,
   disabledReasons,
-  accentColor = 'text-primary',
+  accentColor = "text-primary",
   isDanger = false,
 }: ActionGroupProps) {
   return (
     <div className="space-y-2">
-      {label && (
-        <h4 className={cn("text-xs font-medium uppercase tracking-wider", accentColor)}>
-          {label}
-        </h4>
-      )}
+      {label && <h4 className={cn("text-xs font-medium uppercase tracking-wider", accentColor)}>{label}</h4>}
       <div className="space-y-1">
         {actions.map((action, index) => {
           const isDisabled = disabledActions.includes(action.id);
           const Icon = action.icon;
-          
+
           return (
             <motion.button
               key={action.id}
@@ -194,34 +191,24 @@ const ActionGroup = memo(function ActionGroup({
                   ? "opacity-50 cursor-not-allowed bg-muted/30"
                   : isDanger
                     ? "hover:bg-destructive/10 active:bg-destructive/20"
-                    : "hover:bg-muted active:bg-muted/80"
+                    : "hover:bg-muted active:bg-muted/80",
               )}
             >
-              <div className={cn(
-                "w-10 h-10 rounded-lg flex items-center justify-center shrink-0",
-                isDanger ? "bg-destructive/20" : "bg-muted"
-              )}>
-                <Icon className={cn(
-                  "w-5 h-5",
-                  isDanger ? "text-destructive" : accentColor
-                )} />
+              <div
+                className={cn(
+                  "w-10 h-10 rounded-lg flex items-center justify-center shrink-0",
+                  isDanger ? "bg-destructive/20" : "bg-muted",
+                )}
+              >
+                <Icon className={cn("w-5 h-5", isDanger ? "text-destructive" : accentColor)} />
               </div>
               <div className="flex-1 text-left min-w-0">
-                <p className={cn(
-                  "text-sm font-medium truncate",
-                  isDanger && "text-destructive"
-                )}>
-                  {action.label}
-                </p>
+                <p className={cn("text-sm font-medium truncate", isDanger && "text-destructive")}>{action.label}</p>
                 {action.description && !isDisabled && (
-                  <p className="text-xs text-muted-foreground truncate">
-                    {action.description}
-                  </p>
+                  <p className="text-xs text-muted-foreground truncate">{action.description}</p>
                 )}
                 {isDisabled && disabledReasons[action.id] && (
-                  <p className="text-xs text-amber-500 truncate">
-                    {disabledReasons[action.id]}
-                  </p>
+                  <p className="text-xs text-amber-500 truncate">{disabledReasons[action.id]}</p>
                 )}
               </div>
             </motion.button>
@@ -235,32 +222,32 @@ const ActionGroup = memo(function ActionGroup({
 // Helper functions
 function getTrackEmoji(stemType: StemType): string {
   const emojiMap: Record<StemType, string> = {
-    vocal: '🎤',
-    instrumental: '🎸',
-    drums: '🥁',
-    bass: '🎸',
-    guitar: '🎸',
-    piano: '🎹',
-    main: '🎵',
-    stem: '🎚️',
-    sfx: '✨',
-    other: '🎼',
+    vocal: "🎤",
+    instrumental: "🎸",
+    drums: "🥁",
+    bass: "🎸",
+    guitar: "🎸",
+    piano: "🎹",
+    main: "🎵",
+    stem: "🎚️",
+    sfx: "✨",
+    other: "🎼",
   };
-  return emojiMap[stemType] || '🎵';
+  return emojiMap[stemType] || "🎵";
 }
 
 function getTrackTypeLabel(stemType: StemType): string {
   const labelMap: Record<StemType, string> = {
-    vocal: 'Вокал',
-    instrumental: 'Инструментал',
-    drums: 'Ударные',
-    bass: 'Бас',
-    guitar: 'Гитара',
-    piano: 'Пианино',
-    main: 'Основной трек',
-    stem: 'Стем',
-    sfx: 'Звуковой эффект',
-    other: 'Другое',
+    vocal: "Вокал",
+    instrumental: "Инструментал",
+    drums: "Ударные",
+    bass: "Бас",
+    guitar: "Гитара",
+    piano: "Пианино",
+    main: "Основной трек",
+    stem: "Стем",
+    sfx: "Звуковой эффект",
+    other: "Другое",
   };
-  return labelMap[stemType] || 'Дорожка';
+  return labelMap[stemType] || "Дорожка";
 }

@@ -2,23 +2,35 @@
  * LyricsAIChatAgent - Refactored with modular AI tools system
  */
 
-import { useState, useCallback, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { Send, Loader2, Bot, User, Trash2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { cn } from '@/lib/utils';
-import { hapticImpact } from '@/lib/haptic';
+import { useState, useCallback, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Send, Loader2, Bot, User, Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { cn } from "@/lib/utils";
+import { hapticImpact } from "@/lib/haptic";
 
-import { AIToolbar } from './ai-agent/AIToolbar';
-import { useAITools } from './ai-agent/hooks/useAITools';
-import { 
-  WriteToolPanel, AnalyzeToolPanel, ProducerToolPanel, OptimizeToolPanel, RhymeToolPanel,
-  ContinueToolPanel, StructureToolPanel, StyleConvertToolPanel, TranslateToolPanel
-} from './ai-agent/tools';
-import { StructuredLyricsPreview, TagsResultCard, FullAnalysisResultCard, ProducerResultCard } from './ai-agent/results';
-import { AIToolId, AIAgentContext, SectionNote } from './ai-agent/types';
+import { AIToolbar } from "./ai-agent/AIToolbar";
+import { useAITools } from "./ai-agent/hooks/useAITools";
+import {
+  WriteToolPanel,
+  AnalyzeToolPanel,
+  ProducerToolPanel,
+  OptimizeToolPanel,
+  RhymeToolPanel,
+  ContinueToolPanel,
+  StructureToolPanel,
+  StyleConvertToolPanel,
+  TranslateToolPanel,
+} from "./ai-agent/tools";
+import {
+  StructuredLyricsPreview,
+  TagsResultCard,
+  FullAnalysisResultCard,
+  ProducerResultCard,
+} from "./ai-agent/results";
+import { AIToolId, AIAgentContext, SectionNote } from "./ai-agent/types";
 
 interface LyricsAIChatAgentProps {
   existingLyrics?: string;
@@ -63,7 +75,7 @@ interface LyricsAIChatAgentProps {
 }
 
 export function LyricsAIChatAgent({
-  existingLyrics = '',
+  existingLyrics = "",
   selectedSection,
   globalTags = [],
   sectionTags = [],
@@ -81,7 +93,7 @@ export function LyricsAIChatAgent({
   onApplyStylePrompt,
   className,
 }: LyricsAIChatAgentProps) {
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const [openToolPanel, setOpenToolPanel] = useState<AIToolId | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -100,15 +112,7 @@ export function LyricsAIChatAgent({
     tracklist,
   };
 
-  const {
-    messages,
-    isLoading,
-    activeTool,
-    executeTool,
-    sendChatMessage,
-    clearMessages,
-    setActiveTool,
-  } = useAITools({
+  const { messages, isLoading, activeTool, executeTool, sendChatMessage, clearMessages, setActiveTool } = useAITools({
     context,
     onLyricsGenerated: onReplaceLyrics, // Quick actions should replace, not insert
     onTagsGenerated: onAddTags,
@@ -117,47 +121,62 @@ export function LyricsAIChatAgent({
 
   useEffect(() => {
     if (scrollRef.current) {
-      const viewport = scrollRef.current.querySelector('[data-radix-scroll-area-viewport]');
+      const viewport = scrollRef.current.querySelector("[data-radix-scroll-area-viewport]");
       if (viewport) viewport.scrollTop = viewport.scrollHeight;
     }
   }, [messages]);
 
-  const handleToolSelect = useCallback((toolId: AIToolId) => {
-    hapticImpact('light');
-    setOpenToolPanel(prev => prev === toolId ? null : toolId);
-    setActiveTool(toolId);
-  }, [setActiveTool]);
+  const handleToolSelect = useCallback(
+    (toolId: AIToolId) => {
+      hapticImpact("light");
+      setOpenToolPanel((prev) => (prev === toolId ? null : toolId));
+      setActiveTool(toolId);
+    },
+    [setActiveTool],
+  );
 
-  const handleToolExecute = useCallback((toolId: AIToolId, input: Record<string, any>) => {
-    setOpenToolPanel(null);
-    executeTool(toolId, input);
-  }, [executeTool]);
+  const handleToolExecute = useCallback(
+    (toolId: AIToolId, input: Record<string, any>) => {
+      setOpenToolPanel(null);
+      executeTool(toolId, input);
+    },
+    [executeTool],
+  );
 
   const handleSend = useCallback(() => {
     if (!input.trim() || isLoading) return;
     sendChatMessage(input);
-    setInput('');
+    setInput("");
   }, [input, isLoading, sendChatMessage]);
 
-  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSend();
-    }
-  }, [handleSend]);
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        handleSend();
+      }
+    },
+    [handleSend],
+  );
 
-  const handleQuickAction = useCallback((action: string) => {
-    sendChatMessage(action);
-  }, [sendChatMessage]);
+  const handleQuickAction = useCallback(
+    (action: string) => {
+      sendChatMessage(action);
+    },
+    [sendChatMessage],
+  );
 
-  const handleApplyRecommendations = useCallback((recommendations: string[]) => {
-    const formattedRecs = recommendations.map((r, i) => `${i + 1}. ${r}`).join('\n');
-    sendChatMessage(`Примени следующие рекомендации к тексту:\n${formattedRecs}`);
-  }, [sendChatMessage]);
+  const handleApplyRecommendations = useCallback(
+    (recommendations: string[]) => {
+      const formattedRecs = recommendations.map((r, i) => `${i + 1}. ${r}`).join("\n");
+      sendChatMessage(`Примени следующие рекомендации к тексту:\n${formattedRecs}`);
+    },
+    [sendChatMessage],
+  );
 
   const renderToolPanel = () => {
     if (!openToolPanel) return null;
-    
+
     const panelProps = {
       context,
       onExecute: (input: Record<string, any>) => handleToolExecute(openToolPanel, input),
@@ -166,16 +185,26 @@ export function LyricsAIChatAgent({
     };
 
     switch (openToolPanel) {
-      case 'write': return <WriteToolPanel {...panelProps} />;
-      case 'continue': return <ContinueToolPanel {...panelProps} />;
-      case 'analyze': return <AnalyzeToolPanel {...panelProps} />;
-      case 'producer': return <ProducerToolPanel {...panelProps} />;
-      case 'optimize': return <OptimizeToolPanel {...panelProps} />;
-      case 'rhyme': return <RhymeToolPanel {...panelProps} />;
-      case 'structure': return <StructureToolPanel {...panelProps} />;
-      case 'style_convert': return <StyleConvertToolPanel {...panelProps} />;
-      case 'translate': return <TranslateToolPanel {...panelProps} />;
-      default: return null;
+      case "write":
+        return <WriteToolPanel {...panelProps} />;
+      case "continue":
+        return <ContinueToolPanel {...panelProps} />;
+      case "analyze":
+        return <AnalyzeToolPanel {...panelProps} />;
+      case "producer":
+        return <ProducerToolPanel {...panelProps} />;
+      case "optimize":
+        return <OptimizeToolPanel {...panelProps} />;
+      case "rhyme":
+        return <RhymeToolPanel {...panelProps} />;
+      case "structure":
+        return <StructureToolPanel {...panelProps} />;
+      case "style_convert":
+        return <StyleConvertToolPanel {...panelProps} />;
+      case "translate":
+        return <TranslateToolPanel {...panelProps} />;
+      default:
+        return null;
     }
   };
 
@@ -196,20 +225,22 @@ export function LyricsAIChatAgent({
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                className={cn("flex gap-2", message.role === 'user' ? "justify-end" : "justify-start")}
+                className={cn("flex gap-2", message.role === "user" ? "justify-end" : "justify-start")}
               >
-                {message.role === 'assistant' && (
+                {message.role === "assistant" && (
                   <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center shrink-0 border border-primary/20">
                     <Bot className="w-3.5 h-3.5 text-primary" />
                   </div>
                 )}
-                
-                <div className={cn(
-                  "max-w-[85%] rounded-2xl px-3 py-2",
-                  message.role === 'user' 
-                    ? "bg-primary text-primary-foreground rounded-br-sm"
-                    : "bg-muted/80 rounded-bl-sm border border-border/50"
-                )}>
+
+                <div
+                  className={cn(
+                    "max-w-[85%] rounded-2xl px-3 py-2",
+                    message.role === "user"
+                      ? "bg-primary text-primary-foreground rounded-br-sm"
+                      : "bg-muted/80 rounded-bl-sm border border-border/50",
+                  )}
+                >
                   {message.isLoading ? (
                     <div className="flex items-center gap-2 py-1">
                       <Loader2 className="w-4 h-4 animate-spin" />
@@ -218,7 +249,7 @@ export function LyricsAIChatAgent({
                   ) : (
                     <>
                       <p className="text-sm whitespace-pre-wrap leading-relaxed">{message.content}</p>
-                      
+
                       {message.data?.lyrics && (
                         <StructuredLyricsPreview
                           lyrics={message.data.lyrics}
@@ -227,7 +258,7 @@ export function LyricsAIChatAgent({
                           showReplace={!!existingLyrics}
                         />
                       )}
-                      
+
                       {message.data?.tags && message.data.tags.length > 0 && (
                         <TagsResultCard tags={message.data.tags} onApply={onAddTags} />
                       )}
@@ -252,7 +283,7 @@ export function LyricsAIChatAgent({
                   )}
                 </div>
 
-                {message.role === 'user' && (
+                {message.role === "user" && (
                   <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                     <User className="w-3.5 h-3.5 text-primary" />
                   </div>
@@ -263,11 +294,11 @@ export function LyricsAIChatAgent({
         </div>
       </ScrollArea>
 
-      <div 
+      <div
         className="border-t border-border/50 p-3"
         style={{
           // Telegram Mini App + iOS safe area
-          paddingBottom: 'calc(max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)) + 0.75rem)',
+          paddingBottom: "calc(max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)) + 0.75rem)",
         }}
       >
         <div className="flex gap-2">

@@ -23,39 +23,40 @@ TAB (для гитары)
 
 Обзор функционала {#обзор-функционала}
 Основные возможности
+
 1. Транскрипция музыки в ноты
-Автоматическое преобразование аудио в нотную запись
-Поддержка полифонической нотации (несколько одновременно звучащих нот)
-Выявление мелодии, аккордов и гармоний
-Сохранение tempo и time signature информации
+   Автоматическое преобразование аудио в нотную запись
+   Поддержка полифонической нотации (несколько одновременно звучащих нот)
+   Выявление мелодии, аккордов и гармоний
+   Сохранение tempo и time signature информации
 2. Конвертация в MIDI
-Создание unquantized MIDI (сохранение оригинального timing'а)
-Создание quantized MIDI (для лучшей работы в DAW)
-Multi-track MIDI с отдельными треками для каждого инструмента
-Поддержка velocity detection (в разработке)
+   Создание unquantized MIDI (сохранение оригинального timing'а)
+   Создание quantized MIDI (для лучшей работы в DAW)
+   Multi-track MIDI с отдельными треками для каждого инструмента
+   Поддержка velocity detection (в разработке)
 3. Распознавание аккордов
-Определение гармонического содержания трека
-Lead sheet notation (мелодия + символы аккордов)
-Определение тональности и масштаба
-Анализ структуры гармонии
+   Определение гармонического содержания трека
+   Lead sheet notation (мелодия + символы аккордов)
+   Определение тональности и масштаба
+   Анализ структуры гармонии
 4. Анализ ритма и метра
-Beat tracking и downbeat detection
-BPM определение
-Time signature распознавание
-Preservation of timing информации
+   Beat tracking и downbeat detection
+   BPM определение
+   Time signature распознавание
+   Preservation of timing информации
 5. Мультиинструментальная обработка
-Одновременное распознавание до 8 инструментов
-Разделение аудио на отдельные стемы
-Инструмент-специфичные AI модели
-Архитектура и технология {#архитектура}
-Как работает система Klang.io
-Klang.io использует proprietary AI систему, разработанную еще до эпохи ChatGPT. Вот как это функционирует:
+   Одновременное распознавание до 8 инструментов
+   Разделение аудио на отдельные стемы
+   Инструмент-специфичные AI модели
+   Архитектура и технология {#архитектура}
+   Как работает система Klang.io
+   Klang.io использует proprietary AI систему, разработанную еще до эпохи ChatGPT. Вот как это функционирует:
 
 Шаг 1: Спектрограмма
 Аудио → Спектрограмма (2D изображение)
-         ├─ Ось X: время
-         ├─ Ось Y: частота
-         └─ Яркость: громкость
+├─ Ось X: время
+├─ Ось Y: частота
+└─ Яркость: громкость
 
 Шаг 2: Извлечение признаков
 Применение методов распознавания образов из computer vision
@@ -66,12 +67,12 @@ Klang.io использует proprietary AI систему, разработа�
 Инструмент-специфичные модели для каждого инструмента
 Генерация читаемой и воспроизводимой нотной записи
 Инструмент-специфичные AI модели
-Модель	Специализация	Выпуск
-Guitar2Tabs	Гитара, бас, распознавание стиля	Базовая
-Piano Transcription	Пианино, синтезатор	Базовая
-Drums AI	Ударные инструменты	Базовая
-Rock Model	Lead guitar, rhythm guitar, bass, drums	Октябрь 2025
-Classical Model	Скрипка, виолончель, духовые инструменты	Октябрь 2025
+Модель Специализация Выпуск
+Guitar2Tabs Гитара, бас, распознавание стиля Базовая
+Piano Transcription Пианино, синтезатор Базовая
+Drums AI Ударные инструменты Базовая
+Rock Model Lead guitar, rhythm guitar, bass, drums Октябрь 2025
+Classical Model Скрипка, виолончель, духовые инструменты Октябрь 2025
 Обработка обучающих данных
 Klang.io столкнулась с проблемой авторского права при сборе данных. Решение:
 
@@ -79,8 +80,9 @@ Klang.io столкнулась с проблемой авторского пр�
 Миллионы синтетических примеров используются для обучения моделей
 Это позволило избежать нарушения авторских прав при сборе датасета
 Инструменты и приложения {#инструменты}
+
 1. Klangio Transcription Studio
-Тип: Web-приложение (браузер)
+   Тип: Web-приложение (браузер)
 
 Возможности:
 
@@ -92,7 +94,7 @@ Multi-instrument transcription
 Интеграция: Доступно через веб-интерфейс, может быть встроено в веб-приложение через iframe или API
 
 2. Klangio Transcription Plugin
-Тип: VST3 плагин + Standalone приложение
+   Тип: VST3 плагин + Standalone приложение
 
 Платформы:
 
@@ -111,7 +113,7 @@ Drag & drop MIDI обратно в DAW
 DAW Audio Track → VST3 Plugin → Transcribe → MIDI Output → DAW Track
 
 3. Melody Scanner
-Тип: Web-приложение
+   Тип: Web-приложение
 
 Специализация: Мелодия и аккорды
 
@@ -123,7 +125,7 @@ Universal (авто-детектирование)
 Особенность: Фокус на преобразование в ноты, а не на точную транскрипцию
 
 4. Guitar2Tabs
-Тип: Web-приложение
+   Тип: Web-приложение
 
 Специализация: Гитара
 
@@ -131,8 +133,7 @@ Universal (авто-детектирование)
 
 Распознавание TAB нотации
 Определение стиля (strumming vs picking)
-Экспорт в PDF, MIDI, MusicXML, Guitar Pro
-5. Piano Transcription Studio
+Экспорт в PDF, MIDI, MusicXML, Guitar Pro 5. Piano Transcription Studio
 Тип: Web-приложение
 
 Специализация: Пианино
@@ -147,7 +148,7 @@ API Endpoints
 Основные endpoints для интеграции:
 
 1. Загрузка файла для транскрипции
-POST /api/v1/transcribe
+   POST /api/v1/transcribe
 
 Headers:
 
@@ -157,14 +158,14 @@ X-API-SECRET: your_api_secret
 
 Query Parameters:
 
-Параметр	Тип	Обязательный	Описание
-callback_url	string	Да	URL для получения результата после обработки
-callback_nonce	string	Нет	Уникальный идентификатор для верификации
-language	string	Нет	Язык (по умолчанию: "swe", доступен "eng")
-output_format	string	Нет	Формат вывода ("transcript", "subtitle")
-spell_check	number	Нет	Включить проверку орфографии (0 или 1)
-min_prob	number	Нет	Минимальная вероятность сегмента (0-1)
-name	string	Нет	Пользовательское имя транскрипции
+Параметр Тип Обязательный Описание
+callback_url string Да URL для получения результата после обработки
+callback_nonce string Нет Уникальный идентификатор для верификации
+language string Нет Язык (по умолчанию: "swe", доступен "eng")
+output_format string Нет Формат вывода ("transcript", "subtitle")
+spell_check number Нет Включить проверку орфографии (0 или 1)
+min_prob number Нет Минимальная вероятность сегмента (0-1)
+name string Нет Пользовательское имя транскрипции
 Request Body:
 
 file: binary (audio/video file)
@@ -176,65 +177,65 @@ Supported formats:
 Ответ:
 
 {
-  "id": "transcription_id_123",
-  "status": "processing"
+"id": "transcription_id_123",
+"status": "processing"
 }
 
 2. Webhook Callback для результатов
-Payload структура:
+   Payload структура:
 
 {
-  "id": "transcription_id_123",
-  "status": "completed",
-  "nonce": "callback_nonce_value",
-  "metrics": {
-    "duration": 180.5,
-    "confidence": 0.92
-  },
-  "duration": 180.5,
-  "data": {
-    "midi": {
-      "base64": "...",
-      "format": "mid",
-      "instruments": ["piano", "guitar"]
-    },
-    "musicxml": {
-      "base64": "...",
-      "format": "xml"
-    },
-    "notes": [
-      {
-        "pitch": 60,
-        "start": 0.0,
-        "duration": 0.5,
-        "velocity": 100,
-        "instrument": "piano"
-      }
-    ],
-    "chords": [
-      {
-        "chord": "C",
-        "start": 0.0,
-        "duration": 4.0
-      }
-    ],
-    "tempo": {
-      "bpm": 120,
-      "time_signature": "4/4"
-    }
-  }
+"id": "transcription_id_123",
+"status": "completed",
+"nonce": "callback_nonce_value",
+"metrics": {
+"duration": 180.5,
+"confidence": 0.92
+},
+"duration": 180.5,
+"data": {
+"midi": {
+"base64": "...",
+"format": "mid",
+"instruments": ["piano", "guitar"]
+},
+"musicxml": {
+"base64": "...",
+"format": "xml"
+},
+"notes": [
+{
+"pitch": 60,
+"start": 0.0,
+"duration": 0.5,
+"velocity": 100,
+"instrument": "piano"
+}
+],
+"chords": [
+{
+"chord": "C",
+"start": 0.0,
+"duration": 4.0
+}
+],
+"tempo": {
+"bpm": 120,
+"time_signature": "4/4"
+}
+}
 }
 
 3. REST Hooks (Webhooks)
-Регистрация webhook'а:
+   Регистрация webhook'а:
 
 POST /api/v1/resthook
 
 Payload:
 
 {
-  "hookUrl": "https://your-domain.com/webhooks/klang",
-  "type": "transcriptionFinished"
+"hookUrl": "https://your-domain.com/webhooks/klang",
+"type": "transcriptionFinished"
 }
 
 Удаление webhook'а:
@@ -330,15 +331,15 @@ MusicXML экспорт лирики не поддерживает (на тек�
 Архитектура:
 
 Frontend (браузер)
-    ↓ (загружает файл)
+↓ (загружает файл)
 Backend (Express)
-    ↓ (отправляет на Klang.io API)
+↓ (отправляет на Klang.io API)
 Klang.io API
-    ↓ (обрабатывает)
+↓ (обрабатывает)
 Webhook Callback
-    ↓ (отправляет результат на backend)
+↓ (отправляет результат на backend)
 Database (сохраняет MIDI/notes)
-    ↓ (отправляет результат на frontend)
+↓ (отправляет результат на frontend)
 Frontend (отображает результат)
 
 1.2 Настройка Webhook сервера
@@ -357,31 +358,31 @@ const WEBHOOK_BASE_URL = process.env.WEBHOOK_BASE_URL || 'https://your-domain.co
 
 // Регистрация webhook'а при старте
 async function registerWebhook() {
-  try {
-    await axios.post(`${API_HOST}/api/v1/resthook`, {
-      hookUrl: `${WEBHOOK_BASE_URL}/webhooks/transcription`,
-      type: 'transcriptionFinished'
-    }, {
-      headers: {
-        'X-KLANG-API-KEY': API_KEY,
-        'X-KLANG-API-SECRET': API_SECRET
-      }
-    });
-    console.log('Webhook registered successfully');
-  } catch (error) {
-    console.error('Error registering webhook:', error);
-  }
+try {
+await axios.post(`${API_HOST}/api/v1/resthook`, {
+hookUrl: `${WEBHOOK_BASE_URL}/webhooks/transcription`,
+type: 'transcriptionFinished'
+}, {
+headers: {
+'X-KLANG-API-KEY': API_KEY,
+'X-KLANG-API-SECRET': API_SECRET
+}
+});
+console.log('Webhook registered successfully');
+} catch (error) {
+console.error('Error registering webhook:', error);
+}
 }
 
 // Endpoint для загрузки аудио файла
 app.post('/api/transcribe', async (req, res) => {
-  const { filePath } = req.body;
+const { filePath } = req.body;
 
-  try {
-    const formData = new FormData();
-    formData.append('file', fs.createReadStream(filePath), {
-      contentType: 'audio/mp3'
-    });
+try {
+const formData = new FormData();
+formData.append('file', fs.createReadStream(filePath), {
+contentType: 'audio/mp3'
+});
 
     const nonce = crypto.randomBytes(16).toString('hex');
     const callbackUrl = `${WEBHOOK_BASE_URL}/webhooks/transcription`;
@@ -412,22 +413,23 @@ app.post('/api/transcribe', async (req, res) => {
       status: 'processing',
       message: 'Your transcription is being processed'
     });
-  } catch (error) {
-    console.error('Error starting transcription:', error.message);
-    res.status(500).json({ error: 'Failed to start transcription' });
-  }
+
+} catch (error) {
+console.error('Error starting transcription:', error.message);
+res.status(500).json({ error: 'Failed to start transcription' });
+}
 });
 
 // Webhook endpoint для получения результатов
 app.post('/webhooks/transcription', (req, res) => {
-  const { id, status, nonce, data } = req.body;
+const { id, status, nonce, data } = req.body;
 
-  console.log(`Webhook received - ID: ${id}, Status: ${status}`);
+console.log(`Webhook received - ID: ${id}, Status: ${status}`);
 
-  if (status === 'completed') {
-    try {
-      // Обработка результатов
-      const { midi, musicxml, notes, chords, tempo } = data;
+if (status === 'completed') {
+try {
+// Обработка результатов
+const { midi, musicxml, notes, chords, tempo } = data;
 
       // Сохранение MIDI в файл
       if (midi && midi.base64) {
@@ -455,15 +457,16 @@ app.post('/webhooks/transcription', (req, res) => {
     } catch (error) {
       console.error('Error processing webhook:', error);
     }
-  }
 
-  // Всегда отвечаем 200 OK
-  res.json({ status: 'ok' });
+}
+
+// Всегда отвечаем 200 OK
+res.json({ status: 'ok' });
 });
 
 app.listen(3000, () => {
-  console.log('Server running on port 3000');
-  registerWebhook();
+console.log('Server running on port 3000');
+registerWebhook();
 });
 
 Сценарий 2: Frontend интеграция с React/TypeScript
@@ -471,52 +474,52 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 interface TranscriptionResult {
-  id: string;
-  status: 'processing' | 'completed' | 'error';
-  midiUrl?: string;
-  musicXmlUrl?: string;
-  notes?: Note[];
-  chords?: Chord[];
-  tempo?: TempoInfo;
+id: string;
+status: 'processing' | 'completed' | 'error';
+midiUrl?: string;
+musicXmlUrl?: string;
+notes?: Note[];
+chords?: Chord[];
+tempo?: TempoInfo;
 }
 
 interface Note {
-  pitch: number;
-  start: number;
-  duration: number;
-  velocity: number;
-  instrument: string;
+pitch: number;
+start: number;
+duration: number;
+velocity: number;
+instrument: string;
 }
 
 interface Chord {
-  chord: string;
-  start: number;
-  duration: number;
+chord: string;
+start: number;
+duration: number;
 }
 
 interface TempoInfo {
-  bpm: number;
-  time_signature: string;
+bpm: number;
+time_signature: string;
 }
 
 const MusicTranscriptionApp: React.FC = () => {
-  const [file, setFile] = useState<File | null>(null);
-  const [transcriptionId, setTranscriptionId] = useState<string | null>(null);
-  const [result, setResult] = useState<TranscriptionResult | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+const [file, setFile] = useState<File | null>(null);
+const [transcriptionId, setTranscriptionId] = useState<string | null>(null);
+const [result, setResult] = useState<TranscriptionResult | null>(null);
+const [isLoading, setIsLoading] = useState(false);
+const [error, setError] = useState<string | null>(null);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setFile(e.target.files[0]);
-    }
-  };
+const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+if (e.target.files) {
+setFile(e.target.files[0]);
+}
+};
 
-  const handleTranscribe = async () => {
-    if (!file) {
-      setError('Please select a file');
-      return;
-    }
+const handleTranscribe = async () => {
+if (!file) {
+setError('Please select a file');
+return;
+}
 
     setIsLoading(true);
     setError(null);
@@ -539,13 +542,14 @@ const MusicTranscriptionApp: React.FC = () => {
       setError('Failed to start transcription');
       setIsLoading(false);
     }
-  };
 
-  const pollTranscriptionStatus = (id: string) => {
-    const interval = setInterval(async () => {
-      try {
-        const response = await axios.get(`/api/transcription/${id}/status`);
-        const { status, data } = response.data;
+};
+
+const pollTranscriptionStatus = (id: string) => {
+const interval = setInterval(async () => {
+try {
+const response = await axios.get(`/api/transcription/${id}/status`);
+const { status, data } = response.data;
 
         if (status === 'completed') {
           clearInterval(interval);
@@ -562,29 +566,31 @@ const MusicTranscriptionApp: React.FC = () => {
         setIsLoading(false);
       }
     }, 2000); // Check every 2 seconds
-  };
 
-  const downloadMidi = () => {
-    if (result?.midiUrl) {
-      const a = document.createElement('a');
-      a.href = result.midiUrl;
-      a.download = `transcription-${result.id}.mid`;
-      a.click();
-    }
-  };
+};
 
-  const downloadMusicXml = () => {
-    if (result?.musicXmlUrl) {
-      const a = document.createElement('a');
-      a.href = result.musicXmlUrl;
-      a.download = `transcription-${result.id}.xml`;
-      a.click();
-    }
-  };
+const downloadMidi = () => {
+if (result?.midiUrl) {
+const a = document.createElement('a');
+a.href = result.midiUrl;
+a.download = `transcription-${result.id}.mid`;
+a.click();
+}
+};
 
-  return (
-    <div className="transcription-container">
-      <h1>Music Transcription Tool</h1>
+const downloadMusicXml = () => {
+if (result?.musicXmlUrl) {
+const a = document.createElement('a');
+a.href = result.musicXmlUrl;
+a.download = `transcription-${result.id}.xml`;
+a.click();
+}
+};
+
+return (
+
+<div className="transcription-container">
+<h1>Music Transcription Tool</h1>
 
       <div className="upload-section">
         <input
@@ -646,7 +652,8 @@ const MusicTranscriptionApp: React.FC = () => {
         </div>
       )}
     </div>
-  );
+
+);
 };
 
 export default MusicTranscriptionApp;
@@ -662,15 +669,15 @@ import asyncio
 from flask import Flask, request, jsonify
 
 class KlangIOTranscriber:
-    def __init__(self, api_key: str, api_secret: str):
-        self.api_key = api_key
-        self.api_secret = api_secret
-        self.api_host = 'https://api.klang.io'
-        self.headers = {
-            'X-KLANG-API-KEY': api_key,
-            'X-KLANG-API-SECRET': api_secret
-        }
-        self.results_cache = {}
+def **init**(self, api_key: str, api_secret: str):
+self.api_key = api_key
+self.api_secret = api_secret
+self.api_host = 'https://api.klang.io'
+self.headers = {
+'X-KLANG-API-KEY': api_key,
+'X-KLANG-API-SECRET': api_secret
+}
+self.results_cache = {}
 
     def upload_and_transcribe(
         self,
@@ -774,20 +781,20 @@ class KlangIOTranscriber:
             print(f'Error saving MIDI: {e}')
             return False
 
-
 # Flask приложение для обработки webhook'ов
-app = Flask(__name__)
+
+app = Flask(**name**)
 transcriber = KlangIOTranscriber(
-    api_key=os.getenv('KLANG_API_KEY'),
-    api_secret=os.getenv('KLANG_API_SECRET')
+api_key=os.getenv('KLANG_API_KEY'),
+api_secret=os.getenv('KLANG_API_SECRET')
 )
 
 @app.route('/api/transcribe', methods=['POST'])
 def transcribe():
-    """Endpoint для загрузки файла на транскрипцию"""
-    try:
-        if 'file' not in request.files:
-            return jsonify({'error': 'No file provided'}), 400
+"""Endpoint для загрузки файла на транскрипцию"""
+try:
+if 'file' not in request.files:
+return jsonify({'error': 'No file provided'}), 400
 
         file = request.files['file']
         file.save('temp_audio.wav')
@@ -803,11 +810,11 @@ def transcribe():
 
 @app.route('/webhooks/transcription', methods=['POST'])
 def webhook_transcription():
-    """Webhook endpoint для получения результатов"""
-    try:
-        data = request.get_json()
-        transcription_id = data.get('id')
-        status = data.get('status')
+"""Webhook endpoint для получения результатов"""
+try:
+data = request.get_json()
+transcription_id = data.get('id')
+status = data.get('status')
 
         # Сохраняем результаты в кэш
         transcriber.save_callback_result(transcription_id, data)
@@ -836,61 +843,61 @@ def webhook_transcription():
 
 @app.route('/api/transcription/<transcription_id>/result', methods=['GET'])
 def get_transcription_result(transcription_id):
-    """Получить результаты транскрипции"""
-    result = transcriber.get_result(transcription_id)
-    if result:
-        return jsonify(result)
-    else:
-        return jsonify({'error': 'Not found'}), 404
+"""Получить результаты транскрипции"""
+result = transcriber.get_result(transcription_id)
+if result:
+return jsonify(result)
+else:
+return jsonify({'error': 'Not found'}), 404
 
-if __name__ == '__main__':
-    app.run(debug=True, port=3000)
+if **name** == '**main**':
+app.run(debug=True, port=3000)
 
 Примеры кода {#примеры-кода}
 Пример 1: cURL запрос для загрузки аудио
 curl -X POST https://api.klang.io/api/v1/transcribe \
-  -H "X-KLANG-API-KEY: your_api_key" \
-  -H "X-KLANG-API-SECRET: your_api_secret" \
-  -F "file=@/path/to/audio.mp3" \
-  -G \
-  --data-urlencode "callback_url=https://your-domain.com/webhooks" \
-  --data-urlencode "language=eng"
+ -H "X-KLANG-API-KEY: your_api_key" \
+ -H "X-KLANG-API-SECRET: your_api_secret" \
+ -F "file=@/path/to/audio.mp3" \
+ -G \
+ --data-urlencode "callback_url=https://your-domain.com/webhooks" \
+ --data-urlencode "language=eng"
 
 Пример 2: Обработка MIDI результатов (JavaScript)
 const { readFileSync, writeFileSync } = require('fs');
 
 function processMidiData(webhookPayload) {
-  const { id, data } = webhookPayload;
-  const { midi, notes, chords, tempo } = data;
+const { id, data } = webhookPayload;
+const { midi, notes, chords, tempo } = data;
 
-  // Декодирование base64 MIDI
-  if (midi && midi.base64) {
-    const midiBuffer = Buffer.from(midi.base64, 'base64');
-    writeFileSync(`${id}.mid`, midiBuffer);
-    console.log(`Saved MIDI: ${id}.mid`);
-  }
+// Декодирование base64 MIDI
+if (midi && midi.base64) {
+const midiBuffer = Buffer.from(midi.base64, 'base64');
+writeFileSync(`${id}.mid`, midiBuffer);
+console.log(`Saved MIDI: ${id}.mid`);
+}
 
-  // Анализ нот
-  const analysis = {
-    totalNotes: notes.length,
-    instruments: [...new Set(notes.map(n => n.instrument))],
-    noteRange: {
-      min: Math.min(...notes.map(n => n.pitch)),
-      max: Math.max(...notes.map(n => n.pitch))
-    },
-    averageVelocity: notes.reduce((sum, n) => sum + n.velocity, 0) / notes.length,
-    duration: Math.max(...notes.map(n => n.start + n.duration))
-  };
+// Анализ нот
+const analysis = {
+totalNotes: notes.length,
+instruments: [...new Set(notes.map(n => n.instrument))],
+noteRange: {
+min: Math.min(...notes.map(n => n.pitch)),
+max: Math.max(...notes.map(n => n.pitch))
+},
+averageVelocity: notes.reduce((sum, n) => sum + n.velocity, 0) / notes.length,
+duration: Math.max(...notes.map(n => n.start + n.duration))
+};
 
-  // Анализ аккордов
-  const chordProgression = chords.map(c => c.chord).join(' → ');
+// Анализ аккордов
+const chordProgression = chords.map(c => c.chord).join(' → ');
 
-  console.log('Analysis Results:');
-  console.log(JSON.stringify(analysis, null, 2));
-  console.log('Chord Progression:', chordProgression);
-  console.log('Tempo:', tempo.bpm, 'BPM', tempo.time_signature);
+console.log('Analysis Results:');
+console.log(JSON.stringify(analysis, null, 2));
+console.log('Chord Progression:', chordProgression);
+console.log('Tempo:', tempo.bpm, 'BPM', tempo.time_signature);
 
-  return { analysis, chordProgression, tempo };
+return { analysis, chordProgression, tempo };
 }
 
 Пример 3: MIDI файл структура
@@ -906,50 +913,50 @@ function processMidiData(webhookPayload) {
 // ├─ MTrk (4 bytes)
 // ├─ Length (4 bytes)
 // └─ Track events
-//    ├─ Meta Events (0xFF)
-//    │  ├─ Track Name (0x03)
-//    │  ├─ Instrument Name (0x04)
-//    │  ├─ Tempo (0x51)
-//    │  └─ End of Track (0x2F)
-//    └─ MIDI Events (0x80-0xEF)
-//       ├─ Note On (0x90)
-//       ├─ Note Off (0x80)
-//       ├─ Program Change (0xC0)
-//       └─ Control Change (0xB0)
+// ├─ Meta Events (0xFF)
+// │ ├─ Track Name (0x03)
+// │ ├─ Instrument Name (0x04)
+// │ ├─ Tempo (0x51)
+// │ └─ End of Track (0x2F)
+// └─ MIDI Events (0x80-0xEF)
+// ├─ Note On (0x90)
+// ├─ Note Off (0x80)
+// ├─ Program Change (0xC0)
+// └─ Control Change (0xB0)
 
 // Пример декодирования MIDI в JavaScript
 class MidiDecoder {
-  constructor(arrayBuffer) {
-    this.data = new Uint8Array(arrayBuffer);
-    this.offset = 0;
-  }
+constructor(arrayBuffer) {
+this.data = new Uint8Array(arrayBuffer);
+this.offset = 0;
+}
 
-  readBytes(count) {
-    const result = this.data.slice(this.offset, this.offset + count);
-    this.offset += count;
-    return result;
-  }
+readBytes(count) {
+const result = this.data.slice(this.offset, this.offset + count);
+this.offset += count;
+return result;
+}
 
-  readString(length) {
-    return String.fromCharCode(...this.readBytes(length));
-  }
+readString(length) {
+return String.fromCharCode(...this.readBytes(length));
+}
 
-  readVarLength() {
-    let value = 0;
-    let byte;
-    do {
-      byte = this.data[this.offset++];
-      value = (value << 7) | (byte & 0x7F);
-    } while (byte & 0x80);
-    return value;
-  }
+readVarLength() {
+let value = 0;
+let byte;
+do {
+byte = this.data[this.offset++];
+value = (value << 7) | (byte & 0x7F);
+} while (byte & 0x80);
+return value;
+}
 
-  parse() {
-    const header = this.readString(4);
-    const headerLength = this.readInt32();
-    const format = this.readInt16();
-    const numTracks = this.readInt16();
-    const division = this.readInt16();
+parse() {
+const header = this.readString(4);
+const headerLength = this.readInt32();
+const format = this.readInt16();
+const numTracks = this.readInt16();
+const division = this.readInt16();
 
     console.log(`Format: ${format}, Tracks: ${numTracks}, Division: ${division}`);
 
@@ -958,26 +965,27 @@ class MidiDecoder {
       tracks.push(this.parseTrack());
     }
     return { format, numTracks, division, tracks };
-  }
 
-  readInt16() {
-    const result = (this.data[this.offset] << 8) | this.data[this.offset + 1];
-    this.offset += 2;
-    return result;
-  }
+}
 
-  readInt32() {
-    let result = 0;
-    for (let i = 0; i < 4; i++) {
-      result = (result << 8) | this.data[this.offset++];
-    }
-    return result;
-  }
+readInt16() {
+const result = (this.data[this.offset] << 8) | this.data[this.offset + 1];
+this.offset += 2;
+return result;
+}
 
-  parseTrack() {
-    const trackStart = this.readString(4);
-    const trackLength = this.readInt32();
-    const trackEnd = this.offset + trackLength;
+readInt32() {
+let result = 0;
+for (let i = 0; i < 4; i++) {
+result = (result << 8) | this.data[this.offset++];
+}
+return result;
+}
+
+parseTrack() {
+const trackStart = this.readString(4);
+const trackLength = this.readInt32();
+const trackEnd = this.offset + trackLength;
 
     const events = [];
     let time = 0;
@@ -1033,7 +1041,8 @@ class MidiDecoder {
     }
 
     return { events };
-  }
+
+}
 }
 
 // Использование
@@ -1043,129 +1052,131 @@ const midiStructure = decoder.parse();
 console.log(midiStructure);
 
 Best Practices {#best-practices}
-1. Обработка ошибок и retry логика
-async function transcribeWithRetry(
-  filePath,
-  maxRetries = 3,
-  delayMs = 1000
-) {
-  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+
+1.  Обработка ошибок и retry логика
+    async function transcribeWithRetry(
+    filePath,
+    maxRetries = 3,
+    delayMs = 1000
+    ) {
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
-      const result = await transcriber.upload_and_transcribe(filePath);
-      if (result.success) {
-        return result;
-      }
-    } catch (error) {
-      console.error(`Attempt ${attempt} failed:`, error.message);
-
-      if (attempt < maxRetries) {
-        // Exponential backoff
-        const delay = delayMs * Math.pow(2, attempt - 1);
-        await new Promise(resolve => setTimeout(resolve, delay));
-      }
+    const result = await transcriber.upload_and_transcribe(filePath);
+    if (result.success) {
+    return result;
     }
-  }
+    } catch (error) {
+    console.error(`Attempt ${attempt} failed:`, error.message);
 
-  throw new Error('Transcription failed after all retries');
+          if (attempt < maxRetries) {
+            // Exponential backoff
+            const delay = delayMs * Math.pow(2, attempt - 1);
+            await new Promise(resolve => setTimeout(resolve, delay));
+          }
+        }
+
+    }
+
+throw new Error('Transcription failed after all retries');
 }
 
 2. Валидация входных данных
-function validateAudioFile(file) {
-  const allowedMimes = [
-    'audio/mpeg', 'audio/wav', 'audio/ogg', 'audio/flac',
-    'video/mp4', 'video/webm', 'video/quicktime'
-  ];
+   function validateAudioFile(file) {
+   const allowedMimes = [
+   'audio/mpeg', 'audio/wav', 'audio/ogg', 'audio/flac',
+   'video/mp4', 'video/webm', 'video/quicktime'
+   ];
 
-  const allowedExtensions = [
-    '.mp3', '.wav', '.ogg', '.flac', '.m4a',
-    '.mp4', '.mov', '.webm', '.avi', '.mkv'
-  ];
+const allowedExtensions = [
+'.mp3', '.wav', '.ogg', '.flac', '.m4a',
+'.mp4', '.mov', '.webm', '.avi', '.mkv'
+];
 
-  const fileName = file.name.toLowerCase();
-  const hasValidExt = allowedExtensions.some(ext => fileName.endsWith(ext));
-  const hasValidMime = allowedMimes.includes(file.type);
+const fileName = file.name.toLowerCase();
+const hasValidExt = allowedExtensions.some(ext => fileName.endsWith(ext));
+const hasValidMime = allowedMimes.includes(file.type);
 
-  if (!hasValidExt || !hasValidMime) {
-    throw new Error('Invalid file format');
-  }
+if (!hasValidExt || !hasValidMime) {
+throw new Error('Invalid file format');
+}
 
-  // Проверка размера файла (например, max 500MB)
-  const maxSize = 500 * 1024 * 1024;
-  if (file.size > maxSize) {
-    throw new Error('File too large');
-  }
+// Проверка размера файла (например, max 500MB)
+const maxSize = 500 _ 1024 _ 1024;
+if (file.size > maxSize) {
+throw new Error('File too large');
+}
 
-  return true;
+return true;
 }
 
 3. Безопасность webhook'ов
-const crypto = require('crypto');
+   const crypto = require('crypto');
 
 function verifyWebhookSignature(payload, signature, secret) {
-  const hash = crypto
-    .createHmac('sha256', secret)
-    .update(JSON.stringify(payload))
-    .digest('hex');
+const hash = crypto
+.createHmac('sha256', secret)
+.update(JSON.stringify(payload))
+.digest('hex');
 
-  return hash === signature;
+return hash === signature;
 }
 
 app.post('/webhooks/transcription', (req, res) => {
-  const signature = req.headers['x-webhook-signature'];
-  const payload = req.body;
+const signature = req.headers['x-webhook-signature'];
+const payload = req.body;
 
-  if (!verifyWebhookSignature(payload, signature, WEBHOOK_SECRET)) {
-    return res.status(401).json({ error: 'Invalid signature' });
-  }
+if (!verifyWebhookSignature(payload, signature, WEBHOOK_SECRET)) {
+return res.status(401).json({ error: 'Invalid signature' });
+}
 
-  // Обработка webhook'а
-  processTranscription(payload);
-  res.json({ status: 'ok' });
+// Обработка webhook'а
+processTranscription(payload);
+res.json({ status: 'ok' });
 });
 
 4. Кэширование результатов
-const NodeCache = require('node-cache');
-const cache = new NodeCache({ stdTTL: 3600 }); // 1 час
+   const NodeCache = require('node-cache');
+   const cache = new NodeCache({ stdTTL: 3600 }); // 1 час
 
 async function getTranscriptionWithCache(transcriptionId) {
-  // Проверяем кэш
-  const cached = cache.get(transcriptionId);
-  if (cached) {
-    return cached;
-  }
+// Проверяем кэш
+const cached = cache.get(transcriptionId);
+if (cached) {
+return cached;
+}
 
-  // Получаем из БД или API
-  const result = await transcriber.getResult(transcriptionId);
+// Получаем из БД или API
+const result = await transcriber.getResult(transcriptionId);
 
-  if (result) {
-    cache.set(transcriptionId, result);
-  }
+if (result) {
+cache.set(transcriptionId, result);
+}
 
-  return result;
+return result;
 }
 
 5. Логирование и мониторинг
-const winston = require('winston');
+   const winston = require('winston');
 
 const logger = winston.createLogger({
-  level: 'info',
-  format: winston.format.json(),
-  transports: [
-    new winston.transports.File({ filename: 'error.log', level: 'error' }),
-    new winston.transports.File({ filename: 'combined.log' })
-  ]
+level: 'info',
+format: winston.format.json(),
+transports: [
+new winston.transports.File({ filename: 'error.log', level: 'error' }),
+new winston.transports.File({ filename: 'combined.log' })
+]
 });
 
 async function transcribeWithLogging(filePath) {
-  const startTime = Date.now();
-  const transcriptionId = uuid.v4();
+const startTime = Date.now();
+const transcriptionId = uuid.v4();
 
-  try {
-    logger.info('Starting transcription', {
-      transcriptionId,
-      filePath,
-      timestamp: new Date().toISOString()
-    });
+try {
+logger.info('Starting transcription', {
+transcriptionId,
+filePath,
+timestamp: new Date().toISOString()
+});
 
     const result = await transcriber.upload_and_transcribe(filePath);
 
@@ -1177,24 +1188,25 @@ async function transcribeWithLogging(filePath) {
     });
 
     return result;
-  } catch (error) {
-    logger.error('Transcription failed', {
-      transcriptionId,
-      error: error.message,
-      stack: error.stack,
-      duration: Date.now() - startTime
-    });
-    throw error;
-  }
+
+} catch (error) {
+logger.error('Transcription failed', {
+transcriptionId,
+error: error.message,
+stack: error.stack,
+duration: Date.now() - startTime
+});
+throw error;
+}
 }
 
 6. Оптимизация производительности
-// Использование Worker Threads для обработки MIDI
-const { Worker } = require('worker_threads');
+   // Использование Worker Threads для обработки MIDI
+   const { Worker } = require('worker_threads');
 
 function processMidiInWorker(midiData) {
-  return new Promise((resolve, reject) => {
-    const worker = new Worker('./midi-processor.js');
+return new Promise((resolve, reject) => {
+const worker = new Worker('./midi-processor.js');
 
     worker.on('message', resolve);
     worker.on('error', reject);
@@ -1205,43 +1217,45 @@ function processMidiInWorker(midiData) {
     });
 
     worker.postMessage(midiData);
-  });
+
+});
 }
 
 // midi-processor.js
 const { parentPort } = require('worker_threads');
 
 parentPort.on('message', (midiData) => {
-  // Тяжёлая обработка MIDI
-  const processed = analyzeMidiData(midiData);
-  parentPort.postMessage(processed);
+// Тяжёлая обработка MIDI
+const processed = analyzeMidiData(midiData);
+parentPort.postMessage(processed);
 });
 
 7. Тестирование интеграции
-const request = require('supertest');
-const app = require('./app');
+   const request = require('supertest');
+   const app = require('./app');
 
 describe('Music Transcription API', () => {
-  it('should upload audio and return transcription ID', async () => {
-    const response = await request(app)
-      .post('/api/transcribe')
-      .attach('file', './test-audio.mp3');
+it('should upload audio and return transcription ID', async () => {
+const response = await request(app)
+.post('/api/transcribe')
+.attach('file', './test-audio.mp3');
 
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty('transcriptionId');
     expect(response.body.status).toBe('processing');
-  });
 
-  it('should handle webhook callback', async () => {
-    const payload = {
-      id: 'test-123',
-      status: 'completed',
-      data: {
-        notes: [],
-        chords: [],
-        tempo: { bpm: 120, time_signature: '4/4' }
-      }
-    };
+});
+
+it('should handle webhook callback', async () => {
+const payload = {
+id: 'test-123',
+status: 'completed',
+data: {
+notes: [],
+chords: [],
+tempo: { bpm: 120, time_signature: '4/4' }
+}
+};
 
     const response = await request(app)
       .post('/webhooks/transcription')
@@ -1249,16 +1263,17 @@ describe('Music Transcription API', () => {
 
     expect(response.status).toBe(200);
     expect(response.body.status).toBe('ok');
-  });
 
-  it('should retrieve transcription results', async () => {
-    // Предварительно обработаём webhook
-    const payload = {
-      id: 'test-123',
-      status: 'completed',
-      data: { /* ... */ }
-    };
-    await request(app).post('/webhooks/transcription').send(payload);
+});
+
+it('should retrieve transcription results', async () => {
+// Предварительно обработаём webhook
+const payload = {
+id: 'test-123',
+status: 'completed',
+data: { /_ ... _/ }
+};
+await request(app).post('/webhooks/transcription').send(payload);
 
     // Получаем результаты
     const response = await request(app)
@@ -1266,7 +1281,8 @@ describe('Music Transcription API', () => {
 
     expect(response.status).toBe(200);
     expect(response.body.status).toBe('completed');
-  });
+
+});
 });
 
 Заключение

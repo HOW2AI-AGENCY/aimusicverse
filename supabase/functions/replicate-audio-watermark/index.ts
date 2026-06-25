@@ -7,7 +7,7 @@ import { getSupabaseClient } from "../_shared/supabase-client.ts";
 interface WatermarkRequest {
   audioUrl: string;
   trackId?: string;
-  mode: 'apply' | 'detect';
+  mode: "apply" | "detect";
   callbackUrl?: string;
 }
 
@@ -20,10 +20,9 @@ serve(async (req) => {
   if (!__auth.ok) {
     return new Response(JSON.stringify({ error: __auth.error }), {
       status: __auth.status,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
-
 
   try {
     const REPLICATE_API_KEY = Deno.env.get("REPLICATE_API_KEY");
@@ -34,35 +33,27 @@ serve(async (req) => {
     const replicate = new Replicate({ auth: REPLICATE_API_KEY });
     const supabase = getSupabaseClient();
 
-    const {
-      audioUrl,
-      trackId,
-      mode,
-      callbackUrl,
-    }: WatermarkRequest = await req.json();
+    const { audioUrl, trackId, mode, callbackUrl }: WatermarkRequest = await req.json();
 
     if (!audioUrl) {
-      return new Response(
-        JSON.stringify({ error: "audioUrl is required" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+      return new Response(JSON.stringify({ error: "audioUrl is required" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
-    if (!mode || !['apply', 'detect'].includes(mode)) {
-      return new Response(
-        JSON.stringify({ error: "mode must be 'apply' or 'detect'" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+    if (!mode || !["apply", "detect"].includes(mode)) {
+      return new Response(JSON.stringify({ error: "mode must be 'apply' or 'detect'" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     console.log(`[audio-watermark] Starting ${mode} for: ${audioUrl}`);
 
     // Update track status if trackId provided
-    if (trackId && mode === 'apply') {
-      await supabase
-        .from("tracks")
-        .update({ watermark_status: "processing" })
-        .eq("id", trackId);
+    if (trackId && mode === "apply") {
+      await supabase.from("tracks").update({ watermark_status: "processing" }).eq("id", trackId);
     }
 
     // Call Resemble AI Watermark model
@@ -72,10 +63,10 @@ serve(async (req) => {
       {
         input: {
           content: audioUrl,
-          mode: mode === 'apply' ? 'Apply a Watermark to file' : 'Detect if the file has a watermark',
+          mode: mode === "apply" ? "Apply a Watermark to file" : "Detect if the file has a watermark",
           ...(callbackUrl && { callback_url: callbackUrl }),
         },
-      }
+      },
     );
 
     const processingTime = Date.now() - startTime;
@@ -87,25 +78,25 @@ serve(async (req) => {
     let hasWatermark: boolean | null = null;
     let storedUrl: string | null = null;
 
-    if (typeof output === 'object' && output !== null) {
+    if (typeof output === "object" && output !== null) {
       const result = output as { watermarked_content?: string; has_watermark?: Record<string, boolean> };
-      
-      if (mode === 'apply' && result.watermarked_content) {
+
+      if (mode === "apply" && result.watermarked_content) {
         watermarkedUrl = result.watermarked_content;
       }
-      
-      if (mode === 'detect' && result.has_watermark) {
+
+      if (mode === "detect" && result.has_watermark) {
         // has_watermark is an object with boolean values
-        hasWatermark = Object.values(result.has_watermark).some(v => v === true);
+        hasWatermark = Object.values(result.has_watermark).some((v) => v === true);
       }
-    } else if (typeof output === 'string') {
-      if (mode === 'apply') {
+    } else if (typeof output === "string") {
+      if (mode === "apply") {
         watermarkedUrl = output;
       }
     }
 
     // Upload watermarked audio to Supabase storage
-    if (mode === 'apply' && watermarkedUrl) {
+    if (mode === "apply" && watermarkedUrl) {
       try {
         const audioResponse = await fetch(watermarkedUrl);
         if (audioResponse.ok) {
@@ -113,19 +104,17 @@ serve(async (req) => {
           const timestamp = Date.now();
           const fileName = `audio-watermarked/${trackId || "audio"}-${timestamp}-watermarked.wav`;
 
-          const { error: uploadError } = await supabase.storage
-            .from("project-assets")
-            .upload(fileName, audioBlob, {
-              contentType: "audio/wav",
-              cacheControl: "31536000",
-            });
+          const { error: uploadError } = await supabase.storage.from("project-assets").upload(fileName, audioBlob, {
+            contentType: "audio/wav",
+            cacheControl: "31536000",
+          });
 
           if (uploadError) {
             console.error("[audio-watermark] Upload error:", uploadError);
           } else {
-            const { data: { publicUrl } } = supabase.storage
-              .from("project-assets")
-              .getPublicUrl(fileName);
+            const {
+              data: { publicUrl },
+            } = supabase.storage.from("project-assets").getPublicUrl(fileName);
             storedUrl = publicUrl;
             console.log(`[audio-watermark] Uploaded to: ${storedUrl}`);
           }
@@ -156,7 +145,9 @@ serve(async (req) => {
     const authHeader = req.headers.get("Authorization");
     let userId = null;
     if (authHeader) {
-      const { data: { user } } = await supabase.auth.getUser(authHeader.replace("Bearer ", ""));
+      const {
+        data: { user },
+      } = await supabase.auth.getUser(authHeader.replace("Bearer ", ""));
       userId = user?.id;
     }
 
@@ -183,25 +174,25 @@ serve(async (req) => {
         trackId,
         processingTimeMs: processingTime,
       }),
-      { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (error) {
     console.error("[audio-watermark] Error:", error);
 
     // Update track status on error
-    const body = await req.clone().json().catch(() => ({}));
+    const body = await req
+      .clone()
+      .json()
+      .catch(() => ({}));
     if (body.trackId) {
       const supabase = getSupabaseClient();
-      await supabase
-        .from("tracks")
-        .update({ watermark_status: "failed" })
-        .eq("id", body.trackId);
+      await supabase.from("tracks").update({ watermark_status: "failed" }).eq("id", body.trackId);
     }
 
     const errorMessage = error instanceof Error ? error.message : "Watermark operation failed";
-    return new Response(
-      JSON.stringify({ success: false, error: errorMessage }),
-      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-    );
+    return new Response(JSON.stringify({ success: false, error: errorMessage }), {
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 });

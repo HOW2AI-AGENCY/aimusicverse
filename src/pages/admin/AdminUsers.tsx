@@ -8,13 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
-import { 
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Users, Search, MessageSquare } from "lucide-react";
 import { AdminUserCard } from "@/components/admin/AdminUserCard";
 import { AdminUserCreditsDialog } from "@/components/admin/AdminUserCreditsDialog";
@@ -50,25 +44,27 @@ export default function AdminUsers() {
   const toggleRole = useToggleUserRole();
 
   // Filter users
-  const filteredUsers = users?.filter(user => {
-    const matchesSearch = !userSearch || 
+  const filteredUsers = users?.filter((user) => {
+    const matchesSearch =
+      !userSearch ||
       user.first_name?.toLowerCase().includes(userSearch.toLowerCase()) ||
       user.last_name?.toLowerCase().includes(userSearch.toLowerCase()) ||
       user.username?.toLowerCase().includes(userSearch.toLowerCase());
-    
-    const matchesFilter = userFilter === "all" ||
+
+    const matchesFilter =
+      userFilter === "all" ||
       (userFilter === "admin" && user.roles.includes("admin")) ||
       (userFilter === "premium" && user.subscription_tier && user.subscription_tier !== "free") ||
       (userFilter === "free" && (!user.subscription_tier || user.subscription_tier === "free"));
-    
+
     return matchesSearch && matchesFilter;
   });
 
   const toggleUserSelection = (user: UserWithRoles) => {
-    setSelectedUsers(prev => {
-      const exists = prev.find(u => u.user_id === user.user_id);
+    setSelectedUsers((prev) => {
+      const exists = prev.find((u) => u.user_id === user.user_id);
       if (exists) {
-        return prev.filter(u => u.user_id !== user.user_id);
+        return prev.filter((u) => u.user_id !== user.user_id);
       }
       return [...prev, user];
     });
@@ -90,17 +86,11 @@ export default function AdminUsers() {
         <CardHeader className="pb-3">
           <div className="flex flex-col gap-2">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-base md:text-lg">
-                Пользователи ({filteredUsers?.length || 0})
-              </CardTitle>
+              <CardTitle className="text-base md:text-lg">Пользователи ({filteredUsers?.length || 0})</CardTitle>
               {selectedUsers.length > 0 && (
                 <div className="flex items-center gap-2">
                   <Badge variant="secondary">{selectedUsers.length}</Badge>
-                  <Button
-                    size="sm"
-                    variant="default"
-                    onClick={() => setMessageDialogOpen(true)}
-                  >
+                  <Button size="sm" variant="default" onClick={() => setMessageDialogOpen(true)}>
                     <MessageSquare className="h-4 w-4 mr-1" />
                     Написать
                   </Button>
@@ -146,7 +136,7 @@ export default function AdminUsers() {
                 <AdminUserCard
                   key={user.id}
                   user={user}
-                  isSelected={selectedUsers.some(u => u.user_id === user.user_id)}
+                  isSelected={selectedUsers.some((u) => u.user_id === user.user_id)}
                   onSelect={() => toggleUserSelection(user)}
                   onCredits={() => setCreditsDialogUser(user)}
                   onSubscription={() => setSubscriptionDialogUser(user)}
@@ -154,11 +144,13 @@ export default function AdminUsers() {
                     setSelectedUsers([user]);
                     setMessageDialogOpen(true);
                   }}
-                  onToggleAdmin={(action) => toggleRole.mutate({
-                    userId: user.user_id,
-                    role: "admin",
-                    action,
-                  })}
+                  onToggleAdmin={(action) =>
+                    toggleRole.mutate({
+                      userId: user.user_id,
+                      role: "admin",
+                      action,
+                    })
+                  }
                 />
               ))}
             </div>

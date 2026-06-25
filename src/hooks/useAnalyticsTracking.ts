@@ -1,15 +1,15 @@
 /**
  * Analytics Tracking Hook
- * 
+ *
  * Unified hook for tracking user behavior and analytics events.
  * Uses modular analytics services for better maintainability.
  */
 
-import { useCallback, useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import { useAuth } from '@/contexts/AuthContext';
-import { logger } from '@/lib/logger';
+import { useCallback, useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { useAuth } from "@/contexts/AuthContext";
+import { logger } from "@/lib/logger";
 
 // Import from modular services
 import {
@@ -26,14 +26,22 @@ import {
   trackUserReturn,
   trackFirstGeneration,
   fetchUserBehaviorStats,
-} from '@/services/analytics';
+} from "@/services/analytics";
 
-import type { UserBehaviorStats } from '@/services/analytics';
+import type { UserBehaviorStats } from "@/services/analytics";
 
 interface TrackEventParams {
-  eventType: 'page_view' | 'generation_started' | 'generation_completed' | 
-             'track_played' | 'track_liked' | 'track_shared' | 
-             'feature_used' | 'button_clicked' | 'session_started' | 'session_ended';
+  eventType:
+    | "page_view"
+    | "generation_started"
+    | "generation_completed"
+    | "track_played"
+    | "track_liked"
+    | "track_shared"
+    | "feature_used"
+    | "button_clicked"
+    | "session_started"
+    | "session_ended";
   eventName?: string;
   pagePath?: string;
   metadata?: Record<string, unknown>;
@@ -51,47 +59,57 @@ export function useAnalyticsTracking() {
   const hasTrackedSession = useRef(false);
 
   // Track event function - unified wrapper
-  const trackEvent = useCallback(async (params: TrackEventParams) => {
-    try {
-      await trackAnalyticsEvent({
-        eventType: params.eventType,
-        eventName: params.eventName,
-        pagePath: params.pagePath || location.pathname,
-        metadata: params.metadata,
-      }, user?.id);
-    } catch (error) {
-      // Silent fail - analytics should never break the app
-      logger.debug('[Analytics] Tracking error', { error: error instanceof Error ? error.message : String(error) });
-    }
-  }, [location.pathname, user?.id]);
+  const trackEvent = useCallback(
+    async (params: TrackEventParams) => {
+      try {
+        await trackAnalyticsEvent(
+          {
+            eventType: params.eventType,
+            eventName: params.eventName,
+            pagePath: params.pagePath || location.pathname,
+            metadata: params.metadata,
+          },
+          user?.id,
+        );
+      } catch (error) {
+        // Silent fail - analytics should never break the app
+        logger.debug("[Analytics] Tracking error", { error: error instanceof Error ? error.message : String(error) });
+      }
+    },
+    [location.pathname, user?.id],
+  );
 
   // Auto-track page views
   useEffect(() => {
     if (location.pathname !== lastPagePath.current) {
       lastPagePath.current = location.pathname;
-      trackPageView(location.pathname, {
-        search: location.search,
-        hash: location.hash,
-        referrer: document.referrer,
-      }, user?.id).catch(() => {});
+      trackPageView(
+        location.pathname,
+        {
+          search: location.search,
+          hash: location.hash,
+          referrer: document.referrer,
+        },
+        user?.id,
+      ).catch(() => {});
     }
   }, [location, user?.id]);
 
   // Track session start on mount (once per session, with deduplication)
   useEffect(() => {
     if (hasTrackedSession.current) return;
-    
+
     // P1 Fix: Check if session_started was already tracked in this session
     if (hasSessionStartedBeenTracked()) {
       hasTrackedSession.current = true;
       return;
     }
-    
+
     hasTrackedSession.current = true;
     markSessionStartedAsTracked(); // Mark as tracked to prevent duplicates
 
     trackEvent({
-      eventType: 'session_started',
+      eventType: "session_started",
       metadata: {
         userAgent: navigator.userAgent,
         language: navigator.language,
@@ -104,11 +122,11 @@ export function useAnalyticsTracking() {
 
     // Track user return frequency
     const { isReturning, daysSinceLastVisit } = trackUserReturn();
-    
+
     if (isReturning && daysSinceLastVisit > 0) {
       trackEvent({
-        eventType: 'session_started',
-        eventName: 'user_returned',
+        eventType: "session_started",
+        eventName: "user_returned",
         metadata: {
           daysSinceLastVisit,
           isReturningUser: true,
@@ -120,57 +138,69 @@ export function useAnalyticsTracking() {
     return () => {
       const payload = JSON.stringify({
         session_id: sessionId.current,
-        event_type: 'session_ended',
+        event_type: "session_ended",
         page_path: window.location.pathname,
         created_at: new Date().toISOString(),
       });
-      
-      navigator.sendBeacon?.(
-        `${import.meta.env.VITE_SUPABASE_URL}/rest/v1/user_analytics_events`,
-        payload
-      );
+
+      navigator.sendBeacon?.(`${import.meta.env.VITE_SUPABASE_URL}/rest/v1/user_analytics_events`, payload);
     };
   }, [trackEvent]);
 
   // Convenience methods
-  const trackGeneration = useCallback((
-    status: 'started' | 'completed', 
-    metadata?: Record<string, unknown>
-  ) => {
-    const eventMetadata = { ...metadata };
-    
-    if (status === 'completed') {
-      const isFirst = trackFirstGeneration();
-      if (isFirst) {
-        eventMetadata.isFirstGeneration = true;
+  const trackGeneration = useCallback(
+    (status: "started" | "completed", metadata?: Record<string, unknown>) => {
+      const eventMetadata = { ...metadata };
+
+      if (status === "completed") {
+        const isFirst = trackFirstGeneration();
+        if (isFirst) {
+          eventMetadata.isFirstGeneration = true;
+        }
       }
-    }
-    
-    trackGenerationEvent(status, eventMetadata, user?.id).catch(() => {});
-  }, [user?.id]);
 
-  const trackPlay = useCallback((trackId: string, metadata?: Record<string, unknown>) => {
-    trackTrackPlayed(trackId, metadata, user?.id).catch(() => {});
-  }, [user?.id]);
+      trackGenerationEvent(status, eventMetadata, user?.id).catch(() => {});
+    },
+    [user?.id],
+  );
 
-  const trackLike = useCallback((trackId: string, liked: boolean) => {
-    trackEvent({
-      eventType: 'track_liked',
-      metadata: { trackId, liked },
-    });
-  }, [trackEvent]);
+  const trackPlay = useCallback(
+    (trackId: string, metadata?: Record<string, unknown>) => {
+      trackTrackPlayed(trackId, metadata, user?.id).catch(() => {});
+    },
+    [user?.id],
+  );
 
-  const trackShare = useCallback((trackId: string, platform: string) => {
-    trackTrackShared(trackId, platform, undefined, user?.id).catch(() => {});
-  }, [user?.id]);
+  const trackLike = useCallback(
+    (trackId: string, liked: boolean) => {
+      trackEvent({
+        eventType: "track_liked",
+        metadata: { trackId, liked },
+      });
+    },
+    [trackEvent],
+  );
 
-  const trackFeatureUsed = useCallback((featureName: string, metadata?: Record<string, unknown>) => {
-    trackFeatureUsedEvent(featureName, metadata, user?.id).catch(() => {});
-  }, [user?.id]);
+  const trackShare = useCallback(
+    (trackId: string, platform: string) => {
+      trackTrackShared(trackId, platform, undefined, user?.id).catch(() => {});
+    },
+    [user?.id],
+  );
 
-  const trackButtonClick = useCallback((buttonName: string, metadata?: Record<string, unknown>) => {
-    trackButtonClickEvent(buttonName, metadata, user?.id).catch(() => {});
-  }, [user?.id]);
+  const trackFeatureUsed = useCallback(
+    (featureName: string, metadata?: Record<string, unknown>) => {
+      trackFeatureUsedEvent(featureName, metadata, user?.id).catch(() => {});
+    },
+    [user?.id],
+  );
+
+  const trackButtonClick = useCallback(
+    (buttonName: string, metadata?: Record<string, unknown>) => {
+      trackButtonClickEvent(buttonName, metadata, user?.id).catch(() => {});
+    },
+    [user?.id],
+  );
 
   return {
     trackEvent,
@@ -187,19 +217,24 @@ export function useAnalyticsTracking() {
 /**
  * Hook for admin to view user behavior stats
  */
-export function useUserBehaviorStats(timeRange: '1h' | '24h' | '7d' | '30d' = '7d') {
+export function useUserBehaviorStats(timeRange: "1h" | "24h" | "7d" | "30d" = "7d") {
   const getInterval = () => {
     switch (timeRange) {
-      case '1h': return '1 hour';
-      case '24h': return '24 hours';
-      case '7d': return '7 days';
-      case '30d': return '30 days';
-      default: return '7 days';
+      case "1h":
+        return "1 hour";
+      case "24h":
+        return "24 hours";
+      case "7d":
+        return "7 days";
+      case "30d":
+        return "30 days";
+      default:
+        return "7 days";
     }
   };
 
   return useQuery({
-    queryKey: ['user-behavior-stats', timeRange],
+    queryKey: ["user-behavior-stats", timeRange],
     queryFn: () => fetchUserBehaviorStats(getInterval()),
     refetchInterval: 60000,
     staleTime: 30000,

@@ -2,11 +2,11 @@
  * RecordingPreview - Playback preview of recorded audio
  */
 
-import React, { memo, useRef, useState, useEffect, useCallback } from 'react';
-import { motion } from '@/lib/motion';
-import { Play, Pause, RotateCcw, Download } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import React, { memo, useRef, useState, useEffect, useCallback } from "react";
+import { motion } from "@/lib/motion";
+import { Play, Pause, RotateCcw, Download } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface RecordingPreviewProps {
   audioUrl: string | null;
@@ -45,22 +45,22 @@ export const RecordingPreview = memo(function RecordingPreview({
     const audio = new Audio(audioUrl);
     audioRef.current = audio;
 
-    audio.addEventListener('loadedmetadata', () => {
+    audio.addEventListener("loadedmetadata", () => {
       setAudioDuration(audio.duration);
     });
 
-    audio.addEventListener('timeupdate', () => {
+    audio.addEventListener("timeupdate", () => {
       setCurrentTime(audio.currentTime);
     });
 
-    audio.addEventListener('ended', () => {
+    audio.addEventListener("ended", () => {
       setIsPlaying(false);
       setCurrentTime(0);
     });
 
     return () => {
       audio.pause();
-      audio.src = '';
+      audio.src = "";
     };
   }, [audioUrl]);
 
@@ -77,14 +77,14 @@ export const RecordingPreview = memo(function RecordingPreview({
 
   const handleDownload = useCallback(() => {
     if (!audioBlob) return;
-    
+
     if (onDownload) {
       onDownload();
       return;
     }
 
     const url = URL.createObjectURL(audioBlob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
     a.download = `recording-${Date.now()}.webm`;
     document.body.appendChild(a);
@@ -96,7 +96,7 @@ export const RecordingPreview = memo(function RecordingPreview({
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
   };
 
   const progress = audioDuration > 0 ? (currentTime / audioDuration) * 100 : 0;
@@ -109,10 +109,7 @@ export const RecordingPreview = memo(function RecordingPreview({
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className={cn(
-        'rounded-lg border bg-card p-4',
-        className
-      )}
+      className={cn("rounded-lg border bg-card p-4", className)}
     >
       {/* Waveform with progress */}
       {waveformData.length > 0 && (
@@ -125,8 +122,8 @@ export const RecordingPreview = memo(function RecordingPreview({
                 <div
                   key={i}
                   className={cn(
-                    'w-1 rounded-full transition-colors',
-                    isPassed ? 'bg-primary' : 'bg-muted-foreground/30'
+                    "w-1 rounded-full transition-colors",
+                    isPassed ? "bg-primary" : "bg-muted-foreground/30",
                   )}
                   style={{ height: `${Math.max(4, value * 40)}px` }}
                 />
@@ -134,7 +131,7 @@ export const RecordingPreview = memo(function RecordingPreview({
             })}
           </div>
           {/* Progress overlay */}
-          <div 
+          <div
             className="absolute top-0 left-0 h-full bg-primary/10 transition-all"
             style={{ width: `${progress}%` }}
           />
@@ -144,17 +141,8 @@ export const RecordingPreview = memo(function RecordingPreview({
       {/* Controls */}
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={togglePlayback}
-            className="h-10 w-10 rounded-full"
-          >
-            {isPlaying ? (
-              <Pause className="h-4 w-4" />
-            ) : (
-              <Play className="h-4 w-4 ml-0.5" />
-            )}
+          <Button variant="outline" size="icon" onClick={togglePlayback} className="h-10 w-10 rounded-full">
+            {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4 ml-0.5" />}
           </Button>
 
           <span className="text-sm text-muted-foreground font-mono min-w-[80px]">
@@ -164,23 +152,13 @@ export const RecordingPreview = memo(function RecordingPreview({
 
         <div className="flex items-center gap-2">
           {showDownload && audioBlob && (
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleDownload}
-              className="h-9 w-9"
-            >
+            <Button variant="ghost" size="icon" onClick={handleDownload} className="h-9 w-9">
               <Download className="h-4 w-4" />
             </Button>
           )}
 
           {onReset && (
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={onReset}
-              className="h-9 w-9"
-            >
+            <Button variant="ghost" size="icon" onClick={onReset} className="h-9 w-9">
               <RotateCcw className="h-4 w-4" />
             </Button>
           )}

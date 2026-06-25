@@ -1,6 +1,6 @@
 /**
  * GenerationLoadingState Component
- * 
+ *
  * Enhanced loading state with visual feedback during music generation.
  * Features:
  * - Animated progress stages
@@ -9,14 +9,14 @@
  * - Visual progress indicators
  */
 
-import { memo, useState, useEffect } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { Loader2, Music, Sparkles, CheckCircle2, XCircle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
-import { Card } from '@/components/ui/card';
-import { cn } from '@/lib/utils';
-import { formatTime } from '@/lib/formatters';
+import { memo, useState, useEffect } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Loader2, Music, Sparkles, CheckCircle2, XCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
+import { Card } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
+import { formatTime } from "@/lib/formatters";
 
 interface GenerationStage {
   id: string;
@@ -26,15 +26,15 @@ interface GenerationStage {
 }
 
 const GENERATION_STAGES: GenerationStage[] = [
-  { id: 'queue', label: 'В очереди', icon: Loader2, duration: 5 },
-  { id: 'processing', label: 'Обработка', icon: Sparkles, duration: 30 },
-  { id: 'generating', label: 'Генерация', icon: Music, duration: 45 },
-  { id: 'finalizing', label: 'Финализация', icon: CheckCircle2, duration: 10 },
+  { id: "queue", label: "В очереди", icon: Loader2, duration: 5 },
+  { id: "processing", label: "Обработка", icon: Sparkles, duration: 30 },
+  { id: "generating", label: "Генерация", icon: Music, duration: 45 },
+  { id: "finalizing", label: "Финализация", icon: CheckCircle2, duration: 10 },
 ];
 
 interface GenerationLoadingStateProps {
   /** Current generation stage */
-  stage?: 'queue' | 'processing' | 'generating' | 'finalizing' | 'completed' | 'failed';
+  stage?: "queue" | "processing" | "generating" | "finalizing" | "completed" | "failed";
   /** Optional custom progress percentage (0-100) */
   progress?: number;
   /** Callback when user clicks cancel */
@@ -48,7 +48,7 @@ interface GenerationLoadingStateProps {
 }
 
 export function GenerationLoadingState({
-  stage = 'queue',
+  stage = "queue",
   progress: customProgress,
   onCancel,
   showCancel = true,
@@ -61,19 +61,16 @@ export function GenerationLoadingState({
   // Calculate estimated time and progress
   // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => {
-    const currentStageIndex = GENERATION_STAGES.findIndex(s => s.id === stage);
+    const currentStageIndex = GENERATION_STAGES.findIndex((s) => s.id === stage);
     if (currentStageIndex === -1) return;
 
     // Calculate total estimated time based on current stage
-    const total = GENERATION_STAGES.slice(0, currentStageIndex + 1).reduce(
-      (sum, s) => sum + s.duration,
-      0
-    );
+    const total = GENERATION_STAGES.slice(0, currentStageIndex + 1).reduce((sum, s) => sum + s.duration, 0);
     setEstimatedTotal(total);
 
     // Update elapsed time every second
     const interval = setInterval(() => {
-      setElapsedTime(prev => {
+      setElapsedTime((prev) => {
         if (prev >= total) return total;
         return prev + 1;
       });
@@ -93,7 +90,7 @@ export function GenerationLoadingState({
     return `${Math.floor(seconds)}с`;
   };
 
-  const currentStage = GENERATION_STAGES.find(s => s.id === stage);
+  const currentStage = GENERATION_STAGES.find((s) => s.id === stage);
   const StageIcon = currentStage?.icon || Loader2;
 
   if (compact) {
@@ -101,7 +98,7 @@ export function GenerationLoadingState({
       <div className="flex items-center gap-2 text-sm">
         <StageIcon className="h-4 w-4 animate-spin text-primary" />
         <span className="text-muted-foreground">
-          {currentStage?.label || 'Генерация'}
+          {currentStage?.label || "Генерация"}
           {remainingSeconds > 0 && ` • ${formatRemainingTime(remainingSeconds)}`}
         </span>
       </div>
@@ -124,21 +121,14 @@ export function GenerationLoadingState({
             <div className="relative">
               <div className="absolute inset-0 bg-primary/20 rounded-full animate-ping" />
               <div className="relative bg-primary/10 p-3 rounded-full">
-                <StageIcon 
-                  className={cn(
-                    "h-6 w-6 text-primary",
-                    stage !== 'completed' && stage !== 'failed' && "animate-spin"
-                  )} 
+                <StageIcon
+                  className={cn("h-6 w-6 text-primary", stage !== "completed" && stage !== "failed" && "animate-spin")}
                 />
               </div>
             </div>
             <div className="flex-1">
-              <h3 className="font-semibold">
-                {currentStage?.label || 'Генерация музыки'}
-              </h3>
-              {message && (
-                <p className="text-sm text-muted-foreground">{message}</p>
-              )}
+              <h3 className="font-semibold">{currentStage?.label || "Генерация музыки"}</h3>
+              {message && <p className="text-sm text-muted-foreground">{message}</p>}
             </div>
           </div>
 
@@ -147,19 +137,17 @@ export function GenerationLoadingState({
             <Progress value={progressPercentage} className="h-2" />
             <div className="flex justify-between text-xs text-muted-foreground">
               <span>{Math.round(progressPercentage)}%</span>
-              {remainingSeconds > 0 && (
-                <span>Осталось: ~{formatRemainingTime(remainingSeconds)}</span>
-              )}
+              {remainingSeconds > 0 && <span>Осталось: ~{formatRemainingTime(remainingSeconds)}</span>}
             </div>
           </div>
 
           {/* Stage timeline */}
           <div className="flex justify-between gap-1">
             {GENERATION_STAGES.map((s, index) => {
-              const activeIndex = GENERATION_STAGES.findIndex(stg => stg.id === stage);
+              const activeIndex = GENERATION_STAGES.findIndex((stg) => stg.id === stage);
               const isCompleted = index < activeIndex;
               const isActive = index === activeIndex;
-              
+
               return (
                 <motion.div
                   key={s.id}
@@ -167,7 +155,7 @@ export function GenerationLoadingState({
                     "flex-1 h-1 rounded-full transition-colors",
                     isCompleted && "bg-primary",
                     isActive && "bg-primary/50",
-                    !isCompleted && !isActive && "bg-muted"
+                    !isCompleted && !isActive && "bg-muted",
                   )}
                   initial={false}
                   animate={{
@@ -201,20 +189,14 @@ export function GenerationLoadingState({
 /**
  * Compact inline loading indicator for use in buttons or small spaces
  */
-export function GenerationLoadingInline({
-  stage = 'processing',
-  className,
-}: {
-  stage?: string;
-  className?: string;
-}) {
-  const stageData = GENERATION_STAGES.find(s => s.id === stage);
+export function GenerationLoadingInline({ stage = "processing", className }: { stage?: string; className?: string }) {
+  const stageData = GENERATION_STAGES.find((s) => s.id === stage);
   const Icon = stageData?.icon || Loader2;
 
   return (
     <span className={cn("inline-flex items-center gap-1.5 text-sm", className)}>
       <Icon className="h-3.5 w-3.5 animate-spin" />
-      <span>{stageData?.label || 'Обработка'}</span>
+      <span>{stageData?.label || "Обработка"}</span>
     </span>
   );
 }

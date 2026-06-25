@@ -9,7 +9,7 @@
  * Implementation files will import these types from src/components/dialog/unified-dialog.types.ts
  */
 
-import type { ReactNode } from 'react';
+import type { ReactNode } from "react";
 
 /**
  * Base dialog properties shared across all variants
@@ -33,7 +33,7 @@ export interface BaseDialogProps {
  */
 export interface ModalDialogProps extends BaseDialogProps {
   /** Discriminant: 'modal' variant */
-  variant: 'modal';
+  variant: "modal";
   /** Dialog title */
   title: string;
   /** Optional description or subtitle */
@@ -43,7 +43,7 @@ export interface ModalDialogProps extends BaseDialogProps {
   /** Optional footer content (buttons, actions) */
   footer?: ReactNode;
   /** Dialog size */
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: "sm" | "md" | "lg" | "xl";
   /** Close when clicking overlay backdrop */
   closeOnOverlayClick?: boolean;
   /** Close when pressing Escape key */
@@ -58,7 +58,7 @@ export interface ModalDialogProps extends BaseDialogProps {
  */
 export interface SheetDialogProps extends BaseDialogProps {
   /** Discriminant: 'sheet' variant */
-  variant: 'sheet';
+  variant: "sheet";
   /** Sheet title - string or ReactNode */
   title: ReactNode;
   /** Sheet content */
@@ -79,7 +79,7 @@ export interface SheetDialogProps extends BaseDialogProps {
  */
 export interface AlertDialogProps extends BaseDialogProps {
   /** Discriminant: 'alert' variant */
-  variant: 'alert';
+  variant: "alert";
   /** Alert title */
   title: string;
   /** Alert description */
@@ -93,7 +93,7 @@ export interface AlertDialogProps extends BaseDialogProps {
   /** Optional cancel action callback */
   onCancel?: () => void;
   /** Alert severity level (default: 'danger') */
-  severity?: 'danger' | 'warning' | 'info';
+  severity?: "danger" | "warning" | "info";
   /** Legacy variant prop for destructive styling (maps to severity: danger) */
   destructive?: boolean;
 }
@@ -104,10 +104,7 @@ export interface AlertDialogProps extends BaseDialogProps {
  * The 'variant' property acts as the discriminant, allowing TypeScript
  * to narrow the type and provide accurate intellisense for each variant.
  */
-export type UnifiedDialogProps =
-  | ModalDialogProps
-  | SheetDialogProps
-  | AlertDialogProps;
+export type UnifiedDialogProps = ModalDialogProps | SheetDialogProps | AlertDialogProps;
 
 /**
  * Dialog state management hook return type
@@ -156,26 +153,20 @@ export interface DialogGestures {
 /**
  * Type guard for modal variant
  */
-export function isModalDialogProps(
-  props: UnifiedDialogProps
-): props is ModalDialogProps {
-  return props.variant === 'modal';
+export function isModalDialogProps(props: UnifiedDialogProps): props is ModalDialogProps {
+  return props.variant === "modal";
 }
 
 /**
  * Type guard for sheet variant
  */
-export function isSheetDialogProps(
-  props: UnifiedDialogProps
-): props is SheetDialogProps {
-  return props.variant === 'sheet';
+export function isSheetDialogProps(props: UnifiedDialogProps): props is SheetDialogProps {
+  return props.variant === "sheet";
 }
 
 /**
  * Type guard for alert variant
  */
-export function isAlertDialogProps(
-  props: UnifiedDialogProps
-): props is AlertDialogProps {
-  return props.variant === 'alert';
+export function isAlertDialogProps(props: UnifiedDialogProps): props is AlertDialogProps {
+  return props.variant === "alert";
 }

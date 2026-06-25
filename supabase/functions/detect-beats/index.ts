@@ -3,8 +3,8 @@ import { authorize } from "../_shared/auth.ts";
 import Replicate from "https://esm.sh/replicate@0.25.2";
 
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
 interface BeatData {
@@ -21,11 +21,11 @@ interface BeatAnalysis {
 }
 
 function parseBeatOutput(output: string): BeatData[] {
-  const lines = output.trim().split('\n');
+  const lines = output.trim().split("\n");
   const beats: BeatData[] = [];
-  
+
   for (const line of lines) {
-    const parts = line.split('\t');
+    const parts = line.split("\t");
     if (parts.length >= 2) {
       const time = parseFloat(parts[0]);
       const beatNumber = parseInt(parts[1], 10);
@@ -34,13 +34,13 @@ function parseBeatOutput(output: string): BeatData[] {
       }
     }
   }
-  
+
   return beats;
 }
 
 function calculateBPM(beats: BeatData[]): number {
   if (beats.length < 2) return 120;
-  
+
   // Calculate intervals between consecutive beats
   const intervals: number[] = [];
   for (let i = 1; i < beats.length; i++) {
@@ -49,37 +49,35 @@ function calculateBPM(beats: BeatData[]): number {
       intervals.push(interval);
     }
   }
-  
+
   if (intervals.length === 0) return 120;
-  
+
   // Use median for robustness
   intervals.sort((a, b) => a - b);
   const medianInterval = intervals[Math.floor(intervals.length / 2)];
-  
+
   const bpm = Math.round(60 / medianInterval);
   return Math.max(40, Math.min(240, bpm));
 }
 
 function detectTimeSignature(beats: BeatData[]): string {
-  if (beats.length < 8) return '4/4';
-  
+  if (beats.length < 8) return "4/4";
+
   // Count how often we see beat number 1 (downbeat)
-  const maxBeatNumber = Math.max(...beats.map(b => b.beatNumber));
-  
-  if (maxBeatNumber === 3) return '3/4';
-  if (maxBeatNumber === 6) return '6/8';
-  if (maxBeatNumber === 2) return '2/4';
-  return '4/4';
+  const maxBeatNumber = Math.max(...beats.map((b) => b.beatNumber));
+
+  if (maxBeatNumber === 3) return "3/4";
+  if (maxBeatNumber === 6) return "6/8";
+  if (maxBeatNumber === 2) return "2/4";
+  return "4/4";
 }
 
 function getDownbeats(beats: BeatData[]): number[] {
-  return beats
-    .filter(b => b.beatNumber === 1)
-    .map(b => b.time);
+  return beats.filter((b) => b.beatNumber === 1).map((b) => b.time);
 }
 
 serve(async (req) => {
-  if (req.method === 'OPTIONS') {
+  if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
@@ -87,24 +85,23 @@ serve(async (req) => {
   if (!__auth.ok) {
     return new Response(JSON.stringify({ error: __auth.error }), {
       status: __auth.status,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
 
-
   try {
-    const REPLICATE_API_KEY = Deno.env.get('REPLICATE_API_KEY');
+    const REPLICATE_API_KEY = Deno.env.get("REPLICATE_API_KEY");
     if (!REPLICATE_API_KEY) {
-      throw new Error('REPLICATE_API_KEY not configured');
+      throw new Error("REPLICATE_API_KEY not configured");
     }
 
     const replicate = new Replicate({ auth: REPLICATE_API_KEY });
-    
+
     const { audio_url, constant_tempo = false, use_dbn = false } = await req.json();
-    console.log('Detecting beats:', { audio_url, constant_tempo, use_dbn });
+    console.log("Detecting beats:", { audio_url, constant_tempo, use_dbn });
 
     if (!audio_url) {
-      throw new Error('audio_url is required');
+      throw new Error("audio_url is required");
     }
 
     // Run beat detection model - use prediction API for more stable versioning
@@ -118,21 +115,21 @@ serve(async (req) => {
           use_dbn,
         },
       });
-      
+
       // Wait for prediction to complete
       let result = prediction;
-      while (result.status !== 'succeeded' && result.status !== 'failed') {
-        await new Promise(resolve => setTimeout(resolve, 1000));
+      while (result.status !== "succeeded" && result.status !== "failed") {
+        await new Promise((resolve) => setTimeout(resolve, 1000));
         result = await replicate.predictions.get(prediction.id);
       }
-      
-      if (result.status === 'failed') {
-        throw new Error(result.error || 'Beat detection failed');
+
+      if (result.status === "failed") {
+        throw new Error(result.error || "Beat detection failed");
       }
-      
+
       output = result.output as string;
     } catch (beatError: any) {
-      console.error('Beat detection error:', beatError);
+      console.error("Beat detection error:", beatError);
       // Fallback: return empty beats with estimated values
       return new Response(
         JSON.stringify({
@@ -140,18 +137,18 @@ serve(async (req) => {
           analysis: {
             beats: [],
             bpm: 120,
-            timeSignature: '4/4',
+            timeSignature: "4/4",
             downbeats: [],
             totalDuration: 0,
           },
-          raw_output: '',
+          raw_output: "",
           fallback: true,
         }),
-        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        { headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
 
-    console.log('Raw beat output:', output.substring(0, 500));
+    console.log("Raw beat output:", output.substring(0, 500));
 
     // Parse the output
     const beats = parseBeatOutput(output);
@@ -168,11 +165,11 @@ serve(async (req) => {
       totalDuration,
     };
 
-    console.log('Beat analysis complete:', { 
-      beatsCount: beats.length, 
-      bpm, 
+    console.log("Beat analysis complete:", {
+      beatsCount: beats.length,
+      bpm,
       timeSignature,
-      downbeatsCount: downbeats.length 
+      downbeatsCount: downbeats.length,
     });
 
     return new Response(
@@ -182,19 +179,15 @@ serve(async (req) => {
         raw_output: output,
       }),
       {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      }
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      },
     );
-
   } catch (error) {
-    console.error('Error in detect-beats:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-    return new Response(
-      JSON.stringify({ success: false, error: errorMessage }),
-      {
-        status: 500,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      }
-    );
+    console.error("Error in detect-beats:", error);
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    return new Response(JSON.stringify({ success: false, error: errorMessage }), {
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 });

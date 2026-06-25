@@ -5,7 +5,7 @@
  * particularly motion preferences per constitution Principle VII.
  */
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 /**
  * Hook to detect if user prefers reduced motion
@@ -28,7 +28,7 @@ export function usePrefersReducedMotion(): boolean {
 
   useEffect(() => {
     // Check initial value
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     setPrefersReducedMotion(mediaQuery.matches);
 
     // Listen for changes
@@ -37,10 +37,10 @@ export function usePrefersReducedMotion(): boolean {
     };
 
     // Modern browsers
-    mediaQuery.addEventListener('change', handleChange);
+    mediaQuery.addEventListener("change", handleChange);
 
     return () => {
-      mediaQuery.removeEventListener('change', handleChange);
+      mediaQuery.removeEventListener("change", handleChange);
     };
   }, []);
 
@@ -60,12 +60,7 @@ export function usePrefersReducedMotion(): boolean {
  * <motion.div animate={animation} />
  * ```
  */
-export function useReducedMotionConfig<T extends Record<string, any>>(
-  config: {
-    normal: T;
-    reduced?: T;
-  }
-): T {
+export function useReducedMotionConfig<T extends Record<string, any>>(config: { normal: T; reduced?: T }): T {
   const prefersReduced = usePrefersReducedMotion();
 
   return (prefersReduced && config.reduced ? config.reduced : config.normal) as T;

@@ -2,14 +2,14 @@
  * ParaphraseResultCard - Display paraphrase variants
  */
 
-import { motion } from '@/lib/motion';
-import { RefreshCw, Copy, Check, ArrowRight, Sparkles } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
-import { useState } from 'react';
-import { toast } from 'sonner';
-import { hapticImpact } from '@/lib/haptic';
+import { motion } from "@/lib/motion";
+import { RefreshCw, Copy, Check, ArrowRight, Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+import { useState } from "react";
+import { toast } from "sonner";
+import { hapticImpact } from "@/lib/haptic";
 
 interface ParaphraseVariant {
   text: string;
@@ -27,38 +27,36 @@ export function ParaphraseResultCard({ originalText, variants, onApplyVariant }:
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
-  const normalizedVariants: ParaphraseVariant[] = variants.map(v => 
-    typeof v === 'string' ? { text: v } : v
-  );
+  const normalizedVariants: ParaphraseVariant[] = variants.map((v) => (typeof v === "string" ? { text: v } : v));
 
   const handleCopy = async (text: string, index: number) => {
     try {
       await navigator.clipboard.writeText(text);
       setCopiedIndex(index);
-      hapticImpact('light');
-      toast.success('Скопировано!');
+      hapticImpact("light");
+      toast.success("Скопировано!");
       setTimeout(() => setCopiedIndex(null), 2000);
     } catch {
-      toast.error('Не удалось скопировать');
+      toast.error("Не удалось скопировать");
     }
   };
 
   const handleApply = (text: string, index: number) => {
     setSelectedIndex(index);
-    hapticImpact('medium');
+    hapticImpact("medium");
     onApplyVariant?.(text);
-    toast.success('Вариант применён!');
+    toast.success("Вариант применён!");
   };
 
   const getToneColor = (tone?: string) => {
-    if (!tone) return 'bg-muted/50 text-muted-foreground';
+    if (!tone) return "bg-muted/50 text-muted-foreground";
     const lowerTone = tone.toLowerCase();
-    if (lowerTone.includes('поэт') || lowerTone.includes('poet')) return 'bg-purple-500/20 text-purple-300';
-    if (lowerTone.includes('прост') || lowerTone.includes('simple')) return 'bg-green-500/20 text-green-300';
-    if (lowerTone.includes('агресс') || lowerTone.includes('aggress')) return 'bg-red-500/20 text-red-300';
-    if (lowerTone.includes('романт') || lowerTone.includes('romant')) return 'bg-pink-500/20 text-pink-300';
-    if (lowerTone.includes('ирон') || lowerTone.includes('iron')) return 'bg-amber-500/20 text-amber-300';
-    return 'bg-blue-500/20 text-blue-300';
+    if (lowerTone.includes("поэт") || lowerTone.includes("poet")) return "bg-purple-500/20 text-purple-300";
+    if (lowerTone.includes("прост") || lowerTone.includes("simple")) return "bg-green-500/20 text-green-300";
+    if (lowerTone.includes("агресс") || lowerTone.includes("aggress")) return "bg-red-500/20 text-red-300";
+    if (lowerTone.includes("романт") || lowerTone.includes("romant")) return "bg-pink-500/20 text-pink-300";
+    if (lowerTone.includes("ирон") || lowerTone.includes("iron")) return "bg-amber-500/20 text-amber-300";
+    return "bg-blue-500/20 text-blue-300";
   };
 
   return (
@@ -74,9 +72,7 @@ export function ParaphraseResultCard({ originalText, variants, onApplyVariant }:
         </div>
         <div>
           <h4 className="text-sm font-medium">Варианты перефразирования</h4>
-          <p className="text-[10px] text-muted-foreground">
-            {normalizedVariants.length} вариантов
-          </p>
+          <p className="text-[10px] text-muted-foreground">{normalizedVariants.length} вариантов</p>
         </div>
       </div>
 
@@ -100,7 +96,7 @@ export function ParaphraseResultCard({ originalText, variants, onApplyVariant }:
               "group p-2.5 rounded-lg border transition-all cursor-pointer",
               selectedIndex === idx
                 ? "bg-cyan-500/20 border-cyan-500/50"
-                : "bg-muted/30 border-border/30 hover:bg-muted/50"
+                : "bg-muted/30 border-border/30 hover:bg-muted/50",
             )}
             onClick={() => onApplyVariant && handleApply(variant.text, idx)}
           >
@@ -115,7 +111,7 @@ export function ParaphraseResultCard({ originalText, variants, onApplyVariant }:
                     {variant.tone || variant.style}
                   </Badge>
                 )}
-                
+
                 {/* Text */}
                 <p className="text-xs leading-relaxed">{variant.text}</p>
               </div>
@@ -131,11 +127,7 @@ export function ParaphraseResultCard({ originalText, variants, onApplyVariant }:
                     handleCopy(variant.text, idx);
                   }}
                 >
-                  {copiedIndex === idx ? (
-                    <Check className="w-3 h-3 text-green-400" />
-                  ) : (
-                    <Copy className="w-3 h-3" />
-                  )}
+                  {copiedIndex === idx ? <Check className="w-3 h-3 text-green-400" /> : <Copy className="w-3 h-3" />}
                 </Button>
                 {onApplyVariant && (
                   <Button

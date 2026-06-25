@@ -36,7 +36,8 @@
 ### 📚 Related Documentation
 
 | Document | Description | Link |
-|----------|-------------|------|
+| -------- | ----------- | ---- |
+
 {{RELATED_DOCS}}
 | **Main Documentation** | [DOCUMENTATION_INDEX.md](../../DOCUMENTATION_INDEX.md) | Complete docs map |
 | **Project Status** | [PROJECT_STATUS.md](../../PROJECT_STATUS.md) | Current status |
@@ -51,4 +52,3 @@
 - 🤝 **Want to contribute?** [Contributing Guide](../../CONTRIBUTING.md)
 
 ---
-

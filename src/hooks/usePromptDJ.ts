@@ -1,26 +1,26 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
-import { buildPromptFromChannels } from '@/lib/prompt-dj-presets';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-import { logger } from '@/lib/logger';
+import { useState, useCallback, useRef, useEffect } from "react";
+import { buildPromptFromChannels } from "@/lib/prompt-dj-presets";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { logger } from "@/lib/logger";
 
 // Tone.js types - loaded dynamically to prevent "Cannot access 'e' before initialization" error
-type ToneType = typeof import('tone');
-type PlayerType = import('tone').Player;
-type PolySynthType = import('tone').PolySynth;
-type SequenceType = import('tone').Sequence;
-type AnalyserType = import('tone').Analyser;
+type ToneType = typeof import("tone");
+type PlayerType = import("tone").Player;
+type PolySynthType = import("tone").PolySynth;
+type SequenceType = import("tone").Sequence;
+type AnalyserType = import("tone").Analyser;
 
 // Cached Tone module reference
 let ToneModule: ToneType | null = null;
 
 export interface PromptChannel {
   id: string;
-  type: 'genre' | 'instrument' | 'mood' | 'custom';
+  type: "genre" | "instrument" | "mood" | "custom";
   value: string;
   weight: number; // 0-2
   enabled: boolean;
-  deck: 'A' | 'B' | 'both';
+  deck: "A" | "B" | "both";
 }
 
 export interface GlobalSettings {
@@ -43,50 +43,50 @@ interface UsePromptDJReturn {
   // Channels
   channels: PromptChannel[];
   updateChannel: (id: string, updates: Partial<PromptChannel>) => void;
-  
+
   // Crossfader
   crossfaderPosition: number; // -1 (A) to 1 (B)
   setCrossfaderPosition: (pos: number) => void;
-  
+
   // Global settings
   globalSettings: GlobalSettings;
   updateGlobalSettings: (updates: Partial<GlobalSettings>) => void;
-  
+
   // Generation
   isGenerating: boolean;
   generatedTracks: GeneratedTrack[];
   generateMusic: () => Promise<void>;
   removeTrack: (id: string) => void;
-  
+
   // Playback
   isPlaying: boolean;
   currentTrack: GeneratedTrack | null;
   playTrack: (track: GeneratedTrack) => void;
   stopPlayback: () => void;
-  
+
   // Preview synth
   previewPrompt: () => void;
   stopPreview: () => void;
   isPreviewPlaying: boolean;
-  
+
   // Built prompt
   currentPrompt: string;
-  
+
   // Analyzer for visualizer
   analyzerNode: AnalyserType | null;
 }
 
 const DEFAULT_CHANNELS: PromptChannel[] = [
-  { id: 'genre', type: 'genre', value: 'electronic', weight: 1, enabled: true, deck: 'both' },
-  { id: 'instrument', type: 'instrument', value: 'synth', weight: 1, enabled: true, deck: 'both' },
-  { id: 'mood', type: 'mood', value: 'energetic', weight: 1, enabled: true, deck: 'both' },
-  { id: 'custom', type: 'custom', value: '', weight: 1, enabled: false, deck: 'both' },
+  { id: "genre", type: "genre", value: "electronic", weight: 1, enabled: true, deck: "both" },
+  { id: "instrument", type: "instrument", value: "synth", weight: 1, enabled: true, deck: "both" },
+  { id: "mood", type: "mood", value: "energetic", weight: 1, enabled: true, deck: "both" },
+  { id: "custom", type: "custom", value: "", weight: 1, enabled: false, deck: "both" },
 ];
 
 const DEFAULT_SETTINGS: GlobalSettings = {
   bpm: 120,
-  key: 'C',
-  scale: 'minor',
+  key: "C",
+  scale: "minor",
   density: 0.5,
   brightness: 0.5,
   duration: 30,
@@ -101,7 +101,7 @@ export function usePromptDJ(): UsePromptDJReturn {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTrack, setCurrentTrack] = useState<GeneratedTrack | null>(null);
   const [isPreviewPlaying, setIsPreviewPlaying] = useState(false);
-  
+
   const playerRef = useRef<PlayerType | null>(null);
   const synthRef = useRef<PolySynthType | null>(null);
   const sequenceRef = useRef<SequenceType | null>(null);
@@ -111,12 +111,12 @@ export function usePromptDJ(): UsePromptDJReturn {
   useEffect(() => {
     const initAnalyzer = async () => {
       if (!ToneModule) {
-        ToneModule = await import('tone');
+        ToneModule = await import("tone");
       }
-      analyzerRef.current = new ToneModule.Analyser('fft', 64);
+      analyzerRef.current = new ToneModule.Analyser("fft", 64);
     };
     initAnalyzer();
-    
+
     return () => {
       analyzerRef.current?.dispose();
       playerRef.current?.dispose();
@@ -127,18 +127,18 @@ export function usePromptDJ(): UsePromptDJReturn {
 
   // Apply crossfader to channel weights
   const getEffectiveChannels = useCallback(() => {
-    return channels.map(channel => {
+    return channels.map((channel) => {
       let effectiveWeight = channel.weight;
-      
-      if (channel.deck === 'A') {
+
+      if (channel.deck === "A") {
         // Fade out as crossfader moves to B
         effectiveWeight *= Math.max(0, 1 - crossfaderPosition);
-      } else if (channel.deck === 'B') {
+      } else if (channel.deck === "B") {
         // Fade in as crossfader moves to B
         effectiveWeight *= Math.max(0, 1 + crossfaderPosition);
       }
       // 'both' stays at original weight
-      
+
       return { ...channel, weight: effectiveWeight };
     });
   }, [channels, crossfaderPosition]);
@@ -147,31 +147,29 @@ export function usePromptDJ(): UsePromptDJReturn {
   const currentPrompt = buildPromptFromChannels(getEffectiveChannels(), globalSettings);
 
   const updateChannel = useCallback((id: string, updates: Partial<PromptChannel>) => {
-    setChannels(prev => prev.map(ch => 
-      ch.id === id ? { ...ch, ...updates } : ch
-    ));
+    setChannels((prev) => prev.map((ch) => (ch.id === id ? { ...ch, ...updates } : ch)));
   }, []);
 
   const updateGlobalSettings = useCallback((updates: Partial<GlobalSettings>) => {
-    setGlobalSettings(prev => ({ ...prev, ...updates }));
+    setGlobalSettings((prev) => ({ ...prev, ...updates }));
   }, []);
 
   // Generate music via edge function
   const generateMusic = useCallback(async () => {
     if (!currentPrompt.trim()) {
-      toast.error('Настройте каналы для генерации');
+      toast.error("Настройте каналы для генерации");
       return;
     }
 
     setIsGenerating(true);
-    
+
     try {
-      const { data, error } = await supabase.functions.invoke('musicgen-generate', {
+      const { data, error } = await supabase.functions.invoke("musicgen-generate", {
         body: {
           prompt: currentPrompt,
           duration: globalSettings.duration,
           temperature: 1.0,
-        }
+        },
       });
 
       if (error) throw error;
@@ -183,16 +181,16 @@ export function usePromptDJ(): UsePromptDJReturn {
           audioUrl: data.audio_url,
           createdAt: new Date(),
         };
-        
-        setGeneratedTracks(prev => [newTrack, ...prev]);
-        toast.success('Трек сгенерирован!');
-        
+
+        setGeneratedTracks((prev) => [newTrack, ...prev]);
+        toast.success("Трек сгенерирован!");
+
         // Auto-play the new track
         playTrack(newTrack);
       }
     } catch (error: unknown) {
-      logger.error('Generation error', error instanceof Error ? error : new Error(String(error)));
-      toast.error('Ошибка генерации. Попробуйте снова.');
+      logger.error("Generation error", error instanceof Error ? error : new Error(String(error)));
+      toast.error("Ошибка генерации. Попробуйте снова.");
     } finally {
       setIsGenerating(false);
     }
@@ -202,27 +200,27 @@ export function usePromptDJ(): UsePromptDJReturn {
   const playTrack = useCallback(async (track: GeneratedTrack) => {
     try {
       if (!ToneModule) {
-        ToneModule = await import('tone');
+        ToneModule = await import("tone");
       }
       const Tone = ToneModule;
-      
+
       await Tone.start();
-      
+
       if (playerRef.current) {
         playerRef.current.stop();
         playerRef.current.dispose();
       }
 
       const player = new Tone.Player(track.audioUrl);
-      
+
       if (analyzerRef.current) {
         player.connect(analyzerRef.current);
       }
       player.toDestination();
-      
+
       await player.load(track.audioUrl);
       player.start();
-      
+
       playerRef.current = player;
       setCurrentTrack(track);
       setIsPlaying(true);
@@ -231,8 +229,8 @@ export function usePromptDJ(): UsePromptDJReturn {
         setIsPlaying(false);
       };
     } catch (error: unknown) {
-      logger.error('Playback error', error instanceof Error ? error : new Error(String(error)));
-      toast.error('Ошибка воспроизведения');
+      logger.error("Playback error", error instanceof Error ? error : new Error(String(error)));
+      toast.error("Ошибка воспроизведения");
     }
   }, []);
 
@@ -247,17 +245,17 @@ export function usePromptDJ(): UsePromptDJReturn {
   const previewPrompt = useCallback(async () => {
     try {
       if (!ToneModule) {
-        ToneModule = await import('tone');
+        ToneModule = await import("tone");
       }
       const Tone = ToneModule;
-      
+
       await Tone.start();
       stopPreview();
 
       // Create synth based on brightness
       const synth = new Tone.PolySynth(Tone.Synth, {
         oscillator: {
-          type: globalSettings.brightness > 0.5 ? 'sawtooth' : 'triangle',
+          type: globalSettings.brightness > 0.5 ? "sawtooth" : "triangle",
         },
         envelope: {
           attack: 0.1,
@@ -276,14 +274,12 @@ export function usePromptDJ(): UsePromptDJReturn {
       // Generate notes based on key and scale
       const rootNote = globalSettings.key;
       const octave = 4;
-      const scaleNotes = globalSettings.scale === 'major' 
-        ? [0, 2, 4, 5, 7, 9, 11] 
-        : [0, 2, 3, 5, 7, 8, 10];
+      const scaleNotes = globalSettings.scale === "major" ? [0, 2, 4, 5, 7, 9, 11] : [0, 2, 3, 5, 7, 8, 10];
 
-      const noteNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+      const noteNames = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
       const rootIndex = noteNames.indexOf(rootNote);
 
-      const notes = scaleNotes.map(interval => {
+      const notes = scaleNotes.map((interval) => {
         const noteIndex = (rootIndex + interval) % 12;
         const noteOctave = octave + Math.floor((rootIndex + interval) / 12);
         return `${noteNames[noteIndex]}${noteOctave}`;
@@ -292,7 +288,7 @@ export function usePromptDJ(): UsePromptDJReturn {
       // Create pattern based on density
       const stepCount = Math.round(8 + globalSettings.density * 8);
       const pattern: (string | null)[] = [];
-      
+
       for (let i = 0; i < stepCount; i++) {
         if (Math.random() < globalSettings.density) {
           pattern.push(notes[Math.floor(Math.random() * notes.length)]);
@@ -306,16 +302,16 @@ export function usePromptDJ(): UsePromptDJReturn {
       const sequence = new Tone.Sequence(
         (time, note) => {
           if (note) {
-            synth.triggerAttackRelease(note, '8n', time);
+            synth.triggerAttackRelease(note, "8n", time);
           }
         },
         pattern,
-        '8n'
+        "8n",
       );
 
       sequence.start(0);
       sequenceRef.current = sequence;
-      
+
       Tone.getTransport().start();
       setIsPreviewPlaying(true);
 
@@ -324,7 +320,7 @@ export function usePromptDJ(): UsePromptDJReturn {
         stopPreview();
       }, 8000);
     } catch (error: unknown) {
-      logger.error('Preview error', error instanceof Error ? error : new Error(String(error)));
+      logger.error("Preview error", error instanceof Error ? error : new Error(String(error)));
     }
   }, [globalSettings]);
 
@@ -344,12 +340,15 @@ export function usePromptDJ(): UsePromptDJReturn {
     setIsPreviewPlaying(false);
   }, []);
 
-  const removeTrack = useCallback((id: string) => {
-    setGeneratedTracks(prev => prev.filter(t => t.id !== id));
-    if (currentTrack?.id === id) {
-      stopPlayback();
-    }
-  }, [currentTrack, stopPlayback]);
+  const removeTrack = useCallback(
+    (id: string) => {
+      setGeneratedTracks((prev) => prev.filter((t) => t.id !== id));
+      if (currentTrack?.id === id) {
+        stopPlayback();
+      }
+    },
+    [currentTrack, stopPlayback],
+  );
 
   return {
     channels,

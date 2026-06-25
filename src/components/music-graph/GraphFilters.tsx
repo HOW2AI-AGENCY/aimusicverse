@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { motion } from '@/lib/motion';
-import { Filter, ChevronDown, Check } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import { useState } from "react";
+import { motion } from "@/lib/motion";
+import { Filter, ChevronDown, Check } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,39 +10,39 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
 
 interface GraphFiltersProps {
   genres: string[];
   categories: string[];
   selectedGenres: string[];
   selectedCategories: string[];
-  selectedNodeTypes: ('genre' | 'style' | 'tag' | 'category')[];
+  selectedNodeTypes: ("genre" | "style" | "tag" | "category")[];
   onGenresChange: (genres: string[]) => void;
   onCategoriesChange: (categories: string[]) => void;
-  onNodeTypesChange: (types: ('genre' | 'style' | 'tag' | 'category')[]) => void;
+  onNodeTypesChange: (types: ("genre" | "style" | "tag" | "category")[]) => void;
   onReset: () => void;
 }
 
 const NODE_TYPE_LABELS: Record<string, string> = {
-  genre: 'Жанры',
-  style: 'Стили',
-  tag: 'Теги',
-  category: 'Категории',
+  genre: "Жанры",
+  style: "Стили",
+  tag: "Теги",
+  category: "Категории",
 };
 
 const CATEGORY_LABELS: Record<string, string> = {
-  structure: 'Структура',
-  vocal: 'Вокал',
-  instrument: 'Инструменты',
-  genre_style: 'Жанр/Стиль',
-  mood_energy: 'Настроение',
-  production_texture: 'Текстура',
-  effect_processing: 'Эффекты',
-  special_effects: 'Спецэффекты',
-  transition_dynamics: 'Переходы',
-  format: 'Формат',
+  structure: "Структура",
+  vocal: "Вокал",
+  instrument: "Инструменты",
+  genre_style: "Жанр/Стиль",
+  mood_energy: "Настроение",
+  production_texture: "Текстура",
+  effect_processing: "Эффекты",
+  special_effects: "Спецэффекты",
+  transition_dynamics: "Переходы",
+  format: "Формат",
 };
 
 export function GraphFilters({
@@ -56,14 +56,11 @@ export function GraphFilters({
   onNodeTypesChange,
   onReset,
 }: GraphFiltersProps) {
-  const hasFilters = 
-    selectedGenres.length > 0 || 
-    selectedCategories.length > 0 || 
-    selectedNodeTypes.length < 4;
+  const hasFilters = selectedGenres.length > 0 || selectedCategories.length > 0 || selectedNodeTypes.length < 4;
 
   const toggleGenre = (genre: string) => {
     if (selectedGenres.includes(genre)) {
-      onGenresChange(selectedGenres.filter(g => g !== genre));
+      onGenresChange(selectedGenres.filter((g) => g !== genre));
     } else {
       onGenresChange([...selectedGenres, genre]);
     }
@@ -71,16 +68,16 @@ export function GraphFilters({
 
   const toggleCategory = (category: string) => {
     if (selectedCategories.includes(category)) {
-      onCategoriesChange(selectedCategories.filter(c => c !== category));
+      onCategoriesChange(selectedCategories.filter((c) => c !== category));
     } else {
       onCategoriesChange([...selectedCategories, category]);
     }
   };
 
-  const toggleNodeType = (type: 'genre' | 'style' | 'tag' | 'category') => {
+  const toggleNodeType = (type: "genre" | "style" | "tag" | "category") => {
     if (selectedNodeTypes.includes(type)) {
       if (selectedNodeTypes.length > 1) {
-        onNodeTypesChange(selectedNodeTypes.filter(t => t !== type));
+        onNodeTypesChange(selectedNodeTypes.filter((t) => t !== type));
       }
     } else {
       onNodeTypesChange([...selectedNodeTypes, type]);
@@ -106,7 +103,7 @@ export function GraphFilters({
         <DropdownMenuContent align="start" className="w-48">
           <DropdownMenuLabel>Показывать</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          {(['genre', 'style', 'tag', 'category'] as const).map(type => (
+          {(["genre", "style", "tag", "category"] as const).map((type) => (
             <DropdownMenuCheckboxItem
               key={type}
               checked={selectedNodeTypes.includes(type)}
@@ -134,7 +131,7 @@ export function GraphFilters({
         <DropdownMenuContent align="start" className="w-48 max-h-64 overflow-y-auto">
           <DropdownMenuLabel>Фильтр по жанру</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          {genres.map(genre => (
+          {genres.map((genre) => (
             <DropdownMenuCheckboxItem
               key={genre}
               checked={selectedGenres.includes(genre)}
@@ -162,13 +159,13 @@ export function GraphFilters({
         <DropdownMenuContent align="start" className="w-56 max-h-64 overflow-y-auto">
           <DropdownMenuLabel>Фильтр по категории</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          {categories.map(category => (
+          {categories.map((category) => (
             <DropdownMenuCheckboxItem
               key={category}
               checked={selectedCategories.includes(category)}
               onCheckedChange={() => toggleCategory(category)}
             >
-              {CATEGORY_LABELS[category] || category.replace(/_/g, ' ')}
+              {CATEGORY_LABELS[category] || category.replace(/_/g, " ")}
             </DropdownMenuCheckboxItem>
           ))}
         </DropdownMenuContent>
@@ -183,20 +180,20 @@ export function GraphFilters({
 
       {/* Active filters */}
       <div className="flex flex-wrap gap-1 ml-2">
-        {selectedGenres.map(genre => (
-          <Badge 
-            key={genre} 
-            variant="secondary" 
+        {selectedGenres.map((genre) => (
+          <Badge
+            key={genre}
+            variant="secondary"
             className="text-[10px] cursor-pointer hover:bg-destructive/20"
             onClick={() => toggleGenre(genre)}
           >
             {genre} ×
           </Badge>
         ))}
-        {selectedCategories.map(category => (
-          <Badge 
-            key={category} 
-            variant="secondary" 
+        {selectedCategories.map((category) => (
+          <Badge
+            key={category}
+            variant="secondary"
             className="text-[10px] cursor-pointer hover:bg-destructive/20"
             onClick={() => toggleCategory(category)}
           >

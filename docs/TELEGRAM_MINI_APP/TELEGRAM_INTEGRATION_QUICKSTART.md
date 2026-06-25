@@ -147,17 +147,14 @@ serve(async (req) => {
   const WEBHOOK_URL = `${Deno.env.get("SUPABASE_URL")}/functions/v1/telegram-bot`;
 
   // Установить webhook
-  const response = await fetch(
-    `https://api.telegram.org/bot${BOT_TOKEN}/setWebhook`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        url: WEBHOOK_URL,
-        allowed_updates: ["message", "callback_query", "inline_query"],
-      }),
-    }
-  );
+  const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/setWebhook`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      url: WEBHOOK_URL,
+      allowed_updates: ["message", "callback_query", "inline_query"],
+    }),
+  });
 
   const result = await response.json();
 
@@ -352,6 +349,7 @@ supabase db push
 ## 🧪 Testing Checklist
 
 ### Bot Testing
+
 ```bash
 # 1. В Telegram найти бота по username
 # 2. Отправить /start
@@ -361,6 +359,7 @@ supabase db push
 ```
 
 ### Mini App Testing
+
 ```bash
 # 1. Открыть Mini App через Menu Button
 # 2. Проверить авторизацию
@@ -370,6 +369,7 @@ supabase db push
 ```
 
 ### Notifications Testing
+
 ```bash
 # 1. Запустить генерацию через Mini App
 # 2. Дождаться завершения
@@ -459,12 +459,14 @@ curl -X POST https://api.telegram.org/bot<TOKEN>/setWebhook \
 ## 📚 Полезные ресурсы
 
 ### Документация
+
 - [Telegram Bot API](https://core.telegram.org/bots/api)
 - [Telegram Mini Apps](https://core.telegram.org/bots/webapps)
 - [Grammy Framework](https://grammy.dev/)
 - [Supabase Edge Functions](https://supabase.com/docs/guides/functions)
 
 ### Примеры кода
+
 - См. `TELEGRAM_INTEGRATION_SPRINT.md` - детальные примеры
 - См. `TELEGRAM_INTEGRATION.md` - OAuth flow
 - См. `TELEGRAM_MINI_APP_INTEGRATION.md` - Mini App API
@@ -476,6 +478,7 @@ curl -X POST https://api.telegram.org/bot<TOKEN>/setWebhook \
 **Q: Webhook не работает, что делать?**
 
 A:
+
 1. Проверить `getWebhookInfo`
 2. Проверить логи Edge Function
 3. Проверить, что URL доступен (не localhost)
@@ -484,6 +487,7 @@ A:
 **Q: CloudStorage не сохраняет данные?**
 
 A:
+
 1. Проверить, что Mini App открыт в Telegram (не в браузере)
 2. Проверить версию `@twa-dev/sdk`
 3. Добавить fallback на localStorage для тестирования
@@ -491,6 +495,7 @@ A:
 **Q: Уведомления не приходят?**
 
 A:
+
 1. Проверить таблицу `generation_tasks`
 2. Проверить триггер `on_generation_completed`
 3. Проверить логи Edge Function `send-telegram-notification`
@@ -512,4 +517,3 @@ A:
 **Готовы начать?** Следуйте шагам выше и обращайтесь к детальным Sprint Plans для каждой задачи!
 
 **Удачи!** 🚀
-

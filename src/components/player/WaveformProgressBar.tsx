@@ -1,15 +1,15 @@
 /**
  * Waveform Progress Bar Component
- * 
+ *
  * Interactive progress bar with waveform visualization.
  * Combines UnifiedWaveform with interactive seeking.
  */
 
-import React, { useState, useRef, useCallback, memo } from 'react';
-import { cn } from '@/lib/utils';
-import { formatTime } from '@/lib/player-utils';
-import { UnifiedWaveform, WaveformMode } from '@/components/waveform';
-import { motion } from '@/lib/motion';
+import React, { useState, useRef, useCallback, memo } from "react";
+import { cn } from "@/lib/utils";
+import { formatTime } from "@/lib/player-utils";
+import { UnifiedWaveform, WaveformMode } from "@/components/waveform";
+import { motion } from "@/lib/motion";
 
 interface WaveformProgressBarProps {
   audioUrl?: string | null;
@@ -34,7 +34,7 @@ export const WaveformProgressBar = memo(function WaveformProgressBar({
   onSeek,
   buffered = 0,
   className,
-  mode = 'standard',
+  mode = "standard",
   showLabels = true,
   showBeatGrid = false,
 }: WaveformProgressBarProps) {
@@ -50,22 +50,25 @@ export const WaveformProgressBar = memo(function WaveformProgressBar({
     }
   }, [currentTime, isDragging]);
 
-  const handleSeek = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
-    if (!containerRef.current || !duration) return;
-    
-    const rect = containerRef.current.getBoundingClientRect();
-    const clickX = e.clientX - rect.left;
-    const percent = Math.max(0, Math.min(1, clickX / rect.width));
-    const newTime = percent * duration;
-    
-    setLocalTime(newTime);
-    onSeek(newTime);
-  }, [duration, onSeek]);
+  const handleSeek = useCallback(
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      if (!containerRef.current || !duration) return;
+
+      const rect = containerRef.current.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const percent = Math.max(0, Math.min(1, clickX / rect.width));
+      const newTime = percent * duration;
+
+      setLocalTime(newTime);
+      onSeek(newTime);
+    },
+    [duration, onSeek],
+  );
 
   const progress = duration > 0 ? (localTime / duration) * 100 : 0;
 
   return (
-    <div className={cn('space-y-2', className)}>
+    <div className={cn("space-y-2", className)}>
       {/* Waveform with progress */}
       <div
         ref={containerRef}
@@ -91,11 +94,11 @@ export const WaveformProgressBar = memo(function WaveformProgressBar({
         aria-valuemin={0}
         aria-valuemax={duration}
         aria-valuenow={localTime}
-        style={{ touchAction: 'none' }}
+        style={{ touchAction: "none" }}
       >
         {/* Buffered indicator (behind waveform) */}
         {buffered > 0 && (
-          <div 
+          <div
             className="absolute inset-0 bg-muted-foreground/10 rounded-sm transition-all pointer-events-none"
             style={{ width: `${buffered}%` }}
           />
@@ -119,15 +122,15 @@ export const WaveformProgressBar = memo(function WaveformProgressBar({
         <motion.div
           className={cn(
             "absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-white shadow-xl transition-all duration-150 z-20",
-            (isDragging || isHovering) ? "opacity-100 scale-100" : "opacity-0 scale-75"
+            isDragging || isHovering ? "opacity-100 scale-100" : "opacity-0 scale-75",
           )}
-          style={{ 
+          style={{
             left: `calc(${progress}% - 6px)`,
           }}
           animate={{
-            boxShadow: isDragging 
-              ? '0 0 20px hsl(var(--primary) / 0.6), 0 0 40px hsl(var(--primary) / 0.3)'
-              : '0 0 12px hsl(var(--primary) / 0.4)'
+            boxShadow: isDragging
+              ? "0 0 20px hsl(var(--primary) / 0.6), 0 0 40px hsl(var(--primary) / 0.3)"
+              : "0 0 12px hsl(var(--primary) / 0.4)",
           }}
         >
           <div className="absolute inset-0.5 bg-primary rounded-full" />

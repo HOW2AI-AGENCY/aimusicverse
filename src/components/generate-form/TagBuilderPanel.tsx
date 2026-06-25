@@ -4,16 +4,16 @@
  * Uses design system tokens (Spec 032)
  */
 
-import { useState, useCallback } from 'react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Copy, Plus, X, Sparkles, Music, Mic2, Zap, Settings2 } from 'lucide-react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { cn } from '@/lib/utils';
-import { toast } from 'sonner';
-import { glass } from '@/lib/glass';
+import { useState, useCallback } from "react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Copy, Plus, X, Sparkles, Music, Mic2, Zap, Settings2 } from "lucide-react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import { toast } from "sonner";
+import { glass } from "@/lib/glass";
 
 interface TagBuilderPanelProps {
   onTagsGenerated: (tags: string) => void;
@@ -25,90 +25,152 @@ interface TagBuilderPanelProps {
 // Tag categories for Suno V4.5+
 const TAG_CATEGORIES = {
   sections: {
-    label: 'Секции',
+    label: "Секции",
     icon: Music,
-    tags: ['Intro', 'Verse', 'Pre-Chorus', 'Chorus', 'Bridge', 'Outro', 'Hook', 'Breakdown', 'Drop', 'Build', 'Climax', 'Instrumental', 'Solo']
+    tags: [
+      "Intro",
+      "Verse",
+      "Pre-Chorus",
+      "Chorus",
+      "Bridge",
+      "Outro",
+      "Hook",
+      "Breakdown",
+      "Drop",
+      "Build",
+      "Climax",
+      "Instrumental",
+      "Solo",
+    ],
   },
   vocals: {
-    label: 'Вокал',
+    label: "Вокал",
     icon: Mic2,
-    tags: ['Male Vocal', 'Female Vocal', 'Duet', 'Choir', 'Whisper', 'Shout', 'Falsetto', 'Rap', 'Spoken Word', 'Harmony', 'Ad-libs']
+    tags: [
+      "Male Vocal",
+      "Female Vocal",
+      "Duet",
+      "Choir",
+      "Whisper",
+      "Shout",
+      "Falsetto",
+      "Rap",
+      "Spoken Word",
+      "Harmony",
+      "Ad-libs",
+    ],
   },
   dynamics: {
-    label: 'Динамика',
+    label: "Динамика",
     icon: Zap,
-    tags: ['Soft', 'Loud', 'Crescendo', 'Decrescendo', 'Powerful', 'Intimate', 'Energetic', 'Calm', 'Dramatic', 'Subtle']
+    tags: [
+      "Soft",
+      "Loud",
+      "Crescendo",
+      "Decrescendo",
+      "Powerful",
+      "Intimate",
+      "Energetic",
+      "Calm",
+      "Dramatic",
+      "Subtle",
+    ],
   },
   production: {
-    label: 'Продакшн',
+    label: "Продакшн",
     icon: Settings2,
-    tags: ['Full Band', 'Acoustic', 'Electronic', 'Orchestral', 'Minimal', 'Layered', 'Lo-fi', 'Hi-fi', 'Live Feel', 'Studio Polish']
-  }
+    tags: [
+      "Full Band",
+      "Acoustic",
+      "Electronic",
+      "Orchestral",
+      "Minimal",
+      "Layered",
+      "Lo-fi",
+      "Hi-fi",
+      "Live Feel",
+      "Studio Polish",
+    ],
+  },
 } as const;
 
 // Vocal effects for back-vocals (round brackets)
 const BACK_VOCAL_EFFECTS = [
-  '(ooh)', '(aah)', '(hey)', '(yeah)', '(oh)', 
-  '(la la la)', '(na na na)', '(echo)', '(harmony)', '(whoa)'
+  "(ooh)",
+  "(aah)",
+  "(hey)",
+  "(yeah)",
+  "(oh)",
+  "(la la la)",
+  "(na na na)",
+  "(echo)",
+  "(harmony)",
+  "(whoa)",
 ];
 
 // V4.5+ Advanced tags
 const ADVANCED_TAGS = {
-  vocalist: ['Male', 'Female', 'Alto', 'Soprano', 'Tenor', 'Bass', 'Raspy', 'Smooth', 'Emotional'],
-  vocalStyle: ['Smooth', 'Raspy', 'Breathy', 'Powerful', 'Intimate', 'Emotional', 'Aggressive'],
-  instrumentFocus: ['Piano', 'Guitar', 'Drums', 'Bass', 'Synth', 'Strings', 'Brass', 'Percussion']
+  vocalist: ["Male", "Female", "Alto", "Soprano", "Tenor", "Bass", "Raspy", "Smooth", "Emotional"],
+  vocalStyle: ["Smooth", "Raspy", "Breathy", "Powerful", "Intimate", "Emotional", "Aggressive"],
+  instrumentFocus: ["Piano", "Guitar", "Drums", "Bass", "Synth", "Strings", "Brass", "Percussion"],
 };
 
 export function TagBuilderPanel({ onTagsGenerated, genre, mood, className }: TagBuilderPanelProps) {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [backVocals, setBackVocals] = useState<string[]>([]);
-  const [activeTab, setActiveTab] = useState<string>('sections');
+  const [activeTab, setActiveTab] = useState<string>("sections");
 
-  const addTag = useCallback((tag: string) => {
-    if (!selectedTags.includes(tag)) {
-      setSelectedTags(prev => [...prev, tag]);
-    }
-  }, [selectedTags]);
+  const addTag = useCallback(
+    (tag: string) => {
+      if (!selectedTags.includes(tag)) {
+        setSelectedTags((prev) => [...prev, tag]);
+      }
+    },
+    [selectedTags],
+  );
 
   const removeTag = useCallback((tag: string) => {
-    setSelectedTags(prev => prev.filter(t => t !== tag));
+    setSelectedTags((prev) => prev.filter((t) => t !== tag));
   }, []);
 
-  const addBackVocal = useCallback((effect: string) => {
-    if (!backVocals.includes(effect)) {
-      setBackVocals(prev => [...prev, effect]);
-    }
-  }, [backVocals]);
+  const addBackVocal = useCallback(
+    (effect: string) => {
+      if (!backVocals.includes(effect)) {
+        setBackVocals((prev) => [...prev, effect]);
+      }
+    },
+    [backVocals],
+  );
 
   const removeBackVocal = useCallback((effect: string) => {
-    setBackVocals(prev => prev.filter(e => e !== effect));
+    setBackVocals((prev) => prev.filter((e) => e !== effect));
   }, []);
 
   const generateCompoundTag = useCallback(() => {
     if (selectedTags.length === 0) {
-      toast.warning('Выберите хотя бы один тег');
+      toast.warning("Выберите хотя бы один тег");
       return;
     }
 
     // Build compound tag: [Tag1] [Tag2] [Tag3]
-    const compoundTag = selectedTags.map(t => `[${t}]`).join(' ');
-    
+    const compoundTag = selectedTags.map((t) => `[${t}]`).join(" ");
+
     // Add back vocals if any
-    const backVocalStr = backVocals.join(' ');
-    
+    const backVocalStr = backVocals.join(" ");
+
     const fullTag = backVocalStr ? `${compoundTag}\n${backVocalStr}` : compoundTag;
-    
+
     onTagsGenerated(fullTag);
-    toast.success('Тег добавлен в текст');
+    toast.success("Тег добавлен в текст");
   }, [selectedTags, backVocals, onTagsGenerated]);
 
   const copyToClipboard = useCallback(() => {
-    const compoundTag = selectedTags.map(t => `[${t}]`).join(' ');
-    const backVocalStr = backVocals.join(' ');
+    const compoundTag = selectedTags.map((t) => `[${t}]`).join(" ");
+    const backVocalStr = backVocals.join(" ");
     const fullTag = backVocalStr ? `${compoundTag}\n${backVocalStr}` : compoundTag;
-    
+
     navigator.clipboard.writeText(fullTag);
-    toast.success('Скопировано!');
+    toast.success("Скопировано!");
   }, [selectedTags, backVocals]);
 
   const clearAll = useCallback(() => {
@@ -117,7 +179,7 @@ export function TagBuilderPanel({ onTagsGenerated, genre, mood, className }: Tag
   }, []);
 
   return (
-    <div className={cn('space-y-4', className)}>
+    <div className={cn("space-y-4", className)}>
       {/* Selected Tags Preview */}
       <div className={cn("p-3 rounded-xl", glass.subtle)}>
         <div className="flex items-center justify-between mb-2">
@@ -143,16 +205,12 @@ export function TagBuilderPanel({ onTagsGenerated, genre, mood, className }: Tag
             </Button>
           </div>
         </div>
-        
+
         <div className="min-h-[2rem]">
           <AnimatePresence mode="popLayout">
             {selectedTags.length > 0 ? (
-              <motion.div 
-                className="flex flex-wrap gap-1.5"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-              >
-                {selectedTags.map(tag => (
+              <motion.div className="flex flex-wrap gap-1.5" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                {selectedTags.map((tag) => (
                   <motion.div
                     key={tag}
                     initial={{ scale: 0.8, opacity: 0 }}
@@ -160,7 +218,7 @@ export function TagBuilderPanel({ onTagsGenerated, genre, mood, className }: Tag
                     exit={{ scale: 0.8, opacity: 0 }}
                     layout
                   >
-                    <Badge 
+                    <Badge
                       variant="secondary"
                       className="cursor-pointer hover:bg-destructive/20 transition-colors"
                       onClick={() => removeTag(tag)}
@@ -169,7 +227,7 @@ export function TagBuilderPanel({ onTagsGenerated, genre, mood, className }: Tag
                     </Badge>
                   </motion.div>
                 ))}
-                {backVocals.map(bv => (
+                {backVocals.map((bv) => (
                   <motion.div
                     key={bv}
                     initial={{ scale: 0.8, opacity: 0 }}
@@ -177,7 +235,7 @@ export function TagBuilderPanel({ onTagsGenerated, genre, mood, className }: Tag
                     exit={{ scale: 0.8, opacity: 0 }}
                     layout
                   >
-                    <Badge 
+                    <Badge
                       variant="outline"
                       className="cursor-pointer hover:bg-destructive/20 transition-colors text-primary"
                       onClick={() => removeBackVocal(bv)}
@@ -188,11 +246,7 @@ export function TagBuilderPanel({ onTagsGenerated, genre, mood, className }: Tag
                 ))}
               </motion.div>
             ) : (
-              <motion.p 
-                className="text-xs text-muted-foreground"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-              >
+              <motion.p className="text-xs text-muted-foreground" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                 Нажмите на теги ниже для добавления
               </motion.p>
             )}
@@ -215,18 +269,18 @@ export function TagBuilderPanel({ onTagsGenerated, genre, mood, className }: Tag
           <TabsContent key={key} value={key} className="mt-3">
             <ScrollArea className="h-24">
               <div className="flex flex-wrap gap-1.5">
-                {cat.tags.map(tag => (
+                {cat.tags.map((tag) => (
                   <motion.button
                     key={tag}
                     whileTap={{ scale: 0.95 }}
                     className={cn(
-                      'px-2.5 py-1.5 rounded-full text-xs font-medium transition-all min-h-[32px]',
-                      'touch-manipulation active:scale-95',
+                      "px-2.5 py-1.5 rounded-full text-xs font-medium transition-all min-h-[32px]",
+                      "touch-manipulation active:scale-95",
                       selectedTags.includes(tag)
-                        ? 'bg-primary text-primary-foreground'
-                        : 'bg-muted/50 hover:bg-muted text-foreground'
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-muted/50 hover:bg-muted text-foreground",
                     )}
-                    onClick={() => selectedTags.includes(tag) ? removeTag(tag) : addTag(tag)}
+                    onClick={() => (selectedTags.includes(tag) ? removeTag(tag) : addTag(tag))}
                   >
                     {tag}
                   </motion.button>
@@ -244,18 +298,18 @@ export function TagBuilderPanel({ onTagsGenerated, genre, mood, className }: Tag
           Бэк-вокал (круглые скобки)
         </span>
         <div className="flex flex-wrap gap-1.5">
-          {BACK_VOCAL_EFFECTS.map(effect => (
+          {BACK_VOCAL_EFFECTS.map((effect) => (
             <motion.button
               key={effect}
               whileTap={{ scale: 0.95 }}
               className={cn(
-                'px-2.5 py-1 rounded-full text-xs transition-all border min-h-[28px]',
-                'touch-manipulation active:scale-95',
+                "px-2.5 py-1 rounded-full text-xs transition-all border min-h-[28px]",
+                "touch-manipulation active:scale-95",
                 backVocals.includes(effect)
-                  ? 'bg-primary/20 border-primary text-primary'
-                  : 'bg-transparent border-border hover:border-primary/50 text-muted-foreground'
+                  ? "bg-primary/20 border-primary text-primary"
+                  : "bg-transparent border-border hover:border-primary/50 text-muted-foreground",
               )}
-              onClick={() => backVocals.includes(effect) ? removeBackVocal(effect) : addBackVocal(effect)}
+              onClick={() => (backVocals.includes(effect) ? removeBackVocal(effect) : addBackVocal(effect))}
             >
               {effect}
             </motion.button>
@@ -264,12 +318,7 @@ export function TagBuilderPanel({ onTagsGenerated, genre, mood, className }: Tag
       </div>
 
       {/* Action Button */}
-      <Button 
-        onClick={generateCompoundTag}
-        disabled={selectedTags.length === 0}
-        className="w-full gap-2"
-        size="sm"
-      >
+      <Button onClick={generateCompoundTag} disabled={selectedTags.length === 0} className="w-full gap-2" size="sm">
         <Plus className="h-4 w-4" />
         Добавить составной тег
       </Button>

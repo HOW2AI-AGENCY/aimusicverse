@@ -3,20 +3,12 @@
  * Uses RAF for smooth time display updates
  */
 
-import React, { memo, useCallback, useRef, useEffect, useState } from 'react';
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import { 
-  Play, 
-  Pause, 
-  Square, 
-  SkipBack, 
-  SkipForward,
-  Repeat,
-  Repeat1,
-} from 'lucide-react';
-import { formatTime } from '@/lib/formatters';
-import { useHapticFeedback } from '@/hooks/useHapticFeedback';
+import React, { memo, useCallback, useRef, useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Play, Pause, Square, SkipBack, SkipForward, Repeat, Repeat1 } from "lucide-react";
+import { formatTime } from "@/lib/formatters";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 
 interface OptimizedTransportProps {
   isPlaying: boolean;
@@ -26,25 +18,25 @@ interface OptimizedTransportProps {
   onPause: () => void;
   onStop: () => void;
   onSeek: (time: number) => void;
-  loopMode?: 'none' | 'all' | 'one';
-  onLoopModeChange?: (mode: 'none' | 'all' | 'one') => void;
+  loopMode?: "none" | "all" | "one";
+  onLoopModeChange?: (mode: "none" | "all" | "one") => void;
   className?: string;
   compact?: boolean;
 }
 
 // Memoized time display with RAF updates
-const TimeDisplay = memo(function TimeDisplay({ 
-  currentTime, 
+const TimeDisplay = memo(function TimeDisplay({
+  currentTime,
   duration,
   className,
-}: { 
-  currentTime: number; 
+}: {
+  currentTime: number;
   duration: number;
   className?: string;
 }) {
   const displayRef = useRef<HTMLSpanElement>(null);
   const lastTimeRef = useRef(-1);
-  
+
   useEffect(() => {
     // Only update DOM if time changed by at least 0.1s
     if (Math.abs(currentTime - lastTimeRef.current) >= 0.1) {
@@ -56,7 +48,7 @@ const TimeDisplay = memo(function TimeDisplay({
   }, [currentTime]);
 
   return (
-    <div className={cn('flex items-center gap-1 font-mono text-xs tabular-nums', className)}>
+    <div className={cn("flex items-center gap-1 font-mono text-xs tabular-nums", className)}>
       <span ref={displayRef}>{formatTime(currentTime)}</span>
       <span className="text-muted-foreground">/</span>
       <span className="text-muted-foreground">{formatTime(duration)}</span>
@@ -77,46 +69,47 @@ const ProgressBar = memo(function ProgressBar({
   const barRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
 
-  const handleSeek = useCallback((e: React.MouseEvent | React.TouchEvent) => {
-    if (!barRef.current) return;
-    
-    const rect = barRef.current.getBoundingClientRect();
-    const clientX = 'touches' in e 
-      ? e.touches[0]?.clientX ?? e.changedTouches[0]?.clientX 
-      : e.clientX;
-    
-    const newProgress = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
-    onSeek(newProgress);
-  }, [onSeek]);
+  const handleSeek = useCallback(
+    (e: React.MouseEvent | React.TouchEvent) => {
+      if (!barRef.current) return;
 
-  const handleMouseDown = useCallback((e: React.MouseEvent) => {
-    isDragging.current = true;
-    handleSeek(e);
-    
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!isDragging.current || !barRef.current) return;
       const rect = barRef.current.getBoundingClientRect();
-      const newProgress = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+      const clientX = "touches" in e ? (e.touches[0]?.clientX ?? e.changedTouches[0]?.clientX) : e.clientX;
+
+      const newProgress = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
       onSeek(newProgress);
-    };
-    
-    const handleMouseUp = () => {
-      isDragging.current = false;
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-    };
-    
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
-  }, [handleSeek, onSeek]);
+    },
+    [onSeek],
+  );
+
+  const handleMouseDown = useCallback(
+    (e: React.MouseEvent) => {
+      isDragging.current = true;
+      handleSeek(e);
+
+      const handleMouseMove = (e: MouseEvent) => {
+        if (!isDragging.current || !barRef.current) return;
+        const rect = barRef.current.getBoundingClientRect();
+        const newProgress = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+        onSeek(newProgress);
+      };
+
+      const handleMouseUp = () => {
+        isDragging.current = false;
+        document.removeEventListener("mousemove", handleMouseMove);
+        document.removeEventListener("mouseup", handleMouseUp);
+      };
+
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+    },
+    [handleSeek, onSeek],
+  );
 
   return (
     <div
       ref={barRef}
-      className={cn(
-        'relative h-2 bg-muted rounded-full cursor-pointer touch-none',
-        className
-      )}
+      className={cn("relative h-2 bg-muted rounded-full cursor-pointer touch-none", className)}
       onMouseDown={handleMouseDown}
       onTouchStart={handleSeek}
     >
@@ -141,13 +134,13 @@ export const OptimizedTransport = memo(function OptimizedTransport({
   onPause,
   onStop,
   onSeek,
-  loopMode = 'none',
+  loopMode = "none",
   onLoopModeChange,
   className,
   compact = false,
 }: OptimizedTransportProps) {
   const haptic = useHapticFeedback();
-  
+
   const progress = duration > 0 ? currentTime / duration : 0;
 
   const handlePlayPause = useCallback(() => {
@@ -174,88 +167,60 @@ export const OptimizedTransport = memo(function OptimizedTransport({
     onSeek(Math.min(duration, currentTime + 10));
   }, [currentTime, duration, onSeek, haptic]);
 
-  const handleProgressSeek = useCallback((newProgress: number) => {
-    onSeek(newProgress * duration);
-  }, [duration, onSeek]);
+  const handleProgressSeek = useCallback(
+    (newProgress: number) => {
+      onSeek(newProgress * duration);
+    },
+    [duration, onSeek],
+  );
 
   const handleLoopToggle = useCallback(() => {
     if (!onLoopModeChange) return;
     haptic.tap();
-    const modes: Array<'none' | 'all' | 'one'> = ['none', 'all', 'one'];
+    const modes: Array<"none" | "all" | "one"> = ["none", "all", "one"];
     const currentIndex = modes.indexOf(loopMode);
     const nextIndex = (currentIndex + 1) % modes.length;
     onLoopModeChange(modes[nextIndex]);
   }, [loopMode, onLoopModeChange, haptic]);
 
-  const LoopIcon = loopMode === 'one' ? Repeat1 : Repeat;
+  const LoopIcon = loopMode === "one" ? Repeat1 : Repeat;
 
   return (
-    <div className={cn('flex flex-col gap-2', className)}>
+    <div className={cn("flex flex-col gap-2", className)}>
       {/* Progress bar */}
-      <ProgressBar 
-        progress={progress} 
-        onSeek={handleProgressSeek}
-        className="w-full"
-      />
-      
+      <ProgressBar progress={progress} onSeek={handleProgressSeek} className="w-full" />
+
       {/* Controls */}
       <div className="flex items-center justify-between">
-        <TimeDisplay 
-          currentTime={currentTime} 
-          duration={duration}
-        />
-        
+        <TimeDisplay currentTime={currentTime} duration={duration} />
+
         <div className="flex items-center gap-1">
           {!compact && (
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8"
-              onClick={handleSkipBack}
-            >
+            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={handleSkipBack}>
               <SkipBack className="w-4 h-4" />
             </Button>
           )}
-          
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8"
-            onClick={handleStop}
-          >
+
+          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={handleStop}>
             <Square className="w-4 h-4" />
           </Button>
-          
-          <Button
-            variant="default"
-            size="icon"
-            className="h-10 w-10 rounded-full"
-            onClick={handlePlayPause}
-          >
-            {isPlaying ? (
-              <Pause className="w-5 h-5" />
-            ) : (
-              <Play className="w-5 h-5 ml-0.5" />
-            )}
+
+          <Button variant="default" size="icon" className="h-10 w-10 rounded-full" onClick={handlePlayPause}>
+            {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 ml-0.5" />}
           </Button>
-          
+
           {!compact && (
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8"
-              onClick={handleSkipForward}
-            >
+            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={handleSkipForward}>
               <SkipForward className="w-4 h-4" />
             </Button>
           )}
         </div>
-        
+
         {onLoopModeChange ? (
           <Button
             variant="ghost"
             size="icon"
-            className={cn('h-8 w-8', loopMode !== 'none' && 'text-primary')}
+            className={cn("h-8 w-8", loopMode !== "none" && "text-primary")}
             onClick={handleLoopToggle}
           >
             <LoopIcon className="w-4 h-4" />

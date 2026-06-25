@@ -7,17 +7,17 @@
 - [StudioDialogs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioDialogs.tsx#L1) (2 connections)
 - [audioTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioDialogs.tsx#L148) (1 connections)
 - [{
-    isMobile,
-    projectId,
-    projectName,
-    sourceTrackId,
-    tracks,
-    masterVolume,
-    duration,
-    currentTime,
-    isPlaying,
-    detectedSections,
-    TRACK_COLORS,
+  isMobile,
+  projectId,
+  projectName,
+  sourceTrackId,
+  tracks,
+  masterVolume,
+  duration,
+  currentTime,
+  isPlaying,
+  detectedSections,
+  TRACK_COLORS,
   }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioDialogs.tsx#L133) (1 connections)
 
 ## Relationships
@@ -36,4 +36,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

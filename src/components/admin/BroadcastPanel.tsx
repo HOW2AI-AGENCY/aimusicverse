@@ -23,7 +23,7 @@ export function BroadcastPanel() {
   const [templateName, setTemplateName] = useState("");
   const [templatesOpen, setTemplatesOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  
+
   const broadcast = useBroadcastNotification();
   const { data: templates } = useBroadcastTemplates();
   const saveTemplate = useSaveBroadcastTemplate();
@@ -33,17 +33,17 @@ export function BroadcastPanel() {
     try {
       const path = `broadcast-${Date.now()}-${file.name}`;
       const { data, error } = await supabase.storage
-        .from('broadcast')
-        .upload(path, file, { cacheControl: '3600', upsert: false });
-      
+        .from("broadcast")
+        .upload(path, file, { cacheControl: "3600", upsert: false });
+
       if (error) throw error;
-      
-      const { data: urlData } = supabase.storage.from('broadcast').getPublicUrl(path);
+
+      const { data: urlData } = supabase.storage.from("broadcast").getPublicUrl(path);
       setImageUrl(urlData.publicUrl);
       setImageFile(file);
-      toast.success('Изображение загружено');
+      toast.success("Изображение загружено");
     } catch (error) {
-      toast.error('Ошибка загрузки: ' + (error as Error).message);
+      toast.error("Ошибка загрузки: " + (error as Error).message);
     } finally {
       setUploading(false);
     }
@@ -71,21 +71,21 @@ export function BroadcastPanel() {
       setImageUrl(template.image_url);
     }
     setTemplatesOpen(false);
-    toast.success('Шаблон загружен');
+    toast.success("Шаблон загружен");
   };
 
   const handleSend = async () => {
     if (!title || !message) return;
-    
-    await broadcast.mutateAsync({ 
-      title, 
-      message, 
+
+    await broadcast.mutateAsync({
+      title,
+      message,
       targetType,
       imageUrl: imageUrl || undefined,
       saveAsTemplate,
       templateName: saveAsTemplate ? templateName : undefined,
     });
-    
+
     setTitle("");
     setMessage("");
     setImageUrl("");
@@ -112,7 +112,7 @@ export function BroadcastPanel() {
                   <FileText className="h-4 w-4" />
                   Шаблоны ({templates.length})
                 </span>
-                <ChevronDown className={`h-4 w-4 transition-transform ${templatesOpen ? 'rotate-180' : ''}`} />
+                <ChevronDown className={`h-4 w-4 transition-transform ${templatesOpen ? "rotate-180" : ""}`} />
               </Button>
             </CollapsibleTrigger>
             <CollapsibleContent className="mt-2 space-y-2">
@@ -132,11 +132,7 @@ export function BroadcastPanel() {
 
         <div>
           <Label>Заголовок</Label>
-          <Input
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Заголовок уведомления"
-          />
+          <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Заголовок уведомления" />
         </div>
 
         <div>
@@ -155,11 +151,7 @@ export function BroadcastPanel() {
           <div className="mt-1">
             {imageUrl ? (
               <div className="relative">
-                <img 
-                  src={imageUrl} 
-                  alt="Preview" 
-                  className="w-full h-32 object-cover rounded-md"
-                />
+                <img src={imageUrl} alt="Preview" className="w-full h-32 object-cover rounded-md" />
                 <Button
                   size="icon"
                   variant="destructive"
@@ -186,11 +178,7 @@ export function BroadcastPanel() {
                   disabled={uploading}
                   className="w-full"
                 >
-                  {uploading ? (
-                    <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                  ) : (
-                    <Image className="h-4 w-4 mr-2" />
-                  )}
+                  {uploading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Image className="h-4 w-4 mr-2" />}
                   Загрузить изображение
                 </Button>
               </div>
@@ -213,14 +201,12 @@ export function BroadcastPanel() {
 
         {/* Save as template */}
         <div className="flex items-center justify-between">
-          <Label htmlFor="save-template" className="cursor-pointer">Сохранить как шаблон</Label>
-          <Switch
-            id="save-template"
-            checked={saveAsTemplate}
-            onCheckedChange={setSaveAsTemplate}
-          />
+          <Label htmlFor="save-template" className="cursor-pointer">
+            Сохранить как шаблон
+          </Label>
+          <Switch id="save-template" checked={saveAsTemplate} onCheckedChange={setSaveAsTemplate} />
         </div>
-        
+
         {saveAsTemplate && (
           <Input
             value={templateName}
@@ -229,16 +215,12 @@ export function BroadcastPanel() {
           />
         )}
 
-        <Button 
+        <Button
           onClick={handleSend}
           disabled={broadcast.isPending || !title || !message || (saveAsTemplate && !templateName)}
           className="w-full"
         >
-          {broadcast.isPending ? (
-            <Loader2 className="h-4 w-4 animate-spin mr-2" />
-          ) : (
-            <Send className="h-4 w-4 mr-2" />
-          )}
+          {broadcast.isPending ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Send className="h-4 w-4 mr-2" />}
           Отправить всем
         </Button>
       </CardContent>

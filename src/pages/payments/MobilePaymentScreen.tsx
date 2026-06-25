@@ -3,26 +3,23 @@
  * Premium payment experience for MusicVerse AI
  */
 
-import { useState, useEffect } from 'react';
-import { Navigate, useSearchParams } from 'react-router-dom';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { 
-  Zap, ArrowLeft, Shield, Clock, 
-  Loader2, CheckCircle2, Info
-} from 'lucide-react';
-import { useAuth } from '@/hooks/useAuth';
-import { useUserRole } from '@/hooks/useUserRole';
-import { useTinkoffPayment } from '@/hooks/useTinkoffPayment';
-import { useGroupedProducts } from '@/hooks/useStarsProducts';
-import { Card3D } from '@/components/payments/Card3D';
-import { PaymentPackageSelector } from '@/components/payments/PaymentPackageSelector';
-import { PaymentButton } from '@/components/payments/PaymentButton';
-import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
-import type { StarsProduct } from '@/services/starsPaymentService';
-import { formatRubles } from '@/types/payment';
-import { useNavigate } from 'react-router-dom';
-import { logger } from '@/lib/logger';
+import { useState, useEffect } from "react";
+import { Navigate, useSearchParams } from "react-router-dom";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Zap, ArrowLeft, Shield, Clock, Loader2, CheckCircle2, Info } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { useUserRole } from "@/hooks/useUserRole";
+import { useTinkoffPayment } from "@/hooks/useTinkoffPayment";
+import { useGroupedProducts } from "@/hooks/useStarsProducts";
+import { Card3D } from "@/components/payments/Card3D";
+import { PaymentPackageSelector } from "@/components/payments/PaymentPackageSelector";
+import { PaymentButton } from "@/components/payments/PaymentButton";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import type { StarsProduct } from "@/services/starsPaymentService";
+import { formatRubles } from "@/types/payment";
+import { useNavigate } from "react-router-dom";
+import { logger } from "@/lib/logger";
 
 function LoadingSkeleton() {
   return (
@@ -41,9 +38,13 @@ export default function MobilePaymentScreen() {
   const { isAdmin, isLoading: roleLoading } = useUserRole();
   const [selectedProduct, setSelectedProduct] = useState<StarsProduct | null>(null);
   const [showSuccess, setShowSuccess] = useState(false);
-  
+
   const { data: groupedProducts, isLoading, error } = useGroupedProducts();
-  const { pay: payWithTinkoff, isLoading: isTinkoffLoading, isSuccess } = useTinkoffPayment({
+  const {
+    pay: payWithTinkoff,
+    isLoading: isTinkoffLoading,
+    isSuccess,
+  } = useTinkoffPayment({
     onSuccess: () => {
       setShowSuccess(true);
     },
@@ -51,18 +52,18 @@ export default function MobilePaymentScreen() {
 
   // Handle deep link parameters
   useEffect(() => {
-    const productCode = searchParams.get('product');
-    const autoSelect = searchParams.get('select');
-    
+    const productCode = searchParams.get("product");
+    const autoSelect = searchParams.get("select");
+
     if (productCode && groupedProducts?.credits) {
-      const product = groupedProducts.credits.find(p => p.product_code === productCode);
+      const product = groupedProducts.credits.find((p) => p.product_code === productCode);
       if (product) {
         setSelectedProduct(product);
-        logger.info('Product pre-selected via deep link', { productCode });
+        logger.info("Product pre-selected via deep link", { productCode });
       }
-    } else if (autoSelect === 'popular' && groupedProducts?.credits) {
+    } else if (autoSelect === "popular" && groupedProducts?.credits) {
       // Auto-select featured/popular product
-      const featured = groupedProducts.credits.find(p => p.is_featured);
+      const featured = groupedProducts.credits.find((p) => p.is_featured);
       if (featured) setSelectedProduct(featured);
     }
   }, [searchParams, groupedProducts]);
@@ -88,18 +89,22 @@ export default function MobilePaymentScreen() {
   // Calculate savings if not first package
   const getSavingsText = () => {
     if (!selectedProduct || displayProducts.length < 2) return null;
-    
+
     const base = displayProducts[0];
-    if (!base.price_rub_cents || !base.credits_amount || 
-        !selectedProduct.price_rub_cents || !selectedProduct.credits_amount) {
+    if (
+      !base.price_rub_cents ||
+      !base.credits_amount ||
+      !selectedProduct.price_rub_cents ||
+      !selectedProduct.credits_amount
+    ) {
       return null;
     }
-    
+
     const baseRate = base.price_rub_cents / base.credits_amount;
     const selectedRate = selectedProduct.price_rub_cents / selectedProduct.credits_amount;
-    
+
     if (selectedRate >= baseRate) return null;
-    
+
     const savings = Math.round((baseRate - selectedRate) * selectedProduct.credits_amount);
     return savings > 100 ? `Экономия ${formatRubles(savings)}` : null;
   };
@@ -113,12 +118,7 @@ export default function MobilePaymentScreen() {
         className="sticky top-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/50"
       >
         <div className="flex items-center gap-3 p-4">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={handleBack}
-            className="rounded-full"
-          >
+          <Button variant="ghost" size="icon" onClick={handleBack} className="rounded-full">
             <ArrowLeft className="w-5 h-5" />
           </Button>
           <div className="flex-1">
@@ -169,9 +169,7 @@ export default function MobilePaymentScreen() {
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-semibold">Выберите пакет</h2>
             {displayProducts.length > 0 && (
-              <span className="text-xs text-muted-foreground">
-                {displayProducts.length} вариантов
-              </span>
+              <span className="text-xs text-muted-foreground">{displayProducts.length} вариантов</span>
             )}
           </div>
 
@@ -179,16 +177,12 @@ export default function MobilePaymentScreen() {
             <LoadingSkeleton />
           ) : error ? (
             <div className="p-6 text-center rounded-2xl bg-destructive/10 border border-destructive/20">
-              <p className="text-sm text-destructive">
-                Не удалось загрузить пакеты. Попробуйте позже.
-              </p>
+              <p className="text-sm text-destructive">Не удалось загрузить пакеты. Попробуйте позже.</p>
             </div>
           ) : displayProducts.length === 0 ? (
             <div className="p-6 text-center rounded-2xl bg-muted">
               <Zap className="w-8 h-8 mx-auto text-muted-foreground mb-2" />
-              <p className="text-sm text-muted-foreground">
-                Пакеты кредитов недоступны
-              </p>
+              <p className="text-sm text-muted-foreground">Пакеты кредитов недоступны</p>
             </div>
           ) : (
             <PaymentPackageSelector
@@ -207,9 +201,9 @@ export default function MobilePaymentScreen() {
           className="grid grid-cols-3 gap-3"
         >
           {[
-            { icon: Shield, text: 'Безопасно', subtext: 'PCI DSS' },
-            { icon: Clock, text: 'Мгновенно', subtext: 'Зачисление' },
-            { icon: CheckCircle2, text: 'Гарантия', subtext: 'Возврата' },
+            { icon: Shield, text: "Безопасно", subtext: "PCI DSS" },
+            { icon: Clock, text: "Мгновенно", subtext: "Зачисление" },
+            { icon: CheckCircle2, text: "Гарантия", subtext: "Возврата" },
           ].map((item, i) => (
             <motion.div
               key={item.text}
@@ -241,9 +235,7 @@ export default function MobilePaymentScreen() {
                 <div>
                   <div className="flex items-center gap-2">
                     <Zap className="w-4 h-4 text-primary" />
-                    <span className="font-semibold">
-                      {selectedProduct.credits_amount ?? 0} кредитов
-                    </span>
+                    <span className="font-semibold">{selectedProduct.credits_amount ?? 0} кредитов</span>
                   </div>
                   <p className="text-xs text-muted-foreground">
                     ≈ {Math.floor((selectedProduct.credits_amount ?? 0) / 3)} треков
@@ -251,9 +243,7 @@ export default function MobilePaymentScreen() {
                 </div>
                 <div className="text-right">
                   <p className="text-2xl font-bold">
-                    {selectedProduct.price_rub_cents 
-                      ? formatRubles(selectedProduct.price_rub_cents) 
-                      : '—'}
+                    {selectedProduct.price_rub_cents ? formatRubles(selectedProduct.price_rub_cents) : "—"}
                   </p>
                   {getSavingsText() && (
                     <motion.p
@@ -273,15 +263,15 @@ export default function MobilePaymentScreen() {
                 disabled={!selectedProduct.price_rub_cents || !user?.id}
                 isLoading={isProcessing}
                 isSuccess={showSuccess}
-                price={selectedProduct.price_rub_cents 
-                  ? formatRubles(selectedProduct.price_rub_cents) 
-                  : '—'}
+                price={selectedProduct.price_rub_cents ? formatRubles(selectedProduct.price_rub_cents) : "—"}
               />
 
               {/* Terms */}
               <p className="text-[10px] text-center text-muted-foreground">
-                Нажимая «Оплатить», вы соглашаетесь с{' '}
-                <a href="/terms" className="underline">условиями использования</a>
+                Нажимая «Оплатить», вы соглашаетесь с{" "}
+                <a href="/terms" className="underline">
+                  условиями использования
+                </a>
               </p>
             </div>
           </motion.div>
@@ -297,11 +287,7 @@ export default function MobilePaymentScreen() {
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-background/80 backdrop-blur-sm z-system flex items-center justify-center"
           >
-            <motion.div
-              initial={{ scale: 0.8 }}
-              animate={{ scale: 1 }}
-              className="text-center space-y-4"
-            >
+            <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} className="text-center space-y-4">
               <Loader2 className="w-12 h-12 animate-spin mx-auto text-primary" />
               <p className="text-lg font-medium">Переход к оплате...</p>
               <p className="text-sm text-muted-foreground">Пожалуйста, подождите</p>

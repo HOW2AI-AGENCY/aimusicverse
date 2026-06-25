@@ -3,33 +3,20 @@
  * Dialog for replacing instrumental using vocal stem
  */
 
-import { useState, useCallback } from 'react';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Slider } from '@/components/ui/slider';
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-import { logger } from '@/lib/logger';
-import { 
-  Guitar, 
-  Wand2, 
-  Loader2,
-  Music,
-  Sliders,
-  ChevronRight,
-} from 'lucide-react';
-import { StudioTrack } from '@/stores/useUnifiedStudioStore';
+import { useState, useCallback } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Slider } from "@/components/ui/slider";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { logger } from "@/lib/logger";
+import { Guitar, Wand2, Loader2, Music, Sliders, ChevronRight } from "lucide-react";
+import { StudioTrack } from "@/stores/useUnifiedStudioStore";
 
 interface StudioArrangementDialogProps {
   open: boolean;
@@ -40,14 +27,14 @@ interface StudioArrangementDialogProps {
 }
 
 const PRESET_STYLES = [
-  { label: 'Поп', value: 'pop, modern production, catchy' },
-  { label: 'Рок', value: 'rock, electric guitar, drums' },
-  { label: 'Электронный', value: 'electronic, synth, EDM' },
-  { label: 'R&B', value: 'r&b, soul, smooth' },
-  { label: 'Хип-хоп', value: 'hip hop, trap, 808 bass' },
-  { label: 'Акустик', value: 'acoustic, guitar, organic' },
-  { label: 'Джаз', value: 'jazz, piano, swing' },
-  { label: 'Лофи', value: 'lofi, chill, relaxed beats' },
+  { label: "Поп", value: "pop, modern production, catchy" },
+  { label: "Рок", value: "rock, electric guitar, drums" },
+  { label: "Электронный", value: "electronic, synth, EDM" },
+  { label: "R&B", value: "r&b, soul, smooth" },
+  { label: "Хип-хоп", value: "hip hop, trap, 808 bass" },
+  { label: "Акустик", value: "acoustic, guitar, organic" },
+  { label: "Джаз", value: "jazz, piano, swing" },
+  { label: "Лофи", value: "lofi, chill, relaxed beats" },
 ];
 
 export function StudioArrangementDialog({
@@ -57,14 +44,14 @@ export function StudioArrangementDialog({
   projectName,
   onSuccess,
 }: StudioArrangementDialogProps) {
-  const [step, setStep] = useState<'config' | 'generating'>('config');
+  const [step, setStep] = useState<"config" | "generating">("config");
   const [isLoading, setIsLoading] = useState(false);
-  
+
   // Form state
   const [title, setTitle] = useState(`${projectName} (новая аранжировка)`);
-  const [style, setStyle] = useState('');
-  const [negativeTags, setNegativeTags] = useState('acapella, vocals only, karaoke, low quality');
-  
+  const [style, setStyle] = useState("");
+  const [negativeTags, setNegativeTags] = useState("acapella, vocals only, karaoke, low quality");
+
   // Advanced settings
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [audioWeight, setAudioWeight] = useState(0.75);
@@ -75,55 +62,57 @@ export function StudioArrangementDialog({
 
   const handleGenerate = useCallback(async () => {
     if (!vocalAudioUrl) {
-      toast.error('Не найден вокальный трек');
+      toast.error("Не найден вокальный трек");
       return;
     }
 
     if (!style.trim()) {
-      toast.error('Укажите стиль для новой аранжировки');
+      toast.error("Укажите стиль для новой аранжировки");
       return;
     }
 
-    setStep('generating');
+    setStep("generating");
     setIsLoading(true);
 
     try {
-      const { data: { session } } = await supabase.auth.getSession();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
       if (!session) {
-        toast.error('Необходима авторизация');
+        toast.error("Необходима авторизация");
         return;
       }
 
-      const { data, error } = await supabase.functions.invoke('suno-add-instrumental', {
+      const { data, error } = await supabase.functions.invoke("suno-add-instrumental", {
         body: {
           audioUrl: vocalAudioUrl,
-          title: title.trim() || 'New Arrangement',
+          title: title.trim() || "New Arrangement",
           style: style.trim(),
           negativeTags: negativeTags.trim(),
           audioWeight,
           styleWeight,
           weirdnessConstraint: weirdness,
-          model: 'V4_5PLUS',
+          model: "V4_5PLUS",
         },
       });
 
       if (error) throw error;
 
       if (data?.taskId) {
-        toast.success('Генерация запущена', {
-          description: 'Новая аранжировка будет готова через 1-2 минуты',
+        toast.success("Генерация запущена", {
+          description: "Новая аранжировка будет готова через 1-2 минуты",
         });
         onSuccess(data.taskId, title);
         onClose();
       } else {
-        throw new Error('Не получен taskId');
+        throw new Error("Не получен taskId");
       }
     } catch (err: unknown) {
-      logger.error('Arrangement generation error', err instanceof Error ? err : new Error(String(err)));
-      toast.error('Ошибка генерации', {
-        description: err instanceof Error ? err.message : 'Попробуйте ещё раз',
+      logger.error("Arrangement generation error", err instanceof Error ? err : new Error(String(err)));
+      toast.error("Ошибка генерации", {
+        description: err instanceof Error ? err.message : "Попробуйте ещё раз",
       });
-      setStep('config');
+      setStep("config");
     } finally {
       setIsLoading(false);
     }
@@ -144,12 +133,10 @@ export function StudioArrangementDialog({
             <Guitar className="w-5 h-5 text-green-400" />
             Замена инструментала
           </DialogTitle>
-          <DialogDescription>
-            Создать новую аранжировку, сохранив вокал из трека "{vocalTrack.name}"
-          </DialogDescription>
+          <DialogDescription>Создать новую аранжировку, сохранив вокал из трека "{vocalTrack.name}"</DialogDescription>
         </DialogHeader>
 
-        {step === 'config' && (
+        {step === "config" && (
           <div className="space-y-4 py-2">
             {/* Title */}
             <div className="space-y-2">
@@ -169,7 +156,7 @@ export function StudioArrangementDialog({
                 {PRESET_STYLES.map((preset) => (
                   <Badge
                     key={preset.label}
-                    variant={style.includes(preset.value) ? 'default' : 'outline'}
+                    variant={style.includes(preset.value) ? "default" : "outline"}
                     className="cursor-pointer transition-all"
                     onClick={() => selectPreset(preset.value)}
                   >
@@ -193,10 +180,7 @@ export function StudioArrangementDialog({
             >
               <Sliders className="w-4 h-4" />
               Расширенные настройки
-              <ChevronRight className={cn(
-                "w-4 h-4 transition-transform",
-                showAdvanced && "rotate-90"
-              )} />
+              <ChevronRight className={cn("w-4 h-4 transition-transform", showAdvanced && "rotate-90")} />
             </button>
 
             {showAdvanced && (
@@ -240,16 +224,8 @@ export function StudioArrangementDialog({
                     <Label>Креативность</Label>
                     <span className="text-muted-foreground">{Math.round(weirdness * 100)}%</span>
                   </div>
-                  <Slider
-                    value={[weirdness]}
-                    onValueChange={([v]) => setWeirdness(v)}
-                    min={0}
-                    max={1}
-                    step={0.05}
-                  />
-                  <p className="text-xs text-muted-foreground">
-                    Выше = больше необычных и неожиданных элементов
-                  </p>
+                  <Slider value={[weirdness]} onValueChange={([v]) => setWeirdness(v)} min={0} max={1} step={0.05} />
+                  <p className="text-xs text-muted-foreground">Выше = больше необычных и неожиданных элементов</p>
                 </div>
 
                 {/* Negative tags */}
@@ -268,11 +244,7 @@ export function StudioArrangementDialog({
               <Button variant="outline" onClick={onClose} className="flex-1">
                 Отмена
               </Button>
-              <Button 
-                onClick={handleGenerate} 
-                disabled={!style.trim()}
-                className="flex-1"
-              >
+              <Button onClick={handleGenerate} disabled={!style.trim()} className="flex-1">
                 <Wand2 className="w-4 h-4 mr-2" />
                 Сгенерировать
               </Button>
@@ -280,7 +252,7 @@ export function StudioArrangementDialog({
           </div>
         )}
 
-        {step === 'generating' && (
+        {step === "generating" && (
           <div className="flex flex-col items-center justify-center py-12 gap-4">
             <div className="relative">
               <div className="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center">

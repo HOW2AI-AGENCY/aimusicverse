@@ -1,7 +1,7 @@
 // Social Types - Sprint 011 Task T013
 // Types for following system and social interactions
 
-export type FollowStatus = 'active' | 'blocked';
+export type FollowStatus = "active" | "blocked";
 
 export interface Follow {
   id: string;
@@ -51,7 +51,7 @@ export interface FollowStats {
   followers: number;
   following: number;
   isFollowing: boolean; // Is current user following this profile?
-  isFollower: boolean;  // Does this profile follow current user?
+  isFollower: boolean; // Does this profile follow current user?
 }
 
 export interface FollowMutationInput {

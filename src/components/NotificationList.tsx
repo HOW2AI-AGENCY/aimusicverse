@@ -3,9 +3,21 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { NotificationSkeleton } from "@/components/ui/skeleton-loader";
-import { 
-  Info, CheckCircle, AlertTriangle, XCircle, CheckCheck, ExternalLink, 
-  Music, Folder, Users, Trophy, Bell as BellIcon, Trash2, X, Clock
+import {
+  Info,
+  CheckCircle,
+  AlertTriangle,
+  XCircle,
+  CheckCheck,
+  ExternalLink,
+  Music,
+  Folder,
+  Users,
+  Trophy,
+  Bell as BellIcon,
+  Trash2,
+  X,
+  Clock,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { formatRelative } from "@/lib/date-utils";
@@ -45,10 +57,10 @@ export const NotificationList = ({ onNotificationClick }: NotificationListProps)
   const navigate = useNavigate();
   const { notifications, markAsRead, markAllAsRead, clearNotification, clearAllRead } = useNotificationHub();
   const [deletingIds, setDeletingIds] = useState<Set<string>>(new Set());
-  
+
   const allNotifications = notifications;
-  const unreadNotifications = useMemo(() => notifications.filter(n => !n.read), [notifications]);
-  const readNotifications = useMemo(() => notifications.filter(n => n.read), [notifications]);
+  const unreadNotifications = useMemo(() => notifications.filter((n) => !n.read), [notifications]);
+  const readNotifications = useMemo(() => notifications.filter((n) => n.read), [notifications]);
   const isLoading = false;
 
   const handleNotificationClick = async (id: string, read: boolean, actionUrl?: string | null) => {
@@ -63,9 +75,9 @@ export const NotificationList = ({ onNotificationClick }: NotificationListProps)
 
   const handleDelete = async (e: React.MouseEvent, id: string) => {
     e.stopPropagation();
-    setDeletingIds(prev => new Set(prev).add(id));
+    setDeletingIds((prev) => new Set(prev).add(id));
     await clearNotification(id);
-    setDeletingIds(prev => {
+    setDeletingIds((prev) => {
       const next = new Set(prev);
       next.delete(id);
       return next;
@@ -114,18 +126,20 @@ export const NotificationList = ({ onNotificationClick }: NotificationListProps)
                 <motion.div
                   key={notification.id}
                   initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
+                  animate={{ opacity: 1, height: "auto" }}
                   exit={{ opacity: 0, height: 0, x: -100 }}
                   transition={{ duration: 0.2 }}
                 >
                   <button
-                    onClick={() => handleNotificationClick(notification.id, notification.read || false, notification.action_url)}
+                    onClick={() =>
+                      handleNotificationClick(notification.id, notification.read || false, notification.action_url)
+                    }
                     disabled={isDeleting}
                     className={cn(
                       "w-full p-3 rounded-lg text-left transition-colors hover:bg-accent group relative",
                       !notification.read && "bg-accent/50",
                       notification.action_url && "cursor-pointer",
-                      isDeleting && "opacity-50"
+                      isDeleting && "opacity-50",
                     )}
                   >
                     <div className="flex gap-3">
@@ -144,9 +158,7 @@ export const NotificationList = ({ onNotificationClick }: NotificationListProps)
                             {notification.action_url && (
                               <ExternalLink className="w-3.5 h-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
                             )}
-                            {!notification.read && (
-                              <div className="w-2 h-2 bg-primary rounded-full" />
-                            )}
+                            {!notification.read && <div className="w-2 h-2 bg-primary rounded-full" />}
                             <button
                               onClick={(e) => handleDelete(e, notification.id)}
                               className="p-1 rounded hover:bg-destructive/20 opacity-0 group-hover:opacity-100 transition-opacity"
@@ -156,9 +168,7 @@ export const NotificationList = ({ onNotificationClick }: NotificationListProps)
                             </button>
                           </div>
                         </div>
-                        <p className="text-sm text-muted-foreground mb-1 line-clamp-2">
-                          {notification.message}
-                        </p>
+                        <p className="text-sm text-muted-foreground mb-1 line-clamp-2">{notification.message}</p>
                         {notification.created_at && (
                           <span className="text-xs text-muted-foreground">
                             {formatRelative(new Date(notification.created_at))}
@@ -193,12 +203,7 @@ export const NotificationList = ({ onNotificationClick }: NotificationListProps)
             </Button>
           )}
           {unreadNotifications.length > 0 && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleMarkAllAsRead}
-              className="text-xs"
-            >
+            <Button variant="ghost" size="sm" onClick={handleMarkAllAsRead} className="text-xs">
               <CheckCheck className="w-4 h-4 mr-1" />
               Все
             </Button>
@@ -208,12 +213,8 @@ export const NotificationList = ({ onNotificationClick }: NotificationListProps)
 
       <Tabs defaultValue="all" className="w-full">
         <TabsList className="w-full grid grid-cols-2 rounded-none">
-          <TabsTrigger value="all">
-            Все {allNotifications && `(${allNotifications.length})`}
-          </TabsTrigger>
-          <TabsTrigger value="unread">
-            Новые {unreadNotifications && `(${unreadNotifications.length})`}
-          </TabsTrigger>
+          <TabsTrigger value="all">Все {allNotifications && `(${allNotifications.length})`}</TabsTrigger>
+          <TabsTrigger value="unread">Новые {unreadNotifications && `(${unreadNotifications.length})`}</TabsTrigger>
         </TabsList>
         <TabsContent value="all" className="m-0">
           {renderNotifications(allNotifications, isLoading)}

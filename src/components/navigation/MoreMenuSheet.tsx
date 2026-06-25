@@ -3,23 +3,37 @@
  * Phase 1: Mobile navigation optimization with search, quick actions, collapsible sections
  */
 
-import { useState, useMemo } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { 
-  User, Settings, Guitar, FileText, 
-  Users, BookOpen, Gift, BarChart3, Sparkles,
-  Shield, Grid3X3, MessageSquare, Flag, Sliders, 
-  Layers, PenLine, Globe, Headphones
-} from 'lucide-react';
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { Separator } from '@/components/ui/separator';
-import { useAuth } from '@/hooks/useAuth';
-import { useUserRole } from '@/hooks/useUserRole';
-import { useTelegram } from '@/contexts/TelegramContext';
-import { motion } from '@/lib/motion';
-import { QuickActionsBar } from './QuickActionsBar';
-import { CollapsibleMenuSection } from './CollapsibleMenuSection';
-import { MenuSearch } from './MenuSearch';
+import { useState, useMemo } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import {
+  User,
+  Settings,
+  Guitar,
+  FileText,
+  Users,
+  BookOpen,
+  Gift,
+  BarChart3,
+  Sparkles,
+  Shield,
+  Grid3X3,
+  MessageSquare,
+  Flag,
+  Sliders,
+  Layers,
+  PenLine,
+  Globe,
+  Headphones,
+} from "lucide-react";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Separator } from "@/components/ui/separator";
+import { useAuth } from "@/hooks/useAuth";
+import { useUserRole } from "@/hooks/useUserRole";
+import { useTelegram } from "@/contexts/TelegramContext";
+import { motion } from "@/lib/motion";
+import { QuickActionsBar } from "./QuickActionsBar";
+import { CollapsibleMenuSection } from "./CollapsibleMenuSection";
+import { MenuSearch } from "./MenuSearch";
 
 interface MoreMenuSheetProps {
   open: boolean;
@@ -46,52 +60,77 @@ interface MenuSection {
 // Menu structure with improved sections
 const menuSections: MenuSection[] = [
   {
-    id: 'studio',
-    title: 'Студия',
+    id: "studio",
+    title: "Студия",
     icon: Sliders,
     defaultExpanded: true,
     items: [
-      { path: '/studio-v2', icon: Layers, label: 'Студия', description: 'Мультитрек редактор', section: 'Студия' },
-      { path: '/lyrics-studio', icon: PenLine, label: 'Lyrics AI', description: 'AI-помощник для текстов', section: 'Студия' },
-      { path: '/guitar-studio', icon: Guitar, label: 'Гитара', description: 'Запись и анализ', section: 'Студия' },
-    ]
+      { path: "/studio-v2", icon: Layers, label: "Студия", description: "Мультитрек редактор", section: "Студия" },
+      {
+        path: "/lyrics-studio",
+        icon: PenLine,
+        label: "Lyrics AI",
+        description: "AI-помощник для текстов",
+        section: "Студия",
+      },
+      { path: "/guitar-studio", icon: Guitar, label: "Гитара", description: "Запись и анализ", section: "Студия" },
+    ],
   },
   {
-    id: 'community',
-    title: 'Сообщество',
+    id: "community",
+    title: "Сообщество",
     icon: Users,
     defaultExpanded: false,
     items: [
-      { path: '/community', icon: Globe, label: 'Лента', description: 'Публикации', section: 'Сообщество' },
-      { path: '/artists', icon: Users, label: 'AI-артисты', description: 'Персоны', section: 'Сообщество' },
-      { path: '/blog', icon: BookOpen, label: 'Блог', description: 'Новости', section: 'Сообщество' },
-    ]
+      { path: "/community", icon: Globe, label: "Лента", description: "Публикации", section: "Сообщество" },
+      { path: "/artists", icon: Users, label: "AI-артисты", description: "Персоны", section: "Сообщество" },
+      { path: "/blog", icon: BookOpen, label: "Блог", description: "Новости", section: "Сообщество" },
+    ],
   },
   {
-    id: 'account',
-    title: 'Аккаунт',
+    id: "account",
+    title: "Аккаунт",
     icon: User,
     defaultExpanded: false,
     items: [
-      { path: '/profile', icon: User, label: 'Профиль', description: 'Мой профиль', section: 'Аккаунт' },
-      { path: '/rewards', icon: Gift, label: 'Награды', description: 'Достижения', section: 'Аккаунт' },
-      { path: '/analytics', icon: BarChart3, label: 'Статистика', description: 'Мои данные', section: 'Аккаунт' },
-      { path: '/settings', icon: Settings, label: 'Настройки', description: 'Конфигурация', section: 'Аккаунт' },
-    ]
+      { path: "/profile", icon: User, label: "Профиль", description: "Мой профиль", section: "Аккаунт" },
+      { path: "/rewards", icon: Gift, label: "Награды", description: "Достижения", section: "Аккаунт" },
+      { path: "/analytics", icon: BarChart3, label: "Статистика", description: "Мои данные", section: "Аккаунт" },
+      { path: "/settings", icon: Settings, label: "Настройки", description: "Конфигурация", section: "Аккаунт" },
+    ],
   },
 ];
 
 // Admin section - separate from profile, shown prominently to admins
 const adminSection: MenuSection = {
-  id: 'admin',
-  title: 'Администрирование',
+  id: "admin",
+  title: "Администрирование",
   icon: Shield,
   defaultExpanded: false,
   items: [
-    { path: '/admin', icon: Shield, label: 'Админ панель', badge: 'Admin', description: 'Управление', section: 'Администрирование' },
-    { path: '/admin/moderation', icon: Flag, label: 'Модерация', description: 'Контент', section: 'Администрирование' },
-    { path: '/admin/analytics', icon: BarChart3, label: 'Аналитика', description: 'Статистика', section: 'Администрирование' },
-    { path: '/admin/feedback', icon: MessageSquare, label: 'Обратная связь', description: 'Отзывы', section: 'Администрирование' },
+    {
+      path: "/admin",
+      icon: Shield,
+      label: "Админ панель",
+      badge: "Admin",
+      description: "Управление",
+      section: "Администрирование",
+    },
+    { path: "/admin/moderation", icon: Flag, label: "Модерация", description: "Контент", section: "Администрирование" },
+    {
+      path: "/admin/analytics",
+      icon: BarChart3,
+      label: "Аналитика",
+      description: "Статистика",
+      section: "Администрирование",
+    },
+    {
+      path: "/admin/feedback",
+      icon: MessageSquare,
+      label: "Обратная связь",
+      description: "Отзывы",
+      section: "Администрирование",
+    },
   ],
 };
 
@@ -101,24 +140,24 @@ export function MoreMenuSheet({ open, onOpenChange }: MoreMenuSheetProps) {
   const { user } = useAuth();
   const { isAdmin } = useUserRole();
   const { hapticFeedback } = useTelegram();
-  
+
   // Build sections list with admin section if user is admin
   const allSections = isAdmin ? [...menuSections, adminSection] : menuSections;
 
   // Flatten all items for search
   const allItems = useMemo(() => {
-    return allSections.flatMap(section => section.items);
+    return allSections.flatMap((section) => section.items);
   }, [allSections]);
 
   const handleNavigate = (path: string) => {
-    hapticFeedback?.('light');
+    hapticFeedback?.("light");
     onOpenChange(false);
-    
-    if (path === '__profile__') {
+
+    if (path === "__profile__") {
       if (user?.id) {
         navigate(`/profile/${user.id}`);
       } else {
-        navigate('/profile');
+        navigate("/profile");
       }
     } else {
       navigate(path);
@@ -126,10 +165,10 @@ export function MoreMenuSheet({ open, onOpenChange }: MoreMenuSheetProps) {
   };
 
   const isActive = (path: string) => {
-    if (path === '__profile__') {
-      return location.pathname.includes('/profile');
+    if (path === "__profile__") {
+      return location.pathname.includes("/profile");
     }
-    return location.pathname === path || location.pathname.startsWith(path + '/');
+    return location.pathname === path || location.pathname.startsWith(path + "/");
   };
 
   return (
@@ -144,17 +183,10 @@ export function MoreMenuSheet({ open, onOpenChange }: MoreMenuSheetProps) {
 
         <div className="space-y-4 pt-2">
           {/* Search */}
-          <MenuSearch 
-            items={allItems} 
-            onNavigate={handleNavigate}
-            isActive={isActive}
-          />
+          <MenuSearch items={allItems} onNavigate={handleNavigate} isActive={isActive} />
 
           {/* Quick Actions Bar */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
             <QuickActionsBar onClose={() => onOpenChange(false)} />
           </motion.div>
 
@@ -177,9 +209,7 @@ export function MoreMenuSheet({ open, onOpenChange }: MoreMenuSheetProps) {
                 defaultExpanded={section.defaultExpanded}
               />
 
-              {sectionIndex < allSections.length - 1 && (
-                <Separator className="mt-3" />
-              )}
+              {sectionIndex < allSections.length - 1 && <Separator className="mt-3" />}
             </motion.div>
           ))}
         </div>

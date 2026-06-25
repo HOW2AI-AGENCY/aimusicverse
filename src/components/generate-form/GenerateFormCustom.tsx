@@ -1,8 +1,8 @@
-import { motion } from '@/lib/motion';
-import { TitleSection, StyleSection, VocalsToggle, LyricsSectionAdvanced, PrivacyToggle } from './sections';
-import { AdvancedSettings } from './AdvancedSettings';
-import { FormSection, FormDivider } from './FormSection';
-import { CustomVoicePicker } from '@/components/voice-clone/CustomVoicePicker';
+import { motion } from "@/lib/motion";
+import { TitleSection, StyleSection, VocalsToggle, LyricsSectionAdvanced, PrivacyToggle } from "./sections";
+import { AdvancedSettings } from "./AdvancedSettings";
+import { FormSection, FormDivider } from "./FormSection";
+import { CustomVoicePicker } from "@/components/voice-clone/CustomVoicePicker";
 
 interface GenerateFormCustomProps {
   title: string;
@@ -25,8 +25,8 @@ interface GenerateFormCustomProps {
   onAdvancedOpenChange: (open: boolean) => void;
   negativeTags: string;
   onNegativeTagsChange: (value: string) => void;
-  vocalGender: '' | 'm' | 'f';
-  onVocalGenderChange: (value: '' | 'm' | 'f') => void;
+  vocalGender: "" | "m" | "f";
+  onVocalGenderChange: (value: "" | "m" | "f") => void;
   styleWeight: number[];
   onStyleWeightChange: (value: number[]) => void;
   weirdnessConstraint: number[];
@@ -106,11 +106,7 @@ export function GenerateFormCustom({
           onOpenStyles={onOpenStyles}
         />
 
-        <VocalsToggle
-          hasVocals={hasVocals}
-          onHasVocalsChange={onHasVocalsChange}
-          onLyricsChange={onLyricsChange}
-        />
+        <VocalsToggle hasVocals={hasVocals} onHasVocalsChange={onHasVocalsChange} onLyricsChange={onLyricsChange} />
       </FormSection>
 
       {/* ========== LYRICS GROUP ========== */}
@@ -138,14 +134,10 @@ export function GenerateFormCustom({
 
       {/* ========== SETTINGS GROUP ========== */}
       <FormDivider />
-      
+
       <FormSection>
         {onIsPublicChange && (
-          <PrivacyToggle
-            isPublic={isPublic}
-            onIsPublicChange={onIsPublicChange}
-            canMakePrivate={canMakePrivate}
-          />
+          <PrivacyToggle isPublic={isPublic} onIsPublicChange={onIsPublicChange} canMakePrivate={canMakePrivate} />
         )}
 
         <AdvancedSettings

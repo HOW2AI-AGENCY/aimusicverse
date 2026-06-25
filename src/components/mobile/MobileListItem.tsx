@@ -3,12 +3,12 @@
  * Provides consistent UX across all list interfaces
  */
 
-import { memo, ReactNode, forwardRef } from 'react';
-import { ChevronRight, MoreVertical } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { useHaptic } from '@/hooks/useHaptic';
-import { Button } from '@/components/ui/button';
-import { touchTargetClass } from '@/lib/design-tokens';
+import { memo, ReactNode, forwardRef } from "react";
+import { ChevronRight, MoreVertical } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useHaptic } from "@/hooks/useHaptic";
+import { Button } from "@/components/ui/button";
+import { touchTargetClass } from "@/lib/design-tokens";
 
 interface MobileListItemProps {
   /** Main title text */
@@ -37,21 +37,24 @@ interface MobileListItemProps {
   children?: ReactNode;
 }
 
-export const MobileListItem = memo(forwardRef<HTMLDivElement, MobileListItemProps>(
-  function MobileListItem({
-    title,
-    subtitle,
-    leading,
-    trailing,
-    onClick,
-    onMoreClick,
-    showChevron = true,
-    showMore = false,
-    disabled = false,
-    active = false,
-    className,
-    children,
-  }, ref) {
+export const MobileListItem = memo(
+  forwardRef<HTMLDivElement, MobileListItemProps>(function MobileListItem(
+    {
+      title,
+      subtitle,
+      leading,
+      trailing,
+      onClick,
+      onMoreClick,
+      showChevron = true,
+      showMore = false,
+      disabled = false,
+      active = false,
+      className,
+      children,
+    },
+    ref,
+  ) {
     const { patterns } = useHaptic();
 
     const handleClick = () => {
@@ -74,43 +77,23 @@ export const MobileListItem = memo(forwardRef<HTMLDivElement, MobileListItemProp
           className={cn(
             "flex items-center gap-3 p-3 min-h-[56px]",
             "transition-all duration-200 touch-manipulation",
-            onClick && !disabled && [
-              "cursor-pointer active:scale-[0.98]",
-              "hover:bg-accent/50 active:bg-accent"
-            ],
+            onClick && !disabled && ["cursor-pointer active:scale-[0.98]", "hover:bg-accent/50 active:bg-accent"],
             active && "bg-accent/70",
             disabled && "opacity-50 cursor-not-allowed",
-            !children && "rounded-lg"
+            !children && "rounded-lg",
           )}
         >
           {/* Leading */}
-          {leading && (
-            <div className="shrink-0">
-              {leading}
-            </div>
-          )}
+          {leading && <div className="shrink-0">{leading}</div>}
 
           {/* Content */}
           <div className="flex-1 min-w-0 py-1">
-            <p className={cn(
-              "text-sm font-medium truncate leading-tight",
-              active && "text-primary"
-            )}>
-              {title}
-            </p>
-            {subtitle && (
-              <p className="text-xs text-muted-foreground truncate mt-0.5">
-                {subtitle}
-              </p>
-            )}
+            <p className={cn("text-sm font-medium truncate leading-tight", active && "text-primary")}>{title}</p>
+            {subtitle && <p className="text-xs text-muted-foreground truncate mt-0.5">{subtitle}</p>}
           </div>
 
           {/* Trailing */}
-          {trailing && (
-            <div className="shrink-0 flex items-center gap-2">
-              {trailing}
-            </div>
-          )}
+          {trailing && <div className="shrink-0 flex items-center gap-2">{trailing}</div>}
 
           {/* More Button */}
           {showMore && onMoreClick && (
@@ -119,7 +102,7 @@ export const MobileListItem = memo(forwardRef<HTMLDivElement, MobileListItemProp
               size="icon"
               onClick={handleMoreClick}
               disabled={disabled}
-              className={cn(touchTargetClass.icon, 'shrink-0')}
+              className={cn(touchTargetClass.icon, "shrink-0")}
               aria-label="Ещё"
             >
               <MoreVertical className="w-4 h-4" />
@@ -127,20 +110,14 @@ export const MobileListItem = memo(forwardRef<HTMLDivElement, MobileListItemProp
           )}
 
           {/* Chevron */}
-          {showChevron && onClick && !showMore && (
-            <ChevronRight className="w-4 h-4 text-muted-foreground shrink-0" />
-          )}
+          {showChevron && onClick && !showMore && <ChevronRight className="w-4 h-4 text-muted-foreground shrink-0" />}
         </div>
 
         {/* Expandable children */}
-        {children && (
-          <div className="px-3 pb-3">
-            {children}
-          </div>
-        )}
+        {children && <div className="px-3 pb-3">{children}</div>}
       </div>
     );
-  }
-));
+  }),
+);
 
 export default MobileListItem;

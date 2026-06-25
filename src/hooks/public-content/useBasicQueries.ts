@@ -9,8 +9,15 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import type { PublicContentFilters, PublicTrack, PublicProject, PublicArtist, PublicTrackWithCreator, UsePublicContentParams } from './types';
-import { PUBLIC_CONTENT_STALE_TIME } from './constants';
+import type {
+  PublicContentFilters,
+  PublicTrack,
+  PublicProject,
+  PublicArtist,
+  PublicTrackWithCreator,
+  UsePublicContentParams,
+} from "./types";
+import { PUBLIC_CONTENT_STALE_TIME } from "./constants";
 
 /**
  * Hook to fetch public tracks with filtering and sorting
@@ -38,11 +45,13 @@ export function usePublicTracks(filters: PublicContentFilters = {}) {
           query = query.order("created_at", { ascending: false });
           break;
         case "popular":
-          query = query.order("play_count", { ascending: false, nullsFirst: false })
+          query = query
+            .order("play_count", { ascending: false, nullsFirst: false })
             .order("created_at", { ascending: false });
           break;
         case "trending":
-          query = query.order("play_count", { ascending: false, nullsFirst: false })
+          query = query
+            .order("play_count", { ascending: false, nullsFirst: false })
             .order("created_at", { ascending: false });
           break;
       }
@@ -165,8 +174,8 @@ export function usePublicContent(params: UsePublicContentParams = {}) {
       if (!tracks || tracks.length === 0) return [] as PublicTrackWithCreator[];
 
       // Get unique user_ids from tracks
-      const userIds = [...new Set(tracks.map(t => t.user_id))];
-      const trackIds = tracks.map(t => t.id);
+      const userIds = [...new Set(tracks.map((t) => t.user_id))];
+      const trackIds = tracks.map((t) => t.id);
 
       // Fetch profiles and likes in parallel
       const [profilesResult, likeCountsResult, userResult] = await Promise.all([
@@ -183,18 +192,18 @@ export function usePublicContent(params: UsePublicContentParams = {}) {
           .select("track_id")
           .eq("user_id", userResult.data.user.id)
           .in("track_id", trackIds);
-        userLikes = userLikesData?.map(l => l.track_id) || [];
+        userLikes = userLikesData?.map((l) => l.track_id) || [];
       }
 
       // Create lookup maps
-      const profileMap = new Map(profilesResult.data?.map(p => [p.user_id, p]) || []);
+      const profileMap = new Map(profilesResult.data?.map((p) => [p.user_id, p]) || []);
       const likeCountMap = new Map<string, number>();
-      likeCountsResult.data?.forEach(l => {
+      likeCountsResult.data?.forEach((l) => {
         likeCountMap.set(l.track_id, (likeCountMap.get(l.track_id) || 0) + 1);
       });
 
       // Enrich tracks with creator info and like data
-      const enrichedTracks: PublicTrackWithCreator[] = tracks.map(track => ({
+      const enrichedTracks: PublicTrackWithCreator[] = tracks.map((track) => ({
         ...track,
         creator_username: profileMap.get(track.user_id)?.username || undefined,
         creator_photo_url: profileMap.get(track.user_id)?.photo_url || undefined,

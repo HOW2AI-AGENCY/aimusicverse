@@ -1,20 +1,20 @@
 /**
  * Section Editor Panel - Enhanced
  * Uses modular components for clean architecture
- * 
+ *
  * Features:
  * - Enhanced waveform with replaced section markers
  * - A/B comparison overlay for completed replacements
  * - Real waveform data visualization
- * 
+ *
  * Performance: React.memo with custom comparison (IMP057)
  */
 
-import { memo, useMemo, useCallback, useState, useEffect } from 'react';
-import { motion, AnimatePresence, Variants } from '@/lib/motion';
-import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
-import { useSectionReplacement } from '@/hooks/useSectionReplacement';
-import { SectionPreviewPlayer } from './SectionPreviewPlayer';
+import { memo, useMemo, useCallback, useState, useEffect } from "react";
+import { motion, AnimatePresence, Variants } from "@/lib/motion";
+import { useSectionEditorStore } from "@/stores/useSectionEditorStore";
+import { useSectionReplacement } from "@/hooks/useSectionReplacement";
+import { SectionPreviewPlayer } from "./SectionPreviewPlayer";
 import {
   SectionEditorHeader,
   SectionPresets,
@@ -24,38 +24,38 @@ import {
   EnhancedSectionWaveform,
   ABCompareOverlay,
   type ReplacedSection,
-} from './section-editor';
-import { supabase } from '@/integrations/supabase/client';
+} from "./section-editor";
+import { supabase } from "@/integrations/supabase/client";
 
 const containerVariants: Variants = {
   hidden: { height: 0, opacity: 0 },
-  visible: { 
-    height: 'auto', 
+  visible: {
+    height: "auto",
     opacity: 1,
-    transition: { 
+    transition: {
       height: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
       opacity: { duration: 0.2 },
       staggerChildren: 0.04,
-      delayChildren: 0.08 
-    }
+      delayChildren: 0.08,
+    },
   },
-  exit: { 
-    height: 0, 
+  exit: {
+    height: 0,
     opacity: 0,
-    transition: { 
+    transition: {
       height: { duration: 0.2 },
-      opacity: { duration: 0.15 }
-    }
-  }
+      opacity: { duration: 0.15 },
+    },
+  },
 };
 
 const itemVariants: Variants = {
   hidden: { opacity: 0, y: 8 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     y: 0,
-    transition: { type: 'spring', stiffness: 300, damping: 24 }
-  }
+    transition: { type: "spring", stiffness: 300, damping: 24 },
+  },
 };
 
 interface SectionEditorPanelProps {
@@ -75,14 +75,8 @@ function SectionEditorPanelInner({
   duration,
   onClose,
 }: SectionEditorPanelProps) {
-  const { 
-    selectedSection, 
-    customRange, 
-    clearSelection, 
-    latestCompletion,
-    setLatestCompletion,
-    editMode,
-  } = useSectionEditorStore();
+  const { selectedSection, customRange, clearSelection, latestCompletion, setLatestCompletion, editMode } =
+    useSectionEditorStore();
 
   const [replacedSections, setReplacedSections] = useState<ReplacedSection[]>([]);
 
@@ -115,13 +109,13 @@ function SectionEditorPanelInner({
   useEffect(() => {
     const loadHistory = async () => {
       const { data } = await supabase
-        .from('track_change_log')
-        .select('id, change_type, metadata, created_at, version_id')
-        .eq('track_id', trackId)
-        .eq('change_type', 'section_replacement')
-        .order('created_at', { ascending: false })
+        .from("track_change_log")
+        .select("id, change_type, metadata, created_at, version_id")
+        .eq("track_id", trackId)
+        .eq("change_type", "section_replacement")
+        .order("created_at", { ascending: false })
         .limit(10);
-      
+
       if (data) {
         const sections: ReplacedSection[] = data.map((log) => {
           const metadata = log.metadata as { start?: number; end?: number } | null;
@@ -132,7 +126,7 @@ function SectionEditorPanelInner({
             endTime: metadata?.end || 0,
             replacedAt: createdAt,
             versionId: log.version_id || undefined,
-            label: `Замена ${createdAt.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' })}`,
+            label: `Замена ${createdAt.toLocaleDateString("ru-RU", { day: "numeric", month: "short" })}`,
           };
         });
         setReplacedSections(sections);
@@ -160,7 +154,7 @@ function SectionEditorPanelInner({
   }, [setLatestCompletion]);
 
   // Show A/B comparison if we have a completed replacement
-  if (latestCompletion && latestCompletion.status === 'completed' && latestCompletion.newAudioUrl) {
+  if (latestCompletion && latestCompletion.status === "completed" && latestCompletion.newAudioUrl) {
     return (
       <AnimatePresence mode="wait">
         <motion.div
@@ -232,21 +226,13 @@ function SectionEditorPanelInner({
           {/* Audio Preview */}
           {audioUrl && (
             <motion.div variants={itemVariants}>
-              <SectionPreviewPlayer
-                audioUrl={audioUrl}
-                startTime={startTime}
-                endTime={endTime}
-              />
+              <SectionPreviewPlayer audioUrl={audioUrl} startTime={startTime} endTime={endTime} />
             </motion.div>
           )}
 
           {/* Validation */}
           <motion.div variants={itemVariants}>
-            <SectionValidation
-              isValid={isValidDuration}
-              sectionDuration={sectionDuration}
-              maxDuration={maxDuration}
-            />
+            <SectionValidation isValid={isValidDuration} sectionDuration={sectionDuration} maxDuration={maxDuration} />
           </motion.div>
 
           {/* Presets */}
@@ -286,17 +272,14 @@ function SectionEditorPanelInner({
  * Memoized Section Editor Panel
  * Only re-renders when essential props change
  */
-export const SectionEditorPanel = memo(
-  SectionEditorPanelInner,
-  (prevProps, nextProps) => {
-    return (
-      prevProps.trackId === nextProps.trackId &&
-      prevProps.trackTitle === nextProps.trackTitle &&
-      prevProps.trackTags === nextProps.trackTags &&
-      prevProps.audioUrl === nextProps.audioUrl &&
-      prevProps.duration === nextProps.duration
-    );
-  }
-);
+export const SectionEditorPanel = memo(SectionEditorPanelInner, (prevProps, nextProps) => {
+  return (
+    prevProps.trackId === nextProps.trackId &&
+    prevProps.trackTitle === nextProps.trackTitle &&
+    prevProps.trackTags === nextProps.trackTags &&
+    prevProps.audioUrl === nextProps.audioUrl &&
+    prevProps.duration === nextProps.duration
+  );
+});
 
-SectionEditorPanel.displayName = 'SectionEditorPanel';
+SectionEditorPanel.displayName = "SectionEditorPanel";

@@ -1,16 +1,16 @@
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 interface HealthCheckResult {
   name: string;
-  status: 'healthy' | 'degraded' | 'unhealthy';
+  status: "healthy" | "degraded" | "unhealthy";
   latency_ms?: number;
   message?: string;
   last_checked: string;
 }
 
 interface SystemHealthResponse {
-  overall_status: 'healthy' | 'degraded' | 'unhealthy';
+  overall_status: "healthy" | "degraded" | "unhealthy";
   timestamp: string;
   checks: {
     database: HealthCheckResult;
@@ -29,10 +29,10 @@ interface SystemHealthResponse {
 }
 
 export interface SystemHealth {
-  overall: 'healthy' | 'warning' | 'error';
+  overall: "healthy" | "warning" | "error";
   checks: Array<{
     name: string;
-    status: 'healthy' | 'warning' | 'error';
+    status: "healthy" | "warning" | "error";
     message: string;
     latency?: number;
   }>;
@@ -46,19 +46,22 @@ export interface SystemHealth {
 }
 
 // Map API status to UI status
-function mapStatus(status: 'healthy' | 'degraded' | 'unhealthy'): 'healthy' | 'warning' | 'error' {
+function mapStatus(status: "healthy" | "degraded" | "unhealthy"): "healthy" | "warning" | "error" {
   switch (status) {
-    case 'healthy': return 'healthy';
-    case 'degraded': return 'warning';
-    case 'unhealthy': return 'error';
+    case "healthy":
+      return "healthy";
+    case "degraded":
+      return "warning";
+    case "unhealthy":
+      return "error";
   }
 }
 
 export function useSystemHealth() {
   return useQuery({
-    queryKey: ['system-health'],
+    queryKey: ["system-health"],
     queryFn: async (): Promise<SystemHealth> => {
-      const { data, error } = await supabase.functions.invoke<SystemHealthResponse>('health-check');
+      const { data, error } = await supabase.functions.invoke<SystemHealthResponse>("health-check");
 
       // Try to parse error response - it may contain valid health data
       let healthData = data;
@@ -71,19 +74,19 @@ export function useSystemHealth() {
           }
         } catch {
           // If we can't parse, throw the original error
-          throw new Error(error.message || 'Health check failed');
+          throw new Error(error.message || "Health check failed");
         }
       }
 
       if (!healthData) {
-        throw new Error('No health data received');
+        throw new Error("No health data received");
       }
 
       // Transform API response to UI format
       const checks = Object.entries(healthData.checks || {}).map(([key, check]) => ({
         name: check.name,
         status: mapStatus(check.status),
-        message: check.message || 'OK',
+        message: check.message || "OK",
         latency: check.latency_ms,
       }));
 

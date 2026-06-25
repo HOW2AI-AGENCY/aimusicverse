@@ -4,11 +4,11 @@
  * Uses lazy-loaded Recharts via useRecharts hook for bundle optimization
  */
 
-import { Card } from '@/components/ui/card';
-import { motion } from '@/lib/motion';
-import { useAnalyticsData } from '@/hooks/useAnalyticsData';
-import { Skeleton } from '@/components/ui/skeleton';
-import { useRecharts } from '@/lib/recharts-lazy';
+import { Card } from "@/components/ui/card";
+import { motion } from "@/lib/motion";
+import { useAnalyticsData } from "@/hooks/useAnalyticsData";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useRecharts } from "@/lib/recharts-lazy";
 
 export function EngagementChart() {
   const { data, isLoading } = useAnalyticsData();
@@ -22,25 +22,12 @@ export function EngagementChart() {
     );
   }
 
-  const {
-    AreaChart,
-    Area,
-    XAxis,
-    YAxis,
-    CartesianGrid,
-    Tooltip,
-    ResponsiveContainer,
-    Legend,
-  } = recharts;
+  const { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } = recharts;
 
   const chartData = data?.dailyEngagement || [];
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.3 }}
-    >
+    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
       <Card className="p-4 glass-card border-border/50">
         <h3 className="text-sm font-semibold mb-4">Активность за 7 дней</h3>
 
@@ -57,36 +44,29 @@ export function EngagementChart() {
                   <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <CartesianGrid
-                strokeDasharray="3 3"
-                stroke="hsl(var(--border))"
-                opacity={0.5}
-              />
+              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.5} />
               <XAxis
                 dataKey="date"
-                tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }}
+                tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
                 tickLine={false}
                 axisLine={false}
               />
               <YAxis
-                tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }}
+                tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
                 tickLine={false}
                 axisLine={false}
                 width={30}
               />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: 'hsl(var(--card))',
-                  border: '1px solid hsl(var(--border))',
-                  borderRadius: '8px',
-                  fontSize: '12px',
+                  backgroundColor: "hsl(var(--card))",
+                  border: "1px solid hsl(var(--border))",
+                  borderRadius: "8px",
+                  fontSize: "12px",
                 }}
-                labelStyle={{ color: 'hsl(var(--foreground))' }}
+                labelStyle={{ color: "hsl(var(--foreground))" }}
               />
-              <Legend
-                wrapperStyle={{ fontSize: '12px' }}
-                iconType="circle"
-              />
+              <Legend wrapperStyle={{ fontSize: "12px" }} iconType="circle" />
               <Area
                 type="monotone"
                 dataKey="plays"

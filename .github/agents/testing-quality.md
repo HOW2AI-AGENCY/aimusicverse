@@ -1,9 +1,11 @@
 # Testing & Quality Agent
 
 ## Role
+
 Специализированный агент для тестирования, code review и обеспечения качества кода.
 
 ## Expertise
+
 - Jest / Vitest unit testing
 - React Testing Library
 - Playwright E2E testing
@@ -12,6 +14,7 @@
 - Security audit
 
 ## Key Files
+
 - `tests/` - Unit и интеграционные тесты
 - `jest.config.cjs` - Jest конфигурация
 - `playwright.config.ts` - Playwright конфигурация
@@ -20,14 +23,15 @@
 ## Unit Testing
 
 ### Component Test Template
+
 ```tsx
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { vi, describe, it, expect, beforeEach } from 'vitest';
-import { Component } from './Component';
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { vi, describe, it, expect, beforeEach } from "vitest";
+import { Component } from "./Component";
 
 // Mock зависимостей
-vi.mock('@/hooks/useData', () => ({
+vi.mock("@/hooks/useData", () => ({
   useData: vi.fn(() => ({
     data: mockData,
     isLoading: false,
@@ -35,11 +39,11 @@ vi.mock('@/hooks/useData', () => ({
   })),
 }));
 
-describe('Component', () => {
+describe("Component", () => {
   const user = userEvent.setup();
-  
+
   const defaultProps = {
-    value: 'test',
+    value: "test",
     onChange: vi.fn(),
   };
 
@@ -47,22 +51,22 @@ describe('Component', () => {
     vi.clearAllMocks();
   });
 
-  it('renders correctly', () => {
+  it("renders correctly", () => {
     render(<Component {...defaultProps} />);
-    
-    expect(screen.getByRole('button')).toBeInTheDocument();
-    expect(screen.getByText('test')).toBeInTheDocument();
+
+    expect(screen.getByRole("button")).toBeInTheDocument();
+    expect(screen.getByText("test")).toBeInTheDocument();
   });
 
-  it('calls onChange when clicked', async () => {
+  it("calls onChange when clicked", async () => {
     render(<Component {...defaultProps} />);
-    
-    await user.click(screen.getByRole('button'));
-    
-    expect(defaultProps.onChange).toHaveBeenCalledWith('new value');
+
+    await user.click(screen.getByRole("button"));
+
+    expect(defaultProps.onChange).toHaveBeenCalledWith("new value");
   });
 
-  it('shows loading state', () => {
+  it("shows loading state", () => {
     vi.mocked(useData).mockReturnValue({
       data: null,
       isLoading: true,
@@ -70,29 +74,30 @@ describe('Component', () => {
     });
 
     render(<Component {...defaultProps} />);
-    
-    expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
+
+    expect(screen.getByTestId("loading-spinner")).toBeInTheDocument();
   });
 
-  it('handles errors gracefully', () => {
+  it("handles errors gracefully", () => {
     vi.mocked(useData).mockReturnValue({
       data: null,
       isLoading: false,
-      error: new Error('Failed to load'),
+      error: new Error("Failed to load"),
     });
 
     render(<Component {...defaultProps} />);
-    
+
     expect(screen.getByText(/error/i)).toBeInTheDocument();
   });
 });
 ```
 
 ### Hook Test Template
+
 ```tsx
-import { renderHook, act, waitFor } from '@testing-library/react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useCustomHook } from './useCustomHook';
+import { renderHook, act, waitFor } from "@testing-library/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useCustomHook } from "./useCustomHook";
 
 const createWrapper = () => {
   const queryClient = new QueryClient({
@@ -100,16 +105,12 @@ const createWrapper = () => {
       queries: { retry: false },
     },
   });
-  
-  return ({ children }) => (
-    <QueryClientProvider client={queryClient}>
-      {children}
-    </QueryClientProvider>
-  );
+
+  return ({ children }) => <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 };
 
-describe('useCustomHook', () => {
-  it('returns initial state', () => {
+describe("useCustomHook", () => {
+  it("returns initial state", () => {
     const { result } = renderHook(() => useCustomHook(), {
       wrapper: createWrapper(),
     });
@@ -118,8 +119,8 @@ describe('useCustomHook', () => {
     expect(result.current.isLoading).toBe(true);
   });
 
-  it('fetches data successfully', async () => {
-    const { result } = renderHook(() => useCustomHook('id'), {
+  it("fetches data successfully", async () => {
+    const { result } = renderHook(() => useCustomHook("id"), {
       wrapper: createWrapper(),
     });
 
@@ -130,16 +131,16 @@ describe('useCustomHook', () => {
     expect(result.current.data).toEqual(expectedData);
   });
 
-  it('handles mutations', async () => {
+  it("handles mutations", async () => {
     const { result } = renderHook(() => useCustomHook(), {
       wrapper: createWrapper(),
     });
 
     await act(async () => {
-      await result.current.mutate({ value: 'new' });
+      await result.current.mutate({ value: "new" });
     });
 
-    expect(result.current.data.value).toBe('new');
+    expect(result.current.data.value).toBe("new");
   });
 });
 ```
@@ -147,41 +148,42 @@ describe('useCustomHook', () => {
 ## E2E Testing
 
 ### Playwright Test Template
-```tsx
-import { test, expect } from '@playwright/test';
 
-test.describe('Feature', () => {
+```tsx
+import { test, expect } from "@playwright/test";
+
+test.describe("Feature", () => {
   test.beforeEach(async ({ page }) => {
     // Setup - login, navigate, etc.
-    await page.goto('/');
+    await page.goto("/");
   });
 
-  test('user can complete flow', async ({ page }) => {
+  test("user can complete flow", async ({ page }) => {
     // Arrange
-    await page.getByRole('button', { name: 'Start' }).click();
+    await page.getByRole("button", { name: "Start" }).click();
 
     // Act
-    await page.getByLabel('Name').fill('Test User');
-    await page.getByRole('button', { name: 'Submit' }).click();
+    await page.getByLabel("Name").fill("Test User");
+    await page.getByRole("button", { name: "Submit" }).click();
 
     // Assert
-    await expect(page.getByText('Success')).toBeVisible();
+    await expect(page.getByText("Success")).toBeVisible();
   });
 
-  test('handles errors correctly', async ({ page }) => {
+  test("handles errors correctly", async ({ page }) => {
     // Simulate network error
-    await page.route('**/api/endpoint', route => route.abort());
+    await page.route("**/api/endpoint", (route) => route.abort());
 
-    await page.getByRole('button', { name: 'Load' }).click();
+    await page.getByRole("button", { name: "Load" }).click();
 
-    await expect(page.getByText('Error loading data')).toBeVisible();
+    await expect(page.getByText("Error loading data")).toBeVisible();
   });
 
-  test('mobile viewport', async ({ page }) => {
+  test("mobile viewport", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
-    
+
     // Mobile-specific assertions
-    await expect(page.getByTestId('mobile-menu')).toBeVisible();
+    await expect(page.getByTestId("mobile-menu")).toBeVisible();
   });
 });
 ```
@@ -189,6 +191,7 @@ test.describe('Feature', () => {
 ## Code Review Checklist
 
 ### Security
+
 - [ ] No hardcoded secrets or API keys
 - [ ] Input validation on all user inputs
 - [ ] XSS prevention (no dangerouslySetInnerHTML without sanitization)
@@ -197,6 +200,7 @@ test.describe('Feature', () => {
 - [ ] RLS policies for all tables with user data
 
 ### Performance
+
 - [ ] No unnecessary re-renders (memo, useMemo, useCallback)
 - [ ] Large lists virtualized
 - [ ] Images optimized and lazy loaded
@@ -204,6 +208,7 @@ test.describe('Feature', () => {
 - [ ] No memory leaks (cleanup in useEffect)
 
 ### Code Quality
+
 - [ ] TypeScript strict - no `any` types
 - [ ] Consistent naming conventions
 - [ ] Functions < 50 lines
@@ -213,6 +218,7 @@ test.describe('Feature', () => {
 - [ ] Loading and error states
 
 ### Accessibility
+
 - [ ] Semantic HTML elements
 - [ ] ARIA labels where needed
 - [ ] Keyboard navigation works
@@ -222,6 +228,7 @@ test.describe('Feature', () => {
 ## Performance Metrics
 
 ### Lighthouse Targets
+
 ```
 Performance: > 90
 Accessibility: > 90
@@ -230,6 +237,7 @@ SEO: > 90
 ```
 
 ### Core Web Vitals
+
 ```
 LCP (Largest Contentful Paint): < 2.5s
 FID (First Input Delay): < 100ms
@@ -237,6 +245,7 @@ CLS (Cumulative Layout Shift): < 0.1
 ```
 
 ### Bundle Size Limits
+
 ```
 Main bundle: < 200KB gzipped
 Per-route chunks: < 50KB gzipped
@@ -245,18 +254,21 @@ Per-route chunks: < 50KB gzipped
 ## Security Audit Checklist
 
 ### Authentication
+
 - [ ] Tokens stored securely (not localStorage for sensitive)
 - [ ] Session timeout implemented
 - [ ] Password requirements enforced
 - [ ] Rate limiting on auth endpoints
 
 ### Data Protection
+
 - [ ] Sensitive data encrypted at rest
 - [ ] HTTPS enforced
 - [ ] PII properly handled
 - [ ] Data minimization (only collect necessary data)
 
 ### API Security
+
 - [ ] Input validation
 - [ ] Output encoding
 - [ ] Rate limiting
@@ -264,6 +276,7 @@ Per-route chunks: < 50KB gzipped
 - [ ] No sensitive data in URLs
 
 ## Commands
+
 - `/test-component [name]` - создай тест для компонента
 - `/test-hook [name]` - создай тест для хука
 - `/e2e-test [flow]` - создай E2E тест

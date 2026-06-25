@@ -1,20 +1,10 @@
-import { useState, useCallback } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { 
-  Music, 
-  Sparkles, 
-  Mic, 
-  GitBranch, 
-  User, 
-  Wand2,
-  ChevronLeft,
-  ChevronRight,
-  Check
-} from 'lucide-react';
-import { useTelegram } from '@/contexts/TelegramContext';
-import { useTelegramMainButton } from '@/hooks/telegram';
+import { useState, useCallback } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Music, Sparkles, Mic, GitBranch, User, Wand2, ChevronLeft, ChevronRight, Check } from "lucide-react";
+import { useTelegram } from "@/contexts/TelegramContext";
+import { useTelegramMainButton } from "@/hooks/telegram";
 
 interface OnboardingStep {
   id: number;
@@ -28,82 +18,82 @@ interface OnboardingStep {
 const steps: OnboardingStep[] = [
   {
     id: 1,
-    title: 'Генерация треков с AI',
-    description: 'Создавайте музыку из текстового описания',
+    title: "Генерация треков с AI",
+    description: "Создавайте музыку из текстового описания",
     features: [
-      'Описание стиля и настроения',
-      'Генерация лирики на любом языке',
-      'Загрузка референсного аудио',
-      'Контроль над жанром и темпом'
+      "Описание стиля и настроения",
+      "Генерация лирики на любом языке",
+      "Загрузка референсного аудио",
+      "Контроль над жанром и темпом",
     ],
     icon: Sparkles,
-    gradient: 'from-purple-500 to-pink-500'
+    gradient: "from-purple-500 to-pink-500",
   },
   {
     id: 2,
-    title: 'Проекты и контекст',
-    description: 'Создавайте альбомы с единым стилем',
+    title: "Проекты и контекст",
+    description: "Создавайте альбомы с единым стилем",
     features: [
-      'Группировка треков в проекты',
-      'AI учитывает контекст проекта',
-      'Единая стилистика всех треков',
-      'Автоматическая категоризация'
+      "Группировка треков в проекты",
+      "AI учитывает контекст проекта",
+      "Единая стилистика всех треков",
+      "Автоматическая категоризация",
     ],
     icon: GitBranch,
-    gradient: 'from-blue-500 to-cyan-500'
+    gradient: "from-blue-500 to-cyan-500",
   },
   {
     id: 3,
-    title: 'Разделение на стемы',
-    description: 'Работайте с отдельными дорожками',
+    title: "Разделение на стемы",
+    description: "Работайте с отдельными дорожками",
     features: [
-      'Извлечение вокала и инструментов',
-      'Высокое качество разделения',
-      'Экспорт отдельных стемов',
-      'Идеально для ремиксов'
+      "Извлечение вокала и инструментов",
+      "Высокое качество разделения",
+      "Экспорт отдельных стемов",
+      "Идеально для ремиксов",
     ],
     icon: Music,
-    gradient: 'from-green-500 to-emerald-500'
+    gradient: "from-green-500 to-emerald-500",
   },
   {
     id: 4,
-    title: 'Продвинутое редактирование',
-    description: 'Полный контроль над треком',
+    title: "Продвинутое редактирование",
+    description: "Полный контроль над треком",
     features: [
-      'Замена отдельных секций',
-      'Наложение вокала или инструментала',
-      'Создание каверов треков',
-      'Расширение и улучшение композиций'
+      "Замена отдельных секций",
+      "Наложение вокала или инструментала",
+      "Создание каверов треков",
+      "Расширение и улучшение композиций",
     ],
     icon: Wand2,
-    gradient: 'from-orange-500 to-red-500'
+    gradient: "from-orange-500 to-red-500",
   },
   {
     id: 5,
-    title: 'Персона артиста',
-    description: 'Создайте свой уникальный стиль',
+    title: "Персона артиста",
+    description: "Создайте свой уникальный стиль",
     features: [
-      'AI анализирует ваши треки',
-      'Создание персоны артиста',
-      'Единый фирменный стиль',
-      'Генерация в вашем стиле'
+      "AI анализирует ваши треки",
+      "Создание персоны артиста",
+      "Единый фирменный стиль",
+      "Генерация в вашем стиле",
     ],
     icon: User,
-    gradient: 'from-violet-500 to-purple-500'
+    gradient: "from-violet-500 to-purple-500",
   },
   {
     id: 6,
-    title: 'Интеллектуальные теги',
-    description: 'Улучшенный контроль генерации',
+    title: "Интеллектуальные теги",
+    description: "Улучшенный контроль генерации",
     features: [
-      'Автоматическое обогащение лирики',
-      'Умные теги для точности',
-      'Контроль настроения и динамики',
-      'Профессиональный результат'
+      "Автоматическое обогащение лирики",
+      "Умные теги для точности",
+      "Контроль настроения и динамики",
+      "Профессиональный результат",
     ],
     icon: Mic,
-    gradient: 'from-yellow-500 to-orange-500'
-  }
+    gradient: "from-yellow-500 to-orange-500",
+  },
 ];
 
 interface OnboardingSliderProps {
@@ -119,29 +109,29 @@ export const OnboardingSlider = ({ onComplete, onSkip }: OnboardingSliderProps) 
 
   const nextStep = useCallback(() => {
     if (currentStep < steps.length - 1) {
-      hapticFeedback?.('light');
+      hapticFeedback?.("light");
       setCurrentStep(currentStep + 1);
     } else {
-      hapticFeedback?.('success');
+      hapticFeedback?.("success");
       onComplete();
     }
   }, [currentStep, hapticFeedback, onComplete]);
 
   const prevStep = () => {
     if (currentStep > 0) {
-      hapticFeedback?.('light');
+      hapticFeedback?.("light");
       setCurrentStep(currentStep - 1);
     }
   };
 
   const handleSkip = () => {
-    hapticFeedback?.('medium');
+    hapticFeedback?.("medium");
     onSkip();
   };
 
   // Main Button integration
   const { shouldShowUIButton } = useTelegramMainButton({
-    text: isLastStep ? 'НАЧАТЬ' : 'ДАЛЕЕ',
+    text: isLastStep ? "НАЧАТЬ" : "ДАЛЕЕ",
     onClick: nextStep,
     enabled: true,
     visible: true,
@@ -191,18 +181,16 @@ export const OnboardingSlider = ({ onComplete, onSkip }: OnboardingSliderProps) 
               className="space-y-6"
             >
               {/* Icon */}
-              <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${step.gradient} flex items-center justify-center mx-auto`}>
+              <div
+                className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${step.gradient} flex items-center justify-center mx-auto`}
+              >
                 <Icon className="w-10 h-10 text-white" />
               </div>
 
               {/* Title & Description */}
               <div className="text-center space-y-2">
-                <h2 className="text-2xl font-bold text-foreground">
-                  {step.title}
-                </h2>
-                <p className="text-muted-foreground">
-                  {step.description}
-                </p>
+                <h2 className="text-2xl font-bold text-foreground">{step.title}</h2>
+                <p className="text-muted-foreground">{step.description}</p>
               </div>
 
               {/* Features */}
@@ -263,13 +251,11 @@ export const OnboardingSlider = ({ onComplete, onSkip }: OnboardingSliderProps) 
               <button
                 key={index}
                 onClick={() => {
-                  hapticFeedback?.('selection');
+                  hapticFeedback?.("selection");
                   setCurrentStep(index);
                 }}
                 className={`h-2 rounded-full transition-all ${
-                  index === currentStep
-                    ? 'w-8 bg-primary'
-                    : 'w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50'
+                  index === currentStep ? "w-8 bg-primary" : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50"
                 }`}
                 aria-label={`Go to step ${index + 1}`}
               />

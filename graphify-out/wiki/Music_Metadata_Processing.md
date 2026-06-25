@@ -29,7 +29,7 @@
 - [loadTime](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/ai-assistant.spec.ts#L299) (1 connections)
 - [pages](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/ai-assistant.spec.ts#L177) (1 connections)
 - [result](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/ai-assistant.spec.ts#L33) (1 connections)
-- *... and 7 more nodes in this community*
+- _... and 7 more nodes in this community_
 
 ## Relationships
 
@@ -47,4 +47,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

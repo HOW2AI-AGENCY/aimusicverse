@@ -22,14 +22,14 @@
 
 ### 📊 Метрики интеграции
 
-| Компонент | Статус | Описание |
-|-----------|--------|-------------|
-| **Backend API** | ✅ 100% | VoiceCloneService + webhook handlers |
-| **Frontend UI** | ✅ 100% | VoiceCloningStudio компонент |
-| **React Hooks** | ✅ 100% | useVoiceCloning хук |
-| **Database** | ✅ 100% | Миграции + RLS политики |
-| **Documentation** | ✅ 100% | Полное руководство |
-| **Testing** | 🔄 80% | Unit tests + E2E scenarios |
+| Компонент         | Статус  | Описание                             |
+| ----------------- | ------- | ------------------------------------ |
+| **Backend API**   | ✅ 100% | VoiceCloneService + webhook handlers |
+| **Frontend UI**   | ✅ 100% | VoiceCloningStudio компонент         |
+| **React Hooks**   | ✅ 100% | useVoiceCloning хук                  |
+| **Database**      | ✅ 100% | Миграции + RLS политики              |
+| **Documentation** | ✅ 100% | Полное руководство                   |
+| **Testing**       | 🔄 80%  | Unit tests + E2E scenarios           |
 
 ---
 
@@ -97,6 +97,7 @@
 ### Backend Services
 
 #### 1. **VoiceCloneService** (`src/services/voice/VoiceCloneService.ts`)
+
 - **Размер**: ~800 строк
 - **Функции**:
   - `validateVoice()` - Начать процесс клонирования
@@ -112,6 +113,7 @@
   - Timeout защита (30 секунд по умолчанию)
 
 #### 2. **API Functions** (`src/api/voices.api.ts`)
+
 - **Размер**: ~350 строк
 - **Функции**:
   - `createCustomVoice()` - Создать запись голоса
@@ -128,6 +130,7 @@
 ### Frontend Components
 
 #### 3. **VoiceCloningStudio** (`src/components/studio/voice-cloning/VoiceCloningStudio.tsx`)
+
 - **Размер**: ~350 строк
 - **Функции**:
   - 6-шаговый интерфейс с прогресс-баром
@@ -138,6 +141,7 @@
   - Дисплей полученного voiceId с возможностью копирования
 
 #### 4. **React Hook** (`src/hooks/useVoiceCloning.ts`)
+
 - **Размер**: ~300 строк
 - **Функции**:
   - Управление состоянием 6-шагового процесса
@@ -149,6 +153,7 @@
 ### Database Schema
 
 #### 5. **Voice Tables** (`supabase/migrations/20250625000000_voice_cloning.sql`)
+
 - **Таблица `voices`**:
   - Поля: `id`, `user_id`, `name`, `description`, `sample_url`, `provider_voice_id`, `is_verified`
   - Индексы: `user_id`, `provider_voice_id`, `is_verified`, `created_at`
@@ -160,6 +165,7 @@
   - Отслеживание прогресса каждого этапа
 
 #### 6. **Webhook Handler** (`supabase/functions/webhook-voice/index.ts`)
+
 - **Endpoints**:
   - `/webhooks/voice/validate` - Validation success/failure
   - `/webhooks/voice/generate` - Generation success/failure
@@ -241,6 +247,7 @@
 ### Suno Voice API Endpoints
 
 #### 1. Validate Voice
+
 ```typescript
 POST https://api.sunoapi.org/voice/validate
 Content-Type: application/json
@@ -265,6 +272,7 @@ Response:
 ```
 
 #### 2. Get Validation Phrase
+
 ```typescript
 POST https://api.sunoapi.org/voice/validate-info
 Content-Type: application/json
@@ -282,6 +290,7 @@ Response:
 ```
 
 #### 3. Generate Custom Voice
+
 ```typescript
 POST https://api.sunoapi.org/voice/generate
 Content-Type: application/json
@@ -300,6 +309,7 @@ Response:
 ```
 
 #### 4. Get Voice ID
+
 ```typescript
 POST https://api.sunoapi.org/voice/record-info
 Content-Type: application/json
@@ -317,6 +327,7 @@ Response:
 ```
 
 #### 5. Check Voice Availability
+
 ```typescript
 POST https://api.sunoapi.org/voice/check-voice
 Content-Type: application/json
@@ -339,6 +350,7 @@ Response:
 ## 🗄️ Database Schema
 
 ### Voices Table
+
 ```sql
 CREATE TABLE voices (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -363,22 +375,23 @@ CREATE INDEX idx_voices_is_verified ON voices(is_verified);
 ```
 
 ### Voice Tasks Table
+
 ```sql
 CREATE TABLE voice_tasks (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   voice_id UUID REFERENCES voices(id) ON DELETE SET NULL,
-  
+
   validate_task_id VARCHAR(255) UNIQUE,
   validate_phrase TEXT,
   validate_status VARCHAR(50),
-  
+
   generate_task_id VARCHAR(255) UNIQUE,
   recording_url TEXT,
   generate_status VARCHAR(50),
-  
+
   provider_voice_id VARCHAR(255),
-  
+
   created_at TIMESTAMP DEFAULT now(),
   updated_at TIMESTAMP DEFAULT now(),
   completed_at TIMESTAMP
@@ -392,6 +405,7 @@ CREATE TABLE voice_tasks (
 ### VoiceCloningStudio Interface
 
 #### Компонент структура
+
 ```typescript
 interface VoiceCloningStudioProps {
   apiKey: string;
@@ -402,12 +416,14 @@ interface VoiceCloningStudioProps {
 ```
 
 #### UI States
+
 1. **Upload State**: File upload + waveform + segment selection
 2. **Phrase State**: Display phrase + recording controls
 3. **Processing State**: Progress indicators + estimated time
 4. **Complete State**: Success message + voice ID + copy button
 
 #### Progress Tracking
+
 - **Step Indicator**: "Step 1 of 6: Uploading voice..."
 - **Percentage**: 0%, 17%, 33%, 50%, 67%, 83%, 100%
 - **Estimated Time**: Display expected time for each step
@@ -502,6 +518,7 @@ supabase db push
 ### Webhook Configuration
 
 **In Suno Dashboard:**
+
 1. Navigate to Webhooks section
 2. Add webhook URLs:
    - `https://your-domain.com/api/webhooks/voice/validate`
@@ -517,8 +534,10 @@ supabase db push
 ### Common Issues
 
 #### 1. Phrase Generation Fails (`processing_validate_fail`)
+
 **Причина**: Плохое качество аудио, шум, слишком короткий сегмент  
 **Решение**:
+
 ```typescript
 // Попробовать другой аудио сегмент
 await voiceCloning.regeneratePhrase();
@@ -528,8 +547,10 @@ voiceCloning.reset();
 ```
 
 #### 2. Voice Generation Fails (`processing_record_fail`)
+
 **Причина**: Пользователь говорит вместо поёт, плохое качество записи  
 **Решение**:
+
 ```typescript
 // Попросить пользователя перезаписать фразу чётко
 // Использовать браузерный микрофон (не загрузку)
@@ -537,13 +558,15 @@ voiceCloning.reset();
 ```
 
 #### 3. Polling Timeout
+
 **Причина**: Долгое время обработки  
 **Решение**:
+
 ```typescript
 // Увеличить количество попыток
 const service = new VoiceCloneService({
   maxPollingAttempts: 120, // 4 минуты вместо 2
-  pollingInterval: 5000,  // Проверять реже
+  pollingInterval: 5000, // Проверять реже
 });
 ```
 
@@ -556,10 +579,10 @@ try {
   if (error instanceof VoiceCloneServiceError) {
     if (error.statusCode === 400) {
       // Validation error - need better audio
-      showError('Audio quality insufficient. Try different segment.');
+      showError("Audio quality insufficient. Try different segment.");
     } else if (error.statusCode === 408) {
       // Timeout - increase polling time
-      showError('Processing taking longer than expected. Please wait...');
+      showError("Processing taking longer than expected. Please wait...");
     }
   }
 }
@@ -571,14 +594,14 @@ try {
 
 ### Типичные временные показатели
 
-| Шаг | Время | Описание |
-|-----|------|-------------|
-| **Step 1** | <5 сек | Валидация аудио |
-| **Step 2** | 10-30 сек | Генерация фразы |
-| **Step 3** | 30с-5мин | Запись фразы (зависит от пользователя) |
-| **Step 4** | <5 сек | Отправка запроса |
-| **Step 5** | 30-120 сек | Генерация голоса |
-| **Step 6** | <5 сек | Проверка доступности |
+| Шаг        | Время      | Описание                               |
+| ---------- | ---------- | -------------------------------------- |
+| **Step 1** | <5 сек     | Валидация аудио                        |
+| **Step 2** | 10-30 сек  | Генерация фразы                        |
+| **Step 3** | 30с-5мин   | Запись фразы (зависит от пользователя) |
+| **Step 4** | <5 сек     | Отправка запроса                       |
+| **Step 5** | 30-120 сек | Генерация голоса                       |
+| **Step 6** | <5 сек     | Проверка доступности                   |
 
 **Общее время**: 1-5 минут от начала до готового voiceId
 
@@ -595,18 +618,21 @@ try {
 ### Для Лучшего Результата
 
 #### 1. **Оригинальный голос**
+
 - Чёткий вокал без фонового шума
 - 10-15 секунд непрерывного пения
 - Постоянная громкость и темп
 - Без тяжелых эффектов
 
 #### 2. **Запись фразы**
+
 - **ПЕЙ** фразу, не говорит
 - Естественный голос без эффектов
 - Чёткая дикция без искажений
 - Выразительная интонация
 
 #### 3. **Качество аудио**
+
 - Формат: MP3 (320kbps), WAV, OGG
 - Частота: 44.1kHz или 48kHz
 - Битовая глубина: 16-bit или 24-bit
@@ -619,32 +645,35 @@ try {
 ### Существующая интеграция
 
 #### Music Generation
+
 ```typescript
 // Использование голоса в генерации
 const musicResponse = await musicService.generateMusic({
-  prompt: 'Epic metal song',
-  voiceId: 'voice_custom_abc123', // 👈 Custom voice!
-  genre: 'Metal',
-  mood: 'Epic',
+  prompt: "Epic metal song",
+  voiceId: "voice_custom_abc123", // 👈 Custom voice!
+  genre: "Metal",
+  mood: "Epic",
 });
 ```
 
 #### Voice Library
+
 ```typescript
 // Получение голосов пользователя
 const userVoices = await voicesApi.getUserVoices(userId);
 
 // Поиск голосов
-const results = await voicesApi.searchVoices(userId, 'pop');
+const results = await voicesApi.searchVoices(userId, "pop");
 ```
 
 #### Webhook Integration
+
 ```typescript
 // Автоматические обновления при webhook
-const handleWebhook = (event: 'voice.generate_success', data: { voice_id }) => {
+const handleWebhook = (event: "voice.generate_success", data: { voice_id }) => {
   // Обновить UI автоматически
   setVoiceId(data.voice_id);
-  showNotification('Voice is ready!');
+  showNotification("Voice is ready!");
 };
 ```
 
@@ -664,11 +693,11 @@ const metrics = {
 };
 
 // Error tracking
-sentry.captureMessage('voice_cloning_failed', {
-  level: 'error',
+sentry.captureMessage("voice_cloning_failed", {
+  level: "error",
   extra: {
-    step: 'validate_phrase',
-    error_code: 'processing_validate_fail',
+    step: "validate_phrase",
+    error_code: "processing_validate_fail",
     user_id: userId,
   },
 });
@@ -677,14 +706,14 @@ sentry.captureMessage('voice_cloning_failed', {
 ### Логирование
 
 ```typescript
-logger.info('Voice cloning started', {
+logger.info("Voice cloning started", {
   user_id: userId,
   audio_file: fileName,
   segment_duration: durationS,
 });
 
-logger.warn('Voice quality issues detected', {
-  recommendations: ['Use clearer vocal segment', 'Reduce background noise'],
+logger.warn("Voice quality issues detected", {
+  recommendations: ["Use clearer vocal segment", "Reduce background noise"],
 });
 ```
 
@@ -693,6 +722,7 @@ logger.warn('Voice quality issues detected', {
 ## 🧪 Testing Checklist
 
 ### Unit Tests
+
 - [ ] VoiceCloneService.validateVoice() success/failure
 - [ ] VoiceCloneService.pollValidateInfo() timeout behavior
 - [ ] VoiceCloneService.generateVoice() error handling
@@ -700,6 +730,7 @@ logger.warn('Voice quality issues detected', {
 - [ ] getRecommendedSegmentTimes() accuracy
 
 ### Integration Tests
+
 - [ ] Full 6-step workflow E2E test
 - [ ] Webhook callback handling
 - [ ] Voice ID usage in music generation
@@ -707,6 +738,7 @@ logger.warn('Voice quality issues detected', {
 - [ ] UI state transitions
 
 ### Performance Tests
+
 - [ ] Concurrent voice cloning (100+ users)
 - [ ] Large file upload handling
 - [ ] Timeout handling under load
@@ -718,11 +750,13 @@ logger.warn('Voice quality issues detected', {
 ## 📚 Additional Resources
 
 ### Documentation
+
 - [Voice Cloning README](./VOICE_CLONING_README.md) - Полное руководство
 - [API Documentation](https://docs.sunoapi.org/suno-voice) - Suno API docs
 - [Troubleshooting](./TROUBLESHOOTING_GUIDE.md) - Общие troubleshooting
 
 ### Code Examples
+
 - [VoiceCloneService](../../services/voice/VoiceCloneService.ts) - Сервис
 - [useVoiceCloning](../../hooks/useVoiceCloning.ts) - React хук
 - [VoiceCloningStudio](../../components/studio/voice-cloning/VoiceCloningStudio.tsx) - UI компонент
@@ -732,6 +766,7 @@ logger.warn('Voice quality issues detected', {
 ## ✅ Integration Checklist
 
 ### Pre-Deployment
+
 - [ ] Environment variables configured
 - [ ] Database migration applied
 - [ ] Webhook URLs configured in Suno dashboard
@@ -740,6 +775,7 @@ logger.warn('Voice quality issues detected', {
 - [ ] Credits system updated (if applicable)
 
 ### Post-Deployment
+
 - [ ] Test full 6-step workflow
 - [ ] Verify webhook callbacks work
 - [ ] Test voice usage in music generation
@@ -752,7 +788,7 @@ logger.warn('Voice quality issues detected', {
 **Интеграция завершена** ✅  
 **Статус**: Production Ready  
 **Версия**: 1.0.0  
-**Дата**: 2026-06-25  
+**Дата**: 2026-06-25
 
 ---
 

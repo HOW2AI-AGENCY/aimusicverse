@@ -7,28 +7,23 @@
 // Analysis Types & Status
 // ==========================================
 
-export type AnalysisType = 
-  | 'full'           // Complete analysis (style + music theory + emotion)
-  | 'style'          // Genre, mood, instruments, production
-  | 'music-theory'   // Key, BPM, time signature, chords
-  | 'emotion'        // Arousal, valence, energy
-  | 'transcription'  // MIDI transcription
-  | 'beats'          // Beat detection
-  | 'chords'         // Chord recognition
-  | 'lyrics';        // Lyrics transcription
+export type AnalysisType =
+  | "full" // Complete analysis (style + music theory + emotion)
+  | "style" // Genre, mood, instruments, production
+  | "music-theory" // Key, BPM, time signature, chords
+  | "emotion" // Arousal, valence, energy
+  | "transcription" // MIDI transcription
+  | "beats" // Beat detection
+  | "chords" // Chord recognition
+  | "lyrics"; // Lyrics transcription
 
-export type AnalysisStatus = 
-  | 'idle'
-  | 'pending'
-  | 'analyzing'
-  | 'completed'
-  | 'failed';
+export type AnalysisStatus = "idle" | "pending" | "analyzing" | "completed" | "failed";
 
-export type AnalysisProvider = 
-  | 'flamingo'     // Audio Flamingo 3 (Replicate)
-  | 'lovable-ai'   // Lovable AI Gateway
-  | 'klangio'      // Klangio API
-  | 'local';       // Browser-based analysis
+export type AnalysisProvider =
+  | "flamingo" // Audio Flamingo 3 (Replicate)
+  | "lovable-ai" // Lovable AI Gateway
+  | "klangio" // Klangio API
+  | "local"; // Browser-based analysis
 
 // ==========================================
 // Core Analysis Result Interface
@@ -39,7 +34,7 @@ export interface UnifiedAnalysisResult {
   id?: string;
   trackId?: string;
   referenceId?: string;
-  
+
   // Style analysis
   genre?: string;
   subgenres?: string[];
@@ -47,32 +42,32 @@ export interface UnifiedAnalysisResult {
   emotions?: string[];
   styleDescription?: string;
   styleTags?: string[];
-  
+
   // Music theory
   bpm?: number;
   key?: string;
-  scale?: 'major' | 'minor' | 'modal' | 'unknown';
+  scale?: "major" | "minor" | "modal" | "unknown";
   timeSignature?: string;
   structure?: StructureInfo;
-  
+
   // Instrumentation
   instruments?: string[];
   hasVocals?: boolean;
   vocalInfo?: VocalInfo;
-  
+
   // Energy & emotion
   energy?: EnergyInfo;
-  arousal?: number;  // 0-100
-  valence?: number;  // 0-100
-  
+  arousal?: number; // 0-100
+  valence?: number; // 0-100
+
   // Production
   production?: ProductionInfo;
-  
+
   // Beats & chords (from Klangio)
   beats?: BeatData[];
   downbeats?: number[];
   chords?: ChordData[];
-  
+
   // Transcription (from Klangio)
   notes?: NoteData[];
   midiUrl?: string;
@@ -80,11 +75,11 @@ export interface UnifiedAnalysisResult {
   pdfUrl?: string;
   musicXmlUrl?: string;
   gp5Url?: string;
-  
+
   // Lyrics
   lyrics?: string;
   detectedLanguage?: string;
-  
+
   // Metadata
   provider?: AnalysisProvider;
   analyzedAt?: string;
@@ -108,26 +103,26 @@ export interface StructureInfo {
 
 export interface VocalInfo {
   present: boolean;
-  gender?: 'male' | 'female' | 'mixed' | 'unknown' | null;
+  gender?: "male" | "female" | "mixed" | "unknown" | null;
   style?: string | null;
   language?: string | null;
 }
 
 export interface EnergyInfo {
-  level: 'low' | 'medium' | 'high';
-  arousal: number;  // 0-100
-  valence: number;  // 0-100
+  level: "low" | "medium" | "high";
+  arousal: number; // 0-100
+  valence: number; // 0-100
 }
 
 export interface ProductionInfo {
   style?: string;
-  quality?: 'lo-fi' | 'standard' | 'polished' | 'professional';
+  quality?: "lo-fi" | "standard" | "polished" | "professional";
   era?: string;
   techniques?: string[];
 }
 
 export interface BeatData {
-  time: number;      // seconds
+  time: number; // seconds
   confidence?: number;
 }
 
@@ -139,11 +134,11 @@ export interface ChordData {
 }
 
 export interface NoteData {
-  pitch: number;      // MIDI pitch (0-127)
-  startTime: number;  // seconds
-  endTime: number;    // seconds
-  velocity: number;   // 0-127
-  noteName?: string;  // e.g., "C4", "A#3"
+  pitch: number; // MIDI pitch (0-127)
+  startTime: number; // seconds
+  endTime: number; // seconds
+  velocity: number; // 0-127
+  noteName?: string; // e.g., "C4", "A#3"
 }
 
 // ==========================================
@@ -156,21 +151,21 @@ export interface AnalysisRequest {
   audioFile?: File;
   trackId?: string;
   referenceId?: string;
-  
+
   // What to analyze
   analysisTypes: AnalysisType[];
-  
+
   // Options
-  provider?: AnalysisProvider;  // Auto-select if not specified
-  customPrompt?: string;        // For AI analysis
-  vocabulary?: 'major-minor' | 'full';  // For chord analysis
-  model?: string;               // For transcription
-  stemType?: string;            // For intelligent model selection
-  
+  provider?: AnalysisProvider; // Auto-select if not specified
+  customPrompt?: string; // For AI analysis
+  vocabulary?: "major-minor" | "full"; // For chord analysis
+  model?: string; // For transcription
+  stemType?: string; // For intelligent model selection
+
   // Context
   userId?: string;
   title?: string;
-  
+
   // Callbacks
   onProgress?: (status: AnalysisStatus, message?: string) => void;
 }
@@ -183,7 +178,7 @@ export interface AnalysisState {
   status: AnalysisStatus;
   result: UnifiedAnalysisResult | null;
   error: string | null;
-  progress?: number;  // 0-100
+  progress?: number; // 0-100
   currentStep?: string;
 }
 
@@ -192,10 +187,10 @@ export interface AnalysisState {
 // ==========================================
 
 export const PROVIDER_CAPABILITIES: Record<AnalysisProvider, AnalysisType[]> = {
-  'flamingo': ['full', 'style', 'music-theory', 'emotion'],
-  'lovable-ai': ['style', 'emotion'],
-  'klangio': ['transcription', 'beats', 'chords'],
-  'local': ['music-theory', 'beats'],
+  flamingo: ["full", "style", "music-theory", "emotion"],
+  "lovable-ai": ["style", "emotion"],
+  klangio: ["transcription", "beats", "chords"],
+  local: ["music-theory", "beats"],
 };
 
 // ==========================================
@@ -203,12 +198,12 @@ export const PROVIDER_CAPABILITIES: Record<AnalysisProvider, AnalysisType[]> = {
 // ==========================================
 
 export const DEFAULT_PROVIDER_FOR_TYPE: Record<AnalysisType, AnalysisProvider> = {
-  'full': 'flamingo',
-  'style': 'flamingo',
-  'music-theory': 'flamingo',
-  'emotion': 'lovable-ai',
-  'transcription': 'klangio',
-  'beats': 'klangio',
-  'chords': 'klangio',
-  'lyrics': 'lovable-ai',
+  full: "flamingo",
+  style: "flamingo",
+  "music-theory": "flamingo",
+  emotion: "lovable-ai",
+  transcription: "klangio",
+  beats: "klangio",
+  chords: "klangio",
+  lyrics: "lovable-ai",
 };

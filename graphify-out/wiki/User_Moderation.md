@@ -29,7 +29,7 @@
 - [2.4 Smart Shuffle Algorithm](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L398) (1 connections)
 - [2.5 Enhanced Repeat-One Mode](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L432) (1 connections)
 - [2.6 Improved Solo/Mute Logic](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L480) (1 connections)
-- *... and 24 more nodes in this community*
+- _... and 24 more nodes in this community_
 
 ## Relationships
 
@@ -47,4 +47,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

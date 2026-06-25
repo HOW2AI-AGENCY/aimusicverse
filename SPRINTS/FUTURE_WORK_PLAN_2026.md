@@ -11,6 +11,7 @@
 На основе анализа текущего состояния (Health Score: 98/100, Progress: 99%) и завершения Sprint 32, составлен детальный план дальнейших работ. Приоритет смещен с разработки новых функций на **монетизацию, удержание и рост метрик**.
 
 ### Критические проблемы для решения
+
 1. **Bounce Rate 72%** - слишком высокий показатель
 2. **Generation Failure 16%** - каждая 6-я генерация не удается
 3. **Низкая монетизация** - платежи не активированы
@@ -27,6 +28,7 @@
 #### Sprint 033: Integration & Metrics
 
 **Задачи:**
+
 - [ ] Применить патчи для Index.tsx, Library.tsx, CommentsList.tsx
 - [ ] Интегрировать `useGenerationWithErrorHandling` в generation flow
 - [ ] Добавить аналитические events для всех новых компонентов
@@ -34,6 +36,7 @@
 - [ ] A/B тестирование: контрольная группа vs новая UX
 
 **Метрики для отслеживания:**
+
 ```typescript
 // Новые events
 'quick_start_tapped'
@@ -52,6 +55,7 @@ continue_creating_funnel: track_end → view → tap → generate
 ```
 
 **Success Criteria:**
+
 - First Generation Conversion: 15% → 25%+
 - Comment Rate: 0% → 3%+
 - Error Recovery Rate: 40% → 65%+
@@ -65,6 +69,7 @@ continue_creating_funnel: track_end → view → tap → generate
 #### Sprint 034: Monetization & Retention
 
 **Priority 1: Tinkoff Payments**
+
 - [ ] Интегрировать Tinkoff Acquiring API
 - [ ] Создать credit packages: 100/500/1000 кредитов
 - [ ] Добавить payment dialog с выбором пакета
@@ -72,6 +77,7 @@ continue_creating_funnel: track_end → view → tap → generate
 - [ ] История транзакций в профиле
 
 **Priority 2: Referral Program**
+
 - [ ] Генерация реферальных ссылок
 - [ ] Бонусы: 50 кредитов приглашателю, 100 приглашенному
 - [ ] Track referral conversions
@@ -79,12 +85,14 @@ continue_creating_funnel: track_end → view → tap → generate
 - [ ] Шаринг в Telegram Stories с реферальной ссылкой
 
 **Priority 3: Streak Bonuses**
+
 - [ ] Ежедневный бонус за вход: 10 × streak
 - [ ] Maximum: 100 кредитов/день
 - [ ] Напоминания о бонусе
 - [ ] Стreak reset при пропуске дня
 
 **Priority 4: Simplified Daily Missions**
+
 - [ ] Снизить с 5 до 3 миссий:
   - Сгенерировать 1 трек (было 5)
   - Прослушать 5 треков полностью
@@ -93,6 +101,7 @@ continue_creating_funnel: track_end → view → tap → generate
 - [ ] Прогресс-бар для выполнения
 
 **Success Criteria:**
+
 - Payment Conversion Rate: >5%
 - Referral Conversion Rate: >10%
 - Day 7 Retention: +40%
@@ -106,12 +115,14 @@ continue_creating_funnel: track_end → view → tap → generate
 #### Sprint 035: Mobile-First UX
 
 **Priority 1: Touch Targets**
+
 - [ ] Аудит всех интерактивных элементов
 - [ ] Увеличить до 48-56px все кнопки
 - [ ] Padding между элементами 8-12px
 - [ ] Testing на реальных устройствах
 
 **Priority 2: Gesture Navigation**
+
 - [ ] Swipe right для "назад"
 - [ ] Swipe up/down для плеера
 - [ ] Long press для контекстного меню
@@ -119,6 +130,7 @@ continue_creating_funnel: track_end → view → tap → generate
 - [ ] Конфликтов со скроллом: 0
 
 **Priority 3: Telegram Stories Sharing**
+
 - [ ] Интегрировать Telegram Stories API
 - [ ] Генерировать превью трека для сторис
 - [ ] Add music preview layer
@@ -126,12 +138,14 @@ continue_creating_funnel: track_end → view → tap → generate
 - [ ] CTA "Создай свой" в сторис
 
 **Priority 4: Voice Message Generation**
+
 - [ ] Запись голосового сообщения
 - [ ] Распознавание речи в текст
 - [ ] Генерация из голосового промпта
 - [ ] Feedback: "Генерирую из: ..."
 
 **Success Criteria:**
+
 - Touch targets compliance: 100%
 - Mobile session duration: +30%
 - Stories share rate: >15%
@@ -145,6 +159,7 @@ continue_creating_funnel: track_end → view → tap → generate
 #### Sprint 036: Quality & Stability
 
 **Priority 1: Monitoring & Alerting**
+
 - [ ] Настроить Sentry для error tracking
 - [ ] Алерты при >10% failure rate
 - [ ] Dashboard с метриками:
@@ -155,6 +170,7 @@ continue_creating_funnel: track_end → view → tap → generate
 - [ ] Логирование с контекстом (userId, trackId, etc.)
 
 **Priority 2: Automatic Retry Integration**
+
 - [ ] Интегрировать `useAutomaticRetry` в generation
 - [ ] Retry с exponential backoff: 1s, 2s, 4s, 8s
 - [ ] Max 3 retry для retryable ошибок
@@ -162,6 +178,7 @@ continue_creating_funnel: track_end → view → tap → generate
 - [ ] Analytics для retry attempts
 
 **Priority 3: Bundle Optimization**
+
 - [ ] Анализ vendor bundle 184KB
 - [ ] Remove unused dependencies
 - [ ] Tree-shaking для framer-motion (уже есть @/lib/motion)
@@ -169,6 +186,7 @@ continue_creating_funnel: track_end → view → tap → generate
 - [ **Target: vendor <150KB**
 
 **Priority 4: Service Worker**
+
 - [ ] Offline support для кэшированных треков
 - [ ] Cache-first strategy для API
 - [ **Network-first strategy для generation**
@@ -176,6 +194,7 @@ continue_creating_funnel: track_end → view → tap → generate
 - [ ] Precaching critical routes
 
 **Success Criteria:**
+
 - Generation success rate: 92%+ (с 84%)
 - Bundle size: <150KB vendor
 - Error alert coverage: 100%
@@ -189,6 +208,7 @@ continue_creating_funnel: track_end → view → tap → generate
 **Цель:** Рост DAU и вовлеченности
 
 #### Sprint 037: Social Features Enhancement
+
 - [ ] Shared плейлисты (коллаборации)
 - [ ] Комментарии с @mentions
 - [ ] Комментарии с тайм-кодами
@@ -196,6 +216,7 @@ continue_creating_funnel: track_end → view → tap → generate
 - [ ] Push-уведомления о лайках/комментариях
 
 #### Sprint 038: Content Discovery
+
 - [ ] AI-powered рекомендации
 - [ ] "Similar tracks" секция
 - [ ] "Discover weekly" плейлисты
@@ -203,6 +224,7 @@ continue_creating_funnel: track_end → view → tap → generate
 - [ ] Trending tracks page
 
 #### Sprint 039: Creator Tools
+
 - [ ] Batch generation (5 треков сразу)
 - [ ] Template library (шаблоны промптов)
 - [ ] Prompt history с поиском
@@ -210,6 +232,7 @@ continue_creating_funnel: track_end → view → tap → generate
 - [ ] AI assistant для промптов
 
 **Success Criteria:**
+
 - DAU: +50%
 - Session Duration: 6+ min (с 4.3 min)
 - Social interactions: +100%
@@ -219,6 +242,7 @@ continue_creating_funnel: track_end → view → tap → generate
 ### Месяц 4-5: Advanced Features (Sprint 040-042)
 
 #### Sprint 040: Advanced Studio
+
 - [ ] Real-time коллаборация в студии
 - [ ] MIDI editor улучшения
 - [ ] Automation plugins (FX chains)
@@ -226,6 +250,7 @@ continue_creating_funnel: track_end → view → tap → generate
 - [ ] Undo/Redo для студии
 
 #### Sprint 041: Export & Distribution
+
 - [ ] Экспорт в Spotify/Apple Music/Yandex Music
 - [ ] ZIP архив проекта (stems + MIDI)
 - [ ] DAW integration (Ableton, FL Studio)
@@ -233,6 +258,7 @@ continue_creating_funnel: track_end → view → tap → generate
 - [ ] Royalty distribution
 
 #### Sprint 042: API & Ecosystem
+
 - [ ] Public API для разработчиков
 - [ ] Webhook system
 - [ ] OAuth2 authorization
@@ -240,6 +266,7 @@ continue_creating_funnel: track_end → view → tap → generate
 - [ ] Developer dashboard
 
 **Success Criteria:**
+
 - API adoption: 10+ интеграций
 - Export rate: 5%+ треков
 - API QPS: 1000+
@@ -439,39 +466,39 @@ Q2 2026 (Апр-Июн)
 
 ### Через 2 недели (после интеграции Sprint 32)
 
-| Метрика | Сейчас | Ожидание | Изменение |
-|---------|--------|-----------|------------|
-| First Generation Conversion | 15% | 25-30% | +10-15% |
-| Error Recovery Rate | 40% | 65-70% | +25% |
-| Comment Rate | 0% | 3-5% | +3-5% |
-| Continue Creating Rate | N/A | 15-20% | New |
+| Метрика                     | Сейчас | Ожидание | Изменение |
+| --------------------------- | ------ | -------- | --------- |
+| First Generation Conversion | 15%    | 25-30%   | +10-15%   |
+| Error Recovery Rate         | 40%    | 65-70%   | +25%      |
+| Comment Rate                | 0%     | 3-5%     | +3-5%     |
+| Continue Creating Rate      | N/A    | 15-20%   | New       |
 
 ### Через 4 недели (после монетизации)
 
-| Метрика | Цель |
-|---------|------|
-| Payment Conversion | >5% |
+| Метрика             | Цель |
+| ------------------- | ---- |
+| Payment Conversion  | >5%  |
 | Referral Conversion | >10% |
-| Day 7 Retention | +40% |
-| ARPU | +$2 |
+| Day 7 Retention     | +40% |
+| ARPU                | +$2  |
 
 ### Через 8 недель (после mobile optimization)
 
-| Метрика | Цель |
-|---------|------|
-| Bounce Rate | <60% |
-| Mobile Session Duration | +30% |
-| Stories Share Rate | >15% |
+| Метрика                  | Цель |
+| ------------------------ | ---- |
+| Bounce Rate              | <60% |
+| Mobile Session Duration  | +30% |
+| Stories Share Rate       | >15% |
 | Touch Targets Compliance | 100% |
 
 ### Через 12 недель (Q2 конец)
 
-| Метрика | Цель |
-|---------|------|
-| DAU | +50% |
-| Session Duration | 6+ min |
-| Social Interactions | +100% |
-| Generation Success Rate | 92%+ |
+| Метрика                 | Цель   |
+| ----------------------- | ------ |
+| DAU                     | +50%   |
+| Session Duration        | 6+ min |
+| Social Interactions     | +100%  |
+| Generation Success Rate | 92%+   |
 
 ---
 
@@ -592,16 +619,19 @@ npm run dev
 ## ✅ Next Steps (Эта неделя)
 
 ### День 1-2: Интеграция
+
 - [ ] Применить интеграционные патчи
 - [ ] Тестирование компонентов
 - [ ] Fix bugs если найдены
 
 ### День 3-4: Метрики
+
 - [ ] Создать metrics dashboard
 - [ ] Добавить analytics tracking
 - [ ] Настроить A/B тестирование
 
 ### День 5: Релиз
+
 - [ ] Code review
 - [ ] Deploy на staging
 - [ ] Мониторинг метрик

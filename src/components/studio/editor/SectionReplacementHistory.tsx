@@ -1,25 +1,21 @@
 /**
  * SectionReplacementHistory
- * 
+ *
  * Displays history of all section replacements for a track
  * with ability to preview, compare, and rollback to any version
  */
 
-import { useState, useMemo } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { 
-  History, Play, Pause, RotateCcw, Check, 
-  Clock, ChevronDown, ChevronUp, X,
-  GitBranch
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { cn } from '@/lib/utils';
-import { formatTime } from '@/lib/player-utils';
-import { useReplacedSections } from '@/hooks/useReplacedSections';
-import { format, ru } from '@/lib/date-utils';
+import { useState, useMemo } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { History, Play, Pause, RotateCcw, Check, Clock, ChevronDown, ChevronUp, X, GitBranch } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { cn } from "@/lib/utils";
+import { formatTime } from "@/lib/player-utils";
+import { useReplacedSections } from "@/hooks/useReplacedSections";
+import { format, ru } from "@/lib/date-utils";
 
 interface SectionReplacementHistoryProps {
   trackId: string;
@@ -44,27 +40,25 @@ export function SectionReplacementHistory({
   // Group sections by date
   const groupedSections = useMemo(() => {
     if (!sections) return [];
-    
+
     const groups: Record<string, typeof sections> = {};
-    sections.forEach(section => {
-      const date = format(new Date(section.createdAt), 'yyyy-MM-dd');
+    sections.forEach((section) => {
+      const date = format(new Date(section.createdAt), "yyyy-MM-dd");
       if (!groups[date]) groups[date] = [];
       groups[date].push(section);
     });
-    
+
     return Object.entries(groups).map(([date, items]) => ({
       date,
-      formattedDate: format(new Date(date), 'd MMMM yyyy', { locale: ru }),
+      formattedDate: format(new Date(date), "d MMMM yyyy", { locale: ru }),
       items,
     }));
   }, [sections]);
 
-  const completedCount = sections?.filter(s => s.status === 'completed').length || 0;
+  const completedCount = sections?.filter((s) => s.status === "completed").length || 0;
 
   if (isLoading) {
-    return (
-      <div className={cn("animate-pulse h-10 bg-muted/30 rounded-lg", className)} />
-    );
+    return <div className={cn("animate-pulse h-10 bg-muted/30 rounded-lg", className)} />;
   }
 
   if (!sections?.length) {
@@ -74,11 +68,7 @@ export function SectionReplacementHistory({
   return (
     <Collapsible open={isOpen} onOpenChange={setIsOpen} className={className}>
       <CollapsibleTrigger asChild>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="w-full justify-between h-9 px-3 hover:bg-muted/50"
-        >
+        <Button variant="ghost" size="sm" className="w-full justify-between h-9 px-3 hover:bg-muted/50">
           <div className="flex items-center gap-2">
             <History className="w-4 h-4 text-muted-foreground" />
             <span className="text-sm">История замен</span>
@@ -93,7 +83,7 @@ export function SectionReplacementHistory({
           )}
         </Button>
       </CollapsibleTrigger>
-      
+
       <CollapsibleContent>
         <motion.div
           initial={{ opacity: 0 }}
@@ -111,7 +101,7 @@ export function SectionReplacementHistory({
                       {group.formattedDate}
                     </span>
                   </div>
-                  
+
                   {/* Sections for this date */}
                   <div className="space-y-1">
                     {group.items.map((section, idx) => (
@@ -122,16 +112,14 @@ export function SectionReplacementHistory({
                         isExpanded={expandedSection === section.taskId}
                         isPlaying={playingId === section.taskId}
                         onToggleExpand={() => {
-                          setExpandedSection(
-                            expandedSection === section.taskId ? null : section.taskId
-                          );
+                          setExpandedSection(expandedSection === section.taskId ? null : section.taskId);
                         }}
                         onPlay={() => {
                           if (section.audioUrl) {
                             setPlayingId(section.taskId);
-                            onPreview(section.audioUrl, { 
-                              start: section.start, 
-                              end: section.end 
+                            onPreview(section.audioUrl, {
+                              start: section.start,
+                              end: section.end,
                             });
                           }
                         }}
@@ -186,10 +174,10 @@ function HistoryItem({
   onStop,
   onRollback,
 }: HistoryItemProps) {
-  const isCompleted = section.status === 'completed';
-  const isPending = section.status === 'pending' || section.status === 'processing';
+  const isCompleted = section.status === "completed";
+  const isPending = section.status === "pending" || section.status === "processing";
   const duration = section.end - section.start;
-  const time = format(new Date(section.createdAt), 'HH:mm');
+  const time = format(new Date(section.createdAt), "HH:mm");
 
   return (
     <motion.div
@@ -198,34 +186,26 @@ function HistoryItem({
       animate={{ opacity: 1, y: 0 }}
       className={cn(
         "rounded-lg border transition-all",
-        isExpanded 
-          ? "border-primary/30 bg-primary/5" 
-          : "border-border/30 bg-background/50 hover:bg-muted/30"
+        isExpanded ? "border-primary/30 bg-primary/5" : "border-border/30 bg-background/50 hover:bg-muted/30",
       )}
     >
       {/* Main row */}
-      <div 
-        className="flex items-center gap-2 p-2 cursor-pointer"
-        onClick={onToggleExpand}
-      >
+      <div className="flex items-center gap-2 p-2 cursor-pointer" onClick={onToggleExpand}>
         {/* Status indicator */}
-        <div className={cn(
-          "w-2 h-2 rounded-full flex-shrink-0",
-          isCompleted && "bg-green-500",
-          isPending && "bg-amber-500 animate-pulse",
-          section.status === 'failed' && "bg-destructive"
-        )} />
-        
+        <div
+          className={cn(
+            "w-2 h-2 rounded-full flex-shrink-0",
+            isCompleted && "bg-green-500",
+            isPending && "bg-amber-500 animate-pulse",
+            section.status === "failed" && "bg-destructive",
+          )}
+        />
+
         {/* Info */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5">
-            <span className="text-xs font-medium">
-              Замена #{index}
-            </span>
-            <Badge 
-              variant="outline" 
-              className="h-4 px-1 text-[9px] font-mono"
-            >
+            <span className="text-xs font-medium">Замена #{index}</span>
+            <Badge variant="outline" className="h-4 px-1 text-[9px] font-mono">
               {formatTime(section.start)} — {formatTime(section.end)}
             </Badge>
           </div>
@@ -233,7 +213,7 @@ function HistoryItem({
             {duration.toFixed(1)}с • {time}
           </p>
         </div>
-        
+
         {/* Quick actions */}
         {isCompleted && section.audioUrl && !isExpanded && (
           <div className="flex items-center gap-1">
@@ -246,30 +226,25 @@ function HistoryItem({
                 isPlaying ? onStop() : onPlay();
               }}
             >
-              {isPlaying ? (
-                <Pause className="w-3.5 h-3.5" />
-              ) : (
-                <Play className="w-3.5 h-3.5 ml-0.5" />
-              )}
+              {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 ml-0.5" />}
             </Button>
           </div>
         )}
-        
+
         {/* Expand icon */}
         {isCompleted && (
-          <ChevronDown className={cn(
-            "w-4 h-4 text-muted-foreground transition-transform",
-            isExpanded && "rotate-180"
-          )} />
+          <ChevronDown
+            className={cn("w-4 h-4 text-muted-foreground transition-transform", isExpanded && "rotate-180")}
+          />
         )}
       </div>
-      
+
       {/* Expanded content */}
       <AnimatePresence>
         {isExpanded && isCompleted && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
+            animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             className="overflow-hidden"
           >
@@ -285,11 +260,7 @@ function HistoryItem({
                       isPlaying ? onStop() : onPlay();
                     }}
                   >
-                    {isPlaying ? (
-                      <Pause className="w-3 h-3" />
-                    ) : (
-                      <Play className="w-3 h-3" />
-                    )}
+                    {isPlaying ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3" />}
                     Вариант A
                   </Button>
                 )}
@@ -307,14 +278,9 @@ function HistoryItem({
                   </Button>
                 )}
               </div>
-              
+
               {/* Rollback button */}
-              <Button
-                variant="secondary"
-                size="sm"
-                className="w-full h-8 text-xs gap-1.5"
-                onClick={onRollback}
-              >
+              <Button variant="secondary" size="sm" className="w-full h-8 text-xs gap-1.5" onClick={onRollback}>
                 <RotateCcw className="w-3 h-3" />
                 Откатить к этой версии
               </Button>

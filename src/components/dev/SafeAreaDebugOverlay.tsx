@@ -49,9 +49,7 @@ export function SafeAreaDebugOverlay() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     const params = new URLSearchParams(window.location.search);
-    const flag =
-      params.get("debugSafeArea") === "1" ||
-      window.localStorage.getItem("mv:debug-safe-area") === "1";
+    const flag = params.get("debugSafeArea") === "1" || window.localStorage.getItem("mv:debug-safe-area") === "1";
     setEnabled(flag);
   }, []);
 
@@ -84,9 +82,7 @@ export function SafeAreaDebugOverlay() {
       setDir((document.documentElement.dir as "ltr" | "rtl") || "ltr");
 
       // Container: prefer #main-content, fall back to <main>
-      const mainEl =
-        (document.getElementById("main-content") as HTMLElement | null) ??
-        document.querySelector("main");
+      const mainEl = (document.getElementById("main-content") as HTMLElement | null) ?? document.querySelector("main");
       if (mainEl) {
         const r = mainEl.getBoundingClientRect();
         setContainer({
@@ -102,12 +98,8 @@ export function SafeAreaDebugOverlay() {
 
       // Skeleton bounding boxes + toast bounding boxes
       const targets: Array<{ el: Element; label: string }> = [];
-      document
-        .querySelectorAll("[data-safe-skeleton]")
-        .forEach((el) => targets.push({ el, label: "skeleton" }));
-      document
-        .querySelectorAll("[data-sonner-toast]")
-        .forEach((el) => targets.push({ el, label: "toast" }));
+      document.querySelectorAll("[data-safe-skeleton]").forEach((el) => targets.push({ el, label: "skeleton" }));
+      document.querySelectorAll("[data-sonner-toast]").forEach((el) => targets.push({ el, label: "toast" }));
 
       setBboxes(
         targets.map(({ el, label }) => {
@@ -184,8 +176,12 @@ export function SafeAreaDebugOverlay() {
         className="fixed left-1/2 -translate-x-1/2 z-[9999] rounded-lg bg-black/85 px-3 py-2 text-[11px] font-mono text-fuchsia-200 shadow-xl pointer-events-auto space-y-0.5"
         style={{ top: `calc(${insets.top}px + 8px)` }}
       >
-        <div>env t:{insets.top} r:{insets.right} b:{insets.bottom} l:{insets.left}</div>
-        <div>tg-top:{insets.tg} • bottom-stack:{insets.stack} • dir:{dir}</div>
+        <div>
+          env t:{insets.top} r:{insets.right} b:{insets.bottom} l:{insets.left}
+        </div>
+        <div>
+          tg-top:{insets.tg} • bottom-stack:{insets.stack} • dir:{dir}
+        </div>
         {container && (
           <div className="text-cyan-300">
             main: {Math.round(container.width)}px @ x={Math.round(container.left)}

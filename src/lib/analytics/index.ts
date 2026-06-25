@@ -1,6 +1,6 @@
 /**
  * Analytics Library Module
- * 
+ *
  * Core analytics utilities and tracking functionality.
  */
 
@@ -11,35 +11,35 @@ export {
   getDeeplinkContext,
   setDeeplinkContext,
   initializeDeeplinkTracker,
-  
+
   // UTM & Source
   parseUTMParams,
   hasUTMParams,
   detectSource,
-  
+
   // Device
   collectDeviceInfo,
-  
+
   // Referral
   addToReferralChain,
   getReferralChain,
-  
+
   // Conversion
   getConversionStages,
   hasReachedStage,
   trackConversionStage,
-  
+
   // Experiments
   getExperimentAssignments,
   assignToExperiment,
-  
+
   // Main tracking
   trackDeeplinkVisit,
   fetchDeeplinkAnalyticsSummary,
-  
+
   // URL Building
   buildDeeplinkUrl,
-  
+
   // Types
   type UTMParams,
   type DeeplinkContext,
@@ -50,10 +50,10 @@ export {
   type ExperimentAssignment,
   type DeeplinkAnalyticsSummary,
   type DeeplinkBuildOptions,
-} from './deeplink-tracker';
+} from "./deeplink-tracker";
 
 // Re-export services for convenience
-export { 
+export {
   trackEvent,
   trackPageView,
   trackGeneration,
@@ -61,13 +61,13 @@ export {
   trackButtonClick,
   trackDeeplink,
   markConversion,
-} from '@/services/analytics';
+} from "@/services/analytics";
 
 // Re-export hooks for convenience
-export { 
-  useDeeplinkTracker, 
+export {
+  useDeeplinkTracker,
   useConversionTracking,
   useQuickConversions,
   useAnalyticsProvider,
   useConversion,
-} from '@/hooks/analytics';
+} from "@/hooks/analytics";

@@ -1,17 +1,12 @@
-import { useState } from 'react';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { useProjectTracks } from '@/hooks/useProjectTracks';
-import { toast } from 'sonner';
-import { Plus } from 'lucide-react';
+import { useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { useProjectTracks } from "@/hooks/useProjectTracks";
+import { toast } from "sonner";
+import { Plus } from "lucide-react";
 
 interface AddTrackDialogProps {
   open: boolean;
@@ -23,14 +18,14 @@ interface AddTrackDialogProps {
 export const AddTrackDialog = ({ open, onOpenChange, projectId, tracksCount }: AddTrackDialogProps) => {
   const { addTrack } = useProjectTracks(projectId);
   const [formData, setFormData] = useState({
-    title: '',
-    style_prompt: '',
-    notes: '',
+    title: "",
+    style_prompt: "",
+    notes: "",
   });
 
   const handleSubmit = () => {
     if (!formData.title.trim()) {
-      toast.error('Введите название трека');
+      toast.error("Введите название трека");
       return;
     }
 
@@ -40,12 +35,12 @@ export const AddTrackDialog = ({ open, onOpenChange, projectId, tracksCount }: A
       project_id: projectId,
       style_prompt: formData.style_prompt || null,
       notes: formData.notes || null,
-      status: 'draft',
+      status: "draft",
     });
 
-    setFormData({ title: '', style_prompt: '', notes: '' });
+    setFormData({ title: "", style_prompt: "", notes: "" });
     onOpenChange(false);
-    toast.success('Трек добавлен');
+    toast.success("Трек добавлен");
   };
 
   return (

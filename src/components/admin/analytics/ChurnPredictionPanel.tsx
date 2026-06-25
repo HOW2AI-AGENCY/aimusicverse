@@ -1,107 +1,80 @@
 /**
  * Churn Prediction Panel
- * 
+ *
  * Displays users at risk of churning with actionable insights.
  */
 
-import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { 
-  AlertTriangle, 
-  TrendingDown, 
-  Users, 
+import { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  AlertTriangle,
+  TrendingDown,
+  Users,
   RefreshCw,
   ChevronDown,
   ChevronUp,
   Coins,
   MessageSquare,
   Heart,
-  Zap
-} from 'lucide-react';
-import { useChurnPrediction, type ChurnRiskUser } from '@/hooks/analytics/useChurnPrediction';
-import { cn } from '@/lib/utils';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+  Zap,
+} from "lucide-react";
+import { useChurnPrediction, type ChurnRiskUser } from "@/hooks/analytics/useChurnPrediction";
+import { cn } from "@/lib/utils";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const RISK_COLORS = {
-  critical: 'bg-destructive text-destructive-foreground',
-  high: 'bg-orange-500 text-white',
-  medium: 'bg-yellow-500 text-black',
-  low: 'bg-green-500 text-white',
+  critical: "bg-destructive text-destructive-foreground",
+  high: "bg-orange-500 text-white",
+  medium: "bg-yellow-500 text-black",
+  low: "bg-green-500 text-white",
 };
 
 const RISK_LABELS = {
-  critical: 'Критический',
-  high: 'Высокий',
-  medium: 'Средний',
-  low: 'Низкий',
+  critical: "Критический",
+  high: "Высокий",
+  medium: "Средний",
+  low: "Низкий",
 };
 
 function ChurnScoreBar({ score }: { score: number }) {
   const getColor = () => {
-    if (score >= 80) return 'bg-destructive';
-    if (score >= 60) return 'bg-orange-500';
-    if (score >= 40) return 'bg-yellow-500';
-    return 'bg-green-500';
+    if (score >= 80) return "bg-destructive";
+    if (score >= 60) return "bg-orange-500";
+    if (score >= 40) return "bg-yellow-500";
+    return "bg-green-500";
   };
 
   return (
     <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
-      <div 
-        className={cn('h-full rounded-full transition-all', getColor())}
-        style={{ width: `${score}%` }}
-      />
+      <div className={cn("h-full rounded-full transition-all", getColor())} style={{ width: `${score}%` }} />
     </div>
   );
 }
 
-function UserChurnCard({ user, expanded, onToggle }: { 
-  user: ChurnRiskUser; 
-  expanded: boolean;
-  onToggle: () => void;
-}) {
+function UserChurnCard({ user, expanded, onToggle }: { user: ChurnRiskUser; expanded: boolean; onToggle: () => void }) {
   return (
     <div className="border rounded-lg p-3 space-y-2">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Avatar className="h-10 w-10">
             <AvatarImage src={user.avatar_url || undefined} />
-            <AvatarFallback>
-              {user.username?.[0]?.toUpperCase() || 'U'}
-            </AvatarFallback>
+            <AvatarFallback>{user.username?.[0]?.toUpperCase() || "U"}</AvatarFallback>
           </Avatar>
           <div>
-            <p className="font-medium text-sm">
-              {user.username || `User ${user.user_id.slice(0, 8)}`}
-            </p>
-            <p className="text-xs text-muted-foreground">
-              {user.telegram_id ? `TG: ${user.telegram_id}` : 'Web user'}
-            </p>
+            <p className="font-medium text-sm">{user.username || `User ${user.user_id.slice(0, 8)}`}</p>
+            <p className="text-xs text-muted-foreground">{user.telegram_id ? `TG: ${user.telegram_id}` : "Web user"}</p>
           </div>
         </div>
-        
+
         <div className="flex items-center gap-2">
-          <Badge className={cn('text-xs', RISK_COLORS[user.risk_level])}>
-            {RISK_LABELS[user.risk_level]}
-          </Badge>
-          <span className="font-mono text-sm font-bold">
-            {user.churn_score}%
-          </span>
-          <Button 
-            variant="ghost" 
-            size="icon"
-            className="h-6 w-6"
-            onClick={onToggle}
-          >
+          <Badge className={cn("text-xs", RISK_COLORS[user.risk_level])}>{RISK_LABELS[user.risk_level]}</Badge>
+          <span className="font-mono text-sm font-bold">{user.churn_score}%</span>
+          <Button variant="ghost" size="icon" className="h-6 w-6" onClick={onToggle}>
             {expanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
           </Button>
         </div>
@@ -191,13 +164,13 @@ function UserChurnCard({ user, expanded, onToggle }: {
 export function ChurnPredictionPanel() {
   const { users, summary, isLoading, refetch } = useChurnPrediction({
     limit: 50,
-    minRiskLevel: 'medium',
+    minRiskLevel: "medium",
   });
-  
+
   const [expandedUsers, setExpandedUsers] = useState<Set<string>>(new Set());
 
   const toggleUser = (userId: string) => {
-    setExpandedUsers(prev => {
+    setExpandedUsers((prev) => {
       const next = new Set(prev);
       if (next.has(userId)) {
         next.delete(userId);
@@ -218,7 +191,7 @@ export function ChurnPredictionPanel() {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
-          {[1, 2, 3].map(i => (
+          {[1, 2, 3].map((i) => (
             <Skeleton key={i} className="h-24 w-full" />
           ))}
         </CardContent>
@@ -234,11 +207,7 @@ export function ChurnPredictionPanel() {
             <TrendingDown className="h-5 w-5" />
             Прогноз оттока
           </CardTitle>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            onClick={() => refetch()}
-          >
+          <Button variant="ghost" size="sm" onClick={() => refetch()}>
             <RefreshCw className="h-4 w-4 mr-1" />
             Обновить
           </Button>
@@ -279,7 +248,7 @@ export function ChurnPredictionPanel() {
                 <p>Нет пользователей с высоким риском оттока</p>
               </div>
             ) : (
-              users.map(user => (
+              users.map((user) => (
                 <UserChurnCard
                   key={user.user_id}
                   user={user}

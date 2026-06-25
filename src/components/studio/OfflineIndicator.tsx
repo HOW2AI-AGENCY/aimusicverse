@@ -1,23 +1,19 @@
 /**
  * Offline Indicator Component
- * 
+ *
  * Displays network status and audio cache information.
  * Shows when audio is available for offline playback.
  */
 
-import { memo, useState, useEffect } from 'react';
-import { Cloud, CloudOff, Download, HardDrive, Loader2 } from 'lucide-react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { useOfflineStatus } from '@/hooks/useOfflineStatus';
-import { getAudioCacheSize, precacheAudioUrls } from '@/lib/audioServiceWorker';
-import { cn } from '@/lib/utils';
+import { memo, useState, useEffect } from "react";
+import { Cloud, CloudOff, Download, HardDrive, Loader2 } from "lucide-react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { useOfflineStatus } from "@/hooks/useOfflineStatus";
+import { getAudioCacheSize, precacheAudioUrls } from "@/lib/audioServiceWorker";
+import { cn } from "@/lib/utils";
 
 interface OfflineIndicatorProps {
   audioUrls?: string[];
@@ -25,17 +21,14 @@ interface OfflineIndicatorProps {
 }
 
 function formatBytes(bytes: number): string {
-  if (bytes === 0) return '0 B';
+  if (bytes === 0) return "0 B";
   const k = 1024;
-  const sizes = ['B', 'KB', 'MB', 'GB'];
+  const sizes = ["B", "KB", "MB", "GB"];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(1))} ${sizes[i]}`;
 }
 
-export const OfflineIndicator = memo(function OfflineIndicator({
-  audioUrls = [],
-  className,
-}: OfflineIndicatorProps) {
+export const OfflineIndicator = memo(function OfflineIndicator({ audioUrls = [], className }: OfflineIndicatorProps) {
   const { isOnline, isOfflineCapable, checkOfflineAvailability } = useOfflineStatus();
   const [cacheSize, setCacheSize] = useState(0);
   const [offlineCount, setOfflineCount] = useState(0);
@@ -93,21 +86,13 @@ export const OfflineIndicator = memo(function OfflineIndicator({
           <div
             className={cn(
               "flex items-center gap-1 px-2 py-1 rounded-md text-xs transition-colors cursor-default",
-              isOnline 
-                ? "text-muted-foreground" 
-                : "bg-destructive/10 text-destructive"
+              isOnline ? "text-muted-foreground" : "bg-destructive/10 text-destructive",
             )}
           >
-            {isOnline ? (
-              <Cloud className="w-3.5 h-3.5" />
-            ) : (
-              <CloudOff className="w-3.5 h-3.5" />
-            )}
+            {isOnline ? <Cloud className="w-3.5 h-3.5" /> : <CloudOff className="w-3.5 h-3.5" />}
           </div>
         </TooltipTrigger>
-        <TooltipContent>
-          {isOnline ? 'Онлайн' : 'Офлайн режим'}
-        </TooltipContent>
+        <TooltipContent>{isOnline ? "Онлайн" : "Офлайн режим"}</TooltipContent>
       </Tooltip>
 
       {/* Cache status */}
@@ -120,20 +105,16 @@ export const OfflineIndicator = memo(function OfflineIndicator({
           >
             <Tooltip>
               <TooltipTrigger asChild>
-                <Badge 
-                  variant="secondary" 
+                <Badge
+                  variant="secondary"
                   className="gap-1 h-6 px-2 cursor-pointer"
                   onClick={() => setShowDetails(!showDetails)}
                 >
                   <HardDrive className="w-3 h-3" />
-                  <span className="font-mono text-[10px]">
-                    {formatBytes(cacheSize)}
-                  </span>
+                  <span className="font-mono text-[10px]">{formatBytes(cacheSize)}</span>
                 </Badge>
               </TooltipTrigger>
-              <TooltipContent>
-                Аудио в кэше: {formatBytes(cacheSize)}
-              </TooltipContent>
+              <TooltipContent>Аудио в кэше: {formatBytes(cacheSize)}</TooltipContent>
             </Tooltip>
           </motion.div>
         )}
@@ -156,11 +137,7 @@ export const OfflineIndicator = memo(function OfflineIndicator({
                 disabled={isPrecaching}
                 className="h-6 px-2 text-xs gap-1"
               >
-                {isPrecaching ? (
-                  <Loader2 className="w-3 h-3 animate-spin" />
-                ) : (
-                  <Download className="w-3 h-3" />
-                )}
+                {isPrecaching ? <Loader2 className="w-3 h-3 animate-spin" /> : <Download className="w-3 h-3" />}
                 <span className="hidden sm:inline">
                   {offlineCount}/{audioUrls.length}
                 </span>
@@ -168,10 +145,7 @@ export const OfflineIndicator = memo(function OfflineIndicator({
             )}
           </TooltipTrigger>
           <TooltipContent>
-            {allCached 
-              ? 'Доступно офлайн' 
-              : `Скачать для офлайн (${offlineCount}/${audioUrls.length})`
-            }
+            {allCached ? "Доступно офлайн" : `Скачать для офлайн (${offlineCount}/${audioUrls.length})`}
           </TooltipContent>
         </Tooltip>
       )}

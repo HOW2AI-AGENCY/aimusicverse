@@ -1,13 +1,13 @@
 // BlockedUsersPage - Sprint 011
-import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, UserX, Loader2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { useBlockedUsers, useBlockUser } from '@/hooks/social/useBlockUser';
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { motion } from '@/lib/motion';
+import { useNavigate } from "react-router-dom";
+import { ArrowLeft, UserX, Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useBlockedUsers, useBlockUser } from "@/hooks/social/useBlockUser";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { motion } from "@/lib/motion";
 
 export default function BlockedUsersPage() {
   const navigate = useNavigate();
@@ -15,26 +15,26 @@ export default function BlockedUsersPage() {
   const { toggleBlock, isLoading: isUnblocking } = useBlockUser();
 
   // Get profiles for blocked users
-  const blockedUserIds = blockedUsers?.map(b => b.blocked_id) || [];
+  const blockedUserIds = blockedUsers?.map((b) => b.blocked_id) || [];
   const { data: profiles } = useQuery({
-    queryKey: ['blocked-profiles', blockedUserIds],
+    queryKey: ["blocked-profiles", blockedUserIds],
     queryFn: async () => {
       if (blockedUserIds.length === 0) return [];
       const { data } = await supabase
-        .from('profiles')
-        .select('user_id, username, photo_url, first_name')
-        .in('user_id', blockedUserIds);
+        .from("profiles")
+        .select("user_id, username, photo_url, first_name")
+        .in("user_id", blockedUserIds);
       return data || [];
     },
     enabled: blockedUserIds.length > 0,
   });
 
-  const profileMap = new Map(profiles?.map(p => [p.user_id, p]) || []);
+  const profileMap = new Map(profiles?.map((p) => [p.user_id, p]) || []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 pb-24">
       <div className="container max-w-2xl mx-auto px-4 py-6">
-        <motion.div 
+        <motion.div
           className="flex items-center gap-3 mb-6"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -44,9 +44,7 @@ export default function BlockedUsersPage() {
           </Button>
           <div>
             <h1 className="text-2xl font-bold">Заблокированные</h1>
-            <p className="text-sm text-muted-foreground">
-              Управление списком заблокированных пользователей
-            </p>
+            <p className="text-sm text-muted-foreground">Управление списком заблокированных пользователей</p>
           </div>
         </motion.div>
 
@@ -84,19 +82,11 @@ export default function BlockedUsersPage() {
                       <div className="flex items-center gap-3">
                         <Avatar>
                           <AvatarImage src={profile?.photo_url || undefined} />
-                          <AvatarFallback>
-                            {profile?.first_name?.[0] || '?'}
-                          </AvatarFallback>
+                          <AvatarFallback>{profile?.first_name?.[0] || "?"}</AvatarFallback>
                         </Avatar>
                         <div>
-                          <p className="font-medium">
-                            {profile?.first_name || 'Пользователь'}
-                          </p>
-                          {profile?.username && (
-                            <p className="text-sm text-muted-foreground">
-                              @{profile.username}
-                            </p>
-                          )}
+                          <p className="font-medium">{profile?.first_name || "Пользователь"}</p>
+                          {profile?.username && <p className="text-sm text-muted-foreground">@{profile.username}</p>}
                         </div>
                       </div>
                       <Button

@@ -2,10 +2,10 @@
  * Hook for loading waveform data with caching
  */
 
-import { useState, useEffect, useCallback, useRef } from 'react';
-import { getWaveform, saveWaveform } from '@/lib/waveformCache';
-import { generateWaveformFromUrl, WaveformResult, getOptimalSampleCount } from '@/lib/waveformGenerator';
-import { logger } from '@/lib/logger';
+import { useState, useEffect, useCallback, useRef } from "react";
+import { getWaveform, saveWaveform } from "@/lib/waveformCache";
+import { generateWaveformFromUrl, WaveformResult, getOptimalSampleCount } from "@/lib/waveformGenerator";
+import { logger } from "@/lib/logger";
 
 interface UseWaveformDataOptions {
   samples?: number;
@@ -25,21 +25,16 @@ interface UseWaveformDataReturn {
 
 export function useWaveformData(
   audioUrl: string | null | undefined,
-  options: UseWaveformDataOptions = {}
+  options: UseWaveformDataOptions = {},
 ): UseWaveformDataReturn {
-  const {
-    samples: requestedSamples,
-    autoLoad = true,
-    containerWidth,
-    trackId,
-  } = options;
+  const { samples: requestedSamples, autoLoad = true, containerWidth, trackId } = options;
 
   const [waveformData, setWaveformData] = useState<number[] | null>(null);
   const [peaks, setPeaks] = useState<number[] | null>(null);
   const [duration, setDuration] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
-  
+
   const loadingRef = useRef(false);
   const urlRef = useRef<string | null>(null);
 
@@ -48,10 +43,10 @@ export function useWaveformData(
 
   const loadWaveform = useCallback(async () => {
     if (!audioUrl || loadingRef.current) return;
-    
+
     // Prevent duplicate loads for same URL
     if (urlRef.current === audioUrl && waveformData) return;
-    
+
     loadingRef.current = true;
     urlRef.current = audioUrl;
     setIsLoading(true);
@@ -63,7 +58,7 @@ export function useWaveformData(
       if (cached && cached.length > 0) {
         setWaveformData(cached);
         setPeaks(cached); // Use same data for peaks if not stored separately
-        logger.debug('Waveform loaded from cache', { url: audioUrl, trackId, samples: cached.length });
+        logger.debug("Waveform loaded from cache", { url: audioUrl, trackId, samples: cached.length });
         setIsLoading(false);
         loadingRef.current = false;
         return;
@@ -71,19 +66,19 @@ export function useWaveformData(
 
       // Generate new waveform
       const result: WaveformResult = await generateWaveformFromUrl(audioUrl, { samples });
-      
+
       setWaveformData(result.samples);
       setPeaks(result.peaks);
       setDuration(result.duration);
 
       // Save to cache (with trackId if available for stable caching)
       await saveWaveform(audioUrl, result.samples, trackId);
-      
-      logger.debug('Waveform generated and cached', { url: audioUrl, trackId, samples: result.samples.length });
+
+      logger.debug("Waveform generated and cached", { url: audioUrl, trackId, samples: result.samples.length });
     } catch (err) {
-      const error = err instanceof Error ? err : new Error('Failed to load waveform');
+      const error = err instanceof Error ? err : new Error("Failed to load waveform");
       setError(error);
-      logger.error('Waveform load error', { url: audioUrl, error });
+      logger.error("Waveform load error", { url: audioUrl, error });
     } finally {
       setIsLoading(false);
       loadingRef.current = false;

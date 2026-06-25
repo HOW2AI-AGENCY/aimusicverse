@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -6,19 +6,19 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import type { Track } from '@/types/track';
-import { Folder, Plus, Search, Check, Loader2 } from 'lucide-react';
-import { toast } from 'sonner';
-import { useProjects } from '@/hooks/useProjects';
-import { logger } from '@/lib/logger';
-import { useProjectTracks } from '@/hooks/useProjectTracks';
-import { cn } from '@/lib/utils';
-import { hapticImpact, hapticNotification } from '@/lib/haptic';
-import { ProjectCreationWizard } from '@/components/project/ProjectCreationWizard';
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import type { Track } from "@/types/track";
+import { Folder, Plus, Search, Check, Loader2 } from "lucide-react";
+import { toast } from "sonner";
+import { useProjects } from "@/hooks/useProjects";
+import { logger } from "@/lib/logger";
+import { useProjectTracks } from "@/hooks/useProjectTracks";
+import { cn } from "@/lib/utils";
+import { hapticImpact, hapticNotification } from "@/lib/haptic";
+import { ProjectCreationWizard } from "@/components/project/ProjectCreationWizard";
 
 interface AddToProjectDialogProps {
   open: boolean;
@@ -27,49 +27,51 @@ interface AddToProjectDialogProps {
 }
 
 export function AddToProjectDialog({ open, onOpenChange, track }: AddToProjectDialogProps) {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [createProjectOpen, setCreateProjectOpen] = useState(false);
-  
+
   const { projects, isLoading: projectsLoading } = useProjects();
-  const { addTrack } = useProjectTracks(selectedProjectId || '');
+  const { addTrack } = useProjectTracks(selectedProjectId || "");
 
   // Filter projects by search query
-  const filteredProjects = projects?.filter((project: { title: string; description?: string | null; id: string }) =>
-    project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    project.description?.toLowerCase().includes(searchQuery.toLowerCase())
-  ) || [];
+  const filteredProjects =
+    projects?.filter(
+      (project: { title: string; description?: string | null; id: string }) =>
+        project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        project.description?.toLowerCase().includes(searchQuery.toLowerCase()),
+    ) || [];
 
   const handleAddToProject = async () => {
     if (!selectedProjectId) {
-      toast.error('Выберите проект');
+      toast.error("Выберите проект");
       return;
     }
 
     setLoading(true);
 
     try {
-      hapticImpact('light');
+      hapticImpact("light");
 
       await addTrack({
         project_id: selectedProjectId,
         track_id: track.id,
-        title: track.title || 'Без названия',
+        title: track.title || "Без названия",
         position: 0,
       });
 
       const project = projects?.find((p: { id: string }) => p.id === selectedProjectId);
-      hapticNotification('success');
+      hapticNotification("success");
       toast.success(`Добавлено в "${project?.title}"`);
       onOpenChange(false);
-      
+
       // Reset selection
       setSelectedProjectId(null);
-      setSearchQuery('');
+      setSearchQuery("");
     } catch (error) {
-      logger.error('Failed to add track to project', error);
-      toast.error('Не удалось добавить трек. Попробуйте еще раз.');
+      logger.error("Failed to add track to project", error);
+      toast.error("Не удалось добавить трек. Попробуйте еще раз.");
     } finally {
       setLoading(false);
     }
@@ -80,7 +82,7 @@ export function AddToProjectDialog({ open, onOpenChange, track }: AddToProjectDi
       onOpenChange(open);
       if (!open) {
         setSelectedProjectId(null);
-        setSearchQuery('');
+        setSearchQuery("");
       }
     }
   };
@@ -94,9 +96,7 @@ export function AddToProjectDialog({ open, onOpenChange, track }: AddToProjectDi
               <Folder className="h-5 w-5 text-primary" />
               Добавить в проект
             </DialogTitle>
-            <DialogDescription>
-              Выберите проект для трека "{track.title}"
-            </DialogDescription>
+            <DialogDescription>Выберите проект для трека "{track.title}"</DialogDescription>
           </DialogHeader>
 
           <div className="space-y-4 py-4">
@@ -121,12 +121,8 @@ export function AddToProjectDialog({ open, onOpenChange, track }: AddToProjectDi
               ) : filteredProjects.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-40 text-center">
                   <Folder className="h-12 w-12 text-muted-foreground/50 mb-2" />
-                  <p className="text-muted-foreground">
-                    {searchQuery ? 'Проекты не найдены' : 'Пока нет проектов'}
-                  </p>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Создайте проект, чтобы организовать треки
-                  </p>
+                  <p className="text-muted-foreground">{searchQuery ? "Проекты не найдены" : "Пока нет проектов"}</p>
+                  <p className="text-sm text-muted-foreground mt-1">Создайте проект, чтобы организовать треки</p>
                 </div>
               ) : (
                 <div className="space-y-2">
@@ -136,17 +132,19 @@ export function AddToProjectDialog({ open, onOpenChange, track }: AddToProjectDi
                       onClick={() => setSelectedProjectId(project.id)}
                       disabled={loading}
                       className={cn(
-                        'w-full flex items-center gap-3 p-3 rounded-lg border-2 transition-all',
-                        'hover:bg-accent/50 focus:outline-none focus:ring-2 focus:ring-primary',
+                        "w-full flex items-center gap-3 p-3 rounded-lg border-2 transition-all",
+                        "hover:bg-accent/50 focus:outline-none focus:ring-2 focus:ring-primary",
                         selectedProjectId === project.id
-                          ? 'border-primary bg-primary/5'
-                          : 'border-transparent bg-muted/50'
+                          ? "border-primary bg-primary/5"
+                          : "border-transparent bg-muted/50",
                       )}
                     >
-                      <div className={cn(
-                        'h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0',
-                        selectedProjectId === project.id ? 'bg-primary text-primary-foreground' : 'bg-muted'
-                      )}>
+                      <div
+                        className={cn(
+                          "h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0",
+                          selectedProjectId === project.id ? "bg-primary text-primary-foreground" : "bg-muted",
+                        )}
+                      >
                         {selectedProjectId === project.id ? (
                           <Check className="h-5 w-5" />
                         ) : (
@@ -156,9 +154,7 @@ export function AddToProjectDialog({ open, onOpenChange, track }: AddToProjectDi
                       <div className="flex-1 text-left min-w-0">
                         <p className="font-medium truncate">{project.title}</p>
                         {project.description && (
-                          <p className="text-sm text-muted-foreground truncate">
-                            {project.description}
-                          </p>
+                          <p className="text-sm text-muted-foreground truncate">{project.description}</p>
                         )}
                       </div>
                     </button>
@@ -180,18 +176,10 @@ export function AddToProjectDialog({ open, onOpenChange, track }: AddToProjectDi
           </div>
 
           <DialogFooter className="gap-2 sm:gap-0">
-            <Button
-              variant="outline"
-              onClick={() => handleOpenChange(false)}
-              disabled={loading}
-            >
+            <Button variant="outline" onClick={() => handleOpenChange(false)} disabled={loading}>
               Отмена
             </Button>
-            <Button
-              onClick={handleAddToProject}
-              disabled={loading || !selectedProjectId}
-              className="gap-2"
-            >
+            <Button onClick={handleAddToProject} disabled={loading || !selectedProjectId} className="gap-2">
               {loading ? (
                 <>
                   <Loader2 className="h-4 w-4 animate-spin" />
@@ -209,10 +197,7 @@ export function AddToProjectDialog({ open, onOpenChange, track }: AddToProjectDi
       </Dialog>
 
       {/* Create Project Wizard */}
-      <ProjectCreationWizard 
-        open={createProjectOpen} 
-        onOpenChange={setCreateProjectOpen} 
-      />
+      <ProjectCreationWizard open={createProjectOpen} onOpenChange={setCreateProjectOpen} />
     </>
   );
 }

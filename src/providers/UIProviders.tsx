@@ -6,10 +6,10 @@
  * - Sonner (Toast notifications)
  */
 
-import { ReactNode, memo } from 'react';
-import { Toaster as Sonner } from '@/components/ui/sonner';
-import { TooltipProvider } from '@/components/ui/tooltip';
-import { HintRegistryProvider } from '@/components/hints';
+import { ReactNode, memo } from "react";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { HintRegistryProvider } from "@/components/hints";
 
 interface UIProvidersProps {
   children: ReactNode;

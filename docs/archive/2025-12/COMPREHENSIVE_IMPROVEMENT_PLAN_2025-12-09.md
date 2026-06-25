@@ -30,18 +30,18 @@
 
 ### Текущие показатели (требуют улучшения)
 
-| Метрика | Текущее | Целевое | Приоритет |
-|---------|---------|---------|-----------|
-| Bundle size | 1.16 MB | <800 KB | P1 |
-| Test coverage | ~60% | >80% | P1 |
-| Lint errors | 197 | 0 | P1 |
-| console.logs | 95 | 0 | P1 |
-| Lighthouse Mobile | N/A | >90 | P1 |
-| API response (p95) | N/A | <500ms | P2 |
-| Touch targets | N/A | ≥44×44px | P1 |
-| Количество хуков | 90 | ~60-70 | P2 |
-| Edge functions | 59 | ~40-50 | P3 |
-| Компонентов | 335 | Оптимизировать | P3 |
+| Метрика            | Текущее | Целевое        | Приоритет |
+| ------------------ | ------- | -------------- | --------- |
+| Bundle size        | 1.16 MB | <800 KB        | P1        |
+| Test coverage      | ~60%    | >80%           | P1        |
+| Lint errors        | 197     | 0              | P1        |
+| console.logs       | 95      | 0              | P1        |
+| Lighthouse Mobile  | N/A     | >90            | P1        |
+| API response (p95) | N/A     | <500ms         | P2        |
+| Touch targets      | N/A     | ≥44×44px       | P1        |
+| Количество хуков   | 90      | ~60-70         | P2        |
+| Edge functions     | 59      | ~40-50         | P3        |
+| Компонентов        | 335     | Оптимизировать | P3        |
 
 ---
 
@@ -52,9 +52,11 @@
 Все файлы в директории: `specs/copilot/audit-interface-and-optimize/checklists/`
 
 #### 1. **UX & Mobile** - 54 проверки
+
 **Файл**: `ux-mobile.md` (8.8 KB)
 
 **Категории**:
+
 - ✅ Mobile-First Design Completeness (8 items)
 - ✅ Visual Hierarchy & Design Clarity (8 items)
 - ✅ Component Design System Consistency (7 items)
@@ -65,6 +67,7 @@
 - ✅ Telegram Integration Requirements (6 items)
 
 **Ключевые проверки**:
+
 - CHK001: Touch target минимум 44×44px для всех элементов
 - CHK002: Responsive breakpoints для всех layout'ов
 - CHK009: Количественные спецификации "prominent display"
@@ -77,9 +80,11 @@
 ---
 
 #### 2. **Performance & Integration** - 81 проверка
+
 **Файл**: `performance-integration.md` (13 KB)
 
 **Категории**:
+
 - ✅ Performance Metrics Completeness (8 items)
 - ✅ Bundle & Asset Optimization Clarity (7 items)
 - ✅ Caching Strategy Consistency (6 items)
@@ -95,6 +100,7 @@
 - ✅ Performance vs Features Conflicts (5 items)
 
 **Ключевые проверки**:
+
 - CHK055: Lighthouse mobile score >90
 - CHK060: API response time <500ms p95
 - CHK063: Bundle size <800KB
@@ -109,9 +115,11 @@
 ---
 
 #### 3. **Architecture & Code Quality** - 84 проверки
+
 **Файл**: `architecture-quality.md` (13 KB)
 
 **Категории**:
+
 - ✅ State Management Architecture Completeness (7 items)
 - ✅ Component Architecture Pattern Clarity (7 items)
 - ✅ Hook Pattern Consistency & Consolidation (7 items)
@@ -127,6 +135,7 @@
 - ✅ Code-Level Security Requirements (6 items)
 
 **Ключевые проверки**:
+
 - CHK136-142: State management (4 Zustand stores + Contexts)
 - CHK151: Консолидация 90 хуков
 - CHK157: Устранение 197 lint errors
@@ -142,9 +151,11 @@
 ---
 
 #### 4. **Data & API** - 90 проверок
+
 **Файл**: `data-api.md` (14 KB)
 
 **Категории**:
+
 - ✅ Database Schema Definition Completeness (7 items)
 - ✅ Version System Data Model Clarity (6 items)
 - ✅ RLS Policy Pattern Consistency (6 items)
@@ -162,6 +173,7 @@
 - ✅ Traceability & Documentation Requirements (5 items)
 
 **Ключевые проверки**:
+
 - CHK220-226: Database schema completeness
 - CHK227-232: Version system data model
 - CHK233-238: RLS policy patterns
@@ -179,27 +191,32 @@
 ### P1 - Критические (требуют немедленного внимания)
 
 #### UX & Стабильность
+
 1. **CHK001** - Touch targets ≥44×44px везде
 2. **CHK030** - Полный discovery→playback journey
 3. **CHK043** - Keyboard navigation + accessibility
 4. **CHK055** - Lighthouse mobile score >90
 
 #### Производительность
+
 5. **CHK060** - API response <500ms p95
 6. **CHK063** - Bundle size <800KB (с 1.16MB)
 
 #### Код & Качество
+
 7. **CHK157** - Устранить 197 lint errors
 8. **CHK158** - Удалить 95 console.logs
 9. **CHK160** - Test coverage >80% (с ~60%)
 
 #### Архитектура
+
 10. **CHK151** - Консолидация 90 хуков (→60-70)
 11. **CHK170** - Unit testing всех custom hooks
 12. **CHK184** - is_primary + active_version_id consistency
 13. **CHK213** - GlobalAudioProvider singleton validation
 
 #### Данные & API
+
 14. **CHK227** - Version system data model clarity
 15. **CHK294** - Data layer security requirements
 
@@ -210,21 +227,25 @@
 ### P2 - Высокий приоритет (значительное улучшение)
 
 #### Интеграции & Resilience
+
 1. **CHK082-088** - Suno API timeout/retry/fallback
 2. **CHK089-094** - Telegram API failure handling
 3. **CHK095-100** - Supabase downtime recovery
 
 #### Архитектура
+
 4. **CHK136-142** - State management strategy
 5. **CHK161** - Консолидация 59 edge functions (→40-50)
 6. **CHK208** - Zustand stores + Contexts strategy
 
 #### Recovery & Rollback
+
 7. **CHK119** - Failed generation cleanup
 8. **CHK120** - Version rollback specs
 9. **CHK177** - Database migration rollback
 
 #### Testing & Quality
+
 10. **CHK171-172** - Integration & E2E testing
 11. **CHK246-252** - Edge function contracts review
 
@@ -321,6 +342,7 @@
 ### Фаза 1: Критические улучшения (2-3 недели)
 
 **Неделя 1-2: Код & Качество**
+
 - [ ] Устранить 197 lint errors (CHK157)
 - [ ] Удалить 95 console.logs (CHK158)
 - [ ] Настроить logger utility
@@ -328,6 +350,7 @@
 - [ ] Pre-commit hooks
 
 **Неделя 2-3: Производительность**
+
 - [ ] Bundle size optimization <800KB (CHK063)
 - [ ] Code splitting по роутам
 - [ ] Lazy loading компонентов
@@ -335,12 +358,14 @@
 - [ ] API response optimization <500ms (CHK060)
 
 **Неделя 3: Testing Foundation**
+
 - [ ] Setup test infrastructure
 - [ ] Unit tests для critical hooks (CHK170)
 - [ ] Достичь 80% coverage (CHK160)
 - [ ] E2E tests для primary flows
 
 **Deliverables Фаза 1**:
+
 - ✅ Zero lint errors
 - ✅ Zero console.logs в production
 - ✅ Bundle <800KB
@@ -352,12 +377,14 @@
 ### Фаза 2: Архитектурные улучшения (3-4 недели)
 
 **Неделя 4-5: State Management**
+
 - [ ] Audit 4 Zustand stores (CHK136-142)
 - [ ] Консолидация strategy (CHK208)
 - [ ] State persistence patterns
 - [ ] TanStack Query optimization
 
 **Неделя 5-6: Hook Consolidation**
+
 - [ ] Audit 90 хуков (CHK151)
 - [ ] Identify duplication
 - [ ] Merge similar hooks
@@ -365,18 +392,21 @@
 - [ ] Document patterns
 
 **Неделя 6-7: Edge Functions**
+
 - [ ] Audit 59 functions (CHK161)
 - [ ] Consolidate related functions
 - [ ] Target: 40-50 functions
 - [ ] API contracts documentation (CHK246-252)
 
 **Неделя 7: Data Model**
+
 - [ ] Version system consistency (CHK184, CHK227)
 - [ ] is_primary + active_version_id validation
 - [ ] Database migrations (CHK177)
 - [ ] RLS policy testing (CHK233-238)
 
 **Deliverables Фаза 2**:
+
 - ✅ Consolidated state management
 - ✅ 60-70 optimized hooks
 - ✅ 40-50 consolidated edge functions
@@ -388,6 +418,7 @@
 ### Фаза 3: UX & Integration (2-3 недели)
 
 **Неделя 8-9: Mobile UX**
+
 - [ ] Touch targets ≥44×44px (CHK001)
 - [ ] Responsive breakpoints (CHK002)
 - [ ] Visual hierarchy quantification (CHK009)
@@ -395,6 +426,7 @@
 - [ ] User journey completion (CHK030)
 
 **Неделя 9-10: Integration Resilience**
+
 - [ ] Suno API resilience (CHK082-088)
 - [ ] Telegram API resilience (CHK089-094)
 - [ ] Supabase resilience (CHK095-100)
@@ -402,6 +434,7 @@
 - [ ] Error handling patterns
 
 **Неделя 10: Testing & Polish**
+
 - [ ] Integration tests (CHK171)
 - [ ] E2E tests (CHK172)
 - [ ] Visual regression tests (CHK173)
@@ -409,6 +442,7 @@
 - [ ] Accessibility audit
 
 **Deliverables Фаза 3**:
+
 - ✅ Lighthouse mobile >90
 - ✅ All touch targets compliant
 - ✅ Resilient integrations
@@ -420,6 +454,7 @@
 ### Фаза 4: Documentation & Monitoring (1 неделя)
 
 **Неделя 11: Finalization**
+
 - [ ] Update all documentation
 - [ ] API contracts complete
 - [ ] Architecture diagrams update
@@ -427,6 +462,7 @@
 - [ ] Deployment guides
 
 **Deliverables Фаза 4**:
+
 - ✅ Complete documentation
 - ✅ Monitoring dashboards
 - ✅ Observability setup
@@ -438,16 +474,16 @@
 
 ### Количественные метрики
 
-| Метрика | До | После | Improvement |
-|---------|-------|-------|-------------|
-| Bundle size | 1.16 MB | <800 KB | 31% ↓ |
-| Test coverage | ~60% | >80% | 33% ↑ |
-| Lint errors | 197 | 0 | 100% ↓ |
-| console.logs | 95 | 0 | 100% ↓ |
-| Lighthouse Mobile | N/A | >90 | New |
-| API p95 | N/A | <500ms | New |
-| Hooks count | 90 | 60-70 | 22-33% ↓ |
-| Edge functions | 59 | 40-50 | 15-32% ↓ |
+| Метрика           | До      | После   | Improvement |
+| ----------------- | ------- | ------- | ----------- |
+| Bundle size       | 1.16 MB | <800 KB | 31% ↓       |
+| Test coverage     | ~60%    | >80%    | 33% ↑       |
+| Lint errors       | 197     | 0       | 100% ↓      |
+| console.logs      | 95      | 0       | 100% ↓      |
+| Lighthouse Mobile | N/A     | >90     | New         |
+| API p95           | N/A     | <500ms  | New         |
+| Hooks count       | 90      | 60-70   | 22-33% ↓    |
+| Edge functions    | 59      | 40-50   | 15-32% ↓    |
 
 ### Качественные метрики
 
@@ -470,6 +506,7 @@
 ❌ **Неправильно**: "Проверить, что touch targets работают"
 
 Чек-листы **НЕ** проверяют код, они проверяют:
+
 - ✅ Полноту требований
 - ✅ Ясность формулировок
 - ✅ Измеримость критериев
@@ -479,6 +516,7 @@
 ### Как использовать
 
 **Для авторов требований**:
+
 1. Пройдите по каждому пункту чек-листа
 2. Спросите: "Это задокументировано в spec/plan?"
 3. Если НЕТ → документируйте требование
@@ -486,6 +524,7 @@
 5. Отмечайте `[x]` только когда требование полностью описано
 
 **Для ревьюеров**:
+
 1. Фокус на items с [Gap], [Ambiguity], [Conflict]
 2. Проверяйте traceability - можно найти в spec?
 3. Проверяйте measurability - можно объективно проверить?
@@ -493,6 +532,7 @@
 5. Давайте конкретную обратную связь
 
 **Для команды разработки**:
+
 1. Блокируйте разработку пока P1 items не addressed
 2. Задавайте вопросы по неясным требованиям
 3. Используйте как guide при review spec/plan
@@ -512,6 +552,7 @@
 ### Распределение по фокусу
 
 Согласно user guidance:
+
 - **User-facing issues** (UX, Performance, Telegram): 124 items (40%)
 - **Code quality & Technical debt**: 93 items (30%)
 - **Architecture & Scalability**: 92 items (30%)
@@ -544,26 +585,31 @@
 ### Команда & Роли
 
 **Product Owner / PM**:
+
 - Приоритизация P1-P4 tasks
 - Принятие решений по [Conflict] items
 - Утверждение acceptance criteria
 
 **Tech Lead / Architect**:
+
 - Решение архитектурных вопросов (CHK208, CHK213)
 - Стратегия консолидации (hooks, edge functions)
 - Code review процесс
 
 **Frontend Team**:
+
 - Исполнение UX improvements (CHK001-054)
 - Component refactoring (335 компонентов)
 - Performance optimization (CHK055-081)
 
 **Backend Team**:
+
 - Edge function consolidation (CHK161, CHK246-252)
 - Database optimization (CHK220-299)
 - Integration resilience (CHK082-100)
 
 **QA Team**:
+
 - Test coverage >80% (CHK160, CHK170-176)
 - E2E testing setup (CHK172)
 - Accessibility testing (CHK043-048)
@@ -577,13 +623,13 @@
 
 ### Риски & Mitigation
 
-| Риск | Вероятность | Impact | Mitigation |
-|------|-------------|--------|------------|
-| Scope creep | Высокая | Высокий | Strict P1-P4 приоритизация |
-| Breaking changes | Средняя | Высокий | Comprehensive testing + feature flags |
-| Resource constraints | Средняя | Средний | Phased approach (4 phases) |
-| Integration failures | Низкая | Высокий | Resilience patterns (CHK082-100) |
-| Performance regression | Средняя | Средний | Performance monitoring + budgets |
+| Риск                   | Вероятность | Impact  | Mitigation                            |
+| ---------------------- | ----------- | ------- | ------------------------------------- |
+| Scope creep            | Высокая     | Высокий | Strict P1-P4 приоритизация            |
+| Breaking changes       | Средняя     | Высокий | Comprehensive testing + feature flags |
+| Resource constraints   | Средняя     | Средний | Phased approach (4 phases)            |
+| Integration failures   | Низкая      | Высокий | Resilience patterns (CHK082-100)      |
+| Performance regression | Средняя     | Средний | Performance monitoring + budgets      |
 
 ---
 
@@ -703,6 +749,7 @@
 MusicVerse AI - это **качественный проект с солидной основой**. Созданный план улучшений содержит **309 конкретных проверок**, организованных в **4 фазы исполнения** продолжительностью **11 недель**.
 
 **Ключевые цифры**:
+
 - 📊 309 quality checks
 - 🎯 75 P1-P2 critical & high priority items
 - ⚡ 31% bundle size reduction target

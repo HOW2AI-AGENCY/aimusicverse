@@ -3,16 +3,27 @@
  * Displays monetization metrics: Stars payments, subscriptions, revenue trends
  */
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Badge } from '@/components/ui/badge';
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { 
-  AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell,
-  XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend 
-} from 'recharts';
-import { DollarSign, TrendingUp, Star, CreditCard, Coins, ArrowUpRight, ArrowDownRight } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Badge } from "@/components/ui/badge";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import {
+  AreaChart,
+  Area,
+  BarChart,
+  Bar,
+  PieChart,
+  Pie,
+  Cell,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
+} from "recharts";
+import { DollarSign, TrendingUp, Star, CreditCard, Coins, ArrowUpRight, ArrowDownRight } from "lucide-react";
 
 interface RevenueAnalyticsPanelProps {
   timePeriod: string;
@@ -32,33 +43,29 @@ interface RevenueStats {
 
 export function RevenueAnalyticsPanel({ timePeriod }: RevenueAnalyticsPanelProps) {
   const { data, isLoading } = useQuery({
-    queryKey: ['revenue-analytics', timePeriod],
+    queryKey: ["revenue-analytics", timePeriod],
     queryFn: async (): Promise<RevenueStats> => {
       const now = new Date();
-      const periodDays = timePeriod === '24 hours' ? 1 : 
-                         timePeriod === '7 days' ? 7 : 
-                         timePeriod === '30 days' ? 30 : 90;
-      
+      const periodDays =
+        timePeriod === "24 hours" ? 1 : timePeriod === "7 days" ? 7 : timePeriod === "30 days" ? 30 : 90;
+
       const startDate = new Date(now.getTime() - periodDays * 24 * 60 * 60 * 1000);
       const previousStart = new Date(startDate.getTime() - periodDays * 24 * 60 * 60 * 1000);
-      
+
       // Fetch Stars transactions
       const [transactionsResult, previousResult, usersResult] = await Promise.all([
         supabase
-          .from('stars_transactions')
-          .select('*')
-          .gte('created_at', startDate.toISOString())
-          .eq('status', 'completed'),
+          .from("stars_transactions")
+          .select("*")
+          .gte("created_at", startDate.toISOString())
+          .eq("status", "completed"),
         supabase
-          .from('stars_transactions')
-          .select('stars_amount')
-          .gte('created_at', previousStart.toISOString())
-          .lt('created_at', startDate.toISOString())
-          .eq('status', 'completed'),
-        supabase
-          .from('profiles')
-          .select('user_id')
-          .gte('created_at', startDate.toISOString()),
+          .from("stars_transactions")
+          .select("stars_amount")
+          .gte("created_at", previousStart.toISOString())
+          .lt("created_at", startDate.toISOString())
+          .eq("status", "completed"),
+        supabase.from("profiles").select("user_id").gte("created_at", startDate.toISOString()),
       ]);
 
       const transactions = transactionsResult.data || [];
@@ -68,13 +75,13 @@ export function RevenueAnalyticsPanel({ timePeriod }: RevenueAnalyticsPanelProps
       // Calculate metrics
       const totalStars = transactions.reduce((sum, t) => sum + (t.stars_amount || 0), 0);
       const previousStars = previousTransactions.reduce((sum, t) => sum + (t.stars_amount || 0), 0);
-      const uniquePayers = new Set(transactions.map(t => t.user_id)).size;
+      const uniquePayers = new Set(transactions.map((t) => t.user_id)).size;
       const avgTransaction = transactions.length > 0 ? totalStars / transactions.length : 0;
 
       // Group by date for trend
       const trendMap = new Map<string, { stars: number; transactions: number }>();
-      transactions.forEach(t => {
-        const date = new Date(t.created_at || Date.now()).toISOString().split('T')[0];
+      transactions.forEach((t) => {
+        const date = new Date(t.created_at || Date.now()).toISOString().split("T")[0];
         const existing = trendMap.get(date) || { stars: 0, transactions: 0 };
         trendMap.set(date, {
           stars: existing.stars + (t.stars_amount || 0),
@@ -85,15 +92,15 @@ export function RevenueAnalyticsPanel({ timePeriod }: RevenueAnalyticsPanelProps
       // Fill missing dates
       const revenueTrend: Array<{ date: string; stars: number; transactions: number }> = [];
       for (let i = 0; i < periodDays; i++) {
-        const date = new Date(startDate.getTime() + i * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+        const date = new Date(startDate.getTime() + i * 24 * 60 * 60 * 1000).toISOString().split("T")[0];
         const data = trendMap.get(date) || { stars: 0, transactions: 0 };
         revenueTrend.push({ date, ...data });
       }
 
       // Group by product type (product_code in schema)
       const productMap = new Map<string, { total: number; count: number }>();
-      transactions.forEach(t => {
-        const type = t.product_code || 'unknown';
+      transactions.forEach((t) => {
+        const type = t.product_code || "unknown";
         const existing = productMap.get(type) || { total: 0, count: 0 };
         productMap.set(type, {
           total: existing.total + (t.stars_amount || 0),
@@ -102,10 +109,10 @@ export function RevenueAnalyticsPanel({ timePeriod }: RevenueAnalyticsPanelProps
       });
 
       const topProducts = Array.from(productMap.entries())
-        .map(([product_type, { total, count }]) => ({ 
-          product_type, 
-          total_stars: total, 
-          count 
+        .map(([product_type, { total, count }]) => ({
+          product_type,
+          total_stars: total,
+          count,
         }))
         .sort((a, b) => b.total_stars - a.total_stars);
 
@@ -132,19 +139,24 @@ export function RevenueAnalyticsPanel({ timePeriod }: RevenueAnalyticsPanelProps
   if (!data) {
     return (
       <Card>
-        <CardContent className="p-6 text-center text-muted-foreground">
-          Нет данных о доходах
-        </CardContent>
+        <CardContent className="p-6 text-center text-muted-foreground">Нет данных о доходах</CardContent>
       </Card>
     );
   }
 
-  const revenueChange = data.previous_period_revenue > 0 
-    ? ((data.total_revenue_stars - data.previous_period_revenue) / data.previous_period_revenue) * 100 
-    : 0;
+  const revenueChange =
+    data.previous_period_revenue > 0
+      ? ((data.total_revenue_stars - data.previous_period_revenue) / data.previous_period_revenue) * 100
+      : 0;
   const isPositiveChange = revenueChange >= 0;
 
-  const COLORS = ['hsl(var(--primary))', 'hsl(var(--secondary))', 'hsl(142, 76%, 36%)', 'hsl(38, 92%, 50%)', 'hsl(280, 87%, 65%)'];
+  const COLORS = [
+    "hsl(var(--primary))",
+    "hsl(var(--secondary))",
+    "hsl(142, 76%, 36%)",
+    "hsl(38, 92%, 50%)",
+    "hsl(280, 87%, 65%)",
+  ];
 
   return (
     <div className="space-y-4 sm:space-y-6">
@@ -194,23 +206,23 @@ export function RevenueAnalyticsPanel({ timePeriod }: RevenueAnalyticsPanelProps
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={data.revenue_trend}>
                   <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                  <XAxis 
-                    dataKey="date" 
+                  <XAxis
+                    dataKey="date"
                     tick={{ fontSize: 10 }}
-                    tickFormatter={(v) => new Date(v).toLocaleDateString('ru', { day: 'numeric', month: 'short' })}
+                    tickFormatter={(v) => new Date(v).toLocaleDateString("ru", { day: "numeric", month: "short" })}
                     interval="preserveStartEnd"
                   />
                   <YAxis tick={{ fontSize: 10 }} width={40} />
                   <Tooltip
                     formatter={(value: any, name: any) => [
                       value.toLocaleString(),
-                      name === 'stars' ? 'Stars' : 'Транзакции'
+                      name === "stars" ? "Stars" : "Транзакции",
                     ]}
-                    labelFormatter={(label) => new Date(label).toLocaleDateString('ru')}
-                    contentStyle={{ 
-                      backgroundColor: 'hsl(var(--card))', 
-                      border: '1px solid hsl(var(--border))',
-                      fontSize: '12px',
+                    labelFormatter={(label) => new Date(label).toLocaleDateString("ru")}
+                    contentStyle={{
+                      backgroundColor: "hsl(var(--card))",
+                      border: "1px solid hsl(var(--border))",
+                      fontSize: "12px",
                     }}
                   />
                   <Area
@@ -244,8 +256,8 @@ export function RevenueAnalyticsPanel({ timePeriod }: RevenueAnalyticsPanelProps
                       cx="50%"
                       cy="50%"
                       outerRadius={60}
-                      label={({ name, percent }) => 
-                        `${formatProductType(String(name || 'unknown'))} ${((percent ?? 0) * 100).toFixed(0)}%`
+                      label={({ name, percent }) =>
+                        `${formatProductType(String(name || "unknown"))} ${((percent ?? 0) * 100).toFixed(0)}%`
                       }
                       labelLine={false}
                     >
@@ -254,11 +266,11 @@ export function RevenueAnalyticsPanel({ timePeriod }: RevenueAnalyticsPanelProps
                       ))}
                     </Pie>
                     <Tooltip
-                      formatter={(value: any) => [`${value.toLocaleString()} ⭐`, 'Stars']}
-                      contentStyle={{ 
-                        backgroundColor: 'hsl(var(--card))', 
-                        border: '1px solid hsl(var(--border))',
-                        fontSize: '12px',
+                      formatter={(value: any) => [`${value.toLocaleString()} ⭐`, "Stars"]}
+                      contentStyle={{
+                        backgroundColor: "hsl(var(--card))",
+                        border: "1px solid hsl(var(--border))",
+                        fontSize: "12px",
                       }}
                     />
                   </PieChart>
@@ -284,19 +296,19 @@ export function RevenueAnalyticsPanel({ timePeriod }: RevenueAnalyticsPanelProps
               <BarChart data={data.top_products} layout="vertical">
                 <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
                 <XAxis type="number" tick={{ fontSize: 10 }} />
-                <YAxis 
-                  type="category" 
-                  dataKey="product_type" 
+                <YAxis
+                  type="category"
+                  dataKey="product_type"
                   tick={{ fontSize: 10 }}
                   tickFormatter={formatProductType}
                   width={70}
                 />
                 <Tooltip
-                  formatter={(value: any) => [`${value.toLocaleString()} ⭐`, 'Stars']}
-                  contentStyle={{ 
-                    backgroundColor: 'hsl(var(--card))', 
-                    border: '1px solid hsl(var(--border))',
-                    fontSize: '12px',
+                  formatter={(value: any) => [`${value.toLocaleString()} ⭐`, "Stars"]}
+                  contentStyle={{
+                    backgroundColor: "hsl(var(--card))",
+                    border: "1px solid hsl(var(--border))",
+                    fontSize: "12px",
                   }}
                 />
                 <Bar dataKey="total_stars" fill="hsl(var(--primary))" radius={[0, 4, 4, 0]} />
@@ -311,13 +323,13 @@ export function RevenueAnalyticsPanel({ timePeriod }: RevenueAnalyticsPanelProps
 
 function formatProductType(type: string): string {
   const map: Record<string, string> = {
-    credits: 'Кредиты',
-    subscription: 'Подписка',
-    generation: 'Генерация',
-    stem_separation: 'Разделение',
-    extend: 'Расширение',
-    cover: 'Кавер',
-    unknown: 'Другое',
+    credits: "Кредиты",
+    subscription: "Подписка",
+    generation: "Генерация",
+    stem_separation: "Разделение",
+    extend: "Расширение",
+    cover: "Кавер",
+    unknown: "Другое",
   };
   return map[type] || type;
 }
@@ -341,7 +353,9 @@ function RevenueStatCard({ icon: Icon, label, value, change, isPositive, subtext
             <p className="text-xs sm:text-sm text-muted-foreground truncate">{label}</p>
             <p className="text-lg sm:text-2xl font-bold truncate">{value}</p>
             {change !== undefined && (
-              <div className={`flex items-center gap-0.5 text-[10px] sm:text-xs ${isPositive ? 'text-green-500' : 'text-red-500'}`}>
+              <div
+                className={`flex items-center gap-0.5 text-[10px] sm:text-xs ${isPositive ? "text-green-500" : "text-red-500"}`}
+              >
                 {isPositive ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
                 {Math.abs(change).toFixed(1)}%
               </div>

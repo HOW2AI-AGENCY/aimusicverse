@@ -3,8 +3,8 @@
  * Fetches comprehensive generation statistics including styles, tags, costs
  */
 
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 interface ServiceCost {
   service: string;
@@ -54,39 +54,38 @@ export interface GenerationAnalytics {
   failed_generations: number;
   avg_generation_time_seconds: number;
   total_generation_time_minutes: number;
-  
+
   // Cost stats
   total_estimated_cost: number;
   avg_cost_per_generation: number;
   cost_by_service: ServiceCost[];
-  
+
   // Style/Genre stats
   top_styles: StyleStat[];
   top_genres: GenreStat[];
-  
+
   // Tag usage stats
   top_tags: TagStat[];
   tag_combinations: TagCombo[];
-  
+
   // Model usage
   model_distribution: ModelStat[];
-  
+
   // Time distribution
   generations_by_day: DayStat[];
   generations_by_hour: Record<string, number>;
 }
 
-type TimePeriod = '7 days' | '30 days' | '90 days' | '365 days';
+type TimePeriod = "7 days" | "30 days" | "90 days" | "365 days";
 
 async function fetchGenerationAnalytics(timePeriod: TimePeriod): Promise<GenerationAnalytics> {
-  const { data, error } = await supabase
-    .rpc('get_generation_analytics', { _time_period: timePeriod });
-  
+  const { data, error } = await supabase.rpc("get_generation_analytics", { _time_period: timePeriod });
+
   if (error) throw error;
-  
+
   // The RPC returns a single row with all the data
   const row = Array.isArray(data) ? data[0] : data;
-  
+
   if (!row) {
     return {
       total_generations: 0,
@@ -106,7 +105,7 @@ async function fetchGenerationAnalytics(timePeriod: TimePeriod): Promise<Generat
       generations_by_hour: {},
     };
   }
-  
+
   return {
     total_generations: Number(row.total_generations || 0),
     successful_generations: Number(row.successful_generations || 0),
@@ -126,9 +125,9 @@ async function fetchGenerationAnalytics(timePeriod: TimePeriod): Promise<Generat
   };
 }
 
-export function useGenerationAnalytics(timePeriod: TimePeriod = '30 days') {
+export function useGenerationAnalytics(timePeriod: TimePeriod = "30 days") {
   return useQuery({
-    queryKey: ['generation-analytics', timePeriod],
+    queryKey: ["generation-analytics", timePeriod],
     queryFn: () => fetchGenerationAnalytics(timePeriod),
     staleTime: 5 * 60 * 1000, // 5 minutes
     refetchOnWindowFocus: false,

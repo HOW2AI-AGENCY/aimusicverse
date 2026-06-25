@@ -1,24 +1,21 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Card } from '@/components/ui/card';
-import { 
-  User, Music2, Sparkles, Play, Edit, Settings, 
-  Clock, ChevronRight, Lock, Globe 
-} from 'lucide-react';
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/hooks/useAuth';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { cn } from '@/lib/utils';
-import { motion } from '@/lib/motion';
-import { EditArtistDialog } from './EditArtistDialog';
-import type { Artist } from '@/hooks/useArtists';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Card } from "@/components/ui/card";
+import { User, Music2, Sparkles, Play, Edit, Settings, Clock, ChevronRight, Lock, Globe } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { cn } from "@/lib/utils";
+import { motion } from "@/lib/motion";
+import { EditArtistDialog } from "./EditArtistDialog";
+import type { Artist } from "@/hooks/useArtists";
 
 interface ArtistDetailsPanelProps {
   artist: Artist | null;
@@ -30,35 +27,35 @@ export function ArtistDetailsPanel({ artist, open, onOpenChange }: ArtistDetails
   const navigate = useNavigate();
   const { user } = useAuth();
   const { playTrack, activeTrack, isPlaying } = usePlayerStore();
-  const [activeTab, setActiveTab] = useState('tracks');
+  const [activeTab, setActiveTab] = useState("tracks");
   const [editDialogOpen, setEditDialogOpen] = useState(false);
 
   const isOwner = user?.id === artist?.user_id;
-  
+
   // Check if user can make private artists
   const { data: canMakePrivate } = useQuery({
-    queryKey: ['can-make-private', user?.id],
+    queryKey: ["can-make-private", user?.id],
     queryFn: async () => {
       if (!user?.id) return false;
       const [{ data: isAdmin }, { data: profile }] = await Promise.all([
-        supabase.rpc('has_role', { _user_id: user.id, _role: 'admin' }),
-        supabase.from('profiles').select('subscription_tier').eq('user_id', user.id).single(),
+        supabase.rpc("has_role", { _user_id: user.id, _role: "admin" }),
+        supabase.from("profiles").select("subscription_tier").eq("user_id", user.id).single(),
       ]);
-      return isAdmin || (profile?.subscription_tier && profile.subscription_tier !== 'free');
+      return isAdmin || (profile?.subscription_tier && profile.subscription_tier !== "free");
     },
     enabled: !!user?.id && isOwner,
   });
 
   // Fetch tracks generated with this artist
   const { data: artistTracks, isLoading: tracksLoading } = useQuery({
-    queryKey: ['artist-tracks', artist?.id],
+    queryKey: ["artist-tracks", artist?.id],
     queryFn: async () => {
       if (!artist?.id) return [];
       const { data, error } = await supabase
-        .from('tracks')
-        .select('*')
-        .eq('artist_id', artist.id)
-        .order('created_at', { ascending: false })
+        .from("tracks")
+        .select("*")
+        .eq("artist_id", artist.id)
+        .order("created_at", { ascending: false })
         .limit(50);
       if (error) throw error;
       return data || [];
@@ -68,23 +65,20 @@ export function ArtistDetailsPanel({ artist, open, onOpenChange }: ArtistDetails
 
   // Fetch artist stats
   const { data: stats } = useQuery({
-    queryKey: ['artist-stats', artist?.id],
+    queryKey: ["artist-stats", artist?.id],
     queryFn: async () => {
       if (!artist?.id) return { tracks: 0, totalPlays: 0, totalLikes: 0 };
-      
+
       const [tracksResult, likesResult] = await Promise.all([
+        supabase.from("tracks").select("id, play_count", { count: "exact" }).eq("artist_id", artist.id),
         supabase
-          .from('tracks')
-          .select('id, play_count', { count: 'exact' })
-          .eq('artist_id', artist.id),
-        supabase
-          .from('track_likes')
-          .select('id', { count: 'exact', head: true })
-          .in('track_id', artistTracks?.map(t => t.id) || []),
+          .from("track_likes")
+          .select("id", { count: "exact", head: true })
+          .in("track_id", artistTracks?.map((t) => t.id) || []),
       ]);
 
       const totalPlays = tracksResult.data?.reduce((sum, t) => sum + (t.play_count || 0), 0) || 0;
-      
+
       return {
         tracks: tracksResult.count || 0,
         totalPlays,
@@ -104,17 +98,13 @@ export function ArtistDetailsPanel({ artist, open, onOpenChange }: ArtistDetails
           {/* Background blur */}
           {artist.avatar_url && (
             <div className="absolute inset-0 overflow-hidden">
-              <img 
-                src={artist.avatar_url} 
-                alt="" 
-                className="w-full h-full object-cover blur-3xl opacity-30" 
-              />
+              <img src={artist.avatar_url} alt="" className="w-full h-full object-cover blur-3xl opacity-30" />
               <div className="absolute inset-0 bg-gradient-to-b from-background/50 to-background" />
             </div>
           )}
-          
+
           <div className="relative p-6 text-center">
-            <motion.div 
+            <motion.div
               className="relative w-24 h-24 mx-auto mb-4"
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -122,14 +112,14 @@ export function ArtistDetailsPanel({ artist, open, onOpenChange }: ArtistDetails
             >
               {/* Glow effect */}
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/40 to-purple-500/40 blur-xl" />
-              
+
               <Avatar className="w-24 h-24 border-4 border-primary/30 relative">
                 <AvatarImage src={artist.avatar_url || undefined} alt={artist.name} />
                 <AvatarFallback className="bg-gradient-to-br from-primary/20 to-primary/10">
                   <User className="w-10 h-10 text-primary/50" />
                 </AvatarFallback>
               </Avatar>
-              
+
               {artist.is_ai_generated && (
                 <div className="absolute -bottom-1 -right-1 p-1.5 rounded-full bg-primary text-primary-foreground">
                   <Sparkles className="w-3.5 h-3.5" />
@@ -139,20 +129,18 @@ export function ArtistDetailsPanel({ artist, open, onOpenChange }: ArtistDetails
 
             <SheetHeader className="space-y-1">
               <SheetTitle className="text-xl font-bold">{artist.name}</SheetTitle>
-              {artist.bio && (
-                <p className="text-sm text-muted-foreground line-clamp-2">{artist.bio}</p>
-              )}
+              {artist.bio && <p className="text-sm text-muted-foreground line-clamp-2">{artist.bio}</p>}
             </SheetHeader>
 
             {/* Genre & Mood tags */}
             <div className="flex flex-wrap justify-center gap-1.5 mt-3">
-              {artist.genre_tags?.slice(0, 3).map(tag => (
+              {artist.genre_tags?.slice(0, 3).map((tag) => (
                 <Badge key={tag} variant="secondary" className="text-xs">
                   <Music2 className="w-3 h-3 mr-1" />
                   {tag}
                 </Badge>
               ))}
-              {artist.mood_tags?.slice(0, 2).map(tag => (
+              {artist.mood_tags?.slice(0, 2).map((tag) => (
                 <Badge key={tag} variant="outline" className="text-xs">
                   {tag}
                 </Badge>
@@ -178,12 +166,7 @@ export function ArtistDetailsPanel({ artist, open, onOpenChange }: ArtistDetails
             {/* Action buttons */}
             {isOwner && (
               <div className="flex justify-center gap-2 mt-4">
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  onClick={() => setEditDialogOpen(true)}
-                  className="gap-1.5"
-                >
+                <Button variant="outline" size="sm" onClick={() => setEditDialogOpen(true)} className="gap-1.5">
                   <Edit className="w-4 h-4" />
                   Редактировать
                 </Button>
@@ -209,7 +192,7 @@ export function ArtistDetailsPanel({ artist, open, onOpenChange }: ArtistDetails
             <ScrollArea className="h-full">
               {tracksLoading ? (
                 <div className="space-y-3 py-2">
-                  {[1, 2, 3].map(i => (
+                  {[1, 2, 3].map((i) => (
                     <div key={i} className="h-16 rounded-lg bg-muted/50 animate-pulse" />
                   ))}
                 </div>
@@ -224,7 +207,7 @@ export function ArtistDetailsPanel({ artist, open, onOpenChange }: ArtistDetails
                         key={track.id}
                         className={cn(
                           "p-3 cursor-pointer hover:bg-accent/50 transition-colors",
-                          isActive && "ring-1 ring-primary"
+                          isActive && "ring-1 ring-primary",
                         )}
                         onClick={() => playTrack(track as any)}
                       >
@@ -243,12 +226,8 @@ export function ArtistDetailsPanel({ artist, open, onOpenChange }: ArtistDetails
                           {/* Info */}
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2">
-                              {isCurrentlyPlaying && (
-                                <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                              )}
-                              <span className="font-medium text-sm truncate">
-                                {track.title || 'Без названия'}
-                              </span>
+                              {isCurrentlyPlaying && <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />}
+                              <span className="font-medium text-sm truncate">{track.title || "Без названия"}</span>
                             </div>
                             <div className="flex items-center gap-3 text-xs text-muted-foreground mt-0.5">
                               {track.play_count !== null && track.play_count > 0 && (
@@ -260,7 +239,8 @@ export function ArtistDetailsPanel({ artist, open, onOpenChange }: ArtistDetails
                               {track.duration_seconds && (
                                 <span className="flex items-center gap-1">
                                   <Clock className="w-3 h-3" />
-                                  {Math.floor(track.duration_seconds / 60)}:{String(Math.floor(track.duration_seconds % 60)).padStart(2, '0')}
+                                  {Math.floor(track.duration_seconds / 60)}:
+                                  {String(Math.floor(track.duration_seconds % 60)).padStart(2, "0")}
                                 </span>
                               )}
                             </div>
@@ -276,12 +256,12 @@ export function ArtistDetailsPanel({ artist, open, onOpenChange }: ArtistDetails
                 <div className="text-center py-12">
                   <Music2 className="w-12 h-12 mx-auto text-muted-foreground/50 mb-3" />
                   <p className="text-muted-foreground">Нет треков с этим артистом</p>
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="outline"
                     className="mt-4"
                     onClick={() => {
                       onOpenChange(false);
-                      navigate('/generate');
+                      navigate("/generate");
                     }}
                   >
                     Создать трек
@@ -305,8 +285,10 @@ export function ArtistDetailsPanel({ artist, open, onOpenChange }: ArtistDetails
                   <div>
                     <h4 className="text-sm font-medium mb-1.5 text-muted-foreground">Жанры</h4>
                     <div className="flex flex-wrap gap-1.5">
-                      {artist.genre_tags.map(tag => (
-                        <Badge key={tag} variant="secondary">{tag}</Badge>
+                      {artist.genre_tags.map((tag) => (
+                        <Badge key={tag} variant="secondary">
+                          {tag}
+                        </Badge>
                       ))}
                     </div>
                   </div>
@@ -316,8 +298,10 @@ export function ArtistDetailsPanel({ artist, open, onOpenChange }: ArtistDetails
                   <div>
                     <h4 className="text-sm font-medium mb-1.5 text-muted-foreground">Настроение</h4>
                     <div className="flex flex-wrap gap-1.5">
-                      {artist.mood_tags.map(tag => (
-                        <Badge key={tag} variant="outline">{tag}</Badge>
+                      {artist.mood_tags.map((tag) => (
+                        <Badge key={tag} variant="outline">
+                          {tag}
+                        </Badge>
                       ))}
                     </div>
                   </div>
@@ -326,11 +310,13 @@ export function ArtistDetailsPanel({ artist, open, onOpenChange }: ArtistDetails
                 <div>
                   <h4 className="text-sm font-medium mb-1.5 text-muted-foreground">Создан</h4>
                   <p className="text-sm">
-                    {artist.created_at ? new Date(artist.created_at).toLocaleDateString('ru-RU', {
-                      day: 'numeric',
-                      month: 'long',
-                      year: 'numeric'
-                    }) : 'Неизвестно'}
+                    {artist.created_at
+                      ? new Date(artist.created_at).toLocaleDateString("ru-RU", {
+                          day: "numeric",
+                          month: "long",
+                          year: "numeric",
+                        })
+                      : "Неизвестно"}
                   </p>
                 </div>
               </div>

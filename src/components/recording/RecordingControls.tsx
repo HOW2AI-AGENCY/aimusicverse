@@ -2,11 +2,11 @@
  * RecordingControls - Start/Stop/Pause controls for recording
  */
 
-import React, { memo } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { Mic, Square, Pause, Play, RotateCcw } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import React, { memo } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Mic, Square, Pause, Play, RotateCcw } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface RecordingControlsProps {
   isRecording: boolean;
@@ -19,15 +19,15 @@ interface RecordingControlsProps {
   onReset?: () => void;
   showPauseButton?: boolean;
   showResetButton?: boolean;
-  size?: 'sm' | 'md' | 'lg';
+  size?: "sm" | "md" | "lg";
   className?: string;
   disabled?: boolean;
 }
 
 const sizeClasses = {
-  sm: 'h-10 w-10',
-  md: 'h-14 w-14',
-  lg: 'h-16 w-16',
+  sm: "h-10 w-10",
+  md: "h-14 w-14",
+  lg: "h-16 w-16",
 };
 
 const iconSizes = {
@@ -47,14 +47,14 @@ export const RecordingControls = memo(function RecordingControls({
   onReset,
   showPauseButton = true,
   showResetButton = true,
-  size = 'md',
+  size = "md",
   className,
   disabled = false,
 }: RecordingControlsProps) {
   const iconSize = iconSizes[size];
 
   return (
-    <div className={cn('flex items-center justify-center gap-3', className)}>
+    <div className={cn("flex items-center justify-center gap-3", className)}>
       <AnimatePresence mode="wait">
         {/* Reset button - show when has recording and not recording */}
         {showResetButton && hasRecording && !isRecording && onReset && (
@@ -68,7 +68,7 @@ export const RecordingControls = memo(function RecordingControls({
               variant="outline"
               size="icon"
               onClick={onReset}
-              className={cn(sizeClasses[size], 'rounded-full')}
+              className={cn(sizeClasses[size], "rounded-full")}
               disabled={disabled}
             >
               <RotateCcw size={iconSize - 4} />
@@ -88,52 +88,47 @@ export const RecordingControls = memo(function RecordingControls({
               variant="outline"
               size="icon"
               onClick={isPaused ? onResume : onPause}
-              className={cn(sizeClasses[size], 'rounded-full')}
+              className={cn(sizeClasses[size], "rounded-full")}
               disabled={disabled}
             >
-              {isPaused ? (
-                <Play size={iconSize - 4} />
-              ) : (
-                <Pause size={iconSize - 4} />
-              )}
+              {isPaused ? <Play size={iconSize - 4} /> : <Pause size={iconSize - 4} />}
             </Button>
           </motion.div>
         )}
 
         {/* Main record/stop button */}
         <motion.div
-          key={isRecording ? 'stop' : 'record'}
+          key={isRecording ? "stop" : "record"}
           initial={{ scale: 0.9 }}
           animate={{ scale: 1 }}
-          transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+          transition={{ type: "spring", stiffness: 500, damping: 30 }}
         >
           <Button
             size="icon"
             onClick={isRecording ? onStop : onStart}
             className={cn(
               sizeClasses[size],
-              'rounded-full transition-all',
-              isRecording 
-                ? 'bg-destructive hover:bg-destructive/90' 
-                : 'bg-primary hover:bg-primary/90'
+              "rounded-full transition-all",
+              isRecording ? "bg-destructive hover:bg-destructive/90" : "bg-primary hover:bg-primary/90",
             )}
             disabled={disabled}
           >
             {isRecording ? (
-              <motion.div
-                initial={{ scale: 0.8 }}
-                animate={{ scale: 1 }}
-              >
+              <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }}>
                 <Square size={iconSize - 6} className="fill-current" />
               </motion.div>
             ) : (
               <motion.div
-                animate={hasRecording ? {} : { 
-                  scale: [1, 1.1, 1],
-                }}
-                transition={{ 
-                  repeat: hasRecording ? 0 : Infinity, 
-                  duration: 2 
+                animate={
+                  hasRecording
+                    ? {}
+                    : {
+                        scale: [1, 1.1, 1],
+                      }
+                }
+                transition={{
+                  repeat: hasRecording ? 0 : Infinity,
+                  duration: 2,
                 }}
               >
                 <Mic size={iconSize} />

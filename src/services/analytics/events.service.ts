@@ -3,17 +3,14 @@
  * Handles tracking of analytics events
  */
 
-import * as analyticsApi from '@/api/analytics.api';
-import type { AnalyticsEvent } from '@/api/analytics.api';
-import { getOrCreateSessionId } from './session.service';
+import * as analyticsApi from "@/api/analytics.api";
+import type { AnalyticsEvent } from "@/api/analytics.api";
+import { getOrCreateSessionId } from "./session.service";
 
 /**
  * Track analytics event with session
  */
-export async function trackEvent(
-  event: Omit<AnalyticsEvent, 'sessionId'>,
-  userId?: string
-): Promise<void> {
+export async function trackEvent(event: Omit<AnalyticsEvent, "sessionId">, userId?: string): Promise<void> {
   await analyticsApi.trackAnalyticsEvent({
     ...event,
     sessionId: getOrCreateSessionId(),
@@ -27,13 +24,16 @@ export async function trackEvent(
 export async function trackPageView(
   pagePath: string,
   metadata?: Record<string, unknown>,
-  userId?: string
+  userId?: string,
 ): Promise<void> {
-  await trackEvent({
-    eventType: 'page_view',
-    pagePath,
-    metadata,
-  }, userId);
+  await trackEvent(
+    {
+      eventType: "page_view",
+      pagePath,
+      metadata,
+    },
+    userId,
+  );
 }
 
 /**
@@ -41,23 +41,23 @@ export async function trackPageView(
  * Phase 5.1: Enhanced telemetry for success rate tracking
  */
 export async function trackGeneration(
-  status: 'started' | 'completed' | 'failed',
+  status: "started" | "completed" | "failed",
   metadata?: Record<string, unknown>,
-  userId?: string
+  userId?: string,
 ): Promise<void> {
-  const eventType = status === 'started' 
-    ? 'generation_started' 
-    : status === 'completed' 
-      ? 'generation_completed' 
-      : 'generation_failed';
-  
-  await trackEvent({
-    eventType,
-    metadata: {
-      ...metadata,
-      timestamp: Date.now(),
+  const eventType =
+    status === "started" ? "generation_started" : status === "completed" ? "generation_completed" : "generation_failed";
+
+  await trackEvent(
+    {
+      eventType,
+      metadata: {
+        ...metadata,
+        timestamp: Date.now(),
+      },
     },
-  }, userId);
+    userId,
+  );
 }
 
 /**
@@ -65,8 +65,8 @@ export async function trackGeneration(
  */
 export async function trackGenerationMetrics(
   data: {
-    mode: 'simple' | 'custom' | 'wizard';
-    status: 'success' | 'error';
+    mode: "simple" | "custom" | "wizard";
+    status: "success" | "error";
     duration_ms?: number;
     error_type?: string;
     error_message?: string;
@@ -75,15 +75,18 @@ export async function trackGenerationMetrics(
     has_vocals?: boolean;
     model?: string;
   },
-  userId?: string
+  userId?: string,
 ): Promise<void> {
-  await trackEvent({
-    eventType: 'generation_metrics',
-    metadata: {
-      ...data,
-      timestamp: Date.now(),
+  await trackEvent(
+    {
+      eventType: "generation_metrics",
+      metadata: {
+        ...data,
+        timestamp: Date.now(),
+      },
     },
-  }, userId);
+    userId,
+  );
 }
 
 /**
@@ -93,16 +96,19 @@ export async function trackOnboardingStep(
   step: string,
   completed: boolean,
   metadata?: Record<string, unknown>,
-  userId?: string
+  userId?: string,
 ): Promise<void> {
-  await trackEvent({
-    eventType: 'onboarding_step',
-    eventName: step,
-    metadata: {
-      completed,
-      ...metadata,
+  await trackEvent(
+    {
+      eventType: "onboarding_step",
+      eventName: step,
+      metadata: {
+        completed,
+        ...metadata,
+      },
     },
-  }, userId);
+    userId,
+  );
 }
 
 /**
@@ -111,13 +117,16 @@ export async function trackOnboardingStep(
 export async function trackFeatureUsed(
   featureName: string,
   metadata?: Record<string, unknown>,
-  userId?: string
+  userId?: string,
 ): Promise<void> {
-  await trackEvent({
-    eventType: 'feature_used',
-    eventName: featureName,
-    metadata,
-  }, userId);
+  await trackEvent(
+    {
+      eventType: "feature_used",
+      eventName: featureName,
+      metadata,
+    },
+    userId,
+  );
 }
 
 /**
@@ -126,13 +135,16 @@ export async function trackFeatureUsed(
 export async function trackButtonClick(
   buttonName: string,
   metadata?: Record<string, unknown>,
-  userId?: string
+  userId?: string,
 ): Promise<void> {
-  await trackEvent({
-    eventType: 'button_clicked',
-    eventName: buttonName,
-    metadata,
-  }, userId);
+  await trackEvent(
+    {
+      eventType: "button_clicked",
+      eventName: buttonName,
+      metadata,
+    },
+    userId,
+  );
 }
 
 /**
@@ -141,12 +153,15 @@ export async function trackButtonClick(
 export async function trackTrackPlayed(
   trackId: string,
   metadata?: Record<string, unknown>,
-  userId?: string
+  userId?: string,
 ): Promise<void> {
-  await trackEvent({
-    eventType: 'track_played',
-    metadata: { track_id: trackId, ...metadata },
-  }, userId);
+  await trackEvent(
+    {
+      eventType: "track_played",
+      metadata: { track_id: trackId, ...metadata },
+    },
+    userId,
+  );
 }
 
 /**
@@ -155,15 +170,18 @@ export async function trackTrackPlayed(
  */
 export async function trackTrackLiked(
   trackId: string,
-  action: 'like' | 'unlike',
+  action: "like" | "unlike",
   metadata?: Record<string, unknown>,
-  userId?: string
+  userId?: string,
 ): Promise<void> {
-  await trackEvent({
-    eventType: 'track_liked',
-    eventName: action,
-    metadata: { track_id: trackId, action, ...metadata },
-  }, userId);
+  await trackEvent(
+    {
+      eventType: "track_liked",
+      eventName: action,
+      metadata: { track_id: trackId, action, ...metadata },
+    },
+    userId,
+  );
 }
 
 /**
@@ -173,10 +191,13 @@ export async function trackTrackShared(
   trackId: string,
   shareMethod: string,
   metadata?: Record<string, unknown>,
-  userId?: string
+  userId?: string,
 ): Promise<void> {
-  await trackEvent({
-    eventType: 'track_shared',
-    metadata: { track_id: trackId, share_method: shareMethod, ...metadata },
-  }, userId);
+  await trackEvent(
+    {
+      eventType: "track_shared",
+      metadata: { track_id: trackId, share_method: shareMethod, ...metadata },
+    },
+    userId,
+  );
 }

@@ -2,35 +2,31 @@
  * TrialBanner - Displays trial offer to eligible users
  */
 
-import { memo, useState } from 'react';
-import { motion } from '@/lib/motion';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Gift, Sparkles, ArrowRight, Loader2, X } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { useTrialEligibility, activateTrial } from '@/hooks/useTrialEligibility';
-import { useAuth } from '@/hooks/useAuth';
-import { toast } from 'sonner';
-import { navigateTo, getGlobalNavigate } from '@/hooks/useAppNavigate';
-import { useQueryClient } from '@tanstack/react-query';
-import { trackEvent } from '@/services/analytics';
-import { logger } from '@/lib/logger';
+import { memo, useState } from "react";
+import { motion } from "@/lib/motion";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Gift, Sparkles, ArrowRight, Loader2, X } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useTrialEligibility, activateTrial } from "@/hooks/useTrialEligibility";
+import { useAuth } from "@/hooks/useAuth";
+import { toast } from "sonner";
+import { navigateTo, getGlobalNavigate } from "@/hooks/useAppNavigate";
+import { useQueryClient } from "@tanstack/react-query";
+import { trackEvent } from "@/services/analytics";
+import { logger } from "@/lib/logger";
 
 interface TrialBannerProps {
   className?: string;
-  variant?: 'compact' | 'full';
+  variant?: "compact" | "full";
   onClose?: () => void;
 }
 
-export const TrialBanner = memo(function TrialBanner({
-  className,
-  variant = 'full',
-  onClose,
-}: TrialBannerProps) {
+export const TrialBanner = memo(function TrialBanner({ className, variant = "full", onClose }: TrialBannerProps) {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const { isEligible, trialDays, isLoading } = useTrialEligibility();
-  
+
   // Use global navigate since this may render outside Router context
   const navigate = (path: string) => {
     const globalNav = getGlobalNavigate();
@@ -50,43 +46,43 @@ export const TrialBanner = memo(function TrialBanner({
 
   const handleActivateTrial = async () => {
     if (!user?.id) {
-      toast.error('Необходима авторизация');
+      toast.error("Необходима авторизация");
       return;
     }
 
     setIsActivating(true);
-    trackEvent({ eventType: 'button_clicked', eventName: 'trial_activate_start' });
+    trackEvent({ eventType: "button_clicked", eventName: "trial_activate_start" });
 
     try {
       const result = await activateTrial(user.id);
 
       if (result.success) {
-        toast.success('🎉 Пробный период активирован!', {
+        toast.success("🎉 Пробный период активирован!", {
           description: `${trialDays} дня PRO-доступа бесплатно`,
         });
-        
+
         // Invalidate subscription queries
-        queryClient.invalidateQueries({ queryKey: ['subscription'] });
-        queryClient.invalidateQueries({ queryKey: ['trial-eligibility'] });
-        
-        trackEvent({ eventType: 'button_clicked', eventName: 'trial_activate_success' });
-        
+        queryClient.invalidateQueries({ queryKey: ["subscription"] });
+        queryClient.invalidateQueries({ queryKey: ["trial-eligibility"] });
+
+        trackEvent({ eventType: "button_clicked", eventName: "trial_activate_success" });
+
         // Redirect to home or close
         onClose?.();
-        navigate('/');
+        navigate("/");
       } else {
-        toast.error('Не удалось активировать пробный период', {
+        toast.error("Не удалось активировать пробный период", {
           description: result.error,
         });
-        trackEvent({ 
-          eventType: 'button_clicked', 
-          eventName: 'trial_activate_error',
+        trackEvent({
+          eventType: "button_clicked",
+          eventName: "trial_activate_error",
           metadata: { error: result.error },
         });
       }
     } catch (error: unknown) {
-      toast.error('Произошла ошибка');
-      logger.error('Trial activation error', error instanceof Error ? error : new Error(String(error)));
+      toast.error("Произошла ошибка");
+      logger.error("Trial activation error", error instanceof Error ? error : new Error(String(error)));
     } finally {
       setIsActivating(false);
     }
@@ -97,7 +93,7 @@ export const TrialBanner = memo(function TrialBanner({
     onClose?.();
   };
 
-  if (variant === 'compact') {
+  if (variant === "compact") {
     return (
       <motion.div
         initial={{ opacity: 0, y: -10 }}
@@ -107,20 +103,14 @@ export const TrialBanner = memo(function TrialBanner({
           "flex items-center gap-3 p-3 rounded-lg",
           "bg-gradient-to-r from-primary/10 to-primary/5",
           "border border-primary/20",
-          className
+          className,
         )}
       >
         <Gift className="w-5 h-5 text-primary shrink-0" />
         <span className="text-sm flex-1">
           <strong>Попробуй PRO бесплатно</strong> — {trialDays} дня полного доступа
         </span>
-        <Button
-          size="sm"
-          variant="default"
-          onClick={handleActivateTrial}
-          disabled={isActivating}
-          className="shrink-0"
-        >
+        <Button size="sm" variant="default" onClick={handleActivateTrial} disabled={isActivating} className="shrink-0">
           {isActivating ? (
             <Loader2 className="w-4 h-4 animate-spin" />
           ) : (
@@ -143,7 +133,7 @@ export const TrialBanner = memo(function TrialBanner({
         "relative p-5 rounded-xl",
         "bg-gradient-to-br from-primary/15 via-primary/10 to-primary/5",
         "border border-primary/30",
-        className
+        className,
       )}
     >
       {/* Close button */}
@@ -182,11 +172,7 @@ export const TrialBanner = memo(function TrialBanner({
           disabled={isActivating}
           className="bg-gradient-to-r from-primary to-primary/80 shrink-0"
         >
-          {isActivating ? (
-            <Loader2 className="w-4 h-4 animate-spin mr-2" />
-          ) : (
-            <Sparkles className="w-4 h-4 mr-2" />
-          )}
+          {isActivating ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Sparkles className="w-4 h-4 mr-2" />}
           Активировать
         </Button>
       </div>

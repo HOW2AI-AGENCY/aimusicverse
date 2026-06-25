@@ -3,12 +3,12 @@
  * Tests swipe gesture detection for tab navigation
  */
 
-import { renderHook, act } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
-import { useSwipeNavigation } from '@/hooks/useSwipeNavigation';
+import { renderHook, act } from "@testing-library/react";
+import { describe, it, expect, vi } from "vitest";
+import { useSwipeNavigation } from "@/hooks/useSwipeNavigation";
 
 // Mock useHaptic
-vi.mock('@/hooks/useHaptic', () => ({
+vi.mock("@/hooks/useHaptic", () => ({
   useHaptic: () => ({
     patterns: {
       tap: vi.fn(),
@@ -18,21 +18,20 @@ vi.mock('@/hooks/useHaptic', () => ({
   }),
 }));
 
-describe('useSwipeNavigation', () => {
-  const tabs = ['player', 'sections', 'mixer'] as const;
-  type Tab = typeof tabs[number];
+describe("useSwipeNavigation", () => {
+  const tabs = ["player", "sections", "mixer"] as const;
+  type Tab = (typeof tabs)[number];
 
-  const createTouchEvent = (clientX: number, clientY: number) => ({
-    touches: [{ clientX, clientY }],
-    changedTouches: [{ clientX, clientY }],
-  } as unknown as React.TouchEvent);
+  const createTouchEvent = (clientX: number, clientY: number) =>
+    ({
+      touches: [{ clientX, clientY }],
+      changedTouches: [{ clientX, clientY }],
+    }) as unknown as React.TouchEvent;
 
-  describe('initialization', () => {
-    it('should return handlers object', () => {
+  describe("initialization", () => {
+    it("should return handlers object", () => {
       const onTabChange = vi.fn();
-      const { result } = renderHook(() =>
-        useSwipeNavigation(tabs as unknown as Tab[], 'player', onTabChange)
-      );
+      const { result } = renderHook(() => useSwipeNavigation(tabs as unknown as Tab[], "player", onTabChange));
 
       expect(result.current.handlers).toBeDefined();
       expect(result.current.handlers.onTouchStart).toBeInstanceOf(Function);
@@ -40,22 +39,18 @@ describe('useSwipeNavigation', () => {
       expect(result.current.handlers.onTouchEnd).toBeInstanceOf(Function);
     });
 
-    it('should have isSwipeActive as false initially', () => {
+    it("should have isSwipeActive as false initially", () => {
       const onTabChange = vi.fn();
-      const { result } = renderHook(() =>
-        useSwipeNavigation(tabs as unknown as Tab[], 'player', onTabChange)
-      );
+      const { result } = renderHook(() => useSwipeNavigation(tabs as unknown as Tab[], "player", onTabChange));
 
       expect(result.current.isSwipeActive).toBe(false);
     });
   });
 
-  describe('swipe left (next tab)', () => {
-    it('should navigate to next tab on left swipe', () => {
+  describe("swipe left (next tab)", () => {
+    it("should navigate to next tab on left swipe", () => {
       const onTabChange = vi.fn();
-      const { result } = renderHook(() =>
-        useSwipeNavigation(tabs as unknown as Tab[], 'player', onTabChange)
-      );
+      const { result } = renderHook(() => useSwipeNavigation(tabs as unknown as Tab[], "player", onTabChange));
 
       // Start touch
       act(() => {
@@ -72,14 +67,12 @@ describe('useSwipeNavigation', () => {
         result.current.handlers.onTouchEnd(createTouchEvent(140, 100));
       });
 
-      expect(onTabChange).toHaveBeenCalledWith('sections');
+      expect(onTabChange).toHaveBeenCalledWith("sections");
     });
 
-    it('should not navigate past last tab', () => {
+    it("should not navigate past last tab", () => {
       const onTabChange = vi.fn();
-      const { result } = renderHook(() =>
-        useSwipeNavigation(tabs as unknown as Tab[], 'mixer', onTabChange)
-      );
+      const { result } = renderHook(() => useSwipeNavigation(tabs as unknown as Tab[], "mixer", onTabChange));
 
       act(() => {
         result.current.handlers.onTouchStart(createTouchEvent(200, 100));
@@ -94,12 +87,10 @@ describe('useSwipeNavigation', () => {
     });
   });
 
-  describe('swipe right (previous tab)', () => {
-    it('should navigate to previous tab on right swipe', () => {
+  describe("swipe right (previous tab)", () => {
+    it("should navigate to previous tab on right swipe", () => {
       const onTabChange = vi.fn();
-      const { result } = renderHook(() =>
-        useSwipeNavigation(tabs as unknown as Tab[], 'sections', onTabChange)
-      );
+      const { result } = renderHook(() => useSwipeNavigation(tabs as unknown as Tab[], "sections", onTabChange));
 
       act(() => {
         result.current.handlers.onTouchStart(createTouchEvent(100, 100));
@@ -114,14 +105,12 @@ describe('useSwipeNavigation', () => {
         result.current.handlers.onTouchEnd(createTouchEvent(160, 100));
       });
 
-      expect(onTabChange).toHaveBeenCalledWith('player');
+      expect(onTabChange).toHaveBeenCalledWith("player");
     });
 
-    it('should not navigate before first tab', () => {
+    it("should not navigate before first tab", () => {
       const onTabChange = vi.fn();
-      const { result } = renderHook(() =>
-        useSwipeNavigation(tabs as unknown as Tab[], 'player', onTabChange)
-      );
+      const { result } = renderHook(() => useSwipeNavigation(tabs as unknown as Tab[], "player", onTabChange));
 
       act(() => {
         result.current.handlers.onTouchStart(createTouchEvent(100, 100));
@@ -135,11 +124,11 @@ describe('useSwipeNavigation', () => {
     });
   });
 
-  describe('swipe thresholds', () => {
-    it('should not trigger for small swipes below threshold', () => {
+  describe("swipe thresholds", () => {
+    it("should not trigger for small swipes below threshold", () => {
       const onTabChange = vi.fn();
       const { result } = renderHook(() =>
-        useSwipeNavigation(tabs as unknown as Tab[], 'player', onTabChange, { threshold: 50 })
+        useSwipeNavigation(tabs as unknown as Tab[], "player", onTabChange, { threshold: 50 }),
       );
 
       act(() => {
@@ -154,10 +143,10 @@ describe('useSwipeNavigation', () => {
       expect(onTabChange).not.toHaveBeenCalled();
     });
 
-    it('should use custom threshold', () => {
+    it("should use custom threshold", () => {
       const onTabChange = vi.fn();
       const { result } = renderHook(() =>
-        useSwipeNavigation(tabs as unknown as Tab[], 'player', onTabChange, { threshold: 20 })
+        useSwipeNavigation(tabs as unknown as Tab[], "player", onTabChange, { threshold: 20 }),
       );
 
       act(() => {
@@ -169,16 +158,14 @@ describe('useSwipeNavigation', () => {
         result.current.handlers.onTouchEnd(createTouchEvent(70, 100));
       });
 
-      expect(onTabChange).toHaveBeenCalledWith('sections');
+      expect(onTabChange).toHaveBeenCalledWith("sections");
     });
   });
 
-  describe('vertical vs horizontal detection', () => {
-    it('should ignore vertical swipes', () => {
+  describe("vertical vs horizontal detection", () => {
+    it("should ignore vertical swipes", () => {
       const onTabChange = vi.fn();
-      const { result } = renderHook(() =>
-        useSwipeNavigation(tabs as unknown as Tab[], 'player', onTabChange)
-      );
+      const { result } = renderHook(() => useSwipeNavigation(tabs as unknown as Tab[], "player", onTabChange));
 
       act(() => {
         result.current.handlers.onTouchStart(createTouchEvent(100, 100));
@@ -192,11 +179,9 @@ describe('useSwipeNavigation', () => {
       expect(onTabChange).not.toHaveBeenCalled();
     });
 
-    it('should require horizontal movement to be 1.5x vertical', () => {
+    it("should require horizontal movement to be 1.5x vertical", () => {
       const onTabChange = vi.fn();
-      const { result } = renderHook(() =>
-        useSwipeNavigation(tabs as unknown as Tab[], 'player', onTabChange)
-      );
+      const { result } = renderHook(() => useSwipeNavigation(tabs as unknown as Tab[], "player", onTabChange));
 
       act(() => {
         result.current.handlers.onTouchStart(createTouchEvent(100, 100));
@@ -211,13 +196,13 @@ describe('useSwipeNavigation', () => {
     });
   });
 
-  describe('config options', () => {
-    it('should respect hapticFeedback=false', () => {
+  describe("config options", () => {
+    it("should respect hapticFeedback=false", () => {
       const onTabChange = vi.fn();
       const { result } = renderHook(() =>
-        useSwipeNavigation(tabs as unknown as Tab[], 'player', onTabChange, { 
-          hapticFeedback: false 
-        })
+        useSwipeNavigation(tabs as unknown as Tab[], "player", onTabChange, {
+          hapticFeedback: false,
+        }),
       );
 
       act(() => {
@@ -228,7 +213,7 @@ describe('useSwipeNavigation', () => {
         result.current.handlers.onTouchEnd(createTouchEvent(100, 100));
       });
 
-      expect(onTabChange).toHaveBeenCalledWith('sections');
+      expect(onTabChange).toHaveBeenCalledWith("sections");
       // Haptic should not have been called (tested via mock)
     });
   });

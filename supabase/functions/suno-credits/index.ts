@@ -2,62 +2,58 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { isSunoSuccessCode } from "../_shared/suno.ts";
 
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
 serve(async (req) => {
-  if (req.method === 'OPTIONS') {
+  if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const sunoApiKey = Deno.env.get('SUNO_API_KEY');
+    const sunoApiKey = Deno.env.get("SUNO_API_KEY");
 
     if (!sunoApiKey) {
-      throw new Error('SUNO_API_KEY not configured');
+      throw new Error("SUNO_API_KEY not configured");
     }
 
-    console.log('Fetching SunoAPI credits');
+    console.log("Fetching SunoAPI credits");
 
-    const sunoResponse = await fetch('https://api.sunoapi.org/api/v1/generate/credit', {
-      method: 'GET',
+    const sunoResponse = await fetch("https://api.sunoapi.org/api/v1/generate/credit", {
+      method: "GET",
       headers: {
-        'Authorization': `Bearer ${sunoApiKey}`,
+        Authorization: `Bearer ${sunoApiKey}`,
       },
     });
 
     if (!sunoResponse.ok) {
       const errorText = await sunoResponse.text();
-      console.error('SunoAPI error:', sunoResponse.status, errorText);
+      console.error("SunoAPI error:", sunoResponse.status, errorText);
       throw new Error(`SunoAPI error: ${sunoResponse.status} - ${errorText}`);
     }
 
     const sunoData = await sunoResponse.json();
 
     if (!isSunoSuccessCode(sunoData.code)) {
-      throw new Error(sunoData.msg || `Failed to fetch credits (code ${sunoData.code ?? 'unknown'})`);
+      throw new Error(sunoData.msg || `Failed to fetch credits (code ${sunoData.code ?? "unknown"})`);
     }
 
     const credits = sunoData.data;
-    console.log('SunoAPI credits:', credits);
+    console.log("SunoAPI credits:", credits);
 
     return new Response(
-      JSON.stringify({ 
+      JSON.stringify({
         success: true,
         credits,
       }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
-
   } catch (error: any) {
-    console.error('Error in suno-credits:', error);
-    return new Response(
-      JSON.stringify({ error: error.message }),
-      { 
-        status: 500,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-      }
-    );
+    console.error("Error in suno-credits:", error);
+    return new Response(JSON.stringify({ error: error.message }), {
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 });

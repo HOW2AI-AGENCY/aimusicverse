@@ -4,12 +4,12 @@
  * Clickable sections open the section editor
  */
 
-import { memo, useMemo, useCallback } from 'react';
-import type { AlignedWord } from '@/hooks/useTimestampedLyrics';
-import { motion } from '@/lib/motion';
-import { cn } from '@/lib/utils';
-import type { DetectedSection } from '@/hooks/useSectionDetection';
-import { Check } from 'lucide-react';
+import { memo, useMemo, useCallback } from "react";
+import type { AlignedWord } from "@/hooks/useTimestampedLyrics";
+import { motion } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import type { DetectedSection } from "@/hooks/useSectionDetection";
+import { Check } from "lucide-react";
 
 interface ReplacedRange {
   start: number;
@@ -32,18 +32,18 @@ const GAP_MERGE_THRESHOLD_S = 3.0;
 
 // Section type colors - all musical section types with distinct colors
 const SECTION_COLORS: Record<string, { bg: string; border: string; text: string }> = {
-  'verse': { bg: 'bg-blue-500/25', border: 'border-blue-500/60', text: 'text-blue-400' },
-  'chorus': { bg: 'bg-purple-500/30', border: 'border-purple-500/70', text: 'text-purple-300' },
-  'bridge': { bg: 'bg-amber-500/25', border: 'border-amber-500/60', text: 'text-amber-400' },
-  'intro': { bg: 'bg-green-500/25', border: 'border-green-500/60', text: 'text-green-400' },
-  'outro': { bg: 'bg-rose-500/25', border: 'border-rose-500/60', text: 'text-rose-400' },
-  'pre-chorus': { bg: 'bg-cyan-500/25', border: 'border-cyan-500/60', text: 'text-cyan-400' },
-  'hook': { bg: 'bg-pink-500/25', border: 'border-pink-500/60', text: 'text-pink-400' },
-  'instrumental': { bg: 'bg-indigo-500/25', border: 'border-indigo-500/60', text: 'text-indigo-400' },
-  'interlude': { bg: 'bg-teal-500/25', border: 'border-teal-500/60', text: 'text-teal-400' },
-  'breakdown': { bg: 'bg-orange-500/25', border: 'border-orange-500/60', text: 'text-orange-400' },
-  'drop': { bg: 'bg-red-500/25', border: 'border-red-500/60', text: 'text-red-400' },
-  'unknown': { bg: 'bg-slate-500/25', border: 'border-slate-500/60', text: 'text-slate-300' },
+  verse: { bg: "bg-blue-500/25", border: "border-blue-500/60", text: "text-blue-400" },
+  chorus: { bg: "bg-purple-500/30", border: "border-purple-500/70", text: "text-purple-300" },
+  bridge: { bg: "bg-amber-500/25", border: "border-amber-500/60", text: "text-amber-400" },
+  intro: { bg: "bg-green-500/25", border: "border-green-500/60", text: "text-green-400" },
+  outro: { bg: "bg-rose-500/25", border: "border-rose-500/60", text: "text-rose-400" },
+  "pre-chorus": { bg: "bg-cyan-500/25", border: "border-cyan-500/60", text: "text-cyan-400" },
+  hook: { bg: "bg-pink-500/25", border: "border-pink-500/60", text: "text-pink-400" },
+  instrumental: { bg: "bg-indigo-500/25", border: "border-indigo-500/60", text: "text-indigo-400" },
+  interlude: { bg: "bg-teal-500/25", border: "border-teal-500/60", text: "text-teal-400" },
+  breakdown: { bg: "bg-orange-500/25", border: "border-orange-500/60", text: "text-orange-400" },
+  drop: { bg: "bg-red-500/25", border: "border-red-500/60", text: "text-red-400" },
+  unknown: { bg: "bg-slate-500/25", border: "border-slate-500/60", text: "text-slate-300" },
 };
 
 export const StudioSectionOverlay = memo(function StudioSectionOverlay({
@@ -55,24 +55,26 @@ export const StudioSectionOverlay = memo(function StudioSectionOverlay({
   onSectionClick,
   className,
 }: StudioSectionOverlayProps) {
-  
   // Check if a section overlaps with replaced ranges
-  const isSectionReplaced = useCallback((section: DetectedSection): boolean => {
-    return replacedRanges.some(range => {
-      const overlap = Math.max(0, Math.min(section.endTime, range.end) - Math.max(section.startTime, range.start));
-      const sectionDuration = section.endTime - section.startTime;
-      return overlap > sectionDuration * 0.5; // >50% overlap counts as replaced
-    });
-  }, [replacedRanges]);
+  const isSectionReplaced = useCallback(
+    (section: DetectedSection): boolean => {
+      return replacedRanges.some((range) => {
+        const overlap = Math.max(0, Math.min(section.endTime, range.end) - Math.max(section.startTime, range.start));
+        const sectionDuration = section.endTime - section.startTime;
+        return overlap > sectionDuration * 0.5; // >50% overlap counts as replaced
+      });
+    },
+    [replacedRanges],
+  );
 
   // Find active section based on current time
   const activeIndex = useMemo(() => {
-    return sections.findIndex(s => currentTime >= s.startTime && currentTime < s.endTime);
+    return sections.findIndex((s) => currentTime >= s.startTime && currentTime < s.endTime);
   }, [sections, currentTime]);
 
   /**
    * Normalize and merge sections to prevent fragmentation
-   * 
+   *
    * Strategy:
    * 1. Small gaps (< GAP_MERGE_THRESHOLD_S) - extend previous section
    * 2. Merge adjacent sections of the same type
@@ -80,29 +82,31 @@ export const StudioSectionOverlay = memo(function StudioSectionOverlay({
    */
   const normalizedSections = useMemo(() => {
     if (duration <= 0) return [];
-    
+
     // If no sections, create one section covering the whole track
     if (!sections.length) {
-      return [{
-        type: 'unknown' as const,
-        label: 'Трек',
-        startTime: 0,
-        endTime: duration,
-        lyrics: '',
-        words: [],
-      }];
+      return [
+        {
+          type: "unknown" as const,
+          label: "Трек",
+          startTime: 0,
+          endTime: duration,
+          lyrics: "",
+          words: [],
+        },
+      ];
     }
-    
+
     const result: DetectedSection[] = [];
     let currentEnd = 0;
-    
+
     // Always start from 0 (avoid creating artificial "Переход"/intro-only fillers here)
     currentEnd = 0;
-    
+
     for (let i = 0; i < sections.length; i++) {
       const current = sections[i];
       const gapSize = current.startTime - currentEnd;
-      
+
       // Absorb any gap by extending the previous section (no standalone transition blocks)
       if (gapSize > 0 && result.length > 0) {
         result[result.length - 1] = {
@@ -111,19 +115,19 @@ export const StudioSectionOverlay = memo(function StudioSectionOverlay({
         };
         currentEnd = current.startTime;
       }
-      
+
       // Check if we can merge with previous section of same type
       const lastSection = result[result.length - 1];
       if (
-        lastSection && 
-        lastSection.type === current.type && 
+        lastSection &&
+        lastSection.type === current.type &&
         current.startTime - lastSection.endTime < GAP_MERGE_THRESHOLD_S
       ) {
         // Merge: extend previous section
         result[result.length - 1] = {
           ...lastSection,
           endTime: current.endTime,
-          lyrics: lastSection.lyrics + (current.lyrics ? '\n' + current.lyrics : ''),
+          lyrics: lastSection.lyrics + (current.lyrics ? "\n" + current.lyrics : ""),
           words: [...(lastSection.words || []), ...(current.words || [])],
         };
       } else {
@@ -134,10 +138,10 @@ export const StudioSectionOverlay = memo(function StudioSectionOverlay({
         };
         result.push(adjustedSection);
       }
-      
+
       currentEnd = result[result.length - 1].endTime;
     }
-    
+
     // Extend last section to full duration
     if (result.length > 0 && currentEnd < duration) {
       result[result.length - 1] = {
@@ -145,7 +149,7 @@ export const StudioSectionOverlay = memo(function StudioSectionOverlay({
         endTime: duration,
       };
     }
-    
+
     return result;
   }, [sections, duration]);
 
@@ -158,9 +162,7 @@ export const StudioSectionOverlay = memo(function StudioSectionOverlay({
         const width = ((section.endTime - section.startTime) / duration) * 100;
         const colors = SECTION_COLORS[section.type];
         // Map back to original index for selection
-        const originalIndex = sections.findIndex(s => 
-          s.startTime === section.startTime && s.type === section.type
-        );
+        const originalIndex = sections.findIndex((s) => s.startTime === section.startTime && s.type === section.type);
         const isSelected = selectedIndex === originalIndex && originalIndex !== -1;
         const isActive = currentTime >= section.startTime && currentTime < section.endTime;
         const isReplaced = isSectionReplaced(section);
@@ -175,12 +177,12 @@ export const StudioSectionOverlay = memo(function StudioSectionOverlay({
               colors.bg,
               colors.border,
               isSelected && "ring-2 ring-primary ring-inset brightness-125 border-primary",
-              isActive && !isSelected && "brightness-110 border-white/40"
+              isActive && !isSelected && "brightness-110 border-white/40",
             )}
-            style={{ 
-              left: `${left}%`, 
+            style={{
+              left: `${left}%`,
               width: `${width}%`,
-              minWidth: '1rem',
+              minWidth: "1rem",
             }}
             onClick={(e) => {
               e.stopPropagation();
@@ -197,15 +199,15 @@ export const StudioSectionOverlay = memo(function StudioSectionOverlay({
             whileTap={{ scale: 0.995 }}
           >
             {/* Section label */}
-            <div className={cn(
-              "flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[9px] font-semibold truncate max-w-full",
-              "bg-background/80 backdrop-blur-sm shadow-sm border border-border/30",
-              colors.text
-            )}>
-              <span className="truncate">{section.label}</span>
-              {isReplaced && (
-                <Check className="w-2.5 h-2.5 text-green-500 shrink-0" />
+            <div
+              className={cn(
+                "flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[9px] font-semibold truncate max-w-full",
+                "bg-background/80 backdrop-blur-sm shadow-sm border border-border/30",
+                colors.text,
               )}
+            >
+              <span className="truncate">{section.label}</span>
+              {isReplaced && <Check className="w-2.5 h-2.5 text-green-500 shrink-0" />}
             </div>
 
             {/* Active pulse indicator */}

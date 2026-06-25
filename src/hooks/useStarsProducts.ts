@@ -3,8 +3,8 @@
  * Fetches and caches Stars products with TanStack Query
  */
 
-import { useQuery } from '@tanstack/react-query';
-import { getProducts, getFeaturedProducts, getProductsByType, type StarsProduct } from '@/services/starsPaymentService';
+import { useQuery } from "@tanstack/react-query";
+import { getProducts, getFeaturedProducts, getProductsByType, type StarsProduct } from "@/services/starsPaymentService";
 
 // Re-export type for convenience
 export type { StarsProduct };
@@ -18,11 +18,11 @@ export interface GroupedProducts {
 
 // Query key factory
 export const starsProductsKeys = {
-  all: ['stars-products'] as const,
-  lists: () => [...starsProductsKeys.all, 'list'] as const,
+  all: ["stars-products"] as const,
+  lists: () => [...starsProductsKeys.all, "list"] as const,
   list: (filter: string) => [...starsProductsKeys.lists(), filter] as const,
-  featured: () => [...starsProductsKeys.all, 'featured'] as const,
-  byType: (type: 'credits' | 'subscription') => [...starsProductsKeys.all, 'type', type] as const,
+  featured: () => [...starsProductsKeys.all, "featured"] as const,
+  byType: (type: "credits" | "subscription") => [...starsProductsKeys.all, "type", type] as const,
 };
 
 /**
@@ -30,7 +30,7 @@ export const starsProductsKeys = {
  */
 export function useStarsProducts() {
   return useQuery({
-    queryKey: starsProductsKeys.list('all'),
+    queryKey: starsProductsKeys.list("all"),
     queryFn: getProducts,
     staleTime: 30 * 1000, // 30 seconds
     gcTime: 10 * 60 * 1000, // 10 minutes
@@ -54,7 +54,7 @@ export function useFeaturedProducts() {
 /**
  * Fetch products by type (credits or subscription)
  */
-export function useProductsByType(type: 'credits' | 'subscription') {
+export function useProductsByType(type: "credits" | "subscription") {
   return useQuery({
     queryKey: starsProductsKeys.byType(type),
     queryFn: () => getProductsByType(type),
@@ -72,8 +72,8 @@ export function useGroupedProducts() {
 
   const groupedProducts: GroupedProducts | undefined = products
     ? {
-        credits: products.filter((p) => p.product_type === 'credits'),
-        subscriptions: products.filter((p) => p.product_type === 'subscription'),
+        credits: products.filter((p) => p.product_type === "credits"),
+        subscriptions: products.filter((p) => p.product_type === "subscription"),
         featured: products.filter((p) => p.is_featured),
       }
     : undefined;

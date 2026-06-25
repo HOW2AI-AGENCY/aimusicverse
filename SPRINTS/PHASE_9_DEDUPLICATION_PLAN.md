@@ -24,15 +24,16 @@
 
 ### 9A.1 — Простые дубликаты (одинаковая функциональность)
 
-| Каноничный | Дубликат(ы) для удаления | Строк экономии |
-|-----------|--------------------------|---------------|
-| `components/ui/EmptyState.tsx` (239) | `components/common/EmptyState.tsx` (248) | ~248 |
-| `components/mobile/MobileBottomSheet.tsx` (166) | `components/ui/BottomSheet.tsx` (162) | ~162 |
-| `components/admin/analytics/DeeplinkAnalyticsPanel.tsx` (206) | `components/admin/DeeplinkAnalyticsPanel.tsx` (375) | ~375 |
-| `components/admin/analytics/GenerationStatsPanel.tsx` (233) | `components/admin/GenerationStatsPanel.tsx` (455) | ~455 |
-| `components/performance/PerformanceDashboard.tsx` (200) | `components/admin/PerformanceDashboard.tsx` (365) | ~365 |
+| Каноничный                                                    | Дубликат(ы) для удаления                            | Строк экономии |
+| ------------------------------------------------------------- | --------------------------------------------------- | -------------- |
+| `components/ui/EmptyState.tsx` (239)                          | `components/common/EmptyState.tsx` (248)            | ~248           |
+| `components/mobile/MobileBottomSheet.tsx` (166)               | `components/ui/BottomSheet.tsx` (162)               | ~162           |
+| `components/admin/analytics/DeeplinkAnalyticsPanel.tsx` (206) | `components/admin/DeeplinkAnalyticsPanel.tsx` (375) | ~375           |
+| `components/admin/analytics/GenerationStatsPanel.tsx` (233)   | `components/admin/GenerationStatsPanel.tsx` (455)   | ~455           |
+| `components/performance/PerformanceDashboard.tsx` (200)       | `components/admin/PerformanceDashboard.tsx` (365)   | ~365           |
 
 **Действия:**
+
 1. Определить каноничный компонент (оставить более компактный/актуальный)
 2. Обновить все импорты на каноничный путь
 3. Удалить дубликат
@@ -40,19 +41,19 @@
 
 ### 9A.2 — Компоненты-вариации (нужно объединить API)
 
-| Каноничный | Вариации | Стратегия |
-|-----------|----------|-----------|
-| `shared/UnifiedVersionSelector.tsx` (405) | `studio/unified/StudioVersionSelector.tsx` (83), `track-detail/HeaderVersionSelector.tsx` (185) | Один компонент с пропсами `variant: 'studio' \| 'header' \| 'default'` |
-| `studio/unified/StudioShell/AddTrackDialog.tsx` (106) | `project/AddTrackDialog.tsx` (99), `studio/AddTrackDialog.tsx` (137) | Один с пропсом `context: 'studio' \| 'project'` |
-| `studio/actions/StudioActionsPanel.tsx` (361) | `studio/panels/StudioActionsPanel.tsx` (438), `track-actions/sections/StudioActions.tsx` (223) | Ревью → выбрать каноничный |
-| `studio/NotesViewerDialog.tsx` (666) | Оставить как есть (отличается от NotationDrawer) | — |
+| Каноничный                                            | Вариации                                                                                        | Стратегия                                                              |
+| ----------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| `shared/UnifiedVersionSelector.tsx` (405)             | `studio/unified/StudioVersionSelector.tsx` (83), `track-detail/HeaderVersionSelector.tsx` (185) | Один компонент с пропсами `variant: 'studio' \| 'header' \| 'default'` |
+| `studio/unified/StudioShell/AddTrackDialog.tsx` (106) | `project/AddTrackDialog.tsx` (99), `studio/AddTrackDialog.tsx` (137)                            | Один с пропсом `context: 'studio' \| 'project'`                        |
+| `studio/actions/StudioActionsPanel.tsx` (361)         | `studio/panels/StudioActionsPanel.tsx` (438), `track-actions/sections/StudioActions.tsx` (223)  | Ревью → выбрать каноничный                                             |
+| `studio/NotesViewerDialog.tsx` (666)                  | Оставить как есть (отличается от NotationDrawer)                                                | —                                                                      |
 
 ### 9A.3 — Lyrics-компоненты с одинаковыми именами
 
-| Каноничный | Дубликат |
-|-----------|----------|
-| `components/studio/unified/LyricsPanel.tsx` (647) | `components/player/LyricsPanel.tsx` (383) — разная функция, переименовать в `PlayerLyricsPanel` |
-| `components/studio/unified/SectionNotesPanel.tsx` (954) | `components/lyrics-workspace/SectionNotesPanel.tsx` (611) — ревью и объединить |
+| Каноничный                                              | Дубликат                                                                                        |
+| ------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `components/studio/unified/LyricsPanel.tsx` (647)       | `components/player/LyricsPanel.tsx` (383) — разная функция, переименовать в `PlayerLyricsPanel` |
+| `components/studio/unified/SectionNotesPanel.tsx` (954) | `components/lyrics-workspace/SectionNotesPanel.tsx` (611) — ревью и объединить                  |
 
 **Ожидаемая экономия Sprint 9A:** ~2,000-3,000 строк
 
@@ -64,18 +65,18 @@
 
 ### Топ-10 файлов для рефакторинга
 
-| Файл | Строк | Стратегия разбиения |
-|------|-------|---------------------|
-| `studio/unified/StudioShell.tsx` | 1,852 | → StudioShellLayout, StudioShellToolbar, StudioShellPanels, StudioShellDialogs, useStudioShellState |
-| `studio/unified/UnifiedStudioContent.tsx` | 1,477 | → ContentHeader, ContentPanels, ContentTimeline, ContentActions, useContentState |
-| `services/lyrics.service.ts` | 1,079 | → lyrics-parser.service, lyrics-validator.service, lyrics-transform.service |
-| `pages/LyricsStudio.tsx` | 1,073 | → LyricsStudioLayout, LyricsStudioPanels, LyricsStudioToolbar |
-| `player/MobileFullscreenPlayer.tsx` | 1,052 | → PlayerControls, PlayerQueue, PlayerLyrics, PlayerWaveform |
-| `hooks/usePromptDJEnhanced.ts` | 1,009 | → usePromptDJCore, usePromptDJEffects, usePromptDJState |
-| `hooks/generation/useGenerateForm.ts` | 995 | → useGenerateFormState, useGenerateFormValidation, useGenerateFormSubmit |
-| `studio/unified/SectionNotesPanel.tsx` | 954 | → SectionNotesList, SectionNoteEditor, SectionNoteAI |
-| `GlobalAudioProvider.tsx` | 937 | → useAudioEngine, useAudioQueue, useAudioState |
-| `generate-form/lyrics-chat/useLyricsChat.ts` | 894 | → useLyricsChatState, useLyricsChatActions, useLyricsChatAI |
+| Файл                                         | Строк | Стратегия разбиения                                                                                 |
+| -------------------------------------------- | ----- | --------------------------------------------------------------------------------------------------- |
+| `studio/unified/StudioShell.tsx`             | 1,852 | → StudioShellLayout, StudioShellToolbar, StudioShellPanels, StudioShellDialogs, useStudioShellState |
+| `studio/unified/UnifiedStudioContent.tsx`    | 1,477 | → ContentHeader, ContentPanels, ContentTimeline, ContentActions, useContentState                    |
+| `services/lyrics.service.ts`                 | 1,079 | → lyrics-parser.service, lyrics-validator.service, lyrics-transform.service                         |
+| `pages/LyricsStudio.tsx`                     | 1,073 | → LyricsStudioLayout, LyricsStudioPanels, LyricsStudioToolbar                                       |
+| `player/MobileFullscreenPlayer.tsx`          | 1,052 | → PlayerControls, PlayerQueue, PlayerLyrics, PlayerWaveform                                         |
+| `hooks/usePromptDJEnhanced.ts`               | 1,009 | → usePromptDJCore, usePromptDJEffects, usePromptDJState                                             |
+| `hooks/generation/useGenerateForm.ts`        | 995   | → useGenerateFormState, useGenerateFormValidation, useGenerateFormSubmit                            |
+| `studio/unified/SectionNotesPanel.tsx`       | 954   | → SectionNotesList, SectionNoteEditor, SectionNoteAI                                                |
+| `GlobalAudioProvider.tsx`                    | 937   | → useAudioEngine, useAudioQueue, useAudioState                                                      |
+| `generate-form/lyrics-chat/useLyricsChat.ts` | 894   | → useLyricsChatState, useLyricsChatActions, useLyricsChatAI                                         |
 
 **Правило:** Ни один файл >500 строк после рефакторинга.
 
@@ -110,6 +111,7 @@ components/lyrics/
 ```
 
 **Действия:**
+
 1. Создать поддиректории
 2. Переместить файлы
 3. Обновить все импорты
@@ -154,13 +156,13 @@ components/ui/
 
 ## Суммарные ожидания
 
-| Спринт | Экономия строк | Файлов затронуто | Сложность |
-|--------|---------------|------------------|-----------|
-| 9A: Дедупликация | ~3,000 | ~30 | Средняя |
-| 9B: Разбиение гигантов | ~0 (рефакторинг) | ~50 | Высокая |
-| 9C: Lyrics консолидация | ~500 | ~30 | Высокая |
-| 9D: UI реорганизация | ~0 (структура) | ~90 | Низкая |
-| 9E: Верификация | — | — | Низкая |
+| Спринт                  | Экономия строк   | Файлов затронуто | Сложность |
+| ----------------------- | ---------------- | ---------------- | --------- |
+| 9A: Дедупликация        | ~3,000           | ~30              | Средняя   |
+| 9B: Разбиение гигантов  | ~0 (рефакторинг) | ~50              | Высокая   |
+| 9C: Lyrics консолидация | ~500             | ~30              | Высокая   |
+| 9D: UI реорганизация    | ~0 (структура)   | ~90              | Низкая    |
+| 9E: Верификация         | —                | —                | Низкая    |
 
 **Итого:** ~3,500 строк экономии + значительное улучшение maintainability
 

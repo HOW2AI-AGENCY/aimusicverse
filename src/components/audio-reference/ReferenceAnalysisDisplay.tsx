@@ -3,29 +3,17 @@
  * Shows analysis progress and results for audio reference
  */
 
-import { memo } from 'react';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { Skeleton } from '@/components/ui/skeleton';
-import { 
-  Music, 
-  Mic2, 
-  Gauge, 
-  Heart, 
-  Zap,
-  Globe,
-  Loader2,
-  CheckCircle2,
-  XCircle,
-  Clock,
-  Sparkles,
-} from 'lucide-react';
-import { AudioAnalysis } from '@/services/audio-reference/types';
-import { cn } from '@/lib/utils';
+import { memo } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Music, Mic2, Gauge, Heart, Zap, Globe, Loader2, CheckCircle2, XCircle, Clock, Sparkles } from "lucide-react";
+import { AudioAnalysis } from "@/services/audio-reference/types";
+import { cn } from "@/lib/utils";
 
 interface ReferenceAnalysisDisplayProps {
   analysis: AudioAnalysis | undefined;
-  status: 'pending' | 'processing' | 'completed' | 'failed' | null | undefined;
+  status: "pending" | "processing" | "completed" | "failed" | null | undefined;
   className?: string;
   compact?: boolean;
 }
@@ -39,28 +27,28 @@ export const ReferenceAnalysisDisplay = memo(function ReferenceAnalysisDisplay({
   // Render status indicator
   const renderStatusBadge = () => {
     switch (status) {
-      case 'processing':
+      case "processing":
         return (
           <Badge variant="secondary" className="gap-1">
             <Loader2 className="h-3 w-3 animate-spin" />
             Анализируем...
           </Badge>
         );
-      case 'completed':
+      case "completed":
         return (
           <Badge variant="default" className="gap-1 bg-green-500/20 text-green-700 dark:text-green-400">
             <CheckCircle2 className="h-3 w-3" />
             Анализ готов
           </Badge>
         );
-      case 'failed':
+      case "failed":
         return (
           <Badge variant="destructive" className="gap-1">
             <XCircle className="h-3 w-3" />
             Ошибка анализа
           </Badge>
         );
-      case 'pending':
+      case "pending":
         return (
           <Badge variant="outline" className="gap-1">
             <Clock className="h-3 w-3" />
@@ -73,7 +61,7 @@ export const ReferenceAnalysisDisplay = memo(function ReferenceAnalysisDisplay({
   };
 
   // Processing state
-  if (status === 'processing') {
+  if (status === "processing") {
     return (
       <div className={cn("space-y-3", className)}>
         <div className="flex items-center justify-between">
@@ -94,7 +82,7 @@ export const ReferenceAnalysisDisplay = memo(function ReferenceAnalysisDisplay({
   }
 
   // No analysis data
-  if (!analysis || status === 'pending') {
+  if (!analysis || status === "pending") {
     return (
       <div className={cn("flex items-center justify-between p-3 rounded-lg bg-muted/50", className)}>
         <span className="text-sm text-muted-foreground">Анализ не выполнен</span>
@@ -104,7 +92,7 @@ export const ReferenceAnalysisDisplay = memo(function ReferenceAnalysisDisplay({
   }
 
   // Failed state
-  if (status === 'failed') {
+  if (status === "failed") {
     return (
       <div className={cn("p-3 rounded-lg bg-destructive/10", className)}>
         <div className="flex items-center gap-2 text-destructive">
@@ -173,7 +161,7 @@ export const ReferenceAnalysisDisplay = memo(function ReferenceAnalysisDisplay({
             <span className="text-lg font-semibold">{analysis.bpm} BPM</span>
           </div>
         )}
-        
+
         {analysis.genre && (
           <div className="p-3 rounded-lg bg-muted/50">
             <div className="flex items-center gap-2 text-muted-foreground mb-1">
@@ -220,11 +208,7 @@ export const ReferenceAnalysisDisplay = memo(function ReferenceAnalysisDisplay({
         <div className="flex items-center gap-2">
           <Mic2 className="h-4 w-4 text-muted-foreground" />
           <span className="text-sm">
-            {analysis.hasVocals ? (
-              <>Вокал{analysis.vocalStyle ? `: ${analysis.vocalStyle}` : ''}</>
-            ) : (
-              'Инструментал'
-            )}
+            {analysis.hasVocals ? <>Вокал{analysis.vocalStyle ? `: ${analysis.vocalStyle}` : ""}</> : "Инструментал"}
           </span>
         </div>
       )}

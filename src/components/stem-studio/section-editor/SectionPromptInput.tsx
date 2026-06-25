@@ -2,15 +2,15 @@
  * Prompt and lyrics input for section replacement
  */
 
-import { useState } from 'react';
-import { motion } from '@/lib/motion';
-import { FileText, ChevronDown, Tag } from 'lucide-react';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { cn } from '@/lib/utils';
+import { useState } from "react";
+import { motion } from "@/lib/motion";
+import { FileText, ChevronDown, Tag } from "lucide-react";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { cn } from "@/lib/utils";
 
 interface SectionPromptInputProps {
   prompt: string;
@@ -50,7 +50,7 @@ export function SectionPromptInput({
           onChange={(e) => onPromptChange(e.target.value)}
           className={cn(
             "resize-none text-sm transition-shadow focus:shadow-[0_0_0_2px_hsl(var(--primary)/0.2)]",
-            compact ? "min-h-[50px]" : "min-h-[60px]"
+            compact ? "min-h-[50px]" : "min-h-[60px]",
           )}
         />
       </div>
@@ -73,31 +73,22 @@ export function SectionPromptInput({
       {/* Collapsible Lyrics */}
       <Collapsible open={showLyrics} onOpenChange={setShowLyrics}>
         <CollapsibleTrigger asChild>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="w-full justify-between h-8 text-xs hover:bg-muted/50"
-          >
+          <Button variant="ghost" size="sm" className="w-full justify-between h-8 text-xs hover:bg-muted/50">
             <span className="flex items-center gap-2">
               <FileText className="w-3.5 h-3.5" />
               Изменить текст секции
-              {lyricsChanged && (
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
-              )}
+              {lyricsChanged && <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />}
             </span>
             <motion.span
               animate={{ rotate: showLyrics ? 180 : 0 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
               <ChevronDown className="w-3.5 h-3.5" />
             </motion.span>
           </Button>
         </CollapsibleTrigger>
         <CollapsibleContent className="pt-2">
-          <motion.div
-            initial={{ opacity: 0, y: -5 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
+          <motion.div initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }}>
             <Textarea
               placeholder="Новый текст для секции..."
               value={lyrics}

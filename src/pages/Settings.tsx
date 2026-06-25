@@ -1,21 +1,29 @@
 /**
  * Settings Page
- * 
+ *
  * User settings management with modular tab components.
  * Desktop: vertical sidebar navigation
  * Mobile: horizontal tabs
- * 
+ *
  * @see src/hooks/useSettingsPage.ts
  */
 
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
-import { 
-  User, Bell, Shield, Palette, Music, Send, Lightbulb, BarChart3, CreditCard,
-  Settings as SettingsIcon
+import {
+  User,
+  Bell,
+  Shield,
+  Palette,
+  Music,
+  Send,
+  Lightbulb,
+  BarChart3,
+  CreditCard,
+  Settings as SettingsIcon,
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { motion } from '@/lib/motion';
+import { motion } from "@/lib/motion";
 import { Button } from "@/components/ui/button";
 import { AppHeader } from "@/components/layout/AppHeader";
 import { NotificationBadge } from "@/components/NotificationBadge";
@@ -51,7 +59,7 @@ export default function Settings() {
   // Content renderer for both mobile tabs and desktop sidebar
   const renderContent = (tab: string) => {
     switch (tab) {
-      case 'profile':
+      case "profile":
         return (
           <ProfileTab
             profile={settings.profile}
@@ -65,7 +73,7 @@ export default function Settings() {
             createFocusHandler={settings.createFocusHandler}
           />
         );
-      case 'subscription':
+      case "subscription":
         return (
           <>
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
@@ -76,13 +84,13 @@ export default function Settings() {
             </motion.div>
           </>
         );
-      case 'stats':
+      case "stats":
         return <UserStatsSection />;
-      case 'appearance':
+      case "appearance":
         return <ThemeSettings />;
-      case 'privacy':
+      case "privacy":
         return <PrivacyTab onNavigate={settings.navigateTo} />;
-      case 'notifications':
+      case "notifications":
         return (
           <NotificationsTab
             settings={settings.notificationSettings}
@@ -92,15 +100,15 @@ export default function Settings() {
             createFocusHandler={settings.createFocusHandler}
           />
         );
-      case 'hints':
+      case "hints":
         return <HintsSettings />;
-      case 'midi':
+      case "midi":
         return (
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
             <MidiSettingsSection />
           </motion.div>
         );
-      case 'telegram':
+      case "telegram":
         return <TelegramTab />;
       default:
         return null;
@@ -108,14 +116,11 @@ export default function Settings() {
   };
 
   return (
-    <div 
+    <div
       className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5"
       style={settings.getContainerStyle(96)}
     >
-      <div className={cn(
-        "container mx-auto px-4",
-        isMobile ? "max-w-2xl" : "max-w-6xl"
-      )}>
+      <div className={cn("container mx-auto px-4", isMobile ? "max-w-2xl" : "max-w-6xl")}>
         <AppHeader
           title="Настройки"
           subtitle="Управление аккаунтом"
@@ -128,10 +133,7 @@ export default function Settings() {
         {!isMobile ? (
           <div className="flex gap-6 lg:gap-8 mt-4 lg:mt-6">
             <aside className="w-64 lg:w-72 flex-shrink-0 sticky top-20 self-start">
-              <SettingsSidebar 
-                activeTab={activeTab} 
-                onTabChange={setActiveTab} 
-              />
+              <SettingsSidebar activeTab={activeTab} onTabChange={setActiveTab} />
             </aside>
             <main className="flex-1 min-w-0 max-w-3xl">
               <motion.div
@@ -148,7 +150,10 @@ export default function Settings() {
         ) : (
           /* Mobile: Horizontal Tabs */
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full mb-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(55px, 1fr))' }}>
+            <TabsList
+              className="grid w-full mb-6"
+              style={{ gridTemplateColumns: "repeat(auto-fit, minmax(55px, 1fr))" }}
+            >
               <TabsTrigger value="profile" className="gap-1 px-1">
                 <User className="w-4 h-4" />
                 <span className="hidden sm:inline text-xs">Профиль</span>
@@ -188,31 +193,31 @@ export default function Settings() {
             </TabsList>
 
             <TabsContent value="profile" className="space-y-4">
-              {renderContent('profile')}
+              {renderContent("profile")}
             </TabsContent>
             <TabsContent value="subscription" className="space-y-4">
-              {renderContent('subscription')}
+              {renderContent("subscription")}
             </TabsContent>
             <TabsContent value="stats" className="space-y-4">
-              {renderContent('stats')}
+              {renderContent("stats")}
             </TabsContent>
             <TabsContent value="appearance" className="space-y-4">
-              {renderContent('appearance')}
+              {renderContent("appearance")}
             </TabsContent>
             <TabsContent value="privacy" className="space-y-4">
-              {renderContent('privacy')}
+              {renderContent("privacy")}
             </TabsContent>
             <TabsContent value="notifications" className="space-y-4">
-              {renderContent('notifications')}
+              {renderContent("notifications")}
             </TabsContent>
             <TabsContent value="hints" className="space-y-4">
-              {renderContent('hints')}
+              {renderContent("hints")}
             </TabsContent>
             <TabsContent value="midi" className="space-y-4">
-              {renderContent('midi')}
+              {renderContent("midi")}
             </TabsContent>
             <TabsContent value="telegram" className="space-y-4">
-              {renderContent('telegram')}
+              {renderContent("telegram")}
             </TabsContent>
           </Tabs>
         )}
@@ -228,7 +233,7 @@ export default function Settings() {
             <Button
               variant="link"
               className="h-auto p-0 text-muted-foreground hover:text-primary transition-colors lg:text-base"
-              onClick={() => settings.navigateTo('/terms')}
+              onClick={() => settings.navigateTo("/terms")}
             >
               Условия использования
             </Button>
@@ -236,14 +241,12 @@ export default function Settings() {
             <Button
               variant="link"
               className="h-auto p-0 text-muted-foreground hover:text-primary transition-colors lg:text-base"
-              onClick={() => settings.navigateTo('/privacy')}
+              onClick={() => settings.navigateTo("/privacy")}
             >
               Конфиденциальность
             </Button>
           </div>
-          <p className="mt-2 text-xs lg:text-sm">
-            MusicVerse AI © 2025
-          </p>
+          <p className="mt-2 text-xs lg:text-sm">MusicVerse AI © 2025</p>
         </motion.div>
       </div>
     </div>

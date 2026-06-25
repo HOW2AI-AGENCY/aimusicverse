@@ -3,36 +3,26 @@
  * Shows PRO and PREMIUM options with benefits
  */
 
-import { memo, useState } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { 
-  Crown, 
-  Zap, 
-  Check, 
-  Sparkles,
-  Music,
-  Headphones,
-  Download,
-  Star,
-  Loader2
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { toast } from 'sonner';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/hooks/useAuth';
-import { logger } from '@/lib/logger';
+import { memo, useState } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Crown, Zap, Check, Sparkles, Music, Headphones, Download, Star, Loader2 } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
+import { logger } from "@/lib/logger";
 
 interface SubscriptionUpgradePopupProps {
   open: boolean;
   onClose: () => void;
-  reason?: 'balance_limit' | 'daily_limit' | 'feature_locked' | 'general';
+  reason?: "balance_limit" | "daily_limit" | "feature_locked" | "general";
 }
 
 interface TierInfo {
-  id: 'pro' | 'premium';
+  id: "pro" | "premium";
   name: string;
   price: number;
   credits: number;
@@ -45,65 +35,59 @@ interface TierInfo {
 
 const TIERS: TierInfo[] = [
   {
-    id: 'pro',
-    name: 'PRO',
+    id: "pro",
+    name: "PRO",
     price: 350,
     credits: 500,
-    bonus: '+50% при докупке',
-    features: [
-      'HD качество аудио',
-      '5 треков одновременно',
-      'Stem-сепарация',
-      'MIDI экспорт',
-      'Нет лимита баланса',
-    ],
+    bonus: "+50% при докупке",
+    features: ["HD качество аудио", "5 треков одновременно", "Stem-сепарация", "MIDI экспорт", "Нет лимита баланса"],
     icon: Zap,
-    gradient: 'from-blue-500 to-cyan-500',
-    productCode: 'pro_monthly',
+    gradient: "from-blue-500 to-cyan-500",
+    productCode: "pro_monthly",
   },
   {
-    id: 'premium',
-    name: 'PREMIUM',
+    id: "premium",
+    name: "PREMIUM",
     price: 750,
     credits: 1200,
-    bonus: '+100% при докупке',
+    bonus: "+100% при докупке",
     features: [
-      'Ultra HD качество',
-      '10 треков одновременно',
-      'AI Мастеринг',
-      'Приоритетная генерация',
-      'Все AI модели',
-      'Персональная поддержка',
+      "Ultra HD качество",
+      "10 треков одновременно",
+      "AI Мастеринг",
+      "Приоритетная генерация",
+      "Все AI модели",
+      "Персональная поддержка",
     ],
     icon: Crown,
-    gradient: 'from-amber-500 to-orange-500',
-    productCode: 'premium_monthly',
+    gradient: "from-amber-500 to-orange-500",
+    productCode: "premium_monthly",
   },
 ];
 
 const REASON_MESSAGES = {
-  balance_limit: 'Ты достиг лимита в 100 кредитов для бесплатных пользователей',
-  daily_limit: 'Ты заработал максимум 30 кредитов сегодня',
-  feature_locked: 'Эта функция доступна только с подпиской',
-  general: 'Открой все возможности MusicVerse AI',
+  balance_limit: "Ты достиг лимита в 100 кредитов для бесплатных пользователей",
+  daily_limit: "Ты заработал максимум 30 кредитов сегодня",
+  feature_locked: "Эта функция доступна только с подпиской",
+  general: "Открой все возможности MusicVerse AI",
 };
 
 export const SubscriptionUpgradePopup = memo(function SubscriptionUpgradePopup({
   open,
   onClose,
-  reason = 'general',
+  reason = "general",
 }: SubscriptionUpgradePopupProps) {
   const { user } = useAuth();
-  const [selectedTier, setSelectedTier] = useState<'pro' | 'premium'>('pro');
+  const [selectedTier, setSelectedTier] = useState<"pro" | "premium">("pro");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubscribe = async () => {
     if (!user) {
-      toast.error('Необходима авторизация');
+      toast.error("Необходима авторизация");
       return;
     }
 
-    const tier = TIERS.find(t => t.id === selectedTier);
+    const tier = TIERS.find((t) => t.id === selectedTier);
     if (!tier) return;
 
     setIsLoading(true);
@@ -113,32 +97,29 @@ export const SubscriptionUpgradePopup = memo(function SubscriptionUpgradePopup({
       const token = authData.session?.access_token;
 
       if (!token) {
-        throw new Error('Не удалось получить токен авторизации');
+        throw new Error("Не удалось получить токен авторизации");
       }
 
-      const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/tinkoff-create-payment`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-          },
-          body: JSON.stringify({ productCode: tier.productCode }),
-        }
-      );
+      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/tinkoff-create-payment`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ productCode: tier.productCode }),
+      });
 
       const result = await response.json();
 
       if (!response.ok || !result.success) {
-        throw new Error(result.error || 'Не удалось создать платёж');
+        throw new Error(result.error || "Не удалось создать платёж");
       }
 
       window.location.href = result.paymentUrl;
     } catch (error) {
-      logger.error('Subscription error', error instanceof Error ? error : new Error(String(error)));
-      toast.error('Ошибка при создании платежа', {
-        description: error instanceof Error ? error.message : 'Попробуйте позже',
+      logger.error("Subscription error", error instanceof Error ? error : new Error(String(error)));
+      toast.error("Ошибка при создании платежа", {
+        description: error instanceof Error ? error.message : "Попробуйте позже",
       });
     } finally {
       setIsLoading(false);
@@ -164,9 +145,7 @@ export const SubscriptionUpgradePopup = memo(function SubscriptionUpgradePopup({
           >
             {/* Reason message */}
             <div className="text-center">
-              <p className="text-muted-foreground text-sm">
-                {REASON_MESSAGES[reason]}
-              </p>
+              <p className="text-muted-foreground text-sm">{REASON_MESSAGES[reason]}</p>
             </div>
 
             {/* Tier cards */}
@@ -174,7 +153,7 @@ export const SubscriptionUpgradePopup = memo(function SubscriptionUpgradePopup({
               {TIERS.map((tier) => {
                 const Icon = tier.icon;
                 const isSelected = selectedTier === tier.id;
-                
+
                 return (
                   <motion.button
                     key={tier.id}
@@ -183,12 +162,10 @@ export const SubscriptionUpgradePopup = memo(function SubscriptionUpgradePopup({
                     whileTap={{ scale: 0.98 }}
                     className={cn(
                       "relative p-4 rounded-xl border-2 text-left transition-all",
-                      isSelected 
-                        ? "border-primary bg-primary/5" 
-                        : "border-border/50 hover:border-border"
+                      isSelected ? "border-primary bg-primary/5" : "border-border/50 hover:border-border",
                     )}
                   >
-                    {tier.id === 'premium' && (
+                    {tier.id === "premium" && (
                       <Badge className="absolute -top-2 -right-2 bg-gradient-to-r from-amber-500 to-orange-500">
                         Популярный
                       </Badge>
@@ -196,10 +173,12 @@ export const SubscriptionUpgradePopup = memo(function SubscriptionUpgradePopup({
 
                     {/* Header */}
                     <div className="flex items-center gap-3 mb-3">
-                      <div className={cn(
-                        "w-10 h-10 rounded-lg flex items-center justify-center bg-gradient-to-br",
-                        tier.gradient
-                      )}>
+                      <div
+                        className={cn(
+                          "w-10 h-10 rounded-lg flex items-center justify-center bg-gradient-to-br",
+                          tier.gradient,
+                        )}
+                      >
                         <Icon className="w-5 h-5 text-white" />
                       </div>
                       <div>
@@ -252,19 +231,15 @@ export const SubscriptionUpgradePopup = memo(function SubscriptionUpgradePopup({
                 size="lg"
                 className={cn(
                   "w-full bg-gradient-to-r",
-                  selectedTier === 'premium' 
+                  selectedTier === "premium"
                     ? "from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600"
-                    : "from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600"
+                    : "from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600",
                 )}
               >
-                {isLoading ? (
-                  <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                ) : (
-                  <Crown className="w-4 h-4 mr-2" />
-                )}
-                Подписаться на {selectedTier === 'premium' ? 'PREMIUM' : 'PRO'}
+                {isLoading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Crown className="w-4 h-4 mr-2" />}
+                Подписаться на {selectedTier === "premium" ? "PREMIUM" : "PRO"}
               </Button>
-              
+
               <Button variant="ghost" onClick={onClose}>
                 Позже
               </Button>

@@ -8,7 +8,7 @@ interface LazyImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   fallback?: React.ReactNode;
   containerClassName?: string;
   /** Optimize for track cover sizes */
-  coverSize?: 'small' | 'medium' | 'large';
+  coverSize?: "small" | "medium" | "large";
   /** Priority loading (above the fold) */
   priority?: boolean;
   /** Enable srcset for responsive images */
@@ -36,27 +36,23 @@ export const LazyImage = memo(function LazyImage({
   const [shouldLoad, setShouldLoad] = useState(priority);
 
   // Get optimized URL
-  const optimizedSrc = coverSize 
-    ? getTrackCoverUrl(src, coverSize)
-    : getOptimizedImageUrl(src, { quality: 80 });
+  const optimizedSrc = coverSize ? getTrackCoverUrl(src, coverSize) : getOptimizedImageUrl(src, { quality: 80 });
 
   // Generate srcset for responsive images
   const srcSet = responsive ? generateSrcSet(src) : undefined;
-  
+
   // Default sizes attribute for responsive images
-  const sizes = responsive 
-    ? "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-    : undefined;
+  const sizes = responsive ? "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" : undefined;
 
   // Intersection observer for lazy loading
   useEffect(() => {
     if (priority || shouldLoad) return;
-    
+
     const element = imgRef.current;
     if (!element) return;
 
     // Check if already in viewport
-    if (typeof IntersectionObserver === 'undefined') {
+    if (typeof IntersectionObserver === "undefined") {
       setShouldLoad(true);
       return;
     }
@@ -68,7 +64,7 @@ export const LazyImage = memo(function LazyImage({
           observerRef.current?.disconnect();
         }
       },
-      { rootMargin: '50px' } // Reduced from 200px for faster initial load
+      { rootMargin: "50px" }, // Reduced from 200px for faster initial load
     );
 
     observerRef.current.observe(element);
@@ -94,29 +90,24 @@ export const LazyImage = memo(function LazyImage({
 
   if (hasError || !src) {
     return (
-      <div 
+      <div
         className={cn("bg-muted flex items-center justify-center", containerClassName)}
         role="img"
         aria-label={alt || "Изображение недоступно"}
       >
-        {fallback || (
-          <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5" />
-        )}
+        {fallback || <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5" />}
       </div>
     );
   }
 
   return (
-    <div 
+    <div
       className={cn("relative overflow-hidden", containerClassName)}
       style={aspectRatio ? { aspectRatio } : undefined}
     >
       {/* Low quality blur placeholder - only show while loading */}
       {!isLoaded && (
-        <div
-          className="absolute inset-0 bg-muted/80 backdrop-blur-sm"
-          aria-hidden="true"
-        >
+        <div className="absolute inset-0 bg-muted/80 backdrop-blur-sm" aria-hidden="true">
           {/* Subtle pulse effect */}
           <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent animate-pulse" />
         </div>
@@ -138,7 +129,7 @@ export const LazyImage = memo(function LazyImage({
         className={cn(
           "transition-opacity duration-slow ease-default",
           isLoaded ? "opacity-100" : "opacity-0",
-          className
+          className,
         )}
         {...props}
       />

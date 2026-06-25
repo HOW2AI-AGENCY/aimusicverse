@@ -29,7 +29,7 @@
 - [[isLoading, setIsLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L49) (1 connections)
 - [mutedFgColor](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L126) (1 connections)
 - [percent](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L139) (1 connections)
-- *... and 11 more nodes in this community*
+- _... and 11 more nodes in this community_
 
 ## Relationships
 
@@ -47,4 +47,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

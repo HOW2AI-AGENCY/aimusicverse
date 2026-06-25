@@ -2,17 +2,11 @@
  * GlobalControls - BPM, Key, Scale, Density, Brightness controls
  */
 
-import { memo } from 'react';
-import { cn } from '@/lib/utils';
-import { Slider } from '@/components/ui/slider';
-import { KEY_OPTIONS, SCALE_OPTIONS, DURATION_OPTIONS } from '@/lib/prompt-dj-presets';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { memo } from "react";
+import { cn } from "@/lib/utils";
+import { Slider } from "@/components/ui/slider";
+import { KEY_OPTIONS, SCALE_OPTIONS, DURATION_OPTIONS } from "@/lib/prompt-dj-presets";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface GlobalControlsProps {
   bpm: number;
@@ -53,17 +47,21 @@ export const GlobalControls = memo(function GlobalControls({
         <div className="flex items-center gap-1.5">
           <span className="text-[10px] text-muted-foreground w-8">BPM</span>
           <div className="flex items-center bg-muted/20 rounded-lg">
-            <button 
+            <button
               className="w-6 h-6 flex items-center justify-center text-sm hover:bg-muted/30 rounded-l-lg"
               onClick={() => onBpmChange(Math.max(60, bpm - 5))}
               disabled={disabled}
-            >−</button>
+            >
+              −
+            </button>
             <span className="w-8 text-center font-mono text-xs font-bold">{bpm}</span>
-            <button 
+            <button
               className="w-6 h-6 flex items-center justify-center text-sm hover:bg-muted/30 rounded-r-lg"
               onClick={() => onBpmChange(Math.min(180, bpm + 5))}
               disabled={disabled}
-            >+</button>
+            >
+              +
+            </button>
           </div>
         </div>
 
@@ -74,7 +72,9 @@ export const GlobalControls = memo(function GlobalControls({
           </SelectTrigger>
           <SelectContent>
             {KEY_OPTIONS.map((k) => (
-              <SelectItem key={k} value={k} className="text-xs">{k}</SelectItem>
+              <SelectItem key={k} value={k} className="text-xs">
+                {k}
+              </SelectItem>
             ))}
           </SelectContent>
         </Select>
@@ -99,10 +99,8 @@ export const GlobalControls = memo(function GlobalControls({
             <button
               key={d.value}
               className={cn(
-                'px-2 py-1 text-[10px] rounded transition-all',
-                duration === d.value 
-                  ? 'bg-primary text-primary-foreground' 
-                  : 'bg-muted/20 hover:bg-muted/40'
+                "px-2 py-1 text-[10px] rounded transition-all",
+                duration === d.value ? "bg-primary text-primary-foreground" : "bg-muted/20 hover:bg-muted/40",
               )}
               onClick={() => onDurationChange(d.value)}
               disabled={disabled}
@@ -119,11 +117,12 @@ export const GlobalControls = memo(function GlobalControls({
         <div className="space-y-1">
           <div className="flex justify-between text-[10px]">
             <span className="text-muted-foreground">Плотность</span>
-            <span className={cn(
-              density < 0.3 ? 'text-blue-400' : 
-              density > 0.7 ? 'text-orange-400' : 'text-muted-foreground'
-            )}>
-              {density < 0.3 ? 'Разреженный' : density > 0.7 ? 'Плотный' : 'Средний'}
+            <span
+              className={cn(
+                density < 0.3 ? "text-blue-400" : density > 0.7 ? "text-orange-400" : "text-muted-foreground",
+              )}
+            >
+              {density < 0.3 ? "Разреженный" : density > 0.7 ? "Плотный" : "Средний"}
             </span>
           </div>
           <Slider
@@ -140,11 +139,12 @@ export const GlobalControls = memo(function GlobalControls({
         <div className="space-y-1">
           <div className="flex justify-between text-[10px]">
             <span className="text-muted-foreground">Яркость</span>
-            <span className={cn(
-              brightness < 0.3 ? 'text-amber-400' : 
-              brightness > 0.7 ? 'text-cyan-400' : 'text-muted-foreground'
-            )}>
-              {brightness < 0.3 ? 'Тёплый' : brightness > 0.7 ? 'Яркий' : 'Нейтральный'}
+            <span
+              className={cn(
+                brightness < 0.3 ? "text-amber-400" : brightness > 0.7 ? "text-cyan-400" : "text-muted-foreground",
+              )}
+            >
+              {brightness < 0.3 ? "Тёплый" : brightness > 0.7 ? "Яркий" : "Нейтральный"}
             </span>
           </div>
           <Slider

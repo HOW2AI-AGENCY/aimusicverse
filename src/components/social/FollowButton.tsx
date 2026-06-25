@@ -1,18 +1,18 @@
 // FollowButton component - Sprint 011
-import { UserPlus, UserMinus, Loader2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { useFollow } from '@/hooks/social/useFollow';
-import { useAuth } from '@/hooks/useAuth';
-import { cn } from '@/lib/utils';
+import { UserPlus, UserMinus, Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useFollow } from "@/hooks/social/useFollow";
+import { useAuth } from "@/hooks/useAuth";
+import { cn } from "@/lib/utils";
 
 interface FollowButtonProps {
   userId: string;
-  size?: 'sm' | 'default' | 'lg';
+  size?: "sm" | "default" | "lg";
   className?: string;
   initialFollowing?: boolean;
 }
 
-export function FollowButton({ userId, size = 'default', className, initialFollowing }: FollowButtonProps) {
+export function FollowButton({ userId, size = "default", className, initialFollowing }: FollowButtonProps) {
   const { user } = useAuth();
   const { isFollowing, isLoading, toggleFollow } = useFollow(userId, initialFollowing);
 
@@ -21,9 +21,9 @@ export function FollowButton({ userId, size = 'default', className, initialFollo
 
   return (
     <Button
-      variant={isFollowing ? 'outline' : 'default'}
+      variant={isFollowing ? "outline" : "default"}
       size={size}
-      className={cn('gap-1.5', className)}
+      className={cn("gap-1.5", className)}
       onClick={(e) => {
         e.stopPropagation();
         toggleFollow();

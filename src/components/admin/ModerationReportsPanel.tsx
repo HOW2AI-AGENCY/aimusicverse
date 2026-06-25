@@ -3,31 +3,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  AlertTriangle,
-  CheckCircle,
-  Clock,
-  Eye,
-  Flag,
-  MoreVertical,
-  Music,
-  XCircle,
-  Loader2,
-} from "lucide-react";
-import { formatDistanceToNow, ru } from '@/lib/date-utils';
+import { AlertTriangle, CheckCircle, Clock, Eye, Flag, MoreVertical, Music, XCircle, Loader2 } from "lucide-react";
+import { formatDistanceToNow, ru } from "@/lib/date-utils";
 import {
   useAdminModerationReports,
   useUpdateReportStatus,
@@ -136,7 +120,8 @@ export function ModerationReportsPanel() {
             <ScrollArea className="h-[400px] md:h-[500px]">
               <div className="space-y-3">
                 {reports.map((report) => {
-                  const statusConfig = STATUS_CONFIG[report.status as keyof typeof STATUS_CONFIG] || STATUS_CONFIG.pending;
+                  const statusConfig =
+                    STATUS_CONFIG[report.status as keyof typeof STATUS_CONFIG] || STATUS_CONFIG.pending;
                   const StatusIcon = statusConfig.icon;
 
                   return (
@@ -171,11 +156,7 @@ export function ModerationReportsPanel() {
                         <div className="flex items-center gap-3 p-2 rounded-md bg-muted/50">
                           <div className="w-10 h-10 rounded overflow-hidden bg-muted flex-shrink-0">
                             {report.track.cover_url ? (
-                              <img
-                                src={report.track.cover_url}
-                                alt=""
-                                className="w-full h-full object-cover"
-                              />
+                              <img src={report.track.cover_url} alt="" className="w-full h-full object-cover" />
                             ) : (
                               <div className="w-full h-full flex items-center justify-center">
                                 <Music className="h-5 w-5 text-muted-foreground" />
@@ -183,9 +164,7 @@ export function ModerationReportsPanel() {
                             )}
                           </div>
                           <div className="min-w-0 flex-1">
-                            <p className="font-medium text-sm truncate">
-                              {report.track.title || "Без названия"}
-                            </p>
+                            <p className="font-medium text-sm truncate">{report.track.title || "Без названия"}</p>
                             <p className="text-xs text-muted-foreground">Трек</p>
                           </div>
                         </div>
@@ -193,9 +172,7 @@ export function ModerationReportsPanel() {
 
                       {/* Details */}
                       {report.details && (
-                        <p className="text-sm text-muted-foreground bg-muted/30 p-2 rounded">
-                          {report.details}
-                        </p>
+                        <p className="text-sm text-muted-foreground bg-muted/30 p-2 rounded">{report.details}</p>
                       )}
 
                       {/* Quick Actions - Mobile Friendly */}
@@ -205,7 +182,7 @@ export function ModerationReportsPanel() {
                           <span>→</span>
                           <span>@{report.reported_user?.username || report.reported_user?.first_name || "—"}</span>
                         </div>
-                        
+
                         {/* Quick action buttons for pending reports */}
                         {report.status === "pending" && (
                           <div className="flex items-center gap-1">
@@ -241,7 +218,7 @@ export function ModerationReportsPanel() {
                             </Button>
                           </div>
                         )}
-                        
+
                         {/* Show dropdown for non-pending */}
                         {report.status !== "pending" && (
                           <DropdownMenu>
@@ -251,9 +228,7 @@ export function ModerationReportsPanel() {
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
-                              <DropdownMenuItem
-                                onClick={() => handleQuickAction(report.id, "pending")}
-                              >
+                              <DropdownMenuItem onClick={() => handleQuickAction(report.id, "pending")}>
                                 <Clock className="h-4 w-4 mr-2" />
                                 Вернуть в ожидание
                               </DropdownMenuItem>

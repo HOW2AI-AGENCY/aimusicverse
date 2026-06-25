@@ -3,9 +3,9 @@
  * Close button always on the RIGHT, consistent 44px touch targets
  */
 
-import { ReactNode } from 'react';
-import { X } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { ReactNode } from "react";
+import { X } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface DialogHeaderProps {
   title: ReactNode;
@@ -31,33 +31,22 @@ export function DialogHeader({
   centered = false,
 }: DialogHeaderProps) {
   return (
-    <div 
+    <div
       className={cn(
         "relative flex items-center gap-3 px-4 py-3 border-b border-border/50 shrink-0",
         centered && "justify-center",
-        className
+        className,
       )}
     >
       {/* Icon */}
-      {icon && (
-        <div className="shrink-0">{icon}</div>
-      )}
-      
+      {icon && <div className="shrink-0">{icon}</div>}
+
       {/* Title & Subtitle */}
       <div className={cn("flex-1 min-w-0", centered && "text-center")}>
-        <h2 className={cn(
-          "text-base font-semibold leading-tight truncate",
-          titleClassName
-        )}>
-          {title}
-        </h2>
-        {subtitle && (
-          <p className="text-xs text-muted-foreground mt-0.5 truncate">
-            {subtitle}
-          </p>
-        )}
+        <h2 className={cn("text-base font-semibold leading-tight truncate", titleClassName)}>{title}</h2>
+        {subtitle && <p className="text-xs text-muted-foreground mt-0.5 truncate">{subtitle}</p>}
       </div>
-      
+
       {/* Close button - ALWAYS on the right, 44x44 touch target */}
       {showCloseButton && onClose && (
         <button
@@ -67,7 +56,7 @@ export function DialogHeader({
             "w-11 h-11 min-w-[44px] min-h-[44px]",
             "rounded-full hover:bg-accent active:bg-accent/80",
             "transition-colors touch-manipulation",
-            "-mr-2" // Compensate for visual alignment
+            "-mr-2", // Compensate for visual alignment
           )}
           aria-label="Закрыть"
         >

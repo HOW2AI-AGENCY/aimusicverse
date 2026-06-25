@@ -16,19 +16,19 @@ logic, stores, hooks, edge functions, or APIs**.
 
 ## Phase ledger
 
-| # | Phase | Status |
-| - | ----- | ------ |
-| 0 | Inventory (`docs/UI_AUDIT.md`) | ✅ |
-| 1 | Design tokens (surfaces, state, motion, scrim) | ✅ |
-| 2 | Atoms (Button/Card/Input) — legacy `@deprecated` | 🟡 import sweep in Phase 10 |
-| 3 | Molecules: EmptyState / Skeleton / Spinner | 🟢 EmptyState shimmed; skeletons pending |
-| 4 | TrackCard convergence | 🟡 canon picked, sweep pending |
-| 5 | Headers / layout / SectionHeader | ⏳ |
-| 6 | `ResponsiveOverlay` + `useConfirm` | ✅ |
-| 7 | Motion presets (`@/lib/motion-presets`) | ✅ |
-| 8 | Toast adapter (`@/lib/toast`) | ✅ |
-| 9 | A11y sweep (axe-core on key routes) | ⏳ |
-| 10 | Hard delete + ESLint `error` rules | ⏳ |
+| #   | Phase                                            | Status                                   |
+| --- | ------------------------------------------------ | ---------------------------------------- |
+| 0   | Inventory (`docs/UI_AUDIT.md`)                   | ✅                                       |
+| 1   | Design tokens (surfaces, state, motion, scrim)   | ✅                                       |
+| 2   | Atoms (Button/Card/Input) — legacy `@deprecated` | 🟡 import sweep in Phase 10              |
+| 3   | Molecules: EmptyState / Skeleton / Spinner       | 🟢 EmptyState shimmed; skeletons pending |
+| 4   | TrackCard convergence                            | 🟡 canon picked, sweep pending           |
+| 5   | Headers / layout / SectionHeader                 | ⏳                                       |
+| 6   | `ResponsiveOverlay` + `useConfirm`               | ✅                                       |
+| 7   | Motion presets (`@/lib/motion-presets`)          | ✅                                       |
+| 8   | Toast adapter (`@/lib/toast`)                    | ✅                                       |
+| 9   | A11y sweep (axe-core on key routes)              | ⏳                                       |
+| 10  | Hard delete + ESLint `error` rules               | ⏳                                       |
 
 ## Tasks
 

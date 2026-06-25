@@ -3,56 +3,51 @@
  * Convert lyrics to different artist/genre style
  */
 
-import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Shuffle, Music2, User, Sparkles } from 'lucide-react';
-import { ToolPanelProps } from '../types';
-import { cn } from '@/lib/utils';
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Shuffle, Music2, User, Sparkles } from "lucide-react";
+import { ToolPanelProps } from "../types";
+import { cn } from "@/lib/utils";
 
 const STYLE_PRESETS = [
-  { id: 'rap', label: 'Рэп/Хип-хоп', icon: '🎤' },
-  { id: 'rock', label: 'Рок', icon: '🎸' },
-  { id: 'pop', label: 'Поп', icon: '🎵' },
-  { id: 'indie', label: 'Инди', icon: '🌙' },
-  { id: 'electronic', label: 'Электроника', icon: '🎹' },
-  { id: 'folk', label: 'Фолк', icon: '🪕' },
-  { id: 'jazz', label: 'Джаз', icon: '🎷' },
-  { id: 'rnb', label: 'R&B/Soul', icon: '💜' },
+  { id: "rap", label: "Рэп/Хип-хоп", icon: "🎤" },
+  { id: "rock", label: "Рок", icon: "🎸" },
+  { id: "pop", label: "Поп", icon: "🎵" },
+  { id: "indie", label: "Инди", icon: "🌙" },
+  { id: "electronic", label: "Электроника", icon: "🎹" },
+  { id: "folk", label: "Фолк", icon: "🪕" },
+  { id: "jazz", label: "Джаз", icon: "🎷" },
+  { id: "rnb", label: "R&B/Soul", icon: "💜" },
 ];
 
 const ARTIST_PRESETS = [
-  { id: 'morgenshtern', label: 'Моргенштерн' },
-  { id: 'face', label: 'Face' },
-  { id: 'zemfira', label: 'Земфира' },
-  { id: 'lsp', label: 'ЛСП' },
-  { id: 'monetochka', label: 'Монеточка' },
-  { id: 'billie', label: 'Billie Eilish' },
-  { id: 'weeknd', label: 'The Weeknd' },
-  { id: 'drake', label: 'Drake' },
+  { id: "morgenshtern", label: "Моргенштерн" },
+  { id: "face", label: "Face" },
+  { id: "zemfira", label: "Земфира" },
+  { id: "lsp", label: "ЛСП" },
+  { id: "monetochka", label: "Монеточка" },
+  { id: "billie", label: "Billie Eilish" },
+  { id: "weeknd", label: "The Weeknd" },
+  { id: "drake", label: "Drake" },
 ];
 
-export const StyleConvertToolPanel: React.FC<ToolPanelProps> = ({
-  context,
-  onExecute,
-  onClose,
-  isLoading,
-}) => {
-  const [mode, setMode] = useState<'genre' | 'artist' | 'custom'>('genre');
-  const [selectedPreset, setSelectedPreset] = useState<string>('');
-  const [customStyle, setCustomStyle] = useState('');
+export const StyleConvertToolPanel: React.FC<ToolPanelProps> = ({ context, onExecute, onClose, isLoading }) => {
+  const [mode, setMode] = useState<"genre" | "artist" | "custom">("genre");
+  const [selectedPreset, setSelectedPreset] = useState<string>("");
+  const [customStyle, setCustomStyle] = useState("");
 
   const hasLyrics = !!context.existingLyrics?.trim();
 
   const handleExecute = () => {
     let targetStyle = customStyle;
-    
-    if (mode === 'genre' && selectedPreset) {
-      const preset = STYLE_PRESETS.find(p => p.id === selectedPreset);
+
+    if (mode === "genre" && selectedPreset) {
+      const preset = STYLE_PRESETS.find((p) => p.id === selectedPreset);
       targetStyle = preset?.label || selectedPreset;
-    } else if (mode === 'artist' && selectedPreset) {
-      const preset = ARTIST_PRESETS.find(p => p.id === selectedPreset);
+    } else if (mode === "artist" && selectedPreset) {
+      const preset = ARTIST_PRESETS.find((p) => p.id === selectedPreset);
       targetStyle = `в стиле ${preset?.label || selectedPreset}`;
     }
 
@@ -85,27 +80,36 @@ export const StyleConvertToolPanel: React.FC<ToolPanelProps> = ({
       {/* Mode selector */}
       <div className="flex gap-2">
         <Button
-          variant={mode === 'genre' ? 'default' : 'outline'}
+          variant={mode === "genre" ? "default" : "outline"}
           size="sm"
-          onClick={() => { setMode('genre'); setSelectedPreset(''); }}
+          onClick={() => {
+            setMode("genre");
+            setSelectedPreset("");
+          }}
           className="flex-1"
         >
           <Music2 className="w-4 h-4 mr-1" />
           Жанр
         </Button>
         <Button
-          variant={mode === 'artist' ? 'default' : 'outline'}
+          variant={mode === "artist" ? "default" : "outline"}
           size="sm"
-          onClick={() => { setMode('artist'); setSelectedPreset(''); }}
+          onClick={() => {
+            setMode("artist");
+            setSelectedPreset("");
+          }}
           className="flex-1"
         >
           <User className="w-4 h-4 mr-1" />
           Артист
         </Button>
         <Button
-          variant={mode === 'custom' ? 'default' : 'outline'}
+          variant={mode === "custom" ? "default" : "outline"}
           size="sm"
-          onClick={() => { setMode('custom'); setSelectedPreset(''); }}
+          onClick={() => {
+            setMode("custom");
+            setSelectedPreset("");
+          }}
           className="flex-1"
         >
           <Sparkles className="w-4 h-4 mr-1" />
@@ -114,12 +118,12 @@ export const StyleConvertToolPanel: React.FC<ToolPanelProps> = ({
       </div>
 
       {/* Genre presets */}
-      {mode === 'genre' && (
+      {mode === "genre" && (
         <div className="grid grid-cols-4 gap-2">
           {STYLE_PRESETS.map((preset) => (
             <Button
               key={preset.id}
-              variant={selectedPreset === preset.id ? 'default' : 'outline'}
+              variant={selectedPreset === preset.id ? "default" : "outline"}
               size="sm"
               onClick={() => setSelectedPreset(preset.id)}
               className="flex flex-col h-auto py-2"
@@ -132,12 +136,12 @@ export const StyleConvertToolPanel: React.FC<ToolPanelProps> = ({
       )}
 
       {/* Artist presets */}
-      {mode === 'artist' && (
+      {mode === "artist" && (
         <div className="grid grid-cols-2 gap-2">
           {ARTIST_PRESETS.map((preset) => (
             <Button
               key={preset.id}
-              variant={selectedPreset === preset.id ? 'default' : 'outline'}
+              variant={selectedPreset === preset.id ? "default" : "outline"}
               size="sm"
               onClick={() => setSelectedPreset(preset.id)}
             >
@@ -148,7 +152,7 @@ export const StyleConvertToolPanel: React.FC<ToolPanelProps> = ({
       )}
 
       {/* Custom input */}
-      {mode === 'custom' && (
+      {mode === "custom" && (
         <div className="space-y-2">
           <Label>Опишите стиль</Label>
           <Input
@@ -159,12 +163,8 @@ export const StyleConvertToolPanel: React.FC<ToolPanelProps> = ({
         </div>
       )}
 
-      <Button
-        onClick={handleExecute}
-        disabled={isLoading || (!selectedPreset && !customStyle)}
-        className="w-full"
-      >
-        {isLoading ? 'Конвертирую...' : 'Конвертировать стиль'}
+      <Button onClick={handleExecute} disabled={isLoading || (!selectedPreset && !customStyle)} className="w-full">
+        {isLoading ? "Конвертирую..." : "Конвертировать стиль"}
       </Button>
     </div>
   );

@@ -2,18 +2,18 @@
  * Studio Audio Setup Hook
  * Manages audio engine setup, playback coordination, and track conversion
  * Extracted from StudioShell to reduce complexity
- * 
+ *
  * @module components/studio/unified/StudioShell/useStudioAudioSetup
  */
 
-import { useMemo, useEffect, useCallback, useRef } from 'react';
-import { useStudioAudioEngine, AudioTrack } from '@/hooks/studio/useStudioAudioEngine';
-import { useMobileAudioFallback } from '@/hooks/studio/useMobileAudioFallback';
-import { useStudioOptimizations } from '@/hooks/studio/useStudioOptimizations';
-import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from '@/hooks/studio/useStudioAudio';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import type { StudioTrack } from '@/stores/useUnifiedStudioStore';
-import type { TrackStem } from '@/hooks/useTrackStems';
+import { useMemo, useEffect, useCallback, useRef } from "react";
+import { useStudioAudioEngine, AudioTrack } from "@/hooks/studio/useStudioAudioEngine";
+import { useMobileAudioFallback } from "@/hooks/studio/useMobileAudioFallback";
+import { useStudioOptimizations } from "@/hooks/studio/useStudioOptimizations";
+import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import type { StudioTrack } from "@/stores/useUnifiedStudioStore";
+import type { TrackStem } from "@/hooks/useTrackStems";
 
 interface UseStudioAudioSetupOptions {
   project: {
@@ -48,27 +48,25 @@ export function useStudioAudioSetup({
   // IMPORTANT: When stems exist, use ONLY stems for playback (exclude main track)
   const audioTracks = useMemo((): AudioTrack[] => {
     if (!project) return [];
-    
-    const stemTypes = ['vocal', 'instrumental', 'drums', 'bass', 'other'];
-    const readyTracks = project.tracks.filter(t => t.status !== 'pending' && t.status !== 'failed');
-    const stems = readyTracks.filter(t => stemTypes.includes(t.type));
-    
+
+    const stemTypes = ["vocal", "instrumental", "drums", "bass", "other"];
+    const readyTracks = project.tracks.filter((t) => t.status !== "pending" && t.status !== "failed");
+    const stems = readyTracks.filter((t) => stemTypes.includes(t.type));
+
     // If stems exist, playback ONLY stems (exclude main track)
-    const tracksToUse = stems.length > 0 
-      ? stems 
-      : readyTracks;
-    
-    return tracksToUse.map(track => {
+    const tracksToUse = stems.length > 0 ? stems : readyTracks;
+
+    return tracksToUse.map((track) => {
       // Get audio URL from track or active version
       let audioUrl = track.audioUrl;
       if (!audioUrl && track.versions?.length) {
-        const activeVersion = track.versions.find(v => v.label === track.activeVersionLabel);
+        const activeVersion = track.versions.find((v) => v.label === track.activeVersionLabel);
         audioUrl = activeVersion?.audioUrl || track.versions[0]?.audioUrl;
       }
       if (!audioUrl && track.clips?.[0]?.audioUrl) {
         audioUrl = track.clips[0].audioUrl;
       }
-      
+
       return {
         id: track.id,
         audioUrl,
@@ -83,12 +81,12 @@ export function useStudioAudioSetup({
   const tracksAsStems = useMemo((): TrackStem[] => {
     if (!project) return [];
     return project.tracks
-      .filter(t => t.status !== 'pending' && t.status !== 'failed')
-      .map(track => ({
+      .filter((t) => t.status !== "pending" && t.status !== "failed")
+      .map((track) => ({
         id: track.id,
         track_id: project.id,
         stem_type: track.type,
-        audio_url: track.audioUrl || '',
+        audio_url: track.audioUrl || "",
         separation_mode: null,
         version_id: null,
         created_at: new Date().toISOString(),
@@ -137,10 +135,13 @@ export function useStudioAudioSetup({
   }, [isPlaying, audioEngine]);
 
   // Sync seek with audio engine
-  const handleSeek = useCallback((time: number) => {
-    audioEngine.seek(time);
-    seek(time);
-  }, [audioEngine, seek]);
+  const handleSeek = useCallback(
+    (time: number) => {
+      audioEngine.seek(time);
+      seek(time);
+    },
+    [audioEngine, seek],
+  );
 
   // Handle play/pause with global audio coordination
   const handlePlayPause = useCallback(() => {
@@ -150,7 +151,7 @@ export function useStudioAudioSetup({
     } else {
       // Pause global player and other studio sources before playing
       pauseGlobalPlayer();
-      pauseAllStudioAudio('studio-shell');
+      pauseAllStudioAudio("studio-shell");
       audioEngine.play();
       play();
     }
@@ -166,19 +167,19 @@ export function useStudioAudioSetup({
 
   // Register studio audio for global coordination
   useEffect(() => {
-    registerStudioAudio('studio-shell', () => {
+    registerStudioAudio("studio-shell", () => {
       audioEngine.pause();
       pause();
     });
     return () => {
-      unregisterStudioAudio('studio-shell');
+      unregisterStudioAudio("studio-shell");
     };
   }, [audioEngine, pause]);
 
   // Update track volumes in engine when they change
   useEffect(() => {
     if (!project) return;
-    project.tracks.forEach(track => {
+    project.tracks.forEach((track) => {
       audioEngine.setTrackVolume(track.id, track.volume);
     });
   }, [project?.tracks, audioEngine]);

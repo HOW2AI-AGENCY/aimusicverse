@@ -1,11 +1,11 @@
-import { motion, AnimatePresence } from '@/lib/motion';
-import { useState, memo } from 'react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { useCheckin, useCanCheckinToday, useUserCredits, ACTION_REWARDS } from '@/hooks/useGamification';
-import { Flame, Gift, Sparkles, Check, Calendar } from 'lucide-react';
-import { useRewardNotificationContext } from '@/contexts/RewardNotificationContext';
-import { cn } from '@/lib/utils';
+import { motion, AnimatePresence } from "@/lib/motion";
+import { useState, memo } from "react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { useCheckin, useCanCheckinToday, useUserCredits, ACTION_REWARDS } from "@/hooks/useGamification";
+import { Flame, Gift, Sparkles, Check, Calendar } from "lucide-react";
+import { useRewardNotificationContext } from "@/contexts/RewardNotificationContext";
+import { cn } from "@/lib/utils";
 
 // Generate random star movements outside of component to ensure purity
 const generateStarMovements = () =>
@@ -32,23 +32,23 @@ export const DailyCheckin = memo(function DailyCheckin() {
           showCredits(result.credits);
         }
         // Mark first checkin completed for gamification onboarding
-        localStorage.setItem('first-checkin-completed', 'true');
+        localStorage.setItem("first-checkin-completed", "true");
       },
     });
   };
 
-  const nextStreakBonus = credits?.current_streak 
-    ? (credits.current_streak + 1) * ACTION_REWARDS.streak_bonus.credits 
+  const nextStreakBonus = credits?.current_streak
+    ? (credits.current_streak + 1) * ACTION_REWARDS.streak_bonus.credits
     : 0;
 
   const streak = credits?.current_streak || 0;
 
   return (
-    <motion.div 
+    <motion.div
       className={cn(
         "relative overflow-hidden rounded-xl",
         "bg-gradient-to-br from-primary/10 via-primary/5 to-transparent",
-        "border border-primary/20"
+        "border border-primary/20",
       )}
       initial={{ opacity: 0, y: -5 }}
       animate={{ opacity: 1, y: 0 }}
@@ -60,18 +60,14 @@ export const DailyCheckin = memo(function DailyCheckin() {
             <motion.div
               className={cn(
                 "relative w-10 h-10 rounded-lg flex items-center justify-center",
-                canCheckin 
-                  ? "bg-gradient-to-br from-orange-500/20 to-red-500/20 border border-orange-500/30" 
-                  : "bg-green-500/10 border border-green-500/20"
+                canCheckin
+                  ? "bg-gradient-to-br from-orange-500/20 to-red-500/20 border border-orange-500/30"
+                  : "bg-green-500/10 border border-green-500/20",
               )}
               animate={canCheckin ? { scale: [1, 1.03, 1] } : {}}
               transition={{ duration: 2, repeat: Infinity }}
             >
-              {canCheckin ? (
-                <Gift className="w-5 h-5 text-orange-500" />
-              ) : (
-                <Check className="w-5 h-5 text-green-500" />
-              )}
+              {canCheckin ? <Gift className="w-5 h-5 text-orange-500" /> : <Check className="w-5 h-5 text-green-500" />}
               {canCheckin && (
                 <motion.div
                   className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-orange-500"
@@ -80,7 +76,7 @@ export const DailyCheckin = memo(function DailyCheckin() {
                 />
               )}
             </motion.div>
-            
+
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-1.5 mb-0.5">
                 <span className="font-semibold text-sm">Чекин</span>
@@ -91,7 +87,7 @@ export const DailyCheckin = memo(function DailyCheckin() {
                   </Badge>
                 )}
               </div>
-              
+
               {canCheckin ? (
                 <div className="flex items-center gap-1.5">
                   <span className="text-[10px] font-medium text-warning">
@@ -113,7 +109,7 @@ export const DailyCheckin = memo(function DailyCheckin() {
             {checkingStatus ? (
               <div className="w-20 h-9 bg-muted/30 animate-pulse rounded-lg" />
             ) : canCheckin ? (
-              <Button 
+              <Button
                 onClick={handleCheckin}
                 disabled={checkin.isPending}
                 size="sm"

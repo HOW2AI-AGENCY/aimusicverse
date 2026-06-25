@@ -2,14 +2,14 @@
 // Types for activity feed system
 
 export type ActivityType =
-  | 'track_created'
-  | 'track_liked'
-  | 'comment_posted'
-  | 'user_followed'
-  | 'playlist_created'
-  | 'track_added_to_playlist';
+  | "track_created"
+  | "track_liked"
+  | "comment_posted"
+  | "user_followed"
+  | "playlist_created"
+  | "track_added_to_playlist";
 
-export type EntityType = 'track' | 'comment' | 'user' | 'playlist';
+export type EntityType = "track" | "comment" | "user" | "playlist";
 
 export interface ActivityMetadata {
   trackTitle?: string;

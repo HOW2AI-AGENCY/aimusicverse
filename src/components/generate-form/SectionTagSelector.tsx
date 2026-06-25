@@ -1,60 +1,88 @@
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { 
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Tag, Plus, X, Music2, Mic, Zap, Heart, Check } from 'lucide-react';
-import { TagBadge } from '@/components/lyrics/shared/TagBadge';
-import { cn } from '@/lib/utils';
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tag, Plus, X, Music2, Mic, Zap, Heart, Check } from "lucide-react";
+import { TagBadge } from "@/components/lyrics/shared/TagBadge";
+import { cn } from "@/lib/utils";
 
 // Predefined tag categories for quick selection
 const TAG_CATEGORIES = {
   vocal: {
-    label: 'Вокал',
+    label: "Вокал",
     icon: <Mic className="h-3 w-3" />,
     tags: [
-      'Male Vocal', 'Female Vocal', 'Duet', 'Choir',
-      'Falsetto', 'Raspy Voice', 'Whisper', 'Belting',
-      'Autotune', 'Harmonies', 'Ad-libs', 'Vocal Runs'
-    ]
+      "Male Vocal",
+      "Female Vocal",
+      "Duet",
+      "Choir",
+      "Falsetto",
+      "Raspy Voice",
+      "Whisper",
+      "Belting",
+      "Autotune",
+      "Harmonies",
+      "Ad-libs",
+      "Vocal Runs",
+    ],
   },
   instrument: {
-    label: 'Инструменты',
+    label: "Инструменты",
     icon: <Music2 className="h-3 w-3" />,
     tags: [
-      'Piano', 'Acoustic Guitar', 'Electric Guitar', 'Bass',
-      'Drums', '808s', 'Synth', 'Strings',
-      'Brass', 'Violin', 'Saxophone', 'Flute'
-    ]
+      "Piano",
+      "Acoustic Guitar",
+      "Electric Guitar",
+      "Bass",
+      "Drums",
+      "808s",
+      "Synth",
+      "Strings",
+      "Brass",
+      "Violin",
+      "Saxophone",
+      "Flute",
+    ],
   },
   dynamic: {
-    label: 'Динамика',
+    label: "Динамика",
     icon: <Zap className="h-3 w-3" />,
     tags: [
-      'Soft Start', 'Build', 'Drop', 'Breakdown',
-      'Crescendo', 'Decrescendo', 'Climax', 'Fade Out',
-      'Sudden Stop', 'Tempo Change', 'Key Change'
-    ]
+      "Soft Start",
+      "Build",
+      "Drop",
+      "Breakdown",
+      "Crescendo",
+      "Decrescendo",
+      "Climax",
+      "Fade Out",
+      "Sudden Stop",
+      "Tempo Change",
+      "Key Change",
+    ],
   },
   emotional: {
-    label: 'Эмоции',
+    label: "Эмоции",
     icon: <Heart className="h-3 w-3" />,
     tags: [
-      'with passion', 'softly', 'powerfully', 'tenderly',
-      'angrily', 'joyfully', 'sadly', 'desperately',
-      'confidently', 'playfully', 'mysteriously', 'intensely'
-    ]
-  }
+      "with passion",
+      "softly",
+      "powerfully",
+      "tenderly",
+      "angrily",
+      "joyfully",
+      "sadly",
+      "desperately",
+      "confidently",
+      "playfully",
+      "mysteriously",
+      "intensely",
+    ],
+  },
 };
 
 interface SectionTagSelectorProps {
@@ -64,18 +92,18 @@ interface SectionTagSelectorProps {
   compact?: boolean;
 }
 
-export function SectionTagSelector({ 
-  selectedTags, 
-  onChange, 
-  sectionName = 'секции',
-  compact = false 
+export function SectionTagSelector({
+  selectedTags,
+  onChange,
+  sectionName = "секции",
+  compact = false,
 }: SectionTagSelectorProps) {
-  const [customTag, setCustomTag] = useState('');
-  const [activeTab, setActiveTab] = useState('vocal');
+  const [customTag, setCustomTag] = useState("");
+  const [activeTab, setActiveTab] = useState("vocal");
 
   const toggleTag = (tag: string) => {
     if (selectedTags.includes(tag)) {
-      onChange(selectedTags.filter(t => t !== tag));
+      onChange(selectedTags.filter((t) => t !== tag));
     } else {
       onChange([...selectedTags, tag]);
     }
@@ -84,12 +112,12 @@ export function SectionTagSelector({
   const addCustomTag = () => {
     if (customTag.trim() && !selectedTags.includes(customTag.trim())) {
       onChange([...selectedTags, customTag.trim()]);
-      setCustomTag('');
+      setCustomTag("");
     }
   };
 
   const removeTag = (tag: string) => {
-    onChange(selectedTags.filter(t => t !== tag));
+    onChange(selectedTags.filter((t) => t !== tag));
   };
 
   const clearAll = () => {
@@ -101,27 +129,14 @@ export function SectionTagSelector({
     return (
       <div className="flex items-center gap-1.5 flex-wrap">
         {selectedTags.length > 0 ? (
-          selectedTags.map(tag => (
-            <TagBadge
-              key={tag}
-              tag={tag}
-              size="sm"
-              onRemove={() => removeTag(tag)}
-            />
-          ))
+          selectedTags.map((tag) => <TagBadge key={tag} tag={tag} size="sm" onRemove={() => removeTag(tag)} />)
         ) : (
-          <span className="text-xs text-muted-foreground/60 italic">
-            Теги не добавлены
-          </span>
+          <span className="text-xs text-muted-foreground/60 italic">Теги не добавлены</span>
         )}
-        
+
         <Sheet>
           <SheetTrigger asChild>
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="h-6 px-2 gap-1"
-            >
+            <Button variant="ghost" size="sm" className="h-6 px-2 gap-1">
               <Plus className="h-3 w-3" />
               <span className="text-xs">Теги</span>
             </Button>
@@ -133,7 +148,7 @@ export function SectionTagSelector({
                 Добавьте теги для управления вокалом, инструментами и эмоциями
               </SheetDescription>
             </SheetHeader>
-            
+
             <TagSelectorContent
               selectedTags={selectedTags}
               toggleTag={toggleTag}
@@ -164,12 +179,7 @@ export function SectionTagSelector({
           )}
         </Label>
         {selectedTags.length > 0 && (
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={clearAll}
-            className="h-6 text-xs px-2"
-          >
+          <Button variant="ghost" size="sm" onClick={clearAll} className="h-6 text-xs px-2">
             Очистить
           </Button>
         )}
@@ -178,10 +188,10 @@ export function SectionTagSelector({
       {/* Selected Tags */}
       {selectedTags.length > 0 && (
         <div className="flex flex-wrap gap-1.5 p-2 bg-muted/30 rounded-lg border border-border/30">
-          {selectedTags.map(tag => (
-            <Badge 
-              key={tag} 
-              variant="default" 
+          {selectedTags.map((tag) => (
+            <Badge
+              key={tag}
+              variant="default"
               className="text-xs h-6 gap-1 pr-1 cursor-pointer"
               onClick={() => removeTag(tag)}
             >
@@ -196,9 +206,9 @@ export function SectionTagSelector({
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="w-full h-8 grid grid-cols-4 gap-1 p-0.5">
           {Object.entries(TAG_CATEGORIES).map(([key, category]) => (
-            <TabsTrigger 
-              key={key} 
-              value={key} 
+            <TabsTrigger
+              key={key}
+              value={key}
               className="text-xs px-1 gap-1 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
             >
               {category.icon}
@@ -211,15 +221,15 @@ export function SectionTagSelector({
           {Object.entries(TAG_CATEGORIES).map(([key, category]) => (
             <TabsContent key={key} value={key} className="mt-0">
               <div className="flex flex-wrap gap-1.5">
-                {category.tags.map(tag => {
+                {category.tags.map((tag) => {
                   const isSelected = selectedTags.includes(tag);
                   return (
                     <Badge
                       key={tag}
-                      variant={isSelected ? 'default' : 'outline'}
+                      variant={isSelected ? "default" : "outline"}
                       className={cn(
-                        'cursor-pointer transition-all text-xs h-7',
-                        !isSelected && 'hover:bg-primary/10 hover:border-primary/30'
+                        "cursor-pointer transition-all text-xs h-7",
+                        !isSelected && "hover:bg-primary/10 hover:border-primary/30",
                       )}
                       onClick={() => toggleTag(tag)}
                     >
@@ -240,15 +250,10 @@ export function SectionTagSelector({
           placeholder="Свой тег..."
           value={customTag}
           onChange={(e) => setCustomTag(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && addCustomTag()}
+          onKeyDown={(e) => e.key === "Enter" && addCustomTag()}
           className="h-8 text-xs"
         />
-        <Button
-          size="sm"
-          onClick={addCustomTag}
-          disabled={!customTag.trim()}
-          className="h-8 px-3"
-        >
+        <Button size="sm" onClick={addCustomTag} disabled={!customTag.trim()} className="h-8 px-3">
           <Plus className="h-3 w-3" />
         </Button>
       </div>
@@ -282,27 +287,15 @@ function TagSelectorContent({
       {selectedTags.length > 0 && (
         <div className="pb-3 border-b">
           <div className="flex items-center justify-between mb-2">
-            <Label className="text-xs text-muted-foreground">
-              Выбрано: {selectedTags.length}
-            </Label>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={clearAll}
-              className="h-6 text-xs px-2"
-            >
+            <Label className="text-xs text-muted-foreground">Выбрано: {selectedTags.length}</Label>
+            <Button variant="ghost" size="sm" onClick={clearAll} className="h-6 text-xs px-2">
               Очистить
             </Button>
           </div>
           <ScrollArea className="max-h-20">
             <div className="flex flex-wrap gap-1.5">
-              {selectedTags.map(tag => (
-                <Badge 
-                  key={tag} 
-                  variant="default" 
-                  className="text-xs h-6 gap-1 pr-1"
-                  onClick={() => toggleTag(tag)}
-                >
+              {selectedTags.map((tag) => (
+                <Badge key={tag} variant="default" className="text-xs h-6 gap-1 pr-1" onClick={() => toggleTag(tag)}>
                   {tag}
                   <X className="h-2.5 w-2.5" />
                 </Badge>
@@ -316,9 +309,9 @@ function TagSelectorContent({
       <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col min-h-0 mt-3">
         <TabsList className="w-full h-9 grid grid-cols-4 gap-1 shrink-0">
           {Object.entries(TAG_CATEGORIES).map(([key, category]) => (
-            <TabsTrigger 
-              key={key} 
-              value={key} 
+            <TabsTrigger
+              key={key}
+              value={key}
               className="text-xs gap-1 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
             >
               {category.icon}
@@ -331,15 +324,15 @@ function TagSelectorContent({
           {Object.entries(TAG_CATEGORIES).map(([key, category]) => (
             <TabsContent key={key} value={key} className="mt-0 pb-20">
               <div className="flex flex-wrap gap-2">
-                {category.tags.map(tag => {
+                {category.tags.map((tag) => {
                   const isSelected = selectedTags.includes(tag);
                   return (
                     <Badge
                       key={tag}
-                      variant={isSelected ? 'default' : 'outline'}
+                      variant={isSelected ? "default" : "outline"}
                       className={cn(
-                        'cursor-pointer transition-all text-sm h-9 px-3',
-                        !isSelected && 'hover:bg-primary/10 hover:border-primary/30'
+                        "cursor-pointer transition-all text-sm h-9 px-3",
+                        !isSelected && "hover:bg-primary/10 hover:border-primary/30",
                       )}
                       onClick={() => toggleTag(tag)}
                     >
@@ -362,15 +355,10 @@ function TagSelectorContent({
             placeholder="Введите тег..."
             value={customTag}
             onChange={(e) => setCustomTag(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && addCustomTag()}
+            onKeyDown={(e) => e.key === "Enter" && addCustomTag()}
             className="h-10 text-sm"
           />
-          <Button
-            size="default"
-            onClick={addCustomTag}
-            disabled={!customTag.trim()}
-            className="h-10 px-4 shrink-0"
-          >
+          <Button size="default" onClick={addCustomTag} disabled={!customTag.trim()} className="h-10 px-4 shrink-0">
             <Plus className="h-4 w-4" />
           </Button>
         </div>

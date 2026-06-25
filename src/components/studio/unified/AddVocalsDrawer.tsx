@@ -3,34 +3,26 @@
  * Integrated version of AddVocalsDialog for unified studio
  */
 
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import {
-  Mic2, Loader2, Sparkles, Check, AlertCircle, Wand2
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Textarea } from '@/components/ui/textarea';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Progress } from '@/components/ui/progress';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-} from '@/components/ui/sheet';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { GenerationAdvancedSettings, GenerationSettings } from '@/components/common/GenerationAdvancedSettings';
-import { InlineLyricsEditor } from '@/components/common/InlineLyricsEditor';
-import { useAddVocalsProgress } from '@/hooks/generation/useAddVocalsProgress';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-import { logger } from '@/lib/logger';
-import { cn } from '@/lib/utils';
-import type { Track } from '@/types/track';
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Mic2, Loader2, Sparkles, Check, AlertCircle, Wand2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Progress } from "@/components/ui/progress";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { GenerationAdvancedSettings, GenerationSettings } from "@/components/common/GenerationAdvancedSettings";
+import { InlineLyricsEditor } from "@/components/common/InlineLyricsEditor";
+import { useAddVocalsProgress } from "@/hooks/generation/useAddVocalsProgress";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { logger } from "@/lib/logger";
+import { cn } from "@/lib/utils";
+import type { Track } from "@/types/track";
 
 interface AddVocalsDrawerProps {
   open: boolean;
@@ -39,18 +31,13 @@ interface AddVocalsDrawerProps {
   onSuccess?: (newTrackId: string) => void;
 }
 
-export function AddVocalsDrawer({
-  open,
-  onOpenChange,
-  track,
-  onSuccess,
-}: AddVocalsDrawerProps) {
-  const [lyrics, setLyrics] = useState('');
-  const [style, setStyle] = useState(track.style || 'pop, powerful vocals, professional singing');
-  const [title, setTitle] = useState('');
-  const [negativeTags, setNegativeTags] = useState('instrumental only, low quality, distorted');
+export function AddVocalsDrawer({ open, onOpenChange, track, onSuccess }: AddVocalsDrawerProps) {
+  const [lyrics, setLyrics] = useState("");
+  const [style, setStyle] = useState(track.style || "pop, powerful vocals, professional singing");
+  const [title, setTitle] = useState("");
+  const [negativeTags, setNegativeTags] = useState("instrumental only, low quality, distorted");
   const [loading, setLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState<'lyrics' | 'settings'>('lyrics');
+  const [activeTab, setActiveTab] = useState<"lyrics" | "settings">("lyrics");
 
   // Progress tracking
   const progress = useAddVocalsProgress();
@@ -60,27 +47,27 @@ export function AddVocalsDrawer({
     audioWeight: 0.7,
     styleWeight: 0.6,
     weirdnessConstraint: 0.3,
-    model: 'V4_5PLUS',
-    vocalGender: '',
+    model: "V4_5PLUS",
+    vocalGender: "",
   });
 
   // Reset when track changes
   useEffect(() => {
     if (track) {
-      setStyle(track.style || 'pop, powerful vocals, professional singing');
-      setTitle('');
-      setLyrics('');
+      setStyle(track.style || "pop, powerful vocals, professional singing");
+      setTitle("");
+      setLyrics("");
     }
   }, [track.id]);
 
   const handleSubmit = async () => {
     if (!track.audio_url) {
-      toast.error('У трека отсутствует аудио файл');
+      toast.error("У трека отсутствует аудио файл");
       return;
     }
 
     if (!lyrics.trim()) {
-      toast.error('Добавьте текст песни');
+      toast.error("Добавьте текст песни");
       return;
     }
 
@@ -88,8 +75,8 @@ export function AddVocalsDrawer({
     progress.setSubmitting();
 
     try {
-      const effectiveTitle = title.trim() || `${track.title || 'Трек'} с вокалом`;
-      const effectiveStyle = style.trim() || 'pop, vocals';
+      const effectiveTitle = title.trim() || `${track.title || "Трек"} с вокалом`;
+      const effectiveStyle = style.trim() || "pop, vocals";
 
       const body: Record<string, unknown> = {
         audioUrl: track.audio_url,
@@ -97,7 +84,7 @@ export function AddVocalsDrawer({
         customMode: true,
         style: effectiveStyle,
         title: effectiveTitle,
-        negativeTags: negativeTags.trim() || 'low quality, distorted, noise',
+        negativeTags: negativeTags.trim() || "low quality, distorted, noise",
         projectId: track.project_id,
         audioWeight: advancedSettings.audioWeight,
         styleWeight: advancedSettings.styleWeight,
@@ -109,7 +96,7 @@ export function AddVocalsDrawer({
         body.vocalGender = advancedSettings.vocalGender;
       }
 
-      const { data, error } = await supabase.functions.invoke('suno-add-vocals', { body });
+      const { data, error } = await supabase.functions.invoke("suno-add-vocals", { body });
 
       if (error) throw error;
 
@@ -118,19 +105,19 @@ export function AddVocalsDrawer({
 
       if (taskId && newTrackId) {
         progress.startTracking(taskId, newTrackId);
-        
-        toast.success('Добавление вокала началось! 🎤', {
-          description: 'Следите за прогрессом',
+
+        toast.success("Добавление вокала началось! 🎤", {
+          description: "Следите за прогрессом",
         });
       } else {
-        toast.success('Добавление вокала началось! 🎤', {
-          description: 'Новый трек появится в библиотеке через 1-3 минуты',
+        toast.success("Добавление вокала началось! 🎤", {
+          description: "Новый трек появится в библиотеке через 1-3 минуты",
         });
         onOpenChange(false);
       }
     } catch (error) {
-      logger.error('Add vocals error', { error });
-      const errorMessage = error instanceof Error ? error.message : 'Ошибка добавления вокала';
+      logger.error("Add vocals error", { error });
+      const errorMessage = error instanceof Error ? error.message : "Ошибка добавления вокала";
       toast.error(errorMessage);
       progress.setError(errorMessage);
     } finally {
@@ -154,8 +141,8 @@ export function AddVocalsDrawer({
     }
   }, [progress.isCompleted, progress.trackId, onSuccess, onOpenChange, progress]);
 
-  const isProcessing = loading || progress.isActive || progress.status === 'submitting';
-  const showProgress = progress.isActive || progress.status === 'submitting';
+  const isProcessing = loading || progress.isActive || progress.status === "submitting";
+  const showProgress = progress.isActive || progress.status === "submitting";
 
   return (
     <Sheet open={open} onOpenChange={(o) => !isProcessing && onOpenChange(o)}>
@@ -166,7 +153,7 @@ export function AddVocalsDrawer({
             Добавить вокал
           </SheetTitle>
           <SheetDescription>
-            Создать вокальную партию для инструментала "{track.title || 'Без названия'}"
+            Создать вокальную партию для инструментала "{track.title || "Без названия"}"
           </SheetDescription>
         </SheetHeader>
 
@@ -185,9 +172,7 @@ export function AddVocalsDrawer({
                 </div>
                 <div>
                   <p className="font-medium text-sm">Вокал добавлен!</p>
-                  <p className="text-xs text-muted-foreground">
-                    Новый трек создан и добавлен в библиотеку
-                  </p>
+                  <p className="text-xs text-muted-foreground">Новый трек создан и добавлен в библиотеку</p>
                 </div>
               </motion.div>
             )}
@@ -205,9 +190,7 @@ export function AddVocalsDrawer({
                 <AlertCircle className="w-5 h-5 text-destructive" />
                 <div>
                   <p className="font-medium text-sm">Ошибка</p>
-                  <p className="text-xs text-muted-foreground">
-                    {progress.error || 'Не удалось добавить вокал'}
-                  </p>
+                  <p className="text-xs text-muted-foreground">{progress.error || "Не удалось добавить вокал"}</p>
                 </div>
               </motion.div>
             )}
@@ -225,13 +208,11 @@ export function AddVocalsDrawer({
                 <div className="flex items-center gap-2">
                   <Loader2 className="w-4 h-4 animate-spin text-primary" />
                   <span className="text-sm font-medium">
-                    {progress.status === 'submitting' ? 'Отправка...' : 'Генерация вокала...'}
+                    {progress.status === "submitting" ? "Отправка..." : "Генерация вокала..."}
                   </span>
                 </div>
                 <Progress value={progress.progress} className="h-2" />
-                <p className="text-xs text-muted-foreground">
-                  {progress.message || 'Это может занять 1-3 минуты'}
-                </p>
+                <p className="text-xs text-muted-foreground">{progress.message || "Это может занять 1-3 минуты"}</p>
               </motion.div>
             )}
           </AnimatePresence>
@@ -241,29 +222,18 @@ export function AddVocalsDrawer({
             <>
               {/* Track info */}
               <div className="p-3 bg-muted/30 rounded-lg flex items-center gap-3">
-                {track.cover_url && (
-                  <img 
-                    src={track.cover_url} 
-                    alt="" 
-                    className="w-12 h-12 rounded-lg object-cover"
-                  />
-                )}
+                {track.cover_url && <img src={track.cover_url} alt="" className="w-12 h-12 rounded-lg object-cover" />}
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm font-medium truncate">
-                    {track.title || 'Без названия'}
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    Инструментальный трек
-                  </p>
+                  <p className="text-sm font-medium truncate">{track.title || "Без названия"}</p>
+                  <p className="text-xs text-muted-foreground">Инструментальный трек</p>
                 </div>
                 <Badge variant="outline" className="shrink-0">
-                  <Mic2 className="w-3 h-3 mr-1" />
-                  + Вокал
+                  <Mic2 className="w-3 h-3 mr-1" />+ Вокал
                 </Badge>
               </div>
 
               {/* Tabs */}
-              <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as 'lyrics' | 'settings')}>
+              <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "lyrics" | "settings")}>
                 <TabsList className="w-full">
                   <TabsTrigger value="lyrics" className="flex-1">
                     <Wand2 className="w-3.5 h-3.5 mr-1.5" />
@@ -315,7 +285,7 @@ export function AddVocalsDrawer({
                       id="title"
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
-                      placeholder={`${track.title || 'Трек'} с вокалом`}
+                      placeholder={`${track.title || "Трек"} с вокалом`}
                       className="mt-2"
                     />
                   </div>
@@ -347,20 +317,11 @@ export function AddVocalsDrawer({
 
         {/* Footer */}
         <div className="flex gap-2 mt-4 pt-4 border-t border-border/30">
-          <Button 
-            variant="outline" 
-            onClick={() => onOpenChange(false)}
-            disabled={isProcessing}
-            className="flex-1"
-          >
-            {progress.isCompleted ? 'Закрыть' : 'Отмена'}
+          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={isProcessing} className="flex-1">
+            {progress.isCompleted ? "Закрыть" : "Отмена"}
           </Button>
           {!progress.isCompleted && (
-            <Button
-              onClick={handleSubmit}
-              disabled={isProcessing || !lyrics.trim()}
-              className="flex-1 gap-2"
-            >
+            <Button onClick={handleSubmit} disabled={isProcessing || !lyrics.trim()} className="flex-1 gap-2">
               {isProcessing ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" />

@@ -21,9 +21,7 @@ export default function AdminBroadcast() {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
-          <p className="text-sm text-muted-foreground">
-            Создавайте статьи и отправляйте их пользователям
-          </p>
+          <p className="text-sm text-muted-foreground">Создавайте статьи и отправляйте их пользователям</p>
           <Button onClick={() => navigate("/blog")} className="w-full">
             <BookOpen className="h-4 w-4 mr-2" />
             Открыть блог

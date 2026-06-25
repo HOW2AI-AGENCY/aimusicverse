@@ -1,13 +1,13 @@
 /**
  * Session Management Service
  * Handles analytics session creation and management
- * 
+ *
  * P1 Fix: Added deduplication to prevent duplicate session_started events
  */
 
-const SESSION_KEY = 'analytics_session_id';
-const JOURNEY_SESSION_KEY = 'journey_session_id';
-const SESSION_STARTED_KEY = 'analytics_session_started'; // Deduplication flag
+const SESSION_KEY = "analytics_session_id";
+const JOURNEY_SESSION_KEY = "journey_session_id";
+const SESSION_STARTED_KEY = "analytics_session_started"; // Deduplication flag
 const SESSION_EXPIRY = 30 * 60 * 1000; // 30 minutes
 
 /**
@@ -37,12 +37,15 @@ export function getOrCreateJourneySessionId(): string {
       // Invalid data, create new session
     }
   }
-  
+
   const newId = `sess_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
-  sessionStorage.setItem(JOURNEY_SESSION_KEY, JSON.stringify({
-    id: newId,
-    timestamp: Date.now(),
-  }));
+  sessionStorage.setItem(
+    JOURNEY_SESSION_KEY,
+    JSON.stringify({
+      id: newId,
+      timestamp: Date.now(),
+    }),
+  );
   return newId;
 }
 
@@ -54,10 +57,13 @@ export function refreshJourneySession(): void {
   if (stored) {
     try {
       const { id } = JSON.parse(stored);
-      sessionStorage.setItem(JOURNEY_SESSION_KEY, JSON.stringify({
-        id,
-        timestamp: Date.now(),
-      }));
+      sessionStorage.setItem(
+        JOURNEY_SESSION_KEY,
+        JSON.stringify({
+          id,
+          timestamp: Date.now(),
+        }),
+      );
     } catch {
       // Invalid data, ignore
     }
@@ -78,7 +84,7 @@ export function getCurrentSessionId(): string | null {
 export function hasSessionStartedBeenTracked(): boolean {
   const sessionId = getCurrentSessionId();
   if (!sessionId) return false;
-  
+
   const trackedSession = sessionStorage.getItem(SESSION_STARTED_KEY);
   return trackedSession === sessionId;
 }

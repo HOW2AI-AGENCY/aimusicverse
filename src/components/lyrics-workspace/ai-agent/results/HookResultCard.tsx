@@ -2,14 +2,14 @@
  * HookResultCard - Display hook analysis and suggestions
  */
 
-import { motion } from '@/lib/motion';
-import { Zap, Copy, Check, Star, ArrowRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
-import { useState } from 'react';
-import { toast } from 'sonner';
-import { hapticImpact } from '@/lib/haptic';
+import { motion } from "@/lib/motion";
+import { Zap, Copy, Check, Star, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+import { useState } from "react";
+import { toast } from "sonner";
+import { hapticImpact } from "@/lib/haptic";
 
 interface HookData {
   currentHooks?: Array<{
@@ -34,24 +34,24 @@ export function HookResultCard({ data, onApplyHook }: HookResultCardProps) {
     try {
       await navigator.clipboard.writeText(text);
       setCopiedIndex(index);
-      hapticImpact('light');
-      toast.success('Скопировано!');
+      hapticImpact("light");
+      toast.success("Скопировано!");
       setTimeout(() => setCopiedIndex(null), 2000);
     } catch {
-      toast.error('Не удалось скопировать');
+      toast.error("Не удалось скопировать");
     }
   };
 
   const getScoreColor = (score: number) => {
-    if (score >= 80) return 'text-green-400';
-    if (score >= 60) return 'text-amber-400';
-    return 'text-red-400';
+    if (score >= 80) return "text-green-400";
+    if (score >= 60) return "text-amber-400";
+    return "text-red-400";
   };
 
   const getScoreBg = (score: number) => {
-    if (score >= 80) return 'bg-green-500/20';
-    if (score >= 60) return 'bg-amber-500/20';
-    return 'bg-red-500/20';
+    if (score >= 80) return "bg-green-500/20";
+    if (score >= 60) return "bg-amber-500/20";
+    return "bg-red-500/20";
   };
 
   return (
@@ -68,18 +68,18 @@ export function HookResultCard({ data, onApplyHook }: HookResultCardProps) {
           </div>
           <div>
             <h4 className="text-sm font-medium">Анализ хуков</h4>
-            <p className="text-[10px] text-muted-foreground">
-              Запоминающиеся фразы и припевы
-            </p>
+            <p className="text-[10px] text-muted-foreground">Запоминающиеся фразы и припевы</p>
           </div>
         </div>
-        
+
         {data.hookScore !== undefined && (
-          <div className={cn(
-            "px-2 py-1 rounded-lg text-lg font-bold",
-            getScoreBg(data.hookScore),
-            getScoreColor(data.hookScore)
-          )}>
+          <div
+            className={cn(
+              "px-2 py-1 rounded-lg text-lg font-bold",
+              getScoreBg(data.hookScore),
+              getScoreColor(data.hookScore),
+            )}
+          >
             {data.hookScore}%
           </div>
         )}
@@ -97,9 +97,7 @@ export function HookResultCard({ data, onApplyHook }: HookResultCardProps) {
               >
                 <div className="flex-1 min-w-0">
                   <p className="text-xs font-medium truncate">"{hook.text}"</p>
-                  {hook.location && (
-                    <p className="text-[10px] text-muted-foreground">{hook.location}</p>
-                  )}
+                  {hook.location && <p className="text-[10px] text-muted-foreground">{hook.location}</p>}
                 </div>
                 <div className="flex items-center gap-2 ml-2">
                   <div className="flex items-center gap-0.5">
@@ -110,7 +108,7 @@ export function HookResultCard({ data, onApplyHook }: HookResultCardProps) {
                           "w-2.5 h-2.5",
                           i < Math.ceil(hook.score / 20)
                             ? "text-yellow-400 fill-yellow-400"
-                            : "text-muted-foreground/30"
+                            : "text-muted-foreground/30",
                         )}
                       />
                     ))}
@@ -138,21 +136,10 @@ export function HookResultCard({ data, onApplyHook }: HookResultCardProps) {
                 transition={{ delay: idx * 0.1 }}
                 className="group flex items-center justify-between p-2 rounded-lg bg-yellow-500/10 border border-yellow-500/20 hover:bg-yellow-500/15 transition-colors"
               >
-                <p className="text-xs font-medium text-yellow-100 flex-1 min-w-0 truncate">
-                  "{hook}"
-                </p>
+                <p className="text-xs font-medium text-yellow-100 flex-1 min-w-0 truncate">"{hook}"</p>
                 <div className="flex items-center gap-1 ml-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    className="h-6 w-6 p-0"
-                    onClick={() => handleCopy(hook, idx)}
-                  >
-                    {copiedIndex === idx ? (
-                      <Check className="w-3 h-3 text-green-400" />
-                    ) : (
-                      <Copy className="w-3 h-3" />
-                    )}
+                  <Button size="sm" variant="ghost" className="h-6 w-6 p-0" onClick={() => handleCopy(hook, idx)}>
+                    {copiedIndex === idx ? <Check className="w-3 h-3 text-green-400" /> : <Copy className="w-3 h-3" />}
                   </Button>
                   {onApplyHook && (
                     <Button
@@ -161,7 +148,7 @@ export function HookResultCard({ data, onApplyHook }: HookResultCardProps) {
                       className="h-6 w-6 p-0"
                       onClick={() => {
                         onApplyHook(hook);
-                        hapticImpact('medium');
+                        hapticImpact("medium");
                       }}
                     >
                       <ArrowRight className="w-3 h-3" />

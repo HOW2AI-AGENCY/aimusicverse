@@ -3,15 +3,15 @@
  * Processes Dead Letter Queue entries and retries failed notifications
  */
 
-import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
-import { getSupabaseClient } from '../_shared/supabase-client.ts';
-import { createLogger } from '../_shared/logger.ts';
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { getSupabaseClient } from "../_shared/supabase-client.ts";
+import { createLogger } from "../_shared/logger.ts";
 
-const logger = createLogger('retry-telegram-notifications');
+const logger = createLogger("retry-telegram-notifications");
 
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
 interface FailedNotification {
@@ -31,21 +31,21 @@ interface FailedNotification {
 async function sendTelegramMessage(
   chatId: number,
   text: string,
-  replyMarkup?: unknown
+  replyMarkup?: unknown,
 ): Promise<{ ok: boolean; error?: string }> {
-  const botToken = Deno.env.get('TELEGRAM_BOT_TOKEN');
+  const botToken = Deno.env.get("TELEGRAM_BOT_TOKEN");
   if (!botToken) {
-    return { ok: false, error: 'TELEGRAM_BOT_TOKEN not configured' };
+    return { ok: false, error: "TELEGRAM_BOT_TOKEN not configured" };
   }
 
   try {
     const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         chat_id: chatId,
         text,
-        parse_mode: 'MarkdownV2',
+        parse_mode: "MarkdownV2",
         reply_markup: replyMarkup,
       }),
     });
@@ -53,24 +53,24 @@ async function sendTelegramMessage(
     const result = await response.json();
 
     if (!result.ok) {
-      const errorDesc = result.description || 'Unknown error';
-      
+      const errorDesc = result.description || "Unknown error";
+
       // Check for permanent failures
       if (
-        errorDesc.includes('chat not found') ||
-        errorDesc.includes('bot was blocked') ||
-        errorDesc.includes('user is deactivated') ||
-        errorDesc.includes('chat was deleted')
+        errorDesc.includes("chat not found") ||
+        errorDesc.includes("bot was blocked") ||
+        errorDesc.includes("user is deactivated") ||
+        errorDesc.includes("chat was deleted")
       ) {
         return { ok: false, error: `permanent:${errorDesc}` };
       }
-      
+
       return { ok: false, error: errorDesc };
     }
 
     return { ok: true };
   } catch (error) {
-    return { ok: false, error: error instanceof Error ? error.message : 'Network error' };
+    return { ok: false, error: error instanceof Error ? error.message : "Network error" };
   }
 }
 
@@ -86,11 +86,11 @@ async function sendTelegramAudio(
     performer?: string;
     duration?: number;
     replyMarkup?: unknown;
-  }
+  },
 ): Promise<{ ok: boolean; error?: string }> {
-  const botToken = Deno.env.get('TELEGRAM_BOT_TOKEN');
+  const botToken = Deno.env.get("TELEGRAM_BOT_TOKEN");
   if (!botToken) {
-    return { ok: false, error: 'TELEGRAM_BOT_TOKEN not configured' };
+    return { ok: false, error: "TELEGRAM_BOT_TOKEN not configured" };
   }
 
   try {
@@ -102,50 +102,50 @@ async function sendTelegramAudio(
         audioBlob = await audioResponse.blob();
       }
     } catch (e) {
-      logger.warn('Failed to download audio', { error: e });
+      logger.warn("Failed to download audio", { error: e });
     }
 
     const formData = new FormData();
-    formData.append('chat_id', chatId.toString());
-    
+    formData.append("chat_id", chatId.toString());
+
     if (audioBlob) {
-      const filename = options.title ? `${options.title.replace(/[^a-zA-Z0-9]/g, '_')}.mp3` : 'track.mp3';
-      formData.append('audio', audioBlob, filename);
+      const filename = options.title ? `${options.title.replace(/[^a-zA-Z0-9]/g, "_")}.mp3` : "track.mp3";
+      formData.append("audio", audioBlob, filename);
     } else {
-      formData.append('audio', audioUrl);
+      formData.append("audio", audioUrl);
     }
-    
-    if (options.title) formData.append('title', options.title);
-    if (options.caption) formData.append('caption', options.caption);
-    if (options.performer) formData.append('performer', options.performer);
-    if (options.duration) formData.append('duration', options.duration.toString());
-    formData.append('parse_mode', 'MarkdownV2');
-    if (options.replyMarkup) formData.append('reply_markup', JSON.stringify(options.replyMarkup));
+
+    if (options.title) formData.append("title", options.title);
+    if (options.caption) formData.append("caption", options.caption);
+    if (options.performer) formData.append("performer", options.performer);
+    if (options.duration) formData.append("duration", options.duration.toString());
+    formData.append("parse_mode", "MarkdownV2");
+    if (options.replyMarkup) formData.append("reply_markup", JSON.stringify(options.replyMarkup));
 
     const response = await fetch(`https://api.telegram.org/bot${botToken}/sendAudio`, {
-      method: 'POST',
+      method: "POST",
       body: formData,
     });
 
     const result = await response.json();
 
     if (!result.ok) {
-      const errorDesc = result.description || 'Unknown error';
-      
+      const errorDesc = result.description || "Unknown error";
+
       if (
-        errorDesc.includes('chat not found') ||
-        errorDesc.includes('bot was blocked') ||
-        errorDesc.includes('user is deactivated')
+        errorDesc.includes("chat not found") ||
+        errorDesc.includes("bot was blocked") ||
+        errorDesc.includes("user is deactivated")
       ) {
         return { ok: false, error: `permanent:${errorDesc}` };
       }
-      
+
       return { ok: false, error: errorDesc };
     }
 
     return { ok: true };
   } catch (error) {
-    return { ok: false, error: error instanceof Error ? error.message : 'Network error' };
+    return { ok: false, error: error instanceof Error ? error.message : "Network error" };
   }
 }
 
@@ -155,23 +155,23 @@ async function sendTelegramAudio(
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function processNotification(
   supabase: any,
-  notification: FailedNotification
+  notification: FailedNotification,
 ): Promise<{ success: boolean; permanent?: boolean }> {
   const { id, chat_id, notification_type, payload } = notification;
-  
-  logger.info('Processing notification retry', { 
-    id, 
-    chat_id, 
+
+  logger.info("Processing notification retry", {
+    id,
+    chat_id,
     type: notification_type,
-    retry: notification.retry_count + 1 
+    retry: notification.retry_count + 1,
   });
 
   let result: { ok: boolean; error?: string };
 
   // Handle different notification types
   switch (notification_type) {
-    case 'generation_complete':
-    case 'completed': {
+    case "generation_complete":
+    case "completed": {
       if (payload.audioUrl) {
         result = await sendTelegramAudio(chat_id, payload.audioUrl as string, {
           title: payload.title as string,
@@ -183,98 +183,90 @@ async function processNotification(
       } else {
         result = await sendTelegramMessage(
           chat_id,
-          payload.message as string || '🎵 Ваш трек готов!',
-          payload.replyMarkup
+          (payload.message as string) || "🎵 Ваш трек готов!",
+          payload.replyMarkup,
         );
       }
       break;
     }
 
-    case 'failed': {
+    case "failed": {
       result = await sendTelegramMessage(
         chat_id,
-        payload.message as string || '❌ Ошибка генерации',
-        payload.replyMarkup
+        (payload.message as string) || "❌ Ошибка генерации",
+        payload.replyMarkup,
       );
       break;
     }
 
-    case 'progress': {
-      result = await sendTelegramMessage(
-        chat_id,
-        payload.message as string,
-        payload.replyMarkup
-      );
+    case "progress": {
+      result = await sendTelegramMessage(chat_id, payload.message as string, payload.replyMarkup);
       break;
     }
 
     default: {
-      result = await sendTelegramMessage(
-        chat_id,
-        payload.message as string || 'Уведомление',
-        payload.replyMarkup
-      );
+      result = await sendTelegramMessage(chat_id, (payload.message as string) || "Уведомление", payload.replyMarkup);
     }
   }
 
   // Check for permanent failure
-  if (result.error?.startsWith('permanent:')) {
+  if (result.error?.startsWith("permanent:")) {
     await supabase
-      .from('telegram_failed_notifications')
+      .from("telegram_failed_notifications")
       .update({
-        status: 'failed_permanently',
+        status: "failed_permanently",
         error_message: result.error,
         last_retry_at: new Date().toISOString(),
       })
-      .eq('id', id);
-    
+      .eq("id", id);
+
     return { success: false, permanent: true };
   }
 
   if (result.ok) {
     // Success - mark as resolved
     await supabase
-      .from('telegram_failed_notifications')
+      .from("telegram_failed_notifications")
       .update({
-        status: 'resolved',
+        status: "resolved",
         resolved_at: new Date().toISOString(),
       })
-      .eq('id', id);
-    
-    logger.info('Notification retry successful', { id });
+      .eq("id", id);
+
+    logger.info("Notification retry successful", { id });
     return { success: true };
   }
 
   // Failed - update retry count
   const newRetryCount = notification.retry_count + 1;
   const isPermanentlyFailed = newRetryCount >= notification.max_retries;
-  
+
   // Exponential backoff: 5min, 15min, 45min
   const delayMinutes = 5 * Math.pow(3, newRetryCount);
   const nextRetryAt = new Date(Date.now() + delayMinutes * 60 * 1000);
 
   await supabase
-    .from('telegram_failed_notifications')
+    .from("telegram_failed_notifications")
     .update({
       retry_count: newRetryCount,
       last_retry_at: new Date().toISOString(),
       next_retry_at: isPermanentlyFailed ? null : nextRetryAt.toISOString(),
-      status: isPermanentlyFailed ? 'failed_permanently' : 'retrying',
+      status: isPermanentlyFailed ? "failed_permanently" : "retrying",
       error_message: result.error,
     })
-    .eq('id', id);
+    .eq("id", id);
 
-  logger.warn('Notification retry failed', { 
-    id, 
+  logger.warn("Notification retry failed", {
+    id,
     error: result.error,
-    nextRetry: isPermanentlyFailed ? 'none' : nextRetryAt.toISOString() 
+    nextRetry: isPermanentlyFailed ? "none" : nextRetryAt.toISOString(),
   });
 
   return { success: false };
 }
 
 serve(async (req) => {
-  if (req.method === 'OPTIONS') {
+  if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
@@ -293,26 +285,24 @@ serve(async (req) => {
     }
 
     // Get pending notifications
-    const { data: notifications, error } = await supabase
-      .rpc('get_pending_notification_retries', { _limit: limit });
+    const { data: notifications, error } = await supabase.rpc("get_pending_notification_retries", { _limit: limit });
 
     if (error) {
-      logger.error('Error fetching pending notifications', error);
-      return new Response(
-        JSON.stringify({ success: false, error: error.message }),
-        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 500 }
-      );
+      logger.error("Error fetching pending notifications", error);
+      return new Response(JSON.stringify({ success: false, error: error.message }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 500,
+      });
     }
 
     if (!notifications || notifications.length === 0) {
-      logger.info('No pending notifications to retry');
-      return new Response(
-        JSON.stringify({ success: true, processed: 0 }),
-        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      logger.info("No pending notifications to retry");
+      return new Response(JSON.stringify({ success: true, processed: 0 }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
-    logger.info('Processing notification retries', { count: notifications.length });
+    logger.info("Processing notification retries", { count: notifications.length });
 
     // Process notifications
     let successCount = 0;
@@ -321,7 +311,7 @@ serve(async (req) => {
 
     for (const notification of notifications as FailedNotification[]) {
       const result = await processNotification(supabase, notification);
-      
+
       if (result.success) {
         successCount++;
       } else if (result.permanent) {
@@ -331,12 +321,12 @@ serve(async (req) => {
       }
 
       // Small delay between retries to avoid rate limiting
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 100));
     }
 
     const duration = Date.now() - startTime;
 
-    logger.info('Retry batch completed', {
+    logger.info("Retry batch completed", {
       total: notifications.length,
       success: successCount,
       failed: failCount,
@@ -355,17 +345,16 @@ serve(async (req) => {
         },
         durationMs: duration,
       }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
-
   } catch (error) {
-    logger.error('Error in retry function', error);
+    logger.error("Error in retry function", error);
     return new Response(
-      JSON.stringify({ 
-        success: false, 
-        error: error instanceof Error ? error.message : 'Unknown error' 
+      JSON.stringify({
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
       }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 500 }
+      { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 500 },
     );
   }
 });

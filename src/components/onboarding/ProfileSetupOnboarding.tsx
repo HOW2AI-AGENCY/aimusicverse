@@ -1,19 +1,16 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { 
-  User, Camera, Globe, Bell, Shield, ChevronRight, 
-  CheckCircle, X, Upload, Sparkles
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Textarea } from '@/components/ui/textarea';
-import { toast } from 'sonner';
-import { supabase } from '@/integrations/supabase/client';
-import { cn } from '@/lib/utils';
-import { logger } from '@/lib/logger';
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { User, Camera, Globe, Bell, Shield, ChevronRight, CheckCircle, X, Upload, Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
+import { cn } from "@/lib/utils";
+import { logger } from "@/lib/logger";
 
 interface ProfileSetupOnboardingProps {
   userId: string;
@@ -26,56 +23,51 @@ interface ProfileSetupOnboardingProps {
   onSkip?: () => void;
 }
 
-const STORAGE_KEY = 'musicverse_profile_setup_completed';
+const STORAGE_KEY = "musicverse_profile_setup_completed";
 
 const steps = [
   {
-    id: 'welcome',
-    title: 'Давайте настроим ваш профиль',
-    description: 'Это займёт пару минут и поможет другим пользователям найти вас.',
+    id: "welcome",
+    title: "Давайте настроим ваш профиль",
+    description: "Это займёт пару минут и поможет другим пользователям найти вас.",
   },
   {
-    id: 'profile',
-    title: 'Ваш профиль',
-    description: 'Добавьте фото и имя для публичного профиля.',
+    id: "profile",
+    title: "Ваш профиль",
+    description: "Добавьте фото и имя для публичного профиля.",
   },
   {
-    id: 'privacy',
-    title: 'Настройки приватности',
-    description: 'Выберите, что будет видно другим пользователям.',
+    id: "privacy",
+    title: "Настройки приватности",
+    description: "Выберите, что будет видно другим пользователям.",
   },
   {
-    id: 'notifications',
-    title: 'Уведомления',
-    description: 'Настройте, какие уведомления вы хотите получать.',
+    id: "notifications",
+    title: "Уведомления",
+    description: "Настройте, какие уведомления вы хотите получать.",
   },
   {
-    id: 'complete',
-    title: 'Готово!',
-    description: 'Ваш профиль настроен и готов к использованию.',
+    id: "complete",
+    title: "Готово!",
+    description: "Ваш профиль настроен и готов к использованию.",
   },
 ];
 
-export function ProfileSetupOnboarding({ 
-  userId, 
-  initialProfile, 
-  onComplete, 
-  onSkip 
-}: ProfileSetupOnboardingProps) {
+export function ProfileSetupOnboarding({ userId, initialProfile, onComplete, onSkip }: ProfileSetupOnboardingProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  
+
   // Profile data
-  const [displayName, setDisplayName] = useState(initialProfile?.first_name || '');
-  const [username, setUsername] = useState(initialProfile?.username || '');
-  const [bio, setBio] = useState('');
-  const [avatarUrl, setAvatarUrl] = useState(initialProfile?.photo_url || '');
-  
+  const [displayName, setDisplayName] = useState(initialProfile?.first_name || "");
+  const [username, setUsername] = useState(initialProfile?.username || "");
+  const [bio, setBio] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState(initialProfile?.photo_url || "");
+
   // Privacy settings
   const [isPublic, setIsPublic] = useState(true);
   const [showTracks, setShowTracks] = useState(true);
   const [showActivity, setShowActivity] = useState(true);
-  
+
   // Notification settings
   const [notifyCompleted, setNotifyCompleted] = useState(true);
   const [notifyLikes, setNotifyLikes] = useState(true);
@@ -90,20 +82,20 @@ export function ProfileSetupOnboarding({
     if (currentStep === 1) {
       // Validate profile
       if (!displayName.trim()) {
-        toast.error('Введите имя для профиля');
+        toast.error("Введите имя для профиля");
         return;
       }
     }
-    
+
     if (isLast) {
       await saveProfile();
     } else {
-      setCurrentStep(prev => prev + 1);
+      setCurrentStep((prev) => prev + 1);
     }
   };
 
   const handleBack = () => {
-    setCurrentStep(prev => Math.max(0, prev - 1));
+    setCurrentStep((prev) => Math.max(0, prev - 1));
   };
 
   const saveProfile = async () => {
@@ -111,39 +103,37 @@ export function ProfileSetupOnboarding({
     try {
       // Update profile
       const { error: profileError } = await supabase
-        .from('profiles')
+        .from("profiles")
         .update({
           first_name: displayName,
           username: username || null,
           is_public: isPublic,
           updated_at: new Date().toISOString(),
         })
-        .eq('user_id', userId);
-      
+        .eq("user_id", userId);
+
       if (profileError) throw profileError;
-      
+
       // Update notification settings
-      const { error: notifError } = await supabase
-        .from('user_notification_settings')
-        .upsert({
-          user_id: userId,
-          notify_completed: notifyCompleted,
-          notify_likes: notifyLikes,
-          notify_achievements: notifyAchievements,
-          notify_daily_reminder: notifyDailyReminder,
-          updated_at: new Date().toISOString(),
-        });
-      
+      const { error: notifError } = await supabase.from("user_notification_settings").upsert({
+        user_id: userId,
+        notify_completed: notifyCompleted,
+        notify_likes: notifyLikes,
+        notify_achievements: notifyAchievements,
+        notify_daily_reminder: notifyDailyReminder,
+        updated_at: new Date().toISOString(),
+      });
+
       if (notifError) throw notifError;
-      
-      localStorage.setItem(STORAGE_KEY, 'true');
-      toast.success('Профиль успешно настроен!');
+
+      localStorage.setItem(STORAGE_KEY, "true");
+      toast.success("Профиль успешно настроен!");
       onComplete();
     } catch (error) {
-      logger.error('Error saving profile', error instanceof Error ? error : new Error(String(error)), {
-        userId
+      logger.error("Error saving profile", error instanceof Error ? error : new Error(String(error)), {
+        userId,
       });
-      toast.error('Ошибка сохранения профиля');
+      toast.error("Ошибка сохранения профиля");
     } finally {
       setIsLoading(false);
     }
@@ -152,41 +142,36 @@ export function ProfileSetupOnboarding({
   const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    
+
     if (file.size > 5 * 1024 * 1024) {
-      toast.error('Файл слишком большой (макс. 5МБ)');
+      toast.error("Файл слишком большой (макс. 5МБ)");
       return;
     }
-    
+
     setIsLoading(true);
     try {
-      const fileExt = file.name.split('.').pop();
+      const fileExt = file.name.split(".").pop();
       const fileName = `${userId}_${Date.now()}.${fileExt}`;
-      
-      const { error: uploadError } = await supabase.storage
-        .from('avatars')
-        .upload(fileName, file, { upsert: true });
-      
+
+      const { error: uploadError } = await supabase.storage.from("avatars").upload(fileName, file, { upsert: true });
+
       if (uploadError) throw uploadError;
-      
-      const { data: { publicUrl } } = supabase.storage
-        .from('avatars')
-        .getPublicUrl(fileName);
-      
+
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from("avatars").getPublicUrl(fileName);
+
       setAvatarUrl(publicUrl);
-      
+
       // Update profile with new avatar
-      await supabase
-        .from('profiles')
-        .update({ photo_url: publicUrl })
-        .eq('user_id', userId);
-      
-      toast.success('Фото загружено');
+      await supabase.from("profiles").update({ photo_url: publicUrl }).eq("user_id", userId);
+
+      toast.success("Фото загружено");
     } catch (error) {
-      logger.error('Error uploading avatar', error instanceof Error ? error : new Error(String(error)), {
-        userId
+      logger.error("Error uploading avatar", error instanceof Error ? error : new Error(String(error)), {
+        userId,
       });
-      toast.error('Ошибка загрузки фото');
+      toast.error("Ошибка загрузки фото");
     } finally {
       setIsLoading(false);
     }
@@ -194,13 +179,13 @@ export function ProfileSetupOnboarding({
 
   const renderStepContent = () => {
     switch (step.id) {
-      case 'welcome':
+      case "welcome":
         return (
           <div className="text-center py-8">
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              transition={{ type: 'spring', delay: 0.2 }}
+              transition={{ type: "spring", delay: 0.2 }}
               className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6"
             >
               <Sparkles className="w-12 h-12 text-primary" />
@@ -225,8 +210,8 @@ export function ProfileSetupOnboarding({
             </div>
           </div>
         );
-        
-      case 'profile':
+
+      case "profile":
         return (
           <div className="space-y-6 py-4">
             {/* Avatar */}
@@ -234,11 +219,9 @@ export function ProfileSetupOnboarding({
               <div className="relative">
                 <Avatar className="w-24 h-24">
                   <AvatarImage src={avatarUrl} />
-                  <AvatarFallback className="text-2xl">
-                    {displayName?.[0]?.toUpperCase() || '?'}
-                  </AvatarFallback>
+                  <AvatarFallback className="text-2xl">{displayName?.[0]?.toUpperCase() || "?"}</AvatarFallback>
                 </Avatar>
-                <label 
+                <label
                   htmlFor="avatar-upload"
                   className="absolute -bottom-1 -right-1 p-2 rounded-full bg-primary text-primary-foreground cursor-pointer hover:bg-primary/90 transition-colors"
                 >
@@ -252,11 +235,9 @@ export function ProfileSetupOnboarding({
                   onChange={handleAvatarUpload}
                 />
               </div>
-              <p className="text-xs text-muted-foreground">
-                Нажмите на иконку камеры для загрузки фото
-              </p>
+              <p className="text-xs text-muted-foreground">Нажмите на иконку камеры для загрузки фото</p>
             </div>
-            
+
             {/* Name */}
             <div className="space-y-2">
               <Label htmlFor="displayName">Отображаемое имя *</Label>
@@ -268,7 +249,7 @@ export function ProfileSetupOnboarding({
                 className="text-center"
               />
             </div>
-            
+
             {/* Username */}
             <div className="space-y-2">
               <Label htmlFor="username">Юзернейм (опционально)</Label>
@@ -277,7 +258,7 @@ export function ProfileSetupOnboarding({
                 <Input
                   id="username"
                   value={username}
-                  onChange={(e) => setUsername(e.target.value.replace(/[^a-zA-Z0-9_]/g, ''))}
+                  onChange={(e) => setUsername(e.target.value.replace(/[^a-zA-Z0-9_]/g, ""))}
                   placeholder="username"
                   className="pl-8"
                 />
@@ -285,8 +266,8 @@ export function ProfileSetupOnboarding({
             </div>
           </div>
         );
-        
-      case 'privacy':
+
+      case "privacy":
         return (
           <div className="space-y-4 py-4">
             <div className="flex items-center justify-between p-4 rounded-xl bg-card border border-border">
@@ -296,14 +277,12 @@ export function ProfileSetupOnboarding({
                 </div>
                 <div>
                   <p className="font-medium text-sm">Публичный профиль</p>
-                  <p className="text-xs text-muted-foreground">
-                    Другие пользователи смогут видеть ваш профиль
-                  </p>
+                  <p className="text-xs text-muted-foreground">Другие пользователи смогут видеть ваш профиль</p>
                 </div>
               </div>
               <Switch checked={isPublic} onCheckedChange={setIsPublic} />
             </div>
-            
+
             <div className="flex items-center justify-between p-4 rounded-xl bg-card border border-border">
               <div className="flex items-center gap-3">
                 <div className="p-2 rounded-lg bg-green-500/10">
@@ -311,14 +290,12 @@ export function ProfileSetupOnboarding({
                 </div>
                 <div>
                   <p className="font-medium text-sm">Показывать треки</p>
-                  <p className="text-xs text-muted-foreground">
-                    Публичные треки видны в вашем профиле
-                  </p>
+                  <p className="text-xs text-muted-foreground">Публичные треки видны в вашем профиле</p>
                 </div>
               </div>
               <Switch checked={showTracks} onCheckedChange={setShowTracks} />
             </div>
-            
+
             <div className="flex items-center justify-between p-4 rounded-xl bg-card border border-border">
               <div className="flex items-center gap-3">
                 <div className="p-2 rounded-lg bg-blue-500/10">
@@ -326,80 +303,68 @@ export function ProfileSetupOnboarding({
                 </div>
                 <div>
                   <p className="font-medium text-sm">Показывать активность</p>
-                  <p className="text-xs text-muted-foreground">
-                    Статистика и достижения видны другим
-                  </p>
+                  <p className="text-xs text-muted-foreground">Статистика и достижения видны другим</p>
                 </div>
               </div>
               <Switch checked={showActivity} onCheckedChange={setShowActivity} />
             </div>
-            
+
             <p className="text-xs text-muted-foreground text-center">
               Вы сможете изменить эти настройки позже в профиле
             </p>
           </div>
         );
-        
-      case 'notifications':
+
+      case "notifications":
         return (
           <div className="space-y-4 py-4">
             <div className="flex items-center justify-between p-4 rounded-xl bg-card border border-border">
               <div>
                 <p className="font-medium text-sm">Генерация завершена</p>
-                <p className="text-xs text-muted-foreground">
-                  Когда трек готов к прослушиванию
-                </p>
+                <p className="text-xs text-muted-foreground">Когда трек готов к прослушиванию</p>
               </div>
               <Switch checked={notifyCompleted} onCheckedChange={setNotifyCompleted} />
             </div>
-            
+
             <div className="flex items-center justify-between p-4 rounded-xl bg-card border border-border">
               <div>
                 <p className="font-medium text-sm">Лайки на треки</p>
-                <p className="text-xs text-muted-foreground">
-                  Когда кто-то лайкает ваш трек
-                </p>
+                <p className="text-xs text-muted-foreground">Когда кто-то лайкает ваш трек</p>
               </div>
               <Switch checked={notifyLikes} onCheckedChange={setNotifyLikes} />
             </div>
-            
+
             <div className="flex items-center justify-between p-4 rounded-xl bg-card border border-border">
               <div>
                 <p className="font-medium text-sm">Достижения</p>
-                <p className="text-xs text-muted-foreground">
-                  Новые разблокированные достижения
-                </p>
+                <p className="text-xs text-muted-foreground">Новые разблокированные достижения</p>
               </div>
               <Switch checked={notifyAchievements} onCheckedChange={setNotifyAchievements} />
             </div>
-            
+
             <div className="flex items-center justify-between p-4 rounded-xl bg-card border border-border">
               <div>
                 <p className="font-medium text-sm">Ежедневное напоминание</p>
-                <p className="text-xs text-muted-foreground">
-                  Напоминание о ежедневном чекине
-                </p>
+                <p className="text-xs text-muted-foreground">Напоминание о ежедневном чекине</p>
               </div>
               <Switch checked={notifyDailyReminder} onCheckedChange={setNotifyDailyReminder} />
             </div>
           </div>
         );
-        
-      case 'complete':
+
+      case "complete":
         return (
           <div className="text-center py-8">
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              transition={{ type: 'spring', delay: 0.2 }}
+              transition={{ type: "spring", delay: 0.2 }}
               className="w-24 h-24 rounded-full bg-green-500/10 flex items-center justify-center mx-auto mb-6"
             >
               <CheckCircle className="w-12 h-12 text-green-500" />
             </motion.div>
             <h2 className="text-xl font-bold mb-2">Профиль готов!</h2>
-            <p className="text-muted-foreground mb-6">
-              Теперь вы можете создавать музыку и делиться ей с сообществом.
-            </p>
+            <p className="text-muted-foreground mb-6">Теперь вы можете создавать музыку и делиться ей с сообществом.</p>
             <div className="p-4 rounded-xl bg-primary/5 border border-primary/10">
               <p className="text-sm text-primary">
                 💡 Совет: Начните с генерации первого трека или изучите граф музыкальных связей
@@ -431,7 +396,7 @@ export function ProfileSetupOnboarding({
             animate={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
           />
         </div>
-        
+
         {/* Header */}
         <div className="p-6 pb-0">
           <div className="flex justify-between items-start mb-4">
@@ -449,12 +414,10 @@ export function ProfileSetupOnboarding({
             )}
           </div>
         </div>
-        
+
         {/* Content */}
-        <div className="px-6">
-          {renderStepContent()}
-        </div>
-        
+        <div className="px-6">{renderStepContent()}</div>
+
         {/* Footer */}
         <div className="p-6 pt-4 flex gap-3">
           {!isFirst && !isLast && (
@@ -462,12 +425,8 @@ export function ProfileSetupOnboarding({
               Назад
             </Button>
           )}
-          <Button 
-            className="flex-1 gap-2" 
-            onClick={handleNext}
-            disabled={isLoading}
-          >
-            {isLoading ? 'Сохранение...' : isLast ? 'Начать' : 'Далее'}
+          <Button className="flex-1 gap-2" onClick={handleNext} disabled={isLoading}>
+            {isLoading ? "Сохранение..." : isLast ? "Начать" : "Далее"}
             {!isLast && <ChevronRight className="w-4 h-4" />}
           </Button>
         </div>
@@ -488,28 +447,26 @@ export function useProfileSetupCheck() {
 
   const checkProfileSetup = async () => {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) {
         setIsChecking(false);
         return;
       }
-      
+
       setUserId(user.id);
-      
+
       // Check localStorage first
       const completed = localStorage.getItem(STORAGE_KEY);
       if (completed) {
         setIsChecking(false);
         return;
       }
-      
+
       // Check if profile has been set up
-      const { data: profileData } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('user_id', user.id)
-        .single();
-      
+      const { data: profileData } = await supabase.from("profiles").select("*").eq("user_id", user.id).single();
+
       if (profileData) {
         setProfile(profileData);
         // Check if profile needs setup (no is_public set explicitly)
@@ -518,8 +475,8 @@ export function useProfileSetupCheck() {
         }
       }
     } catch (error) {
-      logger.error('Error checking profile', error instanceof Error ? error : new Error(String(error)), {
-        userId
+      logger.error("Error checking profile", error instanceof Error ? error : new Error(String(error)), {
+        userId,
       });
     } finally {
       setIsChecking(false);
@@ -527,7 +484,7 @@ export function useProfileSetupCheck() {
   };
 
   const completeSetup = () => {
-    localStorage.setItem(STORAGE_KEY, 'true');
+    localStorage.setItem(STORAGE_KEY, "true");
     setNeedsSetup(false);
   };
 

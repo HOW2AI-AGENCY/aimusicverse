@@ -23,13 +23,13 @@
  * ```
  */
 
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { logger } from '@/lib/logger';
-import type { ViewMode } from './types';
-import { createDefaultViewSettings } from './types';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import { logger } from "@/lib/logger";
+import type { ViewMode } from "./types";
+import { createDefaultViewSettings } from "./types";
 
-const viewLogger = logger.child({ module: 'ViewStore' });
+const viewLogger = logger.child({ module: "ViewStore" });
 
 // ============ State Interface ============
 
@@ -71,7 +71,7 @@ export const useViewStore = create<ViewState>()(
        */
       setZoom: (zoom: number) => {
         set({ zoom });
-        viewLogger.debug('Zoom changed', { zoom });
+        viewLogger.debug("Zoom changed", { zoom });
       },
 
       /**
@@ -79,7 +79,7 @@ export const useViewStore = create<ViewState>()(
        */
       setViewMode: (mode: ViewMode) => {
         set({ viewMode: mode });
-        viewLogger.debug('View mode changed', { mode });
+        viewLogger.debug("View mode changed", { mode });
       },
 
       /**
@@ -87,7 +87,7 @@ export const useViewStore = create<ViewState>()(
        */
       setSnapToGrid: (snap: boolean) => {
         set({ snapToGrid: snap });
-        viewLogger.debug('Snap to grid changed', { snap });
+        viewLogger.debug("Snap to grid changed", { snap });
       },
 
       /**
@@ -95,7 +95,7 @@ export const useViewStore = create<ViewState>()(
        */
       setGridSize: (size: number) => {
         set({ gridSize: size });
-        viewLogger.debug('Grid size changed', { size });
+        viewLogger.debug("Grid size changed", { size });
       },
 
       /**
@@ -103,11 +103,11 @@ export const useViewStore = create<ViewState>()(
        */
       resetView: () => {
         set(createDefaultViewSettings());
-        viewLogger.debug('View reset to defaults');
+        viewLogger.debug("View reset to defaults");
       },
     }),
     {
-      name: 'musicverse-studio-view-storage',
-    }
-  )
+      name: "musicverse-studio-view-storage",
+    },
+  ),
 );

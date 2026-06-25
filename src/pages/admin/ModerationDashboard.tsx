@@ -1,23 +1,34 @@
 // ModerationDashboard - Sprint 011 Admin (Enhanced - T099)
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Shield, AlertTriangle, CheckCircle, Clock, Loader2, Search, Filter, ChevronLeft, ChevronRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { useAdminAuth } from '@/hooks/useAdminAuth';
-import { toast } from 'sonner';
-import { motion } from '@/lib/motion';
-import { formatDistanceToNow, ru } from '@/lib/date-utils';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  ArrowLeft,
+  Shield,
+  AlertTriangle,
+  CheckCircle,
+  Clock,
+  Loader2,
+  Search,
+  Filter,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useAdminAuth } from "@/hooks/useAdminAuth";
+import { toast } from "sonner";
+import { motion } from "@/lib/motion";
+import { formatDistanceToNow, ru } from "@/lib/date-utils";
 
-type ReportStatus = 'pending' | 'reviewed' | 'resolved' | 'dismissed';
-type EntityType = 'comment' | 'track' | 'profile' | 'all';
+type ReportStatus = "pending" | "reviewed" | "resolved" | "dismissed";
+type EntityType = "comment" | "track" | "profile" | "all";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -26,24 +37,27 @@ export default function ModerationDashboard() {
   const { data: adminData, isLoading: isCheckingAdmin } = useAdminAuth();
   const isAdmin = adminData?.isAdmin ?? false;
   const queryClient = useQueryClient();
-  const [activeTab, setActiveTab] = useState<ReportStatus>('pending');
-  const [entityFilter, setEntityFilter] = useState<EntityType>('all');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [activeTab, setActiveTab] = useState<ReportStatus>("pending");
+  const [entityFilter, setEntityFilter] = useState<EntityType>("all");
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedReports, setSelectedReports] = useState<Set<string>>(new Set());
   const [currentPage, setCurrentPage] = useState(1);
 
   // Fetch reports with pagination and filtering
   const { data: reportsData, isLoading } = useQuery({
-    queryKey: ['moderation-reports', activeTab, entityFilter, searchQuery, currentPage],
+    queryKey: ["moderation-reports", activeTab, entityFilter, searchQuery, currentPage],
     queryFn: async () => {
       let query = supabase
-        .from('moderation_reports')
-        .select('*, reported_user:profiles!moderation_reports_reported_user_id_fkey(display_name, username), reporter:profiles!moderation_reports_reporter_id_fkey(display_name, username)', { count: 'exact' })
-        .eq('status', activeTab);
+        .from("moderation_reports")
+        .select(
+          "*, reported_user:profiles!moderation_reports_reported_user_id_fkey(display_name, username), reporter:profiles!moderation_reports_reporter_id_fkey(display_name, username)",
+          { count: "exact" },
+        )
+        .eq("status", activeTab);
 
       // Apply entity type filter
-      if (entityFilter !== 'all') {
-        query = query.eq('entity_type', entityFilter);
+      if (entityFilter !== "all") {
+        query = query.eq("entity_type", entityFilter);
       }
 
       // Apply search filter (search in reason and details)
@@ -56,15 +70,15 @@ export default function ModerationDashboard() {
       const end = start + ITEMS_PER_PAGE - 1;
       query = query.range(start, end);
 
-      query = query.order('created_at', { ascending: false });
+      query = query.order("created_at", { ascending: false });
 
       const { data, error, count } = await query;
       if (error) throw error;
-      
-      return { 
-        reports: data || [], 
+
+      return {
+        reports: data || [],
         total: count || 0,
-        totalPages: Math.ceil((count || 0) / ITEMS_PER_PAGE)
+        totalPages: Math.ceil((count || 0) / ITEMS_PER_PAGE),
       };
     },
     enabled: isAdmin,
@@ -76,21 +90,21 @@ export default function ModerationDashboard() {
   const updateStatusMutation = useMutation({
     mutationFn: async ({ reportId, status }: { reportId: string; status: ReportStatus }) => {
       const { error } = await supabase
-        .from('moderation_reports')
-        .update({ 
-          status, 
-          reviewed_at: new Date().toISOString() 
+        .from("moderation_reports")
+        .update({
+          status,
+          reviewed_at: new Date().toISOString(),
         })
-        .eq('id', reportId);
+        .eq("id", reportId);
       if (error) throw error;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['moderation-reports'] });
-      toast.success('Статус обновлён');
+      queryClient.invalidateQueries({ queryKey: ["moderation-reports"] });
+      toast.success("Статус обновлён");
       setSelectedReports(new Set());
     },
     onError: () => {
-      toast.error('Ошибка обновления статуса');
+      toast.error("Ошибка обновления статуса");
     },
   });
 
@@ -98,27 +112,27 @@ export default function ModerationDashboard() {
   const batchUpdateMutation = useMutation({
     mutationFn: async ({ reportIds, status }: { reportIds: string[]; status: ReportStatus }) => {
       const { error } = await supabase
-        .from('moderation_reports')
-        .update({ 
-          status, 
-          reviewed_at: new Date().toISOString() 
+        .from("moderation_reports")
+        .update({
+          status,
+          reviewed_at: new Date().toISOString(),
         })
-        .in('id', reportIds);
+        .in("id", reportIds);
       if (error) throw error;
     },
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['moderation-reports'] });
+      queryClient.invalidateQueries({ queryKey: ["moderation-reports"] });
       toast.success(`Обновлено ${variables.reportIds.length} жалоб`);
       setSelectedReports(new Set());
     },
     onError: () => {
-      toast.error('Ошибка пакетного обновления');
+      toast.error("Ошибка пакетного обновления");
     },
   });
 
   // Toggle report selection
   const toggleReportSelection = (reportId: string) => {
-    setSelectedReports(prev => {
+    setSelectedReports((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(reportId)) {
         newSet.delete(reportId);
@@ -134,26 +148,26 @@ export default function ModerationDashboard() {
     if (selectedReports.size === reports.length) {
       setSelectedReports(new Set());
     } else {
-      setSelectedReports(new Set(reports.map(r => r.id)));
+      setSelectedReports(new Set(reports.map((r) => r.id)));
     }
   };
 
   // Handle batch actions
   const handleBatchAction = (status: ReportStatus) => {
     if (selectedReports.size === 0) {
-      toast.error('Выберите жалобы для обновления');
+      toast.error("Выберите жалобы для обновления");
       return;
     }
-    batchUpdateMutation.mutate({ 
-      reportIds: Array.from(selectedReports), 
-      status 
+    batchUpdateMutation.mutate({
+      reportIds: Array.from(selectedReports),
+      status,
     });
   };
 
   // Reset filters
   const resetFilters = () => {
-    setEntityFilter('all');
-    setSearchQuery('');
+    setEntityFilter("all");
+    setSearchQuery("");
     setCurrentPage(1);
   };
 
@@ -172,10 +186,8 @@ export default function ModerationDashboard() {
           <CardContent className="pt-6 text-center">
             <Shield className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
             <h2 className="text-xl font-bold mb-2">Доступ запрещён</h2>
-            <p className="text-muted-foreground mb-4">
-              У вас нет прав для просмотра этой страницы
-            </p>
-            <Button onClick={() => navigate('/')}>На главную</Button>
+            <p className="text-muted-foreground mb-4">У вас нет прав для просмотра этой страницы</p>
+            <Button onClick={() => navigate("/")}>На главную</Button>
           </CardContent>
         </Card>
       </div>
@@ -184,40 +196,55 @@ export default function ModerationDashboard() {
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case 'pending':
-        return <Badge variant="outline" className="gap-1"><Clock className="w-3 h-3" /> Ожидает</Badge>;
-      case 'reviewed':
-        return <Badge variant="secondary" className="gap-1"><AlertTriangle className="w-3 h-3" /> На проверке</Badge>;
-      case 'resolved':
-        return <Badge variant="default" className="gap-1 bg-green-600"><CheckCircle className="w-3 h-3" /> Решено</Badge>;
-      case 'dismissed':
-        return <Badge variant="outline" className="gap-1 text-muted-foreground">Отклонено</Badge>;
+      case "pending":
+        return (
+          <Badge variant="outline" className="gap-1">
+            <Clock className="w-3 h-3" /> Ожидает
+          </Badge>
+        );
+      case "reviewed":
+        return (
+          <Badge variant="secondary" className="gap-1">
+            <AlertTriangle className="w-3 h-3" /> На проверке
+          </Badge>
+        );
+      case "resolved":
+        return (
+          <Badge variant="default" className="gap-1 bg-green-600">
+            <CheckCircle className="w-3 h-3" /> Решено
+          </Badge>
+        );
+      case "dismissed":
+        return (
+          <Badge variant="outline" className="gap-1 text-muted-foreground">
+            Отклонено
+          </Badge>
+        );
       default:
         return <Badge variant="outline">{status}</Badge>;
     }
   };
 
   return (
-    <div 
+    <div
       className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 pb-24"
       style={{
-        paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px) + 0.5rem), calc(env(safe-area-inset-top, 0px) + 0.5rem))'
+        paddingTop:
+          "max(calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px) + 0.5rem), calc(env(safe-area-inset-top, 0px) + 0.5rem))",
       }}
     >
       <div className="container max-w-4xl mx-auto px-4 py-4">
-        <motion.div 
+        <motion.div
           className="flex items-center gap-3 mb-6"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <Button variant="ghost" size="icon" onClick={() => navigate('/admin')}>
+          <Button variant="ghost" size="icon" onClick={() => navigate("/admin")}>
             <ArrowLeft className="w-5 h-5" />
           </Button>
           <div>
             <h1 className="text-2xl font-bold">Модерация</h1>
-            <p className="text-sm text-muted-foreground">
-              Управление жалобами и нарушениями
-            </p>
+            <p className="text-sm text-muted-foreground">Управление жалобами и нарушениями</p>
           </div>
         </motion.div>
 
@@ -249,10 +276,13 @@ export default function ModerationDashboard() {
                     </div>
                   </div>
                   <div className="flex gap-2">
-                    <Select value={entityFilter} onValueChange={(v: EntityType) => {
-                      setEntityFilter(v);
-                      setCurrentPage(1);
-                    }}>
+                    <Select
+                      value={entityFilter}
+                      onValueChange={(v: EntityType) => {
+                        setEntityFilter(v);
+                        setCurrentPage(1);
+                      }}
+                    >
                       <SelectTrigger className="w-[180px]">
                         <Filter className="w-4 h-4 mr-2" />
                         <SelectValue />
@@ -264,7 +294,7 @@ export default function ModerationDashboard() {
                         <SelectItem value="profile">Профили</SelectItem>
                       </SelectContent>
                     </Select>
-                    {(entityFilter !== 'all' || searchQuery) && (
+                    {(entityFilter !== "all" || searchQuery) && (
                       <Button variant="outline" size="sm" onClick={resetFilters}>
                         Сбросить
                       </Button>
@@ -274,7 +304,7 @@ export default function ModerationDashboard() {
 
                 {/* Batch Actions */}
                 {selectedReports.size > 0 && (
-                  <motion.div 
+                  <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="mt-4 p-3 bg-primary/10 rounded-lg flex items-center justify-between"
@@ -283,29 +313,18 @@ export default function ModerationDashboard() {
                       Выбрано: {selectedReports.size} из {reports.length}
                     </span>
                     <div className="flex gap-2">
-                      {activeTab === 'pending' && (
+                      {activeTab === "pending" && (
                         <>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => handleBatchAction('reviewed')}
-                          >
+                          <Button size="sm" variant="outline" onClick={() => handleBatchAction("reviewed")}>
                             Рассмотреть выбранные
                           </Button>
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            onClick={() => handleBatchAction('dismissed')}
-                          >
+                          <Button size="sm" variant="ghost" onClick={() => handleBatchAction("dismissed")}>
                             Отклонить выбранные
                           </Button>
                         </>
                       )}
-                      {activeTab === 'reviewed' && (
-                        <Button
-                          size="sm"
-                          onClick={() => handleBatchAction('resolved')}
-                        >
+                      {activeTab === "reviewed" && (
+                        <Button size="sm" onClick={() => handleBatchAction("resolved")}>
                           Пометить решёнными
                         </Button>
                       )}
@@ -320,13 +339,9 @@ export default function ModerationDashboard() {
                 <CardTitle className="flex items-center gap-2">
                   <Shield className="w-5 h-5" />
                   Жалобы
-                  {reportsData && reportsData.total > 0 && (
-                    <Badge variant="secondary">{reportsData.total}</Badge>
-                  )}
+                  {reportsData && reportsData.total > 0 && <Badge variant="secondary">{reportsData.total}</Badge>}
                 </CardTitle>
-                <CardDescription>
-                  Список жалоб со статусом "{activeTab}"
-                </CardDescription>
+                <CardDescription>Список жалоб со статусом "{activeTab}"</CardDescription>
               </CardHeader>
               <CardContent>
                 {isLoading ? (
@@ -337,7 +352,7 @@ export default function ModerationDashboard() {
                   <div className="text-center py-8 text-muted-foreground">
                     <Shield className="w-12 h-12 mx-auto mb-3 opacity-50" />
                     <p>Нет жалоб с этим статусом</p>
-                    {(entityFilter !== 'all' || searchQuery) && (
+                    {(entityFilter !== "all" || searchQuery) && (
                       <Button variant="link" onClick={resetFilters} className="mt-2">
                         Сбросить фильтры
                       </Button>
@@ -377,16 +392,14 @@ export default function ModerationDashboard() {
                                 {getStatusBadge(report.status)}
                                 <Badge variant="outline">{report.entity_type}</Badge>
                                 <span className="text-xs text-muted-foreground">
-                                  {formatDistanceToNow(new Date(report.created_at), { 
-                                    addSuffix: true, 
-                                    locale: ru 
+                                  {formatDistanceToNow(new Date(report.created_at), {
+                                    addSuffix: true,
+                                    locale: ru,
                                   })}
                                 </span>
                               </div>
                               <p className="font-medium mb-1">{report.reason}</p>
-                              {report.details && (
-                                <p className="text-sm text-muted-foreground mb-2">{report.details}</p>
-                              )}
+                              {report.details && <p className="text-sm text-muted-foreground mb-2">{report.details}</p>}
                               {report.reporter && (
                                 <p className="text-xs text-muted-foreground">
                                   Жалоба от: @{report.reporter.username || report.reporter.display_name}
@@ -394,37 +407,43 @@ export default function ModerationDashboard() {
                               )}
                             </div>
                             <div className="flex gap-2">
-                              {report.status === 'pending' && (
+                              {report.status === "pending" && (
                                 <>
                                   <Button
                                     size="sm"
                                     variant="outline"
-                                    onClick={() => updateStatusMutation.mutate({ 
-                                      reportId: report.id, 
-                                      status: 'reviewed' 
-                                    })}
+                                    onClick={() =>
+                                      updateStatusMutation.mutate({
+                                        reportId: report.id,
+                                        status: "reviewed",
+                                      })
+                                    }
                                   >
                                     Рассмотреть
                                   </Button>
                                   <Button
                                     size="sm"
                                     variant="ghost"
-                                    onClick={() => updateStatusMutation.mutate({ 
-                                      reportId: report.id, 
-                                      status: 'dismissed' 
-                                    })}
+                                    onClick={() =>
+                                      updateStatusMutation.mutate({
+                                        reportId: report.id,
+                                        status: "dismissed",
+                                      })
+                                    }
                                   >
                                     Отклонить
                                   </Button>
                                 </>
                               )}
-                              {report.status === 'reviewed' && (
+                              {report.status === "reviewed" && (
                                 <Button
                                   size="sm"
-                                  onClick={() => updateStatusMutation.mutate({ 
-                                    reportId: report.id, 
-                                    status: 'resolved' 
-                                  })}
+                                  onClick={() =>
+                                    updateStatusMutation.mutate({
+                                      reportId: report.id,
+                                      status: "resolved",
+                                    })
+                                  }
                                 >
                                   Решено
                                 </Button>
@@ -445,7 +464,7 @@ export default function ModerationDashboard() {
                           <Button
                             variant="outline"
                             size="sm"
-                            onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                             disabled={currentPage === 1}
                           >
                             <ChevronLeft className="w-4 h-4" />
@@ -453,7 +472,7 @@ export default function ModerationDashboard() {
                           <Button
                             variant="outline"
                             size="sm"
-                            onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                            onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                             disabled={currentPage === totalPages}
                           >
                             <ChevronRight className="w-4 h-4" />

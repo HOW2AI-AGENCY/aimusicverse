@@ -43,16 +43,18 @@ Conducted comprehensive audit of the Library page and track display system. Iden
 **Location:** `src/api/tracks.api.ts:57`
 
 ```typescript
-const statuses = statusFilter || ['completed', 'streaming_ready'];
-query = query.in('status', statuses);
+const statuses = statusFilter || ["completed", "streaming_ready"];
+query = query.in("status", statuses);
 ```
 
 **Impact:**
+
 - Tracks with status 'pending', 'processing', 'failed', or 'error' are **NOT shown** in library
 - This is **BY DESIGN** - only playable tracks are displayed
 - Failed tracks are hidden from users (may cause confusion)
 
 **Why This Matters:**
+
 - Users generate tracks → some fail (timeout, API errors, etc.)
 - Failed tracks don't appear in library
 - Users may report "missing tracks" when they see generation count vs library count mismatch
@@ -60,10 +62,11 @@ query = query.in('status', statuses);
 
 ### Secondary Issue: LoadingRef Race Condition (FIXED)
 
-**Problem:** 
+**Problem:**
 The `loadingRef.current` flag in `VirtualizedTrackList` could get stuck at `true`, permanently blocking infinite scroll.
 
 **Scenario:**
+
 1. User scrolls to bottom
 2. `loadingRef.current` set to `true`
 3. `fetchNextPage` called
@@ -78,7 +81,7 @@ Added 5-second safety timeout to force reset `loadingRef` if it gets stuck.
 ```typescript
 setTimeout(() => {
   if (loadingRef.current) {
-    log.warn('LoadingRef stuck, resetting after timeout');
+    log.warn("LoadingRef stuck, resetting after timeout");
     loadingRef.current = false;
   }
 }, 5000);
@@ -90,12 +93,14 @@ setTimeout(() => {
 Filter badges (All: X, Vocals: Y, etc.) show counts from **loaded tracks only**, not total available.
 
 **Example:**
+
 - User has 100 tracks total
 - Only 50 loaded initially
 - "All" filter shows "50" not "100"
 - User thinks they only have 50 tracks
 
 **Solution:**
+
 - Added clear documentation in code comments
 - Header shows "50/100" format to reveal loaded vs total
 - Filter counts are intentionally from loaded tracks (no extra DB queries)
@@ -105,37 +110,42 @@ Filter badges (All: X, Vocals: Y, etc.) show counts from **loaded tracks only**,
 ### 1. VirtualizedTrackList.tsx
 
 ✅ **Safety Timeout**
+
 - Added 5-second timeout to reset `loadingRef` if stuck
 - Prevents permanent scroll blocking
 - Logs warning if timeout triggers (indicates underlying issue)
 
 ✅ **Enhanced Logging**
+
 - Upgraded key events to `log.info` level
 - Added detailed context (counts, flags, thresholds)
 - Helps diagnose pagination issues in production
 
 ```typescript
-log.info('Loading more tracks (endReached)', { 
-  currentCount: tracks.length, 
-  hasMore, 
-  isLoadingMore 
+log.info("Loading more tracks (endReached)", {
+  currentCount: tracks.length,
+  hasMore,
+  isLoadingMore,
 });
 ```
 
 ### 2. Library.tsx
 
 ✅ **Track Loading Monitoring**
+
 - Added useEffect to log when tracks change
 - Tracks: loaded count, total count, pagination state
 - Helps identify when pagination stops working
 
 ✅ **Filter Counts Documentation**
+
 - Clear comment explaining counts are from loaded tracks only
 - No performance impact (avoids extra queries)
 
 ### 3. tracks.service.ts
 
 ✅ **Pagination Debugging**
+
 - Logs pagination parameters (page, pageSize, from, to)
 - Logs results (fetched count, total count, hasMore)
 - Logs next page calculation
@@ -144,6 +154,7 @@ log.info('Loading more tracks (endReached)', {
 ## Testing & Verification
 
 ### Build Status
+
 - ✅ TypeScript compilation: PASSED
 - ✅ Build: SUCCESS
 - ✅ ESLint: WARNINGS ADDRESSED
@@ -151,6 +162,7 @@ log.info('Loading more tracks (endReached)', {
 ### Expected Behavior
 
 **Normal Operation:**
+
 1. User opens Library page
 2. Initial 50 tracks load
 3. Header shows "50/150" (example)
@@ -161,11 +173,13 @@ log.info('Loading more tracks (endReached)', {
 8. Message: "Все треки загружены"
 
 **With Safety Timeout:**
+
 - If `loadingRef` gets stuck, resets after 5 seconds
 - Warning logged: "LoadingRef stuck, resetting after timeout"
 - Allows pagination to continue
 
 **With Status Filter:**
+
 - Only 'completed' and 'streaming_ready' tracks shown
 - Failed/pending/error tracks hidden
 - Active generations shown separately above list
@@ -193,10 +207,11 @@ log.info('Loading more tracks (endReached)', {
 #### Monitor Safety Timeout Logs
 
 ```typescript
-log.warn('LoadingRef stuck, resetting after timeout');
+log.warn("LoadingRef stuck, resetting after timeout");
 ```
 
 If this appears in production logs:
+
 - Indicates `isFetchingNextPage` state not updating properly
 - May need to investigate TanStack Query configuration
 - Could indicate network/API issues
@@ -205,10 +220,11 @@ If this appears in production logs:
 
 ```typescript
 // In useTracks hook
-statusFilter: ['completed', 'streaming_ready', 'failed'] // Include failed
+statusFilter: ["completed", "streaming_ready", "failed"]; // Include failed
 ```
 
 Could add a toggle:
+
 - "Show Failed Tracks" in settings
 - Helps users understand why counts might be off
 - Allows retry of failed generations
@@ -216,17 +232,19 @@ Could add a toggle:
 #### Consider Status Filter Options
 
 Currently hardcoded:
+
 ```typescript
-const statuses = statusFilter || ['completed', 'streaming_ready'];
+const statuses = statusFilter || ["completed", "streaming_ready"];
 ```
 
 Could make configurable:
+
 ```typescript
 // In Library component
 const [showAllStatuses, setShowAllStatuses] = useState(false);
 
 useTracks({
-  statusFilter: showAllStatuses ? undefined : ['completed', 'streaming_ready'],
+  statusFilter: showAllStatuses ? undefined : ["completed", "streaming_ready"],
   // ...
 });
 ```
@@ -244,6 +262,7 @@ useTracks({
 ### No Performance Concerns
 
 The changes add minimal overhead:
+
 - Logging only when events occur
 - Safety timeout only runs when loading triggered
 - No additional database queries
@@ -269,14 +288,17 @@ The library page is working as designed. The main "issue" is:
 ### Success Criteria
 
 ✅ **Infinite scroll works reliably**
+
 - Safety timeout prevents permanent blocking
 - Dual triggers (endReached + rangeChanged) ensure loading
 
 ✅ **Debugging information available**
+
 - Logs show pagination state at all levels
 - Can diagnose issues from production logs
 
 ✅ **User expectations managed**
+
 - Header shows loaded/total clearly
 - Filter counts documented in code
 - Active generations shown separately

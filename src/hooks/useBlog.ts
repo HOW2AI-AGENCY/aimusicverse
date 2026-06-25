@@ -41,20 +41,12 @@ export function useBlogPost(slugOrId: string | undefined) {
     queryKey: ["blog-post", slugOrId],
     queryFn: async () => {
       if (!slugOrId) return null;
-      
+
       // Try to find by slug first, then by ID
-      let { data, error } = await supabase
-        .from("blog_posts")
-        .select("*")
-        .eq("slug", slugOrId)
-        .single();
+      let { data, error } = await supabase.from("blog_posts").select("*").eq("slug", slugOrId).single();
 
       if (error || !data) {
-        const result = await supabase
-          .from("blog_posts")
-          .select("*")
-          .eq("id", slugOrId)
-          .single();
+        const result = await supabase.from("blog_posts").select("*").eq("id", slugOrId).single();
         data = result.data;
         error = result.error;
       }
@@ -71,11 +63,7 @@ export function useCreateBlogPost() {
 
   return useMutation({
     mutationFn: async (post: Omit<BlogPost, "id" | "created_at" | "updated_at">) => {
-      const { data, error } = await supabase
-        .from("blog_posts")
-        .insert(post)
-        .select()
-        .single();
+      const { data, error } = await supabase.from("blog_posts").insert(post).select().single();
 
       if (error) throw error;
       return data;
@@ -137,12 +125,7 @@ export function useDeleteBlogPost() {
 
 export function useBroadcastNotification() {
   return useMutation({
-    mutationFn: async (data: { 
-      title: string; 
-      message: string; 
-      targetType?: string;
-      blogPostId?: string;
-    }) => {
+    mutationFn: async (data: { title: string; message: string; targetType?: string; blogPostId?: string }) => {
       const { data: result, error } = await supabase.functions.invoke("broadcast-notification", {
         body: data,
       });
@@ -161,7 +144,7 @@ export function useBroadcastNotification() {
 
 export function useAIBlogAssistant() {
   return useMutation({
-    mutationFn: async (data: { 
+    mutationFn: async (data: {
       action: "generate_article" | "improve_article" | "generate_excerpt" | "generate_title";
       prompt?: string;
       content?: string;
@@ -183,12 +166,7 @@ export function useGenerateBlogCover() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (data: { 
-      title: string;
-      excerpt?: string;
-      content?: string;
-      blogPostId?: string;
-    }) => {
+    mutationFn: async (data: { title: string; excerpt?: string; content?: string; blogPostId?: string }) => {
       const { data: result, error } = await supabase.functions.invoke("generate-blog-cover", {
         body: data,
       });

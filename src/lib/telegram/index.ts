@@ -1,8 +1,8 @@
 /**
  * Telegram Utilities - Barrel Export
- * 
+ *
  * Centralized exports for Telegram-related utilities.
- * 
+ *
  * @module lib/telegram
  */
 
@@ -23,4 +23,4 @@ export {
   getInviteDeepLink,
   getBotMention,
   getTelegramShareUrl,
-} from './constants';
+} from "./constants";

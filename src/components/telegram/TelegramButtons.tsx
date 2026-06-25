@@ -1,16 +1,16 @@
 /**
  * Telegram Native Button Wrapper
  * Feature: 032-professional-ui
- * 
+ *
  * Unified component for Telegram Main Button with UI fallback
  */
 
-import React, { useEffect, ReactNode } from 'react';
-import { motion } from '@/lib/motion';
-import { cn } from '@/lib/utils';
-import { Loader2 } from 'lucide-react';
-import { useTelegram } from '@/contexts/TelegramContext';
-import { hapticPatterns } from './TelegramHaptics';
+import React, { useEffect, ReactNode } from "react";
+import { motion } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import { Loader2 } from "lucide-react";
+import { useTelegram } from "@/contexts/TelegramContext";
+import { hapticPatterns } from "./TelegramHaptics";
 
 interface TelegramMainButtonProps {
   text: string;
@@ -21,7 +21,7 @@ interface TelegramMainButtonProps {
   color?: string;
   textColor?: string;
   /** Fallback UI style */
-  variant?: 'primary' | 'secondary' | 'success' | 'destructive';
+  variant?: "primary" | "secondary" | "success" | "destructive";
   className?: string;
 }
 
@@ -33,7 +33,7 @@ export function TelegramMainButton({
   visible = true,
   color,
   textColor,
-  variant = 'primary',
+  variant = "primary",
   className,
 }: TelegramMainButtonProps) {
   const { webApp, isInitialized } = useTelegram();
@@ -49,7 +49,7 @@ export function TelegramMainButton({
 
     // Configure button
     mainButton.setText(text);
-    
+
     if (color) mainButton.setParams({ color });
     if (textColor) mainButton.setParams({ text_color: textColor });
 
@@ -95,10 +95,10 @@ export function TelegramMainButton({
   if (!visible) return null;
 
   const variantStyles = {
-    primary: 'bg-primary text-primary-foreground hover:bg-primary/90',
-    secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
-    success: 'bg-success text-white hover:bg-success/90',
-    destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
+    primary: "bg-primary text-primary-foreground hover:bg-primary/90",
+    secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+    success: "bg-success text-white hover:bg-success/90",
+    destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
   };
 
   return (
@@ -119,10 +119,10 @@ export function TelegramMainButton({
         "safe-area-inset-bottom",
         variantStyles[variant],
         disabled && "opacity-50 cursor-not-allowed",
-        className
+        className,
       )}
       style={{
-        paddingBottom: 'env(safe-area-inset-bottom, 0px)',
+        paddingBottom: "env(safe-area-inset-bottom, 0px)",
       }}
     >
       {loading && <Loader2 className="w-5 h-5 animate-spin" />}
@@ -141,8 +141,8 @@ interface TelegramSecondaryButtonProps {
   disabled?: boolean;
   loading?: boolean;
   icon?: ReactNode;
-  variant?: 'outline' | 'ghost' | 'subtle';
-  size?: 'sm' | 'md' | 'lg';
+  variant?: "outline" | "ghost" | "subtle";
+  size?: "sm" | "md" | "lg";
   className?: string;
 }
 
@@ -152,20 +152,20 @@ export function TelegramSecondaryButton({
   disabled = false,
   loading = false,
   icon,
-  variant = 'outline',
-  size = 'md',
+  variant = "outline",
+  size = "md",
   className,
 }: TelegramSecondaryButtonProps) {
   const variantStyles = {
-    outline: 'border border-border bg-transparent hover:bg-accent',
-    ghost: 'bg-transparent hover:bg-accent',
-    subtle: 'bg-muted hover:bg-muted/80',
+    outline: "border border-border bg-transparent hover:bg-accent",
+    ghost: "bg-transparent hover:bg-accent",
+    subtle: "bg-muted hover:bg-muted/80",
   };
 
   const sizeStyles = {
-    sm: 'h-8 px-3 text-sm gap-1.5',
-    md: 'h-10 px-4 text-base gap-2',
-    lg: 'h-12 px-6 text-lg gap-2',
+    sm: "h-8 px-3 text-sm gap-1.5",
+    md: "h-10 px-4 text-base gap-2",
+    lg: "h-12 px-6 text-lg gap-2",
   };
 
   return (
@@ -184,12 +184,10 @@ export function TelegramSecondaryButton({
         variantStyles[variant],
         sizeStyles[size],
         disabled && "opacity-50 cursor-not-allowed",
-        className
+        className,
       )}
     >
-      {loading ? (
-        <Loader2 className="w-4 h-4 animate-spin" />
-      ) : icon}
+      {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : icon}
       {text}
     </motion.button>
   );

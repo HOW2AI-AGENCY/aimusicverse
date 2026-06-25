@@ -1,6 +1,6 @@
 /**
  * useTransportSync - Synchronize multiple audio sources with transport controls
- * 
+ *
  * Features:
  * - Sample-accurate playback sync
  * - Drift correction
@@ -8,8 +8,8 @@
  * - Seek with preroll
  */
 
-import { useRef, useCallback, useEffect, useState } from 'react';
-import { logger } from '@/lib/logger';
+import { useRef, useCallback, useEffect, useState } from "react";
+import { logger } from "@/lib/logger";
 
 export interface AudioSource {
   id: string;
@@ -47,13 +47,13 @@ const DEFAULT_OPTIONS: Required<UseTransportSyncOptions> = {
 
 export function useTransportSync(options: UseTransportSyncOptions = {}) {
   const opts = { ...DEFAULT_OPTIONS, ...options };
-  
+
   const sourcesRef = useRef<Map<string, AudioSource>>(new Map());
   const masterTimeRef = useRef(0);
   const isPlayingRef = useRef(false);
   const animationFrameRef = useRef<number | null>(null);
   const syncIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  
+
   const [transportState, setTransportState] = useState<TransportState>({
     isPlaying: false,
     currentTime: 0,
@@ -66,23 +66,19 @@ export function useTransportSync(options: UseTransportSyncOptions = {}) {
   // Register an audio source
   const registerSource = useCallback((source: AudioSource) => {
     sourcesRef.current.set(source.id, source);
-    
+
     // Update duration based on longest source
-    const maxDuration = Math.max(
-      ...Array.from(sourcesRef.current.values()).map(s => 
-        s.element.duration || 0
-      )
-    );
-    
-    setTransportState(prev => ({ ...prev, duration: maxDuration }));
-    
-    logger.debug('[TransportSync] Source registered', { id: source.id });
+    const maxDuration = Math.max(...Array.from(sourcesRef.current.values()).map((s) => s.element.duration || 0));
+
+    setTransportState((prev) => ({ ...prev, duration: maxDuration }));
+
+    logger.debug("[TransportSync] Source registered", { id: source.id });
   }, []);
 
   // Unregister an audio source
   const unregisterSource = useCallback((id: string) => {
     sourcesRef.current.delete(id);
-    logger.debug('[TransportSync] Source unregistered', { id });
+    logger.debug("[TransportSync] Source unregistered", { id });
   }, []);
 
   // Get current master time
@@ -102,7 +98,7 @@ export function useTransportSync(options: UseTransportSyncOptions = {}) {
 
       if (drift > opts.maxDrift) {
         source.element.currentTime = targetTime;
-        logger.debug('[TransportSync] Drift corrected', {
+        logger.debug("[TransportSync] Drift corrected", {
           id: source.id,
           drift,
           target: targetTime,
@@ -116,18 +112,18 @@ export function useTransportSync(options: UseTransportSyncOptions = {}) {
     if (!opts.enableLoop) return;
 
     const { loopStart, loopEnd, isLooping } = transportState;
-    
+
     if (isLooping && loopStart !== null && loopEnd !== null) {
       if (masterTimeRef.current >= loopEnd) {
         masterTimeRef.current = loopStart;
-        
+
         // Sync all sources to loop start
         for (const source of sourcesRef.current.values()) {
           const targetTime = loopStart + (source.offset || 0);
           source.element.currentTime = targetTime;
         }
-        
-        logger.debug('[TransportSync] Loop triggered');
+
+        logger.debug("[TransportSync] Loop triggered");
       }
     }
   }, [opts.enableLoop, transportState]);
@@ -147,7 +143,7 @@ export function useTransportSync(options: UseTransportSyncOptions = {}) {
     updateLoop();
 
     // Update state
-    setTransportState(prev => ({
+    setTransportState((prev) => ({
       ...prev,
       currentTime: masterTimeRef.current,
     }));
@@ -158,20 +154,20 @@ export function useTransportSync(options: UseTransportSyncOptions = {}) {
   // Play
   const play = useCallback(async () => {
     const sources = Array.from(sourcesRef.current.values());
-    
+
     // Start all sources
-    const playPromises = sources.map(async source => {
+    const playPromises = sources.map(async (source) => {
       try {
         await source.element.play();
       } catch (error) {
-        logger.warn('[TransportSync] Play failed', { id: source.id, error });
+        logger.warn("[TransportSync] Play failed", { id: source.id, error });
       }
     });
 
     await Promise.all(playPromises);
 
     isPlayingRef.current = true;
-    setTransportState(prev => ({ ...prev, isPlaying: true }));
+    setTransportState((prev) => ({ ...prev, isPlaying: true }));
 
     // Start update loop
     animationFrameRef.current = requestAnimationFrame(updateFrame);
@@ -179,19 +175,19 @@ export function useTransportSync(options: UseTransportSyncOptions = {}) {
     // Start sync interval
     syncIntervalRef.current = setInterval(syncSources, opts.syncInterval);
 
-    logger.debug('[TransportSync] Play started');
+    logger.debug("[TransportSync] Play started");
   }, [updateFrame, syncSources, opts.syncInterval]);
 
   // Pause
   const pause = useCallback(() => {
     const sources = Array.from(sourcesRef.current.values());
-    
+
     for (const source of sources) {
       source.element.pause();
     }
 
     isPlayingRef.current = false;
-    setTransportState(prev => ({ ...prev, isPlaying: false }));
+    setTransportState((prev) => ({ ...prev, isPlaying: false }));
 
     // Stop update loop
     if (animationFrameRef.current) {
@@ -205,7 +201,7 @@ export function useTransportSync(options: UseTransportSyncOptions = {}) {
       syncIntervalRef.current = null;
     }
 
-    logger.debug('[TransportSync] Paused');
+    logger.debug("[TransportSync] Paused");
   }, []);
 
   // Toggle play/pause
@@ -227,26 +223,26 @@ export function useTransportSync(options: UseTransportSyncOptions = {}) {
       source.element.currentTime = Math.max(0, targetTime);
     }
 
-    setTransportState(prev => ({ ...prev, currentTime: time }));
+    setTransportState((prev) => ({ ...prev, currentTime: time }));
 
-    logger.debug('[TransportSync] Seeked', { time });
+    logger.debug("[TransportSync] Seeked", { time });
   }, []);
 
   // Set loop region
   const setLoop = useCallback((start: number | null, end: number | null, enabled: boolean = true) => {
-    setTransportState(prev => ({
+    setTransportState((prev) => ({
       ...prev,
       loopStart: start,
       loopEnd: end,
       isLooping: enabled && start !== null && end !== null,
     }));
 
-    logger.debug('[TransportSync] Loop set', { start, end, enabled });
+    logger.debug("[TransportSync] Loop set", { start, end, enabled });
   }, []);
 
   // Clear loop
   const clearLoop = useCallback(() => {
-    setTransportState(prev => ({
+    setTransportState((prev) => ({
       ...prev,
       loopStart: null,
       loopEnd: null,
@@ -258,7 +254,7 @@ export function useTransportSync(options: UseTransportSyncOptions = {}) {
   const stop = useCallback(() => {
     pause();
     seek(0);
-    logger.debug('[TransportSync] Stopped');
+    logger.debug("[TransportSync] Stopped");
   }, [pause, seek]);
 
   // Cleanup

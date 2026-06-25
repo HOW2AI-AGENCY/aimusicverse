@@ -9,10 +9,10 @@
 - [handleApply](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartAssistantInline.tsx#L40) (1 connections)
 - [hasMore](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartAssistantInline.tsx#L48) (1 connections)
 - [{
-    suggestions,
-    isAnalyzing,
-    dismissSuggestion,
-    hasContext,
+  suggestions,
+  isAnalyzing,
+  dismissSuggestion,
+  hasContext,
   }](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartAssistantInline.tsx#L33) (1 connections)
 - [visibleSuggestions](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartAssistantInline.tsx#L44) (1 connections)
 
@@ -32,4 +32,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

@@ -11,6 +11,7 @@
 ### Environment Setup
 
 - [ ] **Install Required NPM Dependencies**
+
   ```bash
   npm install @dnd-kit/core @dnd-kit/sortable
   ```
@@ -27,21 +28,27 @@
 ### Code Quality Check
 
 - [ ] **Run TypeScript Check**
+
   ```bash
   npx tsc --noEmit
   ```
+
   Expected: 0 errors in frontend code
 
 - [ ] **Run Linter**
+
   ```bash
   npm run lint
   ```
+
   Expected: 0 critical errors (101 backend errors acceptable)
 
 - [ ] **Run Tests**
+
   ```bash
   npm test
   ```
+
   Expected: All tests passing
 
 - [ ] **Build Project**
@@ -101,12 +108,12 @@
 ### Day 1: Core Components Foundation
 
 #### Morning (4 hours)
+
 - [ ] **Create TrackRow Component** (US1-T02)
   - File: `src/components/library/TrackRow.tsx`
   - Implement compact list view layout
   - Add touch-friendly buttons (≥44×44px)
   - Test on mobile viewport (375px)
-  
 - [ ] **Create VersionBadge Component** (US1-T03)
   - File: `src/components/library/VersionBadge.tsx`
   - Implement version display logic
@@ -114,11 +121,11 @@
   - Make clickable with proper touch area
 
 #### Afternoon (4 hours)
+
 - [ ] **Create TrackTypeIcons Component** (US1-T05)
   - File: `src/components/library/TrackTypeIcons.tsx`
   - Add vocal, instrumental, stems icons
   - Implement tooltip on hover (desktop)
-  
 - [ ] **Create Skeleton Loaders** (US1-T08)
   - File: `src/components/ui/skeleton-loader.tsx`
   - Create card skeleton variant
@@ -126,6 +133,7 @@
   - Test loading states
 
 #### End of Day
+
 - [ ] **Run Tests**
   ```bash
   npm test
@@ -141,6 +149,7 @@
 ### Day 2: Version Management
 
 #### Morning (4 hours)
+
 - [ ] **Create VersionSwitcher Component** (US1-T04)
   - File: `src/components/library/VersionSwitcher.tsx`
   - Implement bottom sheet for mobile
@@ -149,6 +158,7 @@
   - Test version selection
 
 #### Afternoon (4 hours)
+
 - [ ] **Enhance TrackCard Component** (US1-T01)
   - Update: `src/components/TrackCard.tsx`
   - Add VersionBadge integration
@@ -157,6 +167,7 @@
   - Test responsive behavior (320px-1920px)
 
 #### End of Day
+
 - [ ] **Run Tests**
 - [ ] **Test on Real Device** (if possible)
   - Open Telegram Mini App
@@ -170,6 +181,7 @@
 ### Day 3: Swipe Actions & Integration
 
 #### Morning (4 hours)
+
 - [ ] **Implement Swipe Actions** (US1-T07)
   - Update: `src/components/TrackCard.tsx`
   - Add framer-motion drag gesture
@@ -179,6 +191,7 @@
   - Test swipe threshold (≥50px)
 
 #### Afternoon (4 hours)
+
 - [ ] **Update Library Page** (US1-T06) - Part 1
   - Update: `src/pages/Library.tsx`
   - Add Grid/List view toggle
@@ -186,6 +199,7 @@
   - Add skeleton loaders during fetch
 
 #### End of Day
+
 - [ ] **Manual Testing**
   - Test Grid view on 375px, 768px, 1920px
   - Test List view on all viewports
@@ -199,12 +213,14 @@
 ### Day 4: Library Page Complete
 
 #### Morning (4 hours)
+
 - [ ] **Update Library Page** (US1-T06) - Part 2
   - Implement infinite scroll
   - Add backend pagination
   - Test with 100+ tracks
 
 #### Afternoon (4 hours)
+
 - [ ] **Optimize Performance**
   - Add React.memo to TrackCard
   - Implement lazy loading for images
@@ -212,6 +228,7 @@
   - Profile with React DevTools
 
 #### End of Day
+
 - [ ] **Performance Testing**
   - Run Lighthouse audit (mobile)
   - Target: Score >90
@@ -224,6 +241,7 @@
 ### Day 5: US1 Testing & Polish
 
 #### Morning (2 hours)
+
 - [ ] **Code Review**
   - Review all US1 code
   - Check for TypeScript errors
@@ -231,6 +249,7 @@
   - Refactor if needed
 
 #### Afternoon (3 hours)
+
 - [ ] **Integration Testing**
   - Test all user flows
   - Test on multiple viewports
@@ -240,12 +259,14 @@
   - Add Storybook stories (if time allows)
 
 #### Optional (if time)
+
 - [ ] **Unit Tests** (US1-T09)
   - Test TrackRow component
   - Test VersionBadge component
   - Test VersionSwitcher logic
 
 #### End of Day
+
 - [ ] **Sprint Progress Update**
   - Update SPRINT_MANAGEMENT.md
   - Mark US1 tasks as complete
@@ -262,6 +283,7 @@
 ### Day 1 (Monday): Player Core Components
 
 #### Morning (4 hours)
+
 - [ ] **Create PlaybackControls** (US2-T04)
   - File: `src/components/player/PlaybackControls.tsx`
   - Implement play/pause, skip buttons
@@ -275,6 +297,7 @@
   - Make touch-friendly (≥44px touch area)
 
 #### Afternoon (4 hours)
+
 - [ ] **Create QueueItem** (US2-T07)
   - File: `src/components/player/QueueItem.tsx`
   - Implement drag handle
@@ -282,6 +305,7 @@
   - Style current track indicator
 
 #### End of Day
+
 - [ ] **Test Components in Isolation**
 - [ ] **Git Commit**
   ```bash
@@ -291,6 +315,7 @@
 ### Day 2 (Tuesday): Player Modes
 
 #### Morning (4 hours)
+
 - [ ] **Enhance CompactPlayer** (US2-T01)
   - Update: `src/components/CompactPlayer.tsx`
   - Add swipe-up gesture
@@ -298,6 +323,7 @@
   - Test fixed bottom positioning
 
 #### Afternoon (4 hours)
+
 - [ ] **Create ExpandedPlayer** (US2-T02)
   - File: `src/components/player/ExpandedPlayer.tsx`
   - Implement bottom sheet (~40vh)
@@ -307,6 +333,7 @@
   - Test swipe down to close
 
 #### End of Day
+
 - [ ] **Test Player Transitions**
   - Compact → Expanded
   - Expanded → Compact
@@ -318,6 +345,7 @@
 ### Day 3 (Wednesday): Fullscreen & Queue
 
 #### Morning (4 hours)
+
 - [ ] **Enhance FullscreenPlayer** (US2-T03)
   - Update: `src/components/FullscreenPlayer.tsx`
   - Add lyrics toggle
@@ -326,6 +354,7 @@
   - Test fullscreen mode
 
 #### Afternoon (4 hours)
+
 - [ ] **Create QueueSheet** (US2-T06)
   - File: `src/components/player/QueueSheet.tsx`
   - Implement drag-and-drop with @dnd-kit
@@ -333,6 +362,7 @@
   - Test reordering
 
 #### End of Day
+
 - [ ] **Test Queue Management**
   - Test drag-to-reorder
   - Test remove from queue
@@ -345,6 +375,7 @@
 ### Day 4 (Thursday): Integration & State Management
 
 #### Morning (4 hours)
+
 - [ ] **Player State Integration** (US2-T09)
   - Update usePlayerState hook if needed
   - Connect all player components to state
@@ -352,6 +383,7 @@
   - Test state synchronization
 
 #### Afternoon (4 hours)
+
 - [ ] **Player Transitions** (US2-T10)
   - Add Framer Motion animations
   - Implement smooth mode transitions
@@ -364,6 +396,7 @@
   - Add word-by-word highlight
 
 #### End of Day
+
 - [ ] **Integration Testing**
   - Test all player modes
   - Test state persistence
@@ -376,6 +409,7 @@
 ### Day 5 (Friday): Testing, Polish & Sprint Closure
 
 #### Morning (3 hours)
+
 - [ ] **Final Testing**
   - Test all user flows
   - Test on multiple devices
@@ -387,6 +421,7 @@
   - Profile with DevTools
 
 #### Afternoon (3 hours)
+
 - [ ] **Code Review**
   - Review all US2 code
   - Check ESLint compliance
@@ -398,18 +433,20 @@
   - Update architecture docs
 
 #### Optional (if time)
+
 - [ ] **Unit Tests** (US2-T11)
   - Test PlaybackControls
   - Test QueueSheet logic
 
 #### End of Day
+
 - [ ] **Sprint Closure**
   - Update SPRINT_MANAGEMENT.md
   - Mark Sprint 008 as complete
   - Calculate velocity
   - Document lessons learned
-  
 - [ ] **Final Git Commit**
+
   ```bash
   git commit -m "docs: Complete Sprint 008 - Library & Player MVP"
   git push
@@ -471,25 +508,30 @@
 ### If Blocked On:
 
 **Dependencies Not Installed:**
+
 - Action: Run `npm install @dnd-kit/core @dnd-kit/sortable`
 - Escalate to: Team lead if permission issues
 
 **Database Issues:**
+
 - Action: Check Supabase connection
 - Verify migrations applied
 - Escalate to: Backend team
 
 **Design Assets Missing:**
+
 - Action: Use placeholder UI
 - Document missing assets
 - Escalate to: Design team
 
 **Performance Issues:**
+
 - Action: Profile with React DevTools
 - Check for unnecessary re-renders
 - Escalate to: Senior developer
 
 **API Issues:**
+
 - Action: Use mock data for development
 - Document API requirements
 - Escalate to: Backend team
@@ -552,4 +594,4 @@ Blockers:
 
 **Good luck with Sprint 008! 🚀**
 
-*Last Updated: 2025-12-02*
+_Last Updated: 2025-12-02_

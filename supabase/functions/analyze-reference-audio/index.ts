@@ -1,12 +1,12 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { getSupabaseClient } from '../_shared/supabase-client.ts';
-import { createLogger } from '../_shared/logger.ts';
+import { getSupabaseClient } from "../_shared/supabase-client.ts";
+import { createLogger } from "../_shared/logger.ts";
 
-const logger = createLogger('analyze-reference-audio');
+const logger = createLogger("analyze-reference-audio");
 
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
 interface ReferenceAnalysis {
@@ -23,39 +23,40 @@ interface ReferenceAnalysis {
 }
 
 serve(async (req) => {
-  if (req.method === 'OPTIONS') {
+  if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const lovableApiKey = Deno.env.get('LOVABLE_API_KEY');
+    const lovableApiKey = Deno.env.get("LOVABLE_API_KEY");
     const supabase = getSupabaseClient();
 
     // Auth check
-    const authHeader = req.headers.get('Authorization');
+    const authHeader = req.headers.get("Authorization");
     if (!authHeader) {
-      throw new Error('No authorization header');
+      throw new Error("No authorization header");
     }
 
-    const { data: { user }, error: authError } = await supabase.auth.getUser(
-      authHeader.replace('Bearer ', '')
-    );
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(authHeader.replace("Bearer ", ""));
 
     if (authError || !user) {
-      throw new Error('Unauthorized');
+      throw new Error("Unauthorized");
     }
 
     const { audioUrl, analyzeStyle = true, detectChords = true, detectBpm = true } = await req.json();
 
     if (!audioUrl) {
-      throw new Error('audioUrl is required');
+      throw new Error("audioUrl is required");
     }
 
-    logger.info('Analyzing reference audio', { 
-      userId: user.id, 
-      analyzeStyle, 
-      detectChords, 
-      detectBpm 
+    logger.info("Analyzing reference audio", {
+      userId: user.id,
+      analyzeStyle,
+      detectChords,
+      detectBpm,
     });
 
     // Use Lovable AI to analyze the audio characteristics
@@ -90,17 +91,17 @@ URL аудио: ${audioUrl}
   "suggested_tags": ["ambient", "chill", "piano", "female vocals", "emotional"]
 }`;
 
-    const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
-      method: 'POST',
+    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      method: "POST",
       headers: {
-        'Authorization': `Bearer ${lovableApiKey}`,
-        'Content-Type': 'application/json',
+        Authorization: `Bearer ${lovableApiKey}`,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: 'google/gemini-2.5-flash',
+        model: "google/gemini-2.5-flash",
         messages: [
           {
-            role: 'user',
+            role: "user",
             content: analysisPrompt,
           },
         ],
@@ -111,60 +112,53 @@ URL аудио: ${audioUrl}
 
     if (!response.ok) {
       const errorText = await response.text();
-      logger.error('Lovable AI analysis failed', null, { status: response.status, error: errorText });
+      logger.error("Lovable AI analysis failed", null, { status: response.status, error: errorText });
       throw new Error(`Analysis failed: ${response.status}`);
     }
 
     const data = await response.json();
-    const analysisText = data.choices?.[0]?.message?.content || '{}';
+    const analysisText = data.choices?.[0]?.message?.content || "{}";
 
     let analysis: ReferenceAnalysis;
-    
+
     try {
       // Extract JSON from markdown code blocks if present
-      const jsonMatch = analysisText.match(/```json\s*([\s\S]*?)\s*```/) || 
-                       analysisText.match(/```\s*([\s\S]*?)\s*```/);
+      const jsonMatch =
+        analysisText.match(/```json\s*([\s\S]*?)\s*```/) || analysisText.match(/```\s*([\s\S]*?)\s*```/);
       const jsonText = jsonMatch ? jsonMatch[1] : analysisText;
       analysis = JSON.parse(jsonText);
-      
-      logger.success('Reference analysis completed', { 
-        bpm: analysis.bpm, 
-        key: analysis.key, 
+
+      logger.success("Reference analysis completed", {
+        bpm: analysis.bpm,
+        key: analysis.key,
         genre: analysis.genre,
-        tagsCount: analysis.suggested_tags?.length 
+        tagsCount: analysis.suggested_tags?.length,
       });
     } catch (e) {
       const error = e as Error;
-      logger.error('Failed to parse analysis JSON', error);
-      
+      logger.error("Failed to parse analysis JSON", error);
+
       // Return partial analysis with defaults
       analysis = {
         bpm: 120,
-        key: 'C',
-        genre: 'Unknown',
-        mood: 'Neutral',
-        energy: 'medium',
+        key: "C",
+        genre: "Unknown",
+        mood: "Neutral",
+        energy: "medium",
         instruments: [],
         chords: [],
-        style_description: 'Audio reference',
-        suggested_tags: ['reference', 'custom']
+        style_description: "Audio reference",
+        suggested_tags: ["reference", "custom"],
       };
     }
 
-    return new Response(
-      JSON.stringify(analysis),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-    );
-
+    return new Response(JSON.stringify(analysis), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
   } catch (error: unknown) {
     const err = error as Error;
-    logger.error('Error analyzing reference audio', err);
-    return new Response(
-      JSON.stringify({ error: err.message }),
-      { 
-        status: 500,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-      }
-    );
+    logger.error("Error analyzing reference audio", err);
+    return new Response(JSON.stringify({ error: err.message }), {
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 });

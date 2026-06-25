@@ -6,10 +6,10 @@ const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
   ({ className, type, ...props }, ref) => {
     // Determine proper inputMode for better iOS keyboard
     const getInputMode = () => {
-      if (type === 'number') return 'decimal';
-      if (type === 'tel') return 'tel';
-      if (type === 'email') return 'email';
-      if (type === 'url') return 'url';
+      if (type === "number") return "decimal";
+      if (type === "tel") return "tel";
+      if (type === "email") return "email";
+      if (type === "url") return "url";
       return undefined;
     };
 

@@ -4,15 +4,15 @@
  * Phase 3 - Guitar Chord Display
  */
 
-import { memo, useMemo, useCallback } from 'react';
-import { motion } from '@/lib/motion';
-import { cn } from '@/lib/utils';
-import { useHapticFeedback } from '@/hooks/useHapticFeedback';
+import { memo, useMemo, useCallback } from "react";
+import { motion } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 
 interface ChordData {
   chord: string;
-  start: number;  // seconds
-  end: number;    // seconds
+  start: number; // seconds
+  end: number; // seconds
   confidence?: number;
 }
 
@@ -28,43 +28,43 @@ interface ChordOverlayProps {
 // Chord color mapping for visual distinction
 const CHORD_COLORS: Record<string, string> = {
   // Major chords - warm colors
-  'C': 'bg-rose-500/80',
-  'D': 'bg-orange-500/80',
-  'E': 'bg-amber-500/80',
-  'F': 'bg-yellow-500/80',
-  'G': 'bg-lime-500/80',
-  'A': 'bg-green-500/80',
-  'B': 'bg-emerald-500/80',
-  
+  C: "bg-rose-500/80",
+  D: "bg-orange-500/80",
+  E: "bg-amber-500/80",
+  F: "bg-yellow-500/80",
+  G: "bg-lime-500/80",
+  A: "bg-green-500/80",
+  B: "bg-emerald-500/80",
+
   // Minor chords - cool colors
-  'Am': 'bg-cyan-500/80',
-  'Bm': 'bg-sky-500/80',
-  'Cm': 'bg-blue-500/80',
-  'Dm': 'bg-indigo-500/80',
-  'Em': 'bg-violet-500/80',
-  'Fm': 'bg-purple-500/80',
-  'Gm': 'bg-fuchsia-500/80',
-  
+  Am: "bg-cyan-500/80",
+  Bm: "bg-sky-500/80",
+  Cm: "bg-blue-500/80",
+  Dm: "bg-indigo-500/80",
+  Em: "bg-violet-500/80",
+  Fm: "bg-purple-500/80",
+  Gm: "bg-fuchsia-500/80",
+
   // Default
-  'default': 'bg-primary/70',
+  default: "bg-primary/70",
 };
 
 function getChordColor(chord: string): string {
   // Check exact match
   if (CHORD_COLORS[chord]) return CHORD_COLORS[chord];
-  
+
   // Check root note for major
   const rootMatch = chord.match(/^([A-G][#b]?)$/);
   if (rootMatch && CHORD_COLORS[rootMatch[1]]) {
     return CHORD_COLORS[rootMatch[1]];
   }
-  
+
   // Check for minor
-  if (chord.includes('m') && !chord.includes('maj')) {
-    const root = chord.replace(/m.*/, '') + 'm';
+  if (chord.includes("m") && !chord.includes("maj")) {
+    const root = chord.replace(/m.*/, "") + "m";
     if (CHORD_COLORS[root]) return CHORD_COLORS[root];
   }
-  
+
   return CHORD_COLORS.default;
 }
 
@@ -81,8 +81,8 @@ export const ChordOverlay = memo(function ChordOverlay({
   // Calculate chord positions as percentages
   const chordPositions = useMemo(() => {
     if (!duration || duration === 0) return [];
-    
-    return chords.map(chord => ({
+
+    return chords.map((chord) => ({
       ...chord,
       leftPercent: (chord.start / duration) * 100,
       widthPercent: ((chord.end - chord.start) / duration) * 100,
@@ -91,25 +91,22 @@ export const ChordOverlay = memo(function ChordOverlay({
 
   // Find current chord
   const currentChord = useMemo(() => {
-    return chords.find(c => currentTime >= c.start && currentTime < c.end);
+    return chords.find((c) => currentTime >= c.start && currentTime < c.end);
   }, [chords, currentTime]);
 
   // Handle chord click
-  const handleChordClick = useCallback((chord: ChordData) => {
-    haptic.tap();
-    onChordClick?.(chord.chord, chord.start);
-  }, [haptic, onChordClick]);
+  const handleChordClick = useCallback(
+    (chord: ChordData) => {
+      haptic.tap();
+      onChordClick?.(chord.chord, chord.start);
+    },
+    [haptic, onChordClick],
+  );
 
   if (chords.length === 0) return null;
 
   return (
-    <div 
-      className={cn(
-        "relative w-full overflow-hidden rounded",
-        className
-      )}
-      style={{ height }}
-    >
+    <div className={cn("relative w-full overflow-hidden rounded", className)} style={{ height }}>
       {/* Background */}
       <div className="absolute inset-0 bg-background/50" />
 
@@ -117,7 +114,7 @@ export const ChordOverlay = memo(function ChordOverlay({
       {chordPositions.map((chord, index) => {
         const isActive = currentChord?.start === chord.start;
         const colorClass = getChordColor(chord.chord);
-        
+
         return (
           <motion.button
             key={`${chord.chord}-${chord.start}-${index}`}
@@ -128,7 +125,7 @@ export const ChordOverlay = memo(function ChordOverlay({
               "transition-all duration-150",
               "hover:brightness-110 active:brightness-90",
               colorClass,
-              isActive && "ring-2 ring-white/50 z-10"
+              isActive && "ring-2 ring-white/50 z-10",
             )}
             style={{
               left: `${chord.leftPercent}%`,
@@ -140,17 +137,13 @@ export const ChordOverlay = memo(function ChordOverlay({
             transition={{ delay: index * 0.02 }}
           >
             {/* Only show label if wide enough */}
-            {chord.widthPercent > 3 && (
-              <span className="truncate px-0.5">
-                {chord.chord}
-              </span>
-            )}
+            {chord.widthPercent > 3 && <span className="truncate px-0.5">{chord.chord}</span>}
           </motion.button>
         );
       })}
 
       {/* Current time indicator */}
-      <div 
+      <div
         className="absolute top-0 bottom-0 w-0.5 bg-white shadow-lg z-20 pointer-events-none"
         style={{ left: `${(currentTime / duration) * 100}%` }}
       />
@@ -159,9 +152,9 @@ export const ChordOverlay = memo(function ChordOverlay({
       {currentChord && (
         <motion.div
           className="absolute -top-7 px-2 py-0.5 rounded bg-primary text-primary-foreground text-xs font-bold shadow-lg z-30"
-          style={{ 
+          style={{
             left: `${(currentTime / duration) * 100}%`,
-            transform: 'translateX(-50%)',
+            transform: "translateX(-50%)",
           }}
           initial={{ opacity: 0, y: 5 }}
           animate={{ opacity: 1, y: 0 }}

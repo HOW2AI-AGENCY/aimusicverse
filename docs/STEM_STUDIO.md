@@ -5,6 +5,7 @@
 ## Возможности
 
 ### Разделение на стемы
+
 - **Vocals** - вокальная партия
 - **Drums** - ударные
 - **Bass** - бас
@@ -13,18 +14,21 @@
 - **Other** - остальные инструменты
 
 ### Микширование
+
 - Индивидуальная громкость каждого стема
 - Mute/Solo для каждой дорожки
 - Master volume
 - Синхронное воспроизведение всех стемов
 
 ### MIDI транскрипция
+
 - Конвертация аудио в MIDI
 - 4 модели: MT3, ByteDance Piano, Basic Pitch, ISMIR2021
 - Автоматический выбор модели по типу стема
 - Сохранение в Supabase Storage
 
 ### Замена секций
+
 - Автоопределение секций (Verse, Chorus, Bridge, etc.)
 - Редактирование lyrics выбранной секции
 - A/B сравнение оригинала и замены
@@ -40,26 +44,26 @@ graph TB
         C[StemWaveform]
         D[StemMidiPanel]
     end
-    
+
     subgraph "Audio Engine"
         E[useStemStudioEngine]
         F[Web Audio API]
         G[GainNode per stem]
     end
-    
+
     subgraph "Section Replacement"
         H[useSectionDetection]
         I[ReplaceSectionDialog]
         J[QuickComparePanel]
     end
-    
+
     A --> B
     B --> C
     B --> D
     A --> E
     E --> F
     F --> G
-    
+
     A --> H
     H --> I
     I --> J
@@ -70,21 +74,25 @@ graph TB
 ### Frontend
 
 **`src/components/stem-studio/StemStudioContent.tsx`**
+
 - Основной контейнер студии
 - Координация всех стемов
 - Master controls
 
 **`src/components/stem-studio/StemChannel.tsx`**
+
 - Отдельный канал для каждого стема
 - Volume slider, mute, solo buttons
 - MIDI button
 
 **`src/components/stem-studio/StemWaveform.tsx`**
+
 - Визуализация волновой формы (wavesurfer.js)
 - Seek by click
 - Progress indicator
 
 **`src/components/stem-studio/StemMidiPanel.tsx`**
+
 - Piano Roll визуализация
 - MIDI playback через Tone.js
 - Export functionality
@@ -92,16 +100,19 @@ graph TB
 ### Hooks
 
 **`src/hooks/audio/useStemStudioEngine.ts`**
+
 - Web Audio API управление
 - Effect chains (EQ, Compressor, Reverb)
 - Синхронизация стемов
 
 **`src/hooks/studio/useSectionDetection.ts`**
+
 - Парсинг lyrics для определения секций
 - Levenshtein distance для матчинга
 - Поддержка RU/EN тегов
 
 **`src/hooks/studio/useSectionEditor.ts`**
+
 - Zustand store для редактора секций
 - Состояние выбора и редактирования
 
@@ -113,7 +124,7 @@ sequenceDiagram
     participant Studio as Stem Studio
     participant Edge as suno-replace-section
     participant Suno as Suno AI
-    
+
     User->>Studio: Кликнуть на секцию в timeline
     Studio->>User: Показать выбранную секцию
     User->>Studio: Открыть редактор
@@ -132,21 +143,21 @@ sequenceDiagram
 
 ```typescript
 // Запрос разделения
-const { data } = await supabase.functions.invoke('suno-separate-stems', {
+const { data } = await supabase.functions.invoke("suno-separate-stems", {
   body: {
-    trackId: 'uuid',
-    audioUrl: 'https://...',
-    mode: 'full' // или 'basic' для 2 стемов
-  }
+    trackId: "uuid",
+    audioUrl: "https://...",
+    mode: "full", // или 'basic' для 2 стемов
+  },
 });
 
 // Структура стема в БД
 interface TrackStem {
   id: string;
   track_id: string;
-  stem_type: 'vocals' | 'drums' | 'bass' | 'guitar' | 'piano' | 'other';
+  stem_type: "vocals" | "drums" | "bass" | "guitar" | "piano" | "other";
   audio_url: string;
-  separation_mode: 'full' | 'basic';
+  separation_mode: "full" | "basic";
 }
 ```
 
@@ -154,12 +165,12 @@ interface TrackStem {
 
 ```typescript
 // Запрос транскрипции
-const { data } = await supabase.functions.invoke('stem-to-midi', {
+const { data } = await supabase.functions.invoke("stem-to-midi", {
   body: {
-    stemId: 'uuid',
-    audioUrl: 'https://...',
-    model: 'mt3' // mt3, bytedance, basic-pitch, ismir2021
-  }
+    stemId: "uuid",
+    audioUrl: "https://...",
+    model: "mt3", // mt3, bytedance, basic-pitch, ismir2021
+  },
 });
 
 // Результат сохраняется как track_version с типом 'midi'
@@ -174,17 +185,17 @@ const SYNC_THRESHOLD = 0.1; // 100ms
 useEffect(() => {
   const checkSync = () => {
     const masterTime = audioRefs.current[0]?.currentTime || 0;
-    
+
     audioRefs.current.forEach((audio, i) => {
       if (i === 0) return;
       const drift = Math.abs(audio.currentTime - masterTime);
-      
+
       if (drift > SYNC_THRESHOLD) {
         audio.currentTime = masterTime;
       }
     });
   };
-  
+
   const interval = setInterval(checkSync, 500);
   return () => clearInterval(interval);
 }, []);

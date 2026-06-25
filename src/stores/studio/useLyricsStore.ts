@@ -7,14 +7,14 @@
  * @module stores/studio/useLyricsStore
  */
 
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { logger } from '@/lib/logger';
-import type { NoteType } from '@/types/studio-entities';
-import type { StudioLyricVersion, StudioSectionNote } from './types';
-import { generateId } from './types';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import { logger } from "@/lib/logger";
+import type { NoteType } from "@/types/studio-entities";
+import type { StudioLyricVersion, StudioSectionNote } from "./types";
+import { generateId } from "./types";
 
-const lyricsLogger = logger.child({ module: 'LyricsStore' });
+const lyricsLogger = logger.child({ module: "LyricsStore" });
 
 // ============ State Interface ============
 
@@ -32,8 +32,11 @@ interface LyricsState {
   setCurrentVersionId: (versionId: string | null) => void;
   markLyricsDirty: () => void;
   markLyricsClean: () => void;
-  addSectionNote: (note: Omit<StudioSectionNote, 'id' | 'createdAt' | 'updatedAt'>) => string;
-  updateSectionNote: (noteId: string, updates: Partial<Omit<StudioSectionNote, 'id' | 'sectionId' | 'createdAt'>>) => void;
+  addSectionNote: (note: Omit<StudioSectionNote, "id" | "createdAt" | "updatedAt">) => string;
+  updateSectionNote: (
+    noteId: string,
+    updates: Partial<Omit<StudioSectionNote, "id" | "sectionId" | "createdAt">>,
+  ) => void;
   deleteSectionNote: (noteId: string) => void;
   setActiveNoteId: (noteId: string | null) => void;
   createVersion: (content: string, changeSummary?: string) => StudioLyricVersion;
@@ -64,7 +67,7 @@ export const useLyricsStore = create<LyricsState>()(
        * setCurrentLyrics('Verse 1\nLyrics here...');
        */
       setCurrentLyrics: (content: string) => {
-        set(state => {
+        set((state) => {
           // Only mark as dirty if content actually changed
           const isDirty = state.currentLyrics !== content;
           return {
@@ -73,7 +76,7 @@ export const useLyricsStore = create<LyricsState>()(
           };
         });
 
-        lyricsLogger.debug('Current lyrics updated', { length: content.length, isDirty: get().isLyricsDirty });
+        lyricsLogger.debug("Current lyrics updated", { length: content.length, isDirty: get().isLyricsDirty });
       },
 
       /**
@@ -89,7 +92,7 @@ export const useLyricsStore = create<LyricsState>()(
       setCurrentVersionId: (versionId: string | null) => {
         set({ currentVersionId: versionId });
 
-        lyricsLogger.debug('Active version changed', { versionId });
+        lyricsLogger.debug("Active version changed", { versionId });
       },
 
       /**
@@ -102,7 +105,7 @@ export const useLyricsStore = create<LyricsState>()(
       markLyricsDirty: () => {
         set({ isLyricsDirty: true });
 
-        lyricsLogger.debug('Lyrics marked as dirty');
+        lyricsLogger.debug("Lyrics marked as dirty");
       },
 
       /**
@@ -115,7 +118,7 @@ export const useLyricsStore = create<LyricsState>()(
       markLyricsClean: () => {
         set({ isLyricsDirty: false });
 
-        lyricsLogger.debug('Lyrics marked as clean');
+        lyricsLogger.debug("Lyrics marked as clean");
       },
 
       /**
@@ -133,7 +136,7 @@ export const useLyricsStore = create<LyricsState>()(
        *   isResolved: false
        * });
        */
-      addSectionNote: (note: Omit<StudioSectionNote, 'id' | 'createdAt' | 'updatedAt'>) => {
+      addSectionNote: (note: Omit<StudioSectionNote, "id" | "createdAt" | "updatedAt">) => {
         const noteId = generateId();
         const now = new Date();
         const newNote: StudioSectionNote = {
@@ -143,11 +146,11 @@ export const useLyricsStore = create<LyricsState>()(
           updatedAt: now,
         };
 
-        set(state => ({
+        set((state) => ({
           sectionNotes: [...state.sectionNotes, newNote],
         }));
 
-        lyricsLogger.info('Section note added', { noteId, sectionId: note.sectionId, noteType: note.noteType });
+        lyricsLogger.info("Section note added", { noteId, sectionId: note.sectionId, noteType: note.noteType });
         return noteId;
       },
 
@@ -164,16 +167,17 @@ export const useLyricsStore = create<LyricsState>()(
        *   isResolved: true
        * });
        */
-      updateSectionNote: (noteId: string, updates: Partial<Omit<StudioSectionNote, 'id' | 'sectionId' | 'createdAt'>>) => {
-        set(state => ({
-          sectionNotes: state.sectionNotes.map(note =>
-            note.id === noteId
-              ? { ...note, ...updates, updatedAt: new Date() }
-              : note
+      updateSectionNote: (
+        noteId: string,
+        updates: Partial<Omit<StudioSectionNote, "id" | "sectionId" | "createdAt">>,
+      ) => {
+        set((state) => ({
+          sectionNotes: state.sectionNotes.map((note) =>
+            note.id === noteId ? { ...note, ...updates, updatedAt: new Date() } : note,
           ),
         }));
 
-        lyricsLogger.debug('Section note updated', { noteId, updates });
+        lyricsLogger.debug("Section note updated", { noteId, updates });
       },
 
       /**
@@ -186,12 +190,12 @@ export const useLyricsStore = create<LyricsState>()(
        * deleteSectionNote('note-uuid');
        */
       deleteSectionNote: (noteId: string) => {
-        set(state => ({
-          sectionNotes: state.sectionNotes.filter(note => note.id !== noteId),
+        set((state) => ({
+          sectionNotes: state.sectionNotes.filter((note) => note.id !== noteId),
           activeNoteId: state.activeNoteId === noteId ? null : state.activeNoteId,
         }));
 
-        lyricsLogger.info('Section note deleted', { noteId });
+        lyricsLogger.info("Section note deleted", { noteId });
       },
 
       /**
@@ -207,7 +211,7 @@ export const useLyricsStore = create<LyricsState>()(
       setActiveNoteId: (noteId: string | null) => {
         set({ activeNoteId: noteId });
 
-        lyricsLogger.debug('Active note changed', { noteId });
+        lyricsLogger.debug("Active note changed", { noteId });
       },
 
       /**
@@ -223,9 +227,8 @@ export const useLyricsStore = create<LyricsState>()(
        */
       createVersion: (content: string, changeSummary?: string) => {
         const { lyricsVersions } = get();
-        const versionNumber = lyricsVersions.length > 0
-          ? Math.max(...lyricsVersions.map(v => v.versionNumber)) + 1
-          : 1;
+        const versionNumber =
+          lyricsVersions.length > 0 ? Math.max(...lyricsVersions.map((v) => v.versionNumber)) + 1 : 1;
 
         const newVersion: StudioLyricVersion = {
           id: generateId(),
@@ -237,7 +240,7 @@ export const useLyricsStore = create<LyricsState>()(
         };
 
         // Mark all other versions as not current
-        const updatedVersions = lyricsVersions.map(v => ({
+        const updatedVersions = lyricsVersions.map((v) => ({
           ...v,
           isCurrent: false,
         }));
@@ -249,7 +252,7 @@ export const useLyricsStore = create<LyricsState>()(
           isLyricsDirty: false,
         });
 
-        lyricsLogger.info('Lyrics version created', { versionId: newVersion.id, versionNumber, changeSummary });
+        lyricsLogger.info("Lyrics version created", { versionId: newVersion.id, versionNumber, changeSummary });
         return newVersion;
       },
 
@@ -265,10 +268,10 @@ export const useLyricsStore = create<LyricsState>()(
       loadVersions: (versions: StudioLyricVersion[]) => {
         set({
           lyricsVersions: versions,
-          currentVersionId: versions.find(v => v.isCurrent)?.id || null,
+          currentVersionId: versions.find((v) => v.isCurrent)?.id || null,
         });
 
-        lyricsLogger.debug('Lyrics versions loaded', { count: versions.length });
+        lyricsLogger.debug("Lyrics versions loaded", { count: versions.length });
       },
 
       /**
@@ -288,15 +291,15 @@ export const useLyricsStore = create<LyricsState>()(
           activeNoteId: null,
         });
 
-        lyricsLogger.debug('Lyrics store cleared');
+        lyricsLogger.debug("Lyrics store cleared");
       },
     }),
     {
-      name: 'musicverse-studio-lyrics-storage',
+      name: "musicverse-studio-lyrics-storage",
       partialize: (state) => ({
         lyricsVersions: state.lyricsVersions,
         sectionNotes: state.sectionNotes,
       }),
-    }
-  )
+    },
+  ),
 );

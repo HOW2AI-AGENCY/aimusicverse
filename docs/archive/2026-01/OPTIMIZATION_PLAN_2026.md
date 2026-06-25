@@ -25,18 +25,21 @@
 ### Цели оптимизации
 
 **Performance:**
+
 - Bundle size: 500 KB → **<450 KB** (brotli)
 - TTI (4G): ~4.5s → **<3s**
 - List FPS: 45 → **>58 FPS**
 - Lighthouse: TBD → **>90**
 
 **Code Quality:**
+
 - Stem Studio: 94 файла → **65 файлов** (-31%)
 - Test coverage: ~75% → **>80%**
 - Code duplication: TBD → **<5%**
 - ESLint warnings: TBD → **0**
 
 **User Experience:**
+
 - Creation flow: 9 шагов → **4 шага** (-55%)
 - Time to first track: 10 min → **<5 min** (-50%)
 - Mobile UX: Переработанная 4-tab навигация
@@ -51,6 +54,7 @@
 #### 1. AudioContext Management Fix ⚠️ CRITICAL
 
 **Проблема:**
+
 - Memory leaks от orphaned audio nodes
 - Mobile browsers ограничивают 6-8 audio элементов
 - Нет state machine для AudioContext lifecycle
@@ -66,19 +70,19 @@ class AudioManager {
   private audioContext: AudioContext;
   private audioPool: Map<string, HTMLAudioElement> = new Map();
   private maxPoolSize = 8;
-  
+
   private constructor() {
     this.audioContext = new AudioContext();
     this.setupAudioContextStateManagement();
   }
-  
+
   static getInstance(): AudioManager {
     if (!AudioManager.instance) {
       AudioManager.instance = new AudioManager();
     }
     return AudioManager.instance;
   }
-  
+
   async getAudioElement(id: string): Promise<HTMLAudioElement> {
     // Audio element pooling logic
     if (this.audioPool.size >= this.maxPoolSize) {
@@ -87,36 +91,36 @@ class AudioManager {
       oldElement?.pause();
       this.audioPool.delete(oldestKey);
     }
-    
+
     const audio = new Audio();
     this.audioPool.set(id, audio);
     return audio;
   }
-  
+
   releaseAudioElement(id: string): void {
     const audio = this.audioPool.get(id);
     if (audio) {
       audio.pause();
-      audio.src = '';
+      audio.src = "";
       this.audioPool.delete(id);
     }
   }
-  
+
   private setupAudioContextStateManagement(): void {
     // State machine для AudioContext
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden && this.audioContext.state === 'running') {
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden && this.audioContext.state === "running") {
         this.audioContext.suspend();
-      } else if (!document.hidden && this.audioContext.state === 'suspended') {
+      } else if (!document.hidden && this.audioContext.state === "suspended") {
         this.audioContext.resume();
       }
     });
   }
-  
+
   cleanup(): void {
-    this.audioPool.forEach(audio => {
+    this.audioPool.forEach((audio) => {
       audio.pause();
-      audio.src = '';
+      audio.src = "";
     });
     this.audioPool.clear();
     this.audioContext.close();
@@ -127,6 +131,7 @@ export const audioManager = AudioManager.getInstance();
 ```
 
 **Обновить файлы:**
+
 ```
 src/contexts/GlobalAudioProvider.tsx - использовать AudioManager
 src/hooks/studio/useStemStudioAudio.ts - рефакторинг для pooling
@@ -134,6 +139,7 @@ src/components/stem-studio/StemChannel.tsx - cleanup на unmount
 ```
 
 **Оценка:**
+
 - **Сложность:** MEDIUM
 - **Приоритет:** P0 (CRITICAL)
 - **Время:** 3 дня
@@ -145,6 +151,7 @@ src/components/stem-studio/StemChannel.tsx - cleanup на unmount
 #### 2. Lyrics Wizard State Persistence
 
 **Проблема:**
+
 - Потеря состояния при закрытии sheet
 - Неправильный подсчет символов (включает структурные теги)
 - Нет валидации секций
@@ -156,7 +163,7 @@ src/components/stem-studio/StemChannel.tsx - cleanup на unmount
 // src/lib/lyricsValidation.ts (создать)
 
 interface Section {
-  type: 'Verse' | 'Chorus' | 'Bridge' | 'Pre-Chorus' | 'Outro' | 'Intro';
+  type: "Verse" | "Chorus" | "Bridge" | "Pre-Chorus" | "Outro" | "Intro";
   content: string;
 }
 
@@ -167,26 +174,26 @@ export function validateLyrics(lyrics: string): {
 } {
   const errors: string[] = [];
   const sections: Section[] = [];
-  
+
   // Разбор секций
   const sectionRegex = /\[(Verse|Chorus|Bridge|Pre-Chorus|Outro|Intro).*?\]([\s\S]*?)(?=\[|$)/g;
   let match;
-  
+
   while ((match = sectionRegex.exec(lyrics)) !== null) {
-    const type = match[1] as Section['type'];
+    const type = match[1] as Section["type"];
     const content = match[2].trim();
-    
+
     if (!content) {
       errors.push(`Секция [${type}] пустая`);
     } else {
       sections.push({ type, content });
     }
   }
-  
+
   if (sections.length === 0) {
-    errors.push('Не найдено ни одной секции. Используйте [Verse], [Chorus], etc.');
+    errors.push("Не найдено ни одной секции. Используйте [Verse], [Chorus], etc.");
   }
-  
+
   return {
     isValid: errors.length === 0,
     errors,
@@ -197,15 +204,14 @@ export function validateLyrics(lyrics: string): {
 export function countRealCharacters(lyrics: string): number {
   // Удаляем структурные теги для подсчета реальных символов
   return lyrics
-    .replace(/\[.*?\]/g, '') // Удалить все [теги]
-    .replace(/\n\s*\n/g, '\n') // Убрать лишние пустые строки
-    .trim()
-    .length;
+    .replace(/\[.*?\]/g, "") // Удалить все [теги]
+    .replace(/\n\s*\n/g, "\n") // Убрать лишние пустые строки
+    .trim().length;
 }
 
 export function formatLyrics(lyrics: string): string {
   // Автоформатирование: пустая строка после каждой секции
-  return lyrics.replace(/(\[.*?\][\s\S]*?)(?=\[|$)/g, '$1\n');
+  return lyrics.replace(/(\[.*?\][\s\S]*?)(?=\[|$)/g, "$1\n");
 }
 ```
 
@@ -225,22 +231,25 @@ const useLyricsWizardStore = create<LyricsWizardState>((set, get) => ({
   history: [],
   historyIndex: -1,
   autoSaveTimestamp: null,
-  
+
   // Auto-save в localStorage
   setupAutoSave: () => {
     const interval = setInterval(() => {
       const state = get();
       if (state.lyrics) {
-        localStorage.setItem('lyrics-wizard-draft', JSON.stringify({
-          lyrics: state.lyrics,
-          timestamp: Date.now(),
-        }));
+        localStorage.setItem(
+          "lyrics-wizard-draft",
+          JSON.stringify({
+            lyrics: state.lyrics,
+            timestamp: Date.now(),
+          }),
+        );
         set({ autoSaveTimestamp: Date.now() });
       }
     }, 30000); // каждые 30 секунд
-    
+
     // Восстановить при загрузке
-    const draft = localStorage.getItem('lyrics-wizard-draft');
+    const draft = localStorage.getItem("lyrics-wizard-draft");
     if (draft) {
       const { lyrics, timestamp } = JSON.parse(draft);
       // Восстановить если < 30 минут назад
@@ -248,10 +257,10 @@ const useLyricsWizardStore = create<LyricsWizardState>((set, get) => ({
         set({ lyrics, autoSaveTimestamp: timestamp });
       }
     }
-    
+
     return () => clearInterval(interval);
   },
-  
+
   // Undo
   undo: () => {
     const { history, historyIndex } = get();
@@ -263,7 +272,7 @@ const useLyricsWizardStore = create<LyricsWizardState>((set, get) => ({
       });
     }
   },
-  
+
   // Redo
   redo: () => {
     const { history, historyIndex } = get();
@@ -275,18 +284,18 @@ const useLyricsWizardStore = create<LyricsWizardState>((set, get) => ({
       });
     }
   },
-  
+
   // Update lyrics с history tracking
   setLyrics: (lyrics: string) => {
     const { history, historyIndex } = get();
     const newHistory = history.slice(0, historyIndex + 1);
     newHistory.push(lyrics);
-    
+
     // Ограничить историю до 20 состояний
     if (newHistory.length > 20) {
       newHistory.shift();
     }
-    
+
     set({
       lyrics,
       history: newHistory,
@@ -297,6 +306,7 @@ const useLyricsWizardStore = create<LyricsWizardState>((set, get) => ({
 ```
 
 **Обновить файлы:**
+
 ```
 src/stores/lyricsWizardStore.ts - добавить auto-save и undo/redo
 src/components/generate-form/LyricsWizardSheet.tsx - UI для undo/redo
@@ -304,6 +314,7 @@ src/lib/lyricsValidation.ts - создать валидацию
 ```
 
 **Оценка:**
+
 - **Сложность:** MEDIUM
 - **Приоритет:** P1 (HIGH)
 - **Время:** 2 дня
@@ -315,6 +326,7 @@ src/lib/lyricsValidation.ts - создать валидацию
 #### 3. Component Optimization (React.memo)
 
 **Проблема:**
+
 - StemChannel, TrackCard re-render при любом изменении
 - Нет memoization для дорогих вычислений
 - FPS падает при большом количестве треков/стемов
@@ -342,16 +354,16 @@ const StemChannel = memo<StemChannelProps>(({
   isPlaying,
 }) => {
   // Memoize expensive calculations
-  const waveformData = useMemo(() => 
+  const waveformData = useMemo(() =>
     generateWaveformData(stem.audioUrl),
     [stem.audioUrl]
   );
-  
+
   // Memoize callbacks
   const handleVolumeChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     onVolumeChange(parseFloat(e.target.value));
   }, [onVolumeChange]);
-  
+
   return (
     <div className="stem-channel">
       {/* ... */}
@@ -374,6 +386,7 @@ export default StemChannel;
 ```
 
 **Аналогично для:**
+
 ```
 src/components/library/TrackCard.tsx
 src/components/library/TrackRow.tsx
@@ -381,6 +394,7 @@ src/components/playlist/PlaylistCard.tsx
 ```
 
 **Оценка:**
+
 - **Сложность:** LOW
 - **Приоритет:** P1 (HIGH)
 - **Время:** 1 день
@@ -392,6 +406,7 @@ src/components/playlist/PlaylistCard.tsx
 #### 4. Waveform Web Worker
 
 **Проблема:**
+
 - Генерация waveform блокирует main thread
 - UI freezes на 1-3 секунды
 - Нет прогресса загрузки
@@ -414,44 +429,44 @@ interface WaveformResponse {
   duration: number;
 }
 
-self.addEventListener('message', async (e: MessageEvent<WaveformRequest>) => {
+self.addEventListener("message", async (e: MessageEvent<WaveformRequest>) => {
   const { audioBuffer, sampleRate, numberOfChannels, width, height } = e.data;
-  
+
   try {
     // Decode audio в Web Worker
     const audioContext = new OfflineAudioContext(numberOfChannels, audioBuffer.byteLength, sampleRate);
     const decodedData = await audioContext.decodeAudioData(audioBuffer);
-    
+
     // Generate waveform data
     const channelData = decodedData.getChannelData(0);
     const samples = width;
     const blockSize = Math.floor(channelData.length / samples);
     const waveformData = new Float32Array(samples);
-    
+
     for (let i = 0; i < samples; i++) {
       const start = blockSize * i;
       let sum = 0;
-      
+
       for (let j = 0; j < blockSize; j++) {
         sum += Math.abs(channelData[start + j]);
       }
-      
+
       waveformData[i] = (sum / blockSize) * height;
-      
+
       // Report progress every 10%
       if (i % Math.floor(samples / 10) === 0) {
-        self.postMessage({ type: 'progress', progress: (i / samples) * 100 });
+        self.postMessage({ type: "progress", progress: (i / samples) * 100 });
       }
     }
-    
+
     const response: WaveformResponse = {
       waveformData,
       duration: decodedData.duration,
     };
-    
-    self.postMessage({ type: 'complete', data: response });
+
+    self.postMessage({ type: "complete", data: response });
   } catch (error) {
-    self.postMessage({ type: 'error', error: error.message });
+    self.postMessage({ type: "error", error: error.message });
   }
 });
 ```
@@ -459,7 +474,7 @@ self.addEventListener('message', async (e: MessageEvent<WaveformRequest>) => {
 ```typescript
 // src/hooks/audio/useWaveform.ts (создать)
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 interface UseWaveformOptions {
   audioUrl: string;
@@ -473,10 +488,10 @@ export function useWaveform({ audioUrl, width, height, cacheKey }: UseWaveformOp
   const [isLoading, setIsLoading] = useState(true);
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
-  
+
   useEffect(() => {
     let worker: Worker | null = null;
-    
+
     async function generateWaveform() {
       // Check cache first (IndexedDB)
       if (cacheKey) {
@@ -487,32 +502,32 @@ export function useWaveform({ audioUrl, width, height, cacheKey }: UseWaveformOp
           return;
         }
       }
-      
+
       try {
         // Fetch audio
         const response = await fetch(audioUrl);
         const arrayBuffer = await response.arrayBuffer();
-        
+
         // Create worker
-        worker = new Worker(new URL('../workers/waveformGenerator.worker.ts', import.meta.url));
-        
+        worker = new Worker(new URL("../workers/waveformGenerator.worker.ts", import.meta.url));
+
         worker.onmessage = (e) => {
-          if (e.data.type === 'progress') {
+          if (e.data.type === "progress") {
             setProgress(e.data.progress);
-          } else if (e.data.type === 'complete') {
+          } else if (e.data.type === "complete") {
             setWaveformData(e.data.data.waveformData);
             setIsLoading(false);
-            
+
             // Cache result
             if (cacheKey) {
               cacheWaveform(cacheKey, e.data.data.waveformData);
             }
-          } else if (e.data.type === 'error') {
+          } else if (e.data.type === "error") {
             setError(e.data.error);
             setIsLoading(false);
           }
         };
-        
+
         // Send to worker
         worker.postMessage({
           audioBuffer: arrayBuffer,
@@ -521,22 +536,21 @@ export function useWaveform({ audioUrl, width, height, cacheKey }: UseWaveformOp
           width,
           height,
         });
-        
       } catch (err) {
         setError(err.message);
         setIsLoading(false);
       }
     }
-    
+
     generateWaveform();
-    
+
     return () => {
       if (worker) {
         worker.terminate();
       }
     };
   }, [audioUrl, width, height, cacheKey]);
-  
+
   return { waveformData, isLoading, progress, error };
 }
 
@@ -551,6 +565,7 @@ async function cacheWaveform(key: string, data: Float32Array): Promise<void> {
 ```
 
 **Обновить файлы:**
+
 ```
 src/workers/waveformGenerator.worker.ts - создать Web Worker
 src/hooks/audio/useWaveform.ts - создать хук
@@ -559,6 +574,7 @@ src/components/stem-studio/StemWaveform.tsx - использовать хук
 ```
 
 **Оценка:**
+
 - **Сложность:** MEDIUM
 - **Приоритет:** P1 (HIGH)
 - **Время:** 2 дня
@@ -579,7 +595,7 @@ export class AppError extends Error {
     message: string,
     public code: string,
     public statusCode: number = 500,
-    public isOperational: boolean = true
+    public isOperational: boolean = true,
   ) {
     super(message);
     Object.setPrototypeOf(this, new.target.prototype);
@@ -589,31 +605,37 @@ export class AppError extends Error {
 
 export class NetworkError extends AppError {
   constructor(message: string) {
-    super(message, 'NETWORK_ERROR', 503);
+    super(message, "NETWORK_ERROR", 503);
   }
 }
 
 export class ValidationError extends AppError {
-  constructor(message: string, public field?: string) {
-    super(message, 'VALIDATION_ERROR', 400);
+  constructor(
+    message: string,
+    public field?: string,
+  ) {
+    super(message, "VALIDATION_ERROR", 400);
   }
 }
 
 export class AudioError extends AppError {
   constructor(message: string) {
-    super(message, 'AUDIO_ERROR', 500);
+    super(message, "AUDIO_ERROR", 500);
   }
 }
 
 export class SunoAPIError extends AppError {
-  constructor(message: string, public apiResponse?: unknown) {
-    super(message, 'SUNO_API_ERROR', 502);
+  constructor(
+    message: string,
+    public apiResponse?: unknown,
+  ) {
+    super(message, "SUNO_API_ERROR", 502);
   }
 }
 
 export class AuthenticationError extends AppError {
-  constructor(message: string = 'Требуется авторизация') {
-    super(message, 'AUTH_ERROR', 401);
+  constructor(message: string = "Требуется авторизация") {
+    super(message, "AUTH_ERROR", 401);
   }
 }
 ```
@@ -648,7 +670,7 @@ export class ErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     logger.error('ErrorBoundary caught an error', { error, errorInfo });
-    
+
     // Send to Sentry
     Sentry.captureException(error, {
       contexts: {
@@ -668,14 +690,14 @@ export class ErrorBoundary extends Component<Props, State> {
       if (this.props.fallback) {
         return this.props.fallback(this.state.error, this.reset);
       }
-      
+
       return (
         <div className="flex flex-col items-center justify-center min-h-screen p-4">
           <div className="text-center max-w-md">
             <h1 className="text-2xl font-bold mb-4">Что-то пошло не так</h1>
             <p className="text-muted-foreground mb-6">
-              {this.state.error instanceof AppError 
-                ? this.state.error.message 
+              {this.state.error instanceof AppError
+                ? this.state.error.message
                 : 'Произошла неожиданная ошибка'}
             </p>
             <button
@@ -695,6 +717,7 @@ export class ErrorBoundary extends Component<Props, State> {
 ```
 
 **Обновить файлы:**
+
 ```
 src/lib/errors.ts - расширить иерархию ошибок
 src/components/ErrorBoundary.tsx - создать компонент
@@ -702,6 +725,7 @@ src/App.tsx - обернуть в ErrorBoundary
 ```
 
 **Оценка:**
+
 - **Сложность:** LOW
 - **Приоритет:** P2 (MEDIUM)
 - **Время:** 1 день
@@ -712,14 +736,14 @@ src/App.tsx - обернуть в ErrorBoundary
 
 ### Итого Неделя 1-2:
 
-| Задача | Дни | Приоритет | Impact |
-|--------|-----|-----------|--------|
-| AudioContext Management | 3 | P0 | HIGH |
-| Lyrics Wizard Persistence | 2 | P1 | HIGH |
-| Component Optimization | 1 | P1 | HIGH |
-| Waveform Web Worker | 2 | P1 | HIGH |
-| Error Handling | 1 | P2 | MEDIUM |
-| **ИТОГО** | **9 дней** | | |
+| Задача                    | Дни        | Приоритет | Impact |
+| ------------------------- | ---------- | --------- | ------ |
+| AudioContext Management   | 3          | P0        | HIGH   |
+| Lyrics Wizard Persistence | 2          | P1        | HIGH   |
+| Component Optimization    | 1          | P1        | HIGH   |
+| Waveform Web Worker       | 2          | P1        | HIGH   |
+| Error Handling            | 1          | P2        | MEDIUM |
+| **ИТОГО**                 | **9 дней** |           |        |
 
 **Ресурсы:** 1 Senior Frontend Developer  
 **Результат:** Критические баги исправлены, улучшена производительность
@@ -731,6 +755,7 @@ src/App.tsx - обернуть в ErrorBoundary
 ### Цели (2 недели)
 
 **Основная цель:** Упростить Stem Studio архитектуру
+
 - 94 файла → 65 файлов (-31%)
 - Устранить дублирование кода
 - Извлечь shared hooks
@@ -743,11 +768,13 @@ src/App.tsx - обернуть в ErrorBoundary
 #### День 1-2: Dependency Analysis
 
 **Задачи:**
+
 1. Построить dependency graph для всех 94 файлов
 2. Идентифицировать дублирование кода (jscpd)
 3. Найти кандидатов на объединение
 
 **Инструменты:**
+
 ```bash
 # Dependency graph
 npx madge --image deps-graph.svg src/components/stem-studio
@@ -760,6 +787,7 @@ npx complexity-report src/components/stem-studio
 ```
 
 **Deliverables:**
+
 - `docs/stem-studio/DEPENDENCY_GRAPH.md`
 - `docs/stem-studio/DUPLICATION_REPORT.md`
 - `docs/stem-studio/CONSOLIDATION_PLAN.md`
@@ -778,19 +806,19 @@ export function useStemMixer(trackId: string) {
   // Управление миксером: volume, mute, solo, pan
   const [stems, setStems] = useState<Stem[]>([]);
   const [masterVolume, setMasterVolume] = useState(1);
-  
+
   const handleVolumeChange = useCallback((stemId: string, volume: number) => {
     // ...
   }, []);
-  
+
   const handleMuteToggle = useCallback((stemId: string) => {
     // ...
   }, []);
-  
+
   const handleSoloToggle = useCallback((stemId: string) => {
     // ...
   }, []);
-  
+
   return {
     stems,
     masterVolume,
@@ -808,19 +836,22 @@ export function useStemPlayback(stems: Stem[]) {
   // Синхронное воспроизведение всех стемов
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
-  
+
   const play = useCallback(() => {
     // Синхронный запуск всех стемов
   }, [stems]);
-  
+
   const pause = useCallback(() => {
     // Синхронная пауза всех стемов
   }, [stems]);
-  
-  const seek = useCallback((time: number) => {
-    // Синхронная перемотка всех стемов
-  }, [stems]);
-  
+
+  const seek = useCallback(
+    (time: number) => {
+      // Синхронная перемотка всех стемов
+    },
+    [stems],
+  );
+
   return { isPlaying, currentTime, play, pause, seek };
 }
 ```
@@ -830,15 +861,21 @@ export function useStemPlayback(stems: Stem[]) {
 export function useStemEffects(stem: Stem) {
   // Применение эффектов к стему
   const [effects, setEffects] = useState<Effect[]>([]);
-  
-  const applyEffect = useCallback((effect: Effect) => {
-    // ...
-  }, [stem]);
-  
-  const removeEffect = useCallback((effectId: string) => {
-    // ...
-  }, [stem]);
-  
+
+  const applyEffect = useCallback(
+    (effect: Effect) => {
+      // ...
+    },
+    [stem],
+  );
+
+  const removeEffect = useCallback(
+    (effectId: string) => {
+      // ...
+    },
+    [stem],
+  );
+
   return { effects, applyEffect, removeEffect };
 }
 ```
@@ -847,18 +884,21 @@ export function useStemEffects(stem: Stem) {
 // src/hooks/studio/useStemExport.ts
 export function useStemExport(trackId: string) {
   // Экспорт стемов и миксов
-  const exportMix = useCallback(async (options: ExportOptions) => {
-    // ...
-  }, [trackId]);
-  
+  const exportMix = useCallback(
+    async (options: ExportOptions) => {
+      // ...
+    },
+    [trackId],
+  );
+
   const exportStems = useCallback(async () => {
     // ...
   }, [trackId]);
-  
+
   const exportMIDI = useCallback(async () => {
     // ...
   }, [trackId]);
-  
+
   return { exportMix, exportStems, exportMIDI };
 }
 ```
@@ -869,11 +909,11 @@ export function useStemAnalysis(stem: Stem) {
   // Анализ стема (BPM, key, etc.)
   const [analysis, setAnalysis] = useState<StemAnalysis | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  
+
   const analyze = useCallback(async () => {
     // ...
   }, [stem]);
-  
+
   return { analysis, isAnalyzing, analyze };
 }
 ```
@@ -887,6 +927,7 @@ export function useStemAnalysis(stem: Stem) {
 **План объединения:**
 
 **1. Timeline Components (8 → 3)**
+
 ```
 Было:
 - DAWTimeline.tsx
@@ -904,6 +945,7 @@ export function useStemAnalysis(stem: Stem) {
 ```
 
 **2. Section Editor Components (8 → 4)**
+
 ```
 Было:
 - SectionEditorPanel.tsx
@@ -923,6 +965,7 @@ export function useStemAnalysis(stem: Stem) {
 ```
 
 **3. Dialogs (25 → 15)**
+
 ```
 Merge candidates:
 - ExtendDialog + RemixDialog → MusicGenerationDialog (with modes)
@@ -932,6 +975,7 @@ Merge candidates:
 ```
 
 **4. Mobile Components (10 → 6)**
+
 ```
 Было:
 - TrackStudioMobileLayout.tsx
@@ -956,6 +1000,7 @@ Merge candidates:
 #### День 8-9: Update Imports & Tests
 
 **Автоматизация:**
+
 ```bash
 # Find all imports
 grep -r "from '@/components/stem-studio" src/
@@ -965,6 +1010,7 @@ npx jscodeshift -t scripts/codemods/update-stem-imports.ts src/
 ```
 
 **Test updates:**
+
 ```
 tests/stem-studio/ - обновить тесты
 - useStemMixer.test.ts (new)
@@ -978,6 +1024,7 @@ tests/stem-studio/ - обновить тесты
 #### День 10: Documentation
 
 **Создать документацию:**
+
 ```
 docs/STEM_STUDIO_ARCHITECTURE.md - архитектура после consolidation
 docs/STEM_STUDIO_MIGRATION_GUIDE.md - гайд для разработчиков
@@ -989,6 +1036,7 @@ docs/components/stem-studio/ - документация компонентов
 ### Success Criteria
 
 **Metrics:**
+
 - ✅ Stem Studio: 94 файла → 65 файлов (-31%)
 - ✅ Code duplication: >15% → <5%
 - ✅ Average file size: ~174 строки → ~250 строк (более плотный код)
@@ -996,6 +1044,7 @@ docs/components/stem-studio/ - документация компонентов
 - ✅ Test coverage: maintained or improved
 
 **Quality Gates:**
+
 - ✅ All tests passing
 - ✅ No ESLint warnings
 - ✅ Build successful
@@ -1009,6 +1058,7 @@ docs/components/stem-studio/ - документация компонентов
 ### Цели (2 недели)
 
 **Основная цель:** Улучшить mobile UX
+
 - Новая 4-tab navigation (bottom bar)
 - Progressive disclosure patterns
 - Touch optimizations (≥44×44px)
@@ -1021,6 +1071,7 @@ docs/components/stem-studio/ - документация компонентов
 #### День 1-3: 4-Tab Bottom Navigation
 
 **Design:**
+
 ```
 ┌──────────────────────┐
 │                      │
@@ -1039,6 +1090,7 @@ Tabs:
 ```
 
 **Implementation:**
+
 ```typescript
 // src/components/navigation/BottomNav.tsx
 
@@ -1056,27 +1108,27 @@ const tabs = [
 export function BottomNav() {
   const location = useLocation();
   const activeTab = tabs.find(tab => location.pathname.startsWith(tab.path))?.id || 'home';
-  
+
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 bg-background border-t border-border safe-area-inset-bottom">
       <div className="flex justify-around items-center h-16">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
-          
+
           return (
             <Link
               key={tab.id}
               to={tab.path}
               className="flex flex-col items-center justify-center flex-1 h-full relative"
             >
-              <Icon 
+              <Icon
                 className={`w-6 h-6 ${isActive ? 'text-primary' : 'text-muted-foreground'}`}
               />
               <span className={`text-xs mt-1 ${isActive ? 'text-primary font-medium' : 'text-muted-foreground'}`}>
                 {tab.label}
               </span>
-              
+
               {isActive && (
                 <motion.div
                   layoutId="activeTab"
@@ -1094,36 +1146,37 @@ export function BottomNav() {
 ```
 
 **Platform-specific tweaks:**
+
 ```typescript
 // src/lib/platform.ts
 
-export function getPlatform(): 'ios' | 'android' | 'web' {
+export function getPlatform(): "ios" | "android" | "web" {
   const ua = navigator.userAgent.toLowerCase();
-  if (/iphone|ipad|ipod/.test(ua)) return 'ios';
-  if (/android/.test(ua)) return 'android';
-  return 'web';
+  if (/iphone|ipad|ipod/.test(ua)) return "ios";
+  if (/android/.test(ua)) return "android";
+  return "web";
 }
 
 export function getPlatformStyles() {
   const platform = getPlatform();
-  
-  if (platform === 'ios') {
+
+  if (platform === "ios") {
     return {
-      bottomNav: 'backdrop-blur-xl bg-background/80', // iOS blur effect
-      borderRadius: 'rounded-t-2xl', // iOS rounded corners
+      bottomNav: "backdrop-blur-xl bg-background/80", // iOS blur effect
+      borderRadius: "rounded-t-2xl", // iOS rounded corners
     };
   }
-  
-  if (platform === 'android') {
+
+  if (platform === "android") {
     return {
-      bottomNav: 'bg-background shadow-lg', // Material shadow
-      borderRadius: '', // No rounding
+      bottomNav: "bg-background shadow-lg", // Material shadow
+      borderRadius: "", // No rounding
     };
   }
-  
+
   return {
-    bottomNav: 'bg-background',
-    borderRadius: '',
+    bottomNav: "bg-background",
+    borderRadius: "",
   };
 }
 ```
@@ -1135,6 +1188,7 @@ export function getPlatformStyles() {
 **Patterns:**
 
 **1. Collapsible Sections**
+
 ```typescript
 // src/components/ui/Collapsible.tsx (расширить)
 
@@ -1150,7 +1204,7 @@ interface CollapsibleProps {
 
 export function Collapsible({ title, badge, defaultOpen = false, children }: CollapsibleProps) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
-  
+
   return (
     <div className="border rounded-lg overflow-hidden">
       <button
@@ -1172,7 +1226,7 @@ export function Collapsible({ title, badge, defaultOpen = false, children }: Col
           <ChevronDown className="w-5 h-5" />
         </motion.div>
       </button>
-      
+
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -1194,6 +1248,7 @@ export function Collapsible({ title, badge, defaultOpen = false, children }: Col
 ```
 
 **2. Bottom Sheets**
+
 ```typescript
 // src/components/ui/BottomSheet.tsx
 
@@ -1220,7 +1275,7 @@ export function BottomSheet({ isOpen, onClose, title, children }: BottomSheetPro
             className="fixed inset-0 bg-black/50 z-40"
             onClick={onClose}
           />
-          
+
           {/* Sheet */}
           <motion.div
             initial={{ y: '100%' }}
@@ -1239,7 +1294,7 @@ export function BottomSheet({ isOpen, onClose, title, children }: BottomSheetPro
                 <X className="w-5 h-5" />
               </button>
             </div>
-            
+
             {/* Content */}
             <div className="overflow-y-auto max-h-[calc(80vh-64px)]">
               {children}
@@ -1253,10 +1308,11 @@ export function BottomSheet({ isOpen, onClose, title, children }: BottomSheetPro
 ```
 
 **3. Context Menus (Long Press)**
+
 ```typescript
 // src/hooks/useLongPress.ts
 
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef } from "react";
 
 interface UseLongPressOptions {
   onLongPress: () => void;
@@ -1265,29 +1321,32 @@ interface UseLongPressOptions {
 
 export function useLongPress({ onLongPress, delay = 500 }: UseLongPressOptions) {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
-  
-  const start = useCallback((e: TouchEvent | MouseEvent) => {
-    // Haptic feedback (Telegram)
-    if ('TelegramWebApp' in window) {
-      window.TelegramWebApp?.HapticFeedback?.impactOccurred('medium');
-    }
-    
-    timerRef.current = setTimeout(() => {
-      onLongPress();
-      // Second haptic on trigger
-      if ('TelegramWebApp' in window) {
-        window.TelegramWebApp?.HapticFeedback?.notificationOccurred('success');
+
+  const start = useCallback(
+    (e: TouchEvent | MouseEvent) => {
+      // Haptic feedback (Telegram)
+      if ("TelegramWebApp" in window) {
+        window.TelegramWebApp?.HapticFeedback?.impactOccurred("medium");
       }
-    }, delay);
-  }, [onLongPress, delay]);
-  
+
+      timerRef.current = setTimeout(() => {
+        onLongPress();
+        // Second haptic on trigger
+        if ("TelegramWebApp" in window) {
+          window.TelegramWebApp?.HapticFeedback?.notificationOccurred("success");
+        }
+      }, delay);
+    },
+    [onLongPress, delay],
+  );
+
   const clear = useCallback(() => {
     if (timerRef.current) {
       clearTimeout(timerRef.current);
       timerRef.current = null;
     }
   }, []);
-  
+
   return {
     onTouchStart: start,
     onTouchEnd: clear,
@@ -1306,12 +1365,14 @@ export function useLongPress({ onLongPress, delay = 500 }: UseLongPressOptions) 
 #### День 6-7: Touch Optimizations
 
 **1. Touch Target Audit**
+
 ```bash
 # Script to find undersized touch targets
 node scripts/audit-touch-targets.js
 ```
 
 **2. Fix Undersized Targets**
+
 ```typescript
 // Ensure all interactive elements ≥44×44px
 
@@ -1327,10 +1388,11 @@ node scripts/audit-touch-targets.js
 ```
 
 **3. Swipe Gestures**
+
 ```typescript
 // src/hooks/useSwipeGestures.ts
 
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef } from "react";
 
 interface SwipeOptions {
   onSwipeLeft?: () => void;
@@ -1340,51 +1402,48 @@ interface SwipeOptions {
   threshold?: number;
 }
 
-export function useSwipeGestures({
-  onSwipeLeft,
-  onSwipeRight,
-  onSwipeUp,
-  onSwipeDown,
-  threshold = 50,
-}: SwipeOptions) {
+export function useSwipeGestures({ onSwipeLeft, onSwipeRight, onSwipeUp, onSwipeDown, threshold = 50 }: SwipeOptions) {
   const touchStart = useRef<{ x: number; y: number } | null>(null);
-  
+
   const handleTouchStart = useCallback((e: TouchEvent) => {
     touchStart.current = {
       x: e.touches[0].clientX,
       y: e.touches[0].clientY,
     };
   }, []);
-  
-  const handleTouchEnd = useCallback((e: TouchEvent) => {
-    if (!touchStart.current) return;
-    
-    const deltaX = e.changedTouches[0].clientX - touchStart.current.x;
-    const deltaY = e.changedTouches[0].clientY - touchStart.current.y;
-    
-    if (Math.abs(deltaX) > Math.abs(deltaY)) {
-      // Horizontal swipe
-      if (Math.abs(deltaX) > threshold) {
-        if (deltaX > 0) {
-          onSwipeRight?.();
-        } else {
-          onSwipeLeft?.();
+
+  const handleTouchEnd = useCallback(
+    (e: TouchEvent) => {
+      if (!touchStart.current) return;
+
+      const deltaX = e.changedTouches[0].clientX - touchStart.current.x;
+      const deltaY = e.changedTouches[0].clientY - touchStart.current.y;
+
+      if (Math.abs(deltaX) > Math.abs(deltaY)) {
+        // Horizontal swipe
+        if (Math.abs(deltaX) > threshold) {
+          if (deltaX > 0) {
+            onSwipeRight?.();
+          } else {
+            onSwipeLeft?.();
+          }
+        }
+      } else {
+        // Vertical swipe
+        if (Math.abs(deltaY) > threshold) {
+          if (deltaY > 0) {
+            onSwipeDown?.();
+          } else {
+            onSwipeUp?.();
+          }
         }
       }
-    } else {
-      // Vertical swipe
-      if (Math.abs(deltaY) > threshold) {
-        if (deltaY > 0) {
-          onSwipeDown?.();
-        } else {
-          onSwipeUp?.();
-        }
-      }
-    }
-    
-    touchStart.current = null;
-  }, [onSwipeLeft, onSwipeRight, onSwipeUp, onSwipeDown, threshold]);
-  
+
+      touchStart.current = null;
+    },
+    [onSwipeLeft, onSwipeRight, onSwipeUp, onSwipeDown, threshold],
+  );
+
   return {
     onTouchStart: handleTouchStart,
     onTouchEnd: handleTouchEnd,
@@ -1393,6 +1452,7 @@ export function useSwipeGestures({
 ```
 
 **4. Pull to Refresh**
+
 ```typescript
 // src/hooks/usePullToRefresh.ts
 
@@ -1400,36 +1460,36 @@ export function usePullToRefresh(onRefresh: () => Promise<void>) {
   const [isPulling, setIsPulling] = useState(false);
   const [pullDistance, setPullDistance] = useState(0);
   const startY = useRef(0);
-  
+
   const handleTouchStart = (e: TouchEvent) => {
     if (window.scrollY === 0) {
       startY.current = e.touches[0].clientY;
     }
   };
-  
+
   const handleTouchMove = (e: TouchEvent) => {
     if (startY.current === 0) return;
-    
+
     const currentY = e.touches[0].clientY;
     const distance = currentY - startY.current;
-    
+
     if (distance > 0 && distance < 100) {
       setPullDistance(distance);
       setIsPulling(true);
     }
   };
-  
+
   const handleTouchEnd = async () => {
     if (pullDistance > 60) {
       // Trigger refresh
       await onRefresh();
     }
-    
+
     setIsPulling(false);
     setPullDistance(0);
     startY.current = 0;
   };
-  
+
   return {
     isPulling,
     pullDistance,
@@ -1445,6 +1505,7 @@ export function usePullToRefresh(onRefresh: () => Promise<void>) {
 #### День 8-10: Mobile Performance
 
 **1. Mobile Bundle Optimization**
+
 ```javascript
 // vite.config.ts
 
@@ -1454,8 +1515,8 @@ export default defineConfig({
       output: {
         manualChunks: (id) => {
           // Separate mobile-specific chunks
-          if (id.includes('src/components/mobile')) {
-            return 'mobile';
+          if (id.includes("src/components/mobile")) {
+            return "mobile";
           }
           // ...
         },
@@ -1466,6 +1527,7 @@ export default defineConfig({
 ```
 
 **2. Image Optimization**
+
 ```typescript
 // Convert all images to WebP
 // Implement responsive images
@@ -1485,17 +1547,19 @@ export default defineConfig({
 ```
 
 **3. Animation Performance**
+
 ```typescript
 // Use GPU-accelerated transforms
 // Avoid layout thrashing
 
 motion.div({
-  initial: { opacity: 0, transform: 'translateY(20px)' }, // GPU
+  initial: { opacity: 0, transform: "translateY(20px)" }, // GPU
   // NOT: { opacity: 0, y: 20 } // CSS property (slower)
-})
+});
 ```
 
 **4. Performance Testing**
+
 ```bash
 # Lighthouse CI для mobile
 npx lighthouse https://app.musicverse.ai \
@@ -1509,6 +1573,7 @@ npx lighthouse https://app.musicverse.ai \
 ### Success Criteria
 
 **Metrics:**
+
 - ✅ TTI (4G mobile): ~4.5s → <3s
 - ✅ Touch target compliance: TBD → 100%
 - ✅ Navigation depth: TBD → <3 taps average
@@ -1522,12 +1587,14 @@ npx lighthouse https://app.musicverse.ai \
 ### Январь (после Sprint 027-028)
 
 **AI-powered Mastering** (1 неделя)
+
 - Анализ частотного спектра
 - Автоматическая EQ, компрессия, лимитинг
 - Presets: Pop, Rock, EDM, Cinematic
 - A/B comparison
 
 **Loop & Sample Library** (1 неделя)
+
 - Библиотека loops и samples
 - Фильтры по BPM, ключу, жанру
 - Drag & drop в Stem Studio
@@ -1537,17 +1604,20 @@ npx lighthouse https://app.musicverse.ai \
 ### Февраль
 
 **Subscription Tiers** (1 неделя)
+
 - Free: 50 credits/месяц
 - Pro ($9.99): 500 credits
 - Studio ($29.99): 2000 credits
 - Enterprise: Custom
 
 **Export to Streaming Platforms** (1 неделя)
+
 - Spotify, Apple Music, YouTube Music
 - Metadata editing
 - Distribution tracking
 
 **Testing Sprint** (2 недели)
+
 - Unit tests coverage: 75% → 80%
 - Integration tests
 - E2E tests
@@ -1557,15 +1627,18 @@ npx lighthouse https://app.musicverse.ai \
 ### Март
 
 **Social Media Auto-posting** (1 неделя)
+
 - Instagram, TikTok, Twitter, VK
 - Auto-post при публикации
 - Video generation
 
 **Marketplace for AI Artists** (5 дней)
+
 - Creators создают AI Artists
 - Revenue sharing (70/30)
 
 **Testing Sprint продолжение** (2 недели)
+
 - Visual regression testing
 - Performance testing
 - Security audit
@@ -1577,12 +1650,14 @@ npx lighthouse https://app.musicverse.ai \
 ### Апрель
 
 **Collaborative Editing** (3 недели)
+
 - Real-time collaboration
 - Shared sessions
 - Live cursors
 - Chat в студии
 
 **Security Audit** (1 неделя)
+
 - OWASP Top 10 review
 - Vulnerability scan
 - Penetration testing
@@ -1592,12 +1667,14 @@ npx lighthouse https://app.musicverse.ai \
 ### Май
 
 **MIDI Editor** (3 недели)
+
 - Piano roll
 - Virtual instruments
 - Export/Import MIDI
 - Quantization
 
 **Analytics & Monitoring** (1 неделя)
+
 - User analytics dashboard
 - A/B testing framework
 - Product analytics
@@ -1607,11 +1684,13 @@ npx lighthouse https://app.musicverse.ai \
 ### Июнь
 
 **Internationalization (i18n)** (2 недели)
+
 - 8 языков (EN, RU, ES, PT, DE, FR, JA, KO)
 - Translation management
 - RTL support
 
 **Performance Optimization** (1 неделя)
+
 - Database optimization
 - Redis caching
 - Edge Function optimization
@@ -1623,6 +1702,7 @@ npx lighthouse https://app.musicverse.ai \
 ### Technical KPIs
 
 **Performance:**
+
 ```
 Bundle size:    500 KB → <450 KB (-10%)
 TTI (4G):       ~4.5s → <3s (-33%)
@@ -1631,6 +1711,7 @@ Lighthouse:     TBD → >90
 ```
 
 **Quality:**
+
 ```
 Test coverage:  ~75% → >80% (+5%)
 ESLint warnings: TBD → 0
@@ -1639,6 +1720,7 @@ Build time:     TBD → <1 min
 ```
 
 **Architecture:**
+
 ```
 Stem Studio files: 94 → 65 (-31%)
 Edge Functions: 94 → optimized
@@ -1650,6 +1732,7 @@ Total LOC: ~35,000 → maintain
 ### User Metrics
 
 **Engagement:**
+
 ```
 Tracks generated:     10/month → 15/month (+50%)
 Avg listening time:   30 min → 40 min (+33%)
@@ -1658,6 +1741,7 @@ Social interactions:  TBD → 5/user/week
 ```
 
 **Retention:**
+
 ```
 D1:   TBD → 60%
 D7:   TBD → 30%
@@ -1666,6 +1750,7 @@ Churn: TBD → <5%/month
 ```
 
 **Revenue:**
+
 ```
 Conversion: TBD → 5-10%
 MRR growth: TBD → +15% м/м
@@ -1680,6 +1765,7 @@ LTV:CAC:    TBD → >3:1
 ### HIGH Risks
 
 **1. Stem Studio Refactor Breaks Functionality**
+
 - **Вероятность:** MEDIUM
 - **Impact:** HIGH
 - **Митигация:**
@@ -1690,6 +1776,7 @@ LTV:CAC:    TBD → >3:1
   - Rollback plan
 
 **2. Mobile Audio Crashes**
+
 - **Вероятность:** HIGH (некоторые устройства)
 - **Impact:** HIGH
 - **Митигация:**
@@ -1704,6 +1791,7 @@ LTV:CAC:    TBD → >3:1
 ### MEDIUM Risks
 
 **3. UX Changes Confuse Users**
+
 - **Вероятность:** MEDIUM
 - **Impact:** MEDIUM
 - **Митигация:**
@@ -1714,6 +1802,7 @@ LTV:CAC:    TBD → >3:1
   - Quick revert if needed
 
 **4. Bundle Size Doesn't Reduce**
+
 - **Вероятность:** LOW
 - **Impact:** MEDIUM
 - **Митигация:**
@@ -1727,6 +1816,7 @@ LTV:CAC:    TBD → >3:1
 ### LOW Risks
 
 **5. Third-party Breaking Changes**
+
 - **Вероятность:** LOW
 - **Impact:** MEDIUM
 - **Митигация:**
@@ -1739,6 +1829,7 @@ LTV:CAC:    TBD → >3:1
 ## ✅ Success Criteria
 
 ### Sprint 027 Complete When:
+
 - ✅ Stem Studio: 94 → 65 файлов
 - ✅ Code duplication: <5%
 - ✅ All tests passing
@@ -1746,6 +1837,7 @@ LTV:CAC:    TBD → >3:1
 - ✅ No performance regression
 
 ### Sprint 028 Complete When:
+
 - ✅ 4-tab navigation deployed
 - ✅ All touch targets ≥44×44px
 - ✅ TTI (mobile) <3s
@@ -1753,6 +1845,7 @@ LTV:CAC:    TBD → >3:1
 - ✅ User acceptance testing passed
 
 ### Q1 2026 Complete When:
+
 - ✅ Subscriptions live
 - ✅ Streaming export working
 - ✅ AI Mastering available
@@ -1760,6 +1853,7 @@ LTV:CAC:    TBD → >3:1
 - ✅ All critical bugs fixed
 
 ### Q2 2026 Complete When:
+
 - ✅ Collaborative editing live
 - ✅ MIDI Editor production-ready
 - ✅ 8 languages supported
@@ -1771,6 +1865,7 @@ LTV:CAC:    TBD → >3:1
 ## 📝 Следующие шаги
 
 ### Для Product Owner:
+
 1. ✅ Review и approve optimization plan
 2. ✅ Prioritize features (P0, P1, P2)
 3. ✅ Allocate resources (dev time)
@@ -1778,6 +1873,7 @@ LTV:CAC:    TBD → >3:1
 5. ✅ Define success metrics
 
 ### Для Development Team:
+
 1. ✅ Start Critical fixes (Week 1)
 2. ✅ Setup Sprint 027 environment
 3. ✅ Review Stem Studio codebase
@@ -1785,6 +1881,7 @@ LTV:CAC:    TBD → >3:1
 5. ✅ Setup performance monitoring
 
 ### Для DevOps:
+
 1. ✅ Setup staging environment
 2. ✅ Configure CI/CD for performance tests
 3. ✅ Setup monitoring and alerts
@@ -1799,4 +1896,4 @@ LTV:CAC:    TBD → >3:1
 
 ---
 
-*Конец документа*
+_Конец документа_

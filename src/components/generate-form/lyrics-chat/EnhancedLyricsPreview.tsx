@@ -1,19 +1,30 @@
-import { useState, useCallback, useEffect } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { 
-  Loader2, RotateCcw, Copy, Check, Bookmark, BookmarkCheck, 
-  ChevronRight, MessageSquarePlus, Edit3, Wand2, Music2,
-  ChevronDown, ChevronUp, Sparkles
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { glass } from '@/lib/glass';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Textarea } from '@/components/ui/textarea';
-import { Input } from '@/components/ui/input';
-import { StructuredLyricsDisplay } from '@/components/lyrics/StructuredLyricsDisplay';
-import { buttonVariants } from '@/lib/lyrics/constants';
+import { useState, useCallback, useEffect } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import {
+  Loader2,
+  RotateCcw,
+  Copy,
+  Check,
+  Bookmark,
+  BookmarkCheck,
+  ChevronRight,
+  MessageSquarePlus,
+  Edit3,
+  Wand2,
+  Music2,
+  ChevronDown,
+  ChevronUp,
+  Sparkles,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+import { glass } from "@/lib/glass";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { StructuredLyricsDisplay } from "@/components/lyrics/StructuredLyricsDisplay";
+import { buttonVariants } from "@/lib/lyrics/constants";
 interface EnhancedLyricsPreviewProps {
   lyrics: string;
   title?: string | null;
@@ -37,12 +48,12 @@ interface EnhancedLyricsPreviewProps {
 }
 
 const QUICK_EDIT_SUGGESTIONS = [
-  { label: '🎸 Энергичнее', prompt: 'Сделай текст более энергичным и драйвовым' },
-  { label: '💔 Эмоциональнее', prompt: 'Добавь больше эмоций и глубины' },
-  { label: '🏷️ Больше тегов', prompt: 'Добавь больше профессиональных тегов Suno V5' },
-  { label: '✨ Лучше рифмы', prompt: 'Улучши рифмы и ритмику текста' },
-  { label: '📝 Короче', prompt: 'Сократи текст, оставив самое важное' },
-  { label: '🌊 Атмосфернее', prompt: 'Добавь больше атмосферы и образности' },
+  { label: "🎸 Энергичнее", prompt: "Сделай текст более энергичным и драйвовым" },
+  { label: "💔 Эмоциональнее", prompt: "Добавь больше эмоций и глубины" },
+  { label: "🏷️ Больше тегов", prompt: "Добавь больше профессиональных тегов Suno V5" },
+  { label: "✨ Лучше рифмы", prompt: "Улучши рифмы и ритмику текста" },
+  { label: "📝 Короче", prompt: "Сократи текст, оставив самое важное" },
+  { label: "🌊 Атмосфернее", prompt: "Добавь больше атмосферы и образности" },
 ];
 
 export function EnhancedLyricsPreview({
@@ -65,20 +76,23 @@ export function EnhancedLyricsPreview({
   showApplyButton = true,
 }: EnhancedLyricsPreviewProps) {
   const [editMode, setEditMode] = useState(false);
-  const [editedTitle, setEditedTitle] = useState(title || '');
-  const [editedStyle, setEditedStyle] = useState(style || '');
+  const [editedTitle, setEditedTitle] = useState(title || "");
+  const [editedStyle, setEditedStyle] = useState(style || "");
   const [showQuickEdits, setShowQuickEdits] = useState(false);
-  const [customInstruction, setCustomInstruction] = useState('');
+  const [customInstruction, setCustomInstruction] = useState("");
 
-  const handleQuickEdit = useCallback((prompt: string) => {
-    onRequestEdit?.(prompt);
-    setShowQuickEdits(false);
-  }, [onRequestEdit]);
+  const handleQuickEdit = useCallback(
+    (prompt: string) => {
+      onRequestEdit?.(prompt);
+      setShowQuickEdits(false);
+    },
+    [onRequestEdit],
+  );
 
   const handleCustomEdit = useCallback(() => {
     if (customInstruction.trim()) {
       onRequestEdit?.(customInstruction);
-      setCustomInstruction('');
+      setCustomInstruction("");
       setShowQuickEdits(false);
     }
   }, [customInstruction, onRequestEdit]);
@@ -91,12 +105,12 @@ export function EnhancedLyricsPreview({
 
   // Update edited values when props change
   useEffect(() => {
-    setEditedTitle(title || '');
-    setEditedStyle(style || '');
+    setEditedTitle(title || "");
+    setEditedStyle(style || "");
   }, [title, style]);
 
   return (
-    <motion.div 
+    <motion.div
       className="mt-3 space-y-3"
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
@@ -107,7 +121,7 @@ export function EnhancedLyricsPreview({
         className={cn("rounded-xl overflow-hidden", glass.card)}
         initial={{ scale: 0.98 }}
         animate={{ scale: 1 }}
-        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+        transition={{ type: "spring", stiffness: 300, damping: 20 }}
       >
         {/* Header with title */}
         <div className={cn("px-3 py-2.5 border-b border-border/30", glass.subtle)}>
@@ -122,16 +136,14 @@ export function EnhancedLyricsPreview({
                   className="h-7 text-sm font-medium bg-background/50"
                 />
               ) : (
-                <span className="text-sm font-semibold truncate">
-                  {title || 'Без названия'}
-                </span>
+                <span className="text-sm font-semibold truncate">{title || "Без названия"}</span>
               )}
             </div>
             <Button
               variant="ghost"
               size="sm"
               className="h-7 w-7 p-0"
-              onClick={() => editMode ? handleSaveMetadata() : setEditMode(true)}
+              onClick={() => (editMode ? handleSaveMetadata() : setEditMode(true))}
             >
               {editMode ? <Check className="h-3.5 w-3.5" /> : <Edit3 className="h-3.5 w-3.5" />}
             </Button>
@@ -151,21 +163,14 @@ export function EnhancedLyricsPreview({
                   className="min-h-[60px] text-xs bg-background/50 resize-none"
                 />
               ) : (
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                  {style || 'Стиль не задан'}
-                </p>
+                <p className="text-xs text-muted-foreground leading-relaxed">{style || "Стиль не задан"}</p>
               )}
             </div>
           </div>
         )}
 
         {/* Lyrics display - expanded height for mobile, flex-grow to fill space */}
-        <ScrollArea className={cn(
-          "flex-1",
-          fullHeight 
-            ? "min-h-[250px]" 
-            : "max-h-[200px] sm:max-h-[320px]"
-        )}>
+        <ScrollArea className={cn("flex-1", fullHeight ? "min-h-[250px]" : "max-h-[200px] sm:max-h-[320px]")}>
           <div className="p-3 pb-6">
             <StructuredLyricsDisplay
               lyrics={lyrics}
@@ -181,7 +186,7 @@ export function EnhancedLyricsPreview({
         {showQuickEdits && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
+            animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             className="space-y-2 overflow-hidden"
           >
@@ -200,14 +205,14 @@ export function EnhancedLyricsPreview({
                 </motion.button>
               ))}
             </div>
-            
+
             <div className="flex gap-2">
               <Input
                 value={customInstruction}
                 onChange={(e) => setCustomInstruction(e.target.value)}
                 placeholder="Своя инструкция для редактирования..."
                 className="flex-1 h-8 text-xs"
-                onKeyDown={(e) => e.key === 'Enter' && handleCustomEdit()}
+                onKeyDown={(e) => e.key === "Enter" && handleCustomEdit()}
                 disabled={isLoading}
               />
               <Button
@@ -235,9 +240,9 @@ export function EnhancedLyricsPreview({
           onClick={onCopy}
         >
           {copied ? <Check className="h-3.5 w-3.5 text-green-500" /> : <Copy className="h-3.5 w-3.5" />}
-          {copied ? 'Скопировано' : 'Копировать'}
+          {copied ? "Скопировано" : "Копировать"}
         </motion.button>
-        
+
         <motion.button
           variants={buttonVariants}
           initial="idle"
@@ -245,9 +250,7 @@ export function EnhancedLyricsPreview({
           whileTap="tap"
           className={cn(
             "inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-colors disabled:opacity-50",
-            saved 
-              ? "bg-green-500/20 text-green-600 dark:text-green-400" 
-              : "bg-secondary/50 hover:bg-secondary"
+            saved ? "bg-green-500/20 text-green-600 dark:text-green-400" : "bg-secondary/50 hover:bg-secondary",
           )}
           onClick={onSave}
           disabled={isSaving || saved}
@@ -259,7 +262,7 @@ export function EnhancedLyricsPreview({
           ) : (
             <Bookmark className="h-3.5 w-3.5" />
           )}
-          {saved ? 'Сохранено' : 'Сохранить'}
+          {saved ? "Сохранено" : "Сохранить"}
         </motion.button>
 
         <motion.button
@@ -274,7 +277,7 @@ export function EnhancedLyricsPreview({
           Изменить
           {showQuickEdits ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
         </motion.button>
-        
+
         <motion.button
           variants={buttonVariants}
           initial="idle"
@@ -287,7 +290,7 @@ export function EnhancedLyricsPreview({
           <RotateCcw className={cn("h-3.5 w-3.5", isLoading && "animate-spin")} />
           Заново
         </motion.button>
-        
+
         {/* Apply button - only show if MainButton is not being used */}
         {showApplyButton && (
           <motion.button

@@ -1,6 +1,6 @@
 /**
  * Playback History Hook
- * 
+ *
  * Tracks listening history for:
  * - Analytics and recommendations
  * - Recently played list
@@ -8,12 +8,12 @@
  * - Listening time statistics
  */
 
-import { useState, useEffect, useCallback } from 'react';
-import { usePlayerStore } from './usePlayerState';
-import type { Track } from '@/types/track';
-import { logger } from '@/lib/logger';
+import { useState, useEffect, useCallback } from "react";
+import { usePlayerStore } from "./usePlayerState";
+import type { Track } from "@/types/track";
+import { logger } from "@/lib/logger";
 
-const HISTORY_STORAGE_KEY = 'musicverse-playback-history';
+const HISTORY_STORAGE_KEY = "musicverse-playback-history";
 const MAX_HISTORY_ITEMS = 100;
 const MIN_LISTEN_DURATION = 30; // seconds - minimum to count as "played"
 
@@ -41,7 +41,7 @@ export function usePlaybackHistory() {
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [currentTrackStart, setCurrentTrackStart] = useState<number | null>(null);
   const [currentTrackListenTime, setCurrentTrackListenTime] = useState(0);
-  
+
   const { activeTrack, isPlaying } = usePlayerStore();
 
   /**
@@ -55,7 +55,7 @@ export function usePlaybackHistory() {
         setHistory(parsed);
       }
     } catch (error) {
-      logger.error('Failed to load playback history', error instanceof Error ? error : new Error(String(error)));
+      logger.error("Failed to load playback history", error instanceof Error ? error : new Error(String(error)));
     }
   }, []);
 
@@ -67,55 +67,55 @@ export function usePlaybackHistory() {
       localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(newHistory));
       setHistory(newHistory);
     } catch (error) {
-      logger.error('Failed to save playback history', error instanceof Error ? error : new Error(String(error)));
+      logger.error("Failed to save playback history", error instanceof Error ? error : new Error(String(error)));
     }
   }, []);
 
   /**
    * Add entry to history
    */
-  const addHistoryEntry = useCallback((entry: HistoryEntry) => {
-    const newHistory = [entry, ...history];
-    
-    // Keep only last MAX_HISTORY_ITEMS
-    if (newHistory.length > MAX_HISTORY_ITEMS) {
-      newHistory.splice(MAX_HISTORY_ITEMS);
-    }
-    
-    saveHistory(newHistory);
-  }, [history, saveHistory]);
+  const addHistoryEntry = useCallback(
+    (entry: HistoryEntry) => {
+      const newHistory = [entry, ...history];
+
+      // Keep only last MAX_HISTORY_ITEMS
+      if (newHistory.length > MAX_HISTORY_ITEMS) {
+        newHistory.splice(MAX_HISTORY_ITEMS);
+      }
+
+      saveHistory(newHistory);
+    },
+    [history, saveHistory],
+  );
 
   /**
    * Record play session when track changes or stops
    */
-  const recordPlaySession = useCallback((
-    track: Track | null,
-    listenedSeconds: number,
-    skipped: boolean = false
-  ) => {
-    if (!track || listenedSeconds < MIN_LISTEN_DURATION) {
-      return; // Don't record very short plays
-    }
+  const recordPlaySession = useCallback(
+    (track: Track | null, listenedSeconds: number, skipped: boolean = false) => {
+      if (!track || listenedSeconds < MIN_LISTEN_DURATION) {
+        return; // Don't record very short plays
+      }
 
-    const duration = track.duration_seconds || 0;
-    const completionPercentage = duration > 0 
-      ? Math.min(100, (listenedSeconds / duration) * 100)
-      : 0;
+      const duration = track.duration_seconds || 0;
+      const completionPercentage = duration > 0 ? Math.min(100, (listenedSeconds / duration) * 100) : 0;
 
-    const entry: HistoryEntry = {
-      trackId: track.id,
-      trackTitle: track.title ?? 'Untitled',
-      trackArtist: track.artist_name ?? undefined,
-      trackCover: track.cover_url ?? undefined,
-      playedAt: Date.now(),
-      duration,
-      listenedDuration: listenedSeconds,
-      completionPercentage,
-      skipped,
-    };
+      const entry: HistoryEntry = {
+        trackId: track.id,
+        trackTitle: track.title ?? "Untitled",
+        trackArtist: track.artist_name ?? undefined,
+        trackCover: track.cover_url ?? undefined,
+        playedAt: Date.now(),
+        duration,
+        listenedDuration: listenedSeconds,
+        completionPercentage,
+        skipped,
+      };
 
-    addHistoryEntry(entry);
-  }, [addHistoryEntry]);
+      addHistoryEntry(entry);
+    },
+    [addHistoryEntry],
+  );
 
   /**
    * Track active track changes
@@ -132,7 +132,7 @@ export function usePlaybackHistory() {
             recordPlaySession(activeTrack, listenedSeconds, true); // Marked as skipped
           }
         }
-        
+
         // Start tracking new track
         setCurrentTrackStart(Date.now());
         setCurrentTrackListenTime(0);
@@ -140,7 +140,7 @@ export function usePlaybackHistory() {
     } else if (!isPlaying && currentTrackStart) {
       // Track paused - update listen time
       const elapsed = (Date.now() - currentTrackStart) / 1000;
-      setCurrentTrackListenTime(prev => prev + elapsed);
+      setCurrentTrackListenTime((prev) => prev + elapsed);
       setCurrentTrackStart(null);
     }
   }, [activeTrack?.id, isPlaying, currentTrackStart, recordPlaySession]);
@@ -157,33 +157,36 @@ export function usePlaybackHistory() {
       }
     };
 
-    window.addEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener("beforeunload", handleBeforeUnload);
     return () => {
       handleBeforeUnload();
-      window.removeEventListener('beforeunload', handleBeforeUnload);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, [activeTrack, currentTrackStart, currentTrackListenTime, recordPlaySession]);
 
   /**
    * Get recently played tracks (unique)
    */
-  const getRecentlyPlayed = useCallback((limit: number = 20): HistoryEntry[] => {
-    const seen = new Set<string>();
-    const unique: HistoryEntry[] = [];
+  const getRecentlyPlayed = useCallback(
+    (limit: number = 20): HistoryEntry[] => {
+      const seen = new Set<string>();
+      const unique: HistoryEntry[] = [];
 
-    for (const entry of history) {
-      if (!seen.has(entry.trackId)) {
-        seen.add(entry.trackId);
-        unique.push(entry);
-        
-        if (unique.length >= limit) {
-          break;
+      for (const entry of history) {
+        if (!seen.has(entry.trackId)) {
+          seen.add(entry.trackId);
+          unique.push(entry);
+
+          if (unique.length >= limit) {
+            break;
+          }
         }
       }
-    }
 
-    return unique;
-  }, [history]);
+      return unique;
+    },
+    [history],
+  );
 
   /**
    * Get playback statistics
@@ -191,18 +194,17 @@ export function usePlaybackHistory() {
   const getStats = useCallback((): PlaybackHistoryStats => {
     const totalPlays = history.length;
     const totalListenTime = history.reduce((sum, entry) => sum + entry.listenedDuration, 0);
-    const averageCompletionRate = history.length > 0
-      ? history.reduce((sum, entry) => sum + entry.completionPercentage, 0) / history.length
-      : 0;
-    const skippedCount = history.filter(entry => entry.skipped).length;
+    const averageCompletionRate =
+      history.length > 0 ? history.reduce((sum, entry) => sum + entry.completionPercentage, 0) / history.length : 0;
+    const skippedCount = history.filter((entry) => entry.skipped).length;
     const skipRate = history.length > 0 ? skippedCount / history.length : 0;
 
     // Calculate top tracks
     const trackCounts = new Map<string, number>();
-    history.forEach(entry => {
+    history.forEach((entry) => {
       trackCounts.set(entry.trackId, (trackCounts.get(entry.trackId) || 0) + 1);
     });
-    
+
     const topTracks = Array.from(trackCounts.entries())
       .map(([trackId, playCount]) => ({ trackId, playCount }))
       .sort((a, b) => b.playCount - a.playCount)
@@ -227,10 +229,13 @@ export function usePlaybackHistory() {
   /**
    * Remove specific entry
    */
-  const removeEntry = useCallback((playedAt: number) => {
-    const newHistory = history.filter(entry => entry.playedAt !== playedAt);
-    saveHistory(newHistory);
-  }, [history, saveHistory]);
+  const removeEntry = useCallback(
+    (playedAt: number) => {
+      const newHistory = history.filter((entry) => entry.playedAt !== playedAt);
+      saveHistory(newHistory);
+    },
+    [history, saveHistory],
+  );
 
   return {
     history,

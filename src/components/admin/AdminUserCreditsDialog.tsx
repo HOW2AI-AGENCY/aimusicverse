@@ -23,12 +23,7 @@ interface AdminUserCreditsDialogProps {
   onSuccess: () => void;
 }
 
-export function AdminUserCreditsDialog({ 
-  open, 
-  onOpenChange, 
-  user,
-  onSuccess 
-}: AdminUserCreditsDialogProps) {
+export function AdminUserCreditsDialog({ open, onOpenChange, user, onSuccess }: AdminUserCreditsDialogProps) {
   const [amount, setAmount] = useState("");
   const [reason, setReason] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -36,7 +31,7 @@ export function AdminUserCreditsDialog({
 
   const handleSubmit = async () => {
     if (!user || !amount) return;
-    
+
     const numAmount = parseInt(amount);
     if (isNaN(numAmount) || numAmount <= 0) {
       toast.error("Введите корректную сумму");
@@ -46,7 +41,7 @@ export function AdminUserCreditsDialog({
     setIsLoading(true);
     try {
       const finalAmount = operation === "add" ? numAmount : -numAmount;
-      
+
       // Get current credits
       const { data: currentCredits } = await supabase
         .from("user_credits")
@@ -63,9 +58,8 @@ export function AdminUserCreditsDialog({
         });
       } else {
         const newBalance = Math.max(0, currentCredits.balance + finalAmount);
-        const newTotalEarned = operation === "add" 
-          ? currentCredits.total_earned + numAmount 
-          : currentCredits.total_earned;
+        const newTotalEarned =
+          operation === "add" ? currentCredits.total_earned + numAmount : currentCredits.total_earned;
 
         await supabase
           .from("user_credits")
@@ -118,7 +112,9 @@ export function AdminUserCreditsDialog({
               <AvatarFallback>{user.first_name[0]}</AvatarFallback>
             </Avatar>
             <div>
-              <div className="font-medium">{user.first_name} {user.last_name}</div>
+              <div className="font-medium">
+                {user.first_name} {user.last_name}
+              </div>
               <div className="text-sm text-muted-foreground">@{user.username || "—"}</div>
             </div>
           </div>
@@ -144,13 +140,7 @@ export function AdminUserCreditsDialog({
 
           <div className="space-y-2">
             <Label>Количество кредитов</Label>
-            <Input
-              type="number"
-              min="1"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              placeholder="100"
-            />
+            <Input type="number" min="1" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="100" />
           </div>
 
           <div className="space-y-2">
@@ -168,8 +158,8 @@ export function AdminUserCreditsDialog({
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             Отмена
           </Button>
-          <Button 
-            onClick={handleSubmit} 
+          <Button
+            onClick={handleSubmit}
             disabled={isLoading || !amount}
             variant={operation === "subtract" ? "destructive" : "default"}
           >

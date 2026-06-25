@@ -1,6 +1,6 @@
 /**
  * MinimalVariant - Ultra-compact for quick lists
- * 
+ *
  * Features:
  * - Small cover
  * - Title + style
@@ -10,19 +10,19 @@
  * - Menu button
  */
 
-import { memo } from 'react';
-import { motion } from '@/lib/motion';
-import { MoreHorizontal, Volume2, Layers } from 'lucide-react';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { formatDuration } from '@/lib/player-utils';
-import { LazyImage } from '@/components/ui/lazy-image';
-import { UnifiedVersionSelector } from '@/components/shared/UnifiedVersionSelector';
-import { UnifiedTrackSheet } from '@/components/track-actions';
-import { useTrackCardState } from '../hooks/useTrackCardState';
-import { TrackCoverImage } from '../components/TrackCoverImage';
-import type { StandardTrackCardProps } from '../types';
+import { memo } from "react";
+import { motion } from "@/lib/motion";
+import { MoreHorizontal, Volume2, Layers } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { formatDuration } from "@/lib/player-utils";
+import { LazyImage } from "@/components/ui/lazy-image";
+import { UnifiedVersionSelector } from "@/components/shared/UnifiedVersionSelector";
+import { UnifiedTrackSheet } from "@/components/track-actions";
+import { useTrackCardState } from "../hooks/useTrackCardState";
+import { TrackCoverImage } from "../components/TrackCoverImage";
+import type { StandardTrackCardProps } from "../types";
 
 export const MinimalVariant = memo(function MinimalVariant({
   track,
@@ -54,11 +54,11 @@ export const MinimalVariant = memo(function MinimalVariant({
       <div>
         <Card
           className={cn(
-            'group flex items-center gap-3 p-2 transition-all cursor-pointer touch-manipulation duration-200',
-            'hover:bg-muted/60 active:bg-muted rounded-xl border-0 bg-card/30 backdrop-blur-sm',
-            'hover:shadow-sm hover:ring-1 hover:ring-primary/20',
-            isCurrentlyPlaying && 'bg-primary/5 ring-1 ring-primary/30',
-            className
+            "group flex items-center gap-3 p-2 transition-all cursor-pointer touch-manipulation duration-200",
+            "hover:bg-muted/60 active:bg-muted rounded-xl border-0 bg-card/30 backdrop-blur-sm",
+            "hover:shadow-sm hover:ring-1 hover:ring-primary/20",
+            isCurrentlyPlaying && "bg-primary/5 ring-1 ring-primary/30",
+            className,
           )}
           onClick={handleCardClick}
           onMouseEnter={handleMouseEnter}
@@ -66,7 +66,7 @@ export const MinimalVariant = memo(function MinimalVariant({
           role="button"
           tabIndex={0}
           onKeyDown={handleKeyDown}
-          aria-label={`Трек ${track.title || 'Без названия'}, ${track.style || ''}`}
+          aria-label={`Трек ${track.title || "Без названия"}, ${track.style || ""}`}
         >
           {/* Cover + Play */}
           <TrackCoverImage
@@ -82,38 +82,25 @@ export const MinimalVariant = memo(function MinimalVariant({
           {/* Title & Style */}
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-1.5">
-              <h3 className="font-medium text-sm truncate">
-                {track.title || 'Без названия'}
-              </h3>
+              <h3 className="font-medium text-sm truncate">{track.title || "Без названия"}</h3>
               {/* Type icons inline */}
-              {track.is_instrumental && (
-                <Volume2 className="w-3 h-3 text-muted-foreground flex-shrink-0" />
-              )}
+              {track.is_instrumental && <Volume2 className="w-3 h-3 text-muted-foreground flex-shrink-0" />}
               {!track.has_vocals && !track.is_instrumental && (
                 <Volume2 className="w-3 h-3 text-muted-foreground flex-shrink-0" />
               )}
-              {stemCount > 0 && (
-                <Layers className="w-3 h-3 text-primary flex-shrink-0" />
-              )}
+              {stemCount > 0 && <Layers className="w-3 h-3 text-primary flex-shrink-0" />}
             </div>
-            <p className="text-xs text-muted-foreground truncate">
-              {track.style || track.tags?.split(',')[0] || '--'}
-            </p>
+            <p className="text-xs text-muted-foreground truncate">{track.style || track.tags?.split(",")[0] || "--"}</p>
           </div>
 
           {/* Duration */}
           <span className="text-xs text-muted-foreground tabular-nums flex-shrink-0">
-            {track.duration_seconds ? formatDuration(track.duration_seconds) : '--:--'}
+            {track.duration_seconds ? formatDuration(track.duration_seconds) : "--:--"}
           </span>
 
           {/* Version Toggle - using UnifiedVersionSelector */}
           {versionCount > 1 && (
-            <UnifiedVersionSelector
-              trackId={track.id}
-              variant="inline"
-              showLabels={false}
-              className="flex-shrink-0"
-            />
+            <UnifiedVersionSelector trackId={track.id} variant="inline" showLabels={false} className="flex-shrink-0" />
           )}
 
           {/* Menu button */}

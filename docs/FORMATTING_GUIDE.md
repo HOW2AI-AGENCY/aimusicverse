@@ -23,24 +23,26 @@
 ### Консистентность
 
 ✅ **Всегда:**
+
 - Следуйте установленным правилам форматирования
 - Используйте инструменты автоматического форматирования (Prettier)
 - Проверяйте код перед коммитом
 - Соблюдайте структуру проекта
 
 ❌ **Никогда:**
+
 - Не форматируйте код вручную, если есть автоматические инструменты
 - Не смешивайте стили форматирования
 - Не игнорируйте ошибки линтера
 
 ### Инструменты
 
-| Инструмент | Назначение | Команда |
-|-----------|-----------|---------|
-| **Prettier** | Форматирование кода | `npm run format` |
-| **ESLint** | Линтинг | `npm run lint` |
-| **TypeScript** | Проверка типов | `npm run typecheck` |
-| **EditorConfig** | Базовое форматирование | Автоматически |
+| Инструмент       | Назначение             | Команда             |
+| ---------------- | ---------------------- | ------------------- |
+| **Prettier**     | Форматирование кода    | `npm run format`    |
+| **ESLint**       | Линтинг                | `npm run lint`      |
+| **TypeScript**   | Проверка типов         | `npm run typecheck` |
+| **EditorConfig** | Базовое форматирование | Автоматически       |
 
 ---
 
@@ -65,34 +67,35 @@
 ```typescript
 // ✅ Правильно: 2 пробела, trailing comma
 const user = {
-  name: 'John',
+  name: "John",
   age: 30,
-  email: 'john@example.com',
+  email: "john@example.com",
 };
 
 // ❌ Неправильно: смешанные отступы, нет trailing comma
 const user = {
-  name: 'John',
+  name: "John",
   age: 30,
-  email: 'john@example.com'
-}
+  email: "john@example.com",
+};
 ```
 
 #### Длина строки
 
 ```typescript
 // ✅ Правильно: перенос длинных строк
-const result = await generateTrack(
-  'Upbeat electronic dance music with synthesizers',
-  {
-    duration: 180,
-    instrumental: false,
-    style: 'electronic',
-  }
-);
+const result = await generateTrack("Upbeat electronic dance music with synthesizers", {
+  duration: 180,
+  instrumental: false,
+  style: "electronic",
+});
 
 // ❌ Неправильно: слишком длинная строка
-const result = await generateTrack('Upbeat electronic dance music with synthesizers', { duration: 180, instrumental: false, style: 'electronic' });
+const result = await generateTrack("Upbeat electronic dance music with synthesizers", {
+  duration: 180,
+  instrumental: false,
+  style: "electronic",
+});
 ```
 
 #### Импорты
@@ -100,21 +103,21 @@ const result = await generateTrack('Upbeat electronic dance music with synthesiz
 ```typescript
 // ✅ Правильно: сгруппированные импорты
 // 1. Внешние библиотеки
-import { useState, useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 // 2. Внутренние абсолютные импорты
-import { Button } from '@/components/ui/button';
-import { useTelegram } from '@/hooks/useTelegram';
+import { Button } from "@/components/ui/button";
+import { useTelegram } from "@/hooks/useTelegram";
 
 // 3. Относительные импорты
-import { formatDuration } from './utils';
-import type { Track } from './types';
+import { formatDuration } from "./utils";
+import type { Track } from "./types";
 
 // ❌ Неправильно: смешанные импорты
-import { useState } from 'react';
-import { formatDuration } from './utils';
-import { Button } from '@/components/ui/button';
+import { useState } from "react";
+import { formatDuration } from "./utils";
+import { Button } from "@/components/ui/button";
 ```
 
 #### Объекты и массивы
@@ -122,7 +125,7 @@ import { Button } from '@/components/ui/button';
 ```typescript
 // ✅ Правильно: trailing comma, aligned
 const config = {
-  apiUrl: 'https://api.example.com',
+  apiUrl: "https://api.example.com",
   timeout: 5000,
   retries: 3,
   features: {
@@ -131,29 +134,21 @@ const config = {
   },
 };
 
-const items = [
-  'item1',
-  'item2',
-  'item3',
-];
+const items = ["item1", "item2", "item3"];
 
 // ❌ Неправильно: нет trailing comma
 const config = {
-  apiUrl: 'https://api.example.com',
+  apiUrl: "https://api.example.com",
   timeout: 5000,
-  retries: 3
-}
+  retries: 3,
+};
 ```
 
 #### Функции
 
 ```typescript
 // ✅ Правильно: отступы, пробелы
-function calculateTotal(
-  price: number,
-  tax: number,
-  discount: number
-): number {
+function calculateTotal(price: number, tax: number, discount: number): number {
   const subtotal = price + tax;
   return subtotal - discount;
 }
@@ -174,7 +169,7 @@ if (isPlaying && duration > 0 && !isLoading) {
 }
 
 // ❌ Неправильно: нет пробелов
-if(isPlaying&&duration>0&&!isLoading) {
+if (isPlaying && duration > 0 && !isLoading) {
   handlePlay();
 }
 ```
@@ -197,7 +192,7 @@ if(isPlaying&&duration>0&&!isLoading) {
 
 ### Структура документа
 
-```markdown
+````markdown
 # Заголовок первого уровня (только один на документ)
 
 Краткое описание документа.
@@ -250,8 +245,8 @@ if(isPlaying&&duration>0&&!isLoading) {
 
 ## Таблицы
 
-| Колонка 1 | Колонка 2 | Колонка 3 |
-|-----------|-----------|-----------|
+| Колонка 1  | Колонка 2  | Колонка 3  |
+| ---------- | ---------- | ---------- |
 | Значение 1 | Значение 2 | Значение 3 |
 | Значение 4 | Значение 5 | Значение 6 |
 
@@ -262,9 +257,10 @@ Inline `код` в тексте.
 Блок кода с языком:
 
 ```typescript
-const greeting: string = 'Hello, World!';
+const greeting: string = "Hello, World!";
 console.log(greeting);
 ```
+````
 
 ## Ссылки
 
@@ -275,8 +271,8 @@ console.log(greeting);
 ## Выделение
 
 **Жирный текст**  
-*Курсивный текст*  
-***Жирный курсив***  
+_Курсивный текст_  
+**_Жирный курсив_**  
 ~~Зачеркнутый текст~~
 
 ## Цитаты
@@ -300,7 +296,8 @@ console.log(greeting);
 - 🐛 Баг
 - ✨ Новое
 - 🔥 Горячее
-```
+
+````
 
 ### Правила Markdown
 
@@ -318,7 +315,7 @@ console.log(greeting);
 ##### H5 - Редко используется
 
 ###### H6 - Максимальная детализация
-```
+````
 
 #### Пробелы
 
@@ -332,6 +329,7 @@ console.log(greeting);
 ## ❌ Неправильно: нет пробелов
 
 ## Заголовок
+
 Текст параграфа.
 ```
 
@@ -348,6 +346,7 @@ console.log(greeting);
 # ❌ Неправильно: нет пустой строки
 
 Текст перед списком.
+
 - Элемент 1
 - Элемент 2
 ```
@@ -358,15 +357,15 @@ console.log(greeting);
 # ✅ Правильно: выровненные колонки
 
 | Правый | Центр | Левый |
-|--------|:-----:|-------|
+| ------ | :---: | ----- |
 | Текст  | Текст | Текст |
 | Текст  | Текст | Текст |
 
 # ❌ Неправильно: невыровненные колонки
 
-| Правый|Центр|Левый|
-|-------|-----|-----|
-| Текст | Текст | Текст |
+| Правый | Центр | Левый |
+| ------ | ----- | ----- |
+| Текст  | Текст | Текст |
 ```
 
 ---
@@ -405,17 +404,17 @@ console.log(greeting);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  
+
   /* Spacing */
   padding: 1rem;
   margin: 0.5rem;
   gap: 1rem;
-  
+
   /* Typography */
   font-size: 1.125rem;
   font-weight: 600;
   color: #111827;
-  
+
   /* Background */
   background-color: white;
   border-radius: 0.5rem;
@@ -590,13 +589,13 @@ name = "musicverse"
 ### Компонент React
 
 ```tsx
-import { useState, useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { Button } from '@/components/ui/button';
-import { useTelegram } from '@/hooks/useTelegram';
-import { formatDuration } from './utils';
-import type { Track } from './types';
-import './styles.css';
+import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
+import { useTelegram } from "@/hooks/useTelegram";
+import { formatDuration } from "./utils";
+import type { Track } from "./types";
+import "./styles.css";
 
 interface TrackCardProps {
   track: Track;
@@ -604,16 +603,12 @@ interface TrackCardProps {
   className?: string;
 }
 
-export const TrackCard = ({
-  track,
-  onPlay,
-  className = '',
-}: TrackCardProps) => {
+export const TrackCard = ({ track, onPlay, className = "" }: TrackCardProps) => {
   const { user } = useTelegram();
   const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
-    console.log('Track mounted:', track.id);
+    console.log("Track mounted:", track.id);
   }, [track.id]);
 
   const handleClick = () => {
@@ -634,17 +629,14 @@ export const TrackCard = ({
 ### Хук
 
 ```tsx
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from "react";
 
 interface UseAudioPlayerOptions {
   autoPlay?: boolean;
   loop?: boolean;
 }
 
-export const useAudioPlayer = (
-  audioUrl: string,
-  options: UseAudioPlayerOptions = {}
-) => {
+export const useAudioPlayer = (audioUrl: string, options: UseAudioPlayerOptions = {}) => {
   const { autoPlay = false, loop = false } = options;
   const [isPlaying, setIsPlaying] = useState(autoPlay);
   const [duration, setDuration] = useState(0);
@@ -670,21 +662,15 @@ export const useAudioPlayer = (
 ### Сервис
 
 ```typescript
-import { supabase } from '@/api/supabase';
-import type { Track, GenerationOptions } from '@/types';
+import { supabase } from "@/api/supabase";
+import type { Track, GenerationOptions } from "@/types";
 
 export const generationService = {
-  async generateTrack(
-    prompt: string,
-    options: GenerationOptions
-  ): Promise<Track> {
+  async generateTrack(prompt: string, options: GenerationOptions): Promise<Track> {
     try {
-      const { data, error } = await supabase.functions.invoke(
-        'generate',
-        {
-          body: { prompt, options },
-        }
-      );
+      const { data, error } = await supabase.functions.invoke("generate", {
+        body: { prompt, options },
+      });
 
       if (error) {
         throw new Error(`Generation failed: ${error.message}`);
@@ -692,17 +678,13 @@ export const generationService = {
 
       return data as Track;
     } catch (error) {
-      console.error('Generation error:', error);
+      console.error("Generation error:", error);
       throw error;
     }
   },
 
   async getTrack(id: string): Promise<Track> {
-    const { data, error } = await supabase
-      .from('tracks')
-      .select('*')
-      .eq('id', id)
-      .single();
+    const { data, error } = await supabase.from("tracks").select("*").eq("id", id).single();
 
     if (error) {
       throw new Error(`Failed to fetch track: ${error.message}`);
@@ -747,7 +729,7 @@ export const generationService = {
 
 **Форматирование — это забота каждого!** 💅
 
-*Последнее обновление: 25 июня 2026*
+_Последнее обновление: 25 июня 2026_
 
 [🔝 В начало](#-руководство-по-форматированию-musicverse-ai)
 

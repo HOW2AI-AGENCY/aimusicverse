@@ -1,48 +1,48 @@
 /**
  * TrackDetailPanel - Desktop track detail view
  * Feature: 032-professional-ui
- * 
+ *
  * Shows track info, waveform, lyrics, versions, and actions
  * Uses design system tokens
  */
 
-import { useState } from 'react';
-import { TrackStyleTags } from '@/components/library/TrackStyleTags';
-import { Track } from '@/hooks/useTracks';
-import { useTrackVersions } from '@/hooks/useTrackVersions';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Badge } from '@/components/ui/badge';
-import { 
-  Play, 
-  Pause, 
-  Music2, 
-  FileText, 
-  GitBranch, 
-  Sparkles, 
+import { useState } from "react";
+import { TrackStyleTags } from "@/components/library/TrackStyleTags";
+import { Track } from "@/hooks/useTracks";
+import { useTrackVersions } from "@/hooks/useTrackVersions";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Badge } from "@/components/ui/badge";
+import {
+  Play,
+  Pause,
+  Music2,
+  FileText,
+  GitBranch,
+  Sparkles,
   Download,
   Heart,
   Share2,
   MoreHorizontal,
   Mic2,
-  Guitar
-} from 'lucide-react';
-import { TrackDetailsTab } from '@/components/track-detail/TrackDetailsTab';
-import { TrackVersionsTab } from '@/components/track-detail/TrackVersionsTab';
-import { TrackStemsTab } from '@/components/track-detail/TrackStemsTab';
-import { TrackAnalysisTab } from '@/components/track-detail/TrackAnalysisTab';
-import { LyricsView } from '@/components/track-detail/LyricsView';
-import { cn } from '@/lib/utils';
-import { surface } from '@/lib/overlay-colors';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { glass } from '@/lib/glass';
+  Guitar,
+} from "lucide-react";
+import { TrackDetailsTab } from "@/components/track-detail/TrackDetailsTab";
+import { TrackVersionsTab } from "@/components/track-detail/TrackVersionsTab";
+import { TrackStemsTab } from "@/components/track-detail/TrackStemsTab";
+import { TrackAnalysisTab } from "@/components/track-detail/TrackAnalysisTab";
+import { LyricsView } from "@/components/track-detail/LyricsView";
+import { cn } from "@/lib/utils";
+import { surface } from "@/lib/overlay-colors";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { glass } from "@/lib/glass";
 
 // Helper to format duration
 const formatDuration = (seconds: number): string => {
   const mins = Math.floor(seconds / 60);
   const secs = Math.floor(seconds % 60);
-  return `${mins}:${secs.toString().padStart(2, '0')}`;
+  return `${mins}:${secs.toString().padStart(2, "0")}`;
 };
 
 interface TrackDetailPanelProps {
@@ -55,7 +55,7 @@ export function TrackDetailPanel({ track, onPlay, onClose }: TrackDetailPanelPro
   const [selectedVersionId, setSelectedVersionId] = useState<string | null>(null);
   const { data: versions } = useTrackVersions(track.id);
   const { activeTrack, isPlaying } = usePlayerStore();
-  
+
   const isCurrentTrack = activeTrack?.id === track.id;
   const isCurrentlyPlaying = isCurrentTrack && isPlaying;
 
@@ -76,14 +76,13 @@ export function TrackDetailPanel({ track, onPlay, onClose }: TrackDetailPanelPro
         {/* Cover and Info */}
         <div className="flex gap-4">
           {/* Cover */}
-          <div className={cn(
-            "relative w-32 h-32 flex-shrink-0 rounded-lg overflow-hidden",
-            glass.subtle
-          )}>
+          <div className={cn("relative w-32 h-32 flex-shrink-0 rounded-lg overflow-hidden", glass.subtle)}>
             {track.cover_url ? (
-              <img loading="lazy" decoding="async" 
-                src={track.cover_url} 
-                alt={track.title || 'Track cover'}
+              <img
+                loading="lazy"
+                decoding="async"
+                src={track.cover_url}
+                alt={track.title || "Track cover"}
                 className="w-full h-full object-cover"
               />
             ) : (
@@ -91,11 +90,14 @@ export function TrackDetailPanel({ track, onPlay, onClose }: TrackDetailPanelPro
                 <Music2 className="w-10 h-10 text-primary/40" />
               </div>
             )}
-            
+
             {/* Play overlay */}
             <button
               onClick={handlePlayClick}
-              className={cn("absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity", surface.imageDark)}
+              className={cn(
+                "absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity",
+                surface.imageDark,
+              )}
             >
               {isCurrentlyPlaying ? (
                 <Pause className="w-10 h-10 text-white" />
@@ -108,13 +110,9 @@ export function TrackDetailPanel({ track, onPlay, onClose }: TrackDetailPanelPro
           {/* Info */}
           <div className="flex-1 min-w-0 space-y-2">
             <h2 className="text-lg font-semibold truncate text-foreground">{track.title}</h2>
-            
+
             <div className="flex flex-wrap gap-1.5 items-center">
-              <TrackStyleTags 
-                style={track.style} 
-                tags={track.tags} 
-                maxTags={4}
-              />
+              <TrackStyleTags style={track.style} tags={track.tags} maxTags={4} />
               {track.has_vocals && (
                 <Badge variant="outline" className="text-xs gap-1">
                   <Mic2 className="w-3 h-3" />
@@ -130,16 +128,12 @@ export function TrackDetailPanel({ track, onPlay, onClose }: TrackDetailPanelPro
             </div>
 
             <p className="text-sm text-muted-foreground">
-              {trackDuration ? formatDuration(trackDuration) : '—'} • {track.play_count || 0} прослушиваний
+              {trackDuration ? formatDuration(trackDuration) : "—"} • {track.play_count || 0} прослушиваний
             </p>
 
             {/* Actions */}
             <div className="flex items-center gap-2 pt-2">
-              <Button
-                onClick={handlePlayClick}
-                size="sm"
-                className="gap-1.5"
-              >
+              <Button onClick={handlePlayClick} size="sm" className="gap-1.5">
                 {isCurrentlyPlaying ? (
                   <>
                     <Pause className="w-4 h-4" />
@@ -152,22 +146,19 @@ export function TrackDetailPanel({ track, onPlay, onClose }: TrackDetailPanelPro
                   </>
                 )}
               </Button>
-              
+
               <Button variant="outline" size="icon" className="h-8 w-8">
-                <Heart className={cn(
-                  "w-4 h-4",
-                  track.is_liked && "fill-red-500 text-red-500"
-                )} />
+                <Heart className={cn("w-4 h-4", track.is_liked && "fill-red-500 text-red-500")} />
               </Button>
-              
+
               <Button variant="outline" size="icon" className="h-8 w-8">
                 <Share2 className="w-4 h-4" />
               </Button>
-              
+
               <Button variant="outline" size="icon" className="h-8 w-8">
                 <Download className="w-4 h-4" />
               </Button>
-              
+
               <Button variant="outline" size="icon" className="h-8 w-8">
                 <MoreHorizontal className="w-4 h-4" />
               </Button>

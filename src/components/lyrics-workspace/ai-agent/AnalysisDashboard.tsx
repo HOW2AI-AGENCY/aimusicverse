@@ -2,18 +2,25 @@
  * AnalysisDashboard - Unified analysis visualization
  */
 
-import { motion } from '@/lib/motion';
-import { 
-  BarChart3, Target, Music2, Tag, AlertTriangle, 
-  CheckCircle, XCircle, Lightbulb, TrendingUp
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
+import { motion } from "@/lib/motion";
+import {
+  BarChart3,
+  Target,
+  Music2,
+  Tag,
+  AlertTriangle,
+  CheckCircle,
+  XCircle,
+  Lightbulb,
+  TrendingUp,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 interface AnalysisIssue {
-  type: 'error' | 'warning' | 'info';
+  type: "error" | "warning" | "info";
   message: string;
   line?: number;
   fix?: string;
@@ -60,19 +67,19 @@ export function AnalysisDashboard({
   onClose,
 }: AnalysisDashboardProps) {
   const getScoreColor = (score: number) => {
-    if (score >= 80) return 'text-emerald-400';
-    if (score >= 60) return 'text-amber-400';
-    return 'text-red-400';
+    if (score >= 80) return "text-emerald-400";
+    if (score >= 60) return "text-amber-400";
+    return "text-red-400";
   };
 
   const getScoreBg = (score: number) => {
-    if (score >= 80) return 'bg-emerald-500/20';
-    if (score >= 60) return 'bg-amber-500/20';
-    return 'bg-red-500/20';
+    if (score >= 80) return "bg-emerald-500/20";
+    if (score >= 60) return "bg-amber-500/20";
+    return "bg-red-500/20";
   };
 
-  const errorCount = issues.filter(i => i.type === 'error').length;
-  const warningCount = issues.filter(i => i.type === 'warning').length;
+  const errorCount = issues.filter((i) => i.type === "error").length;
+  const warningCount = issues.filter((i) => i.type === "warning").length;
 
   return (
     <motion.div
@@ -83,14 +90,11 @@ export function AnalysisDashboard({
       {/* Header with scores */}
       <div className="flex items-center gap-4">
         {/* Quality Score Circle */}
-        <div className={cn(
-          "relative w-16 h-16 rounded-full flex items-center justify-center",
-          getScoreBg(qualityScore)
-        )}>
+        <div
+          className={cn("relative w-16 h-16 rounded-full flex items-center justify-center", getScoreBg(qualityScore))}
+        >
           <div className="text-center">
-            <span className={cn("text-xl font-bold", getScoreColor(qualityScore))}>
-              {qualityScore}
-            </span>
+            <span className={cn("text-xl font-bold", getScoreColor(qualityScore))}>{qualityScore}</span>
             <span className="text-[10px] text-muted-foreground block">качество</span>
           </div>
         </div>
@@ -106,11 +110,11 @@ export function AnalysisDashboard({
           {syllableStats && (
             <div className="flex items-center justify-between text-xs">
               <span className="text-muted-foreground">Слоги (avg)</span>
-              <span className={cn(
-                syllableStats.avg >= 6 && syllableStats.avg <= 12 
-                  ? "text-emerald-400" 
-                  : "text-amber-400"
-              )}>
+              <span
+                className={cn(
+                  syllableStats.avg >= 6 && syllableStats.avg <= 12 ? "text-emerald-400" : "text-amber-400",
+                )}
+              >
                 {syllableStats.avg.toFixed(1)}
               </span>
             </div>
@@ -131,7 +135,7 @@ export function AnalysisDashboard({
           <div className="flex gap-0.5 h-4 items-end">
             {syllableStats.distribution.slice(0, 30).map((count, i) => {
               const height = Math.min((count / 16) * 100, 100);
-              const color = count <= 12 ? 'bg-emerald-500/60' : count <= 16 ? 'bg-amber-500/60' : 'bg-red-500/60';
+              const color = count <= 12 ? "bg-emerald-500/60" : count <= 16 ? "bg-amber-500/60" : "bg-red-500/60";
               return (
                 <div
                   key={i}
@@ -179,16 +183,16 @@ export function AnalysisDashboard({
             <AlertTriangle className="w-3.5 h-3.5 text-amber-400" />
             <span className="text-muted-foreground">
               Проблемы: {errorCount > 0 && <span className="text-red-400">{errorCount} ошибок</span>}
-              {errorCount > 0 && warningCount > 0 && ', '}
+              {errorCount > 0 && warningCount > 0 && ", "}
               {warningCount > 0 && <span className="text-amber-400">{warningCount} предупреждений</span>}
             </span>
           </div>
           <div className="space-y-1 max-h-24 overflow-y-auto">
             {issues.slice(0, 5).map((issue, i) => (
               <div key={i} className="flex items-start gap-2 text-xs p-1.5 rounded bg-muted/50">
-                {issue.type === 'error' && <XCircle className="w-3 h-3 text-red-400 mt-0.5 shrink-0" />}
-                {issue.type === 'warning' && <AlertTriangle className="w-3 h-3 text-amber-400 mt-0.5 shrink-0" />}
-                {issue.type === 'info' && <CheckCircle className="w-3 h-3 text-blue-400 mt-0.5 shrink-0" />}
+                {issue.type === "error" && <XCircle className="w-3 h-3 text-red-400 mt-0.5 shrink-0" />}
+                {issue.type === "warning" && <AlertTriangle className="w-3 h-3 text-amber-400 mt-0.5 shrink-0" />}
+                {issue.type === "info" && <CheckCircle className="w-3 h-3 text-blue-400 mt-0.5 shrink-0" />}
                 <div className="flex-1 min-w-0">
                   <span className="text-foreground/80">{issue.message}</span>
                   {issue.line && <span className="text-muted-foreground ml-1">(строка {issue.line})</span>}

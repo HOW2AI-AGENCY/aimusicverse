@@ -6,12 +6,7 @@
       {
         "id": "music_generation_pipeline",
         "label": "Music Generation Pipeline",
-        "nodes": [
-          "suno_ai_integration",
-          "supabase_backend",
-          "model_fallback_chain",
-          "error_handling_system"
-        ],
+        "nodes": ["suno_ai_integration", "supabase_backend", "model_fallback_chain", "error_handling_system"],
         "relation": "implement",
         "confidence": "EXTRACTED",
         "confidence_score": 0.95,
@@ -20,13 +15,7 @@
       {
         "id": "project_documentation_system",
         "label": "Project Documentation System",
-        "nodes": [
-          "documentation_index",
-          "docs_navigation_guide",
-          "readme",
-          "project_status",
-          "roadmap"
-        ],
+        "nodes": ["documentation_index", "docs_navigation_guide", "readme", "project_status", "roadmap"],
         "relation": "form",
         "confidence": "EXTRACTED",
         "confidence_score": 0.85,
@@ -35,11 +24,7 @@
       {
         "id": "deployment_workflow",
         "label": "Deployment Workflow",
-        "nodes": [
-          "ci_yml",
-          "docs_deployment_checklist",
-          "docs_deployment_guide"
-        ],
+        "nodes": ["ci_yml", "docs_deployment_checklist", "docs_deployment_guide"],
         "relation": "participate_in",
         "confidence": "INFERRED",
         "confidence_score": 0.85,
@@ -65,11 +50,7 @@
       {
         "id": "security_documentation_group",
         "label": "Security Documentation Suite",
-        "nodes": [
-          "docs_security_checklist",
-          "docs_security_operations",
-          "concept_defense_in_depth"
-        ],
+        "nodes": ["docs_security_checklist", "docs_security_operations", "concept_defense_in_depth"],
         "relation": "form",
         "confidence": "INFERRED",
         "confidence_score": 0.85,
@@ -464960,12 +464941,7 @@
     {
       "id": "music_generation_pipeline",
       "label": "Music Generation Pipeline",
-      "nodes": [
-        "suno_ai_integration",
-        "supabase_backend",
-        "model_fallback_chain",
-        "error_handling_system"
-      ],
+      "nodes": ["suno_ai_integration", "supabase_backend", "model_fallback_chain", "error_handling_system"],
       "relation": "implement",
       "confidence": "EXTRACTED",
       "confidence_score": 0.95,
@@ -464974,13 +464950,7 @@
     {
       "id": "project_documentation_system",
       "label": "Project Documentation System",
-      "nodes": [
-        "documentation_index",
-        "docs_navigation_guide",
-        "readme",
-        "project_status",
-        "roadmap"
-      ],
+      "nodes": ["documentation_index", "docs_navigation_guide", "readme", "project_status", "roadmap"],
       "relation": "form",
       "confidence": "EXTRACTED",
       "confidence_score": 0.85,
@@ -464989,11 +464959,7 @@
     {
       "id": "deployment_workflow",
       "label": "Deployment Workflow",
-      "nodes": [
-        "ci_yml",
-        "docs_deployment_checklist",
-        "docs_deployment_guide"
-      ],
+      "nodes": ["ci_yml", "docs_deployment_checklist", "docs_deployment_guide"],
       "relation": "participate_in",
       "confidence": "INFERRED",
       "confidence_score": 0.85,
@@ -465019,11 +464985,7 @@
     {
       "id": "security_documentation_group",
       "label": "Security Documentation Suite",
-      "nodes": [
-        "docs_security_checklist",
-        "docs_security_operations",
-        "concept_defense_in_depth"
-      ],
+      "nodes": ["docs_security_checklist", "docs_security_operations", "concept_defense_in_depth"],
       "relation": "form",
       "confidence": "INFERRED",
       "confidence_score": 0.85,

@@ -3,29 +3,25 @@
  * Integrates with studio audio coordination
  */
 
-import { useState, useEffect, useId } from 'react';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Slider } from '@/components/ui/slider';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Loader2, Music, Play, Pause, Plus, Sparkles, RefreshCw } from 'lucide-react';
-import { toast } from 'sonner';
-import { useStudioProjectStore } from '@/stores/useStudioProjectStore';
-import { cn } from '@/lib/utils';
-import { logger } from '@/lib/logger';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { 
-  registerStudioAudio, 
-  unregisterStudioAudio, 
-  pauseAllStudioAudio 
-} from '@/hooks/studio/useStudioAudio';
+import { useState, useEffect, useId } from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Slider } from "@/components/ui/slider";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Loader2, Music, Play, Pause, Plus, Sparkles, RefreshCw } from "lucide-react";
+import { toast } from "sonner";
+import { useStudioProjectStore } from "@/stores/useStudioProjectStore";
+import { cn } from "@/lib/utils";
+import { logger } from "@/lib/logger";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
 
-const log = logger.child({ module: 'InstrumentalGenerator' });
+const log = logger.child({ module: "InstrumentalGenerator" });
 
 interface InstrumentalGeneratorPanelProps {
   mainTrackUrl: string;
@@ -46,31 +42,27 @@ interface TrackAnalysis {
 }
 
 const instrumentOptions = [
-  { value: 'piano', label: 'Пианино', emoji: '🎹' },
-  { value: 'guitar', label: 'Гитара', emoji: '🎸' },
-  { value: 'bass', label: 'Бас', emoji: '🎸' },
-  { value: 'strings', label: 'Струнные', emoji: '🎻' },
-  { value: 'synth', label: 'Синтезатор', emoji: '🎛️' },
-  { value: 'pad', label: 'Пэд', emoji: '🌊' },
-  { value: 'drums', label: 'Ударные', emoji: '🥁' },
-  { value: 'brass', label: 'Духовые', emoji: '🎺' },
-  { value: 'choir', label: 'Хор', emoji: '🎤' },
-  { value: 'arpeggio', label: 'Арпеджио', emoji: '✨' },
+  { value: "piano", label: "Пианино", emoji: "🎹" },
+  { value: "guitar", label: "Гитара", emoji: "🎸" },
+  { value: "bass", label: "Бас", emoji: "🎸" },
+  { value: "strings", label: "Струнные", emoji: "🎻" },
+  { value: "synth", label: "Синтезатор", emoji: "🎛️" },
+  { value: "pad", label: "Пэд", emoji: "🌊" },
+  { value: "drums", label: "Ударные", emoji: "🥁" },
+  { value: "brass", label: "Духовые", emoji: "🎺" },
+  { value: "choir", label: "Хор", emoji: "🎤" },
+  { value: "arpeggio", label: "Арпеджио", emoji: "✨" },
 ];
 
-export function InstrumentalGeneratorPanel({ 
-  mainTrackUrl, 
-  trackId,
-  onClose 
-}: InstrumentalGeneratorPanelProps) {
-  const [selectedInstrument, setSelectedInstrument] = useState<string>('');
-  const [customPrompt, setCustomPrompt] = useState('');
+export function InstrumentalGeneratorPanel({ mainTrackUrl, trackId, onClose }: InstrumentalGeneratorPanelProps) {
+  const [selectedInstrument, setSelectedInstrument] = useState<string>("");
+  const [customPrompt, setCustomPrompt] = useState("");
   const [duration, setDuration] = useState(30);
   const [generatedUrl, setGeneratedUrl] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [audio] = useState(() => new Audio());
   const sourceId = useId();
-  
+
   const { addTrack, addClip, currentProject } = useStudioProjectStore();
   const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
 
@@ -97,13 +89,17 @@ export function InstrumentalGeneratorPanel({
   }, [globalIsPlaying, isPlaying, audio]);
 
   // Analyze main track
-  const { data: analysis, isLoading: isAnalyzing, refetch: reanalyze } = useQuery({
-    queryKey: ['track-context', trackId || mainTrackUrl],
+  const {
+    data: analysis,
+    isLoading: isAnalyzing,
+    refetch: reanalyze,
+  } = useQuery({
+    queryKey: ["track-context", trackId || mainTrackUrl],
     queryFn: async (): Promise<TrackAnalysis> => {
-      const response = await supabase.functions.invoke('analyze-track-context', {
+      const response = await supabase.functions.invoke("analyze-track-context", {
         body: { audioUrl: mainTrackUrl, trackId },
       });
-      
+
       if (response.error) throw response.error;
       return response.data;
     },
@@ -120,12 +116,12 @@ export function InstrumentalGeneratorPanel({
 
   const generateMutation = useMutation({
     mutationFn: async () => {
-      const instrument = instrumentOptions.find(i => i.value === selectedInstrument)?.label || selectedInstrument;
-      
+      const instrument = instrumentOptions.find((i) => i.value === selectedInstrument)?.label || selectedInstrument;
+
       // Build contextual prompt
       let prompt = `${instrument}`;
       if (analysis) {
-        prompt += ` in ${analysis.key || 'C'} ${analysis.scale || 'major'}`;
+        prompt += ` in ${analysis.key || "C"} ${analysis.scale || "major"}`;
         prompt += `, ${analysis.bpm || 120} BPM`;
         if (analysis.genre) prompt += `, ${analysis.genre} style`;
         if (analysis.mood) prompt += `, ${analysis.mood} mood`;
@@ -133,16 +129,16 @@ export function InstrumentalGeneratorPanel({
       if (customPrompt) {
         prompt += `, ${customPrompt}`;
       }
-      prompt += ', high quality, studio production, loopable';
+      prompt += ", high quality, studio production, loopable";
 
-      log.debug('Generating instrumental with prompt:', { prompt });
+      log.debug("Generating instrumental with prompt:", { prompt });
 
       // Use MusicGen for instrumental generation
-      const response = await supabase.functions.invoke('musicgen-generate', {
-        body: { 
+      const response = await supabase.functions.invoke("musicgen-generate", {
+        body: {
           prompt,
           duration,
-          model: 'melody', // Better for melodic content
+          model: "melody", // Better for melodic content
         },
       });
 
@@ -151,7 +147,7 @@ export function InstrumentalGeneratorPanel({
     },
     onSuccess: (url) => {
       setGeneratedUrl(url);
-      toast.success('Инструментал сгенерирован!');
+      toast.success("Инструментал сгенерирован!");
     },
     onError: (error: Error) => {
       toast.error(`Ошибка: ${error.message}`);
@@ -160,7 +156,7 @@ export function InstrumentalGeneratorPanel({
 
   const handlePreview = () => {
     if (!generatedUrl) return;
-    
+
     if (isPlaying) {
       audio.pause();
       setIsPlaying(false);
@@ -178,19 +174,19 @@ export function InstrumentalGeneratorPanel({
 
   const handleAddToTimeline = () => {
     if (!generatedUrl || !currentProject) return;
-    
-    const instrument = instrumentOptions.find(i => i.value === selectedInstrument);
-    
+
+    const instrument = instrumentOptions.find((i) => i.value === selectedInstrument);
+
     const trackIdNew = addTrack({
-      name: `${instrument?.emoji || '🎹'} ${instrument?.label || selectedInstrument}`,
-      type: 'instrumental',
+      name: `${instrument?.emoji || "🎹"} ${instrument?.label || selectedInstrument}`,
+      type: "instrumental",
       volume: 0.7,
       pan: 0,
       muted: false,
       solo: false,
-      color: 'hsl(262 83% 58%)',
+      color: "hsl(262 83% 58%)",
     });
-    
+
     addClip(trackIdNew, {
       audioUrl: generatedUrl,
       name: `${instrument?.label || selectedInstrument}`,
@@ -201,8 +197,8 @@ export function InstrumentalGeneratorPanel({
       fadeIn: 0.5,
       fadeOut: 0.5,
     });
-    
-    toast.success('Инструментал добавлен на таймлайн');
+
+    toast.success("Инструментал добавлен на таймлайн");
     onClose();
   };
 
@@ -214,17 +210,12 @@ export function InstrumentalGeneratorPanel({
             <Music className="h-5 w-5 text-purple-500" />
             Генератор инструментала
           </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => reanalyze()}
-            disabled={isAnalyzing}
-          >
+          <Button variant="ghost" size="sm" onClick={() => reanalyze()} disabled={isAnalyzing}>
             <RefreshCw className={cn("h-4 w-4", isAnalyzing && "animate-spin")} />
           </Button>
         </CardTitle>
       </CardHeader>
-      
+
       <CardContent className="space-y-4">
         {/* Track Analysis */}
         {isAnalyzing ? (
@@ -236,34 +227,30 @@ export function InstrumentalGeneratorPanel({
           <div className="p-3 bg-muted/50 rounded-lg space-y-2">
             <div className="flex flex-wrap gap-2">
               {analysis.key && (
-                <Badge variant="secondary">🎵 {analysis.key} {analysis.scale}</Badge>
+                <Badge variant="secondary">
+                  🎵 {analysis.key} {analysis.scale}
+                </Badge>
               )}
-              {analysis.bpm && (
-                <Badge variant="secondary">⏱️ {analysis.bpm} BPM</Badge>
-              )}
-              {analysis.genre && (
-                <Badge variant="secondary">🎸 {analysis.genre}</Badge>
-              )}
-              {analysis.mood && (
-                <Badge variant="secondary">😊 {analysis.mood}</Badge>
-              )}
+              {analysis.bpm && <Badge variant="secondary">⏱️ {analysis.bpm} BPM</Badge>}
+              {analysis.genre && <Badge variant="secondary">🎸 {analysis.genre}</Badge>}
+              {analysis.mood && <Badge variant="secondary">😊 {analysis.mood}</Badge>}
             </div>
-            
+
             {analysis.suggestedInstruments?.length ? (
               <div className="space-y-1">
                 <span className="text-xs text-muted-foreground">Рекомендуемые инструменты:</span>
                 <div className="flex flex-wrap gap-1">
-                  {analysis.suggestedInstruments.map(inst => (
+                  {analysis.suggestedInstruments.map((inst) => (
                     <Badge
                       key={inst}
                       variant="outline"
                       className={cn(
                         "cursor-pointer",
-                        selectedInstrument === inst && "bg-primary text-primary-foreground"
+                        selectedInstrument === inst && "bg-primary text-primary-foreground",
                       )}
                       onClick={() => setSelectedInstrument(inst)}
                     >
-                      {instrumentOptions.find(i => i.value === inst)?.emoji || '🎵'} {inst}
+                      {instrumentOptions.find((i) => i.value === inst)?.emoji || "🎵"} {inst}
                     </Badge>
                   ))}
                 </div>
@@ -280,7 +267,7 @@ export function InstrumentalGeneratorPanel({
               <SelectValue placeholder="Выберите инструмент" />
             </SelectTrigger>
             <SelectContent>
-              {instrumentOptions.map(opt => (
+              {instrumentOptions.map((opt) => (
                 <SelectItem key={opt.value} value={opt.value}>
                   {opt.emoji} {opt.label}
                 </SelectItem>
@@ -306,13 +293,7 @@ export function InstrumentalGeneratorPanel({
             <Label>Длительность</Label>
             <span className="text-sm text-muted-foreground">{duration}с</span>
           </div>
-          <Slider
-            value={[duration]}
-            min={10}
-            max={60}
-            step={5}
-            onValueChange={([v]) => setDuration(v)}
-          />
+          <Slider value={[duration]} min={10} max={60} step={5} onValueChange={([v]) => setDuration(v)} />
         </div>
 
         {/* Generate Button */}
@@ -337,23 +318,12 @@ export function InstrumentalGeneratorPanel({
         {/* Preview & Add */}
         {generatedUrl && (
           <div className="flex gap-2 pt-2 border-t border-border/50">
-            <Button
-              variant="outline"
-              className="flex-1"
-              onClick={handlePreview}
-            >
-              {isPlaying ? (
-                <Pause className="h-4 w-4 mr-2" />
-              ) : (
-                <Play className="h-4 w-4 mr-2" />
-              )}
-              {isPlaying ? 'Играет...' : 'Прослушать'}
+            <Button variant="outline" className="flex-1" onClick={handlePreview}>
+              {isPlaying ? <Pause className="h-4 w-4 mr-2" /> : <Play className="h-4 w-4 mr-2" />}
+              {isPlaying ? "Играет..." : "Прослушать"}
             </Button>
-            
-            <Button
-              className="flex-1"
-              onClick={handleAddToTimeline}
-            >
+
+            <Button className="flex-1" onClick={handleAddToTimeline}>
               <Plus className="h-4 w-4 mr-2" />
               На таймлайн
             </Button>

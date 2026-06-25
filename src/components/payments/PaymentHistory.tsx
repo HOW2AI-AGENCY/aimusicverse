@@ -4,27 +4,27 @@
  * Feature: professional-payment-flow
  */
 
-import { Virtuoso } from 'react-virtuoso';
-import { motion } from '@/lib/motion';
-import { Sparkles, Receipt, RefreshCw } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { glass } from '@/lib/glass';
-import { usePaymentHistory } from '@/hooks/usePaymentHistory';
-import { PaymentHistoryItem } from './PaymentHistoryItem';
+import { Virtuoso } from "react-virtuoso";
+import { motion } from "@/lib/motion";
+import { Sparkles, Receipt, RefreshCw } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { glass } from "@/lib/glass";
+import { usePaymentHistory } from "@/hooks/usePaymentHistory";
+import { PaymentHistoryItem } from "./PaymentHistoryItem";
 
 interface PaymentHistoryProps {
   userId: string;
   height?: number;
-  language?: 'en' | 'ru';
+  language?: "en" | "ru";
   showHeader?: boolean;
 }
 
 function LoadingSkeleton() {
   return (
-    <Card className={cn('mb-3', glass.card)}>
+    <Card className={cn("mb-3", glass.card)}>
       <CardContent className="p-4">
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-start gap-3 flex-1">
@@ -44,21 +44,8 @@ function LoadingSkeleton() {
   );
 }
 
-export function PaymentHistory({ 
-  userId, 
-  height = 600, 
-  language = 'ru',
-  showHeader = true 
-}: PaymentHistoryProps) {
-  const { 
-    transactions, 
-    isLoading, 
-    hasMore, 
-    loadMore, 
-    isLoadingMore,
-    refetch,
-    isRefetching
-  } = usePaymentHistory({
+export function PaymentHistory({ userId, height = 600, language = "ru", showHeader = true }: PaymentHistoryProps) {
+  const { transactions, isLoading, hasMore, loadMore, isLoadingMore, refetch, isRefetching } = usePaymentHistory({
     userId,
     pageSize: 20,
   });
@@ -81,23 +68,17 @@ export function PaymentHistory({
 
   if (transactions.length === 0) {
     return (
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-      >
-        <Card className={cn('overflow-hidden', glass.card)}>
+      <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}>
+        <Card className={cn("overflow-hidden", glass.card)}>
           <CardContent className="p-12 text-center">
             <div className="mx-auto w-16 h-16 rounded-2xl bg-muted/50 flex items-center justify-center mb-4">
               <Receipt className="h-8 w-8 text-muted-foreground/50" aria-hidden="true" />
             </div>
-            <h3 className="font-semibold mb-1">
-              {language === 'ru' ? 'Нет транзакций' : 'No transactions yet'}
-            </h3>
+            <h3 className="font-semibold mb-1">{language === "ru" ? "Нет транзакций" : "No transactions yet"}</h3>
             <p className="text-sm text-muted-foreground">
-              {language === 'ru' 
-                ? 'Ваша история платежей появится здесь после первой покупки'
-                : 'Your payment history will appear here after your first purchase'
-              }
+              {language === "ru"
+                ? "Ваша история платежей появится здесь после первой покупки"
+                : "Your payment history will appear here after your first purchase"}
             </p>
           </CardContent>
         </Card>
@@ -115,24 +96,11 @@ export function PaymentHistory({
         >
           <div className="flex items-center gap-2">
             <Sparkles className="h-5 w-5 text-primary" />
-            <h3 className="font-semibold">
-              {language === 'ru' ? 'История платежей' : 'Payment History'}
-            </h3>
-            <span className="text-sm text-muted-foreground">
-              ({transactions.length})
-            </span>
+            <h3 className="font-semibold">{language === "ru" ? "История платежей" : "Payment History"}</h3>
+            <span className="text-sm text-muted-foreground">({transactions.length})</span>
           </div>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => refetch()}
-            disabled={isRefetching}
-            className="h-8 w-8"
-          >
-            <RefreshCw className={cn(
-              'h-4 w-4',
-              isRefetching && 'animate-spin'
-            )} />
+          <Button variant="ghost" size="icon" onClick={() => refetch()} disabled={isRefetching} className="h-8 w-8">
+            <RefreshCw className={cn("h-4 w-4", isRefetching && "animate-spin")} />
           </Button>
         </motion.div>
       )}
@@ -146,12 +114,7 @@ export function PaymentHistory({
           }
         }}
         itemContent={(index, transaction) => (
-          <PaymentHistoryItem
-            key={transaction.id}
-            transaction={transaction}
-            language={language}
-            index={index}
-          />
+          <PaymentHistoryItem key={transaction.id} transaction={transaction} language={language} index={index} />
         )}
         components={{
           Footer: () =>
@@ -165,7 +128,7 @@ export function PaymentHistory({
                 animate={{ opacity: 1 }}
                 className="py-4 text-center text-xs text-muted-foreground"
               >
-                {language === 'ru' ? 'Вся история загружена' : 'All history loaded'}
+                {language === "ru" ? "Вся история загружена" : "All history loaded"}
               </motion.p>
             ) : null,
         }}

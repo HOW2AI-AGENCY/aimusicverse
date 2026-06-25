@@ -29,7 +29,7 @@
 - [width](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L415) (1 connections)
 - [x](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L414) (1 connections)
 - [y](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L398) (1 connections)
-- *... and 1 more nodes in this community*
+- _... and 1 more nodes in this community_
 
 ## Relationships
 
@@ -47,4 +47,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

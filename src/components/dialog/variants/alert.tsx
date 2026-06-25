@@ -21,13 +21,13 @@
  * ```
  */
 
-import { useEffect, useState } from 'react';
-import { motion } from '@/lib/motion';
-import { cn } from '@/lib/utils';
-import { AlertTriangle, Info, CheckCircle } from 'lucide-react';
-import { DialogBackdrop, DialogContainer } from '../unified-dialog';
-import { useHapticFeedback } from '@/lib/mobile-utils';
-import type { AlertDialogProps } from '../unified-dialog.types';
+import { useEffect, useState } from "react";
+import { motion } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import { AlertTriangle, Info, CheckCircle } from "lucide-react";
+import { DialogBackdrop, DialogContainer } from "../unified-dialog";
+import { useHapticFeedback } from "@/lib/mobile-utils";
+import type { AlertDialogProps } from "../unified-dialog.types";
 
 export function AlertDialog({
   open,
@@ -35,18 +35,18 @@ export function AlertDialog({
   title,
   description,
   confirmLabel,
-  cancelLabel = 'Отмена',
+  cancelLabel = "Отмена",
   onConfirm,
   onCancel,
-  severity = 'danger',
+  severity = "danger",
 }: AlertDialogProps) {
   const [isConfirming, setIsConfirming] = useState(false);
-  const triggerWarningHaptic = useHapticFeedback('warning');
-  const triggerSelectionHaptic = useHapticFeedback('selection');
+  const triggerWarningHaptic = useHapticFeedback("warning");
+  const triggerSelectionHaptic = useHapticFeedback("selection");
 
   // Trigger warning haptic when dialog opens for danger severity
   useEffect(() => {
-    if (open && severity === 'danger') {
+    if (open && severity === "danger") {
       triggerWarningHaptic();
     }
   }, [open, severity, triggerWarningHaptic]);
@@ -72,27 +72,27 @@ export function AlertDialog({
   const severityConfig = {
     danger: {
       icon: AlertTriangle,
-      iconColor: 'text-red-500',
-      bgColor: 'bg-red-500/10',
-      borderColor: 'border-red-500',
-      buttonBg: 'bg-destructive hover:bg-destructive/90',
-      buttonText: 'text-destructive-foreground',
+      iconColor: "text-red-500",
+      bgColor: "bg-red-500/10",
+      borderColor: "border-red-500",
+      buttonBg: "bg-destructive hover:bg-destructive/90",
+      buttonText: "text-destructive-foreground",
     },
     warning: {
       icon: AlertTriangle,
-      iconColor: 'text-yellow-500',
-      bgColor: 'bg-yellow-500/10',
-      borderColor: 'border-yellow-500',
-      buttonBg: 'bg-yellow-500 hover:bg-yellow-600',
-      buttonText: 'text-black',
+      iconColor: "text-yellow-500",
+      bgColor: "bg-yellow-500/10",
+      borderColor: "border-yellow-500",
+      buttonBg: "bg-yellow-500 hover:bg-yellow-600",
+      buttonText: "text-black",
     },
     info: {
       icon: Info,
-      iconColor: 'text-blue-500',
-      bgColor: 'bg-blue-500/10',
-      borderColor: 'border-blue-500',
-      buttonBg: 'bg-primary hover:bg-primary/90',
-      buttonText: 'text-primary-foreground',
+      iconColor: "text-blue-500",
+      bgColor: "bg-blue-500/10",
+      borderColor: "border-blue-500",
+      buttonBg: "bg-primary hover:bg-primary/90",
+      buttonText: "text-primary-foreground",
     },
   }[severity];
 
@@ -110,11 +110,13 @@ export function AlertDialog({
         <div className="p-6">
           {/* Icon */}
           <div className="flex justify-center mb-4">
-            <div className={cn(
-              'w-12 h-12 min-w-[48px] min-h-[48px] rounded-full flex items-center justify-center',
-              severityConfig.bgColor
-            )}>
-              <Icon className={cn('w-6 h-6', severityConfig.iconColor)} />
+            <div
+              className={cn(
+                "w-12 h-12 min-w-[48px] min-h-[48px] rounded-full flex items-center justify-center",
+                severityConfig.bgColor,
+              )}
+            >
+              <Icon className={cn("w-6 h-6", severityConfig.iconColor)} />
             </div>
           </div>
 
@@ -130,9 +132,9 @@ export function AlertDialog({
               onClick={handleCancel}
               disabled={isConfirming}
               className={cn(
-                'w-full sm:w-auto px-4 py-2.5 min-h-[44px] rounded-md font-medium transition-colors',
-                'border border-input bg-background hover:bg-accent',
-                'disabled:opacity-50 disabled:cursor-not-allowed'
+                "w-full sm:w-auto px-4 py-2.5 min-h-[44px] rounded-md font-medium transition-colors",
+                "border border-input bg-background hover:bg-accent",
+                "disabled:opacity-50 disabled:cursor-not-allowed",
               )}
             >
               {cancelLabel}
@@ -141,13 +143,13 @@ export function AlertDialog({
               onClick={handleConfirm}
               disabled={isConfirming}
               className={cn(
-                'w-full sm:w-auto px-4 py-2.5 min-h-[44px] rounded-md font-medium transition-colors',
+                "w-full sm:w-auto px-4 py-2.5 min-h-[44px] rounded-md font-medium transition-colors",
                 severityConfig.buttonBg,
                 severityConfig.buttonText,
-                'disabled:opacity-50 disabled:cursor-not-allowed'
+                "disabled:opacity-50 disabled:cursor-not-allowed",
               )}
             >
-              {isConfirming ? 'Выполняется...' : confirmLabel}
+              {isConfirming ? "Выполняется..." : confirmLabel}
             </button>
           </div>
         </div>

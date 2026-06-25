@@ -1,8 +1,8 @@
-import { getSupabaseClient } from '../_shared/supabase-client.ts';
+import { getSupabaseClient } from "../_shared/supabase-client.ts";
 
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
 interface SunoTrackData {
@@ -17,7 +17,7 @@ interface SunoTrackData {
 }
 
 Deno.serve(async (req) => {
-  if (req.method === 'OPTIONS') {
+  if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
@@ -25,21 +25,22 @@ Deno.serve(async (req) => {
     const supabase = getSupabaseClient();
 
     // Authenticate user
-    const authHeader = req.headers.get('Authorization')!;
-    const { data: { user }, error: authError } = await supabase.auth.getUser(
-      authHeader.replace('Bearer ', '')
-    );
+    const authHeader = req.headers.get("Authorization")!;
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(authHeader.replace("Bearer ", ""));
 
     if (authError || !user) {
-      throw new Error('Unauthorized');
+      throw new Error("Unauthorized");
     }
 
-    const { trackData, tags: rawTags } = await req.json() as {
+    const { trackData, tags: rawTags } = (await req.json()) as {
       trackData: SunoTrackData;
       tags?: string[];
     };
 
-    console.log('Syncing tags for track:', trackData.id);
+    console.log("Syncing tags for track:", trackData.id);
 
     // Extract tags from different sources
     const allTags: string[] = [];
@@ -48,8 +49,8 @@ Deno.serve(async (req) => {
     if (trackData.tags) {
       const parsedTags = trackData.tags
         .split(/[,\s]+/)
-        .map(t => t.trim())
-        .filter(t => t.length > 0);
+        .map((t) => t.trim())
+        .filter((t) => t.length > 0);
       allTags.push(...parsedTags);
     }
 
@@ -63,9 +64,7 @@ Deno.serve(async (req) => {
       // Match patterns like [Genre: Rock] or [Mood: Happy]
       const styleTagMatches = trackData.metadata.style.match(/\[([^\]]+)\]/g);
       if (styleTagMatches) {
-        const styleTags = styleTagMatches.map(match => 
-          match.replace(/[[\]]/g, '').trim()
-        );
+        const styleTags = styleTagMatches.map((match) => match.replace(/[[\]]/g, "").trim());
         allTags.push(...styleTags);
       }
     }
@@ -75,9 +74,7 @@ Deno.serve(async (req) => {
       // Match patterns like [Verse] or [Chorus]
       const promptTagMatches = trackData.metadata.prompt.match(/\[([^\]]+)\]/g);
       if (promptTagMatches) {
-        const promptTags = promptTagMatches.map(match => 
-          match.replace(/[[\]]/g, '').trim()
-        );
+        const promptTags = promptTagMatches.map((match) => match.replace(/[[\]]/g, "").trim());
         allTags.push(...promptTags);
       }
     }
@@ -88,7 +85,7 @@ Deno.serve(async (req) => {
     }
 
     // Remove duplicates and empty strings
-    const uniqueTags = [...new Set(allTags.filter(t => t.length > 0))];
+    const uniqueTags = [...new Set(allTags.filter((t) => t.length > 0))];
 
     console.log(`Found ${uniqueTags.length} unique tags:`, uniqueTags);
 
@@ -96,38 +93,47 @@ Deno.serve(async (req) => {
     const syncedTags = [];
     for (const tagName of uniqueTags) {
       // Categorize tag based on common patterns
-      let category = 'genre';
+      let category = "genre";
       const lowerTag = tagName.toLowerCase();
 
-      if (/melanchol|happy|sad|dark|bright|aggressive|calm|dreamy|atmospheric|energetic|chill|upbeat|mellow|intense|romantic|nostalgic|epic|ethereal|groovy|funky|angry|peaceful|mysterious|playful|somber|triumphant/i.test(lowerTag)) {
-        category = 'mood';
+      if (
+        /melanchol|happy|sad|dark|bright|aggressive|calm|dreamy|atmospheric|energetic|chill|upbeat|mellow|intense|romantic|nostalgic|epic|ethereal|groovy|funky|angry|peaceful|mysterious|playful|somber|triumphant/i.test(
+          lowerTag,
+        )
+      ) {
+        category = "mood";
       } else if (/vocal|rap|sing|voice|female|male|choir|acapella|harmony/i.test(lowerTag)) {
-        category = 'vocal';
+        category = "vocal";
       } else if (/slow|fast|medium|tempo|bpm|uptempo|downtempo/i.test(lowerTag)) {
-        category = 'tempo';
-      } else if (/piano|guitar|drum|bass|synth|string|orchestra|violin|cello|brass|horn|flute|sax|organ|harp|percussion|808/i.test(lowerTag)) {
-        category = 'instrument';
+        category = "tempo";
+      } else if (
+        /piano|guitar|drum|bass|synth|string|orchestra|violin|cello|brass|horn|flute|sax|organ|harp|percussion|808/i.test(
+          lowerTag,
+        )
+      ) {
+        category = "instrument";
       } else if (/intro|verse|chorus|bridge|outro|drop|breakdown|build|hook/i.test(lowerTag)) {
-        category = 'structure';
+        category = "structure";
       }
 
       // Insert into track_tags table (new normalized storage)
       const normalized = tagName.toLowerCase().trim();
-      const { error: trackTagError } = await supabase
-        .from('track_tags')
-        .upsert({
+      const { error: trackTagError } = await supabase.from("track_tags").upsert(
+        {
           track_id: trackData.id,
           tag_name: tagName,
           normalized_name: normalized,
-          category: category
-        }, { onConflict: 'track_id,normalized_name' });
+          category: category,
+        },
+        { onConflict: "track_id,normalized_name" },
+      );
 
       if (trackTagError) {
         console.error(`Error saving track tag "${tagName}":`, trackTagError);
       }
 
       // Also use legacy RPC to sync tag to parsed_suno_tags (backward compatibility)
-      const { data: tagId, error: syncError } = await supabase.rpc('sync_parsed_tag', {
+      const { data: tagId, error: syncError } = await supabase.rpc("sync_parsed_tag", {
         _tag_name: tagName,
         _category: category,
         _metadata: {
@@ -145,12 +151,12 @@ Deno.serve(async (req) => {
 
     // Check which tags exist in main meta_tags table
     const { data: existingMetaTags } = await supabase
-      .from('suno_meta_tags')
-      .select('tag_name')
-      .in('tag_name', uniqueTags);
+      .from("suno_meta_tags")
+      .select("tag_name")
+      .in("tag_name", uniqueTags);
 
-    const existingTagNames = new Set(existingMetaTags?.map(t => t.tag_name) || []);
-    const newTags = uniqueTags.filter(t => !existingTagNames.has(t));
+    const existingTagNames = new Set(existingMetaTags?.map((t) => t.tag_name) || []);
+    const newTags = uniqueTags.filter((t) => !existingTagNames.has(t));
 
     console.log(`Synced ${syncedTags.length} tags, ${newTags.length} are new and not in meta_tags`);
 
@@ -162,18 +168,15 @@ Deno.serve(async (req) => {
         allTags: syncedTags,
       }),
       {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      }
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      },
     );
   } catch (error) {
-    console.error('Error syncing tags:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-    return new Response(
-      JSON.stringify({ error: errorMessage }),
-      {
-        status: 400,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      }
-    );
+    console.error("Error syncing tags:", error);
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    return new Response(JSON.stringify({ error: errorMessage }), {
+      status: 400,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 });

@@ -6,15 +6,15 @@
  * Supports both standalone template mode and project track editing mode
  */
 
-import { useState, useCallback, useMemo, useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { 
-  ChevronLeft, 
-  Save, 
-  Plus, 
-  FileText, 
-  Sparkles, 
+import { useState, useCallback, useMemo, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { motion, AnimatePresence } from "@/lib/motion";
+import {
+  ChevronLeft,
+  Save,
+  Plus,
+  FileText,
+  Sparkles,
   Tag,
   Music2,
   Loader2,
@@ -22,78 +22,83 @@ import {
   Bot,
   X,
   MoreVertical,
-  PenLine
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { Card } from '@/components/ui/card';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+  PenLine,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   LyricsWorkspace,
   LyricsSection,
   TagsEditor,
   LyricsHistoryBar,
   LyricsVersionsPanel,
-} from '@/components/lyrics-workspace';
-import { SectionNotesPanel } from '@/components/studio/unified/SectionNotesPanel';
-import { LyricsAIChatAgent } from '@/components/lyrics-workspace/LyricsAIChatAgent';
-import { MobileAIAgentPanel } from '@/components/lyrics-workspace/ai-agent/MobileAIAgentPanel';
-import { useLyricsTemplates } from '@/hooks/useLyricsTemplates';
-import { useLyricsVersioning } from '@/hooks/useLyricsVersioning';
-import { useLyricsHistoryStore } from '@/stores/useLyricsHistoryStore';
-import { useSectionNotes, SaveSectionNoteData } from '@/hooks/useSectionNotes';
-import { useAuth } from '@/hooks/useAuth';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
-import { supabase } from '@/integrations/supabase/client';
-import { hapticImpact } from '@/lib/haptic';
-import { toast } from 'sonner';
-import { SEOHead, SEO_PRESETS } from '@/components/SEOHead';
-import { AppHeader } from '@/components/layout/AppHeader';
-import { EditableTitle } from '@/components/ui/editable-title';
-import { cn } from '@/lib/utils';
-import logo from '@/assets/logo.png';
+} from "@/components/lyrics-workspace";
+import { SectionNotesPanel } from "@/components/studio/unified/SectionNotesPanel";
+import { LyricsAIChatAgent } from "@/components/lyrics-workspace/LyricsAIChatAgent";
+import { MobileAIAgentPanel } from "@/components/lyrics-workspace/ai-agent/MobileAIAgentPanel";
+import { useLyricsTemplates } from "@/hooks/useLyricsTemplates";
+import { useLyricsVersioning } from "@/hooks/useLyricsVersioning";
+import { useLyricsHistoryStore } from "@/stores/useLyricsHistoryStore";
+import { useSectionNotes, SaveSectionNoteData } from "@/hooks/useSectionNotes";
+import { useAuth } from "@/hooks/useAuth";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
+import { supabase } from "@/integrations/supabase/client";
+import { hapticImpact } from "@/lib/haptic";
+import { toast } from "sonner";
+import { SEOHead, SEO_PRESETS } from "@/components/SEOHead";
+import { AppHeader } from "@/components/layout/AppHeader";
+import { EditableTitle } from "@/components/ui/editable-title";
+import { cn } from "@/lib/utils";
+import logo from "@/assets/logo.png";
 
 // Parse lyrics text into sections
 function parseLyricsToSections(lyrics: string): LyricsSection[] {
   if (!lyrics.trim()) return [];
-  
+
   const sections: LyricsSection[] = [];
-  const lines = lyrics.split('\n');
+  const lines = lyrics.split("\n");
   let currentSection: LyricsSection | null = null;
   let currentContent: string[] = [];
-  
+
   const sectionPatterns = [
-    { pattern: /^\[(?:Verse|Куплет)/i, type: 'verse' as const },
-    { pattern: /^\[(?:Chorus|Припев)/i, type: 'chorus' as const },
-    { pattern: /^\[(?:Bridge|Бридж)/i, type: 'bridge' as const },
-    { pattern: /^\[(?:Intro|Интро)/i, type: 'intro' as const },
-    { pattern: /^\[(?:Outro|Аутро)/i, type: 'outro' as const },
-    { pattern: /^\[(?:Hook|Хук)/i, type: 'hook' as const },
-    { pattern: /^\[(?:Pre-?Chorus|Пре-?припев)/i, type: 'prechorus' as const },
-    { pattern: /^\[(?:Breakdown|Брейкдаун)/i, type: 'breakdown' as const },
+    { pattern: /^\[(?:Verse|Куплет)/i, type: "verse" as const },
+    { pattern: /^\[(?:Chorus|Припев)/i, type: "chorus" as const },
+    { pattern: /^\[(?:Bridge|Бридж)/i, type: "bridge" as const },
+    { pattern: /^\[(?:Intro|Интро)/i, type: "intro" as const },
+    { pattern: /^\[(?:Outro|Аутро)/i, type: "outro" as const },
+    { pattern: /^\[(?:Hook|Хук)/i, type: "hook" as const },
+    { pattern: /^\[(?:Pre-?Chorus|Пре-?припев)/i, type: "prechorus" as const },
+    { pattern: /^\[(?:Breakdown|Брейкдаун)/i, type: "breakdown" as const },
   ];
 
   for (const line of lines) {
     let foundSection = false;
-    
+
     for (const { pattern, type } of sectionPatterns) {
       if (pattern.test(line)) {
         // Save previous section
         if (currentSection && currentContent.length > 0) {
-          currentSection.content = currentContent.join('\n').trim();
+          currentSection.content = currentContent.join("\n").trim();
           sections.push(currentSection);
         }
-        
+
         // Start new section
         currentSection = {
           id: `${type}-${Date.now()}-${sections.length}`,
           type,
-          content: '',
+          content: "",
           tags: [],
         };
         currentContent = [];
@@ -101,69 +106,71 @@ function parseLyricsToSections(lyrics: string): LyricsSection[] {
         break;
       }
     }
-    
+
     if (!foundSection && line.trim()) {
       currentContent.push(line);
     }
   }
-  
+
   // Add last section
   if (currentSection && currentContent.length > 0) {
-    currentSection.content = currentContent.join('\n').trim();
+    currentSection.content = currentContent.join("\n").trim();
     sections.push(currentSection);
   }
-  
+
   // If no sections found, create one verse
   if (sections.length === 0 && lyrics.trim()) {
     sections.push({
       id: `verse-${Date.now()}`,
-      type: 'verse',
+      type: "verse",
       content: lyrics.trim(),
       tags: [],
     });
   }
-  
+
   return sections;
 }
 
 // Convert sections back to lyrics text
 function sectionsToLyrics(sections: LyricsSection[]): string {
   const typeLabels: Record<string, string> = {
-    verse: 'Verse',
-    chorus: 'Chorus',
-    bridge: 'Bridge',
-    intro: 'Intro',
-    outro: 'Outro',
-    hook: 'Hook',
-    prechorus: 'Pre-Chorus',
-    breakdown: 'Breakdown',
+    verse: "Verse",
+    chorus: "Chorus",
+    bridge: "Bridge",
+    intro: "Intro",
+    outro: "Outro",
+    hook: "Hook",
+    prechorus: "Pre-Chorus",
+    breakdown: "Breakdown",
   };
-  
+
   let verseCount = 0;
   let chorusCount = 0;
-  
-  return sections.map(section => {
-    let label = typeLabels[section.type] || 'Section';
-    if (section.type === 'verse') {
-      verseCount++;
-      label = `Verse ${verseCount}`;
-    } else if (section.type === 'chorus') {
-      chorusCount++;
-      if (chorusCount > 1) label = 'Chorus';
-    }
-    
-    return `[${label}]\n${section.content}`;
-  }).join('\n\n');
+
+  return sections
+    .map((section) => {
+      let label = typeLabels[section.type] || "Section";
+      if (section.type === "verse") {
+        verseCount++;
+        label = `Verse ${verseCount}`;
+      } else if (section.type === "chorus") {
+        chorusCount++;
+        if (chorusCount > 1) label = "Chorus";
+      }
+
+      return `[${label}]\n${section.content}`;
+    })
+    .join("\n\n");
 }
 
 export default function LyricsStudio() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const templateId = searchParams.get('template');
-  const projectId = searchParams.get('projectId');
-  const trackId = searchParams.get('trackId');
+  const templateId = searchParams.get("template");
+  const projectId = searchParams.get("projectId");
+  const trackId = searchParams.get("trackId");
   const isMobile = useIsMobile();
-  
+
   // Project track mode
   const isProjectTrackMode = !!(projectId && trackId);
   const [projectTrack, setProjectTrack] = useState<{
@@ -188,22 +195,26 @@ export default function LyricsStudio() {
     project_type: string | null;
     cover_url: string | null;
   } | null>(null);
-  const [tracklist, setTracklist] = useState<Array<{
-    id: string;
-    position: number;
-    title: string;
-    lyrics: string | null;
-    status: string | null;
-  }>>([]);
+  const [tracklist, setTracklist] = useState<
+    Array<{
+      id: string;
+      position: number;
+      title: string;
+      lyrics: string | null;
+      status: string | null;
+    }>
+  >([]);
   const [isLoadingTrack, setIsLoadingTrack] = useState(false);
-  
+
   const { user } = useAuth();
   const { templates, saveTemplate, isLoading: templatesLoading } = useLyricsTemplates();
-  const { sectionNotes, saveSectionNote, getNoteForSection, getAllSuggestedTags, isSaving } = useSectionNotes(templateId || undefined);
-  
+  const { sectionNotes, saveSectionNote, getNoteForSection, getAllSuggestedTags, isSaving } = useSectionNotes(
+    templateId || undefined,
+  );
+
   const [sections, setSections] = useState<LyricsSection[]>([]);
   const [globalTags, setGlobalTags] = useState<string[]>([]);
-  const [title, setTitle] = useState('Новый текст');
+  const [title, setTitle] = useState("Новый текст");
   const [isDirty, setIsDirty] = useState(false);
   const [selectedSection, setSelectedSection] = useState<LyricsSection | null>(null);
   const [notesPanelOpen, setNotesPanelOpen] = useState(false);
@@ -237,34 +248,36 @@ export default function LyricsStudio() {
   useEffect(() => {
     async function loadProjectData() {
       if (!isProjectTrackMode || !trackId || !projectId) return;
-      
+
       setIsLoadingTrack(true);
       try {
         // Load track, project, and tracklist in parallel
         const [trackResult, projectResult, tracklistResult] = await Promise.all([
           supabase
-            .from('project_tracks')
-            .select('id, title, lyrics, style_prompt, notes, recommended_tags, recommended_structure, position')
-            .eq('id', trackId)
+            .from("project_tracks")
+            .select("id, title, lyrics, style_prompt, notes, recommended_tags, recommended_structure, position")
+            .eq("id", trackId)
             .single(),
           supabase
-            .from('music_projects')
-            .select('id, title, genre, mood, concept, target_audience, reference_artists, language, project_type, cover_url')
-            .eq('id', projectId)
+            .from("music_projects")
+            .select(
+              "id, title, genre, mood, concept, target_audience, reference_artists, language, project_type, cover_url",
+            )
+            .eq("id", projectId)
             .single(),
           supabase
-            .from('project_tracks')
-            .select('id, position, title, lyrics, status')
-            .eq('project_id', projectId)
-            .order('position', { ascending: true })
+            .from("project_tracks")
+            .select("id, position, title, lyrics, status")
+            .eq("project_id", projectId)
+            .order("position", { ascending: true }),
         ]);
-        
+
         if (trackResult.error) {
-          toast.error('Ошибка загрузки трека');
+          toast.error("Ошибка загрузки трека");
           navigate(`/projects/${projectId}`);
           return;
         }
-        
+
         if (trackResult.data) {
           setProjectTrack(trackResult.data);
           setTitle(trackResult.data.title);
@@ -276,11 +289,11 @@ export default function LyricsStudio() {
           }
           setIsDirty(false);
         }
-        
+
         if (projectResult.data) {
           setProjectData(projectResult.data);
         }
-        
+
         if (tracklistResult.data) {
           setTracklist(tracklistResult.data);
         }
@@ -288,14 +301,14 @@ export default function LyricsStudio() {
         setIsLoadingTrack(false);
       }
     }
-    
+
     loadProjectData();
   }, [isProjectTrackMode, trackId, projectId, navigate]);
 
   // Load template if provided (standalone mode)
   useMemo(() => {
     if (!isProjectTrackMode && templateId && templates) {
-      const template = templates.find(t => t.id === templateId);
+      const template = templates.find((t) => t.id === templateId);
       if (template) {
         setTitle(template.name);
         setSections(parseLyricsToSections(template.lyrics));
@@ -314,7 +327,7 @@ export default function LyricsStudio() {
 
   const handleSave = useCallback(async () => {
     if (!user) {
-      toast.error('Войдите для сохранения');
+      toast.error("Войдите для сохранения");
       return;
     }
 
@@ -322,23 +335,23 @@ export default function LyricsStudio() {
     try {
       const lyrics = sectionsToLyrics(sections);
       const allTags = [...new Set([...globalTags, ...enrichedTags])].slice(0, 15);
-      
+
       if (isProjectTrackMode && trackId) {
         // Save to project track
         const { error } = await supabase
-          .from('project_tracks')
-          .update({ 
-            lyrics, 
-            lyrics_status: 'draft',
-            recommended_tags: allTags 
+          .from("project_tracks")
+          .update({
+            lyrics,
+            lyrics_status: "draft",
+            recommended_tags: allTags,
           })
-          .eq('id', trackId);
-        
+          .eq("id", trackId);
+
         if (error) throw error;
-        
+
         setIsDirty(false);
-        toast.success('Лирика сохранена');
-        hapticImpact('medium');
+        toast.success("Лирика сохранена");
+        hapticImpact("medium");
       } else {
         // Save as template (standalone mode)
         await saveTemplate({
@@ -347,11 +360,11 @@ export default function LyricsStudio() {
           tags: allTags,
         });
         setIsDirty(false);
-        toast.success('Текст сохранен');
-        hapticImpact('medium');
+        toast.success("Текст сохранен");
+        hapticImpact("medium");
       }
     } catch (error) {
-      toast.error('Ошибка сохранения');
+      toast.error("Ошибка сохранения");
     } finally {
       setIsSavingLyrics(false);
     }
@@ -360,30 +373,36 @@ export default function LyricsStudio() {
   const handleOpenNotes = useCallback((section: LyricsSection) => {
     setSelectedSection(section);
     setNotesPanelOpen(true);
-    hapticImpact('light');
+    hapticImpact("light");
   }, []);
 
-  const handleSaveNote = useCallback(async (data: SaveSectionNoteData) => {
-    await saveSectionNote(data);
-  }, [saveSectionNote]);
+  const handleSaveNote = useCallback(
+    async (data: SaveSectionNoteData) => {
+      await saveSectionNote(data);
+    },
+    [saveSectionNote],
+  );
 
-  const handleLoadTemplate = useCallback((template: { id: string; name: string; lyrics: string }) => {
-    navigate(`/lyrics-studio?template=${template.id}`);
-    setTemplatesOpen(false);
-    hapticImpact('light');
-  }, [navigate]);
+  const handleLoadTemplate = useCallback(
+    (template: { id: string; name: string; lyrics: string }) => {
+      navigate(`/lyrics-studio?template=${template.id}`);
+      setTemplatesOpen(false);
+      hapticImpact("light");
+    },
+    [navigate],
+  );
 
   const handleNewDocument = useCallback(() => {
     if (isProjectTrackMode) {
       // In project mode, going to standalone studio
-      navigate('/lyrics-studio');
+      navigate("/lyrics-studio");
     } else {
       setSections([]);
-      setTitle('Новый текст');
+      setTitle("Новый текст");
       setIsDirty(false);
-      navigate('/lyrics-studio');
+      navigate("/lyrics-studio");
     }
-    hapticImpact('light');
+    hapticImpact("light");
   }, [navigate, isProjectTrackMode]);
 
   const handleBack = useCallback(() => {
@@ -405,55 +424,49 @@ export default function LyricsStudio() {
   }
 
   return (
-    <div className="flex flex-col h-full bg-background" style={{
-      paddingTop: isMobile ? 'max(var(--tg-content-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))' : undefined
-    }}>
+    <div
+      className="flex flex-col h-full bg-background"
+      style={{
+        paddingTop: isMobile
+          ? "max(var(--tg-content-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))"
+          : undefined,
+      }}
+    >
       {/* Project Header for project mode - compact multi-line on mobile */}
       {isProjectTrackMode && projectData && (
         <div className="border-b border-border/50 bg-card/50">
           {/* Compact header row */}
           <div className="flex items-center gap-3 px-3 py-2.5">
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              onClick={handleBack}
-              className="h-8 w-8 shrink-0"
-            >
+            <Button variant="ghost" size="icon" onClick={handleBack} className="h-8 w-8 shrink-0">
               <ChevronLeft className="w-5 h-5" />
             </Button>
-            
+
             {/* Cover + info */}
             <div className="flex items-center gap-2.5 flex-1 min-w-0">
               <div className="w-10 h-10 rounded-lg overflow-hidden bg-muted shrink-0 shadow-sm">
                 {projectData.cover_url ? (
-                  <img 
-                    src={projectData.cover_url} 
-                    alt={projectData.title}
-                    className="w-full h-full object-cover"
-                  />
+                  <img src={projectData.cover_url} alt={projectData.title} className="w-full h-full object-cover" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/20 to-primary/5">
                     <Music2 className="w-5 h-5 text-primary/50" />
                   </div>
                 )}
               </div>
-              
+
               <div className="flex-1 min-w-0">
                 <p className="text-[11px] text-muted-foreground truncate">
                   {projectData.title} • #{projectTrack?.position ?? 0 + 1}
                 </p>
-                <p className="text-sm font-semibold truncate">
-                  {title}
-                </p>
+                <p className="text-sm font-semibold truncate">{title}</p>
               </div>
             </div>
-            
+
             {/* Actions */}
             <div className="flex items-center gap-1 shrink-0">
-              <Button 
+              <Button
                 onClick={() => {
                   setAiPanelOpen(true);
-                  hapticImpact('light');
+                  hapticImpact("light");
                 }}
                 size="icon"
                 variant="ghost"
@@ -461,30 +474,29 @@ export default function LyricsStudio() {
               >
                 <Bot className="w-4 h-4" />
               </Button>
-              <Button 
+              <Button
                 onClick={handleSave}
                 disabled={isSavingLyrics || !isDirty}
                 size="icon"
                 variant={isDirty ? "default" : "ghost"}
                 className="h-8 w-8"
               >
-                {isSavingLyrics ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                ) : (
-                  <Save className="w-4 h-4" />
-                )}
+                {isSavingLyrics ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
               </Button>
             </div>
           </div>
-          
+
           {/* Tags row - only if present */}
           {(projectData.genre || projectData.mood || globalTags.length > 0) && (
-            <div 
+            <div
               className="flex gap-1.5 px-3 pb-2 overflow-x-auto scrollbar-hide cursor-pointer"
               onClick={() => setTagsPanelOpen(true)}
             >
               {projectData.genre && (
-                <Badge variant="secondary" className="text-[10px] h-5 px-2 shrink-0 bg-primary/10 text-primary border-0">
+                <Badge
+                  variant="secondary"
+                  className="text-[10px] h-5 px-2 shrink-0 bg-primary/10 text-primary border-0"
+                >
                   {projectData.genre}
                 </Badge>
               )}
@@ -493,7 +505,7 @@ export default function LyricsStudio() {
                   {projectData.mood}
                 </Badge>
               )}
-              {globalTags.slice(0, 3).map(tag => (
+              {globalTags.slice(0, 3).map((tag) => (
                 <Badge key={tag} variant="secondary" className="text-[10px] h-5 px-2 shrink-0">
                   {tag}
                 </Badge>
@@ -507,7 +519,7 @@ export default function LyricsStudio() {
           )}
         </div>
       )}
-      
+
       {/* Standard Header for standalone mode */}
       {!isProjectTrackMode && (
         <AppHeader
@@ -526,29 +538,20 @@ export default function LyricsStudio() {
           }
           icon={<PenLine className="w-4 h-4 text-primary" />}
           leftAction={
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              onClick={handleBack}
-              className="h-8 w-8"
-            >
+            <Button variant="ghost" size="icon" onClick={handleBack} className="h-8 w-8">
               <ChevronLeft className="w-5 h-5" />
             </Button>
           }
           rightAction={
             <div className="flex items-center gap-1">
-              <Button 
+              <Button
                 onClick={handleSave}
                 disabled={isSavingLyrics || !isDirty}
                 size="icon"
                 variant={isDirty ? "default" : "ghost"}
                 className="h-8 w-8"
               >
-                {isSavingLyrics ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                ) : (
-                  <Save className="w-4 h-4" />
-                )}
+                {isSavingLyrics ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
               </Button>
 
               <DropdownMenu>
@@ -562,17 +565,21 @@ export default function LyricsStudio() {
                     <FolderOpen className="w-4 h-4 mr-2" />
                     Мои тексты
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => {
-                    setAiPanelOpen(true);
-                    hapticImpact('light');
-                  }}>
+                  <DropdownMenuItem
+                    onClick={() => {
+                      setAiPanelOpen(true);
+                      hapticImpact("light");
+                    }}
+                  >
                     <Bot className="w-4 h-4 mr-2" />
                     AI Ассистент
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => {
-                    setTagsPanelOpen(true);
-                    hapticImpact('light');
-                  }}>
+                  <DropdownMenuItem
+                    onClick={() => {
+                      setTagsPanelOpen(true);
+                      hapticImpact("light");
+                    }}
+                  >
                     <Tag className="w-4 h-4 mr-2" />
                     Теги ({globalTags.length + enrichedTags.length})
                   </DropdownMenuItem>
@@ -598,15 +605,11 @@ export default function LyricsStudio() {
               </DrawerTitle>
             </DrawerHeader>
             <div className="p-4 space-y-3">
-              <Button 
-                variant="outline" 
-                className="w-full justify-start gap-2 h-12"
-                onClick={handleNewDocument}
-              >
+              <Button variant="outline" className="w-full justify-start gap-2 h-12" onClick={handleNewDocument}>
                 <Plus className="w-5 h-5" />
                 Новый текст
               </Button>
-              
+
               <ScrollArea className="h-[50vh]">
                 <div className="space-y-2 pr-2">
                   {templatesLoading ? (
@@ -616,19 +619,15 @@ export default function LyricsStudio() {
                   ) : templates?.length === 0 ? (
                     <div className="text-center py-12">
                       <FileText className="w-12 h-12 mx-auto text-muted-foreground/30 mb-3" />
-                      <p className="text-sm text-muted-foreground">
-                        Нет сохраненных текстов
-                      </p>
+                      <p className="text-sm text-muted-foreground">Нет сохраненных текстов</p>
                     </div>
                   ) : (
-                    templates?.map(template => (
+                    templates?.map((template) => (
                       <Card
                         key={template.id}
                         className={cn(
                           "p-4 cursor-pointer transition-all active:scale-[0.98]",
-                          templateId === template.id 
-                            ? 'border-primary bg-primary/5' 
-                            : 'hover:bg-muted/50'
+                          templateId === template.id ? "border-primary bg-primary/5" : "hover:bg-muted/50",
                         )}
                         onClick={() => handleLoadTemplate(template)}
                       >
@@ -651,7 +650,7 @@ export default function LyricsStudio() {
         {tagsPanelOpen && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
+            animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             className="border-b border-border/50 overflow-hidden bg-muted/30"
           >
@@ -684,7 +683,7 @@ export default function LyricsStudio() {
         {!tagsPanelOpen && (globalTags.length > 0 || enrichedTags.length > 0) && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
+            animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             className="border-b border-border/30 overflow-hidden cursor-pointer hover:bg-muted/30 transition-colors"
             onClick={() => setTagsPanelOpen(true)}
@@ -700,7 +699,7 @@ export default function LyricsStudio() {
                     {tag}
                   </Badge>
                 ))}
-                {(globalTags.length + enrichedTags.length) > 8 && (
+                {globalTags.length + enrichedTags.length > 8 && (
                   <Badge variant="outline" className="text-xs">
                     +{globalTags.length + enrichedTags.length - 8}
                   </Badge>
@@ -716,24 +715,24 @@ export default function LyricsStudio() {
         {/* Lyrics Workspace */}
         <div className="flex-1 overflow-hidden relative flex flex-col">
           <div className="flex-1 overflow-hidden">
-          <LyricsWorkspace
-            sections={sections}
-            onChange={(newSections) => {
-              handleSectionsChange(newSections);
-              // Push to local history
-              lyricsHistory.pushSnapshot({
-                sections: newSections,
-                tags: globalTags,
-                changeType: 'edit',
-              });
-            }}
-            onSave={handleSave}
-            isSaving={isSavingLyrics}
-            hideSaveButton
-            onSectionSelect={setSelectedSection}
-          />
+            <LyricsWorkspace
+              sections={sections}
+              onChange={(newSections) => {
+                handleSectionsChange(newSections);
+                // Push to local history
+                lyricsHistory.pushSnapshot({
+                  sections: newSections,
+                  tags: globalTags,
+                  changeType: "edit",
+                });
+              }}
+              onSave={handleSave}
+              isSaving={isSavingLyrics}
+              hideSaveButton
+              onSectionSelect={setSelectedSection}
+            />
           </div>
-          
+
           {/* History Bar */}
           <LyricsHistoryBar
             onStateChange={(entry) => {
@@ -742,7 +741,7 @@ export default function LyricsStudio() {
             }}
             onOpenVersions={() => setVersionsPanelOpen(true)}
           />
-          
+
           {/* Desktop FAB for AI when panel is closed */}
           {!isMobile && !aiPanelOpen && (
             <motion.div
@@ -755,7 +754,7 @@ export default function LyricsStudio() {
                 className="rounded-full h-14 w-14 shadow-xl shadow-primary/30 bg-gradient-to-br from-primary to-primary/80"
                 onClick={() => {
                   setAiPanelOpen(true);
-                  hapticImpact('medium');
+                  hapticImpact("medium");
                 }}
               >
                 <Bot className="w-6 h-6" />
@@ -772,7 +771,7 @@ export default function LyricsStudio() {
                 initial={{ width: 0, opacity: 0 }}
                 animate={{ width: 400, opacity: 1 }}
                 exit={{ width: 0, opacity: 0 }}
-                transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                transition={{ type: "spring", damping: 25, stiffness: 300 }}
                 className="border-l border-border/50 overflow-hidden bg-gradient-to-b from-muted/30 to-background flex flex-col"
               >
                 <div className="w-[400px] h-full flex flex-col">
@@ -786,7 +785,7 @@ export default function LyricsStudio() {
                         <div>
                           <h3 className="font-semibold text-sm">AI Lyrics Agent</h3>
                           <p className="text-[10px] text-muted-foreground">
-                            {isProjectTrackMode ? 'Режим проекта' : 'Свободный режим'}
+                            {isProjectTrackMode ? "Режим проекта" : "Свободный режим"}
                           </p>
                         </div>
                       </div>
@@ -794,7 +793,7 @@ export default function LyricsStudio() {
                         <X className="w-4 h-4" />
                       </Button>
                     </div>
-                    
+
                     {/* Project Context Summary for Desktop */}
                     {isProjectTrackMode && projectData && (
                       <div className="p-3 rounded-lg bg-primary/5 border border-primary/10 space-y-2">
@@ -809,7 +808,7 @@ export default function LyricsStudio() {
                             </Badge>
                           )}
                         </div>
-                        
+
                         <div className="flex flex-wrap gap-1">
                           {projectData.genre && (
                             <Badge variant="secondary" className="text-[10px]">
@@ -823,53 +822,67 @@ export default function LyricsStudio() {
                           )}
                           {tracklist.length > 0 && (
                             <Badge variant="outline" className="text-[10px]">
-                              {tracklist.filter(t => !!t.lyrics).length}/{tracklist.length} треков
+                              {tracklist.filter((t) => !!t.lyrics).length}/{tracklist.length} треков
                             </Badge>
                           )}
                         </div>
-                        
+
                         {projectData.concept && (
-                          <p className="text-[10px] text-muted-foreground line-clamp-2">
-                            {projectData.concept}
-                          </p>
+                          <p className="text-[10px] text-muted-foreground line-clamp-2">{projectData.concept}</p>
                         )}
                       </div>
                     )}
                   </div>
-                  
+
                   {/* Chat Agent */}
                   <LyricsAIChatAgent
                     existingLyrics={sectionsToLyrics(sections)}
-                    selectedSection={selectedSection ? {
-                      type: selectedSection.type,
-                      content: selectedSection.content,
-                      notes: getNoteForSection(selectedSection.id)?.notes || undefined,
-                      tags: selectedSection.tags,
-                    } : undefined}
+                    selectedSection={
+                      selectedSection
+                        ? {
+                            type: selectedSection.type,
+                            content: selectedSection.content,
+                            notes: getNoteForSection(selectedSection.id)?.notes || undefined,
+                            tags: selectedSection.tags,
+                          }
+                        : undefined
+                    }
                     globalTags={globalTags}
                     sectionTags={selectedSection?.tags}
-                    allSectionNotes={sectionNotes?.map(n => ({ type: n.section_type || '', notes: n.notes || '', tags: n.tags || [] }))}
+                    allSectionNotes={sectionNotes?.map((n) => ({
+                      type: n.section_type || "",
+                      notes: n.notes || "",
+                      tags: n.tags || [],
+                    }))}
                     stylePrompt={projectTrack?.style_prompt || ""}
                     title={title}
-                    projectContext={projectData ? {
-                      projectId: projectData.id,
-                      projectTitle: projectData.title,
-                      projectType: projectData.project_type || undefined,
-                      genre: projectData.genre || undefined,
-                      mood: projectData.mood || undefined,
-                      concept: projectData.concept || undefined,
-                      targetAudience: projectData.target_audience || undefined,
-                      referenceArtists: projectData.reference_artists || undefined,
-                      language: projectData.language || undefined,
-                    } : undefined}
-                    trackContext={projectTrack ? {
-                      position: projectTrack.position,
-                      title: projectTrack.title,
-                      notes: projectTrack.notes || undefined,
-                      recommendedTags: projectTrack.recommended_tags || undefined,
-                      recommendedStructure: projectTrack.recommended_structure || undefined,
-                    } : undefined}
-                    tracklist={tracklist.map(t => ({
+                    projectContext={
+                      projectData
+                        ? {
+                            projectId: projectData.id,
+                            projectTitle: projectData.title,
+                            projectType: projectData.project_type || undefined,
+                            genre: projectData.genre || undefined,
+                            mood: projectData.mood || undefined,
+                            concept: projectData.concept || undefined,
+                            targetAudience: projectData.target_audience || undefined,
+                            referenceArtists: projectData.reference_artists || undefined,
+                            language: projectData.language || undefined,
+                          }
+                        : undefined
+                    }
+                    trackContext={
+                      projectTrack
+                        ? {
+                            position: projectTrack.position,
+                            title: projectTrack.title,
+                            notes: projectTrack.notes || undefined,
+                            recommendedTags: projectTrack.recommended_tags || undefined,
+                            recommendedStructure: projectTrack.recommended_structure || undefined,
+                          }
+                        : undefined
+                    }
+                    tracklist={tracklist.map((t) => ({
                       position: t.position,
                       title: t.title,
                       hasLyrics: !!t.lyrics,
@@ -878,20 +891,14 @@ export default function LyricsStudio() {
                     onInsertLyrics={(text: string) => {
                       if (selectedSection) {
                         handleSectionsChange(
-                          sections.map(s => 
-                            s.id === selectedSection.id 
-                              ? { ...s, content: s.content + '\n' + text }
-                              : s
-                          )
+                          sections.map((s) =>
+                            s.id === selectedSection.id ? { ...s, content: s.content + "\n" + text } : s,
+                          ),
                         );
                       } else if (sections.length > 0) {
                         const lastIdx = sections.length - 1;
                         handleSectionsChange(
-                          sections.map((s, idx) => 
-                            idx === lastIdx 
-                              ? { ...s, content: s.content + '\n' + text }
-                              : s
-                          )
+                          sections.map((s, idx) => (idx === lastIdx ? { ...s, content: s.content + "\n" + text } : s)),
                         );
                       } else {
                         const parsedSections = parseLyricsToSections(text);
@@ -906,7 +913,7 @@ export default function LyricsStudio() {
                       setIsDirty(true);
                     }}
                     onAddTags={(tags: string[]) => {
-                      setGlobalTags(prev => [...new Set([...prev, ...tags])]);
+                      setGlobalTags((prev) => [...new Set([...prev, ...tags])]);
                       setIsDirty(true);
                     }}
                     className="flex-1 overflow-hidden"
@@ -924,38 +931,54 @@ export default function LyricsStudio() {
           {aiPanelOpen && (
             <MobileAIAgentPanel
               existingLyrics={sectionsToLyrics(sections)}
-              selectedSection={selectedSection ? {
-                type: selectedSection.type,
-                content: selectedSection.content,
-                notes: getNoteForSection(selectedSection.id)?.notes || undefined,
-                tags: selectedSection.tags,
-              } : undefined}
+              selectedSection={
+                selectedSection
+                  ? {
+                      type: selectedSection.type,
+                      content: selectedSection.content,
+                      notes: getNoteForSection(selectedSection.id)?.notes || undefined,
+                      tags: selectedSection.tags,
+                    }
+                  : undefined
+              }
               globalTags={globalTags}
               sectionTags={selectedSection?.tags}
-              allSectionNotes={sectionNotes?.map(n => ({ type: n.section_type || '', notes: n.notes || '', tags: n.tags || [] }))}
+              allSectionNotes={sectionNotes?.map((n) => ({
+                type: n.section_type || "",
+                notes: n.notes || "",
+                tags: n.tags || [],
+              }))}
               stylePrompt={projectTrack?.style_prompt || ""}
               title={title}
               genre={projectData?.genre || undefined}
               mood={projectData?.mood || undefined}
-              projectContext={projectData ? {
-                projectId: projectData.id,
-                projectTitle: projectData.title,
-                projectType: projectData.project_type || undefined,
-                genre: projectData.genre || undefined,
-                mood: projectData.mood || undefined,
-                concept: projectData.concept || undefined,
-                targetAudience: projectData.target_audience || undefined,
-                referenceArtists: projectData.reference_artists || undefined,
-                language: projectData.language || undefined,
-              } : undefined}
-              trackContext={projectTrack ? {
-                position: projectTrack.position,
-                title: projectTrack.title,
-                notes: projectTrack.notes || undefined,
-                recommendedTags: projectTrack.recommended_tags || undefined,
-                recommendedStructure: projectTrack.recommended_structure || undefined,
-              } : undefined}
-              tracklist={tracklist.map(t => ({
+              projectContext={
+                projectData
+                  ? {
+                      projectId: projectData.id,
+                      projectTitle: projectData.title,
+                      projectType: projectData.project_type || undefined,
+                      genre: projectData.genre || undefined,
+                      mood: projectData.mood || undefined,
+                      concept: projectData.concept || undefined,
+                      targetAudience: projectData.target_audience || undefined,
+                      referenceArtists: projectData.reference_artists || undefined,
+                      language: projectData.language || undefined,
+                    }
+                  : undefined
+              }
+              trackContext={
+                projectTrack
+                  ? {
+                      position: projectTrack.position,
+                      title: projectTrack.title,
+                      notes: projectTrack.notes || undefined,
+                      recommendedTags: projectTrack.recommended_tags || undefined,
+                      recommendedStructure: projectTrack.recommended_structure || undefined,
+                    }
+                  : undefined
+              }
+              tracklist={tracklist.map((t) => ({
                 position: t.position,
                 title: t.title,
                 hasLyrics: !!t.lyrics,
@@ -964,20 +987,12 @@ export default function LyricsStudio() {
               onInsertLyrics={(text: string) => {
                 if (selectedSection) {
                   handleSectionsChange(
-                    sections.map(s => 
-                      s.id === selectedSection.id 
-                        ? { ...s, content: s.content + '\n' + text }
-                        : s
-                    )
+                    sections.map((s) => (s.id === selectedSection.id ? { ...s, content: s.content + "\n" + text } : s)),
                   );
                 } else if (sections.length > 0) {
                   const lastIdx = sections.length - 1;
                   handleSectionsChange(
-                    sections.map((s, idx) => 
-                      idx === lastIdx 
-                        ? { ...s, content: s.content + '\n' + text }
-                        : s
-                    )
+                    sections.map((s, idx) => (idx === lastIdx ? { ...s, content: s.content + "\n" + text } : s)),
                   );
                 } else {
                   const parsedSections = parseLyricsToSections(text);
@@ -992,7 +1007,7 @@ export default function LyricsStudio() {
                 setAiPanelOpen(false);
               }}
               onAddTags={(tags: string[]) => {
-                setGlobalTags(prev => [...new Set([...prev, ...tags])]);
+                setGlobalTags((prev) => [...new Set([...prev, ...tags])]);
                 setIsDirty(true);
               }}
               onClose={() => setAiPanelOpen(false)}
@@ -1010,8 +1025,9 @@ export default function LyricsStudio() {
           className="fixed z-40"
           style={{
             // Account for: safe area + player height (4rem) + MainButton area + padding
-            bottom: 'calc(max(var(--tg-content-safe-area-inset-bottom, 60px), var(--tg-safe-area-inset-bottom, 34px), env(safe-area-inset-bottom, 0px)) + 5rem)',
-            right: '1rem'
+            bottom:
+              "calc(max(var(--tg-content-safe-area-inset-bottom, 60px), var(--tg-safe-area-inset-bottom, 34px), env(safe-area-inset-bottom, 0px)) + 5rem)",
+            right: "1rem",
           }}
         >
           <Button
@@ -1019,7 +1035,7 @@ export default function LyricsStudio() {
             className="rounded-full h-14 w-14 shadow-xl shadow-primary/30 bg-gradient-to-br from-primary to-primary/80"
             onClick={() => {
               setAiPanelOpen(true);
-              hapticImpact('medium');
+              hapticImpact("medium");
             }}
           >
             <Sparkles className="w-6 h-6" />
@@ -1035,17 +1051,15 @@ export default function LyricsStudio() {
           sectionId={selectedSection.id}
           sectionType={selectedSection.type}
           sectionContent={selectedSection.content}
-          position={sections.findIndex(s => s.id === selectedSection.id)}
+          position={sections.findIndex((s) => s.id === selectedSection.id)}
           existingNote={getNoteForSection(selectedSection.id)}
           lyricsTemplateId={templateId || undefined}
           onSave={handleSaveNote}
           onEnrichWithTags={(tags) => {
             handleSectionsChange(
-              sections.map(s => 
-                s.id === selectedSection.id 
-                  ? { ...s, tags: [...new Set([...(s.tags || []), ...tags])] }
-                  : s
-              )
+              sections.map((s) =>
+                s.id === selectedSection.id ? { ...s, tags: [...new Set([...(s.tags || []), ...tags])] } : s,
+              ),
             );
           }}
         />

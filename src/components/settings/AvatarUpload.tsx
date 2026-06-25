@@ -1,11 +1,11 @@
-import { useState, useRef } from 'react';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
-import { Camera, Loader2, X } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/hooks/useAuth';
-import { toast } from 'sonner';
-import { logger } from '@/lib/logger';
+import { useState, useRef } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Camera, Loader2, X } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
+import { toast } from "sonner";
+import { logger } from "@/lib/logger";
 
 interface AvatarUploadProps {
   currentUrl?: string | null;
@@ -24,14 +24,14 @@ export function AvatarUpload({ currentUrl, firstName, onUpload }: AvatarUploadPr
     if (!file || !user?.id) return;
 
     // Validate file type
-    if (!file.type.startsWith('image/')) {
-      toast.error('Пожалуйста, выберите изображение');
+    if (!file.type.startsWith("image/")) {
+      toast.error("Пожалуйста, выберите изображение");
       return;
     }
 
     // Validate file size (max 5MB)
     if (file.size > 5 * 1024 * 1024) {
-      toast.error('Размер файла не должен превышать 5 МБ');
+      toast.error("Размер файла не должен превышать 5 МБ");
       return;
     }
 
@@ -43,82 +43,76 @@ export function AvatarUpload({ currentUrl, firstName, onUpload }: AvatarUploadPr
       setPreviewUrl(objectUrl);
 
       // Generate unique filename
-      const fileExt = file.name.split('.').pop();
+      const fileExt = file.name.split(".").pop();
       const fileName = `${user.id}/avatar.${fileExt}`;
 
       // Upload to Supabase Storage
-      const { error: uploadError } = await supabase.storage
-        .from('avatars')
-        .upload(fileName, file, {
-          upsert: true,
-          contentType: file.type,
-        });
+      const { error: uploadError } = await supabase.storage.from("avatars").upload(fileName, file, {
+        upsert: true,
+        contentType: file.type,
+      });
 
       if (uploadError) throw uploadError;
 
       // Get public URL
-      const { data: { publicUrl } } = supabase.storage
-        .from('avatars')
-        .getPublicUrl(fileName);
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from("avatars").getPublicUrl(fileName);
 
       // Add cache buster
       const urlWithCacheBuster = `${publicUrl}?t=${Date.now()}`;
-      
+
       onUpload(urlWithCacheBuster);
-      toast.success('Аватар обновлён');
-      
-      logger.info('Avatar uploaded successfully');
+      toast.success("Аватар обновлён");
+
+      logger.info("Avatar uploaded successfully");
     } catch (error) {
-      logger.error('Avatar upload error', error);
-      toast.error('Ошибка загрузки аватара');
+      logger.error("Avatar upload error", error);
+      toast.error("Ошибка загрузки аватара");
       setPreviewUrl(null);
     } finally {
       setIsUploading(false);
       // Reset input
       if (fileInputRef.current) {
-        fileInputRef.current.value = '';
+        fileInputRef.current.value = "";
       }
     }
   };
 
   const handleRemoveAvatar = async () => {
     if (!user?.id) return;
-    
+
     setIsUploading(true);
-    
+
     try {
       // List files in user folder
-      const { data: files } = await supabase.storage
-        .from('avatars')
-        .list(user.id);
+      const { data: files } = await supabase.storage.from("avatars").list(user.id);
 
       if (files && files.length > 0) {
-        const filesToRemove = files.map(f => `${user.id}/${f.name}`);
-        await supabase.storage.from('avatars').remove(filesToRemove);
+        const filesToRemove = files.map((f) => `${user.id}/${f.name}`);
+        await supabase.storage.from("avatars").remove(filesToRemove);
       }
 
       setPreviewUrl(null);
-      onUpload('');
-      toast.success('Аватар удалён');
+      onUpload("");
+      toast.success("Аватар удалён");
     } catch (error) {
-      logger.error('Avatar remove error', error);
-      toast.error('Ошибка удаления аватара');
+      logger.error("Avatar remove error", error);
+      toast.error("Ошибка удаления аватара");
     } finally {
       setIsUploading(false);
     }
   };
 
   const displayUrl = previewUrl || currentUrl;
-  const initials = firstName?.charAt(0)?.toUpperCase() || '?';
+  const initials = firstName?.charAt(0)?.toUpperCase() || "?";
 
   return (
     <div className="flex flex-col items-center gap-4">
       <div className="relative group">
         <Avatar className="w-24 h-24 border-2 border-primary/20">
           <AvatarImage src={displayUrl || undefined} alt="Avatar" />
-          <AvatarFallback className="text-2xl bg-primary/10">
-            {initials}
-          </AvatarFallback>
+          <AvatarFallback className="text-2xl bg-primary/10">{initials}</AvatarFallback>
         </Avatar>
 
         {isUploading && (
@@ -136,25 +130,14 @@ export function AvatarUpload({ currentUrl, firstName, onUpload }: AvatarUploadPr
         </button>
       </div>
 
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept="image/*"
-        onChange={handleFileSelect}
-        className="hidden"
-      />
+      <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileSelect} className="hidden" />
 
       <div className="flex gap-2">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => fileInputRef.current?.click()}
-          disabled={isUploading}
-        >
+        <Button variant="outline" size="sm" onClick={() => fileInputRef.current?.click()} disabled={isUploading}>
           <Camera className="w-4 h-4 mr-2" />
-          {displayUrl ? 'Изменить' : 'Загрузить'}
+          {displayUrl ? "Изменить" : "Загрузить"}
         </Button>
-        
+
         {displayUrl && (
           <Button
             variant="ghost"
@@ -169,9 +152,7 @@ export function AvatarUpload({ currentUrl, firstName, onUpload }: AvatarUploadPr
         )}
       </div>
 
-      <p className="text-xs text-muted-foreground text-center">
-        JPG, PNG или GIF. Максимум 5 МБ.
-      </p>
+      <p className="text-xs text-muted-foreground text-center">JPG, PNG или GIF. Максимум 5 МБ.</p>
     </div>
   );
 }

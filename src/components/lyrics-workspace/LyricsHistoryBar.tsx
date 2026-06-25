@@ -2,15 +2,15 @@
  * LyricsHistoryBar - Compact undo/redo bar with history access
  */
 
-import { useCallback, useEffect } from 'react';
-import { motion } from '@/lib/motion';
-import { Undo2, Redo2, History, Clock } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/components/ui/tooltip';
-import { useLyricsHistoryStore, LyricsHistoryEntry } from '@/stores/useLyricsHistoryStore';
-import { cn } from '@/lib/utils';
-import { hapticImpact } from '@/lib/haptic';
+import { useCallback, useEffect } from "react";
+import { motion } from "@/lib/motion";
+import { Undo2, Redo2, History, Clock } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip";
+import { useLyricsHistoryStore, LyricsHistoryEntry } from "@/stores/useLyricsHistoryStore";
+import { cn } from "@/lib/utils";
+import { hapticImpact } from "@/lib/haptic";
 
 interface LyricsHistoryBarProps {
   onStateChange?: (entry: LyricsHistoryEntry) => void;
@@ -18,24 +18,13 @@ interface LyricsHistoryBarProps {
   className?: string;
 }
 
-export function LyricsHistoryBar({ 
-  onStateChange, 
-  onOpenVersions,
-  className 
-}: LyricsHistoryBarProps) {
-  const { 
-    undo, 
-    redo, 
-    canUndo, 
-    canRedo, 
-    getHistoryLength, 
-    getHistoryIndex 
-  } = useLyricsHistoryStore();
+export function LyricsHistoryBar({ onStateChange, onOpenVersions, className }: LyricsHistoryBarProps) {
+  const { undo, redo, canUndo, canRedo, getHistoryLength, getHistoryIndex } = useLyricsHistoryStore();
 
   const handleUndo = useCallback(() => {
     if (!canUndo()) return;
-    
-    hapticImpact('light');
+
+    hapticImpact("light");
     const entry = undo();
     if (entry && onStateChange) {
       onStateChange(entry);
@@ -44,8 +33,8 @@ export function LyricsHistoryBar({
 
   const handleRedo = useCallback(() => {
     if (!canRedo()) return;
-    
-    hapticImpact('light');
+
+    hapticImpact("light");
     const entry = redo();
     if (entry && onStateChange) {
       onStateChange(entry);
@@ -56,33 +45,30 @@ export function LyricsHistoryBar({
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       // Ignore if in input/textarea
-      if (
-        e.target instanceof HTMLInputElement ||
-        e.target instanceof HTMLTextAreaElement
-      ) {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
         return;
       }
 
-      const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+      const isMac = navigator.platform.toUpperCase().indexOf("MAC") >= 0;
       const modKey = isMac ? e.metaKey : e.ctrlKey;
 
-      if (modKey && e.key === 'z' && !e.shiftKey) {
+      if (modKey && e.key === "z" && !e.shiftKey) {
         e.preventDefault();
         handleUndo();
-      } else if (modKey && e.key === 'z' && e.shiftKey) {
+      } else if (modKey && e.key === "z" && e.shiftKey) {
         e.preventDefault();
         handleRedo();
-      } else if (modKey && e.key === 'y') {
+      } else if (modKey && e.key === "y") {
         e.preventDefault();
         handleRedo();
-      } else if (modKey && e.key === 'h') {
+      } else if (modKey && e.key === "h") {
         e.preventDefault();
         onOpenVersions?.();
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handleUndo, handleRedo, onOpenVersions]);
 
   const historyLength = getHistoryLength();
@@ -93,21 +79,12 @@ export function LyricsHistoryBar({
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        className={cn(
-          'flex items-center gap-2 px-3 py-2 bg-muted/50 border-t border-border/50',
-          className
-        )}
+        className={cn("flex items-center gap-2 px-3 py-2 bg-muted/50 border-t border-border/50", className)}
       >
         {/* Undo button */}
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleUndo}
-              disabled={!canUndo()}
-              className="h-8 w-8"
-            >
+            <Button variant="ghost" size="icon" onClick={handleUndo} disabled={!canUndo()} className="h-8 w-8">
               <Undo2 className="w-4 h-4" />
             </Button>
           </TooltipTrigger>
@@ -119,13 +96,7 @@ export function LyricsHistoryBar({
         {/* Redo button */}
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleRedo}
-              disabled={!canRedo()}
-              className="h-8 w-8"
-            >
+            <Button variant="ghost" size="icon" onClick={handleRedo} disabled={!canRedo()} className="h-8 w-8">
               <Redo2 className="w-4 h-4" />
             </Button>
           </TooltipTrigger>
@@ -140,7 +111,9 @@ export function LyricsHistoryBar({
         {/* History counter */}
         <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
           <Clock className="w-3.5 h-3.5" />
-          <span>{currentIndex + 1}/{historyLength}</span>
+          <span>
+            {currentIndex + 1}/{historyLength}
+          </span>
         </div>
 
         {/* Spacer */}
@@ -154,7 +127,7 @@ export function LyricsHistoryBar({
                 variant="outline"
                 size="sm"
                 onClick={() => {
-                  hapticImpact('light');
+                  hapticImpact("light");
                   onOpenVersions();
                 }}
                 className="h-7 text-xs gap-1.5"

@@ -1,23 +1,23 @@
-import { useState } from 'react';
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useProjects, Project } from '@/hooks/useProjects';
-import { Save, Image, ImageIcon, Sparkles, Palette } from 'lucide-react';
-import { toast } from 'sonner';
-import { ProjectCoverEditor } from './ProjectCoverEditor';
-import { ProjectBannerEditor } from './ProjectBannerEditor';
-import { VisualStyleEditor } from './VisualStyleEditor';
-import { useQueryClient } from '@tanstack/react-query';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { supabase } from '@/integrations/supabase/client';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { logger } from '@/lib/logger';
-import { cn } from '@/lib/utils';
-import { surface } from '@/lib/overlay-colors';
+import { useState } from "react";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useProjects, Project } from "@/hooks/useProjects";
+import { Save, Image, ImageIcon, Sparkles, Palette } from "lucide-react";
+import { toast } from "sonner";
+import { ProjectCoverEditor } from "./ProjectCoverEditor";
+import { ProjectBannerEditor } from "./ProjectBannerEditor";
+import { VisualStyleEditor } from "./VisualStyleEditor";
+import { useQueryClient } from "@tanstack/react-query";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { supabase } from "@/integrations/supabase/client";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { logger } from "@/lib/logger";
+import { cn } from "@/lib/utils";
+import { surface } from "@/lib/overlay-colors";
 
 interface ProjectSettingsSheetProps {
   open: boolean;
@@ -32,12 +32,12 @@ export const ProjectSettingsSheet = ({ open, onOpenChange, project }: ProjectSet
   const [isSavingStyle, setIsSavingStyle] = useState(false);
   const [formData, setFormData] = useState({
     title: project.title,
-    description: project.description || '',
-    genre: project.genre || '',
-    mood: project.mood || '',
-    status: project.status || 'draft',
-    language: project.language || 'ru',
-    concept: project.concept || '',
+    description: project.description || "",
+    genre: project.genre || "",
+    mood: project.mood || "",
+    status: project.status || "draft",
+    language: project.language || "ru",
+    concept: project.concept || "",
   });
 
   const handleSave = () => {
@@ -45,41 +45,44 @@ export const ProjectSettingsSheet = ({ open, onOpenChange, project }: ProjectSet
       id: project.id,
       updates: formData,
     });
-    toast.success('Проект обновлен');
+    toast.success("Проект обновлен");
     onOpenChange(false);
   };
 
   const handleCoverUpdate = () => {
-    queryClient.invalidateQueries({ queryKey: ['projects'] });
+    queryClient.invalidateQueries({ queryKey: ["projects"] });
   };
 
   const handleBannerUpdate = () => {
-    queryClient.invalidateQueries({ queryKey: ['projects'] });
+    queryClient.invalidateQueries({ queryKey: ["projects"] });
     setBannerEditorOpen(false);
-    toast.success('Баннер обновлен');
+    toast.success("Баннер обновлен");
   };
 
   const handleVisualStyleSave = async (data: {
     visual_aesthetic?: string;
-    color_palette?: { primary?: string; secondary?: string; accent?: string; background?: string; [key: string]: string | undefined };
+    color_palette?: {
+      primary?: string;
+      secondary?: string;
+      accent?: string;
+      background?: string;
+      [key: string]: string | undefined;
+    };
     typography_style?: string;
     image_style?: string;
     visual_keywords?: string[];
   }) => {
     setIsSavingStyle(true);
     try {
-      const { error } = await supabase
-        .from('music_projects')
-        .update(data)
-        .eq('id', project.id);
+      const { error } = await supabase.from("music_projects").update(data).eq("id", project.id);
 
       if (error) throw error;
-      
-      queryClient.invalidateQueries({ queryKey: ['projects'] });
-      toast.success('Визуальный стиль сохранен');
+
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
+      toast.success("Визуальный стиль сохранен");
     } catch (error: unknown) {
-      logger.error('Error saving visual style', error instanceof Error ? error : new Error(String(error)));
-      toast.error('Ошибка сохранения');
+      logger.error("Error saving visual style", error instanceof Error ? error : new Error(String(error)));
+      toast.error("Ошибка сохранения");
     } finally {
       setIsSavingStyle(false);
     }
@@ -94,13 +97,19 @@ export const ProjectSettingsSheet = ({ open, onOpenChange, project }: ProjectSet
 
         <Tabs defaultValue="general" className="w-full flex-1 flex flex-col overflow-hidden">
           <TabsList className="grid w-full grid-cols-4 mb-4 shrink-0">
-            <TabsTrigger value="general" className="text-xs">Основные</TabsTrigger>
+            <TabsTrigger value="general" className="text-xs">
+              Основные
+            </TabsTrigger>
             <TabsTrigger value="style" className="text-xs gap-1">
               <Palette className="w-3 h-3" />
               Стиль
             </TabsTrigger>
-            <TabsTrigger value="cover" className="text-xs">Обложка</TabsTrigger>
-            <TabsTrigger value="banner" className="text-xs">Баннер</TabsTrigger>
+            <TabsTrigger value="cover" className="text-xs">
+              Обложка
+            </TabsTrigger>
+            <TabsTrigger value="banner" className="text-xs">
+              Баннер
+            </TabsTrigger>
           </TabsList>
 
           <ScrollArea className="flex-1 pr-4">
@@ -153,8 +162,8 @@ export const ProjectSettingsSheet = ({ open, onOpenChange, project }: ProjectSet
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-2">
                   <Label>Язык</Label>
-                  <Select 
-                    value={formData.language} 
+                  <Select
+                    value={formData.language}
                     onValueChange={(value) => setFormData({ ...formData, language: value })}
                   >
                     <SelectTrigger>
@@ -168,8 +177,8 @@ export const ProjectSettingsSheet = ({ open, onOpenChange, project }: ProjectSet
                 </div>
                 <div className="space-y-2">
                   <Label>Статус</Label>
-                  <Select 
-                    value={formData.status} 
+                  <Select
+                    value={formData.status}
                     onValueChange={(value) => setFormData({ ...formData, status: value })}
                   >
                     <SelectTrigger>
@@ -197,11 +206,7 @@ export const ProjectSettingsSheet = ({ open, onOpenChange, project }: ProjectSet
               </div>
 
               {/* Save Button */}
-              <Button 
-                onClick={handleSave} 
-                disabled={isUpdating}
-                className="w-full gap-2"
-              >
+              <Button onClick={handleSave} disabled={isUpdating} className="w-full gap-2">
                 <Save className="w-4 h-4" />
                 Сохранить
               </Button>
@@ -250,16 +255,17 @@ export const ProjectSettingsSheet = ({ open, onOpenChange, project }: ProjectSet
                   Широкоформатный баннер (16:9) для главной страницы и промо-материалов
                 </p>
               </div>
-              
+
               {/* Preview current banner */}
               {project.banner_url ? (
                 <div className="relative aspect-video rounded-lg overflow-hidden border">
-                  <img
-                    src={project.banner_url}
-                    alt="Banner"
-                    className="w-full h-full object-cover"
-                  />
-                  <div className={cn("absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity", surface.imageDark)}>
+                  <img src={project.banner_url} alt="Banner" className="w-full h-full object-cover" />
+                  <div
+                    className={cn(
+                      "absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity",
+                      surface.imageDark,
+                    )}
+                  >
                     <Button onClick={() => setBannerEditorOpen(true)} variant="secondary" className="gap-2">
                       <ImageIcon className="w-4 h-4" />
                       Изменить баннер
@@ -267,7 +273,7 @@ export const ProjectSettingsSheet = ({ open, onOpenChange, project }: ProjectSet
                   </div>
                 </div>
               ) : (
-                <div 
+                <div
                   className="aspect-video rounded-lg border-2 border-dashed border-muted-foreground/30 flex flex-col items-center justify-center gap-3 cursor-pointer hover:border-primary/50 transition-colors"
                   onClick={() => setBannerEditorOpen(true)}
                 >
@@ -281,13 +287,9 @@ export const ProjectSettingsSheet = ({ open, onOpenChange, project }: ProjectSet
                 </div>
               )}
 
-              <Button 
-                onClick={() => setBannerEditorOpen(true)} 
-                variant="outline" 
-                className="w-full gap-2"
-              >
+              <Button onClick={() => setBannerEditorOpen(true)} variant="outline" className="w-full gap-2">
                 <Sparkles className="w-4 h-4" />
-                {project.banner_url ? 'Редактировать баннер' : 'Создать баннер'}
+                {project.banner_url ? "Редактировать баннер" : "Создать баннер"}
               </Button>
             </TabsContent>
           </ScrollArea>
@@ -303,4 +305,3 @@ export const ProjectSettingsSheet = ({ open, onOpenChange, project }: ProjectSet
     </Sheet>
   );
 };
-

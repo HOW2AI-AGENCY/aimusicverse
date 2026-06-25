@@ -29,7 +29,7 @@
 - [timelineWidth](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileDAWTimeline.tsx#L106) (1 connections)
 - [timeMarkers](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileDAWTimeline.tsx#L170) (1 connections)
 - [TRACK_TYPE_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileDAWTimeline.tsx#L54) (1 connections)
-- *... and 2 more nodes in this community*
+- _... and 2 more nodes in this community_
 
 ## Relationships
 
@@ -47,4 +47,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

@@ -1,6 +1,6 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/hooks/useAuth';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 
 export interface GenerationHistoryEntry {
   id: string;
@@ -34,19 +34,19 @@ export interface AddHistoryParams {
 
 export function useGenerationHistory(limit = 50) {
   const { user } = useAuth();
-  
+
   return useQuery({
-    queryKey: ['generation-history', user?.id, limit],
+    queryKey: ["generation-history", user?.id, limit],
     queryFn: async () => {
       if (!user?.id) return [];
-      
+
       const { data, error } = await supabase
-        .from('user_generation_history')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false })
+        .from("user_generation_history")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false })
         .limit(limit);
-      
+
       if (error) throw error;
       return data as GenerationHistoryEntry[];
     },
@@ -58,13 +58,13 @@ export function useGenerationHistory(limit = 50) {
 export function useAddToHistory() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: async (params: AddHistoryParams) => {
-      if (!user?.id) throw new Error('Not authenticated');
-      
+      if (!user?.id) throw new Error("Not authenticated");
+
       const { data, error } = await supabase
-        .from('user_generation_history')
+        .from("user_generation_history")
         .insert({
           user_id: user.id,
           prompt: params.prompt,
@@ -80,12 +80,12 @@ export function useAddToHistory() {
         } as any)
         .select()
         .single();
-      
+
       if (error) throw error;
       return data as GenerationHistoryEntry;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['generation-history'] });
+      queryClient.invalidateQueries({ queryKey: ["generation-history"] });
     },
   });
 }
@@ -93,38 +93,32 @@ export function useAddToHistory() {
 export function useClearHistory() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: async () => {
-      if (!user?.id) throw new Error('Not authenticated');
-      
-      const { error } = await supabase
-        .from('user_generation_history')
-        .delete()
-        .eq('user_id', user.id);
-      
+      if (!user?.id) throw new Error("Not authenticated");
+
+      const { error } = await supabase.from("user_generation_history").delete().eq("user_id", user.id);
+
       if (error) throw error;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['generation-history'] });
+      queryClient.invalidateQueries({ queryKey: ["generation-history"] });
     },
   });
 }
 
 export function useDeleteHistoryEntry() {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: async (entryId: string) => {
-      const { error } = await supabase
-        .from('user_generation_history')
-        .delete()
-        .eq('id', entryId);
-      
+      const { error } = await supabase.from("user_generation_history").delete().eq("id", entryId);
+
       if (error) throw error;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['generation-history'] });
+      queryClient.invalidateQueries({ queryKey: ["generation-history"] });
     },
   });
 }

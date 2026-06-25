@@ -29,7 +29,7 @@
 - [stemColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L25) (1 connections)
 - [streakColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L486) (1 connections)
 - [tagColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L260) (1 connections)
-- *... and 13 more nodes in this community*
+- _... and 13 more nodes in this community_
 
 ## Relationships
 
@@ -48,4 +48,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

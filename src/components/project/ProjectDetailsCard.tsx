@@ -3,16 +3,26 @@
  * Shows all project metadata including visual style parameters
  */
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { 
-  Music, Palette, FileText, Target, Settings, Globe,
-  Sparkles, Eye, Type, Image, Calendar, Users
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
-import type { Database } from '@/integrations/supabase/types';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Music,
+  Palette,
+  FileText,
+  Target,
+  Settings,
+  Globe,
+  Sparkles,
+  Eye,
+  Type,
+  Image,
+  Calendar,
+  Users,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+import type { Database } from "@/integrations/supabase/types";
 
-type ProjectRow = Database['public']['Tables']['music_projects']['Row'];
+type ProjectRow = Database["public"]["Tables"]["music_projects"]["Row"];
 
 interface ProjectDetailsCardProps {
   project: ProjectRow;
@@ -22,74 +32,66 @@ interface ProjectDetailsCardProps {
 }
 
 const LANGUAGE_MAP: Record<string, { flag: string; name: string }> = {
-  ru: { flag: '🇷🇺', name: 'Русский' },
-  en: { flag: '🇬🇧', name: 'English' },
-  es: { flag: '🇪🇸', name: 'Español' },
-  de: { flag: '🇩🇪', name: 'Deutsch' },
-  fr: { flag: '🇫🇷', name: 'Français' },
-  zh: { flag: '🇨🇳', name: '中文' },
-  ja: { flag: '🇯🇵', name: '日本語' },
-  ko: { flag: '🇰🇷', name: '한국어' },
+  ru: { flag: "🇷🇺", name: "Русский" },
+  en: { flag: "🇬🇧", name: "English" },
+  es: { flag: "🇪🇸", name: "Español" },
+  de: { flag: "🇩🇪", name: "Deutsch" },
+  fr: { flag: "🇫🇷", name: "Français" },
+  zh: { flag: "🇨🇳", name: "中文" },
+  ja: { flag: "🇯🇵", name: "日本語" },
+  ko: { flag: "🇰🇷", name: "한국어" },
 };
 
 const PROJECT_TYPE_LABELS: Record<string, string> = {
-  single: 'Сингл',
-  ep: 'EP',
-  album: 'Альбом',
-  ost: 'Саундтрек',
-  background_music: 'Фоновая музыка',
-  jingle: 'Джингл',
-  compilation: 'Компиляция',
-  mixtape: 'Микстейп',
+  single: "Сингл",
+  ep: "EP",
+  album: "Альбом",
+  ost: "Саундтрек",
+  background_music: "Фоновая музыка",
+  jingle: "Джингл",
+  compilation: "Компиляция",
+  mixtape: "Микстейп",
 };
 
 const IMAGE_STYLE_LABELS: Record<string, string> = {
-  photorealistic: 'Фотореализм',
-  illustration: 'Иллюстрация',
-  '3d_render': '3D Рендер',
-  anime: 'Аниме',
-  abstract: 'Абстракция',
-  minimalist: 'Минимализм',
-  vintage: 'Винтаж',
-  cyberpunk: 'Киберпанк',
-  watercolor: 'Акварель',
-  oil_painting: 'Масло',
+  photorealistic: "Фотореализм",
+  illustration: "Иллюстрация",
+  "3d_render": "3D Рендер",
+  anime: "Аниме",
+  abstract: "Абстракция",
+  minimalist: "Минимализм",
+  vintage: "Винтаж",
+  cyberpunk: "Киберпанк",
+  watercolor: "Акварель",
+  oil_painting: "Масло",
 };
 
 const TYPOGRAPHY_LABELS: Record<string, string> = {
-  modern: 'Современный',
-  classic: 'Классический',
-  handwritten: 'Рукописный',
-  bold: 'Жирный',
-  minimal: 'Минималистичный',
-  grunge: 'Гранж',
-  elegant: 'Элегантный',
-  retro: 'Ретро',
+  modern: "Современный",
+  classic: "Классический",
+  handwritten: "Рукописный",
+  bold: "Жирный",
+  minimal: "Минималистичный",
+  grunge: "Гранж",
+  elegant: "Элегантный",
+  retro: "Ретро",
 };
 
-export function ProjectDetailsCard({ 
-  project, 
-  onEdit, 
-  compact = false,
-  className 
-}: ProjectDetailsCardProps) {
+export function ProjectDetailsCard({ project, onEdit, compact = false, className }: ProjectDetailsCardProps) {
   const language = project.language ? LANGUAGE_MAP[project.language] : null;
   const colorPalette = project.color_palette as { primary?: string; secondary?: string; accent?: string } | null;
   const visualKeywords = project.visual_keywords as string[] | null;
-  
+
   const hasBasicInfo = project.genre || project.mood || language || project.project_type;
   const hasVisualStyle = project.image_style || project.typography_style || colorPalette || visualKeywords?.length;
   const hasContent = project.description || project.concept || project.target_audience;
-  
+
   if (!hasBasicInfo && !hasVisualStyle && !hasContent) {
     return null;
   }
 
   return (
-    <div className={cn(
-      "rounded-xl bg-card/50 border border-border/50 divide-y divide-border/30",
-      className
-    )}>
+    <div className={cn("rounded-xl bg-card/50 border border-border/50 divide-y divide-border/30", className)}>
       {/* Basic Info Section */}
       {hasBasicInfo && (
         <div className={cn(compact ? "p-2.5" : "p-3")}>
@@ -136,7 +138,7 @@ export function ProjectDetailsCard({
             <Eye className="w-3.5 h-3.5" />
             <span className="font-medium">Визуальный стиль</span>
           </div>
-          
+
           <div className="space-y-2">
             {/* Style badges */}
             <div className="flex flex-wrap items-center gap-1.5">
@@ -153,29 +155,29 @@ export function ProjectDetailsCard({
                 </Badge>
               )}
             </div>
-            
+
             {/* Color palette preview */}
             {colorPalette && (colorPalette.primary || colorPalette.secondary || colorPalette.accent) && (
               <div className="flex items-center gap-2">
                 <span className="text-xs text-muted-foreground">Палитра:</span>
                 <div className="flex items-center gap-1">
                   {colorPalette.primary && (
-                    <div 
-                      className="w-5 h-5 rounded-full border border-border/50 shadow-sm" 
+                    <div
+                      className="w-5 h-5 rounded-full border border-border/50 shadow-sm"
                       style={{ backgroundColor: colorPalette.primary }}
                       title={`Primary: ${colorPalette.primary}`}
                     />
                   )}
                   {colorPalette.secondary && (
-                    <div 
-                      className="w-5 h-5 rounded-full border border-border/50 shadow-sm" 
+                    <div
+                      className="w-5 h-5 rounded-full border border-border/50 shadow-sm"
                       style={{ backgroundColor: colorPalette.secondary }}
                       title={`Secondary: ${colorPalette.secondary}`}
                     />
                   )}
                   {colorPalette.accent && (
-                    <div 
-                      className="w-5 h-5 rounded-full border border-border/50 shadow-sm" 
+                    <div
+                      className="w-5 h-5 rounded-full border border-border/50 shadow-sm"
                       style={{ backgroundColor: colorPalette.accent }}
                       title={`Accent: ${colorPalette.accent}`}
                     />
@@ -183,31 +185,24 @@ export function ProjectDetailsCard({
                 </div>
               </div>
             )}
-            
+
             {/* Visual keywords */}
             {visualKeywords && visualKeywords.length > 0 && (
               <div className="flex flex-wrap gap-1">
                 {visualKeywords.slice(0, 6).map((keyword, i) => (
-                  <span 
-                    key={i}
-                    className="text-[10px] px-1.5 py-0.5 bg-muted/50 rounded text-muted-foreground"
-                  >
+                  <span key={i} className="text-[10px] px-1.5 py-0.5 bg-muted/50 rounded text-muted-foreground">
                     {keyword}
                   </span>
                 ))}
                 {visualKeywords.length > 6 && (
-                  <span className="text-[10px] text-muted-foreground/60">
-                    +{visualKeywords.length - 6}
-                  </span>
+                  <span className="text-[10px] text-muted-foreground/60">+{visualKeywords.length - 6}</span>
                 )}
               </div>
             )}
 
             {/* Visual aesthetic description */}
             {project.visual_aesthetic && (
-              <p className="text-xs text-muted-foreground/80 italic line-clamp-2">
-                "{project.visual_aesthetic}"
-              </p>
+              <p className="text-xs text-muted-foreground/80 italic line-clamp-2">"{project.visual_aesthetic}"</p>
             )}
           </div>
         </div>
@@ -217,17 +212,13 @@ export function ProjectDetailsCard({
       {hasContent && !compact && (
         <div className="p-3 space-y-2">
           {project.description && (
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              {project.description}
-            </p>
+            <p className="text-sm text-muted-foreground leading-relaxed">{project.description}</p>
           )}
 
           {project.concept && (
             <div className="flex items-start gap-2 text-xs text-muted-foreground/80">
               <Sparkles className="w-3.5 h-3.5 mt-0.5 shrink-0 text-primary/70" />
-              <p className="italic line-clamp-2">
-                "{project.concept}"
-              </p>
+              <p className="italic line-clamp-2">"{project.concept}"</p>
             </div>
           )}
 
@@ -241,7 +232,7 @@ export function ProjectDetailsCard({
           {project.release_date && (
             <div className="flex items-center gap-2 text-xs text-muted-foreground/80">
               <Calendar className="w-3.5 h-3.5 shrink-0" />
-              <span>Релиз: {new Date(project.release_date).toLocaleDateString('ru-RU')}</span>
+              <span>Релиз: {new Date(project.release_date).toLocaleDateString("ru-RU")}</span>
             </div>
           )}
         </div>
@@ -250,9 +241,9 @@ export function ProjectDetailsCard({
       {/* Edit Button */}
       {onEdit && !compact && (
         <div className="p-2">
-          <Button 
-            variant="ghost" 
-            size="sm" 
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={onEdit}
             className="w-full h-7 text-xs text-muted-foreground hover:text-foreground"
           >

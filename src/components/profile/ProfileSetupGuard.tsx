@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { useProfileSetupCheck } from '@/hooks/useProfileSetupCheck';
-import { EnhancedProfileSetup } from './setup/EnhancedProfileSetup';
+import { useState, useEffect } from "react";
+import { useProfileSetupCheck } from "@/hooks/useProfileSetupCheck";
+import { EnhancedProfileSetup } from "./setup/EnhancedProfileSetup";
 
 interface ProfileSetupGuardProps {
   children: React.ReactNode;

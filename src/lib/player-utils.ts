@@ -9,7 +9,7 @@
  */
 
 import type { Track } from "@/types/track";
-import { formatTime as formatTimeFromFormatters, formatTimeWithMs } from '@/lib/formatters';
+import { formatTime as formatTimeFromFormatters, formatTimeWithMs } from "@/lib/formatters";
 
 // Re-export from shared formatters for backwards compatibility
 export const formatTime = formatTimeFromFormatters;
@@ -121,11 +121,7 @@ export function getPreviousTrack(queue: Track[], currentIndex: number, currentTi
  * @param playHistory - Optional array of recently played track IDs to avoid
  * @returns Shuffled queue with current track at index 0
  */
-export function shuffleQueue(
-  queue: Track[], 
-  currentIndex: number = 0,
-  playHistory: string[] = []
-): Track[] {
+export function shuffleQueue(queue: Track[], currentIndex: number = 0, playHistory: string[] = []): Track[] {
   if (!queue || queue.length <= 1) {
     return queue;
   }
@@ -140,8 +136,8 @@ export function shuffleQueue(
   const recentlyPlayed = new Set(playHistory.slice(-5)); // Last 5 tracks
   const notRecentTracks: Track[] = [];
   const recentTracks: Track[] = [];
-  
-  shuffled.forEach(track => {
+
+  shuffled.forEach((track) => {
     if (recentlyPlayed.has(track.id)) {
       recentTracks.push(track);
     } else {

@@ -1,6 +1,6 @@
 /**
  * StemActionSheet
- * 
+ *
  * Bottom sheet for per-stem actions:
  * - Use as reference for generation
  * - MIDI transcription (model based on instrument type)
@@ -8,24 +8,28 @@
  * - Download individual stem
  */
 
-import { useState } from 'react';
-import { 
-  Mic2, Music2, Piano, Guitar, Layers, FileAudio,
-  Wand2, Download, ExternalLink, ChevronRight, X
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import { useState } from "react";
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from '@/components/ui/sheet';
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from '@/components/ui/drawer';
-import { cn } from '@/lib/utils';
-import { getStemLabel } from '@/lib/stemLabels';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { TrackStem } from '@/hooks/useTrackStems';
+  Mic2,
+  Music2,
+  Piano,
+  Guitar,
+  Layers,
+  FileAudio,
+  Wand2,
+  Download,
+  ExternalLink,
+  ChevronRight,
+  X,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
+import { cn } from "@/lib/utils";
+import { getStemLabel } from "@/lib/stemLabels";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { TrackStem } from "@/hooks/useTrackStems";
 
 interface StemActionSheetProps {
   open: boolean;
@@ -40,32 +44,22 @@ interface StemActionSheetProps {
 
 // MIDI models per instrument type
 const MIDI_MODELS: Record<string, { model: string; label: string; description: string }[]> = {
-  vocal: [
-    { model: 'basic-pitch', label: 'Basic Pitch', description: 'Мелодия и ноты' },
-  ],
-  vocals: [
-    { model: 'basic-pitch', label: 'Basic Pitch', description: 'Мелодия и ноты' },
-  ],
+  vocal: [{ model: "basic-pitch", label: "Basic Pitch", description: "Мелодия и ноты" }],
+  vocals: [{ model: "basic-pitch", label: "Basic Pitch", description: "Мелодия и ноты" }],
   piano: [
-    { model: 'bytedance-piano', label: 'ByteDance Piano', description: 'Высокоточная транскрипция пианино' },
-    { model: 'mt3', label: 'MT3', description: 'Универсальная транскрипция' },
+    { model: "bytedance-piano", label: "ByteDance Piano", description: "Высокоточная транскрипция пианино" },
+    { model: "mt3", label: "MT3", description: "Универсальная транскрипция" },
   ],
-  drums: [
-    { model: 'mt3', label: 'MT3', description: 'Транскрипция ударных' },
-  ],
-  bass: [
-    { model: 'mt3', label: 'MT3', description: 'Транскрипция баса' },
-  ],
+  drums: [{ model: "mt3", label: "MT3", description: "Транскрипция ударных" }],
+  bass: [{ model: "mt3", label: "MT3", description: "Транскрипция баса" }],
   guitar: [
-    { model: 'mt3', label: 'MT3', description: 'Ноты гитары' },
-    { model: 'basic-pitch', label: 'Basic Pitch', description: 'Мелодическая линия' },
+    { model: "mt3", label: "MT3", description: "Ноты гитары" },
+    { model: "basic-pitch", label: "Basic Pitch", description: "Мелодическая линия" },
   ],
-  instrumental: [
-    { model: 'mt3', label: 'MT3', description: 'Мульти-инструментальная транскрипция' },
-  ],
+  instrumental: [{ model: "mt3", label: "MT3", description: "Мульти-инструментальная транскрипция" }],
   default: [
-    { model: 'mt3', label: 'MT3', description: 'Универсальная транскрипция' },
-    { model: 'basic-pitch', label: 'Basic Pitch', description: 'Базовая транскрипция' },
+    { model: "mt3", label: "MT3", description: "Универсальная транскрипция" },
+    { model: "basic-pitch", label: "Basic Pitch", description: "Базовая транскрипция" },
   ],
 };
 
@@ -100,7 +94,7 @@ export function StemActionSheet({
   const stemType = stem.stem_type.toLowerCase();
   const Icon = STEM_ICONS[stemType] || FileAudio;
   const midiModels = MIDI_MODELS[stemType] || MIDI_MODELS.default;
-  const isGuitar = stemType === 'guitar';
+  const isGuitar = stemType === "guitar";
 
   // Using centralized getStemLabel from stemLabels utility
 
@@ -132,9 +126,7 @@ export function StemActionSheet({
             <Wand2 className="w-5 h-5 text-primary" />
             <div className="text-left">
               <span className="font-medium block">Использовать как референс</span>
-              <span className="text-xs text-muted-foreground">
-                Сгенерировать новый трек на основе этого стема
-              </span>
+              <span className="text-xs text-muted-foreground">Сгенерировать новый трек на основе этого стема</span>
             </div>
           </div>
           <ChevronRight className="w-4 h-4 text-muted-foreground" />
@@ -153,7 +145,7 @@ export function StemActionSheet({
                 variant="outline"
                 className={cn(
                   "w-full justify-between h-auto py-2.5",
-                  selectedMidiModel === model.model && "border-primary"
+                  selectedMidiModel === model.model && "border-primary",
                 )}
                 onClick={() => {
                   onMidiTranscription(stem, model.model);
@@ -162,9 +154,7 @@ export function StemActionSheet({
               >
                 <div className="text-left">
                   <span className="font-medium block">{model.label}</span>
-                  <span className="text-xs text-muted-foreground">
-                    {model.description}
-                  </span>
+                  <span className="text-xs text-muted-foreground">{model.description}</span>
                 </div>
                 <Badge variant="secondary" className="text-xs">
                   MIDI
@@ -188,9 +178,7 @@ export function StemActionSheet({
               <Guitar className="w-5 h-5 text-primary" />
               <div className="text-left">
                 <span className="font-medium block">Анализ гитары</span>
-                <span className="text-xs text-muted-foreground">
-                  Аккорды, табы, стиль игры
-                </span>
+                <span className="text-xs text-muted-foreground">Аккорды, табы, стиль игры</span>
               </div>
             </div>
             <ChevronRight className="w-4 h-4 text-muted-foreground" />
@@ -210,9 +198,7 @@ export function StemActionSheet({
             <Download className="w-5 h-5" />
             <div className="text-left">
               <span className="font-medium block">Скачать стем</span>
-              <span className="text-xs text-muted-foreground">
-                Скачать аудио файл стема
-              </span>
+              <span className="text-xs text-muted-foreground">Скачать аудио файл стема</span>
             </div>
           </div>
           <ExternalLink className="w-4 h-4 text-muted-foreground" />

@@ -1,17 +1,17 @@
 /**
  * Global Audio Player Hook
- * 
+ *
  * Singleton audio player that syncs with Zustand store.
  * Provides actual audio playback connected to global player state.
  * Includes audio caching with 14-day expiry for optimized playback.
  * Plays from cache when available for instant playback.
  */
 
-import { useEffect, useRef, useCallback } from 'react';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { getGlobalAudioRef } from '@/hooks/audio/useAudioTime';
-import { logger } from '@/lib/logger';
-import { cleanupExpiredEntries, prefetchQueue, shouldPrefetch, getCachedAudio, cacheAudio } from '@/lib/audioCache';
+import { useEffect, useRef, useCallback } from "react";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { getGlobalAudioRef } from "@/hooks/audio/useAudioTime";
+import { logger } from "@/lib/logger";
+import { cleanupExpiredEntries, prefetchQueue, shouldPrefetch, getCachedAudio, cacheAudio } from "@/lib/audioCache";
 
 // Run cache cleanup on module load (once per session)
 let cacheCleanupRun = false;
@@ -24,15 +24,7 @@ if (!cacheCleanupRun) {
 }
 
 export function useGlobalAudioPlayer() {
-  const {
-    activeTrack,
-    isPlaying,
-    repeat,
-    pauseTrack,
-    nextTrack,
-    queue,
-    currentIndex,
-  } = usePlayerStore();
+  const { activeTrack, isPlaying, repeat, pauseTrack, nextTrack, queue, currentIndex } = usePlayerStore();
 
   const lastTrackIdRef = useRef<string | null>(null);
   const lastAudioSourceRef = useRef<string | null>(null);
@@ -44,15 +36,13 @@ export function useGlobalAudioPlayer() {
     if (!activeTrack) return null;
     return activeTrack.streaming_url || activeTrack.local_audio_url || activeTrack.audio_url;
   }, [activeTrack]);
-  
+
   // Prefetch next tracks when current track changes
   useEffect(() => {
     if (!activeTrack || queue.length === 0 || !shouldPrefetch()) return;
-    
-    const audioUrls = queue
-      .map(t => t.streaming_url || t.audio_url)
-      .filter((url): url is string => !!url);
-    
+
+    const audioUrls = queue.map((t) => t.streaming_url || t.audio_url).filter((url): url is string => !!url);
+
     if (audioUrls.length > 0) {
       prefetchQueue(audioUrls, currentIndex);
     }
@@ -61,8 +51,8 @@ export function useGlobalAudioPlayer() {
   // Cleanup blob URL helper - revokes previous blob before setting new source
   const cleanupCurrentBlobUrl = useCallback(() => {
     if (currentBlobUrlRef.current) {
-      logger.debug('Revoking previous blob URL', { 
-        url: currentBlobUrlRef.current.substring(0, 50) 
+      logger.debug("Revoking previous blob URL", {
+        url: currentBlobUrlRef.current.substring(0, 50),
       });
       URL.revokeObjectURL(currentBlobUrlRef.current);
       currentBlobUrlRef.current = null;
@@ -75,21 +65,21 @@ export function useGlobalAudioPlayer() {
   useEffect(() => {
     const audio = getGlobalAudioRef();
     if (!audio) return;
-    
+
     const trackId = activeTrack?.id;
     const source = getAudioSource();
-    
+
     // Skip if neither track ID nor audio source has changed
     const sourceChanged = source !== lastAudioSourceRef.current;
     const trackChanged = trackId !== lastTrackIdRef.current;
-    
+
     if (!sourceChanged && !trackChanged) {
       return;
     }
-    
+
     // Cleanup previous blob URL before setting new source
     cleanupCurrentBlobUrl();
-    
+
     // Update refs before any state changes
     lastTrackIdRef.current = trackId || null;
     lastAudioSourceRef.current = source || null;
@@ -97,7 +87,7 @@ export function useGlobalAudioPlayer() {
     if (!source) {
       // Only clear src if no track is active
       if (!trackId) {
-        audio.src = '';
+        audio.src = "";
       }
       return;
     }
@@ -106,17 +96,17 @@ export function useGlobalAudioPlayer() {
     const loadAudio = async () => {
       try {
         const cachedBlob = await getCachedAudio(source);
-        
+
         if (cachedBlob) {
           // Play from cache - instant playback
           const blobUrl = URL.createObjectURL(cachedBlob);
           // Store blob URL for proper lifecycle management
           currentBlobUrlRef.current = blobUrl;
-          
-          logger.debug('Playing from cache', { 
-            trackId, 
+
+          logger.debug("Playing from cache", {
+            trackId,
             source: source.substring(0, 50),
-            blobUrl: blobUrl.substring(0, 50)
+            blobUrl: blobUrl.substring(0, 50),
           });
           audio.src = blobUrl;
           audio.load();
@@ -124,34 +114,34 @@ export function useGlobalAudioPlayer() {
           // Blob URL will be revoked when source changes or component unmounts
         } else {
           // Load from network and cache for future use
-          logger.debug('Loading from network', { 
-            trackId, 
-            sourceChanged, 
+          logger.debug("Loading from network", {
+            trackId,
+            sourceChanged,
             trackChanged,
-            source: source.substring(0, 50) 
+            source: source.substring(0, 50),
           });
           audio.src = source;
           audio.load();
-          
+
           // Cache the audio in background after it loads
           fetch(source)
-            .then(response => {
+            .then((response) => {
               if (response.ok) return response.blob();
-              throw new Error('Failed to fetch audio');
+              throw new Error("Failed to fetch audio");
             })
-            .then(blob => cacheAudio(source, blob))
-            .catch(err => logger.debug('Cache fetch failed', { error: err.message }));
+            .then((blob) => cacheAudio(source, blob))
+            .catch((err) => logger.debug("Cache fetch failed", { error: err.message }));
         }
       } catch (error) {
         // Fallback to direct load if cache fails
-        logger.debug('Cache error, loading directly', { error });
+        logger.debug("Cache error, loading directly", { error });
         audio.src = source;
         audio.load();
       }
     };
-    
+
     loadAudio();
-    
+
     // Cleanup on unmount or source change
     return () => {
       cleanupCurrentBlobUrl();
@@ -167,7 +157,7 @@ export function useGlobalAudioPlayer() {
     if (!audio) return;
 
     const handleEnded = () => {
-      if (repeat === 'one') {
+      if (repeat === "one") {
         audio.currentTime = 0;
         audio.play().catch(() => nextTrack());
       } else {
@@ -175,8 +165,8 @@ export function useGlobalAudioPlayer() {
       }
     };
 
-    audio.addEventListener('ended', handleEnded);
-    return () => audio.removeEventListener('ended', handleEnded);
+    audio.addEventListener("ended", handleEnded);
+    return () => audio.removeEventListener("ended", handleEnded);
   }, [repeat, nextTrack]);
 
   // Playback controls
@@ -202,7 +192,7 @@ export function useGlobalAudioPlayer() {
 
   const getDuration = useCallback(() => {
     const audio = getGlobalAudioRef();
-    return audio ? (audio.duration || 0) : 0;
+    return audio ? audio.duration || 0 : 0;
   }, []);
 
   const getBuffered = useCallback(() => {

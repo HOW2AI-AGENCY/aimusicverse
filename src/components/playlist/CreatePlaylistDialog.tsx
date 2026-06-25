@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import { UnifiedDialog } from '@/components/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
-import { usePlaylists } from '@/hooks/usePlaylists';
-import { useTelegram } from '@/contexts/TelegramContext';
+import { useState } from "react";
+import { UnifiedDialog } from "@/components/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { usePlaylists } from "@/hooks/usePlaylists";
+import { useTelegram } from "@/contexts/TelegramContext";
 
 interface CreatePlaylistDialogProps {
   open: boolean;
@@ -17,39 +17,39 @@ interface CreatePlaylistDialogProps {
 export function CreatePlaylistDialog({ open, onOpenChange, onCreated }: CreatePlaylistDialogProps) {
   const { createPlaylist, isCreating } = usePlaylists();
   const { hapticFeedback } = useTelegram();
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [isPublic, setIsPublic] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim()) return;
 
-    hapticFeedback('light');
-    
+    hapticFeedback("light");
+
     try {
       const playlist = await createPlaylist({
         title: title.trim(),
         description: description.trim() || undefined,
         is_public: isPublic,
       });
-      
-      hapticFeedback('success');
-      setTitle('');
-      setDescription('');
+
+      hapticFeedback("success");
+      setTitle("");
+      setDescription("");
       setIsPublic(false);
       onOpenChange(false);
       onCreated?.(playlist.id);
     } catch (error) {
-      hapticFeedback('error');
+      hapticFeedback("error");
       // Error handled in hook
     }
   };
 
   return (
-    <UnifiedDialog 
+    <UnifiedDialog
       variant="sheet"
-      open={open} 
+      open={open}
       onOpenChange={onOpenChange}
       title="Новый плейлист"
       snapPoints={[0.5, 0.9]}
@@ -89,33 +89,22 @@ export function CreatePlaylistDialog({ open, onOpenChange, onCreated }: CreatePl
             <Label htmlFor="public" className="text-sm font-medium cursor-pointer">
               Публичный
             </Label>
-            <p className="text-xs text-muted-foreground">
-              Другие пользователи смогут видеть плейлист
-            </p>
+            <p className="text-xs text-muted-foreground">Другие пользователи смогут видеть плейлист</p>
           </div>
-          <Switch
-            id="public"
-            checked={isPublic}
-            onCheckedChange={setIsPublic}
-            className="flex-shrink-0"
-          />
+          <Switch id="public" checked={isPublic} onCheckedChange={setIsPublic} className="flex-shrink-0" />
         </div>
 
         <div className="flex justify-end gap-2 pt-2">
-          <Button 
-            type="button" 
-            variant="outline" 
+          <Button
+            type="button"
+            variant="outline"
             onClick={() => onOpenChange(false)}
             className="min-h-[44px] min-w-[80px]"
           >
             Отмена
           </Button>
-          <Button 
-            type="submit" 
-            disabled={!title.trim() || isCreating}
-            className="min-h-[48px] min-w-[100px]"
-          >
-            {isCreating ? 'Создание...' : 'Создать'}
+          <Button type="submit" disabled={!title.trim() || isCreating} className="min-h-[48px] min-w-[100px]">
+            {isCreating ? "Создание..." : "Создать"}
           </Button>
         </div>
       </form>

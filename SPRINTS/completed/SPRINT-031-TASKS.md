@@ -24,10 +24,10 @@
 
 **Purpose**: Install dependencies and configure development environment for BPM detection
 
-- [X] T001 Install web-audio-beat-detector package via npm
-- [X] T002 [P] Update package.json exports to include new BPM utilities
-- [X] T003 [P] Configure size-limit to accommodate +15KB budget (new 965KB limit)
-- [X] T004 [P] Update jest.config.js with new test paths for studio hooks
+- [x] T001 Install web-audio-beat-detector package via npm
+- [x] T002 [P] Update package.json exports to include new BPM utilities
+- [x] T003 [P] Configure size-limit to accommodate +15KB budget (new 965KB limit)
+- [x] T004 [P] Update jest.config.js with new test paths for studio hooks
 
 **Checkpoint**: Dependencies installed and build system configured
 
@@ -43,26 +43,26 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [X] T005 [P] [PH2] Unit test for slice composition in tests/unit/stores/unified-store.test.ts ✅
-- [X] T006 [P] [PH2] Unit test for selectors minimizing re-renders in tests/unit/stores/unified-store.test.ts ✅
-- [X] T007 [P] [PH2] Unit test for state migration compatibility in tests/unit/stores/unified-store.test.ts ✅
+- [x] T005 [P] [PH2] Unit test for slice composition in tests/unit/stores/unified-store.test.ts ✅
+- [x] T006 [P] [PH2] Unit test for selectors minimizing re-renders in tests/unit/stores/unified-store.test.ts ✅
+- [x] T007 [P] [PH2] Unit test for state migration compatibility in tests/unit/stores/unified-store.test.ts ✅
 
 ### Implementation for Phase 2
 
-- [X] T008 [P] [PH2] Create UnifiedStudioStore interface in src/stores/useUnifiedStudioStore.ts ✅ (ALREADY EXISTS - 1344 lines)
-- [X] T009 [P] [PH2] Create slice type interfaces in src/stores/slices/unifiedSlice.ts ✅ (ALREADY EXISTS - playbackSlice, stemMixerSlice)
-- [X] T010 [P] [PH2] Compose playbackSlice in src/stores/useUnifiedStudioStore.ts ✅ (ALREADY EXISTS)
-- [X] T011 [P] [PH2] Compose stemMixerSlice in src/stores/useUnifiedStudioStore.ts ✅ (ALREADY EXISTS)
-- [X] T012 [P] [PH2] Add optimized selectors in src/stores/useUnifiedStudioStore.ts ✅ (ALREADY EXISTS)
-- [X] T013 [PH2] Add computed selectors (getEffectiveVolume, getIsMuted, getActiveStems) in src/stores/useUnifiedStudioStore.ts ✅ (ALREADY EXISTS)
-- [X] T014 [PH2] Configure Zustand middleware (devtools, persist, subscribeWithSelector) in src/stores/useUnifiedStudioStore.ts ✅ (ALREADY EXISTS)
-- [X] T015 [PH2] Migrate UnifiedStudioContent playback state (isPlaying, currentTime) to useUnifiedStudioStore in src/components/studio/unified/UnifiedStudioContent.tsx ✅
-- [X] T016 [PH2] Migrate StudioShell client state to useUnifiedStudioStore in src/components/studio/unified/StudioShell.tsx ✅ (NO CHANGES NEEDED - ALREADY CLEAN)
-- [X] T017 [PH2] Update useUnifiedStudio hook to use new unified store in src/hooks/useUnifiedStudio.ts ✅ (ALREADY EXISTS)
-- [X] T018 [PH2] Add shallow comparison imports to src/stores/useUnifiedStudioStore.ts ✅ (ALREADY EXISTS)
-- [X] T019 [PH2] Document state separation in UnifiedStudioContent in src/components/studio/unified/UnifiedStudioContent.tsx ✅
-- [X] T020 [PH2] Remove duplicate state from StudioShell in src/components/studio/unified/StudioShell.tsx ✅ (NO CHANGES NEEDED)
-- [X] T021 [PH2] Migrate useTimestampedLyrics to TanStack Query in src/hooks/useTimestampedLyrics.tsx ✅
+- [x] T008 [P] [PH2] Create UnifiedStudioStore interface in src/stores/useUnifiedStudioStore.ts ✅ (ALREADY EXISTS - 1344 lines)
+- [x] T009 [P] [PH2] Create slice type interfaces in src/stores/slices/unifiedSlice.ts ✅ (ALREADY EXISTS - playbackSlice, stemMixerSlice)
+- [x] T010 [P] [PH2] Compose playbackSlice in src/stores/useUnifiedStudioStore.ts ✅ (ALREADY EXISTS)
+- [x] T011 [P] [PH2] Compose stemMixerSlice in src/stores/useUnifiedStudioStore.ts ✅ (ALREADY EXISTS)
+- [x] T012 [P] [PH2] Add optimized selectors in src/stores/useUnifiedStudioStore.ts ✅ (ALREADY EXISTS)
+- [x] T013 [PH2] Add computed selectors (getEffectiveVolume, getIsMuted, getActiveStems) in src/stores/useUnifiedStudioStore.ts ✅ (ALREADY EXISTS)
+- [x] T014 [PH2] Configure Zustand middleware (devtools, persist, subscribeWithSelector) in src/stores/useUnifiedStudioStore.ts ✅ (ALREADY EXISTS)
+- [x] T015 [PH2] Migrate UnifiedStudioContent playback state (isPlaying, currentTime) to useUnifiedStudioStore in src/components/studio/unified/UnifiedStudioContent.tsx ✅
+- [x] T016 [PH2] Migrate StudioShell client state to useUnifiedStudioStore in src/components/studio/unified/StudioShell.tsx ✅ (NO CHANGES NEEDED - ALREADY CLEAN)
+- [x] T017 [PH2] Update useUnifiedStudio hook to use new unified store in src/hooks/useUnifiedStudio.ts ✅ (ALREADY EXISTS)
+- [x] T018 [PH2] Add shallow comparison imports to src/stores/useUnifiedStudioStore.ts ✅ (ALREADY EXISTS)
+- [x] T019 [PH2] Document state separation in UnifiedStudioContent in src/components/studio/unified/UnifiedStudioContent.tsx ✅
+- [x] T020 [PH2] Remove duplicate state from StudioShell in src/components/studio/unified/StudioShell.tsx ✅ (NO CHANGES NEEDED)
+- [x] T021 [PH2] Migrate useTimestampedLyrics to TanStack Query in src/hooks/useTimestampedLyrics.tsx ✅
 
 **Checkpoint**: Store unification complete - no state duplication, optimized selectors working
 
@@ -76,27 +76,27 @@
 
 ### Unit Tests for Phase 3
 
-- [X] T022 [P] [PH3] Unit test for OptimizedLyricsLine memoization in tests/unit/components/lyrics.test.tsx ✅
-- [X] T023 [P] [PH3] Unit test for useLyricsSync hook in tests/unit/hooks/lyrics.test.ts ✅
-- [X] T024 [P] [PH3] Unit test for OptimizedPlaylistItem (UnifiedTrackCard) memoization in tests/unit/components/library.test.tsx ✅
+- [x] T022 [P] [PH3] Unit test for OptimizedLyricsLine memoization in tests/unit/components/lyrics.test.tsx ✅
+- [x] T023 [P] [PH3] Unit test for useLyricsSync hook in tests/unit/hooks/lyrics.test.ts ✅
+- [x] T024 [P] [PH3] Unit test for OptimizedPlaylistItem (UnifiedTrackCard) memoization in tests/unit/components/library.test.tsx ✅
 
 ### Implementation for Phase 3
 
-- [X] T025 [P] [PH3] Create OptimizedLyricsLine component in src/components/lyrics/OptimizedLyricsLine.tsx ✅ (ALREADY EXISTS - 154 lines with React.memo)
-- [X] T026 [PH3] Add custom comparison function to OptimizedLyricsLine (line.id, line.text, isActive, onClick) in src/components/lyrics/OptimizedLyricsLine.tsx ✅ (ALREADY EXISTS - lines 138-151)
-- [X] T027 [PH3] Add word-level sync rendering to OptimizedLyricsLine in src/components/lyrics/OptimizedLyricsLine.tsx ✅ (PARTIAL - line-level sync, word-level in separate component)
-- [X] T028 [P] [PH3] Create OptimizedLyricsPanel with react-virtuoso in src/components/lyrics/OptimizedLyricsPanel.tsx ✅ (ALREADY EXISTS - 201 lines)
-- [X] T029 [P] [PH3] Add virtualization configuration (overscan 10) to OptimizedLyricsPanel in src/components/lyrics/OptimizedLyricsPanel.tsx ✅ (ALREADY EXISTS - line 192, even better than required!)
-- [X] T030 [P] [PH3] Create useLyricsSync hook in src/hooks/lyrics/useLyricsSync.ts ✅ (ALREADY EXISTS - 166 lines)
-- [X] T031 [PH3] Add currentTime tracking to useLyricsSync in src/hooks/lyrics/useLyricsSync.ts ✅ (ALREADY EXISTS - binary search for efficiency)
-- [X] T032 [PH3] Add activeLine detection to useLyricsSync in src/hooks/lyrics/useLyricsSync.ts ✅ (ALREADY EXISTS - with debouncing)
-- [X] T033 [P] [PH3] Create OptimizedPlaylistItem component in src/components/library/OptimizedPlaylistItem.tsx ✅ (EXISTS as UnifiedTrackCard with React.memo)
-- [X] T034 [PH3] Add React.memo with shallow comparison to OptimizedPlaylistItem in src/components/track/track-card-new/UnifiedTrackCard.tsx ✅ (ALREADY EXISTS)
-- [X] T035 [P] [PH3] Create usePlaylistVirtualization hook in src/hooks/library/usePlaylistVirtualization.ts ✅ (NOT NEEDED - VirtualizedTrackList uses VirtuosoGrid directly)
-- [X] T036 [PH3] Integrate OptimizedPlaylistItem with VirtuosoGrid in src/components/library/VirtualizedTrackList.tsx ✅ (ALREADY EXISTS - line 2)
-- [X] T037 [PH3] Stabilize callbacks in OptimizedPlaylistItem parent components in src/components/library/VirtualizedTrackList.tsx ✅ (ALREADY EXISTS - useCallback throughout)
-- [X] T038 [PH3] Update lyrics parser with musical structure detection in src/lib/audio/lyricsParser.ts ✅ (ALREADY EXISTS - supports verse/chorus/bridge, English + Russian)
-- [X] T039 [PH3] Add word timing calculation to lyricsParser in src/lib/audio/lyricsParser.ts ✅ (ALREADY EXISTS - matchSectionToTimestamps function)
+- [x] T025 [P] [PH3] Create OptimizedLyricsLine component in src/components/lyrics/OptimizedLyricsLine.tsx ✅ (ALREADY EXISTS - 154 lines with React.memo)
+- [x] T026 [PH3] Add custom comparison function to OptimizedLyricsLine (line.id, line.text, isActive, onClick) in src/components/lyrics/OptimizedLyricsLine.tsx ✅ (ALREADY EXISTS - lines 138-151)
+- [x] T027 [PH3] Add word-level sync rendering to OptimizedLyricsLine in src/components/lyrics/OptimizedLyricsLine.tsx ✅ (PARTIAL - line-level sync, word-level in separate component)
+- [x] T028 [P] [PH3] Create OptimizedLyricsPanel with react-virtuoso in src/components/lyrics/OptimizedLyricsPanel.tsx ✅ (ALREADY EXISTS - 201 lines)
+- [x] T029 [P] [PH3] Add virtualization configuration (overscan 10) to OptimizedLyricsPanel in src/components/lyrics/OptimizedLyricsPanel.tsx ✅ (ALREADY EXISTS - line 192, even better than required!)
+- [x] T030 [P] [PH3] Create useLyricsSync hook in src/hooks/lyrics/useLyricsSync.ts ✅ (ALREADY EXISTS - 166 lines)
+- [x] T031 [PH3] Add currentTime tracking to useLyricsSync in src/hooks/lyrics/useLyricsSync.ts ✅ (ALREADY EXISTS - binary search for efficiency)
+- [x] T032 [PH3] Add activeLine detection to useLyricsSync in src/hooks/lyrics/useLyricsSync.ts ✅ (ALREADY EXISTS - with debouncing)
+- [x] T033 [P] [PH3] Create OptimizedPlaylistItem component in src/components/library/OptimizedPlaylistItem.tsx ✅ (EXISTS as UnifiedTrackCard with React.memo)
+- [x] T034 [PH3] Add React.memo with shallow comparison to OptimizedPlaylistItem in src/components/track/track-card-new/UnifiedTrackCard.tsx ✅ (ALREADY EXISTS)
+- [x] T035 [P] [PH3] Create usePlaylistVirtualization hook in src/hooks/library/usePlaylistVirtualization.ts ✅ (NOT NEEDED - VirtualizedTrackList uses VirtuosoGrid directly)
+- [x] T036 [PH3] Integrate OptimizedPlaylistItem with VirtuosoGrid in src/components/library/VirtualizedTrackList.tsx ✅ (ALREADY EXISTS - line 2)
+- [x] T037 [PH3] Stabilize callbacks in OptimizedPlaylistItem parent components in src/components/library/VirtualizedTrackList.tsx ✅ (ALREADY EXISTS - useCallback throughout)
+- [x] T038 [PH3] Update lyrics parser with musical structure detection in src/lib/audio/lyricsParser.ts ✅ (ALREADY EXISTS - supports verse/chorus/bridge, English + Russian)
+- [x] T039 [PH3] Add word timing calculation to lyricsParser in src/lib/audio/lyricsParser.ts ✅ (ALREADY EXISTS - matchSectionToTimestamps function)
 
 **Checkpoint**: Component optimizations complete - React.memo reducing re-renders, virtualization working
 
@@ -110,42 +110,42 @@
 
 ### Unit Tests for Phase 4
 
-- [X] T040 [P] [PH4] Unit test for BPM detection in tests/unit/lib/bpmDetection.test.ts ✅
-- [X] T041 [P] [PH4] Unit test for beat-snap calculation in tests/unit/lib/beatSnap.test.ts ✅
-- [X] T042 [P] [PH4] Unit test for RAF throttling in tests/unit/hooks/studio/useRAFThrottle.test.ts ✅
+- [x] T040 [P] [PH4] Unit test for BPM detection in tests/unit/lib/bpmDetection.test.ts ✅
+- [x] T041 [P] [PH4] Unit test for beat-snap calculation in tests/unit/lib/beatSnap.test.ts ✅
+- [x] T042 [P] [PH4] Unit test for RAF throttling in tests/unit/hooks/studio/useRAFThrottle.test.ts ✅
 
 ### Implementation for Phase 4
 
-- [X] T043 [P] [PH4] Create BPM detection utilities in src/lib/audio/bpmDetection.ts ✅
-- [X] T044 [P] [PH4] Implement detectBPM function using web-audio-beat-detector in src/lib/audio/bpmDetection.ts ✅
-- [X] T045 [P] [PH4] Implement detectBPMFromUrl function in src/lib/audio/bpmDetection.ts ✅
-- [X] T046 [P] [PH4] Add beat position calculation (calculateBeatPositions) in src/lib/audio/bpmDetection.ts ✅ (bpmToBeatDuration, beatDurationToBPM)
-- [X] T047 [P] [PH4] Create beat-snap utilities in src/lib/audio/beatSnap.ts ✅
-- [X] T048 [P] [PH4] Implement snapToGrid function with BPM fallback in src/lib/audio/beatSnap.ts ✅
-- [X] T049 [P] [PH4] Implement snapToBeat function in src/lib/audio/beatSnap.ts ✅ (snapToGrid with beatIndex)
-- [X] T050 [P] [PH4] Implement snapToSeconds fallback function in src/lib/audio/beatSnap.ts ✅ (snapToSecondGrid)
-- [X] T051 [P] [PH4] Add MBT (Measure-Beat-Tick) conversion utilities in src/lib/audio/beatSnap.ts ✅ (getMeasurePosition, formatAsMeasureBeat)
-- [X] T052 [P] [PH4] Create useBPMGrid hook in src/hooks/useBPMGrid.ts ✅
-- [X] T053 [PH4] Add BPM detection state management to useBPMGrid in src/hooks/useBPMGrid.ts ✅
-- [X] T054 [PH4] Add snap function to useBPMGrid in src/hooks/useBPMGrid.ts ✅
-- [X] T055 [P] [PH4] Add getGridLines function to useBPMGrid in src/hooks/useBPMGrid.ts ✅
-- [X] T056 [P] [PH4] Add formatTime function (MBT or seconds) to useBPMGrid in src/hooks/useBPMGrid.ts ✅
-- [X] T057 [P] [PH4] Create RAF throttling utilities in src/hooks/studio/useRAFThrottle.ts ✅
-- [X] T058 [P] [PH4] Implement useRAFThrottle hook with native RAF (no artificial throttling) in src/hooks/studio/useRAFThrottle.ts ✅
-- [X] T059 [P] [PH4] Create specialized usePlayheadDrag hook in src/hooks/studio/useRAFThrottle.ts ✅ (useRAFThrottle can be used for playhead)
-- [X] T060 [P] [PH4] Create specialized usePinchZoom hook in src/hooks/studio/useRAFThrottle.ts ✅ (useRAFThrottle can be used for zoom)
-- [X] T061 [PH4] Add BPM markers to TimelineRuler in src/components/studio/unified/MobileDAWTimeline.tsx ✅ (ALREADY EXISTS - lines 143-150+)
-- [X] T062 [PH4] Add beat/bar marker visibility based on zoom level in src/components/studio/unified/MobileDAWTimeline.tsx ✅ (ALREADY EXISTS - zoom >= 1.5 shows beats)
-- [X] T063 [PH4] Implement draggable playhead with touch gesture support in src/components/studio/unified/MobileDAWTimeline.tsx ✅ (ALREADY EXISTS - lines 101, 182-225)
-- [X] T064 [PH4] Add @use-gesture/react handlers for playhead drag in src/components/studio/unified/MobileDAWTimeline.tsx ✅ (ALREADY EXISTS - useGesture hook on line 128)
-- [X] T065 [PH4] Integrate snapToGrid for playhead drop in src/components/studio/unified/MobileDAWTimeline.tsx ✅ (ADDED - lines 198-206)
-- [X] T066 [PH4] Improve pinch-zoom performance with RAF throttling in src/components/studio/unified/OptimizedWaveform.tsx ✅ (ALREADY EXISTS - pinch-zoom with bounds)
-- [X] T067 [PH4] Add skipThreshold for scale changes < 1% in src/components/studio/unified/OptimizedWaveform.tsx ✅ (ALREADY EXISTS - scaleBounds)
-- [X] T068 [PH4] Integrate usePinchZoom hook for zoom gestures in src/components/studio/unified/OptimizedWaveform.tsx ✅ (ALREADY EXISTS - useGesture onPinch)
-- [X] T069 [PH4] Integrate AIActionsFAB with real AI functions (Generate, Extend, Cover, Add Vocals, Stems) in src/components/studio/unified/AIActionsFAB.tsx ✅ (ALREADY EXISTS - all AI functions integrated)
-- [X] T070 [P] [PH4] Add animated menu expansion to AIActionsFAB in src/components/studio/unified/AIActionsFAB.tsx ✅ (ALREADY EXISTS - AnimatePresence on lines 281, 300)
-- [X] T071 [PH4] Add haptic feedback to FAB interactions in src/components/studio/unified/AIActionsFAB.tsx ✅ (ALREADY EXISTS - haptic.tap throughout)
-- [X] T072 [P] [PH4] Add haptic feedback to playhead interactions in src/components/studio/unified/MobileDAWTimeline.tsx ✅ (ALREADY EXISTS - lines 102, 124, 185, 203)
+- [x] T043 [P] [PH4] Create BPM detection utilities in src/lib/audio/bpmDetection.ts ✅
+- [x] T044 [P] [PH4] Implement detectBPM function using web-audio-beat-detector in src/lib/audio/bpmDetection.ts ✅
+- [x] T045 [P] [PH4] Implement detectBPMFromUrl function in src/lib/audio/bpmDetection.ts ✅
+- [x] T046 [P] [PH4] Add beat position calculation (calculateBeatPositions) in src/lib/audio/bpmDetection.ts ✅ (bpmToBeatDuration, beatDurationToBPM)
+- [x] T047 [P] [PH4] Create beat-snap utilities in src/lib/audio/beatSnap.ts ✅
+- [x] T048 [P] [PH4] Implement snapToGrid function with BPM fallback in src/lib/audio/beatSnap.ts ✅
+- [x] T049 [P] [PH4] Implement snapToBeat function in src/lib/audio/beatSnap.ts ✅ (snapToGrid with beatIndex)
+- [x] T050 [P] [PH4] Implement snapToSeconds fallback function in src/lib/audio/beatSnap.ts ✅ (snapToSecondGrid)
+- [x] T051 [P] [PH4] Add MBT (Measure-Beat-Tick) conversion utilities in src/lib/audio/beatSnap.ts ✅ (getMeasurePosition, formatAsMeasureBeat)
+- [x] T052 [P] [PH4] Create useBPMGrid hook in src/hooks/useBPMGrid.ts ✅
+- [x] T053 [PH4] Add BPM detection state management to useBPMGrid in src/hooks/useBPMGrid.ts ✅
+- [x] T054 [PH4] Add snap function to useBPMGrid in src/hooks/useBPMGrid.ts ✅
+- [x] T055 [P] [PH4] Add getGridLines function to useBPMGrid in src/hooks/useBPMGrid.ts ✅
+- [x] T056 [P] [PH4] Add formatTime function (MBT or seconds) to useBPMGrid in src/hooks/useBPMGrid.ts ✅
+- [x] T057 [P] [PH4] Create RAF throttling utilities in src/hooks/studio/useRAFThrottle.ts ✅
+- [x] T058 [P] [PH4] Implement useRAFThrottle hook with native RAF (no artificial throttling) in src/hooks/studio/useRAFThrottle.ts ✅
+- [x] T059 [P] [PH4] Create specialized usePlayheadDrag hook in src/hooks/studio/useRAFThrottle.ts ✅ (useRAFThrottle can be used for playhead)
+- [x] T060 [P] [PH4] Create specialized usePinchZoom hook in src/hooks/studio/useRAFThrottle.ts ✅ (useRAFThrottle can be used for zoom)
+- [x] T061 [PH4] Add BPM markers to TimelineRuler in src/components/studio/unified/MobileDAWTimeline.tsx ✅ (ALREADY EXISTS - lines 143-150+)
+- [x] T062 [PH4] Add beat/bar marker visibility based on zoom level in src/components/studio/unified/MobileDAWTimeline.tsx ✅ (ALREADY EXISTS - zoom >= 1.5 shows beats)
+- [x] T063 [PH4] Implement draggable playhead with touch gesture support in src/components/studio/unified/MobileDAWTimeline.tsx ✅ (ALREADY EXISTS - lines 101, 182-225)
+- [x] T064 [PH4] Add @use-gesture/react handlers for playhead drag in src/components/studio/unified/MobileDAWTimeline.tsx ✅ (ALREADY EXISTS - useGesture hook on line 128)
+- [x] T065 [PH4] Integrate snapToGrid for playhead drop in src/components/studio/unified/MobileDAWTimeline.tsx ✅ (ADDED - lines 198-206)
+- [x] T066 [PH4] Improve pinch-zoom performance with RAF throttling in src/components/studio/unified/OptimizedWaveform.tsx ✅ (ALREADY EXISTS - pinch-zoom with bounds)
+- [x] T067 [PH4] Add skipThreshold for scale changes < 1% in src/components/studio/unified/OptimizedWaveform.tsx ✅ (ALREADY EXISTS - scaleBounds)
+- [x] T068 [PH4] Integrate usePinchZoom hook for zoom gestures in src/components/studio/unified/OptimizedWaveform.tsx ✅ (ALREADY EXISTS - useGesture onPinch)
+- [x] T069 [PH4] Integrate AIActionsFAB with real AI functions (Generate, Extend, Cover, Add Vocals, Stems) in src/components/studio/unified/AIActionsFAB.tsx ✅ (ALREADY EXISTS - all AI functions integrated)
+- [x] T070 [P] [PH4] Add animated menu expansion to AIActionsFAB in src/components/studio/unified/AIActionsFAB.tsx ✅ (ALREADY EXISTS - AnimatePresence on lines 281, 300)
+- [x] T071 [PH4] Add haptic feedback to FAB interactions in src/components/studio/unified/AIActionsFAB.tsx ✅ (ALREADY EXISTS - haptic.tap throughout)
+- [x] T072 [P] [PH4] Add haptic feedback to playhead interactions in src/components/studio/unified/MobileDAWTimeline.tsx ✅ (ALREADY EXISTS - lines 102, 124, 185, 203)
 
 **Checkpoint**: Timeline improvements complete - BPM detection working, snap-to-grid functional, haptic feedback integrated
 
@@ -159,32 +159,32 @@
 
 ### Performance Benchmarks
 
-- [X] T073 [P] [PH5] Create performance benchmark utilities in tests/performance/studio-benchmarks.ts ✅
-- [X] T074 [P] [PH5] Benchmark scroll FPS with 1000+ items in tests/performance/studio-benchmarks.ts ✅
-- [X] T075 [P] [PH5] Benchmark mixer re-renders per volume change in tests/performance/studio-benchmarks.ts ✅
-- [X] T076 [P] [PH5] Benchmark waveform load time (cached vs uncached) in tests/performance/studio-benchmarks.ts ✅
-- [X] T077 [P] [PH5] Profile memory usage with 10 stems loaded in tests/performance/studio-benchmarks.ts ✅
+- [x] T073 [P] [PH5] Create performance benchmark utilities in tests/performance/studio-benchmarks.ts ✅
+- [x] T074 [P] [PH5] Benchmark scroll FPS with 1000+ items in tests/performance/studio-benchmarks.ts ✅
+- [x] T075 [P] [PH5] Benchmark mixer re-renders per volume change in tests/performance/studio-benchmarks.ts ✅
+- [x] T076 [P] [PH5] Benchmark waveform load time (cached vs uncached) in tests/performance/studio-benchmarks.ts ✅
+- [x] T077 [P] [PH5] Profile memory usage with 10 stems loaded in tests/performance/studio-benchmarks.ts ✅
 
 ### Unit Tests (Hooks)
 
-- [X] T078 [P] [PH5] Unit test for useStudioState hook in tests/unit/hooks/studio/useStudioState.test.ts ✅ (CREATED: 2026-01-07)
-- [X] T079 [P] [PH5] Unit test for useWaveformCache hook in tests/unit/hooks/studio/useWaveformCache.test.ts ✅ (CREATED: 2026-01-07)
-- [X] T080 [P] [PH5] Unit test for useOptimizedPlayback hook in tests/unit/hooks/studio/useOptimizedPlayback.test.ts ✅ (CREATED: 2026-01-07)
-- [X] T081 [P] [PH5] Unit test for useLyricsSync hook in tests/unit/hooks/lyrics/useLyricsSync.test.ts ✅ (CREATED: 2026-01-07)
-- [X] T082 [P] [PH5] Unit test for useBPMGrid hook in tests/unit/hooks/useBPMGrid.test.ts ✅ (CREATED: 2026-01-07)
+- [x] T078 [P] [PH5] Unit test for useStudioState hook in tests/unit/hooks/studio/useStudioState.test.ts ✅ (CREATED: 2026-01-07)
+- [x] T079 [P] [PH5] Unit test for useWaveformCache hook in tests/unit/hooks/studio/useWaveformCache.test.ts ✅ (CREATED: 2026-01-07)
+- [x] T080 [P] [PH5] Unit test for useOptimizedPlayback hook in tests/unit/hooks/studio/useOptimizedPlayback.test.ts ✅ (CREATED: 2026-01-07)
+- [x] T081 [P] [PH5] Unit test for useLyricsSync hook in tests/unit/hooks/lyrics/useLyricsSync.test.ts ✅ (CREATED: 2026-01-07)
+- [x] T082 [P] [PH5] Unit test for useBPMGrid hook in tests/unit/hooks/useBPMGrid.test.ts ✅ (CREATED: 2026-01-07)
 
 ### E2E Tests
 
-- [X] T083 [P] [PH5] E2E test for unified studio performance in tests/e2e/studio/unified-studio-perf.spec.ts ✅ (CREATED: 2026-01-07)
-- [X] T084 [P] [PH5] E2E test for mixer re-render optimization in tests/e2e/studio/mixer-optimization.spec.ts ✅ (CREATED: 2026-01-07)
-- [X] T085 [P] [PH5] E2E test for timeline snap-to-grid in tests/e2e/studio/timeline-snap.spec.ts ✅ (CREATED: 2026-01-07)
+- [x] T083 [P] [PH5] E2E test for unified studio performance in tests/e2e/studio/unified-studio-perf.spec.ts ✅ (CREATED: 2026-01-07)
+- [x] T084 [P] [PH5] E2E test for mixer re-render optimization in tests/e2e/studio/mixer-optimization.spec.ts ✅ (CREATED: 2026-01-07)
+- [x] T085 [P] [PH5] E2E test for timeline snap-to-grid in tests/e2e/studio/timeline-snap.spec.ts ✅ (CREATED: 2026-01-07)
 
 ### Validation
 
 - [ ] T086 [PH5] Run npm run size and verify <180KB for studio chunk ⚠️ BLOCKED (SWC build issue - see VALIDATION-REPORT.md)
 - [ ] T087 [PH5] Run npm run test:coverage and verify ≥80% for new hooks ⚠️ BLOCKED (Jest config conflict - see VALIDATION-REPORT.md)
 - [ ] T088 [PH5] Run npm run test:e2e:mobile and verify all tests pass on target devices ⚠️ PENDING (requires build fix)
-- [X] T089 [PH5] Document performance metrics in SPRINT-031-OPTIMIZATION-PHASE2.md ✅ (CREATED: SPRINT-031-VALIDATION-REPORT.md)
+- [x] T089 [PH5] Document performance metrics in SPRINT-031-OPTIMIZATION-PHASE2.md ✅ (CREATED: SPRINT-031-VALIDATION-REPORT.md)
 
 **Checkpoint**: Testing complete - all metrics validated, test coverage met
 
@@ -249,6 +249,7 @@
 ### Parallel Opportunities
 
 **Setup Phase (Phase 1):**
+
 ```bash
 # All can run together:
 T002: Update package.json exports
@@ -257,6 +258,7 @@ T004: Update jest.config.js
 ```
 
 **Store Unification (Phase 2):**
+
 ```bash
 # Can run in parallel after T008 (interface exists):
 T009: Create slice type interfaces
@@ -265,6 +267,7 @@ T011: Compose stemMixerSlice
 ```
 
 **Component Optimizations (Phase 3):**
+
 ```bash
 # After Phase 2 complete, can run in parallel:
 T025: Create OptimizedLyricsLine
@@ -274,6 +277,7 @@ T038: Create lyrics parser
 ```
 
 **DAW Timeline (Phase 4):**
+
 ```bash
 # Can run in parallel with Phase 3:
 T043: Create BPM detection
@@ -282,6 +286,7 @@ T057: Create RAF throttling
 ```
 
 **Testing (Phase 5):**
+
 ```bash
 # All benchmarks can run in parallel:
 T074: Scroll FPS benchmark
@@ -313,6 +318,7 @@ Task: "Create slice type interfaces in src/stores/slices/unifiedSlice.ts"
 4. Deploy/demo if ready
 
 **MVP Success Criteria:**
+
 - Mixer channel re-renders: 1 per volume change (from ~10)
 - No state duplication errors
 - Selectors preventing unnecessary re-renders
@@ -333,13 +339,13 @@ Task: "Create slice type interfaces in src/stores/slices/unifiedSlice.ts"
 
 ### Performance Benchmarks (Target: Mid-range Devices)
 
-| Metric | Before | Target | Validation Task |
-|--------|--------|--------|------------------|
-| TrackList scroll FPS | ~30 | 60 | T074 |
-| Mixer re-renders/volume change | ~10 | 1 | T075 |
-| Waveform load (cached) | ~500ms | <50ms | T076 |
-| Bundle size (studio) | ~200KB | <180KB | T086 |
-| Memory (10 stems) | ~150MB | <100MB | T077 |
+| Metric                         | Before | Target | Validation Task |
+| ------------------------------ | ------ | ------ | --------------- |
+| TrackList scroll FPS           | ~30    | 60     | T074            |
+| Mixer re-renders/volume change | ~10    | 1      | T075            |
+| Waveform load (cached)         | ~500ms | <50ms  | T076            |
+| Bundle size (studio)           | ~200KB | <180KB | T086            |
+| Memory (10 stems)              | ~150MB | <100MB | T077            |
 
 ### Quality Metrics
 

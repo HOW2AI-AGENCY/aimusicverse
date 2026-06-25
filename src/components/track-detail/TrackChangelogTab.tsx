@@ -1,7 +1,7 @@
-import { useTrackChangelog } from '@/hooks/useTrackChangelog';
-import { Badge } from '@/components/ui/badge';
-import { FileEdit, Sparkles, Upload, Download, Music2, User } from 'lucide-react';
-import { format, ru } from '@/lib/date-utils';
+import { useTrackChangelog } from "@/hooks/useTrackChangelog";
+import { Badge } from "@/components/ui/badge";
+import { FileEdit, Sparkles, Upload, Download, Music2, User } from "lucide-react";
+import { format, ru } from "@/lib/date-utils";
 
 interface TrackChangelogTabProps {
   trackId: string;
@@ -24,13 +24,13 @@ export function TrackChangelogTab({ trackId }: TrackChangelogTabProps) {
 
   const getChangeLabel = (type: string) => {
     const labels: Record<string, string> = {
-      edit: 'Изменение',
-      ai_generation: 'AI Генерация',
-      upload: 'Загрузка',
-      download: 'Скачивание',
-      create: 'Создание',
-      remix: 'Ремикс',
-      extend: 'Продление',
+      edit: "Изменение",
+      ai_generation: "AI Генерация",
+      upload: "Загрузка",
+      download: "Скачивание",
+      create: "Создание",
+      remix: "Ремикс",
+      extend: "Продление",
     };
     return labels[type] || type;
   };
@@ -57,10 +57,7 @@ export function TrackChangelogTab({ trackId }: TrackChangelogTabProps) {
   return (
     <div className="space-y-3">
       {changelog.map((log) => (
-        <div
-          key={log.id}
-          className="bg-card border border-border rounded-lg p-4 hover:shadow-md transition-all"
-        >
+        <div key={log.id} className="bg-card border border-border rounded-lg p-4 hover:shadow-md transition-all">
           <div className="flex items-start gap-3">
             <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
               {getChangeIcon(log.change_type)}
@@ -81,10 +78,7 @@ export function TrackChangelogTab({ trackId }: TrackChangelogTabProps) {
                 <User className="w-3 h-3" />
                 <span>{log.changed_by}</span>
                 <span>•</span>
-                <span>
-                  {log.created_at &&
-                    format(new Date(log.created_at), 'dd MMM yyyy, HH:mm', { locale: ru })}
-                </span>
+                <span>{log.created_at && format(new Date(log.created_at), "dd MMM yyyy, HH:mm", { locale: ru })}</span>
               </div>
 
               {/* Field changes */}
@@ -120,12 +114,8 @@ export function TrackChangelogTab({ trackId }: TrackChangelogTabProps) {
               {log.metadata && Object.keys(log.metadata).length > 0 && (
                 <div className="mt-2 p-2 rounded bg-muted/30">
                   <details className="text-xs">
-                    <summary className="cursor-pointer text-muted-foreground">
-                      Дополнительная информация
-                    </summary>
-                    <pre className="mt-2 text-xs overflow-x-auto">
-                      {JSON.stringify(log.metadata, null, 2)}
-                    </pre>
+                    <summary className="cursor-pointer text-muted-foreground">Дополнительная информация</summary>
+                    <pre className="mt-2 text-xs overflow-x-auto">{JSON.stringify(log.metadata, null, 2)}</pre>
                   </details>
                 </div>
               )}

@@ -11,7 +11,7 @@ This document defines all quality gates that code must pass before being merged 
 MusicVerse AI implements multiple quality gates at different stages of the development process:
 
 - **Pre-Commit**: Local developer checks
-- **Pre-Merge**: CI/CD automated checks  
+- **Pre-Merge**: CI/CD automated checks
 - **Post-Merge**: Monitoring and alerting
 - **Production**: Performance and error tracking
 
@@ -26,6 +26,7 @@ MusicVerse AI implements multiple quality gates at different stages of the devel
 **Enforcement**: Blocks commit if failed
 
 #### Gate 1: Build Artifacts Validation
+
 ```bash
 # Check if dist/assets/*.js files exist
 # If not, run: npm run build (120s timeout)
@@ -35,11 +36,13 @@ MusicVerse AI implements multiple quality gates at different stages of the devel
 **Failure Mode**: Commit blocked with error message
 
 #### Gate 2: Bundle Size Check
+
 ```bash
 npm run size
 ```
 
 **Limits**:
+
 - Total Bundle: 950 KB (gzip)
 - Individual chunks: Per-size-limit configuration
 
@@ -47,11 +50,13 @@ npm run size
 **Failure Mode**: Commit blocked with size violation details
 
 #### Gate 3: Real Bundle Tracking
+
 ```bash
 npm run size:track
 ```
 
 **Features**:
+
 - Historical comparison (30-day window)
 - Trend reporting (increase/decrease)
 - Alert when approaching 90% of limits
@@ -69,11 +74,13 @@ npm run size:track
 **Configuration**: `.github/workflows/`
 
 ### Quality Check Workflow
+
 **File**: `.github/workflows/quality-check.yml`  
 **Trigger**: Pull requests  
 **Enforcement**: Blocks merge if failed
 
 #### Gate 1: Code Linting
+
 ```bash
 npm run lint
 ```
@@ -83,23 +90,27 @@ npm run lint
 **Failure Mode**: Merge blocked
 
 **Common Issues**:
+
 - Unused variables
 - Missing imports
 - Code style violations
 - Type safety issues
 
 #### Gate 2: Unit Test Coverage
+
 ```bash
 npm run test:coverage
 ```
 
 **Thresholds**:
+
 - Branches: 70%
 - Functions: 70%
 - Lines: 70%
 - Statements: 70%
 
 **Coverage Areas**:
+
 - `src/hooks/**/*.{ts,tsx}`
 - `src/components/**/*.{ts,tsx}`
 
@@ -108,6 +119,7 @@ npm run test:coverage
 ---
 
 ### Performance Monitoring Workflow
+
 **File**: `.github/workflows/performance.yml`  
 **Trigger**: Push and pull requests  
 **Enforcement**: Warnings and errors
@@ -115,6 +127,7 @@ npm run test:coverage
 #### Gate 3: Lighthouse Performance Scores
 
 **Testing**:
+
 - URLs: Home, Library, Guitar Studio
 - Viewport: 375×812 (mobile-first)
 - Throttling: 4G (150ms RTT, 1.6Mbps)
@@ -138,7 +151,8 @@ npm run test:coverage
 | CLS | ≤0.1 | ≤0.25 | ❌/⚠️ |
 | Total Weight | ≤850KB | ≤950KB | ⚠️ |
 
-**Failure Mode**: 
+**Failure Mode**:
+
 - Critical metrics (≥90% a11y, FCP, TTI, LCP, CLS) block merge
 - Warning metrics post comments
 
@@ -159,12 +173,14 @@ npm run test:coverage
 | Generation Feature | 180 KB | ✅ |
 
 **Features**:
+
 - Real bundle size calculation
 - Chunk-by-chunk analysis
 - PR comment with trend report
 - Historical comparison
 
-**Failure Mode**: 
+**Failure Mode**:
+
 - Total bundle >950KB blocks merge
 - Individual chunks > limits warn
 - Approaching limits (>90%) alerts
@@ -172,6 +188,7 @@ npm run test:coverage
 ---
 
 ### E2E Test Workflow
+
 **File**: `.github/workflows/e2e-hints.yml`  
 **Trigger**: Hints-related changes  
 **Enforcement**: Blocks merge if failed
@@ -179,17 +196,20 @@ npm run test:coverage
 #### Gate 5: Hints System E2E Tests
 
 **Browser Matrix**:
+
 - Chromium (Desktop)
 - Mobile Chrome (Pixel 5)
 - Mobile Safari (iPhone 12)
 
 **Configuration**:
+
 - Retries: 2 (flaky animation timing)
 - Trace: On all retries
 - Screenshots: On failure
 - Video: Retain on failure
 
 **Test Coverage** (9 files):
+
 - Basic functionality
 - Advanced scenarios
 - Accessibility (WCAG contrast)
@@ -206,6 +226,7 @@ npm run test:coverage
 ## 🔐 Security Gates (Planned)
 
 ### Security Automation Workflow
+
 **File**: `.github/workflows/security.yml` (planned)  
 **Trigger**: Pull requests + weekly scheduled  
 **Enforcement**: Blocks merge on critical issues
@@ -215,12 +236,14 @@ npm run test:coverage
 **Tools**: npm audit + Snyk  
 **Frequency**: Every PR + weekly  
 **Severity Levels**:
+
 - Critical: Block merge
 - High: Block merge
 - Moderate: Warn
 - Low: Info only
 
 **Features**:
+
 - Automated vulnerability scanning
 - SARIF upload to GitHub Security tab
 - Weekly scheduled scans
@@ -233,11 +256,13 @@ npm run test:coverage
 **Enforcement**: Block commit if secrets detected
 
 **Scanning**:
+
 - Entire git history
 - Current branch
 - Pull request diffs
 
 **Secret Types**:
+
 - API keys
 - Database credentials
 - Authentication tokens
@@ -252,13 +277,15 @@ npm run test:coverage
 **Query Suite**: Security-focused
 
 **Vulnerability Types**:
+
 - SQL injection
 - XSS vulnerabilities
 - CSRF issues
 - Auth bypasses
 - Data exposure
 
-**Failure Mode**: 
+**Failure Mode**:
+
 - Critical/high severity blocks merge
 - Moderate/low warns
 
@@ -266,7 +293,8 @@ npm run test:coverage
 
 ## ♿ Accessibility Gates (Planned)
 
-### Accessibility Automation Workflow  
+### Accessibility Automation Workflow
+
 **File**: `.github/workflows/accessibility.yml` (planned)  
 **Trigger**: Every PR  
 **Enforcement**: Blocks merge on critical violations
@@ -277,12 +305,14 @@ npm run test:coverage
 **Coverage**: All key pages
 
 **WCAG 2.1 AA Compliance**:
+
 - **Critical violations**: Block merge
 - **Serious violations**: Block merge
 - **Moderate violations**: Warn
 - **Minor violations**: Info only
 
 **Test Categories**:
+
 - Color contrast (≥4.5:1 normal, ≥3:1 large)
 - Touch target size (≥44×44px)
 - Keyboard navigation
@@ -292,6 +322,7 @@ npm run test:coverage
 - Image alternatives
 
 **Failure Mode**:
+
 - Critical/serious: Merge blocked
 - Moderate/minor: Warning comment
 
@@ -302,6 +333,7 @@ npm run test:coverage
 **Coverage**: Comprehensive page testing
 
 **Features**:
+
 - Multiple page coverage
 - Regression detection
 - Historical comparison
@@ -322,6 +354,7 @@ npm run test:coverage
 **Alerting**: Critical when >10%
 
 **Error Categories**:
+
 - Audio errors
 - Studio errors
 - Payment errors
@@ -329,6 +362,7 @@ npm run test:coverage
 - Navigation errors
 
 **Actions**:
+
 - Automatic alerting
 - Incident creation
 - Performance impact assessment
@@ -339,11 +373,13 @@ npm run test:coverage
 **Metrics**: Core Web Vitals
 
 **Thresholds**:
+
 - FCP <1.8s (95th percentile)
 - LCP <2.5s (95th percentile)
 - TTI <3.5s (95th percentile)
 
-**Alerting**: 
+**Alerting**:
+
 - Warning when >20% above threshold
 - Critical when >50% above threshold
 
@@ -354,12 +390,14 @@ npm run test:coverage
 **Alerting**: When approaching limits
 
 **Monitoring**:
+
 - Total bundle size
 - Individual chunk sizes
 - Trend analysis
 - Regression detection
 
 **Actions**:
+
 - PR comments for trends
 - Alerts at 90% of limits
 - Blocks at 100% of limits
@@ -374,6 +412,7 @@ npm run test:coverage
 **Configuration**: `tsconfig.json`
 
 **Rules**:
+
 - No `any` types (except specific cases)
 - Strict null checks
 - Strict function types
@@ -385,6 +424,7 @@ npm run test:coverage
 ### React Standards
 
 **Rules**:
+
 - Functional components with hooks
 - Proper TypeScript types
 - PropTypes alternative (TypeScript)
@@ -396,6 +436,7 @@ npm run test:coverage
 ### CSS/Tailwind Standards
 
 **Rules**:
+
 - Mobile-first approach
 - Utility-first with Tailwind
 - Component-specific styles only
@@ -409,6 +450,7 @@ npm run test:coverage
 ## 📋 Quality Gate Checklist
 
 ### Before Committing
+
 - [ ] Code compiles without errors
 - [ ] `npm run lint` passes
 - [ ] Unit tests pass (`npm test`)
@@ -417,6 +459,7 @@ npm run test:coverage
 - [ ] Code follows conventions
 
 ### Before Creating PR
+
 - [ ] All pre-commit gates passed
 - [ ] E2E tests pass (if applicable)
 - [ ] Accessibility checks pass (if UI changes)
@@ -425,6 +468,7 @@ npm run test:coverage
 - [ ] Changelog entry added
 
 ### Before Merging
+
 - [ ] All CI checks pass
 - [ ] Code review approved
 - [ ] No unresolved conversations
@@ -439,7 +483,8 @@ npm run test:coverage
 ### Common Gate Failures
 
 **Issue**: Bundle size exceeds limit  
-**Solution**: 
+**Solution**:
+
 1. Run `npm run size:why` for analysis
 2. Check for duplicate dependencies
 3. Consider code splitting
@@ -447,6 +492,7 @@ npm run test:coverage
 
 **Issue**: Lighthouse scores drop  
 **Solution**:
+
 1. Check Core Web Vitals regressions
 2. Review image optimization
 3. Check JavaScript execution time
@@ -454,6 +500,7 @@ npm run test:coverage
 
 **Issue**: Accessibility tests fail  
 **Solution**:
+
 1. Check contrast ratios
 2. Verify ARIA labels
 3. Test keyboard navigation
@@ -461,6 +508,7 @@ npm run test:coverage
 
 **Issue**: Unit test coverage drops  
 **Solution**:
+
 1. Add tests for new code
 2. Check for untested edge cases
 3. Review test exclusions
@@ -473,6 +521,7 @@ npm run test:coverage
 ### Current Status (2026-06-24)
 
 **Gate Performance**:
+
 - Pre-commit gates: 100% passing
 - CI/CD gates: 100% passing
 - Performance gates: All green
@@ -480,6 +529,7 @@ npm run test:coverage
 - Accessibility gates: Not yet implemented
 
 **Quality Trends**:
+
 - Bundle size: Stable at ~850KB / 950KB limit
 - Test coverage: 70%+ maintained
 - Lighthouse scores: All ≥75%
@@ -492,16 +542,19 @@ npm run test:coverage
 ### Planned Quality Gates
 
 **Short-term (Sprint 037-038)**:
+
 - Security scanning automation
 - Accessibility automation
 - Visual regression testing
 
 **Medium-term (Sprint 040+)**:
+
 - API contract testing
 - Load testing integration
 - Chaos engineering tests
 
 **Long-term**:
+
 - Real user monitoring (RUM)
 - A/B testing integration
 - Feature flag validation
@@ -520,8 +573,8 @@ npm run test:coverage
 
 **Last Updated**: 2026-06-24  
 **Maintained By**: Development Team  
-**Version**: 2.0.0  
+**Version**: 2.0.0
 
 ---
 
-*This document ensures all team members understand the quality standards and gates that protect the MusicVerse AI codebase and user experience.*
+_This document ensures all team members understand the quality standards and gates that protect the MusicVerse AI codebase and user experience._

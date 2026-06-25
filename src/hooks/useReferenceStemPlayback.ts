@@ -1,18 +1,14 @@
 /**
  * useReferenceStemPlayback - Hook for synchronized stem playback
- * 
+ *
  * Manages multiple audio elements with mute/solo, volume control, and sync
  * Integrates with studio audio coordination to ensure single playback source
  */
 
-import { useState, useRef, useCallback, useEffect, useId } from 'react';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { 
-  registerStudioAudio, 
-  unregisterStudioAudio, 
-  pauseAllStudioAudio 
-} from '@/hooks/studio/useStudioAudio';
-import { logger } from '@/lib/logger';
+import { useState, useRef, useCallback, useEffect, useId } from "react";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
+import { logger } from "@/lib/logger";
 
 export interface Stem {
   id: string;
@@ -48,9 +44,9 @@ export function useReferenceStemPlayback(stems: Stem[]): UseReferenceStemPlaybac
   const sourceId = useId();
   const audioRefs = useRef<Map<string, HTMLAudioElement>>(new Map());
   const animationRef = useRef<number | undefined>(undefined);
-  
+
   const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
-  
+
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -58,27 +54,30 @@ export function useReferenceStemPlayback(stems: Stem[]): UseReferenceStemPlaybac
   const [isLoading, setIsLoading] = useState(stems.length > 0);
   const [stemStates, setStemStates] = useState<Record<string, StemState>>(() => {
     const initial: Record<string, StemState> = {};
-    stems.forEach(stem => {
+    stems.forEach((stem) => {
       initial[stem.id] = { volume: 1, muted: false, solo: false };
     });
     return initial;
   });
 
   // Check if any stem has solo active
-  const hasSolo = Object.values(stemStates).some(s => s.solo);
+  const hasSolo = Object.values(stemStates).some((s) => s.solo);
 
   // Calculate effective volume for a stem
-  const getEffectiveVolume = useCallback((stemId: string): number => {
-    const state = stemStates[stemId];
-    if (!state) return masterVolume;
-    if (state.muted) return 0;
-    if (hasSolo && !state.solo) return 0;
-    return state.volume * masterVolume;
-  }, [stemStates, masterVolume, hasSolo]);
+  const getEffectiveVolume = useCallback(
+    (stemId: string): number => {
+      const state = stemStates[stemId];
+      if (!state) return masterVolume;
+      if (state.muted) return 0;
+      if (hasSolo && !state.solo) return 0;
+      return state.volume * masterVolume;
+    },
+    [stemStates, masterVolume, hasSolo],
+  );
 
   // Pause function for external coordination
   const pause = useCallback(() => {
-    audioRefs.current.forEach(audio => audio.pause());
+    audioRefs.current.forEach((audio) => audio.pause());
     setIsPlaying(false);
   }, []);
 
@@ -86,13 +85,13 @@ export function useReferenceStemPlayback(stems: Stem[]): UseReferenceStemPlaybac
   useEffect(() => {
     const newAudioRefs = new Map<string, HTMLAudioElement>();
     let loadedCount = 0;
-    
-    stems.forEach(stem => {
+
+    stems.forEach((stem) => {
       const audio = new Audio(stem.url);
-      audio.preload = 'auto';
+      audio.preload = "auto";
       audio.volume = getEffectiveVolume(stem.id);
-      
-      audio.addEventListener('loadedmetadata', () => {
+
+      audio.addEventListener("loadedmetadata", () => {
         loadedCount++;
         if (audio.duration > duration) {
           setDuration(audio.duration);
@@ -101,38 +100,38 @@ export function useReferenceStemPlayback(stems: Stem[]): UseReferenceStemPlaybac
           setIsLoading(false);
         }
       });
-      
-      audio.addEventListener('ended', () => {
+
+      audio.addEventListener("ended", () => {
         setIsPlaying(false);
         setCurrentTime(0);
       });
-      
-      audio.addEventListener('error', (e) => {
+
+      audio.addEventListener("error", (e) => {
         logger.warn(`Error loading stem ${stem.type}`, { error: e });
         loadedCount++;
         if (loadedCount === stems.length) {
           setIsLoading(false);
         }
       });
-      
+
       newAudioRefs.set(stem.id, audio);
     });
-    
+
     audioRefs.current = newAudioRefs;
-    
+
     // Register with studio audio coordinator
     const studioSourceId = `reference-stems-${sourceId}`;
     registerStudioAudio(studioSourceId, () => {
-      audioRefs.current.forEach(audio => audio.pause());
+      audioRefs.current.forEach((audio) => audio.pause());
       setIsPlaying(false);
     });
-    
+
     // Cleanup
     return () => {
       unregisterStudioAudio(studioSourceId);
-      audioRefs.current.forEach(audio => {
+      audioRefs.current.forEach((audio) => {
         audio.pause();
-        audio.src = '';
+        audio.src = "";
       });
       audioRefs.current.clear();
       if (animationRef.current) {
@@ -151,7 +150,7 @@ export function useReferenceStemPlayback(stems: Stem[]): UseReferenceStemPlaybac
   // Pause when global player starts
   useEffect(() => {
     if (globalIsPlaying && isPlaying) {
-      audioRefs.current.forEach(audio => audio.pause());
+      audioRefs.current.forEach((audio) => audio.pause());
       setIsPlaying(false);
     }
   }, [globalIsPlaying, isPlaying]);
@@ -172,7 +171,7 @@ export function useReferenceStemPlayback(stems: Stem[]): UseReferenceStemPlaybac
         cancelAnimationFrame(animationRef.current);
       }
     }
-    
+
     return () => {
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
@@ -182,24 +181,24 @@ export function useReferenceStemPlayback(stems: Stem[]): UseReferenceStemPlaybac
 
   const togglePlay = useCallback(() => {
     if (isPlaying) {
-      audioRefs.current.forEach(audio => audio.pause());
+      audioRefs.current.forEach((audio) => audio.pause());
     } else {
       // Pause global player and other studio audio first
       pauseTrack();
       pauseAllStudioAudio(`reference-stems-${sourceId}`);
-      
+
       // Sync all audio elements to the same time before playing
       const targetTime = currentTime;
-      audioRefs.current.forEach(audio => {
+      audioRefs.current.forEach((audio) => {
         audio.currentTime = targetTime;
-        audio.play().catch(err => logger.warn('Audio play failed', { error: err }));
+        audio.play().catch((err) => logger.warn("Audio play failed", { error: err }));
       });
     }
     setIsPlaying(!isPlaying);
   }, [isPlaying, currentTime, pauseTrack, sourceId]);
 
   const seek = useCallback((time: number) => {
-    audioRefs.current.forEach(audio => {
+    audioRefs.current.forEach((audio) => {
       audio.currentTime = time;
     });
     setCurrentTime(time);
@@ -210,7 +209,7 @@ export function useReferenceStemPlayback(stems: Stem[]): UseReferenceStemPlaybac
   }, []);
 
   const toggleMute = useCallback((stemId: string) => {
-    setStemStates(prev => ({
+    setStemStates((prev) => ({
       ...prev,
       [stemId]: {
         ...prev[stemId],
@@ -220,7 +219,7 @@ export function useReferenceStemPlayback(stems: Stem[]): UseReferenceStemPlaybac
   }, []);
 
   const toggleSolo = useCallback((stemId: string) => {
-    setStemStates(prev => ({
+    setStemStates((prev) => ({
       ...prev,
       [stemId]: {
         ...prev[stemId],
@@ -230,7 +229,7 @@ export function useReferenceStemPlayback(stems: Stem[]): UseReferenceStemPlaybac
   }, []);
 
   const setStemVolume = useCallback((stemId: string, volume: number) => {
-    setStemStates(prev => ({
+    setStemStates((prev) => ({
       ...prev,
       [stemId]: {
         ...prev[stemId],

@@ -3,7 +3,7 @@ export interface ProjectContext {
   projectTitle: string;
   genre?: string;
   mood?: string;
-  language?: 'ru' | 'en';
+  language?: "ru" | "en";
   concept?: string;
   targetAudience?: string;
   referenceArtists?: string[];
@@ -22,7 +22,7 @@ export interface TrackContext {
   // Enhanced context for AI lyrics assistant
   notes?: string; // AI hints, theme suggestions, emotional arc
   lyrics?: string; // Actual lyrics text (separate from notes)
-  lyricsStatus?: 'draft' | 'prompt' | 'generated' | 'approved';
+  lyricsStatus?: "draft" | "prompt" | "generated" | "approved";
 }
 
 export interface LyricsChatAssistantProps {
@@ -33,26 +33,26 @@ export interface LyricsChatAssistantProps {
   onTitleGenerated?: (title: string) => void;
   initialGenre?: string;
   initialMood?: string[];
-  initialLanguage?: 'ru' | 'en';
+  initialLanguage?: "ru" | "en";
   // NEW: Context support
   projectContext?: ProjectContext;
   trackContext?: TrackContext;
-  initialMode?: 'new' | 'edit' | 'improve' | 'freeform';
+  initialMode?: "new" | "edit" | "improve" | "freeform";
 }
 
 export interface ChatMessage {
   id: string;
-  role: 'assistant' | 'user';
+  role: "assistant" | "user";
   content: string;
   options?: QuickOption[];
-  component?: 'genre' | 'mood' | 'language' | 'structure' | 'lyrics-preview';
+  component?: "genre" | "mood" | "language" | "structure" | "lyrics-preview";
   data?: Record<string, unknown>;
 }
 
 export interface QuickOption {
   label: string;
   value: string;
-  action?: 'setTheme' | 'selectGenre' | 'askMore' | 'useContext' | 'editDraft' | 'freeform' | 'retry';
+  action?: "setTheme" | "selectGenre" | "askMore" | "useContext" | "editDraft" | "freeform" | "retry";
   icon?: string;
 }
 

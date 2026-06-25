@@ -7,21 +7,14 @@
  * @module stores/studio/useStudioHistoryStore
  */
 
-import { create } from 'zustand';
-import { createHistorySlice, type HistoryState } from '@/lib/zustand/historyMiddleware';
-import { logger } from '@/lib/logger';
+import { create } from "zustand";
+import { createHistorySlice, type HistoryState } from "@/lib/zustand/historyMiddleware";
+import { logger } from "@/lib/logger";
 
-const historyLogger = logger.child({ module: 'StudioHistoryStore' });
+const historyLogger = logger.child({ module: "StudioHistoryStore" });
 
 // Keys to exclude from history tracking
-const EXCLUDED_KEYS = [
-  'isLoading',
-  'isSaving',
-  'lastSavedAt',
-  'hasUnsavedChanges',
-  'isPlaying',
-  'currentTime',
-];
+const EXCLUDED_KEYS = ["isLoading", "isSaving", "lastSavedAt", "hasUnsavedChanges", "isPlaying", "currentTime"];
 
 // ============ State Interface ============
 
@@ -40,7 +33,7 @@ export const useStudioHistoryStore = create<StudioHistoryState>()((set, get) => 
     {
       maxHistory: 30,
       exclude: EXCLUDED_KEYS,
-    }
+    },
   );
 
   return {
@@ -50,30 +43,30 @@ export const useStudioHistoryStore = create<StudioHistoryState>()((set, get) => 
     undo: () => {
       const { canUndo } = get();
       if (!canUndo()) {
-        historyLogger.debug('Cannot undo - at beginning of history');
+        historyLogger.debug("Cannot undo - at beginning of history");
         return;
       }
 
       historySlice.undo();
-      historyLogger.info('Undo performed', { historyIndex: get()._historyIndex });
+      historyLogger.info("Undo performed", { historyIndex: get()._historyIndex });
     },
 
     // Override redo with logging
     redo: () => {
       const { canRedo } = get();
       if (!canRedo()) {
-        historyLogger.debug('Cannot redo - at end of history');
+        historyLogger.debug("Cannot redo - at end of history");
         return;
       }
 
       historySlice.redo();
-      historyLogger.info('Redo performed', { historyIndex: get()._historyIndex });
+      historyLogger.info("Redo performed", { historyIndex: get()._historyIndex });
     },
 
     // Override clearHistory with logging
     clearHistory: () => {
       historySlice.clearHistory();
-      historyLogger.debug('History cleared');
+      historyLogger.debug("History cleared");
     },
   };
 });

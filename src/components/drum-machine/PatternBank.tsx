@@ -1,8 +1,8 @@
-import React, { memo } from 'react';
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import { Music, Trash2 } from 'lucide-react';
-import type { DrumPattern } from '@/lib/drum-kits';
+import React, { memo } from "react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Music, Trash2 } from "lucide-react";
+import type { DrumPattern } from "@/lib/drum-kits";
 
 interface PatternBankProps {
   patterns: DrumPattern[];
@@ -15,10 +15,10 @@ export const PatternBank = memo(function PatternBank({
   patterns,
   onLoadPattern,
   onClearPattern,
-  className
+  className,
 }: PatternBankProps) {
   return (
-    <div className={cn('flex flex-col gap-2', className)}>
+    <div className={cn("flex flex-col gap-2", className)}>
       <div className="flex items-center justify-between">
         <span className="text-xs font-medium text-muted-foreground">Паттерны</span>
         <Button
@@ -31,7 +31,7 @@ export const PatternBank = memo(function PatternBank({
           Очистить
         </Button>
       </div>
-      
+
       <div className="flex flex-wrap gap-1.5">
         {patterns.map((pattern) => (
           <Button

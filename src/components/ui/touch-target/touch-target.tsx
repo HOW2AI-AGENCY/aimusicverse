@@ -15,15 +15,15 @@
  * @priority P1 - Component Maintainability
  */
 
-import * as React from 'react';
-import { cn } from '@/lib/utils';
+import * as React from "react";
+import { cn } from "@/lib/utils";
 
 export interface TouchTargetProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Minimum touch target size
    * @default 'comfortable'
    */
-  size?: 'min' | 'comfortable' | 'large';
+  size?: "min" | "comfortable" | "large";
 
   /**
    * Child elements that need touch target sizing
@@ -44,29 +44,32 @@ export interface TouchTargetProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const sizeStyles = {
-  min: 'min-w-touch min-h-touch',
-  comfortable: 'min-w-touch-lg min-h-touch-lg',
-  large: 'min-w-touch-xl min-h-touch-xl',
+  min: "min-w-touch min-h-touch",
+  comfortable: "min-w-touch-lg min-h-touch-lg",
+  large: "min-w-touch-xl min-h-touch-xl",
 };
 
 const circularStyles = {
-  min: 'min-w-[44px] min-h-[44px]',
-  comfortable: 'min-w-[48px] min-h-[48px]',
-  large: 'min-w-[56px] min-h-[56px]',
+  min: "min-w-[44px] min-h-[44px]",
+  comfortable: "min-w-[48px] min-h-[48px]",
+  large: "min-w-[56px] min-h-[56px]",
 };
 
 export const TouchTarget = React.forwardRef<HTMLDivElement, TouchTargetProps>(
-  ({
-    size = 'comfortable',
-    circular = false,
-    feedback = true,
-    className,
-    children,
-    onClick,
-    onTouchStart,
-    onTouchEnd,
-    ...props
-  }, ref) => {
+  (
+    {
+      size = "comfortable",
+      circular = false,
+      feedback = true,
+      className,
+      children,
+      onClick,
+      onTouchStart,
+      onTouchEnd,
+      ...props
+    },
+    ref,
+  ) => {
     const [isPressed, setIsPressed] = React.useState(false);
 
     const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
@@ -93,19 +96,17 @@ export const TouchTarget = React.forwardRef<HTMLDivElement, TouchTargetProps>(
     };
 
     const sizeClasses = circular ? circularStyles[size] : sizeStyles[size];
-    const feedbackClasses = feedback
-      ? 'transition-transform active:scale-95'
-      : '';
+    const feedbackClasses = feedback ? "transition-transform active:scale-95" : "";
 
     return (
       <div
         ref={ref}
         className={cn(
-          'inline-flex items-center justify-center',
+          "inline-flex items-center justify-center",
           sizeClasses,
           feedbackClasses,
-          isPressed && 'scale-95',
-          className
+          isPressed && "scale-95",
+          className,
         )}
         onClick={handleClick}
         onTouchStart={handleTouchStart}
@@ -115,7 +116,7 @@ export const TouchTarget = React.forwardRef<HTMLDivElement, TouchTargetProps>(
         {children}
       </div>
     );
-  }
+  },
 );
 
-TouchTarget.displayName = 'TouchTarget';
+TouchTarget.displayName = "TouchTarget";

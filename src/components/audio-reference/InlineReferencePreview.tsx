@@ -3,34 +3,34 @@
  * Compact preview of active audio reference in generation form with waveform
  */
 
-import { memo, useCallback, useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { 
-  Play, 
-  Pause, 
-  X, 
-  Music, 
-  Mic, 
-  Cloud, 
-  Drum, 
-  Radio, 
+import { memo, useCallback, useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import {
+  Play,
+  Pause,
+  X,
+  Music,
+  Mic,
+  Cloud,
+  Drum,
+  Radio,
   Guitar,
   FileAudio,
   Loader2,
   ChevronDown,
   Sparkles,
-} from 'lucide-react';
-import { useAudioReference } from '@/hooks/useAudioReference';
-import { useReferenceAudioPlayer } from '@/hooks/audio/useReferenceAudioPlayer';
-import { cn } from '@/lib/utils';
-import { formatTime } from '@/lib/formatters';
-import { MiniWaveform } from './MiniWaveform';
-import { ReferenceAnalysisDisplay } from './ReferenceAnalysisDisplay';
-import { ReferenceModeSelector } from './ReferenceModeSelector';
-import { ExtendRangeSelector } from './ExtendRangeSelector';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { ReferenceManager, type ReferenceMode } from '@/services/audio-reference';
+} from "lucide-react";
+import { useAudioReference } from "@/hooks/useAudioReference";
+import { useReferenceAudioPlayer } from "@/hooks/audio/useReferenceAudioPlayer";
+import { cn } from "@/lib/utils";
+import { formatTime } from "@/lib/formatters";
+import { MiniWaveform } from "./MiniWaveform";
+import { ReferenceAnalysisDisplay } from "./ReferenceAnalysisDisplay";
+import { ReferenceModeSelector } from "./ReferenceModeSelector";
+import { ExtendRangeSelector } from "./ExtendRangeSelector";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { ReferenceManager, type ReferenceMode } from "@/services/audio-reference";
 
 interface InlineReferencePreviewProps {
   onRemove?: () => void;
@@ -40,8 +40,8 @@ interface InlineReferencePreviewProps {
   showModeSelector?: boolean;
 }
 
-export const InlineReferencePreview = memo(function InlineReferencePreview({ 
-  onRemove, 
+export const InlineReferencePreview = memo(function InlineReferencePreview({
+  onRemove,
   onOpenDrawer,
   className,
   showAnalysis = true,
@@ -51,15 +51,7 @@ export const InlineReferencePreview = memo(function InlineReferencePreview({
   // Auto-expand when mode selector is shown to let user choose cover/extend
   const [isExpanded, setIsExpanded] = useState(showModeSelector);
 
-  const {
-    isPlaying,
-    currentTime,
-    duration,
-    isLoading,
-    isBuffering,
-    togglePlay,
-    seek,
-  } = useReferenceAudioPlayer({
+  const { isPlaying, currentTime, duration, isLoading, isBuffering, togglePlay, seek } = useReferenceAudioPlayer({
     audioUrl: activeReference?.audioUrl ?? null,
   });
 
@@ -68,37 +60,43 @@ export const InlineReferencePreview = memo(function InlineReferencePreview({
     onRemove?.();
   }, [clearActive, onRemove]);
 
-  const handleModeChange = useCallback((newMode: ReferenceMode) => {
-    if (activeReference) {
-      // Auto-set continueAt to near end when switching to extend mode
-      const effectiveDur = duration || activeReference.durationSeconds || 60;
-      const defaultContinueAt = Math.max(5, effectiveDur - 5);
-      
-      ReferenceManager.setActive({ 
-        ...activeReference, 
-        intendedMode: newMode,
-        // Set continueAt when switching to extend, preserve otherwise
-        continueAt: newMode === 'extend' ? (activeReference.continueAt || defaultContinueAt) : undefined,
-      });
-    }
-  }, [activeReference, duration]);
+  const handleModeChange = useCallback(
+    (newMode: ReferenceMode) => {
+      if (activeReference) {
+        // Auto-set continueAt to near end when switching to extend mode
+        const effectiveDur = duration || activeReference.durationSeconds || 60;
+        const defaultContinueAt = Math.max(5, effectiveDur - 5);
 
-  const handleContinueAtChange = useCallback((time: number) => {
-    if (activeReference) {
-      ReferenceManager.setActive({ 
-        ...activeReference, 
-        continueAt: time,
-      });
-    }
-  }, [activeReference]);
+        ReferenceManager.setActive({
+          ...activeReference,
+          intendedMode: newMode,
+          // Set continueAt when switching to extend, preserve otherwise
+          continueAt: newMode === "extend" ? activeReference.continueAt || defaultContinueAt : undefined,
+        });
+      }
+    },
+    [activeReference, duration],
+  );
+
+  const handleContinueAtChange = useCallback(
+    (time: number) => {
+      if (activeReference) {
+        ReferenceManager.setActive({
+          ...activeReference,
+          continueAt: time,
+        });
+      }
+    },
+    [activeReference],
+  );
 
   // Auto-set continueAt when entering extend mode
   useEffect(() => {
-    if (activeReference?.intendedMode === 'extend' && !activeReference.continueAt) {
+    if (activeReference?.intendedMode === "extend" && !activeReference.continueAt) {
       const effectiveDur = duration || activeReference.durationSeconds || 60;
       const defaultContinueAt = Math.max(5, effectiveDur - 5);
-      ReferenceManager.setActive({ 
-        ...activeReference, 
+      ReferenceManager.setActive({
+        ...activeReference,
         continueAt: defaultContinueAt,
       });
     }
@@ -108,47 +106,56 @@ export const InlineReferencePreview = memo(function InlineReferencePreview({
 
   const getSourceIcon = () => {
     switch (activeReference.source) {
-      case 'upload': return <Music className="h-3.5 w-3.5" />;
-      case 'record': return <Mic className="h-3.5 w-3.5" />;
-      case 'cloud': return <Cloud className="h-3.5 w-3.5" />;
-      case 'drums': return <Drum className="h-3.5 w-3.5" />;
-      case 'dj': return <Radio className="h-3.5 w-3.5" />;
-      case 'guitar': return <Guitar className="h-3.5 w-3.5" />;
-      case 'stem': return <Sparkles className="h-3.5 w-3.5" />;
-      case 'track': return <Music className="h-3.5 w-3.5" />;
-      default: return <FileAudio className="h-3.5 w-3.5" />;
+      case "upload":
+        return <Music className="h-3.5 w-3.5" />;
+      case "record":
+        return <Mic className="h-3.5 w-3.5" />;
+      case "cloud":
+        return <Cloud className="h-3.5 w-3.5" />;
+      case "drums":
+        return <Drum className="h-3.5 w-3.5" />;
+      case "dj":
+        return <Radio className="h-3.5 w-3.5" />;
+      case "guitar":
+        return <Guitar className="h-3.5 w-3.5" />;
+      case "stem":
+        return <Sparkles className="h-3.5 w-3.5" />;
+      case "track":
+        return <Music className="h-3.5 w-3.5" />;
+      default:
+        return <FileAudio className="h-3.5 w-3.5" />;
     }
   };
 
   const getModeLabel = () => {
-    if (activeReference.intendedMode === 'cover') return 'Кавер';
-    if (activeReference.intendedMode === 'extend') return 'Расширение';
-    return 'Референс';
+    if (activeReference.intendedMode === "cover") return "Кавер";
+    if (activeReference.intendedMode === "extend") return "Расширение";
+    return "Референс";
   };
 
   const getModeColor = () => {
-    if (activeReference.intendedMode === 'cover') return 'bg-purple-500/20 text-purple-700 dark:text-purple-400';
-    if (activeReference.intendedMode === 'extend') return 'bg-blue-500/20 text-blue-700 dark:text-blue-400';
-    return 'bg-muted';
+    if (activeReference.intendedMode === "cover") return "bg-purple-500/20 text-purple-700 dark:text-purple-400";
+    if (activeReference.intendedMode === "extend") return "bg-blue-500/20 text-blue-700 dark:text-blue-400";
+    return "bg-muted";
   };
 
-  const hasAnalysisData = activeReference.analysis && (
-    activeReference.analysis.genre ||
-    activeReference.analysis.bpm ||
-    activeReference.analysis.mood ||
-    activeReference.analysis.styleDescription
-  );
+  const hasAnalysisData =
+    activeReference.analysis &&
+    (activeReference.analysis.genre ||
+      activeReference.analysis.bpm ||
+      activeReference.analysis.mood ||
+      activeReference.analysis.styleDescription);
 
   const effectiveDuration = duration || activeReference.durationSeconds || 0;
 
   return (
     <Collapsible open={isExpanded} onOpenChange={setIsExpanded}>
-      <div 
+      <div
         className={cn(
           "flex flex-col rounded-lg border bg-card/50 backdrop-blur-sm",
           "transition-all duration-200",
           isExpanded && "ring-1 ring-primary/20",
-          className
+          className,
         )}
       >
         {/* Main content */}
@@ -173,33 +180,26 @@ export const InlineReferencePreview = memo(function InlineReferencePreview({
             </Button>
 
             {/* Info */}
-            <div 
-              className="flex-1 min-w-0 cursor-pointer"
-              onClick={onOpenDrawer}
-            >
+            <div className="flex-1 min-w-0 cursor-pointer" onClick={onOpenDrawer}>
               <div className="flex items-center gap-1.5">
                 {getSourceIcon()}
-                <span className="text-sm font-medium truncate max-w-[160px]">
-                  {activeReference.fileName}
-                </span>
+                <span className="text-sm font-medium truncate max-w-[160px]">{activeReference.fileName}</span>
               </div>
-              
+
               <div className="flex items-center gap-1.5 mt-0.5">
                 <Badge variant="secondary" className={cn("text-xs px-1.5 py-0", getModeColor())}>
                   {getModeLabel()}
                 </Badge>
-                
-                {analysisStatus === 'processing' && (
+
+                {analysisStatus === "processing" && (
                   <Badge variant="outline" className="text-xs px-1.5 py-0 gap-1">
                     <Loader2 className="h-2.5 w-2.5 animate-spin" />
                     Анализ
                   </Badge>
                 )}
-                
+
                 {activeReference.analysis?.bpm && (
-                  <span className="text-xs text-muted-foreground">
-                    {activeReference.analysis.bpm} BPM
-                  </span>
+                  <span className="text-xs text-muted-foreground">{activeReference.analysis.bpm} BPM</span>
                 )}
 
                 {activeReference.analysis?.genre && (
@@ -213,15 +213,10 @@ export const InlineReferencePreview = memo(function InlineReferencePreview({
             {/* Expand button - always show when mode selector enabled or has analysis */}
             {(showModeSelector || (showAnalysis && hasAnalysisData)) && (
               <CollapsibleTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8 shrink-0"
-                >
-                  <ChevronDown className={cn(
-                    "h-4 w-4 transition-transform duration-200",
-                    isExpanded && "rotate-180"
-                  )} />
+                <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0">
+                  <ChevronDown
+                    className={cn("h-4 w-4 transition-transform duration-200", isExpanded && "rotate-180")}
+                  />
                 </Button>
               </CollapsibleTrigger>
             )}
@@ -242,7 +237,7 @@ export const InlineReferencePreview = memo(function InlineReferencePreview({
             <span className="text-xs text-muted-foreground w-9 text-right shrink-0 tabular-nums">
               {formatTime(currentTime)}
             </span>
-            
+
             <MiniWaveform
               audioUrl={activeReference.audioUrl}
               currentTime={currentTime}
@@ -252,7 +247,7 @@ export const InlineReferencePreview = memo(function InlineReferencePreview({
               height={36}
               className="flex-1"
             />
-            
+
             <span className="text-xs text-muted-foreground w-9 shrink-0 tabular-nums">
               {formatTime(effectiveDuration)}
             </span>
@@ -265,14 +260,14 @@ export const InlineReferencePreview = memo(function InlineReferencePreview({
             {/* Mode selector */}
             {showModeSelector && (
               <ReferenceModeSelector
-                mode={activeReference.intendedMode || 'reference'}
+                mode={activeReference.intendedMode || "reference"}
                 onModeChange={handleModeChange}
                 compact={false}
               />
             )}
-            
+
             {/* Extend range selector - only show in extend mode */}
-            {activeReference.intendedMode === 'extend' && effectiveDuration > 0 && (
+            {activeReference.intendedMode === "extend" && effectiveDuration > 0 && (
               <ExtendRangeSelector
                 audioUrl={activeReference.audioUrl}
                 duration={effectiveDuration}
@@ -282,14 +277,10 @@ export const InlineReferencePreview = memo(function InlineReferencePreview({
                 height={48}
               />
             )}
-            
+
             {/* Analysis */}
             {showAnalysis && hasAnalysisData && (
-              <ReferenceAnalysisDisplay
-                analysis={activeReference.analysis}
-                status={analysisStatus}
-                compact
-              />
+              <ReferenceAnalysisDisplay analysis={activeReference.analysis} status={analysisStatus} compact />
             )}
           </div>
         </CollapsibleContent>

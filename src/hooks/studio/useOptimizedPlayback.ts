@@ -3,8 +3,8 @@
  * Optimized for minimal re-renders and smooth UI updates
  */
 
-import { useCallback, useRef, useState, useEffect } from 'react';
-import { logger } from '@/lib/logger';
+import { useCallback, useRef, useState, useEffect } from "react";
+import { logger } from "@/lib/logger";
 
 interface PlaybackState {
   isPlaying: boolean;
@@ -49,7 +49,7 @@ export function useOptimizedPlayback({
 }: UseOptimizedPlaybackOptions): UseOptimizedPlaybackReturn {
   const [state, setState] = useState<PlaybackState>(DEFAULT_STATE);
   const [isBuffering, setIsBuffering] = useState(false);
-  
+
   const rafRef = useRef<number | undefined>(undefined);
   const lastUpdateRef = useRef(0);
   const stateRef = useRef(state);
@@ -62,26 +62,26 @@ export function useOptimizedPlayback({
 
     const update = () => {
       const now = performance.now();
-      
+
       // Throttle updates
       if (now - lastUpdateRef.current >= updateInterval) {
         lastUpdateRef.current = now;
-        
+
         const currentTime = audio.currentTime;
         const duration = audio.duration || 0;
-        
+
         // Only update if changed significantly
         if (Math.abs(currentTime - stateRef.current.currentTime) > 0.01) {
-          setState(prev => ({
+          setState((prev) => ({
             ...prev,
             currentTime,
             duration: isFinite(duration) ? duration : prev.duration,
           }));
-          
+
           onTimeUpdate?.(currentTime);
         }
       }
-      
+
       if (!audio.paused) {
         rafRef.current = requestAnimationFrame(update);
       }
@@ -104,12 +104,12 @@ export function useOptimizedPlayback({
 
     try {
       await audio.play();
-      setState(prev => ({ ...prev, isPlaying: true }));
+      setState((prev) => ({ ...prev, isPlaying: true }));
       startTimeLoop();
       return true;
     } catch (error) {
-      logger.error('Playback failed', error);
-      onError?.(error instanceof Error ? error : new Error('Playback failed'));
+      logger.error("Playback failed", error);
+      onError?.(error instanceof Error ? error : new Error("Playback failed"));
       return false;
     }
   }, [audioRef, startTimeLoop, onError]);
@@ -121,7 +121,7 @@ export function useOptimizedPlayback({
 
     audio.pause();
     stopTimeLoop();
-    setState(prev => ({ ...prev, isPlaying: false }));
+    setState((prev) => ({ ...prev, isPlaying: false }));
   }, [audioRef, stopTimeLoop]);
 
   // Toggle
@@ -134,26 +134,32 @@ export function useOptimizedPlayback({
   }, [play, pause]);
 
   // Seek
-  const seek = useCallback((time: number) => {
-    const audio = audioRef.current;
-    if (!audio) return;
+  const seek = useCallback(
+    (time: number) => {
+      const audio = audioRef.current;
+      if (!audio) return;
 
-    const clampedTime = Math.max(0, Math.min(time, audio.duration || 0));
-    audio.currentTime = clampedTime;
-    
-    setState(prev => ({ ...prev, currentTime: clampedTime }));
-    onTimeUpdate?.(clampedTime);
-  }, [audioRef, onTimeUpdate]);
+      const clampedTime = Math.max(0, Math.min(time, audio.duration || 0));
+      audio.currentTime = clampedTime;
+
+      setState((prev) => ({ ...prev, currentTime: clampedTime }));
+      onTimeUpdate?.(clampedTime);
+    },
+    [audioRef, onTimeUpdate],
+  );
 
   // Playback rate
-  const setPlaybackRate = useCallback((rate: number) => {
-    const audio = audioRef.current;
-    if (!audio) return;
+  const setPlaybackRate = useCallback(
+    (rate: number) => {
+      const audio = audioRef.current;
+      if (!audio) return;
 
-    const clampedRate = Math.max(0.25, Math.min(4, rate));
-    audio.playbackRate = clampedRate;
-    setState(prev => ({ ...prev, playbackRate: clampedRate }));
-  }, [audioRef]);
+      const clampedRate = Math.max(0.25, Math.min(4, rate));
+      audio.playbackRate = clampedRate;
+      setState((prev) => ({ ...prev, playbackRate: clampedRate }));
+    },
+    [audioRef],
+  );
 
   // Audio event listeners
   useEffect(() => {
@@ -161,7 +167,7 @@ export function useOptimizedPlayback({
     if (!audio) return;
 
     const handleLoadedMetadata = () => {
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
         duration: audio.duration || 0,
       }));
@@ -169,7 +175,7 @@ export function useOptimizedPlayback({
 
     const handleEnded = () => {
       stopTimeLoop();
-      setState(prev => ({ ...prev, isPlaying: false }));
+      setState((prev) => ({ ...prev, isPlaying: false }));
       onEnded?.();
     };
 
@@ -179,31 +185,31 @@ export function useOptimizedPlayback({
     const handleProgress = () => {
       if (audio.buffered.length > 0) {
         const buffered = audio.buffered.end(audio.buffered.length - 1);
-        setState(prev => ({ ...prev, buffered }));
+        setState((prev) => ({ ...prev, buffered }));
       }
     };
 
     const handleError = () => {
       stopTimeLoop();
-      setState(prev => ({ ...prev, isPlaying: false }));
-      onError?.(new Error(audio.error?.message || 'Audio error'));
+      setState((prev) => ({ ...prev, isPlaying: false }));
+      onError?.(new Error(audio.error?.message || "Audio error"));
     };
 
-    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
-    audio.addEventListener('ended', handleEnded);
-    audio.addEventListener('waiting', handleWaiting);
-    audio.addEventListener('canplay', handleCanPlay);
-    audio.addEventListener('progress', handleProgress);
-    audio.addEventListener('error', handleError);
+    audio.addEventListener("loadedmetadata", handleLoadedMetadata);
+    audio.addEventListener("ended", handleEnded);
+    audio.addEventListener("waiting", handleWaiting);
+    audio.addEventListener("canplay", handleCanPlay);
+    audio.addEventListener("progress", handleProgress);
+    audio.addEventListener("error", handleError);
 
     return () => {
       stopTimeLoop();
-      audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
-      audio.removeEventListener('ended', handleEnded);
-      audio.removeEventListener('waiting', handleWaiting);
-      audio.removeEventListener('canplay', handleCanPlay);
-      audio.removeEventListener('progress', handleProgress);
-      audio.removeEventListener('error', handleError);
+      audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      audio.removeEventListener("ended", handleEnded);
+      audio.removeEventListener("waiting", handleWaiting);
+      audio.removeEventListener("canplay", handleCanPlay);
+      audio.removeEventListener("progress", handleProgress);
+      audio.removeEventListener("error", handleError);
     };
   }, [audioRef, stopTimeLoop, onEnded, onError]);
 

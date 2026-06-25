@@ -1,9 +1,9 @@
 // Profile Extended Types - Sprint 011 Task T012
 // Extended profile types for social features
 
-export type PrivacyLevel = 'public' | 'followers' | 'private';
+export type PrivacyLevel = "public" | "followers" | "private";
 
-export type VerificationStatus = 'none' | 'pending' | 'verified';
+export type VerificationStatus = "none" | "pending" | "verified";
 
 export interface SocialLinks {
   instagram?: string;

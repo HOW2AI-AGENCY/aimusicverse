@@ -3,12 +3,12 @@
  * Features: drag-to-dismiss, snap points, velocity-based closing
  */
 
-import { memo, useRef, useCallback, useState, ReactNode } from 'react';
-import { motion, AnimatePresence, useMotionValue, useTransform, type PanInfo } from '@/lib/motion';
-import { cn } from '@/lib/utils';
-import { backdrop } from '@/lib/overlay-colors';
-import { useHaptic } from '@/hooks/useHaptic';
-import { X } from 'lucide-react';
+import { memo, useRef, useCallback, useState, ReactNode } from "react";
+import { motion, AnimatePresence, useMotionValue, useTransform, type PanInfo } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import { backdrop } from "@/lib/overlay-colors";
+import { useHaptic } from "@/hooks/useHaptic";
+import { X } from "lucide-react";
 
 interface MobileBottomSheetProps {
   open: boolean;
@@ -47,36 +47,39 @@ export const MobileBottomSheet = memo(function MobileBottomSheet({
 
   const currentHeight = snapPoints[currentSnap] * window.innerHeight;
 
-  const handleDragEnd = useCallback((event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-    const { velocity, offset } = info;
+  const handleDragEnd = useCallback(
+    (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+      const { velocity, offset } = info;
 
-    // Close if dragged down far enough or with high velocity
-    if (offset.y > DRAG_CLOSE_THRESHOLD || velocity.y > VELOCITY_THRESHOLD) {
-      patterns.tap();
-      onOpenChange(false);
-      return;
-    }
-
-    // Snap to nearest snap point
-    const currentPosition = offset.y;
-    let closestSnapIndex = currentSnap;
-    let closestDistance = Infinity;
-
-    snapPoints.forEach((snap, index) => {
-      const snapY = (1 - snap) * window.innerHeight;
-      const distance = Math.abs(currentPosition - snapY);
-      if (distance < closestDistance) {
-        closestDistance = distance;
-        closestSnapIndex = index;
+      // Close if dragged down far enough or with high velocity
+      if (offset.y > DRAG_CLOSE_THRESHOLD || velocity.y > VELOCITY_THRESHOLD) {
+        patterns.tap();
+        onOpenChange(false);
+        return;
       }
-    });
 
-    if (closestSnapIndex !== currentSnap) {
-      patterns.select();
-      setCurrentSnap(closestSnapIndex);
-      onSnapChange?.(closestSnapIndex);
-    }
-  }, [currentSnap, snapPoints, patterns, onOpenChange, onSnapChange]);
+      // Snap to nearest snap point
+      const currentPosition = offset.y;
+      let closestSnapIndex = currentSnap;
+      let closestDistance = Infinity;
+
+      snapPoints.forEach((snap, index) => {
+        const snapY = (1 - snap) * window.innerHeight;
+        const distance = Math.abs(currentPosition - snapY);
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestSnapIndex = index;
+        }
+      });
+
+      if (closestSnapIndex !== currentSnap) {
+        patterns.select();
+        setCurrentSnap(closestSnapIndex);
+        onSnapChange?.(closestSnapIndex);
+      }
+    },
+    [currentSnap, snapPoints, patterns, onOpenChange, onSnapChange],
+  );
 
   const handleBackdropClick = useCallback(() => {
     patterns.tap();
@@ -100,11 +103,11 @@ export const MobileBottomSheet = memo(function MobileBottomSheet({
           {/* Sheet */}
           <motion.div
             ref={containerRef}
-            initial={{ y: '100%' }}
+            initial={{ y: "100%" }}
             animate={{ y: 0 }}
-            exit={{ y: '100%' }}
+            exit={{ y: "100%" }}
             transition={{
-              type: 'spring',
+              type: "spring",
               damping: 30,
               stiffness: 300,
             }}
@@ -116,14 +119,14 @@ export const MobileBottomSheet = memo(function MobileBottomSheet({
               y,
               height: `${snapPoints[currentSnap] * 100}vh`,
               // Telegram Mini App safe area bottom padding
-              paddingBottom: 'max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px))',
+              paddingBottom: "max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px))",
             }}
             className={cn(
               "fixed bottom-0 left-0 right-0 z-[151]",
               "bg-background rounded-t-3xl",
               "shadow-2xl shadow-black/20",
               "flex flex-col overflow-hidden",
-              className
+              className,
             )}
           >
             {/* Drag Handle */}
@@ -136,9 +139,7 @@ export const MobileBottomSheet = memo(function MobileBottomSheet({
             {/* Header with title and close button */}
             {(title || showCloseButton) && (
               <div className="flex items-center justify-between px-4 py-2 border-b border-border/30 shrink-0">
-                {title && (
-                  <h3 className="text-base font-semibold">{title}</h3>
-                )}
+                {title && <h3 className="text-base font-semibold">{title}</h3>}
                 {!title && <div />}
                 {showCloseButton && (
                   <button
@@ -153,9 +154,7 @@ export const MobileBottomSheet = memo(function MobileBottomSheet({
             )}
 
             {/* Content */}
-            <div className="flex-1 overflow-hidden">
-              {children}
-            </div>
+            <div className="flex-1 overflow-hidden">{children}</div>
           </motion.div>
         </>
       )}

@@ -3,15 +3,15 @@
  * Common header for both stem and non-stem studio modes
  */
 
-import { useNavigate } from 'react-router-dom';
-import { ChevronLeft, HelpCircle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { VersionTimeline } from '@/components/stem-studio/VersionTimeline';
-import { OfflineIndicator } from '@/components/studio/OfflineIndicator';
-import { UndoRedoControls } from '@/components/studio/UndoRedoControls';
-import { cn } from '@/lib/utils';
-import { TELEGRAM_SAFE_AREA } from '@/constants/safe-area';
+import { useNavigate } from "react-router-dom";
+import { ChevronLeft, HelpCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { VersionTimeline } from "@/components/stem-studio/VersionTimeline";
+import { OfflineIndicator } from "@/components/studio/OfflineIndicator";
+import { UndoRedoControls } from "@/components/studio/UndoRedoControls";
+import { cn } from "@/lib/utils";
+import { TELEGRAM_SAFE_AREA } from "@/constants/safe-area";
 
 interface StudioHeaderProps {
   trackId: string;
@@ -41,30 +41,23 @@ export function StudioHeader({
   const navigate = useNavigate();
 
   return (
-    <header 
+    <header
       className={cn(
         "flex items-center justify-between px-4 sm:px-6 py-3",
         "border-b border-border/50 bg-card/50 backdrop-blur",
-        className
+        className,
       )}
       style={{
         paddingTop: TELEGRAM_SAFE_AREA.stickyHeaderTop,
       }}
     >
       <div className="flex items-center gap-3">
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => navigate('/library')}
-          className="rounded-full h-10 w-10"
-        >
+        <Button variant="ghost" size="icon" onClick={() => navigate("/library")} className="rounded-full h-10 w-10">
           <ChevronLeft className="w-5 h-5" />
         </Button>
-        
+
         <div className="flex flex-col">
-          <h1 className="font-semibold text-base sm:text-lg truncate max-w-[200px] sm:max-w-xs">
-            {trackTitle}
-          </h1>
+          <h1 className="font-semibold text-base sm:text-lg truncate max-w-[200px] sm:max-w-xs">{trackTitle}</h1>
           <div className="flex items-center gap-2">
             {hasStems && stemsCount > 0 ? (
               <Badge variant="secondary" className="text-xs">
@@ -79,31 +72,17 @@ export function StudioHeader({
 
       <div className="flex items-center gap-2">
         {/* Undo/Redo controls */}
-        {showUndoRedo && (
-          <UndoRedoControls className="hidden sm:flex" />
-        )}
-        
+        {showUndoRedo && <UndoRedoControls className="hidden sm:flex" />}
+
         {/* Offline indicator */}
-        <OfflineIndicator 
-          audioUrls={audioUrls}
-          className="hidden sm:flex"
-        />
+        <OfflineIndicator audioUrls={audioUrls} className="hidden sm:flex" />
 
         {/* Version Timeline */}
-        <VersionTimeline
-          trackId={trackId}
-          activeVersionId={activeVersionId}
-          onVersionChange={onVersionChange}
-        />
+        <VersionTimeline trackId={trackId} activeVersionId={activeVersionId} onVersionChange={onVersionChange} />
 
         {/* Help button */}
         {onShowTutorial && (
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onShowTutorial}
-            className="h-9 w-9 rounded-full"
-          >
+          <Button variant="ghost" size="icon" onClick={onShowTutorial} className="h-9 w-9 rounded-full">
             <HelpCircle className="w-4 h-4" />
           </Button>
         )}

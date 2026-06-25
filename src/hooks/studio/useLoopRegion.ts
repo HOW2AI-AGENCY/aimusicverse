@@ -1,14 +1,14 @@
 /**
  * useLoopRegion Hook
- * 
+ *
  * Manages loop region state and provides automatic loop functionality
  * for audio playback in the stem studio.
- * 
+ *
  * @author MusicVerse AI
  * @task T064 - Add loop region selection
  */
 
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback, useEffect, useRef } from "react";
 
 export interface LoopRegion {
   /** Loop start time in seconds */
@@ -71,19 +71,22 @@ export function useLoopRegion({
   /**
    * Update loop region with validation
    */
-  const setLoopRegion = useCallback((region: LoopRegion) => {
-    setLoopRegionState({
-      start: Math.max(0, Math.min(region.start, duration - 0.5)),
-      end: Math.max(0.5, Math.min(region.end, duration)),
-      enabled: region.enabled,
-    });
-  }, [duration]);
+  const setLoopRegion = useCallback(
+    (region: LoopRegion) => {
+      setLoopRegionState({
+        start: Math.max(0, Math.min(region.start, duration - 0.5)),
+        end: Math.max(0.5, Math.min(region.end, duration)),
+        enabled: region.enabled,
+      });
+    },
+    [duration],
+  );
 
   /**
    * Toggle loop on/off
    */
   const toggleLoop = useCallback(() => {
-    setLoopRegionState(prev => ({
+    setLoopRegionState((prev) => ({
       ...prev,
       enabled: !prev.enabled,
     }));
@@ -104,7 +107,7 @@ export function useLoopRegion({
    * Set loop start point
    */
   const setLoopStart = useCallback((time: number) => {
-    setLoopRegionState(prev => ({
+    setLoopRegionState((prev) => ({
       ...prev,
       start: Math.max(0, Math.min(time, prev.end - 0.5)),
       enabled: true,
@@ -114,60 +117,69 @@ export function useLoopRegion({
   /**
    * Set loop end point
    */
-  const setLoopEnd = useCallback((time: number) => {
-    setLoopRegionState(prev => ({
-      ...prev,
-      end: Math.max(prev.start + 0.5, Math.min(time, duration)),
-      enabled: true,
-    }));
-  }, [duration]);
+  const setLoopEnd = useCallback(
+    (time: number) => {
+      setLoopRegionState((prev) => ({
+        ...prev,
+        end: Math.max(prev.start + 0.5, Math.min(time, duration)),
+        enabled: true,
+      }));
+    },
+    [duration],
+  );
 
   /**
    * Check if a time is within the loop region
    */
-  const isInLoopRegion = useCallback((time: number): boolean => {
-    if (!loopRegion.enabled) return false;
-    return time >= loopRegion.start && time <= loopRegion.end;
-  }, [loopRegion]);
+  const isInLoopRegion = useCallback(
+    (time: number): boolean => {
+      if (!loopRegion.enabled) return false;
+      return time >= loopRegion.start && time <= loopRegion.end;
+    },
+    [loopRegion],
+  );
 
   /**
    * Handle time updates for auto-looping
    * Returns true if loop was triggered
    */
-  const handleTimeUpdate = useCallback((currentTime: number): boolean => {
-    if (!loopRegion.enabled) return false;
+  const handleTimeUpdate = useCallback(
+    (currentTime: number): boolean => {
+      if (!loopRegion.enabled) return false;
 
-    // Check if we've passed the loop end point
-    if (currentTime >= loopRegion.end && !justLoopedRef.current) {
-      justLoopedRef.current = true;
-      
-      // Seek back to loop start
-      if (audioRef?.current) {
-        audioRef.current.currentTime = loopRegion.start;
-      } else if (onSeek) {
-        onSeek(loopRegion.start);
+      // Check if we've passed the loop end point
+      if (currentTime >= loopRegion.end && !justLoopedRef.current) {
+        justLoopedRef.current = true;
+
+        // Seek back to loop start
+        if (audioRef?.current) {
+          audioRef.current.currentTime = loopRegion.start;
+        } else if (onSeek) {
+          onSeek(loopRegion.start);
+        }
+
+        // Reset the flag after a short delay
+        setTimeout(() => {
+          justLoopedRef.current = false;
+        }, 100);
+
+        return true;
       }
 
-      // Reset the flag after a short delay
-      setTimeout(() => {
+      // Reset flag when we're clearly before the end
+      if (currentTime < loopRegion.end - 0.5) {
         justLoopedRef.current = false;
-      }, 100);
+      }
 
-      return true;
-    }
-
-    // Reset flag when we're clearly before the end
-    if (currentTime < loopRegion.end - 0.5) {
-      justLoopedRef.current = false;
-    }
-
-    return false;
-  }, [loopRegion, audioRef, onSeek]);
+      return false;
+    },
+    [loopRegion, audioRef, onSeek],
+  );
 
   // Update loop end when duration changes
   useEffect(() => {
     if (duration > 0 && loopRegion.end > duration) {
-      setLoopRegionState(prev => ({
+      setLoopRegionState((prev) => ({
         ...prev,
         end: duration,
       }));
@@ -183,9 +195,9 @@ export function useLoopRegion({
       handleTimeUpdate(audio.currentTime);
     };
 
-    audio.addEventListener('timeupdate', handleAudioTimeUpdate);
+    audio.addEventListener("timeupdate", handleAudioTimeUpdate);
     return () => {
-      audio.removeEventListener('timeupdate', handleAudioTimeUpdate);
+      audio.removeEventListener("timeupdate", handleAudioTimeUpdate);
     };
   }, [audioRef, loopRegion.enabled, handleTimeUpdate]);
 

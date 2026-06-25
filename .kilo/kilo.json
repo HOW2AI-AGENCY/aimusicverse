@@ -1,6 +1,4 @@
 {
   "$schema": "https://app.kilo.ai/config.json",
-  "plugin": [
-    "file:///D:/.MUSICVERSE/aimusicverse/.kilo/plugins/graphify.js"
-  ]
+  "plugin": ["file:///D:/.MUSICVERSE/aimusicverse/.kilo/plugins/graphify.js"]
 }

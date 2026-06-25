@@ -1,17 +1,11 @@
-import { useState } from 'react';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
-import { useLyricsTemplates } from '@/hooks/useLyricsTemplates';
-import { Loader2, FileText, Music, Tag } from 'lucide-react';
+import { useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import { useLyricsTemplates } from "@/hooks/useLyricsTemplates";
+import { Loader2, FileText, Music, Tag } from "lucide-react";
 
 interface SaveTemplateDialogProps {
   open: boolean;
@@ -23,16 +17,8 @@ interface SaveTemplateDialogProps {
   tags?: string[];
 }
 
-export function SaveTemplateDialog({
-  open,
-  onOpenChange,
-  lyrics,
-  style,
-  genre,
-  mood,
-  tags,
-}: SaveTemplateDialogProps) {
-  const [name, setName] = useState('');
+export function SaveTemplateDialog({ open, onOpenChange, lyrics, style, genre, mood, tags }: SaveTemplateDialogProps) {
+  const [name, setName] = useState("");
   const { saveTemplate, isSaving } = useLyricsTemplates();
 
   const handleSave = async () => {
@@ -47,14 +33,14 @@ export function SaveTemplateDialog({
       tags,
     });
 
-    setName('');
+    setName("");
     onOpenChange(false);
   };
 
   // Extract preview from lyrics
   const lyricsPreview = lyrics
-    .replace(/\[.*?\]/g, '')
-    .replace(/\(.*?\)/g, '')
+    .replace(/\[.*?\]/g, "")
+    .replace(/\(.*?\)/g, "")
     .slice(0, 100)
     .trim();
 
@@ -82,17 +68,14 @@ export function SaveTemplateDialog({
 
           {/* Preview */}
           <div className="p-3 rounded-lg bg-muted/50 space-y-2">
-            {lyricsPreview && (
-              <p className="text-sm text-muted-foreground line-clamp-2">
-                "{lyricsPreview}..."
-              </p>
-            )}
+            {lyricsPreview && <p className="text-sm text-muted-foreground line-clamp-2">"{lyricsPreview}..."</p>}
 
             <div className="flex flex-wrap gap-1.5">
               {style && (
                 <Badge variant="secondary" className="text-xs">
                   <Music className="w-3 h-3 mr-1" />
-                  {style.slice(0, 30)}{style.length > 30 ? '...' : ''}
+                  {style.slice(0, 30)}
+                  {style.length > 30 ? "..." : ""}
                 </Badge>
               )}
               {genre && (
@@ -126,7 +109,7 @@ export function SaveTemplateDialog({
                 Сохранение...
               </>
             ) : (
-              'Сохранить'
+              "Сохранить"
             )}
           </Button>
         </DialogFooter>

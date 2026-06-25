@@ -1,31 +1,43 @@
 /**
  * Music Lab Hub - Unified Creative Workspace
- * 
+ *
  * Tabs: Вокал, Гитара, Лирика+AI, PromptDJ (PRO), Аккорды, Hub
  */
 
-import { useState, Suspense, lazy } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
-import { MusicLabAudioProvider } from '@/contexts/MusicLabAudioContext';
-import { toast } from 'sonner';
-import { Mic, Guitar, PenLine, Disc3, Music, ArrowLeft, AudioWaveform } from 'lucide-react';
-import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
-import { FeatureGate, PremiumBadge } from '@/components/premium';
-import { useFeatureAccess } from '@/hooks/useFeatureAccess';
+import { useState, Suspense, lazy } from "react";
+import { useNavigate } from "react-router-dom";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { MusicLabAudioProvider } from "@/contexts/MusicLabAudioContext";
+import { toast } from "sonner";
+import { Mic, Guitar, PenLine, Disc3, Music, ArrowLeft, AudioWaveform } from "lucide-react";
+import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
+import { FeatureGate, PremiumBadge } from "@/components/premium";
+import { useFeatureAccess } from "@/hooks/useFeatureAccess";
 
 // Lazy load heavy components
-const AudioRecordDialog = lazy(() => import('@/components/audio-record/AudioRecordDialog').then(m => ({ default: m.AudioRecordDialog })));
-const GuitarRecordDialog = lazy(() => import('@/components/generate-form/GuitarRecordDialog').then(m => ({ default: m.GuitarRecordDialog })));
-const LyricsAIChatAgent = lazy(() => import('@/components/lyrics-workspace/LyricsAIChatAgent').then(m => ({ default: m.LyricsAIChatAgent })));
-const PromptDJMixer = lazy(() => import('@/components/prompt-dj').then(m => ({ default: m.PromptDJMixer })));
-const RealtimeChordVisualizer = lazy(() => import('@/components/chord-detection/RealtimeChordVisualizer').then(m => ({ default: m.RealtimeChordVisualizer })));
+const AudioRecordDialog = lazy(() =>
+  import("@/components/audio-record/AudioRecordDialog").then((m) => ({ default: m.AudioRecordDialog })),
+);
+const GuitarRecordDialog = lazy(() =>
+  import("@/components/generate-form/GuitarRecordDialog").then((m) => ({ default: m.GuitarRecordDialog })),
+);
+const LyricsAIChatAgent = lazy(() =>
+  import("@/components/lyrics-workspace/LyricsAIChatAgent").then((m) => ({ default: m.LyricsAIChatAgent })),
+);
+const PromptDJMixer = lazy(() => import("@/components/prompt-dj").then((m) => ({ default: m.PromptDJMixer })));
+const RealtimeChordVisualizer = lazy(() =>
+  import("@/components/chord-detection/RealtimeChordVisualizer").then((m) => ({ default: m.RealtimeChordVisualizer })),
+);
 
 // Audio Hub components
-const AudioHubRecorder = lazy(() => import('@/components/audio-hub/AudioHubRecorder').then(m => ({ default: m.AudioHubRecorder })));
-const AudioHubUploader = lazy(() => import('@/components/audio-hub/AudioHubUploader').then(m => ({ default: m.AudioHubUploader })));
+const AudioHubRecorder = lazy(() =>
+  import("@/components/audio-hub/AudioHubRecorder").then((m) => ({ default: m.AudioHubRecorder })),
+);
+const AudioHubUploader = lazy(() =>
+  import("@/components/audio-hub/AudioHubUploader").then((m) => ({ default: m.AudioHubUploader })),
+);
 
 function TabLoadingSkeleton() {
   return (
@@ -39,17 +51,17 @@ function TabLoadingSkeleton() {
 
 export default function MusicLab() {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('hub');
+  const [activeTab, setActiveTab] = useState("hub");
   const [vocalDialogOpen, setVocalDialogOpen] = useState(false);
   const [guitarDialogOpen, setGuitarDialogOpen] = useState(false);
-  
-  const { hasAccess: hasPromptDJ } = useFeatureAccess('prompt_dj');
-  const { hasAccess: hasGuitarStudio } = useFeatureAccess('guitar_studio');
 
-  useTelegramBackButton({ visible: true, fallbackPath: '/' });
+  const { hasAccess: hasPromptDJ } = useFeatureAccess("prompt_dj");
+  const { hasAccess: hasGuitarStudio } = useFeatureAccess("guitar_studio");
+
+  useTelegramBackButton({ visible: true, fallbackPath: "/" });
 
   const handleProgressionExport = (progression: string) => {
-    toast.success('Прогрессия скопирована', { description: progression });
+    toast.success("Прогрессия скопирована", { description: progression });
   };
 
   return (
@@ -110,9 +122,7 @@ export default function MusicLab() {
                 <div className="text-center py-8">
                   <Mic className="w-12 h-12 mx-auto mb-4 text-primary" />
                   <h2 className="text-lg font-semibold mb-2">Запись вокала</h2>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    Запишите вокал или загрузите аудио для обработки
-                  </p>
+                  <p className="text-sm text-muted-foreground mb-4">Запишите вокал или загрузите аудио для обработки</p>
                   <Button onClick={() => setVocalDialogOpen(true)}>
                     <Mic className="w-4 h-4 mr-2" />
                     Начать запись
@@ -149,12 +159,7 @@ export default function MusicLab() {
             {/* Lyrics + AI Agent */}
             <TabsContent value="lyrics" className="mt-0">
               <Suspense fallback={<TabLoadingSkeleton />}>
-                <LyricsAIChatAgent 
-                  existingLyrics=""
-                  globalTags={[]}
-                  stylePrompt=""
-                  title=""
-                />
+                <LyricsAIChatAgent existingLyrics="" globalTags={[]} stylePrompt="" title="" />
               </Suspense>
             </TabsContent>
 

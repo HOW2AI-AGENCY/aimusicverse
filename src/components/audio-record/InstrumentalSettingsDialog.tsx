@@ -1,15 +1,15 @@
-import { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import { Slider } from '@/components/ui/slider';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Badge } from '@/components/ui/badge';
-import { Textarea } from '@/components/ui/textarea';
-import { Music, Zap, Sparkles, Settings2, ChevronDown, ChevronUp } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { GENRES, MOODS } from '@/lib/lyrics/constants';
+import { useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Slider } from "@/components/ui/slider";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Badge } from "@/components/ui/badge";
+import { Textarea } from "@/components/ui/textarea";
+import { Music, Zap, Sparkles, Settings2, ChevronDown, ChevronUp } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { GENRES, MOODS } from "@/lib/lyrics/constants";
 
 export interface InstrumentalSettings {
   genre: string | null;
@@ -36,7 +36,7 @@ export const InstrumentalSettingsDialog = ({
   const [genre, setGenre] = useState<string | null>(null);
   const [mood, setMood] = useState<string | null>(null);
   const [bpm, setBpm] = useState(DEFAULT_BPM);
-  const [customStyle, setCustomStyle] = useState('');
+  const [customStyle, setCustomStyle] = useState("");
   const [showAdvanced, setShowAdvanced] = useState(false);
 
   const handleConfirm = () => {
@@ -47,11 +47,11 @@ export const InstrumentalSettingsDialog = ({
     setGenre(null);
     setMood(null);
     setBpm(DEFAULT_BPM);
-    setCustomStyle('');
+    setCustomStyle("");
   };
 
-  const selectedGenre = GENRES.find(g => g.value === genre);
-  const selectedMood = MOODS.find(m => m.value === mood);
+  const selectedGenre = GENRES.find((g) => g.value === genre);
+  const selectedMood = MOODS.find((m) => m.value === mood);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -61,9 +61,7 @@ export const InstrumentalSettingsDialog = ({
             <Settings2 className="w-5 h-5 text-primary" />
             Настройки инструментала
           </DialogTitle>
-          <p className="text-sm text-muted-foreground">
-            Выберите стиль и параметры для AI-генерации
-          </p>
+          <p className="text-sm text-muted-foreground">Выберите стиль и параметры для AI-генерации</p>
         </DialogHeader>
 
         <ScrollArea className="flex-1 -mx-6 px-6">
@@ -78,10 +76,10 @@ export const InstrumentalSettingsDialog = ({
                 {GENRES.map((g) => (
                   <Badge
                     key={g.value}
-                    variant={genre === g.value ? 'default' : 'outline'}
+                    variant={genre === g.value ? "default" : "outline"}
                     className={cn(
-                      'cursor-pointer transition-all hover:scale-105',
-                      genre === g.value && 'ring-2 ring-primary/50'
+                      "cursor-pointer transition-all hover:scale-105",
+                      genre === g.value && "ring-2 ring-primary/50",
                     )}
                     onClick={() => setGenre(genre === g.value ? null : g.value)}
                   >
@@ -107,10 +105,10 @@ export const InstrumentalSettingsDialog = ({
                 {MOODS.slice(0, 10).map((m) => (
                   <Badge
                     key={m.value}
-                    variant={mood === m.value ? 'default' : 'outline'}
+                    variant={mood === m.value ? "default" : "outline"}
                     className={cn(
-                      'cursor-pointer transition-all hover:scale-105',
-                      mood === m.value && 'ring-2 ring-amber-500/50'
+                      "cursor-pointer transition-all hover:scale-105",
+                      mood === m.value && "ring-2 ring-amber-500/50",
                     )}
                     onClick={() => setMood(mood === m.value ? null : m.value)}
                   >
@@ -150,7 +148,7 @@ export const InstrumentalSettingsDialog = ({
                   <Button
                     key={preset}
                     size="sm"
-                    variant={bpm === preset ? 'secondary' : 'ghost'}
+                    variant={bpm === preset ? "secondary" : "ghost"}
                     className="flex-1 h-7 text-xs"
                     onClick={() => setBpm(preset)}
                   >
@@ -166,11 +164,7 @@ export const InstrumentalSettingsDialog = ({
               onClick={() => setShowAdvanced(!showAdvanced)}
               className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors w-full"
             >
-              {showAdvanced ? (
-                <ChevronUp className="w-4 h-4" />
-              ) : (
-                <ChevronDown className="w-4 h-4" />
-              )}
+              {showAdvanced ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
               Расширенные настройки
             </button>
 
@@ -178,13 +172,11 @@ export const InstrumentalSettingsDialog = ({
               {showAdvanced && (
                 <motion.div
                   initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
+                  animate={{ opacity: 1, height: "auto" }}
                   exit={{ opacity: 0, height: 0 }}
                   className="space-y-3 overflow-hidden"
                 >
-                  <Label className="text-sm font-medium">
-                    Дополнительные инструкции (опционально)
-                  </Label>
+                  <Label className="text-sm font-medium">Дополнительные инструкции (опционально)</Label>
                   <Textarea
                     value={customStyle}
                     onChange={(e) => setCustomStyle(e.target.value)}
@@ -192,9 +184,7 @@ export const InstrumentalSettingsDialog = ({
                     className="min-h-[80px] text-sm"
                     maxLength={200}
                   />
-                  <p className="text-xs text-muted-foreground">
-                    {customStyle.length}/200 символов
-                  </p>
+                  <p className="text-xs text-muted-foreground">{customStyle.length}/200 символов</p>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -208,7 +198,7 @@ export const InstrumentalSettingsDialog = ({
               >
                 <p className="text-xs text-muted-foreground mb-2">Будет сгенерировано:</p>
                 <p className="text-sm">
-                  {selectedGenre ? `${selectedGenre.emoji} ${selectedGenre.label}` : 'Любой жанр'}
+                  {selectedGenre ? `${selectedGenre.emoji} ${selectedGenre.label}` : "Любой жанр"}
                   {selectedMood && ` • ${selectedMood.emoji} ${selectedMood.label}`}
                   {` • ${bpm} BPM`}
                 </p>
@@ -218,32 +208,16 @@ export const InstrumentalSettingsDialog = ({
         </ScrollArea>
 
         <DialogFooter className="flex-col sm:flex-row gap-2 pt-4 border-t">
-          <Button
-            variant="ghost"
-            onClick={handleReset}
-            disabled={isProcessing}
-            className="sm:mr-auto"
-          >
+          <Button variant="ghost" onClick={handleReset} disabled={isProcessing} className="sm:mr-auto">
             Сбросить
           </Button>
-          <Button
-            variant="outline"
-            onClick={() => onOpenChange(false)}
-            disabled={isProcessing}
-          >
+          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={isProcessing}>
             Отмена
           </Button>
-          <Button
-            onClick={handleConfirm}
-            disabled={isProcessing}
-            className="gap-2"
-          >
+          <Button onClick={handleConfirm} disabled={isProcessing} className="gap-2">
             {isProcessing ? (
               <>
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                >
+                <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }}>
                   <Zap className="w-4 h-4" />
                 </motion.div>
                 Генерация...

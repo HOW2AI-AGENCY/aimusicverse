@@ -4,6 +4,7 @@
 > This is a token-optimized summary. For deep logic, see GRAPH_REPORT.md.
 
 ## Core Abstractions (God Nodes)
+
 1. `error` (511 edges)
 2. `from` (446 edges)
 3. `Select` (314 edges)
@@ -16,7 +17,8 @@
 10. `supabase` (89 edges)
 
 ## System Layers
-- **L0: Global/Entry**: 
-- **L1: Strategic/Core**: 
+
+- **L0: Global/Entry**:
+- **L1: Strategic/Core**:
 - **L2: Implementation**: `payment_transactions`
-- **L3: Utility**: 
+- **L3: Utility**:

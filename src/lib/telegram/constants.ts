@@ -1,9 +1,9 @@
 /**
  * Telegram Bot Configuration Constants
- * 
+ *
  * Centralized configuration for Telegram Mini App integration.
  * All bot-related constants should be defined here.
- * 
+ *
  * @module lib/telegram/constants
  */
 
@@ -11,13 +11,13 @@
  * Official Telegram Bot username (without @)
  * Used for deep links and share URLs
  */
-export const TELEGRAM_BOT_USERNAME = 'AIMusicVerseBot';
+export const TELEGRAM_BOT_USERNAME = "AIMusicVerseBot";
 
 /**
  * Telegram Mini App short name
  * Used in app deep links: https://t.me/BOT/APP_NAME
  */
-export const TELEGRAM_APP_SHORT_NAME = 'app';
+export const TELEGRAM_APP_SHORT_NAME = "app";
 
 /**
  * Base URL for Mini App deep links
@@ -83,14 +83,14 @@ export function getArtistDeepLink(artistId: string): string {
  * @param style - Optional style preset
  */
 export function getGenerateDeepLink(style?: string): string {
-  return style ? getMiniAppDeepLink(`generate_${style}`) : getMiniAppDeepLink('generate');
+  return style ? getMiniAppDeepLink(`generate_${style}`) : getMiniAppDeepLink("generate");
 }
 
 /**
  * Generate a recognize/shazam deep link
  */
 export function getRecognizeDeepLink(): string {
-  return getMiniAppDeepLink('recognize');
+  return getMiniAppDeepLink("recognize");
 }
 
 /**
@@ -116,6 +116,6 @@ export function getBotMention(): string {
  */
 export function getTelegramShareUrl(url: string, text?: string): string {
   const params = new URLSearchParams({ url });
-  if (text) params.set('text', text);
+  if (text) params.set("text", text);
   return `https://t.me/share/url?${params.toString()}`;
 }

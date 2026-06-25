@@ -3,9 +3,9 @@
  * Uses the get_retention_cohorts RPC function
  */
 
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { logger } from '@/lib/logger';
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { logger } from "@/lib/logger";
 
 export interface RetentionCohort {
   cohort_date: string;
@@ -27,22 +27,18 @@ interface UseRetentionCohortsOptions {
 }
 
 export function useRetentionCohorts(options: UseRetentionCohortsOptions = {}) {
-  const {
-    startDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
-    endDate = new Date(),
-    enabled = true,
-  } = options;
+  const { startDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), endDate = new Date(), enabled = true } = options;
 
   return useQuery({
-    queryKey: ['retention-cohorts', startDate.toISOString(), endDate.toISOString()],
+    queryKey: ["retention-cohorts", startDate.toISOString(), endDate.toISOString()],
     queryFn: async (): Promise<RetentionCohort[]> => {
-      const { data, error } = await supabase.rpc('get_retention_cohorts', {
-        start_date: startDate.toISOString().split('T')[0],
-        end_date: endDate.toISOString().split('T')[0],
+      const { data, error } = await supabase.rpc("get_retention_cohorts", {
+        start_date: startDate.toISOString().split("T")[0],
+        end_date: endDate.toISOString().split("T")[0],
       });
 
       if (error) {
-        logger.error('Failed to fetch retention cohorts', error);
+        logger.error("Failed to fetch retention cohorts", error);
         throw error;
       }
 
@@ -63,7 +59,7 @@ export function calculateAverageRetention(cohorts: RetentionCohort[]) {
   }
 
   const totalCohortSize = cohorts.reduce((sum, c) => sum + c.cohort_size, 0);
-  
+
   // Weighted average by cohort size
   const d1 = cohorts.reduce((sum, c) => sum + (c.d1_rate || 0) * c.cohort_size, 0) / totalCohortSize;
   const d7 = cohorts.reduce((sum, c) => sum + (c.d7_rate || 0) * c.cohort_size, 0) / totalCohortSize;

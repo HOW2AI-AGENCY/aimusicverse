@@ -1,18 +1,18 @@
 /**
  * Telegram Mini App Safe Area Constants
  * Unified formulas for consistent header/content positioning
- * 
+ *
  * USAGE GUIDE:
- * 
+ *
  * 1. For page containers, use PageContainer component:
  *    import { PageContainer } from '@/components/layout';
  *    <PageContainer withBottomNav>{children}</PageContainer>
- * 
+ *
  * 2. For inline styles, use SAFE_STYLES or build functions:
  *    import { SAFE_STYLES, getSafeAreaTop } from '@/constants/safe-area';
  *    <div style={SAFE_STYLES.headerTop} />
  *    <div style={{ paddingTop: getSafeAreaTop(16) }} />
- * 
+ *
  * 3. For headers, use PageHeader or SafeHeader:
  *    import { PageHeader } from '@/components/layout';
  *    <PageHeader>{headerContent}</PageHeader>
@@ -79,12 +79,12 @@ export const TELEGRAM_SAFE_AREA = {
  * Get safe area value with custom additional padding
  * @param extraPx - Extra pixels to add after safe area
  * @returns CSS calc() string
- * 
+ *
  * @example
  * getSafeAreaTop(16) // "calc(max(...) + 16px)"
  */
 export function getSafeAreaTop(extraPx: number = 12): string {
-  const extra = extraPx > 0 ? ` + ${extraPx}px` : '';
+  const extra = extraPx > 0 ? ` + ${extraPx}px` : "";
   return `calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))${extra})`;
 }
 
@@ -92,12 +92,12 @@ export function getSafeAreaTop(extraPx: number = 12): string {
  * Get safe area bottom with custom additional padding
  * @param extraPx - Extra pixels (includes nav height if needed)
  * @returns CSS calc() string
- * 
+ *
  * @example
  * getSafeAreaBottom(80) // "calc(max(...) + 80px)" - with bottom nav
  */
 export function getSafeAreaBottom(extraPx: number = 0): string {
-  const extra = extraPx > 0 ? ` + ${extraPx}px` : '';
+  const extra = extraPx > 0 ? ` + ${extraPx}px` : "";
   return `calc(max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px))${extra})`;
 }
 
@@ -140,24 +140,24 @@ export const SAFE_STYLES = {
   pageWithNav: {
     paddingTop: getSafeAreaTop(12),
     paddingBottom: getSafeAreaBottom(80),
-    minHeight: 'var(--tg-viewport-stable-height, 100vh)',
+    minHeight: "var(--tg-viewport-stable-height, 100vh)",
   },
   pageNoNav: {
     paddingTop: getSafeAreaTop(12),
     paddingBottom: getSafeAreaBottom(16),
-    minHeight: 'var(--tg-viewport-stable-height, 100vh)',
+    minHeight: "var(--tg-viewport-stable-height, 100vh)",
   },
   fullscreen: {
     paddingTop: getMinimalSafeAreaTop(),
     paddingBottom: getMinimalSafeAreaBottom(),
-    minHeight: 'var(--tg-viewport-stable-height, 100vh)',
+    minHeight: "var(--tg-viewport-stable-height, 100vh)",
   },
   centeredOverlay: {
     paddingTop: getMinimalSafeAreaTop(),
     paddingBottom: getMinimalSafeAreaBottom(),
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   // For player controls
@@ -204,13 +204,13 @@ export const LAYOUT_SPACING = {
  * CSS class names for safe areas (to be used with cn() utility)
  */
 export const SAFE_AREA_CLASSES = {
-  safeTop: 'safe-top',
-  safeTopCompact: 'safe-top-compact',
-  safeTopSpacious: 'safe-top-spacious',
-  safeBottom: 'safe-bottom',
-  safeBottomNav: 'safe-bottom-nav',
-  safeVertical: 'safe-vertical',
-  safeAll: 'safe-all',
+  safeTop: "safe-top",
+  safeTopCompact: "safe-top-compact",
+  safeTopSpacious: "safe-top-spacious",
+  safeBottom: "safe-bottom",
+  safeBottomNav: "safe-bottom-nav",
+  safeVertical: "safe-vertical",
+  safeAll: "safe-all",
 } as const;
 
 /**
@@ -218,26 +218,26 @@ export const SAFE_AREA_CLASSES = {
  * Usage: getSafeAreaClass('top', 'spacious')
  */
 export function getSafeAreaClass(
-  position: 'top' | 'bottom' | 'vertical' | 'all',
-  variant: 'minimal' | 'compact' | 'normal' | 'spacious' = 'normal'
+  position: "top" | "bottom" | "vertical" | "all",
+  variant: "minimal" | "compact" | "normal" | "spacious" = "normal",
 ): string {
   const variants = {
-    minimal: 'minimal',
-    compact: 'compact',
-    normal: '',
-    spacious: 'spacious',
+    minimal: "minimal",
+    compact: "compact",
+    normal: "",
+    spacious: "spacious",
   };
 
   const suffix = variants[variant];
 
   switch (position) {
-    case 'top':
-      return suffix ? `safe-top-${suffix}` : 'safe-top';
-    case 'bottom':
-      return variant === 'spacious' ? 'safe-bottom-nav' : 'safe-bottom';
-    case 'vertical':
-      return suffix ? `safe-vertical-${suffix}` : 'safe-vertical';
-    case 'all':
-      return suffix ? `safe-all-${suffix}` : 'safe-all';
+    case "top":
+      return suffix ? `safe-top-${suffix}` : "safe-top";
+    case "bottom":
+      return variant === "spacious" ? "safe-bottom-nav" : "safe-bottom";
+    case "vertical":
+      return suffix ? `safe-vertical-${suffix}` : "safe-vertical";
+    case "all":
+      return suffix ? `safe-all-${suffix}` : "safe-all";
   }
 }

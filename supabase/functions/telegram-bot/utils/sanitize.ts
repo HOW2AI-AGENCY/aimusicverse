@@ -27,19 +27,21 @@ export const MAX_LENGTHS = {
  * @returns Sanitized text
  */
 export function sanitizeText(text: string): string {
-  return text
-    // Remove script tags
-    .replace(/<script[^>]*>.*?<\/script>/gi, '')
-    // Remove iframe tags
-    .replace(/<iframe[^>]*>.*?<\/iframe>/gi, '')
-    // Remove javascript: protocol
-    .replace(/javascript:/gi, '')
-    // Remove event handlers
-    .replace(/on\w+\s*=/gi, '')
-    // Remove data: URIs (except images)
-    .replace(/data:(?!image\/)/gi, '')
-    // Trim whitespace
-    .trim();
+  return (
+    text
+      // Remove script tags
+      .replace(/<script[^>]*>.*?<\/script>/gi, "")
+      // Remove iframe tags
+      .replace(/<iframe[^>]*>.*?<\/iframe>/gi, "")
+      // Remove javascript: protocol
+      .replace(/javascript:/gi, "")
+      // Remove event handlers
+      .replace(/on\w+\s*=/gi, "")
+      // Remove data: URIs (except images)
+      .replace(/data:(?!image\/)/gi, "")
+      // Trim whitespace
+      .trim()
+  );
 }
 
 /**
@@ -48,10 +50,10 @@ export function sanitizeText(text: string): string {
  * @returns Validation result
  */
 export function validatePrompt(prompt: string): ValidationResult {
-  if (!prompt || typeof prompt !== 'string') {
+  if (!prompt || typeof prompt !== "string") {
     return {
       valid: false,
-      error: 'Промпт должен быть текстовой строкой',
+      error: "Промпт должен быть текстовой строкой",
     };
   }
 
@@ -60,14 +62,14 @@ export function validatePrompt(prompt: string): ValidationResult {
   if (sanitized.length === 0) {
     return {
       valid: false,
-      error: 'Промпт не может быть пустым',
+      error: "Промпт не может быть пустым",
     };
   }
 
   if (sanitized.length < 3) {
     return {
       valid: false,
-      error: 'Промпт слишком короткий (минимум 3 символа)',
+      error: "Промпт слишком короткий (минимум 3 символа)",
     };
   }
 
@@ -82,7 +84,7 @@ export function validatePrompt(prompt: string): ValidationResult {
   if (isSpamPattern(sanitized)) {
     return {
       valid: false,
-      error: 'Обнаружен спам-паттерн',
+      error: "Обнаружен спам-паттерн",
     };
   }
 
@@ -98,10 +100,10 @@ export function validatePrompt(prompt: string): ValidationResult {
  * @returns Validation result
  */
 export function validateTitle(title: string): ValidationResult {
-  if (!title || typeof title !== 'string') {
+  if (!title || typeof title !== "string") {
     return {
       valid: false,
-      error: 'Название должно быть текстовой строкой',
+      error: "Название должно быть текстовой строкой",
     };
   }
 
@@ -110,7 +112,7 @@ export function validateTitle(title: string): ValidationResult {
   if (sanitized.length === 0) {
     return {
       valid: false,
-      error: 'Название не может быть пустым',
+      error: "Название не может быть пустым",
     };
   }
 
@@ -133,10 +135,10 @@ export function validateTitle(title: string): ValidationResult {
  * @returns Validation result
  */
 export function validateDescription(description: string): ValidationResult {
-  if (!description || typeof description !== 'string') {
+  if (!description || typeof description !== "string") {
     return {
       valid: false,
-      error: 'Описание должно быть текстовой строкой',
+      error: "Описание должно быть текстовой строкой",
     };
   }
 
@@ -161,10 +163,10 @@ export function validateDescription(description: string): ValidationResult {
  * @returns Validation result
  */
 export function validateMessage(message: string): ValidationResult {
-  if (!message || typeof message !== 'string') {
+  if (!message || typeof message !== "string") {
     return {
       valid: false,
-      error: 'Сообщение должно быть текстовой строкой',
+      error: "Сообщение должно быть текстовой строкой",
     };
   }
 
@@ -173,7 +175,7 @@ export function validateMessage(message: string): ValidationResult {
   if (sanitized.length === 0) {
     return {
       valid: false,
-      error: 'Сообщение не может быть пустым',
+      error: "Сообщение не может быть пустым",
     };
   }
 
@@ -212,18 +214,9 @@ function isSpamPattern(text: string): boolean {
   }
 
   // Common spam keywords
-  const spamKeywords = [
-    'click here',
-    'buy now',
-    'limited time',
-    'act now',
-    'free money',
-    'make money fast',
-  ];
+  const spamKeywords = ["click here", "buy now", "limited time", "act now", "free money", "make money fast"];
 
-  const hasSpamKeyword = spamKeywords.some(keyword =>
-    lowerText.includes(keyword)
-  );
+  const hasSpamKeyword = spamKeywords.some((keyword) => lowerText.includes(keyword));
 
   if (hasSpamKeyword) {
     return true;
@@ -239,21 +232,21 @@ function isSpamPattern(text: string): boolean {
  */
 export function sanitizeHTML(html: string): string {
   // Allowed tags for Telegram HTML mode
-  const allowedTags = ['b', 'i', 'u', 's', 'code', 'pre', 'a'];
+  const allowedTags = ["b", "i", "u", "s", "code", "pre", "a"];
 
   // Remove all tags except allowed ones
   let sanitized = html;
 
   // Remove dangerous tags first
   sanitized = sanitized
-    .replace(/<script[^>]*>.*?<\/script>/gi, '')
-    .replace(/<iframe[^>]*>.*?<\/iframe>/gi, '')
-    .replace(/<object[^>]*>.*?<\/object>/gi, '')
-    .replace(/<embed[^>]*>/gi, '')
-    .replace(/<applet[^>]*>.*?<\/applet>/gi, '');
+    .replace(/<script[^>]*>.*?<\/script>/gi, "")
+    .replace(/<iframe[^>]*>.*?<\/iframe>/gi, "")
+    .replace(/<object[^>]*>.*?<\/object>/gi, "")
+    .replace(/<embed[^>]*>/gi, "")
+    .replace(/<applet[^>]*>.*?<\/applet>/gi, "");
 
   // Remove onclick and other event handlers from all tags
-  sanitized = sanitized.replace(/\s*on\w+\s*=\s*["'][^"']*["']/gi, '');
+  sanitized = sanitized.replace(/\s*on\w+\s*=\s*["'][^"']*["']/gi, "");
 
   // Remove javascript: from href
   sanitized = sanitized.replace(/href\s*=\s*["']javascript:[^"']*["']/gi, 'href="#"');
@@ -267,15 +260,17 @@ export function sanitizeHTML(html: string): string {
  * @returns Masked text
  */
 export function maskSensitiveData(text: string): string {
-  return text
-    // Mask email addresses
-    .replace(/([a-zA-Z0-9._%+-]+@)[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g, '$1***')
-    // Mask phone numbers
-    .replace(/\+?[\d\s()-]{10,}/g, '+***')
-    // Mask credit card numbers
-    .replace(/\b\d{4}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4}\b/g, '****-****-****-****')
-    // Mask tokens (long alphanumeric strings)
-    .replace(/\b[A-Za-z0-9]{32,}\b/g, '***TOKEN***');
+  return (
+    text
+      // Mask email addresses
+      .replace(/([a-zA-Z0-9._%+-]+@)[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g, "$1***")
+      // Mask phone numbers
+      .replace(/\+?[\d\s()-]{10,}/g, "+***")
+      // Mask credit card numbers
+      .replace(/\b\d{4}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4}\b/g, "****-****-****-****")
+      // Mask tokens (long alphanumeric strings)
+      .replace(/\b[A-Za-z0-9]{32,}\b/g, "***TOKEN***")
+  );
 }
 
 /**
@@ -295,7 +290,7 @@ export function isValidTelegramUserId(userId: number): boolean {
 export function isValidUrl(url: string): boolean {
   try {
     const urlObj = new URL(url);
-    return urlObj.protocol === 'http:' || urlObj.protocol === 'https:';
+    return urlObj.protocol === "http:" || urlObj.protocol === "https:";
   } catch {
     return false;
   }
@@ -307,8 +302,5 @@ export function isValidUrl(url: string): boolean {
  * @returns Escaped text
  */
 export function escapeSQLLike(text: string): string {
-  return text
-    .replace(/\\/g, '\\\\')
-    .replace(/%/g, '\\%')
-    .replace(/_/g, '\\_');
+  return text.replace(/\\/g, "\\\\").replace(/%/g, "\\%").replace(/_/g, "\\_");
 }

@@ -1,73 +1,71 @@
-import { handleUpdate } from './bot.ts';
-import type { TelegramUpdate } from './telegram-api.ts';
-import { sendMessage } from './telegram-api.ts';
+import { handleUpdate } from "./bot.ts";
+import type { TelegramUpdate } from "./telegram-api.ts";
+import { sendMessage } from "./telegram-api.ts";
 // Enhanced inline mode with 8 categories support
-import { handleInlineQuery } from './commands/inline-enhanced.ts';
-import { handleChosenInlineResult } from './handlers/inline-chosen.ts';
-import { flushMetrics, checkAlerts } from './utils/metrics.ts';
-import { getSupabaseClient } from './core/supabase-client.ts';
-import { createLogger } from '../_shared/logger.ts';
-import { corsHeaders } from '../_shared/cors.ts';
-import { authorize } from '../_shared/auth.ts';
+import { handleInlineQuery } from "./commands/inline-enhanced.ts";
+import { handleChosenInlineResult } from "./handlers/inline-chosen.ts";
+import { flushMetrics, checkAlerts } from "./utils/metrics.ts";
+import { getSupabaseClient } from "./core/supabase-client.ts";
+import { createLogger } from "../_shared/logger.ts";
+import { corsHeaders } from "../_shared/cors.ts";
+import { authorize } from "../_shared/auth.ts";
 
-
-const logger = createLogger('telegram-bot');
+const logger = createLogger("telegram-bot");
 
 /**
  * Handle internal API actions (from admin panel, etc.)
  */
 async function handleInternalAction(body: Record<string, unknown>): Promise<Response> {
   const action = body.action as string;
-  
+
   try {
     switch (action) {
-      case 'send_feedback_reply': {
+      case "send_feedback_reply": {
         const telegram_id = body.telegram_id as number;
         const message = body.message as string;
         const feedback_type = body.feedback_type as string;
-        
+
         if (!telegram_id || !message) {
-          return new Response(JSON.stringify({ error: 'Missing telegram_id or message' }), {
+          return new Response(JSON.stringify({ error: "Missing telegram_id or message" }), {
             status: 400,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
           });
         }
-        
+
         const typeLabels: Record<string, string> = {
-          support: '🛠 Техподдержка',
-          bug: '🐛 Отчёт об ошибке',
-          idea: '💡 Предложение',
-          rate: '⭐ Оценка',
+          support: "🛠 Техподдержка",
+          bug: "🐛 Отчёт об ошибке",
+          idea: "💡 Предложение",
+          rate: "⭐ Оценка",
         };
-        
-        const typeLabel = typeLabels[feedback_type] || 'Обращение';
-        
-        const text = `📩 *Ответ на ваше обращение*\n` +
+
+        const typeLabel = typeLabels[feedback_type] || "Обращение";
+
+        const text =
+          `📩 *Ответ на ваше обращение*\n` +
           `_${typeLabel}_\n\n` +
-          `${message.replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1')}`;
-        
+          `${message.replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, "\\$1")}`;
+
         await sendMessage(telegram_id, text, {
-          inline_keyboard: [
-            [{ text: '💬 Написать ещё', callback_data: 'menu_feedback' }],
-          ],
+          inline_keyboard: [[{ text: "💬 Написать ещё", callback_data: "menu_feedback" }]],
         });
-        
+
         return new Response(JSON.stringify({ ok: true }), {
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
-      
+
       default:
-        return new Response(JSON.stringify({ error: 'Unknown action' }), {
+        return new Response(JSON.stringify({ error: "Unknown action" }), {
           status: 400,
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
     }
   } catch (error) {
-    logger.error('Error handling internal action', error);
-    return new Response(JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error' }), {
+    logger.error("Error handling internal action", error);
+    return new Response(JSON.stringify({ error: error instanceof Error ? error.message : "Unknown error" }), {
       status: 500,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
 }
@@ -75,70 +73,75 @@ async function handleInternalAction(body: Record<string, unknown>): Promise<Resp
 // Environment check - TELEGRAM_WEBHOOK_SECRET is mandatory in production
 
 // Environment check - TELEGRAM_WEBHOOK_SECRET is mandatory in production
-const WEBHOOK_SECRET = Deno.env.get('TELEGRAM_WEBHOOK_SECRET');
-const IS_PRODUCTION = Deno.env.get('ENVIRONMENT') !== 'development';
+const WEBHOOK_SECRET = Deno.env.get("TELEGRAM_WEBHOOK_SECRET");
+const IS_PRODUCTION = Deno.env.get("ENVIRONMENT") !== "development";
 
 Deno.serve(async (req) => {
   // Handle CORS
-  if (req.method === 'OPTIONS') {
+  if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
     const url = new URL(req.url);
-    
+
     // Health check endpoint
-    if (url.pathname === '/health') {
-      return new Response(JSON.stringify({ 
-        status: 'ok',
-        webhookSecured: !!WEBHOOK_SECRET
-      }), {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      });
+    if (url.pathname === "/health") {
+      return new Response(
+        JSON.stringify({
+          status: "ok",
+          webhookSecured: !!WEBHOOK_SECRET,
+        }),
+        {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        },
+      );
     }
 
     // Metrics endpoint
-    if (url.pathname === '/metrics') {
-      const { authorize } = await import('../_shared/auth.ts');
+    if (url.pathname === "/metrics") {
+      const { authorize } = await import("../_shared/auth.ts");
       const auth = await authorize(req, { requireAdmin: true });
       if (!auth.ok) {
         return new Response(JSON.stringify({ error: auth.error }), {
           status: auth.status,
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
       const supabase = getSupabaseClient();
 
-      
-      const { data, error } = await supabase.rpc('get_telegram_bot_metrics', { 
-        _time_period: url.searchParams.get('period') || '24 hours' 
+      const { data, error } = await supabase.rpc("get_telegram_bot_metrics", {
+        _time_period: url.searchParams.get("period") || "24 hours",
       });
-      
+
       if (error) {
         return new Response(JSON.stringify({ error: error.message }), {
           status: 500,
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
-      
+
       // Check for alerts
       const alertStatus = await checkAlerts();
-      
-      return new Response(JSON.stringify({
-        metrics: data?.[0] || null,
-        alerts: alertStatus,
-        timestamp: new Date().toISOString(),
-      }), {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      });
+
+      return new Response(
+        JSON.stringify({
+          metrics: data?.[0] || null,
+          alerts: alertStatus,
+          timestamp: new Date().toISOString(),
+        }),
+        {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        },
+      );
     }
 
     // Handle webhook updates
-    if (req.method === 'POST') {
+    if (req.method === "POST") {
       const body = await req.json();
 
       // Determine whether the request carries a valid Telegram webhook secret.
-      const receivedToken = req.headers.get('X-Telegram-Bot-Api-Secret-Token');
+      const receivedToken = req.headers.get("X-Telegram-Bot-Api-Secret-Token");
       const hasValidWebhookSecret = !!WEBHOOK_SECRET && receivedToken === WEBHOOK_SECRET;
 
       // Handle internal API actions (from admin panel) — require admin/service auth.
@@ -149,7 +152,7 @@ Deno.serve(async (req) => {
         if (!auth.ok) {
           return new Response(JSON.stringify({ error: auth.error }), {
             status: auth.status,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
           });
         }
         return await handleInternalAction(body);
@@ -158,36 +161,38 @@ Deno.serve(async (req) => {
       // SECURITY: Verify webhook secret token - MANDATORY in production
       if (!WEBHOOK_SECRET) {
         if (IS_PRODUCTION) {
-          logger.error('TELEGRAM_WEBHOOK_SECRET not configured in production - rejecting all requests');
-          return new Response(JSON.stringify({
-            error: 'Webhook not configured',
-            message: 'TELEGRAM_WEBHOOK_SECRET must be set in production'
-          }), {
-            status: 503,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          });
+          logger.error("TELEGRAM_WEBHOOK_SECRET not configured in production - rejecting all requests");
+          return new Response(
+            JSON.stringify({
+              error: "Webhook not configured",
+              message: "TELEGRAM_WEBHOOK_SECRET must be set in production",
+            }),
+            {
+              status: 503,
+              headers: { ...corsHeaders, "Content-Type": "application/json" },
+            },
+          );
         } else {
-          logger.warn('TELEGRAM_WEBHOOK_SECRET not configured - webhook is not protected (development mode)');
+          logger.warn("TELEGRAM_WEBHOOK_SECRET not configured - webhook is not protected (development mode)");
         }
       } else if (!hasValidWebhookSecret) {
-        logger.warn('Unauthorized webhook request', {
+        logger.warn("Unauthorized webhook request", {
           hasToken: !!receivedToken,
-          ip: req.headers.get('CF-Connecting-IP') || req.headers.get('X-Forwarded-For') || 'unknown'
+          ip: req.headers.get("CF-Connecting-IP") || req.headers.get("X-Forwarded-For") || "unknown",
         });
-        return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+        return new Response(JSON.stringify({ error: "Unauthorized" }), {
           status: 403,
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
 
-
       const update: TelegramUpdate = body;
 
-      logger.debug('Received update', {
+      logger.debug("Received update", {
         updateId: update.update_id,
         hasMessage: !!update.message,
         hasCallback: !!update.callback_query,
-        hasInline: !!update.inline_query
+        hasInline: !!update.inline_query,
       });
 
       // Handle inline queries
@@ -204,27 +209,24 @@ Deno.serve(async (req) => {
       await flushMetrics();
 
       return new Response(JSON.stringify({ ok: true }), {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    return new Response('Method not allowed', { 
+    return new Response("Method not allowed", {
       status: 405,
       headers: corsHeaders,
     });
   } catch (error) {
-    logger.error('Error handling request', error);
-    
+    logger.error("Error handling request", error);
+
     // Ensure metrics are flushed even on error
     await flushMetrics();
-    
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-    return new Response(
-      JSON.stringify({ error: errorMessage }),
-      {
-        status: 500,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      }
-    );
+
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    return new Response(JSON.stringify({ error: errorMessage }), {
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 });

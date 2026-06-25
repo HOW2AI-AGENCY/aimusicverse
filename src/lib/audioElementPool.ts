@@ -1,30 +1,30 @@
 /**
  * Audio Element Pool для оптимизации использования audio элементов
- * 
+ *
  * Проблема:
  * - Mobile Safari ограничивает количество одновременных <audio> элементов до 6-8
  * - Stem Studio может создавать 10+ audio элементов одновременно
  * - При превышении лимита: отказ воспроизведения, ошибки, потенциальные крэши
- * 
+ *
  * Решение:
  * - Пул с ограниченным количеством audio элементов
  * - Динамическое выделение и освобождение ресурсов
  * - Приоритизация: активные стемы важнее неактивных
  * - Graceful degradation при достижении лимита
- * 
+ *
  * @module audioElementPool
  */
 
-import { logger } from './logger';
+import { logger } from "./logger";
 
 /**
  * Приоритеты для audio элементов
  * Используются при нехватке ресурсов для определения кого "освободить"
  */
 export enum AudioPriority {
-  LOW = 1,       // Background stems, ambient sounds
-  MEDIUM = 2,    // Bass, drums, rhythm elements
-  HIGH = 3,      // Vocals, lead instruments, main track
+  LOW = 1, // Background stems, ambient sounds
+  MEDIUM = 2, // Bass, drums, rhythm elements
+  HIGH = 3, // Vocals, lead instruments, main track
 }
 
 /**
@@ -63,20 +63,20 @@ interface PoolStats {
 class AudioElementPool {
   /** Пул свободных audio элементов */
   private pool: HTMLAudioElement[] = [];
-  
+
   /** Активные (используемые) audio элементы */
   private active: Map<string, ActiveAudioElement> = new Map();
-  
+
   /** Максимальное количество audio элементов (iOS Safari limit) */
   private readonly maxSize: number = 6;
-  
+
   /** Время создания пула */
   private readonly createdAt: number = Date.now();
-  
+
   /** Счетчики для статистики */
   private totalAcquired: number = 0;
   private totalRejected: number = 0;
-  
+
   /** Singleton instance */
   private static instance: AudioElementPool | null = null;
 
@@ -104,11 +104,11 @@ class AudioElementPool {
 
   /**
    * Получить audio элемент из пула
-   * 
+   *
    * @param id - Уникальный идентификатор (stem ID, track ID, etc.)
    * @param priority - Приоритет элемента (для приоритизации при нехватке ресурсов)
    * @returns HTMLAudioElement или null если лимит достигнут
-   * 
+   *
    * @example
    * ```typescript
    * const audio = audioElementPool.acquire('stem-vocals', AudioPriority.HIGH);
@@ -168,9 +168,9 @@ class AudioElementPool {
 
   /**
    * Вернуть audio элемент в пул
-   * 
+   *
    * @param id - Идентификатор элемента
-   * 
+   *
    * @example
    * ```typescript
    * // При остановке или unmount компонента
@@ -201,7 +201,7 @@ class AudioElementPool {
   /**
    * Обновить приоритет активного элемента
    * Полезно когда пользователь фокусируется на определенном стеме
-   * 
+   *
    * @param id - Идентификатор элемента
    * @param priority - Новый приоритет
    */
@@ -217,7 +217,7 @@ class AudioElementPool {
   /**
    * Получить статистику использования пула
    * Полезно для мониторинга и отладки
-   * 
+   *
    * @returns PoolStats - статистика пула
    */
   public getStats(): PoolStats {
@@ -250,15 +250,15 @@ class AudioElementPool {
    */
   public releaseAll(): void {
     logger.info(`AudioElementPool: Releasing all ${this.active.size} active elements`);
-    
+
     this.active.forEach((activeElement) => {
       this.cleanupElement(activeElement.element);
     });
-    
+
     this.active.clear();
     this.pool = [];
-    
-    logger.debug('AudioElementPool: All elements released');
+
+    logger.debug("AudioElementPool: All elements released");
   }
 
   /**
@@ -267,11 +267,11 @@ class AudioElementPool {
    */
   private createAudioElement(): HTMLAudioElement {
     const audio = new Audio();
-    
+
     // Оптимизация для мобильных устройств
-    audio.preload = 'auto';
-    audio.crossOrigin = 'anonymous'; // Для Web Audio API
-    
+    audio.preload = "auto";
+    audio.crossOrigin = "anonymous"; // Для Web Audio API
+
     return audio;
   }
 
@@ -283,10 +283,10 @@ class AudioElementPool {
     // Остановить воспроизведение
     element.pause();
     element.currentTime = 0;
-    
+
     // Очистить source
-    element.src = '';
-    
+    element.src = "";
+
     // Удалить event listeners (если были добавлены)
     element.onended = null;
     element.onerror = null;
@@ -298,7 +298,7 @@ class AudioElementPool {
   /**
    * Попытка освободить элемент с низким приоритетом
    * Используется когда достигнут лимит и нужен новый элемент с высоким приоритетом
-   * 
+   *
    * @param requestedPriority - Приоритет запрашиваемого элемента
    * @returns HTMLAudioElement или null
    * @private
@@ -338,33 +338,27 @@ class AudioElementPool {
 
     return null;
   }
-  
+
   /**
    * Get priority recommendations based on stem type
    * Helper method for determining appropriate priority
-   * 
+   *
    * @param stemType - Type of audio stem
    * @returns Recommended priority level
    */
   public static getPriorityForStemType(stemType: string): AudioPriority {
     const type = stemType.toLowerCase();
-    
+
     // High priority: vocals, lead instruments
-    if (type.includes('vocal') || 
-        type.includes('lead') || 
-        type.includes('main') ||
-        type.includes('melody')) {
+    if (type.includes("vocal") || type.includes("lead") || type.includes("main") || type.includes("melody")) {
       return AudioPriority.HIGH;
     }
-    
+
     // Medium priority: rhythm section
-    if (type.includes('bass') || 
-        type.includes('drum') ||
-        type.includes('rhythm') ||
-        type.includes('guitar')) {
+    if (type.includes("bass") || type.includes("drum") || type.includes("rhythm") || type.includes("guitar")) {
       return AudioPriority.MEDIUM;
     }
-    
+
     // Low priority: ambient, fx, other
     return AudioPriority.LOW;
   }
@@ -372,21 +366,21 @@ class AudioElementPool {
 
 /**
  * Singleton instance для использования в приложении
- * 
+ *
  * @example
  * ```typescript
  * import { audioElementPool, AudioPriority } from '@/lib/audioElementPool';
- * 
+ *
  * // Получить элемент
  * const audio = audioElementPool.acquire('stem-vocals', AudioPriority.HIGH);
  * if (audio) {
  *   audio.src = url;
  *   audio.play();
  * }
- * 
+ *
  * // Освободить элемент
  * audioElementPool.release('stem-vocals');
- * 
+ *
  * // Получить статистику
  * const stats = audioElementPool.getStats();
  * console.log(`Active: ${stats.active}/${stats.capacity}`);
@@ -400,32 +394,29 @@ export { AudioElementPool };
 /**
  * Hook для React компонентов
  * Автоматически освобождает элемент при unmount
- * 
+ *
  * @param id - Уникальный идентификатор
  * @param priority - Приоритет элемента
  * @returns HTMLAudioElement или null
- * 
+ *
  * @example
  * ```typescript
  * function StemPlayer({ stemId, stemUrl }: Props) {
  *   const audioElement = useAudioElement(stemId, AudioPriority.HIGH);
- *   
+ *
  *   useEffect(() => {
  *     if (audioElement) {
  *       audioElement.src = stemUrl;
  *     }
  *   }, [audioElement, stemUrl]);
- *   
+ *
  *   const play = () => audioElement?.play();
- *   
+ *
  *   return <button onClick={play}>Play</button>;
  * }
  * ```
  */
-export function useAudioElement(
-  id: string,
-  priority: AudioPriority = AudioPriority.MEDIUM
-): HTMLAudioElement | null {
+export function useAudioElement(id: string, priority: AudioPriority = AudioPriority.MEDIUM): HTMLAudioElement | null {
   const [element, setElement] = React.useState<HTMLAudioElement | null>(null);
 
   React.useEffect(() => {
@@ -441,4 +432,4 @@ export function useAudioElement(
 }
 
 // Import React for hook
-import React from 'react';
+import React from "react";

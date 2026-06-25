@@ -1,6 +1,6 @@
 /**
  * Mobile Detection and Responsive Utilities
- * 
+ *
  * Provides utilities for:
  * - Mobile device detection
  * - Touch event handling
@@ -8,7 +8,7 @@
  * - Responsive breakpoints
  */
 
-import { useState, useEffect, useCallback, type TouchEvent } from 'react';
+import { useState, useEffect, useCallback, type TouchEvent } from "react";
 
 /**
  * Breakpoint constants (matching Tailwind CSS defaults)
@@ -18,7 +18,7 @@ export const BREAKPOINTS = {
   md: 768,
   lg: 1024,
   xl: 1280,
-  '2xl': 1536,
+  "2xl": 1536,
 } as const;
 
 /**
@@ -28,7 +28,7 @@ export const BREAKPOINTS = {
  */
 export function useIsMobile(breakpoint: number = BREAKPOINTS.md): boolean {
   const [isMobile, setIsMobile] = useState<boolean>(() => {
-    if (typeof window === 'undefined') return false;
+    if (typeof window === "undefined") return false;
     return window.innerWidth < breakpoint;
   });
 
@@ -37,8 +37,8 @@ export function useIsMobile(breakpoint: number = BREAKPOINTS.md): boolean {
       setIsMobile(window.innerWidth < breakpoint);
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, [breakpoint]);
 
   return isMobile;
@@ -106,7 +106,7 @@ export function useTouchEvents(handlers: TouchEventHandlers) {
         setLongPressTimer(timer);
       }
     },
-    [onLongPress, longPressDelay]
+    [onLongPress, longPressDelay],
   );
 
   const handleTouchEnd = useCallback(
@@ -155,7 +155,7 @@ export function useTouchEvents(handlers: TouchEventHandlers) {
 
       setTouchStart(null);
     },
-    [touchStart, onSwipeUp, onSwipeDown, onSwipeLeft, onSwipeRight, onTap, threshold, longPressTimer]
+    [touchStart, onSwipeUp, onSwipeDown, onSwipeLeft, onSwipeRight, onTap, threshold, longPressTimer],
   );
 
   const handleTouchCancel = useCallback(() => {
@@ -178,10 +178,10 @@ export function useTouchEvents(handlers: TouchEventHandlers) {
  * @returns True if device has touch support
  */
 export function detectTouchDevice(): boolean {
-  if (typeof window === 'undefined') return false;
-  
+  if (typeof window === "undefined") return false;
+
   return (
-    'ontouchstart' in window ||
+    "ontouchstart" in window ||
     navigator.maxTouchPoints > 0 ||
     // @ts-expect-error - msMaxTouchPoints is IE-specific
     navigator.msMaxTouchPoints > 0
@@ -201,7 +201,7 @@ interface ViewportSize {
  * @returns Current viewport width and height
  */
 export function getViewportSize(): ViewportSize {
-  if (typeof window === 'undefined') {
+  if (typeof window === "undefined") {
     return { width: 0, height: 0 };
   }
 
@@ -223,8 +223,8 @@ export function useViewportSize(): ViewportSize {
       setSize(getViewportSize());
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return size;
@@ -237,7 +237,7 @@ export function useViewportSize(): ViewportSize {
  */
 export function useBreakpoint(breakpoint: keyof typeof BREAKPOINTS): boolean {
   const [matches, setMatches] = useState<boolean>(() => {
-    if (typeof window === 'undefined') return false;
+    if (typeof window === "undefined") return false;
     return window.innerWidth >= BREAKPOINTS[breakpoint];
   });
 
@@ -246,8 +246,8 @@ export function useBreakpoint(breakpoint: keyof typeof BREAKPOINTS): boolean {
       setMatches(window.innerWidth >= BREAKPOINTS[breakpoint]);
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, [breakpoint]);
 
   return matches;
@@ -257,8 +257,8 @@ export function useBreakpoint(breakpoint: keyof typeof BREAKPOINTS): boolean {
  * Get device type based on user agent and viewport
  * @returns Device type: 'mobile', 'tablet', or 'desktop'
  */
-export function getDeviceType(): 'mobile' | 'tablet' | 'desktop' {
-  if (typeof window === 'undefined') return 'desktop';
+export function getDeviceType(): "mobile" | "tablet" | "desktop" {
+  if (typeof window === "undefined") return "desktop";
 
   const userAgent = navigator.userAgent.toLowerCase();
   const isMobileUA = /mobile|android|iphone|ipad|phone/i.test(userAgent);
@@ -266,30 +266,30 @@ export function getDeviceType(): 'mobile' | 'tablet' | 'desktop' {
   const { width } = getViewportSize();
 
   if (isTabletUA || (width >= BREAKPOINTS.sm && width < BREAKPOINTS.lg)) {
-    return 'tablet';
+    return "tablet";
   }
 
   if (isMobileUA || width < BREAKPOINTS.sm) {
-    return 'mobile';
+    return "mobile";
   }
 
-  return 'desktop';
+  return "desktop";
 }
 
 /**
  * Hook to get device type (updates on resize)
  * @returns Current device type
  */
-export function useDeviceType(): 'mobile' | 'tablet' | 'desktop' {
-  const [deviceType, setDeviceType] = useState<'mobile' | 'tablet' | 'desktop'>(getDeviceType);
+export function useDeviceType(): "mobile" | "tablet" | "desktop" {
+  const [deviceType, setDeviceType] = useState<"mobile" | "tablet" | "desktop">(getDeviceType);
 
   useEffect(() => {
     const handleResize = () => {
       setDeviceType(getDeviceType());
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return deviceType;
@@ -298,48 +298,48 @@ export function useDeviceType(): 'mobile' | 'tablet' | 'desktop' {
 /**
  * Haptic feedback types
  */
-export type HapticFeedbackType = 'light' | 'medium' | 'heavy' | 'selection' | 'success' | 'warning' | 'error';
+export type HapticFeedbackType = "light" | "medium" | "heavy" | "selection" | "success" | "warning" | "error";
 
 /**
  * Trigger haptic feedback on supported devices
  * @param type - Type of haptic feedback (default: 'light')
  * @returns True if haptic feedback was triggered
  */
-export function triggerHapticFeedback(type: HapticFeedbackType = 'light'): boolean {
-  if (typeof window === 'undefined') return false;
+export function triggerHapticFeedback(type: HapticFeedbackType = "light"): boolean {
+  if (typeof window === "undefined") return false;
 
   // Check if Telegram WebApp is available
   if ((window as any).Telegram?.WebApp?.HapticFeedback) {
     const haptic = (window as any).Telegram.WebApp.HapticFeedback;
-    
+
     switch (type) {
-      case 'light':
-        haptic.impactOccurred('light');
+      case "light":
+        haptic.impactOccurred("light");
         return true;
-      case 'medium':
-        haptic.impactOccurred('medium');
+      case "medium":
+        haptic.impactOccurred("medium");
         return true;
-      case 'heavy':
-        haptic.impactOccurred('heavy');
+      case "heavy":
+        haptic.impactOccurred("heavy");
         return true;
-      case 'selection':
+      case "selection":
         haptic.selectionChanged();
         return true;
-      case 'success':
-        haptic.notificationOccurred('success');
+      case "success":
+        haptic.notificationOccurred("success");
         return true;
-      case 'warning':
-        haptic.notificationOccurred('warning');
+      case "warning":
+        haptic.notificationOccurred("warning");
         return true;
-      case 'error':
-        haptic.notificationOccurred('error');
+      case "error":
+        haptic.notificationOccurred("error");
         return true;
     }
   }
 
   // Fallback to standard Vibration API
   if (navigator.vibrate) {
-    const duration = type === 'heavy' ? 30 : type === 'medium' ? 20 : 10;
+    const duration = type === "heavy" ? 30 : type === "medium" ? 20 : 10;
     navigator.vibrate(duration);
     return true;
   }
@@ -352,7 +352,7 @@ export function triggerHapticFeedback(type: HapticFeedbackType = 'light'): boole
  * @param type - Type of haptic feedback
  * @returns Callback to trigger haptic feedback
  */
-export function useHapticFeedback(type: HapticFeedbackType = 'light') {
+export function useHapticFeedback(type: HapticFeedbackType = "light") {
   return useCallback(() => {
     triggerHapticFeedback(type);
   }, [type]);

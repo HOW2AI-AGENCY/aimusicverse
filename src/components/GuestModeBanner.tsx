@@ -1,11 +1,11 @@
-import { LogIn, X } from 'lucide-react';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button } from './ui/button';
-import { useGuestMode } from '@/contexts/GuestModeContext';
-import { useTelegram } from '@/contexts/TelegramContext';
-import { useMediaQuery } from '@/hooks/useMediaQuery';
-import { motion, AnimatePresence } from '@/lib/motion';
+import { LogIn, X } from "lucide-react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "./ui/button";
+import { useGuestMode } from "@/contexts/GuestModeContext";
+import { useTelegram } from "@/contexts/TelegramContext";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { motion, AnimatePresence } from "@/lib/motion";
 
 /**
  * Guest mode banner.
@@ -20,9 +20,9 @@ export const GuestModeBanner = () => {
   const navigate = useNavigate();
   const { disableGuestMode } = useGuestMode();
   const { platform } = useTelegram();
-  const isTelegram = Boolean(platform) && platform !== 'unknown';
+  const isTelegram = Boolean(platform) && platform !== "unknown";
 
-  const isDesktop = useMediaQuery('(min-width: 1024px)');
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
 
   if (!isVisible) return null;
   // On desktop outside Telegram, the Sidebar already shows the auth CTA.
@@ -30,7 +30,7 @@ export const GuestModeBanner = () => {
 
   const handleSignIn = () => {
     disableGuestMode();
-    navigate('/auth');
+    navigate("/auth");
   };
 
   return (
@@ -43,13 +43,11 @@ export const GuestModeBanner = () => {
         aria-label="Гостевой режим"
         className="fixed top-0 left-0 right-0 z-navigation bg-muted/95 backdrop-blur-md border-b border-border/50"
         style={{
-          paddingTop: 'max(env(safe-area-inset-top, 0px), var(--tg-safe-area-inset-top, 0px))',
+          paddingTop: "max(env(safe-area-inset-top, 0px), var(--tg-safe-area-inset-top, 0px))",
         }}
       >
         <div className="mx-auto px-3 py-0.5 flex items-center justify-between gap-2 max-w-screen-md">
-          <p className="text-[11px] text-muted-foreground flex-1 truncate">
-            Гостевой режим
-          </p>
+          <p className="text-[11px] text-muted-foreground flex-1 truncate">Гостевой режим</p>
           <div className="flex items-center gap-1 shrink-0">
             <Button
               variant="ghost"
@@ -75,4 +73,3 @@ export const GuestModeBanner = () => {
     </AnimatePresence>
   );
 };
-

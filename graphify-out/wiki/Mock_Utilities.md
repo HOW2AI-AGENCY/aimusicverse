@@ -24,7 +24,7 @@
 - [docs/archive/2026-01-04-cleanup/MOBILE_INTERFACE_OPTIMIZATION_PLAN.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01-04-cleanup/MOBILE_INTERFACE_OPTIMIZATION_PLAN.md)
 - [docs/archive/2026-01-04-cleanup/MOBILE_OPTIMIZATION_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01-04-cleanup/MOBILE_OPTIMIZATION_SUMMARY.md)
 - [docs/archive/audits-2025-12/WORK_COMPLETED_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/WORK_COMPLETED_SUMMARY.md)
-- [docs/archive/audits/ИТОГИ_АУДИТА_ПЛЕЕРА_2025-12-10.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits/%D0%98%D0%A2%D0%9E%D0%93%D0%98_%D0%90%D0%A3%D0%94%D0%98%D0%A2%D0%90_%D0%9F%D0%9B%D0%95%D0%95%D0%A0%D0%90_2025-12-10.md)
+- [docs/archive/audits/ИТОГИ*АУДИТА*ПЛЕЕРА_2025-12-10.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits/%D0%98%D0%A2%D0%9E%D0%93%D0%98_%D0%90%D0%A3%D0%94%D0%98%D0%A2%D0%90_%D0%9F%D0%9B%D0%95%D0%95%D0%A0%D0%90_2025-12-10.md)
 - [docs/archive/implementation-reports/GUITAR_STUDIO_IMPLEMENTATION.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/GUITAR_STUDIO_IMPLEMENTATION.md)
 - [docs/archive/implementation-reports/IMMEDIATE_IMPROVEMENTS_CHECKLIST.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMMEDIATE_IMPROVEMENTS_CHECKLIST.md)
 - [docs/archive/implementation-reports/IMPLEMENTATION_ROADMAP.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_ROADMAP.md)
@@ -40,4 +40,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

@@ -9,6 +9,7 @@
 - **Telegram:** Provides signed `initData` and launches the Mini App container.
 
 ### Startup sequence
+
 1. Telegram opens the Mini App with `initData`.
 2. The client calls `/telegram-auth` (Edge Function) and validates the HMAC-SHA256 signature.
 3. The backend creates/updates the profile, issues a JWT, and the client stores the session.
@@ -26,24 +27,30 @@
 ## 3. Telegram.WebApp API: main groups
 
 ### Window control
+
 - `ready()`, `expand()`, `close()`, `viewportChanged` — fullscreen and viewport height handling.
 
 ### Buttons
+
 - `MainButton` / `SecondaryButton` / `BackButton` / `SettingsButton` — text, progress, `mainButtonClicked`, `backButtonClicked`.
 
 ### Storage
+
 - `CloudStorage` — synced key/value pairs.
 - `DeviceStorage` — local storage (~5 MB).
 - `SecureStorage` — encrypted storage (up to 10 items) for secrets/tokens.
 
 ### Sensors and device
+
 - `Accelerometer`, `Gyroscope`, `DeviceOrientation`, `LocationManager` — start/stop, `refresh_rate`, `on('update', ...)`.
 
 ### Payments and gifts
+
 - `openInvoice` / `sendInvoice` — Telegram Stars.
 - `sendGift` — gifts with text and referral scenarios.
 
 ### Media and stories
+
 - `shareToStory` / `openTelegramLink` — publish stories and share links.
 - `downloadFile` — download media inside the Mini App.
 
@@ -58,13 +65,13 @@
 
 ```ts
 // Cloud (cross-device)
-await Telegram.WebApp.CloudStorage.setItem('saved_music', JSON.stringify(track));
+await Telegram.WebApp.CloudStorage.setItem("saved_music", JSON.stringify(track));
 
 // Local cache
-await Telegram.WebApp.DeviceStorage.setItem('last_track', track.id);
+await Telegram.WebApp.DeviceStorage.setItem("last_track", track.id);
 
 // SecureStorage (tokens)
-await Telegram.WebApp.SecureStorage.saveKey('auth', 'refresh_token', refreshToken);
+await Telegram.WebApp.SecureStorage.saveKey("auth", "refresh_token", refreshToken);
 ```
 
 ## 6. Example — music shop with Stars payments
@@ -79,14 +86,14 @@ await Telegram.WebApp.SecureStorage.saveKey('auth', 'refresh_token', refreshToke
 ```ts
 // Gift
 await bot.sendGift(userId, giftId, {
-  text: 'Congrats! 🎁',
-  text_parse_mode: 'HTML',
+  text: "Congrats! 🎁",
+  text_parse_mode: "HTML",
 });
 
 // Story from Mini App
 Telegram.WebApp.shareToStory(mediaUrl, {
-  text: 'Check this out!',
-  widget_link: { url: 'https://app.musicverse.ai', name: 'Open' },
+  text: "Check this out!",
+  widget_link: { url: "https://app.musicverse.ai", name: "Open" },
 });
 ```
 

@@ -11,25 +11,18 @@ This project follows a modular architecture with clear separation of concerns, f
 Comprehensive error handling system with typed errors and recovery strategies.
 
 ```typescript
-import { 
-  AppError, 
-  NetworkError, 
-  APIError, 
-  ErrorCode,
-  tryCatch,
-  retryWithBackoff 
-} from '@/lib/errors';
+import { AppError, NetworkError, APIError, ErrorCode, tryCatch, retryWithBackoff } from "@/lib/errors";
 
 // Using typed errors
 try {
   await fetchData();
 } catch (error) {
   const appError = toAppError(error);
-  
+
   if (appError.isRetryable()) {
     // Retry logic
   }
-  
+
   showErrorWithRecovery(appError);
 }
 
@@ -42,13 +35,11 @@ if (result.success) {
 }
 
 // Auto-retry with backoff
-const data = await retryWithBackoff(
-  () => fetchData(),
-  { maxRetries: 3, initialDelayMs: 1000 }
-);
+const data = await retryWithBackoff(() => fetchData(), { maxRetries: 3, initialDelayMs: 1000 });
 ```
 
 #### Error Classes
+
 - `AppError` - Base error class
 - `NetworkError` - Network/connection issues
 - `APIError` - API response errors (auto-detects status codes)
@@ -73,7 +64,7 @@ const config: StateConfig<States, { data: null | string }> = {
   context: { data: null },
   states: {
     idle: { on: { FETCH: 'loading' } },
-    loading: { 
+    loading: {
       on: { SUCCESS: 'success', ERROR: 'error' },
       entry: (ctx) => { ctx.data = null; }
     },
@@ -84,10 +75,10 @@ const config: StateConfig<States, { data: null | string }> = {
 
 function MyComponent() {
   const { state, context, send, can } = useStateMachine(config);
-  
+
   return (
-    <button 
-      onClick={() => send('FETCH')} 
+    <button
+      onClick={() => send('FETCH')}
       disabled={!can('FETCH')}
     >
       {state === 'loading' ? 'Loading...' : 'Fetch'}
@@ -101,14 +92,7 @@ function MyComponent() {
 Performance optimization helpers.
 
 ```typescript
-import {
-  debounce,
-  throttle,
-  memoizeWithLimit,
-  processBatched,
-  runWhenIdle,
-  lazyWithRetry,
-} from '@/lib/performance';
+import { debounce, throttle, memoizeWithLimit, processBatched, runWhenIdle, lazyWithRetry } from "@/lib/performance";
 
 // Debounced search
 const debouncedSearch = debounce((query: string) => {
@@ -124,20 +108,16 @@ const throttledScroll = throttle(() => {
 const memoizedFn = memoizeWithLimit(expensiveCalc, 100);
 
 // Process large arrays without blocking UI
-const results = await processBatched(
-  largeArray,
-  processItem,
-  { batchSize: 50, delayBetweenBatches: 10 }
-);
+const results = await processBatched(largeArray, processItem, { batchSize: 50, delayBetweenBatches: 10 });
 
 // Run during idle time
 await runWhenIdle(() => preloadData());
 
 // Lazy component with retry
 const LazyComponent = lazyWithRetry(
-  () => import('./HeavyComponent'),
+  () => import("./HeavyComponent"),
   3, // retries
-  1000 // delay
+  1000, // delay
 );
 ```
 
@@ -178,12 +158,12 @@ const { quality, shouldLazyLoad, maxWidth } = useAdaptiveImageQuality();
 Mobile-optimized interactive components.
 
 ```typescript
-import { 
-  TouchTarget, 
-  TouchIconButton, 
+import {
+  TouchTarget,
+  TouchIconButton,
   SwipeableCard,
   triggerHaptic,
-  useHaptics 
+  useHaptics
 } from '@/components/ui/touch-friendly';
 
 // Expand touch area for small buttons
@@ -276,23 +256,27 @@ src/
 ## Best Practices
 
 ### Error Handling
+
 1. Always use typed errors from `@/lib/errors`
 2. Use `showErrorWithRecovery()` for user-facing errors
 3. Use `tryCatch()` for cleaner async error handling
 4. Let `toAppError()` auto-detect error types
 
 ### Performance
+
 1. Use `OptimizedImage` for all images
 2. Apply `debounce`/`throttle` to frequent events
 3. Use `processBatched` for large data operations
 4. Lazy load non-critical components
 
 ### State Management
+
 1. Use state machines for complex multi-step flows
 2. Keep Zustand stores focused and small
 3. Use React Query for server state
 
 ### Accessibility
+
 1. Always provide `alt` text for images
 2. Use `TouchTarget` for small interactive elements
 3. Respect `prefersReducedMotion` for animations

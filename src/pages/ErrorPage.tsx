@@ -5,8 +5,8 @@ import { useTelegram } from "@/contexts/TelegramContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Home, ArrowLeft, RefreshCw, AlertTriangle } from "lucide-react";
-import { motion } from '@/lib/motion';
-import { getBotMention } from '@/lib/telegram';
+import { motion } from "@/lib/motion";
+import { getBotMention } from "@/lib/telegram";
 
 interface ErrorPageProps {
   error?: Error | null;
@@ -18,16 +18,16 @@ export default function ErrorPage({ error, statusCode = 500 }: ErrorPageProps) {
   const { hapticFeedback, showBackButton, hideBackButton } = useTelegram();
 
   const errorMessage = error?.message || "Произошла неизвестная ошибка";
-  const errorDetails = error?.stack?.split('\n')[0] || "";
+  const errorDetails = error?.stack?.split("\n")[0] || "";
 
   useEffect(() => {
-    logger.error("Error Page displayed", error, { 
+    logger.error("Error Page displayed", error, {
       message: errorMessage,
       statusCode,
     });
 
     showBackButton(() => {
-      hapticFeedback('light');
+      hapticFeedback("light");
       navigate(-1);
     });
 
@@ -37,17 +37,17 @@ export default function ErrorPage({ error, statusCode = 500 }: ErrorPageProps) {
   }, [error, errorMessage, statusCode, showBackButton, hideBackButton, hapticFeedback, navigate]);
 
   const handleRefresh = () => {
-    hapticFeedback('light');
+    hapticFeedback("light");
     window.location.reload();
   };
 
   const handleGoHome = () => {
-    hapticFeedback('success');
-    navigate('/');
+    hapticFeedback("success");
+    navigate("/");
   };
 
   const handleGoBack = () => {
-    hapticFeedback('light');
+    hapticFeedback("light");
     navigate(-1);
   };
 
@@ -111,9 +111,7 @@ export default function ErrorPage({ error, statusCode = 500 }: ErrorPageProps) {
                 transition={{ delay: 0.6 }}
                 className="mb-6 rounded-lg bg-destructive/10 p-3 text-left"
               >
-                <p className="text-xs font-mono text-destructive break-all">
-                  {errorDetails}
-                </p>
+                <p className="text-xs font-mono text-destructive break-all">{errorDetails}</p>
               </motion.div>
             )}
 
@@ -124,29 +122,18 @@ export default function ErrorPage({ error, statusCode = 500 }: ErrorPageProps) {
               transition={{ delay: 0.7 }}
               className="space-y-3"
             >
-              <Button 
-                onClick={handleRefresh} 
-                className="w-full"
-                size="lg"
-                variant="default"
-              >
+              <Button onClick={handleRefresh} className="w-full" size="lg" variant="default">
                 <RefreshCw className="mr-2 h-5 w-5" />
                 Обновить страницу
               </Button>
-              
+
               <div className="grid grid-cols-2 gap-3">
-                <Button 
-                  onClick={handleGoBack} 
-                  variant="outline"
-                >
+                <Button onClick={handleGoBack} variant="outline">
                   <ArrowLeft className="mr-2 h-4 w-4" />
                   Назад
                 </Button>
-                
-                <Button 
-                  onClick={handleGoHome} 
-                  variant="outline"
-                >
+
+                <Button onClick={handleGoHome} variant="outline">
                   <Home className="mr-2 h-4 w-4" />
                   Главная
                 </Button>

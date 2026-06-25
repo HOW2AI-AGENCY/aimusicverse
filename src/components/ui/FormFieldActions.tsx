@@ -4,41 +4,38 @@
  * Provides copy, clear, voice input, AI assist, and custom actions
  */
 
-import { memo, useState } from 'react';
-import { 
-  Copy, X, Save, Check, Loader2, Sparkles, Palette, 
-  FileText, ExternalLink, LucideIcon 
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { Separator } from '@/components/ui/separator';
-import { VoiceInputButton } from '@/components/ui/VoiceInputButton';
-import { cn } from '@/lib/utils';
-import { toast } from 'sonner';
+import { memo, useState } from "react";
+import { Copy, X, Save, Check, Loader2, Sparkles, Palette, FileText, ExternalLink, LucideIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Separator } from "@/components/ui/separator";
+import { VoiceInputButton } from "@/components/ui/VoiceInputButton";
+import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 interface FormFieldActionsProps {
   // Field value for copy/clear
   value: string;
   onClear: () => void;
-  
+
   // Voice input
   onVoiceInput?: (text: string) => void;
-  voiceContext?: 'style' | 'lyrics' | 'description';
+  voiceContext?: "style" | "lyrics" | "description";
   appendMode?: boolean;
-  
+
   // AI actions
   onAIAssist?: () => void;
   aiLoading?: boolean;
   aiLabel?: string; // 'AI' | 'AI Boost' | null for icon only
-  
+
   // Custom actions
   onOpenStyles?: () => void;
   onOpenTemplates?: () => void;
   onOpenStudio?: () => void;
   onSave?: () => Promise<void>;
-  
+
   // Display options
-  size?: 'sm' | 'default' | 'lg'; // sm=compact, default=medium, lg=44px touch targets
+  size?: "sm" | "default" | "lg"; // sm=compact, default=medium, lg=44px touch targets
   showSave?: boolean;
   showDivider?: boolean;
   hideWhenEmpty?: boolean; // Hide Copy/Clear when empty (default for lg size)
@@ -49,32 +46,32 @@ interface FormFieldActionsProps {
 interface ActionButtonProps {
   icon: LucideIcon;
   onClick: () => void;
-  variant?: 'default' | 'primary' | 'success';
+  variant?: "default" | "primary" | "success";
   tooltip?: string;
   disabled?: boolean;
-  size: 'sm' | 'default' | 'lg';
+  size: "sm" | "default" | "lg";
   className?: string;
 }
 
-const ActionButton = memo(function ActionButton({ 
-  icon: Icon, 
-  onClick, 
-  variant = 'default',
+const ActionButton = memo(function ActionButton({
+  icon: Icon,
+  onClick,
+  variant = "default",
   tooltip,
   disabled,
   size,
-  className
+  className,
 }: ActionButtonProps) {
   const sizeClasses = {
-    sm: 'h-6 w-6',
-    default: 'h-8 w-8',
-    lg: 'h-11 w-11 min-w-[44px]'
+    sm: "h-6 w-6",
+    default: "h-8 w-8",
+    lg: "h-11 w-11 min-w-[44px]",
   };
-  
+
   const iconClasses = {
-    sm: 'w-3 h-3',
-    default: 'w-4 h-4',
-    lg: 'w-4 h-4'
+    sm: "w-3 h-3",
+    default: "w-4 h-4",
+    lg: "w-4 h-4",
   };
 
   const button = (
@@ -86,10 +83,10 @@ const ActionButton = memo(function ActionButton({
       disabled={disabled}
       className={cn(
         sizeClasses[size],
-        'p-0',
-        variant === 'primary' && 'text-primary hover:text-primary/80 hover:bg-primary/10',
-        variant === 'success' && 'text-green-500',
-        className
+        "p-0",
+        variant === "primary" && "text-primary hover:text-primary/80 hover:bg-primary/10",
+        variant === "success" && "text-green-500",
+        className,
       )}
     >
       <Icon className={iconClasses[size]} />
@@ -97,14 +94,12 @@ const ActionButton = memo(function ActionButton({
   );
 
   // Only show tooltips for lg size (touch-friendly)
-  if (!tooltip || size !== 'lg') return button;
+  if (!tooltip || size !== "lg") return button;
 
   return (
     <TooltipProvider>
       <Tooltip delayDuration={300}>
-        <TooltipTrigger asChild>
-          {button}
-        </TooltipTrigger>
+        <TooltipTrigger asChild>{button}</TooltipTrigger>
         <TooltipContent side="top" className="text-xs">
           {tooltip}
         </TooltipContent>
@@ -126,7 +121,7 @@ export const FormFieldActions = memo(function FormFieldActions({
   onOpenTemplates,
   onOpenStudio,
   onSave,
-  size = 'sm',
+  size = "sm",
   showSave = false,
   showDivider = false,
   hideWhenEmpty,
@@ -135,45 +130,45 @@ export const FormFieldActions = memo(function FormFieldActions({
   const [copied, setCopied] = useState(false);
   const [saving, setSaving] = useState(false);
 
-  const isEmpty = !value || value.trim() === '';
+  const isEmpty = !value || value.trim() === "";
   // For lg size, hide copy/clear when empty by default
-  const shouldHideWhenEmpty = hideWhenEmpty ?? size === 'lg';
+  const shouldHideWhenEmpty = hideWhenEmpty ?? size === "lg";
   const hasCustomActions = onOpenStyles || onOpenTemplates || onOpenStudio;
 
   const sizeClasses = {
-    sm: 'h-6 w-6',
-    default: 'h-8 w-8',
-    lg: 'h-11 w-11 min-w-[44px]'
+    sm: "h-6 w-6",
+    default: "h-8 w-8",
+    lg: "h-11 w-11 min-w-[44px]",
   };
-  
+
   const iconClasses = {
-    sm: 'w-3 h-3',
-    default: 'w-4 h-4',
-    lg: 'w-4 h-4'
+    sm: "w-3 h-3",
+    default: "w-4 h-4",
+    lg: "w-4 h-4",
   };
 
   const handleCopy = async () => {
     if (isEmpty) return;
-    
+
     try {
       await navigator.clipboard.writeText(value);
       setCopied(true);
-      toast.success('Скопировано');
+      toast.success("Скопировано");
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      toast.error('Ошибка копирования');
+      toast.error("Ошибка копирования");
     }
   };
 
   const handleSave = async () => {
     if (isEmpty || !onSave) return;
-    
+
     setSaving(true);
     try {
       await onSave();
-      toast.success('Сохранено в библиотеку');
+      toast.success("Сохранено в библиотеку");
     } catch {
-      toast.error('Ошибка сохранения');
+      toast.error("Ошибка сохранения");
     } finally {
       setSaving(false);
     }
@@ -183,68 +178,46 @@ export const FormFieldActions = memo(function FormFieldActions({
   const showCopyClear = !shouldHideWhenEmpty || !isEmpty;
 
   return (
-    <div className={cn('flex items-center gap-0.5', className)}>
+    <div className={cn("flex items-center gap-0.5", className)}>
       {/* Custom Actions - Styles, Templates, Studio */}
       {hasCustomActions && (
         <>
           {onOpenStyles && (
-            <ActionButton 
-              icon={Palette} 
-              onClick={onOpenStyles}
-              variant="primary"
-              tooltip="Стили"
-              size={size}
-            />
+            <ActionButton icon={Palette} onClick={onOpenStyles} variant="primary" tooltip="Стили" size={size} />
           )}
-          
-          {onOpenTemplates && (
-            <ActionButton 
-              icon={FileText} 
-              onClick={onOpenTemplates}
-              tooltip="Шаблоны"
-              size={size}
-            />
-          )}
-          
-          {onOpenStudio && (
-            <ActionButton 
-              icon={ExternalLink} 
-              onClick={onOpenStudio}
-              tooltip="Студия"
-              size={size}
-            />
-          )}
-          
-          {showDivider && showCopyClear && (
-            <Separator orientation="vertical" className="h-4 mx-0.5" />
-          )}
+
+          {onOpenTemplates && <ActionButton icon={FileText} onClick={onOpenTemplates} tooltip="Шаблоны" size={size} />}
+
+          {onOpenStudio && <ActionButton icon={ExternalLink} onClick={onOpenStudio} tooltip="Студия" size={size} />}
+
+          {showDivider && showCopyClear && <Separator orientation="vertical" className="h-4 mx-0.5" />}
         </>
       )}
-      
+
       {/* Copy/Clear */}
       {showCopyClear && (
         <>
-          <ActionButton 
+          <ActionButton
             icon={copied ? Check : Copy}
             onClick={handleCopy}
-            variant={copied ? 'success' : 'default'}
+            variant={copied ? "success" : "default"}
             tooltip="Копировать"
             disabled={isEmpty}
             size={size}
-            className={isEmpty && !shouldHideWhenEmpty ? 'opacity-40' : undefined}
+            className={isEmpty && !shouldHideWhenEmpty ? "opacity-40" : undefined}
           />
-          
-          <ActionButton 
+
+          <ActionButton
             icon={X}
             onClick={onClear}
             tooltip="Очистить"
             disabled={isEmpty}
             size={size}
-            className={isEmpty && !shouldHideWhenEmpty ? 'opacity-40' : undefined}
+            className={isEmpty && !shouldHideWhenEmpty ? "opacity-40" : undefined}
           />
         </>
       )}
-      
+
       {/* Save Button */}
       {showSave && onSave && (
         <Button
@@ -253,17 +226,17 @@ export const FormFieldActions = memo(function FormFieldActions({
           size="icon"
           onClick={handleSave}
           disabled={isEmpty || saving}
-          className={cn(sizeClasses[size], 'p-0', isEmpty && 'opacity-40')}
+          className={cn(sizeClasses[size], "p-0", isEmpty && "opacity-40")}
           title="Сохранить в библиотеку"
         >
           {saving ? (
-            <Loader2 className={cn(iconClasses[size], 'animate-spin')} />
+            <Loader2 className={cn(iconClasses[size], "animate-spin")} />
           ) : (
             <Save className={iconClasses[size]} />
           )}
         </Button>
       )}
-      
+
       {/* Voice Input */}
       {onVoiceInput && (
         <VoiceInputButton
@@ -271,10 +244,10 @@ export const FormFieldActions = memo(function FormFieldActions({
           context={voiceContext}
           currentValue={value}
           appendMode={appendMode}
-          className={cn(sizeClasses[size], 'p-0')}
+          className={cn(sizeClasses[size], "p-0")}
         />
       )}
-      
+
       {/* AI Button */}
       {onAIAssist && (
         <Button
@@ -285,12 +258,12 @@ export const FormFieldActions = memo(function FormFieldActions({
           disabled={aiLoading}
           className={cn(
             sizeClasses[size],
-            'gap-1 text-primary hover:text-primary/80 hover:bg-primary/10',
-            aiLabel ? 'px-3 w-auto' : 'px-0'
+            "gap-1 text-primary hover:text-primary/80 hover:bg-primary/10",
+            aiLabel ? "px-3 w-auto" : "px-0",
           )}
         >
           {aiLoading ? (
-            <Loader2 className={cn(iconClasses[size], 'animate-spin')} />
+            <Loader2 className={cn(iconClasses[size], "animate-spin")} />
           ) : (
             <Sparkles className={iconClasses[size]} />
           )}

@@ -2,13 +2,13 @@
  * ProjectHero - Project cover and header section
  */
 
-import { memo } from 'react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { ChevronLeft, Settings, Disc, Music, Globe, Calendar } from 'lucide-react';
-import { motion } from '@/lib/motion';
-import { format, ru } from '@/lib/date-utils';
-import { cn } from '@/lib/utils';
+import { memo } from "react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { ChevronLeft, Settings, Disc, Music, Globe, Calendar } from "lucide-react";
+import { motion } from "@/lib/motion";
+import { format, ru } from "@/lib/date-utils";
+import { cn } from "@/lib/utils";
 
 interface Project {
   id: string;
@@ -33,17 +33,17 @@ interface ProjectHeroProps {
 }
 
 const STATUS_LABELS: Record<string, { label: string; color: string }> = {
-  draft: { label: 'Черновик', color: 'bg-muted text-muted-foreground' },
-  in_progress: { label: 'В работе', color: 'bg-blue-500/20 text-blue-500' },
-  review: { label: 'На проверке', color: 'bg-amber-500/20 text-amber-500' },
-  published: { label: 'Опубликован', color: 'bg-emerald-500/20 text-emerald-500' },
+  draft: { label: "Черновик", color: "bg-muted text-muted-foreground" },
+  in_progress: { label: "В работе", color: "bg-blue-500/20 text-blue-500" },
+  review: { label: "На проверке", color: "bg-amber-500/20 text-amber-500" },
+  published: { label: "Опубликован", color: "bg-emerald-500/20 text-emerald-500" },
 };
 
 const TYPE_LABELS: Record<string, string> = {
-  album: 'Альбом',
-  ep: 'EP',
-  single: 'Сингл',
-  compilation: 'Сборник',
+  album: "Альбом",
+  ep: "EP",
+  single: "Сингл",
+  compilation: "Сборник",
 };
 
 export const ProjectHero = memo(function ProjectHero({
@@ -54,9 +54,9 @@ export const ProjectHero = memo(function ProjectHero({
   onOpenSettings,
   isMobile = false,
 }: ProjectHeroProps) {
-  const status = STATUS_LABELS[project.status || 'draft'] || STATUS_LABELS.draft;
-  const projectType = TYPE_LABELS[project.project_type || 'album'] || project.project_type;
-  const isPublished = project.status === 'published';
+  const status = STATUS_LABELS[project.status || "draft"] || STATUS_LABELS.draft;
+  const projectType = TYPE_LABELS[project.project_type || "album"] || project.project_type;
+  const isPublished = project.status === "published";
 
   return (
     <div className="relative">
@@ -73,18 +73,15 @@ export const ProjectHero = memo(function ProjectHero({
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
-            <motion.div
-              animate={{ rotate: [0, 5, -5, 0] }}
-              transition={{ duration: 6, repeat: Infinity }}
-            >
+            <motion.div animate={{ rotate: [0, 5, -5, 0] }} transition={{ duration: 6, repeat: Infinity }}>
               <Disc className="w-24 h-24 text-primary/30" />
             </motion.div>
           </div>
         )}
-        
+
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
-        
+
         {/* Navigation buttons */}
         <div className="absolute top-3 left-3 right-3 flex items-center justify-between z-10">
           <Button
@@ -110,28 +107,25 @@ export const ProjectHero = memo(function ProjectHero({
       <div className={cn("px-4 pb-4 -mt-16 relative z-10", isMobile && "px-3")}>
         <div className="space-y-3">
           {/* Title */}
-          <h1 className="text-2xl sm:text-3xl font-bold text-foreground drop-shadow-sm">
-            {project.title}
-          </h1>
-          
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground drop-shadow-sm">{project.title}</h1>
+
           {/* Badges row */}
           <div className="flex flex-wrap items-center gap-2">
             {/* Type badge */}
-            <Badge className="bg-background/80 backdrop-blur-sm border-0 text-xs">
-              {projectType}
-            </Badge>
-            
+            <Badge className="bg-background/80 backdrop-blur-sm border-0 text-xs">{projectType}</Badge>
+
             {/* Status badge */}
             {isPublished ? (
-              <Badge className={cn("h-6 w-6 p-0 border-0 flex items-center justify-center backdrop-blur-sm", status.color)} title={status.label}>
+              <Badge
+                className={cn("h-6 w-6 p-0 border-0 flex items-center justify-center backdrop-blur-sm", status.color)}
+                title={status.label}
+              >
                 <Globe className="w-3.5 h-3.5" />
               </Badge>
             ) : (
-              <Badge className={cn("border-0 text-xs backdrop-blur-sm", status.color)}>
-                {status.label}
-              </Badge>
+              <Badge className={cn("border-0 text-xs backdrop-blur-sm", status.color)}>{status.label}</Badge>
             )}
-            
+
             {/* Genre */}
             {project.genre && (
               <Badge variant="secondary" className="text-xs">
@@ -150,17 +144,13 @@ export const ProjectHero = memo(function ProjectHero({
             {project.created_at && (
               <span className="flex items-center gap-1">
                 <Calendar className="w-4 h-4" />
-                {format(new Date(project.created_at), 'd MMM yyyy', { locale: ru })}
+                {format(new Date(project.created_at), "d MMM yyyy", { locale: ru })}
               </span>
             )}
           </div>
 
           {/* Description */}
-          {project.description && (
-            <p className="text-sm text-muted-foreground line-clamp-2">
-              {project.description}
-            </p>
-          )}
+          {project.description && <p className="text-sm text-muted-foreground line-clamp-2">{project.description}</p>}
         </div>
       </div>
     </div>

@@ -3,23 +3,18 @@
  * Compact inline suggestions for form integration
  */
 
-import { memo, useCallback, useState } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { 
-  Sparkles, 
-  ChevronRight,
-  X,
-  Brain,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
-import { SmartSuggestionCard } from './SmartSuggestionCard';
-import { useSmartAssistant } from '@/hooks/generation/useSmartAssistant';
-import type { SmartSuggestion } from './types';
+import { memo, useCallback, useState } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Sparkles, ChevronRight, X, Brain } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+import { SmartSuggestionCard } from "./SmartSuggestionCard";
+import { useSmartAssistant } from "@/hooks/generation/useSmartAssistant";
+import type { SmartSuggestion } from "./types";
 
 interface SmartAssistantInlineProps {
-  onApplySuggestion: (prompt: string, metadata?: SmartSuggestion['metadata']) => void;
+  onApplySuggestion: (prompt: string, metadata?: SmartSuggestion["metadata"]) => void;
   maxVisible?: number;
   className?: string;
 }
@@ -30,20 +25,19 @@ export const SmartAssistantInline = memo(function SmartAssistantInline({
   className,
 }: SmartAssistantInlineProps) {
   const [expanded, setExpanded] = useState(false);
-  const {
-    suggestions,
-    isAnalyzing,
-    dismissSuggestion,
-    hasContext,
-  } = useSmartAssistant({ autoAnalyze: true, maxSuggestions: 5 });
+  const { suggestions, isAnalyzing, dismissSuggestion, hasContext } = useSmartAssistant({
+    autoAnalyze: true,
+    maxSuggestions: 5,
+  });
 
-  const handleApply = useCallback((suggestion: SmartSuggestion) => {
-    onApplySuggestion(suggestion.prompt, suggestion.metadata);
-  }, [onApplySuggestion]);
+  const handleApply = useCallback(
+    (suggestion: SmartSuggestion) => {
+      onApplySuggestion(suggestion.prompt, suggestion.metadata);
+    },
+    [onApplySuggestion],
+  );
 
-  const visibleSuggestions = expanded 
-    ? suggestions 
-    : suggestions.slice(0, maxVisible);
+  const visibleSuggestions = expanded ? suggestions : suggestions.slice(0, maxVisible);
 
   const hasMore = suggestions.length > maxVisible;
 
@@ -71,11 +65,8 @@ export const SmartAssistantInline = memo(function SmartAssistantInline({
             onClick={() => setExpanded(!expanded)}
             className="h-6 text-[10px] gap-1 text-muted-foreground hover:text-foreground"
           >
-            {expanded ? 'Свернуть' : `Ещё ${suggestions.length - maxVisible}`}
-            <ChevronRight className={cn(
-              "h-3 w-3 transition-transform",
-              expanded && "rotate-90"
-            )} />
+            {expanded ? "Свернуть" : `Ещё ${suggestions.length - maxVisible}`}
+            <ChevronRight className={cn("h-3 w-3 transition-transform", expanded && "rotate-90")} />
           </Button>
         )}
       </div>

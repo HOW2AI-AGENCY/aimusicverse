@@ -12,11 +12,11 @@
 - [isTrackPlaying](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L73) (1 connections)
 - [selectedSlot](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L74) (1 connections)
 - [[selectedSlots, setSelectedSlots]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L42) (1 connections)
-- [{ 
-    unlinkedTracks,
-    isLoading,
-    linkTrackToSlot,
-    isLinking
+- [{
+  unlinkedTracks,
+  isLoading,
+  linkTrackToSlot,
+  isLinking
   }](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L44) (1 connections)
 
 ## Relationships
@@ -35,4 +35,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

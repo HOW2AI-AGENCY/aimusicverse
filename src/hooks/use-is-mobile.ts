@@ -19,4 +19,4 @@
  * ```
  */
 
-export { useIsMobile } from './use-media-query';
+export { useIsMobile } from "./use-media-query";

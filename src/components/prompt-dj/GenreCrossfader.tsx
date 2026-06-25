@@ -2,17 +2,11 @@
  * GenreCrossfader - A/B genre mixer with visual crossfader
  */
 
-import { memo } from 'react';
-import { cn } from '@/lib/utils';
-import { Slider } from '@/components/ui/slider';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { GENRE_PRESETS, PresetItem } from '@/lib/prompt-dj-presets';
+import { memo } from "react";
+import { cn } from "@/lib/utils";
+import { Slider } from "@/components/ui/slider";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { GENRE_PRESETS, PresetItem } from "@/lib/prompt-dj-presets";
 
 interface GenreCrossfaderProps {
   genreAId: string | null;
@@ -34,11 +28,11 @@ export const GenreCrossfader = memo(function GenreCrossfader({
   disabled,
 }: GenreCrossfaderProps) {
   // Calculate visual weights for A and B
-  const aWeight = Math.round((1 - crossfaderPosition) / 2 * 100);
-  const bWeight = Math.round((1 + crossfaderPosition) / 2 * 100);
+  const aWeight = Math.round(((1 - crossfaderPosition) / 2) * 100);
+  const bWeight = Math.round(((1 + crossfaderPosition) / 2) * 100);
 
-  const genreA = GENRE_PRESETS.find(g => g.id === genreAId);
-  const genreB = GENRE_PRESETS.find(g => g.id === genreBId);
+  const genreA = GENRE_PRESETS.find((g) => g.id === genreAId);
+  const genreB = GENRE_PRESETS.find((g) => g.id === genreBId);
 
   return (
     <div className="p-3 rounded-xl bg-card/30 border border-border/30 space-y-3">
@@ -50,11 +44,7 @@ export const GenreCrossfader = memo(function GenreCrossfader({
             <span className="text-[10px] font-bold text-purple-400">A</span>
             <span className="text-[10px] text-muted-foreground">{aWeight}%</span>
           </div>
-          <Select 
-            value={genreAId || ''} 
-            onValueChange={(v) => onGenreAChange(v || null)}
-            disabled={disabled}
-          >
+          <Select value={genreAId || ""} onValueChange={(v) => onGenreAChange(v || null)} disabled={disabled}>
             <SelectTrigger className="h-8 text-xs bg-purple-500/10 border-purple-500/30">
               <SelectValue placeholder="Жанр А" />
             </SelectTrigger>
@@ -77,11 +67,7 @@ export const GenreCrossfader = memo(function GenreCrossfader({
             <span className="text-[10px] font-bold text-blue-400">Б</span>
             <span className="text-[10px] text-muted-foreground">{bWeight}%</span>
           </div>
-          <Select 
-            value={genreBId || ''} 
-            onValueChange={(v) => onGenreBChange(v || null)}
-            disabled={disabled}
-          >
+          <Select value={genreBId || ""} onValueChange={(v) => onGenreBChange(v || null)} disabled={disabled}>
             <SelectTrigger className="h-8 text-xs bg-blue-500/10 border-blue-500/30">
               <SelectValue placeholder="Жанр Б" />
             </SelectTrigger>
@@ -100,14 +86,14 @@ export const GenreCrossfader = memo(function GenreCrossfader({
       <div className="relative">
         {/* Track background */}
         <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-2 rounded-full overflow-hidden">
-          <div 
+          <div
             className="absolute inset-0"
             style={{
               background: `linear-gradient(to right, 
                 hsl(270, 91%, 65%) 0%, 
                 hsl(270, 91%, 65%) ${aWeight}%, 
                 hsl(217, 91%, 60%) ${aWeight}%, 
-                hsl(217, 91%, 60%) 100%)`
+                hsl(217, 91%, 60%) 100%)`,
             }}
           />
         </div>
@@ -128,15 +114,11 @@ export const GenreCrossfader = memo(function GenreCrossfader({
 
         {/* Labels */}
         <div className="flex justify-between mt-1">
-          <span className="text-[9px] text-purple-400 font-medium">
-            {genreA?.label || 'A'}
-          </span>
+          <span className="text-[9px] text-purple-400 font-medium">{genreA?.label || "A"}</span>
           <span className="text-[9px] text-muted-foreground">
-            {crossfaderPosition === 0 ? 'Центр' : crossfaderPosition < 0 ? '← A' : 'Б →'}
+            {crossfaderPosition === 0 ? "Центр" : crossfaderPosition < 0 ? "← A" : "Б →"}
           </span>
-          <span className="text-[9px] text-blue-400 font-medium">
-            {genreB?.label || 'Б'}
-          </span>
+          <span className="text-[9px] text-blue-400 font-medium">{genreB?.label || "Б"}</span>
         </div>
       </div>
     </div>

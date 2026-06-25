@@ -3,7 +3,7 @@
  * Pre-defined mixing configurations for common use cases
  */
 
-import type { StemEffects } from './types';
+import type { StemEffects } from "./types";
 
 export interface StemMixSettings {
   volume: number;
@@ -26,26 +26,26 @@ export interface MixPreset {
  */
 export const MIX_PRESETS: MixPreset[] = [
   {
-    id: 'balanced',
-    name: 'Сбалансированный',
-    description: 'Все инструменты слышны равномерно',
-    icon: '⚖️',
+    id: "balanced",
+    name: "Сбалансированный",
+    description: "Все инструменты слышны равномерно",
+    icon: "⚖️",
     stems: {
       vocal: { volume: 0.85, effects: { eq: { lowGain: -2, midGain: 2, highGain: 1, lowFreq: 320, highFreq: 3200 } } },
       instrumental: { volume: 0.75 },
-      drums: { volume: 0.70 },
+      drums: { volume: 0.7 },
       bass: { volume: 0.65 },
-      guitar: { volume: 0.70 },
+      guitar: { volume: 0.7 },
       piano: { volume: 0.65 },
-      other: { volume: 0.60 },
+      other: { volume: 0.6 },
     },
     masterVolume: 0.85,
   },
   {
-    id: 'vocal_focus',
-    name: 'Акцент на вокал',
-    description: 'Вокал на переднем плане, инструменты приглушены',
-    icon: '🎤',
+    id: "vocal_focus",
+    name: "Акцент на вокал",
+    description: "Вокал на переднем плане, инструменты приглушены",
+    icon: "🎤",
     stems: {
       vocal: {
         volume: 1.0,
@@ -55,53 +55,53 @@ export const MIX_PRESETS: MixPreset[] = [
         },
       },
       instrumental: { volume: 0.45 },
-      drums: { volume: 0.40 },
+      drums: { volume: 0.4 },
       bass: { volume: 0.35 },
-      guitar: { volume: 0.40 },
+      guitar: { volume: 0.4 },
       piano: { volume: 0.35 },
-      other: { volume: 0.30 },
+      other: { volume: 0.3 },
     },
     masterVolume: 0.9,
   },
   {
-    id: 'instrumental_focus',
-    name: 'Инструментал',
-    description: 'Вокал приглушён, акцент на музыке',
-    icon: '🎸',
+    id: "instrumental_focus",
+    name: "Инструментал",
+    description: "Вокал приглушён, акцент на музыке",
+    icon: "🎸",
     stems: {
       vocal: { volume: 0.25 },
-      instrumental: { volume: 0.90 },
+      instrumental: { volume: 0.9 },
       drums: { volume: 0.85 },
-      bass: { volume: 0.80 },
+      bass: { volume: 0.8 },
       guitar: { volume: 0.85 },
       piano: { volume: 0.75 },
-      other: { volume: 0.70 },
+      other: { volume: 0.7 },
     },
     masterVolume: 0.85,
   },
   {
-    id: 'karaoke',
-    name: 'Караоке',
-    description: 'Вокал полностью выключен',
-    icon: '🎶',
+    id: "karaoke",
+    name: "Караоке",
+    description: "Вокал полностью выключен",
+    icon: "🎶",
     stems: {
       vocal: { volume: 0, muted: true },
       instrumental: { volume: 0.85 },
-      drums: { volume: 0.80 },
+      drums: { volume: 0.8 },
       bass: { volume: 0.75 },
-      guitar: { volume: 0.80 },
-      piano: { volume: 0.70 },
+      guitar: { volume: 0.8 },
+      piano: { volume: 0.7 },
       other: { volume: 0.65 },
     },
     masterVolume: 0.9,
   },
   {
-    id: 'drums_focus',
-    name: 'Акцент на ударных',
-    description: 'Ударные и бас на переднем плане',
-    icon: '🥁',
+    id: "drums_focus",
+    name: "Акцент на ударных",
+    description: "Ударные и бас на переднем плане",
+    icon: "🥁",
     stems: {
-      vocal: { volume: 0.50 },
+      vocal: { volume: 0.5 },
       instrumental: { volume: 0.55 },
       drums: {
         volume: 1.0,
@@ -110,34 +110,34 @@ export const MIX_PRESETS: MixPreset[] = [
         },
       },
       bass: {
-        volume: 0.90,
+        volume: 0.9,
         effects: {
           eq: { lowGain: 4, midGain: 0, highGain: -2, lowFreq: 100, highFreq: 2000 },
         },
       },
-      guitar: { volume: 0.50 },
+      guitar: { volume: 0.5 },
       piano: { volume: 0.45 },
-      other: { volume: 0.40 },
+      other: { volume: 0.4 },
     },
     masterVolume: 0.85,
   },
   {
-    id: 'lo_fi',
-    name: 'Lo-Fi',
-    description: 'Тёплое ретро звучание',
-    icon: '📻',
+    id: "lo_fi",
+    name: "Lo-Fi",
+    description: "Тёплое ретро звучание",
+    icon: "📻",
     stems: {
       vocal: {
-        volume: 0.70,
+        volume: 0.7,
         effects: {
           eq: { lowGain: 2, midGain: -1, highGain: -4, lowFreq: 400, highFreq: 4000 },
-          filter: { type: 'lowpass', cutoff: 8000, resonance: 1, enabled: true },
+          filter: { type: "lowpass", cutoff: 8000, resonance: 1, enabled: true },
         },
       },
       instrumental: {
         volume: 0.75,
         effects: {
-          filter: { type: 'lowpass', cutoff: 10000, resonance: 0.7, enabled: true },
+          filter: { type: "lowpass", cutoff: 10000, resonance: 0.7, enabled: true },
         },
       },
       drums: {
@@ -146,18 +146,18 @@ export const MIX_PRESETS: MixPreset[] = [
           compressor: { threshold: -15, ratio: 6, attack: 0.01, release: 0.3, knee: 20, enabled: true },
         },
       },
-      bass: { volume: 0.70 },
+      bass: { volume: 0.7 },
       guitar: { volume: 0.65 },
-      piano: { volume: 0.60 },
+      piano: { volume: 0.6 },
       other: { volume: 0.55 },
     },
     masterVolume: 0.8,
   },
   {
-    id: 'club',
-    name: 'Клубный',
-    description: 'Громкий бас и чёткие ударные',
-    icon: '🔊',
+    id: "club",
+    name: "Клубный",
+    description: "Громкий бас и чёткие ударные",
+    icon: "🔊",
     stems: {
       vocal: {
         volume: 0.75,
@@ -165,7 +165,7 @@ export const MIX_PRESETS: MixPreset[] = [
           compressor: { threshold: -12, ratio: 5, attack: 0.002, release: 0.15, knee: 15, enabled: true },
         },
       },
-      instrumental: { volume: 0.70 },
+      instrumental: { volume: 0.7 },
       drums: {
         volume: 0.95,
         effects: {
@@ -178,20 +178,20 @@ export const MIX_PRESETS: MixPreset[] = [
           eq: { lowGain: 6, midGain: -2, highGain: -3, lowFreq: 80, highFreq: 1500 },
         },
       },
-      guitar: { volume: 0.60 },
+      guitar: { volume: 0.6 },
       piano: { volume: 0.55 },
-      other: { volume: 0.50 },
+      other: { volume: 0.5 },
     },
     masterVolume: 0.95,
   },
   {
-    id: 'ambient',
-    name: 'Атмосферный',
-    description: 'Мягкое звучание с реверберацией',
-    icon: '🌌',
+    id: "ambient",
+    name: "Атмосферный",
+    description: "Мягкое звучание с реверберацией",
+    icon: "🌌",
     stems: {
       vocal: {
-        volume: 0.60,
+        volume: 0.6,
         effects: {
           reverb: { wetDry: 0.4, decay: 2.5, enabled: true },
           delay: { time: 350, feedback: 0.25, mix: 0.2, sync: false, enabled: true },
@@ -203,10 +203,10 @@ export const MIX_PRESETS: MixPreset[] = [
           reverb: { wetDry: 0.35, decay: 2.0, enabled: true },
         },
       },
-      drums: { volume: 0.50 },
+      drums: { volume: 0.5 },
       bass: { volume: 0.55 },
       guitar: {
-        volume: 0.60,
+        volume: 0.6,
         effects: {
           delay: { time: 500, feedback: 0.35, mix: 0.3, sync: false, enabled: true },
         },
@@ -217,7 +217,7 @@ export const MIX_PRESETS: MixPreset[] = [
           reverb: { wetDry: 0.45, decay: 3.0, enabled: true },
         },
       },
-      other: { volume: 0.50 },
+      other: { volume: 0.5 },
     },
     masterVolume: 0.75,
   },
@@ -227,39 +227,36 @@ export const MIX_PRESETS: MixPreset[] = [
  * Get preset by ID
  */
 export function getMixPreset(presetId: string): MixPreset | undefined {
-  return MIX_PRESETS.find(p => p.id === presetId);
+  return MIX_PRESETS.find((p) => p.id === presetId);
 }
 
 /**
  * Get settings for a specific stem type from a preset
  */
-export function getPresetStemSettings(
-  preset: MixPreset,
-  stemType: string
-): StemMixSettings {
+export function getPresetStemSettings(preset: MixPreset, stemType: string): StemMixSettings {
   // Try direct match
   if (preset.stems[stemType]) {
     return preset.stems[stemType];
   }
-  
+
   // Fallback mappings
   const fallbackMap: Record<string, string[]> = {
-    'main': ['instrumental', 'other'],
-    'stem': ['other'],
-    'sfx': ['other'],
-    'keys': ['piano'],
-    'synth': ['piano', 'other'],
-    'strings': ['other'],
-    'brass': ['other'],
+    main: ["instrumental", "other"],
+    stem: ["other"],
+    sfx: ["other"],
+    keys: ["piano"],
+    synth: ["piano", "other"],
+    strings: ["other"],
+    brass: ["other"],
   };
-  
-  const fallbacks = fallbackMap[stemType] || ['other'];
+
+  const fallbacks = fallbackMap[stemType] || ["other"];
   for (const fb of fallbacks) {
     if (preset.stems[fb]) {
       return preset.stems[fb];
     }
   }
-  
+
   // Default
   return { volume: 0.7 };
 }

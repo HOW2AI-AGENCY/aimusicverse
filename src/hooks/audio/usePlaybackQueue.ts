@@ -1,10 +1,10 @@
 /**
  * Playback Queue Hook
- * 
+ *
  * Comprehensive queue management system for the music player.
  * Provides high-level operations for queue manipulation, mode control,
  * and state persistence.
- * 
+ *
  * Features:
  * - Add/remove/reorder tracks with smart index management
  * - Shuffle and repeat mode control with queue transformation
@@ -12,21 +12,21 @@
  * - Queue restoration on app restart
  * - Jump to specific track functionality
  * - Batch operations for multiple tracks
- * 
+ *
  * @module usePlaybackQueue
  */
 
-import { useCallback, useEffect } from 'react';
-import { usePlayerStore } from './usePlayerState';
-import { shuffleQueue } from '@/lib/player-utils';
-import type { Track } from '@/types/track';
-import { logger } from '@/lib/logger';
+import { useCallback, useEffect } from "react";
+import { usePlayerStore } from "./usePlayerState";
+import { shuffleQueue } from "@/lib/player-utils";
+import type { Track } from "@/types/track";
+import { logger } from "@/lib/logger";
 
-const log = logger.child({ module: 'PlaybackQueue' });
+const log = logger.child({ module: "PlaybackQueue" });
 
 // Storage keys for queue persistence
-const QUEUE_STORAGE_KEY = 'musicverse-playback-queue';
-const QUEUE_STATE_STORAGE_KEY = 'musicverse-queue-state';
+const QUEUE_STORAGE_KEY = "musicverse-playback-queue";
+const QUEUE_STATE_STORAGE_KEY = "musicverse-queue-state";
 
 /**
  * Hook for managing playback queue
@@ -64,7 +64,7 @@ export function usePlaybackQueue() {
         addToQueue(track);
       }
     },
-    [queue, addToQueue]
+    [queue, addToQueue],
   );
 
   /**
@@ -74,7 +74,7 @@ export function usePlaybackQueue() {
     (track: Track) => {
       playNextAction(track);
     },
-    [playNextAction]
+    [playNextAction],
   );
 
   /**
@@ -97,50 +97,53 @@ export function usePlaybackQueue() {
         usePlayerStore.setState({ queue: newQueue });
       }
     },
-    [queue]
+    [queue],
   );
 
   /**
    * Replace entire queue with new tracks
    */
-  const setQueue = useCallback((tracks: Track[], startIndex: number = 0) => {
-    if (tracks.length === 0) {
-      clearQueue();
-      return;
-    }
+  const setQueue = useCallback(
+    (tracks: Track[], startIndex: number = 0) => {
+      if (tracks.length === 0) {
+        clearQueue();
+        return;
+      }
 
-    const safeIndex = Math.max(0, Math.min(startIndex, tracks.length - 1));
-    usePlayerStore.setState({
-      queue: tracks,
-      activeTrack: tracks[safeIndex],
-      currentIndex: safeIndex,
-      isPlaying: true,
-      playerMode: 'compact', // Auto-open player when setting queue
-    });
-  }, [clearQueue]);
+      const safeIndex = Math.max(0, Math.min(startIndex, tracks.length - 1));
+      usePlayerStore.setState({
+        queue: tracks,
+        activeTrack: tracks[safeIndex],
+        currentIndex: safeIndex,
+        isPlaying: true,
+        playerMode: "compact", // Auto-open player when setting queue
+      });
+    },
+    [clearQueue],
+  );
 
   /**
    * Play all tracks starting from a specific index
    * Useful for "Play All from Here" functionality in playlists/library
-   * 
+   *
    * @param tracks - Full array of tracks
    * @param startIndex - Index to start playing from
    */
   const playFromIndex = useCallback((tracks: Track[], startIndex: number = 0) => {
     if (tracks.length === 0) return;
-    
+
     const safeIndex = Math.max(0, Math.min(startIndex, tracks.length - 1));
-    
+
     // Set queue with all tracks, starting from the specified index
     usePlayerStore.setState({
       queue: tracks,
       activeTrack: tracks[safeIndex],
       currentIndex: safeIndex,
       isPlaying: true,
-      playerMode: 'compact',
+      playerMode: "compact",
     });
-    
-    log.info('Playing from index', { startIndex: safeIndex, totalTracks: tracks.length });
+
+    log.info("Playing from index", { startIndex: safeIndex, totalTracks: tracks.length });
   }, []);
 
   /**
@@ -150,7 +153,7 @@ export function usePlaybackQueue() {
     (index: number) => {
       removeFromQueue(index);
     },
-    [removeFromQueue]
+    [removeFromQueue],
   );
 
   /**
@@ -167,7 +170,7 @@ export function usePlaybackQueue() {
     (fromIndex: number, toIndex: number) => {
       reorderQueue(fromIndex, toIndex);
     },
-    [reorderQueue]
+    [reorderQueue],
   );
 
   /**
@@ -175,7 +178,7 @@ export function usePlaybackQueue() {
    */
   const toggleShuffleMode = useCallback(() => {
     const newShuffleState = !shuffle;
-    
+
     if (newShuffleState) {
       // Shuffle the queue, keeping current track at the beginning
       const shuffled = shuffleQueue(queue, currentIndex);
@@ -211,15 +214,15 @@ export function usePlaybackQueue() {
         isPlaying: true,
       });
     },
-    [queue]
+    [queue],
   );
 
   /**
    * Save queue to localStorage
-   * 
+   *
    * Persists both the queue data and state (index, modes) separately
    * for better error recovery and data integrity.
-   * 
+   *
    * Error handling: Fails silently (logs error) to not disrupt user experience
    * Common errors: QuotaExceededError (storage full), SecurityError (private mode)
    */
@@ -227,30 +230,33 @@ export function usePlaybackQueue() {
     try {
       // Save queue tracks (can be large)
       localStorage.setItem(QUEUE_STORAGE_KEY, JSON.stringify(queue));
-      
+
       // Save queue state separately (small, critical data)
-      localStorage.setItem(QUEUE_STATE_STORAGE_KEY, JSON.stringify({
-        currentIndex,
-        shuffle,
-        repeat,
-      }));
+      localStorage.setItem(
+        QUEUE_STATE_STORAGE_KEY,
+        JSON.stringify({
+          currentIndex,
+          shuffle,
+          repeat,
+        }),
+      );
     } catch (error) {
       // Log but don't throw - storage issues shouldn't break playback
-      log.error('Failed to save queue to storage', { error });
-      
+      log.error("Failed to save queue to storage", { error });
+
       // If quota exceeded, try clearing old data
-      if (error instanceof Error && error.name === 'QuotaExceededError') {
-        log.warn('Storage quota exceeded - queue persistence disabled');
+      if (error instanceof Error && error.name === "QuotaExceededError") {
+        log.warn("Storage quota exceeded - queue persistence disabled");
       }
     }
   }, [queue, currentIndex, shuffle, repeat]);
 
   /**
    * Restore queue from localStorage
-   * 
+   *
    * Attempts to restore previously saved queue on app initialization.
    * Validates data integrity before restoring state.
-   * 
+   *
    * Safety features:
    * - Type validation for parsed data
    * - Bounds checking for currentIndex
@@ -267,18 +273,18 @@ export function usePlaybackQueue() {
 
         // Strict validation of restored data
         if (
-          Array.isArray(queue) && 
+          Array.isArray(queue) &&
           queue.length > 0 &&
-          queue.every(track => track && typeof track === 'object' && track.id) &&
+          queue.every((track) => track && typeof track === "object" && track.id) &&
           state &&
-          typeof state === 'object' &&
-          typeof state.currentIndex === 'number' &&
-          typeof state.shuffle === 'boolean' &&
-          ['off', 'all', 'one'].includes(state.repeat)
+          typeof state === "object" &&
+          typeof state.currentIndex === "number" &&
+          typeof state.shuffle === "boolean" &&
+          ["off", "all", "one"].includes(state.repeat)
         ) {
           // Ensure currentIndex is within valid range
           const safeIndex = Math.max(0, Math.min(state.currentIndex, queue.length - 1));
-          
+
           // Restore player state
           usePlayerStore.setState({
             queue,
@@ -287,25 +293,25 @@ export function usePlaybackQueue() {
             repeat: state.repeat,
             activeTrack: queue[safeIndex],
           });
-          
-          log.info('Restored queue', { trackCount: queue.length });
+
+          log.info("Restored queue", { trackCount: queue.length });
         } else {
-          log.warn('Invalid queue data in storage, ignoring');
+          log.warn("Invalid queue data in storage, ignoring");
         }
       }
     } catch (error) {
       // Parse or validation error - start with clean state
-      log.error('Failed to restore queue from storage', { error });
-      log.info('Starting with empty queue');
+      log.error("Failed to restore queue from storage", { error });
+      log.info("Starting with empty queue");
     }
   }, []);
 
   /**
    * Auto-save effect - persists queue on changes
-   * 
+   *
    * Debounced through React's render cycle - only saves after state settles.
    * Only saves if queue has content to avoid storing empty state.
-   * 
+   *
    * Note: saveQueueToStorage is stable (wrapped in useCallback with stable deps),
    * but we inline the logic here to avoid any potential re-run issues.
    */
@@ -313,13 +319,16 @@ export function usePlaybackQueue() {
     if (queue.length > 0) {
       try {
         localStorage.setItem(QUEUE_STORAGE_KEY, JSON.stringify(queue));
-        localStorage.setItem(QUEUE_STATE_STORAGE_KEY, JSON.stringify({
-          currentIndex,
-          shuffle,
-          repeat,
-        }));
+        localStorage.setItem(
+          QUEUE_STATE_STORAGE_KEY,
+          JSON.stringify({
+            currentIndex,
+            shuffle,
+            repeat,
+          }),
+        );
       } catch (error) {
-        log.error('Failed to save queue to storage', { error });
+        log.error("Failed to save queue to storage", { error });
       }
     }
   }, [queue, currentIndex, shuffle, repeat]);
@@ -331,7 +340,7 @@ export function usePlaybackQueue() {
     shuffle,
     repeat,
     queueLength: queue.length,
-    
+
     // Queue operations
     addTrack,
     addTracks,
@@ -342,11 +351,11 @@ export function usePlaybackQueue() {
     clear,
     reorder,
     jumpToTrack,
-    
+
     // Playback modes
     toggleShuffle: toggleShuffleMode,
     toggleRepeat: toggleRepeatMode,
-    
+
     // Persistence
     saveQueue: saveQueueToStorage,
     restoreQueue: restoreQueueFromStorage,

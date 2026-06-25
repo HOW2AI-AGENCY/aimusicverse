@@ -1,26 +1,15 @@
 /**
  * User Statistics Section for Settings page
- * 
+ *
  * Displays user's generation statistics
  */
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Skeleton } from '@/components/ui/skeleton';
-import { useUserGenerationStats } from '@/hooks/useUserGenerationStats';
-import { 
-  Activity, 
-  Music, 
-  Mic, 
-  Guitar, 
-  TrendingUp, 
-  Scissors, 
-  Layers, 
-  Coins,
-  CheckCircle,
-  Calendar
-} from 'lucide-react';
-import { motion } from '@/lib/motion';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useUserGenerationStats } from "@/hooks/useUserGenerationStats";
+import { Activity, Music, Mic, Guitar, TrendingUp, Scissors, Layers, Coins, CheckCircle, Calendar } from "lucide-react";
+import { motion } from "@/lib/motion";
 
 export function UserStatsSection() {
   const { data: stats, isLoading } = useUserGenerationStats();
@@ -36,7 +25,7 @@ export function UserStatsSection() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-2 gap-3">
-            {[1, 2, 3, 4].map(i => (
+            {[1, 2, 3, 4].map((i) => (
               <Skeleton key={i} className="h-16 rounded-lg" />
             ))}
           </div>
@@ -53,20 +42,14 @@ export function UserStatsSection() {
             <Activity className="w-5 h-5" />
             Статистика генераций
           </CardTitle>
-          <CardDescription>
-            Здесь будет отображаться ваша статистика после первых генераций
-          </CardDescription>
+          <CardDescription>Здесь будет отображаться ваша статистика после первых генераций</CardDescription>
         </CardHeader>
       </Card>
     );
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="space-y-3"
-    >
+    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
       {/* Today Stats - compact */}
       <Card>
         <CardHeader className="pb-2 px-3 pt-3">
@@ -95,9 +78,8 @@ export function UserStatsSection() {
             <div className="p-2 rounded-lg bg-muted/50 text-center">
               <TrendingUp className="w-3.5 h-3.5 mx-auto text-blue-500" />
               <div className="text-base font-bold">
-                {stats.today.generations > 0 
-                  ? Math.round((stats.today.successful / stats.today.generations) * 100)
-                  : 0}%
+                {stats.today.generations > 0 ? Math.round((stats.today.successful / stats.today.generations) * 100) : 0}
+                %
               </div>
               <div className="text-[9px] text-muted-foreground">%</div>
             </div>
@@ -186,7 +168,7 @@ export function UserStatsSection() {
           </CardHeader>
           <CardContent className="px-3 pb-3">
             <div className="space-y-1">
-              {stats.recentDays.slice(0, 5).map(day => (
+              {stats.recentDays.slice(0, 5).map((day) => (
                 <div key={day.date} className="flex items-center justify-between p-1.5 rounded-lg bg-muted/30">
                   <span className="text-xs font-medium">{day.date}</span>
                   <div className="flex items-center gap-1">

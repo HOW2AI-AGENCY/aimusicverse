@@ -14457,13 +14457,7 @@
       "optimization_plan_2026_usestemmixer",
       "optimization_plan_2026_usestemplayback"
     ],
-    "477": [
-      "package",
-      "package_name",
-      "package_size_limit",
-      "package_type",
-      "package_version"
-    ],
+    "477": ["package", "package_name", "package_size_limit", "package_type", "package_version"],
     "478": [
       "scripts_wait_for_dev_server",
       "scripts_wait_for_dev_server_intervalms",
@@ -14732,48 +14726,23 @@
       "track_menu_sharetostorybutton_sharetostorybuttonprops",
       "track_menu_sharetostorybutton_track"
     ],
-    "521": [
-      "types_lamejs_d",
-      "types_lamejs_d_mp3encoder",
-      "types_lamejs_d_wavheader",
-      "types_lamejs_d_wavheaderdata"
-    ],
+    "521": ["types_lamejs_d", "types_lamejs_d_mp3encoder", "types_lamejs_d_wavheader", "types_lamejs_d_wavheaderdata"],
     "522": [
       "ui_ux_improvements_completed_generatehub_tsx",
       "ui_ux_improvements_completed_index_tsx",
       "ui_ux_improvements_completed_promode_tsx",
       "ui_ux_improvements_completed_simplemode_tsx"
     ],
-    "523": [
-      "001uiuxaudit_auditsummary_en",
-      "001uiuxaudit_auditsummary_ru",
-      "001uiuxaudit_readme"
-    ],
-    "524": [
-      "agents_graphify",
-      "docs_templates_footer_template",
-      "docs_templates_header_template"
-    ],
-    "525": [
-      "ai_lyrics_edit_index",
-      "ai_lyrics_edit_index_corsheaders",
-      "ai_lyrics_edit_index_system_prompts"
-    ],
-    "526": [
-      "analyze_audio_index",
-      "analyze_audio_index_corsheaders",
-      "analyze_audio_index_logger"
-    ],
+    "523": ["001uiuxaudit_auditsummary_en", "001uiuxaudit_auditsummary_ru", "001uiuxaudit_readme"],
+    "524": ["agents_graphify", "docs_templates_footer_template", "docs_templates_header_template"],
+    "525": ["ai_lyrics_edit_index", "ai_lyrics_edit_index_corsheaders", "ai_lyrics_edit_index_system_prompts"],
+    "526": ["analyze_audio_index", "analyze_audio_index_corsheaders", "analyze_audio_index_logger"],
     "527": [
       "analyze_music_emotion_index",
       "analyze_music_emotion_index_corsheaders",
       "analyze_music_emotion_index_emotionresult"
     ],
-    "528": [
-      "bug_fixes_bottomnavigation_tsx",
-      "bug_fixes_compactplayer_tsx",
-      "bug_fixes_main_tsx"
-    ],
+    "528": ["bug_fixes_bottomnavigation_tsx", "bug_fixes_compactplayer_tsx", "bug_fixes_main_tsx"],
     "529": [
       "componentconsolidationmatrix_mobilestudio",
       "componentconsolidationmatrix_mobilestudiolayout",
@@ -14789,56 +14758,32 @@
       "contracts_virtualizedtracklist_contract_virtualizedtracklistcomponent",
       "contracts_virtualizedtracklist_contract_virtualizedtracklistprops"
     ],
-    "532": [
-      "creative_tools_melodymixer",
-      "creative_tools_styleknob",
-      "creative_tools_usemelodymixer"
-    ],
+    "532": ["creative_tools_melodymixer", "creative_tools_styleknob", "creative_tools_usemelodymixer"],
     "533": [
       "critical_fixes_telegram_integration_create_stars_invoice_index_ts",
       "critical_fixes_telegram_integration_rate_limiter_ts",
       "critical_fixes_telegram_integration_stars_webhook_index_ts"
     ],
-    "534": [
-      "d_musicverse_aimusicverse_husky_husky_sh__entry",
-      "husky",
-      "husky_debug"
-    ],
+    "534": ["d_musicverse_aimusicverse_husky_husky_sh__entry", "husky", "husky_debug"],
     "535": [
       "e2e_browser_compatibility_spec",
       "e2e_browser_compatibility_spec_testclass",
       "e2e_browser_compatibility_spec_testclass_constructor"
     ],
-    "536": [
-      "e2e_hints_a11y_spec",
-      "e2e_hints_a11y_spec_gohome",
-      "e2e_hints_a11y_spec_showhint"
-    ],
-    "537": [
-      "e2e_hints_orientation_spec",
-      "e2e_hints_orientation_spec_boot",
-      "e2e_hints_orientation_spec_show"
-    ],
+    "536": ["e2e_hints_a11y_spec", "e2e_hints_a11y_spec_gohome", "e2e_hints_a11y_spec_showhint"],
+    "537": ["e2e_hints_orientation_spec", "e2e_hints_orientation_spec_boot", "e2e_hints_orientation_spec_show"],
     "538": [
       "e2e_hints_reduced_motion_spec",
       "e2e_hints_reduced_motion_spec_gohome",
       "e2e_hints_reduced_motion_spec_prime"
     ],
-    "539": [
-      "e2e_hints_spec",
-      "e2e_hints_spec_gotohomewithhints",
-      "e2e_hints_spec_resethints"
-    ],
+    "539": ["e2e_hints_spec", "e2e_hints_spec_gotohomewithhints", "e2e_hints_spec_resethints"],
     "540": [
       "e2e_hints_telegram_safe_area_spec",
       "e2e_hints_telegram_safe_area_spec_boot",
       "e2e_hints_telegram_safe_area_spec_show"
     ],
-    "541": [
-      "e2e_player_compact_spec",
-      "e2e_player_compact_spec_mountplayer",
-      "e2e_player_compact_spec_sample_track"
-    ],
+    "541": ["e2e_player_compact_spec", "e2e_player_compact_spec_mountplayer", "e2e_player_compact_spec_sample_track"],
     "542": [
       "e2e_social_features_spec",
       "e2e_social_features_spec_generatetestuser",
@@ -14859,66 +14804,30 @@
       "fixes_summary_suno_music_callback_index",
       "fixes_summary_suno_music_extend_index"
     ],
-    "546": [
-      "hooks_usetablet",
-      "hooks_usetablet_useistablet",
-      "hooks_usetablet_useresponsive"
-    ],
+    "546": ["hooks_usetablet", "hooks_usetablet_useistablet", "hooks_usetablet_useresponsive"],
     "547": [
       "integration_social_hooks_test",
       "integration_social_hooks_test_createwrapper",
       "integration_social_hooks_test_socialtestcomponent"
     ],
-    "548": [
-      "kilocode_package",
-      "kilocode_package_dependencies",
-      "kilocode_package_dependencies_kilocode_plugin"
-    ],
+    "548": ["kilocode_package", "kilocode_package_dependencies", "kilocode_package_dependencies_kilocode_plugin"],
     "549": [
       "lib_a11y_usereducedmotionconfig",
       "src_lib_a11y_ts_lib_a11y",
       "src_lib_a11y_ts_lib_a11y_useprefersreducedmotion"
     ],
-    "550": [
-      "library_page",
-      "trackcard_component",
-      "trackrow_component"
-    ],
-    "551": [
-      "mocks_logger",
-      "mocks_logger_createlogger",
-      "mocks_logger_logger"
-    ],
-    "552": [
-      "player_architecture",
-      "player_readme",
-      "player_troubleshooting"
-    ],
-    "553": [
-      "public_waveform_worker",
-      "public_waveform_worker_generatepeaks",
-      "public_waveform_worker_normalizepeaks"
-    ],
-    "554": [
-      "recognize_lyrics_index",
-      "recognize_lyrics_index_corsheaders",
-      "recognize_lyrics_index_lyricsrequest"
-    ],
+    "550": ["library_page", "trackcard_component", "trackrow_component"],
+    "551": ["mocks_logger", "mocks_logger_createlogger", "mocks_logger_logger"],
+    "552": ["player_architecture", "player_readme", "player_troubleshooting"],
+    "553": ["public_waveform_worker", "public_waveform_worker_generatepeaks", "public_waveform_worker_normalizepeaks"],
+    "554": ["recognize_lyrics_index", "recognize_lyrics_index_corsheaders", "recognize_lyrics_index_lyricsrequest"],
     "555": [
       "set_music_profile_index",
       "set_music_profile_index_corsheaders",
       "set_music_profile_index_setmusicprofilerequest"
     ],
-    "556": [
-      "specs_001_ui_ux_audit_plan",
-      "specs_001_ui_ux_audit_research",
-      "specs_001_ui_ux_audit_tasks"
-    ],
-    "557": [
-      "sprint_026_execution_presetbrowser",
-      "sprint_026_execution_presetcard",
-      "sprint_026_execution_us_026_002"
-    ],
+    "556": ["specs_001_ui_ux_audit_plan", "specs_001_ui_ux_audit_research", "specs_001_ui_ux_audit_tasks"],
+    "557": ["sprint_026_execution_presetbrowser", "sprint_026_execution_presetcard", "sprint_026_execution_us_026_002"],
     "558": [
       "sprint_readiness_assessment_usetrackchangelog_tsx",
       "sprint_readiness_assessment_usetrackstems_tsx",
@@ -14979,21 +14888,13 @@
       "stem_studio_remixdialog_remixdialogprops",
       "supabase_types_tables"
     ],
-    "570": [
-      "storybook_preview",
-      "storybook_preview_preview",
-      "storybook_preview_queryclient"
-    ],
+    "570": ["storybook_preview", "storybook_preview_preview", "storybook_preview_queryclient"],
     "571": [
       "studio_mixer_optimization_spec",
       "studio_mixer_optimization_spec_getmixerrendercounts",
       "studio_mixer_optimization_spec_measurevolumechangefps"
     ],
-    "572": [
-      "telegram_bot_features",
-      "telegram_bot_implementation",
-      "telegram_bot_integration_complete"
-    ],
+    "572": ["telegram_bot_features", "telegram_bot_implementation", "telegram_bot_integration_complete"],
     "573": [
       "telegram_integration_audit_2025-12-09_admindashboard",
       "telegram_integration_audit_2025-12-09_generationlogspanel",
@@ -15004,1205 +14905,398 @@
       "telegram_integration_audit_2025-12-09_legal_commands",
       "telegram_integration_audit_2025-12-09_telegram_bot"
     ],
-    "575": [
-      "types_telegram_d",
-      "types_telegram_d_telegramwebapp",
-      "types_telegram_d_window"
-    ],
-    "576": [
-      "user_scenarios_flow1",
-      "user_scenarios_flow2",
-      "user_scenarios_flow3"
-    ],
-    "577": [
-      "ai_blog_assistant_index",
-      "ai_blog_assistant_index_corsheaders"
-    ],
-    "578": [
-      "analysis_and_recommendations_summary",
-      "professional_studio_enhancement_guide_en"
-    ],
-    "579": [
-      "browser_tests_summary",
-      "playwright_config"
-    ],
-    "580": [
-      "bug_fixes_response_utils_ts",
-      "immediate_improvements_checklist_logger_ts"
-    ],
-    "581": [
-      "componentconsolidationmatrix_mobilefullscreenplayer",
-      "componentconsolidationmatrix_mobileplayer"
-    ],
-    "582": [
-      "correct_text_index",
-      "correct_text_index_corsheaders"
-    ],
-    "583": [
-      "creative_tools_guitartabeditor",
-      "creative_tools_use_tab_editor"
-    ],
-    "584": [
-      "creative_tools_realtimechordvisualizer",
-      "creative_tools_userealtimechorddetection"
-    ],
+    "575": ["types_telegram_d", "types_telegram_d_telegramwebapp", "types_telegram_d_window"],
+    "576": ["user_scenarios_flow1", "user_scenarios_flow2", "user_scenarios_flow3"],
+    "577": ["ai_blog_assistant_index", "ai_blog_assistant_index_corsheaders"],
+    "578": ["analysis_and_recommendations_summary", "professional_studio_enhancement_guide_en"],
+    "579": ["browser_tests_summary", "playwright_config"],
+    "580": ["bug_fixes_response_utils_ts", "immediate_improvements_checklist_logger_ts"],
+    "581": ["componentconsolidationmatrix_mobilefullscreenplayer", "componentconsolidationmatrix_mobileplayer"],
+    "582": ["correct_text_index", "correct_text_index_corsheaders"],
+    "583": ["creative_tools_guitartabeditor", "creative_tools_use_tab_editor"],
+    "584": ["creative_tools_realtimechordvisualizer", "creative_tools_userealtimechorddetection"],
     "585": [
       "critical_fixes_telegram_integration_telegram_auth_index_ts",
       "telegram_integration_audit_telegram_auth_ts"
     ],
-    "586": [
-      "d_musicverse_aimusicverse_specify_scripts_check_bundle_size_sh__entry",
-      "scripts_check_bundle_size"
-    ],
-    "587": [
-      "e2e_hints_contrast_spec",
-      "e2e_hints_contrast_spec_gohome"
-    ],
-    "588": [
-      "e2e_home_navigation_spec",
-      "e2e_home_navigation_spec_expected_order"
-    ],
-    "589": [
-      "e2e_home_quickstart_responsive_spec",
-      "e2e_home_quickstart_responsive_spec_widths"
-    ],
-    "590": [
-      "e2e_layout_adaptive_spec",
-      "e2e_layout_adaptive_spec_goto"
-    ],
-    "591": [
-      "e2e_layout_bottomnav_overlap_spec",
-      "e2e_layout_bottomnav_overlap_spec_viewports"
-    ],
-    "592": [
-      "generate_playlist_cover_index",
-      "generate_playlist_cover_index_corsheaders"
-    ],
-    "593": [
-      "generate_sfx_index",
-      "generate_sfx_index_corsheaders"
-    ],
-    "594": [
-      "get_timestamped_lyrics_index",
-      "get_timestamped_lyrics_index_corsheaders"
-    ],
-    "595": [
-      "guitar_recording_klang_integration",
-      "klang_io_integration"
-    ],
-    "596": [
-      "hooks_use_social_interactions_test",
-      "hooks_use_social_interactions_test_createwrapper"
-    ],
-    "597": [
-      "jest_config",
-      "jest_config_config"
-    ],
-    "598": [
-      "known_issues_audio_waveform",
-      "known_issues_waveform_height_inconsistency"
-    ],
-    "599": [
-      "known_issues_copy_delete_buttons",
-      "mobile_components_mobileformfield"
-    ],
-    "600": [
-      "known_issues_design_token_inconsistency",
-      "layout_system"
-    ],
-    "601": [
-      "known_issues_generation_form_bulky",
-      "mobile_components_mobilelyricseditor"
-    ],
-    "602": [
-      "known_issues_tooltips_mobile",
-      "mobile_components_mobileheaderbar"
-    ],
-    "603": [
-      "lib_bpmdetection_test",
-      "lib_bpmdetection_test_mockaudiocontext"
-    ],
-    "604": [
-      "lib_sanitizefilename",
-      "lib_sanitizefilename_sanitizefilename"
-    ],
-    "605": [
-      "musicgen_generate_index",
-      "musicgen_generate_index_corsheaders"
-    ],
-    "606": [
-      "optimization_plan_2026_errorboundary",
-      "optimization_plan_2026_errors"
-    ],
-    "607": [
-      "optimization_plan_2026_lyricsvalidation",
-      "optimization_plan_2026_lyricswizardstore"
-    ],
-    "608": [
-      "optimization_plan_2026_stemchannel",
-      "optimization_plan_2026_trackcard"
-    ],
-    "609": [
-      "optimization_plan_2026_usewaveform_hook",
-      "optimization_plan_2026_waveformgenerator_worker"
-    ],
-    "610": [
-      "player_system_audit_usestemaudiosync",
-      "player_system_audit_usestemcontrols"
-    ],
-    "611": [
-      "plugins_graphify",
-      "plugins_graphify_graphifyplugin"
-    ],
-    "612": [
-      "powershell_generate_data_model",
-      "powershell_generate_data_model_convertto_snakecase"
-    ],
-    "613": [
-      "progress",
-      "project_management"
-    ],
-    "614": [
-      "queueitem_component",
-      "queuesheet_component"
-    ],
+    "586": ["d_musicverse_aimusicverse_specify_scripts_check_bundle_size_sh__entry", "scripts_check_bundle_size"],
+    "587": ["e2e_hints_contrast_spec", "e2e_hints_contrast_spec_gohome"],
+    "588": ["e2e_home_navigation_spec", "e2e_home_navigation_spec_expected_order"],
+    "589": ["e2e_home_quickstart_responsive_spec", "e2e_home_quickstart_responsive_spec_widths"],
+    "590": ["e2e_layout_adaptive_spec", "e2e_layout_adaptive_spec_goto"],
+    "591": ["e2e_layout_bottomnav_overlap_spec", "e2e_layout_bottomnav_overlap_spec_viewports"],
+    "592": ["generate_playlist_cover_index", "generate_playlist_cover_index_corsheaders"],
+    "593": ["generate_sfx_index", "generate_sfx_index_corsheaders"],
+    "594": ["get_timestamped_lyrics_index", "get_timestamped_lyrics_index_corsheaders"],
+    "595": ["guitar_recording_klang_integration", "klang_io_integration"],
+    "596": ["hooks_use_social_interactions_test", "hooks_use_social_interactions_test_createwrapper"],
+    "597": ["jest_config", "jest_config_config"],
+    "598": ["known_issues_audio_waveform", "known_issues_waveform_height_inconsistency"],
+    "599": ["known_issues_copy_delete_buttons", "mobile_components_mobileformfield"],
+    "600": ["known_issues_design_token_inconsistency", "layout_system"],
+    "601": ["known_issues_generation_form_bulky", "mobile_components_mobilelyricseditor"],
+    "602": ["known_issues_tooltips_mobile", "mobile_components_mobileheaderbar"],
+    "603": ["lib_bpmdetection_test", "lib_bpmdetection_test_mockaudiocontext"],
+    "604": ["lib_sanitizefilename", "lib_sanitizefilename_sanitizefilename"],
+    "605": ["musicgen_generate_index", "musicgen_generate_index_corsheaders"],
+    "606": ["optimization_plan_2026_errorboundary", "optimization_plan_2026_errors"],
+    "607": ["optimization_plan_2026_lyricsvalidation", "optimization_plan_2026_lyricswizardstore"],
+    "608": ["optimization_plan_2026_stemchannel", "optimization_plan_2026_trackcard"],
+    "609": ["optimization_plan_2026_usewaveform_hook", "optimization_plan_2026_waveformgenerator_worker"],
+    "610": ["player_system_audit_usestemaudiosync", "player_system_audit_usestemcontrols"],
+    "611": ["plugins_graphify", "plugins_graphify_graphifyplugin"],
+    "612": ["powershell_generate_data_model", "powershell_generate_data_model_convertto_snakecase"],
+    "613": ["progress", "project_management"],
+    "614": ["queueitem_component", "queuesheet_component"],
     "615": [
       "recent_fixes_2025_12_10_audio_player_no_sound_fix",
       "\u0438\u0441\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435_\u0437\u0432\u0443\u043a\u0430_\u043f\u043b\u0435\u0435\u0440\u0430_2025_12_10"
     ],
-    "616": [
-      "recent_improvements_2025_12_10",
-      "stem_studio_phase1_summary"
-    ],
-    "617": [
-      "repository_audit_2025_12_10",
-      "repository_audit_summary_2025_12_10"
-    ],
-    "618": [
-      "specs_031_mobile_studio_v2_api_contracts",
-      "specs_031_mobile_studio_v2_checklist_requirements"
-    ],
-    "619": [
-      "speech_to_text_index",
-      "speech_to_text_index_corsheaders"
-    ],
+    "616": ["recent_improvements_2025_12_10", "stem_studio_phase1_summary"],
+    "617": ["repository_audit_2025_12_10", "repository_audit_summary_2025_12_10"],
+    "618": ["specs_031_mobile_studio_v2_api_contracts", "specs_031_mobile_studio_v2_checklist_requirements"],
+    "619": ["speech_to_text_index", "speech_to_text_index_corsheaders"],
     "620": [
       "sprint_008_status_update_library_generatingtrackskeleton",
       "sprint_008_status_update_library_swipeabletrackitem"
     ],
-    "621": [
-      "sprint_008_status_update_library_minimaltrackcard",
-      "sprint_008_status_update_library_optimizedtrackcard"
-    ],
-    "622": [
-      "sprint_011_completion_report",
-      "sprint_011_remaining_tasks"
-    ],
-    "623": [
-      "sprint_028_new_components",
-      "sprint_028_ui_ux_optimization"
-    ],
-    "624": [
-      "sprint_execution_summary_cdn_ts",
-      "sprint_execution_summary_storage_ts"
-    ],
-    "625": [
-      "sprint_execution_summary_sprint_002_test_plan_md",
-      "sprint_execution_summary_validate_sprint_002_ts"
-    ],
-    "626": [
-      "sprints_readme",
-      "sprints_sprint_progress"
-    ],
-    "627": [
-      "storybook_main",
-      "storybook_main_config"
-    ],
-    "628": [
-      "studio_unified_studio_spec",
-      "studio_unified_studio_spec_waitforappready"
-    ],
-    "629": [
-      "tailwind_config",
-      "tailwind_config_shadows"
-    ],
-    "630": [
-      "telegram_bot_enhancement_summary",
-      "telegram_stars_implementation_complete"
-    ],
+    "621": ["sprint_008_status_update_library_minimaltrackcard", "sprint_008_status_update_library_optimizedtrackcard"],
+    "622": ["sprint_011_completion_report", "sprint_011_remaining_tasks"],
+    "623": ["sprint_028_new_components", "sprint_028_ui_ux_optimization"],
+    "624": ["sprint_execution_summary_cdn_ts", "sprint_execution_summary_storage_ts"],
+    "625": ["sprint_execution_summary_sprint_002_test_plan_md", "sprint_execution_summary_validate_sprint_002_ts"],
+    "626": ["sprints_readme", "sprints_sprint_progress"],
+    "627": ["storybook_main", "storybook_main_config"],
+    "628": ["studio_unified_studio_spec", "studio_unified_studio_spec_waitforappready"],
+    "629": ["tailwind_config", "tailwind_config_shadows"],
+    "630": ["telegram_bot_enhancement_summary", "telegram_stars_implementation_complete"],
     "631": [
       "telegram_integration_improvement_plan_send_telegram_notification_templates_ts",
       "telegram_integration_improvement_plan_telegram_bridge_ts"
     ],
-    "632": [
-      "unified_studio_analysis_and_plan",
-      "unified_studio_completion_report"
-    ],
-    "633": [
-      "unified_unifiedstudiomobile_test",
-      "unified_unifiedstudiomobile_test_createwrapper"
-    ],
-    "634": [
-      "ux_audit_01_user_flows",
-      "ux_audit_02_component_audit"
-    ],
-    "635": [
-      "versionbadge_component",
-      "versionswitcher_component"
-    ],
-    "636": [
-      "versioning_telegram_audit_usetrackversions_tsx",
-      "versioning_telegram_audit_versioning_ts"
-    ],
-    "637": [
-      "vite_config",
-      "vite_config_reactpriorityplugin"
-    ],
-    "638": [
-      "adr_adr_template"
-    ],
-    "639": [
-      "archive_january_2026_readme"
-    ],
-    "640": [
-      "archive_readme"
-    ],
-    "641": [
-      "audio_architecture_analysis_ru"
-    ],
-    "642": [
-      "audio_system_improvements_2025_12_09_versioncomparison"
-    ],
-    "643": [
-      "audit_2025_12_12"
-    ],
-    "644": [
-      "audit_architecture_naming_2025_12_04"
-    ],
-    "645": [
-      "audit_complete_2025_12_03"
-    ],
-    "646": [
-      "audit_completion_summary_ru"
-    ],
-    "647": [
-      "audit_navigation_2025_12_09"
-    ],
-    "648": [
-      "audit_optimization_2025_12_11"
-    ],
-    "649": [
-      "audit_summary_2025_12_02"
-    ],
-    "650": [
-      "audit_summary_ru_2025_12_03"
-    ],
-    "651": [
-      "audit_summary_ru_2025_12_04"
-    ],
-    "652": [
-      "audit_visual_summary_2025_12_09"
-    ],
+    "632": ["unified_studio_analysis_and_plan", "unified_studio_completion_report"],
+    "633": ["unified_unifiedstudiomobile_test", "unified_unifiedstudiomobile_test_createwrapper"],
+    "634": ["ux_audit_01_user_flows", "ux_audit_02_component_audit"],
+    "635": ["versionbadge_component", "versionswitcher_component"],
+    "636": ["versioning_telegram_audit_usetrackversions_tsx", "versioning_telegram_audit_versioning_ts"],
+    "637": ["vite_config", "vite_config_reactpriorityplugin"],
+    "638": ["adr_adr_template"],
+    "639": ["archive_january_2026_readme"],
+    "640": ["archive_readme"],
+    "641": ["audio_architecture_analysis_ru"],
+    "642": ["audio_system_improvements_2025_12_09_versioncomparison"],
+    "643": ["audit_2025_12_12"],
+    "644": ["audit_architecture_naming_2025_12_04"],
+    "645": ["audit_complete_2025_12_03"],
+    "646": ["audit_completion_summary_ru"],
+    "647": ["audit_navigation_2025_12_09"],
+    "648": ["audit_optimization_2025_12_11"],
+    "649": ["audit_summary_2025_12_02"],
+    "650": ["audit_summary_ru_2025_12_03"],
+    "651": ["audit_summary_ru_2025_12_04"],
+    "652": ["audit_visual_summary_2025_12_09"],
     "653": [
       "audits_\u043f\u043e\u043b\u043d\u044b\u0439_\u0430\u043d\u0430\u043b\u0438\u0437_\u043b\u043e\u0433\u0438\u043a\u0438_\u0438_\u0438\u043d\u0442\u0435\u0440\u0444\u0435\u0439\u0441\u0430"
     ],
-    "654": [
-      "babel_config"
-    ],
-    "655": [
-      "black_screen_fix_summary_ru_2025_12_09"
-    ],
-    "656": [
-      "bug_report_template"
-    ],
-    "657": [
-      "bugfix_summary"
-    ],
-    "658": [
-      "changelog"
-    ],
-    "659": [
-      "chunk16_files"
-    ],
-    "660": [
-      "chunk17_files"
-    ],
-    "661": [
-      "chunk18_files"
-    ],
-    "662": [
-      "chunk19_files"
-    ],
-    "663": [
-      "chunk20_files"
-    ],
-    "664": [
-      "chunk21_files"
-    ],
-    "665": [
-      "chunk22_files"
-    ],
-    "666": [
-      "chunk_info"
-    ],
-    "667": [
-      "claude"
-    ],
-    "668": [
-      "claude_agents_codebase_analyzer"
-    ],
-    "669": [
-      "claude_agents_github_repo_auditor"
-    ],
-    "670": [
-      "claude_agents_spec_driven_developer"
-    ],
-    "671": [
-      "claude_agents_ux_ui_mobile_designer"
-    ],
-    "672": [
-      "claude_code_review_workflow"
-    ],
-    "673": [
-      "claude_code_workflow"
-    ],
-    "674": [
-      "claude_commands_speckit_analyze"
-    ],
-    "675": [
-      "claude_commands_speckit_checklist"
-    ],
-    "676": [
-      "claude_commands_speckit_clarify"
-    ],
-    "677": [
-      "claude_commands_speckit_constitution"
-    ],
-    "678": [
-      "claude_commands_speckit_implement"
-    ],
-    "679": [
-      "claude_commands_speckit_plan"
-    ],
-    "680": [
-      "claude_commands_speckit_specify"
-    ],
-    "681": [
-      "claude_commands_speckit_tasks"
-    ],
-    "682": [
-      "claude_commands_speckit_taskstoissues"
-    ],
-    "683": [
-      "code_of_conduct"
-    ],
-    "684": [
-      "componentconsolidationmatrix_mobileactionbar"
-    ],
-    "685": [
-      "componentconsolidationmatrix_mobilemastervolume"
-    ],
-    "686": [
-      "componentconsolidationmatrix_mobilesectiontimeline"
-    ],
-    "687": [
-      "componentconsolidationmatrix_mobilestemcard"
-    ],
-    "688": [
-      "componentconsolidationmatrix_mobilestemeffects"
-    ],
-    "689": [
-      "componentconsolidationmatrix_mobilestemmixer"
-    ],
-    "690": [
-      "componentconsolidationmatrix_mobiletabbar"
-    ],
-    "691": [
-      "componentconsolidationmatrix_mobileversionbadge"
-    ],
-    "692": [
-      "componentconsolidationmatrix_sectioneditormobile"
-    ],
-    "693": [
-      "componentconsolidationmatrix_stemsmobilepanel"
-    ],
-    "694": [
-      "comprehensive_application_audit_2025_12_03"
-    ],
-    "695": [
-      "comprehensive_improvement_plan_2025_12_09"
-    ],
-    "696": [
-      "console_log_cleanup_tracker"
-    ],
-    "697": [
-      "contributing"
-    ],
-    "698": [
-      "critical_fixes_telegram_integration_logger_ts"
-    ],
-    "699": [
-      "data_model"
-    ],
-    "700": [
-      "database_tag_relationships"
-    ],
-    "701": [
-      "docs_archive"
-    ],
-    "702": [
-      "docs_audio_architecture_diagram"
-    ],
-    "703": [
-      "docs_audio_upload_flow"
-    ],
-    "704": [
-      "docs_audit_system"
-    ],
-    "705": [
-      "docs_contextual_hints_system"
-    ],
-    "706": [
-      "docs_critical_files"
-    ],
-    "707": [
-      "docs_demo_mode"
-    ],
-    "708": [
-      "documentation_improvements_summary"
-    ],
-    "709": [
-      "documentation_index"
-    ],
-    "710": [
-      "documentation_template"
-    ],
-    "711": [
-      "e2e_ai_assistant_spec"
-    ],
-    "712": [
-      "e2e_auth_spec"
-    ],
-    "713": [
-      "e2e_cdn_spec"
-    ],
-    "714": [
-      "e2e_generation_spec"
-    ],
-    "715": [
-      "e2e_hints_workflow"
-    ],
-    "716": [
-      "e2e_homepage_spec"
-    ],
-    "717": [
-      "e2e_library_spec"
-    ],
-    "718": [
-      "e2e_navigation_spec"
-    ],
-    "719": [
-      "e2e_player_spec"
-    ],
-    "720": [
-      "e2e_storage_spec"
-    ],
-    "721": [
-      "eslint_config"
-    ],
-    "722": [
-      "feature_request_template"
-    ],
-    "723": [
-      "fix_summary"
-    ],
-    "724": [
-      "fix_summary_crash_2025_12_10"
-    ],
-    "725": [
-      "github_agents_api_agent"
-    ],
-    "726": [
-      "github_agents_backend_agent"
-    ],
-    "727": [
-      "github_agents_copilot_instructions"
-    ],
-    "728": [
-      "github_agents_speckit_analyze_agent"
-    ],
-    "729": [
-      "github_pull_request_template"
-    ],
-    "730": [
-      "hooks_use_player_controls_test"
-    ],
-    "731": [
-      "hooks_use_realtime_track_updates_test"
-    ],
-    "732": [
-      "hooks_use_track_actions_test"
-    ],
-    "733": [
-      "hooks_use_track_data_test"
-    ],
-    "734": [
-      "hooks_use_track_version_switcher_test"
-    ],
-    "735": [
-      "images_readme"
-    ],
-    "736": [
-      "implementation_complete"
-    ],
-    "737": [
-      "implementation_summary_t023_t027"
-    ],
-    "738": [
-      "implementation_summary_t028_t032"
-    ],
-    "739": [
-      "index"
-    ],
-    "740": [
-      "integration_starspayment_test"
-    ],
-    "741": [
-      "interface_audit_complete"
-    ],
-    "742": [
-      "klang_io_musictranscriptionapi"
-    ],
-    "743": [
-      "knowledge_base"
-    ],
-    "744": [
-      "known_issues_audio_context_multiple_instances"
-    ],
-    "745": [
-      "known_issues_ios_safari_audio_autoplay"
-    ],
-    "746": [
-      "known_issues_long_track_names_truncation"
-    ],
-    "747": [
-      "known_issues_midi_transcription_model_errors"
-    ],
-    "748": [
-      "known_issues_realtime_subscription_memory_leak"
-    ],
-    "749": [
-      "known_issues_russian_text_overflow_mobile"
-    ],
-    "750": [
-      "known_issues_telegram_desktop_limited_api"
-    ],
-    "751": [
-      "known_issues_telegram_mini_app_black_screen"
-    ],
-    "752": [
-      "known_issues_touch_targets_too_small"
-    ],
-    "753": [
-      "known_issues_tracked"
-    ],
-    "754": [
-      "known_issues_waveform_black_color"
-    ],
-    "755": [
-      "known_issues_waveform_regeneration"
-    ],
-    "756": [
-      "lib_beatsnap_test"
-    ],
-    "757": [
-      "lighthouse_ci_workflow"
-    ],
-    "758": [
-      "lovable_plan"
-    ],
-    "759": [
-      "maintenance"
-    ],
-    "760": [
-      "mobile_components_minimalprojecttrackitem"
-    ],
-    "761": [
-      "mobile_components_mobilelistitem"
-    ],
-    "762": [
-      "mobile_components_mobilenumberinput"
-    ],
-    "763": [
-      "mobile_components_mobilesearchbar"
-    ],
-    "764": [
-      "mobile_components_mobilesectioncard"
-    ],
-    "765": [
-      "mobile_components_mobileselect"
-    ],
-    "766": [
-      "mobile_components_mobileslidepanel"
-    ],
-    "767": [
-      "mobile_components_mobileslider"
-    ],
-    "768": [
-      "mobile_components_mobiletextarea"
-    ],
-    "769": [
-      "mobile_components_projects_page"
-    ],
-    "770": [
-      "mobile_components_unifiedprojectcard"
-    ],
-    "771": [
-      "mobile_optimization_roadmap_2026"
-    ],
-    "772": [
-      "mobile_readme"
-    ],
-    "773": [
-      "mobile_track_card_gestures_spec"
-    ],
-    "774": [
-      "mobile_utils_lib"
-    ],
-    "775": [
-      "mobile_visual_architecture"
-    ],
-    "776": [
-      "musicverse_description"
-    ],
-    "777": [
-      "onboarding"
-    ],
-    "778": [
-      "optimization_plan_2026_audiomanager"
-    ],
-    "779": [
-      "optimization_plan_2026_bottomnav"
-    ],
-    "780": [
-      "optimization_plan_2026_bottomsheet"
-    ],
-    "781": [
-      "optimization_plan_2026_collapsible"
-    ],
-    "782": [
-      "optimization_plan_2026_platform"
-    ],
-    "783": [
-      "optimization_plan_2026_uselongpress"
-    ],
-    "784": [
-      "optimization_plan_2026_usepulltorefresh"
-    ],
-    "785": [
-      "optimization_plan_2026_useswipegestures"
-    ],
-    "786": [
-      "performance_monitoring_workflow"
-    ],
-    "787": [
-      "performance_template"
-    ],
-    "788": [
-      "plan"
-    ],
-    "789": [
-      "player_fixes_summary_ru"
-    ],
-    "790": [
-      "player_fixes_summary_ru_audioindex_exports"
-    ],
-    "791": [
-      "player_fixes_summary_ru_ensureaudioroutedtodestination"
-    ],
-    "792": [
-      "player_fixes_summary_ru_getaudiosystemdiagnostics"
-    ],
-    "793": [
-      "player_fixes_summary_ru_logger_usage"
-    ],
-    "794": [
-      "player_fixes_summary_ru_logger_usage_audiocache"
-    ],
-    "795": [
-      "player_fixes_summary_ru_logger_usage_track"
-    ],
-    "796": [
-      "player_no_sound_fix_documentation"
-    ],
-    "797": [
-      "postcss_config"
-    ],
-    "798": [
-      "powershell_check_prerequisites"
-    ],
-    "799": [
-      "powershell_generate_contracts"
-    ],
-    "800": [
-      "powershell_generate_quickstart"
-    ],
-    "801": [
-      "powershell_generate_research"
-    ],
-    "802": [
-      "powershell_generate_tasks"
-    ],
-    "803": [
-      "powershell_migrate_existing_specs"
-    ],
-    "804": [
-      "powershell_run_planning_workflow"
-    ],
-    "805": [
-      "powershell_setup_plan"
-    ],
-    "806": [
-      "powershell_speckit"
-    ],
-    "807": [
-      "powershell_validate_constitution"
-    ],
-    "808": [
-      "powershell_validate_specs"
-    ],
-    "809": [
-      "project_audit"
-    ],
-    "810": [
-      "project_improvements_summary"
-    ],
-    "811": [
-      "project_status"
-    ],
-    "812": [
-      "public_images_bot_help"
-    ],
-    "813": [
-      "public_images_bot_library"
-    ],
-    "814": [
-      "public_images_bot_main_menu"
-    ],
-    "815": [
-      "public_images_bot_profile"
-    ],
-    "816": [
-      "public_images_bot_projects"
-    ],
-    "817": [
-      "public_images_bot_settings"
-    ],
-    "818": [
-      "public_images_bot_shop"
-    ],
-    "819": [
-      "public_placeholder_svg"
-    ],
-    "820": [
-      "public_robots_txt"
-    ],
-    "821": [
-      "quality_check_workflow"
-    ],
-    "822": [
-      "quickstart"
-    ],
-    "823": [
-      "requirements"
-    ],
-    "824": [
-      "requirements_quality_specification_quality_checklist"
-    ],
-    "825": [
-      "research"
-    ],
-    "826": [
-      "roo_commands_speckit_analyze"
-    ],
-    "827": [
-      "roo_commands_speckit_checklist"
-    ],
-    "828": [
-      "roo_commands_speckit_clarify"
-    ],
-    "829": [
-      "roo_commands_speckit_constitution"
-    ],
-    "830": [
-      "roo_commands_speckit_implement"
-    ],
-    "831": [
-      "roo_commands_speckit_plan"
-    ],
-    "832": [
-      "roo_commands_speckit_specify"
-    ],
-    "833": [
-      "roo_commands_speckit_tasks"
-    ],
-    "834": [
-      "roo_commands_speckit_taskstoissues"
-    ],
-    "835": [
-      "ru_readme"
-    ],
-    "836": [
-      "session_report_2026_01_04_backlog_md"
-    ],
-    "837": [
-      "session_report_2026_01_04_known_issues_tracked_md"
-    ],
-    "838": [
-      "shared_ai_prompts"
-    ],
-    "839": [
-      "spec"
-    ],
-    "840": [
-      "specify_templates_agent_file_template"
-    ],
-    "841": [
-      "specify_templates_checklist_template"
-    ],
-    "842": [
-      "specify_templates_plan_template"
-    ],
-    "843": [
-      "specify_templates_spec_template"
-    ],
-    "844": [
-      "specify_templates_spec_template_api"
-    ],
-    "845": [
-      "specify_templates_tasks_template"
-    ],
-    "846": [
-      "speckit_analyze_prompt"
-    ],
-    "847": [
-      "speckit_analyze_workflow"
-    ],
-    "848": [
-      "speckit_checklist_agent"
-    ],
-    "849": [
-      "speckit_checklist_prompt"
-    ],
-    "850": [
-      "speckit_checklist_workflow"
-    ],
-    "851": [
-      "speckit_clarify_agent"
-    ],
-    "852": [
-      "speckit_clarify_prompt"
-    ],
-    "853": [
-      "speckit_clarify_workflow"
-    ],
-    "854": [
-      "speckit_constitution_agent"
-    ],
-    "855": [
-      "speckit_constitution_prompt"
-    ],
-    "856": [
-      "speckit_constitution_workflow"
-    ],
-    "857": [
-      "speckit_implement_agent"
-    ],
-    "858": [
-      "speckit_implement_prompt"
-    ],
-    "859": [
-      "speckit_implement_workflow"
-    ],
-    "860": [
-      "speckit_plan_agent"
-    ],
-    "861": [
-      "speckit_plan_prompt"
-    ],
-    "862": [
-      "speckit_plan_workflow"
-    ],
-    "863": [
-      "speckit_specify_agent"
-    ],
-    "864": [
-      "speckit_specify_prompt"
-    ],
-    "865": [
-      "speckit_specify_workflow"
-    ],
-    "866": [
-      "speckit_tasks_agent"
-    ],
-    "867": [
-      "speckit_tasks_prompt"
-    ],
-    "868": [
-      "speckit_tasks_workflow"
-    ],
-    "869": [
-      "speckit_taskstoissues_agent"
-    ],
-    "870": [
-      "speckit_taskstoissues_prompt"
-    ],
-    "871": [
-      "speckit_taskstoissues_workflow"
-    ],
-    "872": [
-      "sprint007_task_list"
-    ],
-    "873": [
-      "sprint008_task_list"
-    ],
-    "874": [
-      "sprint009_task_list"
-    ],
-    "875": [
-      "sprint012_audit_improvements"
-    ],
-    "876": [
-      "sprint013_miditranscription"
-    ],
-    "877": [
-      "sprint027_ai_lyrics_tools"
-    ],
-    "878": [
-      "sprint029_telegram_mobile_optimization"
-    ],
-    "879": [
-      "sprint_008_status_update_player_compactplayer"
-    ],
-    "880": [
-      "sprint_008_status_update_player_mobilefullscreenplayer"
-    ],
-    "881": [
-      "sprint_008_status_update_player_playerstore"
-    ],
-    "882": [
-      "sprint_008_status_update_player_playertransitions"
-    ],
-    "883": [
-      "sprint_008_status_update_player_timestampedlyrics"
-    ],
-    "884": [
-      "sprint_010_and_013_final_closure"
-    ],
-    "885": [
-      "sprint_010_completion_documentation_blogsection"
-    ],
-    "886": [
-      "sprint_010_completion_documentation_communitynewtrackssection"
-    ],
-    "887": [
-      "sprint_010_completion_documentation_filterbar"
-    ],
-    "888": [
-      "sprint_010_completion_documentation_graphpreview"
-    ],
-    "889": [
-      "sprint_010_completion_documentation_herquickactions"
-    ],
-    "890": [
-      "sprint_010_completion_documentation_homeskeleton"
-    ],
-    "891": [
-      "sprint_010_completion_documentation_homeskeletonenhanced"
-    ],
-    "892": [
-      "sprint_010_completion_documentation_professionaltoolshub"
-    ],
-    "893": [
-      "sprint_010_completion_documentation_publicartistssection"
-    ],
-    "894": [
-      "sprint_010_completion_documentation_recenttrackssection"
-    ],
-    "895": [
-      "sprint_010_completion_documentation_unifieddiscoverysection"
-    ],
-    "896": [
-      "sprint_010_completion_documentation_welcomesection"
-    ],
-    "897": [
-      "sprint_010_completion_report"
-    ],
-    "898": [
-      "sprint_010_status_update_2025_12_12"
-    ],
-    "899": [
-      "sprint_011_accurate_status_2025_12_13"
-    ],
-    "900": [
-      "sprint_011_continuation_plan_2025_12_13"
-    ],
-    "901": [
-      "sprint_011_continuation_report_2025_12_13"
-    ],
-    "902": [
-      "sprint_011_execution_status"
-    ],
-    "903": [
-      "sprint_011_final_summary_2025_12_13"
-    ],
-    "904": [
-      "sprint_011_implementation_complete"
-    ],
-    "905": [
-      "sprint_011_implementation_guide"
-    ],
-    "906": [
-      "sprint_025_execution"
-    ],
-    "907": [
-      "sprint_025_final_report"
-    ],
-    "908": [
-      "sprint_025_status"
-    ],
-    "909": [
-      "sprint_026_execution_us_026_004"
-    ],
-    "910": [
-      "sprint_026_final_report"
-    ],
-    "911": [
-      "sprint_027_audit"
-    ],
-    "912": [
-      "sprint_027_implementation_guide"
-    ],
-    "913": [
-      "sprint_028_completion_report"
-    ],
-    "914": [
-      "sprint_completion_report_2025_12_12"
-    ],
-    "915": [
-      "sprint_completion_summary"
-    ],
-    "916": [
-      "sprint_management_specification_quality_checklist"
-    ],
-    "917": [
-      "sprint_planning_work_summary_2025_12_12"
-    ],
-    "918": [
-      "src_components_track_variants_index_ts_variants_index"
-    ],
-    "919": [
-      "src_vite_env_d"
-    ],
-    "920": [
-      "stores_unified_store_test"
-    ],
-    "921": [
-      "studio_userafthrottle_test"
-    ],
-    "922": [
-      "tasks"
-    ],
-    "923": [
-      "tech_debt_closure_2025_12_10"
-    ],
-    "924": [
-      "telegram_bot_testing_guide"
-    ],
-    "925": [
-      "telegram_integration"
-    ],
-    "926": [
-      "telegram_integration_audit_2025-12-09_notfound"
-    ],
-    "927": [
-      "telegram_integration_audit_2025-12-09_telegramcontext"
-    ],
-    "928": [
-      "telegram_integration_audit_telegram_bot_commands_check_task_ts"
-    ],
-    "929": [
-      "telegram_integration_audit_telegram_bot_commands_library_ts"
-    ],
-    "930": [
-      "telegram_integration_audit_telegram_bot_commands_projects_ts"
-    ],
-    "931": [
-      "telegram_integration_audit_telegram_bot_commands_status_ts"
-    ],
-    "932": [
-      "telegram_integration_audit_telegram_bot_core_services_music_ts"
-    ],
-    "933": [
-      "telegram_integration_audit_telegram_bot_handlers_media_ts"
-    ],
-    "934": [
-      "telegram_integration_audit_telegram_bot_keyboards"
-    ],
-    "935": [
-      "testing_quality_agent"
-    ],
-    "936": [
-      "testing_results_bug_fix_pr"
-    ],
-    "937": [
-      "tests_vitest_setup"
-    ],
-    "938": [
-      "todo_scanner_workflow"
-    ],
-    "939": [
-      "tracktypeicons_component"
-    ],
-    "940": [
-      "ui_aspect_ratio"
-    ],
-    "941": [
-      "ui_ux_audit_generatewizard"
-    ],
-    "942": [
-      "ui_ux_audit_global_components"
-    ],
-    "943": [
-      "ui_ux_audit_library"
-    ],
-    "944": [
-      "ui_ux_implementation_plan"
-    ],
-    "945": [
-      "unit_idempotency_test"
-    ],
-    "946": [
-      "unit_paymentprocessing_test"
-    ],
-    "947": [
-      "unit_rlspolicies_test"
-    ],
-    "948": [
-      "unit_subscriptionstatus_test"
-    ],
-    "949": [
-      "ux_audit_mobile_studio_design"
-    ],
-    "950": [
-      "versioning_telegram_audit_telegram_share_ts"
-    ],
-    "951": [
-      "vitest_config"
-    ],
-    "952": [
-      "vitest_shims_d"
-    ]
+    "654": ["babel_config"],
+    "655": ["black_screen_fix_summary_ru_2025_12_09"],
+    "656": ["bug_report_template"],
+    "657": ["bugfix_summary"],
+    "658": ["changelog"],
+    "659": ["chunk16_files"],
+    "660": ["chunk17_files"],
+    "661": ["chunk18_files"],
+    "662": ["chunk19_files"],
+    "663": ["chunk20_files"],
+    "664": ["chunk21_files"],
+    "665": ["chunk22_files"],
+    "666": ["chunk_info"],
+    "667": ["claude"],
+    "668": ["claude_agents_codebase_analyzer"],
+    "669": ["claude_agents_github_repo_auditor"],
+    "670": ["claude_agents_spec_driven_developer"],
+    "671": ["claude_agents_ux_ui_mobile_designer"],
+    "672": ["claude_code_review_workflow"],
+    "673": ["claude_code_workflow"],
+    "674": ["claude_commands_speckit_analyze"],
+    "675": ["claude_commands_speckit_checklist"],
+    "676": ["claude_commands_speckit_clarify"],
+    "677": ["claude_commands_speckit_constitution"],
+    "678": ["claude_commands_speckit_implement"],
+    "679": ["claude_commands_speckit_plan"],
+    "680": ["claude_commands_speckit_specify"],
+    "681": ["claude_commands_speckit_tasks"],
+    "682": ["claude_commands_speckit_taskstoissues"],
+    "683": ["code_of_conduct"],
+    "684": ["componentconsolidationmatrix_mobileactionbar"],
+    "685": ["componentconsolidationmatrix_mobilemastervolume"],
+    "686": ["componentconsolidationmatrix_mobilesectiontimeline"],
+    "687": ["componentconsolidationmatrix_mobilestemcard"],
+    "688": ["componentconsolidationmatrix_mobilestemeffects"],
+    "689": ["componentconsolidationmatrix_mobilestemmixer"],
+    "690": ["componentconsolidationmatrix_mobiletabbar"],
+    "691": ["componentconsolidationmatrix_mobileversionbadge"],
+    "692": ["componentconsolidationmatrix_sectioneditormobile"],
+    "693": ["componentconsolidationmatrix_stemsmobilepanel"],
+    "694": ["comprehensive_application_audit_2025_12_03"],
+    "695": ["comprehensive_improvement_plan_2025_12_09"],
+    "696": ["console_log_cleanup_tracker"],
+    "697": ["contributing"],
+    "698": ["critical_fixes_telegram_integration_logger_ts"],
+    "699": ["data_model"],
+    "700": ["database_tag_relationships"],
+    "701": ["docs_archive"],
+    "702": ["docs_audio_architecture_diagram"],
+    "703": ["docs_audio_upload_flow"],
+    "704": ["docs_audit_system"],
+    "705": ["docs_contextual_hints_system"],
+    "706": ["docs_critical_files"],
+    "707": ["docs_demo_mode"],
+    "708": ["documentation_improvements_summary"],
+    "709": ["documentation_index"],
+    "710": ["documentation_template"],
+    "711": ["e2e_ai_assistant_spec"],
+    "712": ["e2e_auth_spec"],
+    "713": ["e2e_cdn_spec"],
+    "714": ["e2e_generation_spec"],
+    "715": ["e2e_hints_workflow"],
+    "716": ["e2e_homepage_spec"],
+    "717": ["e2e_library_spec"],
+    "718": ["e2e_navigation_spec"],
+    "719": ["e2e_player_spec"],
+    "720": ["e2e_storage_spec"],
+    "721": ["eslint_config"],
+    "722": ["feature_request_template"],
+    "723": ["fix_summary"],
+    "724": ["fix_summary_crash_2025_12_10"],
+    "725": ["github_agents_api_agent"],
+    "726": ["github_agents_backend_agent"],
+    "727": ["github_agents_copilot_instructions"],
+    "728": ["github_agents_speckit_analyze_agent"],
+    "729": ["github_pull_request_template"],
+    "730": ["hooks_use_player_controls_test"],
+    "731": ["hooks_use_realtime_track_updates_test"],
+    "732": ["hooks_use_track_actions_test"],
+    "733": ["hooks_use_track_data_test"],
+    "734": ["hooks_use_track_version_switcher_test"],
+    "735": ["images_readme"],
+    "736": ["implementation_complete"],
+    "737": ["implementation_summary_t023_t027"],
+    "738": ["implementation_summary_t028_t032"],
+    "739": ["index"],
+    "740": ["integration_starspayment_test"],
+    "741": ["interface_audit_complete"],
+    "742": ["klang_io_musictranscriptionapi"],
+    "743": ["knowledge_base"],
+    "744": ["known_issues_audio_context_multiple_instances"],
+    "745": ["known_issues_ios_safari_audio_autoplay"],
+    "746": ["known_issues_long_track_names_truncation"],
+    "747": ["known_issues_midi_transcription_model_errors"],
+    "748": ["known_issues_realtime_subscription_memory_leak"],
+    "749": ["known_issues_russian_text_overflow_mobile"],
+    "750": ["known_issues_telegram_desktop_limited_api"],
+    "751": ["known_issues_telegram_mini_app_black_screen"],
+    "752": ["known_issues_touch_targets_too_small"],
+    "753": ["known_issues_tracked"],
+    "754": ["known_issues_waveform_black_color"],
+    "755": ["known_issues_waveform_regeneration"],
+    "756": ["lib_beatsnap_test"],
+    "757": ["lighthouse_ci_workflow"],
+    "758": ["lovable_plan"],
+    "759": ["maintenance"],
+    "760": ["mobile_components_minimalprojecttrackitem"],
+    "761": ["mobile_components_mobilelistitem"],
+    "762": ["mobile_components_mobilenumberinput"],
+    "763": ["mobile_components_mobilesearchbar"],
+    "764": ["mobile_components_mobilesectioncard"],
+    "765": ["mobile_components_mobileselect"],
+    "766": ["mobile_components_mobileslidepanel"],
+    "767": ["mobile_components_mobileslider"],
+    "768": ["mobile_components_mobiletextarea"],
+    "769": ["mobile_components_projects_page"],
+    "770": ["mobile_components_unifiedprojectcard"],
+    "771": ["mobile_optimization_roadmap_2026"],
+    "772": ["mobile_readme"],
+    "773": ["mobile_track_card_gestures_spec"],
+    "774": ["mobile_utils_lib"],
+    "775": ["mobile_visual_architecture"],
+    "776": ["musicverse_description"],
+    "777": ["onboarding"],
+    "778": ["optimization_plan_2026_audiomanager"],
+    "779": ["optimization_plan_2026_bottomnav"],
+    "780": ["optimization_plan_2026_bottomsheet"],
+    "781": ["optimization_plan_2026_collapsible"],
+    "782": ["optimization_plan_2026_platform"],
+    "783": ["optimization_plan_2026_uselongpress"],
+    "784": ["optimization_plan_2026_usepulltorefresh"],
+    "785": ["optimization_plan_2026_useswipegestures"],
+    "786": ["performance_monitoring_workflow"],
+    "787": ["performance_template"],
+    "788": ["plan"],
+    "789": ["player_fixes_summary_ru"],
+    "790": ["player_fixes_summary_ru_audioindex_exports"],
+    "791": ["player_fixes_summary_ru_ensureaudioroutedtodestination"],
+    "792": ["player_fixes_summary_ru_getaudiosystemdiagnostics"],
+    "793": ["player_fixes_summary_ru_logger_usage"],
+    "794": ["player_fixes_summary_ru_logger_usage_audiocache"],
+    "795": ["player_fixes_summary_ru_logger_usage_track"],
+    "796": ["player_no_sound_fix_documentation"],
+    "797": ["postcss_config"],
+    "798": ["powershell_check_prerequisites"],
+    "799": ["powershell_generate_contracts"],
+    "800": ["powershell_generate_quickstart"],
+    "801": ["powershell_generate_research"],
+    "802": ["powershell_generate_tasks"],
+    "803": ["powershell_migrate_existing_specs"],
+    "804": ["powershell_run_planning_workflow"],
+    "805": ["powershell_setup_plan"],
+    "806": ["powershell_speckit"],
+    "807": ["powershell_validate_constitution"],
+    "808": ["powershell_validate_specs"],
+    "809": ["project_audit"],
+    "810": ["project_improvements_summary"],
+    "811": ["project_status"],
+    "812": ["public_images_bot_help"],
+    "813": ["public_images_bot_library"],
+    "814": ["public_images_bot_main_menu"],
+    "815": ["public_images_bot_profile"],
+    "816": ["public_images_bot_projects"],
+    "817": ["public_images_bot_settings"],
+    "818": ["public_images_bot_shop"],
+    "819": ["public_placeholder_svg"],
+    "820": ["public_robots_txt"],
+    "821": ["quality_check_workflow"],
+    "822": ["quickstart"],
+    "823": ["requirements"],
+    "824": ["requirements_quality_specification_quality_checklist"],
+    "825": ["research"],
+    "826": ["roo_commands_speckit_analyze"],
+    "827": ["roo_commands_speckit_checklist"],
+    "828": ["roo_commands_speckit_clarify"],
+    "829": ["roo_commands_speckit_constitution"],
+    "830": ["roo_commands_speckit_implement"],
+    "831": ["roo_commands_speckit_plan"],
+    "832": ["roo_commands_speckit_specify"],
+    "833": ["roo_commands_speckit_tasks"],
+    "834": ["roo_commands_speckit_taskstoissues"],
+    "835": ["ru_readme"],
+    "836": ["session_report_2026_01_04_backlog_md"],
+    "837": ["session_report_2026_01_04_known_issues_tracked_md"],
+    "838": ["shared_ai_prompts"],
+    "839": ["spec"],
+    "840": ["specify_templates_agent_file_template"],
+    "841": ["specify_templates_checklist_template"],
+    "842": ["specify_templates_plan_template"],
+    "843": ["specify_templates_spec_template"],
+    "844": ["specify_templates_spec_template_api"],
+    "845": ["specify_templates_tasks_template"],
+    "846": ["speckit_analyze_prompt"],
+    "847": ["speckit_analyze_workflow"],
+    "848": ["speckit_checklist_agent"],
+    "849": ["speckit_checklist_prompt"],
+    "850": ["speckit_checklist_workflow"],
+    "851": ["speckit_clarify_agent"],
+    "852": ["speckit_clarify_prompt"],
+    "853": ["speckit_clarify_workflow"],
+    "854": ["speckit_constitution_agent"],
+    "855": ["speckit_constitution_prompt"],
+    "856": ["speckit_constitution_workflow"],
+    "857": ["speckit_implement_agent"],
+    "858": ["speckit_implement_prompt"],
+    "859": ["speckit_implement_workflow"],
+    "860": ["speckit_plan_agent"],
+    "861": ["speckit_plan_prompt"],
+    "862": ["speckit_plan_workflow"],
+    "863": ["speckit_specify_agent"],
+    "864": ["speckit_specify_prompt"],
+    "865": ["speckit_specify_workflow"],
+    "866": ["speckit_tasks_agent"],
+    "867": ["speckit_tasks_prompt"],
+    "868": ["speckit_tasks_workflow"],
+    "869": ["speckit_taskstoissues_agent"],
+    "870": ["speckit_taskstoissues_prompt"],
+    "871": ["speckit_taskstoissues_workflow"],
+    "872": ["sprint007_task_list"],
+    "873": ["sprint008_task_list"],
+    "874": ["sprint009_task_list"],
+    "875": ["sprint012_audit_improvements"],
+    "876": ["sprint013_miditranscription"],
+    "877": ["sprint027_ai_lyrics_tools"],
+    "878": ["sprint029_telegram_mobile_optimization"],
+    "879": ["sprint_008_status_update_player_compactplayer"],
+    "880": ["sprint_008_status_update_player_mobilefullscreenplayer"],
+    "881": ["sprint_008_status_update_player_playerstore"],
+    "882": ["sprint_008_status_update_player_playertransitions"],
+    "883": ["sprint_008_status_update_player_timestampedlyrics"],
+    "884": ["sprint_010_and_013_final_closure"],
+    "885": ["sprint_010_completion_documentation_blogsection"],
+    "886": ["sprint_010_completion_documentation_communitynewtrackssection"],
+    "887": ["sprint_010_completion_documentation_filterbar"],
+    "888": ["sprint_010_completion_documentation_graphpreview"],
+    "889": ["sprint_010_completion_documentation_herquickactions"],
+    "890": ["sprint_010_completion_documentation_homeskeleton"],
+    "891": ["sprint_010_completion_documentation_homeskeletonenhanced"],
+    "892": ["sprint_010_completion_documentation_professionaltoolshub"],
+    "893": ["sprint_010_completion_documentation_publicartistssection"],
+    "894": ["sprint_010_completion_documentation_recenttrackssection"],
+    "895": ["sprint_010_completion_documentation_unifieddiscoverysection"],
+    "896": ["sprint_010_completion_documentation_welcomesection"],
+    "897": ["sprint_010_completion_report"],
+    "898": ["sprint_010_status_update_2025_12_12"],
+    "899": ["sprint_011_accurate_status_2025_12_13"],
+    "900": ["sprint_011_continuation_plan_2025_12_13"],
+    "901": ["sprint_011_continuation_report_2025_12_13"],
+    "902": ["sprint_011_execution_status"],
+    "903": ["sprint_011_final_summary_2025_12_13"],
+    "904": ["sprint_011_implementation_complete"],
+    "905": ["sprint_011_implementation_guide"],
+    "906": ["sprint_025_execution"],
+    "907": ["sprint_025_final_report"],
+    "908": ["sprint_025_status"],
+    "909": ["sprint_026_execution_us_026_004"],
+    "910": ["sprint_026_final_report"],
+    "911": ["sprint_027_audit"],
+    "912": ["sprint_027_implementation_guide"],
+    "913": ["sprint_028_completion_report"],
+    "914": ["sprint_completion_report_2025_12_12"],
+    "915": ["sprint_completion_summary"],
+    "916": ["sprint_management_specification_quality_checklist"],
+    "917": ["sprint_planning_work_summary_2025_12_12"],
+    "918": ["src_components_track_variants_index_ts_variants_index"],
+    "919": ["src_vite_env_d"],
+    "920": ["stores_unified_store_test"],
+    "921": ["studio_userafthrottle_test"],
+    "922": ["tasks"],
+    "923": ["tech_debt_closure_2025_12_10"],
+    "924": ["telegram_bot_testing_guide"],
+    "925": ["telegram_integration"],
+    "926": ["telegram_integration_audit_2025-12-09_notfound"],
+    "927": ["telegram_integration_audit_2025-12-09_telegramcontext"],
+    "928": ["telegram_integration_audit_telegram_bot_commands_check_task_ts"],
+    "929": ["telegram_integration_audit_telegram_bot_commands_library_ts"],
+    "930": ["telegram_integration_audit_telegram_bot_commands_projects_ts"],
+    "931": ["telegram_integration_audit_telegram_bot_commands_status_ts"],
+    "932": ["telegram_integration_audit_telegram_bot_core_services_music_ts"],
+    "933": ["telegram_integration_audit_telegram_bot_handlers_media_ts"],
+    "934": ["telegram_integration_audit_telegram_bot_keyboards"],
+    "935": ["testing_quality_agent"],
+    "936": ["testing_results_bug_fix_pr"],
+    "937": ["tests_vitest_setup"],
+    "938": ["todo_scanner_workflow"],
+    "939": ["tracktypeicons_component"],
+    "940": ["ui_aspect_ratio"],
+    "941": ["ui_ux_audit_generatewizard"],
+    "942": ["ui_ux_audit_global_components"],
+    "943": ["ui_ux_audit_library"],
+    "944": ["ui_ux_implementation_plan"],
+    "945": ["unit_idempotency_test"],
+    "946": ["unit_paymentprocessing_test"],
+    "947": ["unit_rlspolicies_test"],
+    "948": ["unit_subscriptionstatus_test"],
+    "949": ["ux_audit_mobile_studio_design"],
+    "950": ["versioning_telegram_audit_telegram_share_ts"],
+    "951": ["vitest_config"],
+    "952": ["vitest_shims_d"]
   },
   "cohesion": {
     "0": 0.012746351404377049,
@@ -17215,10 +16309,7 @@
     {
       "source": "Music and Sound Wave Banner Image",
       "target": "Sprint Closure Report January 5, 2026",
-      "source_files": [
-        "src/assets/banner.jpg",
-        "SPRINTS/completed/SPRINT_CLOSURE_REPORT_2026-01-05.md"
-      ],
+      "source_files": ["src/assets/banner.jpg", "SPRINTS/completed/SPRINT_CLOSURE_REPORT_2026-01-05.md"],
       "confidence": "AMBIGUOUS",
       "relation": "conceptually_related_to",
       "why": "ambiguous connection - not explicitly stated in source; crosses file types (doc \u2194 image); connects across different repos/directories; peripheral node `Music and Sound Wave Banner Image` unexpectedly reaches hub `Sprint Closure Report January 5, 2026`"
@@ -17226,10 +16317,7 @@
     {
       "source": "Player System Audit Summary (Russian)",
       "target": "usePlaybackHistory Hook",
-      "source_files": [
-        "docs/archive/2025-12/PLAYER_AUDIT_SUMMARY_RU.md",
-        "src/hooks/audio/usePlaybackHistory.ts"
-      ],
+      "source_files": ["docs/archive/2025-12/PLAYER_AUDIT_SUMMARY_RU.md", "src/hooks/audio/usePlaybackHistory.ts"],
       "confidence": "INFERRED",
       "relation": "conceptually_related_to",
       "why": "inferred connection - not explicitly stated in source; crosses file types (code \u2194 doc); connects across different repos/directories; peripheral node `Player System Audit Summary (Russian)` unexpectedly reaches hub `usePlaybackHistory Hook`"
@@ -17237,10 +16325,7 @@
     {
       "source": "Telegram Integration Executive Summary",
       "target": "Chart of Data Analysis",
-      "source_files": [
-        "docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SUMMARY.md",
-        "public/images/bot/analysis.jpg"
-      ],
+      "source_files": ["docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SUMMARY.md", "public/images/bot/analysis.jpg"],
       "confidence": "INFERRED",
       "relation": "conceptually_related_to",
       "why": "inferred connection - not explicitly stated in source; crosses file types (doc \u2194 image); connects across different repos/directories; peripheral node `Chart of Data Analysis` unexpectedly reaches hub `Telegram Integration Executive Summary`"
@@ -17248,10 +16333,7 @@
     {
       "source": "Telegram Integration Executive Summary",
       "target": "Cloud Storage Concept Image",
-      "source_files": [
-        "docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SUMMARY.md",
-        "public/images/bot/cloud.jpg"
-      ],
+      "source_files": ["docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SUMMARY.md", "public/images/bot/cloud.jpg"],
       "confidence": "INFERRED",
       "relation": "conceptually_related_to",
       "why": "inferred connection - not explicitly stated in source; crosses file types (doc \u2194 image); connects across different repos/directories; peripheral node `Cloud Storage Concept Image` unexpectedly reaches hub `Telegram Integration Executive Summary`"
@@ -17259,10 +16341,7 @@
     {
       "source": "Telegram Integration Executive Summary",
       "target": "Music Generation AI Concept Image",
-      "source_files": [
-        "docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SUMMARY.md",
-        "public/images/bot/generator.jpg"
-      ],
+      "source_files": ["docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SUMMARY.md", "public/images/bot/generator.jpg"],
       "confidence": "INFERRED",
       "relation": "conceptually_related_to",
       "why": "inferred connection - not explicitly stated in source; crosses file types (doc \u2194 image); connects across different repos/directories; peripheral node `Music Generation AI Concept Image` unexpectedly reaches hub `Telegram Integration Executive Summary`"

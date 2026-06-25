@@ -1,39 +1,39 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { getSupabaseClient } from '../_shared/supabase-client.ts';
-import { createLogger } from '../_shared/logger.ts';
-import { corsHeaders } from '../_shared/cors.ts';
+import { getSupabaseClient } from "../_shared/supabase-client.ts";
+import { createLogger } from "../_shared/logger.ts";
+import { corsHeaders } from "../_shared/cors.ts";
 
-const logger = createLogger('ai-lyrics-assistant');
+const logger = createLogger("ai-lyrics-assistant");
 
-type LyricsAction = 
-  | 'generate'                // Full generation with advanced tags
-  | 'improve'                 // Improve text
-  | 'add_tags'                // Add tags
-  | 'suggest_structure'       // Suggest structure
-  | 'generate_section'        // Generate one section
-  | 'continue_line'           // Continue line (collaboration)
-  | 'suggest_rhymes'          // Suggest rhymes
-  | 'analyze_lyrics'          // Analyze existing lyrics
-  | 'optimize_for_suno'       // Optimize for Suno API
-  | 'smart_generate'          // Smart generation with tag recommendations
-  | 'chat'                    // Free chat mode with context
-  | 'context_recommendations' // Get AI recommendations based on context
-  | 'generate_compound_tags'  // Generate compound tags for sections
-  | 'analyze_rhythm'          // Analyze text rhythm and syllables
-  | 'fit_structure'           // Fit lyrics to song structure
-  | 'full_analysis'           // Full comprehensive analysis
-  | 'deep_analysis'           // Deep musicological analysis
-  | 'producer_review'         // Professional producer review
+type LyricsAction =
+  | "generate" // Full generation with advanced tags
+  | "improve" // Improve text
+  | "add_tags" // Add tags
+  | "suggest_structure" // Suggest structure
+  | "generate_section" // Generate one section
+  | "continue_line" // Continue line (collaboration)
+  | "suggest_rhymes" // Suggest rhymes
+  | "analyze_lyrics" // Analyze existing lyrics
+  | "optimize_for_suno" // Optimize for Suno API
+  | "smart_generate" // Smart generation with tag recommendations
+  | "chat" // Free chat mode with context
+  | "context_recommendations" // Get AI recommendations based on context
+  | "generate_compound_tags" // Generate compound tags for sections
+  | "analyze_rhythm" // Analyze text rhythm and syllables
+  | "fit_structure" // Fit lyrics to song structure
+  | "full_analysis" // Full comprehensive analysis
+  | "deep_analysis" // Deep musicological analysis
+  | "producer_review" // Professional producer review
   // Phase 2 actions
-  | 'style_convert'           // Convert lyrics to different style/artist
-  | 'paraphrase'              // Paraphrase with different tone
-  | 'hook_generator'          // Generate catchy hooks
-  | 'vocal_map'               // Generate vocal production map
-  | 'translate_adapt'         // Translate with rhythm preservation
+  | "style_convert" // Convert lyrics to different style/artist
+  | "paraphrase" // Paraphrase with different tone
+  | "hook_generator" // Generate catchy hooks
+  | "vocal_map" // Generate vocal production map
+  | "translate_adapt" // Translate with rhythm preservation
   // Phase 3 - V5 Advanced actions
-  | 'drill_prompt_builder'    // Specialized drill/trap prompt builder
-  | 'epic_prompt_builder'     // Epic/cinematic prompt builder
-  | 'validate_suno_v5';       // Deep V5 syntax validation
+  | "drill_prompt_builder" // Specialized drill/trap prompt builder
+  | "epic_prompt_builder" // Epic/cinematic prompt builder
+  | "validate_suno_v5"; // Deep V5 syntax validation
 
 interface LyricsRequest {
   action: LyricsAction;
@@ -65,284 +65,313 @@ interface LyricsRequest {
   emotionalCues?: string[];
   useAdvancedTags?: boolean;
   // Phase 2 options
-  targetStyle?: string;         // For style_convert: artist/genre to convert to
-  targetTone?: string;          // For paraphrase: desired tone
-  targetLanguage?: string;      // For translate_adapt
-  preserveSyllables?: boolean;  // For translate_adapt
-  variantsCount?: number;       // Number of variants to generate
+  targetStyle?: string; // For style_convert: artist/genre to convert to
+  targetTone?: string; // For paraphrase: desired tone
+  targetLanguage?: string; // For translate_adapt
+  preserveSyllables?: boolean; // For translate_adapt
+  variantsCount?: number; // Number of variants to generate
 }
 
 // Tag templates for different genres and moods
-const GENRE_TAG_PROFILES: Record<string, { vocal: string[], instruments: string[], dynamics: string[], emotions: string[] }> = {
-  'pop': {
-    vocal: ['Female Vocal', 'Smooth', 'Catchy'],
-    instruments: ['Synth', 'Electronic Drums', 'Piano'],
-    dynamics: ['Build', 'Drop'],
-    emotions: ['Uplifting', 'Energetic']
+const GENRE_TAG_PROFILES: Record<
+  string,
+  { vocal: string[]; instruments: string[]; dynamics: string[]; emotions: string[] }
+> = {
+  pop: {
+    vocal: ["Female Vocal", "Smooth", "Catchy"],
+    instruments: ["Synth", "Electronic Drums", "Piano"],
+    dynamics: ["Build", "Drop"],
+    emotions: ["Uplifting", "Energetic"],
   },
-  'rock': {
-    vocal: ['Male Vocal', 'Powerful', 'Raspy'],
-    instruments: ['Electric Guitar', 'Drums', 'Bass'],
-    dynamics: ['Crescendo', 'Breakdown'],
-    emotions: ['Intense', 'Raw']
+  rock: {
+    vocal: ["Male Vocal", "Powerful", "Raspy"],
+    instruments: ["Electric Guitar", "Drums", "Bass"],
+    dynamics: ["Crescendo", "Breakdown"],
+    emotions: ["Intense", "Raw"],
   },
-  'hip-hop': {
-    vocal: ['Male Rap', 'Flow', 'Rhythmic'],
-    instruments: ['808 Bass', 'Hi-Hats', 'Sample'],
-    dynamics: ['Drop', 'Build'],
-    emotions: ['Confident', 'Street']
+  "hip-hop": {
+    vocal: ["Male Rap", "Flow", "Rhythmic"],
+    instruments: ["808 Bass", "Hi-Hats", "Sample"],
+    dynamics: ["Drop", "Build"],
+    emotions: ["Confident", "Street"],
   },
-  'electronic': {
-    vocal: ['Vocoder', 'Processed', 'Ethereal'],
-    instruments: ['Synth Lead', 'Arpeggio', 'Pad'],
-    dynamics: ['Build', 'Drop', 'Filter Sweep'],
-    emotions: ['Hypnotic', 'Futuristic']
+  electronic: {
+    vocal: ["Vocoder", "Processed", "Ethereal"],
+    instruments: ["Synth Lead", "Arpeggio", "Pad"],
+    dynamics: ["Build", "Drop", "Filter Sweep"],
+    emotions: ["Hypnotic", "Futuristic"],
   },
-  'r&b': {
-    vocal: ['Soulful', 'Falsetto', 'Smooth'],
-    instruments: ['Rhodes', 'Smooth Bass', 'Strings'],
-    dynamics: ['Groove', 'Soft Build'],
-    emotions: ['Sensual', 'Intimate']
+  "r&b": {
+    vocal: ["Soulful", "Falsetto", "Smooth"],
+    instruments: ["Rhodes", "Smooth Bass", "Strings"],
+    dynamics: ["Groove", "Soft Build"],
+    emotions: ["Sensual", "Intimate"],
   },
-  'indie': {
-    vocal: ['Airy', 'Intimate', 'Breathy'],
-    instruments: ['Acoustic Guitar', 'Indie Drums', 'Ambient'],
-    dynamics: ['Subtle Build', 'Atmospheric'],
-    emotions: ['Dreamy', 'Nostalgic']
+  indie: {
+    vocal: ["Airy", "Intimate", "Breathy"],
+    instruments: ["Acoustic Guitar", "Indie Drums", "Ambient"],
+    dynamics: ["Subtle Build", "Atmospheric"],
+    emotions: ["Dreamy", "Nostalgic"],
   },
-  'folk': {
-    vocal: ['Natural', 'Storytelling', 'Warm'],
-    instruments: ['Acoustic Guitar', 'Banjo', 'Violin'],
-    dynamics: ['Organic', 'Building'],
-    emotions: ['Earthy', 'Heartfelt']
+  folk: {
+    vocal: ["Natural", "Storytelling", "Warm"],
+    instruments: ["Acoustic Guitar", "Banjo", "Violin"],
+    dynamics: ["Organic", "Building"],
+    emotions: ["Earthy", "Heartfelt"],
   },
-  'jazz': {
-    vocal: ['Smooth', 'Improvised', 'Swing'],
-    instruments: ['Piano', 'Double Bass', 'Saxophone'],
-    dynamics: ['Swing Feel', 'Solo Section'],
-    emotions: ['Cool', 'Sophisticated']
+  jazz: {
+    vocal: ["Smooth", "Improvised", "Swing"],
+    instruments: ["Piano", "Double Bass", "Saxophone"],
+    dynamics: ["Swing Feel", "Solo Section"],
+    emotions: ["Cool", "Sophisticated"],
   },
   // === NEW V5 GENRES ===
-  'drill': {
-    vocal: ['Male Grit Rap', 'Aggressive Delivery', 'Street Flow'],
-    instruments: ['808 Bass', 'Rapid Hi-Hats', 'Drill Glockenspiel', 'Dark Synth'],
-    dynamics: ['Drop', 'Build', 'Heavy Distortion'],
-    emotions: ['Menacing', 'Street', 'Confident']
+  drill: {
+    vocal: ["Male Grit Rap", "Aggressive Delivery", "Street Flow"],
+    instruments: ["808 Bass", "Rapid Hi-Hats", "Drill Glockenspiel", "Dark Synth"],
+    dynamics: ["Drop", "Build", "Heavy Distortion"],
+    emotions: ["Menacing", "Street", "Confident"],
   },
-  'uk-drill': {
-    vocal: ['Male Rap', 'UK Flow', 'Gritty', 'Aggressive'],
-    instruments: ['808 Slides', 'Trap Snare', '140 BPM', 'Dark Piano', 'Drill Glockenspiel'],
-    dynamics: ['Explosive Drop', 'Heavy Distortion', 'Build'],
-    emotions: ['Dark', 'Street', 'Aggressive', 'Menacing']
+  "uk-drill": {
+    vocal: ["Male Rap", "UK Flow", "Gritty", "Aggressive"],
+    instruments: ["808 Slides", "Trap Snare", "140 BPM", "Dark Piano", "Drill Glockenspiel"],
+    dynamics: ["Explosive Drop", "Heavy Distortion", "Build"],
+    emotions: ["Dark", "Street", "Aggressive", "Menacing"],
   },
-  'trap': {
-    vocal: ['Autotune Rap', 'Melodic Flow', 'Ad-libs'],
-    instruments: ['808 Bass', 'Hi-Hat Rolls', 'Synth Lead', 'Trap Snare'],
-    dynamics: ['Drop', 'Build', 'Filter Sweep'],
-    emotions: ['Flexing', 'Confident', 'Hypnotic']
+  trap: {
+    vocal: ["Autotune Rap", "Melodic Flow", "Ad-libs"],
+    instruments: ["808 Bass", "Hi-Hat Rolls", "Synth Lead", "Trap Snare"],
+    dynamics: ["Drop", "Build", "Filter Sweep"],
+    emotions: ["Flexing", "Confident", "Hypnotic"],
   },
-  'phonk': {
-    vocal: ['Deep Voice', 'Chopped Samples', 'Memphis Flow'],
-    instruments: ['Cowbell', '808 Bass', 'Memphis Sample', 'Distorted Synth'],
-    dynamics: ['Heavy Bass Drop', 'Distortion'],
-    emotions: ['Dark', 'Aggressive', 'Underground']
+  phonk: {
+    vocal: ["Deep Voice", "Chopped Samples", "Memphis Flow"],
+    instruments: ["Cowbell", "808 Bass", "Memphis Sample", "Distorted Synth"],
+    dynamics: ["Heavy Bass Drop", "Distortion"],
+    emotions: ["Dark", "Aggressive", "Underground"],
   },
-  'cyberpunk': {
-    vocal: ['Vocoder', 'Distorted', 'Robotic', 'Ethereal'],
-    instruments: ['Dark Synth', 'Glitch', 'Industrial Bass', 'Arpeggio'],
-    dynamics: ['Build', 'Breakdown', 'Filter Sweep', 'Explosive'],
-    emotions: ['Dystopian', 'Futuristic', 'Menacing', 'Epic']
+  cyberpunk: {
+    vocal: ["Vocoder", "Distorted", "Robotic", "Ethereal"],
+    instruments: ["Dark Synth", "Glitch", "Industrial Bass", "Arpeggio"],
+    dynamics: ["Build", "Breakdown", "Filter Sweep", "Explosive"],
+    emotions: ["Dystopian", "Futuristic", "Menacing", "Epic"],
   },
-  'latin': {
-    vocal: ['Spanish Flow', 'Reggaeton Style', 'Melodic'],
-    instruments: ['Dembow Beat', 'Timbales', 'Latin Guitar', 'Brass'],
-    dynamics: ['Rhythmic', 'Dance', 'Drop'],
-    emotions: ['Passionate', 'Sensual', 'Energetic']
+  latin: {
+    vocal: ["Spanish Flow", "Reggaeton Style", "Melodic"],
+    instruments: ["Dembow Beat", "Timbales", "Latin Guitar", "Brass"],
+    dynamics: ["Rhythmic", "Dance", "Drop"],
+    emotions: ["Passionate", "Sensual", "Energetic"],
   },
-  'afrobeat': {
-    vocal: ['African Flow', 'Melodic', 'Rhythmic'],
-    instruments: ['African Percussion', 'Guitar', 'Brass', 'Talking Drum'],
-    dynamics: ['Groove', 'Build', 'Polyrhythm'],
-    emotions: ['Joyful', 'Energetic', 'Uplifting']
+  afrobeat: {
+    vocal: ["African Flow", "Melodic", "Rhythmic"],
+    instruments: ["African Percussion", "Guitar", "Brass", "Talking Drum"],
+    dynamics: ["Groove", "Build", "Polyrhythm"],
+    emotions: ["Joyful", "Energetic", "Uplifting"],
   },
-  'metal': {
-    vocal: ['Growl', 'Scream', 'Powerful', 'Aggressive'],
-    instruments: ['Heavy Guitar', 'Double Bass Drums', 'Distorted Bass'],
-    dynamics: ['Breakdown', 'Blast Beat', 'Drop'],
-    emotions: ['Intense', 'Aggressive', 'Dark', 'Powerful']
+  metal: {
+    vocal: ["Growl", "Scream", "Powerful", "Aggressive"],
+    instruments: ["Heavy Guitar", "Double Bass Drums", "Distorted Bass"],
+    dynamics: ["Breakdown", "Blast Beat", "Drop"],
+    emotions: ["Intense", "Aggressive", "Dark", "Powerful"],
   },
-  'ambient': {
-    vocal: ['Ethereal', 'Whisper', 'Atmospheric'],
-    instruments: ['Pad', 'Texture', 'Drone', 'Field Recording'],
-    dynamics: ['Slow Build', 'Fade', 'Atmospheric'],
-    emotions: ['Meditative', 'Dreamy', 'Peaceful', 'Mysterious']
+  ambient: {
+    vocal: ["Ethereal", "Whisper", "Atmospheric"],
+    instruments: ["Pad", "Texture", "Drone", "Field Recording"],
+    dynamics: ["Slow Build", "Fade", "Atmospheric"],
+    emotions: ["Meditative", "Dreamy", "Peaceful", "Mysterious"],
   },
-  'house': {
-    vocal: ['Soulful', 'Diva', 'Chopped Vocal'],
-    instruments: ['4-on-floor', 'Synth Stab', 'Piano House', 'Clap'],
-    dynamics: ['Build', 'Drop', 'Filter'],
-    emotions: ['Euphoric', 'Uplifting', 'Dance']
-  }
+  house: {
+    vocal: ["Soulful", "Diva", "Chopped Vocal"],
+    instruments: ["4-on-floor", "Synth Stab", "Piano House", "Clap"],
+    dynamics: ["Build", "Drop", "Filter"],
+    emotions: ["Euphoric", "Uplifting", "Dance"],
+  },
 };
 
 // Sub-genre modifiers for compound styles
 const SUB_GENRE_MODIFIERS: Record<string, string[]> = {
-  'russian-flow': ['Russian Rap', 'Cyrillic Lyrics', 'Eastern Melody'],
-  'thai-fusion': ['Thai Gong', 'Asian Percussion', 'Tropical Synth'],
-  'lo-fi': ['Vinyl Crackle', 'Warm', 'Mellow', 'Tape Hiss'],
-  'epic': ['Orchestral', 'Choir', 'Massive Build', 'Cinematic'],
-  'dark': ['Minor Key', 'Ominous', 'Heavy', 'Brooding'],
-  'aggressive': ['Distortion', 'Shout', 'Intense', 'Heavy'],
-  'melodic': ['Harmonies', 'Smooth', 'Emotional', 'Catchy'],
-  'vintage': ['Retro', 'Analog', 'Warm', 'Classic'],
+  "russian-flow": ["Russian Rap", "Cyrillic Lyrics", "Eastern Melody"],
+  "thai-fusion": ["Thai Gong", "Asian Percussion", "Tropical Synth"],
+  "lo-fi": ["Vinyl Crackle", "Warm", "Mellow", "Tape Hiss"],
+  epic: ["Orchestral", "Choir", "Massive Build", "Cinematic"],
+  dark: ["Minor Key", "Ominous", "Heavy", "Brooding"],
+  aggressive: ["Distortion", "Shout", "Intense", "Heavy"],
+  melodic: ["Harmonies", "Smooth", "Emotional", "Catchy"],
+  vintage: ["Retro", "Analog", "Warm", "Classic"],
 };
 
-const MOOD_TAG_PROFILES: Record<string, { dynamics: string[], emotions: string[], vocal: string[] }> = {
-  'romantic': {
-    dynamics: ['Soft', 'Building', 'Intimate'],
-    emotions: ['Tender', 'Passionate', 'Longing'],
-    vocal: ['Gentle', 'Breathy', 'Emotional']
+const MOOD_TAG_PROFILES: Record<string, { dynamics: string[]; emotions: string[]; vocal: string[] }> = {
+  romantic: {
+    dynamics: ["Soft", "Building", "Intimate"],
+    emotions: ["Tender", "Passionate", "Longing"],
+    vocal: ["Gentle", "Breathy", "Emotional"],
   },
-  'energetic': {
-    dynamics: ['Driving', 'Punchy', 'High Energy'],
-    emotions: ['Exciting', 'Powerful', 'Anthemic'],
-    vocal: ['Strong', 'Belting', 'Dynamic']
+  energetic: {
+    dynamics: ["Driving", "Punchy", "High Energy"],
+    emotions: ["Exciting", "Powerful", "Anthemic"],
+    vocal: ["Strong", "Belting", "Dynamic"],
   },
-  'melancholic': {
-    dynamics: ['Sparse', 'Slow Build', 'Atmospheric'],
-    emotions: ['Sad', 'Reflective', 'Bittersweet'],
-    vocal: ['Vulnerable', 'Whispering', 'Trembling']
+  melancholic: {
+    dynamics: ["Sparse", "Slow Build", "Atmospheric"],
+    emotions: ["Sad", "Reflective", "Bittersweet"],
+    vocal: ["Vulnerable", "Whispering", "Trembling"],
   },
-  'happy': {
-    dynamics: ['Upbeat', 'Bouncy', 'Light'],
-    emotions: ['Joyful', 'Carefree', 'Bright'],
-    vocal: ['Cheerful', 'Playful', 'Warm']
+  happy: {
+    dynamics: ["Upbeat", "Bouncy", "Light"],
+    emotions: ["Joyful", "Carefree", "Bright"],
+    vocal: ["Cheerful", "Playful", "Warm"],
   },
-  'dark': {
-    dynamics: ['Heavy', 'Intense', 'Brooding'],
-    emotions: ['Menacing', 'Mysterious', 'Ominous'],
-    vocal: ['Deep', 'Growling', 'Whispered']
+  dark: {
+    dynamics: ["Heavy", "Intense", "Brooding"],
+    emotions: ["Menacing", "Mysterious", "Ominous"],
+    vocal: ["Deep", "Growling", "Whispered"],
   },
-  'nostalgic': {
-    dynamics: ['Warm', 'Vintage', 'Gradual'],
-    emotions: ['Wistful', 'Reminiscent', 'Bittersweet'],
-    vocal: ['Soft', 'Reflective', 'Sincere']
+  nostalgic: {
+    dynamics: ["Warm", "Vintage", "Gradual"],
+    emotions: ["Wistful", "Reminiscent", "Bittersweet"],
+    vocal: ["Soft", "Reflective", "Sincere"],
   },
-  'peaceful': {
-    dynamics: ['Gentle', 'Flowing', 'Ambient'],
-    emotions: ['Calm', 'Serene', 'Meditative'],
-    vocal: ['Soft', 'Airy', 'Soothing']
+  peaceful: {
+    dynamics: ["Gentle", "Flowing", "Ambient"],
+    emotions: ["Calm", "Serene", "Meditative"],
+    vocal: ["Soft", "Airy", "Soothing"],
   },
-  'epic': {
-    dynamics: ['Massive Build', 'Orchestral Swell', 'Climactic'],
-    emotions: ['Triumphant', 'Heroic', 'Majestic'],
-    vocal: ['Powerful', 'Choir', 'Soaring']
+  epic: {
+    dynamics: ["Massive Build", "Orchestral Swell", "Climactic"],
+    emotions: ["Triumphant", "Heroic", "Majestic"],
+    vocal: ["Powerful", "Choir", "Soaring"],
   },
-  'aggressive': {
-    dynamics: ['Heavy', 'Punchy', 'Explosive'],
-    emotions: ['Angry', 'Intense', 'Fierce'],
-    vocal: ['Shout', 'Growl', 'Aggressive']
+  aggressive: {
+    dynamics: ["Heavy", "Punchy", "Explosive"],
+    emotions: ["Angry", "Intense", "Fierce"],
+    vocal: ["Shout", "Growl", "Aggressive"],
   },
-  'hypnotic': {
-    dynamics: ['Repetitive', 'Pulsing', 'Gradual'],
-    emotions: ['Trance', 'Mysterious', 'Captivating'],
-    vocal: ['Monotone', 'Whisper', 'Ethereal']
-  }
+  hypnotic: {
+    dynamics: ["Repetitive", "Pulsing", "Gradual"],
+    emotions: ["Trance", "Mysterious", "Captivating"],
+    vocal: ["Monotone", "Whisper", "Ethereal"],
+  },
 };
 
 serve(async (req) => {
-  if (req.method === 'OPTIONS') {
+  if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-    const lovableApiKey = Deno.env.get('LOVABLE_API_KEY');
+    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+    const lovableApiKey = Deno.env.get("LOVABLE_API_KEY");
 
     if (!lovableApiKey) {
-      throw new Error('LOVABLE_API_KEY not configured');
+      throw new Error("LOVABLE_API_KEY not configured");
     }
 
     const supabase = getSupabaseClient();
 
     // Authenticate user
-    const authHeader = req.headers.get('Authorization');
+    const authHeader = req.headers.get("Authorization");
     if (!authHeader) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Unauthorized' }),
-        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 401 }
-      );
+      return new Response(JSON.stringify({ success: false, error: "Unauthorized" }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 401,
+      });
     }
 
-    const { data: { user }, error: userError } = await supabase.auth.getUser(
-      authHeader.replace('Bearer ', '')
-    );
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser(authHeader.replace("Bearer ", ""));
 
     if (userError || !user) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Unauthorized' }),
-        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 401 }
-      );
+      return new Response(JSON.stringify({ success: false, error: "Unauthorized" }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 401,
+      });
     }
 
     const body: LyricsRequest = await req.json();
-    const { 
-      action, theme, mood, genre, language = 'ru', existingLyrics, lyrics, structure,
-      sectionType, sectionName, previousLyrics, linesCount, currentLyrics, word, context,
-      vocalTags, instrumentTags, dynamicTags, emotionalCues, useAdvancedTags
+    const {
+      action,
+      theme,
+      mood,
+      genre,
+      language = "ru",
+      existingLyrics,
+      lyrics,
+      structure,
+      sectionType,
+      sectionName,
+      previousLyrics,
+      linesCount,
+      currentLyrics,
+      word,
+      context,
+      vocalTags,
+      instrumentTags,
+      dynamicTags,
+      emotionalCues,
+      useAdvancedTags,
     } = body;
 
     // Fetch all Suno meta tags from database
     const { data: metaTags } = await supabase
-      .from('suno_meta_tags')
-      .select('tag_name, category, description, syntax_format, usage_examples');
+      .from("suno_meta_tags")
+      .select("tag_name, category, description, syntax_format, usage_examples");
 
     // Organize tags by category with full details
-    const tagsByCategory: Record<string, Array<{ name: string, format: string, desc: string, examples: string[] }>> = {};
-    metaTags?.forEach(tag => {
+    const tagsByCategory: Record<
+      string,
+      Array<{ name: string; format: string; desc: string; examples: string[] }>
+    > = {};
+    metaTags?.forEach((tag) => {
       if (!tagsByCategory[tag.category]) {
         tagsByCategory[tag.category] = [];
       }
       tagsByCategory[tag.category].push({
         name: tag.tag_name,
         format: tag.syntax_format || `[${tag.tag_name}]`,
-        desc: tag.description || '',
-        examples: tag.usage_examples || []
+        desc: tag.description || "",
+        examples: tag.usage_examples || [],
       });
     });
 
     // Get recommended tags based on genre and mood
-    const genreProfile = GENRE_TAG_PROFILES[genre || 'pop'] || GENRE_TAG_PROFILES.pop;
-    const moodProfile = MOOD_TAG_PROFILES[mood || 'romantic'] || MOOD_TAG_PROFILES.romantic;
+    const genreProfile = GENRE_TAG_PROFILES[genre || "pop"] || GENRE_TAG_PROFILES.pop;
+    const moodProfile = MOOD_TAG_PROFILES[mood || "romantic"] || MOOD_TAG_PROFILES.romantic;
 
     // Build comprehensive tag reference
-    const structureTags = tagsByCategory['structure']?.map(t => t.format).join(', ') || '[Verse], [Chorus], [Bridge], [Intro], [Outro], [Pre-Chorus], [Hook]';
-    const vocalTagsList = tagsByCategory['vocal']?.map(t => t.format).join(', ') || '[Male Vocal], [Female Vocal], [Falsetto], [Whisper]';
-    const moodTagsList = tagsByCategory['mood_energy']?.map(t => t.format).join(', ') || '';
-    const instrumentTagsList = tagsByCategory['instrument']?.map(t => t.format).join(', ') || '';
-    const productionTags = tagsByCategory['production_texture']?.map(t => t.format).join(', ') || '';
-    const effectTags = tagsByCategory['effect_processing']?.map(t => t.format).join(', ') || '';
-    const dynamicsList = tagsByCategory['transition_dynamics']?.map(t => t.format).join(', ') || '';
+    const structureTags =
+      tagsByCategory["structure"]?.map((t) => t.format).join(", ") ||
+      "[Verse], [Chorus], [Bridge], [Intro], [Outro], [Pre-Chorus], [Hook]";
+    const vocalTagsList =
+      tagsByCategory["vocal"]?.map((t) => t.format).join(", ") || "[Male Vocal], [Female Vocal], [Falsetto], [Whisper]";
+    const moodTagsList = tagsByCategory["mood_energy"]?.map((t) => t.format).join(", ") || "";
+    const instrumentTagsList = tagsByCategory["instrument"]?.map((t) => t.format).join(", ") || "";
+    const productionTags = tagsByCategory["production_texture"]?.map((t) => t.format).join(", ") || "";
+    const effectTags = tagsByCategory["effect_processing"]?.map((t) => t.format).join(", ") || "";
+    const dynamicsList = tagsByCategory["transition_dynamics"]?.map((t) => t.format).join(", ") || "";
 
     // Create tag recommendation string based on genre/mood
     const recommendedTags = `
-РЕКОМЕНДУЕМЫЕ ТЕГИ ДЛЯ ${genre?.toUpperCase() || 'POP'} + ${mood?.toUpperCase() || 'ROMANTIC'}:
-- Вокал: ${[...genreProfile.vocal, ...moodProfile.vocal].slice(0, 4).join(', ')}
-- Инструменты: ${genreProfile.instruments.join(', ')}
-- Динамика: ${[...genreProfile.dynamics, ...moodProfile.dynamics].slice(0, 4).join(', ')}
-- Эмоции: ${[...genreProfile.emotions, ...moodProfile.emotions].slice(0, 4).join(', ')}`;
+РЕКОМЕНДУЕМЫЕ ТЕГИ ДЛЯ ${genre?.toUpperCase() || "POP"} + ${mood?.toUpperCase() || "ROMANTIC"}:
+- Вокал: ${[...genreProfile.vocal, ...moodProfile.vocal].slice(0, 4).join(", ")}
+- Инструменты: ${genreProfile.instruments.join(", ")}
+- Динамика: ${[...genreProfile.dynamics, ...moodProfile.dynamics].slice(0, 4).join(", ")}
+- Эмоции: ${[...genreProfile.emotions, ...moodProfile.emotions].slice(0, 4).join(", ")}`;
 
     // User-provided custom tags
-    const customTagsSection = (useAdvancedTags && (vocalTags?.length || instrumentTags?.length || dynamicTags?.length || emotionalCues?.length)) 
-      ? `
+    const customTagsSection =
+      useAdvancedTags && (vocalTags?.length || instrumentTags?.length || dynamicTags?.length || emotionalCues?.length)
+        ? `
 ПОЛЬЗОВАТЕЛЬСКИЕ ТЕГИ (обязательно использовать):
-${vocalTags?.length ? `- Вокал: ${vocalTags.join(', ')}` : ''}
-${instrumentTags?.length ? `- Инструменты: ${instrumentTags.join(', ')}` : ''}
-${dynamicTags?.length ? `- Динамика: ${dynamicTags.join(', ')}` : ''}
-${emotionalCues?.length ? `- Эмоции: ${emotionalCues.join(', ')}` : ''}
-` : '';
+${vocalTags?.length ? `- Вокал: ${vocalTags.join(", ")}` : ""}
+${instrumentTags?.length ? `- Инструменты: ${instrumentTags.join(", ")}` : ""}
+${dynamicTags?.length ? `- Динамика: ${dynamicTags.join(", ")}` : ""}
+${emotionalCues?.length ? `- Эмоции: ${emotionalCues.join(", ")}` : ""}
+`
+        : "";
 
-const baseSystemPrompt = `Ты элитный автор песен и музыкальный продюсер мирового уровня, специализирующийся на создании эмоционально резонансных, технически точных текстов, оптимизированных для AI генерации музыки (Suno AI V5).
+    const baseSystemPrompt = `Ты элитный автор песен и музыкальный продюсер мирового уровня, специализирующийся на создании эмоционально резонансных, технически точных текстов, оптимизированных для AI генерации музыки (Suno AI V5).
 
 ═══════════════════════════════════════════════════════
 🎯 ТВОИ КЛЮЧЕВЫЕ ЦЕННОСТИ:
@@ -562,21 +591,21 @@ ${customTagsSection}
 - НИКОГДА не используй первую строку текста
 - НЕ должно содержать теги!
 
-Язык текста: ${language === 'ru' ? 'русский' : 'английский'}`;
+Язык текста: ${language === "ru" ? "русский" : "английский"}`;
 
     let systemPrompt = baseSystemPrompt;
-    let userPrompt = '';
+    let userPrompt = "";
 
     switch (action) {
-      case 'generate':
-      case 'smart_generate':
+      case "generate":
+      case "smart_generate":
         userPrompt = `Создай профессиональный текст песни с продуманным использованием тегов.
 
 ЗАДАНИЕ:
-- Тема: "${theme || 'любовь и надежда'}"
-- Жанр: ${genre || 'поп'}
-- Настроение: ${mood || 'вдохновляющее'}
-- Структура: ${structure || 'Intro, Verse 1, Pre-Chorus, Chorus, Verse 2, Pre-Chorus, Chorus, Bridge, Final Chorus, Outro'}
+- Тема: "${theme || "любовь и надежда"}"
+- Жанр: ${genre || "поп"}
+- Настроение: ${mood || "вдохновляющее"}
+- Структура: ${structure || "Intro, Verse 1, Pre-Chorus, Chorus, Verse 2, Pre-Chorus, Chorus, Bridge, Final Chorus, Outro"}
 
 ТРЕБОВАНИЯ К КАЧЕСТВУ:
 1. ✅ Каждая секция начинается со структурного тега [...]
@@ -588,13 +617,17 @@ ${customTagsSection}
 7. ✅ Ритмичный текст, удобный для пения
 8. ✅ Финальный припев усиль с помощью (powerful) или [Climax]
 
-${useAdvancedTags ? `
+${
+  useAdvancedTags
+    ? `
 ОБЯЗАТЕЛЬНО ИСПОЛЬЗОВАТЬ ЭТИ ТЕГИ:
-${vocalTags?.length ? `Вокальные: ${vocalTags.map(t => `(${t})`).join(', ')}` : ''}
-${instrumentTags?.length ? `Инструментальные: ${instrumentTags.map(t => `[${t}]`).join(', ')}` : ''}
-${dynamicTags?.length ? `Динамические: ${dynamicTags.map(t => `[${t}]`).join(', ')}` : ''}
-${emotionalCues?.length ? `Эмоциональные: ${emotionalCues.map(t => `(${t})`).join(', ')}` : ''}
-` : ''}
+${vocalTags?.length ? `Вокальные: ${vocalTags.map((t) => `(${t})`).join(", ")}` : ""}
+${instrumentTags?.length ? `Инструментальные: ${instrumentTags.map((t) => `[${t}]`).join(", ")}` : ""}
+${dynamicTags?.length ? `Динамические: ${dynamicTags.map((t) => `[${t}]`).join(", ")}` : ""}
+${emotionalCues?.length ? `Эмоциональные: ${emotionalCues.map((t) => `(${t})`).join(", ")}` : ""}
+`
+    : ""
+}
 
 ФОРМАТ ОТВЕТА (строго JSON):
 {
@@ -606,7 +639,7 @@ ${emotionalCues?.length ? `Эмоциональные: ${emotionalCues.map(t => 
 ВАЖНО: Верни ТОЛЬКО валидный JSON, без дополнительного текста до или после.`;
         break;
 
-      case 'improve':
+      case "improve":
         userPrompt = `Улучши текст песни, добавив профессиональные теги:
 
 ИСХОДНЫЙ ТЕКСТ:
@@ -631,14 +664,14 @@ ${existingLyrics || lyrics}
 ВАЖНО: Верни ТОЛЬКО валидный JSON.`;
         break;
 
-      case 'add_tags':
+      case "add_tags":
         userPrompt = `Добавь профессиональные теги Suno к тексту:
 
 ТЕКСТ:
 ${existingLyrics || lyrics}
 
-ЖАНР: ${genre || 'поп'}
-НАСТРОЕНИЕ: ${mood || 'романтичное'}
+ЖАНР: ${genre || "поп"}
+НАСТРОЕНИЕ: ${mood || "романтичное"}
 
 ЗАДАЧИ:
 1. Определи секции и добавь структурные теги [Verse], [Chorus], [Bridge], etc.
@@ -663,12 +696,12 @@ ${existingLyrics || lyrics}
 ВАЖНО: Верни ТОЛЬКО валидный JSON.`;
         break;
 
-      case 'suggest_structure':
+      case "suggest_structure":
         userPrompt = `Предложи оптимальную структуру песни:
 
-ЖАНР: ${genre || 'поп'}
-НАСТРОЕНИЕ: ${mood || 'энергичное'}
-${theme ? `ТЕМА: ${theme}` : ''}
+ЖАНР: ${genre || "поп"}
+НАСТРОЕНИЕ: ${mood || "энергичное"}
+${theme ? `ТЕМА: ${theme}` : ""}
 
 Верни структуру с описанием каждой секции:
 
@@ -683,17 +716,17 @@ ${theme ? `ТЕМА: ${theme}` : ''}
 ...и так далее`;
         break;
 
-      case 'generate_section':
+      case "generate_section":
         systemPrompt = baseSystemPrompt + `\n\nТы пишешь одну конкретную секцию песни с профессиональными тегами.`;
         userPrompt = `Напиши секцию "${sectionName}" (тип: ${sectionType}) для песни.
 
 КОНТЕКСТ:
-- Тема: "${theme || 'любовь'}"
-- Жанр: ${genre || 'поп'}
-- Настроение: ${mood || 'романтичное'}
+- Тема: "${theme || "любовь"}"
+- Жанр: ${genre || "поп"}
+- Настроение: ${mood || "романтичное"}
 - Количество строк: ${linesCount || 4}
 
-${previousLyrics ? `ПРЕДЫДУЩИЕ СЕКЦИИ:\n${previousLyrics}\n` : ''}
+${previousLyrics ? `ПРЕДЫДУЩИЕ СЕКЦИИ:\n${previousLyrics}\n` : ""}
 
 ТРЕБОВАНИЯ:
 1. НЕ добавляй тег секции (только контент)
@@ -706,16 +739,16 @@ ${previousLyrics ? `ПРЕДЫДУЩИЕ СЕКЦИИ:\n${previousLyrics}\n` : '
 Верни ТОЛЬКО текст секции (${linesCount || 4} строк).`;
         break;
 
-      case 'continue_line':
+      case "continue_line":
         systemPrompt = baseSystemPrompt + `\n\nТы помогаешь в режиме коллаборации.`;
-        userPrompt = `Предложи следующую строку для секции ${sectionType || 'verse'}.
+        userPrompt = `Предложи следующую строку для секции ${sectionType || "verse"}.
 
 ТЕКУЩИЙ ТЕКСТ:
 ${currentLyrics}
 
-ТЕМА: ${theme || 'любовь'}
-ЖАНР: ${genre || 'поп'}
-НАСТРОЕНИЕ: ${mood || 'романтичное'}
+ТЕМА: ${theme || "любовь"}
+ЖАНР: ${genre || "поп"}
+НАСТРОЕНИЕ: ${mood || "романтичное"}
 
 ТРЕБОВАНИЯ:
 - Одна строка, продолжающая текст
@@ -726,11 +759,11 @@ ${currentLyrics}
 Верни ТОЛЬКО одну строку.`;
         break;
 
-      case 'suggest_rhymes':
-        systemPrompt = `Ты эксперт по рифмам на ${language === 'ru' ? 'русском' : 'английском'} языке.`;
+      case "suggest_rhymes":
+        systemPrompt = `Ты эксперт по рифмам на ${language === "ru" ? "русском" : "английском"} языке.`;
         userPrompt = `Предложи рифмы к слову "${word}".
 
-${context ? `КОНТЕКСТ:\n${context}\n` : ''}
+${context ? `КОНТЕКСТ:\n${context}\n` : ""}
 
 Требования:
 - 8-12 разнообразных рифм
@@ -744,15 +777,15 @@ ${context ? `КОНТЕКСТ:\n${context}\n` : ''}
 СОСТАВНЫЕ: фраза1, фраза2`;
         break;
 
-      case 'analyze_lyrics':
+      case "analyze_lyrics":
         systemPrompt = baseSystemPrompt + `\n\nТы анализируешь текст и даёшь профессиональные рекомендации.`;
         userPrompt = `Проанализируй текст песни и предложи улучшения:
 
 ТЕКСТ:
 ${lyrics || existingLyrics}
 
-ЖАНР: ${genre || 'поп'}
-НАСТРОЕНИЕ: ${mood || 'неизвестно'}
+ЖАНР: ${genre || "поп"}
+НАСТРОЕНИЕ: ${mood || "неизвестно"}
 
 Верни анализ в формате:
 
@@ -777,14 +810,14 @@ ${lyrics || existingLyrics}
 - Ритм: ...`;
         break;
 
-      case 'optimize_for_suno':
+      case "optimize_for_suno":
         systemPrompt = baseSystemPrompt + `\n\nТы оптимизируешь текст для максимального качества генерации в Suno AI.`;
         userPrompt = `Оптимизируй текст для Suno AI:
 
 ТЕКСТ:
 ${lyrics || existingLyrics}
 
-ЖАНР: ${genre || 'поп'}
+ЖАНР: ${genre || "поп"}
 
 ЗАДАЧИ ОПТИМИЗАЦИИ:
 1. ✅ Убедись что текст < 3000 символов (обрежь если нужно)
@@ -799,43 +832,51 @@ ${lyrics || existingLyrics}
 Верни оптимизированный текст готовый для генерации.`;
         break;
 
-      case 'context_recommendations':
+      case "context_recommendations":
         // Get AI recommendations based on project/track context
         const recContext = body.context || {};
         const recProject = recContext.projectContext;
         const recTrack = recContext.trackContext;
-        
+
         systemPrompt = `Ты музыкальный продюсер и автор песен, дающий персонализированные рекомендации для создания текстов.
         
 ВАЖНО: Учитывай позицию трека в альбоме и его роль в общей концепции проекта.`;
-        
+
         userPrompt = `Дай 5-7 креативных и КОНКРЕТНЫХ рекомендаций для написания текста песни.
 
 КОНТЕКСТ ПРОЕКТА:
-${recProject ? `
+${
+  recProject
+    ? `
 - Название проекта: ${recProject.title}
-- Тип: ${recProject.projectType || 'альбом'}
-- Жанр: ${recProject.genre || 'не указан'}
-- Настроение: ${recProject.mood || 'не указано'}
-- Концепция/тема: ${recProject.concept || 'не указана'}
-- Целевая аудитория: ${recProject.targetAudience || 'не указана'}
+- Тип: ${recProject.projectType || "альбом"}
+- Жанр: ${recProject.genre || "не указан"}
+- Настроение: ${recProject.mood || "не указано"}
+- Концепция/тема: ${recProject.concept || "не указана"}
+- Целевая аудитория: ${recProject.targetAudience || "не указана"}
 - Всего треков в проекте: ${recProject.existingTracks?.length || 0}
-- Треки: ${recProject.existingTracks?.map((t: any, i: number) => `${i+1}. "${t.title}" ${t.generatedLyrics ? '(есть текст)' : t.draftLyrics ? '(черновик)' : '(нет текста)'}`).join(', ') || 'нет'}
-` : 'Контекст проекта не указан'}
+- Треки: ${recProject.existingTracks?.map((t: any, i: number) => `${i + 1}. "${t.title}" ${t.generatedLyrics ? "(есть текст)" : t.draftLyrics ? "(черновик)" : "(нет текста)"}`).join(", ") || "нет"}
+`
+    : "Контекст проекта не указан"
+}
 
-${recTrack ? `
+${
+  recTrack
+    ? `
 ТЕКУЩИЙ ТРЕК (для которого пишем):
 - Название: "${recTrack.title}"
-- Позиция в альбоме: ${recTrack.position} из ${recProject?.existingTracks?.length || '?'}
-- Стиль/промпт: ${recTrack.stylePrompt || 'не указан'}
-- Рекомендуемые теги: ${recTrack.recommendedTags?.join(', ') || 'не заданы'}
-- Рекомендуемая структура: ${recTrack.recommendedStructure || 'не задана'}
-- Заметки/идеи от AI: ${recTrack.notes || 'нет'}
-- Текущий статус лирики: ${recTrack.lyricsStatus || 'не начато'}
-` : ''}
+- Позиция в альбоме: ${recTrack.position} из ${recProject?.existingTracks?.length || "?"}
+- Стиль/промпт: ${recTrack.stylePrompt || "не указан"}
+- Рекомендуемые теги: ${recTrack.recommendedTags?.join(", ") || "не заданы"}
+- Рекомендуемая структура: ${recTrack.recommendedStructure || "не задана"}
+- Заметки/идеи от AI: ${recTrack.notes || "нет"}
+- Текущий статус лирики: ${recTrack.lyricsStatus || "не начато"}
+`
+    : ""
+}
 
 ТЕКУЩИЙ ЧЕРНОВИК (если есть):
-${recContext.currentLyrics || recTrack?.lyrics || 'Текст ещё не создан'}
+${recContext.currentLyrics || recTrack?.lyrics || "Текст ещё не создан"}
 
 ЗАДАЧА: Предложи конкретные рекомендации учитывая:
 1. Позицию трека (интро должно вводить, финал - завершать историю)
@@ -856,15 +897,15 @@ ${recContext.currentLyrics || recTrack?.lyrics || 'Текст ещё не соз
 Будь КОНКРЕТНЫМ - не "напиши о любви", а "напиши о первой встрече после долгой разлуки, контрастируя с предыдущим треком об одиночестве"`;
         break;
 
-      case 'generate_compound_tags':
+      case "generate_compound_tags":
         systemPrompt = `Ты эксперт по тегам Suno AI V4.5+ и составным (compound) тегам.`;
         userPrompt = `Сгенерируй оптимальные составные теги для секций песни.
 
-ЖАНР: ${genre || 'поп'}
-НАСТРОЕНИЕ: ${mood || 'романтичное'}
-${theme ? `ТЕМА: ${theme}` : ''}
+ЖАНР: ${genre || "поп"}
+НАСТРОЕНИЕ: ${mood || "романтичное"}
+${theme ? `ТЕМА: ${theme}` : ""}
 
-${lyrics ? `ТЕКСТ:\n${lyrics}\n` : ''}
+${lyrics ? `ТЕКСТ:\n${lyrics}\n` : ""}
 
 Для каждой типичной секции песни создай оптимальные составные теги:
 
@@ -884,7 +925,7 @@ ${lyrics ? `ТЕКСТ:\n${lyrics}\n` : ''}
 Учитывай жанр ${genre} и настроение ${mood}.`;
         break;
 
-      case 'analyze_rhythm':
+      case "analyze_rhythm":
         systemPrompt = `Ты эксперт по ритмике и просодии песенных текстов.`;
         userPrompt = `Проанализируй ритмическую структуру текста:
 
@@ -910,17 +951,17 @@ ${lyrics || existingLyrics}
 }`;
         break;
 
-      case 'fit_structure':
+      case "fit_structure":
         systemPrompt = baseSystemPrompt + `\n\nТы адаптируешь текст под заданную структуру песни.`;
         userPrompt = `Подгони текст под структуру песни:
 
 ИСХОДНЫЙ ТЕКСТ:
 ${lyrics || existingLyrics}
 
-ЦЕЛЕВАЯ СТРУКТУРА: ${structure || 'Intro, Verse 1, Pre-Chorus, Chorus, Verse 2, Pre-Chorus, Chorus, Bridge, Final Chorus, Outro'}
+ЦЕЛЕВАЯ СТРУКТУРА: ${structure || "Intro, Verse 1, Pre-Chorus, Chorus, Verse 2, Pre-Chorus, Chorus, Bridge, Final Chorus, Outro"}
 
-ЖАНР: ${genre || 'поп'}
-НАСТРОЕНИЕ: ${mood || 'романтичное'}
+ЖАНР: ${genre || "поп"}
+НАСТРОЕНИЕ: ${mood || "романтичное"}
 
 ЗАДАЧИ:
 1. Распределить/переписать текст по заданным секциям
@@ -933,7 +974,7 @@ ${lyrics || existingLyrics}
 Верни полный отформатированный текст.`;
         break;
 
-      case 'full_analysis':
+      case "full_analysis":
         systemPrompt = `ТЫ — профессиональный музыкальный аналитик, музыковед и литературный исследователь.
 
 ПРИНЦИПЫ: Глубина > объём. Музыка и текст = единая система. Нарративное мышление. Аналитическая честность.
@@ -960,10 +1001,10 @@ ${lyrics || existingLyrics}
     { "label": "🔧 Исправить ритм", "action": "Выровняй слоги в строках" }
   ]
 }`;
-        userPrompt = `ТЕКСТ ПЕСНИ:\n${body.existingLyrics || body.lyrics || body.sectionContent || ''}\n\n${body.title ? `НАЗВАНИЕ: ${body.title}` : ''}${body.genre ? `\nЖАНР: ${body.genre}` : ''}${body.mood ? `\nНАСТРОЕНИЕ: ${body.mood}` : ''}\n\nПроведи анализ. Оцени 0-100.`;
+        userPrompt = `ТЕКСТ ПЕСНИ:\n${body.existingLyrics || body.lyrics || body.sectionContent || ""}\n\n${body.title ? `НАЗВАНИЕ: ${body.title}` : ""}${body.genre ? `\nЖАНР: ${body.genre}` : ""}${body.mood ? `\nНАСТРОЕНИЕ: ${body.mood}` : ""}\n\nПроведи анализ. Оцени 0-100.`;
         break;
 
-      case 'deep_analysis':
+      case "deep_analysis":
         systemPrompt = `ТЫ — профессиональный музыкальный аналитик, музыковед, продюсер и литературный исследователь.
 
 ════════════════════════════════════════════════════════
@@ -1026,10 +1067,10 @@ ${lyrics || existingLyrics}
     { "label": "✨ Творческое", "action": "Творческое улучшение" }
   ]
 }`;
-        userPrompt = `ТЕКСТ ПЕСНИ:\n${body.existingLyrics || body.lyrics || body.sectionContent || ''}\n\n${body.title ? `НАЗВАНИЕ: ${body.title}` : ''}${body.genre ? `\nЖАНР: ${body.genre}` : ''}${body.mood ? `\nНАСТРОЕНИЕ: ${body.mood}` : ''}\n\nПроведи ГЛУБОКИЙ МУЗЫКОВЕДЧЕСКИЙ анализ. Найди нарративную арку. Оцени технику текста. Определи культурные влияния. Сформулируй ключевые выводы и уникальную силу текста.`;
+        userPrompt = `ТЕКСТ ПЕСНИ:\n${body.existingLyrics || body.lyrics || body.sectionContent || ""}\n\n${body.title ? `НАЗВАНИЕ: ${body.title}` : ""}${body.genre ? `\nЖАНР: ${body.genre}` : ""}${body.mood ? `\nНАСТРОЕНИЕ: ${body.mood}` : ""}\n\nПроведи ГЛУБОКИЙ МУЗЫКОВЕДЧЕСКИЙ анализ. Найди нарративную арку. Оцени технику текста. Определи культурные влияния. Сформулируй ключевые выводы и уникальную силу текста.`;
         break;
 
-      case 'producer_review':
+      case "producer_review":
         systemPrompt = `Ты опытный музыкальный продюсер с 20-летним стажем. Проведи ПРОФЕССИОНАЛЬНЫЙ разбор как для коммерческого релиза.
 
 ПРИНЦИПЫ: Коммерческий взгляд (стриминги, радио, вирусность). Ищи ХУКИ. Вокальная продакшен-карта. Динамика и аранжировка.
@@ -1059,11 +1100,11 @@ ${lyrics || existingLyrics}
     { "label": "🎯 Усилить хуки", "action": "Сделай припев более запоминающимся" }
   ]
 }`;
-        const prodTags = body.globalTags ? body.globalTags.join(', ') : '';
-        userPrompt = `ТЕКСТ:\n${body.existingLyrics || body.lyrics || ''}\n\n${body.title ? `НАЗВАНИЕ: ${body.title}` : ''}${body.stylePrompt ? `\nSTYLE: ${body.stylePrompt}` : ''}${body.genre ? `\nЖАНР: ${body.genre}` : ''}${prodTags ? `\nТЕГИ: ${prodTags}` : ''}\n\nПроведи продюсерский разбор. Оцени коммерческий потенциал. Предложи хуки, вокальную карту, style prompt для Suno.`;
+        const prodTags = body.globalTags ? body.globalTags.join(", ") : "";
+        userPrompt = `ТЕКСТ:\n${body.existingLyrics || body.lyrics || ""}\n\n${body.title ? `НАЗВАНИЕ: ${body.title}` : ""}${body.stylePrompt ? `\nSTYLE: ${body.stylePrompt}` : ""}${body.genre ? `\nЖАНР: ${body.genre}` : ""}${prodTags ? `\nТЕГИ: ${prodTags}` : ""}\n\nПроведи продюсерский разбор. Оцени коммерческий потенциал. Предложи хуки, вокальную карту, style prompt для Suno.`;
         break;
 
-      case 'chat':
+      case "chat":
         // Build rich context from provided data
         const chatContext = body.context || {};
         const projectInfo = chatContext.projectContext;
@@ -1079,54 +1120,76 @@ ${lyrics || existingLyrics}
 ═══════════════════════════════════════════════════════
 КОНТЕКСТ ПРОЕКТА (учитывай для связности альбома):
 ═══════════════════════════════════════════════════════
-${projectInfo ? `
+${
+  projectInfo
+    ? `
 📀 Проект: "${projectInfo.title}"
-🎵 Тип: ${projectInfo.projectType || 'альбом'}
-🎸 Жанр: ${projectInfo.genre || 'не указан'}
-💫 Настроение: ${projectInfo.mood || 'не указано'}
-📖 Концепция: ${projectInfo.concept || 'не указана'}
-👥 Целевая аудитория: ${projectInfo.targetAudience || 'не указана'}
+🎵 Тип: ${projectInfo.projectType || "альбом"}
+🎸 Жанр: ${projectInfo.genre || "не указан"}
+💫 Настроение: ${projectInfo.mood || "не указано"}
+📖 Концепция: ${projectInfo.concept || "не указана"}
+👥 Целевая аудитория: ${projectInfo.targetAudience || "не указана"}
 🎼 Треков в проекте: ${projectInfo.existingTracks?.length || 0}
 
 ДРУГИЕ ТРЕКИ ПРОЕКТА (для связности):
-${projectInfo.existingTracks?.map((t: any, i: number) =>
-  `${i+1}. "${t.title}" - ${t.generatedLyrics ? 'готов' : t.draftLyrics ? 'черновик' : 'нет текста'}${t.stylePrompt ? ` [${t.stylePrompt.slice(0, 50)}...]` : ''}`
-).join('\n') || 'Пусто'}
-` : 'Контекст проекта не задан - работаем как отдельный трек'}
+${
+  projectInfo.existingTracks
+    ?.map(
+      (t: any, i: number) =>
+        `${i + 1}. "${t.title}" - ${t.generatedLyrics ? "готов" : t.draftLyrics ? "черновик" : "нет текста"}${t.stylePrompt ? ` [${t.stylePrompt.slice(0, 50)}...]` : ""}`,
+    )
+    .join("\n") || "Пусто"
+}
+`
+    : "Контекст проекта не задан - работаем как отдельный трек"
+}
 
-${trackInfo ? `
+${
+  trackInfo
+    ? `
 ═══════════════════════════════════════════════════════
 ТЕКУЩИЙ ТРЕК (над которым работаем):
 ═══════════════════════════════════════════════════════
 🎵 Название: "${trackInfo.title}"
-📍 Позиция: ${trackInfo.position}${projectInfo?.existingTracks?.length ? ` из ${projectInfo.existingTracks.length}` : ''}
-🎨 Стиль: ${trackInfo.stylePrompt || 'не указан'}
-🏷️ Рекомендуемые теги: ${trackInfo.recommendedTags?.join(', ') || 'не заданы'}
-📝 Рекомендуемая структура: ${trackInfo.recommendedStructure || 'стандартная'}
+📍 Позиция: ${trackInfo.position}${projectInfo?.existingTracks?.length ? ` из ${projectInfo.existingTracks.length}` : ""}
+🎨 Стиль: ${trackInfo.stylePrompt || "не указан"}
+🏷️ Рекомендуемые теги: ${trackInfo.recommendedTags?.join(", ") || "не заданы"}
+📝 Рекомендуемая структура: ${trackInfo.recommendedStructure || "стандартная"}
 
 💡 ЗАМЕТКИ ОТ AI-ПЛАНИРОВЩИКА (ВАЖНО - учитывай эти подсказки!):
-${trackInfo.notes || 'Нет заметок'}
+${trackInfo.notes || "Нет заметок"}
 
-📄 Статус лирики: ${trackInfo.lyricsStatus || 'не начато'}
-` : ''}
+📄 Статус лирики: ${trackInfo.lyricsStatus || "не начато"}
+`
+    : ""
+}
 
 ТЕКУЩИЙ ТЕКСТ ПЕСНИ:
-${chatContext.currentLyrics || trackInfo?.lyrics || chatContext.existingLyrics || 'Текст ещё не создан'}
+${chatContext.currentLyrics || trackInfo?.lyrics || chatContext.existingLyrics || "Текст ещё не создан"}
 
-${chatContext.stylePrompt ? `STYLE PROMPT: ${chatContext.stylePrompt}` : ''}
-${chatContext.allSectionNotes ? `ЗАМЕТКИ СЕКЦИЙ: ${JSON.stringify(chatContext.allSectionNotes)}` : ''}
+${chatContext.stylePrompt ? `STYLE PROMPT: ${chatContext.stylePrompt}` : ""}
+${chatContext.allSectionNotes ? `ЗАМЕТКИ СЕКЦИЙ: ${JSON.stringify(chatContext.allSectionNotes)}` : ""}
 
-${userTheme || userGenre || userMood ? `
+${
+  userTheme || userGenre || userMood
+    ? `
 ═══════════════════════════════════════════════════════
 ПОЛЬЗОВАТЕЛЬСКИЕ ПАРАМЕТРЫ (используй их ОБЯЗАТЕЛЬНО):
 ═══════════════════════════════════════════════════════
-${userTheme ? `🎭 Тема: ${userTheme}` : ''}
-${userGenre ? `🎸 Жанр: ${userGenre}` : ''}
-${userMood ? `💫 Настроение: ${userMood}` : ''}
-` : ''}
+${userTheme ? `🎭 Тема: ${userTheme}` : ""}
+${userGenre ? `🎸 Жанр: ${userGenre}` : ""}
+${userMood ? `💫 Настроение: ${userMood}` : ""}
+`
+    : ""
+}
 
 ИСТОРИЯ ДИАЛОГА (последние 10 сообщений):
-${conversationHistory.slice(-10).map((m: any) => `${m.role === 'user' ? '👤 Пользователь' : '🤖 Ассистент'}: ${m.content}`).join('\n') || 'Начало диалога'}
+${
+  conversationHistory
+    .slice(-10)
+    .map((m: any) => `${m.role === "user" ? "👤 Пользователь" : "🤖 Ассистент"}: ${m.content}`)
+    .join("\n") || "Начало диалога"
+}
 
 ═══════════════════════════════════════════════════════
 ИНСТРУКЦИИ:
@@ -1145,12 +1208,12 @@ ${conversationHistory.slice(-10).map((m: any) => `${m.role === 'user' ? '👤 П
   "quickActions": [{"label": "⚡ Быстрое действие", "action": "команда для AI"}]
 }
 
-Язык текста: ${language === 'ru' ? 'русский' : 'английский'}`;
+Язык текста: ${language === "ru" ? "русский" : "английский"}`;
 
-        userPrompt = body.message || 'Привет';
+        userPrompt = body.message || "Привет";
         break;
 
-      case 'style_convert':
+      case "style_convert":
         systemPrompt = `Ты эксперт по музыкальным стилям и мастер адаптации текстов под разные жанры и артистов.
         
 ВАЖНО: Сохраняй основной смысл и эмоции текста, но адаптируй:
@@ -1158,12 +1221,12 @@ ${conversationHistory.slice(-10).map((m: any) => `${m.role === 'user' ? '👤 П
 - Ритмические паттерны  
 - Структуру строф
 - Характерные для стиля приёмы`;
-        userPrompt = `Перепиши текст в стиле "${body.targetStyle || 'рэп'}":
+        userPrompt = `Перепиши текст в стиле "${body.targetStyle || "рэп"}":
 
 ИСХОДНЫЙ ТЕКСТ:
 ${lyrics || existingLyrics}
 
-ЦЕЛЕВОЙ СТИЛЬ: ${body.targetStyle || 'рэп'}
+ЦЕЛЕВОЙ СТИЛЬ: ${body.targetStyle || "рэп"}
 
 ТРЕБОВАНИЯ:
 1. Сохрани основную тему и эмоции
@@ -1181,14 +1244,14 @@ ${lyrics || existingLyrics}
 }`;
         break;
 
-      case 'paraphrase':
+      case "paraphrase":
         systemPrompt = `Ты мастер русского/английского языка и поэт, создающий вариации текстов с разными оттенками.`;
-        userPrompt = `Перефразируй текст с тоном "${body.targetTone || 'более поэтично'}":
+        userPrompt = `Перефразируй текст с тоном "${body.targetTone || "более поэтично"}":
 
 ТЕКСТ:
 ${lyrics || existingLyrics}
 
-ЦЕЛЕВОЙ ТОН: ${body.targetTone || 'более поэтично'}
+ЦЕЛЕВОЙ ТОН: ${body.targetTone || "более поэтично"}
 КОЛИЧЕСТВО ВАРИАНТОВ: ${body.variantsCount || 3}
 
 ВАРИАНТЫ ТОНА:
@@ -1209,7 +1272,7 @@ ${lyrics || existingLyrics}
 }`;
         break;
 
-      case 'hook_generator':
+      case "hook_generator":
         systemPrompt = `Ты хит-мейкер, специализирующийся на создании запоминающихся хуков и припевов.
         
 ПРИНЦИПЫ ХУКА:
@@ -1223,9 +1286,9 @@ ${lyrics || existingLyrics}
 ТЕКСТ:
 ${lyrics || existingLyrics}
 
-ЖАНР: ${genre || 'поп'}
-НАСТРОЕНИЕ: ${mood || 'энергичное'}
-ТЕМА: ${theme || 'любовь'}
+ЖАНР: ${genre || "поп"}
+НАСТРОЕНИЕ: ${mood || "энергичное"}
+ТЕМА: ${theme || "любовь"}
 
 ЗАДАЧИ:
 1. Найди существующие хуки (если есть)
@@ -1247,7 +1310,7 @@ ${lyrics || existingLyrics}
 }`;
         break;
 
-      case 'vocal_map':
+      case "vocal_map":
         systemPrompt = `Ты вокальный продюсер и аранжировщик с опытом работы в студии.
         
 Создай детальную карту вокальной записи с указанием:
@@ -1260,8 +1323,8 @@ ${lyrics || existingLyrics}
 ТЕКСТ:
 ${lyrics || existingLyrics}
 
-ЖАНР: ${genre || 'поп'}
-НАСТРОЕНИЕ: ${mood || 'эмоциональное'}
+ЖАНР: ${genre || "поп"}
+НАСТРОЕНИЕ: ${mood || "эмоциональное"}
 
 Для каждой секции укажи:
 1. Тип вокала (шёпот, мощный, фальцет и т.д.)
@@ -1289,23 +1352,23 @@ ${lyrics || existingLyrics}
 }`;
         break;
 
-      case 'translate_adapt':
-        const targetLang = body.targetLanguage || 'en';
+      case "translate_adapt":
+        const targetLang = body.targetLanguage || "en";
         const preserveSyl = body.preserveSyllables !== false;
         systemPrompt = `Ты профессиональный переводчик песенных текстов, сохраняющий ритмику и смысл.
 
 ВАЖНО: Это НЕ дословный перевод, а адаптация для пения:
-- ${preserveSyl ? 'СТРОГО сохраняй количество слогов' : 'Допустимы небольшие отклонения по слогам'}
+- ${preserveSyl ? "СТРОГО сохраняй количество слогов" : "Допустимы небольшие отклонения по слогам"}
 - Сохраняй рифмы
 - Сохраняй эмоции и образы
 - Текст должен быть естественным на целевом языке`;
-        userPrompt = `Переведи и адаптируй текст на ${targetLang === 'en' ? 'английский' : 'русский'}:
+        userPrompt = `Переведи и адаптируй текст на ${targetLang === "en" ? "английский" : "русский"}:
 
 ТЕКСТ:
 ${lyrics || existingLyrics}
 
-ЦЕЛЕВОЙ ЯЗЫК: ${targetLang === 'en' ? 'Английский' : 'Русский'}
-СОХРАНЯТЬ СЛОГИ: ${preserveSyl ? 'Да, строго' : 'Приблизительно'}
+ЦЕЛЕВОЙ ЯЗЫК: ${targetLang === "en" ? "Английский" : "Русский"}
+СОХРАНЯТЬ СЛОГИ: ${preserveSyl ? "Да, строго" : "Приблизительно"}
 
 ТРЕБОВАНИЯ:
 1. Каждая строка должна иметь примерно такое же количество слогов
@@ -1325,7 +1388,7 @@ ${lyrics || existingLyrics}
 }`;
         break;
 
-      case 'drill_prompt_builder':
+      case "drill_prompt_builder":
         systemPrompt = `Ты эксперт по UK Drill, US Drill, Trap и aggressive Hip-Hop. Создаёшь профессиональные промпты уровня коммерческих релизов.
 
 ═══════════════════════════════════════════════════════
@@ -1400,14 +1463,14 @@ ${lyrics || existingLyrics}
 4. Многослойные ad-libs в скобках
 5. Трансформации: [Slow -> Fast], [Soft -> Explosive]
 
-Язык текста: ${language === 'ru' ? 'русский' : 'английский'}`;
+Язык текста: ${language === "ru" ? "русский" : "английский"}`;
 
         userPrompt = `Создай ПРОФЕССИОНАЛЬНЫЙ Drill/Trap промпт:
 
-ТЕМА: ${theme || 'уличная жизнь, ночной город, неоновые огни'}
-ПОДСТИЛЬ: ${body.targetStyle || 'UK Drill'}
-НАСТРОЕНИЕ: ${mood || 'агрессивное, уличное'}
-ОСОБЕННОСТИ: ${body.sectionNotes || 'добавить локальный колорит'}
+ТЕМА: ${theme || "уличная жизнь, ночной город, неоновые огни"}
+ПОДСТИЛЬ: ${body.targetStyle || "UK Drill"}
+НАСТРОЕНИЕ: ${mood || "агрессивное, уличное"}
+ОСОБЕННОСТИ: ${body.sectionNotes || "добавить локальный колорит"}
 
 ТРЕБОВАНИЯ:
 1. Полная структура от Intro до End
@@ -1432,7 +1495,7 @@ ${lyrics || existingLyrics}
 }`;
         break;
 
-      case 'epic_prompt_builder':
+      case "epic_prompt_builder":
         systemPrompt = `Ты эксперт по эпическому, киберпанк и cinematic саунду. Создаёшь промпты для масштабных треков.
 
 ═══════════════════════════════════════════════════════
@@ -1455,13 +1518,13 @@ ${lyrics || existingLyrics}
    - [Powerful], [Soaring], [Choir Harmonies]
    - [Vocoder] для киберпанк
 
-Язык текста: ${language === 'ru' ? 'русский' : 'английский'}`;
+Язык текста: ${language === "ru" ? "русский" : "английский"}`;
 
         userPrompt = `Создай ЭПИЧЕСКИЙ промпт:
 
-ТЕМА: ${theme || 'героическое противостояние, борьба'}
-СТИЛЬ: ${body.targetStyle || 'Cinematic Epic'}
-НАСТРОЕНИЕ: ${mood || 'триумфальное, героическое'}
+ТЕМА: ${theme || "героическое противостояние, борьба"}
+СТИЛЬ: ${body.targetStyle || "Cinematic Epic"}
+НАСТРОЕНИЕ: ${mood || "триумфальное, героическое"}
 
 Верни JSON:
 {
@@ -1471,7 +1534,7 @@ ${lyrics || existingLyrics}
 }`;
         break;
 
-      case 'validate_suno_v5':
+      case "validate_suno_v5":
         systemPrompt = `Ты валидатор синтаксиса Suno V5. Проверяешь тексты на соответствие всем правилам.
 
 ПРОВЕРЯЕМЫЕ АСПЕКТЫ:
@@ -1516,56 +1579,56 @@ ${lyrics || existingLyrics}
         break;
 
       default:
-        return new Response(
-          JSON.stringify({ success: false, error: 'Invalid action' }),
-          { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
-        );
+        return new Response(JSON.stringify({ success: false, error: "Invalid action" }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          status: 400,
+        });
     }
 
-    logger.info('AI Lyrics request', { action, theme, mood, genre, language, useAdvancedTags });
+    logger.info("AI Lyrics request", { action, theme, mood, genre, language, useAdvancedTags });
 
     // Call Lovable AI
-    const aiResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
-      method: 'POST',
+    const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      method: "POST",
       headers: {
-        'Authorization': `Bearer ${lovableApiKey}`,
-        'Content-Type': 'application/json',
+        Authorization: `Bearer ${lovableApiKey}`,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: 'google/gemini-2.5-flash',
+        model: "google/gemini-2.5-flash",
         messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: userPrompt },
+          { role: "system", content: systemPrompt },
+          { role: "user", content: userPrompt },
         ],
-        max_tokens: action === 'suggest_rhymes' ? 300 : action === 'continue_line' ? 150 : 2500,
+        max_tokens: action === "suggest_rhymes" ? 300 : action === "continue_line" ? 150 : 2500,
       }),
     });
 
     if (!aiResponse.ok) {
       const errorText = await aiResponse.text();
-      logger.error('AI Gateway error', null, { status: aiResponse.status, error: errorText });
-      
+      logger.error("AI Gateway error", null, { status: aiResponse.status, error: errorText });
+
       if (aiResponse.status === 429) {
-        return new Response(
-          JSON.stringify({ success: false, error: 'Слишком много запросов. Попробуйте позже.' }),
-          { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 429 }
-        );
+        return new Response(JSON.stringify({ success: false, error: "Слишком много запросов. Попробуйте позже." }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          status: 429,
+        });
       }
-      
+
       if (aiResponse.status === 402) {
-        return new Response(
-          JSON.stringify({ success: false, error: 'Необходимо пополнить баланс.' }),
-          { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 402 }
-        );
+        return new Response(JSON.stringify({ success: false, error: "Необходимо пополнить баланс." }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          status: 402,
+        });
       }
-      
-      throw new Error('AI service error');
+
+      throw new Error("AI service error");
     }
 
     const aiData = await aiResponse.json();
-    const generatedContent = aiData.choices?.[0]?.message?.content || '';
+    const generatedContent = aiData.choices?.[0]?.message?.content || "";
 
-    logger.success('Lyrics generated', { action, contentLength: generatedContent.length });
+    logger.success("Lyrics generated", { action, contentLength: generatedContent.length });
 
     // Return additional metadata for smart_generate
     const response: any = {
@@ -1574,13 +1637,13 @@ ${lyrics || existingLyrics}
     };
 
     // Parse structured JSON response for generation actions
-    if (action === 'generate' || action === 'smart_generate' || action === 'improve' || action === 'add_tags') {
+    if (action === "generate" || action === "smart_generate" || action === "improve" || action === "add_tags") {
       try {
         // Try to extract JSON from response (look for complete JSON object)
         const jsonMatch = generatedContent.match(/\{[\s\S]*?\}(?=\s*$|\s*```)/);
         if (jsonMatch) {
           const parsed = JSON.parse(jsonMatch[0]);
-          
+
           // Validate required fields
           if (parsed.lyrics) {
             response.lyrics = parsed.lyrics;
@@ -1588,11 +1651,11 @@ ${lyrics || existingLyrics}
             response.style = parsed.style || null;
             response.changes = parsed.changes || null;
             response.tagsSummary = parsed.tagsSummary || null;
-            
-            logger.info('Parsed structured response', { 
-              hasTitle: !!parsed.title, 
+
+            logger.info("Parsed structured response", {
+              hasTitle: !!parsed.title,
               hasStyle: !!parsed.style,
-              lyricsLength: parsed.lyrics.length 
+              lyricsLength: parsed.lyrics.length,
             });
           } else {
             // Fallback if no lyrics field
@@ -1603,48 +1666,48 @@ ${lyrics || existingLyrics}
           response.lyrics = generatedContent;
         }
       } catch (e) {
-        logger.warn('Failed to parse JSON response, using raw content', { error: e });
+        logger.warn("Failed to parse JSON response, using raw content", { error: e });
         response.lyrics = generatedContent;
       }
-    } 
+    }
     // Handle full_analysis response
-    else if (action === 'full_analysis') {
+    else if (action === "full_analysis") {
       try {
         const jsonMatch = generatedContent.match(/\{[\s\S]*\}/);
         if (jsonMatch) {
           const parsed = JSON.parse(jsonMatch[0]);
-          response.message = 'Анализ завершён';
+          response.message = "Анализ завершён";
           response.fullAnalysis = parsed;
           response.quickActions = parsed.quickActions || [];
-          logger.info('Parsed full_analysis response', { overallScore: parsed.overallScore });
+          logger.info("Parsed full_analysis response", { overallScore: parsed.overallScore });
         } else {
           response.message = generatedContent;
         }
       } catch (e) {
-        logger.warn('Failed to parse full_analysis JSON', { error: e });
+        logger.warn("Failed to parse full_analysis JSON", { error: e });
         response.message = generatedContent;
       }
     }
     // Handle producer_review response
-    else if (action === 'producer_review') {
+    else if (action === "producer_review") {
       try {
         const jsonMatch = generatedContent.match(/\{[\s\S]*\}/);
         if (jsonMatch) {
           const parsed = JSON.parse(jsonMatch[0]);
-          response.message = 'Продюсерский разбор готов';
+          response.message = "Продюсерский разбор готов";
           response.producerReview = parsed;
           response.quickActions = parsed.quickActions || [];
-          logger.info('Parsed producer_review response', { commercialScore: parsed.commercialScore });
+          logger.info("Parsed producer_review response", { commercialScore: parsed.commercialScore });
         } else {
           response.message = generatedContent;
         }
       } catch (e) {
-        logger.warn('Failed to parse producer_review JSON', { error: e });
+        logger.warn("Failed to parse producer_review JSON", { error: e });
         response.message = generatedContent;
       }
     }
     // Handle chat action response (JSON parsing)
-    else if (action === 'chat') {
+    else if (action === "chat") {
       try {
         // Try to parse JSON response from AI
         const jsonMatch = generatedContent.match(/\{[\s\S]*\}/);
@@ -1665,7 +1728,7 @@ ${lyrics || existingLyrics}
       }
     }
     // Handle Phase 2 actions
-    else if (action === 'style_convert') {
+    else if (action === "style_convert") {
       try {
         const jsonMatch = generatedContent.match(/\{[\s\S]*\}/);
         if (jsonMatch) {
@@ -1674,30 +1737,28 @@ ${lyrics || existingLyrics}
           response.style = parsed.style;
           response.changes = parsed.changes;
           response.originalStyle = parsed.originalStyle;
-          logger.info('Parsed style_convert response');
+          logger.info("Parsed style_convert response");
         } else {
           response.lyrics = generatedContent;
         }
       } catch (e) {
         response.lyrics = generatedContent;
       }
-    }
-    else if (action === 'paraphrase') {
+    } else if (action === "paraphrase") {
       try {
         const jsonMatch = generatedContent.match(/\{[\s\S]*\}/);
         if (jsonMatch) {
           const parsed = JSON.parse(jsonMatch[0]);
           response.variants = parsed.variants;
           response.original = parsed.original;
-          logger.info('Parsed paraphrase response', { variantsCount: parsed.variants?.length });
+          logger.info("Parsed paraphrase response", { variantsCount: parsed.variants?.length });
         } else {
           response.message = generatedContent;
         }
       } catch (e) {
         response.message = generatedContent;
       }
-    }
-    else if (action === 'hook_generator') {
+    } else if (action === "hook_generator") {
       try {
         const jsonMatch = generatedContent.match(/\{[\s\S]*\}/);
         if (jsonMatch) {
@@ -1706,15 +1767,14 @@ ${lyrics || existingLyrics}
           response.suggestedHooks = parsed.suggestedHooks;
           response.hookScore = parsed.hookScore;
           response.recommendations = parsed.recommendations;
-          logger.info('Parsed hook_generator response', { hookScore: parsed.hookScore });
+          logger.info("Parsed hook_generator response", { hookScore: parsed.hookScore });
         } else {
           response.message = generatedContent;
         }
       } catch (e) {
         response.message = generatedContent;
       }
-    }
-    else if (action === 'vocal_map') {
+    } else if (action === "vocal_map") {
       try {
         const jsonMatch = generatedContent.match(/\{[\s\S]*\}/);
         if (jsonMatch) {
@@ -1722,15 +1782,14 @@ ${lyrics || existingLyrics}
           response.sections = parsed.sections;
           response.generalNotes = parsed.generalNotes;
           response.suggestedSingerType = parsed.suggestedSingerType;
-          logger.info('Parsed vocal_map response', { sectionsCount: parsed.sections?.length });
+          logger.info("Parsed vocal_map response", { sectionsCount: parsed.sections?.length });
         } else {
           response.message = generatedContent;
         }
       } catch (e) {
         response.message = generatedContent;
       }
-    }
-    else if (action === 'translate_adapt') {
+    } else if (action === "translate_adapt") {
       try {
         const jsonMatch = generatedContent.match(/\{[\s\S]*\}/);
         if (jsonMatch) {
@@ -1740,7 +1799,7 @@ ${lyrics || existingLyrics}
           response.preservedElements = parsed.preservedElements;
           response.changedElements = parsed.changedElements;
           response.qualityScore = parsed.qualityScore;
-          logger.info('Parsed translate_adapt response', { qualityScore: parsed.qualityScore });
+          logger.info("Parsed translate_adapt response", { qualityScore: parsed.qualityScore });
         } else {
           response.lyrics = generatedContent;
         }
@@ -1749,7 +1808,7 @@ ${lyrics || existingLyrics}
       }
     }
     // Handle V5 advanced actions
-    else if (action === 'drill_prompt_builder' || action === 'epic_prompt_builder') {
+    else if (action === "drill_prompt_builder" || action === "epic_prompt_builder") {
       try {
         const jsonMatch = generatedContent.match(/\{[\s\S]*\}/);
         if (jsonMatch) {
@@ -1758,15 +1817,14 @@ ${lyrics || existingLyrics}
           response.title = parsed.title;
           response.style = parsed.style;
           response.tagsSummary = parsed.tagsSummary;
-          logger.info('Parsed prompt_builder response', { action, hasLyrics: !!parsed.lyrics });
+          logger.info("Parsed prompt_builder response", { action, hasLyrics: !!parsed.lyrics });
         } else {
           response.lyrics = generatedContent;
         }
       } catch (e) {
         response.lyrics = generatedContent;
       }
-    }
-    else if (action === 'validate_suno_v5') {
+    } else if (action === "validate_suno_v5") {
       try {
         const jsonMatch = generatedContent.match(/\{[\s\S]*\}/);
         if (jsonMatch) {
@@ -1777,19 +1835,18 @@ ${lyrics || existingLyrics}
           response.errors = parsed.errors;
           response.warnings = parsed.warnings;
           response.suggestions = parsed.suggestions;
-          logger.info('Parsed validate_suno_v5 response', { isValid: parsed.isValid, score: parsed.score });
+          logger.info("Parsed validate_suno_v5 response", { isValid: parsed.isValid, score: parsed.score });
         } else {
           response.message = generatedContent;
         }
       } catch (e) {
         response.message = generatedContent;
       }
-    }
-    else {
+    } else {
       response.lyrics = generatedContent;
     }
 
-    if (action === 'smart_generate' || action === 'generate') {
+    if (action === "smart_generate" || action === "generate") {
       response.metadata = {
         genre,
         mood,
@@ -1803,16 +1860,12 @@ ${lyrics || existingLyrics}
       };
     }
 
-    return new Response(
-      JSON.stringify(response),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-    );
-
+    return new Response(JSON.stringify(response), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
   } catch (error: any) {
-    logger.error('Error in ai-lyrics-assistant', error);
-    return new Response(
-      JSON.stringify({ success: false, error: error.message || 'Unknown error' }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 500 }
-    );
+    logger.error("Error in ai-lyrics-assistant", error);
+    return new Response(JSON.stringify({ success: false, error: error.message || "Unknown error" }), {
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      status: 500,
+    });
   }
 });

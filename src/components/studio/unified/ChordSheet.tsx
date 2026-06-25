@@ -4,20 +4,18 @@
  * Phase 3 - Guitar Chord Display
  */
 
-import { memo, useCallback, useMemo } from 'react';
-import { motion } from '@/lib/motion';
-import { 
-  Guitar, X, Play, Clock, Download, Share2
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
-import { cn } from '@/lib/utils';
-import { useHapticFeedback } from '@/hooks/useHapticFeedback';
-import { ChordDiagram } from '@/components/guitar/ChordDiagram';
-import type { ChordData } from './ChordOverlay';
+import { memo, useCallback, useMemo } from "react";
+import { motion } from "@/lib/motion";
+import { Guitar, X, Play, Clock, Download, Share2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
+import { ChordDiagram } from "@/components/guitar/ChordDiagram";
+import type { ChordData } from "./ChordOverlay";
 
 interface ChordSheetProps {
   open: boolean;
@@ -32,7 +30,7 @@ interface ChordSheetProps {
 function formatTime(seconds: number): string {
   const mins = Math.floor(seconds / 60);
   const secs = Math.floor(seconds % 60);
-  return `${mins}:${secs.toString().padStart(2, '0')}`;
+  return `${mins}:${secs.toString().padStart(2, "0")}`;
 }
 
 export const ChordSheet = memo(function ChordSheet({
@@ -52,7 +50,7 @@ export const ChordSheet = memo(function ChordSheet({
   // Get unique chords with counts
   const uniqueChords = useMemo(() => {
     const counts = new Map<string, number>();
-    chords.forEach(c => {
+    chords.forEach((c) => {
       counts.set(c.chord, (counts.get(c.chord) || 0) + 1);
     });
     return Array.from(counts.entries())
@@ -62,14 +60,17 @@ export const ChordSheet = memo(function ChordSheet({
 
   // Find current chord index
   const currentChordIndex = useMemo(() => {
-    return chords.findIndex(c => currentTime >= c.start && currentTime < c.end);
+    return chords.findIndex((c) => currentTime >= c.start && currentTime < c.end);
   }, [chords, currentTime]);
 
   // Handle chord click
-  const handleChordClick = useCallback((time: number) => {
-    haptic.tap();
-    onSeekToChord?.(time);
-  }, [haptic, onSeekToChord]);
+  const handleChordClick = useCallback(
+    (time: number) => {
+      haptic.tap();
+      onSeekToChord?.(time);
+    },
+    [haptic, onSeekToChord],
+  );
 
   // Handle close
   const handleClose = useCallback(() => {
@@ -85,8 +86,8 @@ export const ChordSheet = memo(function ChordSheet({
 
   return (
     <Sheet open={open} onOpenChange={(isOpen) => !isOpen && handleClose()}>
-      <SheetContent 
-        side="bottom" 
+      <SheetContent
+        side="bottom"
         className="h-[80vh] rounded-t-2xl p-0 flex flex-col"
         style={{ paddingBottom: safeAreaBottom }}
       >
@@ -98,9 +99,7 @@ export const ChordSheet = memo(function ChordSheet({
                 <Guitar className="w-5 h-5 text-orange-500" />
               </div>
               <div>
-                <SheetTitle className="text-left text-base">
-                  Аккорды
-                </SheetTitle>
+                <SheetTitle className="text-left text-base">Аккорды</SheetTitle>
                 <p className="text-xs text-muted-foreground mt-0.5">
                   {trackName} • {uniqueChords.length} уникальных
                 </p>
@@ -156,16 +155,16 @@ export const ChordSheet = memo(function ChordSheet({
               <div className="space-y-1">
                 {chords.map((chord, index) => {
                   const isCurrent = index === currentChordIndex;
-                  
+
                   return (
                     <motion.button
                       key={`${chord.chord}-${chord.start}-${index}`}
                       className={cn(
                         "w-full flex items-center justify-between p-2 rounded-lg",
                         "transition-colors text-left",
-                        isCurrent 
-                          ? "bg-primary/10 border border-primary/30" 
-                          : "bg-card/50 hover:bg-card border border-transparent"
+                        isCurrent
+                          ? "bg-primary/10 border border-primary/30"
+                          : "bg-card/50 hover:bg-card border border-transparent",
                       )}
                       onClick={() => handleChordClick(chord.start)}
                       initial={{ opacity: 0, x: -10 }}
@@ -173,31 +172,21 @@ export const ChordSheet = memo(function ChordSheet({
                       transition={{ delay: index * 0.02 }}
                     >
                       <div className="flex items-center gap-3">
-                        <span className="text-xs text-muted-foreground font-mono w-10">
-                          {formatTime(chord.start)}
-                        </span>
-                        <span className={cn(
-                          "font-bold text-sm",
-                          isCurrent && "text-primary"
-                        )}>
-                          {chord.chord}
-                        </span>
+                        <span className="text-xs text-muted-foreground font-mono w-10">{formatTime(chord.start)}</span>
+                        <span className={cn("font-bold text-sm", isCurrent && "text-primary")}>{chord.chord}</span>
                         {chord.confidence && chord.confidence < 0.7 && (
                           <Badge variant="outline" className="text-[10px] h-4">
                             ~{Math.round(chord.confidence * 100)}%
                           </Badge>
                         )}
                       </div>
-                      
+
                       <div className="flex items-center gap-2">
                         <span className="text-[10px] text-muted-foreground">
-                          {((chord.end - chord.start)).toFixed(1)}s
+                          {(chord.end - chord.start).toFixed(1)}s
                         </span>
                         {onSeekToChord && (
-                          <Play className={cn(
-                            "w-3 h-3",
-                            isCurrent ? "text-primary" : "text-muted-foreground"
-                          )} />
+                          <Play className={cn("w-3 h-3", isCurrent ? "text-primary" : "text-muted-foreground")} />
                         )}
                       </div>
                     </motion.button>
@@ -210,8 +199,11 @@ export const ChordSheet = memo(function ChordSheet({
             <div className="p-3 rounded-lg bg-muted/50">
               <p className="text-xs text-muted-foreground mb-2">Последовательность</p>
               <p className="text-sm font-mono leading-relaxed">
-                {chords.slice(0, 16).map(c => c.chord).join(' → ')}
-                {chords.length > 16 && ' ...'}
+                {chords
+                  .slice(0, 16)
+                  .map((c) => c.chord)
+                  .join(" → ")}
+                {chords.length > 16 && " ..."}
               </p>
             </div>
           </div>

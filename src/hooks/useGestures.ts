@@ -2,8 +2,8 @@
  * useGestures - Unified gesture handling hook for mobile interactions
  */
 
-import { useCallback, useRef, useState } from 'react';
-import { useHapticFeedback } from '@/hooks/useHapticFeedback';
+import { useCallback, useRef, useState } from "react";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 
 type HapticFeedback = ReturnType<typeof useHapticFeedback>;
 
@@ -55,100 +55,109 @@ export function useGestures(config: GestureConfig) {
     return Math.sqrt(dx * dx + dy * dy);
   };
 
-  const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    const touch = e.touches[0];
-    
-    touchRef.current = {
-      startX: touch.clientX,
-      startY: touch.clientY,
-      startTime: Date.now(),
-      startDistance: e.touches.length >= 2 ? getDistance(e.touches) : 0,
-    };
+  const handleTouchStart = useCallback(
+    (e: React.TouchEvent) => {
+      const touch = e.touches[0];
 
-    // Check for double tap
-    const now = Date.now();
-    if (now - lastTapRef.current < 300 && onDoubleTap) {
-      onDoubleTap();
-      haptic.selectionChanged();
-      lastTapRef.current = 0;
-    } else {
-      lastTapRef.current = now;
-    }
+      touchRef.current = {
+        startX: touch.clientX,
+        startY: touch.clientY,
+        startTime: Date.now(),
+        startDistance: e.touches.length >= 2 ? getDistance(e.touches) : 0,
+      };
 
-    // Start long press timer
-    if (onLongPress) {
-      longPressTimerRef.current = setTimeout(() => {
-        onLongPress();
-        haptic.impact('medium');
-      }, longPressDelay);
-    }
+      // Check for double tap
+      const now = Date.now();
+      if (now - lastTapRef.current < 300 && onDoubleTap) {
+        onDoubleTap();
+        haptic.selectionChanged();
+        lastTapRef.current = 0;
+      } else {
+        lastTapRef.current = now;
+      }
 
-    // Check for pinch start
-    if (e.touches.length >= 2) {
-      setIsPinching(true);
-    }
-  }, [onDoubleTap, onLongPress, longPressDelay, haptic]);
+      // Start long press timer
+      if (onLongPress) {
+        longPressTimerRef.current = setTimeout(() => {
+          onLongPress();
+          haptic.impact("medium");
+        }, longPressDelay);
+      }
 
-  const handleTouchMove = useCallback((e: React.TouchEvent) => {
-    // Cancel long press on movement
-    if (longPressTimerRef.current) {
-      clearTimeout(longPressTimerRef.current);
-      longPressTimerRef.current = null;
-    }
+      // Check for pinch start
+      if (e.touches.length >= 2) {
+        setIsPinching(true);
+      }
+    },
+    [onDoubleTap, onLongPress, longPressDelay, haptic],
+  );
 
-    // Handle pinch
-    if (isPinching && e.touches.length >= 2 && touchRef.current && onPinch) {
-      const currentDistance = getDistance(e.touches);
-      const scale = currentDistance / touchRef.current.startDistance;
-      onPinch(scale);
-    }
-  }, [isPinching, onPinch]);
+  const handleTouchMove = useCallback(
+    (e: React.TouchEvent) => {
+      // Cancel long press on movement
+      if (longPressTimerRef.current) {
+        clearTimeout(longPressTimerRef.current);
+        longPressTimerRef.current = null;
+      }
 
-  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
-    // Cancel long press timer
-    if (longPressTimerRef.current) {
-      clearTimeout(longPressTimerRef.current);
-      longPressTimerRef.current = null;
-    }
+      // Handle pinch
+      if (isPinching && e.touches.length >= 2 && touchRef.current && onPinch) {
+        const currentDistance = getDistance(e.touches);
+        const scale = currentDistance / touchRef.current.startDistance;
+        onPinch(scale);
+      }
+    },
+    [isPinching, onPinch],
+  );
 
-    if (!touchRef.current) return;
+  const handleTouchEnd = useCallback(
+    (e: React.TouchEvent) => {
+      // Cancel long press timer
+      if (longPressTimerRef.current) {
+        clearTimeout(longPressTimerRef.current);
+        longPressTimerRef.current = null;
+      }
 
-    const touch = e.changedTouches[0];
-    const deltaX = touch.clientX - touchRef.current.startX;
-    const deltaY = touch.clientY - touchRef.current.startY;
-    const deltaTime = Date.now() - touchRef.current.startTime;
+      if (!touchRef.current) return;
 
-    // Only detect swipes for quick gestures
-    if (deltaTime < 300) {
-      const absX = Math.abs(deltaX);
-      const absY = Math.abs(deltaY);
+      const touch = e.changedTouches[0];
+      const deltaX = touch.clientX - touchRef.current.startX;
+      const deltaY = touch.clientY - touchRef.current.startY;
+      const deltaTime = Date.now() - touchRef.current.startTime;
 
-      // Horizontal swipe
-      if (absX > swipeThreshold && absX > absY) {
-        if (deltaX > 0 && onSwipeRight) {
-          onSwipeRight();
-          haptic.selectionChanged();
-        } else if (deltaX < 0 && onSwipeLeft) {
-          onSwipeLeft();
-          haptic.selectionChanged();
+      // Only detect swipes for quick gestures
+      if (deltaTime < 300) {
+        const absX = Math.abs(deltaX);
+        const absY = Math.abs(deltaY);
+
+        // Horizontal swipe
+        if (absX > swipeThreshold && absX > absY) {
+          if (deltaX > 0 && onSwipeRight) {
+            onSwipeRight();
+            haptic.selectionChanged();
+          } else if (deltaX < 0 && onSwipeLeft) {
+            onSwipeLeft();
+            haptic.selectionChanged();
+          }
+        }
+
+        // Vertical swipe
+        if (absY > swipeThreshold && absY > absX) {
+          if (deltaY > 0 && onSwipeDown) {
+            onSwipeDown();
+            haptic.selectionChanged();
+          } else if (deltaY < 0 && onSwipeUp) {
+            onSwipeUp();
+            haptic.selectionChanged();
+          }
         }
       }
 
-      // Vertical swipe
-      if (absY > swipeThreshold && absY > absX) {
-        if (deltaY > 0 && onSwipeDown) {
-          onSwipeDown();
-          haptic.selectionChanged();
-        } else if (deltaY < 0 && onSwipeUp) {
-          onSwipeUp();
-          haptic.selectionChanged();
-        }
-      }
-    }
-
-    setIsPinching(false);
-    touchRef.current = null;
-  }, [swipeThreshold, onSwipeLeft, onSwipeRight, onSwipeUp, onSwipeDown, haptic]);
+      setIsPinching(false);
+      touchRef.current = null;
+    },
+    [swipeThreshold, onSwipeLeft, onSwipeRight, onSwipeUp, onSwipeDown, haptic],
+  );
 
   const gestureHandlers = {
     onTouchStart: handleTouchStart,

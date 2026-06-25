@@ -1,16 +1,16 @@
 /**
  * Global Waveform Cache using IndexedDB
  * Persists waveform data across sessions to avoid regeneration
- * 
+ *
  * Supports caching by:
  * - trackId (preferred, stable across URL changes)
  * - audioUrl (fallback for blob/streaming URLs)
  */
 
-const DB_NAME = 'musicverse_waveform_cache';
+const DB_NAME = "musicverse_waveform_cache";
 const DB_VERSION = 2; // Bumped for trackId support
-const STORE_NAME = 'waveforms';
-const TRACK_ID_STORE_NAME = 'waveforms_by_track';
+const STORE_NAME = "waveforms";
+const TRACK_ID_STORE_NAME = "waveforms_by_track";
 const MAX_CACHE_SIZE = 100; // Maximum cached waveforms
 
 interface WaveformCacheEntry {
@@ -41,17 +41,17 @@ function getDB(): Promise<IDBDatabase> {
 
     request.onupgradeneeded = (event) => {
       const db = (event.target as IDBOpenDBRequest).result;
-      
+
       // URL-based store (legacy)
       if (!db.objectStoreNames.contains(STORE_NAME)) {
-        const store = db.createObjectStore(STORE_NAME, { keyPath: 'url' });
-        store.createIndex('createdAt', 'createdAt', { unique: false });
+        const store = db.createObjectStore(STORE_NAME, { keyPath: "url" });
+        store.createIndex("createdAt", "createdAt", { unique: false });
       }
-      
+
       // TrackId-based store (preferred, stable keys)
       if (!db.objectStoreNames.contains(TRACK_ID_STORE_NAME)) {
-        const trackStore = db.createObjectStore(TRACK_ID_STORE_NAME, { keyPath: 'trackId' });
-        trackStore.createIndex('createdAt', 'createdAt', { unique: false });
+        const trackStore = db.createObjectStore(TRACK_ID_STORE_NAME, { keyPath: "trackId" });
+        trackStore.createIndex("createdAt", "createdAt", { unique: false });
       }
     };
   });
@@ -66,7 +66,7 @@ export async function getCachedWaveform(url: string): Promise<number[] | null> {
   try {
     const db = await getDB();
     return new Promise((resolve, reject) => {
-      const transaction = db.transaction(STORE_NAME, 'readonly');
+      const transaction = db.transaction(STORE_NAME, "readonly");
       const store = transaction.objectStore(STORE_NAME);
       const request = store.get(url);
 
@@ -87,18 +87,18 @@ export async function getCachedWaveform(url: string): Promise<number[] | null> {
 export async function setCachedWaveform(url: string, data: number[]): Promise<void> {
   try {
     const db = await getDB();
-    
+
     // First, cleanup old entries if needed
     await cleanupOldEntries(db);
 
     return new Promise((resolve, reject) => {
-      const transaction = db.transaction(STORE_NAME, 'readwrite');
+      const transaction = db.transaction(STORE_NAME, "readwrite");
       const store = transaction.objectStore(STORE_NAME);
-      
+
       const entry: WaveformCacheEntry = {
         url,
         data,
-        createdAt: Date.now()
+        createdAt: Date.now(),
       };
 
       const request = store.put(entry);
@@ -115,7 +115,7 @@ export async function setCachedWaveform(url: string, data: number[]): Promise<vo
  */
 async function cleanupOldEntries(db: IDBDatabase): Promise<void> {
   return new Promise((resolve) => {
-    const transaction = db.transaction(STORE_NAME, 'readwrite');
+    const transaction = db.transaction(STORE_NAME, "readwrite");
     const store = transaction.objectStore(STORE_NAME);
     const countRequest = store.count();
 
@@ -127,7 +127,7 @@ async function cleanupOldEntries(db: IDBDatabase): Promise<void> {
       }
 
       // Get oldest entries and delete them
-      const index = store.index('createdAt');
+      const index = store.index("createdAt");
       const deleteCount = count - MAX_CACHE_SIZE + 10; // Delete 10 extra for buffer
       let deleted = 0;
 
@@ -155,7 +155,7 @@ export async function clearWaveformCache(): Promise<void> {
   try {
     const db = await getDB();
     return new Promise((resolve, reject) => {
-      const transaction = db.transaction(STORE_NAME, 'readwrite');
+      const transaction = db.transaction(STORE_NAME, "readwrite");
       const store = transaction.objectStore(STORE_NAME);
       const request = store.clear();
 
@@ -186,7 +186,7 @@ export async function getWaveformByTrackId(trackId: string): Promise<number[] | 
   try {
     const db = await getDB();
     return new Promise((resolve, reject) => {
-      const transaction = db.transaction(TRACK_ID_STORE_NAME, 'readonly');
+      const transaction = db.transaction(TRACK_ID_STORE_NAME, "readonly");
       const store = transaction.objectStore(TRACK_ID_STORE_NAME);
       const request = store.get(trackId);
 
@@ -214,13 +214,13 @@ export async function saveWaveformByTrackId(trackId: string, data: number[]): Pr
   try {
     const db = await getDB();
     return new Promise((resolve, reject) => {
-      const transaction = db.transaction(TRACK_ID_STORE_NAME, 'readwrite');
+      const transaction = db.transaction(TRACK_ID_STORE_NAME, "readwrite");
       const store = transaction.objectStore(TRACK_ID_STORE_NAME);
-      
+
       const entry: TrackWaveformEntry = {
         trackId,
         data,
-        createdAt: Date.now()
+        createdAt: Date.now(),
       };
 
       const request = store.put(entry);
@@ -267,13 +267,13 @@ export async function getWaveform(url: string, trackId?: string): Promise<number
 export async function saveWaveform(url: string, data: number[], trackId?: string): Promise<void> {
   // Save to memory cache immediately
   memoryCache.set(url, data);
-  
+
   // Save to trackId cache if provided (preferred)
   if (trackId) {
     trackIdMemoryCache.set(trackId, data);
     await saveWaveformByTrackId(trackId, data);
   }
-  
+
   // Also save by URL as fallback
   await setCachedWaveform(url, data);
 }

@@ -3,6 +3,7 @@
 ## Problem Statement
 
 The Telegram Mini App was failing with the error:
+
 ```
 vendor-other-CIhvNVqJ.js:10 Uncaught TypeError: Cannot read properties of undefined (reading 'useSyncExternalStore')
 ```
@@ -68,11 +69,13 @@ if (id.includes("@tanstack/react-query") || id.includes("@tanstack/query-core"))
 ### Impact on Bundle Size
 
 **Before Fix:**
+
 - `vendor-query`: 3.2KB (React bindings only)
 - `vendor-other`: 500.26KB (included query-core)
 - **Problem**: Circular dependency!
 
 **After Fix:**
+
 - `vendor-query`: 43.32KB (+40KB, now includes query-core)
 - `vendor-other`: 460.05KB (-40KB, query-core removed)
 - **Benefit**: Self-contained chunk, no circular dependencies
@@ -80,12 +83,14 @@ if (id.includes("@tanstack/react-query") || id.includes("@tanstack/query-core"))
 ### Module Import Verification
 
 **Before (WRONG):**
+
 ```javascript
 // vendor-query imported from vendor-other:
 import {az as c, aA as l, ...} from "./vendor-other-CIhvNVqJ.js";
 ```
 
 **After (CORRECT):**
+
 ```javascript
 // vendor-query only imports from vendor-react:
 from"./vendor-react-CSX_DmOJ.js"
@@ -104,11 +109,15 @@ npm run build
 ### Module Preload Order (Correct)
 
 ```html
-<link rel="modulepreload" crossorigin href="/assets/vendor-react-CSX_DmOJ.js">    <!-- 1st - React loads first ✓ -->
-<link rel="modulepreload" crossorigin href="/assets/vendor-utils-C9Bxs6o1.js">    <!-- 2nd -->
-<link rel="modulepreload" crossorigin href="/assets/vendor-other-jqLo7IIa.js">    <!-- 3rd -->
+<link rel="modulepreload" crossorigin href="/assets/vendor-react-CSX_DmOJ.js" />
+<!-- 1st - React loads first ✓ -->
+<link rel="modulepreload" crossorigin href="/assets/vendor-utils-C9Bxs6o1.js" />
+<!-- 2nd -->
+<link rel="modulepreload" crossorigin href="/assets/vendor-other-jqLo7IIa.js" />
+<!-- 3rd -->
 ...
-<link rel="modulepreload" crossorigin href="/assets/vendor-query-BhJTWUkj.js">   <!-- 11th - Safe to use React hooks ✓ -->
+<link rel="modulepreload" crossorigin href="/assets/vendor-query-BhJTWUkj.js" />
+<!-- 11th - Safe to use React hooks ✓ -->
 ```
 
 ### TypeScript Check
@@ -152,6 +161,7 @@ When adding new dependencies that use React hooks, ensure:
 ### Pattern Recognition
 
 ❌ **Dangerous** (separate chunks for related packages):
+
 ```typescript
 // WRONG - creates circular dependencies
 if (id.includes("@library/react")) return "vendor-library";
@@ -159,6 +169,7 @@ if (id.includes("@library/react")) return "vendor-library";
 ```
 
 ✅ **Safe** (co-locate all related packages):
+
 ```typescript
 // CORRECT - keeps packages together
 if (id.includes("@library/react") || id.includes("@library/core")) {

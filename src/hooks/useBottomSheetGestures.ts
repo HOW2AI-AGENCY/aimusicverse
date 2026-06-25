@@ -3,8 +3,8 @@
  * Provides drag-to-close, snap points, and velocity-based closing
  */
 
-import { useRef, useState, useCallback, RefObject } from 'react';
-import { useHaptic } from './useHaptic';
+import { useRef, useState, useCallback, RefObject } from "react";
+import { useHaptic } from "./useHaptic";
 
 interface BottomSheetGesturesOptions {
   onClose: () => void;
@@ -54,16 +54,15 @@ export function useBottomSheetGestures({
 
   const handleTouchMove = useCallback((e: React.TouchEvent) => {
     if (!gestureRef.current.isDragging) return;
-    
+
     const touch = e.touches[0];
     const now = Date.now();
     const timeDelta = now - lastTimeRef.current;
-    
+
     if (timeDelta > 0) {
-      gestureRef.current.velocity = 
-        (touch.clientY - lastYRef.current) / timeDelta * 1000;
+      gestureRef.current.velocity = ((touch.clientY - lastYRef.current) / timeDelta) * 1000;
     }
-    
+
     gestureRef.current.currentY = touch.clientY;
     lastTimeRef.current = now;
     lastYRef.current = touch.clientY;
@@ -71,19 +70,19 @@ export function useBottomSheetGestures({
 
   const handleTouchEnd = useCallback(() => {
     if (!gestureRef.current.isDragging) return;
-    
+
     const { startY, currentY, velocity } = gestureRef.current;
     const dragDistance = currentY - startY;
-    
+
     gestureRef.current.isDragging = false;
-    
+
     // Close if dragged down far enough or with high velocity
     if (dragDistance > closeThreshold || velocity > velocityThreshold) {
       patterns.tap();
       onClose();
       return;
     }
-    
+
     // Snap up if dragged up
     if (dragDistance < -closeThreshold || velocity < -velocityThreshold) {
       const newSnap = Math.min(currentSnap + 1, snapPoints.length - 1);
@@ -94,7 +93,7 @@ export function useBottomSheetGestures({
       }
       return;
     }
-    
+
     // Find closest snap point based on current position
     // This is simplified - in a real implementation you'd track the actual height
   }, [closeThreshold, velocityThreshold, currentSnap, snapPoints, patterns, onClose, onSnapChange]);

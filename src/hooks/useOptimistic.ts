@@ -1,13 +1,13 @@
 /**
  * Optimistic Updates Hook
  * Feature: 032-professional-ui
- * 
+ *
  * Provides instant UI feedback for async operations.
  * Rolls back on error for reliable UX.
  */
 
-import { useState, useCallback, useRef } from 'react';
-import { toast } from '@/components/ui/ux-components';
+import { useState, useCallback, useRef } from "react";
+import { toast } from "@/components/ui/ux-components";
 
 interface OptimisticOptions<T> {
   /** Current value */
@@ -41,7 +41,7 @@ interface OptimisticResult<T> {
 
 /**
  * useOptimistic - Apply instant UI updates with async backup
- * 
+ *
  * @example
  * const { value: isLiked, isPending, update } = useOptimistic({
  *   value: track.isLiked,
@@ -50,7 +50,7 @@ interface OptimisticResult<T> {
  *   },
  *   successMessage: isLiked ? 'Removed from favorites' : 'Added to favorites',
  * });
- * 
+ *
  * <button onClick={() => update(!isLiked)} disabled={isPending}>
  *   <Heart className={cn(isLiked && 'fill-current text-red-500')} />
  * </button>
@@ -61,7 +61,7 @@ export function useOptimistic<T>(options: OptimisticOptions<T>): OptimisticResul
     mutation,
     rollbackOnError = true,
     successMessage,
-    errorMessage = 'Произошла ошибка',
+    errorMessage = "Произошла ошибка",
     onSuccess,
     onError,
   } = options;
@@ -79,40 +79,43 @@ export function useOptimistic<T>(options: OptimisticOptions<T>): OptimisticResul
     originalValueRef.current = initialValue;
   }
 
-  const update = useCallback(async (newValue: T) => {
-    // Store original for potential rollback
-    originalValueRef.current = optimisticValue;
-    
-    // Apply optimistic update immediately
-    setOptimisticValue(newValue);
-    setIsPending(true);
-    setError(null);
+  const update = useCallback(
+    async (newValue: T) => {
+      // Store original for potential rollback
+      originalValueRef.current = optimisticValue;
 
-    try {
-      await mutation(newValue);
-      
-      if (successMessage) {
-        toast.success(successMessage);
+      // Apply optimistic update immediately
+      setOptimisticValue(newValue);
+      setIsPending(true);
+      setError(null);
+
+      try {
+        await mutation(newValue);
+
+        if (successMessage) {
+          toast.success(successMessage);
+        }
+
+        onSuccess?.(newValue);
+      } catch (err) {
+        const error = err instanceof Error ? err : new Error(String(err));
+        setError(error);
+
+        if (rollbackOnError) {
+          setOptimisticValue(originalValueRef.current);
+        }
+
+        toast.error(errorMessage, {
+          description: error.message,
+        });
+
+        onError?.(error, originalValueRef.current);
+      } finally {
+        setIsPending(false);
       }
-      
-      onSuccess?.(newValue);
-    } catch (err) {
-      const error = err instanceof Error ? err : new Error(String(err));
-      setError(error);
-      
-      if (rollbackOnError) {
-        setOptimisticValue(originalValueRef.current);
-      }
-      
-      toast.error(errorMessage, {
-        description: error.message,
-      });
-      
-      onError?.(error, originalValueRef.current);
-    } finally {
-      setIsPending(false);
-    }
-  }, [optimisticValue, mutation, rollbackOnError, successMessage, errorMessage, onSuccess, onError]);
+    },
+    [optimisticValue, mutation, rollbackOnError, successMessage, errorMessage, onSuccess, onError],
+  );
 
   const clearError = useCallback(() => {
     setError(null);
@@ -129,7 +132,7 @@ export function useOptimistic<T>(options: OptimisticOptions<T>): OptimisticResul
 
 /**
  * useOptimisticList - Optimistic updates for list operations
- * 
+ *
  * @example
  * const { items, add, remove, update } = useOptimisticList({
  *   items: tracks,
@@ -154,69 +157,78 @@ export function useOptimisticList<T extends { id: string }>(options: {
     setOptimisticItems(initialItems);
   }
 
-  const add = useCallback(async (item: T) => {
-    const tempId = item.id || `temp-${Date.now()}`;
-    const newItem = { ...item, id: tempId };
-    
-    setOptimisticItems(prev => [newItem, ...prev]);
-    setPendingIds(prev => new Set(prev).add(tempId));
+  const add = useCallback(
+    async (item: T) => {
+      const tempId = item.id || `temp-${Date.now()}`;
+      const newItem = { ...item, id: tempId };
 
-    try {
-      await onAdd?.(item);
-    } catch (err) {
-      setOptimisticItems(prev => prev.filter(i => i.id !== tempId));
-      toast.error('Не удалось добавить');
-    } finally {
-      setPendingIds(prev => {
-        const next = new Set(prev);
-        next.delete(tempId);
-        return next;
-      });
-    }
-  }, [onAdd]);
+      setOptimisticItems((prev) => [newItem, ...prev]);
+      setPendingIds((prev) => new Set(prev).add(tempId));
 
-  const remove = useCallback(async (id: string) => {
-    const itemToRemove = optimisticItems.find(i => i.id === id);
-    if (!itemToRemove) return;
+      try {
+        await onAdd?.(item);
+      } catch (err) {
+        setOptimisticItems((prev) => prev.filter((i) => i.id !== tempId));
+        toast.error("Не удалось добавить");
+      } finally {
+        setPendingIds((prev) => {
+          const next = new Set(prev);
+          next.delete(tempId);
+          return next;
+        });
+      }
+    },
+    [onAdd],
+  );
 
-    setOptimisticItems(prev => prev.filter(i => i.id !== id));
-    setPendingIds(prev => new Set(prev).add(id));
+  const remove = useCallback(
+    async (id: string) => {
+      const itemToRemove = optimisticItems.find((i) => i.id === id);
+      if (!itemToRemove) return;
 
-    try {
-      await onRemove?.(id);
-      toast.success('Удалено');
-    } catch (err) {
-      setOptimisticItems(prev => [itemToRemove, ...prev]);
-      toast.error('Не удалось удалить');
-    } finally {
-      setPendingIds(prev => {
-        const next = new Set(prev);
-        next.delete(id);
-        return next;
-      });
-    }
-  }, [optimisticItems, onRemove]);
+      setOptimisticItems((prev) => prev.filter((i) => i.id !== id));
+      setPendingIds((prev) => new Set(prev).add(id));
 
-  const update = useCallback(async (item: T) => {
-    const originalItem = optimisticItems.find(i => i.id === item.id);
-    if (!originalItem) return;
+      try {
+        await onRemove?.(id);
+        toast.success("Удалено");
+      } catch (err) {
+        setOptimisticItems((prev) => [itemToRemove, ...prev]);
+        toast.error("Не удалось удалить");
+      } finally {
+        setPendingIds((prev) => {
+          const next = new Set(prev);
+          next.delete(id);
+          return next;
+        });
+      }
+    },
+    [optimisticItems, onRemove],
+  );
 
-    setOptimisticItems(prev => prev.map(i => i.id === item.id ? item : i));
-    setPendingIds(prev => new Set(prev).add(item.id));
+  const update = useCallback(
+    async (item: T) => {
+      const originalItem = optimisticItems.find((i) => i.id === item.id);
+      if (!originalItem) return;
 
-    try {
-      await onUpdate?.(item);
-    } catch (err) {
-      setOptimisticItems(prev => prev.map(i => i.id === item.id ? originalItem : i));
-      toast.error('Не удалось обновить');
-    } finally {
-      setPendingIds(prev => {
-        const next = new Set(prev);
-        next.delete(item.id);
-        return next;
-      });
-    }
-  }, [optimisticItems, onUpdate]);
+      setOptimisticItems((prev) => prev.map((i) => (i.id === item.id ? item : i)));
+      setPendingIds((prev) => new Set(prev).add(item.id));
+
+      try {
+        await onUpdate?.(item);
+      } catch (err) {
+        setOptimisticItems((prev) => prev.map((i) => (i.id === item.id ? originalItem : i)));
+        toast.error("Не удалось обновить");
+      } finally {
+        setPendingIds((prev) => {
+          const next = new Set(prev);
+          next.delete(item.id);
+          return next;
+        });
+      }
+    },
+    [optimisticItems, onUpdate],
+  );
 
   return {
     items: optimisticItems,

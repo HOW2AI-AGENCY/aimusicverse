@@ -1,7 +1,7 @@
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { logger } from '@/lib/logger';
-import { getCachedLyrics, setCachedLyrics } from '@/lib/lyricsCache';
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { logger } from "@/lib/logger";
+import { getCachedLyrics, setCachedLyrics } from "@/lib/lyricsCache";
 
 export interface AlignedWord {
   word: string;
@@ -24,7 +24,7 @@ export interface TimestampedLyricsData {
  */
 export function useTimestampedLyrics(taskId: string | null, audioId: string | null) {
   return useQuery({
-    queryKey: ['timestamped-lyrics', taskId, audioId],
+    queryKey: ["timestamped-lyrics", taskId, audioId],
     queryFn: async (): Promise<TimestampedLyricsData | null> => {
       if (!taskId || !audioId) {
         return null;
@@ -33,26 +33,23 @@ export function useTimestampedLyrics(taskId: string | null, audioId: string | nu
       // Try cache first
       const cached = await getCachedLyrics(taskId, audioId);
       if (cached) {
-        logger.debug('Using cached lyrics', { taskId, audioId });
+        logger.debug("Using cached lyrics", { taskId, audioId });
         return cached as TimestampedLyricsData;
       }
 
       // Fetch from API
-      const { data: responseData, error: functionError } = await supabase.functions.invoke(
-        'get-timestamped-lyrics',
-        {
-          body: { taskId, audioId },
-        }
-      );
+      const { data: responseData, error: functionError } = await supabase.functions.invoke("get-timestamped-lyrics", {
+        body: { taskId, audioId },
+      });
 
       if (functionError) {
-        logger.warn('Timestamped lyrics unavailable', { taskId, audioId, error: functionError.message });
+        logger.warn("Timestamped lyrics unavailable", { taskId, audioId, error: functionError.message });
         return null;
       }
 
       // Edge function may return { unavailable: true } when Suno has no credits / lyrics not ready
       if (responseData && (responseData.unavailable || responseData.error)) {
-        logger.warn('Timestamped lyrics not available', { taskId, audioId, reason: responseData.error });
+        logger.warn("Timestamped lyrics not available", { taskId, audioId, reason: responseData.error });
         return null;
       }
 
@@ -61,10 +58,10 @@ export function useTimestampedLyrics(taskId: string | null, audioId: string | nu
         try {
           await setCachedLyrics(taskId, audioId, responseData);
         } catch (cacheError) {
-          logger.warn('Failed to cache lyrics, continuing with response data', {
+          logger.warn("Failed to cache lyrics, continuing with response data", {
             error: cacheError instanceof Error ? cacheError.message : String(cacheError),
             taskId,
-            audioId
+            audioId,
           });
         }
       }

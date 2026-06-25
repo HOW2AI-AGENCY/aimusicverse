@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { motion, AnimatePresence } from '@/lib/motion';
+import { motion, AnimatePresence } from "@/lib/motion";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -13,27 +13,27 @@ import { BlogContentRenderer } from "@/components/blog/BlogContentRenderer";
 import { BlogPostCard } from "@/components/blog/BlogPostCard";
 import { BlogHeroSection } from "@/components/blog/BlogHeroSection";
 import { BlogListSkeleton } from "@/components/blog/BlogSkeleton";
-import { formatDistanceToNow, format, ru } from '@/lib/date-utils';
-import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
+import { formatDistanceToNow, format, ru } from "@/lib/date-utils";
+import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
 
 export default function Blog() {
   // Telegram BackButton
   useTelegramBackButton({
     visible: true,
-    fallbackPath: '/',
+    fallbackPath: "/",
   });
 
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const postSlug = searchParams.get("post");
-  
+
   const { data: adminAuth } = useAdminAuth();
   const isAdmin = adminAuth?.isAdmin;
-  
+
   const { data: posts, isLoading } = useBlogPosts(!isAdmin);
   const { data: selectedPost, isLoading: isLoadingPost } = useBlogPost(postSlug || undefined);
   const deletePost = useDeleteBlogPost();
-  
+
   const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
   const [isCreating, setIsCreating] = useState(false);
 
@@ -41,12 +41,12 @@ export default function Blog() {
   if (isCreating || editingPost) {
     return (
       <div className="container max-w-4xl mx-auto px-4 py-6 pb-24">
-        <BlogEditor 
-          post={editingPost} 
+        <BlogEditor
+          post={editingPost}
           onBack={() => {
             setEditingPost(null);
             setIsCreating(false);
-          }} 
+          }}
         />
       </div>
     );
@@ -62,12 +62,7 @@ export default function Blog() {
         className="min-h-screen pb-24"
       >
         <div className="container max-w-4xl mx-auto px-4 py-6">
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            onClick={() => navigate("/blog")}
-            className="mb-4"
-          >
+          <Button variant="ghost" size="sm" onClick={() => navigate("/blog")} className="mb-4">
             <ArrowLeft className="h-4 w-4 mr-1" />
             Все статьи
           </Button>
@@ -80,8 +75,10 @@ export default function Blog() {
               transition={{ duration: 0.5 }}
               className="relative rounded-2xl overflow-hidden mb-8"
             >
-              <img loading="lazy" decoding="async" 
-                src={selectedPost.cover_url} 
+              <img
+                loading="lazy"
+                decoding="async"
+                src={selectedPost.cover_url}
                 alt={selectedPost.title}
                 className="w-full h-48 sm:h-64 md:h-80 object-cover"
               />
@@ -99,12 +96,12 @@ export default function Blog() {
             <div className="flex items-start justify-between gap-4 mb-4">
               <div className="flex-1">
                 {!selectedPost.is_published && (
-                  <Badge variant="secondary" className="mb-3">Черновик</Badge>
+                  <Badge variant="secondary" className="mb-3">
+                    Черновик
+                  </Badge>
                 )}
-                <h1 className="text-3xl sm:text-4xl font-bold mb-4 text-foreground">
-                  {selectedPost.title}
-                </h1>
-                
+                <h1 className="text-3xl sm:text-4xl font-bold mb-4 text-foreground">{selectedPost.title}</h1>
+
                 <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
                   {selectedPost.published_at && (
                     <span className="flex items-center gap-1">
@@ -118,13 +115,9 @@ export default function Blog() {
                   </Button>
                 </div>
               </div>
-              
+
               {isAdmin && (
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  onClick={() => setEditingPost(selectedPost)}
-                >
+                <Button variant="outline" size="sm" onClick={() => setEditingPost(selectedPost)}>
                   <Edit className="h-4 w-4 mr-1" />
                   Редактировать
                 </Button>
@@ -140,11 +133,7 @@ export default function Blog() {
           </motion.div>
 
           {/* Article content */}
-          <motion.article
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-          >
+          <motion.article initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
             <BlogContentRenderer content={selectedPost.content} />
           </motion.article>
 
@@ -181,10 +170,7 @@ export default function Blog() {
       />
       <div className="container max-w-4xl mx-auto px-4 py-6">
         {/* Hero section */}
-        <BlogHeroSection 
-          isAdmin={isAdmin} 
-          onCreateNew={() => setIsCreating(true)} 
-        />
+        <BlogHeroSection isAdmin={isAdmin} onCreateNew={() => setIsCreating(true)} />
 
         {/* Loading state */}
         {isLoading ? (
@@ -226,10 +212,7 @@ export default function Blog() {
             </div>
           </AnimatePresence>
         ) : (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-          >
+          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}>
             <Card className="p-12 glass-card border-primary/20 text-center">
               <BookOpen className="w-16 h-16 text-muted-foreground mx-auto mb-4 opacity-50" />
               <h3 className="text-lg font-semibold mb-2 text-foreground">

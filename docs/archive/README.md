@@ -16,6 +16,7 @@ These documents represent completed work or historical snapshots. They remain av
 ## Current Documentation
 
 For current project status, see:
+
 - `/PROJECT_STATUS.md` - Single source of truth for project health
 - `/SPRINTS/SPRINT-PROGRESS.md` - Active sprint tracking
 - `/ROADMAP.md` - Project roadmap and plans

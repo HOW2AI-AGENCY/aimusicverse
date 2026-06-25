@@ -1,12 +1,12 @@
 /**
  * Telemetry Stats Hook for Admin Dashboard
- * 
+ *
  * Fetches aggregated telemetry and error statistics.
  */
 
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { logger } from '@/lib/logger';
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { logger } from "@/lib/logger";
 
 interface TelemetryStats {
   total_events: number;
@@ -50,16 +50,16 @@ interface ErrorTrends {
   }>;
 }
 
-export function useTelemetryStats(timePeriod: string = '24 hours') {
+export function useTelemetryStats(timePeriod: string = "24 hours") {
   return useQuery({
-    queryKey: ['telemetry-stats', timePeriod],
+    queryKey: ["telemetry-stats", timePeriod],
     queryFn: async (): Promise<TelemetryStats | null> => {
-      const { data, error } = await supabase.rpc('get_telemetry_stats', {
+      const { data, error } = await supabase.rpc("get_telemetry_stats", {
         _time_period: timePeriod,
       });
 
       if (error) {
-        logger.error('Failed to fetch telemetry stats', error);
+        logger.error("Failed to fetch telemetry stats", error);
         return null;
       }
 
@@ -72,16 +72,16 @@ export function useTelemetryStats(timePeriod: string = '24 hours') {
   });
 }
 
-export function useErrorTrends(timePeriod: string = '7 days') {
+export function useErrorTrends(timePeriod: string = "7 days") {
   return useQuery({
-    queryKey: ['error-trends', timePeriod],
+    queryKey: ["error-trends", timePeriod],
     queryFn: async (): Promise<ErrorTrends | null> => {
-      const { data, error } = await supabase.rpc('get_error_trends', {
+      const { data, error } = await supabase.rpc("get_error_trends", {
         _time_period: timePeriod,
       });
 
       if (error) {
-        logger.error('Failed to fetch error trends', error);
+        logger.error("Failed to fetch error trends", error);
         return null;
       }
 

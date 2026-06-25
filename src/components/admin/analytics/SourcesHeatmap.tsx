@@ -1,14 +1,14 @@
 /**
  * Sources Heatmap
- * 
+ *
  * Heatmap visualization for deeplink sources by hour/day
  */
 
-import { useMemo } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { cn } from '@/lib/utils';
+import { useMemo } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
 
 interface HeatmapData {
   source: string;
@@ -21,34 +21,31 @@ interface SourcesHeatmapProps {
 }
 
 const HOURS = Array.from({ length: 24 }, (_, i) => i);
-const HOUR_LABELS = HOURS.map(h => `${h.toString().padStart(2, '0')}:00`);
+const HOUR_LABELS = HOURS.map((h) => `${h.toString().padStart(2, "0")}:00`);
 
 // Get intensity class based on value relative to max
 function getIntensityClass(value: number, maxValue: number): string {
-  if (value === 0) return 'bg-muted/30';
-  
+  if (value === 0) return "bg-muted/30";
+
   const intensity = value / maxValue;
-  
-  if (intensity > 0.8) return 'bg-primary';
-  if (intensity > 0.6) return 'bg-primary/80';
-  if (intensity > 0.4) return 'bg-primary/60';
-  if (intensity > 0.2) return 'bg-primary/40';
-  return 'bg-primary/20';
+
+  if (intensity > 0.8) return "bg-primary";
+  if (intensity > 0.6) return "bg-primary/80";
+  if (intensity > 0.4) return "bg-primary/60";
+  if (intensity > 0.2) return "bg-primary/40";
+  return "bg-primary/20";
 }
 
 export function SourcesHeatmap({ data, isLoading }: SourcesHeatmapProps) {
   // Calculate max value for intensity scaling
   const maxValue = useMemo(() => {
-    return Math.max(
-      1,
-      ...data.flatMap(source => source.hourlyData)
-    );
+    return Math.max(1, ...data.flatMap((source) => source.hourlyData));
   }, [data]);
 
   // Calculate total per source for sorting
   const sortedData = useMemo(() => {
     return [...data]
-      .map(source => ({
+      .map((source) => ({
         ...source,
         total: source.hourlyData.reduce((sum, v) => sum + v, 0),
       }))
@@ -77,9 +74,7 @@ export function SourcesHeatmap({ data, isLoading }: SourcesHeatmapProps) {
           <CardTitle className="text-base">Активность по источникам</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="h-[200px] flex items-center justify-center text-muted-foreground">
-            Нет данных
-          </div>
+          <div className="h-[200px] flex items-center justify-center text-muted-foreground">Нет данных</div>
         </CardContent>
       </Card>
     );
@@ -95,12 +90,9 @@ export function SourcesHeatmap({ data, isLoading }: SourcesHeatmapProps) {
           <div className="min-w-[400px] sm:min-w-[600px]">
             {/* Hour labels */}
             <div className="flex gap-0.5 mb-1.5 sm:mb-2 ml-16 sm:ml-24">
-              {HOURS.filter((_, i) => i % 4 === 0).map(hour => (
-                <div 
-                  key={hour} 
-                  className="text-[8px] sm:text-[10px] text-muted-foreground w-[calc((100%-0px)/6)]"
-                >
-                  {hour.toString().padStart(2, '0')}
+              {HOURS.filter((_, i) => i % 4 === 0).map((hour) => (
+                <div key={hour} className="text-[8px] sm:text-[10px] text-muted-foreground w-[calc((100%-0px)/6)]">
+                  {hour.toString().padStart(2, "0")}
                 </div>
               ))}
             </div>
@@ -108,7 +100,7 @@ export function SourcesHeatmap({ data, isLoading }: SourcesHeatmapProps) {
             {/* Heatmap rows */}
             <TooltipProvider delayDuration={100}>
               <div className="space-y-0.5 sm:space-y-1">
-                {sortedData.map(source => (
+                {sortedData.map((source) => (
                   <div key={source.source} className="flex items-center gap-1 sm:gap-2">
                     <div className="w-14 sm:w-20 text-[10px] sm:text-xs text-muted-foreground truncate text-right">
                       {source.source}
@@ -119,15 +111,17 @@ export function SourcesHeatmap({ data, isLoading }: SourcesHeatmapProps) {
                           <TooltipTrigger asChild>
                             <div
                               className={cn(
-                                'flex-1 h-4 sm:h-6 rounded-sm cursor-pointer transition-opacity hover:opacity-80',
-                                getIntensityClass(value, maxValue)
+                                "flex-1 h-4 sm:h-6 rounded-sm cursor-pointer transition-opacity hover:opacity-80",
+                                getIntensityClass(value, maxValue),
                               )}
                             />
                           </TooltipTrigger>
                           <TooltipContent>
                             <div className="text-xs">
                               <div className="font-medium">{source.source}</div>
-                              <div>{HOUR_LABELS[hour]}: {value} переходов</div>
+                              <div>
+                                {HOUR_LABELS[hour]}: {value} переходов
+                              </div>
                             </div>
                           </TooltipContent>
                         </Tooltip>

@@ -3,10 +3,10 @@
  * Manages all dialog and selected track states for StudioShell
  */
 
-import { useState, useRef, useCallback } from 'react';
-import type { StudioTrack } from '@/stores/useUnifiedStudioStore';
-import type { TrackEffectsState, InstrumentalResultData } from './types';
-import { defaultStemEffects } from '@/hooks/studio/stemEffectsConfig';
+import { useState, useRef, useCallback } from "react";
+import type { StudioTrack } from "@/stores/useUnifiedStudioStore";
+import type { TrackEffectsState, InstrumentalResultData } from "./types";
+import { defaultStemEffects } from "@/hooks/studio/stemEffectsConfig";
 
 export function useStudioShellState() {
   // Dialog states
@@ -46,77 +46,110 @@ export function useStudioShellState() {
 
   // MusicLab sheet state (unified interface - no tabs)
   const [showMusicLabSheet, setShowMusicLabSheet] = useState(false);
-  
+
   // Lyrics sheet state (unified interface - no tabs)
   const [showLyricsSheet, setShowLyricsSheet] = useState(false);
 
   // Pending generation context
-  const pendingGenerationContextRef = useRef<Map<string, { type: 'replace_instrumental'; existingId?: string }>>(new Map());
+  const pendingGenerationContextRef = useRef<Map<string, { type: "replace_instrumental"; existingId?: string }>>(
+    new Map(),
+  );
 
   // Track effects update helpers
   const updateTrackEQ = useCallback((trackId: string, settings: Partial<typeof defaultStemEffects.eq>) => {
-    setTrackEffects(prev => ({
+    setTrackEffects((prev) => ({
       ...prev,
       [trackId]: {
         ...(prev[trackId] || defaultStemEffects),
-        eq: { ...(prev[trackId]?.eq || defaultStemEffects.eq), ...settings }
-      }
+        eq: { ...(prev[trackId]?.eq || defaultStemEffects.eq), ...settings },
+      },
     }));
   }, []);
 
-  const updateTrackCompressor = useCallback((trackId: string, settings: Partial<typeof defaultStemEffects.compressor>) => {
-    setTrackEffects(prev => ({
-      ...prev,
-      [trackId]: {
-        ...(prev[trackId] || defaultStemEffects),
-        compressor: { ...(prev[trackId]?.compressor || defaultStemEffects.compressor), ...settings }
-      }
-    }));
-  }, []);
+  const updateTrackCompressor = useCallback(
+    (trackId: string, settings: Partial<typeof defaultStemEffects.compressor>) => {
+      setTrackEffects((prev) => ({
+        ...prev,
+        [trackId]: {
+          ...(prev[trackId] || defaultStemEffects),
+          compressor: { ...(prev[trackId]?.compressor || defaultStemEffects.compressor), ...settings },
+        },
+      }));
+    },
+    [],
+  );
 
   const updateTrackReverb = useCallback((trackId: string, settings: Partial<typeof defaultStemEffects.reverb>) => {
-    setTrackEffects(prev => ({
+    setTrackEffects((prev) => ({
       ...prev,
       [trackId]: {
         ...(prev[trackId] || defaultStemEffects),
-        reverb: { ...(prev[trackId]?.reverb || defaultStemEffects.reverb), ...settings }
-      }
+        reverb: { ...(prev[trackId]?.reverb || defaultStemEffects.reverb), ...settings },
+      },
     }));
   }, []);
 
-  const getTrackEffects = useCallback((trackId: string) => {
-    return trackEffects[trackId] || defaultStemEffects;
-  }, [trackEffects]);
+  const getTrackEffects = useCallback(
+    (trackId: string) => {
+      return trackEffects[trackId] || defaultStemEffects;
+    },
+    [trackEffects],
+  );
 
   return {
     // Dialog states
-    showAddTrackDialog, setShowAddTrackDialog,
-    showImportDialog, setShowImportDialog,
-    showMixerSheet, setShowMixerSheet,
-    showExportDialog, setShowExportDialog,
-    showEffectsDrawer, setShowEffectsDrawer,
-    showAddVocalsDrawer, setShowAddVocalsDrawer,
-    showExtendDialog, setShowExtendDialog,
-    showSectionEditor, setShowSectionEditor,
-    showGenerateSheet, setShowGenerateSheet,
-    showDownloadPanel, setShowDownloadPanel,
-    showSaveVersionDialog, setShowSaveVersionDialog,
-    showNotationPanel, setShowNotationPanel,
-    showTranscriptionPanel, setShowTranscriptionPanel,
-    showArrangementDialog, setShowArrangementDialog,
-    showInstrumentalResult, setShowInstrumentalResult,
-    showActionsSheet, setShowActionsSheet,
-    showStemSeparationDialog, setShowStemSeparationDialog,
-    showBatchProcessingPanel, setShowBatchProcessingPanel,
+    showAddTrackDialog,
+    setShowAddTrackDialog,
+    showImportDialog,
+    setShowImportDialog,
+    showMixerSheet,
+    setShowMixerSheet,
+    showExportDialog,
+    setShowExportDialog,
+    showEffectsDrawer,
+    setShowEffectsDrawer,
+    showAddVocalsDrawer,
+    setShowAddVocalsDrawer,
+    showExtendDialog,
+    setShowExtendDialog,
+    showSectionEditor,
+    setShowSectionEditor,
+    showGenerateSheet,
+    setShowGenerateSheet,
+    showDownloadPanel,
+    setShowDownloadPanel,
+    showSaveVersionDialog,
+    setShowSaveVersionDialog,
+    showNotationPanel,
+    setShowNotationPanel,
+    showTranscriptionPanel,
+    setShowTranscriptionPanel,
+    showArrangementDialog,
+    setShowArrangementDialog,
+    showInstrumentalResult,
+    setShowInstrumentalResult,
+    showActionsSheet,
+    setShowActionsSheet,
+    showStemSeparationDialog,
+    setShowStemSeparationDialog,
+    showBatchProcessingPanel,
+    setShowBatchProcessingPanel,
 
     // Selected track states
-    selectedEffectsTrack, setSelectedEffectsTrack,
-    selectedVocalsTrack, setSelectedVocalsTrack,
-    selectedExtendTrack, setSelectedExtendTrack,
-    selectedSectionTrack, setSelectedSectionTrack,
-    selectedNotationTrack, setSelectedNotationTrack,
-    selectedTranscriptionTrack, setSelectedTranscriptionTrack,
-    selectedArrangementTrack, setSelectedArrangementTrack,
+    selectedEffectsTrack,
+    setSelectedEffectsTrack,
+    selectedVocalsTrack,
+    setSelectedVocalsTrack,
+    selectedExtendTrack,
+    setSelectedExtendTrack,
+    selectedSectionTrack,
+    setSelectedSectionTrack,
+    selectedNotationTrack,
+    setSelectedNotationTrack,
+    selectedTranscriptionTrack,
+    setSelectedTranscriptionTrack,
+    selectedArrangementTrack,
+    setSelectedArrangementTrack,
 
     // Track effects
     trackEffects,
@@ -126,11 +159,14 @@ export function useStudioShellState() {
     getTrackEffects,
 
     // Instrumental result
-    instrumentalResultData, setInstrumentalResultData,
+    instrumentalResultData,
+    setInstrumentalResultData,
 
     // Sheet states (unified interface - no tabs)
-    showMusicLabSheet, setShowMusicLabSheet,
-    showLyricsSheet, setShowLyricsSheet,
+    showMusicLabSheet,
+    setShowMusicLabSheet,
+    showLyricsSheet,
+    setShowLyricsSheet,
 
     // Generation context
     pendingGenerationContextRef,

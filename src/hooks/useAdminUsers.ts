@@ -32,14 +32,12 @@ export function useAdminUsers() {
       if (profilesError) throw profilesError;
 
       // Fetch all roles
-      const { data: roles, error: rolesError } = await supabase
-        .from("user_roles")
-        .select("user_id, role");
+      const { data: roles, error: rolesError } = await supabase.from("user_roles").select("user_id, role");
 
       if (rolesError) throw rolesError;
 
       // Fetch user credits/balances
-      const userIds = profiles?.map(p => p.user_id) || [];
+      const userIds = profiles?.map((p) => p.user_id) || [];
       const { data: credits, error: creditsError } = await supabase
         .from("user_credits")
         .select("user_id, balance, total_earned, total_spent, level")
@@ -55,7 +53,10 @@ export function useAdminUsers() {
         rolesByUser.set(r.user_id, existing);
       });
 
-      const creditsByUser = new Map<string, { balance: number; total_earned: number; total_spent: number; level: number }>();
+      const creditsByUser = new Map<
+        string,
+        { balance: number; total_earned: number; total_spent: number; level: number }
+      >();
       credits?.forEach((c) => {
         creditsByUser.set(c.user_id, {
           balance: c.balance || 0,
@@ -113,18 +114,20 @@ export function useToggleUserRole() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ userId, role, action }: { userId: string; role: "admin" | "moderator"; action: "add" | "remove" }) => {
+    mutationFn: async ({
+      userId,
+      role,
+      action,
+    }: {
+      userId: string;
+      role: "admin" | "moderator";
+      action: "add" | "remove";
+    }) => {
       if (action === "add") {
-        const { error } = await supabase
-          .from("user_roles")
-          .insert({ user_id: userId, role });
+        const { error } = await supabase.from("user_roles").insert({ user_id: userId, role });
         if (error) throw error;
       } else {
-        const { error } = await supabase
-          .from("user_roles")
-          .delete()
-          .eq("user_id", userId)
-          .eq("role", role);
+        const { error } = await supabase.from("user_roles").delete().eq("user_id", userId).eq("role", role);
         if (error) throw error;
       }
     },

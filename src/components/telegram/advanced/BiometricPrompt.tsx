@@ -1,16 +1,16 @@
 /**
  * Biometric Authentication Prompt Component
- * 
+ *
  * Provides a UI for biometric authentication (Touch ID, Face ID, fingerprint)
  * Available on iOS and Android with Telegram 7.2+
- * 
+ *
  * Features:
  * - Automatic detection of biometric type
  * - Access request flow
  * - Authentication with custom reason
  * - Settings link for troubleshooting
  * - Graceful fallback for unsupported devices
- * 
+ *
  * @example
  * ```tsx
  * <BiometricPrompt
@@ -24,18 +24,12 @@
  * ```
  */
 
-import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
-import { Fingerprint, Scan, Settings, AlertCircle } from 'lucide-react';
-import { useTelegramBiometric } from '@/hooks/telegram';
-import { toast } from 'sonner';
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Fingerprint, Scan, Settings, AlertCircle } from "lucide-react";
+import { useTelegramBiometric } from "@/hooks/telegram";
+import { toast } from "sonner";
 
 interface BiometricPromptProps {
   open: boolean;
@@ -47,7 +41,7 @@ interface BiometricPromptProps {
 export const BiometricPrompt = ({
   open,
   onOpenChange,
-  reason = 'Подтвердите действие',
+  reason = "Подтвердите действие",
   onAuthenticate,
 }: BiometricPromptProps) => {
   const {
@@ -79,24 +73,24 @@ export const BiometricPrompt = ({
       if (!isAccessGranted) {
         const granted = await requestAccess(reason);
         if (!granted) {
-          setError('Доступ к биометрии отклонен');
+          setError("Доступ к биометрии отклонен");
           setIsLoading(false);
           return;
         }
       }
 
       const result = await authenticate(reason);
-      
+
       if (result.success) {
-        toast.success('Аутентификация успешна');
+        toast.success("Аутентификация успешна");
         onAuthenticate(true, result.token);
         onOpenChange(false);
       } else {
-        setError('Аутентификация не удалась');
+        setError("Аутентификация не удалась");
         onAuthenticate(false);
       }
     } catch (err) {
-      setError('Ошибка аутентификации');
+      setError("Ошибка аутентификации");
       onAuthenticate(false);
     } finally {
       setIsLoading(false);
@@ -105,9 +99,9 @@ export const BiometricPrompt = ({
 
   const getBiometricIcon = () => {
     switch (biometricType) {
-      case 'face':
+      case "face":
         return <Scan className="h-12 w-12 text-primary" />;
-      case 'finger':
+      case "finger":
         return <Fingerprint className="h-12 w-12 text-primary" />;
       default:
         return <Fingerprint className="h-12 w-12 text-muted-foreground" />;
@@ -116,12 +110,12 @@ export const BiometricPrompt = ({
 
   const getBiometricLabel = () => {
     switch (biometricType) {
-      case 'face':
-        return 'Face ID';
-      case 'finger':
-        return 'Touch ID / Fingerprint';
+      case "face":
+        return "Face ID";
+      case "finger":
+        return "Touch ID / Fingerprint";
       default:
-        return 'Biometric Authentication';
+        return "Biometric Authentication";
     }
   };
 
@@ -134,9 +128,7 @@ export const BiometricPrompt = ({
               <AlertCircle className="h-5 w-5 text-yellow-500" />
               Биометрия недоступна
             </DialogTitle>
-            <DialogDescription>
-              Биометрическая аутентификация не поддерживается на вашем устройстве
-            </DialogDescription>
+            <DialogDescription>Биометрическая аутентификация не поддерживается на вашем устройстве</DialogDescription>
           </DialogHeader>
           <Button onClick={() => onOpenChange(false)} variant="outline">
             Закрыть
@@ -155,9 +147,7 @@ export const BiometricPrompt = ({
               <AlertCircle className="h-5 w-5 text-yellow-500" />
               Биометрия не настроена
             </DialogTitle>
-            <DialogDescription>
-              Настройте биометрическую аутентификацию в настройках устройства
-            </DialogDescription>
+            <DialogDescription>Настройте биометрическую аутентификацию в настройках устройства</DialogDescription>
           </DialogHeader>
           <div className="flex gap-2">
             <Button onClick={openSettings} className="flex-1">
@@ -177,12 +167,8 @@ export const BiometricPrompt = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-sm">
         <DialogHeader>
-          <DialogTitle className="text-center">
-            {getBiometricLabel()}
-          </DialogTitle>
-          <DialogDescription className="text-center">
-            {reason}
-          </DialogDescription>
+          <DialogTitle className="text-center">{getBiometricLabel()}</DialogTitle>
+          <DialogDescription className="text-center">{reason}</DialogDescription>
         </DialogHeader>
 
         <div className="flex flex-col items-center gap-6 py-6">
@@ -203,20 +189,11 @@ export const BiometricPrompt = ({
           )}
 
           <div className="w-full space-y-2">
-            <Button
-              onClick={handleAuthenticate}
-              className="w-full"
-              disabled={isLoading}
-            >
-              {isLoading ? 'Проверка...' : 'Подтвердить'}
+            <Button onClick={handleAuthenticate} className="w-full" disabled={isLoading}>
+              {isLoading ? "Проверка..." : "Подтвердить"}
             </Button>
 
-            <Button
-              onClick={() => onOpenChange(false)}
-              variant="outline"
-              className="w-full"
-              disabled={isLoading}
-            >
+            <Button onClick={() => onOpenChange(false)} variant="outline" className="w-full" disabled={isLoading}>
               Отмена
             </Button>
           </div>

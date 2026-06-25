@@ -24,7 +24,6 @@ MusicVerse AI's music player is a comprehensive audio playback system built with
 > `tests/e2e/layout.player-offset.spec.ts`,
 > `tests/e2e/home.quickstart.responsive.spec.ts`.
 
-
 ## Architecture Diagram
 
 ```
@@ -83,6 +82,7 @@ MusicVerse AI's music player is a comprehensive audio playback system built with
 The central state store using Zustand. Manages all player state and provides actions for state manipulation.
 
 **Key State:**
+
 - `activeTrack`: Currently playing/selected track
 - `isPlaying`: Playback status (playing/paused)
 - `queue`: Array of tracks in playback order
@@ -92,6 +92,7 @@ The central state store using Zustand. Manages all player state and provides act
 - `playerMode`: UI display mode (minimized/compact/fullscreen)
 
 **Key Actions:**
+
 - `playTrack(track?)`: Play specific track or resume
 - `pauseTrack()`: Pause playback
 - `nextTrack()`: Skip to next with shuffle/repeat support
@@ -104,6 +105,7 @@ The central state store using Zustand. Manages all player state and provides act
 - `toggleRepeat()`: Cycle repeat modes
 
 **State Persistence:**
+
 - Queue saved to localStorage automatically
 - Restored on app initialization
 - Includes queue data and playback state
@@ -113,6 +115,7 @@ The central state store using Zustand. Manages all player state and provides act
 Low-level audio playback hook that manages HTML5 Audio element.
 
 **Features:**
+
 - Multi-source priority (streaming → local → original)
 - Automatic source fallback on error
 - Buffering progress tracking
@@ -121,11 +124,13 @@ Low-level audio playback hook that manages HTML5 Audio element.
 - Lifecycle management
 
 **Audio Source Priority:**
+
 1. **Streaming URL**: Optimized CDN delivery (preferred)
 2. **Local Audio URL**: Cached local file (fallback)
 3. **Audio URL**: Original source (last resort)
 
 **Events Handled:**
+
 - `loadedmetadata`: Duration available
 - `timeupdate`: Playback progress
 - `progress`: Buffer progress
@@ -135,6 +140,7 @@ Low-level audio playback hook that manages HTML5 Audio element.
 - `error`: Automatic fallback
 
 **Memory Management:**
+
 - Audio element cleaned up on unmount
 - Event listeners properly removed
 - Source reset to release resources
@@ -144,6 +150,7 @@ Low-level audio playback hook that manages HTML5 Audio element.
 High-level queue operations and persistence.
 
 **Features:**
+
 - Add single or multiple tracks
 - Remove tracks with index adjustment
 - Reorder via drag-and-drop
@@ -153,6 +160,7 @@ High-level queue operations and persistence.
 - Automatic localStorage persistence
 
 **Queue Operations:**
+
 - `addTrack(track, playNow)`: Add track, optionally play immediately
 - `addTracks(tracks, playFirst)`: Batch add tracks
 - `setQueue(tracks, startIndex)`: Replace entire queue
@@ -161,6 +169,7 @@ High-level queue operations and persistence.
 - `jumpToTrack(index)`: Play specific queue position
 
 **Persistence Strategy:**
+
 - Queue and state saved separately
 - Auto-save on any change
 - Validation on restore
@@ -173,6 +182,7 @@ High-level queue operations and persistence.
 Main control buttons: shuffle, previous, play/pause, next, repeat.
 
 **Features:**
+
 - Responsive sizing (compact/medium/large)
 - Touch-optimized hit areas
 - Visual feedback for active modes
@@ -183,6 +193,7 @@ Main control buttons: shuffle, previous, play/pause, next, repeat.
 Interactive progress indicator with seek functionality.
 
 **Features:**
+
 - Current/total time display
 - Buffer progress visualization
 - Click/drag to seek
@@ -194,6 +205,7 @@ Interactive progress indicator with seek functionality.
 Volume slider with mute toggle.
 
 **Features:**
+
 - Volume slider (0-100%)
 - Mute/unmute with memory
 - Dynamic volume icons
@@ -205,6 +217,7 @@ Volume slider with mute toggle.
 Bottom sheet displaying playback queue.
 
 **Features:**
+
 - Drag-and-drop reordering (@dnd-kit)
 - Current track highlighting
 - Remove track functionality
@@ -214,11 +227,13 @@ Bottom sheet displaying playback queue.
 ## Player Modes
 
 ### 1. Minimized
+
 - Player hidden
 - No UI visible
 - Default state when no track active
 
 ### 2. Compact
+
 - Small bar at bottom
 - Basic controls visible (play/pause, next)
 - Track info and progress bar
@@ -227,6 +242,7 @@ Bottom sheet displaying playback queue.
 - Auto-opens when playing
 
 ### 3. Fullscreen
+
 - Full screen takeover
 - Large cover art with animated background
 - All playback controls
@@ -297,24 +313,28 @@ If all fail, error state displayed
 ## Performance Optimizations
 
 ### Audio Element Management
+
 - Single Audio element per track
 - Proper cleanup on unmount
 - Event listener cleanup
 - Source reset to release memory
 
 ### State Updates
+
 - Zustand provides efficient re-renders
 - useCallback for stable function references
 - Local state in components when appropriate
 - Debouncing for rapid updates (seek, volume)
 
 ### Queue Persistence
+
 - Separate storage for queue data and state
 - Error handling for quota exceeded
 - Validation on restore
 - Only save when queue has content
 
 ### Component Rendering
+
 - Memoization where needed
 - Conditional rendering
 - Lazy loading for heavy components
@@ -323,18 +343,21 @@ If all fail, error state displayed
 ## Error Handling
 
 ### Audio Playback Errors
+
 - Automatic source fallback
 - User-friendly error messages
 - Console logging for debugging
 - Graceful degradation
 
 ### Storage Errors
+
 - QuotaExceededError handling
 - Parse error recovery
 - Validation on restore
 - Silent failures (don't break UX)
 
 ### Queue Operations
+
 - Bounds checking
 - Index validation
 - Type validation
@@ -343,18 +366,21 @@ If all fail, error state displayed
 ## Accessibility
 
 ### ARIA Labels
+
 - All buttons have aria-label
 - aria-pressed for toggles
 - aria-valuemin/max/now for sliders
 - role="slider" for progress bar
 
 ### Keyboard Support
+
 - Buttons keyboard accessible
 - Drag-and-drop keyboard support (@dnd-kit)
 - Focus management
 - Tab order optimization
 
 ### Touch Optimization
+
 - Larger hit areas (touch-manipulation)
 - Proper pointer events
 - Swipe gestures
@@ -363,18 +389,21 @@ If all fail, error state displayed
 ## Storage Strategy
 
 ### localStorage
+
 - Queue persistence
 - Volume preference
 - Player state
 - ~5MB limit (browser dependent)
 
 ### Telegram CloudStorage
+
 - User preferences sync
 - Cross-device support
 - Fallback to localStorage
 - Limited to small data
 
 ### Audio Caching
+
 - Streaming URL (CDN)
 - Local cached files
 - Original URL backup
@@ -383,6 +412,7 @@ If all fail, error state displayed
 ## Future Enhancements
 
 ### Potential Improvements
+
 - [ ] Preload next track in queue
 - [ ] Crossfade between tracks
 - [ ] Equalizer/audio effects
@@ -395,6 +425,7 @@ If all fail, error state displayed
 - [ ] Collaborative queue
 
 ### Performance
+
 - [ ] Virtual scrolling for large queues
 - [ ] Web Worker for audio processing
 - [ ] IndexedDB for large queue storage
@@ -406,24 +437,28 @@ If all fail, error state displayed
 ### Common Issues
 
 **Audio not playing:**
+
 - Check source URLs are valid
 - Verify CORS headers
 - Check browser autoplay policy
 - Ensure user interaction occurred
 
 **Queue not persisting:**
+
 - Check localStorage quota
 - Verify not in private/incognito mode
 - Check browser storage settings
 - Clear corrupted storage data
 
 **Buffering issues:**
+
 - Check network connection
 - Verify streaming URL quality
 - Try local source fallback
 - Check server response time
 
 **Seek not working:**
+
 - Ensure duration loaded (loadedmetadata)
 - Check if source is seekable
 - Verify time range validity
@@ -432,6 +467,7 @@ If all fail, error state displayed
 ## API Reference
 
 See inline JSDoc comments in source files for detailed API documentation:
+
 - `src/hooks/usePlayerState.ts` - State management
 - `src/hooks/useAudioPlayer.tsx` - Audio playback
 - `src/hooks/usePlaybackQueue.ts` - Queue operations
@@ -440,6 +476,7 @@ See inline JSDoc comments in source files for detailed API documentation:
 ## Development Guidelines
 
 ### Adding New Features
+
 1. Update state interface if needed
 2. Add actions to Zustand store
 3. Create/update components
@@ -447,6 +484,7 @@ See inline JSDoc comments in source files for detailed API documentation:
 5. Update documentation
 
 ### Code Style
+
 - Use TypeScript strictly
 - Add JSDoc comments
 - Follow existing patterns
@@ -454,6 +492,7 @@ See inline JSDoc comments in source files for detailed API documentation:
 - Add accessibility support
 
 ### Testing
+
 - Test playback scenarios
 - Test queue operations
 - Test persistence

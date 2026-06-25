@@ -3,11 +3,11 @@
  * Manages selection, validation, and mutation state with progress tracking
  */
 
-import { useState, useCallback, useEffect } from 'react';
-import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
-import { useReplaceSectionMutation } from '@/hooks/useReplaceSectionMutation';
-import { useReplaceSectionProgress } from '@/hooks/generation/useReplaceSectionProgress';
-import { DetectedSection } from '@/hooks/useSectionDetection';
+import { useState, useCallback, useEffect } from "react";
+import { useSectionEditorStore } from "@/stores/useSectionEditorStore";
+import { useReplaceSectionMutation } from "@/hooks/useReplaceSectionMutation";
+import { useReplaceSectionProgress } from "@/hooks/generation/useReplaceSectionProgress";
+import { DetectedSection } from "@/hooks/useSectionDetection";
 
 interface UseSectionReplacementOptions {
   trackId: string;
@@ -24,18 +24,12 @@ export function useSectionReplacement({
   detectedSections = [],
   onSuccess,
 }: UseSectionReplacementOptions) {
-  const [localPrompt, setLocalPrompt] = useState('');
-  const [localTags, setLocalTags] = useState(trackTags || '');
-  const [localLyrics, setLocalLyrics] = useState('');
-  
-  const {
-    selectedSection,
-    selectedSectionIndex,
-    customRange,
-    setCustomRange,
-    clearSelection,
-    setActiveTask,
-  } = useSectionEditorStore();
+  const [localPrompt, setLocalPrompt] = useState("");
+  const [localTags, setLocalTags] = useState(trackTags || "");
+  const [localLyrics, setLocalLyrics] = useState("");
+
+  const { selectedSection, selectedSectionIndex, customRange, setCustomRange, clearSelection, setActiveTask } =
+    useSectionEditorStore();
 
   const replaceMutation = useReplaceSectionMutation();
   const sectionProgress = useReplaceSectionProgress();
@@ -63,63 +57,69 @@ export function useSectionReplacement({
   }, [selectedSection]);
 
   // Select a detected section
-  const selectSection = useCallback((index: number) => {
-    const section = detectedSections[index];
-    if (!section) return;
+  const selectSection = useCallback(
+    (index: number) => {
+      const section = detectedSections[index];
+      if (!section) return;
 
-    const sectionLen = section.endTime - section.startTime;
-    if (sectionLen > maxDuration) {
-      // Trim to max allowed
-      setCustomRange(section.startTime, section.startTime + maxDuration);
-    } else {
-      setCustomRange(section.startTime, section.endTime);
-    }
-    setLocalLyrics(section.lyrics);
-  }, [detectedSections, maxDuration, setCustomRange]);
+      const sectionLen = section.endTime - section.startTime;
+      if (sectionLen > maxDuration) {
+        // Trim to max allowed
+        setCustomRange(section.startTime, section.startTime + maxDuration);
+      } else {
+        setCustomRange(section.startTime, section.endTime);
+      }
+      setLocalLyrics(section.lyrics);
+    },
+    [detectedSections, maxDuration, setCustomRange],
+  );
 
   // Update time range with improved lyrics extraction
-  const updateRange = useCallback((start: number, end: number) => {
-    setCustomRange(start, end);
-    
-    // Find matching section with improved tolerance based on section length
-    const rangeDuration = end - start;
-    const tolerance = Math.min(1.0, rangeDuration * 0.15); // 15% tolerance, max 1 second
-    
-    const matchingSection = detectedSections.find(
-      s => Math.abs(s.startTime - start) < tolerance && Math.abs(s.endTime - end) < tolerance
-    );
-    
-    if (matchingSection) {
-      setLocalLyrics(matchingSection.lyrics);
-    } else {
-      // Try to find overlapping sections and combine their lyrics
-      const overlappingSections = detectedSections.filter(s => {
-        const overlapStart = Math.max(s.startTime, start);
-        const overlapEnd = Math.min(s.endTime, end);
-        const overlapDuration = overlapEnd - overlapStart;
-        const sectionDuration = s.endTime - s.startTime;
-        // At least 50% overlap with the section
-        return overlapDuration > 0 && overlapDuration >= sectionDuration * 0.5;
-      });
-      
-      if (overlappingSections.length > 0) {
-        // Combine lyrics from overlapping sections
-        const combinedLyrics = overlappingSections
-          .sort((a, b) => a.startTime - b.startTime)
-          .map(s => s.lyrics.trim())
-          .filter(l => l.length > 0)
-          .join('\n\n');
-        
-        if (combinedLyrics) {
-          setLocalLyrics(combinedLyrics);
+  const updateRange = useCallback(
+    (start: number, end: number) => {
+      setCustomRange(start, end);
+
+      // Find matching section with improved tolerance based on section length
+      const rangeDuration = end - start;
+      const tolerance = Math.min(1.0, rangeDuration * 0.15); // 15% tolerance, max 1 second
+
+      const matchingSection = detectedSections.find(
+        (s) => Math.abs(s.startTime - start) < tolerance && Math.abs(s.endTime - end) < tolerance,
+      );
+
+      if (matchingSection) {
+        setLocalLyrics(matchingSection.lyrics);
+      } else {
+        // Try to find overlapping sections and combine their lyrics
+        const overlappingSections = detectedSections.filter((s) => {
+          const overlapStart = Math.max(s.startTime, start);
+          const overlapEnd = Math.min(s.endTime, end);
+          const overlapDuration = overlapEnd - overlapStart;
+          const sectionDuration = s.endTime - s.startTime;
+          // At least 50% overlap with the section
+          return overlapDuration > 0 && overlapDuration >= sectionDuration * 0.5;
+        });
+
+        if (overlappingSections.length > 0) {
+          // Combine lyrics from overlapping sections
+          const combinedLyrics = overlappingSections
+            .sort((a, b) => a.startTime - b.startTime)
+            .map((s) => s.lyrics.trim())
+            .filter((l) => l.length > 0)
+            .join("\n\n");
+
+          if (combinedLyrics) {
+            setLocalLyrics(combinedLyrics);
+          }
         }
       }
-    }
-  }, [detectedSections, setCustomRange]);
+    },
+    [detectedSections, setCustomRange],
+  );
 
   // Add preset to prompt
   const addPreset = useCallback((preset: string) => {
-    setLocalPrompt(prev => prev ? `${prev}, ${preset}` : preset);
+    setLocalPrompt((prev) => (prev ? `${prev}, ${preset}` : preset));
   }, []);
 
   // Execute replacement with progress tracking
@@ -129,7 +129,7 @@ export function useSectionReplacement({
     // Build prompt with lyrics if changed
     let finalPrompt = localPrompt;
     if (localLyrics && localLyrics !== selectedSection?.lyrics) {
-      finalPrompt = localLyrics + (localPrompt ? `\n\n${localPrompt}` : '');
+      finalPrompt = localLyrics + (localPrompt ? `\n\n${localPrompt}` : "");
     }
 
     sectionProgress.setSubmitting();
@@ -150,18 +150,27 @@ export function useSectionReplacement({
 
       onSuccess?.();
     } catch (error) {
-      sectionProgress.setError(error instanceof Error ? error.message : 'Ошибка замены секции');
+      sectionProgress.setError(error instanceof Error ? error.message : "Ошибка замены секции");
     }
   }, [
-    isValidDuration, localPrompt, localLyrics, localTags,
-    startTime, endTime, trackId, selectedSection, replaceMutation,
-    setActiveTask, onSuccess, sectionProgress
+    isValidDuration,
+    localPrompt,
+    localLyrics,
+    localTags,
+    startTime,
+    endTime,
+    trackId,
+    selectedSection,
+    replaceMutation,
+    setActiveTask,
+    onSuccess,
+    sectionProgress,
   ]);
 
   // Reset state
   const reset = useCallback(() => {
-    setLocalPrompt('');
-    setLocalLyrics('');
+    setLocalPrompt("");
+    setLocalLyrics("");
     clearSelection();
     sectionProgress.reset();
   }, [clearSelection, sectionProgress]);
@@ -175,14 +184,14 @@ export function useSectionReplacement({
     hasSelection,
     selectedSection,
     selectedSectionIndex,
-    
+
     // Validation
     isValidDuration,
     isSubmitting: replaceMutation.isPending || sectionProgress.isActive,
-    
+
     // Progress tracking
     progress: sectionProgress,
-    
+
     // Form state
     prompt: localPrompt,
     setPrompt: setLocalPrompt,
@@ -190,7 +199,7 @@ export function useSectionReplacement({
     setTags: setLocalTags,
     lyrics: localLyrics,
     setLyrics: setLocalLyrics,
-    
+
     // Actions
     selectSection,
     updateRange,
@@ -202,10 +211,10 @@ export function useSectionReplacement({
 
 // Prompt presets
 export const SECTION_PRESETS = [
-  { id: 'energetic', label: '⚡ Энергичнее', prompt: 'more energetic, higher tempo, powerful' },
-  { id: 'soft', label: '🎵 Мягче', prompt: 'softer, gentler, acoustic feel' },
-  { id: 'epic', label: '🎬 Эпичнее', prompt: 'epic, orchestral, cinematic' },
-  { id: 'minimal', label: '🎹 Минимал', prompt: 'minimal, stripped down, simple' },
-  { id: 'rock', label: '🎸 Рок', prompt: 'rock style, distorted guitar, drums' },
-  { id: 'acoustic', label: '🎤 Акустика', prompt: 'acoustic, unplugged, natural' },
+  { id: "energetic", label: "⚡ Энергичнее", prompt: "more energetic, higher tempo, powerful" },
+  { id: "soft", label: "🎵 Мягче", prompt: "softer, gentler, acoustic feel" },
+  { id: "epic", label: "🎬 Эпичнее", prompt: "epic, orchestral, cinematic" },
+  { id: "minimal", label: "🎹 Минимал", prompt: "minimal, stripped down, simple" },
+  { id: "rock", label: "🎸 Рок", prompt: "rock style, distorted guitar, drums" },
+  { id: "acoustic", label: "🎤 Акустика", prompt: "acoustic, unplugged, natural" },
 ] as const;

@@ -13,18 +13,18 @@
 - [handleStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L44) (1 connections)
 - [handleStop](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L52) (1 connections)
 - [{
-    isRecording,
-    isPaused,
-    audioUrl,
-    audioBlob,
-    duration,
-    audioLevel,
-    waveformData,
-    startRecording,
-    stopRecording,
-    pauseRecording,
-    resumeRecording,
-    resetRecording,
+  isRecording,
+  isPaused,
+  audioUrl,
+  audioBlob,
+  duration,
+  audioLevel,
+  waveformData,
+  startRecording,
+  stopRecording,
+  pauseRecording,
+  resumeRecording,
+  resetRecording,
   }](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L27) (1 connections)
 - [[recordingMode, setRecordingMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L24) (1 connections)
 
@@ -44,4 +44,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

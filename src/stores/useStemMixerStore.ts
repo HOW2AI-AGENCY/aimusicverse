@@ -1,38 +1,39 @@
 /**
  * useStemMixerStore
- * 
+ *
  * Standalone Zustand store for stem mixing when used outside of unified studio.
  * Uses the stemMixerSlice for consistent behavior.
- * 
+ *
  * @example
  * ```tsx
  * const { stemStates, setStemVolume, toggleStemMute } = useStemMixerStore();
  * ```
  */
 
-import { create } from 'zustand';
-import { subscribeWithSelector } from 'zustand/middleware';
-import { createStemMixerSlice, type StemMixerSlice } from './slices';
+import { create } from "zustand";
+import { subscribeWithSelector } from "zustand/middleware";
+import { createStemMixerSlice, type StemMixerSlice } from "./slices";
 
 /**
  * Standalone stem mixer store
  * Use when mixing stems outside of the full studio context
  */
-export const useStemMixerStore = create<StemMixerSlice>()(
-  subscribeWithSelector((...a) => createStemMixerSlice(...a))
-);
+export const useStemMixerStore = create<StemMixerSlice>()(subscribeWithSelector((...a) => createStemMixerSlice(...a)));
 
 /**
  * Hook to get stem state with shallow comparison
  * Optimized to prevent unnecessary re-renders
  */
 export function useStemState(stemId: string) {
-  return useStemMixerStore((state) => state.stemStates[stemId] || {
-    volume: 1,
-    pan: 0,
-    muted: false,
-    solo: false,
-  });
+  return useStemMixerStore(
+    (state) =>
+      state.stemStates[stemId] || {
+        volume: 1,
+        pan: 0,
+        muted: false,
+        solo: false,
+      },
+  );
 }
 
 /**

@@ -29,7 +29,7 @@
 - [[isLoading, setIsLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/SmartPaywallDialog.tsx#L107) (1 connections)
 - [MESSAGING](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/SmartPaywallDialog.tsx#L41) (1 connections)
 - [PRO_BENEFITS](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/SmartPaywallDialog.tsx#L85) (1 connections)
-- *... and 12 more nodes in this community*
+- _... and 12 more nodes in this community_
 
 ## Relationships
 
@@ -50,4 +50,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

@@ -3,17 +3,25 @@
  * Grid of action buttons for common operations
  */
 
-import { memo, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { motion } from '@/lib/motion';
+import { memo, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { motion } from "@/lib/motion";
 import {
-  Scissors, ArrowRightFromLine, Sparkles, Download,
-  Share2, Music2, Save, FolderOpen, Settings, Trash2
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { toast } from 'sonner';
-import { useHapticFeedback } from '@/hooks/useHapticFeedback';
-import type { StudioProject } from '@/stores/useUnifiedStudioStore';
+  Scissors,
+  ArrowRightFromLine,
+  Sparkles,
+  Download,
+  Share2,
+  Music2,
+  Save,
+  FolderOpen,
+  Settings,
+  Trash2,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
+import type { StudioProject } from "@/stores/useUnifiedStudioStore";
 
 interface MobileActionsContentProps {
   project: StudioProject;
@@ -54,14 +62,16 @@ export const MobileActionsContent = memo(function MobileActionsContent({
       const encoded = encodeURIComponent(`${shareText}\n${shareUrl}`);
       window.Telegram.WebApp.openTelegramLink(`https://t.me/share/url?url=${encoded}`);
     } else if (navigator.share) {
-      navigator.share({
-        title: project.name,
-        text: shareText,
-        url: shareUrl,
-      }).catch(() => {});
+      navigator
+        .share({
+          title: project.name,
+          text: shareText,
+          url: shareUrl,
+        })
+        .catch(() => {});
     } else {
       navigator.clipboard.writeText(shareUrl);
-      toast.success('Ссылка скопирована!');
+      toast.success("Ссылка скопирована!");
     }
   }, [project, haptic]);
 
@@ -82,95 +92,101 @@ export const MobileActionsContent = memo(function MobileActionsContent({
     }
   }, [onDownloadStems, haptic]);
 
-  const handleNavigate = useCallback((path: string) => {
-    haptic.select();
-    navigate(path);
-  }, [navigate, haptic]);
+  const handleNavigate = useCallback(
+    (path: string) => {
+      haptic.select();
+      navigate(path);
+    },
+    [navigate, haptic],
+  );
 
-  const handleInfoAction = useCallback((message: string) => {
-    haptic.tap();
-    toast.info(message);
-  }, [haptic]);
+  const handleInfoAction = useCallback(
+    (message: string) => {
+      haptic.tap();
+      toast.info(message);
+    },
+    [haptic],
+  );
 
   const handleDeleteProject = useCallback(() => {
     haptic.warning();
-    toast.info('Удаление проекта в разработке');
+    toast.info("Удаление проекта в разработке");
   }, [haptic]);
 
   const actions: ActionItem[] = [
     {
-      id: 'save',
-      label: 'Сохранить',
-      description: hasUnsavedChanges ? 'Есть несохранённые изменения' : 'Всё сохранено',
+      id: "save",
+      label: "Сохранить",
+      description: hasUnsavedChanges ? "Есть несохранённые изменения" : "Всё сохранено",
       icon: Save,
-      color: hasUnsavedChanges ? 'text-primary' : 'text-green-500',
+      color: hasUnsavedChanges ? "text-primary" : "text-green-500",
       onClick: handleSave,
       disabled: isSaving || !hasUnsavedChanges,
     },
     {
-      id: 'export',
-      label: 'Экспорт',
-      description: 'Экспортировать микс в MP3/WAV',
+      id: "export",
+      label: "Экспорт",
+      description: "Экспортировать микс в MP3/WAV",
       icon: Download,
-      color: 'text-orange-500',
+      color: "text-orange-500",
       onClick: handleExport,
     },
     {
-      id: 'download-stems',
-      label: 'Стемы',
-      description: 'Скачать отдельные дорожки',
+      id: "download-stems",
+      label: "Стемы",
+      description: "Скачать отдельные дорожки",
       icon: Download,
-      color: 'text-emerald-500',
+      color: "text-emerald-500",
       onClick: handleDownloadStems,
       disabled: !onDownloadStems,
     },
     {
-      id: 'share',
-      label: 'Поделиться',
-      description: 'Поделиться проектом',
+      id: "share",
+      label: "Поделиться",
+      description: "Поделиться проектом",
       icon: Share2,
-      color: 'text-cyan-500',
+      color: "text-cyan-500",
       onClick: handleShare,
     },
     {
-      id: 'trim',
-      label: 'Обрезать',
-      description: 'Обрезать начало или конец',
+      id: "trim",
+      label: "Обрезать",
+      description: "Обрезать начало или конец",
       icon: Scissors,
-      color: 'text-blue-500',
-      onClick: () => handleInfoAction('Функция в разработке'),
+      color: "text-blue-500",
+      onClick: () => handleInfoAction("Функция в разработке"),
     },
     {
-      id: 'remix',
-      label: 'Ремикс',
-      description: 'Создать новую версию',
+      id: "remix",
+      label: "Ремикс",
+      description: "Создать новую версию",
       icon: Sparkles,
-      color: 'text-purple-500',
-      onClick: () => handleInfoAction('Функция в разработке'),
+      color: "text-purple-500",
+      onClick: () => handleInfoAction("Функция в разработке"),
     },
     {
-      id: 'arrange',
-      label: 'Аранжировка',
-      description: 'Создать новую аранжировку',
+      id: "arrange",
+      label: "Аранжировка",
+      description: "Создать новую аранжировку",
       icon: Music2,
-      color: 'text-pink-500',
-      onClick: () => handleInfoAction('Функция в разработке'),
+      color: "text-pink-500",
+      onClick: () => handleInfoAction("Функция в разработке"),
     },
     {
-      id: 'open',
-      label: 'Проекты',
-      description: 'Открыть другой проект',
+      id: "open",
+      label: "Проекты",
+      description: "Открыть другой проект",
       icon: FolderOpen,
-      color: 'text-yellow-500',
-      onClick: () => handleNavigate('/studio-v2'),
+      color: "text-yellow-500",
+      onClick: () => handleNavigate("/studio-v2"),
     },
     {
-      id: 'settings',
-      label: 'Настройки',
-      description: 'Настройки проекта',
+      id: "settings",
+      label: "Настройки",
+      description: "Настройки проекта",
       icon: Settings,
-      color: 'text-muted-foreground',
-      onClick: () => handleInfoAction('Функция в разработке'),
+      color: "text-muted-foreground",
+      onClick: () => handleInfoAction("Функция в разработке"),
     },
   ];
 
@@ -179,9 +195,7 @@ export const MobileActionsContent = memo(function MobileActionsContent({
       {/* Header */}
       <div>
         <h3 className="text-lg font-semibold">Действия</h3>
-        <p className="text-xs text-muted-foreground mt-0.5">
-          Быстрые операции с проектом
-        </p>
+        <p className="text-xs text-muted-foreground mt-0.5">Быстрые операции с проектом</p>
       </div>
 
       {/* Actions Grid */}
@@ -204,9 +218,7 @@ export const MobileActionsContent = memo(function MobileActionsContent({
 
               <div>
                 <p className="text-sm font-medium mb-0.5">{action.label}</p>
-                <p className="text-xs text-muted-foreground line-clamp-2">
-                  {action.description}
-                </p>
+                <p className="text-xs text-muted-foreground line-clamp-2">{action.description}</p>
               </div>
             </div>
           </motion.button>

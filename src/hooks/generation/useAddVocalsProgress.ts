@@ -1,14 +1,14 @@
 /**
  * useAddVocalsProgress - Track add vocals task status with realtime updates
- * 
+ *
  * @deprecated Use useAudioProcessing().addVocalsProgress instead
  * This hook is kept for backward compatibility and will be removed in a future version.
- * 
+ *
  * Migration:
  * ```tsx
  * // Old way
  * const { status, startTracking, ... } = useAddVocalsProgress();
- * 
+ *
  * // New way
  * const { addVocals, addVocalsProgress } = useAudioProcessing();
  * const result = await addVocals(params);
@@ -16,19 +16,19 @@
  * ```
  */
 
-import { useState, useEffect, useCallback } from 'react';
-import { supabase } from '@/integrations/supabase/client';
-import { logger } from '@/lib/logger';
-import { useQueryClient } from '@tanstack/react-query';
+import { useState, useEffect, useCallback } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { logger } from "@/lib/logger";
+import { useQueryClient } from "@tanstack/react-query";
 
-export type AddVocalsStatus = 
-  | 'idle'
-  | 'submitting'
-  | 'pending'
-  | 'processing'
-  | 'streaming_ready'
-  | 'completed'
-  | 'error';
+export type AddVocalsStatus =
+  | "idle"
+  | "submitting"
+  | "pending"
+  | "processing"
+  | "streaming_ready"
+  | "completed"
+  | "error";
 
 export interface AddVocalsProgressState {
   status: AddVocalsStatus;
@@ -46,13 +46,13 @@ export interface AddVocalsProgressState {
 }
 
 const STATUS_MESSAGES: Record<AddVocalsStatus, string> = {
-  idle: '',
-  submitting: 'Отправляем запрос...',
-  pending: 'В очереди на обработку...',
-  processing: 'AI добавляет вокал...',
-  streaming_ready: 'Почти готово...',
-  completed: 'Вокал добавлен!',
-  error: 'Ошибка при добавлении вокала',
+  idle: "",
+  submitting: "Отправляем запрос...",
+  pending: "В очереди на обработку...",
+  processing: "AI добавляет вокал...",
+  streaming_ready: "Почти готово...",
+  completed: "Вокал добавлен!",
+  error: "Ошибка при добавлении вокала",
 };
 
 const STATUS_PROGRESS: Record<AddVocalsStatus, number> = {
@@ -68,20 +68,20 @@ const STATUS_PROGRESS: Record<AddVocalsStatus, number> = {
 export function useAddVocalsProgress() {
   const queryClient = useQueryClient();
   const [state, setState] = useState<AddVocalsProgressState>({
-    status: 'idle',
+    status: "idle",
     taskId: null,
     trackId: null,
     error: null,
     progress: 0,
-    message: '',
+    message: "",
     completedTrack: null,
   });
 
   // Start tracking a task
   const startTracking = useCallback((taskId: string, trackId: string) => {
-    logger.info('Start tracking add vocals', { taskId, trackId });
+    logger.info("Start tracking add vocals", { taskId, trackId });
     setState({
-      status: 'pending',
+      status: "pending",
       taskId,
       trackId,
       error: null,
@@ -93,9 +93,9 @@ export function useAddVocalsProgress() {
 
   // Set submitting state (before API call)
   const setSubmitting = useCallback(() => {
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
-      status: 'submitting',
+      status: "submitting",
       progress: STATUS_PROGRESS.submitting,
       message: STATUS_MESSAGES.submitting,
       error: null,
@@ -104,9 +104,9 @@ export function useAddVocalsProgress() {
 
   // Set error state
   const setError = useCallback((error: string) => {
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
-      status: 'error',
+      status: "error",
       error,
       progress: 0,
       message: STATUS_MESSAGES.error,
@@ -116,78 +116,78 @@ export function useAddVocalsProgress() {
   // Reset state
   const reset = useCallback(() => {
     setState({
-      status: 'idle',
+      status: "idle",
       taskId: null,
       trackId: null,
       error: null,
       progress: 0,
-      message: '',
+      message: "",
       completedTrack: null,
     });
   }, []);
 
   // Subscribe to task updates
   useEffect(() => {
-    if (!state.taskId || state.status === 'completed' || state.status === 'error') {
+    if (!state.taskId || state.status === "completed" || state.status === "error") {
       return;
     }
 
     const channel = supabase
       .channel(`add-vocals-task-${state.taskId}`)
       .on(
-        'postgres_changes',
+        "postgres_changes",
         {
-          event: 'UPDATE',
-          schema: 'public',
-          table: 'generation_tasks',
+          event: "UPDATE",
+          schema: "public",
+          table: "generation_tasks",
           filter: `id=eq.${state.taskId}`,
         },
         async (payload) => {
-          const task = payload.new as { 
-            status: string; 
+          const task = payload.new as {
+            status: string;
             error_message?: string;
             track_id?: string;
           };
-          
-          logger.debug('Add vocals task update', { taskId: state.taskId, status: task.status });
 
-          if (task.status === 'failed' || task.status === 'error') {
-            setState(prev => ({
+          logger.debug("Add vocals task update", { taskId: state.taskId, status: task.status });
+
+          if (task.status === "failed" || task.status === "error") {
+            setState((prev) => ({
               ...prev,
-              status: 'error',
-              error: task.error_message || 'Ошибка генерации',
+              status: "error",
+              error: task.error_message || "Ошибка генерации",
               progress: 0,
               message: task.error_message || STATUS_MESSAGES.error,
             }));
             return;
           }
 
-          if (task.status === 'completed') {
+          if (task.status === "completed") {
             // Fetch the completed track
             if (state.trackId) {
               const { data: track } = await supabase
-                .from('tracks')
-                .select('id, title, audio_url, cover_url')
-                .eq('id', state.trackId)
+                .from("tracks")
+                .select("id, title, audio_url, cover_url")
+                .eq("id", state.trackId)
                 .single();
 
               if (track) {
-                setState(prev => ({
+                setState((prev) => ({
                   ...prev,
-                  status: 'completed',
+                  status: "completed",
                   progress: 100,
                   message: STATUS_MESSAGES.completed,
                   completedTrack: {
                     id: track.id,
-                    title: track.title || 'Новый трек',
-                    audio_url: track.audio_url || '',
+                    title: track.title || "Новый трек",
+                    audio_url: track.audio_url || "",
                     cover_url: track.cover_url,
                   },
                 }));
 
                 // Invalidate library queries to refresh
-                queryClient.invalidateQueries({ queryKey: ['user-tracks'] });
-                queryClient.invalidateQueries({ queryKey: ['library'] });
+                queryClient.invalidateQueries({ queryKey: ["user-tracks"] });
+                queryClient.invalidateQueries({ queryKey: ["library"] });
               }
             }
             return;
@@ -196,14 +196,14 @@ export function useAddVocalsProgress() {
           // Map status to our state
           const newStatus = task.status as AddVocalsStatus;
           if (STATUS_MESSAGES[newStatus]) {
-            setState(prev => ({
+            setState((prev) => ({
               ...prev,
               status: newStatus,
               progress: STATUS_PROGRESS[newStatus] || prev.progress,
               message: STATUS_MESSAGES[newStatus],
             }));
           }
-        }
+        },
       )
       .subscribe();
 
@@ -212,45 +212,45 @@ export function useAddVocalsProgress() {
       if (!state.taskId) return;
 
       const { data: task } = await supabase
-        .from('generation_tasks')
-        .select('status, error_message')
-        .eq('id', state.taskId)
+        .from("generation_tasks")
+        .select("status, error_message")
+        .eq("id", state.taskId)
         .single();
 
       if (!task) return;
 
-      if (task.status === 'completed' && state.status !== 'completed') {
+      if (task.status === "completed" && state.status !== "completed") {
         // Fetch completed track
         if (state.trackId) {
           const { data: track } = await supabase
-            .from('tracks')
-            .select('id, title, audio_url, cover_url')
-            .eq('id', state.trackId)
+            .from("tracks")
+            .select("id, title, audio_url, cover_url")
+            .eq("id", state.trackId)
             .single();
 
           if (track) {
-            setState(prev => ({
+            setState((prev) => ({
               ...prev,
-              status: 'completed',
+              status: "completed",
               progress: 100,
               message: STATUS_MESSAGES.completed,
               completedTrack: {
                 id: track.id,
-                title: track.title || 'Новый трек',
-                audio_url: track.audio_url || '',
+                title: track.title || "Новый трек",
+                audio_url: track.audio_url || "",
                 cover_url: track.cover_url,
               },
             }));
 
-            queryClient.invalidateQueries({ queryKey: ['user-tracks'] });
-            queryClient.invalidateQueries({ queryKey: ['library'] });
+            queryClient.invalidateQueries({ queryKey: ["user-tracks"] });
+            queryClient.invalidateQueries({ queryKey: ["library"] });
           }
         }
-      } else if (task.status === 'failed' || task.status === 'error') {
-        setState(prev => ({
+      } else if (task.status === "failed" || task.status === "error") {
+        setState((prev) => ({
           ...prev,
-          status: 'error',
-          error: task.error_message || 'Ошибка генерации',
+          status: "error",
+          error: task.error_message || "Ошибка генерации",
           progress: 0,
           message: task.error_message || STATUS_MESSAGES.error,
         }));
@@ -269,8 +269,8 @@ export function useAddVocalsProgress() {
     startTracking,
     setError,
     reset,
-    isActive: state.status !== 'idle' && state.status !== 'completed' && state.status !== 'error',
-    isCompleted: state.status === 'completed',
-    isError: state.status === 'error',
+    isActive: state.status !== "idle" && state.status !== "completed" && state.status !== "error",
+    isCompleted: state.status === "completed",
+    isError: state.status === "error",
   };
 }

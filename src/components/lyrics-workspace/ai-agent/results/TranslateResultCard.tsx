@@ -2,14 +2,14 @@
  * TranslateResultCard - Display adaptive translation results
  */
 
-import { motion } from '@/lib/motion';
-import { Languages, Copy, Check, ArrowRight, AlertCircle, Sparkles } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
-import { useState } from 'react';
-import { toast } from 'sonner';
-import { hapticImpact } from '@/lib/haptic';
+import { motion } from "@/lib/motion";
+import { Languages, Copy, Check, ArrowRight, AlertCircle, Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+import { useState } from "react";
+import { toast } from "sonner";
+import { hapticImpact } from "@/lib/haptic";
 
 interface TranslateResultCardProps {
   originalText?: string;
@@ -24,8 +24,8 @@ interface TranslateResultCardProps {
 export function TranslateResultCard({
   originalText,
   translatedLyrics,
-  sourceLanguage = 'RU',
-  targetLanguage = 'EN',
+  sourceLanguage = "RU",
+  targetLanguage = "EN",
   adaptationNotes,
   syllablePreserved,
   onApply,
@@ -37,29 +37,29 @@ export function TranslateResultCard({
     try {
       await navigator.clipboard.writeText(translatedLyrics);
       setCopied(true);
-      hapticImpact('light');
-      toast.success('Перевод скопирован!');
+      hapticImpact("light");
+      toast.success("Перевод скопирован!");
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      toast.error('Не удалось скопировать');
+      toast.error("Не удалось скопировать");
     }
   };
 
   const handleApply = () => {
     setApplied(true);
-    hapticImpact('medium');
+    hapticImpact("medium");
     onApply?.(translatedLyrics);
-    toast.success('Перевод применён!');
+    toast.success("Перевод применён!");
   };
 
   const getLanguageFlag = (lang: string) => {
     const lowerLang = lang.toLowerCase();
-    if (lowerLang.includes('ru') || lowerLang.includes('рус')) return '🇷🇺';
-    if (lowerLang.includes('en') || lowerLang.includes('англ')) return '🇺🇸';
-    if (lowerLang.includes('es') || lowerLang.includes('исп')) return '🇪🇸';
-    if (lowerLang.includes('fr') || lowerLang.includes('фран')) return '🇫🇷';
-    if (lowerLang.includes('de') || lowerLang.includes('нем')) return '🇩🇪';
-    return '🌐';
+    if (lowerLang.includes("ru") || lowerLang.includes("рус")) return "🇷🇺";
+    if (lowerLang.includes("en") || lowerLang.includes("англ")) return "🇺🇸";
+    if (lowerLang.includes("es") || lowerLang.includes("исп")) return "🇪🇸";
+    if (lowerLang.includes("fr") || lowerLang.includes("фран")) return "🇫🇷";
+    if (lowerLang.includes("de") || lowerLang.includes("нем")) return "🇩🇪";
+    return "🌐";
   };
 
   return (
@@ -77,13 +77,17 @@ export function TranslateResultCard({
           <div>
             <h4 className="text-sm font-medium">Адаптивный перевод</h4>
             <div className="flex items-center gap-1 text-[10px] text-muted-foreground">
-              <span>{getLanguageFlag(sourceLanguage)} {sourceLanguage}</span>
+              <span>
+                {getLanguageFlag(sourceLanguage)} {sourceLanguage}
+              </span>
               <ArrowRight className="w-2.5 h-2.5" />
-              <span>{getLanguageFlag(targetLanguage)} {targetLanguage}</span>
+              <span>
+                {getLanguageFlag(targetLanguage)} {targetLanguage}
+              </span>
             </div>
           </div>
         </div>
-        
+
         {syllablePreserved && (
           <Badge variant="secondary" className="text-[9px] bg-green-500/20 text-green-300">
             ✓ Ритм сохранён
@@ -107,29 +111,20 @@ export function TranslateResultCard({
         )}
 
         {/* Translated */}
-        <div className={cn(
-          "p-2.5 rounded-lg border transition-colors",
-          applied 
-            ? "bg-indigo-500/20 border-indigo-500/50" 
-            : "bg-indigo-500/10 border-indigo-500/30"
-        )}>
+        <div
+          className={cn(
+            "p-2.5 rounded-lg border transition-colors",
+            applied ? "bg-indigo-500/20 border-indigo-500/50" : "bg-indigo-500/10 border-indigo-500/30",
+          )}
+        >
           <div className="flex items-center justify-between mb-1.5">
             <div className="flex items-center gap-1.5">
               <span className="text-sm">{getLanguageFlag(targetLanguage)}</span>
               <span className="text-[10px] text-indigo-300 font-medium">Перевод</span>
             </div>
             <div className="flex items-center gap-1">
-              <Button
-                size="sm"
-                variant="ghost"
-                className="h-6 w-6 p-0"
-                onClick={handleCopy}
-              >
-                {copied ? (
-                  <Check className="w-3 h-3 text-green-400" />
-                ) : (
-                  <Copy className="w-3 h-3" />
-                )}
+              <Button size="sm" variant="ghost" className="h-6 w-6 p-0" onClick={handleCopy}>
+                {copied ? <Check className="w-3 h-3 text-green-400" /> : <Copy className="w-3 h-3" />}
               </Button>
             </div>
           </div>
@@ -166,10 +161,7 @@ export function TranslateResultCard({
           size="sm"
           onClick={handleApply}
           disabled={applied}
-          className={cn(
-            "w-full gap-2 text-xs",
-            applied && "bg-green-500/20 text-green-300"
-          )}
+          className={cn("w-full gap-2 text-xs", applied && "bg-green-500/20 text-green-300")}
         >
           {applied ? (
             <>

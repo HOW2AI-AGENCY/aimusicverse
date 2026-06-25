@@ -1,20 +1,20 @@
-import { createContext, useContext, useEffect, useState, useCallback, ReactNode, useRef } from 'react';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/hooks/useAuth';
-import { useQueryClient } from '@tanstack/react-query';
-import { toast } from 'sonner';
-import { notify } from '@/lib/notifications';
-import { logger } from '@/lib/logger';
-import { cleanupExpiredNotifications } from '@/services/notificationManager';
-import { getGlobalNavigate } from '@/hooks/useAppNavigate';
+import { createContext, useContext, useEffect, useState, useCallback, ReactNode, useRef } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
+import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { notify } from "@/lib/notifications";
+import { logger } from "@/lib/logger";
+import { cleanupExpiredNotifications } from "@/services/notificationManager";
+import { getGlobalNavigate } from "@/hooks/useAppNavigate";
 
-const log = logger.child({ module: 'NotificationContext' });
+const log = logger.child({ module: "NotificationContext" });
 
 export interface NotificationItem {
   id: string;
   title: string;
   message: string;
-  type: 'info' | 'success' | 'warning' | 'error' | 'generation' | 'project' | 'social' | 'achievement' | 'system';
+  type: "info" | "success" | "warning" | "error" | "generation" | "project" | "social" | "achievement" | "system";
   read: boolean;
   action_url?: string | null;
   created_at: string;
@@ -27,7 +27,7 @@ export interface NotificationItem {
 export interface GenerationProgress {
   id: string;
   prompt: string;
-  status: 'pending' | 'processing' | 'streaming_ready' | 'completed' | 'failed';
+  status: "pending" | "processing" | "streaming_ready" | "completed" | "failed";
   progress: number; // 0-100
   stage: string;
   created_at: string;
@@ -47,7 +47,7 @@ interface NotificationContextType {
   markAllAsRead: () => Promise<void>;
   clearNotification: (id: string) => Promise<void>;
   clearAllRead: () => Promise<void>;
-  showToast: (notification: Omit<NotificationItem, 'id' | 'read' | 'created_at'>) => void;
+  showToast: (notification: Omit<NotificationItem, "id" | "read" | "created_at">) => void;
   playNotificationSound: () => void;
   refetchNotifications: () => Promise<void>;
 }
@@ -56,16 +56,16 @@ const NotificationContext = createContext<NotificationContextType | undefined>(u
 
 // Stages for generation progress
 const GENERATION_STAGES = [
-  { status: 'pending', stage: 'В очереди', progress: 10 },
-  { status: 'processing', stage: 'Генерация музыки', progress: 50 },
-  { status: 'streaming_ready', stage: '▶️ Можно слушать!', progress: 80 },
-  { status: 'completed', stage: 'Готово!', progress: 100 },
-  { status: 'failed', stage: 'Ошибка', progress: 0 },
+  { status: "pending", stage: "В очереди", progress: 10 },
+  { status: "processing", stage: "Генерация музыки", progress: 50 },
+  { status: "streaming_ready", stage: "▶️ Можно слушать!", progress: 80 },
+  { status: "completed", stage: "Готово!", progress: 100 },
+  { status: "failed", stage: "Ошибка", progress: 0 },
 ];
 
 function getGenerationStage(status: string): { stage: string; progress: number } {
-  const found = GENERATION_STAGES.find(s => s.status === status);
-  return found || { stage: 'Обработка', progress: 30 };
+  const found = GENERATION_STAGES.find((s) => s.status === status);
+  return found || { stage: "Обработка", progress: 30 };
 }
 
 // Notification sound using Web Audio API
@@ -75,20 +75,20 @@ function createNotificationSound(): () => void {
       const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
       const oscillator = audioContext.createOscillator();
       const gainNode = audioContext.createGain();
-      
+
       oscillator.connect(gainNode);
       gainNode.connect(audioContext.destination);
-      
+
       oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
       oscillator.frequency.setValueAtTime(600, audioContext.currentTime + 0.1);
-      
+
       gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
       gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-      
+
       oscillator.start(audioContext.currentTime);
       oscillator.stop(audioContext.currentTime + 0.3);
     } catch (e) {
-      log.debug('Sound playback failed', { error: String(e) });
+      log.debug("Sound playback failed", { error: String(e) });
     }
   };
 }
@@ -99,10 +99,10 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
   const [notifications, setNotifications] = useState<NotificationItem[]>([]);
   const [activeGenerations, setActiveGenerations] = useState<GenerationProgress[]>([]);
   const [soundEnabled, setSoundEnabled] = useState(() => {
-    const saved = localStorage.getItem('notification_sound');
-    return saved !== 'false';
+    const saved = localStorage.getItem("notification_sound");
+    return saved !== "false";
   });
-  
+
   const playSound = useRef(createNotificationSound());
   const lastGenerationStatus = useRef<Map<string, string>>(new Map());
   const cleanupRan = useRef(false);
@@ -112,17 +112,17 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
     if (!user?.id) return;
 
     const { data, error } = await supabase
-      .from('notifications')
-      .select('*')
-      .eq('user_id', user.id)
-      .order('priority', { ascending: false })
-      .order('created_at', { ascending: false })
+      .from("notifications")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("priority", { ascending: false })
+      .order("created_at", { ascending: false })
       .limit(50);
 
     if (!error && data) {
       // Filter out expired notifications client-side and cast to extended type
       const now = new Date();
-      const validNotifications = (data as any[]).filter(n => {
+      const validNotifications = (data as any[]).filter((n) => {
         if (!n.expires_at) return true;
         return new Date(n.expires_at) > now;
       });
@@ -139,16 +139,18 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
     // Run cleanup once per session
     if (!cleanupRan.current) {
       cleanupRan.current = true;
-      cleanupExpiredNotifications().then(count => {
-        if (count > 0) {
-          log.info('Auto-cleaned expired notifications', { count });
-          fetchNotifications(); // Refresh after cleanup
-        }
-      }).catch(error => {
-        // Gracefully handle cleanup failures (e.g., network timeouts on slow connections)
-        // Error is already logged in notificationManager, so we just note it here at debug level
-        log.debug('Cleanup failed, continuing without cleanup', { error });
-      });
+      cleanupExpiredNotifications()
+        .then((count) => {
+          if (count > 0) {
+            log.info("Auto-cleaned expired notifications", { count });
+            fetchNotifications(); // Refresh after cleanup
+          }
+        })
+        .catch((error) => {
+          // Gracefully handle cleanup failures (e.g., network timeouts on slow connections)
+          // Error is already logged in notificationManager, so we just note it here at debug level
+          log.debug("Cleanup failed, continuing without cleanup", { error });
+        });
     }
   }, [user?.id, fetchNotifications]);
 
@@ -161,40 +163,40 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
 
     const fetchGenerations = async () => {
       const { data, error } = await supabase
-        .from('generation_tasks')
-        .select('id, prompt, status, created_at, track_id')
-        .eq('user_id', user.id)
-        .in('status', ['pending', 'processing', 'streaming_ready'])
-        .order('created_at', { ascending: false })
+        .from("generation_tasks")
+        .select("id, prompt, status, created_at, track_id")
+        .eq("user_id", user.id)
+        .in("status", ["pending", "processing", "streaming_ready"])
+        .order("created_at", { ascending: false })
         .limit(10);
 
       if (!error && data) {
         // Filter out stale tasks (older than 10 minutes = 600 seconds)
         const STALE_THRESHOLD_MS = 10 * 60 * 1000;
         const now = Date.now();
-        
+
         const generations = data
-          .filter(task => {
+          .filter((task) => {
             const createdAt = new Date(task.created_at).getTime();
             const elapsed = now - createdAt;
             // Skip tasks older than 10 minutes - they're likely stuck
             if (elapsed > STALE_THRESHOLD_MS) {
-              log.warn('Skipping stale task', { taskId: task.id, ageMinutes: Math.round(elapsed / 60000) });
+              log.warn("Skipping stale task", { taskId: task.id, ageMinutes: Math.round(elapsed / 60000) });
               return false;
             }
             return true;
           })
-          .map(task => {
+          .map((task) => {
             const stageInfo = getGenerationStage(task.status);
             const createdAt = new Date(task.created_at).getTime();
             const elapsed = (now - createdAt) / 1000;
             const estimatedTotal = 120;
             const remaining = Math.max(0, estimatedTotal - elapsed);
-            
+
             return {
               id: task.id,
               prompt: task.prompt,
-              status: task.status as GenerationProgress['status'],
+              status: task.status as GenerationProgress["status"],
               progress: stageInfo.progress,
               stage: stageInfo.stage,
               created_at: task.created_at,
@@ -203,8 +205,8 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
             };
           });
         setActiveGenerations(generations);
-        
-        generations.forEach(g => {
+
+        generations.forEach((g) => {
           lastGenerationStatus.current.set(g.id, g.status);
         });
       }
@@ -225,13 +227,13 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
       startPolling();
     };
 
-    document.addEventListener('visibilitychange', handleVisibilityChange);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
     fetchGenerations();
     startPolling();
 
     return () => {
       if (pollInterval) clearInterval(pollInterval);
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, [user?.id]);
 
@@ -241,48 +243,56 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
 
     const channel = supabase
       .channel(`notifications_${user.id}`)
-      .on('postgres_changes', {
-        event: 'INSERT',
-        schema: 'public',
-        table: 'notifications',
-        filter: `user_id=eq.${user.id}`,
-      }, (payload) => {
-        const newNotification = payload.new as NotificationItem;
-        log.info('New notification received', { id: newNotification.id });
-        
-        setNotifications(prev => [newNotification, ...prev.slice(0, 49)]);
-        
-        // Play sound and show toast
-        if (soundEnabled) {
-          playSound.current();
-        }
-        
-        toast(newNotification.title, {
-          description: newNotification.message,
-          action: newNotification.action_url ? {
-            label: 'Открыть',
-            onClick: () => {
-              const navigate = getGlobalNavigate();
-              if (navigate) {
-                navigate(newNotification.action_url!);
-              } else {
-                window.location.href = newNotification.action_url!;
-              }
-            },
-          } : undefined,
-        });
-      })
-      .on('postgres_changes', {
-        event: 'UPDATE',
-        schema: 'public',
-        table: 'notifications',
-        filter: `user_id=eq.${user.id}`,
-      }, (payload) => {
-        const updated = payload.new as NotificationItem;
-        setNotifications(prev => 
-          prev.map(n => n.id === updated.id ? updated : n)
-        );
-      })
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "notifications",
+          filter: `user_id=eq.${user.id}`,
+        },
+        (payload) => {
+          const newNotification = payload.new as NotificationItem;
+          log.info("New notification received", { id: newNotification.id });
+
+          setNotifications((prev) => [newNotification, ...prev.slice(0, 49)]);
+
+          // Play sound and show toast
+          if (soundEnabled) {
+            playSound.current();
+          }
+
+          toast(newNotification.title, {
+            description: newNotification.message,
+            action: newNotification.action_url
+              ? {
+                  label: "Открыть",
+                  onClick: () => {
+                    const navigate = getGlobalNavigate();
+                    if (navigate) {
+                      navigate(newNotification.action_url!);
+                    } else {
+                      window.location.href = newNotification.action_url!;
+                    }
+                  },
+                }
+              : undefined,
+          });
+        },
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "notifications",
+          filter: `user_id=eq.${user.id}`,
+        },
+        (payload) => {
+          const updated = payload.new as NotificationItem;
+          setNotifications((prev) => prev.map((n) => (n.id === updated.id ? updated : n)));
+        },
+      )
       .subscribe();
 
     return () => {
@@ -296,138 +306,149 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
 
     const channel = supabase
       .channel(`generations_${user.id}`)
-      .on('postgres_changes', {
-        event: '*',
-        schema: 'public',
-        table: 'generation_tasks',
-        filter: `user_id=eq.${user.id}`,
-      }, (payload) => {
-        const task = payload.new as any;
-        const oldStatus = lastGenerationStatus.current.get(task.id);
-        
-        log.debug('Generation task update', { 
-          id: task.id, 
-          status: task.status,
-          oldStatus 
-        });
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "generation_tasks",
+          filter: `user_id=eq.${user.id}`,
+        },
+        (payload) => {
+          const task = payload.new as any;
+          const oldStatus = lastGenerationStatus.current.get(task.id);
 
-        if (task.status === 'completed' && oldStatus !== 'completed') {
-          // Generation completed!
-          log.info('Generation completed', { id: task.id });
-          
-          if (soundEnabled) {
-            playSound.current();
-          }
-          
-          // Get track ID for direct navigation
-          const trackId = task.track_id;
-          
-          toast.success('Трек готов! 🎵', {
-            description: task.prompt?.slice(0, 50) + (task.prompt?.length > 50 ? '...' : ''),
-            duration: 10000, // Show for 10 seconds
-            action: {
-              label: 'Открыть трек',
-              onClick: () => {
-                queryClient.invalidateQueries({ queryKey: ['tracks'] });
-                // Navigate to library with track ID for direct scroll/highlight
-                const navigate = getGlobalNavigate();
-                const targetPath = trackId ? `/library?track=${trackId}` : '/library';
-                if (navigate) {
-                  navigate(targetPath);
-                } else {
-                  window.location.href = targetPath;
-                }
-              },
-            },
+          log.debug("Generation task update", {
+            id: task.id,
+            status: task.status,
+            oldStatus,
           });
 
-          // Remove from active generations
-          setActiveGenerations(prev => prev.filter(g => g.id !== task.id));
-          
-          // Refetch tracks
-          queryClient.invalidateQueries({ queryKey: ['tracks'] });
-          queryClient.invalidateQueries({ queryKey: ['tracks-infinite'] });
-        } else if (task.status === 'failed') {
-          // Note: Error toast is NOT shown here - SmartAlertProvider handles generation errors
-          // to avoid duplicate notifications. See SmartAlertProvider.tsx
-          log.info('Generation failed - handled by SmartAlert', { id: task.id, error: task.error_message });
-          setActiveGenerations(prev => prev.filter(g => g.id !== task.id));
-        } else if (['pending', 'processing', 'streaming_ready'].includes(task.status)) {
-          // Update generation progress
-          const stageInfo = getGenerationStage(task.status);
-          
-          // When streaming_ready, preload audio and notify user can start listening
-          if (task.status === 'streaming_ready' && oldStatus !== 'streaming_ready' && task.track_id) {
-            log.info('Streaming ready - fetching audio URL for preload', { trackId: task.track_id });
-            
-            // Fetch streaming URL and preload audio
-            supabase
-              .from('tracks')
-              .select('streaming_url, title')
-              .eq('id', task.track_id)
-              .single()
-              .then(({ data: trackData }) => {
-                if (trackData?.streaming_url) {
-                  // Preload audio in background
-                  const audio = new Audio();
-                  audio.preload = 'auto';
-                  audio.src = trackData.streaming_url;
-                  
-                  log.info('Audio preloading started', { url: trackData.streaming_url.substring(0, 50) });
-                  
-                  // Notify user they can start listening with direct track link
-                  toast.success('Можно слушать! 🎧', {
-                    description: trackData.title || task.prompt?.slice(0, 40),
-                    duration: 8000,
-                    action: {
-                      label: 'Слушать',
-                      onClick: () => {
-                        queryClient.invalidateQueries({ queryKey: ['tracks'] });
-                        const navigate = getGlobalNavigate();
-                        const targetPath = `/library?track=${task.track_id}`;
-                        if (navigate) {
-                          navigate(targetPath);
-                        } else {
-                          window.location.href = targetPath;
-                        }
-                      },
-                    },
-                  });
-                }
-              });
-            
-            // Refresh tracks list to show streaming track
-            queryClient.invalidateQueries({ queryKey: ['tracks'] });
-            queryClient.invalidateQueries({ queryKey: ['tracks-infinite'] });
-          }
-          
-          setActiveGenerations(prev => {
-            const existing = prev.find(g => g.id === task.id);
-            if (existing) {
-              return prev.map(g => g.id === task.id ? {
-                ...g,
-                status: task.status,
-                progress: stageInfo.progress,
-                stage: stageInfo.stage,
-                streaming_url: task.streaming_url,
-              } : g);
-            } else {
-              return [{
-                id: task.id,
-                prompt: task.prompt,
-                status: task.status,
-                progress: stageInfo.progress,
-                stage: stageInfo.stage,
-                created_at: task.created_at,
-                track_id: task.track_id,
-              }, ...prev];
+          if (task.status === "completed" && oldStatus !== "completed") {
+            // Generation completed!
+            log.info("Generation completed", { id: task.id });
+
+            if (soundEnabled) {
+              playSound.current();
             }
-          });
-        }
-        
-        lastGenerationStatus.current.set(task.id, task.status);
-        queryClient.invalidateQueries({ queryKey: ['active_generations'] });
-      })
+
+            // Get track ID for direct navigation
+            const trackId = task.track_id;
+
+            toast.success("Трек готов! 🎵", {
+              description: task.prompt?.slice(0, 50) + (task.prompt?.length > 50 ? "..." : ""),
+              duration: 10000, // Show for 10 seconds
+              action: {
+                label: "Открыть трек",
+                onClick: () => {
+                  queryClient.invalidateQueries({ queryKey: ["tracks"] });
+                  // Navigate to library with track ID for direct scroll/highlight
+                  const navigate = getGlobalNavigate();
+                  const targetPath = trackId ? `/library?track=${trackId}` : "/library";
+                  if (navigate) {
+                    navigate(targetPath);
+                  } else {
+                    window.location.href = targetPath;
+                  }
+                },
+              },
+            });
+
+            // Remove from active generations
+            setActiveGenerations((prev) => prev.filter((g) => g.id !== task.id));
+
+            // Refetch tracks
+            queryClient.invalidateQueries({ queryKey: ["tracks"] });
+            queryClient.invalidateQueries({ queryKey: ["tracks-infinite"] });
+          } else if (task.status === "failed") {
+            // Note: Error toast is NOT shown here - SmartAlertProvider handles generation errors
+            // to avoid duplicate notifications. See SmartAlertProvider.tsx
+            log.info("Generation failed - handled by SmartAlert", { id: task.id, error: task.error_message });
+            setActiveGenerations((prev) => prev.filter((g) => g.id !== task.id));
+          } else if (["pending", "processing", "streaming_ready"].includes(task.status)) {
+            // Update generation progress
+            const stageInfo = getGenerationStage(task.status);
+
+            // When streaming_ready, preload audio and notify user can start listening
+            if (task.status === "streaming_ready" && oldStatus !== "streaming_ready" && task.track_id) {
+              log.info("Streaming ready - fetching audio URL for preload", { trackId: task.track_id });
+
+              // Fetch streaming URL and preload audio
+              supabase
+                .from("tracks")
+                .select("streaming_url, title")
+                .eq("id", task.track_id)
+                .single()
+                .then(({ data: trackData }) => {
+                  if (trackData?.streaming_url) {
+                    // Preload audio in background
+                    const audio = new Audio();
+                    audio.preload = "auto";
+                    audio.src = trackData.streaming_url;
+
+                    log.info("Audio preloading started", { url: trackData.streaming_url.substring(0, 50) });
+
+                    // Notify user they can start listening with direct track link
+                    toast.success("Можно слушать! 🎧", {
+                      description: trackData.title || task.prompt?.slice(0, 40),
+                      duration: 8000,
+                      action: {
+                        label: "Слушать",
+                        onClick: () => {
+                          queryClient.invalidateQueries({ queryKey: ["tracks"] });
+                          const navigate = getGlobalNavigate();
+                          const targetPath = `/library?track=${task.track_id}`;
+                          if (navigate) {
+                            navigate(targetPath);
+                          } else {
+                            window.location.href = targetPath;
+                          }
+                        },
+                      },
+                    });
+                  }
+                });
+
+              // Refresh tracks list to show streaming track
+              queryClient.invalidateQueries({ queryKey: ["tracks"] });
+              queryClient.invalidateQueries({ queryKey: ["tracks-infinite"] });
+            }
+
+            setActiveGenerations((prev) => {
+              const existing = prev.find((g) => g.id === task.id);
+              if (existing) {
+                return prev.map((g) =>
+                  g.id === task.id
+                    ? {
+                        ...g,
+                        status: task.status,
+                        progress: stageInfo.progress,
+                        stage: stageInfo.stage,
+                        streaming_url: task.streaming_url,
+                      }
+                    : g,
+                );
+              } else {
+                return [
+                  {
+                    id: task.id,
+                    prompt: task.prompt,
+                    status: task.status,
+                    progress: stageInfo.progress,
+                    stage: stageInfo.stage,
+                    created_at: task.created_at,
+                    track_id: task.track_id,
+                  },
+                  ...prev,
+                ];
+              }
+            });
+          }
+
+          lastGenerationStatus.current.set(task.id, task.status);
+          queryClient.invalidateQueries({ queryKey: ["active_generations"] });
+        },
+      )
       .subscribe();
 
     return () => {
@@ -441,35 +462,39 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
 
     const channel = supabase
       .channel(`tracks_streaming_${user.id}`)
-      .on('postgres_changes', {
-        event: 'UPDATE',
-        schema: 'public',
-        table: 'tracks',
-        filter: `user_id=eq.${user.id}`,
-      }, (payload) => {
-        const track = payload.new as any;
-        const oldTrack = payload.old as any;
-        
-        // Check if streaming_url was just set (wasn't there before, is there now)
-        if (track.streaming_url && !oldTrack?.streaming_url && track.status === 'streaming_ready') {
-          log.info('Track streaming URL available', { trackId: track.id, title: track.title });
-          
-          // Preload audio immediately
-          const audio = new Audio();
-          audio.preload = 'auto';
-          audio.src = track.streaming_url;
-          
-          // Refresh tracks list
-          queryClient.invalidateQueries({ queryKey: ['tracks'] });
-          queryClient.invalidateQueries({ queryKey: ['tracks-infinite'] });
-        }
-        
-        // When track completes, refresh
-        if (track.status === 'completed' && oldTrack?.status !== 'completed') {
-          queryClient.invalidateQueries({ queryKey: ['tracks'] });
-          queryClient.invalidateQueries({ queryKey: ['tracks-infinite'] });
-        }
-      })
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "tracks",
+          filter: `user_id=eq.${user.id}`,
+        },
+        (payload) => {
+          const track = payload.new as any;
+          const oldTrack = payload.old as any;
+
+          // Check if streaming_url was just set (wasn't there before, is there now)
+          if (track.streaming_url && !oldTrack?.streaming_url && track.status === "streaming_ready") {
+            log.info("Track streaming URL available", { trackId: track.id, title: track.title });
+
+            // Preload audio immediately
+            const audio = new Audio();
+            audio.preload = "auto";
+            audio.src = track.streaming_url;
+
+            // Refresh tracks list
+            queryClient.invalidateQueries({ queryKey: ["tracks"] });
+            queryClient.invalidateQueries({ queryKey: ["tracks-infinite"] });
+          }
+
+          // When track completes, refresh
+          if (track.status === "completed" && oldTrack?.status !== "completed") {
+            queryClient.invalidateQueries({ queryKey: ["tracks"] });
+            queryClient.invalidateQueries({ queryKey: ["tracks-infinite"] });
+          }
+        },
+      )
       .subscribe();
 
     return () => {
@@ -479,35 +504,33 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
 
   // Save sound preference
   useEffect(() => {
-    localStorage.setItem('notification_sound', soundEnabled ? 'true' : 'false');
+    localStorage.setItem("notification_sound", soundEnabled ? "true" : "false");
   }, [soundEnabled]);
 
   // Periodic cleanup (every 5 minutes)
   useEffect(() => {
-    const interval = setInterval(() => {
-      // Filter out client-side expired notifications
-      setNotifications(prev => {
-        const now = new Date();
-        return prev.filter(n => {
-          if (!n.expires_at) return true;
-          return new Date(n.expires_at) > now;
+    const interval = setInterval(
+      () => {
+        // Filter out client-side expired notifications
+        setNotifications((prev) => {
+          const now = new Date();
+          return prev.filter((n) => {
+            if (!n.expires_at) return true;
+            return new Date(n.expires_at) > now;
+          });
         });
-      });
-    }, 5 * 60 * 1000);
+      },
+      5 * 60 * 1000,
+    );
 
     return () => clearInterval(interval);
   }, []);
 
   const markAsRead = useCallback(async (id: string) => {
-    const { error } = await supabase
-      .from('notifications')
-      .update({ read: true })
-      .eq('id', id);
+    const { error } = await supabase.from("notifications").update({ read: true }).eq("id", id);
 
     if (!error) {
-      setNotifications(prev => 
-        prev.map(n => n.id === id ? { ...n, read: true } : n)
-      );
+      setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, read: true } : n)));
     }
   }, []);
 
@@ -515,52 +538,61 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
     if (!user?.id) return;
 
     const { error } = await supabase
-      .from('notifications')
+      .from("notifications")
       .update({ read: true })
-      .eq('user_id', user.id)
-      .eq('read', false);
+      .eq("user_id", user.id)
+      .eq("read", false);
 
     if (!error) {
-      setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+      setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
     }
   }, [user?.id]);
 
   const clearNotification = useCallback(async (id: string) => {
-    const { error } = await supabase
-      .from('notifications')
-      .delete()
-      .eq('id', id);
+    const { error } = await supabase.from("notifications").delete().eq("id", id);
 
     if (!error) {
-      setNotifications(prev => prev.filter(n => n.id !== id));
+      setNotifications((prev) => prev.filter((n) => n.id !== id));
     }
   }, []);
 
   const clearAllRead = useCallback(async () => {
     if (!user?.id) return;
 
-    const { error } = await supabase
-      .from('notifications')
-      .delete()
-      .eq('user_id', user.id)
-      .eq('read', true);
+    const { error } = await supabase.from("notifications").delete().eq("user_id", user.id).eq("read", true);
 
     if (!error) {
-      setNotifications(prev => prev.filter(n => !n.read));
-      notify.success('Прочитанные уведомления удалены', { dedupe: true, dedupeKey: 'notifications-cleared' });
+      setNotifications((prev) => prev.filter((n) => !n.read));
+      notify.success("Прочитанные уведомления удалены", { dedupe: true, dedupeKey: "notifications-cleared" });
     }
   }, [user?.id]);
 
-  const showToast = useCallback((notification: Omit<NotificationItem, 'id' | 'read' | 'created_at'>) => {
+  const showToast = useCallback((notification: Omit<NotificationItem, "id" | "read" | "created_at">) => {
     // Use centralized notify service for de-duplication
-    if (notification.type === 'error') {
-      notify.error(notification.title, { description: notification.message, dedupe: true, dedupeKey: notification.title });
-    } else if (notification.type === 'success') {
-      notify.success(notification.title, { description: notification.message, dedupe: true, dedupeKey: notification.title });
-    } else if (notification.type === 'warning') {
-      notify.warning(notification.title, { description: notification.message, dedupe: true, dedupeKey: notification.title });
+    if (notification.type === "error") {
+      notify.error(notification.title, {
+        description: notification.message,
+        dedupe: true,
+        dedupeKey: notification.title,
+      });
+    } else if (notification.type === "success") {
+      notify.success(notification.title, {
+        description: notification.message,
+        dedupe: true,
+        dedupeKey: notification.title,
+      });
+    } else if (notification.type === "warning") {
+      notify.warning(notification.title, {
+        description: notification.message,
+        dedupe: true,
+        dedupeKey: notification.title,
+      });
     } else {
-      notify.info(notification.title, { description: notification.message, dedupe: true, dedupeKey: notification.title });
+      notify.info(notification.title, {
+        description: notification.message,
+        dedupe: true,
+        dedupeKey: notification.title,
+      });
     }
   }, []);
 
@@ -570,7 +602,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [soundEnabled]);
 
-  const unreadCount = notifications.filter(n => !n.read).length;
+  const unreadCount = notifications.filter((n) => !n.read).length;
   const generationCount = activeGenerations.length;
 
   return (
@@ -599,7 +631,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
 export const useNotificationHub = () => {
   const context = useContext(NotificationContext);
   if (!context) {
-    throw new Error('useNotificationHub must be used within NotificationProvider');
+    throw new Error("useNotificationHub must be used within NotificationProvider");
   }
   return context;
 };

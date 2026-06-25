@@ -16,18 +16,18 @@
 - [handleShuffle](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/UnifiedPlayerControls.tsx#L98) (1 connections)
 - [handleVolumeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/UnifiedPlayerControls.tsx#L108) (1 connections)
 - [isCompact](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/UnifiedPlayerControls.tsx#L122) (1 connections)
-- [{ 
-    isPlaying, 
-    playTrack, 
-    pauseTrack, 
-    nextTrack, 
-    previousTrack,
-    repeat,
-    shuffle,
-    toggleRepeat,
-    toggleShuffle,
-    volume,
-    setVolume,
+- [{
+  isPlaying,
+  playTrack,
+  pauseTrack,
+  nextTrack,
+  previousTrack,
+  repeat,
+  shuffle,
+  toggleRepeat,
+  toggleShuffle,
+  volume,
+  setVolume,
   }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/UnifiedPlayerControls.tsx#L61) (1 connections)
 - [sizeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/UnifiedPlayerControls.tsx#L31) (1 connections)
 
@@ -47,4 +47,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

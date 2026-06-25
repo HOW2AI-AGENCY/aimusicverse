@@ -3,8 +3,8 @@
  * Shown while user profile is being loaded
  */
 
-import { Skeleton } from '@/components/ui/skeleton';
-import { Settings as SettingsIcon } from 'lucide-react';
+import { Skeleton } from "@/components/ui/skeleton";
+import { Settings as SettingsIcon } from "lucide-react";
 
 export function SettingsSkeleton() {
   return (

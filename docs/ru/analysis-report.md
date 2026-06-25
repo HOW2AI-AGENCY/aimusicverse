@@ -9,6 +9,7 @@
 ## 🎯 Задание
 
 Изучить в деталях:
+
 1. ✅ Логику проекта
 2. ✅ Основные сценарии и пути пользователя
 3. ✅ Интерфейс и навигацию
@@ -20,21 +21,24 @@
 
 ## 📄 Созданные документы
 
-### 1. ПЛАН_РАЗВИТИЯ_И_УЛУЧШЕНИЯ_СТУДИИ.md (38KB)
+### 1. ПЛАН*РАЗВИТИЯ*И*УЛУЧШЕНИЯ*СТУДИИ.md (38KB)
 
 **Основное содержание:**
 
 #### Резюме анализа
+
 - Масштаб проекта: 40 страниц, 830+ компонентов, 94 Edge Functions
 - Текущий статус: 80% готовности, Health Score 97/100
 - Сильные стороны: продвинутая генерация, Stem Studio, mobile-first, AI интеграция
 
 #### Анализ текущего состояния
+
 - **Архитектура приложения:** детальная структура страниц и компонентов
 - **Технологический стек:** React 19, TypeScript 5, Vite, TanStack Query, Zustand
 - **Производительность:** текущие метрики и области улучшения
 
 #### Пользовательские сценарии
+
 1. **Новый пользователь** → Первый трек за 5-7 минут
    - Проблемы: длинный онбординг, недостаточно примеров
    - Улучшения: Quick Start Templates, сокращенный онбординг
@@ -52,6 +56,7 @@
    - Улучшения: real-time collaboration, listening parties, challenges
 
 #### Мобильный интерфейс и навигация
+
 - **Island Navigation:** современная плавающая навигация (5 элементов)
 - **Сильные стороны:** touch-friendly, виртуализация, lazy loading
 - **Проблемы:** дублирование компонентов, waveform блокирует UI
@@ -60,11 +65,13 @@
 #### План улучшения студийных функций
 
 **Приоритет 1 (P0-P1): Критические улучшения**
+
 1. Audio Engine стабильность (2-3 дня)
 2. Waveform Web Worker (2-3 дня)
 3. Keyboard Shortcuts (1 день)
 
 **Приоритет 2 (P1-P2): Новые функции**
+
 1. AI-Powered Mastering (1 неделя)
 2. Mix Presets & Templates (3-5 дней)
 3. Collaborative Editing (2-3 недели) ← Killer feature
@@ -72,23 +79,26 @@
 5. Loop & Sample Library (1 неделя)
 
 #### Roadmap 2026
+
 - **Q1:** Стабилизация + Mobile optimization (8-9 недель)
 - **Q2:** Killer Features + Monetization (10-12 недель)
 - **Q3:** Social & Community (10-12 недель)
 - **Q4:** Scale & Polish (10-12 недель)
 
 #### Метрики успеха
+
 - **Performance:** TTI <3s, FPS >58, Lighthouse >90
 - **Code Quality:** LOC -29%, Duplication <5%, Coverage 80%+
 - **Product:** MAU +20%, Retention 60%/30%/15%, Conversion 5-10%
 
 ---
 
-### 2. ВИЗУАЛИЗАЦИЯ_ПОЛЬЗОВАТЕЛЬСКИХ_СЦЕНАРИЕВ.md (30KB)
+### 2. ВИЗУАЛИЗАЦИЯ*ПОЛЬЗОВАТЕЛЬСКИХ*СЦЕНАРИЕВ.md (30KB)
 
 **Основное содержание:**
 
 #### Навигационная архитектура
+
 ```
 Главная (Discovery)
 ├─> Featured, New Releases, Popular
@@ -130,21 +140,25 @@ More Menu
 #### Детальные User Flow диаграммы
 
 **Flow 1: Новый пользователь → Первый трек**
+
 - Полный пошаговый флоу от открытия бота до прослушивания
 - Время: 5-7 минут
 - Ключевые точки: онбординг, quick actions, real-time progress, Telegram notifications
 
 **Flow 2: Продвинутый пользователь → Stem Studio**
+
 - От библиотеки до экспорта микса
 - Время: 10-15 минут
 - Ключевые возможности: multi-stem, real-time mixing, professional controls
 
 **Flow 3: Collaborative Editing (будущее)**
+
 - Real-time collaboration workflow
 - Создание сессии, приглашение, совместная работа
 - Technologies: Supabase Realtime, CRDT, WebRTC
 
 #### UI/UX Паттерны
+
 1. **Island Navigation** - плавающая навигация без блокировки контента
 2. **Progressive Disclosure** - показывать функции по мере необходимости
 3. **Optimistic Updates** - мгновенная обратная связь
@@ -153,11 +167,13 @@ More Menu
 6. **Context-Aware Actions** - действия зависят от контекста
 
 #### Ключевые метрики UX
+
 - **Time to Value:** 5-7 мин → цель 3-4 мин (-40%)
 - **Interaction Efficiency:** количество действий до цели
 - **Cognitive Load:** сложность интерфейса (5 nav items - optimal)
 
 #### Continuous Improvement
+
 - A/B Testing кандидаты (onboarding, generate mode, layouts)
 - User Feedback Loop (collect → analyze → implement → measure)
 
@@ -255,6 +271,7 @@ More Menu
 ### Фаза 1: Стабилизация (2-3 недели)
 
 **Немедленно (Week 1):**
+
 1. ✅ Fix Lyrics Wizard character count (30 мин)
 2. ✅ Add validation debouncing (30 мин)
 3. ✅ Type guards для section tags (45 мин)
@@ -263,6 +280,7 @@ More Menu
 6. ✅ Touch target audit (1-2 часа)
 
 **Week 2:**
+
 1. ✅ Component memoization (1 день)
 2. ✅ Advanced code splitting (1 день)
 3. ✅ Image optimization (1 день)
@@ -270,6 +288,7 @@ More Menu
 5. ✅ Error handling standardization (2 дня)
 
 **Week 3:**
+
 1. ✅ Audio engine improvements (2-3 дня)
 2. ✅ Waveform Web Worker (2-3 дня)
 3. ✅ Security audit (2 дня)
@@ -281,17 +300,20 @@ More Menu
 ### Фаза 2: Mobile Optimization (3 недели)
 
 **Week 4-5: Component Consolidation**
+
 1. Create universal `MobileTabBar` (7 tabs → 1)
 2. Merge layouts (`TrackStudioMobileLayout` + `MobileStudioLayout` → `MobileStudio`)
 3. Consolidate actions (3 components → 1)
 
 **Week 6: UX Polish**
+
 1. Touch target compliance (100% ≥44x44px)
 2. Haptic feedback integration
 3. Gesture support (swipe, long press)
 4. Performance optimization
 
 **Результат:**
+
 - Components: 29 → 18 (-38%)
 - LOC: ~5,925 → ~4,225 (-29%)
 - TTI: ~4.5s → <3s (-33%)
@@ -302,11 +324,13 @@ More Menu
 ### Фаза 3: Stem Studio Improvements (2 недели)
 
 **Week 7:**
+
 1. ✅ Keyboard shortcuts (1 день)
 2. ✅ Mix presets (3 дня)
 3. ✅ Undo/Redo system (2 дня)
 
 **Week 8:**
+
 1. ✅ AI-powered mastering (1 неделя)
 
 **Результат:** Professional-grade mixing tools
@@ -316,30 +340,37 @@ More Menu
 ### Фаза 4: Killer Features (Q2 2026, 10-12 недель)
 
 **Collaborative Editing (3 недели)**
+
 - Real-time sync, permissions, chat
 - **Impact:** Very High (unique feature)
 
 **MIDI Editor (3 недели)**
+
 - Piano roll, virtual instruments
 - **Impact:** Very High (professional tool)
 
 **Loop & Sample Library (1 неделя)**
+
 - Ready-to-use loops, drag-drop
 - **Impact:** Medium-High
 
 **Subscription Tiers (1 неделя)**
+
 - Free/Pro/Studio, Telegram Stars
 - **Impact:** Very High (revenue)
 
 **Export to Streaming (1 неделя)**
+
 - DistroKid API, distribution
 - **Impact:** Very High (monetization for users)
 
 **Internationalization (1 неделя)**
+
 - 8 языков (EN, RU, ES, PT, DE, FR, JA, KO)
 - **Impact:** Very High (global market)
 
 **PWA & Service Worker (3 дня)**
+
 - Offline support, push notifications
 - **Impact:** Medium-High
 
@@ -374,6 +405,7 @@ More Menu
 ### Technical Metrics
 
 **Performance Goals:**
+
 ```
 Metric                Current    Target     Change
 ------                -------    ------     ------
@@ -386,6 +418,7 @@ Crash Rate            TBD        <0.1%      -
 ```
 
 **Code Quality Goals:**
+
 ```
 Metric                Current    Target     Change
 ------                -------    ------     ------
@@ -399,6 +432,7 @@ TypeScript Errors     0          0          -
 ### Product Metrics
 
 **User Growth:**
+
 ```
 - MAU: +20% м/м
 - User Retention (D1/D7/D30): 60%/30%/15%
@@ -407,6 +441,7 @@ TypeScript Errors     0          0          -
 ```
 
 **Engagement:**
+
 ```
 - Tracks Generated/User: 10/month
 - Listening Time: 30 min/session
@@ -416,6 +451,7 @@ TypeScript Errors     0          0          -
 ```
 
 **Revenue:**
+
 ```
 - Conversion to Paid: 5-10%
 - MRR Growth: +15% м/м
@@ -425,6 +461,7 @@ TypeScript Errors     0          0          -
 ```
 
 **Quality:**
+
 ```
 - Generation Success Rate: >95%
 - App Crashes: <0.1% sessions
@@ -438,21 +475,25 @@ TypeScript Errors     0          0          -
 ## 💡 Инновационные идеи (Долгосрочное)
 
 ### AI-Powered Features
+
 1. **AI Voice Cloning** - генерация своим голосом
 2. **AI Music Coach Pro** - персональный тренер
 3. **Style Transfer** - применить стиль одного трека к другому
 
 ### Social & Community
+
 4. **Virtual Concerts** - live performances в Telegram
 5. **Music NFTs** - blockchain royalties
 6. **Collaborative Albums** - community-driven
 
 ### Professional Tools
+
 7. **DAW Integration** - Ableton Live, FL Studio plugins
 8. **Hardware Integration** - MIDI controllers
 9. **Advanced Mixing Console** - full parametric EQ
 
 ### Platform Features
+
 10. **Music Education Platform** - courses, certification
 11. **Marketplace for Services** - hire mixing engineers
 12. **White Label API** - embed в другие apps
@@ -520,12 +561,14 @@ TypeScript Errors     0          0          -
 ### Ожидаемые результаты
 
 **Краткосрочно (3 месяца):**
+
 - ✅ Стабильная платформа без критических багов
 - ✅ Улучшенная mobile производительность (TTI <3s)
 - ✅ Professional Stem Studio с AI mastering
 - ✅ Keyboard shortcuts для power users
 
 **Среднесрочно (6 месяцев):**
+
 - ✅ Collaborative Editing (уникальная функция)
 - ✅ MIDI Editor (профессиональный инструмент)
 - ✅ Subscription tiers (монетизация)
@@ -533,6 +576,7 @@ TypeScript Errors     0          0          -
 - ✅ Internationalization (глобальный рынок)
 
 **Долгосрочно (12 месяцев):**
+
 - ✅ Активное сообщество (listening parties, challenges)
 - ✅ Smart playlists & AI recommendations
 - ✅ Multi-region deployment (global reach)
@@ -541,12 +585,14 @@ TypeScript Errors     0          0          -
 ### Ключевые риски и митигация
 
 **Риски:**
+
 1. ⚠️ Breaking changes при consolidation
 2. ⚠️ UX confusion при больших изменениях
 3. ⚠️ Performance regression
 4. ⚠️ Audio bugs на разных устройствах
 
 **Митигация:**
+
 1. ✅ Incremental migration (5-10 компонентов за раз)
 2. ✅ A/B testing для major changes
 3. ✅ Performance testing на каждой фазе
@@ -558,10 +604,10 @@ TypeScript Errors     0          0          -
 
 ## 📚 Связанные документы
 
-1. **ПЛАН_РАЗВИТИЯ_И_УЛУЧШЕНИЯ_СТУДИИ.md** (38KB)
+1. **ПЛАН*РАЗВИТИЯ*И*УЛУЧШЕНИЯ*СТУДИИ.md** (38KB)
    - Полный анализ и детальный план
 
-2. **ВИЗУАЛИЗАЦИЯ_ПОЛЬЗОВАТЕЛЬСКИХ_СЦЕНАРИЕВ.md** (30KB)
+2. **ВИЗУАЛИЗАЦИЯ*ПОЛЬЗОВАТЕЛЬСКИХ*СЦЕНАРИЕВ.md** (30KB)
    - User flows и UI/UX паттерны
 
 3. **MOBILE_OPTIMIZATION_SUMMARY.md** (существующий)
@@ -627,6 +673,7 @@ MusicVerse AI - это **профессиональная и амбициозн�
 Сосредоточиться на **стабилизации** (2-3 недели), затем **mobile optimization** (3 недели), а затем **killer features** (Collaborative Editing, MIDI Editor) для создания уникального конкурентного преимущества.
 
 **Estimated timeline:**
+
 - **Q1 2026:** Стабилизация + Mobile → 8-9 недель
 - **Q2 2026:** Features + Monetization → 10-12 недель
 - **Q3 2026:** Social + Community → 10-12 недель
@@ -644,6 +691,7 @@ MusicVerse AI - это **профессиональная и амбициозн�
 **Статус:** ✅ Complete & Ready for Implementation
 
 **Для вопросов и обсуждений:**
+
 - Создать issue в GitHub
 - Обсудить на team meeting
 - Начать с Quick Wins (Week 1)

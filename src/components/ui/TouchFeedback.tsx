@@ -1,19 +1,19 @@
 /**
  * TouchFeedback - Enhanced touch interaction wrapper
  * Feature: UX Improvements
- * 
+ *
  * Provides consistent haptic feedback, press animations, and accessibility
  */
 
-import { forwardRef, useCallback, type ReactNode } from 'react';
-import { motion, type MotionProps } from '@/lib/motion';
-import { cn } from '@/lib/utils';
-import { hapticImpact } from '@/lib/haptic';
+import { forwardRef, useCallback, type ReactNode } from "react";
+import { motion, type MotionProps } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import { hapticImpact } from "@/lib/haptic";
 
-interface TouchFeedbackProps extends Omit<MotionProps, 'children'> {
+interface TouchFeedbackProps extends Omit<MotionProps, "children"> {
   children: ReactNode;
   /** Haptic feedback intensity */
-  haptic?: 'light' | 'medium' | 'heavy' | false;
+  haptic?: "light" | "medium" | "heavy" | false;
   /** Press scale factor (0.9-1.0) */
   pressScale?: number;
   /** Enable hover lift effect */
@@ -25,29 +25,35 @@ interface TouchFeedbackProps extends Omit<MotionProps, 'children'> {
   /** onClick handler */
   onClick?: (e: React.MouseEvent | React.TouchEvent) => void;
   /** Accessible label */
-  'aria-label'?: string;
+  "aria-label"?: string;
 }
 
 export const TouchFeedback = forwardRef<HTMLDivElement, TouchFeedbackProps>(
-  ({
-    children,
-    haptic = 'light',
-    pressScale = 0.97,
-    hoverLift = false,
-    disabled = false,
-    className,
-    onClick,
-    ...props
-  }, ref) => {
-    const handleTap = useCallback((e: React.MouseEvent | React.TouchEvent) => {
-      if (disabled) return;
-      
-      if (haptic) {
-        hapticImpact(haptic);
-      }
-      
-      onClick?.(e);
-    }, [haptic, disabled, onClick]);
+  (
+    {
+      children,
+      haptic = "light",
+      pressScale = 0.97,
+      hoverLift = false,
+      disabled = false,
+      className,
+      onClick,
+      ...props
+    },
+    ref,
+  ) => {
+    const handleTap = useCallback(
+      (e: React.MouseEvent | React.TouchEvent) => {
+        if (disabled) return;
+
+        if (haptic) {
+          hapticImpact(haptic);
+        }
+
+        onClick?.(e);
+      },
+      [haptic, disabled, onClick],
+    );
 
     return (
       <motion.div
@@ -55,11 +61,11 @@ export const TouchFeedback = forwardRef<HTMLDivElement, TouchFeedbackProps>(
         className={cn(
           "touch-target cursor-pointer select-none",
           disabled && "pointer-events-none opacity-50",
-          className
+          className,
         )}
         whileTap={disabled ? undefined : { scale: pressScale }}
         whileHover={hoverLift && !disabled ? { y: -2, transition: { duration: 0.2 } } : undefined}
-        transition={{ duration: 0.1, ease: 'easeOut' }}
+        transition={{ duration: 0.1, ease: "easeOut" }}
         onClick={handleTap}
         role="button"
         tabIndex={disabled ? -1 : 0}
@@ -69,21 +75,21 @@ export const TouchFeedback = forwardRef<HTMLDivElement, TouchFeedbackProps>(
         {children}
       </motion.div>
     );
-  }
+  },
 );
 
-TouchFeedback.displayName = 'TouchFeedback';
+TouchFeedback.displayName = "TouchFeedback";
 
 /**
  * Pressable Card - Card with touch feedback
  */
 interface PressableCardProps extends TouchFeedbackProps {
-  variant?: 'default' | 'glass' | 'elevated';
+  variant?: "default" | "glass" | "elevated";
   selected?: boolean;
 }
 
 export const PressableCard = forwardRef<HTMLDivElement, PressableCardProps>(
-  ({ variant = 'default', selected, className, children, ...props }, ref) => {
+  ({ variant = "default", selected, className, children, ...props }, ref) => {
     const variantClasses = {
       default: "bg-card border border-border/50 rounded-xl",
       glass: "bg-card/60 backdrop-blur-md border border-border/40 rounded-xl",
@@ -97,7 +103,7 @@ export const PressableCard = forwardRef<HTMLDivElement, PressableCardProps>(
           variantClasses[variant],
           "transition-all duration-200",
           selected && "border-primary ring-2 ring-primary/20",
-          className
+          className,
         )}
         hoverLift={!selected}
         {...props}
@@ -105,22 +111,22 @@ export const PressableCard = forwardRef<HTMLDivElement, PressableCardProps>(
         {children}
       </TouchFeedback>
     );
-  }
+  },
 );
 
-PressableCard.displayName = 'PressableCard';
+PressableCard.displayName = "PressableCard";
 
 /**
  * Icon Button with touch feedback
  */
-interface IconTouchButtonProps extends Omit<TouchFeedbackProps, 'children'> {
+interface IconTouchButtonProps extends Omit<TouchFeedbackProps, "children"> {
   icon: ReactNode;
-  size?: 'sm' | 'md' | 'lg';
-  variant?: 'default' | 'ghost' | 'primary';
+  size?: "sm" | "md" | "lg";
+  variant?: "default" | "ghost" | "primary";
 }
 
 export const IconTouchButton = forwardRef<HTMLDivElement, IconTouchButtonProps>(
-  ({ icon, size = 'md', variant = 'default', className, ...props }, ref) => {
+  ({ icon, size = "md", variant = "default", className, ...props }, ref) => {
     const sizeClasses = {
       sm: "w-9 h-9",
       md: "w-11 h-11",
@@ -140,7 +146,7 @@ export const IconTouchButton = forwardRef<HTMLDivElement, IconTouchButtonProps>(
           "rounded-full flex items-center justify-center transition-colors",
           sizeClasses[size],
           variantClasses[variant],
-          className
+          className,
         )}
         pressScale={0.9}
         {...props}
@@ -148,9 +154,9 @@ export const IconTouchButton = forwardRef<HTMLDivElement, IconTouchButtonProps>(
         {icon}
       </TouchFeedback>
     );
-  }
+  },
 );
 
-IconTouchButton.displayName = 'IconTouchButton';
+IconTouchButton.displayName = "IconTouchButton";
 
 export default TouchFeedback;

@@ -3,16 +3,13 @@
  * Allows admins to listen to the reference audio used for track generation
  */
 
-import { useState, useRef, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Slider } from '@/components/ui/slider';
-import { Badge } from '@/components/ui/badge';
-import { 
-  Play, Pause, Volume2, VolumeX, 
-  Download, Upload, Music, Clock
-} from 'lucide-react';
-import { formatDuration } from '@/lib/player-utils';
-import { cn } from '@/lib/utils';
+import { useState, useRef, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Slider } from "@/components/ui/slider";
+import { Badge } from "@/components/ui/badge";
+import { Play, Pause, Volume2, VolumeX, Download, Upload, Music, Clock } from "lucide-react";
+import { formatDuration } from "@/lib/player-utils";
+import { cn } from "@/lib/utils";
 
 interface ReferenceAudioPlayerProps {
   audioUrl: string;
@@ -21,11 +18,11 @@ interface ReferenceAudioPlayerProps {
   compact?: boolean;
 }
 
-export function ReferenceAudioPlayer({ 
-  audioUrl, 
+export function ReferenceAudioPlayer({
+  audioUrl,
   generationMode,
   className,
-  compact = false 
+  compact = false,
 }: ReferenceAudioPlayerProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -48,20 +45,20 @@ export function ReferenceAudioPlayer({
     };
     const handleEnded = () => setIsPlaying(false);
     const handleError = () => {
-      setError('Не удалось загрузить аудио');
+      setError("Не удалось загрузить аудио");
       setIsPlaying(false);
     };
 
-    audio.addEventListener('timeupdate', handleTimeUpdate);
-    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
-    audio.addEventListener('ended', handleEnded);
-    audio.addEventListener('error', handleError);
+    audio.addEventListener("timeupdate", handleTimeUpdate);
+    audio.addEventListener("loadedmetadata", handleLoadedMetadata);
+    audio.addEventListener("ended", handleEnded);
+    audio.addEventListener("error", handleError);
 
     return () => {
-      audio.removeEventListener('timeupdate', handleTimeUpdate);
-      audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
-      audio.removeEventListener('ended', handleEnded);
-      audio.removeEventListener('error', handleError);
+      audio.removeEventListener("timeupdate", handleTimeUpdate);
+      audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      audio.removeEventListener("ended", handleEnded);
+      audio.removeEventListener("error", handleError);
     };
   }, []);
 
@@ -83,7 +80,7 @@ export function ReferenceAudioPlayer({
       }
       setIsPlaying(!isPlaying);
     } catch (err) {
-      setError('Ошибка воспроизведения');
+      setError("Ошибка воспроизведения");
     }
   };
 
@@ -104,7 +101,7 @@ export function ReferenceAudioPlayer({
   };
 
   const handleDownload = () => {
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = audioUrl;
     link.download = `reference-audio-${Date.now()}.mp3`;
     link.click();
@@ -112,30 +109,37 @@ export function ReferenceAudioPlayer({
 
   const getModeLabel = (mode: string | null | undefined) => {
     switch (mode) {
-      case 'cover': return 'Кавер';
-      case 'extend': return 'Расширение';
-      case 'stems': return 'Стемы';
-      case 'add_vocals': return 'Добавить вокал';
-      default: return mode || 'Референс';
+      case "cover":
+        return "Кавер";
+      case "extend":
+        return "Расширение";
+      case "stems":
+        return "Стемы";
+      case "add_vocals":
+        return "Добавить вокал";
+      default:
+        return mode || "Референс";
     }
   };
 
   const getModeColor = (mode: string | null | undefined) => {
     switch (mode) {
-      case 'cover': return 'bg-purple-500/20 text-purple-400 border-purple-500/30';
-      case 'extend': return 'bg-blue-500/20 text-blue-400 border-blue-500/30';
-      case 'stems': return 'bg-orange-500/20 text-orange-400 border-orange-500/30';
-      case 'add_vocals': return 'bg-green-500/20 text-green-400 border-green-500/30';
-      default: return 'bg-muted text-muted-foreground';
+      case "cover":
+        return "bg-purple-500/20 text-purple-400 border-purple-500/30";
+      case "extend":
+        return "bg-blue-500/20 text-blue-400 border-blue-500/30";
+      case "stems":
+        return "bg-orange-500/20 text-orange-400 border-orange-500/30";
+      case "add_vocals":
+        return "bg-green-500/20 text-green-400 border-green-500/30";
+      default:
+        return "bg-muted text-muted-foreground";
     }
   };
 
   if (error) {
     return (
-      <div className={cn(
-        "flex items-center gap-2 p-3 rounded-lg bg-destructive/10 text-destructive",
-        className
-      )}>
+      <div className={cn("flex items-center gap-2 p-3 rounded-lg bg-destructive/10 text-destructive", className)}>
         <Music className="h-4 w-4" />
         <span className="text-sm">{error}</span>
       </div>
@@ -146,21 +150,11 @@ export function ReferenceAudioPlayer({
     return (
       <div className={cn("flex items-center gap-2", className)}>
         <audio ref={audioRef} src={audioUrl} preload="metadata" />
-        
-        <Button
-          size="icon"
-          variant="outline"
-          className="h-8 w-8"
-          onClick={togglePlay}
-          disabled={!isLoaded}
-        >
-          {isPlaying ? (
-            <Pause className="h-3.5 w-3.5" />
-          ) : (
-            <Play className="h-3.5 w-3.5 ml-0.5" />
-          )}
+
+        <Button size="icon" variant="outline" className="h-8 w-8" onClick={togglePlay} disabled={!isLoaded}>
+          {isPlaying ? <Pause className="h-3.5 w-3.5" /> : <Play className="h-3.5 w-3.5 ml-0.5" />}
         </Button>
-        
+
         <div className="flex-1 min-w-0">
           <Slider
             value={[currentTime]}
@@ -171,11 +165,11 @@ export function ReferenceAudioPlayer({
             disabled={!isLoaded}
           />
         </div>
-        
+
         <span className="text-xs text-muted-foreground whitespace-nowrap">
           {formatDuration(currentTime)} / {formatDuration(duration)}
         </span>
-        
+
         {generationMode && (
           <Badge variant="outline" className={cn("text-xs", getModeColor(generationMode))}>
             {getModeLabel(generationMode)}
@@ -188,7 +182,7 @@ export function ReferenceAudioPlayer({
   return (
     <div className={cn("space-y-3", className)}>
       <audio ref={audioRef} src={audioUrl} preload="metadata" />
-      
+
       {/* Header with mode badge */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -203,7 +197,7 @@ export function ReferenceAudioPlayer({
             </div>
           </div>
         </div>
-        
+
         {generationMode && (
           <Badge variant="outline" className={getModeColor(generationMode)}>
             {getModeLabel(generationMode)}
@@ -220,11 +214,7 @@ export function ReferenceAudioPlayer({
           onClick={togglePlay}
           disabled={!isLoaded}
         >
-          {isPlaying ? (
-            <Pause className="h-4 w-4" />
-          ) : (
-            <Play className="h-4 w-4 ml-0.5" />
-          )}
+          {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4 ml-0.5" />}
         </Button>
 
         <div className="flex-1 space-y-1">
@@ -245,17 +235,8 @@ export function ReferenceAudioPlayer({
       {/* Volume and download */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Button
-            size="icon"
-            variant="ghost"
-            className="h-8 w-8"
-            onClick={toggleMute}
-          >
-            {isMuted || volume === 0 ? (
-              <VolumeX className="h-4 w-4" />
-            ) : (
-              <Volume2 className="h-4 w-4" />
-            )}
+          <Button size="icon" variant="ghost" className="h-8 w-8" onClick={toggleMute}>
+            {isMuted || volume === 0 ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
           </Button>
           <Slider
             value={[isMuted ? 0 : volume]}
@@ -266,12 +247,7 @@ export function ReferenceAudioPlayer({
           />
         </div>
 
-        <Button
-          size="sm"
-          variant="outline"
-          onClick={handleDownload}
-          className="gap-1.5"
-        >
+        <Button size="sm" variant="outline" onClick={handleDownload} className="gap-1.5">
           <Download className="h-3.5 w-3.5" />
           Скачать
         </Button>

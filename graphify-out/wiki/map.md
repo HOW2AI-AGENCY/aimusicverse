@@ -946,6 +946,7 @@ sequenceDiagram
 ## Connections by Relation
 
 ### calls
+
 - [[.addRow()]] `INFERRED`
 - [[uploadAndShowActions()]] `INFERRED`
 - [[processVoiceMessage()]] `INFERRED`
@@ -968,8 +969,9 @@ sequenceDiagram
 - [[checkAndUnlockAchievements()]] `INFERRED`
 
 ### contains
+
 - [[ErrorTrendsPanel.tsx]] `EXTRACTED`
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

@@ -4,21 +4,17 @@
  * Coordinates with global player and other studio audio
  */
 
-import { useState, useRef, useEffect, useCallback, useId } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { Play, Pause, RotateCcw, Volume2, VolumeX, Repeat } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Slider } from '@/components/ui/slider';
-import { Toggle } from '@/components/ui/toggle';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { cn } from '@/lib/utils';
-import { formatTime } from '@/lib/player-utils';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { 
-  registerStudioAudio, 
-  unregisterStudioAudio, 
-  pauseAllStudioAudio 
-} from '@/hooks/studio/useStudioAudio';
+import { useState, useRef, useEffect, useCallback, useId } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Play, Pause, RotateCcw, Volume2, VolumeX, Repeat } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Slider } from "@/components/ui/slider";
+import { Toggle } from "@/components/ui/toggle";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
+import { formatTime } from "@/lib/player-utils";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
 
 interface SectionPreviewPlayerProps {
   audioUrl: string;
@@ -43,7 +39,7 @@ export function SectionPreviewPlayer({
   const [isMuted, setIsMuted] = useState(false);
   const [isLooping, setIsLooping] = useState(true);
   const [isLoaded, setIsLoaded] = useState(false);
-  
+
   const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
 
   const duration = endTime - startTime;
@@ -52,7 +48,7 @@ export function SectionPreviewPlayer({
   // Initialize audio element with coordination
   useEffect(() => {
     const audio = new Audio(audioUrl);
-    audio.preload = 'auto';
+    audio.preload = "auto";
     audioRef.current = audio;
 
     // Register for audio coordination
@@ -72,19 +68,18 @@ export function SectionPreviewPlayer({
       }
     };
 
-    audio.addEventListener('canplay', handleCanPlay);
-    audio.addEventListener('ended', handleEnded);
+    audio.addEventListener("canplay", handleCanPlay);
+    audio.addEventListener("ended", handleEnded);
 
     return () => {
-      audio.removeEventListener('canplay', handleCanPlay);
-      audio.removeEventListener('ended', handleEnded);
+      audio.removeEventListener("canplay", handleCanPlay);
+      audio.removeEventListener("ended", handleEnded);
       audio.pause();
-      audio.src = '';
+      audio.src = "";
       audio.load();
       unregisterStudioAudio(`section-preview-${sourceId}`);
       audioRef.current = null;
     };
-
   }, [audioUrl, sourceId]);
 
   // Pause when global player starts
@@ -118,8 +113,8 @@ export function SectionPreviewPlayer({
       }
     };
 
-    audio.addEventListener('timeupdate', handleTimeUpdate);
-    return () => audio.removeEventListener('timeupdate', handleTimeUpdate);
+    audio.addEventListener("timeupdate", handleTimeUpdate);
+    return () => audio.removeEventListener("timeupdate", handleTimeUpdate);
   }, [startTime, endTime, isLooping, onTimeUpdate]);
 
   // Update volume
@@ -148,7 +143,7 @@ export function SectionPreviewPlayer({
       // Pause global player and other studio audio
       pauseTrack();
       pauseAllStudioAudio(`section-preview-${sourceId}`);
-      
+
       // Ensure we start from the section start if outside range
       if (audio.currentTime < startTime || audio.currentTime >= endTime) {
         audio.currentTime = startTime;
@@ -165,14 +160,14 @@ export function SectionPreviewPlayer({
   const restart = useCallback(() => {
     const audio = audioRef.current;
     if (!audio) return;
-    
+
     // Pause other audio sources
     pauseTrack();
     pauseAllStudioAudio(`section-preview-${sourceId}`);
-    
+
     audio.currentTime = startTime;
     setCurrentTime(startTime);
-    
+
     if (!isPlaying && isLoaded) {
       audio.play();
       setIsPlaying(true);
@@ -181,22 +176,21 @@ export function SectionPreviewPlayer({
 
   return (
     <TooltipProvider>
-      <div className={cn(
-        "flex items-center gap-3 p-3 rounded-lg",
-        "bg-gradient-to-r from-muted/50 to-muted/30",
-        "border border-border/50",
-        className
-      )}>
+      <div
+        className={cn(
+          "flex items-center gap-3 p-3 rounded-lg",
+          "bg-gradient-to-r from-muted/50 to-muted/30",
+          "border border-border/50",
+          className,
+        )}
+      >
         {/* Play/Pause Button */}
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
               variant="default"
               size="icon"
-              className={cn(
-                "h-10 w-10 rounded-full relative",
-                isPlaying && "bg-primary shadow-lg shadow-primary/30"
-              )}
+              className={cn("h-10 w-10 rounded-full relative", isPlaying && "bg-primary shadow-lg shadow-primary/30")}
               onClick={togglePlay}
               disabled={!isLoaded}
             >
@@ -221,7 +215,7 @@ export function SectionPreviewPlayer({
                   </motion.div>
                 )}
               </AnimatePresence>
-              
+
               {/* Playing animation ring */}
               {isPlaying && (
                 <motion.div
@@ -232,21 +226,13 @@ export function SectionPreviewPlayer({
               )}
             </Button>
           </TooltipTrigger>
-          <TooltipContent>
-            {isPlaying ? 'Пауза' : 'Прослушать секцию'}
-          </TooltipContent>
+          <TooltipContent>{isPlaying ? "Пауза" : "Прослушать секцию"}</TooltipContent>
         </Tooltip>
 
         {/* Restart Button */}
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8"
-              onClick={restart}
-              disabled={!isLoaded}
-            >
+            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={restart} disabled={!isLoaded}>
               <RotateCcw className="w-4 h-4" />
             </Button>
           </TooltipTrigger>
@@ -263,26 +249,24 @@ export function SectionPreviewPlayer({
               Секция: {formatTime(startTime)} - {formatTime(endTime)}
             </span>
           </div>
-          
+
           {/* Progress Bar */}
           <div className="relative h-2 bg-muted rounded-full overflow-hidden">
             <motion.div
               className={cn(
                 "absolute inset-y-0 left-0 rounded-full",
-                isPlaying 
-                  ? "bg-gradient-to-r from-primary to-primary/70" 
-                  : "bg-primary/70"
+                isPlaying ? "bg-gradient-to-r from-primary to-primary/70" : "bg-primary/70",
               )}
               style={{ width: `${Math.min(100, Math.max(0, progress))}%` }}
               transition={{ duration: 0.1 }}
             />
-            
+
             {/* Animated glow when playing */}
             {isPlaying && (
               <motion.div
                 className="absolute inset-y-0 w-8 bg-gradient-to-r from-transparent via-white/30 to-transparent"
-                animate={{ left: ['-10%', '110%'] }}
-                transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
+                animate={{ left: ["-10%", "110%"] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
               />
             )}
           </div>
@@ -295,29 +279,19 @@ export function SectionPreviewPlayer({
               pressed={isLooping}
               onPressedChange={setIsLooping}
               size="sm"
-              className={cn(
-                "h-8 w-8",
-                isLooping && "text-primary bg-primary/10"
-              )}
+              className={cn("h-8 w-8", isLooping && "text-primary bg-primary/10")}
             >
               <Repeat className="w-4 h-4" />
             </Toggle>
           </TooltipTrigger>
-          <TooltipContent>
-            {isLooping ? 'Повтор включён' : 'Включить повтор'}
-          </TooltipContent>
+          <TooltipContent>{isLooping ? "Повтор включён" : "Включить повтор"}</TooltipContent>
         </Tooltip>
 
         {/* Volume Control */}
         <div className="flex items-center gap-1">
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8"
-                onClick={() => setIsMuted(!isMuted)}
-              >
+              <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setIsMuted(!isMuted)}>
                 {isMuted || volume === 0 ? (
                   <VolumeX className="w-4 h-4 text-muted-foreground" />
                 ) : (
@@ -325,11 +299,9 @@ export function SectionPreviewPlayer({
                 )}
               </Button>
             </TooltipTrigger>
-            <TooltipContent>
-              {isMuted ? 'Включить звук' : 'Выключить звук'}
-            </TooltipContent>
+            <TooltipContent>{isMuted ? "Включить звук" : "Выключить звук"}</TooltipContent>
           </Tooltip>
-          
+
           <Slider
             value={[isMuted ? 0 : volume * 100]}
             onValueChange={([v]) => {

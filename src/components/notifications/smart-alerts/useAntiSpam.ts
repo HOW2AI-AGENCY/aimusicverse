@@ -1,12 +1,12 @@
-import { useCallback, useRef } from 'react';
-import { 
-  STORAGE_KEY, 
-  ALERT_COOLDOWNS, 
-  SESSION_KEY, 
+import { useCallback, useRef } from "react";
+import {
+  STORAGE_KEY,
+  ALERT_COOLDOWNS,
+  SESSION_KEY,
   LAST_ALERT_KEY,
   MIN_ALERT_INTERVAL,
   MAX_ALERTS_PER_SESSION,
-} from './types';
+} from "./types";
 
 interface ShownAlert {
   id: string;
@@ -76,67 +76,76 @@ export function useAntiSpam() {
     }
   }, []);
 
-  const canShowAlert = useCallback((alertId: string): boolean => {
-    // Check minimum interval between alerts
-    const lastAlertTime = getLastAlertTime();
-    const timeSinceLastAlert = Date.now() - lastAlertTime;
-    if (lastAlertTime > 0 && timeSinceLastAlert < MIN_ALERT_INTERVAL) {
-      return false;
-    }
+  const canShowAlert = useCallback(
+    (alertId: string): boolean => {
+      // Check minimum interval between alerts
+      const lastAlertTime = getLastAlertTime();
+      const timeSinceLastAlert = Date.now() - lastAlertTime;
+      if (lastAlertTime > 0 && timeSinceLastAlert < MIN_ALERT_INTERVAL) {
+        return false;
+      }
 
-    // Check session limit
-    const sessionData = getSessionData();
-    if (sessionData.count >= MAX_ALERTS_PER_SESSION) {
-      return false;
-    }
+      // Check session limit
+      const sessionData = getSessionData();
+      if (sessionData.count >= MAX_ALERTS_PER_SESSION) {
+        return false;
+      }
 
-    // Check cooldown for this specific alert
-    const shownAlerts = getShownAlerts();
-    const lastShown = shownAlerts.find(a => a.id === alertId);
-    
-    if (!lastShown) return true;
-    
-    const cooldown = ALERT_COOLDOWNS[alertId] || 24 * 60 * 60 * 1000; // Default 24h
-    const timeSinceLastShown = Date.now() - lastShown.timestamp;
-    
-    return timeSinceLastShown >= cooldown;
-  }, [getShownAlerts, getLastAlertTime, getSessionData]);
+      // Check cooldown for this specific alert
+      const shownAlerts = getShownAlerts();
+      const lastShown = shownAlerts.find((a) => a.id === alertId);
 
-  const markAlertShown = useCallback((alertId: string) => {
-    const now = Date.now();
-    
-    // Update shown alerts
-    const shownAlerts = getShownAlerts();
-    const existingIndex = shownAlerts.findIndex(a => a.id === alertId);
-    
-    if (existingIndex >= 0) {
-      shownAlerts[existingIndex].timestamp = now;
-    } else {
-      shownAlerts.push({ id: alertId, timestamp: now });
-    }
-    
-    // Cleanup old entries (older than 30 days)
-    const thirtyDaysAgo = now - 30 * 24 * 60 * 60 * 1000;
-    const cleanedAlerts = shownAlerts.filter(a => a.timestamp > thirtyDaysAgo);
-    
-    setShownAlerts(cleanedAlerts);
+      if (!lastShown) return true;
 
-    // Update session data
-    const sessionData = getSessionData();
-    updateSessionData({
-      count: sessionData.count + 1,
-      startTime: sessionData.startTime,
-    });
+      const cooldown = ALERT_COOLDOWNS[alertId] || 24 * 60 * 60 * 1000; // Default 24h
+      const timeSinceLastShown = Date.now() - lastShown.timestamp;
 
-    // Update last alert time
-    setLastAlertTime(now);
-  }, [getShownAlerts, setShownAlerts, getSessionData, updateSessionData, setLastAlertTime]);
+      return timeSinceLastShown >= cooldown;
+    },
+    [getShownAlerts, getLastAlertTime, getSessionData],
+  );
 
-  const resetAlert = useCallback((alertId: string) => {
-    const shownAlerts = getShownAlerts();
-    const filtered = shownAlerts.filter(a => a.id !== alertId);
-    setShownAlerts(filtered);
-  }, [getShownAlerts, setShownAlerts]);
+  const markAlertShown = useCallback(
+    (alertId: string) => {
+      const now = Date.now();
+
+      // Update shown alerts
+      const shownAlerts = getShownAlerts();
+      const existingIndex = shownAlerts.findIndex((a) => a.id === alertId);
+
+      if (existingIndex >= 0) {
+        shownAlerts[existingIndex].timestamp = now;
+      } else {
+        shownAlerts.push({ id: alertId, timestamp: now });
+      }
+
+      // Cleanup old entries (older than 30 days)
+      const thirtyDaysAgo = now - 30 * 24 * 60 * 60 * 1000;
+      const cleanedAlerts = shownAlerts.filter((a) => a.timestamp > thirtyDaysAgo);
+
+      setShownAlerts(cleanedAlerts);
+
+      // Update session data
+      const sessionData = getSessionData();
+      updateSessionData({
+        count: sessionData.count + 1,
+        startTime: sessionData.startTime,
+      });
+
+      // Update last alert time
+      setLastAlertTime(now);
+    },
+    [getShownAlerts, setShownAlerts, getSessionData, updateSessionData, setLastAlertTime],
+  );
+
+  const resetAlert = useCallback(
+    (alertId: string) => {
+      const shownAlerts = getShownAlerts();
+      const filtered = shownAlerts.filter((a) => a.id !== alertId);
+      setShownAlerts(filtered);
+    },
+    [getShownAlerts, setShownAlerts],
+  );
 
   const resetAllAlerts = useCallback(() => {
     localStorage.removeItem(STORAGE_KEY);

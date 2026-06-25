@@ -14,21 +14,21 @@
 - [itemVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L41) (1 connections)
 - [{ selectedSection, customRange, editMode, clearSelection }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L67) (1 connections)
 - [{
-    startTime,
-    endTime,
-    sectionDuration,
-    maxDuration,
-    isValidDuration,
-    isSubmitting,
-    prompt,
-    setPrompt,
-    tags,
-    setTags,
-    lyrics,
-    setLyrics,
-    addPreset,
-    executeReplacement,
-    reset,
+  startTime,
+  endTime,
+  sectionDuration,
+  maxDuration,
+  isValidDuration,
+  isSubmitting,
+  prompt,
+  setPrompt,
+  tags,
+  setTags,
+  lyrics,
+  setLyrics,
+  addPreset,
+  executeReplacement,
+  reset,
   }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L70) (1 connections)
 
 ## Relationships
@@ -47,4 +47,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

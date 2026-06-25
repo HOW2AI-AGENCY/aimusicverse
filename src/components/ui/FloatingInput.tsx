@@ -1,63 +1,66 @@
 /**
  * Floating Label Input Component
  * Feature: 032-professional-ui
- * 
+ *
  * Material-style floating label with smooth animations
  */
 
-import React, { useState, forwardRef, InputHTMLAttributes } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { cn } from '@/lib/utils';
-import { Check, AlertCircle, Eye, EyeOff } from 'lucide-react';
+import React, { useState, forwardRef, InputHTMLAttributes } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import { Check, AlertCircle, Eye, EyeOff } from "lucide-react";
 
-interface FloatingInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
+interface FloatingInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "size"> {
   label: string;
   error?: string;
   success?: boolean;
   hint?: string;
-  size?: 'sm' | 'md' | 'lg';
+  size?: "sm" | "md" | "lg";
   showPasswordToggle?: boolean;
 }
 
 export const FloatingInput = forwardRef<HTMLInputElement, FloatingInputProps>(
-  ({ 
-    label, 
-    error, 
-    success, 
-    hint,
-    size = 'md',
-    className,
-    type = 'text',
-    showPasswordToggle,
-    disabled,
-    value,
-    onFocus,
-    onBlur,
-    ...props 
-  }, ref) => {
+  (
+    {
+      label,
+      error,
+      success,
+      hint,
+      size = "md",
+      className,
+      type = "text",
+      showPasswordToggle,
+      disabled,
+      value,
+      onFocus,
+      onBlur,
+      ...props
+    },
+    ref,
+  ) => {
     const [isFocused, setIsFocused] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
-    
-    const hasValue = value !== undefined && value !== '';
+
+    const hasValue = value !== undefined && value !== "";
     const isFloating = isFocused || hasValue;
-    const isPassword = type === 'password';
+    const isPassword = type === "password";
 
     const sizeClasses = {
-      sm: 'h-10 text-sm',
-      md: 'h-12 text-base',
-      lg: 'h-14 text-lg',
+      sm: "h-10 text-sm",
+      md: "h-12 text-base",
+      lg: "h-14 text-lg",
     };
 
     const labelSizeClasses = {
-      sm: isFloating ? 'text-[10px] top-1' : 'text-sm top-1/2 -translate-y-1/2',
-      md: isFloating ? 'text-xs top-1.5' : 'text-base top-1/2 -translate-y-1/2',
-      lg: isFloating ? 'text-xs top-2' : 'text-lg top-1/2 -translate-y-1/2',
+      sm: isFloating ? "text-[10px] top-1" : "text-sm top-1/2 -translate-y-1/2",
+      md: isFloating ? "text-xs top-1.5" : "text-base top-1/2 -translate-y-1/2",
+      lg: isFloating ? "text-xs top-2" : "text-lg top-1/2 -translate-y-1/2",
     };
 
     const inputPaddingTop = {
-      sm: 'pt-4',
-      md: 'pt-5',
-      lg: 'pt-6',
+      sm: "pt-4",
+      md: "pt-5",
+      lg: "pt-6",
     };
 
     return (
@@ -65,7 +68,7 @@ export const FloatingInput = forwardRef<HTMLInputElement, FloatingInputProps>(
         <div className="relative">
           <input
             ref={ref}
-            type={isPassword && showPassword ? 'text' : type}
+            type={isPassword && showPassword ? "text" : type}
             value={value}
             disabled={disabled}
             className={cn(
@@ -79,7 +82,7 @@ export const FloatingInput = forwardRef<HTMLInputElement, FloatingInputProps>(
               success && "border-success",
               disabled && "opacity-50 cursor-not-allowed bg-muted",
               // Password padding
-              (isPassword && showPasswordToggle) && "pr-12"
+              isPassword && showPasswordToggle && "pr-12",
             )}
             onFocus={(e) => {
               setIsFocused(true);
@@ -100,7 +103,7 @@ export const FloatingInput = forwardRef<HTMLInputElement, FloatingInputProps>(
               labelSizeClasses[size],
               isFocused ? "text-primary" : "text-muted-foreground",
               error && "text-destructive",
-              success && !isFocused && "text-success"
+              success && !isFocused && "text-success",
             )}
             animate={{
               scale: isFloating ? 0.85 : 1,
@@ -119,16 +122,12 @@ export const FloatingInput = forwardRef<HTMLInputElement, FloatingInputProps>(
                 "absolute right-3 top-1/2 -translate-y-1/2",
                 "p-1.5 rounded-md",
                 "text-muted-foreground hover:text-foreground",
-                "transition-colors"
+                "transition-colors",
               )}
               onClick={() => setShowPassword(!showPassword)}
               tabIndex={-1}
             >
-              {showPassword ? (
-                <EyeOff className="w-4 h-4" />
-              ) : (
-                <Eye className="w-4 h-4" />
-              )}
+              {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
             </button>
           )}
 
@@ -150,12 +149,9 @@ export const FloatingInput = forwardRef<HTMLInputElement, FloatingInputProps>(
           {(error || hint) && (
             <motion.p
               initial={{ opacity: 0, y: -4, height: 0 }}
-              animate={{ opacity: 1, y: 0, height: 'auto' }}
+              animate={{ opacity: 1, y: 0, height: "auto" }}
               exit={{ opacity: 0, y: -4, height: 0 }}
-              className={cn(
-                "text-xs mt-1 ml-1",
-                error ? "text-destructive" : "text-muted-foreground"
-              )}
+              className={cn("text-xs mt-1 ml-1", error ? "text-destructive" : "text-muted-foreground")}
             >
               {error || hint}
             </motion.p>
@@ -163,10 +159,10 @@ export const FloatingInput = forwardRef<HTMLInputElement, FloatingInputProps>(
         </AnimatePresence>
       </div>
     );
-  }
+  },
 );
 
-FloatingInput.displayName = 'FloatingInput';
+FloatingInput.displayName = "FloatingInput";
 
 /**
  * Floating Textarea Component
@@ -181,23 +177,11 @@ interface FloatingTextareaProps extends React.TextareaHTMLAttributes<HTMLTextAre
 }
 
 export const FloatingTextarea = forwardRef<HTMLTextAreaElement, FloatingTextareaProps>(
-  ({ 
-    label, 
-    error, 
-    success, 
-    hint,
-    maxLength,
-    showCount,
-    className,
-    value,
-    onFocus,
-    onBlur,
-    ...props 
-  }, ref) => {
+  ({ label, error, success, hint, maxLength, showCount, className, value, onFocus, onBlur, ...props }, ref) => {
     const [isFocused, setIsFocused] = useState(false);
-    const hasValue = value !== undefined && value !== '';
+    const hasValue = value !== undefined && value !== "";
     const isFloating = isFocused || hasValue;
-    const charCount = typeof value === 'string' ? value.length : 0;
+    const charCount = typeof value === "string" ? value.length : 0;
 
     return (
       <div className={cn("relative", className)}>
@@ -212,7 +196,7 @@ export const FloatingTextarea = forwardRef<HTMLTextAreaElement, FloatingTextarea
               "resize-y",
               isFocused && "ring-2 ring-primary/20 border-primary",
               error && "border-destructive ring-2 ring-destructive/20",
-              success && "border-success"
+              success && "border-success",
             )}
             onFocus={(e) => {
               setIsFocused(true);
@@ -232,7 +216,7 @@ export const FloatingTextarea = forwardRef<HTMLTextAreaElement, FloatingTextarea
               "transition-all duration-200 origin-left",
               isFloating ? "text-xs top-2" : "text-base top-4",
               isFocused ? "text-primary" : "text-muted-foreground",
-              error && "text-destructive"
+              error && "text-destructive",
             )}
             animate={{
               scale: isFloating ? 0.85 : 1,
@@ -251,30 +235,24 @@ export const FloatingTextarea = forwardRef<HTMLTextAreaElement, FloatingTextarea
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className={cn(
-                  "text-xs",
-                  error ? "text-destructive" : "text-muted-foreground"
-                )}
+                className={cn("text-xs", error ? "text-destructive" : "text-muted-foreground")}
               >
                 {error || hint}
               </motion.p>
             )}
           </AnimatePresence>
-          
+
           {showCount && maxLength && (
-            <p className={cn(
-              "text-xs ml-auto",
-              charCount >= maxLength ? "text-destructive" : "text-muted-foreground"
-            )}>
+            <p className={cn("text-xs ml-auto", charCount >= maxLength ? "text-destructive" : "text-muted-foreground")}>
               {charCount}/{maxLength}
             </p>
           )}
         </div>
       </div>
     );
-  }
+  },
 );
 
-FloatingTextarea.displayName = 'FloatingTextarea';
+FloatingTextarea.displayName = "FloatingTextarea";
 
 export default FloatingInput;

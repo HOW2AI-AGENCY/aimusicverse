@@ -4,7 +4,7 @@
  *
  * Helper functions for WCAG AA compliance and screen reader support.
  * Ensures the UI is accessible to all users.
- * 
+ *
  * Includes:
  * - ID generation for ARIA
  * - Screen reader announcements
@@ -13,7 +13,7 @@
  * - React hooks for a11y
  */
 
-import { useEffect, useRef, useCallback, useState } from 'react';
+import { useEffect, useRef, useCallback, useState } from "react";
 
 /**
  * Generate unique ID for accessibility attributes
@@ -37,8 +37,8 @@ export const generateA11yId = (prefix: string): string => {
  *   }
  */
 export const prefersReducedMotion = (): boolean => {
-  if (typeof window === 'undefined') return false;
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (typeof window === "undefined") return false;
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 };
 
 /**
@@ -50,8 +50,8 @@ export const prefersReducedMotion = (): boolean => {
  *   }
  */
 export const prefersDarkMode = (): boolean => {
-  if (typeof window === 'undefined') return false;
-  return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if (typeof window === "undefined") return false;
+  return window.matchMedia("(prefers-color-scheme: dark)").matches;
 };
 
 /**
@@ -60,14 +60,14 @@ export const prefersDarkMode = (): boolean => {
  * Usage:
  *   announceToScreenReader('Loading complete');
  */
-export const announceToScreenReader = (message: string, priority: 'polite' | 'assertive' = 'polite'): void => {
-  if (typeof document === 'undefined') return;
+export const announceToScreenReader = (message: string, priority: "polite" | "assertive" = "polite"): void => {
+  if (typeof document === "undefined") return;
 
-  const announcement = document.createElement('div');
-  announcement.setAttribute('role', 'status');
-  announcement.setAttribute('aria-live', priority);
-  announcement.setAttribute('aria-atomic', 'true');
-  announcement.className = 'sr-only';
+  const announcement = document.createElement("div");
+  announcement.setAttribute("role", "status");
+  announcement.setAttribute("aria-live", priority);
+  announcement.setAttribute("aria-atomic", "true");
+  announcement.className = "sr-only";
   announcement.textContent = message;
 
   document.body.appendChild(announcement);
@@ -88,14 +88,14 @@ export const trapFocus = (container: HTMLElement | null): (() => void) => {
   if (!container) return () => {};
 
   const focusableElements = container.querySelectorAll(
-    'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
   );
 
   const firstElement = focusableElements[0] as HTMLElement;
   const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
 
   const handleTabKey = (e: KeyboardEvent) => {
-    if (e.key !== 'Tab') return;
+    if (e.key !== "Tab") return;
 
     if (e.shiftKey) {
       if (document.activeElement === firstElement) {
@@ -110,14 +110,14 @@ export const trapFocus = (container: HTMLElement | null): (() => void) => {
     }
   };
 
-  container.addEventListener('keydown', handleTabKey);
+  container.addEventListener("keydown", handleTabKey);
 
   // Focus first element
   firstElement?.focus();
 
   // Return cleanup function
   return () => {
-    container.removeEventListener('keydown', handleTabKey);
+    container.removeEventListener("keydown", handleTabKey);
   };
 };
 
@@ -131,33 +131,33 @@ export const getIconA11yLabel = (iconName: string, context?: string): string => 
   if (context) return context;
 
   const iconLabels: Record<string, string> = {
-    play: 'Play',
-    pause: 'Pause',
-    stop: 'Stop',
-    skip: 'Skip',
-    rewind: 'Rewind',
-    forward: 'Forward',
-    heart: 'Like',
-    'heart-filled': 'Liked',
-    share: 'Share',
-    download: 'Download',
-    delete: 'Delete',
-    edit: 'Edit',
-    close: 'Close',
-    menu: 'Menu',
-    settings: 'Settings',
-    search: 'Search',
-    filter: 'Filter',
-    sort: 'Sort',
-    add: 'Add',
-    remove: 'Remove',
-    check: 'Check',
-    chevronLeft: 'Previous',
-    chevronRight: 'Next',
-    chevronUp: 'Up',
-    chevronDown: 'Down',
-    expand: 'Expand',
-    collapse: 'Collapse',
+    play: "Play",
+    pause: "Pause",
+    stop: "Stop",
+    skip: "Skip",
+    rewind: "Rewind",
+    forward: "Forward",
+    heart: "Like",
+    "heart-filled": "Liked",
+    share: "Share",
+    download: "Download",
+    delete: "Delete",
+    edit: "Edit",
+    close: "Close",
+    menu: "Menu",
+    settings: "Settings",
+    search: "Search",
+    filter: "Filter",
+    sort: "Sort",
+    add: "Add",
+    remove: "Remove",
+    check: "Check",
+    chevronLeft: "Previous",
+    chevronRight: "Next",
+    chevronUp: "Up",
+    chevronDown: "Down",
+    expand: "Expand",
+    collapse: "Collapse",
   };
 
   return iconLabels[iconName] || iconName;
@@ -172,7 +172,7 @@ export const getIconA11yLabel = (iconName: string, context?: string): string => 
  */
 export const getContrastRatio = (foreground: string, background: string): number => {
   const getLuminance = (hex: string): number => {
-    const rgb = parseInt(hex.replace('#', ''), 16);
+    const rgb = parseInt(hex.replace("#", ""), 16);
     const r = ((rgb >> 16) & 0xff) / 255;
     const g = ((rgb >> 8) & 0xff) / 255;
     const b = (rgb & 0xff) / 255;
@@ -229,36 +229,36 @@ export interface KeyboardHandlers {
 export const handleKeyboardNavigation = (handlers: KeyboardHandlers) => {
   return (e: React.KeyboardEvent) => {
     switch (e.key) {
-      case 'Enter':
-      case ' ':
+      case "Enter":
+      case " ":
         e.preventDefault();
         handlers.onEnter?.();
         break;
-      case 'Escape':
+      case "Escape":
         e.preventDefault();
         handlers.onEscape?.();
         break;
-      case 'ArrowUp':
+      case "ArrowUp":
         e.preventDefault();
         handlers.onArrowUp?.();
         break;
-      case 'ArrowDown':
+      case "ArrowDown":
         e.preventDefault();
         handlers.onArrowDown?.();
         break;
-      case 'ArrowLeft':
+      case "ArrowLeft":
         e.preventDefault();
         handlers.onArrowLeft?.();
         break;
-      case 'ArrowRight':
+      case "ArrowRight":
         e.preventDefault();
         handlers.onArrowRight?.();
         break;
-      case 'Home':
+      case "Home":
         e.preventDefault();
         handlers.onHome?.();
         break;
-      case 'End':
+      case "End":
         e.preventDefault();
         handlers.onEnd?.();
         break;
@@ -272,7 +272,7 @@ export const handleKeyboardNavigation = (handlers: KeyboardHandlers) => {
  * Hook for making screen reader announcements
  */
 export function useLiveAnnounce() {
-  return useCallback((message: string, priority: 'polite' | 'assertive' = 'polite') => {
+  return useCallback((message: string, priority: "polite" | "assertive" = "polite") => {
     announceToScreenReader(message, priority);
   }, []);
 }
@@ -284,12 +284,12 @@ export function usePrefersReducedMotion(): boolean {
   const [prefers, setPrefers] = useState(() => prefersReducedMotion());
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     setPrefers(mediaQuery.matches);
 
     const handleChange = (e: MediaQueryListEvent) => setPrefers(e.matches);
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
   }, []);
 
   return prefers;
@@ -326,43 +326,46 @@ export function useRovingFocus<T extends HTMLElement>() {
   const containerRef = useRef<T>(null);
   const [focusedIndex, setFocusedIndex] = useState(0);
 
-  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if (!containerRef.current) return;
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (!containerRef.current) return;
 
-    const focusables = containerRef.current.querySelectorAll<HTMLElement>(
-      'button:not([disabled]), [role="option"], [role="menuitem"], [role="tab"]'
-    );
-    
-    if (focusables.length === 0) return;
+      const focusables = containerRef.current.querySelectorAll<HTMLElement>(
+        'button:not([disabled]), [role="option"], [role="menuitem"], [role="tab"]',
+      );
 
-    let newIndex = focusedIndex;
+      if (focusables.length === 0) return;
 
-    switch (e.key) {
-      case 'ArrowDown':
-      case 'ArrowRight':
-        e.preventDefault();
-        newIndex = (focusedIndex + 1) % focusables.length;
-        break;
-      case 'ArrowUp':
-      case 'ArrowLeft':
-        e.preventDefault();
-        newIndex = (focusedIndex - 1 + focusables.length) % focusables.length;
-        break;
-      case 'Home':
-        e.preventDefault();
-        newIndex = 0;
-        break;
-      case 'End':
-        e.preventDefault();
-        newIndex = focusables.length - 1;
-        break;
-      default:
-        return;
-    }
+      let newIndex = focusedIndex;
 
-    setFocusedIndex(newIndex);
-    focusables[newIndex].focus();
-  }, [focusedIndex]);
+      switch (e.key) {
+        case "ArrowDown":
+        case "ArrowRight":
+          e.preventDefault();
+          newIndex = (focusedIndex + 1) % focusables.length;
+          break;
+        case "ArrowUp":
+        case "ArrowLeft":
+          e.preventDefault();
+          newIndex = (focusedIndex - 1 + focusables.length) % focusables.length;
+          break;
+        case "Home":
+          e.preventDefault();
+          newIndex = 0;
+          break;
+        case "End":
+          e.preventDefault();
+          newIndex = focusables.length - 1;
+          break;
+        default:
+          return;
+      }
+
+      setFocusedIndex(newIndex);
+      focusables[newIndex].focus();
+    },
+    [focusedIndex],
+  );
 
   return { containerRef, focusedIndex, setFocusedIndex, onKeyDown: handleKeyDown };
 }
@@ -375,16 +378,16 @@ export function useFocusVisible() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Tab') setIsKeyboardNav(true);
+      if (e.key === "Tab") setIsKeyboardNav(true);
     };
     const handleMouseDown = () => setIsKeyboardNav(false);
 
-    window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('mousedown', handleMouseDown);
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("mousedown", handleMouseDown);
 
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('mousedown', handleMouseDown);
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("mousedown", handleMouseDown);
     };
   }, []);
 
@@ -395,11 +398,12 @@ export function useFocusVisible() {
  * Focus ring class presets for consistent styling
  */
 export const focusRingClasses = {
-  default: 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
-  inset: 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset',
-  light: 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2',
-  tight: 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
-  glow: 'focus-visible:outline-none focus-visible:shadow-[0_0_0_3px_hsl(var(--primary)/0.4)]',
+  default:
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+  inset: "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
+  light: "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2",
+  tight: "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+  glow: "focus-visible:outline-none focus-visible:shadow-[0_0_0_3px_hsl(var(--primary)/0.4)]",
 };
 
 export default {

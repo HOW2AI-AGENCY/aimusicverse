@@ -3,10 +3,10 @@
  * Validates if user has sufficient credits or active subscription
  */
 
-import { getSupabaseClient } from '../core/supabase-client.ts';
-import { createLogger } from '../../_shared/logger.ts';
+import { getSupabaseClient } from "../core/supabase-client.ts";
+import { createLogger } from "../../_shared/logger.ts";
 
-const logger = createLogger('quota-checker');
+const logger = createLogger("quota-checker");
 const supabase = getSupabaseClient();
 
 export interface QuotaCheckResult {
@@ -35,23 +35,20 @@ export type OperationType = keyof typeof OPERATION_COSTS;
 /**
  * Check if user has sufficient quota for operation
  */
-export async function checkUserQuota(
-  userId: string,
-  operationType: OperationType
-): Promise<QuotaCheckResult> {
+export async function checkUserQuota(userId: string, operationType: OperationType): Promise<QuotaCheckResult> {
   try {
     // Get user profile
     const { data: profile, error: profileError } = await supabase
-      .from('profiles')
-      .select('credits_balance, subscription_tier, subscription_expires_at')
-      .eq('user_id', userId)
+      .from("profiles")
+      .select("credits_balance, subscription_tier, subscription_expires_at")
+      .eq("user_id", userId)
       .single();
 
     if (profileError || !profile) {
-      logger.error('Failed to fetch user profile', profileError);
+      logger.error("Failed to fetch user profile", profileError);
       return {
         allowed: false,
-        reason: 'Профиль не найден',
+        reason: "Профиль не найден",
       };
     }
 
@@ -60,14 +57,15 @@ export async function checkUserQuota(
     const subscriptionExpires = profile.subscription_expires_at;
 
     // Check if user has active subscription
-    const hasActiveSubscription = subscriptionTier &&
-      subscriptionTier !== 'free' &&
+    const hasActiveSubscription =
+      subscriptionTier &&
+      subscriptionTier !== "free" &&
       subscriptionExpires &&
       new Date(subscriptionExpires) > new Date();
 
     // Users with active premium/enterprise subscriptions have unlimited operations
     if (hasActiveSubscription) {
-      logger.info('Quota check passed: active subscription', {
+      logger.info("Quota check passed: active subscription", {
         userId,
         tier: subscriptionTier,
         operation: operationType,
@@ -85,7 +83,7 @@ export async function checkUserQuota(
     const operationCost = OPERATION_COSTS[operationType];
 
     if (creditsBalance < operationCost) {
-      logger.warn('Quota check failed: insufficient credits', {
+      logger.warn("Quota check failed: insufficient credits", {
         userId,
         balance: creditsBalance,
         required: operationCost,
@@ -100,7 +98,7 @@ export async function checkUserQuota(
     }
 
     // User has sufficient credits
-    logger.info('Quota check passed: sufficient credits', {
+    logger.info("Quota check passed: sufficient credits", {
       userId,
       balance: creditsBalance,
       cost: operationCost,
@@ -112,12 +110,11 @@ export async function checkUserQuota(
       creditsBalance,
       subscriptionTier,
     };
-
   } catch (error) {
-    logger.error('Error checking user quota', error);
+    logger.error("Error checking user quota", error);
     return {
       allowed: false,
-      reason: 'Ошибка проверки квоты',
+      reason: "Ошибка проверки квоты",
     };
   }
 }
@@ -129,26 +126,24 @@ export async function deductCredits(
   userId: string,
   amount: number,
   description: string,
-  metadata?: Record<string, unknown>
+  metadata?: Record<string, unknown>,
 ): Promise<boolean> {
   try {
     // Record transaction
-    const { error } = await supabase
-      .from('credit_transactions')
-      .insert({
-        user_id: userId,
-        amount: -amount, // Negative for deduction
-        action_type: 'usage',
-        description,
-        metadata,
-      });
+    const { error } = await supabase.from("credit_transactions").insert({
+      user_id: userId,
+      amount: -amount, // Negative for deduction
+      action_type: "usage",
+      description,
+      metadata,
+    });
 
     if (error) {
-      logger.error('Failed to deduct credits', error);
+      logger.error("Failed to deduct credits", error);
       return false;
     }
 
-    logger.info('Credits deducted', {
+    logger.info("Credits deducted", {
       userId,
       amount,
       description,
@@ -156,7 +151,7 @@ export async function deductCredits(
 
     return true;
   } catch (error) {
-    logger.error('Error deducting credits', error);
+    logger.error("Error deducting credits", error);
     return false;
   }
 }
@@ -167,7 +162,7 @@ export async function deductCredits(
 export async function checkAndDeductQuota(
   userId: string,
   operationType: OperationType,
-  metadata?: Record<string, unknown>
+  metadata?: Record<string, unknown>,
 ): Promise<QuotaCheckResult> {
   const quotaCheck = await checkUserQuota(userId, operationType);
 
@@ -176,23 +171,18 @@ export async function checkAndDeductQuota(
   }
 
   // Skip deduction for users with active subscription
-  if (quotaCheck.subscriptionTier && quotaCheck.subscriptionTier !== 'free') {
+  if (quotaCheck.subscriptionTier && quotaCheck.subscriptionTier !== "free") {
     return quotaCheck;
   }
 
   // Deduct credits for free tier users
   const cost = OPERATION_COSTS[operationType];
-  const success = await deductCredits(
-    userId,
-    cost,
-    `Bot operation: ${operationType}`,
-    metadata
-  );
+  const success = await deductCredits(userId, cost, `Bot operation: ${operationType}`, metadata);
 
   if (!success) {
     return {
       allowed: false,
-      reason: 'Ошибка списания кредитов',
+      reason: "Ошибка списания кредитов",
     };
   }
 

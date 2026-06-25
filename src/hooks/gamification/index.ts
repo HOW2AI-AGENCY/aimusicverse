@@ -27,4 +27,4 @@ export {
   getExperienceForLevel,
   getLevelFromExperience,
   getLevelProgress,
-} from '../useGamification';
+} from "../useGamification";

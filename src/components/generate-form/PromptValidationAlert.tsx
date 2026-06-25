@@ -3,13 +3,13 @@
  * Shows warning when blocked artist names are detected with replacement suggestions
  */
 
-import { memo, useMemo, useCallback } from 'react';
-import { AlertTriangle, Sparkles, ArrowRight, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { findArtistReplacement, getGenreSuggestions, type ArtistReplacement } from '@/lib/artistReplacements';
-import { cn } from '@/lib/utils';
-import { useTelegram } from '@/contexts/TelegramContext';
+import { memo, useMemo, useCallback } from "react";
+import { AlertTriangle, Sparkles, ArrowRight, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { findArtistReplacement, getGenreSuggestions, type ArtistReplacement } from "@/lib/artistReplacements";
+import { cn } from "@/lib/utils";
+import { useTelegram } from "@/contexts/TelegramContext";
 
 interface PromptValidationAlertProps {
   text: string;
@@ -23,51 +23,51 @@ export const PromptValidationAlert = memo(function PromptValidationAlert({
   className,
 }: PromptValidationAlertProps) {
   const { hapticFeedback } = useTelegram();
-  
+
   const artistMatch = useMemo(() => findArtistReplacement(text), [text]);
-  
+
   const suggestions = useMemo(() => {
     if (!artistMatch) return [];
     return getGenreSuggestions(artistMatch);
   }, [artistMatch]);
-  
-  const handleApplySuggestion = useCallback((suggestion: string) => {
-    if (!artistMatch || !onApplyReplacement) return;
-    
-    hapticFeedback('light');
-    
-    // Replace the artist mention with the suggestion
-    let newText = text;
-    
-    // Common phrase patterns to replace
-    const patterns = [
-      new RegExp(`(как|в стиле|похоже на|типа|вроде)\\s*${artistMatch.pattern.source}`, 'gi'),
-      new RegExp(`(like|similar to|style of)\\s*${artistMatch.pattern.source}`, 'gi'),
-      artistMatch.pattern,
-    ];
-    
-    for (const pattern of patterns) {
-      if (pattern.test(newText)) {
-        newText = newText.replace(pattern, suggestion);
-        break;
+
+  const handleApplySuggestion = useCallback(
+    (suggestion: string) => {
+      if (!artistMatch || !onApplyReplacement) return;
+
+      hapticFeedback("light");
+
+      // Replace the artist mention with the suggestion
+      let newText = text;
+
+      // Common phrase patterns to replace
+      const patterns = [
+        new RegExp(`(как|в стиле|похоже на|типа|вроде)\\s*${artistMatch.pattern.source}`, "gi"),
+        new RegExp(`(like|similar to|style of)\\s*${artistMatch.pattern.source}`, "gi"),
+        artistMatch.pattern,
+      ];
+
+      for (const pattern of patterns) {
+        if (pattern.test(newText)) {
+          newText = newText.replace(pattern, suggestion);
+          break;
+        }
       }
-    }
-    
-    onApplyReplacement(newText);
-  }, [artistMatch, text, onApplyReplacement, hapticFeedback]);
-  
+
+      onApplyReplacement(newText);
+    },
+    [artistMatch, text, onApplyReplacement, hapticFeedback],
+  );
+
   if (!artistMatch) return null;
-  
+
   return (
     <AnimatePresence>
       <motion.div
         initial={{ opacity: 0, height: 0, marginTop: 0 }}
-        animate={{ opacity: 1, height: 'auto', marginTop: 8 }}
+        animate={{ opacity: 1, height: "auto", marginTop: 8 }}
         exit={{ opacity: 0, height: 0, marginTop: 0 }}
-        className={cn(
-          "rounded-xl border border-amber-500/30 bg-amber-500/10 overflow-hidden",
-          className
-        )}
+        className={cn("rounded-xl border border-amber-500/30 bg-amber-500/10 overflow-hidden", className)}
       >
         <div className="p-3 space-y-2">
           {/* Warning header */}
@@ -82,7 +82,7 @@ export const PromptValidationAlert = memo(function PromptValidationAlert({
               </p>
             </div>
           </div>
-          
+
           {/* Replacement suggestions */}
           <div className="flex flex-wrap gap-1.5">
             {suggestions.slice(0, 3).map((suggestion, index) => (
@@ -96,7 +96,7 @@ export const PromptValidationAlert = memo(function PromptValidationAlert({
                   "h-auto py-1.5 px-2.5 text-[11px] gap-1.5",
                   "bg-background/80 border-amber-500/30",
                   "hover:bg-amber-500/20 hover:border-amber-500/50",
-                  "transition-all"
+                  "transition-all",
                 )}
               >
                 <Sparkles className="w-3 h-3 text-amber-500" />

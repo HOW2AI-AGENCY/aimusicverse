@@ -1,10 +1,12 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { useMemo } from 'react';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useMemo } from "react";
 
 // Get current user from supabase
 async function getCurrentUser() {
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   return user;
 }
 
@@ -34,18 +36,18 @@ interface TagCombination {
 // Fetch user's tag usage history
 export function useTagUsageHistory() {
   return useQuery({
-    queryKey: ['tag-usage-history'],
+    queryKey: ["tag-usage-history"],
     queryFn: async () => {
       const user = await getCurrentUser();
       if (!user?.id) return [];
-      
+
       const { data, error } = await supabase
-        .from('generation_tag_usage')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false })
+        .from("generation_tag_usage")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false })
         .limit(100);
-      
+
       if (error) throw error;
       return data || [];
     },
@@ -55,19 +57,19 @@ export function useTagUsageHistory() {
 // Fetch global tag popularity stats
 export function useTagPopularity() {
   return useQuery({
-    queryKey: ['tag-popularity'],
+    queryKey: ["tag-popularity"],
     queryFn: async () => {
       // Get tag usage counts from generation_tag_usage
       const { data: usageData, error: usageError } = await supabase
-        .from('generation_tag_usage')
-        .select('tags_used, success, track_id');
-      
+        .from("generation_tag_usage")
+        .select("tags_used, success, track_id");
+
       if (usageError) throw usageError;
-      
+
       // Aggregate tag stats
       const tagStats: Record<string, { count: number; successes: number }> = {};
-      
-      (usageData || []).forEach(usage => {
+
+      (usageData || []).forEach((usage) => {
         (usage.tags_used || []).forEach((tag: string) => {
           if (!tagStats[tag]) {
             tagStats[tag] = { count: 0, successes: 0 };
@@ -76,7 +78,7 @@ export function useTagPopularity() {
           if (usage.success) tagStats[tag].successes++;
         });
       });
-      
+
       // Convert to array and sort by count
       return Object.entries(tagStats)
         .map(([tag, stats]) => ({
@@ -93,16 +95,14 @@ export function useTagPopularity() {
 // Fetch tag relationships from database
 export function useTagRelationships() {
   return useQuery({
-    queryKey: ['tag-relationships-full'],
+    queryKey: ["tag-relationships-full"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('tag_relationships')
-        .select(`
+      const { data, error } = await supabase.from("tag_relationships").select(`
           *,
           tag:suno_meta_tags!tag_relationships_tag_id_fkey(id, tag_name, category),
           related_tag:suno_meta_tags!tag_relationships_related_tag_id_fkey(id, tag_name, category)
         `);
-      
+
       if (error) throw error;
       return data || [];
     },
@@ -116,21 +116,21 @@ export function useTagRecommendations(currentTags: string[] = [], genre?: string
   const { data: popularity } = useTagPopularity();
   const { data: relationships } = useTagRelationships();
   const { data: metaTags } = useMetaTags();
-  
+
   return useMemo(() => {
     const recommendations: TagRecommendation[] = [];
-    
+
     if (!metaTags) return recommendations;
-    
+
     // 1. Recommendations based on relationships with current tags
     if (relationships && currentTags.length > 0) {
       const relatedTagIds = new Set<string>();
       const relatedReasons: Record<string, string[]> = {};
-      
-      relationships.forEach(rel => {
+
+      relationships.forEach((rel) => {
         const tagName = rel.tag?.tag_name;
         const relatedName = rel.related_tag?.tag_name;
-        
+
         if (currentTags.includes(tagName) && relatedName && !currentTags.includes(relatedName)) {
           relatedTagIds.add(relatedName);
           if (!relatedReasons[relatedName]) relatedReasons[relatedName] = [];
@@ -142,41 +142,41 @@ export function useTagRecommendations(currentTags: string[] = [], genre?: string
           relatedReasons[tagName].push(`связан с "${relatedName}"`);
         }
       });
-      
-      relatedTagIds.forEach(tag => {
-        const tagInfo = metaTags.find(t => t.tag_name === tag);
+
+      relatedTagIds.forEach((tag) => {
+        const tagInfo = metaTags.find((t) => t.tag_name === tag);
         recommendations.push({
           tag,
           score: 0.9,
-          reason: relatedReasons[tag]?.join(', ') || 'Связанный тег',
+          reason: relatedReasons[tag]?.join(", ") || "Связанный тег",
           category: tagInfo?.category,
-          relatedTags: currentTags.filter(ct => relatedReasons[tag]?.some(r => r.includes(ct))),
+          relatedTags: currentTags.filter((ct) => relatedReasons[tag]?.some((r) => r.includes(ct))),
         });
       });
     }
-    
+
     // 2. Recommendations based on user history
     if (usageHistory && usageHistory.length > 0) {
       const userTagCounts: Record<string, number> = {};
-      
-      usageHistory.forEach(usage => {
+
+      usageHistory.forEach((usage) => {
         (usage.tags_used || []).forEach((tag: string) => {
           if (!currentTags.includes(tag)) {
             userTagCounts[tag] = (userTagCounts[tag] || 0) + 1;
           }
         });
       });
-      
+
       Object.entries(userTagCounts)
         .sort((a, b) => b[1] - a[1])
         .slice(0, 5)
         .forEach(([tag, count]) => {
-          const existing = recommendations.find(r => r.tag === tag);
+          const existing = recommendations.find((r) => r.tag === tag);
           if (existing) {
             existing.score += 0.2;
             existing.reason += `, использовался ${count} раз`;
           } else {
-            const tagInfo = metaTags.find(t => t.tag_name === tag);
+            const tagInfo = metaTags.find((t) => t.tag_name === tag);
             recommendations.push({
               tag,
               score: 0.6 + Math.min(count / 20, 0.3),
@@ -187,18 +187,18 @@ export function useTagRecommendations(currentTags: string[] = [], genre?: string
           }
         });
     }
-    
+
     // 3. Recommendations based on popularity
     if (popularity && popularity.length > 0) {
       popularity.slice(0, 10).forEach(({ tag, count, successRate }) => {
         if (currentTags.includes(tag)) return;
-        
-        const existing = recommendations.find(r => r.tag === tag);
+
+        const existing = recommendations.find((r) => r.tag === tag);
         if (existing) {
           existing.score += successRate * 0.3;
           existing.reason += `, популярен (${count} использований)`;
         } else {
-          const tagInfo = metaTags.find(t => t.tag_name === tag);
+          const tagInfo = metaTags.find((t) => t.tag_name === tag);
           recommendations.push({
             tag,
             score: 0.4 + successRate * 0.4,
@@ -209,15 +209,15 @@ export function useTagRecommendations(currentTags: string[] = [], genre?: string
         }
       });
     }
-    
+
     // 4. Genre-based recommendations
     if (genre && metaTags) {
       metaTags
-        .filter(t => t.category === 'genre_style' || t.category === 'mood_energy')
+        .filter((t) => t.category === "genre_style" || t.category === "mood_energy")
         .slice(0, 5)
-        .forEach(tag => {
+        .forEach((tag) => {
           if (currentTags.includes(tag.tag_name)) return;
-          const existing = recommendations.find(r => r.tag === tag.tag_name);
+          const existing = recommendations.find((r) => r.tag === tag.tag_name);
           if (!existing) {
             recommendations.push({
               tag: tag.tag_name,
@@ -229,11 +229,11 @@ export function useTagRecommendations(currentTags: string[] = [], genre?: string
           }
         });
     }
-    
+
     // Sort by score and deduplicate
     return recommendations
       .sort((a, b) => b.score - a.score)
-      .filter((r, i, arr) => arr.findIndex(x => x.tag === r.tag) === i)
+      .filter((r, i, arr) => arr.findIndex((x) => x.tag === r.tag) === i)
       .slice(0, 15);
   }, [currentTags, genre, usageHistory, popularity, relationships, metaTags]);
 }
@@ -241,40 +241,38 @@ export function useTagRecommendations(currentTags: string[] = [], genre?: string
 // Track tag usage for analytics
 export function useTrackTagUsage() {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
-    mutationFn: async ({ 
+    mutationFn: async ({
       tags,
-      styleId, 
-      promptText, 
-      trackId, 
-      success 
-    }: { 
-      tags: string[]; 
-      styleId?: string; 
-      promptText?: string; 
+      styleId,
+      promptText,
+      trackId,
+      success,
+    }: {
+      tags: string[];
+      styleId?: string;
+      promptText?: string;
       trackId?: string;
       success?: boolean;
     }) => {
       const user = await getCurrentUser();
-      if (!user?.id) throw new Error('Not authenticated');
-      
-      const { error } = await supabase
-        .from('generation_tag_usage')
-        .insert({
-          user_id: user.id,
-          tags_used: tags,
-          style_id: styleId,
-          prompt_text: promptText,
-          track_id: trackId,
-          success: success ?? true,
-        });
-      
+      if (!user?.id) throw new Error("Not authenticated");
+
+      const { error } = await supabase.from("generation_tag_usage").insert({
+        user_id: user.id,
+        tags_used: tags,
+        style_id: styleId,
+        prompt_text: promptText,
+        track_id: trackId,
+        success: success ?? true,
+      });
+
       if (error) throw error;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['tag-usage-history'] });
-      queryClient.invalidateQueries({ queryKey: ['tag-popularity'] });
+      queryClient.invalidateQueries({ queryKey: ["tag-usage-history"] });
+      queryClient.invalidateQueries({ queryKey: ["tag-popularity"] });
     },
   });
 }
@@ -282,12 +280,10 @@ export function useTrackTagUsage() {
 // Helper hook to fetch meta tags
 function useMetaTags() {
   return useQuery({
-    queryKey: ['suno-meta-tags'],
+    queryKey: ["suno-meta-tags"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('suno_meta_tags')
-        .select('*');
-      
+      const { data, error } = await supabase.from("suno_meta_tags").select("*");
+
       if (error) throw error;
       return data || [];
     },
@@ -298,23 +294,23 @@ function useMetaTags() {
 // Get successful tag combinations
 export function useSuccessfulCombinations() {
   return useQuery({
-    queryKey: ['successful-combinations'],
+    queryKey: ["successful-combinations"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('generation_tag_usage')
-        .select('tags_used, success, track_id')
-        .eq('success', true)
-        .not('track_id', 'is', null);
-      
+        .from("generation_tag_usage")
+        .select("tags_used, success, track_id")
+        .eq("success", true)
+        .not("track_id", "is", null);
+
       if (error) throw error;
-      
+
       // Find common combinations
       const comboCounts: Record<string, { count: number; trackIds: string[] }> = {};
-      
-      (data || []).forEach(usage => {
+
+      (data || []).forEach((usage) => {
         if (usage.tags_used && usage.tags_used.length >= 2) {
           // Sort tags to create consistent key
-          const key = [...usage.tags_used].sort().join('|');
+          const key = [...usage.tags_used].sort().join("|");
           if (!comboCounts[key]) {
             comboCounts[key] = { count: 0, trackIds: [] };
           }
@@ -324,14 +320,14 @@ export function useSuccessfulCombinations() {
           }
         }
       });
-      
+
       return Object.entries(comboCounts)
         .map(([key, { count, trackIds }]) => ({
-          tags: key.split('|'),
+          tags: key.split("|"),
           count,
           trackIds,
         }))
-        .filter(c => c.count >= 2)
+        .filter((c) => c.count >= 2)
         .sort((a, b) => b.count - a.count)
         .slice(0, 20);
     },

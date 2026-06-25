@@ -18,8 +18,8 @@
  * ```
  */
 
-import { lazy, ComponentType, LazyExoticComponent } from 'react';
-import { logger } from '@/lib/logger';
+import { lazy, ComponentType, LazyExoticComponent } from "react";
+import { logger } from "@/lib/logger";
 
 interface LazyLoadOptions {
   fallback?: React.ReactNode;
@@ -35,13 +35,13 @@ interface LazyLoadOptions {
  */
 export function lazyLoad<T extends ComponentType<any>>(
   importFn: () => Promise<{ default: T }>,
-  options: LazyLoadOptions = {}
+  options: LazyLoadOptions = {},
 ): LazyExoticComponent<T> {
   const { onError } = options;
 
   return lazy(() => {
     return importFn().catch((error) => {
-      logger.error('Failed to load lazy component', { error: error.message });
+      logger.error("Failed to load lazy component", { error: error.message });
 
       if (onError) {
         onError(error);
@@ -62,11 +62,11 @@ export function lazyLoad<T extends ComponentType<any>>(
  * ```
  */
 export function createLazyRoute<T extends ComponentType<any>>(
-  importFn: () => Promise<{ default: T }>
+  importFn: () => Promise<{ default: T }>,
 ): LazyExoticComponent<T> {
   return lazyLoad(importFn, {
     onError: (error) => {
-      logger.error('Failed to load route', { error: error.message });
+      logger.error("Failed to load route", { error: error.message });
     },
   });
 }
@@ -79,14 +79,11 @@ export function createLazyRoute<T extends ComponentType<any>>(
  * const WaveSurfer = await lazyLibrary(() => import('wavesurfer.js'), 5000);
  * ```
  */
-export async function lazyLibrary<T>(
-  importFn: () => Promise<T>,
-  timeoutMs: number = 10000
-): Promise<T> {
+export async function lazyLibrary<T>(importFn: () => Promise<T>, timeoutMs: number = 10000): Promise<T> {
   return Promise.race([
     importFn(),
     new Promise<T>((_, reject) =>
-      setTimeout(() => reject(new Error(`Library load timeout after ${timeoutMs}ms`)), timeoutMs)
+      setTimeout(() => reject(new Error(`Library load timeout after ${timeoutMs}ms`)), timeoutMs),
     ),
   ]);
 }

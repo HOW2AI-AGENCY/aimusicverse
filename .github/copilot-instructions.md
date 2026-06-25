@@ -5,6 +5,7 @@
 MusicVerse AI is a professional AI-powered music creation platform built as a Telegram Mini App. The platform integrates with Suno AI v5 to generate music with advanced controls including 174+ meta tags, 277+ musical styles, and support for 75+ languages.
 
 **Key Technologies:**
+
 - React 19 + TypeScript 5
 - Vite for build tooling
 - Lovable Cloud (Supabase-based backend) for database, auth, edge functions, storage
@@ -16,6 +17,7 @@ MusicVerse AI is a professional AI-powered music creation platform built as a Te
 - react-virtuoso for list virtualization
 
 **Infrastructure Notes:**
+
 - Backend runs on Lovable Cloud, which provides Supabase functionality
 - Edge Functions deploy automatically on code changes
 - Database uses PostgreSQL with RLS (Row Level Security)
@@ -26,6 +28,7 @@ MusicVerse AI is a professional AI-powered music creation platform built as a Te
 ## Architecture Overview
 
 ### State Management Stores (Zustand)
+
 ```
 src/stores/
 ├── playerStore.ts       # Global audio player state (currentTrack, queue, playback)
@@ -36,12 +39,14 @@ src/stores/
 ### Key Hooks Categories
 
 **Audio & Playback:**
+
 - `useAudioTime.ts` - Shared audio time state
 - `useGlobalAudioPlayer.ts` - Global audio player controls
 - `usePlaybackQueue.ts` - Queue management (Play Next, Add to Queue)
 - `usePlayerState.ts` - Player UI state
 
 **Track Management:**
+
 - `useTracks.ts` - Main unified track hook with service layer architecture
 - `useTrackVersions.ts` - A/B versioning system
 - `useVersionSwitcher.ts` - Version switching with is_primary + active_version_id sync
@@ -50,11 +55,13 @@ src/stores/
 - `useActiveVersion.ts` - Active version resolution
 
 **Content Discovery:**
+
 - `usePublicContentOptimized.ts` - Single query for Featured/New/Popular tracks
 - `useAutoPlaylists.ts` - Auto-generated genre playlists
 - `usePlaylists.ts` - User playlist CRUD operations
 
 **Generation:**
+
 - `useActiveGenerations.ts` - Active task tracking
 - `useGenerateDraft.ts` - Auto-save form drafts to localStorage
 - `useSyncStaleTasks.ts` - Recovery of stuck generation tasks
@@ -88,6 +95,7 @@ src/components/
 ## Performance Optimization Patterns
 
 ### 1. Data Fetching (TanStack Query)
+
 ```typescript
 // Optimized caching strategy
 {
@@ -98,18 +106,21 @@ src/components/
 ```
 
 ### 2. List Virtualization
+
 ```typescript
 // Use react-virtuoso for large lists
-import { Virtuoso, VirtuosoGrid } from 'react-virtuoso';
+import { Virtuoso, VirtuosoGrid } from "react-virtuoso";
 ```
 
 ### 3. Lazy Image Loading
+
 ```typescript
 // Use LazyImage component with blur placeholder
-import { LazyImage } from '@/components/ui/lazy-image';
+import { LazyImage } from "@/components/ui/lazy-image";
 ```
 
 ### 4. Batch Queries
+
 ```typescript
 // Single query for related data instead of N+1
 const { data } = usePublicContentOptimized(); // Returns featured, recent, popular, autoPlaylists
@@ -118,6 +129,7 @@ const { data } = usePublicContentOptimized(); // Returns featured, recent, popul
 ## Development Commands
 
 ### Essential Commands
+
 ```bash
 npm install          # Install dependencies
 npm run dev          # Development server
@@ -131,17 +143,20 @@ npm run format       # Format code
 ## Code Style and Standards
 
 ### TypeScript/JavaScript
+
 - Use **Prettier** for all formatting
 - Follow ESLint rules
 - Use strict TypeScript settings
 
 ### React Best Practices
+
 - Follow [React Hooks rules](https://reactjs.org/docs/hooks-rules.html)
 - Use functional components with hooks
 - All hooks called at top level before conditionals
 - Use custom hooks for reusable logic
 
 ### Naming Conventions
+
 - **Components:** `PascalCase.tsx`
 - **Variables/Functions:** `camelCase`
 - **Types/Interfaces:** `PascalCase`
@@ -150,6 +165,7 @@ npm run format       # Format code
 - **Stores:** `Store` suffix (e.g., `playerStore`)
 
 ### Import Organization
+
 1. External dependencies (React, libraries)
 2. Internal absolute imports (from `@/`)
 3. Relative imports
@@ -158,36 +174,42 @@ npm run format       # Format code
 ## Key Features Implementation
 
 ### Track Versioning (A/B System)
+
 - Each generation creates 2 versions (A/B)
 - `track_versions` table with `version_label`, `clip_index`, `is_primary`
 - `tracks.active_version_id` points to current version
 - Version switch updates both `is_primary` AND `active_version_id`
 
 ### Playlist System
+
 - `playlists` table with auto-updated stats (track_count, total_duration)
 - `playlist_tracks` with position for drag-drop reordering
 - Deep linking: `t.me/AIMusicVerseBot/app?startapp=playlist_ID`
 - AI-generated covers via `generate-playlist-cover` edge function
 
 ### Stem Separation
+
 - `track_stems` table stores separated stems
 - `stem_separation_tasks` tracks async separation jobs
 - `has_stems` flag on tracks indicates availability
 - Studio interface for mixing with volume controls
 
 ### Auto-Playlists by Genre
+
 - Dynamic playlists from public community tracks
 - Genre extracted from track style/tags
 - AI-generated playlist covers
 - Displayed on homepage for discovery
 
 ### Onboarding System
+
 - 9-step guided tour for new users
 - LocalStorage persistence (show once)
 - Manual restart from profile settings
 - Framer-motion animations
 
 ### Telegram Integration
+
 - Portrait orientation lock
 - Native sharing (Stories, shareURL, downloadFile)
 - Deep linking with startapp parameters
@@ -197,6 +219,7 @@ npm run format       # Format code
 ## Database Conventions
 
 ### Core Tables
+
 - `tracks` - Main track data with `active_version_id`
 - `track_versions` - A/B versions with `is_primary`, `version_label`
 - `track_stems` - Separated audio stems
@@ -208,6 +231,7 @@ npm run format       # Format code
 - `generation_tasks` - Generation job tracking
 
 ### RLS Policies
+
 - `profiles.is_public` controls public visibility
 - User data protected by `auth.uid()` checks
 - Public content requires explicit `is_public = true`
@@ -223,6 +247,7 @@ npm run format       # Format code
 ## Edge Functions
 
 Key functions in `supabase/functions/`:
+
 - `suno-music-callback` - Generation completion handler
 - `suno-send-audio` - Telegram audio sending (FormData)
 - `send-telegram-notification` - User notifications

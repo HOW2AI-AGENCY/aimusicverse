@@ -4,38 +4,38 @@
  * Syncs with Telegram theme when available
  */
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo } from "react";
 
-export type Theme = 'light' | 'dark' | 'system';
+export type Theme = "light" | "dark" | "system";
 
-const THEME_STORAGE_KEY = 'theme';
+const THEME_STORAGE_KEY = "theme";
 
 /**
  * Get system preferred color scheme
  */
-function getSystemTheme(): 'light' | 'dark' {
-  if (typeof window === 'undefined') return 'dark';
-  
+function getSystemTheme(): "light" | "dark" {
+  if (typeof window === "undefined") return "dark";
+
   // Check Telegram theme first
   const tgColorScheme = window.Telegram?.WebApp?.colorScheme;
-  if (tgColorScheme === 'light' || tgColorScheme === 'dark') {
+  if (tgColorScheme === "light" || tgColorScheme === "dark") {
     return tgColorScheme;
   }
-  
+
   // Fall back to system preference
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
 
 /**
  * Apply theme to document
  */
-function applyTheme(theme: 'light' | 'dark') {
+function applyTheme(theme: "light" | "dark") {
   const root = document.documentElement;
-  
-  if (theme === 'dark') {
-    root.classList.add('dark');
+
+  if (theme === "dark") {
+    root.classList.add("dark");
   } else {
-    root.classList.remove('dark');
+    root.classList.remove("dark");
   }
 }
 
@@ -43,7 +43,7 @@ interface UseThemeReturn {
   /** Current theme setting (light/dark/system) */
   theme: Theme;
   /** Resolved theme (always light or dark) */
-  resolvedTheme: 'light' | 'dark';
+  resolvedTheme: "light" | "dark";
   /** Set theme */
   setTheme: (theme: Theme) => void;
   /** Toggle between light and dark */
@@ -52,15 +52,15 @@ interface UseThemeReturn {
 
 export function useTheme(): UseThemeReturn {
   const [theme, setThemeState] = useState<Theme>(() => {
-    if (typeof window === 'undefined') return 'system';
-    return (localStorage.getItem(THEME_STORAGE_KEY) as Theme) || 'system';
+    if (typeof window === "undefined") return "system";
+    return (localStorage.getItem(THEME_STORAGE_KEY) as Theme) || "system";
   });
 
-  const [systemTheme, setSystemTheme] = useState<'light' | 'dark'>(getSystemTheme);
+  const [systemTheme, setSystemTheme] = useState<"light" | "dark">(getSystemTheme);
 
   // Resolved theme (what's actually applied)
-  const resolvedTheme = useMemo<'light' | 'dark'>(() => {
-    return theme === 'system' ? systemTheme : theme;
+  const resolvedTheme = useMemo<"light" | "dark">(() => {
+    return theme === "system" ? systemTheme : theme;
   }, [theme, systemTheme]);
 
   // Apply theme on change
@@ -70,24 +70,24 @@ export function useTheme(): UseThemeReturn {
 
   // Listen for system theme changes
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
     const handleChange = () => {
       setSystemTheme(getSystemTheme());
     };
 
-    mediaQuery.addEventListener('change', handleChange);
-    
+    mediaQuery.addEventListener("change", handleChange);
+
     // Also listen for Telegram theme changes
     const handleTgThemeChange = () => {
       setSystemTheme(getSystemTheme());
     };
-    
-    window.Telegram?.WebApp?.onEvent?.('themeChanged', handleTgThemeChange);
+
+    window.Telegram?.WebApp?.onEvent?.("themeChanged", handleTgThemeChange);
 
     return () => {
-      mediaQuery.removeEventListener('change', handleChange);
-      window.Telegram?.WebApp?.offEvent?.('themeChanged', handleTgThemeChange);
+      mediaQuery.removeEventListener("change", handleChange);
+      window.Telegram?.WebApp?.offEvent?.("themeChanged", handleTgThemeChange);
     };
   }, []);
 
@@ -99,7 +99,7 @@ export function useTheme(): UseThemeReturn {
 
   // Toggle between light and dark
   const toggleTheme = useCallback(() => {
-    setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
+    setTheme(resolvedTheme === "dark" ? "light" : "dark");
   }, [resolvedTheme, setTheme]);
 
   return {

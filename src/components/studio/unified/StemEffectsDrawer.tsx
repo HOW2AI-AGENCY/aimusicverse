@@ -1,48 +1,29 @@
 /**
  * StemEffectsDrawer - Effects panel for individual stems
- * 
+ *
  * Provides EQ, Compressor, and Reverb controls with presets
  */
 
-import { useState, useCallback, useEffect } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { 
-  Sliders, RotateCcw, Volume2, 
-  Waves, Settings2, Sparkles, Gauge
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Slider } from '@/components/ui/slider';
-import { Badge } from '@/components/ui/badge';
-import { Label } from '@/components/ui/label';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from '@/components/ui/sheet';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Switch } from '@/components/ui/switch';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { TrackStem } from '@/hooks/useTrackStems';
-import type { StemEffects, EQSettings, CompressorSettings, ReverbSettings } from '@/hooks/studio/types';
-import {
-  eqPresets,
-  compressorPresets,
-  reverbPresets,
-  defaultStemEffects,
-} from '@/hooks/studio/stemEffectsConfig';
-import { EqualizerControl, CompressorControl, ReverbControl } from '@/components/stem-studio/effects';
-import { cn } from '@/lib/utils';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { useHapticFeedback } from '@/hooks/useHapticFeedback';
-import { toast } from 'sonner';
+import { useState, useCallback, useEffect } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Sliders, RotateCcw, Volume2, Waves, Settings2, Sparkles, Gauge } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Slider } from "@/components/ui/slider";
+import { Badge } from "@/components/ui/badge";
+import { Label } from "@/components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { TrackStem } from "@/hooks/useTrackStems";
+import type { StemEffects, EQSettings, CompressorSettings, ReverbSettings } from "@/hooks/studio/types";
+import { eqPresets, compressorPresets, reverbPresets, defaultStemEffects } from "@/hooks/studio/stemEffectsConfig";
+import { EqualizerControl, CompressorControl, ReverbControl } from "@/components/stem-studio/effects";
+import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
+import { toast } from "sonner";
 
 interface StemEffectsDrawerProps {
   open: boolean;
@@ -67,42 +48,40 @@ export function StemEffectsDrawer({
 }: StemEffectsDrawerProps) {
   const isMobile = useIsMobile();
   const haptic = useHapticFeedback();
-  const [activeTab, setActiveTab] = useState('eq');
+  const [activeTab, setActiveTab] = useState("eq");
   const [isHardwareMode, setIsHardwareMode] = useState(true); // Default to hardware mode
 
-  const handlePresetChange = useCallback((
-    type: 'eq' | 'compressor' | 'reverb',
-    preset: string
-  ) => {
-    haptic.select();
-    
-    if (type === 'eq') {
-      const p = eqPresets[preset as keyof typeof eqPresets];
-      if (p) onUpdateEQ(p);
-    } else if (type === 'compressor') {
-      const p = compressorPresets[preset as keyof typeof compressorPresets];
-      if (p) onUpdateCompressor(p);
-    } else {
-      const p = reverbPresets[preset as keyof typeof reverbPresets];
-      if (p) onUpdateReverb(p);
-    }
-    
-    toast.success(`Пресет "${preset}" применён`);
-  }, [haptic, onUpdateEQ, onUpdateCompressor, onUpdateReverb]);
+  const handlePresetChange = useCallback(
+    (type: "eq" | "compressor" | "reverb", preset: string) => {
+      haptic.select();
+
+      if (type === "eq") {
+        const p = eqPresets[preset as keyof typeof eqPresets];
+        if (p) onUpdateEQ(p);
+      } else if (type === "compressor") {
+        const p = compressorPresets[preset as keyof typeof compressorPresets];
+        if (p) onUpdateCompressor(p);
+      } else {
+        const p = reverbPresets[preset as keyof typeof reverbPresets];
+        if (p) onUpdateReverb(p);
+      }
+
+      toast.success(`Пресет "${preset}" применён`);
+    },
+    [haptic, onUpdateEQ, onUpdateCompressor, onUpdateReverb],
+  );
 
   const handleReset = useCallback(() => {
     haptic.impact();
     onReset();
-    toast.info('Эффекты сброшены');
+    toast.info("Эффекты сброшены");
   }, [haptic, onReset]);
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent 
-        side={isMobile ? 'bottom' : 'right'} 
-        className={cn(
-          isMobile ? "h-[85vh] rounded-t-2xl" : "w-[400px]"
-        )}
+      <SheetContent
+        side={isMobile ? "bottom" : "right"}
+        className={cn(isMobile ? "h-[85vh] rounded-t-2xl" : "w-[400px]")}
       >
         <SheetHeader className="pb-2">
           <div className="flex items-center justify-between">
@@ -115,12 +94,7 @@ export function StemEffectsDrawer({
                 </Badge>
               )}
             </SheetTitle>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleReset}
-              className="h-8 px-2"
-            >
+            <Button variant="ghost" size="sm" onClick={handleReset} className="h-8 px-2">
               <RotateCcw className="w-4 h-4 mr-1" />
               Сброс
             </Button>
@@ -147,22 +121,26 @@ export function StemEffectsDrawer({
           <TabsContent value="eq" className="space-y-4 mt-0">
             <div className="flex items-center justify-between">
               <Label className="text-sm">Пресет</Label>
-              <Select 
-                onValueChange={(v) => handlePresetChange('eq', v)}
-                defaultValue="flat"
-              >
+              <Select onValueChange={(v) => handlePresetChange("eq", v)} defaultValue="flat">
                 <SelectTrigger className="w-32 h-8">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
                   {Object.keys(eqPresets).map((preset) => (
                     <SelectItem key={preset} value={preset}>
-                      {preset === 'flat' ? 'Плоский' :
-                       preset === 'warm' ? 'Тёплый' :
-                       preset === 'bright' ? 'Яркий' :
-                       preset === 'bass_boost' ? 'Бас+' :
-                       preset === 'vocal_presence' ? 'Вокал' :
-                       preset === 'scoop' ? 'Скуп' : preset}
+                      {preset === "flat"
+                        ? "Плоский"
+                        : preset === "warm"
+                          ? "Тёплый"
+                          : preset === "bright"
+                            ? "Яркий"
+                            : preset === "bass_boost"
+                              ? "Бас+"
+                              : preset === "vocal_presence"
+                                ? "Вокал"
+                                : preset === "scoop"
+                                  ? "Скуп"
+                                  : preset}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -170,21 +148,9 @@ export function StemEffectsDrawer({
             </div>
 
             <div className="space-y-4">
-              <EQSlider
-                label="Low"
-                value={effects.eq.lowGain}
-                onChange={(v) => onUpdateEQ({ lowGain: v })}
-              />
-              <EQSlider
-                label="Mid"
-                value={effects.eq.midGain}
-                onChange={(v) => onUpdateEQ({ midGain: v })}
-              />
-              <EQSlider
-                label="High"
-                value={effects.eq.highGain}
-                onChange={(v) => onUpdateEQ({ highGain: v })}
-              />
+              <EQSlider label="Low" value={effects.eq.lowGain} onChange={(v) => onUpdateEQ({ lowGain: v })} />
+              <EQSlider label="Mid" value={effects.eq.midGain} onChange={(v) => onUpdateEQ({ midGain: v })} />
+              <EQSlider label="High" value={effects.eq.highGain} onChange={(v) => onUpdateEQ({ highGain: v })} />
             </div>
           </TabsContent>
 
@@ -198,22 +164,26 @@ export function StemEffectsDrawer({
                 />
                 <Label className="text-sm">Включен</Label>
               </div>
-              <Select 
-                onValueChange={(v) => handlePresetChange('compressor', v)}
-                defaultValue="off"
-              >
+              <Select onValueChange={(v) => handlePresetChange("compressor", v)} defaultValue="off">
                 <SelectTrigger className="w-32 h-8">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
                   {Object.keys(compressorPresets).map((preset) => (
                     <SelectItem key={preset} value={preset}>
-                      {preset === 'off' ? 'Выкл' :
-                       preset === 'gentle' ? 'Мягкий' :
-                       preset === 'moderate' ? 'Средний' :
-                       preset === 'heavy' ? 'Сильный' :
-                       preset === 'vocals' ? 'Вокал' :
-                       preset === 'drums' ? 'Ударные' : preset}
+                      {preset === "off"
+                        ? "Выкл"
+                        : preset === "gentle"
+                          ? "Мягкий"
+                          : preset === "moderate"
+                            ? "Средний"
+                            : preset === "heavy"
+                              ? "Сильный"
+                              : preset === "vocals"
+                                ? "Вокал"
+                                : preset === "drums"
+                                  ? "Ударные"
+                                  : preset}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -224,7 +194,7 @@ export function StemEffectsDrawer({
               {effects.compressor.enabled && (
                 <motion.div
                   initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
+                  animate={{ opacity: 1, height: "auto" }}
                   exit={{ opacity: 0, height: 0 }}
                   className="space-y-4"
                 >
@@ -270,27 +240,27 @@ export function StemEffectsDrawer({
           <TabsContent value="reverb" className="space-y-4 mt-0">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Switch
-                  checked={effects.reverb.enabled}
-                  onCheckedChange={(v) => onUpdateReverb({ enabled: v })}
-                />
+                <Switch checked={effects.reverb.enabled} onCheckedChange={(v) => onUpdateReverb({ enabled: v })} />
                 <Label className="text-sm">Включен</Label>
               </div>
-              <Select 
-                onValueChange={(v) => handlePresetChange('reverb', v)}
-                defaultValue="off"
-              >
+              <Select onValueChange={(v) => handlePresetChange("reverb", v)} defaultValue="off">
                 <SelectTrigger className="w-32 h-8">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
                   {Object.keys(reverbPresets).map((preset) => (
                     <SelectItem key={preset} value={preset}>
-                      {preset === 'off' ? 'Выкл' :
-                       preset === 'room' ? 'Комната' :
-                       preset === 'hall' ? 'Холл' :
-                       preset === 'plate' ? 'Пластина' :
-                       preset === 'ambient' ? 'Эмбиент' : preset}
+                      {preset === "off"
+                        ? "Выкл"
+                        : preset === "room"
+                          ? "Комната"
+                          : preset === "hall"
+                            ? "Холл"
+                            : preset === "plate"
+                              ? "Пластина"
+                              : preset === "ambient"
+                                ? "Эмбиент"
+                                : preset}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -301,7 +271,7 @@ export function StemEffectsDrawer({
               {effects.reverb.enabled && (
                 <motion.div
                   initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
+                  animate={{ opacity: 1, height: "auto" }}
                   exit={{ opacity: 0, height: 0 }}
                   className="space-y-4"
                 >
@@ -333,50 +303,38 @@ export function StemEffectsDrawer({
 }
 
 // EQ Slider with -12 to +12 dB range
-function EQSlider({ 
-  label, 
-  value, 
-  onChange 
-}: { 
-  label: string; 
-  value: number; 
-  onChange: (v: number) => void;
-}) {
+function EQSlider({ label, value, onChange }: { label: string; value: number; onChange: (v: number) => void }) {
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between">
         <Label className="text-xs text-muted-foreground">{label}</Label>
-        <span className={cn(
-          "text-xs font-mono tabular-nums",
-          value > 0 ? "text-success" : value < 0 ? "text-destructive" : "text-muted-foreground"
-        )}>
-          {value > 0 ? '+' : ''}{value.toFixed(1)} dB
+        <span
+          className={cn(
+            "text-xs font-mono tabular-nums",
+            value > 0 ? "text-success" : value < 0 ? "text-destructive" : "text-muted-foreground",
+          )}
+        >
+          {value > 0 ? "+" : ""}
+          {value.toFixed(1)} dB
         </span>
       </div>
-      <Slider
-        value={[value]}
-        min={-12}
-        max={12}
-        step={0.5}
-        onValueChange={(v) => onChange(v[0])}
-        className="w-full"
-      />
+      <Slider value={[value]} min={-12} max={12} step={0.5} onValueChange={(v) => onChange(v[0])} className="w-full" />
     </div>
   );
 }
 
 // Generic effect slider
-function EffectSlider({ 
-  label, 
-  value, 
-  min, 
-  max, 
+function EffectSlider({
+  label,
+  value,
+  min,
+  max,
   step = 1,
-  unit = '',
-  onChange 
-}: { 
-  label: string; 
-  value: number; 
+  unit = "",
+  onChange,
+}: {
+  label: string;
+  value: number;
   min: number;
   max: number;
   step?: number;
@@ -388,7 +346,8 @@ function EffectSlider({
       <div className="flex items-center justify-between">
         <Label className="text-xs text-muted-foreground">{label}</Label>
         <span className="text-xs font-mono tabular-nums text-muted-foreground">
-          {value.toFixed(step < 1 ? 1 : 0)}{unit}
+          {value.toFixed(step < 1 ? 1 : 0)}
+          {unit}
         </span>
       </div>
       <Slider

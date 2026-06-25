@@ -1,20 +1,20 @@
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
 
 const IGNORED_DIRS = [
-  'node_modules',
-  'coverage',
-  '.git',
-  '.github',
-  'dist',
-  '.lovable',
-  '.roo',
-  '.claude',
-  'completed', // Completed sprint folders
-  'archive',   // Archived docs
-  'SPRINTS',   // Historical sprint trackings
-  'specs',     // Technical specifications
-  'ru'         // Translation / Russian legacy analysis
+  "node_modules",
+  "coverage",
+  ".git",
+  ".github",
+  "dist",
+  ".lovable",
+  ".roo",
+  ".claude",
+  "completed", // Completed sprint folders
+  "archive", // Archived docs
+  "SPRINTS", // Historical sprint trackings
+  "specs", // Technical specifications
+  "ru", // Translation / Russian legacy analysis
 ];
 
 function getAllMarkdownFiles(dir, files = []) {
@@ -26,7 +26,7 @@ function getAllMarkdownFiles(dir, files = []) {
       if (!IGNORED_DIRS.includes(item)) {
         getAllMarkdownFiles(fullPath, files);
       }
-    } else if (stat.isFile() && item.endsWith('.md')) {
+    } else if (stat.isFile() && item.endsWith(".md")) {
       files.push(fullPath);
     }
   }
@@ -34,14 +34,14 @@ function getAllMarkdownFiles(dir, files = []) {
 }
 
 function checkLinks() {
-  console.log('🔍 Scanning active markdown files for broken relative links...');
+  console.log("🔍 Scanning active markdown files for broken relative links...");
   const mdFiles = getAllMarkdownFiles(process.cwd());
   let totalLinksChecked = 0;
   let brokenLinksCount = 0;
 
   mdFiles.forEach((file) => {
-    const content = fs.readFileSync(file, 'utf8');
-    const lines = content.split('\n');
+    const content = fs.readFileSync(file, "utf8");
+    const lines = content.split("\n");
     const relativeDir = path.dirname(file);
 
     lines.forEach((lineText, lineIndex) => {
@@ -53,10 +53,10 @@ function checkLinks() {
 
         // Skip absolute URLs, mails, and anchor-only links
         if (
-          linkTarget.startsWith('http://') ||
-          linkTarget.startsWith('https://') ||
-          linkTarget.startsWith('mailto:') ||
-          linkTarget.startsWith('#') ||
+          linkTarget.startsWith("http://") ||
+          linkTarget.startsWith("https://") ||
+          linkTarget.startsWith("mailto:") ||
+          linkTarget.startsWith("#") ||
           !linkTarget
         ) {
           continue;
@@ -65,9 +65,14 @@ function checkLinks() {
         totalLinksChecked++;
 
         // Handle file:// protocol
-        if (linkTarget.startsWith('file:///')) {
+        if (linkTarget.startsWith("file:///")) {
           linkTarget = linkTarget.substring(8);
-          if (linkTarget.startsWith('c:') || linkTarget.startsWith('d:') || linkTarget.startsWith('C:') || linkTarget.startsWith('D:')) {
+          if (
+            linkTarget.startsWith("c:") ||
+            linkTarget.startsWith("d:") ||
+            linkTarget.startsWith("C:") ||
+            linkTarget.startsWith("D:")
+          ) {
             // Keep absolute Win path
           } else {
             linkTarget = path.join(process.cwd(), linkTarget);
@@ -75,7 +80,7 @@ function checkLinks() {
         }
 
         // Strip query params or anchors
-        const hashIndex = linkTarget.indexOf('#');
+        const hashIndex = linkTarget.indexOf("#");
         if (hashIndex !== -1) {
           linkTarget = linkTarget.substring(0, hashIndex);
         }
@@ -102,20 +107,22 @@ function checkLinks() {
         if (!fs.existsSync(resolvedPath)) {
           brokenLinksCount++;
           const relativeFile = path.relative(process.cwd(), file);
-          console.error(`❌ Broken link in [${relativeFile}:${lineNumber}]: link target "${match[1]}" resolved to "${resolvedPath}" (File does not exist)`);
+          console.error(
+            `❌ Broken link in [${relativeFile}:${lineNumber}]: link target "${match[1]}" resolved to "${resolvedPath}" (File does not exist)`,
+          );
         }
       }
     });
   });
 
-  console.log('\n--- Summary ---');
+  console.log("\n--- Summary ---");
   console.log(`📂 Total Active Markdown Files Scanned: ${mdFiles.length}`);
   console.log(`🔗 Total Local Links Checked:   ${totalLinksChecked}`);
   if (brokenLinksCount > 0) {
     console.error(`🚨 Found ${brokenLinksCount} broken link(s) in active documentation!`);
     process.exit(1);
   } else {
-    console.log('✅ All active local links are healthy!');
+    console.log("✅ All active local links are healthy!");
     process.exit(0);
   }
 }

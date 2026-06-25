@@ -2,21 +2,21 @@
  * AddVocalsToReferenceDialog - Add vocals or instrumental to reference audio
  */
 
-import { useState, useEffect } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription } from '@/components/ui/drawer';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Loader2, Music, Mic2, Guitar, Volume2 } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-import { logger } from '@/lib/logger';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { useState, useEffect } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription } from "@/components/ui/drawer";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Loader2, Music, Mic2, Guitar, Volume2 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { logger } from "@/lib/logger";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface ReferenceAudio {
   id: string;
@@ -35,15 +35,15 @@ interface AddVocalsToReferenceDialogProps {
   audio: ReferenceAudio;
 }
 
-type Mode = 'add_vocals' | 'add_instrumental';
+type Mode = "add_vocals" | "add_instrumental";
 
 export function AddVocalsToReferenceDialog({ open, onOpenChange, audio }: AddVocalsToReferenceDialogProps) {
   const isMobile = useIsMobile();
-  const [mode, setMode] = useState<Mode>('add_vocals');
-  const [prompt, setPrompt] = useState('');
+  const [mode, setMode] = useState<Mode>("add_vocals");
+  const [prompt, setPrompt] = useState("");
   const [customMode, setCustomMode] = useState(false);
-  const [style, setStyle] = useState(audio.style_description || audio.genre || '');
-  const [title, setTitle] = useState('');
+  const [style, setStyle] = useState(audio.style_description || audio.genre || "");
+  const [title, setTitle] = useState("");
   const [loading, setLoading] = useState(false);
 
   // Determine default mode based on audio type
@@ -52,46 +52,50 @@ export function AddVocalsToReferenceDialog({ open, onOpenChange, audio }: AddVoc
       // If has vocals but no instrumentals -> add instrumental
       // If has instrumentals but no vocals -> add vocals
       if (audio.has_vocals && !audio.has_instrumentals) {
-        setMode('add_instrumental');
+        setMode("add_instrumental");
       } else if (audio.has_instrumentals && !audio.has_vocals) {
-        setMode('add_vocals');
+        setMode("add_vocals");
       } else {
-        setMode('add_vocals'); // default
+        setMode("add_vocals"); // default
       }
-      setPrompt('');
-      setStyle(audio.style_description || audio.genre || '');
-      setTitle('');
+      setPrompt("");
+      setStyle(audio.style_description || audio.genre || "");
+      setTitle("");
       setCustomMode(false);
     }
   }, [open, audio]);
 
   const handleSubmit = async () => {
     if (!audio.file_url) {
-      toast.error('URL аудио не найден');
+      toast.error("URL аудио не найден");
       return;
     }
 
     if (customMode && !prompt) {
-      toast.error('Пожалуйста, добавьте описание');
+      toast.error("Пожалуйста, добавьте описание");
       return;
     }
 
     setLoading(true);
     try {
-      const effectiveTitle = customMode && title 
-        ? title 
-        : `${audio.file_name} (${mode === 'add_vocals' ? 'с вокалом' : 'новая аранжировка'})`;
-      const effectiveStyle = customMode && style ? style : audio.style_description || audio.genre || 'pop';
-      const effectivePrompt = prompt || (mode === 'add_vocals' 
-        ? 'Добавить профессиональный вокал к этому инструменталу'
-        : 'Создать новую профессиональную аранжировку для этого вокала');
+      const effectiveTitle =
+        customMode && title
+          ? title
+          : `${audio.file_name} (${mode === "add_vocals" ? "с вокалом" : "новая аранжировка"})`;
+      const effectiveStyle = customMode && style ? style : audio.style_description || audio.genre || "pop";
+      const effectivePrompt =
+        prompt ||
+        (mode === "add_vocals"
+          ? "Добавить профессиональный вокал к этому инструменталу"
+          : "Создать новую профессиональную аранжировку для этого вокала");
 
-      const functionName = mode === 'add_vocals' ? 'suno-add-vocals' : 'suno-add-instrumental';
-      
+      const functionName = mode === "add_vocals" ? "suno-add-vocals" : "suno-add-instrumental";
+
       // Default negativeTags based on mode
-      const defaultNegativeTags = mode === 'add_vocals' 
-        ? 'instrumental only, no vocals, karaoke, low quality'
-        : 'acapella, vocals only, karaoke, low quality';
+      const defaultNegativeTags =
+        mode === "add_vocals"
+          ? "instrumental only, no vocals, karaoke, low quality"
+          : "acapella, vocals only, karaoke, low quality";
 
       const { data, error } = await supabase.functions.invoke(functionName, {
         body: {
@@ -107,18 +111,17 @@ export function AddVocalsToReferenceDialog({ open, onOpenChange, audio }: AddVoc
 
       if (error) throw error;
 
-      const successMessage = mode === 'add_vocals' 
-        ? 'Добавление вокала началось! 🎤' 
-        : 'Создание новой аранжировки началось! 🎸';
+      const successMessage =
+        mode === "add_vocals" ? "Добавление вокала началось! 🎤" : "Создание новой аранжировки началось! 🎸";
 
       toast.success(successMessage, {
-        description: 'Новый трек появится в библиотеке через 1-3 минуты',
+        description: "Новый трек появится в библиотеке через 1-3 минуты",
       });
 
       onOpenChange(false);
     } catch (error) {
-      logger.error('Add vocals/instrumental error', { error });
-      const errorMessage = error instanceof Error ? error.message : 'Ошибка обработки';
+      logger.error("Add vocals/instrumental error", { error });
+      const errorMessage = error instanceof Error ? error.message : "Ошибка обработки";
       toast.error(errorMessage);
     } finally {
       setLoading(false);
@@ -138,11 +141,11 @@ export function AddVocalsToReferenceDialog({ open, onOpenChange, audio }: AddVoc
           <div className="flex items-center gap-2 mt-1.5 text-xs text-muted-foreground">
             <span>Тип:</span>
             <span>
-              {audio.has_vocals && audio.has_instrumentals 
-                ? '🎤 Вокал + 🎸 Инструментал' 
-                : audio.has_vocals 
-                  ? '🎤 Вокал' 
-                  : '🎸 Инструментал'}
+              {audio.has_vocals && audio.has_instrumentals
+                ? "🎤 Вокал + 🎸 Инструментал"
+                : audio.has_vocals
+                  ? "🎤 Вокал"
+                  : "🎸 Инструментал"}
             </span>
           </div>
         )}
@@ -171,19 +174,17 @@ export function AddVocalsToReferenceDialog({ open, onOpenChange, audio }: AddVoc
       {/* Prompt */}
       <div>
         <Label className="text-sm font-medium">
-          {mode === 'add_vocals' 
-            ? (customMode ? 'Текст песни / Описание' : 'Описание вокала') 
-            : 'Описание аранжировки'}
+          {mode === "add_vocals" ? (customMode ? "Текст песни / Описание" : "Описание вокала") : "Описание аранжировки"}
         </Label>
         <Textarea
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           placeholder={
-            mode === 'add_vocals'
-              ? (customMode 
-                  ? '[Verse]\nТекст первого куплета...\n\n[Chorus]\nТекст припева...'
-                  : 'Энергичный рок вокал с мощным звучанием')
-              : 'Рок аранжировка с электрогитарами и мощными барабанами'
+            mode === "add_vocals"
+              ? customMode
+                ? "[Verse]\nТекст первого куплета...\n\n[Chorus]\nТекст припева..."
+                : "Энергичный рок вокал с мощным звучанием"
+              : "Рок аранжировка с электрогитарами и мощными барабанами"
           }
           rows={customMode ? 6 : 3}
           className="mt-1.5 resize-none"
@@ -215,12 +216,7 @@ export function AddVocalsToReferenceDialog({ open, onOpenChange, audio }: AddVoc
       )}
 
       {/* Submit button */}
-      <Button 
-        onClick={handleSubmit} 
-        disabled={loading} 
-        className="w-full gap-2"
-        size="lg"
-      >
+      <Button onClick={handleSubmit} disabled={loading} className="w-full gap-2" size="lg">
         {loading ? (
           <>
             <Loader2 className="w-4 h-4 animate-spin" />
@@ -228,8 +224,8 @@ export function AddVocalsToReferenceDialog({ open, onOpenChange, audio }: AddVoc
           </>
         ) : (
           <>
-            {mode === 'add_vocals' ? <Mic2 className="w-4 h-4" /> : <Guitar className="w-4 h-4" />}
-            {mode === 'add_vocals' ? 'Добавить вокал' : 'Создать аранжировку'}
+            {mode === "add_vocals" ? <Mic2 className="w-4 h-4" /> : <Guitar className="w-4 h-4" />}
+            {mode === "add_vocals" ? "Добавить вокал" : "Создать аранжировку"}
           </>
         )}
       </Button>
@@ -243,15 +239,11 @@ export function AddVocalsToReferenceDialog({ open, onOpenChange, audio }: AddVoc
           <DrawerHeader>
             <DrawerTitle className="flex items-center gap-2">
               <Volume2 className="w-5 h-5" />
-              {mode === 'add_vocals' ? 'Добавить вокал' : 'Новая аранжировка'}
+              {mode === "add_vocals" ? "Добавить вокал" : "Новая аранжировка"}
             </DrawerTitle>
-            <DrawerDescription>
-              Создайте новый трек на основе загруженного аудио
-            </DrawerDescription>
+            <DrawerDescription>Создайте новый трек на основе загруженного аудио</DrawerDescription>
           </DrawerHeader>
-          <ScrollArea className="p-4 max-h-[70vh]">
-            {content}
-          </ScrollArea>
+          <ScrollArea className="p-4 max-h-[70vh]">{content}</ScrollArea>
         </DrawerContent>
       </Drawer>
     );
@@ -263,11 +255,9 @@ export function AddVocalsToReferenceDialog({ open, onOpenChange, audio }: AddVoc
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Volume2 className="w-5 h-5" />
-            {mode === 'add_vocals' ? 'Добавить вокал' : 'Новая аранжировка'}
+            {mode === "add_vocals" ? "Добавить вокал" : "Новая аранжировка"}
           </DialogTitle>
-          <DialogDescription>
-            Создайте новый трек на основе загруженного аудио
-          </DialogDescription>
+          <DialogDescription>Создайте новый трек на основе загруженного аудио</DialogDescription>
         </DialogHeader>
         {content}
       </DialogContent>

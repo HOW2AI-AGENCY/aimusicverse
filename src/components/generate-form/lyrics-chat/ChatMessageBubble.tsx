@@ -1,10 +1,10 @@
-import { memo } from 'react';
-import { motion } from '@/lib/motion';
-import { Loader2, ChevronRight } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { glass } from '@/lib/glass';
-import { buttonVariants } from '@/lib/lyrics/constants';
-import type { ChatMessage, QuickOption } from './types';
+import { memo } from "react";
+import { motion } from "@/lib/motion";
+import { Loader2, ChevronRight } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { glass } from "@/lib/glass";
+import { buttonVariants } from "@/lib/lyrics/constants";
+import type { ChatMessage, QuickOption } from "./types";
 
 interface ChatMessageBubbleProps {
   message: ChatMessage;
@@ -12,25 +12,18 @@ interface ChatMessageBubbleProps {
 }
 
 export const ChatMessageBubble = memo(({ message, onOptionClick }: ChatMessageBubbleProps) => {
-  const isAssistant = message.role === 'assistant';
-  
+  const isAssistant = message.role === "assistant";
+
   return (
-    <div className={cn(
-      'flex',
-      isAssistant ? 'justify-start' : 'justify-end'
-    )}>
+    <div className={cn("flex", isAssistant ? "justify-start" : "justify-end")}>
       <div
         className={cn(
-          'max-w-[90%] sm:max-w-[85%] rounded-2xl px-4 py-3',
-          isAssistant 
-            ? cn(glass.subtle, 'rounded-bl-md')
-            : 'bg-primary text-primary-foreground rounded-br-md'
+          "max-w-[90%] sm:max-w-[85%] rounded-2xl px-4 py-3",
+          isAssistant ? cn(glass.subtle, "rounded-bl-md") : "bg-primary text-primary-foreground rounded-br-md",
         )}
       >
-        <p className="text-sm whitespace-pre-wrap leading-relaxed">
-          {message.content}
-        </p>
-        
+        <p className="text-sm whitespace-pre-wrap leading-relaxed">{message.content}</p>
+
         {/* Quick options */}
         {message.options && message.options.length > 0 && (
           <div className="flex flex-wrap gap-2 mt-3">
@@ -42,9 +35,9 @@ export const ChatMessageBubble = memo(({ message, onOptionClick }: ChatMessageBu
                 whileHover="hover"
                 whileTap="tap"
                 className={cn(
-                  'inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-medium transition-all',
-                  'bg-background/80 hover:bg-background text-foreground shadow-sm',
-                  'border border-border/50 hover:border-primary/30'
+                  "inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-medium transition-all",
+                  "bg-background/80 hover:bg-background text-foreground shadow-sm",
+                  "border border-border/50 hover:border-primary/30",
                 )}
                 onClick={() => onOptionClick(opt)}
               >
@@ -60,7 +53,7 @@ export const ChatMessageBubble = memo(({ message, onOptionClick }: ChatMessageBu
   );
 });
 
-ChatMessageBubble.displayName = 'ChatMessageBubble';
+ChatMessageBubble.displayName = "ChatMessageBubble";
 
 /**
  * LoadingIndicator - Displays an animated loading state during AI processing
@@ -81,15 +74,15 @@ export const LoadingIndicator = memo(() => {
               <motion.span
                 key={i}
                 className="w-2 h-2 bg-primary/60 rounded-full"
-                animate={{ 
+                animate={{
                   y: [0, -6, 0],
-                  opacity: [0.4, 1, 0.4]
+                  opacity: [0.4, 1, 0.4],
                 }}
                 transition={{
                   duration: 0.7,
                   repeat: Infinity,
                   delay: i * 0.15,
-                  ease: 'easeInOut',
+                  ease: "easeInOut",
                 }}
               />
             ))}
@@ -101,18 +94,14 @@ export const LoadingIndicator = memo(() => {
   );
 });
 
-LoadingIndicator.displayName = 'LoadingIndicator';
+LoadingIndicator.displayName = "LoadingIndicator";
 
 /**
  * SkeletonMessage - Placeholder for loading messages
  */
 export const SkeletonMessage = memo(() => {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      className="flex justify-start"
-    >
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex justify-start">
       <div className={cn(glass.subtle, "rounded-2xl rounded-bl-md px-4 py-3 w-3/4")}>
         <div className="space-y-2">
           <div className="h-3 bg-muted-foreground/20 rounded animate-pulse w-full" />
@@ -124,4 +113,4 @@ export const SkeletonMessage = memo(() => {
   );
 });
 
-SkeletonMessage.displayName = 'SkeletonMessage';
+SkeletonMessage.displayName = "SkeletonMessage";

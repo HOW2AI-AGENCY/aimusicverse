@@ -1,6 +1,6 @@
 /**
  * Enhanced Deeplink Tracker
- * 
+ *
  * Advanced tracking for deep links with:
  * - UTM parameter parsing
  * - Campaign attribution
@@ -9,10 +9,10 @@
  * - A/B experiment tracking
  */
 
-import { supabase } from '@/integrations/supabase/client';
-import { logger } from '@/lib/logger';
+import { supabase } from "@/integrations/supabase/client";
+import { logger } from "@/lib/logger";
 
-const deeplinkLogger = logger.child({ module: 'DeeplinkTracker' });
+const deeplinkLogger = logger.child({ module: "DeeplinkTracker" });
 
 // ==========================================
 // Types
@@ -50,18 +50,18 @@ export interface DeviceInfo {
   isTouchDevice: boolean;
 }
 
-export type DeeplinkSource = 
-  | 'telegram_miniapp' 
-  | 'telegram_bot' 
-  | 'telegram_channel'
-  | 'web_share' 
-  | 'qr_code' 
-  | 'email'
-  | 'push_notification'
-  | 'social_media'
-  | 'referral'
-  | 'organic'
-  | 'unknown';
+export type DeeplinkSource =
+  | "telegram_miniapp"
+  | "telegram_bot"
+  | "telegram_channel"
+  | "web_share"
+  | "qr_code"
+  | "email"
+  | "push_notification"
+  | "social_media"
+  | "referral"
+  | "organic"
+  | "unknown";
 
 export interface ConversionEvent {
   sessionId: string;
@@ -69,26 +69,26 @@ export interface ConversionEvent {
   metadata?: Record<string, unknown>;
 }
 
-export type ConversionStage = 
-  | 'visit'           // Landed on app
-  | 'engaged'         // Interacted with content
-  | 'registered'      // Created account
-  | 'first_action'    // First meaningful action (play, like, etc.)
-  | 'generation'      // Started generation
-  | 'completed'       // Completed generation
-  | 'payment'         // Made payment
-  | 'retained';       // Returned after 24h+
+export type ConversionStage =
+  | "visit" // Landed on app
+  | "engaged" // Interacted with content
+  | "registered" // Created account
+  | "first_action" // First meaningful action (play, like, etc.)
+  | "generation" // Started generation
+  | "completed" // Completed generation
+  | "payment" // Made payment
+  | "retained"; // Returned after 24h+
 
 // Storage keys
 const STORAGE_KEYS = {
-  SESSION_ID: 'deeplink_session_id',
-  PERSISTENT_SESSION_ID: 'deeplink_persistent_session_id', // localStorage fallback
-  FIRST_VISIT: 'deeplink_first_visit',
-  LAST_DEEPLINK: 'deeplink_last_type',
-  CONVERSION_STAGES: 'deeplink_conversion_stages',
-  PERSISTENT_CONVERSION_STAGES: 'deeplink_persistent_stages', // localStorage fallback
-  REFERRAL_CHAIN: 'deeplink_referral_chain',
-  EXPERIMENT_ASSIGNMENTS: 'deeplink_experiments',
+  SESSION_ID: "deeplink_session_id",
+  PERSISTENT_SESSION_ID: "deeplink_persistent_session_id", // localStorage fallback
+  FIRST_VISIT: "deeplink_first_visit",
+  LAST_DEEPLINK: "deeplink_last_type",
+  CONVERSION_STAGES: "deeplink_conversion_stages",
+  PERSISTENT_CONVERSION_STAGES: "deeplink_persistent_stages", // localStorage fallback
+  REFERRAL_CHAIN: "deeplink_referral_chain",
+  EXPERIMENT_ASSIGNMENTS: "deeplink_experiments",
 } as const;
 
 // ==========================================
@@ -102,11 +102,11 @@ const STORAGE_KEYS = {
 export function getOrCreateSessionId(): string {
   // Try sessionStorage first (for current session tracking)
   let sessionId = sessionStorage.getItem(STORAGE_KEYS.SESSION_ID);
-  
+
   if (!sessionId) {
     // Check localStorage for persistent session (for returning users)
     const persistentId = localStorage.getItem(STORAGE_KEYS.PERSISTENT_SESSION_ID);
-    
+
     if (persistentId) {
       // Reuse persistent session for conversion continuity
       sessionId = persistentId;
@@ -116,11 +116,11 @@ export function getOrCreateSessionId(): string {
       // Store in localStorage for persistence
       localStorage.setItem(STORAGE_KEYS.PERSISTENT_SESSION_ID, sessionId);
     }
-    
+
     // Always store in sessionStorage for fast access
     sessionStorage.setItem(STORAGE_KEYS.SESSION_ID, sessionId);
   }
-  
+
   return sessionId;
 }
 
@@ -146,16 +146,17 @@ export function isFirstVisit(): boolean {
 // ==========================================
 
 export function parseUTMParams(urlOrParams?: string | URLSearchParams): UTMParams {
-  const params = typeof urlOrParams === 'string' 
-    ? new URLSearchParams(urlOrParams)
-    : urlOrParams || new URLSearchParams(window.location.search);
+  const params =
+    typeof urlOrParams === "string"
+      ? new URLSearchParams(urlOrParams)
+      : urlOrParams || new URLSearchParams(window.location.search);
 
   return {
-    utm_source: params.get('utm_source') || undefined,
-    utm_medium: params.get('utm_medium') || undefined,
-    utm_campaign: params.get('utm_campaign') || undefined,
-    utm_term: params.get('utm_term') || undefined,
-    utm_content: params.get('utm_content') || undefined,
+    utm_source: params.get("utm_source") || undefined,
+    utm_medium: params.get("utm_medium") || undefined,
+    utm_campaign: params.get("utm_campaign") || undefined,
+    utm_term: params.get("utm_term") || undefined,
+    utm_content: params.get("utm_content") || undefined,
   };
 }
 
@@ -171,40 +172,45 @@ export function detectSource(referrer?: string, utmParams?: UTMParams): Deeplink
   // Check UTM source first
   if (utmParams?.utm_source) {
     const source = utmParams.utm_source.toLowerCase();
-    if (source.includes('telegram')) return 'telegram_bot';
-    if (source.includes('email')) return 'email';
-    if (source.includes('social') || source.includes('facebook') || source.includes('twitter') || source.includes('instagram')) {
-      return 'social_media';
+    if (source.includes("telegram")) return "telegram_bot";
+    if (source.includes("email")) return "email";
+    if (
+      source.includes("social") ||
+      source.includes("facebook") ||
+      source.includes("twitter") ||
+      source.includes("instagram")
+    ) {
+      return "social_media";
     }
-    if (source.includes('qr')) return 'qr_code';
-    if (source.includes('push')) return 'push_notification';
-    if (source.includes('referral') || source.includes('ref')) return 'referral';
+    if (source.includes("qr")) return "qr_code";
+    if (source.includes("push")) return "push_notification";
+    if (source.includes("referral") || source.includes("ref")) return "referral";
   }
-  
+
   // Check UTM medium
   if (utmParams?.utm_medium) {
     const medium = utmParams.utm_medium.toLowerCase();
-    if (medium === 'email') return 'email';
-    if (medium === 'social') return 'social_media';
-    if (medium === 'referral') return 'referral';
+    if (medium === "email") return "email";
+    if (medium === "social") return "social_media";
+    if (medium === "referral") return "referral";
   }
 
   // Check referrer
   if (referrer) {
-    if (referrer.includes('t.me') || referrer.includes('telegram')) {
-      return 'telegram_channel';
+    if (referrer.includes("t.me") || referrer.includes("telegram")) {
+      return "telegram_channel";
     }
-    if (referrer.includes('facebook') || referrer.includes('twitter') || referrer.includes('instagram')) {
-      return 'social_media';
+    if (referrer.includes("facebook") || referrer.includes("twitter") || referrer.includes("instagram")) {
+      return "social_media";
     }
   }
 
   // Check if in Telegram Mini App
-  if (typeof window !== 'undefined' && (window as any).Telegram?.WebApp?.initData) {
-    return 'telegram_miniapp';
+  if (typeof window !== "undefined" && (window as any).Telegram?.WebApp?.initData) {
+    return "telegram_miniapp";
   }
 
-  return 'unknown';
+  return "unknown";
 }
 
 // ==========================================
@@ -212,12 +218,12 @@ export function detectSource(referrer?: string, utmParams?: UTMParams): Deeplink
 // ==========================================
 
 export function collectDeviceInfo(): DeviceInfo {
-  if (typeof window === 'undefined') {
+  if (typeof window === "undefined") {
     return {
-      platform: 'server',
-      userAgent: '',
-      language: 'en',
-      timezone: 'UTC',
+      platform: "server",
+      userAgent: "",
+      language: "en",
+      timezone: "UTC",
       screenWidth: 0,
       screenHeight: 0,
       isTouchDevice: false,
@@ -225,13 +231,13 @@ export function collectDeviceInfo(): DeviceInfo {
   }
 
   return {
-    platform: navigator.platform || 'unknown',
+    platform: navigator.platform || "unknown",
     userAgent: navigator.userAgent,
-    language: navigator.language || 'en',
+    language: navigator.language || "en",
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     screenWidth: window.screen?.width || 0,
     screenHeight: window.screen?.height || 0,
-    isTouchDevice: 'ontouchstart' in window || navigator.maxTouchPoints > 0,
+    isTouchDevice: "ontouchstart" in window || navigator.maxTouchPoints > 0,
   };
 }
 
@@ -247,7 +253,7 @@ export function addToReferralChain(referralCode: string): void {
       localStorage.setItem(STORAGE_KEYS.REFERRAL_CHAIN, JSON.stringify(chain));
     }
   } catch (e) {
-    deeplinkLogger.warn('Failed to update referral chain', { error: String(e) });
+    deeplinkLogger.warn("Failed to update referral chain", { error: String(e) });
   }
 }
 
@@ -273,11 +279,11 @@ export function getConversionStages(): ConversionStage[] {
     // Get from sessionStorage (current session)
     const sessionStages = sessionStorage.getItem(STORAGE_KEYS.CONVERSION_STAGES);
     const sessionList: ConversionStage[] = sessionStages ? JSON.parse(sessionStages) : [];
-    
+
     // Get from localStorage (persistent across sessions)
     const persistentStages = localStorage.getItem(STORAGE_KEYS.PERSISTENT_CONVERSION_STAGES);
     const persistentList: ConversionStage[] = persistentStages ? JSON.parse(persistentStages) : [];
-    
+
     // Merge unique stages
     const merged = [...new Set([...persistentList, ...sessionList])];
     return merged;
@@ -296,17 +302,14 @@ export function hasReachedStage(stage: ConversionStage): boolean {
  * - Uses user_id when available for cross-device tracking
  * - Falls back to session_id for anonymous users
  */
-export async function trackConversionStage(
-  stage: ConversionStage,
-  metadata?: Record<string, unknown>
-): Promise<void> {
+export async function trackConversionStage(stage: ConversionStage, metadata?: Record<string, unknown>): Promise<void> {
   const sessionId = getOrCreateSessionId();
   const persistentSessionId = getPersistentSessionId();
   const stages = getConversionStages();
-  
+
   // Already tracked this stage
   if (stages.includes(stage)) {
-    deeplinkLogger.debug('Stage already tracked', { stage });
+    deeplinkLogger.debug("Stage already tracked", { stage });
     return;
   }
 
@@ -317,8 +320,10 @@ export async function trackConversionStage(
 
   // Track to database
   try {
-    const { data: { user } } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
     const updatePayload = {
       conversion_type: stage,
       converted: true, // FIX: Always set converted to true for any non-visit stage
@@ -334,72 +339,71 @@ export async function trackConversionStage(
     if (user?.id) {
       // First find the most recent record
       const { data: existingRecord } = await supabase
-        .from('deeplink_analytics')
-        .select('id')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false })
+        .from("deeplink_analytics")
+        .select("id")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false })
         .limit(1)
         .maybeSingle();
-      
+
       if (existingRecord?.id) {
         const { error: updateError } = await supabase
-          .from('deeplink_analytics')
+          .from("deeplink_analytics")
           .update(updatePayload)
-          .eq('id', existingRecord.id);
-        
+          .eq("id", existingRecord.id);
+
         if (!updateError) {
-          deeplinkLogger.info('Conversion tracked via user_id', { stage, userId: user.id });
+          deeplinkLogger.info("Conversion tracked via user_id", { stage, userId: user.id });
           return;
         }
-        deeplinkLogger.debug('User-based update failed, trying session fallback', { error: String(updateError) });
+        deeplinkLogger.debug("User-based update failed, trying session fallback", { error: String(updateError) });
       }
     }
 
     // Fallback: Update by persistent session ID
     const sessionToUse = persistentSessionId || sessionId;
-    
+
     // First find the most recent record by session
     const { data: sessionRecord } = await supabase
-      .from('deeplink_analytics')
-      .select('id')
-      .eq('session_id', sessionToUse)
-      .order('created_at', { ascending: false })
+      .from("deeplink_analytics")
+      .select("id")
+      .eq("session_id", sessionToUse)
+      .order("created_at", { ascending: false })
       .limit(1)
       .maybeSingle();
 
     if (sessionRecord?.id) {
-      const { error } = await supabase
-        .from('deeplink_analytics')
-        .update(updatePayload)
-        .eq('id', sessionRecord.id);
+      const { error } = await supabase.from("deeplink_analytics").update(updatePayload).eq("id", sessionRecord.id);
 
       if (!error) {
-        deeplinkLogger.info('Conversion stage tracked via session', { stage, sessionId: sessionToUse });
+        deeplinkLogger.info("Conversion stage tracked via session", { stage, sessionId: sessionToUse });
         return;
       }
     }
 
     // If no existing record found, create new one for this conversion
     if (!sessionRecord?.id) {
-      deeplinkLogger.info('No existing session found, creating new analytics entry for conversion', { stage });
-      await supabase.from('deeplink_analytics').insert([{
-        user_id: user?.id || null,
-        session_id: sessionId,
-        deeplink_type: 'conversion_event',
-        conversion_type: stage,
-        converted: true, // FIX: Mark as converted
-        source: 'organic',
-        metadata: {
-          ...(metadata || {}),
-          stages_reached: stages,
-          stage_timestamp: new Date().toISOString(),
-          is_conversion_only: true,
+      deeplinkLogger.info("No existing session found, creating new analytics entry for conversion", { stage });
+      await supabase.from("deeplink_analytics").insert([
+        {
+          user_id: user?.id || null,
+          session_id: sessionId,
+          deeplink_type: "conversion_event",
+          conversion_type: stage,
+          converted: true, // FIX: Mark as converted
+          source: "organic",
+          metadata: {
+            ...(metadata || {}),
+            stages_reached: stages,
+            stage_timestamp: new Date().toISOString(),
+            is_conversion_only: true,
+          },
         },
-      }]);
-      deeplinkLogger.info('New conversion entry created', { stage, sessionId });
+      ]);
+      deeplinkLogger.info("New conversion entry created", { stage, sessionId });
     }
   } catch (error) {
-    deeplinkLogger.warn('Failed to track conversion stage', { error: String(error) });
+    deeplinkLogger.warn("Failed to track conversion stage", { error: String(error) });
   }
 }
 
@@ -422,13 +426,9 @@ export function getExperimentAssignments(): Record<string, ExperimentAssignment>
   }
 }
 
-export function assignToExperiment(
-  experimentId: string, 
-  variants: string[],
-  weights?: number[]
-): string {
+export function assignToExperiment(experimentId: string, variants: string[], weights?: number[]): string {
   const assignments = getExperimentAssignments();
-  
+
   // Already assigned
   if (assignments[experimentId]) {
     return assignments[experimentId].variantId;
@@ -460,7 +460,7 @@ export function assignToExperiment(
   };
   localStorage.setItem(STORAGE_KEYS.EXPERIMENT_ASSIGNMENTS, JSON.stringify(assignments));
 
-  deeplinkLogger.debug('Experiment assigned', { experimentId, variantId });
+  deeplinkLogger.debug("Experiment assigned", { experimentId, variantId });
   return variantId;
 }
 
@@ -475,10 +475,12 @@ export function assignToExperiment(
  */
 export async function trackDeeplinkVisit(context: DeeplinkContext): Promise<void> {
   const sessionId = getOrCreateSessionId();
-  const BUFFER_KEY = 'deeplink_pending_tracks';
+  const BUFFER_KEY = "deeplink_pending_tracks";
 
   try {
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     const payload = {
       user_id: user?.id || null,
@@ -506,21 +508,21 @@ export async function trackDeeplinkVisit(context: DeeplinkContext): Promise<void
         experiment_id: context.experimentId || null,
         variant_id: context.variantId || null,
         referral_code: context.referralCode || null,
-        referral_chain: getReferralChain().join(','),
+        referral_chain: getReferralChain().join(","),
       } as Record<string, string | number | boolean | null>,
     };
 
-    const { error } = await supabase.from('deeplink_analytics').insert([payload]);
-    
+    const { error } = await supabase.from("deeplink_analytics").insert([payload]);
+
     if (error) {
       // Buffer failed insert for retry after auth (RLS may block if unexpected)
-      deeplinkLogger.debug('Deeplink insert failed, buffering for retry', { 
+      deeplinkLogger.debug("Deeplink insert failed, buffering for retry", {
         error: error.message,
-        code: error.code 
+        code: error.code,
       });
-      
+
       try {
-        const pending = JSON.parse(localStorage.getItem(BUFFER_KEY) || '[]');
+        const pending = JSON.parse(localStorage.getItem(BUFFER_KEY) || "[]");
         pending.push({ ...payload, buffered_at: new Date().toISOString() });
         // Keep only last 10 buffered entries to prevent storage bloat
         localStorage.setItem(BUFFER_KEY, JSON.stringify(pending.slice(-10)));
@@ -531,20 +533,20 @@ export async function trackDeeplinkVisit(context: DeeplinkContext): Promise<void
     }
 
     // Track initial visit stage
-    await trackConversionStage('visit');
+    await trackConversionStage("visit");
 
-    deeplinkLogger.info('Deeplink visit tracked', { 
-      type: context.type, 
+    deeplinkLogger.info("Deeplink visit tracked", {
+      type: context.type,
       source: context.source,
-      sessionId 
+      sessionId,
     });
-    
+
     // Clear any pending buffered entries after successful insert
     localStorage.removeItem(BUFFER_KEY);
   } catch (error) {
     // Graceful fallback - don't break app for analytics failures
     if (import.meta.env.DEV) {
-      deeplinkLogger.warn('Failed to track deeplink visit', { error: String(error) });
+      deeplinkLogger.warn("Failed to track deeplink visit", { error: String(error) });
     }
   }
 }
@@ -554,33 +556,37 @@ export async function trackDeeplinkVisit(context: DeeplinkContext): Promise<void
  * Call this after successful login/signup
  */
 export async function flushBufferedDeeplinkTracks(): Promise<void> {
-  const BUFFER_KEY = 'deeplink_pending_tracks';
-  
+  const BUFFER_KEY = "deeplink_pending_tracks";
+
   try {
-    const pending = JSON.parse(localStorage.getItem(BUFFER_KEY) || '[]');
+    const pending = JSON.parse(localStorage.getItem(BUFFER_KEY) || "[]");
     if (pending.length === 0) return;
-    
-    const { data: { user } } = await supabase.auth.getUser();
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return;
-    
+
     // Update buffered entries with user_id and insert
     for (const entry of pending) {
       const { buffered_at, ...payload } = entry;
-      await supabase.from('deeplink_analytics').insert([{
-        ...payload,
-        user_id: user.id,
-        metadata: {
-          ...payload.metadata,
-          originally_buffered_at: buffered_at,
-          flushed_after_auth: true,
-        }
-      }]);
+      await supabase.from("deeplink_analytics").insert([
+        {
+          ...payload,
+          user_id: user.id,
+          metadata: {
+            ...payload.metadata,
+            originally_buffered_at: buffered_at,
+            flushed_after_auth: true,
+          },
+        },
+      ]);
     }
-    
+
     localStorage.removeItem(BUFFER_KEY);
-    deeplinkLogger.info('Flushed buffered deeplink tracks', { count: pending.length });
+    deeplinkLogger.info("Flushed buffered deeplink tracks", { count: pending.length });
   } catch (error) {
-    deeplinkLogger.debug('Failed to flush buffered tracks', { error: String(error) });
+    deeplinkLogger.debug("Failed to flush buffered tracks", { error: String(error) });
   }
 }
 
@@ -608,7 +614,7 @@ export interface DeeplinkAnalyticsSummary {
  * Uses direct queries since the RPC may not exist
  */
 export async function fetchDeeplinkAnalyticsSummary(
-  timePeriod: string = '7 days'
+  timePeriod: string = "7 days",
 ): Promise<DeeplinkAnalyticsSummary | null> {
   try {
     // Calculate date range
@@ -618,13 +624,13 @@ export async function fetchDeeplinkAnalyticsSummary(
 
     // Fetch raw data
     const { data: events, error } = await supabase
-      .from('deeplink_analytics')
-      .select('*')
-      .gte('created_at', startDate.toISOString())
-      .order('created_at', { ascending: false });
+      .from("deeplink_analytics")
+      .select("*")
+      .gte("created_at", startDate.toISOString())
+      .order("created_at", { ascending: false });
 
     if (error) {
-      deeplinkLogger.error('Failed to fetch analytics', { error });
+      deeplinkLogger.error("Failed to fetch analytics", { error });
       return null;
     }
 
@@ -642,16 +648,19 @@ export async function fetchDeeplinkAnalyticsSummary(
     }
 
     // Calculate metrics
-    const uniqueUsers = new Set(events.filter(e => e.user_id).map(e => e.user_id)).size;
-    
+    const uniqueUsers = new Set(events.filter((e) => e.user_id).map((e) => e.user_id)).size;
+
     // Group by source
-    const sourceGroups = events.reduce((acc, e) => {
-      const source = e.source || 'unknown';
-      if (!acc[source]) acc[source] = { total: 0, converted: 0 };
-      acc[source].total++;
-      if (e.converted) acc[source].converted++;
-      return acc;
-    }, {} as Record<string, { total: number; converted: number }>);
+    const sourceGroups = events.reduce(
+      (acc, e) => {
+        const source = e.source || "unknown";
+        if (!acc[source]) acc[source] = { total: 0, converted: 0 };
+        acc[source].total++;
+        if (e.converted) acc[source].converted++;
+        return acc;
+      },
+      {} as Record<string, { total: number; converted: number }>,
+    );
 
     const topSources = Object.entries(sourceGroups)
       .map(([source, stats]) => ({
@@ -663,13 +672,16 @@ export async function fetchDeeplinkAnalyticsSummary(
       .slice(0, 10);
 
     // Group by campaign
-    const campaignGroups = events.reduce((acc, e) => {
-      const campaign = e.campaign || 'direct';
-      if (!acc[campaign]) acc[campaign] = { total: 0, converted: 0 };
-      acc[campaign].total++;
-      if (e.converted) acc[campaign].converted++;
-      return acc;
-    }, {} as Record<string, { total: number; converted: number }>);
+    const campaignGroups = events.reduce(
+      (acc, e) => {
+        const campaign = e.campaign || "direct";
+        if (!acc[campaign]) acc[campaign] = { total: 0, converted: 0 };
+        acc[campaign].total++;
+        if (e.converted) acc[campaign].converted++;
+        return acc;
+      },
+      {} as Record<string, { total: number; converted: number }>,
+    );
 
     const topCampaigns = Object.entries(campaignGroups)
       .map(([campaign, stats]) => ({
@@ -682,19 +694,22 @@ export async function fetchDeeplinkAnalyticsSummary(
 
     // Hourly distribution
     const hourlyDistribution: Record<number, number> = {};
-    events.forEach(e => {
+    events.forEach((e) => {
       const hour = new Date(e.created_at!).getHours();
       hourlyDistribution[hour] = (hourlyDistribution[hour] || 0) + 1;
     });
 
     // Daily trend
-    const dailyGroups = events.reduce((acc, e) => {
-      const date = e.created_at!.split('T')[0];
-      if (!acc[date]) acc[date] = { visits: 0, conversions: 0 };
-      acc[date].visits++;
-      if (e.converted) acc[date].conversions++;
-      return acc;
-    }, {} as Record<string, { visits: number; conversions: number }>);
+    const dailyGroups = events.reduce(
+      (acc, e) => {
+        const date = e.created_at!.split("T")[0];
+        if (!acc[date]) acc[date] = { visits: 0, conversions: 0 };
+        acc[date].visits++;
+        if (e.converted) acc[date].conversions++;
+        return acc;
+      },
+      {} as Record<string, { visits: number; conversions: number }>,
+    );
 
     const dailyTrend = Object.entries(dailyGroups)
       .map(([date, stats]) => ({ date, ...stats }))
@@ -711,7 +726,7 @@ export async function fetchDeeplinkAnalyticsSummary(
       deviceBreakdown: { mobile: 0, desktop: 0, tablet: 0 },
     };
   } catch (error) {
-    deeplinkLogger.error('Error in fetchDeeplinkAnalyticsSummary', { error: String(error) });
+    deeplinkLogger.error("Error in fetchDeeplinkAnalyticsSummary", { error: String(error) });
     return null;
   }
 }
@@ -751,21 +766,21 @@ export async function initializeDeeplinkTracker(options: InitializeOptions): Pro
   // Determine source
   let source: DeeplinkSource = detectSource(options.referrer, utmParams);
   if (options.isTelegram) {
-    source = 'telegram_miniapp';
+    source = "telegram_miniapp";
   }
 
   // Parse start param for type and value
-  let type = 'direct';
+  let type = "direct";
   let value: string | undefined;
   let referralCode: string | undefined;
 
   if (options.startParam) {
-    const parts = options.startParam.split('_');
-    type = parts[0] || 'direct';
-    value = parts.slice(1).join('_') || undefined;
+    const parts = options.startParam.split("_");
+    type = parts[0] || "direct";
+    value = parts.slice(1).join("_") || undefined;
 
     // Check if it's a referral
-    if (type === 'ref') {
+    if (type === "ref") {
       referralCode = value;
       addToReferralChain(value!);
     }
@@ -784,7 +799,7 @@ export async function initializeDeeplinkTracker(options: InitializeOptions): Pro
   };
 
   setDeeplinkContext(context);
-  
+
   // Track the visit
   await trackDeeplinkVisit(context);
 
@@ -804,13 +819,8 @@ export interface DeeplinkBuildOptions {
   variantId?: string;
 }
 
-export function buildDeeplinkUrl(
-  botUsername: string,
-  options: DeeplinkBuildOptions
-): string {
-  const startParam = options.value 
-    ? `${options.type}_${options.value}` 
-    : options.type;
+export function buildDeeplinkUrl(botUsername: string, options: DeeplinkBuildOptions): string {
+  const startParam = options.value ? `${options.type}_${options.value}` : options.type;
 
   let url = `https://t.me/${botUsername}/app?startapp=${startParam}`;
 
@@ -822,10 +832,10 @@ export function buildDeeplinkUrl(
     });
   }
   if (options.referralCode) {
-    params.set('ref', options.referralCode);
+    params.set("ref", options.referralCode);
   }
   if (options.experimentId && options.variantId) {
-    params.set('exp', `${options.experimentId}:${options.variantId}`);
+    params.set("exp", `${options.experimentId}:${options.variantId}`);
   }
 
   // Note: UTM params are tracked separately since Telegram doesn't pass URL params

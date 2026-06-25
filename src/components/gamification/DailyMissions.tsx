@@ -1,17 +1,17 @@
-import { motion } from '@/lib/motion';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { useAuth } from '@/hooks/useAuth';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { Target, Music, Share2, Heart, Zap, Check, Gift, Loader2 } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { useNavigate } from 'react-router-dom';
-import { triggerHapticFeedback } from '@/lib/mobile-utils';
-import { toast } from 'sonner';
-import { logger } from '@/lib/logger';
+import { motion } from "@/lib/motion";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { useAuth } from "@/hooks/useAuth";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { Target, Music, Share2, Heart, Zap, Check, Gift, Loader2 } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useNavigate } from "react-router-dom";
+import { triggerHapticFeedback } from "@/lib/mobile-utils";
+import { toast } from "sonner";
+import { logger } from "@/lib/logger";
 
 interface Mission {
   id: string;
@@ -30,65 +30,63 @@ export function DailyMissions() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  
+
   // Get today's activity counts and claimed missions
   const { data: activity, isLoading } = useQuery({
-    queryKey: ['daily-activity', user?.id],
+    queryKey: ["daily-activity", user?.id],
     queryFn: async () => {
       if (!user?.id) return null;
-      
-      const today = new Date().toISOString().split('T')[0];
+
+      const today = new Date().toISOString().split("T")[0];
       const todayStart = `${today}T00:00:00.000Z`;
       const todayEnd = `${today}T23:59:59.999Z`;
-      
+
       // Get today's generation count
       const { count: generationsCount } = await supabase
-        .from('tracks')
-        .select('*', { count: 'exact', head: true })
-        .eq('user_id', user.id)
-        .gte('created_at', todayStart)
-        .lte('created_at', todayEnd);
-      
+        .from("tracks")
+        .select("*", { count: "exact", head: true })
+        .eq("user_id", user.id)
+        .gte("created_at", todayStart)
+        .lte("created_at", todayEnd);
+
       // Get today's share count (from user_activity)
       const { count: sharesCount } = await supabase
-        .from('user_activity')
-        .select('*', { count: 'exact', head: true })
-        .eq('user_id', user.id)
-        .eq('action_type', 'share')
-        .gte('created_at', todayStart)
-        .lte('created_at', todayEnd);
+        .from("user_activity")
+        .select("*", { count: "exact", head: true })
+        .eq("user_id", user.id)
+        .eq("action_type", "share")
+        .gte("created_at", todayStart)
+        .lte("created_at", todayEnd);
 
       // Get today's likes given
       const { count: likesCount } = await supabase
-        .from('track_likes')
-        .select('*', { count: 'exact', head: true })
-        .eq('user_id', user.id)
-        .gte('created_at', todayStart)
-        .lte('created_at', todayEnd);
-        
+        .from("track_likes")
+        .select("*", { count: "exact", head: true })
+        .eq("user_id", user.id)
+        .gte("created_at", todayStart)
+        .lte("created_at", todayEnd);
+
       // Check if checked in today
       const { data: checkin } = await supabase
-        .from('user_checkins')
-        .select('id')
-        .eq('user_id', user.id)
-        .eq('checkin_date', today)
+        .from("user_checkins")
+        .select("id")
+        .eq("user_id", user.id)
+        .eq("checkin_date", today)
         .maybeSingle();
 
       // Get claimed missions for today (from user_activity with mission_ prefix)
       const { data: claimedMissions } = await supabase
-        .from('user_activity')
-        .select('action_type')
-        .eq('user_id', user.id)
-        .like('action_type', 'mission_%')
-        .gte('created_at', todayStart)
-        .lte('created_at', todayEnd);
-      
+        .from("user_activity")
+        .select("action_type")
+        .eq("user_id", user.id)
+        .like("action_type", "mission_%")
+        .gte("created_at", todayStart)
+        .lte("created_at", todayEnd);
+
       const claimedIds = new Set(
-        (claimedMissions || []).map((m: { action_type: string }) => 
-          m.action_type.replace('mission_', '')
-        )
+        (claimedMissions || []).map((m: { action_type: string }) => m.action_type.replace("mission_", "")),
       );
-      
+
       return {
         generations: generationsCount || 0,
         shares: sharesCount || 0,
@@ -105,9 +103,9 @@ export function DailyMissions() {
   // Claim mission reward mutation
   const claimMission = useMutation({
     mutationFn: async (mission: Mission) => {
-      if (!user?.id) throw new Error('Not authenticated');
-      
-      const { error } = await supabase.functions.invoke('reward-action', {
+      if (!user?.id) throw new Error("Not authenticated");
+
+      const { error } = await supabase.functions.invoke("reward-action", {
         body: {
           userId: user.id,
           actionType: `mission_${mission.id}`,
@@ -116,65 +114,65 @@ export function DailyMissions() {
           description: `Миссия: ${mission.title}`,
         },
       });
-      
+
       if (error) throw error;
       return mission;
     },
     onSuccess: (mission) => {
-      triggerHapticFeedback('success');
+      triggerHapticFeedback("success");
       toast.success(`+${mission.reward.credits} кредитов за миссию "${mission.title}"!`);
-      queryClient.invalidateQueries({ queryKey: ['daily-activity'] });
-      queryClient.invalidateQueries({ queryKey: ['user-credits'] });
+      queryClient.invalidateQueries({ queryKey: ["daily-activity"] });
+      queryClient.invalidateQueries({ queryKey: ["user-credits"] });
     },
     onError: (error: unknown) => {
-      logger.error('Failed to claim mission', error instanceof Error ? error : new Error(String(error)));
-      toast.error('Не удалось получить награду');
+      logger.error("Failed to claim mission", error instanceof Error ? error : new Error(String(error)));
+      toast.error("Не удалось получить награду");
     },
   });
 
   // Boosted mission rewards for faster progression
   const missions: Mission[] = [
     {
-      id: 'generate',
-      title: 'Создатель',
-      description: 'Сгенерируй 2 трека',  // Reduced from 3
+      id: "generate",
+      title: "Создатель",
+      description: "Сгенерируй 2 трека", // Reduced from 3
       icon: <Music className="w-4 h-4" />,
-      target: 2,  // Easier to complete
+      target: 2, // Easier to complete
       current: activity?.generations || 0,
-      reward: { credits: 15, xp: 50 },  // Boosted from 10/30
-      actionPath: '/generate',
-      actionLabel: 'Создать',
-      claimed: activity?.claimedIds?.has('generate'),
+      reward: { credits: 15, xp: 50 }, // Boosted from 10/30
+      actionPath: "/generate",
+      actionLabel: "Создать",
+      claimed: activity?.claimedIds?.has("generate"),
     },
     {
-      id: 'share',
-      title: 'Промоутер',
-      description: 'Поделись 1 треком',  // Reduced from 2
+      id: "share",
+      title: "Промоутер",
+      description: "Поделись 1 треком", // Reduced from 2
       icon: <Share2 className="w-4 h-4" />,
-      target: 1,  // Easier
+      target: 1, // Easier
       current: activity?.shares || 0,
-      reward: { credits: 10, xp: 35 },  // Boosted from 6/20
-      actionPath: '/library',
-      actionLabel: 'Библиотека',
-      claimed: activity?.claimedIds?.has('share'),
+      reward: { credits: 10, xp: 35 }, // Boosted from 6/20
+      actionPath: "/library",
+      actionLabel: "Библиотека",
+      claimed: activity?.claimedIds?.has("share"),
     },
     {
-      id: 'like',
-      title: 'Ценитель',
-      description: 'Лайкни 3 публичных трека',  // Reduced from 5
+      id: "like",
+      title: "Ценитель",
+      description: "Лайкни 3 публичных трека", // Reduced from 5
       icon: <Heart className="w-4 h-4" />,
-      target: 3,  // Easier
+      target: 3, // Easier
       current: activity?.likes || 0,
-      reward: { credits: 8, xp: 25 },  // Boosted from 5/15
-      actionPath: '/',
-      actionLabel: 'Обзор',
-      claimed: activity?.claimedIds?.has('like'),
+      reward: { credits: 8, xp: 25 }, // Boosted from 5/15
+      actionPath: "/",
+      actionLabel: "Обзор",
+      claimed: activity?.claimedIds?.has("like"),
     },
   ];
 
   const handleAction = (path?: string) => {
     if (path) {
-      triggerHapticFeedback('light');
+      triggerHapticFeedback("light");
       navigate(path);
     }
   };
@@ -190,7 +188,7 @@ export function DailyMissions() {
       <Card>
         <CardContent className="p-4">
           <div className="space-y-3">
-            {[1, 2, 3].map(i => (
+            {[1, 2, 3].map((i) => (
               <div key={i} className="h-16 bg-muted animate-pulse rounded-lg" />
             ))}
           </div>
@@ -199,7 +197,7 @@ export function DailyMissions() {
     );
   }
 
-  const completedCount = missions.filter(m => m.claimed).length;
+  const completedCount = missions.filter((m) => m.claimed).length;
   const allCompleted = completedCount === missions.length;
 
   return (
@@ -221,7 +219,7 @@ export function DailyMissions() {
           const canClaim = isCompleted && !mission.claimed;
           const isClaiming = claimMission.isPending && claimMission.variables?.id === mission.id;
           const progress = Math.min((mission.current / mission.target) * 100, 100);
-          
+
           return (
             <motion.div
               key={mission.id}
@@ -234,41 +232,38 @@ export function DailyMissions() {
                   ? "bg-green-500/10 border-green-500/30"
                   : canClaim
                     ? "bg-yellow-500/10 border-yellow-500/30"
-                    : "bg-muted/50 border-border"
+                    : "bg-muted/50 border-border",
               )}
             >
               <div className="flex items-start gap-3">
-                <div className={cn(
-                  "w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0",
-                  mission.claimed 
-                    ? "bg-green-500 text-white" 
-                    : canClaim
-                      ? "bg-yellow-500 text-white"
-                      : "bg-primary/10 text-primary"
-                )}>
+                <div
+                  className={cn(
+                    "w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0",
+                    mission.claimed
+                      ? "bg-green-500 text-white"
+                      : canClaim
+                        ? "bg-yellow-500 text-white"
+                        : "bg-primary/10 text-primary",
+                  )}
+                >
                   {mission.claimed ? <Check className="w-4 h-4" /> : mission.icon}
                 </div>
-                
+
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-2 mb-1">
-                    <span className={cn(
-                      "font-medium text-sm",
-                      mission.claimed && "line-through text-muted-foreground"
-                    )}>
+                    <span
+                      className={cn("font-medium text-sm", mission.claimed && "line-through text-muted-foreground")}
+                    >
                       {mission.title}
                     </span>
                     <div className="flex items-center gap-1 text-xs">
                       <Gift className="w-3 h-3 text-yellow-500" />
-                      <span className="text-yellow-600 dark:text-yellow-400">
-                        +{mission.reward.credits}
-                      </span>
+                      <span className="text-yellow-600 dark:text-yellow-400">+{mission.reward.credits}</span>
                     </div>
                   </div>
-                  
-                  <p className="text-xs text-muted-foreground mb-2">
-                    {mission.description}
-                  </p>
-                  
+
+                  <p className="text-xs text-muted-foreground mb-2">{mission.description}</p>
+
                   <div className="flex items-center gap-2">
                     <Progress value={progress} className="h-1.5 flex-1" />
                     <span className="text-[10px] text-muted-foreground min-w-[40px] text-right">
@@ -276,7 +271,7 @@ export function DailyMissions() {
                     </span>
                   </div>
                 </div>
-                
+
                 {canClaim ? (
                   <Button
                     size="sm"
@@ -309,7 +304,7 @@ export function DailyMissions() {
             </motion.div>
           );
         })}
-        
+
         {allCompleted && (
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -320,9 +315,7 @@ export function DailyMissions() {
               <Zap className="w-4 h-4" />
               Все миссии выполнены! 🎉
             </div>
-            <p className="text-xs text-muted-foreground mt-1">
-              Возвращайся завтра за новыми заданиями
-            </p>
+            <p className="text-xs text-muted-foreground mt-1">Возвращайся завтра за новыми заданиями</p>
           </motion.div>
         )}
       </CardContent>

@@ -1,6 +1,6 @@
 /**
  * CoreProviders - Consolidated essential providers
- * 
+ *
  * Combines core infrastructure providers that are always needed:
  * - QueryClient (TanStack Query)
  * - Theme
@@ -8,17 +8,17 @@
  * - Auth
  * - GuestMode
  * - Analytics (session, deeplinks, conversions)
- * 
+ *
  * This reduces the nesting depth and improves readability.
  */
 
-import { ReactNode, memo } from 'react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ThemeProvider } from '@/contexts/ThemeContext';
-import { TelegramProvider } from '@/contexts/TelegramContext';
-import { AuthProvider } from '@/contexts/AuthContext';
-import { GuestModeProvider } from '@/contexts/GuestModeContext';
-import { AnalyticsProvider } from './AnalyticsProvider';
+import { ReactNode, memo } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ThemeProvider } from "@/contexts/ThemeContext";
+import { TelegramProvider } from "@/contexts/TelegramContext";
+import { AuthProvider } from "@/contexts/AuthContext";
+import { GuestModeProvider } from "@/contexts/GuestModeContext";
+import { AnalyticsProvider } from "./AnalyticsProvider";
 
 // Optimized QueryClient configuration for faster perceived loading
 const queryClient = new QueryClient({
@@ -29,9 +29,9 @@ const queryClient = new QueryClient({
       retry: 1, // Single retry to fail fast
       retryDelay: 500, // Fast retry
       refetchOnWindowFocus: false, // Prevent refetch on tab focus
-      refetchOnReconnect: 'always',
+      refetchOnReconnect: "always",
       refetchOnMount: false, // Don't refetch if data exists
-      networkMode: 'offlineFirst', // Use cache first, then network
+      networkMode: "offlineFirst", // Use cache first, then network
     },
   },
 });
@@ -52,9 +52,7 @@ export const CoreProviders = memo(function CoreProviders({ children }: CoreProvi
         <TelegramProvider>
           <AuthProvider>
             <GuestModeProvider>
-              <AnalyticsProvider>
-                {children}
-              </AnalyticsProvider>
+              <AnalyticsProvider>{children}</AnalyticsProvider>
             </GuestModeProvider>
           </AuthProvider>
         </TelegramProvider>

@@ -4,15 +4,15 @@
  * NOTE: Uses generic analyzer type to avoid static Tone.js import
  */
 
-import { memo, useRef, useEffect, useCallback } from 'react';
-import { cn } from '@/lib/utils';
+import { memo, useRef, useEffect, useCallback } from "react";
+import { cn } from "@/lib/utils";
 
 // Use a generic type for the analyzer to avoid static Tone.js import
 interface VisualizerProps {
   analyzerNode: { getValue: () => Float32Array | Float32Array[] | number[] } | null;
   isActive: boolean;
   className?: string;
-  variant?: 'bars' | 'wave' | 'circular';
+  variant?: "bars" | "wave" | "circular";
   barCount?: number;
 }
 
@@ -20,7 +20,7 @@ export const Visualizer = memo(function Visualizer({
   analyzerNode,
   isActive,
   className,
-  variant = 'bars',
+  variant = "bars",
   barCount = 32,
 }: VisualizerProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -33,64 +33,57 @@ export const Visualizer = memo(function Visualizer({
   const TARGET_FPS = 60;
   const FRAME_INTERVAL = 1000 / TARGET_FPS;
 
-  const drawBars = useCallback((
-    ctx: CanvasRenderingContext2D,
-    data: Float32Array,
-    width: number,
-    height: number
-  ) => {
-    const barWidth = width / barCount;
-    const step = Math.floor(data.length / barCount);
+  const drawBars = useCallback(
+    (ctx: CanvasRenderingContext2D, data: Float32Array, width: number, height: number) => {
+      const barWidth = width / barCount;
+      const step = Math.floor(data.length / barCount);
 
-    ctx.clearRect(0, 0, width, height);
+      ctx.clearRect(0, 0, width, height);
 
-    for (let i = 0; i < barCount; i++) {
-      // Get average of frequency band
-      let sum = 0;
-      for (let j = 0; j < step; j++) {
-        sum += data[i * step + j] || 0;
+      for (let i = 0; i < barCount; i++) {
+        // Get average of frequency band
+        let sum = 0;
+        for (let j = 0; j < step; j++) {
+          sum += data[i * step + j] || 0;
+        }
+        const value = sum / step;
+
+        // Normalize to 0-1 range (data is in dB, typically -100 to 0)
+        const normalized = Math.max(0, (value + 100) / 100);
+        const barHeight = normalized * height * 0.9;
+
+        // Gradient based on height
+        const hue = 270 - normalized * 60; // Purple to pink
+        const saturation = 70 + normalized * 30;
+        const lightness = 40 + normalized * 20;
+
+        ctx.fillStyle = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+
+        const x = i * barWidth;
+        const y = height - barHeight;
+
+        // Rounded top
+        const radius = barWidth * 0.3;
+        ctx.beginPath();
+        ctx.roundRect(x + 1, y, barWidth - 2, barHeight, [radius, radius, 0, 0]);
+        ctx.fill();
       }
-      const value = sum / step;
+    },
+    [barCount],
+  );
 
-      // Normalize to 0-1 range (data is in dB, typically -100 to 0)
-      const normalized = Math.max(0, (value + 100) / 100);
-      const barHeight = normalized * height * 0.9;
-
-      // Gradient based on height
-      const hue = 270 - (normalized * 60); // Purple to pink
-      const saturation = 70 + (normalized * 30);
-      const lightness = 40 + (normalized * 20);
-
-      ctx.fillStyle = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
-      
-      const x = i * barWidth;
-      const y = height - barHeight;
-      
-      // Rounded top
-      const radius = barWidth * 0.3;
-      ctx.beginPath();
-      ctx.roundRect(x + 1, y, barWidth - 2, barHeight, [radius, radius, 0, 0]);
-      ctx.fill();
-    }
-  }, [barCount]);
-
-  const drawWave = useCallback((
-    ctx: CanvasRenderingContext2D,
-    data: Float32Array,
-    width: number,
-    height: number
-  ) => {
+  const drawWave = useCallback((ctx: CanvasRenderingContext2D, data: Float32Array, width: number, height: number) => {
     ctx.clearRect(0, 0, width, height);
 
     const gradient = ctx.createLinearGradient(0, 0, width, 0);
-    gradient.addColorStop(0, 'hsl(270, 70%, 50%)');
-    gradient.addColorStop(0.5, 'hsl(330, 70%, 50%)');
-    gradient.addColorStop(1, 'hsl(270, 70%, 50%)');
+    gradient.addColorStop(0, "hsl(270, 70%, 50%)");
+    gradient.addColorStop(0.5, "hsl(330, 70%, 50%)");
+    gradient.addColorStop(1, "hsl(270, 70%, 50%)");
 
     ctx.strokeStyle = gradient;
     ctx.lineWidth = 2;
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
 
     ctx.beginPath();
     const sliceWidth = width / data.length;
@@ -111,61 +104,63 @@ export const Visualizer = memo(function Visualizer({
     ctx.stroke();
   }, []);
 
-  const animate = useCallback((timestamp: number) => {
-    if (!isActive || !analyzerNode || !canvasRef.current) {
-      rafRef.current = requestAnimationFrame(animate);
-      return;
-    }
-
-    // Throttle to target FPS
-    const elapsed = timestamp - lastFrameTimeRef.current;
-    if (elapsed < FRAME_INTERVAL) {
-      rafRef.current = requestAnimationFrame(animate);
-      return;
-    }
-    lastFrameTimeRef.current = timestamp - (elapsed % FRAME_INTERVAL);
-
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d', { alpha: true });
-    if (!ctx) {
-      rafRef.current = requestAnimationFrame(animate);
-      return;
-    }
-
-    // Get frequency data
-    const rawDataResult = analyzerNode.getValue();
-    // Handle different return types from Tone.Analyser
-    let rawData: Float32Array;
-    if (rawDataResult instanceof Float32Array) {
-      rawData = rawDataResult;
-    } else if (Array.isArray(rawDataResult) && rawDataResult[0] instanceof Float32Array) {
-      rawData = rawDataResult[0];
-    } else if (Array.isArray(rawDataResult)) {
-      rawData = new Float32Array(rawDataResult as number[]);
-    } else {
-      rawData = new Float32Array(64);
-    }
-
-    // Initialize or update smoothed data
-    if (!smoothedDataRef.current || smoothedDataRef.current.length !== rawData.length) {
-      smoothedDataRef.current = new Float32Array(rawData);
-    } else {
-      // Apply exponential smoothing
-      for (let i = 0; i < rawData.length; i++) {
-        smoothedDataRef.current[i] = 
-          smoothedDataRef.current[i] * SMOOTHING + rawData[i] * (1 - SMOOTHING);
+  const animate = useCallback(
+    (timestamp: number) => {
+      if (!isActive || !analyzerNode || !canvasRef.current) {
+        rafRef.current = requestAnimationFrame(animate);
+        return;
       }
-    }
 
-    // Draw based on variant
-    if (variant === 'bars') {
-      drawBars(ctx, smoothedDataRef.current, canvas.width, canvas.height);
-    } else if (variant === 'wave') {
-      drawWave(ctx, smoothedDataRef.current, canvas.width, canvas.height);
-    }
+      // Throttle to target FPS
+      const elapsed = timestamp - lastFrameTimeRef.current;
+      if (elapsed < FRAME_INTERVAL) {
+        rafRef.current = requestAnimationFrame(animate);
+        return;
+      }
+      lastFrameTimeRef.current = timestamp - (elapsed % FRAME_INTERVAL);
 
-    rafRef.current = requestAnimationFrame(animate);
-  }, [isActive, analyzerNode, variant, drawBars, drawWave]);
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext("2d", { alpha: true });
+      if (!ctx) {
+        rafRef.current = requestAnimationFrame(animate);
+        return;
+      }
+
+      // Get frequency data
+      const rawDataResult = analyzerNode.getValue();
+      // Handle different return types from Tone.Analyser
+      let rawData: Float32Array;
+      if (rawDataResult instanceof Float32Array) {
+        rawData = rawDataResult;
+      } else if (Array.isArray(rawDataResult) && rawDataResult[0] instanceof Float32Array) {
+        rawData = rawDataResult[0];
+      } else if (Array.isArray(rawDataResult)) {
+        rawData = new Float32Array(rawDataResult as number[]);
+      } else {
+        rawData = new Float32Array(64);
+      }
+
+      // Initialize or update smoothed data
+      if (!smoothedDataRef.current || smoothedDataRef.current.length !== rawData.length) {
+        smoothedDataRef.current = new Float32Array(rawData);
+      } else {
+        // Apply exponential smoothing
+        for (let i = 0; i < rawData.length; i++) {
+          smoothedDataRef.current[i] = smoothedDataRef.current[i] * SMOOTHING + rawData[i] * (1 - SMOOTHING);
+        }
+      }
+
+      // Draw based on variant
+      if (variant === "bars") {
+        drawBars(ctx, smoothedDataRef.current, canvas.width, canvas.height);
+      } else if (variant === "wave") {
+        drawWave(ctx, smoothedDataRef.current, canvas.width, canvas.height);
+      }
+
+      rafRef.current = requestAnimationFrame(animate);
+    },
+    [isActive, analyzerNode, variant, drawBars, drawWave],
+  );
 
   // Start/stop animation loop
   useEffect(() => {
@@ -190,8 +185,8 @@ export const Visualizer = memo(function Visualizer({
         const dpr = window.devicePixelRatio || 1;
         canvas.width = width * dpr;
         canvas.height = height * dpr;
-        
-        const ctx = canvas.getContext('2d');
+
+        const ctx = canvas.getContext("2d");
         if (ctx) {
           ctx.scale(dpr, dpr);
         }
@@ -205,12 +200,8 @@ export const Visualizer = memo(function Visualizer({
   return (
     <canvas
       ref={canvasRef}
-      className={cn(
-        'w-full h-full',
-        !isActive && 'opacity-30',
-        className
-      )}
-      style={{ width: '100%', height: '100%' }}
+      className={cn("w-full h-full", !isActive && "opacity-30", className)}
+      style={{ width: "100%", height: "100%" }}
     />
   );
 });

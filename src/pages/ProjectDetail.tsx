@@ -1,35 +1,42 @@
-import { useMemo } from 'react';
-import { Navigate } from 'react-router-dom';
-import { useQueryClient } from '@tanstack/react-query';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, Sparkles, Music, Plus, Settings, Image, Rocket, FileText, ChevronDown, ChevronUp } from 'lucide-react';
-import { AIActionsDialog } from '@/components/project/AIActionsDialog';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { MinimalProjectTrackItem } from '@/components/project/MinimalProjectTrackItem';
-import { ProjectSettingsSheet } from '@/components/project/ProjectSettingsSheet';
-import { AddTrackDialog } from '@/components/project/AddTrackDialog';
-import { ProjectDetailsCard } from '@/components/project/ProjectDetailsCard';
-import { LyricsPreviewSheet } from '@/components/project/LyricsPreviewSheet';
-import { LyricsChatAssistant } from '@/components/generate-form/LyricsChatAssistant';
-import { ProjectMediaGenerator } from '@/components/project/ProjectMediaGenerator';
-import { ProjectReadinessIndicator } from '@/components/project/ProjectReadinessIndicator';
-import { PublishProjectDialog } from '@/components/project/PublishProjectDialog';
-import { UnlinkedTracksSection } from '@/components/project/UnlinkedTracksSection';
-import { ShareProjectCard } from '@/components/project/ShareProjectCard';
-import { ProjectLyricsTab } from '@/components/project/ProjectLyricsTab';
-import { MobileQuickActionsGrid } from '@/components/project/detail/MobileQuickActionsGrid';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { cn } from '@/lib/utils';
-import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
-import { useTelegramMainButton } from '@/hooks/telegram/useTelegramMainButton';
-import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
-import { SEOHead } from '@/components/SEOHead';
-import { 
-  useProjectDetailData, 
-  useProjectDetailDialogs, 
-  useProjectDetailHandlers 
-} from '@/hooks/project';
+import { useMemo } from "react";
+import { Navigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import {
+  ArrowLeft,
+  Sparkles,
+  Music,
+  Plus,
+  Settings,
+  Image,
+  Rocket,
+  FileText,
+  ChevronDown,
+  ChevronUp,
+} from "lucide-react";
+import { AIActionsDialog } from "@/components/project/AIActionsDialog";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { MinimalProjectTrackItem } from "@/components/project/MinimalProjectTrackItem";
+import { ProjectSettingsSheet } from "@/components/project/ProjectSettingsSheet";
+import { AddTrackDialog } from "@/components/project/AddTrackDialog";
+import { ProjectDetailsCard } from "@/components/project/ProjectDetailsCard";
+import { LyricsPreviewSheet } from "@/components/project/LyricsPreviewSheet";
+import { LyricsChatAssistant } from "@/components/generate-form/LyricsChatAssistant";
+import { ProjectMediaGenerator } from "@/components/project/ProjectMediaGenerator";
+import { ProjectReadinessIndicator } from "@/components/project/ProjectReadinessIndicator";
+import { PublishProjectDialog } from "@/components/project/PublishProjectDialog";
+import { UnlinkedTracksSection } from "@/components/project/UnlinkedTracksSection";
+import { ShareProjectCard } from "@/components/project/ShareProjectCard";
+import { ProjectLyricsTab } from "@/components/project/ProjectLyricsTab";
+import { MobileQuickActionsGrid } from "@/components/project/detail/MobileQuickActionsGrid";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { cn } from "@/lib/utils";
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+import { useTelegramMainButton } from "@/hooks/telegram/useTelegramMainButton";
+import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
+import { SEOHead } from "@/components/SEOHead";
+import { useProjectDetailData, useProjectDetailDialogs, useProjectDetailHandlers } from "@/hooks/project";
 
 export default function ProjectDetail() {
   const isMobile = useIsMobile();
@@ -72,27 +79,27 @@ export default function ProjectDetail() {
   // Telegram BackButton
   useTelegramBackButton({
     visible: !!project,
-    fallbackPath: '/projects',
+    fallbackPath: "/projects",
   });
 
   // Telegram MainButton config
   const mainButtonConfig = useMemo(() => {
-    if (!project) return { text: '', visible: false, action: 'add' as const };
-    
+    if (!project) return { text: "", visible: false, action: "add" as const };
+
     if (isReadyToPublish && !isPublished) {
-      return { text: 'ОПУБЛИКОВАТЬ', action: 'publish' as const };
+      return { text: "ОПУБЛИКОВАТЬ", action: "publish" as const };
     }
     if (draftCount > 0) {
-      return { text: 'СГЕНЕРИРОВАТЬ ТРЕК', action: 'generate' as const };
+      return { text: "СГЕНЕРИРОВАТЬ ТРЕК", action: "generate" as const };
     }
-    return { text: 'ДОБАВИТЬ ТРЕК', action: 'add' as const };
+    return { text: "ДОБАВИТЬ ТРЕК", action: "add" as const };
   }, [project, isReadyToPublish, isPublished, draftCount]);
 
   const handleMainButtonClick = () => {
-    if (mainButtonConfig.action === 'publish') {
+    if (mainButtonConfig.action === "publish") {
       dialogs.setPublishDialogOpen(true);
-    } else if (mainButtonConfig.action === 'generate' && tracks?.[0]) {
-      const firstDraft = tracks.find(t => t.status === 'draft' && !t.track_id);
+    } else if (mainButtonConfig.action === "generate" && tracks?.[0]) {
+      const firstDraft = tracks.find((t) => t.status === "draft" && !t.track_id);
       if (firstDraft) handlers.handleGenerateFromPlan(firstDraft);
     } else {
       dialogs.setAddTrackOpen(true);
@@ -127,9 +134,8 @@ export default function ProjectDetail() {
         <div className="text-center">
           <Music className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
           <h3 className="text-xl font-semibold mb-2">Проект не найден</h3>
-          <Button onClick={() => navigate('/projects')} variant="outline">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            К проектам
+          <Button onClick={() => navigate("/projects")} variant="outline">
+            <ArrowLeft className="w-4 h-4 mr-2" />К проектам
           </Button>
         </div>
       </div>
@@ -137,17 +143,18 @@ export default function ProjectDetail() {
   }
 
   const projectUrl = `https://aimusicverse.lovable.app/projects/${project.id}`;
-  const projectTitle = project.title || 'Музыкальный проект';
+  const projectTitle = project.title || "Музыкальный проект";
   const projectDescription =
     project.concept ||
-    `Музыкальный проект «${projectTitle}» — ${totalTracks} ${totalTracks === 1 ? 'трек' : 'треков'} на MusicVerse AI.`;
+    `Музыкальный проект «${projectTitle}» — ${totalTracks} ${totalTracks === 1 ? "трек" : "треков"} на MusicVerse AI.`;
 
   return (
-    <div 
+    <div
       className="pb-24"
       style={{
-        minHeight: 'var(--tg-viewport-stable-height, 100vh)',
-        paddingBottom: 'calc(max(var(--tg-content-safe-area-inset-bottom, 60px), var(--tg-safe-area-inset-bottom, 34px)) + 4rem)'
+        minHeight: "var(--tg-viewport-stable-height, 100vh)",
+        paddingBottom:
+          "calc(max(var(--tg-content-safe-area-inset-bottom, 60px), var(--tg-safe-area-inset-bottom, 34px)) + 4rem)",
       }}
     >
       <SEOHead
@@ -158,8 +165,8 @@ export default function ProjectDetail() {
         ogImage={project.cover_url || undefined}
         noIndex={!isPublished}
         jsonLd={{
-          '@context': 'https://schema.org',
-          '@type': 'MusicAlbum',
+          "@context": "https://schema.org",
+          "@type": "MusicAlbum",
           name: projectTitle,
           description: projectDescription,
           url: projectUrl,
@@ -172,7 +179,7 @@ export default function ProjectDetail() {
       <ProjectHeroSection
         project={project}
         isMobile={isMobile}
-        onNavigateBack={() => navigate('/projects')}
+        onNavigateBack={() => navigate("/projects")}
         onOpenSettings={() => dialogs.setSettingsOpen(true)}
         onOpenMediaGenerator={() => dialogs.openMediaGenerator(null)}
       />
@@ -194,17 +201,14 @@ export default function ProjectDetail() {
       {/* Readiness Indicator */}
       {totalTracks > 0 && !isPublished && (
         <div className={cn("max-w-sm mx-auto mt-2", isMobile ? "px-3" : "")}>
-          <ProjectReadinessIndicator 
-            totalTracks={totalTracks}
-            tracksWithMaster={tracksWithMaster}
-          />
+          <ProjectReadinessIndicator totalTracks={totalTracks} tracksWithMaster={tracksWithMaster} />
         </div>
       )}
 
       {/* Publish Button */}
       {isReadyToPublish && !isPublished && (
         <div className="flex justify-center mt-2">
-          <Button 
+          <Button
             size="sm"
             onClick={() => dialogs.setPublishDialogOpen(true)}
             className="gap-1.5 bg-green-500 hover:bg-green-600 h-8"
@@ -223,13 +227,15 @@ export default function ProjectDetail() {
         totalTracks={totalTracks}
         tracksWithMaster={tracksWithMaster}
         onAddTrack={() => dialogs.setAddTrackOpen(true)}
-        onGenerateTracklist={() => generateTracklist({
-          projectType: project.project_type || 'album',
-          genre: project.genre || undefined,
-          mood: project.mood || undefined,
-          theme: project.concept || undefined,
-          trackCount: 10,
-        })}
+        onGenerateTracklist={() =>
+          generateTracklist({
+            projectType: project.project_type || "album",
+            genre: project.genre || undefined,
+            mood: project.mood || undefined,
+            theme: project.concept || undefined,
+            trackCount: 10,
+          })
+        }
         onOpenAI={() => dialogs.setAiDialogOpen(true)}
         onShare={handlers.handleShare}
       />
@@ -237,21 +243,18 @@ export default function ProjectDetail() {
       {/* Tabs: Tracks and Lyrics */}
       <Tabs defaultValue="tracks" className="w-full">
         <div className={cn(isMobile ? "px-3 pt-2" : "px-4 pt-2")}>
-          <TabsList className={cn(
-            "w-full grid grid-cols-2 bg-muted/50",
-            isMobile ? "h-10" : "h-9"
-          )}>
-            <TabsTrigger value="tracks" className={cn(
-              "gap-1.5 data-[state=active]:bg-background",
-              isMobile && "text-sm"
-            )}>
+          <TabsList className={cn("w-full grid grid-cols-2 bg-muted/50", isMobile ? "h-10" : "h-9")}>
+            <TabsTrigger
+              value="tracks"
+              className={cn("gap-1.5 data-[state=active]:bg-background", isMobile && "text-sm")}
+            >
               <Music className="w-4 h-4" />
               Треки
             </TabsTrigger>
-            <TabsTrigger value="text" className={cn(
-              "gap-1.5 data-[state=active]:bg-background",
-              isMobile && "text-sm"
-            )}>
+            <TabsTrigger
+              value="text"
+              className={cn("gap-1.5 data-[state=active]:bg-background", isMobile && "text-sm")}
+            >
               <FileText className="w-4 h-4" />
               Тексты
             </TabsTrigger>
@@ -270,13 +273,15 @@ export default function ProjectDetail() {
             onOpenLyrics={handlers.handleOpenLyrics}
             onOpenLyricsWizard={dialogs.openLyricsWizard}
             onAddTrack={() => dialogs.setAddTrackOpen(true)}
-            onGenerateTracklist={() => generateTracklist({
-              projectType: project.project_type || 'album',
-              genre: project.genre || undefined,
-              mood: project.mood || undefined,
-              theme: project.concept || undefined,
-              trackCount: 10,
-            })}
+            onGenerateTracklist={() =>
+              generateTracklist({
+                projectType: project.project_type || "album",
+                genre: project.genre || undefined,
+                mood: project.mood || undefined,
+                theme: project.concept || undefined,
+                trackCount: 10,
+              })
+            }
           />
         </TabsContent>
 
@@ -305,41 +310,69 @@ export default function ProjectDetail() {
 // ============ Sub-components ============
 
 interface ProjectHeroSectionProps {
-  project: NonNullable<ReturnType<typeof useProjectDetailData>['project']>;
+  project: NonNullable<ReturnType<typeof useProjectDetailData>["project"]>;
   isMobile: boolean;
   onNavigateBack: () => void;
   onOpenSettings: () => void;
   onOpenMediaGenerator: () => void;
 }
 
-function ProjectHeroSection({ 
-  project, isMobile, onNavigateBack, onOpenSettings, onOpenMediaGenerator 
+function ProjectHeroSection({
+  project,
+  isMobile,
+  onNavigateBack,
+  onOpenSettings,
+  onOpenMediaGenerator,
 }: ProjectHeroSectionProps) {
   if (isMobile) {
     return (
       <div className="relative">
         <div className="relative w-full aspect-[3/2]">
           {project.cover_url ? (
-            <img loading="lazy" decoding="async" src={project.cover_url} alt={project.title} className="w-full h-full object-cover" />
+            <img
+              loading="lazy"
+              decoding="async"
+              src={project.cover_url}
+              alt={project.title}
+              className="w-full h-full object-cover"
+            />
           ) : (
             <div className="w-full h-full bg-gradient-to-br from-primary/30 via-secondary to-muted flex items-center justify-center">
               <Music className="w-14 h-14 text-muted-foreground/40" />
             </div>
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
-          
-          <div 
+
+          <div
             className="absolute top-0 left-0 right-0 flex items-center justify-between px-3 z-10"
-            style={{ paddingTop: 'calc(var(--tg-safe-area-inset-top, 44px) + var(--tg-content-safe-area-inset-top, 0px) + 0.5rem)' }}
+            style={{
+              paddingTop:
+                "calc(var(--tg-safe-area-inset-top, 44px) + var(--tg-content-safe-area-inset-top, 0px) + 0.5rem)",
+            }}
           >
-            <Button variant="secondary" size="icon" onClick={onNavigateBack} className="h-9 w-9 bg-background/70 backdrop-blur-md border-0 shadow-lg">
+            <Button
+              variant="secondary"
+              size="icon"
+              onClick={onNavigateBack}
+              className="h-9 w-9 bg-background/70 backdrop-blur-md border-0 shadow-lg"
+            >
               <ArrowLeft className="w-4 h-4" />
             </Button>
             <div className="flex gap-1.5">
-              <Button variant="secondary" size="icon" onClick={onOpenMediaGenerator} className="h-9 w-9 bg-background/70 backdrop-blur-md border-0 shadow-lg">
+              <Button
+                variant="secondary"
+                size="icon"
+                onClick={onOpenMediaGenerator}
+                className="h-9 w-9 bg-background/70 backdrop-blur-md border-0 shadow-lg"
+              >
                 <Image className="w-4 h-4" />
               </Button>
-              <Button variant="secondary" size="icon" onClick={onOpenSettings} className="h-9 w-9 bg-background/70 backdrop-blur-md border-0 shadow-lg">
+              <Button
+                variant="secondary"
+                size="icon"
+                onClick={onOpenSettings}
+                className="h-9 w-9 bg-background/70 backdrop-blur-md border-0 shadow-lg"
+              >
                 <Settings className="w-4 h-4" />
               </Button>
             </div>
@@ -351,20 +384,23 @@ function ProjectHeroSection({
 
   return (
     <>
-      <div 
+      <div
         className="absolute inset-0 h-32 bg-gradient-to-b from-primary/10 to-background"
         style={{
           backgroundImage: project.cover_url ? `url(${project.cover_url})` : undefined,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          filter: 'blur(40px)',
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          filter: "blur(40px)",
           opacity: 0.4,
         }}
       />
-      
-      <div 
+
+      <div
         className="relative sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border/30 px-4 pb-3"
-        style={{ paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.5rem), calc(env(safe-area-inset-top, 0px) + 0.5rem))' }}
+        style={{
+          paddingTop:
+            "max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.5rem), calc(env(safe-area-inset-top, 0px) + 0.5rem))",
+        }}
       >
         <div className="flex items-center justify-between">
           <Button variant="ghost" size="icon" onClick={onNavigateBack} className="h-8 w-8">
@@ -381,7 +417,13 @@ function ProjectHeroSection({
         <div className="relative group">
           <div className="w-44 h-44 rounded-xl overflow-hidden shadow-xl bg-gradient-to-br from-secondary to-muted ring-1 ring-white/10 transition-transform group-hover:scale-[1.02]">
             {project.cover_url ? (
-              <img loading="lazy" decoding="async" src={project.cover_url} alt={project.title} className="w-full h-full object-cover" />
+              <img
+                loading="lazy"
+                decoding="async"
+                src={project.cover_url}
+                alt={project.title}
+                className="w-full h-full object-cover"
+              />
             ) : (
               <div className="w-full h-full flex items-center justify-center">
                 <Music className="w-12 h-12 text-muted-foreground/40" />
@@ -403,7 +445,7 @@ function ProjectHeroSection({
 }
 
 interface ProjectMetaSectionProps {
-  project: NonNullable<ReturnType<typeof useProjectDetailData>['project']>;
+  project: NonNullable<ReturnType<typeof useProjectDetailData>["project"]>;
   isMobile: boolean;
   completedTracks: number;
   totalTracks: number;
@@ -416,16 +458,27 @@ interface ProjectMetaSectionProps {
 }
 
 function ProjectMetaSection({
-  project, isMobile, completedTracks, totalTracks, isPublished,
-  descriptionExpanded, projectInfoExpanded, onToggleDescription, onToggleProjectInfo, onOpenSettings
+  project,
+  isMobile,
+  completedTracks,
+  totalTracks,
+  isPublished,
+  descriptionExpanded,
+  projectInfoExpanded,
+  onToggleDescription,
+  onToggleProjectInfo,
+  onOpenSettings,
 }: ProjectMetaSectionProps) {
   return (
     <div className={cn("text-center space-y-1.5", isMobile ? "px-4 -mt-6 relative z-10" : "pt-2")}>
       {isMobile && <h1 className="text-xl font-bold text-foreground mb-1">{project.title}</h1>}
-      
+
       <div className={cn("flex items-center gap-1.5", isMobile ? "justify-center flex-wrap" : "justify-center")}>
         {project.genre && (
-          <Badge variant="secondary" className="gap-0.5 text-[10px] h-5 px-2 shrink-0 bg-primary/10 text-primary border-0">
+          <Badge
+            variant="secondary"
+            className="gap-0.5 text-[10px] h-5 px-2 shrink-0 bg-primary/10 text-primary border-0"
+          >
             <Music className="w-2.5 h-2.5" />
             {project.genre}
           </Badge>
@@ -440,7 +493,7 @@ function ProjectMetaSection({
           </Badge>
         )}
       </div>
-      
+
       {project.description && (
         <div className="max-w-sm mx-auto cursor-pointer group" onClick={onToggleDescription}>
           <p className={cn("text-xs text-muted-foreground transition-all", !descriptionExpanded && "line-clamp-2")}>
@@ -448,7 +501,7 @@ function ProjectMetaSection({
           </p>
           {project.description.length > 100 && (
             <span className="text-[10px] text-primary/70 group-hover:text-primary transition-colors">
-              {descriptionExpanded ? 'Свернуть' : 'Читать полностью'}
+              {descriptionExpanded ? "Свернуть" : "Читать полностью"}
             </span>
           )}
         </div>
@@ -462,9 +515,19 @@ function ProjectMetaSection({
             onClick={onToggleProjectInfo}
             className="w-full h-7 text-xs text-muted-foreground hover:text-foreground gap-1"
           >
-            {projectInfoExpanded ? <><ChevronUp className="w-3 h-3" />Скрыть детали</> : <><ChevronDown className="w-3 h-3" />Показать детали</>}
+            {projectInfoExpanded ? (
+              <>
+                <ChevronUp className="w-3 h-3" />
+                Скрыть детали
+              </>
+            ) : (
+              <>
+                <ChevronDown className="w-3 h-3" />
+                Показать детали
+              </>
+            )}
           </Button>
-          
+
           {projectInfoExpanded && (
             <div className="mt-2 animate-in slide-in-from-top-2 duration-200">
               <ProjectDetailsCard project={project} onEdit={onOpenSettings} />
@@ -477,7 +540,7 @@ function ProjectMetaSection({
 }
 
 interface QuickActionsBarProps {
-  project: NonNullable<ReturnType<typeof useProjectDetailData>['project']>;
+  project: NonNullable<ReturnType<typeof useProjectDetailData>["project"]>;
   isMobile: boolean;
   isGenerating: boolean;
   totalTracks: number;
@@ -488,7 +551,17 @@ interface QuickActionsBarProps {
   onShare: () => void;
 }
 
-function QuickActionsBar({ project, isMobile, isGenerating, totalTracks, tracksWithMaster, onAddTrack, onGenerateTracklist, onOpenAI, onShare }: QuickActionsBarProps) {
+function QuickActionsBar({
+  project,
+  isMobile,
+  isGenerating,
+  totalTracks,
+  tracksWithMaster,
+  onAddTrack,
+  onGenerateTracklist,
+  onOpenAI,
+  onShare,
+}: QuickActionsBarProps) {
   // Mobile: use 2x2 icon grid
   if (isMobile) {
     return (
@@ -511,7 +584,13 @@ function QuickActionsBar({ project, isMobile, isGenerating, totalTracks, tracksW
           <Plus className="w-3.5 h-3.5" />
           Трек
         </Button>
-        <Button variant="outline" size="sm" onClick={onGenerateTracklist} disabled={isGenerating} className="gap-1.5 shrink-0 h-7 px-3 text-xs">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={onGenerateTracklist}
+          disabled={isGenerating}
+          className="gap-1.5 shrink-0 h-7 px-3 text-xs"
+        >
           <Sparkles className="w-3.5 h-3.5" />
           AI треклист
         </Button>
@@ -519,8 +598,15 @@ function QuickActionsBar({ project, isMobile, isGenerating, totalTracks, tracksW
           <Sparkles className="w-3.5 h-3.5" />
           AI
         </Button>
-        <ShareProjectCard 
-          project={{ id: project.id, title: project.title, cover_url: project.cover_url, genre: project.genre, total_tracks_count: totalTracks, approved_tracks_count: tracksWithMaster }}
+        <ShareProjectCard
+          project={{
+            id: project.id,
+            title: project.title,
+            cover_url: project.cover_url,
+            genre: project.genre,
+            total_tracks_count: totalTracks,
+            approved_tracks_count: tracksWithMaster,
+          }}
           variant="button"
           className="gap-1.5 shrink-0 h-7 px-3 text-xs"
         />
@@ -531,7 +617,7 @@ function QuickActionsBar({ project, isMobile, isGenerating, totalTracks, tracksW
 
 interface TracksTabContentProps {
   projectId: string;
-  tracks: ReturnType<typeof useProjectDetailData>['tracks'];
+  tracks: ReturnType<typeof useProjectDetailData>["tracks"];
   tracksLoading: boolean;
   isGenerating: boolean;
   isMobile: boolean;
@@ -543,7 +629,19 @@ interface TracksTabContentProps {
   onGenerateTracklist: () => void;
 }
 
-function TracksTabContent({ projectId, tracks, tracksLoading, isGenerating, isMobile, onDragEnd, onGenerate, onOpenLyrics, onOpenLyricsWizard, onAddTrack, onGenerateTracklist }: TracksTabContentProps) {
+function TracksTabContent({
+  projectId,
+  tracks,
+  tracksLoading,
+  isGenerating,
+  isMobile,
+  onDragEnd,
+  onGenerate,
+  onOpenLyrics,
+  onOpenLyricsWizard,
+  onAddTrack,
+  onGenerateTracklist,
+}: TracksTabContentProps) {
   return (
     <div className={cn(isMobile ? "px-3" : "px-4")}>
       {tracksLoading ? (
@@ -581,12 +679,18 @@ function TracksTabContent({ projectId, tracks, tracksLoading, isGenerating, isMo
           <Music className="w-12 h-12 text-muted-foreground/50 mx-auto mb-3" />
           <p className="text-muted-foreground mb-4">Треклист пуст</p>
           <div className="flex flex-col gap-2 max-w-xs mx-auto">
-            <Button onClick={onAddTrack} className="gap-2"><Plus className="w-4 h-4" />Добавить трек</Button>
-            <Button variant="outline" onClick={onGenerateTracklist} disabled={isGenerating} className="gap-2"><Sparkles className="w-4 h-4" />Сгенерировать AI</Button>
+            <Button onClick={onAddTrack} className="gap-2">
+              <Plus className="w-4 h-4" />
+              Добавить трек
+            </Button>
+            <Button variant="outline" onClick={onGenerateTracklist} disabled={isGenerating} className="gap-2">
+              <Sparkles className="w-4 h-4" />
+              Сгенерировать AI
+            </Button>
           </div>
         </div>
       )}
-      
+
       {tracks && tracks.length > 0 && (
         <div className="mt-4">
           <UnlinkedTracksSection projectId={projectId} projectTracks={tracks} />
@@ -597,8 +701,8 @@ function TracksTabContent({ projectId, tracks, tracksLoading, isGenerating, isMo
 }
 
 interface ProjectDialogsProps {
-  project: NonNullable<ReturnType<typeof useProjectDetailData>['project']>;
-  tracks: ReturnType<typeof useProjectDetailData>['tracks'];
+  project: NonNullable<ReturnType<typeof useProjectDetailData>["project"]>;
+  tracks: ReturnType<typeof useProjectDetailData>["tracks"];
   dialogs: ReturnType<typeof useProjectDetailDialogs>;
   handlers: ReturnType<typeof useProjectDetailHandlers>;
   queryClient: ReturnType<typeof useQueryClient>;
@@ -613,12 +717,8 @@ function ProjectDialogs({ project, tracks, dialogs, handlers, queryClient }: Pro
         projectId={project.id}
         onApply={handlers.handleApplyUpdates}
       />
-      
-      <ProjectSettingsSheet
-        open={dialogs.settingsOpen}
-        onOpenChange={dialogs.setSettingsOpen}
-        project={project}
-      />
+
+      <ProjectSettingsSheet open={dialogs.settingsOpen} onOpenChange={dialogs.setSettingsOpen} project={project} />
 
       <AddTrackDialog
         open={dialogs.addTrackOpen}
@@ -639,7 +739,7 @@ function ProjectDialogs({ project, tracks, dialogs, handlers, queryClient }: Pro
           projectTitle: project.title,
           genre: project.genre || undefined,
           mood: project.mood || undefined,
-          language: project.language as 'ru' | 'en' | undefined,
+          language: project.language as "ru" | "en" | undefined,
           concept: project.concept || undefined,
         }}
       />
@@ -650,16 +750,16 @@ function ProjectDialogs({ project, tracks, dialogs, handlers, queryClient }: Pro
         onLyricsGenerated={(lyrics) => handlers.handleLyricsGenerated(lyrics, dialogs.selectedTrackForLyrics?.id)}
         initialGenre={project.genre || undefined}
         initialMood={project.mood ? [project.mood] : undefined}
-        initialLanguage={project.language as 'ru' | 'en' | undefined}
+        initialLanguage={project.language as "ru" | "en" | undefined}
         projectContext={{
           projectId: project.id,
           projectTitle: project.title,
           genre: project.genre || undefined,
           mood: project.mood || undefined,
-          language: project.language as 'ru' | 'en' | undefined,
+          language: project.language as "ru" | "en" | undefined,
           concept: project.concept || undefined,
           targetAudience: project.target_audience || undefined,
-          existingTracks: tracks?.map(t => ({
+          existingTracks: tracks?.map((t) => ({
             position: t.position,
             title: t.title,
             stylePrompt: t.style_prompt || undefined,
@@ -669,21 +769,30 @@ function ProjectDialogs({ project, tracks, dialogs, handlers, queryClient }: Pro
             recommendedStructure: t.recommended_structure || undefined,
             notes: t.notes || undefined,
             lyrics: t.lyrics || undefined,
-            lyricsStatus: t.lyrics_status as 'draft' | 'prompt' | 'generated' | 'approved' | undefined,
+            lyricsStatus: t.lyrics_status as "draft" | "prompt" | "generated" | "approved" | undefined,
           })),
         }}
-        trackContext={dialogs.selectedTrackForLyrics ? {
-          position: dialogs.selectedTrackForLyrics.position,
-          title: dialogs.selectedTrackForLyrics.title,
-          stylePrompt: dialogs.selectedTrackForLyrics.style_prompt || undefined,
-          draftLyrics: dialogs.selectedTrackForLyrics.lyrics || undefined,
-          generatedLyrics: dialogs.selectedTrackForLyrics.linked_track?.lyrics || undefined,
-          recommendedTags: dialogs.selectedTrackForLyrics.recommended_tags || undefined,
-          recommendedStructure: dialogs.selectedTrackForLyrics.recommended_structure || undefined,
-          notes: dialogs.selectedTrackForLyrics.notes || undefined,
-          lyrics: dialogs.selectedTrackForLyrics.lyrics || undefined,
-          lyricsStatus: dialogs.selectedTrackForLyrics.lyrics_status as 'draft' | 'prompt' | 'generated' | 'approved' | undefined,
-        } : undefined}
+        trackContext={
+          dialogs.selectedTrackForLyrics
+            ? {
+                position: dialogs.selectedTrackForLyrics.position,
+                title: dialogs.selectedTrackForLyrics.title,
+                stylePrompt: dialogs.selectedTrackForLyrics.style_prompt || undefined,
+                draftLyrics: dialogs.selectedTrackForLyrics.lyrics || undefined,
+                generatedLyrics: dialogs.selectedTrackForLyrics.linked_track?.lyrics || undefined,
+                recommendedTags: dialogs.selectedTrackForLyrics.recommended_tags || undefined,
+                recommendedStructure: dialogs.selectedTrackForLyrics.recommended_structure || undefined,
+                notes: dialogs.selectedTrackForLyrics.notes || undefined,
+                lyrics: dialogs.selectedTrackForLyrics.lyrics || undefined,
+                lyricsStatus: dialogs.selectedTrackForLyrics.lyrics_status as
+                  | "draft"
+                  | "prompt"
+                  | "generated"
+                  | "approved"
+                  | undefined,
+              }
+            : undefined
+        }
       />
 
       <ProjectMediaGenerator
@@ -697,13 +806,17 @@ function ProjectDialogs({ project, tracks, dialogs, handlers, queryClient }: Pro
           concept: project.concept,
           cover_url: project.cover_url,
         }}
-        track={dialogs.selectedTrackForMedia ? {
-          id: dialogs.selectedTrackForMedia.id,
-          title: dialogs.selectedTrackForMedia.title,
-          style_prompt: dialogs.selectedTrackForMedia.style_prompt,
-          notes: dialogs.selectedTrackForMedia.notes,
-        } : null}
-        onCoverGenerated={() => queryClient.invalidateQueries({ queryKey: ['projects'] })}
+        track={
+          dialogs.selectedTrackForMedia
+            ? {
+                id: dialogs.selectedTrackForMedia.id,
+                title: dialogs.selectedTrackForMedia.title,
+                style_prompt: dialogs.selectedTrackForMedia.style_prompt,
+                notes: dialogs.selectedTrackForMedia.notes,
+              }
+            : null
+        }
+        onCoverGenerated={() => queryClient.invalidateQueries({ queryKey: ["projects"] })}
       />
 
       <PublishProjectDialog

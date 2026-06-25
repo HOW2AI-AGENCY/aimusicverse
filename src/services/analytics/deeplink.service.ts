@@ -3,19 +3,22 @@
  * Handles deeplink tracking and conversion
  */
 
-import * as analyticsApi from '@/api/analytics.api';
-import { getOrCreateSessionId, getCurrentSessionId } from './session.service';
+import * as analyticsApi from "@/api/analytics.api";
+import { getOrCreateSessionId, getCurrentSessionId } from "./session.service";
 
 /**
  * Track a deeplink visit
  */
-export async function trackDeeplink(params: {
-  deeplinkType: string;
-  deeplinkValue?: string;
-  source?: string;
-  campaign?: string;
-  metadata?: Record<string, unknown>;
-}, userId?: string): Promise<void> {
+export async function trackDeeplink(
+  params: {
+    deeplinkType: string;
+    deeplinkValue?: string;
+    source?: string;
+    campaign?: string;
+    metadata?: Record<string, unknown>;
+  },
+  userId?: string,
+): Promise<void> {
   await analyticsApi.trackDeeplinkVisit({
     ...params,
     sessionId: getOrCreateSessionId(),
@@ -37,7 +40,7 @@ export async function markConversion(conversionType: string): Promise<void> {
 /**
  * Fetch deeplink statistics
  */
-export async function fetchDeeplinkStats(timePeriod: string = '7 days') {
+export async function fetchDeeplinkStats(timePeriod: string = "7 days") {
   return analyticsApi.fetchDeeplinkStats(timePeriod);
 }
 

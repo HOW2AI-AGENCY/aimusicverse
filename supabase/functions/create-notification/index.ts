@@ -2,17 +2,30 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { getSupabaseClient } from "../_shared/supabase-client.ts";
 import { authorize } from "../_shared/auth.ts";
 
-
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
 interface NotificationPayload {
   userId: string;
   title: string;
   message: string;
-  type: 'info' | 'success' | 'warning' | 'error' | 'generation' | 'project' | 'social' | 'achievement' | 'system' | 'video_ready' | 'video_failed' | 'stems_ready' | 'track_generated' | 'section_replaced';
+  type:
+    | "info"
+    | "success"
+    | "warning"
+    | "error"
+    | "generation"
+    | "project"
+    | "social"
+    | "achievement"
+    | "system"
+    | "video_ready"
+    | "video_failed"
+    | "stems_ready"
+    | "track_generated"
+    | "section_replaced";
   actionUrl?: string;
   metadata?: Record<string, any>;
   groupKey?: string;
@@ -21,7 +34,7 @@ interface NotificationPayload {
 }
 
 serve(async (req) => {
-  if (req.method === 'OPTIONS') {
+  if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
@@ -32,7 +45,7 @@ serve(async (req) => {
     if (!auth.ok) {
       return new Response(JSON.stringify({ error: auth.error }), {
         status: auth.status,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
@@ -45,13 +58,12 @@ serve(async (req) => {
       const callerId = auth.user!.id;
       const foreign = notifications.find((n) => n.userId && n.userId !== callerId);
       if (foreign) {
-        return new Response(JSON.stringify({ error: 'Forbidden: cannot create notifications for other users' }), {
+        return new Response(JSON.stringify({ error: "Forbidden: cannot create notifications for other users" }), {
           status: 403,
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
     }
-
 
     console.log(`Creating ${notifications.length} notification(s)`);
 
@@ -61,19 +73,17 @@ serve(async (req) => {
       const { userId, title, message, type, actionUrl, metadata, groupKey, expiresInMinutes, priority } = notification;
 
       if (!userId || !title || !message || !type) {
-        results.push({ error: 'Missing required fields', notification });
+        results.push({ error: "Missing required fields", notification });
         continue;
       }
 
       // Calculate expires_at if expiresInMinutes provided
-      const expiresAt = expiresInMinutes 
-        ? new Date(Date.now() + expiresInMinutes * 60 * 1000).toISOString()
-        : null;
+      const expiresAt = expiresInMinutes ? new Date(Date.now() + expiresInMinutes * 60 * 1000).toISOString() : null;
 
       // If groupKey is provided, use upsert logic (replace existing notification with same group_key)
       if (groupKey) {
         // Try to use the upsert_notification RPC if available
-        const { data, error } = await supabase.rpc('upsert_notification', {
+        const { data, error } = await supabase.rpc("upsert_notification", {
           p_user_id: userId,
           p_title: title,
           p_message: message,
@@ -86,10 +96,10 @@ serve(async (req) => {
         });
 
         if (error) {
-          console.error('Error upserting notification:', error);
+          console.error("Error upserting notification:", error);
           // Fallback to regular insert
           const { data: insertData, error: insertError } = await supabase
-            .from('notifications')
+            .from("notifications")
             .insert({
               user_id: userId,
               title,
@@ -108,16 +118,16 @@ serve(async (req) => {
           if (insertError) {
             results.push({ error: insertError.message, notification });
           } else {
-            results.push({ success: true, id: insertData.id, method: 'insert' });
+            results.push({ success: true, id: insertData.id, method: "insert" });
           }
         } else {
           console.log(`Notification upserted for user ${userId}: ${title}`);
-          results.push({ success: true, id: data, method: 'upsert' });
+          results.push({ success: true, id: data, method: "upsert" });
         }
       } else {
         // Regular insert without groupKey
         const { data, error } = await supabase
-          .from('notifications')
+          .from("notifications")
           .insert({
             user_id: userId,
             title,
@@ -133,7 +143,7 @@ serve(async (req) => {
           .single();
 
         if (error) {
-          console.error('Error creating notification:', error);
+          console.error("Error creating notification:", error);
           results.push({ error: error.message, notification });
         } else {
           console.log(`Notification created for user ${userId}: ${title}`);
@@ -143,20 +153,19 @@ serve(async (req) => {
     }
 
     return new Response(
-      JSON.stringify({ 
-        success: true, 
-        created: results.filter(r => r.success).length,
-        failed: results.filter(r => r.error).length,
-        results 
+      JSON.stringify({
+        success: true,
+        created: results.filter((r) => r.success).length,
+        failed: results.filter((r) => r.error).length,
+        results,
       }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
-
   } catch (error: any) {
-    console.error('Error in create-notification:', error);
-    return new Response(
-      JSON.stringify({ error: error.message }),
-      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-    );
+    console.error("Error in create-notification:", error);
+    return new Response(JSON.stringify({ error: error.message }), {
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 });

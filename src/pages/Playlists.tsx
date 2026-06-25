@@ -1,26 +1,26 @@
-import { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { Plus, Music2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { usePlaylists } from '@/hooks/usePlaylists';
-import { PlaylistCard } from '@/components/playlist/PlaylistCard';
-import { PlaylistDetailPreview } from '@/components/playlist/PlaylistDetailPreview';
-import { SEOHead } from '@/components/SEOHead';
-import { CreatePlaylistDialog } from '@/components/playlist/CreatePlaylistDialog';
-import { EditPlaylistDialog } from '@/components/playlist/EditPlaylistDialog';
-import { SharePlaylistDialog } from '@/components/playlist/SharePlaylistDialog';
-import { DesktopMasterDetailLayout } from '@/components/layout/desktop';
-import type { Playlist } from '@/hooks/usePlaylists';
-import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
-import { UnifiedEmptyState } from '@/components/ui/unified-empty-state';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { cn } from '@/lib/utils';
+import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { Plus, Music2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { usePlaylists } from "@/hooks/usePlaylists";
+import { PlaylistCard } from "@/components/playlist/PlaylistCard";
+import { PlaylistDetailPreview } from "@/components/playlist/PlaylistDetailPreview";
+import { SEOHead } from "@/components/SEOHead";
+import { CreatePlaylistDialog } from "@/components/playlist/CreatePlaylistDialog";
+import { EditPlaylistDialog } from "@/components/playlist/EditPlaylistDialog";
+import { SharePlaylistDialog } from "@/components/playlist/SharePlaylistDialog";
+import { DesktopMasterDetailLayout } from "@/components/layout/desktop";
+import type { Playlist } from "@/hooks/usePlaylists";
+import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
+import { UnifiedEmptyState } from "@/components/ui/unified-empty-state";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
 
 export default function Playlists() {
   // Telegram BackButton
   useTelegramBackButton({
     visible: true,
-    fallbackPath: '/',
+    fallbackPath: "/",
   });
 
   const [searchParams] = useSearchParams();
@@ -56,12 +56,12 @@ export default function Playlists() {
         <h1 className="text-xl lg:text-2xl font-bold">Плейлисты</h1>
         {playlists.length > 0 && (
           <p className="text-xs lg:text-sm text-muted-foreground mt-0.5">
-            {playlists.length} {playlists.length === 1 ? 'плейлист' : playlists.length < 5 ? 'плейлиста' : 'плейлистов'}
+            {playlists.length} {playlists.length === 1 ? "плейлист" : playlists.length < 5 ? "плейлиста" : "плейлистов"}
           </p>
         )}
       </div>
-      <Button 
-        size="sm" 
+      <Button
+        size="sm"
         onClick={() => setCreateDialogOpen(true)}
         className="lg:h-10 lg:px-4 lg:text-sm hover:scale-[1.02] active:scale-[0.98] transition-transform"
       >
@@ -83,11 +83,7 @@ export default function Playlists() {
       ))}
     </div>
   ) : playlists.length === 0 ? (
-    <UnifiedEmptyState
-      type="playlists"
-      actionLabel="Создать плейлист"
-      onAction={() => setCreateDialogOpen(true)}
-    />
+    <UnifiedEmptyState type="playlists" actionLabel="Создать плейлист" onAction={() => setCreateDialogOpen(true)} />
   ) : (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4">
       {playlists.map((playlist) => (
@@ -95,9 +91,9 @@ export default function Playlists() {
           key={playlist.id}
           className={cn(
             "transition-all duration-200",
-            !isMobile && selectedPlaylist?.id === playlist.id 
-              ? 'ring-2 ring-primary rounded-xl shadow-lg scale-[1.01]' 
-              : 'hover:scale-[1.01] hover:shadow-md'
+            !isMobile && selectedPlaylist?.id === playlist.id
+              ? "ring-2 ring-primary rounded-xl shadow-lg scale-[1.01]"
+              : "hover:scale-[1.01] hover:shadow-md",
           )}
         >
           <PlaylistCard
@@ -122,10 +118,7 @@ export default function Playlists() {
   // Dialogs
   const Dialogs = (
     <>
-      <CreatePlaylistDialog
-        open={createDialogOpen}
-        onOpenChange={setCreateDialogOpen}
-      />
+      <CreatePlaylistDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
 
       <EditPlaylistDialog
         playlist={editingPlaylist}
@@ -164,9 +157,7 @@ export default function Playlists() {
           emptyDetailState={
             <div className="text-center space-y-2">
               <Music2 className="h-12 w-12 mx-auto text-muted-foreground/50" />
-              <p className="text-muted-foreground">
-                Выберите плейлист для просмотра
-              </p>
+              <p className="text-muted-foreground">Выберите плейлист для просмотра</p>
             </div>
           }
           ratio="default"
@@ -185,17 +176,18 @@ export default function Playlists() {
         canonical="https://aimusicverse.lovable.app/playlists"
       />
       {/* Header */}
-      <div 
+      <div
         className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border px-4 pb-3"
-        style={{ paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.5rem), calc(env(safe-area-inset-top, 0px) + 0.5rem))' }}
+        style={{
+          paddingTop:
+            "max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.5rem), calc(env(safe-area-inset-top, 0px) + 0.5rem))",
+        }}
       >
         {Header}
       </div>
 
       {/* Content */}
-      <div className="p-4">
-        {PlaylistsContent}
-      </div>
+      <div className="p-4">{PlaylistsContent}</div>
 
       {Dialogs}
     </div>

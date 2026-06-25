@@ -1,14 +1,14 @@
 /**
  * Motion Variants for Framer Motion
  * Feature: 032-professional-ui
- * 
+ *
  * Reusable animation variants for consistent motion design
  * All variants respect prefers-reduced-motion
- * 
+ *
  * Usage:
  * import { motion } from '@/lib/motion';
  * import { fadeIn, scaleIn } from '@/lib/motion-variants';
- * 
+ *
  * <motion.div
  *   variants={scaleIn}
  *   initial="initial"
@@ -17,7 +17,7 @@
  * />
  */
 
-import type { Variants } from '@/lib/motion';
+import type { Variants } from "@/lib/motion";
 
 // Timing constants (matching CSS animations)
 export const timing = {
@@ -32,41 +32,41 @@ export const timing = {
 
 export const fadeIn: Variants = {
   initial: { opacity: 0 },
-  animate: { 
+  animate: {
     opacity: 1,
-    transition: { duration: timing.standard, ease: 'easeOut' }
+    transition: { duration: timing.standard, ease: "easeOut" },
   },
-  exit: { 
+  exit: {
     opacity: 0,
-    transition: { duration: timing.fast }
+    transition: { duration: timing.fast },
   },
 };
 
 export const fadeInUp: Variants = {
   initial: { opacity: 0, y: 20 },
-  animate: { 
-    opacity: 1, 
+  animate: {
+    opacity: 1,
     y: 0,
-    transition: { duration: timing.standard, ease: 'easeOut' }
+    transition: { duration: timing.standard, ease: "easeOut" },
   },
-  exit: { 
-    opacity: 0, 
+  exit: {
+    opacity: 0,
     y: 20,
-    transition: { duration: timing.fast }
+    transition: { duration: timing.fast },
   },
 };
 
 export const fadeInDown: Variants = {
   initial: { opacity: 0, y: -20 },
-  animate: { 
-    opacity: 1, 
+  animate: {
+    opacity: 1,
     y: 0,
-    transition: { duration: timing.standard, ease: 'easeOut' }
+    transition: { duration: timing.standard, ease: "easeOut" },
   },
-  exit: { 
-    opacity: 0, 
+  exit: {
+    opacity: 0,
     y: -20,
-    transition: { duration: timing.fast }
+    transition: { duration: timing.fast },
   },
 };
 
@@ -76,29 +76,29 @@ export const fadeInDown: Variants = {
 
 export const scaleIn: Variants = {
   initial: { opacity: 0, scale: 0.95 },
-  animate: { 
-    opacity: 1, 
+  animate: {
+    opacity: 1,
     scale: 1,
-    transition: { duration: timing.fast, ease: 'easeOut' }
+    transition: { duration: timing.fast, ease: "easeOut" },
   },
-  exit: { 
-    opacity: 0, 
+  exit: {
+    opacity: 0,
     scale: 0.95,
-    transition: { duration: timing.fast }
+    transition: { duration: timing.fast },
   },
 };
 
 export const scaleUp: Variants = {
   initial: { opacity: 0, scale: 0.9 },
-  animate: { 
-    opacity: 1, 
+  animate: {
+    opacity: 1,
     scale: 1,
-    transition: { duration: timing.standard, ease: 'easeOut' }
+    transition: { duration: timing.standard, ease: "easeOut" },
   },
-  exit: { 
-    opacity: 0, 
+  exit: {
+    opacity: 0,
     scale: 0.9,
-    transition: { duration: timing.fast }
+    transition: { duration: timing.fast },
   },
 };
 
@@ -107,50 +107,50 @@ export const scaleUp: Variants = {
 // ============================================================================
 
 export const slideUp: Variants = {
-  initial: { y: '100%' },
-  animate: { 
+  initial: { y: "100%" },
+  animate: {
     y: 0,
-    transition: { duration: timing.standard, ease: [0.32, 0.72, 0, 1] }
+    transition: { duration: timing.standard, ease: [0.32, 0.72, 0, 1] },
   },
-  exit: { 
-    y: '100%',
-    transition: { duration: timing.standard, ease: [0.32, 0.72, 0, 1] }
+  exit: {
+    y: "100%",
+    transition: { duration: timing.standard, ease: [0.32, 0.72, 0, 1] },
   },
 };
 
 export const slideDown: Variants = {
-  initial: { y: '-100%' },
-  animate: { 
+  initial: { y: "-100%" },
+  animate: {
     y: 0,
-    transition: { duration: timing.standard, ease: [0.32, 0.72, 0, 1] }
+    transition: { duration: timing.standard, ease: [0.32, 0.72, 0, 1] },
   },
-  exit: { 
-    y: '-100%',
-    transition: { duration: timing.standard, ease: [0.32, 0.72, 0, 1] }
+  exit: {
+    y: "-100%",
+    transition: { duration: timing.standard, ease: [0.32, 0.72, 0, 1] },
   },
 };
 
 export const slideLeft: Variants = {
-  initial: { x: '100%' },
-  animate: { 
+  initial: { x: "100%" },
+  animate: {
     x: 0,
-    transition: { duration: timing.standard, ease: [0.32, 0.72, 0, 1] }
+    transition: { duration: timing.standard, ease: [0.32, 0.72, 0, 1] },
   },
-  exit: { 
-    x: '100%',
-    transition: { duration: timing.standard, ease: [0.32, 0.72, 0, 1] }
+  exit: {
+    x: "100%",
+    transition: { duration: timing.standard, ease: [0.32, 0.72, 0, 1] },
   },
 };
 
 export const slideRight: Variants = {
-  initial: { x: '-100%' },
-  animate: { 
+  initial: { x: "-100%" },
+  animate: {
     x: 0,
-    transition: { duration: timing.standard, ease: [0.32, 0.72, 0, 1] }
+    transition: { duration: timing.standard, ease: [0.32, 0.72, 0, 1] },
   },
-  exit: { 
-    x: '-100%',
-    transition: { duration: timing.standard, ease: [0.32, 0.72, 0, 1] }
+  exit: {
+    x: "-100%",
+    transition: { duration: timing.standard, ease: [0.32, 0.72, 0, 1] },
   },
 };
 
@@ -185,15 +185,15 @@ export const staggerContainer: Variants = {
 
 export const staggerItem: Variants = {
   initial: { opacity: 0, y: 10 },
-  animate: { 
-    opacity: 1, 
+  animate: {
+    opacity: 1,
     y: 0,
-    transition: { duration: timing.standard, ease: 'easeOut' }
+    transition: { duration: timing.standard, ease: "easeOut" },
   },
-  exit: { 
-    opacity: 0, 
+  exit: {
+    opacity: 0,
     y: 10,
-    transition: { duration: timing.fast }
+    transition: { duration: timing.fast },
   },
 };
 
@@ -203,39 +203,39 @@ export const staggerItem: Variants = {
 
 export const modalOverlay: Variants = {
   initial: { opacity: 0 },
-  animate: { 
+  animate: {
     opacity: 1,
-    transition: { duration: timing.fast }
+    transition: { duration: timing.fast },
   },
-  exit: { 
+  exit: {
     opacity: 0,
-    transition: { duration: timing.fast }
+    transition: { duration: timing.fast },
   },
 };
 
 export const modalContent: Variants = {
   initial: { opacity: 0, scale: 0.95 },
-  animate: { 
-    opacity: 1, 
+  animate: {
+    opacity: 1,
     scale: 1,
-    transition: { duration: timing.standard, ease: 'easeOut' }
+    transition: { duration: timing.standard, ease: "easeOut" },
   },
-  exit: { 
-    opacity: 0, 
+  exit: {
+    opacity: 0,
     scale: 0.95,
-    transition: { duration: timing.fast }
+    transition: { duration: timing.fast },
   },
 };
 
 export const bottomSheet: Variants = {
-  initial: { y: '100%' },
-  animate: { 
+  initial: { y: "100%" },
+  animate: {
     y: 0,
-    transition: { type: 'spring', damping: 25, stiffness: 200 }
+    transition: { type: "spring", damping: 25, stiffness: 200 },
   },
-  exit: { 
-    y: '100%',
-    transition: { type: 'spring', damping: 25, stiffness: 200 }
+  exit: {
+    y: "100%",
+    transition: { type: "spring", damping: 25, stiffness: 200 },
   },
 };
 
@@ -246,9 +246,9 @@ export const bottomSheet: Variants = {
 const reducedMotion: Variants = {
   initial: { opacity: 1 },
   animate: { opacity: 1 },
-  exit: { 
+  exit: {
     opacity: 0,
-    transition: { duration: 0.01 }
+    transition: { duration: 0.01 },
   },
 };
 
@@ -267,25 +267,25 @@ export const variants = {
   fadeIn,
   fadeInUp,
   fadeInDown,
-  
+
   // Scale
   scaleIn,
   scaleUp,
-  
+
   // Slide
   slideUp,
   slideDown,
   slideLeft,
   slideRight,
-  
+
   // Interaction
   press,
   hover,
-  
+
   // Stagger
   staggerContainer,
   staggerItem,
-  
+
   // Modal/Sheet
   modalOverlay,
   modalContent,

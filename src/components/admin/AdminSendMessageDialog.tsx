@@ -28,11 +28,11 @@ interface AdminSendMessageDialogProps {
   onClearSelection: () => void;
 }
 
-export function AdminSendMessageDialog({ 
-  open, 
-  onOpenChange, 
+export function AdminSendMessageDialog({
+  open,
+  onOpenChange,
   selectedUsers,
-  onClearSelection
+  onClearSelection,
 }: AdminSendMessageDialogProps) {
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
@@ -108,11 +108,7 @@ export function AdminSendMessageDialog({
 
           <div className="space-y-2">
             <Label>Заголовок (опционально)</Label>
-            <Input
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="📢 Важное объявление"
-            />
+            <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="📢 Важное объявление" />
           </div>
 
           <div className="space-y-2">
@@ -130,10 +126,7 @@ export function AdminSendMessageDialog({
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             Отмена
           </Button>
-          <Button 
-            onClick={handleSubmit} 
-            disabled={isLoading || !message.trim() || selectedUsers.length === 0}
-          >
+          <Button onClick={handleSubmit} disabled={isLoading || !message.trim() || selectedUsers.length === 0}>
             {isLoading ? (
               "Отправка..."
             ) : (

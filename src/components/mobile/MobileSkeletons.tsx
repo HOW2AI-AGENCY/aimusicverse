@@ -7,8 +7,8 @@
  * @module mobile/skeletons
  */
 
-import { Skeleton } from '@/components/ui/skeleton';
-import { cn } from '@/lib/utils';
+import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
 
 /**
  * Mobile Track Card Skeleton - Optimized for mobile grid
@@ -41,10 +41,7 @@ export function MobileTrackCardSkeleton({ className }: { className?: string }) {
  */
 export function MobileTrackListSkeleton({ className }: { className?: string }) {
   return (
-    <div className={cn(
-      "flex items-center gap-3 p-2.5 min-h-[56px] animate-in fade-in-50 duration-300",
-      className
-    )}>
+    <div className={cn("flex items-center gap-3 p-2.5 min-h-[56px] animate-in fade-in-50 duration-300", className)}>
       {/* Thumbnail */}
       <Skeleton className="w-12 h-12 rounded-lg flex-shrink-0" />
 
@@ -92,10 +89,12 @@ export function MobileSectionSkeleton({ className }: { className?: string }) {
  */
 export function MobileHeroSkeleton({ className }: { className?: string }) {
   return (
-    <div className={cn(
-      "rounded-2xl bg-gradient-to-br from-primary/10 to-background p-5 animate-in fade-in-50 duration-300",
-      className
-    )}>
+    <div
+      className={cn(
+        "rounded-2xl bg-gradient-to-br from-primary/10 to-background p-5 animate-in fade-in-50 duration-300",
+        className,
+      )}
+    >
       <div className="flex flex-col items-center gap-3 text-center">
         <Skeleton className="h-5 w-40" />
         <Skeleton className="h-7 w-56" />
@@ -127,10 +126,7 @@ export function MobileListSkeleton({ count = 5, className }: { count?: number; c
  */
 export function MobileGridSkeleton({ count = 4, className }: { count?: number; className?: string }) {
   return (
-    <div className={cn(
-      "grid grid-cols-2 gap-3 animate-in fade-in-50 duration-300",
-      className
-    )}>
+    <div className={cn("grid grid-cols-2 gap-3 animate-in fade-in-50 duration-300", className)}>
       {Array.from({ length: count }).map((_, i) => (
         <MobileTrackCardSkeleton key={i} />
       ))}
@@ -143,10 +139,12 @@ export function MobileGridSkeleton({ count = 4, className }: { count?: number; c
  */
 export function MobileStudioTrackSkeleton({ className }: { className?: string }) {
   return (
-    <div className={cn(
-      "flex items-center gap-3 p-3 min-h-[60px] rounded-lg border border-border/30 bg-card/50 animate-in fade-in-50 duration-300",
-      className
-    )}>
+    <div
+      className={cn(
+        "flex items-center gap-3 p-3 min-h-[60px] rounded-lg border border-border/30 bg-card/50 animate-in fade-in-50 duration-300",
+        className,
+      )}
+    >
       {/* Track icon */}
       <Skeleton className="w-10 h-10 rounded-lg flex-shrink-0" />
 
@@ -224,10 +222,7 @@ export function MobileFormSkeleton({ fieldCount = 3, className }: { fieldCount?:
  */
 export function MobileStatsSkeleton({ className }: { className?: string }) {
   return (
-    <div className={cn(
-      "grid grid-cols-3 gap-2 p-3 rounded-xl border animate-in fade-in-50 duration-300",
-      className
-    )}>
+    <div className={cn("grid grid-cols-3 gap-2 p-3 rounded-xl border animate-in fade-in-50 duration-300", className)}>
       {Array.from({ length: 3 }).map((_, i) => (
         <div key={i} className="text-center space-y-1.5">
           <Skeleton className="h-7 w-14 mx-auto" />

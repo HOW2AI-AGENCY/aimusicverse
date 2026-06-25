@@ -1,20 +1,15 @@
 /**
  * Stem Audio Engine Hook
- * 
+ *
  * Manages Web Audio API nodes for stem processing with effects chain:
  * Source → Gain → EQ (Low/Mid/High) → Compressor → Convolver (Reverb) → Master
  */
 
-import { useRef, useCallback, useEffect, useState } from 'react';
-import { logger } from '@/lib/logger';
+import { useRef, useCallback, useEffect, useState } from "react";
+import { logger } from "@/lib/logger";
 
 // Re-export types and presets from config (to maintain backwards compatibility)
-export type {
-  EQSettings,
-  CompressorSettings,
-  ReverbSettings,
-  StemEffects,
-} from './stemEffectsConfig';
+export type { EQSettings, CompressorSettings, ReverbSettings, StemEffects } from "./stemEffectsConfig";
 
 export {
   defaultEQSettings,
@@ -24,7 +19,7 @@ export {
   eqPresets,
   compressorPresets,
   reverbPresets,
-} from './stemEffectsConfig';
+} from "./stemEffectsConfig";
 
 // Import for internal use
 import {
@@ -39,13 +34,13 @@ import {
   eqPresets,
   compressorPresets,
   reverbPresets,
-} from './stemEffectsConfig';
+} from "./stemEffectsConfig";
 
 // Shared AudioContext singleton
 let sharedAudioContext: AudioContext | null = null;
 
 function getAudioContext(): AudioContext {
-  if (!sharedAudioContext || sharedAudioContext.state === 'closed') {
+  if (!sharedAudioContext || sharedAudioContext.state === "closed") {
     sharedAudioContext = new AudioContext();
   }
   return sharedAudioContext;
@@ -65,22 +60,18 @@ interface AudioNodes {
 }
 
 // Generate impulse response for reverb
-function createImpulseResponse(
-  audioContext: AudioContext,
-  duration: number,
-  decay: number
-): AudioBuffer {
+function createImpulseResponse(audioContext: AudioContext, duration: number, decay: number): AudioBuffer {
   const sampleRate = audioContext.sampleRate;
   const length = sampleRate * duration;
   const impulse = audioContext.createBuffer(2, length, sampleRate);
-  
+
   for (let channel = 0; channel < 2; channel++) {
     const channelData = impulse.getChannelData(channel);
     for (let i = 0; i < length; i++) {
       channelData[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, decay);
     }
   }
-  
+
   return impulse;
 }
 
@@ -101,21 +92,21 @@ export function useStemAudioEngine(stemId: string, audioElement: HTMLAudioElemen
       // Create nodes
       const source = ctx.createMediaElementSource(audioElement);
       const gainNode = ctx.createGain();
-      
+
       // EQ: Low shelf, Mid peaking, High shelf
       const lowEQ = ctx.createBiquadFilter();
-      lowEQ.type = 'lowshelf';
+      lowEQ.type = "lowshelf";
       lowEQ.frequency.value = defaultEQSettings.lowFreq;
       lowEQ.gain.value = 0;
 
       const midEQ = ctx.createBiquadFilter();
-      midEQ.type = 'peaking';
+      midEQ.type = "peaking";
       midEQ.frequency.value = 1000;
       midEQ.Q.value = 1;
       midEQ.gain.value = 0;
 
       const highEQ = ctx.createBiquadFilter();
-      highEQ.type = 'highshelf';
+      highEQ.type = "highshelf";
       highEQ.frequency.value = defaultEQSettings.highFreq;
       highEQ.gain.value = 0;
 
@@ -132,7 +123,7 @@ export function useStemAudioEngine(stemId: string, audioElement: HTMLAudioElemen
       const wetGain = ctx.createGain();
       const convolver = ctx.createConvolver();
       convolver.buffer = createImpulseResponse(ctx, 3, defaultReverbSettings.decay);
-      
+
       dryGain.gain.value = 1;
       wetGain.gain.value = 0;
 
@@ -145,15 +136,15 @@ export function useStemAudioEngine(stemId: string, audioElement: HTMLAudioElemen
       lowEQ.connect(midEQ);
       midEQ.connect(highEQ);
       highEQ.connect(compressor);
-      
+
       // Parallel dry/wet for reverb
       compressor.connect(dryGain);
       compressor.connect(convolver);
       convolver.connect(wetGain);
-      
+
       dryGain.connect(masterGain);
       wetGain.connect(masterGain);
-      
+
       masterGain.connect(ctx.destination);
 
       nodesRef.current = {
@@ -170,17 +161,17 @@ export function useStemAudioEngine(stemId: string, audioElement: HTMLAudioElemen
       };
 
       setIsInitialized(true);
-      logger.info('Audio engine initialized', { stemId });
+      logger.info("Audio engine initialized", { stemId });
     } catch (error) {
-      logger.error('Failed to initialize audio engine', { stemId, error });
+      logger.error("Failed to initialize audio engine", { stemId, error });
     }
   }, [audioElement, stemId]);
 
   // Update EQ
   const updateEQ = useCallback((settings: Partial<EQSettings>) => {
-    setEffects(prev => ({
+    setEffects((prev) => ({
       ...prev,
-      eq: { ...prev.eq, ...settings }
+      eq: { ...prev.eq, ...settings },
     }));
 
     const nodes = nodesRef.current;
@@ -205,9 +196,9 @@ export function useStemAudioEngine(stemId: string, audioElement: HTMLAudioElemen
 
   // Update Compressor
   const updateCompressor = useCallback((settings: Partial<CompressorSettings>) => {
-    setEffects(prev => ({
+    setEffects((prev) => ({
       ...prev,
-      compressor: { ...prev.compressor, ...settings }
+      compressor: { ...prev.compressor, ...settings },
     }));
 
     const nodes = nodesRef.current;
@@ -235,9 +226,9 @@ export function useStemAudioEngine(stemId: string, audioElement: HTMLAudioElemen
 
   // Update Reverb
   const updateReverb = useCallback((settings: Partial<ReverbSettings>) => {
-    setEffects(prev => ({
+    setEffects((prev) => ({
       ...prev,
-      reverb: { ...prev.reverb, ...settings }
+      reverb: { ...prev.reverb, ...settings },
     }));
 
     const nodes = nodesRef.current;
@@ -269,26 +260,35 @@ export function useStemAudioEngine(stemId: string, audioElement: HTMLAudioElemen
   }, []);
 
   // Apply preset
-  const applyEQPreset = useCallback((presetName: keyof typeof eqPresets) => {
-    const preset = eqPresets[presetName];
-    if (preset) {
-      updateEQ(preset);
-    }
-  }, [updateEQ]);
+  const applyEQPreset = useCallback(
+    (presetName: keyof typeof eqPresets) => {
+      const preset = eqPresets[presetName];
+      if (preset) {
+        updateEQ(preset);
+      }
+    },
+    [updateEQ],
+  );
 
-  const applyCompressorPreset = useCallback((presetName: keyof typeof compressorPresets) => {
-    const preset = compressorPresets[presetName];
-    if (preset) {
-      updateCompressor(preset);
-    }
-  }, [updateCompressor]);
+  const applyCompressorPreset = useCallback(
+    (presetName: keyof typeof compressorPresets) => {
+      const preset = compressorPresets[presetName];
+      if (preset) {
+        updateCompressor(preset);
+      }
+    },
+    [updateCompressor],
+  );
 
-  const applyReverbPreset = useCallback((presetName: keyof typeof reverbPresets) => {
-    const preset = reverbPresets[presetName];
-    if (preset) {
-      updateReverb(preset);
-    }
-  }, [updateReverb]);
+  const applyReverbPreset = useCallback(
+    (presetName: keyof typeof reverbPresets) => {
+      const preset = reverbPresets[presetName];
+      if (preset) {
+        updateReverb(preset);
+      }
+    },
+    [updateReverb],
+  );
 
   // Reset all effects
   const resetEffects = useCallback(() => {
@@ -307,7 +307,7 @@ export function useStemAudioEngine(stemId: string, audioElement: HTMLAudioElemen
   // Resume audio context (needed for user gesture)
   const resumeContext = useCallback(async () => {
     const ctx = contextRef.current;
-    if (ctx && ctx.state === 'suspended') {
+    if (ctx && ctx.state === "suspended") {
       await ctx.resume();
     }
   }, []);

@@ -1,6 +1,6 @@
 /**
  * Broadcast Hooks
- * 
+ *
  * Hooks for sending broadcast notifications and managing templates
  */
 
@@ -29,7 +29,7 @@ interface BroadcastTemplate {
 
 export function useBroadcastNotification() {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: async (data: BroadcastData) => {
       const { data: result, error } = await supabase.functions.invoke("broadcast-notification", {
@@ -42,7 +42,7 @@ export function useBroadcastNotification() {
     onSuccess: (result) => {
       toast.success(`Отправлено: ${result.sentCount}, ошибок: ${result.failedCount}`);
       if (result.templateSaved) {
-        queryClient.invalidateQueries({ queryKey: ['broadcast-templates'] });
+        queryClient.invalidateQueries({ queryKey: ["broadcast-templates"] });
         toast.success(`Шаблон "${result.templateSaved}" сохранён`);
       }
     },
@@ -54,13 +54,13 @@ export function useBroadcastNotification() {
 
 export function useBroadcastTemplates() {
   return useQuery({
-    queryKey: ['broadcast-templates'],
+    queryKey: ["broadcast-templates"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('broadcast_templates')
-        .select('*')
-        .order('created_at', { ascending: false });
-      
+        .from("broadcast_templates")
+        .select("*")
+        .order("created_at", { ascending: false });
+
       if (error) throw error;
       return data as BroadcastTemplate[];
     },
@@ -69,11 +69,11 @@ export function useBroadcastTemplates() {
 
 export function useSaveBroadcastTemplate() {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: async (data: { name: string; title: string; message: string; imageUrl?: string }) => {
       const { data: result, error } = await supabase
-        .from('broadcast_templates')
+        .from("broadcast_templates")
         .insert({
           name: data.name,
           title: data.title,
@@ -82,38 +82,35 @@ export function useSaveBroadcastTemplate() {
         })
         .select()
         .single();
-      
+
       if (error) throw error;
       return result;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['broadcast-templates'] });
-      toast.success('Шаблон сохранён');
+      queryClient.invalidateQueries({ queryKey: ["broadcast-templates"] });
+      toast.success("Шаблон сохранён");
     },
     onError: (error) => {
-      toast.error('Ошибка сохранения: ' + error.message);
+      toast.error("Ошибка сохранения: " + error.message);
     },
   });
 }
 
 export function useDeleteBroadcastTemplate() {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase
-        .from('broadcast_templates')
-        .delete()
-        .eq('id', id);
-      
+      const { error } = await supabase.from("broadcast_templates").delete().eq("id", id);
+
       if (error) throw error;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['broadcast-templates'] });
-      toast.success('Шаблон удалён');
+      queryClient.invalidateQueries({ queryKey: ["broadcast-templates"] });
+      toast.success("Шаблон удалён");
     },
     onError: (error) => {
-      toast.error('Ошибка удаления: ' + error.message);
+      toast.error("Ошибка удаления: " + error.message);
     },
   });
 }

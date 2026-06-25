@@ -17,14 +17,14 @@
 
 ### Ключевые метрики
 
-| Метрика | Текущее | Цель Q2 | Цель Q3 |
-|---------|---------|---------|---------|
-| Успешность генераций | 88% | 92% | 95% |
-| Bundle size | ~950KB | <800KB | <750KB |
-| Scroll FPS | ~45 | >55 | >60 |
-| Re-renders (100 items) | ~300 | <120 | <80 |
-| Time to Interactive | 4.5s | <3.5s | <2.8s |
-| TypeScript coverage | 85% | 95% | 100% |
+| Метрика                | Текущее | Цель Q2 | Цель Q3 |
+| ---------------------- | ------- | ------- | ------- |
+| Успешность генераций   | 88%     | 92%     | 95%     |
+| Bundle size            | ~950KB  | <800KB  | <750KB  |
+| Scroll FPS             | ~45     | >55     | >60     |
+| Re-renders (100 items) | ~300    | <120    | <80     |
+| Time to Interactive    | 4.5s    | <3.5s   | <2.8s   |
+| TypeScript coverage    | 85%     | 95%     | 100%    |
 
 ---
 
@@ -37,23 +37,23 @@ graph TB
         A2 --> A3[Timeout Protection]
         A3 --> A4[Error Recovery]
     end
-    
+
     subgraph "Sprint B: Performance"
         B1[Bundle Split] --> B2[Lazy Loading]
         B2 --> B3[React.memo]
         B3 --> B4[Virtual Scroll]
     end
-    
+
     subgraph "Sprint C: Features"
         C1[Platform APIs] --> C2[OAuth Flows]
         C2 --> C3[Export Pipeline]
     end
-    
+
     subgraph "Sprint D: Monitoring"
         D1[Metrics] --> D2[Alerting]
         D2 --> D3[Dashboard]
     end
-    
+
     A4 --> B1
     B4 --> C1
     C3 --> D1
@@ -78,6 +78,7 @@ graph TB
 **Файл**: `supabase/functions/suno-music-generate/index.ts`
 
 **Реализовано**:
+
 - ✅ Exponential backoff retry (1s → 2s → 4s, max 8s)
 - ✅ Model fallback chain: V5 → V4_5PLUS → V4_5 → V4 → V3_5
 - ✅ 30-second timeout via AbortSignal.timeout()
@@ -86,6 +87,7 @@ graph TB
 - ✅ Metadata logging (fallback_used, retry_count)
 
 **Ожидаемый эффект**:
+
 ```
 Success Rate: 88% → 91-93%
 Failed Requests: 12% → 7-9%
@@ -93,9 +95,10 @@ Retry Success: 0% → 40-50%
 ```
 
 **Мониторинг**:
+
 ```sql
 -- Проверка распределения статусов
-SELECT 
+SELECT
   response_status,
   COUNT(*) as count,
   ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER(), 2) as percentage
@@ -107,7 +110,7 @@ GROUP BY response_status
 ORDER BY count DESC;
 
 -- Анализ retry-паттернов
-SELECT 
+SELECT
   (request_body->>'attempt')::int as attempt,
   COUNT(*) as count,
   ROUND(AVG(duration_ms), 2) as avg_duration
@@ -123,6 +126,7 @@ ORDER BY attempt;
 **Статус**: Заблокирован npm bug на Windows (см. npm issue #4828)
 
 **План**:
+
 - [ ] Анализ через `rollup-plugin-visualizer` → `dist/stats.html`
 - [ ] Динамические импорты для редких фич
 - [ ] Tree-shaking audit для Framer Motion
@@ -134,6 +138,7 @@ ORDER BY attempt;
 #### F1.3: TypeScript Strict Mode ⏳ Planned
 
 **План**:
+
 ```bash
 # 1. Аудит текущих проблем
 npx tsc --noEmit --strict 2>&1 | tee ts-errors.log
@@ -167,14 +172,15 @@ npx tsc --noEmit --strict 2>&1 | tee ts-errors.log
 
 **Компоненты для оптимизации**:
 
-| Компонент | Текущее | Оптимизация | Ожидаемый эффект |
-|-----------|---------|-------------|------------------|
-| PlaylistTrackItem | ❌ Не memoized | React.memo + custom comparison | -40% re-renders |
-| LyricsLine | ❌ Не memoized | useMemo для sync calculations | -25% CPU |
-| TrackCard | ✅ Memoized | Улучшить comparison fn | -10% re-renders |
-| OptimizedMixerChannel | ✅ Memoized | Добавить useMemo для vol calculations | -15% CPU |
+| Компонент             | Текущее        | Оптимизация                           | Ожидаемый эффект |
+| --------------------- | -------------- | ------------------------------------- | ---------------- |
+| PlaylistTrackItem     | ❌ Не memoized | React.memo + custom comparison        | -40% re-renders  |
+| LyricsLine            | ❌ Не memoized | useMemo для sync calculations         | -25% CPU         |
+| TrackCard             | ✅ Memoized    | Улучшить comparison fn                | -10% re-renders  |
+| OptimizedMixerChannel | ✅ Memoized    | Добавить useMemo для vol calculations | -15% CPU         |
 
 **Пример оптимизации**:
+
 ```tsx
 // PlaylistTrackItem.tsx
 export const PlaylistTrackItem = memo(
@@ -183,11 +189,9 @@ export const PlaylistTrackItem = memo(
   },
   (prev, next) => {
     return (
-      prev.track.id === next.track.id &&
-      prev.isPlaying === next.isPlaying &&
-      prev.track.title === next.track.title
+      prev.track.id === next.track.id && prev.isPlaying === next.isPlaying && prev.track.title === next.track.title
     );
-  }
+  },
 );
 ```
 
@@ -196,6 +200,7 @@ export const PlaylistTrackItem = memo(
 **Приоритет**: P1
 
 **Задачи**:
+
 - [ ] Аудит N+1 queries в Supabase
 - [ ] Добавление индексов:
   ```sql
@@ -205,9 +210,10 @@ export const PlaylistTrackItem = memo(
   CREATE INDEX idx_api_usage_logs_service_endpoint ON api_usage_logs(service, endpoint, created_at);
   ```
 - [ ] Connection pooling review
-- [ ] Selective field queries (избегать SELECT *)
+- [ ] Selective field queries (избегать SELECT \*)
 
 **Ожидаемый эффект**:
+
 - Query time: -30-50%
 - DB load: -40%
 
@@ -216,19 +222,21 @@ export const PlaylistTrackItem = memo(
 **Приоритет**: P2
 
 **Задачи**:
+
 - [ ] Service Worker для offline-first experience
 - [ ] stale-while-revalidate стратегия для track metadata
 - [ ] CDN интеграция для generated assets (Cloudflare R2 / Supabase Storage)
 - [ ] Prefetching стратегии для популярных страниц
 
 **Инфраструктура**:
+
 ```typescript
 // lib/cache-strategy.ts
 export const CACHE_STRATEGIES = {
-  TRACK_METADATA: 'stale-while-revalidate',
-  AUDIO_FILES: 'cache-first',
-  API_RESPONSES: 'network-first',
-  IMAGES: 'cache-first',
+  TRACK_METADATA: "stale-while-revalidate",
+  AUDIO_FILES: "cache-first",
+  API_RESPONSES: "network-first",
+  IMAGES: "cache-first",
 } as const;
 ```
 
@@ -250,6 +258,7 @@ export const CACHE_STRATEGIES = {
 **Цель**: Экспорт треков на Spotify, Apple Music, YouTube, SoundCloud
 
 **Технический план**:
+
 ```
 OAuth 2.0 Flow:
 1. User authorizes via Telegram OAuth
@@ -260,6 +269,7 @@ OAuth 2.0 Flow:
 ```
 
 **Архитектура**:
+
 ```typescript
 // services/platforms/base.ts
 interface PlatformIntegration {
@@ -276,6 +286,7 @@ class AppleMusicIntegration implements PlatformIntegration { ... }
 ```
 
 **Дорожная карта**:
+
 - [ ] Исследование API (Spotify for Developers, Apple Music API)
 - [ ] OAuth 2.0 flows implementation
 - [ ] Metadata mapping (Suno → platform formats)
@@ -287,6 +298,7 @@ class AppleMusicIntegration implements PlatformIntegration { ... }
 **Цель**: RESTful API для third-party integrations
 
 **Эндпоинты**:
+
 ```yaml
 /api/v1/generate:
   post: Создание новой генерации
@@ -305,6 +317,7 @@ class AppleMusicIntegration implements PlatformIntegration { ... }
 ```
 
 **Компоненты**:
+
 - [ ] API key management (Supabase table + UI)
 - [ ] Rate limiting middleware (edge function)
 - [ ] Webhook system (event-driven)
@@ -316,6 +329,7 @@ class AppleMusicIntegration implements PlatformIntegration { ... }
 **Цель**: Улучшение визуальной иерархии и micro-interactions
 
 **Фокусы**:
+
 - [ ] Enhanced visual hierarchy review
 - [ ] Animation polish (Framer Motion)
 - [ ] Loading states improvements
@@ -339,6 +353,7 @@ class AppleMusicIntegration implements PlatformIntegration { ... }
 #### F4.1: Business Metrics Dashboard
 
 **Компоненты**:
+
 - [ ] Real-time generation success rate
 - [ ] User funnel analytics
 - [ ] Revenue metrics (credits, subscriptions)
@@ -346,6 +361,7 @@ class AppleMusicIntegration implements PlatformIntegration { ... }
 - [ ] Geographic distribution
 
 **Технологии**:
+
 - Supabase Realtime для live metrics
 - Custom dashboard в Admin page
 - Grafana для advanced аналитики (optional)
@@ -353,28 +369,30 @@ class AppleMusicIntegration implements PlatformIntegration { ... }
 #### F4.2: Alerting System
 
 **Настройка Sentry алертов**:
+
 ```typescript
 // lib/monitoring/alerts.ts
 export const ALERT_RULES = {
   GENERATION_FAILURE_RATE: {
     threshold: 0.15, // 15%
-    window: '15m',
-    action: 'notify_admin',
+    window: "15m",
+    action: "notify_admin",
   },
   API_RESPONSE_TIME: {
     threshold: 5000, // 5s
-    window: '5m',
-    action: 'page_on_call',
+    window: "5m",
+    action: "page_on_call",
   },
   BUNDLE_SIZE: {
     threshold: 900000, // 900KB
-    window: '1h',
-    action: 'create_ticket',
+    window: "1h",
+    action: "create_ticket",
   },
 } as const;
 ```
 
 **Каналы уведомлений**:
+
 - Telegram Bot (admin group)
 - Email (SMTP via Supabase)
 - Sentry issues
@@ -385,35 +403,35 @@ export const ALERT_RULES = {
 
 ### Sprint A
 
-| Критерий | Цель | Метод проверки |
-|----------|------|----------------|
-| Generation success rate | >92% | api_usage_logs + Sentry |
-| Bundle size | <850KB | npm run size |
-| TypeScript coverage | 95% | tsc --noEmit --strict |
+| Критерий                | Цель   | Метод проверки          |
+| ----------------------- | ------ | ----------------------- |
+| Generation success rate | >92%   | api_usage_logs + Sentry |
+| Bundle size             | <850KB | npm run size            |
+| TypeScript coverage     | 95%    | tsc --noEmit --strict   |
 
 ### Sprint B
 
-| Критерий | Цель | Метод проверки |
-|----------|------|----------------|
-| Scroll FPS | >55 | React DevTools Profiler |
-| Re-renders (100 items) | <120 | why-did-you-render |
-| Time to Interactive | <3.5s | Lighthouse CI |
+| Критерий               | Цель  | Метод проверки          |
+| ---------------------- | ----- | ----------------------- |
+| Scroll FPS             | >55   | React DevTools Profiler |
+| Re-renders (100 items) | <120  | why-did-you-render      |
+| Time to Interactive    | <3.5s | Lighthouse CI           |
 
 ### Sprint C
 
-| Критерий | Цель | Метод проверки |
-|----------|------|----------------|
-| Platform exports | 3+ platforms | Manual testing |
-| API endpoints | 10+ endpoints | Integration tests |
-| UI polish | 0 accessibility issues | axe-core |
+| Критерий         | Цель                   | Метод проверки    |
+| ---------------- | ---------------------- | ----------------- |
+| Platform exports | 3+ platforms           | Manual testing    |
+| API endpoints    | 10+ endpoints          | Integration tests |
+| UI polish        | 0 accessibility issues | axe-core          |
 
 ### Sprint D
 
-| Критерий | Цель | Метод проверки |
-|----------|------|----------------|
-| Dashboard coverage | 100% metrics | Manual review |
-| Alert accuracy | >95% precision | False positive rate |
-| Response time | <5min | On-call metrics |
+| Критерий           | Цель           | Метод проверки      |
+| ------------------ | -------------- | ------------------- |
+| Dashboard coverage | 100% metrics   | Manual review       |
+| Alert accuracy     | >95% precision | False positive rate |
+| Response time      | <5min          | On-call metrics     |
 
 ---
 
@@ -443,6 +461,7 @@ Key Milestones:
 ### Неделя 1-2: Sprint A
 
 #### Week 1
+
 - [x] **Day 1-2**: F1.1 — Generation reliability (COMPLETE)
   - Retry logic implementation
   - Model fallback chain
@@ -454,6 +473,7 @@ Key Milestones:
   - Identify heavy dependencies
 
 #### Week 2
+
 - [ ] **Day 6-8**: F1.2 & F1.3
   - Bundle optimization implementation
   - TypeScript strict mode audit
@@ -467,6 +487,7 @@ Key Milestones:
 ### Неделя 3-4: Sprint B
 
 #### Week 3
+
 - [ ] **Day 11-13**: F2.1 — Component optimization
   - PlaylistTrackItem memoization
   - LyricsLine optimization
@@ -477,6 +498,7 @@ Key Milestones:
   - Load testing
 
 #### Week 4
+
 - [ ] **Day 16-18**: F2.3 — Advanced caching
   - Service Worker setup
   - Caching strategies
@@ -489,6 +511,7 @@ Key Milestones:
 ### Неделя 5-8: Sprint C
 
 #### Week 5
+
 - [ ] Platform research
   - Spotify API review
   - Apple Music API review
@@ -496,11 +519,13 @@ Key Milestones:
 - [ ] OAuth 2.0 implementation
 
 #### Week 6-7
+
 - [ ] Export pipeline development
 - [ ] Metadata mapping
 - [ ] Platform-specific UI
 
 #### Week 8
+
 - [ ] Public API design
 - [ ] API key management
 - [ ] Rate limiting
@@ -508,11 +533,13 @@ Key Milestones:
 ### Неделя 9-10: Sprint D
 
 #### Week 9
+
 - [ ] Dashboard development
 - [ ] Metrics collection
 - [ ] Real-time subscriptions
 
 #### Week 10
+
 - [ ] Alerting setup
 - [ ] On-call runbooks
 - [ ] Documentation
@@ -523,16 +550,16 @@ Key Milestones:
 
 ### Инструменты
 
-| Категория | Инструмент | Назначение |
-|-----------|------------|------------|
-| **Bundle Analysis** | rollup-plugin-visualizer | Визуализация размера бандла |
-| **Performance** | React DevTools Profiler | Анализ re-renders |
-| **Type Checking** | TypeScript (strict mode) | Type safety |
-| **Linting** | ESLint + typescript-eslint | Code quality |
-| **Formatting** | Prettier | Consistent style |
-| **Testing** | Playwright + Vitest | Regression prevention |
-| **Monitoring** | Sentry + custom logging | Error tracking |
-| **Analytics** | api_usage_logs (Supabase) | Business metrics |
+| Категория           | Инструмент                 | Назначение                  |
+| ------------------- | -------------------------- | --------------------------- |
+| **Bundle Analysis** | rollup-plugin-visualizer   | Визуализация размера бандла |
+| **Performance**     | React DevTools Profiler    | Анализ re-renders           |
+| **Type Checking**   | TypeScript (strict mode)   | Type safety                 |
+| **Linting**         | ESLint + typescript-eslint | Code quality                |
+| **Formatting**      | Prettier                   | Consistent style            |
+| **Testing**         | Playwright + Vitest        | Regression prevention       |
+| **Monitoring**      | Sentry + custom logging    | Error tracking              |
+| **Analytics**       | api_usage_logs (Supabase)  | Business metrics            |
 
 ### Скрипты
 
@@ -560,6 +587,7 @@ npm run test:e2e           # E2E tests
 ### Definition of Done
 
 #### F1.1: Generation Reliability
+
 - [x] Retry logic implemented и протестирован
 - [x] Model fallback работает и логируется
 - [x] Timeout protection добавлен
@@ -567,6 +595,7 @@ npm run test:e2e           # E2E tests
 - [x] Success rate >92% (после production deployment)
 
 #### F1.2: Bundle Optimization
+
 - [ ] Bundle size <850KB (gzipped)
 - [ ] rollup-plugin-visualizer отчёт создан
 - [ ] Heavy dependencies вынесены в lazy chunks
@@ -574,6 +603,7 @@ npm run test:e2e           # E2E tests
 - [ ] Lighthouse performance score >90
 
 #### F1.3: TypeScript Strict Mode
+
 - [ ] `tsc --noEmit --strict` проходит без ошибок
 - [ ] Coverage 100% для:
   - `src/types/**/*.ts`
@@ -586,12 +616,12 @@ npm run test:e2e           # E2E tests
 
 ## 🚨 Риски иMitigation
 
-| Риск | Вероятность | Влияние | Mitigation |
-|------|-------------|---------|------------|
-| npm bug на Windows блокирует build | Высокая | Среднее | Использовать WSL или GitHub Codespaces |
-| Regression в генерации после изменений | Средняя | Высокое | Полное E2E покрытие, canary deployment |
-| Bundle size растёт с новыми фичами | Средняя | Среднее | Strict bundle budget, CI gates |
-| TypeScript strict mode много ошибок | Высокая | Среднее | Gradual adoption, eslint overrides |
+| Риск                                   | Вероятность | Влияние | Mitigation                             |
+| -------------------------------------- | ----------- | ------- | -------------------------------------- |
+| npm bug на Windows блокирует build     | Высокая     | Среднее | Использовать WSL или GitHub Codespaces |
+| Regression в генерации после изменений | Средняя     | Высокое | Полное E2E покрытие, canary deployment |
+| Bundle size растёт с новыми фичами     | Средняя     | Среднее | Strict bundle budget, CI gates         |
+| TypeScript strict mode много ошибок    | Высокая     | Среднее | Gradual adoption, eslint overrides     |
 
 ---
 
@@ -608,6 +638,7 @@ npm run test:e2e           # E2E tests
 ## 📝 Changelog
 
 ### v1.0 (2026-06-25)
+
 - Initial optimization plan
 - Sprint A F1.1 completed (generation reliability)
 - Documentation created

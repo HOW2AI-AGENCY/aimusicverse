@@ -3,28 +3,40 @@
  * Mobile-first design showing user's public tracks, projects, artists, playlists
  */
 
-import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import { motion } from '@/lib/motion';
-import { 
-  Settings, Music2, FolderOpen, Users, ListMusic, 
-  ChevronLeft, Share2, Heart, Play, Crown,
-  Instagram, Twitter, Youtube, Globe, ExternalLink
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Badge } from '@/components/ui/badge';
-import { Skeleton } from '@/components/ui/skeleton';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/hooks/useAuth';
-import { useTelegram } from '@/contexts/TelegramContext';
-import { useTelegramBackButton } from '@/hooks/telegram';
-import { UnifiedTrackCard } from '@/components/track/track-card-new';
-import { FollowButton } from '@/components/social/FollowButton';
-import { SEOHead } from '@/components/SEOHead';
-import { cn } from '@/lib/utils';
+import { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { motion } from "@/lib/motion";
+import {
+  Settings,
+  Music2,
+  FolderOpen,
+  Users,
+  ListMusic,
+  ChevronLeft,
+  Share2,
+  Heart,
+  Play,
+  Crown,
+  Instagram,
+  Twitter,
+  Youtube,
+  Globe,
+  ExternalLink,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
+import { useTelegram } from "@/contexts/TelegramContext";
+import { useTelegramBackButton } from "@/hooks/telegram";
+import { UnifiedTrackCard } from "@/components/track/track-card-new";
+import { FollowButton } from "@/components/social/FollowButton";
+import { SEOHead } from "@/components/SEOHead";
+import { cn } from "@/lib/utils";
 
 interface PublicProfile {
   user_id: string;
@@ -61,28 +73,30 @@ export default function PublicProfilePage() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { hapticFeedback } = useTelegram();
-  const [activeTab, setActiveTab] = useState('tracks');
+  const [activeTab, setActiveTab] = useState("tracks");
   const [showFullBio, setShowFullBio] = useState(false);
-  
+
   const isOwner = user?.id === userId;
 
   // Telegram BackButton - navigates back to home
   const { shouldShowUIButton: showUIBackButton } = useTelegramBackButton({
     visible: true,
-    fallbackPath: '/',
+    fallbackPath: "/",
   });
 
   // Fetch profile
   const { data: profile, isLoading: profileLoading } = useQuery({
-    queryKey: ['public-profile', userId],
+    queryKey: ["public-profile", userId],
     queryFn: async () => {
       if (!userId) return null;
       const { data, error } = await supabase
-        .from('profiles')
-        .select('user_id, first_name, last_name, username, photo_url, display_name, bio, banner_url, social_links, is_public, followers_count, following_count')
-        .eq('user_id', userId)
+        .from("profiles")
+        .select(
+          "user_id, first_name, last_name, username, photo_url, display_name, bio, banner_url, social_links, is_public, followers_count, following_count",
+        )
+        .eq("user_id", userId)
         .maybeSingle();
-      
+
       if (error) throw error;
       return data as PublicProfile | null;
     },
@@ -91,15 +105,27 @@ export default function PublicProfilePage() {
 
   // Fetch stats
   const { data: stats } = useQuery({
-    queryKey: ['profile-stats', userId],
+    queryKey: ["profile-stats", userId],
     queryFn: async () => {
       if (!userId) return null;
       const [tracksRes, projectsRes, playlistsRes, creditsRes, playsRes] = await Promise.all([
-        supabase.from('tracks').select('id', { count: 'exact', head: true }).eq('user_id', userId).eq('is_public', true),
-        supabase.from('music_projects').select('id', { count: 'exact', head: true }).eq('user_id', userId).eq('is_public', true),
-        supabase.from('playlists').select('id', { count: 'exact', head: true }).eq('user_id', userId).eq('is_public', true),
-        supabase.from('user_credits').select('total_likes_received').eq('user_id', userId).maybeSingle(),
-        supabase.from('tracks').select('play_count').eq('user_id', userId).eq('is_public', true),
+        supabase
+          .from("tracks")
+          .select("id", { count: "exact", head: true })
+          .eq("user_id", userId)
+          .eq("is_public", true),
+        supabase
+          .from("music_projects")
+          .select("id", { count: "exact", head: true })
+          .eq("user_id", userId)
+          .eq("is_public", true),
+        supabase
+          .from("playlists")
+          .select("id", { count: "exact", head: true })
+          .eq("user_id", userId)
+          .eq("is_public", true),
+        supabase.from("user_credits").select("total_likes_received").eq("user_id", userId).maybeSingle(),
+        supabase.from("tracks").select("play_count").eq("user_id", userId).eq("is_public", true),
       ]);
 
       const totalPlays = playsRes.data?.reduce((sum, t) => sum + (t.play_count || 0), 0) || 0;
@@ -117,83 +143,83 @@ export default function PublicProfilePage() {
 
   // Fetch public tracks
   const { data: tracks, isLoading: tracksLoading } = useQuery({
-    queryKey: ['public-tracks', userId],
+    queryKey: ["public-tracks", userId],
     queryFn: async () => {
       if (!userId) return [];
       const { data, error } = await supabase
-        .from('tracks')
-        .select('*')
-        .eq('user_id', userId)
-        .eq('is_public', true)
-        .eq('status', 'completed')
-        .order('created_at', { ascending: false })
+        .from("tracks")
+        .select("*")
+        .eq("user_id", userId)
+        .eq("is_public", true)
+        .eq("status", "completed")
+        .order("created_at", { ascending: false })
         .limit(50);
-      
+
       if (error) throw error;
       return data || [];
     },
-    enabled: !!userId && activeTab === 'tracks',
+    enabled: !!userId && activeTab === "tracks",
   });
 
   // Fetch public projects
   const { data: projects, isLoading: projectsLoading } = useQuery({
-    queryKey: ['public-projects', userId],
+    queryKey: ["public-projects", userId],
     queryFn: async () => {
       if (!userId) return [];
       const { data, error } = await supabase
-        .from('music_projects')
-        .select('*')
-        .eq('user_id', userId)
-        .eq('is_public', true)
-        .order('created_at', { ascending: false })
+        .from("music_projects")
+        .select("*")
+        .eq("user_id", userId)
+        .eq("is_public", true)
+        .order("created_at", { ascending: false })
         .limit(20);
-      
+
       if (error) throw error;
       return data || [];
     },
-    enabled: !!userId && activeTab === 'projects',
+    enabled: !!userId && activeTab === "projects",
   });
 
   // Fetch public artists
   const { data: artists, isLoading: artistsLoading } = useQuery({
-    queryKey: ['public-artists', userId],
+    queryKey: ["public-artists", userId],
     queryFn: async () => {
       if (!userId) return [];
       const { data, error } = await supabase
-        .from('artists')
-        .select('*')
-        .eq('user_id', userId)
-        .eq('is_public', true)
-        .order('created_at', { ascending: false })
+        .from("artists")
+        .select("*")
+        .eq("user_id", userId)
+        .eq("is_public", true)
+        .order("created_at", { ascending: false })
         .limit(20);
-      
+
       if (error) throw error;
       return data || [];
     },
-    enabled: !!userId && activeTab === 'artists',
+    enabled: !!userId && activeTab === "artists",
   });
 
   // Fetch public playlists
   const { data: playlists, isLoading: playlistsLoading } = useQuery({
-    queryKey: ['public-playlists', userId],
+    queryKey: ["public-playlists", userId],
     queryFn: async () => {
       if (!userId) return [];
       const { data, error } = await supabase
-        .from('playlists')
-        .select('*')
-        .eq('user_id', userId)
-        .eq('is_public', true)
-        .order('created_at', { ascending: false })
+        .from("playlists")
+        .select("*")
+        .eq("user_id", userId)
+        .eq("is_public", true)
+        .order("created_at", { ascending: false })
         .limit(20);
-      
+
       if (error) throw error;
       return data || [];
     },
-    enabled: !!userId && activeTab === 'playlists',
+    enabled: !!userId && activeTab === "playlists",
   });
 
   const handleShare = () => {
-    hapticFeedback?.('light');
+    hapticFeedback?.("light");
     if (navigator.share) {
       navigator.share({
         title: `${displayName} на MusicVerse`,
@@ -202,10 +228,11 @@ export default function PublicProfilePage() {
     }
   };
 
-  const displayName = profile?.display_name || 
-    [profile?.first_name, profile?.last_name].filter(Boolean).join(' ') || 
-    profile?.username || 
-    'Пользователь';
+  const displayName =
+    profile?.display_name ||
+    [profile?.first_name, profile?.last_name].filter(Boolean).join(" ") ||
+    profile?.username ||
+    "Пользователь";
 
   const socialLinks = profile?.social_links || {};
 
@@ -231,15 +258,15 @@ export default function PublicProfilePage() {
         <div className="text-center">
           <h2 className="text-xl font-bold mb-2">Профиль не найден</h2>
           <p className="text-muted-foreground mb-4">Пользователь не существует или профиль скрыт</p>
-          <Button onClick={() => navigate('/')}>На главную</Button>
+          <Button onClick={() => navigate("/")}>На главную</Button>
         </div>
       </div>
     );
   }
 
   const profileUrl = `https://aimusicverse.lovable.app/profile/${userId}`;
-  const profileDescription = profile.bio ||
-    `Профиль ${displayName} на MusicVerse AI — публичные треки, проекты и плейлисты.`;
+  const profileDescription =
+    profile.bio || `Профиль ${displayName} на MusicVerse AI — публичные треки, проекты и плейлисты.`;
 
   return (
     <div className="min-h-screen bg-background pb-24">
@@ -250,8 +277,8 @@ export default function PublicProfilePage() {
         ogType="article"
         ogImage={profile.photo_url || undefined}
         jsonLd={{
-          '@context': 'https://schema.org',
-          '@type': 'Person',
+          "@context": "https://schema.org",
+          "@type": "Person",
           name: displayName,
           description: profileDescription,
           url: profileUrl,
@@ -259,9 +286,12 @@ export default function PublicProfilePage() {
         }}
       />
       {/* Header */}
-      <div 
+      <div
         className="sticky top-0 z-30 backdrop-blur-md bg-background/80 border-b border-border/50"
-        style={{ paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.25rem), calc(env(safe-area-inset-top, 0px) + 0.25rem))' }}
+        style={{
+          paddingTop:
+            "max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.25rem), calc(env(safe-area-inset-top, 0px) + 0.25rem))",
+        }}
       >
         <div className="flex items-center justify-between px-4 py-2">
           {showUIBackButton ? (
@@ -277,7 +307,7 @@ export default function PublicProfilePage() {
               <Share2 className="w-5 h-5" />
             </Button>
             {isOwner && (
-              <Button variant="ghost" size="icon" onClick={() => navigate('/settings')}>
+              <Button variant="ghost" size="icon" onClick={() => navigate("/settings")}>
                 <Settings className="w-5 h-5" />
               </Button>
             )}
@@ -289,9 +319,11 @@ export default function PublicProfilePage() {
       <div className="relative">
         {profile.banner_url ? (
           <div className="h-32 sm:h-48 overflow-hidden">
-            <img loading="lazy" decoding="async" 
-              src={profile.banner_url} 
-              alt="Banner" 
+            <img
+              loading="lazy"
+              decoding="async"
+              src={profile.banner_url}
+              alt="Banner"
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
@@ -321,7 +353,7 @@ export default function PublicProfilePage() {
       </div>
 
       {/* Profile Info */}
-      <motion.div 
+      <motion.div
         className="px-4 pt-16 pb-4"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -330,29 +362,19 @@ export default function PublicProfilePage() {
         <div className="flex flex-col items-center text-center">
           <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
             {displayName}
-            {(stats?.likesReceived || 0) > 100 && (
-              <Crown className="w-5 h-5 text-amber-400" />
-            )}
+            {(stats?.likesReceived || 0) > 100 && <Crown className="w-5 h-5 text-amber-400" />}
           </h2>
-          {profile.username && (
-            <p className="text-sm text-muted-foreground">@{profile.username}</p>
-          )}
+          {profile.username && <p className="text-sm text-muted-foreground">@{profile.username}</p>}
 
           {/* Bio */}
           {profile.bio && (
             <div className="mt-3 max-w-md">
-              <p className={cn(
-                "text-sm text-muted-foreground leading-relaxed",
-                !showFullBio && "line-clamp-2"
-              )}>
+              <p className={cn("text-sm text-muted-foreground leading-relaxed", !showFullBio && "line-clamp-2")}>
                 {profile.bio}
               </p>
               {profile.bio.length > 100 && (
-                <button 
-                  className="text-xs text-primary mt-1"
-                  onClick={() => setShowFullBio(!showFullBio)}
-                >
-                  {showFullBio ? 'Скрыть' : 'Читать далее'}
+                <button className="text-xs text-primary mt-1" onClick={() => setShowFullBio(!showFullBio)}>
+                  {showFullBio ? "Скрыть" : "Читать далее"}
                 </button>
               )}
             </div>
@@ -369,38 +391,42 @@ export default function PublicProfilePage() {
           {Object.keys(socialLinks).length > 0 && (
             <div className="flex items-center gap-2 mt-4">
               {socialLinks.instagram && (
-                <SocialButton 
-                  icon={Instagram} 
+                <SocialButton
+                  icon={Instagram}
                   href={`https://instagram.com/${socialLinks.instagram}`}
                   label="Instagram"
                 />
               )}
               {socialLinks.twitter && (
-                <SocialButton 
-                  icon={Twitter} 
-                  href={`https://twitter.com/${socialLinks.twitter}`}
-                  label="Twitter"
-                />
+                <SocialButton icon={Twitter} href={`https://twitter.com/${socialLinks.twitter}`} label="Twitter" />
               )}
               {socialLinks.youtube && (
-                <SocialButton 
-                  icon={Youtube} 
-                  href={socialLinks.youtube.startsWith('http') ? socialLinks.youtube : `https://youtube.com/@${socialLinks.youtube}`}
+                <SocialButton
+                  icon={Youtube}
+                  href={
+                    socialLinks.youtube.startsWith("http")
+                      ? socialLinks.youtube
+                      : `https://youtube.com/@${socialLinks.youtube}`
+                  }
                   label="YouTube"
                 />
               )}
               {socialLinks.spotify && (
-                <SocialButton 
-                  icon={() => <span className="text-[10px] font-bold">S</span>} 
-                  href={socialLinks.spotify.startsWith('http') ? socialLinks.spotify : `https://open.spotify.com/artist/${socialLinks.spotify}`}
+                <SocialButton
+                  icon={() => <span className="text-[10px] font-bold">S</span>}
+                  href={
+                    socialLinks.spotify.startsWith("http")
+                      ? socialLinks.spotify
+                      : `https://open.spotify.com/artist/${socialLinks.spotify}`
+                  }
                   label="Spotify"
                   className="bg-green-500/20 hover:bg-green-500/30"
                 />
               )}
               {socialLinks.website && (
-                <SocialButton 
-                  icon={Globe} 
-                  href={socialLinks.website.startsWith('http') ? socialLinks.website : `https://${socialLinks.website}`}
+                <SocialButton
+                  icon={Globe}
+                  href={socialLinks.website.startsWith("http") ? socialLinks.website : `https://${socialLinks.website}`}
                   label="Сайт"
                 />
               )}
@@ -409,16 +435,9 @@ export default function PublicProfilePage() {
 
           {/* Action Buttons */}
           <div className="flex items-center gap-2 mt-4">
-            {!isOwner && userId && (
-              <FollowButton userId={userId} />
-            )}
+            {!isOwner && userId && <FollowButton userId={userId} />}
             {isOwner && (
-              <Button 
-                variant="outline" 
-                size="sm" 
-                className="gap-2"
-                onClick={() => navigate('/settings')}
-              >
+              <Button variant="outline" size="sm" className="gap-2" onClick={() => navigate("/settings")}>
                 <Settings className="w-4 h-4" />
                 Настроить профиль
               </Button>
@@ -462,7 +481,7 @@ export default function PublicProfilePage() {
               ))}
             </div>
           ) : tracks?.length ? (
-            <motion.div 
+            <motion.div
               className="grid grid-cols-2 sm:grid-cols-3 gap-3"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -502,8 +521,10 @@ export default function PublicProfilePage() {
                 >
                   <div className="flex items-start gap-3">
                     {project.cover_url ? (
-                      <img loading="lazy" decoding="async" 
-                        src={project.cover_url} 
+                      <img
+                        loading="lazy"
+                        decoding="async"
+                        src={project.cover_url}
                         alt={project.title}
                         className="w-16 h-16 rounded-lg object-cover"
                       />
@@ -515,13 +536,19 @@ export default function PublicProfilePage() {
                     <div className="flex-1 min-w-0">
                       <h3 className="font-semibold truncate">{project.title}</h3>
                       {project.description && (
-                        <p className="text-sm text-muted-foreground mt-0.5 line-clamp-2">
-                          {project.description}
-                        </p>
+                        <p className="text-sm text-muted-foreground mt-0.5 line-clamp-2">{project.description}</p>
                       )}
                       <div className="flex items-center gap-2 mt-2">
-                        {project.genre && <Badge variant="secondary" className="text-xs">{project.genre}</Badge>}
-                        {project.mood && <Badge variant="outline" className="text-xs">{project.mood}</Badge>}
+                        {project.genre && (
+                          <Badge variant="secondary" className="text-xs">
+                            {project.genre}
+                          </Badge>
+                        )}
+                        {project.mood && (
+                          <Badge variant="outline" className="text-xs">
+                            {project.mood}
+                          </Badge>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -556,7 +583,7 @@ export default function PublicProfilePage() {
                   <p className="text-sm font-medium mt-2 text-center line-clamp-1">{artist.name}</p>
                   {artist.genre_tags && artist.genre_tags.length > 0 && (
                     <p className="text-[10px] text-muted-foreground mt-0.5 truncate max-w-full">
-                      {artist.genre_tags.slice(0, 2).join(', ')}
+                      {artist.genre_tags.slice(0, 2).join(", ")}
                     </p>
                   )}
                 </motion.div>
@@ -584,7 +611,9 @@ export default function PublicProfilePage() {
                   whileTap={{ scale: 0.98 }}
                 >
                   {playlist.cover_url ? (
-                    <img loading="lazy" decoding="async" 
+                    <img
+                      loading="lazy"
+                      decoding="async"
                       src={playlist.cover_url}
                       alt={playlist.title}
                       className="w-12 h-12 rounded-lg object-cover"
@@ -596,9 +625,7 @@ export default function PublicProfilePage() {
                   )}
                   <div className="flex-1 min-w-0">
                     <h3 className="font-semibold truncate">{playlist.title}</h3>
-                    <p className="text-xs text-muted-foreground">
-                      {playlist.track_count || 0} треков
-                    </p>
+                    <p className="text-xs text-muted-foreground">{playlist.track_count || 0} треков</p>
                   </div>
                 </motion.div>
               ))}
@@ -612,14 +639,14 @@ export default function PublicProfilePage() {
   );
 }
 
-function StatItem({ 
-  value, 
-  label, 
+function StatItem({
+  value,
+  label,
   icon: Icon,
-  color 
-}: { 
-  value: number; 
-  label: string; 
+  color,
+}: {
+  value: number;
+  label: string;
   icon: React.ElementType;
   color?: string;
 }) {
@@ -640,14 +667,14 @@ function StatItem({
   );
 }
 
-function SocialButton({ 
-  icon: Icon, 
-  href, 
+function SocialButton({
+  icon: Icon,
+  href,
   label,
-  className 
-}: { 
-  icon: React.ElementType; 
-  href: string; 
+  className,
+}: {
+  icon: React.ElementType;
+  href: string;
   label: string;
   className?: string;
 }) {
@@ -658,7 +685,7 @@ function SocialButton({
       rel="noopener noreferrer"
       className={cn(
         "w-9 h-9 rounded-full bg-muted/50 hover:bg-muted flex items-center justify-center transition-colors",
-        className
+        className,
       )}
       title={label}
     >

@@ -1,13 +1,11 @@
-import { useState, useRef } from 'react';
-import { Button } from '@/components/ui/button';
-import { 
-  Camera, Upload, Sparkles, Loader2, X, Image as ImageIcon 
-} from 'lucide-react';
-import { toast } from 'sonner';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/hooks/useAuth';
-import { logger } from '@/lib/logger';
-import { cn } from '@/lib/utils';
+import { useState, useRef } from "react";
+import { Button } from "@/components/ui/button";
+import { Camera, Upload, Sparkles, Loader2, X, Image as ImageIcon } from "lucide-react";
+import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
+import { logger } from "@/lib/logger";
+import { cn } from "@/lib/utils";
 
 interface ArtistAvatarUploadProps {
   avatarUrl: string | null;
@@ -28,42 +26,42 @@ export function ArtistAvatarUpload({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
   const referenceInputRef = useRef<HTMLInputElement>(null);
-  
+
   const [isUploading, setIsUploading] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [referenceImage, setReferenceImage] = useState<string | null>(null);
 
   const handleFileUpload = async (file: File, isReference = false) => {
     if (!user?.id) {
-      toast.error('Необходима авторизация');
+      toast.error("Необходима авторизация");
       return;
     }
 
     setIsUploading(true);
     try {
-      const fileExt = file.name.split('.').pop();
+      const fileExt = file.name.split(".").pop();
       const fileName = `${user.id}/artist-avatar-${Date.now()}.${fileExt}`;
 
       const { error: uploadError } = await supabase.storage
-        .from('project-assets')
+        .from("project-assets")
         .upload(fileName, file, { upsert: true });
 
       if (uploadError) throw uploadError;
 
-      const { data: { publicUrl } } = supabase.storage
-        .from('project-assets')
-        .getPublicUrl(fileName);
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from("project-assets").getPublicUrl(fileName);
 
       if (isReference) {
         setReferenceImage(publicUrl);
         toast.success('Референс загружен. Нажмите "Сгенерировать" для создания портрета');
       } else {
         onAvatarChange(publicUrl);
-        toast.success('Аватар загружен');
+        toast.success("Аватар загружен");
       }
     } catch (error) {
-      logger.error('Error uploading avatar', error);
-      toast.error('Ошибка загрузки');
+      logger.error("Error uploading avatar", error);
+      toast.error("Ошибка загрузки");
     } finally {
       setIsUploading(false);
     }
@@ -71,18 +69,18 @@ export function ArtistAvatarUpload({
 
   const handleGeneratePortrait = async () => {
     if (!artistName.trim()) {
-      toast.error('Введите имя артиста');
+      toast.error("Введите имя артиста");
       return;
     }
 
     setIsGenerating(true);
     try {
-      const { data, error } = await supabase.functions.invoke('generate-artist-portrait', {
-        body: { 
+      const { data, error } = await supabase.functions.invoke("generate-artist-portrait", {
+        body: {
           artistName: artistName.trim(),
           styleDescription: styleDescription || undefined,
           referenceImageUrl: referenceImage || undefined,
-        }
+        },
       });
 
       if (error) throw error;
@@ -90,13 +88,13 @@ export function ArtistAvatarUpload({
       if (data?.avatarUrl) {
         onAvatarChange(data.avatarUrl);
         setReferenceImage(null);
-        toast.success('Портрет сгенерирован');
+        toast.success("Портрет сгенерирован");
       } else {
-        throw new Error('No avatar URL in response');
+        throw new Error("No avatar URL in response");
       }
     } catch (error) {
-      logger.error('Error generating portrait', error);
-      toast.error('Ошибка генерации портрета');
+      logger.error("Error generating portrait", error);
+      toast.error("Ошибка генерации портрета");
     } finally {
       setIsGenerating(false);
     }
@@ -105,17 +103,17 @@ export function ArtistAvatarUpload({
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>, isReference = false) => {
     const file = e.target.files?.[0];
     if (file) {
-      if (!file.type.startsWith('image/')) {
-        toast.error('Выберите изображение');
+      if (!file.type.startsWith("image/")) {
+        toast.error("Выберите изображение");
         return;
       }
       if (file.size > 10 * 1024 * 1024) {
-        toast.error('Файл слишком большой (макс. 10MB)');
+        toast.error("Файл слишком большой (макс. 10MB)");
         return;
       }
       handleFileUpload(file, isReference);
     }
-    e.target.value = '';
+    e.target.value = "";
   };
 
   const isProcessing = isUploading || isGenerating;
@@ -129,11 +127,13 @@ export function ArtistAvatarUpload({
           {avatarUrl && (
             <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/30 to-purple-500/30 blur-xl" />
           )}
-          
-          <div className={cn(
-            "relative w-full h-full rounded-full overflow-hidden border-4 border-primary/20 bg-gradient-to-br from-primary/20 to-primary/10",
-            isProcessing && "opacity-50"
-          )}>
+
+          <div
+            className={cn(
+              "relative w-full h-full rounded-full overflow-hidden border-4 border-primary/20 bg-gradient-to-br from-primary/20 to-primary/10",
+              isProcessing && "opacity-50",
+            )}
+          >
             {avatarUrl ? (
               <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
             ) : (
@@ -141,14 +141,14 @@ export function ArtistAvatarUpload({
                 <ImageIcon className="w-12 h-12 text-primary/50" />
               </div>
             )}
-            
+
             {isProcessing && (
               <div className="absolute inset-0 flex items-center justify-center bg-background/50">
                 <Loader2 className="w-8 h-8 animate-spin text-primary" />
               </div>
             )}
           </div>
-          
+
           {avatarUrl && !isProcessing && (
             <button
               onClick={() => onAvatarChange(null)}
@@ -164,10 +164,7 @@ export function ArtistAvatarUpload({
           <div className="flex items-center gap-2 p-2 rounded-lg bg-muted/50 border border-border/50">
             <img src={referenceImage} alt="Reference" className="w-10 h-10 rounded object-cover" />
             <span className="text-xs text-muted-foreground">Референс загружен</span>
-            <button
-              onClick={() => setReferenceImage(null)}
-              className="p-1 rounded-full hover:bg-muted"
-            >
+            <button onClick={() => setReferenceImage(null)} className="p-1 rounded-full hover:bg-muted">
               <X className="w-3 h-3" />
             </button>
           </div>
@@ -193,7 +190,7 @@ export function ArtistAvatarUpload({
           ) : (
             <>
               <Sparkles className="w-4 h-4" />
-              {referenceImage ? 'Сгенерировать по референсу' : 'Сгенерировать портрет'}
+              {referenceImage ? "Сгенерировать по референсу" : "Сгенерировать портрет"}
             </>
           )}
         </Button>

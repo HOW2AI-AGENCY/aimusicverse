@@ -3,15 +3,15 @@
  * Shows when balance is low, prompts subscription upgrade
  */
 
-import { useState, memo } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { Coins, Sparkles, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { useUserCredits } from '@/hooks/useUserCredits';
-import { useCreditsLimits } from '@/hooks/useCreditsLimits';
-import { useTelegram } from '@/contexts/TelegramContext';
-import { SubscriptionUpgradePopup } from '@/components/popups/SubscriptionUpgradePopup';
-import { cn } from '@/lib/utils';
+import { useState, memo } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Coins, Sparkles, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useUserCredits } from "@/hooks/useUserCredits";
+import { useCreditsLimits } from "@/hooks/useCreditsLimits";
+import { useTelegram } from "@/contexts/TelegramContext";
+import { SubscriptionUpgradePopup } from "@/components/popups/SubscriptionUpgradePopup";
+import { cn } from "@/lib/utils";
 
 interface QuickBuyButtonProps {
   /** Balance threshold to show the button */
@@ -20,10 +20,7 @@ interface QuickBuyButtonProps {
   className?: string;
 }
 
-export const QuickBuyButton = memo(function QuickBuyButton({
-  threshold = 30,
-  className,
-}: QuickBuyButtonProps) {
+export const QuickBuyButton = memo(function QuickBuyButton({ threshold = 30, className }: QuickBuyButtonProps) {
   const { balance, isLoading, isAdmin } = useUserCredits();
   const { isFreeUser, isBalanceLimitReached } = useCreditsLimits();
   const { hapticFeedback } = useTelegram();
@@ -43,21 +40,17 @@ export const QuickBuyButton = memo(function QuickBuyButton({
   }
 
   const handleClick = () => {
-    hapticFeedback?.('medium');
+    hapticFeedback?.("medium");
     setIsOpen(true);
   };
 
   const handleDismiss = (e: React.MouseEvent) => {
     e.stopPropagation();
-    hapticFeedback?.('light');
+    hapticFeedback?.("light");
     setIsDismissed(true);
   };
 
-  const balanceColor = balance < 10 
-    ? 'text-destructive' 
-    : balance < 20 
-      ? 'text-amber-500' 
-      : 'text-primary';
+  const balanceColor = balance < 10 ? "text-destructive" : balance < 20 ? "text-amber-500" : "text-primary";
 
   return (
     <>
@@ -71,14 +64,10 @@ export const QuickBuyButton = memo(function QuickBuyButton({
               "fixed right-4 z-40",
               // Position above bottom navigation
               "bottom-[calc(var(--island-nav-height,80px)+1rem)]",
-              className
+              className,
             )}
           >
-            <motion.div
-              className="relative"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
+            <motion.div className="relative" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               {/* Dismiss button */}
               <button
                 onClick={handleDismiss}
@@ -96,7 +85,7 @@ export const QuickBuyButton = memo(function QuickBuyButton({
                   "rounded-full shadow-lg gap-2 px-4",
                   "bg-gradient-to-r from-primary to-purple-600",
                   "hover:from-primary/90 hover:to-purple-600/90",
-                  "border border-primary/30"
+                  "border border-primary/30",
                 )}
               >
                 <motion.div
@@ -105,9 +94,7 @@ export const QuickBuyButton = memo(function QuickBuyButton({
                 >
                   <Coins className="w-5 h-5" />
                 </motion.div>
-                <span className={cn("font-bold", balanceColor)}>
-                  {balance}
-                </span>
+                <span className={cn("font-bold", balanceColor)}>{balance}</span>
                 <Sparkles className="w-4 h-4 text-amber-300" />
               </Button>
 
@@ -128,7 +115,7 @@ export const QuickBuyButton = memo(function QuickBuyButton({
       <SubscriptionUpgradePopup
         open={isOpen}
         onClose={() => setIsOpen(false)}
-        reason={isFreeUser ? 'balance_limit' : 'general'}
+        reason={isFreeUser ? "balance_limit" : "general"}
       />
     </>
   );

@@ -1,6 +1,6 @@
 /**
  * Zustand Store Slices
- * 
+ *
  * Modular slices for building composable stores.
  * Each slice handles a specific domain of state.
  */
@@ -14,7 +14,7 @@ export {
   type StemMixerState,
   type StemMixerActions,
   type StemMixerSlice,
-} from './stemMixerSlice';
+} from "./stemMixerSlice";
 
 export {
   createPlaybackSlice,
@@ -26,4 +26,4 @@ export {
   type PlaybackState,
   type PlaybackActions,
   type PlaybackSlice,
-} from './playbackSlice';
+} from "./playbackSlice";

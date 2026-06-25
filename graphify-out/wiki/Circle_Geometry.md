@@ -6,12 +6,12 @@
 
 - [QueueItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueItem.tsx#L1) (3 connections)
 - [{
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
+  attributes,
+  listeners,
+  setNodeRef,
+  transform,
+  transition,
+  isDragging,
   }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueItem.tsx#L19) (1 connections)
 - [hasVersions](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueItem.tsx#L34) (1 connections)
 - [style](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueItem.tsx#L28) (1 connections)
@@ -32,4 +32,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

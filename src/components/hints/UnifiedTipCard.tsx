@@ -9,13 +9,13 @@
  * Always exclusive — only one card is visible thanks to HintRegistry.
  */
 
-import { useEffect } from 'react';
-import { AnimatePresence, motion } from '@/lib/motion';
-import { X, ChevronRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { useHintRegistry } from './HintRegistry';
-import { useTipPosition } from './useTipPosition';
+import { useEffect } from "react";
+import { AnimatePresence, motion } from "@/lib/motion";
+import { X, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { useHintRegistry } from "./HintRegistry";
+import { useTipPosition } from "./useTipPosition";
 
 export interface UnifiedTipCardProps {
   id: string;
@@ -90,13 +90,13 @@ export function UnifiedTipCard({
           initial={{ opacity: 0, y: isMobile ? 16 : 12, scale: 0.98 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: isMobile ? 16 : 12, scale: 0.98 }}
-          transition={{ type: 'spring', damping: 26, stiffness: 320 }}
+          transition={{ type: "spring", damping: 26, stiffness: 320 }}
           className={positionClass}
         >
           <div
             className={cn(
-              'relative overflow-hidden rounded-2xl border border-border/60 shadow-2xl',
-              'bg-card/95 backdrop-blur-xl text-card-foreground'
+              "relative overflow-hidden rounded-2xl border border-border/60 shadow-2xl",
+              "bg-card/95 backdrop-blur-xl text-card-foreground",
             )}
           >
             <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-primary/40 via-primary to-primary/40" />
@@ -104,15 +104,11 @@ export function UnifiedTipCard({
             <div className="p-4">
               <div className="flex items-start gap-3">
                 <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-primary/10 text-lg">
-                  <span aria-hidden="true">{emoji ?? '💡'}</span>
+                  <span aria-hidden="true">{emoji ?? "💡"}</span>
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h4 className="mb-1 text-sm font-semibold leading-tight">
-                    {title}
-                  </h4>
-                  <p className="text-xs leading-relaxed text-muted-foreground">
-                    {message}
-                  </p>
+                  <h4 className="mb-1 text-sm font-semibold leading-tight">{title}</h4>
+                  <p className="text-xs leading-relaxed text-muted-foreground">{message}</p>
                 </div>
                 <Button
                   variant="ghost"
@@ -126,21 +122,11 @@ export function UnifiedTipCard({
               </div>
 
               <div className="mt-3 flex items-center justify-end gap-2 border-t border-border/40 pt-3">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={handleClose}
-                  className="h-8 text-xs text-muted-foreground"
-                >
+                <Button variant="ghost" size="sm" onClick={handleClose} className="h-8 text-xs text-muted-foreground">
                   Понятно
                 </Button>
                 {hasNext && onNext && (
-                  <Button
-                    variant="default"
-                    size="sm"
-                    onClick={handleNext}
-                    className="h-8 gap-1 text-xs"
-                  >
+                  <Button variant="default" size="sm" onClick={handleNext} className="h-8 gap-1 text-xs">
                     Далее
                     <ChevronRight className="h-3 w-3" />
                   </Button>

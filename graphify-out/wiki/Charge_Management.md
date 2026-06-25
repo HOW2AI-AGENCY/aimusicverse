@@ -26,21 +26,21 @@
 - [handleToggleMute](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceAudioPlayer.tsx#L72) (1 connections)
 - [[isLoaded, setIsLoaded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ReferenceAudioPlayer.tsx#L36) (1 connections)
 - [{
-    isPlaying,
-    currentTime,
-    duration,
-    isLoading,
-    isBuffering,
-    error,
-    togglePlay,
-    seek,
-    setVolume,
-    reset,
+  isPlaying,
+  currentTime,
+  duration,
+  isLoading,
+  isBuffering,
+  error,
+  togglePlay,
+  seek,
+  setVolume,
+  reset,
   }](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceAudioPlayer.tsx#L49) (1 connections)
 - [[isPlaying, setIsPlaying]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ReferenceAudioPlayer.tsx#L31) (1 connections)
 - [toggleMute()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ReferenceAudioPlayer.tsx#L102) (1 connections)
 - [[volume, setVolume]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ReferenceAudioPlayer.tsx#L34) (1 connections)
-- *... and 1 more nodes in this community*
+- _... and 1 more nodes in this community_
 
 ## Relationships
 
@@ -59,4 +59,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

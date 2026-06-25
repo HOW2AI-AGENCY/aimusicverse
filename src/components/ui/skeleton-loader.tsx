@@ -11,7 +11,7 @@ import { Skeleton } from "./skeleton";
 import { cn } from "@/lib/utils";
 
 // Re-export common skeletons from unified source
-export { 
+export {
   TrackCardSkeleton,
   TrackCardSkeletonCompact,
   PlayerSkeleton,
@@ -21,7 +21,7 @@ export {
   SectionHeaderSkeleton,
   ProfileHeaderSkeleton,
   WaveformSkeleton,
-} from './skeleton-components';
+} from "./skeleton-components";
 
 // ============================================================================
 // Domain-specific skeletons
@@ -46,7 +46,7 @@ export function StemStudioSkeleton() {
           </div>
         ))}
       </div>
-      
+
       {/* Controls */}
       <div className="flex items-center justify-center gap-4 pt-4">
         <Skeleton className="w-12 h-12 rounded-full" />
@@ -68,10 +68,10 @@ export function GenerationFormSkeleton() {
         <Skeleton className="h-8 w-40" />
         <Skeleton className="h-8 w-24" />
       </div>
-      
+
       {/* Mode tabs */}
       <Skeleton className="h-10 w-full rounded-lg" />
-      
+
       {/* Form fields */}
       <div className="space-y-4">
         <div className="space-y-2">
@@ -93,7 +93,7 @@ export function GenerationFormSkeleton() {
           </div>
         </div>
       </div>
-      
+
       {/* Generate button */}
       <Skeleton className="h-12 w-full rounded-lg" />
     </div>
@@ -115,20 +115,20 @@ export function LyricsWizardSkeleton() {
           </div>
         ))}
       </div>
-      
+
       {/* Content area */}
       <div className="space-y-4">
         <Skeleton className="h-6 w-48" />
         <Skeleton className="h-4 w-full" />
         <Skeleton className="h-4 w-3/4" />
-        
+
         <div className="grid grid-cols-3 gap-4 pt-4">
           {Array.from({ length: 6 }).map((_, i) => (
             <Skeleton key={i} className="h-24 rounded-lg" />
           ))}
         </div>
       </div>
-      
+
       {/* Navigation */}
       <div className="flex justify-between pt-4">
         <Skeleton className="h-10 w-24" />
@@ -158,7 +158,7 @@ export function ProjectDetailSkeleton() {
           </div>
         </div>
       </div>
-      
+
       {/* Track list */}
       <div className="space-y-2">
         {Array.from({ length: 5 }).map((_, i) => (

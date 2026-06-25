@@ -1,6 +1,6 @@
 /**
  * SmartPromptSuggestions Component
- * 
+ *
  * Intelligent prompt suggestions for music generation.
  * Features:
  * - Genre-specific suggestions
@@ -9,29 +9,19 @@
  * - Contextual suggestions based on user history
  */
 
-import { useState, useMemo } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { 
-  Sparkles, 
-  Music, 
-  Heart, 
-  Zap, 
-  Sun, 
-  Moon, 
-  Lightbulb,
-  TrendingUp,
-  ChevronRight,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { cn } from '@/lib/utils';
+import { useState, useMemo } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Sparkles, Music, Heart, Zap, Sun, Moon, Lightbulb, TrendingUp, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { cn } from "@/lib/utils";
 
 interface PromptTemplate {
   id: string;
-  category: 'genre' | 'mood' | 'style' | 'popular';
+  category: "genre" | "mood" | "style" | "popular";
   title: string;
   prompt: string;
   icon: typeof Music;
@@ -41,98 +31,98 @@ interface PromptTemplate {
 const PROMPT_TEMPLATES: PromptTemplate[] = [
   // Popular/Trending
   {
-    id: 'epic-orchestral',
-    category: 'popular',
-    title: 'Эпический оркестр',
-    prompt: 'Epic orchestral music with powerful brass, dramatic strings, and heroic choir',
+    id: "epic-orchestral",
+    category: "popular",
+    title: "Эпический оркестр",
+    prompt: "Epic orchestral music with powerful brass, dramatic strings, and heroic choir",
     icon: TrendingUp,
-    tags: ['эпик', 'оркестр', 'драма'],
+    tags: ["эпик", "оркестр", "драма"],
   },
   {
-    id: 'chill-lofi',
-    category: 'popular',
-    title: 'Lofi хип-хоп',
-    prompt: 'Chill lo-fi hip hop beats with vinyl crackle, jazzy piano, and relaxed drums',
+    id: "chill-lofi",
+    category: "popular",
+    title: "Lofi хип-хоп",
+    prompt: "Chill lo-fi hip hop beats with vinyl crackle, jazzy piano, and relaxed drums",
     icon: TrendingUp,
-    tags: ['lofi', 'чилл', 'хип-хоп'],
+    tags: ["lofi", "чилл", "хип-хоп"],
   },
   {
-    id: 'synthwave',
-    category: 'popular',
-    title: 'Synthwave ретро',
-    prompt: 'Retro synthwave with nostalgic 80s synths, pulsing bassline, and dreamy atmosphere',
+    id: "synthwave",
+    category: "popular",
+    title: "Synthwave ретро",
+    prompt: "Retro synthwave with nostalgic 80s synths, pulsing bassline, and dreamy atmosphere",
     icon: TrendingUp,
-    tags: ['синтвейв', 'ретро', '80s'],
+    tags: ["синтвейв", "ретро", "80s"],
   },
-  
+
   // Genre-specific
   {
-    id: 'pop-dance',
-    category: 'genre',
-    title: 'Поп-данс',
-    prompt: 'Upbeat pop dance track with catchy melody, electronic beats, and bright synths',
+    id: "pop-dance",
+    category: "genre",
+    title: "Поп-данс",
+    prompt: "Upbeat pop dance track with catchy melody, electronic beats, and bright synths",
     icon: Music,
-    tags: ['поп', 'данс', 'электро'],
+    tags: ["поп", "данс", "электро"],
   },
   {
-    id: 'rock-energy',
-    category: 'genre',
-    title: 'Энергичный рок',
-    prompt: 'High-energy rock with distorted guitars, powerful drums, and driving bassline',
+    id: "rock-energy",
+    category: "genre",
+    title: "Энергичный рок",
+    prompt: "High-energy rock with distorted guitars, powerful drums, and driving bassline",
     icon: Zap,
-    tags: ['рок', 'энергия', 'гитара'],
+    tags: ["рок", "энергия", "гитара"],
   },
   {
-    id: 'jazz-smooth',
-    category: 'genre',
-    title: 'Джаз',
-    prompt: 'Smooth jazz with sultry saxophone, walking bass, and brushed drums',
+    id: "jazz-smooth",
+    category: "genre",
+    title: "Джаз",
+    prompt: "Smooth jazz with sultry saxophone, walking bass, and brushed drums",
     icon: Moon,
-    tags: ['джаз', 'саксофон', 'smooth'],
+    tags: ["джаз", "саксофон", "smooth"],
   },
-  
+
   // Mood-based
   {
-    id: 'happy-uplifting',
-    category: 'mood',
-    title: 'Радостный',
-    prompt: 'Happy and uplifting music with bright melodies, cheerful rhythm, and positive energy',
+    id: "happy-uplifting",
+    category: "mood",
+    title: "Радостный",
+    prompt: "Happy and uplifting music with bright melodies, cheerful rhythm, and positive energy",
     icon: Sun,
-    tags: ['радость', 'позитив', 'энергия'],
+    tags: ["радость", "позитив", "энергия"],
   },
   {
-    id: 'emotional-deep',
-    category: 'mood',
-    title: 'Эмоциональный',
-    prompt: 'Deep emotional ballad with piano, strings, and heartfelt vocals',
+    id: "emotional-deep",
+    category: "mood",
+    title: "Эмоциональный",
+    prompt: "Deep emotional ballad with piano, strings, and heartfelt vocals",
     icon: Heart,
-    tags: ['эмоции', 'баллада', 'пиано'],
+    tags: ["эмоции", "баллада", "пиано"],
   },
   {
-    id: 'mysterious-dark',
-    category: 'mood',
-    title: 'Таинственный',
-    prompt: 'Mysterious dark ambient with deep drones, haunting melodies, and subtle percussion',
+    id: "mysterious-dark",
+    category: "mood",
+    title: "Таинственный",
+    prompt: "Mysterious dark ambient with deep drones, haunting melodies, and subtle percussion",
     icon: Moon,
-    tags: ['тайна', 'эмбиент', 'темный'],
+    tags: ["тайна", "эмбиент", "темный"],
   },
-  
+
   // Style-specific
   {
-    id: 'acoustic-folk',
-    category: 'style',
-    title: 'Акустический фолк',
-    prompt: 'Acoustic folk song with fingerpicked guitar, warm vocals, and natural atmosphere',
+    id: "acoustic-folk",
+    category: "style",
+    title: "Акустический фолк",
+    prompt: "Acoustic folk song with fingerpicked guitar, warm vocals, and natural atmosphere",
     icon: Music,
-    tags: ['акустика', 'фолк', 'гитара'],
+    tags: ["акустика", "фолк", "гитара"],
   },
   {
-    id: 'cinematic-score',
-    category: 'style',
-    title: 'Кино-саундтрек',
-    prompt: 'Cinematic film score with sweeping orchestration, emotional depth, and grand crescendos',
+    id: "cinematic-score",
+    category: "style",
+    title: "Кино-саундтрек",
+    prompt: "Cinematic film score with sweeping orchestration, emotional depth, and grand crescendos",
     icon: Sparkles,
-    tags: ['кино', 'оркестр', 'драма'],
+    tags: ["кино", "оркестр", "драма"],
   },
 ];
 
@@ -144,36 +134,33 @@ interface SmartPromptSuggestionsProps {
   /** Compact mode for smaller display */
   compact?: boolean;
   /** Filter by category */
-  filterCategory?: 'all' | 'genre' | 'mood' | 'style' | 'popular';
+  filterCategory?: "all" | "genre" | "mood" | "style" | "popular";
 }
 
 export function SmartPromptSuggestions({
   onSelectPrompt,
   currentPrompt,
   compact = false,
-  filterCategory = 'all',
+  filterCategory = "all",
 }: SmartPromptSuggestionsProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>(filterCategory);
 
   const filteredTemplates = useMemo(() => {
-    if (selectedCategory === 'all') return PROMPT_TEMPLATES;
-    return PROMPT_TEMPLATES.filter(t => t.category === selectedCategory);
+    if (selectedCategory === "all") return PROMPT_TEMPLATES;
+    return PROMPT_TEMPLATES.filter((t) => t.category === selectedCategory);
   }, [selectedCategory]);
 
   const categories = [
-    { id: 'all', label: 'Все', icon: Sparkles },
-    { id: 'popular', label: 'Популярное', icon: TrendingUp },
-    { id: 'genre', label: 'Жанры', icon: Music },
-    { id: 'mood', label: 'Настроение', icon: Heart },
-    { id: 'style', label: 'Стиль', icon: Lightbulb },
+    { id: "all", label: "Все", icon: Sparkles },
+    { id: "popular", label: "Популярное", icon: TrendingUp },
+    { id: "genre", label: "Жанры", icon: Music },
+    { id: "mood", label: "Настроение", icon: Heart },
+    { id: "style", label: "Стиль", icon: Lightbulb },
   ];
 
   if (compact) {
     return (
-      <div 
-        className="space-y-2 w-full min-w-0 overflow-hidden"
-        style={{ maxWidth: 'calc(100vw - 2rem)' }}
-      >
+      <div className="space-y-2 w-full min-w-0 overflow-hidden" style={{ maxWidth: "calc(100vw - 2rem)" }}>
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
           <Lightbulb className="h-3.5 w-3.5" />
           <span>Быстрые идеи:</span>
@@ -185,9 +172,9 @@ export function SmartPromptSuggestions({
           - Inner scroller allows horizontal overflow
           - Chips have .chip-button class to exclude from iOS 44px min-width rule
         */}
-        <div 
+        <div
           className="w-full min-w-0 overflow-x-auto overscroll-x-contain pb-1 scrollbar-none"
-          style={{ maxWidth: 'calc(100vw - 2rem)' }}
+          style={{ maxWidth: "calc(100vw - 2rem)" }}
         >
           <div className="inline-flex gap-1.5 min-w-max pr-2">
             {PROMPT_TEMPLATES.slice(0, 6).map((template) => {
@@ -228,11 +215,7 @@ export function SmartPromptSuggestions({
           {categories.map((cat) => {
             const Icon = cat.icon;
             return (
-              <TabsTrigger
-                key={cat.id}
-                value={cat.id}
-                className="flex items-center gap-1.5 text-xs"
-              >
+              <TabsTrigger key={cat.id} value={cat.id} className="flex items-center gap-1.5 text-xs">
                 <Icon className="h-3.5 w-3.5" />
                 {cat.label}
               </TabsTrigger>
@@ -257,7 +240,7 @@ export function SmartPromptSuggestions({
                       <Card
                         className={cn(
                           "p-3 cursor-pointer transition-all hover:bg-accent hover:border-primary",
-                          "group"
+                          "group",
                         )}
                         onClick={() => onSelectPrompt(template.prompt)}
                       >
@@ -270,16 +253,10 @@ export function SmartPromptSuggestions({
                               <h4 className="font-medium text-sm">{template.title}</h4>
                               <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
                             </div>
-                            <p className="text-xs text-muted-foreground line-clamp-2 mb-2">
-                              {template.prompt}
-                            </p>
+                            <p className="text-xs text-muted-foreground line-clamp-2 mb-2">{template.prompt}</p>
                             <div className="flex flex-wrap gap-1">
                               {template.tags.slice(0, 3).map((tag) => (
-                                <Badge
-                                  key={tag}
-                                  variant="secondary"
-                                  className="text-[10px] h-5 px-1.5"
-                                >
+                                <Badge key={tag} variant="secondary" className="text-[10px] h-5 px-1.5">
                                   {tag}
                                 </Badge>
                               ))}
@@ -299,10 +276,7 @@ export function SmartPromptSuggestions({
       {currentPrompt && (
         <div className="pt-2 border-t">
           <p className="text-xs text-muted-foreground mb-2">Текущий промт:</p>
-          <p 
-            className="text-xs bg-muted/50 p-2 rounded-md line-clamp-2 text-foreground" 
-            title={currentPrompt}
-          >
+          <p className="text-xs bg-muted/50 p-2 rounded-md line-clamp-2 text-foreground" title={currentPrompt}>
             {currentPrompt}
           </p>
         </div>

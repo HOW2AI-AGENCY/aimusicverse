@@ -1,14 +1,14 @@
 /**
  * Progress Steps Component
  * Feature: 032-professional-ui
- * 
+ *
  * Horizontal stepper for multi-step processes
  */
 
-import React, { ReactNode } from 'react';
-import { motion } from '@/lib/motion';
-import { cn } from '@/lib/utils';
-import { Check, LucideIcon } from 'lucide-react';
+import React, { ReactNode } from "react";
+import { motion } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import { Check, LucideIcon } from "lucide-react";
 
 interface Step {
   id: string;
@@ -21,7 +21,7 @@ interface ProgressStepsProps {
   steps: Step[];
   currentStep: number;
   onStepClick?: (index: number) => void;
-  variant?: 'default' | 'compact' | 'vertical';
+  variant?: "default" | "compact" | "vertical";
   allowClickPrevious?: boolean;
   className?: string;
 }
@@ -30,12 +30,12 @@ export function ProgressSteps({
   steps,
   currentStep,
   onStepClick,
-  variant = 'default',
+  variant = "default",
   allowClickPrevious = true,
   className,
 }: ProgressStepsProps) {
-  const isVertical = variant === 'vertical';
-  const isCompact = variant === 'compact';
+  const isVertical = variant === "vertical";
+  const isCompact = variant === "compact";
 
   const handleStepClick = (index: number) => {
     if (!onStepClick) return;
@@ -45,13 +45,7 @@ export function ProgressSteps({
   };
 
   return (
-    <div
-      className={cn(
-        "flex",
-        isVertical ? "flex-col gap-4" : "items-center",
-        className
-      )}
-    >
+    <div className={cn("flex", isVertical ? "flex-col gap-4" : "items-center", className)}>
       {steps.map((step, index) => {
         const isCompleted = index < currentStep;
         const isCurrent = index === currentStep;
@@ -64,7 +58,7 @@ export function ProgressSteps({
             className={cn(
               "flex",
               isVertical ? "flex-row items-start gap-3" : "flex-1 items-center",
-              !isVertical && index < steps.length - 1 && "relative"
+              !isVertical && index < steps.length - 1 && "relative",
             )}
           >
             {/* Step circle */}
@@ -82,7 +76,7 @@ export function ProgressSteps({
                 isCurrent && "bg-primary text-primary-foreground ring-4 ring-primary/20",
                 !isCompleted && !isCurrent && "bg-muted text-muted-foreground",
                 // Clickable
-                isClickable && "cursor-pointer hover:bg-primary/80"
+                isClickable && "cursor-pointer hover:bg-primary/80",
               )}
               whileTap={isClickable ? { scale: 0.95 } : undefined}
             >
@@ -90,7 +84,7 @@ export function ProgressSteps({
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
                 >
                   <Check className={cn(isCompact ? "w-3 h-3" : "w-5 h-5")} />
                 </motion.div>
@@ -103,20 +97,16 @@ export function ProgressSteps({
 
             {/* Labels (not compact) */}
             {!isCompact && (
-              <div className={cn(
-                isVertical ? "flex-1" : "hidden md:block ml-2 mr-4"
-              )}>
-                <p className={cn(
-                  "font-medium text-sm",
-                  isCurrent || isCompleted ? "text-foreground" : "text-muted-foreground"
-                )}>
+              <div className={cn(isVertical ? "flex-1" : "hidden md:block ml-2 mr-4")}>
+                <p
+                  className={cn(
+                    "font-medium text-sm",
+                    isCurrent || isCompleted ? "text-foreground" : "text-muted-foreground",
+                  )}
+                >
                   {step.label}
                 </p>
-                {step.description && (
-                  <p className="text-xs text-muted-foreground mt-0.5">
-                    {step.description}
-                  </p>
-                )}
+                {step.description && <p className="text-xs text-muted-foreground mt-0.5">{step.description}</p>}
               </div>
             )}
 
@@ -127,8 +117,8 @@ export function ProgressSteps({
                 <motion.div
                   className="absolute inset-y-0 left-0 bg-primary rounded-full"
                   initial={{ width: 0 }}
-                  animate={{ width: isCompleted ? '100%' : '0%' }}
-                  transition={{ duration: 0.3, ease: 'easeOut' }}
+                  animate={{ width: isCompleted ? "100%" : "0%" }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
                 />
               </div>
             )}
@@ -140,8 +130,8 @@ export function ProgressSteps({
                 <motion.div
                   className="absolute inset-x-0 top-0 bg-primary rounded-full"
                   initial={{ height: 0 }}
-                  animate={{ height: isCompleted ? '100%' : '0%' }}
-                  transition={{ duration: 0.3, ease: 'easeOut' }}
+                  animate={{ height: isCompleted ? "100%" : "0%" }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
                 />
               </div>
             )}
@@ -181,28 +171,19 @@ export function ProgressBarSteps({
           className="h-full bg-primary rounded-full"
           initial={{ width: 0 }}
           animate={{ width: `${progress}%` }}
-          transition={{ duration: 0.3, ease: 'easeOut' }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
         />
       </div>
 
       {/* Step indicators */}
       <div className="flex justify-between mt-2">
         {Array.from({ length: totalSteps }).map((_, index) => (
-          <div 
-            key={index}
-            className="flex flex-col items-center"
-          >
+          <div key={index} className="flex flex-col items-center">
             <div
-              className={cn(
-                "w-2 h-2 rounded-full transition-colors",
-                index <= currentStep ? "bg-primary" : "bg-muted"
-              )}
+              className={cn("w-2 h-2 rounded-full transition-colors", index <= currentStep ? "bg-primary" : "bg-muted")}
             />
             {showLabels && labels[index] && (
-              <span className={cn(
-                "text-xs mt-1",
-                index <= currentStep ? "text-foreground" : "text-muted-foreground"
-              )}>
+              <span className={cn("text-xs mt-1", index <= currentStep ? "text-foreground" : "text-muted-foreground")}>
                 {labels[index]}
               </span>
             )}

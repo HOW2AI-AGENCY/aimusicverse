@@ -2,24 +2,21 @@
  * MidiPlayerCard - Compact MIDI playback and visualization
  * Supports Piano Roll and Sheet Music (MusicXML) view modes
  */
-import { useState, useEffect, useCallback } from 'react';
-import { motion } from '@/lib/motion';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Slider } from '@/components/ui/slider';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-import { 
-  Play, Pause, Volume2, VolumeX, Music, 
-  Piano, Loader2, Download, Music2
-} from 'lucide-react';
-import { PianoRollPreview } from '@/components/analysis/PianoRollPreview';
-import { MusicXMLViewer } from '@/components/guitar/MusicXMLViewer';
-import { useMidiFileParser, type ParsedMidiNote } from '@/hooks/useMidiFileParser';
-import { useMidiSynth } from '@/hooks/useMidiSynth';
-import { cn } from '@/lib/utils';
-import { formatTime } from '@/lib/player-utils';
-import { useIsMobile } from '@/hooks/use-mobile';
+import { useState, useEffect, useCallback } from "react";
+import { motion } from "@/lib/motion";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Slider } from "@/components/ui/slider";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Play, Pause, Volume2, VolumeX, Music, Piano, Loader2, Download, Music2 } from "lucide-react";
+import { PianoRollPreview } from "@/components/analysis/PianoRollPreview";
+import { MusicXMLViewer } from "@/components/guitar/MusicXMLViewer";
+import { useMidiFileParser, type ParsedMidiNote } from "@/hooks/useMidiFileParser";
+import { useMidiSynth } from "@/hooks/useMidiSynth";
+import { cn } from "@/lib/utils";
+import { formatTime } from "@/lib/player-utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface MidiPlayerCardProps {
   midiUrl: string;
@@ -27,7 +24,7 @@ interface MidiPlayerCardProps {
   title?: string;
   className?: string;
   onDownload?: () => void;
-  defaultViewMode?: 'piano' | 'notation';
+  defaultViewMode?: "piano" | "notation";
 }
 
 export function MidiPlayerCard({
@@ -40,20 +37,11 @@ export function MidiPlayerCard({
 }: MidiPlayerCardProps) {
   const isMobile = useIsMobile();
   const { parseMidiFromUrl, parsedMidi, isLoading: isParsing, error: parseError } = useMidiFileParser();
-  const {
-    isReady,
-    isMuted,
-    volume,
-    playNote,
-    stopAll,
-    setVolume,
-    setMuted,
-    initialize,
-  } = useMidiSynth();
+  const { isReady, isMuted, volume, playNote, stopAll, setVolume, setMuted, initialize } = useMidiSynth();
 
   // Auto-select notation mode if MusicXML available
-  const [viewMode, setViewMode] = useState<'piano' | 'notation'>(
-    defaultViewMode || (musicXmlUrl ? 'notation' : 'piano')
+  const [viewMode, setViewMode] = useState<"piano" | "notation">(
+    defaultViewMode || (musicXmlUrl ? "notation" : "piano"),
   );
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -72,10 +60,10 @@ export function MidiPlayerCard({
     if (!isPlaying || !parsedMidi) return;
 
     const startTime = Date.now() - currentTime * 1000;
-    
+
     const interval = setInterval(() => {
       const elapsed = (Date.now() - startTime) / 1000;
-      
+
       if (elapsed >= parsedMidi.duration) {
         setIsPlaying(false);
         setCurrentTime(0);
@@ -90,7 +78,7 @@ export function MidiPlayerCard({
       parsedMidi.notes.forEach((note, index) => {
         if (!playedNotes.has(index) && note.startTime <= elapsed && note.startTime > elapsed - 0.05) {
           playNote(note.pitch, note.duration, note.velocity / 127);
-          setPlayedNotes(prev => new Set(prev).add(index));
+          setPlayedNotes((prev) => new Set(prev).add(index));
         }
       });
     }, 16); // ~60fps
@@ -120,11 +108,14 @@ export function MidiPlayerCard({
     }
   }, [isReady, isPlaying, currentTime, parsedMidi?.duration, initialize, stopAll]);
 
-  const handleSeek = useCallback((time: number) => {
-    setCurrentTime(time);
-    setPlayedNotes(new Set());
-    stopAll();
-  }, [stopAll]);
+  const handleSeek = useCallback(
+    (time: number) => {
+      setCurrentTime(time);
+      setPlayedNotes(new Set());
+      stopAll();
+    },
+    [stopAll],
+  );
 
   if (isParsing) {
     return (
@@ -185,10 +176,10 @@ export function MidiPlayerCard({
         {/* View Mode Toggle - show if MusicXML available */}
         {hasNotation && (
           <div className="mt-2">
-            <ToggleGroup 
-              type="single" 
-              value={viewMode} 
-              onValueChange={(v) => v && setViewMode(v as 'piano' | 'notation')}
+            <ToggleGroup
+              type="single"
+              value={viewMode}
+              onValueChange={(v) => v && setViewMode(v as "piano" | "notation")}
               className="justify-start"
             >
               <ToggleGroupItem value="piano" size="sm" className="h-7 px-2 sm:px-3 text-[10px] sm:text-xs gap-1">
@@ -206,7 +197,7 @@ export function MidiPlayerCard({
 
       {/* Visualization Area - scrollable on mobile */}
       <div className="p-2 sm:p-3 overflow-x-auto">
-        {viewMode === 'piano' ? (
+        {viewMode === "piano" ? (
           <div className="min-w-[280px]">
             <PianoRollPreview
               notes={parsedMidi.notes}
@@ -217,11 +208,7 @@ export function MidiPlayerCard({
           </div>
         ) : musicXmlUrl ? (
           <div className="min-w-[280px]">
-            <MusicXMLViewer
-              url={musicXmlUrl}
-              zoom={isMobile ? 60 : 80}
-              className="min-h-[120px] sm:min-h-[160px]"
-            />
+            <MusicXMLViewer url={musicXmlUrl} zoom={isMobile ? 60 : 80} className="min-h-[120px] sm:min-h-[160px]" />
           </div>
         ) : (
           <div className="min-w-[280px]">
@@ -238,7 +225,7 @@ export function MidiPlayerCard({
       {/* Controls - compact on mobile */}
       <div className="px-2 sm:px-4 pb-2 sm:pb-4 space-y-2 sm:space-y-3">
         {/* Progress Bar */}
-        <div 
+        <div
           className="h-1.5 sm:h-2 bg-muted rounded-full overflow-hidden cursor-pointer"
           onClick={(e) => {
             const rect = e.currentTarget.getBoundingClientRect();
@@ -246,7 +233,7 @@ export function MidiPlayerCard({
             handleSeek(percent * parsedMidi.duration);
           }}
         >
-          <motion.div 
+          <motion.div
             className="h-full bg-primary"
             style={{ width: `${(currentTime / parsedMidi.duration) * 100}%` }}
           />
@@ -274,12 +261,7 @@ export function MidiPlayerCard({
 
           {/* Volume - hidden on very small screens */}
           <div className="hidden xs:flex items-center gap-1 sm:gap-2">
-            <Button
-              size="icon"
-              variant="ghost"
-              className="h-6 w-6 sm:h-8 sm:w-8"
-              onClick={() => setMuted(!isMuted)}
-            >
+            <Button size="icon" variant="ghost" className="h-6 w-6 sm:h-8 sm:w-8" onClick={() => setMuted(!isMuted)}>
               {isMuted ? (
                 <VolumeX className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               ) : (

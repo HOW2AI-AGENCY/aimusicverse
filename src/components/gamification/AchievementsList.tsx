@@ -1,15 +1,15 @@
-import { motion } from '@/lib/motion';
-import { useAchievements, useUserAchievements } from '@/hooks/useGamification';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Lock, Check, Coins, Sparkles } from 'lucide-react';
+import { motion } from "@/lib/motion";
+import { useAchievements, useUserAchievements } from "@/hooks/useGamification";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Lock, Check, Coins, Sparkles } from "lucide-react";
 
 const CATEGORY_LABELS: Record<string, string> = {
-  streak: 'Серии',
-  creation: 'Создание',
-  social: 'Социальные',
-  milestone: 'Вехи',
-  special: 'Особые',
+  streak: "Серии",
+  creation: "Создание",
+  social: "Социальные",
+  milestone: "Вехи",
+  special: "Особые",
 };
 
 interface AchievementsListProps {
@@ -32,18 +32,19 @@ export function AchievementsList({ showAll = false }: AchievementsListProps) {
     );
   }
 
-  const unlockedIds = new Set(userAchievements?.map(ua => ua.achievement_id) || []);
-  
-  const groupedAchievements = achievements?.reduce((acc, achievement) => {
-    const category = achievement.category;
-    if (!acc[category]) acc[category] = [];
-    acc[category].push(achievement);
-    return acc;
-  }, {} as Record<string, typeof achievements>);
+  const unlockedIds = new Set(userAchievements?.map((ua) => ua.achievement_id) || []);
 
-  const displayAchievements = showAll 
-    ? achievements 
-    : userAchievements?.map(ua => ua.achievement).filter(Boolean);
+  const groupedAchievements = achievements?.reduce(
+    (acc, achievement) => {
+      const category = achievement.category;
+      if (!acc[category]) acc[category] = [];
+      acc[category].push(achievement);
+      return acc;
+    },
+    {} as Record<string, typeof achievements>,
+  );
+
+  const displayAchievements = showAll ? achievements : userAchievements?.map((ua) => ua.achievement).filter(Boolean);
 
   if (!showAll && (!displayAchievements || displayAchievements.length === 0)) {
     return (
@@ -60,9 +61,7 @@ export function AchievementsList({ showAll = false }: AchievementsListProps) {
       <div className="space-y-6">
         {Object.entries(groupedAchievements).map(([category, categoryAchievements]) => (
           <div key={category}>
-            <h3 className="text-sm font-medium text-muted-foreground mb-3">
-              {CATEGORY_LABELS[category] || category}
-            </h3>
+            <h3 className="text-sm font-medium text-muted-foreground mb-3">{CATEGORY_LABELS[category] || category}</h3>
             <div className="grid gap-2">
               {categoryAchievements?.map((achievement, index) => {
                 const isUnlocked = unlockedIds.has(achievement.id);
@@ -73,35 +72,31 @@ export function AchievementsList({ showAll = false }: AchievementsListProps) {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.05 }}
                   >
-                    <Card className={`transition-all ${isUnlocked ? 'border-primary/30 bg-primary/5' : 'opacity-60'}`}>
+                    <Card className={`transition-all ${isUnlocked ? "border-primary/30 bg-primary/5" : "opacity-60"}`}>
                       <CardContent className="p-3">
                         <div className="flex items-center gap-3">
-                          <div className={`w-10 h-10 rounded-full flex items-center justify-center text-xl
-                            ${isUnlocked ? 'bg-primary/20' : 'bg-muted'}`}>
+                          <div
+                            className={`w-10 h-10 rounded-full flex items-center justify-center text-xl
+                            ${isUnlocked ? "bg-primary/20" : "bg-muted"}`}
+                          >
                             {achievement.icon}
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2">
                               <span className="font-medium truncate">{achievement.name}</span>
-                              {isUnlocked && (
-                                <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
-                              )}
+                              {isUnlocked && <Check className="w-4 h-4 text-green-500 flex-shrink-0" />}
                             </div>
-                            <p className="text-xs text-muted-foreground truncate">
-                              {achievement.description}
-                            </p>
+                            <p className="text-xs text-muted-foreground truncate">{achievement.description}</p>
                           </div>
                           <div className="flex flex-col items-end gap-1 flex-shrink-0">
                             {achievement.credits_reward > 0 && (
                               <Badge variant="secondary" className="text-xs gap-1">
-                                <Coins className="w-3 h-3" />
-                                +{achievement.credits_reward}
+                                <Coins className="w-3 h-3" />+{achievement.credits_reward}
                               </Badge>
                             )}
                             {achievement.experience_reward > 0 && (
                               <Badge variant="outline" className="text-xs gap-1">
-                                <Sparkles className="w-3 h-3" />
-                                +{achievement.experience_reward} XP
+                                <Sparkles className="w-3 h-3" />+{achievement.experience_reward} XP
                               </Badge>
                             )}
                           </div>
@@ -135,9 +130,7 @@ export function AchievementsList({ showAll = false }: AchievementsListProps) {
                 </div>
                 <div className="flex-1 min-w-0">
                   <span className="font-medium">{achievement?.name}</span>
-                  <p className="text-xs text-muted-foreground">
-                    {achievement?.description}
-                  </p>
+                  <p className="text-xs text-muted-foreground">{achievement?.description}</p>
                 </div>
                 <Check className="w-5 h-5 text-green-500" />
               </div>

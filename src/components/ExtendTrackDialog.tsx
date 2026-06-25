@@ -1,25 +1,25 @@
-import { useState, useEffect } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Slider } from '@/components/ui/slider';
-import { Loader2, Plus, Sparkles } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-import { Badge } from '@/components/ui/badge';
-import { Track } from '@/types/track';
-import { formatTime } from '@/lib/player-utils';
-import { logger } from '@/lib/logger';
-import { useExtendProgress } from '@/hooks/generation/useExtendProgress';
-import { GenerationProgressBar } from '@/components/generation/GenerationProgressBar';
-import { useNavigate } from 'react-router-dom';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { PromptValidationAlert } from '@/components/generate-form/PromptValidationAlert';
-import { validatePromptForGeneration } from '@/lib/errorHandling';
+import { useState, useEffect } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Slider } from "@/components/ui/slider";
+import { Loader2, Plus, Sparkles } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { Badge } from "@/components/ui/badge";
+import { Track } from "@/types/track";
+import { formatTime } from "@/lib/player-utils";
+import { logger } from "@/lib/logger";
+import { useExtendProgress } from "@/hooks/generation/useExtendProgress";
+import { GenerationProgressBar } from "@/components/generation/GenerationProgressBar";
+import { useNavigate } from "react-router-dom";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { PromptValidationAlert } from "@/components/generate-form/PromptValidationAlert";
+import { validatePromptForGeneration } from "@/lib/errorHandling";
 
 interface ExtendTrackDialogProps {
   open: boolean;
@@ -29,21 +29,21 @@ interface ExtendTrackDialogProps {
 
 export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDialogProps) => {
   const navigate = useNavigate();
-  const playTrack = usePlayerStore(s => s.playTrack);
+  const playTrack = usePlayerStore((s) => s.playTrack);
   const extendProgress = useExtendProgress();
-  
+
   const [useCustomParams, setUseCustomParams] = useState(true);
-  
+
   // Custom parameters
   const [continueAt, setContinueAt] = useState(track.duration_seconds || 60);
-  const [prompt, setPrompt] = useState('');
-  const [style, setStyle] = useState(track.style || '');
-  const [title, setTitle] = useState(`${track.title || 'Track'} (Extended)`);
-  
+  const [prompt, setPrompt] = useState("");
+  const [style, setStyle] = useState(track.style || "");
+  const [title, setTitle] = useState(`${track.title || "Track"} (Extended)`);
+
   // Advanced settings
-  const [model, setModel] = useState(track.suno_model || 'V4_5ALL');
-  const [negativeTags, setNegativeTags] = useState('');
-  const [vocalGender, setVocalGender] = useState<'m' | 'f' | 'auto'>('auto');
+  const [model, setModel] = useState(track.suno_model || "V4_5ALL");
+  const [negativeTags, setNegativeTags] = useState("");
+  const [vocalGender, setVocalGender] = useState<"m" | "f" | "auto">("auto");
   const [styleWeight, setStyleWeight] = useState([0.65]);
   const [weirdnessConstraint, setWeirdnessConstraint] = useState([0.5]);
   const [audioWeight, setAudioWeight] = useState([0.65]);
@@ -55,27 +55,27 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
     }
   }, [open]);
 
-  const loading = extendProgress.status === 'submitting';
+  const loading = extendProgress.status === "submitting";
 
   const handleExtend = async () => {
     if (useCustomParams) {
       if (!prompt) {
-        toast.error('Пожалуйста, укажите как продолжить трек');
+        toast.error("Пожалуйста, укажите как продолжить трек");
         return;
       }
       if (!style) {
-        toast.error('Пожалуйста, укажите стиль');
+        toast.error("Пожалуйста, укажите стиль");
         return;
       }
       if (!title) {
-        toast.error('Пожалуйста, укажите название');
+        toast.error("Пожалуйста, укажите название");
         return;
       }
       if (!continueAt || continueAt <= 0) {
-        toast.error('Пожалуйста, укажите время продолжения');
+        toast.error("Пожалуйста, укажите время продолжения");
         return;
       }
-      
+
       // Validate for blocked artist names
       const validation = validatePromptForGeneration(prompt, style);
       if (!validation.valid) {
@@ -86,7 +86,7 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
 
     extendProgress.setSubmitting();
     try {
-      const { data, error } = await supabase.functions.invoke('suno-music-extend', {
+      const { data, error } = await supabase.functions.invoke("suno-music-extend", {
         body: {
           sourceTrackId: track.id,
           defaultParamFlag: useCustomParams,
@@ -96,7 +96,7 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
           title: useCustomParams ? title : undefined,
           model,
           negativeTags: negativeTags || undefined,
-          vocalGender: vocalGender === 'auto' ? undefined : vocalGender,
+          vocalGender: vocalGender === "auto" ? undefined : vocalGender,
           styleWeight: styleWeight[0],
           weirdnessConstraint: weirdnessConstraint[0],
           audioWeight: audioWeight[0],
@@ -110,19 +110,19 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
       if (data?.taskId) {
         extendProgress.startTracking(data.taskId, data.trackId || track.id);
       } else {
-        toast.success('Расширение началось! 🎵', {
-          description: 'Расширенный трек появится в библиотеке через 1-3 минуты',
+        toast.success("Расширение началось! 🎵", {
+          description: "Расширенный трек появится в библиотеке через 1-3 минуты",
         });
         onOpenChange(false);
       }
     } catch (error) {
-      logger.error('Extend error', { error });
-      
-      const errorMessage = error instanceof Error ? error.message : '';
-      if (errorMessage.includes('429') || errorMessage.includes('credits')) {
-        extendProgress.setError('Недостаточно кредитов');
+      logger.error("Extend error", { error });
+
+      const errorMessage = error instanceof Error ? error.message : "";
+      if (errorMessage.includes("429") || errorMessage.includes("credits")) {
+        extendProgress.setError("Недостаточно кредитов");
       } else {
-        extendProgress.setError(errorMessage || 'Попробуйте еще раз');
+        extendProgress.setError(errorMessage || "Попробуйте еще раз");
       }
     }
   };
@@ -157,7 +157,7 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
 
         <div className="space-y-6">
           {/* Progress indicator */}
-          {extendProgress.status !== 'idle' && (
+          {extendProgress.status !== "idle" && (
             <GenerationProgressBar
               status={extendProgress.status}
               progress={extendProgress.progress}
@@ -178,19 +178,15 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
           <div className="p-4 rounded-lg glass border border-border/50">
             <div className="flex items-center gap-3">
               {track.cover_url && (
-                <img
-                  src={track.cover_url}
-                  alt={track.title || ''}
-                  className="w-12 h-12 rounded object-cover"
-                />
+                <img src={track.cover_url} alt={track.title || ""} className="w-12 h-12 rounded object-cover" />
               )}
               <div className="flex-1">
-                <h3 className="font-semibold">{track.title || 'Без названия'}</h3>
+                <h3 className="font-semibold">{track.title || "Без названия"}</h3>
                 <p className="text-sm text-muted-foreground">
                   {track.style} • {formatTime(track.duration_seconds || 0)}
                 </p>
               </div>
-              <Badge>{track.suno_model || 'V4'}</Badge>
+              <Badge>{track.suno_model || "V4"}</Badge>
             </div>
           </div>
 
@@ -198,14 +194,9 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
           <div className="flex items-center justify-between p-4 rounded-lg glass border border-border/50">
             <div>
               <Label className="font-medium">Пользовательские параметры</Label>
-              <p className="text-xs text-muted-foreground mt-1">
-                Изменить стиль и направление продолжения
-              </p>
+              <p className="text-xs text-muted-foreground mt-1">Изменить стиль и направление продолжения</p>
             </div>
-            <Switch
-              checked={useCustomParams}
-              onCheckedChange={setUseCustomParams}
-            />
+            <Switch checked={useCustomParams} onCheckedChange={setUseCustomParams} />
           </div>
 
           {useCustomParams ? (
@@ -224,9 +215,7 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
                   step={1}
                   className="mt-2"
                 />
-                <p className="text-xs text-muted-foreground mt-1">
-                  С какого момента начать расширение трека
-                </p>
+                <p className="text-xs text-muted-foreground mt-1">С какого момента начать расширение трека</p>
               </div>
 
               {/* Prompt */}
@@ -240,8 +229,8 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
                   rows={4}
                   className="mt-2 resize-none"
                 />
-                <PromptValidationAlert 
-                  text={prompt} 
+                <PromptValidationAlert
+                  text={prompt}
                   onApplyReplacement={(newText) => setPrompt(newText)}
                   className="mt-2"
                 />
@@ -257,8 +246,8 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
                   onChange={(e) => setStyle(e.target.value)}
                   className="mt-2"
                 />
-                <PromptValidationAlert 
-                  text={style} 
+                <PromptValidationAlert
+                  text={style}
                   onApplyReplacement={(newText) => setStyle(newText)}
                   className="mt-2"
                 />
@@ -267,12 +256,7 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
               {/* Title */}
               <div>
                 <Label htmlFor="title">Название *</Label>
-                <Input
-                  id="title"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  className="mt-2"
-                />
+                <Input id="title" value={title} onChange={(e) => setTitle(e.target.value)} className="mt-2" />
               </div>
             </>
           ) : (
@@ -311,7 +295,7 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
             {track.has_vocals && (
               <div>
                 <Label htmlFor="vocal-gender">Пол вокала</Label>
-                <Select value={vocalGender} onValueChange={(v) => setVocalGender(v as 'm' | 'f' | 'auto')}>
+                <Select value={vocalGender} onValueChange={(v) => setVocalGender(v as "m" | "f" | "auto")}>
                   <SelectTrigger className="mt-2">
                     <SelectValue placeholder="Автоматически" />
                   </SelectTrigger>
@@ -330,17 +314,8 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
                 <Label>Вес оригинального аудио</Label>
                 <Badge variant="outline">{audioWeight[0].toFixed(2)}</Badge>
               </div>
-              <Slider
-                value={audioWeight}
-                onValueChange={setAudioWeight}
-                min={0}
-                max={1}
-                step={0.01}
-                className="mt-2"
-              />
-              <p className="text-xs text-muted-foreground mt-1">
-                Насколько сильно сохранить оригинальное звучание
-              </p>
+              <Slider value={audioWeight} onValueChange={setAudioWeight} min={0} max={1} step={0.01} className="mt-2" />
+              <p className="text-xs text-muted-foreground mt-1">Насколько сильно сохранить оригинальное звучание</p>
             </div>
 
             {/* Style Weight */}
@@ -349,14 +324,7 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
                 <Label>Вес стиля</Label>
                 <Badge variant="outline">{styleWeight[0].toFixed(2)}</Badge>
               </div>
-              <Slider
-                value={styleWeight}
-                onValueChange={setStyleWeight}
-                min={0}
-                max={1}
-                step={0.01}
-                className="mt-2"
-              />
+              <Slider value={styleWeight} onValueChange={setStyleWeight} min={0} max={1} step={0.01} className="mt-2" />
             </div>
 
             {/* Creativity */}
@@ -397,20 +365,20 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
             {loading || extendProgress.isActive ? (
               <>
                 <Loader2 className="w-5 h-5 animate-spin" />
-                {extendProgress.message || 'Расширение...'}
+                {extendProgress.message || "Расширение..."}
               </>
             ) : (
               <>
                 <Plus className="w-5 h-5" />
                 Расширить трек
-                <Badge variant="secondary" className="ml-2">10 💎</Badge>
+                <Badge variant="secondary" className="ml-2">
+                  10 💎
+                </Badge>
               </>
             )}
           </Button>
 
-          <p className="text-xs text-center text-muted-foreground">
-            Расширение обычно занимает 1-3 минуты
-          </p>
+          <p className="text-xs text-center text-muted-foreground">Расширение обычно занимает 1-3 минуты</p>
         </div>
       </DialogContent>
     </Dialog>

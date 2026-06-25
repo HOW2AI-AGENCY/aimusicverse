@@ -1,26 +1,26 @@
-import { motion } from '@/lib/motion';
-import { cn } from '@/lib/utils';
-import { STRUCTURES, buttonVariants, type StructureOption } from '@/lib/lyrics/constants';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { motion } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import { STRUCTURES, buttonVariants, type StructureOption } from "@/lib/lyrics/constants";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface StructurePickerProps {
   value: string;
   onChange: (structure: string) => void;
-  mode?: 'cards' | 'select';
+  mode?: "cards" | "select";
   className?: string;
   disabled?: boolean;
   placeholder?: string;
 }
 
-export function StructurePicker({ 
-  value, 
-  onChange, 
-  mode = 'cards',
+export function StructurePicker({
+  value,
+  onChange,
+  mode = "cards",
   className,
   disabled = false,
-  placeholder = 'Выберите структуру'
+  placeholder = "Выберите структуру",
 }: StructurePickerProps) {
-  if (mode === 'select') {
+  if (mode === "select") {
     return (
       <Select value={value} onValueChange={onChange} disabled={disabled}>
         <SelectTrigger className={className}>
@@ -39,7 +39,7 @@ export function StructurePicker({
 
   // Cards mode (default)
   return (
-    <motion.div 
+    <motion.div
       className={cn("space-y-2", className)}
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
@@ -61,18 +61,18 @@ export function StructurePicker({
             disabled={disabled}
             className={cn(
               "w-full flex flex-col items-start text-left px-4 py-3 rounded-xl transition-all",
-              value === s.value
-                ? "bg-primary text-primary-foreground shadow-lg"
-                : "bg-secondary/50 hover:bg-secondary",
-              disabled && "opacity-50 cursor-not-allowed"
+              value === s.value ? "bg-primary text-primary-foreground shadow-lg" : "bg-secondary/50 hover:bg-secondary",
+              disabled && "opacity-50 cursor-not-allowed",
             )}
             onClick={() => onChange(s.value)}
           >
             <span className="font-medium text-sm">{s.label}</span>
-            <span className={cn(
-              "text-xs mt-0.5",
-              value === s.value ? "text-primary-foreground/70" : "text-muted-foreground"
-            )}>
+            <span
+              className={cn(
+                "text-xs mt-0.5",
+                value === s.value ? "text-primary-foreground/70" : "text-muted-foreground",
+              )}
+            >
               {s.desc}
             </span>
           </motion.button>

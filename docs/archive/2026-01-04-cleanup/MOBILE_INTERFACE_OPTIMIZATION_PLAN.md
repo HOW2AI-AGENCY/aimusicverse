@@ -85,6 +85,7 @@ Studio Mobile (4 компонента):
 ### Текущая навигация
 
 **BottomNavigation:**
+
 - ✅ Существует базовая навигация
 - ⚠️ Необходима проверка на соответствие best practices
 - ⚠️ Возможно нуждается в расширении/оптимизации
@@ -96,6 +97,7 @@ Studio Mobile (4 компонента):
 ### 1. Фрагментация компонентов (CRITICAL)
 
 **Проблема:**
+
 - 29+ мобильных компонентов без четкой иерархии
 - Дублирование логики и стилей
 - Сложность поддержки и обновления
@@ -108,6 +110,7 @@ Studio Mobile (4 компонента):
 ### 2. Отсутствие единой системы дизайна (HIGH)
 
 **Проблема:**
+
 - Нет unified design tokens для mobile
 - Inconsistent spacing, sizing, typography
 - Разные подходы к touch targets
@@ -120,6 +123,7 @@ Studio Mobile (4 компонента):
 ### 3. Performance на мобильных устройствах (CRITICAL)
 
 **Проблема:**
+
 - Известные проблемы с AudioContext на iOS Safari
 - Лимит 6-8 audio элементов на mobile
 - Возможные memory leaks
@@ -132,6 +136,7 @@ Studio Mobile (4 компонента):
 ### 4. Touch Experience (HIGH)
 
 **Проблема:**
+
 - Некоторые touch targets < 44x44px (Apple HIG minimum)
 - Отсутствие haptic feedback в ключевых местах
 - Недостаточно gesture support (swipe, long press, etc.)
@@ -144,6 +149,7 @@ Studio Mobile (4 компонента):
 ### 5. Navigation & Information Architecture (MEDIUM)
 
 **Проблема:**
+
 - Глубокая вложенность экранов
 - Не всегда понятно как вернуться назад
 - Контекстуальные действия разбросаны
@@ -203,44 +209,44 @@ Component Reusability:  TBD → >70%
 export const mobileTokens = {
   // Spacing (8pt grid)
   spacing: {
-    xs: '0.5rem',    // 8px
-    sm: '0.75rem',   // 12px
-    md: '1rem',      // 16px
-    lg: '1.5rem',    // 24px
-    xl: '2rem',      // 32px
+    xs: "0.5rem", // 8px
+    sm: "0.75rem", // 12px
+    md: "1rem", // 16px
+    lg: "1.5rem", // 24px
+    xl: "2rem", // 32px
   },
-  
+
   // Touch Targets (Apple HIG compliant)
   touchTarget: {
-    minimum: '44px',     // 44x44px minimum
-    comfortable: '48px', // 48x48px comfortable
-    spacious: '56px',    // 56x56px spacious
+    minimum: "44px", // 44x44px minimum
+    comfortable: "48px", // 48x48px comfortable
+    spacious: "56px", // 56x56px spacious
   },
-  
+
   // Typography
   typography: {
-    heading1: { size: '1.75rem', weight: 700, lineHeight: 1.2 },
-    heading2: { size: '1.5rem', weight: 600, lineHeight: 1.3 },
-    body: { size: '1rem', weight: 400, lineHeight: 1.5 },
-    caption: { size: '0.875rem', weight: 400, lineHeight: 1.4 },
+    heading1: { size: "1.75rem", weight: 700, lineHeight: 1.2 },
+    heading2: { size: "1.5rem", weight: 600, lineHeight: 1.3 },
+    body: { size: "1rem", weight: 400, lineHeight: 1.5 },
+    caption: { size: "0.875rem", weight: 400, lineHeight: 1.4 },
   },
-  
+
   // Safe Areas
   safeArea: {
-    top: 'var(--safe-area-top, 0px)',
-    bottom: 'var(--safe-area-bottom, 0px)',
-    left: 'var(--safe-area-left, 0px)',
-    right: 'var(--safe-area-right, 0px)',
+    top: "var(--safe-area-top, 0px)",
+    bottom: "var(--safe-area-bottom, 0px)",
+    left: "var(--safe-area-left, 0px)",
+    right: "var(--safe-area-right, 0px)",
   },
-  
+
   // Animation
   animation: {
-    fast: '150ms',
-    normal: '250ms',
-    slow: '350ms',
-    easing: 'cubic-bezier(0.4, 0.0, 0.2, 1)',
+    fast: "150ms",
+    normal: "250ms",
+    slow: "350ms",
+    easing: "cubic-bezier(0.4, 0.0, 0.2, 1)",
   },
-  
+
   // Z-Index Layers
   zIndex: {
     base: 10,
@@ -310,6 +316,7 @@ src/components/mobile/
 **Принцип:** Показывать только необходимую информацию, прятать сложность
 
 **Применение:**
+
 - Collapsible sections для advanced settings
 - Step-by-step wizards для сложных процессов
 - Bottom sheets для secondary actions
@@ -332,6 +339,7 @@ src/components/mobile/
 ```
 
 **Применение:**
+
 - Bottom navigation для main actions
 - Floating Action Button (FAB) в thumb zone
 - Important controls в нижней части экрана
@@ -341,6 +349,7 @@ src/components/mobile/
 **Принцип:** Используй жесты для быстрых действий
 
 **Применение:**
+
 - Swipe left/right на карточках → actions
 - Long press → context menu
 - Pull down → refresh
@@ -352,6 +361,7 @@ src/components/mobile/
 **Принцип:** Действия рядом с контекстом
 
 **Применение:**
+
 - Action buttons на карточках
 - Inline editing
 - Contextual hints
@@ -366,6 +376,7 @@ src/components/mobile/
 **Фаза 1: Audit & Mapping (2 дня)**
 
 1. **Создать component matrix:**
+
    ```
    Component           | Features              | Usage | Keep/Merge/Delete
    -------------------|----------------------|-------|------------------
@@ -389,9 +400,10 @@ src/components/mobile/
 **Фаза 2: Create Base Components (3 дня)**
 
 1. **MobileLayout (Base):**
+
    ```typescript
    // src/components/mobile/layout/MobileLayout.tsx
-   
+
    interface MobileLayoutProps {
      header?: ReactNode;
      footer?: ReactNode;
@@ -399,13 +411,13 @@ src/components/mobile/
      safeArea?: boolean;
      children: ReactNode;
    }
-   
-   export function MobileLayout({ 
+
+   export function MobileLayout({
      header,
      footer,
      navigation = 'bottom',
      safeArea = true,
-     children 
+     children
    }: MobileLayoutProps) {
      return (
        <div className={cn(
@@ -417,17 +429,17 @@ src/components/mobile/
              {header}
            </header>
          )}
-         
+
          <main className="flex-1 overflow-y-auto">
            {children}
          </main>
-         
+
          {footer && (
            <footer className="sticky bottom-0 z-40">
              {footer}
            </footer>
          )}
-         
+
          {navigation === 'bottom' && <BottomNavigation />}
        </div>
      );
@@ -435,9 +447,10 @@ src/components/mobile/
    ```
 
 2. **MobileTabBar (Unified Tabs):**
+
    ```typescript
    // src/components/mobile/navigation/MobileTabBar.tsx
-   
+
    interface Tab {
      id: string;
      label: string;
@@ -445,14 +458,14 @@ src/components/mobile/
      badge?: number;
      disabled?: boolean;
    }
-   
+
    interface MobileTabBarProps {
      tabs: Tab[];
      activeTab: string;
      onTabChange: (tabId: string) => void;
      variant?: 'default' | 'compact';
    }
-   
+
    export function MobileTabBar({ tabs, activeTab, onTabChange, variant = 'default' }: MobileTabBarProps) {
      return (
        <div className={cn(
@@ -462,7 +475,7 @@ src/components/mobile/
          {tabs.map((tab) => {
            const Icon = tab.icon;
            const isActive = activeTab === tab.id;
-           
+
            return (
              <button
                key={tab.id}
@@ -496,24 +509,25 @@ src/components/mobile/
    ```
 
 3. **MobileStudio (Consolidated):**
+
    ```typescript
    // src/components/mobile/studio/MobileStudio.tsx
-   
+
    interface MobileStudioProps {
      trackId: string;
      mode?: 'player' | 'mixer' | 'sections' | 'lyrics';
    }
-   
+
    export function MobileStudio({ trackId, mode = 'player' }: MobileStudioProps) {
      const [activeTab, setActiveTab] = useState(mode);
-     
+
      const tabs = [
        { id: 'player', label: 'Player', icon: Play },
        { id: 'mixer', label: 'Mixer', icon: Sliders },
        { id: 'sections', label: 'Sections', icon: Grid },
        { id: 'lyrics', label: 'Lyrics', icon: FileText },
      ];
-     
+
      return (
        <MobileLayout
          header={<MobileStudioHeader trackId={trackId} />}
@@ -524,7 +538,7 @@ src/components/mobile/
            activeTab={activeTab}
            onTabChange={setActiveTab}
          />
-         
+
          <div className="flex-1 overflow-y-auto">
            {activeTab === 'player' && <MobilePlayerTab trackId={trackId} />}
            {activeTab === 'mixer' && <MobileStemMixer trackId={trackId} />}
@@ -558,6 +572,7 @@ src/components/mobile/
    - Lower priority, migrate as needed
 
 **Migration Script:**
+
 ```bash
 #!/bin/bash
 # scripts/migrate-mobile-components.sh
@@ -586,6 +601,7 @@ echo "✅ Migration complete!"
 ### Week 1: Foundation & Design System (5 дней)
 
 **Day 1-2: Audit & Analysis**
+
 - [ ] Complete component audit (matrix)
 - [ ] Map dependencies with madge
 - [ ] Identify duplication with jscpd
@@ -593,12 +609,14 @@ echo "✅ Migration complete!"
 - [ ] Create consolidation plan
 
 **Day 3: Design System**
+
 - [ ] Create mobile design tokens
 - [ ] Document design patterns
 - [ ] Create component guidelines
 - [ ] Setup Storybook for mobile components
 
 **Day 4-5: Base Components**
+
 - [ ] Implement `MobileLayout`
 - [ ] Implement `MobileTabBar`
 - [ ] Implement `MobileHeader`
@@ -606,6 +624,7 @@ echo "✅ Migration complete!"
 - [ ] Write tests
 
 **Deliverables:**
+
 - ✅ Component audit report
 - ✅ Mobile design tokens
 - ✅ 4 base components
@@ -617,27 +636,32 @@ echo "✅ Migration complete!"
 ### Week 2: Studio Consolidation (5 дней)
 
 **Day 1-2: Stem Studio**
+
 - [ ] Create `MobileStudio` unified component
 - [ ] Migrate `TrackStudioMobileLayout`
 - [ ] Consolidate tab components
 - [ ] Merge action components
 
 **Day 3: Player**
+
 - [ ] Refactor `MobileFullscreenPlayer`
 - [ ] Extract `MobilePlayerControls`
 - [ ] Implement new player UI
 
 **Day 4: Testing**
+
 - [ ] Unit tests for new components
 - [ ] Integration tests for studio
 - [ ] Manual testing on devices
 
 **Day 5: Migration**
+
 - [ ] Update imports
 - [ ] Fix breaking changes
 - [ ] Update documentation
 
 **Deliverables:**
+
 - ✅ Unified `MobileStudio` component
 - ✅ Refactored player
 - ✅ Test coverage >80%
@@ -648,30 +672,35 @@ echo "✅ Migration complete!"
 ### Week 3: Navigation & UX Polish (5 дней)
 
 **Day 1-2: Navigation**
+
 - [ ] Review and enhance `BottomNavigation`
 - [ ] Implement breadcrumbs
 - [ ] Add navigation animations
 - [ ] Improve back button behavior
 
 **Day 3: Touch Optimizations**
+
 - [ ] Audit touch targets (all <44px)
 - [ ] Implement haptic feedback
 - [ ] Add gesture support (swipe, long press)
 - [ ] Keyboard awareness fixes
 
 **Day 4: Performance**
+
 - [ ] Audio element pooling
 - [ ] Waveform Web Worker
 - [ ] Component memoization
 - [ ] Bundle size optimization
 
 **Day 5: Testing & QA**
+
 - [ ] Device testing (iOS/Android)
 - [ ] Performance testing
 - [ ] Accessibility audit
 - [ ] Bug fixes
 
 **Deliverables:**
+
 - ✅ Enhanced navigation
 - ✅ 100% touch target compliance
 - ✅ Gesture support
@@ -682,6 +711,7 @@ echo "✅ Migration complete!"
 ### Week 4: Documentation & Cleanup (3 дня)
 
 **Day 1-2: Documentation**
+
 - [ ] Component API documentation
 - [ ] Usage examples
 - [ ] Migration guide
@@ -689,12 +719,14 @@ echo "✅ Migration complete!"
 - [ ] Update CONTRIBUTING.md
 
 **Day 3: Cleanup**
+
 - [ ] Remove deprecated components
 - [ ] Clean up unused code
 - [ ] Final testing
 - [ ] Deploy to staging
 
 **Deliverables:**
+
 - ✅ Complete documentation
 - ✅ Clean codebase
 - ✅ Staging deployment
@@ -707,6 +739,7 @@ echo "✅ Migration complete!"
 ### Технические метрики
 
 **Code Quality:**
+
 ```
 ✅ Mobile components: 29+ → 15-18 (-40%)
 ✅ Code duplication: TBD → <5%
@@ -716,6 +749,7 @@ echo "✅ Migration complete!"
 ```
 
 **Performance:**
+
 ```
 ✅ TTI (4G Mobile): ~4.5s → <3s
 ✅ List FPS: 45 → >58 FPS
@@ -725,6 +759,7 @@ echo "✅ Migration complete!"
 ```
 
 **Compliance:**
+
 ```
 ✅ Touch targets: 100% ≥44x44px
 ✅ WCAG 2.1 AA: Pass
@@ -735,6 +770,7 @@ echo "✅ Migration complete!"
 ### UX метрики
 
 **Usability:**
+
 ```
 ✅ Mobile Usability Score: 89 → 95
 ✅ Navigation depth: <3 taps average
@@ -743,6 +779,7 @@ echo "✅ Migration complete!"
 ```
 
 **User Satisfaction:**
+
 ```
 ✅ NPS: >70
 ✅ App rating: >4.5/5
@@ -759,6 +796,7 @@ echo "✅ Migration complete!"
 Оптимизация считается завершенной когда:
 
 **Code:**
+
 - [ ] Все мобильные компоненты консолидированы
 - [ ] Нет code duplication >5%
 - [ ] Test coverage >80%
@@ -766,30 +804,35 @@ echo "✅ Migration complete!"
 - [ ] No ESLint warnings
 
 **Design:**
+
 - [ ] Mobile design system documented
 - [ ] All components follow design tokens
 - [ ] Consistent spacing/sizing/colors
 - [ ] Touch targets ≥44x44px
 
 **Performance:**
+
 - [ ] TTI <3s на 4G mobile
 - [ ] FPS >58 in lists
 - [ ] Lighthouse score >90
 - [ ] No memory leaks
 
 **UX:**
+
 - [ ] Navigation depth <3 taps
 - [ ] All gestures working
 - [ ] Haptic feedback integrated
 - [ ] Keyboard UX perfect
 
 **Documentation:**
+
 - [ ] Component API docs complete
 - [ ] Migration guide written
 - [ ] Best practices documented
 - [ ] Storybook stories created
 
 **Testing:**
+
 - [ ] All tests passing
 - [ ] Manual testing on 5+ devices
 - [ ] No regressions
@@ -810,12 +853,14 @@ echo "✅ Migration complete!"
 ### Long-term Improvements
 
 **Q1 2026:**
+
 - Progressive Web App (PWA) support
 - Offline mode
 - Advanced gestures
 - Animation polish
 
 **Q2 2026:**
+
 - Multi-language support (i18n)
 - Right-to-left (RTL) layouts
 - Advanced accessibility features
@@ -826,16 +871,19 @@ echo "✅ Migration complete!"
 ## 📚 Ресурсы
 
 ### Design Guidelines
+
 - [Apple Human Interface Guidelines - iOS](https://developer.apple.com/design/human-interface-guidelines/)
 - [Material Design 3 - Mobile](https://m3.material.io/)
 - [Touch Target Sizes](https://www.smashingmagazine.com/2021/03/designing-better-target-sizes/)
 
 ### Performance
+
 - [Web.dev - Mobile Performance](https://web.dev/performance/)
 - [Lighthouse CI](https://github.com/GoogleChrome/lighthouse-ci)
 - [React Performance](https://react.dev/learn/render-and-commit)
 
 ### Tools
+
 - [Madge](https://github.com/pahen/madge) - Dependency graph
 - [jscpd](https://github.com/kucherenko/jscpd) - Code duplication detection
 - [Storybook](https://storybook.js.org/) - Component development
@@ -845,6 +893,7 @@ echo "✅ Migration complete!"
 ## 📝 Changelog
 
 ### Version 1.0 (22 декабря 2025)
+
 - Initial plan created
 - Component audit completed
 - Design system defined

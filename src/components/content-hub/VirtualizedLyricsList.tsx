@@ -1,17 +1,17 @@
-import { useCallback } from 'react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { MoreVertical, Copy, Trash2 } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { toast } from 'sonner';
-import { motion, AnimatePresence } from '@/lib/motion';
+import { useCallback } from "react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { MoreVertical, Copy, Trash2 } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { toast } from "sonner";
+import { motion, AnimatePresence } from "@/lib/motion";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import type { LyricsTemplate } from '@/hooks/useLyricsTemplates';
+} from "@/components/ui/dropdown-menu";
+import type { LyricsTemplate } from "@/hooks/useLyricsTemplates";
 
 interface VirtualizedLyricsListProps {
   templates: LyricsTemplate[];
@@ -19,15 +19,11 @@ interface VirtualizedLyricsListProps {
   onDelete: (id: string) => void;
 }
 
-export function VirtualizedLyricsList({
-  templates,
-  onSelect,
-  onDelete,
-}: VirtualizedLyricsListProps) {
+export function VirtualizedLyricsList({ templates, onSelect, onDelete }: VirtualizedLyricsListProps) {
   const handleCopy = useCallback((lyrics: string, e: React.MouseEvent) => {
     e.stopPropagation();
     navigator.clipboard.writeText(lyrics);
-    toast.success('Текст скопирован');
+    toast.success("Текст скопирован");
   }, []);
 
   return (
@@ -44,7 +40,7 @@ export function VirtualizedLyricsList({
             className={cn(
               "p-3 rounded-xl bg-card/50 border border-border/50",
               "hover:bg-card hover:border-border cursor-pointer transition-all",
-              "active:scale-[0.99] touch-manipulation"
+              "active:scale-[0.99] touch-manipulation",
             )}
           >
             <div className="flex items-start justify-between gap-2">
@@ -52,8 +48,10 @@ export function VirtualizedLyricsList({
                 <h3 className="font-medium text-sm truncate">{template.name}</h3>
                 <p className="text-xs text-muted-foreground line-clamp-2 mt-1 whitespace-pre-wrap">
                   {template.lyrics ? (
-                    template.lyrics.replace(/\[.*?\]/g, '').trim().substring(0, 100) + 
-                    (template.lyrics.length > 100 ? '...' : '')
+                    template.lyrics
+                      .replace(/\[.*?\]/g, "")
+                      .trim()
+                      .substring(0, 100) + (template.lyrics.length > 100 ? "..." : "")
                   ) : (
                     <span className="italic">Нет текста</span>
                   )}
@@ -88,7 +86,7 @@ export function VirtualizedLyricsList({
                     <Copy className="w-4 h-4 mr-2" />
                     Копировать
                   </DropdownMenuItem>
-                  <DropdownMenuItem 
+                  <DropdownMenuItem
                     onClick={(e) => {
                       e.stopPropagation();
                       onDelete(template.id);

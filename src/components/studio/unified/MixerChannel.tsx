@@ -3,13 +3,13 @@
  * Includes volume fader, pan knob, mute/solo, and level meter
  */
 
-import { memo, useCallback } from 'react';
-import { motion } from '@/lib/motion';
-import { Volume2, VolumeX, Headphones, Sliders } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { useHapticFeedback } from '@/hooks/useHapticFeedback';
-import { SimpleMeter } from './AudioMeter';
+import { memo, useCallback } from "react";
+import { motion } from "@/lib/motion";
+import { Volume2, VolumeX, Headphones, Sliders } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
+import { SimpleMeter } from "./AudioMeter";
 
 export interface MixerChannelProps {
   id: string;
@@ -36,8 +36,8 @@ export const MixerChannel = memo(function MixerChannel({
   id,
   name,
   shortName,
-  icon = '🎵',
-  color = 'hsl(var(--primary))',
+  icon = "🎵",
+  color = "hsl(var(--primary))",
   volume,
   pan = 0,
   muted,
@@ -95,7 +95,7 @@ export const MixerChannel = memo(function MixerChannel({
       className={cn(
         "flex flex-col items-center p-3 rounded-xl border min-w-[90px]",
         "bg-card/50",
-        muted ? "opacity-60 border-border/30" : "border-border/50"
+        muted ? "opacity-60 border-border/30" : "border-border/50",
       )}
     >
       {/* Icon */}
@@ -107,20 +107,12 @@ export const MixerChannel = memo(function MixerChannel({
       </div>
 
       {/* Name */}
-      <p className="text-xs font-medium text-center truncate w-full mb-2">
-        {shortName || name}
-      </p>
+      <p className="text-xs font-medium text-center truncate w-full mb-2">{shortName || name}</p>
 
       {/* Level Meter + Fader */}
       <div className="flex items-end gap-1 h-32 mb-3">
         {/* Meter */}
-        <SimpleMeter
-          volume={volume}
-          isMuted={muted}
-          isPlaying={isPlaying}
-          height={120}
-          width={6}
-        />
+        <SimpleMeter volume={volume} isMuted={muted} isPlaying={isPlaying} height={120} width={6} />
 
         {/* Vertical Fader */}
         <div className="h-full w-10 relative">
@@ -139,14 +131,14 @@ export const MixerChannel = memo(function MixerChannel({
             value={volume}
             onChange={(e) => onVolumeChange(parseFloat(e.target.value))}
             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-            style={{ writingMode: 'vertical-lr', direction: 'rtl' }}
+            style={{ writingMode: "vertical-lr", direction: "rtl" }}
           />
         </div>
       </div>
 
       {/* Volume Value */}
       <span className="text-[10px] font-mono text-muted-foreground mb-2">
-        {muted ? 'M' : `${Math.round(volume * 100)}`}
+        {muted ? "M" : `${Math.round(volume * 100)}`}
       </span>
 
       {/* Pan Control */}
@@ -166,7 +158,7 @@ export const MixerChannel = memo(function MixerChannel({
             className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer"
           />
           <div className="text-center text-[9px] text-muted-foreground mt-0.5">
-            {pan === 0 ? 'C' : pan < 0 ? `L${Math.abs(Math.round(pan * 100))}` : `R${Math.round(pan * 100)}`}
+            {pan === 0 ? "C" : pan < 0 ? `L${Math.abs(Math.round(pan * 100))}` : `R${Math.round(pan * 100)}`}
           </div>
         </div>
       )}
@@ -243,7 +235,7 @@ const CompactMixerChannel = memo(function CompactMixerChannel({
       className={cn(
         "flex flex-col items-center p-2 rounded-lg border min-w-[70px]",
         "bg-card/50",
-        muted ? "opacity-50 border-border/30" : "border-border/50"
+        muted ? "opacity-50 border-border/30" : "border-border/50",
       )}
     >
       {/* Icon */}
@@ -255,9 +247,7 @@ const CompactMixerChannel = memo(function CompactMixerChannel({
       </div>
 
       {/* Name */}
-      <p className="text-[10px] font-medium text-center truncate w-full mb-1">
-        {name}
-      </p>
+      <p className="text-[10px] font-medium text-center truncate w-full mb-1">{name}</p>
 
       {/* Mini Fader */}
       <div className="h-16 w-6 relative mb-1">
@@ -276,7 +266,7 @@ const CompactMixerChannel = memo(function CompactMixerChannel({
           value={volume}
           onChange={(e) => onVolumeChange(parseFloat(e.target.value))}
           className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-          style={{ writingMode: 'vertical-lr', direction: 'rtl' }}
+          style={{ writingMode: "vertical-lr", direction: "rtl" }}
         />
       </div>
 
@@ -286,9 +276,7 @@ const CompactMixerChannel = memo(function CompactMixerChannel({
           onClick={onToggleMute}
           className={cn(
             "w-7 h-7 rounded text-[10px] font-bold transition-colors",
-            muted
-              ? "bg-destructive text-destructive-foreground"
-              : "bg-muted text-muted-foreground hover:bg-muted/80"
+            muted ? "bg-destructive text-destructive-foreground" : "bg-muted text-muted-foreground hover:bg-muted/80",
           )}
         >
           M
@@ -297,9 +285,7 @@ const CompactMixerChannel = memo(function CompactMixerChannel({
           onClick={onToggleSolo}
           className={cn(
             "w-7 h-7 rounded text-[10px] font-bold transition-colors",
-            solo
-              ? "bg-primary text-primary-foreground"
-              : "bg-muted text-muted-foreground hover:bg-muted/80"
+            solo ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-muted/80",
           )}
         >
           S

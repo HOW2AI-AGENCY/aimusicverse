@@ -3,6 +3,7 @@
 ## 🎯 Проблема
 
 При запуске Telegram Mini App возникала критическая ошибка:
+
 ```
 vendor-other-CIhvNVqJ.js:10 Uncaught TypeError: Cannot read properties of undefined (reading 'useSyncExternalStore')
 ```
@@ -13,7 +14,7 @@ vendor-other-CIhvNVqJ.js:10 Uncaught TypeError: Cannot read properties of undefi
 
 ### Обнаруженная проблема
 
-1. **Разделение пакетов**: 
+1. **Разделение пакетов**:
    - `@tanstack/query-core` (ядро) → попадал в `vendor-other` (500 КБ)
    - `@tanstack/react-query` (React биндинги) → попадал в `vendor-query` (3.2 КБ)
 
@@ -24,12 +25,8 @@ vendor-other-CIhvNVqJ.js:10 Uncaught TypeError: Cannot read properties of undefi
 
 3. **Порядок загрузки**:
    ```html
-   1. vendor-react ✅
-   2. vendor-utils ✅
-   3. vendor-other ⚠️ (содержит query-core с хуками)
-   4. vendor-radix
-   ...
-   11. vendor-query ⚠️ (импортирует из vendor-other)
+   1. vendor-react ✅ 2. vendor-utils ✅ 3. vendor-other ⚠️ (содержит query-core с хуками) 4. vendor-radix ... 11.
+   vendor-query ⚠️ (импортирует из vendor-other)
    ```
 
 ## ✅ Решение
@@ -63,20 +60,22 @@ if (id.includes("@tanstack/react-query") || id.includes("@tanstack/query-core"))
 
 ### Размеры чанков
 
-| Чанк | До | После | Изменение |
-|------|-----|-------|-----------|
-| vendor-query | 3.2 КБ | 43.32 КБ | +40 КБ ✅ (теперь самодостаточен) |
-| vendor-other | 500.26 КБ | 460.05 КБ | -40 КБ ✅ (убран query-core) |
+| Чанк         | До        | После     | Изменение                         |
+| ------------ | --------- | --------- | --------------------------------- |
+| vendor-query | 3.2 КБ    | 43.32 КБ  | +40 КБ ✅ (теперь самодостаточен) |
+| vendor-other | 500.26 КБ | 460.05 КБ | -40 КБ ✅ (убран query-core)      |
 
 ### Импорты
 
 **До (НЕПРАВИЛЬНО):**
+
 ```javascript
 // vendor-query импортировал из vendor-other:
 import {az as c, aA as l, ...} from "./vendor-other-CIhvNVqJ.js";
 ```
 
 **После (ПРАВИЛЬНО):**
+
 ```javascript
 // vendor-query импортирует только из vendor-react:
 from"./vendor-react-CSX_DmOJ.js"
@@ -85,6 +84,7 @@ from"./vendor-react-CSX_DmOJ.js"
 ## ✅ Проверки
 
 ### Сборка
+
 ```bash
 npm run build
 # ✓ built in 30.91s
@@ -92,12 +92,14 @@ npm run build
 ```
 
 ### TypeScript
+
 ```bash
 npx tsc --noEmit
 # Ошибок типов нет ✅
 ```
 
 ### Dev сервер
+
 ```bash
 npm run dev
 # VITE v5.4.21 ready in 272 ms
@@ -106,16 +108,19 @@ npm run dev
 ```
 
 ### Code Review
+
 - ✅ Прошел проверку кода
 - 2 комментария о датах (не критично)
 
 ### Безопасность (CodeQL)
+
 - ✅ 0 уязвимостей найдено
 - ✅ Все проверки безопасности пройдены
 
 ## 📚 Документация
 
 Создано:
+
 - ✅ `TANSTACK_QUERY_CHUNKING_FIX.md` - подробная техническая документация на английском
 - ✅ `FIX_SUMMARY_RU_2025-12-09.md` - краткое описание на русском (этот файл)
 - ✅ Комментарии в `vite.config.ts` с объяснением исправления

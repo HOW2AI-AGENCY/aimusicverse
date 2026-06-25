@@ -3,17 +3,17 @@
  * Phase 3: Improved generation flow
  */
 
-import { useState } from 'react';
-import { FileText, Search, Clock, Tag, Check } from 'lucide-react';
-import { EmptyState } from '@/components/common/EmptyState';
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { useLyricsTemplates, LyricsTemplate } from '@/hooks/useLyricsTemplates';
-import { cn } from '@/lib/utils';
-import { formatDistanceToNow, ru } from '@/lib/date-utils';
+import { useState } from "react";
+import { FileText, Search, Clock, Tag, Check } from "lucide-react";
+import { EmptyState } from "@/components/common/EmptyState";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { useLyricsTemplates, LyricsTemplate } from "@/hooks/useLyricsTemplates";
+import { cn } from "@/lib/utils";
+import { formatDistanceToNow, ru } from "@/lib/date-utils";
 
 interface SavedLyricsSelectorProps {
   open: boolean;
@@ -23,18 +23,19 @@ interface SavedLyricsSelectorProps {
 
 export function SavedLyricsSelector({ open, onOpenChange, onSelect }: SavedLyricsSelectorProps) {
   const { templates, isLoading } = useLyricsTemplates();
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  const filteredTemplates = templates?.filter(template => {
-    const query = searchQuery.toLowerCase();
-    return (
-      template.name.toLowerCase().includes(query) ||
-      template.lyrics.toLowerCase().includes(query) ||
-      template.genre?.toLowerCase().includes(query) ||
-      template.mood?.toLowerCase().includes(query)
-    );
-  }) || [];
+  const filteredTemplates =
+    templates?.filter((template) => {
+      const query = searchQuery.toLowerCase();
+      return (
+        template.name.toLowerCase().includes(query) ||
+        template.lyrics.toLowerCase().includes(query) ||
+        template.genre?.toLowerCase().includes(query) ||
+        template.mood?.toLowerCase().includes(query)
+      );
+    }) || [];
 
   const handleSelect = (template: LyricsTemplate) => {
     setSelectedId(template.id);
@@ -72,7 +73,7 @@ export function SavedLyricsSelector({ open, onOpenChange, onSelect }: SavedLyric
           ) : filteredTemplates.length === 0 ? (
             <EmptyState
               icon={FileText}
-              title={searchQuery ? 'Ничего не найдено' : 'Нет сохранённых текстов'}
+              title={searchQuery ? "Ничего не найдено" : "Нет сохранённых текстов"}
               variant="compact"
             />
           ) : (
@@ -84,19 +85,15 @@ export function SavedLyricsSelector({ open, onOpenChange, onSelect }: SavedLyric
                   className={cn(
                     "w-full text-left p-4 rounded-xl border transition-all",
                     "hover:border-primary/50 hover:bg-accent/50",
-                    selectedId === template.id && "border-primary bg-primary/10"
+                    selectedId === template.id && "border-primary bg-primary/10",
                   )}
                 >
                   <div className="flex items-start justify-between gap-2 mb-2">
                     <h4 className="font-medium text-sm line-clamp-1">{template.name}</h4>
-                    {selectedId === template.id && (
-                      <Check className="w-4 h-4 text-primary flex-shrink-0" />
-                    )}
+                    {selectedId === template.id && <Check className="w-4 h-4 text-primary flex-shrink-0" />}
                   </div>
-                  
-                  <p className="text-xs text-muted-foreground line-clamp-2 mb-2">
-                    {template.lyrics.slice(0, 100)}...
-                  </p>
+
+                  <p className="text-xs text-muted-foreground line-clamp-2 mb-2">{template.lyrics.slice(0, 100)}...</p>
 
                   <div className="flex items-center gap-2 flex-wrap">
                     {template.genre && (
@@ -112,9 +109,9 @@ export function SavedLyricsSelector({ open, onOpenChange, onSelect }: SavedLyric
                     )}
                     <span className="text-[10px] text-muted-foreground flex items-center gap-1 ml-auto">
                       <Clock className="w-3 h-3" />
-                      {formatDistanceToNow(new Date(template.created_at), { 
-                        addSuffix: true, 
-                        locale: ru 
+                      {formatDistanceToNow(new Date(template.created_at), {
+                        addSuffix: true,
+                        locale: ru,
                       })}
                     </span>
                   </div>

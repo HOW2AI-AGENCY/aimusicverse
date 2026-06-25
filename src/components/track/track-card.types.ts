@@ -4,7 +4,7 @@
  * Discriminated union for 7 variants (grid, list, compact, minimal, default, enhanced, professional)
  */
 
-import type { Track, TrackWithCreator } from '@/types/track';
+import type { Track, TrackWithCreator } from "@/types/track";
 
 // ============================================================================
 // Base Props (shared by all variants)
@@ -42,7 +42,7 @@ export interface BaseUnifiedTrackCardProps {
 
 export interface EnhancedUnifiedTrackCardProps extends BaseUnifiedTrackCardProps {
   /** Variant identifier */
-  variant: 'enhanced';
+  variant: "enhanced";
 
   /** Callback when the remix button is clicked */
   onRemix?: (trackId: string) => void;
@@ -72,7 +72,7 @@ export interface MidiStatus {
 
 export interface ProfessionalUnifiedTrackCardProps extends BaseUnifiedTrackCardProps {
   /** Variant identifier */
-  variant: 'professional';
+  variant: "professional";
 
   /** MIDI/PDF/GP5 file availability status */
   midiStatus?: MidiStatus;
@@ -87,7 +87,7 @@ export interface ProfessionalUnifiedTrackCardProps extends BaseUnifiedTrackCardP
 
 export interface StandardUnifiedTrackCardProps extends BaseUnifiedTrackCardProps {
   /** Variant identifier */
-  variant: 'grid' | 'list' | 'compact' | 'minimal' | 'default';
+  variant: "grid" | "list" | "compact" | "minimal" | "default";
 
   /** Number of versions (for version switcher display) */
   versionCount?: number;
@@ -99,7 +99,7 @@ export interface StandardUnifiedTrackCardProps extends BaseUnifiedTrackCardProps
   index?: number;
 
   /** Alias for backward compatibility */
-  layout?: 'grid' | 'list';
+  layout?: "grid" | "list";
 }
 
 // ============================================================================

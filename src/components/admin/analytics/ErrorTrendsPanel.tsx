@@ -3,14 +3,26 @@
  * Shows error statistics and trends over time
  */
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
-import { AlertTriangle, AlertCircle, Info, Server, ChevronDown, ChevronUp, Code } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  PieChart,
+  Pie,
+  Cell,
+} from "recharts";
+import { AlertTriangle, AlertCircle, Info, Server, ChevronDown, ChevronUp, Code } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useState } from "react";
 
 interface ErrorTrends {
   total_errors: number;
@@ -44,14 +56,14 @@ interface ErrorTrendsPanelProps {
 // Parse stack trace to extract useful info
 function parseStackTrace(stack?: string | null): { file: string; line: string; func: string } | null {
   if (!stack) return null;
-  
+
   // Match patterns like "at functionName (file.js:123:45)" or "functionName@file.js:123:45"
   const match = stack.match(/at\s+(\w+)?\s*\(?([^:]+):(\d+):\d+\)?|(\w+)@([^:]+):(\d+)/);
   if (match) {
     return {
-      func: match[1] || match[4] || 'anonymous',
-      file: (match[2] || match[5] || '').split('/').pop() || 'unknown',
-      line: match[3] || match[6] || '?',
+      func: match[1] || match[4] || "anonymous",
+      file: (match[2] || match[5] || "").split("/").pop() || "unknown",
+      line: match[3] || match[6] || "?",
     };
   }
   return null;
@@ -59,29 +71,29 @@ function parseStackTrace(stack?: string | null): { file: string; line: string; f
 
 // Extract edge function name from URL or error context
 function extractEdgeFunction(url?: string, component?: string): string | null {
-  if (url?.includes('/functions/')) {
+  if (url?.includes("/functions/")) {
     const match = url.match(/\/functions\/([^/?]+)/);
     return match?.[1] || null;
   }
-  if (component?.includes('edge-')) {
-    return component.replace('edge-', '');
+  if (component?.includes("edge-")) {
+    return component.replace("edge-", "");
   }
   return null;
 }
 
 // Group errors by edge function
-function groupByEdgeFunction(errors: ErrorTrends['top_error_fingerprints']): Record<string, number> {
+function groupByEdgeFunction(errors: ErrorTrends["top_error_fingerprints"]): Record<string, number> {
   const groups: Record<string, number> = {};
-  
-  errors.forEach(error => {
-    const fn = extractEdgeFunction(error.url, error.component) || 'frontend';
+
+  errors.forEach((error) => {
+    const fn = extractEdgeFunction(error.url, error.component) || "frontend";
     groups[fn] = (groups[fn] || 0) + error.occurrences;
   });
-  
+
   return groups;
 }
 
-const COLORS = ['#ef4444', '#f97316', '#eab308', '#22c55e', '#3b82f6', '#8b5cf6'];
+const COLORS = ["#ef4444", "#f97316", "#eab308", "#22c55e", "#3b82f6", "#8b5cf6"];
 
 export function ErrorTrendsPanel({ data, isLoading }: ErrorTrendsPanelProps) {
   const [expandedError, setExpandedError] = useState<number | null>(null);
@@ -111,9 +123,9 @@ export function ErrorTrendsPanel({ data, isLoading }: ErrorTrendsPanelProps) {
   }
 
   // Format errors by day for chart
-  const errorsByDayData = (data.errors_by_day || []).map(d => ({
+  const errorsByDayData = (data.errors_by_day || []).map((d) => ({
     ...d,
-    day: new Date(d.day).toLocaleDateString('ru-RU', { month: 'short', day: 'numeric' })
+    day: new Date(d.day).toLocaleDateString("ru-RU", { month: "short", day: "numeric" }),
   }));
 
   // Format errors by type for bar chart
@@ -143,24 +155,24 @@ export function ErrorTrendsPanel({ data, isLoading }: ErrorTrendsPanelProps) {
                 <YAxis fontSize={10} tickLine={false} width={30} />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: 'hsl(var(--popover))',
-                    border: '1px solid hsl(var(--border))',
-                    borderRadius: '8px',
-                    fontSize: '12px',
+                    backgroundColor: "hsl(var(--popover))",
+                    border: "1px solid hsl(var(--border))",
+                    borderRadius: "8px",
+                    fontSize: "12px",
                   }}
                 />
-                <Line 
-                  type="monotone" 
-                  dataKey="count" 
-                  stroke="hsl(var(--primary))" 
+                <Line
+                  type="monotone"
+                  dataKey="count"
+                  stroke="hsl(var(--primary))"
                   strokeWidth={2}
                   dot={false}
                   name="Всего"
                 />
-                <Line 
-                  type="monotone" 
-                  dataKey="critical" 
-                  stroke="#ef4444" 
+                <Line
+                  type="monotone"
+                  dataKey="critical"
+                  stroke="#ef4444"
                   strokeWidth={2}
                   dot={false}
                   name="Критических"
@@ -201,12 +213,12 @@ export function ErrorTrendsPanel({ data, isLoading }: ErrorTrendsPanelProps) {
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip 
+                <Tooltip
                   contentStyle={{
-                    backgroundColor: 'hsl(var(--popover))',
-                    border: '1px solid hsl(var(--border))',
-                    borderRadius: '8px',
-                    fontSize: '12px',
+                    backgroundColor: "hsl(var(--popover))",
+                    border: "1px solid hsl(var(--border))",
+                    borderRadius: "8px",
+                    fontSize: "12px",
                   }}
                 />
               </PieChart>
@@ -230,10 +242,10 @@ export function ErrorTrendsPanel({ data, isLoading }: ErrorTrendsPanelProps) {
                 <YAxis type="category" dataKey="name" width={70} fontSize={9} className="sm:text-[11px]" />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: 'hsl(var(--popover))',
-                    border: '1px solid hsl(var(--border))',
-                    borderRadius: '8px',
-                    fontSize: '12px',
+                    backgroundColor: "hsl(var(--popover))",
+                    border: "1px solid hsl(var(--border))",
+                    borderRadius: "8px",
+                    fontSize: "12px",
                   }}
                 />
                 <Bar dataKey="count" fill="#ef4444" radius={[0, 4, 4, 0]} />
@@ -280,15 +292,10 @@ export function ErrorTrendsPanel({ data, isLoading }: ErrorTrendsPanelProps) {
             {edgeFunctionData.slice(0, 5).map((fn, i) => (
               <div key={fn.name} className="flex items-center justify-between p-2 rounded-lg bg-muted/50">
                 <div className="flex items-center gap-2">
-                  <div 
-                    className="w-2 h-2 rounded-full" 
-                    style={{ backgroundColor: COLORS[i % COLORS.length] }}
-                  />
+                  <div className="w-2 h-2 rounded-full" style={{ backgroundColor: COLORS[i % COLORS.length] }} />
                   <span className="text-sm font-mono">{fn.name}</span>
                 </div>
-                <Badge variant={fn.count > 10 ? 'destructive' : 'secondary'}>
-                  {fn.count}
-                </Badge>
+                <Badge variant={fn.count > 10 ? "destructive" : "secondary"}>{fn.count}</Badge>
               </div>
             ))}
           </div>
@@ -306,12 +313,9 @@ export function ErrorTrendsPanel({ data, isLoading }: ErrorTrendsPanelProps) {
               const stackInfo = parseStackTrace(error.error_stack);
               const edgeFn = extractEdgeFunction(error.url, error.component);
               const isExpanded = expandedError === i;
-              
+
               return (
-                <div 
-                  key={i} 
-                  className="p-2 sm:p-3 rounded-lg bg-muted/50 border border-border/50"
-                >
+                <div key={i} className="p-2 sm:p-3 rounded-lg bg-muted/50 border border-border/50">
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
@@ -326,24 +330,28 @@ export function ErrorTrendsPanel({ data, isLoading }: ErrorTrendsPanelProps) {
                       <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 sm:mt-1 line-clamp-2">
                         {error.error_message}
                       </p>
-                      
+
                       {stackInfo && (
                         <div className="flex items-center gap-2 mt-1.5 text-[10px] text-muted-foreground font-mono">
                           <Code className="h-3 w-3" />
                           <span>{stackInfo.func}</span>
                           <span className="text-muted-foreground/50">@</span>
-                          <span>{stackInfo.file}:{stackInfo.line}</span>
+                          <span>
+                            {stackInfo.file}:{stackInfo.line}
+                          </span>
                         </div>
                       )}
                     </div>
                     <div className="text-right shrink-0">
-                      <Badge variant="destructive" className="text-[10px] sm:text-xs">{error.occurrences}×</Badge>
+                      <Badge variant="destructive" className="text-[10px] sm:text-xs">
+                        {error.occurrences}×
+                      </Badge>
                       <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 sm:mt-1">
                         {error.affected_users} польз.
                       </p>
                     </div>
                   </div>
-                  
+
                   {/* Expandable stack trace */}
                   {error.error_stack && (
                     <>
@@ -356,7 +364,7 @@ export function ErrorTrendsPanel({ data, isLoading }: ErrorTrendsPanelProps) {
                         {isExpanded ? <ChevronUp className="h-3 w-3 mr-1" /> : <ChevronDown className="h-3 w-3 mr-1" />}
                         Stack trace
                       </Button>
-                      
+
                       {isExpanded && (
                         <pre className="mt-2 p-2 bg-zinc-900/90 rounded text-[9px] text-green-400 overflow-x-auto max-h-32 font-mono">
                           {error.error_stack}
@@ -364,9 +372,9 @@ export function ErrorTrendsPanel({ data, isLoading }: ErrorTrendsPanelProps) {
                       )}
                     </>
                   )}
-                  
+
                   <p className="text-[10px] sm:text-xs text-muted-foreground mt-1.5 sm:mt-2">
-                    Последняя: {new Date(error.last_seen).toLocaleString('ru-RU')}
+                    Последняя: {new Date(error.last_seen).toLocaleString("ru-RU")}
                   </p>
                 </div>
               );
@@ -380,36 +388,36 @@ export function ErrorTrendsPanel({ data, isLoading }: ErrorTrendsPanelProps) {
 
 function SeverityIcon({ severity }: { severity: string }) {
   const s = severity.toLowerCase();
-  if (s === 'critical' || s === 'error') {
+  if (s === "critical" || s === "error") {
     return <AlertCircle className="h-4 w-4 text-red-500" />;
   }
-  if (s === 'warning') {
+  if (s === "warning") {
     return <AlertTriangle className="h-4 w-4 text-yellow-500" />;
   }
   return <Info className="h-4 w-4 text-blue-500" />;
 }
 
-function getSeverityVariant(severity: string): 'destructive' | 'secondary' | 'outline' {
+function getSeverityVariant(severity: string): "destructive" | "secondary" | "outline" {
   const s = severity.toLowerCase();
-  if (s === 'critical' || s === 'error') return 'destructive';
-  if (s === 'warning') return 'secondary';
-  return 'outline';
+  if (s === "critical" || s === "error") return "destructive";
+  if (s === "warning") return "secondary";
+  return "outline";
 }
 
 function formatSeverity(s: string): string {
   const map: Record<string, string> = {
-    critical: 'Критические',
-    error: 'Ошибки',
-    warning: 'Предупреждения',
-    info: 'Информация',
+    critical: "Критические",
+    error: "Ошибки",
+    warning: "Предупреждения",
+    info: "Информация",
   };
   return map[s.toLowerCase()] || s;
 }
 
 function formatErrorType(type: string): string {
   return type
-    .replace(/Error$/i, '')
-    .replace(/([A-Z])/g, ' $1')
+    .replace(/Error$/i, "")
+    .replace(/([A-Z])/g, " $1")
     .trim()
     .slice(0, 15);
 }

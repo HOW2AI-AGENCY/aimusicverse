@@ -14,9 +14,10 @@
 ## 2. Practical scenarios
 
 ### 2.1 Fitness tracker (accelerometer + GPS)
+
 ```ts
 Telegram.WebApp.Accelerometer.start({ refresh_rate: 100 });
-Telegram.WebApp.Accelerometer.on('update', (a) => {
+Telegram.WebApp.Accelerometer.on("update", (a) => {
   const steps = Math.sqrt(a.x ** 2 + a.y ** 2 + a.z ** 2) > 2.5;
   if (steps) stepCounter.increment();
 });
@@ -24,18 +25,21 @@ Telegram.WebApp.LocationManager.getLocation((loc) => saveRoute(loc));
 ```
 
 ### 2.2 Secrets manager (SecureStorage)
+
 ```ts
-await Telegram.WebApp.SecureStorage.saveKey('auth', 'token', secret);
-const token = await Telegram.WebApp.SecureStorage.getKey('auth', 'token');
+await Telegram.WebApp.SecureStorage.saveKey("auth", "token", secret);
+const token = await Telegram.WebApp.SecureStorage.getKey("auth", "token");
 ```
 
 ### 2.3 Referral gifts
+
 ```ts
 const gifts = await bot.getAvailableGifts();
-await bot.sendGift(refUserId, gifts[0].id, { text: 'Thanks for the referral! 🎁' });
+await bot.sendGift(refUserId, gifts[0].id, { text: "Thanks for the referral! 🎁" });
 ```
 
 ### 2.4 Business stories with interactive areas
+
 ```ts
 await bot.postBusinessStory({
   business_connection_id,
@@ -43,18 +47,19 @@ await bot.postBusinessStory({
   areas: [
     {
       position: { x: 0.5, y: 0.5, width: 0.25, height: 0.1 },
-      type: { type: 'link', url: deepLink },
+      type: { type: "link", url: deepLink },
     },
   ],
 });
 ```
 
 ### 2.5 Subscriptions via Stars
+
 ```ts
 await bot.sendInvoice(userId, {
-  title: 'Premium',
-  currency: 'XTR',
-  prices: [{ label: '1 Month', amount: 100 }],
+  title: "Premium",
+  currency: "XTR",
+  prices: [{ label: "1 Month", amount: 100 }],
 });
 ```
 

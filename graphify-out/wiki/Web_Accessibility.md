@@ -29,7 +29,7 @@
 - [sectionCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/homepage.spec.ts#L60) (1 connections)
 - [sections](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/homepage.spec.ts#L59) (1 connections)
 - [startTime](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/homepage.spec.ts#L153) (1 connections)
-- *... and 3 more nodes in this community*
+- _... and 3 more nodes in this community_
 
 ## Relationships
 
@@ -47,4 +47,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

@@ -29,7 +29,7 @@
 - [[notesPanelOpen, setNotesPanelOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/LyricsStudio.tsx#L209) (1 connections)
 - [parsedSections](file:///D:/.MUSICVERSE/aimusicverse/src/pages/LyricsStudio.tsx#L897) (1 connections)
 - [[projectData, setProjectData]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/LyricsStudio.tsx#L179) (1 connections)
-- *... and 16 more nodes in this community*
+- _... and 16 more nodes in this community_
 
 ## Relationships
 
@@ -47,4 +47,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

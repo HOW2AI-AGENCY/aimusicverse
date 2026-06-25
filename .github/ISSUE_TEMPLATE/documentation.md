@@ -1,9 +1,9 @@
 ---
 name: 📚 Documentation
 about: Предложить улучшение документации
-title: '[DOCS] '
-labels: ['documentation']
-assignees: ''
+title: "[DOCS] "
+labels: ["documentation"]
+assignees: ""
 ---
 
 ## 📚 Тип улучшения документации
@@ -19,6 +19,7 @@ assignees: ''
 ## 📄 Затронутые файлы
 
 <!-- Какие файлы документации нуждаются в изменении? -->
+
 - [ ] README.md
 - [ ] CONTRIBUTING.md
 - [ ] docs/ARCHITECTURE.md

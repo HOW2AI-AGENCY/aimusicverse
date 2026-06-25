@@ -14,7 +14,7 @@
  * @see ./voice-types.ts for type definitions
  */
 
-import { logger } from '@/lib/logger';
+import { logger } from "@/lib/logger";
 import type {
   // Request/Response types
   ValidateVoiceRequest,
@@ -37,28 +37,28 @@ import type {
 
   // Utility types
   VoiceCloningStep,
-  VoiceCloningProgress
-} from './voice-types';
+  VoiceCloningProgress,
+} from "./voice-types";
 
 // ============================================================================
 // CONFIGURATION
 // ============================================================================
 
 const DEFAULT_CONFIG: VoiceCloneConfig = {
-  apiKey: '',
-  baseUrl: 'https://api.sunoapi.org',
+  apiKey: "",
+  baseUrl: "https://api.sunoapi.org",
   timeout: 30000,
   maxPollingAttempts: 60,
   pollingInterval: 3000,
 };
 
 const ENDPOINTS = {
-  VALIDATE: '/voice/validate',
-  GET_VALIDATE_INFO: '/voice/validate-info',
-  REGENERATE_PHRASE: '/voice/regenerate',
-  GENERATE: '/voice/generate',
-  GET_RECORD_INFO: '/voice/record-info',
-  CHECK_VOICE: '/voice/check-voice',
+  VALIDATE: "/voice/validate",
+  GET_VALIDATE_INFO: "/voice/validate-info",
+  REGENERATE_PHRASE: "/voice/regenerate",
+  GENERATE: "/voice/generate",
+  GET_RECORD_INFO: "/voice/record-info",
+  CHECK_VOICE: "/voice/check-voice",
 } as const;
 
 // ============================================================================
@@ -78,10 +78,10 @@ export class VoiceCloneServiceError extends Error {
     statusCode?: number,
     details?: any,
     step?: VoiceCloningStep,
-    retryable?: boolean
+    retryable?: boolean,
   ) {
     super(message);
-    this.name = 'VoiceCloneServiceError';
+    this.name = "VoiceCloneServiceError";
     this.code = code;
     this.statusCode = statusCode;
     this.details = details;
@@ -115,42 +115,38 @@ export class VoiceCloneService {
    * @throws VoiceCloneServiceError on validation failure
    */
   async validateVoice(request: ValidateVoiceRequest): Promise<string> {
-    logger.info('Step 1: Validating voice', {
+    logger.info("Step 1: Validating voice", {
       voiceUrl: request.voiceUrl,
-      segment: `${request.vocalStartS}-${request.vocalEndS}`
+      segment: `${request.vocalStartS}-${request.vocalEndS}`,
     });
 
     try {
-      const response = await this.callApi<ValidateVoiceResponse>(
-        ENDPOINTS.VALIDATE,
-        'POST',
-        {
-          voice_url: request.voiceUrl,
-          vocal_start_s: request.vocalStartS,
-          vocal_end_s: request.vocalEndS,
-          name: request.name,
-          description: request.description,
-          language: request.language || 'en',
-          style: request.style,
-          singer_skill_level: request.singerSkillLevel,
-        }
-      );
+      const response = await this.callApi<ValidateVoiceResponse>(ENDPOINTS.VALIDATE, "POST", {
+        voice_url: request.voiceUrl,
+        vocal_start_s: request.vocalStartS,
+        vocal_end_s: request.vocalEndS,
+        name: request.name,
+        description: request.description,
+        language: request.language || "en",
+        style: request.style,
+        singer_skill_level: request.singerSkillLevel,
+      });
 
       if (!response.validate_task_id) {
         throw new VoiceCloneServiceError(
-          'No task ID returned from validate endpoint',
-          'NO_TASK_ID',
+          "No task ID returned from validate endpoint",
+          "NO_TASK_ID",
           500,
           response,
-          'upload'
+          "upload",
         );
       }
 
-      logger.info('Step 1 completed', { taskId: response.validate_task_id });
+      logger.info("Step 1 completed", { taskId: response.validate_task_id });
       return response.validate_task_id;
     } catch (error) {
-      logger.error('Step 1 failed', { error });
-      throw this.handleError(error, 'upload');
+      logger.error("Step 1 failed", { error });
+      throw this.handleError(error, "upload");
     }
   }
 
@@ -166,47 +162,45 @@ export class VoiceCloneService {
    * @throws VoiceCloneServiceError if validation failed
    */
   async getValidatePhrase(taskId: string): Promise<string | null> {
-    logger.info('Step 2: Getting validation phrase', { taskId });
+    logger.info("Step 2: Getting validation phrase", { taskId });
 
     try {
-      const response = await this.callApi<ValidateInfoResponse>(
-        ENDPOINTS.GET_VALIDATE_INFO,
-        'POST',
-        { task_id: taskId }
-      );
+      const response = await this.callApi<ValidateInfoResponse>(ENDPOINTS.GET_VALIDATE_INFO, "POST", {
+        task_id: taskId,
+      });
 
-      if (response.status === 'processing_validate_fail') {
+      if (response.status === "processing_validate_fail") {
         throw new VoiceCloneServiceError(
-          response.error || 'Voice validation failed',
-          'VALIDATION_FAILED',
+          response.error || "Voice validation failed",
+          "VALIDATION_FAILED",
           400,
           response,
-          'validate_phrase',
-          true // retryable - try different segment
+          "validate_phrase",
+          true, // retryable - try different segment
         );
       }
 
-      if (response.status === 'pending' || response.status === 'processing_validate') {
+      if (response.status === "pending" || response.status === "processing_validate") {
         // Still processing, need to poll
-        logger.info('Step 2: Still processing, poll required');
+        logger.info("Step 2: Still processing, poll required");
         return null; // Signal to poll
       }
 
       if (!response.validate_phrase) {
         throw new VoiceCloneServiceError(
-          'No validation phrase returned',
-          'NO_PHRASE',
+          "No validation phrase returned",
+          "NO_PHRASE",
           500,
           response,
-          'validate_phrase'
+          "validate_phrase",
         );
       }
 
-      logger.info('Step 2 completed', { phraseLength: response.validate_phrase.length });
+      logger.info("Step 2 completed", { phraseLength: response.validate_phrase.length });
       return response.validate_phrase;
     } catch (error) {
-      logger.error('Step 2 failed', { error, taskId });
-      throw this.handleError(error, 'validate_phrase');
+      logger.error("Step 2 failed", { error, taskId });
+      throw this.handleError(error, "validate_phrase");
     }
   }
 
@@ -218,26 +212,22 @@ export class VoiceCloneService {
    * @returns New validate_task_id
    */
   async regeneratePhrase(taskId: string, callBackUrl?: string): Promise<string> {
-    logger.info('Step 2: Regenerating phrase', { taskId });
+    logger.info("Step 2: Regenerating phrase", { taskId });
 
     try {
       const request: RegeneratePhraseRequest = {
         taskId,
         // ⚠️ NOTE: 'calBackUrl' (one 'l') - Suno API has typo!
-        calBackUrl: callBackUrl || `${this.config.baseUrl}/webhooks/voice/regenerate`
+        calBackUrl: callBackUrl || `${this.config.baseUrl}/webhooks/voice/regenerate`,
       };
 
-      const response = await this.callApi<ValidateVoiceResponse>(
-        ENDPOINTS.REGENERATE_PHRASE,
-        'POST',
-        request
-      );
+      const response = await this.callApi<ValidateVoiceResponse>(ENDPOINTS.REGENERATE_PHRASE, "POST", request);
 
-      logger.info('Phrase regenerated', { taskId: response.validate_task_id });
+      logger.info("Phrase regenerated", { taskId: response.validate_task_id });
       return response.validate_task_id;
     } catch (error) {
-      logger.error('Phrase regeneration failed', { error, taskId });
-      throw this.handleError(error, 'validate_phrase');
+      logger.error("Phrase regeneration failed", { error, taskId });
+      throw this.handleError(error, "validate_phrase");
     }
   }
 
@@ -248,10 +238,7 @@ export class VoiceCloneService {
    * @param options - Polling configuration
    * @returns Validation phrase string
    */
-  async pollValidateInfo(
-    taskId: string,
-    options?: PollingOptions
-  ): Promise<string> {
+  async pollValidateInfo(taskId: string, options?: PollingOptions): Promise<string> {
     const pollingOptions: PollingOptions = {
       interval: options?.interval || this.config.pollingInterval || DEFAULT_CONFIG.pollingInterval,
       maxAttempts: options?.maxAttempts || this.config.maxPollingAttempts || DEFAULT_CONFIG.maxPollingAttempts,
@@ -262,18 +249,11 @@ export class VoiceCloneService {
     const maxAttempts = pollingOptions.maxAttempts!;
     const interval = pollingOptions.interval!;
 
-    logger.info('Polling for validation phrase', { taskId, pollingOptions });
+    logger.info("Polling for validation phrase", { taskId, pollingOptions });
 
     for (let attempt = 1; attempt <= maxAttempts; attempt++) {
       if (pollingOptions.abortSignal?.aborted) {
-        throw new VoiceCloneServiceError(
-          'Polling aborted',
-          'POLLING_ABORTED',
-          0,
-          null,
-          'validate_phrase',
-          false
-        );
+        throw new VoiceCloneServiceError("Polling aborted", "POLLING_ABORTED", 0, null, "validate_phrase", false);
       }
 
       pollingOptions.onProgress?.(attempt, maxAttempts);
@@ -282,7 +262,7 @@ export class VoiceCloneService {
 
       if (result !== null) {
         // Got the phrase!
-        logger.info('Validation phrase obtained', { attempt, phrase: result.substring(0, 50) });
+        logger.info("Validation phrase obtained", { attempt, phrase: result.substring(0, 50) });
         return result;
       }
 
@@ -293,12 +273,12 @@ export class VoiceCloneService {
     }
 
     throw new VoiceCloneServiceError(
-      'Timeout waiting for validation phrase',
-      'POLLING_TIMEOUT',
+      "Timeout waiting for validation phrase",
+      "POLLING_TIMEOUT",
       408,
       { maxAttempts },
-      'validate_phrase',
-      true
+      "validate_phrase",
+      true,
     );
   }
 
@@ -314,34 +294,30 @@ export class VoiceCloneService {
    * @throws VoiceCloneServiceError on generation failure
    */
   async generateVoice(request: GenerateVoiceRequest): Promise<string> {
-    logger.info('Step 4: Generating voice', { taskId: request.taskId });
+    logger.info("Step 4: Generating voice", { taskId: request.taskId });
 
     try {
-      const response = await this.callApi<GenerateVoiceResponse>(
-        ENDPOINTS.GENERATE,
-        'POST',
-        {
-          task_id: request.taskId,
-          verify_url: request.verifyUrl,
-          call_back_url: request.callBackUrl, // ⚠️ NOTE: 'callBackUrl' (capital B)
-        }
-      );
+      const response = await this.callApi<GenerateVoiceResponse>(ENDPOINTS.GENERATE, "POST", {
+        task_id: request.taskId,
+        verify_url: request.verifyUrl,
+        call_back_url: request.callBackUrl, // ⚠️ NOTE: 'callBackUrl' (capital B)
+      });
 
       if (!response.generate_task_id) {
         throw new VoiceCloneServiceError(
-          'No task ID returned from generate endpoint',
-          'NO_TASK_ID',
+          "No task ID returned from generate endpoint",
+          "NO_TASK_ID",
           500,
           response,
-          'generate_voice'
+          "generate_voice",
         );
       }
 
-      logger.info('Step 4 completed', { taskId: response.generate_task_id });
+      logger.info("Step 4 completed", { taskId: response.generate_task_id });
       return response.generate_task_id;
     } catch (error) {
-      logger.error('Step 4 failed', { error, taskId: request.taskId });
-      throw this.handleError(error, 'generate_voice');
+      logger.error("Step 4 failed", { error, taskId: request.taskId });
+      throw this.handleError(error, "generate_voice");
     }
   }
 
@@ -357,47 +333,37 @@ export class VoiceCloneService {
    * @throws VoiceCloneServiceError if generation failed
    */
   async getVoiceId(taskId: string): Promise<string | null> {
-    logger.info('Step 5: Getting voice ID', { taskId });
+    logger.info("Step 5: Getting voice ID", { taskId });
 
     try {
-      const response = await this.callApi<RecordInfoResponse>(
-        ENDPOINTS.GET_RECORD_INFO,
-        'POST',
-        { task_id: taskId }
-      );
+      const response = await this.callApi<RecordInfoResponse>(ENDPOINTS.GET_RECORD_INFO, "POST", { task_id: taskId });
 
-      if (response.status === 'processing_record_fail') {
+      if (response.status === "processing_record_fail") {
         throw new VoiceCloneServiceError(
-          response.error || 'Voice generation failed',
-          'GENERATION_FAILED',
+          response.error || "Voice generation failed",
+          "GENERATION_FAILED",
           400,
           response,
-          'wait_voice_id',
-          false // Not retryable - user needs to re-record
+          "wait_voice_id",
+          false, // Not retryable - user needs to re-record
         );
       }
 
-      if (response.status === 'pending' || response.status === 'processing_record') {
+      if (response.status === "pending" || response.status === "processing_record") {
         // Still processing, need to poll
-        logger.info('Step 5: Still processing, poll required');
+        logger.info("Step 5: Still processing, poll required");
         return null; // Signal to poll
       }
 
       if (!response.voice_id) {
-        throw new VoiceCloneServiceError(
-          'No voice ID returned',
-          'NO_VOICE_ID',
-          500,
-          response,
-          'wait_voice_id'
-        );
+        throw new VoiceCloneServiceError("No voice ID returned", "NO_VOICE_ID", 500, response, "wait_voice_id");
       }
 
-      logger.info('Step 5 completed', { voiceId: response.voice_id });
+      logger.info("Step 5 completed", { voiceId: response.voice_id });
       return response.voice_id;
     } catch (error) {
-      logger.error('Step 5 failed', { error, taskId });
-      throw this.handleError(error, 'wait_voice_id');
+      logger.error("Step 5 failed", { error, taskId });
+      throw this.handleError(error, "wait_voice_id");
     }
   }
 
@@ -408,10 +374,7 @@ export class VoiceCloneService {
    * @param options - Polling configuration
    * @returns Voice ID string
    */
-  async pollRecordInfo(
-    taskId: string,
-    options?: PollingOptions
-  ): Promise<string> {
+  async pollRecordInfo(taskId: string, options?: PollingOptions): Promise<string> {
     const pollingOptions: PollingOptions = {
       interval: options?.interval || this.config.pollingInterval || DEFAULT_CONFIG.pollingInterval,
       maxAttempts: options?.maxAttempts || this.config.maxPollingAttempts || DEFAULT_CONFIG.maxPollingAttempts,
@@ -422,18 +385,11 @@ export class VoiceCloneService {
     const maxAttempts = pollingOptions.maxAttempts!;
     const interval = pollingOptions.interval!;
 
-    logger.info('Polling for voice ID', { taskId, pollingOptions });
+    logger.info("Polling for voice ID", { taskId, pollingOptions });
 
     for (let attempt = 1; attempt <= maxAttempts; attempt++) {
       if (pollingOptions.abortSignal?.aborted) {
-        throw new VoiceCloneServiceError(
-          'Polling aborted',
-          'POLLING_ABORTED',
-          0,
-          null,
-          'wait_voice_id',
-          false
-        );
+        throw new VoiceCloneServiceError("Polling aborted", "POLLING_ABORTED", 0, null, "wait_voice_id", false);
       }
 
       pollingOptions.onProgress?.(attempt, maxAttempts);
@@ -442,7 +398,7 @@ export class VoiceCloneService {
 
       if (result !== null) {
         // Got the voice ID!
-        logger.info('Voice ID obtained', { attempt, voiceId: result });
+        logger.info("Voice ID obtained", { attempt, voiceId: result });
         return result;
       }
 
@@ -453,12 +409,12 @@ export class VoiceCloneService {
     }
 
     throw new VoiceCloneServiceError(
-      'Timeout waiting for voice ID',
-      'POLLING_TIMEOUT',
+      "Timeout waiting for voice ID",
+      "POLLING_TIMEOUT",
       408,
       { maxAttempts },
-      'wait_voice_id',
-      true
+      "wait_voice_id",
+      true,
     );
   }
 
@@ -474,44 +430,40 @@ export class VoiceCloneService {
    * @throws VoiceCloneServiceError if check failed
    */
   async checkVoiceAvailability(request: CheckVoiceAvailabilityRequest): Promise<boolean> {
-    logger.info('Step 6: Checking voice availability', {
+    logger.info("Step 6: Checking voice availability", {
       voiceId: request.voiceId,
-      taskId: request.taskId
+      taskId: request.taskId,
     });
 
     try {
-      const response = await this.callApi<VoiceAvailabilityResponse>(
-        ENDPOINTS.CHECK_VOICE,
-        'POST',
-        {
-          voice_id: request.voiceId,
-          task_id: request.taskId,
-        }
-      );
+      const response = await this.callApi<VoiceAvailabilityResponse>(ENDPOINTS.CHECK_VOICE, "POST", {
+        voice_id: request.voiceId,
+        task_id: request.taskId,
+      });
 
-      if (response.status === 'failed') {
+      if (response.status === "failed") {
         throw new VoiceCloneServiceError(
-          response.error || 'Voice availability check failed',
-          'AVAILABILITY_FAILED',
+          response.error || "Voice availability check failed",
+          "AVAILABILITY_FAILED",
           400,
           response,
-          'verify_ready',
-          false
+          "verify_ready",
+          false,
         );
       }
 
-      const isReady = response.status === 'ready' && response.is_available;
+      const isReady = response.status === "ready" && response.is_available;
 
-      logger.info('Step 6 completed', {
+      logger.info("Step 6 completed", {
         voiceId: request.voiceId,
         isReady,
-        status: response.status
+        status: response.status,
       });
 
       return isReady;
     } catch (error) {
-      logger.error('Step 6 failed', { error, voiceId: request.voiceId });
-      throw this.handleError(error, 'verify_ready');
+      logger.error("Step 6 failed", { error, voiceId: request.voiceId });
+      throw this.handleError(error, "verify_ready");
     }
   }
 
@@ -529,7 +481,7 @@ export class VoiceCloneService {
     if (controller) {
       controller.abort();
       this.abortControllers.delete(operationId);
-      logger.info('Polling aborted', { operationId });
+      logger.info("Polling aborted", { operationId });
     }
   }
 
@@ -542,15 +494,15 @@ export class VoiceCloneService {
    */
   private async callApi<T>(
     endpoint: string,
-    method: 'GET' | 'POST' | 'PUT' | 'DELETE',
+    method: "GET" | "POST" | "PUT" | "DELETE",
     body?: any,
-    headers?: Record<string, string>
+    headers?: Record<string, string>,
   ): Promise<T> {
     const url = `${this.config.baseUrl}${endpoint}`;
 
     const requestHeaders: Record<string, string> = {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${this.config.apiKey}`,
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${this.config.apiKey}`,
       ...headers,
     };
 
@@ -559,7 +511,7 @@ export class VoiceCloneService {
       headers: requestHeaders,
     };
 
-    if (body && method !== 'GET') {
+    if (body && method !== "GET") {
       requestInit.body = JSON.stringify(body);
     }
 
@@ -578,9 +530,9 @@ export class VoiceCloneService {
         const errorBody = await response.json().catch(() => ({}));
         throw new VoiceCloneServiceError(
           errorBody.message || `API call failed: ${response.statusText}`,
-          'API_ERROR',
+          "API_ERROR",
           response.status,
-          errorBody
+          errorBody,
         );
       }
 
@@ -593,22 +545,22 @@ export class VoiceCloneService {
         throw error;
       }
 
-      if (error instanceof Error && error.name === 'AbortError') {
+      if (error instanceof Error && error.name === "AbortError") {
         throw new VoiceCloneServiceError(
-          'Request timeout',
-          'TIMEOUT',
+          "Request timeout",
+          "TIMEOUT",
           408,
           { url, timeout: this.config.timeout },
           undefined,
-          true
+          true,
         );
       }
 
       throw new VoiceCloneServiceError(
-        error instanceof Error ? error.message : 'Unknown error',
-        'NETWORK_ERROR',
+        error instanceof Error ? error.message : "Unknown error",
+        "NETWORK_ERROR",
         0,
-        error
+        error,
       );
     }
   }
@@ -616,10 +568,7 @@ export class VoiceCloneService {
   /**
    * Handle and transform errors into VoiceCloneServiceError
    */
-  private handleError(
-    error: any,
-    step?: VoiceCloningStep
-  ): VoiceCloneServiceError {
+  private handleError(error: any, step?: VoiceCloningStep): VoiceCloneServiceError {
     if (error instanceof VoiceCloneServiceError) {
       return error;
     }
@@ -630,12 +579,12 @@ export class VoiceCloneService {
 
     // Generic error
     return new VoiceCloneServiceError(
-      error instanceof Error ? error.message : 'Unknown error occurred',
-      'UNKNOWN_ERROR',
+      error instanceof Error ? error.message : "Unknown error occurred",
+      "UNKNOWN_ERROR",
       500,
       error,
       step,
-      true
+      true,
     );
   }
 
@@ -643,7 +592,7 @@ export class VoiceCloneService {
    * Delay utility for polling
    */
   private delay(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   /**
@@ -658,7 +607,7 @@ export class VoiceCloneService {
    */
   updateConfig(config: Partial<VoiceCloneConfig>): void {
     this.config = { ...this.config, ...config };
-    logger.info('VoiceCloneService configuration updated', { config: this.config });
+    logger.info("VoiceCloneService configuration updated", { config: this.config });
   }
 }
 
@@ -701,12 +650,12 @@ export async function validateVoiceQuality(audioFile: File): Promise<{
 
   // Check file size
   if (audioFile.size > MAX_SIZE) {
-    recommendations.push('File is too large. Maximum size is 50MB.');
+    recommendations.push("File is too large. Maximum size is 50MB.");
   }
 
   // Check file type
-  if (!audioFile.type.startsWith('audio/')) {
-    recommendations.push('Invalid file type. Must be an audio file.');
+  if (!audioFile.type.startsWith("audio/")) {
+    recommendations.push("Invalid file type. Must be an audio file.");
   }
 
   // Get duration (if possible)
@@ -715,14 +664,14 @@ export async function validateVoiceQuality(audioFile: File): Promise<{
     duration = await getAudioDuration(audioFile);
 
     if (duration < DURATION_MIN) {
-      recommendations.push('Audio is too short. Minimum duration is 3 seconds.');
+      recommendations.push("Audio is too short. Minimum duration is 3 seconds.");
     }
 
     if (duration > DURATION_MAX) {
-      recommendations.push('Audio is too long. Maximum duration is 60 seconds.');
+      recommendations.push("Audio is too long. Maximum duration is 60 seconds.");
     }
   } catch (error) {
-    recommendations.push('Could not determine audio duration.');
+    recommendations.push("Could not determine audio duration.");
   }
 
   const isValid = recommendations.length === 0;
@@ -747,14 +696,14 @@ async function getAudioDuration(audioFile: File): Promise<number> {
     const audio = new Audio();
     audio.src = URL.createObjectURL(audioFile);
 
-    audio.addEventListener('loadedmetadata', () => {
+    audio.addEventListener("loadedmetadata", () => {
       URL.revokeObjectURL(audio.src);
       resolve(audio.duration);
     });
 
-    audio.addEventListener('error', () => {
+    audio.addEventListener("error", () => {
       URL.revokeObjectURL(audio.src);
-      reject(new Error('Could not load audio'));
+      reject(new Error("Could not load audio"));
     });
   });
 }
@@ -775,6 +724,6 @@ export function getRecommendedSegmentTimes(duration: number): {
   return {
     recommendedStart,
     recommendedEnd,
-    reason: 'Vocals are typically in the middle section of the audio'
+    reason: "Vocals are typically in the middle section of the audio",
   };
 }

@@ -13,11 +13,11 @@
  */
 
 // Core Components
-export { LyricsRenderer } from './LyricsRenderer';
-export type { LyricLine, LyricsRendererProps } from './LyricsRenderer';
+export { LyricsRenderer } from "./LyricsRenderer";
+export type { LyricLine, LyricsRendererProps } from "./LyricsRenderer";
 
-export { LyricsSections } from './LyricsSections';
-export type { DetectedSection, LyricsSectionsProps, useLyricsSections } from './LyricsSections';
+export { LyricsSections } from "./LyricsSections";
+export type { DetectedSection, LyricsSectionsProps, useLyricsSections } from "./LyricsSections";
 
-export { LyricsAutoScroll } from './LyricsAutoScroll';
-export type { LyricsAutoScrollProps } from './LyricsAutoScroll';
+export { LyricsAutoScroll } from "./LyricsAutoScroll";
+export type { LyricsAutoScrollProps } from "./LyricsAutoScroll";

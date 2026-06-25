@@ -10,47 +10,38 @@
  * are lazy-loaded to keep the initial bundle small.
  */
 
-import React from 'react';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { useMasterVersion } from '@/hooks/useTrackVersions';
-import type { Track } from '@/types/track';
+import React from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useMasterVersion } from "@/hooks/useTrackVersions";
+import type { Track } from "@/types/track";
 
 const FullscreenMobile = React.lazy(() =>
-  import('./MobileFullscreenPlayer').then((m) => ({ default: m.MobileFullscreenPlayer }))
+  import("./MobileFullscreenPlayer").then((m) => ({ default: m.MobileFullscreenPlayer })),
 );
 
 const FullscreenDesktop = React.lazy(() =>
-  import('./DesktopFullscreenPlayer').then((m) => ({ default: m.DesktopFullscreenPlayer }))
+  import("./DesktopFullscreenPlayer").then((m) => ({ default: m.DesktopFullscreenPlayer })),
 );
 
 export interface FullscreenPlayerProps {
   track: Track;
   onClose: () => void;
   /** Force a layout variant; otherwise determined by viewport. */
-  variant?: 'auto' | 'mobile' | 'desktop';
+  variant?: "auto" | "mobile" | "desktop";
 }
 
-export function FullscreenPlayer({ track, onClose, variant = 'auto' }: FullscreenPlayerProps) {
+export function FullscreenPlayer({ track, onClose, variant = "auto" }: FullscreenPlayerProps) {
   const isMobileViewport = useIsMobile();
   const { data: masterVersion } = useMasterVersion(track?.id);
 
-  const resolved =
-    variant === 'auto' ? (isMobileViewport ? 'mobile' : 'desktop') : variant;
+  const resolved = variant === "auto" ? (isMobileViewport ? "mobile" : "desktop") : variant;
 
   return (
     <React.Suspense fallback={null}>
-      {resolved === 'mobile' ? (
-        <FullscreenMobile
-          track={track}
-          onClose={onClose}
-          currentVersion={masterVersion as any}
-        />
+      {resolved === "mobile" ? (
+        <FullscreenMobile track={track} onClose={onClose} currentVersion={masterVersion as any} />
       ) : (
-        <FullscreenDesktop
-          track={track}
-          currentVersion={masterVersion as any}
-          onClose={onClose}
-        />
+        <FullscreenDesktop track={track} currentVersion={masterVersion as any} onClose={onClose} />
       )}
     </React.Suspense>
   );

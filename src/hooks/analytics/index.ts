@@ -1,58 +1,37 @@
 /**
  * Unified Analytics Hooks
- * 
+ *
  * Consolidated exports for all analytics-related hooks.
  */
 
 // Main analytics hooks
-export { 
-  useAnalyticsTracking, 
-  useUserBehaviorStats,
-} from '../useAnalyticsTracking';
+export { useAnalyticsTracking, useUserBehaviorStats } from "../useAnalyticsTracking";
 
 // Analytics provider (app-level)
-export { 
-  useAnalyticsProvider, 
-  useConversion,
-} from './useAnalyticsProvider';
+export { useAnalyticsProvider, useConversion } from "./useAnalyticsProvider";
 
 // Deeplink tracking hooks
-export { 
-  useDeeplinkTracker, 
-  useConversionTracking,
-} from './useDeeplinkTracker';
+export { useDeeplinkTracker, useConversionTracking } from "./useDeeplinkTracker";
 
 // Utility hook for quick conversion events
-export { useQuickConversions } from './useQuickConversions';
+export { useQuickConversions } from "./useQuickConversions";
 
 // Feature usage tracking
-export { 
+export {
   useFeatureUsageTracking,
   FeatureEvents,
   type FeatureCategory,
   type FeatureUsageEvent,
-} from './useFeatureUsageTracking';
+} from "./useFeatureUsageTracking";
 
 // Performance tracking
-export {
-  usePerformanceTracking,
-  useWebVitalsReporter,
-  type PerformanceMetric,
-} from './usePerformanceTracking';
+export { usePerformanceTracking, useWebVitalsReporter, type PerformanceMetric } from "./usePerformanceTracking";
 
 // A/B Testing / Experiments
-export {
-  useExperiment,
-  useExperimentEnabled,
-} from '../useExperiment';
+export { useExperiment, useExperimentEnabled } from "../useExperiment";
 
 // Deeplink analytics data hooks
-export { 
-  useDeeplinkAnalytics,
-  useDeeplinkStats,
-  useDeeplinkEvents,
-  useTrackDeeplink,
-} from '../useDeeplinkAnalytics';
+export { useDeeplinkAnalytics, useDeeplinkStats, useDeeplinkEvents, useTrackDeeplink } from "../useDeeplinkAnalytics";
 
 // User Journey analytics
 export {
@@ -60,20 +39,12 @@ export {
   type PageTransition,
   type JourneyNode,
   type UserJourneyData,
-} from './useUserJourneyAnalytics';
+} from "./useUserJourneyAnalytics";
 
 // Churn prediction
-export {
-  useChurnPrediction,
-  type ChurnRiskUser,
-  type ChurnPredictionOptions,
-} from './useChurnPrediction';
+export { useChurnPrediction, type ChurnRiskUser, type ChurnPredictionOptions } from "./useChurnPrediction";
 
 // Re-export types
-export type { 
-  ConversionStage,
-  UTMParams,
-  DeeplinkContext,
-} from '@/lib/analytics/deeplink-tracker';
+export type { ConversionStage, UTMParams, DeeplinkContext } from "@/lib/analytics/deeplink-tracker";
 
-export type { UserBehaviorStats } from '@/services/analytics';
+export type { UserBehaviorStats } from "@/services/analytics";

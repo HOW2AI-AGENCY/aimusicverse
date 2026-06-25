@@ -3,9 +3,9 @@
  * Manages audio playback for reference audio with coordination with global player
  */
 
-import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { pauseAllStudioAudio, registerStudioAudio, unregisterStudioAudio } from '@/hooks/studio/useStudioAudio';
+import { useState, useCallback, useRef, useEffect, useMemo } from "react";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { pauseAllStudioAudio, registerStudioAudio, unregisterStudioAudio } from "@/hooks/studio/useStudioAudio";
 
 interface ReferenceAudioPlayerState {
   isPlaying: boolean;
@@ -33,7 +33,7 @@ interface UseReferenceAudioPlayerReturn extends ReferenceAudioPlayerState {
   audioRef: React.RefObject<HTMLAudioElement | null>;
 }
 
-const SOURCE_ID = 'reference-audio-player';
+const SOURCE_ID = "reference-audio-player";
 
 export function useReferenceAudioPlayer({
   audioUrl,
@@ -43,17 +43,17 @@ export function useReferenceAudioPlayer({
 }: UseReferenceAudioPlayerOptions): UseReferenceAudioPlayerReturn {
   const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  
+
   // Store callbacks in refs to avoid re-creating audio element
   const onEndedRef = useRef(onEnded);
   const onTimeUpdateRef = useRef(onTimeUpdate);
-  
+
   // Update refs when callbacks change
   useEffect(() => {
     onEndedRef.current = onEnded;
     onTimeUpdateRef.current = onTimeUpdate;
   }, [onEnded, onTimeUpdate]);
-  
+
   const [state, setState] = useState<ReferenceAudioPlayerState>({
     isPlaying: false,
     currentTime: 0,
@@ -66,22 +66,22 @@ export function useReferenceAudioPlayer({
   // Initialize audio element
   useEffect(() => {
     if (!audioUrl) {
-      setState(prev => ({ ...prev, isLoading: false, duration: 0 }));
+      setState((prev) => ({ ...prev, isLoading: false, duration: 0 }));
       return;
     }
 
     const audio = new Audio();
-    audio.preload = 'metadata';
+    audio.preload = "metadata";
     audioRef.current = audio;
 
     // Register with studio audio coordinator
     registerStudioAudio(SOURCE_ID, () => {
       audio.pause();
-      setState(prev => ({ ...prev, isPlaying: false }));
+      setState((prev) => ({ ...prev, isPlaying: false }));
     });
 
     const handleLoadedMetadata = () => {
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
         duration: audio.duration,
         isLoading: false,
@@ -91,48 +91,48 @@ export function useReferenceAudioPlayer({
 
     const handleTimeUpdate = () => {
       const time = audio.currentTime;
-      setState(prev => ({ ...prev, currentTime: time }));
+      setState((prev) => ({ ...prev, currentTime: time }));
       onTimeUpdateRef.current?.(time);
     };
 
     const handleEnded = () => {
-      setState(prev => ({ ...prev, isPlaying: false, currentTime: 0 }));
+      setState((prev) => ({ ...prev, isPlaying: false, currentTime: 0 }));
       onEndedRef.current?.();
     };
 
     const handleError = () => {
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
         isLoading: false,
         isPlaying: false,
-        error: 'Ошибка загрузки аудио',
+        error: "Ошибка загрузки аудио",
       }));
     };
 
     const handleWaiting = () => {
-      setState(prev => ({ ...prev, isBuffering: true }));
+      setState((prev) => ({ ...prev, isBuffering: true }));
     };
 
     const handleCanPlay = () => {
-      setState(prev => ({ ...prev, isBuffering: false, isLoading: false }));
+      setState((prev) => ({ ...prev, isBuffering: false, isLoading: false }));
     };
 
     const handlePlay = () => {
-      setState(prev => ({ ...prev, isPlaying: true }));
+      setState((prev) => ({ ...prev, isPlaying: true }));
     };
 
     const handlePause = () => {
-      setState(prev => ({ ...prev, isPlaying: false }));
+      setState((prev) => ({ ...prev, isPlaying: false }));
     };
 
-    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
-    audio.addEventListener('timeupdate', handleTimeUpdate);
-    audio.addEventListener('ended', handleEnded);
-    audio.addEventListener('error', handleError);
-    audio.addEventListener('waiting', handleWaiting);
-    audio.addEventListener('canplay', handleCanPlay);
-    audio.addEventListener('play', handlePlay);
-    audio.addEventListener('pause', handlePause);
+    audio.addEventListener("loadedmetadata", handleLoadedMetadata);
+    audio.addEventListener("timeupdate", handleTimeUpdate);
+    audio.addEventListener("ended", handleEnded);
+    audio.addEventListener("error", handleError);
+    audio.addEventListener("waiting", handleWaiting);
+    audio.addEventListener("canplay", handleCanPlay);
+    audio.addEventListener("play", handlePlay);
+    audio.addEventListener("pause", handlePause);
 
     // Load audio
     audio.src = audioUrl;
@@ -146,14 +146,14 @@ export function useReferenceAudioPlayer({
 
     return () => {
       audio.pause();
-      audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
-      audio.removeEventListener('timeupdate', handleTimeUpdate);
-      audio.removeEventListener('ended', handleEnded);
-      audio.removeEventListener('error', handleError);
-      audio.removeEventListener('waiting', handleWaiting);
-      audio.removeEventListener('canplay', handleCanPlay);
-      audio.removeEventListener('play', handlePlay);
-      audio.removeEventListener('pause', handlePause);
+      audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      audio.removeEventListener("timeupdate", handleTimeUpdate);
+      audio.removeEventListener("ended", handleEnded);
+      audio.removeEventListener("error", handleError);
+      audio.removeEventListener("waiting", handleWaiting);
+      audio.removeEventListener("canplay", handleCanPlay);
+      audio.removeEventListener("play", handlePlay);
+      audio.removeEventListener("pause", handlePause);
       unregisterStudioAudio(SOURCE_ID);
       audioRef.current = null;
     };
@@ -177,7 +177,7 @@ export function useReferenceAudioPlayer({
     try {
       await audio.play();
     } catch (error) {
-      setState(prev => ({ ...prev, error: 'Не удалось воспроизвести' }));
+      setState((prev) => ({ ...prev, error: "Не удалось воспроизвести" }));
     }
   }, [pauseTrack]);
 
@@ -196,25 +196,25 @@ export function useReferenceAudioPlayer({
   const seek = useCallback((time: number) => {
     const audio = audioRef.current;
     if (!audio) return;
-    
+
     audio.currentTime = Math.max(0, Math.min(time, audio.duration || 0));
-    setState(prev => ({ ...prev, currentTime: time }));
+    setState((prev) => ({ ...prev, currentTime: time }));
   }, []);
 
   const setVolume = useCallback((volume: number) => {
     const audio = audioRef.current;
     if (!audio) return;
-    
+
     audio.volume = Math.max(0, Math.min(1, volume));
   }, []);
 
   const reset = useCallback(() => {
     const audio = audioRef.current;
     if (!audio) return;
-    
+
     audio.pause();
     audio.currentTime = 0;
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       isPlaying: false,
       currentTime: 0,

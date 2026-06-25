@@ -3,9 +3,9 @@
  * Shows current balance and cost for generation
  */
 
-import { memo } from 'react';
-import { Coins } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { memo } from "react";
+import { Coins } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface CreditBalanceIndicatorProps {
   balance: number;
@@ -21,18 +21,18 @@ export const CreditBalanceIndicator = memo(function CreditBalanceIndicator({
   const isLow = balance < cost * 3;
   const isInsufficient = balance < cost;
   const remaining = balance - cost;
-  
+
   return (
     <div
       className={cn(
         "inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs",
         "border transition-colors",
-        isInsufficient 
+        isInsufficient
           ? "bg-destructive/10 border-destructive/30 text-destructive"
           : isLow
             ? "bg-amber-500/10 border-amber-500/30 text-amber-600 dark:text-amber-400"
             : "bg-muted/50 border-border/50 text-muted-foreground",
-        className
+        className,
       )}
     >
       <Coins className="w-3.5 h-3.5" />
@@ -42,10 +42,12 @@ export const CreditBalanceIndicator = memo(function CreditBalanceIndicator({
       {!isInsufficient && (
         <>
           <span className="opacity-60">=</span>
-          <span className={cn(
-            "font-semibold tabular-nums",
-            isLow ? "text-amber-600 dark:text-amber-400" : "text-foreground"
-          )}>
+          <span
+            className={cn(
+              "font-semibold tabular-nums",
+              isLow ? "text-amber-600 dark:text-amber-400" : "text-foreground",
+            )}
+          >
             {remaining}
           </span>
         </>

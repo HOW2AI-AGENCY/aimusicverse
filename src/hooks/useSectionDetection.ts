@@ -1,43 +1,33 @@
 /**
  * Hook for detecting song sections
- * 
+ *
  * Priority order:
  * 1. Parse tags from lyrics ([Verse], [Chorus], etc.)
  * 2. Use aligned words with gap detection
  * 3. Smart duration-based sections following typical song structure
- * 
+ *
  * Refactored: Core logic extracted to:
  * - src/types/sections.ts - Types and labels
  * - src/lib/audio/lyricsParser.ts - Lyrics parsing
  * - src/lib/audio/musicalStructure.ts - Structure detection
  */
 
-import { useMemo } from 'react';
-import type { AlignedWord } from '@/hooks/useTimestampedLyrics';
-import type { DetectedSection } from '@/types/sections';
-import { getSectionLabel } from '@/types/sections';
-import {
-  parseSectionsFromLyrics,
-  filterTagWords,
-  matchSectionToTimestamps,
-} from '@/lib/audio/lyricsParser';
-import {
-  createMusicalSections,
-  detectSectionsFromGaps,
-} from '@/lib/audio/musicalStructure';
-import { logger } from '@/lib/logger';
+import { useMemo } from "react";
+import type { AlignedWord } from "@/hooks/useTimestampedLyrics";
+import type { DetectedSection } from "@/types/sections";
+import { getSectionLabel } from "@/types/sections";
+import { parseSectionsFromLyrics, filterTagWords, matchSectionToTimestamps } from "@/lib/audio/lyricsParser";
+import { createMusicalSections, detectSectionsFromGaps } from "@/lib/audio/musicalStructure";
+import { logger } from "@/lib/logger";
 
 // Re-export types for backward compatibility
-export type { DetectedSection } from '@/types/sections';
-export { createMusicalSections } from '@/lib/audio/musicalStructure';
+export type { DetectedSection } from "@/types/sections";
+export { createMusicalSections } from "@/lib/audio/musicalStructure";
 
 /**
  * Ensure sections are continuous with no gaps
  */
-function makeSectionsContinuous(
-  sections: DetectedSection[],
-  duration: number
-): DetectedSection[] {
+function makeSectionsContinuous(sections: DetectedSection[], duration: number): DetectedSection[] {
   if (sections.length === 0) return sections;
 
   // First section starts at 0
@@ -71,7 +61,7 @@ function makeSectionsContinuous(
 function buildSectionsFromParsedLyrics(
   parsedSections: ReturnType<typeof parseSectionsFromLyrics>,
   filteredWords: AlignedWord[],
-  duration: number
+  duration: number,
 ): DetectedSection[] {
   const sections: DetectedSection[] = [];
   const typeCounters: Record<string, number> = {};
@@ -91,7 +81,7 @@ function buildSectionsFromParsedLyrics(
           label: getSectionLabel(parsed.type, typeCounters[parsed.type]),
           startTime,
           endTime: match.endTime,
-          lyrics: parsed.lyrics.replace(/\n/g, ' ').trim(),
+          lyrics: parsed.lyrics.replace(/\n/g, " ").trim(),
           words: match.words,
         });
         searchIndex = match.nextSearchIndex;
@@ -108,7 +98,7 @@ function buildSectionsFromParsedLyrics(
           label: getSectionLabel(parsed.type, typeCounters[parsed.type]),
           startTime: estimatedStart,
           endTime: estimatedEnd,
-          lyrics: parsed.lyrics.replace(/\n/g, ' ').trim(),
+          lyrics: parsed.lyrics.replace(/\n/g, " ").trim(),
           words: [],
         });
       }
@@ -124,21 +114,17 @@ function buildSectionsFromParsedLyrics(
 export function useSectionDetection(
   originalLyrics: string | null | undefined,
   alignedWords: AlignedWord[] | undefined,
-  duration: number
+  duration: number,
 ): DetectedSection[] {
   return useMemo(() => {
     try {
       const filteredWords = alignedWords ? filterTagWords(alignedWords) : [];
 
       // 1. Try parsing tags from lyrics first
-      const parsedSections = parseSectionsFromLyrics(originalLyrics || '');
+      const parsedSections = parseSectionsFromLyrics(originalLyrics || "");
 
       if (parsedSections.length > 0 && filteredWords.length > 0) {
-        const sections = buildSectionsFromParsedLyrics(
-          parsedSections,
-          filteredWords,
-          duration
-        );
+        const sections = buildSectionsFromParsedLyrics(parsedSections, filteredWords, duration);
 
         if (sections.length > 0) {
           return makeSectionsContinuous(sections, duration);
@@ -157,7 +143,7 @@ export function useSectionDetection(
 
       return [];
     } catch (error) {
-      logger.error('Section detection error', error instanceof Error ? error : new Error(String(error)));
+      logger.error("Section detection error", error instanceof Error ? error : new Error(String(error)));
       return createMusicalSections(duration);
     }
   }, [originalLyrics, alignedWords, duration]);

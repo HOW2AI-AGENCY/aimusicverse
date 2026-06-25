@@ -3,13 +3,13 @@
  * Focus on essential features: stats, chords, score viewer, downloads
  */
 
-import { useState, useRef, useEffect } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Separator } from '@/components/ui/separator';
-import { motion, AnimatePresence } from '@/lib/motion';
+import { useState, useRef, useEffect } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Separator } from "@/components/ui/separator";
+import { motion, AnimatePresence } from "@/lib/motion";
 import {
   Play,
   Pause,
@@ -27,18 +27,18 @@ import {
   Music,
   ExternalLink,
   MicVocal,
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { logger } from '@/lib/logger';
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+import { logger } from "@/lib/logger";
 
-const log = logger.child({ module: 'GuitarAnalysisReport' });
-import { toast } from 'sonner';
-import { useHapticFeedback } from '@/hooks/useHapticFeedback';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { ChordDiagramUnified } from './ChordDiagramUnified';
-import { WaveformWithChords } from './WaveformWithChords';
-import { AddVocalsToGuitarDialog } from './AddVocalsToGuitarDialog';
-import type { GuitarAnalysisResult } from '@/hooks/useGuitarAnalysis';
+const log = logger.child({ module: "GuitarAnalysisReport" });
+import { toast } from "sonner";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { ChordDiagramUnified } from "./ChordDiagramUnified";
+import { WaveformWithChords } from "./WaveformWithChords";
+import { AddVocalsToGuitarDialog } from "./AddVocalsToGuitarDialog";
+import type { GuitarAnalysisResult } from "@/hooks/useGuitarAnalysis";
 
 interface GuitarAnalysisReportSimplifiedProps {
   analysis: GuitarAnalysisResult;
@@ -61,10 +61,10 @@ export function GuitarAnalysisReportSimplified({
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
-  const [activeTab, setActiveTab] = useState('chords');
+  const [activeTab, setActiveTab] = useState("chords");
   const [addVocalsOpen, setAddVocalsOpen] = useState(false);
 
-  const uniqueChords = [...new Set(analysis.chords.map(c => c.chord))];
+  const uniqueChords = [...new Set(analysis.chords.map((c) => c.chord))];
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -76,12 +76,12 @@ export function GuitarAnalysisReportSimplified({
       setCurrentTime(0);
     };
 
-    audio.addEventListener('timeupdate', handleTimeUpdate);
-    audio.addEventListener('ended', handleEnded);
+    audio.addEventListener("timeupdate", handleTimeUpdate);
+    audio.addEventListener("ended", handleEnded);
 
     return () => {
-      audio.removeEventListener('timeupdate', handleTimeUpdate);
-      audio.removeEventListener('ended', handleEnded);
+      audio.removeEventListener("timeupdate", handleTimeUpdate);
+      audio.removeEventListener("ended", handleEnded);
     };
   }, []);
 
@@ -98,24 +98,24 @@ export function GuitarAnalysisReportSimplified({
 
   const handleDownload = (url: string | undefined, name: string) => {
     if (!url) {
-      toast.error('Файл недоступен');
+      toast.error("Файл недоступен");
       return;
     }
     tap();
-    window.open(url, '_blank');
+    window.open(url, "_blank");
     toast.success(`Скачивание ${name}...`);
   };
 
   const handleCopyTags = () => {
     tap();
-    navigator.clipboard.writeText(analysis.generatedTags.join(', '));
-    toast.success('Теги скопированы');
+    navigator.clipboard.writeText(analysis.generatedTags.join(", "));
+    toast.success("Теги скопированы");
   };
 
   const formatDuration = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
   };
 
   const { pdfUrl, musicXmlUrl, gp5Url, midiUrl, midiQuantUrl } = analysis.transcriptionFiles;
@@ -125,7 +125,7 @@ export function GuitarAnalysisReportSimplified({
 
   // Debug logging to diagnose missing files issue
   useEffect(() => {
-    log.debug('Analysis data:', {
+    log.debug("Analysis data:", {
       transcriptionFiles: JSON.stringify(analysis.transcriptionFiles),
       pdfUrl,
       midiUrl,
@@ -141,7 +141,7 @@ export function GuitarAnalysisReportSimplified({
   }, [analysis, pdfUrl, midiUrl, midiQuantUrl, gp5Url, musicXmlUrl, hasPdf, hasMidi, hasScore]);
 
   return (
-    <div className={cn('space-y-4', className)}>
+    <div className={cn("space-y-4", className)}>
       <audio
         ref={audioRef}
         src={audioUrl}
@@ -156,7 +156,11 @@ export function GuitarAnalysisReportSimplified({
             <StatBadge icon={<Key className="w-3.5 h-3.5" />} label="Key" value={analysis.key} />
             <StatBadge icon={<Gauge className="w-3.5 h-3.5" />} label="BPM" value={`${analysis.bpm}`} />
             <StatBadge icon={<Clock className="w-3.5 h-3.5" />} label="Metre" value={analysis.timeSignature} />
-            <StatBadge icon={<Guitar className="w-3.5 h-3.5" />} label="Type" value={analysis.style.technique?.slice(0, 4) || 'Mix'} />
+            <StatBadge
+              icon={<Guitar className="w-3.5 h-3.5" />}
+              label="Type"
+              value={analysis.style.technique?.slice(0, 4) || "Mix"}
+            />
           </div>
 
           {/* Simple Waveform Player */}
@@ -171,7 +175,7 @@ export function GuitarAnalysisReportSimplified({
             <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/30">
               <Button
                 size="icon"
-                variant={isPlaying ? 'secondary' : 'default'}
+                variant={isPlaying ? "secondary" : "default"}
                 onClick={togglePlayback}
                 className="h-10 w-10 rounded-full shrink-0"
               >
@@ -223,7 +227,7 @@ export function GuitarAnalysisReportSimplified({
                   <ChordDiagramUnified
                     key={chord}
                     chord={chord}
-                    size={isMobile ? 'sm' : 'md'}
+                    size={isMobile ? "sm" : "md"}
                     showFingers={!isMobile}
                   />
                 ))}
@@ -241,8 +245,8 @@ export function GuitarAnalysisReportSimplified({
                 <div className="flex items-center gap-2 text-xs text-muted-foreground">
                   <span className="shrink-0">Прогрессия:</span>
                   <p className="text-xs sm:text-sm font-mono text-primary overflow-x-auto pb-1">
-                    {uniqueChords.slice(0, 8).join(' → ')}
-                    {uniqueChords.length > 8 && ' ...'}
+                    {uniqueChords.slice(0, 8).join(" → ")}
+                    {uniqueChords.length > 8 && " ..."}
                   </p>
                 </div>
 
@@ -276,11 +280,7 @@ export function GuitarAnalysisReportSimplified({
                     <FileText className="w-4 h-4 text-primary" />
                     <span className="text-sm font-medium">Ноты и табулатура (PDF)</span>
                   </div>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => handleDownload(pdfUrl, 'PDF')}
-                  >
+                  <Button size="sm" variant="outline" onClick={() => handleDownload(pdfUrl, "PDF")}>
                     <Download className="w-3 h-3 mr-1" />
                     Скачать
                   </Button>
@@ -300,7 +300,7 @@ export function GuitarAnalysisReportSimplified({
                     size="sm"
                     variant="ghost"
                     className="h-7 text-xs"
-                    onClick={() => window.open(pdfUrl, '_blank')}
+                    onClick={() => window.open(pdfUrl, "_blank")}
                   >
                     <ExternalLink className="w-3 h-3 mr-1" />
                     Открыть
@@ -317,10 +317,11 @@ export function GuitarAnalysisReportSimplified({
 
                   {/* Diagnostic info */}
                   <div className="text-xs text-muted-foreground space-y-1 max-w-md mx-auto">
-                    <p>Статус транскрипции: {analysis.analysisComplete.transcription ? '✅ Завершено' : '❌ Не выполнено'}</p>
-                    {analysis.notes && analysis.notes.length > 0 && (
-                      <p>Найдено нот: {analysis.notes.length}</p>
-                    )}
+                    <p>
+                      Статус транскрипции:{" "}
+                      {analysis.analysisComplete.transcription ? "✅ Завершено" : "❌ Не выполнено"}
+                    </p>
+                    {analysis.notes && analysis.notes.length > 0 && <p>Найдено нот: {analysis.notes.length}</p>}
                     {(musicXmlUrl || gp5Url || midiUrl) && (
                       <p className="text-primary">Доступны другие форматы во вкладке "Экспорт"</p>
                     )}
@@ -357,18 +358,14 @@ export function GuitarAnalysisReportSimplified({
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {midiUrl && (
-                      <Button
-                        onClick={() => handleDownload(midiUrl, 'MIDI')}
-                        className="w-full"
-                        size="lg"
-                      >
+                      <Button onClick={() => handleDownload(midiUrl, "MIDI")} className="w-full" size="lg">
                         <Download className="w-4 h-4 mr-2" />
                         MIDI (оригинал)
                       </Button>
                     )}
                     {midiQuantUrl && (
                       <Button
-                        onClick={() => handleDownload(midiQuantUrl, 'MIDI квантизированный')}
+                        onClick={() => handleDownload(midiQuantUrl, "MIDI квантизированный")}
                         className="w-full"
                         size="lg"
                         variant="outline"
@@ -379,9 +376,7 @@ export function GuitarAnalysisReportSimplified({
                     )}
                   </div>
 
-                  <p className="text-xs text-muted-foreground mt-2">
-                    💡 Используйте в DAW или музыкальных редакторах
-                  </p>
+                  <p className="text-xs text-muted-foreground mt-2">💡 Используйте в DAW или музыкальных редакторах</p>
                 </div>
               ) : (
                 <div className="p-4 rounded-lg bg-muted/30 border border-border">
@@ -391,7 +386,7 @@ export function GuitarAnalysisReportSimplified({
                   </div>
                   <p className="text-xs text-muted-foreground">
                     {analysis.analysisComplete.transcription
-                      ? 'Файлы не были сгенерированы. Проверьте логи браузера.'
+                      ? "Файлы не были сгенерированы. Проверьте логи браузера."
                       : 'Транскрипция не завершена. См. вкладку "Ноты" для деталей.'}
                   </p>
                 </div>
@@ -411,7 +406,7 @@ export function GuitarAnalysisReportSimplified({
                     <FileDownloadButton
                       label="PDF нотная запись"
                       description="Табулатура и ноты"
-                      onClick={() => handleDownload(pdfUrl, 'PDF')}
+                      onClick={() => handleDownload(pdfUrl, "PDF")}
                     />
                   )}
 
@@ -419,7 +414,7 @@ export function GuitarAnalysisReportSimplified({
                     <FileDownloadButton
                       label="MusicXML"
                       description="Для MuseScore, Sibelius"
-                      onClick={() => handleDownload(musicXmlUrl, 'MusicXML')}
+                      onClick={() => handleDownload(musicXmlUrl, "MusicXML")}
                     />
                   )}
 
@@ -427,7 +422,7 @@ export function GuitarAnalysisReportSimplified({
                     <FileDownloadButton
                       label="Guitar Pro 5"
                       description="Для Guitar Pro, TuxGuitar"
-                      onClick={() => handleDownload(gp5Url, 'Guitar Pro')}
+                      onClick={() => handleDownload(gp5Url, "Guitar Pro")}
                     />
                   )}
                 </div>
@@ -441,9 +436,9 @@ export function GuitarAnalysisReportSimplified({
 
               {/* Actions */}
               {/* Add Vocals Button */}
-              <Button 
-                variant="outline" 
-                onClick={() => setAddVocalsOpen(true)} 
+              <Button
+                variant="outline"
+                onClick={() => setAddVocalsOpen(true)}
                 className="w-full gap-2 bg-gradient-to-r from-rose-500/10 to-pink-500/10 border-rose-500/30 hover:border-rose-500/50"
               >
                 <MicVocal className="w-4 h-4 text-rose-400" />

@@ -3,10 +3,10 @@
  * Business logic for AI artist operations
  */
 
-import * as artistsApi from '@/api/artists.api';
-import { logger } from '@/lib/logger';
+import * as artistsApi from "@/api/artists.api";
+import { logger } from "@/lib/logger";
 
-export type { ArtistRow } from '@/api/artists.api';
+export type { ArtistRow } from "@/api/artists.api";
 
 /**
  * Create artist with optional portrait generation
@@ -21,24 +21,21 @@ export async function createArtistWithPortrait(
     moodTags?: string[];
     isPublic?: boolean;
     generatePortrait?: boolean;
-  }
+  },
 ): Promise<artistsApi.ArtistRow> {
   let avatarUrl: string | null = null;
-  
+
   // Generate portrait if requested
   if (options?.generatePortrait) {
     try {
-      const { imageUrl } = await artistsApi.generateArtistPortrait(
-        name,
-        options.styleDescription
-      );
+      const { imageUrl } = await artistsApi.generateArtistPortrait(name, options.styleDescription);
       avatarUrl = imageUrl;
     } catch (error: unknown) {
       // Continue without portrait if generation fails
-      logger.warn('Portrait generation failed', { error: error instanceof Error ? error.message : String(error) });
+      logger.warn("Portrait generation failed", { error: error instanceof Error ? error.message : String(error) });
     }
   }
-  
+
   return artistsApi.createArtist({
     user_id: userId,
     name,
@@ -58,7 +55,7 @@ export async function createArtistWithPortrait(
 export async function updateArtistPortrait(
   artistId: string,
   artistName: string,
-  styleDescription?: string
+  styleDescription?: string,
 ): Promise<artistsApi.ArtistRow> {
   const { imageUrl } = await artistsApi.generateArtistPortrait(artistName, styleDescription);
   return artistsApi.updateArtist(artistId, { avatar_url: imageUrl });
@@ -86,16 +83,17 @@ export async function getArtistStats(artistId: string): Promise<{
  */
 export async function searchArtists(
   query: string,
-  options?: { publicOnly?: boolean; limit?: number }
+  options?: { publicOnly?: boolean; limit?: number },
 ): Promise<artistsApi.ArtistRow[]> {
   if (options?.publicOnly) {
     const artists = await artistsApi.fetchPublicArtists(options.limit);
-    return artists.filter(a => 
-      a.name.toLowerCase().includes(query.toLowerCase()) ||
-      a.style_description?.toLowerCase().includes(query.toLowerCase())
+    return artists.filter(
+      (a) =>
+        a.name.toLowerCase().includes(query.toLowerCase()) ||
+        a.style_description?.toLowerCase().includes(query.toLowerCase()),
     );
   }
-  
+
   // For user's own artists, we'd need to add a search API
   return [];
 }

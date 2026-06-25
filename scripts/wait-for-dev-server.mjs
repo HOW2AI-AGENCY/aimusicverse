@@ -18,9 +18,7 @@ const path = process.env.E2E_DEV_PATH || "/";
 const timeoutMs = Number(process.env.E2E_DEV_TIMEOUT || 120_000);
 const intervalMs = Number(process.env.E2E_DEV_INTERVAL || 1000);
 
-const url =
-  process.env.PLAYWRIGHT_BASE_URL?.replace(/\/$/, "") + path ||
-  `http://${host}:${port}${path}`;
+const url = process.env.PLAYWRIGHT_BASE_URL?.replace(/\/$/, "") + path || `http://${host}:${port}${path}`;
 
 console.log(`[wait-for-dev-server] target=${url} timeout=${timeoutMs}ms interval=${intervalMs}ms`);
 
@@ -54,7 +52,5 @@ while (Date.now() - start < timeoutMs) {
   await sleep(intervalMs);
 }
 
-console.error(
-  `[wait-for-dev-server] FAILED — url=${url} did not respond within ${timeoutMs}ms. last=${lastError}`,
-);
+console.error(`[wait-for-dev-server] FAILED — url=${url} did not respond within ${timeoutMs}ms. last=${lastError}`);
 process.exit(1);

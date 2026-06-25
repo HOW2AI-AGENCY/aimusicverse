@@ -1,17 +1,14 @@
-import { memo } from 'react';
-import { motion } from '@/lib/motion';
-import { BookOpen, Sparkles } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { memo } from "react";
+import { motion } from "@/lib/motion";
+import { BookOpen, Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface BlogHeroSectionProps {
   isAdmin?: boolean;
   onCreateNew?: () => void;
 }
 
-export const BlogHeroSection = memo(function BlogHeroSection({
-  isAdmin,
-  onCreateNew,
-}: BlogHeroSectionProps) {
+export const BlogHeroSection = memo(function BlogHeroSection({ isAdmin, onCreateNew }: BlogHeroSectionProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: -20 }}
@@ -22,13 +19,13 @@ export const BlogHeroSection = memo(function BlogHeroSection({
       {/* Background decoration */}
       <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
       <div className="absolute bottom-0 left-0 w-48 h-48 bg-primary/10 rounded-full blur-2xl translate-y-1/2 -translate-x-1/2" />
-      
+
       <div className="relative flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <motion.div
             initial={{ scale: 0.8, rotate: -10 }}
             animate={{ scale: 1, rotate: 0 }}
-            transition={{ delay: 0.2, type: 'spring' }}
+            transition={{ delay: 0.2, type: "spring" }}
             className="p-4 rounded-2xl bg-primary/10 border border-primary/20"
           >
             <BookOpen className="w-8 h-8 text-primary" />
@@ -74,7 +71,7 @@ export const BlogHeroSection = memo(function BlogHeroSection({
         transition={{ delay: 0.6 }}
         className="relative mt-6 flex flex-wrap gap-3"
       >
-        {['Гайды', 'Обновления', 'Советы', 'Новости'].map((tag, i) => (
+        {["Гайды", "Обновления", "Советы", "Новости"].map((tag, i) => (
           <motion.span
             key={tag}
             initial={{ opacity: 0, scale: 0.8 }}

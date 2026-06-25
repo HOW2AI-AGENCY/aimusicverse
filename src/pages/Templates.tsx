@@ -1,38 +1,29 @@
-import { useState } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/hooks/useAuth';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { 
-  FileText, Search, Trash2, Copy, Check, 
-  ArrowRight, Plus, Sparkles, BookOpen
-} from 'lucide-react';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { 
-  AlertDialog, 
-  AlertDialogAction, 
-  AlertDialogCancel, 
-  AlertDialogContent, 
-  AlertDialogDescription, 
-  AlertDialogFooter, 
-  AlertDialogHeader, 
-  AlertDialogTitle 
-} from '@/components/ui/alert-dialog';
-import { 
-  Sheet, 
-  SheetContent, 
-  SheetHeader, 
-  SheetTitle,
-  SheetDescription 
-} from '@/components/ui/sheet';
-import { toast } from 'sonner';
-import { cn } from '@/lib/utils';
-import { useNavigate } from 'react-router-dom';
-import { useTelegram } from '@/contexts/TelegramContext';
-import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
+import { useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { FileText, Search, Trash2, Copy, Check, ArrowRight, Plus, Sparkles, BookOpen } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
+import { useNavigate } from "react-router-dom";
+import { useTelegram } from "@/contexts/TelegramContext";
+import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
 
 interface Template {
   id: string;
@@ -48,27 +39,27 @@ const Templates = () => {
   const navigate = useNavigate();
   const { hapticFeedback } = useTelegram();
   const queryClient = useQueryClient();
-  
+
   // Telegram BackButton
   useTelegramBackButton({
     visible: true,
-    fallbackPath: '/',
+    fallbackPath: "/",
   });
-  
-  const [searchQuery, setSearchQuery] = useState('');
+
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
 
   const { data: templates = [], isLoading } = useQuery({
-    queryKey: ['templates', user?.id],
+    queryKey: ["templates", user?.id],
     queryFn: async () => {
       if (!user?.id) return [];
       const { data, error } = await supabase
-        .from('prompt_templates')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false });
+        .from("prompt_templates")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false });
       if (error) throw error;
       return data as Template[];
     },
@@ -77,75 +68,74 @@ const Templates = () => {
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase
-        .from('prompt_templates')
-        .delete()
-        .eq('id', id);
+      const { error } = await supabase.from("prompt_templates").delete().eq("id", id);
       if (error) throw error;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['templates'] });
-      toast.success('Шаблон удалён');
+      queryClient.invalidateQueries({ queryKey: ["templates"] });
+      toast.success("Шаблон удалён");
       setDeleteId(null);
     },
     onError: () => {
-      toast.error('Ошибка удаления');
+      toast.error("Ошибка удаления");
     },
   });
 
   const incrementUsageMutation = useMutation({
     mutationFn: async (id: string) => {
       const { error } = await supabase
-        .from('prompt_templates')
-        .update({ usage_count: (templates.find(t => t.id === id)?.usage_count || 0) + 1 })
-        .eq('id', id);
+        .from("prompt_templates")
+        .update({ usage_count: (templates.find((t) => t.id === id)?.usage_count || 0) + 1 })
+        .eq("id", id);
       if (error) throw error;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['templates'] });
+      queryClient.invalidateQueries({ queryKey: ["templates"] });
     },
   });
 
-  const filteredTemplates = templates.filter(t => 
-    t.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    t.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase())) ||
-    t.template_text.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredTemplates = templates.filter(
+    (t) =>
+      t.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      t.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      t.template_text.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text);
     setCopied(true);
-    hapticFeedback('light');
+    hapticFeedback("light");
     setTimeout(() => setCopied(false), 2000);
-    toast.success('Скопировано');
+    toast.success("Скопировано");
   };
 
   const handleUseTemplate = (template: Template) => {
-    hapticFeedback('medium');
+    hapticFeedback("medium");
     incrementUsageMutation.mutate(template.id);
-    
+
     // Store template in sessionStorage for GenerateSheet to pick up
-    sessionStorage.setItem('templateLyrics', template.template_text);
-    sessionStorage.setItem('templateName', template.name);
-    
+    sessionStorage.setItem("templateLyrics", template.template_text);
+    sessionStorage.setItem("templateName", template.name);
+
     setSelectedTemplate(null);
-    navigate('/generate');
-    toast.success('Шаблон загружен');
+    navigate("/generate");
+    toast.success("Шаблон загружен");
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('ru-RU', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric',
+    return new Date(dateString).toLocaleDateString("ru-RU", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
     });
   };
 
   return (
-    <div 
+    <div
       className="min-h-screen bg-background pb-24"
       style={{
-        paddingTop: 'max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))',
+        paddingTop:
+          "max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))",
       }}
     >
       {/* Header */}
@@ -157,7 +147,7 @@ const Templates = () => {
           <div>
             <h1 className="text-xl font-bold">Мои шаблоны</h1>
             <p className="text-sm text-muted-foreground">
-              {templates.length} {templates.length === 1 ? 'шаблон' : 'шаблонов'}
+              {templates.length} {templates.length === 1 ? "шаблон" : "шаблонов"}
             </p>
           </div>
         </div>
@@ -192,16 +182,15 @@ const Templates = () => {
               <FileText className="w-8 h-8 text-muted-foreground" />
             </div>
             <h3 className="text-lg font-semibold mb-2">
-              {searchQuery ? 'Ничего не найдено' : 'Нет сохранённых шаблонов'}
+              {searchQuery ? "Ничего не найдено" : "Нет сохранённых шаблонов"}
             </h3>
             <p className="text-sm text-muted-foreground mb-6 max-w-xs">
-              {searchQuery 
-                ? 'Попробуйте изменить запрос'
-                : 'Создайте текст песни с помощью AI и сохраните его в библиотеку'
-              }
+              {searchQuery
+                ? "Попробуйте изменить запрос"
+                : "Создайте текст песни с помощью AI и сохраните его в библиотеку"}
             </p>
             {!searchQuery && (
-              <Button onClick={() => navigate('/generate')} className="gap-2">
+              <Button onClick={() => navigate("/generate")} className="gap-2">
                 <Sparkles className="h-4 w-4" />
                 Создать текст
               </Button>
@@ -221,38 +210,30 @@ const Templates = () => {
                 >
                   <button
                     onClick={() => {
-                      hapticFeedback('light');
+                      hapticFeedback("light");
                       setSelectedTemplate(template);
                     }}
                     className={cn(
                       "w-full text-left p-4 rounded-xl border border-border/50",
                       "bg-card hover:bg-muted/50 transition-colors",
-                      "touch-manipulation"
+                      "touch-manipulation",
                     )}
                   >
                     <div className="flex items-start justify-between gap-3 mb-2">
-                      <h3 className="font-medium text-sm line-clamp-1 flex-1">
-                        {template.name}
-                      </h3>
+                      <h3 className="font-medium text-sm line-clamp-1 flex-1">{template.name}</h3>
                       {template.usage_count > 0 && (
                         <Badge variant="secondary" className="text-xs shrink-0">
                           {template.usage_count}×
                         </Badge>
                       )}
                     </div>
-                    
-                    <p className="text-xs text-muted-foreground line-clamp-2 mb-3">
-                      {template.template_text}
-                    </p>
-                    
+
+                    <p className="text-xs text-muted-foreground line-clamp-2 mb-3">{template.template_text}</p>
+
                     <div className="flex items-center justify-between">
                       <div className="flex flex-wrap gap-1">
                         {template.tags.slice(0, 3).map((tag) => (
-                          <Badge 
-                            key={tag} 
-                            variant="outline" 
-                            className="text-xs px-2 py-0"
-                          >
+                          <Badge key={tag} variant="outline" className="text-xs px-2 py-0">
                             {tag}
                           </Badge>
                         ))}
@@ -262,9 +243,7 @@ const Templates = () => {
                           </Badge>
                         )}
                       </div>
-                      <span className="text-xs text-muted-foreground">
-                        {formatDate(template.created_at)}
-                      </span>
+                      <span className="text-xs text-muted-foreground">{formatDate(template.created_at)}</span>
                     </div>
                   </button>
                 </motion.div>
@@ -278,9 +257,7 @@ const Templates = () => {
       <Sheet open={!!selectedTemplate} onOpenChange={() => setSelectedTemplate(null)}>
         <SheetContent side="bottom" className="rounded-t-3xl max-h-[85vh] overflow-hidden flex flex-col">
           <SheetHeader className="pb-4">
-            <SheetTitle className="text-left line-clamp-1">
-              {selectedTemplate?.name}
-            </SheetTitle>
+            <SheetTitle className="text-left line-clamp-1">{selectedTemplate?.name}</SheetTitle>
             <SheetDescription className="text-left">
               Создан {selectedTemplate && formatDate(selectedTemplate.created_at)}
             </SheetDescription>
@@ -316,7 +293,7 @@ const Templates = () => {
                   onClick={() => handleCopy(selectedTemplate.template_text)}
                 >
                   {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                  {copied ? 'Скопировано' : 'Копировать'}
+                  {copied ? "Скопировано" : "Копировать"}
                 </Button>
                 <Button
                   variant="outline"
@@ -326,10 +303,7 @@ const Templates = () => {
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>
-                <Button 
-                  className="flex-1 gap-2"
-                  onClick={() => handleUseTemplate(selectedTemplate)}
-                >
+                <Button className="flex-1 gap-2" onClick={() => handleUseTemplate(selectedTemplate)}>
                   Использовать
                   <ArrowRight className="h-4 w-4" />
                 </Button>
@@ -344,9 +318,7 @@ const Templates = () => {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Удалить шаблон?</AlertDialogTitle>
-            <AlertDialogDescription>
-              Это действие нельзя отменить. Шаблон будет удалён навсегда.
-            </AlertDialogDescription>
+            <AlertDialogDescription>Это действие нельзя отменить. Шаблон будет удалён навсегда.</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Отмена</AlertDialogCancel>

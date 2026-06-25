@@ -13,8 +13,9 @@ This document defines the standard patterns for applying safe area insets in Mus
 ### What are Safe Areas?
 
 Safe areas are the portions of the screen that are not obscured by device-specific UI elements:
+
 - **iPhone Notch/Dynamic Island** - Top safe area
-- **iPhone Home Indicator** - Bottom safe area  
+- **iPhone Home Indicator** - Bottom safe area
 - **Android Punch-hole cameras** - Top safe area
 - **Telegram Mini App native buttons** - Top safe area (Back, Settings, Minimize)
 
@@ -68,7 +69,7 @@ function PageWithStickyHeader() {
       <header className="sticky top-0 pt-[max(env(safe-area-inset-top),1rem)]">
         <h1>MusicVerse AI</h1>
       </header>
-      
+
       {/* ✅ Content without safe-area (header already handles it) */}
       <main className="p-4">
         <Content />
@@ -79,6 +80,7 @@ function PageWithStickyHeader() {
 ```
 
 **Examples:**
+
 - `src/components/home/HomeHeader.tsx`
 - `src/components/layout/AppHeader.tsx`
 
@@ -94,21 +96,25 @@ function FullScreenModal() {
     <Sheet>
       <SheetContent className="h-[100dvh] flex flex-col">
         {/* ✅ Header with safe-area */}
-        <SheetHeader style={{ 
-          paddingTop: 'max(var(--tg-content-safe-area-inset-top), 1rem)' 
-        }}>
+        <SheetHeader
+          style={{
+            paddingTop: "max(var(--tg-content-safe-area-inset-top), 1rem)",
+          }}
+        >
           <SheetTitle>Modal Title</SheetTitle>
         </SheetHeader>
-        
+
         {/* ✅ Content without safe-area */}
         <div className="flex-1 p-4">
           <Content />
         </div>
-        
+
         {/* ✅ Footer with safe-area */}
-        <SheetFooter style={{
-          paddingBottom: 'max(1rem, env(safe-area-inset-bottom))'
-        }}>
+        <SheetFooter
+          style={{
+            paddingBottom: "max(1rem, env(safe-area-inset-bottom))",
+          }}
+        >
           <Button>Close</Button>
         </SheetFooter>
       </SheetContent>
@@ -118,6 +124,7 @@ function FullScreenModal() {
 ```
 
 **Examples:**
+
 - `src/components/GenerateSheet.tsx`
 - `src/components/generate-form/LyricsChatAssistant.tsx`
 
@@ -138,6 +145,7 @@ function BottomNav() {
 ```
 
 **Examples:**
+
 - `src/components/BottomNavigation.tsx`
 
 ---
@@ -148,12 +156,14 @@ MainLayout intentionally does NOT apply top safe-area padding to allow page head
 
 ```tsx
 // src/components/MainLayout.tsx
-<main className={cn(
-  'flex-1 flex flex-col overflow-y-auto',
-  // ❌ NO top safe-area padding here
-  // ✅ Individual page headers (HomeHeader, AppHeader) handle top safe-area
-  'pb-[calc(4rem+env(safe-area-inset-bottom))]' // Bottom safe-area for navigation
-)}>
+<main
+  className={cn(
+    "flex-1 flex flex-col overflow-y-auto",
+    // ❌ NO top safe-area padding here
+    // ✅ Individual page headers (HomeHeader, AppHeader) handle top safe-area
+    "pb-[calc(4rem+env(safe-area-inset-bottom))]", // Bottom safe-area for navigation
+  )}
+>
   <div className="flex-1 px-4 py-3">
     <Outlet /> {/* Pages render here with their own headers */}
   </div>
@@ -167,6 +177,7 @@ MainLayout intentionally does NOT apply top safe-area padding to allow page head
 ### iOS Telegram Mini App
 
 Telegram Mini App provides its own safe area variables:
+
 - `--tg-content-safe-area-inset-top`
 - `--tg-content-safe-area-inset-bottom`
 - `--tg-content-safe-area-inset-left`
@@ -176,10 +187,7 @@ Telegram Mini App provides its own safe area variables:
 
 ```css
 /* ✅ Correct: Use both with max() */
-padding-top: max(
-  calc(var(--tg-content-safe-area-inset-top) + 0.5rem),
-  calc(env(safe-area-inset-top) + 0.5rem)
-);
+padding-top: max(calc(var(--tg-content-safe-area-inset-top) + 0.5rem), calc(env(safe-area-inset-top) + 0.5rem));
 
 /* ❌ Incorrect: Only Telegram vars */
 padding-top: var(--tg-content-safe-area-inset-top);
@@ -220,17 +228,14 @@ Test on the following device types:
 1. **iPhone with Notch** (12, 13, 14 series)
    - Verify no double padding at top
    - Verify content not hidden by notch
-   
 2. **iPhone with Dynamic Island** (14 Pro, 15 Pro)
    - Verify proper spacing around Dynamic Island
    - Verify no double padding at top
 
 3. **iPhone SE** (no notch)
    - Verify reasonable padding (not excessive)
-   
 4. **Android with Punch-hole** (Pixel 7, Samsung S22)
    - Verify proper spacing around punch-hole
-   
 5. **Android without Punch-hole** (older devices)
    - Verify reasonable padding
 
@@ -238,8 +243,8 @@ Test on the following device types:
 
 ```javascript
 // Test safe-area in Chrome DevTools Console
-document.documentElement.style.setProperty('--tg-content-safe-area-inset-top', '44px');
-document.documentElement.style.setProperty('--tg-content-safe-area-inset-bottom', '34px');
+document.documentElement.style.setProperty("--tg-content-safe-area-inset-top", "44px");
+document.documentElement.style.setProperty("--tg-content-safe-area-inset-bottom", "34px");
 ```
 
 ---
@@ -249,6 +254,7 @@ document.documentElement.style.setProperty('--tg-content-safe-area-inset-bottom'
 ### ✅ Good Examples
 
 #### HomeHeader.tsx
+
 ```tsx
 // Line 72: Correct safe-area application
 <header className="pt-[max(calc(var(--tg-content-safe-area-inset-top,0px)+0.5rem),calc(env(safe-area-inset-top,0px)+0.5rem))]">
@@ -257,21 +263,20 @@ document.documentElement.style.setProperty('--tg-content-safe-area-inset-bottom'
 ```
 
 #### MainLayout.tsx
+
 ```tsx
 // Line 128: Bottom safe-area only, no top (headers handle it)
-<main className={cn(
-  'flex-1',
-  'pb-[calc(4rem+env(safe-area-inset-bottom,0px))]'
-)}>
+<main className={cn("flex-1", "pb-[calc(4rem+env(safe-area-inset-bottom,0px))]")}>
   <Outlet />
 </main>
 ```
 
 #### GenerateSheet.tsx
+
 ```tsx
 // Line 218: Header with safe-area
-<div style={{ 
-  paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.5rem), calc(env(safe-area-inset-top, 0px) + 0.5rem))' 
+<div style={{
+  paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.5rem), calc(env(safe-area-inset-top, 0px) + 0.5rem))'
 }}>
   {/* Header */}
 </div>
@@ -321,6 +326,7 @@ document.documentElement.style.setProperty('--tg-content-safe-area-inset-bottom'
 **Impact:** Incorrect spacing in Telegram Mini App, native buttons overlap content.
 
 **Fix:** Use both with `max()`:
+
 ```tsx
 // ✅ GOOD
 <header className="pt-[max(var(--tg-content-safe-area-inset-top),env(safe-area-inset-top))]">
@@ -338,6 +344,7 @@ document.documentElement.style.setProperty('--tg-content-safe-area-inset-bottom'
 **Impact:** Incorrect spacing, card pushed down unnecessarily.
 
 **Fix:** Use regular spacing:
+
 ```tsx
 // ✅ GOOD
 <Card className="mt-4">...</Card>
@@ -357,6 +364,7 @@ document.documentElement.style.setProperty('--tg-content-safe-area-inset-bottom'
 ## 📝 Changelog
 
 ### 2025-12-22
+
 - **Created:** Initial safe area guidelines document
 - **Sprint:** 028 - UI/UX Optimization (Task 5)
 - **Author:** Copilot Agent
@@ -392,16 +400,16 @@ document.documentElement.style.setProperty('--tg-content-safe-area-inset-bottom'
 
 ```tsx
 // Top safe-area
-className="pt-[max(env(safe-area-inset-top),1rem)]"
+className = "pt-[max(env(safe-area-inset-top),1rem)]";
 
 // Bottom safe-area
-className="pb-[max(env(safe-area-inset-bottom),1rem)]"
+className = "pb-[max(env(safe-area-inset-bottom),1rem)]";
 
 // Left/Right safe-area
-className="px-[max(env(safe-area-inset-left),1rem)]"
+className = "px-[max(env(safe-area-inset-left),1rem)]";
 
 // Telegram + Standard (recommended for top)
-className="pt-[max(var(--tg-content-safe-area-inset-top),env(safe-area-inset-top))]"
+className = "pt-[max(var(--tg-content-safe-area-inset-top),env(safe-area-inset-top))]";
 ```
 
 ---

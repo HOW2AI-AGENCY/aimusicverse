@@ -1,17 +1,17 @@
 /**
  * DesktopMasterDetailLayout
- * 
+ *
  * Master-detail layout for list+preview pages like Projects, Playlists, Artists.
  * Shows list on left, detail panel on right. Collapses to single view on mobile.
  */
 
-import { memo, ReactNode, useState, useCallback } from 'react';
-import { cn } from '@/lib/utils';
-import { LAYOUT_RATIOS, MAX_WIDTHS } from '@/lib/breakpoints';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { Button } from '@/components/ui/button';
-import { ChevronLeft, X } from 'lucide-react';
-import { motion, AnimatePresence } from '@/lib/motion';
+import { memo, ReactNode, useState, useCallback } from "react";
+import { cn } from "@/lib/utils";
+import { LAYOUT_RATIOS, MAX_WIDTHS } from "@/lib/breakpoints";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { Button } from "@/components/ui/button";
+import { ChevronLeft, X } from "lucide-react";
+import { motion, AnimatePresence } from "@/lib/motion";
 
 interface DesktopMasterDetailLayoutProps {
   /** Header section (full width) */
@@ -42,8 +42,8 @@ export const DesktopMasterDetailLayout = memo(function DesktopMasterDetailLayout
   detailContent,
   hasSelection = false,
   onCloseDetail,
-  ratio = 'default',
-  maxWidth = 'full',
+  ratio = "default",
+  maxWidth = "full",
   emptyDetailState,
   className,
   detailTitle,
@@ -54,46 +54,33 @@ export const DesktopMasterDetailLayout = memo(function DesktopMasterDetailLayout
   // On mobile, show detail as overlay when selected
   if (isMobile) {
     return (
-      <div className={cn('w-full min-h-screen', className)}>
+      <div className={cn("w-full min-h-screen", className)}>
         {/* Header */}
-        {header && (
-          <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b">
-            {header}
-          </div>
-        )}
+        {header && <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b">{header}</div>}
 
         {/* Master list */}
-        <div className="px-3 py-3">
-          {masterContent}
-        </div>
+        <div className="px-3 py-3">{masterContent}</div>
 
         {/* Mobile detail overlay */}
         <AnimatePresence>
           {hasSelection && detailContent && (
             <motion.div
-              initial={{ x: '100%' }}
+              initial={{ x: "100%" }}
               animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
               className="fixed inset-0 z-50 bg-background"
             >
               {/* Mobile detail header */}
               <div className="sticky top-0 z-10 flex items-center gap-3 px-3 py-3 border-b bg-background/95 backdrop-blur-sm">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={onCloseDetail}
-                  className="h-9 w-9"
-                >
+                <Button variant="ghost" size="icon" onClick={onCloseDetail} className="h-9 w-9">
                   <ChevronLeft className="w-5 h-5" />
                 </Button>
-                {detailTitle && (
-                  <h2 className="text-lg font-semibold truncate">{detailTitle}</h2>
-                )}
+                {detailTitle && <h2 className="text-lg font-semibold truncate">{detailTitle}</h2>}
               </div>
-              
+
               {/* Detail content */}
-              <div className="overflow-auto" style={{ height: 'calc(100vh - 56px)' }}>
+              <div className="overflow-auto" style={{ height: "calc(100vh - 56px)" }}>
                 {detailContent}
               </div>
             </motion.div>
@@ -105,45 +92,24 @@ export const DesktopMasterDetailLayout = memo(function DesktopMasterDetailLayout
 
   // Desktop: side-by-side layout
   return (
-    <div className={cn(
-      'w-full mx-auto',
-      MAX_WIDTHS[maxWidth],
-      className
-    )}>
+    <div className={cn("w-full mx-auto", MAX_WIDTHS[maxWidth], className)}>
       {/* Header */}
-      {header && (
-        <div className="px-4 lg:px-6 py-4 border-b">
-          {header}
-        </div>
-      )}
+      {header && <div className="px-4 lg:px-6 py-4 border-b">{header}</div>}
 
       {/* Master-Detail container */}
       <div className="flex min-h-[calc(100vh-120px)]">
         {/* Master list */}
-        <div className={cn(
-          'border-r overflow-auto',
-          layoutRatio.master
-        )}>
-          <div className="p-4 lg:p-6">
-            {masterContent}
-          </div>
+        <div className={cn("border-r overflow-auto", layoutRatio.master)}>
+          <div className="p-4 lg:p-6">{masterContent}</div>
         </div>
 
         {/* Detail panel */}
-        <div className={cn(
-          'overflow-auto bg-muted/30',
-          layoutRatio.detail
-        )}>
+        <div className={cn("overflow-auto bg-muted/30", layoutRatio.detail)}>
           {hasSelection && detailContent ? (
             <div className="p-4 lg:p-6 relative">
               {/* Close button */}
               {onCloseDetail && (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={onCloseDetail}
-                  className="absolute top-4 right-4 h-8 w-8"
-                >
+                <Button variant="ghost" size="icon" onClick={onCloseDetail} className="absolute top-4 right-4 h-8 w-8">
                   <X className="w-4 h-4" />
                 </Button>
               )}
@@ -151,11 +117,7 @@ export const DesktopMasterDetailLayout = memo(function DesktopMasterDetailLayout
             </div>
           ) : (
             <div className="h-full flex items-center justify-center p-6">
-              {emptyDetailState || (
-                <p className="text-muted-foreground text-center">
-                  Выберите элемент для просмотра
-                </p>
-              )}
+              {emptyDetailState || <p className="text-muted-foreground text-center">Выберите элемент для просмотра</p>}
             </div>
           )}
         </div>

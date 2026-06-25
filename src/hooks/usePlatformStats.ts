@@ -3,8 +3,8 @@
  * Fetches real-time counts for tracks, users, generations, and plays
  */
 
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 interface PlatformStats {
   tracksCount: number;
@@ -25,10 +25,10 @@ interface FormattedStats {
  */
 function formatCount(num: number): string {
   if (num >= 1_000_000) {
-    return `${(num / 1_000_000).toFixed(1).replace(/\.0$/, '')}M+`;
+    return `${(num / 1_000_000).toFixed(1).replace(/\.0$/, "")}M+`;
   }
   if (num >= 1_000) {
-    return `${(num / 1_000).toFixed(1).replace(/\.0$/, '')}K+`;
+    return `${(num / 1_000).toFixed(1).replace(/\.0$/, "")}K+`;
   }
   return `${num}+`;
 }
@@ -38,14 +38,14 @@ function formatCount(num: number): string {
  */
 async function fetchPlatformStats(): Promise<PlatformStats> {
   // Use SECURITY DEFINER function to bypass RLS for anonymous users
-  const { data, error } = await supabase.rpc('get_platform_stats');
+  const { data, error } = await supabase.rpc("get_platform_stats");
 
   if (error || !data) {
     // Fallback: query only publicly accessible tables
     const { count: tracksCount } = await supabase
-      .from('tracks')
-      .select('id', { count: 'exact', head: true })
-      .eq('status', 'completed');
+      .from("tracks")
+      .select("id", { count: "exact", head: true })
+      .eq("status", "completed");
 
     return {
       tracksCount: tracksCount || 0,
@@ -69,7 +69,7 @@ async function fetchPlatformStats(): Promise<PlatformStats> {
  */
 export function usePlatformStats() {
   const { data, isLoading, error } = useQuery({
-    queryKey: ['platform-stats'],
+    queryKey: ["platform-stats"],
     queryFn: fetchPlatformStats,
     staleTime: 5 * 60 * 1000, // 5 minutes cache
     gcTime: 30 * 60 * 1000, // 30 minutes
@@ -77,10 +77,10 @@ export function usePlatformStats() {
   });
 
   const formatted: FormattedStats = {
-    tracks: data ? formatCount(data.tracksCount) : '...',
-    users: data ? formatCount(data.usersCount) : '...',
-    generations: data ? formatCount(data.generationsCount) : '...',
-    plays: data ? formatCount(data.totalPlays) : '...',
+    tracks: data ? formatCount(data.tracksCount) : "...",
+    users: data ? formatCount(data.usersCount) : "...",
+    generations: data ? formatCount(data.generationsCount) : "...",
+    plays: data ? formatCount(data.totalPlays) : "...",
   };
 
   return {

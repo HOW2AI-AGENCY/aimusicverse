@@ -1,17 +1,17 @@
 /**
  * useStemAnalyzer - Real-time audio analysis for stems
- * 
+ *
  * Provides:
  * - RMS level metering
  * - Peak detection
  * - Frequency analysis (optional)
- * 
+ *
  * Uses Web Audio API AnalyserNode for efficient analysis.
  */
 
-import { useRef, useState, useCallback, useEffect } from 'react';
-import { getStudioContext } from '@/lib/audio/audioContextHelper';
-import { logger } from '@/lib/logger';
+import { useRef, useState, useCallback, useEffect } from "react";
+import { getStudioContext } from "@/lib/audio/audioContextHelper";
+import { logger } from "@/lib/logger";
 
 interface StemLevels {
   rms: number;
@@ -39,18 +39,16 @@ const DEFAULT_OPTIONS: Required<UseStemAnalyzerOptions> = {
   updateInterval: 50, // ms
 };
 
-export function useStemAnalyzer(
-  options: UseStemAnalyzerOptions = {}
-): UseStemAnalyzerReturn {
+export function useStemAnalyzer(options: UseStemAnalyzerOptions = {}): UseStemAnalyzerReturn {
   const opts = { ...DEFAULT_OPTIONS, ...options };
-  
+
   const [levels, setLevels] = useState<StemLevels>({
     rms: 0,
     peak: 0,
     clipping: false,
   });
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  
+
   const analyserRef = useRef<AnalyserNode | null>(null);
   const sourceRef = useRef<MediaElementAudioSourceNode | null>(null);
   const animationRef = useRef<number | null>(null);
@@ -63,7 +61,7 @@ export function useStemAnalyzer(
       cancelAnimationFrame(animationRef.current);
       animationRef.current = null;
     }
-    
+
     if (sourceRef.current) {
       try {
         sourceRef.current.disconnect();
@@ -72,7 +70,7 @@ export function useStemAnalyzer(
       }
       sourceRef.current = null;
     }
-    
+
     if (analyserRef.current) {
       try {
         analyserRef.current.disconnect();
@@ -81,44 +79,49 @@ export function useStemAnalyzer(
       }
       analyserRef.current = null;
     }
-    
+
     connectedElementRef.current = null;
     dataArrayRef.current = null;
     setIsAnalyzing(false);
   }, []);
 
   // Connect to audio element
-  const connect = useCallback((audioElement: HTMLAudioElement) => {
-    // Skip if already connected to this element
-    if (connectedElementRef.current === audioElement) return;
-    
-    // Cleanup previous connection
-    cleanup();
-    
-    try {
-      const audioContext = getStudioContext();
-      if (!audioContext) return;
-      
-      // Create analyser
-      const analyser = audioContext.createAnalyser();
-      analyser.fftSize = opts.fftSize;
-      analyser.smoothingTimeConstant = opts.smoothingTimeConstant;
-      
-      // Create source from audio element
-      const source = audioContext.createMediaElementSource(audioElement);
-      source.connect(analyser);
-      analyser.connect(audioContext.destination);
-      
-      analyserRef.current = analyser;
-      sourceRef.current = source;
-      connectedElementRef.current = audioElement;
-      dataArrayRef.current = new Uint8Array(analyser.frequencyBinCount);
-      
-      setIsAnalyzing(true);
-    } catch (error: unknown) {
-      logger.warn('Failed to connect stem analyzer', { error: error instanceof Error ? error.message : String(error) });
-    }
-  }, [cleanup, opts.fftSize, opts.smoothingTimeConstant]);
+  const connect = useCallback(
+    (audioElement: HTMLAudioElement) => {
+      // Skip if already connected to this element
+      if (connectedElementRef.current === audioElement) return;
+
+      // Cleanup previous connection
+      cleanup();
+
+      try {
+        const audioContext = getStudioContext();
+        if (!audioContext) return;
+
+        // Create analyser
+        const analyser = audioContext.createAnalyser();
+        analyser.fftSize = opts.fftSize;
+        analyser.smoothingTimeConstant = opts.smoothingTimeConstant;
+
+        // Create source from audio element
+        const source = audioContext.createMediaElementSource(audioElement);
+        source.connect(analyser);
+        analyser.connect(audioContext.destination);
+
+        analyserRef.current = analyser;
+        sourceRef.current = source;
+        connectedElementRef.current = audioElement;
+        dataArrayRef.current = new Uint8Array(analyser.frequencyBinCount);
+
+        setIsAnalyzing(true);
+      } catch (error: unknown) {
+        logger.warn("Failed to connect stem analyzer", {
+          error: error instanceof Error ? error.message : String(error),
+        });
+      }
+    },
+    [cleanup, opts.fftSize, opts.smoothingTimeConstant],
+  );
 
   // Disconnect
   const disconnect = useCallback(() => {
@@ -131,7 +134,7 @@ export function useStemAnalyzer(
     const analyser = analyserRef.current;
     const dataArray = dataArrayRef.current;
     if (!analyser || !dataArray) return null;
-    
+
     analyser.getByteFrequencyData(dataArray);
     return dataArray;
   }, []);
@@ -139,47 +142,47 @@ export function useStemAnalyzer(
   // Analysis loop
   useEffect(() => {
     if (!isAnalyzing) return;
-    
+
     let lastUpdate = 0;
-    
+
     const analyze = (timestamp: number) => {
       if (!analyserRef.current || !dataArrayRef.current) {
         animationRef.current = requestAnimationFrame(analyze);
         return;
       }
-      
+
       // Throttle updates
       if (timestamp - lastUpdate < opts.updateInterval) {
         animationRef.current = requestAnimationFrame(analyze);
         return;
       }
       lastUpdate = timestamp;
-      
+
       // Get time domain data for RMS/peak calculation
       const bufferLength = analyserRef.current.fftSize;
       const timeData = new Uint8Array(bufferLength);
       analyserRef.current.getByteTimeDomainData(timeData);
-      
+
       // Calculate RMS
       let sumSquares = 0;
       let peak = 0;
-      
+
       for (let i = 0; i < timeData.length; i++) {
         const amplitude = (timeData[i] - 128) / 128;
         sumSquares += amplitude * amplitude;
         peak = Math.max(peak, Math.abs(amplitude));
       }
-      
+
       const rms = Math.sqrt(sumSquares / timeData.length);
       const clipping = peak >= 0.99;
-      
+
       setLevels({ rms, peak, clipping });
-      
+
       animationRef.current = requestAnimationFrame(analyze);
     };
-    
+
     animationRef.current = requestAnimationFrame(analyze);
-    
+
     return () => {
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
@@ -208,7 +211,7 @@ export function useMultiStemAnalyzer(stemIds: string[]) {
 
   // This is a simplified version - in production, you'd want to
   // share a single AnalyserNode setup across stems
-  
+
   const connectStem = useCallback((stemId: string, audioElement: HTMLAudioElement) => {
     // Implementation would go here
   }, []);

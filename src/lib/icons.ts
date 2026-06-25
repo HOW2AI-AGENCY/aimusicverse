@@ -1,22 +1,22 @@
 /**
  * Centralized Icon Exports
  * Phase 1.1: Bundle Size Optimization
- * 
+ *
  * IMPORTANT: Import icons from this file instead of 'lucide-react' directly.
  * This enables better tree-shaking and consistent icon usage across the app.
- * 
+ *
  * @example
  * ```tsx
  * // ❌ Bad - direct import prevents optimal tree-shaking
  * import { Heart, Play, Pause } from 'lucide-react';
- * 
+ *
  * // ✅ Good - centralized import
  * import { Heart, Play, Pause } from '@/lib/icons';
  * ```
  */
 
 // Re-export LucideIcon type for component props
-export type { LucideIcon, LucideProps } from 'lucide-react';
+export type { LucideIcon, LucideProps } from "lucide-react";
 
 // ============================================
 // Navigation & Layout Icons
@@ -53,7 +53,7 @@ export {
   Maximize2,
   Minimize2,
   Expand,
-} from 'lucide-react';
+} from "lucide-react";
 
 // ============================================
 // Media & Audio Icons
@@ -93,7 +93,7 @@ export {
   CirclePlay,
   CirclePause,
   CircleStop,
-} from 'lucide-react';
+} from "lucide-react";
 
 // ============================================
 // Action Icons
@@ -142,7 +142,7 @@ export {
   EyeOff,
   Pin,
   PinOff,
-} from 'lucide-react';
+} from "lucide-react";
 
 // ============================================
 // Status & Feedback Icons
@@ -187,7 +187,7 @@ export {
   BarChart3,
   PieChart,
   LineChart,
-} from 'lucide-react';
+} from "lucide-react";
 
 // ============================================
 // Content & Data Icons
@@ -236,7 +236,7 @@ export {
   Quote,
   BookOpen,
   Book,
-} from 'lucide-react';
+} from "lucide-react";
 
 // ============================================
 // Social & Communication Icons
@@ -262,7 +262,7 @@ export {
   Contact,
   Contact2,
   PersonStanding,
-} from 'lucide-react';
+} from "lucide-react";
 
 // ============================================
 // Music Production / Studio Icons
@@ -293,7 +293,7 @@ export {
   CircleDotDashed,
   Hash as HashIcon,
   Binary,
-} from 'lucide-react';
+} from "lucide-react";
 
 // ============================================
 // Utility / Misc Icons
@@ -341,7 +341,7 @@ export {
   Cpu,
   MemoryStick,
   Webhook,
-} from 'lucide-react';
+} from "lucide-react";
 
 // ============================================
 // Library / Collection Icons (for Library page)
@@ -378,4 +378,4 @@ export {
   Clock12,
   Hourglass,
   AlarmClock,
-} from 'lucide-react';
+} from "lucide-react";

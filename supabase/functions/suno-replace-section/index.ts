@@ -1,139 +1,134 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { getSupabaseClient } from '../_shared/supabase-client.ts';
-import { createLogger } from '../_shared/logger.ts';
-import { isSunoSuccessCode } from '../_shared/suno.ts';
-import { ECONOMY } from '../_shared/economy.ts';
+import { getSupabaseClient } from "../_shared/supabase-client.ts";
+import { createLogger } from "../_shared/logger.ts";
+import { isSunoSuccessCode } from "../_shared/suno.ts";
+import { ECONOMY } from "../_shared/economy.ts";
 
-const logger = createLogger('suno-replace-section');
+const logger = createLogger("suno-replace-section");
 const REPLACE_SECTION_COST = ECONOMY.REPLACE_SECTION_COST;
 
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-const SUNO_API_URL = 'https://api.sunoapi.org/api/v1/generate/replace-section';
+const SUNO_API_URL = "https://api.sunoapi.org/api/v1/generate/replace-section";
 
 serve(async (req) => {
-  if (req.method === 'OPTIONS') {
+  if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const sunoApiKey = Deno.env.get('SUNO_API_KEY')!;
-    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-    
+    const sunoApiKey = Deno.env.get("SUNO_API_KEY")!;
+    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+
     const supabase = getSupabaseClient();
 
     // Get user from JWT
-    const authHeader = req.headers.get('Authorization');
+    const authHeader = req.headers.get("Authorization");
     if (!authHeader) {
-      return new Response(
-        JSON.stringify({ error: 'No authorization header' }),
-        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      return new Response(JSON.stringify({ error: "No authorization header" }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
-    const { data: { user }, error: authError } = await supabase.auth.getUser(
-      authHeader.replace('Bearer ', '')
-    );
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(authHeader.replace("Bearer ", ""));
 
     if (authError || !user) {
-      logger.error('Auth error', authError);
-      return new Response(
-        JSON.stringify({ error: 'Unauthorized' }),
-        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      logger.error("Auth error", authError);
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
-    const { 
-      trackId, 
-      prompt, 
-      tags, 
-      infillStartS, 
-      infillEndS 
-    } = await req.json();
+    const { trackId, prompt, tags, infillStartS, infillEndS } = await req.json();
 
-    logger.info('Replace section request', { 
-      trackId, 
-      infillStartS, 
-      infillEndS, 
-      promptLength: prompt?.length 
+    logger.info("Replace section request", {
+      trackId,
+      infillStartS,
+      infillEndS,
+      promptLength: prompt?.length,
     });
 
     // Validate required fields
     if (!trackId || infillStartS === undefined || infillEndS === undefined) {
-      return new Response(
-        JSON.stringify({ error: 'Missing required fields: trackId, infillStartS, infillEndS' }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      return new Response(JSON.stringify({ error: "Missing required fields: trackId, infillStartS, infillEndS" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     // Check user credits balance
     const { data: userCredits, error: creditsError } = await supabase
-      .from('user_credits')
-      .select('balance')
-      .eq('user_id', user.id)
+      .from("user_credits")
+      .select("balance")
+      .eq("user_id", user.id)
       .single();
 
     if (creditsError || !userCredits) {
-      logger.error('Failed to check user credits', creditsError);
-      return new Response(
-        JSON.stringify({ error: 'Failed to check user credits' }),
-        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      logger.error("Failed to check user credits", creditsError);
+      return new Response(JSON.stringify({ error: "Failed to check user credits" }), {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     if (userCredits.balance < REPLACE_SECTION_COST) {
-      logger.warn('Insufficient credits', { balance: userCredits.balance, required: REPLACE_SECTION_COST });
+      logger.warn("Insufficient credits", { balance: userCredits.balance, required: REPLACE_SECTION_COST });
       return new Response(
-        JSON.stringify({ 
-          error: 'Недостаточно кредитов',
+        JSON.stringify({
+          error: "Недостаточно кредитов",
           required: REPLACE_SECTION_COST,
-          balance: userCredits.balance 
+          balance: userCredits.balance,
         }),
-        { status: 402, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        { status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
 
-    logger.info('Credits check passed', { balance: userCredits.balance, cost: REPLACE_SECTION_COST });
+    logger.info("Credits check passed", { balance: userCredits.balance, cost: REPLACE_SECTION_COST });
 
     // Get track data to retrieve suno_id and suno_task_id
-    logger.info('Fetching track', { trackId, userId: user.id });
-    
+    logger.info("Fetching track", { trackId, userId: user.id });
+
     const { data: track, error: trackError } = await supabase
-      .from('tracks')
-      .select('*, track_versions!track_versions_track_id_fkey(*)')
-      .eq('id', trackId)
-      .eq('user_id', user.id)
+      .from("tracks")
+      .select("*, track_versions!track_versions_track_id_fkey(*)")
+      .eq("id", trackId)
+      .eq("user_id", user.id)
       .single();
 
     if (trackError) {
-      logger.error('Track query error', null, { 
+      logger.error("Track query error", null, {
         code: trackError.code,
         message: trackError.message,
         details: trackError.details,
-        hint: trackError.hint
+        hint: trackError.hint,
       });
-      return new Response(
-        JSON.stringify({ error: 'Track not found or access denied', details: trackError.message }),
-        { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      return new Response(JSON.stringify({ error: "Track not found or access denied", details: trackError.message }), {
+        status: 404,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     if (!track) {
-      logger.error('Track not found - null result', null, { trackId, userId: user.id });
-      return new Response(
-        JSON.stringify({ error: 'Track not found' }),
-        { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      logger.error("Track not found - null result", null, { trackId, userId: user.id });
+      return new Response(JSON.stringify({ error: "Track not found" }), {
+        status: 404,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
-    
-    logger.info('Track found', { 
-      trackId: track.id, 
-      sunoId: track.suno_id, 
+
+    logger.info("Track found", {
+      trackId: track.id,
+      sunoId: track.suno_id,
       taskId: track.suno_task_id,
-      versionsCount: track.track_versions?.length 
+      versionsCount: track.track_versions?.length,
     });
 
     // We need the suno_id (audioId) from the active version
@@ -142,11 +137,11 @@ serve(async (req) => {
     const taskId = track.suno_task_id;
 
     if (!audioId || !taskId) {
-      logger.error('Missing Suno IDs', { audioId, taskId });
-      return new Response(
-        JSON.stringify({ error: 'Track is missing Suno audio ID or task ID' }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      logger.error("Missing Suno IDs", { audioId, taskId });
+      return new Response(JSON.stringify({ error: "Track is missing Suno audio ID or task ID" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     // Validate section duration (must be ≤50% of track duration)
@@ -154,44 +149,44 @@ serve(async (req) => {
     const trackDuration = track.duration_seconds || 0;
     if (trackDuration > 0 && sectionDuration > trackDuration * 0.5) {
       return new Response(
-        JSON.stringify({ 
+        JSON.stringify({
           error: `Section too long. Maximum: ${Math.floor(trackDuration * 0.5)}s (50% of track)`,
-          maxDuration: Math.floor(trackDuration * 0.5)
+          maxDuration: Math.floor(trackDuration * 0.5),
         }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
 
     // Get user's telegram chat ID for notifications
     const { data: profile } = await supabase
-      .from('profiles')
-      .select('telegram_chat_id')
-      .eq('user_id', user.id)
+      .from("profiles")
+      .select("telegram_chat_id")
+      .eq("user_id", user.id)
       .single();
 
     // Create callback URL
     const callbackUrl = `${supabaseUrl}/functions/v1/suno-music-callback`;
 
     // Suno API requires non-empty prompt and lyrics for replace-section
-    const effectivePrompt = prompt || tags || track.tags || track.style || 'Continue in the same style and mood';
-    const effectiveTags = tags || track.tags || '';
-    
+    const effectivePrompt = prompt || tags || track.tags || track.style || "Continue in the same style and mood";
+    const effectiveTags = tags || track.tags || "";
+
     // Get track lyrics - REQUIRED for replace-section API
-    const trackLyrics = track.lyrics || '';
-    
+    const trackLyrics = track.lyrics || "";
+
     // Validate lyrics exist for non-instrumental tracks
     if (!track.is_instrumental && (!trackLyrics || trackLyrics.trim().length < 10)) {
-      logger.warn('Track has no lyrics for replace-section', { trackId, lyricsLength: trackLyrics.length });
+      logger.warn("Track has no lyrics for replace-section", { trackId, lyricsLength: trackLyrics.length });
       return new Response(
-        JSON.stringify({ 
-          error: 'Трек не содержит текста. Для замены секции нужны оригинальные lyrics.',
-          code: 'MISSING_LYRICS'
+        JSON.stringify({
+          error: "Трек не содержит текста. Для замены секции нужны оригинальные lyrics.",
+          code: "MISSING_LYRICS",
         }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
-    
-    logger.info('Preparing Suno payload', {
+
+    logger.info("Preparing Suno payload", {
       hasPrompt: !!prompt,
       hasTags: !!tags,
       hasTrackLyrics: !!trackLyrics,
@@ -200,28 +195,28 @@ serve(async (req) => {
       effectivePrompt: effectivePrompt.substring(0, 100),
       effectiveTags: effectiveTags.substring(0, 100),
     });
-    
+
     // Suno replace-section payload - fullLyrics REQUIRED per API
     const sunoPayload: Record<string, unknown> = {
       taskId,
       audioId,
       prompt: effectivePrompt,
       tags: effectiveTags,
-      title: track.title || 'Трек',
+      title: track.title || "Трек",
       infillStartS: Number(infillStartS),
       infillEndS: Number(infillEndS),
       callBackUrl: callbackUrl,
     };
-    
+
     // Add fullLyrics for non-instrumental tracks
     if (!track.is_instrumental && trackLyrics) {
       sunoPayload.fullLyrics = trackLyrics;
     }
 
-    logger.info('Calling Suno API', { 
-      taskId, 
-      audioId, 
-      infillStartS, 
+    logger.info("Calling Suno API", {
+      taskId,
+      audioId,
+      infillStartS,
       infillEndS,
       promptLength: effectivePrompt.length,
       tagsLength: effectiveTags.length,
@@ -229,50 +224,50 @@ serve(async (req) => {
 
     // Call Suno API
     const sunoResponse = await fetch(SUNO_API_URL, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${sunoApiKey}`,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${sunoApiKey}`,
       },
       body: JSON.stringify(sunoPayload),
     });
 
     const sunoData = await sunoResponse.json();
-    
+
     if (!sunoResponse.ok || !isSunoSuccessCode(sunoData.code)) {
-      logger.error('Suno API error', null, { 
-        status: sunoResponse.status, 
-        data: sunoData 
+      logger.error("Suno API error", null, {
+        status: sunoResponse.status,
+        data: sunoData,
       });
       return new Response(
-        JSON.stringify({ 
-          error: sunoData.msg || 'Failed to start section replacement',
-          sunoError: sunoData 
+        JSON.stringify({
+          error: sunoData.msg || "Failed to start section replacement",
+          sunoError: sunoData,
         }),
-        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
 
     const newTaskId = sunoData.data?.taskId;
     if (!newTaskId) {
-      logger.error('No taskId in response', null, { data: sunoData });
-      return new Response(
-        JSON.stringify({ error: 'No task ID returned from Suno' }),
-        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      logger.error("No taskId in response", null, { data: sunoData });
+      return new Response(JSON.stringify({ error: "No task ID returned from Suno" }), {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     // Create generation task record
     const { data: task, error: taskError } = await supabase
-      .from('generation_tasks')
+      .from("generation_tasks")
       .insert({
         user_id: user.id,
         track_id: trackId,
         prompt: prompt || `Замена секции ${infillStartS}s - ${infillEndS}s`,
-        status: 'pending',
+        status: "pending",
         suno_task_id: newTaskId,
-        generation_mode: 'replace_section',
-        model_used: track.model_name || 'chirp-v4',
+        generation_mode: "replace_section",
+        model_used: track.model_name || "chirp-v4",
         telegram_chat_id: profile?.telegram_chat_id,
         expected_clips: 1,
       })
@@ -280,19 +275,19 @@ serve(async (req) => {
       .single();
 
     if (taskError) {
-      logger.error('Failed to create task', taskError);
-      return new Response(
-        JSON.stringify({ error: 'Failed to create generation task' }),
-        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      logger.error("Failed to create task", taskError);
+      return new Response(JSON.stringify({ error: "Failed to create generation task" }), {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     // Log the change
-    await supabase.from('track_change_log').insert({
+    await supabase.from("track_change_log").insert({
       track_id: trackId,
       user_id: user.id,
-      change_type: 'replace_section_started',
-      changed_by: 'user',
+      change_type: "replace_section_started",
+      changed_by: "user",
       prompt_used: prompt,
       metadata: {
         infillStartS,
@@ -303,49 +298,48 @@ serve(async (req) => {
     });
 
     // Deduct credits after successful task creation
-    const { error: deductError } = await supabase.rpc('deduct_credits', {
+    const { error: deductError } = await supabase.rpc("deduct_credits", {
       p_user_id: user.id,
       p_amount: REPLACE_SECTION_COST,
-      p_action_type: 'replace_section',
+      p_action_type: "replace_section",
       p_description: `Замена секции ${infillStartS}s - ${infillEndS}s`,
       p_metadata: { track_id: trackId, task_id: task.id, suno_task_id: newTaskId },
     });
 
     if (deductError) {
-      logger.warn('Failed to deduct credits via RPC, using direct insert', { error: deductError });
+      logger.warn("Failed to deduct credits via RPC, using direct insert", { error: deductError });
     }
 
     // Log credit transaction
-    await supabase.from('credit_transactions').insert({
+    await supabase.from("credit_transactions").insert({
       user_id: user.id,
       amount: -REPLACE_SECTION_COST,
-      transaction_type: 'debit',
-      action_type: 'replace_section',
+      transaction_type: "debit",
+      action_type: "replace_section",
       description: `Замена секции ${infillStartS}s - ${infillEndS}s`,
       metadata: { track_id: trackId, task_id: task.id, suno_task_id: newTaskId },
     });
 
-    logger.success('Replace section task created', { 
-      taskId: task.id, 
+    logger.success("Replace section task created", {
+      taskId: task.id,
       sunoTaskId: newTaskId,
-      creditsSpent: REPLACE_SECTION_COST 
+      creditsSpent: REPLACE_SECTION_COST,
     });
 
     return new Response(
-      JSON.stringify({ 
-        success: true, 
+      JSON.stringify({
+        success: true,
         taskId: task.id,
         sunoTaskId: newTaskId,
-        message: 'Section replacement started'
+        message: "Section replacement started",
       }),
-      { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
-
   } catch (error: any) {
-    logger.error('Replace section error', error);
-    return new Response(
-      JSON.stringify({ error: error.message || 'Unknown error' }),
-      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-    );
+    logger.error("Replace section error", error);
+    return new Response(JSON.stringify({ error: error.message || "Unknown error" }), {
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 });

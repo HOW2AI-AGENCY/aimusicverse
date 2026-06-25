@@ -1,25 +1,16 @@
 /**
  * Conversion Funnel Stages
- * 
+ *
  * Visualizes deeplink conversion funnel:
  * Visit → Engaged → Registered → First Action → Generation → Completed → Payment → Retained
  */
 
-import { useMemo } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { 
-  Eye, 
-  MousePointerClick, 
-  UserPlus, 
-  Play, 
-  Sparkles, 
-  CheckCircle,
-  CreditCard,
-  Heart
-} from 'lucide-react';
-import { motion } from '@/lib/motion';
-import { cn } from '@/lib/utils';
+import { useMemo } from "react";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Eye, MousePointerClick, UserPlus, Play, Sparkles, CheckCircle, CreditCard, Heart } from "lucide-react";
+import { motion } from "@/lib/motion";
+import { cn } from "@/lib/utils";
 
 interface FunnelStage {
   stage: string;
@@ -43,20 +34,20 @@ interface ConversionFunnelStagesProps {
   isLoading?: boolean;
 }
 
-const STAGE_CONFIG: Omit<FunnelStage, 'count'>[] = [
-  { stage: 'visit', label: 'Визиты', icon: Eye, color: 'bg-blue-500' },
-  { stage: 'engaged', label: 'Взаимодействие', icon: MousePointerClick, color: 'bg-indigo-500' },
-  { stage: 'registered', label: 'Регистрация', icon: UserPlus, color: 'bg-purple-500' },
-  { stage: 'first_action', label: 'Первое действие', icon: Play, color: 'bg-pink-500' },
-  { stage: 'generation', label: 'Генерация', icon: Sparkles, color: 'bg-orange-500' },
-  { stage: 'completed', label: 'Завершено', icon: CheckCircle, color: 'bg-green-500' },
-  { stage: 'payment', label: 'Оплата', icon: CreditCard, color: 'bg-amber-500' },
-  { stage: 'retained', label: 'Удержание', icon: Heart, color: 'bg-red-500' },
+const STAGE_CONFIG: Omit<FunnelStage, "count">[] = [
+  { stage: "visit", label: "Визиты", icon: Eye, color: "bg-blue-500" },
+  { stage: "engaged", label: "Взаимодействие", icon: MousePointerClick, color: "bg-indigo-500" },
+  { stage: "registered", label: "Регистрация", icon: UserPlus, color: "bg-purple-500" },
+  { stage: "first_action", label: "Первое действие", icon: Play, color: "bg-pink-500" },
+  { stage: "generation", label: "Генерация", icon: Sparkles, color: "bg-orange-500" },
+  { stage: "completed", label: "Завершено", icon: CheckCircle, color: "bg-green-500" },
+  { stage: "payment", label: "Оплата", icon: CreditCard, color: "bg-amber-500" },
+  { stage: "retained", label: "Удержание", icon: Heart, color: "bg-red-500" },
 ];
 
 export function ConversionFunnelStages({ data, isLoading }: ConversionFunnelStagesProps) {
   const stages = useMemo(() => {
-    return STAGE_CONFIG.map(config => ({
+    return STAGE_CONFIG.map((config) => ({
       ...config,
       count: data[config.stage as keyof typeof data] || 0,
     }));
@@ -64,13 +55,13 @@ export function ConversionFunnelStages({ data, isLoading }: ConversionFunnelStag
 
   // Calculate max for width scaling
   const maxCount = useMemo(() => {
-    return Math.max(1, ...stages.map(s => s.count));
+    return Math.max(1, ...stages.map((s) => s.count));
   }, [stages]);
 
   // Calculate conversion rates between stages
   const conversionRates = useMemo(() => {
     const rates: Array<{ from: string; to: string; rate: number }> = [];
-    
+
     for (let i = 0; i < stages.length - 1; i++) {
       const current = stages[i];
       const next = stages[i + 1];
@@ -81,7 +72,7 @@ export function ConversionFunnelStages({ data, isLoading }: ConversionFunnelStag
         rate: Math.round(rate * 10) / 10,
       });
     }
-    
+
     return rates;
   }, [stages]);
 
@@ -89,7 +80,7 @@ export function ConversionFunnelStages({ data, isLoading }: ConversionFunnelStag
   const overallConversion = useMemo(() => {
     const visits = data.visit || 0;
     const payments = data.payment || 0;
-    return visits > 0 ? ((payments / visits) * 100).toFixed(2) : '0';
+    return visits > 0 ? ((payments / visits) * 100).toFixed(2) : "0";
   }, [data]);
 
   if (isLoading) {
@@ -132,27 +123,28 @@ export function ConversionFunnelStages({ data, isLoading }: ConversionFunnelStag
                 {/* Conversion rate indicator */}
                 {conversionRate !== null && (
                   <div className="flex justify-center">
-                    <div className={cn(
-                      'text-[9px] sm:text-xs px-1.5 sm:px-2 py-0.5 rounded-full',
-                      conversionRate >= 50 ? 'bg-green-500/10 text-green-500' :
-                      conversionRate >= 25 ? 'bg-amber-500/10 text-amber-500' :
-                      'bg-red-500/10 text-red-500'
-                    )}>
+                    <div
+                      className={cn(
+                        "text-[9px] sm:text-xs px-1.5 sm:px-2 py-0.5 rounded-full",
+                        conversionRate >= 50
+                          ? "bg-green-500/10 text-green-500"
+                          : conversionRate >= 25
+                            ? "bg-amber-500/10 text-amber-500"
+                            : "bg-red-500/10 text-red-500",
+                      )}
+                    >
                       ↓ {conversionRate}%
                     </div>
                   </div>
                 )}
-                
+
                 {/* Stage bar */}
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: `${widthPercent}%` }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className={cn(
-                    'flex items-center justify-between p-2 sm:p-3 rounded-lg mx-auto',
-                    stage.color
-                  )}
-                  style={{ minWidth: '140px' }}
+                  className={cn("flex items-center justify-between p-2 sm:p-3 rounded-lg mx-auto", stage.color)}
+                  style={{ minWidth: "140px" }}
                 >
                   <div className="flex items-center gap-1.5 sm:gap-2 text-white">
                     <Icon className="h-3 w-3 sm:h-4 sm:w-4" />
@@ -168,21 +160,15 @@ export function ConversionFunnelStages({ data, isLoading }: ConversionFunnelStag
         {/* Key metrics */}
         <div className="grid grid-cols-3 gap-2 sm:gap-3 mt-4 sm:mt-6 pt-3 sm:pt-4 border-t">
           <div className="text-center">
-            <div className="text-lg sm:text-2xl font-bold text-primary">
-              {conversionRates[1]?.rate || 0}%
-            </div>
+            <div className="text-lg sm:text-2xl font-bold text-primary">{conversionRates[1]?.rate || 0}%</div>
             <div className="text-[9px] sm:text-xs text-muted-foreground">Engaged → Reg</div>
           </div>
           <div className="text-center">
-            <div className="text-lg sm:text-2xl font-bold text-primary">
-              {conversionRates[4]?.rate || 0}%
-            </div>
+            <div className="text-lg sm:text-2xl font-bold text-primary">{conversionRates[4]?.rate || 0}%</div>
             <div className="text-[9px] sm:text-xs text-muted-foreground">Gen → Complete</div>
           </div>
           <div className="text-center">
-            <div className="text-lg sm:text-2xl font-bold text-primary">
-              {conversionRates[5]?.rate || 0}%
-            </div>
+            <div className="text-lg sm:text-2xl font-bold text-primary">{conversionRates[5]?.rate || 0}%</div>
             <div className="text-[9px] sm:text-xs text-muted-foreground">Complete → Pay</div>
           </div>
         </div>

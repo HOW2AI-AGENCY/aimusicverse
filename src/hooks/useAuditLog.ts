@@ -1,16 +1,16 @@
 /**
  * Audit Log Hook for Content Deposition
- * 
+ *
  * Provides functionality to log user and AI actions for copyright proof.
  */
 
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/hooks/useAuth';
-import { logger } from '@/lib/logger';
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
+import { logger } from "@/lib/logger";
 
-export type EntityType = 'track' | 'project' | 'artist' | 'lyrics' | 'cover' | 'reference_audio';
-export type ActorType = 'user' | 'ai' | 'system';
-export type ActionCategory = 'generation' | 'modification' | 'approval' | 'publication' | 'deletion';
+export type EntityType = "track" | "project" | "artist" | "lyrics" | "cover" | "reference_audio";
+export type ActorType = "user" | "ai" | "system";
+export type ActionCategory = "generation" | "modification" | "approval" | "publication" | "deletion";
 
 export interface AuditLogEntry {
   entityType: EntityType;
@@ -88,7 +88,7 @@ export interface ContentDeposit {
   user_id: string;
   deposit_document: DepositDocument;
   document_hash: string;
-  status: 'pending' | 'submitted' | 'confirmed';
+  status: "pending" | "submitted" | "confirmed";
   external_deposit_id: string | null;
   created_at: string;
   confirmed_at: string | null;
@@ -100,15 +100,15 @@ export function useAuditLog() {
   /**
    * Log an action to the audit trail
    */
-  const logAction = async (entry: Omit<AuditLogEntry, 'userId'> & { userId?: string }) => {
+  const logAction = async (entry: Omit<AuditLogEntry, "userId"> & { userId?: string }) => {
     const userId = entry.userId || user?.id;
     if (!userId) {
-      logger.warn('[useAuditLog] No user ID available for logging');
+      logger.warn("[useAuditLog] No user ID available for logging");
       return null;
     }
 
     try {
-      const { data, error } = await supabase.functions.invoke('audit-log', {
+      const { data, error } = await supabase.functions.invoke("audit-log", {
         body: {
           ...entry,
           userId,
@@ -118,7 +118,7 @@ export function useAuditLog() {
       if (error) throw error;
       return data?.auditId || null;
     } catch (error) {
-      logger.warn('[useAuditLog] Error logging action', { error });
+      logger.warn("[useAuditLog] Error logging action", { error });
       return null;
     }
   };
@@ -128,9 +128,9 @@ export function useAuditLog() {
    */
   const getContentHistory = async (entityType: EntityType, entityId: string): Promise<AuditHistoryEntry[]> => {
     try {
-      const { data, error } = await supabase.functions.invoke('audit-log', {
+      const { data, error } = await supabase.functions.invoke("audit-log", {
         body: {
-          action: 'get_history',
+          action: "get_history",
           entityType,
           entityId,
         },
@@ -139,7 +139,7 @@ export function useAuditLog() {
       if (error) throw error;
       return data?.history || [];
     } catch (error) {
-      logger.warn('[useAuditLog] Error getting history', { error });
+      logger.warn("[useAuditLog] Error getting history", { error });
       return [];
     }
   };
@@ -148,22 +148,22 @@ export function useAuditLog() {
    * Generate a proof of creation document for deposition
    */
   const generateProofOfCreation = async (
-    entityType: EntityType, 
-    entityId: string
+    entityType: EntityType,
+    entityId: string,
   ): Promise<{ deposit: ContentDeposit; document: DepositDocument } | null> => {
     try {
-      const { data, error } = await supabase.functions.invoke('audit-log', {
+      const { data, error } = await supabase.functions.invoke("audit-log", {
         body: {
-          action: 'generate_proof',
+          action: "generate_proof",
           entityType,
           entityId,
         },
       });
 
       if (error) throw error;
-      
+
       if (!data?.success) {
-        throw new Error(data?.error || 'Failed to generate proof');
+        throw new Error(data?.error || "Failed to generate proof");
       }
 
       return {
@@ -171,7 +171,7 @@ export function useAuditLog() {
         document: data.document,
       };
     } catch (error) {
-      logger.error('[useAuditLog] Error generating proof', error instanceof Error ? error : new Error(String(error)));
+      logger.error("[useAuditLog] Error generating proof", error instanceof Error ? error : new Error(String(error)));
       return null;
     }
   };
@@ -182,16 +182,16 @@ export function useAuditLog() {
   const getDeposit = async (entityType: EntityType, entityId: string): Promise<ContentDeposit | null> => {
     try {
       const { data, error } = await supabase
-        .from('content_deposits')
-        .select('*')
-        .eq('entity_type', entityType)
-        .eq('entity_id', entityId)
+        .from("content_deposits")
+        .select("*")
+        .eq("entity_type", entityType)
+        .eq("entity_id", entityId)
         .single();
 
-      if (error && error.code !== 'PGRST116') throw error;
+      if (error && error.code !== "PGRST116") throw error;
       return data as ContentDeposit | null;
     } catch (error) {
-      logger.warn('[useAuditLog] Error getting deposit', { error });
+      logger.warn("[useAuditLog] Error getting deposit", { error });
       return null;
     }
   };
@@ -199,21 +199,24 @@ export function useAuditLog() {
   /**
    * Helper: Log track creation
    */
-  const logTrackCreated = (trackId: string, options: {
-    aiModel?: string;
-    promptUsed?: string;
-    style?: string;
-    audioUrl?: string;
-    referenceAudioId?: string;
-    chainId?: string;
-  }) => {
+  const logTrackCreated = (
+    trackId: string,
+    options: {
+      aiModel?: string;
+      promptUsed?: string;
+      style?: string;
+      audioUrl?: string;
+      referenceAudioId?: string;
+      chainId?: string;
+    },
+  ) => {
     return logAction({
-      entityType: 'track',
+      entityType: "track",
       entityId: trackId,
-      actorType: options.aiModel ? 'ai' : 'user',
+      actorType: options.aiModel ? "ai" : "user",
       aiModelUsed: options.aiModel,
-      actionType: 'created',
-      actionCategory: 'generation',
+      actionType: "created",
+      actionCategory: "generation",
       contentUrl: options.audioUrl,
       promptUsed: options.promptUsed,
       inputMetadata: {
@@ -230,20 +233,24 @@ export function useAuditLog() {
   /**
    * Helper: Log project creation
    */
-  const logProjectCreated = (projectId: string, title: string, metadata?: {
-    projectType?: string | null;
-    genre?: string | null;
-    mood?: string | null;
-    aiGenerated?: boolean;
-    aiModel?: string;
-  }) => {
+  const logProjectCreated = (
+    projectId: string,
+    title: string,
+    metadata?: {
+      projectType?: string | null;
+      genre?: string | null;
+      mood?: string | null;
+      aiGenerated?: boolean;
+      aiModel?: string;
+    },
+  ) => {
     return logAction({
-      entityType: 'project',
+      entityType: "project",
       entityId: projectId,
-      actorType: metadata?.aiGenerated ? 'ai' : 'user',
+      actorType: metadata?.aiGenerated ? "ai" : "user",
       aiModelUsed: metadata?.aiModel,
-      actionType: 'created',
-      actionCategory: 'generation',
+      actionType: "created",
+      actionCategory: "generation",
       inputMetadata: {
         title,
         project_type: metadata?.projectType,
@@ -256,18 +263,22 @@ export function useAuditLog() {
   /**
    * Helper: Log artist creation
    */
-  const logArtistCreated = (artistId: string, name: string, metadata?: {
-    styleDescription?: string | null;
-    genreTags?: string[] | null;
-    isAiGenerated?: boolean | null;
-    fromTrackId?: string;
-  }) => {
+  const logArtistCreated = (
+    artistId: string,
+    name: string,
+    metadata?: {
+      styleDescription?: string | null;
+      genreTags?: string[] | null;
+      isAiGenerated?: boolean | null;
+      fromTrackId?: string;
+    },
+  ) => {
     return logAction({
-      entityType: 'artist',
+      entityType: "artist",
       entityId: artistId,
-      actorType: 'user',
-      actionType: 'created',
-      actionCategory: 'generation',
+      actorType: "user",
+      actionType: "created",
+      actionCategory: "generation",
       inputMetadata: {
         name,
         style_description: metadata?.styleDescription,
@@ -281,18 +292,21 @@ export function useAuditLog() {
   /**
    * Helper: Log lyrics generation
    */
-  const logLyricsGenerated = (trackId: string, options: {
-    aiModel: string;
-    promptUsed?: string;
-    lyrics: string;
-  }) => {
+  const logLyricsGenerated = (
+    trackId: string,
+    options: {
+      aiModel: string;
+      promptUsed?: string;
+      lyrics: string;
+    },
+  ) => {
     return logAction({
-      entityType: 'lyrics',
+      entityType: "lyrics",
       entityId: trackId,
-      actorType: 'ai',
+      actorType: "ai",
       aiModelUsed: options.aiModel,
-      actionType: 'generated',
-      actionCategory: 'generation',
+      actionType: "generated",
+      actionCategory: "generation",
       promptUsed: options.promptUsed,
       outputMetadata: {
         lyrics_length: options.lyrics.length,
@@ -303,18 +317,21 @@ export function useAuditLog() {
   /**
    * Helper: Log cover generation
    */
-  const logCoverGenerated = (trackId: string, options: {
-    aiModel: string;
-    promptUsed?: string;
-    coverUrl: string;
-  }) => {
+  const logCoverGenerated = (
+    trackId: string,
+    options: {
+      aiModel: string;
+      promptUsed?: string;
+      coverUrl: string;
+    },
+  ) => {
     return logAction({
-      entityType: 'cover',
+      entityType: "cover",
       entityId: trackId,
-      actorType: 'ai',
+      actorType: "ai",
       aiModelUsed: options.aiModel,
-      actionType: 'generated',
-      actionCategory: 'generation',
+      actionType: "generated",
+      actionCategory: "generation",
       contentUrl: options.coverUrl,
       promptUsed: options.promptUsed,
       outputMetadata: {
@@ -337,5 +354,5 @@ export function useAuditLog() {
   };
 }
 
-// Note: For server-side (edge functions) audit logging, use the audit-log 
+// Note: For server-side (edge functions) audit logging, use the audit-log
 // edge function directly via fetch with SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY

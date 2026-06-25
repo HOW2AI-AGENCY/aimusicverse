@@ -1,18 +1,14 @@
-import { getSupabaseClient } from '../supabase-client.ts';
-import { Track, Project, GenerationTask } from '../types/bot.ts';
+import { getSupabaseClient } from "../supabase-client.ts";
+import { Track, Project, GenerationTask } from "../types/bot.ts";
 
 const supabase = getSupabaseClient();
 
 export class MusicService {
   async getUserByTelegramId(telegramId: number) {
-    const { data, error } = await supabase
-      .from('profiles')
-      .select('user_id')
-      .eq('telegram_id', telegramId)
-      .single();
+    const { data, error } = await supabase.from("profiles").select("user_id").eq("telegram_id", telegramId).single();
 
     if (error) {
-      console.error('Error fetching user:', error);
+      console.error("Error fetching user:", error);
       return null;
     }
 
@@ -24,16 +20,16 @@ export class MusicService {
     if (!profile) return [];
 
     const { data, error } = await supabase
-      .from('tracks')
-      .select('*')
-      .eq('user_id', profile.user_id)
-      .eq('status', 'completed')
-      .not('audio_url', 'is', null)
-      .order('created_at', { ascending: false })
+      .from("tracks")
+      .select("*")
+      .eq("user_id", profile.user_id)
+      .eq("status", "completed")
+      .not("audio_url", "is", null)
+      .order("created_at", { ascending: false })
       .limit(10);
 
     if (error) {
-      console.error('Error fetching tracks:', error);
+      console.error("Error fetching tracks:", error);
       return [];
     }
 
@@ -41,14 +37,10 @@ export class MusicService {
   }
 
   async getTrackById(trackId: string): Promise<Track | null> {
-    const { data, error } = await supabase
-      .from('tracks')
-      .select('*')
-      .eq('id', trackId)
-      .single();
+    const { data, error } = await supabase.from("tracks").select("*").eq("id", trackId).single();
 
     if (error) {
-      console.error('Error fetching track:', error);
+      console.error("Error fetching track:", error);
       return null;
     }
 
@@ -58,38 +50,34 @@ export class MusicService {
   async getUserProjects(telegramId: number): Promise<Project[]> {
     const profile = await this.getUserByTelegramId(telegramId);
     if (!profile) {
-      console.error('No profile found for telegram_id:', telegramId);
+      console.error("No profile found for telegram_id:", telegramId);
       return [];
     }
 
-    console.log('Fetching projects for user_id:', profile.user_id);
+    console.log("Fetching projects for user_id:", profile.user_id);
 
     const { data, error } = await supabase
-      .from('music_projects')
-      .select('*')
-      .eq('user_id', profile.user_id)
-      .order('created_at', { ascending: false })
+      .from("music_projects")
+      .select("*")
+      .eq("user_id", profile.user_id)
+      .order("created_at", { ascending: false })
       .limit(20); // Увеличиваем лимит
 
     if (error) {
-      console.error('Error fetching projects:', error);
+      console.error("Error fetching projects:", error);
       return [];
     }
 
-    console.log('Projects fetched:', data?.length || 0);
-    
+    console.log("Projects fetched:", data?.length || 0);
+
     return data as Project[];
   }
 
   async getProjectById(projectId: string): Promise<Project | null> {
-    const { data, error } = await supabase
-      .from('music_projects')
-      .select('*')
-      .eq('id', projectId)
-      .single();
+    const { data, error } = await supabase.from("music_projects").select("*").eq("id", projectId).single();
 
     if (error) {
-      console.error('Error fetching project:', error);
+      console.error("Error fetching project:", error);
       return null;
     }
 
@@ -101,14 +89,14 @@ export class MusicService {
     if (!profile) return [];
 
     const { data, error } = await supabase
-      .from('generation_tasks')
-      .select('*')
-      .eq('user_id', profile.user_id)
-      .in('status', ['pending', 'processing'])
-      .order('created_at', { ascending: false });
+      .from("generation_tasks")
+      .select("*")
+      .eq("user_id", profile.user_id)
+      .in("status", ["pending", "processing"])
+      .order("created_at", { ascending: false });
 
     if (error) {
-      console.error('Error fetching tasks:', error);
+      console.error("Error fetching tasks:", error);
       return [];
     }
 
@@ -116,36 +104,36 @@ export class MusicService {
   }
 
   async incrementPlayCount(trackId: string) {
-    const { error } = await supabase.rpc('increment_play_count', {
-      track_id: trackId
+    const { error } = await supabase.rpc("increment_play_count", {
+      track_id: trackId,
     });
 
     if (error) {
-      console.error('Error incrementing play count:', error);
+      console.error("Error incrementing play count:", error);
     }
   }
 
   formatTrackCaption(track: Track, index?: number, total?: number): string {
-    const title = track.title || 'Новый трек';
-    const artist = track.artist || 'MusicVerse AI';
-    const style = track.style || '';
-    const tags = track.tags ? `🏷 ${track.tags}` : '';
-    
+    const title = track.title || "Новый трек";
+    const artist = track.artist || "MusicVerse AI";
+    const style = track.style || "";
+    const tags = track.tags ? `🏷 ${track.tags}` : "";
+
     let caption = `🎧 *${this.escapeMarkdown(title)}*\n`;
     caption += `👤 ${this.escapeMarkdown(artist)}\n`;
-    
+
     if (style) {
       caption += `🎸 ${this.escapeMarkdown(style)}\n`;
     }
-    
+
     if (tags) {
       caption += `${tags}\n`;
     }
-    
+
     if (index !== undefined && total !== undefined) {
       caption += `\n💿 Трек ${index + 1} из ${total}`;
     }
-    
+
     if (track.play_count) {
       caption += `\n📊 Прослушиваний: ${track.play_count}`;
     }
@@ -154,47 +142,51 @@ export class MusicService {
   }
 
   formatProjectCaption(project: Project, index?: number, total?: number): string {
-    const title = project.title || 'Новый проект';
-    const description = project.description || '';
-    const type = project.type || 'single';
-    
+    const title = project.title || "Новый проект";
+    const description = project.description || "";
+    const type = project.type || "single";
+
     let caption = `📁 *${this.escapeMarkdown(title)}*\n`;
     caption += `📀 Тип: ${this.escapeMarkdown(type)}\n`;
-    
+
     if (description) {
-      const shortDesc = description.length > 100 
-        ? description.substring(0, 100) + '...' 
-        : description;
+      const shortDesc = description.length > 100 ? description.substring(0, 100) + "..." : description;
       caption += `\n${this.escapeMarkdown(shortDesc)}\n`;
     }
-    
+
     if (index !== undefined && total !== undefined) {
       caption += `\n📂 Проект ${index + 1} из ${total}`;
     }
-    
-    caption += `\n📅 Создан: ${new Date(project.created_at).toLocaleDateString('ru-RU')}`;
+
+    caption += `\n📅 Создан: ${new Date(project.created_at).toLocaleDateString("ru-RU")}`;
 
     return caption;
   }
 
   formatDuration(seconds: number | null): string {
-    if (!seconds) return '0:00';
+    if (!seconds) return "0:00";
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
-    return `${mins}:${String(secs).padStart(2, '0')}`;
+    return `${mins}:${String(secs).padStart(2, "0")}`;
   }
 
   escapeMarkdown(text: string): string {
     // Escape markdown special characters for Telegram MarkdownV2
-    return text.replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1');
+    return text.replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, "\\$1");
   }
 
   getCoverUrl(track: Track): string {
-    return track.local_cover_url || track.cover_url || 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&h=800&fit=crop&q=80';
+    return (
+      track.local_cover_url ||
+      track.cover_url ||
+      "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&h=800&fit=crop&q=80"
+    );
   }
 
   getProjectCoverUrl(project: Project): string {
-    return project.cover_url || 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800&h=800&fit=crop&q=80';
+    return (
+      project.cover_url || "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800&h=800&fit=crop&q=80"
+    );
   }
 
   getAudioUrl(track: Track): string | null {

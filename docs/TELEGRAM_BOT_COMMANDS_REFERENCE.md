@@ -12,9 +12,11 @@ Comprehensive reference for all Telegram bot commands, inline queries, and callb
 ### Core Commands
 
 #### /start
+
 **Description:** Start bot, show welcome message, initialize user  
 **Usage:** `/start` or `/start track_ID` or `/start playlist_ID`  
 **Features:**
+
 - Deep link handling for tracks and playlists
 - User profile initialization
 - Welcome keyboard with quick actions
@@ -22,9 +24,11 @@ Comprehensive reference for all Telegram bot commands, inline queries, and callb
 **Implementation:** `commands/start.ts`
 
 #### /help
+
 **Description:** Show help message with all available commands  
 **Usage:** `/help`  
 **Features:**
+
 - Command list with descriptions
 - Category-based help organization
 - Quick action buttons
@@ -32,9 +36,11 @@ Comprehensive reference for all Telegram bot commands, inline queries, and callb
 **Implementation:** `commands/help.ts`
 
 #### /app
+
 **Description:** Open MusicVerse Mini App  
 **Usage:** `/app`  
 **Features:**
+
 - Direct Mini App launch button
 - Session initialization
 
@@ -43,9 +49,11 @@ Comprehensive reference for all Telegram bot commands, inline queries, and callb
 ### Music Generation
 
 #### /generate
+
 **Description:** Start music generation wizard  
 **Usage:** `/generate`  
 **Features:**
+
 - Step-by-step generation wizard
 - Style and prompt input
 - Direct to Mini App for advanced options
@@ -53,9 +61,11 @@ Comprehensive reference for all Telegram bot commands, inline queries, and callb
 **Implementation:** `commands/generate.ts`
 
 #### /status
+
 **Description:** Check generation task status  
 **Usage:** `/status` or `/status TASK_ID`  
 **Features:**
+
 - Active tasks overview
 - Task-specific status
 - Progress indication
@@ -63,17 +73,20 @@ Comprehensive reference for all Telegram bot commands, inline queries, and callb
 **Implementation:** `commands/status.ts`
 
 #### /check_task
+
 **Description:** Check specific task status (alias for /status)  
-**Usage:** `/check_task TASK_ID`  
+**Usage:** `/check_task TASK_ID`
 
 **Implementation:** `commands/check-task.ts`
 
 ### Library Management
 
 #### /library
+
 **Description:** Browse user's music library  
 **Usage:** `/library` or `/library page_2`  
 **Features:**
+
 - Paginated track listing
 - 5 tracks per page
 - Play/download/share buttons
@@ -82,9 +95,11 @@ Comprehensive reference for all Telegram bot commands, inline queries, and callb
 **Implementation:** `commands/library.ts`
 
 #### /playlist
+
 **Description:** Manage playlists  
 **Usage:** `/playlist` or `/playlist PLAYLIST_ID`  
 **Features:**
+
 - List user playlists
 - View playlist details
 - Add/remove tracks
@@ -95,9 +110,11 @@ Comprehensive reference for all Telegram bot commands, inline queries, and callb
 ### Track Actions
 
 #### /lyrics
+
 **Description:** View track lyrics  
 **Usage:** `/lyrics TRACK_ID`  
 **Features:**
+
 - Full lyrics display
 - Formatted text
 - Back to track button
@@ -105,9 +122,11 @@ Comprehensive reference for all Telegram bot commands, inline queries, and callb
 **Implementation:** `commands/lyrics.ts`
 
 #### /stats
+
 **Description:** View track statistics  
 **Usage:** `/stats TRACK_ID`  
 **Features:**
+
 - Play count
 - Like count
 - Share count
@@ -117,9 +136,11 @@ Comprehensive reference for all Telegram bot commands, inline queries, and callb
 **Implementation:** `commands/stats.ts`
 
 #### /remix
+
 **Description:** Create remix variations  
 **Usage:** `/remix TRACK_ID`  
 **Features:**
+
 - Add vocals
 - Add instrumental
 - Style variations
@@ -127,9 +148,11 @@ Comprehensive reference for all Telegram bot commands, inline queries, and callb
 **Implementation:** `commands/remix.ts`
 
 #### /stems
+
 **Description:** Separate track into stems  
 **Usage:** `/stems TRACK_ID`  
 **Features:**
+
 - Stem separation initiation
 - Status checking
 - Download separated stems
@@ -139,9 +162,11 @@ Comprehensive reference for all Telegram bot commands, inline queries, and callb
 ### Audio Processing
 
 #### /upload
+
 **Description:** Upload audio file for processing  
 **Usage:** Send audio file to bot  
 **Features:**
+
 - Auto-detection of audio messages
 - MP3, WAV, OGG support
 - Voice message support
@@ -150,9 +175,11 @@ Comprehensive reference for all Telegram bot commands, inline queries, and callb
 **Implementation:** `commands/upload.ts`, `commands/audio-upload.ts`
 
 #### /recognize
+
 **Description:** Recognize uploaded audio  
 **Usage:** Automatic on audio upload  
 **Features:**
+
 - Melody recognition
 - Style detection
 - Chord analysis
@@ -160,9 +187,11 @@ Comprehensive reference for all Telegram bot commands, inline queries, and callb
 **Implementation:** `commands/recognize.ts`
 
 #### /analyze
+
 **Description:** Analyze track with AI  
 **Usage:** `/analyze TRACK_ID`  
 **Features:**
+
 - Comprehensive audio analysis
 - Genre detection
 - Mood/energy levels
@@ -171,9 +200,11 @@ Comprehensive reference for all Telegram bot commands, inline queries, and callb
 **Implementation:** `commands/analyze.ts`
 
 #### /guitar
+
 **Description:** Guitar-specific analysis and tools  
 **Usage:** `/guitar TRACK_ID`  
 **Features:**
+
 - Chord progressions
 - Tabs generation
 - Guitar tone analysis
@@ -181,9 +212,11 @@ Comprehensive reference for all Telegram bot commands, inline queries, and callb
 **Implementation:** `commands/guitar.ts`
 
 #### /midi
+
 **Description:** MIDI file operations  
 **Usage:** `/midi` or send MIDI file  
 **Features:**
+
 - MIDI to audio conversion
 - MIDI analysis
 - MIDI upload
@@ -193,9 +226,11 @@ Comprehensive reference for all Telegram bot commands, inline queries, and callb
 ### Studio Features
 
 #### /studio
+
 **Description:** Open stem studio for track mixing  
 **Usage:** `/studio TRACK_ID`  
 **Features:**
+
 - Multi-track mixing
 - Volume controls
 - Solo/mute per stem
@@ -206,9 +241,11 @@ Comprehensive reference for all Telegram bot commands, inline queries, and callb
 ### User Settings
 
 #### /settings
+
 **Description:** User preferences and settings  
 **Usage:** `/settings`  
 **Features:**
+
 - Notification preferences
 - Emoji reactions
 - Language settings
@@ -219,9 +256,11 @@ Comprehensive reference for all Telegram bot commands, inline queries, and callb
 ### Information
 
 #### /news
+
 **Description:** Latest updates and news  
 **Usage:** `/news`  
 **Features:**
+
 - Platform updates
 - New features
 - Maintenance notices
@@ -229,9 +268,11 @@ Comprehensive reference for all Telegram bot commands, inline queries, and callb
 **Implementation:** `commands/news.ts`
 
 #### /legal
+
 **Description:** Terms of service and privacy policy  
 **Usage:** `/legal`  
 **Features:**
+
 - Terms of Service
 - Privacy Policy
 - License information
@@ -239,9 +280,11 @@ Comprehensive reference for all Telegram bot commands, inline queries, and callb
 **Implementation:** `commands/legal.ts`
 
 #### /projects
+
 **Description:** View user projects  
 **Usage:** `/projects`  
 **Features:**
+
 - Project listing
 - Project details
 - Track management within projects
@@ -251,55 +294,66 @@ Comprehensive reference for all Telegram bot commands, inline queries, and callb
 ## Inline Queries (Enhanced)
 
 ### Usage Pattern
+
 Type `@AIMusicVerseBot` followed by a query in any chat.
 
 ### Categories
 
 #### Default Search (Public)
+
 **Query:** `@AIMusicVerseBot rock`  
 **Description:** Search all public tracks for "rock"  
 **Cache:** 2 minutes
 
 #### My Tracks
+
 **Query:** `@AIMusicVerseBot my:rock`  
 **Description:** Search user's own tracks  
 **Cache:** 30 seconds  
 **Auth:** Required
 
 #### Trending
+
 **Query:** `@AIMusicVerseBot trending:`  
 **Description:** Show trending tracks (last 7 days)  
 **Cache:** 5 minutes
 
 #### New Releases
+
 **Query:** `@AIMusicVerseBot new:`  
 **Description:** Tracks from last 24 hours  
 **Cache:** 1 minute
 
 #### Featured
+
 **Query:** `@AIMusicVerseBot featured:`  
 **Description:** High-quality curated tracks  
 **Cache:** 5 minutes
 
 #### Genre Filter
+
 **Query:** `@AIMusicVerseBot genre:jazz`  
 **Description:** Filter by specific genre  
 **Cache:** 3 minutes  
 **Genres:** rock, pop, jazz, electronic, hip-hop, classical, r&b, country, latin, blues, metal, folk
 
 #### Mood Filter
+
 **Query:** `@AIMusicVerseBot mood:chill`  
 **Description:** Filter by mood/vibe  
 **Cache:** 3 minutes  
 **Moods:** happy, sad, chill, energetic, romantic
 
 #### Popular
+
 **Query:** `@AIMusicVerseBot popular`  
 **Description:** All-time most popular tracks  
 **Cache:** 5 minutes
 
 ### Guest Users
+
 Non-authenticated users see:
+
 - Limited public content (10 tracks)
 - Login button
 - Encouragement to sign up
@@ -309,16 +363,19 @@ Non-authenticated users see:
 ## Callback Queries (Inline Buttons)
 
 ### Navigation
+
 - `nav_main` - Main menu
 - `nav_library` - Library view
 - `nav_projects` - Projects view
 - `nav_settings` - Settings view
 
 ### Library Pagination
+
 - `lib_page_N` - Go to library page N
 - `project_page_N` - Go to project page N
 
 ### Track Actions
+
 - `play_TRACK_ID` - Play track
 - `dl_TRACK_ID` - Download track
 - `share_TRACK_ID` - Share track
@@ -328,21 +385,25 @@ Non-authenticated users see:
 - `remix_TRACK_ID` - Remix options
 
 ### Remix Actions
+
 - `add_vocals_TRACK_ID` - Add vocals to instrumental
 - `add_instrumental_TRACK_ID` - Extract instrumental
 
 ### Stem Studio
+
 - `studio_TRACK_ID` - Open stem studio
 - `separate_stems_TRACK_ID` - Start stem separation
 - `download_stems_TRACK_ID` - Download all stems
 - `stem_mode_TRACK_ID_MODE` - Change stem mixing mode
 
 ### Playlist Actions
+
 - `add_playlist_TRACK_ID` - Show playlist selection
 - `playlist_add_PLAYLIST_ID_TRACK_ID` - Add track to playlist
 - `playlist_new_TRACK_ID` - Create new playlist with track
 
 ### Settings
+
 - `settings_notify_TYPE` - Toggle notification type
 - `settings_emoji_TYPE` - Toggle emoji preference
 
@@ -351,9 +412,11 @@ Non-authenticated users see:
 ## Webhooks
 
 ### Main Webhook
+
 **URL:** `https://[SUPABASE_URL]/functions/v1/telegram-bot`  
 **Method:** POST  
 **Allowed Updates:**
+
 - `message` - Text and media messages
 - `callback_query` - Inline button presses
 - `inline_query` - Inline search queries
@@ -370,13 +433,16 @@ Non-authenticated users see:
 ## Error Handling
 
 ### User-Facing Errors
+
 - Rate limit exceeded: "⏳ Слишком много запросов"
 - Track not found: "❌ Трек не найден"
 - Generation failed: "❌ Ошибка генерации"
 - Auth required: "🔑 Требуется авторизация"
 
 ### Internal Errors
+
 All errors logged to Supabase logs with:
+
 - Error type
 - User ID / Chat ID
 - Context (command, parameters)
@@ -387,8 +453,10 @@ All errors logged to Supabase logs with:
 ## Notifications
 
 ### Generation Complete
+
 **Trigger:** Suno task completes  
 **Content:**
+
 - Both A/B versions sent
 - Cover art included
 - Inline buttons (download, share, remix)
@@ -396,8 +464,10 @@ All errors logged to Supabase logs with:
 **Settings:** `settings_notify_completed`
 
 ### Generation Failed
+
 **Trigger:** Suno task fails  
 **Content:**
+
 - Error reason
 - Retry button
 - Support link
@@ -405,8 +475,10 @@ All errors logged to Supabase logs with:
 **Settings:** `settings_notify_failed`
 
 ### Stem Separation Ready
+
 **Trigger:** Stem separation completes  
 **Content:**
+
 - Number of stems
 - Download buttons
 - Open studio button
@@ -418,8 +490,10 @@ All errors logged to Supabase logs with:
 ## File Handling
 
 ### Audio Sending
+
 **Method:** FormData with Blob download  
 **Features:**
+
 - Proper track title display in Telegram
 - Cover thumbnail attachment
 - File ID caching for repeat sends
@@ -428,6 +502,7 @@ All errors logged to Supabase logs with:
 **Implementation:** `supabase/functions/suno-send-audio/`
 
 ### File ID Caching
+
 **Table:** `tracks.telegram_file_id`  
 **Purpose:** Avoid re-uploading same audio  
 **Strategy:** Store after first successful send
@@ -435,22 +510,26 @@ All errors logged to Supabase logs with:
 ## Security
 
 ### HMAC Validation
+
 Mini App initData validated using:
+
 ```typescript
-const secretKey = HMACSHA256('WebAppData', BOT_TOKEN)
-const dataCheckString = sortAndJoinParams(params)
-const hash = HMACSHA256(dataCheckString, secretKey)
+const secretKey = HMACSHA256("WebAppData", BOT_TOKEN);
+const dataCheckString = sortAndJoinParams(params);
+const hash = HMACSHA256(dataCheckString, secretKey);
 ```
 
 **Implementation:** `supabase/functions/telegram-auth/`
 
 ### Rate Limiting
+
 - Per-user request tracking
 - Time window: 60 seconds
 - Max requests: 20
 - Response: 429 Too Many Requests
 
 ### RLS Policies
+
 - User can only access own tracks (unless public)
 - Service role for bot operations
 - No direct user DB access from bot
@@ -458,6 +537,7 @@ const hash = HMACSHA256(dataCheckString, secretKey)
 ## Testing
 
 ### Manual Testing Commands
+
 ```bash
 # Test start command
 curl -X POST "https://api.telegram.org/bot$BOT_TOKEN/sendMessage" \
@@ -475,11 +555,13 @@ curl -X POST "https://api.telegram.org/bot$BOT_TOKEN/setWebhook" \
 ```
 
 ### Integration Tests
+
 See `tests/telegram-bot/` directory (to be created)
 
 ## Monitoring
 
 ### Key Metrics
+
 - Message response time
 - Inline query latency
 - Generation completion rate
@@ -487,7 +569,9 @@ See `tests/telegram-bot/` directory (to be created)
 - Error rate by command
 
 ### Logging
+
 All bot interactions logged to Supabase with:
+
 - Timestamp
 - User ID / Chat ID
 - Command / Query
@@ -499,6 +583,7 @@ All bot interactions logged to Supabase with:
 ## Configuration
 
 ### Environment Variables
+
 ```bash
 TELEGRAM_BOT_TOKEN=        # Bot API token
 MINI_APP_URL=              # Mini App URL
@@ -507,6 +592,7 @@ SUPABASE_SERVICE_ROLE_KEY= # Admin key
 ```
 
 ### Bot Settings (@BotFather)
+
 - Name: MusicVerse AI
 - Username: @AIMusicVerseBot
 - Description: AI-powered music creation platform
@@ -533,6 +619,7 @@ SUPABASE_SERVICE_ROLE_KEY= # Admin key
 **Solution:** Check user settings, verify chat is not blocked
 
 ### Debug Commands
+
 ```bash
 # Check webhook info
 curl "https://api.telegram.org/bot$BOT_TOKEN/getWebhookInfo"

@@ -2,28 +2,36 @@
  * AudioDetailPanel - Sheet panel showing audio details and actions
  */
 
-import { useState } from 'react';
-import { format, ru } from '@/lib/date-utils';
-import { 
-  Play, Pause, Trash2, Edit, Check, X, Loader2,
-  Sparkles, FileText, Mic, Music, Disc, ArrowRight, Mic2, Guitar
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Textarea } from '@/components/ui/textarea';
-import { Progress } from '@/components/ui/progress';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { useState } from "react";
+import { format, ru } from "@/lib/date-utils";
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from '@/components/ui/sheet';
-import { AddVocalsToReferenceDialog } from '@/components/audio-reference/AddVocalsToReferenceDialog';
-import { useReferenceAudio, type ReferenceAudio } from '@/hooks/useReferenceAudio';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-import { logger } from '@/lib/logger';
+  Play,
+  Pause,
+  Trash2,
+  Edit,
+  Check,
+  X,
+  Loader2,
+  Sparkles,
+  FileText,
+  Mic,
+  Music,
+  Disc,
+  ArrowRight,
+  Mic2,
+  Guitar,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Textarea } from "@/components/ui/textarea";
+import { Progress } from "@/components/ui/progress";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { AddVocalsToReferenceDialog } from "@/components/audio-reference/AddVocalsToReferenceDialog";
+import { useReferenceAudio, type ReferenceAudio } from "@/hooks/useReferenceAudio";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { logger } from "@/lib/logger";
 
 interface AudioDetailPanelProps {
   audio: ReferenceAudio;
@@ -32,25 +40,31 @@ interface AudioDetailPanelProps {
   onDelete: (id: string) => void;
   onPlay: (audio: ReferenceAudio) => void;
   isPlaying: boolean;
-  onUseForGeneration: (audio: ReferenceAudio, mode: 'cover' | 'extend') => void;
+  onUseForGeneration: (audio: ReferenceAudio, mode: "cover" | "extend") => void;
 }
 
-export function AudioDetailPanel({ 
-  audio, open, onOpenChange, onDelete, onPlay, isPlaying, onUseForGeneration 
+export function AudioDetailPanel({
+  audio,
+  open,
+  onOpenChange,
+  onDelete,
+  onPlay,
+  isPlaying,
+  onUseForGeneration,
 }: AudioDetailPanelProps) {
   const { updateAnalysis } = useReferenceAudio();
   const [isEditingLyrics, setIsEditingLyrics] = useState(false);
-  const [editedLyrics, setEditedLyrics] = useState(audio.transcription || '');
+  const [editedLyrics, setEditedLyrics] = useState(audio.transcription || "");
   const [isSaving, setIsSaving] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisProgress, setAnalysisProgress] = useState(0);
   const [addVocalsDialogOpen, setAddVocalsDialogOpen] = useState(false);
 
   const formatDuration = (seconds: number | null) => {
-    if (!seconds) return '--:--';
+    if (!seconds) return "--:--";
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
   };
 
   const handleSaveLyrics = async () => {
@@ -61,9 +75,9 @@ export function AudioDetailPanel({
         transcription: editedLyrics,
       });
       setIsEditingLyrics(false);
-      toast.success('Текст сохранен');
+      toast.success("Текст сохранен");
     } catch (error) {
-      toast.error('Ошибка сохранения');
+      toast.error("Ошибка сохранения");
     } finally {
       setIsSaving(false);
     }
@@ -74,12 +88,12 @@ export function AudioDetailPanel({
     setAnalysisProgress(0);
 
     const progressInterval = setInterval(() => {
-      setAnalysisProgress(prev => Math.min(prev + 10, 90));
+      setAnalysisProgress((prev) => Math.min(prev + 10, 90));
     }, 500);
 
     try {
-      const { data, error } = await supabase.functions.invoke('analyze-audio-flamingo', {
-        body: { 
+      const { data, error } = await supabase.functions.invoke("analyze-audio-flamingo", {
+        body: {
           audio_url: audio.file_url,
           reference_id: audio.id,
         },
@@ -88,7 +102,7 @@ export function AudioDetailPanel({
       if (error) throw error;
 
       const parsed = data?.parsed || {};
-      
+
       await updateAnalysis({
         id: audio.id,
         genre: parsed.genre,
@@ -100,14 +114,14 @@ export function AudioDetailPanel({
         vocalStyle: parsed.vocal_style,
         instruments: parsed.instruments,
         hasVocals: parsed.has_vocals ?? true,
-        analysisStatus: 'completed',
+        analysisStatus: "completed",
       });
 
       setAnalysisProgress(100);
-      toast.success('Анализ завершен');
+      toast.success("Анализ завершен");
     } catch (error) {
-      logger.error('Analysis error', error);
-      toast.error('Ошибка анализа');
+      logger.error("Analysis error", error);
+      toast.error("Ошибка анализа");
     } finally {
       clearInterval(progressInterval);
       setIsAnalyzing(false);
@@ -120,31 +134,31 @@ export function AudioDetailPanel({
     setAnalysisProgress(0);
 
     const progressInterval = setInterval(() => {
-      setAnalysisProgress(prev => Math.min(prev + 8, 85));
+      setAnalysisProgress((prev) => Math.min(prev + 8, 85));
     }, 600);
 
     try {
-      const { data, error } = await supabase.functions.invoke('transcribe-lyrics', {
+      const { data, error } = await supabase.functions.invoke("transcribe-lyrics", {
         body: { audio_url: audio.file_url },
       });
 
       if (error) throw error;
 
-      const lyrics = data.transcription || data.lyrics || '';
+      const lyrics = data.transcription || data.lyrics || "";
       setEditedLyrics(lyrics);
 
       await updateAnalysis({
         id: audio.id,
         transcription: lyrics,
         hasVocals: true,
-        analysisStatus: 'completed',
+        analysisStatus: "completed",
       });
 
       setAnalysisProgress(100);
-      toast.success('Текст извлечен');
+      toast.success("Текст извлечен");
     } catch (error) {
-      logger.error('Lyrics extraction error', error);
-      toast.error('Ошибка извлечения текста');
+      logger.error("Lyrics extraction error", error);
+      toast.error("Ошибка извлечения текста");
     } finally {
       clearInterval(progressInterval);
       setIsAnalyzing(false);
@@ -157,34 +171,23 @@ export function AudioDetailPanel({
       <SheetContent side="bottom" className="h-[85vh] rounded-t-2xl">
         <SheetHeader>
           <SheetTitle className="flex items-center gap-2">
-            {audio.source === 'recording' ? (
-              <Mic className="w-4 h-4 text-primary" />
-            ) : (
-              <Music className="w-4 h-4" />
-            )}
+            {audio.source === "recording" ? <Mic className="w-4 h-4 text-primary" /> : <Music className="w-4 h-4" />}
             <span className="truncate">{audio.file_name}</span>
           </SheetTitle>
         </SheetHeader>
-        
+
         <ScrollArea className="h-full mt-4 pr-4">
           <div className="space-y-4 pb-8">
             {/* Quick Actions */}
             <div className="grid grid-cols-2 gap-2">
-              <Button
-                onClick={() => onUseForGeneration(audio, 'cover')}
-                className="h-14 gap-2"
-              >
+              <Button onClick={() => onUseForGeneration(audio, "cover")} className="h-14 gap-2">
                 <Disc className="w-5 h-5" />
                 <div className="text-left">
                   <div className="font-medium text-sm">Кавер</div>
                   <div className="text-[10px] opacity-70">Создать в этом стиле</div>
                 </div>
               </Button>
-              <Button
-                variant="outline"
-                onClick={() => onUseForGeneration(audio, 'extend')}
-                className="h-14 gap-2"
-              >
+              <Button variant="outline" onClick={() => onUseForGeneration(audio, "extend")} className="h-14 gap-2">
                 <ArrowRight className="w-5 h-5" />
                 <div className="text-left">
                   <div className="font-medium text-sm">Расширить</div>
@@ -195,19 +198,11 @@ export function AudioDetailPanel({
 
             {/* Add Vocals / Instrumental */}
             <div className="grid grid-cols-2 gap-2">
-              <Button
-                variant="secondary"
-                onClick={() => setAddVocalsDialogOpen(true)}
-                className="h-12 gap-2"
-              >
+              <Button variant="secondary" onClick={() => setAddVocalsDialogOpen(true)} className="h-12 gap-2">
                 <Mic2 className="w-4 h-4" />
                 <span className="text-sm">Добавить вокал</span>
               </Button>
-              <Button
-                variant="secondary"
-                onClick={() => setAddVocalsDialogOpen(true)}
-                className="h-12 gap-2"
-              >
+              <Button variant="secondary" onClick={() => setAddVocalsDialogOpen(true)} className="h-12 gap-2">
                 <Guitar className="w-4 h-4" />
                 <span className="text-sm">Новая аранжировка</span>
               </Button>
@@ -221,7 +216,7 @@ export function AudioDetailPanel({
               </div>
               <div>
                 <p className="text-muted-foreground text-xs">Дата</p>
-                <p className="font-medium">{format(new Date(audio.created_at), 'd MMM yyyy', { locale: ru })}</p>
+                <p className="font-medium">{format(new Date(audio.created_at), "d MMM yyyy", { locale: ru })}</p>
               </div>
               {audio.bpm && (
                 <div>
@@ -262,11 +257,11 @@ export function AudioDetailPanel({
               <div>
                 <p className="text-muted-foreground text-xs">Тип</p>
                 <p className="font-medium">
-                  {audio.has_vocals && audio.has_instrumentals 
-                    ? '🎤 + 🎸' 
-                    : audio.has_vocals 
-                      ? '🎤 Вокал' 
-                      : '🎸 Инструментал'}
+                  {audio.has_vocals && audio.has_instrumentals
+                    ? "🎤 + 🎸"
+                    : audio.has_vocals
+                      ? "🎤 Вокал"
+                      : "🎸 Инструментал"}
                 </p>
               </div>
               {audio.vocal_style && (
@@ -302,14 +297,12 @@ export function AudioDetailPanel({
             )}
 
             {/* Analysis Actions */}
-            {audio.analysis_status !== 'completed' && (
+            {audio.analysis_status !== "completed" && (
               <div className="space-y-2">
                 {isAnalyzing && (
                   <div className="space-y-2">
                     <Progress value={analysisProgress} className="h-1" />
-                    <p className="text-xs text-muted-foreground text-center">
-                      Анализируем аудио...
-                    </p>
+                    <p className="text-xs text-muted-foreground text-center">Анализируем аудио...</p>
                   </div>
                 )}
                 <div className="flex gap-2">
@@ -358,7 +351,7 @@ export function AudioDetailPanel({
                       size="sm"
                       onClick={() => {
                         setIsEditingLyrics(false);
-                        setEditedLyrics(audio.transcription || '');
+                        setEditedLyrics(audio.transcription || "");
                       }}
                       className="h-6 px-2 text-xs"
                       disabled={isSaving}
@@ -372,16 +365,12 @@ export function AudioDetailPanel({
                       className="h-6 px-2 text-xs text-primary"
                       disabled={isSaving}
                     >
-                      {isSaving ? (
-                        <Loader2 className="w-3 h-3 animate-spin" />
-                      ) : (
-                        <Check className="w-3 h-3" />
-                      )}
+                      {isSaving ? <Loader2 className="w-3 h-3 animate-spin" /> : <Check className="w-3 h-3" />}
                     </Button>
                   </div>
                 )}
               </div>
-              
+
               {isEditingLyrics ? (
                 <Textarea
                   value={editedLyrics}
@@ -412,11 +401,7 @@ export function AudioDetailPanel({
 
             {/* Playback & Delete */}
             <div className="flex gap-2 pt-4">
-              <Button 
-                variant="outline" 
-                className="flex-1"
-                onClick={() => onPlay(audio)}
-              >
+              <Button variant="outline" className="flex-1" onClick={() => onPlay(audio)}>
                 {isPlaying ? (
                   <>
                     <Pause className="w-4 h-4 mr-2" />
@@ -429,8 +414,8 @@ export function AudioDetailPanel({
                   </>
                 )}
               </Button>
-              <Button 
-                variant="destructive" 
+              <Button
+                variant="destructive"
                 size="icon"
                 onClick={() => {
                   onDelete(audio.id);
@@ -445,11 +430,7 @@ export function AudioDetailPanel({
       </SheetContent>
 
       {/* Add Vocals/Instrumental Dialog */}
-      <AddVocalsToReferenceDialog
-        open={addVocalsDialogOpen}
-        onOpenChange={setAddVocalsDialogOpen}
-        audio={audio}
-      />
+      <AddVocalsToReferenceDialog open={addVocalsDialogOpen} onOpenChange={setAddVocalsDialogOpen} audio={audio} />
     </Sheet>
   );
 }

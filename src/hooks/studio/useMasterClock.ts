@@ -1,18 +1,18 @@
 /**
  * Master Clock Hook for Audio Synchronization
- * 
+ *
  * Uses AudioContext.currentTime as the authoritative timing source
  * for all audio stems, ensuring perfect synchronization.
  */
 
-import { useRef, useCallback, useEffect, useState } from 'react';
-import { logger } from '@/lib/logger';
+import { useRef, useCallback, useEffect, useState } from "react";
+import { logger } from "@/lib/logger";
 
 // Shared AudioContext singleton for timing
 let sharedAudioContext: AudioContext | null = null;
 
 function getAudioContext(): AudioContext {
-  if (!sharedAudioContext || sharedAudioContext.state === 'closed') {
+  if (!sharedAudioContext || sharedAudioContext.state === "closed") {
     sharedAudioContext = new AudioContext();
   }
   return sharedAudioContext;
@@ -37,7 +37,7 @@ export function useMasterClock({ audioRefs, onTimeUpdate }: UseMasterClockProps)
     pauseOffset: 0,
   });
   const [isPlaying, setIsPlaying] = useState(false);
-  
+
   // Drift correction thresholds
   const DRIFT_THRESHOLD = 0.03; // 30ms - very tight for precise sync
   const CRITICAL_DRIFT = 0.1; // 100ms - requires immediate correction
@@ -50,7 +50,7 @@ export function useMasterClock({ audioRefs, onTimeUpdate }: UseMasterClockProps)
     if (!state.isPlaying) {
       return state.pauseOffset;
     }
-    
+
     const ctx = getAudioContext();
     return state.pauseOffset + (ctx.currentTime - state.startTime);
   }, []);
@@ -72,7 +72,7 @@ export function useMasterClock({ audioRefs, onTimeUpdate }: UseMasterClockProps)
       if (audio.duration <= 0 || audio.error || audio.readyState < 2) return;
 
       const drift = Math.abs(audio.currentTime - masterTime);
-      
+
       if (drift > CRITICAL_DRIFT) {
         logger.debug(`Critical drift: ${drift.toFixed(3)}s, forcing sync`);
         audio.currentTime = masterTime;
@@ -88,42 +88,45 @@ export function useMasterClock({ audioRefs, onTimeUpdate }: UseMasterClockProps)
   /**
    * Start playback from current position
    */
-  const play = useCallback(async (fromTime?: number) => {
-    const ctx = getAudioContext();
-    
-    // Resume AudioContext if suspended (browser autoplay policy)
-    if (ctx.state === 'suspended') {
-      await ctx.resume();
-    }
+  const play = useCallback(
+    async (fromTime?: number) => {
+      const ctx = getAudioContext();
 
-    const startPosition = fromTime ?? clockStateRef.current.pauseOffset;
-    
-    // Set all audios to the start position
-    const audios = Object.values(audioRefs);
-    audios.forEach((audio) => {
-      if (audio.readyState >= 2) {
-        audio.currentTime = startPosition;
+      // Resume AudioContext if suspended (browser autoplay policy)
+      if (ctx.state === "suspended") {
+        await ctx.resume();
       }
-    });
 
-    // Record start time
-    clockStateRef.current = {
-      isPlaying: true,
-      startTime: ctx.currentTime,
-      pauseOffset: startPosition,
-    };
+      const startPosition = fromTime ?? clockStateRef.current.pauseOffset;
 
-    // Start all audios simultaneously
-    const playPromises = audios.map((audio) => audio.play().catch(() => {}));
-    await Promise.allSettled(playPromises);
+      // Set all audios to the start position
+      const audios = Object.values(audioRefs);
+      audios.forEach((audio) => {
+        if (audio.readyState >= 2) {
+          audio.currentTime = startPosition;
+        }
+      });
 
-    setIsPlaying(true);
-    
-    // Start sync loop
-    animationFrameRef.current = requestAnimationFrame(syncToMasterTime);
-    
-    return true;
-  }, [audioRefs, syncToMasterTime]);
+      // Record start time
+      clockStateRef.current = {
+        isPlaying: true,
+        startTime: ctx.currentTime,
+        pauseOffset: startPosition,
+      };
+
+      // Start all audios simultaneously
+      const playPromises = audios.map((audio) => audio.play().catch(() => {}));
+      await Promise.allSettled(playPromises);
+
+      setIsPlaying(true);
+
+      // Start sync loop
+      animationFrameRef.current = requestAnimationFrame(syncToMasterTime);
+
+      return true;
+    },
+    [audioRefs, syncToMasterTime],
+  );
 
   /**
    * Pause all playback
@@ -151,26 +154,29 @@ export function useMasterClock({ audioRefs, onTimeUpdate }: UseMasterClockProps)
   /**
    * Seek to specific time
    */
-  const seek = useCallback((time: number) => {
-    const wasPlaying = clockStateRef.current.isPlaying;
-    
-    // Update clock state
-    const ctx = getAudioContext();
-    clockStateRef.current = {
-      isPlaying: wasPlaying,
-      startTime: wasPlaying ? ctx.currentTime : 0,
-      pauseOffset: time,
-    };
+  const seek = useCallback(
+    (time: number) => {
+      const wasPlaying = clockStateRef.current.isPlaying;
 
-    // Seek all audios
-    Object.values(audioRefs).forEach((audio) => {
-      if (audio.readyState >= 2) {
-        audio.currentTime = time;
-      }
-    });
+      // Update clock state
+      const ctx = getAudioContext();
+      clockStateRef.current = {
+        isPlaying: wasPlaying,
+        startTime: wasPlaying ? ctx.currentTime : 0,
+        pauseOffset: time,
+      };
 
-    onTimeUpdate(time);
-  }, [audioRefs, onTimeUpdate]);
+      // Seek all audios
+      Object.values(audioRefs).forEach((audio) => {
+        if (audio.readyState >= 2) {
+          audio.currentTime = time;
+        }
+      });
+
+      onTimeUpdate(time);
+    },
+    [audioRefs, onTimeUpdate],
+  );
 
   /**
    * Toggle play/pause

@@ -1,10 +1,10 @@
 /**
  * usePerformanceMetrics - Hook for collecting and analyzing app performance
  */
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { useMemo } from 'react';
-import { subDays, format, startOfDay } from '@/lib/date-utils';
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useMemo } from "react";
+import { subDays, format, startOfDay } from "@/lib/date-utils";
 
 export interface CoreWebVitals {
   lcp: number | null; // Largest Contentful Paint (ms)
@@ -61,16 +61,16 @@ function calculatePercentile(values: number[], percentile: number): number {
 
 export function usePerformanceMetrics(days: number = 7) {
   const { data: metricsData, isLoading } = useQuery({
-    queryKey: ['performance-metrics', days],
+    queryKey: ["performance-metrics", days],
     queryFn: async () => {
       const startDate = subDays(new Date(), days);
-      
+
       const { data, error } = await supabase
-        .from('performance_metrics')
-        .select('*')
-        .gte('recorded_at', startDate.toISOString())
-        .order('recorded_at', { ascending: false });
-      
+        .from("performance_metrics")
+        .select("*")
+        .gte("recorded_at", startDate.toISOString())
+        .order("recorded_at", { ascending: false });
+
       if (error) throw error;
       return data || [];
     },
@@ -95,17 +95,17 @@ export function usePerformanceMetrics(days: number = 7) {
       };
     }
 
-    const lcpValues = metricsData.filter(m => m.lcp_ms).map(m => m.lcp_ms!);
-    const fidValues = metricsData.filter(m => m.fid_ms).map(m => m.fid_ms!);
-    const clsValues = metricsData.filter(m => m.cls).map(m => m.cls!);
-    const fcpValues = metricsData.filter(m => m.fcp_ms).map(m => m.fcp_ms!);
-    const ttfbValues = metricsData.filter(m => m.ttfb_ms).map(m => m.ttfb_ms!);
+    const lcpValues = metricsData.filter((m) => m.lcp_ms).map((m) => m.lcp_ms!);
+    const fidValues = metricsData.filter((m) => m.fid_ms).map((m) => m.fid_ms!);
+    const clsValues = metricsData.filter((m) => m.cls).map((m) => m.cls!);
+    const fcpValues = metricsData.filter((m) => m.fcp_ms).map((m) => m.fcp_ms!);
+    const ttfbValues = metricsData.filter((m) => m.ttfb_ms).map((m) => m.ttfb_ms!);
 
-    const avg = (arr: number[]) => arr.length > 0 ? arr.reduce((a, b) => a + b, 0) / arr.length : 0;
-    
+    const avg = (arr: number[]) => (arr.length > 0 ? arr.reduce((a, b) => a + b, 0) / arr.length : 0);
+
     const goodPercent = (values: number[], threshold: number, isLowerBetter = true) => {
       if (values.length === 0) return 0;
-      const good = values.filter(v => isLowerBetter ? v <= threshold : v >= threshold);
+      const good = values.filter((v) => (isLowerBetter ? v <= threshold : v >= threshold));
       return (good.length / values.length) * 100;
     };
 
@@ -130,10 +130,10 @@ export function usePerformanceMetrics(days: number = 7) {
 
     const dailyStats = new Map<string, { lcpSum: number; fcpSum: number; count: number }>();
 
-    metricsData.forEach(m => {
-      const date = format(startOfDay(new Date(m.recorded_at)), 'yyyy-MM-dd');
+    metricsData.forEach((m) => {
+      const date = format(startOfDay(new Date(m.recorded_at)), "yyyy-MM-dd");
       const existing = dailyStats.get(date) || { lcpSum: 0, fcpSum: 0, count: 0 };
-      
+
       if (m.lcp_ms) {
         existing.lcpSum += m.lcp_ms;
         existing.count++;
@@ -141,13 +141,13 @@ export function usePerformanceMetrics(days: number = 7) {
       if (m.fcp_ms) {
         existing.fcpSum += m.fcp_ms;
       }
-      
+
       dailyStats.set(date, existing);
     });
 
     return Array.from(dailyStats.entries())
       .map(([date, data]) => ({
-        date: format(new Date(date), 'dd.MM'),
+        date: format(new Date(date), "dd.MM"),
         avgLcp: data.count > 0 ? data.lcpSum / data.count : 0,
         avgFcp: data.count > 0 ? data.fcpSum / data.count : 0,
         samples: data.count,
@@ -160,8 +160,8 @@ export function usePerformanceMetrics(days: number = 7) {
 
     const devices = new Map<string, { count: number; avgLcp: number; lcpSum: number }>();
 
-    metricsData.forEach(m => {
-      const device = m.device || 'unknown';
+    metricsData.forEach((m) => {
+      const device = m.device || "unknown";
       const existing = devices.get(device) || { count: 0, avgLcp: 0, lcpSum: 0 };
       existing.count++;
       if (m.lcp_ms) existing.lcpSum += m.lcp_ms;
@@ -180,7 +180,7 @@ export function usePerformanceMetrics(days: number = 7) {
   // Score calculation (0-100)
   const performanceScore = useMemo(() => {
     if (!stats.totalSamples) return null;
-    
+
     // Weight: LCP 25%, FID 25%, CLS 25%, FCP 15%, TTFB 10%
     const lcpScore = Math.max(0, 100 - (stats.avgLcp / THRESHOLDS.lcp.good) * 50);
     const fidScore = Math.max(0, 100 - (stats.avgFid / THRESHOLDS.fid.good) * 50);
@@ -188,13 +188,7 @@ export function usePerformanceMetrics(days: number = 7) {
     const fcpScore = Math.max(0, 100 - (stats.avgFcp / THRESHOLDS.fcp.good) * 50);
     const ttfbScore = Math.max(0, 100 - (stats.avgTtfb / THRESHOLDS.ttfb.good) * 50);
 
-    return Math.round(
-      lcpScore * 0.25 + 
-      fidScore * 0.25 + 
-      clsScore * 0.25 + 
-      fcpScore * 0.15 + 
-      ttfbScore * 0.10
-    );
+    return Math.round(lcpScore * 0.25 + fidScore * 0.25 + clsScore * 0.25 + fcpScore * 0.15 + ttfbScore * 0.1);
   }, [stats]);
 
   return {

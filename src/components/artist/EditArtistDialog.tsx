@@ -1,21 +1,21 @@
-import { useState, useEffect } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from '@/components/ui/drawer';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
-import { Switch } from '@/components/ui/switch';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
-import { Edit, X, Plus, Lock, Globe, AlertTriangle } from 'lucide-react';
-import { ArtistAvatarUpload } from './ArtistAvatarUpload';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { useAuth } from '@/hooks/useAuth';
-import { useArtists, type Artist } from '@/hooks/useArtists';
-import { toast } from 'sonner';
-import { cn } from '@/lib/utils';
+import { useState, useEffect } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import { Switch } from "@/components/ui/switch";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import { Edit, X, Plus, Lock, Globe, AlertTriangle } from "lucide-react";
+import { ArtistAvatarUpload } from "./ArtistAvatarUpload";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useAuth } from "@/hooks/useAuth";
+import { useArtists, type Artist } from "@/hooks/useArtists";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 interface EditArtistDialogProps {
   artist: Artist | null;
@@ -28,14 +28,14 @@ export function EditArtistDialog({ artist, open, onOpenChange, canMakePrivate = 
   const isMobile = useIsMobile();
   const { user } = useAuth();
   const { updateArtist, isUpdating, deleteArtist, isDeleting } = useArtists();
-  
-  const [name, setName] = useState('');
-  const [bio, setBio] = useState('');
-  const [styleDescription, setStyleDescription] = useState('');
+
+  const [name, setName] = useState("");
+  const [bio, setBio] = useState("");
+  const [styleDescription, setStyleDescription] = useState("");
   const [genreTags, setGenreTags] = useState<string[]>([]);
   const [moodTags, setMoodTags] = useState<string[]>([]);
-  const [newGenreTag, setNewGenreTag] = useState('');
-  const [newMoodTag, setNewMoodTag] = useState('');
+  const [newGenreTag, setNewGenreTag] = useState("");
+  const [newMoodTag, setNewMoodTag] = useState("");
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [isPublic, setIsPublic] = useState(true);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -46,9 +46,9 @@ export function EditArtistDialog({ artist, open, onOpenChange, canMakePrivate = 
   // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => {
     if (artist && open) {
-      setName(artist.name || '');
-      setBio(artist.bio || '');
-      setStyleDescription(artist.style_description || '');
+      setName(artist.name || "");
+      setBio(artist.bio || "");
+      setStyleDescription(artist.style_description || "");
       setGenreTags(artist.genre_tags || []);
       setMoodTags(artist.mood_tags || []);
       setAvatarUrl(artist.avatar_url || null);
@@ -60,28 +60,28 @@ export function EditArtistDialog({ artist, open, onOpenChange, canMakePrivate = 
   const addGenreTag = () => {
     if (newGenreTag.trim() && !genreTags.includes(newGenreTag.trim())) {
       setGenreTags([...genreTags, newGenreTag.trim()]);
-      setNewGenreTag('');
+      setNewGenreTag("");
     }
   };
 
   const addMoodTag = () => {
     if (newMoodTag.trim() && !moodTags.includes(newMoodTag.trim())) {
       setMoodTags([...moodTags, newMoodTag.trim()]);
-      setNewMoodTag('');
+      setNewMoodTag("");
     }
   };
 
   const handleSave = () => {
     if (!artist?.id) return;
-    
+
     if (!name.trim()) {
-      toast.error('Введите имя артиста');
+      toast.error("Введите имя артиста");
       return;
     }
 
     // If trying to make private but not allowed
     if (!isPublic && !canMakePrivate) {
-      toast.error('Приватные артисты доступны только для подписчиков');
+      toast.error("Приватные артисты доступны только для подписчиков");
       return;
     }
 
@@ -172,7 +172,7 @@ export function EditArtistDialog({ artist, open, onOpenChange, canMakePrivate = 
             <Input
               value={newGenreTag}
               onChange={(e) => setNewGenreTag(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addGenreTag())}
+              onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), addGenreTag())}
               placeholder="Добавить жанр"
               className="flex-1"
             />
@@ -201,7 +201,7 @@ export function EditArtistDialog({ artist, open, onOpenChange, canMakePrivate = 
             <Input
               value={newMoodTag}
               onChange={(e) => setNewMoodTag(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addMoodTag())}
+              onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), addMoodTag())}
               placeholder="Добавить настроение"
               className="flex-1"
             />
@@ -231,21 +231,21 @@ export function EditArtistDialog({ artist, open, onOpenChange, canMakePrivate = 
             <div className="space-y-0.5">
               <Label className="text-sm font-medium flex items-center gap-2">
                 {isPublic ? <Globe className="w-4 h-4" /> : <Lock className="w-4 h-4" />}
-                {isPublic ? 'Публичный артист' : 'Приватный артист'}
+                {isPublic ? "Публичный артист" : "Приватный артист"}
               </Label>
               <p className="text-xs text-muted-foreground">
-                {isPublic 
-                  ? 'Любой пользователь может использовать этого артиста' 
-                  : 'Только вы можете использовать этого артиста'}
+                {isPublic
+                  ? "Любой пользователь может использовать этого артиста"
+                  : "Только вы можете использовать этого артиста"}
               </p>
             </div>
-            <Switch 
-              checked={!isPublic} 
+            <Switch
+              checked={!isPublic}
               onCheckedChange={(checked) => setIsPublic(!checked)}
               disabled={!canMakePrivate && !isPublic}
             />
           </div>
-          
+
           {!canMakePrivate && !isPublic && (
             <div className="p-3 rounded-lg bg-warning/10 border border-warning/20 text-warning text-xs flex items-start gap-2">
               <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" />
@@ -259,35 +259,24 @@ export function EditArtistDialog({ artist, open, onOpenChange, canMakePrivate = 
         {/* Delete Section */}
         <div className="space-y-3">
           <Label className="text-sm font-medium text-destructive">Опасная зона</Label>
-          
+
           {showDeleteConfirm ? (
             <div className="p-3 rounded-lg bg-destructive/10 border border-destructive/20 space-y-3">
               <p className="text-sm text-destructive">
                 Вы уверены? Это действие нельзя отменить. Все треки останутся, но без привязки к артисту.
               </p>
               <div className="flex gap-2">
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={() => setShowDeleteConfirm(false)}
-                  className="flex-1"
-                >
+                <Button variant="outline" size="sm" onClick={() => setShowDeleteConfirm(false)} className="flex-1">
                   Отмена
                 </Button>
-                <Button 
-                  variant="destructive" 
-                  size="sm" 
-                  onClick={handleDelete}
-                  disabled={isDeleting}
-                  className="flex-1"
-                >
-                  {isDeleting ? 'Удаление...' : 'Удалить'}
+                <Button variant="destructive" size="sm" onClick={handleDelete} disabled={isDeleting} className="flex-1">
+                  {isDeleting ? "Удаление..." : "Удалить"}
                 </Button>
               </div>
             </div>
           ) : (
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               size="sm"
               onClick={() => setShowDeleteConfirm(true)}
               className="text-destructive border-destructive/50 hover:bg-destructive/10"
@@ -305,12 +294,8 @@ export function EditArtistDialog({ artist, open, onOpenChange, canMakePrivate = 
       <Button variant="outline" onClick={() => onOpenChange(false)} className="flex-1">
         Отмена
       </Button>
-      <Button 
-        onClick={handleSave} 
-        disabled={isUpdating || !name.trim()}
-        className="flex-1"
-      >
-        {isUpdating ? 'Сохранение...' : 'Сохранить'}
+      <Button onClick={handleSave} disabled={isUpdating || !name.trim()} className="flex-1">
+        {isUpdating ? "Сохранение..." : "Сохранить"}
       </Button>
     </div>
   );

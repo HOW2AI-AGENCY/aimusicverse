@@ -1,34 +1,47 @@
-import { useQuery } from '@tanstack/react-query';
-import * as analyticsApi from '@/api/analytics.api';
-import type { DeeplinkStats, DeeplinkEvent } from '@/api/analytics.api';
-import { logger } from '@/lib/logger';
+import { useQuery } from "@tanstack/react-query";
+import * as analyticsApi from "@/api/analytics.api";
+import type { DeeplinkStats, DeeplinkEvent } from "@/api/analytics.api";
+import { logger } from "@/lib/logger";
 
 interface UseDeeplinkAnalyticsOptions {
-  timeRange?: '1h' | '24h' | '7d' | '30d';
+  timeRange?: "1h" | "24h" | "7d" | "30d";
   limit?: number;
 }
 
 export function useDeeplinkAnalytics(options: UseDeeplinkAnalyticsOptions = {}) {
-  const { timeRange = '7d', limit = 100 } = options;
+  const { timeRange = "7d", limit = 100 } = options;
 
   const getInterval = () => {
     switch (timeRange) {
-      case '1h': return '1 hour';
-      case '24h': return '24 hours';
-      case '7d': return '7 days';
-      case '30d': return '30 days';
-      default: return '7 days';
+      case "1h":
+        return "1 hour";
+      case "24h":
+        return "24 hours";
+      case "7d":
+        return "7 days";
+      case "30d":
+        return "30 days";
+      default:
+        return "7 days";
     }
   };
 
-  const { data: stats, isLoading: statsLoading, refetch: refetchStats } = useQuery({
-    queryKey: ['deeplink-stats', timeRange],
+  const {
+    data: stats,
+    isLoading: statsLoading,
+    refetch: refetchStats,
+  } = useQuery({
+    queryKey: ["deeplink-stats", timeRange],
     queryFn: () => analyticsApi.fetchDeeplinkStats(getInterval()),
     refetchInterval: 60000,
   });
 
-  const { data: events, isLoading: eventsLoading, refetch: refetchEvents } = useQuery({
-    queryKey: ['deeplink-events', timeRange, limit],
+  const {
+    data: events,
+    isLoading: eventsLoading,
+    refetch: refetchEvents,
+  } = useQuery({
+    queryKey: ["deeplink-events", timeRange, limit],
     queryFn: () => analyticsApi.fetchDeeplinkEvents({ timeRange, limit }),
   });
 
@@ -42,19 +55,24 @@ export function useDeeplinkAnalytics(options: UseDeeplinkAnalyticsOptions = {}) 
 }
 
 // Separate hooks for individual use
-export function useDeeplinkStats(timeRange: '1h' | '24h' | '7d' | '30d' = '7d') {
+export function useDeeplinkStats(timeRange: "1h" | "24h" | "7d" | "30d" = "7d") {
   const getInterval = () => {
     switch (timeRange) {
-      case '1h': return '1 hour';
-      case '24h': return '24 hours';
-      case '7d': return '7 days';
-      case '30d': return '30 days';
-      default: return '7 days';
+      case "1h":
+        return "1 hour";
+      case "24h":
+        return "24 hours";
+      case "7d":
+        return "7 days";
+      case "30d":
+        return "30 days";
+      default:
+        return "7 days";
     }
   };
 
   return useQuery({
-    queryKey: ['deeplink-stats', timeRange],
+    queryKey: ["deeplink-stats", timeRange],
     queryFn: () => analyticsApi.fetchDeeplinkStats(getInterval()),
     refetchInterval: 60000,
   });
@@ -62,9 +80,9 @@ export function useDeeplinkStats(timeRange: '1h' | '24h' | '7d' | '30d' = '7d') 
 
 export function useDeeplinkEvents(options: { limit?: number } = {}) {
   const { limit = 50 } = options;
-  
+
   return useQuery({
-    queryKey: ['deeplink-events', limit],
+    queryKey: ["deeplink-events", limit],
     queryFn: () => analyticsApi.fetchDeeplinkEvents({ limit }),
   });
 }
@@ -81,8 +99,8 @@ export function useTrackDeeplink() {
     referrer?: string;
     metadata?: Record<string, unknown>;
   }) => {
-    const sessionId = sessionStorage.getItem('session_id') || crypto.randomUUID();
-    sessionStorage.setItem('session_id', sessionId);
+    const sessionId = sessionStorage.getItem("session_id") || crypto.randomUUID();
+    sessionStorage.setItem("session_id", sessionId);
 
     try {
       await analyticsApi.trackDeeplinkVisit({
@@ -91,7 +109,7 @@ export function useTrackDeeplink() {
         referrer: params.referrer || document.referrer || undefined,
       });
     } catch (error: unknown) {
-      logger.warn('Failed to track deeplink', { error: error instanceof Error ? error.message : String(error) });
+      logger.warn("Failed to track deeplink", { error: error instanceof Error ? error.message : String(error) });
     }
   };
 
@@ -99,7 +117,7 @@ export function useTrackDeeplink() {
     try {
       await analyticsApi.markDeeplinkConversion(sessionId, conversionType);
     } catch (error: unknown) {
-      logger.warn('Failed to mark conversion', { error: error instanceof Error ? error.message : String(error) });
+      logger.warn("Failed to mark conversion", { error: error instanceof Error ? error.message : String(error) });
     }
   };
 

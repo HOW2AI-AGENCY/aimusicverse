@@ -18,20 +18,11 @@
  * @see specs/031-mobile-studio-v2/contracts/api-contracts.md for API contracts
  */
 
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { toast } from 'sonner';
-import { logger } from '@/lib/logger';
-import {
-  getSectionNotes,
-  createSectionNote,
-  updateSectionNote,
-  deleteSectionNote,
-} from '@/api/lyrics.api';
-import type {
-  SectionNoteWithAuthor,
-  CreateSectionNoteRequest,
-  CreateSectionNoteResponse,
-} from '@/api/lyrics.api';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { logger } from "@/lib/logger";
+import { getSectionNotes, createSectionNote, updateSectionNote, deleteSectionNote } from "@/api/lyrics.api";
+import type { SectionNoteWithAuthor, CreateSectionNoteRequest, CreateSectionNoteResponse } from "@/api/lyrics.api";
 
 // ============================================================================
 // QUERY KEYS
@@ -42,10 +33,9 @@ import type {
  * Provides a consistent way to build query keys for cache management
  */
 export const sectionNotesKeys = {
-  all: ['section-notes'] as const,
-  forSection: (sectionId: string) =>
-    ['section-notes', 'section', sectionId] as const,
-  lists: () => ['section-notes', 'list'] as const,
+  all: ["section-notes"] as const,
+  forSection: (sectionId: string) => ["section-notes", "section", sectionId] as const,
+  lists: () => ["section-notes", "list"] as const,
 } as const;
 
 // ============================================================================
@@ -106,10 +96,10 @@ export interface ResolveNoteParams {
  */
 export function useSectionNotesData(sectionId: string | undefined) {
   return useQuery({
-    queryKey: sectionNotesKeys.forSection(sectionId || ''),
+    queryKey: sectionNotesKeys.forSection(sectionId || ""),
     queryFn: async () => {
       if (!sectionId) {
-        throw new Error('Section ID is required');
+        throw new Error("Section ID is required");
       }
       const response = await getSectionNotes(sectionId);
       return response.notes;
@@ -169,11 +159,7 @@ export function useSectionNotes(sectionId: string | undefined) {
   const queryClient = useQueryClient();
 
   // Query for section notes
-  const {
-    data: notes = [],
-    isLoading,
-    error,
-  } = useSectionNotesData(sectionId);
+  const { data: notes = [], isLoading, error } = useSectionNotesData(sectionId);
 
   // --------------------------------------------------------------------------
   // CREATE NOTE MUTATION
@@ -195,11 +181,7 @@ export function useSectionNotes(sectionId: string | undefined) {
         referenceAnalysis: params.referenceAnalysis,
       };
 
-      const response = await createSectionNote(
-        params.sectionId,
-        params.userId,
-        request
-      );
+      const response = await createSectionNote(params.sectionId, params.userId, request);
 
       return response;
     },
@@ -211,7 +193,7 @@ export function useSectionNotes(sectionId: string | undefined) {
 
       // Snapshot previous value
       const previousNotes = queryClient.getQueryData<SectionNoteWithAuthor[]>(
-        sectionNotesKeys.forSection(params.sectionId)
+        sectionNotesKeys.forSection(params.sectionId),
       );
 
       // Create optimistic note
@@ -221,7 +203,7 @@ export function useSectionNotes(sectionId: string | undefined) {
         noteType: params.noteType,
         author: {
           id: params.userId,
-          username: 'You', // Will be updated on server response
+          username: "You", // Will be updated on server response
         },
         createdAt: new Date().toISOString(),
         isResolved: false,
@@ -236,10 +218,10 @@ export function useSectionNotes(sectionId: string | undefined) {
 
       // Optimistically add to list
       if (previousNotes) {
-        queryClient.setQueryData<SectionNoteWithAuthor[]>(
-          sectionNotesKeys.forSection(params.sectionId),
-          [optimisticNote, ...previousNotes]
-        );
+        queryClient.setQueryData<SectionNoteWithAuthor[]>(sectionNotesKeys.forSection(params.sectionId), [
+          optimisticNote,
+          ...previousNotes,
+        ]);
       }
 
       // Return context with previous data for rollback
@@ -248,35 +230,27 @@ export function useSectionNotes(sectionId: string | undefined) {
     onError: (error, params, context) => {
       // Rollback to previous value
       if (context?.previousNotes) {
-        queryClient.setQueryData(
-          sectionNotesKeys.forSection(params.sectionId),
-          context.previousNotes
-        );
+        queryClient.setQueryData(sectionNotesKeys.forSection(params.sectionId), context.previousNotes);
       }
 
-      logger.error('Failed to create section note', error, {
+      logger.error("Failed to create section note", error, {
         sectionId: params.sectionId,
       });
 
-      toast.error('Failed to create note', {
-        description: error instanceof Error ? error.message : 'Unknown error',
+      toast.error("Failed to create note", {
+        description: error instanceof Error ? error.message : "Unknown error",
       });
     },
     onSuccess: (data, params) => {
       // Replace optimistic note with real data
-      queryClient.setQueryData<SectionNoteWithAuthor[]>(
-        sectionNotesKeys.forSection(params.sectionId),
-        (old) => {
-          if (!old) return [data];
-          // Remove optimistic note and add real one
-          const filtered = old.filter(
-            (note) => !note.id.startsWith('optimistic-')
-          );
-          return [data, ...filtered];
-        }
-      );
+      queryClient.setQueryData<SectionNoteWithAuthor[]>(sectionNotesKeys.forSection(params.sectionId), (old) => {
+        if (!old) return [data];
+        // Remove optimistic note and add real one
+        const filtered = old.filter((note) => !note.id.startsWith("optimistic-"));
+        return [data, ...filtered];
+      });
 
-      toast.success('Note created successfully');
+      toast.success("Note created successfully");
     },
     onSettled: (data, error, params) => {
       // Refetch to ensure consistency
@@ -316,9 +290,7 @@ export function useSectionNotes(sectionId: string | undefined) {
       });
 
       // Snapshot previous value
-      const previousNotes = queryClient.getQueryData<SectionNoteWithAuthor[]>(
-        sectionNotesKeys.forSection(sectionId)
-      );
+      const previousNotes = queryClient.getQueryData<SectionNoteWithAuthor[]>(sectionNotesKeys.forSection(sectionId));
 
       // Optimistically update note
       if (previousNotes) {
@@ -334,13 +306,11 @@ export function useSectionNotes(sectionId: string | undefined) {
                     position: params.position ?? note.position,
                     tags: params.tags ?? note.tags,
                     audioNoteUrl: params.audioNoteUrl ?? note.audioNoteUrl,
-                    referenceAudioUrl:
-                      params.referenceAudioUrl ?? note.referenceAudioUrl,
-                    referenceAnalysis:
-                      params.referenceAnalysis ?? note.referenceAnalysis,
+                    referenceAudioUrl: params.referenceAudioUrl ?? note.referenceAudioUrl,
+                    referenceAnalysis: params.referenceAnalysis ?? note.referenceAnalysis,
                   }
-                : note
-            ) || []
+                : note,
+            ) || [],
         );
       }
 
@@ -351,22 +321,19 @@ export function useSectionNotes(sectionId: string | undefined) {
 
       // Rollback to previous value
       if (context?.previousNotes) {
-        queryClient.setQueryData(
-          sectionNotesKeys.forSection(sectionId),
-          context.previousNotes
-        );
+        queryClient.setQueryData(sectionNotesKeys.forSection(sectionId), context.previousNotes);
       }
 
-      logger.error('Failed to update section note', error, {
+      logger.error("Failed to update section note", error, {
         noteId: params.noteId,
       });
 
-      toast.error('Failed to update note', {
-        description: error instanceof Error ? error.message : 'Unknown error',
+      toast.error("Failed to update note", {
+        description: error instanceof Error ? error.message : "Unknown error",
       });
     },
     onSuccess: () => {
-      toast.success('Note updated successfully');
+      toast.success("Note updated successfully");
     },
     onSettled: () => {
       if (!sectionId) return;
@@ -399,15 +366,13 @@ export function useSectionNotes(sectionId: string | undefined) {
       });
 
       // Snapshot previous value
-      const previousNotes = queryClient.getQueryData<SectionNoteWithAuthor[]>(
-        sectionNotesKeys.forSection(sectionId)
-      );
+      const previousNotes = queryClient.getQueryData<SectionNoteWithAuthor[]>(sectionNotesKeys.forSection(sectionId));
 
       // Optimistically remove note from list
       if (previousNotes) {
         queryClient.setQueryData<SectionNoteWithAuthor[]>(
           sectionNotesKeys.forSection(sectionId),
-          (old) => old?.filter((note) => note.id !== noteId) || []
+          (old) => old?.filter((note) => note.id !== noteId) || [],
         );
       }
 
@@ -418,20 +383,17 @@ export function useSectionNotes(sectionId: string | undefined) {
 
       // Rollback to previous value
       if (context?.previousNotes) {
-        queryClient.setQueryData(
-          sectionNotesKeys.forSection(sectionId),
-          context.previousNotes
-        );
+        queryClient.setQueryData(sectionNotesKeys.forSection(sectionId), context.previousNotes);
       }
 
-      logger.error('Failed to delete section note', error, { noteId });
+      logger.error("Failed to delete section note", error, { noteId });
 
-      toast.error('Failed to delete note', {
-        description: error instanceof Error ? error.message : 'Unknown error',
+      toast.error("Failed to delete note", {
+        description: error instanceof Error ? error.message : "Unknown error",
       });
     },
     onSuccess: () => {
-      toast.success('Note deleted successfully');
+      toast.success("Note deleted successfully");
     },
     onSettled: () => {
       if (!sectionId) return;
@@ -470,20 +432,14 @@ export function useSectionNotes(sectionId: string | undefined) {
       });
 
       // Snapshot previous value
-      const previousNotes = queryClient.getQueryData<SectionNoteWithAuthor[]>(
-        sectionNotesKeys.forSection(sectionId)
-      );
+      const previousNotes = queryClient.getQueryData<SectionNoteWithAuthor[]>(sectionNotesKeys.forSection(sectionId));
 
       // Optimistically update resolved status
       if (previousNotes) {
         queryClient.setQueryData<SectionNoteWithAuthor[]>(
           sectionNotesKeys.forSection(sectionId),
           (old) =>
-            old?.map((note) =>
-              note.id === params.noteId
-                ? { ...note, isResolved: params.isResolved }
-                : note
-            ) || []
+            old?.map((note) => (note.id === params.noteId ? { ...note, isResolved: params.isResolved } : note)) || [],
         );
       }
 
@@ -494,24 +450,19 @@ export function useSectionNotes(sectionId: string | undefined) {
 
       // Rollback to previous value
       if (context?.previousNotes) {
-        queryClient.setQueryData(
-          sectionNotesKeys.forSection(sectionId),
-          context.previousNotes
-        );
+        queryClient.setQueryData(sectionNotesKeys.forSection(sectionId), context.previousNotes);
       }
 
-      logger.error('Failed to resolve section note', error, {
+      logger.error("Failed to resolve section note", error, {
         noteId: params.noteId,
       });
 
-      toast.error('Failed to update note status', {
-        description: error instanceof Error ? error.message : 'Unknown error',
+      toast.error("Failed to update note status", {
+        description: error instanceof Error ? error.message : "Unknown error",
       });
     },
     onSuccess: (data, params) => {
-      const message = params.isResolved
-        ? 'Note marked as resolved'
-        : 'Note marked as unresolved';
+      const message = params.isResolved ? "Note marked as resolved" : "Note marked as unresolved";
       toast.success(message);
     },
     onSettled: () => {
@@ -586,8 +537,4 @@ export function useSectionNotes(sectionId: string | undefined) {
 // EXPORTS
 // ============================================================================
 
-export type {
-  SectionNoteWithAuthor,
-  CreateSectionNoteRequest,
-  CreateSectionNoteResponse,
-};
+export type { SectionNoteWithAuthor, CreateSectionNoteRequest, CreateSectionNoteResponse };

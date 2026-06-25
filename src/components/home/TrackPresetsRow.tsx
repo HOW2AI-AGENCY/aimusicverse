@@ -3,11 +3,11 @@
  * Integrated into unified CreativePresetsSection with tabs
  */
 
-import { memo, useCallback } from 'react';
-import { motion } from '@/lib/motion';
-import { cn } from '@/lib/utils';
-import { Music, ArrowRight } from 'lucide-react';
-import { useTelegram } from '@/contexts/TelegramContext';
+import { memo, useCallback } from "react";
+import { motion } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import { Music, ArrowRight } from "lucide-react";
+import { useTelegram } from "@/contexts/TelegramContext";
 
 export interface TrackPreset {
   id: string;
@@ -18,20 +18,44 @@ export interface TrackPreset {
 }
 
 const TRACK_PRESETS: TrackPreset[] = [
-  { id: 'pop', label: 'Поп', emoji: '🎤', description: 'upbeat pop, catchy melody, modern production', hasVocals: true },
-  { id: 'lofi', label: 'Лофи', emoji: '🎧', description: 'lofi hip hop, chill beats, relaxing, study music', hasVocals: false },
-  { id: 'rock', label: 'Рок', emoji: '🎸', description: 'rock, electric guitar, drums, energetic', hasVocals: true },
-  { id: 'electro', label: 'Электро', emoji: '🎹', description: 'electronic, synth, bass drop, EDM', hasVocals: false },
-  { id: 'rnb', label: 'R&B', emoji: '🎷', description: 'R&B, smooth, soulful, groove', hasVocals: true },
-  { id: 'hiphop', label: 'Хип-хоп', emoji: '🔥', description: 'hip hop, trap beats, 808 bass, modern rap', hasVocals: true },
-  { id: 'jazz', label: 'Джаз', emoji: '🎺', description: 'jazz, smooth, saxophone, piano, swing', hasVocals: false },
-  { id: 'ambient', label: 'Эмбиент', emoji: '🌙', description: 'ambient, atmospheric, dreamy, ethereal', hasVocals: false },
+  {
+    id: "pop",
+    label: "Поп",
+    emoji: "🎤",
+    description: "upbeat pop, catchy melody, modern production",
+    hasVocals: true,
+  },
+  {
+    id: "lofi",
+    label: "Лофи",
+    emoji: "🎧",
+    description: "lofi hip hop, chill beats, relaxing, study music",
+    hasVocals: false,
+  },
+  { id: "rock", label: "Рок", emoji: "🎸", description: "rock, electric guitar, drums, energetic", hasVocals: true },
+  { id: "electro", label: "Электро", emoji: "🎹", description: "electronic, synth, bass drop, EDM", hasVocals: false },
+  { id: "rnb", label: "R&B", emoji: "🎷", description: "R&B, smooth, soulful, groove", hasVocals: true },
+  {
+    id: "hiphop",
+    label: "Хип-хоп",
+    emoji: "🔥",
+    description: "hip hop, trap beats, 808 bass, modern rap",
+    hasVocals: true,
+  },
+  { id: "jazz", label: "Джаз", emoji: "🎺", description: "jazz, smooth, saxophone, piano, swing", hasVocals: false },
+  {
+    id: "ambient",
+    label: "Эмбиент",
+    emoji: "🌙",
+    description: "ambient, atmospheric, dreamy, ethereal",
+    hasVocals: false,
+  },
 ];
 
 interface TrackPresetsRowProps {
   onSelectPreset: (preset: TrackPreset) => void;
   className?: string;
-  variant?: 'chips' | 'cards';
+  variant?: "chips" | "cards";
 }
 
 const TrackChip = memo(function TrackChip({
@@ -55,16 +79,14 @@ const TrackChip = memo(function TrackChip({
         "bg-card hover:bg-primary/10",
         "transition-all duration-200 touch-manipulation",
         "flex items-center gap-1.5",
-        "snap-start min-h-[40px]"
+        "snap-start min-h-[40px]",
       )}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
     >
       <span className="text-base">{preset.emoji}</span>
       <span className="text-xs font-medium whitespace-nowrap">{preset.label}</span>
-      {preset.hasVocals && (
-        <span className="text-[8px] px-1 py-0.5 rounded bg-primary/20 text-primary">🎤</span>
-      )}
+      {preset.hasVocals && <span className="text-[8px] px-1 py-0.5 rounded bg-primary/20 text-primary">🎤</span>}
     </motion.button>
   );
 });
@@ -89,13 +111,13 @@ const TrackCard = memo(function TrackCard({
         "border border-border/50 hover:border-primary/50",
         "bg-gradient-to-br from-card to-card/50 hover:from-primary/5 hover:to-card/80",
         "transition-all duration-200 touch-manipulation",
-        "snap-start group"
+        "snap-start group",
       )}
       whileTap={{ scale: 0.97 }}
     >
       {/* Subtle glow on hover */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/0 to-primary/0 group-hover:from-primary/5 group-hover:to-transparent transition-all duration-300 rounded-xl" />
-      
+
       <div className="relative z-10">
         <div className="flex items-center justify-between mb-2">
           <span className="text-2xl drop-shadow-sm">{preset.emoji}</span>
@@ -111,7 +133,7 @@ const TrackCard = memo(function TrackCard({
         </div>
         <h4 className="text-sm font-semibold truncate mb-0.5">{preset.label}</h4>
         <p className="text-[10px] text-muted-foreground line-clamp-2 leading-tight">
-          {preset.description.split(',').slice(0, 2).join(', ')}
+          {preset.description.split(",").slice(0, 2).join(", ")}
         </p>
       </div>
     </motion.button>
@@ -121,37 +143,30 @@ const TrackCard = memo(function TrackCard({
 export const TrackPresetsRow = memo(function TrackPresetsRow({
   onSelectPreset,
   className,
-  variant = 'cards',
+  variant = "cards",
 }: TrackPresetsRowProps) {
   const { hapticFeedback } = useTelegram();
 
-  const handlePresetClick = useCallback((preset: TrackPreset) => {
-    hapticFeedback('medium');
-    onSelectPreset(preset);
-  }, [hapticFeedback, onSelectPreset]);
+  const handlePresetClick = useCallback(
+    (preset: TrackPreset) => {
+      hapticFeedback("medium");
+      onSelectPreset(preset);
+    },
+    [hapticFeedback, onSelectPreset],
+  );
 
   return (
     <div className={cn("space-y-2", className)}>
       {/* Presets row */}
       <div className="relative -mx-4 px-4">
         <div className="flex gap-2 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-1">
-          {TRACK_PRESETS.map((preset, index) => (
-            variant === 'chips' ? (
-              <TrackChip
-                key={preset.id}
-                preset={preset}
-                index={index}
-                onClick={() => handlePresetClick(preset)}
-              />
+          {TRACK_PRESETS.map((preset, index) =>
+            variant === "chips" ? (
+              <TrackChip key={preset.id} preset={preset} index={index} onClick={() => handlePresetClick(preset)} />
             ) : (
-              <TrackCard
-                key={preset.id}
-                preset={preset}
-                index={index}
-                onClick={() => handlePresetClick(preset)}
-              />
-            )
-          ))}
+              <TrackCard key={preset.id} preset={preset} index={index} onClick={() => handlePresetClick(preset)} />
+            ),
+          )}
         </div>
       </div>
     </div>

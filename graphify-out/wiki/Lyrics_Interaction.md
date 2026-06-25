@@ -10,13 +10,13 @@
 - [handleUndo](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L35) (2 connections)
 - [currentIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L89) (1 connections)
 - [historyLength](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L88) (1 connections)
-- [{ 
-    undo, 
-    redo, 
-    canUndo, 
-    canRedo, 
-    getHistoryLength, 
-    getHistoryIndex 
+- [{
+  undo,
+  redo,
+  canUndo,
+  canRedo,
+  getHistoryLength,
+  getHistoryIndex
   }](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L26) (1 connections)
 
 ## Relationships
@@ -35,4 +35,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

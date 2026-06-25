@@ -25,25 +25,28 @@ This sprint addresses critical user experience issues and implements analytics t
 **Location**: `src/components/generate-form/lyrics-wizard/WritingStep.tsx`
 
 **What Changed**:
+
 - Real-time toast notifications during lyrics generation
 - Loading state: "Генерируем {section}... ✨"
 - Success state: "{section} готов! 🎵" with section count
 - Error state: Clear error messages with retry suggestions
 
 **User Benefits**:
+
 - Immediate feedback during generation
 - Know exactly what's happening
 - No need to refresh page
 - Clear error handling
 
 **Example**:
+
 ```typescript
 // Before: Silent generation
 generateSection();
 
 // After: With progress feedback
 const progressToast = toast.loading(`Генерируем ${currentSection.name}... ✨`, {
-  description: 'ИИ создаёт текст с учётом вашей темы и настроения',
+  description: "ИИ создаёт текст с учётом вашей темы и настроения",
 });
 ```
 
@@ -54,6 +57,7 @@ const progressToast = toast.loading(`Генерируем ${currentSection.name}
 **Location**: `src/components/layout/SystemAnnouncement.tsx`
 
 **What Changed**:
+
 - New announcement banner system at top of app
 - Three initial announcements:
   1. **Beta Testing Welcome** - Inform users about beta status
@@ -61,22 +65,24 @@ const progressToast = toast.loading(`Генерируем ${currentSection.name}
   3. **Credit Cap Notice** - Explain 100 credit limit
 
 **Features**:
+
 - LocalStorage-based dismissal (show once)
 - Animated slide-in
 - Color-coded by type (beta/info/warning/success)
 - Mobile-responsive
 
 **Managing Announcements**:
+
 ```typescript
 // Add new announcement in SystemAnnouncement.tsx
 const BETA_ANNOUNCEMENTS: Announcement[] = [
   {
-    id: 'unique-id-here',
-    title: '🎵 Your Title',
-    message: 'Your message text',
-    type: 'info', // or 'beta', 'warning', 'success'
+    id: "unique-id-here",
+    title: "🎵 Your Title",
+    message: "Your message text",
+    type: "info", // or 'beta', 'warning', 'success'
     dismissible: true,
-    expiresAt: new Date('2026-01-01'), // Optional
+    expiresAt: new Date("2026-01-01"), // Optional
   },
 ];
 ```
@@ -88,21 +94,23 @@ const BETA_ANNOUNCEMENTS: Announcement[] = [
 **Location**: `src/hooks/useRewards.ts`
 
 **What Changed**:
+
 - Free users limited to 100 credits maximum balance
 - Admins bypass the limit
 - Smart partial awards when approaching cap
 - Clear notifications about cap status
 
 **Business Logic**:
+
 ```
 If balance >= 100 credits:
   - Block new credit awards
   - Show notification: "Используйте кредиты для получения новых"
-  
+
 If balance + reward > 100:
   - Award partial amount (100 - current balance)
   - Show notification: "Частичное начисление"
-  
+
 If admin:
   - No restrictions
 ```
@@ -116,12 +124,14 @@ If admin:
 **Location**: `src/hooks/useAnalyticsTracking.ts`
 
 **What Changed**:
+
 - Track first generation milestone (localStorage flag)
 - Track days since last visit
 - Enhanced generation events with metadata
 - Session analytics
 
 **Events Tracked**:
+
 ```typescript
 // First generation milestone
 {
@@ -162,6 +172,7 @@ If admin:
 **Location**: `src/pages/admin/AnalyticsDashboard.tsx`
 
 **Features**:
+
 - **Key Metrics Cards**:
   - Total events in period
   - Active users count
@@ -195,20 +206,25 @@ If admin:
 ## 🛠️ Technical Details
 
 ### Database Schema
+
 No new tables required! Uses existing:
+
 - `user_analytics_events` - Event tracking
 - `user_credits` - Credit balances
 - `generation_tasks` - Generation metrics
 - `profiles` - User data
 
 ### Performance Optimizations
+
 1. **Admin Status Caching**: 5-minute staleTime reduces RPC calls by ~95%
 2. **Query Optimization**: Single query with proper indexes
 3. **Removed Duplicate Logic**: Consolidated user return tracking
 4. **Fixed useEffect**: Prevented unnecessary re-executions
 
 ### TypeScript Types
+
 All components fully typed:
+
 ```typescript
 interface UserMetrics {
   userId: string;
@@ -223,7 +239,7 @@ interface Announcement {
   id: string;
   title: string;
   message: string;
-  type: 'info' | 'warning' | 'success' | 'beta';
+  type: "info" | "warning" | "success" | "beta";
   dismissible: boolean;
   expiresAt?: Date;
 }
@@ -234,14 +250,16 @@ interface Announcement {
 ## 📊 Analytics Queries
 
 ### User Behavior Stats
+
 ```sql
 -- Available via RPC: get_user_behavior_stats
 SELECT * FROM get_user_behavior_stats('7 days');
--- Returns: total_events, unique_sessions, unique_users, 
+-- Returns: total_events, unique_sessions, unique_users,
 --          events_by_type, top_pages, hourly_distribution
 ```
 
 ### First Generation Tracking
+
 ```sql
 -- Query first generations
 SELECT user_id, metadata, created_at
@@ -252,6 +270,7 @@ ORDER BY created_at DESC;
 ```
 
 ### User Return Frequency
+
 ```sql
 -- Query returning users
 SELECT user_id, metadata->>'daysSinceLastVisit' as days
@@ -266,6 +285,7 @@ ORDER BY created_at DESC;
 ## 🧪 Testing Checklist
 
 ### AI Lyrics Progress
+
 - [ ] Start lyrics generation
 - [ ] Verify loading toast appears
 - [ ] Check descriptive message shown
@@ -274,6 +294,7 @@ ORDER BY created_at DESC;
 - [ ] Confirm no page refresh needed
 
 ### System Announcements
+
 - [ ] Open app as new user
 - [ ] Verify all 3 announcements show
 - [ ] Dismiss each announcement
@@ -282,6 +303,7 @@ ORDER BY created_at DESC;
 - [ ] Test mobile responsive design
 
 ### Credit Cap
+
 - [ ] Set user balance to 95 credits
 - [ ] Award 10 credits - should get 5 (partial)
 - [ ] Set balance to 100 - award blocked
@@ -289,6 +311,7 @@ ORDER BY created_at DESC;
 - [ ] Check notification messages
 
 ### Analytics Tracking
+
 - [ ] Generate first track as new user
 - [ ] Check `isFirstGeneration` flag in DB
 - [ ] Return after 1+ days
@@ -296,6 +319,7 @@ ORDER BY created_at DESC;
 - [ ] Check generation metadata captured
 
 ### Analytics Dashboard
+
 - [ ] Access `/admin/analytics` as admin
 - [ ] Verify metrics display correctly
 - [ ] Switch time ranges (1h, 24h, 7d, 30d)
@@ -309,6 +333,7 @@ ORDER BY created_at DESC;
 ## 📱 Mobile Considerations
 
 All features are mobile-optimized:
+
 - Announcements: Compact cards with proper spacing
 - Toast notifications: Positioned for mobile visibility
 - Analytics dashboard: Responsive grid layout
@@ -319,13 +344,17 @@ All features are mobile-optimized:
 ## 🚀 Deployment
 
 ### No Migration Required
+
 All features use existing database schema. Safe to deploy immediately.
 
 ### Environment Variables
+
 No new environment variables needed.
 
 ### Rollback Plan
+
 If issues arise:
+
 1. Comment out `<SystemAnnouncement />` in MainLayout
 2. Revert useRewards credit cap logic
 3. Analytics tracking is passive - safe to leave
@@ -365,12 +394,14 @@ Track these metrics after deployment:
 ## 📝 Future Enhancements
 
 ### Short Term
+
 - [ ] Export analytics data to CSV
 - [ ] Add user cohort analysis
 - [ ] Visualization charts (time series)
 - [ ] Announcement management UI
 
 ### Long Term
+
 - [ ] A/B testing framework
 - [ ] Funnel analysis
 - [ ] Retention dashboard
@@ -383,6 +414,7 @@ Track these metrics after deployment:
 **Questions?** Contact the development team.
 
 **Issues?** Create a GitHub issue with:
+
 - Feature name
 - Steps to reproduce
 - Expected vs actual behavior

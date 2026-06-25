@@ -10,55 +10,55 @@ truth for every visual primitive. Source files:
 
 ## Color & surface
 
-| Use                                | CSS variable               | Tailwind class            |
-| ---------------------------------- | -------------------------- | ------------------------- |
-| Page background                    | `--background`             | `bg-background`           |
-| Default text                       | `--foreground`             | `text-foreground`         |
-| Card/container surface 1           | `--surface-1`              | `bg-surface-1`            |
-| Nested surface 2                   | `--surface-2`              | `bg-surface-2`            |
-| Nested surface 3 (inputs, chips)   | `--surface-3`              | `bg-surface-3`            |
-| Muted text                         | `--muted-foreground`       | `text-muted-foreground`   |
-| Primary brand action               | `--primary`                | `bg-primary text-primary-foreground` |
-| Destructive action                 | `--destructive`            | `bg-destructive text-destructive-foreground` |
-| Border                             | `--border`                 | `border-border`           |
-| Focus ring                         | `--ring-focus`             | `ring-[hsl(var(--ring-focus))]` |
-| Overlay scrim (dialogs, sheets)    | `--overlay-scrim`          | `bg-scrim`                |
+| Use                              | CSS variable         | Tailwind class                               |
+| -------------------------------- | -------------------- | -------------------------------------------- |
+| Page background                  | `--background`       | `bg-background`                              |
+| Default text                     | `--foreground`       | `text-foreground`                            |
+| Card/container surface 1         | `--surface-1`        | `bg-surface-1`                               |
+| Nested surface 2                 | `--surface-2`        | `bg-surface-2`                               |
+| Nested surface 3 (inputs, chips) | `--surface-3`        | `bg-surface-3`                               |
+| Muted text                       | `--muted-foreground` | `text-muted-foreground`                      |
+| Primary brand action             | `--primary`          | `bg-primary text-primary-foreground`         |
+| Destructive action               | `--destructive`      | `bg-destructive text-destructive-foreground` |
+| Border                           | `--border`           | `border-border`                              |
+| Focus ring                       | `--ring-focus`       | `ring-[hsl(var(--ring-focus))]`              |
+| Overlay scrim (dialogs, sheets)  | `--overlay-scrim`    | `bg-scrim`                                   |
 
 ## State tokens
 
 Pair the background with its `-foreground` for accessible text contrast.
 
-| State    | BG class                | FG class                          |
-| -------- | ----------------------- | --------------------------------- |
-| Success  | `bg-state-success`      | `text-state-success-foreground`   |
-| Warning  | `bg-state-warning`      | `text-state-warning-foreground`   |
-| Danger   | `bg-state-danger`       | `text-state-danger-foreground`    |
-| Info     | `bg-state-info`         | `text-state-info-foreground`      |
+| State   | BG class           | FG class                        |
+| ------- | ------------------ | ------------------------------- |
+| Success | `bg-state-success` | `text-state-success-foreground` |
+| Warning | `bg-state-warning` | `text-state-warning-foreground` |
+| Danger  | `bg-state-danger`  | `text-state-danger-foreground`  |
+| Info    | `bg-state-info`    | `text-state-info-foreground`    |
 
 ## Spacing & sizing
 
-| Concept                    | Token                           |
-| -------------------------- | ------------------------------- |
-| 4px base grid              | `--space-1 … --space-16`        |
-| Min touch target           | `min-h-touch min-w-touch` (44px) |
-| Comfortable touch target   | `min-h-touch-lg` (48px)         |
-| Large touch target         | `min-h-touch-xl` (56px)         |
+| Concept                    | Token                                                    |
+| -------------------------- | -------------------------------------------------------- |
+| 4px base grid              | `--space-1 … --space-16`                                 |
+| Min touch target           | `min-h-touch min-w-touch` (44px)                         |
+| Comfortable touch target   | `min-h-touch-lg` (48px)                                  |
+| Large touch target         | `min-h-touch-xl` (56px)                                  |
 | Section padding (Tailwind) | `spacingClass.page` / `.section` from `design-tokens.ts` |
 
 ## Motion
 
 CSS aliases used by `src/lib/motion-presets.ts`:
 
-| Token            | Value   | Use                                                    |
-| ---------------- | ------- | ------------------------------------------------------ |
-| `--motion-fast`  | 100ms   | Hover/press micro-interactions, focus rings            |
-| `--motion-base`  | 200ms   | Default UI transitions (enter/exit, color, transform)  |
-| `--motion-slow`  | 300ms   | Sheet/dialog open, route transitions                   |
+| Token           | Value | Use                                                   |
+| --------------- | ----- | ----------------------------------------------------- |
+| `--motion-fast` | 100ms | Hover/press micro-interactions, focus rings           |
+| `--motion-base` | 200ms | Default UI transitions (enter/exit, color, transform) |
+| `--motion-slow` | 300ms | Sheet/dialog open, route transitions                  |
 
 Always import animation variants from `@/lib/motion-presets`:
 
 ```ts
-import { presets, transitions, interactiveTap } from '@/lib/motion-presets';
+import { presets, transitions, interactiveTap } from "@/lib/motion-presets";
 ```
 
 ## Z-index

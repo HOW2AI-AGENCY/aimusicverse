@@ -3,11 +3,11 @@
  * Compact waveform visualization with playback progress
  */
 
-import { useEffect, useRef, useState, memo } from 'react';
-import { Skeleton } from '@/components/ui/skeleton';
-import { cn } from '@/lib/utils';
+import { useEffect, useRef, useState, memo } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
 
-type WaveSurferCtor = typeof import('wavesurfer.js');
+type WaveSurferCtor = typeof import("wavesurfer.js");
 type WaveSurferInstance = any;
 
 interface MiniWaveformProps {
@@ -45,15 +45,15 @@ export const MiniWaveform = memo(function MiniWaveform({
       setIsLoading(true);
       setIsReady(false);
 
-      const mod: WaveSurferCtor = await import('wavesurfer.js');
+      const mod: WaveSurferCtor = await import("wavesurfer.js");
       const WaveSurfer = (mod as any).default ?? (mod as any);
       if (!mounted) return;
 
       const wavesurfer = WaveSurfer.create({
         container: containerRef.current,
         height,
-        waveColor: 'rgba(255, 255, 255, 0.3)',
-        progressColor: 'hsl(var(--primary))',
+        waveColor: "rgba(255, 255, 255, 0.3)",
+        progressColor: "hsl(var(--primary))",
         barWidth: 2,
         barGap: 1,
         barRadius: 2,
@@ -66,18 +66,18 @@ export const MiniWaveform = memo(function MiniWaveform({
 
       wavesurferRef.current = wavesurfer;
 
-      wavesurfer.on('ready', () => {
+      wavesurfer.on("ready", () => {
         if (!mounted) return;
         setIsReady(true);
         setIsLoading(false);
       });
 
-      wavesurfer.on('error', () => {
+      wavesurfer.on("error", () => {
         if (!mounted) return;
         setIsLoading(false);
       });
 
-      wavesurfer.on('click', (relativeX: number) => {
+      wavesurfer.on("click", (relativeX: number) => {
         if (onSeek && duration > 0) {
           const seekTime = relativeX * duration;
           lastSeekRef.current = seekTime;
@@ -104,7 +104,7 @@ export const MiniWaveform = memo(function MiniWaveform({
   // Sync progress with external currentTime
   useEffect(() => {
     if (!wavesurferRef.current || !isReady || duration <= 0) return;
-    
+
     // Avoid updating if we just sought
     const timeSinceSeek = Math.abs(currentTime - lastSeekRef.current);
     if (timeSinceSeek < 0.1) return;
@@ -115,15 +115,10 @@ export const MiniWaveform = memo(function MiniWaveform({
 
   return (
     <div className={cn("relative w-full", className)}>
-      {isLoading && (
-        <Skeleton className="absolute inset-0 rounded" style={{ height }} />
-      )}
+      {isLoading && <Skeleton className="absolute inset-0 rounded" style={{ height }} />}
       <div
         ref={containerRef}
-        className={cn(
-          "w-full transition-opacity cursor-pointer",
-          isLoading ? "opacity-0" : "opacity-100"
-        )}
+        className={cn("w-full transition-opacity cursor-pointer", isLoading ? "opacity-0" : "opacity-100")}
         style={{ height }}
       />
     </div>

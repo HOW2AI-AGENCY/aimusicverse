@@ -8,15 +8,15 @@
 - [handleApply](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartAssistantPanel.tsx#L61) (1 connections)
 - [handleRefresh](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartAssistantPanel.tsx#L65) (1 connections)
 - [{
-    suggestions,
-    userContext,
-    isAnalyzing,
-    lastAnalyzedAt,
-    error,
-    analyze,
-    dismissSuggestion,
-    setProjectContext,
-    hasContext,
+  suggestions,
+  userContext,
+  isAnalyzing,
+  lastAnalyzedAt,
+  error,
+  analyze,
+  dismissSuggestion,
+  setProjectContext,
+  hasContext,
   }](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartAssistantPanel.tsx#L44) (1 connections)
 
 ## Relationships
@@ -35,4 +35,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

@@ -3,15 +3,15 @@
  * Color-coded to show balance status
  */
 
-import { useState, memo } from 'react';
-import { motion } from '@/lib/motion';
-import { Coins, TrendingDown, TrendingUp, Wallet } from 'lucide-react';
-import { useUserCredits } from '@/hooks/useUserCredits';
-import { useCreditsLimits } from '@/hooks/useCreditsLimits';
-import { useTelegram } from '@/contexts/TelegramContext';
-import { SubscriptionUpgradePopup } from '@/components/popups/SubscriptionUpgradePopup';
-import { Skeleton } from '@/components/ui/skeleton';
-import { cn } from '@/lib/utils';
+import { useState, memo } from "react";
+import { motion } from "@/lib/motion";
+import { Coins, TrendingDown, TrendingUp, Wallet } from "lucide-react";
+import { useUserCredits } from "@/hooks/useUserCredits";
+import { useCreditsLimits } from "@/hooks/useCreditsLimits";
+import { useTelegram } from "@/contexts/TelegramContext";
+import { SubscriptionUpgradePopup } from "@/components/popups/SubscriptionUpgradePopup";
+import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
 
 interface BalanceIndicatorProps {
   /** Show only icon in compact mode */
@@ -20,10 +20,7 @@ interface BalanceIndicatorProps {
   className?: string;
 }
 
-export const BalanceIndicator = memo(function BalanceIndicator({
-  compact = false,
-  className,
-}: BalanceIndicatorProps) {
+export const BalanceIndicator = memo(function BalanceIndicator({ compact = false, className }: BalanceIndicatorProps) {
   const { balance, isLoading, isAdmin, apiBalance } = useUserCredits();
   const { isFreeUser, isBalanceLimitReached } = useCreditsLimits();
   const { hapticFeedback } = useTelegram();
@@ -34,7 +31,7 @@ export const BalanceIndicator = memo(function BalanceIndicator({
 
   const handleClick = () => {
     if (isAdmin) return; // Admins don't need to buy
-    hapticFeedback?.('light');
+    hapticFeedback?.("light");
     setIsPopupOpen(true);
   };
 
@@ -42,40 +39,40 @@ export const BalanceIndicator = memo(function BalanceIndicator({
   const getBalanceStatus = () => {
     if (isAdmin) {
       return {
-        color: 'text-blue-500',
-        bgColor: 'bg-blue-500/10',
-        borderColor: 'border-blue-500/30',
+        color: "text-blue-500",
+        bgColor: "bg-blue-500/10",
+        borderColor: "border-blue-500/30",
         icon: Wallet,
-        label: 'API',
+        label: "API",
       };
     }
-    
+
     if (displayBalance >= 50) {
       return {
-        color: 'text-emerald-500',
-        bgColor: 'bg-emerald-500/10',
-        borderColor: 'border-emerald-500/30',
+        color: "text-emerald-500",
+        bgColor: "bg-emerald-500/10",
+        borderColor: "border-emerald-500/30",
         icon: TrendingUp,
-        label: 'Хорошо',
+        label: "Хорошо",
       };
     }
-    
+
     if (displayBalance >= 20) {
       return {
-        color: 'text-amber-500',
-        bgColor: 'bg-amber-500/10',
-        borderColor: 'border-amber-500/30',
+        color: "text-amber-500",
+        bgColor: "bg-amber-500/10",
+        borderColor: "border-amber-500/30",
         icon: Coins,
-        label: 'Мало',
+        label: "Мало",
       };
     }
-    
+
     return {
-      color: 'text-destructive',
-      bgColor: 'bg-destructive/10',
-      borderColor: 'border-destructive/30',
+      color: "text-destructive",
+      bgColor: "bg-destructive/10",
+      borderColor: "border-destructive/30",
       icon: TrendingDown,
-      label: 'Критично',
+      label: "Критично",
     };
   };
 
@@ -83,9 +80,7 @@ export const BalanceIndicator = memo(function BalanceIndicator({
   const Icon = status.icon;
 
   if (isLoading) {
-    return (
-      <Skeleton className={cn("h-8 w-16 rounded-full", className)} />
-    );
+    return <Skeleton className={cn("h-8 w-16 rounded-full", className)} />;
   }
 
   return (
@@ -100,30 +95,30 @@ export const BalanceIndicator = memo(function BalanceIndicator({
           status.borderColor,
           !isAdmin && "hover:scale-105 active:scale-95 cursor-pointer",
           isAdmin && "cursor-default",
-          className
+          className,
         )}
         whileTap={!isAdmin ? { scale: 0.95 } : undefined}
       >
         <motion.div
-          animate={displayBalance < 20 && !isAdmin ? { 
-            scale: [1, 1.2, 1],
-          } : undefined}
+          animate={
+            displayBalance < 20 && !isAdmin
+              ? {
+                  scale: [1, 1.2, 1],
+                }
+              : undefined
+          }
           transition={{ duration: 1.5, repeat: Infinity }}
         >
           <Icon className={cn("w-4 h-4", status.color)} />
         </motion.div>
-        
+
         {!compact && (
-          <span className={cn("text-sm font-bold tabular-nums", status.color)}>
-            {displayBalance.toLocaleString()}
-          </span>
+          <span className={cn("text-sm font-bold tabular-nums", status.color)}>{displayBalance.toLocaleString()}</span>
         )}
 
         {/* Balance limit badge for free users */}
         {isFreeUser && isBalanceLimitReached && !compact && (
-          <span className="text-[10px] px-1 py-0.5 rounded bg-amber-500/20 text-amber-500 font-medium">
-            MAX
-          </span>
+          <span className="text-[10px] px-1 py-0.5 rounded bg-amber-500/20 text-amber-500 font-medium">MAX</span>
         )}
       </motion.button>
 
@@ -131,7 +126,7 @@ export const BalanceIndicator = memo(function BalanceIndicator({
       <SubscriptionUpgradePopup
         open={isPopupOpen}
         onClose={() => setIsPopupOpen(false)}
-        reason={isFreeUser && isBalanceLimitReached ? 'balance_limit' : 'general'}
+        reason={isFreeUser && isBalanceLimitReached ? "balance_limit" : "general"}
       />
     </>
   );

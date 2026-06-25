@@ -10,17 +10,17 @@
 - [handleVolumeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMixerPanel.tsx#L122) (1 connections)
 - [masterVolume](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMixerPanel.tsx#L53) (1 connections)
 - [{
-    project,
-    selectedTrackId,
-    selectTrack,
-    setMasterVolume,
+  project,
+  selectedTrackId,
+  selectTrack,
+  setMasterVolume,
   }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMixerPanel.tsx#L38) (1 connections)
 - [{
-    setTrackVolume,
-    setTrackPan,
-    toggleTrackMute,
-    toggleTrackSolo,
-    removeTrack,
+  setTrackVolume,
+  setTrackPan,
+  toggleTrackMute,
+  toggleTrackSolo,
+  removeTrack,
   }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMixerPanel.tsx#L114) (1 connections)
 
 ## Relationships
@@ -39,4 +39,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

@@ -3,68 +3,68 @@
  * Business logic for music project operations
  */
 
-import * as projectsApi from '@/api/projects.api';
+import * as projectsApi from "@/api/projects.api";
 
-export type { ProjectRow, ProjectTrackRow } from '@/api/projects.api';
+export type { ProjectRow, ProjectTrackRow } from "@/api/projects.api";
 
-export type ProjectType = 'single' | 'ep' | 'album' | 'ost' | 'background_music' | 'jingle' | 'compilation' | 'mixtape';
+export type ProjectType = "single" | "ep" | "album" | "ost" | "background_music" | "jingle" | "compilation" | "mixtape";
 
 export const PROJECT_TYPES: Record<ProjectType, { label: string; description: string; trackCount: string }> = {
-  single: { label: 'Сингл', description: '1-2 трека', trackCount: '1-2' },
-  ep: { label: 'EP', description: '3-6 треков', trackCount: '3-6' },
-  album: { label: 'Альбом', description: '7-15+ треков', trackCount: '7-15' },
-  ost: { label: 'Саундтрек', description: 'Музыка для видео/игр', trackCount: '5-20' },
-  background_music: { label: 'Фоновая музыка', description: 'Ambient, лаунж', trackCount: '5-10' },
-  jingle: { label: 'Джингл', description: 'Короткий рекламный трек', trackCount: '1-3' },
-  compilation: { label: 'Компиляция', description: 'Сборник треков', trackCount: '10-20' },
-  mixtape: { label: 'Микстейп', description: 'Свободный формат', trackCount: '5-15' },
+  single: { label: "Сингл", description: "1-2 трека", trackCount: "1-2" },
+  ep: { label: "EP", description: "3-6 треков", trackCount: "3-6" },
+  album: { label: "Альбом", description: "7-15+ треков", trackCount: "7-15" },
+  ost: { label: "Саундтрек", description: "Музыка для видео/игр", trackCount: "5-20" },
+  background_music: { label: "Фоновая музыка", description: "Ambient, лаунж", trackCount: "5-10" },
+  jingle: { label: "Джингл", description: "Короткий рекламный трек", trackCount: "1-3" },
+  compilation: { label: "Компиляция", description: "Сборник треков", trackCount: "10-20" },
+  mixtape: { label: "Микстейп", description: "Свободный формат", trackCount: "5-15" },
 };
 
 // Visual Style Types
-export type ImageStyle = 
-  | 'photorealistic' 
-  | 'illustration' 
-  | '3d_render' 
-  | 'anime' 
-  | 'abstract' 
-  | 'minimalist' 
-  | 'vintage' 
-  | 'cyberpunk' 
-  | 'watercolor' 
-  | 'oil_painting';
+export type ImageStyle =
+  | "photorealistic"
+  | "illustration"
+  | "3d_render"
+  | "anime"
+  | "abstract"
+  | "minimalist"
+  | "vintage"
+  | "cyberpunk"
+  | "watercolor"
+  | "oil_painting";
 
 export const IMAGE_STYLES: Record<ImageStyle, { label: string; description: string }> = {
-  photorealistic: { label: 'Фотореализм', description: 'Реалистичные изображения' },
-  illustration: { label: 'Иллюстрация', description: 'Художественные иллюстрации' },
-  '3d_render': { label: '3D Рендер', description: '3D графика и рендеры' },
-  anime: { label: 'Аниме', description: 'Японский стиль аниме' },
-  abstract: { label: 'Абстракция', description: 'Абстрактное искусство' },
-  minimalist: { label: 'Минимализм', description: 'Простые чистые формы' },
-  vintage: { label: 'Винтаж', description: 'Ретро эстетика' },
-  cyberpunk: { label: 'Киберпанк', description: 'Неоновое будущее' },
-  watercolor: { label: 'Акварель', description: 'Акварельная живопись' },
-  oil_painting: { label: 'Масло', description: 'Масляная живопись' },
+  photorealistic: { label: "Фотореализм", description: "Реалистичные изображения" },
+  illustration: { label: "Иллюстрация", description: "Художественные иллюстрации" },
+  "3d_render": { label: "3D Рендер", description: "3D графика и рендеры" },
+  anime: { label: "Аниме", description: "Японский стиль аниме" },
+  abstract: { label: "Абстракция", description: "Абстрактное искусство" },
+  minimalist: { label: "Минимализм", description: "Простые чистые формы" },
+  vintage: { label: "Винтаж", description: "Ретро эстетика" },
+  cyberpunk: { label: "Киберпанк", description: "Неоновое будущее" },
+  watercolor: { label: "Акварель", description: "Акварельная живопись" },
+  oil_painting: { label: "Масло", description: "Масляная живопись" },
 };
 
-export type TypographyStyle = 
-  | 'modern' 
-  | 'classic' 
-  | 'handwritten' 
-  | 'bold' 
-  | 'minimal' 
-  | 'grunge' 
-  | 'elegant' 
-  | 'retro';
+export type TypographyStyle =
+  | "modern"
+  | "classic"
+  | "handwritten"
+  | "bold"
+  | "minimal"
+  | "grunge"
+  | "elegant"
+  | "retro";
 
 export const TYPOGRAPHY_STYLES: Record<TypographyStyle, { label: string; description: string }> = {
-  modern: { label: 'Современный', description: 'Чистые sans-serif шрифты' },
-  classic: { label: 'Классический', description: 'Традиционные serif шрифты' },
-  handwritten: { label: 'Рукописный', description: 'Каллиграфия и рукопись' },
-  bold: { label: 'Жирный', description: 'Крупные заголовки' },
-  minimal: { label: 'Минималистичный', description: 'Тонкие линии' },
-  grunge: { label: 'Гранж', description: 'Текстурные и грязные' },
-  elegant: { label: 'Элегантный', description: 'Изысканные шрифты' },
-  retro: { label: 'Ретро', description: 'Винтажная типографика' },
+  modern: { label: "Современный", description: "Чистые sans-serif шрифты" },
+  classic: { label: "Классический", description: "Традиционные serif шрифты" },
+  handwritten: { label: "Рукописный", description: "Каллиграфия и рукопись" },
+  bold: { label: "Жирный", description: "Крупные заголовки" },
+  minimal: { label: "Минималистичный", description: "Тонкие линии" },
+  grunge: { label: "Гранж", description: "Текстурные и грязные" },
+  elegant: { label: "Элегантный", description: "Изысканные шрифты" },
+  retro: { label: "Ретро", description: "Винтажная типографика" },
 };
 
 export interface ColorPalette {
@@ -83,25 +83,17 @@ export interface VisualStyle {
 }
 
 // Track Parameter Types
-export type VocalStyle = 
-  | 'soft' 
-  | 'powerful' 
-  | 'raspy' 
-  | 'smooth' 
-  | 'emotional' 
-  | 'robotic' 
-  | 'whisper' 
-  | 'operatic';
+export type VocalStyle = "soft" | "powerful" | "raspy" | "smooth" | "emotional" | "robotic" | "whisper" | "operatic";
 
 export const VOCAL_STYLES: Record<VocalStyle, { label: string; description: string }> = {
-  soft: { label: 'Мягкий', description: 'Нежный и спокойный вокал' },
-  powerful: { label: 'Мощный', description: 'Сильный и громкий вокал' },
-  raspy: { label: 'Хриплый', description: 'Грубый с хрипотцой' },
-  smooth: { label: 'Гладкий', description: 'Плавный R&B стиль' },
-  emotional: { label: 'Эмоциональный', description: 'Экспрессивный и чувственный' },
-  robotic: { label: 'Роботизированный', description: 'Вокодер/автотюн эффект' },
-  whisper: { label: 'Шёпот', description: 'Тихий интимный вокал' },
-  operatic: { label: 'Оперный', description: 'Классический оперный стиль' },
+  soft: { label: "Мягкий", description: "Нежный и спокойный вокал" },
+  powerful: { label: "Мощный", description: "Сильный и громкий вокал" },
+  raspy: { label: "Хриплый", description: "Грубый с хрипотцой" },
+  smooth: { label: "Гладкий", description: "Плавный R&B стиль" },
+  emotional: { label: "Эмоциональный", description: "Экспрессивный и чувственный" },
+  robotic: { label: "Роботизированный", description: "Вокодер/автотюн эффект" },
+  whisper: { label: "Шёпот", description: "Тихий интимный вокал" },
+  operatic: { label: "Оперный", description: "Классический оперный стиль" },
 };
 
 export interface TrackParams {
@@ -126,11 +118,11 @@ export async function createProject(
     mood?: string;
     description?: string;
     visualStyle?: VisualStyle;
-  }
+  },
 ): Promise<projectsApi.ProjectRow> {
   // Check premium status for default visibility
   const isPremium = await projectsApi.checkPremiumStatus(userId);
-  
+
   return projectsApi.createProject({
     user_id: userId,
     title,
@@ -150,10 +142,7 @@ export async function createProject(
 /**
  * Update project visual style
  */
-export async function updateVisualStyle(
-  projectId: string,
-  visualStyle: VisualStyle
-): Promise<projectsApi.ProjectRow> {
+export async function updateVisualStyle(projectId: string, visualStyle: VisualStyle): Promise<projectsApi.ProjectRow> {
   return projectsApi.updateProject(projectId, {
     image_style: visualStyle.imageStyle || null,
     typography_style: visualStyle.typographyStyle || null,
@@ -196,8 +185,8 @@ export async function getProjectProgress(projectId: string): Promise<{
 }> {
   const tracks = await projectsApi.fetchProjectTracks(projectId);
   const totalTracks = tracks.length;
-  const completedTracks = tracks.filter(t => t.track_id !== null).length;
+  const completedTracks = tracks.filter((t) => t.track_id !== null).length;
   const progressPercent = totalTracks > 0 ? Math.round((completedTracks / totalTracks) * 100) : 0;
-  
+
   return { totalTracks, completedTracks, progressPercent };
 }

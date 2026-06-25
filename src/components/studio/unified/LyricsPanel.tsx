@@ -37,8 +37,8 @@
  * ```
  */
 
-import { memo, useState, useCallback, useEffect, useMemo } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
+import { memo, useState, useCallback, useEffect, useMemo } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
 import {
   FileText,
   History,
@@ -53,27 +53,23 @@ import {
   BookOpen,
   Hash,
   Clock,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Sheet, SheetContent } from '@/components/ui/sheet';
-import { toast } from 'sonner';
-import { useTelegram } from '@/contexts/TelegramContext';
-import { useAuth } from '@/hooks/useAuth';
-import {
-  useLyricVersions,
-  useCreateLyricVersion,
-  useRestoreLyricVersion,
-} from '@/hooks/useLyricVersions';
-import { useSectionNotes } from '@/hooks/useSectionNotes';
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Sheet, SheetContent } from "@/components/ui/sheet";
+import { toast } from "sonner";
+import { useTelegram } from "@/contexts/TelegramContext";
+import { useAuth } from "@/hooks/useAuth";
+import { useLyricVersions, useCreateLyricVersion, useRestoreLyricVersion } from "@/hooks/useLyricVersions";
+import { useSectionNotes } from "@/hooks/useSectionNotes";
 import {
   getLyricsStatistics,
   formatLyricsForDisplay,
   type FormattedLyrics,
   type LyricsSection,
-} from '@/services/lyrics/lyrics-formatting.service';
-import { logger } from '@/lib/logger';
+} from "@/services/lyrics/lyrics-formatting.service";
+import { logger } from "@/lib/logger";
 
 // ============================================================================
 // TYPES
@@ -92,7 +88,7 @@ interface LyricsPanelProps {
   onLyricsSaved?: (content: string) => void;
 }
 
-type ViewMode = 'editor' | 'history' | 'notes';
+type ViewMode = "editor" | "history" | "notes";
 
 interface LyricsStats {
   wordCount: number;
@@ -135,16 +131,16 @@ const PanelHeader = memo(function PanelHeader({
         <Button
           variant="ghost"
           size="icon"
-          onClick={() => onViewModeChange('history')}
-          className={`h-9 w-9 ${viewMode === 'history' ? 'bg-accent' : ''}`}
+          onClick={() => onViewModeChange("history")}
+          className={`h-9 w-9 ${viewMode === "history" ? "bg-accent" : ""}`}
         >
           <History className="w-4 h-4" />
         </Button>
         <Button
           variant="ghost"
           size="icon"
-          onClick={() => onViewModeChange('notes')}
-          className={`h-9 w-9 ${viewMode === 'notes' ? 'bg-accent' : ''}`}
+          onClick={() => onViewModeChange("notes")}
+          className={`h-9 w-9 ${viewMode === "notes" ? "bg-accent" : ""}`}
         >
           <MessageSquare className="w-4 h-4" />
         </Button>
@@ -168,27 +164,27 @@ const SectionMarkers = memo(function SectionMarkers({
 }) {
   if (sections.length === 0) return null;
 
-  const getSectionIcon = (type: LyricsSection['type']) => {
+  const getSectionIcon = (type: LyricsSection["type"]) => {
     switch (type) {
-      case 'verse':
+      case "verse":
         return <BookOpen className="w-3.5 h-3.5" />;
-      case 'chorus':
+      case "chorus":
         return <Sparkles className="w-3.5 h-3.5" />;
       default:
         return <Hash className="w-3.5 h-3.5" />;
     }
   };
 
-  const getSectionColor = (type: LyricsSection['type']) => {
+  const getSectionColor = (type: LyricsSection["type"]) => {
     switch (type) {
-      case 'verse':
-        return 'text-blue-500 bg-blue-500/10';
-      case 'chorus':
-        return 'text-purple-500 bg-purple-500/10';
-      case 'bridge':
-        return 'text-amber-500 bg-amber-500/10';
+      case "verse":
+        return "text-blue-500 bg-blue-500/10";
+      case "chorus":
+        return "text-purple-500 bg-purple-500/10";
+      case "bridge":
+        return "text-amber-500 bg-amber-500/10";
       default:
-        return 'text-muted-foreground bg-muted/50';
+        return "text-muted-foreground bg-muted/50";
     }
   };
 
@@ -202,7 +198,7 @@ const SectionMarkers = memo(function SectionMarkers({
             whileTap={{ scale: 0.95 }}
             onClick={() => onSectionClick(section)}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 transition-colors ${getSectionColor(
-              section.type
+              section.type,
             )}`}
           >
             {getSectionIcon(section.type)}
@@ -224,7 +220,13 @@ const VersionHistoryView = memo(function VersionHistoryView({
   isRestoring,
   onClose,
 }: {
-  versions: Array<{ id: string; versionNumber: number; content: string; createdAt: string; author?: { username: string } }>;
+  versions: Array<{
+    id: string;
+    versionNumber: number;
+    content: string;
+    createdAt: string;
+    author?: { username: string };
+  }>;
   onRestore: (versionId: string) => void;
   isRestoring: boolean;
   onClose: () => void;
@@ -247,11 +249,11 @@ const VersionHistoryView = memo(function VersionHistoryView({
                 <div>
                   <p className="text-sm font-medium">Версия {version.versionNumber}</p>
                   <p className="text-xs text-muted-foreground">
-                    {new Date(version.createdAt).toLocaleDateString('ru-RU', {
-                      day: 'numeric',
-                      month: 'short',
-                      hour: '2-digit',
-                      minute: '2-digit',
+                    {new Date(version.createdAt).toLocaleDateString("ru-RU", {
+                      day: "numeric",
+                      month: "short",
+                      hour: "2-digit",
+                      minute: "2-digit",
                     })}
                   </p>
                 </div>
@@ -274,9 +276,7 @@ const VersionHistoryView = memo(function VersionHistoryView({
               </Button>
             </div>
             <div className="bg-muted/50 rounded p-2.5 max-h-24 overflow-y-auto">
-              <p className="text-xs text-muted-foreground line-clamp-4 whitespace-pre-wrap">
-                {version.content}
-              </p>
+              <p className="text-xs text-muted-foreground line-clamp-4 whitespace-pre-wrap">{version.content}</p>
             </div>
           </motion.div>
         ))}
@@ -298,11 +298,11 @@ const SectionNotesView = memo(function SectionNotesView({
   // Mock implementation - integrate with useSectionNotes when ready
   const notes = [
     {
-      id: '1',
-      content: 'Добавить бэк-вокал в припев',
-      author: { username: 'Вы' },
+      id: "1",
+      content: "Добавить бэк-вокал в припев",
+      author: { username: "Вы" },
       createdAt: new Date(Date.now() - 3600000).toISOString(),
-      noteType: 'production',
+      noteType: "production",
       isResolved: false,
     },
   ];
@@ -322,9 +322,7 @@ const SectionNotesView = memo(function SectionNotesView({
           <div className="text-center py-8">
             <MessageSquare className="w-10 h-10 text-muted-foreground/50 mx-auto mb-2" />
             <p className="text-sm text-muted-foreground">Нет заметок</p>
-            <p className="text-xs text-muted-foreground mt-1">
-              Добавьте заметки к секциям текста
-            </p>
+            <p className="text-xs text-muted-foreground mt-1">Добавьте заметки к секциям текста</p>
           </div>
         ) : (
           notes.map((note) => (
@@ -342,11 +340,11 @@ const SectionNotesView = memo(function SectionNotesView({
                   <div>
                     <p className="text-sm font-medium">{note.author.username}</p>
                     <p className="text-xs text-muted-foreground">
-                      {new Date(note.createdAt).toLocaleDateString('ru-RU', {
-                        day: 'numeric',
-                        month: 'short',
-                        hour: '2-digit',
-                        minute: '2-digit',
+                      {new Date(note.createdAt).toLocaleDateString("ru-RU", {
+                        day: "numeric",
+                        month: "short",
+                        hour: "2-digit",
+                        minute: "2-digit",
                       })}
                     </p>
                   </div>
@@ -368,7 +366,7 @@ const SectionNotesView = memo(function SectionNotesView({
 
 export const LyricsPanel = memo(function LyricsPanel({
   trackId,
-  initialLyrics = '',
+  initialLyrics = "",
   isOpen,
   onClose,
   onLyricsSaved,
@@ -378,7 +376,7 @@ export const LyricsPanel = memo(function LyricsPanel({
 
   // State
   const [lyrics, setLyrics] = useState(initialLyrics);
-  const [viewMode, setViewMode] = useState<ViewMode>('editor');
+  const [viewMode, setViewMode] = useState<ViewMode>("editor");
   const [isSaving, setIsSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [selectedSectionIndex, setSelectedSectionIndex] = useState<number>(-1);
@@ -414,11 +412,11 @@ export const LyricsPanel = memo(function LyricsPanel({
   // Handle save lyrics
   const handleSave = useCallback(async () => {
     if (!user?.id) {
-      toast.error('Не авторизован');
+      toast.error("Не авторизован");
       return;
     }
 
-    hapticFeedback('success');
+    hapticFeedback("success");
     setIsSaving(true);
 
     try {
@@ -427,23 +425,23 @@ export const LyricsPanel = memo(function LyricsPanel({
           trackId,
           request: {
             content: lyrics,
-            changeType: 'manual_edit',
-            changeSummary: 'Изменено через панель текста',
+            changeType: "manual_edit",
+            changeSummary: "Изменено через панель текста",
           },
         },
         {
           onSuccess: () => {
             setLastSaved(new Date());
             onLyricsSaved?.(lyrics);
-            toast.success('Текст сохранён', {
+            toast.success("Текст сохранён", {
               description: `${stats.wordCount} слов, ${stats.sectionCount} секций`,
             });
           },
-        }
+        },
       );
     } catch (error) {
-      logger.error('Failed to save lyrics', error);
-      toast.error('Не удалось сохранить текст');
+      logger.error("Failed to save lyrics", error);
+      toast.error("Не удалось сохранить текст");
     } finally {
       setIsSaving(false);
     }
@@ -452,31 +450,31 @@ export const LyricsPanel = memo(function LyricsPanel({
   // Handle restore version
   const handleRestoreVersion = useCallback(
     async (versionId: string) => {
-      hapticFeedback('medium');
+      hapticFeedback("medium");
       try {
         const result = await restoreVersion(versionId);
         setLyrics(result.restoredVersion.content);
-        toast.success('Версия восстановлена', {
+        toast.success("Версия восстановлена", {
           description: `Версия ${result.restoredVersion.versionNumber}`,
         });
-        setViewMode('editor');
+        setViewMode("editor");
       } catch (error) {
-        logger.error('Failed to restore version', error);
-        toast.error('Не удалось восстановить версию');
+        logger.error("Failed to restore version", error);
+        toast.error("Не удалось восстановить версию");
       }
     },
-    [restoreVersion, hapticFeedback]
+    [restoreVersion, hapticFeedback],
   );
 
   // Handle section marker click
   const handleSectionClick = useCallback(
     (section: LyricsSection) => {
-      hapticFeedback('selection');
-      const lines = lyrics.split('\n');
+      hapticFeedback("selection");
+      const lines = lyrics.split("\n");
       const targetLine = lines[section.startIndex];
 
       // Scroll to section in textarea
-      const textarea = document.querySelector('textarea[data-lyrics-editor]');
+      const textarea = document.querySelector("textarea[data-lyrics-editor]");
       if (textarea) {
         const lineHeight = 24; // Approximate line height
         const scrollTop = section.startIndex * lineHeight;
@@ -485,49 +483,37 @@ export const LyricsPanel = memo(function LyricsPanel({
 
       setSelectedSectionIndex(section.startIndex);
     },
-    [lyrics, hapticFeedback]
+    [lyrics, hapticFeedback],
   );
 
   // Handle AI assistant
   const handleAIAssistant = useCallback(() => {
-    hapticFeedback('light');
-    toast.info('AI-ассистент в разработке', {
-      description: 'Скоро сможете улучшать текст с помощью ИИ',
+    hapticFeedback("light");
+    toast.info("AI-ассистент в разработке", {
+      description: "Скоро сможете улучшать текст с помощью ИИ",
     });
   }, [hapticFeedback]);
 
   // Handle textarea change with auto-resize
-  const handleTextareaChange = useCallback(
-    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      const value = e.target.value;
-      setLyrics(value);
+  const handleTextareaChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const value = e.target.value;
+    setLyrics(value);
 
-      // Auto-resize textarea
-      const textarea = e.target;
-      textarea.style.height = 'auto';
-      textarea.style.height = `${textarea.scrollHeight}px`;
-    },
-    []
-  );
+    // Auto-resize textarea
+    const textarea = e.target;
+    textarea.style.height = "auto";
+    textarea.style.height = `${textarea.scrollHeight}px`;
+  }, []);
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
-      <SheetContent
-        side="bottom"
-        className="h-[90dvh] rounded-t-2xl p-0 gap-0"
-        hideCloseButton
-      >
+      <SheetContent side="bottom" className="h-[90dvh] rounded-t-2xl p-0 gap-0" hideCloseButton>
         {/* Header */}
-        <PanelHeader
-          stats={stats}
-          viewMode={viewMode}
-          onViewModeChange={setViewMode}
-          onClose={onClose}
-        />
+        <PanelHeader stats={stats} viewMode={viewMode} onViewModeChange={setViewMode} onClose={onClose} />
 
         {/* Content */}
         <AnimatePresence mode="wait">
-          {viewMode === 'editor' && (
+          {viewMode === "editor" && (
             <motion.div
               key="editor"
               initial={{ opacity: 0, y: 20 }}
@@ -536,10 +522,7 @@ export const LyricsPanel = memo(function LyricsPanel({
               className="flex flex-col h-full"
             >
               {/* Section Markers */}
-              <SectionMarkers
-                sections={formattedLyrics.sections}
-                onSectionClick={handleSectionClick}
-              />
+              <SectionMarkers sections={formattedLyrics.sections} onSectionClick={handleSectionClick} />
 
               {/* Textarea */}
               <div className="flex-1 px-4 py-3">
@@ -550,19 +533,14 @@ export const LyricsPanel = memo(function LyricsPanel({
                   placeholder="[Verse 1]&#10;&#10;Введите текст песни здесь...&#10;&#10;Используйте разметку секций: [Verse], [Chorus], [Bridge], [Outro]"
                   className="w-full min-h-full resize-none border-0 focus-visible:ring-0 text-sm leading-relaxed p-0"
                   style={{
-                    fieldSizing: 'content',
+                    fieldSizing: "content",
                   }}
                 />
               </div>
 
               {/* Action Bar */}
               <div className="flex items-center gap-2 px-4 py-3 border-t border-border/30 bg-muted/30 safe-bottom">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleAIAssistant}
-                  className="flex-1 h-11"
-                >
+                <Button variant="outline" size="sm" onClick={handleAIAssistant} className="flex-1 h-11">
                   <Sparkles className="w-4 h-4 mr-2" />
                   AI-ассистент
                 </Button>
@@ -596,9 +574,10 @@ export const LyricsPanel = memo(function LyricsPanel({
                 >
                   <p className="text-xs text-muted-foreground flex items-center justify-center gap-1">
                     <Clock className="w-3 h-3" />
-                    Сохранено {lastSaved.toLocaleTimeString('ru-RU', {
-                      hour: '2-digit',
-                      minute: '2-digit',
+                    Сохранено{" "}
+                    {lastSaved.toLocaleTimeString("ru-RU", {
+                      hour: "2-digit",
+                      minute: "2-digit",
                     })}
                   </p>
                 </motion.div>
@@ -606,7 +585,7 @@ export const LyricsPanel = memo(function LyricsPanel({
             </motion.div>
           )}
 
-          {viewMode === 'history' && (
+          {viewMode === "history" && (
             <motion.div
               key="history"
               initial={{ opacity: 0, y: 20 }}
@@ -623,13 +602,13 @@ export const LyricsPanel = memo(function LyricsPanel({
                   versions={versionsData?.versions || []}
                   onRestore={handleRestoreVersion}
                   isRestoring={isRestoring}
-                  onClose={() => setViewMode('editor')}
+                  onClose={() => setViewMode("editor")}
                 />
               )}
             </motion.div>
           )}
 
-          {viewMode === 'notes' && (
+          {viewMode === "notes" && (
             <motion.div
               key="notes"
               initial={{ opacity: 0, y: 20 }}
@@ -637,7 +616,7 @@ export const LyricsPanel = memo(function LyricsPanel({
               exit={{ opacity: 0, y: -20 }}
               className="flex flex-col h-full"
             >
-              <SectionNotesView trackId={trackId} onClose={() => setViewMode('editor')} />
+              <SectionNotesView trackId={trackId} onClose={() => setViewMode("editor")} />
             </motion.div>
           )}
         </AnimatePresence>

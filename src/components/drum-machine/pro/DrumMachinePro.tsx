@@ -1,22 +1,19 @@
-import React, { memo, useState, useCallback, useEffect } from 'react';
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import { 
-  Grid3X3, ListMusic, Download, Send, Music, Mic,
-  Layers, Sparkles
-} from 'lucide-react';
-import { useDrumMachine } from '@/hooks/useDrumMachine';
-import { TransportBar } from './TransportBar';
-import { DrumPadsPro } from './DrumPadsPro';
-import { SequencerPro } from './SequencerPro';
-import { KitSelectorPro } from './KitSelectorPro';
-import { PatternBrowser } from './PatternBrowser';
-import { DrumStepLengthSelector } from '../DrumStepLengthSelector';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'sonner';
-import { ReferenceManager } from '@/services/audio-reference';
+import React, { memo, useState, useCallback, useEffect } from "react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Grid3X3, ListMusic, Download, Send, Music, Mic, Layers, Sparkles } from "lucide-react";
+import { useDrumMachine } from "@/hooks/useDrumMachine";
+import { TransportBar } from "./TransportBar";
+import { DrumPadsPro } from "./DrumPadsPro";
+import { SequencerPro } from "./SequencerPro";
+import { KitSelectorPro } from "./KitSelectorPro";
+import { PatternBrowser } from "./PatternBrowser";
+import { DrumStepLengthSelector } from "../DrumStepLengthSelector";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import { ReferenceManager } from "@/services/audio-reference";
 
-type ViewMode = 'pads' | 'sequencer';
+type ViewMode = "pads" | "sequencer";
 
 interface DrumMachineProProps {
   className?: string;
@@ -24,9 +21,9 @@ interface DrumMachineProProps {
 
 export const DrumMachinePro = memo(function DrumMachinePro({ className }: DrumMachineProProps) {
   const navigate = useNavigate();
-  const [viewMode, setViewMode] = useState<ViewMode>('pads');
+  const [viewMode, setViewMode] = useState<ViewMode>("pads");
   const [activePads, setActivePads] = useState<Set<string>>(new Set());
-  
+
   const {
     isReady,
     isPlaying,
@@ -70,22 +67,25 @@ export const DrumMachinePro = memo(function DrumMachinePro({ className }: DrumMa
   const handleInitialize = useCallback(async () => {
     if (!isReady) {
       await initialize();
-      toast.success('Драм-машина активирована', { duration: 2000 });
+      toast.success("Драм-машина активирована", { duration: 2000 });
     }
   }, [isReady, initialize]);
 
   // Pad trigger with visual feedback
-  const handlePadTrigger = useCallback((soundId: string, velocity?: number) => {
-    triggerSound(soundId, velocity);
-    setActivePads(prev => new Set([...prev, soundId]));
-    setTimeout(() => {
-      setActivePads(prev => {
-        const next = new Set(prev);
-        next.delete(soundId);
-        return next;
-      });
-    }, 100);
-  }, [triggerSound]);
+  const handlePadTrigger = useCallback(
+    (soundId: string, velocity?: number) => {
+      triggerSound(soundId, velocity);
+      setActivePads((prev) => new Set([...prev, soundId]));
+      setTimeout(() => {
+        setActivePads((prev) => {
+          const next = new Set(prev);
+          next.delete(soundId);
+          return next;
+        });
+      }, 100);
+    },
+    [triggerSound],
+  );
 
   // Sync active pads with sequencer playback
   useEffect(() => {
@@ -116,54 +116,54 @@ export const DrumMachinePro = memo(function DrumMachinePro({ className }: DrumMa
 
   // Recording handler
   const handleRecord = useCallback(async () => {
-    if (recordingState === 'recording') {
+    if (recordingState === "recording") {
       await stopRecording();
-      toast.success('Запись сохранена');
+      toast.success("Запись сохранена");
     } else {
       await startRecording();
       if (!isPlaying) play();
-      toast.info('Запись началась');
+      toast.info("Запись началась");
     }
   }, [recordingState, startRecording, stopRecording, isPlaying, play]);
 
   // Track volume change
-  const handleTrackVolumeChange = useCallback((soundId: string, vol: number) => {
-    setTrackEffect(soundId, { volume: vol });
-  }, [setTrackEffect]);
+  const handleTrackVolumeChange = useCallback(
+    (soundId: string, vol: number) => {
+      setTrackEffect(soundId, { volume: vol });
+    },
+    [setTrackEffect],
+  );
 
   // Use recorded audio as reference
   const handleUseAsReference = useCallback(() => {
     if (!recordedAudioBlob) return;
-    
+
     const url = URL.createObjectURL(recordedAudioBlob);
-    ReferenceManager.createFromCreativeTool('drums', url, {
+    ReferenceManager.createFromCreativeTool("drums", url, {
       tags: `${currentKit.name} drum pattern, ${bpm} BPM`,
     });
-    toast.success('Бит добавлен как референс', {
-      description: 'Перейдите на главную для генерации'
+    toast.success("Бит добавлен как референс", {
+      description: "Перейдите на главную для генерации",
     });
-    navigate('/');
+    navigate("/");
   }, [recordedAudioBlob, currentKit.name, bpm, navigate]);
 
   // Send to PromptDJ
   const handleSendToPromptDJ = useCallback(() => {
-    const patternDescription = `${currentKit.name} drum beat, ${bpm} BPM, ${swing > 0 ? `${swing}% swing` : 'straight'} groove`;
-    sessionStorage.setItem('drumPatternForDJ', JSON.stringify({
-      description: patternDescription,
-      bpm,
-      kitName: currentKit.name,
-    }));
-    toast.success('Паттерн отправлен в PromptDJ');
+    const patternDescription = `${currentKit.name} drum beat, ${bpm} BPM, ${swing > 0 ? `${swing}% swing` : "straight"} groove`;
+    sessionStorage.setItem(
+      "drumPatternForDJ",
+      JSON.stringify({
+        description: patternDescription,
+        bpm,
+        kitName: currentKit.name,
+      }),
+    );
+    toast.success("Паттерн отправлен в PromptDJ");
   }, [currentKit.name, bpm, swing]);
 
   return (
-    <div 
-      className={cn(
-        'flex flex-col gap-5',
-        className
-      )}
-      onClick={handleInitialize}
-    >
+    <div className={cn("flex flex-col gap-5", className)} onClick={handleInitialize}>
       {/* Header */}
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <div className="flex items-center gap-4">
@@ -182,7 +182,7 @@ export const DrumMachinePro = memo(function DrumMachinePro({ className }: DrumMa
                 BeatMaker Pro
               </h2>
               <p className="text-xs text-muted-foreground">
-                {!isReady ? '• Нажмите для активации' : `${currentKit.name} • ${stepLength} шагов`}
+                {!isReady ? "• Нажмите для активации" : `${currentKit.name} • ${stepLength} шагов`}
               </p>
             </div>
           </div>
@@ -191,40 +191,27 @@ export const DrumMachinePro = memo(function DrumMachinePro({ className }: DrumMa
         {/* Controls Row */}
         <div className="flex items-center gap-3 flex-wrap">
           {/* Kit Selector */}
-          <KitSelectorPro
-            kits={getAvailableKits()}
-            currentKit={currentKit}
-            onSelectKit={setKit}
-          />
+          <KitSelectorPro kits={getAvailableKits()} currentKit={currentKit} onSelectKit={setKit} />
 
           {/* Step Length */}
-          <DrumStepLengthSelector
-            stepLength={stepLength}
-            onSetStepLength={setStepLength}
-          />
+          <DrumStepLengthSelector stepLength={stepLength} onSetStepLength={setStepLength} />
 
           {/* View Mode Toggle */}
           <div className="flex gap-1 p-1.5 bg-muted/40 rounded-xl border border-border/30">
             <Button
-              variant={viewMode === 'pads' ? 'default' : 'ghost'}
+              variant={viewMode === "pads" ? "default" : "ghost"}
               size="sm"
-              onClick={() => setViewMode('pads')}
-              className={cn(
-                'h-10 px-4 rounded-lg gap-2 font-medium',
-                viewMode === 'pads' && 'shadow-md'
-              )}
+              onClick={() => setViewMode("pads")}
+              className={cn("h-10 px-4 rounded-lg gap-2 font-medium", viewMode === "pads" && "shadow-md")}
             >
               <Grid3X3 className="w-4 h-4" />
               <span className="hidden sm:inline">Пэды</span>
             </Button>
             <Button
-              variant={viewMode === 'sequencer' ? 'default' : 'ghost'}
+              variant={viewMode === "sequencer" ? "default" : "ghost"}
               size="sm"
-              onClick={() => setViewMode('sequencer')}
-              className={cn(
-                'h-10 px-4 rounded-lg gap-2 font-medium',
-                viewMode === 'sequencer' && 'shadow-md'
-              )}
+              onClick={() => setViewMode("sequencer")}
+              className={cn("h-10 px-4 rounded-lg gap-2 font-medium", viewMode === "sequencer" && "shadow-md")}
             >
               <ListMusic className="w-4 h-4" />
               <span className="hidden sm:inline">Секвенсор</span>
@@ -236,7 +223,7 @@ export const DrumMachinePro = memo(function DrumMachinePro({ className }: DrumMa
       {/* Transport Bar */}
       <TransportBar
         isPlaying={isPlaying}
-        isRecording={recordingState === 'recording'}
+        isRecording={recordingState === "recording"}
         bpm={bpm}
         swing={swing}
         volume={volume}
@@ -254,7 +241,7 @@ export const DrumMachinePro = memo(function DrumMachinePro({ className }: DrumMa
 
       {/* Main Content */}
       <div className="flex-1 min-h-0">
-        {viewMode === 'pads' ? (
+        {viewMode === "pads" ? (
           <DrumPadsPro
             sounds={currentKit.sounds}
             onPadTrigger={handlePadTrigger}
@@ -281,11 +268,7 @@ export const DrumMachinePro = memo(function DrumMachinePro({ className }: DrumMa
       </div>
 
       {/* Pattern Browser */}
-      <PatternBrowser
-        patterns={getPresetPatterns()}
-        onLoadPattern={loadPattern}
-        onClearPattern={clearPattern}
-      />
+      <PatternBrowser patterns={getPresetPatterns()} onLoadPattern={loadPattern} onClearPattern={clearPattern} />
 
       {/* Action Bar */}
       <div className="flex items-center gap-3 flex-wrap p-4 rounded-2xl bg-gradient-to-r from-muted/30 via-muted/20 to-muted/30 border border-border/30">
@@ -307,17 +290,11 @@ export const DrumMachinePro = memo(function DrumMachinePro({ className }: DrumMa
           disabled={!isReady}
           className="h-10 gap-2 rounded-xl border-border/50 hover:border-primary/50"
         >
-          <Send className="w-4 h-4" />
-          В PromptDJ
+          <Send className="w-4 h-4" />В PromptDJ
         </Button>
 
         {recordedAudioBlob && (
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={handleUseAsReference}
-            className="h-10 gap-2 rounded-xl"
-          >
+          <Button variant="secondary" size="sm" onClick={handleUseAsReference} className="h-10 gap-2 rounded-xl">
             <Music className="w-4 h-4" />
             Как референс
           </Button>

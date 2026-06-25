@@ -3,9 +3,9 @@
  * Provides today's and total generation counts, types, and costs
  */
 
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from './useAuth';
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "./useAuth";
 
 export interface UserGenerationStats {
   today: {
@@ -45,33 +45,35 @@ const defaultStats: UserGenerationStats = {
 
 export function useUserGenerationStats() {
   const { user } = useAuth();
-  
+
   return useQuery({
-    queryKey: ['user-generation-stats', user?.id],
+    queryKey: ["user-generation-stats", user?.id],
     queryFn: async (): Promise<UserGenerationStats> => {
       if (!user?.id) return defaultStats;
-      
-      const today = new Date().toISOString().split('T')[0];
-      
+
+      const today = new Date().toISOString().split("T")[0];
+
       // Fetch today's stats
       const { data: todayStats } = await supabase
-        .from('user_generation_stats')
-        .select('*')
-        .eq('user_id', user.id)
-        .eq('date', today)
+        .from("user_generation_stats")
+        .select("*")
+        .eq("user_id", user.id)
+        .eq("date", today)
         .maybeSingle();
-      
+
       // Fetch last 7 days for trend
       const sevenDaysAgo = new Date();
       sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-      
+
       const { data: recentStats } = await supabase
-        .from('user_generation_stats')
-        .select('date, generations_count, successful_count, failed_count, estimated_cost, music_count, vocals_count, instrumental_count, extend_count, stems_count, cover_count')
-        .eq('user_id', user.id)
-        .gte('date', sevenDaysAgo.toISOString().split('T')[0])
-        .order('date', { ascending: false });
-      
+        .from("user_generation_stats")
+        .select(
+          "date, generations_count, successful_count, failed_count, estimated_cost, music_count, vocals_count, instrumental_count, extend_count, stems_count, cover_count",
+        )
+        .eq("user_id", user.id)
+        .gte("date", sevenDaysAgo.toISOString().split("T")[0])
+        .order("date", { ascending: false });
+
       // Calculate totals from recent data
       const totals = recentStats?.reduce(
         (acc, row) => ({
@@ -86,9 +88,31 @@ export function useUserGenerationStats() {
           stems: acc.stems + (row.stems_count || 0),
           cover: acc.cover + (row.cover_count || 0),
         }),
-        { generations: 0, successful: 0, failed: 0, cost: 0, music: 0, vocals: 0, instrumental: 0, extend: 0, stems: 0, cover: 0 }
-      ) || { generations: 0, successful: 0, failed: 0, cost: 0, music: 0, vocals: 0, instrumental: 0, extend: 0, stems: 0, cover: 0 };
-      
+        {
+          generations: 0,
+          successful: 0,
+          failed: 0,
+          cost: 0,
+          music: 0,
+          vocals: 0,
+          instrumental: 0,
+          extend: 0,
+          stems: 0,
+          cover: 0,
+        },
+      ) || {
+        generations: 0,
+        successful: 0,
+        failed: 0,
+        cost: 0,
+        music: 0,
+        vocals: 0,
+        instrumental: 0,
+        extend: 0,
+        stems: 0,
+        cover: 0,
+      };
+
       return {
         today: {
           generations: todayStats?.generations_count || 0,
@@ -110,11 +134,12 @@ export function useUserGenerationStats() {
           stems: totals.stems,
           cover: totals.cover,
         },
-        recentDays: recentStats?.map(row => ({
-          date: row.date,
-          generations: row.generations_count || 0,
-          successful: row.successful_count || 0,
-        })) || [],
+        recentDays:
+          recentStats?.map((row) => ({
+            date: row.date,
+            generations: row.generations_count || 0,
+            successful: row.successful_count || 0,
+          })) || [],
       };
     },
     enabled: !!user?.id,
@@ -128,17 +153,17 @@ export function useUserGenerationStats() {
  */
 export function useTotalGenerationCount() {
   const { user } = useAuth();
-  
+
   return useQuery({
-    queryKey: ['total-generation-count', user?.id],
+    queryKey: ["total-generation-count", user?.id],
     queryFn: async (): Promise<number> => {
       if (!user?.id) return 0;
-      
+
       const { count } = await supabase
-        .from('generation_tasks')
-        .select('*', { count: 'exact', head: true })
-        .eq('user_id', user.id);
-      
+        .from("generation_tasks")
+        .select("*", { count: "exact", head: true })
+        .eq("user_id", user.id);
+
       return count || 0;
     },
     enabled: !!user?.id,

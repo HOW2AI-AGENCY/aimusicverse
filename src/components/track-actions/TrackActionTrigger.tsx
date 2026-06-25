@@ -1,25 +1,25 @@
 /**
  * TrackActionTrigger - Smart trigger for track actions
- * 
+ *
  * Automatically shows:
  * - Sheet on mobile
  * - Dropdown menu on desktop
- * 
+ *
  * Simplifies track card implementations by encapsulating this logic.
  */
 
-import { memo, useState, useCallback } from 'react';
-import { MoreHorizontal } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { UnifiedTrackMenu } from './UnifiedTrackMenu';
-import { UnifiedTrackSheet } from './UnifiedTrackSheet';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { triggerHapticFeedback } from '@/lib/mobile-utils';
-import { cn } from '@/lib/utils';
-import { glass } from '@/lib/glass';
-import { surface } from '@/lib/overlay-colors';
-import type { Track } from '@/types/track';
-import type { PublicTrackWithCreator } from '@/hooks/usePublicContent';
+import { memo, useState, useCallback } from "react";
+import { MoreHorizontal } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { UnifiedTrackMenu } from "./UnifiedTrackMenu";
+import { UnifiedTrackSheet } from "./UnifiedTrackSheet";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { triggerHapticFeedback } from "@/lib/mobile-utils";
+import { cn } from "@/lib/utils";
+import { glass } from "@/lib/glass";
+import { surface } from "@/lib/overlay-colors";
+import type { Track } from "@/types/track";
+import type { PublicTrackWithCreator } from "@/hooks/usePublicContent";
 
 interface TrackActionTriggerProps {
   track: Track | PublicTrackWithCreator;
@@ -28,11 +28,11 @@ interface TrackActionTriggerProps {
   /** Custom trigger button - if not provided, uses default MoreHorizontal button */
   children?: React.ReactNode;
   /** Variant for default button styling */
-  variant?: 'default' | 'ghost' | 'overlay';
+  variant?: "default" | "ghost" | "overlay";
   /** Additional class for default button */
   className?: string;
   /** Size for default button */
-  size?: 'sm' | 'md';
+  size?: "sm" | "md";
 }
 
 export const TrackActionTrigger = memo(function TrackActionTrigger({
@@ -40,16 +40,16 @@ export const TrackActionTrigger = memo(function TrackActionTrigger({
   onDelete,
   onDownload,
   children,
-  variant = 'ghost',
+  variant = "ghost",
   className,
-  size = 'md',
+  size = "md",
 }: TrackActionTriggerProps) {
   const isMobile = useIsMobile();
   const [sheetOpen, setSheetOpen] = useState(false);
 
   const handleOpen = useCallback((e?: React.MouseEvent) => {
     e?.stopPropagation();
-    triggerHapticFeedback('light');
+    triggerHapticFeedback("light");
     setSheetOpen(true);
   }, []);
 
@@ -58,30 +58,25 @@ export const TrackActionTrigger = memo(function TrackActionTrigger({
   }, []);
 
   const sizeClasses = {
-    sm: 'w-7 h-7',
-    md: 'w-9 h-9',
+    sm: "w-7 h-7",
+    md: "w-9 h-9",
   };
 
   const variantClasses = {
-    default: cn(glass.light, 'hover:bg-background'),
-    ghost: 'hover:bg-muted/50',
-    overlay: cn(glass.pill, surface.heavy, 'text-white'),
+    default: cn(glass.light, "hover:bg-background"),
+    ghost: "hover:bg-muted/50",
+    overlay: cn(glass.pill, surface.heavy, "text-white"),
   };
 
   const defaultTrigger = (
     <Button
       size="icon"
-      variant={variant === 'overlay' ? 'secondary' : 'ghost'}
-      className={cn(
-        sizeClasses[size],
-        variantClasses[variant],
-        'rounded-full transition-all',
-        className
-      )}
+      variant={variant === "overlay" ? "secondary" : "ghost"}
+      className={cn(sizeClasses[size], variantClasses[variant], "rounded-full transition-all", className)}
       onClick={handleOpen}
       aria-label="Меню трека"
     >
-      <MoreHorizontal className={cn(size === 'sm' ? 'w-4 h-4' : 'w-5 h-5')} />
+      <MoreHorizontal className={cn(size === "sm" ? "w-4 h-4" : "w-5 h-5")} />
     </Button>
   );
 
@@ -89,12 +84,8 @@ export const TrackActionTrigger = memo(function TrackActionTrigger({
   if (isMobile) {
     return (
       <>
-        {children ? (
-          <div onClick={handleOpen}>{children}</div>
-        ) : (
-          defaultTrigger
-        )}
-        
+        {children ? <div onClick={handleOpen}>{children}</div> : defaultTrigger}
+
         <UnifiedTrackSheet
           track={track as Track}
           open={sheetOpen}

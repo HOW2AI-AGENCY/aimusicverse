@@ -27,15 +27,15 @@ import {
   useRef,
   useState,
   type ReactNode,
-} from 'react';
-import { ConfirmationDialog } from '@/components/ConfirmationDialog';
+} from "react";
+import { ConfirmationDialog } from "@/components/ConfirmationDialog";
 
 export interface ConfirmOptions {
   title: string;
   description: string;
   confirmLabel?: string;
   cancelLabel?: string;
-  variant?: 'default' | 'destructive';
+  variant?: "default" | "destructive";
 }
 
 type ConfirmFn = (options: ConfirmOptions) => Promise<boolean>;
@@ -80,7 +80,7 @@ export function ConfirmProvider({ children }: { children: ReactNode }) {
           description: state.options.description,
           confirmLabel: state.options.confirmLabel,
           cancelLabel: state.options.cancelLabel,
-          variant: state.options.variant ?? 'default',
+          variant: state.options.variant ?? "default",
           onConfirm: () => settle(true),
           onCancel: () => settle(false),
         })
@@ -97,7 +97,5 @@ export function useConfirm(): ConfirmFn {
   const ctx = useContext(ConfirmContext);
   if (ctx) return ctx;
   return async (opts) =>
-    typeof window !== 'undefined'
-      ? window.confirm(`${opts.title}\n\n${opts.description}`)
-      : false;
+    typeof window !== "undefined" ? window.confirm(`${opts.title}\n\n${opts.description}`) : false;
 }

@@ -3,23 +3,13 @@
  * Visualizes user retention metrics and cohort analysis
  */
 
-import { useMemo } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Skeleton } from '@/components/ui/skeleton';
-import { 
-  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, 
-  ResponsiveContainer, AreaChart, Area 
-} from 'recharts';
-import { 
-  Users, 
-  UserCheck, 
-  UserMinus, 
-  TrendingUp,
-  Calendar,
-  Repeat,
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { useMemo } from "react";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from "recharts";
+import { Users, UserCheck, UserMinus, TrendingUp, Calendar, Repeat } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface RetentionData {
   day: string;
@@ -45,19 +35,19 @@ interface RetentionPanelProps {
 
 // Mock data - in production, fetch from analytics backend
 const MOCK_RETENTION_TREND: RetentionData[] = [
-  { day: '01 янв', d1: 45, d7: 28, d14: 22, d30: 18 },
-  { day: '08 янв', d1: 48, d7: 30, d14: 24, d30: 19 },
-  { day: '15 янв', d1: 52, d7: 33, d14: 26, d30: 21 },
-  { day: '22 янв', d1: 50, d7: 32, d14: 25, d30: 20 },
-  { day: '29 янв', d1: 55, d7: 35, d14: 28, d30: 22 },
+  { day: "01 янв", d1: 45, d7: 28, d14: 22, d30: 18 },
+  { day: "08 янв", d1: 48, d7: 30, d14: 24, d30: 19 },
+  { day: "15 янв", d1: 52, d7: 33, d14: 26, d30: 21 },
+  { day: "22 янв", d1: 50, d7: 32, d14: 25, d30: 20 },
+  { day: "29 янв", d1: 55, d7: 35, d14: 28, d30: 22 },
 ];
 
 const MOCK_COHORTS: CohortData[] = [
-  { cohort: 'Янв W1', users: 1250, d1: 45.2, d7: 28.4, d14: 22.1, d30: 18.5 },
-  { cohort: 'Янв W2', users: 1380, d1: 48.1, d7: 30.2, d14: 24.3, d30: 19.8 },
-  { cohort: 'Янв W3', users: 1520, d1: 52.3, d7: 33.1, d14: 26.0, d30: 21.2 },
-  { cohort: 'Янв W4', users: 1450, d1: 50.8, d7: 32.5, d14: 25.4, d30: 0 },
-  { cohort: 'Фев W1', users: 1680, d1: 55.2, d7: 35.8, d14: 0, d30: 0 },
+  { cohort: "Янв W1", users: 1250, d1: 45.2, d7: 28.4, d14: 22.1, d30: 18.5 },
+  { cohort: "Янв W2", users: 1380, d1: 48.1, d7: 30.2, d14: 24.3, d30: 19.8 },
+  { cohort: "Янв W3", users: 1520, d1: 52.3, d7: 33.1, d14: 26.0, d30: 21.2 },
+  { cohort: "Янв W4", users: 1450, d1: 50.8, d7: 32.5, d14: 25.4, d30: 0 },
+  { cohort: "Фев W1", users: 1680, d1: 55.2, d7: 35.8, d14: 0, d30: 0 },
 ];
 
 export function RetentionPanel({ timePeriod, isLoading }: RetentionPanelProps) {
@@ -66,14 +56,14 @@ export function RetentionPanel({ timePeriod, isLoading }: RetentionPanelProps) {
     const latestCohort = MOCK_COHORTS[MOCK_COHORTS.length - 2]; // Skip incomplete
     const avgD1 = MOCK_COHORTS.slice(0, -1).reduce((sum, c) => sum + c.d1, 0) / (MOCK_COHORTS.length - 1);
     const avgD7 = MOCK_COHORTS.slice(0, -2).reduce((sum, c) => sum + c.d7, 0) / (MOCK_COHORTS.length - 2);
-    
+
     return {
       currentD1: latestCohort.d1,
       currentD7: latestCohort.d7,
       avgD1: avgD1.toFixed(1),
       avgD7: avgD7.toFixed(1),
       totalNewUsers: MOCK_COHORTS.reduce((sum, c) => sum + c.users, 0),
-      trend: ((latestCohort.d1 - avgD1) / avgD1 * 100).toFixed(1),
+      trend: (((latestCohort.d1 - avgD1) / avgD1) * 100).toFixed(1),
     };
   }, []);
 
@@ -125,8 +115,8 @@ export function RetentionPanel({ timePeriod, isLoading }: RetentionPanelProps) {
         <StatCard
           icon={TrendingUp}
           label="Тренд"
-          value={`${Number(summaryStats.trend) >= 0 ? '+' : ''}${summaryStats.trend}%`}
-          iconColor={Number(summaryStats.trend) >= 0 ? 'text-green-500' : 'text-red-500'}
+          value={`${Number(summaryStats.trend) >= 0 ? "+" : ""}${summaryStats.trend}%`}
+          iconColor={Number(summaryStats.trend) >= 0 ? "text-green-500" : "text-red-500"}
         />
       </div>
 
@@ -147,22 +137,17 @@ export function RetentionPanel({ timePeriod, isLoading }: RetentionPanelProps) {
               <AreaChart data={MOCK_RETENTION_TREND}>
                 <defs>
                   <linearGradient id="colorD1" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3}/>
-                    <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3} />
+                    <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0} />
                   </linearGradient>
                   <linearGradient id="colorD7" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="hsl(var(--chart-2))" stopOpacity={0.3}/>
-                    <stop offset="95%" stopColor="hsl(var(--chart-2))" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="hsl(var(--chart-2))" stopOpacity={0.3} />
+                    <stop offset="95%" stopColor="hsl(var(--chart-2))" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                <XAxis 
-                  dataKey="day" 
-                  tick={{ fontSize: 10 }}
-                  tickLine={false}
-                  axisLine={false}
-                />
-                <YAxis 
+                <XAxis dataKey="day" tick={{ fontSize: 10 }} tickLine={false} axisLine={false} />
+                <YAxis
                   tick={{ fontSize: 10 }}
                   tickLine={false}
                   axisLine={false}
@@ -171,17 +156,17 @@ export function RetentionPanel({ timePeriod, isLoading }: RetentionPanelProps) {
                 />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: 'hsl(var(--popover))',
-                    border: '1px solid hsl(var(--border))',
-                    borderRadius: '8px',
-                    fontSize: '12px',
+                    backgroundColor: "hsl(var(--popover))",
+                    border: "1px solid hsl(var(--border))",
+                    borderRadius: "8px",
+                    fontSize: "12px",
                   }}
                   formatter={(value: any, name: any) => {
                     const labels: Record<string, string> = {
-                      d1: 'Day 1',
-                      d7: 'Day 7',
-                      d14: 'Day 14',
-                      d30: 'Day 30',
+                      d1: "Day 1",
+                      d7: "Day 7",
+                      d14: "Day 14",
+                      d30: "Day 30",
                     };
                     return [`${value}%`, labels[name] || name];
                   }}
@@ -215,9 +200,7 @@ export function RetentionPanel({ timePeriod, isLoading }: RetentionPanelProps) {
             <Calendar className="h-4 w-4 sm:h-5 sm:w-5" />
             Когортный анализ
           </CardTitle>
-          <CardDescription className="text-xs sm:text-sm">
-            Удержание по неделям регистрации
-          </CardDescription>
+          <CardDescription className="text-xs sm:text-sm">Удержание по неделям регистрации</CardDescription>
         </CardHeader>
         <CardContent className="px-2 sm:px-6">
           <div className="overflow-x-auto -mx-2 sm:mx-0 touch-pan-x">
@@ -268,17 +251,13 @@ function RetentionCell({ value }: { value: number }) {
   }
 
   const getColor = (v: number) => {
-    if (v >= 40) return 'bg-green-500/20 text-green-500';
-    if (v >= 25) return 'bg-yellow-500/20 text-yellow-500';
-    if (v >= 15) return 'bg-orange-500/20 text-orange-500';
-    return 'bg-red-500/20 text-red-500';
+    if (v >= 40) return "bg-green-500/20 text-green-500";
+    if (v >= 25) return "bg-yellow-500/20 text-yellow-500";
+    if (v >= 15) return "bg-orange-500/20 text-orange-500";
+    return "bg-red-500/20 text-red-500";
   };
 
-  return (
-    <Badge className={cn('font-mono', getColor(value))}>
-      {value.toFixed(1)}%
-    </Badge>
-  );
+  return <Badge className={cn("font-mono", getColor(value))}>{value.toFixed(1)}%</Badge>;
 }
 
 interface StatCardProps {

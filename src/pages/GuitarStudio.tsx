@@ -7,14 +7,14 @@
  * - Transcription to MIDI, GP5, MusicXML, PDF with notes and tablature
  */
 
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { useNavigate } from 'react-router-dom';
-import { 
-  ArrowLeft, 
-  Mic, 
-  Play, 
-  Square, 
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { useNavigate } from "react-router-dom";
+import {
+  ArrowLeft,
+  Mic,
+  Play,
+  Square,
   Pause,
   Music,
   Sparkles,
@@ -26,30 +26,30 @@ import {
   Clock,
   Save,
   FolderOpen,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ProBadge } from '@/components/ui/pro-badge';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { toast } from 'sonner';
-import { useGuitarAnalysis } from '@/hooks/useGuitarAnalysis';
-import { useAudioLevel } from '@/hooks/useAudioLevel';
-import { useGuitarRecordings } from '@/hooks/useGuitarRecordings';
-import { WorkflowVisualizer } from '@/components/professional/WorkflowVisualizer';
-import { GuitarAnalysisReport } from '@/components/guitar/GuitarAnalysisReportSimplified';
-import { SavedRecordingsList } from '@/components/guitar/SavedRecordingsList';
-import { AudioLevelMeter } from '@/components/guitar/AudioLevelMeter';
-import { Metronome } from '@/components/guitar/Metronome';
-import { GuitarTuner } from '@/components/guitar/GuitarTuner';
-import { GuitarRecordingPanel } from '@/components/guitar/GuitarRecordingPanel';
-import { LinkToTrackDialog } from '@/components/guitar/LinkToTrackDialog';
-import { AnalysisProgressStages, type AnalysisStage } from '@/components/guitar/AnalysisProgressStages';
-import { cn } from '@/lib/utils';
-import { formatTime } from '@/lib/player-utils';
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ProBadge } from "@/components/ui/pro-badge";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { toast } from "sonner";
+import { useGuitarAnalysis } from "@/hooks/useGuitarAnalysis";
+import { useAudioLevel } from "@/hooks/useAudioLevel";
+import { useGuitarRecordings } from "@/hooks/useGuitarRecordings";
+import { WorkflowVisualizer } from "@/components/professional/WorkflowVisualizer";
+import { GuitarAnalysisReport } from "@/components/guitar/GuitarAnalysisReportSimplified";
+import { SavedRecordingsList } from "@/components/guitar/SavedRecordingsList";
+import { AudioLevelMeter } from "@/components/guitar/AudioLevelMeter";
+import { Metronome } from "@/components/guitar/Metronome";
+import { GuitarTuner } from "@/components/guitar/GuitarTuner";
+import { GuitarRecordingPanel } from "@/components/guitar/GuitarRecordingPanel";
+import { LinkToTrackDialog } from "@/components/guitar/LinkToTrackDialog";
+import { AnalysisProgressStages, type AnalysisStage } from "@/components/guitar/AnalysisProgressStages";
+import { cn } from "@/lib/utils";
+import { formatTime } from "@/lib/player-utils";
 
-type WorkflowStatus = 'pending' | 'active' | 'completed';
+type WorkflowStatus = "pending" | "active" | "completed";
 
 const workflowSteps: Array<{
   id: string;
@@ -60,49 +60,49 @@ const workflowSteps: Array<{
   status: WorkflowStatus;
 }> = [
   {
-    id: 'record',
-    title: 'Запись',
-    subtitle: 'Гитарный трек',
+    id: "record",
+    title: "Запись",
+    subtitle: "Гитарный трек",
     icon: Mic,
-    description: 'Запишите гитарный трек',
-    status: 'pending',
+    description: "Запишите гитарный трек",
+    status: "pending",
   },
   {
-    id: 'analyze',
-    title: 'Анализ',
-    subtitle: 'Обработка klang.io',
+    id: "analyze",
+    title: "Анализ",
+    subtitle: "Обработка klang.io",
     icon: Activity,
-    description: 'Обработка через klang.io',
-    status: 'pending',
+    description: "Обработка через klang.io",
+    status: "pending",
   },
   {
-    id: 'transcribe',
-    title: 'Транскрипция',
-    subtitle: 'Конвертация в ноты',
+    id: "transcribe",
+    title: "Транскрипция",
+    subtitle: "Конвертация в ноты",
     icon: FileMusic,
-    description: 'Конвертация в ноты',
-    status: 'pending',
+    description: "Конвертация в ноты",
+    status: "pending",
   },
   {
-    id: 'export',
-    title: 'Экспорт',
-    subtitle: 'Загрузка файлов',
+    id: "export",
+    title: "Экспорт",
+    subtitle: "Загрузка файлов",
     icon: Download,
-    description: 'Загрузка файлов',
-    status: 'pending',
+    description: "Загрузка файлов",
+    status: "pending",
   },
 ];
 
 export default function GuitarStudio() {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('record');
+  const [activeTab, setActiveTab] = useState("record");
   const [recordingTime, setRecordingTime] = useState(0);
   const [workflow, setWorkflow] = useState(workflowSteps);
   const [currentStep, setCurrentStep] = useState(0);
   const [linkDialogOpen, setLinkDialogOpen] = useState(false);
-  const [analysisStage, setAnalysisStage] = useState<AnalysisStage>('idle');
+  const [analysisStage, setAnalysisStage] = useState<AnalysisStage>("idle");
   const [analysisError, setAnalysisError] = useState<string | undefined>();
-  
+
   const {
     isAnalyzing,
     isRecording,
@@ -128,7 +128,7 @@ export default function GuitarStudio() {
     let interval: NodeJS.Timeout;
     if (isRecording) {
       interval = setInterval(() => {
-        setRecordingTime(prev => prev + 1);
+        setRecordingTime((prev) => prev + 1);
       }, 1000);
     } else {
       setRecordingTime(0);
@@ -139,25 +139,25 @@ export default function GuitarStudio() {
   // Update workflow based on state
   useEffect(() => {
     const newWorkflow = [...workflowSteps];
-    
+
     if (recordedAudioUrl) {
-      newWorkflow[0].status = 'completed';
+      newWorkflow[0].status = "completed";
       setCurrentStep(1);
     }
-    
+
     if (isAnalyzing) {
-      newWorkflow[1].status = 'active';
-      newWorkflow[2].status = 'active';
+      newWorkflow[1].status = "active";
+      newWorkflow[2].status = "active";
       setCurrentStep(1);
     }
-    
+
     if (analysisResult) {
-      newWorkflow[1].status = 'completed';
-      newWorkflow[2].status = 'completed';
-      newWorkflow[3].status = 'active';
+      newWorkflow[1].status = "completed";
+      newWorkflow[2].status = "completed";
+      newWorkflow[3].status = "active";
       setCurrentStep(3);
     }
-    
+
     setWorkflow(newWorkflow);
   }, [recordedAudioUrl, isAnalyzing, analysisResult]);
 
@@ -165,9 +165,9 @@ export default function GuitarStudio() {
   useEffect(() => {
     if (!isAnalyzing) {
       if (analysisResult) {
-        setAnalysisStage('complete');
+        setAnalysisStage("complete");
       } else {
-        setAnalysisStage('idle');
+        setAnalysisStage("idle");
       }
       setAnalysisError(undefined);
       return;
@@ -175,16 +175,16 @@ export default function GuitarStudio() {
 
     // Map progress messages to stages
     const progressLower = progress.toLowerCase();
-    if (progressLower.includes('загрузка')) {
-      setAnalysisStage('uploading');
-    } else if (progressLower.includes('ритм') || progressLower.includes('биты')) {
-      setAnalysisStage('beat-tracking');
-    } else if (progressLower.includes('аккорд')) {
-      setAnalysisStage('chord-recognition');
-    } else if (progressLower.includes('транскрипц') || progressLower.includes('ноты')) {
-      setAnalysisStage('transcription');
-    } else if (progressLower.includes('обрабатываем')) {
-      setAnalysisStage('processing');
+    if (progressLower.includes("загрузка")) {
+      setAnalysisStage("uploading");
+    } else if (progressLower.includes("ритм") || progressLower.includes("биты")) {
+      setAnalysisStage("beat-tracking");
+    } else if (progressLower.includes("аккорд")) {
+      setAnalysisStage("chord-recognition");
+    } else if (progressLower.includes("транскрипц") || progressLower.includes("ноты")) {
+      setAnalysisStage("transcription");
+    } else if (progressLower.includes("обрабатываем")) {
+      setAnalysisStage("processing");
     }
   }, [isAnalyzing, progress, analysisResult]);
 
@@ -194,14 +194,14 @@ export default function GuitarStudio() {
 
   const handleStopRecording = () => {
     stopRecording();
-    toast.success('Запись остановлена. Готово к анализу!');
+    toast.success("Запись остановлена. Готово к анализу!");
   };
 
   const handleAnalyze = async () => {
-    setActiveTab('analysis');
+    setActiveTab("analysis");
     const result = await analyzeGuitarRecording();
     if (result) {
-      setActiveTab('results');
+      setActiveTab("results");
     }
   };
 
@@ -209,16 +209,16 @@ export default function GuitarStudio() {
     clearRecording();
     setWorkflow(workflowSteps);
     setCurrentStep(0);
-    setActiveTab('record');
+    setActiveTab("record");
   };
 
   const handleSaveRecording = async () => {
     if (!analysisResult || !recordedAudioUrl) {
-      toast.error('Нет данных для сохранения');
+      toast.error("Нет данных для сохранения");
       return;
     }
 
-    const loadingToast = toast.loading('Сохраняем запись...');
+    const loadingToast = toast.loading("Сохраняем запись...");
 
     try {
       await saveRecording.mutateAsync({
@@ -227,17 +227,17 @@ export default function GuitarStudio() {
         durationSeconds: analysisResult.totalDuration,
       });
 
-      toast.success('Запись сохранена!', {
+      toast.success("Запись сохранена!", {
         id: loadingToast,
         description: 'Теперь доступна во вкладке "Библиотека"',
       });
 
       // Switch to library tab to show saved recording
-      setActiveTab('library');
+      setActiveTab("library");
     } catch (error) {
-      toast.error('Ошибка сохранения', {
+      toast.error("Ошибка сохранения", {
         id: loadingToast,
-        description: error instanceof Error ? error.message : 'Попробуйте снова',
+        description: error instanceof Error ? error.message : "Попробуйте снова",
       });
     }
   };
@@ -246,18 +246,9 @@ export default function GuitarStudio() {
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-orange-500/5 pb-24">
       <div className="container max-w-6xl mx-auto px-4 py-6">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-6"
-        >
+        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
           <div className="flex items-center gap-4 mb-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => navigate(-1)}
-              className="shrink-0"
-            >
+            <Button variant="ghost" size="icon" onClick={() => navigate(-1)} className="shrink-0">
               <ArrowLeft className="h-5 w-5" />
             </Button>
             <div className="flex items-center gap-3 flex-1">
@@ -277,18 +268,12 @@ export default function GuitarStudio() {
           </div>
 
           {/* Workflow Progress */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-          >
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
             <WorkflowVisualizer
               title="Процесс обработки"
               steps={workflow}
               currentStep={currentStep}
-              totalProgress={
-                workflow.filter(s => s.status === 'completed').length / workflow.length * 100
-              }
+              totalProgress={(workflow.filter((s) => s.status === "completed").length / workflow.length) * 100}
               variant="horizontal"
               showTimeline={true}
             />
@@ -296,30 +281,18 @@ export default function GuitarStudio() {
         </motion.div>
 
         {/* Main Content */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-        >
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid w-full grid-cols-4 mb-6">
               <TabsTrigger value="record" className="text-xs sm:text-sm">
                 <Mic className="w-4 h-4 mr-2" />
                 Запись
               </TabsTrigger>
-              <TabsTrigger 
-                value="analysis" 
-                className="text-xs sm:text-sm"
-                disabled={!recordedAudioUrl}
-              >
+              <TabsTrigger value="analysis" className="text-xs sm:text-sm" disabled={!recordedAudioUrl}>
                 <Activity className="w-4 h-4 mr-2" />
                 Анализ
               </TabsTrigger>
-              <TabsTrigger 
-                value="results" 
-                className="text-xs sm:text-sm"
-                disabled={!analysisResult}
-              >
+              <TabsTrigger value="results" className="text-xs sm:text-sm" disabled={!analysisResult}>
                 <Music className="w-4 h-4 mr-2" />
                 Результаты
               </TabsTrigger>
@@ -371,12 +344,8 @@ export default function GuitarStudio() {
                               ЗАПИСЬ
                             </Badge>
                           </div>
-                          <div className="text-3xl font-mono font-bold text-red-500">
-                            {formatTime(recordingTime)}
-                          </div>
-                          <p className="text-sm text-muted-foreground">
-                            Играйте на гитаре...
-                          </p>
+                          <div className="text-3xl font-mono font-bold text-red-500">{formatTime(recordingTime)}</div>
+                          <p className="text-sm text-muted-foreground">Играйте на гитаре...</p>
                         </div>
                       </motion.div>
                     ) : recordedAudioUrl ? (
@@ -395,19 +364,12 @@ export default function GuitarStudio() {
                             <Sparkles className="w-3 h-3 mr-1" />
                             ГОТОВО
                           </Badge>
-                          <p className="text-sm text-muted-foreground">
-                            Запись завершена
-                          </p>
+                          <p className="text-sm text-muted-foreground">Запись завершена</p>
                         </div>
-                        
+
                         {/* Audio Preview */}
                         <div className="mt-4 w-full max-w-md mx-auto">
-                          <audio 
-                            src={recordedAudioUrl} 
-                            controls 
-                            className="w-full"
-                            style={{ height: '40px' }}
-                          />
+                          <audio src={recordedAudioUrl} controls className="w-full" style={{ height: "40px" }} />
                         </div>
                       </motion.div>
                     ) : (
@@ -443,19 +405,14 @@ export default function GuitarStudio() {
                         Начать запись
                       </Button>
                     )}
-                    
+
                     {isRecording && (
-                      <Button
-                        size="lg"
-                        variant="destructive"
-                        onClick={handleStopRecording}
-                        className="shadow-lg"
-                      >
+                      <Button size="lg" variant="destructive" onClick={handleStopRecording} className="shadow-lg">
                         <Square className="w-5 h-5 mr-2" />
                         Остановить
                       </Button>
                     )}
-                    
+
                     {recordedAudioUrl && !isAnalyzing && (
                       <>
                         <Button
@@ -466,18 +423,10 @@ export default function GuitarStudio() {
                           <Zap className="w-5 h-5 mr-2" />
                           Анализировать
                         </Button>
-                        <Button
-                          size="lg"
-                          variant="outline"
-                          onClick={handleClear}
-                        >
+                        <Button size="lg" variant="outline" onClick={handleClear}>
                           Новая запись
                         </Button>
-                        <Button
-                          size="lg"
-                          variant="outline"
-                          onClick={handleSaveRecording}
-                        >
+                        <Button size="lg" variant="outline" onClick={handleSaveRecording}>
                           <Save className="w-5 h-5 mr-2" />
                           Сохранить
                         </Button>
@@ -489,14 +438,8 @@ export default function GuitarStudio() {
 
               {/* Audio Level Meter - shows during recording */}
               {isRecording && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                >
-                  <AudioLevelMeter 
-                    isActive={isRecording}
-                    mediaStream={mediaStream}
-                  />
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+                  <AudioLevelMeter isActive={isRecording} mediaStream={mediaStream} />
                 </motion.div>
               )}
 
@@ -513,9 +456,7 @@ export default function GuitarStudio() {
                 <div className="flex items-start gap-3">
                   <Sparkles className="w-5 h-5 text-orange-400 shrink-0 mt-0.5" />
                   <div>
-                    <p className="text-sm font-medium mb-2">
-                      💡 Советы для лучшего результата
-                    </p>
+                    <p className="text-sm font-medium mb-2">💡 Советы для лучшего результата</p>
                     <ul className="text-xs text-muted-foreground space-y-1">
                       <li>• Используйте наушники для предотвращения обратной связи</li>
                       <li>• Играйте чётко и ровно для лучшего распознавания</li>
@@ -531,17 +472,11 @@ export default function GuitarStudio() {
             {/* Analysis Tab */}
             <TabsContent value="analysis" className="mt-0 space-y-6">
               {isAnalyzing || analysisResult ? (
-                <AnalysisProgressStages
-                  currentStage={analysisStage}
-                  progress={progressPercent}
-                  error={analysisError}
-                />
+                <AnalysisProgressStages currentStage={analysisStage} progress={progressPercent} error={analysisError} />
               ) : (
                 <Card className="p-12 text-center">
                   <Clock className="w-12 h-12 mx-auto text-muted-foreground mb-3" />
-                  <p className="text-muted-foreground">
-                    Нажмите "Анализировать" на вкладке записи
-                  </p>
+                  <p className="text-muted-foreground">Нажмите "Анализировать" на вкладке записи</p>
                 </Card>
               )}
             </TabsContent>
@@ -551,15 +486,13 @@ export default function GuitarStudio() {
               {analysisResult ? (
                 <GuitarAnalysisReport
                   analysis={analysisResult}
-                  audioUrl={recordedAudioUrl || ''}
+                  audioUrl={recordedAudioUrl || ""}
                   onSave={handleSaveRecording}
                 />
               ) : (
                 <Card className="p-12 text-center">
                   <Music className="w-12 h-12 mx-auto text-muted-foreground mb-3" />
-                  <p className="text-muted-foreground">
-                    Завершите анализ, чтобы увидеть результаты
-                  </p>
+                  <p className="text-muted-foreground">Завершите анализ, чтобы увидеть результаты</p>
                 </Card>
               )}
             </TabsContent>
@@ -581,43 +514,31 @@ export default function GuitarStudio() {
           <Card className="p-4 bg-gradient-to-br from-orange-500/5 to-red-500/5 border-orange-500/20">
             <GuitarIcon className="w-8 h-8 text-orange-400 mb-2" />
             <h4 className="font-semibold text-sm mb-1">Профессиональная запись</h4>
-            <p className="text-xs text-muted-foreground">
-              Высокое качество 44.1kHz
-            </p>
+            <p className="text-xs text-muted-foreground">Высокое качество 44.1kHz</p>
           </Card>
-          
+
           <Card className="p-4 bg-gradient-to-br from-blue-500/5 to-cyan-500/5 border-blue-500/20">
             <Activity className="w-8 h-8 text-blue-400 mb-2" />
             <h4 className="font-semibold text-sm mb-1">Интеграция klang.io</h4>
-            <p className="text-xs text-muted-foreground">
-              AI анализ и транскрипция
-            </p>
+            <p className="text-xs text-muted-foreground">AI анализ и транскрипция</p>
           </Card>
-          
+
           <Card className="p-4 bg-gradient-to-br from-purple-500/5 to-pink-500/5 border-purple-500/20">
             <FileMusic className="w-8 h-8 text-purple-400 mb-2" />
             <h4 className="font-semibold text-sm mb-1">Множество форматов</h4>
-            <p className="text-xs text-muted-foreground">
-              MIDI, GP5, XML, PDF
-            </p>
+            <p className="text-xs text-muted-foreground">MIDI, GP5, XML, PDF</p>
           </Card>
-          
+
           <Card className="p-4 bg-gradient-to-br from-green-500/5 to-emerald-500/5 border-green-500/20">
             <Sparkles className="w-8 h-8 text-green-400 mb-2" />
             <h4 className="font-semibold text-sm mb-1">Умный анализ</h4>
-            <p className="text-xs text-muted-foreground">
-              BPM, аккорды, тональность
-            </p>
+            <p className="text-xs text-muted-foreground">BPM, аккорды, тональность</p>
           </Card>
         </motion.div>
       </div>
 
       {/* Link to Track Dialog */}
-      <LinkToTrackDialog
-        open={linkDialogOpen}
-        onOpenChange={setLinkDialogOpen}
-        analysisResult={analysisResult}
-      />
+      <LinkToTrackDialog open={linkDialogOpen} onOpenChange={setLinkDialogOpen} analysisResult={analysisResult} />
     </div>
   );
 }

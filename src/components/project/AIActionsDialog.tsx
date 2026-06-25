@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Loader2, Sparkles, Languages, Check } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { logger } from '@/lib/logger';
+import { logger } from "@/lib/logger";
 
 interface AIOption {
   title: string;
@@ -22,40 +22,34 @@ interface AIActionsDialogProps {
   onApply: (updates: Record<string, string | number | boolean | null>) => void;
 }
 
-export function AIActionsDialog({ 
-  open, 
-  onOpenChange, 
-  projectId, 
-  field,
-  onApply 
-}: AIActionsDialogProps) {
+export function AIActionsDialog({ open, onOpenChange, projectId, field, onApply }: AIActionsDialogProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [options, setOptions] = useState<AIOption[]>([]);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
-  const [mode, setMode] = useState<'menu' | 'options' | 'translate'>('menu');
+  const [mode, setMode] = useState<"menu" | "options" | "translate">("menu");
 
   const handleGetOptions = async () => {
     if (!field) return;
-    
+
     setIsLoading(true);
-    setMode('options');
-    
+    setMode("options");
+
     try {
-      const { data, error } = await supabase.functions.invoke('project-ai-actions', {
-        body: { 
-          action: 'improve_options',
+      const { data, error } = await supabase.functions.invoke("project-ai-actions", {
+        body: {
+          action: "improve_options",
           projectId,
-          field 
-        }
+          field,
+        },
       });
 
       if (error) throw error;
 
       setOptions(data.result.options || []);
     } catch (error) {
-      logger.error('Error getting AI options', error);
-      toast.error('Ошибка получения вариантов улучшений');
-      setMode('menu');
+      logger.error("Error getting AI options", error);
+      toast.error("Ошибка получения вариантов улучшений");
+      setMode("menu");
     } finally {
       setIsLoading(false);
     }
@@ -69,47 +63,47 @@ export function AIActionsDialog({
 
     try {
       onApply({ [field]: option.value });
-      toast.success('Улучшение применено');
+      toast.success("Улучшение применено");
       onOpenChange(false);
       resetState();
     } catch (error) {
-      logger.error('Error applying option', error);
-      toast.error('Ошибка применения улучшения');
+      logger.error("Error applying option", error);
+      toast.error("Ошибка применения улучшения");
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleTranslate = async (language: 'en' | 'ru') => {
+  const handleTranslate = async (language: "en" | "ru") => {
     setIsLoading(true);
-    setMode('translate');
+    setMode("translate");
 
     try {
-      const { data, error } = await supabase.functions.invoke('project-ai-actions', {
-        body: { 
-          action: 'translate',
+      const { data, error } = await supabase.functions.invoke("project-ai-actions", {
+        body: {
+          action: "translate",
           projectId,
-          language 
-        }
+          language,
+        },
       });
 
       if (error) throw error;
 
       onApply(data.result);
-      toast.success(`Проект переведен на ${language === 'en' ? 'английский' : 'русский'}`);
+      toast.success(`Проект переведен на ${language === "en" ? "английский" : "русский"}`);
       onOpenChange(false);
       resetState();
     } catch (error) {
-      logger.error('Error translating', error);
-      toast.error('Ошибка перевода');
-      setMode('menu');
+      logger.error("Error translating", error);
+      toast.error("Ошибка перевода");
+      setMode("menu");
     } finally {
       setIsLoading(false);
     }
   };
 
   const resetState = () => {
-    setMode('menu');
+    setMode("menu");
     setOptions([]);
     setSelectedOption(null);
   };
@@ -131,7 +125,7 @@ export function AIActionsDialog({
           </DialogTitle>
         </DialogHeader>
 
-        {mode === 'menu' && (
+        {mode === "menu" && (
           <div className="space-y-4">
             {!field && (
               <div>
@@ -141,7 +135,7 @@ export function AIActionsDialog({
                 </h3>
                 <div className="flex gap-2">
                   <Button
-                    onClick={() => handleTranslate('en')}
+                    onClick={() => handleTranslate("en")}
                     disabled={isLoading}
                     variant="outline"
                     className="flex-1"
@@ -149,7 +143,7 @@ export function AIActionsDialog({
                     🇬🇧 На английский
                   </Button>
                   <Button
-                    onClick={() => handleTranslate('ru')}
+                    onClick={() => handleTranslate("ru")}
                     disabled={isLoading}
                     variant="outline"
                     className="flex-1"
@@ -162,14 +156,8 @@ export function AIActionsDialog({
 
             {field && (
               <div>
-                <h3 className="font-semibold mb-2">
-                  Улучшить поле: {field}
-                </h3>
-                <Button
-                  onClick={handleGetOptions}
-                  disabled={isLoading}
-                  className="w-full"
-                >
+                <h3 className="font-semibold mb-2">Улучшить поле: {field}</h3>
+                <Button onClick={handleGetOptions} disabled={isLoading} className="w-full">
                   {isLoading ? (
                     <>
                       <Loader2 className="w-4 h-4 mr-2 animate-spin" />
@@ -187,14 +175,9 @@ export function AIActionsDialog({
           </div>
         )}
 
-        {mode === 'options' && (
+        {mode === "options" && (
           <div className="space-y-4">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setMode('menu')}
-              className="mb-2"
-            >
+            <Button variant="ghost" size="sm" onClick={() => setMode("menu")} className="mb-2">
               ← Назад
             </Button>
 
@@ -210,8 +193,8 @@ export function AIActionsDialog({
                       key={index}
                       className={`p-4 border rounded-lg cursor-pointer transition-all ${
                         selectedOption === index
-                          ? 'border-primary bg-primary/5'
-                          : 'border-border hover:border-primary/50'
+                          ? "border-primary bg-primary/5"
+                          : "border-border hover:border-primary/50"
                       }`}
                       onClick={() => setSelectedOption(index)}
                     >
@@ -222,25 +205,15 @@ export function AIActionsDialog({
                             {option.tone}
                           </Badge>
                         </div>
-                        {selectedOption === index && (
-                          <Check className="w-5 h-5 text-primary" />
-                        )}
+                        {selectedOption === index && <Check className="w-5 h-5 text-primary" />}
                       </div>
-                      <p className="text-sm text-muted-foreground mb-2">
-                        {option.explanation}
-                      </p>
-                      <div className="text-sm bg-muted p-2 rounded">
-                        {option.value}
-                      </div>
+                      <p className="text-sm text-muted-foreground mb-2">{option.explanation}</p>
+                      <div className="text-sm bg-muted p-2 rounded">{option.value}</div>
                     </div>
                   ))}
                 </div>
 
-                <Button
-                  onClick={handleApplyOption}
-                  disabled={selectedOption === null || isLoading}
-                  className="w-full"
-                >
+                <Button onClick={handleApplyOption} disabled={selectedOption === null || isLoading} className="w-full">
                   Применить выбранный вариант
                 </Button>
               </>
@@ -248,7 +221,7 @@ export function AIActionsDialog({
           </div>
         )}
 
-        {mode === 'translate' && (
+        {mode === "translate" && (
           <div className="flex items-center justify-center py-8">
             <div className="text-center">
               <Loader2 className="w-8 h-8 animate-spin text-primary mx-auto mb-4" />

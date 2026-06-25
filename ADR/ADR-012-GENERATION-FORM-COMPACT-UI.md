@@ -43,6 +43,7 @@
 ```
 
 **Размеры:**
+
 - `min-h-[44px]` → `min-h-[36px]`
 - `py-2` → `py-1`
 - `h-7` → `h-6`
@@ -82,22 +83,18 @@
 
 ```tsx
 // BEFORE
-<ToolbarButton 
-  icon={Copy} 
-  onClick={handleCopy}
-  disabled={isEmpty}
-  className={isEmpty ? 'opacity-40' : ''}
-/>
+<ToolbarButton icon={Copy} onClick={handleCopy} disabled={isEmpty} className={isEmpty ? "opacity-40" : ""} />;
 
 // AFTER
-{!isEmpty && (
-  <ToolbarButton icon={Copy} onClick={handleCopy} />
-)}
+{
+  !isEmpty && <ToolbarButton icon={Copy} onClick={handleCopy} />;
+}
 ```
 
 ### 4. Удаление дублирования Model Selector
 
 **Файлы:**
+
 - `src/components/generate-form/AdvancedSettings.tsx` — удалён Model Selector
 - `src/components/generate-form/GenerateFormCustom.tsx` — убраны пропсы model/onModelChange
 
@@ -108,11 +105,13 @@
 **Новый файл:** `src/components/generate-form/LyricsVisualEditorCompact.tsx`
 
 Упрощённая версия без:
+
 - Drag-and-drop
 - Statistics panel
 - Inline editing
 
 С добавлением:
+
 - Timeline из badges секций
 - Quick structure templates (Поп, Рок, Баллада)
 - Compact section cards
@@ -152,19 +151,19 @@
 
 ### Files Modified
 
-| File | Change |
-|------|--------|
-| `SectionLabel.tsx` | Tooltip → Popover |
+| File                        | Change                    |
+| --------------------------- | ------------------------- |
+| `SectionLabel.tsx`          | Tooltip → Popover         |
 | `CollapsibleFormHeader.tsx` | Remove logo, reduce sizes |
-| `FormFieldToolbar.tsx` | Conditional copy/delete |
-| `AdvancedSettings.tsx` | Remove Model Selector |
-| `GenerateFormCustom.tsx` | Remove model props |
-| `LyricsSection.tsx` | Use compact editor |
+| `FormFieldToolbar.tsx`      | Conditional copy/delete   |
+| `AdvancedSettings.tsx`      | Remove Model Selector     |
+| `GenerateFormCustom.tsx`    | Remove model props        |
+| `LyricsSection.tsx`         | Use compact editor        |
 
 ### Files Created
 
-| File | Purpose |
-|------|---------|
+| File                            | Purpose                  |
+| ------------------------------- | ------------------------ |
 | `LyricsVisualEditorCompact.tsx` | Simplified lyrics editor |
 
 ---

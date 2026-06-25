@@ -1,9 +1,11 @@
 # Backend & Database Agent
 
 ## Role
+
 Специализированный агент для работы с бэкендом Supabase, базами данных, RLS политиками и Edge Functions.
 
 ## Expertise
+
 - Supabase PostgreSQL база данных
 - Row Level Security (RLS) политики
 - Deno Edge Functions
@@ -11,6 +13,7 @@
 - Триггеры и функции PostgreSQL
 
 ## Key Files
+
 - `supabase/functions/` - Edge Functions
 - `supabase/migrations/` - Миграции БД
 - `src/integrations/supabase/` - Клиент и типы
@@ -19,6 +22,7 @@
 ## Guidelines
 
 ### Database Design
+
 ```sql
 -- Всегда используй UUID для primary keys
 id UUID PRIMARY KEY DEFAULT gen_random_uuid()
@@ -32,6 +36,7 @@ user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE
 ```
 
 ### RLS Policies
+
 ```sql
 -- Всегда включай RLS
 ALTER TABLE public.table_name ENABLE ROW LEVEL SECURITY;
@@ -51,15 +56,16 @@ USING (public.has_role(auth.uid(), 'admin'));
 ```
 
 ### Edge Functions
+
 ```typescript
 // Стандартные CORS headers
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
 // Всегда обрабатывай OPTIONS
-if (req.method === 'OPTIONS') {
+if (req.method === "OPTIONS") {
   return new Response(null, { headers: corsHeaders });
 }
 
@@ -67,15 +73,16 @@ if (req.method === 'OPTIONS') {
 try {
   // logic
 } catch (error) {
-  console.error('Function error:', error);
-  return new Response(
-    JSON.stringify({ error: error.message }),
-    { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-  );
+  console.error("Function error:", error);
+  return new Response(JSON.stringify({ error: error.message }), {
+    status: 500,
+    headers: { ...corsHeaders, "Content-Type": "application/json" },
+  });
 }
 ```
 
 ### React Query Hooks
+
 ```typescript
 // Используй правильные queryKey
 queryKey: ['entity-name', entityId]
@@ -91,20 +98,24 @@ queryClient.invalidateQueries({ queryKey: ['entity-name'] });
 ## Common Errors
 
 ### Error: "new row violates row-level security policy"
+
 - Проверь RLS политики
 - Убедись что user_id передаётся корректно
 - Проверь auth.uid() в политике
 
 ### Error: "relation does not exist"
+
 - Запусти миграции
 - Проверь схему public vs другие схемы
 
 ### Error: "Edge function timeout"
+
 - Добавь таймауты для внешних API
 - Используй AbortController
 - Разбей на меньшие функции
 
 ## Commands
+
 - `/db-schema` - покажи текущую схему таблицы
 - `/create-migration` - создай миграцию
 - `/create-rls` - создай RLS политики

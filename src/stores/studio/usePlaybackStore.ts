@@ -25,10 +25,10 @@
  * ```
  */
 
-import { create } from 'zustand';
-import { logger } from '@/lib/logger';
+import { create } from "zustand";
+import { logger } from "@/lib/logger";
 
-const playbackLogger = logger.child({ module: 'PlaybackStore' });
+const playbackLogger = logger.child({ module: "PlaybackStore" });
 
 // ============ State Interface ============
 
@@ -65,7 +65,7 @@ export const usePlaybackStore = create<PlaybackState>()((set, get) => ({
    */
   play: () => {
     set({ isPlaying: true });
-    playbackLogger.debug('Playback started');
+    playbackLogger.debug("Playback started");
   },
 
   /**
@@ -73,7 +73,7 @@ export const usePlaybackStore = create<PlaybackState>()((set, get) => ({
    */
   pause: () => {
     set({ isPlaying: false });
-    playbackLogger.debug('Playback paused');
+    playbackLogger.debug("Playback paused");
   },
 
   /**
@@ -81,7 +81,7 @@ export const usePlaybackStore = create<PlaybackState>()((set, get) => ({
    */
   stop: () => {
     set({ isPlaying: false, currentTime: 0 });
-    playbackLogger.debug('Playback stopped');
+    playbackLogger.debug("Playback stopped");
   },
 
   /**
@@ -89,7 +89,7 @@ export const usePlaybackStore = create<PlaybackState>()((set, get) => ({
    */
   seek: (time: number) => {
     set({ currentTime: Math.max(0, time) });
-    playbackLogger.debug('Seeked', { time });
+    playbackLogger.debug("Seeked", { time });
   },
 
   /**

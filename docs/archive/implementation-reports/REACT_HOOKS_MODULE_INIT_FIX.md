@@ -15,7 +15,7 @@ vendor-other-Yjj6kWr_.js:1  Uncaught TypeError: Cannot read properties of undefi
 
 1. **Error Location**: The error occurred in the `vendor-other` chunk at module initialization time
 2. **Library Identified**: `react-remove-scroll-bar` was the culprit
-3. **Dependency Chain**: 
+3. **Dependency Chain**:
    - `@radix-ui/react-dialog` → `react-remove-scroll` → `react-remove-scroll-bar`
    - These are transitive dependencies of Radix UI components
 
@@ -40,6 +40,7 @@ if (id.includes("@radix-ui") || ...) {
 ```
 
 **Problem**: This doesn't catch transitive dependencies like:
+
 - `react-remove-scroll`
 - `react-remove-scroll-bar`
 - `use-callback-ref`
@@ -57,10 +58,17 @@ Updated `vite.config.ts` to include React-dependent transitive dependencies in t
 ```typescript
 // UI libraries (shadcn dependencies) - all Radix UI components depend on React
 // CRITICAL: Include react-remove-scroll and related libraries that use hooks at module level
-if (id.includes("@radix-ui") || id.includes("cmdk") || id.includes("vaul") || 
-    id.includes("sonner") || id.includes("next-themes") ||
-    id.includes("react-remove-scroll") || id.includes("use-callback-ref") || 
-    id.includes("use-sidecar") || id.includes("detect-node-es")) {
+if (
+  id.includes("@radix-ui") ||
+  id.includes("cmdk") ||
+  id.includes("vaul") ||
+  id.includes("sonner") ||
+  id.includes("next-themes") ||
+  id.includes("react-remove-scroll") ||
+  id.includes("use-callback-ref") ||
+  id.includes("use-sidecar") ||
+  id.includes("detect-node-es")
+) {
   return "vendor-radix";
 }
 ```
@@ -74,14 +82,17 @@ if (id.includes("@radix-ui") || id.includes("cmdk") || id.includes("vaul") ||
 ### Impact on Bundle Size
 
 **Before Fix:**
+
 - `vendor-other`: 510KB
 - `vendor-radix`: 201KB
 
 **After Fix:**
+
 - `vendor-other`: 489KB (-21KB)
 - `vendor-radix`: 206KB (+5KB)
 
 The libraries moved:
+
 - `react-remove-scroll`: ~10KB
 - `react-remove-scroll-bar`: ~3KB
 - `use-callback-ref`: ~2KB
@@ -95,10 +106,14 @@ The libraries moved:
 ### Module Preload Order (Correct)
 
 ```html
-<link rel="modulepreload" crossorigin href="/assets/vendor-react-*.js">    <!-- 1st -->
-<link rel="modulepreload" crossorigin href="/assets/vendor-utils-*.js">    <!-- 2nd -->
-<link rel="modulepreload" crossorigin href="/assets/vendor-other-*.js">    <!-- 3rd -->
-<link rel="modulepreload" crossorigin href="/assets/vendor-radix-*.js">    <!-- 4th -->
+<link rel="modulepreload" crossorigin href="/assets/vendor-react-*.js" />
+<!-- 1st -->
+<link rel="modulepreload" crossorigin href="/assets/vendor-utils-*.js" />
+<!-- 2nd -->
+<link rel="modulepreload" crossorigin href="/assets/vendor-other-*.js" />
+<!-- 3rd -->
+<link rel="modulepreload" crossorigin href="/assets/vendor-radix-*.js" />
+<!-- 4th -->
 ```
 
 ### Chunk Contents Verified
@@ -178,6 +193,7 @@ When adding new dependencies, check if they:
 3. **Are imported from `node_modules`**
 
 If all three are true, the library must be in one of these chunks:
+
 - `vendor-react` (if it's a state management library)
 - `vendor-radix` (if it's a UI library or dependency of UI libraries)
 - `vendor-react-ui` (if it's a React UI component library)
@@ -185,12 +201,14 @@ If all three are true, the library must be in one of these chunks:
 ### Pattern Recognition
 
 ❌ **Dangerous** (calls hook at module level):
+
 ```javascript
 // This executes during module import!
 const useSync = "undefined" != typeof window ? React.useLayoutEffect : React.useEffect;
 ```
 
 ✅ **Safe** (hook called only in function):
+
 ```javascript
 function MyComponent() {
   // This only executes when component renders
@@ -201,6 +219,7 @@ function MyComponent() {
 ### How to Identify
 
 Look for these patterns in library source code:
+
 - `typeof window ? React.useLayoutEffect : React.useEffect` at module level
 - `const someVar = React.useSomeHook()` at module level
 - `React.useSomeHook()` outside of any function definition

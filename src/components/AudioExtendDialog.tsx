@@ -1,25 +1,25 @@
-import { useState, useEffect } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription } from '@/components/ui/drawer';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Slider } from '@/components/ui/slider';
-import { Upload, Loader2, Mic, ChevronDown, ChevronUp, ArrowRight } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-import { SUNO_MODELS, getAvailableModels } from '@/constants/sunoModels';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { useAuth } from '@/hooks/useAuth';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { logger } from '@/lib/logger';
-import { validatePromptForGeneration, showGenerationError } from '@/lib/errorHandling';
-import { formatDuration } from '@/lib/player-utils';
-import { PromptValidationAlert } from '@/components/generate-form/PromptValidationAlert';
-import { AudioReferencePreview } from '@/components/audio/AudioReferencePreview';
+import { useState, useEffect } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription } from "@/components/ui/drawer";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Slider } from "@/components/ui/slider";
+import { Upload, Loader2, Mic, ChevronDown, ChevronUp, ArrowRight } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { SUNO_MODELS, getAvailableModels } from "@/constants/sunoModels";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { useAuth } from "@/hooks/useAuth";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { logger } from "@/lib/logger";
+import { validatePromptForGeneration, showGenerationError } from "@/lib/errorHandling";
+import { formatDuration } from "@/lib/player-utils";
+import { PromptValidationAlert } from "@/components/generate-form/PromptValidationAlert";
+import { AudioReferencePreview } from "@/components/audio/AudioReferencePreview";
 
 interface AudioExtendDialogProps {
   open: boolean;
@@ -36,11 +36,11 @@ interface AudioExtendDialogProps {
 
 // Model duration limits
 const MODEL_LIMITS: Record<string, { duration: number; label: string }> = {
-  'V5': { duration: 240, label: '4 мин' },
-  'V4_5PLUS': { duration: 480, label: '8 мин' },
-  'V4_5ALL': { duration: 60, label: '1 мин' },
-  'V4': { duration: 240, label: '4 мин' },
-  'V3_5': { duration: 180, label: '3 мин' },
+  V5: { duration: 240, label: "4 мин" },
+  V4_5PLUS: { duration: 480, label: "8 мин" },
+  V4_5ALL: { duration: 60, label: "1 мин" },
+  V4: { duration: 240, label: "4 мин" },
+  V3_5: { duration: 180, label: "3 мин" },
 };
 
 export const AudioExtendDialog = ({
@@ -48,7 +48,7 @@ export const AudioExtendDialog = ({
   onOpenChange,
   projectId,
   initialAudioFile,
-  prefillData
+  prefillData,
 }: AudioExtendDialogProps) => {
   const { user } = useAuth();
   const isMobile = useIsMobile();
@@ -56,29 +56,29 @@ export const AudioExtendDialog = ({
   const [audioFile, setAudioFile] = useState<File | null>(null);
   const [audioDuration, setAudioDuration] = useState<number | null>(null);
   const [audioPreviewUrl, setAudioPreviewUrl] = useState<string | null>(null);
-  
+
   // Core settings
-  const [style, setStyle] = useState(prefillData?.style || '');
-  const [title, setTitle] = useState(prefillData?.title ? `${prefillData.title} (extended)` : '');
-  const [lyrics, setLyrics] = useState(prefillData?.lyrics || '');
+  const [style, setStyle] = useState(prefillData?.style || "");
+  const [title, setTitle] = useState(prefillData?.title ? `${prefillData.title} (extended)` : "");
+  const [lyrics, setLyrics] = useState(prefillData?.lyrics || "");
   const [instrumental, setInstrumental] = useState(prefillData?.isInstrumental ?? false);
-  const [model, setModel] = useState('V4_5ALL');
+  const [model, setModel] = useState("V4_5ALL");
   const [continueAt, setContinueAt] = useState(0);
-  
+
   // Advanced
   const [showAdvanced, setShowAdvanced] = useState(false);
-  const [negativeTags, setNegativeTags] = useState('');
-  const [vocalGender, setVocalGender] = useState<'m' | 'f' | 'auto'>('auto');
-  
+  const [negativeTags, setNegativeTags] = useState("");
+  const [vocalGender, setVocalGender] = useState<"m" | "f" | "auto">("auto");
+
   // Validation
   const [durationError, setDurationError] = useState<string | null>(null);
 
   // Reset on open
   useEffect(() => {
     if (open && prefillData) {
-      setStyle(prefillData.style || '');
-      setTitle(prefillData.title ? `${prefillData.title} (extended)` : '');
-      setLyrics(prefillData.lyrics || '');
+      setStyle(prefillData.style || "");
+      setTitle(prefillData.title ? `${prefillData.title} (extended)` : "");
+      setLyrics(prefillData.lyrics || "");
       setInstrumental(prefillData.isInstrumental ?? false);
     }
   }, [open, prefillData]);
@@ -111,16 +111,15 @@ export const AudioExtendDialog = ({
     }
   }, [audioDuration, model]);
 
-
   const handleFileSelect = (file: File) => {
-    if (!file.type.startsWith('audio/')) {
-      toast.error('Выберите аудиофайл');
+    if (!file.type.startsWith("audio/")) {
+      toast.error("Выберите аудиофайл");
       return;
     }
 
     setAudioFile(file);
     if (!title) {
-      setTitle(file.name.replace(/\.[^/.]+$/, '') + ' (extended)');
+      setTitle(file.name.replace(/\.[^/.]+$/, "") + " (extended)");
     }
 
     const previewUrl = URL.createObjectURL(file);
@@ -133,13 +132,13 @@ export const AudioExtendDialog = ({
       setAudioDuration(duration);
       // Set continue point to 80% by default
       setContinueAt(Math.floor(duration * 0.8));
-      
+
       // Auto-select model
-      if (duration > 60 && model === 'V4_5ALL') {
-        if (duration <= 180) setModel('V3_5');
-        else if (duration <= 240) setModel('V5');
-        else setModel('V4_5PLUS');
-        toast.info('Модель автоматически выбрана');
+      if (duration > 60 && model === "V4_5ALL") {
+        if (duration <= 180) setModel("V3_5");
+        else if (duration <= 240) setModel("V5");
+        else setModel("V4_5PLUS");
+        toast.info("Модель автоматически выбрана");
       }
     };
   };
@@ -155,12 +154,12 @@ export const AudioExtendDialog = ({
 
   const handleSubmit = async () => {
     if (!audioFile) {
-      toast.error('Загрузите аудиофайл');
+      toast.error("Загрузите аудиофайл");
       return;
     }
 
     if (!style.trim()) {
-      toast.error('Укажите стиль');
+      toast.error("Укажите стиль");
       return;
     }
 
@@ -180,8 +179,8 @@ export const AudioExtendDialog = ({
 
     // Validate lyrics for extend mode (non-instrumental)
     if (!instrumental && !lyrics.trim()) {
-      toast.error('Добавьте текст для продолжения', {
-        description: 'Укажите текст или выберите инструментальный режим',
+      toast.error("Добавьте текст для продолжения", {
+        description: "Укажите текст или выберите инструментальный режим",
       });
       return;
     }
@@ -195,7 +194,7 @@ export const AudioExtendDialog = ({
         reader.onerror = reject;
       });
 
-      const { data, error } = await supabase.functions.invoke('suno-upload-extend', {
+      const { data, error } = await supabase.functions.invoke("suno-upload-extend", {
         body: {
           audioFile: {
             name: audioFile.name,
@@ -207,30 +206,30 @@ export const AudioExtendDialog = ({
           customMode: true,
           instrumental,
           style,
-          title: title || 'Extended Track',
+          title: title || "Extended Track",
           prompt: instrumental ? undefined : lyrics,
           continueAt,
           negativeTags: negativeTags || undefined,
-          vocalGender: vocalGender === 'auto' ? undefined : vocalGender,
+          vocalGender: vocalGender === "auto" ? undefined : vocalGender,
           projectId,
-        }
+        },
       });
 
       if (error) throw error;
 
-      toast.success('Расширение трека началось! 🎵', {
-        description: 'Результат появится в библиотеке через 1-3 минуты',
+      toast.success("Расширение трека началось! 🎵", {
+        description: "Результат появится в библиотеке через 1-3 минуты",
       });
 
       clearAudio();
-      setStyle('');
-      setTitle('');
-      setLyrics('');
-      setNegativeTags('');
-      setVocalGender('auto');
+      setStyle("");
+      setTitle("");
+      setLyrics("");
+      setNegativeTags("");
+      setVocalGender("auto");
       onOpenChange(false);
     } catch (error) {
-      logger.error('Extend submit error', { error });
+      logger.error("Extend submit error", { error });
       showGenerationError(error);
     } finally {
       setLoading(false);
@@ -258,7 +257,7 @@ export const AudioExtendDialog = ({
           <Button
             variant="outline"
             className="w-full mt-2 h-20 border-dashed gap-2"
-            onClick={() => document.getElementById('extend-audio-input')?.click()}
+            onClick={() => document.getElementById("extend-audio-input")?.click()}
           >
             <Upload className="w-5 h-5" />
             <span>Загрузить аудио</span>
@@ -328,11 +327,7 @@ export const AudioExtendDialog = ({
           className="mt-1.5 resize-none"
           maxLength={500}
         />
-        <PromptValidationAlert 
-          text={style} 
-          onApplyReplacement={(newText) => setStyle(newText)}
-          className="mt-1"
-        />
+        <PromptValidationAlert text={style} onApplyReplacement={(newText) => setStyle(newText)} className="mt-1" />
       </div>
 
       {/* Title */}
@@ -353,10 +348,7 @@ export const AudioExtendDialog = ({
           <Mic className="w-4 h-4 text-primary" />
           <Label className="text-sm">С вокалом</Label>
         </div>
-        <Switch
-          checked={!instrumental}
-          onCheckedChange={(checked) => setInstrumental(!checked)}
-        />
+        <Switch checked={!instrumental} onCheckedChange={(checked) => setInstrumental(!checked)} />
       </div>
 
       {/* Lyrics */}
@@ -371,11 +363,7 @@ export const AudioExtendDialog = ({
             className="mt-1.5 font-mono text-sm resize-none"
             maxLength={3000}
           />
-          <PromptValidationAlert 
-            text={lyrics} 
-            onApplyReplacement={(newText) => setLyrics(newText)}
-            className="mt-1"
-          />
+          <PromptValidationAlert text={lyrics} onApplyReplacement={(newText) => setLyrics(newText)} className="mt-1" />
         </div>
       )}
 
@@ -391,7 +379,7 @@ export const AudioExtendDialog = ({
           Дополнительно
           {showAdvanced ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
         </Button>
-        
+
         {showAdvanced && (
           <div className="space-y-3 mt-2 p-3 rounded-lg bg-muted/20">
             <div>
@@ -406,7 +394,7 @@ export const AudioExtendDialog = ({
             {!instrumental && (
               <div>
                 <Label className="text-xs">Пол вокала</Label>
-                <Select value={vocalGender} onValueChange={(v) => setVocalGender(v as 'm' | 'f' | 'auto')}>
+                <Select value={vocalGender} onValueChange={(v) => setVocalGender(v as "m" | "f" | "auto")}>
                   <SelectTrigger className="mt-1 h-8 text-sm">
                     <SelectValue />
                   </SelectTrigger>
@@ -453,13 +441,9 @@ export const AudioExtendDialog = ({
               <ArrowRight className="w-5 h-5 text-primary" />
               Расширить трек
             </DrawerTitle>
-            <DrawerDescription>
-              Добавьте продолжение к треку
-            </DrawerDescription>
+            <DrawerDescription>Добавьте продолжение к треку</DrawerDescription>
           </DrawerHeader>
-          <ScrollArea className="flex-1 px-4 pb-6 overflow-y-auto">
-            {content}
-          </ScrollArea>
+          <ScrollArea className="flex-1 px-4 pb-6 overflow-y-auto">{content}</ScrollArea>
         </DrawerContent>
       </Drawer>
     );
@@ -473,9 +457,7 @@ export const AudioExtendDialog = ({
             <ArrowRight className="w-5 h-5 text-primary" />
             Расширить трек
           </DialogTitle>
-          <DialogDescription>
-            Добавьте продолжение к треку
-          </DialogDescription>
+          <DialogDescription>Добавьте продолжение к треку</DialogDescription>
         </DialogHeader>
         {content}
       </DialogContent>

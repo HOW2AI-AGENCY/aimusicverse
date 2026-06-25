@@ -2,16 +2,16 @@
  * QuickActionsBar - Horizontal scrollable quick actions for MoreMenuSheet
  */
 
-import { memo } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { User, Settings, Gift, Bell, CreditCard } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { useAuth } from '@/hooks/useAuth';
-import { useTelegram } from '@/contexts/TelegramContext';
-import { useNotificationHub } from '@/contexts/NotificationContext';
-import { motion } from '@/lib/motion';
-import { cn } from '@/lib/utils';
+import { memo } from "react";
+import { useNavigate } from "react-router-dom";
+import { User, Settings, Gift, Bell, CreditCard } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { useAuth } from "@/hooks/useAuth";
+import { useTelegram } from "@/contexts/TelegramContext";
+import { useNotificationHub } from "@/contexts/NotificationContext";
+import { motion } from "@/lib/motion";
+import { cn } from "@/lib/utils";
 
 interface QuickAction {
   id: string;
@@ -35,42 +35,42 @@ export const QuickActionsBar = memo(function QuickActionsBar({ onClose }: QuickA
 
   const quickActions: QuickAction[] = [
     {
-      id: 'profile',
+      id: "profile",
       icon: User,
-      label: 'Профиль',
-      path: user?.id ? `/profile/${user.id}` : '/profile',
+      label: "Профиль",
+      path: user?.id ? `/profile/${user.id}` : "/profile",
       primary: true,
     },
     {
-      id: 'shop',
+      id: "shop",
       icon: CreditCard,
-      label: 'Магазин',
-      path: '/pricing',
+      label: "Магазин",
+      path: "/pricing",
     },
     {
-      id: 'rewards',
+      id: "rewards",
       icon: Gift,
-      label: 'Награды',
-      path: '/rewards',
+      label: "Награды",
+      path: "/rewards",
       badge: 1, // Show as there's always daily reward
     },
     {
-      id: 'notifications',
+      id: "notifications",
       icon: Bell,
-      label: 'Уведомления',
-      path: '/notifications',
+      label: "Уведомления",
+      path: "/notifications",
       badge: unreadCount,
     },
     {
-      id: 'settings',
+      id: "settings",
       icon: Settings,
-      label: 'Настройки',
-      path: '/settings',
+      label: "Настройки",
+      path: "/settings",
     },
   ];
 
   const handleAction = (action: QuickAction) => {
-    hapticFeedback?.('light');
+    hapticFeedback?.("light");
     onClose();
     if (action.path) {
       navigate(action.path);
@@ -91,21 +91,19 @@ export const QuickActionsBar = memo(function QuickActionsBar({ onClose }: QuickA
             transition={{ delay: index * 0.05 }}
           >
             <Button
-              variant={action.primary ? 'default' : 'outline'}
+              variant={action.primary ? "default" : "outline"}
               size="sm"
               onClick={() => handleAction(action)}
               className={cn(
                 "flex-shrink-0 gap-2 h-10 px-4 rounded-full",
-                action.primary && "bg-primary text-primary-foreground"
+                action.primary && "bg-primary text-primary-foreground",
               )}
             >
               <div className="relative">
                 <Icon className="w-4 h-4" />
                 {action.badge && action.badge > 0 && (
-                  <Badge 
-                    className="absolute -top-2 -right-2 h-4 min-w-4 px-1 text-[9px] bg-destructive text-destructive-foreground border-0"
-                  >
-                    {action.badge > 9 ? '9+' : action.badge}
+                  <Badge className="absolute -top-2 -right-2 h-4 min-w-4 px-1 text-[9px] bg-destructive text-destructive-foreground border-0">
+                    {action.badge > 9 ? "9+" : action.badge}
                   </Badge>
                 )}
               </div>

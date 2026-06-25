@@ -3,10 +3,10 @@
  * Features metallic texture, LED indicator, and optimized mobile touch handling
  */
 
-import { memo, useRef, useCallback, useState, useEffect } from 'react';
-import { motion, useMotionValue, useTransform, useSpring } from '@/lib/motion';
-import { cn } from '@/lib/utils';
-import { interactive } from '@/lib/overlay-colors';
+import { memo, useRef, useCallback, useState, useEffect } from "react";
+import { motion, useMotionValue, useTransform, useSpring } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import { interactive } from "@/lib/overlay-colors";
 
 interface RealisticKnobProps {
   value: number; // 0-1
@@ -19,10 +19,10 @@ interface RealisticKnobProps {
   onLabelClick?: () => void;
   onChangeStart?: () => void;
   onChangeEnd?: () => void;
-  size?: 'sm' | 'md' | 'lg';
+  size?: "sm" | "md" | "lg";
 }
 
-const DISABLED_COLOR = '#4b5563';
+const DISABLED_COLOR = "#4b5563";
 const NOTCH_COUNT = 11; // Number of grip notches on knob
 
 export const RealisticKnob = memo(function RealisticKnob({
@@ -36,29 +36,29 @@ export const RealisticKnob = memo(function RealisticKnob({
   onLabelClick,
   onChangeStart,
   onChangeEnd,
-  size = 'md',
+  size = "md",
 }: RealisticKnobProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const startY = useRef(0);
   const startValue = useRef(0);
-  
+
   // Motion values for smooth animation - use initial value only
   const motionValue = useMotionValue(value);
   const springValue = useSpring(motionValue, { stiffness: 300, damping: 30 });
   const lastExternalValue = useRef(value);
-  
+
   // Size configuration - larger touch targets for mobile
   const sizeConfig = {
-    sm: { outer: 72, inner: 52, grip: 44, fontSize: 'text-[10px]', labelWidth: 'w-20', touchArea: 88 },
-    md: { outer: 88, inner: 64, grip: 54, fontSize: 'text-xs', labelWidth: 'w-24', touchArea: 104 },
-    lg: { outer: 104, inner: 76, grip: 64, fontSize: 'text-sm', labelWidth: 'w-28', touchArea: 120 },
+    sm: { outer: 72, inner: 52, grip: 44, fontSize: "text-[10px]", labelWidth: "w-20", touchArea: 88 },
+    md: { outer: 88, inner: 64, grip: 54, fontSize: "text-xs", labelWidth: "w-24", touchArea: 104 },
+    lg: { outer: 104, inner: 76, grip: 64, fontSize: "text-sm", labelWidth: "w-28", touchArea: 120 },
   }[size];
 
   // Convert value to rotation angle (300 degree range, starting from -150)
   const angle = useTransform(springValue, [0, 1], [-150, 150]);
   const arcProgress = useTransform(springValue, [0, 1], [0, 0.833]); // 300/360 = 0.833
-  
+
   const activeColor = enabled ? color : DISABLED_COLOR;
 
   // Update motion value only when external value changes significantly and not dragging
@@ -83,53 +83,62 @@ export const RealisticKnob = memo(function RealisticKnob({
   }, []);
 
   // Haptic feedback
-  const triggerHaptic = useCallback((intensity: 'light' | 'medium' | 'heavy' = 'light') => {
-    if ('vibrate' in navigator) {
+  const triggerHaptic = useCallback((intensity: "light" | "medium" | "heavy" = "light") => {
+    if ("vibrate" in navigator) {
       const durations = { light: 5, medium: 15, heavy: 30 };
       navigator.vibrate(durations[intensity]);
     }
   }, []);
 
   // Pointer handlers for desktop and mobile
-  const handlePointerDown = useCallback((e: React.PointerEvent) => {
-    if (!enabled) return;
-    e.preventDefault();
-    e.stopPropagation();
-    
-    startY.current = e.clientY;
-    startValue.current = value;
-    setIsDragging(true);
-    onChangeStart?.();
-    triggerHaptic('light');
-    
-    // Capture pointer for reliable tracking
-    (e.target as HTMLElement).setPointerCapture(e.pointerId);
-  }, [enabled, value, onChangeStart, triggerHaptic]);
+  const handlePointerDown = useCallback(
+    (e: React.PointerEvent) => {
+      if (!enabled) return;
+      e.preventDefault();
+      e.stopPropagation();
 
-  const handlePointerMove = useCallback((e: React.PointerEvent) => {
-    if (!isDragging) return;
-    e.preventDefault();
-    
-    const newValue = calculateNewValue(e.clientY);
-    motionValue.set(newValue);
-    onChange(newValue);
-    
-    // Haptic on value change at key points
-    if (Math.abs(newValue - value) > 0.1) {
-      triggerHaptic('light');
-    }
-  }, [isDragging, calculateNewValue, motionValue, onChange, value, triggerHaptic]);
+      startY.current = e.clientY;
+      startValue.current = value;
+      setIsDragging(true);
+      onChangeStart?.();
+      triggerHaptic("light");
 
-  const handlePointerUp = useCallback((e: React.PointerEvent) => {
-    if (!isDragging) return;
-    e.preventDefault();
-    
-    setIsDragging(false);
-    onChangeEnd?.();
-    triggerHaptic('medium');
-    
-    (e.target as HTMLElement).releasePointerCapture(e.pointerId);
-  }, [isDragging, onChangeEnd, triggerHaptic]);
+      // Capture pointer for reliable tracking
+      (e.target as HTMLElement).setPointerCapture(e.pointerId);
+    },
+    [enabled, value, onChangeStart, triggerHaptic],
+  );
+
+  const handlePointerMove = useCallback(
+    (e: React.PointerEvent) => {
+      if (!isDragging) return;
+      e.preventDefault();
+
+      const newValue = calculateNewValue(e.clientY);
+      motionValue.set(newValue);
+      onChange(newValue);
+
+      // Haptic on value change at key points
+      if (Math.abs(newValue - value) > 0.1) {
+        triggerHaptic("light");
+      }
+    },
+    [isDragging, calculateNewValue, motionValue, onChange, value, triggerHaptic],
+  );
+
+  const handlePointerUp = useCallback(
+    (e: React.PointerEvent) => {
+      if (!isDragging) return;
+      e.preventDefault();
+
+      setIsDragging(false);
+      onChangeEnd?.();
+      triggerHaptic("medium");
+
+      (e.target as HTMLElement).releasePointerCapture(e.pointerId);
+    },
+    [isDragging, onChangeEnd, triggerHaptic],
+  );
 
   // Double-tap to reset
   const lastTapRef = useRef(0);
@@ -137,7 +146,7 @@ export const RealisticKnob = memo(function RealisticKnob({
     const now = Date.now();
     if (now - lastTapRef.current < 300) {
       onChange(0.5);
-      triggerHaptic('heavy');
+      triggerHaptic("heavy");
     }
     lastTapRef.current = now;
   }, [onChange, triggerHaptic]);
@@ -150,8 +159,8 @@ export const RealisticKnob = memo(function RealisticKnob({
 
   // SVG arc path for progress indicator
   const createArcPath = (startAngle: number, endAngle: number, radius: number) => {
-    const startRad = (startAngle - 90) * Math.PI / 180;
-    const endRad = (endAngle - 90) * Math.PI / 180;
+    const startRad = ((startAngle - 90) * Math.PI) / 180;
+    const endRad = ((endAngle - 90) * Math.PI) / 180;
     const x1 = 50 + radius * Math.cos(startRad);
     const y1 = 50 + radius * Math.sin(startRad);
     const x2 = 50 + radius * Math.cos(endRad);
@@ -161,17 +170,11 @@ export const RealisticKnob = memo(function RealisticKnob({
   };
 
   return (
-    <div 
-      className="flex flex-col items-center gap-2 select-none"
-      style={{ touchAction: 'none' }}
-    >
+    <div className="flex flex-col items-center gap-2 select-none" style={{ touchAction: "none" }}>
       {/* Touch area container - larger than visible knob */}
       <div
         ref={containerRef}
-        className={cn(
-          'relative cursor-grab active:cursor-grabbing',
-          !enabled && 'opacity-50 cursor-not-allowed'
-        )}
+        className={cn("relative cursor-grab active:cursor-grabbing", !enabled && "opacity-50 cursor-not-allowed")}
         style={{
           width: sizeConfig.touchArea,
           height: sizeConfig.touchArea,
@@ -202,7 +205,7 @@ export const RealisticKnob = memo(function RealisticKnob({
               strokeWidth="4"
               strokeLinecap="round"
             />
-            
+
             {/* Active arc */}
             <motion.path
               d={createArcPath(-150, -150 + value * 300, 46)}
@@ -211,16 +214,16 @@ export const RealisticKnob = memo(function RealisticKnob({
               strokeWidth="4"
               strokeLinecap="round"
               style={{
-                filter: enabled && isActive ? `drop-shadow(0 0 6px ${color})` : 'none',
+                filter: enabled && isActive ? `drop-shadow(0 0 6px ${color})` : "none",
               }}
               initial={false}
               animate={{ d: createArcPath(-150, -150 + value * 300, 46) }}
-              transition={{ type: 'spring', stiffness: 200, damping: 25 }}
+              transition={{ type: "spring", stiffness: 200, damping: 25 }}
             />
-            
+
             {/* Tick marks */}
             {[0, 0.25, 0.5, 0.75, 1].map((tick, i) => {
-              const tickAngle = (-150 + tick * 300 - 90) * Math.PI / 180;
+              const tickAngle = ((-150 + tick * 300 - 90) * Math.PI) / 180;
               const inner = 38;
               const outer = 42;
               return (
@@ -230,7 +233,7 @@ export const RealisticKnob = memo(function RealisticKnob({
                   y1={50 + inner * Math.sin(tickAngle)}
                   x2={50 + outer * Math.cos(tickAngle)}
                   y2={50 + outer * Math.sin(tickAngle)}
-                  stroke={tick <= value ? activeColor : 'rgba(100,100,110,0.5)'}
+                  stroke={tick <= value ? activeColor : "rgba(100,100,110,0.5)"}
                   strokeWidth="2"
                   strokeLinecap="round"
                 />
@@ -255,13 +258,13 @@ export const RealisticKnob = memo(function RealisticKnob({
                 0 4px 12px rgba(0,0,0,0.5),
                 inset 0 1px 2px rgba(255,255,255,0.1),
                 inset 0 -2px 4px rgba(0,0,0,0.2)
-                ${enabled && isActive ? `, 0 0 20px ${color}40` : ''}
+                ${enabled && isActive ? `, 0 0 20px ${color}40` : ""}
               `,
             }}
             animate={{
               scale: isDragging ? 1.02 : 1,
             }}
-            transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+            transition={{ type: "spring", stiffness: 400, damping: 25 }}
           >
             {/* Grip texture - ridges around edge */}
             <motion.div
@@ -273,7 +276,7 @@ export const RealisticKnob = memo(function RealisticKnob({
                 left: (sizeConfig.inner - sizeConfig.grip) / 2,
               }}
               animate={{ rotate: -150 + value * 300 }}
-              transition={{ type: 'spring', stiffness: 200, damping: 25 }}
+              transition={{ type: "spring", stiffness: 200, damping: 25 }}
             >
               {/* Grip notches */}
               {notches.map((notchAngle, i) => (
@@ -283,17 +286,17 @@ export const RealisticKnob = memo(function RealisticKnob({
                   style={{
                     width: 2,
                     height: 6,
-                    backgroundColor: 'rgba(80,80,90,0.8)',
+                    backgroundColor: "rgba(80,80,90,0.8)",
                     borderRadius: 1,
                     top: 2,
-                    left: '50%',
+                    left: "50%",
                     marginLeft: -1,
                     transformOrigin: `center ${sizeConfig.grip / 2 - 2}px`,
                     transform: `rotate(${notchAngle}deg)`,
                   }}
                 />
               ))}
-              
+
               {/* Center indicator line */}
               <div
                 className="absolute rounded-full"
@@ -302,9 +305,9 @@ export const RealisticKnob = memo(function RealisticKnob({
                   height: sizeConfig.grip / 3,
                   backgroundColor: activeColor,
                   top: 4,
-                  left: '50%',
+                  left: "50%",
                   marginLeft: -1.5,
-                  boxShadow: enabled ? `0 0 8px ${color}` : 'none',
+                  boxShadow: enabled ? `0 0 8px ${color}` : "none",
                 }}
               />
             </motion.div>
@@ -315,17 +318,14 @@ export const RealisticKnob = memo(function RealisticKnob({
               style={{
                 width: sizeConfig.grip * 0.6,
                 height: sizeConfig.grip * 0.6,
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                background: 'linear-gradient(145deg, #2a2a30 0%, #1a1a1e 100%)',
-                boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.3), 0 1px 1px rgba(255,255,255,0.05)',
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                background: "linear-gradient(145deg, #2a2a30 0%, #1a1a1e 100%)",
+                boxShadow: "inset 0 2px 4px rgba(0,0,0,0.3), 0 1px 1px rgba(255,255,255,0.05)",
               }}
             >
-              <span 
-                className={cn('font-bold tabular-nums', sizeConfig.fontSize)}
-                style={{ color: activeColor }}
-              >
+              <span className={cn("font-bold tabular-nums", sizeConfig.fontSize)} style={{ color: activeColor }}>
                 {Math.round(value * 100)}
               </span>
             </div>
@@ -339,7 +339,7 @@ export const RealisticKnob = memo(function RealisticKnob({
                 background: `radial-gradient(circle, ${color}15 0%, transparent 60%)`,
               }}
               animate={{ opacity: [0.3, 0.7, 0.3] }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             />
           )}
         </div>
@@ -358,12 +358,12 @@ export const RealisticKnob = memo(function RealisticKnob({
       {/* Label button */}
       <button
         className={cn(
-          'text-center truncate transition-all rounded-lg px-2 py-1',
+          "text-center truncate transition-all rounded-lg px-2 py-1",
           interactive.hover,
-          'active:scale-95',
+          "active:scale-95",
           sizeConfig.labelWidth,
           sizeConfig.fontSize,
-          !enabled && 'opacity-50'
+          !enabled && "opacity-50",
         )}
         onClick={(e) => {
           e.stopPropagation();
@@ -371,21 +371,20 @@ export const RealisticKnob = memo(function RealisticKnob({
         }}
       >
         <div className="font-medium truncate">{label}</div>
-        {sublabel && (
-          <div className="text-[9px] opacity-60 truncate">{sublabel}</div>
-        )}
+        {sublabel && <div className="text-[9px] opacity-60 truncate">{sublabel}</div>}
       </button>
 
       {/* LED indicator */}
       <div
         className="w-3 h-3 rounded-full transition-all"
         style={{
-          backgroundColor: enabled ? `${color}40` : 'rgba(75,85,99,0.3)',
-          boxShadow: enabled && isActive 
-            ? `0 0 10px ${color}, 0 0 20px ${color}60, 0 0 0 2px ${color}` 
-            : enabled 
-            ? `0 0 4px ${color}40, 0 0 0 2px ${color}`
-            : `0 0 0 2px ${DISABLED_COLOR}`,
+          backgroundColor: enabled ? `${color}40` : "rgba(75,85,99,0.3)",
+          boxShadow:
+            enabled && isActive
+              ? `0 0 10px ${color}, 0 0 20px ${color}60, 0 0 0 2px ${color}`
+              : enabled
+                ? `0 0 4px ${color}40, 0 0 0 2px ${color}`
+                : `0 0 0 2px ${DISABLED_COLOR}`,
         }}
         onClick={(e) => {
           e.stopPropagation();

@@ -1,71 +1,72 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { getSupabaseClient } from "../_shared/supabase-client.ts";
-import { corsHeaders } from '../_shared/cors.ts';
+import { corsHeaders } from "../_shared/cors.ts";
 
 // Максимум символов для промпта (оставляем запас до 500)
 const MAX_PROMPT_LENGTH = 450;
 
 serve(async (req) => {
-  if (req.method === 'OPTIONS') {
+  if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const lovableApiKey = Deno.env.get('LOVABLE_API_KEY');
+    const lovableApiKey = Deno.env.get("LOVABLE_API_KEY");
 
     if (!lovableApiKey) {
-      console.error('LOVABLE_API_KEY not configured');
-      return new Response(
-        JSON.stringify({ error: 'API key not configured' }),
-        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      console.error("LOVABLE_API_KEY not configured");
+      return new Response(JSON.stringify({ error: "API key not configured" }), {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     const supabase = getSupabaseClient();
 
     // Verify auth
-    const authHeader = req.headers.get('Authorization');
+    const authHeader = req.headers.get("Authorization");
     if (!authHeader) {
-      return new Response(
-        JSON.stringify({ error: 'No authorization header' }),
-        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      return new Response(JSON.stringify({ error: "No authorization header" }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
-    const { data: { user }, error: authError } = await supabase.auth.getUser(
-      authHeader.replace('Bearer ', '')
-    );
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(authHeader.replace("Bearer ", ""));
 
     if (authError || !user) {
-      return new Response(
-        JSON.stringify({ error: 'Unauthorized' }),
-        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     const { content, targetLength = MAX_PROMPT_LENGTH } = await req.json();
 
     if (!content) {
-      return new Response(
-        JSON.stringify({ error: 'Content is required' }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      return new Response(JSON.stringify({ error: "Content is required" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
-    console.log('Boosting style with AI:', content.substring(0, 100));
+    console.log("Boosting style with AI:", content.substring(0, 100));
 
     // Use Lovable AI to enhance the style description
-    const aiResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
-      method: 'POST',
+    const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      method: "POST",
       headers: {
-        'Authorization': `Bearer ${lovableApiKey}`,
-        'Content-Type': 'application/json',
+        Authorization: `Bearer ${lovableApiKey}`,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: 'google/gemini-2.5-flash',
+        model: "google/gemini-2.5-flash",
         messages: [
           {
-            role: 'system',
+            role: "system",
             content: `Ты эксперт по AI музыке и Suno API v5. Улучши описание музыкального стиля.
 
 КРИТИЧЕСКИ ВАЖНО:
@@ -89,7 +90,7 @@ serve(async (req) => {
 - Не пиши пояснений, только результат`,
           },
           {
-            role: 'user',
+            role: "user",
             content: `Улучши это описание (макс ${targetLength} символов):\n\n${content}`,
           },
         ],
@@ -100,23 +101,23 @@ serve(async (req) => {
 
     if (!aiResponse.ok) {
       const errorText = await aiResponse.text();
-      console.error('Lovable AI error:', aiResponse.status, errorText);
-      
+      console.error("Lovable AI error:", aiResponse.status, errorText);
+
       // Graceful degradation: return original content if AI unavailable
       if (aiResponse.status === 402 || aiResponse.status === 429 || aiResponse.status === 503) {
         console.warn(`Lovable AI unavailable (${aiResponse.status}), returning original content`);
         return new Response(
-          JSON.stringify({ 
+          JSON.stringify({
             boostedStyle: content,
             original: content,
             length: content.length,
             fallback: true,
-            message: 'AI временно недоступен, используем оригинальное описание'
+            message: "AI временно недоступен, используем оригинальное описание",
           }),
-          { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+          { headers: { ...corsHeaders, "Content-Type": "application/json" } },
         );
       }
-      
+
       throw new Error(`AI API error: ${aiResponse.status}`);
     }
 
@@ -124,18 +125,18 @@ serve(async (req) => {
     let boostedStyle = aiData.choices?.[0]?.message?.content?.trim();
 
     if (!boostedStyle) {
-      console.error('No style in AI response:', aiData);
-      return new Response(
-        JSON.stringify({ error: 'No style generated' }),
-        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      console.error("No style in AI response:", aiData);
+      return new Response(JSON.stringify({ error: "No style generated" }), {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     // Ensure the result doesn't exceed the target length
     if (boostedStyle.length > targetLength) {
       console.log(`Trimming boosted style from ${boostedStyle.length} to ${targetLength}`);
       // Try to trim intelligently - find last complete tag
-      const lastBracket = boostedStyle.lastIndexOf(']', targetLength);
+      const lastBracket = boostedStyle.lastIndexOf("]", targetLength);
       if (lastBracket > 100) {
         boostedStyle = boostedStyle.substring(0, lastBracket + 1);
       } else {
@@ -146,19 +147,18 @@ serve(async (req) => {
     console.log(`Style boosted: ${boostedStyle.length} chars`);
 
     return new Response(
-      JSON.stringify({ 
+      JSON.stringify({
         boostedStyle,
         original: content,
         length: boostedStyle.length,
       }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
-
   } catch (error: any) {
-    console.error('Error in suno-boost-style:', error);
-    return new Response(
-      JSON.stringify({ error: error.message || 'Internal server error' }),
-      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-    );
+    console.error("Error in suno-boost-style:", error);
+    return new Response(JSON.stringify({ error: error.message || "Internal server error" }), {
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 });

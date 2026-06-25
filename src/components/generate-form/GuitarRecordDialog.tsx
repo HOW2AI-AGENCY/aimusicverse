@@ -1,27 +1,39 @@
-import { useState, useEffect, useRef, useId } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
-import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { 
-  Mic, MicOff, Guitar, Play, Pause, Trash2, Loader2, Music, 
-  Waves, CheckCircle2, AlertCircle, Save, FolderOpen, FileMusic
-} from 'lucide-react';
-import { useGuitarAnalysis, type GuitarAnalysisResult } from '@/hooks/useGuitarAnalysis';
-import { useGuitarRecordings } from '@/hooks/useGuitarRecordings';
-import { GuitarAnalysisReport } from '@/components/guitar/GuitarAnalysisReport';
-import { SavedRecordingsList } from '@/components/guitar/SavedRecordingsList';
-import { cn } from '@/lib/utils';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { toast } from 'sonner';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from '@/hooks/studio/useStudioAudio';
+import { useState, useEffect, useRef, useId } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Mic,
+  MicOff,
+  Guitar,
+  Play,
+  Pause,
+  Trash2,
+  Loader2,
+  Music,
+  Waves,
+  CheckCircle2,
+  AlertCircle,
+  Save,
+  FolderOpen,
+  FileMusic,
+} from "lucide-react";
+import { useGuitarAnalysis, type GuitarAnalysisResult } from "@/hooks/useGuitarAnalysis";
+import { useGuitarRecordings } from "@/hooks/useGuitarRecordings";
+import { GuitarAnalysisReport } from "@/components/guitar/GuitarAnalysisReport";
+import { SavedRecordingsList } from "@/components/guitar/SavedRecordingsList";
+import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { toast } from "sonner";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
 
 interface GuitarRecordDialogProps {
   onComplete?: (data: {
@@ -36,8 +48,8 @@ interface GuitarRecordDialogProps {
   onOpenChange?: (open: boolean) => void;
 }
 
-export function GuitarRecordDialog({ 
-  onComplete, 
+export function GuitarRecordDialog({
+  onComplete,
   trigger,
   open: controlledOpen,
   onOpenChange: controlledOnOpenChange,
@@ -47,8 +59,8 @@ export function GuitarRecordDialog({
   const setOpen = controlledOnOpenChange ?? setUncontrolledOpen;
   const [isPlaying, setIsPlaying] = useState(false);
   const [recordingDuration, setRecordingDuration] = useState(0);
-  const [recordingTitle, setRecordingTitle] = useState('');
-  const [activeTab, setActiveTab] = useState<'record' | 'saved'>('record');
+  const [recordingTitle, setRecordingTitle] = useState("");
+  const [activeTab, setActiveTab] = useState<"record" | "saved">("record");
   const audioRef = useRef<HTMLAudioElement>(null);
   const timerRef = useRef<number | undefined>(undefined);
   const isMobile = useIsMobile();
@@ -96,7 +108,7 @@ export function GuitarRecordDialog({
     if (isRecording) {
       setRecordingDuration(0);
       timerRef.current = window.setInterval(() => {
-        setRecordingDuration(d => d + 1);
+        setRecordingDuration((d) => d + 1);
       }, 1000);
     } else {
       if (timerRef.current) {
@@ -117,14 +129,14 @@ export function GuitarRecordDialog({
       clearRecording();
       setIsPlaying(false);
       setRecordingDuration(0);
-      setRecordingTitle('');
-      setActiveTab('record');
+      setRecordingTitle("");
+      setActiveTab("record");
     }
   }, [open, clearRecording]);
 
   const handleTogglePlayback = () => {
     if (!audioRef.current) return;
-    
+
     if (isPlaying) {
       audioRef.current.pause();
       setIsPlaying(false);
@@ -142,7 +154,7 @@ export function GuitarRecordDialog({
 
   const handleSaveRecording = async () => {
     if (!analysisResult || !recordedAudioUrl) {
-      toast.error('Сначала проанализируйте запись');
+      toast.error("Сначала проанализируйте запись");
       return;
     }
 
@@ -181,7 +193,7 @@ export function GuitarRecordDialog({
   const formatDuration = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
   };
 
   const content = (
@@ -209,18 +221,20 @@ export function GuitarRecordDialog({
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                 >
-                  <Card className={cn(
-                    "p-6 flex flex-col items-center justify-center gap-4 transition-all duration-300",
-                    isRecording && "bg-destructive/10 border-destructive shadow-lg shadow-destructive/20"
-                  )}>
+                  <Card
+                    className={cn(
+                      "p-6 flex flex-col items-center justify-center gap-4 transition-all duration-300",
+                      isRecording && "bg-destructive/10 border-destructive shadow-lg shadow-destructive/20",
+                    )}
+                  >
                     {/* Animated recording circle */}
                     <div className="relative">
                       <motion.div
                         className={cn(
                           "w-28 h-28 rounded-full flex items-center justify-center transition-colors",
-                          isRecording 
-                            ? "bg-destructive" 
-                            : "bg-gradient-to-br from-primary/20 to-primary/5 border-2 border-primary/30"
+                          isRecording
+                            ? "bg-destructive"
+                            : "bg-gradient-to-br from-primary/20 to-primary/5 border-2 border-primary/30",
                         )}
                         animate={isRecording ? { scale: [1, 1.05, 1] } : {}}
                         transition={{ duration: 1.5, repeat: Infinity }}
@@ -231,7 +245,7 @@ export function GuitarRecordDialog({
                           <Guitar className="w-12 h-12 text-primary" />
                         )}
                       </motion.div>
-                      
+
                       {/* Recording pulse rings */}
                       {isRecording && (
                         <>
@@ -252,18 +266,15 @@ export function GuitarRecordDialog({
                     <div className="text-center space-y-1">
                       <h3 className="font-semibold text-xl">
                         {isRecording ? (
-                          <span className="text-destructive font-mono">
-                            {formatDuration(recordingDuration)}
-                          </span>
+                          <span className="text-destructive font-mono">{formatDuration(recordingDuration)}</span>
                         ) : (
-                          'Запишите мелодию'
+                          "Запишите мелодию"
                         )}
                       </h3>
                       <p className="text-sm text-muted-foreground max-w-xs">
-                        {isRecording 
-                          ? 'Играйте на инструменте. Нажмите для остановки.' 
-                          : 'Гитара, пианино, голос — AI распознает мелодию и аккорды'
-                        }
+                        {isRecording
+                          ? "Играйте на инструменте. Нажмите для остановки."
+                          : "Гитара, пианино, голос — AI распознает мелодию и аккорды"}
                       </p>
                     </div>
 
@@ -321,11 +332,7 @@ export function GuitarRecordDialog({
                         onClick={handleTogglePlayback}
                         className="h-12 w-12 rounded-full shrink-0"
                       >
-                        {isPlaying ? (
-                          <Pause className="w-5 h-5" />
-                        ) : (
-                          <Play className="w-5 h-5 ml-0.5" />
-                        )}
+                        {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 ml-0.5" />}
                       </Button>
 
                       <div className="flex-1 min-w-0">
@@ -352,16 +359,11 @@ export function GuitarRecordDialog({
                       className="hidden"
                     />
 
-                    <Button
-                      onClick={handleAnalyze}
-                      disabled={isAnalyzing}
-                      className="w-full gap-2 h-12"
-                      size="lg"
-                    >
+                    <Button onClick={handleAnalyze} disabled={isAnalyzing} className="w-full gap-2 h-12" size="lg">
                       {isAnalyzing ? (
                         <>
                           <Loader2 className="w-5 h-5 animate-spin" />
-                          {progress || 'Анализируем...'}
+                          {progress || "Анализируем..."}
                         </>
                       ) : (
                         <>
@@ -403,10 +405,7 @@ export function GuitarRecordDialog({
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  <Badge 
-                    variant={analysisResult.analysisComplete.beats ? "default" : "secondary"}
-                    className="gap-1"
-                  >
+                  <Badge variant={analysisResult.analysisComplete.beats ? "default" : "secondary"} className="gap-1">
                     {analysisResult.analysisComplete.beats ? (
                       <CheckCircle2 className="w-3 h-3" />
                     ) : (
@@ -414,10 +413,7 @@ export function GuitarRecordDialog({
                     )}
                     Ритм
                   </Badge>
-                  <Badge 
-                    variant={analysisResult.analysisComplete.chords ? "default" : "secondary"}
-                    className="gap-1"
-                  >
+                  <Badge variant={analysisResult.analysisComplete.chords ? "default" : "secondary"} className="gap-1">
                     {analysisResult.analysisComplete.chords ? (
                       <CheckCircle2 className="w-3 h-3" />
                     ) : (
@@ -425,7 +421,7 @@ export function GuitarRecordDialog({
                     )}
                     Аккорды
                   </Badge>
-                  <Badge 
+                  <Badge
                     variant={analysisResult.analysisComplete.transcription ? "default" : "secondary"}
                     className="gap-1"
                   >
@@ -465,16 +461,12 @@ export function GuitarRecordDialog({
 
   // If using controlled open without trigger, don't render trigger
   const isControlled = controlledOpen !== undefined;
-  const triggerElement = isControlled ? null : (trigger || defaultTrigger);
+  const triggerElement = isControlled ? null : trigger || defaultTrigger;
 
   if (isMobile) {
     return (
       <Drawer open={open} onOpenChange={setOpen}>
-        {triggerElement && (
-          <DrawerTrigger asChild>
-            {triggerElement}
-          </DrawerTrigger>
-        )}
+        {triggerElement && <DrawerTrigger asChild>{triggerElement}</DrawerTrigger>}
         <DrawerContent className="max-h-[90vh]">
           <DrawerHeader className="pb-2">
             <DrawerTitle className="flex items-center gap-2">
@@ -482,9 +474,7 @@ export function GuitarRecordDialog({
               Анализ гитарной записи
             </DrawerTitle>
           </DrawerHeader>
-          <div className="px-4 pb-6 overflow-y-auto">
-            {content}
-          </div>
+          <div className="px-4 pb-6 overflow-y-auto">{content}</div>
         </DrawerContent>
       </Drawer>
     );
@@ -492,11 +482,7 @@ export function GuitarRecordDialog({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      {triggerElement && (
-        <DialogTrigger asChild>
-          {triggerElement}
-        </DialogTrigger>
-      )}
+      {triggerElement && <DialogTrigger asChild>{triggerElement}</DialogTrigger>}
       <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">

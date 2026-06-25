@@ -3,11 +3,11 @@
  * Accounts for Telegram safe area and native buttons
  */
 
-import { motion } from '@/lib/motion';
-import { cn } from '@/lib/utils';
-import { glass } from '@/lib/glass';
-import { AppLogo } from '@/components/branding/AppLogo';
-import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
+import { motion } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import { glass } from "@/lib/glass";
+import { AppLogo } from "@/components/branding/AppLogo";
+import { Breadcrumbs } from "@/components/navigation/Breadcrumbs";
 
 interface BreadcrumbItem {
   label: string;
@@ -30,11 +30,11 @@ interface AppHeaderProps {
   showBreadcrumbs?: boolean;
 }
 
-export function AppHeader({ 
-  title, 
-  subtitle, 
+export function AppHeader({
+  title,
+  subtitle,
   icon,
-  leftAction, 
+  leftAction,
   rightAction,
   titleElement,
   className,
@@ -43,13 +43,13 @@ export function AppHeader({
   showBreadcrumbs = false,
 }: AppHeaderProps) {
   return (
-    <motion.header 
+    <motion.header
       className={cn(
         "sticky top-0 z-20 -mx-4 px-3",
         // Telegram content safe area for native buttons
         "pt-[max(calc(var(--tg-content-safe-area-inset-top,0px)+0.5rem),calc(env(safe-area-inset-top,0px)+0.5rem))] pb-2",
         glass.nav,
-        className
+        className,
       )}
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -63,46 +63,34 @@ export function AppHeader({
       )}
 
       {/* Mobile: stacked & centered. Desktop: title centered with side actions */}
-      <motion.div 
+      <motion.div
         className="flex flex-col items-center gap-2 sm:flex-row sm:items-center sm:justify-between"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1, duration: 0.3 }}
       >
         {/* Left action (desktop only spacer) */}
-        {leftAction && (
-          <div className="hidden sm:flex items-center gap-2 flex-shrink-0 min-w-[40px]">
-            {leftAction}
-          </div>
-        )}
+        {leftAction && <div className="hidden sm:flex items-center gap-2 flex-shrink-0 min-w-[40px]">{leftAction}</div>}
 
         {/* Title section */}
         <div className="flex flex-col items-center sm:flex-1 min-w-0">
           {(breadcrumbs || showBreadcrumbs) && (
-            <Breadcrumbs 
-              items={breadcrumbs} 
-              className="mb-1 text-[11px]" 
-              showHome={true}
-            />
+            <Breadcrumbs items={breadcrumbs} className="mb-1 text-[11px]" showHome={true} />
           )}
           <div className="flex items-center gap-2 justify-center">
             {icon && (
-              <motion.div 
+              <motion.div
                 className="flex-shrink-0 p-1.5 rounded-md bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/30"
                 initial={{ scale: 0, rotate: -90 }}
                 animate={{ scale: 1, rotate: 0 }}
-                transition={{ type: 'spring', stiffness: 200 }}
+                transition={{ type: "spring", stiffness: 200 }}
               >
                 {icon}
               </motion.div>
             )}
             <div className="text-center min-w-0">
-              {titleElement || (
-                <h2 className="text-base sm:text-lg font-bold truncate">{title}</h2>
-              )}
-              {subtitle && (
-                <p className="text-[11px] sm:text-xs text-muted-foreground truncate">{subtitle}</p>
-              )}
+              {titleElement || <h2 className="text-base sm:text-lg font-bold truncate">{title}</h2>}
+              {subtitle && <p className="text-[11px] sm:text-xs text-muted-foreground truncate">{subtitle}</p>}
             </div>
           </div>
         </div>

@@ -3,9 +3,9 @@
  * Sprint 010 - Phase 2: Foundational context
  */
 
-import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
-import { logger } from '@/lib/logger';
+import React, { createContext, useContext, useState, useCallback, ReactNode } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { logger } from "@/lib/logger";
 
 interface GenerationParams {
   prompt: string;
@@ -13,7 +13,7 @@ interface GenerationParams {
   mood?: string;
   instruments?: string[];
   duration?: number;
-  vocals?: 'male' | 'female' | 'instrumental';
+  vocals?: "male" | "female" | "instrumental";
   lyrics?: string;
   [key: string]: unknown;
 }
@@ -111,7 +111,7 @@ export function AIAssistantProvider({ children }: AIAssistantProviderProps) {
 
       return newItem.id;
     },
-    []
+    [],
   );
 
   // Update generation result after completion
@@ -120,22 +120,20 @@ export function AIAssistantProvider({ children }: AIAssistantProviderProps) {
       setState((prev) => ({
         ...prev,
         generationHistory: prev.generationHistory.map((item) =>
-          item.id === historyId
-            ? { ...item, success, track_id: trackId, error_message: error ?? null }
-            : item
+          item.id === historyId ? { ...item, success, track_id: trackId, error_message: error ?? null } : item,
         ),
       }));
 
       // Invalidate queries
-      queryClient.invalidateQueries({ queryKey: ['generation-history'] });
+      queryClient.invalidateQueries({ queryKey: ["generation-history"] });
     },
-    [queryClient]
+    [queryClient],
   );
 
   // Load generation history (currently no-op as we use local state)
   const loadGenerationHistory = useCallback(async () => {
     // TODO: Will load from database when user_generation_history table is created
-    logger.debug('Generation history loaded from local state');
+    logger.debug("Generation history loaded from local state");
   }, []);
 
   // Replay a previous generation (return params for reuse)
@@ -162,11 +160,7 @@ export function AIAssistantProvider({ children }: AIAssistantProviderProps) {
     replayGeneration,
   };
 
-  return (
-    <AIAssistantContext.Provider value={value}>
-      {children}
-    </AIAssistantContext.Provider>
-  );
+  return <AIAssistantContext.Provider value={value}>{children}</AIAssistantContext.Provider>;
 }
 
 /**
@@ -175,7 +169,7 @@ export function AIAssistantProvider({ children }: AIAssistantProviderProps) {
 export function useAIAssistant() {
   const context = useContext(AIAssistantContext);
   if (context === undefined) {
-    throw new Error('useAIAssistant must be used within AIAssistantProvider');
+    throw new Error("useAIAssistant must be used within AIAssistantProvider");
   }
   return context;
 }

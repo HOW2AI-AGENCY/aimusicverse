@@ -9,12 +9,12 @@
  * @see src/components/studio/unified/PresetManager.tsx
  */
 
-import { memo } from 'react';
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { Button } from '@/components/ui/button';
-import { PresetManager } from './PresetManager';
-import type { PresetCategory, PresetSettings } from '@/api/presets.api';
-import { SlidersHorizontal, X } from '@/lib/icons';
+import { memo } from "react";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
+import { PresetManager } from "./PresetManager";
+import type { PresetCategory, PresetSettings } from "@/api/presets.api";
+import { SlidersHorizontal, X } from "@/lib/icons";
 
 interface StudioPresetsSheetProps {
   open: boolean;
@@ -32,7 +32,7 @@ export const StudioPresetsSheet = memo(function StudioPresetsSheet({
   onOpenChange,
   trackId,
   currentSettings,
-  defaultCategory = 'mastering',
+  defaultCategory = "mastering",
 }: StudioPresetsSheetProps) {
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>

@@ -3,9 +3,9 @@
  * Left: Missions and calendar | Right: Achievements and leaderboard
  */
 
-import { ReactNode } from 'react';
-import { motion } from '@/lib/motion';
-import { cn } from '@/lib/utils';
+import { ReactNode } from "react";
+import { motion } from "@/lib/motion";
+import { cn } from "@/lib/utils";
 
 interface DesktopRewardsLayoutProps {
   header: ReactNode;

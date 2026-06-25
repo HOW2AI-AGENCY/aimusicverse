@@ -1,8 +1,8 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/hooks/useAuth';
-import { toast } from 'sonner';
-import { logger } from '@/lib/logger';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
+import { toast } from "sonner";
+import { logger } from "@/lib/logger";
 
 interface BlockedUser {
   blocked_id: string;
@@ -23,13 +23,14 @@ export function useBlockedUsers() {
   const { user } = useAuth();
 
   return useQuery({
-    queryKey: ['blocked-users', user?.id],
+    queryKey: ["blocked-users", user?.id],
     queryFn: async () => {
-      if (!user?.id) throw new Error('User not authenticated');
+      if (!user?.id) throw new Error("User not authenticated");
 
       const { data, error } = await supabase
-        .from('blocked_users')
-        .select(`
+        .from("blocked_users")
+        .select(
+          `
           blocked_id,
           created_at,
           profiles:blocked_id (
@@ -39,9 +40,10 @@ export function useBlockedUsers() {
             photo_url,
             username
           )
-        `)
-        .eq('blocker_id', user.id)
-        .order('created_at', { ascending: false });
+        `,
+        )
+        .eq("blocker_id", user.id)
+        .order("created_at", { ascending: false });
 
       if (error) throw error;
       return (data as unknown as BlockedUser[]) || [];
@@ -58,18 +60,18 @@ export function useIsBlocked(userId?: string) {
   const { user } = useAuth();
 
   return useQuery({
-    queryKey: ['is-blocked', user?.id, userId],
+    queryKey: ["is-blocked", user?.id, userId],
     queryFn: async () => {
       if (!user?.id || !userId) return false;
 
       const { data, error } = await supabase
-        .from('blocked_users')
-        .select('blocked_id')
-        .eq('blocker_id', user.id)
-        .eq('blocked_id', userId)
+        .from("blocked_users")
+        .select("blocked_id")
+        .eq("blocker_id", user.id)
+        .eq("blocked_id", userId)
         .maybeSingle();
 
-      if (error && error.code !== 'PGRST116') throw error;
+      if (error && error.code !== "PGRST116") throw error;
       return !!data;
     },
     enabled: !!user?.id && !!userId,
@@ -86,33 +88,31 @@ export function useBlockUser() {
 
   return useMutation({
     mutationFn: async (blockedUserId: string) => {
-      if (!user?.id) throw new Error('User not authenticated');
-      if (user.id === blockedUserId) throw new Error('Cannot block yourself');
+      if (!user?.id) throw new Error("User not authenticated");
+      if (user.id === blockedUserId) throw new Error("Cannot block yourself");
 
-      const { error } = await supabase
-        .from('blocked_users')
-        .insert({
-          blocker_id: user.id,
-          blocked_id: blockedUserId,
-        });
+      const { error } = await supabase.from("blocked_users").insert({
+        blocker_id: user.id,
+        blocked_id: blockedUserId,
+      });
 
       if (error) throw error;
     },
     onSuccess: (_, blockedUserId) => {
       // Invalidate blocked users list
-      queryClient.invalidateQueries({ queryKey: ['blocked-users', user?.id] });
-      queryClient.invalidateQueries({ queryKey: ['is-blocked', user?.id, blockedUserId] });
-      
+      queryClient.invalidateQueries({ queryKey: ["blocked-users", user?.id] });
+      queryClient.invalidateQueries({ queryKey: ["is-blocked", user?.id, blockedUserId] });
+
       // Invalidate follows queries (they should unfollow automatically)
-      queryClient.invalidateQueries({ queryKey: ['followers'] });
-      queryClient.invalidateQueries({ queryKey: ['following'] });
-      queryClient.invalidateQueries({ queryKey: ['is-following'] });
-      
-      toast.success('Пользователь заблокирован');
+      queryClient.invalidateQueries({ queryKey: ["followers"] });
+      queryClient.invalidateQueries({ queryKey: ["following"] });
+      queryClient.invalidateQueries({ queryKey: ["is-following"] });
+
+      toast.success("Пользователь заблокирован");
     },
     onError: (error: Error) => {
-      logger.error('Block user error', error);
-      toast.error('Не удалось заблокировать пользователя');
+      logger.error("Block user error", error);
+      toast.error("Не удалось заблокировать пользователя");
     },
   });
 }
@@ -126,26 +126,26 @@ export function useUnblockUser() {
 
   return useMutation({
     mutationFn: async (blockedUserId: string) => {
-      if (!user?.id) throw new Error('User not authenticated');
+      if (!user?.id) throw new Error("User not authenticated");
 
       const { error } = await supabase
-        .from('blocked_users')
+        .from("blocked_users")
         .delete()
-        .eq('blocker_id', user.id)
-        .eq('blocked_id', blockedUserId);
+        .eq("blocker_id", user.id)
+        .eq("blocked_id", blockedUserId);
 
       if (error) throw error;
     },
     onSuccess: (_, blockedUserId) => {
       // Invalidate blocked users list
-      queryClient.invalidateQueries({ queryKey: ['blocked-users', user?.id] });
-      queryClient.invalidateQueries({ queryKey: ['is-blocked', user?.id, blockedUserId] });
-      
-      toast.success('Пользователь разблокирован');
+      queryClient.invalidateQueries({ queryKey: ["blocked-users", user?.id] });
+      queryClient.invalidateQueries({ queryKey: ["is-blocked", user?.id, blockedUserId] });
+
+      toast.success("Пользователь разблокирован");
     },
     onError: (error: Error) => {
-      logger.error('Unblock user error', error);
-      toast.error('Не удалось разблокировать пользователя');
+      logger.error("Unblock user error", error);
+      toast.error("Не удалось разблокировать пользователя");
     },
   });
 }

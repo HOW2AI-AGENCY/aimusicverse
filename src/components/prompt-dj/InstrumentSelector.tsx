@@ -2,18 +2,14 @@
  * InstrumentSelector - Multi-select instrument picker (up to 4)
  */
 
-import { memo, useCallback } from 'react';
-import { cn } from '@/lib/utils';
-import { Check, X } from 'lucide-react';
-import { INSTRUMENT_PRESETS, PresetItem } from '@/lib/prompt-dj-presets';
-import { Badge } from '@/components/ui/badge';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
-import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { memo, useCallback } from "react";
+import { cn } from "@/lib/utils";
+import { Check, X } from "lucide-react";
+import { INSTRUMENT_PRESETS, PresetItem } from "@/lib/prompt-dj-presets";
+import { Badge } from "@/components/ui/badge";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface InstrumentSelectorProps {
   selectedIds: string[];
@@ -28,20 +24,26 @@ export const InstrumentSelector = memo(function InstrumentSelector({
   maxSelection = 4,
   disabled,
 }: InstrumentSelectorProps) {
-  const selectedInstruments = INSTRUMENT_PRESETS.filter(i => selectedIds.includes(i.id));
+  const selectedInstruments = INSTRUMENT_PRESETS.filter((i) => selectedIds.includes(i.id));
 
-  const handleToggle = useCallback((id: string) => {
-    if (selectedIds.includes(id)) {
-      onChange(selectedIds.filter(i => i !== id));
-    } else if (selectedIds.length < maxSelection) {
-      onChange([...selectedIds, id]);
-    }
-  }, [selectedIds, onChange, maxSelection]);
+  const handleToggle = useCallback(
+    (id: string) => {
+      if (selectedIds.includes(id)) {
+        onChange(selectedIds.filter((i) => i !== id));
+      } else if (selectedIds.length < maxSelection) {
+        onChange([...selectedIds, id]);
+      }
+    },
+    [selectedIds, onChange, maxSelection],
+  );
 
-  const handleRemove = useCallback((id: string, e: React.MouseEvent) => {
-    e.stopPropagation();
-    onChange(selectedIds.filter(i => i !== id));
-  }, [selectedIds, onChange]);
+  const handleRemove = useCallback(
+    (id: string, e: React.MouseEvent) => {
+      e.stopPropagation();
+      onChange(selectedIds.filter((i) => i !== id));
+    },
+    [selectedIds, onChange],
+  );
 
   return (
     <div className="p-3 rounded-xl bg-card/30 border border-border/30 space-y-2">
@@ -72,21 +74,14 @@ export const InstrumentSelector = memo(function InstrumentSelector({
             </Badge>
           ))
         ) : (
-          <span className="text-[10px] text-muted-foreground italic">
-            Выберите до {maxSelection} инструментов
-          </span>
+          <span className="text-[10px] text-muted-foreground italic">Выберите до {maxSelection} инструментов</span>
         )}
       </div>
 
       {/* Instrument picker popover */}
       <Popover>
         <PopoverTrigger asChild>
-          <Button
-            variant="outline"
-            size="sm"
-            className="w-full h-8 text-xs justify-start"
-            disabled={disabled}
-          >
+          <Button variant="outline" size="sm" className="w-full h-8 text-xs justify-start" disabled={disabled}>
             + Добавить инструмент
           </Button>
         </PopoverTrigger>
@@ -96,18 +91,18 @@ export const InstrumentSelector = memo(function InstrumentSelector({
               {INSTRUMENT_PRESETS.map((inst) => {
                 const isSelected = selectedIds.includes(inst.id);
                 const isDisabled = !isSelected && selectedIds.length >= maxSelection;
-                
+
                 return (
                   <button
                     key={inst.id}
                     onClick={() => handleToggle(inst.id)}
                     disabled={isDisabled || disabled}
                     className={cn(
-                      'flex items-center gap-2 px-2 py-1.5 rounded-md text-xs transition-all',
-                      isSelected 
-                        ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30' 
-                        : 'bg-muted/20 hover:bg-muted/40',
-                      isDisabled && 'opacity-40 cursor-not-allowed'
+                      "flex items-center gap-2 px-2 py-1.5 rounded-md text-xs transition-all",
+                      isSelected
+                        ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/30"
+                        : "bg-muted/20 hover:bg-muted/40",
+                      isDisabled && "opacity-40 cursor-not-allowed",
                     )}
                   >
                     {isSelected && <Check className="w-3 h-3 shrink-0" />}

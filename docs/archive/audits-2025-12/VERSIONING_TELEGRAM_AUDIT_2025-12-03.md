@@ -21,6 +21,7 @@
 **Симптом**: Отображается 3 версии трека, хотя фактически существует только 2.
 
 **Root Cause Analysis**:
+
 ```
 1. В базе данных изначально было поле `is_primary` (правильно)
 2. Миграция 20251202112920 добавила поле `is_master` (ошибочно)
@@ -41,6 +42,7 @@ Track (tracks table)
 ```
 
 **Поля в `track_versions`**:
+
 - `id` (UUID) - Уникальный идентификатор версии
 - `track_id` (UUID) - Связь с основным треком
 - `is_primary` (boolean) - Флаг основной версии (✅ CORRECT)
@@ -55,12 +57,13 @@ Track (tracks table)
 #### 1. Удалены ссылки на `is_master`
 
 **Файл**: `src/components/TrackActionsMenu.tsx`
+
 ```typescript
 // БЫЛО (в комментариях):
-version.is_master ? "visible" : "invisible"
+version.is_master ? "visible" : "invisible";
 
 // СТАЛО:
-version.is_primary ? "visible" : "invisible"
+version.is_primary ? "visible" : "invisible";
 // + Добавлены комментарии с предупреждением
 ```
 
@@ -69,6 +72,7 @@ version.is_primary ? "visible" : "invisible"
 **Файл**: `src/lib/versioning.ts`
 
 Добавлены подробные JSDoc комментарии ко всем функциям:
+
 - `getVersionIndex()` - Получение индекса версии
 - `setPrimaryVersionOptimistic()` - Оптимистичное обновление
 - `formatVersionLabel()` - Форматирование метки
@@ -83,6 +87,7 @@ version.is_primary ? "visible" : "invisible"
 **Файл**: `src/components/track/VersionsTab.tsx`
 
 Добавлены комментарии, объясняющие:
+
 - Логику работы с версиями
 - Процесс установки primary версии
 - Запись в changelog
@@ -96,7 +101,7 @@ grep -r "is_master" src --include="*.ts" --include="*.tsx"
 # Результат: Только в комментариях с предупреждениями ✅
 
 # Проверка на использование is_primary
-grep -r "is_primary" src --include="*.ts" --include="*.tsx"  
+grep -r "is_primary" src --include="*.ts" --include="*.tsx"
 # Результат: Все компоненты используют правильное поле ✅
 ```
 
@@ -114,6 +119,7 @@ grep -r "is_primary" src --include="*.ts" --include="*.tsx"
 ### Текущее состояние
 
 **Оценка**: 8/10 ⭐⭐⭐⭐
+
 - ✅ Базовая интеграция работает отлично
 - ✅ Share функции реализованы с fallback'ами
 - ✅ Download работает (нативный + браузерный fallback)
@@ -140,6 +146,7 @@ TelegramShareService (сервис)
 ### Функции Share Service
 
 #### 1. `shareURL()` - Поделиться треком
+
 ```typescript
 // Путь: src/services/telegram-share.ts
 // Реализация: 3-уровневый fallback
@@ -147,23 +154,27 @@ TelegramShareService (сервис)
 ```
 
 **Tested scenarios**:
+
 - ✅ Telegram Mini App (iOS)
 - ✅ Telegram Mini App (Android)
 - ✅ Telegram Desktop
 - ✅ Web Browser (fallback)
 
 #### 2. `shareToStory()` - Поделиться в Stories
+
 ```typescript
 // Требования: Telegram 7.6+, обложка трека
 // Статус: ✅ Работает с ограничениями
 ```
 
 **Limitations**:
+
 - Требует `cover_url` у трека
 - Доступно только на iOS/Android
 - Не работает в Desktop версии
 
 #### 3. `downloadFile()` - Скачать трек
+
 ```typescript
 // Путь: src/services/telegram-share.ts
 // Реализация: Native API + браузерный fallback
@@ -171,6 +182,7 @@ TelegramShareService (сервис)
 ```
 
 **Download methods**:
+
 1. Native `downloadFile` API (Telegram 8.0+)
    - Показывает нативный диалог
    - Сохраняет напрямую в хранилище
@@ -182,17 +194,20 @@ TelegramShareService (сервис)
    - Может блокироваться popup-блокировщиками
 
 **Known issues**:
+
 - ⚠️ CORS может блокировать загрузку
 - ⚠️ Popup blockers могут мешать
 - ⚠️ Требуется HTTPS для audio URLs
 
 #### 4. `getTrackDeepLink()` - Deep Links
+
 ```typescript
 // Формат: t.me/AIMusicVerseBot/app?startapp=track_UUID
 // Статус: ✅ Полностью работает
 ```
 
 **User flow**:
+
 ```
 1. User получает deep link
 2. Клик по ссылке → открывает Telegram
@@ -210,6 +225,7 @@ TelegramShareService (сервис)
 **Файл**: `src/services/telegram-share.ts`
 
 Добавлены комментарии, объясняющие:
+
 - API compatibility (версии Telegram)
 - Fallback chains для каждой функции
 - Known issues и limitations
@@ -221,6 +237,7 @@ TelegramShareService (сервис)
 **Файл**: `src/components/track-menu/ShareTrackDialog.tsx`
 
 Компонент уже хорошо структурирован, добавлены пояснения:
+
 - Логика генерации deep links
 - Обработка ошибок
 - Fallback scenarios
@@ -260,6 +277,7 @@ TelegramShareService (сервис)
    - Desktop: Latest version
 
 2. **Настроить CORS для audio URLs**
+
    ```
    Access-Control-Allow-Origin: *
    Access-Control-Allow-Methods: GET
@@ -305,6 +323,7 @@ TelegramShareService (сервис)
 ## 📊 Метрики качества
 
 ### До аудита
+
 ```
 Versioning:
 - Конфликт полей: is_master vs is_primary ❌
@@ -319,6 +338,7 @@ Telegram:
 ```
 
 ### После аудита
+
 ```
 Versioning:
 - Конфликт полей: Исправлен ✅
@@ -359,18 +379,21 @@ Telegram:
 ### Следующие шаги 📋
 
 #### Priority 1 (1-2 недели)
+
 - [ ] Протестировать на реальных устройствах
 - [ ] Настроить CORS для audio URLs
 - [ ] Добавить error tracking (Sentry)
 - [ ] Провести user acceptance testing
 
 #### Priority 2 (1-2 месяца)
+
 - [ ] Исправить 159 lint ошибок в Edge Functions
 - [ ] Расширить систему уведомлений
 - [ ] Улучшить inline bot функциональность
 - [ ] Добавить analytics для share/download
 
 #### Priority 3 (3-6 месяцев)
+
 - [ ] Voice message integration
 - [ ] Advanced bot features
 - [ ] Performance optimization
@@ -383,6 +406,7 @@ Telegram:
 ### Ключевые файлы
 
 **Версионирование**:
+
 - `src/lib/versioning.ts` - Утилиты версионирования
 - `src/hooks/useTrackVersions.ts` - React hook для версий
 - `src/components/track/VersionsTab.tsx` - UI компонент
@@ -390,6 +414,7 @@ Telegram:
 - `supabase/migrations/20251129084954_*.sql` - Схема БД (is_primary)
 
 **Telegram интеграция**:
+
 - `src/services/telegram-share.ts` - Share service
 - `src/components/track-menu/ShareTrackDialog.tsx` - Share UI
 - `src/contexts/TelegramContext.tsx` - Telegram SDK wrapper
@@ -399,6 +424,7 @@ Telegram:
 ### База данных
 
 **Таблица `track_versions`**:
+
 ```sql
 CREATE TABLE track_versions (
   id UUID PRIMARY KEY,
@@ -412,12 +438,13 @@ CREATE TABLE track_versions (
 );
 
 -- Constraint: Only one primary per track
-CREATE UNIQUE INDEX idx_one_primary_per_track 
-ON track_versions(track_id) 
+CREATE UNIQUE INDEX idx_one_primary_per_track
+ON track_versions(track_id)
 WHERE is_primary = true;
 ```
 
 **Таблица `track_change_log`**:
+
 ```sql
 CREATE TABLE track_change_log (
   id UUID PRIMARY KEY,
@@ -437,6 +464,7 @@ CREATE TABLE track_change_log (
 **Bot username**: `@AIMusicVerseBot`
 
 **Commands**:
+
 - `/start` - Приветствие и главное меню
 - `/generate` - Создание нового трека
 - `/library` - Просмотр библиотеки
@@ -446,6 +474,7 @@ CREATE TABLE track_change_log (
 - `/help` - Справка
 
 **Deep Link format**:
+
 ```
 https://t.me/AIMusicVerseBot/app?startapp=track_UUID
 https://t.me/AIMusicVerseBot/app?startapp=project_UUID
@@ -461,6 +490,7 @@ https://t.me/AIMusicVerseBot/app?startapp=generate_style
 **Статус**: ✅ Completed
 
 Для вопросов по аудиту или реализации рекомендаций, обратитесь к:
+
 - Документации в коде (inline comments)
 - Этому файлу (VERSIONING_TELEGRAM_AUDIT_2025-12-03.md)
 - INFRASTRUCTURE_NAMING_CONVENTIONS.md

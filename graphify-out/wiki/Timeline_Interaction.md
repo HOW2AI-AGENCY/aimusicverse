@@ -29,7 +29,7 @@
 - [phase2Peak](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L102) (1 connections)
 - [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L42) (1 connections)
 - [{ result, unmount }](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L80) (1 connections)
-- *... and 2 more nodes in this community*
+- _... and 2 more nodes in this community_
 
 ## Relationships
 
@@ -47,4 +47,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

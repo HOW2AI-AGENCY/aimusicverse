@@ -29,7 +29,7 @@
 - [handleEnded()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordAwarePlayer.tsx#L211) (1 connections)
 - [handleSeek](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordAwarePlayer.tsx#L240) (1 connections)
 - [handleVolumeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordAwarePlayer.tsx#L255) (1 connections)
-- *... and 53 more nodes in this community*
+- _... and 53 more nodes in this community_
 
 ## Relationships
 
@@ -49,4 +49,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._
