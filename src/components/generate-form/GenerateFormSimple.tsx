@@ -94,55 +94,80 @@ export function GenerateFormSimple({
   return (
     <motion.div
       key="simple"
-      initial={{ opacity: 0, x: -20 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: 20 }}
-      transition={{ duration: 0.2, ease: "easeInOut" }}
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -8 }}
+      transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
       className="space-y-4 lg:space-y-5 w-full max-w-full min-w-0 overflow-x-hidden"
     >
       {/* ========== TRACK TYPE SECTION ========== */}
-      <FormSection>
-        <div className="space-y-2 lg:space-y-3">
-          <SectionLabel 
-            label="Тип трека"
-            hint={SECTION_HINTS.trackType}
-          />
-          <div className="flex p-1 lg:p-1.5 bg-muted/50 rounded-xl lg:rounded-2xl" role="group" aria-label="Тип трека">
-            <button
-              type="button"
-              onClick={() => handleVocalsToggle(true)}
-              aria-pressed={hasVocals}
-              className={cn(
-                "flex-1 flex items-center justify-center gap-2 min-h-[44px] lg:min-h-[52px] px-3 lg:px-4 rounded-lg lg:rounded-xl text-sm lg:text-base font-medium transition-all duration-200",
-                hasVocals 
-                  ? "bg-primary text-primary-foreground shadow-sm" 
-                  : "text-muted-foreground hover:text-foreground hover:bg-muted"
-              )}
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.25, delay: 0.04 }}
+      >
+        <FormSection>
+          <div className="space-y-2 lg:space-y-3">
+            <SectionLabel
+              label="Тип трека"
+              hint={SECTION_HINTS.trackType}
+            />
+            <div
+              className="relative flex p-1 lg:p-1.5 bg-muted/40 rounded-2xl border border-border/50"
+              role="group"
+              aria-label="Тип трека"
             >
-              <Mic className="w-4 h-4 lg:w-5 lg:h-5" aria-hidden="true" />
-              <span>Вокал</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => handleVocalsToggle(false)}
-              aria-pressed={!hasVocals}
-              className={cn(
-                "flex-1 flex items-center justify-center gap-2 min-h-[44px] lg:min-h-[52px] px-3 lg:px-4 rounded-lg lg:rounded-xl text-sm lg:text-base font-medium transition-all duration-200",
-                !hasVocals 
-                  ? "bg-primary text-primary-foreground shadow-sm" 
-                  : "text-muted-foreground hover:text-foreground hover:bg-muted"
-              )}
-            >
-              <Music2 className="w-4 h-4 lg:w-5 lg:h-5" aria-hidden="true" />
-              <span>Инструментал</span>
-            </button>
+              {/* Sliding aurora pill */}
+              <motion.span
+                aria-hidden
+                layout
+                transition={{ type: 'spring', stiffness: 400, damping: 32 }}
+                className={cn(
+                  'absolute top-1 lg:top-1.5 bottom-1 lg:bottom-1.5 rounded-xl lg:rounded-2xl',
+                  'bg-gradient-to-br from-primary to-primary/85 aurora-glow',
+                )}
+                style={{
+                  width: 'calc(50% - 4px)',
+                  left: hasVocals ? '4px' : 'calc(50% + 0px)',
+                }}
+              />
+              <button
+                type="button"
+                onClick={() => handleVocalsToggle(true)}
+                aria-pressed={hasVocals}
+                className={cn(
+                  'relative z-10 flex-1 flex items-center justify-center gap-2 min-h-[44px] lg:min-h-[52px] px-3 lg:px-4 rounded-xl text-sm lg:text-base font-semibold transition-colors duration-200',
+                  hasVocals ? 'text-primary-foreground' : 'text-muted-foreground hover:text-foreground',
+                )}
+              >
+                <Mic className="w-4 h-4 lg:w-5 lg:h-5" aria-hidden="true" />
+                <span>Вокал</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleVocalsToggle(false)}
+                aria-pressed={!hasVocals}
+                className={cn(
+                  'relative z-10 flex-1 flex items-center justify-center gap-2 min-h-[44px] lg:min-h-[52px] px-3 lg:px-4 rounded-xl text-sm lg:text-base font-semibold transition-colors duration-200',
+                  !hasVocals ? 'text-primary-foreground' : 'text-muted-foreground hover:text-foreground',
+                )}
+              >
+                <Music2 className="w-4 h-4 lg:w-5 lg:h-5" aria-hidden="true" />
+                <span>Инструментал</span>
+              </button>
+            </div>
           </div>
-        </div>
-      </FormSection>
+        </FormSection>
+      </motion.div>
 
       <FormDivider />
 
       {/* ========== DESCRIPTION SECTION ========== */}
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.25, delay: 0.08 }}
+      >
       <FormSection>
         <div className="space-y-2 lg:space-y-3">
           {/* Header row */}
@@ -276,10 +301,16 @@ export function GenerateFormSimple({
           )}
         </div>
       </FormSection>
+      </motion.div>
 
       <FormDivider />
 
       {/* ========== TITLE SECTION ========== */}
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.25, delay: 0.12 }}
+      >
       <FormSection>
         <div className="space-y-2 lg:space-y-3">
           <SectionLabel 
@@ -308,6 +339,7 @@ export function GenerateFormSimple({
           )}
         </div>
       </FormSection>
+      </motion.div>
     </motion.div>
   );
 }
