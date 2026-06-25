@@ -40,6 +40,9 @@ interface GenerateFormCustomProps {
   mood?: string;
   // Style presets
   onOpenStyles?: () => void;
+  // Custom voice
+  customVoiceId?: string | null;
+  onCustomVoiceIdChange?: (id: string | null) => void;
 }
 
 export function GenerateFormCustom({
