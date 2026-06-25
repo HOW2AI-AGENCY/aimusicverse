@@ -183,6 +183,11 @@ export default function Pricing() {
         paddingTop: 'max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))',
       }}
     >
+      <SEOHead
+        title="Тарифы и кредиты"
+        description="Цены и пакеты кредитов MusicVerse AI. Оплата через Telegram Stars. Подберите тариф под ваши задачи генерации музыки."
+        canonical="https://aimusicverse.lovable.app/pricing"
+      />
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
