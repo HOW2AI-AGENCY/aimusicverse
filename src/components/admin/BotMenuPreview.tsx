@@ -9,6 +9,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ChevronLeft, ExternalLink, Smartphone } from 'lucide-react';
 import type { BotMenuItem } from '@/hooks/useBotMenuItems';
+import DOMPurify from 'dompurify';
+
 
 interface BotMenuPreviewProps {
   items: BotMenuItem[];
