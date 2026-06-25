@@ -5,9 +5,7 @@
 export { AnalyticsDashboard } from './AnalyticsDashboard';
 export { TelemetryOverview } from './TelemetryOverview';
 export { ErrorTrendsPanel } from './ErrorTrendsPanel';
-export { GenerationStatsPanel } from './GenerationStatsPanel';
 export { PerformanceMetricsPanel } from './PerformanceMetricsPanel';
-export { DeeplinkAnalyticsPanel } from './DeeplinkAnalyticsPanel';
 export { ExperimentsPanel } from './ExperimentsPanel';
 export { RetentionPanel } from './RetentionPanel';
 export { DeeplinkTrendsChart } from './DeeplinkTrendsChart';

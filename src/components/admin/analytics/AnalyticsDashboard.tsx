@@ -12,9 +12,9 @@ import { useTelemetryStats, useErrorTrends } from '@/hooks/admin/useTelemetrySta
 import { useGenerationAnalytics } from '@/hooks/useGenerationAnalytics';
 import { TelemetryOverview } from './TelemetryOverview';
 import { ErrorTrendsPanel } from './ErrorTrendsPanel';
-import { GenerationStatsPanel } from './GenerationStatsPanel';
+import { GenerationStatsPanel } from '../GenerationStatsPanel';
 import { PerformanceMetricsPanel } from './PerformanceMetricsPanel';
-import { DeeplinkAnalyticsPanel } from './DeeplinkAnalyticsPanel';
+import { DeeplinkAnalyticsPanel } from '../DeeplinkAnalyticsPanel';
 import { ExperimentsPanel } from './ExperimentsPanel';
 import { RetentionPanel } from './RetentionPanel';
 import { RevenueAnalyticsPanel } from './RevenueAnalyticsPanel';
