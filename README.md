@@ -1,569 +1,311 @@
-<p align="center">
-  <img src="src\assets\aiimusicverse-banner.png" alt="MusicVerse AI Logo" width="700" height="200" style="border-radius: 24px; margin-bottom: 20px;" />
-</p>
+# MusicVerse AI
 
-<h1 align="center">🎵 AI MusicVerse</h1>
+<div align="center">
 
-<p align="center">
-  <strong>Профессиональная платформа AI для создания музыки в Telegram</strong><br>
-  <em>Трансформируйте идеи в музыку с помощью мощного ИИ</em><br>
-  <sub>Powered by Suno AI v5 • Telegram Mini App • 277+ музыкальных стилей • 75+ языков</sub>
-</p>
+![MusicVerse AI](https://img.shields.io/badge/MusicVerse-AI-blue)
+![Telegram Mini App](https://img.shields.io/badge/Telegram-Mini_App-26A5E4)
+![React](https://img.shields.io/badge/React-19.2-61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6)
+![Vite](https://img.shields.io/badge/Vite-5-646CFF)
+![Supabase](https://img.shields.io/badge/Supabase-2.86-3ECF8E)
 
-<p align="center">
-  <a href="https://github.com/HOW2AI-AGENCY/aimusicverse/actions">
-    <img alt="build" src="https://img.shields.io/github/actions/workflow/status/HOW2AI-AGENCY/aimusicverse/quality-check.yml?label=Build&style=flat-square&logo=github" />
-  </a>
-  <a href="https://github.com/HOW2AI-AGENCY/aimusicverse/commits">
-    <img alt="commits" src="https://img.shields.io/github/last-commit/HOW2AI-AGENCY/aimusicverse?label=Last%20Commit&style=flat-square&logo=git" />
-  </a>
-  <a href="https://github.com/HOW2AI-AGENCY/aimusicverse/pulse">
-    <img alt="activity" src="https://img.shields.io/github/commit-activity/m/HOW2AI-AGENCY/aimusicverse?label=Commits&style=flat-square&logo=github" />
-  </a>
-  <a href="https://github.com/HOW2AI-AGENCY/aimusicverse/issues">
-    <img alt="issues" src="https://img.shields.io/github/issues/HOW2AI-AGENCY/aimusicverse?label=Issues&style=flat-square&logo=github" />
-  </a>
-  <a href="https://github.com/HOW2AI-AGENCY/aimusicverse/pulls">
-    <img alt="prs" src="https://img.shields.io/github/issues-pr/HOW2AI-AGENCY/aimusicverse?label=PRs&style=flat-square&logo=github" />
-  </a>
-</p>
+**AI-powered music creation platform built as Telegram Mini App**
 
-<p align="center">
-  <img alt="React" src="https://img.shields.io/badge/React-19.2-61DAFB?style=flat-square&logo=react&logoColor=white" />
-  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat-square&logo=typescript&logoColor=white" />
-  <img alt="Vite" src="https://img.shields.io/badge/Vite-5.0-646CFF?style=flat-square&logo=vite&logoColor=white" />
-  <img alt="Tailwind" src="https://img.shields.io/badge/Tailwind-3.4-38BDF8?style=flat-square&logo=tailwind-css&logoColor=white" />
-  <img alt="Supabase" src="https://img.shields.io/badge/Supabase-PostgreSQL-336791?style=flat-square&logo=supabase&logoColor=white" />
-  <img alt="Suno" src="https://img.shields.io/badge/Suno%20AI-v5-e74c3c?style=flat-square&logoColor=white" />
-</p>
+[Сrypto](#) • [Features](#features) • [Architecture](#architecture) • [Documentation](#documentation) • [Development](#development)
 
-<p align="center">
-  <img alt="status" src="https://img.shields.io/badge/Status-Production%20Ready-success?style=flat-square" />
-  <img alt="health" src="https://img.shields.io/badge/Health-98%2F100-brightgreen?style=flat-square" />
-  <img alt="users" src="https://img.shields.io/badge/Users-574%2B-blue?style=flat-square" />
-  <img alt="tracks" src="https://img.shields.io/badge/Tracks-1666%2B-orange?style=flat-square" />
-  <img alt="components" src="https://img.shields.io/badge/Components-1124%2B-purple?style=flat-square" />
-</p>
-
-<p align="center">
-  <img alt="language" src="https://img.shields.io/badge/Language-TypeScript-3178C6?style=flat-square&logo=typescript" />
-  <img alt="license" src="https://img.shields.io/github/license/HOW2AI-AGENCY/aimusicverse?label=License&style=flat-square" />
-  <img alt="size" src="https://img.shields.io/github/repo-size/HOW2AI-AGENCY/aimusicverse?label=Size&style=flat-square" />
-</p>
-
-<p align="center">
-  <a href="https://t.me/AIMusicVerseBot/app">
-    <img src="https://img.shields.io/badge/Launch-Telegram-26A5E4?style=for-the-badge&logo=telegram&logoColor=white" alt="Launch" />
-  </a>
-  <a href="https://t.me/AIMusicVerse">
-    <img src="https://img.shields.io/badge/News-Channel-26A5E4?style=for-the-badge&logo=telegram&logoColor=white" alt="News" />
-  </a>
-  <a href="#-документация">
-    <img src="https://img.shields.io/badge/Docs-GitHub-4A5568?style=for-the-badge&logo=github" alt="Docs" />
-  </a>
-  <a href="#-участие-в-разработке">
-    <img src="https://img.shields.io/badge/Contribute-GitHub-EF4444?style=for-the-badge&logo=github" alt="Contribute" />
-  </a>
-</p>
-
-<p align="center">
-  <a href="https://github.com/HOW2AI-AGENCY/aimusicverse/stargazers">
-    <img src="https://img.shields.io/github/stars/HOW2AI-AGENCY/aimusicverse?style=social" alt="Stars" />
-  </a>
-  <a href="https://github.com/HOW2AI-AGENCY/aimusicverse/network/members">
-    <img src="https://img.shields.io/github/forks/HOW2AI-AGENCY/aimusicverse?style=social" alt="Forks" />
-  </a>
-  <a href="https://github.com/HOW2AI-AGENCY/aimusicverse/watchers">
-    <img src="https://img.shields.io/github/watchers/HOW2AI-AGENCY/aimusicverse?style=social" alt="Watchers" />
-  </a>
-</p>
+</div>
 
 ---
 
-## 📑 Содержание
+## 🎯 About
 
-<table>
-<tr>
-<td width="50%">
+MusicVerse AI is a professional AI-powered music creation platform that enables users to generate, edit, and share music using advanced AI models. Built as a Telegram Mini App for seamless integration with Telegram ecosystem.
 
-### 🚀 Начало работы
-- [✨ Возможности](#-возможности)
-- [🎯 Быстрая навигация](#-быстрая-навигация)
-- [🚀 Быстрый старт](#-быстрый-старт)
-- [📊 Ключевые метрики](#-ключевые-метрики)
+### Key Capabilities
 
-### 🏗️ Архитектура и технологии
-- [🏛️ Архитектура системы](#-архитектура-системы)
-- [📁 Структура проекта](#-структура-проекта)
-- [🎨 Стек технологий](#-стек-технологий)
-
-</td>
-<td width="50%">
-
-### 📖 Документация и разработка
-- [📚 Документация](#-документация)
-- [🧪 Тестирование](#-тестирование)
-- [📱 Мобильная разработка](#-мобильная-разработка)
-- [♿ Доступность](#-доступность)
-
-### 🤝 Сообщество и поддержка
-- [🔒 Безопасность](#-безопасность)
-- [⚡ Производительность](#-производительность)
-- [❤️ Участие в разработке](#-участие-в-разработке)
-- [📞 Поддержка и сообщество](#-поддержка-и-сообщество)
-
-</td>
-</tr>
-</table>
+- 🤖 **AI Music Generation** — Suno AI v5 with 277+ styles, custom lyrics, instrumental tracks
+- 🎛️ **Professional Studio** — Mixer, timeline, stem separation, audio editing
+- 📝 **AI Lyrics Assistant** — 10+ tools for lyric writing and editing
+- 🎵 **Audio Processing** — MIDI transcription, beat detection, key analysis
+- 👥 **Social Features** — Profiles, comments, likes, follows, activity feed
+- 🎮 **Gamification** — Daily streaks, levels, achievements, leaderboards
+- 💳 **Monetization** — Tinkoff payments (RUB), credit system, subscriptions
+- 📱 **Mobile-First** — Optimized for Telegram Mini App with haptics and touch gestures
 
 ---
 
-## ✨ Возможности
+## 📊 Project Status
 
-### 🎹 Генерация музыки с помощью ИИ
-<details>
-<summary><strong>Создание музыки на основе ИИ Suno v5</strong></summary>
+| Metric | Current | Target | Status |
+|--------|---------|--------|--------|
+| Users | 574 | 1,000+ | 🟡 57% |
+| Tracks Generated | 1,666+ | 5,000+ | 🟡 33% |
+| Monthly Generations | 1,217 | 2,000+ | 🟡 61% |
+| **Generation Success Rate** | **~88%** | **>92%** | 🔴 **Improving** |
+| DAU | ~25 | 50+ | 🟡 50% |
 
-- **Генерация из текста** — Создавайте профессиональные треки по описанию
-- **A/B версии** — Каждая генерация создаёт 2 варианта для сравнения
-- **Предпросмотр в реальном времени** — Слушайте во время генерации
-- **Пользовательский режим** — Полный контроль над текстами и стилем
-- **AI Lyrics Agent** — 10+ инструментов для работы с текстами
-- **AI Lyrics Chat** — Чат-ассистент для написания текстов
-- **Голосовой ввод** — Диктуйте описание через Whisper API
-- **Автосохранение черновиков** — Форма сохраняется на 30 минут
-- **174+ мета-тегов** — Детальное управление музыкой
-- **75+ языков** — Поддержка мировой аудитории
+**Overall Health**: 🟢 95/100 — Production Ready
 
-</details>
-
-### 📚 Расширенное управление треками
-<details>
-<summary><strong>Интеллектуальная библиотека с оптимизацией производительности</strong></summary>
-
-- **Виртуализованные списки** — Плавная прокрутка 1000+ треков
-- **Ленивая загрузка изображений** — Размытый эффект для обложек
-- **Режимы Grid и List** — Гибкие варианты просмотра
-- **Swipe-действия** — Быстрые мобильные операции
-- **Управление версиями** — Переключение A/B версий
-- **Оптимизированные лайки** — Реал-тайм обновления
-- **Mobile-first UI** — Touch targets 44×56px
-- **Массовые операции** — Выделение и групповые действия
-
-</details>
-
-### 🎧 Профессиональный аудиоплеер
-<details>
-<summary><strong>Глобальная аудиосистема с продвинутым воспроизведением</strong></summary>
-
-- **Глобальный аудиодвигатель** — Единый синхронизированный источник звука
-- **Мультирежимный интерфейс** — Компактный, расширенный и полноэкранный режимы
-- **Синхронизированные тексты** — Подсветка текстов с точностью ±0.05s
-- **Умный автоскролл** — Интеллектуальное отслеживание с распознаванием жестов
-- **Очередь воспроизведения** — Play Next, Add to Queue, Shuffle, Queue Panel
-- **Аудиовизуализатор** — Анализ частот в реальном времени
-- **Воспроизведение версий** — Плавное переключение A/B версий
-
-</details>
-
-### 🎛️ Unified Studio — Профессиональное рабочее место
-<details>
-<summary><strong>Профессиональные инструменты музыкального производства</strong></summary>
-
-- **Единый интерфейс** — Одно рабочее место для всех задач
-- **Замена секций** — Перегенерация отдельных сегментов трека
-- **Разделение стемов** — Изолируйте вокал, барабаны, басс, инструменты
-- **Продвинутое микширование** — Громкость, панорамирование, соло, отключение
-- **MIDI экспорт** — 6 AI моделей для транскрипции в MIDI, GP5, PDF, MusicXML
-- **Редактирование волновой формы** — Визуальное редактирование waveform
-- **Обработка эффектов** — Реверберация, EQ, компрессия встроены
-
-</details>
-
-### 🎮 Система геймификации
-<details>
-<summary><strong>Механика взаимодействия и награды</strong></summary>
-
-- **Ежедневная отметка** — Система ежедневных вознаграждений
-- **Серии** — Отслеживание активности пользователя
-- **Прогрессивные уровни** — Система прогрессии на основе XP
-- **Достижения** — Разблокируемые значки с наградами
-- **Таблица лидеров** — 5 категорийных рейтингов
-- **Система кредитов** — Внутриигровая валюта для функций
-
-</details>
-
-### 🤖 Интеграция Telegram
-<details>
-<summary><strong>Нативный опыт Telegram Mini App</strong></summary>
-
-- **Mini App SDK 2.0** — Полное встроенное приложение в Telegram
-- **Bot команды** — `/generate`, `/cover`, `/extend`, `/library`
-- **Inline запросы** — Поиск и обмен треками напрямую
-- **Push уведомления** — Оповещения о готовности треков
-- **Deep linking** — Прямые ссылки на треки, плейлисты, студию
-
-</details>
+**Current Sprint**: [Sprint A — Reliability & Stability](docs/SPRINT_A_PROGRESS.md)
 
 ---
 
-## 🎯 Быстрая навигация
+## 🏗️ Architecture
 
-> **Статус проекта:** ✅ Production Ready | Оценка здоровья: 98/100 | Прогресс: 100%
-> **Последнее обновление:** 25 июня 2026
+### Tech Stack
 
-### 📊 Основная документация
+- **Frontend**: React 19.2 + TypeScript 5.9 + Vite 5.0
+- **Backend**: Supabase (PostgreSQL + Edge Functions)
+- **AI/ML**: Suno API (music generation), Tone.js (audio synthesis)
+- **State Management**: Zustand + TanStack Query
+- **UI Components**: Radix UI + shadcn/ui + Tailwind CSS
+- **Testing**: Jest (unit), Playwright (E2E), Vitest (component)
+- **Audio**: wavesurfer.js, Tone.js, Web Audio API
+- **Monitoring**: Sentry, custom logging
 
-| 📋 Документ | 📝 Назначение | ✅ Статус |
-|:----|:----|:----|
-| [PROJECT_STATUS.md](PROJECT_STATUS.md) | Полный статус проекта | ✅ Обновлён (2026-06-25) |
-| [ROADMAP.md](ROADMAP.md) | Дорожная карта развития | ✅ Активна |
-| [KNOWLEDGE_BASE.md](KNOWLEDGE_BASE.md) | База знаний проекта | ✅ Комплексная |
-| [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md) | Полная карта документации | ✅ Актуальна |
-| [CLAUDE.md](CLAUDE.md) | Инструкции для ИИ | ✅ Полная |
-
-### 🔗 Ресурсы разработки
-
-| 🛠️ Ресурс | 📄 Описание |
-|:----|:----|
-| [GitHub Issues](https://github.com/HOW2AI-AGENCY/aimusicverse/issues) | Отчёты об ошибках и запросы |
-| [GitHub PRs](https://github.com/HOW2AI-AGENCY/aimusicverse/pulls) | Изменения кода и ревью |
-| [GitHub Actions](https://github.com/HOW2AI-AGENCY/aimusicverse/actions) | Автоматизация CI/CD |
-| [GitHub Projects](https://github.com/HOW2AI-AGENCY/aimusicverse/projects) | Доски задач |
-| [GitHub Discussions](https://github.com/HOW2AI-AGENCY/aimusicverse/discussions) | Обсуждения сообщества |
-
-### 📋 Управление спринтами
-
-| 📄 Документ | 📝 Назначение |
-|:----|:----|
-| [SPRINTS/README.md](SPRINTS/README.md) | Обзор системы спринтов |
-| [SPRINTS/SPRINT-PROGRESS.md](SPRINTS/SPRINT-PROGRESS.md) | Текущий прогресс |
-| [SPRINTS/BACKLOG.md](SPRINTS/BACKLOG.md) | Продуктовый бэклог |
-| [SPRINTS/FUTURE_WORK_PLAN_2026.md](SPRINTS/FUTURE_WORK_PLAN_2026.md) | План на 2026 |
-| [SPRINTS/completed/](SPRINTS/completed/) | Архив завершённых спринтов |
-
----
-
-## 📊 Ключевые метрики
-
-### 📈 Статистика проекта
-
-| 📌 Метрика | 💯 Значение | 📊 Тренд | 📝 Детали |
-|:----|:----|:----|:----|
-| **Активные пользователи** | 574+ | 📈 Растёт | Ежемесячная активность |
-| **Созданные треки** | 1,666+ | 📈 Активно | Всего создано |
-| **Успех генерации** | 88% | 🟢 Стабильно | Средний результат |
-| **DAU** | 25+ | 📈 Растёт | Ежедневное взаимодействие |
-| **React компоненты** | 1,124+ | ✅ Оптимизировано | Хорошая структура |
-| **TypeScript файлы** | 1,957+ | ✅ Типизировано | Полное покрытие |
-| **E2E тесты** | 62+ | ✅ Комплексное | Покрытие |
-| **Unit тесты** | 27+ | ✅ Хорошее | Граничные случаи |
-| **API Endpoints** | 99+ | ✅ Полное | Edge функции |
-
-### ⚡ Производительность
-
-| 📊 Метрика | 📈 Текущее | 🎯 Целевое | ✅ Статус |
-|:----|:----|:----|:----|
-| **Bundle Size** | 950 KB | 950 KB | ✅ В бюджете |
-| **FCP** | 1.2s | 1.8s | ✅ Отлично |
-| **LCP** | 2.1s | 2.5s | ✅ Хорошо |
-| **TTI** | 3.5s | 3.5s | ✅ На целевом |
-
----
-
-## 🏛️ Архитектура системы
-
-### 🌐 Многоуровневая архитектура
-
-```mermaid
-graph TB
-    subgraph Frontend["🎵 Frontend Layer"]
-        A["React 19<br/>TypeScript 5"]
-        B["Zustand + Query"]
-        C["shadcn/ui"]
-    end
-
-    subgraph Backend["⚙️ Backend - Supabase"]
-        D["PostgreSQL<br/>30+ таблиц"]
-        E["Edge Functions<br/>99+ функций"]
-        F["Cloud Storage"]
-    end
-
-    subgraph External["🔗 External Services"]
-        G["Suno AI v5"]
-        H["Telegram API"]
-        I["Gemini AI"]
-    end
-
-    A --> B
-    B --> C
-    A <--> E
-    E <--> D
-    E <--> F
-    E <--> G
-    E <--> H
-    E <--> I
-
-    style Frontend fill:#61DAFB
-    style Backend fill:#336791
-    style External fill:#e74c3c
-```
-
-### 📁 Структура проекта
+### Project Structure
 
 ```
-aimusicverse/
-├── src/
-│   ├── components/           # 1,124+ React компоненты
-│   ├── hooks/               # 200+ кастомных хуков
-│   ├── services/            # Бизнес-логика (13)
-│   ├── api/                 # Supabase API слой
-│   ├── stores/              # Zustand хранилища (8)
-│   ├── pages/               # Маршруты (40+)
-│   ├── lib/                 # Утилиты (60+)
-│   ├── types/               # TypeScript типы
-│   ├── contexts/            # React контексты (10)
-│   └── assets/              # Статика
-├── tests/
-│   ├── e2e/                 # 62+ Playwright тесты
-│   ├── unit/                # 27+ Jest тестов
-│   └── integration/         # API интеграционные
-├── supabase/functions/      # 99+ Edge Functions
-├── docs/                    # 100+ файлов документации
-├── ADR/                     # Architecture Decisions
-├── specs/                   # 6 спецификаций
-└── SPRINTS/                 # 35+ завершённых спринтов
+src/
+├── api/          # API clients and integrations
+├── components/   # 180+ React components
+├── hooks/        # 180+ custom hooks
+├── pages/        # 38+ page components
+├── stores/       # Zustand state management
+├── lib/          # Utilities, helpers, optimizations
+├── types/        # TypeScript definitions
+└── workers/      # Web Workers for heavy tasks
+
+supabase/
+├── functions/    # 110+ Edge Functions (Deno)
+├── migrations/   # Database schema migrations
+└── config.toml   # Supabase configuration
+
+docs/             # 65+ documentation files
+tests/            # Unit and E2E tests
 ```
 
----
+### Key Features
 
-## 🎨 Стек технологий
+1. **Music Generation Pipeline**
+   - SunoAI v5 integration with model fallback (V5 → V4_5PLUS → V4_5 → V4 → V3_5)
+   - Exponential backoff retry (3 attempts, 1s-8s delays)
+   - 30-second timeout protection
+   - Automatic error recovery and user-friendly messages
 
-### 🖥️ Frontend
-| Технология | Версия | Назначение |
-|:----|:----|:----|
-| **React** | 19.2 | UI фреймворк |
-| **TypeScript** | 5.9 | Типизация |
-| **Vite** | 5.0 | Сборка |
-| **Tailwind** | 3.4 | Стили |
-| **shadcn/ui** | Latest | Компоненты |
-| **Framer Motion** | Latest | Анимации |
+2. **Performance Optimizations**
+   - Bundle splitting: vendor-react, vendor-framer, vendor-tone, etc.
+   - Lazy loading: 15+ heavy components
+   - React.memo: TrackCard, MixerChannel, Waveform
+   - Waveform caching: IndexedDB + LRU (7-day TTL)
+   - RAF-based playback with optimized time updates
 
-### 💾 Backend
-| Технология | Назначение |
-|:----|:----|
-| **Supabase** | BaaS |
-| **PostgreSQL** | БД |
-| **Edge Functions** | Serverless |
-| **RLS** | Безопасность |
-
-### 🔧 Тестирование
-| Инструмент | Использование |
-|:----|:----|
-| **Jest** | Unit тесты |
-| **Playwright** | E2E тесты |
-| **ESLint** | Линтинг |
-| **TypeScript** | Типы |
+3. **Type Safety**
+   - Branded types: `TrackId`, `UserId`, `StemId`
+   - Type-safe audio context wrapper
+   - Comprehensive error typing: `AppError`, `NetworkError`, `APIError`
 
 ---
 
-## 🧪 Тестирование
+## 🚀 Getting Started
 
-| 📊 Тип | 🛠️ Фреймворк | 📈 Тестов | 📋 Покрытие | ✅ Статус |
-|:----|:----|:----|:----|:----|
-| **Unit** | Jest 30.2 | 27+ | 70%+ | ✅ Хорошо |
-| **E2E** | Playwright 1.57 | 62+ | Критические | ✅ Отлично |
-| **Integration** | Playwright | 12+ | API | ✅ Хорошо |
-| **Performance** | Lighthouse | Бюджеты | В пределах | ✅ Проходит |
-| **A11y** | axe-core | WCAG AA | Полное | ✅ Проходит |
+### Prerequisites
+
+- Node.js 22.15+
+- npm 10.8+
+- Supabase CLI (for local development)
+
+### Installation
 
 ```bash
-# Запуск тестов
-npm test                 # Unit тесты
-npm run test:e2e        # E2E тесты
-npm run test:all        # Все тесты
-npm run audit:a11y      # Доступность
-```
-
----
-
-## 📱 Мобильная разработка
-
-### ✅ Реализовано
-- **19 мобильных компонентов** — Touch-оптимизация
-- **950KB Bundle** — Производительность
-- **44-56px Touch targets** — Доступность
-- **iOS Audio Pooling** — Стабильность
-- **Safe Area Padding** — Notch/island поддержка
-
-### 🚧 В разработке
-- Haptic feedback
-- CloudStorage API
-- Голосовой ввод
-- Offline режим
-- PWA функции
-
----
-
-## 🚀 Быстрый старт
-
-### 💻 Локальная разработка
-
-```bash
-# Клонировать
+# Clone repository
 git clone https://github.com/HOW2AI-AGENCY/aimusicverse.git
 cd aimusicverse
 
-# Установить
+# Install dependencies
 npm install
 
-# Разработка
+# Copy environment variables
+cp .env.example .env
+
+# Start development server
 npm run dev
-
-# Тесты
-npm test && npm run test:e2e
-
-# Production
-npm run build
 ```
 
-### 🔧 Переменные окружения (`.env.local`)
+### Available Scripts
+
+```bash
+# Development
+npm run dev              # Start Vite dev server (port 8080)
+npm run build            # Production build
+npm run preview          # Preview production build
+
+# Testing
+npm test                 # Run Jest unit tests
+npm run test:coverage    # Run with coverage report
+npm run test:e2e         # Run Playwright E2E tests
+npm run test:e2e:ui      # Run E2E tests with UI
+
+# Code Quality
+npm run lint             # Run ESLint
+npm run format           # Format code with Prettier
+
+# Bundle Analysis
+npm run size             # Check bundle sizes
+npm run size:why         # Analyze bundle composition
+```
+
+---
+
+## 📚 Documentation
+
+### Core Documentation
+
+- [Architecture](docs/ARCHITECTURE.md) — System architecture and design patterns
+- [Performance Optimization](docs/PERFORMANCE_OPTIMIZATION.md) — Optimization strategies
+- [Bundle Optimization](docs/BUNDLE_OPTIMIZATION.md) — Bundle splitting and tree-shaking
+- [Testing Infrastructure](docs/TESTING_INFRASTRUCTURE.md) — Testing strategy and setup
+- [Error Handling](docs/ERROR_HANDLING_INFRASTRUCTURE.md) — Error handling patterns
+- [Database Schema](docs/DATABASE.md) — Supabase schema and relationships
+
+### Feature Documentation
+
+- [AI Lyrics Assistant](docs/AI_LYRICS_ASSISTANT.md)
+- [Stem Studio](docs/STUDIO.md)
+- [Telegram Bot](docs/TELEGRAM_BOT_ARCHITECTURE.md)
+- [Payments](docs/TELEGRAM_PAYMENTS.md)
+- [Mobile Components](docs/MOBILE_COMPONENTS.md)
+
+### Development Guides
+
+- [Developer Guide](docs/DEVELOPER_GUIDE.md)
+- [Quick Start](docs/QUICK_START.md)
+- [Design System](docs/DESIGN_SYSTEM_COMPREHENSIVE.md)
+- [Navigation System](docs/NAVIGATION_SYSTEM.md)
+
+### Sprint Progress
+
+- [Sprint A: Reliability & Stability](docs/SPRINT_A_PROGRESS.md) — Current sprint
+
+---
+
+## 🎨 Design System
+
+- **Design Tokens**: CSS variables for consistent theming
+- **Component Library**: shadcn/ui + custom components
+- **Typography**: Custom font scale (see `src/Typography.mdx`)
+- **Colors**: Semantic color system (see `src/Colors.mdx`)
+- **Glassmorphism**: Consistent glass effects across components
+- **Touch Targets**: 44x44px minimum for mobile
+- **Safe Areas**: iOS/Android safe area handling
+
+---
+
+## 🧪 Testing
+
+### Test Coverage
+
+- **Unit Tests**: 27+ test files (Jest + Testing Library)
+- **E2E Tests**: 62+ tests (Playwright, 7 browser/device profiles)
+- **Component Tests**: Storybook with interactions
+- **Performance Tests**: 4 specialized benchmark files
+- **Accessibility**: axe-core integration, WCAG 2.1 AA compliance
+
+### Running Tests
+
+```bash
+# Unit tests with coverage
+npm run test:coverage
+
+# E2E tests (all browsers)
+npm run test:e2e
+
+# E2E tests (specific browser)
+npm run test:e2e:chromium
+npm run test:e2e:mobile
+
+# Visual regression
+npm run test:e2e:hints
+```
+
+---
+
+## 🔧 Configuration
+
+### Key Configuration Files
+
+- `vite.config.ts` — Vite build configuration, code splitting
+- `tsconfig.json` — TypeScript configuration
+- `tailwind.config.ts` — Tailwind CSS theme
+- `playwright.config.ts` — E2E test setup
+- `jest.config.js` — Unit test setup
+- `eslint.config.js` — Linting rules
+- `lighthouserc.json` — Performance budgets
+
+### Environment Variables
+
 ```env
-VITE_SUPABASE_URL=ваш_url
-VITE_SUPABASE_ANON_KEY=ваш_key
-VITE_TELEGRAM_BOT_TOKEN=ваш_token
+SUPABASE_URL=           # Supabase project URL
+SUPABASE_ANON_KEY=      # Supabase anonymous key
+SUNO_API_KEY=           # Suno API key
+TELEGRAM_BOT_TOKEN=     # Telegram bot token
+MINI_APP_URL=           # Mini app URL
 ```
 
 ---
 
-## 🔒 Безопасность
+## 🤝 Contributing
 
-- ✅ **RLS политики** — Защита всех таблиц
-- ✅ **Telegram auth** — HMAC валидация
-- ✅ **Управление секретами** — Переменные окружения
-- ✅ **HTML санитизация** — DOMPurify
-- ✅ **Контроль доступа** — is_public флаги
-- ✅ **Логирование** — Logger утилита
-- ✅ **CORS** — Ограничение доменов
-- ✅ **Rate limiting** — Throttling
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
----
+### Development Workflow
 
-## ⚡ Производительность
-
-- **Code Splitting** — По маршрутам
-- **Tree Shaking** — Оптимизация bundle
-- **Lazy Loading** — Ленивая загрузка
-- **Virtualization** — react-virtuoso
-- **WebP Images** — Оптимизированные изображения
-- **Query Caching** — TanStack Query
+1. Create feature branch from `main`
+2. Make changes and test locally
+3. Run `npm run lint` and `npm run format`
+4. Commit with descriptive message
+5. Push and create pull request
 
 ---
 
-## 📖 Документация
+## 📈 Roadmap
 
-| 📚 Раздел | 📄 Документ | ✅ Статус |
-|:----|:----|:----|
-| **Начало** | [QUICK_START.md](docs/QUICK_START.md) | ✅ Актуально |
-| **Архитектура** | [ARCHITECTURE.md](docs/ARCHITECTURE_DIAGRAMS.md) | ✅ Актуально |
-| **БД** | [DATABASE.md](docs/DATABASE.md) | ✅ Актуально |
-| **API** | [SUNO_API.md](docs/SUNO_API.md) | ✅ Актуально |
-| **Студия** | [STEM_STUDIO.md](docs/STEM_STUDIO.md) | ✅ Актуально |
-| **Тесты** | [TESTING.md](docs/TESTING_INFRASTRUCTURE.md) | ✅ Актуально |
+### Q2 2026 (April-June)
 
-**Быстрые ссылки:**
-- [Индекс документации](DOCUMENTATION_INDEX.md)
-- [Дорожная карта](ROADMAP.md)
-- [История изменений](CHANGELOG.md)
-- [Известные проблемы](docs/KNOWN_ISSUES.md)
-- [Статус проекта](PROJECT_STATUS.md)
-- [Управление спринтами](SPRINTS/README.md)
+- [x] ~~Platform integrations (Spotify, Apple Music)~~ — Research phase
+- [x] ~~Public API development~~ — Planning
+- [ ] Spec 032: Professional UI enhancements
+- [ ] Spec 031: Mobile Studio V2
+
+### Q3 2026 (July-September)
+
+- [ ] Platform integrations launch
+- [ ] Public API beta
+- [ ] Advanced collaboration features
+- [ ] Enhanced analytics dashboard
 
 ---
 
-## ❤️ Участие в разработке
+## 📄 License
 
-### 📋 Процесс контрибуции
-1. Fork репозитория
-2. Создайте feature branch (`git checkout -b feature/NewFeature`)
-3. Commit изменения (`git commit -m 'Add NewFeature'`)
-4. Push в branch (`git push origin feature/NewFeature`)
-5. Откройте Pull Request
-
-### ✅ PR Чеклист
-- [ ] Тесты проходят (`npm test && npm run test:e2e`)
-- [ ] Линтинг проходит (`npm run lint`)
-- [ ] Bundle в норме (`npm run build && npm run size`)
-- [ ] Документация обновлена
-- [ ] Код следует стилю
-
-### 📚 Ресурсы
-- [CONTRIBUTING.md](CONTRIBUTING.md) — Правила
-- [DEVELOPMENT.md](docs/DEVELOPMENT_WORKFLOW.md) — Workflow
-- [ONBOARDING.md](docs/ONBOARDING.md) — Онбординг
-- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) — Стандарты
+This project is proprietary software. All rights reserved.
 
 ---
 
-## 📞 Поддержка и сообщество
+## 🙏 Acknowledgments
 
-### 🤝 Официальные каналы
-- **🤖 Telegram Bot:** [@AIMusicVerseBot](https://t.me/AIMusicVerseBot)
-- **📱 Mini App:** [Открыть](https://t.me/AIMusicVerseBot/app)
-- **📢 Новости:** [@AIMusicVerse](https://t.me/AIMusicVerse)
-- **🐛 Issues:** [GitHub Issues](https://github.com/HOW2AI-AGENCY/aimusicverse/issues)
-- **💬 Discussions:** [GitHub Discussions](https://github.com/HOW2AI-AGENCY/aimusicverse/discussions)
-- **📧 Email:** [team@musicverse.ai](mailto:team@musicverse.ai)
+- [Suno AI](https://suno.com) — Music generation API
+- [Supabase](https://supabase.com) — Backend infrastructure
+- [Telegram](https://telegram.org) — Mini App platform
+- [shadcn/ui](https://ui.shadcn.com) — Component library
+- [Radix UI](https://www.radix-ui.com) — Accessible primitives
 
 ---
 
-## 📊 GitHub Analytics
+<div align="center">
 
-<p align="center">
-  <a href="https://github.com/HOW2AI-AGENCY/aimusicverse/stargazers">
-    <img alt="Stars" src="https://img.shields.io/github/stars/HOW2AI-AGENCY/aimusicverse?style=social&logo=github" />
-  </a>
-  <a href="https://github.com/HOW2AI-AGENCY/aimusicverse/network/members">
-    <img alt="Forks" src="https://img.shields.io/github/forks/HOW2AI-AGENCY/aimusicverse?style=social&logo=github" />
-  </a>
-  <a href="https://github.com/HOW2AI-AGENCY/aimusicverse/watchers">
-    <img alt="Watchers" src="https://img.shields.io/github/watchers/HOW2AI-AGENCY/aimusicverse?style=social&logo=github" />
-  </a>
-</p>
+Made with ❤️ by MusicVerse Team
 
----
+[Website](https://musicspace.vercel.app) • [Telegram](https://t.me/musicspaceapp) • [Twitter](https://twitter.com/musicspaceapp)
 
-## 📜 Лицензия
-
-MIT License — см. [LICENSE](LICENSE) для деталей.
-
----
-
-## 🙏 Благодарности
-
-- [Suno AI](https://suno.ai/) — Генерация музыки
-- [Telegram](https://telegram.org/) — Mini App платформа
-- [Supabase](https://supabase.com/) — Backend
-- [shadcn/ui](https://ui.shadcn.com/) — Компоненты
-- [Framer Motion](https://www.framer.com/motion/) — Анимации
-
----
-
-<p align="center">
-  <h2>⭐ Поддержите нас!</h2>
-  <p>Если MusicVerse AI вам помогает, пожалуйста:</p>
-  <ul style="list-style: none; padding: 0;">
-    <li>⭐ Поставьте звёзду на GitHub</li>
-    <li>🔗 Поделитесь с друзьями</li>
-    <li>📢 Упомяните нас в своих проектах</li>
-    <li>💬 Оставьте отзыв</li>
-  </ul>
-</p>
-
----
-
-<p align="center">
-  <sub>Сделано с ❤️ командой MusicVerse AI</sub><br>
-  <sub><strong>Версия:</strong> 1.0.0 | <strong>Обновлено:</strong> 25 июня 2026</sub><br><br>
-  <a href="#-musicverse-ai">🔝 В начало</a>
-</p>
+</div>
